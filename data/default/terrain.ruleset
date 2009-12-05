@@ -55,7 +55,7 @@ river_trade_incr=1
 
 ; help text for Civ2-style rivers
 river_help_text=_("\
-Any terrain type (except Ocean) may have a River on it.  A River adds 1\
+Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\
  defense factor by 50%.  Finally, land units may move along a River (but\
  not diagonally); movement along a River costs only 1/3 of a movement point.\
@@ -212,7 +212,7 @@ native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "FreshWater"
 property_ocean_depth = 0
 helptext             = _("\
-Lake tiles can never be polluted or subjected to fallout.\
+Lakes are substantial bodies of fresh water.\
 ")
 
 [terrain_ocean]
@@ -247,10 +247,9 @@ native_to            = "Sea", "Air", "Missile", "Helicopter", "Trireme"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 32
 helptext             = _("\
-Oceans cover much of the world, and only sea units (Triremes and\
- other boats) can travel on them.\
-\n\n\
-Ocean tiles can never be polluted or subjected to fallout.\
+Shallow oceans are mostly found near coastlines, and are often rich\
+ sources of food and other resources. They can be traversed by sea\
+ units, including Triremes.\
 ")
 
 [terrain_deep_ocean]
@@ -285,10 +284,8 @@ native_to            = "Sea", "Air", "Missile", "Helicopter"
 flags                = "Oceanic", "NoCities", "NoPollution", "UnsafeCoast"
 property_ocean_depth = 87
 helptext             = _("\
-Oceans cover much of the world, and only seaworthy units\
- can travel on them.\
-\n\n\
-Ocean tiles can never be polluted or subjected to fallout.\
+Deep oceans cover much of the world away from coastlines, and only\
+ seaworthy units (not including Triremes) can travel on them.\
 ")
 
 [terrain_glacier]

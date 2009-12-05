@@ -128,33 +128,99 @@ void free_help_texts(void)
 static void insert_generated_table(char *outbuf, size_t outlen, const char *name)
 {
   if (0 == strcmp (name, "TerrainAlterations")) {
+    int rail_time = -1, clean_pollution_time = -1, clean_fallout_time = -1;
+    int buildable_bases = 0;
+
     CATLSTR(outbuf, outlen,
             _("Terrain     Road   Irrigation     Mining         Transform\n"));
     CATLSTR(outbuf, outlen,
             "---------------------------------------------------------------\n");
     terrain_type_iterate(pterrain) {
       if (0 != strlen(terrain_rule_name(pterrain))) {
+	char road_time[4], irrigation_time[4],
+	     mining_time[4], transform_time[4];
+	snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
+	snprintf(irrigation_time, sizeof(irrigation_time),
+		 "%d", pterrain->irrigation_time);
+	snprintf(mining_time, sizeof(mining_time),
+		 "%d", pterrain->mining_time);
+	snprintf(transform_time, sizeof(transform_time),
+		 "%d", pterrain->transform_time);
 	cat_snprintf(outbuf, outlen,
-		"%-10s %3d    %3d %-10s %3d %-10s %3d %-10s\n",
+		"%-10s %3s    %3s %-10s %3s %-10s %3s %-10s\n",
 		terrain_name_translation(pterrain),
-		pterrain->road_time,
-		pterrain->irrigation_time,
+		(pterrain->road_time == 0) ? "-" : road_time,
+		(pterrain->irrigation_result == T_NONE) ? "-" : irrigation_time,
 		((pterrain->irrigation_result == pterrain
 		  || pterrain->irrigation_result == T_NONE) ? ""
 		 : terrain_name_translation(pterrain->irrigation_result)),
-		pterrain->mining_time,
+		(pterrain->mining_result == T_NONE) ? "-" : mining_time,
 		((pterrain->mining_result == pterrain
 		  || pterrain->mining_result == T_NONE) ? ""
 		 : terrain_name_translation(pterrain->mining_result)),
-		pterrain->transform_time,
+		(pterrain->transform_result == T_NONE) ? "-" : transform_time,
 		((pterrain->transform_result == pterrain
 		 || pterrain->transform_result == T_NONE) ? ""
 		 : terrain_name_translation(pterrain->transform_result)));
+
+	/* FIXME: properly handle the (uncommon) case where these are
+	 * terrain-dependent, instead of just silence */
+	if (rail_time != 0 && pterrain->road_time > 0) {
+	  if (rail_time < 0)
+	    rail_time = pterrain->rail_time;
+	  else
+	    if (rail_time != pterrain->rail_time)
+	      rail_time = 0; /* give up */
+	}
+	if (clean_pollution_time != 0 &&
+	    !terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
+	  if (clean_pollution_time < 0)
+	    clean_pollution_time = pterrain->clean_pollution_time;
+	  else
+	    if (clean_pollution_time != pterrain->clean_pollution_time)
+	      clean_pollution_time = 0; /* give up */
+	}
+	if (clean_fallout_time != 0 &&
+	    !terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
+	  if (clean_fallout_time < 0)
+	    clean_fallout_time = pterrain->clean_fallout_time;
+	  else
+	    if (clean_fallout_time != pterrain->clean_fallout_time)
+	      clean_fallout_time = 0; /* give up */
+	}
       }
     } terrain_type_iterate_end;
-    CATLSTR(outbuf, outlen, "\n");
-    CATLSTR(outbuf, outlen,
-            _("(Railroads and fortresses require 3 turns, regardless of terrain.)"));
+
+    base_type_iterate(b) {
+      if (b->buildable)
+	buildable_bases++;
+    } base_type_iterate_end;
+
+    if (rail_time > 0 || clean_pollution_time > 0 || clean_fallout_time > 0 ||
+	buildable_bases > 0) {
+      CATLSTR(outbuf, outlen, "\n");
+      CATLSTR(outbuf, outlen,
+	      _("Time taken for the following activities is independent of terrain:\n"));
+      CATLSTR(outbuf, outlen, "\n");
+      CATLSTR(outbuf, outlen,
+	      _("Activity            Time\n"));
+      CATLSTR(outbuf, outlen,
+	      "---------------------------");
+      if (rail_time > 0)
+	cat_snprintf(outbuf, outlen,
+		     _("\nRailroad           %3d"), rail_time);
+      if (clean_pollution_time > 0)
+	cat_snprintf(outbuf, outlen,
+		     _("\nClean pollution    %3d"), clean_pollution_time);
+      if (clean_fallout_time > 0)
+	cat_snprintf(outbuf, outlen,
+		     _("\nClean fallout      %3d"), clean_fallout_time);
+      base_type_iterate(b) {
+	if (b->buildable)
+	  cat_snprintf(outbuf, outlen,
+		       "\n%-18s %3d", base_name_translation(b), b->build_time);
+      } base_type_iterate_end;
+    }
   }
   return;
 }
@@ -1553,6 +1619,11 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
     CATLSTR(buf, bufsz,
 	    _("* Pollution cannot be generated on this terrain."));
+    CATLSTR(buf, bufsz, "\n");
+  }
+  if (is_ocean(pterrain)) {
+    CATLSTR(buf, bufsz,
+	    _("* Fallout cannot be generated on this terrain."));
     CATLSTR(buf, bufsz, "\n");
   }
   if (terrain_has_flag(pterrain, TER_NO_CITIES)) {

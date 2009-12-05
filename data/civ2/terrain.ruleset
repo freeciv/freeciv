@@ -52,7 +52,7 @@ river_trade_incr=1
 
 ; help text for Civ2-style rivers
 river_help_text=_("\
-Any terrain type (except Ocean) may have a River on it.  A River adds 1\
+Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\
  defense factor by 50%.  Finally, land units may move along a River (but\
  not diagonally); movement along a River costs only 1/3 of a movement point.\
@@ -208,8 +208,6 @@ property_ocean_depth = 36
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
-\n\n\
-Ocean tiles can never be polluted or subjected to fallout.\
 ")
 
 [terrain_glacier]

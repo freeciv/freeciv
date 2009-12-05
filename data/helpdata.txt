@@ -755,18 +755,18 @@ the above list.\
 \n\n\
     After building one or two Warrior units, start building \
 Settlers.  The second Settler can be used to build roads and \
-irrigate the farmland close to the city, and the third can be \
+irrigate the land close to the city, and the third can be \
 used to build a new city.  Or, you can use the second Settler to \
 build another city, and use the third Settler for agricultural \
-improvements in the farmland around the cities.  Keep in mind \
+improvements in the land around the cities.  Keep in mind \
 that a large population increases both the amount of \
 productivity and your civilization's research rate.\
 "), _("\
  4. Building agriculture improvements.\
 \n\n\
-    Each city has an area of farmland around it that can be used \
+    Each city has an area of land around it that can be used \
 for growing food, producing goods, and generating trade.  This \
-can be increased by using Settlers to improve the farmland. \
+can be increased by using Settlers to improve the land. \
 The land can be improved with roads, irrigation, mines, and \
 others.\
 "), _("\
@@ -783,19 +783,19 @@ harder to locate your city if you don't build it by the sea.\
 \n\n\
     Every city has a band of citizens.  The number of citizens \
 depends on the city's population.  When you click on a city, you \
-can see how the farmland around the city is being used.  You can \
-assign your citizens to the farmland, or they can be scientists, \
+can see how the land around the city is being used.  You can \
+assign your citizens to the land, or they can be scientists, \
 entertainers or taxmen.  Especially at the start of the game, \
 care should be taken to ensure that the citizens are employed so \
 that they maximise growth, trade and production.\
 "), _("\
     If too much food is being generated, a citizen can be taken off \
-the farmland by clicking on the occupied farmland tile.  This \
+the land by clicking on the occupied land tile.  This \
 citizen can then be transferred to the other duties mentioned \
 previously.\
 "), _("\
     If you move all of your citizens into the city and right-click \
-on the central tile of the farmland, the citizens will be \
+on the central tile of the land, the citizens will be \
 rearranged to maximise food production.\
 "), 
 ;     Above: probably some other AI maximisation choice now  --dwp
@@ -1305,13 +1305,36 @@ These rules differ slightly from previous versions of Freeciv \
 [help_terrain]
 name = _("Terrain")
 text = _("\
-The different types of terrain each have different strengths and \
-drawbacks.  When choosing a place for a new city, make sure there \
-are enough food-producing tiles nearby to support your growing \
-population.\
+Terrain serves three roles: the theater upon which your units battle \
+rival civilizations, the landscape across which your units travel, and \
+the medium which your cities work to produce resources. The different \
+types of terrain each have different strengths and drawbacks; see the \
+sections on each terrain type for details.\
+"), _("\
+Terrain affects combat very simply: when a land unit is attacked, its \
+defense strength is multiplied by the defense factor (\"bonus\") of the \
+terrain beneath it. See the help section on Combat for further \
+details.\
+"), _("\
+Terrain complicates the movement of land units -- sea and air units \
+always expend one movement point to move one tile, but moving onto \
+rough terrain such as Mountains can cost land units more.\
+"), _("\
+Tiles within range of a city may be worked by that city to produce \
+food, production, and trade points, and the quantity of each produced \
+depends on the terrain. These three products are so important that we \
+specify the output of a square simply by listing them with slashes in \
+between: for example, \"1/2/0\" describes a square that each turn when \
+it is being worked produces one food point, two production points, and \
+no trade points. In addition to the characteristic output of the \
+terrain, some tiles have an additional special resource that boosts \
+one or two of the products.\
 "), _("\
 The net benefit of a tile for your city depends on your government \
 type as well as city improvements and wonders.\
+"), _("\
+It is possible for your units to change the terrain and hence its \
+effects; see the section on Terrain Alterations for more details.\
 ")
 
 [help_gen_terrain]
@@ -1320,86 +1343,114 @@ generate = "Terrain"
 [help_terrain_alterations]
 name = _(" Terrain Alterations")
 text = _("\
-Settlers and Engineers have the ability to alter terrain tiles in \
-several ways.\
+Settlers, Workers, and Engineers have the ability to alter terrain \
+tiles in several ways.\
 "), _("\
-Suitable types of terrain can be irrigated.  This requires a nearby \
-source of water: an Ocean or River tile, or another tile which \
-is irrigated, must share an edge (not just a corner) with the target \
-tile.  Irrigating a tile causes it to \
-produce some extra food each turn.  In addition, given sufficient \
-technology, you may irrigate a tile a second time, turning it \
-into even more productive Farmland.\
+Suitable types of terrain can be irrigated. Irrigating a tile causes \
+it to produce some extra food each turn. Building irrigation requires \
+a nearby source of water: an Ocean, Lake, or River tile, or another \
+tile which is irrigated, must share an edge (not just a corner) with \
+the target tile. Once irrigated, land remains so even if the water \
+source is removed. Given sufficient technology, you may irrigate a \
+tile a second time, turning it into even more productive Farmland.\
 "), _("\
 Some types of terrain can be mined, which increases the number of \
-resources (shields) produced by that tile.\
+resources (shields) produced by that tile. However, it is not \
+possible to have irrigation and a mine on the same tile.\
 "), _("\
-Roads and railroads can be built on any tile except Ocean.  (To \
-build a road or railroad on a River tile, though, you must know \
-Bridge Building.)  Roads and railroads allow your units to move \
-more quickly, and they increase the resources produced in cities.\
+Terrain not suitable for irrigation or mining can often be changed \
+into a type more suitable to the player's needs. Changing terrain \
+from one type to another in this way may destroy an existing mine or \
+irrigation system, if the resulting terrain is unsuitable for the \
+improvement, and may also remove special resources.\
+"), _("\
+ - Settlers and Workers have a limited range of alterations available \
+to them, initiated by attempting to mine or irrigate the terrain; see \
+the table below. (Such \"irrigation\" does not require a water source.)\
+"), _("\
+ - Engineers can perform a much wider range of transformations on \
+almost any type of terrain by issuing the \"transform\" order. \
+In some rulesets, Engineers on board sea-going vessels can even \
+reclaim land from water tiles, and similarly land can be transformed \
+to ocean, although such radical transformations may require a certain \
+number of surrounding tiles to already be land or water respectively. \
+(Units will move to safe neighbouring tiles when the transformation \
+takes place, if possible.)\
+"), _("\
+Roads can be built on any land tile, even if there are other \
+improvements on that tile. (To build a road on a River tile, though, \
+you must know Bridge Building.) With the appropriate advance, roads \
+may later be upgraded to railroads. Roads and railroads allow your \
+units to move more quickly, and they increase the resources produced \
+in cities.\
 "), _("\
  - Units use only one third of a movement point when going from one \
 tile to an adjacent tile, if both tiles have a road.\
 "), _("\
  - Units expend no movement points when moving along a railroad. \
-You may ride a railroad indefinitely.\
+You may ride a railroad indefinitely. (As may your enemies!)\
 "), _("\
- - A road may increase the trade resources produced by some types \
-of terrain.\
+ - A road may increase the trade resources produced by some types of \
+terrain. This effect is retained when a road is upgraded to a \
+railroad.\
 "), _("\
- - A railroad increases the shield resources produced by a tile by \
-50%.  (Depending on server options, railroads may also increase \
-food and trade resources, or may increase shield resources by an \
-amount other than 50%.)\
+ - A railroad additionally increases the shield resources produced by \
+a tile by 50%. (Depending on server options, railroads may also \
+increase food and trade resources, or may increase shield resources by \
+an amount other than 50%.)\
 "), _("\
-Settlers and Engineers may also build a fortress.  Units inside a \
-fortress defend at twice their normal strength; also, units inside \
-a fortress must be destroyed one at a time.  See the Combat help \
-section for further details.\
+Technology advances allow other kinds of structures to be built:\
 "), _("\
-You may also build Airbases, at which your air units may land and \
-refuel.\
+ - Fortresses improve defense. Units inside a fortress defend at twice \
+their normal strength; also, units inside a fortress must be destroyed \
+one at a time. See the Combat help section for further details. \
+Occupied fortresses also extend your borders.\
+"), _("\
+ - Airbases allow your air units to land and refuel. Air units in an \
+airbase may be attacked by land units, but are killed one by one, as \
+in a fortress.\
+"), _("\
+ - Buoys may be built in the ocean (by units on a sea-going vessel); \
+they give you permanent visibility of the area of the map around them.\
 "), _("\
 The following table shows the number of turns required for one unit \
-of Settlers to complete an activity. These numbers are reduced to \
-half (rounded up) for Engineers, and they can be reduced further by \
-stockpiling several Settlers/Engineers, doing teamwork.\
+of Settlers or Workers to complete an activity. These numbers are \
+reduced to half (rounded up) for Engineers, and they can be reduced \
+further by stockpiling several units, doing teamwork.\
 "), "\
 $TerrainAlterations\
 ", _("\
-City centers (the tile a city is on) are special.  A city center is \
+City centers (the tile a city is on) are special. A city center is \
 worked for free in the default rules. When a city is built a road is \
 automatically put on the city, and a railroad will also be placed there \
-whenever possible.  City centers are auto-irrigated: they get the \
-benefits of irrigation, although they are not actually irrigated. \
-Finally the city center may have a ruleset-dependent minimum for \
+whenever possible. City centers are auto-irrigated: they get the \
+benefits of irrigation, although they are not actually irrigated -- \
+they cannot serve as the water source for other irrigation systems. \
+Finally, the city center may have a ruleset-dependent minimum for \
 food, shield, and trade output.")
 
 [help_pillaging]
 name = _("  Pillaging")
 text = _("\
 All ground units have the ability to destroy terrain alterations, \
-by pillaging.  Pillaging removes 1 terrain alteration per turn per \
-unit.  Depending upon server settings, you may be given a choice \
+by pillaging. Pillaging removes 1 terrain alteration per turn per \
+unit. Depending upon server settings, you may be given a choice \
 of which terrain alteration to pillage, or they will be pillaged \
 in the following order:\
 "), _("\
  - farmland\n\
  - irrigation\n\
  - mining\n\
- - a fortress\n\
- - an airbase\n\
+ - a base (fortress, airbase, ...)\n\
  - a railroad\n\
  - a road\
 "), _("\
-Tiles that do not have terrain alterations (farmland, irrigation, \
-mining, fortress, airbase, railroad or road) cannot be pillaged. \
+Tiles that do not have such terrain alterations cannot be pillaged. \
 In addition, terrain conversions and transformations cannot be \
-undone by pillaging.  For example, if you have irrigated a Forest \
+undone by pillaging. For example, if you have irrigated a Forest \
 tile to convert it into a Plain, pillaging will not convert it back \
 into a Forest -- to do so, you would have to convert the tile again \
-with a Settler or Engineer.\
+with a Settler, Worker, or Engineer.\
 ")
 
 [help_government]
