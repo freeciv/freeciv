@@ -979,7 +979,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 
     advance_iterate(A_NONE, ptest) {
       if (padvance == advance_requires(ptest, AR_ONE)) {
-	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_ONE)) {
+	if (advance_by_number(A_NONE) == advance_requires(ptest, AR_TWO)) {
           hbox = gtk_hbox_new(FALSE, 0);
           gtk_container_add(GTK_CONTAINER(help_vbox), hbox);
           w = gtk_label_new(_("Allows"));
