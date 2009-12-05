@@ -200,8 +200,6 @@ property_ocean_depth = 36
 helptext             = _("\
 Oceans cover much of the world, and only sea units (Triremes and\
  other boats) can travel on them.\
-\n\n\
-Ocean tiles can never be polluted or subjected to fallout.\
 ")
 
 [terrain_arctic]
