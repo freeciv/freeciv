@@ -885,6 +885,7 @@ How many unit types have specified role/flag.
 int num_role_units(int role)
 {
   assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+  assert(!first_init);
   return n_with_role[role];
 }
 
@@ -895,6 +896,7 @@ Index -1 means (n-1), ie last one.
 struct unit_type *get_role_unit(int role, int index)
 {
   assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+  assert(!first_init);
   if (index==-1) index = n_with_role[role]-1;
   assert(index>=0 && index<n_with_role[role]);
   return with_role[role][index];
@@ -910,6 +912,7 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
   int j;
   
   assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
+  assert(!first_init);
 
   for(j=n_with_role[role]-1; j>=0; j--) {
     u = with_role[role][j];
@@ -932,6 +935,7 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
   int j;
 
   assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
+  assert(!first_init);
 
   for(j = n_with_role[role]-1; j >= 0; j--) {
     struct unit_type *utype = with_role[role][j];
@@ -954,6 +958,7 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
   int j;
 
   assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
+  assert(!first_init);
 
   for(j = 0; j < n_with_role[role]; j++) {
     struct unit_type *utype = with_role[role][j];
