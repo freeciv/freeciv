@@ -675,6 +675,7 @@ void set_client_state(enum client_states newstate)
     if (pplayer) {
       player_research_update(pplayer);
     }
+    role_unit_precalcs();
     boot_help_texts(pplayer);   /* reboot with player */
     global_worklists_build();
     can_slide = FALSE;
