@@ -933,7 +933,7 @@ static void select_color_callback(GtkToolButton *button, gpointer data)
                                                 "color_target");
   GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
 
-  /* TRANS: "foreground" or "background". */
+  /* TRANS: "text" or "background". */
   my_snprintf(buf, sizeof(buf), _("Select the %s color"),
               (const char *) g_object_get_data(G_OBJECT(button),
                                                "color_info"));
@@ -1193,7 +1193,7 @@ void chatline_init(void)
   g_signal_connect(item, "clicked",
                    G_CALLBACK(select_color_callback), entry);
   gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
-                       _("Select the foreground color"), NULL);
+                       _("Select the text color"), NULL);
 
   /* Background selector. */
   item = gtk_tool_button_new(NULL, "");
