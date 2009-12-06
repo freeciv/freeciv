@@ -49,10 +49,9 @@ the extinction of all other civilizations.\
 ", _("\
   Present administrators: \
 "), "\
-             Anthony J. Stuckey  - astuckey@imsa.edu\n\
-             Raimar Falke        - rf13@inf.tu-dresden.de\n\
-             Mike Kaufman        - kaufman@orion.physics.wisc.edu\n\
-             Per I. Mathisen     - per@leftist.net\
+            Marko Lindqvist      - cazfi74@gmail.com\n\
+            R. Daniel Markstedt  - markstedt@gmail.com\n\
+            Christian Prochaska  - cp.ml.freeciv.dev@googlemail.com\n\
 ", _("\
 If you find any bugs, then please send us a bug report.  This is \
 best done by visiting the Freeciv Bug Tracking System, at:\
