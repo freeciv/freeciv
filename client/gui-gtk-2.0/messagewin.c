@@ -66,9 +66,10 @@ void popup_meswin_dialog(bool raise)
 {
   if (!meswin_shell) {
     create_meswin_dialog();
+    real_update_meswin_dialog();
+  } else {
+    update_meswin_dialog();
   }
-
-  update_meswin_dialog();
 
   gui_dialog_present(meswin_shell);
   if (raise) {
