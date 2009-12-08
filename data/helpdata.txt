@@ -980,9 +980,15 @@ generate = "Techs"
 [help_wonders_of_the_world]
 name = _("Wonders of the World")
 text = _("\
-Each wonder has specific benefits for your civilization. \
-Each wonder is unique and is placed in the city which \
-constructed it.\
+Wonders are special buildings which can each be completed by \
+only one player each game, and which often enhance their entire \
+civilization. Once built, a wonder is placed in the city that \
+constructed it, and cannot be sold or destroyed (unless the entire \
+city is destroyed). However, some wonders are made obsolete by the \
+discovery of a certain advance, and lose their effect. Note the \
+asymmetry: while you must personally achieve the advance required by \
+each wonder to build it, it will be disabled when any player achieves \
+the obsoleting advance.\
 ")
 
 [help_gen_wonders]

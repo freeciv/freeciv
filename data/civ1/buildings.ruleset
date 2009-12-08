@@ -175,7 +175,7 @@ sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
 City Walls make it easier to defend a city.  They triple the defence\
- strength of units within the city against ground, sea, and helicopter\
+ strength of units within the city against land, sea, and helicopter\
  units.  They are ineffective against non-helicopter airborne units as well\
  as Artillery.  City Walls also prevent the loss of population which\
  occurs when a defending unit is destroyed by a land unit.\
@@ -508,12 +508,11 @@ sabotage	= 100
 sound		= "b_sdi_defense"
 sound_alt	= "b_generic"
 helptext	= _("\
-Protects a city from attacks from Nuclear units.  Nuclear attacks\
- simply have no effect on the city.  Also, doubles defence against\
- non-nuclear missiles.\
+Protects a city and its environs (up to 2 tiles away) from attacks\
+ by Nuclear units. A Nuclear unit attacking a city with SDI Defense,\
+ or attacking a unit (or deliberately exploded) within range, is shot\
+ down and simply has no effect.\
 ")
-; NOTE:
-; Civ1 does not document the "Unit_Defend"/"Missile" aspect; does it apply or not?
 
 [building_space_component]
 name		= _("Space Component")
@@ -653,9 +652,11 @@ build_cost	= 600
 upkeep		= 0
 sabotage	= 0
 helptext	= _("\
-All cities on the map become visible for the player who owns it. \
- It allows all players to start building spaceship parts (assuming\
- they have researched the necessary technologies).\
+All cities on the map become visible for the player who owns it --\
+ the player always has up-to-date knowledge of all tiles with cities\
+ despite fog-of-war. It allows all players to start building\
+ spaceship parts (assuming they have researched the necessary\
+ technologies).\
 ")
 
 [building_colossus]
@@ -775,7 +776,7 @@ sabotage	= 0
 sound		= "w_great_wall"
 sound_alt	= "w_generic"
 helptext	= _("\
-Works as a City Wall in all cities.\
+Works as a City Wall in all your cities.\
 ")
 ; NOTE:
 ; In Civ1 enemies are forced to offer cease-fire or peace.
@@ -881,11 +882,8 @@ sabotage	= 0
 sound		= "w_lighthouse"
 sound_alt	= "w_generic"
 helptext	= _("\
-Gives all your sea units 1 additional movement point. Makes all your\
- new sea units veterans (for all cities).\
+Gives all your sea units 1 additional movement point.\
 ")
-; NOTE:
-; Civ1 docs do not mention "Unit_Veteran"/"Sea" effect.
 
 [building_magellans_expedition]
 name		= _("Magellan's Expedition")
