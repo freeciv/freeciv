@@ -2,19 +2,19 @@
 
 ; Player colors should match those in colors.spec
 player = {"r", "g", "b"
-  128,   0,   0  ; race0
+  255,   0,   0  ; race0
   128, 255, 255  ; race1
-  255,   0,   0  ; race2
-  255,   0, 128  ; race3
-    0,   0, 128  ; race4
-  255,   0, 255  ; race5
-  255, 128,   0  ; race6
-  255, 255, 128  ; race7
-  255, 128, 128  ; race8
-    0,   0, 255  ; race9
-    0, 255,   0  ; race10
-    0, 128, 128  ; race11
-    0,  64,  64  ; race12
+  255, 255, 128  ; race2
+  255, 128,   0  ; race3
+  192,   0, 224  ; race4
+    0,   0, 128  ; race5
+  128,   0,   0  ; race6
+    0, 128, 128  ; race7
+    0, 255,   0  ; race8
+  255,   0, 255  ; race9
+    0,  64,  64  ; race10
+    0,   0, 255  ; race11
+  255, 128, 128  ; race12
   198, 198, 198  ; race13
 }
 
