@@ -581,7 +581,11 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
       {
         struct city *pcity = game_find_city_by_number(ptag->link.id);
 
-        if (pcity) {
+        /* Note that if city_tile(pcity) is NULL, then it is probably an
+         * invisible city (see client/packhand.c).  Then, we don't
+         * use the current city name which is usually not complete,
+         * a dumb string using the city id. */
+        if (NULL != pcity && NULL != city_tile(pcity)) {
           return my_snprintf(buf, len, "%s", city_name(pcity));
         }
       }
