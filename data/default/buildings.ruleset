@@ -57,9 +57,9 @@ sabotage	= 100
 sound		= "b_airport"
 sound_alt	= "b_generic"
 helptext	= _("\
-Allows a city to produce veteran air units.  Also, damaged air units\
- which stay in town for one full turn without moving are completely\
- restored.\
+Allows a city to produce veteran air units (including helicopters). \
+ Also, damaged air units (again, including helicopters) which stay in\
+ town for one full turn without moving are completely restored.\
 \n\n\
 Two cities with Airports can airlift one unit per turn. \
  Airlifting instantly transports the unit from one city to another\
@@ -226,7 +226,7 @@ sound		= "b_city_walls"
 sound_alt	= "b_generic"
 helptext	= _("\
 City Walls make it easier to defend a city.  They triple the defence\
- strength of units within the city against ground and helicopter\
+ strength of units within the city against land and helicopter\
  units.  They are ineffective against airborne and sea units as well\
  as Howitzers.  City Walls also prevent the loss of population which\
  occurs when a defending unit is destroyed by a land unit.\
@@ -536,7 +536,7 @@ sabotage	= 100
 sound		= "b_offshore_platform"
 sound_alt	= "b_generic"
 helptext	= _("\
-Adds 1 extra shield resource on all Oceanic tiles in a city.  The\
+Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The\
  city needs to be coastal to build this improvement.\
 ")
 
@@ -569,8 +569,8 @@ Take good care of your capital, as its loss may result in your\
  empire plunging into civil war. Losing your current palace also\
  results in losing whatever spaceship you might have.\
 \n\n\
-Under Despotism the palace gives you a +75% production bonus,\
- and under Monarchy a +50% production bonus.\
+Under Despotism the city containing the palace gains a +75%\
+ production bonus, and under Monarchy a +50% production bonus.\
 ")
 
 [building_police_station]
@@ -589,9 +589,10 @@ sabotage	= 100
 sound		= "b_police_station"
 sound_alt	= "b_generic"
 helptext	= _("\
-Reduces the unhappiness caused by military units outside the city\
- by 2 under Democracy and 1 under Republic.  This improvement has no\
- effect under other governments.\
+Reduces the unhappiness caused by aggressively deployed military\
+ units owned by the city by 2 under Democracy and 1 under Republic\
+ -- in other words, it neutralises the unhappiness caused by a single\
+ military unit. This improvement has no effect under other governments.\
 ")
 ; NOTE:
 ; For Civ2 this should reduce unhappiness by one for *each* unit
@@ -714,7 +715,7 @@ sound		= "b_sam_battery"
 sound_alt	= "b_generic"
 helptext	= _("\
 Doubles the defense of all units inside the city when attacked by\
- non-nuclear air units.\
+ aircraft (not including helicopters or missiles).\
 ")
 
 [building_sdi_defense]
@@ -733,9 +734,11 @@ sabotage	= 100
 sound		= "b_sdi_defense"
 sound_alt	= "b_generic"
 helptext	= _("\
-Protects a city from attacks from Nuclear units.  Nuclear attacks\
- simply have no effect on the city.  Also, doubles defence against\
- non-nuclear missiles.\
+Protects a city and its environs (up to 2 tiles away) from attacks\
+ by Nuclear units. A Nuclear unit attacking a city with SDI Defense,\
+ or attacking a unit (or deliberately exploded) within range, is shot\
+ down and simply has no effect. Also, doubles defence for units in\
+ the city against non-nuclear missiles.\
 ")
 ; NOTE:
 ; Civ2 does not document the "Unit_Defend"/"Missile" aspect; does it apply or not?
@@ -1005,9 +1008,11 @@ sabotage	= 0
 sound		= "w_apollo_program"
 sound_alt	= "w_generic"
 helptext	= _("\
-Entire map becomes visible for the player who owns it. \
- It allows all players to start building spaceship parts (assuming\
- they have researched the necessary technologies).\
+The entire map becomes permanently visible to the player who owns it\
+ -- the player always has up-to-date knowledge of all terrain and\
+ cities (but not units) despite fog-of-war. It allows all players to\
+ start building spaceship parts (assuming they have researched the\
+ necessary technologies).\
 ")
 
 [building_asmiths_trading_co]
@@ -1518,8 +1523,8 @@ sabotage	= 0
 sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new ground units start at the first veteran level. The \
- chance of a unit getting the next veteran level after a battle \
+All your new land units start at the first veteran level. The\
+ chance of a land unit getting the next veteran level after a battle\
  increases by half.\
 ")
 
@@ -1566,10 +1571,12 @@ sabotage	= 0
 sound		= "w_womens_suffrage"
 sound_alt	= "w_generic"
 helptext	= _("\
-Counts as a Police Station in every city.  (That is, for each city,\
- reduces unhappiness for military units outside the city by 2 under\
- Democracy and 1 under Republic.  This wonder has no effect under\
- other governments.)\
+Counts as a Police Station in every city. (That is, for each city, it\
+ reduces the unhappiness caused by aggressively deployed military\
+ units owned by that city by 2 under Democracy and 1 under Republic --\
+ in other words, it neutralises the unhappiness caused by a single\
+ military unit per city. This wonder has no effect under other\
+ governments.)\
 ")
 ; NOTE:
 ; For Civ2 this should reduce unhappiness by one for *each* unit
