@@ -660,7 +660,7 @@ This expression can also be started and finished within the same pair of \
 brackets, like '[link target=\"unit\" id=109 /]' (note the slash at the \
 end).\n\
 Examples: '[l tgt=\"unit\" id=235]unit[/l]' will make the word 'unit' \
-clickable and pointing to the city id 235.\n\
+clickable and pointing to the unit id 235.\n\
 '[l tgt=\"unit\" id=235 name=\"Warrior\" /]' will display the name of the \
 unit id 235 if known, else, the word 'Warrior'.\
 "), _("\
