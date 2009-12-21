@@ -1358,8 +1358,9 @@ static void server_remove_unit(struct unit *punit)
   struct city *pcity = tile_get_city(punit->tile);
   struct city *phomecity = game_find_city_by_number(punit->homecity);
   struct tile *unit_tile = punit->tile;
+  struct unit *ptrans;
 
-#ifndef NDEBUG
+#ifdef DEBUG
   unit_list_iterate(punit->tile->units, pcargo) {
     assert(pcargo->transported_by != punit->id);
   } unit_list_iterate_end;
@@ -1371,6 +1372,12 @@ static void server_remove_unit(struct unit *punit)
      the settler disappear on the way. */
   if (punit->ai.ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+  }
+
+  if (-1 != punit->transported_by) {
+    ptrans = game_find_unit_by_number(punit->transported_by);
+  } else {
+    ptrans = NULL;
   }
 
   conn_list_iterate(game.est_connections, pconn) {
@@ -1411,6 +1418,11 @@ static void server_remove_unit(struct unit *punit)
 
   game_remove_unit(punit);
   punit = NULL;
+
+  if (NULL != ptrans) {
+    /* Update the occupy info. */
+    send_unit_info(NULL, ptrans);
+  }
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   map_city_radius_iterate(unit_tile, ptile1) {
