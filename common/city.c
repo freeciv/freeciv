@@ -2296,9 +2296,12 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
   if (happy_cost <= 0) {
     return 0;
   }
-  if (*free_unhappy > happy_cost) {
+  if (*free_unhappy >= happy_cost) {
     *free_unhappy -= happy_cost;
     return 0;
+  } else {
+    happy_cost -= *free_unhappy;
+    *free_unhappy = 0;
   }
   return happy_cost;
 }
