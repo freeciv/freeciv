@@ -441,7 +441,7 @@ static gboolean event_after(GtkWidget *text_view, GdkEventButton *event)
             struct city *pcity = game_find_city_by_number(id);
 
             if (pcity) {
-              ptile = city_tile(pcity);
+              ptile = client_city_tile(pcity);
             } else {
               output_window_append(ftc_client, _("This city isn't known!"));
             }
