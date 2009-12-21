@@ -34,6 +34,8 @@ void client_remove_unit(struct unit *punit);
 void client_change_all(struct universal from,
 		       struct universal to);
 
+struct tile *client_city_tile(const struct city *pcity);
+
 const char *get_embassy_status(const struct player *me,
 				const struct player *them);
 const char *get_vision_status(const struct player *me,
