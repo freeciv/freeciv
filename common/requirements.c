@@ -1393,7 +1393,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_UCFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
 		 /* flag names are never translated */
-		 unit_flag_rule_name(psource->value.unitflag));
+		 unit_class_flag_rule_name(psource->value.unitclassflag));
     return buf;
   case VUT_OTYPE:
     mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz); /* FIXME */
