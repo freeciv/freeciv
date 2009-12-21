@@ -1430,12 +1430,19 @@ static void server_remove_unit(struct unit *punit)
   struct tile *ptile = punit->tile;
   struct city *pcity = tile_city(ptile);
   struct city *phomecity = game_find_city_by_number(punit->homecity);
+  struct unit *ptrans;
 
-#ifndef NDEBUG
+#ifdef DEBUG
   unit_list_iterate(ptile->units, pcargo) {
     assert(pcargo->transported_by != punit->id);
   } unit_list_iterate_end;
 #endif
+
+  if (-1 != punit->transported_by) {
+    ptrans = game_find_unit_by_number(punit->transported_by);
+  } else {
+    ptrans = NULL;
+  }
 
   /* Since settlers plot in new cities in the minimap before they
      are built, so that no two settlers head towards the same city
@@ -1483,6 +1490,11 @@ static void server_remove_unit(struct unit *punit)
 
   game_remove_unit(punit);
   punit = NULL;
+
+  if (NULL != ptrans) {
+    /* Update the occupy info. */
+    send_unit_info(NULL, ptrans);
+  }
 
   /* This unit may have blocked tiles of adjacent cities. Update them. */
   city_map_update_tile_now(ptile);
