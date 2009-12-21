@@ -1698,7 +1698,7 @@ void ai_incident_nuclear(struct player *violator, struct player *victim)
       if (pplayer != violator) {
         pplayer->ai.love[player_index(violator)] -= MAX_AI_LOVE / 10;
         if (victim == pplayer) {
-          pplayer->ai.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+          pplayer->ai.love[player_index(violator)] -= MAX_AI_LOVE / 5;
         }
       }
     } players_iterate_end;
