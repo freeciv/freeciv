@@ -1760,7 +1760,7 @@ static void ai_incident_nuclear(struct player *violator, struct player *victim)
       if (pplayer != violator) {
         pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 10;
         if (victim == pplayer) {
-          pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+          pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 5;
         }
       }
     } players_iterate_end;
