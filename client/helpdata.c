@@ -1131,7 +1131,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   buf[0] = '\0';
 
   cat_snprintf(buf, bufsz,
-               _("* Belongs to %s units class.\n"),
+               _("* Belongs to %s unit class.\n"),
                uclass_name_translation(utype_class(utype)));
   if (uclass_has_flag(utype_class(utype), UCF_CAN_OCCUPY_CITY)
       && !utype_has_flag(utype, F_CIVILIAN)) {
@@ -1143,11 +1143,20 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (!uclass_has_flag(utype_class(utype), UCF_TERRAIN_DEFENSE)) {
     CATLSTR(buf, bufsz, _("  * Does not get defense bonuses from terrain.\n"));
   }
+  if (!uclass_has_flag(utype_class(utype), UCF_ZOC)) {
+    CATLSTR(buf, bufsz, _("  * Not subject to zones of control.\n"));
+  }
   if (uclass_has_flag(utype_class(utype), UCF_DAMAGE_SLOWS)) {
-    CATLSTR(buf, bufsz, _("  * Slowed down while damaged\n"));
+    CATLSTR(buf, bufsz, _("  * Slowed down while damaged.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_MISSILE)) {
     CATLSTR(buf, bufsz, _("  * Gets used up in making an attack.\n"));
+  }
+  if (uclass_has_flag(utype_class(utype), UCF_CAN_FORTIFY)
+      && !utype_has_flag(utype, F_SETTLERS)) {
+    CATLSTR(buf, bufsz,
+            /* xgettext:no-c-format */
+            _("  * May fortify, granting a 50% defensive bonus.\n"));
   }
   if (uclass_has_flag(utype_class(utype), UCF_UNREACHABLE)) {
     CATLSTR(buf, bufsz,
@@ -1159,7 +1168,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (uclass_has_flag(utype_class(utype), UCF_DOESNT_OCCUPY_TILE)) {
     CATLSTR(buf, bufsz,
-	    _("  * Doesn't prevent enemy cities from using tile.\n"));
+	    _("  * Doesn't prevent enemy cities from working the tile it's on.\n"));
   }
 
   if (utype->need_improvement) {
@@ -1208,6 +1217,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                      uclass_name_translation(uclass));
       }
     } unit_class_iterate_end
+  }
+  if (utype_has_flag(utype, F_TRIREME)) {
+    CATLSTR(buf, bufsz, "* Must stay next to coast.\n");
   }
   if (utype_has_flag(utype, F_TRADE_ROUTE)) {
     /* TRANS: "Manhattan" distance is the distance along gridlines, with
@@ -1275,14 +1287,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_TRANSFORM)) {
     CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
   }
-  if (is_ground_unittype(utype) && !utype_has_flag(utype, F_SETTLERS)) {
-    CATLSTR(buf, bufsz,
-            /* xgettext:no-c-format */
-            _("* May fortify, granting a 50% defensive bonus.\n"));
-  }
-  if (is_ground_unittype(utype)) {
-    CATLSTR(buf, bufsz, _("* May pillage to destroy infrastructure from tiles.\n"));
-  }
   if (utype_has_flag(utype, F_DIPLOMAT)) {
     if (utype_has_flag(utype, F_SPY)) {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
@@ -1290,6 +1294,10 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     } else {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions.\n"));
     }
+  }
+  if (utype_has_flag(utype, F_DIPLOMAT)
+      || utype_has_flag(utype, F_SUPERSPY)) {
+    CATLSTR(buf, bufsz, _("* Defends cities against diplomatic actions.\n"));
   }
   if (utype_has_flag(utype, F_SUPERSPY)) {
     CATLSTR(buf, bufsz, _("* Will never lose a diplomat-versus-diplomat fight.\n"));
@@ -1312,8 +1320,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
-		 _("* Can be paradropped from a friendly city"
-		   " (Range: %d).\n"),
+		 _("* Can be paradropped from a friendly city or airbase"
+		   " (range: %d tiles).\n"),
 		 utype->paratroopers_range);
   }
   if (utype_has_flag(utype, F_PIKEMEN)) {
@@ -1381,40 +1389,56 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_NO_VETERAN)) {
     CATLSTR(buf, bufsz, _("* Will never achieve veteran status.\n"));
   } else {
+    /* Some units can never become veteran through combat in practice. */
+    bool veteran_through_combat =
+      !((utype->attack_strength == 0
+         || uclass_has_flag(utype_class(utype), UCF_MISSILE))
+        && utype->defense_strength == 0);
     switch(utype_move_type(utype)) {
       case BOTH_MOVING:
-        CATLSTR(buf, bufsz,
-                _("* Will be built as a veteran in cities with appropriate"
-                  " training facilities (see Airport).\n"));
-        CATLSTR(buf, bufsz,
-                _("* May be promoted after defeating an enemy unit.\n"));
+        if (!utype_has_flag(utype, F_NOBUILD))
+          CATLSTR(buf, bufsz,
+                  _("* Will be built as a veteran in cities with appropriate"
+                    " training facilities (see Airport).\n"));
+        if (veteran_through_combat)
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted after defeating an enemy unit.\n"));
         break;
       case LAND_MOVING:
         if (utype_has_flag(utype, F_DIPLOMAT)||utype_has_flag(utype, F_SPY)) {
           CATLSTR(buf, bufsz,
                   _("* Will be built as a veteran under communist governments.\n"));
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted after a successful mission.\n"));
+          if (veteran_through_combat)
+            CATLSTR(buf, bufsz,
+                    _("* May be promoted after a successful mission.\n"));
         } else {
-          CATLSTR(buf, bufsz,
-                  _("* Will be built as a veteran in cities with appropriate"
-                    " training facilities (see Barracks).\n"));
-          CATLSTR(buf, bufsz,
-                  _("* May be promoted after defeating an enemy unit.\n"));
+          if (!utype_has_flag(utype, F_NOBUILD))
+            CATLSTR(buf, bufsz,
+                    _("* Will be built as a veteran in cities with appropriate"
+                      " training facilities (see Barracks).\n"));
+          if (veteran_through_combat)
+            CATLSTR(buf, bufsz,
+                    _("* May be promoted after defeating an enemy unit.\n"));
         }
         break;
       case SEA_MOVING:
-        CATLSTR(buf, bufsz,
-                _("* Will be built as a veteran in cities with appropriate"
-                  " training facilities (see Port Facility).\n"));
-        CATLSTR(buf, bufsz,
-                _("* May be promoted after defeating an enemy unit.\n"));
+        if (!utype_has_flag(utype, F_NOBUILD))
+          CATLSTR(buf, bufsz,
+                  _("* Will be built as a veteran in cities with appropriate"
+                    " training facilities (see Port Facility).\n"));
+        if (veteran_through_combat)
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted after defeating an enemy unit.\n"));
         break;
       default:          /* should never happen in default rulesets */
-        CATLSTR(buf, bufsz,
-                _("* May be promoted through combat or training\n"));
+        if (veteran_through_combat)
+          CATLSTR(buf, bufsz,
+                  _("* May be promoted through combat or training.\n"));
+        else
+          CATLSTR(buf, bufsz,
+                  _("* May be built as a veteran through training.\n"));
         break;
-    };
+    }
   }
   if (utype_has_flag(utype, F_SHIELD2GOLD)) {
     /* FIXME: the conversion shield => gold is activated if
@@ -2097,7 +2121,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
   buf[0] = '\0';
   output_type_iterate(o) {
     if (utype->upkeep[o] > 0) {
-      /* TRANS: "2 Food" or ", 1 shield" */
+      /* TRANS: "2 Food" or ", 1 Shield" */
       cat_snprintf(buf, sizeof(buf), _("%s%d %s"),
 	      (any > 0 ? Q_("?blistmore:, ") : ""), utype->upkeep[o],
 	      get_output_name(o));
@@ -2105,8 +2129,8 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
     }
   } output_type_iterate_end;
   if (utype->happy_cost > 0) {
-    /* TRANS: "2 unhappy" or ", 1 unhappy" */
-    cat_snprintf(buf, sizeof(buf), _("%s%d unhappy"),
+    /* TRANS: "2 Unhappy" or ", 1 Unhappy" */
+    cat_snprintf(buf, sizeof(buf), _("%s%d Unhappy"),
 	    (any > 0 ? Q_("?blistmore:, ") : ""), utype->happy_cost);
     any++;
   }

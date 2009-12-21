@@ -997,76 +997,54 @@ generate = "Wonders"
 [help_units]
 name = _("Units")
 text = _("\
-Units can be used for three purposes: attack, defense, and \
-reconnaissance.  How useful a particular unit is for each of these \
-roles depends on the unit's strength in attack and defense, and its \
-ability to move.\
+Units both offer mobility to your civilization and supply the violence \
+with which it will survive and expand. The available units may be \
+classified as military units, whose talents are those of defense and \
+aggression, and a few noncombatants which support expansion, \
+diplomacy, and trade.\
 "), _("\
-There are four general types of unit: Land, Sea, Air, and \
-Helicopter.  (Helicopters are sufficiently different from other air \
-units that it is easiest to think of them as a separate unit type.)\
-"), ; /* xgettext:no-c-format */
-_("\
-Land units move on land, and suffer the movement effects of terrain, \
-but benefit from roads and railroads.  They cannot move on ocean \
-tiles except when carried by an appropriate sea unit.  When at \
-sea, they cannot attack or defend for themselves, but rely on the \
-sea unit carrying them.  Land units are the only units subject to \
-zones of control.  On land, land units can fortify to get a 50% \
-defensive bonus; land units in cities automatically get this bonus, \
-whether fortified or not.  When a land unit successfully attacks a \
-city without City Walls, the city is reduced by one population \
-point.  Land units with zero attack strength are non-military units: \
-they require no upkeep, have no happiness effects, and cannot attack \
-enemy units or capture enemy cities.\
+Units are usually built in cities using production points. Once built, \
+the support of your units will be one of your major expenses. Most \
+units require upkeep such as production points from their home city \
+every turn, although some autocratic styles of government can force \
+cities to support several units for free.\
 "), _("\
-Sea units move on Ocean tiles and into cities next to Ocean \
-tiles.  They can only be built by such cities.  The movement rate \
-of sea units is affected by several wonders (Lighthouse, Magellan's \
-Expedition) and by the advance of Nuclear Power.  Most sea units can \
-attack units on the coast and in coastal cities, but they cannot \
-enter an enemy city to capture it, even if the city is undefended.\
+Units begin every turn with one or more movement points. Every action \
+undertaken by a unit consumes movement points.\
 "), _("\
-Air units can move on any tiles not occupied by an enemy unit or \
-enemy city.  The movement rate of air units is not affected by loss \
-of hitpoints.  Air units require fuel, which is obtained by ending \
-their turn in a friendly city, Airbase or Carrier (or a Submarine \
-for missile units).  The number of turns an air unit can last \
-without fuel varies by the unit type (see the individual units). \
-Like sea units, air units are unable to enter an empty enemy city \
-to capture it.  When outside cities, air units can only be attacked \
-by Fighters (or Stealth Fighters).  Air units cannot be used to \
-explore villages; depending upon server options, an overflown \
-village may disband.\
+The most basic action is movement; units can move into any of the \
+tiles surrounding their current location, subject to restrictions \
+imposed by their class, by diplomatic obligations (see the section on \
+Diplomacy), and by enemy units (see the section on Zones of Control). \
+The number of movement points consumed may depend on the type of \
+terrain; see the Terrain help.\
 "), _("\
-Like air units, Helicopters can move on any tile not occupied by \
-an enemy unit or enemy city, and their movement rate is not affected \
-by loss of hitpoints.  Helicopters do not require fuel, but they \
-lose a small amount of health for every turn not spent in a city or \
-an Airbase, unless you have the United Nations wonder.  Unlike other \
-air units, Helicopters can capture enemy cities.\
+A unit cannot move onto a tile occupied by an enemy unit, and when \
+directed to do so will attack instead (if capable of attack), locking \
+the two units in combat until one is destroyed. The outcome depends on \
+the attributes of the units in question (hit points, attack and \
+defense strength, and firepower); the Combat section describes the \
+process in detail, and the following sections list specific units' \
+attributes.\
+"), _("\
+Units' attributes can be further boosted by being veteran. Units may \
+be built as veteran by means of certain city improvements or other \
+influences; once built, units can also become veteran through \
+experience (such as surviving combat), which may provide further \
+levels of bonuses beyond those available from their initial training.\
 "), _("\
 Units which have been damaged in combat will regain hit points each \
-turn in which they are not moved.  Normally, a unit which has not \
-moved will regain one hit point per turn.  A land unit in a city \
-with Barracks, or a sea unit in a city with a Port Facility, or \
-an air unit in a city with an Airport, will regain all lost hit \
-points if a full turn is spent (without moving) in the city. \
-Otherwise, a unit which spends a turn in a city regains one third \
-of its base hit points.  A unit which spends a turn on a fortress \
-regains an extra one quarter of its base hitpoints.  Units which \
-are fortified regain an extra hit point.  If a player has the \
-United Nations wonder, that player's units regain an extra two hit \
-points per turn, even for units which have moved.  In addition \
-to all other effects, Helicopters lose two hit points (or gain two \
-hit points less than they otherwise would) each turn that they do \
-not end in a city.  Damaged units in Sentry mode will wake up when \
-they have regained all of their hit points.\
-"), _("\
-Depending upon server options, any set of unit types may reduce \
-the population of a City without City Walls by one point upon a \
-successful attack.\
+turn in which they are not moved. Normally, a unit which has not \
+moved will regain one hit point per turn. Units which are fortified \
+gain an extra hit point. A unit which spends a turn in a city \
+regains one third of its base hit points, and city improvements \
+appropriate to the unit type can improve this further. In the \
+default ruleset, units which stay in a fortress for a whole turn \
+regain all their hit points. Wonders can also boost recovery (such as \
+the United Nations in the default ruleset). Damaged units in Sentry \
+mode will wake up when they have regained all of their hit points.\
 ")
+
 
 [help_gen_units]
 generate = "Units"
@@ -1080,14 +1058,20 @@ destroyed, or the defender will be destroyed -- never both (unless \
 the attacker was a missile).  The outcome depends on several \
 factors, including chance.\
 "), _("\
+The description below is for the default ruleset, but the principles \
+are similar for any ruleset.  Notice that many bonuses are possible \
+for defenders, but few for attackers, aside from veteran status; an \
+attacking unit can mostly expect circumstance to work against it.\
+"), _("\
 First, the attacker's strength is modified.\
 "), _("\
- - If the attacker is a veteran, its strength is multiplied by 1.5.\
+ - If the attacker is a veteran, its strength is multiplied by the \
+bonus associated with its veteran level.\
 "), _("\
 Next, the defender's strength is modified.\
 "), _("\
  - If the defender is a veteran, then its strength is multiplied by \
-1.5.\
+the bonus associated with its veteran level.\
 "), _("\
  - Then the defender's strength is multiplied by the defense factor \
 of the terrain it occupies.\
@@ -1100,10 +1084,10 @@ units (including missiles and Helicopters), the defense is \
 quintupled.\
 "), _("\
  - The defender's strength is doubled again if it is in a city with \
-a SAM Battery and the attacker is an air unit (other than an \
-Helicopter) or a missile.\
+a SAM Battery and the attacker is an air unit (other than a \
+Helicopter or a missile).\
 "), _("\
- - An SDI Defense doubles the defender's strength yet again against \
+ - An SDI Defense doubles the defender's strength against \
 missile attacks.\
 "), _("\
  - If the attacker is a ship and the defender is in a city with a \
@@ -1116,8 +1100,11 @@ tripled.\
  - If the defender is in a fortress (and not a city), its strength \
 is doubled.\
 "), _("\
- - Finally, if the defender is a ground unit, and is either \
-fortified or inside a city, its strength is multiplied by 1.5.\
+ - If the defender is a land unit, and is either fortified or \
+inside a city, its strength is multiplied by 1.5.\
+"), _("\
+ - Finally, if the attacker is a fighter and the defender is a \
+helicopter, the defender's strength is halved.\
 "), _("\
 If, after these modifications, the attacker has a strength of 0, it \
 automatically loses.  Otherwise, if the defender has a strength of \
@@ -1128,10 +1115,10 @@ The firepower of the attacker and defender are also modified.\
  - If the defender is a ship and is inside a city the firepower of \
 the attacker is doubled and the firepower of the ship is set to 1.\
 "), _("\
- - If a Fighter is attacking an Helicopter the firepower of the \
-Helicopter is set to 1.\
+ - If a fighter is attacking a helicopter the firepower of the \
+helicopter is set to 1.\
 "), _("\
- - If a ship is attacking a ground unit on land the firepower of both \
+ - If a ship is attacking a land unit on land the firepower of both \
 is set to 1.\
 "), _("\
 After these preliminaries, combat occurs, as long as both units are \
@@ -1141,7 +1128,7 @@ strengths is generated.  If this number is greater than the \
 defender's strength, the defender loses hit points equal to the \
 attacker's firepower.  Otherwise, the attacker loses hit points \
 equal to the defender's firepower. The first unit to reach 0 hit \
-points (or negative hit points) loses. \
+points (or negative hit points) loses.\
 "),
 ; /* Actually, that's a little white lie.  The random number is really
 ; from 0 to (A+D-1), and the comparison is ">=D", not ">D".  The
@@ -1149,18 +1136,17 @@ points (or negative hit points) loses. \
 ; little simpler for non-programmers who may be reading this. */
 ; /* xgettext:no-c-format */
 _("\
-Whichever unit survives the fight has a chance of becoming a \
-veteran, if it was not a veteran already.  If the winner's \
+Whichever unit survives the fight has a chance of being promoted \
+a veteran level.  In the default ruleset, if the winner's \
 civilization has the Sun Tzu's War Academy (and if it isn't \
-obsolete), the unit will always become a veteran.  Otherwise, the \
-chance of becoming a veteran is 50%.\
+obsolete), the chance is increased by half.\
 "), _("\
-If the attacker is a ground unit and wins, and the defender is in a \
+If the attacker is a land unit and wins, and the defender is in a \
 city without City Walls, the city is reduced in size by 1.\
 "), _("\
-If the defender loses, and is not inside a city or fortress, all \
-other units at the defender's location are destroyed along with the \
-defender.\
+If the defender loses, and is not inside a city, fortress, or \
+airbase, all other units at the defender's location are destroyed \
+along with the defender.\
 ")
 
 [help_combat_modifying]
@@ -1170,15 +1156,19 @@ _("\
 The combat rules described before can be modified by changing the \
 following modifiers in game.ruleset, section combat_rules: \
 "), _("\
- - killstack. (default: 1) If set to 0, units in the same tile of a \
-lost defender are not destroyed. \
+ - killstack (default: 1). If set to 0, units on the same tile as a \
+lost defender are not destroyed.\
+"), _("\
+ - tired_attack (default: 0). If set to 1, units that attack with \
+only 2/3 or 1/3 moves left will attack with proportionally reduced \
+strength.\
 ")
 
 [help_combat_example_1]
 name = _(" Combat example 1")
 text = _("\
-Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer \
-(A:3, D:3, HP:20, F:1) inside a city with City Walls built \
+Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer \
+(A:3, D:3, HP:20, FP:1) inside a city with City Walls built \
 on a Forest tile.  Neither are veteran.\
 "), _("\
 The defender's base strength is 3.  Because it is on a Forest tile, \
@@ -1215,9 +1205,9 @@ it might even lose the battle.\
 [help_combat_example_2]
 name = _(" Combat example 2")
 text = _("\
-Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 \
+Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 \
 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, \
-F:1) inside a city built on a Grassland tile, with City Walls and a \
+FP:1) inside a city built on a Grassland tile, with City Walls and a \
 Coastal Defense.\
 "), _("\
 The attacker's strength is 12, raised to 18 because of veteran \
@@ -1421,8 +1411,13 @@ they give you permanent visibility of the area of the map around them.\
 "), _("\
 The following table shows the number of turns required for one unit \
 of Settlers or Workers to complete an activity. These numbers are \
-reduced to half (rounded up) for Engineers, and they can be reduced \
-further by stockpiling several units, doing teamwork.\
+reduced to half (rounded up) for Engineers. The time taken can be \
+reduced further by several units working together as a team; if two or \
+more units are working on the same task on the same tile, their \
+efforts will be added together each turn until the task is finished. \
+Be careful not to dedicate too many units to one task, though; excess \
+effort can be wasted, and a group of Settlers, Workers, and/or \
+Engineers is highly vulnerable to enemy attacks.\
 "), "\
 $TerrainAlterations\
 ", _("\
@@ -1634,7 +1629,8 @@ citizens' happiness (see the appropriate sections for details).\
 Under many forms of government, the presence of military units in a \
 city can create contentment by imposing martial law.  Under a \
 Republic or a Democracy, however, military units can cause \
-unhappiness (see Government for details).  It is noted that, in this \
+unhappiness if deployed outside your borders (see Government for \
+details).  It is noted that, in this \
 case, city improvements, such as those mentioned above, do not have \
 any effect on citizens' unhappiness.  This form of unhappiness can \
 be offset by building a Police Station, relevant wonders of the \
