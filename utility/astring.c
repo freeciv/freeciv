@@ -155,6 +155,27 @@ void astr_add_line(struct astring *astr, const char *format, ...)
   va_end(args);
 }
 
+/****************************************************************************
+  Replace the spaces by line breaks when the line lenght is over the desired
+  one.
+****************************************************************************/
+void astr_cut_lines(struct astring *astr, size_t desired_len)
+{
+  char *c;
+  size_t n = 0;
+
+  for (c = astr->str; '\0' != *c; c++) {
+    if ('\n' == *c) {
+      n = 0;
+    } else if (my_isspace(*c) && n >= desired_len) {
+      *c = '\n';
+      n = 0;
+    } else {
+      n++;
+    }
+  }
+}
+
 /**********************************************************************
   Sets the content to the empty string.
 ***********************************************************************/
