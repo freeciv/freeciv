@@ -791,7 +791,9 @@ void center_tile_mapcanvas(struct tile *ptile)
   int gui_x, gui_y;
   static bool first = TRUE;
 
-  assert(!first || !can_slide);
+  if (first && can_slide) {
+    return;
+  }
   first = FALSE;
 
   map_to_gui_pos(tileset, &gui_x, &gui_y, ptile->x, ptile->y);
