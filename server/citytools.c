@@ -599,11 +599,11 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
         notify_player(from_player, unit_tile(punit),
                       E_UNIT_LOST_MISC, ftc_server,
                       /* TRANS: Polish Destroyer ... German <city> */
-		      _("%s %s lost in transfer to %s %s"),
-		      nation_adjective_for_player(from_player),
-		      unit_link(punit),
-		      nation_adjective_for_player(to_player),
-		      city_link(tocity));
+                      _("%s %s lost in transfer to %s %s"),
+                      nation_adjective_for_player(from_player),
+                      unit_tile_link(punit),
+                      nation_adjective_for_player(to_player),
+                      city_link(tocity));
       }
       wipe_unit(punit);
       return;
@@ -694,7 +694,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
         notify_player(unit_owner(vunit), unit_tile(vunit),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("%s lost along with control of %s."),
-                      unit_link(vunit), name);
+                      unit_tile_link(vunit), name);
       }
       wipe_unit(vunit);
     }
@@ -1248,7 +1248,7 @@ void remove_city(struct city *pcity)
                           _("Moved %s out of disbanded city %s "
                             "since it cannot stay on %s."),
                           unit_link(punit),
-                          city_link(pcity),
+                          city_tile_link(pcity),
                           terrain_name_translation(tile_terrain(pcenter)));
             break;
 	  }
@@ -1261,7 +1261,7 @@ void remove_city(struct city *pcity)
                     _("When %s was disbanded your %s could not "
                       "get out, and it was therefore lost."),
                     city_link(pcity),
-                    unit_link(punit));
+                    unit_tile_link(punit));
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -1402,11 +1402,11 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     int saved_id = pcity->id;
 
     notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
-		  _("You destroy %s completely."),
-		  city_link(pcity));
+                  _("You destroy %s completely."),
+                  city_tile_link(pcity));
     notify_player(cplayer, city_tile(pcity), E_CITY_LOST, ftc_server,
                   _("%s has been destroyed by %s."), 
-                  city_link(pcity), player_name(pplayer));
+                  city_tile_link(pcity), player_name(pplayer));
     script_signal_emit("city_destroyed", 3,
                        API_TYPE_CITY, pcity,
                        API_TYPE_PLAYER, cplayer,

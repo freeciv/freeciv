@@ -807,7 +807,7 @@ static void city_populate(struct city *pcity)
         notify_player(city_owner(pcity), city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Famine feared in %s, %s lost!"), 
-                      city_link(pcity), unit_link(punit));
+                      city_link(pcity), unit_tile_link(punit));
  
         wipe_unit(punit);
 
@@ -1725,7 +1725,7 @@ static bool sell_random_units(struct player *pplayer,
 
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                   _("Not enough gold. %s disbanded"),
-                  unit_link(punit));
+                  unit_tile_link(punit));
     unit_list_unlink(punitlist, punit);
     wipe_unit(punit);
 
@@ -2204,7 +2204,7 @@ static bool disband_city(struct city *pcity)
   notify_player(pplayer, ptile, E_UNIT_BUILT, ftc_server,
                 /* TRANS: "<city> is disbanded into Settler." */
                 _("%s is disbanded into %s."), 
-                city_link(pcity), utype_name_translation(utype));
+                city_tile_link(pcity), utype_name_translation(utype));
 
   remove_city(pcity);
   return TRUE;
@@ -2412,6 +2412,7 @@ static bool do_city_migration(struct city *pcity_from,
       transfer_city_units(pplayer_from, pplayer_from,
                           pcity_from->units_supported, rcity, pcity_from,
                           -1, TRUE);
+      sz_strlcpy(name_from, city_tile_link(pcity_from));
       remove_city(pcity_from);
 
       notify_player(pplayer_from, ptile_from, E_CITY_LOST, ftc_server,

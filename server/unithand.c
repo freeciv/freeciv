@@ -631,7 +631,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
   auto_arrange_workers(pcity);
   notify_player(pplayer, city_tile(pcity), E_CITY_BUILD, ftc_server,
                 _("%s added to aid %s in growing."),
-                unit_link(punit),
+                unit_tile_link(punit),
                 city_link(pcity));
   wipe_unit(punit);
   send_city_info(NULL, pcity);
@@ -980,9 +980,10 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
   if (unit_has_type_flag(punit, F_NUCLEAR)) {
     if ((pcity = sdi_try_defend(pplayer, def_tile))) {
+      /* FIXME: Remove the hard coded reference to SDI defense. */
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_ATT, ftc_server,
-                    _("Your Nuclear missile was shot down by"
-                      " SDI defences, what a waste."));
+                    _("Your %s was shot down by "
+                      "SDI defences, what a waste."), unit_tile_link(punit));
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
                     _("The nuclear attack on %s was avoided by"
                       " your SDI defense."), city_link(pcity));
@@ -1044,8 +1045,9 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   send_combat(punit, pdefender, vet, 0);
 
   /* N.B.: unit_link always returns the same pointer. */
-  sz_strlcpy(looser_link, unit_link(plooser));
-  sz_strlcpy(winner_link, unit_link(pwinner));
+  sz_strlcpy(looser_link, unit_tile_link(plooser));
+  sz_strlcpy(winner_link, uclass_has_flag(unit_class(pwinner), UCF_MISSILE)
+             ? unit_tile_link(pwinner) : unit_link(pwinner));
 
   if (punit == plooser) {
     /* The attacker lost */
@@ -1483,18 +1485,19 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
   sz_strlcpy(homecity_link, city_link(pcity_homecity));
   sz_strlcpy(destcity_link, city_link(pcity_dest));
-  sz_strlcpy(punit_link, unit_link(punit));
 
   if (!can_cities_trade(pcity_homecity, pcity_dest)) {
     notify_player(pplayer, city_tile(pcity_dest), E_BAD_COMMAND, ftc_server,
                   _("Sorry, your %s cannot establish"
                     " a trade route between %s and %s"),
-                  punit_link,
+                  unit_link(punit),
                   homecity_link,
                   destcity_link);
     return FALSE;
   }
-  
+
+  sz_strlcpy(punit_link, unit_tile_link(punit));
+
   /* This part of code works like can_establish_trade_route, except
    * that we actually do the action of making the trade route. */
 

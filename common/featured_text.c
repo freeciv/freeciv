@@ -1083,6 +1083,24 @@ const char *city_link(const struct city *pcity)
 }
 
 /**************************************************************************
+  Get a text link to a city tile (make a clickable link to a tile with the
+  city name as text).
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *city_tile_link(const struct city *pcity)
+{
+  static char buf[MAX_LEN_LINK];
+  const char *tag_name = text_tag_type_short_name(TTT_LINK);
+
+  my_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" x=%d y=%d%c%s%c%c%s%c",
+              SEQ_START, tag_name, text_link_type_name(TLT_TILE),
+              TILE_XY(city_tile(pcity)), SEQ_STOP, city_name(pcity),
+              SEQ_START, SEQ_END, tag_name, SEQ_STOP);
+  return buf;
+}
+
+/**************************************************************************
   Get a text link to a tile.
   N.B.: The returned string is static, so every call to this function
   overwrites the previous.
@@ -1115,3 +1133,23 @@ const char *unit_link(const struct unit *punit)
               unit_rule_name(punit), SEQ_END, SEQ_STOP);
   return buf;
 }
+
+/**************************************************************************
+  Get a text link to a unit tile (make a clickable link to a tile with the
+  unit type name as text).
+  N.B.: The returned string is static, so every call to this function
+  overwrites the previous.
+**************************************************************************/
+const char *unit_tile_link(const struct unit *punit)
+{
+  static char buf[MAX_LEN_LINK];
+  const char *tag_name = text_tag_type_short_name(TTT_LINK);
+
+  my_snprintf(buf, sizeof(buf), "%c%s tgt=\"%s\" x=%d y=%d%c%s%c%c%s%c",
+              SEQ_START, tag_name, text_link_type_name(TLT_TILE),
+              TILE_XY(unit_tile(punit)), SEQ_STOP,
+              unit_name_translation(punit),
+              SEQ_START, SEQ_END, tag_name, SEQ_STOP);
+  return buf;
+}
+

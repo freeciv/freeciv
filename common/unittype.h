@@ -249,7 +249,7 @@ struct unit_type *find_unit_type_by_translated_name(const char *name);
 const char *unit_rule_name(const struct unit *punit);
 const char *utype_rule_name(const struct unit_type *punittype);
 
-const char *unit_name_translation(struct unit *punit);
+const char *unit_name_translation(const struct unit *punit);
 const char *utype_name_translation(struct unit_type *punittype);
 
 const char *utype_values_string(const struct unit_type *punittype);

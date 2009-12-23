@@ -305,7 +305,7 @@ void player_restore_units(struct player *pplayer)
        * them too.  --dwp  */
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of hit points."), 
-                    unit_link(punit));
+                    unit_tile_link(punit));
       wipe_unit(punit);
       continue; /* Continue iterating... */
     }
@@ -411,7 +411,7 @@ void player_restore_units(struct player *pplayer)
     if (punit->fuel <= 0 && utype_fuel(unit_type(punit))) {
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of fuel."),
-                    unit_link(punit));
+                    unit_tile_link(punit));
       wipe_unit(punit);
     } 
   } unit_list_iterate_safe_end;
@@ -1135,7 +1135,7 @@ void bounce_unit(struct unit *punit, bool verbose)
     /* TRANS: A unit is disbanded to resolve stack conflicts. */
     notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC, ftc_server,
                   _("Disbanded your %s."),
-                  unit_link(punit));
+                  unit_tile_link(punit));
   }
   wipe_unit(punit);
 }
@@ -1525,7 +1525,7 @@ static void unit_lost_with_transport(const struct player *pplayer,
 {
   notify_player(pplayer, unit_tile(pcargo), E_UNIT_LOST_MISC, ftc_server,
                 _("%s lost when %s was lost."),
-                unit_link(pcargo),
+                unit_tile_link(pcargo),
                 utype_name_translation(ptransport));
   server_remove_unit(pcargo);
 }
@@ -1659,7 +1659,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
   int ransom, unitcount = 0;
 
   sz_strlcpy(pkiller_link, unit_link(pkiller));
-  sz_strlcpy(punit_link, unit_link(punit));
+  sz_strlcpy(punit_link, unit_tile_link(punit));
 
   /* barbarian leader ransom hack */
   if( is_barbarian(pvictim) && unit_has_type_role(punit, L_BARBARIAN_LEADER)
@@ -2070,7 +2070,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   unit_list_iterate_safe(ptile->units, punit) {
     notify_player(unit_owner(punit), ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was nuked by %s."),
-                  unit_link(punit),
+                  unit_tile_link(punit),
                   pplayer == unit_owner(punit)
                   ? _("yourself")
                   : nation_plural_for_player(pplayer));
@@ -2078,7 +2078,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
       notify_player(pplayer, ptile, E_UNIT_WIN, ftc_server,
                     _("The %s %s was nuked."),
                     nation_adjective_for_player(unit_owner(punit)),
-                    unit_link(punit));
+                    unit_tile_link(punit));
     }
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
@@ -2274,7 +2274,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s paradropped into the %s and was lost."),
-                  unit_link(punit),
+                  unit_tile_link(punit),
                   terrain_name_translation(tile_terrain(ptile)));
     server_remove_unit(punit);
     return TRUE;
@@ -2287,7 +2287,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     notify_player(pplayer, ptile, E_UNIT_LOST_MISC, ftc_server,
                   _("Your %s was killed by enemy units at the "
                     "paradrop destination."),
-                  unit_link(punit));
+                  unit_tile_link(punit));
     server_remove_unit(punit);
     return TRUE;
   }
@@ -2324,7 +2324,7 @@ static bool hut_get_limited(struct unit *punit)
   } else {
     notify_player(pplayer, unit_tile(punit), E_HUT_BARB_KILLED, ftc_server,
                   _("Your %s has been killed by barbarians!"),
-                  unit_link(punit));
+                  unit_tile_link(punit));
     wipe_unit(punit);
     ok = FALSE;
   }

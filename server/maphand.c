@@ -1450,8 +1450,8 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
         notify_player(unit_owner(punit), unit_tile(punit),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Disbanded your %s due to changing terrain."),
-                      unit_link(punit));
-	wipe_unit(punit);
+                      unit_tile_link(punit));
+        wipe_unit(punit);
       }
     }
   } unit_list_iterate_safe_end;
