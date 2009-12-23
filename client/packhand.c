@@ -2572,9 +2572,10 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   VALIDATE(num_tech_types,	A_LAST_REAL,		"advances");
   VALIDATE(num_base_types,	MAX_BASE_TYPES,		"bases");
 
-  VALIDATE(government_count,	MAX_NUM_ITEMS,		"governments");
-  VALIDATE(nation_count,	MAX_NUM_ITEMS,		"nations");
-  VALIDATE(styles_count,	MAX_NUM_ITEMS,		"city styles");
+  /* game.control.government_count, game.control.nation_count and
+   * game.control.styles_count are allocated dynamically, and does
+   * not need a size check.  See the allocation bellow. */
+
   VALIDATE(terrain_count,	MAX_NUM_TERRAINS,	"terrains");
   VALIDATE(resource_count,	MAX_NUM_RESOURCES,	"resources");
 
