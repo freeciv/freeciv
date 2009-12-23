@@ -339,7 +339,7 @@ const char *utype_name_translation(struct unit_type *punittype)
   Return the (translated) name of the unit.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *unit_name_translation(struct unit *punit)
+const char *unit_name_translation(const struct unit *punit)
 {
   return utype_name_translation(unit_type(punit));
 }

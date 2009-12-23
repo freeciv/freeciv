@@ -269,7 +269,7 @@ void diplomat_embassy(struct player *pplayer, struct unit *pdiplomat,
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was executed in %s by primitive %s."),
-                  unit_link(pdiplomat),
+                  unit_tile_link(pdiplomat),
                   city_link(pcity),
                   nation_plural_for_player(cplayer));
     wipe_unit(pdiplomat);
@@ -634,20 +634,20 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
                     _("%s was expecting your attempt to steal technology "
                       "again. Your %s was caught and executed."),
                     city_link(pcity),
-                    unit_link(pdiplomat));
+                    unit_tile_link(pdiplomat));
     } else {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was caught in the attempt of"
                       " stealing technology from %s."),
-                    unit_link(pdiplomat),
+                    unit_tile_link(pdiplomat),
                     city_link(pcity));
     }
     notify_player(cplayer, city_tile(pcity),
                   E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                   _("The %s %s failed to steal technology from %s."),
                   nation_adjective_for_player(pplayer),
-                  unit_link(pdiplomat),
+                  unit_tile_link(pdiplomat),
                   city_link(pcity));
     /* this may cause a diplomatic incident */
     maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);
@@ -749,13 +749,13 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of inciting a revolt!"),
-                  unit_link(pdiplomat));
+                  unit_tile_link(pdiplomat));
     notify_player(cplayer, city_tile(pcity),
                   E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                   _("You caught %s %s attempting"
                     " to incite a revolt in %s!"),
                   nation_adjective_for_player(pplayer),
-                  unit_link(pdiplomat),
+                  unit_tile_link(pdiplomat),
                   city_link(pcity));
     wipe_unit(pdiplomat);
     return;
@@ -862,12 +862,12 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
                     " of industrial sabotage!"),
-                  unit_link(pdiplomat));
+                  unit_tile_link(pdiplomat));
     notify_player(cplayer, city_tile(pcity),
                   E_ENEMY_DIPLOMAT_SABOTAGE, ftc_server,
                   _("You caught %s %s attempting sabotage in %s!"),
                   nation_adjective_for_player(pplayer),
-                  unit_link(pdiplomat),
+                  unit_tile_link(pdiplomat),
                   city_link(pcity));
     wipe_unit(pdiplomat);
     return;
@@ -1019,13 +1019,13 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was caught in the attempt of sabotage!"),
-                    unit_link(pdiplomat));
+                    unit_tile_link(pdiplomat));
       notify_player(cplayer, city_tile(pcity),
                     E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                     _("You caught %s %s attempting"
                       " to sabotage the %s in %s!"),
                     nation_adjective_for_player(pplayer),
-                    unit_link(pdiplomat),
+                    unit_tile_link(pdiplomat),
                     improvement_name_translation(ptarget),
                     city_link(pcity));
       wipe_unit(pdiplomat);
@@ -1153,7 +1153,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
         notify_player(pplayer, ptile, E_ENEMY_DIPLOMAT_FAILED, ftc_server,
                       /* TRANS: <unit> ... <diplomat> */
                       _("An enemy %s has been eliminated by your %s."),
-                      unit_link(punit),
+                      unit_tile_link(punit),
                       diplomat_link);
 
         if (pcity) {
@@ -1161,7 +1161,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                         /* TRANS: <unit> ... <city> ... <diplomat> */
                         _("Your %s has been eliminated defending %s"
                           " against a %s."),
-                        unit_link(punit),
+                        unit_tile_link(punit),
                         city_link(pcity),
                         diplomat_link);
         } else {
@@ -1169,16 +1169,17 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
                         /* TRANS: <unit> ... <diplomat> */
                         _("Your %s has been eliminated defending"
                           " against a %s."),
-                        unit_link(punit),
+                        unit_tile_link(punit),
                         diplomat_link);
         }
 
         pdiplomat->moves_left = MAX(0, pdiplomat->moves_left - SINGLE_MOVE);
         send_unit_info(pplayer, pdiplomat);
-	wipe_unit(punit);
+        wipe_unit(punit);
         return FALSE;
       } else {
         /* Attacking Spy/Diplomat dies. */
+        sz_strlcpy(diplomat_link, unit_tile_link(pdiplomat));
         notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                       _("Your %s was eliminated by a defending %s."),
                       diplomat_link,
@@ -1264,13 +1265,13 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
                       " the mission in %s."),
-                    unit_link(pdiplomat),
+                    unit_tile_link(pdiplomat),
                     city_link(pcity));
     } else {
       notify_player(pplayer, ptile, E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("Your %s was captured after completing"
                       " the mission."),
-                    unit_link(pdiplomat));
+                    unit_tile_link(pdiplomat));
     }
   }
 
