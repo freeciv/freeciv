@@ -377,7 +377,8 @@ const char *popup_info_text(struct tile *ptile)
       /* TRANS: "5 more" units on this tile */
       astr_add(&str, _("  (%d more)"), unit_list_size(ptile->units) - 1);
     }
-  } 
+  }
+  astr_cut_lines(&str, 80);
   return str.str;
 }
 
