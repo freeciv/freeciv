@@ -8,20 +8,20 @@ legend=_("In the centuries after their unification by Chinggis Khan, the\
  of the continent of Asia.  They became notorious for their utter\
  ruthlessness in warfare.")
 leader=
- "Genghis",
- "Bortai",
+ "Chinggis",
  "Ogedei",
- "Dayan",
- "Timur Lenk",
  "Batu",
- "Tokhtamysh",
- "Kublai",
- "Altan",
- "Toregene",
- "Hulagu",
- "Kara Nogai"
-leader_sex="Male", "Female", "Male", "Male", "Male", "Male", "Male",
-           "Male", "Male", "Female", "Male", "Male"
+ "Chagadai",
+ "Tului",
+ "Godan",
+ "Subetei",
+ "Teregene",
+ "Kuyuk",
+ "Mengke",
+ "Khubilai",
+ "Hulegu"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Female", "Male", "Male", "Male", "Male"
 flag="mongolia"
 flag_alt = "-"
 city_style = "Asian"
