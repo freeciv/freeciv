@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: tr\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-12 20:30+0100\n"
+"POT-Creation-Date: 2009-12-27 16:30+0100\n"
 "PO-Revision-Date: 2008-06-01 16:36+0300\n"
 "Last-Translator: Uğur Çetin <jnmbk@users.sourceforge.net>\n"
 "Language-Team: Turkish <yerellestirme@kde.org.tr>\n"
@@ -931,11 +931,11 @@ msgstr ""
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:459 client/helpdata.c:1789
+#: common/unittype.c:459 client/helpdata.c:1813
 msgid " and "
 msgstr " ve "
 
-#: common/unittype.c:465 client/helpdata.c:1775
+#: common/unittype.c:465 client/helpdata.c:1799
 msgid "?and:, "
 msgstr ", "
 
@@ -2260,35 +2260,35 @@ msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2418
+#: server/cityturn.c:2419
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s şehri terkedildi ve %s oluştu."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2438
+#: server/cityturn.c:2439
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2444
+#: server/cityturn.c:2445
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2449
+#: server/cityturn.c:2450
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
-#: server/cityturn.c:2600
+#: server/cityturn.c:2601
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
-#: server/cityturn.c:2621
+#: server/cityturn.c:2622
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -3731,64 +3731,64 @@ msgstr "%s biriminiz %s şehrini savunurken bir %s tarafından öldürüldü."
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "%s biriminiz savunmadayken bir %s tarafından öldürüldü."
 
-#: server/diplomats.c:1183
+#: server/diplomats.c:1184
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "%s biriminiz, savunma yapan bir %s tarafından öldürüldü."
 
-#: server/diplomats.c:1189
+#: server/diplomats.c:1190
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "%s %s, %s şehrine sızarken yakalandı."
 
-#: server/diplomats.c:1195
+#: server/diplomats.c:1196
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "%s %s birimlerimizin arasına sızarken yakalandı."
 
-#: server/diplomats.c:1246
+#: server/diplomats.c:1247
 #, c-format
 msgid ""
 "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr ""
 "%s biriminiz görevi başarıyla tamamlayıp %s şehrine yara almadan döndü."
 
-#: server/diplomats.c:1265
+#: server/diplomats.c:1266
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "%s biriminiz %s şehrinde görevi bitirdikten sonra yakalandı."
 
-#: server/diplomats.c:1271
+#: server/diplomats.c:1272
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "%s biriminiz görevi bitirdikten sonra yakalandı."
 
-#: server/diplomats.c:1304
+#: server/diplomats.c:1305
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "%s %s birimine rüşvet verilirken bir skandala sebep oldunuz."
 
-#: server/diplomats.c:1310
+#: server/diplomats.c:1311
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s, %s biriminize rüşvet verirken bir skandal yaşandı."
 
-#: server/diplomats.c:1317
+#: server/diplomats.c:1318
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "%s tarafından bir teknoloji çalarken skandala sebep oldunuz."
 
-#: server/diplomats.c:1322
+#: server/diplomats.c:1323
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s, sizden bir teknoloji çalarken skandala sebep oldular."
 
-#: server/diplomats.c:1329
+#: server/diplomats.c:1330
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "%s şehrinde ayaklanma başlatırken bir skandala sebep oldunuz."
 
-#: server/diplomats.c:1334
+#: server/diplomats.c:1335
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "%s, %s şehrinde ayaklanma başlatırken bir skandala sebep oldular."
@@ -4075,7 +4075,7 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "Seçilmiş birim yok."
 
-#: server/gamehand.c:339 client/text.c:759
+#: server/gamehand.c:339 client/text.c:760
 #, c-format
 msgid "Year: %s"
 msgstr "Yıl: %s"
@@ -7588,8 +7588,8 @@ msgstr ", zorluluk derecesi %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
 #: server/stdinhand.c:4313 server/stdinhand.c:4317 client/helpdata.c:597
-#: client/helpdata.c:1104 client/text.c:245 client/text.c:1313
-#: client/text.c:1350
+#: client/helpdata.c:1104 client/text.c:245 client/text.c:1314
+#: client/text.c:1351
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
@@ -7818,13 +7818,14 @@ msgstr "%s, %s şehrine eklenemedi."
 msgid "%s added to aid %s in growing."
 msgstr "%s, %s şehrinin büyümesi için eklendi."
 
-#: server/unithand.c:957
-msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
+#: server/unithand.c:958
+#, fuzzy, c-format
+msgid "Your %s was shot down by SDI defences, what a waste."
 msgstr ""
 "Nükleer bombanız SDI savunması tarafından etkisiz hale getirildi, ne büyük "
 "kayıp."
 
-#: server/unithand.c:960
+#: server/unithand.c:961
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr ""
@@ -7832,120 +7833,120 @@ msgstr ""
 "edildi."
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:1035
+#: server/unithand.c:1037
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr "%s biriminiz %s %s birimi tarafından yapılan saldırıdan kurtuldu."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:1045
+#: server/unithand.c:1047
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr "%s biriminizin, %s %s birimine saldırısı başarısız oldu!"
 
-#: server/unithand.c:1125
+#: server/unithand.c:1127
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr "Sadece %s birimi denizden saldırabilir."
 
-#: server/unithand.c:1130
+#: server/unithand.c:1132
 msgid "Cannot attack from sea."
 msgstr "Denizden saldırılamaz."
 
-#: server/unithand.c:1137 server/unittools.c:2255
+#: server/unithand.c:1139 server/unittools.c:2267
 msgid "Cannot attack unless you declare war first."
 msgstr "Savaş ilan etmeden saldırılamaz."
 
-#: server/unithand.c:1142
+#: server/unithand.c:1144
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr "%s sadece sizin kontrolünüzdeki bölgelere gidebilir."
 
-#: server/unithand.c:1148
+#: server/unithand.c:1150
 #, c-format
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1154
+#: server/unithand.c:1156
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "%s ile olan barışı bozmadan sınır ihlal edilemez."
 
-#: server/unithand.c:1199
+#: server/unithand.c:1201
 msgid "This unit has no moves left."
 msgstr "Bu birimin hiç hareketi kalmadı."
 
-#: server/unithand.c:1254
+#: server/unithand.c:1256
 msgid "No diplomat action possible."
 msgstr "Diplomatik işler yapılamaz."
 
-#: server/unithand.c:1257
+#: server/unithand.c:1259
 #, fuzzy, c-format
 msgid "Unit cannot perform diplomatic action from %s."
 msgstr "* Diplomatik işler yapabilir.\n"
 
-#: server/unithand.c:1275
+#: server/unithand.c:1277
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 "Önce %s ile savaş içinde olmanız gerekiyor.  Oyuncular penceresini "
 "kullanmayı deneyin (F3)."
 
-#: server/unithand.c:1293
+#: server/unithand.c:1295
 msgid "This unit is being transported, and so cannot bombard."
 msgstr "Birim taşınıyor, bu yüzden bombardıman yapamaz."
 
-#: server/unithand.c:1308
+#: server/unithand.c:1310
 msgid "You can't attack there."
 msgstr "Burada saldıramazsın."
 
-#: server/unithand.c:1330
+#: server/unithand.c:1332
 msgid "This type of troops cannot take over a city."
 msgstr "Bu türdeki birimler şehir fethedemezler."
 
-#: server/unithand.c:1347
+#: server/unithand.c:1349
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 "Taşınan bir birim hedef karedeki tüm birimlerle veya şehirlerle ittifak "
 "içinde değil."
 
-#: server/unithand.c:1396
+#: server/unithand.c:1398
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d kalıyor)."
 
-#: server/unithand.c:1398
+#: server/unithand.c:1400
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr "%s birimi %s yapımına %s şehrinde yardım eder (%d artıyor)."
 
-#: server/unithand.c:1451
+#: server/unithand.c:1453
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr "Üzgünüm, %s biriminiz ticaret yolu yapamaz çünkü memleketi yok"
 
-#: server/unithand.c:1464
+#: server/unithand.c:1465
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr "Üzgünüm, %s biriminiz %s ve %s şehirleri arasında ticaret yolu yapamaz"
 
-#: server/unithand.c:1494 server/unithand.c:1515
+#: server/unithand.c:1497 server/unithand.c:1518
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr "Üzgünüm, %s biriminiz buraya ticaret yolu yapamaz!"
 
-#: server/unithand.c:1499 server/unithand.c:1520
+#: server/unithand.c:1502 server/unithand.c:1523
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr "      %s şehrinin zaten %d daha kârlı ticaret yolları var!"
 
-#: server/unithand.c:1534 server/unithand.c:1547
+#: server/unithand.c:1537 server/unithand.c:1550
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr "Üzgünüm, %s, %s şehrinden %s şehrinize olan ticaret yolunu iptal etti."
 
-#: server/unithand.c:1581
+#: server/unithand.c:1584
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -7994,47 +7995,47 @@ msgstr "%s biriminiz terhis edildi."
 msgid "Disbanded your %s."
 msgstr "%s biriminiz terhis edildi."
 
-#: server/unittools.c:1477
+#: server/unittools.c:1484
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "%s savunması başarısız, %s oyunu kaybetti."
 
-#: server/unittools.c:1481
+#: server/unittools.c:1488
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 "%s biriminin kaybedilmesi oyunu kaybetmek demektir! Bir dahaki sefere daha "
 "dikkatli olun!"
 
-#: server/unittools.c:1518
+#: server/unittools.c:1530
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s, %s ile birlikte kaybedildi."
 
-#: server/unittools.c:1597
+#: server/unittools.c:1609
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s, %s şehrinin yıkımından kurtuldu ve %s şehrine kaçtı."
 
-#: server/unittools.c:1663
+#: server/unittools.c:1675
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr "Barbar lideri ele geçirildi, %d altın fidye alındı."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1681
+#: server/unittools.c:1693
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Saldıran %s biriminiz %s %s birimini yendi!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1690 server/unittools.c:1749
+#: server/unittools.c:1702 server/unittools.c:1761
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s, %s %s birimine yenildi."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1724
+#: server/unittools.c:1736
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -8043,7 +8044,7 @@ msgstr[0] "Saldıran %s biriminiz %s %s (ve %d diğer birimi) birimini yendi!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1759
+#: server/unittools.c:1771
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr ""
@@ -8051,7 +8052,7 @@ msgstr ""
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1775
+#: server/unittools.c:1787
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (ve %s), %s %s birimine yenildi."
@@ -8059,7 +8060,7 @@ msgstr "%s (ve %s), %s %s birimine yenildi."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1786
+#: server/unittools.c:1798
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -8068,7 +8069,7 @@ msgstr[0] "%s ve diğer %d birim, %s %s birimine yenildi."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1801
+#: server/unittools.c:1813
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
@@ -8076,143 +8077,143 @@ msgstr[0] ""
 "%2$s %3$s biriminin %4$s %5$s birimine saldırması sonucu %1$d birim "
 "kaybedildi."
 
-#: server/unittools.c:2071
+#: server/unittools.c:2083
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "%s biriminiz %s tarafından bombalandı."
 
-#: server/unittools.c:2074 server/unittools.c:2092
+#: server/unittools.c:2086 server/unittools.c:2104
 msgid "yourself"
 msgstr "kendiniz"
 
-#: server/unittools.c:2078
+#: server/unittools.c:2090
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "%s tarafındaki %s nükleer bomba ile vuruldu."
 
-#: server/unittools.c:2089
+#: server/unittools.c:2101
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s, %s tarafından bombalandı."
 
-#: server/unittools.c:2097
+#: server/unittools.c:2109
 #, c-format
 msgid "You nuked %s."
 msgstr "%s şehrini bombaladınız."
 
-#: server/unittools.c:2134
+#: server/unittools.c:2146
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s nükleer bomba patlattı!"
 
-#: server/unittools.c:2159
+#: server/unittools.c:2171
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s başarıyla taşındı."
 
-#: server/unittools.c:2218
+#: server/unittools.c:2230
 msgid "This unit type can not be paradropped."
 msgstr "Bu tür birimler paraşütle inemez."
 
-#: server/unittools.c:2228
+#: server/unittools.c:2240
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Diğer birimleri taşıyan bir birime paraşütle iniş yapılamaz."
 
-#: server/unittools.c:2234
+#: server/unittools.c:2246
 msgid "The destination location is not known."
 msgstr "Hedef bölge bilinmiyor."
 
-#: server/unittools.c:2244
+#: server/unittools.c:2256
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Bu birin %s içine atlayış yapamaz."
 
-#: server/unittools.c:2264
+#: server/unittools.c:2276
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "Hedefe olan mesafe (%i) birimin menzili (%i) dışında kalıyor."
 
-#: server/unittools.c:2275
+#: server/unittools.c:2287
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "%s biriminiz %s içine düştü ve kayboldu."
 
-#: server/unittools.c:2287
+#: server/unittools.c:2299
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "%s biriminiz paraşütle atlarken düşman tarafından vuruldu."
 
-#: server/unittools.c:2316
+#: server/unittools.c:2328
 #, c-format
 msgid "You found %d gold."
 msgstr "Hazine buldunuz (%d altın)."
 
-#: server/unittools.c:2322
+#: server/unittools.c:2334
 msgid "An abandoned village is here."
 msgstr "Terk edinmiş bir şehir buldunuz."
 
-#: server/unittools.c:2325
+#: server/unittools.c:2337
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s biriminiz barbarlar tarafından öldürüldü!"
 
-#: server/unittools.c:2353
+#: server/unittools.c:2365
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Uçaktan korkan kabile korku içinde saklanacak yer aradı."
 
-#: server/unittools.c:2604
+#: server/unittools.c:2616
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "%s biriminin emirleri, yakınlarında düşman hareketi gördüğü için iptal "
 "edildi."
 
-#: server/unittools.c:3128
+#: server/unittools.c:3140
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "%s biriminin emirleri yakınlarında birimler olduğu için iptal edildi."
 
-#: server/unittools.c:3179
+#: server/unittools.c:3191
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr "%s biriminin emirleri şehir yapımı başarısız olduğu için iptal edildi."
 
-#: server/unittools.c:3195
+#: server/unittools.c:3207
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "%s biriminin emirleri geçersiz olduğu için iptal edildi."
 
-#: server/unittools.c:3214
+#: server/unittools.c:3226
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "%s biriminin emirleri yer geçersiz olduğu için iptal edildi."
 
-#: server/unittools.c:3224
+#: server/unittools.c:3236
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "%s biriminin emirleri yolunda birimler olduğu için iptal edildi."
 
-#: server/unittools.c:3250
+#: server/unittools.c:3262
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "%s biriminin emirleri başarısız hareket nedeniyle iptal edildi."
 
-#: server/unittools.c:3290
+#: server/unittools.c:3302
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "%s biriminin memleketi değiştirilemedi."
 
-#: server/unittools.c:3301
+#: server/unittools.c:3313
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "%s şehriyle ticaret yolu yapılamadı."
 
-#: server/unittools.c:3313
+#: server/unittools.c:3325
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "%s şehrinde harika yapımı başarısız oldu."
 
-#: server/unittools.c:3322
+#: server/unittools.c:3334
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "%s biriminiz geçersiz emirler almış."
@@ -8366,7 +8367,7 @@ msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d sıra"
 
-#: client/citydlg_common.c:243 client/citydlg_common.c:380 client/text.c:690
+#: client/citydlg_common.c:243 client/citydlg_common.c:380 client/text.c:691
 #: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
 #: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
 #: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1393
@@ -8389,7 +8390,7 @@ msgstr "%3d/%3d %s"
 msgid "%d/turn"
 msgstr "%d/sıra"
 
-#: client/citydlg_common.c:292 client/text.c:688 client/agents/cma_fec.c:270
+#: client/citydlg_common.c:292 client/text.c:689 client/agents/cma_fec.c:270
 #: client/agents/cma_fec.c:308 client/gui-gtk-2.0/citydlg.c:1443
 #: client/gui-win32/citydlg.c:473
 #, c-format
@@ -8899,107 +8900,107 @@ msgstr "Oyun başladı."
 msgid "Changing production of every %s into %s."
 msgstr "Her %s üretimi %s olarak değiştirildi."
 
-#: client/climisc.c:205
+#: client/climisc.c:248
 msgid "?embassy:Both"
 msgstr "İkimizde de"
 
-#: client/climisc.c:207
+#: client/climisc.c:250
 msgid "?embassy:Yes"
 msgstr "Onlarda"
 
-#: client/climisc.c:210
+#: client/climisc.c:253
 msgid "?embassy:With Us"
 msgstr "Bizim tarafta"
 
-#: client/climisc.c:213
+#: client/climisc.c:256
 msgid "?embassy:Contact"
 msgstr "Karşılaştık"
 
-#: client/climisc.c:215
+#: client/climisc.c:258
 msgid "?embassy:No Contact"
 msgstr "?embassy:Karşılaşmadık"
 
-#: client/climisc.c:227
+#: client/climisc.c:270
 msgid "?vision:Both"
 msgstr "İkimizde de"
 
-#: client/climisc.c:229
+#: client/climisc.c:272
 msgid "?vision:To Them"
 msgstr "Onlara"
 
-#: client/climisc.c:232
+#: client/climisc.c:275
 msgid "?vision:To Us"
 msgstr "Bize"
 
-#: client/climisc.c:248 client/climisc.c:255
+#: client/climisc.c:291 client/climisc.c:298
 #, c-format
 msgid "The %s give %s"
 msgstr "%s %s veriyorlar"
 
-#: client/climisc.c:259
+#: client/climisc.c:302
 #, c-format
 msgid "The %s give unknown city."
 msgstr "%s bilinmeyen bir şehir verecek."
 
-#: client/climisc.c:264
+#: client/climisc.c:307
 #, c-format
 msgid "The %s give %d gold"
 msgstr "%s, %d altın verecek"
 
-#: client/climisc.c:269
+#: client/climisc.c:312
 #, c-format
 msgid "The %s give their worldmap"
 msgstr "%s dünya haritasını verecek"
 
-#: client/climisc.c:273
+#: client/climisc.c:316
 #, c-format
 msgid "The %s give their seamap"
 msgstr "%s deniz haritasını verecek"
 
-#: client/climisc.c:277
+#: client/climisc.c:320
 msgid "The parties agree on a cease-fire"
 msgstr "İki taraf da ateşkes yapacak"
 
-#: client/climisc.c:280
+#: client/climisc.c:323
 msgid "The parties agree on a peace"
 msgstr "İki taraf arasında barış olacak"
 
-#: client/climisc.c:283
+#: client/climisc.c:326
 msgid "The parties create an alliance"
 msgstr "İki taraf birbirinin müttefiki olacak"
 
-#: client/climisc.c:286
+#: client/climisc.c:329
 #, c-format
 msgid "The %s give shared vision"
 msgstr "%s görüş sahasını paylaşıyor"
 
-#: client/climisc.c:290
+#: client/climisc.c:333
 #, c-format
 msgid "The %s give an embassy"
 msgstr "%s büyükelçilik veriyorlar."
 
-#: client/climisc.c:946
+#: client/climisc.c:989
 msgid "Popup Request"
 msgstr "Açılır İstek"
 
-#: client/climisc.c:1013
+#: client/climisc.c:1056
 msgid "Exporting output window to civgame.log ..."
 msgstr "Çıktı penceresini civgame.log'a aktarıyor ..."
 
-#: client/climisc.c:1017
+#: client/climisc.c:1060
 msgid "Export complete."
 msgstr "Kaydı tamam."
 
-#: client/climisc.c:1020
+#: client/climisc.c:1063
 msgid "Export failed, couldn't write to file."
 msgstr "Kaydı olmadı: dosya yaratılamadı."
 
-#: client/climisc.c:1119
+#: client/climisc.c:1162
 #, c-format
 msgid "You don't buy %s in %s!"
 msgstr "%2$s şehrinde %1$s satın almadınız!"
 
-#: client/climisc.c:1130
+#: client/climisc.c:1173
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
 msgstr "%s size %d altına mal olacak ama sizin %d altınınız var."
@@ -9106,7 +9107,7 @@ msgstr "Allah Allah! Başkentin yokmuş!"
 #: client/editor.c:140 client/gui-gtk-2.0/editprop.c:3730
 #: client/gui-sdl/optiondlg.c:1670 client/gui-win32/menu.c:345
 #: client/gui-xaw/menu.c:153 client/gui-xaw/menu.c:257 manual/civmanual.c:213
-#: data/helpdata.txt:1312
+#: data/helpdata.txt:1302
 msgid "Terrain"
 msgstr "Arazi"
 
@@ -9491,7 +9492,7 @@ msgstr "* %s sağlar.\n"
 
 #: client/helpdata.c:1131
 #, fuzzy, c-format
-msgid "* Belongs to %s units class.\n"
+msgid "* Belongs to %s unit class.\n"
 msgstr "Sadece %s birimlerine etki eder.\n"
 
 #: client/helpdata.c:1135
@@ -9508,75 +9509,85 @@ msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr ""
 
 #: client/helpdata.c:1144
-msgid "  * Slowed down while damaged\n"
-msgstr ""
+#, fuzzy
+msgid "  * Not subject to zones of control.\n"
+msgstr "* Kontrol bölgeleri kuralına uymaz.\n"
 
 #: client/helpdata.c:1147
+msgid "  * Slowed down while damaged.\n"
+msgstr ""
+
+#: client/helpdata.c:1150
 #, fuzzy
 msgid "  * Gets used up in making an attack.\n"
 msgstr "* Füze birimi: saldırdıktan sonra kaybolur.\n"
 
-#: client/helpdata.c:1151
+#: client/helpdata.c:1156
+#, fuzzy, no-c-format
+msgid "  * May fortify, granting a 50% defensive bonus.\n"
+msgstr "* Kendini güçlendirip savunma puanını, %%50 arttırabilir.\n"
+
+#: client/helpdata.c:1160
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
 
-#: client/helpdata.c:1155
+#: client/helpdata.c:1164
 #, fuzzy
 msgid "  * Can pillage tile improvements.\n"
 msgstr "Mümkün Olan Yapılar"
 
-#: client/helpdata.c:1159
-msgid "  * Doesn't prevent enemy cities from using tile.\n"
+#: client/helpdata.c:1168
+msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
 msgstr ""
 
-#: client/helpdata.c:1164
+#: client/helpdata.c:1173
 #, c-format
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr "* Sadece %s olan şehirlerde yapılabilir.\n"
 
-#: client/helpdata.c:1170
+#: client/helpdata.c:1179
 #, c-format
 msgid "* Can only be built with %s as government.\n"
 msgstr "* Sadece yönetim biçimi %s iken yapılabilir.\n"
 
-#: client/helpdata.c:1175
+#: client/helpdata.c:1184
 msgid "* May not be built in cities.\n"
 msgstr "* Şehirlerde yapılamaz.\n"
 
-#: client/helpdata.c:1178
+#: client/helpdata.c:1187
 #, fuzzy
 msgid "* Only barbarians may build this.\n"
 msgstr "Sadece paraşütçü birimler bunu yapabilir."
 
-#: client/helpdata.c:1181
+#: client/helpdata.c:1190
 msgid "* Never has a home city.\n"
 msgstr "* Memleketi yoktur.\n"
 
-#: client/helpdata.c:1184
+#: client/helpdata.c:1193
 msgid "* Losing this unit will lose you the game!\n"
 msgstr "* Bunu kaybederseniz oyunu da kaybedersiniz!\n"
 
-#: client/helpdata.c:1188
+#: client/helpdata.c:1197
 msgid "* Each player may only have one of this type of unit.\n"
 msgstr "* Bütün oyuncularda bu birimden sadece bir tane olabilir.\n"
 
-#: client/helpdata.c:1192
+#: client/helpdata.c:1201
 #, c-format
 msgid "* Requires %d population to build.\n"
 msgstr "* Yapılması için %d nüfus gerekir.\n"
 
-#: client/helpdata.c:1197
+#: client/helpdata.c:1206
 #, fuzzy, c-format
 msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] "* %d hava birimini taşıyıp yakıt verebilir.\n"
 
-#: client/helpdata.c:1204
+#: client/helpdata.c:1213
 #, fuzzy, c-format
 msgid "  * %s units\n"
 msgstr "%s birim"
 
-#: client/helpdata.c:1213
+#: client/helpdata.c:1225
 #, fuzzy, c-format
 msgid ""
 "* Can establish trade routes (must travel to target city and must be at "
@@ -9585,107 +9596,103 @@ msgstr ""
 "* Ticaret yolları yapabilir (memleketinden asgari 9 kare [manhattan "
 "ölçeğiyle] uzaktaki bir şehre gitmelidir).\n"
 
-#: client/helpdata.c:1220
+#: client/helpdata.c:1232
 #, c-format
 msgid "* Can help build wonders (adds %d production).\n"
 msgstr "* Harika yapımına yardım edebilir (%d üretim ekler).\n"
 
-#: client/helpdata.c:1224
+#: client/helpdata.c:1236
 msgid "* May not be disbanded.\n"
 msgstr "* Terhis edilemez.\n"
 
-#: client/helpdata.c:1228
+#: client/helpdata.c:1240
 #, fuzzy, no-c-format
 msgid "* May be disbanded in a city to recover 50% of the production cost.\n"
 msgstr ""
 "* Bir şehirde terhis edilerek üretiminin %%50'sini geri kazandırabilir.\n"
 
-#: client/helpdata.c:1232
+#: client/helpdata.c:1244
 msgid "* Can build new cities.\n"
 msgstr "* Yeni şehir kurabilir.\n"
 
-#: client/helpdata.c:1236
+#: client/helpdata.c:1248
 #, c-format
 msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Şehre %d nüfus ekleyebilir (%d büyüklüğünden az yerlerde).\n"
 
-#: client/helpdata.c:1245
+#: client/helpdata.c:1257
 msgid "* Can build roads and railroads.\n"
 msgstr "* Yol ve ray yapabilir.\n"
 
-#: client/helpdata.c:1246
+#: client/helpdata.c:1258
 msgid "* Can build mines on tiles.\n"
 msgstr "* Maden yapabilir.\n"
 
-#: client/helpdata.c:1247
+#: client/helpdata.c:1259
 msgid "* Can build irrigation on tiles.\n"
 msgstr "* Sulama yapabilir.\n"
 
-#: client/helpdata.c:1252
+#: client/helpdata.c:1264
 msgid "* Can build farmland.\n"
 msgstr "* Tarla yapabilir.\n"
 
-#: client/helpdata.c:1256
+#: client/helpdata.c:1268
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
 msgstr "* Tarla yapabilir (%s biliniyorsa).\n"
 
-#: client/helpdata.c:1260
+#: client/helpdata.c:1272
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Tarla yapabilir (şunlardan biri biliniyorsa: %s).\n"
 
-#: client/helpdata.c:1266
+#: client/helpdata.c:1278
 msgid "* Can build fortresses.\n"
 msgstr "* Kale yapabilir.\n"
 
-#: client/helpdata.c:1269
+#: client/helpdata.c:1281
 msgid "* Can clean pollution from tiles.\n"
 msgstr "* Kirliliği temizleyebilir.\n"
 
-#: client/helpdata.c:1270
+#: client/helpdata.c:1282
 msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Nükleer serpintiyi temizleyebilir.\n"
 
-#: client/helpdata.c:1273
+#: client/helpdata.c:1285
 msgid "* Can transform tiles.\n"
 msgstr "* Araziyi dönüştürebilir.\n"
 
-#: client/helpdata.c:1278
-#, fuzzy, no-c-format
-msgid "* May fortify, granting a 50% defensive bonus.\n"
-msgstr "* Kendini güçlendirip savunma puanını, %%50 arttırabilir.\n"
-
-#: client/helpdata.c:1281
-msgid "* May pillage to destroy infrastructure from tiles.\n"
-msgstr "* Araziyi yağmalayıp geliştirmeleri yok edebilir.\n"
-
-#: client/helpdata.c:1285
+#: client/helpdata.c:1289
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* Diplomatik işleri ve casus işlerini yapabilir.\n"
 
-#: client/helpdata.c:1288
+#: client/helpdata.c:1292
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Diplomatik işler yapabilir.\n"
 
-#: client/helpdata.c:1292
+#: client/helpdata.c:1297
+#, fuzzy
+msgid "* Defends cities against diplomatic actions.\n"
+msgstr "* Diplomatik işler yapabilir.\n"
+
+#: client/helpdata.c:1300
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
 msgstr "* Diplomatla yapılan bir savaşı asla kaybetmez.\n"
 
-#: client/helpdata.c:1295
+#: client/helpdata.c:1303
 msgid "* May not be bribed.\n"
 msgstr "* Rüşvet kabul etmez.\n"
 
-#: client/helpdata.c:1299
+#: client/helpdata.c:1307
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* Düşman şehri veya birimi yanında olmadıkça görülemez.\n"
 
-#: client/helpdata.c:1303
+#: client/helpdata.c:1311
 #, fuzzy
 msgid "* Can only attack units on ocean tiles (no land attacks).\n"
 msgstr "* Sadece denizdeki birimlere saldırabilir (kara saldırısı yok).\n"
 
-#: client/helpdata.c:1307
+#: client/helpdata.c:1315
 #, fuzzy
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
@@ -9693,50 +9700,51 @@ msgid ""
 msgstr ""
 "* Denizdeki birimlerden düşman şehirlerine veya topraklarına saldırabilir.\n"
 
-#: client/helpdata.c:1312
-#, c-format
-msgid "* Can be paradropped from a friendly city (Range: %d).\n"
+#: client/helpdata.c:1320
+#, fuzzy, c-format
+msgid ""
+"* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
 msgstr "* Dost şehirlerden paraşütle atlatılabilir (Menzil: %d).\n"
 
-#: client/helpdata.c:1318
+#: client/helpdata.c:1326
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* 'atlı' sınıfındaki birimlere karşı savunmasını ikiye katlar.\n"
 
-#: client/helpdata.c:1322
+#: client/helpdata.c:1330
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Bazı savunuculara karşı 'atlı' olarak sayılır.\n"
 
-#: client/helpdata.c:1326
+#: client/helpdata.c:1334
 #, fuzzy
 msgid "* Counts as 'helicopter' against certain attackers.\n"
 msgstr "* Bazı savunuculara karşı 'atlı' olarak sayılır.\n"
 
-#: client/helpdata.c:1330
+#: client/helpdata.c:1338
 msgid "* Very good at attacking 'helicopter' units.\n"
 msgstr ""
 
-#: client/helpdata.c:1334
+#: client/helpdata.c:1342
 #, fuzzy
 msgid "* Very bad at attacking AEGIS units.\n"
 msgstr "En İyi Saldırabilen Birimler"
 
-#: client/helpdata.c:1339
+#: client/helpdata.c:1347
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Saldırı yapınca sırası geçer.\n"
 
-#: client/helpdata.c:1343
+#: client/helpdata.c:1351
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Bu birimin saldırısı nükleer patlamaya yol açar!\n"
 
-#: client/helpdata.c:1347
+#: client/helpdata.c:1355
 msgid "* Gets double firepower when attacking cities.\n"
 msgstr "* Şehirlere saldırırken gücü ikiye katlanır.\n"
 
-#: client/helpdata.c:1350
+#: client/helpdata.c:1358
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Surlardan etkilenmez.\n"
 
-#: client/helpdata.c:1354
+#: client/helpdata.c:1362
 #, c-format
 msgid ""
 "* Does bombard attacks (%d per turn).  These attacks will only damage (never "
@@ -9745,67 +9753,72 @@ msgstr ""
 "* Bombalama saldırısı yapar (her sıra %d tane).  Bu saldırılar sadece "
 "savunan tarafı etkiler ve asla öldürmez.\n"
 
-#: client/helpdata.c:1361
+#: client/helpdata.c:1369
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Füze ve uçaklara karşı savunmayı beş kat arttırır.\n"
 
-#: client/helpdata.c:1365
+#: client/helpdata.c:1373
 #, fuzzy
 msgid "* Ignores terrain effects (treats all tiles as roads).\n"
 msgstr "* Arazi etkilerinden muaftır (bütün karelere yol gibi davranır).\n"
 
-#: client/helpdata.c:1368
+#: client/helpdata.c:1376
 msgid "* Ignores zones of control.\n"
 msgstr "* Kontrol bölgeleri kuralına uymaz.\n"
 
-#: client/helpdata.c:1372
+#: client/helpdata.c:1380
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Sivil bir birimdir (saldırı yapamaz; sıkıyönetimi etkilemez).\n"
 
-#: client/helpdata.c:1376
+#: client/helpdata.c:1384
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* Alan birimi: saldırgan değilken bile bir mutsuzluk oluşturur.\n"
 
-#: client/helpdata.c:1379
+#: client/helpdata.c:1387
 msgid "* Will never achieve veteran status.\n"
 msgstr "* Kıdemli olamaz.\n"
 
-#: client/helpdata.c:1384
+#: client/helpdata.c:1398
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Airport).\n"
 msgstr ""
 
-#: client/helpdata.c:1387 client/helpdata.c:1400 client/helpdata.c:1408
+#: client/helpdata.c:1402 client/helpdata.c:1418 client/helpdata.c:1428
 msgid "* May be promoted after defeating an enemy unit.\n"
 msgstr ""
 
-#: client/helpdata.c:1392
+#: client/helpdata.c:1407
 msgid "* Will be built as a veteran under communist governments.\n"
 msgstr ""
 
-#: client/helpdata.c:1394
+#: client/helpdata.c:1410
 msgid "* May be promoted after a successful mission.\n"
 msgstr ""
 
-#: client/helpdata.c:1397
+#: client/helpdata.c:1414
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
 
-#: client/helpdata.c:1405
+#: client/helpdata.c:1424
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
 
-#: client/helpdata.c:1412
+#: client/helpdata.c:1433
 #, fuzzy
-msgid "* May be promoted through combat or training\n"
+msgid "* May be promoted through combat or training.\n"
 msgstr "* Eğitimle veya savaşla kıdemli olabilir.\n"
 
-#: client/helpdata.c:1421
+#: client/helpdata.c:1436
+#, fuzzy
+msgid "* May be built as a veteran through training.\n"
+msgstr "* Eğitimle veya savaşla kıdemli olabilir.\n"
+
+#: client/helpdata.c:1445
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can  be converted "
 "to gold upkeep.\n"
@@ -9815,34 +9828,34 @@ msgstr ""
 #. *        last two elements
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: client/helpdata.c:1461 client/helpdata.c:1785
+#: client/helpdata.c:1485 client/helpdata.c:1809
 msgid " or "
 msgstr " veya "
 
-#: client/helpdata.c:1463 client/helpdata.c:1773
+#: client/helpdata.c:1487 client/helpdata.c:1797
 msgid "?or:, "
 msgstr ", "
 
-#: client/helpdata.c:1474
+#: client/helpdata.c:1498
 #, fuzzy, c-format
 msgid "* Unit has to be in a city, or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or a base after %d turns.\n"
 msgstr[0] ""
 "* Birim %2$d sıra sonunda bir şehir veya %1$s karesinde olmalıdır.\n"
 
-#: client/helpdata.c:1482
+#: client/helpdata.c:1506
 #, fuzzy, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
 msgstr[0] ""
 "* Birim %2$d sıra sonunda bir şehir veya %1$s karesinde olmalıdır.\n"
 
-#: client/helpdata.c:1527
+#: client/helpdata.c:1551
 #, c-format
 msgid "If we would now start with %s we would need %d bulbs."
 msgstr "Şimdi %s ile başlarsak %d ampül gerekecek."
 
-#: client/helpdata.c:1532
+#: client/helpdata.c:1556
 #, c-format
 msgid ""
 "To reach %s we need to obtain %d other technologies first. The whole project "
@@ -9851,71 +9864,71 @@ msgstr ""
 "%s teknolojisine ulaşmak için önce %d tane teknoloji öğrenmeliyiz. Tüm "
 "projenin bitmesi için %d ampül gerekecek."
 
-#: client/helpdata.c:1540
+#: client/helpdata.c:1564
 msgid "You cannot research this technology."
 msgstr "Bu teknolojiyi araştıramazsınız."
 
-#: client/helpdata.c:1545
+#: client/helpdata.c:1569
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 " Bu sayı, diğer oyuncuların neyi araştıracağına bağlı olarak değişebilir.\n"
 
-#: client/helpdata.c:1557
+#: client/helpdata.c:1581
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
 msgstr ""
 "* %s teknolojisini bulan ilk oyuncu başka bir teknolojiyi hemen öğrenir.\n"
 
-#: client/helpdata.c:1563
+#: client/helpdata.c:1587
 msgid "* Increases the pollution generated by the population.\n"
 msgstr "* Nüfustan doğan kirliliği arttırır.\n"
 
-#: client/helpdata.c:1568
+#: client/helpdata.c:1592
 #, fuzzy, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
 msgstr "* %s biriminin ırmak üzerinde yol yapabilmesine imkân sağlar.\n"
 
-#: client/helpdata.c:1576
+#: client/helpdata.c:1600
 #, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
 msgstr "* %s biriminin yolları raya çevirmesine izin verir.\n"
 
-#: client/helpdata.c:1584
+#: client/helpdata.c:1608
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
 msgstr "* %s biriminin sulamayı tarla olarak değiştirmesine izin verir.\n"
 
-#: client/helpdata.c:1618
+#: client/helpdata.c:1642
 msgid "* Pollution cannot be generated on this terrain."
 msgstr "* Bu arazide kirlilik oluşturulamaz."
 
-#: client/helpdata.c:1623
+#: client/helpdata.c:1647
 #, fuzzy
 msgid "* Fallout cannot be generated on this terrain."
 msgstr "* Bu arazide kirlilik oluşturulamaz."
 
-#: client/helpdata.c:1628
+#: client/helpdata.c:1652
 msgid "* You cannot build cities on this terrain."
 msgstr "* Bu arazide şehir yapılamaz."
 
-#: client/helpdata.c:1634
+#: client/helpdata.c:1658
 msgid "* The coastline of this terrain is unsafe."
 msgstr "* Bu arazinin sahili güvenli değildir."
 
-#: client/helpdata.c:1639
+#: client/helpdata.c:1663
 msgid "* Land units cannot travel on oceanic terrains."
 msgstr "* Kara birimleri denizde gidemezler."
 
-#: client/helpdata.c:1690
+#: client/helpdata.c:1714
 msgid "Features:\n"
 msgstr "Özellik:\n"
 
 #. TRANS: Empty output type list, should never happen.
-#: client/helpdata.c:1796 client/helpdata.c:1797
+#: client/helpdata.c:1820 client/helpdata.c:1821
 msgid "?outputlist: Nothing "
 msgstr " Hiç "
 
-#: client/helpdata.c:1804
+#: client/helpdata.c:1828
 #, c-format
 msgid ""
 "* Military units away from home and field units will cause %d citizen to "
@@ -9926,7 +9939,7 @@ msgid_plural ""
 msgstr[0] ""
 "* Sınır dışında bulunan veya savaşan her birim %d vatandaşı mutsuz eder.\n"
 
-#: client/helpdata.c:1814
+#: client/helpdata.c:1838
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness that would otherwise be "
@@ -9935,48 +9948,48 @@ msgstr ""
 "* Bütün şehirleriniz birimlerin yol açtığı %d mutsuzluktan etkilenmezler.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1822
+#: client/helpdata.c:1846
 #, c-format
 msgid "* You pay %d times normal %s upkeep for your units.\n"
 msgstr "* %d kat daha fazla %s bakımı ödersiniz.\n"
 
-#: client/helpdata.c:1827
+#: client/helpdata.c:1851
 #, c-format
 msgid "* You pay %d times normal upkeep for your units.\n"
 msgstr "%d kat daha fazla birim bakımı ücreti ödersiniz.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
-#: client/helpdata.c:1832
+#: client/helpdata.c:1856
 #, c-format
 msgid "* You pay no %s upkeep for your units.\n"
 msgstr "* Birimleriniz için hiç %s bakımı ödemezsiniz.\n"
 
-#: client/helpdata.c:1836
+#: client/helpdata.c:1860
 msgid "* You pay no upkeep for your units.\n"
 msgstr "* Birimleriniz için hiç bakım ücreti ödemezsiniz.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #. * There is currently no way to control the
 #. * singular/plural version of these.
-#: client/helpdata.c:1845
+#: client/helpdata.c:1869
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d %s upkeep for your units.\n"
 msgstr "* Bütün şehirleriniz birim bakımları için %d %s harcamazlar.\n"
 
 #. TRANS: Amount is subtracted from upkeep cost
 #. * for each upkeep type.
-#: client/helpdata.c:1853
+#: client/helpdata.c:1877
 #, fuzzy, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
 msgstr "* Bütün şehirlerinizin birim bakımı harcamaları %d azalır.\n"
 
-#: client/helpdata.c:1860
+#: client/helpdata.c:1884
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1867
+#: client/helpdata.c:1891
 #, fuzzy, c-format
 msgid ""
 "* When you have %d cities, the first unhappy citizen will appear in each "
@@ -9986,7 +9999,7 @@ msgstr ""
 "çıkmaya başlayacaktır.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1874
+#: client/helpdata.c:1898
 #, fuzzy, c-format
 msgid ""
 "* After the first unhappy citizen due to civilization size, for each %d "
@@ -9995,19 +10008,19 @@ msgstr ""
 "* Şehir boyutundan kaynaklanan ilk mutsuz vatandaştan sonra, her %d fazladan "
 "şehir için bir tane daha mutsuz vatandaş ortaya çıkar.\n"
 
-#: client/helpdata.c:1882
+#: client/helpdata.c:1906
 #, fuzzy, c-format
 msgid ""
 "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 "Bilim, altın ve lüks için ayarlayabileceğiniz en fazla oran %%%d olur.\n"
 
-#: client/helpdata.c:1887
+#: client/helpdata.c:1911
 #, fuzzy
 msgid "* Has unlimited science/gold/luxuries rates.\n"
 msgstr "bilim/vergi/lüks oranlarında sınır yoktur.\n"
 
-#: client/helpdata.c:1892
+#: client/helpdata.c:1916
 #, c-format
 msgid ""
 "* Your units may impose martial law. Each military unit inside a city will "
@@ -10019,14 +10032,14 @@ msgstr[0] ""
 "* Birimleriniz sıkıyönetim yapabilir. Bir şehirdeki her askeri birim %d "
 "mutsuz vatandaşı memnun edecektir.\n"
 
-#: client/helpdata.c:1904
+#: client/helpdata.c:1928
 #, c-format
 msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] "* Bir şehirde en fazla %d birim sıkıyönetim yapabilir.\n"
 
 #. TRANS: %d should always be greater than 2.
-#: client/helpdata.c:1915
+#: client/helpdata.c:1939
 #, fuzzy, c-format
 msgid ""
 "* You may grow your cities by means of celebrations. Your cities must be at "
@@ -10035,15 +10048,15 @@ msgstr ""
 "* Şehirlerinizi kutlamalarla büyütebilirsiniz.  Şehriniz bu şekilde "
 "büyüyebilmek için en az %d boyutunda olmalıdır.\n"
 
-#: client/helpdata.c:1920
+#: client/helpdata.c:1944
 msgid "* Your units cannot be bribed.\n"
 msgstr "* Birimleriniz rüşvet kabul etmezler.\n"
 
-#: client/helpdata.c:1923
+#: client/helpdata.c:1947
 msgid "* Your cities cannot be incited.\n"
 msgstr "* Şehirlerinizde ayaklanma çıkartılamaz.\n"
 
-#: client/helpdata.c:1927
+#: client/helpdata.c:1951
 #, fuzzy
 msgid ""
 "* If any city is in disorder for more than two turns in a row, government "
@@ -10052,39 +10065,39 @@ msgstr ""
 "* İki sıra üst üste herhangi bir şehrinizde ayaklanma olursa hükümet çöker "
 "ve anarşi yönetimine geçilir.\n"
 
-#: client/helpdata.c:1932
+#: client/helpdata.c:1956
 msgid "* Has a senate that may prevent declaration of war.\n"
 msgstr "* Senato, savaş kararını veto edebilir.\n"
 
-#: client/helpdata.c:1936
+#: client/helpdata.c:1960
 msgid "* Allows partisans when cities are taken by the enemy.\n"
 msgstr "* Şehri düşmanlar alınca partizan oluşturur.\n"
 
-#: client/helpdata.c:1940
+#: client/helpdata.c:1964
 msgid ""
 "* Buildings that normally confer bonuses against unhappiness will instead "
 "give gold.\n"
 msgstr "* Mutsuzluğu engelleyen binalar altın verir.\n"
 
-#: client/helpdata.c:1944
+#: client/helpdata.c:1968
 msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Müfritler için bakım ücreti ödenmez.\n"
 
-#: client/helpdata.c:1947
+#: client/helpdata.c:1971
 msgid "* Has no unhappy citizens.\n"
 msgstr "* Hiç mutsuz vatandaşı yok.\n"
 
-#: client/helpdata.c:1957 client/helpdata.c:1961 client/helpdata.c:1965
+#: client/helpdata.c:1981 client/helpdata.c:1985 client/helpdata.c:1989
 #, c-format
 msgid "* Veteran %s units.\n"
 msgstr "* Kıdemli %s birimleri.\n"
 
-#: client/helpdata.c:1968
+#: client/helpdata.c:1992
 msgid "* Veteran units.\n"
 msgstr "* Kıdemli birimler.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1974
+#: client/helpdata.c:1998
 #, fuzzy, c-format
 msgid ""
 "* Each worked tile that gives more than %d %s will suffer a -1 penalty "
@@ -10094,7 +10107,7 @@ msgstr ""
 "her arazinin geliri 1 azalır.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1982
+#: client/helpdata.c:2006
 #, fuzzy, c-format
 msgid ""
 "* Each worked tile with at least 1 %s will yield %d more of it while "
@@ -10104,7 +10117,7 @@ msgstr ""
 "yapıldığı zaman  %d daha fazla gelir sağlar.\n"
 
 #. TRANS: %s is list of output types, with 'or'
-#: client/helpdata.c:1990
+#: client/helpdata.c:2014
 #, c-format
 msgid "* Each worked tile with at least 1 %s will yield %d more of it.\n"
 msgstr ""
@@ -10112,85 +10125,85 @@ msgstr ""
 "gelir sağlar.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:1999
+#: client/helpdata.c:2023
 #, c-format
 msgid "* %s production is increased %d%%.\n"
 msgstr "* %s üretimi %%%d oranında artar.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2007
+#: client/helpdata.c:2031
 #, c-format
 msgid "* %s production will suffer massive waste.\n"
 msgstr "* %s üretiminin büyük bir kısmı yolsuzluğa gider.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2012
+#: client/helpdata.c:2036
 #, c-format
 msgid "* %s production will suffer some waste.\n"
 msgstr "* %s üretiminin bir kısmı yolsuzluğa gider.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2017
+#: client/helpdata.c:2041
 #, c-format
 msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* %s üretiminin küçük bir kısmı yolsuzluğa gider.\n"
 
-#: client/helpdata.c:2023
+#: client/helpdata.c:2047
 #, fuzzy
 msgid "* Increases the possibility of plague within your cities.\n"
 msgstr "* Nüfustan doğan kirliliği arttırır.\n"
 
-#: client/helpdata.c:2026
+#: client/helpdata.c:2050
 msgid "* Decreases the possibility of plague within your cities.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2034
+#: client/helpdata.c:2058
 #, c-format
 msgid "* %s waste will increase quickly with distance from capital.\n"
 msgstr "* %s yolsuzluğu başkentten uzaklaştıkça hızlanarak artar.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2040
+#: client/helpdata.c:2064
 #, c-format
 msgid "* %s waste will increase with distance from capital.\n"
 msgstr "* %s yolsuzluğu başkentten uzaklaştıkça artar.\n"
 
 #. TRANS: %s is list of output types, with 'and'
-#: client/helpdata.c:2046
+#: client/helpdata.c:2070
 #, c-format
 msgid "* %s waste will increase slowly with distance from capital.\n"
 msgstr "* %s yolsuzluğu başkentten uzaklaştıkça yavaşlayarak artar.\n"
 
-#: client/helpdata.c:2052
+#: client/helpdata.c:2076
 #, fuzzy
 msgid "* Increases the possibility of migration into Your cities.\n"
 msgstr "* Nüfustan doğan kirliliği arttırır.\n"
 
-#: client/helpdata.c:2055
+#: client/helpdata.c:2079
 msgid "* Decreases the possibility of migration into Your cities.\n"
 msgstr ""
 
-#: client/helpdata.c:2072
+#: client/helpdata.c:2096
 #, c-format
 msgid "* Allows you to build %s.\n"
 msgstr "* %s inşa etmeye imkan sağlar.\n"
 
-#. TRANS: "2 Food" or ", 1 shield"
-#: client/helpdata.c:2098
+#. TRANS: "2 Food" or ", 1 Shield"
+#: client/helpdata.c:2122
 #, c-format
 msgid "%s%d %s"
 msgstr "%s%d %s"
 
-#: client/helpdata.c:2099 client/helpdata.c:2107 client/gui-sdl/mapview.c:621
+#: client/helpdata.c:2123 client/helpdata.c:2131 client/gui-sdl/mapview.c:621
 #: client/gui-sdl/mapview.c:627 client/gui-sdl/mapview.c:633
 msgid "?blistmore:, "
 msgstr ", "
 
-#. TRANS: "2 unhappy" or ", 1 unhappy"
-#: client/helpdata.c:2106
-#, c-format
-msgid "%s%d unhappy"
+#. TRANS: "2 Unhappy" or ", 1 Unhappy"
+#: client/helpdata.c:2130
+#, fuzzy, c-format
+msgid "%s%d Unhappy"
 msgstr "%s%d mutsuz"
 
 #: client/mapctrl_common.c:397
@@ -11545,7 +11558,7 @@ msgstr ", %s"
 msgid "?clistlast: and %s"
 msgstr ", %s"
 
-#: client/text.c:267 client/text.c:1323 client/text.c:1361
+#: client/text.c:267 client/text.c:1324 client/text.c:1362
 msgid "?clistend:."
 msgstr "."
 
@@ -11608,220 +11621,220 @@ msgid "  (%d more)"
 msgstr "  (%d fazla)"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:475
+#: client/text.c:476
 #, c-format
 msgid "far from %s"
 msgstr "%s şehri açıklarında"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:478
+#: client/text.c:479
 #, c-format
 msgid "near %s"
 msgstr "%s yakınlarında"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:481
+#: client/text.c:482
 #, c-format
 msgid "in %s"
 msgstr "%s şehrinde"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:522
+#: client/text.c:523
 #, c-format
 msgid "from %s"
 msgstr "memleket %s"
 
-#: client/text.c:583
+#: client/text.c:584
 msgid "Progress: no research"
 msgstr "İlerleme: araştırma yok"
 
-#: client/text.c:588
+#: client/text.c:589
 msgid "Progress: no research target"
 msgstr "İlerleme: hedeflenmiş bir teknoloji yok"
 
-#: client/text.c:593
+#: client/text.c:594
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "İlerleme: %d sıra/gelişim"
 
-#: client/text.c:598
+#: client/text.c:599
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] "%d ampül/sıra"
 
-#: client/text.c:603
+#: client/text.c:604
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", takımdan %d ampül/sıra"
 
-#: client/text.c:630
+#: client/text.c:631
 #, c-format
 msgid "%d/- (never)"
 msgstr "%d/- (asla)"
 
-#: client/text.c:642
+#: client/text.c:643
 #, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d sıra)"
 
-#: client/text.c:645
+#: client/text.c:646
 #, c-format
 msgid "%d/%d (never)"
 msgstr "%d/%d (asla)"
 
-#: client/text.c:682
+#: client/text.c:683
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d adım"
 
-#: client/text.c:684
+#: client/text.c:685
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d ampül"
 
-#: client/text.c:710
+#: client/text.c:711
 #, c-format
 msgid "Population: %s"
 msgstr "Nüfus: %s"
 
-#: client/text.c:713
+#: client/text.c:714
 #, c-format
 msgid "Year: %s (T%d)"
 msgstr "Yıl: %s (%d. S)"
 
-#: client/text.c:717
+#: client/text.c:718
 #, c-format
 msgid "Gold: %d (%+d)"
 msgstr "Altın: %d (%+d)"
 
-#: client/text.c:720
+#: client/text.c:721
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Vergi: %d Lüks: %d Bilim: %d"
 
-#: client/text.c:727 client/text.c:734
+#: client/text.c:728 client/text.c:735
 #, fuzzy
 msgid "Moving: Nobody"
 msgstr "Hareket ediyor: %s"
 
-#: client/text.c:729 client/text.c:736
+#: client/text.c:730 client/text.c:737
 #, c-format
 msgid "Moving: %s"
 msgstr "Hareket ediyor: %s"
 
-#: client/text.c:740
+#: client/text.c:741
 msgid "(Click for more info)"
 msgstr "(Ayrıntılı bilgi için tıklayın)"
 
-#: client/text.c:756
+#: client/text.c:757
 #, c-format
 msgid "%s People"
 msgstr "%s İnsan"
 
-#: client/text.c:760
+#: client/text.c:761
 #, c-format
 msgid "Turn: %d"
 msgstr "Sıra: %d"
 
-#: client/text.c:763 client/gui-win32/inteldlg.c:112
+#: client/text.c:764 client/gui-win32/inteldlg.c:112
 #: client/gui-xaw/inteldlg.c:214
 #, c-format
 msgid "Gold: %d"
 msgstr "Altın: %d"
 
-#: client/text.c:765
+#: client/text.c:766
 #, c-format
 msgid "Net Income: %d"
 msgstr "Net Gelir: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:768
+#: client/text.c:769
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "Vergi oranları: Altın:%%%d Lüks:%%%d Bilim:%%%d"
 
-#: client/text.c:772
+#: client/text.c:773
 #, c-format
 msgid "Researching %s: %s"
 msgstr "%s araştırılıyor: %s"
 
-#: client/text.c:779
+#: client/text.c:780
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Küresel ısınma olasılığı: %%%d (%%%+d/sıra)"
 
-#: client/text.c:782
+#: client/text.c:783
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "Nükleer kış olasılığı: %%%d (%%%+d/sıra)"
 
-#: client/text.c:787 client/gui-win32/inteldlg.c:105
+#: client/text.c:788 client/gui-win32/inteldlg.c:105
 #: client/gui-xaw/inteldlg.c:206
 #, c-format
 msgid "Government: %s"
 msgstr "Yönetim biçimi: %s"
 
-#: client/text.c:811
+#: client/text.c:812
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] "%d birim"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:847
+#: client/text.c:848
 msgid "?goto:Unreachable"
 msgstr "Gidilemez"
 
-#: client/text.c:849
+#: client/text.c:850
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Hedefe %d sıra kaldı"
 
-#: client/text.c:851
+#: client/text.c:852
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Hedefe %d - %d sıra kaldı"
 
-#: client/text.c:857
+#: client/text.c:858
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d birim seçildi"
 
-#: client/text.c:862
+#: client/text.c:863
 msgid "No units selected."
 msgstr "Seçilmiş birim yok."
 
-#: client/text.c:944
+#: client/text.c:945
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Diğer: %d sivil; %d askeri"
 
-#: client/text.c:946
+#: client/text.c:947
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Diğer: %d sivil"
 
-#: client/text.c:948
+#: client/text.c:949
 #, c-format
 msgid "Others: %d military"
 msgstr "Diğer: %d askeri"
 
-#: client/text.c:979
+#: client/text.c:980
 msgid "No units to upgrade!"
 msgstr "Yükseltilecek birim yok!"
 
-#: client/text.c:1004
+#: client/text.c:1005
 msgid "None of these units may be upgraded."
 msgstr "Bu birimlerin hiçbiri yükseltilemez."
 
-#: client/text.c:1010
+#: client/text.c:1011
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -11833,203 +11846,203 @@ msgstr[0] ""
 "%d birim, %d altın karşılığında yükseltilsin mi?\n"
 "Hazinede %d altın var."
 
-#: client/text.c:1031
+#: client/text.c:1032
 msgid "Shows your progress in researching the current technology."
 msgstr "Sıradaki teknolojinin araştırma durumunu gösterir."
 
-#: client/text.c:1038
+#: client/text.c:1039
 msgid "no research target."
 msgstr "teknoloji hedefi yok."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:1041
+#: client/text.c:1042
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:1061
+#: client/text.c:1062
 msgid "Shows the progress of global warming:"
 msgstr "Küresel ısınmanın durumunu gösterir:"
 
-#: client/text.c:1062
+#: client/text.c:1063
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Kirlilik oranı: %%%d"
 
-#: client/text.c:1064
+#: client/text.c:1065
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Her tur için küresel ısınma olasılığı: %%%d"
 
-#: client/text.c:1080
+#: client/text.c:1081
 msgid "Shows the progress of nuclear winter:"
 msgstr "Nükleer kışın durumunu gösterir:"
 
-#: client/text.c:1081
+#: client/text.c:1082
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Serpinti oranı: %%%d"
 
-#: client/text.c:1083
+#: client/text.c:1084
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Her tur için nükleer kış olasılığı: %%%d"
 
-#: client/text.c:1098
+#: client/text.c:1099
 msgid "Shows your current government:"
 msgstr "Şu anki yönetim biçiminizi gösterir:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1124
+#: client/text.c:1125
 #, c-format
 msgid "Population:      %5d"
 msgstr "Nüfüs:           %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1127
+#: client/text.c:1128
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Destek:         %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1131
+#: client/text.c:1132
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Enerji:          %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1135
+#: client/text.c:1136
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] "Yük:             %5d ton"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1141
+#: client/text.c:1142
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Seyahat süresi:    %5.1f yıl"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1145
+#: client/text.c:1146
 msgid "Travel time:        N/A     "
 msgstr "Seyahat süresi:     YOK     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1149
+#: client/text.c:1150
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Başarı olasılığı: %% %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1153
+#: client/text.c:1154
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Varış yılı:      %8s"
 
-#: client/text.c:1173
+#: client/text.c:1174
 msgid "?timeout:off"
 msgstr "sınırsız süre"
 
-#: client/text.c:1197
+#: client/text.c:1198
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02ds"
 
-#: client/text.c:1199
+#: client/text.c:1200
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02dd %02ds"
 
-#: client/text.c:1201
+#: client/text.c:1202
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02ds %02dd"
 
-#: client/text.c:1203
+#: client/text.c:1204
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "%02dg %02ds"
 
-#: client/text.c:1206
+#: client/text.c:1207
 msgid "?duration:overflow"
 msgstr "zaman aşımı"
 
-#: client/text.c:1229
+#: client/text.c:1230
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1277
+#: client/text.c:1278
 #, fuzzy, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "Yönetim biçimi: %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1287
+#: client/text.c:1288
 #, c-format
 msgid "Observer: %s"
 msgstr "Seyirci: %s"
 
-#: client/text.c:1305
+#: client/text.c:1306
 msgid "Buildings: "
 msgstr "Yapılar: "
 
-#: client/text.c:1321 client/text.c:1359
+#: client/text.c:1322 client/text.c:1360
 msgid "None. "
 msgstr "Hiç. "
 
-#: client/text.c:1341
+#: client/text.c:1342
 msgid "Wonders: "
 msgstr "Harikalar: "
 
-#: client/text.c:1394
+#: client/text.c:1395
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "Şehir sayısı: toplam %d, eşiği geçen: %d, eşik: %d şehir."
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1398
+#: client/text.c:1399
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] "cezaya %d memnun vatandaş kaldı."
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1404
+#: client/text.c:1405
 #, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d fazladan mutsuz vatandaş."
 
-#: client/text.c:1425
+#: client/text.c:1426
 #, fuzzy
 msgid "Unlimited martial law in effect."
 msgstr "Sıkıyönetim var ("
 
-#: client/text.c:1427
+#: client/text.c:1428
 #, fuzzy, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] "* Sivil bir birimdir (saldırı yapamaz; sıkıyönetimi etkilemez).\n"
 
-#: client/text.c:1431
+#: client/text.c:1432
 #, fuzzy, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] "Şehirdeki vatandaşları eğlendirir. 3 mutsuz vatandaş memnun olur."
 
-#: client/text.c:1438
+#: client/text.c:1439
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Arazideki askeri birimler mutsuzluğa neden olabilir. "
 
-#: client/text.c:1441
+#: client/text.c:1442
 msgid "Military units have no happiness effect. "
 msgstr "Askeri birimlerin mutsuzluğa etkisi yok. "
 
-#: client/text.c:1456
+#: client/text.c:1457
 #, c-format
 msgid "Luxury: %d total."
 msgstr "Lüks: toplam %d."
@@ -13758,7 +13771,7 @@ msgstr "Ctrl+W"
 #: client/gui-gtk-2.0/happiness.c:118 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3718 client/gui-win32/citydlg.c:747
 #: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:261
-#: data/helpdata.txt:1578
+#: data/helpdata.txt:1573
 msgid "Happiness"
 msgstr "Mutluluk"
 
@@ -17954,7 +17967,7 @@ msgstr "Sohbet Satırı"
 msgid "Playing"
 msgstr "Oynanış"
 
-#: client/gui-xaw/menu.c:254 data/helpdata.txt:1075
+#: client/gui-xaw/menu.c:254 data/helpdata.txt:1053
 msgid "Combat"
 msgstr "Savaş"
 
@@ -17966,15 +17979,15 @@ msgstr "KOB"
 msgid "Technology"
 msgstr "Teknoloji"
 
-#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1463
+#: client/gui-xaw/menu.c:259 data/Freeciv.in:2027 data/helpdata.txt:1458
 msgid "Government"
 msgstr "Hükümet"
 
-#: client/gui-xaw/menu.c:260 data/Freeciv.in:215 data/helpdata.txt:1534
+#: client/gui-xaw/menu.c:260 data/Freeciv.in:215 data/helpdata.txt:1529
 msgid "Diplomacy"
 msgstr "Diplomasi"
 
-#: client/gui-xaw/menu.c:262 data/helpdata.txt:1651
+#: client/gui-xaw/menu.c:262 data/helpdata.txt:1647
 msgid "Space Race"
 msgstr "Uzay Yarışı"
 
@@ -19072,7 +19085,7 @@ msgid ""
 "brackets, like '[link target=\"unit\" id=109 /]' (note the slash at the "
 "end).\n"
 "Examples: '[l tgt=\"unit\" id=235]unit[/l]' will make the word 'unit' "
-"clickable and pointing to the city id 235.\n"
+"clickable and pointing to the unit id 235.\n"
 "'[l tgt=\"unit\" id=235 name=\"Warrior\" /]' will display the name of the "
 "unit id 235 if known, else, the word 'Warrior'."
 msgstr ""
@@ -19657,123 +19670,67 @@ msgstr ""
 
 #: data/helpdata.txt:999
 msgid ""
-"Units can be used for three purposes: attack, defense, and reconnaissance.  "
-"How useful a particular unit is for each of these roles depends on the "
-"unit's strength in attack and defense, and its ability to move."
+"Units both offer mobility to your civilization and supply the violence with "
+"which it will survive and expand. The available units may be classified as "
+"military units, whose talents are those of defense and aggression, and a few "
+"noncombatants which support expansion, diplomacy, and trade."
 msgstr ""
-"Birimler üç amaç için kullanılabilirler: saldırı, savunma ve keşif.  Bir "
-"birimin bu amaçlardan hangisine uygun olduğu; birimin saldırı ve savunma "
-"gücüne, hareket puanına göre değişir."
 
-#: data/helpdata.txt:1004
+#: data/helpdata.txt:1005
 msgid ""
-"There are four general types of unit: Land, Sea, Air, and Helicopter.  "
-"(Helicopters are sufficiently different from other air units that it is "
-"easiest to think of them as a separate unit type.)"
+"Units are usually built in cities using production points. Once built, the "
+"support of your units will be one of your major expenses. Most units require "
+"upkeep such as production points from their home city every turn, although "
+"some autocratic styles of government can force cities to support several "
+"units for free."
 msgstr ""
-"Birimler dört türe ayrılırlar: Kara, Deniz, Hava ve Helikopter.  "
-"(Helikopterler diğer hava birimlerinden o kadar değişiktir ki başka "
-"gruptaymış gibi düşünmek daha iyidir.)"
 
-#: data/helpdata.txt:1009
-#, fuzzy, no-c-format
+#: data/helpdata.txt:1011
 msgid ""
-"Land units move on land, and suffer the movement effects of terrain, but "
-"benefit from roads and railroads.  They cannot move on ocean tiles except "
-"when carried by an appropriate sea unit.  When at sea, they cannot attack or "
-"defend for themselves, but rely on the sea unit carrying them.  Land units "
-"are the only units subject to zones of control.  On land, land units can "
-"fortify to get a 50% defensive bonus; land units in cities automatically get "
-"this bonus, whether fortified or not.  When a land unit successfully attacks "
-"a city without City Walls, the city is reduced by one population point.  "
-"Land units with zero attack strength are non-military units: they require no "
-"upkeep, have no happiness effects, and cannot attack enemy units or capture "
-"enemy cities."
+"Units begin every turn with one or more movement points. Every action "
+"undertaken by a unit consumes movement points."
 msgstr ""
-"Kara birimleri, karada hareket ederler; bunu yaparken arazilerin hareket "
-"engellerinden etkilenirler fakat yollar ve raylardan da faydalanırlar.  Bir "
-"Nakliyat gemisine binmedikleri sürece suda gidemezler.  Gemideyken saldırı "
-"veya savunma yapamazlar.  Kara birimleri, Kontrol Bölgeleri kuralına tabi "
-"tutulan birim türüdür.  Güçlendirme yaptıkları sürece %50 daha fazla savunma "
-"gücü edinirler.  Şehir içindeyken durumuna bakılmadan bu artıştan paylarını "
-"alırlar. Surları olmayan bir şehre saldırıp kazandıklarında şehrin boyutu "
-"bir azalır.  Sıfır saldırı gücü olan kara birimleri sivil birimlerdir: "
-"hiçbir bakım ücreti gerektirmezler, mutsuzluk etkileri yoktur ve düşmanlara "
-"saldırıp şehirleri alamazlar."
 
-#: data/helpdata.txt:1022
-#, fuzzy
+#: data/helpdata.txt:1014
 msgid ""
-"Sea units move on Ocean tiles and into cities next to Ocean tiles.  They can "
-"only be built by such cities.  The movement rate of sea units is affected by "
-"several wonders (Lighthouse, Magellan's Expedition) and by the advance of "
-"Nuclear Power.  Most sea units can attack units on the coast and in coastal "
-"cities, but they cannot enter an enemy city to capture it, even if the city "
-"is undefended."
+"The most basic action is movement; units can move into any of the tiles "
+"surrounding their current location, subject to restrictions imposed by their "
+"class, by diplomatic obligations (see the section on Diplomacy), and by "
+"enemy units (see the section on Zones of Control). The number of movement "
+"points consumed may depend on the type of terrain; see the Terrain help."
 msgstr ""
-"Deniz birimleri denizlerde ve denize komşu olan şehirlerde "
-"ilerleyebilirler.  Sadece deniz komşuluğu olan şehirlerde üretilebilirler.  "
-"Bazı harikalar (Deniz Feneri, Macellan'ın Yolculuğu) ve Nükleer Enerji'nin "
-"keşfi hareket puanlarını arttırabilir.  Deniz birimlerinin çoğu sahilde "
-"duran düşman birimlerine ve şehirlerine saldırabilirler. Fakat tamamen "
-"savunmasız olsa bile bir düşman şehrini işgal edemezler."
+
+#: data/helpdata.txt:1021
+msgid ""
+"A unit cannot move onto a tile occupied by an enemy unit, and when directed "
+"to do so will attack instead (if capable of attack), locking the two units "
+"in combat until one is destroyed. The outcome depends on the attributes of "
+"the units in question (hit points, attack and defense strength, and "
+"firepower); the Combat section describes the process in detail, and the "
+"following sections list specific units' attributes."
+msgstr ""
 
 #: data/helpdata.txt:1029
-#, fuzzy
 msgid ""
-"Air units can move on any tiles not occupied by an enemy unit or enemy "
-"city.  The movement rate of air units is not affected by loss of hitpoints.  "
-"Air units require fuel, which is obtained by ending their turn in a friendly "
-"city, Airbase or Carrier (or a Submarine for missile units).  The number of "
-"turns an air unit can last without fuel varies by the unit type (see the "
-"individual units). Like sea units, air units are unable to enter an empty "
-"enemy city to capture it.  When outside cities, air units can only be "
-"attacked by Fighters (or Stealth Fighters).  Air units cannot be used to "
-"explore villages; depending upon server options, an overflown village may "
-"disband."
+"Units' attributes can be further boosted by being veteran. Units may be "
+"built as veteran by means of certain city improvements or other influences; "
+"once built, units can also become veteran through experience (such as "
+"surviving combat), which may provide further levels of bonuses beyond those "
+"available from their initial training."
 msgstr ""
-"Hava birimleri düşman birimi veya şehri olmayan her yerde ilerleyebilir.  "
-"Sağlık puanının azalması hareket puanlarını düşürmez.  Hava birimleri her "
-"sıranın sonunda bir şehre, Hava Üssüne veya Uçak Gemisine (füzeyse "
-"Denizaltıya) inip yakıt almak zorundadır.  Hava biriminin yakıtsız kalabilme "
-"gücü birimin türüne göre değişir.  Deniz birimleri gibi düşman şehirlerini "
-"işgal edemezler.  Şehir dışındayken hava birimlerine sadece Avcı (veya "
-"Görünmez Avcı) saldırabilir.  Hava birimleri köylere bakamaz, sunucu "
-"ayarlarına göre bu bakmanın sonucu köyün yok olması olabilir."
 
-#: data/helpdata.txt:1041
+#: data/helpdata.txt:1035
 #, fuzzy
-msgid ""
-"Like air units, Helicopters can move on any tile not occupied by an enemy "
-"unit or enemy city, and their movement rate is not affected by loss of "
-"hitpoints.  Helicopters do not require fuel, but they lose a small amount of "
-"health for every turn not spent in a city or an Airbase, unless you have the "
-"United Nations wonder.  Unlike other air units, Helicopters can capture "
-"enemy cities."
-msgstr ""
-"Hava birimlerinde olduğu gibi Helikopterler de  düşman birimi veya şehri "
-"olmayan her yerde ilerleyebilir.  Sağlık puanının azalması hareket "
-"puanlarını düşürmez.  Helikopterler yakıt harcamazlar bunun yerine eğer "
-"Birleşmiş Milletler harikasına sahip değilseniz havada kaldıkları her tur "
-"sağlığı azalır.  Diğer hava birimlerinden farklı olarak Helikopterler "
-"şehirleri işgal edebilirler."
-
-#: data/helpdata.txt:1048
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
-"which they are not moved.  Normally, a unit which has not moved will regain "
-"one hit point per turn.  A land unit in a city with Barracks, or a sea unit "
-"in a city with a Port Facility, or an air unit in a city with an Airport, "
-"will regain all lost hit points if a full turn is spent (without moving) in "
-"the city. Otherwise, a unit which spends a turn in a city regains one third "
-"of its base hit points.  A unit which spends a turn on a fortress regains an "
-"extra one quarter of its base hitpoints.  Units which are fortified regain "
-"an extra hit point.  If a player has the United Nations wonder, that "
-"player's units regain an extra two hit points per turn, even for units which "
-"have moved.  In addition to all other effects, Helicopters lose two hit "
-"points (or gain two hit points less than they otherwise would) each turn "
-"that they do not end in a city.  Damaged units in Sentry mode will wake up "
-"when they have regained all of their hit points."
+"which they are not moved. Normally, a unit which has not moved will regain "
+"one hit point per turn. Units which are fortified gain an extra hit point. A "
+"unit which spends a turn in a city regains one third of its base hit points, "
+"and city improvements appropriate to the unit type can improve this further. "
+"In the default ruleset, units which stay in a fortress for a whole turn "
+"regain all their hit points. Wonders can also boost recovery (such as the "
+"United Nations in the default ruleset). Damaged units in Sentry mode will "
+"wake up when they have regained all of their hit points."
 msgstr ""
 "Savaşta yaralanan birimler hareket etmedikleri her sırada sağlık puanı "
 "kazanırlar.  Normalde hareket etmemiş bir birim sadece bir sağlık puanı "
@@ -19788,16 +19745,7 @@ msgstr ""
 "tutan hasarlı birimler, bütün sağlık puanlarını yeniden kazandıklarında "
 "uyanırlar."
 
-#: data/helpdata.txt:1065
-msgid ""
-"Depending upon server options, any set of unit types may reduce the "
-"population of a City without City Walls by one point upon a successful "
-"attack."
-msgstr ""
-"Sunucu ayarlarına göre değişmekle birlikte, Surları olmayan bir şehre "
-"başarılı olarak saldırılmışsa, şehrin nüfusu bir birim azalır."
-
-#: data/helpdata.txt:1076
+#: data/helpdata.txt:1054
 msgid ""
 "Default Combat Rules\n"
 "---------------------"
@@ -19805,7 +19753,7 @@ msgstr ""
 "Öntanımlı Savaş Kuralları\n"
 "---------------------"
 
-#: data/helpdata.txt:1077
+#: data/helpdata.txt:1055
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -19815,38 +19763,51 @@ msgstr ""
 "saldıran bir füze değilse ikisi birden yok olmaz.  Sonuç şans dahil pek çok "
 "şeye bağlıdır."
 
-#: data/helpdata.txt:1082
+#: data/helpdata.txt:1060
+msgid ""
+"The description below is for the default ruleset, but the principles are "
+"similar for any ruleset.  Notice that many bonuses are possible for "
+"defenders, but few for attackers, aside from veteran status; an attacking "
+"unit can mostly expect circumstance to work against it."
+msgstr ""
+
+#: data/helpdata.txt:1065
 msgid "First, the attacker's strength is modified."
 msgstr "Önce, saldıranın gücü değiştirilir."
 
-#: data/helpdata.txt:1084
-msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
+#: data/helpdata.txt:1067
+#, fuzzy
+msgid ""
+" - If the attacker is a veteran, its strength is multiplied by the bonus "
+"associated with its veteran level."
 msgstr " - Saldıran kıdemli ise, gücü 1,5 ile çarpılır."
 
-#: data/helpdata.txt:1086
+#: data/helpdata.txt:1070
 msgid "Next, the defender's strength is modified."
 msgstr "Sonra, savunan kişinin gücü değiştirilir."
 
-#: data/helpdata.txt:1088
+#: data/helpdata.txt:1072
+#, fuzzy
 msgid ""
-" - If the defender is a veteran, then its strength is multiplied by 1.5."
+" - If the defender is a veteran, then its strength is multiplied by the "
+"bonus associated with its veteran level."
 msgstr " - Savunan kıdemli ise gücü 1.5 ile çarpılır."
 
-#: data/helpdata.txt:1091
+#: data/helpdata.txt:1075
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
 " - Sonra, savunanın gücü bulunduğu arazinin savunma çarpanıyla çarpılır."
 
-#: data/helpdata.txt:1094
+#: data/helpdata.txt:1078
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
 " - Sonra, savunan atlı birime karşı bir mızraklı ise gücü iki katına çıkar."
 
-#: data/helpdata.txt:1097
+#: data/helpdata.txt:1081
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -19854,22 +19815,23 @@ msgstr ""
 " - Savunan hava birimine (füze ve helikopterler dahil) karşı bir AEGIS "
 "Kruvazörü ise gücü dört katına çıkar."
 
-#: data/helpdata.txt:1101
+#: data/helpdata.txt:1085
+#, fuzzy
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
-"Battery and the attacker is an air unit (other than an Helicopter) or a "
-"missile."
+"Battery and the attacker is an air unit (other than a Helicopter or a "
+"missile)."
 msgstr ""
 " - Şehirde SAM Bataryası varsa ve saldıran taraf bir hava birimi (helikopter "
 "dışında) veya füzeyse savunanın gücü ikiye katlanır."
 
-#: data/helpdata.txt:1105
+#: data/helpdata.txt:1089
+#, fuzzy
 msgid ""
-" - An SDI Defense doubles the defender's strength yet again against missile "
-"attacks."
+" - An SDI Defense doubles the defender's strength against missile attacks."
 msgstr " - SDI Savunması, füze saldırılarına karşı savunmayı ikiye katlar."
 
-#: data/helpdata.txt:1108
+#: data/helpdata.txt:1092
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -19877,7 +19839,7 @@ msgstr ""
 " - Saldıran taraf bir gemiyse ve şehirde Sahil Güvenlik varsa savunanın gücü "
 "ikiye katlanır."
 
-#: data/helpdata.txt:1111
+#: data/helpdata.txt:1095
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -19885,21 +19847,31 @@ msgstr ""
 " - Havan Topu dışındaki kara birimleri ve Helikopterler, Surları olan bir "
 "şehre saldırırken savunanın gücü üçe katlanır."
 
-#: data/helpdata.txt:1115
+#: data/helpdata.txt:1099
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr " - Savunan bir kalenin içindeyse (şehir değil), gücü ikiye katlanır."
 
-#: data/helpdata.txt:1118
+#: data/helpdata.txt:1102
+#, fuzzy
 msgid ""
-" - Finally, if the defender is a ground unit, and is either fortified or "
-"inside a city, its strength is multiplied by 1.5."
+" - If the defender is a land unit, and is either fortified or inside a city, "
+"its strength is multiplied by 1.5."
 msgstr ""
 " - Son olarak, savunan taraf güçlendiriliyorsa veya bir şehirdeyse gücü 1,5 "
 "ile çarpılır."
 
-#: data/helpdata.txt:1121
+#: data/helpdata.txt:1105
+#, fuzzy
+msgid ""
+" - Finally, if the attacker is a fighter and the defender is a helicopter, "
+"the defender's strength is halved."
+msgstr ""
+" - Saldıran taraf bir gemiyse ve şehirde Sahil Güvenlik varsa savunanın gücü "
+"ikiye katlanır."
+
+#: data/helpdata.txt:1108
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -19908,11 +19880,11 @@ msgstr ""
 "Eğer bu hesaplamalardan sonra saldıran tarafın gücü 0 kalırsa hemen "
 "kaybeder.  Eğer savunanın gücü 0 kalırsa saldıran kazanır."
 
-#: data/helpdata.txt:1125
+#: data/helpdata.txt:1112
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Saldıran tarafın saldırı gücü de değişebilir."
 
-#: data/helpdata.txt:1127
+#: data/helpdata.txt:1114
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -19920,20 +19892,23 @@ msgstr ""
 " - Savunan taraf şehir içindeki bir gemiyse saldıranın gücü ikiye katlanır "
 "ve savunanın gücü 1 yapılır."
 
-#: data/helpdata.txt:1130
+#: data/helpdata.txt:1117
+#, fuzzy
 msgid ""
-" - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
-"is set to 1."
+" - If a fighter is attacking a helicopter the firepower of the helicopter is "
+"set to 1."
 msgstr ""
 " - Bir Avcı Helikoptere saldırıyorsa Helikopterin savunma gücü 1 yapılır."
 
-#: data/helpdata.txt:1133
+#: data/helpdata.txt:1120
+#, fuzzy
 msgid ""
-" - If a ship is attacking a ground unit on land the firepower of both is set "
+" - If a ship is attacking a land unit on land the firepower of both is set "
 "to 1."
 msgstr " - Bir gemi kara birimine saldırıyorsa iki tarafın da gücü 1 yapılır."
 
-#: data/helpdata.txt:1136
+#: data/helpdata.txt:1123
+#, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -19941,7 +19916,7 @@ msgid ""
 "generated.  If this number is greater than the defender's strength, the "
 "defender loses hit points equal to the attacker's firepower.  Otherwise, the "
 "attacker loses hit points equal to the defender's firepower. The first unit "
-"to reach 0 hit points (or negative hit points) loses. "
+"to reach 0 hit points (or negative hit points) loses."
 msgstr ""
 "Bütün bu ön hesaplamalardan sonra iki taraf da hayatta kalıyorsa (yani "
 "sağlık puanı 0'dan büyük olursa) savaş başlar.  Her turda 1 ve saldıran ve "
@@ -19951,39 +19926,41 @@ msgstr ""
 "tarafın saldırı gücü kadar sağlık puanı kaybeder.  Sağlığı 0 olan veya 0'ın "
 "altına düşen ilk taraf savaşı kaybeder."
 
-#: data/helpdata.txt:1151
-#, no-c-format
+#: data/helpdata.txt:1138
+#, fuzzy, no-c-format
 msgid ""
-"Whichever unit survives the fight has a chance of becoming a veteran, if it "
-"was not a veteran already.  If the winner's civilization has the Sun Tzu's "
-"War Academy (and if it isn't obsolete), the unit will always become a "
-"veteran.  Otherwise, the chance of becoming a veteran is 50%."
+"Whichever unit survives the fight has a chance of being promoted a veteran "
+"level.  In the default ruleset, if the winner's civilization has the Sun "
+"Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
+"half."
 msgstr ""
 "Savaş sonunda ayakta kalan birimin eğer önceden değilse kıdemli olma şansı "
 "vardır.  Kazanan tarafta Sun Tzu'nun Savaş Akademisi bulunuyorsa ve etkin "
 "durumdaysa birim kesinlikle kıdemli olur, yoksa %50 şansı vardır."
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1143
+#, fuzzy
 msgid ""
-"If the attacker is a ground unit and wins, and the defender is in a city "
+"If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
 msgstr ""
 "Saldıran ve kazanan taraf bir kara birimiyken savunan taraf Surları olmayan "
 "bir şehirdeyse, şehrin nüfusu 1 azalır."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1146
+#, fuzzy
 msgid ""
-"If the defender loses, and is not inside a city or fortress, all other units "
-"at the defender's location are destroyed along with the defender."
+"If the defender loses, and is not inside a city, fortress, or airbase, all "
+"other units at the defender's location are destroyed along with the defender."
 msgstr ""
 "Savunan taraf şehrin ve kalenin dışında bir arazideyken kaybederse, "
 "savunanın bulunduğu arazideki bütün birimler kaybedilir."
 
-#: data/helpdata.txt:1167
+#: data/helpdata.txt:1153
 msgid " Modifying Combat Rules"
 msgstr " Savaş Kurallarını Değiştirmek"
 
-#: data/helpdata.txt:1168
+#: data/helpdata.txt:1154
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
@@ -19991,7 +19968,7 @@ msgstr ""
 "Savaş Kurallarını Değiştirmek\n"
 "----------------------"
 
-#: data/helpdata.txt:1169
+#: data/helpdata.txt:1155
 msgid ""
 "The combat rules described before can be modified by changing the following "
 "modifiers in game.ruleset, section combat_rules: "
@@ -19999,29 +19976,37 @@ msgstr ""
 "Önceki bölümde anlatılan savaş kuralları game.ruleset dosyasının "
 "combat_rules bölümü düzenlenerek değiştirilebilir: "
 
-#: data/helpdata.txt:1172
+#: data/helpdata.txt:1158
+#, fuzzy
 msgid ""
-" - killstack. (default: 1) If set to 0, units in the same tile of a lost "
-"defender are not destroyed. "
+" - killstack (default: 1). If set to 0, units on the same tile as a lost "
+"defender are not destroyed."
 msgstr ""
 " - killstack. (öntanımlı: 1) 0 olarak ayarlanırsa savunan taraf yenildiğinde "
 "aynı arazideki birimlerin hepsi birden yok edilmez. "
 
-#: data/helpdata.txt:1178
+#: data/helpdata.txt:1161
+msgid ""
+" - tired_attack (default: 0). If set to 1, units that attack with only 2/3 "
+"or 1/3 moves left will attack with proportionally reduced strength."
+msgstr ""
+
+#: data/helpdata.txt:1168
 msgid " Combat example 1"
 msgstr " Savaş örneği 1"
 
-#: data/helpdata.txt:1179
+#: data/helpdata.txt:1169
+#, fuzzy
 msgid ""
-"Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
-"HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
+"Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
+"HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
 "Bir Savaş Topu'nun (Sl:8, Sv:1, SP:20, F:1), ormanlık arazide kurulmuş ve "
 "surlara sahip şehri savunan bir Şilahşör'e (Sl:3, Sv:3, SP:20, F1) "
 "saldırdığını varsayalım.  Örnekte iki taraf da kıdemli değildir."
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1173
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -20032,18 +20017,18 @@ msgstr ""
 "Surların arkasında olduğu içinse üçe katlanır ve 13,5 olur.  Son olarak "
 "şehri savunan bir kara birimi olduğu için gücü 20,25'e kadar çıkar."
 
-#: data/helpdata.txt:1188
+#: data/helpdata.txt:1178
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
 "strength is 202."
 msgstr ""
 
-#: data/helpdata.txt:1192
+#: data/helpdata.txt:1182
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr ""
 
-#: data/helpdata.txt:1195
+#: data/helpdata.txt:1185
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -20051,7 +20036,7 @@ msgid ""
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 
-#: data/helpdata.txt:1206
+#: data/helpdata.txt:1196
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -20061,22 +20046,26 @@ msgid ""
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
 
-#: data/helpdata.txt:1216
+#: data/helpdata.txt:1206
 msgid " Combat example 2"
 msgstr " Savaş örneği 2"
 
-#: data/helpdata.txt:1217
+#: data/helpdata.txt:1207
+#, fuzzy
 msgid ""
-"Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
-"attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
-"on a Grassland tile, with City Walls and a Coastal Defense."
+"Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
+"points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
+"built on a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
+"Bir Savaş Topu'nun (Sl:8, Sv:1, SP:20, F:1), ormanlık arazide kurulmuş ve "
+"surlara sahip şehri savunan bir Şilahşör'e (Sl:3, Sv:3, SP:20, F1) "
+"saldırdığını varsayalım.  Örnekte iki taraf da kıdemli değildir."
 
-#: data/helpdata.txt:1222
+#: data/helpdata.txt:1212
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr ""
 
-#: data/helpdata.txt:1225
+#: data/helpdata.txt:1215
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -20085,17 +20074,17 @@ msgid ""
 "strength is 22.5."
 msgstr ""
 
-#: data/helpdata.txt:1231
+#: data/helpdata.txt:1221
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr ""
 
-#: data/helpdata.txt:1234
+#: data/helpdata.txt:1224
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Savaş Gemisi'nin ateş gücü 2'den 1'e düşürülür."
 
-#: data/helpdata.txt:1237
+#: data/helpdata.txt:1227
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -20106,7 +20095,7 @@ msgstr ""
 "büyükse (%%44 şans) savunan taraf 1 can kaybeder. Değilse saldıran taraf 1 "
 "can kaybeder."
 
-#: data/helpdata.txt:1248
+#: data/helpdata.txt:1238
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -20116,11 +20105,11 @@ msgid ""
 "points left."
 msgstr ""
 
-#: data/helpdata.txt:1257
+#: data/helpdata.txt:1247
 msgid "Zones of Control"
 msgstr "Kontrol Bölgeleri"
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1248
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -20129,7 +20118,7 @@ msgstr ""
 "kuvvetlerinin kontrolü altında bulunan bölgelerde rahatça ilerlemenizi "
 "engeller."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1252
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "tile cannot move directly to another tile which is also adjacent to an enemy "
@@ -20138,7 +20127,7 @@ msgid ""
 "rectangular grids, or six tiles for hexagonal grids."
 msgstr ""
 
-#: data/helpdata.txt:1269
+#: data/helpdata.txt:1259
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -20148,7 +20137,7 @@ msgid ""
 "- The foreign unit is from a nation with which you have an Alliance pact."
 msgstr ""
 
-#: data/helpdata.txt:1277
+#: data/helpdata.txt:1267
 msgid ""
 "Notes:\n"
 "\n"
@@ -20170,7 +20159,7 @@ msgid ""
 "onto a friendly unit (the boat)."
 msgstr ""
 
-#: data/helpdata.txt:1297
+#: data/helpdata.txt:1287
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the tile "
@@ -20179,7 +20168,7 @@ msgid ""
 "through enemy territory."
 msgstr ""
 
-#: data/helpdata.txt:1304
+#: data/helpdata.txt:1294
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -20187,7 +20176,7 @@ msgid ""
 "- The special case for land units disembarking is new."
 msgstr ""
 
-#: data/helpdata.txt:1313
+#: data/helpdata.txt:1303
 msgid ""
 "Terrain serves three roles: the theater upon which your units battle rival "
 "civilizations, the landscape across which your units travel, and the medium "
@@ -20196,21 +20185,21 @@ msgid ""
 "terrain type for details."
 msgstr ""
 
-#: data/helpdata.txt:1319
+#: data/helpdata.txt:1309
 msgid ""
 "Terrain affects combat very simply: when a land unit is attacked, its "
 "defense strength is multiplied by the defense factor (\"bonus\") of the "
 "terrain beneath it. See the help section on Combat for further details."
 msgstr ""
 
-#: data/helpdata.txt:1324
+#: data/helpdata.txt:1314
 msgid ""
 "Terrain complicates the movement of land units -- sea and air units always "
 "expend one movement point to move one tile, but moving onto rough terrain "
 "such as Mountains can cost land units more."
 msgstr ""
 
-#: data/helpdata.txt:1328
+#: data/helpdata.txt:1318
 msgid ""
 "Tiles within range of a city may be worked by that city to produce food, "
 "production, and trade points, and the quantity of each produced depends on "
@@ -20222,23 +20211,23 @@ msgid ""
 "additional special resource that boosts one or two of the products."
 msgstr ""
 
-#: data/helpdata.txt:1338
+#: data/helpdata.txt:1328
 msgid ""
 "The net benefit of a tile for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr ""
 
-#: data/helpdata.txt:1341
+#: data/helpdata.txt:1331
 msgid ""
 "It is possible for your units to change the terrain and hence its effects; "
 "see the section on Terrain Alterations for more details."
 msgstr ""
 
-#: data/helpdata.txt:1350
+#: data/helpdata.txt:1340
 msgid " Terrain Alterations"
 msgstr " Arazi Düzenlemeleri"
 
-#: data/helpdata.txt:1351
+#: data/helpdata.txt:1341
 #, fuzzy
 msgid ""
 "Settlers, Workers, and Engineers have the ability to alter terrain tiles in "
@@ -20246,7 +20235,7 @@ msgid ""
 msgstr ""
 "Göçmen ve Mühendis birimleri araziyi çeşitli şekillerde değiştirebilirler."
 
-#: data/helpdata.txt:1354
+#: data/helpdata.txt:1344
 #, fuzzy
 msgid ""
 "Suitable types of terrain can be irrigated. Irrigating a tile causes it to "
@@ -20265,7 +20254,7 @@ msgstr ""
 "araziyi iki kez sulayabilirsiniz ve daha üretken olan Tarla'ya "
 "çevirebilirsiniz."
 
-#: data/helpdata.txt:1362
+#: data/helpdata.txt:1352
 #, fuzzy
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
@@ -20275,7 +20264,7 @@ msgstr ""
 "Bazı arazilerde maden yapılabilir, böylece orada üretilen kaynak (kalkan) "
 "miktarı artar."
 
-#: data/helpdata.txt:1366
+#: data/helpdata.txt:1356
 msgid ""
 "Terrain not suitable for irrigation or mining can often be changed into a "
 "type more suitable to the player's needs. Changing terrain from one type to "
@@ -20284,14 +20273,14 @@ msgid ""
 "special resources."
 msgstr ""
 
-#: data/helpdata.txt:1372
+#: data/helpdata.txt:1362
 msgid ""
 " - Settlers and Workers have a limited range of alterations available to "
 "them, initiated by attempting to mine or irrigate the terrain; see the table "
 "below. (Such \"irrigation\" does not require a water source.)"
 msgstr ""
 
-#: data/helpdata.txt:1376
+#: data/helpdata.txt:1366
 msgid ""
 " - Engineers can perform a much wider range of transformations on almost any "
 "type of terrain by issuing the \"transform\" order. In some rulesets, "
@@ -20302,7 +20291,7 @@ msgid ""
 "when the transformation takes place, if possible.)"
 msgstr ""
 
-#: data/helpdata.txt:1385
+#: data/helpdata.txt:1375
 #, fuzzy
 msgid ""
 "Roads can be built on any land tile, even if there are other improvements on "
@@ -20316,7 +20305,7 @@ msgstr ""
 "ve raylar birimlerin hareket etmesini hızlandırır ve şehirlerdeki üretimi "
 "arttırır."
 
-#: data/helpdata.txt:1392
+#: data/helpdata.txt:1382
 #, fuzzy
 msgid ""
 " - Units use only one third of a movement point when going from one tile to "
@@ -20325,7 +20314,7 @@ msgstr ""
 " - Gidilecek bitişik karede ve bulunulan karede yol varsa, birimler hareket "
 "puanının sadece üçte birini harcar."
 
-#: data/helpdata.txt:1395
+#: data/helpdata.txt:1385
 #, fuzzy
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
@@ -20334,14 +20323,14 @@ msgstr ""
 " - Ray boyunca giden birimlerin hareket puanı harcanmaz. Bir rayda sonsuz "
 "olarak ilerleyebilirsiniz."
 
-#: data/helpdata.txt:1398
+#: data/helpdata.txt:1388
 #, fuzzy
 msgid ""
 " - A road may increase the trade resources produced by some types of "
 "terrain. This effect is retained when a road is upgraded to a railroad."
 msgstr " - Yollar bazı arazi türlerinde ticaret gelirini arttırır."
 
-#: data/helpdata.txt:1402
+#: data/helpdata.txt:1392
 #, fuzzy
 msgid ""
 " - A railroad additionally increases the shield resources produced by a tile "
@@ -20353,11 +20342,11 @@ msgstr ""
 "ayarlarına göre raylar gıda ve ticaret kaynaklarını da arttırabilir, %50'den "
 "fazla bir değer de verilebilir.)"
 
-#: data/helpdata.txt:1407
+#: data/helpdata.txt:1397
 msgid "Technology advances allow other kinds of structures to be built:"
 msgstr ""
 
-#: data/helpdata.txt:1409
+#: data/helpdata.txt:1399
 #, fuzzy
 msgid ""
 " - Fortresses improve defense. Units inside a fortress defend at twice their "
@@ -20369,27 +20358,42 @@ msgstr ""
 "birimlerin savunma gücü ikiye katlanır, ayrıca kaledeki birimler teker teker "
 "yok edilebilir.  Ayrıntılı bilgi için Savaş bölümüne bakınız."
 
-#: data/helpdata.txt:1414
+#: data/helpdata.txt:1404
 msgid ""
 " - Airbases allow your air units to land and refuel. Air units in an airbase "
 "may be attacked by land units, but are killed one by one, as in a fortress."
 msgstr ""
 
-#: data/helpdata.txt:1418
+#: data/helpdata.txt:1408
 msgid ""
 " - Buoys may be built in the ocean (by units on a sea-going vessel); they "
 "give you permanent visibility of the area of the map around them."
 msgstr ""
 
-#: data/helpdata.txt:1421
+#: data/helpdata.txt:1411
+#, fuzzy
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers or Workers to complete an activity. These numbers are reduced to "
-"half (rounded up) for Engineers, and they can be reduced further by "
-"stockpiling several units, doing teamwork."
+"half (rounded up) for Engineers. The time taken can be reduced further by "
+"several units working together as a team; if two or more units are working "
+"on the same task on the same tile, their efforts will be added together each "
+"turn until the task is finished. Be careful not to dedicate too many units "
+"to one task, though; excess effort can be wasted, and a group of Settlers, "
+"Workers, and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
+"İşçiler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı sulamak, "
+"yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve nükleer "
+"serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için hem gıda "
+"hem de kalkan gereklidir, memleketinde yiyecek kalmazsa göçmenler ölür.\n"
+"\n"
+"İşçiler, Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa "
+"zamanda bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan işçilerin "
+"gücü toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir kısmının "
+"emeğinin boşa gitmemesine dikkat edin.  Grup halindeki işçiler düşman "
+"saldırılarına karşı oldukça savunmasızdırlar."
 
-#: data/helpdata.txt:1428
+#: data/helpdata.txt:1423
 msgid ""
 "City centers (the tile a city is on) are special. A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
@@ -20400,11 +20404,11 @@ msgid ""
 "ruleset-dependent minimum for food, shield, and trade output."
 msgstr ""
 
-#: data/helpdata.txt:1439
+#: data/helpdata.txt:1434
 msgid "  Pillaging"
 msgstr "  Yağmalama"
 
-#: data/helpdata.txt:1440
+#: data/helpdata.txt:1435
 #, fuzzy
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
@@ -20417,7 +20421,7 @@ msgstr ""
 "hangi gelişimi yapmalayacağınızı belirlemeniz mümkün olabilir, veya şu "
 "sırada yağmalanırlar:"
 
-#: data/helpdata.txt:1446
+#: data/helpdata.txt:1441
 #, fuzzy
 msgid ""
 " - farmland\n"
@@ -20435,7 +20439,7 @@ msgstr ""
 " - ray\n"
 " - yol"
 
-#: data/helpdata.txt:1453
+#: data/helpdata.txt:1448
 msgid ""
 "Tiles that do not have such terrain alterations cannot be pillaged. In "
 "addition, terrain conversions and transformations cannot be undone by "
@@ -20444,7 +20448,7 @@ msgid ""
 "you would have to convert the tile again with a Settler, Worker, or Engineer."
 msgstr ""
 
-#: data/helpdata.txt:1464
+#: data/helpdata.txt:1459
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -20452,7 +20456,7 @@ msgstr ""
 "Yönetim biçiminiz şehirlerinizin üretim ve gelirini, vatandaşlarınızın "
 "mutluluğunu ve diğer oyun etkenlerini etkiler."
 
-#: data/helpdata.txt:1467
+#: data/helpdata.txt:1462
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -20461,7 +20465,7 @@ msgid ""
 "at the end of this time, you will be able to choose your new government."
 msgstr ""
 
-#: data/helpdata.txt:1474
+#: data/helpdata.txt:1469
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -20470,7 +20474,7 @@ msgid ""
 "reduce the level of corruption in a city."
 msgstr ""
 
-#: data/helpdata.txt:1481
+#: data/helpdata.txt:1476
 msgid ""
 "Waste is the loss of shields due to inefficiency and greed. Under most forms "
 "of government, the farther away from the capital a city is, the more shields "
@@ -20479,7 +20483,7 @@ msgid ""
 "of waste in a city. Waste can result in your cities not building anything."
 msgstr ""
 
-#: data/helpdata.txt:1488
+#: data/helpdata.txt:1483
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -20487,7 +20491,7 @@ msgid ""
 "switch to one of the more militant styles of government."
 msgstr ""
 
-#: data/helpdata.txt:1494
+#: data/helpdata.txt:1489
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -20495,11 +20499,11 @@ msgid ""
 "early in the game puts you at an advantage."
 msgstr ""
 
-#: data/helpdata.txt:1503
+#: data/helpdata.txt:1498
 msgid " Civil War"
 msgstr " İç Savaş"
 
-#: data/helpdata.txt:1504
+#: data/helpdata.txt:1499
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -20511,14 +20515,14 @@ msgstr ""
 "yarısı yeni bir (YZ) lider önderliğinde bir ülke kurarlar. Sonuçta bütün "
 "bilimsel gelişmelerinizin ve hazinenizin yarısı onlara geçer."
 
-#: data/helpdata.txt:1510
+#: data/helpdata.txt:1505
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr ""
 "Sivil savaş bir sıra boyunca sürer ve ondan sonra yönetim anarşiye dönüşür."
 
-#: data/helpdata.txt:1513
+#: data/helpdata.txt:1508
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -20530,7 +20534,7 @@ msgstr ""
 "yapılan her şehir sivil savaş riskini azaltır ve ayaklanma çıkan şehirler de "
 "bu riski arttırır."
 
-#: data/helpdata.txt:1519
+#: data/helpdata.txt:1514
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -20539,7 +20543,7 @@ msgstr ""
 "Ek olarak yönetim biçimi sivil savaş ihtimaline direkt olarak etki eder.  "
 "Halka yönetime katılma hakkı veren hükümetlerde sivil savaş riski daha azdır."
 
-#: data/helpdata.txt:1523
+#: data/helpdata.txt:1518
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -20547,7 +20551,7 @@ msgid ""
 "minimum of 6."
 msgstr ""
 
-#: data/helpdata.txt:1535
+#: data/helpdata.txt:1530
 #, fuzzy
 msgid ""
 "There are five diplomatic states between players: War, Cease-fire, "
@@ -20558,7 +20562,7 @@ msgstr ""
 "Ateşkes, Mütareke, Barış ve İttifak. İlki öntanımlı durumdur, diğerleri ise "
 "diplomatik antlaşmalarla sağlanabilir."
 
-#: data/helpdata.txt:1539
+#: data/helpdata.txt:1534
 #, fuzzy
 msgid ""
 "The diplomatic state between players defaults to War. During War, you can "
@@ -20569,7 +20573,7 @@ msgstr ""
 "birimlerinizi düşman topraklarında gezdirebilir ve onların birimlerine "
 "saldırabilirsiniz."
 
-#: data/helpdata.txt:1543
+#: data/helpdata.txt:1538
 #, fuzzy
 msgid ""
 "When two players decide to end hostilities between them, they can agree on a "
@@ -20582,7 +20586,7 @@ msgstr ""
 "imzalayabilirler. Birkaç sıra geçtikten sonra anltaşma otomatik olarak sona "
 "erecektir. YZ oyuncuları ilk karşılaştığınızda hemen ateşkes isteyeceklerdir."
 
-#: data/helpdata.txt:1550
+#: data/helpdata.txt:1545
 #, fuzzy
 msgid ""
 "If you wish for a more permanent peaceful coexistence with another player, "
@@ -20594,7 +20598,7 @@ msgstr ""
 "bu antlaşma birkaç sıra sonra yerini Barış antlaşmasına bırakacaktır. "
 "Mütarekeyi bozduğunuz zaman tekrar savaşa dönersiniz."
 
-#: data/helpdata.txt:1556
+#: data/helpdata.txt:1551
 #, fuzzy
 msgid ""
 "At the moment two players enter into the diplomatic state of Peace, all "
@@ -20609,7 +20613,7 @@ msgstr ""
 "Savaş açmadan veya İttifak kurmadan sınır ihlali yapılamaz. Barış antlaşması "
 "bozulduğunda Savaş durumuna geçilir."
 
-#: data/helpdata.txt:1563
+#: data/helpdata.txt:1558
 msgid ""
 "An Alliance is the ultimate diplomatic relationship between two players. In "
 "this state, you may move units into each other's cities and your units may "
@@ -20623,7 +20627,7 @@ msgid ""
 "cities, but in return will expect you to join its wars against other players."
 msgstr ""
 
-#: data/helpdata.txt:1579
+#: data/helpdata.txt:1574
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -20632,7 +20636,7 @@ msgid ""
 "cities will celebrate, and your production will increase greatly."
 msgstr ""
 
-#: data/helpdata.txt:1586
+#: data/helpdata.txt:1581
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -20641,7 +20645,7 @@ msgid ""
 "can lead to a spontaneous revolution, overthrowing your government."
 msgstr ""
 
-#: data/helpdata.txt:1593
+#: data/helpdata.txt:1588
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -20650,28 +20654,28 @@ msgid ""
 "celebration vary depending on your government type:"
 msgstr ""
 
-#: data/helpdata.txt:1600
+#: data/helpdata.txt:1595
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for tiles which produce more than 2 units of any resource (food, "
 "shields or trade)."
 msgstr ""
 
-#: data/helpdata.txt:1604
+#: data/helpdata.txt:1599
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any tile which already "
 "produces at least 1 trade."
 msgstr ""
 
-#: data/helpdata.txt:1608
+#: data/helpdata.txt:1603
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
 "citizens is no longer sufficient for celebration."
 msgstr ""
 
-#: data/helpdata.txt:1613
+#: data/helpdata.txt:1608
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -20681,7 +20685,7 @@ msgid ""
 "cityfactor), the limit on content citizens is reduced to 3."
 msgstr ""
 
-#: data/helpdata.txt:1623
+#: data/helpdata.txt:1618
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -20693,23 +20697,23 @@ msgid ""
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 
-#: data/helpdata.txt:1633
+#: data/helpdata.txt:1628
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
-"Democracy, however, military units can cause unhappiness (see Government for "
-"details).  It is noted that, in this case, city improvements, such as those "
-"mentioned above, do not have any effect on citizens' unhappiness.  This form "
-"of unhappiness can be offset by building a Police Station, relevant wonders "
-"of the world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure "
-"for Cancer, Shakespeare's Theatre, and, of course, the Women's Suffrage; "
-"note, however, that the Michelangelo's Chapel will not have an effect in "
-"this case, since it counts as a Cathedral in every city or double effects of "
-"Cathedrals, depending on ruleset), or converting part of your trade into "
-"luxuries."
+"Democracy, however, military units can cause unhappiness if deployed outside "
+"your borders (see Government for details).  It is noted that, in this case, "
+"city improvements, such as those mentioned above, do not have any effect on "
+"citizens' unhappiness.  This form of unhappiness can be offset by building a "
+"Police Station, relevant wonders of the world (such as the Hanging Gardens, "
+"J.S. Bach's Cathedral, the Cure for Cancer, Shakespeare's Theatre, and, of "
+"course, the Women's Suffrage; note, however, that the Michelangelo's Chapel "
+"will not have an effect in this case, since it counts as a Cathedral in "
+"every city or double effects of Cathedrals, depending on ruleset), or "
+"converting part of your trade into luxuries."
 msgstr ""
 
-#: data/helpdata.txt:1652
+#: data/helpdata.txt:1648
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -20717,7 +20721,7 @@ msgid ""
 "off as a server option.)"
 msgstr ""
 
-#: data/helpdata.txt:1658
+#: data/helpdata.txt:1654
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -20727,27 +20731,27 @@ msgid ""
 "for your game.)"
 msgstr ""
 
-#: data/helpdata.txt:1666
+#: data/helpdata.txt:1662
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
 "players, select the player in the Players dialog and click \"Spaceship\"."
 msgstr ""
 
-#: data/helpdata.txt:1671
+#: data/helpdata.txt:1667
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
 "spaceship, but it still counts as a win."
 msgstr ""
 
-#: data/helpdata.txt:1675
+#: data/helpdata.txt:1671
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
 msgstr ""
 
-#: data/helpdata.txt:1678
+#: data/helpdata.txt:1674
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
@@ -23263,13 +23267,13 @@ msgstr "Füze"
 msgid "Sea"
 msgstr "Deniz"
 
-#: data/default/units.ruleset:112 data/default/units.ruleset:1297
-#: data/civ2/units.ruleset:1245 data/civ1/units.ruleset:701
+#: data/default/units.ruleset:112 data/default/units.ruleset:1282
+#: data/civ2/units.ruleset:1239 data/civ1/units.ruleset:695
 msgid "Trireme"
 msgstr "Kadırga"
 
-#: data/default/units.ruleset:119 data/default/units.ruleset:1198
-#: data/civ2/units.ruleset:107 data/civ2/units.ruleset:1146
+#: data/default/units.ruleset:119 data/default/units.ruleset:1182
+#: data/civ2/units.ruleset:107 data/civ2/units.ruleset:1139
 msgid "Helicopter"
 msgstr "Helikopter"
 
@@ -23283,74 +23287,41 @@ msgstr "Hava"
 msgid "Settlers"
 msgstr "Göçmen"
 
-#: data/default/units.ruleset:308
-#, fuzzy
+#: data/default/units.ruleset:308 data/civ1/units.ruleset:194
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses and mines, and "
-"clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
-"well as production, and a Settler can die if its supporting city runs out of "
-"food.\n"
+"Settlers are one of the key units in the game. As well as building new "
+"cities, they can also improve terrain, for instance by building irrigation, "
+"mines, and roads. See the Terrain Alterations section of the help for more "
+"details.\n"
 "\n"
-"Settlers and Engineers may work together to decrease the amount of time "
-"required for long projects.  If two or more Settlers and/or Engineers are "
-"both working on the same task in the same tile, their efforts will be added "
-"together each turn until the task is finished.  Be careful not to dedicate "
-"too many workers to one task, though; excess effort can be wasted, and a "
-"group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
+"Upkeep for Settlers is in food as well as production, and a Settler can die "
+"if its supporting city runs out of food. Settlers in a Republic or Democracy "
+"require twice as much food per turn."
 msgstr ""
-"Göçmenler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı sulamak, "
-"yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve nükleer "
-"serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için hem gıda "
-"hem de kalkan gereklidir, memleketinde yiyecek kalmazsa göçmenler ölür.\n"
-"\n"
-"Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa zamanda "
-"bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan işçilerin gücü "
-"toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir kısmının emeğinin "
-"boşa gitmemesine dikkat edin.  Grup halindeki işçiler düşman saldırılarına "
-"karşı oldukça savunmasızdırlar."
 
-#: data/default/units.ruleset:326
+#: data/default/units.ruleset:320
 #, fuzzy
 msgid "?unit:Workers"
 msgstr "İşçiler"
 
-#: data/default/units.ruleset:352
-#, fuzzy
+#: data/default/units.ruleset:346
 msgid ""
-"Workers are one of the key units in the game.  They can be used to irrigate "
-"land, build roads, railroads, fortresses, airbases and mines, and clean up "
-"pollution and nuclear fallout. \n"
-"\n"
-"Settlers, Workers and Engineers may work together to decrease the amount of "
-"time required for long projects.  If two or more Workers and/or Engineers "
-"are both working on the same task in the same tile, their efforts will be "
-"added together each turn until the task is finished.  Be careful not to "
-"dedicate too many workers to one task, though; excess effort can be wasted, "
-"and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
-"enemy attacks."
+"Workers are similar to Settlers in that they can improve terrain -- see the "
+"Terrain Alterations section of the help for more details of the available "
+"improvements. However, Workers cannot build new cities."
 msgstr ""
-"İşçiler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı sulamak, "
-"yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve nükleer "
-"serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için hem gıda "
-"hem de kalkan gereklidir, memleketinde yiyecek kalmazsa göçmenler ölür.\n"
-"\n"
-"İşçiler, Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa "
-"zamanda bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan işçilerin "
-"gücü toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir kısmının "
-"emeğinin boşa gitmemesine dikkat edin.  Grup halindeki işçiler düşman "
-"saldırılarına karşı oldukça savunmasızdırlar."
 
-#: data/default/units.ruleset:367 data/civ2/units.ruleset:216
+#: data/default/units.ruleset:353 data/civ2/units.ruleset:211
 msgid "Engineers"
 msgstr "Mühendis"
 
-#: data/default/units.ruleset:393
+#: data/default/units.ruleset:379
+#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
 "example, converting Tundra into Desert) which are beyond the capabilities of "
-"Workers.\n"
+"Workers and Settlers; see the Terrain Alterations section for more details.\n"
 "\n"
 "TIP 1:  Upgrade Workers to Engineers when possible, as Engineers require the "
 "same resources as ordinary Workers.\n"
@@ -23370,47 +23341,48 @@ msgstr ""
 "Patlayıcılar'ı keşfedin.  Bu yolla İşçilerinizi ücretsiz olarak "
 "yükseltebilirsiniz."
 
-#: data/default/units.ruleset:408 data/civ2/units.ruleset:257
+#: data/default/units.ruleset:395 data/civ2/units.ruleset:253
 msgid "Warriors"
 msgstr "Savaşçı"
 
-#: data/default/units.ruleset:434 data/civ2/units.ruleset:283
-#: data/civ1/units.ruleset:238
+#: data/default/units.ruleset:421 data/civ2/units.ruleset:279
+#: data/civ1/units.ruleset:232
 #, fuzzy
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
 msgstr "Bu birim oyunun en başında üretilebilen, en zayıf birimdir."
 
-#: data/default/units.ruleset:440 data/civ2/units.ruleset:289
-#: data/civ1/units.ruleset:244
+#: data/default/units.ruleset:427 data/civ2/units.ruleset:285
+#: data/civ1/units.ruleset:238
 msgid "Phalanx"
 msgstr "Kalkanlı"
 
-#: data/default/units.ruleset:466 data/civ2/units.ruleset:315
-#: data/civ1/units.ruleset:270
+#: data/default/units.ruleset:453 data/civ2/units.ruleset:311
+#: data/civ1/units.ruleset:264
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
 msgstr "Kalkanlı birimi, şehir savunması için uygun olan zırhlı bir birimdir."
 
-#: data/default/units.ruleset:471 data/civ2/units.ruleset:320
+#: data/default/units.ruleset:458 data/civ2/units.ruleset:316
 msgid "Archers"
 msgstr "Okçu"
 
-#: data/default/units.ruleset:497 data/civ2/units.ruleset:346
+#: data/default/units.ruleset:484 data/civ2/units.ruleset:342
+#, fuzzy
 msgid ""
-"Archers fight with bows and arrows and has a good offensive value as well as "
-"decent defense."
+"Archers fight with bows and arrows and have a good offensive value as well "
+"as decent defense."
 msgstr ""
 "Okçular oklarla savaşırlar ve savunma kabiliyetlerine oranla daha iyi "
 "saldırı kabiliyetleri vardır."
 
-#: data/default/units.ruleset:503 data/civ2/units.ruleset:352
-#: data/civ1/units.ruleset:275
+#: data/default/units.ruleset:490 data/civ2/units.ruleset:348
+#: data/civ1/units.ruleset:269
 msgid "Legion"
 msgstr "Lejyoner"
 
-#: data/default/units.ruleset:529 data/civ2/units.ruleset:378
-#: data/civ1/units.ruleset:301
+#: data/default/units.ruleset:516 data/civ2/units.ruleset:374
+#: data/civ1/units.ruleset:295
 msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
@@ -23418,22 +23390,22 @@ msgstr ""
 "Lejyonerler yüksek saldırı kabiliyetine sahip, zırhlı ve iyi eğitimli "
 "piyadelerdir."
 
-#: data/default/units.ruleset:535 data/civ2/units.ruleset:384
+#: data/default/units.ruleset:522 data/civ2/units.ruleset:380
 msgid "Pikemen"
 msgstr "Mızrakçı"
 
-#: data/default/units.ruleset:561 data/civ2/units.ruleset:410
+#: data/default/units.ruleset:548 data/civ2/units.ruleset:406
 msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
 msgstr "Uzun bir mızrağa sahip Mızrakçılar, Kalkanlı biriminin yerini alırlar."
 
-#: data/default/units.ruleset:567 data/civ2/units.ruleset:416
-#: data/civ1/units.ruleset:307
+#: data/default/units.ruleset:554 data/civ2/units.ruleset:412
+#: data/civ1/units.ruleset:301
 msgid "Musketeers"
 msgstr "Silahşör"
 
-#: data/default/units.ruleset:594 data/civ2/units.ruleset:443
+#: data/default/units.ruleset:581 data/civ2/units.ruleset:439
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
@@ -23441,25 +23413,22 @@ msgstr ""
 "Silahşörler, Mızrakçıların yerini alan ve ilkel ateşli silahlara sahip "
 "piyadelerdir."
 
-#: data/default/units.ruleset:601 data/civ2/units.ruleset:485
+#: data/default/units.ruleset:588 data/civ2/units.ruleset:481
 msgid "Partisan"
 msgstr "Partizan"
 
-#: data/default/units.ruleset:627 data/civ2/units.ruleset:511
+#: data/default/units.ruleset:614 data/civ2/units.ruleset:507
 #, fuzzy
 msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage.\n"
 "\n"
-"A number of Partisans are granted free when an enemy conquers your city, but "
-"only under these conditions:\n"
-"\n"
-" - Guerilla Warfare must be known by at least 1 player.\n"
-"\n"
+"A number of Partisans are granted free when an enemy conquers your city -- "
+"they automatically assume defensive positions in the surrounding countryside "
+"-- but only under these conditions:\n"
+" - Guerilla Warfare must be known by at least one player.\n"
 " - You must be the player who originally built the city.\n"
-"\n"
 " - You must know about Communism and Gunpowder.\n"
-"\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
 "Aşağıdaki şartları sağlayabiliyorsanız, düşmanlar bir şehrinizi ele "
@@ -23473,50 +23442,50 @@ msgstr ""
 "\n"
 " - Yönetim biçimi olarak Demokrasi veya Komünizm kullanıyor olmalısınız."
 
-#: data/default/units.ruleset:644 data/civ2/units.ruleset:528
+#: data/default/units.ruleset:628 data/civ2/units.ruleset:521
 msgid "Alpine Troops"
 msgstr "Dağ Timi"
 
-#: data/default/units.ruleset:670 data/civ2/units.ruleset:554
+#: data/default/units.ruleset:654 data/civ2/units.ruleset:547
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
 msgstr ""
 "Dağ timleri hızlı hareket edebilen ve iyi savunma yapabilen birimlerdir."
 
-#: data/default/units.ruleset:676 data/civ2/units.ruleset:560
-#: data/civ1/units.ruleset:341
+#: data/default/units.ruleset:660 data/civ2/units.ruleset:553
+#: data/civ1/units.ruleset:335
 msgid "Riflemen"
 msgstr "Tüfekçi"
 
-#: data/default/units.ruleset:702 data/civ2/units.ruleset:586
-#: data/civ1/units.ruleset:367
+#: data/default/units.ruleset:686 data/civ2/units.ruleset:579
+#: data/civ1/units.ruleset:361
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 "Tüfekçiler dünya savaşının piyadeleridirler. Şehirleri savunmada gayet "
 "iyidirler."
 
-#: data/default/units.ruleset:708 data/civ2/units.ruleset:592
+#: data/default/units.ruleset:692 data/civ2/units.ruleset:585
 msgid "Marines"
 msgstr "Denizci"
 
-#: data/default/units.ruleset:734 data/civ2/units.ruleset:618
+#: data/default/units.ruleset:718 data/civ2/units.ruleset:611
 msgid "Marines are infantry who are experts at marine warfare."
 msgstr "Denizciler, deniz üzerinde yapılan saldırılarda uzmandırlar."
 
-#: data/default/units.ruleset:739 data/civ2/units.ruleset:623
+#: data/default/units.ruleset:723 data/civ2/units.ruleset:616
 msgid "Paratroopers"
 msgstr "Paraşütçü"
 
-#: data/default/units.ruleset:765 data/civ2/units.ruleset:649
+#: data/default/units.ruleset:749 data/civ2/units.ruleset:642
 msgid "Paratroopers are experts at airborne attacks."
 msgstr "Paraşütçüler hava saldırılarında uzmandırlar."
 
-#: data/default/units.ruleset:774 data/civ2/units.ruleset:658
-#: data/civ1/units.ruleset:373
+#: data/default/units.ruleset:758 data/civ2/units.ruleset:651
+#: data/civ1/units.ruleset:367
 msgid "Mech. Inf."
 msgstr "Mek. Piyade"
 
-#: data/default/units.ruleset:800 data/civ2/units.ruleset:684
+#: data/default/units.ruleset:784 data/civ2/units.ruleset:677
 #, fuzzy
 msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
@@ -23525,11 +23494,11 @@ msgstr ""
 "Mekanik Piyade; bu birim en iyi savunmaya sahip olan kara birimidir, fakat "
 "teknoloji ağacının sonlarında bulunur."
 
-#: data/default/units.ruleset:807 data/civ2/units.ruleset:691
+#: data/default/units.ruleset:791 data/civ2/units.ruleset:684
 msgid "Horsemen"
 msgstr "Atlı"
 
-#: data/default/units.ruleset:833 data/civ2/units.ruleset:717
+#: data/default/units.ruleset:817 data/civ2/units.ruleset:710
 msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -23537,65 +23506,64 @@ msgstr ""
 "Atlılar erken saldırılarda kullanışlı olabilen, düşman topraklarında hızla "
 "ilerleyebilen birimlerdir."
 
-#: data/default/units.ruleset:840 data/civ2/units.ruleset:724
-#: data/civ1/units.ruleset:439
+#: data/default/units.ruleset:824 data/civ2/units.ruleset:717
+#: data/civ1/units.ruleset:433
 msgid "Chariot"
 msgstr "At Arabası"
 
-#: data/default/units.ruleset:866 data/civ2/units.ruleset:750
-#: data/civ1/units.ruleset:465
+#: data/default/units.ruleset:850 data/civ2/units.ruleset:743
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
 msgstr "At arabaları, Atlı biriminden daha güçlü ve pahalı birimlerdir."
 
-#: data/default/units.ruleset:872 data/civ2/units.ruleset:820
-#: data/civ1/units.ruleset:471
+#: data/default/units.ruleset:856 data/civ2/units.ruleset:813
+#: data/civ1/units.ruleset:465
 msgid "Knights"
 msgstr "Şövalye"
 
-#: data/default/units.ruleset:899 data/civ2/units.ruleset:847
-#: data/civ1/units.ruleset:498
+#: data/default/units.ruleset:883 data/civ2/units.ruleset:840
+#: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
 msgstr "Şovalyeler atlı ve zırhlı savaşçılardır."
 
-#: data/default/units.ruleset:904 data/civ2/units.ruleset:852
+#: data/default/units.ruleset:888 data/civ2/units.ruleset:845
 msgid "Dragoons"
 msgstr "Ağır Süvari"
 
-#: data/default/units.ruleset:931 data/civ2/units.ruleset:879
+#: data/default/units.ruleset:915 data/civ2/units.ruleset:872
 msgid "Dragoons are mounted warriors carrying early firearms."
 msgstr "Ağır süvariler, ilkel ateşli silahlar kullanan atlı savaşçılardır."
 
-#: data/default/units.ruleset:936 data/civ2/units.ruleset:884
-#: data/civ1/units.ruleset:406
+#: data/default/units.ruleset:920 data/civ2/units.ruleset:877
+#: data/civ1/units.ruleset:400
 msgid "Cavalry"
 msgstr "Süvari"
 
-#: data/default/units.ruleset:962 data/civ2/units.ruleset:910
+#: data/default/units.ruleset:946 data/civ2/units.ruleset:903
 msgid "Cavalry are mounted and highly trained soldiers."
 msgstr "Süvariler atlı ve iyi eğitimli askerlerdir."
 
-#: data/default/units.ruleset:967 data/civ2/units.ruleset:915
-#: data/civ1/units.ruleset:503
+#: data/default/units.ruleset:951 data/civ2/units.ruleset:908
+#: data/civ1/units.ruleset:497
 msgid "Armor"
 msgstr "Tank"
 
-#: data/default/units.ruleset:993 data/civ2/units.ruleset:941
-#: data/civ1/units.ruleset:529
+#: data/default/units.ruleset:977 data/civ2/units.ruleset:934
+#: data/civ1/units.ruleset:523
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
 msgstr ""
 "Tanklar, her türlü atlı birimden daha güçlü olan motorlu savaş araçlarıdır."
 
-#: data/default/units.ruleset:1000 data/civ2/units.ruleset:948
-#: data/civ1/units.ruleset:536
+#: data/default/units.ruleset:984 data/civ2/units.ruleset:941
+#: data/civ1/units.ruleset:530
 msgid "Catapult"
 msgstr "Mancınık"
 
-#: data/default/units.ruleset:1026 data/civ2/units.ruleset:974
-#: data/civ1/units.ruleset:562
+#: data/default/units.ruleset:1010 data/civ2/units.ruleset:967
+#: data/civ1/units.ruleset:556
 msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
@@ -23604,13 +23572,13 @@ msgstr ""
 "saldırı yapabilmelerine rağmen kolayca defedilebilirler, bu yüzden destekli "
 "olarak gönderilmelidir."
 
-#: data/default/units.ruleset:1033 data/civ2/units.ruleset:981
-#: data/civ1/units.ruleset:569
+#: data/default/units.ruleset:1017 data/civ2/units.ruleset:974
+#: data/civ1/units.ruleset:563
 msgid "Cannon"
 msgstr "Savaş Topu"
 
-#: data/default/units.ruleset:1059 data/civ2/units.ruleset:1007
-#: data/civ1/units.ruleset:595
+#: data/default/units.ruleset:1043 data/civ2/units.ruleset:1000
+#: data/civ1/units.ruleset:589
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
 "distances. They are very strong attackers but equally weak defenders and "
@@ -23620,12 +23588,12 @@ msgstr ""
 "Çok güçlü saldırı yapabilmelerine rağmen kolayca defedilebilirler, bu yüzden "
 "destekli olarak gönderilmelidir."
 
-#: data/default/units.ruleset:1067 data/civ2/units.ruleset:1015
-#: data/civ1/units.ruleset:603
+#: data/default/units.ruleset:1051 data/civ2/units.ruleset:1008
+#: data/civ1/units.ruleset:597
 msgid "Artillery"
 msgstr "Topçu"
 
-#: data/default/units.ruleset:1093 data/civ2/units.ruleset:1041
+#: data/default/units.ruleset:1077 data/civ2/units.ruleset:1034
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
@@ -23634,11 +23602,11 @@ msgstr ""
 "yapabilmelerine rağmen kolayca defedilebilirler, bu yüzden destekli olarak "
 "gönderilmelidir."
 
-#: data/default/units.ruleset:1100 data/civ2/units.ruleset:1048
+#: data/default/units.ruleset:1084 data/civ2/units.ruleset:1041
 msgid "Howitzer"
 msgstr "Havan Topu"
 
-#: data/default/units.ruleset:1126 data/civ2/units.ruleset:1074
+#: data/default/units.ruleset:1110 data/civ2/units.ruleset:1067
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
@@ -23646,13 +23614,13 @@ msgstr ""
 "Havan topu, geliştirilmiş bir tür savaş topudur. Saldırı kabiliyetinin "
 "yanında savunma kabiliyeti de gelişmiştir."
 
-#: data/default/units.ruleset:1132 data/civ2/units.ruleset:1080
-#: data/civ1/units.ruleset:635
+#: data/default/units.ruleset:1116 data/civ2/units.ruleset:1073
+#: data/civ1/units.ruleset:629
 msgid "Fighter"
 msgstr "Avcı"
 
-#: data/default/units.ruleset:1159 data/civ2/units.ruleset:1107
-#: data/civ1/units.ruleset:662
+#: data/default/units.ruleset:1143 data/civ2/units.ruleset:1100
+#: data/civ1/units.ruleset:656
 msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
@@ -23660,13 +23628,13 @@ msgstr ""
 "Avcılar ilk hava birimleridir. Her yere gidebilir ve her birime "
 "saldırabilirler."
 
-#: data/default/units.ruleset:1165 data/civ2/units.ruleset:1113
-#: data/civ1/units.ruleset:668
+#: data/default/units.ruleset:1149 data/civ2/units.ruleset:1106
+#: data/civ1/units.ruleset:662
 msgid "Bomber"
 msgstr "Bombacı"
 
-#: data/default/units.ruleset:1191 data/civ2/units.ruleset:1139
-#: data/civ1/units.ruleset:694
+#: data/default/units.ruleset:1175 data/civ2/units.ruleset:1132
+#: data/civ1/units.ruleset:688
 msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
@@ -23674,36 +23642,38 @@ msgstr ""
 "Bombacılar, özelleştirilmiş hava birimleridir. Sadece yerdeki birimlere "
 "saldırabilirler, diğer hava birimlerine saldıramazlar."
 
-#: data/default/units.ruleset:1224 data/civ2/units.ruleset:1172
+#: data/default/units.ruleset:1208 data/civ2/units.ruleset:1165
+#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
-"health for every turn not spent in a city, unless you have the United "
-"Nations wonder."
+"health for every turn not spent in a city or airbase or on a Carrier, unless "
+"you have the United Nations wonder, and Helicopters may be attacked by "
+"ground units."
 msgstr ""
 "Helikopter, hem uçabilen hem de şehir fethedebilen çok güçlü bir birimdir.  "
 "Birleşmiş Milletler harikasına sahip değilseniz şehirde durmadıkları her "
 "turda sağlığı azalacaktır, bu yüzden dikkatle kullanılmalıdır."
 
-#: data/default/units.ruleset:1232 data/civ2/units.ruleset:1180
+#: data/default/units.ruleset:1217 data/civ2/units.ruleset:1174
 msgid "Stealth Fighter"
 msgstr "Görünmez Avcı"
 
-#: data/default/units.ruleset:1259 data/civ2/units.ruleset:1207
+#: data/default/units.ruleset:1244 data/civ2/units.ruleset:1201
 msgid "An improved Fighter, with improved attack and a higher movement radius."
 msgstr ""
 "Gelişmiş bir Avcı, daha çok saldırı gücüne ve hareket yarıçapına sahiptir."
 
-#: data/default/units.ruleset:1265 data/civ2/units.ruleset:1213
+#: data/default/units.ruleset:1250 data/civ2/units.ruleset:1207
 msgid "Stealth Bomber"
 msgstr "Görünmez Bombacı"
 
-#: data/default/units.ruleset:1291 data/civ2/units.ruleset:1239
+#: data/default/units.ruleset:1276 data/civ2/units.ruleset:1233
 msgid "An improved Bomber, with improved attack and a higher movement radius."
 msgstr ""
 "Gelişmiş bir Bombacı, daha çok saldırı gücüne ve hareket yarıçapına sahiptir."
 
-#: data/default/units.ruleset:1324
+#: data/default/units.ruleset:1309
 #, fuzzy
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
@@ -23712,21 +23682,21 @@ msgstr ""
 "Kadırga, ilk bulunan gemi türüdür. Kara birimlerini taşıyabilir ve diğer "
 "gemilere saldırabilir. Sahilden uzaklaşması tehlikeli olabilir."
 
-#: data/default/units.ruleset:1331 data/civ2/units.ruleset:1279
+#: data/default/units.ruleset:1316 data/civ2/units.ruleset:1273
 msgid "Caravel"
 msgstr "Karavela"
 
-#: data/default/units.ruleset:1358
+#: data/default/units.ruleset:1343
 #, fuzzy
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
 msgstr ""
 "Karavela, Kadırga'nın yerini alan ve ondan daha güvenilir olan bir gemidir."
 
-#: data/default/units.ruleset:1364 data/civ2/units.ruleset:1312
+#: data/default/units.ruleset:1349 data/civ2/units.ruleset:1306
 msgid "Galleon"
 msgstr "Kalyon"
 
-#: data/default/units.ruleset:1391 data/civ2/units.ruleset:1339
+#: data/default/units.ruleset:1376 data/civ2/units.ruleset:1333
 msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
@@ -23734,13 +23704,13 @@ msgstr ""
 "Kalyon, diğer gemilere saldıramayan, fakat kendini savunabilen bir taşıma "
 "gemisidir."
 
-#: data/default/units.ruleset:1398 data/civ2/units.ruleset:1346
-#: data/civ1/units.ruleset:768
+#: data/default/units.ruleset:1383 data/civ2/units.ruleset:1340
+#: data/civ1/units.ruleset:762
 msgid "Frigate"
 msgstr "Firkateyn"
 
-#: data/default/units.ruleset:1425 data/civ2/units.ruleset:1373
-#: data/civ1/units.ruleset:795
+#: data/default/units.ruleset:1410 data/civ2/units.ruleset:1367
+#: data/civ1/units.ruleset:789
 msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
@@ -23748,13 +23718,13 @@ msgstr ""
 "Firkateyn, oldukça becerikli bir gemidir. Hem güçlü bir saldırı birimi hem "
 "de ortalama bir taşıyıcıdır."
 
-#: data/default/units.ruleset:1432 data/civ2/units.ruleset:1380
-#: data/civ1/units.ruleset:802
+#: data/default/units.ruleset:1417 data/civ2/units.ruleset:1374
+#: data/civ1/units.ruleset:796
 msgid "Ironclad"
 msgstr "Zırhlı Gemi"
 
-#: data/default/units.ruleset:1458 data/civ2/units.ruleset:1406
-#: data/civ1/units.ruleset:828
+#: data/default/units.ruleset:1443 data/civ2/units.ruleset:1400
+#: data/civ1/units.ruleset:822
 msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
@@ -23762,11 +23732,11 @@ msgstr ""
 "Zırhlı Gemi, Firkateyn'den çok daha dayanıklı olan fakat ondan daha az birim "
 "taşıyabilen bir gemidir."
 
-#: data/default/units.ruleset:1465 data/civ2/units.ruleset:1413
+#: data/default/units.ruleset:1450 data/civ2/units.ruleset:1407
 msgid "Destroyer"
 msgstr "Muhrip"
 
-#: data/default/units.ruleset:1491 data/civ2/units.ruleset:1439
+#: data/default/units.ruleset:1476 data/civ2/units.ruleset:1433
 #, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision.\n"
@@ -23777,32 +23747,32 @@ msgstr ""
 "İpucu: Çok hızlı bir birimdir, özellikle düşman nakliyat gemilerini "
 "batırmada üstüne yoktur."
 
-#: data/default/units.ruleset:1499 data/civ2/units.ruleset:1447
-#: data/civ1/units.ruleset:835
+#: data/default/units.ruleset:1484 data/civ2/units.ruleset:1441
+#: data/civ1/units.ruleset:829
 msgid "Cruiser"
 msgstr "Kruvazör"
 
-#: data/default/units.ruleset:1525 data/civ2/units.ruleset:1473
-#: data/civ1/units.ruleset:861
+#: data/default/units.ruleset:1510 data/civ2/units.ruleset:1467
+#: data/civ1/units.ruleset:855
 msgid "The Cruiser is a strong offensive boat unit."
 msgstr "Kruvazör güçlü bir saldırı gemisidir."
 
-#: data/default/units.ruleset:1530 data/civ2/units.ruleset:1478
+#: data/default/units.ruleset:1515 data/civ2/units.ruleset:1472
 msgid "AEGIS Cruiser"
 msgstr "AEGIS Kruvazörü"
 
-#: data/default/units.ruleset:1556 data/civ2/units.ruleset:1504
+#: data/default/units.ruleset:1541 data/civ2/units.ruleset:1498
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr "AEGIS Kruvazörü gelişmiş bir savunma mekanizmasına sahiptir."
 
-#: data/default/units.ruleset:1562 data/civ2/units.ruleset:1510
-#: data/civ1/units.ruleset:866
+#: data/default/units.ruleset:1547 data/civ2/units.ruleset:1504
+#: data/civ1/units.ruleset:860
 msgid "Battleship"
 msgstr "Savaş Gemisi"
 
-#: data/default/units.ruleset:1588 data/civ2/units.ruleset:1536
-#: data/civ1/units.ruleset:892
+#: data/default/units.ruleset:1573 data/civ2/units.ruleset:1530
+#: data/civ1/units.ruleset:886
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
@@ -23810,13 +23780,13 @@ msgstr ""
 "Savaş Gemisi en yüksek savunma ve saldırı değerlerine sahip olan, önemli bir "
 "deniz birimidir."
 
-#: data/default/units.ruleset:1594 data/civ2/units.ruleset:1542
-#: data/civ1/units.ruleset:898
+#: data/default/units.ruleset:1579 data/civ2/units.ruleset:1536
+#: data/civ1/units.ruleset:892
 msgid "Submarine"
 msgstr "Denizaltı"
 
-#: data/default/units.ruleset:1622 data/civ2/units.ruleset:1570
-#: data/civ1/units.ruleset:924
+#: data/default/units.ruleset:1607 data/civ2/units.ruleset:1564
+#: data/civ1/units.ruleset:918
 #, fuzzy
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
@@ -23825,16 +23795,16 @@ msgstr ""
 "Denizaltıların stratejik önemi büyüktür fakat zayıf bir savunmaya "
 "sahiptirler."
 
-#: data/default/units.ruleset:1629 data/civ2/units.ruleset:1577
-#: data/civ1/units.ruleset:931
+#: data/default/units.ruleset:1614 data/civ2/units.ruleset:1571
+#: data/civ1/units.ruleset:925
 msgid "Carrier"
 msgstr "Uçak Gemisi"
 
-#: data/default/units.ruleset:1656 data/civ2/units.ruleset:1604
-#: data/civ1/units.ruleset:958
+#: data/default/units.ruleset:1641 data/civ2/units.ruleset:1598
+#: data/civ1/units.ruleset:952
 #, fuzzy
 msgid ""
-"The Carrier is a mobile airport and cannot attack other units on its own.\n"
+"The Carrier is a mobile airport.\n"
 "\n"
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
@@ -23843,13 +23813,13 @@ msgstr ""
 "Çünkü tamamen dolu bir Uçak Gemisini kaybetmek bundan çok daha pahalıya "
 "malolacaktır."
 
-#: data/default/units.ruleset:1666 data/civ2/units.ruleset:1614
-#: data/civ1/units.ruleset:968
+#: data/default/units.ruleset:1650 data/civ2/units.ruleset:1607
+#: data/civ1/units.ruleset:961
 msgid "Transport"
 msgstr "Nakliyat Gemisi"
 
-#: data/default/units.ruleset:1693 data/civ2/units.ruleset:1641
-#: data/civ1/units.ruleset:995
+#: data/default/units.ruleset:1677 data/civ2/units.ruleset:1634
+#: data/civ1/units.ruleset:988
 msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
@@ -23857,11 +23827,11 @@ msgstr ""
 "Nakliyat Gemisi saldrı yapamaz fakat saldırı yapıldığında kendini "
 "savunabilir."
 
-#: data/default/units.ruleset:1699 data/civ2/units.ruleset:1647
+#: data/default/units.ruleset:1683 data/civ2/units.ruleset:1640
 msgid "Cruise Missile"
 msgstr "Füze"
 
-#: data/default/units.ruleset:1725 data/civ2/units.ruleset:1673
+#: data/default/units.ruleset:1709 data/civ2/units.ruleset:1666
 #, fuzzy
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into "
@@ -23873,92 +23843,140 @@ msgstr ""
 "İpucu:  Bunlardan bir avuç kullanarak düşman gemilerini değerli "
 "topraklarınızdan rahatlıkla uzak tutabilirsiniz."
 
-#: data/default/units.ruleset:1734 data/civ2/units.ruleset:1682
-#: data/civ1/units.ruleset:1001
+#: data/default/units.ruleset:1718 data/civ2/units.ruleset:1675
+#: data/civ1/units.ruleset:994
 msgid "Nuclear"
 msgstr "Atom bombası"
 
-#: data/default/units.ruleset:1760 data/civ2/units.ruleset:1708
+#: data/default/units.ruleset:1744
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
 "\n"
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
-"squares for rectangular grids), including friendly units.  When striking a "
-"city, the city size is halved, and the surrounding tiles are subject to "
-"nuclear fallout.\n"
+"squares for rectangular grids), including friendly units. Any city within "
+"the blast area loses half its population, and land tiles within the blast "
+"area are subject to nuclear fallout.\n"
+"\n"
+"Similar to pollution and global warming, the risk of global nuclear winter "
+"increases with fallout. If nuclear winter occurs, terrain across the globe "
+"changes into desert, tundra, and ice. Settlers, Workers, and Engineers can "
+"clean up nuclear fallout.\n"
 "\n"
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
 "country en masse, but the enemy cities are too strong. Before using a "
-"Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city "
-"and have them ready to fix the fallout on the same turn it occurs!  This "
-"minimizes the chance of nuclear winter.  Eco-friendly nukes!"
+"Nuclear unit, assemble a gang of Settlers, Workers, and/or Engineers next to "
+"the city and have them ready to fix the fallout on the same turn it occurs!  "
+"This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/default/units.ruleset:1782 data/civ2/units.ruleset:1730
-#: data/civ1/units.ruleset:1049
+#: data/default/units.ruleset:1771 data/civ2/units.ruleset:1728
+#: data/civ1/units.ruleset:1047
 msgid "Diplomat"
 msgstr "Diplomat"
 
-#: data/default/units.ruleset:1808 data/civ2/units.ruleset:1756
-#: data/civ1/units.ruleset:1075
+#: data/default/units.ruleset:1797 data/civ2/units.ruleset:1754
+#: data/civ1/units.ruleset:1073
 msgid ""
 "A Diplomat is an official that carries your dispatches and is authorized to "
 "deal with foreign dignitaries. He may also undertake various covert "
-"operations with the intent of harming your opponents.\n"
+"operations with the intent of harming your opponents; Diplomats in your own "
+"cities defend them against such actions.\n"
 "\n"
-"If an enemy unit is alone on a tile, you may attempt to bribe it with your "
-"diplomat. By paying a sum of gold the unit will immediately become yours.\n"
+"Many covert actions may be attempted even in peacetime, but the more "
+"aggressive actions will be discovered and cause diplomatic incidents, which "
+"can allow Republics and Democracies to break treaties.\n"
 "\n"
-"The diplomat can also perform a number of actions in another player's city:\n"
-"- \"Investigate\" Reveal detailed information about the city.\n"
-"- \"Establish Embassy\" Get permanent intelligence on the player.\n"
-"- \"Sabotage\" Ruin any production in the city.\n"
-"- \"Steal Technology\" Acquire an advance from the city's owner.\n"
-"- \"Incite a Revolt\" Make a city your own by paying a sum of gold. Note "
-"that you cannot incite a revolt in a capital city.\n"
+"If a foreign unit is alone on a tile, you may attempt to bribe it with your "
+"Diplomat. By paying a sum of gold the unit will immediately become yours; "
+"the exact sum depends on the status of the unit and that of the civilization "
+"owning it. However, units belonging to Democratic governments cannot be "
+"bribed. Bribery when not at war will cause a diplomatic incident.\n"
+"\n"
+"Diplomats can also perform a number of actions in another player's city, "
+"although each Diplomat may attempt only one action. Most of these actions "
+"have a chance of failure. Also, any enemy Diplomats or Spies in the city "
+"will oppose hostile actions; in this case, either your unit or the defending "
+"unit will die. If the defending unit dies, you lose one movement point and "
+"may try again.\n"
+"\n"
+"The actions available to Diplomats in a city are:\n"
+"\n"
+" - \"Establish Embassy\": This action always succeeds, and gives permanent "
+"contact with the city's owner, as well as intelligence on their tax rates "
+"and technology.\n"
+"\n"
+" - \"Investigate City\": Your unit attempts to report detailed information "
+"about the city: its status, what buildings and units are within, and what it "
+"is currently producing.\n"
+"\n"
+" - \"Sabotage City\": Your unit attempts either to disrupt all the city's "
+"work so far towards its current project, or to destroy an existing building "
+"in the city, at random. Once built, Palaces and Wonders cannot be sabotaged, "
+"and attempts to sabotage City Walls or any building in a capital each halve "
+"the chance of success. Sabotage may only be attempted when openly at war.\n"
+"\n"
+" - \"Steal Technology\": Your unit attempts to learn the secrets of a random "
+"technology known to the city's owner but not to you. Technology may only be "
+"stolen once from a given enemy city by Diplomats. This action may be "
+"attempted even when not at war, but will cause a diplomatic incident.\n"
+"\n"
+" - \"Incite a Revolt\": In return for gold a foreign city will change "
+"allegiance and join your empire, bringing along all nearby units that call "
+"it home, but reducing its size by 1. Units in other cities remain in the "
+"enemy's control, but units outside cities are lost to both players. The "
+"exact sum depends on the status of the city and that of the civilization "
+"that owns it. It is not possible to incite a rebellion in a capital, or in "
+"any city governed by a democracy. Incitement may be attempted in peacetime, "
+"but will cause a diplomatic incident.\n"
 "\n"
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
 
-#: data/default/units.ruleset:1833 data/civ2/units.ruleset:1781
+#: data/default/units.ruleset:1861 data/civ2/units.ruleset:1818
 msgid "Spy"
 msgstr "Casus"
 
-#: data/default/units.ruleset:1859 data/civ2/units.ruleset:1807
+#: data/default/units.ruleset:1887 data/civ2/units.ruleset:1844
 msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat "
 "predecessor.\n"
 "\n"
 "She can perform all the functions of the Diplomat, but with a higher rate of "
-"success. Refer to the Diplomat entry for an outline.\n"
+"success. Refer to the Diplomat entry for more details. Unlike a Diplomat, a "
+"Spy may also survive an operation in a foreign city and become more "
+"experienced as a result.\n"
 "\n"
-"She can also be used to: poison the water supply of an enemy city (reducing "
-"the population); steal specific technology; and sabotage predetermined city "
-"targets (note: sabotaging improvements in a capital or sabotaging City Walls "
-"increases the risks of capture). A Spy can also infiltrate a city and "
-"ferment a revolt.\n"
+"She can also be used to:\n"
+" - sabotage an enemy unit (reducing its hit points to half), if it is alone "
+"on a tile and the players are at war;\n"
+" - poison the water supply of an enemy city (reducing the population by one "
+"and emptying the granary);\n"
+" - steal specific technology (with a reduced chance of success);\n"
+" - steal further technologies from a city which has already been stolen from "
+"(although cities become more resistant each time they are stolen from);\n"
+" - sabotage predetermined city targets (with a reduced chance of success).\n"
 "\n"
-"A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
-"as bribing them to change allegiance."
+"A Spy that survives the more aggressive actions (sabotage, theft, inciting "
+"rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
 
-#: data/default/units.ruleset:1876 data/civ2/units.ruleset:1824
-#: data/civ1/units.ruleset:1100
+#: data/default/units.ruleset:1913 data/civ2/units.ruleset:1870
+#: data/civ1/units.ruleset:1137
 msgid "Caravan"
 msgstr "Kervan"
 
-#: data/default/units.ruleset:1902 data/civ2/units.ruleset:1850
-#: data/civ1/units.ruleset:1126
+#: data/default/units.ruleset:1939 data/civ2/units.ruleset:1896
+#: data/civ1/units.ruleset:1163
 #, fuzzy
 msgid ""
-"A Caravan carries goods or material for trading with foreign countries, or "
-"to help building wonders in your cities.\n"
+"A Caravan carries goods or material for trading with distant cities and "
+"foreign countries, or to help build wonders in your cities.\n"
 "\n"
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -23973,44 +23991,44 @@ msgstr ""
 "İpucu:  Kervanları biriktirip hepsini bir seferde kullanarak harika yapımını "
 "bir turda bitirebilirsiniz."
 
-#: data/default/units.ruleset:1915 data/civ2/units.ruleset:1863
+#: data/default/units.ruleset:1952 data/civ2/units.ruleset:1909
 msgid "Freight"
 msgstr "Kamyon"
 
-#: data/default/units.ruleset:1941 data/civ2/units.ruleset:1889
+#: data/default/units.ruleset:1978 data/civ2/units.ruleset:1935
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr ""
 "Kamyonlar, Kervan biriminin yerini alırlar ve iki kat daha hızlı hareket "
 "edebilirler."
 
-#: data/default/units.ruleset:1946 data/civ2/units.ruleset:1894
+#: data/default/units.ruleset:1983 data/civ2/units.ruleset:1940
 msgid "Explorer"
 msgstr "Kâşif"
 
-#: data/default/units.ruleset:1972 data/civ2/units.ruleset:1920
+#: data/default/units.ruleset:2009 data/civ2/units.ruleset:1966
 #, fuzzy
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
 msgstr "Kâşifler bilinmeyen bölgeleri keşfetmede oldukça kullanışlıdırlar."
 
-#: data/default/units.ruleset:1978
+#: data/default/units.ruleset:2015
 #, fuzzy
 msgid "?unit:Leader"
 msgstr "Önder"
 
-#: data/default/units.ruleset:2006
+#: data/default/units.ruleset:2043
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Bu sizsiniz. Bu birimi kaybederseniz oyunu da kaybedersiniz. Yani kendinize "
 "dikkat edin."
 
-#: data/default/units.ruleset:2011 data/civ2/units.ruleset:1926
-#: data/civ1/units.ruleset:1139
+#: data/default/units.ruleset:2048 data/civ2/units.ruleset:1972
+#: data/civ1/units.ruleset:1176
 msgid "Barbarian Leader"
 msgstr "Barbar Lideri"
 
-#: data/default/units.ruleset:2038 data/civ2/units.ruleset:1952
+#: data/default/units.ruleset:2075 data/civ2/units.ruleset:1998
 #, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
@@ -24022,11 +24040,11 @@ msgstr ""
 "Barbar lideri, yanında savunma yapan herhangi bir birim olmadan öldürülürse "
 "100 altın ganimet elde edilir (sadece kara birimleri ve helikopterlere)."
 
-#: data/default/units.ruleset:2047
+#: data/default/units.ruleset:2084
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:2073
+#: data/default/units.ruleset:2110
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
@@ -24036,38 +24054,26 @@ msgstr ""
 "birimlerini görebilmenizi sağlayan bir radara sahip olan uçak birimidir."
 
 #: data/civ2/units.ruleset:198
-#, fuzzy
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses, airbases and "
-"mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is "
-"in food as well as production, and a Settler can die if its supporting city "
-"runs out of food.\n"
+"Settlers are one of the key units in the game. As well as building new "
+"cities, they can also improve terrain, for instance by building irrigation, "
+"mines, and roads. See the Terrain Alterations section of the help for more "
+"details.\n"
 "\n"
-"Settlers and Engineers may work together to decrease the amount of time "
-"required for long projects.  If two or more Settlers and/or Engineers are "
-"both working on the same task in the same tile, their efforts will be added "
-"together each turn until the task is finished.  Be careful not to dedicate "
-"too many workers to one task, though; excess effort can be wasted, and a "
-"group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
+"Upkeep for Settlers is in food as well as production, and a Settler can die "
+"if its supporting city runs out of food. Settlers in a Republic or Democracy "
+"require twice as much food per turn, and in Communist or Fundamentalist "
+"societies, three times as much."
 msgstr ""
-"Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, "
-"sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve "
-"radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı için "
-"hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek kalmazsa "
-"göçmenler ölebilir.\n"
-"\n"
-"Uzun sürecek işlerde Göçmenler ve Mühendisler birlikte çalışarak zamandan "
-"kazanabilirler.  Yine de aynı işe çok fazla Göçmen atadığınızda bazılarının "
-"emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç işçinin düşman "
-"saldırılarına karşı oldukça savunmasız olabileceğini unutmayın."
 
-#: data/civ2/units.ruleset:242
+#: data/civ2/units.ruleset:237
+#, fuzzy
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
 "(for example, converting Tundra into Desert) which are beyond the "
-"capabilities of Settlers.\n"
+"capabilities of Settlers; see the Terrain Alterations section for more "
+"details.\n"
 "\n"
 "TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
 "the same resources as ordinary Settlers.\n"
@@ -24087,11 +24093,11 @@ msgstr ""
 "Patlayıcılar'ı keşfedin.  Bu yolla Göçmenlerinizi ücretsiz olarak "
 "yükseltebilirsiniz."
 
-#: data/civ2/units.ruleset:450
+#: data/civ2/units.ruleset:446
 msgid "Fanatics"
 msgstr "Müfrit"
 
-#: data/civ2/units.ruleset:477
+#: data/civ2/units.ruleset:473
 #, fuzzy
 msgid ""
 "Fanatics are warriors extremely devoted to a higher cause.\n"
@@ -24101,11 +24107,11 @@ msgid ""
 msgstr ""
 "Aşırı dinci uluslar Müfrit birimlerini desteklemek için hiç kalkan ödemezler."
 
-#: data/civ2/units.ruleset:756
+#: data/civ2/units.ruleset:749
 msgid "Elephants"
 msgstr "Fil"
 
-#: data/civ2/units.ruleset:782
+#: data/civ2/units.ruleset:775
 msgid ""
 "Elephants are towering animals trained for war that are often used as "
 "powerful shock troops, but defend poorly against most other units."
@@ -24113,16 +24119,16 @@ msgstr ""
 "Filler savaş için eğitilmiş yıkıcı hayvanlardır. Savunmasız "
 "yakalandıklarında kolayca öldürülebilirler."
 
-#: data/civ2/units.ruleset:788
+#: data/civ2/units.ruleset:781
 msgid "Crusaders"
 msgstr "Haçlı Askeri"
 
-#: data/civ2/units.ruleset:814
+#: data/civ2/units.ruleset:807
 msgid ""
 "Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr "Haçlı askerleri yüksek disiplinli atlı birimlerden oluşur."
 
-#: data/civ2/units.ruleset:1272 data/civ1/units.ruleset:728
+#: data/civ2/units.ruleset:1266 data/civ1/units.ruleset:722
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not stray too far from the shore."
@@ -24130,44 +24136,42 @@ msgstr ""
 "Kadırga, ilk bulunan gemi türüdür. Kara birimlerini taşıyabilir ve diğer "
 "gemilere saldırabilir. Sahilden uzaklaşması tehlikeli olabilir."
 
-#: data/civ2/units.ruleset:1306
+#: data/civ2/units.ruleset:1300
 msgid ""
 "The Caravel replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
 "Karavela, Kadırga'nın yerini alan ve ondan daha güvenilir olan bir gemidir."
 
-#: data/civ1/units.ruleset:194
-#, fuzzy
+#: data/civ2/units.ruleset:1701
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses and mines, and "
-"clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
-"well as production, and a Settler can die if its supporting city runs out of "
-"food.\n"
+"You can build Nuclear units when you have the required advance, and the "
+"Manhattan Project wonder has been built by any player.\n"
 "\n"
-"Settlers may work together to decrease the amount of time required for long "
-"projects.  If two or more Settlers are both working on the same task in the "
-"same tile, their efforts will be added together each turn until the task is "
-"finished.  Be careful not to dedicate too many workers to one task, though; "
-"excess effort can be wasted, and a group of Settlers is highly vulnerable to "
-"enemy attacks."
+"On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
+"squares for rectangular grids), including friendly units. Any city within "
+"the blast area loses half its population, and land tiles within the blast "
+"area are subject to nuclear fallout.\n"
+"\n"
+"Similar to pollution and global warming, the risk of global nuclear winter "
+"increases with fallout. If nuclear winter occurs, terrain across the globe "
+"changes into desert, tundra, and ice. Settlers and Engineers can clean up "
+"nuclear fallout.\n"
+"\n"
+"TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
+"(but expensive!!) way of getting rid of enemy ships.\n"
+"\n"
+"TIP 2:  You may be involved in a situation where you've invaded an enemy "
+"country en masse, but the enemy cities are too strong. Before using a "
+"Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city "
+"and have them ready to fix the fallout on the same turn it occurs!  This "
+"minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, "
-"sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve "
-"radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı için "
-"hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek kalmazsa "
-"göçmenler ölebilir.\n"
-"\n"
-"Uzun sürecek işlerde birden fazla göçmen birimi çalışarak zamandan "
-"kazanabilirler.  Yine de aynı işe çok fazla göçmen atadığınızda bazılarının "
-"emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç göçmenin düşman "
-"saldırılarına karşı oldukça savunmasız olabileceğini unutmayın."
 
-#: data/civ1/units.ruleset:212
+#: data/civ1/units.ruleset:206
 msgid "Militia"
 msgstr "Milis"
 
-#: data/civ1/units.ruleset:334
+#: data/civ1/units.ruleset:328
 msgid ""
 "Musketeers are infantry equipped with early firearms and replace Phalanx as "
 "the preferred city defender."
@@ -24175,7 +24179,7 @@ msgstr ""
 "Silahşörler ilkel ateşli silahları kullanan piyade birimlerdir. Şehir "
 "savunucusu olarak Kalkanlı biriminin yerini alırlar."
 
-#: data/civ1/units.ruleset:399
+#: data/civ1/units.ruleset:393
 msgid ""
 "Mechanized Infantry; this unit has the strongest defence strength of any "
 "land unit, but is only available near the end of the technology tree."
@@ -24183,7 +24187,7 @@ msgstr ""
 "Mekanik Piyade; bu birim en iyi savunmaya sahip olan kara birimidir, fakat "
 "teknoloji ağacının sonlarında bulunur."
 
-#: data/civ1/units.ruleset:432
+#: data/civ1/units.ruleset:426
 msgid ""
 "Cavalry are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
@@ -24191,7 +24195,14 @@ msgstr ""
 "Süvariler, sürüler halinde düşman bölgesine girdiklerinde durdurulması zor "
 "olan atlı birimlerdir."
 
-#: data/civ1/units.ruleset:629
+#: data/civ1/units.ruleset:459
+#, fuzzy
+msgid ""
+"Chariots are horse-pulled war wagons, stronger but more expensive than "
+"Cavalry."
+msgstr "At arabaları, Atlı biriminden daha güçlü ve pahalı birimlerdir."
+
+#: data/civ1/units.ruleset:623
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
@@ -24199,26 +24210,31 @@ msgstr ""
 "Topçular, Savaş Topu biriminden farklı olarak aynı zamanda kendilerini "
 "savunabilen birimlerdir."
 
-#: data/civ1/units.ruleset:735
+#: data/civ1/units.ruleset:729
 msgid "Sail"
 msgstr "Yelkenli"
 
-#: data/civ1/units.ruleset:762
+#: data/civ1/units.ruleset:756
 msgid ""
 "The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr ""
 "Yelkenli, Kadırga'nın yerini alan ve açık denizlerde daha güvenilir olan bir "
 "birimdir."
 
-#: data/civ1/units.ruleset:1027
+#: data/civ1/units.ruleset:1020
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
 "\n"
 "On impact, the blast will destroy any unit in an area 3 tiles wide (3x3 "
-"squares for rectangular grids), including friendly units.  When striking a "
-"city, the city size is halved, and the surrounding tiles are subject to "
-"nuclear fallout.\n"
+"squares for rectangular grids), including friendly units. Any city within "
+"the blast area loses half its population, and land tiles within the blast "
+"area are subject to nuclear fallout.\n"
+"\n"
+"Similar to pollution and global warming, the risk of global nuclear winter "
+"increases with fallout. If nuclear winter occurs, terrain across the globe "
+"changes into desert, tundra, and ice. Settlers can clean up nuclear "
+"fallout.\n"
 "\n"
 "TIP 1:  Nuking the ocean will not generate fallout, and is a most effective "
 "(but expensive!!) way of getting rid of enemy ships.\n"
@@ -24230,7 +24246,7 @@ msgid ""
 "chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
-#: data/civ1/units.ruleset:1165
+#: data/civ1/units.ruleset:1202
 #, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
@@ -29514,6 +29530,199 @@ msgstr ""
 msgid "BC"
 msgstr ""
 
+#~ msgid "* May pillage to destroy infrastructure from tiles.\n"
+#~ msgstr "* Araziyi yağmalayıp geliştirmeleri yok edebilir.\n"
+
+#~ msgid ""
+#~ "Units can be used for three purposes: attack, defense, and "
+#~ "reconnaissance.  How useful a particular unit is for each of these roles "
+#~ "depends on the unit's strength in attack and defense, and its ability to "
+#~ "move."
+#~ msgstr ""
+#~ "Birimler üç amaç için kullanılabilirler: saldırı, savunma ve keşif.  Bir "
+#~ "birimin bu amaçlardan hangisine uygun olduğu; birimin saldırı ve savunma "
+#~ "gücüne, hareket puanına göre değişir."
+
+#~ msgid ""
+#~ "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
+#~ "(Helicopters are sufficiently different from other air units that it is "
+#~ "easiest to think of them as a separate unit type.)"
+#~ msgstr ""
+#~ "Birimler dört türe ayrılırlar: Kara, Deniz, Hava ve Helikopter.  "
+#~ "(Helikopterler diğer hava birimlerinden o kadar değişiktir ki başka "
+#~ "gruptaymış gibi düşünmek daha iyidir.)"
+
+#, fuzzy
+#~ msgid ""
+#~ "Land units move on land, and suffer the movement effects of terrain, but "
+#~ "benefit from roads and railroads.  They cannot move on ocean tiles except "
+#~ "when carried by an appropriate sea unit.  When at sea, they cannot attack "
+#~ "or defend for themselves, but rely on the sea unit carrying them.  Land "
+#~ "units are the only units subject to zones of control.  On land, land "
+#~ "units can fortify to get a 50% defensive bonus; land units in cities "
+#~ "automatically get this bonus, whether fortified or not.  When a land unit "
+#~ "successfully attacks a city without City Walls, the city is reduced by "
+#~ "one population point.  Land units with zero attack strength are non-"
+#~ "military units: they require no upkeep, have no happiness effects, and "
+#~ "cannot attack enemy units or capture enemy cities."
+#~ msgstr ""
+#~ "Kara birimleri, karada hareket ederler; bunu yaparken arazilerin hareket "
+#~ "engellerinden etkilenirler fakat yollar ve raylardan da faydalanırlar.  "
+#~ "Bir Nakliyat gemisine binmedikleri sürece suda gidemezler.  Gemideyken "
+#~ "saldırı veya savunma yapamazlar.  Kara birimleri, Kontrol Bölgeleri "
+#~ "kuralına tabi tutulan birim türüdür.  Güçlendirme yaptıkları sürece %50 "
+#~ "daha fazla savunma gücü edinirler.  Şehir içindeyken durumuna bakılmadan "
+#~ "bu artıştan paylarını alırlar. Surları olmayan bir şehre saldırıp "
+#~ "kazandıklarında şehrin boyutu bir azalır.  Sıfır saldırı gücü olan kara "
+#~ "birimleri sivil birimlerdir: hiçbir bakım ücreti gerektirmezler, "
+#~ "mutsuzluk etkileri yoktur ve düşmanlara saldırıp şehirleri alamazlar."
+
+#, fuzzy
+#~ msgid ""
+#~ "Sea units move on Ocean tiles and into cities next to Ocean tiles.  They "
+#~ "can only be built by such cities.  The movement rate of sea units is "
+#~ "affected by several wonders (Lighthouse, Magellan's Expedition) and by "
+#~ "the advance of Nuclear Power.  Most sea units can attack units on the "
+#~ "coast and in coastal cities, but they cannot enter an enemy city to "
+#~ "capture it, even if the city is undefended."
+#~ msgstr ""
+#~ "Deniz birimleri denizlerde ve denize komşu olan şehirlerde "
+#~ "ilerleyebilirler.  Sadece deniz komşuluğu olan şehirlerde "
+#~ "üretilebilirler.  Bazı harikalar (Deniz Feneri, Macellan'ın Yolculuğu) ve "
+#~ "Nükleer Enerji'nin keşfi hareket puanlarını arttırabilir.  Deniz "
+#~ "birimlerinin çoğu sahilde duran düşman birimlerine ve şehirlerine "
+#~ "saldırabilirler. Fakat tamamen savunmasız olsa bile bir düşman şehrini "
+#~ "işgal edemezler."
+
+#, fuzzy
+#~ msgid ""
+#~ "Air units can move on any tiles not occupied by an enemy unit or enemy "
+#~ "city.  The movement rate of air units is not affected by loss of "
+#~ "hitpoints.  Air units require fuel, which is obtained by ending their "
+#~ "turn in a friendly city, Airbase or Carrier (or a Submarine for missile "
+#~ "units).  The number of turns an air unit can last without fuel varies by "
+#~ "the unit type (see the individual units). Like sea units, air units are "
+#~ "unable to enter an empty enemy city to capture it.  When outside cities, "
+#~ "air units can only be attacked by Fighters (or Stealth Fighters).  Air "
+#~ "units cannot be used to explore villages; depending upon server options, "
+#~ "an overflown village may disband."
+#~ msgstr ""
+#~ "Hava birimleri düşman birimi veya şehri olmayan her yerde ilerleyebilir.  "
+#~ "Sağlık puanının azalması hareket puanlarını düşürmez.  Hava birimleri her "
+#~ "sıranın sonunda bir şehre, Hava Üssüne veya Uçak Gemisine (füzeyse "
+#~ "Denizaltıya) inip yakıt almak zorundadır.  Hava biriminin yakıtsız "
+#~ "kalabilme gücü birimin türüne göre değişir.  Deniz birimleri gibi düşman "
+#~ "şehirlerini işgal edemezler.  Şehir dışındayken hava birimlerine sadece "
+#~ "Avcı (veya Görünmez Avcı) saldırabilir.  Hava birimleri köylere bakamaz, "
+#~ "sunucu ayarlarına göre bu bakmanın sonucu köyün yok olması olabilir."
+
+#, fuzzy
+#~ msgid ""
+#~ "Like air units, Helicopters can move on any tile not occupied by an enemy "
+#~ "unit or enemy city, and their movement rate is not affected by loss of "
+#~ "hitpoints.  Helicopters do not require fuel, but they lose a small amount "
+#~ "of health for every turn not spent in a city or an Airbase, unless you "
+#~ "have the United Nations wonder.  Unlike other air units, Helicopters can "
+#~ "capture enemy cities."
+#~ msgstr ""
+#~ "Hava birimlerinde olduğu gibi Helikopterler de  düşman birimi veya şehri "
+#~ "olmayan her yerde ilerleyebilir.  Sağlık puanının azalması hareket "
+#~ "puanlarını düşürmez.  Helikopterler yakıt harcamazlar bunun yerine eğer "
+#~ "Birleşmiş Milletler harikasına sahip değilseniz havada kaldıkları her tur "
+#~ "sağlığı azalır.  Diğer hava birimlerinden farklı olarak Helikopterler "
+#~ "şehirleri işgal edebilirler."
+
+#~ msgid ""
+#~ "Depending upon server options, any set of unit types may reduce the "
+#~ "population of a City without City Walls by one point upon a successful "
+#~ "attack."
+#~ msgstr ""
+#~ "Sunucu ayarlarına göre değişmekle birlikte, Surları olmayan bir şehre "
+#~ "başarılı olarak saldırılmışsa, şehrin nüfusu bir birim azalır."
+
+#, fuzzy
+#~ msgid ""
+#~ "Settlers are one of the key units in the game.  They can be used to found "
+#~ "new cities, irrigate land, build roads, railroads, fortresses and mines, "
+#~ "and clean up pollution and nuclear fallout.  Upkeep for Settlers is in "
+#~ "food as well as production, and a Settler can die if its supporting city "
+#~ "runs out of food.\n"
+#~ "\n"
+#~ "Settlers and Engineers may work together to decrease the amount of time "
+#~ "required for long projects.  If two or more Settlers and/or Engineers are "
+#~ "both working on the same task in the same tile, their efforts will be "
+#~ "added together each turn until the task is finished.  Be careful not to "
+#~ "dedicate too many workers to one task, though; excess effort can be "
+#~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
+#~ "enemy attacks."
+#~ msgstr ""
+#~ "Göçmenler oyunun en önemli birimlerindendir.  Şehir kurmak, toprağı "
+#~ "sulamak, yol yapmak, ray yapmak, kale ve maden inşa etmek, kirliliği ve "
+#~ "nükleer serpintileri temizlemek gibi işlerde çalışabilirler.  Bakımı için "
+#~ "hem gıda hem de kalkan gereklidir, memleketinde yiyecek kalmazsa "
+#~ "göçmenler ölür.\n"
+#~ "\n"
+#~ "Göçmenler ve Mühendisler, uzun sürecek işleri birlikte yaparak kısa "
+#~ "zamanda bitirebilirler.  Aynı karede ve aynı iş üzerinde çalışan "
+#~ "işçilerin gücü toplanacaktır.  Aynı işte çok fazla işçi çalıştırırken bir "
+#~ "kısmının emeğinin boşa gitmemesine dikkat edin.  Grup halindeki işçiler "
+#~ "düşman saldırılarına karşı oldukça savunmasızdırlar."
+
+#, fuzzy
+#~ msgid ""
+#~ "Settlers are one of the key units in the game.  They can be used to found "
+#~ "new cities, irrigate land, build roads, railroads, fortresses, airbases "
+#~ "and mines, and clean up pollution and nuclear fallout.  Upkeep for "
+#~ "Settlers is in food as well as production, and a Settler can die if its "
+#~ "supporting city runs out of food.\n"
+#~ "\n"
+#~ "Settlers and Engineers may work together to decrease the amount of time "
+#~ "required for long projects.  If two or more Settlers and/or Engineers are "
+#~ "both working on the same task in the same tile, their efforts will be "
+#~ "added together each turn until the task is finished.  Be careful not to "
+#~ "dedicate too many workers to one task, though; excess effort can be "
+#~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
+#~ "enemy attacks."
+#~ msgstr ""
+#~ "Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, "
+#~ "sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve "
+#~ "radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı "
+#~ "için hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek "
+#~ "kalmazsa göçmenler ölebilir.\n"
+#~ "\n"
+#~ "Uzun sürecek işlerde Göçmenler ve Mühendisler birlikte çalışarak zamandan "
+#~ "kazanabilirler.  Yine de aynı işe çok fazla Göçmen atadığınızda "
+#~ "bazılarının emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç "
+#~ "işçinin düşman saldırılarına karşı oldukça savunmasız olabileceğini "
+#~ "unutmayın."
+
+#, fuzzy
+#~ msgid ""
+#~ "Settlers are one of the key units in the game.  They can be used to found "
+#~ "new cities, irrigate land, build roads, railroads, fortresses and mines, "
+#~ "and clean up pollution and nuclear fallout.  Upkeep for Settlers is in "
+#~ "food as well as production, and a Settler can die if its supporting city "
+#~ "runs out of food.\n"
+#~ "\n"
+#~ "Settlers may work together to decrease the amount of time required for "
+#~ "long projects.  If two or more Settlers are both working on the same task "
+#~ "in the same tile, their efforts will be added together each turn until "
+#~ "the task is finished.  Be careful not to dedicate too many workers to one "
+#~ "task, though; excess effort can be wasted, and a group of Settlers is "
+#~ "highly vulnerable to enemy attacks."
+#~ msgstr ""
+#~ "Göçmenler oyundaki en önemli birimlerdendir.  Yeni şehirler inşa etmede, "
+#~ "sulamada, yol ve ray yapımında, kale ve maden yapımında, kirlilik ve "
+#~ "radyoaktif atıkları temizlemede kullanılabilirler.  Göçmenlerin bakımı "
+#~ "için hem gıda hem de üretim harcanır.  Bakımını yapan şehirde yiyecek "
+#~ "kalmazsa göçmenler ölebilir.\n"
+#~ "\n"
+#~ "Uzun sürecek işlerde birden fazla göçmen birimi çalışarak zamandan "
+#~ "kazanabilirler.  Yine de aynı işe çok fazla göçmen atadığınızda "
+#~ "bazılarının emeği boşa gidecektir.  Ayrıca aynı arazide duran birkaç "
+#~ "göçmenin düşman saldırılarına karşı oldukça savunmasız olabileceğini "
+#~ "unutmayın."
+
 #~ msgid "Tutorial message"
 #~ msgstr "Öğretici mesajı"
 
@@ -30548,9 +30757,6 @@ msgstr ""
 
 #~ msgid "* A missile unit: gets used up in making an attack.\n"
 #~ msgstr "* Füze birimi: saldırdıktan sonra kaybolur.\n"
-
-#~ msgid "* May become veteran through training or combat.\n"
-#~ msgstr "* Eğitimle veya savaşla kıdemli olabilir.\n"
 
 #~ msgid ""
 #~ "* Must end turn in a city or next to land, or has a 50%% risk of being "
