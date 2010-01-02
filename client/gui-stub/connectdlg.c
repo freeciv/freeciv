@@ -89,7 +89,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
  This regenerates the player information from a loaded game on the
  server.
 **************************************************************************/
-void handle_game_load(struct packet_game_load *packet)
+void handle_game_load(bool load_successful, char *filename)
 { 
   /* PORTME */
 }

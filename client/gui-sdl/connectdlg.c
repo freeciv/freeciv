@@ -80,7 +80,7 @@ void really_close_connection_dialog(void)
 /**************************************************************************
  provide a packet handler for packet_game_load
 **************************************************************************/
-void handle_game_load(struct packet_game_load *packet)
+void handle_game_load(bool load_successful, char *filename)
 { 
   /* PORTME */
 }

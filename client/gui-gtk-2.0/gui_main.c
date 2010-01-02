@@ -946,8 +946,6 @@ static void setup_widgets(void)
       create_load_page(), NULL);
   gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
       create_network_page(), NULL);
-  gtk_notebook_append_page(GTK_NOTEBOOK(notebook),
-      create_nation_page(), NULL);
 
   main_tips = gtk_tooltips_new();
 

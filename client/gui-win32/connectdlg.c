@@ -156,7 +156,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
 /**************************************************************************
   this regenerates the player information from a loaded game on the server.
 **************************************************************************/
-void handle_game_load(struct packet_game_load *packet)
+void handle_game_load(bool load_successful, char *filename)
 { 
   char *row[3];
   int i;
@@ -168,14 +168,14 @@ void handle_game_load(struct packet_game_load *packet)
   }
 
   /* we couldn't load the savegame, we could have gotten the name wrong, etc */
-  if (!packet->load_successful) {
+  if (!load_successful) {
     SetWindowText(connect_dlg, _("Couldn't load the savegame"));
     return;
   } else {
-    char *buf = strrchr(packet->load_filename, '/');
+    char *buf = strrchr(load_filename, '/');
 
     if (buf == NULL) {
-      buf = packet->load_filename;
+      buf = load_filename;
     } else {
       buf++;
     }
@@ -188,9 +188,9 @@ void handle_game_load(struct packet_game_load *packet)
   set_player_count(packet->nplayers);
   ListView_DeleteAllItems(players_listview);
 
-  for (i = 0; i < packet->nplayers; i++) {
+  players_iterate(pplayer) {
     const char *nation_name;
-    struct nation_type *pnation = nation_by_number(packet->nations[i]);
+    struct nation_type *pnation = nation_of_player(pplayer);
 
     if (pnation == NO_NATION_SELECTED) {
       nation_name = "";
@@ -198,23 +198,15 @@ void handle_game_load(struct packet_game_load *packet)
       nation_name = nation_adjective_translation(pnation);
     }
 
-    row[0] = packet->name[i];
-    row[1] = (char *)nation_name;
-    row[2] = packet->is_alive[i] ? _("Alive") : _("Dead");
-    row[3] = packet->is_ai[i] ? _("AI") : _("Human");
+    row[0] = (char *) player_name(pplayer);
+    row[1] = (char *) nation_name;
+    row[2] = (char *) pplayer->is_alive ? _("Alive") : _("Dead");
+    row[3] = (char *) pplayer->ai_data.control ? _("AI") : _("Human");
     fcwin_listview_add_row(players_listview, 0, 4, row);
-  }
+  } players_iterate_end;
 
-  /* if nplayers is zero, we suppose it's a scenario */
-  if (packet->load_successful && packet->nplayers == 0) {
+  if (game.info.is_new_game) {
     send_chat("/take -");
-
-    /* create a false entry */
-    row[0] = user_name;
-    row[1] = "";
-    row[2] = _("Alive");
-    row[3] = _("Human");
-    fcwin_listview_add_row(players_listview, 0, 4, row);
   }
 
   ListView_SetColumnWidth(players_listview, 0, LVSCW_AUTOSIZE);

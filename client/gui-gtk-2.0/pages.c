@@ -65,21 +65,19 @@ GtkWidget *take_button, *ready_button, *nation_button;
 
 static GtkWidget *scenario_description;
 
-static GtkListStore *load_store, *scenario_store,
-  *nation_store, *meta_store, *lan_store; 
+static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
 
 static GtkListStore *server_playerlist_store;
 static GtkWidget *server_playerlist_view;
 
-static GtkTreeSelection *load_selection, *scenario_selection,
-  *nation_selection, *meta_selection, *lan_selection;
+static GtkTreeSelection *load_selection, *scenario_selection;
+static GtkTreeSelection *meta_selection, *lan_selection;
 
 /* This is the current page, or the next we will switch to when the idle
  * callback will be called. */
 static enum client_pages next_page = -1;
 
 static void set_page_callback(GtkWidget *w, gpointer data);
-static void update_nation_page(struct packet_game_load *packet);
 
 static guint meta_scan_timer, lan_scan_timer;
 static struct server_scan *meta_scan, *lan_scan;
@@ -1105,15 +1103,17 @@ static void take_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  update the start page.
+  Update the start page.
 **************************************************************************/
 void update_start_page(void)
 {
   bool old = send_new_aifill_to_server;
+
   send_new_aifill_to_server = FALSE;
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin),
                             game.info.aifill);
   send_new_aifill_to_server = old;
+  update_conn_list_dialog();
 }
 
 static struct player *conn_menu_player;
@@ -1694,18 +1694,14 @@ GtkWidget *create_start_page(void)
 /**************************************************************************
   this regenerates the player information from a loaded game on the server.
 **************************************************************************/
-void handle_game_load(struct packet_game_load *packet)
+void handle_game_load(bool load_successful, char *filename)
 {
-  if (!packet->load_successful) {
-  } else {
+  if (load_successful) {
+    set_client_page(PAGE_START);
+
     if (game.info.is_new_game) {
-      set_client_page(PAGE_START);
-      
       /* It's pregame. Create a player and connect to him */
       send_chat("/take -");
-    } else {
-      update_nation_page(packet);
-      set_client_page(PAGE_NATION);
     }
   }
 }
@@ -2032,161 +2028,6 @@ GtkWidget *create_scenario_page(void)
 
 
 /**************************************************************************
-  change the player name to that of the nation's leader and start the game.
-**************************************************************************/
-static void nation_start_callback(void)
-{
-  GtkTreeIter it;
-  char *name;
-
-  if (!gtk_tree_selection_get_selected(nation_selection, NULL, &it)) {
-    return;
-  }
-
-  gtk_tree_model_get(GTK_TREE_MODEL(nation_store), &it, 0, &name, -1);
-  sz_strlcpy(leader_name, name);
-
-  send_start_saved_game();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void update_nation_page(struct packet_game_load *packet)
-{
-  int i;
-
-  set_player_count(packet->nplayers);
-
-  gtk_list_store_clear(nation_store);
-
-  for (i = 0; i < packet->nplayers; i++) {
-    GtkTreeIter iter;
-    const char *nation_name;
-    struct nation_type *pnation = nation_by_number(packet->nations[i]);
-
-    if (pnation == NO_NATION_SELECTED) {
-      nation_name = "";
-    } else {
-      nation_name = nation_adjective_translation(pnation);
-    }
-
-    gtk_list_store_append(nation_store, &iter);
-    gtk_list_store_set(nation_store, &iter, 
-	0, packet->name[i],
-	2, nation_name,
-	3, packet->is_alive[i] ? _("Alive") : _("Dead"),
-	4, packet->is_ai[i] ? _("AI") : _("Human"), -1);
-
-    /* set flag if we've got one to set. */
-    if (pnation != NO_NATION_SELECTED) {
-      GdkPixbuf *flag = get_flag(pnation);
-
-      if (flag) {
-	gtk_list_store_set(nation_store, &iter, 1, flag, -1);
-	g_object_unref(flag);
-      }
-    }
-  }
-
-  /* if nplayers is zero, we suppose it's a scenario */
-  if (packet->nplayers == 0) {
-    GtkTreeIter iter;
-    send_chat("/take -");
-
-    /* create a false entry */
-    gtk_list_store_append(nation_store, &iter);
-    gtk_list_store_set(nation_store, &iter,
-	0, user_name,
-	3, _("Alive"),
-	4, _("Human"), -1);
-  }
-}
-
-/**************************************************************************
-  create the nation page.
-**************************************************************************/
-GtkWidget *create_nation_page(void)
-{
-  GtkWidget *box, *sbox, *label, *view, *sw, *bbox, *button;
-  GtkCellRenderer *trenderer, *prenderer;
-
-  box = gtk_vbox_new(FALSE, 18);
-  gtk_container_set_border_width(GTK_CONTAINER(box), 4);
-
-  sbox = gtk_vbox_new(FALSE, 2);
-  gtk_container_add(GTK_CONTAINER(box), sbox);
-
-  nation_store = gtk_list_store_new(5, G_TYPE_STRING, GDK_TYPE_PIXBUF,
-      G_TYPE_STRING, G_TYPE_STRING, G_TYPE_STRING);
-  
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(nation_store));
-  nation_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  g_object_unref(nation_store);
-  gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-
-  trenderer = gtk_cell_renderer_text_new();
-  prenderer = gtk_cell_renderer_pixbuf_new();
-
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-        -1, _("Name"), trenderer, "text", 0, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-        -1, _("Flag"), prenderer, "pixbuf", 1, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-        -1, _("Nation"), trenderer, "text", 2, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-        -1, _("Status"), trenderer, "text", 3, NULL);
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-        -1, _("Type"), trenderer, "text", 4, NULL);
-
-  gtk_tree_selection_set_mode(nation_selection, GTK_SELECTION_SINGLE);
-
-  g_signal_connect(view, "row_activated",
-                   G_CALLBACK(nation_start_callback), NULL);
-
-  label = g_object_new(GTK_TYPE_LABEL,
-                       "use-underline", TRUE,
-		       "mnemonic-widget", view,
-                       "label", _("Choose a _nation to play:"),
-                       "xalign", 0.0,
-                       "yalign", 0.5,
-                       NULL);
-  gtk_box_pack_start(GTK_BOX(sbox), label, FALSE, FALSE, 2);
-  
-  sw = gtk_scrolled_window_new(NULL,NULL);
-  gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-                                      GTK_SHADOW_ETCHED_IN);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-  gtk_box_pack_start(GTK_BOX(sbox), sw, TRUE, TRUE, 0);
-
-  bbox = gtk_hbutton_box_new();
-  gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
-  gtk_box_set_spacing(GTK_BOX(bbox), 12);
-  gtk_box_pack_start(GTK_BOX(box), bbox, FALSE, FALSE, 0);
-
-  button = gtk_stockbutton_new(GTK_STOCK_PREFERENCES,
-      _("_More Game Options..."));
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  gtk_button_box_set_child_secondary(GTK_BUTTON_BOX(bbox), button, TRUE);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(game_options_callback), NULL);
-
-  button = gtk_button_new_from_stock(GTK_STOCK_CANCEL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(main_callback), NULL);
-
-  button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Start"));
-  g_signal_connect(button, "clicked",
-      G_CALLBACK(nation_start_callback), NULL);
-  gtk_container_add(GTK_CONTAINER(bbox), button);
-
-  return box;
-}
-
-/**************************************************************************
   Returns current client page
 **************************************************************************/
 enum client_pages get_client_page(void)
@@ -2236,14 +2077,16 @@ static gboolean set_client_page_callback(gpointer data)
     break;
   case PAGE_START:
     if (is_server_running()) {
-      gtk_widget_show(start_options_table);
+      if (game.info.is_new_game) {
+        gtk_widget_show(start_options_table);
+      } else {
+        gtk_widget_hide(start_options_table);
+      }
       update_start_page();
     } else {
       gtk_widget_hide(start_options_table);
     }
     voteinfo_gui_update();
-    break;
-  case PAGE_NATION:
     break;
   case PAGE_GAME:
     reset_unit_table();
@@ -2285,9 +2128,6 @@ static gboolean set_client_page_callback(gpointer data)
     inputline_grab_focus();
     break;
   case PAGE_GGZ:
-    break;
-  case PAGE_NATION:
-    gtk_tree_view_focus(gtk_tree_selection_get_tree_view(nation_selection));
     break;
   case PAGE_LOAD:
     gtk_tree_view_focus(gtk_tree_selection_get_tree_view(load_selection));

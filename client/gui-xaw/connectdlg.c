@@ -253,7 +253,7 @@ void gui_server_connect(void)
   this regenerates the player information from a loaded game on the server.
   currently a stub. TODO
 **************************************************************************/
-void handle_game_load(struct packet_game_load *packet)
+void handle_game_load(bool load_successful, char *filename)
 { 
   /* PORTME */
 }

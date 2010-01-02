@@ -1411,15 +1411,9 @@ PACKET_RULESET_CHOICES=115;sc
   STRING rulesets[MAX_NUM_RULESETS:ruleset_count][MAX_RULESET_NAME_LENGTH];
 end
 
-PACKET_GAME_LOAD=111;sc,handle-via-packet,lsend
+PACKET_GAME_LOAD = 111; sc, lsend, dsend
   BOOL load_successful;
-  PLAYER nplayers;
   STRING load_filename[MAX_LEN_PACKET];
-  STRING name[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
-  STRING username[MAX_NUM_PLAYERS:nplayers][MAX_LEN_NAME]; 
-  NATION nations[MAX_NUM_PLAYERS:nplayers];
-  BOOL is_alive[MAX_NUM_PLAYERS:nplayers];
-  BOOL is_ai[MAX_NUM_PLAYERS:nplayers];
 end
 
 PACKET_OPTIONS_SETTABLE_CONTROL=112;sc,handle-via-packet,lsend

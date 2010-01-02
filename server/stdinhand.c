@@ -3179,49 +3179,6 @@ static bool detach_command(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
-  After a /load is completed, a reply is sent to all connections to tell
-  them about the load.  This information is used by the conndlg to
-  set up the graphical interface for starting the game.
-**************************************************************************/
-static void send_load_game_info(bool load_successful)
-{
-  struct packet_game_load packet;
-
-  /* Clear everything to be safe. */
-  memset(&packet, 0, sizeof(packet));
-
-  sz_strlcpy(packet.load_filename, srvarg.load_filename);
-  packet.load_successful = load_successful;
-
-  if (load_successful) {
-    int i = 0;
-
-    players_iterate(pplayer) {
-      if (nation_count() > 0 && is_barbarian(pplayer)) {
-	continue;
-      }
-
-      sz_strlcpy(packet.name[i], player_name(pplayer));
-      sz_strlcpy(packet.username[i], pplayer->username);
-      if (pplayer->nation != NO_NATION_SELECTED) {
-	packet.nations[i] = nation_number(pplayer->nation);
-      } else { /* No nations picked */
-	packet.nations[i] = -1;
-      }
-      packet.is_alive[i] = pplayer->is_alive;
-      packet.is_ai[i] = pplayer->ai_data.control;
-      i++;
-    } players_iterate_end;
-
-    packet.nplayers = i;
-  } else {
-    packet.nplayers = 0;
-  }
-
-  lsend_packet_game_load(game.est_connections, &packet);
-}
-
-/**************************************************************************
   Loads a file, complete with access checks and error messages sent back
   to the caller on failure.
 
@@ -3257,7 +3214,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   if (S_S_INITIAL != server_state()) {
     cmd_reply(CMD_LOAD, caller, C_FAIL,
               _("Cannot load a game while another is running."));
-    send_load_game_info(FALSE);
+    dlsend_packet_game_load(game.est_connections, TRUE, filename);
     return FALSE;
   }
   if (!is_safe_filename(filename) && is_restricted(caller)) {
@@ -3303,7 +3260,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
   if (!(file = secfile_load(arg, FALSE))) {
     cmd_reply(CMD_LOAD, caller, C_FAIL, _("Could not load savefile: %s"), arg);
-    send_load_game_info(FALSE);
+    dlsend_packet_game_load(game.est_connections, TRUE, arg);
     return FALSE;
   }
 
@@ -3355,7 +3312,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   send_player_info_c(NULL, NULL);
 
   /* Everything seemed to load ok; spread the good news. */
-  send_load_game_info(TRUE);
+  dlsend_packet_game_load(game.est_connections, TRUE, srvarg.load_filename);
 
   /* Attach connections to players. Currently, this applies only 
    * to connections that have the same username as a player. */
