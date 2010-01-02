@@ -201,6 +201,7 @@ req2     = "Currency"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
+helptext = _("Allows Settlers, Workers and Engineers to build fortresses.")
 
 [advance_currency]
 name     = _("Currency")
@@ -290,6 +291,7 @@ req2     = "Theory of Gravity"
 flags    = "Build_Airborne"
 graphic     = "a.flight"
 graphic_alt = "-"
+helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_fusion_power]
 name     = _("Fusion Power")
@@ -346,6 +348,7 @@ req2     = "Literacy"
 flags    = ""
 graphic     = "a.invention"
 graphic_alt = "-"
+helptext = _("Increases units' vision when in fortresses.")
 
 [advance_iron_working]
 name     = _("Iron Working")
@@ -566,6 +569,7 @@ req2     = "Electricity"
 flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
+helptext = _("Allows Workers and Engineers to build airbases and buoys.")
 
 [advance_railroad]
 name     = _("Railroad")
@@ -574,6 +578,7 @@ req2     = "Bridge Building"
 flags    = "Railroad"
 graphic     = "a.railroad"
 graphic_alt = "-"
+helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_recycling]
 name     = _("Recycling")
