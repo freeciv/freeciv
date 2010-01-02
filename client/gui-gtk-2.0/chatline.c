@@ -869,6 +869,54 @@ static void make_tag_callback(GtkToolButton *button, gpointer data)
 }
 
 /**************************************************************************
+  Set the color for an object.  Update the button if not NULL.
+**************************************************************************/
+static void color_set(GObject *object, const gchar *color_target,
+                      GdkColor *color, GtkToolButton *button)
+{
+  GdkColor *current_color = g_object_get_data(object, color_target);
+  GdkColormap *colormap = gdk_colormap_get_system();
+
+  if (NULL == color) {
+    /* Clears the current color. */
+    if (NULL != current_color) {
+      gdk_colormap_free_colors(colormap, current_color, 1);
+      gdk_color_free(current_color);
+      g_object_set_data(object, color_target, NULL);
+      if (NULL != button) {
+        gtk_tool_button_set_icon_widget(button, NULL);
+      }
+    }
+  } else {
+    /* Apply the new color. */
+    if (NULL != current_color) {
+      /* We already have a GdkColor pointer. */
+      gdk_colormap_free_colors(colormap, current_color, 1);
+      *current_color = *color;
+    } else {
+      /* We need to make a GdkColor pointer. */
+      current_color = gdk_color_copy(color);
+      g_object_set_data(object, color_target, current_color);
+    }
+
+    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
+    if (NULL != button) {
+      /* Update the button. */
+      GdkPixmap *pixmap;
+      GtkWidget *image;
+
+      pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
+      gdk_gc_set_foreground(fill_bg_gc, current_color);
+      gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
+      image = gtk_pixmap_new(pixmap, NULL);
+      gtk_tool_button_set_icon_widget(button, image);
+      gtk_widget_show(image);
+      g_object_unref(G_OBJECT(pixmap));
+    }
+  }
+}
+
+/**************************************************************************
   Color selection dialog response.
 **************************************************************************/
 static void color_selected(GtkDialog *dialog, gint res, gpointer data)
@@ -877,45 +925,18 @@ static void color_selected(GtkDialog *dialog, gint res, gpointer data)
     GTK_TOOL_BUTTON(g_object_get_data(G_OBJECT(dialog), "button"));
   const gchar *color_target =
     g_object_get_data(G_OBJECT(button), "color_target");
-  GdkColor *current_color = g_object_get_data(G_OBJECT(data), color_target);
-  GdkColormap *colormap = gdk_colormap_get_system();
 
   if (res == GTK_RESPONSE_REJECT) {
     /* Clears the current color. */
-    if (current_color) {
-      gdk_colormap_free_colors(colormap, current_color, 1);
-      gdk_color_free(current_color);
-      g_object_set_data(G_OBJECT(data), color_target, NULL);
-      gtk_tool_button_set_icon_widget(button, NULL);
-    }
+    color_set(G_OBJECT(data), color_target, NULL, button);
   } else if (res == GTK_RESPONSE_OK) {
     /* Apply the new color. */
-    GdkPixmap *pixmap;
-    GtkWidget *image;
     GtkColorSelection *selection =
       GTK_COLOR_SELECTION(g_object_get_data(G_OBJECT(dialog), "selection"));
+    GdkColor new_color;
 
-    if (current_color) {
-      /* We already have a GdkColor pointer. */
-      gdk_colormap_free_colors(colormap, current_color, 1);
-      gtk_color_selection_get_current_color(selection, current_color);
-    } else {
-      /* We need to make a GdkColor pointer. */
-      GdkColor new_color;
-
-      gtk_color_selection_get_current_color(selection, &new_color);
-      current_color = gdk_color_copy(&new_color);
-      g_object_set_data(G_OBJECT(data), color_target, current_color);
-    }
-
-    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
-    pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
-    gdk_gc_set_foreground(fill_bg_gc, current_color);
-    gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
-    image = gtk_pixmap_new(pixmap, NULL);
-    gtk_tool_button_set_icon_widget(button, image);
-    gtk_widget_show(image);
-    g_object_unref(G_OBJECT(pixmap));
+    gtk_color_selection_get_current_color(selection, &new_color);
+    color_set(G_OBJECT(data), color_target, &new_color, button);
   }
 
   gtk_widget_destroy(GTK_WIDGET(dialog));
@@ -1106,6 +1127,7 @@ void chatline_init(void)
   GtkWidget *vbox, *toolbar, *hbox, *button, *entry, *bbox;
   GtkToolItem *item;
   GtkTooltips *tooltips;
+  GdkColor color;
 
   /* Chatline history. */
   if (!history_list) {
@@ -1194,6 +1216,12 @@ void chatline_init(void)
                    G_CALLBACK(select_color_callback), entry);
   gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
                        _("Select the text color"), NULL);
+  if (gdk_color_parse("#000000", &color)) {
+    /* Set default foreground color. */
+    color_set(G_OBJECT(entry), "fg_color", &color, GTK_TOOL_BUTTON(item));
+  } else {
+    freelog(LOG_ERROR, "Failed to set the default foreground color.");
+  }
 
   /* Background selector. */
   item = gtk_tool_button_new(NULL, "");
@@ -1204,6 +1232,12 @@ void chatline_init(void)
                    G_CALLBACK(select_color_callback), entry);
   gtk_tooltips_set_tip(tooltips, GTK_WIDGET(item),
                        _("Select the background color"), NULL);
+  if (gdk_color_parse("#ffffff", &color)) {
+    /* Set default background color. */
+    color_set(G_OBJECT(entry), "bg_color", &color, GTK_TOOL_BUTTON(item));
+  } else {
+    freelog(LOG_ERROR, "Failed to set the default background color.");
+  }
 
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar),
                      gtk_separator_tool_item_new(), -1);
