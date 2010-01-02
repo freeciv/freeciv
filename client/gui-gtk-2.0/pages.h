@@ -27,7 +27,6 @@ GtkWidget *create_start_page(void);
 GtkWidget *create_scenario_page(void);
 GtkWidget *create_load_page(void);
 GtkWidget *create_network_page(void);
-GtkWidget *create_nation_page(void);
 
 GtkWidget *create_statusbar(void);
 void append_network_statusbar(const char *text, bool force);

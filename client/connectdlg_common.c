@@ -70,8 +70,6 @@ HANDLE loghandle = INVALID_HANDLE_VALUE;
 static pid_t server_pid = - 1;
 #endif
 
-char leader_name[MAX_LEN_NAME];
-
 static char challenge_fullname[MAX_LEN_PATH];
 static bool client_has_hack = FALSE;
 
@@ -502,16 +500,6 @@ void handle_single_want_hack_reply(bool you_have_hack)
                            "The server will now be shutdown."));
     client_kill_server(TRUE);
   }
-}
-
-/**************************************************************** 
-send server commands to start a saved game.
-*****************************************************************/ 
-void send_start_saved_game(void)
-{   
-  send_chat("/set timeout 0");
-  send_chat_printf("/take \"%s\" \"%s\"", user_name, leader_name);
-  send_chat("/start");
 }
 
 /**************************************************************** 

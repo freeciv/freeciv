@@ -26,11 +26,8 @@ bool is_server_running(void);
 bool can_client_access_hack(void);
 
 void send_client_wants_hack(const char *filename);
-void send_start_saved_game(void);
 void send_save_game(char *filename);
 
 void set_ruleset(const char *ruleset);
-
-extern char leader_name[MAX_LEN_NAME];
 
 #endif  /* FC__CONNECTDLG_COMMON_H */ 
