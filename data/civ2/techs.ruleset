@@ -190,6 +190,7 @@ req2     = "Currency"
 flags    = ""
 graphic     = "a.construction"
 graphic_alt = "-"
+helptext = _("Allows Settlers and Engineers to build fortresses.")
 
 [advance_currency]
 name     = _("Currency")
@@ -279,6 +280,7 @@ req2     = "Theory of Gravity"
 flags    = ""
 graphic     = "a.flight"
 graphic_alt = "-"
+helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_fundamentalism]
 name     = _("Fundamentalism")
@@ -563,6 +565,7 @@ req2     = "Electricity"
 flags    = ""
 graphic     = "a.radio"
 graphic_alt = "-"
+helptext = _("Allows Settlers and Engineers to build airbases.")
 
 [advance_railroad]
 name     = _("Railroad")
@@ -571,6 +574,7 @@ req2     = "Bridge Building"
 flags    = "Railroad"
 graphic     = "a.railroad"
 graphic_alt = "-"
+helptext = _("Decreases one-time revenue from new trade routes.")
 
 [advance_recycling]
 name     = _("Recycling")
