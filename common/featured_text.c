@@ -366,10 +366,8 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
   What's should be in the va_list:
   - If the text tag type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or
   TTT_UNDERLINE, there shouldn't be any extra argument.
-  - If the text tag type is TTT_COLOR, then there should be 2 arguments of
-  type 'const char *' or a struct ft_color .  The first determines the
-  foreground color, the last the background color.  Empty strings and NULL
-  are supported.
+  - If the text tag type is TTT_COLOR, then there should be 1 argument of
+  type 'struct ft_color'.
   - If the text tag type is TTT_LINK, then there should be 2 extra arguments.
   The first is type 'enum text_link_type' and will determine the type of the
   following argument:
@@ -395,22 +393,21 @@ static bool text_tag_initv(struct text_tag *ptag, enum text_tag_type type,
     return TRUE;
   case TTT_COLOR:
     {
-      const char *foreground = va_arg(args, const char *);
-      const char *background = va_arg(args, const char *);
+      struct ft_color color = va_arg(args, struct ft_color);
 
-      if ((NULL == foreground || '\0' == foreground[0])
-          && (NULL == background || '\0' == background[0])) {
+      if ((NULL == color.foreground || '\0' == color.foreground[0])
+          && (NULL == color.background || '\0' == color.background[0])) {
         return FALSE; /* No color at all. */
       }
 
-      if (NULL != foreground && '\0' != foreground[0]) {
-        sz_strlcpy(ptag->color.foreground, foreground);
+      if (NULL != color.foreground && '\0' != color.foreground[0]) {
+        sz_strlcpy(ptag->color.foreground, color.foreground);
       } else {
         ptag->color.foreground[0] = '\0';
       }
 
-      if (NULL != background && '\0' != background[0]) {
-        sz_strlcpy(ptag->color.background, background);
+      if (NULL != color.background && '\0' != color.background[0]) {
+        sz_strlcpy(ptag->color.background, color.background);
       } else {
         ptag->color.background[0] = '\0';
       }
@@ -619,9 +616,6 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
   - If tag_type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or TTT_UNDERLINE, there
   shouldn't be any extra argument.
   - If tag_type is TTT_COLOR:
-    struct text_tag *text_tag_new(..., const char *foreground,
-                                  const char *background);
-    or
     struct text_tag *text_tag_new(..., const struct ft_color color);
   - If tag_type is TTT_LINK and you want a city link:
     struct text_tag *text_tag_new(..., TLT_CITY, struct city *pcity);
@@ -980,9 +974,6 @@ size_t featured_text_to_plain_text(const char *featured_text,
   - If tag_type is TTT_BOLD, TTT_ITALIC, TTT_STRIKE or TTT_UNDERLINE, there
   shouldn't be any extra argument.
   - If tag_type is TTT_COLOR:
-    size_t featured_text_apply_tag(..., const char *foreground,
-                                   const char *background);
-    or
     size_t featured_text_apply_tag(..., const struct ft_color color);
   - If tag_type is TTT_LINK and you want a city link:
     size_t featured_text_apply_tag(..., TLT_CITY, struct city *pcity);

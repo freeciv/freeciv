@@ -261,11 +261,12 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
 
     if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
                                      TTT_COLOR, 0, OFFSET_UNSET,
-                                     fg_color_text, bg_color_text)) {
+                                     ft_color(fg_color_text,
+                                              bg_color_text))) {
       goto CLEAN_UP;
     }
   } else if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
-                                   type, 0, OFFSET_UNSET)) {
+                                          type, 0, OFFSET_UNSET)) {
     goto CLEAN_UP;
   }
 

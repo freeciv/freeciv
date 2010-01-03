@@ -967,14 +967,14 @@ void handle_event(const char *featured_text, struct tile *ptile,
           && 0 == mystrncasecmp(p, username, userlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                                                p - plain_text + userlen,
-                                                NULL, highlight_our_names));
+                             p - plain_text + userlen,
+                             ft_color(NULL, highlight_our_names)));
       } else if (playername
                  && 0 == mystrncasecmp(p, playername, playerlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                                                p - plain_text + playerlen,
-                                                NULL, highlight_our_names));
+                             p - plain_text + playerlen,
+                             ft_color(NULL, highlight_our_names)));
       }
     }
   }
