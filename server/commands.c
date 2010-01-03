@@ -117,11 +117,19 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("show\n"
       "show <option-name>\n"
-      "show <option-prefix>"),
+      "show <option-prefix>\n"
+      "show all\n"
+      "show vital\n"
+      "show situational\n"
+      "show rare\n"
+      "show changed"),
    N_("Show server options."),
-   N_("With no arguments, shows all server options (or available options, when "
-      "used by clients).  With an argument, show only the named option, "
-      "or options with that prefix.")
+   N_("With no arguments, shows vital server options (or available options, "
+      "when used by clients). With an option name argument, show only the "
+      "named option, or options with that prefix. With \"all\", it shows "
+      "all options. With \"vital\", \"situational\" or \"rare\", a set of "
+      "options with this level. With \"changed\", it shows only the options"
+      "which have been modified.")
   },
   {"wall",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */

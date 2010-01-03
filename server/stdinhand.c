@@ -1751,48 +1751,43 @@ Only show options which the caller can SEE.
 static bool show_command(struct connection *caller, char *str, bool check)
 {
   char buf[MAX_LEN_CONSOLE_LINE], value[MAX_LEN_CONSOLE_LINE];
-  char command[MAX_LEN_CONSOLE_LINE], *cptr_s, *cptr_d;
   bool is_changed;
   int cmd, len1;
-  enum sset_level level = SSET_VITAL;
+  enum sset_level level = SSET_ALL;
   size_t clen = 0;
 
-  for (cptr_s = str; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
-    /* nothing */
-  }
-  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s); cptr_s++, cptr_d++)
-    *cptr_d=*cptr_s;
-  *cptr_d='\0';
-
-  if (*command != '\0') {
+  remove_leading_trailing_spaces(str);
+  if (str[0] != '\0') {
     /* In "/show forests", figure out that it's the forests option we're
      * looking at. */
-    cmd=lookup_option(command);
+    cmd = lookup_option(str);
     if (cmd >= 0) {
       /* Ignore levels when a particular option is specified. */
       level = SSET_NONE;
 
       if (!setting_is_visible(setting_by_number(cmd), caller)) {
         cmd_reply(CMD_SHOW, caller, C_FAIL,
-		  _("Sorry, you do not have access to view option '%s'."),
-		  command);
+                  _("Sorry, you do not have access to view option '%s'."),
+                  str);
         return FALSE;
       }
     }
     if (cmd == -1) {
-      cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), command);
+      cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), str);
       return FALSE;
     }
     if (cmd == -2) {
       /* allow ambiguous: show all matching */
-      clen = strlen(command);
+      clen = strlen(str);
     }
     if (cmd == -3) {
       /* Option level */
-      level = lookup_option_level(command);
+      level = lookup_option_level(str);
     }
   } else {
-   cmd = -1;  /* to indicate that no comannd was specified */
+    cmd = -1;  /* to indicate that no comannd was specified */
+    /* Use vital level by default. */
+    level = SSET_VITAL;
   }
 
 #define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
@@ -1840,7 +1835,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
         && (cmd == -1 || cmd == -3 || level == SSET_CHANGED
             || cmd == setting_number(pset)
         || (cmd == -2
-            && mystrncasecmp(setting_name(pset), command, clen) == 0))) {
+            && mystrncasecmp(setting_name(pset), str, clen) == 0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       int len, feature_len = 0;
 
