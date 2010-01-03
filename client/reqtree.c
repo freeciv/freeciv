@@ -413,21 +413,15 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
     }
 
     advance = &advances[tech];
-    /* Don't include redundant edges */
+    /* Formerly, we used to remove the redundant requirement nodes (the
+     * technologies already included in the requirements of the other
+     * requirement).  However, it doesn't look like a good idea, because
+     * a player can steal any technology independently of the technology
+     * tree. */
     if (advance->req[0] != A_NONE && advance->req[1] != A_LAST) {
-      if ((advance->req[1] != A_NONE
-          && !is_tech_a_req_for_goal(game.player_ptr, advance->req[0],
-                                     advance->req[1]))
-         || advance->req[1] == A_NONE) {
-
-	add_requirement(nodes[tech], nodes[advance->req[0]]);
-      }
-
+      add_requirement(nodes[tech], nodes[advance->req[0]]);
       if (advance->req[1] != A_NONE) {
-	if (!is_tech_a_req_for_goal(game.player_ptr, advance->req[1],
-				    advance->req[0])) {
-	  add_requirement(nodes[tech], nodes[advance->req[1]]);
-	}
+        add_requirement(nodes[tech], nodes[advance->req[1]]);
       }
     }
   } tech_type_iterate_end;
