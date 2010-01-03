@@ -516,10 +516,10 @@ static void update_diplomatics(void)
                         _("Concerned citizens point out that the cease-fire "
                           "with %s will run out soon."),
                         player_name(plr2));
-          notify_player(plr2, NULL, E_DIPLOMACY,
-                        _("Concerned citizens point out that the cease-fire "
-                          "with %s will run out soon."),
-                        player_name(plr1));
+          /* Message to plr2 will be done when plr1 and plr2 will be swapped.
+           * Else, we will get a message duplication.  Note the case is not
+           * the below, because the state will be changed for both players to
+           * war. */
           break;
         case 0:
           notify_player(plr1, NULL, E_DIPLOMACY, _("The cease-fire with "
