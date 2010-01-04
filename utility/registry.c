@@ -738,6 +738,8 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   fz_FILE *fs;
   const struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
+  struct entry_list *skip;
+  int i;
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
 
@@ -754,6 +756,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   }
 
   section_list_iterate(secfile->sections, psection) {
+    skip = entry_list_new();
     fz_fprintf(fs, "\n[%s]\n", section_name(psection));
 
     /* Following doesn't use entry_list_iterate() because we want to do
@@ -762,6 +765,11 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
     for (ent_iter = genlist_head(entry_list_base(section_entries(psection)));
          ent_iter && (pentry = genlist_link_data(ent_iter));
          ent_iter = genlist_link_next(ent_iter)) {
+
+      if (entry_list_unlink(skip, pentry)) {
+        /* Ignore this one.  Probably a part of a vector. */
+        continue;
+      }
 
       /* Tables: break out of this loop if this is a non-table
        * entry (pentry and ent_iter unchanged) or after table (pentry
@@ -792,7 +800,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         for (; *c != '\0' && my_isalpha(*c); c++) {
           /* nothing */
         }
-        if(strncmp(c,"0.",2) != 0) {
+        if (0 != strncmp(c, "0.", 2)) {
           break;
         }
         c += 2;
@@ -895,8 +903,18 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         break;
       }
 
-      fz_fprintf(fs, "%s = ", entry_name(pentry));
+      /* Classic entry. */
+      col_entry_name = entry_name(pentry);
+      fz_fprintf(fs, "%s = ", col_entry_name);
       entry_to_file(pentry, fs, buf, sizeof(buf));
+
+      /* Check for vector. */
+      for (i = 1; (col_pentry = section_entry_lookup(psection, "%s,%d",
+                   col_entry_name, i)); i++) {
+        fz_fprintf(fs, ", ");
+        entry_to_file(col_pentry, fs, buf, sizeof(buf));
+        entry_list_append(skip, col_pentry); /* Ignore this one next time. */
+      }
 
       if (entry_comment(pentry)) {
         fz_fprintf(fs, "  # %s\n", entry_comment(pentry));
@@ -904,6 +922,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         fz_fprintf(fs, "\n");
       }
     }
+    entry_list_free(skip);
   } section_list_iterate_end;
   
   if (0 != fz_ferror(fs)) {

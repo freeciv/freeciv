@@ -65,7 +65,7 @@ void genlist_clear(struct genlist *pgenlist);
 void genlist_free(struct genlist *pgenlist);
 void genlist_append(struct genlist *pgenlist, void *data);
 void genlist_prepend(struct genlist *pgenlist, void *data);
-void genlist_unlink(struct genlist *pgenlist, void *punlink);
+bool genlist_unlink(struct genlist *pgenlist, void *punlink);
 
 bool genlist_search(struct genlist *pgenlist, const void *data);
 

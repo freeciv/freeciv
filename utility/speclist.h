@@ -36,7 +36,7 @@
       foo_t *foo_list_get(struct foo_list *This, int index);
       void foo_list_prepend(struct foo_list *This, foo_t *pfoo);
       void foo_list_append(struct foo_list *This, foo_t *pfoo);
-      void foo_list_unlink(struct foo_list *This, foo_t *pfoo);
+      bool foo_list_unlink(struct foo_list *This, foo_t *pfoo);
       void foo_list_clear(struct foo_list *This);
       bool foo_list_search(struct foo_list *this, foo_t *pfoo);
       void foo_list_sort(struct foo_list *This, 
@@ -98,9 +98,9 @@ static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis, SPECLIST_T
   genlist_prepend(GENLIST(tthis), pfoo);
 }
 
-static inline void SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
+static inline bool SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
 {
-  genlist_unlink(GENLIST(tthis), pfoo);
+  return genlist_unlink(GENLIST(tthis), pfoo);
 }
 
 static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)

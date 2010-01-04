@@ -140,17 +140,18 @@ void genlist_clear(struct genlist *pgenlist)
 /************************************************************************
   Remove an element of the genlist with the specified user-data pointer
   given by 'punlink'.  If there is no such element, does nothing.
-  If there are multiple such elements, removes the first one.
+  If there are multiple such elements, removes the first one.  Return
+  TRUE if one element has been removed.
 ************************************************************************/
-void genlist_unlink(struct genlist *pgenlist, void *punlink)
+bool genlist_unlink(struct genlist *pgenlist, void *punlink)
 {
   if (pgenlist->nelements > 0) {
     struct genlist_link *plink = pgenlist->head_link;
-    
+
     while (plink != NULL && plink->dataptr != punlink) {
       plink = plink->next;
     }
-    
+
     if (plink) {
       if (pgenlist->head_link == plink) {
         pgenlist->head_link = plink->next;
@@ -165,8 +166,11 @@ void genlist_unlink(struct genlist *pgenlist, void *punlink)
       }
       free(plink);
       pgenlist->nelements--;
+      return TRUE;
     }
   }
+
+  return FALSE;
 }
 
 
