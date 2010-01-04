@@ -1568,10 +1568,13 @@ static void map_unit_homecity_enqueue(struct tile *ptile)
 }
 
 /*************************************************************************
-  Claim ownership of a single tile.
+  Claim ownership of a single tile.  If ignore_loss is not NULL, then
+  it won't remove the effect of this base from the former tile owner.
 *************************************************************************/
-void map_claim_ownership(struct tile *ptile, struct player *powner,
-                         struct tile *psource)
+static void map_claim_ownership_full(struct tile *ptile,
+                                     struct player *powner,
+                                     struct tile *psource,
+                                     struct base_type *ignore_loss)
 {
   struct player *ploser = tile_owner(ptile);
 
@@ -1595,7 +1598,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
             map_refog_circle(powner, ptile, -1, pbase->vision_main_sq,
                              game.info.vision_reveal_tiles, V_MAIN);
           }
-          if (ploser) {
+          if (ploser && pbase != ignore_loss) {
             map_refog_circle(ploser, ptile, pbase->vision_main_sq, -1,
                              game.info.vision_reveal_tiles, V_MAIN);
           }
@@ -1606,7 +1609,7 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
             map_refog_circle(powner, ptile, -1, pbase->vision_invis_sq,
                              game.info.vision_reveal_tiles, V_INVIS);
           }
-          if (ploser) {
+          if (ploser && pbase != ignore_loss) {
             map_refog_circle(ploser, ptile, pbase->vision_invis_sq, -1,
                              game.info.vision_reveal_tiles, V_INVIS);
           }
@@ -1626,6 +1629,15 @@ void map_claim_ownership(struct tile *ptile, struct player *powner,
       send_tile_info(NULL, ptile, FALSE);
     }
   }
+}
+
+/*************************************************************************
+  Claim ownership of a single tile.
+*************************************************************************/
+void map_claim_ownership(struct tile *ptile, struct player *powner,
+                         struct tile *psource)
+{
+  map_claim_ownership_full(ptile, powner, psource, NULL);
 }
 
 /*************************************************************************
@@ -1794,7 +1806,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 
   /* Claim base if it has "ClaimTerritory" flag */
   if (territory_claiming_base(pbase) && pplayer) {
-    map_claim_ownership(ptile, pplayer, ptile);
+    map_claim_ownership_full(ptile, pplayer, ptile, pbase);
     map_claim_border(ptile, pplayer);
     city_thaw_workers_queue();
     city_refresh_queue_processing();
