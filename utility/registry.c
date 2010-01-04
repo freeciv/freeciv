@@ -327,8 +327,10 @@ struct section_file {
 **************************************************************************/
 static bool check_name(const char *name)
 {
+  static const char *const allowed = "_.,[]";
+
   while ('\0' != *name) {
-    if ('_' != *name && '.' != *name && ',' != *name && !my_isalnum(*name)) {
+    if (!my_isalnum(*name) && NULL == strchr(allowed, *name)) {
       return FALSE;
     }
     name++;
@@ -459,7 +461,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     return NULL;
   }
 
-  secfile = secfile_new(allow_duplicates);
+  /* Assign the real value later, to speed up the creation of new entries. */
+  secfile = secfile_new(TRUE);
   if (filename) {
     secfile->name = mystrdup(filename);
   } else {
@@ -646,6 +649,7 @@ END:
 
   if (!error) {
     /* Build the entry hash table. */
+    secfile->allow_duplicates = allow_duplicates;
     secfile->hash.entries = hash_new_nentries_full(hash_fval_string,
                                                    hash_fcmp_string,
                                                    free, NULL,
@@ -1361,7 +1365,6 @@ bool secfile_lookup_bool_default(const struct section_file *secfile,
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
-    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
     return def;
   }
 
@@ -1462,7 +1465,6 @@ int secfile_lookup_int_default(const struct section_file *secfile, int def,
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
-    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
     return def;
   }
 
@@ -1494,7 +1496,6 @@ int secfile_lookup_int_def_min_max(const struct section_file *secfile,
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
-    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
     return defval;
   }
 
@@ -1617,7 +1618,6 @@ const char *secfile_lookup_str_default(const struct section_file *secfile,
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
-    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
     return def;
   }
 
@@ -2402,15 +2402,6 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
 static void entry_from_token(struct section *psection,
                              const char *name, const char *tok)
 {
-  if (0 == mystrncasecmp(tok, "FALSE", 5)
-      || 0 == mystrncasecmp(tok, "TRUE", 4)) {
-    bool value = (0 == mystrncasecmp(tok, "TRUE", 4));
-
-    (void) section_entry_bool_new(psection, name, value);
-    DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");
-    return;
-  }
-
   if ('$' == tok[0] || '"' == tok[0]) {
     char buf[strlen(tok) + 1];
     bool escaped = ('"' == tok[0]);
@@ -2429,6 +2420,15 @@ static void entry_from_token(struct section *psection,
       DEBUG_ENTRIES("entry %s %d", name, value);
       return;
     }
+  }
+
+  if (0 == mystrncasecmp(tok, "FALSE", 5)
+      || 0 == mystrncasecmp(tok, "TRUE", 4)) {
+    bool value = (0 == mystrncasecmp(tok, "TRUE", 4));
+
+    (void) section_entry_bool_new(psection, name, value);
+    DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");
+    return;
   }
 
   freelog(LOG_ERROR, "Entry value not recognized: %s", tok);
