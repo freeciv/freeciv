@@ -8,11 +8,11 @@ legend=_("Babylon was the dominant city of Mesopotamia from the 18th to\
  Kassites, Assyrians, and Chaldeans.")
 leader=
  "Hammurabi",
- "Sargon II",
- "Nebuchadnezzar II",
- "Tiglath-Pileser III",
- "Burnaburiash II",
- "Nabonassar"
+ "Sharru-Kin II", ; a.k.a. Sargon II
+ "Nabu-Kudurri-Usur II", ; a.k.a. Nebuchadnezzar II
+ "Tukulti-Apil-Eshara III", ; a.k.a. Tiglath-Pileser III
+ "Burnaburish II", ; a.k.a. Burnaburiash II
+ "Nabu-Nasir" ; a.k.a. Nabonassar
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag = "babylon"
 flag_alt = "iraq_old"
@@ -27,12 +27,36 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "israeli", "persian", "aramean"
+civilwar_nations = "israeli", "persian", "aramean", "sumerian", "assyrian"
 
 cities =
-  "Babylon", "Lagash", "Nippur", "Ur", "Kish",
-  "Shuruppak", "Kisurra", "Cutha", "Adab", "Umma",
-  "Akkad", "Eridu", "Larsa", "Borsippa", "Sippar",
-  "Nineveh", "Ashur", "Calach", "Carcar", "Hamat",
-  "Opis", "Cunaxa", "Arbela", "Nisibis", "Carrhae",
-  "Seleucia", "Ctesiphon", "Sittace", "Orchoe", "Apamea"
+ "Babilum", ; Babylon
+ "Lagash",
+ "Nibbur", ; Nippur
+ "Ur",
+ "Kish",
+ "Shuruppak",
+ "Kisurra",
+ "Kutha",
+ "Adab",
+ "Umma",
+ "Akkad",
+ "Ea", ; Eridu
+ "Larsa",
+ "Borsippa",
+ "Sippar",
+ "Ninua", ; Nineveh
+ "Assur", ; Ashur
+ "Kalakh", ; Calach
+ "Karkar", ; Carcar
+ "Hamath", ; Hamat
+ "Upija", ; Opis
+ "Urum",
+ "Arbela",
+ "Nisibis",
+ "Harranu", ; Carrhae
+ "Seleukeia", ; Seleucia
+ "Kasfia", ; Ctesiphon
+ "Sattagu", ; Sittace
+ "Uruk", ; Orchoe
+ "Apameia" ; Apamea

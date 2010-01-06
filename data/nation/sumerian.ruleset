@@ -9,16 +9,16 @@ legend=_("Sumer controlled southern Mesopotamia until the rise of\
 leader=
  "Shulgi",
  "Gilgamesh",
- "Ur-Nina",
- "Lagislazuli",
- "Enmerkar",
+ "Ur-Nanshe", ; a.k.a. Ur-Nina
+ "Lugal-Za-Gesi",
+ "En-Mer-Kar",
  "Urukagina",
  "Etana",
- "Urnammu",
- "Ibissin",
+ "Ur-Nammu",
+ "Ibbi-Sin",
  "Nin-Kasalsi"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
- "Male", "Male"
+ "Male", "Female"
 flag = "sumeria"
 flag_alt = "-"
 city_style = "Babylonian"
@@ -34,12 +34,12 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="assyrian", "egyptian"
+civilwar_nations="assyrian", "egyptian", "babylonian"
 
 cities =
  "Unug", ; Uruk
  "Eridug", ; Eridu
- "Ur",
+ "Urim", ; Ur
  "Sirpurla", ; Lagash
  "Nibru", ; Nippur
  "Umma",
@@ -51,19 +51,19 @@ cities =
  "Borsippa",
  "Isin",
  "Shuruppak",
- "Girsu",
+ "Ngirsu", ; Girsu
  "Bad-tibira",
- "Sippar",
- "Kutha",
+ "Zimbir", ; Sippar
+ "Gudua", ; Kutha
  "Dilbat",
- "Marad",
- "Larsa",
+ "Marda", ; Marad
+ "Der",
  "Kisurra",
  "Zabala",
- "Kisiga",
- "Awan",
+ "Kisiga", ; Kuara
+ "Kes",
  "Hamazi",
  "Eshnunna",
  "Akshak",
- "Zimbir",
- "Babylon"
+ "Mari",
+ "Kesh"
