@@ -19,6 +19,7 @@ artists = "
    Algeria 		Lauris Kaplinski
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
+   Aragon		J.M. Maalderink
    Aram			Daniel Markstedt
    Argentina		Sigge Kotliar
    Armenia		Jason Short
@@ -220,6 +221,7 @@ sprites =
 		"f.algeria", "flags/algeria"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
+		"f.aragon", "flags/aragon"
 		"f.aram", "flags/aram"
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"

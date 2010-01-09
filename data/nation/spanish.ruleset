@@ -40,7 +40,7 @@ conflicts_with="catalan", "galician"
 
 civilwar_nations=
 ; Sub-national nations
- "catalan", "galician",
+ "catalan", "galician", "aragonese",
 ; Spanish speaking ex-colonies
  "argentine", "chilean", "colombian", "cuban", "filipino", "venezuelan"
 

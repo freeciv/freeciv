@@ -19,6 +19,7 @@ sprites =
 		"f.shield.algeria", "flags/algeria-shield"
 		"f.shield.antarctica", "flags/antarctica-shield"
 		"f.shield.arab", "flags/arab-shield"
+		"f.shield.aragon", "flags/aragon-shield"
 		"f.shield.aram", "flags/aram-shield"
 		"f.shield.argentina", "flags/argentina-shield"
 		"f.shield.armenia", "flags/armenia-shield"
