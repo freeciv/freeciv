@@ -187,6 +187,7 @@ flag_files =				\
 		turkey.png		\
 		turkmenistan.png	\
 		uae.png			\
+		uganda.png		\
 		ukraine.png		\
 		united_kingdom.png	\
 		united_nations.png	\
@@ -386,6 +387,7 @@ shield_files =					\
 		turkey-shield.png		\
 		turkmenistan-shield.png		\
 		uae-shield.png			\
+		uganda-shield.png		\
 		ukraine-shield.png		\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
@@ -585,6 +587,7 @@ svg_files = 				\
 		turkey.svg		\
 		turkmenistan.svg	\
 		uae.svg			\
+		uganda.svg		\
 		ukraine.svg		\
 		united_kingdom.svg	\
 		united_nations.svg	\

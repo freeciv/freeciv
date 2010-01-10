@@ -228,6 +228,7 @@ match=2
 *include "nation/tupi.ruleset"
 *include "nation/turkmen.ruleset"
 *include "nation/turk.ruleset"
+*include "nation/ugandan.ruleset"
 *include "nation/ukrainian.ruleset"
 *include "nation/un.ruleset"
 *include "nation/uruguayan.ruleset"

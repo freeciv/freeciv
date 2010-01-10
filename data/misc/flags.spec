@@ -195,6 +195,7 @@ artists = "
    Turkey		David Benbennick
    Turkmenistan		Caleb Moore
    UAE			Bratt Roper
+   Uganda		Tobias Jakobs
    Ukraine		Lauris Kaplinski
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
@@ -399,6 +400,7 @@ sprites =
 		"f.turkey", "flags/turkey"
 		"f.turkmenistan", "flags/turkmenistan"
 		"f.uae", "flags/uae"
+		"f.uganda", "flags/uganda"
 		"f.ukraine", "flags/ukraine"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
