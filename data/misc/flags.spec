@@ -69,6 +69,7 @@ artists = "
    Finland		Daniel McRae
    France (old)		Patricia Fidi
    France		Tobias Jakobs
+   Frisia		GeeKaa (Wikimedia user)
    Galicia		Miguel Rodríguez
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
@@ -273,6 +274,7 @@ sprites =
 		"f.finland", "flags/finland"
 		"f.france", "flags/france"
 		"f.france_old", "flags/france_old"	; alt Gallic
+		"f.frisia", "flags/frisia"
 		"f.galicia", "flags/galicia"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"

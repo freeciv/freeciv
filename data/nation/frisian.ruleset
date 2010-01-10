@@ -1,0 +1,118 @@
+[nation_frisian]
+
+name=_("Frisian")
+plural=_("?plural:Frisians")
+groups="Medieval", "European"
+legend=_("An ancient Germanic nation, the Frisians today form\
+ an ethnic minority in the northern parts of the Netherlands\
+ and Germany.")
+leader=
+ "Finn",
+ "Redbad",
+ "Egbert II",
+ "Pier Gerlofs Donia",
+ "Ulrich Cirksema",
+ "Edzard de Grutte",
+ "Rennenberg",
+ "Ernst Kasimir",
+ "Johan Willem Friso",
+ "Idsert Aebinga van Humalda",
+ "Ferdinand Domela Nieuwenhuis",
+ "Mata Hari"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Female"
+
+flag="frisia"
+flag_alt = "-"
+city_style = "Celtic"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",  _("Commissioner"), _("?female:Commissioner")
+                 "Monarchy",	    _("Count"),         _("Countess")
+		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
+		 "Despotism",	    _("Potestate"),  _("?female:Potestate")
+		 "Anarchy",	    _("Headling"),    _("?female:Headling")
+               }
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "german", "dutch", "saxon", "english"
+
+cities =
+;Frisian capitals
+
+  "Ljouwert", ;capital of Fryslan/Friesland province
+  "Auwerk (swamp, forest)", ;Medieval capital
+  "Emden (river, ocean)", ;capital of County of East Frisia
+
+;The eleven cities, with Ljouwert
+  "Snits (river)",
+  "Drylts (river)",
+  "Harns (ocean, river)",
+  "Frjentsjer (river)",
+  "Dokkum (river)",
+  "Sleat (river)",
+  "Warkum (ocean, lake)",
+  "Starum (ocean, lake)",
+  "Hylpen (ocean, lake)",
+  "Boalsert (river)",
+
+;Other cities
+  "Norden",
+  "Naibel",
+  "De Jouwer",
+  "Grou",
+  "Wittmund",
+  "Drachten (forest)",
+  "Wolvegea",
+  "De Lemmer (swamp)",
+  "Berltsum",
+  "Lier",
+  "Jever",
+  "It Hearrenfean",
+  "Wyk",
+
+;Other towns
+  "Sint-Anne",
+  "Friesoyte",
+  "Helgolân (ocean)",
+  "Wrangereach (ocean)",
+  "Bútenpost",
+  "Mearum",
+  "Hollum",
+  "Kollum",
+  "Wommels",
+  "Dronryp",
+  "Tytsjerk",
+  "Holwert (ocean)",
+  "Stiens",
+  "Akkrum",
+  "Oerterp",
+  "De Westereen",
+  "Wursten (swamp, ocean)",
+  "Grytjesyl",
+  "Gytsjerk",
+  "West-Skylge (ocean)",
+  "Jemmingen (river)",
+  "Nij Beets",
+  "Feanwâlden (forest)",
+  "De Gordyk",
+  "Menaam",
+  "Skiermûntseach (ocean)",
+  "Sint Nyk",
+  "Cloppenburg (swamp)",
+  "Amrum",
+  "Midslân (ocean)",
+  "Hollum (ocean)",
+  "Beestsersweach",
+  "Damwâld",
+  "Burgum",
+  "Balk",
+  "Hurdegaryp",
+  "Makkum",
+  "Wytmarsum",
+  "Hûsem",
+  "Surhústerfean (swamp)",
+  "Minnertsgea",
+  "Warns"

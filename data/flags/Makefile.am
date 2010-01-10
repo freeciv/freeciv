@@ -61,6 +61,7 @@ flag_files =				\
 		finland.png		\
 		france_old.png		\
 		france.png		\
+		frisia.png		\
 		galicia.png		\
 		gaul.png		\
 		georgia.png		\
@@ -261,6 +262,7 @@ shield_files =					\
 		finland-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
+		frisia-shield.png		\
 		galicia-shield.png		\
 		gaul-shield.png			\
 		georgia-shield.png		\
@@ -461,6 +463,7 @@ svg_files = 				\
 		finland.svg		\
 		france_old.svg		\
 		france.svg		\
+		frisia.svg		\
 		galicia.svg		\
 		gaul.svg		\
 		georgia.svg		\

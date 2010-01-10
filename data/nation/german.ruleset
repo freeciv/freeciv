@@ -42,7 +42,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="bavarian", "westphalian", "prussian", "saxon"
-civilwar_nations="bavarian", "westphalian", "prussian", "saxon"
+civilwar_nations="bavarian", "westphalian", "prussian", "saxon", "frisian"
 
 cities =
   "Berlin (grassland, !mountains)", 
