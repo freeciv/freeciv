@@ -13,6 +13,7 @@ pkgdata_DATA = \
 		american.ruleset \
 		antarctican.ruleset \
 		arab.ruleset \
+		aragonese.ruleset \
 		aramean.ruleset \
 		argentine.ruleset \
 		armenian.ruleset \
