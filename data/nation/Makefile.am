@@ -121,6 +121,7 @@ pkgdata_DATA = \
 		mexican.ruleset \
 		moldovan.ruleset \
 		mongol.ruleset \
+		motswana.ruleset \
 		muskogee.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \

@@ -29,6 +29,7 @@ flag_files =				\
 		belgium.png		\
 		boer.png		\
 		bosnia.png		\
+		botswana.png		\
 		brasil.png		\
 		brittany.png		\
 		bulgaria.png		\
@@ -230,6 +231,7 @@ shield_files =					\
 		belgium-shield.png		\
 		boer-shield.png			\
 		bosnia-shield.png		\
+		botswana-shield.png		\
 		brasil-shield.png		\
 		brittany-shield.png		\
 		bulgaria-shield.png		\
@@ -430,6 +432,7 @@ svg_files = 				\
 		belarus.svg		\
 		belgium.svg		\
 		boer.svg		\
+		botswana.svg		\
 		bosnia.svg		\
 		brasil.svg		\
 		brittany.svg		\

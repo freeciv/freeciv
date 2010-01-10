@@ -37,6 +37,7 @@ artists = "
    Belgium		Daniel McRae
    Boer			Caleb Moore
    Bosnia		Daniel McRae
+   Botswana		SKopp (Wikimedia user)
    Brasil		Cezary Biele
    Brittany		Lexicon
    Bulgaria		Daniel McRae
@@ -241,6 +242,7 @@ sprites =
 		"f.belgium", "flags/belgium"
 		"f.boer", "flags/boer"			; old south african
 		"f.bosnia", "flags/bosnia"
+		"f.botswana", "flags/botswana"
 		"f.brasil", "flags/brasil"
 		"f.brittany", "flags/brittany"
 		"f.bulgaria", "flags/bulgaria"
