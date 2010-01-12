@@ -128,7 +128,7 @@ static struct command commands[] = {
       "when used by clients). With an option name argument, show only the "
       "named option, or options with that prefix. With \"all\", it shows "
       "all options. With \"vital\", \"situational\" or \"rare\", a set of "
-      "options with this level. With \"changed\", it shows only the options"
+      "options with this level. With \"changed\", it shows only the options "
       "which have been modified.")
   },
   {"wall",	ALLOW_ADMIN,
