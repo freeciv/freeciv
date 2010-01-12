@@ -1080,6 +1080,29 @@ void server_remove_player(struct player *pplayer)
 }
 
 /**************************************************************************
+  Returns the default diplomatic state between 2 players.
+
+  Mainly, this returns DS_WAR, but it can also return DS_PEACE if both
+  players are allied with the same third player.
+**************************************************************************/
+static enum diplstate_type
+get_default_diplstate(const struct player *pplayer1,
+                      const struct player *pplayer2)
+{
+  players_iterate(pplayer3) {
+    if (pplayer3 != pplayer1
+        && pplayer3 != pplayer2
+        && pplayer3->is_alive
+        && pplayers_allied(pplayer3, pplayer1)
+        && pplayers_allied(pplayer3, pplayer2)) {
+      return DS_PEACE;
+    }
+  } players_iterate_end;
+
+  return DS_WAR;
+}
+
+/**************************************************************************
   Update contact info.
 **************************************************************************/
 void make_contact(struct player *pplayer1, struct player *pplayer2,
@@ -1099,8 +1122,11 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     pplayer2->diplstates[player1].contact_turns_left = game.info.contactturns;
   }
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
-    pplayer1->diplstates[player2].type = DS_WAR;
-    pplayer2->diplstates[player1].type = DS_WAR;
+    enum diplstate_type new_state = get_default_diplstate(pplayer1,
+                                                          pplayer2);
+
+    pplayer1->diplstates[player2].type = new_state;
+    pplayer2->diplstates[player1].type = new_state;
     pplayer1->diplstates[player2].first_contact_turn = game.info.turn;
     pplayer2->diplstates[player1].first_contact_turn = game.info.turn;
     notify_player(pplayer1, ptile, E_FIRST_CONTACT, ftc_server,
@@ -1121,24 +1147,6 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     send_player_info(pplayer2, pplayer1);
     send_player_info(pplayer1, pplayer1);
     send_player_info(pplayer2, pplayer2);
-
-    /* Check for new love-love-hate triangles and resolve them */
-    players_iterate(pplayer3) {
-      if (pplayer1 != pplayer3 && pplayer2 != pplayer3 && pplayer3->is_alive
-          && pplayers_allied(pplayer1, pplayer3)
-          && pplayers_allied(pplayer2, pplayer3)) {
-        notify_player(pplayer3, NULL, E_TREATY_BROKEN, ftc_server,
-                      _("%s and %s meet and go to instant war. You cancel your alliance "
-                        "with both."),
-                      player_name(pplayer1),
-                      player_name(pplayer2));
-        pplayer3->diplstates[player_index(pplayer1)].has_reason_to_cancel = TRUE;
-        pplayer3->diplstates[player_index(pplayer2)].has_reason_to_cancel = TRUE;
-        handle_diplomacy_cancel_pact(pplayer3, player_number(pplayer1), CLAUSE_ALLIANCE);
-        handle_diplomacy_cancel_pact(pplayer3, player_number(pplayer2), CLAUSE_ALLIANCE);
-      }
-    } players_iterate_end;
-
     return;
   } else {
     assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
