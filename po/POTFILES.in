@@ -213,6 +213,7 @@ data/default/governments.ruleset
 data/civ2/governments.ruleset
 data/civ1/governments.ruleset
 data/default/script.lua
+data/default/default.lua
 data/default/techs.ruleset
 data/civ2/techs.ruleset
 data/civ1/techs.ruleset
