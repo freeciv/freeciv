@@ -1211,7 +1211,7 @@ void activeunits_report_dialog_update(void)
   }
 
   gtk_list_store_clear(activeunits_store);
-  if (NULL != client.conn.playing) {
+  if (client_has_player()) {
     int    k, can;
     struct repoinfo unitarray[U_LAST];
     struct repoinfo unittotals;
@@ -1221,25 +1221,21 @@ void activeunits_report_dialog_update(void)
     gtk_list_store_clear(activeunits_store);
 
     memset(unitarray, '\0', sizeof(unitarray));
-    city_list_iterate(client.conn.playing->cities, pcity) {
-      unit_list_iterate(pcity->units_supported, punit) {
-        Unit_type_id uti = utype_index(unit_type(punit));
+    unit_list_iterate(client_player()->units, punit) {
+      struct repoinfo *info = unitarray + utype_index(unit_type(punit));
 
-        (unitarray[uti].active_count)++;
-        if (punit->homecity) {
-          output_type_iterate(o) {
-            unitarray[uti].upkeep[o] += punit->upkeep[o];
-          } output_type_iterate_end;
-        }
-      } unit_list_iterate_end;
-    } city_list_iterate_end;
-    city_list_iterate(client.conn.playing->cities,pcity) {
-      if (VUT_UTYPE == pcity->production.kind) {
-        struct unit_type *punittype = pcity->production.value.utype;
-	(unitarray[utype_index(punittype)].building_count)++;
+      if (0 != punit->homecity) {
+        output_type_iterate(o) {
+          info->upkeep[o] += punit->upkeep[o];
+        } output_type_iterate_end;
       }
-    }
-    city_list_iterate_end;
+      info->active_count++;
+    } unit_list_iterate_end;
+    city_list_iterate(client_player()->cities, pcity) {
+      if (VUT_UTYPE == pcity->production.kind) {
+        unitarray[utype_index(pcity->production.value.utype)].building_count++;
+      }
+    } city_list_iterate_end;
 
     k = 0;
     memset(&unittotals, '\0', sizeof(unittotals));
