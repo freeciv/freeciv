@@ -1074,10 +1074,11 @@ static int cancel_buy_prod_city_dlg_callback(struct widget *pButton)
 static int ok_buy_prod_city_dlg_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_hurry_production_dialog();
+    struct city *pCity = pButton->data.city;    /* Save it. */
 
-    city_buy_production(pButton->data.city);
-    
+    popdown_hurry_production_dialog();
+    city_buy_production(pCity);
+
     if (pCityDlg) {
       /* enable city dlg */
       enable_city_dlg_widgets();
