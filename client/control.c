@@ -315,14 +315,14 @@ void auto_center_on_focus_unit(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static void current_focus_append(struct unit *punit)
+static void current_focus_append(struct unit *punit, bool clear_orders)
 {
   unit_list_append(current_focus, punit);
 
   punit->focus_status = FOCUS_AVAIL;
   refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 
-  if (unit_selection_clears_orders) {
+  if (clear_orders) {
     clear_unit_orders(punit);
   }
 }
@@ -389,7 +389,9 @@ void set_unit_focus(struct unit *punit)
   }
 
   if (NULL != punit) {
-    current_focus_append(punit);
+     /* Always clears the orders the orders in this case, or it will be
+      * impossible to issue orders on a non-idle unit. */
+    current_focus_append(punit, TRUE);
     auto_center_on_focus_unit();
   }
 
@@ -427,7 +429,7 @@ void add_unit_focus(struct unit *punit)
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
 
-  current_focus_append(punit);
+  current_focus_append(punit, unit_selection_clears_orders);
   update_unit_info_label(current_focus);
   menus_update();
 }
