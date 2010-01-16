@@ -221,10 +221,11 @@ static void ai_manage_taxes(struct player *pplayer)
     /* If more than half our cities can celebrate, go for it! */
     celebrate = (can_celebrate * 2 > total_cities);
     if (celebrate) {
-      freelog(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", player_name(pplayer));
+      log_base(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", player_name(pplayer));
       city_list_iterate(pplayer->cities, pcity) {
         if (pcity->ai->celebrate == TRUE) {
-          freelog(LOGLEVEL_TAX, "setting %s to celebrate", city_name(pcity));
+          log_base(LOGLEVEL_TAX, "setting %s to celebrate",
+                   city_name(pcity));
           cm_query_result(pcity, &cmp, &cmr);
           if (cmr.found_a_valid) {
             apply_cmresult_to_city(pcity, &cmr);
@@ -263,10 +264,11 @@ static void ai_manage_taxes(struct player *pplayer)
 
   assert(pplayer->economic.tax + pplayer->economic.luxury 
          + pplayer->economic.science == 100);
-  freelog(LOGLEVEL_TAX, "%s rates: Sci=%d Lux=%d Tax=%d trade=%d expenses=%d"
-          " celeb=(%d/%d)", player_name(pplayer), pplayer->economic.science,
-          pplayer->economic.luxury, pplayer->economic.tax, trade, expenses,
-          can_celebrate, total_cities);
+  log_base(LOGLEVEL_TAX, "%s rates: Sci=%d Lux=%d Tax=%d "
+           "trade=%d expenses=%d  celeb=(%d/%d)",
+           player_name(pplayer), pplayer->economic.science,
+           pplayer->economic.luxury, pplayer->economic.tax,
+           trade, expenses, can_celebrate, total_cities);
   send_player_info(pplayer, pplayer);
 }
 

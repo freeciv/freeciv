@@ -347,7 +347,7 @@ static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
   output_window_append(ftc_client, message);
-  freelog(LOG_NORMAL, "%s", message);
+  log_normal("%s", message);
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:
     server_scan_finish(lan);

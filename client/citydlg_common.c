@@ -138,8 +138,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
   *city_x += CITY_MAP_RADIUS;
   *city_y += CITY_MAP_RADIUS;
 
-  freelog(LOG_DEBUG, "canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
-	  orig_canvas_x, orig_canvas_y, *city_x, *city_y);
+  log_debug("canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
+            orig_canvas_x, orig_canvas_y, *city_x, *city_y);
 
   return is_valid_city_coords(*city_x, *city_y);
 }
@@ -156,8 +156,8 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 		    (pcity)->tile->x, (pcity)->tile->y);		\
   _x##_0 -= (_x##_w - tileset_tile_width(tileset)) / 2;			\
   _y##_0 -= (_y##_h - tileset_tile_height(tileset)) / 2;		\
-  freelog(LOG_DEBUG, "citydlg: %d,%d + %dx%d",				\
-	  _x##_0, _y##_0, _x##_w, _y##_h);				\
+  log_debug("citydlg: %d,%d + %dx%d",					\
+	    _x##_0, _y##_0, _x##_w, _y##_h);				\
 									\
   gui_rect_iterate(_x##_0, _y##_0, _x##_w, _y##_h,			\
 		   ptile, pedge, pcorner, _x##_g, _y##_g) {		\
@@ -595,11 +595,9 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
   } specialist_type_iterate_end;
 
   if (pcity->size != i) {
-    freelog(LOG_ERROR, "get_city_citizen_types()"
-            " %d citizens not equal %d city size in \"%s\".",
-            i,
-            pcity->size,
-            city_name(pcity));
+    log_error("get_city_citizen_types() %d citizens "
+              "not equal %d city size in \"%s\".",
+              i, pcity->size, city_name(pcity));
   }
   return i;
 }

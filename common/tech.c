@@ -226,9 +226,9 @@ static void build_required_techs_helper(struct player *pplayer,
   BV_SET(get_player_research(pplayer)->inventions[goal].required_techs, tech);
 
   if (advance_required(tech, AR_ONE) == goal
-   || advance_required(tech, AR_TWO) == goal) {
-    freelog(LOG_FATAL, "tech \"%s\": requires itself",
-	    advance_name_by_player(pplayer, goal));
+      || advance_required(tech, AR_TWO) == goal) {
+    log_fatal("tech \"%s\": requires itself",
+              advance_name_by_player(pplayer, goal));
     exit(EXIT_FAILURE);
   }
 

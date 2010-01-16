@@ -86,13 +86,13 @@ void handle_unit_airlift(struct player *pplayer, int unit_id, int city_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_airlift() invalid unit %d", unit_id);
+    log_verbose("handle_unit_airlift() invalid unit %d", unit_id);
     return;
   }
 
   if (NULL == pcity) {
     /* Probably lost. */
-    freelog(LOG_VERBOSE, "handle_unit_airlift() invalid city %d", city_id);
+    log_verbose("handle_unit_airlift() invalid city %d", city_id);
     return;
   }
 
@@ -110,8 +110,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
 
   if (NULL == from_unittype) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_type_upgrade() invalid unit type %d",
-            uti);
+    log_verbose("handle_unit_type_upgrade() invalid unit type %d", uti);
     return;
   }
 
@@ -168,7 +167,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_upgrade() invalid unit %d", unit_id);
+    log_verbose("handle_unit_upgrade() invalid unit %d", unit_id);
     return;
   }
 
@@ -200,7 +199,7 @@ void handle_unit_transform(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_transform() invalid unit %d", unit_id);
+    log_verbose("handle_unit_transform() invalid unit %d", unit_id);
     return;
   }
 
@@ -240,17 +239,15 @@ void handle_unit_diplomat_query(struct connection *pc,
 
   if (NULL == pdiplomat) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_diplomat_query() invalid diplomat %d",
-            diplomat_id);
+    log_verbose("handle_unit_diplomat_query() invalid diplomat %d",
+                diplomat_id);
     return;
   }
 
   if (!unit_has_type_flag(pdiplomat, F_DIPLOMAT)) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_diplomat_query()"
-	    " %s (%d) is not diplomat",
-	    unit_rule_name(pdiplomat),
-	    diplomat_id);
+    log_error("handle_unit_diplomat_query() %s (%d) is not diplomat",
+              unit_rule_name(pdiplomat), diplomat_id);
     return;
   }
 
@@ -301,17 +298,15 @@ void handle_unit_diplomat_action(struct player *pplayer,
 
   if (NULL == pdiplomat) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_diplomat_action() invalid diplomat %d",
-            diplomat_id);
+    log_verbose("handle_unit_diplomat_action() invalid diplomat %d",
+                diplomat_id);
     return;
   }
 
   if (!unit_has_type_flag(pdiplomat, F_DIPLOMAT)) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_diplomat_action()"
-	    " %s (%d) is not diplomat",
-	    unit_rule_name(pdiplomat),
-	    diplomat_id);
+    log_error("handle_unit_diplomat_action() %s (%d) is not diplomat",
+              unit_rule_name(pdiplomat), diplomat_id);
     return;
   }
 
@@ -458,8 +453,7 @@ void handle_unit_change_homecity(struct player *pplayer, int unit_id,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_change_homecity() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_change_homecity() invalid unit %d", unit_id);
     return;
   }
 
@@ -479,7 +473,7 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_disband() invalid unit %d", unit_id);
+    log_verbose("handle_unit_disband() invalid unit %d", unit_id);
     return;
   }
 
@@ -604,9 +598,8 @@ static void city_add_or_build_error(struct player *pplayer,
     break;
   default:
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "Cannot add %s to %s for unknown reason (%d)",
-            unit_rule_name(punit),
-            city_name(pcity), res);
+    log_error("Cannot add %s to %s for unknown reason (%d)",
+              unit_rule_name(punit), city_name(pcity), res);
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("Can't add %s to %s."),
                   unit_link(punit),
@@ -677,8 +670,7 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_build_city() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_build_city() invalid unit %d", unit_id);
     return;
   }
 
@@ -705,8 +697,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_change_activity() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_change_activity() invalid unit %d", unit_id);
     return;
   }
 
@@ -767,35 +758,33 @@ void handle_unit_move(struct player *pplayer, int unit_id, int tile)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_move() invalid unit %d", unit_id);
+    log_verbose("handle_unit_move() invalid unit %d", unit_id);
     return;
   }
 
   if (NULL == ptile) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR,
-            "handle_unit_move() invalid tile index (%d) for %s (%d)",
-            tile, unit_rule_name(punit), unit_id);
+    log_error("handle_unit_move() invalid tile index (%d) for %s (%d)",
+              tile, unit_rule_name(punit), unit_id);
     return;
   }
 
   if (!is_tiles_adjacent(unit_tile(punit), ptile)) {
     /* Client is out of sync, ignore */
-    freelog(LOG_VERBOSE, "handle_unit_move() invalid %s (%d) move "
-            "from (%d, %d) to (%d, %d).",
-            unit_rule_name(punit), unit_id,
-            TILE_XY(unit_tile(punit)), TILE_XY(ptile));
+    log_verbose("handle_unit_move() invalid %s (%d) move "
+                "from (%d, %d) to (%d, %d).",
+                unit_rule_name(punit), unit_id,
+                TILE_XY(unit_tile(punit)), TILE_XY(ptile));
     return;
   }
 
   if (!is_player_phase(unit_owner(punit), game.info.phase)) {
     /* Client is out of sync, ignore */
-    freelog(LOG_VERBOSE, "handle_unit_move()"
-	    " invalid %s (%d) %s != phase %d",
-	    unit_rule_name(punit),
-	    unit_id,
-	    nation_rule_name(nation_of_unit(punit)),
-	    game.info.phase);
+    log_verbose("handle_unit_move() invalid %s (%d) %s != phase %d",
+                unit_rule_name(punit),
+                unit_id,
+                nation_rule_name(nation_of_unit(punit)),
+                game.info.phase);
     return;
   }
 
@@ -896,10 +885,9 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   struct player *pplayer = unit_owner(punit);
   struct city *pcity = tile_city(ptile);
 
-  freelog(LOG_DEBUG, "Start bombard: %s %s to %d, %d.",
-	  nation_rule_name(nation_of_player(pplayer)),
-	  unit_rule_name(punit),
-	  TILE_XY(ptile));
+  log_debug("Start bombard: %s %s to %d, %d.",
+            nation_rule_name(nation_of_player(pplayer)),
+            unit_rule_name(punit), TILE_XY(ptile));
 
   unit_list_iterate_safe(ptile->units, pdefender) {
 
@@ -961,11 +949,11 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   struct tile *def_tile = pdefender->tile;
   struct player *pplayer = unit_owner(punit);
   
-  freelog(LOG_DEBUG, "Start attack: %s %s against %s %s.",
-	  nation_rule_name(nation_of_player(pplayer)),
-	  unit_rule_name(punit), 
-	  nation_rule_name(nation_of_unit(pdefender)),
-	  unit_rule_name(pdefender));
+  log_debug("Start attack: %s %s against %s %s.",
+            nation_rule_name(nation_of_player(pplayer)),
+            unit_rule_name(punit), 
+            nation_rule_name(nation_of_unit(pdefender)),
+            unit_rule_name(pdefender));
 
   /* Sanity checks */
   if (pplayers_non_attack(pplayer, unit_owner(pdefender))) {
@@ -1051,11 +1039,11 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 
   if (punit == plooser) {
     /* The attacker lost */
-    freelog(LOG_DEBUG, "Attacker lost: %s %s against %s %s.",
-	    nation_rule_name(nation_of_player(pplayer)),
-	    unit_rule_name(punit),
-	    nation_rule_name(nation_of_unit(pdefender)),
-	    unit_rule_name(pdefender));
+    log_debug("Attacker lost: %s %s against %s %s.",
+              nation_rule_name(nation_of_player(pplayer)),
+              unit_rule_name(punit),
+              nation_rule_name(nation_of_unit(pdefender)),
+              unit_rule_name(pdefender));
 
     notify_player(unit_owner(pwinner), unit_tile(pwinner),
                   E_UNIT_WIN, ftc_server,
@@ -1079,11 +1067,11 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     /* The defender lost, the attacker punit lives! */
     int winner_id = pwinner->id;
 
-    freelog(LOG_DEBUG, "Defender lost: %s %s against %s %s.",
-	    nation_rule_name(nation_of_player(pplayer)),
-	    unit_rule_name(punit),
-	    nation_rule_name(nation_of_unit(pdefender)),
-	    unit_rule_name(pdefender));
+    log_debug("Defender lost: %s %s against %s %s.",
+              nation_rule_name(nation_of_player(pplayer)),
+              unit_rule_name(punit),
+              nation_rule_name(nation_of_unit(pdefender)),
+              unit_rule_name(pdefender));
 
     punit->moved = TRUE;	/* We moved */
     kill_unit(pwinner, plooser,
@@ -1217,7 +1205,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 
   /* this occurs often during lag, and to the AI due to some quirks -- Syela */
   if (!is_tiles_adjacent(punit->tile, pdesttile)) {
-    freelog(LOG_DEBUG, "tiles not adjacent in move request");
+    log_debug("tiles not adjacent in move request");
     return FALSE;
   }
 
@@ -1401,8 +1389,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_help_build_wonder() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_help_build_wonder() invalid unit %d", unit_id);
     return;
   }
 
@@ -1453,8 +1440,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "base_handle_unit_establish_trade()"
-            " invalid unit %d", unit_id);
+    log_verbose("base_handle_unit_establish_trade() invalid unit %d",
+                unit_id);
     return FALSE;
   }
 
@@ -1712,8 +1699,7 @@ void handle_unit_battlegroup(struct player *pplayer,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_battlegroup() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_battlegroup() invalid unit %d", unit_id);
     return;
   }
 
@@ -1729,8 +1715,7 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_autosettlers() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_autosettlers() invalid unit %d", unit_id);
     return;
   }
 
@@ -1849,14 +1834,13 @@ void handle_unit_load(struct player *pplayer, int cargo_id, int trans_id)
 
   if (NULL == pcargo) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_load() invalid cargo %d", cargo_id);
+    log_verbose("handle_unit_load() invalid cargo %d", cargo_id);
     return;
   }
 
   if (NULL == ptrans) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_load() invalid transport %d",
-            trans_id);
+    log_verbose("handle_unit_load() invalid transport %d", trans_id);
     return;
   }
 
@@ -1882,14 +1866,13 @@ void handle_unit_unload(struct player *pplayer, int cargo_id, int trans_id)
 
   if (NULL == pcargo) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_unload() invalid cargo %d", cargo_id);
+    log_verbose("handle_unit_unload() invalid cargo %d", cargo_id);
     return;
   }
 
   if (NULL == ptrans) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_unload() invalid transport %d",
-            trans_id);
+    log_verbose("handle_unit_unload() invalid transport %d", trans_id);
     return;
   }
 
@@ -1920,7 +1903,7 @@ void handle_unit_nuke(struct player *pplayer, int unit_id)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_nuke() invalid unit %d", unit_id);
+    log_verbose("handle_unit_nuke() invalid unit %d", unit_id);
     return;
   }
 
@@ -1937,16 +1920,14 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_paradrop_to() invalid unit %d",
-            unit_id);
+    log_verbose("handle_unit_paradrop_to() invalid unit %d", unit_id);
     return;
   }
 
   if (NULL == ptile) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR,
-            "handle_unit_paradrop_to() invalid tile index (%d) for %s (%d)",
-            tile, unit_rule_name(punit), unit_id);
+    log_error("handle_unit_paradrop_to() invalid tile index (%d) for %s (%d)",
+              tile, unit_rule_name(punit), unit_id);
     return;
   }
 
@@ -1965,27 +1946,23 @@ void handle_unit_orders(struct player *pplayer,
 
   if (NULL == punit) {
     /* Probably died or bribed. */
-    freelog(LOG_VERBOSE, "handle_unit_orders() invalid unit %d",
-            packet->unit_id);
+    log_verbose("handle_unit_orders() invalid unit %d", packet->unit_id);
     return;
   }
 
   if (0 > packet->length || MAX_LEN_ROUTE < packet->length) {
     /* Shouldn't happen */
-    freelog(LOG_ERROR, "handle_unit_orders()"
-	    " invalid %s (%d) packet length %d (max %d)",
-	    unit_rule_name(punit),
-	    packet->unit_id,
-	    packet->length,
-	    MAX_LEN_ROUTE);
+    log_error("handle_unit_orders() invalid %s (%d) "
+              "packet length %d (max %d)", unit_rule_name(punit),
+              packet->unit_id, packet->length, MAX_LEN_ROUTE);
     return;
   }
 
   if (ACTIVITY_IDLE != punit->activity) {
-    freelog(LOG_VERBOSE, "handle_unit_orders() invalid %s (%d) "
-            "activity %d (should be %d)",
-            unit_rule_name(punit), punit->id,
-            punit->activity, ACTIVITY_IDLE);
+    log_verbose("handle_unit_orders() invalid %s (%d) "
+                "activity %d (should be %d)",
+                unit_rule_name(punit), punit->id,
+                punit->activity, ACTIVITY_IDLE);
     return;
   }
 
@@ -1995,10 +1972,9 @@ void handle_unit_orders(struct player *pplayer,
      * different position than it's actually in.  The easy solution is to
      * discard the packet.  We don't send an error message to the client
      * here (though maybe we should?). */
-    freelog(LOG_VERBOSE, "handle_unit_orders()"
-            " invalid %s (%d) tile (%d, %d) != (%d, %d)",
-            unit_rule_name(punit), punit->id,
-            TILE_XY(src_tile), TILE_XY(unit_tile(punit)));
+    log_verbose("handle_unit_orders() invalid %s (%d) tile (%d, %d) "
+                "!= (%d, %d)", unit_rule_name(punit), punit->id,
+                TILE_XY(src_tile), TILE_XY(unit_tile(punit)));
     return;
   }
 
@@ -2088,11 +2064,10 @@ void handle_unit_orders(struct player *pplayer,
   }
 
 #ifdef DEBUG
-  freelog(LOG_DEBUG, "Orders for unit %d: length:%d",
-	  packet->unit_id, packet->length);
+  log_debug("Orders for unit %d: length:%d",
+            packet->unit_id, packet->length);
   for (i = 0; i < packet->length; i++) {
-    freelog(LOG_DEBUG, "  %d,%s", packet->orders[i],
-	    dir_get_name(packet->dir[i]));
+    log_debug("  %d,%s", packet->orders[i], dir_get_name(packet->dir[i]));
   }
 #endif
 

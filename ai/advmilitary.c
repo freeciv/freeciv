@@ -1099,8 +1099,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   if (!is_ground_unit(myunit) && !is_sailing_unit(myunit)) {
-    freelog(LOG_ERROR, "kill_something_with()"
-            " attempting to deal with non-trivial unit_type");
+    log_error("kill_something_with() attempting to deal "
+              "with non-trivial unit_type");
     return;
   }
 
@@ -1109,8 +1109,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   acity = tile_city(ptile);
 
   if (myunit->id != 0) {
-    freelog(LOG_ERROR, "kill_something_with()"
-            " non-virtual unit!");
+    log_error("kill_something_with() non-virtual unit!");
     return;
   }
   
@@ -1241,14 +1240,16 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       ai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
                           L_FERRYBOAT, choice->want, TRUE);
       if (SEA_MOVING == utype_move_type(choice->value.utype)) {
+#ifdef DEBUG
         struct ai_data *ai = ai_data_get(pplayer);
+#endif
 
-        freelog(LOG_DEBUG, "kill_something_with()"
-                " %s has chosen attacker ferry, %s, want=%d, %d of %d free",
-                city_name(pcity),
-                utype_rule_name(choice->value.utype),
-		choice->want,
-                ai->stats.available_boats, ai->stats.boats);
+        log_debug("kill_something_with() %s has chosen attacker ferry, "
+                  "%s, want=%d, %d of %d free",
+                  city_name(pcity),
+                  utype_rule_name(choice->value.utype),
+                  choice->want,
+                  ai->stats.available_boats, ai->stats.boats);
       } /* else can not build ferries yet */
     }
   } 

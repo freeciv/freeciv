@@ -280,16 +280,15 @@ SDL_Surface *load_surf(const char *pFname)
   }
   
   if ((pBuf = IMG_Load(pFname)) == NULL) {
-    freelog(LOG_ERROR, _("load_surf: Failed to load graphic file %s!"),
-	    pFname);
+    log_error(_("load_surf: Failed to load graphic file %s!"), pFname);
     return NULL;
   }
   
   if(Main.screen) {
     SDL_Surface *pNew_sur;
     if ((pNew_sur = SDL_DisplayFormatAlpha(pBuf)) == NULL) {
-      freelog(LOG_ERROR, _("load_surf: Unable to convert file %s "
-			 "into screen's format!"), pFname);
+      log_error(_("load_surf: Unable to convert file %s "
+                  "into screen's format!"), pFname);
     } else {
       FREESURFACE(pBuf);
       return pNew_sur;
@@ -310,14 +309,13 @@ SDL_Surface *load_surf_with_flags(const char *pFname, int iFlags)
   SDL_PixelFormat *pSpf = SDL_GetVideoSurface()->format;
 
   if ((pBuf = IMG_Load(pFname)) == NULL) {
-    freelog(LOG_ERROR, _("load_surf_with_flags: "
-                         "Unable to load file %s."), pFname);
+    log_error(_("load_surf_with_flags: Unable to load file %s."), pFname);
     return NULL;
   }
 
   if ((pNew_sur = SDL_ConvertSurface(pBuf, pSpf, iFlags)) == NULL) {
-    freelog(LOG_ERROR, _("Unable to convert image from file %s "
-			 "into format %d."), pFname, iFlags);
+    log_error(_("Unable to convert image from file %s into format %d."),
+              pFname, iFlags);
     return pBuf;
   }
 
@@ -341,9 +339,9 @@ SDL_Surface *create_surf_with_format(SDL_PixelFormat * pSpf,
 					    pSpf->Bmask, pSpf->Amask);
 
   if (!pSurf) {
-    freelog(LOG_ERROR, _("Unable to create Sprite (Surface) of size "
-			 "%d x %d %d Bits in format %d"), iWidth, 
-	    			iHeight, pSpf->BitsPerPixel, iFlags);
+    log_error(_("Unable to create Sprite (Surface) of size "
+                "%d x %d %d Bits in format %d"),
+              iWidth, iHeight, pSpf->BitsPerPixel, iFlags);
     return NULL;
   }
 
@@ -1009,8 +1007,7 @@ void init_sdl(int iFlags)
     error = (SDL_Init(iFlags) < 0);
   }
   if (error) {
-    freelog(LOG_FATAL, _("Unable to initialize SDL library: %s"),
-	    SDL_GetError());
+    log_fatal(_("Unable to initialize SDL library: %s"), SDL_GetError());
     exit(1);
   }
 
@@ -1018,8 +1015,7 @@ void init_sdl(int iFlags)
 
   /* Initialize the TTF library */
   if (TTF_Init() < 0) {
-    freelog(LOG_FATAL, _("Unable to initialize SDL_ttf library: %s"),
-	    SDL_GetError());
+    log_fatal(_("Unable to initialize SDL_ttf library: %s"), SDL_GetError());
     exit(2);
   }
 
@@ -1055,25 +1051,23 @@ int set_video_mode(int iWidth, int iHeight, int iFlags)
 
   /* Check to see if a particular video mode is supported */
   if ((iDepth = SDL_VideoModeOK(iWidth, iHeight, iDepth, iFlags)) == 0) {
-    freelog(LOG_ERROR, _("No available mode for this resolution "
-			 ": %d x %d %d bpp"), iWidth, iHeight, iDepth);
+    log_error(_("No available mode for this resolution : %d x %d %d bpp"),
+              iWidth, iHeight, iDepth);
 
-    freelog(LOG_DEBUG, _("Setting default resolution to : "
-    					"640 x 480 16 bpp SW"));
+    log_debug(_("Setting default resolution to : 640 x 480 16 bpp SW"));
 
     Main.screen = SDL_SetVideoMode(640, 480, 16, SDL_SWSURFACE);
   } else { /* set video mode */
     if ((Main.screen = SDL_SetVideoMode(iWidth, iHeight,
-					iDepth, iFlags)) == NULL) {
-    freelog(LOG_ERROR, _("Unable to set this resolution: "
-			 "%d x %d %d bpp %s"),
-	    		iWidth, iHeight, iDepth, SDL_GetError());
+                                        iDepth, iFlags)) == NULL) {
+    log_error(_("Unable to set this resolution: %d x %d %d bpp %s"),
+              iWidth, iHeight, iDepth, SDL_GetError());
 
     exit(-30);
   }
 
-  freelog(LOG_DEBUG, _("Setting resolution to: %d x %d %d bpp"),
-	  					iWidth, iHeight, iDepth);
+  log_debug(_("Setting resolution to: %d x %d %d bpp"),
+            iWidth, iHeight, iDepth);
   }
 
   FREESURFACE(Main.map);

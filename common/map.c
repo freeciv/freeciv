@@ -220,8 +220,8 @@ static void generate_map_indices(void)
 
 #if 0
   for (i = 0; i < tiles; i++) {
-    freelog(LOG_DEBUG, "%5d : (%3d,%3d) : %d",
-	    i, array[i].dx, array[i].dy, array[i].dist);
+    log_debug("%5d : (%3d,%3d) : %d", i,
+              array[i].dx, array[i].dy, array[i].dist);
   }
 #endif
 
@@ -406,8 +406,8 @@ static void tile_free(struct tile *ptile)
 **************************************************************************/
 void map_allocate(void)
 {
-  freelog(LOG_DEBUG, "map_allocate (was %p) (%d,%d)",
-	  (void *)map.tiles, map.xsize, map.ysize);
+  log_debug("map_allocate (was %p) (%d,%d)",
+            (void *) map.tiles, map.xsize, map.ysize);
 
   assert(map.tiles == NULL);
   map.tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*map.tiles));

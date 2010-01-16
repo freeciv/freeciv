@@ -39,17 +39,17 @@ enum Display_color_type get_visual(void)
 
   if (visual->type == GDK_VISUAL_STATIC_GRAY) { 
     /* StaticGray, use black and white */
-    freelog(LOG_VERBOSE, "found B/W display.");
+    log_verbose("found B/W display.");
     return BW_DISPLAY;
   }
 
   if(visual->type < GDK_VISUAL_STATIC_COLOR) {
     /* No color visual available at default depth */
-    freelog(LOG_VERBOSE, "found grayscale(?) display.");
+    log_verbose("found grayscale(?) display.");
     return GRAYSCALE_DISPLAY;
   }
 
-  freelog(LOG_VERBOSE, "color system booted ok.");
+  log_verbose("color system booted ok.");
 
   return COLOR_DISPLAY;
 }
@@ -85,8 +85,8 @@ void color_free(struct color *color)
 ****************************************************************************/
 size_t color_to_string(GdkColor *color, char *string, size_t length)
 {
-  RETURN_VAL_IF_FAIL(NULL != string, 0);
-  RETURN_VAL_IF_FAIL(0 < length, 0);
+  log_assert_ret_val(NULL != string, 0);
+  log_assert_ret_val(0 < length, 0);
 
   if (NULL == color) {
     string[0] = '\0';

@@ -32,7 +32,7 @@
 
 #include "attribute.h"
 
-#define ATTRIBUTE_LOG_LEVEL	LOG_DEBUG
+#define log_attribute           log_debug
 
 static struct hash_table *attribute_hash = NULL;
 
@@ -191,11 +191,9 @@ static enum attribute_serial serialize_hash( struct hash_table *hash,
   *pdata = result;
   *pdata_length = total_length;
   free(value_lengths);
-  freelog(ATTRIBUTE_LOG_LEVEL,
-          "attribute.c serialize_hash()"
-          " serialized %u entries in %u bytes",
-          (unsigned int) entries,
-          (unsigned int) total_length);
+  log_attribute("attribute.c serialize_hash() "
+                "serialized %u entries in %u bytes",
+                (unsigned int) entries, (unsigned int) total_length);
   return A_SERIAL_OK;
 }
 
@@ -217,36 +215,28 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
 
   dio_get_uint32(&din, &dummy);
   if (dummy != 0) {
-    freelog(LOG_VERBOSE,
-            "attribute.c unserialize_hash() preamble,"
-            " uint32 %u != 0",
-            (unsigned int) dummy);
+    log_verbose("attribute.c unserialize_hash() preamble, uint32 %u != 0",
+                (unsigned int) dummy);
     return A_SERIAL_OLD;
   }
   dio_get_uint8(&din, &dummy);
   if (dummy != 2) {
-    freelog(LOG_VERBOSE,
-            "attribute.c unserialize_hash() preamble,"
-            " uint8 %u != 2 version",
-            (unsigned int) dummy);
+    log_verbose("attribute.c unserialize_hash() preamble, "
+                "uint8 %u != 2 version", (unsigned int) dummy);
     return A_SERIAL_OLD;
   }
   dio_get_uint32(&din, &entries);
   dio_get_uint32(&din, &dummy);
   if (dummy != data_length) {
-    freelog(LOG_VERBOSE,
-            "attribute.c unserialize_hash() preamble,"
-            " uint32 %u != %u data_length",
-            (unsigned int) dummy,
-            (unsigned int) data_length);
+    log_verbose("attribute.c unserialize_hash() preamble, "
+                "uint32 %u != %u data_length",
+                (unsigned int) dummy, (unsigned int) data_length);
     return A_SERIAL_FAIL;
   }
 
-  freelog(ATTRIBUTE_LOG_LEVEL,
-          "attribute.c unserialize_hash()"
-          " uint32 %u entries, %u data_length",
-          (unsigned int) entries,
-          (unsigned int) data_length);
+  log_attribute("attribute.c unserialize_hash() "
+                "uint32 %u entries, %u data_length",
+                (unsigned int) entries, (unsigned int) data_length);
 
   for (i = 0; i < entries; i++) {
     struct attr_key *pkey = fc_malloc(sizeof(*pkey));
@@ -256,33 +246,28 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
 
     dio_get_uint32(&din, &value_length);
     if (din.too_short) {
-      freelog(LOG_VERBOSE,
-              "attribute.c unserialize_hash()"
-              " uint32 value_length dio_input_too_short");
+      log_verbose("attribute.c unserialize_hash() "
+                  "uint32 value_length dio_input_too_short");
       free(pkey);
       return A_SERIAL_FAIL;
     }
     if (value_length > dio_input_remaining(&din)) {
-      freelog(LOG_VERBOSE,
-              "attribute.c unserialize_hash()"
-              " uint32 %u value_length > %u input_remaining",
-              (unsigned int) value_length,
-              (unsigned int) dio_input_remaining(&din));
+      log_verbose("attribute.c unserialize_hash() "
+                  "uint32 %u value_length > %u input_remaining",
+                  (unsigned int) value_length,
+                  (unsigned int) dio_input_remaining(&din));
       free(pkey);
       return A_SERIAL_FAIL;
     }
     if (value_length < 16 /* including itself */) {
-      freelog(LOG_VERBOSE,
-              "attribute.c unserialize_hash()"
-              " uint32 %u value_length < 16",
-              (unsigned int) value_length);
+      log_verbose("attribute.c unserialize_hash() "
+                  "uint32 %u value_length < 16",
+                  (unsigned int) value_length);
       free(pkey);
       return A_SERIAL_FAIL;
     }
-    freelog(ATTRIBUTE_LOG_LEVEL,
-            "attribute.c unserialize_hash()"
-            " uint32 %u value_length",
-            (unsigned int) value_length);
+    log_attribute("attribute.c unserialize_hash() "
+                  "uint32 %u value_length", (unsigned int) value_length);
 
     /* next 12 bytes */
     dio_get_uint32(&din, &pkey->key);
@@ -291,9 +276,8 @@ static enum attribute_serial unserialize_hash( struct hash_table *hash,
     dio_get_sint16(&din, &pkey->y);
 
     if (din.too_short) {
-      freelog(LOG_VERBOSE,
-              "attribute.c unserialize_hash()"
-              " uint32 key dio_input_too_short");
+      log_verbose("attribute.c unserialize_hash() "
+                  "uint32 key dio_input_too_short");
       free(pkey);
       return A_SERIAL_FAIL;
     }
@@ -363,11 +347,11 @@ void attribute_restore(void)
                            pplayer->attribute_block.data,
                            pplayer->attribute_block.length)) {
   case A_SERIAL_FAIL:
-    freelog(LOG_ERROR, _("There has been a CMA error.  "
-                         "Your citizen governor settings may be broken."));
+    log_error(_("There has been a CMA error. "
+                "Your citizen governor settings may be broken."));
     break;
   case A_SERIAL_OLD:
-    freelog(LOG_NORMAL, _("Old attributes detected and removed."));
+    log_normal(_("Old attributes detected and removed."));
     break;
   default:
     break;
@@ -384,9 +368,9 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   struct attr_key *pkey;
   void *pvalue = NULL;
 
-  freelog(ATTRIBUTE_LOG_LEVEL, "attribute_set(key=%d, id=%d, x=%d, y=%d, "
-	  "data_length=%d, data=%p)", key, id, x, y,
-	  (unsigned int) data_length, data);
+  log_attribute("attribute_set(key=%d, id=%d, x=%d, y=%d, "
+                "data_length=%d, data=%p)", key, id, x, y,
+                (unsigned int) data_length, data);
 
   assert(attribute_hash != NULL);
 
@@ -437,9 +421,9 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   int length;
   struct data_in din;
 
-  freelog(ATTRIBUTE_LOG_LEVEL, "attribute_get(key=%d, id=%d, x=%d, y=%d, "
-	  "max_data_length=%d, data=%p)", key, id, x, y,
-	  (unsigned int) max_data_length, data);
+  log_attribute("attribute_get(key=%d, id=%d, x=%d, y=%d, "
+                "max_data_length=%d, data=%p)", key, id, x, y,
+                (unsigned int) max_data_length, data);
 
   assert(attribute_hash != NULL);
 
@@ -451,7 +435,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
   pvalue = hash_lookup_data(attribute_hash, &pkey);
 
   if (!pvalue) {
-    freelog(ATTRIBUTE_LOG_LEVEL, "  not found");
+    log_attribute("  not found");
     return 0;
   }
 
@@ -462,7 +446,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
     dio_get_memory(&din, data, length);
   }
 
-  freelog(ATTRIBUTE_LOG_LEVEL, "  found length=%d", length);
+  log_attribute("  found length=%d", length);
   return length;
 }
 

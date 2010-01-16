@@ -1662,8 +1662,8 @@ const char *editor_tool_get_mode_name(enum editor_tool_type ett,
     return _("Paste");
     break;
   default:
-    freelog(LOG_ERROR, "Unrecognized editor tool mode %d "
-            "in editor_tool_get_mode_name().", etm);
+    log_error("Unrecognized editor tool mode %d "
+              "in editor_tool_get_mode_name().", etm);
     break;
   }
 

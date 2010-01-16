@@ -549,10 +549,9 @@ static bool insert_requirement(char *buf, size_t bufsz,
   {
     char text[256];
 
-    freelog(LOG_ERROR,
-            "Requirement %s in range %d is not supported in helpdata.c.",
-            universal_name_translation(&preq->source, text, sizeof(text)),
-            preq->range);
+    log_error("Requirement %s in range %d is not supported in helpdata.c.",
+              universal_name_translation(&preq->source, text, sizeof(text)),
+              preq->range);
   }
 
   return FALSE;
@@ -672,22 +671,22 @@ void boot_help_texts(struct player *pplayer)
   popdown_help_dialog();
 
   if(!booted) {
-    freelog(LOG_VERBOSE, "Booting help texts");
+    log_verbose("Booting help texts");
   } else {
     /* free memory allocated last time booted */
     free_help_texts();
-    freelog(LOG_VERBOSE, "Rebooting help texts");
-  }    
+    log_verbose("Rebooting help texts");
+  }
 
   filename = fileinfoname(get_data_dirs(), "helpdata.txt");
   if (!filename) {
-    freelog(LOG_ERROR, "Did not read help texts");
+    log_error("Did not read help texts");
     return;
   }
   /* after following call filename may be clobbered; use sf->filename instead */
   if (!(sf = secfile_load(filename, FALSE))) {
     /* this is now unlikely to happen */
-    freelog(LOG_ERROR, "failed reading help-texts");
+    log_error("failed reading help-texts");
     return;
   }
 
@@ -710,7 +709,7 @@ void boot_help_texts(struct player *pplayer)
           }
         }
         if (current_type == HELP_ANY) {
-          freelog(LOG_ERROR, "bad help-generate category \"%s\"", gen_str);
+          log_error("bad help-generate category \"%s\"", gen_str);
           continue;
         }
         {
@@ -854,7 +853,7 @@ void boot_help_texts(struct player *pplayer)
   secfile_check_unused(sf);
   secfile_destroy(sf);
   booted = TRUE;
-  freelog(LOG_VERBOSE, "Booted help texts ok");
+  log_verbose("Booted help texts ok");
 }
 
 /****************************************************************
@@ -885,7 +884,7 @@ const struct help_item *get_help_item(int pos)
   check_help_nodes_init();
   size = help_list_size(help_nodes);
   if (pos < 0 || pos > size) {
-    freelog(LOG_ERROR, "Bad index %d to get_help_item (size %d)", pos, size);
+    log_error("Bad index %d to get_help_item (size %d)", pos, size);
     return NULL;
   }
   if (pos == size) {
@@ -1124,7 +1123,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   assert(NULL != buf && 0 < bufsz && NULL != user_text);
 
   if (!utype) {
-    freelog(LOG_ERROR, "Unknown unit!");
+    log_error("Unknown unit!");
     mystrlcpy(buf, user_text, bufsz);
     return buf;
   }
@@ -1544,7 +1543,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   mystrlcpy(buf, user_text, bufsz);
 
   if (NULL == vap) {
-    freelog(LOG_ERROR, "Unknown tech %d.", i);
+    log_error("Unknown tech %d.", i);
     return;
   }
 
@@ -1635,7 +1634,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
   buf[0] = '\0';
 
   if (!pterrain) {
-    freelog(LOG_ERROR, "Unknown terrain!");
+    log_error("Unknown terrain!");
     return;
   }
 
@@ -2113,7 +2112,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
   int any = 0;
 
   if (!utype) {
-    freelog(LOG_ERROR, "Unknown unit!");
+    log_error("Unknown unit!");
     return "";
   }
 

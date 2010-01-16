@@ -463,8 +463,8 @@ void send_client_wants_hack(const char *filename)
     file = secfile_new(FALSE);
     secfile_insert_str(file, req.token, "challenge.token");
     if (!secfile_save(file, challenge_fullname, 0, FZ_PLAIN)) {
-      freelog(LOG_ERROR, "Couldn't write token to temporary file: %s",
-              challenge_fullname);
+      log_error("Couldn't write token to temporary file: %s",
+                challenge_fullname);
     }
     secfile_destroy(file);
 
@@ -481,8 +481,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
   /* remove challenge file */
   if (challenge_fullname[0] != '\0') {
     if (remove(challenge_fullname) == -1) {
-      freelog(LOG_ERROR, "Couldn't remove temporary file: %s",
-	      challenge_fullname);
+      log_error("Couldn't remove temporary file: %s", challenge_fullname);
     }
     challenge_fullname[0] = '\0';
   }
@@ -548,8 +547,7 @@ void set_ruleset(const char *ruleset)
 {
   char buf[4096];
 
-  my_snprintf(buf, sizeof(buf), "/read %s%s",
-	      ruleset, RULESET_SUFFIX);
-  freelog(LOG_DEBUG, "Executing '%s'", buf);
+  my_snprintf(buf, sizeof(buf), "/read %s%s", ruleset, RULESET_SUFFIX);
+  log_debug("Executing '%s'", buf);
   send_chat(buf);
 }

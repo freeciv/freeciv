@@ -107,13 +107,13 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
 
 #ifndef HAVE_LIBZ
     if (method == FZ_ZLIB) {
-      freelog(LOG_ERROR, "Not compiled with zlib support, reverting to plain.");
+      log_error("Not compiled with zlib support, reverting to plain.");
       method = FZ_PLAIN;
     }
 #endif
 #ifndef HAVE_LIBBZ2
     if (method == FZ_BZIP2) {
-      freelog(LOG_ERROR, "Not compiled with bzib2 support, reverting to plain.");
+      log_error("Not compiled with bzib2 support, reverting to plain.");
       method = FZ_PLAIN;
     }
 #endif
@@ -401,8 +401,8 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       int num;
       num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
       if (num == -1) {
-	  freelog(LOG_ERROR, "Too much data: truncated in fz_fprintf (%lu)",
-		  (unsigned long) sizeof(buffer));
+        log_error("Too much data: truncated in fz_fprintf (%lu)",
+                  (unsigned long) sizeof(buffer));
       }
       BZ2_bzWrite(&fp->u.bz2.error, fp->u.bz2.file, buffer, strlen(buffer));
       if (fp->u.bz2.error != BZ_OK) {
@@ -420,8 +420,8 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
       int num;
       num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
       if (num == -1) {
-	  freelog(LOG_ERROR, "Too much data: truncated in fz_fprintf (%lu)",
-		  (unsigned long) sizeof(buffer));
+        log_error("Too much data: truncated in fz_fprintf (%lu)",
+                  (unsigned long) sizeof(buffer));
       }
       retval = gzwrite(fp->u.zlib, buffer, (unsigned int)strlen(buffer));
     }

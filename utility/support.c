@@ -496,7 +496,7 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   return r;
 #else
   {
-    /* Don't use fc_malloc() or freelog() here, since they may call
+    /* Don't use fc_malloc() or log_*() here, since they may call
        my_vsnprintf() if it fails.  */
  
     static char *buf;

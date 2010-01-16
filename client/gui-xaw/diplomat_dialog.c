@@ -306,7 +306,7 @@ static void spy_steal_callback(Widget w, XtPointer client_data,
   spy_tech_shell = 0l;
   
   if(!steal_advance){
-    freelog(LOG_ERROR, "Bug in spy steal tech code");
+    log_error("Bug in spy steal tech code");
     process_diplomat_arrival(NULL, 0);
     return;
   }
@@ -330,7 +330,7 @@ static void spy_sabotage_callback(Widget w, XtPointer client_data,
   spy_sabotage_shell = 0l;
   
   if(!sabotage_improvement){
-    freelog(LOG_ERROR, "Bug in spy sabotage code");
+    log_error("Bug in spy sabotage code");
     process_diplomat_arrival(NULL, 0);
     return;
   }

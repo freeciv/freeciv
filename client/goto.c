@@ -38,8 +38,9 @@
 #include "goto.h"
 #include "mapctrl_common.h"
 
-#define PATH_LOG_LEVEL          LOG_DEBUG
-#define PACKET_LOG_LEVEL        LOG_DEBUG
+#define LOG_GOTO_PATH           LOG_DEBUG
+#define log_goto_path           log_debug
+#define log_goto_packet         log_debug
 
 /*
  * The whole path is separated by waypoints into parts.  Each part has its
@@ -168,19 +169,19 @@ static bool update_last_part(struct goto_map *goto_map,
   struct tile *old_tile = p->start_tile;
   int i, start_index = 0;
 
-  freelog(LOG_DEBUG, "update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
-          TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
+  log_debug("update_last_part(%d,%d) old (%d,%d)-(%d,%d)",
+            TILE_XY(ptile), TILE_XY(p->start_tile), TILE_XY(p->end_tile));
   new_path = pf_map_get_path(p->map, ptile);
 
   if (!new_path) {
-    freelog(PATH_LOG_LEVEL, "  no path found");
+    log_goto_path("  no path found");
 
     if (p->start_tile == ptile) {
       /* This mean we cannot reach the start point.  It is probably,
        * a path-finding bug, but don't make infinite recursion. */
 
       if (!goto_warned) {
-        freelog(LOG_ERROR, "No path found to reach the start point.");
+        log_error("No path found to reach the start point.");
         goto_warned = TRUE;
       }
 
@@ -206,8 +207,8 @@ static bool update_last_part(struct goto_map *goto_map,
     return FALSE;
   }
 
-  freelog(PATH_LOG_LEVEL, "  path found:");
-  pf_path_print(new_path, PATH_LOG_LEVEL);
+  log_goto_path("  path found:");
+  pf_path_print(new_path, LOG_GOTO_PATH);
 
   if (p->path) {
     /* We had a path drawn already.  Determine how much of it we can reuse
@@ -264,8 +265,8 @@ static bool update_last_part(struct goto_map *goto_map,
     if (goto_map->connect_initial > 0) {
       p->time += goto_map->connect_initial;
     }
-    freelog(PATH_LOG_LEVEL, "To (%d,%d) MC: %d, connect_initial: %d",
-	    TILE_XY(ptile), moves, goto_map->connect_initial);
+    log_goto_path("To (%d,%d) MC: %d, connect_initial: %d",
+                  TILE_XY(ptile), moves, goto_map->connect_initial);
   } else {
     p->time = pf_path_get_last_position(p->path)->turn;
   }
@@ -952,7 +953,7 @@ void request_orders_cleared(struct unit *punit)
   }
 
   /* Clear the orders by sending an empty orders path. */
-  freelog(PACKET_LOG_LEVEL, "Clearing orders for unit %d.", punit->id);
+  log_goto_packet("Clearing orders for unit %d.", punit->id);
   p.unit_id = punit->id;
   p.src_tile = tile_index(unit_tile(punit));
   p.repeat = p.vigilant = FALSE;
@@ -977,15 +978,15 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
   p.repeat = repeat;
   p.vigilant = vigilant;
 
-  freelog(PACKET_LOG_LEVEL, "Orders for unit %d:", punit->id);
+  log_goto_packet("Orders for unit %d:", punit->id);
 
   /* We skip the start position. */
   p.length = path->length - 1;
   assert(p.length < MAX_LEN_ROUTE);
   old_tile = path->positions[0].tile;
 
-  freelog(PACKET_LOG_LEVEL, "  Repeat: %d.  Vigilant: %d.  Length: %d",
-	  p.repeat, p.vigilant, p.length);
+  log_goto_packet("  Repeat: %d. Vigilant: %d. Length: %d",
+                  p.repeat, p.vigilant, p.length);
 
   /* If the path has n positions it takes n-1 steps. */
   for (i = 0; i < path->length - 1; i++) {
@@ -994,15 +995,14 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
     if (same_pos(new_tile, old_tile)) {
       p.orders[i] = ORDER_FULL_MP;
       p.dir[i] = -1;
-      freelog(PACKET_LOG_LEVEL, "  packet[%d] = wait: %d,%d",
-	      i, TILE_XY(old_tile));
+      log_goto_packet("  packet[%d] = wait: %d,%d", i, TILE_XY(old_tile));
     } else {
       p.orders[i] = ORDER_MOVE;
       p.dir[i] = get_direction_for_step(old_tile, new_tile);
       p.activity[i] = ACTIVITY_LAST;
-      freelog(PACKET_LOG_LEVEL, "  packet[%d] = move %s: %d,%d => %d,%d",
- 	      i, dir_get_name(p.dir[i]),
-	      TILE_XY(old_tile), TILE_XY(new_tile));
+      log_goto_packet("  packet[%d] = move %s: %d,%d => %d,%d",
+                      i, dir_get_name(p.dir[i]),
+                      TILE_XY(old_tile), TILE_XY(new_tile));
       p.activity[i] = ACTIVITY_LAST;
     }
     old_tile = new_tile;

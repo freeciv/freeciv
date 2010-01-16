@@ -356,7 +356,7 @@ const char *cmafec_get_result_descr(struct city *pcity,
 	      buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
 	      buf[O_TRADE], buf[O_SCIENCE], buf[6], buf[7], buf[8]);
 
-  freelog(LOG_DEBUG, "\n%s", buffer);
+  log_debug("\n%s", buffer);
   return buffer;
 }
 

@@ -246,7 +246,8 @@ static void client_game_reset(void)
 **************************************************************************/
 int client_main(int argc, char *argv[])
 {
-  int i, loglevel;
+  int i;
+  enum log_level loglevel = LOG_NORMAL;
   int ui_options = 0;
   bool ui_separator = FALSE;
   char *option=NULL;
@@ -274,9 +275,6 @@ int client_main(int argc, char *argv[])
   audio_init();
   init_character_encodings(gui_character_encoding, gui_use_transliteration);
 
-  /* default argument values are set in options.c */
-  loglevel=LOG_NORMAL;
-
   i = 1;
 
   announce = ANNOUNCE_DEFAULT;
@@ -291,11 +289,12 @@ int client_main(int argc, char *argv[])
       fc_fprintf(stderr, _("  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"));
       fc_fprintf(stderr, _("  -a, --autoconnect\tSkip connect dialog\n"));
 #ifdef DEBUG
-      fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
-			   " or 4:file1,min,max:...)\n"));
+      fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                           "%d, or %d:file1,min,max:...)\n"),
+                 LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else
-      fc_fprintf(stderr,
-		 _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
+      fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                           "%d)\n"), LOG_FATAL, LOG_VERBOSE);
 #endif
       fc_fprintf(stderr,
 		 _("  -h, --help\t\tPrint a summary of the options\n"));
@@ -359,12 +358,11 @@ int client_main(int argc, char *argv[])
     } else if (is_option("--autoconnect", argv[i])) {
       auto_connect = TRUE;
     } else if ((option = get_option_malloc("--debug", argv, &i, argc))) {
-      loglevel = log_parse_level_str(option);
-      if (loglevel == -1) {
-	fc_fprintf(stderr,
-		   _("Invalid debug level \"%s\" specified with --debug "
-		     "option.\n"), option);
-	fc_fprintf(stderr, _("Try using --help.\n"));
+      if (!log_parse_level_str(option, &loglevel)) {
+        fc_fprintf(stderr,
+                   _("Invalid debug level \"%s\" specified with --debug "
+                     "option.\n"), option);
+        fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
       free(option);
@@ -402,7 +400,7 @@ int client_main(int argc, char *argv[])
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_client");
 
-  log_init(logfile, loglevel, NULL);
+  log_init(logfile, loglevel, NULL, FALSE);
 
   /* after log_init: */
 
@@ -454,11 +452,9 @@ int client_main(int argc, char *argv[])
     /* FIXME: Find a cleaner way to achieve this. */
     const char *oldaddr = "http://www.cazfi.net/freeciv/metaserver/";
     if (0 == strcmp(default_metaserver, oldaddr)) {
-      freelog(LOG_NORMAL, _("Updating old metaserver address \"%s\"."),
-              oldaddr);
+      log_normal(_("Updating old metaserver address \"%s\"."), oldaddr);
       sz_strlcpy(default_metaserver, META_URL);
-      freelog(LOG_NORMAL, _("Default metaserver has been set to \"%s\"."),
-              META_URL);
+      log_normal(_("Default metaserver has been set to \"%s\"."), META_URL);
     }
     sz_strlcpy(metaserver, default_metaserver);
   }
@@ -529,8 +525,7 @@ void client_exit(void)
 void client_packet_input(void *packet, int type)
 {
   if (!client_handle_packet(type, packet)) {
-    freelog(LOG_ERROR, "Received unknown packet (type %d) from server!",
-	    type);
+    log_error("Received unknown packet (type %d) from server!", type);
   }
 }
 
@@ -547,8 +542,8 @@ void user_ended_turn(void)
 **************************************************************************/
 void send_turn_done(void)
 {
-  freelog(LOG_DEBUG, "send_turn_done() turn_done_button_state=%d",
-	  get_turn_done_button_state());
+  log_debug("send_turn_done() turn_done_button_state=%d",
+            get_turn_done_button_state());
 
   if (!get_turn_done_button_state()) {
     /*
@@ -591,8 +586,7 @@ void set_client_state(enum client_states newstate)
 
   if (auto_connect && newstate == C_S_DISCONNECTED) {
     if (oldstate == C_S_DISCONNECTED) {
-      freelog(LOG_FATAL,
-              _("There was an error while auto connecting; aborting."));
+      log_fatal(_("There was an error while auto connecting; aborting."));
         exit(EXIT_FAILURE);
     } else {
       start_autoconnecting_to_server();

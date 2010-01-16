@@ -323,8 +323,8 @@ void regenerate_lakes(tile_knowledge_cb knowledge_cb)
 
   num_laketypes = terrains_by_flag(TER_FRESHWATER, lakes, sizeof(lakes));
   if (num_laketypes > MAX_ALT_TER_TYPES) {
-    freelog(LOG_NORMAL, "Number of lake types in ruleset %d, considering only %d ones.",
-            num_laketypes, MAX_ALT_TER_TYPES);
+    log_normal("Number of lake types in ruleset %d, considering "
+               "only %d ones.", num_laketypes, MAX_ALT_TER_TYPES);
     num_laketypes = MAX_ALT_TER_TYPES;
   }
 
@@ -430,8 +430,8 @@ void assign_continent_numbers(void)
 
   recalculate_lake_surrounders();
 
-  freelog(LOG_VERBOSE, "Map has %d continents and %d oceans", 
-	  map.num_continents, map.num_oceans);
+  log_verbose("Map has %d continents and %d oceans", 
+              map.num_continents, map.num_oceans);
 }
 
 /**************************************************************************

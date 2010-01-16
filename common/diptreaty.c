@@ -130,12 +130,12 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
                      pplayer_get_diplstate(ptreaty->plr0, ptreaty->plr1)->type;
 
   if (type < 0 || type >= CLAUSE_LAST) {
-    freelog(LOG_ERROR, "Illegal clause type encountered.");
+    log_error("Illegal clause type encountered.");
     return FALSE;
   }
 
   if (type == CLAUSE_ADVANCE && !valid_advance_by_number(val)) {
-    freelog(LOG_ERROR, "Illegal tech value %i in clause.", val);
+    log_error("Illegal tech value %i in clause.", val);
     return FALSE;
   }
   
@@ -145,19 +145,18 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
           || (ds == DS_ALLIANCE && type == CLAUSE_ALLIANCE)
           || (ds == DS_CEASEFIRE && type == CLAUSE_CEASEFIRE))) {
     /* we already have this diplomatic state */
-    freelog(LOG_ERROR, "Illegal treaty suggested between %s and %s - they "
-                       "already have this treaty level.",
-                       nation_rule_name(nation_of_player(ptreaty->plr0)), 
-                       nation_rule_name(nation_of_player(ptreaty->plr1)));
+    log_error("Illegal treaty suggested between %s and %s - they "
+              "already have this treaty level.",
+              nation_rule_name(nation_of_player(ptreaty->plr0)), 
+              nation_rule_name(nation_of_player(ptreaty->plr1)));
     return FALSE;
   }
 
   if (type == CLAUSE_EMBASSY && player_has_real_embassy(pto, pfrom)) {
     /* we already have embassy */
-    freelog(LOG_ERROR,
-            "Illegal embassy clause: %s already have embassy with %s.",
-            nation_rule_name(nation_of_player(pto)),
-            nation_rule_name(nation_of_player(pfrom)));
+    log_error("Illegal embassy clause: %s already have embassy with %s.",
+              nation_rule_name(nation_of_player(pto)),
+              nation_rule_name(nation_of_player(pfrom)));
     return FALSE;
   }
       

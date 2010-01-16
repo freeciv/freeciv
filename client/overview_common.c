@@ -427,8 +427,7 @@ void calculate_overview_dimensions(void)
 
   get_overview_area_dimensions(&w, &h);
 
-  freelog(LOG_DEBUG, "Map size %d,%d - area size %d,%d",
-	  map.xsize, map.ysize, w, h);
+  log_debug("Map size %d,%d - area size %d,%d", map.xsize, map.ysize, w, h);
 
   /* Set the scale of the overview map.  This attempts to limit the
    * overview to the size of the area available.

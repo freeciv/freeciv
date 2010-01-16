@@ -795,7 +795,7 @@ static void pft_fill_parameter(struct pf_parameter *parameter,
     parameter->get_MC = airmove;
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_parameter() impossible move type!");
+    log_error("pft_fill_parameter() impossible move type!");
     break;
   }
 
@@ -856,7 +856,7 @@ static void pft_fill_overlap_param(struct pf_parameter *parameter,
     parameter->get_MC = airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_overlap_param() impossible move type!");
+    log_error("pft_fill_overlap_param() impossible move type!");
     break;
   }
 
@@ -912,7 +912,7 @@ static void pft_fill_attack_param(struct pf_parameter *parameter,
     parameter->get_MC = airmove; /* very crude */
     break;
   default:
-    freelog(LOG_ERROR, "pft_fill_attack_param() impossible move type!");
+    log_error("pft_fill_attack_param() impossible move type!");
     break;
   }
 

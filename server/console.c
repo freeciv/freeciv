@@ -51,7 +51,8 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...);
 Function to handle log messages.
 This must match the log_callback_fn typedef signature.
 ************************************************************************/
-static void con_handle_log(int level, const char *message, bool file_too)
+static void con_handle_log(enum log_level level, const char *message,
+                           bool file_too)
 {
   if (LOG_ERROR == level) {
     notify_conn(NULL, NULL, E_LOG_ERROR, ftc_warning, "%s", message);
@@ -103,9 +104,9 @@ static void con_update_prompt(void)
 /************************************************************************
   Initialize logging via console.
 ************************************************************************/
-void con_log_init(const char *log_filename, int log_level)
+void con_log_init(const char *log_filename, enum log_level level)
 {
-  log_init(log_filename, log_level, con_handle_log);
+  log_init(log_filename, level, con_handle_log, FALSE);
 }
 
 #ifndef HAVE_LIBREADLINE

@@ -118,9 +118,8 @@ void team_add_player(struct player *pplayer, struct team *pteam)
   assert(pplayer != NULL);
   assert(pteam != NULL);
 
-  freelog(LOG_DEBUG, "Adding player %d/%s to team %s.",
-	  player_number(pplayer), pplayer->username,
-	  team_rule_name(pteam));
+  log_debug("Adding player %d/%s to team %s.", player_number(pplayer),
+            pplayer->username, team_rule_name(pteam));
 
   /* Remove the player from the old team, if any.  The player's team should
    * only be NULL for a few instants after the player was created; after
@@ -146,11 +145,9 @@ void team_add_player(struct player *pplayer, struct team *pteam)
 void team_remove_player(struct player *pplayer)
 {
   if (pplayer->team) {
-    freelog(LOG_DEBUG, "Removing player %d/%s from team %s (%d)",
-	    player_number(pplayer),
-	    pplayer->username,
-	    team_rule_name(pplayer->team),
-	    pplayer->team->players);
+    log_debug("Removing player %d/%s from team %s (%d)",
+              player_number(pplayer), pplayer->username,
+              team_rule_name(pplayer->team), pplayer->team->players);
     pplayer->team->players--;
     assert(pplayer->team->players >= 0);
   }

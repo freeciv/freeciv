@@ -141,12 +141,12 @@ void init_character_encodings(const char *my_internal_encoding,
 #endif
 
 #else
-   /* freelog may not work at this point. */
+   /* log_* may not work at this point. */
   fprintf(stderr,
-	     _("You are running Freeciv without using iconv.  Unless\n"
-	       "you are using the latin1 character set, some characters\n"
-	       "may not be displayed properly.  You can download iconv\n"
-	       "at http://gnu.org/.\n"));
+          _("You are running Freeciv without using iconv. Unless\n"
+            "you are using the latin1 character set, some characters\n"
+            "may not be displayed properly. You can download iconv\n"
+            "at http://gnu.org/.\n"));
 #endif
 
   is_init = TRUE;
@@ -216,8 +216,8 @@ char *convert_string(const char *text,
   if (cd == (iconv_t) (-1)) {
     /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
      *        <externally translated error string>."*/
-    freelog(LOG_ERROR, _("Could not convert text from %s to %s: %s"), from,
-	    to, fc_strerror(fc_get_errno()));
+    log_error(_("Could not convert text from %s to %s: %s"),
+              from, to, fc_strerror(fc_get_errno()));
     /* The best we can do? */
     if (alloc) {
       return mystrdup(text);
@@ -251,17 +251,16 @@ char *convert_string(const char *text,
     res = iconv(cd, (ICONV_CONST char **)&mytext, &flen, &myresult, &tlen);
     if (res == (size_t) (-1)) {
       if (errno != E2BIG) {
-	/* Invalid input. */
-	freelog(LOG_ERROR, "Invalid string conversion from %s to %s.",
-		from, to);
-	iconv_close(cd);
-	if (alloc) {
-	  free(buf);
-	  return mystrdup(text); /* The best we can do? */
-	} else {
-	  my_snprintf(buf, bufsz, "%s", text);
-	  return buf;
-	}
+        /* Invalid input. */
+        log_error("Invalid string conversion from %s to %s.", from, to);
+        iconv_close(cd);
+        if (alloc) {
+          free(buf);
+          return mystrdup(text); /* The best we can do? */
+        } else {
+          my_snprintf(buf, bufsz, "%s", text);
+          return buf;
+        }
       }
     } else {
       /* Success. */
@@ -275,7 +274,7 @@ char *convert_string(const char *text,
     if (alloc) {
       /* Not enough space; try again. */
       buf[to_len - 1] = 0;
-      freelog(LOG_VERBOSE, "   Result was '%s'.", buf);
+      log_verbose("   Result was '%s'.", buf);
 
       free(buf);
       to_len *= 2;
@@ -349,7 +348,7 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   static bool recursion = FALSE;
 
   /* The recursion variable is used to prevent a recursive loop.  If
-   * an iconv conversion fails, then freelog will be called and an
+   * an iconv conversion fails, then log_* will be called and an
    * fc_fprintf will be done.  But below we do another iconv conversion
    * on the error messages, which is of course likely to fail also. */
   if (recursion) {

@@ -359,7 +359,7 @@ bool create_start_positions(enum start_mode mode,
   for (k = 1; k <= map.num_continents; k++) {
     sum += islands[islands_index[k]].starters;
     if (islands[islands_index[k]].starters != 0) {
-      freelog(LOG_VERBOSE, "starters on isle %i", k);
+      log_verbose("starters on isle %i", k);
     }
   }
   assert(player_count() <= data.count + sum);
@@ -373,25 +373,21 @@ bool create_start_positions(enum start_mode mode,
       islands[islands_index[(int) tile_continent(ptile)]].starters--;
       map.server.start_positions[data.count].tile = ptile;
       map.server.start_positions[data.count].nation = NO_NATION_SELECTED;
-      freelog(LOG_DEBUG,
-	      "Adding %d,%d as starting position %d, %d goodies on islands.",
-	      TILE_XY(ptile), data.count,
-	      islands[islands_index[(int) tile_continent(ptile)]].goodies);
+      log_debug("Adding %d,%d as starting position %d, %d goodies on "
+                "islands.", TILE_XY(ptile), data.count,
+                islands[islands_index[(int) tile_continent(ptile)]].goodies);
       data.count++;
 
     } else {
       data.min_value *= 0.95;
       if (data.min_value <= 10) {
-	freelog(LOG_ERROR,
-	        _("The server appears to have gotten into an infinite loop "
-	          "in the allocation of starting positions.\n"
-	          "Maybe the number of players is too high for this map."));
-	freelog(LOG_ERROR,
-		/* TRANS: No full stop after the URL, could cause confusion. */
-		_("Please report this message at %s"),
-		BUG_URL);
-	failure = TRUE;
-	break;
+        log_error(_("The server appears to have gotten into an infinite "
+                    "loop in the allocation of starting positions.\n Maybe "
+                    "the number of players is too high for this map."));
+        /* TRANS: No full stop after the URL, could cause confusion. */
+        log_error(_("Please report this message at %s"), BUG_URL);
+        failure = TRUE;
+        break;
       }
     }
   }

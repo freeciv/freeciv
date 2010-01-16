@@ -606,10 +606,8 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
   }
 
   if (0 != loss_remain) {
-    freelog(LOG_FATAL, "city_reduce_size()"
-            " has remaining %d of %d for \"%s\"[%d]",
-            loss_remain, pop_loss,
-            city_name(pcity), pcity->size);
+    log_fatal("city_reduce_size() has remaining %d of %d for \"%s\"[%d]",
+              loss_remain, pop_loss, city_name(pcity), pcity->size);
     assert(0);
   }
 
@@ -642,10 +640,8 @@ void city_repair_size(struct city *pcity, int change)
     }
 
     if (0 != need) {
-      freelog(LOG_FATAL, "city_repair_size()"
-              " has remaining %d of %d for \"%s\"[%d]",
-              need, change,
-              city_name(pcity), pcity->size);
+      log_fatal("city_repair_size() has remaining %d of %d for \"%s\"[%d]",
+                need, change, city_name(pcity), pcity->size);
       assert(0);
     }
   }
@@ -1145,8 +1141,7 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_TERRAINALTER: /* XXX could do this in principle */
 	    case VUT_CITYTILE:
 	      /* Will only happen with a bogus ruleset. */
-	      freelog(LOG_ERROR, "worklist_change_build_target()"
-	      	      " has bogus preq");
+              log_error("worklist_change_build_target() has bogus preq");
 	      break;
             case VUT_MINYEAR:
               /* FIXME: if negated: we should skip rather than postpone,
@@ -1166,8 +1161,8 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_NONE:
 	    case VUT_LAST:
 	    default:
-	      freelog(LOG_FATAL, "worklist_change_build_target()"
-	      	      " called with invalid preq");
+              log_fatal("worklist_change_build_target() "
+                        "called with invalid preq");
 	      assert(0);
 	      break;
 	    };
@@ -1207,9 +1202,8 @@ static bool worklist_change_build_target(struct player *pplayer,
     }
     default:
       /* skip useless target */
-      freelog(LOG_ERROR, "worklist_change_build_target()"
-	      " has unrecognized target kind (%d)",
-	      target.kind);
+      log_error("worklist_change_build_target() has unrecognized "
+                "target kind (%d)", target.kind);
       break;
     };
   } /* while */
@@ -1269,9 +1263,9 @@ static void choose_build_target(struct player *pplayer,
   };
 
   /* Find *something* to do! */
-  freelog(LOG_DEBUG, "Trying advisor_choose_build.");
+  log_debug("Trying advisor_choose_build.");
   advisor_choose_build(pplayer, pcity);
-  freelog(LOG_DEBUG, "Advisor_choose_build didn't kill us.");
+  log_debug("Advisor_choose_build didn't kill us.");
 }
 
 /**************************************************************************
@@ -1561,9 +1555,9 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
                   city_link(pcity), utype_name_translation(utype));
 
     /* Log before signal emitting, so pointers are certainly valid */
-    freelog(LOG_VERBOSE, "%s %s tried to build %s, which is not available.",
-            nation_rule_name(nation_of_city(pcity)),
-            city_name(pcity), utype_rule_name(utype));
+    log_verbose("%s %s tried to build %s, which is not available.",
+                nation_rule_name(nation_of_city(pcity)),
+                city_name(pcity), utype_rule_name(utype));
     script_signal_emit("unit_cant_be_built", 3,
 		       API_TYPE_UNIT_TYPE, utype,
 		       API_TYPE_CITY, pcity,
@@ -1911,7 +1905,7 @@ static void check_pollution(struct city *pcity)
       }
       k--;
     }
-    freelog(LOG_DEBUG, "pollution not placed: city: %s", city_name(pcity));
+    log_debug("pollution not placed: city: %s", city_name(pcity));
   }
 }
 
@@ -2005,11 +1999,9 @@ static void define_orig_production_values(struct city *pcity)
    * something different.  See city_change_production_penalty(). */
   pcity->changed_from = pcity->production;
 
-  freelog(LOG_DEBUG,
-	  "In %s, building %s.  Beg of Turn shields = %d",
-	  city_name(pcity),
-	  universal_rule_name(&pcity->changed_from),
-	  pcity->before_change_shields);
+  log_debug("In %s, building %s.  Beg of Turn shields = %d",
+            city_name(pcity), universal_rule_name(&pcity->changed_from),
+            pcity->before_change_shields);
 }
 
 /**************************************************************************
@@ -2303,7 +2295,7 @@ static float city_migration_score(struct city *pcity)
   /* take into account effects */
   score *= (1.0 + get_city_bonus(pcity, EFT_MIGRATION_PCT) / 100);
 
-  freelog(LOG_DEBUG, "[M] %s score: %.3f", city_name(pcity), score);
+  log_debug("[M] %s score: %.3f", city_name(pcity), score);
 
   /* set migration score for the city */
   pcity->migration_score = score;
@@ -2452,8 +2444,8 @@ static bool do_city_migration(struct city *pcity_from,
                   name_from, nation_from, name_to);
   }
 
-  freelog(LOG_DEBUG, "[M] T%d migration successful (%s -> %s)",
-          game.info.turn, name_from, name_to);
+  log_debug("[M] T%d migration successful (%s -> %s)",
+            game.info.turn, name_from, name_to);
 
   return TRUE;
 }
@@ -2537,9 +2529,9 @@ static void check_city_migrations_player(const struct player *pplayer)
      * taking into account a persistence factor of 3 */
     score_from = city_migration_score(pcity) * 3;
 
-    freelog(LOG_DEBUG, "[M] T%d check city: %s score: %6.3f (%s)",
-            game.info.turn, city_name(pcity), score_from,
-            player_name(pplayer));
+    log_debug("[M] T%d check city: %s score: %6.3f (%s)",
+              game.info.turn, city_name(pcity), score_from,
+              player_name(pplayer));
 
     /* consider all cities within the set distance */
     iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
@@ -2558,9 +2550,9 @@ static void check_city_migrations_player(const struct player *pplayer)
                 / (float) (GAME_MAX_MGR_DISTANCE + 1));
       score_tmp = city_migration_score(acity) * weight;
 
-      freelog(LOG_DEBUG, "[M] T%d - compare city: %s (%s) dist: %d "
-              "score: %6.3f", game.info.turn, city_name(acity),
-              player_name(city_owner(acity)), dist, score_tmp);
+      log_debug("[M] T%d - compare city: %s (%s) dist: %d "
+                "score: %6.3f", game.info.turn, city_name(acity),
+                player_name(city_owner(acity)), dist, score_tmp);
 
       if (game.info.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
         /* migration between cities of the same owner */
@@ -2569,10 +2561,10 @@ static void check_city_migrations_player(const struct player *pplayer)
           best_city_player_score = score_tmp;
           best_city_player = acity;
 
-          freelog(LOG_DEBUG, "[M] T%d - best city (player): %s (%s) score: "
-                  "%6.3f (> %6.3f)", game.info.turn,
-                  city_name(best_city_player), player_name(pplayer),
-                  best_city_player_score, score_from);
+          log_debug("[M] T%d - best city (player): %s (%s) score: "
+                    "%6.3f (> %6.3f)", game.info.turn,
+                    city_name(best_city_player), player_name(pplayer),
+                    best_city_player_score, score_from);
         }
       } else if (game.info.mgr_worldchance > 0
                  && city_owner(acity) != pplayer) {
@@ -2582,11 +2574,11 @@ static void check_city_migrations_player(const struct player *pplayer)
           best_city_world_score = score_tmp;
           best_city_world = acity;
 
-          freelog(LOG_DEBUG, "[M] T%d - best city (world): %s (%s) score: "
-                  "%6.3f (> %6.3f)", game.info.turn,
-                  city_name(best_city_world),
-                  player_name(city_owner(best_city_world)),
-                  best_city_world_score, score_from);
+          log_debug("[M] T%d - best city (world): %s (%s) score: "
+                    "%6.3f (> %6.3f)", game.info.turn,
+                    city_name(best_city_world),
+                    player_name(city_owner(best_city_world)),
+                    best_city_world_score, score_from);
         }
       }
     } iterate_outward_end;

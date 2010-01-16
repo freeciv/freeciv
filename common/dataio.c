@@ -243,7 +243,7 @@ void dio_put_uint32(struct data_out *dout, int value)
 void dio_put_bool8(struct data_out *dout, bool value)
 {
   if (value != TRUE && value != FALSE) {
-    freelog(LOG_ERROR, "Trying to put a non-boolean: %d", (int) value);
+    log_error("Trying to put a non-boolean: %d", (int) value);
     value = FALSE;
   }
 
@@ -256,7 +256,7 @@ void dio_put_bool8(struct data_out *dout, bool value)
 void dio_put_bool32(struct data_out *dout, bool value)
 {
   if (value != TRUE && value != FALSE) {
-    freelog(LOG_ERROR, "Trying to put a non-boolean: %d", (int) value);
+    log_error("Trying to put a non-boolean: %d", (int) value);
     value = FALSE;
   }
 
@@ -347,7 +347,7 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
   size_t max = (unsigned short)(-1);
 
   if (bits > max) {
-    freelog(LOG_ERROR, "Bit string too long: %lu bits.", (unsigned long)bits);
+    log_error( "Bit string too long: %lu bits.", (unsigned long)bits);
     assert(FALSE);
     bits = max;
   }
@@ -472,7 +472,7 @@ void dio_get_bool8(struct data_in *din, bool * dest)
   dio_get_uint8(din, &ival);
 
   if (ival != 0 && ival != 1) {
-    freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
+    log_error("Received value isn't boolean: %d", ival);
     ival = 1;
   }
 
@@ -489,7 +489,7 @@ void dio_get_bool32(struct data_in *din, bool * dest)
   dio_get_uint32(din, &ival);
 
   if (ival != 0 && ival != 1) {
-    freelog(LOG_ERROR, "Received value isn't boolean: %d", ival);
+    log_error("Received value isn't boolean: %d", ival);
     ival = 1;
   }
 
@@ -600,8 +600,8 @@ void dio_get_bit_string(struct data_in *din, char *dest,
 
   dio_get_uint16(din, &npack);
   if (npack >= max_dest_size) {
-      freelog(LOG_ERROR, "Have size for %lu, got %d",
-              (unsigned long)max_dest_size, npack);
+      log_error("Have size for %lu, got %d",
+                (unsigned long) max_dest_size, npack);
     din->bad_bit_string = TRUE;
     dest[0] = '\0';
     return;

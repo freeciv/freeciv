@@ -578,13 +578,13 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   /* Create a socket for broadcasting to servers. */
   if ((sock = socket(family, SOCK_DGRAM, 0)) < 0) {
-    freelog(LOG_ERROR, "socket failed: %s", fc_strerror(fc_get_errno()));
+    log_error("socket failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
   if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
+    log_error("SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
 
   /* Set the UDP Multicast group IP address. */
@@ -617,14 +617,14 @@ static bool begin_lanserver_scan(struct server_scan *scan)
   ttl = SERVER_LAN_TTL;
   if (setsockopt(sock, IPPROTO_IP, IP_MULTICAST_TTL, (const char*)&ttl, 
                  sizeof(ttl))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 #endif /* HAVE_WINSOCK */
 
   if (setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (const char*)&opt, 
                  sizeof(opt))) {
-    freelog(LOG_ERROR, "setsockopt failed: %s", fc_strerror(fc_get_errno()));
+    log_error("setsockopt failed: %s", fc_strerror(fc_get_errno()));
     return FALSE;
   }
 
@@ -637,11 +637,11 @@ static bool begin_lanserver_scan(struct server_scan *scan)
              sockaddr_size(&addr)) < 0) {
     /* This can happen when there's no network connection - it should
      * give an in-game message. */
-    freelog(LOG_ERROR, "lanserver scan sendto failed: %s",
-	    fc_strerror(fc_get_errno()));
+    log_error("lanserver scan sendto failed: %s",
+              fc_strerror(fc_get_errno()));
     return FALSE;
   } else {
-    freelog(LOG_DEBUG, ("Sending request for server announcement on LAN."));
+    log_debug("Sending request for server announcement on LAN.");
   }
 
   fc_closesocket(sock);
@@ -656,9 +656,9 @@ static bool begin_lanserver_scan(struct server_scan *scan)
 
   if (setsockopt(scan->sock, SOL_SOCKET, SO_REUSEADDR,
                  (char *)&opt, sizeof(opt)) == -1) {
-    freelog(LOG_ERROR, "SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
+    log_error("SO_REUSEADDR failed: %s", fc_strerror(fc_get_errno()));
   }
-                                                                               
+
   memset(&addr, 0, sizeof(addr));
 
 #ifdef IPV6_SUPPORT
@@ -808,9 +808,8 @@ get_lan_server_list(struct server_scan *scan)
       continue;
     }
 
-    freelog(LOG_DEBUG,
-            ("Received a valid announcement from a server on the LAN."));
-    
+    log_debug("Received a valid announcement from a server on the LAN.");
+
     pserver = fc_malloc(sizeof(*pserver));
     pserver->host = mystrdup(servername);
     pserver->port = port;

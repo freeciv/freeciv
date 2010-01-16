@@ -13,9 +13,12 @@
 #ifndef FC__AILOG_H
 #define FC__AILOG_H
 
-#include "fc_types.h"
+/* utility */
+#include "log.h"
+#include "support.h"
 
-#include "gotohand.h"		/* enum goto_result */
+/* common */
+#include "fc_types.h"
 
 struct ai_data;
 
@@ -31,6 +34,8 @@ struct ai_data;
 #define LOGLEVEL_HUNT LOG_DEBUG
 #define LOGLEVEL_PLAYER LOG_DEBUG
 #define LOGLEVEL_TECH LOG_DEBUG
+
+#define LOG_AI_TEST LOG_NORMAL
 
 enum ai_timer {
   AIT_ALL,
@@ -71,17 +76,89 @@ enum ai_timer_activity  {
   TIMER_START, TIMER_STOP
 };
 
-void TECH_LOG(int level, const struct player *pplayer,
-              struct advance *padvance, const char *msg, ...)
-     fc__attribute((__format__ (__printf__, 4, 5)));
-void DIPLO_LOG(int level, const struct player *pplayer,
-	       const struct player *aplayer, const char *msg, ...)
-     fc__attribute((__format__ (__printf__, 4, 5)));
-void CITY_LOG(int level, const struct city *pcity, const char *msg, ...)
-     fc__attribute((__format__ (__printf__, 3, 4)));
-void UNIT_LOG(int level, const struct unit *punit, const char *msg, ...)
-     fc__attribute((__format__ (__printf__, 3, 4)));
-void BODYGUARD_LOG(int level, const struct unit *punit, const char *msg);
+void real_tech_log(const char *file, const char *function, int line,
+                   enum log_level level, bool notify,
+                   const struct player *pplayer, struct advance *padvance,
+                   const char *msg, ...)
+                   fc__attribute((__format__ (__printf__, 8, 9)));
+#define TECH_LOG(loglevel, pplayer, padvance, msg, ...)                     \
+{                                                                           \
+  bool notify = BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH);                \
+  enum log_level level = (notify ? LOG_AI_TEST                              \
+                          : MIN(loglevel, LOGLEVEL_TECH));                  \
+  if (log_do_output_for_level(level)) {                                     \
+    real_tech_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+                  pplayer, padvance, msg, ## __VA_ARGS__);                  \
+  }                                                                         \
+}
+
+void real_diplo_log(const char *file, const char *function, int line,
+                    enum log_level level, bool notify,
+                    const struct player *pplayer,
+                    const struct player *aplayer, const char *msg, ...)
+                   fc__attribute((__format__ (__printf__, 8, 9)));
+#define DIPLO_LOG(loglevel, pplayer, aplayer, msg, ...)                     \
+{                                                                           \
+  bool notify = BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);           \
+  enum log_level level = (notify ? LOG_AI_TEST                              \
+                          : MIN(loglevel, LOGLEVEL_PLAYER));                \
+  if (log_do_output_for_level(level)) {                                     \
+    real_diplo_log(__FILE__, __FUNCTION__, __LINE__, level, notify,         \
+                   pplayer, aplayer, msg, ## __VA_ARGS__);                  \
+  }                                                                         \
+}
+
+void real_city_log(const char *file, const char *function, int line,
+                   enum log_level level, bool notify,
+                   const struct city *pcity, const char *msg, ...)
+                   fc__attribute((__format__ (__printf__, 7, 8)));
+#define CITY_LOG(loglevel, pcity, msg, ...)                                 \
+{                                                                           \
+  bool notify = pcity->debug;                                               \
+  enum log_level level = (notify ? LOG_AI_TEST                              \
+                          : MIN(loglevel, LOGLEVEL_CITY));                  \
+  if (log_do_output_for_level(level)) {                                     \
+    real_city_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+                  pcity, msg, ## __VA_ARGS__);                              \
+  }                                                                         \
+}
+
+void real_unit_log(const char *file, const char *function, int line,
+                   enum log_level level,  bool notify,
+                   const struct unit *punit, const char *msg, ...)
+                   fc__attribute((__format__ (__printf__, 7, 8)));
+#define UNIT_LOG(loglevel, punit, msg, ...)                                 \
+{                                                                           \
+  bool notify = punit->debug;                                               \
+  enum log_level level;                                                     \
+  if (!notify && tile_city(unit_tile(punit))                                \
+      && tile_city(unit_tile(punit))->debug) {                              \
+    level = LOG_AI_TEST;                                                    \
+    notify = TRUE;                                                          \
+  } else {                                                                  \
+    level = MIN(loglevel, LOGLEVEL_UNIT);                                   \
+  }                                                                         \
+  if (log_do_output_for_level(level)) {                                     \
+    real_unit_log(__FILE__, __FUNCTION__, __LINE__, level, notify,          \
+                  punit, msg, ## __VA_ARGS__);                              \
+  }                                                                         \
+}
+
+void real_bodyguard_log(const char *file, const char *function, int line,
+                        enum log_level level,  bool notify,
+                        const struct unit *punit, const char *msg, ...)
+                        fc__attribute((__format__ (__printf__, 7, 8)));
+#define BODYGUARD_LOG(loglevel, punit, msg, ...)                            \
+{                                                                           \
+  bool notify = punit->debug;                                               \
+  enum log_level level = (notify ? LOG_AI_TEST                              \
+                          : MIN(loglevel, LOGLEVEL_BODYGUARD));             \
+  if (log_do_output_for_level(level)) {                                     \
+    real_bodyguard_log(__FILE__, __FUNCTION__, __LINE__, level, notify,     \
+                       punit, msg, ## __VA_ARGS__);                         \
+  }                                                                         \
+}
+
 void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
 void TIMING_RESULTS(void);
 

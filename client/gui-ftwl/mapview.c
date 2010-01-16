@@ -250,9 +250,9 @@ static void overview_mouse_press_callback(struct sw_widget *widget,
 {
   int xtile, ytile;
 
-  freelog(LOG_DEBUG, "press (%d,%d)", pos->x, pos->y);
+  log_debug("press (%d,%d)", pos->x, pos->y);
   overview_to_map_pos(&xtile,&ytile,pos->x,pos->y);
-  freelog(LOG_DEBUG, " --> (%d,%d)", xtile, ytile);
+  log_debug(" --> (%d,%d)", xtile, ytile);
   if (can_client_change_view() && button == 3) {
     center_tile_mapcanvas(map_pos_to_tile(xtile, ytile));
   }
@@ -304,7 +304,7 @@ void refresh_overview_canvas(void)
 
   struct ct_rect rect;
 
-  freelog(LOG_DEBUG, "refresh_overview_canvas()");
+  log_debug("refresh_overview_canvas()");
   whole_map_iterate(x, y) {
     overview_update_tile0(x, y);
   } whole_map_iterate_end;
@@ -336,7 +336,7 @@ static struct city_descr_style *find_city_descr_style(struct city *pcity)
       return &city_descr_styles.style[i];
     }
   }
-  freelog(LOG_ERROR, "No matching city description style found for %s "
+  log_error("No matching city description style found for %s "
           "which is of size %d", city_name(pcity), pcity->size);
   return &city_descr_styles.style[0];
 }
@@ -371,7 +371,7 @@ void show_city_desc(struct canvas *pcanvas, int canvas_x, int canvas_y,
 
 #if 0
   /* try to trace that hard-to-find assert that we sometimes get */
-  freelog(LOG_TEST, "show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", city_name(pcity),
+  log_test("show_city_desc(%s) pcx=%d->%d (%d) pcy=%d->%d (%d)", city_name(pcity),
           canvas_x, canvas_x+tileset_tile_width(tileset) / 2, all_rect.width,
           canvas_y, canvas_y+tileset_tile_height(tileset), all_rect.height);
 #endif
@@ -453,7 +453,7 @@ void flush_mapcanvas(int canvas_x, int canvas_y,
   struct ct_size size = { pixel_width, pixel_height };
   struct ct_point pos = { canvas_x, canvas_y };
 
-  freelog(LOG_DEBUG, "flush_mapcanvas=%s", ct_rect_to_string(&rect));
+  log_debug("flush_mapcanvas=%s", ct_rect_to_string(&rect));
   be_copy_osda_to_osda(sw_window_get_canvas_background(mapview_window),
 		       mapview.store->osda, &size, &pos, &pos);
   sw_window_canvas_background_region_needs_repaint(mapview_window, &rect);
@@ -471,7 +471,7 @@ void dirty_rect(int canvas_x, int canvas_y,
   
     *rect = (struct ct_rect){ canvas_x, canvas_y, pixel_width, pixel_height };
   
-    //freelog(LOG_TEST, "dirty_rect(...)");
+    //log_test("dirty_rect(...)");
     region_list_append(region_list, rect);
   }
 }
@@ -830,7 +830,7 @@ static void my_drag_start(struct sw_widget *widget,
 			  enum be_mouse_button button)
 {
   get_mapview_scroll_pos(&starting_map_position_x,&starting_map_position_y);
-  freelog(LOG_DEBUG, "drag start (%d,%d)", starting_map_position_x,
+  log_debug("drag start (%d,%d)", starting_map_position_x,
 	  starting_map_position_y);
   clear_timer_start(drag_timer);
 }
@@ -858,7 +858,7 @@ static void my_drag_move(struct sw_widget *widget,
     int new_x = starting_map_position_x - dx * factorx;
     int new_y = starting_map_position_y - dy * factory;
 
-    freelog(LOG_DEBUG, "drag map canvas (%d,%d) -> (%d,%d)", dx,
+    log_debug("drag map canvas (%d,%d) -> (%d,%d)", dx,
 	    dy, new_x, new_y);
     set_mapview_scroll_pos(new_x, new_y);
     flush_dirty();
@@ -874,7 +874,7 @@ static void action_button_callback(struct sw_widget *widget, void *data)
 {
   char *action = (char *) data;
 
-  freelog(LOG_VERBOSE, "action_button_callback(): action '%s' requested", action);  
+  log_verbose("action_button_callback(): action '%s' requested", action);  
   
   if (strcmp(action, "unit_fortifying") == 0) {
     key_unit_fortify();
@@ -929,7 +929,7 @@ static void action_button_callback(struct sw_widget *widget, void *data)
   } else if (strcmp(action, "unit_done") == 0) {
     key_unit_done();
   } else {
-    freelog(LOG_VERBOSE,
+    log_verbose(
       "action_button_callback(): action request '%s' not handled", action);    
   }
 }
@@ -983,7 +983,7 @@ static void action_callback(const char *action)
     bool found = FALSE;
 
     if (sscanf(action, "move_unit(%20[^)])", dir_str) != 1) {
-      freelog(LOG_ERROR, "move_unit command misformed");
+      log_error("move_unit command misformed");
       return;
     }
 
@@ -996,7 +996,7 @@ static void action_callback(const char *action)
     }
 
     if (!found) {
-      freelog(LOG_ERROR, "move_unit direction unknown");
+      log_error("move_unit direction unknown");
       return;
     }
     key_unit_move(dir);
@@ -1008,11 +1008,11 @@ static void action_callback(const char *action)
 
     if (sscanf(action, "scroll(%20[^,],%20[^,],%20[^)])", dir, fact,
 	       gran) != 3) {
-      freelog(LOG_ERROR, "scroll command misformed");
+      log_error("scroll command misformed");
       return;
     }
     if (!is_float(fact,&factor)) {
-      freelog(LOG_ERROR, "scroll: factor '%s' isn't a float",fact);
+      log_error("scroll: factor '%s' isn't a float",fact);
       return;
     }
 
@@ -1027,7 +1027,7 @@ static void action_callback(const char *action)
     } else if (strcmp(dir, "down") == 0) {
       right = FALSE;
     } else {
-      freelog(LOG_ERROR, "scroll: direction unknown");
+      log_error("scroll: direction unknown");
       return;
     }
 
@@ -1051,7 +1051,7 @@ static void action_callback(const char *action)
 	base = size.height;
       }
     } else {
-      freelog(LOG_ERROR, "scroll: granularity unknown");
+      log_error("scroll: granularity unknown");
       return;
     }
 
@@ -1070,7 +1070,7 @@ static void action_callback(const char *action)
       redraw_selection_rectangle();
     }
   } else {
-    freelog(LOG_VERBOSE, "action_callback() action '%s' requested", action);
+    log_verbose("action_callback() action '%s' requested", action);
   }
 }
 
@@ -1616,7 +1616,7 @@ struct tile *get_focus_tile(void)
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  freelog(LOG_ERROR, "Ignore set_city_names_font_sizes call.");
+  log_error("Ignore set_city_names_font_sizes call.");
   /* PORTME */
 }
 

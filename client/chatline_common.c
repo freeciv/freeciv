@@ -163,10 +163,9 @@ void output_window_append(const struct ft_color color,
       /* Prepends to the list, to avoid to overwrite inside colors. */
       text_tag_list_prepend(tags, ptag);
     } else {
-      freelog(LOG_ERROR,
-              "Failed to create a color text tag (fg = %s, bg = %s).",
-              (NULL != color.foreground ? color.foreground : "NULL"),
-              (NULL != color.background ? color.background : "NULL"));
+      log_error("Failed to create a color text tag (fg = %s, bg = %s).",
+                (NULL != color.foreground ? color.foreground : "NULL"),
+                (NULL != color.background ? color.background : "NULL"));
     }
   }
 

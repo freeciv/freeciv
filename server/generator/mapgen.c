@@ -659,8 +659,7 @@ static int river_test_height_map(struct tile *ptile)
 *********************************************************************/
 static void river_blockmark(struct tile *ptile)
 {
-  freelog(LOG_DEBUG, "Blockmarking (%d, %d) and adjacent tiles.",
-	  ptile->x, ptile->y);
+  log_debug("Blockmarking (%d, %d) and adjacent tiles.", TILE_XY(ptile));
 
   rmap(ptile) |= (1u << RS_BLOCKED);
 
@@ -791,9 +790,8 @@ static bool make_river(struct tile *ptile)
   while (TRUE) {
     /* Mark the current tile as river. */
     rmap(ptile) |= (1u << RS_RIVER);
-    freelog(LOG_DEBUG,
-	    "The tile at (%d, %d) has been marked as river in river_map.\n",
-	    ptile->x, ptile->y);
+    log_debug("The tile at (%d, %d) has been marked as river in river_map.",
+              TILE_XY(ptile));
 
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
@@ -802,15 +800,13 @@ static bool make_river(struct tile *ptile)
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
 	    && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) { 
 
-      freelog(LOG_DEBUG,
-	      "The river ended at (%d, %d).\n", ptile->x, ptile->y);
+      log_debug("The river ended at (%d, %d).\n", TILE_XY(ptile));
       return TRUE;
     }
 
     /* Else choose a direction to continue the river. */
-    freelog(LOG_DEBUG,
-	    "The river did not end at (%d, %d). Evaluating directions...\n",
-	    ptile->x, ptile->y);
+    log_debug("The river did not end at (%d, %d). Evaluating directions...",
+              TILE_XY(ptile));
 
     /* Mark all available cardinal directions as available. */
     memset(rd_direction_is_valid, 0, sizeof(rd_direction_is_valid));
@@ -865,10 +861,10 @@ static bool make_river(struct tile *ptile)
     }
 
     /* One or more valid directions: choose randomly. */
-    freelog(LOG_DEBUG, "mapgen.c: Had to let the random number"
-	    " generator select a direction for a river.");
+    log_debug("mapgen.c: Had to let the random number"
+              " generator select a direction for a river.");
     direction = myrand(num_valid_directions);
-    freelog(LOG_DEBUG, "mapgen.c: direction: %d", direction);
+    log_debug("mapgen.c: direction: %d", direction);
 
     /* Find the direction that the random number generator selected. */
     cardinal_adjc_dir_iterate(ptile, tile1, dir) {
@@ -971,10 +967,8 @@ static void make_rivers(void)
       /* Reset river_map before making a new river. */
       memset(river_map, 0, MAP_INDEX_SIZE * sizeof(*river_map));
 
-      freelog(LOG_DEBUG,
-	      "Found a suitable starting tile for a river at (%d, %d)."
-	      " Starting to make it.",
-	      ptile->x, ptile->y);
+      log_debug("Found a suitable starting tile for a river at (%d, %d)."
+                " Starting to make it.", TILE_XY(ptile));
 
       /* Try to make a river. If it is OK, apply it to the map. */
       if (make_river(ptile)) {
@@ -992,19 +986,18 @@ static void make_rivers(void)
 	    tile_set_special(tile1, S_RIVER);
 	    current_riverlength++;
 	    map_set_placed(tile1);
-	    freelog(LOG_DEBUG, "Applied a river to (%d, %d).",
-		    tile1->x, tile1->y);
+            log_debug("Applied a river to (%d, %d).", TILE_XY(tile1));
 	  }
 	} whole_map_iterate_end;
       } else {
-	freelog(LOG_DEBUG,
-		"mapgen.c: A river failed. It might have gotten stuck in a helix.");
+        log_debug("mapgen.c: A river failed. It might have gotten stuck "
+                  "in a helix.");
       }
     } /* end if; */
     iteration_counter++;
-    freelog(LOG_DEBUG,
-	    "current_riverlength: %d; desirable_riverlength: %d; iteration_counter: %d",
-	    current_riverlength, desirable_riverlength, iteration_counter);
+    log_debug("current_riverlength: %d; desirable_riverlength: %d; "
+              "iteration_counter: %d",
+              current_riverlength, desirable_riverlength, iteration_counter);
   } /* end while; */
   free(river_map);
   destroy_placed_map();
@@ -1034,13 +1027,13 @@ static void make_land(void)
     }
   } terrain_type_iterate_end;
   if (land_fill == NULL) {
-    freelog(LOG_FATAL, "No land terrain type could be found for the "
-            "purpose of temporarily filling in land tiles during map "
-            "generation. This could be an error in freeciv, or a "
-            "mistake in the terrain.ruleset file. Please make sure "
-            "there is at least one land terrain type in the ruleset, "
-            "or use a different map generator. If this error persists, "
-            "please report it at: %s", BUG_URL);
+    log_fatal("No land terrain type could be found for the "
+              "purpose of temporarily filling in land tiles during map "
+              "generation. This could be an error in freeciv, or a "
+              "mistake in the terrain.ruleset file. Please make sure "
+              "there is at least one land terrain type in the ruleset, "
+              "or use a different map generator. If this error persists, "
+              "please report it at: %s", BUG_URL);
     assert(land_fill != NULL);
   }
 
@@ -1138,7 +1131,6 @@ static void remove_tiny_islands(void)
 **************************************************************************/
 static void print_mapgen_map(void)
 {
-  const int loglevel = LOG_DEBUG;
   int terrain_counts[terrain_count()];
   int total = 0;
 
@@ -1156,10 +1148,10 @@ static void print_mapgen_map(void)
   } whole_map_iterate_end;
 
   terrain_type_iterate(pterrain) {
-    freelog(loglevel, "%20s : %4d %d%%  ",
-	    terrain_rule_name(pterrain),
-	    terrain_counts[terrain_index(pterrain)],
-	    (terrain_counts[terrain_index(pterrain)] * 100 + 50) / total);
+    log_debug("%20s : %4d %d%%  ",
+              terrain_rule_name(pterrain),
+              terrain_counts[terrain_index(pterrain)],
+              (terrain_counts[terrain_index(pterrain)] * 100 + 50) / total);
   } terrain_type_iterate_end;
 }
 
@@ -1185,7 +1177,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     /* Create a "random" map seed.  Note the call to myrand() which will
      * depend on the game seed. */
     map.server.seed = (myrand(MAX_UINT32) ^ time(NULL)) & (MAX_UINT32 >> 1);
-    freelog(LOG_DEBUG, "Setting map.seed:%d", map.server.seed);
+    log_debug("Setting map.seed:%d", map.server.seed);
   }
 
   mysrand(map.server.seed);
@@ -1674,7 +1666,7 @@ static bool place_island(struct gen234_state *pstate)
 
 	checkmass--; 
 	if (checkmass <= 0) {
-	  freelog(LOG_ERROR, "mapgen.c: mass doesn't sum up.");
+          log_error("mapgen.c: mass doesn't sum up.");
 	  return i != 0;
 	}
 
@@ -1762,8 +1754,7 @@ static bool create_island(int islemass, struct gen234_state *pstate)
     }
   }
   if (tries<=0) {
-    freelog(LOG_ERROR, "create_island ended early with %d/%d.",
-	    islemass-i, islemass);
+    log_error("create_island ended early with %d/%d.", islemass-i, islemass);
   }
   
   tries = map_num_tiles() / 4;	/* on a 40x60 map, there are 2400 places */
@@ -1800,8 +1791,9 @@ static bool make_island(int islemass, int starters,
     checkmass = pstate->totalmass;
 
     /* caveat: this should really be sent to all players */
-    if (pstate->totalmass > 3000)
-      freelog(LOG_NORMAL, _("High landmass - this may take a few seconds."));
+    if (pstate->totalmass > 3000) {
+      log_normal(_("High landmass - this may take a few seconds."));
+    }
 
     i = river_pct + mountain_pct + desert_pct + forest_pct + swamp_pct;
     i = (i <= 90) ? 100 : i * 11 / 10;
@@ -1836,7 +1828,7 @@ static bool make_island(int islemass, int starters,
       return FALSE;
     }
     assert(starters >= 0);
-    freelog(LOG_VERBOSE, "island %i", pstate->isleindex);
+    log_verbose("island %i", pstate->isleindex);
 
     /* keep trying to place an island, and decrease the size of
      * the island we're trying to create until we succeed.
@@ -1855,8 +1847,8 @@ static bool make_island(int islemass, int starters,
       balance = 0;
     }
 
-    freelog(LOG_VERBOSE, "ini=%d, plc=%d, bal=%ld, tot=%ld",
-	    islemass, i, balance, checkmass);
+    log_verbose("ini=%d, plc=%d, bal=%ld, tot=%ld",
+                islemass, i, balance, checkmass);
 
     i *= tilefactor;
 
@@ -1989,8 +1981,8 @@ static void mapgenerator2(void)
 	 * Note that the big islands can get very small if necessary, and
 	 * the smaller islands will not exist if we can't place them 
          * easily. */
-	freelog(LOG_VERBOSE,
-		"Island too small, trying again with all smaller islands.\n");
+        log_verbose("Island too small, trying again with all smaller "
+                    "islands.");
 	midfrac += bigfrac * 0.01;
 	smallfrac += bigfrac * 0.04;
 	bigfrac *= 0.95;
@@ -2002,7 +1994,7 @@ static void mapgenerator2(void)
 
   if (bigfrac <= midfrac) {
     /* We could never make adequately big islands. */
-    freelog(LOG_NORMAL, _("Falling back to generator %d."), 1);
+    log_normal(_("Falling back to generator %d."), 1);
     map.server.generator = 1;
 
     /* init world created this map, destroy it before abort */
@@ -2027,7 +2019,7 @@ static void mapgenerator2(void)
   height_map = NULL;
 
   if (checkmass > map.xsize + map.ysize + totalweight) {
-    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+    log_verbose("%ld mass left unplaced", checkmass);
   }
 }
 
@@ -2071,7 +2063,7 @@ static void mapgenerator3(void)
   }
 
   if (map.xsize < 40 || map.ysize < 40 || map.server.landpercent > 80) { 
-    freelog(LOG_NORMAL, _("Falling back to generator %d."), 2); 
+    log_normal(_("Falling back to generator %d."), 2); 
     map.server.generator = 2;
     return; 
   }
@@ -2091,7 +2083,7 @@ static void mapgenerator3(void)
   }
 
   if (j == 500){
-    freelog(LOG_NORMAL, _("Generator 3 didn't place all big islands."));
+    log_normal(_("Generator 3 didn't place all big islands."));
   }
   
   islandmass= (islandmass * 11)/8;
@@ -2120,9 +2112,9 @@ static void mapgenerator3(void)
   height_map = NULL;
     
   if (j == 1500) {
-    freelog(LOG_NORMAL, _("Generator 3 left %li landmass unplaced."), checkmass);
+    log_normal(_("Generator 3 left %li landmass unplaced."), checkmass);
   } else if (checkmass > map.xsize + map.ysize) {
-    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+    log_verbose("%ld mass left unplaced", checkmass);
   }
 }
 
@@ -2187,7 +2179,7 @@ static void mapgenerator4(void)
   height_map = NULL;
 
   if (checkmass > map.xsize + map.ysize + totalweight) {
-    freelog(LOG_VERBOSE, "%ld mass left unplaced", checkmass);
+    log_verbose("%ld mass left unplaced", checkmass);
   }
 }
 

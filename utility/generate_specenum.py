@@ -100,19 +100,19 @@ def make_documentation(file):
  *    enum test e;
  *    int i;
  *
- *    freelog(LOG_VERBOSE, "enum test [%d; %d]%s",
- *            test_min(), test_max(), test_bitwise ? " bitwise" : "");
+ *    log_verbose("enum test [%d; %d]%s",
+ *                test_min(), test_max(), test_bitwise ? " bitwise" : "");
  *
  *    for (e = test_begin(); e != test_end(); e = test_next(e)) {
- *      freelog(LOG_VERBOSE, "Value %d is %s", e, test_name(e));
+ *      log_verbose("Value %d is %s", e, test_name(e));
  *    }
  *
  *    for (i = 0; strings[i]; i++) {
- *      e = test_by_name(strings[i], strcasecmp);
+ *      e = test_by_name(strings[i], mystrcasecmp);
  *      if (test_is_valid(e)) {
- *        freelog(LOG_VERBOSE, "Value is %d for %s", e, strings[i]);
+ *        log_verbose("Value is %d for %s", e, strings[i]);
  *      } else {
- *        freelog(LOG_VERBOSE, "%s is not a valid name", strings[i]);
+ *        log_verbose("%s is not a valid name", strings[i]);
  *      }
  *    }
  *  }

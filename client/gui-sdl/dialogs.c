@@ -208,8 +208,8 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
 {
-  freelog(LOG_ERROR, "popup_notify_goto_dialog() PORT ME\n \
-  			a: %s\nb: %s",headline, lines );
+  log_error("popup_notify_goto_dialog() PORT ME\na: %s\nb: %s",
+            headline, lines);
 }
 
 /**************************************************************************
@@ -217,7 +217,7 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
 **************************************************************************/
 void popup_connect_msg(const char *headline, const char *message)
 {
-  freelog(LOG_ERROR, "popup_connect_msg() PORT ME");
+  log_error("popup_connect_msg() PORT ME");
 }
 
 /* ----------------------------------------------------------------------- */
@@ -3082,10 +3082,9 @@ void races_toggles_set_sensitive()
   nations_iterate(nation) {
   
     if (!nation->is_available || nation->player) {
-      freelog(LOG_DEBUG,"  [%d]: %d = %s",
-	      nation_index(nation),
-	      (!nation->is_available || nation->player),
-	      nation_rule_name(nation));
+      log_debug("  [%d]: %d = %s", nation_index(nation),
+                (!nation->is_available || nation->player),
+                nation_rule_name(nation));
 
       pNat = get_widget_pointer_form_main_list(MAX_ID - nation_index(nation));
       set_wstate(pNat, FC_WS_DISABLED);

@@ -52,7 +52,6 @@
 
 #include "fcintl.h"
 #include "log.h"
-#include "shared.h"		/* TRUE, FALSE */
 #include "support.h"
 
 #include "netintf.h"
@@ -76,13 +75,10 @@ static void set_socket_errno(void)
       errno = WSAGetLastError();
       return;
     default:
-      freelog(LOG_ERROR,
-              "Missing errno mapping for Winsock error #%d.",
-              WSAGetLastError());
-      freelog(LOG_ERROR,
-              /* TRANS: No full stop after the URL, could cause confusion. */
-              _("Please report this message at %s"),
-              BUG_URL);
+      log_error("Missing errno mapping for Winsock error #%d.",
+                WSAGetLastError());
+      /* TRANS: No full stop after the URL, could cause confusion. */
+      log_error(_("Please report this message at %s"), BUG_URL);
   }
 }
 #endif /* HAVE_WINSOCK */
@@ -187,7 +183,7 @@ void fc_init_network(void)
   WSADATA wsa;
 
   if (WSAStartup(MAKEWORD(1, 1), &wsa) != 0) {
-    freelog(LOG_ERROR, "no usable WINSOCK.DLL: %s", fc_strerror(fc_get_errno()));
+    log_error("no usable WINSOCK.DLL: %s", fc_strerror(fc_get_errno()));
   }
 #endif
 
@@ -220,27 +216,27 @@ void fc_nonblock(int sockfd)
 #ifdef HAVE_FCNTL
   int f_set;
 
-  if ((f_set=fcntl(sockfd, F_GETFL)) == -1) {
-    freelog(LOG_ERROR, "fcntl F_GETFL failed: %s", fc_strerror(fc_get_errno()));
+  if ((f_set = fcntl(sockfd, F_GETFL)) == -1) {
+    log_error("fcntl F_GETFL failed: %s", fc_strerror(fc_get_errno()));
   }
 
   f_set |= O_NONBLOCK;
 
   if (fcntl(sockfd, F_SETFL, f_set) == -1) {
-    freelog(LOG_ERROR, "fcntl F_SETFL failed: %s", fc_strerror(fc_get_errno()));
+    log_error("fcntl F_SETFL failed: %s", fc_strerror(fc_get_errno()));
   }
 #else
 #ifdef HAVE_IOCTL
   long value=1;
 
   if (ioctl(sockfd, FIONBIO, (char*)&value) == -1) {
-    freelog(LOG_ERROR, "ioctl failed: %s", fc_strerror(fc_get_errno()));
+    log_error("ioctl failed: %s", fc_strerror(fc_get_errno()));
   }
 #endif
 #endif
 #endif
 #else
-  freelog(LOG_DEBUG, "NONBLOCKING_SOCKETS not available");
+  log_debug("NONBLOCKING_SOCKETS not available");
 #endif
 }
 
@@ -254,20 +250,20 @@ void sockaddr_debug(union fc_sockaddr *addr)
 
   if (addr->saddr.sa_family == AF_INET6) { 
     inet_ntop(AF_INET6, &addr->saddr_in6.sin6_addr, buf, INET6_ADDRSTRLEN);
-    freelog(LOG_DEBUG, "Host: %s, Port: %d (IPv6)",
-            buf, ntohs(addr->saddr_in6.sin6_port));
+    log_debug("Host: %s, Port: %d (IPv6)",
+              buf, ntohs(addr->saddr_in6.sin6_port));
   } else {
     inet_ntop(AF_INET, &addr->saddr_in4.sin_addr, buf, INET_ADDRSTRLEN);
-    freelog(LOG_DEBUG, "Host: %s, Port: %d (IPv4)",
-            buf, ntohs(addr->saddr_in4.sin_port));
+    log_debug("Host: %s, Port: %d (IPv4)",
+              buf, ntohs(addr->saddr_in4.sin_port));
   }
 #else  /* IPv6 support */
   char *buf;
 
   buf = inet_ntoa(addr->saddr_in4.sin_addr);
 
-  freelog(LOG_DEBUG, "Host: %s, Port: %d",
-          buf, ntohs(addr->saddr_in4.sin_port));
+  log_debug("Host: %s, Port: %d",
+            buf, ntohs(addr->saddr_in4.sin_port));
 #endif /* IPv6 support */
 }
 
@@ -349,7 +345,7 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
   if (force_ipv4 || !hp || hp->h_addrtype != AF_INET6) {
     /* Try to fallback to IPv4 resolution */
     if (!force_ipv4) {
-      freelog(LOG_DEBUG, "Falling back to IPv4");
+      log_debug("Falling back to IPv4");
     }
     hp = gethostbyname2(name, AF_INET);
     if (!hp || hp->h_addrtype != AF_INET) {

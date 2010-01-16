@@ -55,8 +55,8 @@ static void sanity_check_size(size_t size, const char *called_as,
    * preventing a large number of smaller allocations. */
 
   if (size == 0) {
-    freelog(LOG_VERBOSE, "Warning: %s with size %lu at line %d of %s",
-	    called_as, (unsigned long)size, line, file);
+    log_verbose("Warning: %s with size %lu at line %d of %s",
+                called_as, (unsigned long) size, line, file);
   }
 }
 

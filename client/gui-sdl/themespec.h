@@ -18,8 +18,13 @@
 #ifndef FC__THEMESPEC_H
 #define FC__THEMESPEC_H
 
+/* utility */
+#include "log.h"                /* enum log_level */
+
+/* client */
 #include "options.h"
 
+/* gui-sdl */
 #include "themebackgrounds.h"
 #include "themecolors.h"
 
@@ -39,9 +44,11 @@ void theme_free_sprites(struct theme *t);
 void themespec_try_read(const char *theme_name);
 void themespec_reread(const char *theme_name);
 
-struct sprite* theme_lookup_sprite_tag_alt(struct theme *t, int loglevel,
-					   const char *tag, const char *alt,
-					   const char *what, const char *name);
+struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
+                                           enum log_level level,
+                                           const char *tag, const char *alt,
+                                           const char *what,
+                                           const char *name);
 
 struct theme_color_system;
 struct theme_color_system *theme_get_color_system(const struct theme *t);

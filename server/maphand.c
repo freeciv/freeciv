@@ -86,7 +86,7 @@ void global_warming(int effect)
 {
   int k;
 
-  freelog(LOG_VERBOSE, "Global warming: %d", game.info.heating);
+  log_verbose("Global warming: %d", game.info.heating);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
@@ -130,7 +130,7 @@ void nuclear_winter(int effect)
 {
   int k;
 
-  freelog(LOG_VERBOSE, "Nuclear winter: %d", game.info.cooling);
+  log_verbose("Nuclear winter: %d", game.info.cooling);
 
   k = map_num_tiles();
   while(effect > 0 && (k--) > 0) {
@@ -475,7 +475,7 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
 {
   struct city *pcity;
 
-  freelog(LOG_DEBUG, "really unfogging %d,%d\n", TILE_XY(ptile));
+  log_debug("really unfogging %d,%d\n", TILE_XY(ptile));
 
   map_set_known(ptile, pplayer);
 
@@ -543,10 +543,10 @@ static void map_unfog_tile(struct player *pplayer, struct tile *ptile,
   shared vision changes cause a tile to become fogged.
 ****************************************************************************/
 static void really_fog_tile(struct player *pplayer, struct tile *ptile,
-			    enum vision_layer vlayer)
+                            enum vision_layer vlayer)
 {
-  freelog(LOG_DEBUG, "Fogging %i,%i. Previous fog: %i.",
-	  TILE_XY(ptile), map_get_seen(ptile, pplayer, vlayer));
+  log_debug("Fogging %i,%i. Previous fog: %i.",
+            TILE_XY(ptile), map_get_seen(ptile, pplayer, vlayer));
  
   assert(map_get_seen(ptile, pplayer, vlayer) == 0);
 
@@ -629,8 +629,8 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
   if (old_radius_sq != new_radius_sq) {
     int max_radius = MAX(old_radius_sq, new_radius_sq);
 
-    freelog(LOG_DEBUG, "Refogging circle at %d,%d from %d to %d",
-	    TILE_XY(ptile), old_radius_sq, new_radius_sq);
+    log_debug("Refogging circle at %d,%d from %d to %d",
+              TILE_XY(ptile), old_radius_sq, new_radius_sq);
 
     buffer_shared_vision(pplayer);
     circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
@@ -653,8 +653,8 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
 void map_show_tile(struct player *src_player, struct tile *ptile)
 {
   static int recurse = 0;
-  freelog(LOG_DEBUG, "Showing %i,%i to %s",
-	  TILE_XY(ptile), player_name(src_player));
+
+  log_debug("Showing %i,%i to %s", TILE_XY(ptile), player_name(src_player));
 
   assert(recurse == 0);
   recurse++;
@@ -706,8 +706,7 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
 {
   static int recurse = 0;
 
-  freelog(LOG_DEBUG, "Hiding %d,%d to %s",
-          TILE_XY(ptile), player_name(src_player));
+  log_debug("Hiding %d,%d to %s", TILE_XY(ptile), player_name(src_player));
 
   assert(recurse == 0);
   recurse++;
@@ -831,8 +830,8 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
   } else {
     BV_CLR(ptile->tile_seen[vlayer], player_index(pplayer));
   }
-  freelog(LOG_DEBUG, "%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
-	  player_number(pplayer), change, plrtile->seen_count[vlayer]);
+  log_debug("%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
+            player_number(pplayer), change, plrtile->seen_count[vlayer]);
 }
 
 /***************************************************************
@@ -1224,10 +1223,9 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
   if (pfrom == pto) return;
   if (gives_shared_vision(pfrom, pto)) {
-    freelog(LOG_ERROR, "Trying to give shared vision from %s to %s, "
-	    "but that vision is already given!",
-	    player_name(pfrom),
-	    player_name(pto));
+    log_error("Trying to give shared vision from %s to %s, "
+              "but that vision is already given!",
+              player_name(pfrom), player_name(pto));
     return;
   }
 
@@ -1237,18 +1235,17 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 
   pfrom->gives_shared_vision |= 1<<player_index(pto);
   create_vision_dependencies();
-  freelog(LOG_DEBUG, "giving shared vision from %s to %s\n",
-	  player_name(pfrom),
-	  player_name(pto));
+  log_debug("giving shared vision from %s to %s\n",
+            player_name(pfrom), player_name(pto));
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (really_gives_vision(pplayer, pplayer2)
-	  && !TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
-	freelog(LOG_DEBUG, "really giving shared vision from %s to %s\n",
-	       player_name(pplayer),
-	       player_name(pplayer2));
+          && !TEST_BIT(save_vision[player_index(pplayer)],
+                       player_index(pplayer2))) {
+        log_debug("really giving shared vision from %s to %s\n",
+                  player_name(pplayer), player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1288,10 +1285,9 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
   assert(pfrom != pto);
   if (!gives_shared_vision(pfrom, pto)) {
-    freelog(LOG_ERROR, "Tried removing the shared vision from %s to %s, "
-	    "but it did not exist in the first place!",
-	    player_name(pfrom),
-	    player_name(pto));
+    log_error("Tried removing the shared vision from %s to %s, "
+              "but it did not exist in the first place!",
+              player_name(pfrom), player_name(pto));
     return;
   }
 
@@ -1299,9 +1295,8 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
-  freelog(LOG_DEBUG, "removing shared vision from %s to %s\n",
-	  player_name(pfrom),
-	  player_name(pto));
+  log_debug("removing shared vision from %s to %s\n",
+            player_name(pfrom), player_name(pto));
 
   pfrom->gives_shared_vision &= ~(1<<player_index(pto));
   create_vision_dependencies();
@@ -1310,10 +1305,10 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-	  && TEST_BIT(save_vision[player_index(pplayer)], player_index(pplayer2))) {
-	freelog(LOG_DEBUG, "really removing shared vision from %s to %s\n",
-	       player_name(pplayer),
-	       player_name(pplayer2));
+          && TEST_BIT(save_vision[player_index(pplayer)], 
+                      player_index(pplayer2))) {
+        log_debug("really removing shared vision from %s to %s\n",
+                  player_name(pplayer), player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
@@ -1424,11 +1419,9 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	if (can_unit_exist_at_tile(punit, ptile2)
             && !is_non_allied_unit_tile(ptile2, unit_owner(punit))
             && !is_non_allied_city_tile(ptile2, unit_owner(punit))) {
-	  freelog(LOG_VERBOSE,
-		  "Moved %s %s due to changing terrain at (%d,%d).",
-		  nation_rule_name(nation_of_unit(punit)),
-		  unit_rule_name(punit),
-		  TILE_XY(punit->tile));
+          log_verbose("Moved %s %s due to changing terrain at (%d,%d).",
+                      nation_rule_name(nation_of_unit(punit)),
+                      unit_rule_name(punit), TILE_XY(punit->tile));
           notify_player(unit_owner(punit), unit_tile(punit),
                         E_UNIT_RELOCATED, ftc_server,
                         _("Moved your %s due to changing terrain."),
@@ -1441,12 +1434,11 @@ static void bounce_units_on_terrain_change(struct tile *ptile)
 	}
       } adjc_iterate_end;
       if (unit_alive && punit->tile == ptile) {
-	/* if we get here we could not move punit */
-	freelog(LOG_VERBOSE,
-		"Disbanded %s %s due to changing land to sea at (%d,%d).",
-		nation_rule_name(nation_of_unit(punit)),
-		unit_rule_name(punit),
-		TILE_XY(punit->tile));
+        /* If we get here we could not move punit. */
+        log_verbose("Disbanded %s %s due to changing land "
+                    " to sea at (%d, %d).",
+                    nation_rule_name(nation_of_unit(punit)),
+                    unit_rule_name(punit), TILE_XY(unit_tile(punit)));
         notify_player(unit_owner(punit), unit_tile(punit),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Disbanded your %s due to changing terrain."),
@@ -1728,7 +1720,7 @@ void map_calculate_borders(void)
     return;
   }
 
-  freelog(LOG_VERBOSE,"map_calculate_borders()");
+  log_verbose("map_calculate_borders()");
 
   whole_map_iterate(ptile) {
     if (is_border_source(ptile)) {
@@ -1736,7 +1728,7 @@ void map_calculate_borders(void)
     }
   } whole_map_iterate_end;
 
-  freelog(LOG_VERBOSE,"map_calculate_borders() workers");
+  log_verbose("map_calculate_borders() workers");
   city_thaw_workers_queue();
   city_refresh_queue_processing();
 }

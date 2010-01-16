@@ -84,11 +84,11 @@ static bool my_play(const char *const tag, const char *const fullpath,
     /* load music file */
     mus = Mix_LoadMUS(fullpath);
     if (mus == NULL) {
-      freelog(LOG_ERROR, "Can't open file \"%s\"", fullpath);
+      log_error("Can't open file \"%s\"", fullpath);
     }
 
     Mix_PlayMusic(mus, -1);	/* -1 means loop forever */
-    freelog(LOG_VERBOSE, "Playing file \"%s\" on music channel", fullpath);
+    log_verbose("Playing file \"%s\" on music channel", fullpath);
     /* in case we did a my_stop() recently; add volume controls later */
     Mix_VolumeMusic(MIX_MAX_VOLUME);
 
@@ -97,28 +97,27 @@ static bool my_play(const char *const tag, const char *const fullpath,
     /* see if we can cache on this one */
     for (j = 0; j < MIX_CHANNELS; j++) {
       if (samples[j].tag && (strcmp(samples[j].tag, tag) == 0)) {
-	freelog(LOG_DEBUG, "Playing file \"%s\" from cache (slot %d)", fullpath,
-		j);
-	i = Mix_PlayChannel(-1, samples[j].wave, 0);
-	return TRUE;
+        log_debug("Playing file \"%s\" from cache (slot %d)", fullpath, j);
+        i = Mix_PlayChannel(-1, samples[j].wave, 0);
+        return TRUE;
       }
-    }				/* guess not */
+    }                           /* guess not */
 
     /* load wave */
     wave = Mix_LoadWAV(fullpath);
     if (wave == NULL) {
-      freelog(LOG_ERROR, "Can't open file \"%s\"", fullpath);
+      log_error("Can't open file \"%s\"", fullpath);
     }
 
     /* play sound sample on first available channel, returns -1 if no
        channel found */
     i = Mix_PlayChannel(-1, wave, 0);
     if (i < 0) {
-      freelog(LOG_VERBOSE, "No available sound channel to play %s.", tag);
+      log_verbose("No available sound channel to play %s.", tag);
       Mix_FreeChunk(wave);
       return FALSE;
     }
-    freelog(LOG_VERBOSE, "Playing file \"%s\" on channel %d", fullpath, i);
+    log_verbose("Playing file \"%s\" on channel %d", fullpath, i);
     /* free previous sample on this channel. it will by definition no
        longer be playing by the time we get here */
     if (samples[i].wave) {
@@ -223,7 +222,7 @@ static bool my_init(void)
   }
 
   if (Mix_OpenAudio(audio_rate, audio_format, audio_channels, buf_size) < 0) {
-    freelog(LOG_ERROR, "Error calling Mix_OpenAudio");
+    log_error("Error calling Mix_OpenAudio");
     /* try something else */
     quit_sdl_audio();
     return FALSE;

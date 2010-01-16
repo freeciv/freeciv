@@ -197,7 +197,7 @@ static void internal_signal_create(const char *signal_name,
 				   int nargs, enum api_types args[])
 {
   if (hash_key_exists(signals, signal_name)) {
-    freelog(LOG_ERROR, "Signal \"%s\" was already created.", signal_name);
+    log_error("Signal \"%s\" was already created.", signal_name);
   } else {
     char *name;
     struct signal *signal;
@@ -230,8 +230,8 @@ static void internal_signal_free(const char *signal_name)
     signal_callback_list_free(signal->callbacks);
     free(signal);
   } else {
-    freelog(LOG_ERROR, "Signal \"%s\" does not exist, so cannot be freed.",
-	    signal_name);
+    log_error("Signal \"%s\" does not exist, so cannot be freed.",
+              signal_name);
   }
 }
 
@@ -249,9 +249,8 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
 
   if (signal) {
     if (signal->nargs != nargs) {
-      freelog(LOG_ERROR,
-	      "Signal \"%s\" requires %d args, was passed %d on invoke.",
-	      signal_name, signal->nargs, nargs);
+      log_error("Signal \"%s\" requires %d args, was passed %d on invoke.",
+                signal_name, signal->nargs, nargs);
     } else {
       signal_callback_list_iterate(signal->callbacks, pcallback) {
         va_start(args, nargs);
@@ -263,8 +262,8 @@ void script_signal_emit(const char *signal_name, int nargs, ...)
       } signal_callback_list_iterate_end;
     }
   } else {
-    freelog(LOG_ERROR, "Signal \"%s\" does not exist, so cannot be invoked.",
-	    signal_name);
+    log_error("Signal \"%s\" does not exist, so cannot be invoked.",
+              signal_name);
   }
 }
 
@@ -278,7 +277,7 @@ void script_signal_create_valist(const char *signal_name,
 
   signal = hash_lookup_data(signals, signal_name);
   if (signal) {
-    freelog(LOG_ERROR, "Signal \"%s\" was already created.", signal_name);
+    log_error("Signal \"%s\" was already created.", signal_name);
   } else {
     enum api_types args_array[nargs];
     int i;

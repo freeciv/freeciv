@@ -20,7 +20,8 @@
 #define FC__INPUTFILE_H
 
 #include "ioz.h"
-#include "shared.h"		/* bool type */
+#include "log.h"                /* enum log_level */
+#include "support.h"            /* bool type and fc__attribute */
 
 struct inputfile;		/* opaque */
 
@@ -49,6 +50,14 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type);
 const char *inf_token_required(struct inputfile *inf, enum inf_token_type type);
 int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type);
 
-void inf_log(struct inputfile *inf, int loglevel, const char *message);
+void inf_log_real(const char *file, const char *function, int line,
+                  struct inputfile *inf, enum log_level level,
+                  const char *message, ...)
+                  fc__attribute((__format__ (__printf__, 6, 7)));
+#define inf_log(inf, level, message, ...)                                   \
+  if (log_do_output_for_level(level)) {                                     \
+    inf_log_real(__FILE__, __FUNCTION__, __LINE__,                          \
+                 inf, level, message, ## __VA_ARGS__);                      \
+  }
 
 #endif  /* FC__INPUTFILE_H */

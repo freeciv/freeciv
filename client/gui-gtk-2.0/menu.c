@@ -1560,11 +1560,11 @@ static const gchar *get_ui_filename(void)
       || (name = fileinfoname(get_data_dirs(), "gtk_menus.xml"))) {
     sz_strlcpy(filename, name);
   } else {
-    freelog(LOG_ERROR, "Gtk menus: file definition not found");
+    log_error("Gtk menus: file definition not found");
     filename[0] = '\0';
   }
 
-  freelog(LOG_VERBOSE, "ui menu file is \"%s\".", filename);
+  log_verbose("ui menu file is \"%s\".", filename);
   return filename;
 }
 
@@ -1606,7 +1606,7 @@ GtkWidget *setup_menus(GtkWidget *window)
   /* Load the menus. */
   if (0 == gtk_ui_manager_add_ui_from_file(ui_manager,
                                            get_ui_filename(), &error)) {
-    freelog(LOG_ERROR, "Gtk menus: %s", error->message);
+    log_error("Gtk menus: %s", error->message);
     g_error_free(error);
   }
 
@@ -1635,16 +1635,16 @@ static void menus_set_active(GtkActionGroup *group,
   GtkAction *action = gtk_action_group_get_action(group, action_name);
 
   if (!action) {
-    freelog(LOG_ERROR, "Can't set active for non-existent "
-            "action \"%s\" in group \"%s\".",
-            action_name, gtk_action_group_get_name(group));
+    log_error("Can't set active for non-existent "
+              "action \"%s\" in group \"%s\".",
+              action_name, gtk_action_group_get_name(group));
     return;
   }
 
   if (!GTK_IS_TOGGLE_ACTION(action)) {
-    freelog(LOG_ERROR, "Can't set active for non-togglable "
-            "action \"%s\" in group \"%s\".",
-            action_name, gtk_action_group_get_name(group));
+    log_error("Can't set active for non-togglable "
+              "action \"%s\" in group \"%s\".",
+              action_name, gtk_action_group_get_name(group));
     return;
   }
 
@@ -1661,9 +1661,9 @@ static void menus_set_sensitive(GtkActionGroup *group,
   GtkAction *action = gtk_action_group_get_action(group, action_name);
 
   if (!action) {
-    freelog(LOG_ERROR, "Can't set active for non-existent "
-            "action \"%s\" in group \"%s\".",
-            action_name, gtk_action_group_get_name(group));
+    log_error("Can't set active for non-existent "
+              "action \"%s\" in group \"%s\".",
+              action_name, gtk_action_group_get_name(group));
     return;
   }
 
@@ -1680,9 +1680,9 @@ static void menus_rename(GtkActionGroup *group,
   GtkAction *action = gtk_action_group_get_action(group, action_name);
 
   if (!action) {
-    freelog(LOG_ERROR, "Can't rename non-existent "
-            "action \"%s\" in group \"%s\".",
-            action_name, gtk_action_group_get_name(group));
+    log_error("Can't rename non-existent "
+              "action \"%s\" in group \"%s\".",
+              action_name, gtk_action_group_get_name(group));
     return;
   }
 

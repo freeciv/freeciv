@@ -588,8 +588,8 @@ static void pixmap_put_sprite(GdkDrawable *pixmap,
 #ifdef DEBUG
   sprites++;
   if (sprites % 1000 == 0) {
-    freelog(LOG_DEBUG, "%5d / %5d pixbufs = %d%%",
-	    pixbufs, sprites, 100 * pixbufs / sprites);
+    log_debug("%5d / %5d pixbufs = %d%%",
+              pixbufs, sprites, 100 * pixbufs / sprites);
   }
 #endif
 }
@@ -653,9 +653,8 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 	  || (!ssprite->pixmap && !ssprite->pixbuf_fogged))) {
     fog_sprite(ssprite);
     if ((ssprite->pixmap && !ssprite->pixmap_fogged)
-	|| (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
-      freelog(LOG_NORMAL,
-	      _("Better fog will only work in truecolor.  Disabling it"));
+        || (!ssprite->pixmap && !ssprite->pixbuf_fogged)) {
+      log_normal(_("Better fog will only work in truecolor. Disabling it"));
       gui_gtk2_better_fog = FALSE;
     }
   }

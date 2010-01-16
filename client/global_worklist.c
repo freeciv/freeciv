@@ -211,7 +211,7 @@ global_worklist_alloc(enum global_worklist_status type)
 ***********************************************************************/
 void global_worklist_destroy(struct global_worklist *pgwl)
 {
-  RETURN_IF_FAIL(NULL != pgwl);
+  log_assert_ret(NULL != pgwl);
 
   global_worklist_list_unlink(client.worklists, pgwl);
 
@@ -285,7 +285,7 @@ const struct worklist *global_worklist_get(const struct global_worklist *pgwl)
 ***********************************************************************/
 int global_worklist_id(const struct global_worklist *pgwl)
 {
-  RETURN_VAL_IF_FAIL(NULL != pgwl, -1);
+  log_assert_ret_val(NULL != pgwl, -1);
   return pgwl->id;
 }
 
@@ -320,7 +320,7 @@ void global_worklist_set_name(struct global_worklist *pgwl,
 ***********************************************************************/
 const char *global_worklist_name(const struct global_worklist *pgwl)
 {
-  RETURN_VAL_IF_FAIL(NULL != pgwl, NULL);
+  log_assert_ret_val(NULL != pgwl, NULL);
   return pgwl->name;
 }
 

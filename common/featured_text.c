@@ -38,7 +38,7 @@
 #define SEQ_END '/'
 
 #define MAX_LEN_STR 32
-#define LOG_FEATURED_TEXT LOG_VERBOSE
+#define log_featured_text log_verbose
 
 #define text_tag_list_rev_iterate(tags, ptag) \
   TYPED_LIST_ITERATE_REV(struct text_tag, tags, ptag)
@@ -254,8 +254,8 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
 
       if (!find_option(sequence, "target", buf, sizeof(buf))
           && !find_option(sequence, "tgt", buf, sizeof(buf))) {
-        freelog(LOG_FEATURED_TEXT,
-                "text_tag_init_from_sequence: target link type not set.");
+        log_featured_text("text_tag_init_from_sequence(): "
+                          "target link type not set.");
         return FALSE;
       }
 
@@ -267,8 +267,8 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
         }
       }
       if (ptag->link.type == -1) {
-        freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                "target link type not supported (\"%s\").", buf);
+        log_featured_text("text_tag_init_from_sequence(): "
+                          "target link type not supported (\"%s\").", buf);
         return FALSE;
       }
 
@@ -276,13 +276,13 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
       case TLT_CITY:
         {
           if (!find_option(sequence, "id", buf, sizeof(buf))) {
-            freelog(LOG_FEATURED_TEXT,
-                    "text_tag_init_from_sequence: city link without id.");
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "city link without id.");
             return FALSE;
           }
           if (1 != sscanf(buf, "%d", &ptag->link.id)) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "city link without valid id (\"%s\").", buf);
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "city link without valid id (\"%s\").", buf);
             return FALSE;
           }
 
@@ -300,32 +300,34 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
           int x, y;
 
           if (!find_option(sequence, "x", buf, sizeof(buf))) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "tile link without x coordinate.");
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "tile link without x coordinate.");
             return FALSE;
           }
           if (1 != sscanf(buf, "%d", &x)) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "tile link without valid x coordinate (\"%s\").", buf);
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "tile link without valid x coordinate "
+                              "(\"%s\").", buf);
             return FALSE;
           }
 
           if (!find_option(sequence, "y", buf, sizeof(buf))) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "tile link without y coordinate.");
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "tile link without y coordinate.");
             return FALSE;
           }
           if (1 != sscanf(buf, "%d", &y)) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "tile link without valid y coordinate (\"%s\").", buf);
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "tile link without valid y coordinate "
+                              "(\"%s\").", buf);
             return FALSE;
           }
 
           ptile = map_pos_to_tile(x, y);
           if (!ptile) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "(%d, %d) are not valid coordinates in this game.",
-                    x, y);
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "(%d, %d) are not valid coordinates "
+                              "in this game.", x, y);
             return FALSE;
           }
           ptag->link.id = tile_index(ptile);
@@ -336,13 +338,13 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
       case TLT_UNIT:
         {
           if (!find_option(sequence, "id", buf, sizeof(buf))) {
-            freelog(LOG_FEATURED_TEXT,
-                    "text_tag_init_from_sequence: unit link without id.");
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "unit link without id.");
             return FALSE;
           }
           if (1 != sscanf(buf, "%d", &ptag->link.id)) {
-            freelog(LOG_FEATURED_TEXT, "text_tag_init_from_sequence: "
-                    "unit link without valid id (\"%s\").", buf);
+            log_featured_text("text_tag_init_from_sequence(): "
+                              "unit link without valid id (\"%s\").", buf);
             return FALSE;
           }
 
@@ -685,7 +687,7 @@ offset_t text_tag_stop_offset(const struct text_tag *ptag)
 const char *text_tag_color_foreground(const struct text_tag *ptag)
 {
   if (ptag->type != TTT_COLOR) {
-    freelog(LOG_ERROR, "text_tag_color_foreground: incompatible tag type.");
+    log_error("text_tag_color_foreground(): incompatible tag type.");
     return NULL;
   }
 
@@ -699,7 +701,7 @@ const char *text_tag_color_foreground(const struct text_tag *ptag)
 const char *text_tag_color_background(const struct text_tag *ptag)
 {
   if (ptag->type != TTT_COLOR) {
-    freelog(LOG_ERROR, "text_tag_color_background: incompatible tag type.");
+    log_error("text_tag_color_background(): incompatible tag type.");
     return NULL;
   }
 
@@ -713,7 +715,7 @@ const char *text_tag_color_background(const struct text_tag *ptag)
 enum text_link_type text_tag_link_type(const struct text_tag *ptag)
 {
   if (ptag->type != TTT_LINK) {
-    freelog(LOG_ERROR, "text_tag_link_type: incompatible tag type.");
+    log_error("text_tag_link_type(): incompatible tag type.");
     return -1;
   }
 
@@ -728,7 +730,7 @@ enum text_link_type text_tag_link_type(const struct text_tag *ptag)
 int text_tag_link_id(const struct text_tag *ptag)
 {
   if (ptag->type != TTT_LINK) {
-    freelog(LOG_ERROR, "text_tag_link_id: incompatible tag type.");
+    log_error("text_tag_link_id(): incompatible tag type.");
     return -1;
   }
 
@@ -901,8 +903,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
               text_tag_list_append(tags, ptag);
             } else {
               text_tag_destroy(ptag);
-              freelog(LOG_FEATURED_TEXT,
-                      "Couldn't create a text tag with \"%s\".", buf);
+              log_featured_text("Couldn't create a text tag with \"%s\".",
+                                buf);
             }
           }
           break;
@@ -923,8 +925,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
             if (ptag) {
               ptag->stop_offset = write - plain_text;
             } else {
-              freelog(LOG_FEATURED_TEXT, "Extra text tag end for \"%s\".",
-                      text_tag_type_name(type));
+              log_featured_text("Extra text tag end for \"%s\".",
+                                text_tag_type_name(type));
             }
           }
           break;
@@ -935,8 +937,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
 
             if (!text_tag_init_from_sequence(&tag, type,
                                              write - plain_text, buf)) {
-              freelog(LOG_FEATURED_TEXT,
-                      "Couldn't create a text tag with \"%s\".", buf);
+              log_featured_text("Couldn't create a text tag with \"%s\".",
+                                buf);
             } else {
               len = text_tag_replace_text(&tag, write, write_len);
               write += len;
@@ -998,7 +1000,7 @@ size_t featured_text_apply_tag(const char *text_source,
       || start_offset > strlen(text_source)
       || (stop_offset != OFFSET_UNSET
           && stop_offset < start_offset)) {
-    freelog(LOG_FEATURED_TEXT, "featured_text_apply_tag: invalid offsets.");
+    log_featured_text("featured_text_apply_tag(): invalid offsets.");
     return 0;
   }
 

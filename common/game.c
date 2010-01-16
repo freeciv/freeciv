@@ -163,32 +163,30 @@ void game_remove_unit(struct unit *punit)
   if (pcity) {
     unit_list_unlink(pcity->units_supported, punit);
 
-    freelog(LOG_DEBUG, "game_remove_unit()"
-	    " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
-	    TILE_XY(punit->tile),
-	    punit->id, 
-	    nation_rule_name(nation_of_unit(punit)),
-	    unit_rule_name(punit),
-	    TILE_XY(pcity->tile),
-	    punit->homecity,
-	    nation_rule_name(nation_of_city(pcity)),
-	    city_name(pcity));
+    log_debug("game_remove_unit()"
+              " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
+              TILE_XY(punit->tile),
+              punit->id, 
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              TILE_XY(pcity->tile),
+              punit->homecity,
+              nation_rule_name(nation_of_city(pcity)),
+              city_name(pcity));
   } else if (IDENTITY_NUMBER_ZERO == punit->homecity) {
-    freelog(LOG_DEBUG, "game_remove_unit()"
-	    " at (%d,%d) unit %d, %s %s home %d",
-	    TILE_XY(punit->tile),
-	    punit->id, 
-	    nation_rule_name(nation_of_unit(punit)),
-	    unit_rule_name(punit),
-	    punit->homecity);
+    log_debug("game_remove_unit() at (%d,%d) unit %d, %s %s home %d",
+              TILE_XY(punit->tile),
+              punit->id, 
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              punit->homecity);
   } else {
-    freelog(LOG_ERROR, "game_remove_unit()"
-	    " at (%d,%d) unit %d, %s %s home %d invalid",
-	    TILE_XY(punit->tile),
-	    punit->id, 
-	    nation_rule_name(nation_of_unit(punit)),
-	    unit_rule_name(punit),
-	    punit->homecity);
+    log_error("game_remove_unit() at (%d,%d) unit %d, %s %s home %d invalid",
+              TILE_XY(punit->tile),
+              punit->id, 
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              punit->homecity);
   }
 
   unit_list_unlink(punit->tile->units, punit);
@@ -216,17 +214,15 @@ void game_remove_city(struct city *pcity)
   }
 
   if (NULL == pcenter) {
-    freelog(LOG_DEBUG, "game_remove_city()"
-            " virtual city %d, %s",
-            pcity->id,
-            city_name(pcity));
+    log_debug("game_remove_city() virtual city %d, %s",
+              pcity->id,
+              city_name(pcity));
   } else {
-    freelog(LOG_DEBUG, "game_remove_city()"
-            " at (%d,%d) city %d, %s %s",
-            TILE_XY(pcenter),
-            pcity->id,
-            nation_rule_name(nation_of_player(powner)),
-            city_name(pcity));
+    log_debug("game_remove_city() at (%d,%d) city %d, %s %s",
+              TILE_XY(pcenter),
+              pcity->id,
+              nation_rule_name(nation_of_player(powner)),
+              city_name(pcity));
 
     city_tile_iterate(pcenter, ptile) {
       if (tile_worked(ptile) == pcity) {
@@ -456,18 +452,18 @@ static void game_player_reset(struct player *pplayer)
     game_remove_unit(punit);
   } unit_list_iterate_end;
   if (0 != unit_list_size(pplayer->units)) {
-    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s units",
-            unit_list_size(pplayer->units),
-            nation_rule_name(nation_of_player(pplayer)));
+    log_error("game_remove_player() failed to remove %d %s units",
+              unit_list_size(pplayer->units),
+              nation_rule_name(nation_of_player(pplayer)));
   }
 
   city_list_iterate(pplayer->cities, pcity) {
     game_remove_city(pcity);
   } city_list_iterate_end;
   if (0 != city_list_size(pplayer->cities)) {
-    freelog(LOG_ERROR, "game_remove_player() failed to remove %d %s cities",
-            city_list_size(pplayer->cities),
-            nation_rule_name(nation_of_player(pplayer)));
+    log_error("game_remove_player() failed to remove %d %s cities",
+              city_list_size(pplayer->cities),
+              nation_rule_name(nation_of_player(pplayer)));
   }
 }
 
@@ -691,8 +687,7 @@ bool is_player_phase(const struct player *pplayer, int phase)
     break;
   }
 
-  freelog(LOG_FATAL, "Unrecognized phase mode %d in is_player_phase().",
-          phase);
+  log_fatal("Unrecognized phase mode %d in is_player_phase().", phase);
   assert(FALSE);
   return TRUE;
 }
@@ -755,8 +750,7 @@ bool setting_class_is_changeable(enum sset_class class)
   case SSET_LAST:
     break;
   }
-  freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
-	  class, __FILE__, __LINE__);
+  log_error("Unexpected case %d in %s line %d", class, __FILE__, __LINE__);
   return FALSE;
 }
 

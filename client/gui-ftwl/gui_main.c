@@ -225,7 +225,7 @@ void ui_main(int argc, char *argv[])
 		 DEFAULT_THEME);
       exit(EXIT_SUCCESS);
     } else if (is_option("--dump", argv[i])) {
-      freelog(LOG_VERBOSE, "Enable screen dumper");
+      log_verbose("Enable screen dumper");
       sw_set_dump_screen(TRUE);
     } else if (is_option("--fullscreen", argv[i])) {
       fullscreen = TRUE;
@@ -238,19 +238,19 @@ void ui_main(int argc, char *argv[])
       theme = mystrdup(option);
       free(option);
     } else {
-      freelog(LOG_ERROR, _("Unknown option \"%s\""), argv[i]);
+      log_error(_("Unknown option \"%s\""), argv[i]);
     }
     i++;
   }
 
   if (sscanf(resolution, "%dx%d", &res.width, &res.height) != 2) {
-    freelog(LOG_ERROR, _("Resolution \"%s\" doesn't parse"), resolution);
+    log_error(_("Resolution \"%s\" doesn't parse"), resolution);
   }
   free(resolution);
 
   if (!auto_connect) {
-    freelog(LOG_ERROR, "Connection dialog not yet implemented. Start client "
-                       "using the -a option.");
+    log_error("Connection dialog not yet implemented. Start client "
+              "using the -a option.");
   }
 
   sw_init();

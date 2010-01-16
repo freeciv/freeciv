@@ -110,22 +110,18 @@ static void aiferry_print_stats(struct player *pplayer)
   struct ai_data *ai = ai_data_get(pplayer);
   int n = 1;
 
-  freelog(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]", 
-	  player_name(pplayer),
-	  player_number(pplayer));
-  freelog(LOGLEVEL_FERRY_STATS, "Registered: %d free out of total %d",
-	  ai->stats.available_boats, ai->stats.boats);
+  log_base(LOGLEVEL_FERRY_STATS, "Boat stats for %s[%d]",
+           player_name(pplayer), player_number(pplayer));
+  log_base(LOGLEVEL_FERRY_STATS, "Registered: %d free out of total %d",
+           ai->stats.available_boats, ai->stats.boats);
   unit_list_iterate(pplayer->units, punit) {
     if (is_sailing_unit(punit)) {
         unit_class_iterate(punitclass) {
           if (punitclass->move_type == LAND_MOVING
               && can_unit_type_transport(unit_type(punit), punitclass)) {
             /* Can transport some land units. */
-            freelog(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d",
-                    n,
-                    unit_rule_name(punit),
-                    punit->id,
-                    punit->ai.passenger);
+            log_base(LOGLEVEL_FERRY_STATS, "#%d. %s[%d], psngr=%d", n,
+                     unit_rule_name(punit), punit->id, punit->ai.passenger);
             n++;
             break;
           }
@@ -263,8 +259,9 @@ static int aiferry_avail_boats(struct player *pplayer)
   } unit_list_iterate_end;
 
   if (boats != ai->stats.available_boats) {
-    freelog(LOGLEVEL_FERRY_STATS, "Player[%d] in turn %d: boats miscounted.",
-	    player_number(pplayer), game.info.turn);
+    log_base(LOGLEVEL_FERRY_STATS,
+             "Player[%d] in turn %d: boats miscounted.",
+             player_number(pplayer), game.info.turn);
     aiferry_print_stats(pplayer);
   }
 #endif /* LOGLEVEL_FERRY_STATS */

@@ -333,46 +333,46 @@ static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai)
 {
-  freelog(LOG_TEST, "Result=(%d, %d)\nReservations:\n"
-          "     %4d %4d %4d   \n"
-          "%4d %4d %4d %4d %4d\n"
-          "%4d %4d %4d %4d %4d\n"
-          "%4d %4d %4d %4d %4d\n"
-          "     %4d %4d %4d", cr->tile->x, cr->tile->y,
-          cr->citymap[1][0].reserved, cr->citymap[2][0].reserved, 
-          cr->citymap[3][0].reserved, cr->citymap[0][1].reserved,
-          cr->citymap[1][1].reserved, cr->citymap[2][1].reserved,
-          cr->citymap[3][1].reserved, cr->citymap[4][1].reserved,
-          cr->citymap[0][3].reserved, cr->citymap[1][1].reserved,
-          cr->citymap[2][3].reserved, cr->citymap[3][1].reserved,
-          cr->citymap[4][3].reserved, cr->citymap[0][3].reserved,
-          cr->citymap[1][3].reserved, cr->citymap[2][3].reserved,
-          cr->citymap[3][3].reserved, cr->citymap[4][3].reserved,
-          cr->citymap[1][4].reserved, cr->citymap[2][4].reserved,
-          cr->citymap[3][4].reserved);
+  log_test("Result=(%d, %d)\nReservations:\n"
+           "     %4d %4d %4d   \n"
+           "%4d %4d %4d %4d %4d\n"
+           "%4d %4d %4d %4d %4d\n"
+           "%4d %4d %4d %4d %4d\n"
+           "     %4d %4d %4d", cr->tile->x, cr->tile->y,
+           cr->citymap[1][0].reserved, cr->citymap[2][0].reserved, 
+           cr->citymap[3][0].reserved, cr->citymap[0][1].reserved,
+           cr->citymap[1][1].reserved, cr->citymap[2][1].reserved,
+           cr->citymap[3][1].reserved, cr->citymap[4][1].reserved,
+           cr->citymap[0][3].reserved, cr->citymap[1][1].reserved,
+           cr->citymap[2][3].reserved, cr->citymap[3][1].reserved,
+           cr->citymap[4][3].reserved, cr->citymap[0][3].reserved,
+           cr->citymap[1][3].reserved, cr->citymap[2][3].reserved,
+           cr->citymap[3][3].reserved, cr->citymap[4][3].reserved,
+           cr->citymap[1][4].reserved, cr->citymap[2][4].reserved,
+           cr->citymap[3][4].reserved);
 #define M(a,b) cr->citymap[a][b].food, cr->citymap[a][b].shield, cr->citymap[a][b].trade
-  freelog(LOG_TEST, "Tiles (food/shield/trade):\n"
-          "      %d-%d-%d %d-%d-%d %d-%d-%d\n"
-          "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-          "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-          "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-          "      %d-%d-%d %d-%d-%d %d-%d-%d",
-          M(1,0), M(2,0), M(3,0), M(0,1), M(1,1), M(2,1), M(3,1), M(4,1),
-          M(0,2), M(1,2), M(2,2), M(3,2), M(4,2), M(0,3), M(1,3), M(2,3),
-          M(3,3), M(4,3), M(1,4), M(2,4), M(3,4));
+  log_test("Tiles (food/shield/trade):\n"
+           "      %d-%d-%d %d-%d-%d %d-%d-%d\n"
+           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
+           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
+           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
+           "      %d-%d-%d %d-%d-%d %d-%d-%d",
+           M(1,0), M(2,0), M(3,0), M(0,1), M(1,1), M(2,1), M(3,1), M(4,1),
+           M(0,2), M(1,2), M(2,2), M(3,2), M(4,2), M(0,3), M(1,3), M(2,3),
+           M(3,3), M(4,3), M(1,4), M(2,4), M(3,4));
 #undef M
-  freelog(LOG_TEST, "city center %d + best other(%d, %d) %d - corr %d "
-          "- waste %d\n"
-          "+ remaining %d + defense bonus %d + naval bonus %d = %d (%d)", 
-          cr->city_center, cr->other_tile->x, cr->other_tile->y,
-	  cr->best_other,
-          cr->corruption, cr->waste, cr->remaining, defense_bonus(cr, ai), 
-          naval_bonus(cr, ai), cr->total, cr->result);
+  log_test("city center %d + best other(%d, %d) %d - corr %d "
+           "- waste %d\n"
+           "+ remaining %d + defense bonus %d + naval bonus %d = %d (%d)", 
+           cr->city_center, cr->other_tile->x, cr->other_tile->y,
+           cr->best_other,
+           cr->corruption, cr->waste, cr->remaining, defense_bonus(cr, ai), 
+           naval_bonus(cr, ai), cr->total, cr->result);
   if (food_starvation(cr)) {
-    freelog(LOG_TEST, " ** FOOD STARVATION **");
+    log_test(" ** FOOD STARVATION **");
   }
   if (shield_starvation(cr)) {
-    freelog(LOG_TEST, " ** RESOURCE STARVATION **");
+    log_test(" ** RESOURCE STARVATION **");
   }
 }
 

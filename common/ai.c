@@ -16,10 +16,7 @@
 #endif
 
 #include <assert.h>
-
-/* utility */
-#include "fcintl.h"
-#include "log.h"
+#include <string.h>
 
 /* common */
 #include "ai.h"

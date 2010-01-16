@@ -173,7 +173,7 @@
 /* Set to FALSE for old-style savefiles. */
 #define SAVE_TABLES TRUE
 /* Debug function for every new entry. */
-#define DEBUG_ENTRIES(...) /* freelog(LOG_DEBUG, __VA_ARGS__); */
+#define DEBUG_ENTRIES(...) /* log_debug(__VA_ARGS__); */
 
 #define SPECVEC_TAG astring
 #include "specvec.h"
@@ -364,7 +364,7 @@ struct section_file *secfile_new(bool allow_duplicates)
 **************************************************************************/
 void secfile_destroy(struct section_file *secfile)
 {
-  RETURN_IF_FAIL(secfile != NULL);
+  SECFILE_RETURN_IF_FAIL(secfile, NULL, secfile != NULL);
 
   hash_free(secfile->hash.sections);
   /* Mark it NULL to be sure to don't try to make operations when
@@ -472,9 +472,9 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
   astring_vector_init(&columns);
 
   if (filename) {
-    freelog(LOG_VERBOSE, "Reading registry from \"%s\"", filename);
+    log_verbose("Reading registry from \"%s\"", filename);
   } else {
-    freelog(LOG_VERBOSE, "Reading registry");
+    log_verbose("Reading registry");
   }
 
   while (!inf_at_eof(inf)) {
@@ -630,10 +630,9 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 
   if (table_state) {
     if (filename) {
-      freelog(LOG_ERROR, "finished registry %s before end of table\n",
-              filename);
+      log_error("finished registry %s before end of table\n", filename);
     } else {
-      freelog(LOG_ERROR, "finished registry before end of table\n");
+      log_error("finished registry before end of table\n");
     }
     error = TRUE;
   }
@@ -861,18 +860,14 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
                * FIXME: If the first row is missing some entries that the
                * second or later row has, then we'll drop out of tabular
                * format without an error message. */
-              freelog(LOG_ERROR,
-                      "In file %s, there is no entry in the registry for\n"
-                      "%s.%s (or the entries are out of order. This means\n"
-                      "a less efficient non-tabular format will be used.\n"
-                      "To avoid this make sure all rows of a table are\n"
-                      "filled out with an entry for every column.",
-                      real_filename, section_name(psection), expect);
-              freelog(LOG_ERROR,
-                      /* TRANS: No full stop after the URL, 
-                       * could cause confusion. */
-                      _("Please report this message at %s"),
-                      BUG_URL);
+              log_error("In file %s, there is no entry in the registry for\n"
+                        "%s.%s (or the entries are out of order). This means\n"
+                        "a less efficient non-tabular format will be used.\n"
+                        "To avoid this make sure all rows of a table are\n"
+                        "filled out with an entry for every column.",
+                        real_filename, section_name(psection), expect);
+              /* TRANS: No full stop after the URL, could cause confusion. */
+              log_error(_("Please report this message at %s"), BUG_URL);
               fz_fprintf(fs, "\n");
             }
             fz_fprintf(fs, "}\n");
@@ -954,12 +949,11 @@ void secfile_check_unused(const struct section_file *secfile)
     entry_list_iterate(section_entries(psection), pentry) {
       if (!entry_used(pentry)) {
         if (!any && secfile->name) {
-          freelog(LOG_VERBOSE, "Unused entries in file %s:",
-                  secfile->name);
+          log_verbose("Unused entries in file %s:", secfile->name);
           any = TRUE;
         }
-        freelog(LOG_VERBOSE, "  unused entry: %s.%s",
-                section_name(psection), entry_name(pentry));
+        log_verbose("  unused entry: %s.%s",
+                    section_name(psection), entry_name(pentry));
       }
     } entry_list_iterate_end;
   } section_list_iterate_end;
@@ -2450,5 +2444,5 @@ static void entry_from_token(struct section *psection,
     return;
   }
 
-  freelog(LOG_ERROR, "Entry value not recognized: %s", tok);
+  log_error("Entry value not recognized: %s", tok);
 }

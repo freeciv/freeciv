@@ -229,7 +229,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
   if (you_can_join) {
     struct packet_client_info client_info;
 
-    freelog(LOG_VERBOSE, "join game accept:%s", message);
+    log_verbose("join game accept:%s", message);
     client.conn.established = TRUE;
     client.conn.id = conn_id;
 
@@ -256,7 +256,7 @@ void handle_server_join_reply(bool you_can_join, char *message,
     client.conn.id = -1; /* not in range of conn_info id */
 
     if (auto_connect) {
-      freelog(LOG_NORMAL, _("You were rejected from the game: %s"), message);
+      log_normal(_("You were rejected from the game: %s"), message);
     }
     gui_server_connect();
 
@@ -281,12 +281,7 @@ void handle_city_remove(int city_id)
 {
   struct city *pcity = game_find_city_by_number(city_id);
 
-  if (NULL == pcity) {
-    freelog(LOG_ERROR,
-	    "handle_city_remove() bad city %d.",
-	    city_id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
 
   agents_city_remove(pcity);
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, TRUE);
@@ -436,32 +431,21 @@ void handle_city_info(struct packet_city_info *packet)
   struct tile *ptile = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
 
-  if (NULL == powner) {
-    freelog(LOG_ERROR,
-            "handle_city_info() bad player number %d.",
-            packet->owner);
-    return;
-  }
-
-  if (NULL == pcenter) {
-    freelog(LOG_ERROR, "handle_city_info() invalid tile index %d.",
-            packet->tile);
-    return;
-  }
+  log_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
+  log_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.",
+                     packet->tile);
 
   if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
-    freelog(LOG_ERROR, "handle_city_info()"
-            " bad production_kind %d.",
-            packet->production_kind);
+    log_error("handle_city_info() bad production_kind %d.",
+              packet->production_kind);
     product.kind = VUT_NONE;
   } else {
     product = universal_by_number(packet->production_kind,
                                   packet->production_value);
     if (product.kind < VUT_NONE || product.kind >= VUT_LAST) {
-      freelog(LOG_ERROR, "handle_city_info()"
-              " production_kind %d with bad production_value %d.",
-              packet->production_kind,
-              packet->production_value);
+      log_error("handle_city_info() "
+                "production_kind %d with bad production_value %d.",
+                packet->production_kind, packet->production_value);
       product.kind = VUT_NONE;
     }
   }
@@ -503,15 +487,12 @@ void handle_city_info(struct packet_city_info *packet)
     idex_register_city(pcity);
     update_descriptions = TRUE;
   } else if (pcity->id != packet->id) {
-    freelog(LOG_ERROR, "handle_city_info()"
-            " city id %d != id %d.",
-            pcity->id,
-            packet->id);
+    log_error("handle_city_info() city id %d != id %d.",
+              pcity->id, packet->id);
     return;
   } else if (ptile != pcenter) {
-    freelog(LOG_ERROR, "handle_city_info()"
-            " city tile (%d, %d) != (%d, %d).",
-            TILE_XY(ptile), TILE_XY(pcenter));
+    log_error("handle_city_info() city tile (%d, %d) != (%d, %d).",
+              TILE_XY(ptile), TILE_XY(pcenter));
     return;
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name,
@@ -557,11 +538,9 @@ void handle_city_info(struct packet_city_info *packet)
   } specialist_type_iterate_end;
 
   if (pcity->size != packet->size) {
-    freelog(LOG_ERROR, "handle_city_info()"
-            " %d citizens not equal %d city size in \"%s\".",
-            pcity->size,
-            packet->size,
-            city_name(pcity));
+    log_error("handle_city_info() "
+              "%d citizens not equal %d city size in \"%s\".",
+              pcity->size, packet->size, city_name(pcity));
     pcity->size = packet->size;
   }
 
@@ -619,15 +598,15 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->turn_last_built = packet->turn_last_built;
   
   if (packet->changed_from_kind < VUT_NONE || packet->changed_from_kind >= VUT_LAST) {
-    freelog(LOG_ERROR, "handle_city_info() bad changed_from_kind %d.",
-            packet->changed_from_kind);
+    log_error("handle_city_info() bad changed_from_kind %d.",
+              packet->changed_from_kind);
     product.kind = VUT_NONE;
   } else {
     product = universal_by_number(packet->changed_from_kind,
                                      packet->changed_from_value);
     if (product.kind < VUT_NONE ||  product.kind >= VUT_LAST) {
-      freelog(LOG_ERROR, "handle_city_info() bad changed_from_value %d.",
-              packet->changed_from_value);
+      log_error("handle_city_info() bad changed_from_value %d.",
+                packet->changed_from_value);
       product.kind = VUT_NONE;
     }
   }
@@ -784,11 +763,9 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   if (is_new) {
-    freelog(LOG_DEBUG, "(%d,%d) creating city %d, %s %s",
-	    TILE_XY(pcenter),
-	    pcity->id,
-	    nation_rule_name(nation_of_city(pcity)),
-	    city_name(pcity));
+    log_debug("(%d,%d) creating city %d, %s %s", TILE_XY(pcenter),
+              pcity->id, nation_rule_name(nation_of_city(pcity)),
+              city_name(pcity));
   }
 
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, FALSE);
@@ -811,18 +788,9 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   struct tile_list *worked_tiles = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
 
-  if (NULL == powner) {
-    freelog(LOG_ERROR,
-            "handle_city_short_info() bad player number %d.",
-            packet->owner);
-    return;
-  }
-
-  if (NULL == pcenter) {
-    freelog(LOG_ERROR, "handle_city_short_info() invalid tile index %d.",
-            packet->tile);
-    return;
-  }
+  log_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
+  log_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.",
+                     packet->tile);
 
   if (NULL != pcity) {
     ptile = city_tile(pcity);
@@ -859,15 +827,12 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     pcity->id = packet->id;
     idex_register_city(pcity);
   } else if (pcity->id != packet->id) {
-    freelog(LOG_ERROR, "handle_city_short_info()"
-            " city id %d != id %d.",
-            pcity->id,
-            packet->id);
+    log_error("handle_city_short_info() city id %d != id %d.",
+              pcity->id, packet->id);
     return;
   } else if (city_tile(pcity) != pcenter) {
-    freelog(LOG_ERROR, "handle_city_short_info()"
-            " city tile (%d, %d) != (%d, %d).",
-            TILE_XY(city_tile(pcity)), TILE_XY(pcenter));
+    log_error("handle_city_short_info() city tile (%d, %d) != (%d, %d).",
+              TILE_XY(city_tile(pcity)), TILE_XY(pcenter));
     return;
   } else {
     name_changed = (0 != strncmp(packet->name, pcity->name,
@@ -1039,9 +1004,7 @@ void handle_start_phase(int phase)
           && phase >= player_count())
       || (game.info.phase_mode == PMT_TEAMS_ALTERNATE
           && phase >= team_count())) {
-    freelog(LOG_ERROR,
-            "handle_start_phase() illegal phase %d.",
-            phase);
+    log_error("handle_start_phase() illegal phase %d.", phase);
     return;
   }
 
@@ -1083,7 +1046,7 @@ void handle_start_phase(int phase)
 **************************************************************************/
 void handle_begin_turn(void)
 {
-  freelog(LOG_DEBUG, "handle_begin_turn()");
+  log_debug("handle_begin_turn()");
 
   /* Possibly replace wait cursor with something else */
   set_server_busy(FALSE);
@@ -1095,7 +1058,7 @@ void handle_begin_turn(void)
 **************************************************************************/
 void handle_end_turn(void)
 {
-  freelog(LOG_DEBUG, "handle_end_turn()");
+  log_debug("handle_end_turn()");
 
   /* Make sure wait cursor is in use */
   set_server_busy(TRUE);
@@ -1468,13 +1431,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       unit_list_prepend(pcity->units_supported, punit);
     }
 
-    freelog(LOG_DEBUG, "New %s %s id %d (%d %d) hc %d %s", 
-	    nation_rule_name(nation_of_unit(punit)),
-	    unit_rule_name(punit),
-	    TILE_XY(punit->tile),
-	    punit->id,
-	    punit->homecity,
-	    (pcity ? city_name(pcity) : "(unknown)"));
+    log_debug("New %s %s id %d (%d %d) hc %d %s",
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit), TILE_XY(unit_tile(punit)),
+              punit->id, punit->homecity,
+              (pcity ? city_name(pcity) : "(unknown)"));
 
     repaint_unit = (punit->transported_by == -1);
     agents_unit_new(punit);
@@ -1568,7 +1529,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
   }
 
   if (valid_player_by_number(packet->owner) == client.conn.playing) {
-    freelog(LOG_ERROR, "handle_unit_short_info() for own unit.");
+    log_error("handle_unit_short_info() for own unit.");
   }
 
   punit = unpackage_short_unit(packet);
@@ -1625,12 +1586,11 @@ void handle_game_info(struct packet_game_info *pinfo)
   game.info = *pinfo;
 
   /* check the values! */
-#define VALIDATE(_count, _maximum, _string)				\
-  if (game.info._count > _maximum) {					\
-    freelog(LOG_ERROR, "handle_game_info():"				\
-            " Too many " _string "; using %d of %d",			\
-            _maximum, game.info._count);				\
-    game.info._count = _maximum;					\
+#define VALIDATE(_count, _maximum, _string)                                 \
+  if (game.info._count > _maximum) {                                        \
+    log_error("handle_game_info(): Too many " _string "; using %d of %d",   \
+              _maximum, game.info._count);                                  \
+    game.info._count = _maximum;                                            \
   }
 
   VALIDATE(granary_num_inis,	MAX_GRANARY_INIS,	"granary entries");
@@ -1671,9 +1631,7 @@ static bool read_player_info_techs(struct player *pplayer,
   bool need_effect_update = FALSE;
 
 #ifdef DEBUG
-  freelog(LOG_VERBOSE, "Player%d inventions:%s",
-          player_number(pplayer),
-          inventions);
+  log_verbose("Player%d inventions:%s", player_number(pplayer), inventions);
 #endif
 
   advance_index_iterate(A_NONE, i) {
@@ -1726,11 +1684,8 @@ void handle_player_remove(int playerno)
   struct player *pplayer;
   pplayer = player_slot_by_number(playerno);
 
-  if (NULL == pplayer) {
-    freelog(LOG_ERROR, "Invalid player slot number %d in "
-            "handle_player_remove().", playerno);
-    return;
-  }
+  log_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
+                     playerno);
 
   if (!player_slot_is_used(pplayer)) {
     /* Ok, just ignore. */
@@ -1776,12 +1731,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* First verify packet fields. */
 
   pplayer = player_slot_by_number(pinfo->playerno);
-
-  if (NULL == pplayer) {
-    freelog(LOG_ERROR, "Invalid player slot number %d in "
-            "handle_player_info().", pinfo->playerno);
-    return;
-  }
+  log_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
+                     pinfo->playerno);
 
   pnation = nation_by_number(pinfo->nation);
   pgov = government_by_number(pinfo->government);
@@ -1993,16 +1944,16 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   struct connection *pconn = find_conn_by_id(pinfo->id);
   bool preparing_client_state = FALSE;
 
-  freelog(LOG_DEBUG, "conn_info id%d used%d est%d plr%d obs%d acc%d",
-	  pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
-	  pinfo->observer, (int)pinfo->access_level);
-  freelog(LOG_DEBUG, "conn_info \"%s\" \"%s\" \"%s\"",
-	  pinfo->username, pinfo->addr, pinfo->capability);
+  log_debug("conn_info id%d used%d est%d plr%d obs%d acc%d",
+            pinfo->id, pinfo->used, pinfo->established, pinfo->player_num,
+            pinfo->observer, (int) pinfo->access_level);
+  log_debug("conn_info \"%s\" \"%s\" \"%s\"",
+            pinfo->username, pinfo->addr, pinfo->capability);
   
   if (!pinfo->used) {
     /* Forget the connection */
     if (!pconn) {
-      freelog(LOG_VERBOSE, "Server removed unknown connection %d", pinfo->id);
+      log_verbose("Server removed unknown connection %d", pinfo->id);
       return;
     }
     client_remove_cli_conn(pconn);
@@ -2011,8 +1962,8 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     struct player *pplayer = player_slot_by_number(pinfo->player_num);
 
     if (!pconn) {
-      freelog(LOG_VERBOSE, "Server reports new connection %d %s",
-              pinfo->id, pinfo->username);
+      log_verbose("Server reports new connection %d %s",
+                  pinfo->id, pinfo->username);
       if (pinfo->id == client.conn.id) {
         /* Our connection. */
         pconn = &client.conn;
@@ -2028,8 +1979,8 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       conn_list_append(game.all_connections, pconn);
       conn_list_append(game.est_connections, pconn);
     } else {
-      freelog(LOG_PACKET, "Server reports updated connection %d %s",
-	      pinfo->id, pinfo->username);
+      log_packet("Server reports updated connection %d %s",
+                 pinfo->id, pinfo->username);
       if (pplayer != pconn->playing) {
 	if (NULL != pconn->playing) {
 	  conn_list_unlink(pconn->playing->connections, pconn);
@@ -2089,8 +2040,7 @@ void handle_conn_ping_info(int connections, int *conn_id, float *ping_time)
     }
 
     pconn->ping_time = ping_time[i];
-    freelog(LOG_DEBUG, "conn-id=%d, ping=%fs", pconn->id,
-	    pconn->ping_time);
+    log_debug("conn-id=%d, ping=%fs", pconn->id, pconn->ping_time);
   }
   /* The old_ping_time data is ignored. */
 
@@ -2247,12 +2197,9 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
   struct player_spaceship *ship;
   struct player *pplayer = valid_player_by_number(p->player_num);
 
-  if (NULL == pplayer) {
-    freelog(LOG_ERROR,
-	    "handle_spaceship_info() bad player number %d.",
-	    p->player_num);
-    return;
-  }
+  log_assert_ret_msg(NULL != pplayer, "Invalid player number %d.",
+                     p->player_num);
+
   ship = &pplayer->spaceship;
   ship->state        = p->sship_state;
   ship->structurals  = p->structurals;
@@ -2278,10 +2225,9 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
     } else if (p->structure[i] == '1') {
       ship->structure[i] = TRUE;
     } else {
-      freelog(LOG_ERROR,
-	      "handle_spaceship_info()"
-	      " invalid spaceship structure '%c' (%d).",
-	      p->structure[i], p->structure[i]);
+      log_error("handle_spaceship_info() "
+                "invalid spaceship structure '%c' (%d).",
+                p->structure[i], p->structure[i]);
       ship->structure[i] = FALSE;
     }
   }
@@ -2312,11 +2258,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = index_to_tile(packet->tile);
   const struct nation_type *pnation;
 
-  if (NULL == ptile) {
-    freelog(LOG_ERROR, "handle_tile_info() invalid tile index %d.",
-            packet->tile);
-    return;
-  }
+  log_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
 
   if (NULL == tile_terrain(ptile) || pterrain != tile_terrain(ptile)) {
@@ -2331,8 +2273,8 @@ void handle_tile_info(struct packet_tile_info *packet)
         tile_set_terrain(ptile, pterrain);
       } else {
         tile_changed = FALSE;
-        freelog(LOG_ERROR, "handle_tile_info() unknown terrain (%d, %d).",
-                TILE_XY(ptile));
+        log_error("handle_tile_info() unknown terrain (%d, %d).",
+                  TILE_XY(ptile));
       }
       break;
     };
@@ -2390,10 +2332,8 @@ void handle_tile_info(struct packet_tile_info *packet)
 
         city_list_prepend(invisible_cities, pwork);
 
-        freelog(LOG_DEBUG, "(%d,%d) invisible city %d, %s",
-                TILE_XY(ptile),
-                pwork->id,
-                city_name(pwork));
+        log_debug("(%d,%d) invisible city %d, %s",
+                  TILE_XY(ptile), pwork->id, city_name(pwork));
       } else if (NULL == city_tile(pwork)) {
         /* old unseen city, or before city_info */
         if (NULL != powner && city_owner(pwork) != powner) {
@@ -2437,9 +2377,7 @@ void handle_tile_info(struct packet_tile_info *packet)
     case TILE_UNKNOWN:
       break;
     default:
-      freelog(LOG_ERROR,
-              "handle_tile_info() invalid known (%d).",
-              packet->known);
+      log_error("handle_tile_info() invalid known (%d).", packet->known);
       break;
     };
   }
@@ -2484,12 +2422,9 @@ void handle_tile_info(struct packet_tile_info *packet)
     /* This is an error.  So first we log the error, then make an assertion.
      * But for NDEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
-      freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s",
-              punit,
-              punit->id,
-              unit_rule_name(punit),
-              TILE_XY(punit->tile),
-              player_name(unit_owner(punit)));
+      log_error("%p %d %s at (%d,%d) %s", punit, punit->id,
+                unit_rule_name(punit), TILE_XY(unit_tile(punit)),
+                player_name(unit_owner(punit)));
     } unit_list_iterate_end;
     assert(unit_list_size(ptile->units) == 0);
     unit_list_clear(ptile->units);
@@ -2558,12 +2493,11 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   game.control = *packet;
 
   /* check the values! */
-#define VALIDATE(_count, _maximum, _string)				\
-  if (game.control._count > _maximum) {					\
-    freelog(LOG_ERROR, "handle_ruleset_control():"			\
-            " Too many " _string "; using %d of %d",			\
-            _maximum, game.control._count);				\
-    game.control._count = _maximum;					\
+#define VALIDATE(_count, _maximum, _string)                                 \
+  if (game.control._count > _maximum) {                                     \
+    log_error("handle_ruleset_control(): Too many " _string                 \
+              "; using %d of %d", _maximum, game.control._count);           \
+    game.control._count = _maximum;                                         \
   }
 
   VALIDATE(num_unit_classes,	UCL_LAST,		"unit classes");
@@ -2611,12 +2545,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 {
   struct unit_class *c = uclass_by_number(p->id);
 
-  if (!c) {
-    freelog(LOG_ERROR,
-            "handle_ruleset_unit_class() bad unit_class %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
   sz_strlcpy(c->name.vernacular, p->name);
   c->name.translated = NULL;	/* unittype.c uclass_name_translation */
@@ -2636,12 +2565,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   int i;
   struct unit_type *u = utype_by_number(p->id);
 
-  if(!u) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_unit() bad unit_type %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->id);
 
   sz_strlcpy(u->name.vernacular, p->name);
   u->name.translated = NULL;	/* unittype.c utype_name_translation */
@@ -2700,12 +2624,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
   struct advance *a = advance_by_number(p->id);
 
-  if(!a) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_tech() bad advance %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
 
   sz_strlcpy(a->name.vernacular, p->name);
   a->name.translated = NULL;	/* tech.c advance_name_translation */
@@ -2730,12 +2649,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   int i;
   struct impr_type *b = improvement_by_number(p->id);
 
-  if (!b) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_building() bad improvement %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
 
   b->genus = p->genus;
   sz_strlcpy(b->name.vernacular, p->name);
@@ -2757,19 +2671,18 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
 #ifdef DEBUG
-  if(p->id == improvement_count()-1) {
+  if (p->id == improvement_count() - 1) {
     improvement_iterate(b) {
-      freelog(LOG_DEBUG, "Improvement: %s...",
-	      improvement_rule_name(b));
+      log_debug("Improvement: %s...", improvement_rule_name(b));
       if (A_NEVER != b->obsolete_by) {
-	freelog(LOG_DEBUG, "  obsolete_by %2d \"%s\"",
-		advance_number(b->obsolete_by),
-		advance_rule_name(b->obsolete_by));
+        log_debug("  obsolete_by %2d \"%s\"",
+                  advance_number(b->obsolete_by),
+                  advance_rule_name(b->obsolete_by));
       }
-      freelog(LOG_DEBUG, "  build_cost %3d", b->build_cost);
-      freelog(LOG_DEBUG, "  upkeep      %2d", b->upkeep);
-      freelog(LOG_DEBUG, "  sabotage   %3d", b->sabotage);
-      freelog(LOG_DEBUG, "  helptext    %s", b->helptext);
+      log_debug("  build_cost %3d", b->build_cost);
+      log_debug("  upkeep      %2d", b->upkeep);
+      log_debug("  sabotage   %3d", b->sabotage);
+      log_debug("  helptext    %s", b->helptext);
     } improvement_iterate_end;
   }
 #endif
@@ -2793,12 +2706,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   int j;
   struct government *gov = government_by_number(p->id);
 
-  if (!gov) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_government() bad government %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != gov, "Bad government %d.", p->id);
 
   gov->item_number = p->id;
 
@@ -2830,21 +2738,11 @@ void handle_ruleset_government_ruler_title
 {
   struct government *gov = government_by_number(p->gov);
 
-  if(!gov) {
-    freelog(LOG_ERROR,
-            "handle_ruleset_government_ruler_title()"
-            " bad government %d.",
-            p->gov);
-    return;
-  }
+  log_assert_ret_msg(NULL != gov, "Bad government %d.", p->gov);
+  log_assert_ret_msg(0 <= p->id && gov->num_ruler_titles > p->id,
+                     "Bad government ruler title %d for government \"%s\".",
+                     p->id, gov->name.vernacular);
 
-  if(p->id < 0 || p->id >= gov->num_ruler_titles) {
-    freelog(LOG_ERROR,
-            "handle_ruleset_government_ruler_title()"
-            " bad ruler title %d for government \"%s\".",
-            p->id, gov->name.vernacular);
-    return;
-  }
   gov->ruler_titles[p->id].nation = nation_by_number(p->nation);
   /* government.c ruler_title_translation */
   sz_strlcpy(gov->ruler_titles[p->id].male.vernacular, p->male_title);
@@ -2861,12 +2759,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   int j;
   struct terrain *pterrain = terrain_by_number(p->id);
 
-  if (!pterrain) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_terrain() bad terrain %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pterrain, "Bad terrain %d.", p->id);
 
   pterrain->native_to = p->native_to;
   sz_strlcpy(pterrain->name.vernacular, p->name_orig);
@@ -2888,11 +2781,9 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   for (j = 0; j < p->num_resources; j++) {
     pterrain->resources[j] = resource_by_number(p->resources[j]);
     if (!pterrain->resources[j]) {
-      freelog(LOG_ERROR,
-              "handle_ruleset_terrain()"
-              " Mismatched resource %d for terrain \"%s\".",
-              p->resources[j],
-              terrain_rule_name(pterrain));
+      log_error("handle_ruleset_terrain() "
+                "Mismatched resource %d for terrain \"%s\".",
+                p->resources[j], terrain_rule_name(pterrain));
     }
   }
   pterrain->resources[p->num_resources] = NULL;
@@ -2928,12 +2819,7 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 {
   struct resource *presource = resource_by_number(p->id);
 
-  if (!presource) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_resource() bad resource %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
 
   sz_strlcpy(presource->name.vernacular, p->name_orig);
   presource->name.translated = NULL;	/* terrain.c resource_name_translation */
@@ -2955,12 +2841,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   int i;
   struct base_type *pbase = base_by_number(p->id);
 
-  if (!pbase) {
-    freelog(LOG_ERROR,
-            "handle_ruleset_base() bad base %d.",
-            p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
   sz_strlcpy(pbase->name.vernacular, p->name);
   pbase->name.translated = NULL;	/* base.c base_name_translation */
@@ -3020,12 +2901,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   int i;
   struct nation_type *pl = nation_by_number(p->id);
 
-  if (!pl) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_nation() bad nation %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pl, "Bad nation %d.", p->id);
 
   sz_strlcpy(pl->adjective.vernacular, p->adjective);
   pl->adjective.translated = NULL;
@@ -3062,10 +2938,8 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   for (i = 0; i < p->ngroups; i++) {
     pl->groups[i] = nation_group_by_number(p->groups[i]);
     if (!pl->groups[i]) {
-      freelog(LOG_ERROR,
-              "handle_ruleset_nation() \"%s\" have unknown group %d.",
-              nation_rule_name(pl),
-              p->groups[i]);
+      log_error("handle_ruleset_nation() \"%s\" have unknown group %d.",
+                nation_rule_name(pl), p->groups[i]);
       pl->groups[i] = nation_group_by_number(0); /* default group */
     }
   }
@@ -3084,12 +2958,8 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   struct citystyle *cs;
 
   id = packet->style_id;
-  if (id < 0 || id >= game.control.styles_count) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_city() bad citystyle %d.",
-	    id);
-    return;
-  }
+  log_assert_ret_msg(0 <= id && game.control.styles_count > id,
+                     "Bad citystyle %d.", id);
   cs = &city_styles[id];
 
   for (j = 0; j < packet->reqs_count; j++) {
@@ -3134,12 +3004,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
   int j;
   struct specialist *s = specialist_by_number(p->id);
 
-  if (!s) {
-    freelog(LOG_ERROR,
-	    "handle_ruleset_specialist() bad specialist %d.",
-	    p->id);
-    return;
-  }
+  log_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
 
   sz_strlcpy(s->name.vernacular, p->name);
   s->name.translated = NULL;
@@ -3184,12 +3049,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   struct unit *punit = game_find_unit_by_number(target_id);
   struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
-  if (NULL == pdiplomat) {
-    freelog(LOG_ERROR,
-	    "handle_unit_diplomat_answer() bad diplomat %d.",
-	    diplomat_id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
 
   switch (action_type) {
   case DIPLOMAT_BRIBE:
@@ -3214,10 +3074,8 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
     }
     break;
   default:
-    freelog(LOG_ERROR,
-	    "handle_unit_diplomat_answer()"
-	    " invalid action_type (%d).",
-	    action_type);
+    log_error("handle_unit_diplomat_answer() invalid action_type (%d).",
+              action_type);
     break;
   };
 }
@@ -3226,24 +3084,13 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
 ...
 **************************************************************************/
 void handle_city_sabotage_list(int diplomat_id, int city_id,
-			       bv_imprs improvements)
+                               bv_imprs improvements)
 {
   struct city *pcity = game_find_city_by_number(city_id);
   struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
-  if (NULL == pdiplomat) {
-    freelog(LOG_ERROR,
-	    "handle_city_sabotage_list() bad diplomat %d.",
-	    diplomat_id);
-    return;
-  }
-
-  if (NULL == pcity) {
-    freelog(LOG_ERROR,
-	    "handle_city_sabotage_list() bad city %d.",
-	    city_id);
-    return;
-  }
+  log_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
+  log_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
 
   if (can_client_issue_orders()) {
     improvement_iterate(pimprove) {
@@ -3296,8 +3143,8 @@ void handle_processing_started(void)
       get_next_request_id(client.conn.
 			  client.last_processed_request_id_seen);
 
-  freelog(LOG_DEBUG, "start processing packet %d",
-	  client.conn.client.request_id_of_currently_handled_packet);
+  log_debug("start processing packet %d",
+            client.conn.client.request_id_of_currently_handled_packet);
 }
 
 /**************************************************************************
@@ -3307,8 +3154,8 @@ void handle_processing_finished(void)
 {
   int i;
 
-  freelog(LOG_DEBUG, "finish processing packet %d",
-	  client.conn.client.request_id_of_currently_handled_packet);
+  log_debug("finish processing packet %d",
+            client.conn.client.request_id_of_currently_handled_packet);
 
   assert(client.conn.client.request_id_of_currently_handled_packet != 0);
 
@@ -3336,8 +3183,7 @@ void notify_about_incoming_packet(struct connection *pc,
 				   int packet_type, int size)
 {
   assert(pc == &client.conn);
-  freelog(LOG_DEBUG, "incoming packet={type=%d, size=%d}", packet_type,
-	  size);
+  log_debug("incoming packet={type=%d, size=%d}", packet_type, size);
 }
 
 /**************************************************************************
@@ -3348,8 +3194,8 @@ void notify_about_outgoing_packet(struct connection *pc,
 				  int request_id)
 {
   assert(pc == &client.conn);
-  freelog(LOG_DEBUG, "outgoing packet={type=%d, size=%d, request_id=%d}",
-	  packet_type, size, request_id);
+  log_debug("outgoing packet={type=%d, size=%d, request_id=%d}",
+            packet_type, size, request_id);
 
   assert(request_id);
 }
@@ -3380,7 +3226,7 @@ void set_reports_thaw_request(int request_id)
 **************************************************************************/
 void handle_freeze_hint(void)
 {
-  freelog(LOG_DEBUG, "handle_freeze_hint");
+  log_debug("handle_freeze_hint");
 }
 
 /**************************************************************************
@@ -3388,7 +3234,7 @@ void handle_freeze_hint(void)
 **************************************************************************/
 void handle_freeze_client(void)
 {
-  freelog(LOG_DEBUG, "handle_freeze_client");
+  log_debug("handle_freeze_client");
 
   reports_freeze();
 
@@ -3400,7 +3246,7 @@ void handle_freeze_client(void)
 **************************************************************************/
 void handle_thaw_hint(void)
 {
-  freelog(LOG_DEBUG, "handle_thaw_hint");
+  log_debug("handle_thaw_hint");
 }
 
 /**************************************************************************
@@ -3408,7 +3254,7 @@ void handle_thaw_hint(void)
 **************************************************************************/
 void handle_thaw_client(void)
 {
-  freelog(LOG_DEBUG, "handle_thaw_client");
+  log_debug("handle_thaw_client");
 
   reports_thaw();
 
@@ -3429,7 +3275,7 @@ void handle_conn_ping(void)
 **************************************************************************/
 void handle_server_shutdown(void)
 {
-  freelog(LOG_VERBOSE, "server shutdown");
+  log_verbose("server shutdown");
 }
 
 /**************************************************************************
@@ -3477,11 +3323,9 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
-  if (vi == NULL) {
-    freelog(LOG_ERROR, "Got packet_vote_update for non-existant vote %d!",
-            vote_no);
-    return;
-  }
+  log_assert_ret_msg(NULL != vi,
+                     "Got packet_vote_update for non-existant vote %d!",
+                     vote_no);
 
   vi->yes = yes;
   vi->no = no;
@@ -3496,11 +3340,9 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
 **************************************************************************/
 void handle_vote_new(struct packet_vote_new *packet)
 {
-  if (voteinfo_queue_find(packet->vote_no)) {
-    freelog(LOG_ERROR, "Got a packet_vote_new for already existing "
-            "vote %d!", packet->vote_no);
-    return;
-  }
+  log_assert_ret_msg(NULL == voteinfo_queue_find(packet->vote_no),
+                     "Got a packet_vote_new for already existing "
+                     "vote %d!", packet->vote_no);
 
   voteinfo_queue_add(packet->vote_no,
                      packet->user,
@@ -3518,11 +3360,9 @@ void handle_vote_resolve(int vote_no, bool passed)
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
-  if (vi == NULL) {
-    freelog(LOG_ERROR, "Got packet_vote_resolve for non-existant "
-            "vote %d!", vote_no);
-    return;
-  }
+  log_assert_ret_msg(NULL != vi,
+                     "Got packet_vote_resolve for non-existant vote %d!",
+                     vote_no);
 
   vi->resolved = TRUE;
   vi->passed = passed;

@@ -52,7 +52,7 @@
 
 static int *citymap;
 
-#define LOG_CITYMAP LOG_DEBUG
+#define log_citymap log_debug
 
 /**************************************************************************
   Initialize citymap by reserving worked tiles and establishing the
@@ -105,8 +105,8 @@ void citymap_turn_init(struct player *pplayer)
 void citymap_reserve_city_spot(struct tile *ptile, int id)
 {
 #ifdef DEBUG
-  freelog(LOG_CITYMAP, "id %d reserving (%d, %d), was %d", 
-          id, TILE_XY(ptile), citymap[tile_index(ptile)]);
+  log_citymap("id %d reserving (%d, %d), was %d", 
+              id, TILE_XY(ptile), citymap[tile_index(ptile)]);
   assert(citymap[tile_index(ptile)] >= 0);
 #endif
 

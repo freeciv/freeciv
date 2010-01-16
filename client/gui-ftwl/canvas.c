@@ -60,7 +60,7 @@ void canvas_copy(struct canvas *dest, struct canvas *src,
   struct ct_point dest_pos = { dest_x, dest_y };
   struct ct_rect dest_rect = {dest_x, dest_y, width, height};
 
-  freelog(LOG_DEBUG, "canvas_copy(src=%p,dest=%p)",src,dest);
+  log_debug("canvas_copy(src=%p,dest=%p)",src,dest);
 
   be_copy_osda_to_osda(dest->osda, src->osda, &size, &dest_pos, &src_pos);
   if (dest->widget) {
@@ -82,7 +82,7 @@ void canvas_put_sprite(struct canvas *pcanvas,
   struct ct_size size = { width, height };
   struct ct_rect dest_rect = {canvas_x, canvas_y, width, height};
 
-  freelog(LOG_DEBUG, "gui_put_sprite canvas=%p",pcanvas);
+  log_debug("gui_put_sprite canvas=%p", pcanvas);
   be_draw_sprite(osda, sprite, &size, &dest_pos, &src_pos);
   if (pcanvas->widget) {
     sw_window_canvas_background_region_needs_repaint(pcanvas->widget, &dest_rect);
@@ -98,7 +98,7 @@ void canvas_put_sprite_full(struct canvas *pcanvas,
 {
   struct ct_size size;
 
-  freelog(LOG_DEBUG, "gui_put_sprite_full");
+  log_debug("gui_put_sprite_full");
   be_sprite_get_size(&size, sprite);
   canvas_put_sprite(pcanvas, canvas_x, canvas_y,
 		    sprite, 0, 0, size.width, size.height);
@@ -125,7 +125,7 @@ void canvas_put_rectangle(struct canvas *pcanvas,
 {
   struct ct_rect rect = { canvas_x, canvas_y, width, height };
   
-  freelog(LOG_DEBUG, "gui_put_rectangle(,%lu,%d,%d,%d,%d)", pcolor->color,
+  log_debug("gui_put_rectangle(,%lu,%d,%d,%d,%d)", pcolor->color,
           canvas_x, canvas_y, width, height);
   
   be_draw_region(pcanvas->osda, &rect, pcolor->color);
@@ -167,7 +167,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 
   ct_rect_fill_on_2_points(&rect,&start,&end);
 
-  freelog(LOG_DEBUG, "gui_put_line(...)");
+  log_debug("gui_put_line(...)");
 
   if (ltype == LINE_NORMAL) {
     be_draw_line(pcanvas->osda, &start, &end, 1, FALSE, pcolor->color);

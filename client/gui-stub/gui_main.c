@@ -45,7 +45,7 @@ const bool gui_use_transliteration = FALSE;
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  freelog(LOG_ERROR, "Unimplemented set_city_names_font_sizes.");
+  log_error("Unimplemented set_city_names_font_sizes.");
   /* PORTME */
 }
 
@@ -193,7 +193,7 @@ void add_idle_callback(void (callback)(void *), void *data)
   /* PORTME */
 
   /* This is a reasonable fallback if it's not ported. */
-  freelog(LOG_ERROR, "Unimplemented add_idle_callback.");
+  log_error("Unimplemented add_idle_callback.");
   (callback)(data);
 }
 

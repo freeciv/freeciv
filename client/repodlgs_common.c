@@ -292,9 +292,7 @@ void handle_options_settable(struct packet_options_settable *packet)
   int i = packet->id;
 
   if (i < 0 || i > num_settable_options) {
-    freelog(LOG_ERROR,
-	    "handle_options_settable() bad id %d.",
-	    packet->id);
+    log_error("handle_options_settable() bad id %d.", packet->id);
     return;
   }
   o = &settable_options[i];
@@ -324,9 +322,7 @@ void handle_options_settable(struct packet_options_settable *packet)
     /* desired_strval is loaded later */
     break;
   default:
-    freelog(LOG_ERROR,
-	    "handle_options_settable() bad type %d.",
-	    packet->stype);
+    log_error("handle_options_settable() bad type %d.", packet->stype);
     return;
   };
 

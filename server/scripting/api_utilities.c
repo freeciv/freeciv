@@ -38,7 +38,7 @@ int api_utilities_random(int min, int max)
 ************************************************************************/
 void api_utilities_error_log(const char *msg)
 {
-  freelog(LOG_ERROR, "%s", msg);
+  log_error("%s", msg);
 }
 
 /************************************************************************
@@ -46,5 +46,5 @@ void api_utilities_error_log(const char *msg)
 ************************************************************************/
 void api_utilities_debug_log(const char *msg)
 {
-  freelog(LOG_DEBUG, "%s", msg);
+  log_debug("%s", msg);
 }

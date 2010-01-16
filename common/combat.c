@@ -592,15 +592,15 @@ struct unit *get_defender(const struct unit *attacker,
   if (unit_list_size(ptile->units) > 0 && !bestdef) {
     struct unit *punit = unit_list_get(ptile->units, 0);
 
-    freelog(LOG_ERROR, "get_defender bug: %s %s vs %s %s (total %d"
-            " units) on \"%s\" at (%d,%d). ",
-            nation_rule_name(nation_of_unit(attacker)),
-            unit_rule_name(attacker),
-            nation_rule_name(nation_of_unit(punit)),
-            unit_rule_name(punit),
-            unit_list_size(ptile->units), 
-            terrain_rule_name(tile_terrain(ptile)),
-            TILE_XY(ptile));
+    log_error("get_defender bug: %s %s vs %s %s (total %d"
+              " units) on \"%s\" at (%d,%d). ",
+              nation_rule_name(nation_of_unit(attacker)),
+              unit_rule_name(attacker),
+              nation_rule_name(nation_of_unit(punit)),
+              unit_rule_name(punit),
+              unit_list_size(ptile->units), 
+              terrain_rule_name(tile_terrain(ptile)),
+              TILE_XY(ptile));
   }
 
   return bestdef;

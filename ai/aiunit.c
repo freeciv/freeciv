@@ -1860,12 +1860,12 @@ static void ai_caravan_goto(struct player *pplayer,
 
   /* if we're not there yet, and we can move, move. */
   if (!same_pos(pcity->tile, punit->tile) && punit->moves_left != 0) {
-    freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) going to %s in %s",
-            nation_rule_name(nation_of_unit(punit)),
-            unit_rule_name(punit),
-            punit->id,
-            TILE_XY(punit->tile),
-            help_wonder ? "help a wonder" : "trade", city_name(pcity));
+    log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) going to %s in %s",
+             nation_rule_name(nation_of_unit(punit)),
+             unit_rule_name(punit),
+             punit->id,
+             TILE_XY(punit->tile),
+             help_wonder ? "help a wonder" : "trade", city_name(pcity));
     alive = ai_unit_goto(punit, pcity->tile); 
   }
 
@@ -1877,20 +1877,20 @@ static void ai_caravan_goto(struct player *pplayer,
          * Instead, we want to aggregate enough caravans to build instantly.
          * -AJS, 990704
          */
-      freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) helps build wonder in %s",
-              nation_rule_name(nation_of_unit(punit)),
-              unit_rule_name(punit),
-              punit->id,
-              TILE_XY(punit->tile),
-              city_name(pcity));
-	handle_unit_help_build_wonder(pplayer, punit->id);
+      log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) helps build wonder in %s",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_rule_name(punit),
+               punit->id,
+               TILE_XY(punit->tile),
+               city_name(pcity));
+      handle_unit_help_build_wonder(pplayer, punit->id);
     } else {
-      freelog(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
-              nation_rule_name(nation_of_unit(punit)),
-              unit_rule_name(punit),
-              punit->id,
-              TILE_XY(punit->tile),
-              city_name(pcity));
+      log_base(LOG_CARAVAN, "%s %s[%d](%d,%d) creates trade route in %s",
+               nation_rule_name(nation_of_unit(punit)),
+               unit_rule_name(punit),
+               punit->id,
+               TILE_XY(punit->tile),
+               city_name(pcity));
       handle_unit_establish_trade(pplayer, punit->id);
     }
   }
@@ -1905,15 +1905,15 @@ static void caravan_optimize_callback(const struct caravan_result *result,
 {
   const struct unit *caravan = data;
 
-  freelog(LOG_CARAVAN2, "%s %s[%d](%d,%d) %s: %s %s worth %g",
-	  nation_rule_name(nation_of_unit(caravan)),
-          unit_rule_name(caravan),
-          caravan->id,
-          TILE_XY(caravan->tile),
-	  city_name(result->src),
-	  result->help_wonder ? "wonder in" : "trade to",
-	  city_name(result->dest),
-	  result->value);
+  log_base(LOG_CARAVAN2, "%s %s[%d](%d,%d) %s: %s %s worth %g",
+           nation_rule_name(nation_of_unit(caravan)),
+           unit_rule_name(caravan),
+           caravan->id,
+           TILE_XY(caravan->tile),
+           city_name(result->src),
+           result->help_wonder ? "wonder in" : "trade to",
+           city_name(result->dest),
+           result->value);
 }
 
 /*************************************************************************
@@ -1937,17 +1937,17 @@ static void ai_manage_caravan(struct player *pplayer, struct unit *punit)
 
   if (unit_has_type_flag(punit, F_TRADE_ROUTE) || unit_has_type_flag(punit, F_HELP_WONDER)) {
     caravan_parameter_init_from_unit(&parameter, punit);
-    if (fc_log_level >= LOG_CARAVAN2) {
+    if (log_do_output_for_level(LOG_CARAVAN2)) {
       parameter.callback = caravan_optimize_callback;
       parameter.callback_data = punit;
-        }
+    }
     caravan_find_best_destination(punit, &parameter, &result);
-      }
+  }
 
   if (result.dest != NULL) {
     ai_caravan_goto(pplayer, punit, result.dest, result.help_wonder);
     return; /* that may have clobbered the unit */
-    }
+  }
   else {
     /*
      * We have nowhere to go!
@@ -1992,7 +1992,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
       UNIT_LOG(LOGLEVEL_RECOVERY, punit, "going to %s to recover",
                city_name(safe));
       if (!ai_unit_goto(punit, safe->tile)) {
-        freelog(LOGLEVEL_RECOVERY, "died trying to hide and recover");
+        log_base(LOGLEVEL_RECOVERY, "died trying to hide and recover");
         return;
       }
     } else {
@@ -2334,7 +2334,7 @@ static void ai_set_defenders(struct player *pplayer)
         }
         emergency = TRUE;
       } else {
-        int loglevel = pcity->debug ? LOG_TEST : LOG_DEBUG;
+        int loglevel = pcity->debug ? LOG_AI_TEST : LOG_DEBUG;
 
         total_defense += best_want;
         UNIT_LOG(loglevel, best, "Defending city");
@@ -2486,14 +2486,14 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
 	   need to reach it */
 	dist = WARMAP_COST(aunit->tile) - unit_move_rate(aunit);
 	if (dist < mindist) {
-	  freelog(LOG_DEBUG, "Barbarian leader: closest enemy is %s(%d,%d) dist %d",
-                  unit_rule_name(aunit),
-                  aunit->tile->x,
-		  aunit->tile->y,
-		  dist);
-	  mindist = dist;
-	  closest_unit = aunit;
-	}
+          log_debug("Barbarian leader: closest enemy is %s(%d,%d) dist %d",
+                    unit_rule_name(aunit),
+                    aunit->tile->x,
+                    aunit->tile->y,
+                    dist);
+          mindist = dist;
+          closest_unit = aunit;
+        }
       }
     } unit_list_iterate_end;
   } players_iterate_end;
@@ -2526,10 +2526,9 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
       if (WARMAP_COST(near_tile) > safest
 	  && could_unit_move_to_tile(leader, near_tile) == 1) {
 	safest = WARMAP_COST(near_tile);
-	freelog(LOG_DEBUG,
-		"Barbarian leader: safest is %d, %d, safeness %d",
-		near_tile->x, near_tile->y, safest);
-	safest_tile = near_tile;
+        log_debug("Barbarian leader: safest is %d, %d, safeness %d",
+                  near_tile->x, near_tile->y, safest);
+        safest_tile = near_tile;
       }
     } 
     square_iterate_end;

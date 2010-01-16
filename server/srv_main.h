@@ -14,6 +14,7 @@
 #define FC__SRV_MAIN_H
 
 /* utility */
+#include "log.h"        /* enum log_level */
 #include "netintf.h"
 
 /* common */
@@ -32,7 +33,7 @@ struct server_arguments {
   /* this server's listen port */
   int port;
   /* the log level */
-  int loglevel;
+  enum log_level loglevel;
   /* filenames */
   char *log_filename;
   char *ranklog_filename;

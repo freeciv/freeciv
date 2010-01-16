@@ -178,9 +178,11 @@ char *end_of_strn(char *str, int *nleft);
 int cat_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((__format__ (__printf__, 3, 4)));
 
-#define die(...) real_die(__FILE__, __LINE__, __VA_ARGS__)
-void real_die(const char *file, int line, const char *format, ...)
-      fc__attribute((__format__ (__printf__, 3, 4)));
+#define die(format, ...) \
+  real_die(__FILE__, __FUNCTION__, __LINE__, format, ## __VA_ARGS__)
+void real_die(const char *file, const char *function, int line,
+              const char *format, ...)
+              fc__attribute((__format__ (__printf__, 4, 5)));
 
 /**************************************************************************
 ...

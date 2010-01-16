@@ -116,7 +116,7 @@ enum Display_color_type get_visual(void)
 
   if (default_depth == 1) { 
     /* Must be StaticGray, use black and white */
-    freelog(LOG_VERBOSE, "found B/W display.");
+    log_verbose("found B/W display.");
     return BW_DISPLAY;
   }
 
@@ -127,8 +127,8 @@ enum Display_color_type get_visual(void)
   
 
 /*
-  freelog(LOG_VERBOSE, "Found a %s class visual at default depth.",
-      visual_class[++i]);
+  log_verbose("Found a %s class visual at default depth.",
+              visual_class[++i]);
 */
    
   if(i < StaticColor) { /* Color visual classes are 2 to 5 */
@@ -137,7 +137,7 @@ enum Display_color_type get_visual(void)
      * here to try for a GrayScale visual if they
      * can use gray to advantage, before giving up
      * and using black and white */
-    freelog(LOG_VERBOSE, "found grayscale(?) display.");
+    log_verbose("found grayscale(?) display.");
     return GRAYSCALE_DISPLAY;
   }
 
@@ -149,11 +149,11 @@ enum Display_color_type get_visual(void)
     * code will work (or fail in a controlled way) */
    /* Let's check just out of curiosity: */
   if (visual_info.visual != default_visual) {
-/*    freelog(LOG_VERBOSE, "Found: %s class visual at default depth",
-	visual_class[i]); */
+/*    log_verbose("Found: %s class visual at default depth",
+                  visual_class[i]); */
   }
 
-  freelog(LOG_VERBOSE, "color system booted ok.");
+  log_verbose("color system booted ok.");
 
   return COLOR_DISPLAY;
 }

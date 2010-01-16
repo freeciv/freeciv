@@ -128,24 +128,31 @@ static void send_ruleset_game(struct conn_list *dest);
 static bool nation_has_initial_tech(struct nation_type *pnation,
                                     struct advance *tech);
 static bool sanity_check_ruleset_data(void);
-static void ruleset_error(int loglevel, const char *format, ...)
-                          fc__attribute((__format__ (__printf__, 2, 3)));
+static void ruleset_error_real(const char *file, const char *function,
+                               int line, enum log_level level,
+                               const char *format, ...)
+                               fc__attribute((__format__ (__printf__, 5, 6)));
+#define ruleset_error(level, format, ...)                                   \
+  if (log_do_output_for_level(level)) {                                     \
+    ruleset_error_real(__FILE__, __FUNCTION__, __LINE__,                    \
+                       level, format, ## __VA_ARGS__);                      \
+  }
 
 /**************************************************************************
   Notifications about ruleset errors to clients. Especially important in
   case of internal server crashing.
 **************************************************************************/
-static void ruleset_error(int loglevel, const char *format, ...)
+static void ruleset_error_real(const char *file, const char *function,
+                               int line, enum log_level level,
+                               const char *format, ...)
 {
   va_list args;
 
   va_start(args, format);
-
-  vreal_freelog(loglevel, format, args);
-
+  vdo_log(file, function, line, FALSE, level, format, args);
   va_end(args);
 
-  if (LOG_FATAL >= loglevel) {
+  if (LOG_FATAL >= level) {
     exit(EXIT_FAILURE);
   }
 }
@@ -164,24 +171,22 @@ static const char *valid_ruleset_filename(const char *subdir,
   assert(subdir && name && extension);
 
   my_snprintf(filename, sizeof(filename), "%s/%s.%s", subdir, name, extension);
-  freelog(LOG_VERBOSE, "Trying \"%s\".",
-                       filename);
+  log_verbose("Trying \"%s\".", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
 
   my_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
-  freelog(LOG_VERBOSE, "Trying \"%s\": default ruleset directory.",
-                       filename);
+  log_verbose("Trying \"%s\": default ruleset directory.", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
 
   my_snprintf(filename, sizeof(filename), "%s_%s.%s", subdir, name, extension);
-  freelog(LOG_VERBOSE, "Trying \"%s\": alternative ruleset filename syntax.",
-                       filename);
+  log_verbose("Trying \"%s\": alternative ruleset filename syntax.",
+              filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
@@ -244,21 +249,20 @@ static const char *check_ruleset_capabilities(struct section_file *file,
   const char *datafile_options;
 
   if (!(datafile_options = secfile_lookup_str(file, "datafile.options"))) {
-    freelog(LOG_FATAL, "\"%s\": ruleset capability problem:", filename);
+    log_fatal("\"%s\": ruleset capability problem:", filename);
     ruleset_error(LOG_FATAL, "%s", secfile_error());
   }
   if (!has_capabilities(us_capstr, datafile_options)) {
-    freelog(LOG_FATAL, "\"%s\": ruleset datafile appears incompatible:",
-                        filename);
-    freelog(LOG_FATAL, "  datafile options: %s", datafile_options);
-    freelog(LOG_FATAL, "  supported options: %s", us_capstr);
+    log_fatal("\"%s\": ruleset datafile appears incompatible:", filename);
+    log_fatal("  datafile options: %s", datafile_options);
+    log_fatal("  supported options: %s", us_capstr);
     ruleset_error(LOG_FATAL, "Capability problem");
   }
   if (!has_capabilities(datafile_options, us_capstr)) {
-    freelog(LOG_FATAL, "\"%s\": ruleset datafile claims required option(s)"
-                         " that we don't support:", filename);
-    freelog(LOG_FATAL, "  datafile options: %s", datafile_options);
-    freelog(LOG_FATAL, "  supported options: %s", us_capstr);
+    log_fatal("\"%s\": ruleset datafile claims required option(s)"
+              " that we don't support:", filename);
+    log_fatal("  datafile options: %s", datafile_options);
+    log_fatal("  supported options: %s", us_capstr);
     ruleset_error(LOG_FATAL, "Capability problem");
   }
   return datafile_options;
@@ -299,9 +303,8 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
     req = req_from_str(type, range, survives, negated, name);
     if (VUT_LAST == req.source.kind) {
       /* Error.  Log it, clear the req and continue. */
-      freelog(LOG_ERROR,
-          "\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
-          filename, sec, type, name);
+      log_error("\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
+                filename, sec, type, name);
       req.source.kind = VUT_NONE;
     }
 
@@ -428,9 +431,8 @@ static void lookup_unit_list(struct section_file *file, const char *prefix,
                     filename, prefix, entry, i, sval);
     }
     output[i] = punittype;
-    freelog(LOG_DEBUG, "\"%s\" %s.%s (%d): %s (%d)",
-            filename, prefix, entry, i, sval,
-            utype_number(punittype));
+    log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
+              utype_number(punittype));
   }
   free(slist);
   return;
@@ -484,9 +486,8 @@ static void lookup_tech_list(struct section_file *file, const char *prefix,
                     filename, prefix, entry, i, sval);
     }
     output[i] = advance_number(padvance);
-    freelog(LOG_DEBUG, "\"%s\" %s.%s (%d): %s (%d)",
-            filename, prefix, entry, i, sval,
-            advance_number(padvance));
+    log_debug("\"%s\" %s.%s (%d): %s (%d)", filename, prefix, entry, i, sval,
+              advance_number(padvance));
   }
   free(slist);
   return;
@@ -536,7 +537,7 @@ static void lookup_building_list(struct section_file *file,
                     filename, prefix, entry, i, sval);
     }
     output[i] = improvement_number(pimprove);
-    freelog(LOG_DEBUG, "%s.%s,%d %s %d", prefix, entry, i, sval, output[i]);
+    log_debug("%s.%s,%d %s %d", prefix, entry, i, sval, output[i]);
   }
   free(slist);
 }
@@ -723,7 +724,7 @@ static void load_tech_names(struct section_file *file)
   if (NULL == sec || 0 == (num_techs = section_list_size(sec))) {
     ruleset_error(LOG_FATAL, "\"%s\": No Advances?!?", filename);
   }
-  freelog(LOG_VERBOSE, "%d advances (including possibly unused)", num_techs);
+  log_verbose("%d advances (including possibly unused)", num_techs);
 
   if(num_techs + A_FIRST > A_LAST_REAL) {
     ruleset_error(LOG_FATAL, "\"%s\": Too many advances (%d, max %d)",
@@ -782,17 +783,13 @@ static void load_ruleset_techs(struct section_file *file)
 
     if ((A_NEVER == a->require[AR_ONE] && A_NEVER != a->require[AR_TWO])
      || (A_NEVER != a->require[AR_ONE] && A_NEVER == a->require[AR_TWO])) {
-      freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
-              filename,
-              sec_name,
-              a->name.vernacular);
+      log_error("\"%s\" [%s] \"%s\": \"Never\" with non-\"Never\".",
+                filename, sec_name, a->name.vernacular);
       a->require[AR_ONE] = a->require[AR_TWO] = A_NEVER;
     }
     if (a_none == a->require[AR_ONE] && a_none != a->require[AR_TWO]) {
-      freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": should have \"None\" second.",
-              filename,
-              sec_name,
-              a->name.vernacular);
+      log_error("\"%s\" [%s] \"%s\": should have \"None\" second.",
+                filename, sec_name, a->name.vernacular);
       a->require[AR_ONE] = a->require[AR_TWO];
       a->require[AR_TWO] = a_none;
     }
@@ -807,11 +804,8 @@ static void load_ruleset_techs(struct section_file *file)
       }
       ival = find_advance_flag_by_rule_name(sval);
       if (ival==TF_LAST) {
-        freelog(LOG_ERROR, "\"%s\" [%s] \"%s\": bad flag name \"%s\".",
-                filename,
-                sec_name,
-                a->name.vernacular,
-                sval);
+        log_error("\"%s\" [%s] \"%s\": bad flag name \"%s\".",
+                  filename, sec_name, a->name.vernacular, sval);
       } else {
         a->flags |= (1<<ival);
       }
@@ -936,7 +930,7 @@ static void load_unit_names(struct section_file *file)
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
     ruleset_error(LOG_FATAL, "\"%s\": No unit classes?!?", filename);
   }
-  freelog(LOG_VERBOSE, "%d unit classes", nval);
+  log_verbose("%d unit classes", nval);
   if(nval > UCL_LAST) {
     ruleset_error(LOG_FATAL, "\"%s\": Too many unit classes (%d, max %d)",
                   filename, nval, UCL_LAST);
@@ -960,7 +954,7 @@ static void load_unit_names(struct section_file *file)
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
     ruleset_error(LOG_FATAL, "\"%s\": No unit types?!?", filename);
   }
-  freelog(LOG_VERBOSE, "%d unit types (including possibly unused)", nval);
+  log_verbose("%d unit types (including possibly unused)", nval);
   if(nval > U_LAST) {
     ruleset_error(LOG_FATAL, "\"%s\": Too many unit types (%d, max %d)",
                   filename, nval, U_LAST);
@@ -1163,27 +1157,22 @@ if (_count > MAX_VET_LEVELS) {						\
     for(j = 0; j < nval; j++) {
       sval = slist[j];
       if(strcmp(sval,"") == 0) {
-	continue;
+        continue;
       }
       ival = find_unit_class_flag_by_rule_name(sval);
       if (ival == UCF_LAST) {
-        freelog(LOG_ERROR, "\"%s\" unit_class \"%s\": bad flag name \"%s\".",
-                filename,
-                uclass_rule_name(ut),
-                sval);
+        log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
+                  filename, uclass_rule_name(ut), sval);
         ival = find_unit_flag_by_rule_name(sval);
         if (ival != F_LAST) {
-          freelog(LOG_ERROR, "\"%s\" unit_class \"%s\": unit_type flag!",
-                  filename,
-                  uclass_rule_name(ut));
+          log_error("\"%s\" unit_class \"%s\": unit_type flag!",
+                    filename, uclass_rule_name(ut));
         }
       } else if (ut->move_type == SEA_MOVING
                  && ( ival == UCF_ROAD_NATIVE || ival == UCF_RIVER_NATIVE)) {
-        freelog(LOG_ERROR, "\"%s\" unit_class \"%s\": cannot give \"%s\" flag"
-                " to sea moving unit",
-                filename,
-                uclass_rule_name(ut),
-                sval);
+        log_error("\"%s\" unit_class \"%s\": cannot give \"%s\" flag "
+                  "to sea moving unit",
+                  filename, uclass_rule_name(ut), sval);
       } else {
         BV_SET(ut->flags, ival);
       }
@@ -1379,20 +1368,17 @@ if (_count > MAX_VET_LEVELS) {						\
                                    section_name(section_list_get(sec, i)));
     for(j=0; j<nval; j++) {
       sval = slist[j];
-      if(strcmp(sval,"")==0) {
-	continue;
+      if (0 == strcmp(sval, "")) {
+        continue;
       }
       ival = find_unit_flag_by_rule_name(sval);
-      if (ival==F_LAST) {
-        freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad flag name \"%s\".",
-                filename,
-                utype_rule_name(u),
-                sval);
+      if (F_LAST == ival) {
+        log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
+                  filename, utype_rule_name(u),  sval);
         ival = find_unit_class_flag_by_rule_name(sval);
         if (ival != UCF_LAST) {
-          freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": unit_class flag!",
-                  filename,
-                  utype_rule_name(u));
+          log_error("\"%s\" unit_type \"%s\": unit_class flag!",
+                    filename, utype_rule_name(u));
         }
       } else {
         BV_SET(u->flags, ival);
@@ -1417,13 +1403,13 @@ if (_count > MAX_VET_LEVELS) {						\
       }
       ival = find_unit_role_by_rule_name(sval);
       if (ival==L_LAST) {
-        freelog(LOG_ERROR, "\"%s\" unit_type \"%s\": bad role name \"%s\".",
-                filename, utype_rule_name(u), sval);
+        log_error("\"%s\" unit_type \"%s\": bad role name \"%s\".",
+                  filename, utype_rule_name(u), sval);
       } else if ((ival == L_FERRYBOAT || ival == L_BARBARIAN_BOAT)
                  && u->uclass->move_type == LAND_MOVING) {
-        freelog(LOG_ERROR,
-                "\"%s\" unit_type \"%s\": role \"%s\" for land moving unit.",
-                filename, utype_rule_name(u), sval);
+        log_error( "\"%s\" unit_type \"%s\": role \"%s\" "
+                  "for land moving unit.",
+                  filename, utype_rule_name(u), sval);
       } else {
         BV_SET(u->roles, ival - L_FIRST);
       }
@@ -1435,11 +1421,9 @@ if (_count > MAX_VET_LEVELS) {						\
   /* Some more consistency checking: */
   unit_type_iterate(u) {
     if (!valid_advance(u->require_advance)) {
-      freelog(LOG_ERROR,
-              "\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
-              filename,
-              utype_rule_name(u),
-              advance_rule_name(u->require_advance));
+      log_error("\"%s\" unit_type \"%s\": depends on removed tech \"%s\".",
+                filename, utype_rule_name(u),
+                advance_rule_name(u->require_advance));
       u->require_advance = A_NEVER;
     }
 
@@ -1519,7 +1503,7 @@ static void load_building_names(struct section_file *file)
   if (NULL == sec || 0 == (nval = section_list_size(sec))) {
     ruleset_error(LOG_FATAL, "\"%s\": No improvements?!?", filename);
   }
-  freelog(LOG_VERBOSE, "%d improvement types (including possibly unused)", nval);
+  log_verbose("%d improvement types (including possibly unused)", nval);
   if (nval > B_LAST) {
     ruleset_error(LOG_FATAL, "\"%s\": Too many improvements (%d, max %d)",
                   filename, nval, B_LAST);
@@ -1585,11 +1569,8 @@ static void load_ruleset_buildings(struct section_file *file)
       }
       ival = find_improvement_flag_by_rule_name(sval);
       if (ival==IF_LAST) {
-	freelog(LOG_ERROR,
-	        "\"%s\" improvement \"%s\": bad flag name \"%s\".",
-		filename,
-		improvement_rule_name(b),
-		sval);
+        log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
+                  filename, improvement_rule_name(b), sval);
       } else {
         b->flags |= (1<<ival);
       }
@@ -1652,12 +1633,11 @@ static void load_ruleset_buildings(struct section_file *file)
     if (valid_improvement(b)) {
       if (A_NEVER != b->obsolete_by
           && !valid_advance(b->obsolete_by)) {
-        freelog(LOG_ERROR,
-                "\"%s\" improvement \"%s\": obsoleted by removed tech \"%s\".",
-                filename,
-                improvement_rule_name(b),
-                advance_rule_name(b->obsolete_by));
-	b->obsolete_by = A_NEVER;
+        log_error("\"%s\" improvement \"%s\": obsoleted by "
+                  "removed tech \"%s\".",
+                  filename, improvement_rule_name(b),
+                  advance_rule_name(b->obsolete_by));
+        b->obsolete_by = A_NEVER;
       }
     }
   } improvement_iterate_end;
@@ -2558,9 +2538,8 @@ static void load_ruleset_nations(struct section_file *file)
     for (j = 0; j < dim; j++) {
       pl->groups[j] = find_nation_group_by_rule_name(groups[j]);
       if (!pl->groups[j]) {
-        freelog(LOG_ERROR, "Nation %s: Unknown group \"%s\".",
-                nation_rule_name(pl),
-                groups[j]);
+        log_error("Nation %s: Unknown group \"%s\".",
+                  nation_rule_name(pl), groups[j]);
       }
     }
     pl->groups[dim] = NULL; /* extra at end of list */
@@ -2582,8 +2561,8 @@ static void load_ruleset_nations(struct section_file *file)
 
     leaders = secfile_lookup_str_vec(file, &dim, "%s.leader", sec_name);
     if (dim > MAX_NUM_LEADERS) {
-      freelog(LOG_ERROR, "Nation %s: Too many leaders; using %d of %d",
-              nation_rule_name(pl), MAX_NUM_LEADERS, (int) dim);
+      log_error("Nation %s: Too many leaders; using %d of %d",
+                nation_rule_name(pl), MAX_NUM_LEADERS, (int) dim);
       dim = MAX_NUM_LEADERS;
     } else if (dim < 1) {
       ruleset_error(LOG_FATAL,
@@ -2630,11 +2609,9 @@ static void load_ruleset_nations(struct section_file *file)
       } else if (0 == mystrcasecmp(leaders[j], "Female")) {
         pl->leaders[j].is_male = FALSE;
       } else {
-        freelog(LOG_ERROR,
-		"Nation %s, leader %s: sex must be either Male or Female; "
-		"assuming Male",
-		nation_rule_name(pl),
-		pl->leaders[j].name);
+        log_error("Nation %s, leader %s: sex must be either Male or Female; "
+                  "assuming Male",
+                  nation_rule_name(pl), pl->leaders[j].name);
 	pl->leaders[j].is_male = TRUE;
       }
     }
@@ -2723,12 +2700,10 @@ static void load_ruleset_nations(struct section_file *file)
 	name_strlcpy(title->female.vernacular, female_name);
 	title->female.translated = NULL;
       } else {
-	/* LOG_VERBOSE rather than LOG_ERROR so that can use single nation
-	   ruleset file with variety of government ruleset files: */
-        freelog(LOG_VERBOSE,
-		"Nation %s: government \"%s\" not found.",
-		nation_rule_name(pl),
-		govern);
+        /* log_verbose() rather than log_error() so that can use single
+         * nation ruleset file with variety of government ruleset files: */
+        log_verbose("Nation %s: government \"%s\" not found.",
+                    nation_rule_name(pl), govern);
       }
     }
 
@@ -2738,10 +2713,8 @@ static void load_ruleset_nations(struct section_file *file)
                secfile_lookup_str(file, "%s.city_style", sec_name));
     pl->city_style = find_city_style_by_rule_name(temp_name);
     if (pl->city_style < 0) {
-      freelog(LOG_ERROR,
-	      "Nation %s: city style \"%s\" is unknown, using default.", 
-	      nation_rule_name(pl),
-	      temp_name);
+      log_error("Nation %s: city style \"%s\" is unknown, using default.",
+                nation_rule_name(pl), temp_name);
       pl->city_style = 0;
     }
 
@@ -2753,11 +2726,9 @@ static void load_ruleset_nations(struct section_file *file)
                       nation_rule_name(pl));
 	/* Note that we can't use temp_name here. */
       }
-      freelog(LOG_ERROR,
-	      "Nation %s: city style \"%s\" is not available from beginning; "
-	      "using default.",
-	      nation_rule_name(pl),
-	      temp_name);
+      log_error("Nation %s: city style \"%s\" is not available "
+                "from beginning; using default.",
+                nation_rule_name(pl), temp_name);
       pl->city_style = 0;
     }
 
@@ -2776,15 +2747,13 @@ static void load_ruleset_nations(struct section_file *file)
        * of being chosen. */
 
       if (pl->civilwar_nations[j] == NO_NATION_SELECTED) {
-	j--;
-	/* For nation authors, this would probably be considered an error.
-	 * But it can happen normally.  The civ1 compatability ruleset only
-	 * uses the nations that were in civ1, so not all of the links will
-	 * exist. */
-	freelog(LOG_VERBOSE,
-		"Nation %s: civil war nation \"%s\" is unknown.",
-		nation_rule_name(pl),
-		civilwar_nations[k]);
+        j--;
+        /* For nation authors, this would probably be considered an error.
+         * But it can happen normally. The civ1 compatability ruleset only
+         * uses the nations that were in civ1, so not all of the links will
+         * exist. */
+        log_verbose("Nation %s: civil war nation \"%s\" is unknown.",
+                    nation_rule_name(pl), civilwar_nations[k]);
       }
     }
     pl->civilwar_nations[j] = NO_NATION_SELECTED; /* end of list */
@@ -2989,10 +2958,8 @@ static void load_ruleset_cities(struct section_file *file)
     } else {
       city_styles[i].replaced_by = find_city_style_by_rule_name(replacement);
       if (city_styles[i].replaced_by < 0) {
-        freelog(LOG_ERROR, "\"%s\": style \"%s\" replacement \"%s\" not found",
-                filename,
-                city_style_rule_name(i),
-                replacement);
+        log_error("\"%s\": style \"%s\" replacement \"%s\" not found",
+                  filename, city_style_rule_name(i), replacement);
       }
     }
   }
@@ -3026,9 +2993,8 @@ static void load_ruleset_effects(struct section_file *file)
     type = secfile_lookup_str(file, "%s.name", sec_name);
 
     if ((eff = effect_type_from_str(type)) == EFT_LAST) {
-      freelog(LOG_ERROR,
-              "\"%s\" [%s] lists unknown effect type \"%s\".",
-              filename, sec_name, type);
+      log_error("\"%s\" [%s] lists unknown effect type \"%s\".",
+                filename, sec_name, type);
       continue;
     }
 
@@ -3211,8 +3177,8 @@ static void load_ruleset_game(void)
                   "Too many granary_food_ini entries (%d, max %d)",
                   game.info.granary_num_inis, MAX_GRANARY_INIS);
   } else if (game.info.granary_num_inis == 0) {
-    freelog(LOG_ERROR, "No values for granary_food_ini. Using default "
-                       "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
+    log_error("No values for granary_food_ini. Using default "
+              "value %d.", RS_DEFAULT_GRANARY_FOOD_INI);
     game.info.granary_num_inis = 1;
     game.info.granary_food_ini[0] = RS_DEFAULT_GRANARY_FOOD_INI;
   } else {
@@ -3226,8 +3192,8 @@ static void load_ruleset_game(void)
         } else {
           food_ini[i] = food_ini[i - 1];
         }
-        freelog(LOG_ERROR, "Bad value for granary_food_ini[%i]. Using %i.",
-                i, food_ini[i]);
+        log_error("Bad value for granary_food_ini[%i]. Using %i.",
+                  i, food_ini[i]);
       }
       game.info.granary_food_ini[i] = food_ini[i];
     }
@@ -3257,8 +3223,8 @@ static void load_ruleset_game(void)
   } else if (mystrcasecmp(sval, "Fallout") == 0) {
     game.info.nuke_contamination = CONTAMINATION_FALLOUT;
   } else {
-    freelog(LOG_ERROR, "Bad value %s for nuke_contamination. Using "
-            "\"Pollution\".", sval);
+    log_error("Bad value %s for nuke_contamination. Using "
+              "\"Pollution\".", sval);
     game.info.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
@@ -3298,9 +3264,8 @@ static void load_ruleset_game(void)
                                          RS_MAX_TECH_LEAKAGE,
                                          "civstyle.tech_leakage");
   if (game.info.tech_cost_style == 0 && game.info.tech_leakage != 0) {
-    freelog(LOG_ERROR,
-            "Only tech_leakage 0 supported with tech_cost_style 0.");
-    freelog(LOG_ERROR, "Switching to tech_leakage 0.");
+    log_error("Only tech_leakage 0 supported with tech_cost_style 0.");
+    log_error("Switching to tech_leakage 0.");
     game.info.tech_leakage = 0;
   }
 
@@ -3923,7 +3888,7 @@ void load_rulesets(void)
   struct section_file *techfile, *unitfile, *buildfile, *govfile, *terrfile;
   struct section_file *cityfile, *nationfile, *effectfile;
 
-  freelog(LOG_NORMAL, _("Loading rulesets"));
+  log_normal(_("Loading rulesets"));
 
   game_ruleset_free();
   game_ruleset_init();
@@ -3996,8 +3961,8 @@ void load_rulesets(void)
   /* We may need to adjust the number of AI players
    * if the number of available nations changed. */
   if (game.info.aifill > server.playable_nations) {
-    freelog(LOG_NORMAL, _("Reducing aifill because there "
-                          "are not enough playable nations."));
+    log_normal(_("Reducing aifill because there "
+                 "are not enough playable nations."));
     game.info.aifill = server.playable_nations;
     aifill(game.info.aifill);
   }
@@ -4092,10 +4057,8 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
         * Requirements might be identical, but we consider multiple
         * declarations error anyway. */
 
-       freelog(LOG_ERROR,
-               "%s: Requirement list has multiple %s requirements",
-               list_for,
-               universal_type_rule_name(&preq->source));
+       log_error("%s: Requirement list has multiple %s requirements",
+                 list_for, universal_type_rule_name(&preq->source));
        return FALSE;
        break;
 
@@ -4104,11 +4067,9 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
      case VUT_BASE:
        /* There can be only up to max_tiles requirements of these types */
        if (max_tiles != 1 && rc > max_tiles) {
-         freelog(LOG_ERROR,
-                 "%s: Requirement list has more %s requirements than "
-                 "can ever be fullfilled.",
-                 list_for,
-                 universal_type_rule_name(&preq->source));
+         log_error("%s: Requirement list has more %s requirements than "
+                   "can ever be fullfilled.", list_for,
+                   universal_type_rule_name(&preq->source));
          return FALSE;
        }
        break;
@@ -4209,10 +4170,9 @@ static bool sanity_check_req_nreq_list(const struct requirement_list *preqs,
     requirement_list_iterate(preqs, preq) {
       requirement_list_iterate(pnreqs, pnreq) {
         if (are_requirements_equal(preq, pnreq)) {
-          freelog(LOG_ERROR,
-                  "%s: Identical %s requirement in requirements and negated requirements.",
-                  list_for,
-                  universal_type_rule_name(&preq->source));
+          log_error("%s: Identical %s requirement in requirements and "
+                    "negated requirements.", list_for,
+                    universal_type_rule_name(&preq->source));
           return FALSE;
         }
       } requirement_list_iterate_end;

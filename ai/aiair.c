@@ -96,8 +96,8 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
   if (acity && punit->id != 0
       && acity->ai->invasion.occupy == 0 && !COULD_OCCUPY(punit)) {
     /* No units capable of occupying are invading */
-    freelog(LOG_DEBUG, "Don't want to attack %s, although we could", 
-            city_name(acity));
+    log_debug("Don't want to attack %s, although we could",
+              city_name(acity));
     return FALSE;
   }
 
@@ -157,13 +157,12 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
     profit = military_amortize(unit_owner(punit), 
                                game_find_city_by_number(punit->homecity),
                                profit, sortie_time, balanced_cost);
-    freelog(LOG_DEBUG, "%s at (%d, %d) is a worthy target with profit %d", 
-	    unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
+    log_debug("%s at (%d, %d) is a worthy target with profit %d", 
+              unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
   } else {
-    freelog(LOG_DEBUG,
-            "%s(%d, %d): %s at (%d, %d) is unworthy with profit %d",
-	    unit_rule_name(punit), TILE_XY(unit_tile(punit)),
-	    unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
+    log_debug("%s(%d, %d): %s at (%d, %d) is unworthy with profit %d",
+              unit_rule_name(punit), TILE_XY(unit_tile(punit)),
+              unit_rule_name(pdefender), TILE_XY(dst_tile), profit);
     profit = 0;
   }
 
@@ -217,9 +216,9 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
 
       if (new_best > best) {
         best_tile = ptile;
-	best = new_best;
-	freelog(LOG_DEBUG, "%s wants to attack tile (%d, %d)", 
-		unit_rule_name(punit), TILE_XY(ptile));
+        best = new_best;
+        log_debug("%s wants to attack tile (%d, %d)", 
+                  unit_rule_name(punit), TILE_XY(ptile));
       }
     }
   } pf_map_iterate_positions_end;
@@ -383,9 +382,9 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
         (void) unit_move_handling(punit, dst_tile, TRUE, FALSE);
       }
     } else if ((dst_tile = ai_find_strategic_airbase(punit, &path))) {
-      freelog(LOG_DEBUG, "%s will fly to (%i, %i) (%s) to fight there",
-              unit_rule_name(punit), TILE_XY(dst_tile),
-              tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
+      log_debug("%s will fly to (%i, %i) (%s) to fight there",
+                unit_rule_name(punit), TILE_XY(dst_tile),
+                tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
       punit->ai.done = TRUE; /* Wait for next turn */
       if (!ai_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
@@ -393,8 +392,8 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       }
       pf_path_destroy(path);
     } else {
-      freelog(LOG_DEBUG, "%s cannot find anything to kill and is staying put", 
-              unit_rule_name(punit));
+      log_debug("%s cannot find anything to kill and is staying put", 
+                unit_rule_name(punit));
       punit->ai.done = TRUE;
       unit_activity_handling(punit, ACTIVITY_IDLE);
     }
@@ -452,21 +451,17 @@ bool ai_choose_attacker_air(struct player *pplayer, struct city *pcity,
       int profit = find_something_to_bomb(virtual_unit, NULL, NULL);
 
       if (profit > choice->want){
-	/* Update choice */
-	choice->want = profit;
-	choice->value.utype = punittype;
-	choice->type = CT_ATTACKER;
-	choice->need_boat = FALSE;
-	want_something = TRUE;
-	freelog(LOG_DEBUG, "%s wants to build %s (want=%d)",
-		city_name(pcity),
-		utype_rule_name(punittype),
-		profit);
+        /* Update choice */
+        choice->want = profit;
+        choice->value.utype = punittype;
+        choice->type = CT_ATTACKER;
+        choice->need_boat = FALSE;
+        want_something = TRUE;
+        log_debug("%s wants to build %s (want=%d)",
+                  city_name(pcity), utype_rule_name(punittype), profit);
       } else {
-      freelog(LOG_DEBUG, "%s doesn't want to build %s (want=%d)",
-		city_name(pcity),
-		utype_rule_name(punittype),
-		profit);
+        log_debug("%s doesn't want to build %s (want=%d)",
+                  city_name(pcity), utype_rule_name(punittype), profit);
       }
       destroy_unit_virtual(virtual_unit);
     }

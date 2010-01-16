@@ -22,18 +22,24 @@
 
 #ifdef SANITY_CHECKING
 
-#  define sanity_check_city_all(x) real_sanity_check_city_all(x, __FILE__, __LINE__)
-void real_sanity_check_city_all(struct city *pcity, const char *file, int line);
+#  define sanity_check_city_all(x) \
+  real_sanity_check_city_all(x, __FILE__, __FUNCTION__, __LINE__)
+void real_sanity_check_city_all(struct city *pcity, const char *file,
+                                const char *function, int line);
 
-#  define sanity_check_city(x) real_sanity_check_city(x, __FILE__, __LINE__)
-void real_sanity_check_city(struct city *pcity, const char *file, int line);
+#  define sanity_check_city(x) \
+  real_sanity_check_city(x, __FILE__,__FUNCTION__,  __LINE__)
+void real_sanity_check_city(struct city *pcity, const char *file,
+                            const char *function, int line);
 
-#  define sanity_check() real_sanity_check(__FILE__, __LINE__)
-void real_sanity_check(const char *file, int line);
+#  define sanity_check() \
+  real_sanity_check(__FILE__, __FUNCTION__, __LINE__)
+void real_sanity_check( const char *file, const char *function, int line);
 
-#  define sanity_check_feelings(x) real_sanity_check_feelings(x, __FILE__, __LINE__)
-void real_sanity_check_feelings(const struct city *pcity,
-                                const char *file, int line);
+#  define sanity_check_feelings(x) \
+  real_sanity_check_feelings(x, __FILE__, __FUNCTION__, __LINE__)
+void real_sanity_check_feelings(const struct city *pcity, const char *file,
+                                const char *function, int line);
 
 #else /* SANITY_CHECKING */
 

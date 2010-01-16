@@ -246,14 +246,17 @@ struct pf_normal_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_normal_map *
-pf_normal_map_check(struct pf_map *pfm, const char *file, int line)
+pf_normal_map_check(struct pf_map *pfm, const char *function,
+                    const char *file, int line)
 {
   if (!pfm || pfm->mode != PF_NORMAL) {
-    real_die(file, line, "Wrong pf_map to pf_normal_map conversion");
+    real_die(file, function, line,
+             "Wrong pf_map to pf_normal_map conversion");
   }
   return (struct pf_normal_map *) pfm;
 }
-#define PF_NORMAL_MAP(pfm) pf_normal_map_check(pfm, __FILE__, __LINE__)
+#define PF_NORMAL_MAP(pfm) \
+  pf_normal_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
 #else
 #define PF_NORMAL_MAP(pfm) ((struct pf_normal_map *) (pfm))
 #endif /* PF_DEBUG */
@@ -840,14 +843,17 @@ struct pf_danger_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_danger_map *
-pf_danger_map_check(struct pf_map *pfm, const char *file, int line)
+pf_danger_map_check(struct pf_map *pfm, const char *function,
+                    const char *file, int line)
 {
   if (!pfm || pfm->mode != PF_DANGER) {
-    real_die(file, line, "Wrong pf_map to pf_danger_map conversion");
+    real_die(file, function, line,
+             "Wrong pf_map to pf_danger_map conversion");
   }
   return (struct pf_danger_map *) pfm;
 }
-#define PF_DANGER_MAP(pfm) pf_danger_map_check(pfm, __FILE__, __LINE__)
+#define PF_DANGER_MAP(pfm) \
+  pf_danger_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
 #else
 #define PF_DANGER_MAP(pfm) ((struct pf_danger_map *) (pfm))
 #endif /* PF_DEBUG */
@@ -1120,8 +1126,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
 
   /* Allocating memory */
   if (node1->danger_segment) {
-    freelog(LOG_ERROR, "Possible memory leak in "
-            "pf_danger_map_create_segment().");
+    log_error("Possible memory leak in pf_danger_map_create_segment().");
   }
 
   /* First iteration for determining segment length */
@@ -1393,11 +1398,11 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
-    freelog(LOG_DEBUG, "Considering waiting at (%d, %d)", TILE_XY(tile));
+    log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
     return pf_map_iterate(pfm);
   } else if (node->is_dangerous) {
     /* We don't return dangerous tiles */
-    freelog(LOG_DEBUG, "Reached dangerous tile (%d, %d)", TILE_XY(tile));
+    log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
     return pf_map_iterate(pfm);
   }
 
@@ -1621,14 +1626,17 @@ struct pf_fuel_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_fuel_map *
-pf_fuel_map_check(struct pf_map *pfm, const char *file, int line)
+pf_fuel_map_check(struct pf_map *pfm, const char *function,
+                  const char *file, int line)
 {
   if (!pfm || pfm->mode != PF_FUEL) {
-    real_die(file, line, "Wrong pf_map to pf_fuel_map conversion");
+    real_die(file, function, line,
+             "Wrong pf_map to pf_fuel_map conversion");
   }
   return (struct pf_fuel_map *) pfm;
 }
-#define PF_FUEL_MAP(pfm) pf_fuel_map_check(pfm, __FILE__, __LINE__)
+#define PF_FUEL_MAP(pfm) \
+  pf_fuel_map_check(pfm, __FILE__, __FUNCTION__, __LINE__)
 #else
 #define PF_FUEL_MAP(pfm) ((struct pf_fuel_map *) (pfm))
 #endif /* PF_DEBUG */
@@ -2292,11 +2300,11 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
-    freelog(LOG_DEBUG, "Considering waiting at (%d, %d)", TILE_XY(tile));
+    log_debug("Considering waiting at (%d, %d)", TILE_XY(tile));
     return pf_map_iterate(pfm);
   } else if (!node->fuel_segment) {
     /* We don't return dangerous tiles */
-    freelog(LOG_DEBUG, "Reached dangerous tile (%d, %d)", TILE_XY(tile));
+    log_debug("Reached dangerous tile (%d, %d)", TILE_XY(tile));
     return pf_map_iterate(pfm);
   } else {
     /* Just return it */
@@ -2480,18 +2488,16 @@ struct pf_map *pf_map_new(const struct pf_parameter *parameter)
 {
   if (parameter->is_pos_dangerous) {
     if (parameter->get_moves_left_req) {
-      freelog(LOG_ERROR, "path finding code cannot deal with dangers "
-              "and fuel together.");
+      log_error("path finding code cannot deal with dangers "
+                "and fuel together.");
     }
     if (parameter->get_costs) {
-      freelog(LOG_ERROR, "jumbo callbacks for danger maps are not yet "
-              "implemented.");
+      log_error("jumbo callbacks for danger maps are not yet implemented.");
     }
     return pf_danger_map_new(parameter);
   } else if (parameter->get_moves_left_req) {
     if (parameter->get_costs) {
-      freelog(LOG_ERROR, "jumbo callbacks for fuel maps are not yet "
-              "implemented.");
+      log_error("jumbo callbacks for fuel maps are not yet implemented.");
     }
     return pf_fuel_map_new(parameter);
   }
@@ -2590,25 +2596,27 @@ const struct pf_parameter *pf_map_get_parameter(const struct pf_map *pfm)
 /************************************************************************
   Printing a path.
 ************************************************************************/
-void pf_path_print(const struct pf_path *path, int log_level)
+void pf_path_print_real(const struct pf_path *path, enum log_level level,
+                        const char *file, const char *function, int line)
 {
   struct pf_position *pos;
   int i;
 
   if (path) {
-    freelog(log_level, "PF: path (at %p) consists of %d positions:",
-            (void *)path, path->length);
+    do_log(file, function, line, TRUE, level,
+           "PF: path (at %p) consists of %d positions:",
+           (void *) path, path->length);
   } else {
-    freelog(log_level, "PF: path is NULL");
+    do_log(file, function, line, TRUE, level, "PF: path is NULL");
     return;
   }
 
   for (i = 0, pos = path->positions; i < path->length; i++, pos++) {
-    freelog(log_level,
-            "PF:   %2d/%2d: (%2d,%2d) dir=%-2s cost=%2d (%2d, %d) EC=%d",
-            i + 1, path->length, TILE_XY(pos->tile),
-            dir_get_name(pos->dir_to_next_pos), pos->total_MC,
-            pos->turn, pos->moves_left, pos->total_EC);
+    do_log(file, function, line, FALSE, level,
+           "PF:   %2d/%2d: (%2d,%2d) dir=%-2s cost=%2d (%2d, %d) EC=%d",
+           i + 1, path->length, TILE_XY(pos->tile),
+           dir_get_name(pos->dir_to_next_pos), pos->total_MC,
+           pos->turn, pos->moves_left, pos->total_EC);
   }
 }
 

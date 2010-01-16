@@ -966,9 +966,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
   case ACTIVITY_UNKNOWN:
     break;
   }
-  freelog(LOG_ERROR,
-	  "can_unit_do_activity_targeted_at() unknown activity %d",
-	  activity);
+  log_error("can_unit_do_activity_targeted_at() unknown activity %d",
+            activity);
   return FALSE;
 }
 

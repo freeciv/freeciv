@@ -80,28 +80,30 @@ bool caravan_parameter_is_legal(const struct caravan_parameter *parameter) {
 
 /***************************************************************************
   For debugging, print out the parameter.
- ***************************************************************************/
-void caravan_parameter_log(const struct caravan_parameter *parameter,
-                           int loglevel) {
-  freelog(loglevel, "parameter {\n"
-      "  horizon   = %d\n"
-      "  discount  = %g\n"
-      "  objective = <%s,%s,%s>\n"
-      "  account-broken = %s\n"
-      "  allow-foreign  = %s\n"
-      "  ignore-transit = %s\n"
-      "  convert-trade  = %s\n"
-      "}\n"
-      , parameter->horizon
-      , parameter->discount
-      , parameter->consider_windfall ? "windfall" : "-"
-      , parameter->consider_trade ? "trade" : "-"
-      , parameter->consider_wonders ? "wonders" : "-"
-      , parameter->account_for_broken_routes ? "yes" : "no"
-      , parameter->allow_foreign_trade ? "yes" : "no"
-      , parameter->ignore_transit_time ? "yes" : "no"
-      , parameter->convert_trade ? "yes" : "no"
-      );
+***************************************************************************/
+void caravan_parameter_log_real(const struct caravan_parameter *parameter,
+                                enum log_level level, const char *file,
+                                const char *function, int line)
+{
+  do_log(file, function, line, FALSE, level,
+         "parameter {\n"
+         "  horizon   = %d\n"
+         "  discount  = %g\n"
+         "  objective = <%s,%s,%s>\n"
+         "  account-broken = %s\n"
+         "  allow-foreign  = %s\n"
+         "  ignore-transit = %s\n"
+         "  convert-trade  = %s\n"
+         "}\n",
+         parameter->horizon,
+         parameter->discount,
+         parameter->consider_windfall ? "windfall" : "-",
+         parameter->consider_trade ? "trade" : "-",
+         parameter->consider_wonders ? "wonders" : "-",
+         parameter->account_for_broken_routes ? "yes" : "no",
+         parameter->allow_foreign_trade ? "yes" : "no",
+         parameter->ignore_transit_time ? "yes" : "no",
+         parameter->convert_trade ? "yes" : "no");
 }
 
 

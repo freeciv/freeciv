@@ -208,7 +208,7 @@ const char *get_event_message_text(enum event_type event)
     return events[event_to_index[event]].full_descr;
   }
 
-  freelog(LOG_ERROR, "unknown event %d", event);
+  log_error("unknown event %d", event);
   return "UNKNOWN EVENT"; /* FIXME: Should be marked for translation?
                            * we get non-translated in log message. */
 }
@@ -240,7 +240,7 @@ const char *get_event_sound_tag(enum event_type event)
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].tag_name;
   }
-  freelog(LOG_ERROR, "unknown event %d", event);
+  log_error("unknown event %d", event);
   return NULL;
 }
 
@@ -315,10 +315,11 @@ void events_init(void)
     for (j = 0; j < strlen(events[i].tag_name); j++) {
       events[i].tag_name[j] = my_tolower(events[i].tag_name[j]);
     }
-    freelog(LOG_DEBUG,
-	    "event[%d]=%d: name='%s' / '%s'\n\tdescr_orig='%s'\n\tdescr='%s'",
-	    i, events[i].event, events[i].enum_name, events[i].tag_name,
-	    events[i].descr_orig, events[i].full_descr);
+    log_debug("event[%d]=%d: name='%s' / '%s'\n"
+              "\tdescr_orig='%s'\n"
+              "\tdescr='%s'",
+              i, events[i].event, events[i].enum_name, events[i].tag_name,
+              events[i].descr_orig, events[i].full_descr);
   }
 
   for (i = 0; i < E_LAST; i++)  {

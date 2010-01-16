@@ -159,8 +159,7 @@ void establish_new_connection(struct connection *pconn)
    * message option for the client with event */
 
   /* notify the console and other established connections that you're here */
-  freelog(LOG_NORMAL, _("%s has connected from %s."),
-          pconn->username, pconn->addr);
+  log_normal(_("%s has connected from %s."), pconn->username, pconn->addr);
   conn_list_iterate(game.est_connections, aconn) {
     if (aconn != pconn) {
       notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
@@ -189,8 +188,7 @@ void establish_new_connection(struct connection *pconn)
       if (!connection_attach(pconn, NULL, FALSE)) {
         notify_conn(dest, NULL, E_CONNECTION, ftc_server,
                     _("Couldn't attach your connection to new player."));
-        freelog(LOG_VERBOSE, "%s is not attached to a player",
-                pconn->username);
+        log_verbose("%s is not attached to a player", pconn->username);
       }
     }
     send_player_info_c(NULL, dest);
@@ -266,7 +264,7 @@ void reject_new_connection(const char *msg, struct connection *pconn)
   packet.challenge_file[0] = '\0';
   packet.conn_id = -1;
   send_packet_server_join_reply(pconn, &packet);
-  freelog(LOG_NORMAL, _("Client rejected: %s."), conn_description(pconn));
+  log_normal(_("Client rejected: %s."), conn_description(pconn));
   flush_connection_send_buffer_all(pconn);
 }
 
@@ -278,16 +276,16 @@ bool handle_login_request(struct connection *pconn,
                           struct packet_server_join_req *req)
 {
   char msg[MAX_LEN_MSG];
-  
-  freelog(LOG_NORMAL, _("Connection request from %s from %s"),
-          req->username, pconn->addr);
-  
+
+  log_normal(_("Connection request from %s from %s"),
+             req->username, pconn->addr);
+
   /* print server and client capabilities to console */
-  freelog(LOG_NORMAL, _("%s has client version %d.%d.%d%s"),
-          pconn->username, req->major_version, req->minor_version,
-          req->patch_version, req->version_label);
-  freelog(LOG_VERBOSE, "Client caps: %s", req->capability);
-  freelog(LOG_VERBOSE, "Server caps: %s", our_capability);
+  log_normal(_("%s has client version %d.%d.%d%s"),
+             pconn->username, req->major_version, req->minor_version,
+             req->patch_version, req->version_label);
+  log_verbose("Client caps: %s", req->capability);
+  log_verbose("Server caps: %s", our_capability);
   sz_strlcpy(pconn->capability, req->capability);
   
   /* Make sure the server has every capability the client needs */
@@ -300,8 +298,8 @@ bool handle_login_request(struct connection *pconn,
                 req->major_version, req->minor_version,
                 req->patch_version, req->version_label);
     reject_new_connection(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->username);
+    log_normal(_("%s was rejected: Mismatched capabilities."),
+               req->username);
     return FALSE;
   }
 
@@ -315,8 +313,8 @@ bool handle_login_request(struct connection *pconn,
                 req->major_version, req->minor_version,
                 req->patch_version, req->version_label);
     reject_new_connection(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: Mismatched capabilities."),
-            req->username);
+    log_normal(_("%s was rejected: Mismatched capabilities."),
+               req->username);
     return FALSE;
   }
 
@@ -326,8 +324,8 @@ bool handle_login_request(struct connection *pconn,
   if (!is_valid_username(req->username)) {
     my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
-    freelog(LOG_NORMAL, _("%s was rejected: Invalid name [%s]."),
-            req->username, pconn->addr);
+    log_normal(_("%s was rejected: Invalid name [%s]."),
+               req->username, pconn->addr);
     return FALSE;
   } 
 
@@ -337,14 +335,14 @@ bool handle_login_request(struct connection *pconn,
       my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
                   req->username);
       reject_new_connection(msg, pconn);
-      freelog(LOG_NORMAL, _("%s was rejected: Duplicate login name [%s]."),
-              req->username, pconn->addr);
+      log_normal(_("%s was rejected: Duplicate login name [%s]."),
+                 req->username, pconn->addr);
       return FALSE;
     }
   } conn_list_iterate_end;
 
   if (game.server.connectmsg[0] != '\0') {
-    freelog(LOG_DEBUG, "Sending connectmsg: %s", game.server.connectmsg);
+    log_debug("Sending connectmsg: %s", game.server.connectmsg);
     dsend_packet_connect_msg(pconn, game.server.connectmsg);
   }
 
@@ -369,7 +367,7 @@ void lost_connection_to_client(struct connection *pconn)
 {
   const char *desc = conn_description(pconn);
 
-  freelog(LOG_NORMAL, _("Lost connection: %s."), desc);
+  log_normal(_("Lost connection: %s."), desc);
 
   /* _Must_ avoid sending to pconn, in case pconn connection is
    * really lost (as opposed to server shutting it down) which would
@@ -485,8 +483,8 @@ struct player *find_uncontrolled_player(void)
 bool connection_attach(struct connection *pconn, struct player *pplayer,
                        bool observing)
 {
-  RETURN_VAL_IF_FAIL(pconn != NULL, FALSE);
-  RETURN_VAL_IF_FAIL_MSG(!pconn->observer && pconn->playing == NULL, FALSE,
+  log_assert_ret_val(pconn != NULL, FALSE);
+  log_assert_ret_val_msg(!pconn->observer && pconn->playing == NULL, FALSE,
                          "connections must be detached with "
                          "connection_detach() before calling this!");
 
@@ -590,7 +588,7 @@ void connection_detach(struct connection *pconn)
 {
   struct player *pplayer;
 
-  RETURN_IF_FAIL(pconn != NULL);
+  log_assert_ret(pconn != NULL);
 
   if (NULL != (pplayer = pconn->playing)) {
     bool was_connected = pplayer->is_connected;
@@ -640,8 +638,7 @@ void connection_detach(struct connection *pconn)
            * client to display player information.
            * See establish_new_connection().
            */
-          freelog(LOG_VERBOSE,
-                  "connection_detach() calls send_player_slot_info_c()");
+          log_verbose("connection_detach() calls send_player_slot_info_c()");
           send_player_info_c(pplayer, NULL);
 
           reset_all_start_commands();

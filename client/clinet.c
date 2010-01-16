@@ -135,7 +135,7 @@ static void close_socket_callback(struct connection *pc)
   close_socket_nomessage(pc);
   /* If we lost connection to the internal server - kill him */
   client_kill_server(TRUE);
-  freelog(LOG_ERROR, "Lost connection to server!");
+  log_error("Lost connection to server!");
   output_window_append(ftc_client, _("Lost connection to server!"));
   if (with_ggz) {
     client_exit();
@@ -336,14 +336,14 @@ static int read_from_connection(struct connection *pc, bool block)
 
     if (n == -1) {
       if (errno == EINTR) {
-	/* EINTR can happen sometimes, especially when compiling with -pg.
-	 * Generally we just want to run select again. */
-	freelog(LOG_DEBUG, "select() returned EINTR");
-	continue;
+        /* EINTR can happen sometimes, especially when compiling with -pg.
+         * Generally we just want to run select again. */
+        log_debug("select() returned EINTR");
+        continue;
       }
 
-      freelog(LOG_ERROR, "select() return=%d errno=%d (%s)",
-	      n, errno, fc_strerror(fc_get_errno()));
+      log_error("select() return=%d errno=%d (%s)",
+                n, errno, fc_strerror(fc_get_errno()));
       return -1;
     }
 
@@ -407,9 +407,8 @@ void input_from_server_till_request_got_processed(int fd,
   assert(expected_request_id);
   assert(fd == client.conn.sock);
 
-  freelog(LOG_DEBUG,
-	  "input_from_server_till_request_got_processed("
-	  "expected_request_id=%d)", expected_request_id);
+  log_debug("input_from_server_till_request_got_processed("
+            "expected_request_id=%d)", expected_request_id);
 
   while (TRUE) {
     if (read_from_connection(&client.conn, TRUE) >= 0) {
@@ -429,12 +428,12 @@ void input_from_server_till_request_got_processed(int fd,
 	free(packet);
 
 	if (type == PACKET_PROCESSING_FINISHED) {
-	  freelog(LOG_DEBUG, "ifstrgp: expect=%d, seen=%d",
-		  expected_request_id,
-		  client.conn.client.last_processed_request_id_seen);
+          log_debug("ifstrgp: expect=%d, seen=%d",
+                    expected_request_id,
+                    client.conn.client.last_processed_request_id_seen);
 	  if (client.conn.client.last_processed_request_id_seen >=
 	      expected_request_id) {
-	    freelog(LOG_DEBUG, "ifstrgp: got it; returning");
+            log_debug("ifstrgp: got it; returning");
 	    return;
 	  }
 	}
@@ -466,10 +465,9 @@ double try_to_autoconnect(void)
   count++;
 
   if (count >= MAX_AUTOCONNECT_ATTEMPTS) {
-    freelog(LOG_FATAL,
-	    _("Failed to contact server \"%s\" at port "
-	      "%d as \"%s\" after %d attempts"),
-	    server_host, server_port, user_name, count);
+    log_fatal(_("Failed to contact server \"%s\" at port "
+                "%d as \"%s\" after %d attempts"),
+              server_host, server_port, user_name, count);
     exit(EXIT_FAILURE);
   }
 
@@ -482,8 +480,7 @@ double try_to_autoconnect(void)
   /* See PR#4042 for more info on issues with try_to_connect() and errno. */
   case ECONNREFUSED:		/* Server not available (yet) */
     if (!warning_shown) {
-      freelog(LOG_ERROR, "Connection to server refused. "
-                         "Please start the server.");
+      log_error("Connection to server refused. Please start the server.");
       output_window_append(ftc_client, _("Connection to server refused. "
                                          "Please start the server."));
       warning_shown = 1;
@@ -492,10 +489,9 @@ double try_to_autoconnect(void)
     return 0.001 * AUTOCONNECT_INTERVAL;
 #endif
   default:			/* All other errors are fatal */
-    freelog(LOG_FATAL,
-	    _("Error contacting server \"%s\" at port %d "
-	      "as \"%s\":\n %s\n"),
-	    server_host, server_port, user_name, errbuf);
+    log_fatal(_("Error contacting server \"%s\" at port %d "
+                "as \"%s\":\n %s\n"),
+              server_host, server_port, user_name, errbuf);
     exit(EXIT_FAILURE);
   }
 }
@@ -519,10 +515,9 @@ void start_autoconnecting_to_server(void)
                        MAX_AUTOCONNECT_ATTEMPTS);
 
   if (get_server_address(server_host, server_port, buf, sizeof(buf)) < 0) {
-    freelog(LOG_FATAL,
-            _("Error contacting server \"%s\" at port %d "
-              "as \"%s\":\n %s\n"),
-            server_host, server_port, user_name, buf);
+    log_fatal(_("Error contacting server \"%s\" at port %d "
+                "as \"%s\":\n %s\n"),
+              server_host, server_port, user_name, buf);
     exit(EXIT_FAILURE);
   }
   autoconnecting = TRUE;

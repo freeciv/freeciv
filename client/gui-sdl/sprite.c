@@ -56,9 +56,7 @@ struct sprite * load_gfxfile(const char *filename)
   SDL_Surface *pBuf = NULL;
 
   if ((pBuf = IMG_Load(filename)) == NULL) {
-    freelog(LOG_ERROR,
-	    _("load_gfxfile: Unable to load graphic file %s!"),
-	    filename);
+    log_error(_("load_gfxfile: Unable to load graphic file %s!"), filename);
     return NULL;		/* Should I use abotr() ? */
   }
 

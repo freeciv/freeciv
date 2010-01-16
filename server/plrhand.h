@@ -53,8 +53,8 @@ void reset_all_start_commands(void);
 do {\
   int MY_i;\
   struct player *NAME_pplayer;\
-  freelog(LOG_DEBUG, "shuffled_players_iterate @ %s line %d",\
-          __FILE__, __LINE__);\
+  log_debug("shuffled_players_iterate @ %s line %d",\
+            __FILE__, __LINE__);\
   for (MY_i = 0; MY_i < player_slot_count(); MY_i++) {\
     NAME_pplayer = shuffled_player(MY_i);\
     if (NAME_pplayer != NULL) {\

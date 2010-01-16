@@ -624,8 +624,7 @@ void update_turn_done_button_state()
     turn_done_state = FALSE;
     is_turn_done_state_valid = TRUE;
     set_turn_done_button_state(turn_done_state);
-    freelog(LOG_DEBUG, "setting turn done button state init %d",
-	    turn_done_state);
+    log_debug("setting turn done button state init %d", turn_done_state);
   }
 
   new_state = (can_client_issue_orders()
@@ -636,8 +635,8 @@ void update_turn_done_button_state()
     return;
   }
 
-  freelog(LOG_DEBUG, "setting turn done button state from %d to %d",
-	  turn_done_state, new_state);
+  log_debug("setting turn done button state from %d to %d",
+            turn_done_state, new_state);
   turn_done_state = new_state;
 
   set_turn_done_button_state(turn_done_state);

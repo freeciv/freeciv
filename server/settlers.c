@@ -94,18 +94,16 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   if (pcity) {
     /* This can happen for instance when there was hut at this tile
      * and it turned in to a city when settler entered tile. */
-    freelog(LOG_DEBUG, "%s: There is already a city at (%d, %d)!", 
-            player_name(pplayer),
-            TILE_XY(ptile));
+    log_debug("%s: There is already a city at (%d, %d)!",
+              player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
   handle_unit_build_city(pplayer, punit->id,
 			 city_name_suggestion(pplayer, ptile));
   pcity = tile_city(ptile);
   if (!pcity) {
-    freelog(LOG_ERROR, "%s: Failed to build city at (%d, %d)", 
-            player_name(pplayer),
-            TILE_XY(ptile));
+    log_error("%s: Failed to build city at (%d, %d)",
+              player_name(pplayer), TILE_XY(ptile));
     return FALSE;
   }
 
@@ -709,11 +707,9 @@ static void consider_settler_action(const struct player *pplayer,
   if (total_value > *best_value
       || (total_value == *best_value
 	  && old_tile_value > *best_old_tile_value)) {
-    freelog(LOG_DEBUG,
-	    "Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
-	    TILE_XY(*best_tile), *best_value, get_activity_text(act),
-	    TILE_XY(ptile), total_value,
-            delay, base_value);
+    log_debug("Replacing (%d, %d) = %d with %s (%d, %d) = %d [d=%d b=%d]",
+              TILE_XY(*best_tile), *best_value, get_activity_text(act),
+              TILE_XY(ptile), total_value, delay, base_value);
     *best_value = total_value;
     *best_old_tile_value = old_tile_value;
     *best_act = act;
@@ -929,10 +925,9 @@ static int evaluate_improvements(struct unit *punit,
   best_newv = MAX(best_newv, 0); /* sanity */
 
   if (best_newv > 0) {
-    freelog(LOG_DEBUG,
-            "Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
-            punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
-            TILE_XY(*best_tile), best_newv);
+    log_debug("Settler %d@(%d,%d) wants to %s at (%d,%d) with desire %d",
+              punit->id, TILE_XY(punit->tile), get_activity_text(*best_act),
+              TILE_XY(*best_tile), best_newv);
   } else {
     /* Fill in dummy values.  The callers should check if the return value
      * is > 0 but this will avoid confusing them. */
@@ -1166,8 +1161,8 @@ BUILD_CITY:
         send_unit_info(NULL, punit); /* FIXME: probably duplicate */
       }
     } else {
-      freelog(LOG_DEBUG, "Autosettler does not find path (%d,%d) -> (%d,%d)",
-              punit->tile->x, punit->tile->y, best_tile->x, best_tile->y);
+      log_debug("Autosettler does not find path (%d, %d) -> (%d, %d)",
+                TILE_XY(unit_tile(punit)), TILE_XY(best_tile));
     }
 
     if (pfm) {
@@ -1301,10 +1296,10 @@ void auto_settlers_player(struct player *pplayer)
     = (COOLING_FACTOR * game.info.cooling / ((game.info.coolinglevel + 1) / 2)
        + game.info.nuclearwinter);
 
-  freelog(LOG_DEBUG, "Warmth = %d, game.globalwarming=%d",
-	  pplayer->ai_data.warmth, game.info.globalwarming);
-  freelog(LOG_DEBUG, "Frost = %d, game.nuclearwinter=%d",
-	  pplayer->ai_data.warmth, game.info.nuclearwinter);
+  log_debug("Warmth = %d, game.globalwarming=%d",
+            pplayer->ai_data.warmth, game.info.globalwarming);
+  log_debug("Frost = %d, game.nuclearwinter=%d",
+            pplayer->ai_data.warmth, game.info.nuclearwinter);
 
   /* Auto-settle with a settler unit if it's under AI control (e.g. human
    * player auto-settler mode) or if the player is an AI.  But don't
@@ -1316,9 +1311,9 @@ void auto_settlers_player(struct player *pplayer)
 	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)
         && punit->moves_left > 0) {
-      freelog(LOG_DEBUG, "%s settler at (%d, %d) is ai controlled.",
-	      nation_rule_name(nation_of_player(pplayer)),
-	      TILE_XY(punit->tile)); 
+      log_debug("%s settler at (%d, %d) is ai controlled.",
+                nation_rule_name(nation_of_player(pplayer)),
+                TILE_XY(punit->tile)); 
       if (punit->activity == ACTIVITY_SENTRY) {
 	unit_activity_handling(punit, ACTIVITY_IDLE);
       }
@@ -1332,9 +1327,9 @@ void auto_settlers_player(struct player *pplayer)
   } unit_list_iterate_safe_end;
 
   if (timer_in_use(t)) {
-    freelog(LOG_VERBOSE, "%s autosettlers consumed %g milliseconds.",
- 	    nation_rule_name(nation_of_player(pplayer)),
- 	    1000.0*read_timer_seconds(t));
+    log_verbose("%s autosettlers consumed %g milliseconds.",
+                nation_rule_name(nation_of_player(pplayer)),
+                1000.0 * read_timer_seconds(t));
   }
 }
 
@@ -1350,7 +1345,7 @@ void contemplate_new_city(struct city *pcity)
   struct unit_type *unit_type = best_role_unit(pcity, F_CITIES); 
 
   if (unit_type == NULL) {
-    freelog(LOG_DEBUG, "No F_CITIES role unit available");
+    log_debug("No F_CITIES role unit available");
     return;
   }
 
@@ -1391,7 +1386,7 @@ void contemplate_terrain_improvements(struct city *pcity)
   struct unit *virtualunit;
   int want;
   enum unit_activity best_act;
-  struct tile *best_tile = NULL; /* May be accessed by freelog() calls. */
+  struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
   struct tile *pcenter = city_tile(pcity);
   struct player *pplayer = city_owner(pcity);
   struct ai_data *ai = ai_data_get(pplayer);
@@ -1399,7 +1394,7 @@ void contemplate_terrain_improvements(struct city *pcity)
   Continent_id place = tile_continent(pcenter);
 
   if (unit_type == NULL) {
-    freelog(LOG_DEBUG, "No F_SETTLERS role unit available");
+    log_debug("No F_SETTLERS role unit available");
     return;
   }
 

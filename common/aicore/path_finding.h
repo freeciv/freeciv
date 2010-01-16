@@ -13,6 +13,10 @@
 #ifndef FC__PATH_FINDING_H
 #define FC__PATH_FINDING_H
 
+/* utility */
+#include "log.h"                /* enum log_level */
+
+/* common */
 #include "map.h"
 #include "tile.h"
 #include "unit.h"
@@ -480,10 +484,16 @@ const struct pf_parameter *pf_map_get_parameter(const struct pf_map *pfm);
 
 
 
-/* Print the path via freelog and the given log-level. For
+/* Print the path in the logs at the given log-level. For
  * debugging purposes. Make sure the path is valid (if you
  * got it from pf_map_get_path()). */
-void pf_path_print(const struct pf_path *path, int log_level);
+void pf_path_print_real(const struct pf_path *path, enum log_level level,
+                        const char *file, const char *function, int line);
+#define pf_path_print(path, level)                                          \
+  if (log_do_output_for_level(level)) {                                     \
+    pf_path_print_real(path, level, __FILE__, __FUNCTION__, __LINE__);      \
+  }
+
 
 /* After use, a path must be destroyed. pf_destroy_path will also
  * accept NULL (which is returned by pf_map_get_path in error case). */

@@ -546,8 +546,8 @@ static void create_option_dialog(void)
 
     option_set_gui_data(poption, w);
     if (w == NULL) {
-      freelog(LOG_ERROR, "Failed to create a widget for option %d \"%s\".",
-              option_number(poption), option_name(poption));
+      log_error("Failed to create a widget for option %d \"%s\".",
+                option_number(poption), option_name(poption));
       continue;
     }
 

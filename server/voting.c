@@ -75,8 +75,7 @@ static void lsend_vote_new(struct conn_list *dest, struct vote *pvote)
     return;
   }
 
-  freelog(LOG_DEBUG, "lsend_vote_new %p (%d) --> %p",
-          pvote, pvote->vote_no, dest);
+  log_debug("lsend_vote_new %p (%d) --> %p", pvote, pvote->vote_no, dest);
 
   packet.vote_no = pvote->vote_no;
   sz_strlcpy(packet.user, pconn->username);
@@ -115,8 +114,7 @@ static void lsend_vote_update(struct conn_list *dest, struct vote *pvote,
     return;
   }
 
-  freelog(LOG_DEBUG, "lsend_vote_update %p (%d) --> %p",
-          pvote, pvote->vote_no, dest);
+  log_debug("lsend_vote_update %p (%d) --> %p", pvote, pvote->vote_no, dest);
 
   packet.vote_no = pvote->vote_no;
   packet.yes = pvote->yes;
@@ -488,9 +486,9 @@ static void check_vote(struct vote *pvote)
     }
   }
 
-  freelog(LOG_DEBUG, "check_vote flags=%d need_pc=%0.2f yes_pc=%0.2f "
-          "no_pc=%0.2f rem_pc=%0.2f base=%0.2f resolve=%d",
-          flags, need_pc, yes_pc, no_pc, rem_pc, base, resolve);
+  log_debug("check_vote flags=%d need_pc=%0.2f yes_pc=%0.2f "
+            "no_pc=%0.2f rem_pc=%0.2f base=%0.2f resolve=%d",
+            flags, need_pc, yes_pc, no_pc, rem_pc, base, resolve);
 
   lsend_vote_update(NULL, pvote, num_voters);
 
@@ -533,10 +531,10 @@ static void check_vote(struct vote *pvote)
 
   vote_cast_list_iterate(pvote->votes_cast, pvc) {
     if (!(pconn = find_conn_by_id(pvc->conn_id))) {
-      freelog(LOG_ERROR, "Got a vote from a lost connection");
+      log_error("Got a vote from a lost connection");
       continue;
     } else if (!conn_can_vote(pconn, pvote)) {
-      freelog(LOG_ERROR, "Got a vote from a non-voting connection");
+      log_error("Got a vote from a non-voting connection");
       continue;
     }
 
@@ -684,7 +682,7 @@ void voting_init(void)
 void voting_turn(void)
 {
   if (!vote_list) {
-    freelog(LOG_ERROR, "voting_turn() called before voting_init()");
+    log_error("voting_turn() called before voting_init()");
     return;
   }
 
@@ -743,14 +741,13 @@ void handle_vote_submit(struct connection *pconn, int vote_no, int value)
   struct vote *pvote;
   enum vote_type type;
 
-  freelog(LOG_DEBUG, "Got vote submit (%d %d) from %s.",
-          vote_no, value, conn_description(pconn));
+  log_debug("Got vote submit (%d %d) from %s.",
+            vote_no, value, conn_description(pconn));
 
   pvote = get_vote_by_no(vote_no);
   if (pvote == NULL) {
-    freelog(LOG_ERROR, "Submit request for unknown vote_no %d "
-            "from %s ignored.",
-            vote_no, conn_description(pconn));
+    log_error("Submit request for unknown vote_no %d from %s ignored.",
+              vote_no, conn_description(pconn));
     return;
   }
 
@@ -761,8 +758,8 @@ void handle_vote_submit(struct connection *pconn, int vote_no, int value)
   } else if (value == 0) {
     type = VOTE_ABSTAIN;
   } else {
-    freelog(LOG_ERROR, "Invalid packet data for submit of vote %d "
-            "from %s ignored.", vote_no, conn_description(pconn));
+    log_error("Invalid packet data for submit of vote %d "
+              "from %s ignored.", vote_no, conn_description(pconn));
     return;
   }
 
@@ -778,8 +775,7 @@ void send_running_votes(struct connection *pconn)
     return;
   }
 
-  freelog(LOG_DEBUG, "Sending running votes to %s.",
-          conn_description(pconn));
+  log_debug("Sending running votes to %s.", conn_description(pconn));
 
   connection_do_buffer(pconn);
   vote_list_iterate(vote_list, pvote) {
@@ -803,7 +799,7 @@ void send_updated_vote_totals(struct conn_list *dest)
     return;
   }
 
-  freelog(LOG_DEBUG, "Sending updated vote totals to conn_list %p", dest);
+  log_debug("Sending updated vote totals to conn_list %p", dest);
 
   if (dest == NULL) {
     dest = game.est_connections;

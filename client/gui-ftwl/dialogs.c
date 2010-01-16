@@ -134,7 +134,7 @@ static void nations_list_selection_changed(struct sw_widget *widget,
 
   selected_nation = row;
 
-  freelog(LOG_DEBUG, "selected %s\n", nation_rule_name(nation));
+  log_debug("selected %s\n", nation_rule_name(nation));
   sw_list_clear(leaders_list);
 
   for (i = 0; i < leader_count; i++) {

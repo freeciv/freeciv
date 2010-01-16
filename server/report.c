@@ -839,36 +839,36 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
   for (line_nr = 1;; line_nr++) {
     if (!fgets(line, sizeof(line), fp)) {
       if (feof(fp) != 0) {
-	break;
+        break;
       }
-      freelog(LOG_ERROR, "Can't read scorelog file header!");
+      log_error("Can't read scorelog file header!");
       return FALSE;
     }
 
     ptr = strchr(line, '\n');
     if (!ptr) {
-      freelog(LOG_ERROR, "Scorelog file line is too long!");
+      log_error("Scorelog file line is too long!");
       return FALSE;
     }
     *ptr = '\0';
 
     if (line_nr == 1) {
       if (strncmp(line, scorelog_magic, strlen(scorelog_magic)) != 0) {
-	freelog(LOG_ERROR, "Bad magic in file line %d!", line_nr);
-	return FALSE;
+        log_error("Bad magic in file line %d!", line_nr);
+        return FALSE;
       }
     }
 
     if (strncmp(line, "id ", strlen("id ")) == 0) {
       if (strlen(id) > 0) {
-	freelog(LOG_ERROR, "Multiple ID entries!");
-	return FALSE;
+        log_error("Multiple ID entries!");
+        return FALSE;
       }
       mystrlcpy(id, line + strlen("id "), MAX_LEN_GAME_IDENTIFIER);
       if (strcmp(id, server.game_identifier) != 0) {
-	freelog(LOG_ERROR, "IDs don't match! game='%s' scorelog='%s'",
-		server.game_identifier, id);
-	return FALSE;
+        log_error("IDs don't match! game='%s' scorelog='%s'",
+                  server.game_identifier, id);
+        return FALSE;
       }
     }
 
@@ -876,8 +876,8 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
       int turn;
 
       if (sscanf(line + strlen("turn "), "%d", &turn) != 1) {
-	freelog(LOG_ERROR, "Scorelog file line is bad!");
-	return FALSE;
+        log_error("Scorelog file line is bad!");
+        return FALSE;
       }
 
       assert(turn > *last_turn);
@@ -888,11 +888,10 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
       int turn, plr_no;
       char plr_name[MAX_LEN_NAME];
 
-      if (sscanf
-	  (line + strlen("addplayer "), "%d %d %s", &turn, &plr_no,
-	   plr_name) != 3) {
-	freelog(LOG_ERROR, "Scorelog file line is bad!");
-	return FALSE;
+      if (3 != sscanf(line + strlen("addplayer "), "%d %d %s",
+                      &turn, &plr_no, plr_name)) {
+        log_error("Scorelog file line is bad!");
+        return FALSE;
       }
 
       mystrlcpy(player_names[plr_no], plr_name, MAX_LEN_NAME);
@@ -901,9 +900,10 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
     if (strncmp(line, "delplayer ", strlen("delplayer ")) == 0) {
       int turn, plr_no;
 
-      if (sscanf(line + strlen("delplayer "), "%d %d", &turn, &plr_no) != 2) {
-	freelog(LOG_ERROR, "Scorelog file line is bad!");
-	return FALSE;
+      if (2 != sscanf(line + strlen("delplayer "), "%d %d",
+                      &turn, &plr_no)) {
+        log_error("Scorelog file line is bad!");
+        return FALSE;
       }
 
       player_names[plr_no][0] = '\0';
@@ -911,17 +911,17 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
   }
 
   if (*last_turn == -1) {
-    freelog(LOG_ERROR, "Scorelog contains no turn!");
+    log_error("Scorelog contains no turn!");
     return FALSE;
   }
 
   if (strlen(id) == 0) {
-    freelog(LOG_ERROR, "Scorelog contains no ID!");
+    log_error("Scorelog contains no ID!");
     return FALSE;
   }
 
   if (*last_turn + 1 != game.info.turn) {
-    freelog(LOG_ERROR, "Scorelog doesn't match savegame!");
+    log_error("Scorelog doesn't match savegame!");
     return FALSE;
   }
 
@@ -1023,8 +1023,8 @@ void log_civ_score(void)
     case SL_CREATE:
       fp = fopen(logname, "w");
       if (!fp) {
-	freelog(LOG_ERROR, "Can't open scorelog file for creation!");
-	goto log_civ_score_disable;
+        log_error("Can't open scorelog file for creation!");
+        goto log_civ_score_disable;
       }
       fprintf(fp, "%s%s\n", scorelog_magic, VERSION_STRING);
       fprintf(fp, 
@@ -1041,12 +1041,12 @@ void log_civ_score(void)
     case SL_APPEND:
       fp = fopen(logname, "a");
       if (!fp) {
-	freelog(LOG_ERROR, "Can't open scorelog file for appending!");
-	goto log_civ_score_disable;
+        log_error("Can't open scorelog file for appending!");
+        goto log_civ_score_disable;
       }
       break;
     default:
-      freelog(LOG_ERROR, "log_civ_score: bad operation %d", (int) oper);
+      log_error("log_civ_score: bad operation %d", (int) oper);
       goto log_civ_score_disable;
     }
   }
@@ -1204,9 +1204,9 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
   struct packet_page_msg genmsg;
 
   len = my_snprintf(genmsg.message, sizeof(genmsg.message),
-		    "%s\n%s\n%s", caption, headline, lines);
+                    "%s\n%s\n%s", caption, headline, lines);
   if (len == -1) {
-    freelog(LOG_ERROR, "Message truncated in page_conn_etype()!");
+    log_error("Message truncated in page_conn_etype()!");
   }
   genmsg.event = event;
   

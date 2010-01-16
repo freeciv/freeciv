@@ -190,8 +190,9 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
   get_modified_firepower(attacker, defender,
 			 &attack_firepower, &defense_firepower);
 
-  freelog(LOG_VERBOSE, "attack:%d, defense:%d, attack firepower:%d, defense firepower:%d",
-	  attackpower, defensepower, attack_firepower, defense_firepower);
+  log_verbose("attack:%d, defense:%d, attack firepower:%d, "
+              "defense firepower:%d", attackpower, defensepower,
+              attack_firepower, defense_firepower);
 
   if (bombard) {
     int i;
@@ -351,17 +352,16 @@ void player_restore_units(struct player *pplayer)
 
               path = pf_map_get_path(pfm, ptile);
 
-	      alive = ai_follow_path(punit, path, ptile);
+              alive = ai_follow_path(punit, path, ptile);
 
-	      if (!alive) {
-                freelog(LOG_ERROR, "rescue plane: unit %d died enroute!", id);
+              if (!alive) {
+                log_error("rescue plane: unit %d died enroute!", id);
               } else if (!same_pos(punit->tile, ptile)) {
-                  /* Enemy units probably blocked our route
-                   * FIXME: We should try find alternative route around
-                   * the enemy unit instead of just giving up and crashing. */
-                  freelog(LOG_DEBUG,
-                          "rescue plane: unit %d could not move to refuel point!",
-                          punit->id);
+                /* Enemy units probably blocked our route
+                 * FIXME: We should try find alternative route around
+                 * the enemy unit instead of just giving up and crashing. */
+                log_debug("rescue plane: unit %d could not move to "
+                          "refuel point!", punit->id);
               }
 
               if (alive) {
@@ -1052,11 +1052,9 @@ bool teleport_unit_to_city(struct unit *punit, struct city *pcity,
   struct tile *src_tile = punit->tile, *dst_tile = pcity->tile;
 
   if (city_owner(pcity) == unit_owner(punit)){
-    freelog(LOG_VERBOSE, "Teleported %s %s from (%d,%d) to %s",
-	    nation_rule_name(nation_of_unit(punit)),
-	    unit_rule_name(punit),
-	    TILE_XY(src_tile),
-	    city_name(pcity));
+    log_verbose("Teleported %s %s from (%d,%d) to %s",
+                nation_rule_name(nation_of_unit(punit)),
+                unit_rule_name(punit), TILE_XY(src_tile), city_name(pcity));
     if (verbose) {
       notify_player(unit_owner(punit), city_tile(pcity),
                     E_UNIT_RELOCATED, ftc_server,
@@ -2489,13 +2487,10 @@ static bool unit_survive_autoattack(struct unit *punit)
          || get_transporter_capacity(punit) > 0)
         && penemywin > threshold) {
 #ifdef REALLY_DEBUG_THIS
-      freelog(LOG_TEST, "AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
-              unit_rule_name(penemy),
-              unit_rule_name(punit), 
-              TILE_XY(punit->tile),
-              penemywin,
-              1.0 - punitwin, 
-              threshold);
+      log_test("AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
+               unit_rule_name(penemy), unit_rule_name(punit),
+               TILE_XY(unit_tile(punit)), penemywin,
+               1.0 - punitwin, threshold);
 #endif
 
       unit_activity_handling(penemy, ACTIVITY_IDLE);
@@ -2503,13 +2498,10 @@ static bool unit_survive_autoattack(struct unit *punit)
     }
 #ifdef REALLY_DEBUG_THIS
       else {
-      freelog(LOG_TEST, "!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
-              unit_rule_name(penemy),
-              unit_rule_name(punit), 
-              TILE_XY(punit->tile),
-              penemywin,
-              1.0 - punitwin, 
-              threshold);
+      log_test("!AA %s -> %s (%d,%d) %.2f > %.2f && > %.2f",
+               unit_rule_name(penemy), unit_rule_name(punit),
+               TILE_XY(unit_tile(punit)), penemywin,
+               1.0 - punitwin, threshold);
       continue;
     }
 #endif
@@ -2543,7 +2535,7 @@ static void cancel_orders(struct unit *punit, char *dbg_msg)
 {
   free_unit_orders(punit);
   send_unit_info(NULL, punit);
-  freelog(LOG_DEBUG, "%s", dbg_msg);
+  log_debug("%s", dbg_msg);
 }
 
 /*****************************************************************
@@ -3102,9 +3094,7 @@ bool execute_orders(struct unit *punit)
     return TRUE;
   }
 
-  freelog(LOG_DEBUG, "Executing orders for %s %d",
-	  unit_rule_name(punit),
-	  punit->id);   
+  log_debug("Executing orders for %s %d", unit_rule_name(punit), punit->id);
 
   /* Any time the orders are canceled we should give the player a message. */
 
@@ -3113,12 +3103,12 @@ bool execute_orders(struct unit *punit)
 
     if (punit->moves_left == 0) {
       /* FIXME: this check won't work when actions take 0 MP. */
-      freelog(LOG_DEBUG, "  stopping because of no more move points");
+      log_debug("  stopping because of no more move points");
       return TRUE;
     }
 
     if (punit->done_moving) {
-      freelog(LOG_DEBUG, "  stopping because we're done this turn");
+      log_debug("  stopping because we're done this turn");
       return TRUE;
     }
 
@@ -3133,7 +3123,7 @@ bool execute_orders(struct unit *punit)
 
     if (moves_made == punit->orders.length) {
       /* For repeating orders, don't repeat more than once per turn. */
-      freelog(LOG_DEBUG, "  stopping because we ran a round");
+      log_debug("  stopping because we ran a round");
       punit->done_moving = TRUE;
       send_unit_info(NULL, punit);
       return TRUE;
@@ -3165,14 +3155,14 @@ bool execute_orders(struct unit *punit)
 	 * next turn.  We assume that the next turn it will have full MP
 	 * (there's no check for that). */
 	punit->done_moving = TRUE;
-	freelog(LOG_DEBUG, "  waiting this turn");
+        log_debug("  waiting this turn");
 	send_unit_info(NULL, punit);
       }
       break;
     case ORDER_BUILD_CITY:
       handle_unit_build_city(pplayer, unitid,
 			     city_name_suggestion(pplayer, punit->tile));
-      freelog(LOG_DEBUG, "  building city");
+      log_debug("  building city");
       if (player_find_unit_by_id(pplayer, unitid)) {
 	/* Build failed. */
 	cancel_orders(punit, " orders canceled; failed to build city");
@@ -3228,20 +3218,19 @@ bool execute_orders(struct unit *punit)
         return TRUE;
       }
 
-      freelog(LOG_DEBUG, "  moving to %d,%d",
-	      dst_tile->x, dst_tile->y);
+      log_debug("  moving to %d,%d", TILE_XY(dst_tile));
       res = unit_move_handling(punit, dst_tile, FALSE, !last_order);
       if (!player_find_unit_by_id(pplayer, unitid)) {
-	freelog(LOG_DEBUG, "  unit died while moving.");
-	/* A player notification should already have been sent. */
-	return FALSE;
+        log_debug("  unit died while moving.");
+        /* A player notification should already have been sent. */
+        return FALSE;
       }
 
       if (res && !same_pos(dst_tile, punit->tile)) {
-	/* Movement succeeded but unit didn't move. */
-	freelog(LOG_DEBUG, "  orders resulted in combat.");
-	send_unit_info(NULL, punit);
-	return TRUE;
+        /* Movement succeeded but unit didn't move. */
+        log_debug("  orders resulted in combat.");
+        send_unit_info(NULL, punit);
+        return TRUE;
       }
 
       if (!res && punit->moves_left > 0) {
@@ -3254,9 +3243,9 @@ bool execute_orders(struct unit *punit)
       }
 
       if (!res && punit->moves_left == 0) {
-	/* Movement failed (not enough MP).  Keep this move around for
-	 * next turn. */
-	freelog(LOG_DEBUG, "  orders move failed (out of MP).");
+        /* Movement failed (not enough MP). Keep this move around for
+         * next turn. */
+        log_debug("  orders move failed (out of MP).");
 	if (unit_has_orders(punit)) {
 	  punit->orders.index--;
 	} else {
@@ -3278,13 +3267,13 @@ bool execute_orders(struct unit *punit)
 
       break;
     case ORDER_DISBAND:
-      freelog(LOG_DEBUG, "  orders: disbanding");
+      log_debug("  orders: disbanding");
       handle_unit_disband(pplayer, unitid);
       return FALSE;
     case ORDER_HOMECITY:
-      freelog(LOG_DEBUG, "  orders: changing homecity");
+      log_debug("  orders: changing homecity");
       if (tile_city(punit->tile)) {
-	handle_unit_change_homecity(pplayer, unitid, tile_city(punit->tile)->id);
+        handle_unit_change_homecity(pplayer, unitid, tile_city(punit->tile)->id);
       } else {
         cancel_orders(punit, "  no homecity");
         notify_player(pplayer, unit_tile(punit), E_UNIT_ORDERS, ftc_server,
@@ -3294,7 +3283,7 @@ bool execute_orders(struct unit *punit)
       }
       break;
     case ORDER_TRADE_ROUTE:
-      freelog(LOG_DEBUG, "  orders: establishing trade route.");
+      log_debug("  orders: establishing trade route.");
       handle_unit_establish_trade(pplayer, unitid);
       if (player_find_unit_by_id(pplayer, unitid)) {
         cancel_orders(punit, "  no trade route city");
@@ -3306,7 +3295,7 @@ bool execute_orders(struct unit *punit)
 	return FALSE;
       }
     case ORDER_BUILD_WONDER:
-      freelog(LOG_DEBUG, "  orders: building wonder");
+      log_debug("  orders: building wonder");
       handle_unit_help_build_wonder(pplayer, unitid);
       if (player_find_unit_by_id(pplayer, unitid)) {
         cancel_orders(punit, "  no wonder city");
@@ -3327,14 +3316,14 @@ bool execute_orders(struct unit *punit)
 
     if (last_order) {
       assert(punit->has_orders == FALSE);
-      freelog(LOG_DEBUG, "  stopping because orders are complete");
+      log_debug("  stopping because orders are complete");
       return TRUE;
     }
 
     if (punit->orders.index == punit->orders.length) {
       assert(punit->orders.repeat);
       /* Start over. */
-      freelog(LOG_DEBUG, "  repeating orders.");
+      log_debug("  repeating orders.");
       punit->orders.index = 0;
     }
   } /* end while */

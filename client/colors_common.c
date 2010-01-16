@@ -115,7 +115,7 @@ struct color_system *color_system_read(struct section_file *file)
                                "colors.%s0.g", color_names[i])
         || !secfile_lookup_int(file, &colors->colors[i].b,
                                "colors.%s0.b", color_names[i])) {
-      freelog(LOG_ERROR, "Color %s: %s", color_names[i], secfile_error());
+      log_error("Color %s: %s", color_names[i], secfile_error());
       colors->colors[i].r = 0;
       colors->colors[i].g = 0;
       colors->colors[i].b = 0;
@@ -133,8 +133,7 @@ struct color_system *color_system_read(struct section_file *file)
 				    * sizeof(*colors->player_colors));
   if (i == 0) {
     /* Use a simple fallback. */
-    freelog(LOG_ERROR,
-	    "Missing colors.player.  See misc/colors.tilespec.");
+    log_error("Missing colors.player. See misc/colors.tilespec.");
     colors->player_colors[0].r = 128;
     colors->player_colors[0].g = 0;
     colors->player_colors[0].b = 0;
@@ -146,7 +145,7 @@ struct color_system *color_system_read(struct section_file *file)
       if (!secfile_lookup_int(file, &rgb->r, "colors.player%d.r", i)
           || !secfile_lookup_int(file, &rgb->g, "colors.player%d.g", i)
           || !secfile_lookup_int(file, &rgb->b, "colors.player%d.b", i)) {
-        freelog(LOG_ERROR, "Player color %d: %s", i, secfile_error());
+        log_error("Player color %d: %s", i, secfile_error());
         rgb->r = 0;
         rgb->g = 0;
         rgb->b = 0;
@@ -179,11 +178,10 @@ struct color_system *color_system_read(struct section_file *file)
     key = secfile_lookup_str(file, "colors.tiles%d.tag", i);
 
     if (NULL == key) {
-      freelog(LOG_ERROR, "warning: tag for tiles %d: %s",
-              i, secfile_error());
+      log_error("warning: tag for tiles %d: %s", i, secfile_error());
       free(prgb);
     } else if (!hash_insert(colors->terrain_hash, mystrdup(key), prgb)) {
-      freelog(LOG_ERROR, "warning: already have a color for %s", key);
+      log_error("warning: already have a color for %s", key);
     }
   }
 
@@ -203,8 +201,8 @@ void color_system_setup_terrain(struct color_system *colors,
   if (rgb) {
     colors->terrain_colors[terrain_index(pterrain)] = *rgb;
   } else {
-    freelog(LOG_ERROR, "[colors] missing [tile_%s] for \"%s\".",
-            tag, terrain_rule_name(pterrain));
+    log_error("[colors] missing [tile_%s] for \"%s\".",
+              tag, terrain_rule_name(pterrain));
     /* Fallback: the color remains black. */
   }
 }

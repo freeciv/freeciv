@@ -632,7 +632,7 @@ Uint16 gui_event_loop(void *pData,
           switch(Main.event.key.keysym.sym) {
             case SDLK_PRINT:
               my_snprintf(schot, sizeof(schot), "fc_%05d.bmp", schot_nr++);
-              freelog(LOG_NORMAL, _("Making screenshot %s"), schot);
+              log_normal(_("Making screenshot %s"), schot);
               SDL_SaveBMP(Main.screen, schot);
             break;
             
@@ -763,9 +763,9 @@ void ui_init(void)
   putenv((char *)"SDL_VIDEO_CENTERED=yes");
   
   init_sdl(iSDL_Flags);
-  
-  freelog(LOG_NORMAL, _("Using Video Output: %s"),
-	  SDL_VideoDriverName(device, sizeof(device)));
+
+  log_normal(_("Using Video Output: %s"),
+             SDL_VideoDriverName(device, sizeof(device)));
   
   /* create splash screen */  
 #ifdef SMALL_SCREEN
@@ -1043,7 +1043,7 @@ enum gui_type get_gui_type(void)
 **************************************************************************/
 void sound_bell(void)
 {
-  freelog(LOG_DEBUG, "sound_bell : PORT ME");
+  log_debug("sound_bell : PORT ME");
 }
 
 /**************************************************************************
@@ -1069,7 +1069,7 @@ void disable_focus_animation(void)
 **************************************************************************/
 void add_net_input(int sock)
 {
-  freelog(LOG_DEBUG, "Connection UP (%d)", sock);
+  log_debug("Connection UP (%d)", sock);
   net_socket = sock;
   autoconnect = FALSE;
   enable_focus_animation();
@@ -1080,7 +1080,7 @@ void add_net_input(int sock)
 **************************************************************************/
 void remove_net_input(void)
 {
-  freelog(LOG_DEBUG, "Connection DOWN... ");
+  log_debug("Connection DOWN... ");
   net_socket = (-1);
   disable_focus_animation();
   draw_goto_patrol_lines = FALSE;
@@ -1092,7 +1092,7 @@ void remove_net_input(void)
 **************************************************************************/
 void add_ggz_input(int sock)
 {
-  freelog(LOG_DEBUG, "GGZ Connection UP (%d)", sock);
+  log_debug("GGZ Connection UP (%d)", sock);
   ggz_socket = sock;
 }
 
@@ -1102,7 +1102,7 @@ void add_ggz_input(int sock)
 **************************************************************************/
 void remove_ggz_input(void)
 {
-  freelog(LOG_DEBUG, "GGZ Connection DOWN... ");
+  log_debug("GGZ Connection DOWN... ");
   ggz_socket = (-1);
 }
 

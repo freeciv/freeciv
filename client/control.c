@@ -1535,8 +1535,7 @@ void request_unit_caravan_action(struct unit *punit, enum packet_type action)
   } else if (action == PACKET_UNIT_HELP_BUILD_WONDER) {
     dsend_packet_unit_help_build_wonder(&client.conn, punit->id);
   } else {
-    freelog(LOG_ERROR, "request_unit_caravan_action() Bad action (%d)",
-	    action);
+    log_error("request_unit_caravan_action() Bad action (%d)", action);
   }
 }
 

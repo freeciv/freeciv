@@ -347,9 +347,8 @@ static void cmd_reply_no_such_player(enum command_id cmd,
     cmd_reply(cmd, caller, C_FAIL,
 	      _("Unexpected match_result %d (%s) for '%s'."),
 	      match_result, _(m_pre_description(match_result)), name);
-    freelog(LOG_ERROR,
-	    "Unexpected match_result %d (%s) for '%s'.",
-	    match_result, m_pre_description(match_result), name);
+    log_error("Unexpected match_result %d (%s) for '%s'.",
+              match_result, m_pre_description(match_result), name);
   }
 }
 
@@ -382,9 +381,8 @@ static void cmd_reply_no_such_conn(enum command_id cmd,
     cmd_reply(cmd, caller, C_FAIL,
 	      _("Unexpected match_result %d (%s) for '%s'."),
 	      match_result, _(m_pre_description(match_result)), name);
-    freelog(LOG_ERROR,
-	    "Unexpected match_result %d (%s) for '%s'.",
-	    match_result, m_pre_description(match_result), name);
+    log_error("Unexpected match_result %d (%s) for '%s'.",
+              match_result, m_pre_description(match_result), name);
   }
 }
 
@@ -908,7 +906,7 @@ static bool read_init_script_real(struct connection *caller,
 
   /* check recursion depth */
   if (read_recursion > GAME_MAX_READ_RECURSION) {
-    freelog(LOG_ERROR, "Error: recursive calls to read!");
+    log_error("Error: recursive calls to read!");
     return FALSE;
   }
 
@@ -946,7 +944,7 @@ static bool read_init_script_real(struct connection *caller,
     real_filename = tilde_filename;
   }
 
-  freelog(LOG_NORMAL, _("Loading script file: %s"), real_filename);
+  log_normal(_("Loading script file: %s"), real_filename);
 
   if (is_reg_file_for_access(real_filename, FALSE)
       && (script_file = fopen(real_filename, "r"))) {
@@ -962,8 +960,7 @@ static bool read_init_script_real(struct connection *caller,
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
 	_("Cannot read command line scriptfile '%s'."), real_filename);
-    freelog(LOG_ERROR,
-	_("Could not read script file '%s'."), real_filename);
+    log_error(_("Could not read script file '%s'."), real_filename);
     return FALSE;
   }
 }
@@ -1043,8 +1040,7 @@ static void write_init_script(char *script_filename)
     fclose(script_file);
 
   } else {
-    freelog(LOG_ERROR,
-	_("Could not write script file '%s'."), real_filename);
+    log_error(_("Could not write script file '%s'."), real_filename);
   }
 }
 
@@ -1531,8 +1527,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
       return FALSE;
     } else {
-      freelog(LOG_ERROR, "Unexpected case %d in %s line %d",
-	      cmd, __FILE__, __LINE__);
+      log_error("Unexpected case %d in %s line %d", cmd, __FILE__, __LINE__);
       return FALSE;
     }
   } else {
@@ -2312,8 +2307,8 @@ static bool debug_command(struct connection *caller, char *str,
         units++;
       } unit_list_iterate_end;
     } players_iterate_end;
-    freelog(LOG_NORMAL, _("players=%d cities=%d citizens=%d units=%d"),
-            players, cities, citizens, units);
+    log_normal(_("players=%d cities=%d citizens=%d units=%d"),
+               players, cities, citizens, units);
     notify_conn(game.est_connections, NULL, E_AI_DEBUG, ftc_log,
                 _("players=%d cities=%d citizens=%d units=%d"),
                 players, cities, citizens, units);
@@ -2347,7 +2342,7 @@ static bool debug_command(struct connection *caller, char *str,
                 city_name(pcity));
     } else {
       pcity->debug = TRUE;
-      CITY_LOG(LOG_TEST, pcity, "debugged");
+      CITY_LOG(LOG_NORMAL, pcity, "debugged");
     }
   } else if (ntokens > 0 && strcmp(arg[0], "units") == 0) {
     int x, y;
@@ -2375,7 +2370,7 @@ static bool debug_command(struct connection *caller, char *str,
                   unit_name_translation(punit));
       } else {
         punit->debug = TRUE;
-        UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
+        UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
                  nation_rule_name(nation_of_unit(punit)),
                  unit_name_translation(punit));
       }
@@ -2416,7 +2411,7 @@ static bool debug_command(struct connection *caller, char *str,
                 unit_name_translation(punit));
     } else {
       punit->debug = TRUE;
-      UNIT_LOG(LOG_TEST, punit, "%s %s debugged.",
+      UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
                nation_rule_name(nation_of_unit(punit)),
                unit_name_translation(punit));
     }
@@ -3292,13 +3287,14 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   secfile_check_unused(file);
   secfile_destroy(file);
 
-  freelog(LOG_VERBOSE, "Load time: %g seconds (%g apparent)",
-          read_timer_seconds_free(loadtimer),
-          read_timer_seconds_free(uloadtimer));
+  log_verbose("Load time: %g seconds (%g apparent)",
+              read_timer_seconds(loadtimer), read_timer_seconds(uloadtimer));
+  free_timer(loadtimer);
+  free_timer(uloadtimer);
 
   sanity_check();
-  
-  freelog(LOG_VERBOSE, "load_command() does send_rulesets()");
+
+  log_verbose("load_command() does send_rulesets()");
   send_rulesets(game.est_connections);
   send_server_settings(game.est_connections);
   send_game_info(game.est_connections);
@@ -3382,8 +3378,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
               _("Ruleset directory set to \"%s\""), str);
 
-    freelog(LOG_VERBOSE, "set_rulesetdir() does load_rulesets() with \"%s\"",
-	    str);
+    log_verbose("set_rulesetdir() does load_rulesets() with \"%s\"", str);
     sz_strlcpy(game.server.rulesetdir, str);
     load_rulesets();
 
@@ -3406,7 +3401,7 @@ static void cut_comment(char *str)
   int i;
   bool in_single_quotes = FALSE, in_double_quotes = FALSE;
 
-  freelog(LOG_DEBUG,"cut_comment(str='%s')",str);
+  log_debug("cut_comment(str =' %s')", str);
 
   for (i = 0; i < strlen(str); i++) {
     if (str[i] == '"' && !in_single_quotes) {
@@ -3419,7 +3414,7 @@ static void cut_comment(char *str)
       break;
     }
   }
-  freelog(LOG_DEBUG,"cut_comment: returning '%s'",str);
+  log_debug("cut_comment: returning '%s'", str);
 }
 
 /**************************************************************************
@@ -3691,7 +3686,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
   default:
-    freelog(LOG_FATAL, "bug in civserver: impossible command recognized; bye!");
+    log_fatal("bug in civserver: impossible command recognized; bye!");
     assert(0);
   }
   return FALSE; /* should NEVER happen but we need to satisfy some compilers */
@@ -3758,8 +3753,8 @@ static bool reset_command(struct connection *caller, bool check,
   if (srvarg.script_filename &&
       !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
                              read_recursion)) {
-    freelog(LOG_ERROR, _("Cannot load the script file '%s'"),
-            srvarg.script_filename);
+    log_error(_("Cannot load the script file '%s'"),
+              srvarg.script_filename);
     return FALSE;
   }
 
@@ -3792,15 +3787,15 @@ bool start_command(struct connection *caller, bool check, bool notify)
     /* Sanity check scenario */
     if (game.info.is_new_game && !check) {
       if (map.server.num_start_positions > 0
-	  && game.info.max_players > map.server.num_start_positions) {
-	/* If we load a pre-generated map (i.e., a scenario) it is possible
-	 * to increase the number of players beyond the number supported by
-	 * the scenario.  The solution is a hack: cut the extra players
-	 * when the game starts. */
-	freelog(LOG_VERBOSE, "Reduced maxplayers from %i to %i to fit "
-	        "to the number of start positions.",
-		game.info.max_players, map.server.num_start_positions);
-	game.info.max_players = map.server.num_start_positions;
+          && game.info.max_players > map.server.num_start_positions) {
+        /* If we load a pre-generated map (i.e., a scenario) it is possible
+         * to increase the number of players beyond the number supported by
+         * the scenario. The solution is a hack: cut the extra players
+         * when the game starts. */
+        log_verbose("Reduced maxplayers from %i to %i to fit "
+                    "to the number of start positions.",
+                    game.info.max_players, map.server.num_start_positions);
+        game.info.max_players = map.server.num_start_positions;
       }
 
       if (player_count() > game.info.max_players) {
@@ -3817,11 +3812,10 @@ bool start_command(struct connection *caller, bool check, bool notify)
           }
         }
 
-	freelog(LOG_VERBOSE,
-		"Had to cut down the number of players to the "
-		"number of map start positions, there must be "
-		"something wrong with the savegame or you "
-		"adjusted the maxplayers value.");
+        log_verbose("Had to cut down the number of players to the "
+                    "number of map start positions, there must be "
+                    "something wrong with the savegame or you "
+                    "adjusted the maxplayers value.");
       }
     }
 
@@ -4147,7 +4141,7 @@ static bool show_help(struct connection *caller, char *arg)
   }
   
   /* should have finished by now */
-  freelog(LOG_ERROR, "Bug in show_help!");
+  log_error("Bug in show_help!");
   return FALSE;
 }
 
@@ -4211,8 +4205,8 @@ static bool show_list(struct connection *caller, char *arg)
   }
 
   cmd_reply(CMD_LIST, caller, C_FAIL,
-	    "Internal error: ind %d in show_list", ind);
-  freelog(LOG_ERROR, "Internal error: ind %d in show_list", ind);
+            "Internal error: ind %d in show_list", ind);
+  log_error("Internal error: ind %d in show_list", ind);
   return FALSE;
 }
 

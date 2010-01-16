@@ -1221,7 +1221,7 @@ void chatline_init(void)
     /* Set default foreground color. */
     color_set(G_OBJECT(entry), "fg_color", &color, GTK_TOOL_BUTTON(item));
   } else {
-    freelog(LOG_ERROR, "Failed to set the default foreground color.");
+    log_error("Failed to set the default foreground color.");
   }
 
   /* Background selector. */
@@ -1237,7 +1237,7 @@ void chatline_init(void)
     /* Set default background color. */
     color_set(G_OBJECT(entry), "bg_color", &color, GTK_TOOL_BUTTON(item));
   } else {
-    freelog(LOG_ERROR, "Failed to set the default background color.");
+    log_error("Failed to set the default background color.");
   }
 
   gtk_toolbar_insert(GTK_TOOLBAR(toolbar),

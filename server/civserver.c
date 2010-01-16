@@ -90,12 +90,12 @@ static void signal_handler(int sig)
       save_and_exit(SIGINT);
     } else {
       if (game.info.timeout == -1) {
-        freelog(LOG_NORMAL, _("Setting timeout to 0. Autogame will stop.\n"));
+        log_normal(_("Setting timeout to 0. Autogame will stop."));
         game.info.timeout = 0;
       }
       if (!timer) {
-        freelog(LOG_NORMAL, _("You must interrupt Freeciv twice"
-                              " within one second to make it exit.\n"));
+        log_normal(_("You must interrupt Freeciv twice "
+                     "within one second to make it exit."));
       }
     }
     timer = renew_timer_start(timer, TIMER_USER, TIMER_ACTIVE);
@@ -115,7 +115,7 @@ static void signal_handler(int sig)
   case SIGPIPE:
     if (signal(SIGPIPE, signal_handler) == SIG_ERR) {
       /* Because the signal may have interrupted arbitrary code, we use
-       * fprintf() and _exit() here instead of freelog() and exit() so
+       * fprintf() and _exit() here instead of log_*() and exit() so
        * that we don't accidentally call any "unsafe" functions here
        * (see the manual page for the signal function). */
       fprintf(stderr, "\nFailed to reset SIGPIPE handler "
@@ -241,11 +241,9 @@ int main(int argc, char *argv[])
     } else if (is_option("--exit-on-end", argv[inx])) {
       srvarg.exit_on_end = TRUE;
     } else if ((option = get_option_malloc("--debug", argv, &inx, argc))) {
-      srvarg.loglevel = log_parse_level_str(option);
-      if (srvarg.loglevel == -1) {
-	srvarg.loglevel = LOG_NORMAL;
-	showhelp = TRUE;
-	break;
+      if (!log_parse_level_str(option, &srvarg.loglevel)) {
+        showhelp = TRUE;
+        break;
       }
       free(option);
 #ifdef HAVE_AUTH
@@ -278,7 +276,7 @@ int main(int argc, char *argv[])
         srvarg.announce = ANNOUNCE_IPV6;
 #endif /* IPv6 support */
       } else {
-        freelog(LOG_ERROR, _("Illegal value \"%s\" for --Announce"), option);
+        log_error(_("Illegal value \"%s\" for --Announce"), option);
       }
       free(option);
     } else {
@@ -312,11 +310,12 @@ int main(int argc, char *argv[])
 #endif
     fc_fprintf(stderr, _("  -b  --bind ADDR\tListen for clients on ADDR\n"));
 #ifdef DEBUG
-    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (0 to 4,"
-		      " or 4:file1,min,max:...)\n"));
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                         "%d, or %d:file1,min,max:...)\n"),
+               LOG_FATAL, LOG_DEBUG, LOG_DEBUG);
 #else
-    fc_fprintf(stderr,
-	       _("  -d, --debug NUM\tSet debug log level (0 to 3)\n"));
+    fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
+                         "%d)\n"), LOG_FATAL, LOG_VERBOSE);
 #endif
     fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
     fc_fprintf(stderr,

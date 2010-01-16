@@ -401,13 +401,13 @@ struct tile *immediate_destination(struct unit *punit,
     }
 
     pf_map_destroy(pfm);
-    freelog(LOG_VERBOSE, "Did not find an air-route for "
-            "%s %s[%d] (%d,%d)->(%d,%d)",
-            nation_rule_name(nation_of_unit(punit)),
-            unit_rule_name(punit),
-            punit->id,
-            TILE_XY(punit->tile),
-            TILE_XY(dest_tile));
+    log_verbose("Did not find an air-route for "
+                "%s %s[%d] (%d,%d)->(%d,%d)",
+                nation_rule_name(nation_of_unit(punit)),
+                unit_rule_name(punit),
+                punit->id,
+                TILE_XY(punit->tile),
+                TILE_XY(dest_tile));
     /* Prevent take off */
     return punit->tile;
   }
@@ -872,8 +872,8 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
        * This probably means that some city spot reservation has not been
        * properly cleared; bad for the AI, as it will leave that area
        * uninhabited. */
-      freelog(LOG_ERROR, "%s was on city founding mission without target tile.",
-              unit_rule_name(punit));
+      log_error("%s was on city founding mission without target tile.",
+                unit_rule_name(punit));
     }
   }
 
@@ -1035,7 +1035,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   const bool is_ai = pplayer->ai_data.control;
 
   CHECK_UNIT(punit);
-  RETURN_VAL_IF_FAIL_MSG(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
+  log_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
                          "Tiles not adjacent: Unit = %d, "
                          "from = (%d, %d]) to = (%d, %d).",
                          punit->id, TILE_XY(unit_tile(punit)),

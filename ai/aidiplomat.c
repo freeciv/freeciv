@@ -115,9 +115,9 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
     struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
 
     if (ut) {
-       freelog(LOG_DIPLOMAT_BUILD, 
-               "A defensive diplomat will be built in city %s.",
-               city_name(pcity));
+       log_base(LOG_DIPLOMAT_BUILD, 
+                "A defensive diplomat will be built in city %s.",
+                city_name(pcity));
        choice->want = 16000; /* diplomat more important than soldiers */
        pcity->ai->urgency = 1;
        choice->type = CT_DEFENDER;
@@ -125,9 +125,9 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
        choice->need_boat = FALSE;
     } else if (num_role_units(F_DIPLOMAT) > 0) {
       /* We don't know diplomats yet... */
-      freelog(LOG_DIPLOMAT_BUILD,
-              "A defensive diplomat is wanted badly in city %s.",
-              city_name(pcity));
+      log_base(LOG_DIPLOMAT_BUILD,
+               "A defensive diplomat is wanted badly in city %s.",
+               city_name(pcity));
       ut = get_role_unit(F_DIPLOMAT, 0);
       if (ut) {
         pplayer->ai_data.tech_want[advance_index(ut->require_advance)]
@@ -231,28 +231,28 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 
     if (!player_has_embassy(pplayer, city_owner(acity))
         && want < 99) {
-        freelog(LOG_DIPLOMAT_BUILD,
-                "A diplomat desired in %s to establish an embassy with %s "
-                "in %s",
-                city_name(pcity),
-                player_name(city_owner(acity)),
-                city_name(acity));
+        log_base(LOG_DIPLOMAT_BUILD,
+                 "A diplomat desired in %s to establish an embassy with %s "
+                 "in %s",
+                 city_name(pcity),
+                 player_name(city_owner(acity)),
+                 city_name(acity));
         want = 99;
     }
     if (want > choice->want) {
-      freelog(LOG_DIPLOMAT_BUILD,
-              "%s, %s: %s is desired with want %d to spy in %s (incite "
-              "want %d cost %d gold %d, tech theft want %d, ttd %d)",
-              player_name(pplayer),
-              city_name(pcity),
-              utype_rule_name(ut),
-              want,
-              city_name(acity),
-              gain_incite,
-              incite_cost,
-              pplayer->economic.gold - pplayer->ai_data.est_upkeep,
-              gain_theft,
-              time_to_dest);
+      log_base(LOG_DIPLOMAT_BUILD,
+               "%s, %s: %s is desired with want %d to spy in %s (incite "
+               "want %d cost %d gold %d, tech theft want %d, ttd %d)",
+               player_name(pplayer),
+               city_name(pcity),
+               utype_rule_name(ut),
+               want,
+               city_name(acity),
+               gain_incite,
+               incite_cost,
+               pplayer->economic.gold - pplayer->ai_data.est_upkeep,
+               gain_theft,
+               time_to_dest);
       choice->want = want;
       choice->type = CT_CIVILIAN; /* so we don't build barracks for it */
       choice->value.utype = ut;
@@ -290,9 +290,9 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
 
 #define T(my_act,my_val)                                            \
   if (diplomat_can_do_action(punit, my_act, ctarget->tile)) {       \
-    freelog(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",       \
-            nation_rule_name(nation_of_unit(punit)),                \
-            unit_rule_name(punit), punit->id, city_name(ctarget));  \
+    log_base(LOG_DIPLOMAT, "%s %s[%d] does " #my_act " at %s",      \
+             nation_rule_name(nation_of_unit(punit)),               \
+             unit_rule_name(punit), punit->id, city_name(ctarget)); \
     handle_unit_diplomat_action(pplayer, punit->id,                 \
                                 ctarget->id, my_val, my_act);       \
     return;                                                         \

@@ -382,7 +382,7 @@ static void server_scan_error(struct server_scan *scan,
 			      const char *message)
 {
   output_window_append(ftc_client, message);
-  freelog(LOG_ERROR, "%s", message);
+  log_error("%s", message);
 
   switch (server_scan_get_type(scan)) {
   case SERVER_SCAN_LOCAL:

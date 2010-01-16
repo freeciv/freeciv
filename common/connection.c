@@ -158,26 +158,26 @@ int read_socket_data(int sock, struct socket_packet_buffer *buffer)
   int didget;
 
   if (!buffer_ensure_free_extra_space(buffer, MAX_LEN_PACKET)) {
-    freelog(LOG_ERROR, "can't grow buffer");
+    log_error("can't grow buffer");
     return -1;
   }
 
-  freelog(LOG_DEBUG, "try reading %d bytes", buffer->nsize - buffer->ndata);
+  log_debug("try reading %d bytes", buffer->nsize - buffer->ndata);
   didget = fc_readsocket(sock, (char *) (buffer->data + buffer->ndata),
 			 buffer->nsize - buffer->ndata);
 
   if (didget > 0) {
     buffer->ndata+=didget;
-    freelog(LOG_DEBUG, "didget:%d", didget);
+    log_debug("didget:%d", didget);
     return didget;
   }
   else if (didget == 0) {
-    freelog(LOG_DEBUG, "EOF on socket read");
+    log_debug("EOF on socket read");
     return -1;
   }
 #ifdef NONBLOCKING_SOCKETS
   else if (errno == EWOULDBLOCK || errno == EAGAIN) {
-    freelog(LOG_DEBUG, "EGAIN on socket read");
+    log_debug("EGAIN on socket read");
     return 0;
   }
 #endif
@@ -238,7 +238,7 @@ static int write_socket_data(struct connection *pc,
 
     if (FD_ISSET(pc->sock, &writefs)) {
       nblock=MIN(buf->ndata-start, MAX_LEN_PACKET);
-      freelog(LOG_DEBUG,"trying to write %d limit=%d",nblock,limit);
+      log_debug("trying to write %d limit=%d", nblock, limit);
       if((nput=fc_writesocket(pc->sock, 
 			      (const char *)buf->data+start, nblock)) == -1) {
 #ifdef NONBLOCKING_SOCKETS
@@ -320,8 +320,8 @@ static bool add_connection_data(struct connection *pc,
 
     buf = pc->send_buffer;
 
-    freelog(LOG_DEBUG, "add %d bytes to %d (space=%d)", len, buf->ndata,
-	    buf->nsize);
+    log_debug("add %d bytes to %d (space=%d)",
+              len, buf->ndata, buf->nsize);
     if (!buffer_ensure_free_extra_space(buf, len)) {
       if (delayed_disconnect > 0) {
 	pc->delayed_disconnect = TRUE;
@@ -351,16 +351,16 @@ void send_connection_data(struct connection *pc, const unsigned char *data,
     if(pc->send_buffer->do_buffer_sends > 0) {
       flush_connection_send_buffer_packets(pc);
       if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (1)",
-		conn_description(pc));
+        log_error("cut connection %s due to huge send buffer (1)",
+                  conn_description(pc));
       }
       flush_connection_send_buffer_packets(pc);
     }
     else {
       flush_connection_send_buffer_all(pc);
       if (!add_connection_data(pc, data, len)) {
-	freelog(LOG_ERROR, "cut connection %s due to huge send buffer (2)",
-		conn_description(pc));
+        log_error("cut connection %s due to huge send buffer (2)",
+                  conn_description(pc));
       }
       flush_connection_send_buffer_all(pc);
     }
@@ -387,7 +387,7 @@ void connection_do_unbuffer(struct connection *pc)
   if (pc && pc->used) {
     pc->send_buffer->do_buffer_sends--;
     if (pc->send_buffer->do_buffer_sends < 0) {
-      freelog(LOG_ERROR, "Too many calls to unbuffer %s!", pc->username);
+      log_error("Too many calls to unbuffer %s!", pc->username);
       pc->send_buffer->do_buffer_sends = 0;
     }
     if(pc->send_buffer->do_buffer_sends == 0)
@@ -558,9 +558,8 @@ int get_next_request_id(int old_request_id)
   int result = old_request_id + 1;
 
   if ((result & 0xffff) == 0) {
-    freelog(LOG_PACKET,
-	    "INFORMATION: request_id has wrapped around; "
-	    "setting from %d to 2", result);
+    log_packet("INFORMATION: request_id has wrapped around; "
+               "setting from %d to 2", result);
     result = 2;
   }
   assert(result);
@@ -654,7 +653,7 @@ void connection_common_init(struct connection *pconn)
 void connection_common_close(struct connection *pconn)
 {
   if (!pconn->used) {
-    freelog(LOG_ERROR, "WARNING: Trying to close already closed connection");
+    log_error("WARNING: Trying to close already closed connection");
   } else {
     fc_closesocket(pconn->sock);
     pconn->used = FALSE;

@@ -178,7 +178,7 @@ char *create_centered_string(const char *s)
   return a char * to the parameter of the option or NULL.
   *i can be increased to get next string in the array argv[].
   It is an error for the option to exist but be an empty string.
-  This doesn't use freelog() because it is used before logging is set up.
+  This doesn't use log_*() because it is used before logging is set up.
 
   The argv strings are assumed to be in the local encoding; the returned
   string is in the internal encoding.
@@ -732,7 +732,7 @@ char *end_of_strn(char *str, int *nleft)
 bool check_strlen(const char *str, size_t len, const char *errmsg)
 {
   if (strlen(str) >= len) {
-    freelog(LOG_ERROR, errmsg, str, len);
+    log_error(errmsg, str, len);
     assert(0);
     return TRUE;
   }
@@ -784,14 +784,15 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   should only be called for code errors - user errors (like not being able
   to find a tileset) should just exit rather than dumping core.
 ***************************************************************************/
-void real_die(const char *file, int line, const char *format, ...)
+void real_die(const char *file, const char *function, int line,
+              const char *format, ...)
 {
-  va_list ap;
+  va_list args;
 
-  freelog(LOG_FATAL, "Detected fatal error in %s line %d:", file, line);
-  va_start(ap, format);
-  vreal_freelog(LOG_FATAL, format, ap);
-  va_end(ap);
+  do_log(file, function, line, TRUE, LOG_FATAL, "Detected fatal error");
+  va_start(args, format);
+  vdo_log(file, function, line, FALSE, LOG_FATAL, format, args);
+  va_end(args);
 
   assert(FALSE);
 
@@ -816,7 +817,7 @@ char *user_home_dir(void)
     char *env = getenv("HOME");
     if (env) {
       home_dir = mystrdup(env);	        /* never free()d */
-      freelog(LOG_VERBOSE, "HOME is %s", home_dir);
+      log_verbose("HOME is %s", home_dir);
     } else {
 
 #ifdef WIN32_NATIVE
@@ -835,8 +836,8 @@ char *user_home_dir(void)
         if (!SUCCEEDED(SHGetPathFromIDList(pidl, home_dir))) {
           free(home_dir);
           home_dir = NULL;
-          freelog(LOG_ERROR,
-            "Could not find home directory (SHGetPathFromIDList() failed)");
+          log_error("Could not find home directory "
+                    "(SHGetPathFromIDList() failed).");
         }
         
         SHGetMalloc(&pMalloc);
@@ -846,11 +847,11 @@ char *user_home_dir(void)
         }
 
       } else {
-        freelog(LOG_ERROR,
-          "Could not find home directory (SHGetSpecialFolderLocation() failed)");
+        log_error("Could not find home directory "
+                  "(SHGetSpecialFolderLocation() failed).");
       }
 #else
-      freelog(LOG_ERROR, "Could not find home directory (HOME is not set)");
+      log_error("Could not find home directory (HOME is not set).");
       home_dir = NULL;
 #endif
     }
@@ -882,8 +883,8 @@ char *user_username(char *buf, size_t bufsz)
     if (env) {
       mystrlcpy(buf, env, bufsz);
       if (is_ascii_name(buf)) {
-	freelog(LOG_VERBOSE, "USER username is %s", buf);
-	return buf;
+        log_verbose("USER username is %s", buf);
+        return buf;
       }
     }
   }
@@ -897,8 +898,8 @@ char *user_username(char *buf, size_t bufsz)
     if (pwent) {
       mystrlcpy(buf, pwent->pw_name, bufsz);
       if (is_ascii_name(buf)) {
-	freelog(LOG_VERBOSE, "getpwuid username is %s", buf);
-	return buf;
+        log_verbose("getpwuid username is %s", buf);
+        return buf;
       }
     }
   }
@@ -913,8 +914,8 @@ char *user_username(char *buf, size_t bufsz)
     if (GetUserName(name, &length)) {
       mystrlcpy(buf, name, bufsz);
       if (is_ascii_name(buf)) {
-	freelog(LOG_VERBOSE, "GetUserName username is %s", buf);
-	return buf;
+        log_verbose("GetUserName username is %s", buf);
+        return buf;
       }
     }
   }
@@ -925,7 +926,7 @@ char *user_username(char *buf, size_t bufsz)
 #else
   my_snprintf(buf, bufsz, "name%d", (int)getuid());
 #endif
-  freelog(LOG_VERBOSE, "fake username is %s", buf);
+  log_verbose("fake username is %s", buf);
   assert(is_ascii_name(buf));
   return buf;
 }
@@ -954,15 +955,14 @@ static struct strvec *base_get_dirs(const char *dir_list)
     i = strlen(tok);
     if (tok[0] == '~') {
       if (i > 1 && tok[1] != '/') {
-        freelog(LOG_ERROR, "For \"%s\" in path cannot expand '~'"
-                " except as '~/'; ignoring", tok);
+        log_error("For \"%s\" in path cannot expand '~'"
+                  " except as '~/'; ignoring", tok);
         i = 0;  /* skip this one */
       } else {
         char *home = user_home_dir();
 
         if (!home) {
-          freelog(LOG_VERBOSE,
-                  "No HOME, skipping path component %s", tok);
+          log_verbose("No HOME, skipping path component %s", tok);
           i = 0;
         } else {
           int len = strlen(home) + i;   /* +1 -1 */
@@ -1014,24 +1014,22 @@ const struct strvec *get_data_dirs(void)
     const char *path;
 
     if ((path = getenv(FREECIV_DATA_PATH)) && '\0' == path[0]) {
-      freelog(LOG_ERROR,
-              /* TRANS: <FREECIV_DATA_PATH> configuration error */
-              _("\"%s\" is set but empty; trying \"%s\" instead."),
-              FREECIV_DATA_PATH, FREECIV_PATH);
+      /* TRANS: <FREECIV_DATA_PATH> configuration error */
+      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
+                FREECIV_DATA_PATH, FREECIV_PATH);
       path = NULL;
     }
     if (NULL == path && (path = getenv(FREECIV_PATH)) && '\0' == path[0]) {
-      freelog(LOG_ERROR,
-              /* TRANS: <FREECIV_PATH> configuration error */
-              _("\"%s\" is set but empty; using default \"%s\" "
-                "data directories instead."),
-              FREECIV_PATH, DEFAULT_DATA_PATH);
+      /* TRANS: <FREECIV_PATH> configuration error */
+      log_error(("\"%s\" is set but empty; using default \"%s\" "
+                 "data directories instead."),
+                FREECIV_PATH, DEFAULT_DATA_PATH);
       path = NULL;
     }
     dirs = base_get_dirs(NULL != path ? path : DEFAULT_DATA_PATH);
     strvec_remove_duplicate(dirs, strcmp);      /* Don't set a path both. */
     strvec_iterate(dirs, dirname) {
-      freelog(LOG_VERBOSE, "Data path component: %s", dirname);
+      log_verbose("Data path component: %s", dirname);
     } strvec_iterate_end;
   }
 
@@ -1061,19 +1059,17 @@ const struct strvec *get_save_dirs(void)
     bool from_freeciv_path = FALSE;
 
     if ((path = getenv(FREECIV_SAVE_PATH)) && '\0' == path[0]) {
-      freelog(LOG_ERROR,
-              /* TRANS: <FREECIV_SAVE_PATH> configuration error */
-              _("\"%s\" is set but empty; trying \"%s\" instead."),
-              FREECIV_SAVE_PATH, FREECIV_PATH);
+      /* TRANS: <FREECIV_SAVE_PATH> configuration error */
+      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
+                FREECIV_SAVE_PATH, FREECIV_PATH);
       path = NULL;
     }
     if (NULL == path && (path = getenv(FREECIV_PATH))) {
       if ('\0' == path[0]) {
-        freelog(LOG_ERROR,
-                /* TRANS: <FREECIV_PATH> configuration error */
-                _("\"%s\" is set but empty; using default \"%s\" "
-                  "save directories instead."),
-                FREECIV_PATH, DEFAULT_SAVE_PATH);
+        /* TRANS: <FREECIV_PATH> configuration error */
+        log_error(_("\"%s\" is set but empty; using default \"%s\" "
+                    "save directories instead."),
+                  FREECIV_PATH, DEFAULT_SAVE_PATH);
         path = NULL;
       } else {
         from_freeciv_path = TRUE;
@@ -1093,7 +1089,7 @@ const struct strvec *get_save_dirs(void)
     }
     strvec_remove_duplicate(dirs, strcmp);      /* Don't set a path both. */
     strvec_iterate(dirs, dirname) {
-      freelog(LOG_VERBOSE, "Save path component: %s", dirname);
+      log_verbose("Save path component: %s", dirname);
     } strvec_iterate_end;
   }
 
@@ -1123,19 +1119,17 @@ const struct strvec *get_scenario_dirs(void)
     bool from_freeciv_path = FALSE;
 
     if ((path = getenv(FREECIV_SCENARIO_PATH)) && '\0' == path[0]) {
-      freelog(LOG_ERROR,
-              /* TRANS: <FREECIV_SAVE_PATH> configuration error */
-              _("\"%s\" is set but empty; trying \"%s\" instead."),
-              FREECIV_SCENARIO_PATH, FREECIV_PATH);
+      /* TRANS: <FREECIV_SAVE_PATH> configuration error */
+      log_error(_("\"%s\" is set but empty; trying \"%s\" instead."),
+                FREECIV_SCENARIO_PATH, FREECIV_PATH);
       path = NULL;
     }
     if (NULL == path && (path = getenv(FREECIV_PATH))) {
       if ('\0' == path[0]) {
-        freelog(LOG_ERROR,
-                /* TRANS: <FREECIV_PATH> configuration error */
-                _("\"%s\" is set but empty; using default \"%s\" "
-                  "scenario directories instead."),
-                FREECIV_PATH, DEFAULT_SCENARIO_PATH);
+        /* TRANS: <FREECIV_PATH> configuration error */
+        log_error( _("\"%s\" is set but empty; using default \"%s\" "
+                     "scenario directories instead."),
+                  FREECIV_PATH, DEFAULT_SCENARIO_PATH);
         path = NULL;
       } else {
         from_freeciv_path = TRUE;
@@ -1161,7 +1155,7 @@ const struct strvec *get_scenario_dirs(void)
     }
     strvec_remove_duplicate(dirs, strcmp);      /* Don't set a path both. */
     strvec_iterate(dirs, dirname) {
-      freelog(LOG_VERBOSE, "Scenario path component: %s", dirname);
+      log_verbose("Scenario path component: %s", dirname);
     } strvec_iterate_end;
   }
 
@@ -1198,12 +1192,12 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
     dir = opendir(dirname);
     if (!dir) {
       if (errno == ENOENT) {
-        freelog(LOG_VERBOSE, "Skipping non-existing data directory %s.",
-                dirname);
+        log_verbose("Skipping non-existing data directory %s.",
+                    dirname);
       } else {
         /* TRANS: "...: <externally translated error string>."*/
-        freelog(LOG_ERROR, _("Could not read data directory %s: %s."),
-                dirname, fc_strerror(fc_get_errno()));
+        log_error(_("Could not read data directory %s: %s."),
+                  dirname, fc_strerror(fc_get_errno()));
       }
       continue;
     }
@@ -1291,9 +1285,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     }
   } strvec_iterate_end;
 
-  freelog(LOG_VERBOSE, "Could not find readable file \"%s\" in data path.",
-          filename);
-
+  log_verbose("Could not find readable file \"%s\" in data path.", filename);
   return NULL;
 }
 
@@ -1440,15 +1432,11 @@ const char *fileinfoname_required(const struct strvec *dirs,
   if (dname) {
     return dname;
   } else {
-    freelog(LOG_ERROR,
-            /* TRANS: <FREECIV_PATH> configuration error */
-            _("The path may be set via the \"%s\" environment variable."),
-            FREECIV_PATH);
-    freelog(LOG_ERROR,
-            _("Current path is: \"%s\""),
-            fileinfoname(dirs, NULL));
-    freelog(LOG_FATAL,
-            _("The \"%s\" file is required ... aborting!"), filename);
+    /* TRANS: <FREECIV_PATH> configuration error */
+    log_error(_("The path may be set via the \"%s\" environment variable."),
+              FREECIV_PATH);
+    log_error(_("Current path is: \"%s\""), fileinfoname(dirs, NULL));
+    log_fatal(_("The \"%s\" file is required ... aborting!"), filename);
     exit(EXIT_FAILURE);
   }
 }
@@ -1628,7 +1616,7 @@ void free_nls(void)
   used instead if argv0 is NULL.
   But don't die on systems where the user is always root...
   (a general test for this would be better).
-  Doesn't use freelog() because gets called before logging is setup.
+  Doesn't use log_*() because gets called before logging is setup.
 ***************************************************************************/
 void dont_run_as_root(const char *argv0, const char *fallback)
 {

@@ -342,24 +342,24 @@ struct sprite *load_gfxfile(const char *filename)
 
   fp = fopen(filename, "rb");
   if (!fp) {
-    freelog(LOG_FATAL, "Failed reading PNG file: \"%s\"", filename);
+    log_fatal("Failed reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
 
   pngp = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
   if (!pngp) {
-    freelog(LOG_FATAL, "Failed creating PNG struct");
+    log_fatal("Failed creating PNG struct");
     exit(EXIT_FAILURE);
   }
 
   infop = png_create_info_struct(pngp);
   if (!infop) {
-    freelog(LOG_FATAL, "Failed creating PNG struct");
+    log_fatal("Failed creating PNG struct");
     exit(EXIT_FAILURE);
   }
   
   if (setjmp(pngp->jmpbuf)) {
-    freelog(LOG_FATAL, "Failed while reading PNG file: \"%s\"", filename);
+    log_fatal("Failed while reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
   }
 
@@ -396,7 +396,7 @@ struct sprite *load_gfxfile(const char *filename)
 
       free(mycolors);
     } else {
-      freelog(LOG_FATAL, "PNG file has no palette: \"%s\"", filename);
+      log_fatal("PNG file has no palette: \"%s\"", filename);
       exit(EXIT_FAILURE);
     }
 
@@ -412,9 +412,8 @@ struct sprite *load_gfxfile(const char *filename)
 	if (trans[i] < npalette) {
 	  ptransarray[trans[i]] = TRUE;
 	} else if (!reported) {
-	  freelog(LOG_VERBOSE,
-		  "PNG: Transparent array entry is out of palette: \"%s\"",
-		  filename);
+          log_verbose("PNG: Transparent array entry is out of palette: "
+                      "\"%s\"", filename);
 	  reported = TRUE;
 	}
       }
@@ -456,9 +455,7 @@ struct sprite *load_gfxfile(const char *filename)
     if (infop != NULL) {
       png_destroy_read_struct(&pngp, &infop, (png_infopp)NULL);
     } else {
-      freelog(LOG_ERROR,
-	      "PNG info struct is NULL (non-fatal): \"%s\"",
-	      filename);
+      log_error("PNG info struct is NULL (non-fatal): \"%s\"", filename);
       png_destroy_read_struct(&pngp, (png_infopp)NULL, (png_infopp)NULL);
     }
   }

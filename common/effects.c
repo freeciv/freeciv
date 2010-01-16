@@ -430,7 +430,7 @@ void recv_ruleset_effect(struct packet_ruleset_effect *packet)
 void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
 {
   if (packet->effect_id != effect_list_size(ruleset_cache.tracker) - 1) {
-    freelog(LOG_ERROR, "Bug in recv_ruleset_effect_req.");
+    log_error("Bug in recv_ruleset_effect_req.");
   } else {
     struct effect *peffect = effect_list_get(ruleset_cache.tracker, -1);
     struct requirement req, *preq;

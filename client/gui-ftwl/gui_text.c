@@ -94,8 +94,8 @@ static void grow_printf(char **buffer, size_t *buffer_size,
      * overhead adds up quickly. */
     size_t new_size = MAX(new_len, *buffer_size * 2);
 
-    freelog(LOG_VERBOSE, "expand from %lu to %lu to add '%s'",
-	    (unsigned long)*buffer_size, (unsigned long)new_size, buf);
+    log_verbose("expand from %lu to %lu to add '%s'",
+                (unsigned long)*buffer_size, (unsigned long)new_size, buf);
 
     *buffer_size = new_size;
     *buffer = fc_realloc(*buffer, *buffer_size);
@@ -327,9 +327,8 @@ const char *mapview_get_unit_action_tooltip(struct unit *punit,
 #endif
     add_line("tooltip for action %s isn't written yet",
 	     action);
-    freelog(LOG_VERBOSE,
-	    "warning: get_unit_action_tooltip: unknown action %s",
-	    action);
+    log_verbose("warning: get_unit_action_tooltip: unknown action %s",
+                action);
   }
   RETURN;
 }
@@ -353,8 +352,8 @@ const char *mapview_get_city_action_tooltip(struct city *pcity,
 	     city_production_turns_to_build(pcity, TRUE));
   } else {
     add_line("tooltip for action %s isn't written yet", action);
-    freelog(LOG_VERBOSE,
-	    "warning: get_city_action_tooltip: unknown action %s", action);
+    log_verbose("warning: get_city_action_tooltip: unknown action %s",
+                action);
   }
   RETURN;
 }  

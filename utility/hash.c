@@ -307,7 +307,7 @@ static struct hash_table *hash_new_nbuckets(hash_val_fn_t fval,
   struct hash_table *h;
   unsigned i;
 
-  freelog(LOG_DEBUG, "New hash table with %u buckets", nbuckets);
+  log_debug("New hash table with %u buckets", nbuckets);
   
   h = (struct hash_table *)fc_malloc(sizeof(struct hash_table));
   zero_htable(h);
@@ -470,12 +470,12 @@ static void hash_maybe_resize(struct hash_table *h, bool expandingp)
   
   new_nbuckets = calc_appropriate_nbuckets(h->num_entries);
   
-  freelog(LOG_DEBUG, "%s hash table "
-	  "(entry %u del %u used %u nbuck %u new %u %slimit %u)",
-	  (new_nbuckets<h->num_buckets) ? "Shrinking" :
-	  (new_nbuckets>h->num_buckets) ? "Expanding" : "Rehashing",
-	  h->num_entries, h->num_deleted, num_used, 
-	  h->num_buckets, new_nbuckets, expandingp?"up":"dn", limit);
+  log_debug("%s hash table "
+            "(entry %u del %u used %u nbuck %u new %u %slimit %u)",
+            (new_nbuckets<h->num_buckets) ? "Shrinking" :
+              (new_nbuckets>h->num_buckets) ? "Expanding" : "Rehashing",
+              h->num_entries, h->num_deleted, num_used, 
+              h->num_buckets, new_nbuckets, expandingp?"up":"dn", limit);
   hash_resize_table(h, new_nbuckets);
 }
 

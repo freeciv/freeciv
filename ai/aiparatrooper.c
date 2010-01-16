@@ -364,10 +364,8 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
       choice->value.utype = u_type;
       choice->type = CT_ATTACKER;
       choice->need_boat = FALSE;
-      freelog(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
-	      city_name(pcity),
-	      utype_rule_name(u_type),
-	      profit);
+      log_base(LOGLEVEL_PARATROOPER, "%s wants to build %s (want=%d)",
+               city_name(pcity), utype_rule_name(u_type), profit);
     }
   } unit_type_iterate_end;
 
@@ -375,13 +373,13 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   for (i = 0; i < num_requirements; i++) {
     tech_req = requirements[i];
     pplayer->ai_data.tech_want[tech_req] += 2;
-    freelog(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
-	      "stimulating %s with %d (%d) and req",
-	    city_name(pcity),
-	    player_name(pplayer),
-	    advance_name_by_player(pplayer, tech_req),
-	    2,
-	    pplayer->ai_data.tech_want[tech_req]);
+    log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
+             "stimulating %s with %d (%d) and req",
+             city_name(pcity),
+             player_name(pplayer),
+             advance_name_by_player(pplayer, tech_req),
+             2,
+             pplayer->ai_data.tech_want[tech_req]);
 
     /* now, we raise want for prerequisites */
     advance_index_iterate(A_FIRST, k) {

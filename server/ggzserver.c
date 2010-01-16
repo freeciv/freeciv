@@ -100,13 +100,13 @@ static void handle_ggz_state_event(GGZdMod * ggz, GGZdModEvent event,
   const GGZdModState *old_state = data;
   GGZdModState new_state = ggzdmod_get_state(ggz);
 
-  freelog(LOG_DEBUG, "ggz changed state to %d.", new_state);
+  log_debug("ggz changed state to %d.", new_state);
 
   if (*old_state == GGZDMOD_STATE_CREATED) {
     const char *savegame = ggzdmod_get_savedgame(ggz);
 
     /* If a savegame is given, load it. */
-    freelog(LOG_DEBUG, "Instructed to load \"%s\".", savegame);
+    log_debug("Instructed to load \"%s\".", savegame);
     if (savegame) {
       if (!load_command(NULL, savegame, FALSE)) {
 	/* no error handling? */
@@ -119,20 +119,18 @@ static void handle_ggz_state_event(GGZdMod * ggz, GGZdModEvent event,
     if (strlen(srvarg.serverid) == 0) {
       strcpy(srvarg.serverid, "ggz-civ-XXXXXX");
       if (!mkdtemp(srvarg.serverid)) {
-	freelog(LOG_ERROR,
-		_("Unable to make temporary directory for GGZ game.\n"));
-	server_quit();
+        log_error(_("Unable to make temporary directory for GGZ game.\n"));
+        server_quit();
       }
     }
 
     /* Change into the server directory */
     if (chdir(srvarg.serverid) < 0) {
-      freelog(LOG_ERROR,
-	      _("Unable to change into temporary server "
-		"directory %s.\n"), srvarg.serverid);
+      log_error(_("Unable to change into temporary server directory %s.\n"),
+                srvarg.serverid);
       server_quit();
     }
-    freelog(LOG_DEBUG, "Changed into directory %s.", srvarg.serverid);
+    log_debug("Changed into directory %s.", srvarg.serverid);
   }
 }
 
@@ -182,12 +180,12 @@ static void handle_ggz_seat_event(GGZdMod *ggz, GGZdModEvent event,
     } players_iterate_end;
 
     if (leaving) {
-      freelog(LOG_DEBUG, "%s is leaving.", old_seat->name);
+      log_debug("%s is leaving.", old_seat->name);
       leaving->sock = -1;
       lost_connection_to_client(leaving);
       close_connection(leaving);
     } else {
-      freelog(LOG_ERROR, "Couldn't match player %s.", old_seat->name);
+      log_error("Couldn't match player %s.", old_seat->name);
     }
   }
 }
@@ -221,7 +219,7 @@ static void handle_ggz_error(GGZdMod * ggz, GGZdModEvent event,
 {
   const char *err = data;
 
-  freelog(LOG_ERROR, "Error in ggz: %s", err);
+  log_error("Error in ggz: %s", err);
   server_quit();
 }
 
@@ -296,7 +294,7 @@ static int num_victors;
 ****************************************************************************/
 void ggz_report_victor(const struct player *winner)
 {
-  freelog(LOG_VERBOSE, "Victor: %s", winner->name);
+  log_verbose("Victor: %s", winner->name);
 
   if (!with_ggz) {
     return;
@@ -321,7 +319,7 @@ void ggz_report_victory(void)
   int teams[num_players], num_teams = 0, scores[num_players];
   GGZGameResult results[num_players], default_result;
 
-  freelog(LOG_VERBOSE, "Victory...");
+  log_verbose("Victory...");
 
   if (!with_ggz) {
     return;
@@ -406,8 +404,7 @@ void ggz_game_saved(const char *filename)
   } else {
     sz_strlcpy(full_filename, filename);
   }
-  freelog(LOG_DEBUG, "Reporting filename %s => %s to ggz.",
-	  filename, full_filename);
+  log_debug("Reporting filename %s => %s to ggz.", filename, full_filename);
 
   if (with_ggz) {
     ggzdmod_report_savegame(ggzdmod, full_filename);

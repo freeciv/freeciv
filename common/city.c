@@ -253,11 +253,11 @@ void generate_city_map_indices(void)
 
 #ifdef DEBUG
   for (i = 0; i < CITY_TILES; i++) {
-    freelog(LOG_DEBUG, "%2d : (%2d,%2d) : %d", i,
-	    array[i].dx + CITY_MAP_RADIUS, array[i].dy + CITY_MAP_RADIUS,
-	    array[i].dist);
+    log_debug("%2d : (%2d,%2d) : %d", i,
+              array[i].dx + CITY_MAP_RADIUS, array[i].dy + CITY_MAP_RADIUS,
+              array[i].dist);
   }
-#endif
+#endif /* DEBUG */
 
   city_map_index = array;
 
@@ -2517,9 +2517,8 @@ void city_add_improvement(struct city *pcity,
 void city_remove_improvement(struct city *pcity,
 			     const struct impr_type *pimprove)
 {
-  freelog(LOG_DEBUG,"Improvement %s removed from city %s",
-          improvement_rule_name(pimprove),
-          pcity->name);
+  log_debug("Improvement %s removed from city %s",
+            improvement_rule_name(pimprove), pcity->name);
   
   pcity->built[improvement_index(pimprove)].turn = I_DESTROYED;
 

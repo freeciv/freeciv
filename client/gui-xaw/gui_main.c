@@ -223,7 +223,7 @@ Atom wm_delete_window;
 void set_city_names_font_sizes(int my_city_names_font_size,
 			       int my_city_productions_font_size)
 {
-  freelog(LOG_ERROR, "Unimplemented set_city_names_font_sizes.");
+  log_error("Unimplemented set_city_names_font_sizes.");
   /* PORTME */
 }
 
@@ -341,25 +341,25 @@ void ui_main(int argc, char *argv[])
   XSetErrorHandler(myerr);*/
 
   if(appResources.version==NULL)  {
-    freelog(LOG_FATAL, _("No version number in resources."));
-    freelog(LOG_FATAL, _("You probably have an old (circa V1.0)"
-			 " Freeciv resource file somewhere."));
+    log_fatal(_("No version number in resources."));
+    log_fatal(_("You probably have an old (circa V1.0)"
+                " Freeciv resource file somewhere."));
     exit(EXIT_FAILURE);
   }
 
   /* TODO: Use capabilities here instead of version numbers */
   if (0 != strncmp(appResources.version, VERSION_STRING,
 		   strlen(appResources.version))) {
-    freelog(LOG_FATAL, _("Game version does not match Resource version."));
-    freelog(LOG_FATAL, _("Game version: %s - Resource version: %s"), 
-	    VERSION_STRING, appResources.version);
-    freelog(LOG_FATAL, _("You might have an old Freeciv resourcefile"
-			 " in /usr/lib/X11/app-defaults"));
+    log_fatal(_("Game version does not match Resource version."));
+    log_fatal(_("Game version: %s - Resource version: %s"),
+              VERSION_STRING, appResources.version);
+    log_fatal(_("You might have an old Freeciv resourcefile"
+                " in /usr/lib/X11/app-defaults"));
     exit(EXIT_FAILURE);
   }
   
   if(!appResources.gotAppDefFile) {
-    freelog(LOG_NORMAL, _("Using fallback resources - which is OK"));
+    log_normal(_("Using fallback resources - which is OK"));
   }
 
   display = XtDisplay(toplevel);
@@ -370,7 +370,7 @@ void ui_main(int argc, char *argv[])
   display_color_type=get_visual(); 
   
   if(display_color_type!=COLOR_DISPLAY) {
-    freelog(LOG_FATAL, _("Only color displays are supported for now..."));
+    log_fatal(_("Only color displays are supported for now..."));
     /*    exit(EXIT_FAILURE); */
   }
 
@@ -393,15 +393,13 @@ void ui_main(int argc, char *argv[])
 	&missing_charset_count_return,
 	&def_string_return);
     if (!main_font_set) {
-      freelog(LOG_FATAL, _("Unable to open fontset: %s"),
-	      city_names_font);
-      freelog(LOG_FATAL,
-	      _("Doing 'xset fp rehash' may temporarily solve a problem."));
+      log_fatal(_("Unable to open fontset: %s"), city_names_font);
+      log_fatal(_("Doing 'xset fp rehash' may temporarily solve a problem."));
       exit(EXIT_FAILURE);
     }
     for (i = 0; i < missing_charset_count_return; i++) {
-      freelog(LOG_ERROR, _("Font for charset %s is lacking"),
-	      missing_charset_list_return[i]);
+      log_error(_("Font for charset %s is lacking"),
+                missing_charset_list_return[i]);
     }
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
@@ -414,15 +412,13 @@ void ui_main(int argc, char *argv[])
 	&missing_charset_count_return,
 	&def_string_return);
     if (!prod_font_set) {
-      freelog(LOG_FATAL, _("Unable to open fontset: %s"),
-	      city_productions_font_name);
-      freelog(LOG_FATAL,
-	      _("Doing 'xset fp rehash' may temporarily solve a problem."));
+      log_fatal(_("Unable to open fontset: %s"), city_productions_font_name);
+      log_fatal(_("Doing 'xset fp rehash' may temporarily solve a problem."));
       exit(EXIT_FAILURE);
     }
     for (i = 0; i < missing_charset_count_return; i++) {
-      freelog(LOG_ERROR, _("Font for charset %s is lacking"),
-	      missing_charset_list_return[i]);
+      log_error(_("Font for charset %s is lacking"),
+                missing_charset_list_return[i]);
     }
     values.foreground = get_color(tileset, COLOR_MAPVIEW_CITYTEXT)->color.pixel;
     values.background = get_color(tileset, COLOR_MAPVIEW_UNKNOWN)->color.pixel;
@@ -819,7 +815,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
 
   if (previous_state == socket_writable)
     return;
-  freelog(LOG_DEBUG, "set_wait_for_writable_socket(%d)", socket_writable);
+  log_debug("set_wait_for_writable_socket(%d)", socket_writable);
   XtRemoveInput(x_input_id);
   x_input_id = XtAppAddInput(app_context, client.conn.sock,
 			     (XtPointer) (XtInputReadMask |

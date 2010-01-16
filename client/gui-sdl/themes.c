@@ -51,11 +51,9 @@ void gui_clear_theme(void)
 {
   theme_free(theme);
   if (!load_theme(gui_sdl_default_theme_name)) {
-    freelog(LOG_FATAL,
-            /* TRANS: No full stop after the URL, could cause confusion. */
-            _("No gui-sdl theme was found. For instructions on how to get one,"
-              " please visit %s"),
-            WIKI_URL);
+    /* TRANS: No full stop after the URL, could cause confusion. */
+    log_fatal(_("No gui-sdl theme was found. For instructions on how to "
+                "get one, please visit %s"), WIKI_URL);
     exit(EXIT_FAILURE);
   }
 }

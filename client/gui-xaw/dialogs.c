@@ -1311,10 +1311,8 @@ void races_toggles_set_sensitive(void)
         nation_index(races_toggles_to_nations[races_buttons_get_current()]);
     }
 
-    freelog(LOG_DEBUG, "  [%d]: %d = %s",
-	    selected_nation,
-	    nation_number(nation),
-	    nation_rule_name(nation));
+    log_debug("  [%d]: %d = %s", selected_nation,
+              nation_number(nation), nation_rule_name(nation));
 
     if (this_index == selected_nation) {
       XawToggleUnsetCurrent(races_toggles[0]);

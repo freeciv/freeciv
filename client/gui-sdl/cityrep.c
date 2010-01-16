@@ -1159,7 +1159,7 @@ void city_report_dialog_update_city(struct city *pCity)
 *****************************************************************/
 void hilite_cities_from_canvas(void)
 {
-  freelog(LOG_DEBUG, "hilite_cities_from_canvas : PORT ME");
+  log_debug("hilite_cities_from_canvas : PORT ME");
 }
 
 /****************************************************************
@@ -1167,5 +1167,5 @@ void hilite_cities_from_canvas(void)
 *****************************************************************/
 void toggle_city_hilite(struct city *pCity, bool on_off)
 {
-  freelog(LOG_DEBUG, "toggle_city_hilite : PORT ME");
+  log_debug("toggle_city_hilite : PORT ME");
 }

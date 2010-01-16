@@ -20,18 +20,21 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "hash.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "shared.h"
-#include "specialist.h"
 #include "support.h"
 #include "timing.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "government.h"
+#include "map.h"
+#include "specialist.h"
 
 #include "cm.h"
 
@@ -231,18 +234,40 @@ static int num_types(const struct cm_state *state);
 
 /* debugging functions */
 #ifdef CM_DEBUG
-static void print_tile_type(int loglevel, const struct cm_tile_type *ptype,
-    const char *prefix);
-static void print_lattice(int loglevel,
-    const struct tile_type_vector *lattice);
-static void print_partial_solution(int loglevel,
-    const struct partial_solution *soln,
-    const struct cm_state *state);
+static void real_print_tile_type(enum log_level level, const char *file,
+                                 const char *function, int line,
+                                 const struct cm_tile_type *ptype,
+                                 const char *prefix);
+#define print_tile_type(loglevel, ptype, prefix)                            \
+  if (log_do_output_for_level(loglevel)) {                                  \
+    real_print_tile_type(loglevel, __FILE__, __FUNCTION__, __LINE__,        \
+                         ptype, prefix);                                    \
+  }
+
+static void real_print_lattice(enum log_level level, const char *file,
+                               const char *function, int line,
+                               const struct tile_type_vector *lattice);
+#define print_lattice(loglevel, lattice)                                    \
+  if (log_do_output_for_level(loglevel)) {                                  \
+    real_print_lattice(loglevel, __FILE__, __FUNCTION__, __LINE__, lattice);\
+  }
+
+static void real_print_partial_solution(enum log_level level,
+                                        const char *file,
+                                        const char *function, int line,
+                                        const struct partial_solution *soln,
+                                        const struct cm_state *state);
+#define print_partial_solution(loglevel, soln, state)                       \
+  if (log_do_output_for_level(loglevel)) {                                  \
+    real_print_partial_solution(loglevel, __FILE__, __FUNCTION__, __LINE__, \
+                                soln, state);                               \
+  }
+
 #else
 #define print_tile_type(loglevel, ptype, prefix)
 #define print_lattice(loglevel, lattice)
 #define print_partial_solution(loglevel, soln, state)
-#endif
+#endif /* CM_DEBUG */
 
 
 /****************************************************************************
@@ -1096,7 +1121,7 @@ static void sort_lattice_by_fitness(const struct cm_state *state,
     lattice->p[i]->lattice_index = i;
   }
 
-  freelog(LOG_LATTICE, "sorted lattice:");
+  log_base(LOG_LATTICE, "sorted lattice:");
   print_lattice(LOG_LATTICE, lattice);
 }
 
@@ -1306,11 +1331,11 @@ static int next_choice(struct cm_state *state, int oldchoice)
     }
     if (!choice_is_promising(state, newchoice)) {
       /* heuristic says we can't beat the best going this way */
-      freelog(LOG_PRUNE_BRANCH, "--- pruning branch ---");
+      log_base(LOG_PRUNE_BRANCH, "--- pruning branch ---");
       print_partial_solution(LOG_PRUNE_BRANCH, &state->current, state);
       print_tile_type(LOG_PRUNE_BRANCH, tile_type_get(state, newchoice),
-          " + worker on ");
-      freelog(LOG_PRUNE_BRANCH, "--- branch pruned ---");
+                      " + worker on ");
+      log_base(LOG_PRUNE_BRANCH, "--- branch pruned ---");
       continue;
     }
     break;
@@ -1500,9 +1525,9 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
 
   output_type_iterate(stat) {
     if (production[stat] < state->min_production[stat]) {
-      freelog(LOG_PRUNE_BRANCH, "--- pruning: insufficient %s (%d < %d)",
-	      get_output_name(stat), production[stat],
-	      state->min_production[stat]);
+      log_base(LOG_PRUNE_BRANCH, "--- pruning: insufficient %s (%d < %d)",
+               get_output_name(stat), production[stat],
+               state->min_production[stat]);
       return FALSE;
     }
     if (production[stat] > state->best.production[stat]) {
@@ -1512,7 +1537,7 @@ static bool choice_is_promising(struct cm_state *state, int newchoice)
     }
   } output_type_iterate_end;
   if (!beats_best) {
-    freelog(LOG_PRUNE_BRANCH, "--- pruning: best is better in all ways");
+    log_base(LOG_PRUNE_BRANCH, "--- pruning: best is better in all ways");
   }
   return beats_best;
 }
@@ -1632,7 +1657,7 @@ static bool bb_next(struct cm_state *state)
 
     print_partial_solution(LOG_REACHED_LEAF, &state->current, state);
     if (fitness_better(value, state->best_value)) {
-      freelog(LOG_BETTER_LEAF, "-> replaces previous best");
+      log_base(LOG_BETTER_LEAF, "-> replaces previous best");
       copy_partial_solution(&state->best, &state->current, state);
       state->best_value = value;
     }
@@ -1665,8 +1690,8 @@ static struct cm_state *cm_init_state(struct city *pcity)
   int numtypes;
   struct cm_state *state = fc_malloc(sizeof(*state));
 
-  freelog(LOG_CM_STATE, "creating cm_state for %s (size %d)",
-	  city_name(pcity), pcity->size);
+  log_base(LOG_CM_STATE, "creating cm_state for %s (size %d)",
+           city_name(pcity), pcity->size);
 
   /* copy the arguments */
   state->pcity = pcity;
@@ -1967,55 +1992,65 @@ static void snprint_production(char *buffer, size_t bufsz,
 /****************************************************************************
   Print debugging data about a particular tile type.
 ****************************************************************************/
-static void print_tile_type(int loglevel, const struct cm_tile_type *ptype,
-			    const char *prefix)
+static void real_print_tile_type(enum log_level level, const char *file,
+                                 const char *function, int line,
+                                 const struct cm_tile_type *ptype,
+                                 const char *prefix)
 {
   char prodstr[256];
 
   snprint_production(prodstr, sizeof(prodstr), ptype->production);
-  freelog(loglevel, "%s%s fitness %g depth %d, idx %d; %d tiles", prefix,
-	  prodstr, ptype->estimated_fitness, ptype->lattice_depth,
-	  ptype->lattice_index, tile_type_num_tiles(ptype));
+  do_log(file, function, line, FALSE, level,
+         "%s%s fitness %g depth %d, idx %d; %d tiles", prefix,
+         prodstr, ptype->estimated_fitness, ptype->lattice_depth,
+         ptype->lattice_index, tile_type_num_tiles(ptype));
 }
 
 /****************************************************************************
   Print debugging data about a whole B&B lattice.
 ****************************************************************************/
-static void print_lattice(int loglevel,
-			  const struct tile_type_vector *lattice)
+static void real_print_lattice(enum log_level level, const char *file,
+                               const char *function, int line,
+                               const struct tile_type_vector *lattice)
 {
-  freelog(loglevel, "lattice has %u terrain types", (unsigned)lattice->size);
+  do_log(file, function, line, FALSE, level,
+         "lattice has %u terrain types", (unsigned) lattice->size);
   tile_type_vector_iterate(lattice, ptype) {
-    print_tile_type(loglevel, ptype, "  ");
+    real_print_tile_type(level, file, function, line, ptype, "  ");
   } tile_type_vector_iterate_end;
 }
+
 
 /****************************************************************************
   Print debugging data about a partial CM solution.
 ****************************************************************************/
-static void print_partial_solution(int loglevel,
-				   const struct partial_solution *soln,
-				   const struct cm_state *state)
+static void real_print_partial_solution(enum log_level level,
+                                        const char *file,
+                                        const char *function, int line,
+                                        const struct partial_solution *soln,
+                                        const struct cm_state *state)
 {
   int i;
   int last_type = 0;
   char buf[256];
 
-  if(soln->idle != 0) {
-    freelog(loglevel, "** partial solution has %d idle workers", soln->idle);
+  if (soln->idle != 0) {
+    do_log(file, function, line, FALSE, level,
+           "** partial solution has %d idle workers", soln->idle);
   } else {
-    freelog(loglevel, "** completed solution:");
+    do_log(file, function, line, FALSE, level, "** completed solution:");
   }
 
   snprint_production(buf, sizeof(buf), soln->production);
-  freelog(loglevel, "production: %s", buf);
+  do_log(file, function, line, FALSE, level, "production: %s", buf);
 
-  freelog(loglevel, "tiles used:");
+  do_log(file, function, line, FALSE, level, "tiles used:");
   for (i = 0; i < num_types(state); i++) {
     if (soln->worker_counts[i] != 0) {
       my_snprintf(buf, sizeof(buf), "  %d tiles of type ",
-		  soln->worker_counts[i]);
-      print_tile_type(loglevel, tile_type_get(state, i), buf);
+                  soln->worker_counts[i]);
+      real_print_tile_type(level, file, function, line,
+                           tile_type_get(state, i), buf);
     }
   }
 
@@ -2025,13 +2060,14 @@ static void print_partial_solution(int loglevel,
     }
   }
 
-  freelog(loglevel, "tiles available:");
+  do_log(file, function, line, FALSE, level, "tiles available:");
   for (i = last_type; i < num_types(state); i++) {
     const struct cm_tile_type *ptype = tile_type_get(state, i);
 
     if (soln->prereqs_filled[i] == tile_type_num_prereqs(ptype)
-	&& soln->worker_counts[i] < tile_type_num_tiles(ptype)) {
-      print_tile_type(loglevel, tile_type_get(state, i), "  ");
+        && soln->worker_counts[i] < tile_type_num_tiles(ptype)) {
+      real_print_tile_type(level, file, function, line,
+                           tile_type_get(state, i), "  ");
     }
   }
 }
@@ -2056,9 +2092,9 @@ static void print_performance(struct one_perf *counts)
 
   applies = counts->apply_count;
 
-  freelog(LOG_TIME_STATS,
-      "CM-%s: overall=%fs queries=%d %fms / query, %d applies",
-      counts->name, s, queries, ms / q, applies);
+  log_base(LOG_TIME_STATS,
+           "CM-%s: overall=%fs queries=%d %fms / query, %d applies",
+           counts->name, s, queries, ms / q, applies);
 }
 #endif
 
@@ -2069,36 +2105,33 @@ void cm_print_city(const struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  freelog(LOG_TEST, "cm_print_city(city %d=\"%s\")",
-          pcity->id,
-          city_name(pcity));
-  freelog(LOG_TEST,
-	  "  size=%d, specialists=%s",
-	  pcity->size, specialists_string(pcity->specialists));
+  log_test("cm_print_city(city %d=\"%s\")", pcity->id, city_name(pcity));
+  log_test("  size=%d, specialists=%s",
+           pcity->size, specialists_string(pcity->specialists));
 
-  freelog(LOG_TEST, "  workers at:");
+  log_test("  workers at:");
   city_tile_iterate_cxy(pcenter, ptile, x, y) {
     struct city *pwork = tile_worked(ptile);
 
     if (NULL != pwork && pwork == pcity) {
-      freelog(LOG_TEST, "    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
+      log_test("    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
     }
 
     if (C_TILE_WORKER == pcity->city_map[x][y]) {
-      freelog(LOG_TEST, "    {%2d,%2d}", x, y);
+      log_test("    {%2d,%2d}", x, y);
     }
   } city_tile_iterate_cxy_end;
 
-  freelog(LOG_TEST, "  food    = %3d (%+3d)",
-          pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
-  freelog(LOG_TEST, "  shield  = %3d (%+3d)",
-          pcity->prod[O_SHIELD], pcity->surplus[O_SHIELD]);
-  freelog(LOG_TEST, "  trade   = %3d", pcity->surplus[O_TRADE]);
+  log_test("  food    = %3d (%+3d)",
+           pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
+  log_test("  shield  = %3d (%+3d)",
+           pcity->prod[O_SHIELD], pcity->surplus[O_SHIELD]);
+  log_test("  trade   = %3d", pcity->surplus[O_TRADE]);
 
-  freelog(LOG_TEST, "  gold    = %3d (%+3d)", pcity->prod[O_GOLD],
-	  pcity->surplus[O_GOLD]);
-  freelog(LOG_TEST, "  luxury  = %3d", pcity->prod[O_LUXURY]);
-  freelog(LOG_TEST, "  science = %3d", pcity->prod[O_SCIENCE]);
+  log_test("  gold    = %3d (%+3d)",
+           pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
+  log_test("  luxury  = %3d", pcity->prod[O_LUXURY]);
+  log_test("  science = %3d", pcity->prod[O_SCIENCE]);
 }
 
 
@@ -2110,14 +2143,14 @@ void cm_print_result(const struct cm_result *result)
   int y;
   int workers = cm_result_workers(result);
 
-  freelog(LOG_TEST, "cm_print_result(result=%p)", (void *)result);
-  freelog(LOG_TEST, "  found_a_valid=%d disorder=%d happy=%d",
-      result->found_a_valid, result->disorder, result->happy);
+  log_test("cm_print_result(result=%p)", (void *) result);
+  log_test("  found_a_valid=%d disorder=%d happy=%d",
+           result->found_a_valid, result->disorder, result->happy);
 
-  freelog(LOG_TEST, "  workers at:");
+  log_test("  workers at:");
   city_map_iterate(x, y) {
     if (result->worker_positions_used[x][y]) {
-      freelog(LOG_TEST, "    {%2d,%2d}", x, y);
+      log_test("    {%2d,%2d}", x, y);
     }
   } city_map_iterate_end;
 
@@ -2138,14 +2171,13 @@ void cm_print_result(const struct cm_result *result)
         line[x] = '.';
       }
     }
-    freelog(LOG_TEST, "  %s", line);
+    log_test("  %s", line);
   }
-  freelog(LOG_TEST, "  (workers/specialists) %d/%s",
-          workers,
-          specialists_string(result->specialists));
+  log_test("  (workers/specialists) %d/%s", workers,
+           specialists_string(result->specialists));
 
   output_type_iterate(i) {
-    freelog(LOG_TEST, "  %10s surplus=%d",
-        get_output_name(i), result->surplus[i]);
+    log_test("  %10s surplus=%d",
+             get_output_name(i), result->surplus[i]);
   } output_type_iterate_end;
 }

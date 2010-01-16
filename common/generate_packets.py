@@ -20,10 +20,10 @@
 # have to call delta_stats_report to get these.
 generate_stats=0
 
-# generate_freelogs will generate freelog calls to debug the delta code.
-generate_freelogs=0
-freelog_log_level="LOG_PACKET"
-generate_variant_freelogs=0
+# generate_logs will generate log calls to debug the delta code.
+generate_logs=1
+use_log_macro="log_packet"
+generate_variant_logs=1
 
 ### The following parameters CHANGE the protocol. You have been warned.
 fold_bool_into_header=1
@@ -331,9 +331,9 @@ class Field:
             return "  /* field %(i)d is folded into the header */\n"%vars()
         put=self.get_put()
         packet_name=packet.name
-        log_level=packet.log_level
-        if packet.gen_freelog:
-            f='    freelog(%(log_level)s, "  field \'%(name)s\' has changed");\n'%self.get_dict(vars())
+        log_macro=packet.log_macro
+        if packet.gen_log:
+            f='    %(log_macro)s("  field \'%(name)s\' has changed");\n'%self.get_dict(vars())
         else:
             f=""
         if packet.gen_stats:
@@ -407,9 +407,9 @@ class Field:
            not self.is_array:
             return  "  real_packet->%(name)s = BV_ISSET(fields, %(i)d);\n"%self.get_dict(vars())
         get=prefix("    ",get)
-        log_level=packet.log_level
-        if packet.gen_freelog:
-            f="    freelog(%(log_level)s, \"  got field '%(name)s'\");\n"%self.get_dict(vars())
+        log_macro=packet.log_macro
+        if packet.gen_log:
+            f="    %(log_macro)s(\"  got field '%(name)s'\");\n"%self.get_dict(vars())
         else:
             f=""
         return '''  if (BV_ISSET(fields, %(i)d)) {
@@ -475,7 +475,7 @@ class Field:
             if array_size_u != array_size_d:
                 extra='''
   if(%(array_size_u)s > %(array_size_d)s) {
-    freelog(LOG_ERROR, "packets_gen.c: WARNING: truncation array");
+    log_error("packets_gen.c: WARNING: truncation array");
     %(array_size_u)s = %(array_size_d)s;
   }'''%self.get_dict(vars())
             else:
@@ -501,7 +501,7 @@ for (;;) {
     break;
   }
   if(i > %(array_size_u)s) {
-    freelog(LOG_ERROR, "packets_gen.c: WARNING: ignoring intra array diff");
+    log_error("packets_gen.c: WARNING: ignoring intra array diff");
   } else {
     %(c)s
   }
@@ -512,9 +512,9 @@ for (;;) {
 # Class which represents a capability variant.
 class Variant:
     def __init__(self,poscaps,negcaps,name,fields,packet,no):
-        self.log_level=freelog_log_level
+        self.log_macro=use_log_macro
         self.gen_stats=generate_stats
-        self.gen_freelog=generate_freelogs
+        self.gen_log=generate_logs
         self.name=name
         self.packet_name=packet.name
         self.fields=fields
@@ -601,11 +601,11 @@ static char *stats_%(name)s_names[] = {%(names)s};
         return '''
   if (stats_%(name)s_sent > 0 &&
       stats_%(name)s_discarded != stats_%(name)s_sent) {
-    freelog(LOG_TEST, \"%(name)s %%d out of %%d got discarded\",
+    log_test(\"%(name)s %%d out of %%d got discarded\",
       stats_%(name)s_discarded, stats_%(name)s_sent);
     for (i = 0; i < %(bits)d; i++) {
       if(stats_%(name)s_counters[i] > 0) {
-        freelog(LOG_TEST, \"  %%4d / %%4d: %%2d = %%s\",
+        log_test(\"  %%4d / %%4d: %%2d = %%s\",
           stats_%(name)s_counters[i],
           (stats_%(name)s_sent - stats_%(name)s_discarded),
           i, stats_%(name)s_names[i]);
@@ -682,7 +682,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(send_prototype)s
 {
 <real_packet1><delta_header>  SEND_PACKET_START(%(type)s);
-<freelog><report><pre1><body><pre2>  <post>SEND_PACKET_END;
+<log><report><pre1><body><pre2>  <post>SEND_PACKET_END;
 }
 
 '''
@@ -693,10 +693,10 @@ static char *stats_%(name)s_names[] = {%(names)s};
 '''
         else:
             report=""
-        if self.gen_freelog:
-            freelog='\n  freelog(%(log_level)s, "%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n'
+        if self.gen_log:
+            log='\n  %(log_macro)s("%(name)s: sending info about (%(keys_format)s)"%(keys_arg)s);\n'
         else:
-            freelog=""
+            log=""
         if self.want_pre_send:
             pre1='''
   {
@@ -777,8 +777,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
         for i in range(len(self.other_fields)):
             field=self.other_fields[i]
             body=body+field.get_cmp_wrapper(i)
-        if self.gen_freelog:
-            fl='    freelog(%(log_level)s, "  no change -> discard");\n'
+        if self.gen_log:
+            fl='    %(log_macro)s("  no change -> discard");\n'
         else:
             fl=""
         if self.gen_stats:
@@ -826,7 +826,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         temp='''%(receive_prototype)s
 {
 <delta_header>  RECEIVE_PACKET_START(%(packet_name)s, real_packet);
-<delta_body1><body1><freelog><body2><post>  RECEIVE_PACKET_END(real_packet);
+<delta_body1><body1><log><body2><post>  RECEIVE_PACKET_END(real_packet);
 }
 
 '''
@@ -850,10 +850,10 @@ static char *stats_%(name)s_names[] = {%(names)s};
             body1=body1+"\n"
             body2=""
 
-        if self.gen_freelog:
-            freelog='  freelog(%(log_level)s, "%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n'
+        if self.gen_log:
+            log='  %(log_macro)s("%(name)s: got info about (%(keys_format)s)"%(keys_arg)s);\n'
         else:
-            freelog=""
+            log=""
         
         if self.want_post_recv:
             post="  post_receive_%(packet_name)s(pc, real_packet);\n"
@@ -874,8 +874,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
         key2=string.join(key2,"\n")
         if key1: key1=key1+"\n\n"
         if key2: key2="\n\n"+key2
-        if self.gen_freelog:
-            fl='    freelog(%(log_level)s, "  no old info");\n'
+        if self.gen_log:
+            fl='    %(log_macro)s("  no old info");\n'
         else:
             fl=""
         body='''
@@ -911,9 +911,9 @@ static char *stats_%(name)s_names[] = {%(names)s};
 class Packet:
     def __init__(self,str, types):
         self.types=types
-        self.log_level=freelog_log_level
+        self.log_macro=use_log_macro
         self.gen_stats=generate_stats
-        self.gen_freelog=generate_freelogs
+        self.gen_log=generate_logs
         str=string.strip(str)
         lines=string.split(str,"\n")
         
@@ -1108,8 +1108,8 @@ class Packet:
             name2=v.name
             no=v.no
             result=result+'  } else if(%(cond)s) {\n    variant = %(no)s;\n'%self.get_dict(vars())
-        if generate_variant_freelogs and len(self.variants)>1:
-            log='  freelog(LOG_TEST, "%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
+        if generate_variant_logs and len(self.variants)>1:
+            log='  log_test("%(name)s: using variant=%%d cap=%%s", variant, pc->capability);\n'%self.get_dict(vars())
         else:
             log=""
         result=result+'''  } else {
@@ -1129,12 +1129,12 @@ class Packet:
         only_server=len(self.dirs)==1 and self.dirs[0]=="cs"
         if only_client:
             restrict='''  if (pc->is_server) {
-    freelog(LOG_ERROR, "Receiving %(name)s at the server.");
+    log_error("Receiving %(name)s at the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
             restrict='''  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Receiving %(name)s at the client.");
+    log_error("Receiving %(name)s at the client.");
   }
 '''%self.get_dict(vars())
         else:
@@ -1143,9 +1143,8 @@ class Packet:
         result='''%(receive_prototype)s
 {
   if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to read data from the closed connection %%s",
-	    conn_description(pc));
+    log_error("WARNING: trying to read data from the closed connection %%s",
+              conn_description(pc));
     return NULL;
   }
   assert(pc->phs.variant != NULL);
@@ -1165,12 +1164,12 @@ class Packet:
         only_server=len(self.dirs)==1 and self.dirs[0]=="sc"
         if only_client:
             restrict='''  if (pc->is_server) {
-    freelog(LOG_ERROR, "Sending %(name)s from the server.");
+    log_error("Sending %(name)s from the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
             restrict='''  if (!pc->is_server) {
-    freelog(LOG_ERROR, "Sending %(name)s from the client.");
+    log_error("Sending %(name)s from the client.");
   }
 '''%self.get_dict(vars())
         else:
@@ -1179,9 +1178,8 @@ class Packet:
         result='''%(send_prototype)s
 {
   if(!pc->used) {
-    freelog(LOG_ERROR,
-	    "WARNING: trying to send data to the closed connection %%s",
-	    conn_description(pc));
+    log_error("WARNING: trying to send data to the closed connection %%s",
+              conn_description(pc));
     return -1;
   }
   assert(pc->phs.variant != NULL);
@@ -1302,8 +1300,8 @@ def get_get_packet_helper(packets):
     for p in packets:
         body=body+"  case %(type)s:\n    return receive_%(name)s(pc, type);\n\n"%p.__dict__
     extro='''  default:
-    freelog(LOG_ERROR, "unknown packet type %d received from %s",
-	    type, conn_description(pc));
+    log_error("unknown packet type %d received from %s",
+              type, conn_description(pc));
     remove_packet_from_buffer(pc->buffer);
     return NULL;
   };

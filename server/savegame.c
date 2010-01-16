@@ -71,7 +71,7 @@
 
 #define TOKEN_SIZE 10
 
-#define LOG_WORKER		LOG_VERBOSE
+#define log_worker      log_verbose
 
 /* enum city_tile_type string constants for savegame */
 #define S_TILE_EMPTY		'0'
@@ -164,14 +164,13 @@
     const int nat_y = _nat_y;						\
     const char *_line = (SECFILE_LOOKUP_LINE);				\
     if (NULL == _line) {						\
-      freelog(LOG_VERBOSE, "Line not found='%s'",			\
-              #SECFILE_LOOKUP_LINE);					\
+      log_verbose("Line not found='%s'", #SECFILE_LOOKUP_LINE);		\
       _printed_warning = TRUE;						\
       continue;								\
     } else if (strlen(_line) != map.xsize) {				\
-      freelog(LOG_VERBOSE, "Line too short (expected %d got %lu)='%s'",	\
-	      map.xsize, (unsigned long) strlen(_line),			\
-              #SECFILE_LOOKUP_LINE);					\
+      log_verbose("Line too short (expected %d got %lu)='%s'",		\
+                  map.xsize, (unsigned long) strlen(_line),		\
+                  #SECFILE_LOOKUP_LINE);				\
       _printed_warning = TRUE;						\
       continue;								\
     }									\
@@ -183,10 +182,9 @@
   }									\
   if (_printed_warning) {						\
     /* TRANS: Minor error message. */					\
-    freelog(LOG_ERROR,							\
-	    _("Saved game contains incomplete map data.  This can"	\
-	    " happen with old saved games, or it may indicate an"	\
-	    " invalid saved game file.  Proceed at your own risk."));	\
+    log_error(_("Saved game contains incomplete map data. This can"	\
+              " happen with old saved games, or it may indicate an"	\
+              " invalid saved game file. Proceed at your own risk."));	\
   }									\
 }
 
@@ -339,7 +337,7 @@ static struct terrain *char2terrain(char ch)
     }
   } terrain_type_iterate_end;
 
-  freelog(LOG_FATAL, "Unknown terrain identifier '%c' in savegame.", ch);
+  log_fatal("Unknown terrain identifier '%c' in savegame.", ch);
   exit(EXIT_FAILURE);
 }
 
@@ -646,8 +644,8 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
 				      path_str, i);
     pwl->entries[i] = universal_by_rule_name(kind, name);
     if (VUT_LAST == pwl->entries[i].kind) {
-      freelog(LOG_ERROR, "%s.wl_value%d: unknown \"%s\" \"%s\".",
-              path_str, i, kind, name);
+      log_error("%s.wl_value%d: unknown \"%s\" \"%s\".",
+                path_str, i, kind, name);
       pwl->length = i;
       break;
     }
@@ -736,9 +734,8 @@ static void map_load_startpos(struct section_file *file)
       if (nation_name != NULL) {
         pnation = find_nation_by_rule_name(nation_name);
         if (pnation == NO_NATION_SELECTED) {
-          freelog(LOG_ERROR,
-                  "Warning: Unknown nation %s for starting position %d",
-                  nation_name, i);
+          log_error("Warning: Unknown nation %s for starting position %d",
+                    nation_name, i);
         }
       }
 
@@ -770,10 +767,9 @@ static void map_load_startpos(struct section_file *file)
 
   if (map.server.num_start_positions
       && map.server.num_start_positions < game.info.max_players) {
-    freelog(LOG_VERBOSE,
-	    "Number of starts (%d) are lower than rules.max_players (%d),"
-	      " lowering rules.max_players.",
- 	    map.server.num_start_positions, game.info.max_players);
+    log_verbose("Number of starts (%d) are lower than rules.max_players "
+                "(%d), lowering rules.max_players.",
+                map.server.num_start_positions, game.info.max_players);
     game.info.max_players = map.server.num_start_positions;
   }
 }
@@ -886,7 +882,7 @@ static void set_savegame_special(bv_special *specials,
   const char *pch = strchr(hex_chars, ch);
 
   if (!pch || ch == '\0') {
-    freelog(LOG_ERROR, "Unknown hex value: '%c' (%d)", ch, ch);
+    log_error("Unknown hex value: '%c' (%d)", ch, ch);
     bin = 0;
   } else {
     bin = pch - hex_chars;
@@ -900,7 +896,7 @@ static void set_savegame_special(bv_special *specials,
       continue;
     }
     if (map.server.have_rivers_overlay && sp != S_RIVER) {
-      freelog(LOG_ERROR, "Rivers_overlay");
+      log_error("Rivers_overlay");
       continue;
     }
 
@@ -967,7 +963,7 @@ static void set_savegame_bases(bv_bases *bases,
   const char *pch = strchr(hex_chars, ch);
 
   if (!pch || ch == '\0') {
-    freelog(LOG_ERROR, "Unknown hex value: '%c' (%d)", ch, ch);
+    log_error("Unknown hex value: '%c' (%d)", ch, ch);
     bin = 0;
   } else {
     bin = pch - hex_chars;
@@ -1722,8 +1718,7 @@ static Tech_type_id technology_load(struct section_file *file,
     id = secfile_lookup_int_default(file, -1, path, plrno);
     name = old_tech_name(id);
     if (!name) {
-      freelog(LOG_FATAL, "%s: value (%d) out of range.",
-              path, id);
+      log_fatal("%s: value (%d) out of range.", path, id);
       exit(EXIT_FAILURE);
     }
   }
@@ -1744,8 +1739,7 @@ static Tech_type_id technology_load(struct section_file *file,
 
   padvance = find_advance_by_rule_name(name);
   if (NULL == padvance) {
-    freelog(LOG_FATAL, "%s: unknown technology \"%s\".",
-            path_with_name, name);
+    log_fatal("%s: unknown technology \"%s\".", path_with_name, name);
     exit(EXIT_FAILURE);    
   }
   return advance_number(padvance);
@@ -1790,19 +1784,19 @@ static const char* old_government_name(int id)
 {
   /* before 1.15.0 governments used to be saved by index */
   if (id < 0) {
-    freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+    log_fatal("Wrong government type id value (%d)", id);
     exit(EXIT_FAILURE);
   }
   /* Different rulesets had different governments. */
   if (strcmp(game.server.rulesetdir, "civ2") == 0) {
     if (id >= ARRAY_SIZE(old_civ2_governments)) {
-      freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+      log_fatal("Wrong government type id value (%d)", id);
       exit(EXIT_FAILURE);
     }
     return old_civ2_governments[id];
   } else {
     if (id >= ARRAY_SIZE(old_default_governments)) {
-      freelog(LOG_FATAL, "Wrong government type id value (%d)", id);
+      log_fatal("Wrong government type id value (%d)", id);
       exit(EXIT_FAILURE);
     }
     return old_default_governments[id];
@@ -1847,16 +1841,15 @@ static void player_load_units(struct player *plr, int plrno,
                                          plrno, i);
       type_name = old_unit_type_name(t);
       if (!type_name) {
-        freelog(LOG_FATAL, "player%d.u%d.type: unknown (%d)",
-                plrno, i, t);
+        log_fatal("player%d.u%d.type: unknown (%d)", plrno, i, t);
         exit(EXIT_FAILURE);
       }
     }
     
     type = find_unit_type_by_rule_name(type_name);
     if (!type) {
-      freelog(LOG_FATAL, "player%d.u%d: unknown unit type \"%s\".",
-              plrno, i, type_name);
+      log_fatal("player%d.u%d: unknown unit type \"%s\".",
+                plrno, i, type_name);
       exit(EXIT_FAILURE);
     }
     
@@ -1874,9 +1867,8 @@ static void player_load_units(struct player *plr, int plrno,
     }
     punit->tile = native_pos_to_tile(nat_x, nat_y);
     if (NULL == punit->tile) {
-      freelog(LOG_FATAL, "player%d.u%d invalid tile (%d,%d)",
-              plrno, i,
-              nat_x, nat_y);
+      log_fatal("player%d.u%d invalid tile (%d, %d)",
+                plrno, i, nat_x, nat_y);
       exit(EXIT_FAILURE);
     }
 
@@ -1898,8 +1890,8 @@ static void player_load_units(struct player *plr, int plrno,
     if ((pcity = game_find_city_by_number(punit->homecity))) {
       unit_list_prepend(pcity->units_supported, punit);
     } else if (punit->homecity > IDENTITY_NUMBER_ZERO) {
-      freelog(LOG_ERROR, "player%d.u%d: bad home city %d.",
-              plrno, i, punit->homecity);
+      log_error("player%d.u%d: bad home city %d.",
+                plrno, i, punit->homecity);
       punit->homecity = IDENTITY_NUMBER_ZERO;
     }
 
@@ -1927,8 +1919,8 @@ static void player_load_units(struct player *plr, int plrno,
       if (base >= 0 && base < num_base_types) {
         pbase = base_order[base];
       } else {
-        freelog(LOG_ERROR, "Cannot find base %d for %s to build",
-                base, unit_rule_name(punit));
+        log_error("Cannot find base %d for %s to build",
+                  base, unit_rule_name(punit));
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
     } else {
@@ -2065,7 +2057,7 @@ static void player_load_units(struct player *plr, int plrno,
 
 	  if (orders_buf[j] == '\0' || dir_buf[j] == '\0'
 	      || act_buf[j] == '\0') {
-	    freelog(LOG_ERROR, "Invalid unit orders.");
+            log_error("Invalid unit orders.");
 	    free_unit_orders(punit);
 	    break;
 	  }
@@ -2101,8 +2093,8 @@ static void player_load_units(struct player *plr, int plrno,
             if (base >= 0 && base < num_base_types) {
               pbase = base_order[base];
             } else {
-              freelog(LOG_ERROR, "Cannot find base %d for %s to build",
-                      base, unit_rule_name(punit));
+              log_error("Cannot find base %d for %s to build",
+                        base, unit_rule_name(punit));
               base = base_number(get_base_by_gui_type(BASE_GUI_FORTRESS, NULL, NULL));
             }
 
@@ -2230,8 +2222,7 @@ static void player_load_main(struct player *plr, int plrno,
 
     if ((is_sea_barbarian(plr) && nat_barb_type != SEA_BARBARIAN)
         || (is_land_barbarian(plr) && nat_barb_type != LAND_BARBARIAN)) {
-      freelog(LOG_VERBOSE, "Reassigning barbarian nation for %s",
-              player_name(plr));
+      log_verbose("Reassigning barbarian nation for %s", player_name(plr));
       plr->nation = NO_NATION_SELECTED;
     } else {
       player_set_nation(plr, pnation);
@@ -2268,9 +2259,7 @@ static void player_load_main(struct player *plr, int plrno,
   }
   gov = find_government_by_rule_name(name);
   if (gov == NULL) {
-    freelog(LOG_FATAL, "Player%d: unsupported government \"%s\".",
-                       plrno,
-                       name);
+    log_fatal("Player%d: unsupported government \"%s\".", plrno, name);
     exit(EXIT_FAILURE);
   }
   plr->government = gov;
@@ -2315,22 +2304,16 @@ static void player_load_main(struct player *plr, int plrno,
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
     c_s = secfile_lookup_int_default(file, 0, "player%d.city_style", plrno);
     if (c_s < 0 || c_s > 3) {
-      freelog(LOG_ERROR, "Player%d: unsupported city_style %d."
-                         " Changed to \"%s\".",
-                         plrno,
-                         c_s,
-                         old_order[0]);
+      log_error("Player%d: unsupported city_style %d. Changed to \"%s\".",
+                plrno, c_s, old_order[0]);
       c_s = 0;
     }
     p = old_order[c_s];
   }
   c_s = find_city_style_by_rule_name(p);
   if (c_s < 0) {
-    freelog(LOG_ERROR, "Player%d: unsupported city_style_name \"%s\"."
-                       " Changed to \"%s\".",
-                       plrno,
-                       p,
-                       city_style_rule_name(0));
+    log_error("Player%d: unsupported city_style_name \"%s\". "
+              "Changed to \"%s\".", plrno, p, city_style_rule_name(0));
     c_s = 0;
   }
   plr->city_style = c_s;
@@ -2454,8 +2437,7 @@ static void player_load_main(struct player *plr, int plrno,
     for (k = 0; p[k];  k++) {
       const char *name = old_tech_name(k);
       if (!name) {
-        freelog(LOG_FATAL, "player%d.invs: value (%d) out of range.",
-                plrno, k);
+        log_fatal("player%d.invs: value (%d) out of range.", plrno, k);
         exit(EXIT_FAILURE);
       }
       if (p[k] == '1') {
@@ -2566,8 +2548,7 @@ static void player_load_main(struct player *plr, int plrno,
 	} else if (st[i] == '1') {
 	  ship->structure[i] = TRUE;
 	} else {
-	  freelog(LOG_ERROR, "invalid spaceship structure '%c' (%d)", st[i],
-		  st[i]);
+          log_error("invalid spaceship structure '%c' (%d)", st[i], st[i]);
 	  ship->structure[i] = FALSE;
 	}
       }
@@ -2607,9 +2588,7 @@ static void player_load_cities(struct player *plr, int plrno,
   plr->cities = city_list_new();
 
   if (!plr->is_alive && ncities > 0) {
-    freelog(LOG_ERROR, "player%d.ncities=%d for dead player!",
-            plrno,
-            ncities);
+    log_error("player%d.ncities=%d for dead player!", plrno, ncities);
     ncities = 0; /* Some old savegames may be buggy. */
   }
 
@@ -2626,16 +2605,14 @@ static void player_load_cities(struct player *plr, int plrno,
 
     pcenter = native_pos_to_tile(nat_x, nat_y);
     if (NULL == pcenter) {
-      freelog(LOG_FATAL, "player%d.c%d invalid tile (%d,%d)",
-              plrno, i,
-              nat_x, nat_y);
+      log_fatal("player%d.c%d invalid tile (%d, %d)",
+                plrno, i, nat_x, nat_y);
       exit(EXIT_FAILURE);
     }
 
     if (NULL != tile_city(pcenter)) {
-      freelog(LOG_FATAL, "player%d.c%d duplicate city (%d,%d)",
-              plrno, i,
-              nat_x, nat_y);
+      log_fatal("player%d.c%d duplicate city (%d, %d)",
+                plrno, i, nat_x, nat_y);
       exit(EXIT_FAILURE);
     }
 
@@ -2759,31 +2736,29 @@ static void player_load_cities(struct player *plr, int plrno,
       case VUT_UTYPE:
         name = old_unit_type_name(id);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "player%d.c%d.currently_building: unknown unit (%d)",
-                  plrno, i, id);
+          log_fatal("player%d.c%d.currently_building: unknown unit (%d)",
+                    plrno, i, id);
           exit(EXIT_FAILURE);
         }
         break;
       case VUT_IMPROVEMENT:
         name = old_impr_type_name(id);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "player%d.c%d.currently_building: unknown improvement (%d)",
-                  plrno, i, id);
+          log_fatal("player%d.c%d.currently_building: "
+                    "unknown improvement (%d)", plrno, i, id);
           exit(EXIT_FAILURE);
         }
         break;
       default:
-        freelog(LOG_FATAL, "player%d.c%d.currently_building: version mismatch.",
-                plrno, i);
+        log_fatal("player%d.c%d.currently_building: version mismatch.",
+                  plrno, i);
         exit(EXIT_FAILURE);
       };
     }
     pcity->production = universal_by_rule_name(kind, name);
     if (VUT_LAST == pcity->production.kind) {
-      freelog(LOG_FATAL, "player%d.c%d.currently_building: unknown \"%s\" \"%s\".",
-              plrno, i, kind, name);
+      log_fatal("player%d.c%d.currently_building: unknown \"%s\" \"%s\".",
+                plrno, i, kind, name);
       exit(EXIT_FAILURE);
     }
 
@@ -2808,31 +2783,29 @@ static void player_load_cities(struct player *plr, int plrno,
       case VUT_UTYPE:
         name = old_unit_type_name(id);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "player%d.c%d.changed_from_id: unknown unit (%d)",
-                  plrno, i, id);
+          log_fatal("player%d.c%d.changed_from_id: unknown unit (%d)",
+                    plrno, i, id);
           exit(EXIT_FAILURE);
         }
         break;
       case VUT_IMPROVEMENT:
         name = old_impr_type_name(id);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "player%d.c%d.changed_from_id: unknown improvement (%d)",
-                  plrno, i, id);
+          log_fatal("player%d.c%d.changed_from_id: unknown improvement (%d)",
+                    plrno, i, id);
           exit(EXIT_FAILURE);
         }
         break;
       default:
-        freelog(LOG_FATAL, "player%d.c%d.changed_from_id: version mismatch.",
-                plrno, i);
+        log_fatal("player%d.c%d.changed_from_id: version mismatch.",
+                  plrno, i);
         exit(EXIT_FAILURE);
       };
     }
     pcity->changed_from = universal_by_rule_name(kind, name);
     if (VUT_LAST == pcity->changed_from.kind) {
-      freelog(LOG_FATAL, "player%d.c%d.changed_from: unknown \"%s\" \"%s\".",
-              plrno, i, kind, name);
+      log_fatal("player%d.c%d.changed_from: unknown \"%s\" \"%s\".",
+                plrno, i, kind, name);
       exit(EXIT_FAILURE);
     }
 
@@ -2874,11 +2847,10 @@ static void player_load_cities(struct player *plr, int plrno,
 
     if (strlen(p) != CITY_MAP_SIZE * CITY_MAP_SIZE) {
       /* FIXME: somehow need to rearrange */
-      freelog(LOG_ERROR, "player%d.c%d.workers"
-              " length %lu not equal city map size %lu, needs rearranging!",
-              plrno, i,
-              (unsigned long)strlen(p),
-              (unsigned long)(CITY_MAP_SIZE * CITY_MAP_SIZE));
+      log_error("player%d.c%d.workers length %lu not equal city map size "
+                "%lu, needs rearranging!",
+                plrno, i, (unsigned long) strlen(p),
+                (unsigned long) (CITY_MAP_SIZE * CITY_MAP_SIZE));
     }
 
     for(y = 0; y < CITY_MAP_SIZE; y++) {
@@ -2890,97 +2862,83 @@ static void player_load_cities(struct player *plr, int plrno,
                              ? city_map_to_tile(pcenter, x, y)
                              : NULL;
 
-	switch (*p) {
-	case '\0':
-	  /* too short, will yield very odd results! */
-	  continue;
+        switch (*p) {
+        case '\0':
+          /* too short, will yield very odd results! */
+          continue;
 
-	case S_TILE_EMPTY:
-	  if (NULL == ptile) {
-	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
-		    plrno, i,
-		    x, y, *p,
-		    TILE_XY(pcenter), city_name(pcity), pcity->size);
-	  } else if (NULL != (pwork = tile_worked(ptile))) {
-	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' conflict at (%d,%d)"
-		    " for (%d,%d) \"%s\"[%d]"
-		    " with (%d,%d) \"%s\"[%d],"
-		    " converting to unavailable",
-		    plrno, i,
-		    x, y, *p,
-		    TILE_XY(ptile),
-		    TILE_XY(pcenter), city_name(pcity), pcity->size,
-		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
-	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	  } else {
-	    pcity->city_map[x][y] = C_TILE_EMPTY;
-	  }
-	  break;
+        case S_TILE_EMPTY:
+          if (NULL == ptile) {
+            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+                       "(%d, %d) \"%s\"[%d], ignoring",
+                       plrno, i, x, y, *p,
+                       TILE_XY(pcenter), city_name(pcity), pcity->size);
+          } else if (NULL != (pwork = tile_worked(ptile))) {
+            log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
+                       "(%d, %d) for (%d ,%d) \"%s\"[%d] with (%d, %d) "
+                       "\"%s\"[%d], converting to unavailable",
+                       plrno, i, x, y, *p, TILE_XY(ptile),
+                       TILE_XY(pcenter), city_name(pcity), pcity->size,
+                       TILE_XY(city_tile(pwork)), city_name(pwork),
+                       pwork->size);
+            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+          } else {
+            pcity->city_map[x][y] = C_TILE_EMPTY;
+          }
+          break;
 
-	case S_TILE_WORKER:
-	  if (NULL == ptile) {
-	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
-		    plrno, i,
-		    x, y, *p,
-		    TILE_XY(pcenter), city_name(pcity), pcity->size);
-	  } else if (NULL != (pwork = tile_worked(ptile))) {
-	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' conflict at (%d,%d)"
-		    " for (%d,%d) \"%s\"[%d]"
-		    " with (%d,%d) \"%s\"[%d],"
-		    " converting to default specialist",
-		    plrno, i,
-		    x, y, *p,
-		    TILE_XY(ptile),
-		    TILE_XY(pcenter), city_name(pcity), pcity->size,
-		    TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size);
+        case S_TILE_WORKER:
+          if (NULL == ptile) {
+            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+                       "(%d, %d) \"%s\"[%d], ignoring",
+                       plrno, i, x, y, *p,
+                       TILE_XY(pcenter), city_name(pcity), pcity->size);
+          } else if (NULL != (pwork = tile_worked(ptile))) {
+            log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
+                       "(%d, %d) for (%d, %d) \"%s\"[%d] with (%d, %d) "
+                       "\"%s\"[%d], converting to default specialist",
+                       plrno, i, x, y, *p, TILE_XY(ptile),
+                       TILE_XY(pcenter), city_name(pcity), pcity->size,
+                       TILE_XY(city_tile(pwork)), city_name(pwork),
+                       pwork->size);
 
-	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	    pcity->specialists[DEFAULT_SPECIALIST]++;
-	    auto_arrange_workers(pcity);
-	    citizens++;
-	  } else {
-	    pcity->city_map[x][y] = C_TILE_WORKER;
-	    tile_set_worked(ptile, pcity);
-	    citizens++;
-	  }
-	  break;
+            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+            pcity->specialists[DEFAULT_SPECIALIST]++;
+            auto_arrange_workers(pcity);
+            citizens++;
+          } else {
+            pcity->city_map[x][y] = C_TILE_WORKER;
+            tile_set_worked(ptile, pcity);
+            citizens++;
+          }
+          break;
 
-	case S_TILE_UNAVAILABLE:
-	  if (NULL == ptile) {
-	    /* before 2.2.0 same as C_TILE_UNUSABLE */
-	  } else {
-	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	  }
-	  break;
+        case S_TILE_UNAVAILABLE:
+          if (NULL == ptile) {
+            /* before 2.2.0 same as C_TILE_UNUSABLE */
+          } else {
+            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+          }
+          break;
 
-	case S_TILE_UNKNOWN:
-	  if (NULL == ptile) {
-	    /* already set C_TILE_UNUSABLE */
-	  } else {
-	    freelog(LOG_WORKER, "player%d.c%d.workers"
-		    " {%d,%d} '%c' not valid at (%d,%d)"
-		    " for (%d,%d) \"%s\"[%d],"
-		    " converting to unavailable",
-		    plrno, i,
-		    x, y, *p,
-		    TILE_XY(ptile),
-		    TILE_XY(pcenter), city_name(pcity), pcity->size);
-	    pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	  }
-	  break;
+        case S_TILE_UNKNOWN:
+            if (NULL == ptile) {
+            /* already set C_TILE_UNUSABLE */
+          } else {
+            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid at "
+                       "(%d, %d) for (%d, %d) \"%s\"[%d], converting to "
+                       "unavailable", plrno, i, x, y, *p, TILE_XY(ptile),
+                       TILE_XY(pcenter), city_name(pcity), pcity->size);
+            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+          }
+          break;
 
-	default:
-	  freelog(LOG_WORKER, "player%d.c%d.workers"
-		  " {%d,%d} '%c' not valid for (%d,%d) \"%s\"[%d], ignoring",
-		  plrno, i,
-		  x, y, *p,
-		  TILE_XY(pcenter), city_name(pcity), pcity->size);
-	  break;
-	};
+        default:
+          log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+                     "(%d, %d) \"%s\"[%d], ignoring", plrno, i, x, y, *p,
+                     TILE_XY(pcenter), city_name(pcity), pcity->size);
+          break;
+        };
         p++;
       }
     }
@@ -2991,23 +2949,20 @@ static void player_load_cities(struct player *plr, int plrno,
       if (NULL != pwork) {
         int city_x, city_y;
 
-        freelog(LOG_ERROR, "player%d.c%d.workers"
-                " city center is worked by (%d,%d) \"%s\"[%d],"
-                " repairing (%d,%d) \"%s\"[%d]",
-                plrno, i,
-                TILE_XY(city_tile(pwork)), city_name(pwork), pwork->size,
-                TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_error("player%d.c%d.workers city center is worked by (%d,%d) "
+                  "\"%s\"[%d], repairing (%d,%d) \"%s\"[%d]",
+                  plrno, i, TILE_XY(city_tile(pwork)), city_name(pwork),
+                  pwork->size, TILE_XY(pcenter), city_name(pcity),
+                  pcity->size);
 
         city_tile_to_city_map(&city_x, &city_y, city_tile(pwork), pcenter);
         pwork->city_map[city_x][city_y] = C_TILE_UNAVAILABLE;
         pwork->specialists[DEFAULT_SPECIALIST]++;
         auto_arrange_workers(pwork);
       } else {
-        freelog(LOG_ERROR, "player%d.c%d.workers"
-                " city center is empty,"
-                " repairing (%d,%d) \"%s\"[%d]",
-                plrno, i,
-                TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_error("player%d.c%d.workers city center is empty, "
+                  "repairing (%d,%d) \"%s\"[%d]",
+                  plrno, i, TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
 
       pcity->city_map[CITY_MAP_SIZE/2][CITY_MAP_SIZE/2] = C_TILE_WORKER;
@@ -3018,12 +2973,10 @@ static void player_load_cities(struct player *plr, int plrno,
 
     k = pcity->size + FREE_WORKED_TILES - citizens;
     if (0 != k) {
-      freelog(LOG_ERROR, "player%d.c%d.workers"
-              " %d citizens not equal %d + [size],"
-              " repairing (%d,%d) \"%s\"[%d]",
-              plrno, i,
-              citizens, FREE_WORKED_TILES,
-              TILE_XY(pcenter), city_name(pcity), pcity->size);
+      log_error("player%d.c%d.workers %d citizens not equal %d + [size], "
+                "repairing (%d,%d) \"%s\"[%d]",
+                plrno, i, citizens, FREE_WORKED_TILES,
+                TILE_XY(pcenter), city_name(pcity), pcity->size);
 
       city_repair_size(pcity, k);
     }
@@ -3046,9 +2999,8 @@ static void player_load_cities(struct player *plr, int plrno,
       for (k = 0; p[k]; k++) {
         const char *name = old_impr_type_name(k);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "player%d.c%d.improvements: unknown building (%d)",
-                  plrno, i, k);
+          log_fatal("player%d.c%d.improvements: unknown building (%d)",
+                    plrno, i, k);
           exit(EXIT_FAILURE);
         }
         if (p[k] == '1') {
@@ -3138,15 +3090,12 @@ static void player_load_attributes(struct player *plr, int plrno,
       file, 0, "player%d.attribute_v2_block_length", plrno);
 
   if (0 > plr->attribute_block.length) {
-    freelog(LOG_ERROR, "player%d.attribute_v2_block_length=%d too small",
-            plrno,
-            plr->attribute_block.length);
+    log_error("player%d.attribute_v2_block_length=%d too small", plrno,
+              plr->attribute_block.length);
     plr->attribute_block.length = 0;
   } else if (MAX_ATTRIBUTE_BLOCK < plr->attribute_block.length) {
-    freelog(LOG_ERROR, "player%d.attribute_v2_block_length=%d too big (max %d)",
-            plrno,
-            plr->attribute_block.length,
-            MAX_ATTRIBUTE_BLOCK);
+    log_error("player%d.attribute_v2_block_length=%d too big (max %d)",
+              plrno, plr->attribute_block.length, MAX_ATTRIBUTE_BLOCK);
     plr->attribute_block.length = 0;
   } else if (0 < plr->attribute_block.length) {
     int part_nr, parts;
@@ -3174,22 +3123,20 @@ static void player_load_attributes(struct player *plr, int plrno,
           secfile_lookup_str(file, "player%d.attribute_v2_block_data.part%d",
                              plrno, part_nr);
       if (!current) {
-        freelog(LOG_ERROR, "attribute_v2_block_parts=%d actual=%d",
-                parts,
-                part_nr);
-	break;
+        log_error("attribute_v2_block_parts=%d actual=%d", parts, part_nr);
+        break;
       }
-      freelog(LOG_DEBUG, "attribute_v2_block_length_quoted=%lu have=%lu part=%lu",
-	      (unsigned long) quoted_length,
-	      (unsigned long) strlen(quoted),
-	      (unsigned long) strlen(current));
+      log_debug("attribute_v2_block_length_quoted=%lu have=%lu part=%lu",
+                (unsigned long) quoted_length,
+                (unsigned long) strlen(quoted),
+                (unsigned long) strlen(current));
       assert(strlen(quoted) + strlen(current) <= quoted_length);
       strcat(quoted, current);
     }
     if (quoted_length != strlen(quoted)) {
-      freelog(LOG_FATAL, "attribute_v2_block_length_quoted=%lu actual=%lu",
-	      (unsigned long) quoted_length,
-	      (unsigned long) strlen(quoted));
+      log_fatal("attribute_v2_block_length_quoted=%lu actual=%lu",
+                (unsigned long) quoted_length,
+                (unsigned long) strlen(quoted));
       assert(0);
     }
 
@@ -3345,9 +3292,8 @@ static void player_load_vision(struct player *plr, int plrno,
       }
       pdcity->location = native_pos_to_tile(nat_x, nat_y);
       if (NULL == pdcity->location) {
-        freelog(LOG_ERROR, "player%d.dc%d invalid tile (%d,%d)",
-                plrno, i,
-                nat_x, nat_y);
+        log_error("player%d.dc%d invalid tile (%d,%d)",
+                  plrno, i, nat_x, nat_y);
         free(pdcity);
         continue;
       }
@@ -3357,8 +3303,8 @@ static void player_load_vision(struct player *plr, int plrno,
         die("%s", secfile_error());
       }
       if (IDENTITY_NUMBER_ZERO >= pdcity->identity) {
-        freelog(LOG_ERROR, "player%d.dc%d has invalid id (%d); skipping.",
-                plrno, i, pdcity->identity);
+        log_error("player%d.dc%d has invalid id (%d); skipping.",
+                  plrno, i, pdcity->identity);
         free(pdcity);
         continue;
       }
@@ -3370,16 +3316,16 @@ static void player_load_vision(struct player *plr, int plrno,
         /* Earlier versions redundantly saved the dummy for their own cities.
          * Since 2.2.0, map_claim_ownership() rebuilds them at city load time.
          */
-        freelog(LOG_VERBOSE, "player%d.dc%d has same owner (%d); skipping.",
-                plrno, i, id);
+        log_verbose("player%d.dc%d has same owner (%d); skipping.",
+                    plrno, i, id);
         free(pdcity);
         continue;
       }
 
       pdcity->owner = player_by_number(id);
       if (NULL == vision_owner(pdcity)) {
-        freelog(LOG_ERROR, "player%d.dc%d has invalid owner (%d); skipping.",
-                plrno, i, id);
+        log_error("player%d.dc%d has invalid owner (%d); skipping.",
+                  plrno, i, id);
         free(pdcity);
         continue;
       }
@@ -4217,75 +4163,60 @@ static void repair_city_worker(struct city *pcity)
     switch (pcity->city_map[x][y]) {
     case C_TILE_EMPTY:
       if (!res) {
-	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+        pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
 
-	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} empty tile (%d,%d)"
-		" should be unavailable"
-		" for (%d,%d) \"%s\"[%d]",
-		x, y,
-		TILE_XY(ptile),
-		TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_worker("repair_city_worker() {%d, %d} empty tile (%d, %d) "
+                   "should be unavailable for (%d, %d) \"%s\"[%d]",
+                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
+                   pcity->size);
       }
       break;
 
     case C_TILE_WORKER:
       if (!res) {
-	pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-	if (tile_worked(ptile) == pcity) {
-	  /* duplicates map_claim_ownership() city_map_update_tile_frozen() */
-	  tile_set_worked(ptile, NULL);
-	  pcity->specialists[DEFAULT_SPECIALIST]++;
-	  auto_arrange_workers(pcity);
-	}
+        pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
+        if (tile_worked(ptile) == pcity) {
+          /* duplicates map_claim_ownership() city_map_update_tile_frozen() */
+          tile_set_worked(ptile, NULL);
+          pcity->specialists[DEFAULT_SPECIALIST]++;
+          auto_arrange_workers(pcity);
+        }
 
-	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} worked tile (%d,%d)"
-		" should be unavailable"
-		" for (%d,%d) \"%s\"[%d]",
-		x, y,
-		TILE_XY(ptile),
-		TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_worker("repair_city_worker() {%d, %d} worked tile (%d, %d) "
+                   "should be unavailable for (%d, %d) \"%s\"[%d]",
+                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
+                   pcity->size);
 
-	city_tile_iterate(ptile, tile2) {
-	  struct city *pcity2 = tile_city(tile2);
+        city_tile_iterate(ptile, tile2) {
+          struct city *pcity2 = tile_city(tile2);
 
-	  if (pcity2 && pcity2 != pcity) {
-	    freelog(LOG_WORKER, "repair_city_worker()"
-		    " checking nearby \"%s\"",
-		    city_name(pcity2));
-	    repair_city_worker(pcity2);
-	    freelog(LOG_WORKER, "repair_city_worker()"
-		    " continuing with \"%s\"",
-		    city_name(pcity));
-	  }
-	} city_tile_iterate_end;
+          if (pcity2 && pcity2 != pcity) {
+            log_worker("repair_city_worker() checking nearby \"%s\"",
+                       city_name(pcity2));
+            repair_city_worker(pcity2);
+            log_worker("repair_city_worker() continuing with \"%s\"",
+                       city_name(pcity));
+          }
+        } city_tile_iterate_end;
       }
       break;
 
     case C_TILE_UNAVAILABLE:
       if (res) {
-	pcity->city_map[x][y] = C_TILE_EMPTY;
+        pcity->city_map[x][y] = C_TILE_EMPTY;
 
-	freelog(LOG_WORKER, "repair_city_worker()"
-		" {%d,%d} unavailable tile (%d,%d)"
-		" should be empty"
-		" for (%d,%d) \"%s\"[%d]",
-		x, y,
-		TILE_XY(ptile),
-		TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_worker("repair_city_worker() {%d, %d} unavailable tile (%d, %d) "
+                   "should be empty for (%d, %d) \"%s\"[%d]",
+                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
+                   pcity->size);
       }
       break;
 
     default:
-      freelog(LOG_ERROR, "repair_city_worker()"
-              " {%d,%d} bad city tile (%d,%d)"
-              " value %d"
-              " for (%d,%d) \"%s\"[%d]",
-              x, y,
-              TILE_XY(ptile),
-              pcity->city_map[x][y],
-              TILE_XY(pcenter), city_name(pcity), pcity->size);
+      log_error("repair_city_worker() {%d,%d} bad city tile (%d,%d) "
+                "value %d for (%d,%d) \"%s\"[%d]",
+                x, y, TILE_XY(ptile), pcity->city_map[x][y],
+                TILE_XY(pcenter), city_name(pcity), pcity->size);
       break;
     };
   } city_tile_iterate_cxy_end;
@@ -4385,9 +4316,8 @@ static void game_load_internal(struct section_file *file)
 
   /* we require at least version 1.9.0 */
   if (10900 > game_version) {
-    freelog(LOG_FATAL,
-	    /* TRANS: Fatal error message. */
-	    _("Saved game is too old, at least version 1.9.0 required."));
+    /* TRANS: Fatal error message. */
+    log_fatal(_("Saved game is too old, at least version 1.9.0 required."));
     exit(EXIT_FAILURE);
   }
 
@@ -4732,21 +4662,19 @@ static void game_load_internal(struct section_file *file)
       if (strcmp("classic",
 		 secfile_lookup_str_default(file, "default",
 					    "game.info.t.terrain")) == 0) {
-	/* TRANS: Fatal error message. */
-	freelog(LOG_FATAL, _("Saved game uses the \"classic\" terrain"
-			     " ruleset, and is no longer supported."));
-	exit(EXIT_FAILURE);
+        /* TRANS: Fatal error message. */
+        log_fatal(_("Saved game uses the \"classic\" terrain"
+                    " ruleset, and is no longer supported."));
+        exit(EXIT_FAILURE);
       }
 
 
-#define T(x) \
-      str2 = secfile_lookup_str_default(file, "default", x); \
-      if (strcmp(str, str2) != 0) { \
-	freelog(LOG_NORMAL, _("Warning: Different rulesetdirs " \
-			      "('%s' and '%s') are no longer supported. " \
-			      "Using '%s'."), \
-			      str, str2, str); \
-      }
+#define T(x)                                                                \
+  str2 = secfile_lookup_str_default(file, "default", x);                    \
+  if (strcmp(str, str2) != 0) {                                             \
+    log_normal(_("Warning: Different rulesetdirs ('%s' and '%s') are "      \
+                 "no longer supported. Using '%s'."), str, str2, str);      \
+  }
 
       T("game.info.t.units");
       T("game.info.t.buildings");
@@ -4990,9 +4918,7 @@ static void game_load_internal(struct section_file *file)
       for (k = 0; string[k]; k++) {
         const char *name = old_impr_type_name(k);
         if (!name) {
-          freelog(LOG_FATAL,
-                  "game.destroyed_wonders: unknown building (%d)",
-                  k);
+          log_fatal("game.destroyed_wonders: unknown building (%d)", k);
           exit(EXIT_FAILURE);
         }
         if (string[k] == '1') {
@@ -5045,10 +4971,10 @@ static void game_load_internal(struct section_file *file)
     /* Check that the number of players loaded matches the
      * number of players set in the save file. */
     if (loaded_players != player_count()) {
-      freelog(LOG_ERROR, "The value of game.nplayers (%d) from the loaded "
-              "game does not match the number of players present (%d). "
-              "Setting game.nplayers to %d.",
-              player_count(), loaded_players, loaded_players);
+      log_error("The value of game.nplayers (%d) from the loaded "
+                "game does not match the number of players present (%d). "
+                "Setting game.nplayers to %d.",
+                player_count(), loaded_players, loaded_players);
       set_player_count(loaded_players);
     }
 
@@ -5064,12 +4990,11 @@ static void game_load_internal(struct section_file *file)
      */
     players_iterate(pplayer) {
       if (pplayer->nation == NO_NATION_SELECTED) {
-	player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
+        player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
                                                  NOT_A_BARBARIAN));
-	/* TRANS: Minor error message: <Leader> ... <Poles>. */
-	freelog(LOG_ERROR, _("%s had invalid nation; changing to %s."),
-		player_name(pplayer),
-		nation_plural_for_player(pplayer));
+        /* TRANS: Minor error message: <Leader> ... <Poles>. */
+        log_error(_("%s had invalid nation; changing to %s."),
+                  player_name(pplayer), nation_plural_for_player(pplayer));
       }
     } players_iterate_end;
     
@@ -5081,10 +5006,10 @@ static void game_load_internal(struct section_file *file)
             && pplayers_allied(plr, aplayer)
             && pplayer_can_make_treaty(plr, aplayer, DS_ALLIANCE) 
                == DIPL_ALLIANCE_PROBLEM) {
-          freelog(LOG_ERROR, "Illegal alliance structure detected: "
-                  "%s alliance to %s reduced to peace treaty.",
-                  nation_rule_name(nation_of_player(plr)),
-                  nation_rule_name(nation_of_player(aplayer)));
+          log_error("Illegal alliance structure detected: "
+                    "%s alliance to %s reduced to peace treaty.",
+                    nation_rule_name(nation_of_player(plr)),
+                    nation_rule_name(nation_of_player(aplayer)));
           plr->diplstates[player_index(aplayer)].type = DS_PEACE;
           aplayer->diplstates[player_index(plr)].type = DS_PEACE;
         }
@@ -5159,10 +5084,10 @@ static void game_load_internal(struct section_file *file)
     /* Make sure everything is consistent. */
     players_iterate(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
-	if (!can_unit_continue_current_activity(punit)) {
-	  freelog(LOG_ERROR, "Unit doing illegal activity in savegame!");
-	  punit->activity = ACTIVITY_IDLE;
-	}
+        if (!can_unit_continue_current_activity(punit)) {
+          log_error("Unit doing illegal activity in savegame!");
+          punit->activity = ACTIVITY_IDLE;
+        }
       } unit_list_iterate_end;
 
       city_list_iterate(pplayer->cities, pcity) {
@@ -5198,11 +5123,11 @@ static void game_load_internal(struct section_file *file)
       struct unit *ferry = game_find_unit_by_number(punit->transported_by);
 
       if (!ferry && !can_unit_exist_at_tile(punit, punit->tile)) {
-        freelog(LOG_ERROR, "Removing %s unferried %s in %s at (%d, %d)",
-                nation_rule_name(nation_of_player(pplayer)),
-                unit_rule_name(punit),
-                terrain_rule_name(punit->tile->terrain),
-                TILE_XY(punit->tile));
+        log_error("Removing %s unferried %s in %s at (%d, %d)",
+                  nation_rule_name(nation_of_player(pplayer)),
+                  unit_rule_name(punit),
+                  terrain_rule_name(punit->tile->terrain),
+                  TILE_XY(unit_tile(punit)));
         bounce_unit(punit, TRUE);
       }
     } unit_list_iterate_safe_end;

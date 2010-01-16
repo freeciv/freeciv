@@ -618,9 +618,9 @@ void set_mapview_origin(int gui_x0, int gui_y0)
     currtime = read_timer_seconds(anim_timer);
     total_frames += frames;
     total_time += currtime;
-    freelog(LOG_DEBUG, "Got %d frames in %f seconds: %f FPS (avg %f).",
-	    frames, currtime, (double)frames / currtime,
-	    total_frames / total_time);
+    log_debug("Got %d frames in %f seconds: %f FPS (avg %f).",
+              frames, currtime, (double)frames / currtime,
+              total_frames / total_time);
 
     /* A very small decay factor to make things more accurate when something
      * changes (mapview size, tileset change, etc.).  This gives a
@@ -734,8 +734,8 @@ void get_mapview_scroll_window(int *xmin, int *ymin, int *xmax, int *ymax,
     *ymax += (diff + 1) / 2;
   }
 
-  freelog(LOG_DEBUG, "x: %d<-%d->%d; y: %d<-%d->%d",
-	  *xmin, *xsize, *xmax, *ymin, *ymax, *ysize);
+  log_debug("x: %d<-%d->%d; y: %d<-%d->%d",
+            *xmin, *xsize, *xmax, *ymin, *ymax, *ysize);
 }
 
 /****************************************************************************
@@ -1251,9 +1251,8 @@ void update_map_canvas(int canvas_x, int canvas_y, int width, int height)
 	  && width == mapview.store_width
 	  && height == mapview.store_height);
 
-  freelog(LOG_DEBUG,
-	  "update_map_canvas(pos=(%d,%d), size=(%d,%d))",
-	  canvas_x, canvas_y, width, height);
+  log_debug("update_map_canvas(pos=(%d,%d), size=(%d,%d))",
+            canvas_x, canvas_y, width, height);
 
   /* If a full redraw is done, we just draw everything onto the canvas.
    * However if a partial redraw is done we draw everything onto the
@@ -1803,15 +1802,15 @@ void show_city_descriptions(int canvas_x, int canvas_y,
 
       show_city_desc(mapview.store, canvas_x, canvas_y,
 		     pcity, &width, &height);
-      freelog(LOG_DEBUG, "Drawing %s.", city_name(pcity));
+      log_debug("Drawing %s.", city_name(pcity));
 
       if (width > max_desc_width || height > max_desc_height) {
-	/* The update was incomplete!  We queue a new update.  Note that
-	 * this is recursively queueing an update within a dequeuing of an
-	 * update.  This is allowed specifically because of the code in
-	 * unqueue_mapview_updates.  See that function for more. */
-	freelog(LOG_DEBUG, "Re-queuing %s.", city_name(pcity));
-	update_city_description(pcity);
+        /* The update was incomplete! We queue a new update. Note that
+         * this is recursively queueing an update within a dequeuing of an
+         * update. This is allowed specifically because of the code in
+         * unqueue_mapview_updates. See that function for more. */
+        log_debug("Re-queuing %s.", city_name(pcity));
+        update_city_description(pcity);
       }
       new_max_width = MAX(width, new_max_width);
       new_max_height = MAX(height, new_max_height);
@@ -2381,8 +2380,8 @@ void unqueue_mapview_updates(bool write_to_screen)
     return;
   }
 
-  freelog(LOG_DEBUG, "unqueue_mapview_update: needed_updates=%d",
-	  needed_updates);
+  log_debug("unqueue_mapview_update: needed_updates=%d",
+            needed_updates);
 
   /* This code "pops" the lists of tile updates off of the static array and
    * stores them locally.  This allows further updates to be queued within
