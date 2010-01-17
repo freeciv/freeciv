@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: po-debconf://kdebase\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-12-27 16:30+0100\n"
+"POT-Creation-Date: 2010-01-17 12:30+0100\n"
 "PO-Revision-Date: 2007-09-05 03:37+0300\n"
 "Last-Translator: stan ioan-eugen <stan.ieugen@gmail.com>\n"
 "Language-Team: romanian <debian-l10n-romanian@lists.debian.org>\n"
@@ -29,8 +29,8 @@ msgstr "Hrană"
 msgid "Shield"
 msgstr "Resurse"
 
-#: common/city.c:60 data/Freeciv.in:3067 data/default/techs.ruleset:724
-#: data/civ2/techs.ruleset:721 data/civ1/techs.ruleset:555
+#: common/city.c:60 data/Freeciv.in:3067 data/default/techs.ruleset:729
+#: data/civ2/techs.ruleset:725 data/civ1/techs.ruleset:558
 msgid "Trade"
 msgstr "Negoţul"
 
@@ -489,7 +489,7 @@ msgstr "Unitate: Relocată"
 msgid "Orders / goto events"
 msgstr ""
 
-#: common/events.c:159 server/stdinhand.c:3603
+#: common/events.c:159 server/stdinhand.c:3598
 msgid "New vote"
 msgstr ""
 
@@ -869,8 +869,8 @@ msgid "Irrigation"
 msgstr "Irigaţie"
 
 #: common/terrain.c:545 common/terrain.c:729 common/unit.c:538
-#: data/default/techs.ruleset:571 data/civ2/techs.ruleset:568
-#: data/civ1/techs.ruleset:443
+#: data/default/techs.ruleset:575 data/civ2/techs.ruleset:571
+#: data/civ1/techs.ruleset:445
 msgid "Railroad"
 msgstr "Calea ferată"
 
@@ -943,7 +943,7 @@ msgid "Base"
 msgstr "Deşeuri"
 
 #: common/unit.c:560 client/text.c:160 client/gui-gtk-2.0/editprop.c:5741
-#: client/gui-sdl/citydlg.c:1972 client/gui-win32/citydlg.c:1229
+#: client/gui-sdl/citydlg.c:1973 client/gui-win32/citydlg.c:1229
 #: client/gui-xaw/citydlg.c:1462
 msgid "Unknown"
 msgstr "Necunoscut"
@@ -2727,21 +2727,26 @@ msgstr ""
 msgid ""
 "show\n"
 "show <option-name>\n"
-"show <option-prefix>"
+"show <option-prefix>\n"
+"show all\n"
+"show vital\n"
+"show situational\n"
+"show rare\n"
+"show changed"
 msgstr ""
-"show\n"
-"show <nume-opţiune>\n"
-"show <prefix-opţiune>"
 
-#: server/commands.c:121
+#: server/commands.c:126
 msgid "Show server options."
 msgstr "Arată opţiunile serverului."
 
-#: server/commands.c:122
+#: server/commands.c:127
+#, fuzzy
 msgid ""
-"With no arguments, shows all server options (or available options, when used "
-"by clients).  With an argument, show only the named option, or options with "
-"that prefix."
+"With no arguments, shows vital server options (or available options, when "
+"used by clients). With an option name argument, show only the named option, "
+"or options with that prefix. With \"all\", it shows all options. With \"vital"
+"\", \"situational\" or \"rare\", a set of options with this level. With "
+"\"changed\", it shows only the options which have been modified."
 msgstr ""
 "Fără nici un argument afişează toate opţiunile server-ului (sau toate "
 "opţiunile disponibile, atunci când este folosit de client).  Cu un argument "
@@ -2749,48 +2754,48 @@ msgstr ""
 "primit ca argument."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:128
+#: server/commands.c:136
 msgid "wall <message>"
 msgstr "wall <mesaj>"
 
-#: server/commands.c:129
+#: server/commands.c:137
 msgid "Send message to all connections."
 msgstr "Trimite un mesaj la toţi clienţii."
 
-#: server/commands.c:130
+#: server/commands.c:138
 msgid ""
 "For each connected client, pops up a window showing the message entered."
 msgstr ""
 "Pentru  fiecare client conectat afişează într-o fereastră mesajul introdus."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:136
+#: server/commands.c:144
 #, fuzzy
 msgid "connectmsg <message>"
 msgstr "Mesaje de conectare/deconectare"
 
-#: server/commands.c:137
+#: server/commands.c:145
 #, fuzzy
 msgid "Set message to show to connecting players."
 msgstr "Trimite un mesaj la toţi clienţii."
 
-#: server/commands.c:138
+#: server/commands.c:146
 msgid ""
 "Set message to send to clients when they connect.\n"
 "Empty message means that no message is sent."
 msgstr ""
 
 #. TRANS: translate text between [] only
-#: server/commands.c:143
+#: server/commands.c:151
 #, fuzzy
 msgid "vote yes|no|abstain [vote number]"
 msgstr "votează da|nu [numarul de voturi]"
 
-#: server/commands.c:144
+#: server/commands.c:152
 msgid "Cast a vote."
 msgstr "Votează."
 
-#: server/commands.c:146
+#: server/commands.c:154
 #, fuzzy, no-c-format
 msgid ""
 "A player with info level access issuing a control level command starts a new "
@@ -2810,12 +2815,12 @@ msgstr ""
 "it.  If one full turn elapses the vote may pass in any case if nobody votes "
 "against it."
 
-#: server/commands.c:161
+#: server/commands.c:169
 msgid "Turn on or off AI debugging of given entity."
 msgstr ""
 "Activează/Dezactivează opţiunea de depanare pentru AI pentru entitatea dată."
 
-#: server/commands.c:162
+#: server/commands.c:170
 msgid ""
 "Print AI debug information about given entity and turn continous debugging "
 "output for this entity on or off."
@@ -2825,24 +2830,24 @@ msgstr ""
 "această entitate."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:168
+#: server/commands.c:176
 msgid "set <option-name> <value>"
 msgstr "set <nume-opţiune> <valoare>"
 
-#: server/commands.c:169
+#: server/commands.c:177
 msgid "Set server option."
 msgstr "Setează opţiunile server."
 
 #. TRANS: translate text between <> and [] only
-#: server/commands.c:174
+#: server/commands.c:182
 msgid "team <player> [team]"
 msgstr "team <jucător> [team]"
 
-#: server/commands.c:175
+#: server/commands.c:183
 msgid "Change, add or remove a player's team affiliation."
 msgstr "Modifică, adaugă sau elimină un jucător de la o echipă."
 
-#: server/commands.c:176
+#: server/commands.c:184
 msgid ""
 "Sets a player as member of a team. If no team specified, the player is set "
 "teamless. Use \"\" if names contain whitespace. A team is a group of players "
@@ -2856,15 +2861,15 @@ msgstr ""
 "a obţine victoria ca echipă cu scor individual."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:185
+#: server/commands.c:193
 msgid "rulesetdir <directory>"
 msgstr "rulesetdir <director>"
 
-#: server/commands.c:186
+#: server/commands.c:194
 msgid "Choose new ruleset directory or modpack."
 msgstr "Alege un director nou pentru reguli de joc sau un nou mod(modpack)."
 
-#: server/commands.c:187
+#: server/commands.c:195
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
@@ -2873,15 +2878,15 @@ msgstr ""
 "regulile de joc selectate."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:194
+#: server/commands.c:202
 msgid "metainfo <meta-line>"
 msgstr "metainfo <linie de meta informaţii>"
 
-#: server/commands.c:195
+#: server/commands.c:203
 msgid "Set metaserver info line."
 msgstr "Setează linia de informaţie a metaserver-ului."
 
-#: server/commands.c:196
+#: server/commands.c:204
 msgid ""
 "Set user defined metaserver info line. If parameter is omitted,\n"
 "previously set metamessage will be removed. For most of the time\n"
@@ -2890,19 +2895,19 @@ msgid ""
 msgstr ""
 
 #. TRANS: translate text between <> only
-#: server/commands.c:204
+#: server/commands.c:212
 msgid "metapatch <meta-line>"
 msgstr "metapatch <linie-meta>"
 
-#: server/commands.c:205
+#: server/commands.c:213
 msgid "Set metaserver patches line."
 msgstr "Setează linia metaserver-ului."
 
-#: server/commands.c:213
+#: server/commands.c:221
 msgid "Control metaserver connection."
 msgstr "Controlează conexiunea la metaserver."
 
-#: server/commands.c:214
+#: server/commands.c:222
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver.\n"
 "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
@@ -2913,33 +2918,33 @@ msgstr ""
 "'metaconnection up' sau 'metac u' realizează legătura cu metaserver-ul."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:221
+#: server/commands.c:229
 msgid "metaserver <address>"
 msgstr "metaserver <adresa>"
 
-#: server/commands.c:222
+#: server/commands.c:230
 msgid "Set address (URL) for metaserver to report to."
 msgstr "Setează adresa (URL) la care metaserverul să raporteze."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:227
+#: server/commands.c:235
 msgid "aitoggle <player-name>"
 msgstr "aitoggle <nume-jucător>"
 
-#: server/commands.c:228
+#: server/commands.c:236
 msgid "Toggle AI status of player."
 msgstr "Schimbă statutul de AI (inteligenţa artificială) al jucătorului."
 
 #. TRANS: translate text between [] and <> only
-#: server/commands.c:233
+#: server/commands.c:241
 msgid "take [connection-name] <player-name>"
 msgstr "take [nume-conexiune] <nume-jucător>"
 
-#: server/commands.c:234
+#: server/commands.c:242
 msgid "Take over a player's place in the game."
 msgstr "Din păcate un jucător nou nu poate fi admis."
 
-#: server/commands.c:235
+#: server/commands.c:243
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -2954,15 +2959,15 @@ msgstr ""
 "un jucător, se crează unul şi se atribuie conexiunii."
 
 #. TRANS: translate text between [] only
-#: server/commands.c:244
+#: server/commands.c:252
 msgid "observe [connection-name] [player-name]"
 msgstr "observe [nume-conexiune] [nume-jucător]"
 
-#: server/commands.c:245
+#: server/commands.c:253
 msgid "Observe a player or the whole game."
 msgstr "Urmareşte un jucător sau întregul joc."
 
-#: server/commands.c:246
+#: server/commands.c:254
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to observe a player. If you're not one of these, only the "
@@ -2977,15 +2982,15 @@ msgstr ""
 "argument, atunci conexiunea ca fi ataşată unui observator global."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:255
+#: server/commands.c:263
 msgid "detach <connection-name>"
 msgstr "detach <nume-conexiune>"
 
-#: server/commands.c:256
+#: server/commands.c:264
 msgid "detach from a player."
 msgstr "deataşează de la un jucător"
 
-#: server/commands.c:257
+#: server/commands.c:265
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to detach from a player."
@@ -2994,29 +2999,29 @@ msgstr ""
 "alte conexiuni să se deataşeze de la un jucător."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:263
+#: server/commands.c:271
 msgid "create <player-name>"
 msgstr "create <nume-jucător>"
 
-#: server/commands.c:264
+#: server/commands.c:272
 msgid "Create an AI player with a given name."
 msgstr "Crează un jucător AI cu acest nume."
 
-#: server/commands.c:265
+#: server/commands.c:273
 msgid ""
 "The 'create' command is only available before the game has been started."
 msgstr "Comanda 'create' este doar accesibilă înainte de pornirea jocului."
 
-#: server/commands.c:272
+#: server/commands.c:280
 msgid "Set yourself in away mode. The AI will watch your back."
 msgstr "Schimbă-ţi starea în plecat. AI-ul va juca în locul tău."
 
-#: server/commands.c:273
+#: server/commands.c:281
 msgid "The AI will govern your nation but do minimal changes."
 msgstr "AI-ul va conduce naţiunea ta dar va face doar schimbări minore."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:278
+#: server/commands.c:286
 msgid ""
 "novice\n"
 "novice <player-name>"
@@ -3024,11 +3029,11 @@ msgstr ""
 "novice\n"
 "novice <nume-jucător>"
 
-#: server/commands.c:280
+#: server/commands.c:288
 msgid "Set one or all AI players to 'novice'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'novice'."
 
-#: server/commands.c:281
+#: server/commands.c:289
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'.  With an argument, sets "
@@ -3039,7 +3044,7 @@ msgstr ""
 "Cu argument, setează doar nivelul de dificultate al jucătorului respectiv."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:288
+#: server/commands.c:296
 msgid ""
 "easy\n"
 "easy <player-name>"
@@ -3047,11 +3052,11 @@ msgstr ""
 "easy\n"
 "easy <nume-jucător>"
 
-#: server/commands.c:290
+#: server/commands.c:298
 msgid "Set one or all AI players to 'easy'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'uşor'."
 
-#: server/commands.c:291
+#: server/commands.c:299
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'.  With an argument, sets the "
@@ -3062,7 +3067,7 @@ msgstr ""
 "argument, setează doar nivelul de dificultate al jucătorului respectiv."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:298
+#: server/commands.c:306
 msgid ""
 "normal\n"
 "normal <player-name>"
@@ -3070,11 +3075,11 @@ msgstr ""
 "normal\n"
 "normal <nume-jucător>"
 
-#: server/commands.c:300
+#: server/commands.c:308
 msgid "Set one or all AI players to 'normal'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'normal'."
 
-#: server/commands.c:301
+#: server/commands.c:309
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'.  With an argument, sets "
@@ -3085,7 +3090,7 @@ msgstr ""
 "Cu argument, setează doar nivelul de dificultate al jucătorului respectiv."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:308
+#: server/commands.c:316
 msgid ""
 "hard\n"
 "hard <player-name>"
@@ -3093,11 +3098,11 @@ msgstr ""
 "hard\n"
 "hard <nume-jucător>"
 
-#: server/commands.c:310
+#: server/commands.c:318
 msgid "Set one or all AI players to 'hard'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'greu'."
 
-#: server/commands.c:311
+#: server/commands.c:319
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'.  With an argument, sets the "
@@ -3108,19 +3113,19 @@ msgstr ""
 "argument, setează doar nivelul de dificultate al jucătorului respectiv."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:318
+#: server/commands.c:326
 #, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
 msgstr "create <nume-jucător>"
 
-#: server/commands.c:320
+#: server/commands.c:328
 #, fuzzy
 msgid "Set one or all AI players to 'cheating'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'uşor'."
 
-#: server/commands.c:321
+#: server/commands.c:329
 #, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
@@ -3132,7 +3137,7 @@ msgstr ""
 "argument, setează doar nivelul de dificultate al jucătorului respectiv."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:328
+#: server/commands.c:336
 msgid ""
 "experimental\n"
 "experimental <player-name>"
@@ -3140,11 +3145,11 @@ msgstr ""
 "experimental\n"
 "experimental <nume-jucător>"
 
-#: server/commands.c:330
+#: server/commands.c:338
 msgid "Set one or all AI players to 'experimental'."
 msgstr "Setează unul sau toţi jucătorii AI la nivelul 'experimental'."
 
-#: server/commands.c:331
+#: server/commands.c:339
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this.  With an argument, sets the "
@@ -3158,7 +3163,7 @@ msgstr ""
 "ului! Pentru servere normale, această opţiune nu are nici un efect."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:340
+#: server/commands.c:348
 msgid ""
 "cmdlevel\n"
 "cmdlevel <level>\n"
@@ -3172,11 +3177,11 @@ msgstr ""
 "cmdlevel <nivel> first\n"
 "cmdlevel <nivel> <numele conexiunii>"
 
-#: server/commands.c:345
+#: server/commands.c:353
 msgid "Query or set command access level access."
 msgstr "Află sau setează acesul la nivelul accesului la comandă."
 
-#: server/commands.c:346
+#: server/commands.c:354
 #, fuzzy
 msgid ""
 "The command access level controls which server commands are available\n"
@@ -3223,20 +3228,20 @@ msgstr ""
 "untrusted person could reconnect with the same name.  Note that this command "
 "now takes connection names, not player names."
 
-#: server/commands.c:371
+#: server/commands.c:379
 msgid "If there is none, become the game organizer with increased permissions."
 msgstr "Dacă nu există,devii organizatorul jocului cu permisiuni sporite."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:376
+#: server/commands.c:384
 msgid "timeoutincrease <turn> <turninc> <value> <valuemult>"
 msgstr "timeoutincrease <rundă> <turninc> <value> <valuemult>"
 
-#: server/commands.c:377
+#: server/commands.c:385
 msgid "See \"help timeoutincrease\"."
 msgstr "Vezi \"help timeoutincrease\"."
 
-#: server/commands.c:378
+#: server/commands.c:386
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>.  Use this command in concert "
@@ -3248,33 +3253,33 @@ msgstr ""
 "0 0 1"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:385
+#: server/commands.c:393
 msgid ""
 "cancelvote\n"
 "cancelvote <vote number>\n"
 "cancelvote all\n"
 msgstr ""
 
-#: server/commands.c:388
+#: server/commands.c:396
 msgid "Cancel a running vote.\n"
 msgstr ""
 
-#: server/commands.c:389
+#: server/commands.c:397
 msgid ""
 "With no arguments this command removes your own vote.  If you have an admin "
 "access level, you can cancel any vote by vote number, or all votes with the "
 "'all' argument."
 msgstr ""
 
-#: server/commands.c:397
+#: server/commands.c:405
 msgid "End the game immediately in a draw."
 msgstr "Termină jocul imediat cu o remiză."
 
-#: server/commands.c:403
+#: server/commands.c:411
 msgid "Concede the game."
 msgstr "Abandonează jocul."
 
-#: server/commands.c:404
+#: server/commands.c:412
 msgid ""
 "This tells everyone else that you concede the game, and if all but one "
 "player (or one team) have conceded the game in this way then the game ends."
@@ -3284,15 +3289,15 @@ msgstr ""
 "atunci jocul se termină."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:411
+#: server/commands.c:419
 msgid "remove <player-name>"
 msgstr "remove <nume-jucător>"
 
-#: server/commands.c:412
+#: server/commands.c:420
 msgid "Fully remove player from game."
 msgstr "Îndepărtează complet jucătorul din joc."
 
-#: server/commands.c:413
+#: server/commands.c:421
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc.  Use with care!"
@@ -3301,7 +3306,7 @@ msgstr ""
 "oraşele şi unităţile sale. Folosiţi cu prudentă!"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:419
+#: server/commands.c:427
 msgid ""
 "save\n"
 "save <file-name>"
@@ -3309,11 +3314,11 @@ msgstr ""
 "save\n"
 "save <nume-fişier>"
 
-#: server/commands.c:421
+#: server/commands.c:429
 msgid "Save game to file."
 msgstr "Salvează jocul într-un fişier."
 
-#: server/commands.c:422
+#: server/commands.c:430
 msgid ""
 "Save the current game to file <file-name>.  If no file-name argument is "
 "given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
@@ -3331,7 +3336,7 @@ msgstr ""
 "şi foloseşte comanda 'start' după ce s-au conectat toţi jucătorii."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:432
+#: server/commands.c:440
 msgid ""
 "load\n"
 "load <file-name>"
@@ -3339,11 +3344,11 @@ msgstr ""
 "load\n"
 "load <nume-fişier>"
 
-#: server/commands.c:434
+#: server/commands.c:442
 msgid "Load game from file."
 msgstr "Încarcă jocul dintr-un fişier."
 
-#: server/commands.c:435
+#: server/commands.c:443
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost.\n"
@@ -3352,41 +3357,41 @@ msgstr ""
 "inclusiv jucătorii regulile de joc şi opţinile serverului vor fi pierdute.\n"
 
 #. TRANS: translate text between <> only
-#: server/commands.c:441
+#: server/commands.c:449
 msgid "read <file-name>"
 msgstr "read <nume-fişier>"
 
-#: server/commands.c:442
+#: server/commands.c:450
 msgid "Process server commands from file."
 msgstr "Execută comenzile server din fişier."
 
 #. TRANS: translate text between <> only
-#: server/commands.c:447
+#: server/commands.c:455
 msgid "write <file-name>"
 msgstr "write <nume-fişier>"
 
-#: server/commands.c:448
+#: server/commands.c:456
 msgid "Write current settings as server commands to file."
 msgstr "Salvează setările curente în fişier."
 
-#: server/commands.c:454
+#: server/commands.c:462
 #, fuzzy
 msgid "Reset all server settings."
 msgstr "Setează opţiunile server."
 
-#: server/commands.c:455
+#: server/commands.c:463
 msgid ""
 "Reset all settings and re-read the server start script, if there was one "
 "given with the --read server argument. "
 msgstr ""
 
-#: server/commands.c:462
+#: server/commands.c:470
 msgid "Switch server output between 'RFC-style' and normal style."
 msgstr ""
 "Schimbă modul de afişare a informaţiilor de ieşire ale serverului intre "
 "stilul RFC şi stilul normal."
 
-#: server/commands.c:468
+#: server/commands.c:476
 msgid "Simply returns the id of the server."
 msgstr "Întoarce pur şi simplu indicativul server-ului."
 
@@ -4493,48 +4498,40 @@ msgstr "Aţi fost îndepărtat din joc!"
 msgid "%s has been removed from the game."
 msgstr "%s a fost îndepărtat din joc."
 
-#: server/plrhand.c:1107 server/plrhand.c:1111
+#: server/plrhand.c:1133 server/plrhand.c:1137
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Aţi făcut contact cu %si conduşi de %s."
 
-#: server/plrhand.c:1131
-#, c-format
-msgid ""
-"%s and %s meet and go to instant war. You cancel your alliance with both."
-msgstr ""
-"%s şi %s s-au întâlnit şi au pornit imediat război. Aţi anulat alianţa cu "
-"amândoi."
-
-#: server/plrhand.c:1591
+#: server/plrhand.c:1599
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Nu aţi putut să aruncaţi %s în război civil - prea mulţi jucători"
 
-#: server/plrhand.c:1598
+#: server/plrhand.c:1606
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Nu aţi putut să aruncaţi %s în război civil - prea mulţi jucători"
 
-#: server/plrhand.c:1618
+#: server/plrhand.c:1626
 #, fuzzy
 msgid "Your nation is thrust into civil war."
 msgstr "Naţiunea dumneavoastră a fost aruncată într-un război civil."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:1622
+#: server/plrhand.c:1630
 #, fuzzy, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s a fost declarat liderul statelor rebele %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:1644
+#: server/plrhand.c:1652
 #, fuzzy, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s declară alianţă lui %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:1659
+#: server/plrhand.c:1667
 #, fuzzy, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -4645,8 +4642,8 @@ msgstr "Suprafaţa locuită"
 msgid "Research Speed"
 msgstr "Viteza de cercetare"
 
-#: server/report.c:134 data/default/techs.ruleset:383
-#: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
+#: server/report.c:134 data/default/techs.ruleset:386
+#: data/civ2/techs.ruleset:382 data/civ1/techs.ruleset:308
 msgid "Literacy"
 msgstr "Educaţia"
 
@@ -4655,8 +4652,8 @@ msgstr "Educaţia"
 msgid "Production"
 msgstr "Producţie"
 
-#: server/report.c:136 data/default/techs.ruleset:222
-#: data/civ2/techs.ruleset:211
+#: server/report.c:136 data/default/techs.ruleset:223
+#: data/civ2/techs.ruleset:212
 msgid "Economics"
 msgstr "Economia"
 
@@ -6381,7 +6378,7 @@ msgstr ""
 msgid "You are not allowed to set this option."
 msgstr "Nu puteţi modifica valoarea aceastei opţiuni."
 
-#: server/settings.c:1270 server/stdinhand.c:3402
+#: server/settings.c:1270 server/stdinhand.c:3397
 msgid "This setting can't be modified after the game has started."
 msgstr "Această opţiune nu poate fi modificată după pornirea jocului."
 
@@ -6562,7 +6559,7 @@ msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 "Unitatea dumneavoastră %s din a fost dizolvată ca urmare a acordului cu %si"
 
-#: server/srv_main.c:556 server/srv_main.c:560
+#: server/srv_main.c:556
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
@@ -6570,14 +6567,14 @@ msgstr ""
 "Cetăţenii îngrijoraţi amintesc faptul că starea de încetare a focului cu %s "
 "se va termina în curând."
 
-#: server/srv_main.c:566 server/srv_main.c:571
+#: server/srv_main.c:565 server/srv_main.c:570
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 "Starea de încetare a focului cu %s s-a terminat. Acum sunteţi în război cu %"
 "s."
 
-#: server/srv_main.c:589
+#: server/srv_main.c:588
 #, fuzzy, c-format
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel your "
@@ -6586,135 +6583,135 @@ msgstr ""
 "Starea de încetare a focului dintre %s şi %s s-a terminat. Sunt în război. "
 "Aţi anulat alianţa cu %s."
 
-#: server/srv_main.c:1099 server/srv_main.c:1102
+#: server/srv_main.c:1098 server/srv_main.c:1101
 #, fuzzy, c-format
 msgid "Unsupported compression type %d"
 msgstr "opţiuni suportate: %s"
 
-#: server/srv_main.c:1132
+#: server/srv_main.c:1131
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Salvarea jocului ca %s a eşuat"
 
-#: server/srv_main.c:1134
+#: server/srv_main.c:1133
 #, c-format
 msgid "Game saved as %s"
 msgstr "Jocul salvat ca %s"
 
-#: server/srv_main.c:1165
+#: server/srv_main.c:1164
 msgid "The game is already running."
 msgstr "Jocul rulează deja."
 
-#: server/srv_main.c:1173
+#: server/srv_main.c:1172
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s a pierdut nivelul de control al comenzii la începutul jocului. Folosiţi "
 "sistemul de votare de acum încolo."
 
-#: server/srv_main.c:1180
+#: server/srv_main.c:1179
 msgid "Starting game."
 msgstr "Pornesc jocul."
 
-#: server/srv_main.c:1250
+#: server/srv_main.c:1249
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "cerere pentru raport necunoscut (tip %d)"
 
-#: server/srv_main.c:1329
+#: server/srv_main.c:1328
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Avertisment: refuz o versiune veche de client %s"
 
-#: server/srv_main.c:1338
+#: server/srv_main.c:1337
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1395
+#: server/srv_main.c:1394
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "Nu puteţi modifica valoarea aceastei opţiuni."
 
-#: server/srv_main.c:1437
+#: server/srv_main.c:1436
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr ""
 "Am obţinut un pachet de date tip %d de la un jucător decedat sau observator"
 
-#: server/srv_main.c:1539
+#: server/srv_main.c:1538
 msgid "Please choose a non-blank name."
 msgstr "Alegeţi un nume diferit de spaţiu."
 
-#: server/srv_main.c:1555
+#: server/srv_main.c:1554
 msgid "That nation is already in use."
 msgstr "Naţiunea este deja aleasă de către cineva."
 
-#: server/srv_main.c:1571
+#: server/srv_main.c:1570
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Un alt jucător are deja numele '%s'.  Alegeţi un alt nume."
 
-#: server/srv_main.c:1592
+#: server/srv_main.c:1591
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Alegeţi un nume care să conţină doar caractere ASCII."
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1688
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "Naţiunea %s nu este disponibilă în acest scenariu."
 
-#: server/srv_main.c:1695
+#: server/srv_main.c:1694
 #, c-format
 msgid "%s nation is already in use."
 msgstr "Naţiunea %s este deja aleasă."
 
-#: server/srv_main.c:1713
+#: server/srv_main.c:1712
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s este conducătorul %s %s"
 
-#: server/srv_main.c:1769
+#: server/srv_main.c:1768
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Se aşteptă începutul jocului: %d din %d jucători sunt gata să înceapă."
 
-#: server/srv_main.c:1836 server/srv_main.c:1840
+#: server/srv_main.c:1835 server/srv_main.c:1839
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s a fost adăugat ca jucător AI de nivelul %s."
 
-#: server/srv_main.c:1962
+#: server/srv_main.c:1961
 #, c-format
 msgid "Player %d"
 msgstr "Jucătorul %d"
 
-#: server/srv_main.c:1972 server/srv_main.c:1976
+#: server/srv_main.c:1971 server/srv_main.c:1975
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s îi conduce pe %s."
 
-#: server/srv_main.c:2109
+#: server/srv_main.c:2108
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2170
+#: server/srv_main.c:2169
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "Se trimite informaţia la metaserver [%s]"
 
-#: server/srv_main.c:2175
+#: server/srv_main.c:2174
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2206
+#: server/srv_main.c:2205
 msgid "The game is over..."
 msgstr "Jocul sa terminat ..."
 
-#: server/srv_main.c:2432
+#: server/srv_main.c:2431
 msgid "Now accepting new client connections."
 msgstr "Se acceptă jucători ..."
 
@@ -6910,7 +6907,7 @@ msgstr "Jucătorii nu pot fi îndepărtaţi odată ce jocul a început."
 msgid "Removed player %s from the game."
 msgstr "Jucătorul %s a fost îndepărtat din joc."
 
-#: server/stdinhand.c:928 server/stdinhand.c:3265 server/stdinhand.c:3408
+#: server/stdinhand.c:928 server/stdinhand.c:3260 server/stdinhand.c:3403
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr "Numele \"%s\" nu este permis din motive de siguranţă."
@@ -7036,9 +7033,9 @@ msgstr "Conexiunea %s a optat să devină organizatorul jocului."
 msgid "Invalid argument %d."
 msgstr "Argument invalid %d."
 
-#: server/stdinhand.c:1364 server/stdinhand.c:1716 server/stdinhand.c:2783
-#: server/stdinhand.c:2931 server/stdinhand.c:2943 server/stdinhand.c:3110
-#: server/stdinhand.c:3253
+#: server/stdinhand.c:1364 server/stdinhand.c:1716 server/stdinhand.c:2778
+#: server/stdinhand.c:2926 server/stdinhand.c:2938 server/stdinhand.c:3105
+#: server/stdinhand.c:3248
 #, fuzzy, c-format
 msgid ""
 "Usage:\n"
@@ -7062,7 +7059,7 @@ msgstr "Opţiunea: %s  -  %s."
 msgid "Option: %s"
 msgstr "Opţiuni: %s"
 
-#: server/stdinhand.c:1443 server/stdinhand.c:4027
+#: server/stdinhand.c:1443 server/stdinhand.c:4022
 msgid "Description:"
 msgstr "Descriere:"
 
@@ -7109,7 +7106,7 @@ msgstr "Există explicaţii pentru următoarele opţiuni ale serverului:"
 msgid "No explanation for that yet."
 msgstr "Nu există încă explicaţie pentru aceasta."
 
-#: server/stdinhand.c:1531 server/stdinhand.c:2470
+#: server/stdinhand.c:1531 server/stdinhand.c:2465
 msgid "Ambiguous option name."
 msgstr "Numele opţiunii este ambiguu."
 
@@ -7156,58 +7153,58 @@ msgstr "%s a intrat în modul plecat."
 msgid "%s returned to game."
 msgstr "%s s-a întors la joc."
 
-#: server/stdinhand.c:1777
+#: server/stdinhand.c:1770
 #, c-format
 msgid "Sorry, you do not have access to view option '%s'."
 msgstr "Nu aveţi acces la opţiunea de vizualizare '%s'."
 
-#: server/stdinhand.c:1783
+#: server/stdinhand.c:1776
 #, c-format
 msgid "Unknown option '%s'."
 msgstr "Optiune necunoscută '%s'."
 
-#: server/stdinhand.c:1808
+#: server/stdinhand.c:1803
 msgid "All options with non-default values"
 msgstr "Toate opţiunile cu valori neimplicite"
 
-#: server/stdinhand.c:1811
+#: server/stdinhand.c:1806
 msgid "All options"
 msgstr "Toate opţiunile"
 
-#: server/stdinhand.c:1814
+#: server/stdinhand.c:1809
 msgid "Vital options"
 msgstr "Opţiuni vitale"
 
-#: server/stdinhand.c:1817
+#: server/stdinhand.c:1812
 msgid "Situational options"
 msgstr "Stabileşte opţiunile locale"
 
-#: server/stdinhand.c:1820
+#: server/stdinhand.c:1815
 msgid "Rarely used options"
 msgstr "Opţiuni folosite rar"
 
-#: server/stdinhand.c:1823
+#: server/stdinhand.c:1818
 msgid "+ means you may change the option"
 msgstr "+ înseamnă că puteţi schimba opţiunea"
 
-#: server/stdinhand.c:1824
+#: server/stdinhand.c:1819
 msgid "= means the option is on its default value"
 msgstr "= înseamnă că optiunea are valoarea ei implicită"
 
-#: server/stdinhand.c:1827
+#: server/stdinhand.c:1822
 #, c-format
 msgid "%-*s value   (min,max)      "
 msgstr "%-*s valoare (min,max)      "
 
-#: server/stdinhand.c:1827
+#: server/stdinhand.c:1822
 msgid "Option"
 msgstr "Opţiune"
 
-#: server/stdinhand.c:1831
+#: server/stdinhand.c:1826
 msgid "description"
 msgstr "deschriere"
 
-#: server/stdinhand.c:1914
+#: server/stdinhand.c:1909
 msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
@@ -7216,261 +7213,261 @@ msgstr ""
 "opţiuni.\n"
 "Încercaţi 'show changed' pentru a vedea setările cu valori neimplicite."
 
-#: server/stdinhand.c:1940
+#: server/stdinhand.c:1935
 msgid "Cannot change teams once game has begun."
 msgstr "Echipele nu se mai pot schimba după începerea jocului."
 
-#: server/stdinhand.c:1950 server/stdinhand.c:2083 server/stdinhand.c:2264
-#: server/stdinhand.c:2289 server/stdinhand.c:2332 server/stdinhand.c:2363
-#: server/stdinhand.c:2405 server/stdinhand.c:2430 server/stdinhand.c:2458
+#: server/stdinhand.c:1945 server/stdinhand.c:2078 server/stdinhand.c:2259
+#: server/stdinhand.c:2284 server/stdinhand.c:2327 server/stdinhand.c:2358
+#: server/stdinhand.c:2400 server/stdinhand.c:2425 server/stdinhand.c:2453
 #, fuzzy, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
 msgstr "Argument nedefinit. Mod de folosire: set <option> <value>."
 
-#: server/stdinhand.c:1971
+#: server/stdinhand.c:1966
 #, c-format
 msgid "No such team %s.  Please give a valid team name or number."
 msgstr "Nu există echipa %s.  Introduceţi un nume sau număr de echipă valid."
 
-#: server/stdinhand.c:1978
+#: server/stdinhand.c:1973
 msgid "Cannot team a barbarian."
 msgstr "Nu puteţi forma echipă cu un jucător barbar."
 
-#: server/stdinhand.c:1984
+#: server/stdinhand.c:1979
 #, c-format
 msgid "Player %s set to team %s."
 msgstr "Jucătorul %s a fost adăugat la echipa %s."
 
-#: server/stdinhand.c:2010 server/voting.c:510
+#: server/stdinhand.c:2005 server/voting.c:510
 #, fuzzy
 msgid "Teamvote"
 msgstr "Echipa"
 
-#: server/stdinhand.c:2010 server/voting.c:514
+#: server/stdinhand.c:2005 server/voting.c:514
 msgid "Vote"
 msgstr ""
 
-#: server/stdinhand.c:2012
+#: server/stdinhand.c:2007
 #, c-format
 msgid ""
 "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
 "d players."
 msgstr ""
 
-#: server/stdinhand.c:2016
+#: server/stdinhand.c:2011
 msgid " no dissent"
 msgstr ""
 
-#: server/stdinhand.c:2024
+#: server/stdinhand.c:2019
 msgid "There are no votes going on."
 msgstr "Nu se votează nimic momentan."
 
-#: server/stdinhand.c:2069 server/stdinhand.c:2189 server/stdinhand.c:3627
+#: server/stdinhand.c:2064 server/stdinhand.c:2184 server/stdinhand.c:3622
 msgid "You are not allowed to use this command."
 msgstr "Nu aveţi dreptul să folosiţi această comandă."
 
-#: server/stdinhand.c:2078
+#: server/stdinhand.c:2073
 #, fuzzy, c-format
 msgid "The argument \"%s\" is ambigious."
 msgstr "Argumentul '%s' al comenzi 'help' este ambiguu."
 
-#: server/stdinhand.c:2095
+#: server/stdinhand.c:2090
 #, fuzzy
 msgid "There are no votes running."
 msgstr "Nu se votează nimic momentan."
 
-#: server/stdinhand.c:2097
+#: server/stdinhand.c:2092
 #, fuzzy, c-format
 msgid "No legal last vote (%d %s)."
 msgstr "Nici un ultim vot legal."
 
-#: server/stdinhand.c:2098
+#: server/stdinhand.c:2093
 msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/stdinhand.c:2105 server/stdinhand.c:2487 server/stdinhand.c:2528
+#: server/stdinhand.c:2100 server/stdinhand.c:2482 server/stdinhand.c:2523
 msgid "Value must be an integer."
 msgstr "Valoarea trebuie să fie un întreg."
 
-#: server/stdinhand.c:2111 server/stdinhand.c:2197
+#: server/stdinhand.c:2106 server/stdinhand.c:2192
 #, c-format
 msgid "No such vote (%d)."
 msgstr "Nu există un asemenea vot (%d)."
 
-#: server/stdinhand.c:2117
+#: server/stdinhand.c:2112
 #, fuzzy
 msgid "You are not allowed to vote on that."
 msgstr "Nu puteţi modifica valoarea aceastei opţiuni."
 
-#: server/stdinhand.c:2122
+#: server/stdinhand.c:2117
 #, c-format
 msgid "You voted for \"%s\""
 msgstr "Aţi votat pentru \"%s\""
 
-#: server/stdinhand.c:2126
+#: server/stdinhand.c:2121
 #, c-format
 msgid "You voted against \"%s\""
 msgstr "Aţi votat împotriva \"%s\""
 
-#: server/stdinhand.c:2131
+#: server/stdinhand.c:2126
 #, c-format
 msgid "You abstained from voting on \"%s\""
 msgstr ""
 
-#: server/stdinhand.c:2166
+#: server/stdinhand.c:2161
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr ""
 
-#: server/stdinhand.c:2173
+#: server/stdinhand.c:2168
 #, fuzzy
 msgid "You don't have any vote going on."
 msgstr "Joc: Aici nu aveţi un lucrător."
 
-#: server/stdinhand.c:2180
+#: server/stdinhand.c:2175
 #, fuzzy
 msgid "There isn't any vote going on."
 msgstr "Nu se votează nimic momentan."
 
-#: server/stdinhand.c:2185
+#: server/stdinhand.c:2180
 msgid "All votes have been removed."
 msgstr ""
 
-#: server/stdinhand.c:2202
+#: server/stdinhand.c:2197
 #, fuzzy, c-format
 msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Nu puteţi modifica valoarea aceastei opţiuni."
 
-#: server/stdinhand.c:2208
+#: server/stdinhand.c:2203
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr ""
 
-#: server/stdinhand.c:2217
+#: server/stdinhand.c:2212
 #, fuzzy, c-format
 msgid "%s has cancelled the vote \"%s\" (number %d)."
 msgstr "%s a anulat rutele comerciale dintre %s şi oraşul dvs. %s"
 
-#: server/stdinhand.c:2223
+#: server/stdinhand.c:2218
 #, c-format
 msgid "The vote \"%s\" (number %d) has been cancelled."
 msgstr ""
 
-#: server/stdinhand.c:2244
+#: server/stdinhand.c:2239
 msgid "Can only use this command once game has begun."
 msgstr "Comanda poate fi folosită după începerea jocului."
 
-#: server/stdinhand.c:2275
+#: server/stdinhand.c:2270
 #, c-format
 msgid "%s diplomacy no longer debugged"
 msgstr "Nu se mai depanează diplomaţia lui %s"
 
-#: server/stdinhand.c:2279
+#: server/stdinhand.c:2274
 #, c-format
 msgid "%s diplomacy debugged"
 msgstr "Se depanează diplomaţia lui %s."
 
-#: server/stdinhand.c:2300
+#: server/stdinhand.c:2295
 #, c-format
 msgid "%s tech no longer debugged"
 msgstr "Nu se mai depanează tehnologia %s"
 
-#: server/stdinhand.c:2304
+#: server/stdinhand.c:2299
 #, c-format
 msgid "%s tech debugged"
 msgstr "Se depanează tehnologia %s"
 
-#: server/stdinhand.c:2320 server/stdinhand.c:2323
+#: server/stdinhand.c:2315 server/stdinhand.c:2318
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
 msgstr ""
 
-#: server/stdinhand.c:2337 server/stdinhand.c:2368
+#: server/stdinhand.c:2332 server/stdinhand.c:2363
 msgid "Value 2 & 3 must be integer."
 msgstr "Valoarile 2 şi 3 trebuie să fie numere întregi."
 
-#: server/stdinhand.c:2341 server/stdinhand.c:2372
+#: server/stdinhand.c:2336 server/stdinhand.c:2367
 msgid "Bad map coordinates."
 msgstr "Coordonate de hartă greşite."
 
-#: server/stdinhand.c:2346
+#: server/stdinhand.c:2341
 msgid "No city at this coordinate."
 msgstr "Nu există oraş la aceste coordonate."
 
-#: server/stdinhand.c:2351
+#: server/stdinhand.c:2346
 #, c-format
 msgid "%s no longer debugged"
 msgstr "Nu se mai depanează %s"
 
-#: server/stdinhand.c:2378 server/stdinhand.c:2419
+#: server/stdinhand.c:2373 server/stdinhand.c:2414
 #, fuzzy, c-format
 msgid "%s %s no longer debugged."
 msgstr "Nu se mai depanează a lui %s %s."
 
-#: server/stdinhand.c:2393
+#: server/stdinhand.c:2388
 msgid "Ferry system is no longer in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2397
+#: server/stdinhand.c:2392
 msgid "Ferry system in debug mode."
 msgstr ""
 
-#: server/stdinhand.c:2410
+#: server/stdinhand.c:2405
 msgid "Value 2 must be integer."
 msgstr "Valoarea 2 trebuie să fie un număr întreg."
 
-#: server/stdinhand.c:2414
+#: server/stdinhand.c:2409
 #, c-format
 msgid "Unit %d does not exist."
 msgstr "Unitatea %d nu există."
 
-#: server/stdinhand.c:2466
+#: server/stdinhand.c:2461
 #, c-format
 msgid "Option '%s' not recognized."
 msgstr ""
 
-#: server/stdinhand.c:2497
+#: server/stdinhand.c:2492
 #, c-format
 msgid "The parameter %s should only contain digits 0-1."
 msgstr ""
 
-#: server/stdinhand.c:2504
+#: server/stdinhand.c:2499
 msgid "Value out of range (minimum: 0, maximum: 1)."
 msgstr "Valoare în afara limitelor (minim: 0, maxim: 1)."
 
-#: server/stdinhand.c:2515 server/stdinhand.c:2558
+#: server/stdinhand.c:2510 server/stdinhand.c:2553
 #, c-format
 msgid "Option: %s has been set to %d."
 msgstr "Opţiunea: %s a fost setată la %d."
 
-#: server/stdinhand.c:2539
+#: server/stdinhand.c:2534
 #, c-format
 msgid "The parameter %s should only contain +- and 0-9."
 msgstr ""
 
-#: server/stdinhand.c:2546
+#: server/stdinhand.c:2541
 #, c-format
 msgid "Value out of range (minimum: %d, maximum: %d)."
 msgstr "Valoare în afara limitelor (minim: %d, maxim: %d)."
 
-#: server/stdinhand.c:2578
+#: server/stdinhand.c:2573
 #, c-format
 msgid "Option: %s has been set to \"%s\"."
 msgstr "Opţiunea: %s a fost setată la \"%s\"."
 
-#: server/stdinhand.c:2649
+#: server/stdinhand.c:2644
 msgid "Sorry, one can't observe globally in this game."
 msgstr "Nu se poate observa global jocul acesta."
 
-#: server/stdinhand.c:2657
+#: server/stdinhand.c:2652
 #, fuzzy
 msgid "You cannot take a new player at this time."
 msgstr "Nu se poate lua controlul asupra jucătorilor umani în acest joc."
 
 #. TRANS: Do not translate "maxplayers".
-#: server/stdinhand.c:2665
+#: server/stdinhand.c:2660
 #, c-format
 msgid ""
 "You cannot take a new player because the maximum of %d player has already "
@@ -7481,310 +7478,307 @@ msgid_plural ""
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/stdinhand.c:2677
+#: server/stdinhand.c:2672
 msgid "You cannot take a new player because there are no free player slots."
 msgstr ""
 
-#: server/stdinhand.c:2689
+#: server/stdinhand.c:2684
 msgid "Sorry, one can't observe barbarians in this game."
 msgstr "Nu se poat observa barbari în jocul acesta."
 
-#: server/stdinhand.c:2692
+#: server/stdinhand.c:2687
 msgid "Sorry, one can't take barbarians in this game."
 msgstr "Nu se poate alege naţiunea barbară în jocul acesta."
 
-#: server/stdinhand.c:2701
+#: server/stdinhand.c:2696
 msgid "Sorry, one can't observe dead players in this game."
 msgstr "Nu pot fi urmăriţi jucătorii decedaţi în acest joc."
 
-#: server/stdinhand.c:2704
+#: server/stdinhand.c:2699
 msgid "Sorry, one can't take dead players in this game."
 msgstr "Nu se poate lua controlul asupra jucătorilor decedeţi în acest joc."
 
-#: server/stdinhand.c:2714
+#: server/stdinhand.c:2709
 msgid "Sorry, one can't observe AI players in this game."
 msgstr "Nu se pot observa jucători AI în acest joc."
 
-#: server/stdinhand.c:2717
+#: server/stdinhand.c:2712
 msgid "Sorry, one can't take AI players in this game."
 msgstr "Nu se pot preua jucătorii AI în acest joc."
 
-#: server/stdinhand.c:2727
+#: server/stdinhand.c:2722
 msgid "Sorry, one can't observe human players in this game."
 msgstr "Nu se pot observa jucătorii umani în acest joc."
 
-#: server/stdinhand.c:2731
+#: server/stdinhand.c:2726
 msgid "Sorry, one can't take human players in this game."
 msgstr "Nu se poate lua controlul asupra jucătorilor umani în acest joc."
 
-#: server/stdinhand.c:2741
+#: server/stdinhand.c:2736
 msgid "Sorry, one can't observe in this game."
 msgstr "Nu se poate observa în acest joc."
 
-#: server/stdinhand.c:2746
+#: server/stdinhand.c:2741
 msgid "Sorry, one can't take players in this game."
 msgstr "Nu se pot prelua jucătorii în acest joc."
 
-#: server/stdinhand.c:2753
+#: server/stdinhand.c:2748
 msgid "Sorry, one can't take players already connected in this game."
 msgstr "Nu se pot prelua jucătorii conectaţi la acest joc."
 
-#: server/stdinhand.c:2790 server/stdinhand.c:2938
+#: server/stdinhand.c:2785 server/stdinhand.c:2933
 #, fuzzy
 msgid "Only the player name form is allowed."
 msgstr "Numele acesta nu este permis."
 
-#: server/stdinhand.c:2840
+#: server/stdinhand.c:2835
 #, c-format
 msgid "%s already controls %s. Using 'observe' would remove %s"
 msgstr "%s deja controlează %s. Folosind comanda 'observe' se va îndepărta %s"
 
-#: server/stdinhand.c:2851
+#: server/stdinhand.c:2846
 #, c-format
 msgid "%s is already observing %s."
 msgstr "%s observă deja %s."
 
-#: server/stdinhand.c:2856
+#: server/stdinhand.c:2851
 #, c-format
 msgid "%s is already observing."
 msgstr "%s observă deja."
 
-#: server/stdinhand.c:2888
+#: server/stdinhand.c:2883
 #, c-format
 msgid "%s now observes %s"
 msgstr "%s observă acum %s."
 
-#: server/stdinhand.c:2892
+#: server/stdinhand.c:2887
 #, c-format
 msgid "%s now observes"
 msgstr "%s observă acum"
 
-#: server/stdinhand.c:2959
+#: server/stdinhand.c:2954
 #, fuzzy
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr "Jucătorii nu pot fi îndepărtaţi odată ce jocul a început."
 
-#: server/stdinhand.c:2989
+#: server/stdinhand.c:2984
 #, fuzzy, c-format
 msgid "%s already controls %s."
 msgstr "%s controlează deja %s"
 
-#: server/stdinhand.c:3003
+#: server/stdinhand.c:2998
 #, fuzzy, c-format
 msgid "There is no free player slot for %s."
 msgstr "Nu există jucător sau conexiune cu numele %s."
 
-#: server/stdinhand.c:3020
+#: server/stdinhand.c:3015
 #, fuzzy, c-format
 msgid "Reassigned nation to %s by server console."
 msgstr "Poate fi folosit(ă) doar in consola serverului."
 
-#: server/stdinhand.c:3024
+#: server/stdinhand.c:3019
 #, c-format
 msgid "Reassigned nation to %s by %s."
 msgstr ""
 
-#: server/stdinhand.c:3063
+#: server/stdinhand.c:3058
 #, fuzzy, c-format
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s controlează acum %s (%s, %s)"
 
-#: server/stdinhand.c:3067 server/stdinhand.c:4298
+#: server/stdinhand.c:3062 server/stdinhand.c:4293
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Barbar"
 
-#: server/stdinhand.c:3069 server/stdinhand.c:4300 client/plrdlg_common.c:264
-#: client/gui-gtk-2.0/pages.c:2101 client/gui-sdl/plrdlg.c:641
-#: client/gui-win32/connectdlg.c:204 client/gui-win32/plrdlg.c:332
+#: server/stdinhand.c:3064 server/stdinhand.c:4295 client/plrdlg_common.c:264
+#: client/gui-sdl/plrdlg.c:641 client/gui-win32/connectdlg.c:204
+#: client/gui-win32/plrdlg.c:332
 msgid "AI"
 msgstr "AI"
 
-#: server/stdinhand.c:3070 server/stdinhand.c:4302
-#: client/gui-gtk-2.0/pages.c:2101 client/gui-gtk-2.0/pages.c:2124
+#: server/stdinhand.c:3065 server/stdinhand.c:4297
 #: client/gui-win32/connectdlg.c:204 client/gui-win32/connectdlg.c:216
 msgid "Human"
 msgstr "Om"
 
-#: server/stdinhand.c:3072 client/gui-gtk-2.0/pages.c:2100
-#: client/gui-gtk-2.0/pages.c:2123 client/gui-win32/connectdlg.c:203
+#: server/stdinhand.c:3067 client/gui-win32/connectdlg.c:203
 #: client/gui-win32/connectdlg.c:215
 msgid "Alive"
 msgstr "Activ"
 
-#: server/stdinhand.c:3073 client/gui-gtk-2.0/pages.c:2100
-#: client/gui-win32/connectdlg.c:203
+#: server/stdinhand.c:3068 client/gui-win32/connectdlg.c:203
 msgid "Dead"
 msgstr "Decedat"
 
-#: server/stdinhand.c:3078
+#: server/stdinhand.c:3073
 #, fuzzy, c-format
 msgid "%s failed to attach to any player."
 msgstr "%s nu este ataşat nici unui jucător."
 
-#: server/stdinhand.c:3131
+#: server/stdinhand.c:3126
 msgid "You can not detach other users."
 msgstr "Nu poţi deataşa alţi utilizatori."
 
-#: server/stdinhand.c:3140
+#: server/stdinhand.c:3135
 #, c-format
 msgid "%s is not attached to any player."
 msgstr "%s nu este ataşat nici unui jucător."
 
-#: server/stdinhand.c:3151
+#: server/stdinhand.c:3146
 #, c-format
 msgid "%s detaching from %s"
 msgstr "%s se detaşează de %s"
 
-#: server/stdinhand.c:3156
+#: server/stdinhand.c:3151
 #, c-format
 msgid "%s no longer observing."
 msgstr "%s nu mai observă."
 
-#: server/stdinhand.c:3259
+#: server/stdinhand.c:3254
 msgid "Cannot load a game while another is running."
 msgstr "Nu pot încărca un joc cât timp rulează deja altul."
 
-#: server/stdinhand.c:3290
+#: server/stdinhand.c:3285
 #, c-format
 msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Nu s-a găsit nici o salvare sau scenariu cu numele \"%s\"."
 
-#: server/stdinhand.c:3303
+#: server/stdinhand.c:3298
 #, c-format
 msgid "Could not load savefile: %s"
 msgstr "Nu am putut încărca salvarea: %s"
 
-#: server/stdinhand.c:3396
+#: server/stdinhand.c:3391
 #, c-format
 msgid "Current ruleset directory is \"%s\""
 msgstr "Cirectorul curent pentru setul de reguli este \"%s\""
 
-#: server/stdinhand.c:3417
+#: server/stdinhand.c:3412
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr "Directorul \"%s\" pentru setul de reguli nu a fost găsit"
 
-#: server/stdinhand.c:3423
+#: server/stdinhand.c:3418
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr "Directorul pentru setul de reguli este deja \"%s\""
 
-#: server/stdinhand.c:3427
+#: server/stdinhand.c:3422
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr "directorul pentru setul de reguli a fost stabilit la  \"%s\""
 
-#: server/stdinhand.c:3475
+#: server/stdinhand.c:3470
 msgid "Goodbye."
 msgstr "La revedere."
 
-#: server/stdinhand.c:3516
+#: server/stdinhand.c:3511
 msgid "Sorry, you are not allowed to use server commands."
 msgstr "Nu puteţi folosi comenzile pentru server."
 
-#: server/stdinhand.c:3566
+#: server/stdinhand.c:3561
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 "Atenţie: '%s' înterpretat ca '%s', dar este ambigu.  Încercaţi '%shelp'."
 
-#: server/stdinhand.c:3571
+#: server/stdinhand.c:3566
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr "Comandă necunoscută.  Încearcaţi '%shelp'."
 
-#: server/stdinhand.c:3585
+#: server/stdinhand.c:3580
 #, fuzzy
 msgid "Your new vote cancelled your previous vote."
 msgstr "Noul vot l-a anulat pe cel precedent."
 
-#: server/stdinhand.c:3599
+#: server/stdinhand.c:3594
 msgid "New teamvote"
 msgstr ""
 
-#: server/stdinhand.c:3608
+#: server/stdinhand.c:3603
 #, fuzzy, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr "Vot nou (numărul %d) de către %s: %s"
 
-#: server/stdinhand.c:3617
+#: server/stdinhand.c:3612
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:3643
+#: server/stdinhand.c:3638
 msgid "(server prompt)"
 msgstr "(prompter server)"
 
-#: server/stdinhand.c:3754
+#: server/stdinhand.c:3749
 msgid "Game ended in a draw."
 msgstr "Jocul s-a terminat cu o remiză."
 
-#: server/stdinhand.c:3758
+#: server/stdinhand.c:3753
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "Se încheie jocul. Serverul se va reporni imediat ce toţi clienţii s-au "
 "deconectat."
 
-#: server/stdinhand.c:3763
+#: server/stdinhand.c:3758
 msgid "Cannot end the game: no game running."
 msgstr "Nu se poate încheia jocul: nu rulează nici un joc."
 
-#: server/stdinhand.c:3779
+#: server/stdinhand.c:3774
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr "%s a acceptat înfrângerea şi nu mai poate câştiga."
 
-#: server/stdinhand.c:3784
+#: server/stdinhand.c:3779
 msgid "You cannot surrender now."
 msgstr "Nu vă puteţi preda acum."
 
-#: server/stdinhand.c:3805
+#: server/stdinhand.c:3800
 #, fuzzy, c-format
 msgid "Cannot load the script file '%s'"
 msgstr "Nu se poate citi fişierul de comenzi dat prin linia de comandă '%s'."
 
-#: server/stdinhand.c:3812
+#: server/stdinhand.c:3807
 msgid "Settings re-initialized."
 msgstr ""
 
-#: server/stdinhand.c:3882
+#: server/stdinhand.c:3877
 #, fuzzy
 msgid "Not enough human players, game will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:3887
+#: server/stdinhand.c:3882
 #, fuzzy
 msgid "No players, game will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:3891
+#: server/stdinhand.c:3886
 #, fuzzy
 msgid "Not enough nations for all players, game will not start."
 msgstr "Prea puţini jucători; jocul nu va porni."
 
-#: server/stdinhand.c:3900
+#: server/stdinhand.c:3895
 msgid "All players are ready; starting game."
 msgstr "Toţi jucătorii sunt gata; înceape jocul."
 
-#: server/stdinhand.c:3916
+#: server/stdinhand.c:3911
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Nu se poate porni jocul: se aşteaptă deconectarea tuturor clienţilor."
 
-#: server/stdinhand.c:3923
+#: server/stdinhand.c:3918
 msgid "Cannot start the game: it is already running."
 msgstr "Nu se pate porni jocul deoarece a fost deja pornit."
 
-#: server/stdinhand.c:3954
+#: server/stdinhand.c:3949
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Închid conexiunea %s."
 
 #. TRANS: line break width 70
-#: server/stdinhand.c:3974
+#: server/stdinhand.c:3969
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -7822,135 +7816,135 @@ msgstr ""
 "  quit   - opreşte serverul."
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4005
+#: server/stdinhand.c:4000
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "Comandă: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4011
+#: server/stdinhand.c:4006
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "Comandă: %s"
 
-#: server/stdinhand.c:4016
+#: server/stdinhand.c:4011
 msgid "Synopsis: "
 msgstr "Rezumat: "
 
-#: server/stdinhand.c:4025
+#: server/stdinhand.c:4020
 #, c-format
 msgid "Level: %s"
 msgstr "Nivel: %s"
 
-#: server/stdinhand.c:4044
+#: server/stdinhand.c:4039
 msgid "The following server commands are available:"
 msgstr "Serverul cunoaşte următoarele comenzi:"
 
-#: server/stdinhand.c:4105
+#: server/stdinhand.c:4100
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:4159
+#: server/stdinhand.c:4154
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Argumentul '%s' al comenzi 'help' este ambiguu."
 
-#: server/stdinhand.c:4166
+#: server/stdinhand.c:4161
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Nici o potrivire pentru argumentul comenzii help: '%s'."
 
-#: server/stdinhand.c:4232
+#: server/stdinhand.c:4227
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Argument de listă greşit: '%s'. Încercaţi '%shelp list'."
 
-#: server/stdinhand.c:4272
+#: server/stdinhand.c:4267
 msgid "List of players:"
 msgstr "Lista jucătorilor:"
 
-#: server/stdinhand.c:4277
+#: server/stdinhand.c:4272
 msgid "<no players>"
 msgstr "<nici un jucător>"
 
-#: server/stdinhand.c:4294
+#: server/stdinhand.c:4289
 #, c-format
 msgid "user %s, "
 msgstr "jucător %s, "
 
-#: server/stdinhand.c:4305
+#: server/stdinhand.c:4300
 msgid ", Dead"
 msgstr ", Decedat"
 
-#: server/stdinhand.c:4308
+#: server/stdinhand.c:4303
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", nivel %s de dificultate"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4313 server/stdinhand.c:4317 client/helpdata.c:597
+#: server/stdinhand.c:4308 server/stdinhand.c:4312 client/helpdata.c:597
 #: client/helpdata.c:1104 client/text.c:245 client/text.c:1314
 #: client/text.c:1351
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4321
+#: server/stdinhand.c:4316
 msgid ", ready"
 msgstr ", pregătit"
 
-#: server/stdinhand.c:4325
+#: server/stdinhand.c:4320
 msgid ", not ready"
 msgstr ", nepregătit"
 
-#: server/stdinhand.c:4336
+#: server/stdinhand.c:4331
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] " %d conexiune:"
 msgstr[1] " %d conexiuni:"
 
-#: server/stdinhand.c:4342
+#: server/stdinhand.c:4337
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s de la %s (nivelul de acces la comandă %s), bufsize=%dko"
 
-#: server/stdinhand.c:4347
+#: server/stdinhand.c:4342
 msgid " (observer mode)"
 msgstr " (mod de observator)"
 
-#: server/stdinhand.c:4363
+#: server/stdinhand.c:4358
 msgid "List of teams:"
 msgstr "Lista echipelor:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4372
+#: server/stdinhand.c:4367
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] "%2d : '%s' : %d jucător"
 msgstr[1] "%2d : '%s' : %d jucători"
 
-#: server/stdinhand.c:4394
+#: server/stdinhand.c:4389
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : jucătorul 1: %s"
 
-#: server/stdinhand.c:4403
+#: server/stdinhand.c:4398
 #, c-format
 msgid "Empty team: %s"
 msgstr "Echipă goală: %s"
 
-#: server/stdinhand.c:4414
+#: server/stdinhand.c:4409
 msgid "List of connections to server:"
 msgstr "Lista conexiunilor la server:"
 
-#: server/stdinhand.c:4418
+#: server/stdinhand.c:4413
 msgid "<no connections>"
 msgstr "<nici o conexiune>"
 
-#: server/stdinhand.c:4442
+#: server/stdinhand.c:4437
 msgid "List of scenarios available:"
 msgstr "Listă cu scenariile de joc disponibile:"
 
@@ -8454,16 +8448,16 @@ msgstr "%s dumneavoastră a paraşutat în %s şi a fost pierdut."
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr "%s dvs a fost ucis de trupe inamice la locul paraşutătri."
 
-#: server/unittools.c:2328
+#: server/unittools.c:2328 data/default/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "Aţi găsit %d galbeni."
 
-#: server/unittools.c:2334
+#: server/unittools.c:2334 data/default/default.lua:92
 msgid "An abandoned village is here."
 msgstr "Aici este o localitate abandonată."
 
-#: server/unittools.c:2337
+#: server/unittools.c:2337 data/default/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s dumneavoastră a fost ucis de barbari!"
@@ -9132,7 +9126,7 @@ msgid "?cma:Governor"
 msgstr "?cma:Guvernator"
 
 #: client/cityrepdata.c:519 client/gui-gtk-2.0/cityrep.c:1918
-#: client/gui-sdl/citydlg.c:3806 client/gui-sdl/cma_fe.c:861
+#: client/gui-sdl/citydlg.c:3807 client/gui-sdl/cma_fe.c:861
 #: client/gui-win32/citydlg.c:747 data/Freeciv.in:1459 data/helpdata.txt:900
 msgid "Citizen Governor"
 msgstr "Guvernatorul cetăţenilor"
@@ -9418,63 +9412,63 @@ msgstr ""
 "Conectarea automată la serverul \"%s\" la portul %d ca \"%s\" la fiecare %f "
 "secunde pentru %d încercări"
 
-#: client/connectdlg_common.c:207
+#: client/connectdlg_common.c:205
 msgid "Starting server..."
 msgstr "Se porneşte serverul..."
 
-#: client/connectdlg_common.c:330
+#: client/connectdlg_common.c:328
 msgid "Couldn't start the server."
 msgstr "Nu s-a putut porni serverul."
 
-#: client/connectdlg_common.c:332 client/connectdlg_common.c:367
+#: client/connectdlg_common.c:330 client/connectdlg_common.c:365
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Va trebui să porniţi unul manual."
 
-#: client/connectdlg_common.c:363
+#: client/connectdlg_common.c:361
 msgid "Couldn't connect to the server."
 msgstr "Nu s-a putut face conexiunea la server."
 
-#: client/connectdlg_common.c:365
+#: client/connectdlg_common.c:363
 msgid "We probably couldn't start it from here."
 msgstr "Se poate să nu fie posibilă pornirea din această locaţie."
 
-#: client/connectdlg_common.c:494
+#: client/connectdlg_common.c:492
 #, fuzzy
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr "Am preluat controlul serverului (cu nivelul hack de acces la comandă)"
 
-#: client/connectdlg_common.c:500
+#: client/connectdlg_common.c:498
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "The server will now be shutdown."
 msgstr ""
 
-#: client/control.c:1151
+#: client/control.c:1153
 msgid "Only transporter units can be unloaded."
 msgstr "Doar unităţile transportatoare pot fi descărcate."
 
-#: client/control.c:1465
+#: client/control.c:1467
 msgid "Only settler units can be put into auto mode."
 msgstr "Doar coloniştii pot fi puşi în modul autonom."
 
-#: client/control.c:1560
+#: client/control.c:1562
 msgid "Only nuclear units can do this."
 msgstr "Doar unităţile nucleare pot face aşa ceva."
 
-#: client/control.c:1589
+#: client/control.c:1591
 msgid "Only paratrooper units can do this."
 msgstr "Doar paraşutişti pot face aşa ceva."
 
-#: client/control.c:2096
+#: client/control.c:2098
 msgid "Too far for this unit."
 msgstr "Prea departe pentru această unitate."
 
-#: client/control.c:2308 client/control.c:2338 client/control.c:2354
+#: client/control.c:2310 client/control.c:2340 client/control.c:2356
 msgid "Didn't find a route to the destination!"
 msgstr "N-am găsit o rută spre destinaţie!"
 
-#: client/control.c:2398
+#: client/control.c:2400
 msgid "Oh my! You seem to have no capital!"
 msgstr "Uliu maică! Se pare că nu aveţi o capitală!"
 
@@ -11877,16 +11871,14 @@ msgstr "Nume utilizator"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:735
 #: client/gui-gtk-2.0/editprop.c:3232 client/gui-gtk-2.0/pages.c:1622
-#: client/gui-gtk-2.0/pages.c:2156
 msgid "Flag"
 msgstr "Drapel"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:739
 #: client/gui-gtk-2.0/editprop.c:3202 client/gui-gtk-2.0/editprop.c:3814
-#: client/gui-gtk-2.0/pages.c:955 client/gui-gtk-2.0/pages.c:1624
-#: client/gui-gtk-2.0/pages.c:2158 client/gui-sdl/repodlgs.c:2060
-#: client/gui-win32/connectdlg.c:985 client/gui-win32/dialogs.c:557
-#: client/gui-win32/plrdlg.c:332
+#: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1624
+#: client/gui-sdl/repodlgs.c:2060 client/gui-win32/connectdlg.c:985
+#: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
 msgstr "Naţiune"
 
@@ -11894,7 +11886,7 @@ msgstr "Naţiune"
 msgid "Border"
 msgstr "graniţă"
 
-#: client/plrdlg_common.c:262 client/gui-gtk-2.0/repodlgs.c:1348
+#: client/plrdlg_common.c:262 client/gui-gtk-2.0/repodlgs.c:1344
 msgid "Score"
 msgstr "Scor"
 
@@ -12688,7 +12680,7 @@ msgstr ""
 "o privire."
 
 #: client/agents/cma_fec.c:219 client/gui-gtk-2.0/cityrep.c:679
-#: client/gui-gtk-2.0/cityrep.c:705 client/gui-sdl/citydlg.c:2009
+#: client/gui-gtk-2.0/cityrep.c:705 client/gui-sdl/citydlg.c:2010
 msgid "none"
 msgstr "nimic"
 
@@ -13002,80 +12994,80 @@ msgstr "Stabileşte un Schimb _Comercial"
 msgid "Enter Marketplace"
 msgstr "Intraţi în piaţă"
 
-#: client/gui-gtk-2.0/chatline.c:299
+#: client/gui-gtk-2.0/chatline.c:300
 #, fuzzy
 msgid "No visible unit on this tile."
 msgstr "Nu puteţi mitui o unitate a acestei naţiuni."
 
-#: client/gui-gtk-2.0/chatline.c:446
+#: client/gui-gtk-2.0/chatline.c:447
 msgid "This city isn't known!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:455
+#: client/gui-gtk-2.0/chatline.c:456
 msgid "This tile doesn't exist in this game!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:465
+#: client/gui-gtk-2.0/chatline.c:466
 msgid "This unit isn't known!"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:776 client/gui-win32/chatline.c:137
+#: client/gui-gtk-2.0/chatline.c:777 client/gui-win32/chatline.c:137
 #: client/gui-xaw/chatline.c:121
 msgid "Cleared output window."
 msgstr "Am curăţat fereastra de ieşire."
 
 #. TRANS: "text" or "background".
-#: client/gui-gtk-2.0/chatline.c:937
+#: client/gui-gtk-2.0/chatline.c:959
 #, c-format
 msgid "Select the %s color"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1147
+#: client/gui-gtk-2.0/chatline.c:1170
 msgid "Bold (Ctrl-B)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1156
+#: client/gui-gtk-2.0/chatline.c:1179
 msgid "Italic (Ctrl-I)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1165
+#: client/gui-gtk-2.0/chatline.c:1188
 msgid "Strikethrough (Ctrl-S)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1174
+#: client/gui-gtk-2.0/chatline.c:1197
 msgid "Underline (Ctrl-U)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1183
+#: client/gui-gtk-2.0/chatline.c:1206
 msgid "Color (Ctrl-C)"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1192
+#: client/gui-gtk-2.0/chatline.c:1215
 msgid "foreground"
 msgstr ""
 
-#: client/gui-gtk-2.0/chatline.c:1196
+#: client/gui-gtk-2.0/chatline.c:1219
 #, fuzzy
 msgid "Select the text color"
 msgstr "Alegeţi ţinta:"
 
-#: client/gui-gtk-2.0/chatline.c:1202
+#: client/gui-gtk-2.0/chatline.c:1231
 #, fuzzy
 msgid "background"
 msgstr "Stratul de fundal"
 
-#: client/gui-gtk-2.0/chatline.c:1206
+#: client/gui-gtk-2.0/chatline.c:1235
 #, fuzzy
 msgid "Select the background color"
 msgstr "Culoarea de fundal a unităţilor"
 
 #. TRANS: "Return" means the return key.
-#: client/gui-gtk-2.0/chatline.c:1218
+#: client/gui-gtk-2.0/chatline.c:1253
 #, fuzzy
 msgid "Send the chat (Return)"
 msgstr "Clopoţel la începutul rundei"
 
-#: client/gui-gtk-2.0/chatline.c:1231
+#: client/gui-gtk-2.0/chatline.c:1266
 #, fuzzy
 msgid "Chat tools"
 msgstr "Schimbă în %s"
@@ -13141,7 +13133,7 @@ msgstr "Privire generală"
 msgid "Info"
 msgstr "Info"
 
-#: client/gui-gtk-2.0/citydlg.c:687 client/gui-sdl/citydlg.c:2522
+#: client/gui-gtk-2.0/citydlg.c:687 client/gui-sdl/citydlg.c:2523
 #: client/gui-win32/citydlg.c:803
 msgid "City map"
 msgstr "Harta oraşului"
@@ -13260,19 +13252,19 @@ msgstr "Oraşul _Urmator"
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s cetăţeni"
 
-#: client/gui-gtk-2.0/citydlg.c:1336 client/gui-sdl/citydlg.c:3603
+#: client/gui-gtk-2.0/citydlg.c:1336 client/gui-sdl/citydlg.c:3604
 msgid " - DISORDER"
 msgstr " - DEZORDINE"
 
-#: client/gui-gtk-2.0/citydlg.c:1338 client/gui-sdl/citydlg.c:3606
+#: client/gui-gtk-2.0/citydlg.c:1338 client/gui-sdl/citydlg.c:3607
 msgid " - celebrating"
 msgstr " - celebrând"
 
-#: client/gui-gtk-2.0/citydlg.c:1340 client/gui-sdl/citydlg.c:3609
+#: client/gui-gtk-2.0/citydlg.c:1340 client/gui-sdl/citydlg.c:3610
 msgid " - happy"
 msgstr " - fericiţi"
 
-#: client/gui-gtk-2.0/citydlg.c:1436 client/gui-sdl/citydlg.c:3298
+#: client/gui-gtk-2.0/citydlg.c:1436 client/gui-sdl/citydlg.c:3299
 #: client/gui-win32/citydlg.c:466
 msgid "blocked"
 msgstr "blocat"
@@ -13332,7 +13324,7 @@ msgstr "Nou oraş _natal"
 msgid "U_pgrade unit"
 msgstr "Modernizează unitatea"
 
-#: client/gui-gtk-2.0/citydlg.c:2477 client/gui-sdl/citydlg.c:1159
+#: client/gui-gtk-2.0/citydlg.c:2477 client/gui-sdl/citydlg.c:1160
 #: client/gui-win32/citydlg.c:920 client/gui-xaw/citydlg.c:1928
 #, c-format
 msgid ""
@@ -13348,7 +13340,7 @@ msgstr ""
 msgid "Buy It!"
 msgstr "Cumpară!"
 
-#: client/gui-gtk-2.0/citydlg.c:2489 client/gui-sdl/citydlg.c:1164
+#: client/gui-gtk-2.0/citydlg.c:2489 client/gui-sdl/citydlg.c:1165
 #: client/gui-win32/citydlg.c:929 client/gui-xaw/citydlg.c:1937
 #, c-format
 msgid ""
@@ -13358,7 +13350,7 @@ msgstr ""
 "%s costă %d galbeni.\n"
 "Tresoreria conţine %d galbeni."
 
-#: client/gui-gtk-2.0/citydlg.c:2542 client/gui-sdl/citydlg.c:1406
+#: client/gui-gtk-2.0/citydlg.c:2542 client/gui-sdl/citydlg.c:1407
 #: client/gui-win32/citydlg.c:974 client/gui-xaw/citydlg.c:2293
 #, c-format
 msgid "Sell %s for %d gold?"
@@ -13658,10 +13650,9 @@ msgstr "Alegeţi pentru prădare"
 #: client/gui-gtk-2.0/editprop.c:3204 client/gui-gtk-2.0/editprop.c:3220
 #: client/gui-gtk-2.0/editprop.c:3234 client/gui-gtk-2.0/editprop.c:3244
 #: client/gui-gtk-2.0/editprop.c:3791 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:952 client/gui-gtk-2.0/pages.c:1612
-#: client/gui-gtk-2.0/pages.c:2154 client/gui-gtk-2.0/wldlg.c:1002
-#: client/gui-win32/connectdlg.c:980 client/gui-win32/plrdlg.c:332
-#: manual/civmanual.c:300 data/Freeciv.in:80
+#: client/gui-gtk-2.0/pages.c:950 client/gui-gtk-2.0/pages.c:1612
+#: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
+#: client/gui-win32/plrdlg.c:332 manual/civmanual.c:300 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nume"
 
@@ -13948,7 +13939,7 @@ msgstr "(Niciodată)"
 msgid "(destroyed)"
 msgstr "Distrugător"
 
-#: client/gui-gtk-2.0/editprop.c:3098 client/gui-gtk-2.0/gui_main.c:1196
+#: client/gui-gtk-2.0/editprop.c:3098 client/gui-gtk-2.0/gui_main.c:1194
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "Vizualizare"
@@ -14054,11 +14045,10 @@ msgid "Address"
 msgstr "Adaugă setare"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3767 client/gui-gtk-2.0/pages.c:953
-#: client/gui-gtk-2.0/pages.c:2162 client/gui-gtk-2.0/repodlgs.c:642
-#: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/citydlg.c:1100
-#: client/gui-win32/connectdlg.c:995 client/gui-win32/wldlg.c:781
-#: client/gui-win32/wldlg.c:787
+#: client/gui-gtk-2.0/editprop.c:3767 client/gui-gtk-2.0/pages.c:951
+#: client/gui-gtk-2.0/repodlgs.c:642 client/gui-gtk-2.0/wldlg.c:1002
+#: client/gui-win32/citydlg.c:1100 client/gui-win32/connectdlg.c:995
+#: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
 msgid "Type"
 msgstr "Tipul"
 
@@ -14270,85 +14260,84 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:725 client/gui-gtk-2.0/gui_main.c:1452
+#: client/gui-gtk-2.0/gui_main.c:725 client/gui-gtk-2.0/gui_main.c:1450
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1132 client/gui-gtk-2.0/gui_main.c:1139
+#: client/gui-gtk-2.0/gui_main.c:1130 client/gui-gtk-2.0/gui_main.c:1137
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:472
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Termină Runda"
 
-#: client/gui-gtk-2.0/gui_main.c:1139 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1137 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1300
+#: client/gui-gtk-2.0/gui_main.c:1298
 msgid "Chat"
 msgstr "Discuţie"
 
-#: client/gui-gtk-2.0/gui_main.c:1324
+#: client/gui-gtk-2.0/gui_main.c:1322
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1333
+#: client/gui-gtk-2.0/gui_main.c:1331
 #, fuzzy
 msgid "Clear links"
 msgstr "Ţintă plan de lucru:"
 
-#: client/gui-gtk-2.0/gui_main.c:1608
+#: client/gui-gtk-2.0/gui_main.c:1606
 msgid "Not _ready"
 msgstr "Nepregătit"
 
-#: client/gui-gtk-2.0/gui_main.c:1619 client/gui-gtk-2.0/pages.c:1685
+#: client/gui-gtk-2.0/gui_main.c:1617 client/gui-gtk-2.0/pages.c:1685
 msgid "_Ready"
 msgstr "P_regătit"
 
-#: client/gui-gtk-2.0/gui_main.c:1623 client/gui-gtk-2.0/gui_main.c:1629
-#: client/gui-gtk-2.0/pages.c:2203
+#: client/gui-gtk-2.0/gui_main.c:1621 client/gui-gtk-2.0/gui_main.c:1627
 msgid "_Start"
 msgstr "_Start"
 
-#: client/gui-gtk-2.0/gui_main.c:1637
+#: client/gui-gtk-2.0/gui_main.c:1635
 #, fuzzy
 msgid "_Take Player"
 msgstr "Preluaţi acest jucător"
 
-#: client/gui-gtk-2.0/gui_main.c:1641 client/gui-gtk-2.0/pages.c:1675
+#: client/gui-gtk-2.0/gui_main.c:1639 client/gui-gtk-2.0/pages.c:1675
 msgid "Pick _Nation"
 msgstr "Alege _naţiunea"
 
-#: client/gui-gtk-2.0/gui_main.c:1649 client/gui-gtk-2.0/pages.c:1680
+#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/pages.c:1680
 msgid "_Observe"
 msgstr "_Observă"
 
-#: client/gui-gtk-2.0/gui_main.c:1651
+#: client/gui-gtk-2.0/gui_main.c:1649
 #, fuzzy
 msgid "Do not _observe"
 msgstr "Nu _observa"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1706
+#: client/gui-gtk-2.0/gui_main.c:1704
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "<AI uşor>"
 
-#: client/gui-gtk-2.0/gui_main.c:1718 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1716 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:221
 msgid "Random"
 msgstr "Aleator"
 
-#: client/gui-gtk-2.0/gui_main.c:1778 client/gui-gtk-2.0/gui_main.c:1792
+#: client/gui-gtk-2.0/gui_main.c:1776 client/gui-gtk-2.0/gui_main.c:1790
 msgid "Observer"
 msgstr " Observator"
 
-#: client/gui-gtk-2.0/gui_main.c:1792
+#: client/gui-gtk-2.0/gui_main.c:1790
 msgid "Detached"
 msgstr "Deataşat"
 
-#: client/gui-gtk-2.0/gui_main.c:2056
+#: client/gui-gtk-2.0/gui_main.c:2054
 msgid "Are you sure you want to quit?"
 msgstr "Sigur vrei să renunţi?"
 
@@ -14365,8 +14354,8 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
-#: client/gui-gtk-2.0/happiness.c:118 client/gui-sdl/citydlg.c:2042
-#: client/gui-sdl/citydlg.c:3718 client/gui-win32/citydlg.c:747
+#: client/gui-gtk-2.0/happiness.c:118 client/gui-sdl/citydlg.c:2043
+#: client/gui-sdl/citydlg.c:3719 client/gui-win32/citydlg.c:747
 #: client/gui-win32/happiness.c:86 client/gui-xaw/menu.c:261
 #: data/helpdata.txt:1573
 msgid "Happiness"
@@ -14922,7 +14911,7 @@ msgstr "Ceaţă de război"
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1342 client/gui-gtk-2.0/pages.c:2478
+#: client/gui-gtk-2.0/menu.c:1342 client/gui-gtk-2.0/pages.c:2319
 #, fuzzy
 msgid "Save Scenario"
 msgstr "Începe un _scenariu de joc"
@@ -15279,98 +15268,97 @@ msgstr "_AI"
 msgid "_Toggle AI Mode"
 msgstr "Comu_tă în modul AI"
 
-#: client/gui-gtk-2.0/pages.c:223
+#: client/gui-gtk-2.0/pages.c:221
 msgid "Start _New Game"
 msgstr "Începe un joc _nou"
 
-#: client/gui-gtk-2.0/pages.c:229
+#: client/gui-gtk-2.0/pages.c:227
 msgid "Start _Scenario Game"
 msgstr "Începe un _scenariu de joc"
 
-#: client/gui-gtk-2.0/pages.c:235
+#: client/gui-gtk-2.0/pages.c:233
 msgid "_Load Saved Game"
 msgstr "Încarcă un joc salvat"
 
-#: client/gui-gtk-2.0/pages.c:241
+#: client/gui-gtk-2.0/pages.c:239
 msgid "C_onnect to Network Game"
 msgstr "C_onexiune la joc în reţea"
 
-#: client/gui-gtk-2.0/pages.c:249
+#: client/gui-gtk-2.0/pages.c:247
 msgid "Connect to Gaming _Zone"
 msgstr "Concetează-te la Gaming _Zone"
 
-#: client/gui-gtk-2.0/pages.c:626 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr "Parolele diferă, introduceţi parola."
 
-#: client/gui-gtk-2.0/pages.c:781 client/gui-gtk-2.0/pages.c:822
+#: client/gui-gtk-2.0/pages.c:779 client/gui-gtk-2.0/pages.c:820
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "Nume Server"
 
-#: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
+#: client/gui-gtk-2.0/pages.c:780 client/gui-gtk-2.0/pages.c:821
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
+#: client/gui-gtk-2.0/pages.c:781 client/gui-gtk-2.0/pages.c:822
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "Versiune"
 
-#: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
-#: client/gui-gtk-2.0/pages.c:2160 client/gui-win32/connectdlg.c:911
-#: client/gui-win32/connectdlg.c:990
+#: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
+#: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "Stare"
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "Jucători"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "Comentariu"
 
-#: client/gui-gtk-2.0/pages.c:788
+#: client/gui-gtk-2.0/pages.c:786
 msgid "Local _Area Network"
 msgstr "Reţea loc_ală"
 
-#: client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:827
 msgid "Internet _Metaserver"
 msgstr "Internet _Metaserver"
 
-#: client/gui-gtk-2.0/pages.c:866
+#: client/gui-gtk-2.0/pages.c:864
 msgid "_Host:"
 msgstr "_Gazdă:"
 
-#: client/gui-gtk-2.0/pages.c:883
+#: client/gui-gtk-2.0/pages.c:881
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:900
+#: client/gui-gtk-2.0/pages.c:898
 msgid "_Login:"
 msgstr "_Login:"
 
-#: client/gui-gtk-2.0/pages.c:918
+#: client/gui-gtk-2.0/pages.c:916
 msgid "Pass_word:"
 msgstr "Parola:"
 
-#: client/gui-gtk-2.0/pages.c:936
+#: client/gui-gtk-2.0/pages.c:934
 msgid "Conf_irm Password:"
 msgstr "Conf_irmaţi parola:"
 
-#: client/gui-gtk-2.0/pages.c:954 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:952 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Host"
 
-#: client/gui-gtk-2.0/pages.c:983
+#: client/gui-gtk-2.0/pages.c:981
 msgid "C_onnect"
 msgstr "_Conectează"
 
@@ -15455,7 +15443,7 @@ msgstr "Nivel de dificultate _AI:"
 msgid "Ruleset _Version:"
 msgstr "P_resetări:"
 
-#: client/gui-gtk-2.0/pages.c:1592 client/gui-gtk-2.0/pages.c:2192
+#: client/gui-gtk-2.0/pages.c:1592
 msgid "_More Game Options..."
 msgstr "_Opţiuni suplimentare pentru joc..."
 
@@ -15476,44 +15464,40 @@ msgstr "Gata"
 msgid "?player:Leader"
 msgstr "?Player:Nume"
 
-#: client/gui-gtk-2.0/pages.c:1737 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1734 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr "Alegeţi jocul pentru încărcat"
 
-#: client/gui-gtk-2.0/pages.c:1827
+#: client/gui-gtk-2.0/pages.c:1824
 msgid "Choose Saved Game to _Load:"
 msgstr "Alegeţi jocu_l pentru încărcat"
 
-#: client/gui-gtk-2.0/pages.c:1847 client/gui-gtk-2.0/pages.c:2036
-#: client/gui-gtk-2.0/pages.c:2481
+#: client/gui-gtk-2.0/pages.c:1844 client/gui-gtk-2.0/pages.c:2033
+#: client/gui-gtk-2.0/pages.c:2322
 msgid "_Browse..."
 msgstr "Răsfoieşte..."
 
-#: client/gui-gtk-2.0/pages.c:1911
+#: client/gui-gtk-2.0/pages.c:1908
 msgid "Choose a Scenario"
 msgstr "Alegeţi un scenariu"
 
-#: client/gui-gtk-2.0/pages.c:1997
+#: client/gui-gtk-2.0/pages.c:1994
 msgid "Choose a _Scenario:"
 msgstr "Alegeţi un _scenariu:"
 
-#: client/gui-gtk-2.0/pages.c:2172
-msgid "Choose a _nation to play:"
-msgstr "Alegeţi o _naţiune cu care să jucaţi:"
-
-#: client/gui-gtk-2.0/pages.c:2385 client/gui-win32/menu.c:587
+#: client/gui-gtk-2.0/pages.c:2226 client/gui-win32/menu.c:587
 msgid "Select Location to Save"
 msgstr "Alegeţi locaţia pentru salvat"
 
-#: client/gui-gtk-2.0/pages.c:2478 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2319 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "Salvează joc"
 
-#: client/gui-gtk-2.0/pages.c:2519
+#: client/gui-gtk-2.0/pages.c:2360
 msgid "Saved _Games:"
 msgstr "Jocuri salvate:"
 
-#: client/gui-gtk-2.0/pages.c:2546
+#: client/gui-gtk-2.0/pages.c:2387
 msgid "Save _Filename:"
 msgstr "Nume fişier salvare:"
 
@@ -15634,23 +15618,23 @@ msgstr ""
 "Modernizeaz cât mai mulţi %s în %s pentru %d galbeni fiecare?\n"
 "Trezoreria conţine %d galbeni."
 
-#: client/gui-gtk-2.0/repodlgs.c:1289
+#: client/gui-gtk-2.0/repodlgs.c:1285
 msgid "Totals:"
 msgstr "Total:"
 
-#: client/gui-gtk-2.0/repodlgs.c:1312
+#: client/gui-gtk-2.0/repodlgs.c:1308
 msgid "Player\n"
 msgstr "Jucător\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1313
+#: client/gui-gtk-2.0/repodlgs.c:1309
 msgid "Score\n"
 msgstr "Scor\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1314
+#: client/gui-gtk-2.0/repodlgs.c:1310
 msgid "Population\n"
 msgstr "Populaţia\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1315
+#: client/gui-gtk-2.0/repodlgs.c:1311
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -15658,7 +15642,7 @@ msgstr ""
 "Comerţ\n"
 "(M produse)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1316
+#: client/gui-gtk-2.0/repodlgs.c:1312
 msgid ""
 "Production\n"
 "(M tons)"
@@ -15666,15 +15650,15 @@ msgstr ""
 "Producţie\n"
 "(M tone)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1317
+#: client/gui-gtk-2.0/repodlgs.c:1313
 msgid "Cities\n"
 msgstr "Oraşe\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1318
+#: client/gui-gtk-2.0/repodlgs.c:1314
 msgid "Technologies\n"
 msgstr "Tehnologii\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1319
+#: client/gui-gtk-2.0/repodlgs.c:1315
 msgid ""
 "Military Service\n"
 "(months)"
@@ -15682,11 +15666,11 @@ msgstr ""
 "Serviciul militar\n"
 "(luni)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1320
+#: client/gui-gtk-2.0/repodlgs.c:1316
 msgid "Wonders\n"
 msgstr "Minuni\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1321
+#: client/gui-gtk-2.0/repodlgs.c:1317
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -15694,7 +15678,7 @@ msgstr ""
 "Viteza de cercetare\n"
 "(%)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1322
+#: client/gui-gtk-2.0/repodlgs.c:1318
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -15702,7 +15686,7 @@ msgstr ""
 "Suprafaţa\n"
 "(mile pătrate)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1323
+#: client/gui-gtk-2.0/repodlgs.c:1319
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -15710,7 +15694,7 @@ msgstr ""
 "Suprafaţa locuită\n"
 "(mile pătrate)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1324
+#: client/gui-gtk-2.0/repodlgs.c:1320
 msgid ""
 "Literacy\n"
 "(%)"
@@ -15718,24 +15702,24 @@ msgstr ""
 "Educaţia\n"
 "(%)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1325
+#: client/gui-gtk-2.0/repodlgs.c:1321
 msgid "Spaceship\n"
 msgstr "Navă spaţială\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1502 data/Freeciv.in:3397
+#: client/gui-gtk-2.0/repodlgs.c:1498 data/Freeciv.in:3397
 #: data/Freeciv.in:3406
 msgid "Game Settings"
 msgstr "Setările jocului"
 
-#: client/gui-gtk-2.0/repodlgs.c:1607 client/gui-xaw/repodlgs.c:1439
+#: client/gui-gtk-2.0/repodlgs.c:1603 client/gui-xaw/repodlgs.c:1439
 msgid "true"
 msgstr "adevărat"
 
-#: client/gui-gtk-2.0/repodlgs.c:1607 client/gui-xaw/repodlgs.c:1439
+#: client/gui-gtk-2.0/repodlgs.c:1603 client/gui-xaw/repodlgs.c:1439
 msgid "false"
 msgstr "fals"
 
-#: client/gui-gtk-2.0/repodlgs.c:1617 client/gui-xaw/repodlgs.c:1449
+#: client/gui-gtk-2.0/repodlgs.c:1613 client/gui-xaw/repodlgs.c:1449
 msgid "(hidden)"
 msgstr "(ascuns)"
 
@@ -15885,7 +15869,7 @@ msgstr "Ajută la construcţia minunii"
 msgid "Keep moving"
 msgstr "Continuă drumul"
 
-#: client/gui-sdl/chatline.c:198 client/gui-sdl/citydlg.c:3681
+#: client/gui-sdl/chatline.c:198 client/gui-sdl/citydlg.c:3682
 #: client/gui-sdl/cma_fe.c:472 client/gui-sdl/cma_fe.c:879
 #: client/gui-sdl/dialogs.c:289 client/gui-sdl/dialogs.c:654
 #: client/gui-sdl/dialogs.c:887 client/gui-sdl/dialogs.c:1217
@@ -15962,7 +15946,7 @@ msgstr "Nou oraş natal"
 msgid "Upgrade unit"
 msgstr "Modernizează unitatea"
 
-#: client/gui-sdl/citydlg.c:546 client/gui-sdl/citydlg.c:1418
+#: client/gui-sdl/citydlg.c:546 client/gui-sdl/citydlg.c:1419
 #: client/gui-sdl/connectdlg.c:308 client/gui-sdl/connectdlg.c:617
 #: client/gui-sdl/connectdlg.c:803 client/gui-sdl/connectdlg.c:985
 #: client/gui-sdl/dialogs.c:461 client/gui-sdl/dialogs.c:2128
@@ -15999,22 +15983,22 @@ msgstr ""
 "Dizolvă dacă\n"
 "colonizatorul este de mărimea 1"
 
-#: client/gui-sdl/citydlg.c:1171
+#: client/gui-sdl/citydlg.c:1172
 #, fuzzy
 msgid "Sorry, you have already bought here in this turn."
 msgstr "Aţi cumpărat deja aici în runda aceasta"
 
-#: client/gui-sdl/citydlg.c:1174
+#: client/gui-sdl/citydlg.c:1175
 #, fuzzy
 msgid "Sorry, you can't buy here in this turn."
 msgstr "Aţi cumpărat deja aici în runda aceasta"
 
-#: client/gui-sdl/citydlg.c:1178
+#: client/gui-sdl/citydlg.c:1179
 #, fuzzy
 msgid "Buy it?"
 msgstr "Cumparaţi?"
 
-#: client/gui-sdl/citydlg.c:1204 client/gui-sdl/cma_fe.c:330
+#: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:330
 #: client/gui-sdl/diplodlg.c:1334 client/gui-sdl/diplomat_dialog.c:1213
 #: client/gui-sdl/diplomat_dialog.c:1419 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:216 client/gui-sdl/repodlgs.c:1555
@@ -16030,7 +16014,7 @@ msgstr "Cumparaţi?"
 msgid "No"
 msgstr "Nu"
 
-#: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:321
+#: client/gui-sdl/citydlg.c:1216 client/gui-sdl/cma_fe.c:321
 #: client/gui-sdl/diplodlg.c:1344 client/gui-sdl/diplomat_dialog.c:1202
 #: client/gui-sdl/diplomat_dialog.c:1409 client/gui-sdl/plrdlg.c:224
 #: client/gui-sdl/repodlgs.c:227 client/gui-win32/repodlgs.c:581
@@ -16045,131 +16029,131 @@ msgstr "Nu"
 msgid "Yes"
 msgstr "Da"
 
-#: client/gui-sdl/citydlg.c:1393
+#: client/gui-sdl/citydlg.c:1394
 #, fuzzy
 msgid "Sell it?"
 msgstr "Vindeţi?"
 
-#: client/gui-sdl/citydlg.c:1426 client/gui-win32/citydlg.c:808
+#: client/gui-sdl/citydlg.c:1427 client/gui-win32/citydlg.c:808
 msgid "Sell"
 msgstr "Vinde"
 
-#: client/gui-sdl/citydlg.c:1734 client/gui-sdl/citydlg.c:3763
+#: client/gui-sdl/citydlg.c:1735 client/gui-sdl/citydlg.c:3764
 #, fuzzy
 msgid "City options"
 msgstr "Opţiuni Oraş"
 
-#: client/gui-sdl/citydlg.c:1779
+#: client/gui-sdl/citydlg.c:1780
 #, fuzzy, c-format
 msgid "Supported units: %d"
 msgstr "Unităţi întreţinute %d"
 
-#: client/gui-sdl/citydlg.c:1837
+#: client/gui-sdl/citydlg.c:1838
 #, fuzzy, c-format
 msgid "Present units: %d"
 msgstr "Unităţi prezente %d"
 
-#: client/gui-sdl/citydlg.c:1886 client/gui-sdl/citydlg.c:3730
+#: client/gui-sdl/citydlg.c:1887 client/gui-sdl/citydlg.c:3731
 #: client/gui-win32/citydlg.c:799
 msgid "City info"
 msgstr "Info oraş"
 
-#: client/gui-sdl/citydlg.c:1907
+#: client/gui-sdl/citydlg.c:1908
 #, fuzzy, c-format
 msgid "Pollution: %d"
 msgstr "Poluare : %d"
 
-#: client/gui-sdl/citydlg.c:1935
+#: client/gui-sdl/citydlg.c:1936
 #, fuzzy
 msgid "Pollution: none"
 msgstr "Poluare : nu există"
 
-#: client/gui-sdl/citydlg.c:1948
+#: client/gui-sdl/citydlg.c:1949
 #, fuzzy
 msgid "Trade routes: "
 msgstr "Rute comerciale : "
 
-#: client/gui-sdl/citydlg.c:1997
+#: client/gui-sdl/citydlg.c:1998
 #, fuzzy, c-format
 msgid "Trade: +%d"
 msgstr "Comerţ : +%d"
 
-#: client/gui-sdl/citydlg.c:2537
+#: client/gui-sdl/citydlg.c:2538
 msgid "Citizens"
 msgstr "Cetăţeni"
 
-#: client/gui-sdl/citydlg.c:2551
+#: client/gui-sdl/citydlg.c:2552
 #, fuzzy
 msgid "City improvements"
 msgstr "Înbunătăţiri oraş"
 
-#: client/gui-sdl/citydlg.c:2566
+#: client/gui-sdl/citydlg.c:2567
 #, fuzzy, c-format
 msgid "Food: %d per turn"
 msgstr "Hrană : %d pe rundă"
 
-#: client/gui-sdl/citydlg.c:2603
+#: client/gui-sdl/citydlg.c:2604
 #, fuzzy, c-format
 msgid "?food:Surplus: %d"
 msgstr "?food:Surplus : %d"
 
-#: client/gui-sdl/citydlg.c:2651
+#: client/gui-sdl/citydlg.c:2652
 #, fuzzy, c-format
 msgid "Production: %d (%d) per turn"
 msgstr "Producţie : %d (%d) pe rundă"
 
-#: client/gui-sdl/citydlg.c:2697
+#: client/gui-sdl/citydlg.c:2698
 #, fuzzy, c-format
 msgid "?production:Support: %d"
 msgstr "?production:Suport : %d"
 
-#: client/gui-sdl/citydlg.c:2735
+#: client/gui-sdl/citydlg.c:2736
 #, fuzzy, c-format
 msgid "Trade: %d per turn"
 msgstr "Comerţ : %d pe rundă"
 
-#: client/gui-sdl/citydlg.c:2769
+#: client/gui-sdl/citydlg.c:2770
 #, fuzzy, c-format
 msgid "Corruption: %d"
 msgstr "Corupţie : %d"
 
-#: client/gui-sdl/citydlg.c:2806
+#: client/gui-sdl/citydlg.c:2807
 #, c-format
 msgid "Gold: %d (%d) per turn"
 msgstr "Galbeni: %d (%d) pe rundă"
 
-#: client/gui-sdl/citydlg.c:2853
+#: client/gui-sdl/citydlg.c:2854
 #, fuzzy, c-format
 msgid "Upkeep: %d"
 msgstr "Întreţinere : %d"
 
-#: client/gui-sdl/citydlg.c:2892
+#: client/gui-sdl/citydlg.c:2893
 #, c-format
 msgid "Science: %d per turn"
 msgstr "Ştiinţă: %d pe rundă"
 
-#: client/gui-sdl/citydlg.c:2932
+#: client/gui-sdl/citydlg.c:2933
 #, c-format
 msgid "Luxury: %d per turn"
 msgstr "Lux: %d pe rundă"
 
-#: client/gui-sdl/citydlg.c:2970
+#: client/gui-sdl/citydlg.c:2971
 #, fuzzy
 msgid "City growth: blocked"
 msgstr "Oraşul creşte: blocat"
 
-#: client/gui-sdl/citydlg.c:2972
+#: client/gui-sdl/citydlg.c:2973
 #, fuzzy
 msgid "City growth: never"
 msgstr "Oraşul creşte: niciodată"
 
-#: client/gui-sdl/citydlg.c:2976
+#: client/gui-sdl/citydlg.c:2977
 #, fuzzy, c-format
 msgid "City shrinks: %d %s"
 msgstr "Oraş descreşte: %d %s"
 
-#: client/gui-sdl/citydlg.c:2977 client/gui-sdl/citydlg.c:2981
-#: client/gui-sdl/citydlg.c:3301 client/gui-sdl/cityrep.c:537
+#: client/gui-sdl/citydlg.c:2978 client/gui-sdl/citydlg.c:2982
+#: client/gui-sdl/citydlg.c:3302 client/gui-sdl/cityrep.c:537
 #: client/gui-sdl/cityrep.c:1061 client/gui-sdl/menu.c:801
 #: client/gui-sdl/menu.c:805 client/gui-sdl/menu.c:1043
 #: client/gui-sdl/menu.c:1049 client/gui-sdl/menu.c:1092
@@ -16185,58 +16169,58 @@ msgid_plural "turns"
 msgstr[0] "rundă"
 msgstr[1] "runde"
 
-#: client/gui-sdl/citydlg.c:2980
+#: client/gui-sdl/citydlg.c:2981
 #, fuzzy, c-format
 msgid "City growth: %d %s"
 msgstr "Oraşul creşte: %d %s"
 
-#: client/gui-sdl/citydlg.c:3019 client/gui-sdl/citydlg.c:3131
+#: client/gui-sdl/citydlg.c:3020 client/gui-sdl/citydlg.c:3132
 msgid "Stock"
 msgstr "Stoc"
 
-#: client/gui-sdl/citydlg.c:3030 data/default/buildings.ruleset:322
+#: client/gui-sdl/citydlg.c:3031 data/default/buildings.ruleset:322
 #: data/civ2/buildings.ruleset:301 data/civ1/buildings.ruleset:248
 msgid "Granary"
 msgstr "Grânar"
 
-#: client/gui-sdl/citydlg.c:3305
+#: client/gui-sdl/citydlg.c:3306
 msgid "finished"
 msgstr "terminat"
 
-#: client/gui-sdl/citydlg.c:3598
+#: client/gui-sdl/citydlg.c:3599
 #, c-format
 msgid "City of %s (Population %s citizens)"
 msgstr "Oraşul %s (Populaţie %s cetăţeni)"
 
-#: client/gui-sdl/citydlg.c:3615
+#: client/gui-sdl/citydlg.c:3616
 #, fuzzy
 msgid " - under Citizen Governor control."
 msgstr " - controlat de CMA."
 
-#: client/gui-sdl/citydlg.c:3694
+#: client/gui-sdl/citydlg.c:3695
 #, fuzzy
 msgid "Present units"
 msgstr "Unităţi prezente %d"
 
-#: client/gui-sdl/citydlg.c:3705 client/gui-win32/citydlg.c:828
+#: client/gui-sdl/citydlg.c:3706 client/gui-win32/citydlg.c:828
 msgid "Supported units"
 msgstr "Unităţi întreţinute"
 
-#: client/gui-sdl/citydlg.c:3777
+#: client/gui-sdl/citydlg.c:3778
 #, fuzzy
 msgid "Change production"
 msgstr "Schimbă producţia"
 
-#: client/gui-sdl/citydlg.c:3791 client/gui-sdl/dialogs.c:1280
+#: client/gui-sdl/citydlg.c:3792 client/gui-sdl/dialogs.c:1280
 msgid "Hurry production"
 msgstr "Grabeşte producţia"
 
-#: client/gui-sdl/citydlg.c:3822
+#: client/gui-sdl/citydlg.c:3823
 #, fuzzy
 msgid "Previous city"
 msgstr "Oraşul precedent"
 
-#: client/gui-sdl/citydlg.c:3837
+#: client/gui-sdl/citydlg.c:3838
 msgid "Next city"
 msgstr "Oraşul urmator"
 
@@ -21598,8 +21582,8 @@ msgstr ""
 "acest efect. Având Misticismul cât şi Oraclul, 4 cetăţeni sunt multumiţi."
 
 #: data/default/buildings.ruleset:974 data/civ2/buildings.ruleset:922
-#: data/civ1/buildings.ruleset:620 data/default/techs.ruleset:732
-#: data/civ2/techs.ruleset:729 data/civ1/techs.ruleset:563
+#: data/civ1/buildings.ruleset:620 data/default/techs.ruleset:737
+#: data/civ2/techs.ruleset:733 data/civ1/techs.ruleset:566
 msgid "University"
 msgstr "Universitatea"
 
@@ -22474,7 +22458,7 @@ msgstr "Despotismul"
 #: data/default/governments.ruleset:78 data/civ2/governments.ruleset:75
 #: data/civ1/governments.ruleset:77 data/nation/cherokee.ruleset:22
 #: data/nation/iroquois.ruleset:26 data/nation/kanem-bornu.ruleset:22
-#: data/nation/kongo.ruleset:27 data/nation/malian.ruleset:26
+#: data/nation/kongo.ruleset:27 data/nation/malian.ruleset:25
 #: data/nation/maori.ruleset:24 data/nation/muskogee.ruleset:31
 #: data/nation/rwandan.ruleset:21 data/nation/sioux.ruleset:28
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
@@ -22484,7 +22468,7 @@ msgstr "Şef de trib"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
 #: data/civ1/governments.ruleset:78 data/nation/cherokee.ruleset:22
-#: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:26
+#: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:25
 #: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
@@ -22501,8 +22485,8 @@ msgid ""
 msgstr ""
 
 #: data/default/governments.ruleset:92 data/civ2/governments.ruleset:89
-#: data/civ1/governments.ruleset:91 data/default/techs.ruleset:471
-#: data/civ2/techs.ruleset:468 data/civ1/techs.ruleset:370
+#: data/civ1/governments.ruleset:91 data/default/techs.ruleset:474
+#: data/civ2/techs.ruleset:470 data/civ1/techs.ruleset:372
 msgid "Monarchy"
 msgstr "Monarhia"
 
@@ -22579,8 +22563,8 @@ msgid ""
 msgstr ""
 
 #: data/default/governments.ruleset:160 data/civ2/governments.ruleset:185
-#: data/civ1/governments.ruleset:159 data/default/techs.ruleset:214
-#: data/civ2/techs.ruleset:203 data/civ1/techs.ruleset:186
+#: data/civ1/governments.ruleset:159 data/default/techs.ruleset:215
+#: data/civ2/techs.ruleset:204 data/civ1/techs.ruleset:187
 msgid "Democracy"
 msgstr "Democraţia"
 
@@ -22652,7 +22636,7 @@ msgid ""
 "corruption."
 msgstr ""
 
-#: data/civ2/governments.ruleset:135 data/civ2/techs.ruleset:284
+#: data/civ2/governments.ruleset:135 data/civ2/techs.ruleset:286
 msgid "Fundamentalism"
 msgstr "Fundamentalismul"
 
@@ -22703,6 +22687,32 @@ msgid ""
 "cannot be bribed, and Democratic cities cannot be incited to revolt by enemy "
 "Diplomats and Spies."
 msgstr ""
+
+#: data/default/default.lua:33
+#, c-format
+msgid "You found %s in ancient scrolls of wisdom."
+msgstr "Aţi găsit %s intr-o scriptură veche."
+
+#: data/default/default.lua:36
+#, c-format
+msgid "The %s have acquired %s from ancient scrolls of wisdom."
+msgstr "%si au dobândit %s dintr-o scriptură veche."
+
+#: data/default/default.lua:56
+msgid "A band of friendly mercenaries joins your cause."
+msgstr "Un trup de mercenari vrea să lupte sub comanda dvs."
+
+#: data/default/default.lua:72
+msgid "You found a friendly city."
+msgstr "Aţi găsit un oraş prietenos."
+
+#: data/default/default.lua:76
+msgid "Friendly nomads are impressed by you, and join you."
+msgstr "Un grup de nomazi vi se alătură."
+
+#: data/default/default.lua:99
+msgid "You have unleashed a horde of barbarians!"
+msgstr "Aţi dezlegat o hoardă de barbari!"
 
 #: data/default/techs.ruleset:53 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -22798,321 +22808,358 @@ msgstr "Recensământul"
 msgid "Construction"
 msgstr "Constructia"
 
-#: data/default/techs.ruleset:206 data/civ2/techs.ruleset:195
-#: data/civ1/techs.ruleset:178
+#: data/default/techs.ruleset:204
+#, fuzzy
+msgid "Allows Settlers, Workers and Engineers to build fortresses."
+msgstr ""
+"Coloniştii şi inginerii sunt apţi de a modifica pătraturile de teren în "
+"diferite feluri."
+
+#: data/default/techs.ruleset:207 data/civ2/techs.ruleset:196
+#: data/civ1/techs.ruleset:179
 msgid "Currency"
 msgstr "Moneda"
 
-#: data/default/techs.ruleset:230 data/civ2/techs.ruleset:219
-#: data/civ1/techs.ruleset:194
+#: data/default/techs.ruleset:231 data/civ2/techs.ruleset:220
+#: data/civ1/techs.ruleset:195
 msgid "Electricity"
 msgstr "Electricitatea"
 
-#: data/default/techs.ruleset:236 data/civ2/techs.ruleset:225
+#: data/default/techs.ruleset:237 data/civ2/techs.ruleset:226
 #, fuzzy
 msgid "Improves the effect of Colosseums."
 msgstr "Măreşte efectul Coloseelor.\n"
 
-#: data/default/techs.ruleset:239 data/civ2/techs.ruleset:228
-#: data/civ1/techs.ruleset:202
+#: data/default/techs.ruleset:240 data/civ2/techs.ruleset:229
+#: data/civ1/techs.ruleset:203
 msgid "Electronics"
 msgstr "Electronica"
 
-#: data/default/techs.ruleset:247 data/civ2/techs.ruleset:236
-#: data/civ1/techs.ruleset:210
+#: data/default/techs.ruleset:248 data/civ2/techs.ruleset:237
+#: data/civ1/techs.ruleset:211
 msgid "Engineering"
 msgstr "Ingineria"
 
-#: data/default/techs.ruleset:255 data/civ2/techs.ruleset:244
+#: data/default/techs.ruleset:256 data/civ2/techs.ruleset:245
 msgid "Environmentalism"
 msgstr "Protecţia Mediului"
 
-#: data/default/techs.ruleset:263 data/civ2/techs.ruleset:252
+#: data/default/techs.ruleset:264 data/civ2/techs.ruleset:253
 msgid "Espionage"
 msgstr "Spionajul"
 
-#: data/default/techs.ruleset:271 data/civ2/techs.ruleset:260
-#: data/civ1/techs.ruleset:218
+#: data/default/techs.ruleset:272 data/civ2/techs.ruleset:261
+#: data/civ1/techs.ruleset:219
 msgid "Explosives"
 msgstr "Explozivii"
 
-#: data/default/techs.ruleset:279 data/civ2/techs.ruleset:268
-#: data/civ1/techs.ruleset:226
+#: data/default/techs.ruleset:280 data/civ2/techs.ruleset:269
+#: data/civ1/techs.ruleset:227
 msgid "Feudalism"
 msgstr "Feudalismul"
 
-#: data/default/techs.ruleset:287 data/civ2/techs.ruleset:276
-#: data/civ1/techs.ruleset:234
+#: data/default/techs.ruleset:288 data/civ2/techs.ruleset:277
+#: data/civ1/techs.ruleset:235
 msgid "Flight"
 msgstr "Zborul"
 
-#: data/default/techs.ruleset:295 data/civ2/techs.ruleset:292
-#: data/civ1/techs.ruleset:242
+#: data/default/techs.ruleset:294 data/default/techs.ruleset:581
+#: data/civ2/techs.ruleset:283 data/civ2/techs.ruleset:577
+#: data/civ1/techs.ruleset:241 data/civ1/techs.ruleset:451
+msgid "Decreases one-time revenue from new trade routes."
+msgstr ""
+
+#: data/default/techs.ruleset:297 data/civ2/techs.ruleset:294
+#: data/civ1/techs.ruleset:244
 msgid "Fusion Power"
 msgstr "Fuziunea nucleară"
 
-#: data/default/techs.ruleset:303 data/civ2/techs.ruleset:300
-#: data/civ1/techs.ruleset:250
+#: data/default/techs.ruleset:305 data/civ2/techs.ruleset:302
+#: data/civ1/techs.ruleset:252
 msgid "Genetic Engineering"
 msgstr "Ingineria Genetică"
 
-#: data/default/techs.ruleset:311 data/civ2/techs.ruleset:308
+#: data/default/techs.ruleset:313 data/civ2/techs.ruleset:310
 msgid "Guerilla Warfare"
 msgstr "Războiul de Guerillă"
 
-#: data/default/techs.ruleset:319 data/civ2/techs.ruleset:316
-#: data/civ1/techs.ruleset:258
+#: data/default/techs.ruleset:321 data/civ2/techs.ruleset:318
+#: data/civ1/techs.ruleset:260
 msgid "Gunpowder"
 msgstr "Praful de Puşcă"
 
-#: data/default/techs.ruleset:327 data/civ2/techs.ruleset:324
-#: data/civ1/techs.ruleset:266
+#: data/default/techs.ruleset:329 data/civ2/techs.ruleset:326
+#: data/civ1/techs.ruleset:268
 msgid "Horseback Riding"
 msgstr "Călăritul"
 
-#: data/default/techs.ruleset:335 data/civ2/techs.ruleset:332
-#: data/civ1/techs.ruleset:274
+#: data/default/techs.ruleset:337 data/civ2/techs.ruleset:334
+#: data/civ1/techs.ruleset:276
 msgid "Industrialization"
 msgstr "Industrializarea"
 
-#: data/default/techs.ruleset:343 data/civ2/techs.ruleset:340
-#: data/civ1/techs.ruleset:282
+#: data/default/techs.ruleset:345 data/civ2/techs.ruleset:342
+#: data/civ1/techs.ruleset:284
 msgid "Invention"
 msgstr "Invenţia"
 
-#: data/default/techs.ruleset:351 data/civ2/techs.ruleset:348
-#: data/civ1/techs.ruleset:290
+#: data/default/techs.ruleset:351
+msgid "Increases units' vision when in fortresses."
+msgstr ""
+
+#: data/default/techs.ruleset:354 data/civ2/techs.ruleset:350
+#: data/civ1/techs.ruleset:292
 msgid "Iron Working"
 msgstr "Prelucrarea Fierului"
 
-#: data/default/techs.ruleset:359 data/civ2/techs.ruleset:356
-#: data/civ1/techs.ruleset:298
+#: data/default/techs.ruleset:362 data/civ2/techs.ruleset:358
+#: data/civ1/techs.ruleset:300
 msgid "Labor Union"
 msgstr "Sindicatul"
 
-#: data/default/techs.ruleset:367 data/civ2/techs.ruleset:364
+#: data/default/techs.ruleset:370 data/civ2/techs.ruleset:366
 msgid "Laser"
 msgstr "Laserul"
 
-#: data/default/techs.ruleset:375 data/civ2/techs.ruleset:372
+#: data/default/techs.ruleset:378 data/civ2/techs.ruleset:374
 msgid "Leadership"
 msgstr "Conducerea"
 
-#: data/default/techs.ruleset:391 data/civ2/techs.ruleset:388
+#: data/default/techs.ruleset:394 data/civ2/techs.ruleset:390
 msgid "Machine Tools"
 msgstr "Maşini Unelte"
 
-#: data/default/techs.ruleset:399 data/civ2/techs.ruleset:396
-#: data/civ1/techs.ruleset:314
+#: data/default/techs.ruleset:402 data/civ2/techs.ruleset:398
+#: data/civ1/techs.ruleset:316
 msgid "Magnetism"
 msgstr "Magnetismul"
 
-#: data/default/techs.ruleset:407 data/civ2/techs.ruleset:404
-#: data/civ1/techs.ruleset:322
+#: data/default/techs.ruleset:410 data/civ2/techs.ruleset:406
+#: data/civ1/techs.ruleset:324
 msgid "Map Making"
 msgstr "Cartografierea"
 
-#: data/default/techs.ruleset:415 data/civ2/techs.ruleset:412
-#: data/civ1/techs.ruleset:330
+#: data/default/techs.ruleset:418 data/civ2/techs.ruleset:414
+#: data/civ1/techs.ruleset:332
 msgid "Masonry"
 msgstr "Zidăria"
 
-#: data/default/techs.ruleset:423 data/civ2/techs.ruleset:420
-#: data/civ1/techs.ruleset:338
+#: data/default/techs.ruleset:426 data/civ2/techs.ruleset:422
+#: data/civ1/techs.ruleset:340
 msgid "Mass Production"
 msgstr "Productia în Masă"
 
-#: data/default/techs.ruleset:431 data/civ2/techs.ruleset:428
-#: data/civ1/techs.ruleset:346
+#: data/default/techs.ruleset:434 data/civ2/techs.ruleset:430
+#: data/civ1/techs.ruleset:348
 msgid "Mathematics"
 msgstr "Matematica"
 
-#: data/default/techs.ruleset:439 data/civ2/techs.ruleset:436
-#: data/civ1/techs.ruleset:354
+#: data/default/techs.ruleset:442 data/civ2/techs.ruleset:438
+#: data/civ1/techs.ruleset:356
 msgid "Medicine"
 msgstr "Medicina"
 
-#: data/default/techs.ruleset:447 data/civ2/techs.ruleset:444
-#: data/civ1/techs.ruleset:362
+#: data/default/techs.ruleset:450 data/civ2/techs.ruleset:446
+#: data/civ1/techs.ruleset:364
 msgid "Metallurgy"
 msgstr "Metalurgia"
 
-#: data/default/techs.ruleset:455 data/civ2/techs.ruleset:452
+#: data/default/techs.ruleset:458 data/civ2/techs.ruleset:454
 msgid "Miniaturization"
 msgstr "Miniaturizarea"
 
-#: data/default/techs.ruleset:463 data/civ2/techs.ruleset:460
+#: data/default/techs.ruleset:466 data/civ2/techs.ruleset:462
 msgid "Mobile Warfare"
 msgstr ""
 
-#: data/default/techs.ruleset:479 data/civ2/techs.ruleset:476
+#: data/default/techs.ruleset:482 data/civ2/techs.ruleset:478
 msgid "Monotheism"
 msgstr "Monoteismul"
 
-#: data/default/techs.ruleset:487 data/civ2/techs.ruleset:484
-#: data/civ1/techs.ruleset:378
+#: data/default/techs.ruleset:490 data/civ2/techs.ruleset:486
+#: data/civ1/techs.ruleset:380
 msgid "Mysticism"
 msgstr "Misticismul"
 
-#: data/default/techs.ruleset:493 data/civ2/techs.ruleset:490
-#: data/civ1/techs.ruleset:384
+#: data/default/techs.ruleset:496 data/civ2/techs.ruleset:492
+#: data/civ1/techs.ruleset:386
 #, fuzzy
 msgid "Improves the effect of Temples."
 msgstr "Măreşte efectul Templelor.\n"
 
-#: data/default/techs.ruleset:496 data/civ2/techs.ruleset:493
-#: data/civ1/techs.ruleset:387
+#: data/default/techs.ruleset:499 data/civ2/techs.ruleset:495
+#: data/civ1/techs.ruleset:389
 msgid "Navigation"
 msgstr "Navigatia"
 
-#: data/default/techs.ruleset:504 data/civ2/techs.ruleset:501
-#: data/civ1/techs.ruleset:395
+#: data/default/techs.ruleset:507 data/civ2/techs.ruleset:503
+#: data/civ1/techs.ruleset:397
 msgid "Nuclear Fission"
 msgstr "Fisiunea nucleară"
 
-#: data/default/techs.ruleset:512 data/civ2/techs.ruleset:509
-#: data/civ1/techs.ruleset:403
+#: data/default/techs.ruleset:515 data/civ2/techs.ruleset:511
+#: data/civ1/techs.ruleset:405
 msgid "Nuclear Power"
 msgstr "Energia Atomică"
 
-#: data/default/techs.ruleset:518 data/civ2/techs.ruleset:515
+#: data/default/techs.ruleset:521 data/civ2/techs.ruleset:517
 #, fuzzy
 msgid "Gives sea units one extra move."
 msgstr "Dă unitaţilor navale o mişcare în plus.\n"
 
-#: data/default/techs.ruleset:521 data/civ2/techs.ruleset:518
-#: data/civ1/techs.ruleset:411
+#: data/default/techs.ruleset:524 data/civ2/techs.ruleset:520
+#: data/civ1/techs.ruleset:413
 msgid "Philosophy"
 msgstr "Filozofia"
 
-#: data/default/techs.ruleset:525 data/civ2/techs.ruleset:522
+#: data/default/techs.ruleset:528 data/civ2/techs.ruleset:524
 msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
 
-#: data/default/techs.ruleset:531 data/civ2/techs.ruleset:528
-#: data/civ1/techs.ruleset:419
+#: data/default/techs.ruleset:534 data/civ2/techs.ruleset:530
+#: data/civ1/techs.ruleset:421
 msgid "Physics"
 msgstr "Fizica"
 
-#: data/default/techs.ruleset:539 data/civ2/techs.ruleset:536
-#: data/civ1/techs.ruleset:427
+#: data/default/techs.ruleset:542 data/civ2/techs.ruleset:538
+#: data/civ1/techs.ruleset:429
 msgid "Plastics"
 msgstr "Materiale plastice"
 
-#: data/default/techs.ruleset:547 data/civ2/techs.ruleset:544
+#: data/default/techs.ruleset:550 data/civ2/techs.ruleset:546
 msgid "Polytheism"
 msgstr "Polyteismul"
 
-#: data/default/techs.ruleset:555 data/civ2/techs.ruleset:552
-#: data/civ1/techs.ruleset:435
+#: data/default/techs.ruleset:558 data/civ2/techs.ruleset:554
+#: data/civ1/techs.ruleset:437
 msgid "Pottery"
 msgstr "Ceramica"
 
-#: data/default/techs.ruleset:563 data/civ2/techs.ruleset:560
+#: data/default/techs.ruleset:566 data/civ2/techs.ruleset:562
 msgid "Radio"
 msgstr "Radioul"
 
-#: data/default/techs.ruleset:579 data/civ2/techs.ruleset:576
-#: data/civ1/techs.ruleset:451
+#: data/default/techs.ruleset:572
+#, fuzzy
+msgid "Allows Workers and Engineers to build airbases and buoys."
+msgstr "* Permite %silor să construiască baze aeriene.\n"
+
+#: data/default/techs.ruleset:584 data/civ2/techs.ruleset:580
+#: data/civ1/techs.ruleset:454
 msgid "Recycling"
 msgstr "Reciclarea"
 
-#: data/default/techs.ruleset:587 data/civ2/techs.ruleset:584
-#: data/civ1/techs.ruleset:459
+#: data/default/techs.ruleset:592 data/civ2/techs.ruleset:588
+#: data/civ1/techs.ruleset:462
 msgid "Refining"
 msgstr "Rafinarea"
 
-#: data/default/techs.ruleset:595 data/civ2/techs.ruleset:592
+#: data/default/techs.ruleset:600 data/civ2/techs.ruleset:596
 msgid "Refrigeration"
 msgstr "Congelarea"
 
-#: data/default/techs.ruleset:603 data/civ2/techs.ruleset:600
-#: data/civ1/techs.ruleset:475
+#: data/default/techs.ruleset:608 data/civ2/techs.ruleset:604
+#: data/civ1/techs.ruleset:478
 msgid "Robotics"
 msgstr "Robotica"
 
-#: data/default/techs.ruleset:611 data/civ2/techs.ruleset:608
-#: data/civ1/techs.ruleset:483
+#: data/default/techs.ruleset:616 data/civ2/techs.ruleset:612
+#: data/civ1/techs.ruleset:486
 msgid "Rocketry"
 msgstr "Motorul cu Reacţie"
 
-#: data/default/techs.ruleset:619 data/civ2/techs.ruleset:616
+#: data/default/techs.ruleset:624 data/civ2/techs.ruleset:620
 msgid "Sanitation"
 msgstr "Salubritatea"
 
-#: data/default/techs.ruleset:627 data/civ2/techs.ruleset:624
+#: data/default/techs.ruleset:632 data/civ2/techs.ruleset:628
 msgid "Seafaring"
 msgstr "Marinăritul"
 
-#: data/default/techs.ruleset:635 data/civ2/techs.ruleset:632
-#: data/civ1/techs.ruleset:491
+#: data/default/techs.ruleset:640 data/civ2/techs.ruleset:636
+#: data/civ1/techs.ruleset:494
 msgid "Space Flight"
 msgstr "Zborul Cosmic"
 
-#: data/default/techs.ruleset:643 data/civ2/techs.ruleset:640
+#: data/default/techs.ruleset:648 data/civ2/techs.ruleset:644
 msgid "Stealth"
 msgstr "Invizibilitatea"
 
-#: data/default/techs.ruleset:651 data/civ2/techs.ruleset:648
-#: data/civ1/techs.ruleset:499
+#: data/default/techs.ruleset:656 data/civ2/techs.ruleset:652
+#: data/civ1/techs.ruleset:502
 msgid "Steam Engine"
 msgstr "Motorul cu Aburi"
 
-#: data/default/techs.ruleset:659 data/civ2/techs.ruleset:656
-#: data/civ1/techs.ruleset:507
+#: data/default/techs.ruleset:664 data/civ2/techs.ruleset:660
+#: data/civ1/techs.ruleset:510
 msgid "Steel"
 msgstr "Oţelul"
 
-#: data/default/techs.ruleset:667 data/civ2/techs.ruleset:664
-#: data/civ1/techs.ruleset:515
+#: data/default/techs.ruleset:672 data/civ2/techs.ruleset:668
+#: data/civ1/techs.ruleset:518
 msgid "Superconductors"
 msgstr "Supraconducţia"
 
-#: data/default/techs.ruleset:675 data/civ2/techs.ruleset:672
+#: data/default/techs.ruleset:680 data/civ2/techs.ruleset:676
 msgid "Tactics"
 msgstr "Tactica"
 
-#: data/default/techs.ruleset:683 data/civ2/techs.ruleset:680
-#: data/civ1/techs.ruleset:523
+#: data/default/techs.ruleset:688 data/civ2/techs.ruleset:684
+#: data/civ1/techs.ruleset:526
 msgid "The Corporation"
 msgstr "Societatea pe Acţiuni"
 
-#: data/default/techs.ruleset:691 data/civ2/techs.ruleset:688
-#: data/civ1/techs.ruleset:531
+#: data/default/techs.ruleset:696 data/civ2/techs.ruleset:692
+#: data/civ1/techs.ruleset:534
 msgid "The Republic"
 msgstr "Republica"
 
-#: data/default/techs.ruleset:699 data/civ2/techs.ruleset:696
-#: data/civ1/techs.ruleset:539
+#: data/default/techs.ruleset:704 data/civ2/techs.ruleset:700
+#: data/civ1/techs.ruleset:542
 msgid "The Wheel"
 msgstr "Roata"
 
-#: data/default/techs.ruleset:707 data/civ2/techs.ruleset:704
+#: data/default/techs.ruleset:712 data/civ2/techs.ruleset:708
 msgid "Theology"
 msgstr "Teologia"
 
-#: data/default/techs.ruleset:713 data/civ2/techs.ruleset:710
+#: data/default/techs.ruleset:718 data/civ2/techs.ruleset:714
 #, fuzzy
 msgid "Improves the effect of Cathedrals."
 msgstr "Măreşte efectul Catedralelor.\n"
 
-#: data/default/techs.ruleset:716 data/civ2/techs.ruleset:713
-#: data/civ1/techs.ruleset:547
+#: data/default/techs.ruleset:721 data/civ2/techs.ruleset:717
+#: data/civ1/techs.ruleset:550
 msgid "Theory of Gravity"
 msgstr "Teoria Gravitaţiei"
 
-#: data/default/techs.ruleset:740 data/civ2/techs.ruleset:737
+#: data/default/techs.ruleset:745 data/civ2/techs.ruleset:741
 msgid "Warrior Code"
 msgstr "Codexul Războiului"
 
-#: data/default/techs.ruleset:748 data/civ2/techs.ruleset:745
-#: data/civ1/techs.ruleset:571
+#: data/default/techs.ruleset:753 data/civ2/techs.ruleset:749
+#: data/civ1/techs.ruleset:574
 msgid "Writing"
 msgstr "Scrisul"
 
-#: data/civ1/techs.ruleset:467
+#: data/civ2/techs.ruleset:193
+#, fuzzy
+msgid "Allows Settlers and Engineers to build fortresses."
+msgstr "* Permite %silor construcţia de fortăreţe.\n"
+
+#: data/civ2/techs.ruleset:568
+#, fuzzy
+msgid "Allows Settlers and Engineers to build airbases."
+msgstr "* Permite %silor să construiască baze aeriene.\n"
+
+#: data/civ1/techs.ruleset:176
+#, fuzzy
+msgid "Allows Settlers to build fortresses."
+msgstr "* Permite %silor construcţia de fortăreţe.\n"
+
+#: data/civ1/techs.ruleset:470
 msgid "Religion"
 msgstr "Religia"
 
@@ -27133,14 +27180,14 @@ msgstr "Italieni"
 msgid ""
 "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
 "millennia. In medieval times, the region was home to a succession of empires "
-"called the Sahelian kingdoms. Of these, the Islamic Mali Empire with its "
-"capital in Timbuktu was the most influential. This empire reigned from the "
-"14th to the 17th century and was famed for its wealth and benevolent kings. "
-"The modern Republic of Mali derives its name from this empire."
+"called the Sahelian kingdoms. Of these, the Islamic Mali Empire was the most "
+"influential. This empire reigned from the 14th to the 17th century and was "
+"famed for its wealth and benevolent kings. The modern Republic of Mali "
+"derives its name from this empire."
 msgstr ""
 
 #. TRANS: Mansa = King of kings
-#: data/nation/malian.ruleset:28
+#: data/nation/malian.ruleset:27
 #, fuzzy
 msgid "Mansa"
 msgstr "Inf.marină"
@@ -29573,6 +29620,24 @@ msgstr ""
 msgid "BC"
 msgstr ""
 
+#~ msgid ""
+#~ "show\n"
+#~ "show <option-name>\n"
+#~ "show <option-prefix>"
+#~ msgstr ""
+#~ "show\n"
+#~ "show <nume-opţiune>\n"
+#~ "show <prefix-opţiune>"
+
+#~ msgid ""
+#~ "%s and %s meet and go to instant war. You cancel your alliance with both."
+#~ msgstr ""
+#~ "%s şi %s s-au întâlnit şi au pornit imediat război. Aţi anulat alianţa cu "
+#~ "amândoi."
+
+#~ msgid "Choose a _nation to play:"
+#~ msgstr "Alegeţi o _naţiune cu care să jucaţi:"
+
 #~ msgid "* May pillage to destroy infrastructure from tiles.\n"
 #~ msgstr "* Poate prăda formele geometrice distrugând infrastructura.\n"
 
@@ -30573,24 +30638,6 @@ msgstr ""
 #~ msgid "Your %s has been lost on unsafe terrain."
 #~ msgstr "%s dvs a fost pierdut în teritoriu nesigur."
 
-#~ msgid "You found %s in ancient scrolls of wisdom."
-#~ msgstr "Aţi găsit %s intr-o scriptură veche."
-
-#~ msgid "The %s have acquired %s from ancient scrolls of wisdom."
-#~ msgstr "%si au dobândit %s dintr-o scriptură veche."
-
-#~ msgid "A band of friendly mercenaries joins your cause."
-#~ msgstr "Un trup de mercenari vrea să lupte sub comanda dvs."
-
-#~ msgid "You have unleashed a horde of barbarians!"
-#~ msgstr "Aţi dezlegat o hoardă de barbari!"
-
-#~ msgid "You found a friendly city."
-#~ msgstr "Aţi găsit un oraş prietenos."
-
-#~ msgid "Friendly nomads are impressed by you, and join you."
-#~ msgstr "Un grup de nomazi vi se alătură."
-
 #~ msgid ""
 #~ "The server appears to have gotten into an infinite loop in the allocation "
 #~ "of starting positions.\n"
@@ -30724,12 +30771,6 @@ msgstr ""
 #~ msgid "* Reduces the chance of losing boats on the high seas to 12%%.\n"
 #~ msgstr ""
 #~ "* Reduce pericolul de a pierde navele aflate în largul mării la 12%%.\n"
-
-#~ msgid "* Allows %s to build fortresses.\n"
-#~ msgstr "* Permite %silor construcţia de fortăreţe.\n"
-
-#~ msgid "* Allows %s to build airbases.\n"
-#~ msgstr "* Permite %silor să construiască baze aeriene.\n"
 
 #~ msgid "* This terrain is unsafe for units to travel on."
 #~ msgstr "* Terenul este nesigur pentru unităţi."
