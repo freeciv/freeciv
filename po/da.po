@@ -1,9 +1,9 @@
 # Danish translation of Freeciv.
-# Copyright (C) 1999-2009 The Freeciv Team, Joe Hansen.
+# Copyright (C) 1999-2010 The Freeciv Team & nedenstående oversættere.
 # This translation is covered by the GNU General Public License Version 2.
 # Keld Simonsen <keld@dkuug.dk>, 2001-2002, 2004.
 # Ole Laursen <olau@hardworking.dk>, 2004.
-# Joe Hansen <joedalton2@yahoo.dk>, 2006, 2007, 2008, 2009.
+# Joe Hansen <joedalton2@yahoo.dk>, 2006, 2007, 2008, 2009, 2010.
 #
 #   For ordlister og konventioner henvises til siden 
 #   http://da.freeciv.wikia.com/wiki/Overs%C3%A6ttelsesmanual
@@ -19,8 +19,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 12:30+0100\n"
-"PO-Revision-Date: 2009-12-25 18:43+0300\n"
+"POT-Creation-Date: 2010-01-17 22:59+0100\n"
+"PO-Revision-Date: 2010-01-17 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -2543,7 +2543,7 @@ msgstr ""
 "help commands\n"
 "help options\n"
 "help <kommandonavn>\n"
-"help <tilvalgnavn>"
+"help <tilvalgsnavn>"
 
 #: server/commands.c:65
 msgid "Show help about server commands and server options."
@@ -2560,7 +2560,7 @@ msgid ""
 msgstr ""
 "Uden noget argument kommer der indledende hjælp. Med argumentet \"commands\" "
 "eller \"options\" kommer der en liste over alle kommandoer med respektive "
-"argumenter. Ellers tolkes argumentet som et kommandonavn eller tilvalgnavn, "
+"argumenter. Ellers tolkes argumentet som et kommandonavn eller tilvalgsnavn, "
 "og hjælp gives da for denne kommando eller tilvalg. For tilvalg indeholder "
 "hjælpen information om den nuværende værdi og standardværdien. Forkortelser "
 "for argumenter kan benyttes, hvis de ikke er flertydige."
@@ -2612,7 +2612,7 @@ msgid ""
 "explain <option-name>"
 msgstr ""
 "explain\n"
-"explain <tilvalgnavn>"
+"explain <tilvalgsnavn>"
 
 #: server/commands.c:109
 msgid "Explain server options."
@@ -2628,7 +2628,7 @@ msgstr ""
 "Kommandoen 'explain' har en delmængde af funktionaliteten til kommandoen "
 "'help', og er til for bagudkompatibilitet. Uden argumenter giver den en "
 "liste over argumenter (som 'help options'), og med et argument giver den "
-"hjælp for en valgmulighed (som 'help <tilvalgnavn>')."
+"hjælp for en valgmulighed (som 'help <tilvalgsnavn>')."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:118
@@ -2642,11 +2642,20 @@ msgid ""
 "show rare\n"
 "show changed"
 msgstr ""
+"show\n"
+"show <tilvalgsnavn>\n"
+"show <tilvalgspræfiks>\n"
+"show all\n"
+"show vital\n"
+"show situational\n"
+"show rare\n"
+"show changed"
 
 #: server/commands.c:126
 msgid "Show server options."
 msgstr "Vis servertilvalg."
 
+# engelsk fejl options which
 #: server/commands.c:127
 #, fuzzy
 msgid ""
@@ -2657,8 +2666,10 @@ msgid ""
 "\"changed\", it shows only the options which have been modified."
 msgstr ""
 "Uden argumenter vises alle servertilvalg (eller de tilgængelige tilvalg, når "
-"den er benyttet af klienterne). Med et argument, vises kun de valgte "
-"tilvalg, eller tilvalg med det præfiks."
+"den er benyttet af klienterne). Med et tilvalgsnavneargument, vises kun de "
+"valgte tilvalg, eller tilvalg med det præfiks. Med »all« vises alle tilvalg. "
+"Med »vital«, »situational« eller »rare«, et sæt af tilvalg med dette niveau. "
+"Med »changed«, viser den kun de tilvalg som er blevet ændret."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:136
@@ -2734,7 +2745,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:176
 msgid "set <option-name> <value>"
-msgstr "set <tilvalgnavn> <værdi>"
+msgstr "set <tilvalgsnavn> <værdi>"
 
 #: server/commands.c:177
 msgid "Set server option."
@@ -8010,9 +8021,9 @@ msgid "%s added to aid %s in growing."
 msgstr "%s tilføjet for at hjælpe %s med at vokse."
 
 #: server/unithand.c:958
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s was shot down by SDI defences, what a waste."
-msgstr "Din atomraket blev skudt ned af SDI-forsvar. Sikke et spild."
+msgstr "Din %s blev skudt ned af SDI-forsvar. Sikke et spild."
 
 #: server/unithand.c:961
 #, c-format
@@ -9717,7 +9728,7 @@ msgid "* Allows %s.\n"
 msgstr "* Tillader %s.\n"
 
 #: client/helpdata.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "* Tilhører %s enhedsklasse.\n"
 
@@ -9734,23 +9745,21 @@ msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr "  * Får ikke forsvarsbonus fra terræn.\n"
 
 #: client/helpdata.c:1144
-#, fuzzy
 msgid "  * Not subject to zones of control.\n"
-msgstr "* Ignorerer kontrolzoner.\n"
+msgstr "  * Ignorerer kontrolzoner.\n"
 
 #: client/helpdata.c:1147
-#, fuzzy
 msgid "  * Slowed down while damaged.\n"
-msgstr "  * Langsommere når skadet\n"
+msgstr "  * Langsommere når skadet.\n"
 
 #: client/helpdata.c:1150
 msgid "  * Gets used up in making an attack.\n"
 msgstr "  * En raketenhed: bliver brugt op idet den angriber.\n"
 
 #: client/helpdata.c:1156
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus.\n"
-msgstr "* Kan befæste sig, og dermed opnå en 50 % forsvarsbonus.\n"
+msgstr "  * Kan befæste sig, og dermed opnå en 50 % forsvarsbonus.\n"
 
 #: client/helpdata.c:1160
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
@@ -9761,9 +9770,10 @@ msgid "  * Can pillage tile improvements.\n"
 msgstr "  * Kan ødelægge feltforbedringer.\n"
 
 #: client/helpdata.c:1168
-#, fuzzy
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
-msgstr "  * Forhindrer ikke fjendtlige byer fra at bruge felt.\n"
+msgstr ""
+"  * Forhindrer ikke fjendtlige byer fra at bruge feltet enheden befinder sig "
+"på.\n"
 
 #: client/helpdata.c:1173
 #, c-format
@@ -9898,9 +9908,8 @@ msgid "* Can perform diplomatic actions.\n"
 msgstr "* Kan udføre diplomatiske handlinger.\n"
 
 #: client/helpdata.c:1297
-#, fuzzy
 msgid "* Defends cities against diplomatic actions.\n"
-msgstr "* Kan udføre diplomatiske handlinger.\n"
+msgstr "* Forsvarer byer mod diplomatiske handlinger.\n"
 
 #: client/helpdata.c:1300
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
@@ -9928,10 +9937,12 @@ msgstr ""
 "* Kan fra søenheder angribe fjendens byer og landenheder på felter på land.\n"
 
 #: client/helpdata.c:1320
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
-msgstr "* Kan lave faldskærmsudspring fra venlig by (Rækkevidde: %d).\n"
+msgstr ""
+"* Kan lave faldskærmsudspring fra venlig by eller luftbase (rækkevidde: %d "
+"felter).\n"
 
 #: client/helpdata.c:1326
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -10040,14 +10051,12 @@ msgstr ""
 "havneområde).\n"
 
 #: client/helpdata.c:1433
-#, fuzzy
 msgid "* May be promoted through combat or training.\n"
-msgstr "* Kan forfremmes igennem kamp eller træning\n"
+msgstr "* Kan forfremmes igennem kamp eller træning.\n"
 
 #: client/helpdata.c:1436
-#, fuzzy
 msgid "* May be built as a veteran through training.\n"
-msgstr "* Vil blive bygget som veteran under kommunistledelse.\n"
+msgstr "* Kan bygges som veteran via træning.\n"
 
 #: client/helpdata.c:1445
 msgid ""
@@ -10442,7 +10451,7 @@ msgstr ", "
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
 #: client/helpdata.c:2130
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d Unhappy"
 msgstr "%s%d ulykkelig"
 
@@ -19399,7 +19408,6 @@ msgstr ""
 "klikkes på denne streng 'this tile' og peges på feltet (17, 3)."
 
 #: data/helpdata.txt:651
-#, fuzzy
 msgid ""
 "* Getting unit links:\n"
 "Full name sequence: '[link target=\"unit\"] ... [/link]'\n"
@@ -19419,14 +19427,14 @@ msgstr ""
 "* Enhedshenvisninger:\n"
 "Navn på sekvens: '[link target=\"unit\"] ... [/link]'\n"
 "Sekvensforkortelse: '[l tgt=\"unit\"] ... [/l]'\n"
-"Genvej: Skift-Control-Højreklik på en enhed på kortet.\n"
+"Genvej: Skift-Control-Alt-Højreklik på en enhed på kortet.\n"
 "Parameteren 'id' skal angive id'et på den enhed du peger på. En ekstra "
 "parameter 'name' kan angives for at binde enhedsnavnet i det tilfælde at "
 "destinationsbrugerne ikke kender denne enhed på deres kort.\n"
 "Dette udtryk kan også startes og afsluttes indenfor det samme par klammer, "
 "som i '[link target=\"unit\" id=109 /]' (bemærk skråstregen til sidst).\n"
 "Eksempler: '[l tgt=\"unit\" id=235]unit[/l]' vil gøre at du kan klikke på "
-"ordet 'unit' og pege på by-id'et 235.\n"
+"ordet 'unit' og pege på enheds-id'et 235.\n"
 "'[l tgt=\"unit\" id=235 name=\"Warrior\" /]' vil vise navnet på enheds-id'et "
 "235 hvis det er kendt, ellers ordet 'Warrior'."
 
@@ -20039,6 +20047,11 @@ msgid ""
 "military units, whose talents are those of defense and aggression, and a few "
 "noncombatants which support expansion, diplomacy, and trade."
 msgstr ""
+"Enheder tilbyder både mobilitet til din civilisation og kommer med den vold "
+"som vil gøre at den kan overleve og udvide sig. De tilgængelige enheder kan "
+"klassificeres som militære enheder, som gør sig i forsvar og angreb, og "
+"nogle få ikke militære enheder som understøtter udvidelse, diplomati og "
+"handel."
 
 #: data/helpdata.txt:1005
 msgid ""
@@ -20048,12 +20061,19 @@ msgid ""
 "some autocratic styles of government can force cities to support several "
 "units for free."
 msgstr ""
+"Enheder bliver normalt bygget i byer med rbug af produktionspoint. Når de "
+"først er bygget vil dine enheder være en af dine væsentligste udgifter. De "
+"flester enheder kræver vedligeholdelse såsom produktionspoint fra deres "
+"hjemby hver runde, selvom nogle diktatoriske regimer kan tvinge byer til at "
+"understøtte flere enheder gratis."
 
 #: data/helpdata.txt:1011
 msgid ""
 "Units begin every turn with one or more movement points. Every action "
 "undertaken by a unit consumes movement points."
 msgstr ""
+"Enheder begynder hver runde med et eller flere bevægelsespoint. Hver "
+"handling en enhed foretager sig kræver bevægelsespoint."
 
 #: data/helpdata.txt:1014
 msgid ""
@@ -20063,6 +20083,11 @@ msgid ""
 "enemy units (see the section on Zones of Control). The number of movement "
 "points consumed may depend on the type of terrain; see the Terrain help."
 msgstr ""
+"Den mest grundlæggende handling er bevægelse; enheder kan flytte til alle "
+"felter der omgiver dens nuværende placering, med højde for begrænsninger på "
+"typen af enhed, diplomatiske forpligtelser (se afsnittet om diplomati), og "
+"fjendtlige enheder (se afsnittet om kontrolzoner). Antallet af forbrugte "
+"bevægelsespoint kan afhænge af terræntypen; se terrænhjælpen."
 
 #: data/helpdata.txt:1021
 msgid ""
@@ -20073,6 +20098,12 @@ msgid ""
 "firepower); the Combat section describes the process in detail, and the "
 "following sections list specific units' attributes."
 msgstr ""
+"En enhed kan ikke flytte hen på et felt besat af en fjendtlig enhed, og vil "
+"hvis den bliver bedt om det angribe i steden for (hvis den er i stand til "
+"dette), hvilket låser de to enheder indtil en af dem er knust. Resultatet "
+"afhænger af attributterne på enhederne (liv, angreb- og forsvarsstyrke, og "
+"ildkraft); kampafsnittet beskriver processen i detaljer, og de følgende "
+"afsnit viser specifikke enhedsattributter."
 
 #: data/helpdata.txt:1029
 msgid ""
@@ -20082,9 +20113,13 @@ msgid ""
 "surviving combat), which may provide further levels of bonuses beyond those "
 "available from their initial training."
 msgstr ""
+"Enhedsattributter kan forøges ved at blive veteran. Enheder kan bygges som "
+"veteran ved hjælp af visse byforbedringer eller andre indflydelser; når de "
+"først er bygget, kan enheder også blive veteraner via erfaring (for eksempel "
+"ved at overleve i kamp), hvilket kan medføre yderligere bonusser udover dem "
+"som oprindelig var tilgængelig via deres træning."
 
 #: data/helpdata.txt:1035
-#, fuzzy
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved. Normally, a unit which has not moved will regain "
@@ -20096,20 +20131,15 @@ msgid ""
 "United Nations in the default ruleset). Damaged units in Sentry mode will "
 "wake up when they have regained all of their hit points."
 msgstr ""
-"Enheder som er blevet skadet i kamp vil få træfpoint tilbage hver runde som "
-"de ikke flytter sig. Normalt vil en enhed som ikke har flyttet sig få et "
-"træfpoint tilbage hver runde. En landenhed i en by med barakker, eller en "
-"søenhed i en by med havneområde eller en flyenhed i en by med lufthavn vil "
-"få alle træfpointene tilbage hvis de opholder sig en hel runde i byen uden "
-"at flytte sig. Ellers får en enhed som opholder sig en runde i en by en "
-"tredjedel af sine træfpoint tilbage. En enhed som opholder sig en runde i en "
-"fæstning får en fjerdedel af sine træfpoint tilbage. Enheder som er befæstet "
-"får et ekstra træfpoint tilbage. Hvis en spiller har vidunderet De Forenede "
-"Nationer får spilleren to ekstra træfpoint tilbage for hver runde, det "
-"gælder også enheder som har flyttet sig. I tillæg til alle andre ændringer "
-"mister helikoptere to træfpoint (eller får to træfpoint mindre end de ellers "
-"ville have fået) hver runde som de ikke afslutter i en by. Skadede enheder "
-"som holder stand vil vågne op når de har fået alle deres træfpoint tilbage."
+"Enheder som er blevet skadet i kamp vil få liv tilbage hver runde som de "
+"ikke flytter sig. Normalt vil en enhed som ikke har flyttet sig få et liv "
+"tilbage hver runde. Enheder som har befæstet sig får et ekstra liv. En enhed "
+"som tilbringer en runde i en by får en tredjedel af sit grundlæggende liv "
+"tilbage, og byforbedringer der er egnet for enhedstypen kan forbedre dette "
+"yderligere. I standardregelsættet vil enheder som er i en fæstning en hel "
+"runde få alle liv tilbage. Vidundere kan forbedre livgendannelsen (såsom De "
+"Forenede Nationer i standardregelsættet). Skadede enheder som holder stand "
+"vil vågne op når de har fået alle deres liv tilbage."
 
 #: data/helpdata.txt:1054
 msgid ""
@@ -20137,30 +20167,34 @@ msgid ""
 "defenders, but few for attackers, aside from veteran status; an attacking "
 "unit can mostly expect circumstance to work against it."
 msgstr ""
+"Beskrivelsen nedenfor er fra standardregelsættet, men principperne er ens "
+"for alle regelsæt. Bemærk at mange bonusser er tilgængelige for forsvarer, "
+"men få for angribere, udover veteranstatus; en angribende enhed kan for det "
+"meste forvente at der er omstændigheder som arbejder imod den."
 
 #: data/helpdata.txt:1065
 msgid "First, the attacker's strength is modified."
 msgstr "Først bliver angriberens styrke ændret."
 
 #: data/helpdata.txt:1067
-#, fuzzy
 msgid ""
 " - If the attacker is a veteran, its strength is multiplied by the bonus "
 "associated with its veteran level."
 msgstr ""
-" - Hvis angriberen er veteran bliver dens styrke multipliceret med 1,5."
+" - Hvis angriberen er veteran bliver dens styrke ganget med den bonus som er "
+"forbundet med enhedens veteranniveau."
 
 #: data/helpdata.txt:1070
 msgid "Next, the defender's strength is modified."
 msgstr "Så bliver forsvarerens styrke ændret."
 
 #: data/helpdata.txt:1072
-#, fuzzy
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by the "
 "bonus associated with its veteran level."
 msgstr ""
-" - Hvis forsvareren er en veteran, vil dens styrke multipliceres med 1.5."
+" - Hvis forsvareren er en veteran bliver dens styrke ganget med den bonus "
+"som er forbundet med enhedens veterannivau."
 
 #: data/helpdata.txt:1075
 msgid ""
@@ -20187,23 +20221,19 @@ msgstr ""
 "(inklusive missiler og helikopter) femdobles forsvaret."
 
 #: data/helpdata.txt:1085
-#, fuzzy
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than a Helicopter or a "
 "missile)."
 msgstr ""
 " - Forsvarerens styrke bliver fordoblet igen hvis den er i en by med et SAM-"
-"batteri og angriberen er en flyenhed (med undtagelse af helikoptere) eller "
-"et missil."
+"batteri, og angriberen er en flyenhed (med undtagelse af helikoptere eller "
+"et missil)."
 
 #: data/helpdata.txt:1089
-#, fuzzy
 msgid ""
 " - An SDI Defense doubles the defender's strength against missile attacks."
-msgstr ""
-" - Et SDI-forsvar fordobler forsvarerens styrke endnu en gang mod "
-"missilangreb."
+msgstr " - Et SDI-forsvar fordobler forsvarerens styrke mod missilangreb."
 
 #: data/helpdata.txt:1092
 msgid ""
@@ -20229,22 +20259,20 @@ msgstr ""
 " - Hvis forsvareren er i et fort (og ikke i en by) bliver dens styrke doblet."
 
 #: data/helpdata.txt:1102
-#, fuzzy
 msgid ""
 " - If the defender is a land unit, and is either fortified or inside a city, "
 "its strength is multiplied by 1.5."
 msgstr ""
-" - Til slut, hvis forsvareren er en landenhed og den er befæstet eller i en "
-"by, så vil dens styrke multipliceres med 1.5."
+" - Hvis forsvareren er en landenhed og den er enten befæstet eller i en by, "
+"så vil dens styrke ganges med 1,5."
 
 #: data/helpdata.txt:1105
-#, fuzzy
 msgid ""
 " - Finally, if the attacker is a fighter and the defender is a helicopter, "
 "the defender's strength is halved."
 msgstr ""
-" - Hvis angriberen er et skib og forsvareren er i en by med kystforsvar så "
-"vil forsvarerens styrke dobles."
+" - Endelig, hvis angriberen er en jager og forsvareren er en helikopter, så "
+"bliver forsvarens styrke halveret."
 
 #: data/helpdata.txt:1108
 msgid ""
@@ -20268,24 +20296,21 @@ msgstr ""
 "angriberen dobles og ildkraften for skibet sættes til 1."
 
 #: data/helpdata.txt:1117
-#, fuzzy
 msgid ""
 " - If a fighter is attacking a helicopter the firepower of the helicopter is "
 "set to 1."
 msgstr ""
-" - Hvis en jager angriber et helikopter bliver ildkraften for helikopteren 1."
+" - Hvis en jager angriber en helikopter bliver ildkraften for helikopteren 1."
 
 #: data/helpdata.txt:1120
-#, fuzzy
 msgid ""
 " - If a ship is attacking a land unit on land the firepower of both is set "
 "to 1."
 msgstr ""
 " - Hvis et skib angriber en landenhed på land bliver ildkraften for begge "
-"enhedene 1."
+"enheder 1."
 
 #: data/helpdata.txt:1123
-#, fuzzy
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -20296,28 +20321,26 @@ msgid ""
 "to reach 0 hit points (or negative hit points) loses."
 msgstr ""
 "Efter de indledende sammenligninger begynder kampen og fortsætter så længe "
-"begge enheder fortsat er i live. (dvs. begge har mere end 0 træfpoint). Hver "
-"runde laves der et tilfældigt tal mellem 1 og summen af angriberens og "
+"begge enheder fortsat er i live (det vil sige begge har mere end 0 liv). "
+"Hver runde laves der et tilfældigt tal mellem 1 og summen af angriberens og "
 "forsvarerens styrke. Hvis det tilfældige tal er større end forsvarerens "
-"styrke, mister forsvareren lige så mange træfpoint som angriberens ildkraft. "
-"Ellers mister angriberen lige så mange træfpoint som forsvarerens ildkraft. "
-"Den første enhed som får 0 træfpoint (eller negative træfpoint) taber."
+"styrke, mister forsvareren lige så mange liv som angriberens ildkraft. "
+"Ellers mister angriberen lige så mange liv som forsvarerens ildkraft. Den "
+"første enhed som får 0 liv (eller negative liv) taber."
 
 #: data/helpdata.txt:1138
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of being promoted a veteran "
 "level.  In the default ruleset, if the winner's civilization has the Sun "
 "Tzu's War Academy (and if it isn't obsolete), the chance is increased by "
 "half."
 msgstr ""
-"Den enhed som overlever kampen har mulighed for at blive veteran, hvis den "
-"ikke allerede er det. Hvis vinderens civilisation har Sun Tzus Krigsakademi "
-"(og det ikke er forældet), bliver enheden altid veteran. Ellers er chancen "
-"for at blive veteran 50 %."
+"Den enhed som overlever kampen har mulighed for at blive veteran. Hvis "
+"vinderens civilisation har Sun Tzus Krigsakademi (og det ikke er forældet), "
+"øges sandsynligheden med halvdelen."
 
 #: data/helpdata.txt:1143
-#, fuzzy
 msgid ""
 "If the attacker is a land unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -20326,13 +20349,12 @@ msgstr ""
 "uden bymure, så bliver byens størrelse reduceret med 1."
 
 #: data/helpdata.txt:1146
-#, fuzzy
 msgid ""
 "If the defender loses, and is not inside a city, fortress, or airbase, all "
 "other units at the defender's location are destroyed along with the defender."
 msgstr ""
-"Hvis forsvareren taber, og den ikke er i en by eller er befæstet, så bliver "
-"alle andre enheder på forsvarerens position også ødelagt."
+"Hvis forsvareren taber, og den ikke er i en by, fæstning eller luftbase, så "
+"bliver alle andre enheder på forsvarerens position også ødelagt."
 
 #: data/helpdata.txt:1153
 msgid " Modifying Combat Rules"
@@ -20355,34 +20377,34 @@ msgstr ""
 "game.ruleset, afsnit combat_rules: "
 
 #: data/helpdata.txt:1158
-#, fuzzy
 msgid ""
 " - killstack (default: 1). If set to 0, units on the same tile as a lost "
 "defender are not destroyed."
 msgstr ""
-" - killstack. (default: 1) hvis sat til 0, vil enheder i det samme felt som "
-"en forsvarer ikke blive dræbt."
+" - killstack. (standard: 1). Hvis angivet som 0, vil enheder i det samme "
+"felt som en forsvarer ikke blive dræbt."
 
 #: data/helpdata.txt:1161
 msgid ""
 " - tired_attack (default: 0). If set to 1, units that attack with only 2/3 "
 "or 1/3 moves left will attack with proportionally reduced strength."
 msgstr ""
+" - tired_attack (standard: 0). Hvis angivet som 1, vil enheder som kun "
+"angriber med 2/3 eller 1/3 tilbageværende bevægelse angribe med en "
+"proportionalt reduceret styrke."
 
 #: data/helpdata.txt:1168
 msgid " Combat example 1"
 msgstr " Kampeksempel 1"
 
 #: data/helpdata.txt:1169
-#, fuzzy
 msgid ""
 "Suppose a Cannon (A:8, D:1, HP:20, FP:1) attacks a Musketeer (A:3, D:3, "
 "HP:20, FP:1) inside a city with City Walls built on a Forest tile.  Neither "
 "are veteran."
 msgstr ""
-"Antag at en veterankanon (A:8, F:1, L:20, F:1) angriber en musketer (A:3, "
-"F:3, L:20, F:1) inde i en by med bymur bygget på et skovfelt. Ingen er "
-"veteraner."
+"Antag at en kanon (A:8, F:1, L:20, F:1) angriber en musketer (A:3, F:3, "
+"L:20, F:1) inde i en by med bymur bygget på et skovfelt. Ingen er veteraner."
 
 #: data/helpdata.txt:1173
 msgid ""
@@ -20417,8 +20439,8 @@ msgid ""
 "hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 "Hver kamprunde bliver et tilfældigt tal mellem 1 og 282 genereret. Hvis "
-"tallet er større end 202 (omtrent 28 % chance), så taber forsvareren 1 "
-"træfpoint. Ellers (omtrent 72 % chance), så mister angriberen 1 træfpoint."
+"tallet er større end 202 (omtrent 28 % chance), så taber forsvareren 1 liv. "
+"Ellers (omtrent 72 % chance), så mister angriberen 1 liv."
 
 #: data/helpdata.txt:1196
 #, no-c-format
@@ -20429,19 +20451,17 @@ msgid ""
 "units have non-zero strengths; the defender might emerge untouched, or it "
 "might lose most of its hit points, or it might even lose the battle."
 msgstr ""
-"Siden begge enheder har 20 træfpoint er det mest sandsynligt at forsvareren "
-"vinder. Forsvareren kommer nok til at tabe omtrent 40 % af sine træfpoint "
-"under kampen. Men udfaldet er aldrig sikkert så længe begge enheder har "
-"styrke større end nul;\n"
-"forsvareren kan komme derfra uskadt, eller tabe de fleste af sine træfpoint, "
-"eller til og med tabe kampen."
+"Siden begge enheder har 20 liv er det mest sandsynligt at forsvareren "
+"vinder. Forsvareren kommer nok til at tabe omtrent 40 % af sine liv under "
+"kampen. Men udfaldet er aldrig sikkert så længe begge enheder har styrke "
+"større end nul; forsvareren kan komme derfra uskadt, eller tabe de fleste af "
+"sine liv, eller til og med tabe kampen."
 
 #: data/helpdata.txt:1206
 msgid " Combat example 2"
 msgstr " Kampeksempel 2"
 
 #: data/helpdata.txt:1207
-#, fuzzy
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement "
 "points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city "
@@ -20502,8 +20522,8 @@ msgid ""
 msgstr ""
 "I dette tilfælde er det mest sandsynligt, at angriberen vinder. Slagskibet "
 "har 25 % mindre chance for at ramme i en runde, men slagskibet har dobbelt "
-"så mange træfpoint. Slagskibet bør forvente at miste omtrent 60 % af sine "
-"træfpoint i løbet af kampen, og ikke have nogen bevægelsespoint igen."
+"så mange liv. Slagskibet bør forvente at miste omtrent 60 % af sine liv i "
+"løbet af kampen, og ikke have nogen bevægelsespoint igen."
 
 #: data/helpdata.txt:1247
 msgid "Zones of Control"
@@ -20854,7 +20874,6 @@ msgstr ""
 "permanent synsfelt over området på kortet omkring dem."
 
 #: data/helpdata.txt:1411
-#, fuzzy
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers or Workers to complete an activity. These numbers are reduced to "
@@ -20865,16 +20884,15 @@ msgid ""
 "to one task, though; excess effort can be wasted, and a group of Settlers, "
 "Workers, and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
-"Arbejdere er en af nøgleenhedene i spillet. De kan anvendes til at bygge "
-"overrisling, veje, jernbaner, fæstninger, flybaser og miner, og rense "
-"forurening og radioaktiv stråling op.\n"
-"\n"
-"Nybyggere, arbejdere og ingeniører kan arbejde sammen for at reducere tiden "
-"det tager at fuldføre store projekter. Hvis to eller flere arbejdere og/"
-"eller ingeniører arbejder på samme opgave på samme sted, lægges deres "
-"indsats sammen hver runde til opgaven er færdig. Sæt ikke for mange "
-"arbejdere på en opgave, for da kan indsatsen sløses bort, og en stor gruppe "
-"arbejdere, nybyggere og/eller ingeniører er meget udsat for angreb."
+"Den følgende tabel viser antallet af runder som kræves for at en enhed "
+"nybyggere eller arbejdere færdiggør en aktivitet. Disse tal reduceres med "
+"halvdelen (rundet op) for ingeniører. Tiden kan yderligere reduceres ved at "
+"flere enheder arbejder sammen som et hold; hvis to eller flere enheder "
+"arbejder på den samme opgave på et felt, vil deres indsats blive lagt sammen "
+"indtil opgaven er færdiggjort. Vær forsigtig med ikke at spilde for mange "
+"enheder på en opgave; overskydende indsats kan blive spildt, og en gruppe af "
+"nybyggere, arbejder og/eller ingeniører er meget udsatte for fjendtlige "
+"angreb."
 
 #: data/helpdata.txt:1423
 msgid ""
@@ -21267,7 +21285,6 @@ msgstr ""
 "andre relevante sektioner for mere information)"
 
 #: data/helpdata.txt:1628
-#, fuzzy
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -21284,15 +21301,15 @@ msgid ""
 msgstr ""
 "Under mange styreformer kan tilstedeværelsen af krigsenheder skabe glade "
 "borgere ved at indføre undtagelsestilstand. Under republik eller demokrati "
-"kan krigsenheder derimod skabe ulyksalighed (se mere info om de enkelte "
-"styreformer). I dette tilfælde hjælper det ikke med de ovennævnte "
-"byforbedringer. Denne form for ulyksalighed kan bekæmpes ved at bygge "
-"politistationer, passende vidundere (f.eks. De Hængende Haver, Johann "
-"Sebastian Bachs Katedral, Løsning på kræftgåden, Shakespeares Teater, og "
-"selvfølgelig Stemmeret for kvinder; bemærk at Michelangelos Kapel ikke har "
-"indvirkning på dette tilfælde, siden det regnes som en katedral i hver by, "
-"eller dobler katedralens virkning, afhængig af regelopsætningen), eller ved "
-"at afsætte en del handel til luksus."
+"kan krigsenheder derimod skabe ulyksalighed hvis de befinder sig uden for "
+"landes grænser. (se mere info om de enkelte styreformer). I dette tilfælde "
+"hjælper det ikke med de ovennævnte byforbedringer. Denne form for "
+"ulyksalighed kan bekæmpes ved at bygge politistationer, passende vidundere "
+"(f.eks. De Hængende Haver, Johann Sebastian Bachs Katedral, Løsning på "
+"Kræftgåden, Shakespeares Teater, og selvfølgelig Stemmeret for kvinder; "
+"bemærk at Michelangelos Kapel ikke har indvirkning på dette tilfælde, siden "
+"det regnes som en katedral i hver by, eller dobler katedralens virkning, "
+"afhængig af regelopsætningen), eller ved at afsætte en del handel til luksus."
 
 #: data/helpdata.txt:1648
 msgid ""
@@ -22339,7 +22356,7 @@ msgstr "Forenede Nationer"
 
 #: data/default/buildings.ruleset:1546 data/civ2/buildings.ruleset:1486
 msgid "All your units regain two extra hitpoints per turn."
-msgstr "Alle dine enheder gendanner to ekstra træfpoint per runde."
+msgstr "Alle dine enheder gendanner to ekstra liv per runde."
 
 #: data/default/buildings.ruleset:1559 data/civ2/buildings.ruleset:1499
 #: data/civ1/buildings.ruleset:1050
@@ -23341,11 +23358,8 @@ msgid "Construction"
 msgstr "Konstruktion"
 
 #: data/default/techs.ruleset:204
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
-msgstr ""
-"Nybyggere, arbejdere og ingeniører har evnen til at ændre terrænet på "
-"forskellige måder."
+msgstr "Tillader at nybyggere, arbejdere og ingeniører kan bygge fæstninger."
 
 #: data/default/techs.ruleset:207 data/civ2/techs.ruleset:196
 #: data/civ1/techs.ruleset:179
@@ -23398,7 +23412,7 @@ msgstr "Fly"
 #: data/civ2/techs.ruleset:283 data/civ2/techs.ruleset:577
 #: data/civ1/techs.ruleset:241 data/civ1/techs.ruleset:451
 msgid "Decreases one-time revenue from new trade routes."
-msgstr ""
+msgstr "Formindsker engangsindtægter fra nye handelsruter."
 
 #: data/default/techs.ruleset:297 data/civ2/techs.ruleset:294
 #: data/civ1/techs.ruleset:244
@@ -23436,7 +23450,7 @@ msgstr "Opfindelse"
 
 #: data/default/techs.ruleset:351
 msgid "Increases units' vision when in fortresses."
-msgstr ""
+msgstr "Øger enhedernes udsyn når de er i fæstninger."
 
 #: data/default/techs.ruleset:354 data/civ2/techs.ruleset:350
 #: data/civ1/techs.ruleset:292
@@ -23574,7 +23588,7 @@ msgstr "Radio"
 
 #: data/default/techs.ruleset:572
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr ""
+msgstr "Tillader arbejdere og ingeniører at bygge luftbaser og bøjer."
 
 #: data/default/techs.ruleset:584 data/civ2/techs.ruleset:580
 #: data/civ1/techs.ruleset:454
@@ -23675,16 +23689,15 @@ msgstr "Skrivekunst"
 
 #: data/civ2/techs.ruleset:193
 msgid "Allows Settlers and Engineers to build fortresses."
-msgstr ""
+msgstr "Tillader nybyggere og ingeniører at bygge fæstningsværker."
 
 #: data/civ2/techs.ruleset:568
 msgid "Allows Settlers and Engineers to build airbases."
-msgstr ""
+msgstr "Tillader nybyggere og ingeniører at bygge luftbaser."
 
 #: data/civ1/techs.ruleset:176
-#, fuzzy
 msgid "Allows Settlers to build fortresses."
-msgstr "* Kan bygge fæstningsværker.\n"
+msgstr "Tillader nybyggere at bygge fæstningsværker."
 
 #: data/civ1/techs.ruleset:470
 msgid "Religion"
@@ -24036,6 +24049,14 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
+"Nybyggere er en af nøgleenhederne i spillet. De kan anvendes til at "
+"grundlægge nye byer, bygge overrisling, veje, jernbaner, fæstninger, og "
+"miner, og rense forurening og radioaktiv stråling. Se afsnittet i hjælpen om "
+"ændring af terræn for yderligere detaljer.\n"
+"\n"
+"Vedligeholdelse til nybyggere er mad og produktion, og en nybygger kan dø, "
+"hvis byen som forsørger den løber tør for mad. Nybyggere i en republik eller "
+"et demokrati kræver dobbelt så meget mad per runde."
 
 #: data/default/units.ruleset:320
 msgid "?unit:Workers"
@@ -24047,13 +24068,15 @@ msgid ""
 "Terrain Alterations section of the help for more details of the available "
 "improvements. However, Workers cannot build new cities."
 msgstr ""
+"Arbejdere svarer til nybyggere på den måde at de kan forbedre terræn. Se "
+"afsnittet om terrænændringer i hjælpen for yderligere detaljer om de "
+"tilgængelige forbedringer. Arbejdere kan dog ikke bygge nye byer."
 
 #: data/default/units.ruleset:353 data/civ2/units.ruleset:211
 msgid "Engineers"
 msgstr "Ingeniører"
 
 #: data/default/units.ruleset:379
-#, fuzzy
 msgid ""
 "Engineers are similar to Workers, but they work twice as fast and move twice "
 "as fast.  Engineers may also perform major terrain transformations (for "
@@ -24069,15 +24092,15 @@ msgid ""
 msgstr ""
 "Ingeniører ligner nybyggere, men de arbejder dobbelt så hurtigt og flytter "
 "sig dobbelt så hurtigt. Ingeniører kan også udføre større "
-"landskabsforandringer (f.eks. forvandling af tundra til ørken) som er meget "
-"bedre end det en nybygger er i stand til.\n"
+"landskabsforandringer (f.eks. forvandling af tundra til ørken) som er uden "
+"for arbejdere og nybyggeres kapacitet; se afsnittet om terrænændirnger for "
+"yderligere detaljer.\n"
 "\n"
-"Tip 1: Opgrader nybyggere til ingeniører når det er muligt, da ingeniører "
-"kræver de samme ressourcer som nybyggere.\n"
+"Tip 1: Opgrader arbejdere til ingeniører når det er muligt, da ingeniører "
+"kræver de samme ressourcer som normale arbejdere.\n"
 "\n"
-"Tip 2: Hvis du kan opnår at bygge Leonardos værksted, så forsk på "
-"eksplosiver før værkstedet bliver forældet. Da bliver nybyggerne opgraderede "
-"helt gratis."
+"Tip 2: Hvis du kan bygge Leonardos Værksted, så forsk på eksplosiver før "
+"værkstedet bliver forældet. Så bliver dine arbejdere opgraderet gratis."
 
 #: data/default/units.ruleset:395 data/civ2/units.ruleset:253
 msgid "Warriors"
@@ -24108,7 +24131,6 @@ msgid "Archers"
 msgstr "Bueskytter"
 
 #: data/default/units.ruleset:484 data/civ2/units.ruleset:342
-#, fuzzy
 msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
@@ -24160,7 +24182,6 @@ msgid "Partisan"
 msgstr "Partisaner"
 
 #: data/default/units.ruleset:614 data/civ2/units.ruleset:507
-#, fuzzy
 msgid ""
 "Partisans are guerilla fighters who are experts at using the terrain to "
 "their advantage.\n"
@@ -24176,15 +24197,12 @@ msgstr ""
 "Partisaner er guerillakæmpere som er eksperter i udnyttelse af terrænet til "
 "deres fordel.\n"
 "\n"
-"Man får et antal partisaner gratis, hvis man mister en by til fjenden, men "
+"Man får et antal partisaner gratis, hvis man mister en by til fjenden. De "
+"indtager automatisk defensive positioner i det omkringliggende land  - men "
 "kun på disse vilkår:\n"
-"\n"
 " - Guerillakrigsføring må være kendt af mindst 1 spiller.\n"
-"\n"
 " - Man skal være den spiller som oprindelig grundlagde byen.\n"
-"\n"
 " - Man skal have opdaget kommunisme og krudt.\n"
-"\n"
 " - Man skal have demokrati eller kommunisme som styreform."
 
 #: data/default/units.ruleset:628 data/civ2/units.ruleset:521
@@ -24387,7 +24405,6 @@ msgstr ""
 "landenheder, ikke andre luftbårne enheder."
 
 #: data/default/units.ruleset:1208 data/civ2/units.ruleset:1165
-#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -24397,8 +24414,9 @@ msgid ""
 msgstr ""
 "Helikopteren er en meget kraftig enhed, da den både kan flyve og erobre "
 "byer. Det er vigtig at passe på, siden helikoptere mister en lille mængde "
-"liv for hver runde som de ikke er i en by, hvis man ikke har vidunderet De "
-"Forenede Nationer."
+"liv for hver runde som de ikke er i en by, en luftbase eller på et "
+"hangarskib, hvis man ikke har vidunderet De Forenede Nationer. Helikoptere "
+"kan angribes af landenheder."
 
 #: data/default/units.ruleset:1217 data/civ2/units.ruleset:1174
 msgid "Stealth Fighter"
@@ -24541,15 +24559,13 @@ msgstr "Hangarskib"
 
 #: data/default/units.ruleset:1641 data/civ2/units.ruleset:1598
 #: data/civ1/units.ruleset:952
-#, fuzzy
 msgid ""
 "The Carrier is a mobile airport.\n"
 "\n"
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
-"Hangarskibet er en mobil lufthavn og kan ikke, på egen hånd, angribe andre "
-"enheder.\n"
+"Hangarskibet er en mobil lufthavn.\n"
 "\n"
 "Tip: Beskyt hangarfartøjer med en håndfuld hurtige skibe og et slagskib da "
 "det er meget plagsomt og dyrt at miste et fuldt udstyret hangarskib."
@@ -24591,7 +24607,6 @@ msgid "Nuclear"
 msgstr "Atombombe"
 
 #: data/default/units.ruleset:1744
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -24621,6 +24636,11 @@ msgstr ""
 "Ved detonation ødelægger eksplosionen alle enheder i 3 felters bredde (3x3-"
 "felters kvadrat for rektangulære gitre), inklusive venlige enheder. Hvis du "
 "angriber en by, bliver størrelsen halveret og området omkring bliver ramt af "
+"radioaktiv stråling.\n"
+"\n"
+"På samme måde som forurening og global opvarmning, øges risikoen for global "
+"atomvinter. Hvis en atomvinter opstår vil terræn udover jorden ændre sig til "
+"ørken, tundra, og is. Nybyggere, arbejdere og ingeniører kan fjerne "
 "radioaktiv stråling.\n"
 "\n"
 "Tip 1: At sprænge atombomber på havet vil ikke føre til radioaktiv stråling, "
@@ -24697,6 +24717,60 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"En diplomat er en offentlig repræsentant som overbringer dine beskeder og "
+"har mandat til at forhandle med fremmede magter. Han kan også udføre "
+"forskellige hemmelige missioner med det formål at skade dine modstandere.\n"
+"\n"
+"En del hemmelige handlinger kan forsøges i fredstid, men mere aggressive "
+"handlinger vil blive opdaget og udløse diplomatiske kriser, som kan gøre det "
+"muligt for republikker og demokratier at bryde traktater.\n"
+"\n"
+"Hvis en fjendtlig enhed er alene på et felt, kan du forsøge at bestikke den "
+"med din diplomat. Ved betalig af et beløb i guld bliver enheden øjeblikkelig "
+"din. Den præcise sum afhænger af status for enheden og på den civilisation "
+"som ejer den. Enheder der tilhører et demokrati kan dog ikke bestikkes. "
+"Bestikkelse i fredstid vil fremprovokere en diplomatisk krise.\n"
+"\n"
+"Diplomaten kan også udføre en række handlinger i en anden spillers by. Dog "
+"kan hver diplomat kun udføre en handling. De fleste handlinger har en risiko "
+"for at mislykkes. Diplomater og spioner i byen vil også modsætte sig "
+"fjendtlige handlinger; i dette tilfælde vil enten din diplomat eller den "
+"forsvarende enhed dø. Hvis den forsvarende enhed dør, mister du et "
+"bevægelsespoint og kan forsøge igen.\n"
+"\n"
+"De tilgængelige handlinger for diplomater i en by er:\n"
+"\n"
+"- \"Etablere ambassade\": Denne handling lykkes altid, og opretter permanent "
+"kontakt med byens ejer, samt efterretninger om deres skatteniveau og "
+"teknologier.\n"
+"\n"
+" - \"Undersøg by\": Din enhed forsøger at rapportere om detaljerede "
+"information om byen: Dens status, hvilke bygninger og enheder som er i den, "
+"og hvad den aktuelt producerer.\n"
+"\n"
+" - \"Saboter by\": Din enhed forsøger enten at forstyrre byens nuværnede "
+"produktion eller at ødelægge en eksisterende bygning i byen (tilfældig). Når "
+"de først er bygget kan paladser og vidundere ikke saboteres, og forsøg på at "
+"sabotere bymure og enhver bygning i en hovedstad får halveret muligheden for "
+"succes. Sabotage kan kun foretages i åben krigstilstand.\n"
+"\n"
+" - \"Stjæl teknologi\": Din enhed forsøger at lære hemmelighederne ved en "
+"tilfældig teknologi kendt af byens ejer men ikke af dig. Teknologi kan kun "
+"stjæles en gang fra en given fjendes by af diplomater. Denne handling kan "
+"forsøges selv når du ikke er i krig, men vil udløse en diplomatisk krise.\n"
+"\n"
+" - \"Anspor et oprør\": Til gengæld for guld vil en fremmed by ændre sin "
+"troskab og slutte sig til dit rige, medbringende alle nærvedstående enheder "
+"som hører til byen, men denne reduceres med 1. Enheder i andre byer "
+"forbliver under fjendens kontrol, men enheder udenfor byer tabes til begge "
+"spillere. Den præcise sum afhænger at byens status og på den civilisation "
+"som ejer den. Det er ikke muligt at anspore til oprør i en hovedstad, eller "
+"i en by ledet som et demokrati. Ansporing til oprør kan forsøges i fredstid, "
+"men vil føre til en diplomatisk krise.\n"
+"\n"
+"I nogle spilstrategier, kan mængder af diplomater bruges til at skabe panik "
+"hos fjenden. Så det er ikke mærkeligt at diplomater ofte anses med stor "
+"mistro og frygt!"
 
 #: data/default/units.ruleset:1861 data/civ2/units.ruleset:1818
 msgid "Spy"
@@ -24725,6 +24799,27 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
+"En spion er professionel og er bedre til at drive spionage end sin "
+"forgænger, diplomaten.\n"
+"\n"
+"Spionen kan udføre alle de funktioner som diplomaten også kan, men med en "
+"højere succesrate. Se diplomatartiklen for en oversigt. Til forskel fra en "
+"diplomat kan en spion også overleve en mission i en fremmed by og bliver "
+"samtidig mere erfaren.\n"
+"\n"
+"Spionen kan også bruges til:\n"
+" - sabotere en fjendtlig enhed (reducerer dens liv til det halve), hvis den "
+"er alene på et felt og spillerne er i krig:\n"
+" - forgifte vandforsyningen i en fjendtlig by (reducerer befolkningen med 1 "
+"og tømmer kornlageret);\n"
+" - stjæle specifikke teknologier (med reduceret mulighed for succes):\n"
+" - stjæle flere teknologier fra den samme by (selvom byer bliver mere og "
+"mere modstandsdygtige for hver gang der stjæles fra dem);\n"
+" - sabotere specifikke bymål (med reduceret mulighed for succes).\n"
+"\n"
+"En spion som overlever de mere aggressive missioner (sabotage, tyveri, "
+"ansporing af oprør og forgiftning) undslipper til sikkerhed i den nærmeste "
+"venlige by."
 
 #: data/default/units.ruleset:1913 data/civ2/units.ruleset:1870
 #: data/civ1/units.ruleset:1137
@@ -24733,7 +24828,6 @@ msgstr "Karavane"
 
 #: data/default/units.ruleset:1939 data/civ2/units.ruleset:1896
 #: data/civ1/units.ruleset:1163
-#, fuzzy
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
 "foreign countries, or to help build wonders in your cities.\n"
@@ -24748,8 +24842,8 @@ msgstr ""
 "En karavane transpoterer varer og materialer fra handlen med fremmede lande, "
 "eller hjælper med at bygge vidundere i dine byer.\n"
 "\n"
-"Hver karavane som bruges til at bygge et vidunder bidrager med 50 skjold til "
-"vidunderet.\n"
+"Hver karavane som bruges til at bygge et vidunder bidrager med 50 skjolde "
+"til vidunderet.\n"
 "\n"
 "Tip: Du kan stable en stak med karavaner på forhånd og bringe dem alle ind i "
 "en by hvor du er begyndt at bygge et vidunder, og så bygge det færdig på kun "
@@ -24827,9 +24921,17 @@ msgid ""
 "require twice as much food per turn, and in Communist or Fundamentalist "
 "societies, three times as much."
 msgstr ""
+"Nybyggere er en af nøgleenhederne i spillet. De kan anvendes til at "
+"grundlægge nye byer, bygge overrisling, veje, jernbaner, fæstninger, og "
+"miner, og rense forurening og radioaktiv stråling. Se afsnittet i hjælpen om "
+"ændring af terræn for yderligere detaljer.\n"
+"\n"
+"Vedligeholdelse til nybyggere er mad og produktion, og en nybygger kan dø, "
+"hvis byen som forsørger den løber tør for mad. Nybyggere i en republik eller "
+"et demokrati kræver dobbelt så meget mad per runde. Under kommunisme eller "
+"fundamentalisme tre gange så meget."
 
 #: data/civ2/units.ruleset:237
-#, fuzzy
 msgid ""
 "Engineers are similar to Settlers, but they work twice as fast and move "
 "twice as fast.  Engineers may also perform major terrain transformations "
@@ -24852,7 +24954,7 @@ msgstr ""
 "Tip 1: Opgrader nybyggere til ingeniører når det er muligt, da ingeniører "
 "kræver de samme ressourcer som nybyggere.\n"
 "\n"
-"Tip 2: Hvis du kan klare at bygge Leonardos værksted, så forsk på "
+"Tip 2: Hvis du kan klare at bygge Leonardos Værksted, så forsk på "
 "eksplosiver før værkstedet bliver forældet. Da bliver nybyggerne opgraderede "
 "helt gratis."
 
@@ -24909,7 +25011,6 @@ msgid ""
 msgstr "Karavellen afløser Trieren og er meget mere troværdig på det åbne hav."
 
 #: data/civ2/units.ruleset:1701
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -24940,6 +25041,11 @@ msgstr ""
 "felters kvadrat for rektangulære gitre), inklusive venlige enheder. Hvis du "
 "angriber en by, bliver størrelsen halveret og området omkring bliver ramt af "
 "radioaktiv stråling.\n"
+"\n"
+"På samme måde som ved forurening og global opvarmning stiger risikoen for "
+"atomvinter med øget radioaktiv stråling. Hvis atomvinter opstår vil terræn "
+"udover jorden ændre sig til ørken, tundra og is. Nybyggere og ingeniører kan "
+"rydde op i områder med radioaktiv stråling.\n"
 "\n"
 "Tip 1: At sprænge atombomber på havet vil ikke føre til radioaktiv stråling, "
 "og er den mest effektive (men også dyreste) måde at blive fjendtlige skibe "
@@ -24980,12 +25086,11 @@ msgstr ""
 "på fjendens område."
 
 #: data/civ1/units.ruleset:459
-#, fuzzy
 msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "Cavalry."
 msgstr ""
-"Stridsvogne er hestetrukne krigsvogne, stærkere men dyrere end ryttere."
+"Stridsvogne er hestetrukne krigsvogne, stærkere men dyrere end kavaleri."
 
 #: data/civ1/units.ruleset:623
 msgid ""
@@ -25005,7 +25110,6 @@ msgid ""
 msgstr "Sejlskude afløser Triere og er meget mere pålidelig på åbent hav."
 
 #: data/civ1/units.ruleset:1020
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the "
 "Manhattan Project wonder has been built by any player.\n"
@@ -25035,6 +25139,11 @@ msgstr ""
 "Ved detonation ødelægger eksplosionen alle enheder i 3 felter bredt (3x3-"
 "felters kvadrat for rektangulære gitre), inklusive venlige enheder. Hvis du "
 "angriber en by, bliver størrelsen halveret og området omkring bliver ramt af "
+"radioaktiv stråling.\n"
+"\n"
+"På samme måde som forurening og global opvarmning, øges risikoen for global "
+"atomvinter. Hvis en atomvinter opstår vil terræn udover jorden ændre sig til "
+"ørken, tundra, og is. Nybyggere, arbejdere og ingeniører kan fjerne "
 "radioaktiv stråling.\n"
 "\n"
 "Tip 1: At sprænge atombomber på havet vil ikke føre til radioaktiv stråling, "
@@ -26001,6 +26110,14 @@ msgid ""
 "Following international pressure after World War II, Burundi became an "
 "independent nation in January 1962."
 msgstr ""
+"Et monarki opstod i området med de store floder i Østafrika i 1100-tallet, "
+"regeret af Mwami (konge) og flere Ganwa (prinser). Det undergik en periode "
+"med ekspansion indtil 1600-tallet hvor det dækkede det nuværende Burundi. I "
+"slutningen af 1700-tallet og starten af 1800-tallet svækkede en arvefølge "
+"monarkiet, og ved afslutningen af århundredet var det blevet en tysk koloni. "
+"I tiden efter 1. verdenskrig faldt kolonien til Belgien. Efter "
+"internationalt pres efter 2. verdenskrig blev Burundi en uafhængig stat i "
+"januar 1962."
 
 #. TRANS: Ganwa = Prince
 #: data/nation/burundi.ruleset:31
@@ -27928,7 +28045,6 @@ msgid "?plural:Malians"
 msgstr "?plural:Malianerne"
 
 #: data/nation/malian.ruleset:6
-#, fuzzy
 msgid ""
 "Sub-Saharan Africa has been a cultural and ethnical melting pot for "
 "millennia. In medieval times, the region was home to a succession of empires "
@@ -29292,6 +29408,8 @@ msgid ""
 "The modern Syrian Arab Republic was formed from a French mandate and "
 "gradually gained independence during the 1940s."
 msgstr ""
+"Den moderne syriske republik blev dannet fra et fransk mandat og opnåede "
+"gradvist uafhængighed i 1940'erne."
 
 #: data/nation/taino.ruleset:3
 msgid "Taino"
@@ -29315,6 +29433,16 @@ msgid ""
 "traders between islands. Recent genetic studies show that roughly half of "
 "Puerto Ricans have Taino maternal descent."
 msgstr ""
+"Indfødte på Bahamaøerne, Cuba, Hispaniola, Puerto Rico, Jamaica, og andre "
+"caribiske øer gav os de grundlæggende ord for orkan, tobak, kartoffel, kano, "
+"grillfest, hængekøje og palmelilje. De var et samfund med kvindelig "
+"arvefølge, og de første som Columbus kom i kontakt med i 1492. Selvom de var "
+"mange, antallet kendes ikke i dag, blev de ofre for slaveri og sygdom, og "
+"deres antal mindskedes kraftigt som en følge heraf. Spanske skrivere anfører "
+"dem som et fredeligt folk i sammenligning med deres sydlige naboer. Deres "
+"kanoner som ofte var lige så lange som Columbus skibe, transporterede "
+"handlende mellem øerne. Nylige genetiske undersøgelser har vist at cirka "
+"halvdelen af befolkningen i Puerto Rico har forfædre med tainoesk blod."
 
 #. TRANS: Cacike = Chief
 #: data/nation/taino.ruleset:31
@@ -29345,6 +29473,12 @@ msgid ""
 "various pressures that all Native American peoples were subject to at the "
 "period."
 msgstr ""
+"Et chibchantalende folk fra Kuna i Panama og Muisca i det central Columbia. "
+"De beboede der nuværende Magdalena og La Guajira i det nordlige Columbia. "
+"Deres by Teyuna blev grundlagt omkring 500 f.Kr. Taironaerne levede i et "
+"bjergrigt området og byggede stentrin og terrasser på stejle bjergsider for "
+"at drive landbrug i området. Selvom de kæmpede mod spanierne i 75 år, blev "
+"de dog besejret som de øvrige amerikanske folk i den periode."
 
 #. TRANS: Hankwa = Chief
 #: data/nation/tairona.ruleset:26
@@ -29416,6 +29550,10 @@ msgid ""
 "immense power and wealth in the next 200 years, and were the innovators of "
 "many modern concepts such as Banking."
 msgstr ""
+"Tempelridderne blev dannet efter det første korstog for at kunne beskytte "
+"pilgrimmen på deres rejse i Det Hellige Land. Organisationen voksede i "
+"styrke og rigdom i de næste 200 år, og blev opfindere af mange moderne "
+"koncepter som for eksempel bankvæsen."
 
 #: data/nation/templar.ruleset:42 data/nation/templar.ruleset:43
 #: data/nation/templar.ruleset:44 data/nation/templar.ruleset:45
@@ -29617,6 +29755,8 @@ msgid ""
 "Nation in Central Asia. Conquered by the Russian Empire in 19th century, "
 "Turkmenistan got independence from the Soviet Union in 1991."
 msgstr ""
+"Nation i det centrale Asien. Erobret af det russiske rige i det 19. "
+"århundrede, Turkmenistan opnåede uafhængighed fra Sovjetunionen i 1991."
 
 #: data/nation/turk.ruleset:3
 msgid "Turkish"
@@ -30637,295 +30777,6 @@ msgid "BC"
 msgstr "F.Kr."
 
 #~ msgid ""
-#~ "show\n"
-#~ "show <option-name>\n"
-#~ "show <option-prefix>"
-#~ msgstr ""
-#~ "show\n"
-#~ "show <tilvalgnavn>\n"
-#~ "show <tilvalgpræfiks>"
-
-#~ msgid ""
 #~ "%s and %s meet and go to instant war. You cancel your alliance with both."
 #~ msgstr ""
 #~ "%s og %s mødes og går i øjeblikkelig krig. Du ophæver alliancen med begge."
-
-#~ msgid "Choose a _nation to play:"
-#~ msgstr "Vælg et folkeslag du ønsker at spille som:"
-
-#~ msgid "* May pillage to destroy infrastructure from tiles.\n"
-#~ msgstr "* Kan ødelægge infrastruktur på felter.\n"
-
-#~ msgid ""
-#~ "Units can be used for three purposes: attack, defense, and "
-#~ "reconnaissance.  How useful a particular unit is for each of these roles "
-#~ "depends on the unit's strength in attack and defense, and its ability to "
-#~ "move."
-#~ msgstr ""
-#~ "Enheder kan blive brugt til tre funktioner: angreb, forsvar eller "
-#~ "udforskning.  Hvor nyttig en enhed er for disse roller kommer an på dens "
-#~ "styrke inden for angreb, forsva, og dens bevægelighed."
-
-#~ msgid ""
-#~ "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
-#~ "(Helicopters are sufficiently different from other air units that it is "
-#~ "easiest to think of them as a separate unit type.)"
-#~ msgstr ""
-#~ "Det er fire generelle typer enheder: Land, Sø, Luft og Helikopter."
-#~ "(Helikoptere er tilstrækkeligt foskellige fra andre enheder til at det er "
-#~ "lettest at tænke på dem som en separat ennhedstype.)"
-
-#~ msgid ""
-#~ "Land units move on land, and suffer the movement effects of terrain, but "
-#~ "benefit from roads and railroads.  They cannot move on ocean tiles except "
-#~ "when carried by an appropriate sea unit.  When at sea, they cannot attack "
-#~ "or defend for themselves, but rely on the sea unit carrying them.  Land "
-#~ "units are the only units subject to zones of control.  On land, land "
-#~ "units can fortify to get a 50% defensive bonus; land units in cities "
-#~ "automatically get this bonus, whether fortified or not.  When a land unit "
-#~ "successfully attacks a city without City Walls, the city is reduced by "
-#~ "one population point.  Land units with zero attack strength are non-"
-#~ "military units: they require no upkeep, have no happiness effects, and "
-#~ "cannot attack enemy units or capture enemy cities."
-#~ msgstr ""
-#~ "Landenheder bevæger sig på land, og forsinkes af landskabets "
-#~ "bevægelsesmuligheder, mens det går hurtigere på veje og jernbaner. De kan "
-#~ "ikke bevæge sig på vandfelter medmindre de bæres af en passende søenhed. "
-#~ "Når landenheder er til søs, kan de ikke angribe eller forsvare sig, der "
-#~ "er det enheden som bærer dem, som bestemmer. På land kan landenheder "
-#~ "befæste sig og får da 50 % forsvarsbonus; landenheder i byer får altid "
-#~ "denne bonus, uanset om de er befæstet eller ikke. Når en landenhed lykkes "
-#~ "med et angreb mod en by uden bymure, mindskes indbyggertallet med 1. "
-#~ "Landenheder med angrebsstyrke 0 er ikke militære enheder: De kræver ingen "
-#~ "udgifter, har ingen effekt på lykken i byen, og kan ikke angribe fjender "
-#~ "eller erobre fjendtlige byer."
-
-#~ msgid ""
-#~ "Sea units move on Ocean tiles and into cities next to Ocean tiles.  They "
-#~ "can only be built by such cities.  The movement rate of sea units is "
-#~ "affected by several wonders (Lighthouse, Magellan's Expedition) and by "
-#~ "the advance of Nuclear Power.  Most sea units can attack units on the "
-#~ "coast and in coastal cities, but they cannot enter an enemy city to "
-#~ "capture it, even if the city is undefended."
-#~ msgstr ""
-#~ "Søenheder bevæger sig på vandfelter og ind i byer ved siden af "
-#~ "vandfelter. De kan kun bygges i sådanne byer. Længden en søenhed kan "
-#~ "bevæge sig styres af flere vidundere (Fyrtårn, Magellans Ekspedition) og "
-#~ "af opdagelsen af Atomkraft. De fleste søenheder kan angribe enheder på "
-#~ "kysten og i kystbyer, men de kan ikke overtage en fjendtlig by, selv ikke "
-#~ "hvis den er uforsvaret."
-
-#~ msgid ""
-#~ "Air units can move on any tiles not occupied by an enemy unit or enemy "
-#~ "city.  The movement rate of air units is not affected by loss of "
-#~ "hitpoints.  Air units require fuel, which is obtained by ending their "
-#~ "turn in a friendly city, Airbase or Carrier (or a Submarine for missile "
-#~ "units).  The number of turns an air unit can last without fuel varies by "
-#~ "the unit type (see the individual units). Like sea units, air units are "
-#~ "unable to enter an empty enemy city to capture it.  When outside cities, "
-#~ "air units can only be attacked by Fighters (or Stealth Fighters).  Air "
-#~ "units cannot be used to explore villages; depending upon server options, "
-#~ "an overflown village may disband."
-#~ msgstr ""
-#~ "Flyenheder kan bevæge sig på alle felter som ikke er besat af en "
-#~ "fjendtlig enhed eller by. Længden en flyenhed kan bevæge sig påvirkes "
-#~ "ikke af reduktion af liv. Flyenheder skal påfyldes brændstof, som kan "
-#~ "gøres ved at afslutte runden i en venlig by, flybase eller hangarskib "
-#~ "(eller ubåd for missilenheder). Det antal runder en enhed kan holde sig "
-#~ "svævende uden brændstof afhænger af enhedtypen (se info om de "
-#~ "individuelle enheder). Ligesom søenheder kan flyenheder ikke overtage "
-#~ "tomme fjendtlige byer. Udenfor byer kan flyenheder kun angribes af "
-#~ "kampfly (eller Stealthfly). Flyenheder kan ikke blive brugt til at "
-#~ "udforske landsbyer, men hvis serveren er indstillet til det, kan "
-#~ "landsbyer som bliver overfløjet blive ødelagt."
-
-#~ msgid ""
-#~ "Like air units, Helicopters can move on any tile not occupied by an enemy "
-#~ "unit or enemy city, and their movement rate is not affected by loss of "
-#~ "hitpoints.  Helicopters do not require fuel, but they lose a small amount "
-#~ "of health for every turn not spent in a city or an Airbase, unless you "
-#~ "have the United Nations wonder.  Unlike other air units, Helicopters can "
-#~ "capture enemy cities."
-#~ msgstr ""
-#~ "Ligesom flyenheder kan helikoptere bevæge sig på alle felter, som ikke er "
-#~ "besat af en fjendtlig enhed eller by, og længden en helikopterenhed kan "
-#~ "bevæge sig påvirkes ikke af reduktion af liv. Helikoptere bruger ikke "
-#~ "brændstof, men de mister lidt liv for hver runde de ikke er i en by eller "
-#~ "flybase, med mindre du har vidunderet De Forenede Nationer. Til forskel "
-#~ "fra andre flyenheder kan helikoptere overtage fjendtlige byer."
-
-#~ msgid ""
-#~ "Depending upon server options, any set of unit types may reduce the "
-#~ "population of a City without City Walls by one point upon a successful "
-#~ "attack."
-#~ msgstr ""
-#~ "Afhængig af serveralternativerne kan alle enheder reducere en bys "
-#~ "indbyggertal i en by uden bymure med 1 ved et vellykket angreb."
-
-#~ msgid ""
-#~ "The following table shows the number of turns required for one unit of "
-#~ "Settlers or Workers to complete an activity. These numbers are reduced to "
-#~ "half (rounded up) for Engineers, and they can be reduced further by "
-#~ "stockpiling several units, doing teamwork."
-#~ msgstr ""
-#~ "Den følgende tabel viser antal runder det vil tage for en nybygger eller "
-#~ "arbjeder at fuldføre sin aktivitet. Disse tal bliver reduceret til "
-#~ "halvdelen (rundet op) for ingeniører, og de kan reduceres yderligere ved "
-#~ "at bruge flere nybyggere/ingeniører som samarbejder."
-
-#~ msgid ""
-#~ "Settlers are one of the key units in the game.  They can be used to found "
-#~ "new cities, irrigate land, build roads, railroads, fortresses and mines, "
-#~ "and clean up pollution and nuclear fallout.  Upkeep for Settlers is in "
-#~ "food as well as production, and a Settler can die if its supporting city "
-#~ "runs out of food.\n"
-#~ "\n"
-#~ "Settlers and Engineers may work together to decrease the amount of time "
-#~ "required for long projects.  If two or more Settlers and/or Engineers are "
-#~ "both working on the same task in the same tile, their efforts will be "
-#~ "added together each turn until the task is finished.  Be careful not to "
-#~ "dedicate too many workers to one task, though; excess effort can be "
-#~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
-#~ "enemy attacks."
-#~ msgstr ""
-#~ "Nybyggere er en af nøgleenhedene i spillet. De kan anvendes til at "
-#~ "grundlægge nye byer, bygge overrisling, veje, jernbaner, fæstninger, og "
-#~ "miner, og rense forurening og radioaktiv stråling. Udgifter til nybyggere "
-#~ "koster både mad og produktion, og en nybygger kan dø, hvis byen som "
-#~ "forsørger den løber tør for mad.\n"
-#~ "\n"
-#~ "Nybyggere og ingeniører kan arbejde sammen for at reducere tiden det "
-#~ "tager at fuldføre store projekter. Hvis to eller flere nybyggere og/eller "
-#~ "ingeniører arbejder på samme opgave på samme sted, lægges deres indsats "
-#~ "sammen hver runde til opgaven er færdig. Sæt ikke for mange nybyggere på "
-#~ "en opgave, for da kan indsatsen sløses bort, og en stor gruppe nybyggere "
-#~ "og eller ingeniører er meget udsat for angreb."
-
-#~ msgid ""
-#~ "A Diplomat is an official that carries your dispatches and is authorized "
-#~ "to deal with foreign dignitaries. He may also undertake various covert "
-#~ "operations with the intent of harming your opponents.\n"
-#~ "\n"
-#~ "If an enemy unit is alone on a tile, you may attempt to bribe it with "
-#~ "your diplomat. By paying a sum of gold the unit will immediately become "
-#~ "yours.\n"
-#~ "\n"
-#~ "The diplomat can also perform a number of actions in another player's "
-#~ "city:\n"
-#~ "- \"Investigate\" Reveal detailed information about the city.\n"
-#~ "- \"Establish Embassy\" Get permanent intelligence on the player.\n"
-#~ "- \"Sabotage\" Ruin any production in the city.\n"
-#~ "- \"Steal Technology\" Acquire an advance from the city's owner.\n"
-#~ "- \"Incite a Revolt\" Make a city your own by paying a sum of gold. Note "
-#~ "that you cannot incite a revolt in a capital city.\n"
-#~ "\n"
-#~ "In some game strategies, hordes of Diplomats can be used to wreak havoc "
-#~ "on the enemy.  Little wonder that Diplomats are often viewed with "
-#~ "suspicion and fear!"
-#~ msgstr ""
-#~ "En diplomat er en offentlig repræsentant som overbringer dine beskeder og "
-#~ "har mandat til at forhandle med fremmede magter. Han kan også udføre "
-#~ "forskellige hemmelige missioner med det formål at skade dine "
-#~ "modstandere.\n"
-#~ "\n"
-#~ "Hvis en fjendtlig enhed er alene på et felt, kan du forsøge at bestikke "
-#~ "den med din diplomat. Ved betalig af et beløb i guld bliver enheden "
-#~ "øjeblikkelig din.\n"
-#~ "\n"
-#~ "Diplomaten kan også udføre en række handlinger i en anden spillers by:\n"
-#~ "- \"Undersøge\" Afslør detaljerede informationer vedrørende byen.\n"
-#~ "- \"Etablere ambassade\" Få løbende efterretninger om spilleren.\n"
-#~ "- \"Sabotage\" Ødelæg produktionen i en by.\n"
-#~ "- \"Stjæl teknologi\" Stjæl et teknologisk fremskridt fra byens ejer.\n"
-#~ "- \"Anspor et oprør\" Gør byen til din egen ved at betale en sum penge. "
-#~ "Bemærk at du ikke kan anspore et oprør i en hovedstad.\n"
-#~ "\n"
-#~ "I visse spilstrategier kan horder af diplomater bruges til at overtage "
-#~ "mange byer på meget kort tid.  Ikke mærkeligt at diplomater ofte bliver "
-#~ "set på med mistænksomhed og frygt!"
-
-#~ msgid ""
-#~ "A Spy is more skilled in the arts of espionage than her Diplomat "
-#~ "predecessor.\n"
-#~ "\n"
-#~ "She can perform all the functions of the Diplomat, but with a higher rate "
-#~ "of success. Refer to the Diplomat entry for an outline.\n"
-#~ "\n"
-#~ "She can also be used to: poison the water supply of an enemy city "
-#~ "(reducing the population); steal specific technology; and sabotage "
-#~ "predetermined city targets (note: sabotaging improvements in a capital or "
-#~ "sabotaging City Walls increases the risks of capture). A Spy can also "
-#~ "infiltrate a city and ferment a revolt.\n"
-#~ "\n"
-#~ "A Spy can also be of aid on the battlefield - sabotaging enemy units as "
-#~ "well as bribing them to change allegiance."
-#~ msgstr ""
-#~ "En spion er professionel og er bedre til at drive spionage end sin "
-#~ "forgænger, diplomaten.\n"
-#~ "\n"
-#~ "Spionen kan udføre alle de funktioner som diplomaten også kan, men med en "
-#~ "højere succesrate. Se diplomatartiklen for en oversigt.\n"
-#~ "\n"
-#~ "Spionen kan også bruges til: forgifte vandforsyningen for en fjendtlig by "
-#~ "(som mindsker indbyggertallet); stjæle teknologier; sabotere mål i byen "
-#~ "(bemærk: sabotage på byforbedringer i hovedstaden eller at sabotere "
-#~ "bymure øger chancen for at blive opdaget). En spion kan også infiltrere "
-#~ "en by og anspore et oprør.\n"
-#~ "\n"
-#~ "En spion kan også hjælpe til på slagmarken - sabotere fjendtlige enheder "
-#~ "såvel som bestikke dem til at skifte lederskab."
-
-#~ msgid ""
-#~ "Settlers are one of the key units in the game.  They can be used to found "
-#~ "new cities, irrigate land, build roads, railroads, fortresses, airbases "
-#~ "and mines, and clean up pollution and nuclear fallout.  Upkeep for "
-#~ "Settlers is in food as well as production, and a Settler can die if its "
-#~ "supporting city runs out of food.\n"
-#~ "\n"
-#~ "Settlers and Engineers may work together to decrease the amount of time "
-#~ "required for long projects.  If two or more Settlers and/or Engineers are "
-#~ "both working on the same task in the same tile, their efforts will be "
-#~ "added together each turn until the task is finished.  Be careful not to "
-#~ "dedicate too many workers to one task, though; excess effort can be "
-#~ "wasted, and a group of Settlers and/or Engineers is highly vulnerable to "
-#~ "enemy attacks."
-#~ msgstr ""
-#~ "Nybyggere er en af nøgleenhedene i spillet. De kan anvendes til at "
-#~ "grundlægge nye byer, bygge overrisling, veje, jernbaner, fæstninger, "
-#~ "flybaser og miner, og rense forurening og radioaktiv stråling. Udgifter "
-#~ "til nybyggere koster både mad og produktion, og en nybygger kan dø, hvis "
-#~ "byen som forsørger den løber tør for mad.\n"
-#~ "\n"
-#~ "Nybyggere og ingeniører kan arbejde sammen for at reducere tiden det "
-#~ "tager at fuldføre store projekter. Hvis to eller flere nybyggere og/eller "
-#~ "ingeniører arbejder på samme opgave på samme sted, lægges deres indsats "
-#~ "sammen hver runde til opgaven er færdig. Sæt ikke for mange nybyggere på "
-#~ "en opgave, for da kan indsatsen sløses bort, og en stor gruppe nybyggere/"
-#~ "ingeniører er meget udsat for angreb."
-
-#~ msgid ""
-#~ "Settlers are one of the key units in the game.  They can be used to found "
-#~ "new cities, irrigate land, build roads, railroads, fortresses and mines, "
-#~ "and clean up pollution and nuclear fallout.  Upkeep for Settlers is in "
-#~ "food as well as production, and a Settler can die if its supporting city "
-#~ "runs out of food.\n"
-#~ "\n"
-#~ "Settlers may work together to decrease the amount of time required for "
-#~ "long projects.  If two or more Settlers are both working on the same task "
-#~ "in the same tile, their efforts will be added together each turn until "
-#~ "the task is finished.  Be careful not to dedicate too many workers to one "
-#~ "task, though; excess effort can be wasted, and a group of Settlers is "
-#~ "highly vulnerable to enemy attacks."
-#~ msgstr ""
-#~ "Nybyggere er en af nøgleenhedene i spillet. De kan anvendes til at "
-#~ "grundlægge nye byer, bygge overrisling, veje, jernbaner, fæstninger, "
-#~ "flybaser og miner, og rense forurening og radioaktiv stråling. Udgifter "
-#~ "til nybyggere koster både mad og skjold, og en nybygger kan dø hvis byen "
-#~ "som forsørger den løber tør for mad.\n"
-#~ "\n"
-#~ "Nybyggere og ingeniører kan arbejde sammen for at reducere tiden det "
-#~ "tager at fuldføre store projekter. Hvis to eller flere nybyggere og/eller "
-#~ "ingeniører arbejder på samme opgave på samme sted, lægges deres indsats "
-#~ "sammen hver runde til opgaven er færdig. Sæt ikke for mange nybyggere på "
-#~ "en opgave, for da kan indsatsen sløses bort, og en stor gruppe nybyggere/"
-#~ "ingeniører er meget udsat for angreb."
