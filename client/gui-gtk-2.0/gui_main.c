@@ -611,7 +611,8 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
     break;
   };
 
-  if (GTK_WIDGET_HAS_FOCUS(map_canvas)) {
+  if (0 == gtk_notebook_get_current_page(GTK_NOTEBOOK(top_notebook))) {
+    /* 0 means the map view is focused. */
     return key_press_map_canvas(w, ev, data);
   }
 
