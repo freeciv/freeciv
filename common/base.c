@@ -67,6 +67,19 @@ bool is_native_base_to_utype(const struct base_type *pbase,
 }
 
 /****************************************************************************
+  Is tile native to base?
+****************************************************************************/
+bool is_native_tile_to_base(const struct base_type *pbase,
+                            const struct tile *ptile)
+{
+  /* FIXME: Bases cannot be built in a city currently?  It should be a
+   * a negative requirement in the ruleset. */
+  return (!tile_city(ptile)
+          && are_reqs_active(NULL, NULL, NULL, ptile,
+                             NULL, NULL, NULL, &pbase->reqs, RPT_POSSIBLE));
+}
+
+/****************************************************************************
   Base provides base flag for unit? Checks if base provides flag and if
   base is native to unit.
 ****************************************************************************/

@@ -473,6 +473,14 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
     tile_clear_special(ptile, S_IRRIGATION);
     tile_clear_special(ptile, S_FARMLAND);
   }
+
+  /* Clear unsupported bases. */
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)
+        && !is_native_tile_to_base(pbase, ptile)) {
+      tile_remove_base(ptile, pbase);
+    }
+  } base_type_iterate_end;
 }
 
 /****************************************************************************

@@ -81,6 +81,8 @@ bool is_native_base_to_uclass(const struct base_type *pbase,
                               const struct unit_class *pclass);
 bool is_native_base_to_utype(const struct base_type *pbase,
                              const struct unit_type *punittype);
+bool is_native_tile_to_base(const struct base_type *pbase,
+                            const struct tile *ptile);
 
 enum base_flag_id base_flag_from_str(const char *s);
 
