@@ -937,6 +937,10 @@ name           = _("Ruins")
 graphic        = "base.ruins"
 graphic_alt    = "-"
 activity_gfx   = "unit.fortress"
+reqs           =
+    { "type", "name", "range"
+      "TerrainClass", "Land", "Local"
+    }
 buildable      = 0
 build_time     = 0
 gui_type       = "Other"

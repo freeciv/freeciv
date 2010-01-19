@@ -285,6 +285,11 @@ bool contains_special(bv_special all,
 		      enum tile_special_type to_test_for);
 bool contains_any_specials(bv_special all);
 
+bool is_native_terrain_to_special(enum tile_special_type special,
+                                  const struct terrain *pterrain);
+bool is_native_tile_to_special(enum tile_special_type special,
+                               const struct tile *ptile);
+
 /* Special helper functions */
 const char *get_infrastructure_text(bv_special pset, bv_bases bases);
 enum tile_special_type get_infrastructure_prereq(enum tile_special_type spe);

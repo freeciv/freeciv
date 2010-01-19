@@ -311,13 +311,9 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
   Check for resource in terrain resources list.
 ****************************************************************************/
 bool terrain_has_resource(const struct terrain *pterrain,
-			  const struct resource *presource)
+                          const struct resource *presource)
 {
   struct resource **r = pterrain->resources;
-
-  if (game.info.is_edit_mode) {
-    return TRUE;
-  }
 
   while (NULL != *r) {
     if (*r == presource) {
@@ -631,6 +627,56 @@ bool contains_special(bv_special set,
 bool contains_any_specials(bv_special set)
 {
   return BV_ISSET_ANY(set);
+}
+
+/****************************************************************************
+  Returns TRUE iff the special can be supported by the terrain type.
+****************************************************************************/
+bool is_native_terrain_to_special(enum tile_special_type special,
+                                  const struct terrain *pterrain)
+{
+  /* FIXME: The special definition should be moved into the ruleset. */
+  switch (special) {
+  case S_ROAD:
+    return (terrain_control.may_road
+            && 0 != pterrain->road_time);
+  case S_IRRIGATION:
+    return (terrain_control.may_irrigate
+            && pterrain == pterrain->irrigation_result);
+  case S_RAILROAD:
+    return (terrain_control.may_road
+            && 0 != pterrain->road_time);
+  case S_MINE:
+    return (terrain_control.may_mine
+            && pterrain == pterrain->mining_result);
+  case S_POLLUTION:
+    return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
+  case S_HUT:
+    return TRUE;
+  case S_RIVER:
+    return terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER);
+  case S_FARMLAND:
+    return (terrain_control.may_irrigate
+            && pterrain == pterrain->irrigation_result);
+  case S_FALLOUT:
+    return TRUE;
+  case S_OLD_FORTRESS:
+  case S_OLD_AIRBASE:
+  case S_LAST:
+    break;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns TRUE iff the special can be supported by the terrain type of the
+  tile.
+****************************************************************************/
+bool is_native_tile_to_special(enum tile_special_type special,
+                               const struct tile *ptile)
+{
+  return is_native_terrain_to_special(special, tile_terrain(ptile));
 }
 
 /****************************************************************************

@@ -725,13 +725,19 @@ static int count_buildings_in_range(const struct player *target_player,
   Is there a source tech within range of the target?
 ****************************************************************************/
 static bool is_tech_in_range(const struct player *target_player,
-			     enum req_range range,
-			     Tech_type_id tech)
+                             enum req_range range,
+                             Tech_type_id tech,
+                             enum req_problem_type prob_type)
 {
   switch (range) {
   case REQ_RANGE_PLAYER:
-    return (target_player
-	    && player_invention_state(target_player, tech) == TECH_KNOWN);
+    /* If target_player is NULL and prob_type RPT_POSSIBLE, then it will
+     * consider the advance is in range. */
+    if (NULL != target_player) {
+      return TECH_KNOWN == player_invention_state(target_player, tech);
+    } else {
+      return RPT_POSSIBLE == prob_type;
+    }
   case REQ_RANGE_WORLD:
     return game.info.global_advances[tech];
   case REQ_RANGE_LOCAL:
@@ -1020,7 +1026,8 @@ bool is_req_active(const struct player *target_player,
   case VUT_ADVANCE:
     /* The requirement is filled if the player owns the tech. */
     eval = is_tech_in_range(target_player, req->range,
-			    advance_number(req->source.value.advance));
+                            advance_number(req->source.value.advance),
+                            prob_type);
     break;
   case VUT_GOVERNMENT:
     /* The requirement is filled if the player is using the government. */

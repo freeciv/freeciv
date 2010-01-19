@@ -179,6 +179,119 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 }
 
 /****************************************************************************
+  Base function to edit the terrain property of a tile. Returns TRUE if
+  the terrain has changed.
+****************************************************************************/
+static bool edit_tile_terrain_handling(struct tile *ptile,
+                                       struct terrain *pterrain,
+                                       bool send_tile_info)
+{
+  struct terrain *old_terrain = tile_terrain(ptile);
+
+  if (old_terrain == pterrain) {
+    return FALSE;
+  }
+
+  tile_change_terrain(ptile, pterrain);
+  if (need_to_fix_terrain_change(old_terrain, pterrain)) {
+    hash_insert(unfixed_tile_table, ptile, ptile);
+  }
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Base function to edit the resource property of a tile. Returns TRUE if
+  the resource has changed.
+****************************************************************************/
+static bool edit_tile_resource_handling(struct tile *ptile,
+                                        struct resource *presource,
+                                        bool send_tile_info)
+{
+  if (presource == tile_resource(ptile)) {
+    return FALSE;
+  }
+
+  if (NULL != presource
+      && !terrain_has_resource(tile_terrain(ptile), presource)) {
+    return FALSE;
+  }
+
+  tile_set_resource(ptile, presource);
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Base function to edit the special property of a tile. Returns TRUE if
+  the special state has changed.
+****************************************************************************/
+static bool edit_tile_special_handling(struct tile *ptile,
+                                       enum tile_special_type special,
+                                       bool remove_mode,
+                                       bool send_tile_info)
+{
+  if (remove_mode) {
+    if (!tile_has_special(ptile, special)) {
+      return FALSE;
+    }
+
+    tile_remove_special(ptile, special);
+  } else {
+    if (tile_has_special(ptile, special)
+        || !is_native_tile_to_special(special, ptile)) {
+      return FALSE;
+    }
+
+    tile_add_special(ptile, special);
+  }
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Base function to edit the base property of a tile. Returns TRUE if
+  the base state has changed.
+****************************************************************************/
+static bool edit_tile_base_handling(struct tile *ptile,
+                                    struct base_type *pbase,
+                                    bool remove_mode, bool send_tile_info)
+{
+  if (remove_mode) {
+    if (!tile_has_base(ptile, pbase)) {
+      return FALSE;
+    }
+
+    tile_remove_base(ptile, pbase);
+  } else {
+    if (tile_has_base(ptile, pbase)
+        || !is_native_tile_to_base(pbase, ptile)) {
+      return FALSE;
+    }
+
+    tile_add_base(ptile, pbase);
+  }
+
+  if (send_tile_info) {
+    update_tile_knowledge(ptile);
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
   Handles a client request to change the terrain of the tile at the given
   x, y coordinates. The 'size' parameter indicates that all tiles in a
   square of "radius" 'size' should be affected. So size=1 corresponds to
@@ -187,7 +300,6 @@ void handle_edit_mode(struct connection *pc, bool is_edit_mode)
 void handle_edit_tile_terrain(struct connection *pc, int tile,
                               Terrain_type_id terrain, int size)
 {
-  struct terrain *old_terrain;
   struct terrain *pterrain;
   struct tile *ptile_center;
 
@@ -211,16 +323,7 @@ void handle_edit_tile_terrain(struct connection *pc, int tile,
 
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    old_terrain = tile_terrain(ptile);
-    if (old_terrain == pterrain) {
-      continue;
-    }
-    tile_change_terrain(ptile, pterrain);
-
-    if (need_to_fix_terrain_change(old_terrain, pterrain)) {
-      hash_insert(unfixed_tile_table, ptile, ptile);
-    }
-    update_tile_knowledge(ptile);
+    edit_tile_terrain_handling(ptile, pterrain, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -245,11 +348,7 @@ void handle_edit_tile_resource(struct connection *pc, int tile,
 
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    if (presource == tile_resource(ptile)) {
-      continue;
-    }
-    tile_set_resource(ptile, presource);
-    update_tile_knowledge(ptile);
+    edit_tile_resource_handling(ptile, presource, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -264,7 +363,6 @@ void handle_edit_tile_special(struct connection *pc, int tile,
                               bool remove, int size)
 {
   struct tile *ptile_center;
-  bool changed = FALSE;
 
   ptile_center = index_to_tile(tile);
   if (!ptile_center) {
@@ -282,22 +380,10 @@ void handle_edit_tile_special(struct connection *pc, int tile,
                 tile_link(ptile_center), special);
     return;
   }
-  
+
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    if (remove) {
-      if ((changed = tile_has_special(ptile, special))) {
-        tile_remove_special(ptile, special);
-      }
-    } else {
-      if ((changed = !tile_has_special(ptile, special))) {
-        tile_add_special(ptile, special);
-      }
-    }
-
-    if (changed) {
-      update_tile_knowledge(ptile);
-    }
+    edit_tile_special_handling(ptile, special, remove, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -310,7 +396,6 @@ void handle_edit_tile_base(struct connection *pc, int tile,
 {
   struct tile *ptile_center;
   struct base_type *pbase;
-  bool changed = FALSE;
 
   ptile_center = index_to_tile(tile);
   if (!ptile_center) {
@@ -330,22 +415,10 @@ void handle_edit_tile_base(struct connection *pc, int tile,
                 tile_link(ptile_center), id);
     return;
   }
-  
+
   conn_list_do_buffer(game.est_connections);
   square_iterate(ptile_center, size - 1, ptile) {
-    if (remove) {
-      if ((changed = tile_has_base(ptile, pbase))) {
-        tile_remove_base(ptile, pbase);
-      }
-    } else {
-      if ((changed = !tile_has_base(ptile, pbase))) {
-        tile_add_base(ptile, pbase);
-      }
-    }
-
-    if (changed) {
-      update_tile_knowledge(ptile);
-    }
+    edit_tile_base_handling(ptile, pbase, remove, TRUE);
   } square_iterate_end;
   conn_list_do_unbuffer(game.est_connections);
 }
@@ -370,11 +443,8 @@ void handle_edit_tile(struct connection *pc,
   /* Handle changes in specials. */
   if (!BV_ARE_EQUAL(packet->specials, ptile->special)) {
     tile_special_type_iterate(spe) {
-      if (BV_ISSET(packet->specials, spe)) {
-        tile_add_special(ptile, spe);
-      } else {
-        tile_remove_special(ptile, spe);
-      }
+      edit_tile_special_handling(ptile, spe,
+                                 !BV_ISSET(packet->specials, spe), FALSE);
     } tile_special_type_iterate_end;
     changed = TRUE;
   }
@@ -382,11 +452,9 @@ void handle_edit_tile(struct connection *pc,
   /* Handle changes in bases. */
   if (!(BV_ARE_EQUAL(packet->bases, ptile->bases))) {
     base_type_iterate(pbase) {
-      if (BV_ISSET(packet->bases, base_number(pbase))) {
-        tile_add_base(ptile, pbase);
-      } else {
-        tile_remove_base(ptile, pbase);
-      }
+      edit_tile_base_handling(ptile, pbase,
+                              !BV_ISSET(packet->bases, base_number(pbase)),
+                              FALSE);
     } base_type_iterate_end;
     changed = TRUE;
   }
