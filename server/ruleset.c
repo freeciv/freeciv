@@ -2594,9 +2594,9 @@ static void load_ruleset_nations(struct section_file *file)
     /* Flags */
 
     sz_strlcpy(pl->flag_graphic_str,
-	       secfile_lookup_str(file, "%s.flag", sec[i]));
+               secfile_lookup_str_default(file, "-", "%s.flag", sec[i]));
     sz_strlcpy(pl->flag_graphic_alt,
-	       secfile_lookup_str(file, "%s.flag_alt", sec[i]));
+               secfile_lookup_str_default(file, "-", "%s.flag_alt", sec[i]));
 
     /* Ruler titles */
 
