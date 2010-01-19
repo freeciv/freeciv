@@ -2664,12 +2664,13 @@ static void load_ruleset_nations(struct section_file *file)
     /* Flags */
 
     sz_strlcpy(pl->flag_graphic_str,
-               secfile_lookup_str(file, "%s.flag", sec_name));
+               secfile_lookup_str_default(file, "-", "%s.flag", sec_name));
     sz_strlcpy(pl->flag_graphic_alt,
-               secfile_lookup_str(file, "%s.flag_alt", sec_name));
+               secfile_lookup_str_default(file, "-",
+                                          "%s.flag_alt", sec_name));
 
     /* Ruler titles */
-
+    
     j = -1;
     while ((govern = secfile_lookup_str_default(file, NULL,
                                                 "%s.ruler_titles%d.government",
