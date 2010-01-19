@@ -1739,6 +1739,19 @@ void request_toggle_map_borders(void)
 }
 
 /**************************************************************************
+  Toggle display of city full bar.
+**************************************************************************/
+void request_toggle_city_full_bar(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_full_citybar ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
  Toggle display of city names
 **************************************************************************/
 void request_toggle_city_names(void)
@@ -1930,6 +1943,32 @@ void request_toggle_units(void)
   }
 
   draw_units ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+  Toggle display of unit solid background.
+**************************************************************************/
+void request_toggle_unit_solid_bg(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  solid_color_behind_units ^= 1;
+  update_map_canvas_visible();
+}
+
+/**************************************************************************
+  Toggle display of unit shields.
+**************************************************************************/
+void request_toggle_unit_shields(void)
+{
+  if (!can_client_change_view()) {
+    return;
+  }
+
+  draw_unit_shields ^= 1;
   update_map_canvas_visible();
 }
 
@@ -2883,6 +2922,14 @@ void key_map_borders_toggle(void)
 }
 
 /**************************************************************************
+  Toggle the "Draw the citybar" option.
+**************************************************************************/
+void key_city_full_bar_toggle(void)
+{
+  request_toggle_city_full_bar();
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void key_city_names_toggle(void)
@@ -3003,6 +3050,22 @@ void key_cities_toggle(void)
 void key_units_toggle(void)
 {
   request_toggle_units();
+}
+
+/**************************************************************************
+  Toggle the "Solid unit background color" option.
+**************************************************************************/
+void key_unit_solid_bg_toggle(void)
+{
+  request_toggle_unit_solid_bg();
+}
+
+/**************************************************************************
+  Toggle the "Draw shield graphics for units" option.
+**************************************************************************/
+void key_unit_shields_toggle(void)
+{
+  request_toggle_unit_shields();
 }
 
 /**************************************************************************

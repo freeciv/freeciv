@@ -55,7 +55,8 @@
 #include "dialogs_g.h"
 #include "graphics_g.h"
 #include "gui_main_g.h"
-#include "mapview_g.h"		/* for update_map_canvas_visible */
+#include "mapview_g.h"          /* for update_map_canvas_visible */
+#include "menu_g.h"
 #include "themes_g.h"
 
 /* client */
@@ -628,6 +629,14 @@ int tileset_num_city_colors(const struct tileset *t)
   return t->sprites.city.worked_tile_overlay.size;
 }
 
+/****************************************************************************
+  Return TRUE if the client will use the code to generate the fog.
+****************************************************************************/
+bool tileset_use_hard_coded_fog(const struct tileset *t)
+{
+  return FOG_AUTO == t->fogstyle;
+}
+
 /**************************************************************************
   Initialize.
 **************************************************************************/
@@ -1034,6 +1043,7 @@ void tilespec_reread_callback(struct client_option *poption)
 
   log_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
   tilespec_reread(tileset_name);
+  menus_init();
 }
 
 /**************************************************************************

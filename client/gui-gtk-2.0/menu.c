@@ -35,6 +35,7 @@
 #include "clinet.h"
 #include "connectdlg_common.h"
 #include "control.h"
+#include "mapview_common.h"
 #include "options.h"
 #include "tilespec.h"
 
@@ -76,6 +77,12 @@ static void menus_set_active(GtkActionGroup *group,
 static void menus_set_sensitive(GtkActionGroup *group,
                                 const gchar *action_name,
                                 gboolean is_sensitive);
+static void menus_set_visible(GtkActionGroup *group,
+                              const gchar *action_name,
+                              gboolean is_visible,
+                              gboolean is_sensitive);
+
+static void view_menu_update_sensitivity(void);
 
 /****************************************************************
   Action "CLEAR_CHAT_LOGS" callback.
@@ -488,22 +495,25 @@ static void show_national_borders_callback(GtkToggleAction *action,
 }
 
 /****************************************************************
+  Action "SHOW_CITY_FULL_BAR" callback.
+*****************************************************************/
+static void show_city_full_bar_callback(GtkToggleAction *action,
+                                        gpointer data)
+{
+  if (draw_full_citybar ^ gtk_toggle_action_get_active(action)) {
+    key_city_full_bar_toggle();
+    view_menu_update_sensitivity();
+  }
+}
+
+/****************************************************************
   Action "SHOW_CITY_NAMES" callback.
 *****************************************************************/
 static void show_city_names_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_city_names ^ gtk_toggle_action_get_active(action)) {
     key_city_names_toggle();
-
-    if (!draw_full_citybar) {
-      /* The "full" city bar (i.e. the new way of drawing the
-       * city name), can draw the city growth even without drawing
-       * the city name. But the old method cannot. */
-      menus_set_sensitive(get_safe_group(), "SHOW_CITY_GROWTH",
-                          draw_city_names);
-      menus_set_sensitive(get_safe_group(), "SHOW_CITY_TRADE_ROUTES",
-                          draw_city_names);
-    }
+    view_menu_update_sensitivity();
   }
 }
 
@@ -525,8 +535,7 @@ static void show_city_productions_callback(GtkToggleAction *action,
 {
   if (draw_city_productions ^ gtk_toggle_action_get_active(action)) {
     key_city_productions_toggle();
-    menus_set_sensitive(get_safe_group(), "SHOW_CITY_BUY_COST",
-                        draw_city_productions);
+    view_menu_update_sensitivity();
   }
 }
 
@@ -559,7 +568,7 @@ static void show_terrain_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_terrain ^ gtk_toggle_action_get_active(action)) {
     key_terrain_toggle();
-    menus_set_sensitive(get_safe_group(), "SHOW_COASTLINE", !draw_terrain);
+    view_menu_update_sensitivity();
   }
 }
 
@@ -650,7 +659,29 @@ static void show_units_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_units ^ gtk_toggle_action_get_active(action)) {
     key_units_toggle();
-    menus_set_sensitive(get_safe_group(), "SHOW_FOCUS_UNIT", !draw_units);
+    view_menu_update_sensitivity();
+  }
+}
+
+/****************************************************************
+  Action "SHOW_UNIT_SOLID_BG" callback.
+*****************************************************************/
+static void show_unit_solid_bg_callback(GtkToggleAction *action,
+                                        gpointer data)
+{
+  if (solid_color_behind_units ^ gtk_toggle_action_get_active(action)) {
+    key_unit_solid_bg_toggle();
+  }
+}
+
+/****************************************************************
+  Action "SHOW_UNIT_SHIELDS" callback.
+*****************************************************************/
+static void show_unit_shields_callback(GtkToggleAction *action,
+                                       gpointer data)
+{
+  if (draw_unit_shields ^ gtk_toggle_action_get_active(action)) {
+    key_unit_shields_toggle();
   }
 }
 
@@ -661,6 +692,7 @@ static void show_focus_unit_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_focus_unit ^ gtk_toggle_action_get_active(action)) {
     key_focus_unit_toggle();
+    view_menu_update_sensitivity();
   }
 }
 
@@ -671,6 +703,19 @@ static void show_fog_of_war_callback(GtkToggleAction *action, gpointer data)
 {
   if (draw_fog_of_war ^ gtk_toggle_action_get_active(action)) {
     key_fog_of_war_toggle();
+    view_menu_update_sensitivity();
+  }
+}
+
+/****************************************************************
+  Action "SHOW_BETTER_FOG_OF_WAR" callback.
+*****************************************************************/
+static void show_better_fog_of_war_callback(GtkToggleAction *action,
+                                            gpointer data)
+{
+  if (gui_gtk2_better_fog ^ gtk_toggle_action_get_active(action)) {
+    gui_gtk2_better_fog ^= 1;
+    update_map_canvas_visible();
   }
 }
 
@@ -1274,6 +1319,8 @@ static GtkActionGroup *get_safe_group(void)
       {"SHOW_NATIONAL_BORDERS", NULL, _("National _Borders"),
        "<Control>b", NULL,
        G_CALLBACK(show_national_borders_callback), FALSE},
+      {"SHOW_CITY_FULL_BAR", NULL, _("City Full Bar"),
+       NULL, NULL, G_CALLBACK(show_city_full_bar_callback), FALSE},
       {"SHOW_CITY_NAMES", NULL, _("City _Names"),
        "<Control>n", NULL, G_CALLBACK(show_city_names_callback), FALSE},
       {"SHOW_CITY_GROWTH", NULL, _("City G_rowth"),
@@ -1309,10 +1356,16 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(show_cities_callback), FALSE},
       {"SHOW_UNITS", NULL, _("_Units"),
        NULL, NULL, G_CALLBACK(show_units_callback), FALSE},
+      {"SHOW_UNIT_SOLID_BG", NULL, _("Unit Solid Background"),
+       NULL, NULL, G_CALLBACK(show_unit_solid_bg_callback), FALSE},
+      {"SHOW_UNIT_SHIELDS", NULL, _("Unit shields"),
+       NULL, NULL, G_CALLBACK(show_unit_shields_callback), FALSE},
       {"SHOW_FOCUS_UNIT", NULL, _("Focu_s Unit"),
        NULL, NULL, G_CALLBACK(show_focus_unit_callback), FALSE},
       {"SHOW_FOG_OF_WAR", NULL, _("Fog of _War"),
        NULL, NULL, G_CALLBACK(show_fog_of_war_callback), FALSE},
+      {"SHOW_BETTER_FOG_OF_WAR", NULL, _("Better Fog of War"),
+       NULL, NULL, G_CALLBACK(show_better_fog_of_war_callback), FALSE},
 
       {"FULL_SCREEN", NULL, _("_Full Screen"),
        "<Alt>Return", NULL, G_CALLBACK(full_screen_callback), FALSE}
@@ -1611,15 +1664,7 @@ GtkWidget *setup_menus(GtkWidget *window)
   }
 
 #ifndef DEBUG
-  /* Some actions are disabled when the client was not configured with
-   * --enable-debug. */
-  GtkAction *action = gtk_action_group_get_action(get_safe_group(),
-                                                  "RELOAD_TILESET");
-
-  if (action) {
-    gtk_action_set_sensitive(action, FALSE);
-    gtk_action_set_visible(action, FALSE);
-  }
+  menus_set_visible(get_safe_group(), "RELOAD_TILESET", FALSE, FALSE);
 #endif /* DEBUG */
 
   return menubar;
@@ -1671,6 +1716,27 @@ static void menus_set_sensitive(GtkActionGroup *group,
 }
 
 /****************************************************************
+  Sets an action visible.
+*****************************************************************/
+static void menus_set_visible(GtkActionGroup *group,
+                              const gchar *action_name,
+                              gboolean is_visible,
+                              gboolean is_sensitive)
+{
+  GtkAction *action = gtk_action_group_get_action(group, action_name);
+
+  if (!action) {
+    log_error("Can't set visible for non-existent "
+              "action \"%s\" in group \"%s\".",
+              action_name, gtk_action_group_get_name(group));
+    return;
+  }
+
+  gtk_action_set_visible(action, is_visible);
+  gtk_action_set_sensitive(action, is_sensitive);
+}
+
+/****************************************************************
   Renames an action.
 *****************************************************************/
 static void menus_rename(GtkActionGroup *group,
@@ -1711,6 +1777,36 @@ static GtkMenu *find_action_menu(GtkActionGroup *group,
   }
 
   return NULL;
+}
+
+/****************************************************************
+  Update the sensitivity of the items in the view menu.
+*****************************************************************/
+static void view_menu_update_sensitivity(void)
+{
+  GtkActionGroup *safe_group = get_safe_group();
+
+  /* The "full" city bar (i.e. the new way of drawing the
+   * city name), can draw the city growth even without drawing
+   * the city name. But the old method cannot. */
+  if (draw_full_citybar) {
+    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES", TRUE);
+  } else {
+    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", draw_city_names);
+    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES",
+                        draw_city_names);
+  }
+
+  menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
+                      draw_city_productions);
+  menus_set_sensitive(safe_group, "SHOW_COASTLINE", !draw_terrain);
+  menus_set_sensitive(safe_group, "SHOW_UNIT_SOLID_BG",
+                      draw_units || draw_focus_unit);
+  menus_set_sensitive(safe_group, "SHOW_UNIT_SHIELDS",
+                      draw_units || draw_focus_unit);
+  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !draw_units);
+  menus_set_sensitive(safe_group, "SHOW_BETTER_FOG_OF_WAR", draw_fog_of_war);
 }
 
 /****************************************************************
@@ -2132,33 +2228,18 @@ static gboolean menus_init_callback(gpointer data)
   menus_set_active(safe_group, "SHOW_CITY_OUTLINES", draw_city_outlines);
   menus_set_active(safe_group, "SHOW_CITY_OUTPUT", draw_city_output);
   menus_set_active(safe_group, "SHOW_MAP_GRID", draw_map_grid);
+  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
   menus_set_sensitive(safe_group, "SHOW_NATIONAL_BORDERS",
                       game.info.borders > 0);
-  menus_set_active(safe_group, "SHOW_NATIONAL_BORDERS", draw_borders);
+  menus_set_active(safe_group, "SHOW_CITY_FULL_BAR", draw_full_citybar);
   menus_set_active(safe_group, "SHOW_CITY_NAMES", draw_city_names);
-
-  /* The "full" city bar (i.e. the new way of drawing the
-   * city name), can draw the city growth even without drawing
-   * the city name. But the old method cannot. */
-  if (draw_full_citybar) {
-    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", TRUE);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES", TRUE);
-  } else {
-    menus_set_sensitive(safe_group, "SHOW_CITY_GROWTH", draw_city_names);
-    menus_set_sensitive(safe_group, "SHOW_CITY_TRADE_ROUTES",
-                        draw_city_names);
-  }
-
   menus_set_active(safe_group, "SHOW_CITY_GROWTH", draw_city_growth);
   menus_set_active(safe_group, "SHOW_CITY_PRODUCTIONS",
                    draw_city_productions);
-  menus_set_sensitive(safe_group, "SHOW_CITY_BUY_COST",
-                      draw_city_productions);
   menus_set_active(safe_group, "SHOW_CITY_BUY_COST", draw_city_buycost);
   menus_set_active(safe_group, "SHOW_CITY_TRADE_ROUTES",
                    draw_city_trade_routes);
   menus_set_active(safe_group, "SHOW_TERRAIN", draw_terrain);
-  menus_set_sensitive(safe_group, "SHOW_COASTLINE", !draw_terrain);
   menus_set_active(safe_group, "SHOW_COASTLINE", draw_coastline);
   menus_set_active(safe_group, "SHOW_ROADS_RAILS", draw_roads_rails);
   menus_set_active(safe_group, "SHOW_IRRIGATION", draw_irrigation);
@@ -2169,9 +2250,20 @@ static gboolean menus_init_callback(gpointer data)
   menus_set_active(safe_group, "SHOW_POLLUTION", draw_pollution);
   menus_set_active(safe_group, "SHOW_CITIES", draw_cities);
   menus_set_active(safe_group, "SHOW_UNITS", draw_units);
-  menus_set_sensitive(safe_group, "SHOW_FOCUS_UNIT", !draw_units);
+  menus_set_active(safe_group, "SHOW_UNIT_SOLID_BG",
+                   solid_color_behind_units);
+  menus_set_active(safe_group, "SHOW_UNIT_SHIELDS", draw_unit_shields);
   menus_set_active(safe_group, "SHOW_FOCUS_UNIT", draw_focus_unit);
   menus_set_active(safe_group, "SHOW_FOG_OF_WAR", draw_fog_of_war);
+  if (tileset_use_hard_coded_fog(tileset)) {
+    menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", TRUE, TRUE);
+    menus_set_active(safe_group, "SHOW_BETTER_FOG_OF_WAR",
+                     gui_gtk2_better_fog);
+  } else {
+    menus_set_visible(safe_group, "SHOW_BETTER_FOG_OF_WAR", FALSE, FALSE);
+  }
+
+  view_menu_update_sensitivity();
 
   menus_set_active(safe_group, "FULL_SCREEN", fullscreen_mode);
 
