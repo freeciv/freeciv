@@ -35,7 +35,7 @@ enum log_level {
 typedef void (*log_callback_fn)(enum log_level, const char *, bool file_too);
 
 void log_init(const char *filename, enum log_level initial_level,
-              log_callback_fn callback, bool fatal_assertions);
+              log_callback_fn callback, int fatal_assertions);
 bool log_parse_level_str(const char *level_str, enum log_level *ret_level);
 
 log_callback_fn log_set_callback(log_callback_fn callback);
@@ -45,8 +45,9 @@ enum log_level log_get_level(void);
 bool log_do_output_for_level_at_location(enum log_level level,
                                          const char *file, int line);
 #endif
-void log_assert_set_fatal(bool fatal_assertions);
+void log_assert_set_fatal(int fatal_assertions);
 bool log_assert_fatal(void);
+void log_assert_throw(void);
 
 void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
@@ -100,7 +101,7 @@ void do_log(const char *file, const char *function, int line,
       do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
              /* TRANS: No full stop after the URL, could cause confusion. */\
              LOG_FATAL, _("Please report this message at %s"), BUG_URL);    \
-      abort();                                                              \
+      log_assert_throw();                                                   \
     } else if (log_do_output_for_level(LOG_ERROR)) {                        \
       do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
              LOG_ERROR, "assertion '%s' failed.", #condition);              \
@@ -121,7 +122,7 @@ void do_log(const char *file, const char *function, int line,
       do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
              /* TRANS: No full stop after the URL, could cause confusion. */\
              LOG_FATAL, _("Please report this message at %s"), BUG_URL);    \
-      abort();                                                              \
+      log_assert_throw();                                                   \
     } else if (log_do_output_for_level(LOG_ERROR)) {                        \
       do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
              LOG_ERROR, "assertion '%s' failed.", #condition);              \

@@ -54,6 +54,7 @@ struct server_arguments {
   bool auth_allow_guests;       /* defaults to TRUE */
   bool auth_allow_newusers;     /* defaults to TRUE */
   enum announce_type announce;
+  int fatal_assertions;         /* default to -1 (disabled). */
 };
 
 /* used in savegame values */

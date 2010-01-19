@@ -104,9 +104,10 @@ static void con_update_prompt(void)
 /************************************************************************
   Initialize logging via console.
 ************************************************************************/
-void con_log_init(const char *log_filename, enum log_level level)
+void con_log_init(const char *log_filename, enum log_level level,
+                  int fatal_assertions)
 {
-  log_init(log_filename, level, con_handle_log, FALSE);
+  log_init(log_filename, level, con_handle_log, fatal_assertions);
 }
 
 #ifndef HAVE_LIBREADLINE

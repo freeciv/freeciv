@@ -21,6 +21,7 @@
 
 #include <assert.h>
 #include <math.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -252,6 +253,7 @@ int client_main(int argc, char *argv[])
   bool ui_separator = FALSE;
   char *option=NULL;
   bool user_tileset = FALSE;
+  int fatal_assertions = -1;
 
   /* Load win32 post-crash debugger */
 #ifdef WIN32_NATIVE
@@ -296,6 +298,8 @@ int client_main(int argc, char *argv[])
       fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                            "%d)\n"), LOG_FATAL, LOG_VERBOSE);
 #endif
+      fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
+                           "Raise a signal on failed assertion\n"));
       fc_fprintf(stderr,
 		 _("  -h, --help\t\tPrint a summary of the options\n"));
       fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
@@ -329,6 +333,17 @@ int client_main(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--log", argv, &i, argc))) {
       logfile = option; /* never free()d */
+    } else if (is_option("--Fatal", argv[i])) {
+      if (i + 1 >= argc || '-' == argv[i + 1][0]) {
+        fatal_assertions = SIGABRT;
+      } else if (1 == sscanf(argv[i + 1], "%d", &fatal_assertions)) {
+        i++;
+      } else {
+        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+                   argv[i + 1]);
+        fc_fprintf(stderr, _("Try using --help.\n"));
+        exit(EXIT_FAILURE);
+      }
     } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
       scriptfile = option; /* never free()d */
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
@@ -400,7 +415,7 @@ int client_main(int argc, char *argv[])
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_client");
 
-  log_init(logfile, loglevel, NULL, FALSE);
+  log_init(logfile, loglevel, NULL, fatal_assertions);
 
   /* after log_init: */
 

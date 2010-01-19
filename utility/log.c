@@ -15,6 +15,7 @@
 #include <config.h>
 #endif
 
+#include <signal.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -39,7 +40,7 @@ static const enum log_level max_level = LOG_VERBOSE;
 #endif /* DEBUG */
 
 static enum log_level fc_log_level = LOG_NORMAL;
-static bool fc_fatal_assertions = FALSE;
+static int fc_fatal_assertions = -1;
 
 #ifdef DEBUG
 struct log_fileinfo {
@@ -191,10 +192,11 @@ out:
 /**************************************************************************
   Initialise the log module. Either 'filename' or 'callback' may be NULL.
   If both are NULL, print to stderr. If both are non-NULL, both callback, 
-  and fprintf to file.
+  and fprintf to file.  Pass -1 for fatal_assertions to don't raise any
+  signal on failed assertion.
 **************************************************************************/
 void log_init(const char *filename, enum log_level initial_level,
-              log_callback_fn callback, bool fatal_assertions)
+              log_callback_fn callback, int fatal_assertions)
 {
   fc_log_level = initial_level;
   if (log_filename) {
@@ -264,19 +266,31 @@ bool log_do_output_for_level_at_location(enum log_level level,
 #endif /* DEBUG */
 
 /**************************************************************************
-  Set wether the log_assert* macros should abort on failed assertion.
+  Set what signal the log_assert* macros should raise on failed assertion
+  (-1 to disable).
 **************************************************************************/
-void log_assert_set_fatal(bool fatal_assertions)
+void log_assert_set_fatal(int fatal_assertions)
 {
   fc_fatal_assertions = fatal_assertions;
 }
 
 /**************************************************************************
-  Returns wether the log_assert* macros should abort on failed assertion.
+  Returns wether the log_assert* macros should raise a signal on failed
+  assertion.
 **************************************************************************/
 bool log_assert_fatal(void)
 {
-  return fc_fatal_assertions;
+  return 0 <= fc_fatal_assertions;
+}
+
+/**************************************************************************
+  Maybe raise a signal if the user set it.
+**************************************************************************/
+void log_assert_throw(void)
+{
+  if (log_assert_fatal()) {
+    raise(fc_fatal_assertions);
+  }
 }
 
 /**************************************************************************

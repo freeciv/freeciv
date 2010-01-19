@@ -185,6 +185,7 @@ void srv_init(void)
   srvarg.loglevel = LOG_NORMAL;
 
   srvarg.log_filename = NULL;
+  srvarg.fatal_assertions = -1;
   srvarg.ranklog_filename = NULL;
   srvarg.load_filename[0] = '\0';
   srvarg.script_filename = NULL;
@@ -2110,7 +2111,8 @@ static void srv_prepare(void)
 
   fc_init_network();
 
-  con_log_init(srvarg.log_filename, srvarg.loglevel);
+  con_log_init(srvarg.log_filename, srvarg.loglevel,
+               srvarg.fatal_assertions);
   
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");

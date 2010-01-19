@@ -205,6 +205,18 @@ int main(int argc, char *argv[])
       break;
     } else if ((option = get_option_malloc("--log", argv, &inx, argc))) {
       srvarg.log_filename = option; /* Never freed. */
+    } else if (is_option("--Fatal", argv[inx])) {
+      if (inx + 1 >= argc || '-' == argv[inx + 1][0]) {
+        srvarg.fatal_assertions = SIGABRT;
+      } else if (1 == sscanf(argv[inx + 1],
+                             "%d", &srvarg.fatal_assertions)) {
+        inx++;
+      } else {
+        fc_fprintf(stderr, _("Invalid signal number \"%s\".\n"),
+                   argv[inx + 1]);
+        inx++;
+        showhelp = TRUE;
+      }
     } else if ((option = get_option_malloc("--Ranklog", argv, &inx, argc))) {
       srvarg.ranklog_filename = option; /* Never freed. */
     } else if (is_option("--nometa", argv[inx])) {
@@ -317,6 +329,8 @@ int main(int argc, char *argv[])
     fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                          "%d)\n"), LOG_FATAL, LOG_VERBOSE);
 #endif
+    fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
+                         "Raise a signal on failed assertion\n"));
     fc_fprintf(stderr, _("  -f, --file FILE\tLoad saved game FILE\n"));
     fc_fprintf(stderr,
 	       _("  -h, --help\t\tPrint a summary of the options\n"));

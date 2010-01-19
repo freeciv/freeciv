@@ -17,6 +17,7 @@ freeciv-gtk2, freeciv-sdl, freeciv-xaw, freeciv-win32, freeciv-ftwl, \
 .B freeciv-gtk2|freeciv-sdl|freeciv-xaw|freeciv-win32|freeciv-ftwl \
 [ \-a|\-\-autoconnect ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
+[ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
 [ \-h|\-\-help ] \
 [ \-l|\-\-log \fIfilename\fP ] \
 [ \-M|\-\-Meta \fIURL\fP ] \
@@ -114,6 +115,10 @@ option. Acceptable values for the \fIlevel_number\fP are:
 
 \fB3\fP    for fatal, error, normal, and verbose messages.
 
+.TP
+.BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
+Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
+specified, then the ABRT signal will be used.
 .TP
 .BI "\-h, \-\-help"
 Prints a short summary of the command line options.

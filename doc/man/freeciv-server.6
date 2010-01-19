@@ -17,6 +17,7 @@ freeciv-server \- The server for the Freeciv game
 [ \-b|\-\-bind \fIaddress\fP ] \
 [ \-d|\-\-debug \fIlevel_number\fP ] \
 [ \-e|\-\-exit\-on\-end ] \
+[ \-F|\-\-Fatal [ \fIsignal_number\fP ] ] \
 [ \-f|\-\-file \fIfilename\fP ] \
 [ \-h|\-\-help ] \
 [ \-i|\-\-identity \fIaddress\fP ] \
@@ -102,6 +103,10 @@ option. Acceptable values for the \fIlevel_number\fP are:
 .TP
 .BI "\-e, \-\-exit\-on\-end"
 When a game ends, exit instead of restarting.
+.TP
+.BI "\-F [ \fIsignal_number\fP ], \-\-Fatal [ \fIsignal_number\fP ]"
+Raise a custom signal on failed assertion.  If \fIsignal_number\fP is not
+specified, then the ABRT signal will be used.
 .TP
 .BI "\-f \fIfilename\fP, \-\-file \fIfilename\fP"
 Loads a saved game (\fIfilename\fP) into the server before initialization,
