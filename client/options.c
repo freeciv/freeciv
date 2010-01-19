@@ -490,12 +490,6 @@ static struct client_option options[] = {
                       COC_GRAPHICS, GUI_LAST, NULL,
                       get_tileset_list, tilespec_reread_callback),
 
-  GEN_BOOL_OPTION(solid_color_behind_units,
-                  N_("Solid unit background color"),
-                  N_("Setting this option will cause units on the map "
-                     "view to be drawn with a solid background color "
-                     "instead of the flag backdrop."),
-                  COC_GRAPHICS, GUI_LAST, FALSE, mapview_redraw_callback),
   GEN_BOOL_OPTION(draw_city_outlines, N_("Draw city outlines"),
                   N_("Setting this option will draw a line at the city "
                      "workable limit."),
@@ -510,6 +504,13 @@ static struct client_option options[] = {
                   N_("Setting this option will draw a grid over the map."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the citybar"),
+                  N_("Setting this option will display a 'citybar' "
+                     "containing useful information beneath each city. "
+                     "Disabling this option will display only the city's "
+                     "name and optionally, production."),
+                  COC_GRAPHICS, GUI_LAST,
+                  TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_names, N_("Draw the city names"),
                   N_("Setting this option will draw the names of the cities "
                      "on the map."),
@@ -580,6 +581,18 @@ static struct client_option options[] = {
                   N_("Setting this option will draw the units on the map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
+  GEN_BOOL_OPTION(solid_color_behind_units,
+                  N_("Solid unit background color"),
+                  N_("Setting this option will cause units on the map "
+                     "view to be drawn with a solid background color "
+                     "instead of the flag backdrop."),
+                  COC_GRAPHICS, GUI_LAST,
+                  FALSE, view_option_changed_callback),
+  GEN_BOOL_OPTION(draw_unit_shields, N_("Draw shield graphics for units"),
+                  N_("Setting this option will draw a shield icon "
+                     "as the flags on units.  If unset, the full flag will "
+                     "be drawn."),
+                  COC_GRAPHICS, GUI_LAST, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(draw_focus_unit, N_("Draw the units in focus"),
                   N_("Setting this option will draw the units in focus, "
                      "including the case the other units wouldn't be "
@@ -623,12 +636,6 @@ static struct client_option options[] = {
                   N_("Disabling this option will turn off combat animation "
                      "between units on the mapview."),
                   COC_GRAPHICS, GUI_LAST, TRUE, NULL),
-  GEN_BOOL_OPTION(draw_full_citybar, N_("Draw the citybar"),
-                  N_("Setting this option will display a 'citybar' "
-                     "containing useful information beneath each city. "
-                     "Disabling this option will display only the city's "
-                     "name and optionally, production."),
-                  COC_GRAPHICS, GUI_LAST, TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(reqtree_show_icons,
                   N_("Show icons in the technology tree"),
                   N_("Setting this option will display icons "
@@ -644,11 +651,6 @@ static struct client_option options[] = {
                      "the lines to be drawn straight."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   reqtree_show_icons_callback),
-  GEN_BOOL_OPTION(draw_unit_shields, N_("Draw shield graphics for units"),
-                  N_("Setting this option will draw a shield icon "
-                     "as the flags on units.  If unset, the full flag will "
-                     "be drawn."),
-                  COC_GRAPHICS, GUI_LAST, TRUE, mapview_redraw_callback),
    GEN_STR_OPTION(highlight_our_names,
                   N_("Color to highlight your player/user name"),
                   N_("If set, your player and user name in the new chat "
@@ -745,7 +747,8 @@ static struct client_option options[] = {
                   N_("If this option is turned on, the vote bar will be "
                      "displayed to show vote information."),
                   COC_GRAPHICS, GUI_LAST, TRUE, voteinfo_bar_callback),
-  GEN_BOOL_OPTION(voteinfo_bar_always_show, N_("Always display the vote bar"),
+  GEN_BOOL_OPTION(voteinfo_bar_always_show,
+                  N_("Always display the vote bar"),
                   N_("If this option is turned on, the vote bar will never "
                      "be hidden, notably when there won't be any running "
                      "vote."),
@@ -820,7 +823,8 @@ static struct client_option options[] = {
                   N_("If this is enabled then a better method is used "
                      "for drawing fog-of-war.  It is not any slower but "
                      "will consume about twice as much memory."),
-                  COC_GRAPHICS, GUI_GTK2, TRUE, mapview_redraw_callback),
+                  COC_GRAPHICS, GUI_GTK2,
+                  TRUE, view_option_changed_callback),
   GEN_BOOL_OPTION(gui_gtk2_show_chat_message_time,
                   N_("Show time for each chat message"),
                   N_("If this option is enabled then all chat messages "

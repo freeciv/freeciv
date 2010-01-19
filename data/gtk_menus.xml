@@ -35,6 +35,7 @@
       <menuitem action="SHOW_CITY_OUTPUT" />
       <menuitem action="SHOW_MAP_GRID" />
       <menuitem action="SHOW_NATIONAL_BORDERS" />
+      <menuitem action="SHOW_CITY_FULL_BAR" />
       <menuitem action="SHOW_CITY_NAMES" />
       <menuitem action="SHOW_CITY_GROWTH" />
       <menuitem action="SHOW_CITY_PRODUCTIONS" />
@@ -53,8 +54,11 @@
       <menuitem action="SHOW_POLLUTION" />
       <menuitem action="SHOW_CITIES" />
       <menuitem action="SHOW_UNITS" />
+      <menuitem action="SHOW_UNIT_SOLID_BG" />
+      <menuitem action="SHOW_UNIT_SHIELDS" />
       <menuitem action="SHOW_FOCUS_UNIT" />
       <menuitem action="SHOW_FOG_OF_WAR" />
+      <menuitem action="SHOW_BETTER_FOG_OF_WAR" />
       <separator />
       <menuitem action="FULL_SCREEN" />
       <separator />
