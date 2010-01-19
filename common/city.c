@@ -2433,7 +2433,7 @@ int city_waste(const struct city *pcity, Output_type_id otype, int total)
     int fulltradesize = MAX(game.info.notradesize, game.info.fulltradesize);
 
     if (pcity->size <= notradesize) {
-      penalty = total;
+      return total; /* Then no trade income. */
     } else if (pcity->size >= fulltradesize) {
       penalty = 0;
     } else {
