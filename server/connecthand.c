@@ -381,6 +381,7 @@ void lost_connection_to_client(struct connection *pconn)
               _("Lost connection: %s."), desc);
 
   connection_detach(pconn);
+  send_conn_info_remove(pconn->self, game.est_connections);
   notify_if_first_access_level_is_available();
 
   check_for_full_turn_done();
