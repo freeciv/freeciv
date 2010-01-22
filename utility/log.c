@@ -275,7 +275,7 @@ void vreal_freelog(int level, const char *message, va_list ap)
     FILE *fs;
 
     if (log_filename) {
-      if(!(fs=fopen(log_filename, "a"))) {
+      if(!(fs=fc_fopen(log_filename, "a"))) {
 	fc_fprintf(stderr,
 		   _("Couldn't open logfile: %s for appending \"%s\".\n"), 
 		   log_filename, message);

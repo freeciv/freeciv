@@ -125,7 +125,7 @@ static bool manual_command(void)
     my_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
 
     if (!is_reg_file_for_access(filename, TRUE)
-        || !(doc = fopen(filename, "w"))) {
+        || !(doc = fc_fopen(filename, "w"))) {
       die(_("Could not write manual file %s."), filename);
       return FALSE;
     }

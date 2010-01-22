@@ -71,6 +71,9 @@
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>		/* usleep, fcntl, gethostname */
 #endif
+#ifdef HAVE_LIBZ
+#include <zlib.h>
+#endif
 #ifdef WIN32_NATIVE
 #include <process.h>
 #include <windows.h>
@@ -256,6 +259,98 @@ char *mystrcasestr(const char *haystack, const char *needle)
     }
   }
   return NULL;
+#endif
+}
+
+/****************************************************************
+  Wrapper function for fopen() with filename conversion to local
+  encoding on Windows.
+****************************************************************/
+FILE *fc_fopen(const char *filename, const char *opentype)
+{
+#ifdef WIN32_NATIVE
+	FILE *result;
+	char *filename_in_local_encoding =
+	     internal_to_local_string_malloc(filename);
+	result = fopen(filename_in_local_encoding, opentype);
+	free(filename_in_local_encoding);
+	return result;
+#else
+	return fopen(filename, opentype);
+#endif
+}
+
+/*****************************************************************
+  Wrapper function for gzopen() with filename conversion to local
+  encoding on Windows.
+*****************************************************************/
+#ifdef HAVE_LIBZ
+FILE *fc_gzopen(const char *filename, const char *opentype)
+{
+#ifdef WIN32_NATIVE
+	FILE *result;
+	char *filename_in_local_encoding =
+	     internal_to_local_string_malloc(filename);
+	result = gzopen(filename_in_local_encoding, opentype);
+	free(filename_in_local_encoding);
+	return result;
+#else
+	return gzopen(filename, opentype);
+#endif
+}
+#endif
+
+/******************************************************************
+  Wrapper function for opendir() with filename conversion to local
+  encoding on Windows.
+******************************************************************/
+DIR *fc_opendir(const char *dirname)
+{
+#ifdef WIN32_NATIVE
+	DIR *result;
+	char *dirname_in_local_encoding =
+	     internal_to_local_string_malloc(dirname);
+	result = opendir(dirname_in_local_encoding);
+	free(dirname_in_local_encoding);
+	return result;
+#else
+	return opendir(dirname);
+#endif
+}
+
+/*****************************************************************
+  Wrapper function for remove() with filename conversion to local
+  encoding on Windows.
+*****************************************************************/
+int fc_remove(const char *filename)
+{
+#ifdef WIN32_NATIVE
+	int result;
+	char *filename_in_local_encoding =
+	     internal_to_local_string_malloc(filename);
+	result = remove(filename_in_local_encoding);
+	free(filename_in_local_encoding);
+	return result;
+#else
+	return remove(filename);
+#endif
+}
+
+/*****************************************************************
+  Wrapper function for stat() with filename conversion to local
+  encoding on Windows.
+*****************************************************************/
+int fc_stat(const char *filename, struct stat *buf)
+{
+#ifdef WIN32_NATIVE
+	int result;
+	char *filename_in_local_encoding =
+	     internal_to_local_string_malloc(filename);
+	result = stat(filename_in_local_encoding, buf);
+	free(filename_in_local_encoding);
+	return result;
+#else
+	return stat(filename, buf);
 #endif
 }
 
@@ -653,7 +748,7 @@ bool is_reg_file_for_access(const char *name, bool write_access)
 {
   struct stat tmp;
 
-  if (stat(name, &tmp) == 0) {
+  if (fc_stat(name, &tmp) == 0) {
     return S_ISREG(tmp.st_mode);
   } else {
     return write_access && errno == ENOENT;

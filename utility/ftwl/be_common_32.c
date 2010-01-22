@@ -603,7 +603,7 @@ struct image *image_load_gfxfile(const char *filename)
   FILE *fp;
   struct image *xi;
 
-  fp = fopen(filename, "rb");
+  fp = fc_fopen(filename, "rb");
   if (!fp) {
     freelog(LOG_FATAL, "Failed reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);
@@ -711,7 +711,7 @@ void be_write_osda_to_file(struct osda *osda, const char *filename)
   mystrlcpy(real_filename, filename, strlen(filename));
   mystrlcat(real_filename, fileext, strlen(fileext));
   
-  file = fopen(real_filename, "w");
+  file = fc_fopen(real_filename, "w");
 
   fprintf(file, "P6\n");
   fprintf(file, "%d %d\n", osda->image->width, osda->image->height);

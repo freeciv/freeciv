@@ -341,7 +341,7 @@ static void meta_read_response(struct server_scan *scan)
     GetTempPath(sizeof(filename), filename);
     cat_snprintf(filename, sizeof(filename), "fctmp%d", myrand(1000));
 
-    scan->meta.fp = fopen(filename, "w+b");
+    scan->meta.fp = fc_fopen(filename, "w+b");
 #else
     scan->meta.fp = tmpfile();
 #endif
