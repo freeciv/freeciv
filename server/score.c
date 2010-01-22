@@ -405,7 +405,7 @@ void save_ppm(void)
   sz_strlcat(tmpname, filename);
   sz_strlcpy(filename, tmpname);
 
-  fp = fopen(filename, "w");
+  fp = fc_fopen(filename, "w");
 
   if (!fp) {
     log_error("couldn't open file ppm save: %s\n", filename);
@@ -483,7 +483,7 @@ void rank_users(void)
     return;
   }
 
-  fp = fopen(srvarg.ranklog_filename,"w");
+  fp = fc_fopen(srvarg.ranklog_filename,"w");
 
   /* don't fail silently, at least print an error */
   if (!fp) {

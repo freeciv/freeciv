@@ -33,6 +33,8 @@ char *local_to_internal_string_malloc(const char *text);
 
 char *local_to_internal_string_buffer(const char *text,
 				      char *buf, size_t bufsz);
+char *internal_to_local_string_buffer(const char *text,
+				      char *buf, size_t bufsz);
 
 #define fc_printf(...) fc_fprintf(stdout, __VA_ARGS__)
 void fc_fprintf(FILE *stream, const char *format, ...)

@@ -39,6 +39,7 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 
 /* common & utility */
 #include "capability.h"
+#include "fciconv.h"
 #include "fcintl.h"
 #include "ioz.h"
 #include "log.h"
@@ -196,6 +197,7 @@ bool client_start_server(void)
   char cmdline3[512];
   char logcmdline[512];
   char scriptcmdline[512];
+  char savescmdline[512];
 # endif /* WIN32_NATIVE */
 
   /* only one server (forked from this client) shall be running at a time */
@@ -297,19 +299,25 @@ bool client_start_server(void)
   logcmdline[0] = 0;
   scriptcmdline[0] = 0;
 
+  /* the server expects command line arguments to be in local encoding */ 
   if (logfile) {
+    char *logfile_in_local_encoding = internal_to_local_string_malloc(logfile);
     my_snprintf(logcmdline, sizeof(logcmdline), " --debug 3 --log %s",
-		logfile);
+		logfile_in_local_encoding);
+    free(logfile_in_local_encoding);
   }
   if (scriptfile) {
+    char *scriptfile_in_local_encoding = internal_to_local_string_malloc(scriptfile);
     my_snprintf(scriptcmdline, sizeof(scriptcmdline),  " --read %s",
-		scriptfile);
+		scriptfile_in_local_encoding);
+    free(scriptfile_in_local_encoding);
   }
 
   interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
+  internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
 
   my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
-	      internal_server_port, logcmdline, scriptcmdline, savesdir);
+	      internal_server_port, logcmdline, scriptcmdline, savescmdline);
   my_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
   my_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
@@ -480,7 +488,7 @@ void handle_single_want_hack_reply(bool you_have_hack)
 {
   /* remove challenge file */
   if (challenge_fullname[0] != '\0') {
-    if (remove(challenge_fullname) == -1) {
+    if (fc_remove(challenge_fullname) == -1) {
       log_error("Couldn't remove temporary file: %s", challenge_fullname);
     }
     challenge_fullname[0] = '\0';

@@ -333,8 +333,8 @@ CONV_FUNC_MALLOC(internal, local)
 CONV_FUNC_MALLOC(local, internal)
 
 CONV_FUNC_BUFFER(local, internal)
+CONV_FUNC_BUFFER(internal, local)
 
-static CONV_FUNC_BUFFER(internal, local)
 static CONV_FUNC_STATIC(internal, local)
 
 /***************************************************************************

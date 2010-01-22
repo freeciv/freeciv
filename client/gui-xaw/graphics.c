@@ -340,7 +340,7 @@ struct sprite *load_gfxfile(const char *filename)
   png_byte alpha;
   bool pixel, reported;
 
-  fp = fopen(filename, "rb");
+  fp = fc_fopen(filename, "rb");
   if (!fp) {
     log_fatal("Failed reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);

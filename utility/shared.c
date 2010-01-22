@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 1996 - A Kjeldberg, L Gregersen, P Unold
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -150,9 +150,9 @@ char *create_centered_string(const char *s)
   }
   if(maxlen<curlen)
     maxlen=curlen;
-  
+
   r=rn=fc_malloc(nlines*(maxlen+1));
-  
+
   curlen=0;
   for(cp0=cp=s; *cp != '\0'; cp++) {
     if(*cp!='\n')
@@ -225,7 +225,7 @@ bool is_option(const char *option_name,char *option)
 }
 
 /***************************************************************
-  Like strcspn but also handles quotes, i.e. *reject chars are 
+  Like strcspn but also handles quotes, i.e. *reject chars are
   ignored if they are inside single or double quotes.
 ***************************************************************/
 static size_t my_strcspn(const char *s, const char *reject)
@@ -256,9 +256,9 @@ static size_t my_strcspn(const char *s, const char *reject)
  Splits the string into tokens. The individual tokens are
  returned. The delimiterset can freely be chosen.
 
- i.e. "34 abc 54 87" with a delimiterset of " " will yield 
+ i.e. "34 abc 54 87" with a delimiterset of " " will yield
       tokens={"34", "abc", "54", "87"}
- 
+
  Part of the input string can be quoted (single or double) to embedded
  delimiter into tokens. For example,
    command 'a name' hard "1,2,3,4,5" 99
@@ -304,7 +304,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 	str++;
       }
     }
-  
+
     tokens[token] = fc_malloc(len + 1);
     (void) mystrlcpy(tokens[token], str, len + 1);	/* adds the '\0' */
 
@@ -426,7 +426,7 @@ static bool is_ascii(char ch)
 
 /****************************************************************************
   Check if the name is safe security-wise.  This is intended to be used to
-  make sure an untrusted filename is safe to be used. 
+  make sure an untrusted filename is safe to be used.
 ****************************************************************************/
 bool is_safe_filename(const char *name)
 {
@@ -434,7 +434,7 @@ bool is_safe_filename(const char *name)
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
-    return FALSE; 
+    return FALSE;
   }
 
   for (; '\0' != name[i]; i++) {
@@ -465,7 +465,7 @@ bool is_ascii_name(const char *name)
 
   /* must not be NULL or empty */
   if (!name || *name == '\0') {
-    return FALSE; 
+    return FALSE;
   }
 
   /* must begin and end with some non-space character */
@@ -499,7 +499,7 @@ bool is_base64url(const char *s)
 
   /* must not be NULL or empty */
   if (NULL == s || '\0' == *s) {
-    return FALSE; 
+    return FALSE;
   }
 
   for (; '\0' != s[i]; i++) {
@@ -520,7 +520,7 @@ void randomize_base64url_string(char *s, size_t n)
 
   /* must not be NULL or too short */
   if (NULL == s || 1 > n) {
-    return; 
+    return;
   }
 
   for (; i < (n - 1); i++) {
@@ -593,7 +593,7 @@ char *skip_leading_spaces(char *s)
 static void remove_leading_spaces(char *s)
 {
   char *t;
-  
+
   assert(s!=NULL);
   t = skip_leading_spaces(s);
   if (t != s) {
@@ -612,7 +612,7 @@ static void remove_trailing_spaces(char *s)
 {
   char *t;
   size_t len;
-  
+
   assert(s!=NULL);
   len = strlen(s);
   if (len > 0) {
@@ -643,7 +643,7 @@ void remove_leading_trailing_spaces(char *s)
 static void remove_trailing_char(char *s, char trailing)
 {
   char *t;
-  
+
   assert(s!=NULL);
   t = s + strlen(s) -1;
   while(t>=s && (*t) == trailing) {
@@ -661,7 +661,7 @@ int wordwrap_string(char *s, int len)
 {
   int num_lines = 0;
   int slen = strlen(s);
-  
+
   /* At top of this loop, s points to the rest of string,
    * either at start or after inserted newline: */
  top:
@@ -669,7 +669,7 @@ int wordwrap_string(char *s, int len)
     char *c;
 
     num_lines++;
-    
+
     /* check if there is already a newline: */
     for(c=s; c<s+len; c++) {
       if (*c == '\n') {
@@ -678,7 +678,7 @@ int wordwrap_string(char *s, int len)
 	goto top;
       }
     }
-    
+
     /* find space and break: */
     for(c=s+len; c>s; c--) {
       if (my_isspace(*c)) {
@@ -724,11 +724,11 @@ char *end_of_strn(char *str, int *nleft)
   return str + len;
 }
 
-/********************************************************************** 
+/**********************************************************************
   Check the length of the given string.  If the string is too long,
   log errmsg, which should be a string in printf-format taking up to
   two arguments: the string and the length.
-**********************************************************************/ 
+**********************************************************************/
 bool check_strlen(const char *str, size_t len, const char *errmsg)
 {
   if (strlen(str) >= len) {
@@ -739,7 +739,7 @@ bool check_strlen(const char *str, size_t len, const char *errmsg)
   return FALSE;
 }
 
-/********************************************************************** 
+/**********************************************************************
   Call check_strlen() on str and then strlcpy() it into buffer.
 **********************************************************************/
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
@@ -749,17 +749,17 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
   return mystrlcpy(buffer, str, len);
 }
 
-/********************************************************************** 
+/**********************************************************************
  cat_snprintf is like a combination of my_snprintf and mystrlcat;
  it does snprintf to the end of an existing string.
- 
+
  Like mystrlcat, n is the total length available for str, including
  existing contents and trailing nul.  If there is no extra room
- available in str, does not change the string. 
+ available in str, does not change the string.
 
  Also like mystrlcat, returns the final length that str would have
  had without truncation.  I.e., if return is >= n, truncation occurred.
-**********************************************************************/ 
+**********************************************************************/
 int cat_snprintf(char *str, size_t n, const char *format, ...)
 {
   size_t len;
@@ -769,10 +769,10 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   assert(format != NULL);
   assert(str != NULL);
   assert(n>0);
-  
+
   len = strlen(str);
   assert(len < n);
-  
+
   va_start(ap, format);
   ret = my_vsnprintf(str+len, n-len, format, ap);
   va_end(ap);
@@ -812,7 +812,7 @@ char *user_home_dir(void)
 #else
   static bool init = FALSE;
   static char *home_dir = NULL;
-  
+
   if (!init) {
     char *env = getenv("HOME");
     if (env) {
@@ -822,24 +822,36 @@ char *user_home_dir(void)
 
 #ifdef WIN32_NATIVE
 
-      /* some documentation at: 
+      /* some documentation at:
        * http://justcheckingonall.wordpress.com/2008/05/16/find-shell-folders-win32/
        * http://archives.seul.org/or/cvs/Oct-2004/msg00082.html */
 
       LPITEMIDLIST pidl;
       LPMALLOC pMalloc;
-      
+
       if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl))) {
-        
-        home_dir = fc_malloc(PATH_MAX);
-        
-        if (!SUCCEEDED(SHGetPathFromIDList(pidl, home_dir))) {
-          free(home_dir);
-          home_dir = NULL;
-          log_error("Could not find home directory "
-                    "(SHGetPathFromIDList() failed).");
+
+        char *home_dir_in_local_encoding = fc_malloc(PATH_MAX);
+
+        if (SUCCEEDED(SHGetPathFromIDList(pidl, home_dir_in_local_encoding))) {
+        	/* convert to internal encoding */
+        	home_dir = local_to_internal_string_malloc(home_dir_in_local_encoding);
+        	free(home_dir_in_local_encoding);
+
+        	/* replace backslashes with forward slashes */
+        	char *c;
+        	for (c = home_dir; *c != 0; c++) {
+        		if (*c == '\\') {
+        			*c = '/';
+        		}
+        	}
+        } else {
+            free(home_dir_in_local_encoding);
+            home_dir = NULL;
+            log_error("Could not find home directory "
+                      "(SHGetPathFromIDList() failed).");
         }
-        
+
         SHGetMalloc(&pMalloc);
         if (pMalloc) {
           pMalloc->lpVtbl->Free(pMalloc, pidl);
@@ -857,6 +869,7 @@ char *user_home_dir(void)
     }
     init = TRUE;
   }
+
   return home_dir;
 #endif
 }
@@ -864,7 +877,7 @@ char *user_home_dir(void)
 /***************************************************************************
   Returns string which gives user's username, as specified by $USER or
   as given in password file for this user's uid, or a made up name if
-  we can't get either of the above. 
+  we can't get either of the above.
   Gets value once, and then caches result.
   Note the caller should not mess with returned string.
 ***************************************************************************/
@@ -1189,7 +1202,7 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
     struct dirent *entry;
 
     /* Open the directory for reading. */
-    dir = opendir(dirname);
+    dir = fc_opendir(dirname);
     if (!dir) {
       if (errno == ENOENT) {
         log_verbose("Skipping non-existing data directory %s.",
@@ -1273,14 +1286,14 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     } strvec_iterate_end;
     return realfile.str;
   }
-  
+
   strvec_iterate(dirs, dirname) {
     struct stat buf;    /* see if we can open the file or directory */
     size_t len = strlen(dirname) + strlen(filename) + 2;
-    
+
     astr_minsize(&realfile, len);
     my_snprintf(realfile.str, len, "%s/%s", dirname, filename);
-    if (stat(realfile.str, &buf) == 0) {
+    if (fc_stat(realfile.str, &buf) == 0) {
       return realfile.str;
     }
   } strvec_iterate_end;
@@ -1332,7 +1345,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
     struct dirent *entry;
 
     /* Open the directory for reading. */
-    dir = opendir(dirname);
+    dir = fc_opendir(dirname);
     if (!dir) {
       continue;
     }
@@ -1353,7 +1366,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
         fullname = fc_malloc(len);
         my_snprintf(fullname, len, "%s/%s", dirname, filename);
 
-        if (stat(fullname, &buf) == 0) {
+        if (fc_stat(fullname, &buf) == 0) {
           file = fc_malloc(sizeof(*file));
 
           /* Clip the suffix. */
@@ -1425,7 +1438,7 @@ const char *fileinfoname_required(const struct strvec *dirs,
                                   const char *filename)
 {
   const char *dname;
-  
+
   assert(NULL != filename);
   dname = fileinfoname(dirs, filename);
 
@@ -1446,12 +1459,12 @@ const char *fileinfoname_required(const struct strvec *dirs,
 ***************************************************************************/
 char *get_langname(void)
 {
-  char *langname = NULL;      
-        
+  char *langname = NULL;
+
 #ifdef ENABLE_NLS
 
   langname = getenv("LANG");
-  
+
 #ifdef WIN32_NATIVE
   /* set LANG by hand if it is not set */
   if (!langname) {
@@ -1463,7 +1476,7 @@ char *get_langname(void)
       case LANG_CZECH:
         return "cs";
       case LANG_DANISH:
-        return "da"; 
+        return "da";
       case LANG_GERMAN:
         return "de";
       case LANG_GREEK:
@@ -1473,7 +1486,7 @@ char *get_langname(void)
           case SUBLANG_ENGLISH_UK:
             return "en_GB";
           default:
-            return "en"; 
+            return "en";
         }
       case LANG_SPANISH:
         return "es";
@@ -1534,7 +1547,7 @@ char *get_langname(void)
 
   return langname;
 }
-        
+
 /***************************************************************************
   Setup for Native Language Support, if configured to use it.
   (Call this only once, or it may leak memory.)
@@ -1551,7 +1564,7 @@ void init_nls(void)
 #ifdef ENABLE_NLS
 
 #ifdef WIN32_NATIVE
-  char *langname = get_langname();  
+  char *langname = get_langname();
   if (langname) {
     static char envstr[40];
 
@@ -1792,7 +1805,7 @@ char *get_multicast_group(bool ipv6_prefered)
   if (!init) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
     if (env) {
-      group = mystrdup(env);	        
+      group = mystrdup(env);
     } else {
 #ifdef IPV6_SUPPORT
       if (ipv6_prefered) {
@@ -1870,11 +1883,13 @@ bool make_dir(const char *pathname)
     }
 
 #ifdef WIN32_NATIVE
-    mkdir(path);
+    char *path_in_local_encoding = internal_to_local_string_malloc(path);
+    _mkdir(path_in_local_encoding);
+    free(path_in_local_encoding);
 #else
     mkdir(path, 0755);
 #endif
-      
+
     if (dir) {
       *dir = '/';
       dir++;
@@ -1902,7 +1917,7 @@ bool path_is_absolute(const char *filename)
   if (filename[0] == '/') {
     return TRUE;
   }
-#endif  
+#endif
 
   return FALSE;
 }

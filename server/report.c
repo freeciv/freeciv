@@ -1005,7 +1005,7 @@ void log_civ_score(void)
     if (game.info.year == GAME_START_YEAR) {
       oper = SL_CREATE;
     } else {
-      fp = fopen(logname, "r");
+      fp = fc_fopen(logname, "r");
       if (!fp) {
 	oper = SL_CREATE;
       } else {
@@ -1021,7 +1021,7 @@ void log_civ_score(void)
 
     switch (oper) {
     case SL_CREATE:
-      fp = fopen(logname, "w");
+      fp = fc_fopen(logname, "w");
       if (!fp) {
         log_error("Can't open scorelog file for creation!");
         goto log_civ_score_disable;
@@ -1039,7 +1039,7 @@ void log_civ_score(void)
       }
       break;
     case SL_APPEND:
-      fp = fopen(logname, "a");
+      fp = fc_fopen(logname, "a");
       if (!fp) {
         log_error("Can't open scorelog file for appending!");
         goto log_civ_score_disable;

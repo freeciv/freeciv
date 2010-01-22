@@ -125,7 +125,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     /* Try to open as bzip2 file */
     method = FZ_BZIP2;
     sz_strlcat(mode,"b");
-    fp->u.bz2.plain = fopen(filename, mode);
+    fp->u.bz2.plain = fc_fopen(filename, mode);
     if (fp->u.bz2.plain) {
       fp->u.bz2.file = BZ2_bzReadOpen(&fp->u.bz2.error, fp->u.bz2.plain, 1, 0,
                                       NULL, 0);
@@ -195,7 +195,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
   case FZ_BZIP2:
     /*  bz2 files are binary files, so we should add "b" to mode! */
     sz_strlcat(mode,"b");
-    fp->u.bz2.plain = fopen(filename, mode);
+    fp->u.bz2.plain = fc_fopen(filename, mode);
     if (fp->u.bz2.plain) {
       /*  Open for read handled earlier */
       assert(mode[0] == 'w');
@@ -224,7 +224,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     if (mode[0] == 'w') {
       cat_snprintf(mode, sizeof(mode), "%d", compress_level);
     }
-    fp->u.zlib = gzopen(filename, mode);
+    fp->u.zlib = fc_gzopen(filename, mode);
     if (!fp->u.zlib) {
       free(fp);
       fp = NULL;
@@ -232,7 +232,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     break;
 #endif
   case FZ_PLAIN:
-    fp->u.plain = fopen(filename, mode);
+    fp->u.plain = fc_fopen(filename, mode);
     if (!fp->u.plain) {
       free(fp);
       fp = NULL;

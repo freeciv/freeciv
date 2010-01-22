@@ -2213,7 +2213,7 @@ static void save_response_callback(GtkWidget *w, gint arg)
       }
 
       gtk_tree_model_get(GTK_TREE_MODEL(save_store), &it, 1, &filename, -1);
-      remove(filename);
+      fc_remove(filename);
       update_save_dialog();
     }
     return;

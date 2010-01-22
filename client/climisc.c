@@ -1044,7 +1044,7 @@ void create_event(struct tile *ptile, enum event_type event,
 **************************************************************************/
 void write_chatline_content(const char *txt)
 {
-  FILE *fp = fopen("civgame.log", "w");	/* should allow choice of name? */
+  FILE *fp = fc_fopen("civgame.log", "w");	/* should allow choice of name? */
 
   output_window_append(ftc_client,
                        _("Exporting output window to civgame.log ..."));

@@ -705,7 +705,7 @@ BITMAP *bmp_load_png(const char *filename)
   int has_mask;
   BYTE *src, *dst;
 
-  if (!(fp = fopen(filename, "rb"))) {
+  if (!(fp = fc_fopen(filename, "rb"))) {
     MessageBox(NULL, "failed reading", filename, MB_OK);
     log_fatal("Failed reading PNG file: \"%s\"", filename);
     exit(EXIT_FAILURE);

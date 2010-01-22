@@ -344,7 +344,7 @@ void vdo_log(const char *file, const char *function, int line,
   FILE *fs;
 
   if (log_filename) {
-    if (!(fs = fopen(log_filename, "a"))) {
+    if (!(fs = fc_fopen(log_filename, "a"))) {
       fc_fprintf(stderr,
                  _("Couldn't open logfile: %s for appending \"%s\".\n"), 
                  log_filename, message);

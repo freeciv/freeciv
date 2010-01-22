@@ -1769,7 +1769,7 @@ static const char *get_last_option_file_name(void)
               : minor >= 0); minor--) {
         my_snprintf(name_buffer, sizeof(name_buffer),
                     "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
-        if (0 == stat(name_buffer, &buf)) {
+        if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
               || MINOR_NEW_OPTION_FILE_NAME != minor) {
             log_normal(_("Didn't find '%s' option file, "
@@ -1785,7 +1785,7 @@ static const char *get_last_option_file_name(void)
     /* Try with the old one. */
     my_snprintf(name_buffer, sizeof(name_buffer),
                 "%s/" OLD_OPTION_FILE_NAME, name);
-    if (0 == stat(name_buffer, &buf)) {
+    if (0 == fc_stat(name_buffer, &buf)) {
       log_normal(_("Didn't find '%s' option file, "
                    "loading from '%s' instead."),
                  get_current_option_file_name() + strlen(name) + 1,

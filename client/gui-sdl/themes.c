@@ -99,7 +99,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
 
   *count = 0;
 
-  dir = opendir(directory);
+  dir = fc_opendir(directory);
   if (!dir) {
     /* This isn't directory or we can't list it */
     return theme_names;
@@ -112,7 +112,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     my_snprintf(buf, sizeof(buf),
 		"%s/%s/theme.themespec", directory, entry->d_name);
     
-    if (stat(buf, &stat_result) != 0) {
+    if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */
       continue;
     }
