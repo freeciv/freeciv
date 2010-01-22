@@ -20,8 +20,11 @@
   See also mem.h, netintf.h, rand.h, and see support.c for more comments.
 ***********************************************************************/
 
+#include <dirent.h>
 #include <stdarg.h>
+#include <stdio.h>
 #include <stdlib.h>		/* size_t */
+#include <sys/stat.h>
 
 #ifdef HAVE_SYS_TYPES_H
 #include <sys/types.h>
@@ -75,6 +78,14 @@ int mystrncasecmp(const char *str0, const char *str1, size_t n);
 int mystrncasequotecmp(const char *str0, const char *str1, size_t n);
 
 size_t effectivestrlenquote(const char *str);
+
+FILE *fc_fopen(const char *filename, const char *opentype);
+#ifdef HAVE_LIBZ
+FILE *fc_gzopen(const char *filename, const char *opentype);
+#endif
+DIR *fc_opendir(const char *dirname);
+int fc_remove(const char *filename);
+int fc_stat(const char *filename, struct stat *buf);
 
 const char *mystrerror(void);
 void myusleep(unsigned long usec);

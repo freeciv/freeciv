@@ -112,7 +112,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     if (mode[0] == 'w') {
       cat_snprintf(mode, sizeof(mode), "%d", compress_level);
     }
-    fp->u.zlib = gzopen(filename, mode);
+    fp->u.zlib = fc_gzopen(filename, mode);
     if (!fp->u.zlib) {
       free(fp);
       fp = NULL;
@@ -120,7 +120,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     break;
 #endif
   case FZ_PLAIN:
-    fp->u.plain = fopen(filename, mode);
+    fp->u.plain = fc_fopen(filename, mode);
     if (!fp->u.plain) {
       free(fp);
       fp = NULL;

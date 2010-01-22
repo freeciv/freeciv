@@ -956,7 +956,7 @@ bool read_init_script(struct connection *caller, char *script_filename,
   freelog(LOG_NORMAL, _("Loading script file: %s"), real_filename);
 
   if (is_reg_file_for_access(real_filename, FALSE)
-      && (script_file = fopen(real_filename, "r"))) {
+      && (script_file = fc_fopen(real_filename, "r"))) {
     char buffer[MAX_LEN_CONSOLE_LINE];
 
     /* the size is set as to not overflow buffer in handle_stdin_input */
@@ -999,7 +999,7 @@ static void write_init_script(char *script_filename)
   interpret_tilde(real_filename, sizeof(real_filename), script_filename);
 
   if (is_reg_file_for_access(real_filename, TRUE)
-      && (script_file = fopen(real_filename, "w"))) {
+      && (script_file = fc_fopen(real_filename, "w"))) {
 
     int i;
 

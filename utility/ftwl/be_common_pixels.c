@@ -425,7 +425,7 @@ void be_write_osda_to_file(struct osda *osda, const char *filename)
   unsigned char *line_buffer = fc_malloc(3 * osda->image->width), *pout;
   int x, y;
 
-  file = fopen(filename, "w");
+  file = fc_fopen(filename, "w");
 
   fprintf(file, "P6\n");
   fprintf(file, "%d %d\n", osda->image->width, osda->image->height);

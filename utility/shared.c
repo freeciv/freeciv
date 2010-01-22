@@ -801,10 +801,22 @@ char *user_home_dir(void)
       
       if (SUCCEEDED(SHGetSpecialFolderLocation(NULL, CSIDL_APPDATA, &pidl))) {
         
-        home_dir = fc_malloc(PATH_MAX);
+        char *home_dir_in_local_encoding = fc_malloc(PATH_MAX);
         
-        if (!SUCCEEDED(SHGetPathFromIDList(pidl, home_dir))) {
-          free(home_dir);
+        if (SUCCEEDED(SHGetPathFromIDList(pidl, home_dir_in_local_encoding))) {
+        	/* convert to internal encoding */
+        	home_dir = local_to_internal_string_malloc(home_dir_in_local_encoding);
+        	free(home_dir_in_local_encoding);
+        	
+        	/* replace backslashes with forward slashes */
+        	char *c;
+        	for (c = home_dir; *c != 0; c++) {
+        		if (*c == '\\') {
+        			*c = '/';
+        		}
+        	}
+        } else {
+            free(home_dir_in_local_encoding);
           home_dir = NULL;
           freelog(LOG_ERROR,
             "Could not find home directory (SHGetPathFromIDList() failed)");
@@ -827,6 +839,7 @@ char *user_home_dir(void)
     }
     init = TRUE;
   }
+
   return home_dir;
 #endif
 }
@@ -1032,7 +1045,7 @@ char **datafilelist(const char* suffix)
     struct dirent *entry;
 
     /* Open the directory for reading. */
-    dir = opendir(dirs[dir_num]);
+    dir = fc_opendir(dirs[dir_num]);
     if (!dir) {
       if (errno == ENOENT) {
 	freelog(LOG_VERBOSE, "Skipping non-existing data directory %s.",
@@ -1143,7 +1156,7 @@ char *datafilename(const char *filename)
     
     astr_minsize(&realfile, len);
     my_snprintf(realfile.str, len, "%s/%s", dirs[i], filename);
-    if (stat(realfile.str, &buf) == 0) {
+    if (fc_stat(realfile.str, &buf) == 0) {
       return realfile.str;
     }
   }
@@ -1208,7 +1221,7 @@ struct datafile_list *datafilelist_infix(const char *subpath,
     }
 
     /* Open the directory for reading. */
-    dir = opendir(path);
+    dir = fc_opendir(path);
     if (!dir) {
       continue;
     }
@@ -1229,7 +1242,7 @@ struct datafile_list *datafilelist_infix(const char *subpath,
 	fullname = fc_malloc(len);
 	my_snprintf(fullname, len, "%s/%s", path, filename);
 
-	if (stat(fullname, &buf) == 0) {
+	if (fc_stat(fullname, &buf) == 0) {
 	  file = fc_malloc(sizeof(*file));
 
 	  /* Clip the suffix. */
@@ -1689,7 +1702,9 @@ bool make_dir(const char *pathname)
     }
 
 #ifdef WIN32_NATIVE
-    mkdir(path);
+    char *path_in_local_encoding = internal_to_local_string_malloc(path);
+    _mkdir(path_in_local_encoding);
+    free(path_in_local_encoding);
 #else
     mkdir(path, 0755);
 #endif

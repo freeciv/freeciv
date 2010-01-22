@@ -381,7 +381,7 @@ struct image *image_load_gfxfile(const char *filename)
   FILE *fp;
   struct image *xi;
 
-  fp = fopen(filename, "rb");
+  fp = fc_fopen(filename, "rb");
   if (!fp) {
     freelog(LOG_FATAL, _("Failed reading PNG file: %s"), filename);
     exit(EXIT_FAILURE);

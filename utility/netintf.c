@@ -300,7 +300,7 @@ fz_FILE *my_querysocket(int sock, void *buf, size_t size)
       GetTempPath(sizeof(filename), filename);
       sz_strlcat(filename, "fctmp");
 
-      fp = fopen(filename, "w+b");
+      fp = fc_fopen(filename, "w+b");
     }
 #else
 
