@@ -128,6 +128,7 @@ artists = "
    Mexico		Cezary Biele
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
+   Morocco		Xiquet, Flad (Wikipedia)
    Muskogee		Daniel Markstedt
    Myanmar		Caleb Moore
    NATO			Christian Schaller
@@ -335,6 +336,7 @@ sprites =
 		"f.mexico", "flags/mexico"
 		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
+		"f.morocco", "flags/morocco"
 		"f.muskogee", "flags/muskogee"
 		"f.myanmar", "flags/myanmar"
 		"f.nato", "flags/nato"

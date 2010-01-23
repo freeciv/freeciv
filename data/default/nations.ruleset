@@ -167,6 +167,7 @@ match=2
 *include "nation/mexican.ruleset"
 *include "nation/moldovan.ruleset"
 *include "nation/mongol.ruleset"
+*include "nation/moroccan.ruleset"
 *include "nation/motswana.ruleset"
 *include "nation/muskogee.ruleset"
 *include "nation/newzealand.ruleset"

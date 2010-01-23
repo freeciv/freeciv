@@ -120,6 +120,7 @@ flag_files =				\
 		mexico.png		\
 		moldova.png		\
 		mongolia.png		\
+		morocco.png		\
 		muskogee.png		\
 		myanmar.png		\
 		nato.png		\
@@ -322,6 +323,7 @@ shield_files =					\
 		mexico-shield.png		\
 		moldova-shield.png		\
 		mongolia-shield.png		\
+		morocco-shield.png		\
 		muskogee-shield.png		\
 		myanmar-shield.png		\
 		nato-shield.png			\
@@ -524,6 +526,7 @@ svg_files = 				\
 		mexico.svg		\
 		moldova.svg		\
 		mongolia.svg		\
+		morocco.svg		\
 		muskogee.svg		\
 		myanmar.svg		\
 		nato.svg		\
