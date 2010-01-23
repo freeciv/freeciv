@@ -11,10 +11,11 @@ legend=_("Formerly the site of a unified Korean state, the Korean\
 leader=
  "Kim Gu",
  "Rhee Syng-man",
- "Yun Bo-seon",
  "Park Chung-hee",
- "Choi Kyu-hah"
-leader_sex="Male", "Male", "Male", "Male", "Male"
+ "Kim Dae-jung",
+ "Roh Moo-hyun",
+ "Park Geun-hye"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
 
 flag="korea"
 flag_alt = "-"
