@@ -1,4 +1,268 @@
 ------------------------------------------------------------------------
+r16611 | dmarks | 2010-01-23 16:08:22 +0100 (Sat, 23 Jan 2010) | 1 line
+Changed paths:
+   M /branches/S2_1/version.in
+
+Bump version string to 2.1.11.
+------------------------------------------------------------------------
+r16609 | dmarks | 2010-01-23 16:04:18 +0100 (Sat, 23 Jan 2010) | 1 line
+Changed paths:
+   M /branches/S2_1/po/ar.po
+   M /branches/S2_1/po/ca.po
+   M /branches/S2_1/po/cs.po
+   M /branches/S2_1/po/da.po
+   M /branches/S2_1/po/de.po
+   M /branches/S2_1/po/el.po
+   M /branches/S2_1/po/en_GB.po
+   M /branches/S2_1/po/eo.po
+   M /branches/S2_1/po/es.po
+   M /branches/S2_1/po/et.po
+   M /branches/S2_1/po/fa.po
+   M /branches/S2_1/po/fi.po
+   M /branches/S2_1/po/fr.po
+   M /branches/S2_1/po/he.po
+   M /branches/S2_1/po/hu.po
+   M /branches/S2_1/po/it.po
+   M /branches/S2_1/po/ja.po
+   M /branches/S2_1/po/ko.po
+   M /branches/S2_1/po/lt.po
+   M /branches/S2_1/po/nl.po
+   M /branches/S2_1/po/no.po
+   M /branches/S2_1/po/pl.po
+   M /branches/S2_1/po/pt.po
+   M /branches/S2_1/po/pt_BR.po
+   M /branches/S2_1/po/ro.po
+   M /branches/S2_1/po/ru.po
+   M /branches/S2_1/po/sv.po
+   M /branches/S2_1/po/tr.po
+   M /branches/S2_1/po/uk.po
+   M /branches/S2_1/po/zh_CN.po
+
+Changes after running 'make update-po'.
+------------------------------------------------------------------------
+r16608 | dmarks | 2010-01-23 16:01:27 +0100 (Sat, 23 Jan 2010) | 1 line
+Changed paths:
+   M /branches/S2_1/NEWS
+
+Simplified NEWS from trunk.
+------------------------------------------------------------------------
+r16602 | dmarks | 2010-01-23 10:06:41 +0100 (Sat, 23 Jan 2010) | 1 line
+Changed paths:
+   M /branches/S2_1/doc/README.nations
+
+Amendment to ruler title policy. See Gna patch #1413.
+------------------------------------------------------------------------
+r16599 | cproc | 2010-01-22 12:28:58 +0100 (Fri, 22 Jan 2010) | 4 lines
+Changed paths:
+   M /branches/S2_1/client/climisc.c
+   M /branches/S2_1/client/connectdlg_common.c
+   M /branches/S2_1/client/gui-gtk-2.0/pages.c
+   M /branches/S2_1/client/gui-gtk-2.0/themes.c
+   M /branches/S2_1/client/gui-sdl/themes.c
+   M /branches/S2_1/client/gui-win32/graphics.c
+   M /branches/S2_1/client/gui-xaw/graphics.c
+   M /branches/S2_1/client/servers.c
+   M /branches/S2_1/manual/civmanual.c
+   M /branches/S2_1/server/report.c
+   M /branches/S2_1/server/score.c
+   M /branches/S2_1/server/stdinhand.c
+   M /branches/S2_1/utility/fciconv.c
+   M /branches/S2_1/utility/fciconv.h
+   M /branches/S2_1/utility/ftwl/be_common_24.c
+   M /branches/S2_1/utility/ftwl/be_common_pixels.c
+   M /branches/S2_1/utility/ioz.c
+   M /branches/S2_1/utility/log.c
+   M /branches/S2_1/utility/netintf.c
+   M /branches/S2_1/utility/shared.c
+   M /branches/S2_1/utility/support.c
+   M /branches/S2_1/utility/support.h
+
+Added wrapper functions for fopen(), gzopen(), opendir(), remove() and stat() and changed the already existing make_dir() wrapper function to convert the given file/directory names from Freeciv internal encoding to system local encoding on Windows.
+
+See gna bug #15000.
+
+------------------------------------------------------------------------
+r16573 | pepeto | 2010-01-12 22:09:24 +0100 (Tue, 12 Jan 2010) | 5 lines
+Changed paths:
+   M /branches/S2_1/client/control.c
+
+Single unit selection always clears the order of it, even if 
+unit_selection_clears_orders is set (reserved for multi-units selection).
+
+See gna bug #15041
+
+------------------------------------------------------------------------
+r16568 | pepeto | 2010-01-12 22:03:41 +0100 (Tue, 12 Jan 2010) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/plrhand.c
+
+First diplomatic state between players A and B is peace if A and B are allied 
+with player C.
+
+From a big report by HanduMan on the forum.
+
+See http://forum.freeciv.org/viewtopic.php?t=3681, gna bug #15057
+
+------------------------------------------------------------------------
+r16563 | pepeto | 2010-01-12 21:54:42 +0100 (Tue, 12 Jan 2010) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-sdl/citydlg.c
+
+Fix a crash in the SDL client when the user try to buy the production of a city.
+
+Reported anonymously 
+
+See gna bug #15061
+
+------------------------------------------------------------------------
+r16545 | pepeto | 2010-01-04 00:03:05 +0100 (Mon, 04 Jan 2010) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/reqtree.c
+
+Do not simplify the tech tree for advance which need 2 requirements whose one 
+is required for the other.
+
+Reported by xiong@sf-id.com
+
+See gna bug #15036
+
+------------------------------------------------------------------------
+r16542 | pepeto | 2010-01-03 23:58:16 +0100 (Sun, 03 Jan 2010) | 7 lines
+Changed paths:
+   M /branches/S2_1/server/srv_main.c
+
+Remove the duplication of the warning message when a cease-fire is going to run
+out.    
+
+Reported by Daniel Markstedt (dmarks)
+
+See gna bug #15031
+
+------------------------------------------------------------------------
+r16515 | pepeto | 2009-12-23 22:49:32 +0100 (Wed, 23 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/text.c
+   M /branches/S2_1/utility/astring.c
+   M /branches/S2_1/utility/astring.h
+
+Break the lines in the popit help text after the 80th character.
+
+Reported by Daniel Markstedt (dmarks)
+
+See gna bug #14933
+
+------------------------------------------------------------------------
+r16512 | pepeto | 2009-12-23 22:43:01 +0100 (Wed, 23 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/mapview_common.c
+
+Remove assertion in center_tile_mapcanvas().
+
+Originally reported anonymously.
+
+See gna bug #14945
+
+------------------------------------------------------------------------
+r16509 | pepeto | 2009-12-21 17:19:27 +0100 (Mon, 21 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/ai/advdiplomacy.c
+
+AI hate more players who nuke them.
+
+Patch by healyp@rpi.edu
+
+See gna bug #14888
+
+------------------------------------------------------------------------
+r16498 | pepeto | 2009-12-21 16:47:38 +0100 (Mon, 21 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/server/unittools.c
+
+Update the transporter occupy info when a cargo is removed by any way.
+
+Reported by johannalecschueler@googlemail.com
+
+See gna bug #13912
+
+------------------------------------------------------------------------
+r16485 | pepeto | 2009-12-10 18:10:43 +0100 (Thu, 10 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/misc/colors.png
+
+Upload missing file after revision 16482.
+
+Reported by Jacob Nevins (jtn) 
+
+See gna patch #1386
+
+------------------------------------------------------------------------
+r16482 | pepeto | 2009-12-08 10:04:17 +0100 (Tue, 08 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/data/misc/colors.tilespec
+
+Re-order the play colors to improve distinguishability.
+
+Patch by Jacob Nevins (jtn)
+
+See gna patch #1386
+
+------------------------------------------------------------------------
+r16477 | pepeto | 2009-12-08 09:46:45 +0100 (Tue, 08 Dec 2009) | 6 lines
+Changed paths:
+   M /branches/S2_1/client/gui-gtk-2.0/messagewin.c
+
+Update the message window after populating it in the gui-gtk-2.0 client.
+
+Reported anonymously
+
+See gna bug #14867
+
+------------------------------------------------------------------------
+r16458 | pepeto | 2009-12-02 22:35:56 +0100 (Wed, 02 Dec 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/client/tilespec.h
+
+Change the order of the layers to display unit health bar on some ruleset 
+even over unknown tiles.
+
+Reported by Ann (kudra)
+
+See gna bug #14839
+
+------------------------------------------------------------------------
+r16455 | pepeto | 2009-12-02 22:28:02 +0100 (Wed, 02 Dec 2009) | 7 lines
+Changed paths:
+   M /branches/S2_1/ai/aiexplorer.c
+   M /branches/S2_1/common/tile.c
+   M /branches/S2_1/server/savegame.c
+
+City centers doesn't make borders when borders are disabled.  Correct some 
+parts of the code which was assuming there were borders.
+
+Reported anonymously
+
+See gna bug #14836
+
+------------------------------------------------------------------------
+r16412 | cazfi | 2009-11-23 12:20:09 +0100 (Mon, 23 Nov 2009) | 2 lines
+Changed paths:
+   M /branches/S2_1/po/es.po
+
+Updated translation by Jordi Negrevernis i Font
+
+------------------------------------------------------------------------
+r16411 | dmarks | 2009-11-22 21:35:13 +0100 (Sun, 22 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/version.in
+
+bump version to 2.1.10+
+------------------------------------------------------------------------
+r16408 | dmarks | 2009-11-22 19:36:41 +0100 (Sun, 22 Nov 2009) | 1 line
+Changed paths:
+   M /branches/S2_1/ChangeLog
+
+update changelog for 2.1.10 release
+------------------------------------------------------------------------
 r16407 | dmarks | 2009-11-22 19:33:41 +0100 (Sun, 22 Nov 2009) | 1 line
 Changed paths:
    M /branches/S2_1/ChangeLog
