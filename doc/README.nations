@@ -269,7 +269,12 @@ be used in-game at a later stage.
 
 Leader titles for each government type (including Despotism and
 Anarchy) may be specified in a separate tag. Only ASCII letters
-may be used in leader titles.
+may be used in leader titles. If the male and female titles are
+identical in English, give the latter the ?female: qualifier. Use
+a unique title for each government. A nation may only introduce
+one new title, but is allowed to use any number that have already
+been defined by other nations. Titles from the default ruleset
+may not be used.
 
 
 Flag
