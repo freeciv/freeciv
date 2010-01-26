@@ -898,7 +898,6 @@ static void set_savegame_special(bv_special *specials,
       continue;
     }
     if (map.server.have_rivers_overlay && sp != S_RIVER) {
-      freelog(LOG_ERROR, "Rivers_overlay");
       continue;
     }
 
