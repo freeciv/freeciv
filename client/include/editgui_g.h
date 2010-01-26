@@ -18,6 +18,7 @@ struct tile_list;
 void editgui_tileset_changed(void);
 void editgui_refresh(void);
 void editgui_popup_properties(const struct tile_list *tiles, int objtype);
+void editgui_popdown_all(void);
 
 /* OBJTYPE_* enum values defined in client/editor.h */
 void editgui_notify_object_changed(int objtype, int id, bool remove);

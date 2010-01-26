@@ -208,6 +208,8 @@ static void client_game_init(void)
 **************************************************************************/
 static void client_game_free(void)
 {
+  editgui_popdown_all();
+
   packhand_free();
   settable_options_free();
   voteinfo_queue_free();

@@ -396,6 +396,12 @@ void editgui_popup_properties(const struct tile_list *tiles, int objtype)
 /****************************************************************************
   Stub for editor function
 ****************************************************************************/
+void editgui_popdown_all(void)
+{}
+
+/****************************************************************************
+  Stub for editor function
+****************************************************************************/
 void editgui_notify_object_changed(int objtype, int object_id, bool remove)
 {}
 
