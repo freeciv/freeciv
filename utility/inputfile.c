@@ -577,9 +577,7 @@ static void inf_warn(struct inputfile *inf, const char *message)
 /********************************************************************** 
   ...
 ***********************************************************************/
-static const char *get_token(struct inputfile *inf,
-			     enum inf_token_type type,
-			     bool required)
+const char *inf_token(struct inputfile *inf, enum inf_token_type type)
 {
   const char *c;
   const char *name;
@@ -603,26 +601,10 @@ static const char *get_token(struct inputfile *inf,
       c = func(inf);
     }
   }
-  if (c) {
-    if (INF_DEBUG_FOUND) {
-      freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
-    }
-  } else if (required) {
-    freelog(LOG_FATAL, "Did not find token %s in %s line %d", 
-            name, inf->filename, inf->line_num);
-    exit(EXIT_FAILURE);
+  if (c && INF_DEBUG_FOUND) {
+    freelog(LOG_DEBUG, "inputfile: found %s '%s'", name, inf->token.str);
   }
   return c;
-}
-  
-const char *inf_token(struct inputfile *inf, enum inf_token_type type)
-{
-  return get_token(inf, type, FALSE);
-}
-
-const char *inf_token_required(struct inputfile *inf, enum inf_token_type type)
-{
-  return get_token(inf, type, TRUE);
 }
 
 /********************************************************************** 
