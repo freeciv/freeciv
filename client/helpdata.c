@@ -139,12 +139,12 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
       if (0 != strlen(terrain_rule_name(pterrain))) {
 	char road_time[4], irrigation_time[4],
 	     mining_time[4], transform_time[4];
-	snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
-	snprintf(irrigation_time, sizeof(irrigation_time),
+	my_snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
+	my_snprintf(irrigation_time, sizeof(irrigation_time),
 		 "%d", pterrain->irrigation_time);
-	snprintf(mining_time, sizeof(mining_time),
+	my_snprintf(mining_time, sizeof(mining_time),
 		 "%d", pterrain->mining_time);
-	snprintf(transform_time, sizeof(transform_time),
+	my_snprintf(transform_time, sizeof(transform_time),
 		 "%d", pterrain->transform_time);
 	cat_snprintf(outbuf, outlen,
 		"%-10s %3s    %3s %-10s %3s %-10s %3s %-10s\n",
