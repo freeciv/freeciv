@@ -84,9 +84,9 @@ reqs    =
 
 ; Fortress HP regen
 [effect_fortress_hp_regen]
-name	= "HP_Regen"
-value	= 100
-reqs	=
+name    = "HP_Regen"
+value   = 25
+reqs    =
     { "type", "name", "range"
       "Base", "Fortress", "Tile"
       "UnitClass", "Land", "Local"
