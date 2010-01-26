@@ -1455,7 +1455,7 @@ void request_unit_unload(struct unit *pcargo)
     dsend_packet_unit_unload(&aconnection, pcargo->id, ptrans->id);
 
     if (unit_owner(pcargo) == game.player_ptr
-        && pcargo->activity != ACTIVITY_IDLE) {
+        && pcargo->activity == ACTIVITY_SENTRY) {
       /* Activate the unit. */
       dsend_packet_unit_change_activity(&aconnection, pcargo->id,
                                         ACTIVITY_IDLE, S_LAST);
