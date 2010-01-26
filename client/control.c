@@ -1511,7 +1511,7 @@ void request_unit_unload(struct unit *pcargo)
     dsend_packet_unit_unload(&client.conn, pcargo->id, ptrans->id);
 
     if (unit_owner(pcargo) == client.conn.playing
-        && pcargo->activity != ACTIVITY_IDLE) {
+        && pcargo->activity == ACTIVITY_SENTRY) {
       /* Activate the unit. */
       dsend_packet_unit_change_activity(&client.conn, pcargo->id,
                                         ACTIVITY_IDLE, S_LAST, -1);
