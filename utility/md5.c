@@ -54,8 +54,7 @@
 #define BLOCKSIZE 4096
 /* Ensure that BLOCKSIZE is a multiple of 64.  */
 #if BLOCKSIZE % 64 != 0
-/* FIXME-someday (soon?): use #error instead of this kludge.  */
-"invalid BLOCKSIZE"
+#error invalid BLOCKSIZE number.
 #endif
 /* This array contains the bytes used to pad the buffer to the next
    64-byte boundary.  (RFC 1321, 3.1: Step 1)  */
