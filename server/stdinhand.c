@@ -3758,7 +3758,11 @@ static bool reset_command(struct connection *caller, bool check,
     return FALSE;
   }
 
-  send_server_settings(NULL);
+  /* FIXME: Send server settings one by one to don't send the control
+   * packet. */
+  settings_iterate(pset) {
+    send_server_setting(NULL, pset);
+  } settings_iterate_end;
   notify_conn(NULL, NULL, E_SETTING, ftc_server,
               _("Settings re-initialized."));
   return TRUE;

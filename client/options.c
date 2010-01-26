@@ -1880,9 +1880,9 @@ static void settable_options_save(struct section_file *sf)
 *****************************************************************/
 void desired_settable_options_update(void)
 {
-  char buf[64];
+  char val_buf[64], def_buf[64];
   struct options_settable *pset;
-  const char *value;
+  const char *value, *def_val;
   int i;
 
   log_assert_ret(NULL != settable_options_hash);
@@ -1890,30 +1890,41 @@ void desired_settable_options_update(void)
   for (i = 0; i < num_settable_options; i++) {
     pset = settable_options + i;
     if (!pset->is_visible) {
-      /* Cannot know the value of this setting in this case, don't overwrite. */
+      /* Cannot know the value of this setting in this case,
+       * don't overwrite. */
       continue;
     }
 
     value = NULL;
+    def_val = NULL;
     switch (pset->stype) {
     case SSET_BOOL:
     case SSET_INT:
-      my_snprintf(buf, sizeof(buf), "%d", pset->val);
-      value = buf;
+      my_snprintf(val_buf, sizeof(val_buf), "%d", pset->val);
+      value = val_buf;
+      my_snprintf(def_buf, sizeof(def_buf), "%d", pset->default_val);
+      def_val = def_buf;
       break;
     case SSET_STRING:
       value = pset->strval;
+      def_val = pset->default_strval;
       break;
     }
 
-    if (NULL == value) {
+    if (NULL == value || NULL == def_val) {
       log_error("Wrong setting type (%d) for '%s'.",
                 pset->stype, pset->name);
       continue;
     }
 
-    hash_replace(settable_options_hash,
-                 mystrdup(pset->name), mystrdup(value));
+    if (0 == strcmp(value, def_val)) {
+      /* Not set, using default... */
+      hash_delete_entry(settable_options_hash, pset->name);
+    } else {
+      /* Really desired. */
+      hash_replace(settable_options_hash,
+                   mystrdup(pset->name), mystrdup(value));
+    }
   }
 }
 
@@ -1921,7 +1932,8 @@ void desired_settable_options_update(void)
   Update a desired settable option in the hash table from a value
   which can be different of the current consiguration.
 *****************************************************************/
-void desired_settable_option_update(const char *op_name, const char *op_value,
+void desired_settable_option_update(const char *op_name,
+                                    const char *op_value,
                                     bool allow_replace)
 {
   log_assert_ret(NULL != settable_options_hash);

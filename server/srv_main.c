@@ -1984,6 +1984,9 @@ static void srv_running(void)
   /* We may as well reset is_new_game now. */
   game.info.is_new_game = FALSE;
 
+  log_verbose("srv_running() mostly redundant send_server_settings()");
+  send_server_settings(NULL);
+
   eot_timer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
 
   /* 
@@ -2273,9 +2276,6 @@ static void srv_ready(void)
 
   set_server_state(S_S_RUNNING);
   (void) send_server_info_to_metaserver(META_INFO);
-
-  log_verbose("srv_ready() mostly redundant send_server_settings()");
-  send_server_settings(NULL);
 
   if (game.info.is_new_game) {
     /* If we're starting a new game, reset the max_players to be at

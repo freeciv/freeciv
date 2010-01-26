@@ -220,7 +220,8 @@ bool option_font_set(struct client_option *poption, const char *str);
 /** Desired settable options. **/
 struct options_settable;
 void desired_settable_options_update(void);
-void desired_settable_option_update(const char *op_name, const char *op_value,
+void desired_settable_option_update(const char *op_name,
+                                    const char *op_value,
                                     bool allow_replace);
 void desired_settable_option_send(struct options_settable *pset);
 
