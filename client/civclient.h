@@ -51,7 +51,6 @@ extern char metaserver[512];
 extern int  server_port;
 extern bool auto_connect;
 extern bool waiting_for_end_turn;
-extern bool turn_done_sent;
 extern bool in_ggz;
 
 void wait_till_request_got_processed(int request_id);

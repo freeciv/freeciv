@@ -906,7 +906,6 @@ void handle_start_phase(int phase)
     agents_start_turn();
     non_ai_unit_focus = FALSE;
 
-    turn_done_sent = FALSE;
     update_turn_done_button_state();
 
     if(game.player_ptr->ai.control && !ai_manual_turn_done) {
@@ -1679,7 +1678,8 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   pplayer->is_ready = pinfo->is_ready;
 
-  phase_done_changed = (pplayer->phase_done != pinfo->phase_done);
+  phase_done_changed = (pplayer->phase_done != pinfo->phase_done
+                        || pplayer->ai.control != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->nturns_idle=pinfo->nturns_idle;
