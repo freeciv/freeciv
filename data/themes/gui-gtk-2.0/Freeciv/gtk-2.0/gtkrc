@@ -1223,43 +1223,47 @@ style "toolbuttons" = "default"
 
   engine "pixmap"
   {
-      
     image
     {
       function          = BOX
+      detail            = "buttondefault"
       recolorable       = TRUE
-      state             = NORMAL
-      file              = "Toolbar/toolbutton-normal.png"
-      border            = { 5, 5, 5, 5 }
+      file              = "Buttons/button-default.png"
+      border            = { 3, 3, 3, 3 }
       stretch           = TRUE
     }
     image
     {
       function          = BOX
-      recolorable       = TRUE
       state             = PRELIGHT
-      file              = "Toolbar/toolbutton-prelight.png"
-      border            = { 5, 5, 5, 5 }
+      recolorable       = TRUE
+      file              = "Buttons/button-prelight.png"
+      border            = { 3, 3, 3, 3 }
       stretch           = TRUE
     }
     image
     {
       function          = BOX
-      recolorable       = TRUE
       state             = ACTIVE
-      file              = "Toolbar/toolbutton-pressed.png"
-      border            = { 5, 5, 5, 5 }
+      file              = "Buttons/button-pressed.png"
+      border            = { 3, 3, 3, 3 }
       stretch           = TRUE
-    }  
-    image
+    }   
+    image 
     {
       function          = BOX
-      recolorable       = TRUE
       state             = INSENSITIVE
-      file              = "Toolbar/toolbutton-normal.png"
+      file              = "Buttons/button-insensitive.png"
+      border            = { 3, 3, 3, 3 }
+      stretch           = TRUE
+    }
+    image 
+    {
+      function          = BOX
+      file              = "Buttons/button-normal.png"           
       border            = { 5, 5, 5, 5 }
       stretch           = TRUE
-    }  
+    }   
   }
 }
 

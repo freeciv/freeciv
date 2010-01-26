@@ -4,10 +4,6 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/themes/gui-gtk-2.0/Freeciv/gtk-2.0/Toolbar
 
 pkgdata_DATA =          	\
-	toolbar.png		\
-	toolbutton-normal.png	\
-	toolbutton-prelight.png	\
-	toolbutton-pressed.png	\
-	toolbutton-toggled.png
+	toolbar.png
 
 EXTRA_DIST = $(pkgdata_DATA)
