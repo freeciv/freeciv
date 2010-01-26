@@ -486,7 +486,9 @@ static bool section_file_read_dup(struct section_file *sf,
 	  }
 	}
       }
-      (void) inf_token_required(inf, INF_TOK_EOL);
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        return FALSE;
+      }
       continue;
     }
 #if 0
@@ -503,7 +505,9 @@ static bool section_file_read_dup(struct section_file *sf,
 	inf_log(inf, LOG_ERROR, "misplaced \"}\"");
         return FALSE;
       }
-      (void) inf_token_required(inf, INF_TOK_EOL);
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        return FALSE;
+      }
       table_state = FALSE;
       continue;
     }
@@ -514,7 +518,7 @@ static bool section_file_read_dup(struct section_file *sf,
 
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+	if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
           return FALSE;
         }
 
@@ -538,13 +542,15 @@ static bool section_file_read_dup(struct section_file *sf,
 	  sf->num_entries++;
 	}
       } while(inf_token(inf, INF_TOK_COMMA));
-      
-      (void) inf_token_required(inf, INF_TOK_EOL);
+
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        return FALSE;
+      }
       table_lineno++;
       continue;
     }
     
-    if (!(tok = inf_token_required(inf, INF_TOK_ENTRY_NAME))) {
+    if (!(tok = inf_token(inf, INF_TOK_ENTRY_NAME))) {
       return FALSE;
     }
 
@@ -559,7 +565,7 @@ static bool section_file_read_dup(struct section_file *sf,
       do {
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-	if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+	if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
           return FALSE;
         }
 	if( tok[0] != '\"' ) {
@@ -581,8 +587,10 @@ static bool section_file_read_dup(struct section_file *sf,
 	strcpy(columns.p[i].str, tok+1);
 	
       } while(inf_token(inf, INF_TOK_COMMA));
-      
-      (void) inf_token_required(inf, INF_TOK_EOL);
+
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        return FALSE;
+      }
       table_state = TRUE;
       table_lineno=0;
       continue;
@@ -592,7 +600,7 @@ static bool section_file_read_dup(struct section_file *sf,
     do {
       i++;
       inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-      if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+      if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
         return FALSE;
       }
       if (i==0) {
@@ -610,7 +618,9 @@ static bool section_file_read_dup(struct section_file *sf,
 	sf->num_entries++;
       }
     } while(inf_token(inf, INF_TOK_COMMA));
-    (void) inf_token_required(inf, INF_TOK_EOL);
+    if (!inf_token(inf, INF_TOK_EOL)) {
+      return FALSE;
+    }
   }
   
   if (table_state) {
