@@ -106,13 +106,12 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
   struct section_file the_file, *file = &the_file;
   int nservers, i, j;
 
-  server_list = server_list_new();
-
   /* This call closes f. */
   if (!section_file_load_from_stream(file, f)) {
-    return server_list;
+    return NULL;
   }
 
+  server_list = server_list_new();
   nservers = secfile_lookup_int_default(file, 0, "main.nservers");
 
   for (i = 0; i < nservers; i++) {
@@ -380,6 +379,13 @@ static void meta_read_response(struct server_scan *scan)
 
       /* 'f' (hence 'meta.fp') was closed in parse_metaserver_data(). */
       scan->meta.fp = NULL;
+
+      if (NULL == scan->servers) {
+        my_snprintf(str, sizeof(str),
+                    _("Failed to parse the metaserver data from http://%s."),
+                    scan->meta.name);
+        scan->error_func(scan, str);
+      }
 
       return;
     } else {
