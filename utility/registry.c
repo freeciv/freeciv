@@ -516,7 +516,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
           }
         }
       }
-      (void) inf_token_required(inf, INF_TOK_EOL);
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        error = TRUE;
+        goto END;
+      }
       continue;
     }
     if (inf_token(inf, INF_TOK_TABLE_END)) {
@@ -525,7 +528,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         error = TRUE;
         goto END;
       }
-      (void) inf_token_required(inf, INF_TOK_EOL);
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        error = TRUE;
+        goto END;
+      }
       table_state = FALSE;
       continue;
     }
@@ -536,7 +542,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 
         i++;
         inf_discard_tokens(inf, INF_TOK_EOL);   /* allow newlines */
-        if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+        if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
           error = TRUE;
           goto END;
         }
@@ -556,12 +562,15 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         entry_from_token(psection, entry_name.str, tok);
       } while (inf_token(inf, INF_TOK_COMMA));
 
-      (void) inf_token_required(inf, INF_TOK_EOL);
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        error = TRUE;
+        goto END;
+      }
       table_lineno++;
       continue;
     }
 
-    if (!(tok = inf_token_required(inf, INF_TOK_ENTRY_NAME))) {
+    if (!(tok = inf_token(inf, INF_TOK_ENTRY_NAME))) {
       error = TRUE;
       goto END;
     }
@@ -577,7 +586,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       do {
         i++;
         inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
-        if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+        if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
           error = TRUE;
           goto END;
         }
@@ -601,8 +610,11 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         strcpy(columns.p[i].str, tok + 1);
         
       } while (inf_token(inf, INF_TOK_COMMA));
-      
-      (void) inf_token_required(inf, INF_TOK_EOL);
+
+      if (!inf_token(inf, INF_TOK_EOL)) {
+        error = TRUE;
+        goto END;
+      }
       table_state = TRUE;
       table_lineno = 0;
       continue;
@@ -612,7 +624,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     do {
       i++;
       inf_discard_tokens(inf, INF_TOK_EOL);     /* allow newlines */
-      if (!(tok = inf_token_required(inf, INF_TOK_VALUE))) {
+      if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
         error = TRUE;
         goto END;
       }
@@ -625,7 +637,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         entry_from_token(psection, entry_name.str, tok);
       }
     } while (inf_token(inf, INF_TOK_COMMA));
-    (void) inf_token_required(inf, INF_TOK_EOL);
+    if (!inf_token(inf, INF_TOK_EOL)) {
+      error = TRUE;
+      goto END;
+    }
   }
 
   if (table_state) {
