@@ -1787,6 +1787,7 @@ void editgui_refresh(void)
 
   pe = editprop_get_property_editor();
   if (!editor_is_active()) {
+    property_editor_clear(pe);
     property_editor_popdown(pe);
   }
 }
@@ -1839,6 +1840,18 @@ void editgui_popup_properties(const struct tile_list *tiles, int objtype)
   property_editor_reload(pe, OBJTYPE_GAME);
   property_editor_load_tiles(pe, tiles);
   property_editor_popup(pe, objtype);
+}
+
+/****************************************************************************
+  Popup all dialog window of the editor.
+****************************************************************************/
+void editgui_popdown_all(void)
+{
+  struct property_editor *pe;
+
+  pe = editprop_get_property_editor();
+  property_editor_popdown(pe);
+  property_editor_clear(pe);    /* And clear it. */
 }
 
 /****************************************************************************
