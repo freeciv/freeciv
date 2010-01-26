@@ -99,25 +99,35 @@ void update_timeout_label(void)
 /**************************************************************************
 ...
 **************************************************************************/
-void update_info_label( void )
+void update_info_label(void)
 {
   GtkWidget *label;
   const struct player *pplayer = client.conn.playing;
 
   label = gtk_frame_get_label_widget(GTK_FRAME(main_frame_civ_name));
   if (pplayer != NULL) {
-    char nation[MAX_LEN_NAME];
+    const gchar *name;
+    gunichar c;
 
     /* Capitalize the first character of the translated nation
-     * plural name so that the frame label looks good. I assume
-     * that in the case that capitalization does not make sense
-     * (e.g. multi-byte characters or no "upper case" form in
-     * the translation language) my_toupper() will just return
-     * the same value as was passed into it. */
-    sz_strlcpy(nation, nation_plural_for_player(pplayer));
-    nation[0] = my_toupper(nation[0]);
+     * plural name so that the frame label looks good. */
+    name = nation_plural_for_player(pplayer);
+    c = g_utf8_get_char_validated(name, -1);
+    if ((gunichar) -1 != c && (gunichar) -2 != c) {
+      gchar nation[MAX_LEN_NAME];
+      gchar *next;
+      gint len;
 
-    gtk_label_set_text(GTK_LABEL(label), nation);
+      len = g_unichar_to_utf8(g_unichar_toupper(c), nation);
+      nation[len] = '\0';
+      next = g_utf8_find_next_char(name, NULL);
+      if (NULL != next) {
+        sz_strlcat(nation, next);
+      }
+      gtk_label_set_text(GTK_LABEL(label), nation);
+    } else {
+      gtk_label_set_text(GTK_LABEL(label), name);
+    }
   } else {
     gtk_label_set_text(GTK_LABEL(label), "-");
   }
