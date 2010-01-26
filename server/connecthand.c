@@ -184,7 +184,7 @@ void establish_new_connection(struct connection *pconn)
     send_conn_info(game.est_connections, dest);
 
   } else {
-    if (S_S_INITIAL == server_state() && game.info.is_new_game) {
+    if (!game_was_started()) {
       if (!connection_attach(pconn, NULL, FALSE)) {
         notify_conn(dest, NULL, E_CONNECTION, ftc_server,
                     _("Couldn't attach your connection to new player."));

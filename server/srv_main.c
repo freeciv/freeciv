@@ -239,6 +239,14 @@ void set_server_state(enum server_states newstate)
 }
 
 /**************************************************************************
+  Returns iff the game was started once upon a time.
+**************************************************************************/
+bool game_was_started(void)
+{
+  return (!game.info.is_new_game || S_S_INITIAL != server_state());
+}
+
+/**************************************************************************
   Returns TRUE if any one game end condition is fulfilled, FALSE otherwise.
 
   This function will notify players but will not set the server_state(). The
@@ -1781,7 +1789,7 @@ void aifill(int amount)
   /* Limit to nations provided by ruleset */
   limit = MIN(limit, server.playable_nations);
 
-  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
+  if (game_was_started()) {
     return;
   }
 

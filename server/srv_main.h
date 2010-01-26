@@ -93,6 +93,7 @@ void set_server_state(enum server_states newstate);
 
 void check_for_full_turn_done(void);
 bool check_for_game_over(void);
+bool game_was_started(void);
 
 bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);

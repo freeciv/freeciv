@@ -5468,7 +5468,7 @@ void game_save(struct section_file *file, const char *save_reason,
   
   script_state_save(file);
 
-  if (game.info.is_new_game && (S_S_INITIAL == server_state())) {
+  if (!game_was_started()) {
     return; /* want to save scenarios as well */
   }
 

@@ -850,7 +850,7 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
     return FALSE;
   }
 
-  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
+  if (game_was_started()) {
     cmd_reply(CMD_REMOVE, caller, C_FAIL,
 	      _("Players cannot be removed once the game has started."));
     return FALSE;
@@ -1925,7 +1925,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   bool res = FALSE;
   struct team *pteam;
 
-  if (!game.info.is_new_game || S_S_INITIAL != server_state()) {
+  if (game_was_started()) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
               _("Cannot change teams once game has begun."));
     return FALSE;
@@ -2643,7 +2643,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   } else if (!pplayer && !will_obs) {
     /* Auto-taking a new player */
 
-    if (!game.info.is_new_game || server_state() != S_S_INITIAL) {
+    if (game_was_started()) {
       mystrlcpy(msg, _("You cannot take a new player at this time."),
                 msg_len);
       return FALSE;
@@ -2757,7 +2757,7 @@ static bool observe_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];  
-  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
+  bool is_newgame = !game_was_started();
   enum m_pre_result result;
   struct connection *pconn = NULL;
   struct player *pplayer = NULL;
@@ -2905,7 +2905,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
 {
   int i = 0, ntokens = 0;
   char buf[MAX_LEN_CONSOLE_LINE], *arg[2], msg[MAX_LEN_MSG];
-  bool is_newgame = game.info.is_new_game && (S_S_INITIAL == server_state());
+  bool is_newgame = !game_was_started();
   enum m_pre_result match_result;
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
@@ -3349,7 +3349,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
               game.server.rulesetdir);
     return FALSE;
   }
-  if (S_S_INITIAL != server_state() || !game.info.is_new_game) {
+  if (game_was_started()) {
     cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
               _("This setting can't be modified after the game has started."));
     return FALSE;
