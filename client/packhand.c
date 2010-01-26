@@ -1017,7 +1017,6 @@ void handle_start_phase(int phase)
     agents_start_turn();
     non_ai_unit_focus = FALSE;
 
-    turn_done_sent = FALSE;
     update_turn_done_button_state();
 
     if (client.conn.playing->ai_data.control && !ai_manual_turn_done) {
@@ -1853,7 +1852,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   research->future_tech = pinfo->future_tech;
   research->tech_goal = pinfo->tech_goal;
   
-  turn_done_changed = pplayer->phase_done != pinfo->phase_done;
+  turn_done_changed = (pplayer->phase_done != pinfo->phase_done
+                       || pplayer->ai_data.control != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->is_ready = pinfo->is_ready;

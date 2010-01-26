@@ -110,12 +110,6 @@ static enum client_states civclient_state = C_S_INITIAL;
 /* TRUE if an end turn request is blocked by busy agents */
 bool waiting_for_end_turn = FALSE;
 
-/* 
- * TRUE for the time between sending PACKET_TURN_DONE and receiving
- * PACKET_NEW_YEAR. 
- */
-bool turn_done_sent = FALSE;
-
 /*
  * TRUE between receiving PACKET_END_TURN and PACKET_BEGIN_TURN
  */
@@ -576,7 +570,6 @@ void send_turn_done(void)
   }
 
   waiting_for_end_turn = FALSE;
-  turn_done_sent = TRUE;
 
   attribute_flush();
 

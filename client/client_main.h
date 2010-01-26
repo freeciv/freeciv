@@ -73,7 +73,6 @@ extern char metaserver[512];
 extern int  server_port;
 extern bool auto_connect;
 extern bool waiting_for_end_turn;
-extern bool turn_done_sent;
 extern bool in_ggz;
 
 struct global_worklist_list;    /* Defined in global_worklist.[ch]. */

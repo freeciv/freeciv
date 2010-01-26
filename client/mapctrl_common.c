@@ -74,9 +74,6 @@ struct tile *keyboardless_goto_start_tile;
 /* Update the workers for a city on the map, when the update is received */
 struct city *city_workers_display = NULL;
 
-static bool turn_done_state;
-static bool is_turn_done_state_valid = FALSE;
-
 /*************************************************************************/
 
 static void clipboard_send_production_packet(struct city *pcity);
@@ -507,16 +504,14 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 }
 
 /**************************************************************************
- Return TRUE iff the turn done button is enabled.
+ Return TRUE iff the turn done button should be enabled.
 **************************************************************************/
-bool get_turn_done_button_state()
+bool get_turn_done_button_state(void)
 {
-  if (!is_turn_done_state_valid) {
-    update_turn_done_button_state();
-  }
-  assert(is_turn_done_state_valid);
-
-  return turn_done_state;
+  return (can_client_issue_orders()
+          && !client.conn.playing->ai_data.control
+          && !client.conn.playing->phase_done
+          && !agents_busy());
 }
 
 /**************************************************************************
@@ -616,37 +611,17 @@ void recenter_button_pressed(int canvas_x, int canvas_y)
 /**************************************************************************
  Update the turn done button state.
 **************************************************************************/
-void update_turn_done_button_state()
+void update_turn_done_button_state(void)
 {
-  bool new_state;
-
-  if (!is_turn_done_state_valid) {
-    turn_done_state = FALSE;
-    is_turn_done_state_valid = TRUE;
-    set_turn_done_button_state(turn_done_state);
-    log_debug("setting turn done button state init %d", turn_done_state);
-  }
-
-  new_state = (can_client_issue_orders()
-	       && !client.conn.playing->phase_done
-	       && !agents_busy()
-	       && !turn_done_sent);
-  if (new_state == turn_done_state) {
-    return;
-  }
-
-  log_debug("setting turn done button state from %d to %d",
-            turn_done_state, new_state);
-  turn_done_state = new_state;
+  bool turn_done_state = get_turn_done_button_state();
 
   set_turn_done_button_state(turn_done_state);
-  control_mouse_cursor(NULL);
 
   if (turn_done_state) {
     if (waiting_for_end_turn
-	|| (NULL != client.conn.playing
+        || (NULL != client.conn.playing
             && client.conn.playing->ai_data.control
-	    && !ai_manual_turn_done)) {
+            && !ai_manual_turn_done)) {
       send_turn_done();
     } else {
       update_turn_done_button(TRUE);
