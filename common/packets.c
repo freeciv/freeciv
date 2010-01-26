@@ -21,15 +21,19 @@
 #include <assert.h>
 #include <limits.h>
 
+/* utility */
 #include "capability.h"
-#include "dataio.h"
-#include "events.h"
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"
-#include "map.h"
 #include "mem.h"
 #include "support.h"
+
+/* commmon */
+#include "dataio.h"
+#include "game.h"
+#include "events.h"
+#include "map.h"
 
 #include "packets.h"
 
@@ -79,7 +83,7 @@
 ***********************************************************************/
 
 /**************************************************************************
-  It returns the request id of the outgoing packet (or 0 if pc->is_server).
+  It returns the request id of the outgoing packet (or 0 if is_server()).
 **************************************************************************/
 int send_packet_data(struct connection *pc, unsigned char *data, int len)
 {
@@ -89,9 +93,9 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   log_packet("sending packet type=%s(%d) len=%d",
              packet_name(data[2]), data[2], len);
 
-  if (!pc->is_server) {
+  if (!is_server()) {
     pc->client.last_request_id_used =
-	get_next_request_id(pc->client.last_request_id_used);
+        get_next_request_id(pc->client.last_request_id_used);
     result = pc->client.last_request_id_used;
     log_packet("sending request %d", result);
   }

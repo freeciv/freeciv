@@ -239,7 +239,6 @@ void make_connection(int socket, const char *username)
 
   connection_common_init(&client.conn);
   client.conn.sock = socket;
-  client.conn.is_server = FALSE;
   client.conn.client.last_request_id_used = 0;
   client.conn.client.last_processed_request_id_seen = 0;
   client.conn.client.request_id_of_currently_handled_packet = 0;

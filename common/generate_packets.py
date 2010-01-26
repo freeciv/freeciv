@@ -1128,12 +1128,12 @@ class Packet:
         only_client=len(self.dirs)==1 and self.dirs[0]=="sc"
         only_server=len(self.dirs)==1 and self.dirs[0]=="cs"
         if only_client:
-            restrict='''  if (pc->is_server) {
+            restrict='''  if (is_server()) {
     log_error("Receiving %(name)s at the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
-            restrict='''  if (!pc->is_server) {
+            restrict='''  if (!is_server()) {
     log_error("Receiving %(name)s at the client.");
   }
 '''%self.get_dict(vars())
@@ -1163,12 +1163,12 @@ class Packet:
         only_client=len(self.dirs)==1 and self.dirs[0]=="cs"
         only_server=len(self.dirs)==1 and self.dirs[0]=="sc"
         if only_client:
-            restrict='''  if (pc->is_server) {
+            restrict='''  if (is_server()) {
     log_error("Sending %(name)s from the server.");
   }
 '''%self.get_dict(vars())
         elif only_server:
-            restrict='''  if (!pc->is_server) {
+            restrict='''  if (!is_server()) {
     log_error("Sending %(name)s from the client.");
   }
 '''%self.get_dict(vars())
@@ -1475,14 +1475,18 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 #include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "capability.h"
-#include "capstr.h"
-#include "connection.h"
-#include "dataio.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
+
+/* common */
+#include "capstr.h"
+#include "connection.h"
+#include "dataio.h"
+#include "game.h"
 
 #include "packets.h"
 
