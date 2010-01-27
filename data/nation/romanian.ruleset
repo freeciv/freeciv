@@ -32,8 +32,6 @@ city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
 		 ; /* TRANS: Voievod/Doamna = Prince/Lady */
                  "Despotism",       _("Voievod"),     	_("Doamna")
-		 ; /* TRANS: Rege/Regina = King/Queen */
-                 "Monarchy",        _("Rege"),    	_("Regina")
 		 ; /* TRANS: Tovaras/Tovarasa = Comrade */
                  "Communism",       _("Tovaras"),     	_("Tovarasa")
            "Fundamentalism", _("Director-President"), _("Director-President")

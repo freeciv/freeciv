@@ -30,11 +30,8 @@ flag="inca"
 flag_alt = "peru"	; Used previously
 city_style = "Tropical"
 
-; The title of a queen (if female rulers are ever added) would be Qoya.
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Inka"),         _("Inka")
-                 "Monarchy",        _("Sapa Inka"),    _("Sapa Inka")
-                 "Fundamentalism",  _("Willaq Umu"),   _("Willaq Umu")
+                 "Monarchy",        _("Sapa Inka"),    _("Qoya")
                }
 
 init_techs=""

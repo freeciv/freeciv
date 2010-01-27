@@ -23,7 +23,6 @@ city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Republic",       _("Nabob"),           _("?female:Nabob")
-                 "Anarchy",        _("Major"),           _("?female:Major")
                }
 
 init_techs=""

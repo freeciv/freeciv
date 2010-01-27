@@ -21,9 +21,10 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",       "female_title"
-                "Monarchy",        _("Emir"),          _("Emir")
-                "Communism",   _("General Secretary"), _("General Secretary")
-                "Fundamentalism",  _("Mullah"),        _("Mullah")
+                "Monarchy",        _("Emir"),          _("Emira")
+                "Republic",        _("Padishah"),     _("?female:Padishah")
+                "Communism",   _("General Secretary"), _("?female:General Secretary")
+                "Fundamentalism",  _("Mullah"),        _("?female:Mullah")
                 "Democracy", _("Prime Minister"), _("?female:Prime Minister")
                }
 

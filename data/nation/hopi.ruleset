@@ -25,7 +25,7 @@ flag         = "hopi"
 flag_alt     = "-"
 city_style   = "Babylonian"
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",      _("Kikmongwi"),       _("Kikmongwi")
+                 "Despotism",      _("Kikmongwi"),       _("?female:Kikmongwi")
                }
 
 init_techs=""

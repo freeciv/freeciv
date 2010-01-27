@@ -27,12 +27,7 @@ flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-        	 "Monarchy",        _("Jiliri"),       _("Jiliri")
                  "Republic",        _("Mallku"),       _("Ttalla")
-                 "Democracy",       _("Mallku"),       _("Ttalla")
-        	 "Fundamentalism",  _("Willka"),       _("Willka")
-                 "Despotism",       _("Tata"),         _("Mama")
-                 "Communism",       _("Markachiri"),   _("Markachiri")
                }
 
 init_techs=""

@@ -20,6 +20,11 @@ leader=
 
 leader_sex = "Male", "Male", "Male", "Male"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Raja"),         _("Rani")
+                 "Monarchy",        _("Maharaja"),     _("Maharani")
+               }
+
 flag         = "chola"
 flag_alt     = "-"
 city_style   = "Tropical"

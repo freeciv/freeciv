@@ -21,6 +21,10 @@ flag="southern_cross"
 flag_alt="-"
 city_style="European"
 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Speaker"),      _("?female:Speaker")
+               }
+
 init_techs=""
 init_buildings=""
 init_government="Despotism"

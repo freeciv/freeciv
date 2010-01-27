@@ -18,8 +18,7 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 ; /* TRANS: translates as the Great leader */
-                 "Communism",_("Widaehan suryong"),_("Widaehan suryong")
+                 "Communism",_("Great Leader"),_("?female:Great Leader")
                }
 
 init_techs=""
@@ -27,7 +26,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "south korean"
+civilwar_nations = "southkorean"
 
 ; Sorted according to 2005 population
 cities =

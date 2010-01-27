@@ -24,10 +24,6 @@ leader_sex = "Male", "Male", "Male", "Male"
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Hankwa = Chief */
                  "Despotism",       _("Hankwa"),        _("?female:Hankwa")
-		 ; /* TRANS: Guacanaoma = Paramount Chief */
-                 "Monarchy",       _("Guacanaoma"), _("?female:Guacanaoma")
-		 ; /* TRANS: Mama = Priest */
-                 "Fundamentalism",  _("Mama"),           _("?female:Mama")
                }
 
 flag         = "tairona"

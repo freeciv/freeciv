@@ -27,7 +27,6 @@ city_style = "Classical"
 ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Caudillo"),       _("Caudilla")
                  "Fundamentalism", _("Cardinal"),       _("?female:Cardinal")
-                 "Monarchy",       _("King"),           _("Queen")
                  "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 

@@ -19,9 +19,6 @@ ruler_titles = { "government",      "male_title",      "female_title"
 		 ; /* TRANS: Uchimaahkaan = Chief */
 		 ; /* TRANS: Uchimaahkaaniskweu = Chief's wife */
                  "Despotism",       _("Uchimaahkaan"),_("Uchimaahkaaniskweu")
-		 ; /* TRANS: Chihchiuchimaau = King */
-		 ; /* TRANS: Chihchiuchimaaskweu = Queen */
-                 "Monarchy",    _("Chihchiuchimaau"),_("Chihchiuchimaaskweu")
                }
 
 flag="innu"

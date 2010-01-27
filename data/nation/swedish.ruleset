@@ -29,6 +29,7 @@ flag="sweden"
 flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Jarl"),             _("?female:Jarl")
                  "Democracy",_("Prime Minister"), _("?female:Prime Minister")
                }
 

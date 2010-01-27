@@ -39,11 +39,6 @@ flag="templar"
 flag_alt = "stpatrick"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Democracy",       _("Grand Master"), _("Grand Mistress")
-                 "Fundamentalism",  _("Grand Master"), _("Grand Mistress")
-       	         "Despotism",       _("Grand Master"), _("Grand Mistress")
-                 "Republic",        _("Grand Master"), _("Grand Mistress")
-                 "Communism",       _("Grand Master"), _("Grand Mistress")
                  "Monarchy",        _("Grand Master"), _("Grand Mistress")
                }
 

@@ -24,8 +24,7 @@ city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
 		 ; /* TRANS: Ban = Duke */
-        	 "Despotism",       _("Ban"),          _("Ban")
-                 "Republic",        _("President"),    _("?female:President")
+        	 "Despotism",       _("Ban"),          _("?female:Ban")
                }
 
 init_techs=""

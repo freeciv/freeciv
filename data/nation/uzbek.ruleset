@@ -25,7 +25,7 @@ city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Khan"),         _("Khatan")
-                 "Monarchy",        _("Emir"),         _("Emir")
+                 "Monarchy",        _("Emir"),         _("Emira")
                }
 
 init_techs=""

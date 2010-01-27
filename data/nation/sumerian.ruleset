@@ -24,10 +24,8 @@ flag_alt = "-"
 city_style = "Babylonian"
 
 ruler_titles = { "government", "male_title", "female_title"
-		 "Despotism",  _("Nin"),     _("Nin")
-                 "Monarchy",   _("Lugal"),   _("Lugal")
-                 "Communism",  _("Ensi"),    _("Ensi")
-		 "Fundamentalism", _("Sanga"), _("Sanga")
+                 "Monarchy",   _("Lugal"),   _("?female:Lugal")
+                 "Communism",  _("Ensi"),    _("?female:Ensi")
                }
 
 init_techs=""

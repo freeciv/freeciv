@@ -24,6 +24,7 @@ flag_alt = "-"
 city_style = "Asian"
 ruler_titles = { "government",  "male_title",  "female_title"
                  "Despotism",   _("Khan"),     _("Khatan")
+                 "Monarchy",    _("Great Khan"),   _("Great Khatan")
                }
 
 init_techs=""
