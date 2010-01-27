@@ -18,6 +18,7 @@ flag="netherlands"
 flag_alt = "holland"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
+		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
                  "Democracy", _("Prime Minister"),_("?female:Prime Minister")
                }
 

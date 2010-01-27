@@ -28,8 +28,7 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-        	 "Monarchy",        _("Tzar"),         _("Tzaritza")
-                 "Republic",        _("President"),    _("?female:President")
+        	 "Monarchy",        _("Tsar"),         _("Tsaritsa")
 		 "Communism",       _("Drugariat"),    _("Drugarkata")
 		 "Fundamentalism",  _("Patriarch"),    _("Sveta Maika")
                }

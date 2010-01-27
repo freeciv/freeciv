@@ -29,7 +29,7 @@ leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Caconzi = King */
-                 "Monarchy",       _("Caconzi"),         _("Caconzi")
+                 "Monarchy",       _("Caconzi"),         _("?female:Caconzi")
                }
 
 flag="purhepecha"

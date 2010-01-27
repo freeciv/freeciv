@@ -28,9 +28,7 @@ leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Cacike = Chief */
-                 "Despotism",       _("Cacike"),         _("Cacike")
-		 ; /* TRANS: Bohike = Priest */
-                 "Fundamentalism",  _("Bohike"),         _("Bohike")
+                 "Despotism",       _("Cacike"),         _("?female:Cacike")
                }
 
 flag         = "taino"

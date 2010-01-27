@@ -22,9 +22,7 @@ flag_alt     = "-"
 city_style   = "Celtic"
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Chaabat = Chief */
-                 "Despotism",      _("Chaabat"),         _("Chaabat")
-		 ; /* TRANS: Ha'wiih = Hereditary Chief */
-                 "Monarchy",       _("Ha'wiih"),         _("Ha'wiih")
+                 "Despotism",      _("Chaabat"),         _("?female:Chaabat")
                }
 
 init_techs=""

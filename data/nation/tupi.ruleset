@@ -21,9 +21,7 @@ leader_sex = "Male", "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Morubixaba = Chief */
-                 "Despotism",       _("Morubixaba"),     _("Morubixaba")
-		 ; /* TRANS: Paje = Shaman */
-                 "Fundamentalism",  _("Paje"),           _("Paje")
+                 "Despotism",       _("Morubixaba"),     _("?female:Morubixaba")
                }
 
 flag         = "tupi"

@@ -24,7 +24,6 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",    "male_title",       "female_title",
-                 "Republic",      _("Comrade"),       _("?female:Comrade")
           "Communism", _("General Secretary"), _("?female:General Secretary")
 		 "Monarchy",      _("Great Leader"),_("?female:Great Leader")
                }

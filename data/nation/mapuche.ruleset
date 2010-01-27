@@ -16,9 +16,7 @@ leader=
 leader_sex = "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Monarchy",       _("Toqui"),           _("Toqui")
-                 "Republic",       _("Lonko"),           _("Lonko")
-                 "Fundamentalism", _("Machi"),           _("Machi")
+                 "Monarchy",       _("Toqui"),           _("?female:Toqui")
                }
 
 flag         = "mapuche"

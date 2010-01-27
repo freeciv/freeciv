@@ -19,7 +19,6 @@ city_style = "Asian"
 
 ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Bohmugyi"),       _("?female:Bohmugyi")
-                 "Fundamentalism", _("Saya"),           _("Sayama")
                 "Democracy", _("Prime Minister"), _("?female:Prime Minister")
                }
 

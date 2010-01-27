@@ -19,9 +19,10 @@ flag_alt = "rwanda"
 city_style = "Tropical"
 
 ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Chief"),          _("?female:Chief")
 		 ; /* TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow */
                  "Monarchy",       _("Ngwenyama"),      _("Indovuzaki")
+                 "Republic",        _("Spokesman"),    _("Spokeswoman")
+                "Democracy",_("Principal Chief"),_("?female:Principal Chief")
                }
 
 init_techs=""

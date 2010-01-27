@@ -18,6 +18,7 @@ city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Despotism",       _("Chieftain"),    _("?female:Chieftain")
+                 "Monarchy",        _("High King"),    _("High Queen")
                }
 
 init_techs=""

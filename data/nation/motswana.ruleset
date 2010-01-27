@@ -29,7 +29,6 @@ city_style = "tropical"
 ruler_titles = { "government", "male_title",         "female_title"
  		; /* TRANS: kgosi = chief/king */
                  "Monarchy",   _("Kgosi"),           _("?female:Kgosi")
-                 "Democracy",  _("President"),       _("?female:President")
                }
 
 init_techs=""

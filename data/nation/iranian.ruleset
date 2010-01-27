@@ -42,8 +42,8 @@ city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                 "Monarchy",        _("Shah"),          _("Shahbanu")
 		 ; /* TRANS: Raiis Jomhoor = President */
-                "Republic",        _("Raiis Jomhoor"), _("Raiis Jomhoor")
-                "Fundamentalism",  _("Ayatollah"),     _("Ayatollah")
+                "Republic",        _("Raiis Jomhoor"), _("?female:Raiis Jomhoor")
+                "Fundamentalism",  _("Ayatollah"),     _("?female:Ayatollah")
               }
 
 init_techs=""

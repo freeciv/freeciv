@@ -13,6 +13,13 @@ leader=
  "Salote Tupou III"
  
 leader_sex="Male", "Male", "Male", "Male", "Female"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Great Chief"),_("?female:Great Chief")
+                 "Republic",        _("Spokesman"),    _("Spokeswoman")
+                "Democracy",_("Principal Chief"),_("?female:Principal Chief")
+               }
+
 flag="polynesian"
 flag_alt = "-"
 city_style = "Tropical"

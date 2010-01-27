@@ -18,7 +18,7 @@ flag_alt = "columbia"	; For backward compatibility
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Anarchy",        _("General"),         _("General")
+                 "Anarchy",        _("General"),         _("?female:General")
                  "Despotism",      _("Governador"),      _("Governadora")
                }
 

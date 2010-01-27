@@ -26,7 +26,6 @@ flag_alt = "-"
 city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",       _("Milk"),           _("Milkot")
-                 "Fundamentalism", _("Suffet"),         _("Suffet")
                }
 
 init_techs=""

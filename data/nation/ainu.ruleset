@@ -17,9 +17,9 @@ leader_sex="Male", "Male", "Male", "Male"
 ; Source: http://www.raccoonbend.com/languages/ainuenglish.html
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Nipa = Chief */
-                 "Despotism",       _("Nipa"),           _("Nipa")
+                 "Despotism",       _("Nipa"),           _("?female:Nipa")
 		 ; /* TRANS: Nipsa = Master */
-                 "Monarchy",        _("Nipsa"),          _("Nipsa")
+                 "Monarchy",        _("Nipsa"),          _("?female:Nipsa")
                }
 
 flag="ainu"

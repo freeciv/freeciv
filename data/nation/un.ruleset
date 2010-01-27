@@ -22,7 +22,6 @@ city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
         	 "Despotism",       _("Chairperson"),_("?female:Chairperson")
            "Monarchy", _("Secretary-General"), _("?female:Secretary-General")
-        	 "Republic", _("Representative"), _("?female:Representative")
                }
 
 init_techs=""

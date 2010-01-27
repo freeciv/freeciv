@@ -30,7 +30,6 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",	    _("Count"),         _("Countess")
 		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
 		 "Despotism",	    _("Potestate"),  _("?female:Potestate")
-		 "Anarchy",	    _("Headling"),    _("?female:Headling")
                }
 init_techs=""
 init_buildings=""

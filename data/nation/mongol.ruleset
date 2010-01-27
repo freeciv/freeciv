@@ -19,16 +19,16 @@ leader=
  "Kuyuk",
  "Mengke",
  "Khubilai",
- "Hulegu"
+ "Hulegu",
+ "Dokuz"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-           "Female", "Male", "Male", "Male", "Male"
+           "Female", "Male", "Male", "Male", "Male", "Female"
 flag="mongolia"
 flag_alt = "-"
 city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Khan"),         _("?female:Khan")
-		 ; /* TRANS: Khagan = Great Khan */
-                 "Monarchy",        _("Khagan"),       _("?female:Khagan")
+                 "Despotism",       _("Khan"),         _("Khatan")
+                 "Monarchy",        _("Great Khan"),   _("Great Khatan")
                }
 
 init_techs=""

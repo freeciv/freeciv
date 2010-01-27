@@ -21,8 +21,7 @@ leader=
 leader_sex = "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Monarchy",       _("He'a"),            _("He'a")
-                 "Anarchy",        _("Senapati"),        _("Senapati")
+                 "Monarchy",       _("He'a"),            _("?female:He'a")
                }
 
 flag         = "akwe"

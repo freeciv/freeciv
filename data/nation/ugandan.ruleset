@@ -34,11 +34,8 @@ ruler_titles = { "government", "male_title",         "female_title"
                  ;    ancient kingdom which occupied much of present-day 
                  ;    Uganda. */
                  "Monarchy",   _("Kabaka"),          _("?female:Kabaka")
-                 "Fundamentalism",   _("Mujaguzo"),  _("?female:Mujaguzo")
-
                  ; The President, not Prime Minister, is head of government
                  ; in Uganda.
-                 "Democracy",  _("President"),       _("?female:President")
                }
 
 init_techs=""

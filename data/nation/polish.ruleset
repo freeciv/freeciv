@@ -23,13 +23,10 @@ flag_alt = "-"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-		 ; /* TRANS: Dyktator/Dyktatorka = Dictator */
-                 "Despotism",       _("Dyktator"),     _("Dyktatorka")
+                 "Despotism",       _("Dictator"),     _("Dictatrix")
 		 ; /* TRANS: Prymas = Bishop */
                  "Fundamentalism",  _("Prymas"),       _("?female:Prymas")
-		 ; /* TRANS: Pierwszy Sekretarz = First Secretary */
-          "Communism",_("Pierwszy Sekretarz"),_("?female:Pierwszy Sekretarz")
-                 "Republic",        _("President"),    _("?female:President")
+          "Communism",_("First Secretary"),_("?female:First Secretary")
                }
 
 init_techs=""

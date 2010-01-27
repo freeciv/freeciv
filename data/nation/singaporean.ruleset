@@ -32,7 +32,6 @@ ruler_titles = { "government",	"male_title",		"female_title"
 		 "Monarchy",	_("Sultan"),		_("Sultana")
 		 ; /* TRANS: Encik = Sir */
 		 "Communism",	_("Encik"),		_("?female:Encik")
-		 "Republic",	_("President"),	       _("?female:President")
 		 "Democracy",_("Prime Minister"), _("?female:Prime Minister")
 }
 

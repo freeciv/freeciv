@@ -16,6 +16,13 @@ leader =
  "Kastus Kalinouski"        ; the leader of the January Uprising in Belarus
 
 leader_sex = "Male", "Male", "Male", "Male", "Male"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Duke"),         _("Duchess")
+                 "Monarchy",        _("Tsar"),         _("Tsaritsa")
+                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
+               }
+
 flag="belarus"
 flag_alt = "-"
 city_style = "European"

@@ -27,8 +27,6 @@ leader_sex = "Male", "Male", "Male", "Male", "Male", "Female", "Female",
  "Female"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-		 ; /* TRANS: Ganwa = Prince */
-                 "Despotism",       _("Ganwa"),          _("?female:Ganwa")
 		 ; /* TRANS: Mwami/Mwamikazi = King/Queen */
                  "Monarchy",        _("Mwami"),          _("Mwamikazi")
                }

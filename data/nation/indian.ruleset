@@ -16,8 +16,8 @@ flag_alt = "-"
 city_style = "Asian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Raja"),         _("?female:Raja")
-                 "Monarchy",        _("Maharaja"),     _("?female:Maharaja")
+                 "Despotism",       _("Raja"),         _("Rani")
+                 "Monarchy",        _("Maharaja"),     _("Maharani")
                  "Republic",        _("Mahatma"),      _("?female:Mahatma")
                }
 

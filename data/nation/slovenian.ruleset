@@ -15,10 +15,6 @@ flag="slovenia"
 flag_alt = "-"
 city_style = "European"
 
-ruler_titles = { "government",      "male_title",      "female_title"
-                 "Republic",        _("President"),    _("?female:President")
-               }
-
 init_techs=""
 init_buildings=""
 init_government="Despotism"
