@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-23 16:02+0100\n"
-"PO-Revision-Date: 2007-09-05 04:24+0300\n"
-"Last-Translator: Roman Festchook <roma@polesye.net>\n"
+"POT-Creation-Date: 2010-01-29 23:52+0200\n"
+"PO-Revision-Date: 2010-01-30 00:20+0200\n"
+"Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-u\n"
@@ -1425,7 +1425,7 @@ msgstr ""
 
 #: server/auth.c:483 server/auth.c:542
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "Вибачьте, забагато помилкових спроб..."
 
 #: server/auth.c:484
 #, c-format
@@ -1974,7 +1974,7 @@ msgstr "Це сервер для %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Ви можете багато д╕знатися про Freeciv на %s"
 
-#: server/civserver.c:210 client/civclient.c:239 manual/civmanual.c:380
+#: server/civserver.c:210 client/civclient.c:233 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2002,14 +2002,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -p, --port ПОРТ\tОчикувати на з'╓днання на порту ПОРТ\n"
 
-#: server/civserver.c:221 client/civclient.c:243
+#: server/civserver.c:221 client/civclient.c:237
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 4, або 4:файл1,м╕н,"
 "макс:...)\n"
 
-#: server/civserver.c:225 client/civclient.c:247
+#: server/civserver.c:225 client/civclient.c:241
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 3)\n"
 
@@ -2017,7 +2017,7 @@ msgstr "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file ФАЙЛ\tЗавантажити гру збережену у ФАЙЛ\n"
 
-#: server/civserver.c:229 client/civclient.c:250 manual/civmanual.c:382
+#: server/civserver.c:229 client/civclient.c:244 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tВивести п╕дказку по опц╕ям\n"
 
@@ -2073,7 +2073,7 @@ msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 
-#: server/civserver.c:252 client/civclient.c:269 manual/civmanual.c:383
+#: server/civserver.c:252 client/civclient.c:263 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tВивести верс╕ю\n"
 
@@ -2843,9 +2843,9 @@ msgstr "Ради бачити на сервер╕ %s, що запущений на порту %d."
 
 #. TRANS: (connection) identifier: ... [network address]
 #: server/connecthand.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "(%d) %s: connected [%s]"
-msgstr "(%d) %s при╓днався з %s."
+msgstr "(%d) %s: при╓днався з %s."
 
 #: server/connecthand.c:128
 #, c-format
@@ -7775,53 +7775,53 @@ msgstr "С"
 msgid "Specialists"
 msgstr "Спец╕альне"
 
-#: client/civclient.c:241
+#: client/civclient.c:235
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tПропустити д╕алог з'╓днання\n"
 
-#: client/civclient.c:251
+#: client/civclient.c:245
 #, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 
-#: client/civclient.c:253
+#: client/civclient.c:247
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta АДРЕСА\tПри╓днатися до метасервера на АДРЕСА\n"
 
-#: client/civclient.c:255
+#: client/civclient.c:249
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name ╤М'Я\tВикористовувати ╤М'Я як ╕м'я\n"
 
-#: client/civclient.c:257
+#: client/civclient.c:251
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port ПОРТ\tПри╓днатися до сервера на порту ПОРТ\n"
 
-#: client/civclient.c:259
+#: client/civclient.c:253
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin ДОДАТОК\tВикористовувати ДОДАТОК для виводу звуку %s\n"
 
-#: client/civclient.c:261
+#: client/civclient.c:255
 #, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
 
-#: client/civclient.c:264
+#: client/civclient.c:258
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server АДРЕСА\tПри╓днатися до сервера на АДРЕСА\n"
 
-#: client/civclient.c:266
+#: client/civclient.c:260
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound ФАЙЛ\tЧитати звук з файлу ФАЙЛ\n"
 
-#: client/civclient.c:267
+#: client/civclient.c:261
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 "  -t, --tiles ФАЙЛ\tВикористовувати данн╕ з файлу ФАЙЛ.tilespec для фон╕в\n"
 
-#: client/civclient.c:270
+#: client/civclient.c:264
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -7831,45 +7831,45 @@ msgstr ""
 "\t\t\tСпробуйте \"%s -- --help\" для допомоги.\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:275
+#: client/civclient.c:269
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "Про помилки пов╕домляйте <%s>.\n"
 
-#: client/civclient.c:299
+#: client/civclient.c:293
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr ""
 
-#: client/civclient.c:301 client/civclient.c:316
+#: client/civclient.c:295 client/civclient.c:310
 msgid "Try using --help.\n"
 msgstr ""
 
-#: client/civclient.c:314
+#: client/civclient.c:308
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 
-#: client/civclient.c:327
+#: client/civclient.c:321
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Нев╕дома опц╕я: '%s'\n"
 
-#: client/civclient.c:393
+#: client/civclient.c:387
 #, fuzzy, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "metaserver <адреса>"
 
-#: client/civclient.c:396
+#: client/civclient.c:390
 #, fuzzy, c-format
 msgid "Default metaserver has been set to \"%s\"."
 msgstr "Опц╕я: %s встановлена у \"%s\"."
 
-#: client/civclient.c:540
+#: client/civclient.c:533
 msgid "Game started."
 msgstr "Гру стартовано."
 
-#: client/civclient.c:606
+#: client/civclient.c:599
 msgid "There was an error while auto connecting; aborting."
 msgstr "Помилка сталась при спроб╕ автоконекту; перериваюся."
 
@@ -8087,34 +8087,34 @@ msgid ""
 "The server will now be shutdown."
 msgstr ""
 
-#: client/control.c:1125
+#: client/control.c:1123
 msgid "Only transporter units can be unloaded."
 msgstr "Лише транспортован╕ п╕дрозд╕ли можуть бути вивантажен╕."
 
-#: client/control.c:1419
+#: client/control.c:1417
 #, fuzzy
 msgid "Only settler units can be put into auto mode."
 msgstr ""
 "Гра лише Колон╕сти та в╕йськов╕ загони у м╕стах можуть бути поставлен╕ у "
 "авторежим."
 
-#: client/control.c:1513
+#: client/control.c:1511
 msgid "Only nuclear units can do this."
 msgstr "Лише атомн╕ падрозд╕ли можуть зробити це."
 
-#: client/control.c:1542
+#: client/control.c:1540
 msgid "Only paratrooper units can do this."
 msgstr "Лише парашут╕сти можуть робити це."
 
-#: client/control.c:2017
+#: client/control.c:2015
 msgid "Too far for this unit."
 msgstr "Задалеко для цього п╕дрозд╕лу."
 
-#: client/control.c:2227 client/control.c:2257 client/control.c:2273
+#: client/control.c:2225 client/control.c:2255 client/control.c:2271
 msgid "Didn't find a route to the destination!"
 msgstr "Не знайдено шляху до ц╕л╕!"
 
-#: client/control.c:2317
+#: client/control.c:2319
 msgid "Oh my! You seem to have no capital!"
 msgstr "Ой в╓й! Зда╓ться у Вас не ма╓ столиц╕!"
 
@@ -8893,17 +8893,17 @@ msgstr ", "
 msgid "%s%d unhappy"
 msgstr "%s%d нещаслив╕"
 
-#: client/mapctrl_common.c:399
+#: client/mapctrl_common.c:396
 #, fuzzy, c-format
 msgid "You don't know how to build %s!"
 msgstr "Ви не купили %s!"
 
-#: client/mapctrl_common.c:409
+#: client/mapctrl_common.c:406
 #, c-format
 msgid "Copy %s to clipboard."
 msgstr ""
 
-#: client/mapctrl_common.c:425
+#: client/mapctrl_common.c:422
 msgid "Clipboard is empty."
 msgstr ""
 
@@ -9351,16 +9351,16 @@ msgstr "Строка сум╕сност╕ сервера: %s"
 msgid "Start of turn %d"
 msgstr "Початок ходу %d"
 
-#: client/packhand.c:1621
+#: client/packhand.c:1620
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "Комп'ютерн╕ гравц╕ тепер %s."
 
-#: client/packhand.c:1622
+#: client/packhand.c:1621
 msgid "ON"
 msgstr "ТАК"
 
-#: client/packhand.c:1622
+#: client/packhand.c:1621
 msgid "OFF"
 msgstr "Н╤"
 
@@ -9487,17 +9487,22 @@ msgstr "Розпущено Ваш %s у (%d, %d)."
 msgid "No %s could be disbanded."
 msgstr "Нема╓ %s для продажу"
 
-#: client/servers.c:345
+#: client/servers.c:344
 #, fuzzy
 msgid "Could not open temp file."
 msgstr "Не можу в╕дкрити \"%s\"."
 
-#: client/servers.c:410
+#: client/servers.c:385
+#, c-format
+msgid "Failed to parse the metaserver data from http://%s."
+msgstr ""
+
+#: client/servers.c:416
 #, fuzzy
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Погане значення $http_proxy, повино починатися з 'http://'"
 
-#: client/servers.c:416
+#: client/servers.c:422
 #, fuzzy
 msgid "Failed looking up metaserver's host"
 msgstr "Не можу визначити хост."
@@ -11874,13 +11879,13 @@ msgstr "Будувати нове м╕сто"
 msgid "What should we call our new city?"
 msgstr "Як назвати нове м╕сто?"
 
-#: client/gui-gtk-2.0/mapview.c:158
+#: client/gui-gtk-2.0/mapview.c:168
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
 "Показати Ваш╕ поточн╕ установки розкош╕/науки/податк╕в;кл╕кн╕ть аби в╕дкрити "
 "╖х."
 
-#: client/gui-gtk-2.0/mapview.c:702 client/gui-win32/canvas.c:275
+#: client/gui-gtk-2.0/mapview.c:712 client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 
@@ -23046,14 +23051,12 @@ msgid "Grande Bardesa"
 msgstr "Велика В╕дьма"
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "╤тал╕йц╕"
+msgstr "Галли"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "Зулуси"
+msgstr "Галли"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -23066,14 +23069,12 @@ msgid "Druid"
 msgstr "Фрукти"
 
 #: data/nation/georgian.ruleset:3
-#, fuzzy
 msgid "Georgian"
-msgstr "Н╕мц╕"
+msgstr "Грузини"
 
 #: data/nation/georgian.ruleset:4
-#, fuzzy
 msgid "?plural:Georgians"
-msgstr "Н╕мц╕"
+msgstr "Грузини"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -23122,9 +23123,8 @@ msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Античн╕ Греки, м╕ж М╕ценом та Римськ╕м завоюванням."
 
 #: data/nation/greek.ruleset:19
-#, fuzzy
 msgid "Despot"
-msgstr "Деспот╕зм"
+msgstr "Деспот"
 
 #: data/nation/hellenic.ruleset:3
 #, fuzzy
@@ -23960,14 +23960,12 @@ msgid "Ayatollah"
 msgstr ""
 
 #: data/nation/phoenician.ruleset:3
-#, fuzzy
 msgid "Phoenician"
-msgstr "Словенц╕"
+msgstr "Ф╕н╕к╕йц╕"
 
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "Словенц╕"
+msgstr "Ф╕н╕к╕йц╕"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -23977,12 +23975,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Ляхи"
+msgstr "Поляки"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
-msgstr "Ляхи"
+msgstr "Поляки"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -24038,12 +24035,10 @@ msgid ""
 msgstr ""
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
 msgstr "Румуни"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
 msgstr "Румуни"
 
@@ -24105,11 +24100,11 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Москал╕"
+msgstr "Рос╕яни"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "Москал╕"
+msgstr "Рос╕яни"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -24302,14 +24297,12 @@ msgstr ""
 "Федерац╕╖."
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "Словенц╕"
+msgstr "Словаки"
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "Словенц╕"
+msgstr "Словаки"
 
 #: data/nation/slovakian.ruleset:6
 #, fuzzy
@@ -24331,9 +24324,8 @@ msgid "?female:Leader"
 msgstr "Товариш"
 
 #: data/nation/slovakian.ruleset:29
-#, fuzzy
 msgid "Pope"
-msgstr "В╕д"
+msgstr "Папа"
 
 #: data/nation/slovakian.ruleset:29
 #, fuzzy
@@ -24363,14 +24355,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "нема╓"
+msgstr "Радянськ╕"
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "Шотландц╕"
+msgstr "Радянськ╕"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -24430,14 +24420,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/sumerian.ruleset:3
-#, fuzzy
 msgid "Sumerian"
-msgstr "Серби"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "Серби"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -24629,9 +24617,8 @@ msgid "Tunisian"
 msgstr "Москал╕"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Москал╕"
+msgstr "Тун╕сц╕"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -24781,14 +24768,12 @@ msgstr ""
 "гористий зах╕д острова."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "╤тал╕йц╕"
+msgstr "Вестфальц╕"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "╤тал╕йц╕"
+msgstr "Вестфальц╕"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -25195,195 +25180,163 @@ msgstr "Завантажую правила"
 
 #: data/civ1/game.ruleset:101 data/civ2/game.ruleset:101
 #: data/default/game.ruleset:129
-#, fuzzy
 msgid "Team 0"
-msgstr "Команда"
+msgstr "Команда 0"
 
 #: data/civ1/game.ruleset:102 data/civ2/game.ruleset:102
 #: data/default/game.ruleset:130
-#, fuzzy
 msgid "Team 1"
-msgstr "Команда"
+msgstr "Команда 1"
 
 #: data/civ1/game.ruleset:103 data/civ2/game.ruleset:103
 #: data/default/game.ruleset:131
-#, fuzzy
 msgid "Team 2"
-msgstr "Команда"
+msgstr "Команда 2"
 
 #: data/civ1/game.ruleset:104 data/civ2/game.ruleset:104
 #: data/default/game.ruleset:132
-#, fuzzy
 msgid "Team 3"
-msgstr "Команда"
+msgstr "Команда 3"
 
 #: data/civ1/game.ruleset:105 data/civ2/game.ruleset:105
 #: data/default/game.ruleset:133
-#, fuzzy
 msgid "Team 4"
-msgstr "Команда"
+msgstr "Команда 4"
 
 #: data/civ1/game.ruleset:106 data/civ2/game.ruleset:106
 #: data/default/game.ruleset:134
-#, fuzzy
 msgid "Team 5"
-msgstr "Команда"
+msgstr "Команда 5"
 
 #: data/civ1/game.ruleset:107 data/civ2/game.ruleset:107
 #: data/default/game.ruleset:135
-#, fuzzy
 msgid "Team 6"
-msgstr "Команда"
+msgstr "Команда 6"
 
 #: data/civ1/game.ruleset:108 data/civ2/game.ruleset:108
 #: data/default/game.ruleset:136
-#, fuzzy
 msgid "Team 7"
-msgstr "Команда"
+msgstr "Команда 7"
 
 #: data/civ1/game.ruleset:109 data/civ2/game.ruleset:109
 #: data/default/game.ruleset:137
-#, fuzzy
 msgid "Team 8"
-msgstr "Команда"
+msgstr "Команда 8"
 
 #: data/civ1/game.ruleset:110 data/civ2/game.ruleset:110
 #: data/default/game.ruleset:138
-#, fuzzy
 msgid "Team 9"
-msgstr "Команда"
+msgstr "Команда 9"
 
 #: data/civ1/game.ruleset:111 data/civ2/game.ruleset:111
 #: data/default/game.ruleset:139
-#, fuzzy
 msgid "Team 10"
-msgstr "Команда"
+msgstr "Команда 10"
 
 #: data/civ1/game.ruleset:112 data/civ2/game.ruleset:112
 #: data/default/game.ruleset:140
-#, fuzzy
 msgid "Team 11"
-msgstr "Команда"
+msgstr "Команда 11"
 
 #: data/civ1/game.ruleset:113 data/civ2/game.ruleset:113
 #: data/default/game.ruleset:141
-#, fuzzy
 msgid "Team 12"
-msgstr "Команда"
+msgstr "Команда 12"
 
 #: data/civ1/game.ruleset:114 data/civ2/game.ruleset:114
 #: data/default/game.ruleset:142
-#, fuzzy
 msgid "Team 13"
-msgstr "Команда"
+msgstr "Команда 13"
 
 #: data/civ1/game.ruleset:115 data/civ2/game.ruleset:115
 #: data/default/game.ruleset:143
-#, fuzzy
 msgid "Team 14"
-msgstr "Команда"
+msgstr "Команда 14"
 
 #: data/civ1/game.ruleset:116 data/civ2/game.ruleset:116
 #: data/default/game.ruleset:144
-#, fuzzy
 msgid "Team 15"
-msgstr "Команда"
+msgstr "Команда 15"
 
 #: data/civ1/game.ruleset:117 data/civ2/game.ruleset:117
 #: data/default/game.ruleset:145
-#, fuzzy
 msgid "Team 16"
-msgstr "Команда"
+msgstr "Команда 16"
 
 #: data/civ1/game.ruleset:118 data/civ2/game.ruleset:118
 #: data/default/game.ruleset:146
-#, fuzzy
 msgid "Team 17"
-msgstr "Команда"
+msgstr "Команда 17"
 
 #: data/civ1/game.ruleset:119 data/civ2/game.ruleset:119
 #: data/default/game.ruleset:147
-#, fuzzy
 msgid "Team 18"
-msgstr "Команда"
+msgstr "Команда 18"
 
 #: data/civ1/game.ruleset:120 data/civ2/game.ruleset:120
 #: data/default/game.ruleset:148
-#, fuzzy
 msgid "Team 19"
-msgstr "Команда"
+msgstr "Команда 19"
 
 #: data/civ1/game.ruleset:121 data/civ2/game.ruleset:121
 #: data/default/game.ruleset:149
-#, fuzzy
 msgid "Team 20"
-msgstr "Команда"
+msgstr "Команда 20"
 
 #: data/civ1/game.ruleset:122 data/civ2/game.ruleset:122
 #: data/default/game.ruleset:150
-#, fuzzy
 msgid "Team 21"
-msgstr "Команда"
+msgstr "Команда 21"
 
 #: data/civ1/game.ruleset:123 data/civ2/game.ruleset:123
 #: data/default/game.ruleset:151
-#, fuzzy
 msgid "Team 22"
-msgstr "Команда"
+msgstr "Команда 22"
 
 #: data/civ1/game.ruleset:124 data/civ2/game.ruleset:124
 #: data/default/game.ruleset:152
-#, fuzzy
 msgid "Team 23"
-msgstr "Команда"
+msgstr "Команда 23"
 
 #: data/civ1/game.ruleset:125 data/civ2/game.ruleset:125
 #: data/default/game.ruleset:153
-#, fuzzy
 msgid "Team 24"
-msgstr "Команда"
+msgstr "Команда 24"
 
 #: data/civ1/game.ruleset:126 data/civ2/game.ruleset:126
 #: data/default/game.ruleset:154
-#, fuzzy
 msgid "Team 25"
-msgstr "Команда"
+msgstr "Команда 25"
 
 #: data/civ1/game.ruleset:127 data/civ2/game.ruleset:127
 #: data/default/game.ruleset:155
-#, fuzzy
 msgid "Team 26"
-msgstr "Команда"
+msgstr "Команда 26"
 
 #: data/civ1/game.ruleset:128 data/civ2/game.ruleset:128
 #: data/default/game.ruleset:156
-#, fuzzy
 msgid "Team 27"
-msgstr "Команда"
+msgstr "Команда 27"
 
 #: data/civ1/game.ruleset:129 data/civ2/game.ruleset:129
 #: data/default/game.ruleset:157
-#, fuzzy
 msgid "Team 28"
-msgstr "Команда"
+msgstr "Команда 28"
 
 #: data/civ1/game.ruleset:130 data/civ2/game.ruleset:130
 #: data/default/game.ruleset:158
-#, fuzzy
 msgid "Team 29"
-msgstr "Команда"
+msgstr "Команда 29"
 
 #: data/civ1/game.ruleset:131 data/civ2/game.ruleset:131
 #: data/default/game.ruleset:159
-#, fuzzy
 msgid "Team 30"
-msgstr "Команда"
+msgstr "Команда 30"
 
 #: data/civ1/game.ruleset:132 data/civ2/game.ruleset:132
 #: data/default/game.ruleset:160
-#, fuzzy
 msgid "Team 31"
-msgstr "Команда"
+msgstr "Команда 31"
 
 #~ msgid "Command access level could not be set to '%s' for connection %s."
 #~ msgstr "Р╕вень доступу до команд не встановлено у '%s' для з'╓днання %s."
