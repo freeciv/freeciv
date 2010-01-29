@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-17 12:30+0100\n"
-"PO-Revision-Date: 2007-09-05 04:24+0300\n"
-"Last-Translator: Roman Festchook <roma@polesye.net>\n"
+"POT-Creation-Date: 2010-01-30 00:41+0200\n"
+"PO-Revision-Date: 2010-01-30 01:18+0200\n"
+"Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=koi8-u\n"
@@ -98,9 +98,9 @@ msgid "Improvement: %s"
 msgstr "Буд╕вл╕"
 
 #: common/events.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s"
-msgstr "М╕сто %s"
+msgstr "М╕сто: %s"
 
 #: common/events.c:52
 #, fuzzy, c-format
@@ -133,9 +133,9 @@ msgid "Treaty: %s"
 msgstr "Догов╕р"
 
 #: common/events.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s"
-msgstr "П╕дрозд╕л %s"
+msgstr "П╕дрозд╕л: %s"
 
 #: common/events.c:59
 #, fuzzy, c-format
@@ -143,9 +143,9 @@ msgid "Vote: %s"
 msgstr "Адреса:"
 
 #: common/events.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "Wonder: %s"
-msgstr "Дива: "
+msgstr "Диво: %s"
 
 #: common/events.c:79
 msgid "Learned From Great Library"
@@ -361,7 +361,7 @@ msgstr "В╕дкрито нову форму керування"
 msgid "Low Funds"
 msgstr "Замало грошей"
 
-#: common/events.c:138 common/terrain.c:547 common/unit.c:522
+#: common/events.c:138 common/terrain.c:543 common/unit.c:522
 #: server/report.c:138 client/cityrepdata.c:517
 #: client/gui-sdl/optiondlg.c:1808
 msgid "Pollution"
@@ -561,9 +561,9 @@ msgstr "Р╕к минув"
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
 #: common/game.c:771 common/game.c:775 client/gui-sdl/wldlg.c:1430
-#, fuzzy, c-format
+#, c-format
 msgid "%d %s"
-msgstr "%3d/%3d %s"
+msgstr "%d %s"
 
 #: common/player.c:46
 msgid "Away"
@@ -666,9 +666,8 @@ msgid "?diplomatic_state:Never met"
 msgstr "?д╕пломатичний_стан:Не зустр╕чалися"
 
 #: common/player.c:849
-#, fuzzy
 msgid "?diplomatic_state:Team"
-msgstr "?д╕пломатичний_стан:Мир"
+msgstr "?д╕пломатичний_стан:Команда"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:583 common/requirements.c:598
@@ -695,58 +694,58 @@ msgstr "Вимоги щодо виживання п╕дтримуються т╕льки для див."
 #. TRANS: missing value
 #. TRANS: "Resources: (none)"
 #. TRANS: "Resources: (none)".
-#: common/requirements.c:1306 common/requirements.c:1361 common/team.c:175
+#: common/requirements.c:1313 common/requirements.c:1368 common/team.c:175
 #: client/gui-gtk-2.0/helpdlg.c:1062 client/gui-gtk-2.0/inteldlg.c:397
 #: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:999
-#, fuzzy, c-format
+#, c-format
 msgid "(none)"
-msgstr "нема╓"
+msgstr "(нема╓)"
 
-#: common/requirements.c:1332 common/requirements.c:1405
-#, fuzzy, c-format
+#: common/requirements.c:1339 common/requirements.c:1412
+#, c-format
 msgid "Size %d"
-msgstr "Розм╕р"
+msgstr "Розм╕р %d"
 
-#: common/requirements.c:1385 common/requirements.c:1394
+#: common/requirements.c:1392 common/requirements.c:1401
 #, fuzzy, c-format
 msgid "\"%s\" units"
 msgstr "%s п╕дрозд╕л╕в"
 
-#: common/requirements.c:1390
+#: common/requirements.c:1397
 #, fuzzy, c-format
 msgid "%s units"
 msgstr " заг╕н"
 
 #. TRANS: "Hard AI"
-#: common/requirements.c:1410
+#: common/requirements.c:1417
 #, c-format
 msgid "%s AI"
 msgstr "%s Ш╤"
 
 #. TRANS: "Land terrain"
-#: common/requirements.c:1415
+#: common/requirements.c:1422
 #, c-format
 msgid "%s terrain"
 msgstr "%s земля"
 
 #. TRANS: "Fortress base"
-#: common/requirements.c:1420
+#: common/requirements.c:1427
 #, c-format
 msgid "%s base"
 msgstr ""
 
-#: common/requirements.c:1424
+#: common/requirements.c:1431
 #, fuzzy, c-format
 msgid "After %s"
 msgstr "б╕ля %s"
 
 #. TRANS: "Irrigation possible"
-#: common/requirements.c:1429
+#: common/requirements.c:1436
 #, fuzzy, c-format
 msgid "%s possible"
 msgstr "неможливо"
 
-#: common/requirements.c:1433
+#: common/requirements.c:1440
 #, fuzzy
 msgid "City center tile"
 msgstr "Центрувати"
@@ -781,9 +780,8 @@ msgstr "(Нев╕домо)"
 
 #: common/terrain.c:45 data/default/units.ruleset:96
 #: data/civ2/units.ruleset:91 data/civ1/units.ruleset:78
-#, fuzzy
 msgid "Land"
-msgstr "Шлях"
+msgstr "Земля"
 
 #: common/terrain.c:46
 msgid "Oceanic"
@@ -804,50 +802,50 @@ msgstr "Шахта"
 msgid "CanRoad"
 msgstr "Шлях"
 
-#: common/terrain.c:543 common/terrain.c:731 common/unit.c:524
+#: common/terrain.c:539 common/terrain.c:777 common/unit.c:524
 #: manual/civmanual.c:217
 msgid "Road"
 msgstr "Шлях"
 
-#: common/terrain.c:544 common/terrain.c:738 common/unit.c:528
+#: common/terrain.c:540 common/terrain.c:784 common/unit.c:528
 #: client/gui-sdl/optiondlg.c:1915 client/gui-win32/menu.c:349
 #: client/gui-xaw/menu.c:156 manual/civmanual.c:217
 msgid "Irrigation"
 msgstr "Зрошення"
 
-#: common/terrain.c:545 common/terrain.c:729 common/unit.c:538
+#: common/terrain.c:541 common/terrain.c:775 common/unit.c:538
 #: data/default/techs.ruleset:575 data/civ2/techs.ruleset:571
 #: data/civ1/techs.ruleset:445
 msgid "Railroad"
 msgstr "Зал╕зниця"
 
-#: common/terrain.c:546 common/terrain.c:742 common/unit.c:526
+#: common/terrain.c:542 common/terrain.c:788 common/unit.c:526
 msgid "Mine"
 msgstr "Шахта"
 
-#: common/terrain.c:548
+#: common/terrain.c:544
 msgid "Hut"
 msgstr "Хут╕р"
 
-#: common/terrain.c:549 common/unit.c:534 data/default/terrain.ruleset:886
+#: common/terrain.c:545 common/unit.c:534 data/default/terrain.ruleset:886
 #: data/civ2/terrain.ruleset:779 data/civ1/terrain.ruleset:667
 msgid "Fortress"
 msgstr "Укр╕плення"
 
-#: common/terrain.c:550
+#: common/terrain.c:546
 msgid "River"
 msgstr "Р╕ка"
 
-#: common/terrain.c:551 common/terrain.c:736
+#: common/terrain.c:547 common/terrain.c:782
 msgid "Farmland"
 msgstr "Ферма"
 
-#: common/terrain.c:552 common/unit.c:548 data/default/terrain.ruleset:904
+#: common/terrain.c:548 common/unit.c:548 data/default/terrain.ruleset:904
 #: data/civ2/terrain.ruleset:796
 msgid "Airbase"
 msgstr "Ав╕абаза"
 
-#: common/terrain.c:553 common/unit.c:550
+#: common/terrain.c:549 common/unit.c:550
 msgid "Fallout"
 msgstr "Рад╕ац╕я"
 
@@ -1182,8 +1180,8 @@ msgstr[1] " (загалом %d повторення)"
 msgstr[2] " (загалом %d повторень)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: utility/netintf.c:84 utility/registry.c:850 server/console.c:67
-#: server/generator/startpos.c:391 client/tilespec.c:4233
+#: utility/netintf.c:84 utility/registry.c:860 server/console.c:67
+#: server/generator/startpos.c:391 client/tilespec.c:4243
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
@@ -1200,7 +1198,7 @@ msgid "Missing argument for \"%s\".\n"
 msgstr "В╕дсутн╕й аргумент для '%s'.\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:930
+#: utility/shared.c:943
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
@@ -1208,67 +1206,67 @@ msgstr ""
 "замочуванню."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1035
+#: utility/shared.c:1048
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Не можу прочитати каталог данних %s: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1284
+#: utility/shared.c:1297
 #, fuzzy, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "Шлях данних може бути встановленно зм╕нною FREECIV_PATH."
 
-#: utility/shared.c:1287
+#: utility/shared.c:1300
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Поточний шлях данних: \"%s\""
 
-#: utility/shared.c:1290
+#: utility/shared.c:1303
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Файл \"%s\" ╓ необх╕дним... перериваюсь!"
 
-#: utility/shared.c:1479
+#: utility/shared.c:1492
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Критична помилка: Ви намага╓тесь запустити мене як адм╕н╕стратор!\n"
 
-#: utility/shared.c:1481
+#: utility/shared.c:1494
 msgid "Use a non-privileged account instead.\n"
 msgstr "Використовуйте звичайного користувача.\n"
 
-#: utility/shared.c:1497
+#: utility/shared.c:1510
 msgid "exact match"
 msgstr "точне сп╕впад╕ння"
 
-#: utility/shared.c:1498
+#: utility/shared.c:1511
 msgid "only match"
 msgstr "╓дине сп╕впад╕ння"
 
-#: utility/shared.c:1499
+#: utility/shared.c:1512
 msgid "ambiguous"
 msgstr "двозначно"
 
-#: utility/shared.c:1500
+#: utility/shared.c:1513
 msgid "empty"
 msgstr "пусто"
 
-#: utility/shared.c:1501
+#: utility/shared.c:1514
 msgid "too long"
 msgstr "занадто довге"
 
-#: utility/shared.c:1502
+#: utility/shared.c:1515
 msgid "non-match"
 msgstr "не сп╕впада╓"
 
-#: utility/support.c:290
+#: utility/support.c:385
 #, c-format
 msgid "error %ld (failed FormatMessage)"
 msgstr "помилка %ld (невдале FormatMessage)"
 
-#: utility/support.c:303
+#: utility/support.c:398
 #, c-format
 msgid "error %d (compiled without strerror)"
 msgstr "помилка %d (з╕брано без strerror)"
@@ -2389,7 +2387,7 @@ msgstr "Це сервер для %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Ви можете багато д╕знатися про Freeciv на %s"
 
-#: server/civserver.c:303 client/client_main.c:289 manual/civmanual.c:381
+#: server/civserver.c:303 client/client_main.c:285 manual/civmanual.c:381
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2428,14 +2426,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -p, --port ПОРТ\tОчикувати на з'╓днання на порту ПОРТ\n"
 
-#: server/civserver.c:315 client/client_main.c:294
+#: server/civserver.c:315 client/client_main.c:290
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 4, або 4:файл1,м╕н,"
 "макс:...)\n"
 
-#: server/civserver.c:319 client/client_main.c:298
+#: server/civserver.c:319 client/client_main.c:294
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 3)\n"
 
@@ -2443,7 +2441,7 @@ msgstr "  -d, --debug НОМЕР\tВстановити р╕вень в╕дладки (з 0 по 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file ФАЙЛ\tЗавантажити гру збережену у ФАЙЛ\n"
 
-#: server/civserver.c:323 client/client_main.c:301
+#: server/civserver.c:323 client/client_main.c:297
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tВивести п╕дказку по опц╕ям\n"
 
@@ -2500,12 +2498,12 @@ msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 
-#: server/civserver.c:346 client/client_main.c:320
+#: server/civserver.c:346 client/client_main.c:316
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tВивести верс╕ю\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: server/civserver.c:348 client/client_main.c:326
+#: server/civserver.c:348 client/client_main.c:322
 #: client/gui-gtk-2.0/gui_main.c:267 client/gui-sdl/gui_main.c:178
 #: client/gui-xaw/gui_main.c:252 manual/civmanual.c:389
 #, fuzzy, c-format
@@ -3414,7 +3412,7 @@ msgstr "В╕дкинуто %s: ╤м'я [%s] вже ╕нсу╓."
 msgid "Lost connection: %s."
 msgstr "Втрачено з'╓днання: %s."
 
-#: server/connecthand.c:621
+#: server/connecthand.c:622
 #, fuzzy, c-format
 msgid "detaching from %s."
 msgstr "Вивча╓ться %s."
@@ -3855,21 +3853,21 @@ msgstr " *** Сервер переведено до режиму редагування! *** "
 msgid " *** Edit mode cancelled by %s. *** "
 msgstr ""
 
-#: server/edithand.c:197 server/edithand.c:240 server/edithand.c:272
-#: server/edithand.c:318
+#: server/edithand.c:309 server/edithand.c:343 server/edithand.c:370
+#: server/edithand.c:403
 #, c-format
 msgid "Cannot edit the tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:206
+#: server/edithand.c:318
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:280
+#: server/edithand.c:378
 #, c-format
 msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
@@ -3877,31 +3875,31 @@ msgid ""
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:328
+#: server/edithand.c:413
 #, c-format
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 
-#: server/edithand.c:368
+#: server/edithand.c:441
 #, fuzzy, c-format
 msgid "No such tile (ID %d)."
 msgstr "Нема╓ такого голосування (%d)."
 
-#: server/edithand.c:432
+#: server/edithand.c:500
 #, c-format
 msgid "Cannot create units at tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:441
+#: server/edithand.c:509
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr "Не можу створити п╕дрозд╕л %s у ц╕й м╕сцевост╕."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:451
+#: server/edithand.c:519
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -3910,25 +3908,25 @@ msgstr "Не можу створити п╕дрозд╕л %s у ц╕й м╕сцевост╕."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:464
+#: server/edithand.c:532
 #, fuzzy, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "Не можу створити п╕дрозд╕л на ворожий територ╕╖."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:474
+#: server/edithand.c:542
 #, fuzzy, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "Не можу створити п╕дрозд╕л %s у ц╕й м╕сцевост╕."
 
-#: server/edithand.c:519
+#: server/edithand.c:587
 #, c-format
 msgid "Cannot remove units at tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:528
+#: server/edithand.c:596
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -3936,183 +3934,183 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:539
+#: server/edithand.c:607
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
 
-#: server/edithand.c:570 server/edithand.c:595
+#: server/edithand.c:638 server/edithand.c:663
 #, fuzzy, c-format
 msgid "No such unit (ID %d)."
 msgstr "Нема╓ такого голосування (%d)."
 
-#: server/edithand.c:636
+#: server/edithand.c:704
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
-#: server/edithand.c:667
+#: server/edithand.c:735
 #, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:676
+#: server/edithand.c:744
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:688
+#: server/edithand.c:756
 #, fuzzy, c-format
 msgid "A city may not be built at %s."
 msgstr "* Можуть засновувати м╕ста.\n"
 
-#: server/edithand.c:735
+#: server/edithand.c:803
 #, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr ""
 
-#: server/edithand.c:748
+#: server/edithand.c:816
 #, fuzzy, c-format
 msgid "Cannot edit city name: %s"
 msgstr "З'╓днання"
 
-#: server/edithand.c:759
+#: server/edithand.c:827
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr ""
 
-#: server/edithand.c:776
+#: server/edithand.c:844
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr ""
 
-#: server/edithand.c:825
+#: server/edithand.c:893
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:839
+#: server/edithand.c:907
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:886
+#: server/edithand.c:954
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
 
-#: server/edithand.c:894
+#: server/edithand.c:962
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
 
-#: server/edithand.c:903
+#: server/edithand.c:971
 #, fuzzy
 msgid "Player cannot be created because random nation selection failed."
 msgstr "Гравця не можна видалити п╕сля старту гри."
 
-#: server/edithand.c:912
+#: server/edithand.c:980
 #, fuzzy
 msgid "Player creation failed."
 msgstr "Гравця знищено"
 
-#: server/edithand.c:948
+#: server/edithand.c:1016
 #, fuzzy, c-format
 msgid "No such player (ID %d)."
 msgstr "Нема╓ такого голосування (%d)."
 
-#: server/edithand.c:981
+#: server/edithand.c:1049
 #, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr ""
 
-#: server/edithand.c:993
+#: server/edithand.c:1061
 #, c-format
 msgid "Cannot set empty name for player (%d) '%s'."
 msgstr ""
 
-#: server/edithand.c:1006
+#: server/edithand.c:1074
 #, c-format
 msgid ""
 "Cannot change name of player (%d) '%s' to '%s': another player (%d) already "
 "has that name."
 msgstr ""
 
-#: server/edithand.c:1026
+#: server/edithand.c:1094
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1032
+#: server/edithand.c:1100
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
 
-#: server/edithand.c:1068
+#: server/edithand.c:1136
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1127
+#: server/edithand.c:1195
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1136
+#: server/edithand.c:1204
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1209
+#: server/edithand.c:1277
 #, fuzzy, c-format
 msgid "No such city (ID %d)."
 msgstr "Нема╓ такого голосування (%d)."
 
-#: server/edithand.c:1235
+#: server/edithand.c:1303
 #, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr "Не можу стартувати гру: ╖╖ вже запущено."
 
-#: server/edithand.c:1243
+#: server/edithand.c:1311
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "Не можливо перемикнути гравця дикуна."
 
-#: server/edithand.c:1272
+#: server/edithand.c:1340
 #, c-format
 msgid "Cannot place a start position at (%d, %d) because it is not on the map!"
 msgstr ""
 
-#: server/edithand.c:1313
+#: server/edithand.c:1381
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1356
+#: server/edithand.c:1424
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1363
+#: server/edithand.c:1431
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -4784,13 +4782,13 @@ msgstr ""
 "верс╕╖ або погано збережену гру. Продовжу╓мо на Ваш страх та ризик."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4304
+#: server/savegame.c:4303
 #, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr "Збережена гра стара, м╕н╕мально потр╕бна верс╕я 1.9.0."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4606
+#: server/savegame.c:4605
 #, fuzzy
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
@@ -4798,7 +4796,7 @@ msgstr ""
 "Збережена гра використову╓ правила класичних тер╕тор╕й, як╕ вже не "
 "п╕дтримую╓ться."
 
-#: server/savegame.c:4615
+#: server/savegame.c:4614
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4808,7 +4806,7 @@ msgstr ""
 "Використовую '%s'."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4929
+#: server/savegame.c:4928
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
@@ -6209,37 +6207,37 @@ msgstr "Початкова к╕льк╕сть гривень на гравця"
 msgid "restarting soon for lack of players"
 msgstr "Початкова к╕льк╕сть гривень на гравця"
 
-#: server/sernet.c:950
+#: server/sernet.c:949
 #, fuzzy, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Метасервер: погана адреса: [%s:%d]."
 
-#: server/sernet.c:965
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:968
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1315 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Перед стартом"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1320
+#: server/sernet.c:1319
 msgid "Running"
 msgstr "Запущено"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1324
+#: server/sernet.c:1323
 msgid "Game over"
 msgstr "Гру завершено"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1328
+#: server/sernet.c:1327
 #, fuzzy
 msgid "Waiting"
 msgstr "очикування"
@@ -6484,26 +6482,26 @@ msgstr "Гравець %d"
 msgid "%s rules the %s."
 msgstr "%s голову╓ над %s."
 
-#: server/srv_main.c:2108
+#: server/srv_main.c:2112
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2169
+#: server/srv_main.c:2173
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "В╕дправляю ╕нфо на метасервер [%s]"
 
-#: server/srv_main.c:2174
+#: server/srv_main.c:2178
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2205
+#: server/srv_main.c:2209
 msgid "The game is over..."
 msgstr "Гру зак╕нчено..."
 
-#: server/srv_main.c:2431
+#: server/srv_main.c:2432
 msgid "Now accepting new client connections."
 msgstr "Тепер прийма╓мо нов╕ з'╓днання."
 
@@ -6856,7 +6854,7 @@ msgstr "Опц╕я: %s  -  %s."
 msgid "Option: %s"
 msgstr "Опц╕╖: %s"
 
-#: server/stdinhand.c:1443 server/stdinhand.c:4022
+#: server/stdinhand.c:1443 server/stdinhand.c:4026
 msgid "Description:"
 msgstr "Опис:"
 
@@ -7399,18 +7397,18 @@ msgstr ""
 msgid "%s now controls %s (%s, %s)."
 msgstr "%s тепер контролю╓ться %s."
 
-#: server/stdinhand.c:3062 server/stdinhand.c:4293
+#: server/stdinhand.c:3062 server/stdinhand.c:4297
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr "Дикун"
 
-#: server/stdinhand.c:3064 server/stdinhand.c:4295 client/plrdlg_common.c:264
+#: server/stdinhand.c:3064 server/stdinhand.c:4299 client/plrdlg_common.c:264
 #: client/gui-sdl/plrdlg.c:641 client/gui-win32/connectdlg.c:204
 #: client/gui-win32/plrdlg.c:332
 msgid "AI"
 msgstr "Комп'ютер"
 
-#: server/stdinhand.c:3065 server/stdinhand.c:4297
+#: server/stdinhand.c:3065 server/stdinhand.c:4301
 #: client/gui-win32/connectdlg.c:204 client/gui-win32/connectdlg.c:216
 msgid "Human"
 msgstr "Людина"
@@ -7559,47 +7557,47 @@ msgstr "Саботувати буд╕влю"
 msgid "Cannot load the script file '%s'"
 msgstr "Не можу прочитати файл скрипту '%s'."
 
-#: server/stdinhand.c:3807
+#: server/stdinhand.c:3811
 msgid "Settings re-initialized."
 msgstr ""
 
-#: server/stdinhand.c:3877
+#: server/stdinhand.c:3881
 #, fuzzy
 msgid "Not enough human players, game will not start."
 msgstr "Не вистача╓ гравц╕в, гру не стартовано."
 
-#: server/stdinhand.c:3882
+#: server/stdinhand.c:3886
 #, fuzzy
 msgid "No players, game will not start."
 msgstr "Не вистача╓ гравц╕в, гру не стартовано."
 
-#: server/stdinhand.c:3886
+#: server/stdinhand.c:3890
 #, fuzzy
 msgid "Not enough nations for all players, game will not start."
 msgstr "Не вистача╓ гравц╕в, гру не стартовано."
 
-#: server/stdinhand.c:3895
+#: server/stdinhand.c:3899
 #, fuzzy
 msgid "All players are ready; starting game."
 msgstr "Гравець з таким ╕м'ям вже ╕сну╓."
 
-#: server/stdinhand.c:3911
+#: server/stdinhand.c:3915
 #, fuzzy
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr "Не можу стартувати гру: ╖╖ вже запущено."
 
-#: server/stdinhand.c:3918
+#: server/stdinhand.c:3922
 msgid "Cannot start the game: it is already running."
 msgstr "Не можу стартувати гру: ╖╖ вже запущено."
 
-#: server/stdinhand.c:3949
+#: server/stdinhand.c:3953
 #, c-format
 msgid "Cutting connection %s."
 msgstr "Видаляю з'╓днання %s."
 
 #. TRANS: line break width 70
-#: server/stdinhand.c:3969
+#: server/stdinhand.c:3973
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -7638,90 +7636,90 @@ msgstr ""
 "  quit   -  аби вийти"
 
 #. TRANS: <untranslated name> - translated short help
-#: server/stdinhand.c:4000
+#: server/stdinhand.c:4004
 #, fuzzy, c-format
 msgid "Command: %s  -  %s"
 msgstr "Команда: %s  -  %s"
 
 #. TRANS: <untranslated name>
-#: server/stdinhand.c:4006
+#: server/stdinhand.c:4010
 #, fuzzy, c-format
 msgid "Command: %s"
 msgstr "Команда: %s"
 
-#: server/stdinhand.c:4011
+#: server/stdinhand.c:4015
 msgid "Synopsis: "
 msgstr "Синтаксис:"
 
-#: server/stdinhand.c:4020
+#: server/stdinhand.c:4024
 #, c-format
 msgid "Level: %s"
 msgstr "Р╕вень: %s"
 
-#: server/stdinhand.c:4039
+#: server/stdinhand.c:4043
 msgid "The following server commands are available:"
 msgstr "Доступн╕ наступн╕ команди сервера:"
 
-#: server/stdinhand.c:4100
+#: server/stdinhand.c:4104
 #, c-format
 msgid "Possible matches: %s"
 msgstr ""
 
-#: server/stdinhand.c:4154
+#: server/stdinhand.c:4158
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr "Аргумент допомоги '%s' двозначний."
 
-#: server/stdinhand.c:4161
+#: server/stdinhand.c:4165
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr "Нема╓ сп╕впад╕нь для аргумента допомоги '%s'."
 
-#: server/stdinhand.c:4227
+#: server/stdinhand.c:4231
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr "Поганий аргумент для 'list': '%s'. Спробуйте '%shelp list'."
 
-#: server/stdinhand.c:4267
+#: server/stdinhand.c:4271
 msgid "List of players:"
 msgstr "Список гравц╕в:"
 
-#: server/stdinhand.c:4272
+#: server/stdinhand.c:4276
 msgid "<no players>"
 msgstr "<нема╓ гравц╕в>"
 
-#: server/stdinhand.c:4289
+#: server/stdinhand.c:4293
 #, c-format
 msgid "user %s, "
 msgstr "╕м'я %s, "
 
-#: server/stdinhand.c:4300
+#: server/stdinhand.c:4304
 msgid ", Dead"
 msgstr ", Помер"
 
-#: server/stdinhand.c:4303
+#: server/stdinhand.c:4307
 #, c-format
 msgid ", difficulty level %s"
 msgstr ", р╕вень складност╕ %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4308 server/stdinhand.c:4312 client/helpdata.c:597
+#: server/stdinhand.c:4312 server/stdinhand.c:4316 client/helpdata.c:597
 #: client/helpdata.c:1104 client/text.c:245 client/text.c:1314
 #: client/text.c:1351
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
 
-#: server/stdinhand.c:4316
+#: server/stdinhand.c:4320
 #, fuzzy
 msgid ", ready"
 msgstr ", Помер"
 
-#: server/stdinhand.c:4320
+#: server/stdinhand.c:4324
 msgid ", not ready"
 msgstr ", не готове"
 
-#: server/stdinhand.c:4331
+#: server/stdinhand.c:4335
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
@@ -7729,22 +7727,22 @@ msgstr[0] " %d з'╓днання:"
 msgstr[1] " %d з'╓днання:"
 msgstr[2] " %d з'╓днань:"
 
-#: server/stdinhand.c:4337
+#: server/stdinhand.c:4341
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr "  %s при╓днався з %s (р╕вень доступу до команд %s), розм╕р буферу=%dКБ"
 
-#: server/stdinhand.c:4342
+#: server/stdinhand.c:4346
 msgid " (observer mode)"
 msgstr " (режим наглядача)"
 
-#: server/stdinhand.c:4358
+#: server/stdinhand.c:4362
 #, fuzzy
 msgid "List of teams:"
 msgstr "Список гравц╕в:"
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4367
+#: server/stdinhand.c:4371
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
@@ -7752,25 +7750,25 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: server/stdinhand.c:4389
+#: server/stdinhand.c:4393
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr "%2d : '%s' : 1 гравець : %s"
 
-#: server/stdinhand.c:4398
+#: server/stdinhand.c:4402
 #, c-format
 msgid "Empty team: %s"
 msgstr "Порожня команда: %s"
 
-#: server/stdinhand.c:4409
+#: server/stdinhand.c:4413
 msgid "List of connections to server:"
 msgstr "Список з'╓днань сервера:"
 
-#: server/stdinhand.c:4413
+#: server/stdinhand.c:4417
 msgid "<no connections>"
 msgstr "<нема╓ з'╓днань>"
 
-#: server/stdinhand.c:4437
+#: server/stdinhand.c:4441
 #, fuzzy
 msgid "List of scenarios available:"
 msgstr "Загон╕в нема╓"
@@ -8940,60 +8938,60 @@ msgstr "С"
 msgid "Specialists: %s"
 msgstr "Спец╕ал╕сти"
 
-#: client/client_main.c:291
+#: client/client_main.c:287
 msgid ""
 "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/"
 "none)\n"
 msgstr ""
 
-#: client/client_main.c:292
+#: client/client_main.c:288
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tПропустити д╕алог з'╓днання\n"
 
-#: client/client_main.c:302
+#: client/client_main.c:298
 #, fuzzy
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
 
-#: client/client_main.c:304
+#: client/client_main.c:300
 #, fuzzy
 msgid "  -M, --Meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta АДРЕСА\tПри╓днатися до метасервера на АДРЕСА\n"
 
-#: client/client_main.c:306
+#: client/client_main.c:302
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name ╤М'Я\tВикористовувати ╤М'Я як ╕м'я\n"
 
-#: client/client_main.c:308
+#: client/client_main.c:304
 #, fuzzy
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port ПОРТ\tПри╓днатися до сервера на порту ПОРТ\n"
 
-#: client/client_main.c:310
+#: client/client_main.c:306
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin ДОДАТОК\tВикористовувати ДОДАТОК для виводу звуку %s\n"
 
-#: client/client_main.c:312
+#: client/client_main.c:308
 #, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
 
-#: client/client_main.c:315
+#: client/client_main.c:311
 #, fuzzy
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server АДРЕСА\tПри╓днатися до сервера на АДРЕСА\n"
 
-#: client/client_main.c:317
+#: client/client_main.c:313
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound ФАЙЛ\tЧитати звук з файлу ФАЙЛ\n"
 
-#: client/client_main.c:318
+#: client/client_main.c:314
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 "  -t, --tiles ФАЙЛ\tВикористовувати данн╕ з файлу ФАЙЛ.tilespec для фон╕в\n"
 
-#: client/client_main.c:321
+#: client/client_main.c:317
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -9002,45 +9000,45 @@ msgstr ""
 "      --\t\tПередати будь яку наступну опц╕ю до UI.\n"
 "\t\t\tСпробуйте \"%s -- --help\" для допомоги.\n"
 
-#: client/client_main.c:350
+#: client/client_main.c:346
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Нев╕рний порт \"%s\" вказано ╕з опц╕╓ю --port.\n"
 
-#: client/client_main.c:352 client/client_main.c:367
+#: client/client_main.c:348 client/client_main.c:363
 msgid "Try using --help.\n"
 msgstr "Спробуйте використати --help.\n"
 
-#: client/client_main.c:365
+#: client/client_main.c:361
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Нев╕рний р╕вень в╕дладки \"%s\" вказаний ╕з опц╕╓ю --debug.\n"
 
-#: client/client_main.c:385
+#: client/client_main.c:381
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr ""
 
-#: client/client_main.c:392
+#: client/client_main.c:388
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Нев╕дома опц╕я: '%s'\n"
 
-#: client/client_main.c:457
+#: client/client_main.c:453
 #, fuzzy, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "metaserver <адреса>"
 
-#: client/client_main.c:460
+#: client/client_main.c:456
 #, fuzzy, c-format
 msgid "Default metaserver has been set to \"%s\"."
 msgstr "Опц╕я: %s встановлена у \"%s\"."
 
-#: client/client_main.c:595
+#: client/client_main.c:590
 msgid "There was an error while auto connecting; aborting."
 msgstr "Помилка сталась при спроб╕ автоконекту; перериваюся."
 
-#: client/client_main.c:673
+#: client/client_main.c:668
 msgid "Game started."
 msgstr "Гру стартовано."
 
@@ -9169,21 +9167,21 @@ msgstr "Не можу визначити хост."
 msgid "Connection in progress."
 msgstr "З'╓днання"
 
-#: client/clinet.c:281
+#: client/clinet.c:280
 #, fuzzy
 msgid "Disconnected from server."
 msgstr "Роз'╓днання з сервером."
 
-#: client/clinet.c:470
+#: client/clinet.c:469
 #, c-format
 msgid "Failed to contact server \"%s\" at port %d as \"%s\" after %d attempts"
 msgstr "Помилка доступу до сервера \"%s\" на порту %d як \"%s\" п╕сля %d спроб"
 
-#: client/clinet.c:487
+#: client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
 msgstr "З'╓днання з сервером в╕дхилено. Будь ласка стартуйте сервер."
 
-#: client/clinet.c:496 client/clinet.c:523
+#: client/clinet.c:495 client/clinet.c:522
 #, c-format
 msgid ""
 "Error contacting server \"%s\" at port %d as \"%s\":\n"
@@ -9192,7 +9190,7 @@ msgstr ""
 "Помилка доступу до сервера \"%s\" на порту %d як \"%s\":\n"
 " %s\n"
 
-#: client/clinet.c:515
+#: client/clinet.c:514
 #, fuzzy, c-format
 msgid ""
 "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
@@ -9201,69 +9199,69 @@ msgstr ""
 "Автоматично з'╓днуватись з сервером \"%s\" на порту %d як \"%s\" кожн╕ %d.%d "
 "секунд напротяз╕ %d раз╕в"
 
-#: client/connectdlg_common.c:205
+#: client/connectdlg_common.c:207
 #, fuzzy
 msgid "Starting server..."
 msgstr "Стартую гру."
 
-#: client/connectdlg_common.c:328
+#: client/connectdlg_common.c:336
 #, fuzzy
 msgid "Couldn't start the server."
 msgstr "Ви не можете атакувати тут."
 
-#: client/connectdlg_common.c:330 client/connectdlg_common.c:365
+#: client/connectdlg_common.c:338 client/connectdlg_common.c:373
 msgid "You'll have to start one manually. Sorry..."
 msgstr "Вам доведеться запустити це вручну. Вибачте..."
 
-#: client/connectdlg_common.c:361
+#: client/connectdlg_common.c:369
 #, fuzzy
 msgid "Couldn't connect to the server."
 msgstr "Роз╕рвати з'╓днання кл╕╓нта до сервера."
 
-#: client/connectdlg_common.c:363
+#: client/connectdlg_common.c:371
 msgid "We probably couldn't start it from here."
 msgstr "В╕рог╕дно ми не можемо розпочати це зв╕дси."
 
-#: client/connectdlg_common.c:492
+#: client/connectdlg_common.c:500
 #, fuzzy
 msgid ""
 "Established control over the server. You have command access level 'hack'."
 msgstr "Виводить або встановлю╓ р╕вень доступу до команд."
 
-#: client/connectdlg_common.c:498
+#: client/connectdlg_common.c:506
 msgid ""
 "Failed to obtain the required access level to take control of the server. "
 "The server will now be shutdown."
 msgstr ""
 
-#: client/control.c:1153
+#: client/control.c:1151
 msgid "Only transporter units can be unloaded."
 msgstr "Лише транспортован╕ п╕дрозд╕ли можуть бути вивантажен╕."
 
-#: client/control.c:1467
+#: client/control.c:1465
 #, fuzzy
 msgid "Only settler units can be put into auto mode."
 msgstr ""
 "Гра лише Колон╕сти та в╕йськов╕ загони у м╕стах можуть бути поставлен╕ у "
 "авторежим."
 
-#: client/control.c:1562
+#: client/control.c:1560
 msgid "Only nuclear units can do this."
 msgstr "Лише атомн╕ падрозд╕ли можуть зробити це."
 
-#: client/control.c:1591
+#: client/control.c:1589
 msgid "Only paratrooper units can do this."
 msgstr "Лише парашут╕сти можуть робити це."
 
-#: client/control.c:2098
+#: client/control.c:2135
 msgid "Too far for this unit."
 msgstr "Задалеко для цього п╕дрозд╕лу."
 
-#: client/control.c:2310 client/control.c:2340 client/control.c:2356
+#: client/control.c:2347 client/control.c:2377 client/control.c:2393
 msgid "Didn't find a route to the destination!"
 msgstr "Не знайдено шляху до ц╕л╕!"
 
-#: client/control.c:2400
+#: client/control.c:2441
 msgid "Oh my! You seem to have no capital!"
 msgstr "Ой в╓й! Зда╓ться у Вас не ма╓ столиц╕!"
 
@@ -10464,17 +10462,17 @@ msgstr ", "
 msgid "%s%d Unhappy"
 msgstr "%s%d нещаслив╕"
 
-#: client/mapctrl_common.c:397
+#: client/mapctrl_common.c:394
 #, fuzzy, c-format
 msgid "You don't know how to build %s!"
 msgstr "Ви не купили %s!"
 
-#: client/mapctrl_common.c:407
+#: client/mapctrl_common.c:404
 #, c-format
 msgid "Copy %s to clipboard."
 msgstr "Скоп╕юйте %s до буферу обм╕ну."
 
-#: client/mapctrl_common.c:422
+#: client/mapctrl_common.c:419
 msgid "Clipboard is empty."
 msgstr "Буфер обм╕ну пустий."
 
@@ -10579,322 +10577,44 @@ msgstr ""
 "Зм╕нюючи цю опц╕ю Ви зм╕нюют╓ активну тему. Також самого ефекту можна "
 "досягти за допомогою параметру командно╖ строки -t."
 
-#: client/options.c:494
-msgid "Solid unit background color"
-msgstr "Заповнення фону з'╓днання"
-
-#: client/options.c:495
-msgid ""
-"Setting this option will cause units on the map view to be drawn with a "
-"solid background color instead of the flag backdrop."
-msgstr ""
-"Якщо цю опц╕ю включено, п╕дрозд╕ли на огляд╕ мапи будуть в╕дображатися ╕з "
-"кольором фону зам╕сть флагу."
-
-#: client/options.c:499
+#: client/options.c:493
 #, fuzzy
 msgid "Draw city outlines"
 msgstr "Опц╕╖ м╕ста"
 
-#: client/options.c:500
+#: client/options.c:494
 #, fuzzy
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 "Якщо цю опц╕ю встановлено, д╕алоги новозаснованих м╕ст будуть в╕дкриватися "
 "автоматично."
 
-#: client/options.c:504
+#: client/options.c:498
 #, fuzzy
 msgid "Draw city output"
 msgstr "М╕ське виробництво"
 
-#: client/options.c:505
+#: client/options.c:499
 #, fuzzy
 msgid "Setting this option will draw city output for every citizen."
 msgstr ""
 "Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
 "в╕дпов╕дно до прилеглих земель."
 
-#: client/options.c:509
+#: client/options.c:503
 #, fuzzy
 msgid "Draw the map grid"
 msgstr "Малювати с╕тку м╕ста на мап╕"
 
-#: client/options.c:510
+#: client/options.c:504
 msgid "Setting this option will draw a grid over the map."
 msgstr ""
 
-#: client/options.c:513
-#, fuzzy
-msgid "Draw the city names"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:514
-#, fuzzy
-msgid "Setting this option will draw the names of the cities on the map."
-msgstr ""
-"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
-"м╕ж п╕дрозд╕лами."
-
-#: client/options.c:518
-#, fuzzy
-msgid "Draw the city growth"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:519
-#, fuzzy
-msgid ""
-"Setting this option will draw in how many turns the cities will grow or "
-"shrink."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:523
-#, fuzzy
-msgid "Draw the city productions"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:524
-msgid ""
-"Setting this option will draw what the cities are currently building on the "
-"map."
-msgstr ""
-
-#: client/options.c:528
-#, fuzzy
-msgid "Draw the city buy costs"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:529
-msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
-msgstr ""
-
-#: client/options.c:533
-#, fuzzy
-msgid "Draw the city trade routes"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:534
-msgid ""
-"Setting this option will draw trade route lines between cities which have "
-"trade routes."
-msgstr ""
-
-#: client/options.c:538
-#, fuzzy
-msgid "Draw the terrain"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:539
-#, fuzzy
-msgid "Setting this option will draw the terrain."
-msgstr ""
-"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
-"в╕дпов╕дно до прилеглих земель."
-
-#: client/options.c:542
-#, fuzzy
-msgid "Draw the coast line"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:543
-#, fuzzy
-msgid "Setting this option will draw a line to separate the land of the ocean."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:547
-#, fuzzy
-msgid "Draw the roads and the railroads"
-msgstr "* Допомогають будувати дива.\n"
-
-#: client/options.c:548
-#, fuzzy
-msgid "Setting this option will draw the roads and the railroads on  the map."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:552
-#, fuzzy
-msgid "Draw the irrigations"
-msgstr "Зрошення"
-
-#: client/options.c:553
-#, fuzzy
-msgid "Setting this option will draw the irrigations on the map."
-msgstr ""
-"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
-"м╕ж п╕дрозд╕лами."
-
-#: client/options.c:557
-#, fuzzy
-msgid "Draw the mines"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:558
-#, fuzzy
-msgid "Setting this option will draw the mines on the map."
-msgstr ""
-"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
-"в╕дпов╕дно до прилеглих земель."
-
-#: client/options.c:561
-#, fuzzy
-msgid "Draw the bases"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:562
-#, fuzzy
-msgid "Setting this option will draw the bases on the map."
-msgstr "В╕дключення ц╕╓╖ опц╕╖ схова╓ л╕н╕йку прокрутки мапи."
-
-#: client/options.c:565
-#, fuzzy
-msgid "Draw the specials"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:566
-#, fuzzy
-msgid "Setting this option will draw the specials on the map."
-msgstr "В╕дключення ц╕╓╖ опц╕╖ схова╓ л╕н╕йку прокрутки мапи."
-
-#: client/options.c:570
-msgid "Draw the pollution/nuclear fallouts"
-msgstr ""
-
-#: client/options.c:571
-#, fuzzy
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:575
-#, fuzzy
-msgid "Draw the cities"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:576
-#, fuzzy
-msgid "Setting this option will draw the cities on the map."
-msgstr ""
-"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
-"в╕дпов╕дно до прилеглих земель."
-
-#: client/options.c:579
-#, fuzzy
-msgid "Draw the units"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:580
-#, fuzzy
-msgid "Setting this option will draw the units on the map."
-msgstr ""
-"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
-"в╕дпов╕дно до прилеглих земель."
-
-#: client/options.c:583
-msgid "Draw the units in focus"
-msgstr ""
-
-#: client/options.c:584
-#, fuzzy
-msgid ""
-"Setting this option will draw the units in focus, including the case the "
-"other units wouldn't be drawn."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:589
-#, fuzzy
-msgid "Draw the fog of war"
-msgstr "Стор╕нка огляду м╕ста"
-
-#: client/options.c:590
-msgid "Setting this option will draw the fog of war."
-msgstr ""
-
-#: client/options.c:593
-#, fuzzy
-msgid "Draw the borders"
-msgstr "Малювати панель м╕ста"
-
-#: client/options.c:594
-msgid "Setting this option will draw the national borders."
-msgstr ""
-
-#: client/options.c:598
-msgid "Show dead players in nation report."
-msgstr ""
-
-#: client/options.c:599
-msgid ""
-"Setting this option will draw the players already dead in the nation report "
-"page."
-msgstr ""
-
-#: client/options.c:603 client/gui-sdl/optiondlg.c:913
-msgid "Sound bell at new turn"
-msgstr "Звук на початку ходу"
-
-#: client/options.c:604
-msgid ""
-"Set this option to have a \"bell\" event be generated at the start of a new "
-"turn.  You can control the behavior of the \"bell\" event by editing the "
-"message options."
-msgstr ""
-"Якщо цю опц╕ю включено, под╕я \"дзвоник\" буде генеруватися на початку "
-"кожного ходу.  Ви можете контролювати повед╕нку под╕╖  \"дзвоник\" за "
-"допомогю редагування опц╕й пов╕домленнь."
-
-#: client/options.c:610
-msgid "Unit movement animation time (milliseconds)"
-msgstr "Час ан╕мац╕╖ ходу (у м╕лл╕секундах)"
-
-#: client/options.c:611
-msgid ""
-"This option controls how long unit \"animation\" takes when a unit moves on "
-"the map view.  Set it to 0 to disable animation entirely."
-msgstr ""
-"Ця опц╕я контролю╓ тривал╕сть \"ан╕мац╕╖\", коли п╕дрозд╕л руха╓ться на "
-"огляд╕ мапи.  Встанов╕ть до 0, щоб в╕дключити ан╕мац╕ю зовс╕м."
-
-#: client/options.c:616
-msgid "Mapview recentering time (milliseconds)"
-msgstr "Час перем╕щення центру мапи (у м╕л╕секундах)"
-
-#: client/options.c:617
-msgid ""
-"When the map view is recentered, it will slide smoothly over the map to its "
-"new position.  This option controls how long this slide lasts.  Set it to 0 "
-"to disable mapview sliding entirely."
-msgstr ""
-
-#: client/options.c:622 client/gui-sdl/optiondlg.c:967
-msgid "Show combat animation"
-msgstr "Показувати ан╕мац╕ю битв."
-
-#: client/options.c:623
-msgid ""
-"Disabling this option will turn off combat animation between units on the "
-"mapview."
-msgstr ""
-"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
-"м╕ж п╕дрозд╕лами."
-
-#: client/options.c:626
+#: client/options.c:507
 msgid "Draw the citybar"
 msgstr "Малювати панель м╕ста"
 
-#: client/options.c:627
+#: client/options.c:508
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
@@ -10904,11 +10624,301 @@ msgstr ""
 "корисну ╕нформац╕ю про кожне м╕сто. Якщо цю опц╕ю в╕дключено, то буде "
 "в╕дображатися лише ╕м'я м╕ста та, опц╕онально, ╕нформац╕я про виробництво."
 
-#: client/options.c:633
+#: client/options.c:514
+#, fuzzy
+msgid "Draw the city names"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:515
+#, fuzzy
+msgid "Setting this option will draw the names of the cities on the map."
+msgstr ""
+"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
+"м╕ж п╕дрозд╕лами."
+
+#: client/options.c:519
+#, fuzzy
+msgid "Draw the city growth"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:520
+#, fuzzy
+msgid ""
+"Setting this option will draw in how many turns the cities will grow or "
+"shrink."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:524
+#, fuzzy
+msgid "Draw the city productions"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:525
+msgid ""
+"Setting this option will draw what the cities are currently building on the "
+"map."
+msgstr ""
+
+#: client/options.c:529
+#, fuzzy
+msgid "Draw the city buy costs"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:530
+msgid ""
+"Setting this option will draw how many golds are needed to buy the "
+"production of the cities."
+msgstr ""
+
+#: client/options.c:534
+#, fuzzy
+msgid "Draw the city trade routes"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:535
+msgid ""
+"Setting this option will draw trade route lines between cities which have "
+"trade routes."
+msgstr ""
+
+#: client/options.c:539
+#, fuzzy
+msgid "Draw the terrain"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:540
+#, fuzzy
+msgid "Setting this option will draw the terrain."
+msgstr ""
+"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
+"в╕дпов╕дно до прилеглих земель."
+
+#: client/options.c:543
+#, fuzzy
+msgid "Draw the coast line"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:544
+#, fuzzy
+msgid "Setting this option will draw a line to separate the land of the ocean."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:548
+#, fuzzy
+msgid "Draw the roads and the railroads"
+msgstr "* Допомогають будувати дива.\n"
+
+#: client/options.c:549
+#, fuzzy
+msgid "Setting this option will draw the roads and the railroads on  the map."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:553
+#, fuzzy
+msgid "Draw the irrigations"
+msgstr "Зрошення"
+
+#: client/options.c:554
+#, fuzzy
+msgid "Setting this option will draw the irrigations on the map."
+msgstr ""
+"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
+"м╕ж п╕дрозд╕лами."
+
+#: client/options.c:558
+#, fuzzy
+msgid "Draw the mines"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:559
+#, fuzzy
+msgid "Setting this option will draw the mines on the map."
+msgstr ""
+"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
+"в╕дпов╕дно до прилеглих земель."
+
+#: client/options.c:562
+#, fuzzy
+msgid "Draw the bases"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:563
+#, fuzzy
+msgid "Setting this option will draw the bases on the map."
+msgstr "В╕дключення ц╕╓╖ опц╕╖ схова╓ л╕н╕йку прокрутки мапи."
+
+#: client/options.c:566
+#, fuzzy
+msgid "Draw the specials"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:567
+#, fuzzy
+msgid "Setting this option will draw the specials on the map."
+msgstr "В╕дключення ц╕╓╖ опц╕╖ схова╓ л╕н╕йку прокрутки мапи."
+
+#: client/options.c:571
+msgid "Draw the pollution/nuclear fallouts"
+msgstr ""
+
+#: client/options.c:572
+#, fuzzy
+msgid ""
+"Setting this option will draw the pollution and the nuclear fallouts on the "
+"map."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:576
+#, fuzzy
+msgid "Draw the cities"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:577
+#, fuzzy
+msgid "Setting this option will draw the cities on the map."
+msgstr ""
+"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
+"в╕дпов╕дно до прилеглих земель."
+
+#: client/options.c:580
+#, fuzzy
+msgid "Draw the units"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:581
+#, fuzzy
+msgid "Setting this option will draw the units on the map."
+msgstr ""
+"Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
+"в╕дпов╕дно до прилеглих земель."
+
+#: client/options.c:585
+msgid "Solid unit background color"
+msgstr "Заповнення фону з'╓днання"
+
+#: client/options.c:586
+msgid ""
+"Setting this option will cause units on the map view to be drawn with a "
+"solid background color instead of the flag backdrop."
+msgstr ""
+"Якщо цю опц╕ю включено, п╕дрозд╕ли на огляд╕ мапи будуть в╕дображатися ╕з "
+"кольором фону зам╕сть флагу."
+
+#: client/options.c:591
+msgid "Draw shield graphics for units"
+msgstr "Малювати ╕конку виробництва для п╕дрозд╕л╕в"
+
+#: client/options.c:592
+msgid ""
+"Setting this option will draw a shield icon as the flags on units.  If "
+"unset, the full flag will be drawn."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:596
+msgid "Draw the units in focus"
+msgstr ""
+
+#: client/options.c:597
+#, fuzzy
+msgid ""
+"Setting this option will draw the units in focus, including the case the "
+"other units wouldn't be drawn."
+msgstr ""
+"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
+"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
+
+#: client/options.c:602
+#, fuzzy
+msgid "Draw the fog of war"
+msgstr "Стор╕нка огляду м╕ста"
+
+#: client/options.c:603
+msgid "Setting this option will draw the fog of war."
+msgstr ""
+
+#: client/options.c:606
+#, fuzzy
+msgid "Draw the borders"
+msgstr "Малювати панель м╕ста"
+
+#: client/options.c:607
+msgid "Setting this option will draw the national borders."
+msgstr ""
+
+#: client/options.c:611
+msgid "Show dead players in nation report."
+msgstr ""
+
+#: client/options.c:612
+msgid ""
+"Setting this option will draw the players already dead in the nation report "
+"page."
+msgstr ""
+
+#: client/options.c:616 client/gui-sdl/optiondlg.c:913
+msgid "Sound bell at new turn"
+msgstr "Звук на початку ходу"
+
+#: client/options.c:617
+msgid ""
+"Set this option to have a \"bell\" event be generated at the start of a new "
+"turn.  You can control the behavior of the \"bell\" event by editing the "
+"message options."
+msgstr ""
+"Якщо цю опц╕ю включено, под╕я \"дзвоник\" буде генеруватися на початку "
+"кожного ходу.  Ви можете контролювати повед╕нку под╕╖  \"дзвоник\" за "
+"допомогю редагування опц╕й пов╕домленнь."
+
+#: client/options.c:623
+msgid "Unit movement animation time (milliseconds)"
+msgstr "Час ан╕мац╕╖ ходу (у м╕лл╕секундах)"
+
+#: client/options.c:624
+msgid ""
+"This option controls how long unit \"animation\" takes when a unit moves on "
+"the map view.  Set it to 0 to disable animation entirely."
+msgstr ""
+"Ця опц╕я контролю╓ тривал╕сть \"ан╕мац╕╖\", коли п╕дрозд╕л руха╓ться на "
+"огляд╕ мапи.  Встанов╕ть до 0, щоб в╕дключити ан╕мац╕ю зовс╕м."
+
+#: client/options.c:629
+msgid "Mapview recentering time (milliseconds)"
+msgstr "Час перем╕щення центру мапи (у м╕л╕секундах)"
+
+#: client/options.c:630
+msgid ""
+"When the map view is recentered, it will slide smoothly over the map to its "
+"new position.  This option controls how long this slide lasts.  Set it to 0 "
+"to disable mapview sliding entirely."
+msgstr ""
+
+#: client/options.c:635 client/gui-sdl/optiondlg.c:967
+msgid "Show combat animation"
+msgstr "Показувати ан╕мац╕ю битв."
+
+#: client/options.c:636
+msgid ""
+"Disabling this option will turn off combat animation between units on the "
+"mapview."
+msgstr ""
+"Якщо цю опц╕ю в╕дключено, на огляд╕ мапи не буде в╕дображатися ан╕мац╕я бо╖в "
+"м╕ж п╕дрозд╕лами."
+
+#: client/options.c:640
 msgid "Show icons in the technology tree"
 msgstr "Показивати ╕конки у дерев╕ технолог╕й"
 
-#: client/options.c:634
+#: client/options.c:641
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
@@ -10916,12 +10926,12 @@ msgstr ""
 "Якщо цю опц╕ю включено, дерево технолог╕й буде м╕стити ╕конки. Якщо цю опц╕ю "
 "в╕дключено, дерево технолог╕й буде б╕льш компактним."
 
-#: client/options.c:640
+#: client/options.c:647
 #, fuzzy
 msgid "Use curved lines in the technology tree"
 msgstr "Показивати ╕конки у дерев╕ технолог╕й"
 
-#: client/options.c:641
+#: client/options.c:648
 #, fuzzy
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
@@ -10931,34 +10941,22 @@ msgstr ""
 "Якщо цю опц╕ю включено, дерево технолог╕й буде м╕стити ╕конки. Якщо цю опц╕ю "
 "в╕дключено, дерево технолог╕й буде б╕льш компактним."
 
-#: client/options.c:647
-msgid "Draw shield graphics for units"
-msgstr "Малювати ╕конку виробництва для п╕дрозд╕л╕в"
-
-#: client/options.c:648
-msgid ""
-"Setting this option will draw a shield icon as the flags on units.  If "
-"unset, the full flag will be drawn."
-msgstr ""
-"Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва "
-"на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
-
-#: client/options.c:653
+#: client/options.c:655
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:654
+#: client/options.c:656
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:659
+#: client/options.c:661
 msgid "Manual Turn Done in AI Mode"
 msgstr "Зак╕нчувати х╕д вручну у комп'ютерному режим╕"
 
-#: client/options.c:660
+#: client/options.c:662
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
@@ -10966,11 +10964,11 @@ msgstr ""
 "В╕дключ╕ть цю опц╕ю, якщо Ви не бажа╓те нажимати кнопку Х╕д Зроблено кожного "
 "разу, коли спостер╕га╓те за Ш╤-гравцем."
 
-#: client/options.c:664 client/gui-sdl/optiondlg.c:1074
+#: client/options.c:666 client/gui-sdl/optiondlg.c:1074
 msgid "Auto Center on Units"
 msgstr "Автоматично центрувати п╕дрозд╕ли"
 
-#: client/options.c:665
+#: client/options.c:667
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
@@ -10978,11 +10976,11 @@ msgstr ""
 "Якщо цю опц╕ю включено, активний п╕дрозд╕л буде у центр╕ екрану автоматично, "
 "якщо фокус перейшов на ╕нший п╕дрозд╕л."
 
-#: client/options.c:668 client/gui-sdl/optiondlg.c:1100
+#: client/options.c:670 client/gui-sdl/optiondlg.c:1100
 msgid "Auto Center on Combat"
 msgstr "Автоматично центрувати битви"
 
-#: client/options.c:669
+#: client/options.c:671
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
@@ -10992,12 +10990,12 @@ msgstr ""
 "автоматично.  Якщо ця опц╕я в╕дключена, це зменьшить час м╕ж ходами, проте "
 "Ви можете не побачити б╕й взагал╕."
 
-#: client/options.c:674
+#: client/options.c:676
 #, fuzzy
 msgid "Auto Center on New Turn"
 msgstr "Автоматично центрувати п╕дрозд╕ли"
 
-#: client/options.c:675
+#: client/options.c:677
 #, fuzzy
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
@@ -11006,21 +11004,21 @@ msgstr ""
 "Якщо цю опц╕ю включено, активний п╕дрозд╕л буде у центр╕ екрану автоматично, "
 "якщо фокус перейшов на ╕нший п╕дрозд╕л."
 
-#: client/options.c:679 client/gui-sdl/optiondlg.c:1127
+#: client/options.c:681 client/gui-sdl/optiondlg.c:1127
 msgid "Focus on Awakened Units"
 msgstr "Фокусувати на активованих п╕дрозд╕лах"
 
-#: client/options.c:680
+#: client/options.c:682
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 "Якщо цю опц╕ю включено, нов╕ активован╕ п╕дрозд╕ли будуть отримувати фокус "
 "автоматично."
 
-#: client/options.c:683
+#: client/options.c:685
 msgid "Keyboardless goto"
 msgstr "Рухатись без допомоги клав╕атури"
 
-#: client/options.c:684
+#: client/options.c:686
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
@@ -11028,11 +11026,11 @@ msgstr ""
 "Якщо встановлено цю опц╕ю, д╕я йти до може бути викликана через л╕вий кл╕к "
 "та утримання кнопки миш╕ ╕з наступним перем╕щенням миш╕ до ╕ншо╖ кл╕тини."
 
-#: client/options.c:689
+#: client/options.c:691
 msgid "Allow goto into the unknown"
 msgstr "Дозволити рух у нев╕дому м╕сцев╕сть"
 
-#: client/options.c:690
+#: client/options.c:692
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
@@ -11041,11 +11039,11 @@ msgstr ""
 "кл╕тинах. Якщо н╕, то маршрути будуть формувати к╕льця або блокуватися "
 "нерозв╕даними кл╕тинами."
 
-#: client/options.c:694
+#: client/options.c:696
 msgid "Center map when Popup city"
 msgstr "Центрувати мапу при в╕дкритт╕ м╕ста"
 
-#: client/options.c:695
+#: client/options.c:697
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
@@ -11053,11 +11051,11 @@ msgstr ""
 "Якщо цю опц╕ю включено, карта буде центруватися на м╕ст╕, коли в╕дкива╓ться "
 "д╕алог цього м╕ста."
 
-#: client/options.c:698
+#: client/options.c:700
 msgid "Concise City Production"
 msgstr "Зв╕т по виробництву у м╕ст╕"
 
-#: client/options.c:699
+#: client/options.c:701
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
@@ -11065,11 +11063,11 @@ msgstr ""
 "Якщо цю опц╕ю включено, виробництво у м╕ст╕ (яке демонстру╓ться у д╕алоз╕ "
 "м╕ста) буде компактним."
 
-#: client/options.c:702 client/gui-sdl/optiondlg.c:1205
+#: client/options.c:704 client/gui-sdl/optiondlg.c:1205
 msgid "End Turn when done moving"
 msgstr "Зак╕нчувати х╕д коли нема╓ ким рухатись"
 
-#: client/options.c:703
+#: client/options.c:705
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
@@ -11077,11 +11075,11 @@ msgstr ""
 "Якщо цю опц╕ю включено, х╕д буде завершуватися автоматично, коли ус╕ Ваш╕ "
 "п╕дрозд╕ли зробили х╕д."
 
-#: client/options.c:706 client/gui-sdl/optiondlg.c:1179
+#: client/options.c:708 client/gui-sdl/optiondlg.c:1179
 msgid "Prompt for city names"
 msgstr "Запрошення для назви м╕ста"
 
-#: client/options.c:707
+#: client/options.c:709
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
@@ -11089,11 +11087,11 @@ msgstr ""
 "Якщо цю опц╕ю в╕дключено, ╕мена новозаснованих м╕ст будуть автоматично "
 "обиратися сервером."
 
-#: client/options.c:710 client/gui-sdl/optiondlg.c:1153
+#: client/options.c:712 client/gui-sdl/optiondlg.c:1153
 msgid "Pop up city dialog for new cities"
 msgstr "В╕дкрити в╕кно м╕ста для нового м╕ста"
 
-#: client/options.c:711
+#: client/options.c:713
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
@@ -11101,12 +11099,12 @@ msgstr ""
 "Якщо цю опц╕ю встановлено, д╕алоги новозаснованих м╕ст будуть в╕дкриватися "
 "автоматично."
 
-#: client/options.c:714
+#: client/options.c:716
 #, fuzzy
 msgid "Pop up caravan actions"
 msgstr "Караван"
 
-#: client/options.c:715
+#: client/options.c:717
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -11115,32 +11113,32 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 
-#: client/options.c:724
+#: client/options.c:726
 msgid "Enable cursor changing"
 msgstr ""
 
-#: client/options.c:725
+#: client/options.c:727
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:730
+#: client/options.c:732
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:731
+#: client/options.c:733
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
 msgstr ""
 
-#: client/options.c:736
+#: client/options.c:738
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:737
+#: client/options.c:739
 msgid ""
 "Enabling this option will cause unit orders to be cleared whenever one or "
 "more units are selected. If this option is disabled, selecting units will "
@@ -11148,31 +11146,31 @@ msgid ""
 "cleared only when new orders are given or if you press <space>."
 msgstr ""
 
-#: client/options.c:744
+#: client/options.c:746
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:745
+#: client/options.c:747
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:748
+#: client/options.c:751
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:749
+#: client/options.c:752
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, notably when "
 "there won't be any running vote."
 msgstr ""
 
-#: client/options.c:754
+#: client/options.c:757
 msgid "Do not show vote bar if not a player"
 msgstr ""
 
-#: client/options.c:755
+#: client/options.c:758
 #, fuzzy
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
@@ -11181,11 +11179,11 @@ msgstr ""
 "Якщо встановлено цю опц╕ю, кл╕╓нт буде використовувати усю площу екрана для "
 "малювання"
 
-#: client/options.c:758
+#: client/options.c:761
 msgid "Set new votes at front"
 msgstr ""
 
-#: client/options.c:759
+#: client/options.c:762
 #, fuzzy
 msgid ""
 "If this option is enabled, then the new votes will go to the front of the "
@@ -11194,95 +11192,95 @@ msgstr ""
 "Якщо цю опц╕ю активовано, диалог╕ зв╕т╕в будуть на окремих вкладках, а не у "
 "вспливаючих д╕алогах."
 
-#: client/options.c:764
+#: client/options.c:767
 msgid "Background layer"
 msgstr "Шар фону"
 
-#: client/options.c:765
+#: client/options.c:768
 msgid "The background layer of the overview shows just ocean and land."
 msgstr "Шар фону на огляд╕ показу╓, т╕льки океан та землю."
 
-#: client/options.c:769
+#: client/options.c:772
 msgid "Terrain relief map layer"
 msgstr "Шар рель╓фу мапи м╕сцевост╕"
 
-#: client/options.c:770
+#: client/options.c:773
 msgid "The relief layer shows all terrains on the map."
 msgstr "Шар рель╓фу показу╓ ус╕ види м╕сцевост╕ на мап╕."
 
-#: client/options.c:773
+#: client/options.c:776
 #, fuzzy
 msgid "Borders layer"
 msgstr "Боер"
 
-#: client/options.c:774
+#: client/options.c:777
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr "Шар кордон╕в на огляд╕ показу╓, як╕ кл╕тки належать якому гравцю."
 
-#: client/options.c:778
+#: client/options.c:781
 #, fuzzy
 msgid "Borders layer on ocean tiles"
 msgstr "Боер"
 
-#: client/options.c:779
+#: client/options.c:782
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
 
-#: client/options.c:785
+#: client/options.c:788
 #, fuzzy
 msgid "Units layer"
 msgstr "Стор╕нка п╕дрозд╕л╕в"
 
-#: client/options.c:786
+#: client/options.c:789
 #, fuzzy
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 "Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
 "в╕дпов╕дно до прилеглих земель."
 
-#: client/options.c:789
+#: client/options.c:792
 #, fuzzy
 msgid "Cities layer"
 msgstr "М╕ста"
 
-#: client/options.c:790
+#: client/options.c:793
 #, fuzzy
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 "Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
 "в╕дпов╕дно до прилеглих земель."
 
-#: client/options.c:793
+#: client/options.c:796
 #, fuzzy
 msgid "Overview fog of war"
 msgstr "Стор╕нка огляду м╕ста"
 
-#: client/options.c:794
+#: client/options.c:797
 #, fuzzy
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 "Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися "
 "в╕дпов╕дно до прилеглих земель."
 
-#: client/options.c:799
+#: client/options.c:802
 #, fuzzy
 msgid "Show Map Scrollbars"
 msgstr "Показувати прокрутку мапи (т╕льк╕ GTK+)"
 
-#: client/options.c:800
+#: client/options.c:803
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "В╕дключення ц╕╓╖ опц╕╖ схова╓ л╕н╕йку прокрутки мапи."
 
-#: client/options.c:803
+#: client/options.c:806
 #, fuzzy
 msgid "Keep dialogs on top"
 msgstr "Завжди поверх (лише GTK+ 2.0)"
 
-#: client/options.c:804
+#: client/options.c:807
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -11291,11 +11289,11 @@ msgstr ""
 "Freeciv. У режим╕ повного екрану в╕ключення ц╕╓╖ опц╕╖ не дасть н╕якого "
 "ефекту."
 
-#: client/options.c:808
+#: client/options.c:811
 msgid "Show worklist task icons"
 msgstr "Показувати ╕конки завданнь у план╕ буд╕вництва"
 
-#: client/options.c:809
+#: client/options.c:812
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
@@ -11303,11 +11301,11 @@ msgstr ""
 "В╕дключення цього в╕дключить ╕конки буд╕вель та п╕дрозд╕л╕в у диалоз╕ плана "
 "буд╕вництва та вкладц╕ виробництва д╕алога м╕ста."
 
-#: client/options.c:813
+#: client/options.c:816
 msgid "Enable status report tabs"
 msgstr "Дозволити вкладки зв╕т╕в статуса"
 
-#: client/options.c:814
+#: client/options.c:817
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
@@ -11315,11 +11313,11 @@ msgstr ""
 "Якщо цю опц╕ю активовано, диалог╕ зв╕т╕в будуть на окремих вкладках, а не у "
 "вспливаючих д╕алогах."
 
-#: client/options.c:819 client/options.c:982
+#: client/options.c:822 client/options.c:986
 msgid "Better fog-of-war drawing"
 msgstr "Краще в╕дображення туману в╕йни"
 
-#: client/options.c:820 client/options.c:983
+#: client/options.c:823 client/options.c:987
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11327,41 +11325,41 @@ msgstr ""
 "Якщо це ув╕мкнено, то використову╓ться найкращий метод для в╕дображення "
 "тумана в╕йни. Це також само швидко, проте потребу╓ удв╕ч╕ б╕льше пам'яти."
 
-#: client/options.c:825
+#: client/options.c:829
 msgid "Show time for each chat message"
 msgstr ""
 
-#: client/options.c:826
+#: client/options.c:830
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
 msgstr ""
 
-#: client/options.c:831
+#: client/options.c:835
 msgid "Split bottom notebook area"
 msgstr ""
 
-#: client/options.c:832
+#: client/options.c:836
 msgid ""
 "Enabling this option will split the bottom notebook into a left and right "
 "notebook so that two tabs may be viewed at once."
 msgstr ""
 
-#: client/options.c:837
+#: client/options.c:841
 msgid "New message events go to top of list"
 msgstr ""
 
-#: client/options.c:838
+#: client/options.c:842
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
 
-#: client/options.c:843
+#: client/options.c:847
 msgid "Show extra message window buttons"
 msgstr ""
 
-#: client/options.c:844
+#: client/options.c:848
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -11371,22 +11369,22 @@ msgid ""
 "closed and reopened."
 msgstr ""
 
-#: client/options.c:854
+#: client/options.c:858
 #, fuzzy
 msgid "Metaserver tab first in network page"
 msgstr "╤нформац╕йну строку метасервера встановлено у '%s'."
 
-#: client/options.c:855
+#: client/options.c:859
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:860
+#: client/options.c:864
 msgid "Plain chat messages are sent to allies only"
 msgstr ""
 
-#: client/options.c:861
+#: client/options.c:865
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -11396,11 +11394,11 @@ msgid ""
 "visible in multiplayer games)."
 msgstr ""
 
-#: client/options.c:873
+#: client/options.c:877
 msgid "Arrange widgets for small displays"
 msgstr ""
 
-#: client/options.c:874
+#: client/options.c:878
 msgid ""
 "If this option is enabled, widgets in the main window will be arrange so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -11409,11 +11407,11 @@ msgid ""
 "requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:883
+#: client/options.c:887
 msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
-#: client/options.c:884
+#: client/options.c:888
 #, fuzzy
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse will "
@@ -11422,154 +11420,154 @@ msgstr ""
 "Якщо цю опц╕ю активовано, диалог╕ зв╕т╕в будуть на окремих вкладках, а не у "
 "вспливаючих д╕алогах."
 
-#: client/options.c:888
+#: client/options.c:892
 msgid "City Label"
 msgstr "Метка М╕ста"
 
-#: client/options.c:889
+#: client/options.c:893
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 
-#: client/options.c:894
+#: client/options.c:898
 msgid "Notify Label"
 msgstr "М╕тка Нагадування"
 
-#: client/options.c:895
+#: client/options.c:899
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
 
-#: client/options.c:900
+#: client/options.c:904
 msgid "Spaceship Label"
 msgstr "Метка Косм╕чного човна"
 
-#: client/options.c:901
+#: client/options.c:905
 #, fuzzy
 msgid "This font is used to display the spaceship widgets."
 msgstr "Якщо 1, гравц╕ мають змогу будувати косм╕чн╕й корабель."
 
-#: client/options.c:905
+#: client/options.c:909
 msgid "Help Label"
 msgstr "М╕тка Допомоги"
 
-#: client/options.c:906
+#: client/options.c:910
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 
-#: client/options.c:911
+#: client/options.c:915
 msgid "Help Link"
 msgstr "Ссилка Допомоги"
 
-#: client/options.c:912
+#: client/options.c:916
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 
-#: client/options.c:917
+#: client/options.c:921
 msgid "Help Text"
 msgstr "Текст Допомоги"
 
-#: client/options.c:918
+#: client/options.c:922
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 
-#: client/options.c:923
+#: client/options.c:927
 msgid "Chatline Area"
 msgstr "Зона Чату"
 
-#: client/options.c:924
+#: client/options.c:928
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
 
-#: client/options.c:929
+#: client/options.c:933
 msgid "Beta Label"
 msgstr "Бета М╕тка"
 
-#: client/options.c:930
+#: client/options.c:934
 msgid "This font is used to display the beta label."
 msgstr ""
 
-#: client/options.c:934
+#: client/options.c:938
 msgid "Small Font"
 msgstr "Маленький Шрифт"
 
-#: client/options.c:935
+#: client/options.c:939
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the economic report or the "
 "unit report."
 msgstr ""
 
-#: client/options.c:942
+#: client/options.c:946
 msgid "Comment Label"
 msgstr "Метка Коментар╕я"
 
-#: client/options.c:943
+#: client/options.c:947
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
 
-#: client/options.c:948 client/gui-sdl/optiondlg.c:1538
+#: client/options.c:952 client/gui-sdl/optiondlg.c:1538
 #: client/gui-xaw/menu.c:148
 msgid "City Names"
 msgstr "Назви м╕ст"
 
-#: client/options.c:949
+#: client/options.c:953
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 
-#: client/options.c:954
+#: client/options.c:958
 msgid "City Productions"
 msgstr "Виробництво м╕ст"
 
-#: client/options.c:955
+#: client/options.c:959
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 
-#: client/options.c:960
+#: client/options.c:964
 #, fuzzy
 msgid "Requirement Tree"
 msgstr "Потребу╓:"
 
-#: client/options.c:961
+#: client/options.c:965
 msgid ""
 "This font is used to the display the requirement tree in the science report."
 msgstr ""
 
-#: client/options.c:967
+#: client/options.c:971
 msgid "Full Screen"
 msgstr "Повний екран"
 
-#: client/options.c:968
+#: client/options.c:972
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 "Якщо встановлено цю опц╕ю, кл╕╓нт буде використовувати усю площу екрана для "
 "малювання"
 
-#: client/options.c:971
+#: client/options.c:975
 msgid "Screen width"
 msgstr "Ширина екрану"
 
-#: client/options.c:972
+#: client/options.c:976
 msgid "This option saves the width of the selected screen resolution"
 msgstr "Ця опц╕я збереже ширину обрано╖ розд╕льно╖ здатност╕ екрану"
 
-#: client/options.c:975
+#: client/options.c:979
 #, fuzzy
 msgid "Screen height"
 msgstr "Косм╕чн╕ польоти"
 
-#: client/options.c:976
+#: client/options.c:980
 msgid "This option saves the height of the selected screen resolution"
 msgstr "Ця опц╕я збереже висоту обрано╖ розд╕льно╖ здатност╕ екрану"
 
-#: client/options.c:988
+#: client/options.c:992
 msgid "Enable alpha blending"
 msgstr "Актив╕зувати альфа-зм╕шування"
 
-#: client/options.c:989
+#: client/options.c:993
 msgid ""
 "If this is enabled, then alpha blending will be used in rendering, instead "
 "of an ordered dither.  If there is no hardware support for alpha blending, "
@@ -11579,62 +11577,62 @@ msgstr ""
 "зам╕сть посл╕довного розмиття.  Якщо п╕дтримка альфа зм╕шування в╕дсутня у "
 "апаратному забезпеченн╕,  ви будете в╕дчувати затримки."
 
-#: client/options.c:1201
+#: client/options.c:1205
 #, fuzzy
 msgid "Graphics"
 msgstr "Демограф╕я"
 
-#: client/options.c:1203
+#: client/options.c:1207
 #, fuzzy
 msgid "Overview"
 msgstr "Огляд"
 
-#: client/options.c:1205
+#: client/options.c:1209
 #, fuzzy
 msgid "Sound"
 msgstr "Раунди"
 
-#: client/options.c:1207
+#: client/options.c:1211
 msgid "Interface"
 msgstr "╤нтерфейс"
 
-#: client/options.c:1209
+#: client/options.c:1213
 msgid "Network"
 msgstr "Мережа"
 
-#: client/options.c:1211
+#: client/options.c:1215
 msgid "Font"
 msgstr "Шрифт"
 
-#: client/options.c:1628
+#: client/options.c:1632
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 "Якщо ви зм╕нили предустановку вручну, такой зм╕нить 'number_of_presets'"
 
-#: client/options.c:1672 client/options.c:1708
+#: client/options.c:1676 client/options.c:1712
 msgid "Cannot find your home directory"
 msgstr "Не можу знайти Ваш домашн╕й каталог"
 
-#: client/options.c:1722 client/options.c:1736
+#: client/options.c:1726 client/options.c:1740
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 
-#: client/options.c:2017
+#: client/options.c:2034
 msgid "Didn't find the option file."
 msgstr ""
 
-#: client/options.c:2032 client/options.c:2131
+#: client/options.c:2049 client/options.c:2148
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Збереження не вдалося: не можу писати у файл %s"
 
-#: client/options.c:2034 client/options.c:2133
+#: client/options.c:2051 client/options.c:2150
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Збережено опц╕╖ у файл %s"
 
-#: client/options.c:2087
+#: client/options.c:2104
 msgid "Save failed, cannot find a filename."
 msgstr "Збереження не вдалося: не можу знайти ╕м'я файлу"
 
@@ -11658,17 +11656,17 @@ msgstr "Строка сум╕сност╕ сервера: %s"
 msgid "Start of turn %d"
 msgstr "Початок ходу %d"
 
-#: client/packhand.c:1147
+#: client/packhand.c:1146
 #, fuzzy
 msgid "Welcome"
 msgstr "%s Ласкаво просимо"
 
-#: client/packhand.c:1883
+#: client/packhand.c:1882
 #, fuzzy
 msgid "AI mode is now ON."
 msgstr "Комп'ютерн╕ гравц╕ тепер %s."
 
-#: client/packhand.c:1885
+#: client/packhand.c:1884
 #, fuzzy
 msgid "AI mode is now OFF."
 msgstr "Комп'ютерн╕ гравц╕ тепер %s."
@@ -11786,17 +11784,22 @@ msgstr "Розпущено Ваш %s у (%d, %d)."
 msgid "No %s could be disbanded."
 msgstr "Нема╓ %s для продажу"
 
-#: client/servers.c:350
+#: client/servers.c:349
 #, fuzzy
 msgid "Could not open temp file."
 msgstr "Не можу в╕дкрити \"%s\"."
 
-#: client/servers.c:415
+#: client/servers.c:390
+#, c-format
+msgid "Failed to parse the metaserver data from http://%s."
+msgstr ""
+
+#: client/servers.c:421
 #, fuzzy
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Погане значення $http_proxy, повино починатися з 'http://'"
 
-#: client/servers.c:421
+#: client/servers.c:427
 #, fuzzy
 msgid "Failed looking up metaserver's host"
 msgstr "Не можу визначити хост."
@@ -12507,37 +12510,37 @@ msgstr "В╕йськов╕ п╕дрозд╕ли не впливають на щастя."
 msgid "Luxury: %d total."
 msgstr "Розк╕ш: %d загалом."
 
-#: client/tilespec.c:900
+#: client/tilespec.c:909
 msgid "No usable default tileset found, aborting!"
 msgstr "Не знайдено фон╕в по замовчуванню, перериваюся! "
 
-#: client/tilespec.c:932
+#: client/tilespec.c:941
 #, fuzzy, c-format
 msgid "Loading tileset \"%s\"."
 msgstr "Завантажую правила"
 
-#: client/tilespec.c:1083 client/tilespec.c:1117
+#: client/tilespec.c:1093 client/tilespec.c:1127
 #: client/gui-sdl/themespec.c:475 client/gui-sdl/themespec.c:509
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr "Не можу в╕дкрити \"%s\"."
 
-#: client/tilespec.c:1362
+#: client/tilespec.c:1372
 #, fuzzy
 msgid "Client does not support isometric tilesets."
 msgstr ""
 "Кл╕╓нт не п╕дтриму╓ ╕зометричн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:1363 client/tilespec.c:1372
+#: client/tilespec.c:1373 client/tilespec.c:1382
 msgid "Using default tileset instead."
 msgstr ""
 
-#: client/tilespec.c:1371
+#: client/tilespec.c:1381
 #, fuzzy
 msgid "Client does not support overhead view tilesets."
 msgstr "Кл╕╓нт не п╕дтриму╓ гор╕шн╕ фони. Використовую фони по замовчуванню."
 
-#: client/tilespec.c:4230
+#: client/tilespec.c:4240
 #, fuzzy
 msgid "Paths longer than 99 turns are not supported."
 msgstr ""
@@ -13206,7 +13209,7 @@ msgstr "Охороняти"
 msgid "_Fortify unit"
 msgstr "Укр╕пити"
 
-#: client/gui-gtk-2.0/citydlg.c:2131 client/gui-gtk-2.0/menu.c:1414
+#: client/gui-gtk-2.0/citydlg.c:2131 client/gui-gtk-2.0/menu.c:1467
 #: client/gui-win32/citydlg.c:1502 client/gui-win32/menu.c:377
 #, fuzzy
 msgid "Set _Home City"
@@ -13327,7 +13330,7 @@ msgstr "Кер╕вництво"
 msgid "S_ell"
 msgstr "Продати"
 
-#: client/gui-gtk-2.0/cityrep.c:1021 client/gui-gtk-2.0/menu.c:1364
+#: client/gui-gtk-2.0/cityrep.c:1021 client/gui-gtk-2.0/menu.c:1417
 msgid "_Select"
 msgstr "Обер╕ть"
 
@@ -13668,7 +13671,7 @@ msgstr "Мапи"
 msgid "_Advances"
 msgstr "Технолог╕╖"
 
-#: client/gui-gtk-2.0/diplodlg.c:315 client/gui-gtk-2.0/menu.c:1522
+#: client/gui-gtk-2.0/diplodlg.c:315 client/gui-gtk-2.0/menu.c:1575
 #: client/gui-win32/menu.c:407
 msgid "_Cities"
 msgstr "М╕ста"
@@ -13838,7 +13841,7 @@ msgstr "(Н╕коли)"
 msgid "(destroyed)"
 msgstr "Есм╕нець"
 
-#: client/gui-gtk-2.0/editprop.c:3098 client/gui-gtk-2.0/gui_main.c:1194
+#: client/gui-gtk-2.0/editprop.c:3098 client/gui-gtk-2.0/gui_main.c:1195
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "Дивитись"
@@ -14158,92 +14161,92 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:725 client/gui-gtk-2.0/gui_main.c:1450
+#: client/gui-gtk-2.0/gui_main.c:726 client/gui-gtk-2.0/gui_main.c:1451
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1130 client/gui-gtk-2.0/gui_main.c:1137
+#: client/gui-gtk-2.0/gui_main.c:1131 client/gui-gtk-2.0/gui_main.c:1138
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:472
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "Завершено х╕д"
 
-#: client/gui-gtk-2.0/gui_main.c:1137 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1138 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1298
+#: client/gui-gtk-2.0/gui_main.c:1299
 #, fuzzy
 msgid "Chat"
 msgstr "Колесн╕ця"
 
-#: client/gui-gtk-2.0/gui_main.c:1322
+#: client/gui-gtk-2.0/gui_main.c:1323
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1332
 #, fuzzy
 msgid "Clear links"
 msgstr "План буд╕вництва:"
 
-#: client/gui-gtk-2.0/gui_main.c:1606
+#: client/gui-gtk-2.0/gui_main.c:1607
 msgid "Not _ready"
 msgstr "Не готовий"
 
-#: client/gui-gtk-2.0/gui_main.c:1617 client/gui-gtk-2.0/pages.c:1685
+#: client/gui-gtk-2.0/gui_main.c:1618 client/gui-gtk-2.0/pages.c:1685
 #, fuzzy
 msgid "_Ready"
 msgstr "Готовн╕сть ус╕х"
 
-#: client/gui-gtk-2.0/gui_main.c:1621 client/gui-gtk-2.0/gui_main.c:1627
+#: client/gui-gtk-2.0/gui_main.c:1622 client/gui-gtk-2.0/gui_main.c:1628
 #, fuzzy
 msgid "_Start"
 msgstr "Стан"
 
-#: client/gui-gtk-2.0/gui_main.c:1635
+#: client/gui-gtk-2.0/gui_main.c:1636
 #, fuzzy
 msgid "_Take Player"
 msgstr "М╕ста"
 
-#: client/gui-gtk-2.0/gui_main.c:1639 client/gui-gtk-2.0/pages.c:1675
+#: client/gui-gtk-2.0/gui_main.c:1640 client/gui-gtk-2.0/pages.c:1675
 #, fuzzy
 msgid "Pick _Nation"
 msgstr "В╕дд╕л м╕л╕ц╕╖"
 
-#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/pages.c:1680
+#: client/gui-gtk-2.0/gui_main.c:1648 client/gui-gtk-2.0/pages.c:1680
 #, fuzzy
 msgid "_Observe"
 msgstr " (спостер╕гач)"
 
-#: client/gui-gtk-2.0/gui_main.c:1649
+#: client/gui-gtk-2.0/gui_main.c:1650
 #, fuzzy
 msgid "Do not _observe"
 msgstr "тепер контролю╓ться"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1704
+#: client/gui-gtk-2.0/gui_main.c:1705
 #, c-format
 msgid "<%s AI>"
 msgstr "<%s Ш╤>"
 
-#: client/gui-gtk-2.0/gui_main.c:1716 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1717 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:221
 #, fuzzy
 msgid "Random"
 msgstr "Рад╕о"
 
-#: client/gui-gtk-2.0/gui_main.c:1776 client/gui-gtk-2.0/gui_main.c:1790
+#: client/gui-gtk-2.0/gui_main.c:1777 client/gui-gtk-2.0/gui_main.c:1791
 #, fuzzy
 msgid "Observer"
 msgstr " (спостер╕гач)"
 
-#: client/gui-gtk-2.0/gui_main.c:1790
+#: client/gui-gtk-2.0/gui_main.c:1791
 #, fuzzy
 msgid "Detached"
 msgstr ", Помер"
 
-#: client/gui-gtk-2.0/gui_main.c:2054
+#: client/gui-gtk-2.0/gui_main.c:2055
 msgid "Are you sure you want to quit?"
 msgstr "Ви впевнен╕, що хочете вийти?"
 
@@ -14491,612 +14494,632 @@ msgstr "Будувати нове м╕сто"
 msgid "What should we call our new city?"
 msgstr "Як назвати нове м╕сто?"
 
-#: client/gui-gtk-2.0/mapview.c:162
+#: client/gui-gtk-2.0/mapview.c:172
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
 "Показати Ваш╕ поточн╕ установки розкош╕/науки/податк╕в;кл╕кн╕ть аби в╕дкрити "
 "╖х."
 
-#: client/gui-gtk-2.0/mapview.c:658 client/gui-win32/canvas.c:280
+#: client/gui-gtk-2.0/mapview.c:668 client/gui-win32/canvas.c:280
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr "Кращий туман буде працювати лише в режим╕ truecolor.  В╕дключаю це"
 
-#: client/gui-gtk-2.0/menu.c:177
+#: client/gui-gtk-2.0/menu.c:184
 msgid "Leaving a local game will end it!"
 msgstr "Якщо вийти ╕з локально╖ гри, вона завершиться!"
 
-#: client/gui-gtk-2.0/menu.c:1143 client/gui-win32/menu.c:308
+#: client/gui-gtk-2.0/menu.c:1188 client/gui-win32/menu.c:308
 msgid "_Game"
 msgstr "Гра"
 
-#: client/gui-gtk-2.0/menu.c:1144
+#: client/gui-gtk-2.0/menu.c:1189
 #, fuzzy
 msgid "_Options"
 msgstr "Опц╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1145 client/gui-win32/menu.c:326
+#: client/gui-gtk-2.0/menu.c:1190 client/gui-win32/menu.c:326
 msgid "_Edit"
 msgstr "Редагувати"
 
-#: client/gui-gtk-2.0/menu.c:1146 client/gui-gtk-2.0/menu.c:1189
+#: client/gui-gtk-2.0/menu.c:1191 client/gui-gtk-2.0/menu.c:1234
 #: client/gui-win32/menu.c:339
 msgid "_View"
 msgstr "Дивитись"
 
-#: client/gui-gtk-2.0/menu.c:1147
+#: client/gui-gtk-2.0/menu.c:1192
 #, fuzzy
 msgid "_Improvements"
 msgstr "Буд╕вл╕:"
 
-#: client/gui-gtk-2.0/menu.c:1148
+#: client/gui-gtk-2.0/menu.c:1193
 #, fuzzy
 msgid "C_ivilization"
 msgstr "Кап╕тал╕зац╕я"
 
-#: client/gui-gtk-2.0/menu.c:1149 client/gui-win32/menu.c:420
+#: client/gui-gtk-2.0/menu.c:1194 client/gui-win32/menu.c:420
 msgid "_Help"
 msgstr "Допомога"
 
-#: client/gui-gtk-2.0/menu.c:1157
+#: client/gui-gtk-2.0/menu.c:1202
 #, fuzzy
 msgid "_Clear Chat Log"
 msgstr "Очистити журнал"
 
-#: client/gui-gtk-2.0/menu.c:1159
+#: client/gui-gtk-2.0/menu.c:1204
 msgid "Save Chat _Log"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1162
+#: client/gui-gtk-2.0/menu.c:1207
 #, fuzzy
 msgid "_Local Client"
 msgstr "Локальн╕ опц╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1164
+#: client/gui-gtk-2.0/menu.c:1209
 #, fuzzy
 msgid "_Message"
 msgstr "Пов╕домлення"
 
-#: client/gui-gtk-2.0/menu.c:1166
+#: client/gui-gtk-2.0/menu.c:1211
 #, fuzzy
 msgid "_Remote Server"
 msgstr "Видалити"
 
-#: client/gui-gtk-2.0/menu.c:1168
+#: client/gui-gtk-2.0/menu.c:1213
 #, fuzzy
 msgid "Save Options _Now"
 msgstr "Зберегти Опц╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1171
+#: client/gui-gtk-2.0/menu.c:1216
 #, fuzzy
 msgid "_Reload Tileset"
 msgstr "Фони по замовчуванню"
 
-#: client/gui-gtk-2.0/menu.c:1173 client/gui-win32/menu.c:315
+#: client/gui-gtk-2.0/menu.c:1218 client/gui-win32/menu.c:315
 #, fuzzy
 msgid "_Save Game"
 msgstr "Зберегти гру"
 
-#: client/gui-gtk-2.0/menu.c:1175 client/gui-win32/menu.c:316
+#: client/gui-gtk-2.0/menu.c:1220 client/gui-win32/menu.c:316
 #, fuzzy
 msgid "Save Game _As..."
 msgstr "Зберегти гру"
 
-#: client/gui-gtk-2.0/menu.c:1177
+#: client/gui-gtk-2.0/menu.c:1222
 #, fuzzy
 msgid "_Leave"
 msgstr "Голова:"
 
-#: client/gui-gtk-2.0/menu.c:1179 client/gui-win32/menu.c:322
+#: client/gui-gtk-2.0/menu.c:1224 client/gui-win32/menu.c:322
 msgid "_Quit"
 msgstr "Вих╕д"
 
-#: client/gui-gtk-2.0/menu.c:1183 client/gui-win32/menu.c:329
+#: client/gui-gtk-2.0/menu.c:1228 client/gui-win32/menu.c:329
 msgid "_Find City"
 msgstr "Знайти м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:1185 client/gui-win32/menu.c:330
+#: client/gui-gtk-2.0/menu.c:1230 client/gui-win32/menu.c:330
 msgid "Work_lists"
 msgstr "План буд╕вництва"
 
 #. TRANS: Nations report action
-#: client/gui-gtk-2.0/menu.c:1191 client/gui-win32/menu.c:406
+#: client/gui-gtk-2.0/menu.c:1236 client/gui-win32/menu.c:406
 #, fuzzy
 msgid "_Nations"
 msgstr "_Нац╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1194 client/gui-win32/menu.c:412
+#: client/gui-gtk-2.0/menu.c:1239 client/gui-win32/menu.c:412
 msgid "_Wonders of the World"
 msgstr "Дива св╕ту"
 
-#: client/gui-gtk-2.0/menu.c:1196 client/gui-win32/menu.c:413
+#: client/gui-gtk-2.0/menu.c:1241 client/gui-win32/menu.c:413
 #, fuzzy
 msgid "Top _Five Cities"
 msgstr "П'ять визначних м╕ст"
 
-#: client/gui-gtk-2.0/menu.c:1198 client/gui-win32/menu.c:414
+#: client/gui-gtk-2.0/menu.c:1243 client/gui-win32/menu.c:414
 msgid "_Messages"
 msgstr "Пов╕домлення"
 
-#: client/gui-gtk-2.0/menu.c:1200 client/gui-win32/menu.c:415
+#: client/gui-gtk-2.0/menu.c:1245 client/gui-win32/menu.c:415
 msgid "_Demographics"
 msgstr "Демограф╕я"
 
-#: client/gui-gtk-2.0/menu.c:1204 client/gui-win32/menu.c:421
+#: client/gui-gtk-2.0/menu.c:1249 client/gui-win32/menu.c:421
 msgid "Language_s"
 msgstr "Мова"
 
-#: client/gui-gtk-2.0/menu.c:1206 client/gui-win32/menu.c:422
+#: client/gui-gtk-2.0/menu.c:1251 client/gui-win32/menu.c:422
 msgid "Co_nnecting"
 msgstr "З'╓днуюсь"
 
-#: client/gui-gtk-2.0/menu.c:1208 client/gui-win32/menu.c:423
+#: client/gui-gtk-2.0/menu.c:1253 client/gui-win32/menu.c:423
 msgid "C_ontrols"
 msgstr "Управл╕ння"
 
-#: client/gui-gtk-2.0/menu.c:1210 client/gui-win32/menu.c:424
+#: client/gui-gtk-2.0/menu.c:1255 client/gui-win32/menu.c:424
 msgid "C_hatline"
 msgstr "Чат"
 
-#: client/gui-gtk-2.0/menu.c:1212 client/gui-win32/menu.c:425
+#: client/gui-gtk-2.0/menu.c:1257 client/gui-win32/menu.c:425
 msgid "_Worklist Editor"
 msgstr "Редактор план╕в буд╕вництва "
 
-#: client/gui-gtk-2.0/menu.c:1214 client/gui-win32/menu.c:426
+#: client/gui-gtk-2.0/menu.c:1259 client/gui-win32/menu.c:426
 msgid "Citizen _Management"
 msgstr "Управл╕ння городянами"
 
-#: client/gui-gtk-2.0/menu.c:1216 client/gui-win32/menu.c:427
+#: client/gui-gtk-2.0/menu.c:1261 client/gui-win32/menu.c:427
 msgid "_Playing"
 msgstr "Гра"
 
-#: client/gui-gtk-2.0/menu.c:1219
+#: client/gui-gtk-2.0/menu.c:1264
 #, fuzzy
 msgid "About Ruleset"
 msgstr "Зб╕р правил:"
 
-#: client/gui-gtk-2.0/menu.c:1221 client/gui-win32/menu.c:429
+#: client/gui-gtk-2.0/menu.c:1266 client/gui-win32/menu.c:429
 msgid "City _Improvements"
 msgstr "Буд╕вл╕ м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:1223 client/gui-gtk-2.0/menu.c:1302
-#: client/gui-gtk-2.0/menu.c:1520 client/gui-win32/menu.c:404
+#: client/gui-gtk-2.0/menu.c:1268 client/gui-gtk-2.0/menu.c:1349
+#: client/gui-gtk-2.0/menu.c:1573 client/gui-win32/menu.c:404
 #: client/gui-win32/menu.c:430
 msgid "_Units"
 msgstr "П╕дрозд╕ли"
 
-#: client/gui-gtk-2.0/menu.c:1225 client/gui-win32/menu.c:431
+#: client/gui-gtk-2.0/menu.c:1270 client/gui-win32/menu.c:431
 msgid "Com_bat"
 msgstr "Битва"
 
-#: client/gui-gtk-2.0/menu.c:1227 client/gui-win32/menu.c:432
+#: client/gui-gtk-2.0/menu.c:1272 client/gui-win32/menu.c:432
 msgid "_ZOC"
 msgstr "Зони контролю"
 
-#: client/gui-gtk-2.0/menu.c:1229 client/gui-win32/menu.c:433
+#: client/gui-gtk-2.0/menu.c:1274 client/gui-win32/menu.c:433
 msgid "Techno_logy"
 msgstr "Технолог╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1231 client/gui-gtk-2.0/menu.c:1282
+#: client/gui-gtk-2.0/menu.c:1276 client/gui-gtk-2.0/menu.c:1329
 #: client/gui-win32/menu.c:434
 msgid "_Terrain"
 msgstr "Тер╕тор╕╖"
 
-#: client/gui-gtk-2.0/menu.c:1233 client/gui-win32/menu.c:435
+#: client/gui-gtk-2.0/menu.c:1278 client/gui-win32/menu.c:435
 msgid "Won_ders"
 msgstr "Дива"
 
-#: client/gui-gtk-2.0/menu.c:1235 client/gui-gtk-2.0/menu.c:1485
+#: client/gui-gtk-2.0/menu.c:1280 client/gui-gtk-2.0/menu.c:1538
 #: client/gui-win32/menu.c:332 client/gui-win32/menu.c:436
 msgid "_Government"
 msgstr "Кер╕вництво"
 
-#: client/gui-gtk-2.0/menu.c:1237 client/gui-win32/menu.c:437
+#: client/gui-gtk-2.0/menu.c:1282 client/gui-win32/menu.c:437
 #, fuzzy
 msgid "Diplomac_y"
 msgstr "Д╕пломат"
 
-#: client/gui-gtk-2.0/menu.c:1239 client/gui-win32/menu.c:438
+#: client/gui-gtk-2.0/menu.c:1284 client/gui-win32/menu.c:438
 msgid "Happin_ess"
 msgstr "Щастя"
 
-#: client/gui-gtk-2.0/menu.c:1241 client/gui-win32/menu.c:439
+#: client/gui-gtk-2.0/menu.c:1286 client/gui-win32/menu.c:439
 msgid "Space _Race"
 msgstr "Косм╕чна гонка"
 
-#: client/gui-gtk-2.0/menu.c:1244 client/gui-win32/menu.c:441
+#: client/gui-gtk-2.0/menu.c:1289 client/gui-win32/menu.c:441
 msgid "_Copying"
 msgstr "Коп╕ювання"
 
-#: client/gui-gtk-2.0/menu.c:1246 client/gui-win32/menu.c:442
+#: client/gui-gtk-2.0/menu.c:1291 client/gui-win32/menu.c:442
 msgid "_About"
 msgstr "Про програму"
 
-#: client/gui-gtk-2.0/menu.c:1252
+#: client/gui-gtk-2.0/menu.c:1297
 #, fuzzy
 msgid "Save Options on _Exit"
 msgstr "Опц╕╖ сервера (поточн╕)"
 
-#: client/gui-gtk-2.0/menu.c:1256
+#: client/gui-gtk-2.0/menu.c:1301
 #, fuzzy
 msgid "_Editing Mode"
 msgstr "Режим Редагування"
 
-#: client/gui-gtk-2.0/menu.c:1260
+#: client/gui-gtk-2.0/menu.c:1305
 #, fuzzy
 msgid "Cit_y Outlines"
 msgstr "Опц╕╖ м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:1262 client/gui-sdl/optiondlg.c:1590
+#: client/gui-gtk-2.0/menu.c:1307 client/gui-sdl/optiondlg.c:1590
 msgid "City Output"
 msgstr "М╕ське виробництво"
 
-#: client/gui-gtk-2.0/menu.c:1264 client/gui-win32/menu.c:340
+#: client/gui-gtk-2.0/menu.c:1309 client/gui-win32/menu.c:340
 msgid "Map _Grid"
 msgstr "С╕тка"
 
-#: client/gui-gtk-2.0/menu.c:1266 client/gui-win32/menu.c:341
+#: client/gui-gtk-2.0/menu.c:1311 client/gui-win32/menu.c:341
 msgid "National _Borders"
 msgstr "Нац╕ональн╕_Кордони"
 
-#: client/gui-gtk-2.0/menu.c:1269 client/gui-win32/menu.c:342
+#: client/gui-gtk-2.0/menu.c:1314
+#, fuzzy
+msgid "City Full Bar"
+msgstr "Ст╕ни м╕ста"
+
+#: client/gui-gtk-2.0/menu.c:1316 client/gui-win32/menu.c:342
 msgid "City _Names"
 msgstr "Назви м╕ст"
 
-#: client/gui-gtk-2.0/menu.c:1271 client/gui-win32/menu.c:343
+#: client/gui-gtk-2.0/menu.c:1318 client/gui-win32/menu.c:343
 msgid "City G_rowth"
 msgstr "Р╕ст М╕ста"
 
-#: client/gui-gtk-2.0/menu.c:1273 client/gui-win32/menu.c:344
+#: client/gui-gtk-2.0/menu.c:1320 client/gui-win32/menu.c:344
 #, fuzzy
 msgid "City _Production Levels"
 msgstr "Виробництво"
 
-#: client/gui-gtk-2.0/menu.c:1276
+#: client/gui-gtk-2.0/menu.c:1323
 #, fuzzy
 msgid "City Buy Cost"
 msgstr "Загалом кошту╓:"
 
-#: client/gui-gtk-2.0/menu.c:1278
+#: client/gui-gtk-2.0/menu.c:1325
 #, fuzzy
 msgid "City Tra_deroutes"
 msgstr "Торгов╕ шляхи"
 
-#: client/gui-gtk-2.0/menu.c:1284
+#: client/gui-gtk-2.0/menu.c:1331
 #, fuzzy
 msgid "C_oastline"
 msgstr "Узбер╕жжя"
 
-#: client/gui-gtk-2.0/menu.c:1287
+#: client/gui-gtk-2.0/menu.c:1334
 #, fuzzy
 msgid "_Roads & Rails"
 msgstr "Шляхи та Зал╕зниц╕"
 
-#: client/gui-gtk-2.0/menu.c:1289
+#: client/gui-gtk-2.0/menu.c:1336
 #, fuzzy
 msgid "_Irrigation"
 msgstr "Зрошення"
 
-#: client/gui-gtk-2.0/menu.c:1291
+#: client/gui-gtk-2.0/menu.c:1338
 #, fuzzy
 msgid "_Mines"
 msgstr "Шахти"
 
-#: client/gui-gtk-2.0/menu.c:1293
+#: client/gui-gtk-2.0/menu.c:1340
 #, fuzzy
 msgid "_Fortress & Airbase"
 msgstr "Укр╕плення та Ав╕абази"
 
-#: client/gui-gtk-2.0/menu.c:1296
+#: client/gui-gtk-2.0/menu.c:1343
 #, fuzzy
 msgid "_Specials"
 msgstr "Спец╕альне"
 
-#: client/gui-gtk-2.0/menu.c:1298
+#: client/gui-gtk-2.0/menu.c:1345
 #, fuzzy
 msgid "Po_llution & Fallout"
 msgstr "Забруднення та Катастрофи"
 
-#: client/gui-gtk-2.0/menu.c:1300
+#: client/gui-gtk-2.0/menu.c:1347
 #, fuzzy
 msgid "Citi_es"
 msgstr "М╕ста"
 
-#: client/gui-gtk-2.0/menu.c:1304
+#: client/gui-gtk-2.0/menu.c:1351
+#, fuzzy
+msgid "Unit Solid Background"
+msgstr "Заповнення фону з'╓днання"
+
+#: client/gui-gtk-2.0/menu.c:1353
+#, fuzzy
+msgid "Unit shields"
+msgstr "Виробництво"
+
+#: client/gui-gtk-2.0/menu.c:1355
 #, fuzzy
 msgid "Focu_s Unit"
 msgstr "Фокусувати п╕дрозд╕л"
 
-#: client/gui-gtk-2.0/menu.c:1306
+#: client/gui-gtk-2.0/menu.c:1357
 #, fuzzy
 msgid "Fog of _War"
 msgstr "Мара в╕йни"
 
-#: client/gui-gtk-2.0/menu.c:1309
+#: client/gui-gtk-2.0/menu.c:1359
+#, fuzzy
+msgid "Better Fog of War"
+msgstr "Мара в╕йни"
+
+#: client/gui-gtk-2.0/menu.c:1362
 msgid "_Full Screen"
 msgstr "Повний Екран"
 
-#: client/gui-gtk-2.0/menu.c:1336
+#: client/gui-gtk-2.0/menu.c:1389
 #, fuzzy
 msgid "Recalculate _Borders"
 msgstr "Перерахувати Кордони"
 
-#: client/gui-gtk-2.0/menu.c:1338
+#: client/gui-gtk-2.0/menu.c:1391
 #, fuzzy
 msgid "Toggle Fog of _War"
 msgstr "Мара в╕йни"
 
-#: client/gui-gtk-2.0/menu.c:1340
+#: client/gui-gtk-2.0/menu.c:1393
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1342 client/gui-gtk-2.0/pages.c:2319
+#: client/gui-gtk-2.0/menu.c:1395 client/gui-gtk-2.0/pages.c:2319
 #, fuzzy
 msgid "Save Scenario"
 msgstr "Стартувати нову гру"
 
-#: client/gui-gtk-2.0/menu.c:1365
+#: client/gui-gtk-2.0/menu.c:1418
 #, fuzzy
 msgid "_Unit"
 msgstr "П╕дрозд╕ли"
 
-#: client/gui-gtk-2.0/menu.c:1366
+#: client/gui-gtk-2.0/menu.c:1419
 #, fuzzy
 msgid "_Work"
 msgstr "План буд╕вництва"
 
-#: client/gui-gtk-2.0/menu.c:1367
+#: client/gui-gtk-2.0/menu.c:1420
 #, fuzzy
 msgid "_Combat"
 msgstr "Битва"
 
-#: client/gui-gtk-2.0/menu.c:1368
+#: client/gui-gtk-2.0/menu.c:1421
 #, fuzzy
 msgid "Build _Base"
 msgstr "Будувати ав╕абазу"
 
-#: client/gui-gtk-2.0/menu.c:1373
+#: client/gui-gtk-2.0/menu.c:1426
 msgid "_Single Unit (Unselect Others)"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1375
+#: client/gui-gtk-2.0/menu.c:1428
 msgid "_All On Tile"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1378
+#: client/gui-gtk-2.0/menu.c:1431
 #, fuzzy
 msgid "Same Type on _Tile"
 msgstr "Зберегти гру у файл."
 
-#: client/gui-gtk-2.0/menu.c:1380
+#: client/gui-gtk-2.0/menu.c:1433
 msgid "Same Type on _Continent"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1382
+#: client/gui-gtk-2.0/menu.c:1435
 msgid "Same Type _Everywhere"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1385 client/gui-win32/menu.c:398
+#: client/gui-gtk-2.0/menu.c:1438 client/gui-win32/menu.c:398
 msgid "_Wait"
 msgstr "Чекати (_W)"
 
-#: client/gui-gtk-2.0/menu.c:1387
+#: client/gui-gtk-2.0/menu.c:1440
 #, fuzzy
 msgid "_Done"
 msgstr "Завершено"
 
-#: client/gui-gtk-2.0/menu.c:1391
+#: client/gui-gtk-2.0/menu.c:1444
 msgid "_Go to"
 msgstr "Йти (_G)"
 
-#: client/gui-gtk-2.0/menu.c:1393 client/gui-win32/menu.c:391
+#: client/gui-gtk-2.0/menu.c:1446 client/gui-win32/menu.c:391
 #, fuzzy
 msgid "Go _to/Airlift to City..."
 msgstr "Йти/Лет╕ти у м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:1395
+#: client/gui-gtk-2.0/menu.c:1448
 #, fuzzy
 msgid "_Return to Nearest City"
 msgstr "Повернутися до найближчого м╕ста"
 
-#: client/gui-gtk-2.0/menu.c:1397 client/gui-win32/menu.c:383
+#: client/gui-gtk-2.0/menu.c:1450 client/gui-win32/menu.c:383
 msgid "Auto E_xplore"
 msgstr "Автодосл╕джувати"
 
-#: client/gui-gtk-2.0/menu.c:1399
+#: client/gui-gtk-2.0/menu.c:1452
 #, fuzzy
 msgid "_Patrol"
 msgstr "Патрулювати"
 
-#: client/gui-gtk-2.0/menu.c:1402 client/gui-win32/menu.c:374
+#: client/gui-gtk-2.0/menu.c:1455 client/gui-win32/menu.c:374
 msgid "_Sentry"
 msgstr "Охороняти"
 
-#: client/gui-gtk-2.0/menu.c:1404 client/gui-win32/menu.c:380
+#: client/gui-gtk-2.0/menu.c:1457 client/gui-win32/menu.c:380
 #, fuzzy
 msgid "Uns_entry All On Tile"
 msgstr "Приспати безд╕яльн╕ п╕дрозд╕ли"
 
-#: client/gui-gtk-2.0/menu.c:1407 client/gui-win32/menu.c:378
+#: client/gui-gtk-2.0/menu.c:1460 client/gui-win32/menu.c:378
 #, fuzzy
 msgid "_Load"
 msgstr "Вивантажити"
 
-#: client/gui-gtk-2.0/menu.c:1409 client/gui-win32/menu.c:379
+#: client/gui-gtk-2.0/menu.c:1462 client/gui-win32/menu.c:379
 msgid "_Unload"
 msgstr "Вивантажити"
 
-#: client/gui-gtk-2.0/menu.c:1411
+#: client/gui-gtk-2.0/menu.c:1464
 #, fuzzy
 msgid "U_nload All From Transporter"
 msgstr "Транспорт"
 
-#: client/gui-gtk-2.0/menu.c:1416
+#: client/gui-gtk-2.0/menu.c:1469
 #, fuzzy
 msgid "Upgr_ade"
 msgstr "Модерн╕зувати"
 
-#: client/gui-gtk-2.0/menu.c:1418
+#: client/gui-gtk-2.0/menu.c:1471
 #, fuzzy
 msgid "_Disband"
 msgstr "Розпустити"
 
-#: client/gui-gtk-2.0/menu.c:1422 client/gui-gtk-2.0/menu.c:2025
+#: client/gui-gtk-2.0/menu.c:1475 client/gui-gtk-2.0/menu.c:2117
 #: client/gui-win32/menu.c:364
 msgid "_Build City"
 msgstr "Будувати м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:1424
+#: client/gui-gtk-2.0/menu.c:1477
 #, fuzzy
 msgid "Go _to and Build city"
 msgstr "Будувати м╕сто"
 
-#: client/gui-gtk-2.0/menu.c:1426
+#: client/gui-gtk-2.0/menu.c:1479
 msgid "_Auto Settler"
 msgstr "Автоколон╕зувати"
 
-#: client/gui-gtk-2.0/menu.c:1429 client/gui-gtk-2.0/menu.c:2046
-#: client/gui-gtk-2.0/menu.c:2049 client/gui-win32/menu.c:365
+#: client/gui-gtk-2.0/menu.c:1482 client/gui-gtk-2.0/menu.c:2138
+#: client/gui-gtk-2.0/menu.c:2141 client/gui-win32/menu.c:365
 msgid "Build _Road"
 msgstr "Будувати шлях"
 
-#: client/gui-gtk-2.0/menu.c:1431 client/gui-gtk-2.0/menu.c:2066
-#: client/gui-gtk-2.0/menu.c:2086 client/gui-win32/menu.c:366
+#: client/gui-gtk-2.0/menu.c:1484 client/gui-gtk-2.0/menu.c:2158
+#: client/gui-gtk-2.0/menu.c:2178 client/gui-win32/menu.c:366
 msgid "Build _Irrigation"
 msgstr "Будувати зрошення"
 
-#: client/gui-gtk-2.0/menu.c:1433 client/gui-gtk-2.0/menu.c:2074
-#: client/gui-gtk-2.0/menu.c:2087 client/gui-win32/menu.c:367
+#: client/gui-gtk-2.0/menu.c:1486 client/gui-gtk-2.0/menu.c:2166
+#: client/gui-gtk-2.0/menu.c:2179 client/gui-win32/menu.c:367
 msgid "Build _Mine"
 msgstr "Будувати шахту"
 
-#: client/gui-gtk-2.0/menu.c:1436
+#: client/gui-gtk-2.0/menu.c:1489
 #, fuzzy
 msgid "Connect With Roa_d"
 msgstr "При╓'днатись"
 
-#: client/gui-gtk-2.0/menu.c:1438
+#: client/gui-gtk-2.0/menu.c:1491
 #, fuzzy
 msgid "Connect With Rai_l"
 msgstr "При╓'днатись"
 
-#: client/gui-gtk-2.0/menu.c:1440
+#: client/gui-gtk-2.0/menu.c:1493
 #, fuzzy
 msgid "Connect With Irri_gation"
 msgstr "Зрошення"
 
-#: client/gui-gtk-2.0/menu.c:1443 client/gui-gtk-2.0/menu.c:2083
-#: client/gui-gtk-2.0/menu.c:2088
+#: client/gui-gtk-2.0/menu.c:1496 client/gui-gtk-2.0/menu.c:2175
+#: client/gui-gtk-2.0/menu.c:2180
 msgid "Transf_orm Terrain"
 msgstr "Зм╕нити тер╕тор╕ю"
 
-#: client/gui-gtk-2.0/menu.c:1445 client/gui-gtk-2.0/menu.c:2104
+#: client/gui-gtk-2.0/menu.c:1498 client/gui-gtk-2.0/menu.c:2196
 #: client/gui-win32/menu.c:371
 msgid "Clean _Pollution"
 msgstr "Л╕кв╕дувати забруднення"
 
-#: client/gui-gtk-2.0/menu.c:1447 client/gui-win32/menu.c:372
+#: client/gui-gtk-2.0/menu.c:1500 client/gui-win32/menu.c:372
 msgid "Clean _Nuclear Fallout"
 msgstr "Л╕кв╕дувати рад╕ац╕ю"
 
-#: client/gui-gtk-2.0/menu.c:1451 client/gui-gtk-2.0/menu.c:2098
+#: client/gui-gtk-2.0/menu.c:1504 client/gui-gtk-2.0/menu.c:2190
 #: client/gui-win32/menu.c:369
 msgid "Build _Fortress"
 msgstr "Будувати укр╕плення"
 
-#: client/gui-gtk-2.0/menu.c:1453 client/gui-win32/menu.c:370
+#: client/gui-gtk-2.0/menu.c:1506 client/gui-win32/menu.c:370
 msgid "Build Airbas_e"
 msgstr "Будувати ав╕абазу"
 
-#: client/gui-gtk-2.0/menu.c:1456
+#: client/gui-gtk-2.0/menu.c:1509
 #, fuzzy
 msgid "_Pillage"
 msgstr "Руйну╓"
 
-#: client/gui-gtk-2.0/menu.c:1458
+#: client/gui-gtk-2.0/menu.c:1511
 msgid "_Diplomat/Spy Actions"
 msgstr "Д╕╖ Д╕пломата/Шпигуна"
 
-#: client/gui-gtk-2.0/menu.c:1460
+#: client/gui-gtk-2.0/menu.c:1513
 #, fuzzy
 msgid "Explode _Nuclear"
 msgstr "П╕д╕рвати атомну бомбу"
 
-#: client/gui-gtk-2.0/menu.c:1490 client/gui-win32/menu.c:327
+#: client/gui-gtk-2.0/menu.c:1543 client/gui-win32/menu.c:327
 #, fuzzy
 msgid "_Tax Rates..."
 msgstr "Податки..."
 
-#: client/gui-gtk-2.0/menu.c:1516
+#: client/gui-gtk-2.0/menu.c:1569
 msgid "_Center View"
 msgstr "Центрувати"
 
-#: client/gui-gtk-2.0/menu.c:1524 client/gui-win32/menu.c:408
+#: client/gui-gtk-2.0/menu.c:1577 client/gui-win32/menu.c:408
 msgid "_Economy"
 msgstr "Економ╕ка"
 
 #. TRANS: Research report action
-#: client/gui-gtk-2.0/menu.c:1526 client/gui-win32/menu.c:410
+#: client/gui-gtk-2.0/menu.c:1579 client/gui-win32/menu.c:410
 #, fuzzy
 msgid "_Research"
 msgstr "_Досл╕дження"
 
-#: client/gui-gtk-2.0/menu.c:1529 client/gui-gtk-2.0/plrdlg.c:355
+#: client/gui-gtk-2.0/menu.c:1582 client/gui-gtk-2.0/plrdlg.c:355
 #: client/gui-win32/menu.c:416
 msgid "_Spaceship"
 msgstr "Косм╕чний корабель"
 
-#: client/gui-gtk-2.0/menu.c:1807 client/gui-win32/menu.c:333
+#: client/gui-gtk-2.0/menu.c:1903 client/gui-win32/menu.c:333
 #, fuzzy
 msgid "_Revolution..."
 msgstr "Революц╕я"
 
-#: client/gui-gtk-2.0/menu.c:1819
+#: client/gui-gtk-2.0/menu.c:1915
 #, c-format
 msgid "%s..."
 msgstr "%s..."
 
-#: client/gui-gtk-2.0/menu.c:2008
+#: client/gui-gtk-2.0/menu.c:2100
 msgid "Help _Build Wonder"
 msgstr "Допомогти будувати диво"
 
-#: client/gui-gtk-2.0/menu.c:2022
+#: client/gui-gtk-2.0/menu.c:2114
 msgid "Add to City (_B)"
 msgstr "Додати до м╕ста (_B)"
 
-#: client/gui-gtk-2.0/menu.c:2030
+#: client/gui-gtk-2.0/menu.c:2122
 #, fuzzy
 msgid "Establish Trade _Route"
 msgstr "Встановити торговий маршрут"
 
-#: client/gui-gtk-2.0/menu.c:2044
+#: client/gui-gtk-2.0/menu.c:2136
 msgid "Build _Railroad"
 msgstr "Будувати зал╕зницю"
 
-#: client/gui-gtk-2.0/menu.c:2058
+#: client/gui-gtk-2.0/menu.c:2150
 #, c-format
 msgid "Change to %s (_I)"
 msgstr "Зм╕нити на %s (_I)"
 
-#: client/gui-gtk-2.0/menu.c:2064
+#: client/gui-gtk-2.0/menu.c:2156
 msgid "Bu_ild Farmland"
 msgstr "Будувати ферму"
 
-#: client/gui-gtk-2.0/menu.c:2071
+#: client/gui-gtk-2.0/menu.c:2163
 #, c-format
 msgid "Change to %s (_M)"
 msgstr "Зм╕нити на %s (_М)"
 
-#: client/gui-gtk-2.0/menu.c:2079
+#: client/gui-gtk-2.0/menu.c:2171
 #, c-format
 msgid "Transf_orm to %s"
 msgstr "Зм╕нити на %s"
 
-#: client/gui-gtk-2.0/menu.c:2096 client/gui-win32/citydlg.c:1498
+#: client/gui-gtk-2.0/menu.c:2188 client/gui-win32/citydlg.c:1498
 #, fuzzy
 msgid "_Fortify Unit"
 msgstr "Укр╕пити"
 
-#: client/gui-gtk-2.0/menu.c:2102
+#: client/gui-gtk-2.0/menu.c:2194
 #, fuzzy
 msgid "Drop _Paratrooper"
 msgstr "Парашутисти"
@@ -15761,7 +15784,7 @@ msgstr "Зм╕нити буд╕вництво"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:129
 msgid "_YES"
-msgstr ""
+msgstr "ТАК"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:150
 #, fuzzy
@@ -15779,15 +15802,13 @@ msgstr ""
 
 #. TRANS: Describing a vote that failed.
 #: client/gui-gtk-2.0/voteinfo_bar.c:238
-#, fuzzy
 msgid "[failed]"
-msgstr "Схибив"
+msgstr "[схибив]"
 
 #. TRANS: Describing a vote that was removed.
 #: client/gui-gtk-2.0/voteinfo_bar.c:242
-#, fuzzy
 msgid "[removed]"
-msgstr "Видалено"
+msgstr "[видалено]"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:266
 #, fuzzy, c-format
@@ -15843,14 +15864,12 @@ msgid "Total users logged in : %d"
 msgstr "Загалом зайшло користувач╕в : %d"
 
 #: client/gui-sdl/chatline.c:818 client/gui-win32/connectdlg.c:1096
-#, fuzzy
 msgid "Back"
-msgstr "Банк"
+msgstr "Назад"
 
 #: client/gui-sdl/chatline.c:829 data/Freeciv.in:3386
-#, fuzzy
 msgid "Start"
-msgstr "Стан"
+msgstr "Розпочати"
 
 #: client/gui-sdl/chatline.c:850 client/gui-sdl/pages.c:179
 #: client/gui-win32/connectdlg.c:777
@@ -15888,7 +15907,6 @@ msgid "Disband unit"
 msgstr "Разформувати п╕дрозд╕л"
 
 #: client/gui-sdl/citydlg.c:518 client/gui-xaw/menu.c:192
-#, fuzzy
 msgid "Set Home City"
 msgstr "Зм╕нити дом╕вку"
 
@@ -15918,11 +15936,12 @@ msgid "Cancel"
 msgstr "Зак╕нчити"
 
 #: client/gui-sdl/citydlg.c:726 client/gui-sdl/mapview.c:770
-#, fuzzy
 msgid ""
 "\n"
 "veteran"
-msgstr "(ветеран)"
+msgstr ""
+"\n"
+"ветеран"
 
 #: client/gui-sdl/citydlg.c:954
 #, fuzzy
@@ -15942,9 +15961,8 @@ msgid "Sorry, you can't buy here in this turn."
 msgstr "Ви вже купили цього ходу."
 
 #: client/gui-sdl/citydlg.c:1179
-#, fuzzy
 msgid "Buy it?"
-msgstr "Купити"
+msgstr "Купити?"
 
 #: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:330
 #: client/gui-sdl/diplodlg.c:1334 client/gui-sdl/diplomat_dialog.c:1213
@@ -15978,9 +15996,8 @@ msgid "Yes"
 msgstr "Так"
 
 #: client/gui-sdl/citydlg.c:1394
-#, fuzzy
 msgid "Sell it?"
-msgstr "Продати"
+msgstr "Продати?"
 
 #: client/gui-sdl/citydlg.c:1427 client/gui-win32/citydlg.c:808
 msgid "Sell"
@@ -16006,9 +16023,9 @@ msgid "City info"
 msgstr "М╕сто ╕нфо"
 
 #: client/gui-sdl/citydlg.c:1908
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution: %d"
-msgstr "Забруднення:    %3d"
+msgstr "Забруднення: %d"
 
 #: client/gui-sdl/citydlg.c:1936
 #, fuzzy
@@ -16016,19 +16033,17 @@ msgid "Pollution: none"
 msgstr "Забруднення:"
 
 #: client/gui-sdl/citydlg.c:1949
-#, fuzzy
 msgid "Trade routes: "
-msgstr "Торгов╕ шляхи"
+msgstr "Торгов╕ шляхи:"
 
 #: client/gui-sdl/citydlg.c:1998
-#, fuzzy, c-format
+#, c-format
 msgid "Trade: +%d"
-msgstr "+%d Торг╕вля / %d"
+msgstr "Торг╕вля: +%d"
 
 #: client/gui-sdl/citydlg.c:2538
-#, fuzzy
 msgid "Citizens"
-msgstr "М╕ста"
+msgstr "Громадяни"
 
 #: client/gui-sdl/citydlg.c:2552
 msgid "City improvements"
@@ -16070,9 +16085,9 @@ msgid "Gold: %d (%d) per turn"
 msgstr "Грошей: %d"
 
 #: client/gui-sdl/citydlg.c:2854
-#, fuzzy, c-format
+#, c-format
 msgid "Upkeep: %d"
-msgstr "Утримання:"
+msgstr "Утримання: %d"
 
 #: client/gui-sdl/citydlg.c:2893
 #, fuzzy, c-format
@@ -16085,14 +16100,12 @@ msgid "Luxury: %d per turn"
 msgstr "Розк╕ш: %d загалом."
 
 #: client/gui-sdl/citydlg.c:2971
-#, fuzzy
 msgid "City growth: blocked"
-msgstr "Р╕ст м╕ста:"
+msgstr "Р╕ст м╕ста: заблоковано"
 
 #: client/gui-sdl/citydlg.c:2973
-#, fuzzy
 msgid "City growth: never"
-msgstr "Р╕ст м╕ста"
+msgstr "Р╕ст м╕ста: н╕коли"
 
 #: client/gui-sdl/citydlg.c:2977
 #, fuzzy, c-format
@@ -16657,9 +16670,8 @@ msgid "Help : Improvements"
 msgstr "Буд╕вл╕"
 
 #: client/gui-sdl/helpdlg.c:404
-#, fuzzy
 msgid "Never"
-msgstr "(Н╕коли)"
+msgstr "Н╕коли"
 
 #: client/gui-sdl/helpdlg.c:602
 #, fuzzy
@@ -17991,7 +18003,6 @@ msgid "Leader:"
 msgstr "Голова:"
 
 #: client/gui-win32/dialogs.c:590
-#, fuzzy
 msgid "City Style:"
 msgstr "Стиль м╕ст:"
 
@@ -18563,14 +18574,12 @@ msgid "Disconnect"
 msgstr "В╕дключитись"
 
 #: client/gui-xaw/menu.c:131
-#, fuzzy
 msgid "Tax Rates..."
 msgstr "Податки..."
 
 #: client/gui-xaw/menu.c:136
-#, fuzzy
 msgid "Revolution..."
-msgstr "Революц╕я"
+msgstr "Революц╕я..."
 
 #: client/gui-xaw/menu.c:149
 msgid "City Growth"
@@ -18644,9 +18653,8 @@ msgid "Government"
 msgstr "Кер╕вництво"
 
 #: client/gui-xaw/menu.c:260 data/Freeciv.in:215 data/helpdata.txt:1529
-#, fuzzy
 msgid "Diplomacy"
-msgstr "Д╕пломат"
+msgstr "Д╕пломат╕я"
 
 #: client/gui-xaw/menu.c:262 data/helpdata.txt:1647
 msgid "Space Race"
@@ -20069,7 +20077,7 @@ msgstr ""
 
 #: data/helpdata.txt:846
 msgid "    A couple of notes:"
-msgstr ""
+msgstr "   Дек╕лька зауважень:"
 
 #: data/helpdata.txt:848
 msgid "   - You can't give away your capital."
@@ -23058,22 +23066,12 @@ msgid "Despotism"
 msgstr "Деспот╕зм"
 
 #: data/default/governments.ruleset:78 data/civ2/governments.ruleset:75
-#: data/civ1/governments.ruleset:77 data/nation/cherokee.ruleset:22
-#: data/nation/iroquois.ruleset:26 data/nation/kanem-bornu.ruleset:22
-#: data/nation/kongo.ruleset:27 data/nation/malian.ruleset:25
-#: data/nation/maori.ruleset:24 data/nation/muskogee.ruleset:31
-#: data/nation/rwandan.ruleset:21 data/nation/sioux.ruleset:28
-#: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
-#: data/nation/zulu.ruleset:38
+#: data/civ1/governments.ruleset:77 data/nation/muskogee.ruleset:31
 msgid "Chief"
 msgstr "Вождь"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
-#: data/civ1/governments.ruleset:78 data/nation/cherokee.ruleset:22
-#: data/nation/iroquois.ruleset:26 data/nation/malian.ruleset:25
-#: data/nation/maori.ruleset:24 data/nation/sioux.ruleset:28
-#: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
-#: data/nation/zulu.ruleset:38
+#: data/civ1/governments.ruleset:78
 #, fuzzy
 msgid "?female:Chief"
 msgstr "Товариш"
@@ -23093,13 +23091,12 @@ msgid "Monarchy"
 msgstr "Монарх╕я"
 
 #: data/default/governments.ruleset:100 data/civ2/governments.ruleset:97
-#: data/civ1/governments.ruleset:99 data/nation/spanish.ruleset:30
+#: data/civ1/governments.ruleset:99
 msgid "King"
 msgstr "Король"
 
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:98
-#: data/civ1/governments.ruleset:100 data/nation/spanish.ruleset:30
-#: data/nation/tibetan.ruleset:28
+#: data/civ1/governments.ruleset:100
 msgid "Queen"
 msgstr "Королева"
 
@@ -23118,12 +23115,12 @@ msgid "Communism"
 msgstr "Комун╕зм"
 
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:118
-#: data/civ1/governments.ruleset:120 data/nation/soviet.ruleset:27
+#: data/civ1/governments.ruleset:120
 msgid "Comrade"
 msgstr "Товариш"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:119
-#: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:27
+#: data/civ1/governments.ruleset:121
 #, fuzzy
 msgid "?female:Comrade"
 msgstr "Товариш"
@@ -23200,22 +23197,12 @@ msgid "Democracy"
 msgstr "Демократ╕я"
 
 #: data/default/governments.ruleset:167 data/civ2/governments.ruleset:192
-#: data/civ1/governments.ruleset:166 data/nation/bosnia.ruleset:28
-#: data/nation/bulgarian.ruleset:32 data/nation/catalan.ruleset:35
-#: data/nation/croatian.ruleset:34 data/nation/finnish.ruleset:19
-#: data/nation/german.ruleset:33 data/nation/polish.ruleset:32
-#: data/nation/serbian.ruleset:37 data/nation/singaporean.ruleset:35
-#: data/nation/slovakian.ruleset:27 data/nation/slovenian.ruleset:19
+#: data/civ1/governments.ruleset:166
 msgid "President"
 msgstr "Президент"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:193
-#: data/civ1/governments.ruleset:167 data/nation/bosnia.ruleset:28
-#: data/nation/bulgarian.ruleset:32 data/nation/catalan.ruleset:35
-#: data/nation/croatian.ruleset:34 data/nation/finnish.ruleset:19
-#: data/nation/german.ruleset:33 data/nation/polish.ruleset:32
-#: data/nation/serbian.ruleset:37 data/nation/singaporean.ruleset:35
-#: data/nation/slovakian.ruleset:27 data/nation/slovenian.ruleset:19
+#: data/civ1/governments.ruleset:167
 #, fuzzy
 msgid "?female:President"
 msgstr "Президент"
@@ -25185,51 +25172,79 @@ msgstr ""
 "Ахмад Шах заснував ╤мпер╕ю Дурран╕."
 
 #: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
-#: data/nation/kurd.ruleset:25 data/nation/uzbek.ruleset:28
+#: data/nation/kurd.ruleset:26 data/nation/uzbek.ruleset:28
 msgid "Emir"
 msgstr "Ем╕р"
 
-#: data/nation/afghani.ruleset:25 data/nation/slovakian.ruleset:30
-#: data/nation/soviet.ruleset:28
+#: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
+#: data/nation/kurd.ruleset:26 data/nation/uzbek.ruleset:28
+#, fuzzy
+msgid "Emira"
+msgstr "Ем╕р"
+
+#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:29
+#, fuzzy
+msgid "Padishah"
+msgstr "Парт╕зани"
+
+#: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:29
+#, fuzzy
+msgid "?female:Padishah"
+msgstr "Тао╕с╕ч"
+
+#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
+#: data/nation/soviet.ruleset:27
 #, fuzzy
 msgid "General Secretary"
 msgstr "Перший Секретар"
 
-#: data/nation/afghani.ruleset:26
+#: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
+#: data/nation/soviet.ruleset:27
+msgid "?female:General Secretary"
+msgstr "Генеральний Секретар"
+
+#: data/nation/afghani.ruleset:27
 msgid "Mullah"
 msgstr "Мула"
 
-#: data/nation/afghani.ruleset:27 data/nation/australian.ruleset:28
-#: data/nation/british.ruleset:22 data/nation/burmese.ruleset:23
+#: data/nation/afghani.ruleset:27
+#, fuzzy
+msgid "?female:Mullah"
+msgstr "Махатма"
+
+#: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:28
+#: data/nation/british.ruleset:22 data/nation/burmese.ruleset:22
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:22
-#: data/nation/danish.ruleset:37 data/nation/dutch.ruleset:21
-#: data/nation/english.ruleset:25 data/nation/finnish.ruleset:20
-#: data/nation/greek.ruleset:20 data/nation/hellenic.ruleset:19
-#: data/nation/israeli.ruleset:22 data/nation/japanese.ruleset:22
-#: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:24
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:22
-#: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:23
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:36
-#: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
-#: data/nation/swedish.ruleset:32 data/nation/tibetan.ruleset:30
-#: data/nation/welsh.ruleset:27
+#: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
+#: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:21
+#: data/nation/english.ruleset:25 data/nation/finnish.ruleset:19
+#: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
+#: data/nation/hellenic.ruleset:20 data/nation/israeli.ruleset:22
+#: data/nation/japanese.ruleset:22 data/nation/malagasy.ruleset:23
+#: data/nation/malaysian.ruleset:24 data/nation/newzealand.ruleset:20
+#: data/nation/norwegian.ruleset:22 data/nation/portuguese.ruleset:27
+#: data/nation/ryukyuan.ruleset:21 data/nation/silesian.ruleset:22
+#: data/nation/singaporean.ruleset:35 data/nation/slovakian.ruleset:27
+#: data/nation/spanish.ruleset:30 data/nation/swedish.ruleset:33
+#: data/nation/tibetan.ruleset:29 data/nation/welsh.ruleset:27
 msgid "Prime Minister"
 msgstr "Прем`╓р-м╕н╕стр"
 
-#: data/nation/afghani.ruleset:27 data/nation/australian.ruleset:28
-#: data/nation/british.ruleset:22 data/nation/burmese.ruleset:23
+#: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:28
+#: data/nation/british.ruleset:22 data/nation/burmese.ruleset:22
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:22
-#: data/nation/danish.ruleset:37 data/nation/dutch.ruleset:21
-#: data/nation/english.ruleset:25 data/nation/finnish.ruleset:20
-#: data/nation/greek.ruleset:20 data/nation/hellenic.ruleset:19
-#: data/nation/israeli.ruleset:22 data/nation/japanese.ruleset:22
-#: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:24
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:22
-#: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:23
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:36
-#: data/nation/slovakian.ruleset:28 data/nation/spanish.ruleset:31
-#: data/nation/swedish.ruleset:32 data/nation/tibetan.ruleset:30
-#: data/nation/welsh.ruleset:27
+#: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
+#: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:21
+#: data/nation/english.ruleset:25 data/nation/finnish.ruleset:19
+#: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
+#: data/nation/hellenic.ruleset:20 data/nation/israeli.ruleset:22
+#: data/nation/japanese.ruleset:22 data/nation/malagasy.ruleset:23
+#: data/nation/malaysian.ruleset:24 data/nation/newzealand.ruleset:20
+#: data/nation/norwegian.ruleset:22 data/nation/portuguese.ruleset:27
+#: data/nation/ryukyuan.ruleset:21 data/nation/silesian.ruleset:22
+#: data/nation/singaporean.ruleset:35 data/nation/slovakian.ruleset:27
+#: data/nation/spanish.ruleset:30 data/nation/swedish.ruleset:33
+#: data/nation/tibetan.ruleset:29 data/nation/welsh.ruleset:27
 msgid "?female:Prime Minister"
 msgstr "Прем`╓р-м╕н╕стр"
 
@@ -25254,10 +25269,20 @@ msgstr ""
 msgid "Nipa"
 msgstr "Вождь"
 
+#: data/nation/ainu.ruleset:20
+#, fuzzy
+msgid "?female:Nipa"
+msgstr "Набоб"
+
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
 msgid "Nipsa"
 msgstr "Маг╕стр"
+
+#: data/nation/ainu.ruleset:22
+#, fuzzy
+msgid "?female:Nipsa"
+msgstr "Набоб"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
@@ -25282,9 +25307,10 @@ msgstr ""
 msgid "He'a"
 msgstr "Хе'а"
 
-#: data/nation/akwe.ruleset:25 data/nation/srivijaya.ruleset:22
-msgid "Senapati"
-msgstr "Сенапат╕"
+#: data/nation/akwe.ruleset:24
+#, fuzzy
+msgid "?female:He'a"
+msgstr "Хакер"
 
 #: data/nation/algerian.ruleset:3
 #, fuzzy
@@ -25304,6 +25330,52 @@ msgstr ""
 "Алжир - арабська нац╕я у п╕вн╕чн╕й Африц╕. ╤сторично населена народом "
 "бербер╕в."
 
+#: data/nation/algerian.ruleset:21
+#, fuzzy
+msgid "Sheik"
+msgstr "Шейх"
+
+#: data/nation/algerian.ruleset:21 data/nation/arab.ruleset:20
+#: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:30
+#: data/nation/kurd.ruleset:25
+#, fuzzy
+msgid "Shaykhah"
+msgstr "Шейх"
+
+#: data/nation/algerian.ruleset:22 data/nation/arab.ruleset:21
+#: data/nation/himyarite.ruleset:31
+#, fuzzy
+msgid "Malik"
+msgstr "Ополчення"
+
+#: data/nation/algerian.ruleset:22 data/nation/arab.ruleset:21
+#: data/nation/himyarite.ruleset:31
+#, fuzzy
+msgid "Malikah"
+msgstr "Ополчення"
+
+#: data/nation/algerian.ruleset:23 data/nation/libyan.ruleset:23
+#: data/nation/tunisian.ruleset:29
+msgid "Dey"
+msgstr "Деж"
+
+#: data/nation/algerian.ruleset:23 data/nation/libyan.ruleset:23
+#: data/nation/tunisian.ruleset:29
+#, fuzzy
+msgid "?female:Dey"
+msgstr "Деспот"
+
+#: data/nation/algerian.ruleset:24 data/nation/arab.ruleset:23
+#: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:33
+msgid "Caliph"
+msgstr "Хал╕ф"
+
+#: data/nation/algerian.ruleset:24 data/nation/arab.ruleset:23
+#: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:33
+#, fuzzy
+msgid "?female:Caliph"
+msgstr "Майор"
+
 #: data/nation/american.ruleset:3 data/nation/muskogee.ruleset:5
 msgid "American"
 msgstr "Американц╕"
@@ -25321,11 +25393,13 @@ msgstr ""
 "Оф╕ц╕йна назва Сполучен╕ Штати Амер╕ки. Незалежн╕ в╕д Велико╖ Британ╕╖ п╕сля "
 "революц╕╖ у 1776-1783 н.е."
 
-#: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
+#: data/nation/american.ruleset:51 data/nation/confederate.ruleset:25
+#: data/nation/scottish.ruleset:25
 msgid "Speaker"
 msgstr "Сп╕кер"
 
-#: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
+#: data/nation/american.ruleset:51 data/nation/confederate.ruleset:25
+#: data/nation/scottish.ruleset:25
 msgid "?female:Speaker"
 msgstr "Сп╕кер"
 
@@ -25365,8 +25439,22 @@ msgid "The Arab/Islamic civilization of 622 AD-1495 AD."
 msgstr "Арабська/╤сламська цив╕л╕зац╕я у 622 н.е - 1495 н.е."
 
 #: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
-msgid "Caliph"
-msgstr "Хал╕ф"
+#: data/nation/himyarite.ruleset:30 data/nation/kurd.ruleset:25
+msgid "Sheikh"
+msgstr "Шейх"
+
+#: data/nation/arab.ruleset:22 data/nation/emirati.ruleset:26
+#: data/nation/himyarite.ruleset:32 data/nation/malaysian.ruleset:22
+#: data/nation/singaporean.ruleset:32 data/nation/turk.ruleset:23
+msgid "Sultan"
+msgstr "Султан"
+
+#: data/nation/arab.ruleset:22 data/nation/emirati.ruleset:26
+#: data/nation/himyarite.ruleset:32 data/nation/malaysian.ruleset:22
+#: data/nation/singaporean.ruleset:32 data/nation/turk.ruleset:23
+#, fuzzy
+msgid "Sultana"
+msgstr "Султан"
 
 #: data/nation/aramean.ruleset:3
 #, fuzzy
@@ -25403,6 +25491,40 @@ msgid ""
 "politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" "
 "Peron."
 msgstr ""
+
+#: data/nation/argentine.ruleset:28 data/nation/cuban.ruleset:21
+#: data/nation/spanish.ruleset:28
+msgid "Caudillo"
+msgstr "Кауд╕льо"
+
+#: data/nation/argentine.ruleset:28 data/nation/cuban.ruleset:21
+#: data/nation/spanish.ruleset:28
+msgid "Caudilla"
+msgstr "Кауд╕льа"
+
+#: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:22
+#: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
+#: data/nation/venezuelan.ruleset:29
+#, fuzzy
+msgid "Presidente"
+msgstr "Президент"
+
+#: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:22
+#: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
+#: data/nation/venezuelan.ruleset:29
+#, fuzzy
+msgid "Presidenta"
+msgstr "Президент"
+
+#: data/nation/argentine.ruleset:30 data/nation/cuban.ruleset:23
+#: data/nation/spanish.ruleset:29
+msgid "Cardinal"
+msgstr "Кард╕нал"
+
+#: data/nation/argentine.ruleset:30 data/nation/cuban.ruleset:23
+#: data/nation/spanish.ruleset:29
+msgid "?female:Cardinal"
+msgstr "Кард╕нал"
 
 #: data/nation/armenian.ruleset:3
 #, fuzzy
@@ -25497,33 +25619,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/aymara.ruleset:30
-msgid "Jiliri"
-msgstr "Дж╕л╕р╕"
-
-#: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
 msgid "Mallku"
 msgstr "Маллку"
 
-#: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
+#: data/nation/aymara.ruleset:30
 msgid "Ttalla"
 msgstr "Тталла"
-
-#: data/nation/aymara.ruleset:33
-msgid "Willka"
-msgstr "У╕ллка"
-
-#: data/nation/aymara.ruleset:34
-msgid "Tata"
-msgstr "Папа"
-
-#. TRANS: Mama = Priest
-#: data/nation/aymara.ruleset:34 data/nation/tairona.ruleset:30
-msgid "Mama"
-msgstr "Мама"
-
-#: data/nation/aymara.ruleset:35
-msgid "Markachiri"
-msgstr "Маркач╕р╕"
 
 #: data/nation/azeri.ruleset:3
 msgid "Azeri"
@@ -25549,25 +25650,26 @@ msgstr ""
 "╕стор╕╖. Пот╕м Азербайджан став частиною СРСР та незалежним у 1991 роц╕."
 
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
-#: data/nation/kyrgyz.ruleset:25 data/nation/mongol.ruleset:29
+#: data/nation/kyrgyz.ruleset:25 data/nation/mongol.ruleset:30
 #: data/nation/tajik.ruleset:23 data/nation/turkmen.ruleset:22
 #: data/nation/uyghur.ruleset:29 data/nation/uzbek.ruleset:27
 msgid "Khan"
 msgstr "Хан"
 
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
-#: data/nation/kyrgyz.ruleset:25 data/nation/tajik.ruleset:23
-#: data/nation/turkmen.ruleset:22 data/nation/uzbek.ruleset:27
+#: data/nation/kyrgyz.ruleset:25 data/nation/mongol.ruleset:30
+#: data/nation/tajik.ruleset:23 data/nation/turkmen.ruleset:22
+#: data/nation/uyghur.ruleset:29 data/nation/uzbek.ruleset:27
 msgid "Khatan"
 msgstr "Хан"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
-#: data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
 msgid "Shah"
 msgstr "Шах"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
-#: data/nation/persian.ruleset:21
+#: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
 #, fuzzy
 msgid "Shahbanu"
 msgstr "Голова"
@@ -25598,9 +25700,19 @@ msgstr ""
 msgid "Tlatoani"
 msgstr "Тлатоан╕"
 
+#: data/nation/aztec.ruleset:22
+#, fuzzy
+msgid "?female:Tlatoani"
+msgstr "Шаман"
+
 #. TRANS: Huey Tlatoani = Great Speaker
 #: data/nation/aztec.ruleset:24
 msgid "Huey Tlatoani"
+msgstr "Хуей Тлатоан╕"
+
+#: data/nation/aztec.ruleset:24
+#, fuzzy
+msgid "?female:Huey Tlatoani"
 msgstr "Хуей Тлатоан╕"
 
 #: data/nation/babylonian.ruleset:3
@@ -25621,9 +25733,14 @@ msgstr ""
 "об'╓днанням нац╕й що включали Амор╕т╕в, Хасс╕т╕в, Ас╕р╕йц╕в та Халде╖в."
 
 #. TRANS: Lugal = Great Man
-#: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:28
+#: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:27
 msgid "Lugal"
 msgstr "Лугал"
+
+#: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:27
+#, fuzzy
+msgid "?female:Lugal"
+msgstr "Майор"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -25653,40 +25770,12 @@ msgid ""
 "oldest living language in Europe."
 msgstr ""
 
-#. TRANS: Buruzagi = Leader, head (like spanish Caudillo)
+#. TRANS: Lehendakari = Basque neologism equivalent with President
 #: data/nation/basque.ruleset:33
-msgid "Buruzagi"
-msgstr "Барузаг╕"
-
-#: data/nation/basque.ruleset:33
-msgid "?female:Buruzagi"
-msgstr "?female:Барузаг╕"
-
-#. TRANS: Apaiz nagusi = Pope, Lord Protector
-#: data/nation/basque.ruleset:35
-msgid "Apaiz nagusi"
-msgstr "Апа╕з нагус╕"
-
-#: data/nation/basque.ruleset:35
-msgid "Emakume Apaiz nagusi"
-msgstr "Емакуме Апа╕з нагус╕"
-
-#. TRANS: Errege and Erregina = King and Queen
-#: data/nation/basque.ruleset:37
-msgid "Errege"
-msgstr "Король"
-
-#: data/nation/basque.ruleset:37
-msgid "Erregina"
-msgstr "Королева"
-
-#. TRANS: Lehendakari = similar to President
-#. ; /* TRANS: (but is quite inexact for Basques to call him/her "president")
-#: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
 msgid "Lehendakari"
 msgstr "Лехендакар╕"
 
-#: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
+#: data/nation/basque.ruleset:33
 msgid "?female:Lehendakari"
 msgstr "Лехендакар╕"
 
@@ -25725,6 +25814,43 @@ msgstr ""
 "Беларусь була частиною древньо╖ славяньско╖ держави Ки╖вська Русь, пот╕м "
 "Л╕тви, Реч╕ Поспол╕то╖, Рос╕йсько╖ ╤мпер╕╖ та Радяньского Союзу. Беларусь "
 "стала незалежною п╕сля розпаду Радяньского Союзу у 1991."
+
+#: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
+#: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
+#: data/nation/russian.ruleset:47 data/nation/samogitian.ruleset:20
+#: data/nation/serbian.ruleset:36
+msgid "Duke"
+msgstr "Великий князь"
+
+#: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
+#: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
+#: data/nation/russian.ruleset:47 data/nation/samogitian.ruleset:20
+#: data/nation/serbian.ruleset:36
+#, fuzzy
+msgid "Duchess"
+msgstr "Велика княжна"
+
+#: data/nation/belarusian.ruleset:22 data/nation/bulgarian.ruleset:31
+#: data/nation/russian.ruleset:48 data/nation/ukrainian.ruleset:19
+msgid "Tsar"
+msgstr "Цар"
+
+#: data/nation/belarusian.ruleset:22 data/nation/bulgarian.ruleset:31
+#: data/nation/russian.ruleset:48 data/nation/ukrainian.ruleset:19
+#, fuzzy
+msgid "Tsaritsa"
+msgstr "Парт╕зани"
+
+#: data/nation/belarusian.ruleset:23 data/nation/bulgarian.ruleset:33
+#: data/nation/byzantium.ruleset:26 data/nation/russian.ruleset:49
+#: data/nation/ukrainian.ruleset:20
+msgid "Patriarch"
+msgstr "Патр╕арх"
+
+#: data/nation/belarusian.ruleset:23 data/nation/byzantium.ruleset:26
+#: data/nation/russian.ruleset:49 data/nation/ukrainian.ruleset:20
+msgid "Matriarch"
+msgstr "Матр╕арх"
 
 #: data/nation/belgian.ruleset:3
 #, fuzzy
@@ -25777,15 +25903,6 @@ msgstr "Набоб"
 msgid "?female:Nabob"
 msgstr "Набоб"
 
-#: data/nation/bengali.ruleset:26
-#, fuzzy
-msgid "Major"
-msgstr "Парт╕зани"
-
-#: data/nation/bengali.ruleset:26
-msgid "?female:Major"
-msgstr "Майор"
-
 #: data/nation/boer.ruleset:3
 msgid "Boer"
 msgstr "Боер"
@@ -25828,6 +25945,11 @@ msgstr ""
 msgid "Ban"
 msgstr "Банк"
 
+#: data/nation/bosnia.ruleset:27
+#, fuzzy
+msgid "?female:Ban"
+msgstr "Хан"
+
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
 msgstr "Бразильц╕"
@@ -25845,21 +25967,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/brazilian.ruleset:24 data/nation/iraqi.ruleset:21
-#: data/nation/roman.ruleset:39
+#: data/nation/polish.ruleset:26 data/nation/roman.ruleset:39
 msgid "Dictator"
 msgstr "Диктатор"
 
-#: data/nation/brazilian.ruleset:24 data/nation/roman.ruleset:39
+#: data/nation/brazilian.ruleset:24 data/nation/polish.ruleset:26
+#: data/nation/roman.ruleset:39
 msgid "Dictatrix"
 msgstr "Диктаторка"
 
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
-#: data/nation/roman.ruleset:40
+#: data/nation/ottoman.ruleset:30 data/nation/roman.ruleset:40
 msgid "Imperator"
 msgstr "╤мператор"
 
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
-#: data/nation/roman.ruleset:40
+#: data/nation/ottoman.ruleset:30 data/nation/roman.ruleset:40
 msgid "Imperatrix"
 msgstr "╤мператриця"
 
@@ -25872,7 +25995,7 @@ msgstr "Голова"
 msgid "Chairperson"
 msgstr "Голова"
 
-#: data/nation/brazilian.ruleset:27 data/nation/romanian.ruleset:39
+#: data/nation/brazilian.ruleset:27 data/nation/romanian.ruleset:37
 msgid "Director-President"
 msgstr "Директор Президент"
 
@@ -25959,31 +26082,16 @@ msgstr ""
 "Булгарський л╕дер хан Аспарух прив╕в св╕й народ до п╕вн╕чних Балкан, та "
 "заснував Болгра╕ю у 681 роц╕. Це було перше славянська держава у ╕строр╕╖."
 
-#: data/nation/bulgarian.ruleset:31
-#, fuzzy
-msgid "Tzar"
-msgstr "Цар"
-
-#: data/nation/bulgarian.ruleset:31
-#, fuzzy
-msgid "Tzaritza"
-msgstr "Цариця"
-
-#: data/nation/bulgarian.ruleset:33
+#: data/nation/bulgarian.ruleset:32
 #, fuzzy
 msgid "Drugariat"
 msgstr "Угорц╕"
 
-#: data/nation/bulgarian.ruleset:33
+#: data/nation/bulgarian.ruleset:32
 msgid "Drugarkata"
 msgstr "Другарката"
 
-#: data/nation/bulgarian.ruleset:34 data/nation/byzantium.ruleset:26
-#: data/nation/russian.ruleset:49
-msgid "Patriarch"
-msgstr "Патр╕арх"
-
-#: data/nation/bulgarian.ruleset:34
+#: data/nation/bulgarian.ruleset:33
 msgid "Sveta Maika"
 msgstr "Света Майка"
 
@@ -26016,19 +26124,6 @@ msgstr "Каравела"
 msgid "Margravine"
 msgstr "Морськ╕й десант"
 
-#: data/nation/burgundian.ruleset:32 data/nation/norman.ruleset:23
-#: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
-#: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
-msgid "Duke"
-msgstr "Великий князь"
-
-#: data/nation/burgundian.ruleset:32 data/nation/norman.ruleset:23
-#: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
-#: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
-#, fuzzy
-msgid "Duchess"
-msgstr "Велика княжна"
-
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
 msgstr "Бурманц╕"
@@ -26054,16 +26149,6 @@ msgstr "Бохмугий"
 msgid "?female:Bohmugyi"
 msgstr "?female:Бохмугий"
 
-#: data/nation/burmese.ruleset:22
-#, fuzzy
-msgid "Saya"
-msgstr "Голова"
-
-#: data/nation/burmese.ruleset:22
-#, fuzzy
-msgid "Sayama"
-msgstr "Голова"
-
 #: data/nation/burundi.ruleset:3
 msgid "Burundi"
 msgstr "Бурунд╕"
@@ -26084,24 +26169,13 @@ msgid ""
 "independent nation in January 1962."
 msgstr ""
 
-#. TRANS: Ganwa = Prince
-#: data/nation/burundi.ruleset:31
-#, fuzzy
-msgid "Ganwa"
-msgstr "Ханква"
-
-#: data/nation/burundi.ruleset:31
-#, fuzzy
-msgid "?female:Ganwa"
-msgstr "Раджа"
-
 #. TRANS: Mwami/Mwamikazi = King/Queen
 #. TRANS: Mwami = King
-#: data/nation/burundi.ruleset:33 data/nation/rwandan.ruleset:23
+#: data/nation/burundi.ruleset:31 data/nation/rwandan.ruleset:22
 msgid "Mwami"
 msgstr "Муам╕"
 
-#: data/nation/burundi.ruleset:33
+#: data/nation/burundi.ruleset:31
 msgid "Mwamikazi"
 msgstr "Муам╕каз╕"
 
@@ -26124,10 +26198,6 @@ msgid ""
 "I, the Byzantines controlled nearly all of the Middle East, northern Africa, "
 "Italy, and parts of Spain."
 msgstr ""
-
-#: data/nation/byzantium.ruleset:26 data/nation/russian.ruleset:49
-msgid "Matriarch"
-msgstr "Матр╕арх"
 
 #. TRANS: Basileus = Monarch
 #: data/nation/byzantium.ruleset:28
@@ -26228,19 +26298,11 @@ msgid ""
 "their national rights as a result."
 msgstr ""
 
-#: data/nation/catalan.ruleset:31
-msgid "Primer Ministre"
-msgstr "Прем'╓р-м╕н╕стр"
-
-#: data/nation/catalan.ruleset:31
-msgid "Primera Ministre"
-msgstr "Прем'╓р-м╕н╕стр"
-
-#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:30
+#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:28
 msgid "Dictador"
 msgstr "Диктатор"
 
-#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:30
+#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:28
 msgid "Dictadora"
 msgstr "Диктаторка"
 
@@ -26254,11 +26316,11 @@ msgid "Reina"
 msgstr "Королева"
 
 #. TRANS: Arquebisbe = Archbishop
-#: data/nation/catalan.ruleset:37
+#: data/nation/catalan.ruleset:36
 msgid "Arquebisbe"
 msgstr "Арх╕╓п╕скоп"
 
-#: data/nation/catalan.ruleset:37
+#: data/nation/catalan.ruleset:36
 msgid "Gran Bruixa"
 msgstr "Велика В╕дьма"
 
@@ -26278,34 +26340,47 @@ msgstr ""
 "Нац╕я ч╕рок╕ ╓ найб╕льшою нац╕╓ю американських ╕нд╕анц╕в у П╕вн╕чн╕й Америц╕ "
 "на сьогодняшний день."
 
-#: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
-#: data/nation/muskogee.ruleset:32 data/nation/sioux.ruleset:29
+#: data/nation/cherokee.ruleset:22 data/nation/iroquois.ruleset:26
+#: data/nation/maori.ruleset:24 data/nation/muskogee.ruleset:32
+#: data/nation/polynesian.ruleset:18 data/nation/sioux.ruleset:28
+#: data/nation/zulu.ruleset:38
 msgid "Great Chief"
 msgstr "Велик╕й вождь"
 
-#: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
-#: data/nation/sioux.ruleset:29
+#: data/nation/cherokee.ruleset:22 data/nation/iroquois.ruleset:26
+#: data/nation/maori.ruleset:24 data/nation/polynesian.ruleset:18
+#: data/nation/sioux.ruleset:28 data/nation/zulu.ruleset:38
 msgid "?female:Great Chief"
 msgstr "?female:Велика Вождь"
 
-#: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
-#: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
-#: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
+#: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
+#: data/nation/maori.ruleset:25 data/nation/muskogee.ruleset:33
+#: data/nation/polynesian.ruleset:19 data/nation/sami.ruleset:23
+#: data/nation/sioux.ruleset:29 data/nation/swazi.ruleset:24
+#: data/nation/zulu.ruleset:39
 #, fuzzy
 msgid "Spokesman"
 msgstr "С╕нгапурц╕"
 
-#: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
-#: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
-#: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
+#: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
+#: data/nation/maori.ruleset:25 data/nation/muskogee.ruleset:33
+#: data/nation/polynesian.ruleset:19 data/nation/sami.ruleset:23
+#: data/nation/sioux.ruleset:29 data/nation/swazi.ruleset:24
+#: data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
 msgstr "Сп╕кер"
 
-#: data/nation/cherokee.ruleset:25
+#: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
+#: data/nation/maori.ruleset:26 data/nation/muskogee.ruleset:34
+#: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:30
+#: data/nation/swazi.ruleset:25 data/nation/zulu.ruleset:40
 msgid "Principal Chief"
 msgstr "Верховний Вождь"
 
-#: data/nation/cherokee.ruleset:25
+#: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
+#: data/nation/maori.ruleset:26 data/nation/muskogee.ruleset:34
+#: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:30
+#: data/nation/swazi.ruleset:25 data/nation/zulu.ruleset:40
 msgid "?female:Principal Chief"
 msgstr "Верховний Вождь"
 
@@ -26325,12 +26400,23 @@ msgstr "Ч╕л╕ розташовано на п╕вденно-зах╕дному узбережж╕ П╕вденно╖ Амер╕ки."
 msgid "Captain General"
 msgstr "Кап╕тан Генерал"
 
+#: data/nation/chilean.ruleset:24
+#, fuzzy
+msgid "?female:Captain General"
+msgstr "Кап╕тан Генерал"
+
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
-#: data/nation/german.ruleset:35 data/nation/irish.ruleset:46
+#: data/nation/german.ruleset:34 data/nation/irish.ruleset:46
+#: data/nation/prussian.ruleset:29
 msgid "Archbishop"
 msgstr "Арх╕╓п╕скоп"
 
-#: data/nation/chilean.ruleset:26
+#: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
+#: data/nation/german.ruleset:34 data/nation/prussian.ruleset:29
+msgid "?female:Archbishop"
+msgstr "Арх╕╓п╕скоп"
+
+#: data/nation/chilean.ruleset:26 data/nation/peruvian.ruleset:26
 msgid "Supreme Director"
 msgstr "Верховний Директор"
 
@@ -26382,6 +26468,29 @@ msgid ""
 "other southern Indian states rose up."
 msgstr ""
 
+#: data/nation/chola.ruleset:24 data/nation/gupta.ruleset:20
+#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
+#, fuzzy
+msgid "Raja"
+msgstr "Королева"
+
+#: data/nation/chola.ruleset:24 data/nation/gupta.ruleset:20
+#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
+#, fuzzy
+msgid "Rani"
+msgstr "Парусник"
+
+#: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
+#: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
+msgid "Maharaja"
+msgstr "Ма╜араджа"
+
+#: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
+#: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
+#, fuzzy
+msgid "Maharani"
+msgstr "Ма╜араджа"
+
 #: data/nation/colombian.ruleset:3
 #, fuzzy
 msgid "Colombian"
@@ -26404,6 +26513,10 @@ msgstr ""
 #, fuzzy
 msgid "General"
 msgstr "╤ндустр╕альн╕"
+
+#: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
+msgid "?female:General"
+msgstr "Генерал"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 #, fuzzy
@@ -26466,6 +26579,16 @@ msgstr "Ч╕л╕йц╕"
 msgid "?female:Chieftain"
 msgstr "Вождь"
 
+#: data/nation/cornish.ruleset:21 data/nation/irish.ruleset:45
+#, fuzzy
+msgid "High King"
+msgstr "Король"
+
+#: data/nation/cornish.ruleset:21 data/nation/irish.ruleset:45
+#, fuzzy
+msgid "High Queen"
+msgstr "Королева"
+
 #: data/nation/cree.ruleset:3
 msgid "Cree"
 msgstr "Кр╕"
@@ -26491,16 +26614,6 @@ msgstr "Уч╕маахкаан"
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaaniskweu"
 msgstr "Уч╕маахкаан╕скью"
-
-#. TRANS: Chihchiuchimaau = King
-#. TRANS: Chihchiuchimaaskweu = Queen
-#: data/nation/cree.ruleset:24
-msgid "Chihchiuchimaau"
-msgstr "Ч╕хч╕уч╕маау"
-
-#: data/nation/cree.ruleset:24
-msgid "Chihchiuchimaaskweu"
-msgstr "Ч╕хч╕уч╕мааскью"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
@@ -26667,14 +26780,6 @@ msgid ""
 "following year, the seventh member emirate joined them."
 msgstr ""
 
-#: data/nation/emirati.ruleset:26 data/nation/kurd.ruleset:26
-msgid "Sheikh"
-msgstr "Шейх"
-
-#: data/nation/emirati.ruleset:26
-msgid "Sheikhah"
-msgstr "Шейх"
-
 #: data/nation/english.ruleset:3
 msgid "English"
 msgstr "Англ╕йц╕"
@@ -26774,7 +26879,7 @@ msgstr ""
 "Проте залиша╓ться в╕дкритим питання: Чи ╕сну╓ ╓дина ╓вропейска нац╕я та "
 "╕дентичн╕сть насправд╕?"
 
-#: data/nation/european.ruleset:22 data/nation/slovakian.ruleset:29
+#: data/nation/european.ruleset:22 data/nation/slovakian.ruleset:28
 #, fuzzy
 msgid "Pope"
 msgstr "В╕д"
@@ -26782,10 +26887,6 @@ msgstr "В╕д"
 #: data/nation/european.ruleset:22
 msgid "Popess"
 msgstr "Папеса"
-
-#: data/nation/european.ruleset:23 data/nation/european.ruleset:24
-msgid "President of the Commission"
-msgstr "Президент Ком╕с╕╖"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
@@ -26848,10 +26949,6 @@ msgstr "Прем'╓р"
 msgid "?female:Premier"
 msgstr "Прем'╓р"
 
-#: data/nation/french.ruleset:28 data/nation/german.ruleset:35
-msgid "?female:Archbishop"
-msgstr "Арх╕╓п╕скоп"
-
 #: data/nation/galician.ruleset:3
 #, fuzzy
 msgid "Galician"
@@ -26868,16 +26965,6 @@ msgstr ""
 "Галиц╕я ╓ п╕вн╕чнозах╕дним рег╕оном ╤спан╕╖, розташованим поруч ╕з "
 "Португал╕╓ю."
 
-#: data/nation/galician.ruleset:22
-#, fuzzy
-msgid "Primeiro Ministro"
-msgstr "Прем'╓р-м╕н╕стр"
-
-#: data/nation/galician.ruleset:22
-#, fuzzy
-msgid "Primeira Ministra"
-msgstr "Прем'╓р-м╕н╕стр"
-
 #. TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER
 #. TRANS: N WITH TILDE
 #: data/nation/galician.ruleset:25
@@ -26892,29 +26979,6 @@ msgstr "Дона"
 #, fuzzy
 msgid "Raina"
 msgstr "Королева"
-
-#: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
-#: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
-#: data/nation/venezuelan.ruleset:33
-#, fuzzy
-msgid "Presidente"
-msgstr "Президент"
-
-#: data/nation/galician.ruleset:27 data/nation/venezuelan.ruleset:31
-#: data/nation/venezuelan.ruleset:32 data/nation/venezuelan.ruleset:33
-#, fuzzy
-msgid "Presidenta"
-msgstr "Президент"
-
-#: data/nation/galician.ruleset:28
-#, fuzzy
-msgid "Gran Bardo"
-msgstr "Амбар"
-
-#: data/nation/galician.ruleset:28
-#, fuzzy
-msgid "Grande Bardesa"
-msgstr "Велика В╕дьма"
 
 #: data/nation/gallic.ruleset:3
 #, fuzzy
@@ -26985,19 +27049,23 @@ msgstr ""
 "Св╕тову. П╕сля в╕йни ╖╖ було под╕лено на дв╕ кра╖ни, як╕ було об'╓днано у "
 "1990 п╕сля зак╕нчення холодно╖ в╕йни."
 
-#: data/nation/german.ruleset:34
+#: data/nation/german.ruleset:33 data/nation/prussian.ruleset:28
+#: data/nation/swiss.ruleset:21
 msgid "Chancellor"
 msgstr "Канцлер"
 
-#: data/nation/german.ruleset:34
+#: data/nation/german.ruleset:33 data/nation/prussian.ruleset:28
+#: data/nation/swiss.ruleset:21
 msgid "?female:Chancellor"
 msgstr "Канцлер"
 
-#: data/nation/german.ruleset:36
+#: data/nation/german.ruleset:35 data/nation/polish.ruleset:29
+#: data/nation/prussian.ruleset:30
 msgid "First Secretary"
 msgstr "Перший Секретар"
 
-#: data/nation/german.ruleset:36
+#: data/nation/german.ruleset:35 data/nation/polish.ruleset:29
+#: data/nation/prussian.ruleset:30
 msgid "?female:First Secretary"
 msgstr "Перший Секретар"
 
@@ -27013,12 +27081,12 @@ msgstr "Грек╕"
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
 msgstr "Античн╕ Греки, м╕ж М╕ценом та Римськ╕м завоюванням."
 
-#: data/nation/greek.ruleset:19
+#: data/nation/greek.ruleset:19 data/nation/hellenic.ruleset:19
 #, fuzzy
 msgid "Despot"
 msgstr "Деспот╕зм"
 
-#: data/nation/greek.ruleset:19
+#: data/nation/greek.ruleset:19 data/nation/hellenic.ruleset:19
 msgid "?female:Despot"
 msgstr "Деспот"
 
@@ -27039,23 +27107,15 @@ msgstr ""
 "╤мпер╕я Гупта була одн╕╓ю ╕з найб╕льших класичних ╕мпер╕й. Вона займала "
 "територ╕ю п╕вн╕чно╖ ╤нд╕╖ приблизно в╕д 240 до 550 н.е."
 
-#: data/nation/gupta.ruleset:20 data/nation/indian.ruleset:20
-msgid "Maharaja"
-msgstr "Ма╜араджа"
-
-#: data/nation/gupta.ruleset:20 data/nation/indian.ruleset:20
-msgid "?female:Maharaja"
-msgstr "Ма╜араджа"
-
 #. TRANS: Maharajadhiraja = Great King of Kings
-#: data/nation/gupta.ruleset:22
+#: data/nation/gupta.ruleset:23
 msgid "Maharajadhiraja"
 msgstr "Ма╜араяджирая"
 
-#: data/nation/gupta.ruleset:22
+#: data/nation/gupta.ruleset:23
 #, fuzzy
-msgid "?female:Maharajadhiraja"
-msgstr "Ма╜араджа"
+msgid "Maharanidhirani"
+msgstr "Ма╜араяджирая"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
@@ -27076,6 +27136,15 @@ msgstr "Хакер"
 #: data/nation/hacker.ruleset:39
 msgid "?female:Hacker"
 msgstr "Хакер"
+
+#: data/nation/hacker.ruleset:40
+msgid "?title:1337"
+msgstr ""
+
+#: data/nation/hacker.ruleset:40
+#, fuzzy
+msgid "?female:1337"
+msgstr "Раджа"
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
@@ -27173,6 +27242,11 @@ msgstr ""
 msgid "Kikmongwi"
 msgstr "К╕кмонгв╕"
 
+#: data/nation/hopi.ruleset:28
+#, fuzzy
+msgid "?female:Kikmongwi"
+msgstr "Майор"
+
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
 msgstr "Угорц╕"
@@ -27202,7 +27276,7 @@ msgid ""
 "independence from Denmark in 1944."
 msgstr ""
 "╤сланд╕я довго була одним ╕з найб╕льших ненаселенних остров╕в у св╕т╕, доки "
-"не була заселена норвежськими в╕к╕нгами наприк╕нц╕ 9-го стор╕чча. Спочатку "
+"не була заселена норвежськими в╕к╕нгами наприк╕нц╕ 9-го стор╕ччя. Спочатку "
 "ост╕в був п╕д владою норвежсько╖, а пот╕м датсько╖ корони, доки не отримав "
 "незалежност╕ у 1944 роц╕."
 
@@ -27250,17 +27324,13 @@ msgid ""
 "sweeping through the land."
 msgstr ""
 
-#: data/nation/inca.ruleset:35
-msgid "Inka"
-msgstr "╤нка"
-
-#: data/nation/inca.ruleset:36
+#: data/nation/inca.ruleset:34
 msgid "Sapa Inka"
 msgstr "Великий ╤нка"
 
-#: data/nation/inca.ruleset:37
-msgid "Willaq Umu"
-msgstr "У╕ллак Уму"
+#: data/nation/inca.ruleset:34
+msgid "Qoya"
+msgstr ""
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
@@ -27277,15 +27347,6 @@ msgid ""
 msgstr ""
 "Колиска древно╖ ╕нд╕йсько╖ цив╕л╕зац╕╖ лежить у долин╕ р╕ки ╤нд, зараз у "
 "Пак╕стан╕."
-
-#: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
-#, fuzzy
-msgid "Raja"
-msgstr "Королева"
-
-#: data/nation/indian.ruleset:19
-msgid "?female:Raja"
-msgstr "Раджа"
 
 #: data/nation/indian.ruleset:21
 #, fuzzy
@@ -27369,9 +27430,19 @@ msgstr ""
 msgid "Raiis Jomhoor"
 msgstr "Ра╕╕с Джомхоор"
 
+#: data/nation/iranian.ruleset:45
+#, fuzzy
+msgid "?female:Raiis Jomhoor"
+msgstr "Ра╕╕с Джомхоор"
+
 #: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
 msgid "Ayatollah"
 msgstr "Аятола"
+
+#: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
+#, fuzzy
+msgid "?female:Ayatollah"
+msgstr "Тао╕с╕ч"
 
 #: data/nation/iraqi.ruleset:3
 #, fuzzy
@@ -27414,18 +27485,8 @@ msgstr ""
 "╤рланд╕я оборонилася в╕д римлян та в╕к╕нг╕в, проте була захоплена норманами "
 "у 1171. Була п╕в владою Англ╕╖ до 1922, коли б╕льша частина кра╖ни отримала "
 "обмежену автоном╕ю, та стала республ╕кою у 1949. П╕вн╕ч ╤рланд╕╖ задселений "
-"╕з 17-го стор╕чча шотландськими та англ╕йськими фермерами та ╓ зараз "
+"╕з 17-го стор╕ччя шотландськими та англ╕йськими фермерами та ╓ зараз "
 "частиною Сполученого Корол╕вства."
-
-#: data/nation/irish.ruleset:45
-#, fuzzy
-msgid "High King"
-msgstr "Король"
-
-#: data/nation/irish.ruleset:45
-#, fuzzy
-msgid "High Queen"
-msgstr "Королева"
 
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
@@ -27519,6 +27580,11 @@ msgstr ""
 msgid "Shogun"
 msgstr "Сьогун"
 
+#: data/nation/japanese.ruleset:21
+#, fuzzy
+msgid "?female:Shogun"
+msgstr "Шаман"
+
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
 msgstr "Канем-Борну"
@@ -27536,9 +27602,14 @@ msgstr ""
 "територ╕╖ сучасних Чаду та Нигер╕╖ та контролювала б╕льшу частину торг╕вл╕ у "
 "район╕ Сахари."
 
-#: data/nation/kanem-bornu.ruleset:23
+#: data/nation/kanem-bornu.ruleset:22
 msgid "Mai"
 msgstr "Ма╕"
+
+#: data/nation/kanem-bornu.ruleset:22
+#, fuzzy
+msgid "?female:Mai"
+msgstr "Махатма"
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
@@ -27559,6 +27630,19 @@ msgstr ""
 "строр╕чч╕, Казахстан став незалежним ╕з розпадом Радянського Союзу у 1991 "
 "роц╕. Казахстан ╓ одн╕╓ю ╕з десяти найб╕льших за розмром кра╖н."
 
+#: data/nation/kazakh.ruleset:27 data/nation/kyrgyz.ruleset:26
+#: data/nation/mongol.ruleset:31 data/nation/tajik.ruleset:24
+#: data/nation/turkmen.ruleset:23 data/nation/uyghur.ruleset:30
+msgid "Great Khan"
+msgstr "Великий хан"
+
+#: data/nation/kazakh.ruleset:27 data/nation/kyrgyz.ruleset:26
+#: data/nation/mongol.ruleset:31 data/nation/tajik.ruleset:24
+#: data/nation/turkmen.ruleset:23 data/nation/uyghur.ruleset:30
+#, fuzzy
+msgid "Great Khatan"
+msgstr "Великий хан"
+
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
 msgstr "Кен╕йц╕"
@@ -27575,6 +27659,11 @@ msgstr "Кен╕я отримала незалеждн╕сть в╕д Британ╕ю у грудн╕ 1963."
 #, fuzzy
 msgid "Nabongo"
 msgstr "Нац╕я"
+
+#: data/nation/kenyan.ruleset:18
+#, fuzzy
+msgid "?female:Nabongo"
+msgstr "Набоб"
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
@@ -27596,10 +27685,6 @@ msgid ""
 "Chinggis Khan conquered it in 1231."
 msgstr ""
 
-#: data/nation/khwarezmian.ruleset:26
-msgid "Khorezmshah"
-msgstr "Хорезмшах"
-
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
 msgstr "Конголезц╕"
@@ -27617,11 +27702,11 @@ msgid ""
 "Kingdom."
 msgstr ""
 
-#: data/nation/kongo.ruleset:28
+#: data/nation/kongo.ruleset:27
 msgid "Manikongo"
 msgstr "Ман╕конго"
 
-#: data/nation/kongo.ruleset:28
+#: data/nation/kongo.ruleset:27
 #, fuzzy
 msgid "?female:Manikongo"
 msgstr "Майор"
@@ -27687,13 +27772,6 @@ msgid ""
 msgstr ""
 "Нац╕я у Центральн╕й Аз╕╖. Захоплена Рос╕йскою ╤мепр╕╓ю у 19-му стор╕чч╕, "
 "Киргизстан отримав незалежн╕сть в╕д Радяньского Союзу у 1991."
-
-#. TRANS: Khagan = Great Khan
-#: data/nation/kyrgyz.ruleset:26 data/nation/mongol.ruleset:31
-#: data/nation/uyghur.ruleset:30
-#, fuzzy
-msgid "Khagan"
-msgstr "Хан"
 
 #: data/nation/lankese.ruleset:3
 #, fuzzy
@@ -27761,7 +27839,7 @@ msgid ""
 msgstr ""
 "╤стор╕я Лаосу почина╓ться ╕з створення корол╕вства Лан Ксанг, заснованого у "
 "14-му стор╕чч╕ та про╕снувавшему до к╕нця 18-го, коли С╕ам (Та╕ланд) вторгся "
-"до нього. На прик╕нц╕ 19-го стор╕чча Лаос став частиною Французського "
+"до нього. На прик╕нц╕ 19-го стор╕ччя Лаос став частиною Французського "
 "╤ндокитаю. Влада Франц╕╖ ск╕нчилась ╕з набуттям незалежност╕ у 1946, п╕сля "
 "чього розпочалася 30-р╕чна громадянська в╕йна. У 1975 комун╕стичний рух "
 "Патхет Лао встановив жорсткий соц╕ал╕стичний режим. Проте в 1986 розпочалася "
@@ -27808,14 +27886,15 @@ msgstr ""
 "контроль ╤тал╕╖, та п╕сля Друго╖ св╕тово╖ в╕йни Л╕в╕я отримала незалежн╕сть "
 "як частина угоди м╕ж ╤тал╕╓ю та союзниками."
 
-#: data/nation/libyan.ruleset:23
-msgid "Dey"
-msgstr "Деж"
-
 #: data/nation/libyan.ruleset:24
 #, fuzzy
 msgid "Colonel"
 msgstr "Закрити"
+
+#: data/nation/libyan.ruleset:24
+#, fuzzy
+msgid "?female:Colonel"
+msgstr "Консул"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -27884,9 +27963,14 @@ msgid ""
 "Islam in the Indonesian world."
 msgstr ""
 
-#: data/nation/majapahit.ruleset:27
+#: data/nation/majapahit.ruleset:28
 msgid "Mahapatih"
 msgstr "Махапат╕х"
+
+#: data/nation/majapahit.ruleset:28
+#, fuzzy
+msgid "?female:Mahapatih"
+msgstr "Махатма"
 
 #: data/nation/malagasy.ruleset:3
 #, fuzzy
@@ -27932,21 +28016,15 @@ msgstr ""
 "Малайз╕я почалася ╕з заснування Малакк╕ (Мелак╕) Парамесварою на початку 14-"
 "го стор╕ччя."
 
-#: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:32
-#: data/nation/turk.ruleset:23
-msgid "Sultan"
-msgstr "Султан"
-
-#: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:32
-#: data/nation/turk.ruleset:23
-#, fuzzy
-msgid "Sultana"
-msgstr "Султан"
-
 #: data/nation/malaysian.ruleset:23
 #, fuzzy
 msgid "Tun"
 msgstr "Ход╕в"
+
+#: data/nation/malaysian.ruleset:23
+#, fuzzy
+msgid "?female:Tun"
+msgstr "Хан"
 
 #: data/nation/malian.ruleset:3
 #, fuzzy
@@ -27969,10 +28047,15 @@ msgid ""
 msgstr ""
 
 #. TRANS: Mansa = King of kings
-#: data/nation/malian.ruleset:27
+#: data/nation/malian.ruleset:26
 #, fuzzy
 msgid "Mansa"
 msgstr "Морськ╕й десант"
+
+#: data/nation/malian.ruleset:26
+#, fuzzy
+msgid "?female:Mansa"
+msgstr "Махатма"
 
 #: data/nation/manchu.ruleset:3
 #, fuzzy
@@ -27990,6 +28073,11 @@ msgid ""
 "Manchuria in Northeast Asia. In the 17th century they conquered and ruled "
 "China as the Manchu Empire until 1911."
 msgstr ""
+
+#: data/nation/manchu.ruleset:20
+#, fuzzy
+msgid "?female:Warlord"
+msgstr "Майор"
 
 #: data/nation/maori.ruleset:3
 #, fuzzy
@@ -28028,13 +28116,10 @@ msgstr ""
 msgid "Toqui"
 msgstr "Ток'╕"
 
-#: data/nation/mapuche.ruleset:20
-msgid "Lonko"
-msgstr "Лонко"
-
-#: data/nation/mapuche.ruleset:21
-msgid "Machi"
-msgstr "Мач╕"
+#: data/nation/mapuche.ruleset:19
+#, fuzzy
+msgid "?female:Toqui"
+msgstr "Дру╕д"
 
 #: data/nation/martian.ruleset:3
 #, fuzzy
@@ -28051,14 +28136,12 @@ msgid "Marsmen landed on Earth in 4000 BC!"
 msgstr "Марс╕ане висадились на Земл╕ у 4000 до н.е.!"
 
 #: data/nation/mayan.ruleset:3
-#, fuzzy
 msgid "Mayan"
-msgstr "Травень"
+msgstr "Майя"
 
 #: data/nation/mayan.ruleset:4
-#, fuzzy
 msgid "?plural:Mayas"
-msgstr "╤тал╕йц╕"
+msgstr "Майя"
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -28075,24 +28158,13 @@ msgstr "Аджау"
 msgid "?female:Ajaw"
 msgstr "Аджау"
 
-#. TRANS: Ah kin = Priest
-#: data/nation/mayan.ruleset:22
-msgid "Ah kin"
-msgstr "Ах к╕н"
-
-#: data/nation/mayan.ruleset:22
-msgid "?female:Ah kin"
-msgstr "Ах к╕н"
-
 #: data/nation/mexican.ruleset:3
-#, fuzzy
 msgid "Mexican"
-msgstr "Американц╕"
+msgstr "Мексиканц╕"
 
 #: data/nation/mexican.ruleset:4
-#, fuzzy
 msgid "?plural:Mexicans"
-msgstr "Американц╕"
+msgstr "Мексиканц╕"
 
 #: data/nation/mexican.ruleset:6
 msgid ""
@@ -28125,9 +28197,8 @@ msgid "Voievod"
 msgstr "Войовода"
 
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:34
-#, fuzzy
 msgid "Doamna"
-msgstr "Нижче"
+msgstr "Доамна"
 
 #: data/nation/moldovan.ruleset:24
 msgid "Gospodar"
@@ -28138,12 +28209,11 @@ msgid "Gospodarynya"
 msgstr "Господариня"
 
 #. TRANS: Tovaras/Tovarasa = Comrade
-#: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:38
-#, fuzzy
+#: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:36
 msgid "Tovaras"
-msgstr "Загалом"
+msgstr "Товариш"
 
-#: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:38
+#: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:36
 msgid "Tovarasa"
 msgstr "Товариш"
 
@@ -28166,14 +28236,6 @@ msgstr ""
 "П╕сля об'╓днання Ченг╕с Ханом, Монголи створили найб╕льшу ╕мпер╕ю в ╕стор╕╖ "
 "людства, що була розташована на б╕льшость аз╕йського конт╕ненту. Вони були "
 "безжальними во╖нами."
-
-#: data/nation/mongol.ruleset:29 data/nation/uyghur.ruleset:29
-msgid "?female:Khan"
-msgstr "Хан"
-
-#: data/nation/mongol.ruleset:31 data/nation/uyghur.ruleset:30
-msgid "?female:Khagan"
-msgstr "Ханша"
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -28241,15 +28303,13 @@ msgid ""
 "invaded England in 1066."
 msgstr ""
 
-#: data/nation/norman.ruleset:22
-#, fuzzy
+#: data/nation/norman.ruleset:22 data/nation/swedish.ruleset:32
 msgid "Jarl"
-msgstr "Патрулювати"
+msgstr "Ярл"
 
-#: data/nation/norman.ruleset:22
-#, fuzzy
+#: data/nation/norman.ruleset:22 data/nation/swedish.ruleset:32
 msgid "?female:Jarl"
-msgstr "Майор"
+msgstr "Ярл"
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
@@ -28270,20 +28330,22 @@ msgstr ""
 "Коре╖. Нав╕ть 60 рок╕в потому П╕вн╕чна Корея продовжу╓ залишатися "
 "комун╕стичною кра╖ною стал╕н╕стького типу."
 
-#. TRANS: translates as the Great leader
-#: data/nation/northkorean.ruleset:22
-msgid "Widaehan suryong"
-msgstr "Великий Вождь"
+#: data/nation/northkorean.ruleset:21 data/nation/soviet.ruleset:28
+#, fuzzy
+msgid "Great Leader"
+msgstr "Диво"
+
+#: data/nation/northkorean.ruleset:21 data/nation/soviet.ruleset:28
+msgid "?female:Great Leader"
+msgstr "Велика Вождь"
 
 #: data/nation/norwegian.ruleset:3
-#, fuzzy
 msgid "Norwegian"
-msgstr "Корейц╕"
+msgstr "Норвежц╕"
 
 #: data/nation/norwegian.ruleset:4
-#, fuzzy
 msgid "?plural:Norwegians"
-msgstr "Корейц╕"
+msgstr "Норвежц╕"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -28360,10 +28422,10 @@ msgstr ""
 msgid "Chaabat"
 msgstr "Чаабат"
 
-#. TRANS: Ha'wiih = Hereditary Chief
-#: data/nation/nuu-chah-nulth.ruleset:27
-msgid "Ha'wiih"
-msgstr "Хав'╕╕х"
+#: data/nation/nuu-chah-nulth.ruleset:25
+#, fuzzy
+msgid "?female:Chaabat"
+msgstr "Ма╜араджа"
 
 #: data/nation/ottoman.ruleset:3
 #, fuzzy
@@ -28391,20 +28453,20 @@ msgstr ""
 msgid "Bey"
 msgstr "Купити"
 
+#: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
+#, fuzzy
+msgid "?female:Bey"
+msgstr "Товариш"
+
 #: data/nation/ottoman.ruleset:28
 #, fuzzy
 msgid "Hakan"
 msgstr "Травень"
 
-#: data/nation/ottoman.ruleset:29
+#: data/nation/ottoman.ruleset:28
 #, fuzzy
-msgid "Padisah"
-msgstr "Парт╕зани"
-
-#: data/nation/ottoman.ruleset:30
-#, fuzzy
-msgid "Imparator"
-msgstr "╤мператор"
+msgid "?female:Hakan"
+msgstr "Хакер"
 
 #: data/nation/pakistani.ruleset:3
 msgid "Pakistani"
@@ -28423,14 +28485,12 @@ msgstr ""
 "рег╕он╕в Британсько╖ ╤нд╕╖ у 1947."
 
 #: data/nation/papuan.ruleset:3
-#, fuzzy
 msgid "Papuan"
-msgstr "Населення"
+msgstr "Папуаси"
 
 #: data/nation/papuan.ruleset:4
-#, fuzzy
 msgid "?plural:Papuans"
-msgstr "Японц╕"
+msgstr "Папуаси"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -28478,15 +28538,18 @@ msgstr ""
 msgid "Protector"
 msgstr "Захисник"
 
-#: data/nation/phoenician.ruleset:3
+#: data/nation/peruvian.ruleset:25
 #, fuzzy
+msgid "?female:Protector"
+msgstr "Прем'╓р"
+
+#: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr "Словенц╕"
+msgstr "Ф╕н╕к╕йц╕"
 
 #: data/nation/phoenician.ruleset:4
-#, fuzzy
 msgid "?plural:Phoenicians"
-msgstr "Словенц╕"
+msgstr "Ф╕н╕к╕йц╕"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -28508,10 +28571,6 @@ msgstr "М╕лк"
 msgid "Milkot"
 msgstr "М╕лкот"
 
-#: data/nation/phoenician.ruleset:29
-msgid "Suffet"
-msgstr "Суффет"
-
 #: data/nation/pirate.ruleset:3
 msgid "Pirate"
 msgstr "П╕рати"
@@ -28530,12 +28589,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr "Ляхи"
+msgstr "Поляки"
 
 #: data/nation/polish.ruleset:4
-#, fuzzy
 msgid "?plural:Poles"
-msgstr "Ляхи"
+msgstr "Поляки"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -28545,32 +28603,14 @@ msgstr ""
 "Польська держава була заснована близько тисяч╕ рок╕в тому, та досягла "
 "Золотого В╕ку наприк╕нц╕ 16 стор╕ччя."
 
-#. TRANS: Dyktator/Dyktatorka = Dictator
-#: data/nation/polish.ruleset:27
-msgid "Dyktator"
-msgstr "Д╕ктатор"
-
-#: data/nation/polish.ruleset:27
-msgid "Dyktatorka"
-msgstr "Д╕ктаторша"
-
 #. TRANS: Prymas = Bishop
-#: data/nation/polish.ruleset:29
+#: data/nation/polish.ruleset:28
 msgid "Prymas"
 msgstr "Примас"
 
-#: data/nation/polish.ruleset:29
+#: data/nation/polish.ruleset:28
 msgid "?female:Prymas"
 msgstr "Примас"
-
-#. TRANS: Pierwszy Sekretarz = First Secretary
-#: data/nation/polish.ruleset:31
-msgid "Pierwszy Sekretarz"
-msgstr "Перший секретар"
-
-#: data/nation/polish.ruleset:31
-msgid "?female:Pierwszy Sekretarz"
-msgstr "Перший секретар"
 
 #: data/nation/polynesian.ruleset:3
 msgid "Polynesian"
@@ -28624,15 +28664,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/prussian.ruleset:25 data/nation/templar.ruleset:42
-#: data/nation/templar.ruleset:43 data/nation/templar.ruleset:44
-#: data/nation/templar.ruleset:45 data/nation/templar.ruleset:46
-#: data/nation/templar.ruleset:47
 msgid "Grand Master"
+msgstr "Великий Маг╕стр"
+
+#: data/nation/prussian.ruleset:25 data/nation/templar.ruleset:42
+#, fuzzy
+msgid "Grand Mistress"
 msgstr "Великий Маг╕стр"
 
 #: data/nation/prussian.ruleset:27
 msgid "Elector"
 msgstr "Виборщик"
+
+#: data/nation/prussian.ruleset:27
+#, fuzzy
+msgid "?female:Elector"
+msgstr "Майор"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -28663,6 +28710,11 @@ msgstr ""
 msgid "Caconzi"
 msgstr "Цацонз╕"
 
+#: data/nation/purhepecha.ruleset:32
+#, fuzzy
+msgid "?female:Caconzi"
+msgstr "Консул"
+
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
 msgstr "Квебекц╕"
@@ -28681,12 +28733,10 @@ msgstr ""
 "франкомовного населення Америки."
 
 #: data/nation/romanian.ruleset:3
-#, fuzzy
 msgid "Romanian"
 msgstr "Румуни"
 
 #: data/nation/romanian.ruleset:4
-#, fuzzy
 msgid "?plural:Romanians"
 msgstr "Румуни"
 
@@ -28698,17 +28748,6 @@ msgid ""
 "Rome. Its history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
 msgstr ""
-
-#. TRANS: Rege/Regina = King/Queen
-#: data/nation/romanian.ruleset:36
-#, fuzzy
-msgid "Rege"
-msgstr "Видалити"
-
-#: data/nation/romanian.ruleset:36
-#, fuzzy
-msgid "Regina"
-msgstr "Королева"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
@@ -28729,11 +28768,11 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr "Москал╕"
+msgstr "Рос╕яни"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr "Москал╕"
+msgstr "Рос╕яни"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -28748,15 +28787,6 @@ msgid ""
 "dissolution in 1991 Russia appeared on world map again, now as a federative "
 "republic."
 msgstr ""
-
-#: data/nation/russian.ruleset:48
-msgid "Tsar"
-msgstr "Цар"
-
-#: data/nation/russian.ruleset:48
-#, fuzzy
-msgid "Tsaritsa"
-msgstr "Парт╕зани"
 
 #: data/nation/rwandan.ruleset:3
 msgid "Rwandan"
@@ -28774,6 +28804,11 @@ msgstr ""
 "Руанда ╓ холмистою та дуже родючою кра╖ною у район╕ Великих Озер сх╕дно╖ "
 "Африки. Це найб╕льш густозаселена кра╖на континенту."
 
+#: data/nation/rwandan.ruleset:22
+#, fuzzy
+msgid "?female:Mwami"
+msgstr "Махатма"
+
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
 msgstr "Рюкюанц╕"
@@ -28789,24 +28824,13 @@ msgid ""
 "maritime trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
 
-#. TRANS: Koku-o/Jo-o = King/Queen
-#: data/nation/ryukyuan.ruleset:22
-msgid "Koku-o"
-msgstr "Коку-о"
-
-#: data/nation/ryukyuan.ruleset:22
-msgid "Jo-o"
-msgstr "Йо-о"
-
 #: data/nation/sami.ruleset:3
-#, fuzzy
 msgid "Sami"
-msgstr "Парусник"
+msgstr "Саами"
 
 #: data/nation/sami.ruleset:4
-#, fuzzy
 msgid "?plural:Sami"
-msgstr "Та╕ландц╕"
+msgstr "Саами"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -28841,14 +28865,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/saxon.ruleset:3
-#, fuzzy
 msgid "Saxon"
-msgstr "Раунди"
+msgstr "Саксонц╕"
 
 #: data/nation/saxon.ruleset:4
-#, fuzzy
 msgid "?plural:Saxons"
-msgstr "╤спанц╕"
+msgstr "Саксонц╕"
 
 #: data/nation/saxon.ruleset:6
 msgid ""
@@ -28959,14 +28981,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/slovakian.ruleset:3
-#, fuzzy
 msgid "Slovakian"
-msgstr "Словенц╕"
+msgstr "Словаки"
 
 #: data/nation/slovakian.ruleset:4
-#, fuzzy
 msgid "?plural:Slovakians"
-msgstr "Словенц╕"
+msgstr "Словаки"
 
 #: data/nation/slovakian.ruleset:6
 #, fuzzy
@@ -28979,7 +28999,7 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:26
 #, fuzzy
-msgid "?male:Leader"
+msgid "?title:Leader"
 msgstr "Голова"
 
 #: data/nation/slovakian.ruleset:26
@@ -28987,14 +29007,10 @@ msgstr "Голова"
 msgid "?female:Leader"
 msgstr "Товариш"
 
-#: data/nation/slovakian.ruleset:29
+#: data/nation/slovakian.ruleset:28
 #, fuzzy
 msgid "Priestess"
 msgstr "Духовний л╕дер"
-
-#: data/nation/slovakian.ruleset:30 data/nation/soviet.ruleset:28
-msgid "?female:General Secretary"
-msgstr "Генеральний Секретар"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -29013,14 +29029,12 @@ msgstr ""
 "Федерац╕╖."
 
 #: data/nation/southafrican.ruleset:3
-#, fuzzy
 msgid "South African"
-msgstr "Американц╕"
+msgstr "П╕вденн╕ африканц╕"
 
 #: data/nation/southafrican.ruleset:4
-#, fuzzy
 msgid "?plural:South Africans"
-msgstr "Американц╕"
+msgstr "П╕вденн╕ африканц╕"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -29057,14 +29071,12 @@ msgstr ""
 "\"Тимчасового уряду Республ╕ки Корея\" у 1948."
 
 #: data/nation/soviet.ruleset:3
-#, fuzzy
 msgid "Soviet"
-msgstr "нема╓"
+msgstr "Радянськ╕"
 
 #: data/nation/soviet.ruleset:4
-#, fuzzy
 msgid "?plural:Soviets"
-msgstr "Шотландц╕"
+msgstr "Радянськ╕"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -29075,15 +29087,6 @@ msgid ""
 "disintegrated into fifteen independent countries due to social and economic "
 "problems."
 msgstr ""
-
-#: data/nation/soviet.ruleset:29
-#, fuzzy
-msgid "Great Leader"
-msgstr "Диво"
-
-#: data/nation/soviet.ruleset:29
-msgid "?female:Great Leader"
-msgstr "Велика Вождь"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -29104,22 +29107,6 @@ msgstr ""
 "Сучасн╕ ╤спанц╕ сформувалися коли володар╕ корол╕вств Каст╕лья та Арагон "
 "в╕двоювали ╤бер╕йське наг╕рря у Мусульман. Р╕конк╕сту було зак╕нчено у 1492 "
 "н.е., того ж року Колумб зробив сво╓ в╕дкриття."
-
-#: data/nation/spanish.ruleset:28
-msgid "Caudillo"
-msgstr "Кауд╕льо"
-
-#: data/nation/spanish.ruleset:28
-msgid "Caudilla"
-msgstr "Кауд╕льа"
-
-#: data/nation/spanish.ruleset:29
-msgid "Cardinal"
-msgstr "Кард╕нал"
-
-#: data/nation/spanish.ruleset:29
-msgid "?female:Cardinal"
-msgstr "Кард╕нал"
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
@@ -29142,15 +29129,18 @@ msgstr ""
 msgid "Datu"
 msgstr "Дату"
 
-#: data/nation/sudanese.ruleset:3
+#: data/nation/srivijaya.ruleset:21
 #, fuzzy
+msgid "?female:Datu"
+msgstr "Дру╕д"
+
+#: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr "Раунди"
+msgstr "Суданц╕"
 
 #: data/nation/sudanese.ruleset:4
-#, fuzzy
 msgid "?plural:Sudanese"
-msgstr "Датчани"
+msgstr "Суданц╕"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -29161,14 +29151,12 @@ msgstr ""
 "став незалежним у 1956."
 
 #: data/nation/sumerian.ruleset:3
-#, fuzzy
 msgid "Sumerian"
-msgstr "Серби"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:4
-#, fuzzy
 msgid "?plural:Sumerians"
-msgstr "Серби"
+msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -29177,30 +29165,23 @@ msgid ""
 "other writing in history."
 msgstr ""
 
-#: data/nation/sumerian.ruleset:27
-#, fuzzy
-msgid "Nin"
-msgstr "Нац╕я"
-
-#: data/nation/sumerian.ruleset:29
+#: data/nation/sumerian.ruleset:28
 #, fuzzy
 msgid "Ensi"
 msgstr "Енц╕к"
 
-#: data/nation/sumerian.ruleset:30
+#: data/nation/sumerian.ruleset:28
 #, fuzzy
-msgid "Sanga"
-msgstr "Сайа"
+msgid "?female:Ensi"
+msgstr "Енц╕к"
 
 #: data/nation/swazi.ruleset:3
-#, fuzzy
 msgid "Swazi"
-msgstr "Парусник"
+msgstr "Сваз╕"
 
 #: data/nation/swazi.ruleset:4
-#, fuzzy
 msgid "?plural:Swazis"
-msgstr "Шведи"
+msgstr "Сваз╕"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -29210,11 +29191,11 @@ msgid ""
 msgstr ""
 
 #. TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow
-#: data/nation/swazi.ruleset:24
+#: data/nation/swazi.ruleset:23
 msgid "Ngwenyama"
 msgstr "Нгвенйама"
 
-#: data/nation/swazi.ruleset:24
+#: data/nation/swazi.ruleset:23
 msgid "Indovuzaki"
 msgstr "╤ндовузак╕"
 
@@ -29262,10 +29243,6 @@ msgstr ""
 "Швейцар╕я ╓ федерац╕╓ю кантон╕в, деяк╕ з котрих мають б╕льш н╕ж 700-р╕чну "
 "╕стор╕ю як конфедерац╕я."
 
-#: data/nation/swiss.ruleset:19
-msgid "?female:General"
-msgstr "Генерал"
-
 #: data/nation/swiss.ruleset:20
 #, fuzzy
 msgid "Bailiff"
@@ -29274,19 +29251,6 @@ msgstr "Бразильц╕"
 #: data/nation/swiss.ruleset:20
 msgid "?female:Bailiff"
 msgstr "Байл╕фф"
-
-#: data/nation/swiss.ruleset:21 data/nation/swiss.ruleset:22
-msgid "President of the Confederation"
-msgstr "Президент Конфедерац╕╖"
-
-#: data/nation/swiss.ruleset:23
-#, fuzzy
-msgid "Federal Chancellor"
-msgstr "Канцлер"
-
-#: data/nation/swiss.ruleset:23
-msgid "?female:Federal Chancellor"
-msgstr "Федеральний Канцлер"
 
 #: data/nation/syrian.ruleset:3
 msgid "Syrian"
@@ -29332,10 +29296,10 @@ msgstr ""
 msgid "Cacike"
 msgstr "Цац╕ке"
 
-#. TRANS: Bohike = Priest
-#: data/nation/taino.ruleset:33
-msgid "Bohike"
-msgstr "Бох╕ке"
+#: data/nation/taino.ruleset:31
+#, fuzzy
+msgid "?female:Cacike"
+msgstr "Хакер"
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
@@ -29367,30 +29331,13 @@ msgstr "Ханква"
 msgid "?female:Hankwa"
 msgstr "Хакер"
 
-#. TRANS: Guacanaoma = Paramount Chief
-#: data/nation/tairona.ruleset:28
-msgid "Guacanaoma"
-msgstr "Гуаканаома"
-
-#: data/nation/tairona.ruleset:28
-#, fuzzy
-msgid "?female:Guacanaoma"
-msgstr "Махатма"
-
-#: data/nation/tairona.ruleset:30
-#, fuzzy
-msgid "?female:Mama"
-msgstr "Махатма"
-
 #: data/nation/taiwanese.ruleset:3
-#, fuzzy
 msgid "Taiwanese"
-msgstr "Японц╕"
+msgstr "Тайванц╕"
 
 #: data/nation/taiwanese.ruleset:4
-#, fuzzy
 msgid "?plural:Taiwanese"
-msgstr "Японц╕"
+msgstr "Тайванц╕"
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -29435,13 +29382,6 @@ msgid ""
 "immense power and wealth in the next 200 years, and were the innovators of "
 "many modern concepts such as Banking."
 msgstr ""
-
-#: data/nation/templar.ruleset:42 data/nation/templar.ruleset:43
-#: data/nation/templar.ruleset:44 data/nation/templar.ruleset:45
-#: data/nation/templar.ruleset:46 data/nation/templar.ruleset:47
-#, fuzzy
-msgid "Grand Mistress"
-msgstr "Великий Маг╕стр"
 
 #: data/nation/texan.ruleset:3
 #, fuzzy
@@ -29493,15 +29433,18 @@ msgstr "Друга за чисельн╕стю нац╕я у древньому зах╕дному св╕т╕."
 msgid "Rhesos"
 msgstr "Рхесос"
 
-#: data/nation/tibetan.ruleset:3
+#: data/nation/thracian.ruleset:19
 #, fuzzy
+msgid "?female:Rhesos"
+msgstr "Деспот"
+
+#: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr "Ч╕л╕йц╕"
+msgstr "Т╕бетц╕"
 
 #: data/nation/tibetan.ruleset:4
-#, fuzzy
 msgid "?plural:Tibetans"
-msgstr "Ч╕л╕йц╕"
+msgstr "Т╕бетц╕"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -29516,17 +29459,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "Lama"
-msgstr "Нижче"
+msgstr "Лама"
+
+#: data/nation/tibetan.ruleset:27
+#, fuzzy
+msgid "?female:Lama"
+msgstr "Махатма"
 
 #: data/nation/tibetan.ruleset:28
-msgid "Dharma King"
-msgstr "Дхарма Король"
-
-#: data/nation/tibetan.ruleset:29
 msgid "Dalai Lama"
 msgstr "Далай Лама"
+
+#: data/nation/tibetan.ruleset:28
+#, fuzzy
+msgid "?female:Dalai Lama"
+msgstr "Махатма"
 
 #: data/nation/tocharian.ruleset:3
 msgid "Tocharian"
@@ -29554,28 +29502,22 @@ msgid ""
 "the region."
 msgstr ""
 
-#: data/nation/tocharian.ruleset:33
-msgid "Kakmartik"
-msgstr "Какмарт╕к"
-
 #. TRANS: Lant/Lantsa = King/Queen
-#: data/nation/tocharian.ruleset:35
+#: data/nation/tocharian.ruleset:34
 msgid "Lant"
 msgstr "Лант"
 
-#: data/nation/tocharian.ruleset:35
+#: data/nation/tocharian.ruleset:34
 msgid "Lantsa"
 msgstr "Ланца"
 
 #: data/nation/tunisian.ruleset:3
-#, fuzzy
 msgid "Tunisian"
-msgstr "Москал╕"
+msgstr "Тун╕сьц╕"
 
 #: data/nation/tunisian.ruleset:4
-#, fuzzy
 msgid "?plural:Tunisians"
-msgstr "Москал╕"
+msgstr "Тун╕сьц╕"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -29618,10 +29560,10 @@ msgstr ""
 msgid "Morubixaba"
 msgstr "Моруб╕ксаба"
 
-#. TRANS: Paje = Shaman
-#: data/nation/tupi.ruleset:26
-msgid "Paje"
-msgstr "Падже"
+#: data/nation/tupi.ruleset:24
+#, fuzzy
+msgid "?female:Morubixaba"
+msgstr "Махатма"
 
 #: data/nation/turkmen.ruleset:3
 msgid "Turkmen"
@@ -29640,7 +29582,6 @@ msgstr ""
 "Туркмен╕стан отримав незалежн╕сть в╕д Радянського Союзу у 1991."
 
 #: data/nation/turk.ruleset:3
-#, fuzzy
 msgid "Turkish"
 msgstr "Турки"
 
@@ -29680,6 +29621,11 @@ msgstr ""
 msgid "Hetman"
 msgstr "Гетьман"
 
+#: data/nation/ukrainian.ruleset:18
+#, fuzzy
+msgid "?female:Hetman"
+msgstr "Шаман"
+
 #: data/nation/un.ruleset:3
 msgid "UN"
 msgstr "ООН"
@@ -29705,14 +29651,6 @@ msgstr "Генеральний секретар"
 msgid "?female:Secretary-General"
 msgstr "Генеральний секретар"
 
-#: data/nation/un.ruleset:25
-msgid "Representative"
-msgstr "Представник"
-
-#: data/nation/un.ruleset:25
-msgid "?female:Representative"
-msgstr "Представниця"
-
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
 msgstr "Уругвайц╕"
@@ -29736,9 +29674,8 @@ msgid "Uyghur"
 msgstr "Уйгури"
 
 #: data/nation/uyghur.ruleset:4
-#, fuzzy
 msgid "?plural:Uyghurs"
-msgstr "Турки"
+msgstr "Уйгури"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -29783,9 +29720,8 @@ msgid "Venezuelan"
 msgstr "Венесуельц╕"
 
 #: data/nation/venezuelan.ruleset:4
-#, fuzzy
 msgid "?plural:Venezuelans"
-msgstr "Кен╕йц╕"
+msgstr "Венесуельц╕"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -29801,16 +29737,6 @@ msgstr ""
 "Венесуела ╓ самою п╕вн╕чною кра╖ною п╕вденно╖ Америки. Вона була ╕спанською "
 "колон╕╓ю с 16-го стор╕ччя, кра╖на набула незалежност╕ 5 липня 1811 року п╕д "
 "кер╕вництвом Ель Л╕бертадор С╕мона Бол╕вара - Визволителя."
-
-#. TRANS: Terrateniente = Junker
-#: data/nation/venezuelan.ruleset:29
-#, fuzzy
-msgid "Terrateniente"
-msgstr "Тер╕тор╕я"
-
-#: data/nation/venezuelan.ruleset:29
-msgid "Terratenienta"
-msgstr "Терратен╕ента"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
@@ -29864,17 +29790,14 @@ msgstr ""
 "гористий зах╕д острова."
 
 #: data/nation/westphalian.ruleset:3
-#, fuzzy
 msgid "Westphalian"
-msgstr "╤тал╕йц╕"
+msgstr "Вестфальц╕"
 
 #: data/nation/westphalian.ruleset:4
-#, fuzzy
 msgid "?plural:Westphalians"
-msgstr "╤тал╕йц╕"
+msgstr "Вестфальц╕"
 
 #: data/nation/westphalian.ruleset:6
-#, fuzzy
 msgid ""
 "Westphalia, before becoming a Prussian province, was the western region of "
 "the Duchy of Saxony. Today it makes up the northern part of the largest "
@@ -30318,195 +30241,163 @@ msgstr ""
 
 #: data/civ1/game.ruleset:162 data/civ2/game.ruleset:156
 #: data/default/game.ruleset:189
-#, fuzzy
 msgid "Team 0"
-msgstr "Команда"
+msgstr "Команда 0"
 
 #: data/civ1/game.ruleset:163 data/civ2/game.ruleset:157
 #: data/default/game.ruleset:190
-#, fuzzy
 msgid "Team 1"
-msgstr "Команда"
+msgstr "Команда 1"
 
 #: data/civ1/game.ruleset:164 data/civ2/game.ruleset:158
 #: data/default/game.ruleset:191
-#, fuzzy
 msgid "Team 2"
-msgstr "Команда"
+msgstr "Команда 2"
 
 #: data/civ1/game.ruleset:165 data/civ2/game.ruleset:159
 #: data/default/game.ruleset:192
-#, fuzzy
 msgid "Team 3"
-msgstr "Команда"
+msgstr "Команда 3"
 
 #: data/civ1/game.ruleset:166 data/civ2/game.ruleset:160
 #: data/default/game.ruleset:193
-#, fuzzy
 msgid "Team 4"
-msgstr "Команда"
+msgstr "Команда 4"
 
 #: data/civ1/game.ruleset:167 data/civ2/game.ruleset:161
 #: data/default/game.ruleset:194
-#, fuzzy
 msgid "Team 5"
-msgstr "Команда"
+msgstr "Команда 5"
 
 #: data/civ1/game.ruleset:168 data/civ2/game.ruleset:162
 #: data/default/game.ruleset:195
-#, fuzzy
 msgid "Team 6"
-msgstr "Команда"
+msgstr "Команда 6"
 
 #: data/civ1/game.ruleset:169 data/civ2/game.ruleset:163
 #: data/default/game.ruleset:196
-#, fuzzy
 msgid "Team 7"
-msgstr "Команда"
+msgstr "Команда 7"
 
 #: data/civ1/game.ruleset:170 data/civ2/game.ruleset:164
 #: data/default/game.ruleset:197
-#, fuzzy
 msgid "Team 8"
-msgstr "Команда"
+msgstr "Команда 8"
 
 #: data/civ1/game.ruleset:171 data/civ2/game.ruleset:165
 #: data/default/game.ruleset:198
-#, fuzzy
 msgid "Team 9"
-msgstr "Команда"
+msgstr "Команда 9"
 
 #: data/civ1/game.ruleset:172 data/civ2/game.ruleset:166
 #: data/default/game.ruleset:199
-#, fuzzy
 msgid "Team 10"
-msgstr "Команда"
+msgstr "Команда 10"
 
 #: data/civ1/game.ruleset:173 data/civ2/game.ruleset:167
 #: data/default/game.ruleset:200
-#, fuzzy
 msgid "Team 11"
-msgstr "Команда"
+msgstr "Команда 11"
 
 #: data/civ1/game.ruleset:174 data/civ2/game.ruleset:168
 #: data/default/game.ruleset:201
-#, fuzzy
 msgid "Team 12"
-msgstr "Команда"
+msgstr "Команда 12"
 
 #: data/civ1/game.ruleset:175 data/civ2/game.ruleset:169
 #: data/default/game.ruleset:202
-#, fuzzy
 msgid "Team 13"
-msgstr "Команда"
+msgstr "Команда 13"
 
 #: data/civ1/game.ruleset:176 data/civ2/game.ruleset:170
 #: data/default/game.ruleset:203
-#, fuzzy
 msgid "Team 14"
-msgstr "Команда"
+msgstr "Команда 14"
 
 #: data/civ1/game.ruleset:177 data/civ2/game.ruleset:171
 #: data/default/game.ruleset:204
-#, fuzzy
 msgid "Team 15"
-msgstr "Команда"
+msgstr "Команда 15"
 
 #: data/civ1/game.ruleset:178 data/civ2/game.ruleset:172
 #: data/default/game.ruleset:205
-#, fuzzy
 msgid "Team 16"
-msgstr "Команда"
+msgstr "Команда 16"
 
 #: data/civ1/game.ruleset:179 data/civ2/game.ruleset:173
 #: data/default/game.ruleset:206
-#, fuzzy
 msgid "Team 17"
-msgstr "Команда"
+msgstr "Команда 17"
 
 #: data/civ1/game.ruleset:180 data/civ2/game.ruleset:174
 #: data/default/game.ruleset:207
-#, fuzzy
 msgid "Team 18"
-msgstr "Команда"
+msgstr "Команда 18"
 
 #: data/civ1/game.ruleset:181 data/civ2/game.ruleset:175
 #: data/default/game.ruleset:208
-#, fuzzy
 msgid "Team 19"
-msgstr "Команда"
+msgstr "Команда 19"
 
 #: data/civ1/game.ruleset:182 data/civ2/game.ruleset:176
 #: data/default/game.ruleset:209
-#, fuzzy
 msgid "Team 20"
-msgstr "Команда"
+msgstr "Команда 20"
 
 #: data/civ1/game.ruleset:183 data/civ2/game.ruleset:177
 #: data/default/game.ruleset:210
-#, fuzzy
 msgid "Team 21"
-msgstr "Команда"
+msgstr "Команда 21"
 
 #: data/civ1/game.ruleset:184 data/civ2/game.ruleset:178
 #: data/default/game.ruleset:211
-#, fuzzy
 msgid "Team 22"
-msgstr "Команда"
+msgstr "Команда 22"
 
 #: data/civ1/game.ruleset:185 data/civ2/game.ruleset:179
 #: data/default/game.ruleset:212
-#, fuzzy
 msgid "Team 23"
-msgstr "Команда"
+msgstr "Команда 23"
 
 #: data/civ1/game.ruleset:186 data/civ2/game.ruleset:180
 #: data/default/game.ruleset:213
-#, fuzzy
 msgid "Team 24"
-msgstr "Команда"
+msgstr "Команда 24"
 
 #: data/civ1/game.ruleset:187 data/civ2/game.ruleset:181
 #: data/default/game.ruleset:214
-#, fuzzy
 msgid "Team 25"
-msgstr "Команда"
+msgstr "Команда 25"
 
 #: data/civ1/game.ruleset:188 data/civ2/game.ruleset:182
 #: data/default/game.ruleset:215
-#, fuzzy
 msgid "Team 26"
-msgstr "Команда"
+msgstr "Команда 26"
 
 #: data/civ1/game.ruleset:189 data/civ2/game.ruleset:183
 #: data/default/game.ruleset:216
-#, fuzzy
 msgid "Team 27"
-msgstr "Команда"
+msgstr "Команда 27"
 
 #: data/civ1/game.ruleset:190 data/civ2/game.ruleset:184
 #: data/default/game.ruleset:217
-#, fuzzy
 msgid "Team 28"
-msgstr "Команда"
+msgstr "Команда 28"
 
 #: data/civ1/game.ruleset:191 data/civ2/game.ruleset:185
 #: data/default/game.ruleset:218
-#, fuzzy
 msgid "Team 29"
-msgstr "Команда"
+msgstr "Команда 29"
 
 #: data/civ1/game.ruleset:192 data/civ2/game.ruleset:186
 #: data/default/game.ruleset:219
-#, fuzzy
 msgid "Team 30"
-msgstr "Команда"
+msgstr "Команда 30"
 
 #: data/civ1/game.ruleset:193 data/civ2/game.ruleset:187
 #: data/default/game.ruleset:220
-#, fuzzy
 msgid "Team 31"
-msgstr "Команда"
+msgstr "Команда 31"
 
 #: data/civ2/game.ruleset:18
 #, fuzzy
@@ -30530,11 +30421,231 @@ msgstr ""
 
 #: data/default/game.ruleset:184
 msgid "AD"
-msgstr ""
+msgstr "в╕д Р. Х."
 
 #: data/default/game.ruleset:185
 msgid "BC"
-msgstr ""
+msgstr "до Р. Х."
+
+#~ msgid "Senapati"
+#~ msgstr "Сенапат╕"
+
+#~ msgid "Jiliri"
+#~ msgstr "Дж╕л╕р╕"
+
+#~ msgid "Willka"
+#~ msgstr "У╕ллка"
+
+#~ msgid "Tata"
+#~ msgstr "Папа"
+
+#~ msgid "Mama"
+#~ msgstr "Мама"
+
+#~ msgid "Markachiri"
+#~ msgstr "Маркач╕р╕"
+
+#~ msgid "Buruzagi"
+#~ msgstr "Барузаг╕"
+
+#~ msgid "?female:Buruzagi"
+#~ msgstr "?female:Барузаг╕"
+
+#~ msgid "Apaiz nagusi"
+#~ msgstr "Апа╕з нагус╕"
+
+#~ msgid "Emakume Apaiz nagusi"
+#~ msgstr "Емакуме Апа╕з нагус╕"
+
+#~ msgid "Errege"
+#~ msgstr "Король"
+
+#~ msgid "Erregina"
+#~ msgstr "Королева"
+
+#, fuzzy
+#~ msgid "Major"
+#~ msgstr "Парт╕зани"
+
+#, fuzzy
+#~ msgid "Tzar"
+#~ msgstr "Цар"
+
+#, fuzzy
+#~ msgid "Tzaritza"
+#~ msgstr "Цариця"
+
+#, fuzzy
+#~ msgid "Saya"
+#~ msgstr "Голова"
+
+#, fuzzy
+#~ msgid "Sayama"
+#~ msgstr "Голова"
+
+#, fuzzy
+#~ msgid "Ganwa"
+#~ msgstr "Ханква"
+
+#, fuzzy
+#~ msgid "?female:Ganwa"
+#~ msgstr "Раджа"
+
+#~ msgid "Primer Ministre"
+#~ msgstr "Прем'╓р-м╕н╕стр"
+
+#~ msgid "Primera Ministre"
+#~ msgstr "Прем'╓р-м╕н╕стр"
+
+#~ msgid "Chihchiuchimaau"
+#~ msgstr "Ч╕хч╕уч╕маау"
+
+#~ msgid "Chihchiuchimaaskweu"
+#~ msgstr "Ч╕хч╕уч╕мааскью"
+
+#~ msgid "President of the Commission"
+#~ msgstr "Президент Ком╕с╕╖"
+
+#, fuzzy
+#~ msgid "Primeiro Ministro"
+#~ msgstr "Прем'╓р-м╕н╕стр"
+
+#, fuzzy
+#~ msgid "Primeira Ministra"
+#~ msgstr "Прем'╓р-м╕н╕стр"
+
+#, fuzzy
+#~ msgid "Gran Bardo"
+#~ msgstr "Амбар"
+
+#, fuzzy
+#~ msgid "Grande Bardesa"
+#~ msgstr "Велика В╕дьма"
+
+#, fuzzy
+#~ msgid "?female:Maharajadhiraja"
+#~ msgstr "Ма╜араджа"
+
+#~ msgid "Inka"
+#~ msgstr "╤нка"
+
+#~ msgid "Willaq Umu"
+#~ msgstr "У╕ллак Уму"
+
+#~ msgid "Khorezmshah"
+#~ msgstr "Хорезмшах"
+
+#, fuzzy
+#~ msgid "Khagan"
+#~ msgstr "Хан"
+
+#~ msgid "Lonko"
+#~ msgstr "Лонко"
+
+#~ msgid "Machi"
+#~ msgstr "Мач╕"
+
+#~ msgid "Ah kin"
+#~ msgstr "Ах к╕н"
+
+#~ msgid "?female:Ah kin"
+#~ msgstr "Ах к╕н"
+
+#~ msgid "?female:Khagan"
+#~ msgstr "Ханша"
+
+#~ msgid "Widaehan suryong"
+#~ msgstr "Великий Вождь"
+
+#~ msgid "Ha'wiih"
+#~ msgstr "Хав'╕╕х"
+
+#, fuzzy
+#~ msgid "Imparator"
+#~ msgstr "╤мператор"
+
+#~ msgid "Suffet"
+#~ msgstr "Суффет"
+
+#~ msgid "Dyktator"
+#~ msgstr "Д╕ктатор"
+
+#~ msgid "Dyktatorka"
+#~ msgstr "Д╕ктаторша"
+
+#~ msgid "Pierwszy Sekretarz"
+#~ msgstr "Перший секретар"
+
+#~ msgid "?female:Pierwszy Sekretarz"
+#~ msgstr "Перший секретар"
+
+#, fuzzy
+#~ msgid "Rege"
+#~ msgstr "Видалити"
+
+#, fuzzy
+#~ msgid "Regina"
+#~ msgstr "Королева"
+
+#~ msgid "Koku-o"
+#~ msgstr "Коку-о"
+
+#~ msgid "Jo-o"
+#~ msgstr "Йо-о"
+
+#, fuzzy
+#~ msgid "?male:Leader"
+#~ msgstr "Голова"
+
+#, fuzzy
+#~ msgid "Nin"
+#~ msgstr "Нац╕я"
+
+#, fuzzy
+#~ msgid "Sanga"
+#~ msgstr "Сайа"
+
+#~ msgid "President of the Confederation"
+#~ msgstr "Президент Конфедерац╕╖"
+
+#, fuzzy
+#~ msgid "Federal Chancellor"
+#~ msgstr "Канцлер"
+
+#~ msgid "?female:Federal Chancellor"
+#~ msgstr "Федеральний Канцлер"
+
+#~ msgid "Bohike"
+#~ msgstr "Бох╕ке"
+
+#~ msgid "Guacanaoma"
+#~ msgstr "Гуаканаома"
+
+#, fuzzy
+#~ msgid "?female:Guacanaoma"
+#~ msgstr "Махатма"
+
+#~ msgid "Dharma King"
+#~ msgstr "Дхарма Король"
+
+#~ msgid "Kakmartik"
+#~ msgstr "Какмарт╕к"
+
+#~ msgid "Paje"
+#~ msgstr "Падже"
+
+#~ msgid "Representative"
+#~ msgstr "Представник"
+
+#~ msgid "?female:Representative"
+#~ msgstr "Представниця"
+
+#, fuzzy
+#~ msgid "Terrateniente"
+#~ msgstr "Тер╕тор╕я"
+
+#~ msgid "Terratenienta"
+#~ msgstr "Терратен╕ента"
 
 #~ msgid ""
 #~ "show\n"
@@ -34061,9 +34172,6 @@ msgstr ""
 
 #~ msgid "Riflery"
 #~ msgstr "Стр╕льби"
-
-#~ msgid "Great Khan"
-#~ msgstr "Великий хан"
 
 #, fuzzy
 #~ msgid "Grand Noyd"
