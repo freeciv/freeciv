@@ -2413,14 +2413,18 @@ void key_cancel_action(void)
   case HOVER_GOTO:
   case HOVER_PATROL:
   case HOVER_CONNECT:
-    if (!goto_pop_waypoint()) {
-      set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
-      update_unit_info_label(get_units_in_focus());
-
-      keyboardless_goto_button_down = FALSE;
-      keyboardless_goto_active = FALSE;
-      keyboardless_goto_start_tile = NULL;
+    if (goto_pop_waypoint()) {
+      break;
     }
+    /* else fall through: */
+  case HOVER_NUKE:
+  case HOVER_PARADROP:
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
+    update_unit_info_label(get_units_in_focus());
+
+    keyboardless_goto_button_down = FALSE;
+    keyboardless_goto_active = FALSE;
+    keyboardless_goto_start_tile = NULL;
     break;
   default:
     break;
