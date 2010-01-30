@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-30 00:41+0200\n"
-"PO-Revision-Date: 2010-01-30 14:27+0200\n"
+"PO-Revision-Date: 2010-01-30 15:46+0200\n"
 "Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -274,7 +274,7 @@ msgstr "Втекти"
 #: client/plrdlg_common.c:266 client/gui-win32/diplodlg.c:618
 #: client/gui-win32/diplodlg.c:670 client/gui-win32/plrdlg.c:333
 msgid "Embassy"
-msgstr "Амбасада"
+msgstr "Посольство"
 
 #: common/events.c:110 common/events.c:117
 msgid "Failed"
@@ -2755,8 +2755,8 @@ msgstr ""
 "Робить гравця членом команди. Якщо команду не вказано, гравець "
 "встановлю╓ться в╕льним. Використовуйте \"\" якщо ╕мена м╕стять проб╕ли. "
 "Команда це група гравц╕в, що розпочинають у альянс╕ з╕ сп╕льним баченням та "
-"амбасадами, та грають разом аби отримати перемогу команди з ╕нд╕в╕дуальними "
-"рахунками."
+"посольствами, та грають разом аби отримати перемогу команди з "
+"╕нд╕в╕дуальними рахунками."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:193
@@ -3487,9 +3487,9 @@ msgid "The %s don't have the promised amount of gold! Treaty canceled!"
 msgstr "%s не ма╓ достатньо грошей! Угода нед╕йсна!"
 
 #: server/diplhand.c:396
-#, fuzzy, c-format
+#, c-format
 msgid "You gave an embassy to %s."
-msgstr "Ви в╕дкрили амбасаду у %s."
+msgstr "Ви в╕дкрили посольство у %s."
 
 #: server/diplhand.c:399
 #, c-format
@@ -3603,12 +3603,12 @@ msgstr "Вашого %s стратили у %s нерозвинен╕ %s."
 #: server/diplomats.c:286
 #, c-format
 msgid "You have established an embassy in %s."
-msgstr "Ви в╕дкрили амбасаду у %s."
+msgstr "Ви в╕дкрили посольство у %s."
 
 #: server/diplomats.c:290
 #, c-format
 msgid "The %s have established an embassy in %s."
-msgstr "%s в╕дкрив амбасаду у м╕ст╕ %s."
+msgstr "%s в╕дкрив посольство у %s."
 
 #: server/diplomats.c:351
 #, fuzzy, c-format
@@ -9049,24 +9049,23 @@ msgstr "Зм╕ню╓мо виробництво у кожному %s на %s."
 
 #: client/climisc.c:248
 msgid "?embassy:Both"
-msgstr "?амбасада:Обидва"
+msgstr "Двосторонн╓"
 
 #: client/climisc.c:250
 msgid "?embassy:Yes"
-msgstr "?амбасада:Так"
+msgstr "Так"
 
 #: client/climisc.c:253
 msgid "?embassy:With Us"
-msgstr "?амбасада:З нами"
+msgstr "З нами"
 
 #: client/climisc.c:256
 msgid "?embassy:Contact"
-msgstr "?амбасада:Контакт"
+msgstr "Контакт"
 
 #: client/climisc.c:258
-#, fuzzy
 msgid "?embassy:No Contact"
-msgstr "?амбасада:Контакт"
+msgstr "Нема╓ контакту"
 
 #: client/climisc.c:270
 msgid "?vision:Both"
@@ -9123,9 +9122,9 @@ msgid "The %s give shared vision"
 msgstr "%s да╓ сп╕льне бачення"
 
 #: client/climisc.c:333
-#, fuzzy, c-format
+#, c-format
 msgid "The %s give an embassy"
-msgstr "%s да╓ %s"
+msgstr "%s надсила╓ посольство"
 
 #: client/climisc.c:989
 msgid "Popup Request"
@@ -12773,7 +12772,7 @@ msgstr "Обер╕ть стратег╕ю д╕яльность д╕пломата"
 #: client/gui-gtk-2.0/diplomat_dialog.c:656 client/gui-win32/dialogs.c:1619
 #: client/gui-win32/dialogs.c:1640
 msgid "Establish _Embassy"
-msgstr "Влаштувати амбасаду"
+msgstr "В╕дкрити посольство"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:633
 #: client/gui-gtk-2.0/diplomat_dialog.c:657 client/gui-win32/dialogs.c:1620
@@ -13583,14 +13582,12 @@ msgstr "Якою нац╕╓ю ви будете керувати?"
 
 #: client/gui-gtk-2.0/dialogs.c:851 client/gui-sdl/chatline.c:839
 #: client/gui-win32/connectdlg.c:1038 data/Freeciv.in:3378
-#, fuzzy
 msgid "Pick Nation"
-msgstr "В╕дд╕л м╕л╕ц╕╖"
+msgstr "Обер╕ть нац╕ю"
 
 #: client/gui-gtk-2.0/dialogs.c:859
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Об'╓днанн╕ нац╕╖"
+msgstr "Випадкова нац╕я"
 
 #: client/gui-gtk-2.0/dialogs.c:871 client/gui-win32/dialogs.c:532
 msgid "Select a nation"
@@ -13618,9 +13615,8 @@ msgid "City _Styles:"
 msgstr "Стиль м╕ст:"
 
 #: client/gui-gtk-2.0/dialogs.c:987
-#, fuzzy
 msgid "_Description"
-msgstr "Легенда"
+msgstr "Опис"
 
 #: client/gui-gtk-2.0/dialogs.c:1330 client/gui-xaw/dialogs.c:1513
 msgid "You must select your sex."
@@ -13675,9 +13671,8 @@ msgid "_Give shared vision"
 msgstr "Надати сп╕льне бачення"
 
 #: client/gui-gtk-2.0/diplodlg.c:337
-#, fuzzy
 msgid "Give _embassy"
-msgstr "Амбасада"
+msgstr "Над╕слати посольство"
 
 #: client/gui-gtk-2.0/diplodlg.c:368
 msgid "_Pacts"
@@ -14521,9 +14516,8 @@ msgid "_View"
 msgstr "Дивитись"
 
 #: client/gui-gtk-2.0/menu.c:1192
-#, fuzzy
 msgid "_Improvements"
-msgstr "Буд╕вл╕:"
+msgstr "Буд╕вл╕"
 
 #: client/gui-gtk-2.0/menu.c:1193
 #, fuzzy
@@ -15218,7 +15212,6 @@ msgid "Start _Scenario Game"
 msgstr "Стартувати нову гру"
 
 #: client/gui-gtk-2.0/pages.c:233
-#, fuzzy
 msgid "_Load Saved Game"
 msgstr "Завантажити гру"
 
@@ -15227,9 +15220,8 @@ msgid "C_onnect to Network Game"
 msgstr "При╓днатися до Мережево╖ Гри"
 
 #: client/gui-gtk-2.0/pages.c:247
-#, fuzzy
 msgid "Connect to Gaming _Zone"
-msgstr "П╕д'╓днатися до"
+msgstr "При╓'днатись до ╕грово╖ зони"
 
 #: client/gui-gtk-2.0/pages.c:624 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
@@ -15304,14 +15296,13 @@ msgid "Host"
 msgstr "Хост"
 
 #: client/gui-gtk-2.0/pages.c:981
-#, fuzzy
 msgid "C_onnect"
 msgstr "При╓'днатись"
 
 #: client/gui-gtk-2.0/pages.c:1204
-#, fuzzy, c-format
+#, c-format
 msgid "Connection name: %s"
-msgstr "З'╓днання"
+msgstr "╤м'я з'╓днання: %s"
 
 #: client/gui-gtk-2.0/pages.c:1207
 #, fuzzy, c-format
@@ -15338,9 +15329,8 @@ msgid "Toggle player ready"
 msgstr "aitoggle <гравець>"
 
 #: client/gui-gtk-2.0/pages.c:1266
-#, fuzzy
 msgid "Pick nation"
-msgstr "В╕дд╕л м╕л╕ц╕╖"
+msgstr "Обер╕ть нац╕ю"
 
 #: client/gui-gtk-2.0/pages.c:1276
 msgid "Observe this player"
@@ -15362,9 +15352,8 @@ msgid "Aitoggle player"
 msgstr "aitoggle <гравець>"
 
 #: client/gui-gtk-2.0/pages.c:1319
-#, fuzzy
 msgid "Remove player"
-msgstr "Видаляю гравця %s."
+msgstr "Видалити гравця"
 
 #: client/gui-gtk-2.0/pages.c:1330
 msgid "Give info access"
@@ -15473,7 +15462,6 @@ msgstr "Зберегти гру"
 #: client/gui-win32/repodlgs.c:97 client/gui-win32/repodlgs.c:276
 #: client/gui-xaw/menu.c:229 client/gui-xaw/repodlgs.c:280
 #: client/gui-xaw/repodlgs.c:504 data/Freeciv.in:1366
-#, fuzzy
 msgid "Research"
 msgstr "Досл╕дження"
 
@@ -15494,9 +15482,8 @@ msgid "Goal"
 msgstr "Мета"
 
 #: client/gui-gtk-2.0/repodlgs.c:643
-#, fuzzy
 msgid "?Building:Name"
-msgstr "Назва буд╕вл╕"
+msgstr "Назва"
 
 #: client/gui-gtk-2.0/repodlgs.c:644 client/gui-win32/repodlgs.c:465
 msgid "Count"
@@ -15533,9 +15520,8 @@ msgid "Do you really wish to sell your %s?\n"
 msgstr "Чи насправд╕ Ви хочете продати Ваш %s\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:817
-#, fuzzy
 msgid "Sell Improvements"
-msgstr "Буд╕вл╕"
+msgstr "Продати буд╕вл╕"
 
 #: client/gui-gtk-2.0/repodlgs.c:849
 msgid "Sell-Off: Results"
@@ -16455,9 +16441,8 @@ msgid "Sea map"
 msgstr "Мапу океану"
 
 #: client/gui-sdl/diplodlg.c:564
-#, fuzzy
 msgid "Give embassy"
-msgstr "Амбасада"
+msgstr "Над╕слати посольство"
 
 #: client/gui-sdl/diplodlg.c:580 client/gui-win32/diplodlg.c:620
 #: client/gui-win32/diplodlg.c:672 client/gui-xaw/diplodlg.c:486
@@ -16536,7 +16521,7 @@ msgstr "Над╕слати його назад"
 #: client/gui-sdl/diplomat_dialog.c:592 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
-msgstr "Заснувати амбасаду"
+msgstr "В╕дкрити посольство"
 
 #: client/gui-sdl/diplomat_dialog.c:607 data/Freeciv.in:2287
 msgid "Investigate City"
@@ -16659,9 +16644,8 @@ msgid "FT"
 msgstr ""
 
 #: client/gui-sdl/helpdlg.c:214
-#, fuzzy
 msgid "Help : Improvements"
-msgstr "Буд╕вл╕"
+msgstr "Допомога: Буд╕вл╕"
 
 #: client/gui-sdl/helpdlg.c:404
 msgid "Never"
@@ -17353,7 +17337,7 @@ msgstr "Вийти"
 
 #: client/gui-sdl/pages.c:164 client/gui-win32/connectdlg.c:960
 msgid "Start New Game"
-msgstr "Стартувати нову гру"
+msgstr "Розпочати нову гру"
 
 #: client/gui-sdl/pages.c:193
 #, fuzzy
@@ -17945,9 +17929,8 @@ msgid "Welcome to Freeciv"
 msgstr "Кл╕╓нт для Freeciv"
 
 #: client/gui-win32/connectdlg.c:962
-#, fuzzy
 msgid "Load Saved Game"
-msgstr "Зберегти гру"
+msgstr "Завантажити гру"
 
 #: client/gui-win32/connectdlg.c:964
 msgid "Connect To Network Game"
@@ -18286,7 +18269,7 @@ msgstr "В╕дкрити м╕сто"
 
 #: client/gui-win32/plrdlg.c:72 client/gui-xaw/plrdlg.c:359
 msgid "You need an embassy to establish a diplomatic meeting."
-msgstr "Вам необх╕дна амбасада аби провадити д╕пломатичн╕ зустр╕ч╕."
+msgstr "Вам необх╕дна посольство аби провадити д╕пломатичн╕ зустр╕ч╕."
 
 #: client/gui-win32/plrdlg.c:164 client/gui-xaw/plrdlg.c:232
 #, c-format
@@ -19212,8 +19195,8 @@ msgid ""
 "Name             Nation       Embassy  Dipl.State      Vision   "
 "Reputation    State    Host"
 msgstr ""
-"╤м'я             Нац╕я        Амбасада Д╕п.Стан       Бачення  Репутац╕я     "
-"Стан     Хост"
+"╤м'я             Нац╕я        Посольство Д╕п.Стан       Бачення  "
+"Репутац╕я     Стан     Хост"
 
 #: data/Freeciv.in:3253
 msgid "Cancel pact"
@@ -20043,9 +20026,9 @@ msgid ""
 "under the embassy column is not blank and the other player is connected (or "
 "is a server AI) then a treaty dialog will pop up."
 msgstr ""
-"    Якщо Ви влаштували амбасаду з ╕ншим гравцем, тож Ви можете скликати "
+"    Якщо Ви влаштували посольство з ╕ншим гравцем, тож Ви можете скликати "
 "д╕пломатичну зустр╕ч. Це викону╓ться через меню 'Зв╕ти', обер╕ть гравця та "
-"кл╕кн╕ть на гравц╕ з яким Ви бажа╓те зустр╕тись. Якщо Ви ма╓те амбасаду "
+"кл╕кн╕ть на гравц╕ з яким Ви бажа╓те зустр╕тись. Якщо Ви ма╓те посольство "
 "(познача╓ться X) та ╕нший гравець п╕д'╓днаний - то з'явиться д╕пломатичне "
 "меню."
 
@@ -22370,11 +22353,11 @@ msgstr "Манхетенськ╕й проект"
 
 #: data/default/buildings.ruleset:1367 data/civ2/buildings.ruleset:1308
 msgid "Marco Polo's Embassy"
-msgstr "Амбасада Марко Поло"
+msgstr "Посольство Марко Поло"
 
 #: data/default/buildings.ruleset:1381 data/civ2/buildings.ruleset:1322
 msgid "The player who owns it gets an embassy with all players."
-msgstr "Гравець що ма╓ це диво - отриму╓ амбасади з ус╕ма гравцями."
+msgstr "Гравець що ма╓ це диво - отриму╓ посольства з ус╕ма гравцями."
 
 #: data/default/buildings.ruleset:1386 data/civ2/buildings.ruleset:1327
 #: data/civ1/buildings.ruleset:926
@@ -26829,7 +26812,7 @@ msgstr "╤мператриця"
 
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr "╢вропейськ╕"
+msgstr "╢вропейц╕"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
@@ -28047,14 +28030,12 @@ msgid "?female:Warlord"
 msgstr "Майор"
 
 #: data/nation/maori.ruleset:3
-#, fuzzy
 msgid "Maori"
-msgstr "Парт╕зани"
+msgstr "Маор╕"
 
 #: data/nation/maori.ruleset:4
-#, fuzzy
 msgid "?plural:Maori"
-msgstr "Латиш╕"
+msgstr "Маор╕"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -28089,14 +28070,12 @@ msgid "?female:Toqui"
 msgstr "Дру╕д"
 
 #: data/nation/martian.ruleset:3
-#, fuzzy
 msgid "Martian"
-msgstr "Парт╕зани"
+msgstr "Марс╕ане"
 
 #: data/nation/martian.ruleset:4
-#, fuzzy
 msgid "?plural:Martians"
-msgstr "Латиш╕"
+msgstr "Марс╕ане"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
