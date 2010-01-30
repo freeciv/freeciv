@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-30 00:41+0200\n"
-"PO-Revision-Date: 2010-01-30 01:18+0200\n"
+"PO-Revision-Date: 2010-01-30 14:27+0200\n"
 "Last-Translator: Daniil Ivanov <daniil.ivanov@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -9304,9 +9304,8 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:152
-#, fuzzy
 msgid "Military Base"
-msgstr "Ополчення"
+msgstr "В╕йскова база"
 
 #: client/editor.c:154
 msgid ""
@@ -9317,9 +9316,8 @@ msgstr ""
 
 #: client/editor.c:156 client/gui-gtk-2.0/dialogs.c:582
 #: client/gui-gtk-2.0/editprop.c:606
-#, fuzzy
 msgid "Unit"
-msgstr "П╕дрозд╕ли"
+msgstr "П╕дрозд╕л"
 
 #: client/editor.c:158
 msgid ""
@@ -9378,24 +9376,20 @@ msgid "Paint"
 msgstr "Малювати"
 
 #: client/editor.c:1655
-#, fuzzy
 msgid "Erase Value"
-msgstr "Видалити пункт"
+msgstr "Видалити значення"
 
 #: client/editor.c:1657
-#, fuzzy
 msgid "Erase"
-msgstr "Ав╕абаза"
+msgstr "Видалити"
 
 #: client/editor.c:1661
-#, fuzzy
 msgid "Copy"
-msgstr "Коп╕ювання"
+msgstr "Скоп╕ювати"
 
 #: client/editor.c:1664
-#, fuzzy
 msgid "Paste"
-msgstr "Втрати"
+msgstr "Вставити"
 
 #: client/editor.c:1683
 msgid ""
@@ -11808,7 +11802,7 @@ msgstr "Не можу визначити хост."
 #: client/text.c:97
 #, c-format
 msgid "AI %s"
-msgstr ""
+msgstr "Ш╤ %s"
 
 #. TRANS: "<nation adjective>, team <team name>"
 #: client/text.c:121
@@ -25128,14 +25122,12 @@ msgstr ""
 "п╕дрозд╕л╕в та гел╕коптер╕в."
 
 #: data/nation/aborigines.ruleset:3
-#, fuzzy
 msgid "Australian Aboriginal"
-msgstr "Австрал╕йц╕"
+msgstr "Австрал╕йськ╕ аборигени"
 
 #: data/nation/aborigines.ruleset:4
-#, fuzzy
 msgid "?plural:Aborigines"
-msgstr "Аргентинц╕"
+msgstr "Аборигени"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -25153,9 +25145,8 @@ msgid "Afghani"
 msgstr "Афганц╕"
 
 #: data/nation/afghani.ruleset:4
-#, fuzzy
 msgid "?plural:Afghanis"
-msgstr "Та╕ландц╕"
+msgstr "Афганц╕"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -25194,9 +25185,8 @@ msgstr "Тао╕с╕ч"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
 #: data/nation/soviet.ruleset:27
-#, fuzzy
 msgid "General Secretary"
-msgstr "Перший Секретар"
+msgstr "Генеральний Секретар"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
 #: data/nation/soviet.ruleset:27
@@ -25313,14 +25303,12 @@ msgid "?female:He'a"
 msgstr "Хакер"
 
 #: data/nation/algerian.ruleset:3
-#, fuzzy
 msgid "Algerian"
-msgstr "Американц╕"
+msgstr "Алжирц╕"
 
 #: data/nation/algerian.ruleset:4
-#, fuzzy
 msgid "?plural:Algerians"
-msgstr "Перси"
+msgstr "Алжирц╕"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -25331,7 +25319,6 @@ msgstr ""
 "бербер╕в."
 
 #: data/nation/algerian.ruleset:21
-#, fuzzy
 msgid "Sheik"
 msgstr "Шейх"
 
@@ -25457,14 +25444,12 @@ msgid "Sultana"
 msgstr "Султан"
 
 #: data/nation/aramean.ruleset:3
-#, fuzzy
 msgid "Aramean"
-msgstr "Американц╕"
+msgstr "Арамейц╕"
 
 #: data/nation/aramean.ruleset:4
-#, fuzzy
 msgid "?plural:Arameans"
-msgstr "Американц╕"
+msgstr "Арамейц╕"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -25505,14 +25490,12 @@ msgstr "Кауд╕льа"
 #: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:22
 #: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
 #: data/nation/venezuelan.ruleset:29
-#, fuzzy
 msgid "Presidente"
 msgstr "Президент"
 
 #: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:22
 #: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
 #: data/nation/venezuelan.ruleset:29
-#, fuzzy
 msgid "Presidenta"
 msgstr "Президент"
 
@@ -25527,14 +25510,12 @@ msgid "?female:Cardinal"
 msgstr "Кард╕нал"
 
 #: data/nation/armenian.ruleset:3
-#, fuzzy
 msgid "Armenian"
-msgstr "Американц╕"
+msgstr "В╕рмени"
 
 #: data/nation/armenian.ruleset:4
-#, fuzzy
 msgid "?plural:Armenians"
-msgstr "Американц╕"
+msgstr "В╕рмени"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -25544,14 +25525,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/assyrian.ruleset:3
-#, fuzzy
 msgid "Assyrian"
-msgstr "Аз╕йськ╕"
+msgstr "Асс╕р╕йц╕"
 
 #: data/nation/assyrian.ruleset:4
-#, fuzzy
 msgid "?plural:Assyrians"
-msgstr "Москал╕"
+msgstr "Асс╕р╕йц╕"
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -25586,14 +25565,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/austrian.ruleset:3
-#, fuzzy
 msgid "Austrian"
-msgstr "Австрал╕йц╕"
+msgstr "Австр╕йц╕"
 
 #: data/nation/austrian.ruleset:4
-#, fuzzy
 msgid "?plural:Austrians"
-msgstr "Австрал╕йц╕"
+msgstr "Австр╕йц╕"
 
 #: data/nation/austrian.ruleset:6
 msgid ""
@@ -25812,7 +25789,7 @@ msgid ""
 "Union."
 msgstr ""
 "Беларусь була частиною древньо╖ славяньско╖ держави Ки╖вська Русь, пот╕м "
-"Л╕тви, Реч╕ Поспол╕то╖, Рос╕йсько╖ ╤мпер╕╖ та Радяньского Союзу. Беларусь "
+"Литви, Реч╕ Поспол╕то╖, Рос╕йсько╖ ╤мпер╕╖ та Радяньского Союзу. Беларусь "
 "стала незалежною п╕сля розпаду Радяньского Союзу у 1991."
 
 #: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
@@ -25853,14 +25830,12 @@ msgid "Matriarch"
 msgstr "Матр╕арх"
 
 #: data/nation/belgian.ruleset:3
-#, fuzzy
 msgid "Belgian"
-msgstr "Рел╕г╕я"
+msgstr "Бельг╕йц╕"
 
 #: data/nation/belgian.ruleset:4
-#, fuzzy
 msgid "?plural:Belgians"
-msgstr "Бразильц╕"
+msgstr "Бельг╕йц╕"
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -25878,9 +25853,8 @@ msgid "Bengali"
 msgstr "Бенгальц╕"
 
 #: data/nation/bengali.ruleset:4
-#, fuzzy
 msgid "?plural:Bengalis"
-msgstr "Англ╕йц╕"
+msgstr "Бенгальц╕"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -25927,9 +25901,8 @@ msgid "Bosnian-Herzegovinian"
 msgstr "Босн╕йц╕"
 
 #: data/nation/bosnia.ruleset:4
-#, fuzzy
 msgid "?plural:Bosnians"
-msgstr "Вав╕лоняни"
+msgstr "Босняки"
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -26065,14 +26038,12 @@ msgstr ""
 "пров╕дною силою на мор╕ та у виробництв╕ у 19-му строр╕чч╕."
 
 #: data/nation/bulgarian.ruleset:3
-#, fuzzy
 msgid "Bulgarian"
-msgstr "Угорц╕"
+msgstr "Булгари"
 
 #: data/nation/bulgarian.ruleset:4
-#, fuzzy
 msgid "?plural:Bulgarians"
-msgstr "Угорц╕"
+msgstr "Булгари"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -26528,14 +26499,12 @@ msgid "Governadora"
 msgstr "Губернатор"
 
 #: data/nation/confederate.ruleset:3
-#, fuzzy
 msgid "Confederate"
-msgstr "Святкувати"
+msgstr "Конфедерати"
 
 #: data/nation/confederate.ruleset:4
-#, fuzzy
 msgid "?plural:Confederates"
-msgstr "Боер"
+msgstr "Конфедерати"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -26700,7 +26669,6 @@ msgid "Dominican"
 msgstr "Дом╕н╕канц╕"
 
 #: data/nation/dominican.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicans"
 msgstr "Дом╕н╕канц╕"
 
@@ -27898,22 +27866,21 @@ msgstr "Консул"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr "Л╕товц╕"
+msgstr "Литовц╕"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr "Л╕товц╕"
+msgstr "Литовц╕"
 
 #: data/nation/lithuanian.ruleset:6
-#, fuzzy
 msgid ""
 "Lithuania is a small country on the south coast of the Baltic Sea, northeast "
 "of Poland.  Lithuanian is the most archaic and complex of the northern Indo-"
 "European languages"
 msgstr ""
-"Л╕тва це невеличка кра╖на на п╕вденному узбережж╕ Балт╕йського Моря, "
-"п╕вн╕чн╕ше Польщ╕. Л╕товська це найб╕льш арха╕чна та комплексна з п╕вн╕чних "
-"╤ндо-╢вропейськ╕х мов."
+"Литва - це невелика кра╖на на п╕вденному узбережж╕ Балт╕йського Моря, "
+"п╕вн╕чн╕ше Польщ╕. Литовська це найб╕льш арха╕чна та комплексна з п╕вн╕чних "
+"╤ндо-╢вропейськ╕х мов"
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duke"
