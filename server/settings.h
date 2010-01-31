@@ -53,66 +53,8 @@ enum sset_level {
 extern const char *sset_level_names[];
 extern const int OLEVELS_NUM;
 
-typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
-                                     const char **reject_message);
-typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
-                                    const char **reject_message);
-typedef bool (*string_validate_func_t)(const char * value,
-                                       struct connection *pconn,
-                                       const char **reject_message);
-
-struct setting {
-  const char *name;
-  enum sset_class sclass;
-  bool to_client;
-
-  /*
-   * Sould be less than 42 chars (?), or shorter if the values may
-   * have more than about 4 digits.  Don't put "." on the end.
-   */
-  const char *short_help;
-
-  /*
-   * May be empty string, if short_help is sufficient.  Need not
-   * include embedded newlines (but may, for formatting); lines will
-   * be wrapped (and indented) automatically.  Should have punctuation
-   * etc, and should end with a "."
-   */
-  const char *extra_help;
-  enum sset_type stype;
-  enum sset_category scategory;
-  enum sset_level slevel;
-
-  /* 
-   * About the *_validate functions: If the function is non-NULL, it
-   * is called with the new value, and returns whether the change is
-   * legal. The char * is an error message in the case of reject. 
-   */
-
-  union {
-    /*** bool part ***/
-    struct {
-      bool *const pvalue;
-      const bool default_value;
-      const bool_validate_func_t validate;
-    } boolean;
-    /*** int part ***/
-    struct {
-      int *const pvalue;
-      const int default_value;
-      const int min_value;
-      const int max_value;
-      const int_validate_func_t validate;
-    } integer;
-    /*** string part ***/
-    struct {
-      char *const value;
-      const char *const default_value;
-      const size_t value_size;
-      const string_validate_func_t validate;
-    } string;
-  };
-};
+/* forward declaration */
+struct setting;
 
 extern const int SETTINGS_NUM;
 
@@ -159,6 +101,7 @@ bool setting_str_set(struct setting *pset, const char *val,
 bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller,
                           const char **reject_msg);
+void setting_action(const struct setting *pset);
 
 /* iterate over all settings */
 #define settings_iterate(_pset)                                            \

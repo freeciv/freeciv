@@ -29,6 +29,73 @@
 #include "srv_main.h"
 #include "stdinhand.h"
 
+typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
+                                     const char **reject_message);
+typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
+                                    const char **reject_message);
+typedef bool (*string_validate_func_t)(const char * value,
+                                       struct connection *pconn,
+                                       const char **reject_message);
+
+struct setting;
+typedef void (*action_callback_func_t)(const struct setting *pset);
+
+struct setting {
+  const char *name;
+  enum sset_class sclass;
+  bool to_client;
+
+  /*
+   * Sould be less than 42 chars (?), or shorter if the values may
+   * have more than about 4 digits. Don't put "." on the end.
+   */
+  const char *short_help;
+
+  /*
+   * May be empty string, if short_help is sufficient. Need not
+   * include embedded newlines (but may, for formatting); lines will
+   * be wrapped (and indented) automatically. Should have punctuation
+   * etc, and should end with a "."
+   */
+  const char *extra_help;
+  enum sset_type stype;
+  enum sset_category scategory;
+  enum sset_level slevel;
+
+  /*
+   * About the *_validate functions: If the function is non-NULL, it
+   * is called with the new value, and returns whether the change is
+   * legal. The char * is an error message in the case of reject.
+   */
+
+  union {
+    /*** bool part ***/
+    struct {
+      bool *const pvalue;
+      const bool default_value;
+      const bool_validate_func_t validate;
+    } boolean;
+    /*** int part ***/
+    struct {
+      int *const pvalue;
+      const int default_value;
+      const int min_value;
+      const int max_value;
+      const int_validate_func_t validate;
+    } integer;
+    /*** string part ***/
+    struct {
+      char *const value;
+      const char *const default_value;
+      const size_t value_size;
+      const string_validate_func_t validate;
+    } string;
+  };
+
+  /* action function */
+  const action_callback_func_t action;
+};
+
 /* Category names must match the values in enum sset_category. */
 const char *sset_category_names[] = {N_("Geological"),
 				     N_("Sociological"),
@@ -46,6 +113,38 @@ const char *sset_level_names[] = {N_("None"),
 				  N_("Rare"),
 				  N_("Changed")};
 const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
+
+/*************************************************************************
+  Action callback functions. 'caller' and 'message' are not used and
+  should be set to NULL by the calling function.
+*************************************************************************/
+
+/*************************************************************************
+  Create the selected number of AI's.
+*************************************************************************/
+static void aifill_action(const struct setting *pset)
+{
+  aifill(*pset->integer.pvalue);
+}
+
+/*************************************************************************
+  Toggle player AI status.
+*************************************************************************/
+static void autotoggle_action(const struct setting *pset)
+{
+  if (*pset->boolean.pvalue) {
+    players_iterate(pplayer) {
+      if (!pplayer->ai_data.control && !pplayer->is_connected) {
+        toggle_ai_player_direct(NULL, pplayer);
+        send_player_info_c(pplayer, game.est_connections);
+      }
+    } players_iterate_end;
+  }
+}
+
+/*************************************************************************
+  Validation callback functions.
+*************************************************************************/
 
 /*************************************************************************
   Verify that a given allowtake string is valid.  See
@@ -210,30 +309,33 @@ static bool phasemode_callback(int value, struct connection *caller,
 }
 
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,        \
-                 short_help, extra_help, func_validate,                 \
+                 short_help, extra_help, func_validate, func_action,    \
                  _default)                                              \
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,          \
       scateg, slevel,                                                   \
-      {.boolean = {&value, _default, func_validate}}},
+      {.boolean = {&value, _default, func_validate}},                   \
+      func_action},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
-                short_help, extra_help, func_validate,                  \
+                short_help, extra_help, func_validate, func_action,     \
                 _min, _max, _default)                                   \
   {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
       scateg, slevel,                                                   \
-      {.integer = {&value, _default, _min, _max, func_validate}}},
+      {.integer = {&value, _default, _min, _max, func_validate}},       \
+      func_action},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
-                   short_help, extra_help, func_validate,               \
+                   short_help, extra_help, func_validate, func_action,  \
                    _default)                                            \
   {name, sclass, to_client, short_help, extra_help, SSET_STRING,        \
       scateg, slevel,                                                   \
-      {.string = {value, _default, sizeof(value), func_validate}}},
+      {.string = {value, _default, sizeof(value), func_validate}},      \
+      func_action},
 
 #define GEN_END                                                         \
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,             \
       SSET_NUM_CATEGORIES, SSET_NONE,                                   \
-      {.boolean = {FALSE, FALSE, NULL}}},
+      {.boolean = {FALSE, FALSE, NULL}}, NULL},
 
 struct setting settings[] = {
 
@@ -245,7 +347,7 @@ struct setting settings[] = {
           N_("Map size (in thousands of tiles)"),
           N_("This value is used to determine the map dimensions.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
-             "  size = 20 is a huge map of 20,000 tiles"), NULL,
+             "  size = 20 is a huge map of 20,000 tiles"), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
   GEN_INT("topology", map.topology_id, SSET_MAP_SIZE,
 	  SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
@@ -285,7 +387,7 @@ struct setting settings[] = {
 	     "  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
 	     "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
 	     "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
-          ), NULL,
+          ), NULL, NULL,
 	  MAP_MIN_TOPO, MAP_MAX_TOPO, MAP_DEFAULT_TOPO)
 
   /* Map generation parameters: once we have a map these are of historical
@@ -302,7 +404,7 @@ struct setting settings[] = {
 	     "Numbers in [] give the default values for placement of "
 	     "starting positions.  If the default value of startpos is "
 	     "used then a startpos setting will be chosen based on the "
-	     "generator.  See the \"startpos\" setting."), NULL,
+             "generator.  See the \"startpos\" setting."), NULL, NULL,
 	  MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
 
   GEN_INT("startpos", map.server.startpos,
@@ -317,26 +419,26 @@ struct setting settings[] = {
 	     "4 = Place players depending on size of continents.\n"
 	     "Note: generators try to create the right number of continents "
 	     "for the choice of start pos and to the number of players"),
-	  NULL, MAP_MIN_STARTPOS, MAP_MAX_STARTPOS, MAP_DEFAULT_STARTPOS)
+          NULL, NULL, MAP_MIN_STARTPOS, MAP_MAX_STARTPOS, MAP_DEFAULT_STARTPOS)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	   N_("Presence of 1x1 islands"),
-	   N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL,
+           N_("0 = no 1x1 islands; 1 = some 1x1 islands"), NULL, NULL,
 	   MAP_DEFAULT_TINYISLES)
 
   GEN_BOOL("separatepoles", map.server.separatepoles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Whether the poles are separate continents"),
 	   N_("0 = continents may attach to poles; 1 = poles will "
-	      "usually be separate"), NULL, 
+              "usually be separate"), NULL, NULL,
 	   MAP_DEFAULT_SEPARATE_POLES)
 
   GEN_BOOL("alltemperate", map.server.alltemperate, 
            SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
 	   N_("All the map is temperate"),
 	   N_("0 = normal Earth-like planet; 1 = all-temperate planet "),
-	   NULL, MAP_DEFAULT_ALLTEMPERATE)
+           NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
 
   GEN_INT("temperature", map.server.temperature,
  	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
@@ -352,22 +454,22 @@ struct setting settings[] = {
 	     "tropical and temperate zones.\n\n"
 	     "30 means a cold planet with small tropical zones.\n\n"
 	     "0 means a very cold planet with large polar zones and no "
-	     "tropics"), 
-          NULL,
-  	  MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
+	     "tropics"),
+          NULL, NULL,
+          MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
  
   GEN_INT("landmass", map.server.landpercent,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Percentage of the map that is land"),
 	  N_("This setting gives the approximate percentage of the map "
-	     "that will be made into land."), NULL,
+             "that will be made into land."), NULL, NULL,
 	  MAP_MIN_LANDMASS, MAP_MAX_LANDMASS, MAP_DEFAULT_LANDMASS)
 
   GEN_INT("steepness", map.server.steepness,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Amount of hills/mountains"),
 	  N_("Small values give flat maps, while higher values give a "
-	     "steeper map with more hills and mountains."), NULL,
+             "steeper map with more hills and mountains."), NULL, NULL,
 	  MAP_MIN_STEEPNESS, MAP_MAX_STEEPNESS, MAP_DEFAULT_STEEPNESS)
 
   GEN_INT("wetness", map.server.wetness,
@@ -375,8 +477,8 @@ struct setting settings[] = {
  	  N_("Amount of water on lands"), 
 	  N_("Small values mean lots of dry, desert-like land; "
 	     "higher values give a wetter map with more swamps, "
-	     "jungles, and rivers."), NULL, 
- 	  MAP_MIN_WETNESS, MAP_MAX_WETNESS, MAP_DEFAULT_WETNESS)
+             "jungles, and rivers."), NULL, NULL,
+          MAP_MIN_WETNESS, MAP_MAX_WETNESS, MAP_DEFAULT_WETNESS)
 
   GEN_INT("mapseed", map.server.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
@@ -384,7 +486,7 @@ struct setting settings[] = {
 	  N_("The same seed will always produce the same map; "
 	     "for zero (the default) a seed will be chosen based on "
 	     "the time to give a random map. This setting is usually "
-	     "only of interest while debugging the game."), NULL, 
+             "only of interest while debugging the game."), NULL, NULL,
 	  MAP_MIN_SEED, MAP_MAX_SEED, MAP_DEFAULT_SEED)
 
   /* Map additional stuff: huts and specials.  gameseed also goes here
@@ -397,7 +499,7 @@ struct setting settings[] = {
 	  N_("Game random seed"),
 	  N_("For zero (the default) a seed will be chosen based "
 	     "on the time. This setting is usually "
-	     "only of interest while debugging the game"), NULL, 
+             "only of interest while debugging the game"), NULL, NULL,
 	  GAME_MIN_SEED, GAME_MAX_SEED, GAME_DEFAULT_SEED)
 
   GEN_INT("specials", map.server.riches,
@@ -405,7 +507,7 @@ struct setting settings[] = {
 	  N_("Amount of \"special\" resource tiles"),
 	  N_("Special resources improve the basic terrain type they "
 	     "are on. The server variable's scale is parts per "
-	     "thousand."), NULL,
+             "thousand."), NULL, NULL,
 	  MAP_MIN_RICHES, MAP_MAX_RICHES, MAP_DEFAULT_RICHES)
 
   GEN_INT("huts", map.server.huts,
@@ -413,8 +515,8 @@ struct setting settings[] = {
 	  N_("Amount of huts (minor tribe villages)"),
 	  N_("This setting gives the exact number of huts that will be "
 	     "placed on the entire map. Huts are small tribal villages "
-	     "that may be investigated by units."),
-	  NULL, MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
+             "that may be investigated by units."), NULL, NULL,
+          MAP_MIN_HUTS, MAP_MAX_HUTS, MAP_DEFAULT_HUTS)
 
   /* Options affecting numbers of players and AI players.  These only
    * affect the start of the game and can not be adjusted after that.
@@ -427,7 +529,7 @@ struct setting settings[] = {
 	  N_("Minimum number of players"),
 	  N_("There must be at least this many players (connected "
 	     "human players) before the game can start."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_MIN_PLAYERS, GAME_MAX_MIN_PLAYERS, GAME_DEFAULT_MIN_PLAYERS)
 
   GEN_INT("maxplayers", game.info.max_players,
@@ -436,7 +538,7 @@ struct setting settings[] = {
           N_("The maximal number of human and AI players who can be in "
              "the game. When this number of players are connected in "
              "the pregame state, any new players who try to connect "
-             "will be rejected."), maxplayers_callback,
+             "will be rejected."), maxplayers_callback, NULL,
 	  GAME_MIN_MAX_PLAYERS, GAME_MAX_MAX_PLAYERS, GAME_DEFAULT_MAX_PLAYERS)
 
   GEN_INT("aifill", game.info.aifill,
@@ -446,36 +548,37 @@ struct setting settings[] = {
 	     "automatically created or removed to keep the total "
 	     "number of players at this amount.  As more players join, "
 	     "these AI players will be replaced.  When set to zero, "
-	     "all AI players will be removed."), NULL,
-	  GAME_MIN_AIFILL, GAME_MAX_AIFILL, GAME_DEFAULT_AIFILL)
+             "all AI players will be removed."), NULL,
+          aifill_action, GAME_MIN_AIFILL, GAME_MAX_AIFILL,
+          GAME_DEFAULT_AIFILL)
 
   GEN_INT("ec_turns", game.server.event_cache.turns,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
           N_("Event cache for this number of turns"),
           N_("Event messages are saved for this number of turns. A value of "
              "0 deactivates the event cache."),
-          NULL, GAME_MIN_EVENT_CACHE_TURNS, GAME_MAX_EVENT_CACHE_TURNS,
+          NULL, NULL, GAME_MIN_EVENT_CACHE_TURNS, GAME_MAX_EVENT_CACHE_TURNS,
           GAME_DEFAULT_EVENT_CACHE_TURNS)
 
   GEN_INT("ec_max_size", game.server.event_cache.max_size,
           SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
           N_("Size of the event cache"),
           N_("This defines the maximal number of events in the event cache."),
-          NULL, GAME_MIN_EVENT_CACHE_MAX_SIZE, GAME_MAX_EVENT_CACHE_MAX_SIZE,
+          NULL, NULL, GAME_MIN_EVENT_CACHE_MAX_SIZE, GAME_MAX_EVENT_CACHE_MAX_SIZE,
           GAME_DEFAULT_EVENT_CACHE_MAX_SIZE)
 
   GEN_BOOL("ec_chat", game.server.event_cache.chat,
            SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Save chat messages in the event cache"),
            N_("If set to 1 chat messages will be saved in the event cache."),
-           NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
+           NULL, NULL, GAME_DEFAULT_EVENT_CACHE_CHAT)
 
   GEN_BOOL("ec_info", game.server.event_cache.info,
            SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
            N_("Print turn and time for each cached event"),
            N_("If set to 1 all cached events will be marked by the turn and time "
               "of the event like '(T2 - 15:29:52)'."),
-           NULL, GAME_DEFAULT_EVENT_CACHE_INFO)
+           NULL, NULL, GAME_DEFAULT_EVENT_CACHE_INFO)
 
   /* Game initialization parameters (only affect the first start of the game,
    * and not reloads).  Can not be changed after first start of game.
@@ -498,20 +601,20 @@ struct setting settings[] = {
 		"    D   = Good defense unit (eg., Phalanx)\n"
 		"    a   = Fast attack unit (eg., Horsemen)\n"
 		"    A   = Strong attack unit (eg., Catapult)\n"),
-		startunits_callback, GAME_DEFAULT_START_UNITS)
+             startunits_callback, NULL, GAME_DEFAULT_START_UNITS)
 
   GEN_INT("dispersion", game.info.dispersion,
 	  SSET_GAME_INIT, SSET_SOCIOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("Area where initial units are located"),
 	  N_("This is the radius within "
-	     "which the initial units are dispersed."), NULL,
+             "which the initial units are dispersed."), NULL, NULL,
 	  GAME_MIN_DISPERSION, GAME_MAX_DISPERSION, GAME_DEFAULT_DISPERSION)
 
   GEN_INT("gold", game.info.gold,
 	  SSET_GAME_INIT, SSET_ECONOMICS, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Starting gold per player"), 
 	  N_("At the beginning of the game, each player is given this "
-	     "much gold."), NULL,
+             "much gold."), NULL, NULL,
 	  GAME_MIN_GOLD, GAME_MAX_GOLD, GAME_DEFAULT_GOLD)
 
   GEN_INT("techlevel", game.info.tech,
@@ -521,7 +624,7 @@ struct setting settings[] = {
 	     "many technologies. The technologies chosen are random for "
 	     "each player. Depending on the value of tech_cost_style in "
              "the ruleset, a big value for techlevel can make the next "
-             "techs really expensive."), NULL,
+             "techs really expensive."), NULL, NULL,
 	  GAME_MIN_TECHLEVEL, GAME_MAX_TECHLEVEL, GAME_DEFAULT_TECHLEVEL)
 
   GEN_INT("sciencebox", game.info.sciencebox,
@@ -531,7 +634,7 @@ struct setting settings[] = {
 	     "technology. All tech costs are multiplied by this amount "
 	     "(as a percentage). The base tech costs are determined by "
 	     "the ruleset or other game settings."),
-	  NULL, GAME_MIN_SCIENCEBOX, GAME_MAX_SCIENCEBOX, 
+          NULL, NULL, GAME_MIN_SCIENCEBOX, GAME_MAX_SCIENCEBOX,
 	  GAME_DEFAULT_SCIENCEBOX)
 
   GEN_INT("techpenalty", game.info.techpenalty,
@@ -540,7 +643,7 @@ struct setting settings[] = {
 	  N_("If you change your current research technology, and you have "
 	     "positive research points, you lose this percentage of those "
 	     "research points. This does not apply when you have just gained "
-	     "a technology this turn."), NULL,
+             "a technology this turn."), NULL, NULL,
 	  GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY,
 	  GAME_DEFAULT_TECHPENALTY)
 
@@ -552,7 +655,7 @@ struct setting settings[] = {
 	     "research a new technology. If this is non-zero, you can end up "
 	     "with negative research points. Also applies to gold "
              "transfers in diplomatic treaties."),
-          NULL,
+          NULL, NULL,
 	  GAME_MIN_DIPLCOST, GAME_MAX_DIPLCOST, GAME_DEFAULT_DIPLCOST)
 
   GEN_INT("conquercost", game.info.conquercost,
@@ -562,7 +665,7 @@ struct setting settings[] = {
 	     "lose research points equal to this percentage of the cost to "
 	     "research a new technology. If this is non-zero, you can end up "
 	     "with negative research points."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_CONQUERCOST, GAME_MAX_CONQUERCOST,
 	  GAME_DEFAULT_CONQUERCOST)
 
@@ -574,8 +677,8 @@ struct setting settings[] = {
 	     "or from Great Library effects), you lose research points "
 	     "equal to this percentage of the cost to research a new "
 	     "technology. If this is non-zero, you can end up "
-	     "with negative research points."), 
-	  NULL, 
+             "with negative research points."),
+          NULL, NULL,
 	  GAME_MIN_FREECOST, GAME_MAX_FREECOST, GAME_DEFAULT_FREECOST)
 
   GEN_INT("foodbox", game.info.foodbox,
@@ -584,7 +687,7 @@ struct setting settings[] = {
 	  N_("This is the base amount of food required to grow a city. "
 	     "This value is multiplied by another factor that comes from "
 	     "the ruleset and is dependent on the size of the city."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_FOODBOX, GAME_MAX_FOODBOX, GAME_DEFAULT_FOODBOX)
 
   GEN_INT("aqueductloss", game.info.aqueductloss,
@@ -593,7 +696,7 @@ struct setting settings[] = {
 	  N_("If a city would expand, but it can't because it needs "
 	     "an Aqueduct (or Sewer System), it loses this percentage "
 	     "of its foodbox (or half that amount when it has a "
-	     "Granary)."), NULL, 
+             "Granary)."), NULL, NULL,
 	  GAME_MIN_AQUEDUCTLOSS, GAME_MAX_AQUEDUCTLOSS, 
 	  GAME_DEFAULT_AQUEDUCTLOSS)
 
@@ -603,7 +706,7 @@ struct setting settings[] = {
 	  N_("This affects how quickly units and buildings can be "
 	     "produced.  The base costs are multiplied by this value (as "
 	     "a percentage)."),
-	  NULL, GAME_MIN_SHIELDBOX, GAME_MAX_SHIELDBOX,
+          NULL, NULL, GAME_MIN_SHIELDBOX, GAME_MAX_SHIELDBOX,
 	  GAME_DEFAULT_SHIELDBOX)
 
   /* Notradesize and fulltradesize used to have callbacks to prevent them
@@ -619,7 +722,7 @@ struct setting settings[] = {
 	     "The penalty is 100% (no trade at all) for sizes up to "
 	     "notradesize, and decreases gradually to 0% (no penalty "
 	     "except the normal corruption) for size=fulltradesize. "
-	     "See also notradesize."), NULL, 
+             "See also notradesize."), NULL, NULL,
 	  GAME_MIN_FULLTRADESIZE, GAME_MAX_FULLTRADESIZE, 
 	  GAME_DEFAULT_FULLTRADESIZE)
 
@@ -629,7 +732,7 @@ struct setting settings[] = {
 	  N_("Cities do not produce any trade at all unless their size "
 	     "is larger than this amount. The produced trade increases "
 	     "gradually for cities larger than notradesize and smaller "
-	     "than fulltradesize. See also fulltradesize."), NULL,
+             "than fulltradesize. See also fulltradesize."), NULL, NULL,
 	  GAME_MIN_NOTRADESIZE, GAME_MAX_NOTRADESIZE,
 	  GAME_DEFAULT_NOTRADESIZE)
 
@@ -641,7 +744,7 @@ struct setting settings[] = {
 	     "this value is 3, there have to be at least two empty "
 	     "fields between two cities in every direction. If set "
 	     "to 0 (default), the ruleset value will be used."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_CITYMINDIST, GAME_MAX_CITYMINDIST,
 	  GAME_DEFAULT_CITYMINDIST)
 
@@ -651,7 +754,7 @@ struct setting settings[] = {
           N_("In order to establish a trade route, cities must be at "
              "least this far apart on the map. The distance is calculated "
              "as \"manhattan distance\", that is, the sum of the "
-             "displacements along the x and y directions."), NULL,
+             "displacements along the x and y directions."), NULL, NULL,
           GAME_MIN_TRADEMINDIST, GAME_MAX_TRADEMINDIST,
           GAME_DEFAULT_TRADEMINDIST)
 
@@ -660,8 +763,8 @@ struct setting settings[] = {
           N_("Number of turns between rapture effect"),
           N_("Sets the number of turns between rapture growth of a city. "
              "If set to n a city will grow after celebrating for n+1 "
-	     "turns."),
-	  NULL,
+             "turns."),
+          NULL, NULL,
           GAME_MIN_RAPTUREDELAY, GAME_MAX_RAPTUREDELAY,
           GAME_DEFAULT_RAPTUREDELAY)
 
@@ -669,7 +772,7 @@ struct setting settings[] = {
 	  SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Chance for conquered building destruction"),
 	  N_("When a player conquers a city, each city improvement has this "
-	     "percentage chance to be destroyed."), NULL, 
+             "percentage chance to be destroyed."), NULL, NULL,
 	  GAME_MIN_RAZECHANCE, GAME_MAX_RAZECHANCE, GAME_DEFAULT_RAZECHANCE)
 
   GEN_INT("occupychance", game.info.occupychance,
@@ -680,7 +783,7 @@ struct setting settings[] = {
 	     "will always move into the tile they attacked when they win "
 	     "the combat (and no enemy units remain in the tile). If "
 	     "set to a value between 0 and 100, this will be used as "
-	     "the percent chance of \"occupying\" territory."), NULL, 
+             "the percent chance of \"occupying\" territory."), NULL, NULL,
 	  GAME_MIN_OCCUPYCHANCE, GAME_MAX_OCCUPYCHANCE, 
 	  GAME_DEFAULT_OCCUPYCHANCE)
 
@@ -688,8 +791,8 @@ struct setting settings[] = {
          SSET_SITUATIONAL, SSET_TO_CLIENT,
          N_("Turn on/off server-side autoattack"),
          N_("If set to on, units with move left will automatically "
-            "consider attacking enemy units that move adjacent to them."), 
-         NULL, GAME_DEFAULT_AUTOATTACK)
+            "consider attacking enemy units that move adjacent to them."),
+         NULL, NULL, GAME_DEFAULT_AUTOATTACK)
 
   GEN_INT("killcitizen", game.info.killcitizen,
           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
@@ -699,7 +802,7 @@ struct setting settings[] = {
              "its movement type (OR-ed):\n"
              "  1 = land moving units\n"
              "  2 = sea moving units\n"
-             "  4 = units able to move both on land and sea"), NULL,
+             "  4 = units able to move both on land and sea"), NULL, NULL,
           GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
           GAME_DEFAULT_KILLCITIZEN)
 
@@ -712,7 +815,7 @@ struct setting settings[] = {
              "  1 = Enabled\n"
              "  2 = See everything inside borders\n"
              "  3 = Borders expand to unknown, revealing tiles"),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
 
   GEN_BOOL("happyborders", game.info.happyborders,
@@ -720,7 +823,7 @@ struct setting settings[] = {
 	   SSET_TO_CLIENT,
 	   N_("Units inside borders cause no unhappiness"),
 	   N_("If this is set, units will not cause unhappiness when "
-	      "inside your own borders."), NULL,
+              "inside your own borders."), NULL, NULL,
 	   GAME_DEFAULT_HAPPYBORDERS)
 
   GEN_INT("diplomacy", game.info.diplomacy,
@@ -730,7 +833,7 @@ struct setting settings[] = {
 	     "1 = diplomacy is only allowed between human players.\n"
 	     "2 = diplomacy is only allowed between AI players.\n"
              "3 = diplomacy is restricted to teams.\n"
-             "4 = diplomacy is disabled for everyone."), NULL,
+             "4 = diplomacy is disabled for everyone."), NULL, NULL,
 	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
 
   GEN_INT("citynames", game.info.allowed_city_names,
@@ -745,7 +848,7 @@ struct setting settings[] = {
 	     "3 = Like setting 2, but a player isn't allowed to use a "
 	     "default city name of another nations unless it is a default "
 	     "for their nation also."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_ALLOWED_CITY_NAMES, GAME_MAX_ALLOWED_CITY_NAMES, 
 	  GAME_DEFAULT_ALLOWED_CITY_NAMES)
   
@@ -769,14 +872,14 @@ struct setting settings[] = {
 	     "1 = barbarians only in huts \n"
 	     "2 = normal rate of barbarian appearance \n"
 	     "3 = frequent barbarian uprising \n"
-	     "4 = raging hordes, lots of barbarians"), NULL, 
+             "4 = raging hordes, lots of barbarians"), NULL, NULL,
 	  GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, 
 	  GAME_DEFAULT_BARBARIANRATE)
 
   GEN_INT("onsetbarbs", game.info.onsetbarbarian,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Barbarian onset turn"),
-	  N_("Barbarians will not appear before this turn."), NULL,
+          N_("Barbarians will not appear before this turn."), NULL, NULL,
 	  GAME_MIN_ONSETBARBARIAN, GAME_MAX_ONSETBARBARIAN, 
 	  GAME_DEFAULT_ONSETBARBARIAN)
 
@@ -786,7 +889,7 @@ struct setting settings[] = {
 	  N_("When changing governments, a period of anarchy lasting this "
 	     "many turns will occur. "
              "Setting this value to 0 will give a random "
-             "length of 1-6 turns."), NULL, 
+             "length of 1-6 turns."), NULL, NULL,
 	  GAME_MIN_REVOLUTION_LENGTH, GAME_MAX_REVOLUTION_LENGTH, 
 	  GAME_DEFAULT_REVOLUTION_LENGTH)
 
@@ -796,7 +899,7 @@ struct setting settings[] = {
 	   N_("If this is set to 1, only those units and cities within "
 	      "the vision range of your own units and cities will be "
 	      "revealed to you. You will not see new cities or terrain "
-	      "changes in tiles not observed."), NULL, 
+              "changes in tiles not observed."), NULL, NULL,
 	   GAME_DEFAULT_FOGOFWAR)
 
   GEN_BOOL("foggedborders", game.server.foggedborders,
@@ -806,7 +909,7 @@ struct setting settings[] = {
               "to see changes in tile ownership if they do not have "
               "direct sight of the affected tiles. Otherwise, players "
               "can see any or all changes to borders as long as they "
-              "have previously seen the tiles."), NULL,
+              "have previously seen the tiles."), NULL, NULL,
            GAME_DEFAULT_FOGGEDBORDERS)
 
   GEN_INT("diplchance", game.info.diplchance,
@@ -815,21 +918,21 @@ struct setting settings[] = {
 	  /* xgettext:no-c-format */
 	  N_("The chance of a spy returning from a successful mission and "
 	     "the base chance of success for diplomats and spies."),
-          NULL,
+          NULL, NULL,
 	  GAME_MIN_DIPLCHANCE, GAME_MAX_DIPLCHANCE, GAME_DEFAULT_DIPLCHANCE)
 
   GEN_BOOL("spacerace", game.info.spacerace,
 	   SSET_RULES_FLEXIBLE, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
 	   N_("Whether to allow space race"),
 	   N_("If this option is set to 1, players can build spaceships."),
-	   NULL, 
+           NULL, NULL,
 	   GAME_DEFAULT_SPACERACE)
 
   GEN_BOOL("endspaceship", game.info.endspaceship, SSET_RULES_FLEXIBLE,
            SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
            N_("Should the game end if the spaceship arrives?"),
            N_("If this option is set to 1, the game will end with the "
-              "arrival of a spaceship at Alpha Centauri."), NULL,
+              "arrival of a spaceship at Alpha Centauri."), NULL, NULL,
            GAME_DEFAULT_END_SPACESHIP)
 
   GEN_INT("civilwarsize", game.info.civilwarsize,
@@ -838,7 +941,7 @@ struct setting settings[] = {
 	  N_("A civil war is triggered when a player has at least this "
 	     "many cities and the player's capital is captured. If "
 	     "this option is set to the maximum value, civil wars are "
-	     "turned off altogether."), NULL, 
+             "turned off altogether."), NULL, NULL,
 	  GAME_MIN_CIVILWARSIZE, GAME_MAX_CIVILWARSIZE, 
 	  GAME_DEFAULT_CIVILWARSIZE)
 
@@ -846,7 +949,7 @@ struct setting settings[] = {
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Restrict the use of the infrastructure for enemy units"),
            N_("If this option is set to 1, the use of roads and rails "
-              "will be restricted for enemy units."), NULL,
+              "will be restricted for enemy units."), NULL, NULL,
            GAME_DEFAULT_RESTRICTINFRA)
 
   GEN_INT("contactturns", game.info.contactturns,
@@ -856,7 +959,7 @@ struct setting settings[] = {
 	     "after their units have last met, even when they do not have "
 	     "an embassy. If set to zero, then players cannot meet unless "
 	     "they have an embassy."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_CONTACTTURNS, GAME_MAX_CONTACTTURNS, 
 	  GAME_DEFAULT_CONTACTTURNS)
 
@@ -867,7 +970,7 @@ struct setting settings[] = {
 	      "palace is automatically rebuilt for free in another randomly "
 	      "choosen city. This is significant because the technology "
 	      "requirement for building a palace will be ignored."),
-	   NULL,
+           NULL, NULL,
 	   GAME_DEFAULT_SAVEPALACE)
 
   GEN_BOOL("naturalcitynames", game.info.natural_city_names,
@@ -875,7 +978,7 @@ struct setting settings[] = {
            N_("Whether to use natural city names"),
            N_("If enabled, the default city names will be determined based "
               "on the surrounding terrain."),
-           NULL, GAME_DEFAULT_NATURALCITYNAMES)
+           NULL, NULL, GAME_DEFAULT_NATURALCITYNAMES)
 
   GEN_BOOL("migration", game.info.migration,
            SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -894,7 +997,7 @@ struct setting settings[] = {
               "  mgr_distance     - How far citizens will migrate.\n"
               "  mgr_worldchance  - Chance for inter-nation migration.\n"
               "  mgr_nationchance - Chance for intra-nation migration."),
-           NULL, GAME_DEFAULT_MIGRATION)
+           NULL, NULL, GAME_DEFAULT_MIGRATION)
 
   GEN_INT("mgr_turninterval", game.info.mgr_turninterval,
           SSET_RULES_FLEXIBLE, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -907,7 +1010,7 @@ struct setting settings[] = {
              "current city. Migration will never occur the same turn "
              "that a city is built. This setting has no effect unless "
              "migration is enabled by the 'migration' setting."), NULL,
-          GAME_MIN_MGR_TURNINTERVAL, GAME_MAX_MGR_TURNINTERVAL,
+          NULL, GAME_MIN_MGR_TURNINTERVAL, GAME_MAX_MGR_TURNINTERVAL,
           GAME_DEFAULT_MGR_TURNINTERVAL)
 
   GEN_BOOL("mgr_foodneeded", game.info.mgr_foodneeded,
@@ -916,7 +1019,7 @@ struct setting settings[] = {
            N_("If this setting is enabled, citizens will not migrate to "
               "cities which would not have enough food to support them. "
               "This setting has no effect unless migration is enabled by "
-              "the 'migration' setting."), NULL,
+              "the 'migration' setting."), NULL, NULL,
            GAME_DEFAULT_MGR_FOODNEEDED)
 
   GEN_INT("mgr_distance", game.info.mgr_distance,
@@ -927,7 +1030,7 @@ struct setting settings[] = {
              "to migrate to. For example, with a value of 3, there can "
              "be at most a 2 tile distance between cities undergoing "
              "migration. This setting has no effect unless migration "
-             "is activated by the 'migration' setting."), NULL,
+             "is activated by the 'migration' setting."), NULL, NULL,
           GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
           GAME_DEFAULT_MGR_DISTANCE)
 
@@ -939,7 +1042,7 @@ struct setting settings[] = {
              "indicates migration will never occur, 100 means that "
              "migration will always occur if the citizens find a suitable "
              "destination. This setting has no effect unless migration "
-             "is activated by the 'migration' setting."), NULL,
+             "is activated by the 'migration' setting."), NULL, NULL,
           GAME_MIN_MGR_NATIONCHANCE, GAME_MAX_MGR_NATIONCHANCE,
           GAME_DEFAULT_MGR_NATIONCHANCE)
 
@@ -951,7 +1054,7 @@ struct setting settings[] = {
              "Zero indicates migration will never occur, 100 means "
              "that citizens will always migrate if they find a suitable "
              "destination. This setting has no effect if migration is "
-             "not enabled by the 'migration' setting."), NULL,
+             "not enabled by the 'migration' setting."), NULL, NULL,
           GAME_MIN_MGR_WORLDCHANCE, GAME_MAX_MGR_WORLDCHANCE,
           GAME_DEFAULT_MGR_WORLDCHANCE)
 
@@ -996,20 +1099,20 @@ struct setting settings[] = {
                 "3 = Controller allowed, no observers allowed, "
                 "can't displace connections;\n\n"
                 "4 = No controller allowed, observers allowed;\n\n"),
-                allowtake_callback, GAME_DEFAULT_ALLOW_TAKE)
+             allowtake_callback, NULL, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.info.auto_ai_toggle,
 	   SSET_META, SSET_NETWORK, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	   N_("Whether AI-status toggles with connection"),
 	   N_("If this is set to 1, AI status is turned off when a player "
 	      "connects, and on when a player disconnects."),
-	   NULL, GAME_DEFAULT_AUTO_AI_TOGGLE)
+           NULL, autotoggle_action, GAME_DEFAULT_AUTO_AI_TOGGLE)
 
   GEN_INT("endturn", game.info.end_turn,
 	  SSET_META, SSET_SOCIOLOGY, SSET_VITAL, SSET_TO_CLIENT,
 	  N_("Turn the game ends"),
           N_("The game will end at the end of the given turn."),
-          endturn_callback,
+          endturn_callback, NULL,
           GAME_MIN_END_TURN, GAME_MAX_END_TURN, GAME_DEFAULT_END_TURN)
 
   GEN_INT("timeout", game.info.timeout,
@@ -1022,7 +1125,7 @@ struct setting settings[] = {
              "Only connections with hack level access may set the "
              "timeout to lower than 30 seconds. Use this with the "
              "command \"timeoutincrease\" to have a dynamic timer."),
-          timeout_callback,
+          timeout_callback, NULL,
           GAME_MIN_TIMEOUT, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUT)
 
   GEN_INT("timeaddenemymove", game.server.timeoutaddenemymove,
@@ -1030,8 +1133,8 @@ struct setting settings[] = {
 	  N_("Timeout at least n seconds when enemy moved"),
 	  N_("Any time a unit moves while in sight of an enemy player, "
 	     "the remaining timeout is increased to this value."),
-	  NULL, 0, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUTADDEMOVE)
-  
+          NULL, NULL, 0, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUTADDEMOVE)
+
   /* This setting points to the "stored" value; changing it won't have
    * an effect until the next synchronization point (i.e., the start of
    * the next turn). */
@@ -1045,7 +1148,7 @@ struct setting settings[] = {
              "  0 = All players move concurrently.\n"
              "  1 = All players alternate movement.\n"
              "  2 = Only players on the same team move concurrently."),
-          phasemode_callback, GAME_MIN_PHASE_MODE,
+          phasemode_callback, NULL, GAME_MIN_PHASE_MODE,
           GAME_MAX_PHASE_MODE, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.info.tcptimeout,
@@ -1055,7 +1158,7 @@ struct setting settings[] = {
 	     "this value, then the connection is closed. Zero "
 	     "means there is no timeout (although connections will be "
 	     "automatically disconnected eventually)."),
-	  NULL,
+          NULL, NULL,
 	  GAME_MIN_TCPTIMEOUT, GAME_MAX_TCPTIMEOUT, GAME_DEFAULT_TCPTIMEOUT)
 
   GEN_INT("netwait", game.info.netwait,
@@ -1064,14 +1167,14 @@ struct setting settings[] = {
 	  N_("The server will wait for up to the value of this "
 	     "parameter in seconds, for all client connection network "
 	     "buffers to unblock. Zero means the server will not "
-	     "wait at all."), NULL, 
+             "wait at all."), NULL, NULL,
 	  GAME_MIN_NETWAIT, GAME_MAX_NETWAIT, GAME_DEFAULT_NETWAIT)
 
   GEN_INT("pingtime", game.info.pingtime,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Seconds between PINGs"),
 	  N_("The civserver will poll the clients with a PING request "
-	     "each time this period elapses."), NULL, 
+             "each time this period elapses."), NULL, NULL,
 	  GAME_MIN_PINGTIME, GAME_MAX_PINGTIME, GAME_DEFAULT_PINGTIME)
 
   GEN_INT("pingtimeout", game.info.pingtimeout,
@@ -1079,7 +1182,7 @@ struct setting settings[] = {
           SSET_TO_CLIENT,
 	  N_("Time to cut a client"),
 	  N_("If a client doesn't reply to a PING in this time the "
-	     "client is disconnected."), NULL, 
+             "client is disconnected."), NULL, NULL,
 	  GAME_MIN_PINGTIMEOUT, GAME_MAX_PINGTIMEOUT, GAME_DEFAULT_PINGTIMEOUT)
 
   GEN_BOOL("turnblock", game.info.turnblock,
@@ -1087,7 +1190,7 @@ struct setting settings[] = {
 	   N_("Turn-blocking game play mode"),
 	   N_("If this is set to 1 the game turn is not advanced "
 	      "until all players have finished their turn, including "
-	      "disconnected players."), NULL, 
+              "disconnected players."), NULL, NULL,
 	   GAME_DEFAULT_TURNBLOCK)
 
   GEN_BOOL("fixedlength", game.info.fixedlength,
@@ -1095,7 +1198,7 @@ struct setting settings[] = {
 	   N_("Fixed-length turns play mode"),
 	   N_("If this is set to 1 the game turn will not advance "
 	      "until the timeout has expired, even after all players "
-	      "have clicked on \"Turn Done\"."), NULL,
+              "have clicked on \"Turn Done\"."), NULL, NULL,
 	   FALSE)
 
   GEN_STRING("demography", game.server.demography,
@@ -1121,13 +1224,13 @@ struct setting settings[] = {
 		"    b = display \"best nation\" column\n"
 		"The order of characters is not significant, but "
 		"their capitalization is."),
-	     is_valid_demography, GAME_DEFAULT_DEMOGRAPHY)
+             is_valid_demography, NULL, GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.info.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
 	  N_("Turns per auto-save"),
 	  N_("The game will be automatically saved per this number of "
-	     "turns. Zero means never auto-save."), NULL, 
+             "turns. Zero means never auto-save."), NULL, NULL,
           GAME_MIN_SAVETURNS, GAME_MAX_SAVETURNS, GAME_DEFAULT_SAVETURNS)
 
   GEN_INT("compress", game.info.save_compress_level,
@@ -1135,7 +1238,7 @@ struct setting settings[] = {
 	  N_("Savegame compression level"),
 	  N_("If non-zero, saved games will be compressed using zlib "
 	     "(gzip format) or bzip2. Larger values will give better "
-	     "compression but take longer."), NULL,
+             "compression but take longer."), NULL, NULL,
 	  GAME_MIN_COMPRESS_LEVEL, GAME_MAX_COMPRESS_LEVEL,
 	  GAME_DEFAULT_COMPRESS_LEVEL)
 
@@ -1147,7 +1250,7 @@ struct setting settings[] = {
              " 1 - zlib (gzip format)\n"
              " 2 - bzip2\n"
              "Not all servers support all compression methods."), NULL,
-	  GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
+          NULL, GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
 	  GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_STRING("savename", game.server.save_name,
@@ -1155,7 +1258,7 @@ struct setting settings[] = {
 	     N_("Auto-save name prefix"),
 	     N_("Automatically saved games will have name "
 		"\"<prefix>-T<turn>-Y<year>.sav\". This setting sets "
-		"the <prefix> part."), NULL,
+                "the <prefix> part."), NULL, NULL,
 	     GAME_DEFAULT_SAVE_NAME)
 
   GEN_BOOL("scorelog", game.server.scorelog,
@@ -1164,7 +1267,7 @@ struct setting settings[] = {
 	   N_("If this is set to 1, player statistics are appended to "
 	      "the file \"civscore.log\" every turn. These statistics "
 	      "can be used to create power graphs after the game."), NULL,
-	   GAME_DEFAULT_SCORELOG)
+           NULL, GAME_DEFAULT_SCORELOG)
 
   GEN_END
 };
@@ -1490,18 +1593,15 @@ static void setting_set_to_default(struct setting *pset)
     break;
   }
 
-  /* FIXME: duplicates stdinhand.c:set_command() */
-  if (pset->integer.pvalue == &game.info.aifill) {
-    aifill(*pset->integer.pvalue);
-  } else if (pset->boolean.pvalue == &game.info.auto_ai_toggle) {
-    if (*pset->boolean.pvalue) {
-      players_iterate(pplayer) {
-        if (!pplayer->ai_data.control && !pplayer->is_connected) {
-           toggle_ai_player_direct(NULL, pplayer);
-          send_player_info_c(pplayer, game.est_connections);
-        }
-      } players_iterate_end;
-    }
+  setting_action(pset);
+}
+
+/********************************************************************
+  Execute the action callback if needed.
+*********************************************************************/
+void setting_action(const struct setting *pset) {
+  if (pset->action != NULL) {
+    pset->action(pset);
   }
 }
 
