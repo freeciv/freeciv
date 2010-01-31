@@ -15,16 +15,23 @@
 #include <config.h>
 #endif
 
+/* common */
 #include "map.h"
 
+/* generator */
 #include "height_map.h"
 #include "temperature_map.h"
 #include "mapgen_topology.h"
-#include "utilities.h" 
+#include "utilities.h"
+
+/* utilities */
+#include "log.h"
 
 static int *temperature_map;
 
 #define tmap(_tile) (temperature_map[tile_index(_tile)])
+
+static char *tmap_y2str(int ycoor);
 
 /**************************************************************
   Return TRUE if temperateure_map is initialized
@@ -121,5 +128,49 @@ void create_tmap(bool real)
     } else {
       temperature_map[i] = TT_FROZEN;
     }
-  } 
+  }
+
+  if (real) {
+    log_debug("temperature map ({f}rozen, {c}old, {m}edium, {t}ropical):");
+    for (i = 0; i < map.ysize; i++) {
+      log_debug("%2d: %s", i, tmap_y2str(i));
+    }
+  }
+}
+
+/**************************************************************************
+  Returns one line (given by the y coordinate) of the temperature map.
+**************************************************************************/
+static char *tmap_y2str(int ycoor)
+{
+  static char buf[MAP_MAX_LINEAR_SIZE + 1];
+  char *p = buf;
+  int i, index;
+
+  for (i = 0; i < map.ysize; i++) {
+    index = ycoor * map.xsize + i;
+
+    if (index > map.xsize * map.ysize) {
+      break;
+    }
+
+    switch (temperature_map[index]) {
+    case TT_TROPICAL:
+      *p++ = 't'; /* tropical */
+      break;
+    case TT_TEMPERATE:
+      *p++ = 'm'; /* medium */
+      break;
+    case TT_COLD:
+      *p++ = 'c'; /* cold */
+      break;
+    case TT_FROZEN:
+      *p++ = 'f'; /* frozen */
+      break;
+    }
+  }
+
+  *p = '\0';
+
+  return buf;
 }
