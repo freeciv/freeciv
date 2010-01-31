@@ -118,23 +118,19 @@ enum terrain_flag_id {
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
-enum mapgen_terrain_property {
-  MG_MOUNTAINOUS,
-  MG_GREEN,
-  MG_FOLIAGE,
-
-  MG_TROPICAL,
-  MG_TEMPERATE,
-  MG_COLD,
-  MG_FROZEN,
-
-  MG_WET,
-  MG_DRY,
-
-  MG_OCEAN_DEPTH,
-
-  MG_LAST
-};
+#define SPECENUM_NAME mapgen_terrain_property
+#define SPECENUM_VALUE0   MG_MOUNTAINOUS
+#define SPECENUM_VALUE1   MG_GREEN
+#define SPECENUM_VALUE2   MG_FOLIAGE
+#define SPECENUM_VALUE3   MG_TROPICAL
+#define SPECENUM_VALUE4   MG_TEMPERATE
+#define SPECENUM_VALUE5   MG_COLD
+#define SPECENUM_VALUE6   MG_FROZEN
+#define SPECENUM_VALUE7   MG_WET
+#define SPECENUM_VALUE8   MG_DRY
+#define SPECENUM_VALUE9   MG_OCEAN_DEPTH
+#define SPECENUM_VALUE10  MG_LAST
+#include "specenum_gen.h"
 
 /* Types of alterations available to terrain.
  * This enum is only used in the effects system; the relevant information

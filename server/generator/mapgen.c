@@ -316,10 +316,22 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
   /* This can happen with sufficient quantities of preferred and avoided
    * characteristics.  Drop a requirement and try again. */
   if (prefer != MG_LAST) {
+    log_debug("pick_terrain(target: %s, [dropping prefer: %s], avoid: %s)",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
     return pick_terrain(target, MG_LAST, avoid);
   } else if (avoid != MG_LAST) {
+    log_debug("pick_terrain(target: %s, prefer: %s, [dropping avoid: %s])",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
     return pick_terrain(target, prefer, MG_LAST);
   } else {
+    log_debug("pick_terrain([dropping target: %s], prefer: %s, avoid: %s)",
+              mapgen_terrain_property_name(target),
+              mapgen_terrain_property_name(prefer),
+              mapgen_terrain_property_name(avoid));
     return pick_terrain(MG_LAST, prefer, avoid);
   }
 }
