@@ -1362,7 +1362,7 @@ improvement, and may also remove special resources.\
 "), _("\
  - Settlers and Workers have a limited range of alterations available \
 to them, initiated by attempting to mine or irrigate the terrain; see \
-the table below. (Such \"irrigation\" does not require a water source.)\
+the table below. (These actions do not require a water source.)\
 "), _("\
  - Engineers can perform a much wider range of transformations on \
 almost any type of terrain by issuing the \"transform\" order. \
