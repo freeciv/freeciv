@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-02 18:09+0300\n"
+"PO-Revision-Date: 2010-02-02 19:54+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -529,9 +529,8 @@ msgid "Connect/disconnect messages"
 msgstr "З'╓днання"
 
 #: common/events.c:173
-#, fuzzy
 msgid "Diplomatic Message"
-msgstr "Д╕пломатичн╕ д╕╖: Втеча"
+msgstr "Дипломатичне пов╕домлення"
 
 #: common/events.c:174
 msgid "Error message from bad command"
@@ -546,9 +545,8 @@ msgid "Game Started"
 msgstr "Гру розпочато"
 
 #: common/events.c:177
-#, fuzzy
 msgid "Nation Selected"
-msgstr "Обрано нац╕ю"
+msgstr "Нац╕ю обрано"
 
 #: common/events.c:178
 msgid "Player Destroyed"
@@ -1859,7 +1857,7 @@ msgstr ""
 "Прац╕вники з╕бралися та збудували у м╕ст╕ зал╕зницю."
 
 #: server/citytools.c:1161
-#, fuzzy, c-format
+#, c-format
 msgid "You have founded %s."
 msgstr "Ви заснували %s"
 
@@ -5575,9 +5573,9 @@ msgid "restarting soon for lack of players"
 msgstr "Початкова к╕льк╕сть гривень на гравця"
 
 #: server/sernet.c:949
-#, fuzzy, c-format
+#, c-format
 msgid "Server: bad address: <%s:%d>."
-msgstr "Метасервер: погана адреса: [%s:%d]."
+msgstr "Сервер: погана адреса: <%s:%d>."
 
 #: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
@@ -5686,9 +5684,8 @@ msgid "Scenario victory to %s."
 msgstr "Командна перемога %s"
 
 #: server/srv_main.c:280
-#, fuzzy
 msgid "Game ended in a draw as end turn exceeded"
-msgstr "Гру зак╕нченно по досягненн╕ к╕нцевого року"
+msgstr "Гру зак╕нчено вн╕чию по досягненн╕ к╕нцевого року"
 
 #: server/srv_main.c:313
 #, c-format
@@ -5724,14 +5721,14 @@ msgstr "Схвильован╕ громадяни нагадують що замирення з %s незабаром завершу╓ться
 
 #: server/srv_main.c:565
 #: server/srv_main.c:570
-#, fuzzy, c-format
+#, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
-msgstr "Замирення з %s завершено. Тепер Ви нейтральн╕ з %s."
+msgstr "Замирення з %s завершено. Тепер Ви у стан╕ в╕йни з %s."
 
 #: server/srv_main.c:588
-#, fuzzy, c-format
+#, c-format
 msgid "Ceasefire between %s and %s has run out. They are at war. You cancel your alliance with both."
-msgstr "Замирення з %s завершено. Тепер Ви нейтральн╕ з %s."
+msgstr "Замирення м╕ж %s та %s ск╕нчилося. Тепер вони воюють. Ви скасували ваш альянс з обома."
 
 #: server/srv_main.c:1098
 #: server/srv_main.c:1101
@@ -5773,14 +5770,12 @@ msgid "Warning: rejecting old client %s"
 msgstr "Увага: У %s очикують голодомор."
 
 #: server/srv_main.c:1337
-#, fuzzy
 msgid "Your client is too old. To use this server, please upgrade your client to a Freeciv 2.2 or later."
-msgstr "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, будь ласка, онов╕ть ваш кл╕╓нт до CVS верс╕╖ яка п╕зн╕ша за 2003-11-28, або до Freeciv 2.2 чи нов╕ше."
+msgstr "Ваш кл╕╓нт застарий. Щоб використовувати цей сервер, онов╕ть, будь ласка, ваш кл╕╓нт до Freeciv 2.2 чи нов╕ше."
 
 #: server/srv_main.c:1394
-#, fuzzy
 msgid "You are not allowed to edit."
-msgstr "Вам не дозволено встановлювати цю опц╕ю."
+msgstr "Вам не дозволено редагувати."
 
 #: server/srv_main.c:1436
 #, c-format
@@ -5792,9 +5787,8 @@ msgid "Please choose a non-blank name."
 msgstr "Обер╕ть не пусте ╕м'я."
 
 #: server/srv_main.c:1554
-#, fuzzy
 msgid "That nation is already in use."
-msgstr "Гра вже запущена."
+msgstr "Ця нац╕я вже використову╓ться."
 
 #: server/srv_main.c:1570
 #, c-format
@@ -16982,7 +16976,7 @@ msgstr "Локальн╕ Сервери"
 
 #: client/gui-sdl/pages.c:302
 msgid "SDLClient welcomes you..."
-msgstr ""
+msgstr "Вас в╕та╓ SDLClient..."
 
 #: client/gui-sdl/plrdlg.c:650
 msgid "disconnected"
@@ -19027,11 +19021,11 @@ msgstr ""
 
 #: data/helpdata.txt:388
 msgid "If you would like to add a localization (translation) for your language, please see the instructions at:"
-msgstr ""
+msgstr "Якщо бажа╓те додати локал╕зац╕ю (переклад) для сво╓╖ мови, ознайомтеся з ╕нструкц╕ями тут:"
 
 #: data/helpdata.txt:393
 msgid "You are also welcome to send any questions to the translation mailing list:"
-msgstr ""
+msgstr "Надсилайте сво╖ питання до розсилки перекладач╕в:"
 
 #: data/helpdata.txt:402
 #, fuzzy
@@ -26078,28 +26072,24 @@ msgid "The island group of New Zealand was annexed by Britain in 1840. Following
 msgstr ""
 
 #: data/nation/nigerian.ruleset:3
-#, fuzzy
 msgid "Nigerian"
-msgstr "Серби"
+msgstr "Н╕гер╕йц╕"
 
 #: data/nation/nigerian.ruleset:4
-#, fuzzy
 msgid "?plural:Nigerians"
-msgstr "Перси"
+msgstr "Н╕гер╕йц╕"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
 msgstr "Н╕гер╕я здобула незалежн╕сть в╕д Британ╕╖ у 1960."
 
 #: data/nation/norman.ruleset:3
-#, fuzzy
 msgid "Norman"
-msgstr "Нормальний"
+msgstr "Нормани"
 
 #: data/nation/norman.ruleset:4
-#, fuzzy
 msgid "?plural:Normans"
-msgstr "Румуни"
+msgstr "Нормани"
 
 #: data/nation/norman.ruleset:6
 msgid "After several devastating Viking raids on what is today northern France and a siege of Paris, the Frankish king Charles the Simple granted the Viking leader Rollo a fiefdom in the area. This fief evolved into the Duchy of Normandy, of which the most famous duke is William II \"the Conqueror\" who invaded England in 1066."
@@ -26809,14 +26799,12 @@ msgid "The Kingdom of Sweden was christianized and consolidated as a political e
 msgstr "Корол╕вство Швец╕╖ було христиан╕зоване та об'╓днане як пол╕тична одиниця до 12-го стор╕ччя. Кра╖на набула могутност╕ як одна ╕з найб╕льших сил у ╢вроп╕ у 17-му стор╕чч╕, як результат пост╕йний в╕йскових захопленнь так званими королями-во╖нами. Проте, через пог╕ршення економ╕чного становища та дек╕лькох катастроф╕чних поразок в╕д Рос╕╖, Швец╕я швидко втратила б╕льш╕сть ╕з захоплених територ╕й. Кра╖на не брала участ╕ у в╕йскових д╕ях ╕з 1814 року."
 
 #: data/nation/swiss.ruleset:3
-#, fuzzy
 msgid "Swiss"
-msgstr "Шведи"
+msgstr "Швейцарц╕"
 
 #: data/nation/swiss.ruleset:4
-#, fuzzy
 msgid "?plural:Swiss"
-msgstr "Шведи"
+msgstr "Швейцарц╕"
 
 #: data/nation/swiss.ruleset:6
 msgid "Switzerland is a federation of cantons, some of which have more than 700 years of history as a confederacy."
@@ -26912,14 +26900,12 @@ msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, 
 msgstr "Нац╕я у Центральн╕й Аз╕╖. Захоплена Рос╕йською ╤мпер╕╓ю у 19-му строр╕чч╕, Таджик╕стан отримав незалежн╕сть в╕д Радянського Союзу у 1991."
 
 #: data/nation/templar.ruleset:3
-#, fuzzy
 msgid "Knights Templar"
-msgstr "Лицар╕"
+msgstr "Лицар╕ Тампл╕╓ри"
 
 #: data/nation/templar.ruleset:4
-#, fuzzy
 msgid "?plural:Templars"
-msgstr "Техасц╕"
+msgstr "Тампл╕╓ри"
 
 #: data/nation/templar.ruleset:6
 msgid "The Knights Templar were formed after the first Crusade in order to protect Pilgrims on their journeys in the Holy Land. The organization grew to immense power and wealth in the next 200 years, and were the innovators of many modern concepts such as Banking."
