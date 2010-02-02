@@ -36,8 +36,8 @@ civilwar_nations="scottish", "irish", "cornish"
 
 cities =
   "Cardiff", "Swansea", "Newport", "Barry", "Port Talbot", "Carmarthen",
-  "Caerphily", "Methyr Tydfil", "Pembroke", "Fishguard", "Aberystwyth",
-  "Lampeter", "Llandovery", "Brecon", "Flint", "Caemarfon", "Llanfyllin",
+  "Caerphilly", "Merthyr Tydfil", "Pembroke", "Fishguard", "Aberystwyth",
+  "Lampeter", "Llandovery", "Brecon", "Flint", "Caernarfon", "Llanfyllin",
   "Holyhead", "Tywyn", "Llandeilo", "Cwmbran"
 
 
