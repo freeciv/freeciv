@@ -169,6 +169,7 @@ void establish_new_connection(struct connection *pconn)
   } conn_list_iterate_end;
 
   send_rulesets(dest);
+  send_server_setting_control(pconn);
   send_server_settings(dest);
   send_scenario_info(dest);
   send_game_info(dest);

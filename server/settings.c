@@ -1879,6 +1879,16 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 }
 
 /****************************************************************************
+  Tell the client about all server settings.
+****************************************************************************/
+void send_server_settings(struct conn_list *dest)
+{
+  settings_iterate(pset) {
+    send_server_setting(dest, pset);
+  } settings_iterate_end;
+}
+
+/****************************************************************************
   Send the ALLOW_HACK server settings.  Usually called when the access level
   of the user changes.
 ****************************************************************************/
@@ -1894,14 +1904,10 @@ void send_server_hack_level_settings(struct conn_list *dest)
 /****************************************************************************
   Tell the client about all server settings.
 ****************************************************************************/
-void send_server_settings(struct conn_list *dest)
+void send_server_setting_control(struct connection *pconn)
 {
   struct packet_options_settable_control control;
   int i;
-
-  if (!dest) {
-    dest = game.est_connections;
-  }
 
   /* count the number of settings */
   control.num_settings = SETTINGS_NUM;
@@ -1913,9 +1919,5 @@ void send_server_settings(struct conn_list *dest)
   }
 
   /* send off the control packet */
-  lsend_packet_options_settable_control(dest, &control);
-
-  settings_iterate(pset) {
-    send_server_setting(dest, pset);
-  } settings_iterate_end;
+  send_packet_options_settable_control(pconn, &control);
 }

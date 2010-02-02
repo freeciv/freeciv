@@ -1420,13 +1420,13 @@ PACKET_GAME_LOAD = 111; sc, lsend, dsend
   STRING load_filename[MAX_LEN_PACKET];
 end
 
-PACKET_OPTIONS_SETTABLE_CONTROL=112;sc,handle-via-packet,lsend
+PACKET_OPTIONS_SETTABLE_CONTROL = 112; sc, handle-via-packet, is-info
   UINT16 num_settings;
   UINT8 num_categories;
   STRING category_names[256:num_categories][MAX_LEN_NAME];
 end
 
-PACKET_OPTIONS_SETTABLE=113;sc,lsend
+PACKET_OPTIONS_SETTABLE = 113; sc, is-info
   UINT16 id;
   STRING name[MAX_LEN_NAME];
   STRING short_help[MAX_LEN_PACKET];
