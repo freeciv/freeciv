@@ -97,6 +97,8 @@ static bool set_ai_level_named(struct connection *caller, const char *name,
 static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
+static bool show_command(struct connection *caller, char *str, bool check);
+static void show_changed(struct connection *caller, bool check);
 
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
@@ -1737,12 +1739,21 @@ static bool set_away(struct connection *caller, char *name, bool check)
   return TRUE;
 }
 
-/******************************************************************
-Print a summary of the settings and their values.
-Note that most values are at most 4 digits, except seeds,
-which we let overflow their columns, plus a sign character.
-Only show options which the caller can SEE.
-******************************************************************/
+/**************************************************************************
+  Show changed settings.
+**************************************************************************/
+static void show_changed(struct connection *caller, bool check)
+{
+  /* show changed settings */
+  char *show_arg = "changed";
+  show_command(caller, show_arg, check);
+}
+
+/**************************************************************************
+  Print a summary of the settings and their values. Note that most values
+  are at most 4 digits, except seeds, which we let overflow their columns,
+  plus a sign character. Only show options which the caller can SEE.
+**************************************************************************/
 static bool show_command(struct connection *caller, char *str, bool check)
 {
   char buf[MAX_LEN_CONSOLE_LINE], value[MAX_LEN_CONSOLE_LINE];
@@ -3380,7 +3391,10 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
        * connected clients. */
       send_rulesets(game.est_connections);
     }
+    /* list changed values */
+    show_changed(caller, check);
   }
+
   return TRUE;
 }
 
@@ -3761,6 +3775,9 @@ static bool reset_command(struct connection *caller, bool check,
   } settings_iterate_end;
   notify_conn(NULL, NULL, E_SETTING, ftc_server,
               _("Settings re-initialized."));
+
+  /* list changed values */
+  show_changed(caller, check);
   return TRUE;
 }
 
