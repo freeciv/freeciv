@@ -526,7 +526,7 @@ class Variant:
         self.want_post_send=packet.want_post_send
         self.type=packet.type
         self.delta=packet.delta
-        self.is_action=packet.is_action
+        self.is_info=packet.is_info
         self.cancel=packet.cancel
         
         self.poscaps=poscaps
@@ -786,7 +786,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
         else:
             s=""
 
-        if not self.is_action:
+        if self.is_info != "no":
             body=body+'''
   if (different == 0) {
 %(fl)s%(s)s<pre2>    return 0;
@@ -939,10 +939,18 @@ class Packet:
             self.dirs.append("cs")
             arr.remove("cs")
         assert len(self.dirs)>0,repr(self.name)+repr(self.dirs)
-            
-        self.is_action="is-info" not in arr
-        if not self.is_action: arr.remove("is-info")
-        
+
+        # "no" means normal packet
+        # "yes" means is-info packet
+        # "game" means is-game-info packet
+        self.is_info="no"
+        if "is-info" in arr:
+            self.is_info="yes"
+            arr.remove("is-info")
+        if "is-game-info" in arr:
+            self.is_info="game"
+            arr.remove("is-game-info")
+
         self.want_pre_send="pre-send" in arr
         if self.want_pre_send: arr.remove("pre-send")
         
@@ -1330,9 +1338,9 @@ def get_packet_name(packets):
     return intro+body+extro
 
 # Returns a code fragement which is the implementation of the
-# packet_has_info_flag() function.
-def get_packet_has_info_flag(packets):
-    intro='''bool packet_has_info_flag(enum packet_type type)
+# packet_has_game_info_flag() function.
+def get_packet_has_game_info_flag(packets):
+    intro='''bool packet_has_game_info_flag(enum packet_type type)
 {
   switch (type) {
 
@@ -1340,7 +1348,7 @@ def get_packet_has_info_flag(packets):
     body=""
     for p in packets:
         body=body+'  case %(type)s:\n'%p.__dict__
-        if p.is_action:
+        if p.is_info != "game":
             body=body+'    return FALSE;\n\n'
         else:
             body=body+'    return TRUE;\n\n'
@@ -1518,7 +1526,7 @@ static int stats_total_sent;
 
     output_c.write(get_get_packet_helper(packets))
     output_c.write(get_packet_name(packets))
-    output_c.write(get_packet_has_info_flag(packets))
+    output_c.write(get_packet_has_game_info_flag(packets))
 
     # write hash, cmp, send, receive
     for p in packets:

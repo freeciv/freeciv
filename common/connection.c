@@ -676,15 +676,15 @@ void connection_common_close(struct connection *pconn)
 }
 
 /**************************************************************************
-  Remove all is-info cached packets from the connection. This resets the
-  delta-state partially.
+  Remove all is-game-info cached packets from the connection. This resets
+  the delta-state partially.
 **************************************************************************/
 void conn_reset_delta_state(struct connection *pc)
 {
   int i;
 
   for (i = 0; i < PACKET_LAST; i++) {
-    if (packet_has_info_flag(i)) {
+    if (packet_has_game_info_flag(i)) {
       if (NULL != pc->phs.sent && NULL != pc->phs.sent[i]) {
         hash_delete_all_entries(pc->phs.sent[i]);
       }

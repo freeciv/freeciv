@@ -84,7 +84,7 @@ void generic_handle_player_attribute_chunk(struct player *pplayer,
 					   packet_player_attribute_chunk
 					   *chunk);
 const char *packet_name(enum packet_type type);
-bool packet_has_info_flag(enum packet_type type);
+bool packet_has_game_info_flag(enum packet_type type);
 
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
 					    struct packet_player_attribute_chunk
