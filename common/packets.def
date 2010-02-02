@@ -1429,7 +1429,7 @@ PACKET_OPTIONS_SETTABLE=113;sc,lsend
   STRING extra_help[MAX_LEN_PACKET];
 
   SSET_TYPE stype;
-  SSET_CLASS sclass;
+  BOOL is_changeable;
   BOOL is_visible;
 
   SINT32 val;					/* value for bool or int */

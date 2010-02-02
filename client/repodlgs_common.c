@@ -299,7 +299,6 @@ void handle_options_settable(struct packet_options_settable *packet)
 
   o->stype = packet->stype;
   o->scategory = packet->scategory;
-  o->sclass = packet->sclass;
 
   o->val = packet->val;
   o->default_val = packet->default_val;
@@ -328,12 +327,14 @@ void handle_options_settable(struct packet_options_settable *packet)
 
   /* only set for valid type */
   o->is_visible = packet->is_visible;
+  o->is_changeable = packet->is_changeable;
   o->name = mystrdup(packet->name);
   o->short_help = mystrdup(packet->short_help);
   o->extra_help = mystrdup(packet->extra_help);
 
   if (!o->desired_sent
       && o->is_visible
+      && o->is_changeable
       && is_server_running()
       && packet->initial_setting) {
     /* Only send our private settings if we are running

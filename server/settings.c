@@ -33,6 +33,27 @@
 #include "srv_main.h"
 #include "stdinhand.h"
 
+/* The following classes determine what can be changed when.
+ * Actually, some of them have the same "changeability", but
+ * different types are separated here in case they have
+ * other uses.
+ * Also, SSET_GAME_INIT/SSET_RULES separate the two sections
+ * of server settings sent to the client.
+ * See the settings[] array and setting_is_changeable() for what
+ * these correspond to and explanations.
+ */
+enum sset_class {
+  SSET_MAP_SIZE,
+  SSET_MAP_GEN,
+  SSET_MAP_ADD,
+  SSET_PLAYERS,
+  SSET_GAME_INIT,
+  SSET_RULES,
+  SSET_RULES_FLEXIBLE,
+  SSET_META,
+  SSET_LAST
+};
+
 typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
                                      const char **reject_message);
 typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
@@ -1378,15 +1399,54 @@ bool setting_is_changeable(const struct setting *pset,
       *reject_msg = _("You are not allowed to set this option.");
     }
     return FALSE;
-  } else if (!setting_class_is_changeable(pset->sclass)) {
+  }
+
+  switch (pset->sclass) {
+  case SSET_MAP_SIZE:
+  case SSET_MAP_GEN:
+    /* Only change map options if we don't yet have a map: */
+    if (map_is_empty()) {
+      return TRUE;
+    }
+    if (reject_msg) {
+      *reject_msg = _("This setting can't be modified "
+                      "after the map is fixed.");
+    }
+    return FALSE;
+
+  case SSET_MAP_ADD:
+  case SSET_PLAYERS:
+  case SSET_GAME_INIT:
+  case SSET_RULES:
+    /* Only change start params and most rules if we don't yet have a map,
+     * or if we do have a map but its a scenario one (ie, the game has
+     * never actually been started).
+     */
+    if (map_is_empty() || game.info.is_new_game) {
+      return TRUE;
+    }
     if (reject_msg) {
       *reject_msg = _("This setting can't be modified "
                       "after the game has started.");
     }
     return FALSE;
-  } else {
+
+  case SSET_RULES_FLEXIBLE:
+  case SSET_META:
+    /* These can always be changed: */
     return TRUE;
+
+  case SSET_LAST:
+    break;
   }
+
+  log_error("Wrong class variant for setting %s (%d): %d.",
+            setting_name(pset), setting_number(pset), pset->sclass);
+  if (reject_msg) {
+    *reject_msg = _("Internal error.");
+  }
+
+  return FALSE;
 }
 
 /****************************************************************************
@@ -1788,7 +1848,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 
     packet.stype = setting_type(pset);
     packet.scategory = pset->scategory;
-    packet.sclass = pset->sclass;
+    packet.is_changeable = setting_is_changeable(pset, pconn, NULL);
     packet.is_visible = setting_is_visible(pset, pconn);
 
     if (packet.is_visible) {

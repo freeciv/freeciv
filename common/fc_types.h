@@ -52,27 +52,6 @@ enum sset_type {
   SSET_BOOL, SSET_INT, SSET_STRING
 };
 
-/* The following classes determine what can be changed when.
- * Actually, some of them have the same "changeability", but
- * different types are separated here in case they have
- * other uses.
- * Also, SSET_GAME_INIT/SSET_RULES separate the two sections
- * of server settings sent to the client.
- * See the settings[] array for what these correspond to and
- * explanations.
- */
-enum sset_class {
-  SSET_MAP_SIZE,
-  SSET_MAP_GEN,
-  SSET_MAP_ADD,
-  SSET_PLAYERS,
-  SSET_GAME_INIT,
-  SSET_RULES,
-  SSET_RULES_FLEXIBLE,
-  SSET_META,
-  SSET_LAST
-};
-
 /* Changing this breaks network compatibility. */
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST

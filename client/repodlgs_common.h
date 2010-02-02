@@ -51,8 +51,8 @@ bool is_report_dialogs_frozen(void);
 
 struct options_settable {
   enum sset_type stype;
-  enum sset_class sclass;
   unsigned char scategory;
+  bool is_changeable;
   bool is_visible;
 
   int val;

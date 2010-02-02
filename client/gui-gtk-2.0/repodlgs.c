@@ -1550,8 +1550,7 @@ static void create_settable_options_dialog(void)
       gtk_tooltips_set_tip(tips, ebox, buf, NULL);
     }
 
-    if (setting_class_is_changeable(o->sclass)
-	&& o->is_visible) {
+    if (o->is_changeable && o->is_visible) {
       double step, max, min;
 
       /* create the proper entry method depending on the type */

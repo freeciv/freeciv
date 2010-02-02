@@ -167,8 +167,6 @@ const char *textyear(int year);
 
 extern struct civ_game game;
 
-bool setting_class_is_changeable(enum sset_class class);
-
 #define GAME_DEFAULT_SEED        0
 #define GAME_MIN_SEED            0
 #define GAME_MAX_SEED            (MAX_UINT32 >> 1)
