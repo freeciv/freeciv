@@ -3,9 +3,6 @@
 # Use this as, eg, "./ser -r data/civ2.serv" 
 #
 # Civ2 start:
-set sciencebox 50
-set startunits cc
 rulesetdir civ2
-#
-# Minor civ2 rules:
-set borders 0
+
+# changed game settings are defined in game.ruleset

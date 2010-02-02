@@ -3344,7 +3344,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
               _("Name \"%s\" disallowed for security reasons."),
               str);
     return FALSE;
-  }  
+  }
 
   my_snprintf(filename, sizeof(filename), "%s", str);
   pfilename = fileinfoname(get_data_dirs(), filename);
@@ -3356,7 +3356,11 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
   if (!check) {
     if (strcmp(str, game.server.rulesetdir) == 0) {
       cmd_reply(CMD_RULESETDIR, caller, C_OK,
-		_("Ruleset directory is already \"%s\""), str);
+                _("Ruleset directory is already \"%s\""), str);
+
+      /* restore game settings save in game.ruleset */
+      reload_rulesets_settings();
+
       return TRUE;
     }
     cmd_reply(CMD_RULESETDIR, caller, C_OK, 
@@ -3364,6 +3368,11 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
 
     log_verbose("set_rulesetdir() does load_rulesets() with \"%s\"", str);
     sz_strlcpy(game.server.rulesetdir, str);
+
+    /* 1: reset all game settings */
+    log_normal("Reset game settings ...");
+    settings_reset();
+    /* 2: load ruleset (and game settings defined in the ruleset) */
     load_rulesets();
 
     if (game.est_connections) {
@@ -3741,6 +3750,9 @@ static bool reset_command(struct connection *caller, bool check,
               srvarg.script_filename);
     return FALSE;
   }
+
+  /* restore game settings save in game.ruleset */
+  reload_rulesets_settings();
 
   /* FIXME: Send server settings one by one to don't send the control
    * packet. */

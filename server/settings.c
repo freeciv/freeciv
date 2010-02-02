@@ -15,13 +15,17 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
 #include "game.h"
 #include "ioz.h"
 #include "log.h"
+#include "registry.h"
 
+/* common */
 #include "map.h"
 
+/* server */
 #include "ggzserver.h"
 #include "plrhand.h"
 #include "report.h"
@@ -95,6 +99,9 @@ struct setting {
   /* action function */
   const action_callback_func_t action;
 };
+
+static void setting_set_to_default(struct setting *pset);
+static bool setting_ruleset_one(const struct entry *pentry);
 
 /* Category names must match the values in enum sset_category. */
 const char *sset_category_names[] = {N_("Geological"),
@@ -1603,6 +1610,121 @@ void setting_action(const struct setting *pset) {
   if (pset->action != NULL) {
     pset->action(pset);
   }
+}
+
+
+/**************************************************************************
+  Load game settings from ruleset file 'game.ruleset'.
+**************************************************************************/
+bool setting_ruleset(struct section_file *file, const char *section)
+{
+  struct section *sec;
+  bool update = FALSE;
+
+  /* settings */
+  sec = secfile_section_by_name(file, section);
+  if (NULL == sec) {
+    /* no settings in ruleset file */
+    log_verbose("no [%s] section for game settings in %s", section,
+                secfile_name(file));
+    return FALSE;
+  }
+
+  entry_list_iterate(section_entries(sec), pentry) {
+    if (setting_ruleset_one(pentry)) {
+      update = TRUE;
+    } else {
+      char buf[256];
+      entry_path(pentry, buf, sizeof(buf));
+      log_error("unknown setting: %s", buf);
+    }
+  } entry_list_iterate_end;
+
+  if (update) {
+    /* send game settings */
+    send_server_settings(NULL);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Set one setting from the game.ruleset file.
+**************************************************************************/
+static bool setting_ruleset_one(const struct entry *pentry)
+{
+  bool bval;
+  int ival;
+  const char *message = NULL, *sval = NULL;
+  struct setting *pset = NULL;
+
+  settings_iterate(pset_check) {
+    if (0 == strcmp(setting_name(pset_check), entry_name(pentry))) {
+      pset = pset_check;
+      break;
+    }
+  } settings_iterate_end;
+
+  if (pset == NULL) {
+    /* no setting found */
+    return FALSE;
+  }
+
+  /* FIXME: mostly a duplicate of parts of stdinhand:set_command() */
+  switch (pset->stype) {
+  case SSET_BOOL:
+    if (!entry_bool_get(pentry, &bval)) {
+        log_error("%s", secfile_error());
+    } else if (bval != setting_bool_get(pset)) {
+      if (!setting_bool_validate(pset, bval, NULL, &message)) {
+        log_error("%s", message);
+      } else {
+        if (setting_bool_set(pset, bval, NULL, &message)) {
+          log_normal(_("Option: %s has been set to %d."),
+                     setting_name(pset), setting_bool_get(pset) ? 1 : 0);
+        } else {
+          log_error("%s", message);
+        }
+      }
+    }
+    break;
+
+  case SSET_INT:
+    if (!entry_int_get(pentry, &ival)) {
+        log_error("%s", secfile_error());
+    } else if (ival != setting_int_get(pset)) {
+      if (!setting_int_validate(pset, ival, NULL, &message)) {
+        log_error("%s", message);
+      } else {
+        if (setting_int_set(pset, ival, NULL, &message)) {
+          log_normal(_("Option: %s has been set to %d."),
+                     setting_name(pset), setting_int_get(pset));
+        } else {
+          log_error("%s", message);
+        }
+      }
+    }
+    break;
+
+  case SSET_STRING:
+    if (!entry_str_get(pentry, &sval)) {
+        log_error("%s", secfile_error());
+    } else if (strcmp(sval, setting_str_get(pset)) != 0) {
+      if (!setting_str_validate(pset, sval, NULL, &message)) {
+        log_error("%s", message);
+      } else {
+        if (setting_str_set(pset, sval, NULL, &message)) {
+          log_normal(_("Option: %s has been set to \"%s\"."),
+                     setting_name(pset), setting_str_get(pset));
+        } else {
+          log_error("%s", message);
+        }
+      }
+    }
+    break;
+  }
+
+  return TRUE;
 }
 
 /**************************************************************************

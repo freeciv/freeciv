@@ -49,6 +49,7 @@
 #include "citytools.h"
 #include "plrhand.h"
 #include "script.h"
+#include "settings.h"
 
 #include "aiunit.h"		/* update_simple_ai_types */
 
@@ -3380,6 +3381,8 @@ static void load_ruleset_game(void)
   }
   free(svec);
 
+  setting_ruleset(file, "settings");
+
   secfile_check_unused(file);
   secfile_destroy(file);
 }
@@ -3970,6 +3973,18 @@ void load_rulesets(void)
 }
 
 /**************************************************************************
+  Reload the game settings saved in the ruleset file.
+**************************************************************************/
+void reload_rulesets_settings(void)
+{
+  struct section_file *file;
+
+  file = openload_ruleset_file("game");
+  setting_ruleset(file, "settings");
+  secfile_destroy(file);
+}
+
+/**************************************************************************
   Send all ruleset information to the specified connections.
 **************************************************************************/
 void send_rulesets(struct conn_list *dest)
@@ -3991,6 +4006,9 @@ void send_rulesets(struct conn_list *dest)
   send_ruleset_nations(dest);
   send_ruleset_cities(dest);
   send_ruleset_cache(dest);
+
+  /* changed game settings will be send in
+   * connecthand.c:establish_new_connection() */
 
   lsend_packet_thaw_hint(dest);
   conn_list_do_unbuffer(dest);

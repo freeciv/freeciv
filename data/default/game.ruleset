@@ -218,3 +218,11 @@ names =
  _("Team 29"),
  _("Team 30"),
  _("Team 31")
+
+[settings]
+; freeciv game settings
+;
+; add game settings as
+; <setting bool> = 0
+; <setting int> = 5
+; <setting string> = "abc"

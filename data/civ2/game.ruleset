@@ -185,3 +185,9 @@ names =
  _("Team 29"),
  _("Team 30"),
  _("Team 31")
+
+[settings]
+; civ2 game settings
+sciencebox = 50
+startunits = "cc"
+borders = 0

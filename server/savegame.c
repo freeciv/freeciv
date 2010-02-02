@@ -4310,6 +4310,49 @@ static void game_load_internal(struct section_file *file)
     game.scenario.is_scenario = FALSE;
   }
 
+  /* [rulesets] */
+  civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
+  string = (civstyle == 1) ? "civ1" : "default";
+
+  if (!has_capability("rulesetdir", savefile_options)) {
+    const char *str2, *str =
+      secfile_lookup_str_default(file, "default", "game.info.t.techs");
+
+    if (strcmp("classic",
+               secfile_lookup_str_default(file, "default",
+                                          "game.info.t.terrain")) == 0) {
+      /* TRANS: Fatal error message. */
+      log_fatal(_("Saved game uses the \"classic\" terrain"
+                  " ruleset, and is no longer supported."));
+      exit(EXIT_FAILURE);
+    }
+
+#define T(x) \
+    str2 = secfile_lookup_str_default(file, "default", x);                   \
+    if (strcmp(str, str2) != 0) {                                            \
+      log_normal(_("Warning: Different rulesetdirs ('%s' and '%s') are "     \
+                   "no longer supported. Using '%s'."), str, str2, str);     \
+    }
+
+    T("game.info.t.units");
+    T("game.info.t.buildings");
+    T("game.info.t.terrain");
+    T("game.info.t.governments");
+    T("game.info.t.nations");
+    T("game.info.t.cities");
+    T("game.info.t.game");
+#undef T
+
+    sz_strlcpy(game.server.rulesetdir, str);
+  } else {
+    sz_strlcpy(game.server.rulesetdir, 
+               secfile_lookup_str_default(file, string,
+                                          "game.rulesetdir"));
+  }
+
+  /* load rulesets */
+  load_rulesets();
+
   /* [game] */
   game_version = secfile_lookup_int_default(file, 0, "game.version");
 
@@ -4515,7 +4558,6 @@ static void game_load_internal(struct section_file *file)
     game.info.razechance =
       secfile_lookup_int_default(file, GAME_DEFAULT_RAZECHANCE, "game.razechance");
 
-    civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
     game.info.save_nturns =
       secfile_lookup_int_default(file, GAME_DEFAULT_SAVETURNS, "game.save_nturns");
 
@@ -4648,49 +4690,6 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_int_default(file, game.info.mgr_worldchance,
                                  "game.mgr_worldchance");
 
-    if(civstyle == 1) {
-      string = "civ1";
-    } else {
-      string = "default";
-    }
-
-    if (!has_capability("rulesetdir", savefile_options)) {
-      const char *str2, *str =
-          secfile_lookup_str_default(file, "default", "game.info.t.techs");
-
-      if (strcmp("classic",
-		 secfile_lookup_str_default(file, "default",
-					    "game.info.t.terrain")) == 0) {
-        /* TRANS: Fatal error message. */
-        log_fatal(_("Saved game uses the \"classic\" terrain"
-                    " ruleset, and is no longer supported."));
-        exit(EXIT_FAILURE);
-      }
-
-
-#define T(x)                                                                \
-  str2 = secfile_lookup_str_default(file, "default", x);                    \
-  if (strcmp(str, str2) != 0) {                                             \
-    log_normal(_("Warning: Different rulesetdirs ('%s' and '%s') are "      \
-                 "no longer supported. Using '%s'."), str, str2, str);      \
-  }
-
-      T("game.info.t.units");
-      T("game.info.t.buildings");
-      T("game.info.t.terrain");
-      T("game.info.t.governments");
-      T("game.info.t.nations");
-      T("game.info.t.cities");
-      T("game.info.t.game");
-#undef T
-
-      sz_strlcpy(game.server.rulesetdir, str);
-    } else {
-      sz_strlcpy(game.server.rulesetdir, 
-	       secfile_lookup_str_default(file, string,
-					  "game.rulesetdir"));
-    }
-
     sz_strlcpy(game.server.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
 					  "game.demography"));
@@ -4720,8 +4719,6 @@ static void game_load_internal(struct section_file *file)
     game.server.event_cache.info =
       secfile_lookup_bool_default(file, game.server.event_cache.info,
                                  "game.event_cache.info");
-
-    load_rulesets();
   }
 
   if (has_capability("bases", savefile_options)) {
