@@ -1863,9 +1863,10 @@ void aifill(int amount)
 **************************************************************************/
 static void generate_players(void)
 {
+  int i, c;
+
   /* Select nations for AI players generated with server
-   * 'create <name>' command
-   */
+   * 'create <name>' command or aifill. */
   players_iterate(pplayer) {
     if (pplayer->nation != NO_NATION_SELECTED) {
       announce_player(pplayer);
@@ -1876,13 +1877,13 @@ static void generate_players(void)
     nations_iterate(pnation) {
       const char *name = player_name(pplayer);
       if (is_nation_playable(pnation)
-	  && pnation->is_available
-	  && !pnation->player
-	  && check_nation_leader_name(pnation, name)) {
-	player_set_nation(pplayer, pnation);
-	pplayer->city_style = city_style_of_nation(pnation);
-	pplayer->is_male = get_nation_leader_sex(pnation, name);
-	break;
+          && pnation->is_available
+          && NULL == pnation->player
+          && check_nation_leader_name(pnation, name)) {
+        player_set_nation(pplayer, pnation);
+        pplayer->city_style = city_style_of_nation(pnation);
+        pplayer->is_male = get_nation_leader_sex(pnation, name);
+        break;
       }
     } nations_iterate_end;
     if (pplayer->nation != NO_NATION_SELECTED) {
@@ -1890,10 +1891,26 @@ static void generate_players(void)
       continue;
     }
 
-    player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
-                                             NOT_A_BARBARIAN));
-    assert(pplayer->nation != NO_NATION_SELECTED);
+    /* Check for start positions of the scenario. */
+    for (i = 0, c = 0; i < map.server.num_start_positions; i++) {
+      struct nation_type *pnation = map.server.start_positions[i].nation;
 
+      if (NULL != pnation
+          && is_nation_playable(pnation)
+          && pnation->is_available
+          && NULL == pnation->player
+          && 0 == myrand(++c)) {
+        player_set_nation(pplayer, pnation);
+      }
+    }
+
+    /* Pick random race. */
+    if (NO_NATION_SELECTED == pplayer->nation) {
+      player_set_nation(pplayer, pick_a_nation(NULL, FALSE, TRUE,
+                                               NOT_A_BARBARIAN));
+    }
+
+    assert(pplayer->nation != NO_NATION_SELECTED);
     pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
     /* don't change the name of a created player */
