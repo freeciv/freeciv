@@ -5774,7 +5774,7 @@ msgstr ""
 #: server/settings.c:654
 #, fuzzy
 msgid "Minimum distance for trade routes"
-msgstr "Distance minimale entre les villes"
+msgstr "Distance minimale pour les routes commerciales"
 
 #: server/settings.c:655
 msgid ""
@@ -5782,6 +5782,10 @@ msgid ""
 "on the map. The distance is calculated as \"manhattan distance\", that is, "
 "the sum of the displacements along the x and y directions."
 msgstr ""
+"Afin d'établir une route commerciale, les villes doivent être au moins "
+"espacée de cette valeur sur la carte. La distance est calculée en tant "
+"que distance \"Manhattan\", c'est-à-dire la somme des différences en "
+"abscisse et en ordonnée."
 
 #: server/settings.c:664
 msgid "Number of turns between rapture effect"
@@ -6012,6 +6016,10 @@ msgid ""
 "players can see any or all changes to borders as long as they have "
 "previously seen the tiles."
 msgstr ""
+"Lorsque cette option est activée, les joueurs ne sont pas capables de "
+"visualiser les changements de frontières sur les cases qui ne sont pas en "
+"ligne de mire. Autrement, les joueurs voient tous les changements de "
+"frontières des cases qu'ils ont exploré précédemment."
 
 #: server/settings.c:818
 msgid "Base chance for diplomats and spies to succeed."
@@ -6107,9 +6115,8 @@ msgstr ""
 "terrain environnant."
 
 #: server/settings.c:879
-#, fuzzy
 msgid "Whether to enable citizen migration"
-msgstr "Autoriser ou non le brouillard de guerre"
+msgstr "Autoriser l'émigration des citoyens"
 
 #: server/settings.c:880
 msgid ""
@@ -6126,11 +6133,26 @@ msgid ""
 "  mgr_worldchance  - Chance for inter-nation migration.\n"
 "  mgr_nationchance - Chance for intra-nation migration."
 msgstr ""
+"Ceci est l'option maîtresse qui contrôle si l'émigration des citoyens est "
+"activée dans la partie. Si tel est le cas, les citoyens peuvent se "
+"déplacer automatiquement d'une ville à une autre plus attrayante. "
+"L'\"attrait\" d'une ville donnée est calculée par de nombreux facteurs. En "
+"général, les cités les plus importantes dotées de plus de revenu et "
+"d'améliorations sont préférées. Les citoyen n'émigreront jamais de la "
+"capitale, ou causerait la perte d'une merveille en démantelant la ville. "
+"De nombreux autres paramètres affectent le comportement de l'émigration :"
+"\n"
+"  mgr_turninterval - Fréquence de migration des citoyens.\n"
+"  mgr_foodneeded   - Si la nourriture est un facteur d'immigration.\n"
+"  mgr_distance     - Distance à laquelle les citoyens peuvent migrer.\n"
+"  mgr_worldchance  - Chance de la migration entre les différentes nations."
+"\n"
+"  mgr_nationchance - Chance de la migration à l'intérieur d'une même "
+"nations."
 
 #: server/settings.c:898
-#, fuzzy
 msgid "Number of turns between migrations from a city"
-msgstr "Nombre de tours avant l'effet d'extase"
+msgstr "Nombre de tours entre deux exodes d'une ville"
 
 #: server/settings.c:899
 msgid ""
@@ -6141,6 +6163,13 @@ msgid ""
 "city. Migration will never occur the same turn that a city is built. This "
 "setting has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
+"Cette options contrôle le nombre de tours entre les tests de migrations. "
+"L'intervalle est calculé depuis le tour fondateur de la ville. Donc, si "
+"par exemple cette valeur est à 5, les citoyens vont chercher à se "
+"déplacer dans une ville plus attrayante tous les cinq tours depuis la "
+"fondation de leur ville actuelle. L'émigration ne se produira jamais dans "
+"le tour où la ville est construite. Ce paramètre n'a pas d'effet à moins "
+"que l'option 'migration' soit activée."
 
 #: server/settings.c:912
 msgid "Whether migration is limited by food"
@@ -6152,11 +6181,13 @@ msgid ""
 "not have enough food to support them. This setting has no effect unless "
 "migration is enabled by the 'migration' setting."
 msgstr ""
+"Si cette option est activée, les citoyens n'émigreront pas vers des "
+"qui ne produiraient pas assez de vivres pour les accueillir. Ce paramètre "
+"n'a pas d'effet à moins que l'option 'migration' soit activée."
 
 #: server/settings.c:921
-#, fuzzy
 msgid "Maximum distance citizens may migrate"
-msgstr "Distance minimale entre les villes"
+msgstr "Distance maximale de migration des citoyen"
 
 #: server/settings.c:922
 msgid ""
@@ -6166,6 +6197,11 @@ msgid ""
 "migration. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
+"Cette option contrôle la distance à laquelle les citoyens peuvent "
+"chercher des villes plus attrayantes afin d'y émigrer. Par exemple, avec "
+"une valeur de 3, il ne peut y avoir que 2 cases de distance entre les "
+"villes pour qu'une migration soit possible.  Ce paramètre n'a pas d'effet "
+"à moins que l'option 'migration' soit activée."
 
 #: server/settings.c:933
 msgid "Percent probability for migration within the same nation"
@@ -6179,6 +6215,11 @@ msgid ""
 "destination. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
+"Cette option contrôle le désire des citoyens d'émigrer vers une ville "
+"de la même nation. Une valeur de zéro indique que la migration ne se "
+"produira jamais ; une valeur de 100 signifie que la migration aura "
+"toujours lieu si les citoyens trouvent une destination convenable. Ce "
+"paramètre n'a pas d'effet à moins que l'option 'migration' soit activée."
 
 #: server/settings.c:945
 msgid "Percent probability for migration between foreign cities"
@@ -6192,6 +6233,11 @@ msgid ""
 "This setting has no effect if migration is not enabled by the 'migration' "
 "setting."
 msgstr ""
+"Cette option contrôle le désire des citoyens d'émigrer vers une ville "
+"d'une autre nation. Une valeur de zéro indique que la migration ne se "
+"produira jamais ; une valeur de 100 signifie que la migration aura "
+"toujours lieu si les citoyens trouvent une destination convenable. Ce "
+"paramètre n'a pas d'effet à moins que l'option 'migration' soit activée."
 
 #: server/settings.c:964
 msgid "Players that users are allowed to take"
@@ -6334,6 +6380,11 @@ msgid ""
 "  1 = All players alternate movement.\n"
 "  2 = Only players on the same team move concurrently."
 msgstr ""
+"Ce paramètre contrôle si les joueurs peuvent effectuer leurs mouvements "
+"en même temps durant un tour.\n"
+"  0 = Tous les joueurs jouent simultanément.\n"
+"  1 = Tous les joueurs jouent alternativement.\n"
+"  2 = Seuls les joueurs d'une même équipe jouent simultanément."
 
 #: server/settings.c:1050
 msgid "Seconds to let a client's network connection block"
@@ -6494,6 +6545,11 @@ msgid ""
 " 2 - bzip2\n"
 "Not all servers support all compression methods."
 msgstr ""
+"Bibliothèque de compression à utiliser pour les sauvegardes.\n"
+" 0 - aucune\n"
+" 1 - zlib (format gzip)\n"
+" 2 - bzip2 (format bz2)\n"
+"Tous les serveurs ne supportent pas toutes les méthodes de compression."
 
 #: server/settings.c:1152
 msgid "Auto-save name prefix"
@@ -6862,6 +6918,8 @@ msgstr "Envoi d'information au métaserveur [%s]"
 #: server/srv_main.c:2178
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
+"Impossible de démarrer sans connexion au métaserveur explicitement "
+"demandé."
 
 #: server/srv_main.c:2209
 msgid "The game is over..."
@@ -8967,27 +9025,27 @@ msgstr "Fatigue désactivée dans le jeu de règles."
 #: client/citydlg_common.c:515
 #, c-format
 msgid "%+2.1f : Risk from over crowdness\n"
-msgstr ""
+msgstr "%+2.1f : Risque dû à la surpopulation\n"
 
 #: client/citydlg_common.c:517
-#, fuzzy, c-format
+#, c-format
 msgid "%+2.1f : Risk from trade\n"
-msgstr "%+4d : Provenant du commerce\n"
+msgstr "%+2.1f : Risque dû au commerce\n"
 
 #: client/citydlg_common.c:519
 #, c-format
 msgid "%+2.1f : Risk from pollution\n"
-msgstr ""
+msgstr "%+2.1f : Risque dû à la pollution\n"
 
 #: client/citydlg_common.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "%+2.1f : Bonus from %s\n"
-msgstr "%+4d : Bonus de %s (%+d%%)\n"
+msgstr "%+2.1f : Bonus de %s\n"
 
 #: client/citydlg_common.c:538
 #, c-format
 msgid "%2.1f : Total chance for a plague"
-msgstr ""
+msgstr "%+2.1f : Risque épidémique total"
 
 #: client/cityrepdata.c:80
 msgid "?city_state:Rapture"
@@ -9777,34 +9835,39 @@ msgid ""
 "Toggle erase mode.\n"
 "Shortcut: shift-d"
 msgstr ""
+"Basculer en mode ajout/effacement.\n"
+"Raccourci : Maj-d"
 
 #: client/editor.c:1686
 msgid ""
 "Toggle copy mode.\n"
 "Shortcut: shift-c"
 msgstr ""
+"Basculer en mode copie.\n"
+"Raccourci : Maj-c"
 
 #: client/editor.c:1689
 msgid ""
 "Toggle paste mode.\n"
 "Shortcut: shift-v"
 msgstr ""
+"Basculer en mode coller.\n"
+"Raccourci : Maj-v"
 
 #: client/editor.c:1744
 msgid "Buffer empty."
-msgstr ""
+msgstr "Tampon vide."
 
 #: client/editor.c:1751
 #, c-format
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%d case copiée"
+msgstr[1] "%d cases copiées"
 
 #: client/global_worklist.c:355
-#, fuzzy
 msgid "(noname)"
-msgstr "(aucun)"
+msgstr "(sans-nom)"
 
 #: client/helpdata.c:135
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -9812,11 +9875,11 @@ msgstr "Terrain     Route  Irrigation     Mines          Transformations\n"
 
 #: client/helpdata.c:203
 msgid "Time taken for the following activities is independent of terrain:\n"
-msgstr ""
+msgstr "Temps requis pour les activités suivantes, indépendamment du terrain :\n"
 
 #: client/helpdata.c:206
 msgid "Activity            Time\n"
-msgstr ""
+msgstr "Activité            Temps\n"
 
 #: client/helpdata.c:211
 #, c-format
@@ -9824,30 +9887,36 @@ msgid ""
 "\n"
 "Railroad           %3d"
 msgstr ""
+"\n"
+"Chemin de fer      %3d"
 
 #: client/helpdata.c:214
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Clean pollution    %3d"
-msgstr "Dépolluer"
+msgstr ""
+"\n"
+"Dépolluer          %3d"
 
 #: client/helpdata.c:217
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Clean fallout      %3d"
-msgstr "Décontaminer"
+msgstr ""
+"\n"
+"Décontaminer       %3d"
 
 #: client/helpdata.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "Requires to have researched the %s technology.\n"
-msgstr "Nécessite la technologie %s.\n"
+msgstr "Nécessite d'avoir recherché la technologie %s.\n"
 
 #: client/helpdata.c:254
 #, fuzzy, c-format
 msgid "Requires that any player has researched the %s technology.\n"
-msgstr "Nécessite la technologie %s.\n"
+msgstr "Nécessite que n'importe  joueur ait echerché la technologie %s.\n"
 
 #: client/helpdata.c:270
 #, c-format
@@ -9855,61 +9924,59 @@ msgid "Requires the %s government.\n"
 msgstr "Nécessite le gouvernement %s.\n"
 
 #: client/helpdata.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that the %s wonder is built.\n"
-msgstr "Nécessite le bâtiment %s.\n"
+msgstr "Nécessite que la merveille %s soit construite.\n"
 
 #: client/helpdata.c:287
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s wonder.\n"
-msgstr "Nécessite la nation %s.\n"
+msgstr "Nécessite de posséder la merveille %s.\n"
 
 #: client/helpdata.c:296
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s wonder on the continent.\n"
-msgstr "Nécessite le gouvernement %s.\n"
+msgstr "Nécessite que la merveille %s soit sur le continent.\n"
 
 #: client/helpdata.c:304
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s building in the city.\n"
-msgstr "Nécessite le bâtiment %s.\n"
+msgstr "Nécessite le bâtiment %s dans la ville.\n"
 
 #: client/helpdata.c:310
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to \"%s\" buildings.\n"
-msgstr ""
-"S'applique seulement à l'unité %s.\n"
-"\n"
+msgstr "S'applique seulement à la construction %s.\n"
 
 #: client/helpdata.c:325
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain special on the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite la ressource %s sur la case.\n"
 
 #: client/helpdata.c:330
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain special near the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite la ressource spéciale %s près de la case.\n"
 
 #: client/helpdata.c:346
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain on the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite le terrain %s sur la case.\n"
 
 #: client/helpdata.c:350
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s terrain near the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite le terrain %s près de la case.\n"
 
 #: client/helpdata.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing the %s nation.\n"
-msgstr "Nécessite la nation %s.\n"
+msgstr "Nécessite de joueur la nation %s.\n"
 
 #: client/helpdata.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s nation in the game.\n"
-msgstr "Nécessite la nation %s.\n"
+msgstr "Nécessite que la nation %s fasse partie du jeu.\n"
 
 #: client/helpdata.c:386 client/helpdata.c:421
 #, c-format
@@ -9917,11 +9984,9 @@ msgid "Only applies to %s units.\n"
 msgstr "S'applique seulement à l'unité %s.\n"
 
 #: client/helpdata.c:403 client/helpdata.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to \"%s\" units.\n"
-msgstr ""
-"S'applique seulement à l'unité %s.\n"
-"\n"
+msgstr "S'applique seulement aux unités %s.\n"
 
 #: client/helpdata.c:455 client/helpdata.c:460
 #, c-format
@@ -9936,46 +10001,42 @@ msgstr "Nécessite une taille minimum de %d.\n"
 #: client/helpdata.c:470
 #, c-format
 msgid "Requires AI player of level %s.\n"
-msgstr ""
+msgstr "Nécessite une IA de niveau %s.\n"
 
 #: client/helpdata.c:477
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s terrain class on the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite un terrain %s sur la case.\n"
 
 #: client/helpdata.c:483
-#, fuzzy, c-format
+#, c-format
 msgid "Requires %s terrain class near the tile.\n"
-msgstr "Nécessite la ressource spéciale %s.\n"
+msgstr "Nécessite un terrain %s près de la case.\n"
 
 #: client/helpdata.c:500
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a %s on the tile.\n"
-msgstr "Nécessite la nation %s.\n"
+msgstr "Nécessite un %s sur la case.\n"
 
 #: client/helpdata.c:504
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a %s near the tile.\n"
-msgstr "Nécessite la nation %s.\n"
+msgstr "Nécessite un %s près de la case.\n"
 
 #: client/helpdata.c:518
 #, c-format
 msgid "Requires we reached the year %d.\n"
-msgstr ""
+msgstr "Nécessite d'avoir dépassé l'année %d.\n"
 
 #: client/helpdata.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "Requires terrain on which %s can be built on tile.\n"
 msgstr ""
-"Nécessite le bâtiment %s.\n"
-"\n"
+"Nécessite un terrain sur lequel %s puisse être construit sur la case.\n"
 
 #: client/helpdata.c:542
-#, fuzzy
 msgid "Applies only to city centers.\n"
-msgstr ""
-"S'applique seulement à %s.\n"
-"\n"
+msgstr "S'applique seulement aux centre-villes.\n"
 
 # AR
 #: client/helpdata.c:603
@@ -10036,7 +10097,7 @@ msgid "* Allows %s.\n"
 msgstr "* Autorise %s.\n"
 
 #: client/helpdata.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "* Appartient à la classe d'unité %s.\n"
 
@@ -10049,17 +10110,14 @@ msgid "  * Speed is not affected by terrain.\n"
 msgstr "  * La vitesse n'est pas affectée pas le terrain.\n"
 
 #: client/helpdata.c:1141
-#, fuzzy
 msgid "  * Does not get defense bonuses from terrain.\n"
-msgstr "  * La vitesse n'est pas affectée pas le terrain.\n"
+msgstr "  * Ne prend pas en compte les bonus défensifs des terrains.\n"
 
 #: client/helpdata.c:1144
-#, fuzzy
 msgid "  * Not subject to zones of control.\n"
-msgstr "* Ignore les zones de contrôle.\n"
+msgstr "  * N'est pas sujet aux zones de contrôle.\n"
 
 #: client/helpdata.c:1147
-#, fuzzy
 msgid "  * Slowed down while damaged.\n"
 msgstr "  * Ralenti lorsqu'il est abîmé\n"
 
@@ -10068,22 +10126,23 @@ msgid "  * Gets used up in making an attack.\n"
 msgstr "  * Est perdu lorsqu'il attaque.\n"
 
 #: client/helpdata.c:1156
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus.\n"
-msgstr "* Peut se retrancher, obtenant un bonus défensif de 50%.\n"
+msgstr "  * Peut se retrancher, obtenant un bonus défensif de 50%.\n"
 
 #: client/helpdata.c:1160
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr ""
+"  * N'est pas atteignable. La plupart des unités de peut attaquer "
+"celle-ci.\n"
 
 #: client/helpdata.c:1164
-#, fuzzy
 msgid "  * Can pillage tile improvements.\n"
-msgstr "Bâtiments disponibles"
+msgstr "  * Peut piller les infrastructures sur les cases.\n"
 
 #: client/helpdata.c:1168
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
-msgstr ""
+msgstr "  * N'empêche pas les villes ennemies de travailler sa case.\n"
 
 #: client/helpdata.c:1173
 #, c-format
@@ -10100,9 +10159,8 @@ msgid "* May not be built in cities.\n"
 msgstr "* Ne peut pas être construit dans les villes.\n"
 
 #: client/helpdata.c:1187
-#, fuzzy
 msgid "* Only barbarians may build this.\n"
-msgstr "Seuls les parachutistes peuvent faire cela."
+msgstr "* Seuls les barbares peuvent le construire.\n"
 
 #: client/helpdata.c:1190
 msgid "* Never has a home city.\n"
@@ -10344,46 +10402,52 @@ msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Airport).\n"
 msgstr ""
+"* Naîtra vétéran dans les villes avec des centres d'entraînement appropriés "
+"(voir Aéroport).\n"
 
 #: client/helpdata.c:1402 client/helpdata.c:1418 client/helpdata.c:1428
 msgid "* May be promoted after defeating an enemy unit.\n"
-msgstr ""
+msgstr "* Peut être promu après avoir défait une unité ennemi.\n"
 
 #: client/helpdata.c:1407
 msgid "* Will be built as a veteran under communist governments.\n"
-msgstr ""
+msgstr "* Naîtra vétéran sous un gouvernement communiste.\n"
 
 #: client/helpdata.c:1410
 msgid "* May be promoted after a successful mission.\n"
-msgstr ""
+msgstr "* Peut être promu après la réussite d'une mission.\n"
 
 #: client/helpdata.c:1414
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Barracks).\n"
 msgstr ""
+"* Naîtra vétéran dans les villes avec des centres d'entraînement appropriés "
+"(voir Casernes).\n"
 
 #: client/helpdata.c:1424
 msgid ""
 "* Will be built as a veteran in cities with appropriate training facilities "
 "(see Port Facility).\n"
 msgstr ""
+"* Naîtra vétéran dans les villes avec des centres d'entraînement appropriés "
+"(voir Service Portuaire).\n"
 
 #: client/helpdata.c:1433
-#, fuzzy
 msgid "* May be promoted through combat or training.\n"
-msgstr "* Peut devenir vétéran par voie d'entraînement ou du combat.\n"
+msgstr "* Peut être promu par voie d'entraînement ou du combat.\n"
 
 #: client/helpdata.c:1436
-#, fuzzy
 msgid "* May be built as a veteran through training.\n"
-msgstr "* Peut devenir vétéran par voie d'entraînement ou du combat.\n"
+msgstr "* Peut naître vétéran par voie d'entraînement.\n"
 
 #: client/helpdata.c:1445
 msgid ""
 "* Under certain conditions the shield upkeep of this unit can  be converted "
 "to gold upkeep.\n"
 msgstr ""
+"* Sous certaines conditions l'entretien en production de cette unité peut "
+"être converti en entretien en or.\n"
 
 #. TRANS: List of possible unit types has this between
 #. *        last two elements
@@ -10558,6 +10622,8 @@ msgstr "* Chaque ville devra payer %d pour l'entretien des unités.\n"
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
 msgstr ""
+"* Si vous perdez votre capitale, les chances de guerre civil sera de "
+"%d%%.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1891
@@ -10930,11 +10996,11 @@ msgstr "Dessiner la grille pour la carte de la ville"
 
 #: client/options.c:504
 msgid "Setting this option will draw a grid over the map."
-msgstr ""
+msgstr "Activer cette option dessinera un quadrillage au dessus de la carte."
 
 #: client/options.c:507
 msgid "Draw the citybar"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner la boite d'information des villes"
 
 #: client/options.c:508
 msgid ""
@@ -10947,175 +11013,148 @@ msgstr ""
 "affichera uniquement le nom de la ville et optionnellement la production."
 
 #: client/options.c:514
-#, fuzzy
 msgid "Draw the city names"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les noms des villes"
 
 #: client/options.c:515
-#, fuzzy
 msgid "Setting this option will draw the names of the cities on the map."
-msgstr ""
-"Si cette option est désactivée, les animations de combats entre unités ne "
-"seront pas affichées sur la carte."
+msgstr "Activer cette option dessinera le nom des villes sur la carte."
 
 #: client/options.c:519
-#, fuzzy
 msgid "Draw the city growth"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner la croissance des villes"
 
 #: client/options.c:520
-#, fuzzy
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr ""
-"Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unités. Si désactivé, le drapeau complet sera dessiné."
+"Activer cette option dessinera dans combien de tours les villes "
+"augmenteront ou diminueront de taille."
 
 #: client/options.c:524
-#, fuzzy
 msgid "Draw the city productions"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner la production des villes"
 
 #: client/options.c:525
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
 msgstr ""
+"Activer cette option dessinera sur la carte ce que les villes sont en "
+"train de construire."
 
 #: client/options.c:529
-#, fuzzy
 msgid "Draw the city buy costs"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner le prix de la production des villes"
 
 #: client/options.c:530
 msgid ""
 "Setting this option will draw how many golds are needed to buy the "
 "production of the cities."
 msgstr ""
+"Activer cette option dessinera combien d'or sera nécessaire afin acheter "
+"la production de la ville."
 
 #: client/options.c:534
-#, fuzzy
 msgid "Draw the city trade routes"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les routes commerciales des villes"
 
 #: client/options.c:535
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
 msgstr ""
+"Activer cette option dessinera des lignes pour représenter les routes "
+"commerciales entre les villes."
 
 #: client/options.c:539
-#, fuzzy
 msgid "Draw the terrain"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner le terrain"
 
 #: client/options.c:540
-#, fuzzy
 msgid "Setting this option will draw the terrain."
-msgstr "Si activé, les unités seront affichées dans l'aperçu."
+msgstr "Activer cette option dessinera le terrain sur la carte."
 
 #: client/options.c:543
-#, fuzzy
 msgid "Draw the coast line"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner la ligne côtière"
 
 #: client/options.c:544
-#, fuzzy
 msgid "Setting this option will draw a line to separate the land of the ocean."
 msgstr ""
-"Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unités. Si désactivé, le drapeau complet sera dessiné."
+"Activer cette option dessinera une ligne pour séparer terres et océans."
 
 #: client/options.c:548
-#, fuzzy
 msgid "Draw the roads and the railroads"
-msgstr "* Peut construire des routes et chemins de fer.\n"
+msgstr "Dessiner les routes et les chemins de fer"
 
 #: client/options.c:549
-#, fuzzy
 msgid "Setting this option will draw the roads and the railroads on  the map."
 msgstr ""
-"Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unités. Si désactivé, le drapeau complet sera dessiné."
+"Activer cette option dessinera les routes et les chemins de fer sur la "
+"carte."
 
 #: client/options.c:553
-#, fuzzy
 msgid "Draw the irrigations"
-msgstr "Connecter irrigation"
+msgstr "Dessiner les irrigations"
 
 #: client/options.c:554
-#, fuzzy
 msgid "Setting this option will draw the irrigations on the map."
-msgstr ""
-"Si cette option est désactivée, les animations de combats entre unités ne "
-"seront pas affichées sur la carte."
+msgstr "Activer cette option dessinera les irrigations sur la carte."
 
 #: client/options.c:558
-#, fuzzy
 msgid "Draw the mines"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les mines"
 
 #: client/options.c:559
-#, fuzzy
 msgid "Setting this option will draw the mines on the map."
-msgstr "Si activé, les villes seront affichées dans l'aperçu."
+msgstr "Activer cette option dessinera les mines sur la carte."
 
 #: client/options.c:562
-#, fuzzy
 msgid "Draw the bases"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les bases militaires"
 
 #: client/options.c:563
-#, fuzzy
 msgid "Setting this option will draw the bases on the map."
-msgstr ""
-"Désactivez cette option pour cacher les barres de défilement de la carte."
+msgstr "Activer cette option dessinera les bases militaires sur la carte."
 
 #: client/options.c:566
-#, fuzzy
 msgid "Draw the specials"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les ressources spéciales"
 
 #: client/options.c:567
-#, fuzzy
 msgid "Setting this option will draw the specials on the map."
 msgstr ""
-"Désactivez cette option pour cacher les barres de défilement de la carte."
+"Activer cette option dessinera les ressources spéciales sur la carte."
 
 #: client/options.c:571
-#, fuzzy
 msgid "Draw the pollution/nuclear fallouts"
-msgstr "<th>Dépolluer</th><th>Décontaminer</th>\n"
+msgstr "Dessiner la pollution/retombées nucléaires"
 
 #: client/options.c:572
-#, fuzzy
 msgid ""
 "Setting this option will draw the pollution and the nuclear fallouts on the "
 "map."
 msgstr ""
-"Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unités. Si désactivé, le drapeau complet sera dessiné."
+"Activer cette option dessinera la pollution et les retombées nucléaires "
+"sur la carte."
 
 #: client/options.c:576
-#, fuzzy
 msgid "Draw the cities"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les villes"
 
 #: client/options.c:577
-#, fuzzy
 msgid "Setting this option will draw the cities on the map."
-msgstr "Si activé, les villes seront affichées dans l'aperçu."
+msgstr "Activer cette option dessinera les villes sur la carte."
 
 #: client/options.c:580
-#, fuzzy
 msgid "Draw the units"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les unités"
 
 #: client/options.c:581
-#, fuzzy
 msgid "Setting this option will draw the units on the map."
-msgstr "Si activé, les unités seront affichées dans l'aperçu."
+msgstr "Activer cette option dessinera les unités sur la carte."
 
 #: client/options.c:585
 msgid "Solid unit background color"
@@ -11143,44 +11182,43 @@ msgstr ""
 
 #: client/options.c:596
 msgid "Draw the units in focus"
-msgstr ""
+msgstr "Dessiner les unités sélectionnées"
 
 #: client/options.c:597
-#, fuzzy
 msgid ""
 "Setting this option will draw the units in focus, including the case the "
 "other units wouldn't be drawn."
 msgstr ""
-"Si cette option est activée, un blason est utilisée à la place du drapeau "
-"pour les unités. Si désactivé, le drapeau complet sera dessiné."
+"Activer cette option dessinera les unités sélectionnées, même si les autres "
+"unités ne devraient pas l'être."
 
 #: client/options.c:602
-#, fuzzy
 msgid "Draw the fog of war"
-msgstr "Aperçu global du brouillard de guerre"
+msgstr "Dessiner le brouillard de guerre"
 
 #: client/options.c:603
 msgid "Setting this option will draw the fog of war."
-msgstr ""
+msgstr "Activer cette option dessinera le brouillard de guerre."
 
 #: client/options.c:606
-#, fuzzy
 msgid "Draw the borders"
-msgstr "Boite d'info. de ville"
+msgstr "Dessiner les frontières"
 
 #: client/options.c:607
 msgid "Setting this option will draw the national borders."
-msgstr ""
+msgstr "Activer cette option dessinera les frontières nationales."
 
 #: client/options.c:611
 msgid "Show dead players in nation report."
-msgstr ""
+msgstr "Montrer les joueurs morts dans le rapport sur les nations."
 
 #: client/options.c:612
 msgid ""
 "Setting this option will draw the players already dead in the nation report "
 "page."
 msgstr ""
+"Activer cette option montrera les joueurs déjà morts dans la page du "
+"rapport sur les nations."
 
 # AR
 #: client/options.c:616 client/gui-sdl/optiondlg.c:913
@@ -11244,29 +11282,28 @@ msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
-"Si cette option est activé, des icônes seront affichées dans le diagramme "
+"Si cette option est activée, des icônes seront affichées dans le diagramme "
 "arborescent des technologies. Désactiver cette option permet d'avoir un "
 "arbre plus compact."
 
 #: client/options.c:647
-#, fuzzy
 msgid "Use curved lines in the technology tree"
-msgstr "Afficher les icônes dans l'arbre des technologies"
+msgstr "Utiliser les lignes courbes dans l'arbre des technologies"
 
 #: client/options.c:648
-#, fuzzy
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
-"Si cette option est activé, des icônes seront affichées dans le diagramme "
-"arborescent des technologies. Désactiver cette option permet d'avoir un "
-"arbre plus compact."
+"Si cette option est activée, le diagramme représentant l'arbre des "
+"technologies utilisera des lignes courbes pour montrer les relations aux "
+"autres technologies. Désactiver cette option dessinera toutes ces lignes "
+"droites."
 
 #: client/options.c:655
 msgid "Color to highlight your player/user name"
-msgstr ""
+msgstr "Couleur pour sur-ligner votre nom de joueur/utilisateur"
 
 #: client/options.c:656
 msgid ""
@@ -11274,6 +11311,9 @@ msgid ""
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
+"Si défini, vos noms de joueur et d'utilisateur dans les messages de "
+"discussion seront sur-lignés de cette couleur. Si non défini, rien de ceci "
+" ne sera sur-ligné."
 
 #: client/options.c:661
 msgid "Manual Turn Done in AI Mode"
@@ -11314,18 +11354,16 @@ msgstr ""
 "ignorance dudit combat."
 
 #: client/options.c:676
-#, fuzzy
 msgid "Auto Center on New Turn"
-msgstr "Auto Centrer sur les Unités"
+msgstr "Auto Centrer chaque nouveau tour"
 
 #: client/options.c:677
-#, fuzzy
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
-"Activez cette option pour centrer la vue sur l'unité active quand le focus "
-"change d'unité."
+"Si cette option est activée, le client recentrera automatiquement la carte "
+"sur quelque chose de remarquable au début de chaque tour."
 
 #: client/options.c:681 client/gui-sdl/optiondlg.c:1127
 msgid "Focus on Awakened Units"
@@ -11435,6 +11473,12 @@ msgid ""
 "to do the action manually by pressing either 'r' (for a trade route) or "
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
+"Lorsque cette option est activée et qu'une caravane arrive dans une ville "
+"où elle peut établir une route commerciale ou aider à bâtir une merveille, "
+"une fenêtre apparaît pour demander quelle action doit être effectuée. "
+"Désactiver cette option signifie que vous devrez choisir l'action "
+"manuellement en pressant soit 'r' (pour une route commerciale) ou 'b' "
+"(pour construire une merveille) lorsque la caravane sera dans la ville."
 
 #: client/options.c:726
 msgid "Enable cursor changing"
@@ -11482,50 +11526,51 @@ msgstr ""
 
 #: client/options.c:746
 msgid "Enable vote bar"
-msgstr ""
+msgstr "Activer la barre de vote"
 
 #: client/options.c:747
-#, fuzzy
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
-"Si cette option est activée, une fois que toutes vos unités auront effectué "
-"leurs mouvements, la fin du tour sera déclarée automatiquement."
+"Si cette option est activée, la barre de vote sera affichée pour montrer "
+"les informations concernant les votes."
 
 #: client/options.c:751
 msgid "Always display the vote bar"
-msgstr ""
+msgstr "Toujours montrer la barre de vote"
 
 #: client/options.c:752
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, notably when "
 "there won't be any running vote."
 msgstr ""
+"Si cette option est activée, la barre de vote ne sera jamais cachée, "
+"notamment lorqu'aucun vote ne sera en cours."
 
 #: client/options.c:757
 msgid "Do not show vote bar if not a player"
-msgstr ""
+msgstr "Ne pas montrer la barre de vote lorsque non-joueur"
 
 #: client/options.c:758
-#, fuzzy
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
-msgstr "Si cette option est activée, le client utilisera l'écran entier."
+msgstr ""
+"Si cette option est activée, le client ne montrera pas la barre de vote si "
+"vous n'êtes pas un joueur."
 
 #: client/options.c:761
 msgid "Set new votes at front"
-msgstr ""
+msgstr "Placer les nouveaux votes devant"
 
 #: client/options.c:762
-#, fuzzy
 msgid ""
 "If this option is enabled, then the new votes will go to the front of the "
 "vote list"
 msgstr ""
-"Si cette option est activée, les rapports seront affichés comme des onglets "
-"plutôt que des popups."
+"Si cette option est activée, alors les nouveaux votes s'ajouteront "
+"au-devant de la liste des votes."
 
 #: client/options.c:767
 msgid "Background layer"
@@ -11555,9 +11600,8 @@ msgstr ""
 "qui."
 
 #: client/options.c:781
-#, fuzzy
 msgid "Borders layer on ocean tiles"
-msgstr "Couche des frontières"
+msgstr "Couche des frontières sur l'océan"
 
 #: client/options.c:782
 msgid ""
@@ -11565,6 +11609,10 @@ msgid ""
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
+"La couche des frontières de la carte d'ensemble sera dessinée sur les "
+"cases maritimes (cela pourrait sembler étranges avec plusieurs îles). "
+"Cette option option n'a d'effet que si l'option \"Couche des frontières\" "
+"a déjà été activée."
 
 #: client/options.c:788
 msgid "Units layer"
@@ -11760,16 +11808,15 @@ msgstr ""
 
 #: client/options.c:887
 msgid "Mouse over the map widget selects it automatically"
-msgstr ""
+msgstr "Sélectionner automatiquement la carte avec la souris"
 
 #: client/options.c:888
-#, fuzzy
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse will "
 "be floating over it."
 msgstr ""
-"Si cette option est activée, les rapports seront affichés comme des onglets "
-"plutôt que des popups."
+"Si cette option est activée, alors la carte sera automatiquement "
+"sélectionnée lorsque la souris restera au-dessus d'elle."
 
 #: client/options.c:892
 msgid "City Label"
@@ -11777,7 +11824,8 @@ msgstr "Étiquette de ville"
 
 #: client/options.c:893
 msgid "This font is used to display the city labels on city dialogs."
-msgstr ""
+msgstr "Cette fonte est utilisée pour afficher les étiquettes de villes "
+"dans les fenêtres de villes."
 
 #: client/options.c:898
 msgid "Notify Label"
@@ -11788,17 +11836,17 @@ msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
+"Cette fonte est utilisée pour afficher les rapports du serveur comme le "
+"rapport démographique ou les publications d'historiens."
 
 #: client/options.c:904
 msgid "Spaceship Label"
 msgstr "Étiquette du vaisseau spatial"
 
 #: client/options.c:905
-#, fuzzy
 msgid "This font is used to display the spaceship widgets."
-msgstr ""
-"Si cette option est mise à 1, les joueurs peuvent construire des vaisseaux "
-"spatiaux."
+msgstr "Cette fonte est utilisée pour afficher les caractéristiques des "
+"vaisseaux spaciaux."
 
 #: client/options.c:909
 msgid "Help Label"
@@ -11807,6 +11855,8 @@ msgstr "Étiquette d'aide"
 #: client/options.c:910
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
+"Cette fonte est utilisée pour afficher les en-têtes d'aides dans la "
+"fenêtre d'aide."
 
 #: client/options.c:915
 msgid "Help Link"
@@ -11815,6 +11865,7 @@ msgstr "Lien d'aide"
 #: client/options.c:916
 msgid "This font is used to display the help links in the help window."
 msgstr ""
+"Cette fonte est utilisée pour afficher les liens dans la fenêtre d'aide."
 
 #: client/options.c:921
 msgid "Help Text"
@@ -11823,6 +11874,8 @@ msgstr "Texte d'aide"
 #: client/options.c:922
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
+"Cette fonte est utilisée pour afficher le corps du texte dans la fenêtre "
+"d'aide."
 
 #: client/options.c:927
 msgid "Chatline Area"
@@ -11831,6 +11884,8 @@ msgstr "Zone de discussion"
 #: client/options.c:928
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
+"Cette fonte est utilisée pour afficher le texte dans la fenêtre de "
+"discussion."
 
 #: client/options.c:933
 msgid "Beta Label"
@@ -11838,7 +11893,7 @@ msgstr "Étiquette de Béta"
 
 #: client/options.c:934
 msgid "This font is used to display the beta label."
-msgstr ""
+msgstr "Cette fonte est utilisée pour afficher l'étiquette de béta."
 
 #: client/options.c:938
 msgid "Small Font"
@@ -11850,6 +11905,9 @@ msgid ""
 "display the building lists in the city dialog, the economic report or the "
 "unit report."
 msgstr ""
+"Cette fonte est utilisée pour afficher toutes les petites fontes. Par "
+"exemple, pour afficher la liste de constructions dans la fenêtre des "
+"villes, le rapport économiques ou le rapport sur les unités."
 
 #: client/options.c:946
 msgid "Comment Label"
@@ -11860,6 +11918,8 @@ msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
+"Cette fonte est utilisée pour afficher les étiquettes de commentaires, "
+"comme dans la page du gouverneur dans la fenêtre des villes."
 
 #: client/options.c:952 client/gui-sdl/optiondlg.c:1538
 #: client/gui-xaw/menu.c:148
@@ -11869,6 +11929,7 @@ msgstr "Nom Ville"
 #: client/options.c:953
 msgid "This font is used to the display the city names on the map."
 msgstr ""
+"Cette fonte est utilisée pour afficher les noms de villes sur la carte."
 
 # AR
 #: client/options.c:958
@@ -11878,16 +11939,19 @@ msgstr "Productions de la ville"
 #: client/options.c:959
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
+"Cette fonte est utilisée pour afficher la production des villes sur la "
+"carte."
 
 #: client/options.c:964
-#, fuzzy
 msgid "Requirement Tree"
-msgstr "Préalables"
+msgstr "Arbres des préalables"
 
 #: client/options.c:965
 msgid ""
 "This font is used to the display the requirement tree in the science report."
 msgstr ""
+"Cette fonte est utilisée pour afficher les arbres de préalables comme dans "
+"le rapport scientifique."
 
 #: client/options.c:971
 msgid "Full Screen"
@@ -11966,10 +12030,12 @@ msgstr "Votre répertoire \"home\" est introuvable"
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
+"Impossible de trouver le fichier d'options \"%s\", chargeons depuis "
+"\"%s\" à la place."
 
 #: client/options.c:2034
 msgid "Didn't find the option file."
-msgstr ""
+msgstr "Impossible de trouver le fichier d'options."
 
 #: client/options.c:2049 client/options.c:2148
 #, c-format
@@ -12291,7 +12357,7 @@ msgstr " avec %s"
 #: client/text.c:260
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ""
+msgstr " et %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:264
@@ -12821,29 +12887,21 @@ msgid "Could not open \"%s\"."
 msgstr "Impossible d'ouvrir \"%s\"."
 
 #: client/tilespec.c:1372
-#, fuzzy
 msgid "Client does not support isometric tilesets."
-msgstr ""
-"Le client ne supporte pas les jeux de textures isométriques. Utilisation "
-"d'un jeu de textures standard à la place."
+msgstr "Le client ne supporte pas les jeux de textures isométriques."
 
 #: client/tilespec.c:1373 client/tilespec.c:1382
 msgid "Using default tileset instead."
-msgstr ""
+msgstr "Utilisation du jeu de textures standard à la place."
 
 #: client/tilespec.c:1381
-#, fuzzy
 msgid "Client does not support overhead view tilesets."
-msgstr ""
-"Le client ne supporte pas les jeux de textures de vue par dessus la tête. "
-"Utilisation d'un jeu de textures standard à la place."
+msgstr "Le client ne supporte pas les jeux de textures de vue par dessus "
+"la tête."
 
 #: client/tilespec.c:4240
-#, fuzzy
 msgid "Paths longer than 99 turns are not supported."
-msgstr ""
-"Les chemins plus longs que 99 tours ne sont pas supportés.\n"
-"Reportez ce bogue à %s."
+msgstr "Les chemins plus longs que 99 tours ne sont pas supportés."
 
 #: client/agents/cma_core.c:398
 #, c-format
@@ -13181,15 +13239,15 @@ msgstr "Vous ne pouvez pas soudoyer une unité de cette nation."
 
 #: client/gui-gtk-2.0/chatline.c:447
 msgid "This city isn't known!"
-msgstr ""
+msgstr "Cette ville est inconnue !"
 
 #: client/gui-gtk-2.0/chatline.c:456
 msgid "This tile doesn't exist in this game!"
-msgstr ""
+msgstr "Cette case n'existe pas dans cette partie !"
 
 #: client/gui-gtk-2.0/chatline.c:466
 msgid "This unit isn't known!"
-msgstr ""
+msgstr "Cette unité est inconnue !"
 
 #: client/gui-gtk-2.0/chatline.c:777 client/gui-win32/chatline.c:137
 #: client/gui-xaw/chatline.c:121
@@ -13204,54 +13262,49 @@ msgstr "Choisissez la découverte que vous voulez voler"
 
 #: client/gui-gtk-2.0/chatline.c:1170
 msgid "Bold (Ctrl-B)"
-msgstr ""
+msgstr "Gras (Ctrl-B)"
 
 #: client/gui-gtk-2.0/chatline.c:1179
 msgid "Italic (Ctrl-I)"
-msgstr ""
+msgstr "Italique (Ctrl-I)"
 
 #: client/gui-gtk-2.0/chatline.c:1188
 msgid "Strikethrough (Ctrl-S)"
-msgstr ""
+msgstr "Barré (Ctrl-S)"
 
 #: client/gui-gtk-2.0/chatline.c:1197
 msgid "Underline (Ctrl-U)"
-msgstr ""
+msgstr "Souligné (Ctrl-U)"
 
 #: client/gui-gtk-2.0/chatline.c:1206
 msgid "Color (Ctrl-C)"
-msgstr ""
+msgstr "Coloré (Ctrl-C)"
 
 #: client/gui-gtk-2.0/chatline.c:1215
 msgid "foreground"
-msgstr ""
+msgstr "avant-plan"
 
 #: client/gui-gtk-2.0/chatline.c:1219
-#, fuzzy
 msgid "Select the text color"
-msgstr "Choisissez la découverte que vous voulez voler"
+msgstr "Sélectionnez la couleur du texte"
 
 #: client/gui-gtk-2.0/chatline.c:1231
-#, fuzzy
 msgid "background"
-msgstr "Arrière plan"
+msgstr "arrière-plan"
 
 #: client/gui-gtk-2.0/chatline.c:1235
-#, fuzzy
 msgid "Select the background color"
-msgstr "Couleur de fond des unités"
+msgstr "Sélectionnez la couleur de fond"
 
 # AR
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-2.0/chatline.c:1253
-#, fuzzy
 msgid "Send the chat (Return)"
-msgstr "Bip à chaque nouveau tour"
+msgstr "Envoyer le message de discussion (Entrée)"
 
 #: client/gui-gtk-2.0/chatline.c:1266
-#, fuzzy
 msgid "Chat tools"
-msgstr "Changer en %s"
+msgstr "Outils de discussion"
 
 #: client/gui-gtk-2.0/citydlg.c:585 client/gui-win32/citydlg.c:682
 msgid "Food:"
@@ -13302,7 +13355,7 @@ msgstr "Pollution :"
 
 #: client/gui-gtk-2.0/citydlg.c:596 client/gui-win32/citydlg.c:693
 msgid "Plague Risk:"
-msgstr ""
+msgstr "Risque épidémique :"
 
 #: client/gui-gtk-2.0/citydlg.c:650 client/gui-gtk-2.0/inteldlg.c:197
 msgid "_Overview"
@@ -13994,46 +14047,45 @@ msgid ""
 "The current ruleset does not define any objects corresponding to this editor "
 "tool."
 msgstr ""
+"Le jeu de règles utilisé ne définit pas d'objet correspondant à cet outil "
+"d'édition."
 
 #: client/gui-gtk-2.0/editgui.c:238
-#, fuzzy
 msgid "Global Observer"
-msgstr "Observateur"
+msgstr "Observateur global"
 
 #: client/gui-gtk-2.0/editgui.c:581
 msgid ""
 "Switch player point-of-view. Use this to edit from the perspective of "
 "different players, or even as a global observer."
 msgstr ""
+"Changer de point de vue. Utiliser ceci pour éditer depuis le point de vue "
+"de différents joueurs, ou même de l'observateur global."
 
 #: client/gui-gtk-2.0/editgui.c:594
 msgid "Show the property editor."
-msgstr ""
+msgstr "Montrer l'éditeur de propriétés"
 
 #: client/gui-gtk-2.0/editgui.c:1008
-#, fuzzy
 msgid "Select Tool Value"
-msgstr "Sélectionner"
+msgstr "Valeur de l'outil de sélection"
 
 #: client/gui-gtk-2.0/editgui.c:1178
-#, fuzzy
 msgid "Editor Tool"
 msgstr "Outils d'édition"
 
 #: client/gui-gtk-2.0/editgui.c:1192
 msgid "Click to change value if applicable."
-msgstr ""
+msgstr "Cliquez pour changer la valeur si applicable."
 
 # AR
 #: client/gui-gtk-2.0/editgui.c:1220
-#, fuzzy
 msgid "Click to change tool mode."
-msgstr "Impossible de changer la taille de la ville."
+msgstr "Cliquez pour changer le mode de l'outil."
 
 #: client/gui-gtk-2.0/editgui.c:1234
-#, fuzzy
 msgid "Mode"
-msgstr "Moderne"
+msgstr "Mode"
 
 #: client/gui-gtk-2.0/editgui.c:1250
 msgid ""
@@ -14041,32 +14093,39 @@ msgid ""
 "controls for example the half-width of the square of tiles that will be "
 "affected by the tool, or the size of a created city."
 msgstr ""
+"Utilisez ceci pour changer le paramètre \"taille\" pour l'outil. Ce "
+"paramètre contrôle par exemple la demi-largeur d'un carré de cases qui "
+"sera affecté par l'outil, ou la taille d'une ville créée."
 
 #: client/gui-gtk-2.0/editgui.c:1267
 msgid ""
 "Use this to change the tool's \"count\" parameter. This controls for example "
 "how many units are placed at once with the unit tool."
 msgstr ""
+"Utilisez ceci pour changer le paramètre \"compte\" de l'outil. Ce "
+"paramètre contrôle par exemple combien d'unités seront placées d'un seul "
+"coup par l'outil unités."
 
 #: client/gui-gtk-2.0/editgui.c:1302
 msgid ""
 "Use this to change the \"applied player\" tool parameter. This controls for "
 "example under which player units and cities are created."
 msgstr ""
+"Utilisez ceci pour changer le paramètre \"joueur\" de l'outil. Ce "
+"paramètre contrôle par exemple quel sera le propriétaire des unités et "
+"des villes créées."
 
 #: client/gui-gtk-2.0/editprop.c:602
-#, fuzzy
 msgid "Tile"
-msgstr "Jeu de textures"
+msgstr "Case"
 
 #: client/gui-gtk-2.0/editprop.c:614
 msgid "Player"
 msgstr "Joueur"
 
 #: client/gui-gtk-2.0/editprop.c:618
-#, fuzzy
 msgid "?play:Game"
-msgstr "?joueur:Nom"
+msgstr "Jeu"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -14121,27 +14180,24 @@ msgstr "Modifier"
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-2.0/editprop.c:3191 client/gui-gtk-2.0/editprop.c:3216
-#, fuzzy
 msgid "Present"
-msgstr "Président"
+msgstr "Présent"
 
 #: client/gui-gtk-2.0/editprop.c:3193 client/gui-gtk-2.0/editprop.c:3200
 #: client/gui-gtk-2.0/editprop.c:3218 client/gui-gtk-2.0/editprop.c:3230
 #: client/gui-gtk-2.0/editprop.c:3242 client/gui-gtk-2.0/editprop.c:3769
 #: client/gui-gtk-2.0/editprop.c:3795
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. TRANS: As in "this invention is known".
 #: client/gui-gtk-2.0/editprop.c:3206 client/gui-gtk-2.0/editprop.c:3240
-#, fuzzy
 msgid "Known"
-msgstr "Ville inconnue"
+msgstr "Connu"
 
 #: client/gui-gtk-2.0/editprop.c:3222
-#, fuzzy
 msgid "Turn Built"
-msgstr "Bip à chaque tour"
+msgstr "Tour contruit"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-2.0/editprop.c:3228
@@ -14152,50 +14208,44 @@ msgstr "Veiller"
 #: client/gui-gtk-2.0/editprop.c:3728 client/gui-gtk-2.0/editprop.c:3763
 #: client/gui-gtk-2.0/editprop.c:3789
 msgid "Image"
-msgstr ""
+msgstr "Image"
 
 #: client/gui-gtk-2.0/editprop.c:3732
-#, fuzzy
 msgid "Resource"
-msgstr "Ressources"
+msgstr "Ressource"
 
 #: client/gui-gtk-2.0/editprop.c:3734
-#, fuzzy
 msgid "Index"
-msgstr "Inactif"
+msgstr "Index"
 
 #: client/gui-gtk-2.0/editprop.c:3736
-#, fuzzy
 msgid "?coordinate:X"
-msgstr "Mauvaises coordonnées."
+msgstr "X"
 
 #: client/gui-gtk-2.0/editprop.c:3738
-#, fuzzy
 msgid "?coordinate:Y"
-msgstr "Mauvaises coordonnées."
+msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:3742
 msgid "NAT X"
-msgstr ""
+msgstr "NAT X"
 
 #. TRANS: The coordinate Y in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
 #: client/gui-gtk-2.0/editprop.c:3746
 msgid "NAT Y"
-msgstr ""
+msgstr "NAT Y"
 
 #: client/gui-gtk-2.0/editprop.c:3748
-#, fuzzy
 msgid "Continent"
-msgstr "Se connecter"
+msgstr "Continent"
 
 #: client/gui-gtk-2.0/editprop.c:3750 client/gui-gtk-2.0/editprop.c:3771
 #: client/gui-gtk-2.0/editprop.c:3797
-#, fuzzy
 msgid "?coordinates:X,Y"
-msgstr "Mauvaises coordonnées."
+msgstr "X,Y"
 
 #: client/gui-gtk-2.0/editprop.c:3752 client/gui-win32/menu.c:353
 #: client/gui-xaw/menu.c:159
@@ -14203,15 +14253,13 @@ msgid "Specials"
 msgstr "Ressources spéciales"
 
 #: client/gui-gtk-2.0/editprop.c:3754
-#, fuzzy
 msgid "Bases"
-msgstr "Basque"
+msgstr "Bases"
 
 #: client/gui-gtk-2.0/editprop.c:3756 client/gui-gtk-2.0/editprop.c:3765
 #: client/gui-gtk-2.0/editprop.c:3793 client/gui-gtk-2.0/editprop.c:3812
-#, fuzzy
 msgid "Address"
-msgstr "Ajouter pré-réglage"
+msgstr "Adresse"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:3767 client/gui-gtk-2.0/pages.c:951
@@ -14222,29 +14270,25 @@ msgid "Type"
 msgstr "Type"
 
 #: client/gui-gtk-2.0/editprop.c:3773
-#, fuzzy
 msgid "Moves Left"
 msgstr "Mouvements"
 
 #: client/gui-gtk-2.0/editprop.c:3775
-#, fuzzy
 msgid "Fuel"
-msgstr "Une femme"
+msgstr "Carburant"
 
 #: client/gui-gtk-2.0/editprop.c:3777
-#, fuzzy
 msgid "Moved"
-msgstr "Mouvements"
+msgstr "Déplacé"
 
 #: client/gui-gtk-2.0/editprop.c:3779
-#, fuzzy
 msgid "Done Moving"
-msgstr "Travail du bronze"
+msgstr "Déplacement terminé"
 
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-2.0/editprop.c:3782
 msgid "HP"
-msgstr ""
+msgstr "EV"
 
 #: client/gui-gtk-2.0/editprop.c:3784 client/gui-sdl/dialogs.c:670
 #: client/gui-sdl/dialogs.c:682 client/gui-sdl/dialogs.c:1406
@@ -23443,7 +23487,7 @@ msgstr "Usurpateur"
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56
 msgid "?female:Usurper"
-msgstr "?female:Usurpatrice"
+msgstr "Usurpatrice"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:58
 msgid ""
@@ -23475,7 +23519,7 @@ msgstr "Chef"
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
 #: data/civ1/governments.ruleset:78
 msgid "?female:Chief"
-msgstr "?female:Chef"
+msgstr "Chef"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:80
 msgid ""
@@ -23533,7 +23577,7 @@ msgstr "Camarade"
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:119
 #: data/civ1/governments.ruleset:121
 msgid "?female:Comrade"
-msgstr "?female:Camarade"
+msgstr "Camarade"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:123
 msgid ""
@@ -23566,7 +23610,7 @@ msgstr "Consul"
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:171
 #: data/civ1/governments.ruleset:145
 msgid "?female:Consul"
-msgstr "?female:Consul"
+msgstr "Consul"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:173
 #: data/civ1/governments.ruleset:147
@@ -23597,7 +23641,7 @@ msgstr "Président"
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:193
 #: data/civ1/governments.ruleset:167
 msgid "?female:President"
-msgstr "?female:Présidente"
+msgstr "Présidente"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -24432,7 +24476,7 @@ msgstr "Fer"
 #: data/default/terrain.ruleset:695 data/civ2/terrain.ruleset:588
 #: data/civ1/terrain.ruleset:566
 msgid "?animals:Game"
-msgstr "?animaux:Gibier"
+msgstr "Gibier"
 
 #: data/default/terrain.ruleset:704 data/civ2/terrain.ruleset:597
 msgid "Furs"
@@ -25695,7 +25739,7 @@ msgstr "Padisah"
 #: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:29
 #, fuzzy
 msgid "?female:Padishah"
-msgstr "?female:Pharaonne"
+msgstr "Pharaonne"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
 #: data/nation/soviet.ruleset:27
@@ -25705,7 +25749,7 @@ msgstr "Premier secrétaire"
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
 #: data/nation/soviet.ruleset:27
 msgid "?female:General Secretary"
-msgstr "?female:Secrétaire générale"
+msgstr "Secrétaire générale"
 
 #: data/nation/afghani.ruleset:27
 msgid "Mullah"
@@ -25714,7 +25758,7 @@ msgstr "Mollah"
 #: data/nation/afghani.ruleset:27
 #, fuzzy
 msgid "?female:Mullah"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:28
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:22
@@ -25750,7 +25794,7 @@ msgstr "Premier Ministre"
 #: data/nation/spanish.ruleset:30 data/nation/swedish.ruleset:33
 #: data/nation/tibetan.ruleset:29 data/nation/welsh.ruleset:27
 msgid "?female:Prime Minister"
-msgstr "?female:Premier Ministre"
+msgstr "Premier Ministre"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
@@ -25759,7 +25803,7 @@ msgstr ""
 #: data/nation/ainu.ruleset:4
 #, fuzzy
 msgid "?plural:Ainu"
-msgstr "?plural:Finlandais"
+msgstr "Finlandais"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -25775,7 +25819,7 @@ msgstr ""
 #: data/nation/ainu.ruleset:20
 #, fuzzy
 msgid "?female:Nipa"
-msgstr "?female:Nawab"
+msgstr "Nawab"
 
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
@@ -25785,7 +25829,7 @@ msgstr ""
 #: data/nation/ainu.ruleset:22
 #, fuzzy
 msgid "?female:Nipsa"
-msgstr "?female:Nawab"
+msgstr "Nawab"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
@@ -25794,7 +25838,7 @@ msgstr ""
 #: data/nation/akwe.ruleset:4
 #, fuzzy
 msgid "?plural:Akwe"
-msgstr "?plural:Aztecs"
+msgstr "Aztecs"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -25866,7 +25910,7 @@ msgstr "Dey"
 #: data/nation/tunisian.ruleset:29
 #, fuzzy
 msgid "?female:Dey"
-msgstr "?female:Despote"
+msgstr "Despote"
 
 #: data/nation/algerian.ruleset:24 data/nation/arab.ruleset:23
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:33
@@ -25877,7 +25921,7 @@ msgstr "Calife"
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:33
 #, fuzzy
 msgid "?female:Caliph"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/american.ruleset:3 data/nation/muskogee.ruleset:5
 msgid "American"
@@ -25904,7 +25948,7 @@ msgstr "Prêcheur"
 #: data/nation/american.ruleset:51 data/nation/confederate.ruleset:25
 #: data/nation/scottish.ruleset:25
 msgid "?female:Speaker"
-msgstr "?female:Prêcheuse"
+msgstr "Prêcheuse"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "Reverend"
@@ -25912,7 +25956,7 @@ msgstr "Révérend"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "?female:Reverend"
-msgstr "?female:Révérende"
+msgstr "Révérende"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -26115,7 +26159,7 @@ msgstr "Aymara"
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr "?plural:Aymaras"
+msgstr "Aymaras"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -26140,7 +26184,7 @@ msgstr "Algérien"
 #: data/nation/azeri.ruleset:4
 #, fuzzy
 msgid "?plural:Azeris"
-msgstr "?plural:Aztecs"
+msgstr "Aztecs"
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -26205,7 +26249,7 @@ msgstr "Tlatoani"
 #: data/nation/aztec.ruleset:22
 #, fuzzy
 msgid "?female:Tlatoani"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #. TRANS: Huey Tlatoani = Great Speaker
 #: data/nation/aztec.ruleset:24
@@ -26243,7 +26287,7 @@ msgstr "Lugal"
 #: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:27
 #, fuzzy
 msgid "?female:Lugal"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -26263,7 +26307,7 @@ msgstr "Basque"
 
 #: data/nation/basque.ruleset:4
 msgid "?plural:Basques"
-msgstr "?plural:Basques"
+msgstr "Basques"
 
 #: data/nation/basque.ruleset:6
 msgid ""
@@ -26308,7 +26352,7 @@ msgstr "Bulgare"
 #: data/nation/belarusian.ruleset:4
 #, fuzzy
 msgid "?plural:Belarusians"
-msgstr "?plural:Bulgares"
+msgstr "Bulgares"
 
 #: data/nation/belarusian.ruleset:6
 msgid ""
@@ -26401,7 +26445,7 @@ msgstr "Nawab"
 
 #: data/nation/bengali.ruleset:25
 msgid "?female:Nabob"
-msgstr "?female:Nawab"
+msgstr "Nawab"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -26449,7 +26493,7 @@ msgstr "Ban"
 #: data/nation/bosnia.ruleset:27
 #, fuzzy
 msgid "?female:Ban"
-msgstr "?female:Général"
+msgstr "Général"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -26502,7 +26546,7 @@ msgstr "Président-directeur"
 
 #: data/nation/brazilian.ruleset:27
 msgid "?female:Director-President"
-msgstr "?female:Présidente-directrice"
+msgstr "Présidente-directrice"
 
 #: data/nation/breton.ruleset:3
 #, fuzzy
@@ -26512,7 +26556,7 @@ msgstr "Frère"
 #: data/nation/breton.ruleset:4
 #, fuzzy
 msgid "?plural:Bretons"
-msgstr "?plural:Britanniques"
+msgstr "Britanniques"
 
 #: data/nation/breton.ruleset:6
 msgid ""
@@ -26601,7 +26645,7 @@ msgstr "Bulgare"
 #: data/nation/burgundian.ruleset:4
 #, fuzzy
 msgid "?plural:Burgundians"
-msgstr "?plural:Britanniques"
+msgstr "Britanniques"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -26644,7 +26688,7 @@ msgstr "Bohmugyi"
 
 #: data/nation/burmese.ruleset:21
 msgid "?female:Bohmugyi"
-msgstr "?female:Bohmugyi"
+msgstr "Bohmugyi"
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundi"
@@ -26653,7 +26697,7 @@ msgstr ""
 #: data/nation/burundi.ruleset:4
 #, fuzzy
 msgid "?plural:Burundi"
-msgstr "?plural:Britanniques"
+msgstr "Britanniques"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -26722,7 +26766,7 @@ msgstr "Canadien"
 #: data/nation/cambodian.ruleset:4
 #, fuzzy
 msgid "?plural:Cambodians"
-msgstr "?plural:Canadiens"
+msgstr "Canadiens"
 
 #: data/nation/cambodian.ruleset:6
 #, fuzzy
@@ -26835,7 +26879,7 @@ msgstr "Cherokee"
 
 #: data/nation/cherokee.ruleset:4
 msgid "?plural:Cherokees"
-msgstr "?plural:Cherokees"
+msgstr "Cherokees"
 
 #: data/nation/cherokee.ruleset:6
 msgid ""
@@ -26856,7 +26900,7 @@ msgstr "Grand Chef"
 #: data/nation/maori.ruleset:24 data/nation/polynesian.ruleset:18
 #: data/nation/sioux.ruleset:28 data/nation/zulu.ruleset:38
 msgid "?female:Great Chief"
-msgstr "?female:Grande Chef"
+msgstr "Grande Chef"
 
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/maori.ruleset:25 data/nation/muskogee.ruleset:33
@@ -26886,7 +26930,7 @@ msgstr "Chef principal"
 #: data/nation/polynesian.ruleset:20 data/nation/sioux.ruleset:30
 #: data/nation/swazi.ruleset:25 data/nation/zulu.ruleset:40
 msgid "?female:Principal Chief"
-msgstr "?female:Chef Principale"
+msgstr "Chef Principale"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -26918,7 +26962,7 @@ msgstr "Archevêque"
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
 #: data/nation/german.ruleset:34 data/nation/prussian.ruleset:29
 msgid "?female:Archbishop"
-msgstr "?female:Archevêque"
+msgstr "Archevêque"
 
 #: data/nation/chilean.ruleset:26 data/nation/peruvian.ruleset:26
 msgid "Supreme Director"
@@ -26970,7 +27014,7 @@ msgstr "Charbon"
 #: data/nation/chola.ruleset:4
 #, fuzzy
 msgid "?plural:Cholas"
-msgstr "?plural:Chiliens"
+msgstr "Chiliens"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -27032,7 +27076,7 @@ msgstr "Général"
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
 msgid "?female:General"
-msgstr "?female:Général"
+msgstr "Général"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governador"
@@ -27089,7 +27133,7 @@ msgstr "Chef"
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "?female:Chieftain"
-msgstr "?female:Chef"
+msgstr "Chef"
 
 #: data/nation/cornish.ruleset:21 data/nation/irish.ruleset:45
 msgid "High King"
@@ -27107,7 +27151,7 @@ msgstr "vert"
 #: data/nation/cree.ruleset:4
 #, fuzzy
 msgid "?plural:Cree"
-msgstr "?plural:Grecs"
+msgstr "Grecs"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -27218,7 +27262,7 @@ msgstr "Roumain"
 #: data/nation/dominican.ruleset:4
 #, fuzzy
 msgid "?plural:Dominicans"
-msgstr "?plural:Roumains"
+msgstr "Roumains"
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -27273,7 +27317,7 @@ msgstr "Pharaon"
 
 #: data/nation/egyptian.ruleset:26 data/nation/nubian.ruleset:33
 msgid "?female:Pharaoh"
-msgstr "?female:Pharaonne"
+msgstr "Pharaonne"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 msgid "Great Pharaoh"
@@ -27281,7 +27325,7 @@ msgstr "Grand Pharaon"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 msgid "?female:Great Pharaoh"
-msgstr "?female:Grande Pharaonne"
+msgstr "Grande Pharaonne"
 
 #: data/nation/emirati.ruleset:3
 #, fuzzy
@@ -27291,7 +27335,7 @@ msgstr "Émir"
 #: data/nation/emirati.ruleset:4
 #, fuzzy
 msgid "?plural:Emiratis"
-msgstr "?plural:Iraquiens"
+msgstr "Iraquiens"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -27335,7 +27379,7 @@ msgstr "Européen"
 #: data/nation/esperant.ruleset:4
 #, fuzzy
 msgid "?plural:Esperants"
-msgstr "?plural:Européens"
+msgstr "Européens"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -27384,7 +27428,7 @@ msgstr "Européen"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
-msgstr "?plural:Européens"
+msgstr "Européens"
 
 #: data/nation/european.ruleset:6
 msgid ""
@@ -27523,7 +27567,7 @@ msgstr "Druide"
 
 #: data/nation/gallic.ruleset:30
 msgid "?female:Druid"
-msgstr "?female:Druidesse"
+msgstr "Druidesse"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
@@ -27569,7 +27613,7 @@ msgstr "Chancelier"
 #: data/nation/german.ruleset:33 data/nation/prussian.ruleset:28
 #: data/nation/swiss.ruleset:21
 msgid "?female:Chancellor"
-msgstr "?femal:Chancelière"
+msgstr "Chancelière"
 
 #: data/nation/german.ruleset:35 data/nation/polish.ruleset:29
 #: data/nation/prussian.ruleset:30
@@ -27579,7 +27623,7 @@ msgstr "Premier secrétaire"
 #: data/nation/german.ruleset:35 data/nation/polish.ruleset:29
 #: data/nation/prussian.ruleset:30
 msgid "?female:First Secretary"
-msgstr "?femal:Première secrétaire"
+msgstr "Première secrétaire"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
@@ -27599,7 +27643,7 @@ msgstr "Despote"
 
 #: data/nation/greek.ruleset:19 data/nation/hellenic.ruleset:19
 msgid "?female:Despot"
-msgstr "?female:Despote"
+msgstr "Despote"
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -27608,7 +27652,7 @@ msgstr ""
 #: data/nation/gupta.ruleset:4
 #, fuzzy
 msgid "?plural:Gupta"
-msgstr "?plural:Hollandais"
+msgstr "Hollandais"
 
 #: data/nation/gupta.ruleset:7
 msgid ""
@@ -27633,7 +27677,7 @@ msgstr "Hackeuse"
 
 #: data/nation/hacker.ruleset:4
 msgid "?plural:Hackers"
-msgstr "?plural:Hackers"
+msgstr "Hackers"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
@@ -27641,11 +27685,11 @@ msgstr "h4xx0r r0xx0rz!"
 
 #: data/nation/hacker.ruleset:39
 msgid "?title:Hacker"
-msgstr "?title:Hacker"
+msgstr "Hacker"
 
 #: data/nation/hacker.ruleset:39
 msgid "?female:Hacker"
-msgstr "?female:Hackeuse"
+msgstr "Hackeuse"
 
 #: data/nation/hacker.ruleset:40
 #, fuzzy
@@ -27655,7 +27699,7 @@ msgstr "Inca"
 #: data/nation/hacker.ruleset:40
 #, fuzzy
 msgid "?female:1337"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/hawaiian.ruleset:3
 #, fuzzy
@@ -27665,7 +27709,7 @@ msgstr "en attente"
 #: data/nation/hawaiian.ruleset:4
 #, fuzzy
 msgid "?plural:Hawaiians"
-msgstr "?plural:Bavarois"
+msgstr "Bavarois"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
@@ -27699,7 +27743,7 @@ msgstr "Hittite"
 #: data/nation/himyarite.ruleset:4
 #, fuzzy
 msgid "?plural:Himyar"
-msgstr "?plural:Aymaras"
+msgstr "Aymaras"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -27761,7 +27805,7 @@ msgstr "Roi"
 #: data/nation/hopi.ruleset:28
 #, fuzzy
 msgid "?female:Kikmongwi"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -27922,7 +27966,7 @@ msgstr "Chaman"
 
 #: data/nation/inuit.ruleset:20
 msgid "?female:Shaman"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/inuit.ruleset:21
 msgid "Great Shaman"
@@ -27930,7 +27974,7 @@ msgstr "Grand chaman"
 
 #: data/nation/inuit.ruleset:21
 msgid "?female:Great Shaman"
-msgstr "?female:Grande chamanne"
+msgstr "Grande chamanne"
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
@@ -27938,7 +27982,7 @@ msgstr "Iranien"
 
 #: data/nation/iranian.ruleset:4
 msgid "?plural:Iranians"
-msgstr "?plural:Iraniens"
+msgstr "Iraniens"
 
 #: data/nation/iranian.ruleset:6
 msgid ""
@@ -27955,7 +27999,7 @@ msgstr ""
 #: data/nation/iranian.ruleset:45
 #, fuzzy
 msgid "?female:Raiis Jomhoor"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
 msgid "Ayatollah"
@@ -28111,7 +28155,7 @@ msgstr "Shogun"
 #: data/nation/japanese.ruleset:21
 #, fuzzy
 msgid "?female:Shogun"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
@@ -28120,7 +28164,7 @@ msgstr ""
 #: data/nation/kanem-bornu.ruleset:4
 #, fuzzy
 msgid "?plural:Kanem-Bornu"
-msgstr "?plural:Coréens"
+msgstr "Coréens"
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
@@ -28136,7 +28180,7 @@ msgstr "Maori"
 #: data/nation/kanem-bornu.ruleset:22
 #, fuzzy
 msgid "?female:Mai"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
@@ -28145,7 +28189,7 @@ msgstr ""
 #: data/nation/kazakh.ruleset:4
 #, fuzzy
 msgid "?plural:Kazakhs"
-msgstr "?plural:Mayas"
+msgstr "Mayas"
 
 #: data/nation/kazakh.ruleset:6
 msgid ""
@@ -28188,7 +28232,7 @@ msgstr "Nabongo"
 #: data/nation/kenyan.ruleset:18
 #, fuzzy
 msgid "?female:Nabongo"
-msgstr "?female:Nawab"
+msgstr "Nawab"
 
 #: data/nation/khwarezmian.ruleset:3
 #, fuzzy
@@ -28198,7 +28242,7 @@ msgstr "Président"
 #: data/nation/khwarezmian.ruleset:4
 #, fuzzy
 msgid "?plural:Khwarezmians"
-msgstr "?plural:Coréens"
+msgstr "Coréens"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -28220,7 +28264,7 @@ msgstr "Mongol"
 #: data/nation/kongo.ruleset:4
 #, fuzzy
 msgid "?plural:Kongo"
-msgstr "?plural:Mongols"
+msgstr "Mongols"
 
 #: data/nation/kongo.ruleset:7
 msgid ""
@@ -28239,7 +28283,7 @@ msgstr "Mines"
 #: data/nation/kongo.ruleset:27
 #, fuzzy
 msgid "?female:Manikongo"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -28272,7 +28316,7 @@ msgstr "Irlandais"
 #: data/nation/kurd.ruleset:4
 #, fuzzy
 msgid "?plural:Kurds"
-msgstr "?plural:Turcs"
+msgstr "Turcs"
 
 #: data/nation/kurd.ruleset:6
 msgid ""
@@ -28294,7 +28338,7 @@ msgstr ""
 #: data/nation/kyrgyz.ruleset:4
 #, fuzzy
 msgid "?plural:Kyrgyzs"
-msgstr "?plural:Aymaras"
+msgstr "Aymaras"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid ""
@@ -28338,7 +28382,7 @@ msgstr "Gouverneur"
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "?female:Governor"
-msgstr "?female:Gouverneur"
+msgstr "Gouverneur"
 
 #: data/nation/lankese.ruleset:22
 msgid "Supreme Commander"
@@ -28346,7 +28390,7 @@ msgstr "Commandant suprême"
 
 #: data/nation/lankese.ruleset:22
 msgid "?female:Supreme Commander"
-msgstr "?female:Commandante suprême"
+msgstr "Commandante suprême"
 
 #: data/nation/laotian.ruleset:3
 #, fuzzy
@@ -28356,7 +28400,7 @@ msgstr "Letton"
 #: data/nation/laotian.ruleset:4
 #, fuzzy
 msgid "?plural:Laotians"
-msgstr "?plural:Lettons"
+msgstr "Lettons"
 
 #: data/nation/laotian.ruleset:6
 msgid ""
@@ -28416,7 +28460,7 @@ msgstr "Colonel"
 #: data/nation/libyan.ruleset:24
 #, fuzzy
 msgid "?female:Colonel"
-msgstr "?female:Consul"
+msgstr "Consul"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -28452,7 +28496,7 @@ msgstr "Roumain"
 #: data/nation/lojbanistani.ruleset:4
 #, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "?plural:Roumains"
+msgstr "Roumains"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -28469,7 +28513,7 @@ msgstr ""
 #: data/nation/majapahit.ruleset:4
 #, fuzzy
 msgid "?plural:Majapahit"
-msgstr "?plural:Malgaches"
+msgstr "Malgaches"
 
 #: data/nation/majapahit.ruleset:7
 msgid ""
@@ -28491,7 +28535,7 @@ msgstr "Mahatma"
 #: data/nation/majapahit.ruleset:28
 #, fuzzy
 msgid "?female:Mahapatih"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
@@ -28516,7 +28560,7 @@ msgstr "Haut commissaire"
 
 #: data/nation/malagasy.ruleset:22
 msgid "?female:High Commissioner"
-msgstr "?female:Haut commissaire"
+msgstr "Haut commissaire"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -28541,7 +28585,7 @@ msgstr "Tun"
 #: data/nation/malaysian.ruleset:23
 #, fuzzy
 msgid "?female:Tun"
-msgstr "?female:Général"
+msgstr "Général"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -28576,7 +28620,7 @@ msgstr "Mansa"
 #: data/nation/malian.ruleset:26
 #, fuzzy
 msgid "?female:Mansa"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -28599,7 +28643,7 @@ msgstr ""
 #: data/nation/manchu.ruleset:20
 #, fuzzy
 msgid "?female:Warlord"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
@@ -28627,7 +28671,7 @@ msgstr "Cambodgien"
 #: data/nation/mapuche.ruleset:4
 #, fuzzy
 msgid "?plural:Mapuche"
-msgstr "?plural:Cambodgiens"
+msgstr "Cambodgiens"
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -28645,7 +28689,7 @@ msgstr "Iroquois"
 #: data/nation/mapuche.ruleset:19
 #, fuzzy
 msgid "?female:Toqui"
-msgstr "?female:Druidesse"
+msgstr "Druidesse"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -28704,7 +28748,7 @@ msgstr ""
 #: data/nation/moldovan.ruleset:4
 #, fuzzy
 msgid "?plural:Moldovans"
-msgstr "?plural:Maliens"
+msgstr "Maliens"
 
 #: data/nation/moldovan.ruleset:6
 msgid ""
@@ -28769,7 +28813,7 @@ msgstr "Mousquetaires"
 #: data/nation/muskogee.ruleset:4
 #, fuzzy
 msgid "?plural:Muskogee"
-msgstr "?plural:Birmans"
+msgstr "Birmans"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -28818,7 +28862,7 @@ msgstr "normal"
 #: data/nation/norman.ruleset:4
 #, fuzzy
 msgid "?plural:Normans"
-msgstr "?plural:Romains"
+msgstr "Romains"
 
 #: data/nation/norman.ruleset:6
 msgid ""
@@ -28837,7 +28881,7 @@ msgstr "Patrouille"
 #: data/nation/norman.ruleset:22 data/nation/swedish.ruleset:32
 #, fuzzy
 msgid "?female:Jarl"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/northkorean.ruleset:3
 #, fuzzy
@@ -28847,7 +28891,7 @@ msgstr "Coréen"
 #: data/nation/northkorean.ruleset:4
 #, fuzzy
 msgid "?plural:North Koreans"
-msgstr "?plural:Coréens"
+msgstr "Coréens"
 
 #: data/nation/northkorean.ruleset:6
 msgid ""
@@ -28862,7 +28906,7 @@ msgstr "Chef suprême"
 
 #: data/nation/northkorean.ruleset:21 data/nation/soviet.ruleset:28
 msgid "?female:Great Leader"
-msgstr "?female:Chef suprême"
+msgstr "Chef suprême"
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
@@ -28891,7 +28935,7 @@ msgstr "Cubain"
 #: data/nation/nubian.ruleset:4
 #, fuzzy
 msgid "?plural:Nubians"
-msgstr "?plural:Cubains"
+msgstr "Cubains"
 
 #: data/nation/nubian.ruleset:6
 msgid ""
@@ -28918,7 +28962,7 @@ msgstr "Nigérien"
 #: data/nation/numidian.ruleset:4
 #, fuzzy
 msgid "?plural:Numidians"
-msgstr "?plural:Nigériens"
+msgstr "Nigériens"
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -28940,7 +28984,7 @@ msgstr ""
 #: data/nation/nuu-chah-nulth.ruleset:4
 #, fuzzy
 msgid "?plural:Nuu-chah-nulth"
-msgstr "?plural:Cambodgiens"
+msgstr "Cambodgiens"
 
 #: data/nation/nuu-chah-nulth.ruleset:7
 msgid ""
@@ -28960,7 +29004,7 @@ msgstr "_Discussion"
 #: data/nation/nuu-chah-nulth.ruleset:25
 #, fuzzy
 msgid "?female:Chaabat"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
@@ -28996,7 +29040,7 @@ msgstr "Bey"
 #: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
 #, fuzzy
 msgid "?female:Bey"
-msgstr "?female:Chef"
+msgstr "Chef"
 
 #: data/nation/ottoman.ruleset:28
 msgid "Hakan"
@@ -29005,7 +29049,7 @@ msgstr "Hakan"
 #: data/nation/ottoman.ruleset:28
 #, fuzzy
 msgid "?female:Hakan"
-msgstr "?female:Hackeuse"
+msgstr "Hackeuse"
 
 #: data/nation/pakistani.ruleset:3
 #, fuzzy
@@ -29015,7 +29059,7 @@ msgstr "Partisan"
 #: data/nation/pakistani.ruleset:4
 #, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "?plural:Roumains"
+msgstr "Roumains"
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
@@ -29064,7 +29108,7 @@ msgstr "Perse"
 #: data/nation/peruvian.ruleset:4
 #, fuzzy
 msgid "?plural:Peruvians"
-msgstr "?plural:Perses"
+msgstr "Perses"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -29080,7 +29124,7 @@ msgstr "Seigneur Protecteur"
 #: data/nation/peruvian.ruleset:25
 #, fuzzy
 msgid "?female:Protector"
-msgstr "?female:Gouverneur"
+msgstr "Gouverneur"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -29120,7 +29164,7 @@ msgstr "Base aérienne"
 #: data/nation/pirate.ruleset:4
 #, fuzzy
 msgid "?plural:Pirates"
-msgstr "?plural:Portugais"
+msgstr "Portugais"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
@@ -29161,7 +29205,7 @@ msgstr "Perse"
 #: data/nation/polynesian.ruleset:4
 #, fuzzy
 msgid "?plural:Polynesian"
-msgstr "?plural:Polonais"
+msgstr "Polonais"
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
@@ -29194,7 +29238,7 @@ msgstr "Perse"
 #: data/nation/prussian.ruleset:4
 #, fuzzy
 msgid "?plural:Prussians"
-msgstr "?plural:Perses"
+msgstr "Perses"
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -29225,7 +29269,7 @@ msgstr "Électricité"
 #: data/nation/prussian.ruleset:27
 #, fuzzy
 msgid "?female:Elector"
-msgstr "?female:Major"
+msgstr "Major"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -29234,7 +29278,7 @@ msgstr ""
 #: data/nation/purhepecha.ruleset:4
 #, fuzzy
 msgid "?plural:P'urhepecha"
-msgstr "?plural:Français"
+msgstr "Français"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -29261,7 +29305,7 @@ msgstr "Canon"
 #: data/nation/purhepecha.ruleset:32
 #, fuzzy
 msgid "?female:Caconzi"
-msgstr "?female:Consul"
+msgstr "Consul"
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
@@ -29360,7 +29404,7 @@ msgstr "Canadien"
 #: data/nation/rwandan.ruleset:4
 #, fuzzy
 msgid "?plural:Rwandans"
-msgstr "?plural:Canadiens"
+msgstr "Canadiens"
 
 #: data/nation/rwandan.ruleset:6
 msgid ""
@@ -29371,7 +29415,7 @@ msgstr ""
 #: data/nation/rwandan.ruleset:22
 #, fuzzy
 msgid "?female:Mwami"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
@@ -29438,7 +29482,7 @@ msgstr "Son"
 #: data/nation/saxon.ruleset:4
 #, fuzzy
 msgid "?plural:Saxons"
-msgstr "?plural:Espagnols"
+msgstr "Espagnols"
 
 #: data/nation/saxon.ruleset:6
 msgid ""
@@ -29472,7 +29516,7 @@ msgstr "Premier Ministre"
 
 #: data/nation/scottish.ruleset:26
 msgid "?female:First Minister"
-msgstr "?female:Premier Ministre"
+msgstr "Premier Ministre"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -29634,7 +29678,7 @@ msgstr "Sud Africain"
 #: data/nation/southkorean.ruleset:4
 #, fuzzy
 msgid "?plural:South Koreans"
-msgstr "?plural:Sud Africains"
+msgstr "Sud Africains"
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -29697,7 +29741,7 @@ msgstr ""
 #: data/nation/srivijaya.ruleset:4
 #, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "?plural:Mayas"
+msgstr "Mayas"
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -29716,7 +29760,7 @@ msgstr "Statut"
 #: data/nation/srivijaya.ruleset:21
 #, fuzzy
 msgid "?female:Datu"
-msgstr "?female:Druidesse"
+msgstr "Druidesse"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -29759,7 +29803,7 @@ msgstr "Ensi"
 #: data/nation/sumerian.ruleset:28
 #, fuzzy
 msgid "?female:Ensi"
-msgstr "?female:Consul"
+msgstr "Consul"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -29846,7 +29890,7 @@ msgstr "Serbe"
 #: data/nation/syrian.ruleset:4
 #, fuzzy
 msgid "?plural:Syrians"
-msgstr "?plural:Serbes"
+msgstr "Serbes"
 
 #: data/nation/syrian.ruleset:6
 msgid ""
@@ -29862,7 +29906,7 @@ msgstr "Terrain"
 #: data/nation/taino.ruleset:4
 #, fuzzy
 msgid "?plural:Taino"
-msgstr "?plural:Thaïlandais"
+msgstr "Thaïlandais"
 
 #: data/nation/taino.ruleset:7
 msgid ""
@@ -29888,7 +29932,7 @@ msgstr "Annuler"
 #: data/nation/taino.ruleset:31
 #, fuzzy
 msgid "?female:Cacike"
-msgstr "?female:Hackeuse"
+msgstr "Hackeuse"
 
 #: data/nation/tairona.ruleset:3
 #, fuzzy
@@ -29898,7 +29942,7 @@ msgstr "Chemin de fer"
 #: data/nation/tairona.ruleset:4
 #, fuzzy
 msgid "?plural:Tairona"
-msgstr "?plural:Thaïlandais"
+msgstr "Thaïlandais"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -29921,7 +29965,7 @@ msgstr "Hakan"
 #: data/nation/tairona.ruleset:26
 #, fuzzy
 msgid "?female:Hankwa"
-msgstr "?female:Hackeuse"
+msgstr "Hackeuse"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -29949,7 +29993,7 @@ msgstr "Thaïlandais"
 #: data/nation/tajik.ruleset:4
 #, fuzzy
 msgid "?plural:Tajiks"
-msgstr "?plural:Thaïlandais"
+msgstr "Thaïlandais"
 
 #: data/nation/tajik.ruleset:6
 msgid ""
@@ -29965,7 +30009,7 @@ msgstr "Chevaliers"
 #: data/nation/templar.ruleset:4
 #, fuzzy
 msgid "?plural:Templars"
-msgstr "?plural:Texans"
+msgstr "Texans"
 
 #: data/nation/templar.ruleset:6
 msgid ""
@@ -30016,7 +30060,7 @@ msgstr "Terrain"
 #: data/nation/thracian.ruleset:4
 #, fuzzy
 msgid "?plural:Thracians"
-msgstr "?plural:Iraniens"
+msgstr "Iraniens"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
@@ -30030,7 +30074,7 @@ msgstr "Ressources"
 #: data/nation/thracian.ruleset:19
 #, fuzzy
 msgid "?female:Rhesos"
-msgstr "?female:Despote"
+msgstr "Despote"
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -30067,7 +30111,7 @@ msgstr "Lama"
 #: data/nation/tibetan.ruleset:27
 #, fuzzy
 msgid "?female:Lama"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
@@ -30076,7 +30120,7 @@ msgstr "Dalai Lama"
 #: data/nation/tibetan.ruleset:28
 #, fuzzy
 msgid "?female:Dalai Lama"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/tocharian.ruleset:3
 #, fuzzy
@@ -30086,7 +30130,7 @@ msgstr "Martien"
 #: data/nation/tocharian.ruleset:4
 #, fuzzy
 msgid "?plural:Tocharians"
-msgstr "?plural:Martiens"
+msgstr "Martiens"
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -30153,7 +30197,7 @@ msgstr ""
 #: data/nation/tupi.ruleset:4
 #, fuzzy
 msgid "?plural:Tupi"
-msgstr "?plural:Thaïlandais"
+msgstr "Thaïlandais"
 
 #: data/nation/tupi.ruleset:7
 msgid ""
@@ -30173,7 +30217,7 @@ msgstr ""
 #: data/nation/tupi.ruleset:24
 #, fuzzy
 msgid "?female:Morubixaba"
-msgstr "?female:Chamanne"
+msgstr "Chamanne"
 
 #: data/nation/turkmen.ruleset:3
 #, fuzzy
@@ -30183,7 +30227,7 @@ msgstr "Turc"
 #: data/nation/turkmen.ruleset:4
 #, fuzzy
 msgid "?plural:Turkmens"
-msgstr "?plural:Turcs"
+msgstr "Turcs"
 
 #: data/nation/turkmen.ruleset:6
 msgid ""
@@ -30235,7 +30279,7 @@ msgstr "Hetman"
 #: data/nation/ukrainian.ruleset:18
 #, fuzzy
 msgid "?female:Hetman"
-msgstr "?female:Hackeuse"
+msgstr "Hackeuse"
 
 #: data/nation/un.ruleset:3
 #, fuzzy
@@ -30245,7 +30289,7 @@ msgstr "U"
 #: data/nation/un.ruleset:4
 #, fuzzy
 msgid "?plural:UN"
-msgstr "?plural:Saami"
+msgstr "Saami"
 
 #: data/nation/un.ruleset:6
 msgid ""
@@ -30255,7 +30299,7 @@ msgstr ""
 #: data/nation/un.ruleset:23
 #, fuzzy
 msgid "?female:Chairperson"
-msgstr "?female:Chef"
+msgstr "Chef"
 
 #: data/nation/un.ruleset:24
 #, fuzzy
@@ -30265,7 +30309,7 @@ msgstr "Gouverneur général"
 #: data/nation/un.ruleset:24
 #, fuzzy
 msgid "?female:Secretary-General"
-msgstr "?female:Général"
+msgstr "Général"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
@@ -30314,7 +30358,7 @@ msgstr ""
 #: data/nation/uzbek.ruleset:4
 #, fuzzy
 msgid "?plural:Uzbeks"
-msgstr "?plural:Aztecs"
+msgstr "Aztecs"
 
 #: data/nation/uzbek.ruleset:6
 msgid ""
