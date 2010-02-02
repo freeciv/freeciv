@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-02 19:54+0300\n"
+"PO-Revision-Date: 2010-02-02 21:22+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2478,14 +2478,13 @@ msgid "With no arguments gives some introductory help.  With argument \"commands
 msgstr "Без аргумент╕в пода╓ деяку вступну допомогу. З аргументом 'commands' або 'options' да╓ посл╕довно список вс╕х команд або опц╕й. ╤накше аргумент береться як ╕м'я команди або опц╕╖, та наводиться допомога для ц╕╓╖ команди або опц╕╖. Для опц╕й допомога включа╓ поточне значення та значення по замовчуванню. Аргумент може бути скороченням якщо воно однозначне."
 
 #: server/commands.c:83
-#, fuzzy
 msgid "Show a list of players, teams, connections, or scenarios."
-msgstr "Показати список гравц╕в або з'╓днань."
+msgstr "Показати список гравц╕в, команд, з'╓днань або сценар╕╖в."
 
 #: server/commands.c:84
 #, fuzzy
 msgid "Show a list of players in the game, teams of players, connections to the server, or available scenarios.  The argument may be abbreviated, and defaults to 'players' if absent."
-msgstr "Показу╓ список гравц╕в або з'╓днань з сервером. Аргумент може бути скороченням, та при в╕дсутност╕ прийма╓ться значення по замовчуванню 'players'."
+msgstr "Показати список гравц╕в у гр╕, команд гравц╕в, з'╓днань з сервером або доступних сценар╕╖в. Аргумент може бути скороченням, та при в╕дсутност╕ прийма╓ться значення по замовчуванню 'players'."
 
 #: server/commands.c:92
 msgid "Quit the game and shutdown the server."
@@ -2717,9 +2716,8 @@ msgid "observe [connection-name] [player-name]"
 msgstr "take [з'╓днання] <гравець>"
 
 #: server/commands.c:253
-#, fuzzy
 msgid "Observe a player or the whole game."
-msgstr "Видалено гравця player %s з гри."
+msgstr "Спостер╕гати за гравцем чи грою в ц╕лому."
 
 #: server/commands.c:254
 #, fuzzy
@@ -2953,9 +2951,8 @@ msgid "With no arguments this command removes your own vote.  If you have an adm
 msgstr ""
 
 #: server/commands.c:405
-#, fuzzy
 msgid "End the game immediately in a draw."
-msgstr "Ця команда негайно припиня╓ гру."
+msgstr "Негайно завершити гру вн╕чию."
 
 #: server/commands.c:411
 #, fuzzy
@@ -6957,9 +6954,8 @@ msgid "Not enough nations for all players, game will not start."
 msgstr "Не вистача╓ гравц╕в, гру не стартовано."
 
 #: server/stdinhand.c:3899
-#, fuzzy
 msgid "All players are ready; starting game."
-msgstr "Гравець з таким ╕м'ям вже ╕сну╓."
+msgstr "Ус╕ гравц╕ готов╕; почина╓мо гру."
 
 #: server/stdinhand.c:3915
 #, fuzzy
@@ -7016,13 +7012,13 @@ msgstr ""
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:4004
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s  -  %s"
 msgstr "Команда: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:4010
-#, fuzzy, c-format
+#, c-format
 msgid "Command: %s"
 msgstr "Команда: %s"
 
@@ -7120,9 +7116,8 @@ msgid " (observer mode)"
 msgstr " (режим наглядача)"
 
 #: server/stdinhand.c:4362
-#, fuzzy
 msgid "List of teams:"
-msgstr "Список гравц╕в:"
+msgstr "Список команд:"
 
 #. TRANS: There will always be at least 2 players here.
 #: server/stdinhand.c:4371
@@ -7152,9 +7147,8 @@ msgid "<no connections>"
 msgstr "<нема╓ з'╓днань>"
 
 #: server/stdinhand.c:4441
-#, fuzzy
 msgid "List of scenarios available:"
-msgstr "Загон╕в нема╓"
+msgstr "Список доступних сценар╕╖в:"
 
 #: server/techtools.c:112
 #, c-format
@@ -7390,9 +7384,8 @@ msgid "You can't attack there."
 msgstr "Ви не можете атакувати тут."
 
 #: server/unithand.c:1332
-#, fuzzy
 msgid "This type of troops cannot take over a city."
-msgstr "Лише сухопутн╕ п╕дрозд╕ли можуть захопити м╕сто."
+msgstr "Цей тип в╕йськ нездатний захопити м╕сто."
 
 #: server/unithand.c:1349
 msgid "A transported unit is not allied to all units or city on target tile."
@@ -7929,9 +7922,9 @@ msgid "Small Wonder"
 msgstr "Доступн╕ дива"
 
 #: client/citydlg_common.c:403
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Citizens\n"
-msgstr "%s - %s городян"
+msgstr "%+4d : Городян\n"
 
 #: client/citydlg_common.c:410
 #, c-format
@@ -8949,18 +8942,14 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:366
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that you are playing the %s nation.\n"
-msgstr ""
-"Вимага╓ нац╕ю %s.\n"
-"\n"
+msgstr "Потребу╓, щоб ви грали за нац╕ю %s.\n"
 
 #: client/helpdata.c:370
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s nation in the game.\n"
-msgstr ""
-"Вимага╓ нац╕ю %s.\n"
-"\n"
+msgstr "Потребу╓ нац╕ю %s у гр╕.\n"
 
 #: client/helpdata.c:386
 #: client/helpdata.c:421
@@ -9104,7 +9093,7 @@ msgid "* Allows %s.\n"
 msgstr "* Дозволя╓ %s.\n"
 
 #: client/helpdata.c:1131
-#, fuzzy, c-format
+#, c-format
 msgid "* Belongs to %s unit class.\n"
 msgstr "* Належить до класу п╕дрозд╕л╕в %s.\n"
 
@@ -9122,9 +9111,8 @@ msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr "  * М╕сцев╕сть не вплива╓ на швидк╕сть.\n"
 
 #: client/helpdata.c:1144
-#, fuzzy
 msgid "  * Not subject to zones of control.\n"
-msgstr "* ╤гнору╓ зони контролю.\n"
+msgstr "  * ╤гнору╓ зони контролю.\n"
 
 #: client/helpdata.c:1147
 #, fuzzy
@@ -9231,24 +9219,20 @@ msgid "* Can add on %d population to cities of no more than size %d.\n"
 msgstr "* Може додати %d населення до м╕ст не б╕льших за розм╕р %d.\n"
 
 #: client/helpdata.c:1257
-#, fuzzy
 msgid "* Can build roads and railroads.\n"
-msgstr "* Допомогають будувати дива.\n"
+msgstr "* Можуть будувати шляхи та зал╕зниц╕.\n"
 
 #: client/helpdata.c:1258
-#, fuzzy
 msgid "* Can build mines on tiles.\n"
-msgstr "* Можуть засновувати м╕ста.\n"
+msgstr "* Можуть будувати шахти.\n"
 
 #: client/helpdata.c:1259
-#, fuzzy
 msgid "* Can build irrigation on tiles.\n"
-msgstr "* Можуть засновувати м╕ста.\n"
+msgstr "* Можуть влаштовувати зрошення територ╕й.\n"
 
 #: client/helpdata.c:1264
-#, fuzzy
 msgid "* Can build farmland.\n"
-msgstr "Будувати ферму"
+msgstr "* Можуть будувати ферми.\n"
 
 #: client/helpdata.c:1268
 #, fuzzy, c-format
@@ -9261,9 +9245,8 @@ msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr "* Може будувати ферми (якщо будь що ╕з наступного в╕домо: %s).\n"
 
 #: client/helpdata.c:1278
-#, fuzzy
 msgid "* Can build fortresses.\n"
-msgstr "Дозволя╓ %s будувати укр╕плення.\n"
+msgstr "* Можуть будувати укр╕плення.\n"
 
 #: client/helpdata.c:1281
 msgid "* Can clean pollution from tiles.\n"
@@ -9317,7 +9300,7 @@ msgstr "* Мож╓ атакувати з водних п╕дрозд╕л╕в ворож╕ м╕ста або п╕дрозд╕ли на сух
 #: client/helpdata.c:1320
 #, fuzzy, c-format
 msgid "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
-msgstr "* Може буди парашутовано з дружнього м╕ста (В╕дстань: %d)."
+msgstr "* Може бути парашутовано з дружнього м╕ста (В╕дстань: %d)."
 
 #: client/helpdata.c:1326
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -9365,9 +9348,8 @@ msgid "* Gets quintuple defense against missiles and aircraft.\n"
 msgstr "* Нада╓ п'ятикратний захист проти ракет та л╕так╕в.\n"
 
 #: client/helpdata.c:1373
-#, fuzzy
 msgid "* Ignores terrain effects (treats all tiles as roads).\n"
-msgstr "* ╤гнору╓ ланшафт (тракту╓ усю сушу як дороги).\n"
+msgstr "* ╤гнору╓ ландшафт (тракту╓ всю сушу як дороги).\n"
 
 #: client/helpdata.c:1376
 msgid "* Ignores zones of control.\n"
@@ -9484,19 +9466,19 @@ msgid "* Increases the pollution generated by the population.\n"
 msgstr "П╕двищу╓ забруднення що спричинено населенням.\n"
 
 #: client/helpdata.c:1592
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to build roads on river tiles.\n"
-msgstr "%s - дозволя╓ будувати шляхи через р╕ки.\n"
+msgstr "* Дозволя╓ %s будувати шляхи через р╕ки.\n"
 
 #: client/helpdata.c:1600
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade roads to railroads.\n"
-msgstr "Дозволя╓ %s модерн╕зувати Шляхи до Зал╕зниць.\n"
+msgstr "* Дозволя╓ %s модерн╕зувати Шляхи до Зал╕зниць.\n"
 
 #: client/helpdata.c:1608
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "Дозволя╓ %s перетворювати зрошення на ферми.\n"
+msgstr "* Дозволя╓ %s модерн╕зувати зрошення у ферми.\n"
 
 #: client/helpdata.c:1642
 msgid "* Pollution cannot be generated on this terrain."
@@ -9630,9 +9612,8 @@ msgid "* You may grow your cities by means of celebrations. Your cities must be 
 msgstr "* Ви можете зб╕льшувати Ваш╕ м╕ста за допомогою святкуваннь.  Ваш╕ м╕ста мають бути не меньш╕ н╕ж %d доки вони зможуть рости у такуй спос╕б.\n"
 
 #: client/helpdata.c:1944
-#, fuzzy
 msgid "* Your units cannot be bribed.\n"
-msgstr "Цей п╕дрозд╕л не може бути парашутований."
+msgstr "* Ваш╕ п╕дрозд╕ли не можна п╕дкупити.\n"
 
 #: client/helpdata.c:1947
 #, fuzzy
@@ -9661,9 +9642,8 @@ msgid "* Pays no upkeep for fanatics.\n"
 msgstr "* Не сплачу╓ утримання за фанатик╕в.\n"
 
 #: client/helpdata.c:1971
-#, fuzzy
 msgid "* Has no unhappy citizens.\n"
-msgstr "%d додаткових нещасних городян."
+msgstr "* Не ма╓ нещасливих городян.\n"
 
 #: client/helpdata.c:1981
 #: client/helpdata.c:1985
@@ -9673,9 +9653,8 @@ msgid "* Veteran %s units.\n"
 msgstr "* Ветеран %s п╕дрозд╕л╕в.\n"
 
 #: client/helpdata.c:1992
-#, fuzzy
 msgid "* Veteran units.\n"
-msgstr "Морськ╕ п╕дрозд╕ли"
+msgstr "* П╕дрозд╕ли ветерани.\n"
 
 #. TRANS: %s is list of output types, with 'or'
 #: client/helpdata.c:1998
@@ -10652,14 +10631,12 @@ msgid "Graphics"
 msgstr "Граф╕ка"
 
 #: client/options.c:1207
-#, fuzzy
 msgid "Overview"
 msgstr "Огляд"
 
 #: client/options.c:1209
-#, fuzzy
 msgid "Sound"
-msgstr "Раунди"
+msgstr "Звук"
 
 #: client/options.c:1211
 msgid "Interface"
@@ -10730,9 +10707,8 @@ msgid "Start of turn %d"
 msgstr "Початок ходу %d"
 
 #: client/packhand.c:1146
-#, fuzzy
 msgid "Welcome"
-msgstr "%s Ласкаво просимо"
+msgstr "Ласкаво просимо"
 
 #: client/packhand.c:1882
 #, fuzzy
@@ -11075,14 +11051,14 @@ msgid "Trade from %s: %d"
 msgstr "далеко в╕д %s"
 
 #: client/text.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "Infrastructure: %s"
-msgstr "╤фраструктура:"
+msgstr "╤нфраструктура: %s"
 
 #: client/text.c:298
-#, fuzzy, c-format
+#, c-format
 msgid "Activity: %s"
-msgstr "Активн╕сть:"
+msgstr "Активн╕сть: %s"
 
 #. TRANS: "Unit: <unit type> | <username>
 #. * (<nation + team>, <homecity>)"
@@ -11090,15 +11066,15 @@ msgstr "Активн╕сть:"
 #. * <diplomatic state>)"
 #: client/text.c:313
 #: client/text.c:337
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s | %s (%s, %s)"
-msgstr "П╕дрозд╕л: %s(%s%s)"
+msgstr "П╕дрозд╕л: %s | %s (%s, %s)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
 #: client/text.c:318
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s | %s (%s)"
-msgstr "П╕дрозд╕л: %s(%s%s)"
+msgstr "П╕дрозд╕л: %s | %s (%s)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
@@ -11188,9 +11164,9 @@ msgstr[1] ""
 msgstr[2] ""
 
 #: client/text.c:631
-#, fuzzy, c-format
+#, c-format
 msgid "%d/- (never)"
-msgstr "(Н╕коли)"
+msgstr "%d/- (н╕коли)"
 
 #: client/text.c:643
 #, fuzzy, c-format
@@ -11232,9 +11208,9 @@ msgid "Year: %s (T%d)"
 msgstr "Р╕к: %s (T%d)"
 
 #: client/text.c:718
-#, fuzzy, c-format
+#, c-format
 msgid "Gold: %d (%+d)"
-msgstr "Грошей: %d"
+msgstr "Гривень: %d (%+d)"
 
 #: client/text.c:721
 #, fuzzy, c-format
@@ -11243,9 +11219,8 @@ msgstr "Податки:%d Розк╕ш:%d Наука:%d"
 
 #: client/text.c:728
 #: client/text.c:735
-#, fuzzy
 msgid "Moving: Nobody"
-msgstr "у %s"
+msgstr "Руха╓ться: Н╕хто"
 
 #: client/text.c:730
 #: client/text.c:737
@@ -11358,14 +11333,12 @@ msgid "Others: %d military"
 msgstr "╤нш╕: %d в╕йсков╕"
 
 #: client/text.c:980
-#, fuzzy
 msgid "No units to upgrade!"
-msgstr "Не ма╓ п╕дрозд╕л╕в для модерн╕зац╕╖."
+msgstr "Нема╓ п╕дрозд╕л╕в для модерн╕зац╕╖!"
 
 #: client/text.c:1005
-#, fuzzy
 msgid "None of these units may be upgraded."
-msgstr "Не ма╓ п╕дрозд╕л╕в для модерн╕зац╕╖."
+msgstr "Жоден з цих п╕дрозд╕л╕в не п╕дляга╓ модерн╕зац╕╖."
 
 #: client/text.c:1011
 #, fuzzy, c-format
@@ -11393,11 +11366,8 @@ msgstr ""
 "%s: %d/%d."
 
 #: client/text.c:1039
-#, fuzzy
 msgid "no research target."
-msgstr ""
-"\n"
-"(нема╓ досл╕джень)"
+msgstr "нема╓ мети досл╕джень."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1042
@@ -11406,11 +11376,8 @@ msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
 #: client/text.c:1062
-#, fuzzy
 msgid "Shows the progress of global warming:"
-msgstr ""
-"Демонстру╓ розвиток глобального потепл╕ння:\n"
-"%d."
+msgstr "Демонстру╓ розвиток глобального потепл╕ння:"
 
 #: client/text.c:1063
 #, fuzzy, c-format
