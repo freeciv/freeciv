@@ -17,6 +17,7 @@ artists = "
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
    Algeria 		Lauris Kaplinski
+   Almohad		Ch1902 (Wikipedia)
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -223,6 +224,7 @@ sprites =
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"
 		"f.algeria", "flags/algeria"
+		"f.almohad", "flags/almohad"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"

@@ -9,6 +9,7 @@ pkgdata_DATA = \
 		afghani.ruleset \
 		ainu.ruleset \
 		akwe.ruleset \
+		alandalus.ruleset \
 		algerian.ruleset \
 		american.ruleset \
 		antarctican.ruleset \

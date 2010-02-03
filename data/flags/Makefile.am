@@ -9,6 +9,7 @@ flag_files =				\
 		ainu.png		\
 		akwe.png		\
 		algeria.png		\
+		almohad.png		\
 		antarctica.png		\
 		arab.png		\
 		aragon.png		\
@@ -212,6 +213,7 @@ shield_files =					\
 		ainu-shield.png			\
 		akwe-shield.png			\
 		algeria-shield.png		\
+		almohad-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png			\
@@ -415,6 +417,7 @@ svg_files = 				\
 		ainu.svg		\
 		akwe.svg		\
 		algeria.svg		\
+		almohad.svg		\
 		antarctica.svg		\
 		arab.svg		\
 		aragon.svg		\
