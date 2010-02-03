@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-04 00:24+0300\n"
+"PO-Revision-Date: 2010-02-04 00:44+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3097,9 +3097,8 @@ msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Гру заблоковано ходом: очику╓мо коли %s зак╕нчить х╕д..."
 
 #: server/connecthand.c:240
-#, fuzzy
 msgid " *** Server is in edit mode. *** "
-msgstr " *** Сервер виходить ╕з режиму редагування! *** "
+msgstr " *** Сервер у режим╕ редагування. *** "
 
 #: server/connecthand.c:269
 #, c-format
@@ -3887,9 +3886,9 @@ msgid "%s is an ambiguous connection name-prefix."
 msgstr "%s двозначний преф╕кс для назви з'╓днання."
 
 #: server/handchat.c:104
-#, fuzzy, c-format
+#, c-format
 msgid "%s is an anonymous name. Use connection name"
-msgstr "%s двозначний преф╕кс для назви з'╓днання."
+msgstr "%s - це анон╕мна назва. Використайте назву з'╓днання."
 
 #: server/handchat.c:173
 #, c-format
@@ -3897,9 +3896,9 @@ msgid "%s to allies: %s"
 msgstr "%s альянс: %s"
 
 #: server/handchat.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "%s to global observers: %s"
-msgstr "%s тепер контролю╓ться %s."
+msgstr "%s до глобальних спостер╕гач╕в: %s."
 
 #: server/handchat.c:287
 #, fuzzy
@@ -4453,9 +4452,9 @@ msgstr "Вибачте, але демограф╕чний зв╕т недоступний."
 #. TRANS: <nation adjective> <government name> (<year>).
 #. * E.g. "Polish Despotism (200 AD)".
 #: server/report.c:801
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s (%s)"
-msgstr "%s у %s (%s)\n"
+msgstr "%s %s (%s)"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:190
@@ -4674,9 +4673,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:314
-#, fuzzy
 msgid "Method used to choose start positions"
-msgstr "Метод що використову╓ться для створення мапи"
+msgstr "Метод, що використову╓ться для вибору початкових позиц╕й"
 
 #: server/settings.c:315
 msgid ""
@@ -4691,9 +4689,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:328
-#, fuzzy
 msgid "Presence of 1x1 islands"
-msgstr "Присутн╕сть або в╕дсутн╕сть остров╕в 1х1"
+msgstr "Присутн╕сть остров╕в 1х1"
 
 #: server/settings.c:329
 msgid "0 = no 1x1 islands; 1 = some 1x1 islands"
@@ -4859,9 +4856,8 @@ msgid "If set to 1 all cached events will be marked by the turn and time of the 
 msgstr ""
 
 #: server/settings.c:491
-#, fuzzy
 msgid "List of players' initial units"
-msgstr "Перел╕к присутн╕х п╕дрозд╕л╕в"
+msgstr "Перел╕к початкових п╕дрозд╕л╕в гравц╕в"
 
 #: server/settings.c:492
 msgid ""
@@ -6694,9 +6690,8 @@ msgid "Sorry, one can't take human players in this game."
 msgstr "Вибачте, н╕хто не може отримати керування гравцями-людинами у ц╕й гр╕."
 
 #: server/stdinhand.c:2736
-#, fuzzy
 msgid "Sorry, one can't observe in this game."
-msgstr "Не зв╕ту╓мо метасерверу у ц╕й гр╕."
+msgstr "На жаль, у ц╕й гр╕ не можна спостер╕гати."
 
 #: server/stdinhand.c:2741
 #, fuzzy
@@ -6823,14 +6818,13 @@ msgid "%s detaching from %s"
 msgstr "%s в╕д'╓днався в╕д %s"
 
 #: server/stdinhand.c:3151
-#, fuzzy, c-format
+#, c-format
 msgid "%s no longer observing."
-msgstr "%s буду╓ %s."
+msgstr "%s б╕льше не спостер╕га╓."
 
 #: server/stdinhand.c:3254
-#, fuzzy
 msgid "Cannot load a game while another is running."
-msgstr "Не можу завантажити гру коли ╕ншу запущено."
+msgstr "Не можу завантажити гру поки запущено ╕ншу."
 
 #: server/stdinhand.c:3285
 #, c-format
@@ -10833,9 +10827,9 @@ msgid "%s cannot be disbanded."
 msgstr "%s не може утримувати %s, п╕дрозд╕л разформовано."
 
 #: client/repodlgs_common.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "Disbanded %d %s."
-msgstr "Розпущено Ваш %s у (%d, %d)."
+msgstr "Розпущено %d %s."
 
 #: client/repodlgs_common.c:436
 #, fuzzy, c-format
@@ -10843,9 +10837,8 @@ msgid "No %s could be disbanded."
 msgstr "Нема╓ %s для продажу"
 
 #: client/servers.c:349
-#, fuzzy
 msgid "Could not open temp file."
-msgstr "Не можу в╕дкрити \"%s\"."
+msgstr "Не вдалося в╕дкрити тимчасовий файл."
 
 #: client/servers.c:390
 #, c-format
@@ -10870,9 +10863,9 @@ msgstr "Ш╤ %s"
 
 #. TRANS: "<nation adjective>, team <team name>"
 #: client/text.c:121
-#, fuzzy, c-format
+#, c-format
 msgid "%s, team %s"
-msgstr " б╕ля %s"
+msgstr "%s, команда %s"
 
 #: client/text.c:138
 #: client/text.c:139
@@ -10963,15 +10956,14 @@ msgid "Minor Tribe Village"
 msgstr "Хут╕р маленького роду"
 
 #: client/text.c:176
-#, fuzzy
 msgid "Our territory"
-msgstr "%s"
+msgstr "Наша територ╕я"
 
 #. TRANS: "Territory of <username> (<nation + team>)"
 #: client/text.c:179
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s)"
-msgstr "%s з %s"
+msgstr "Територ╕я %s (%s)"
 
 #: client/text.c:189
 #, fuzzy, c-format
@@ -10984,9 +10976,9 @@ msgstr[2] "П╕дрозд╕л: %s(%s%s)"
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
 #: client/text.c:198
-#, fuzzy, c-format
+#, c-format
 msgid "Territory of %s (%s | %s)"
-msgstr "%s з %s"
+msgstr "Територ╕я %s (%s | %s)"
 
 #: client/text.c:203
 msgid "Unclaimed territory"
@@ -22608,8 +22600,9 @@ msgstr "Фаланга"
 #: data/default/units.ruleset:453
 #: data/civ2/units.ruleset:311
 #: data/civ1/units.ruleset:264
+#, fuzzy
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "Фаланга - це броньована п╕хота, ?корисна? для захисту м╕ст."
 
 #: data/default/units.ruleset:458
 #: data/civ2/units.ruleset:316
@@ -23259,7 +23252,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:1300
 msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "Каравела зам╕ню╓ Трирему - вона значно над╕йн╕ша у в╕дкритому мор╕."
 
 #: data/civ2/units.ruleset:1701
 #, fuzzy
