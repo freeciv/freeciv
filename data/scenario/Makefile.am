@@ -5,6 +5,7 @@ zipped_files =					\
 	earth-160x90-v2.sav.gz			\
 	earth-80x50-v2.sav.gz			\
 	europe-200x100-v2.sav.gz		\
+	france-140x90-v2.sav.gz			\
 	hagworld-120x60-v1.2.sav.gz		\
 	iberian-peninsula-136x100-v1.0.sav.gz	\
 	tutorial.sav.gz
@@ -14,6 +15,7 @@ unzipped_files =				\
 	earth-160x90-v2.sav			\
 	earth-80x50-v2.sav			\
 	europe-200x100-v2.sav			\
+	france-140x90-v2.sav			\
 	hagworld-120x60-v1.2.sav		\
 	iberian-peninsula-136x100-v1.0.sav	\
 	tutorial.sav
