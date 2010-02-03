@@ -1674,6 +1674,16 @@ static void pf_fuel_node_init(struct pf_fuel_map *pffm,
   node->status = NS_INIT;
 }
 
+/**********************************************************************
+  Returns whether this node is dangerous or not.
+**********************************************************************/
+static inline bool pf_fuel_node_dangerous(const struct pf_fuel_node *node)
+{
+  return (NULL == node->fuel_segment
+          || (node->moves_left < node->moves_left_req
+              && !node->is_enemy_tile));
+}
+
 /****************************************************************************
   Finalize the fuel position.
 ****************************************************************************/
@@ -2101,8 +2111,12 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
       }
 
       moves_left = loc_moves_left - cost;
-      if (moves_left < node1->moves_left_req) {
-        /* We don't have enough moves left */
+      if (moves_left < node1->moves_left_req
+          && (!BV_ISSET(params->unit_flags, F_ONEATTACK)
+              || 1 != params->fuel
+              || 0 >= moves_left)) {
+        /* We don't have enough moves left, but missiles
+         * can do suicidal attacks. */
         continue;
       }
 
@@ -2249,7 +2263,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
     /* We've already returned this node once, skip it */
     freelog(LOG_DEBUG, "Considering waiting at (%d, %d)", TILE_XY(tile));
     return pf_next(pfm);
-  } else if (!node->fuel_segment) {
+  } else if (pf_fuel_node_dangerous(node)) {
     /* We don't return dangerous tiles */
     freelog(LOG_DEBUG, "Reached dangerous tile (%d, %d)", TILE_XY(tile));
     return pf_next(pfm);
@@ -2280,7 +2294,8 @@ static struct pf_path *pf_fuel_map_get_path(struct pf_map *pfm,
   if (node->status == NS_PROCESSED || node->status == NS_WAITING
       || same_pos(ptile, pfm->tile)) {
     /* We already reached this tile */
-    if (node->fuel_segment || same_pos(ptile, params->start_tile)) {
+    if (!pf_fuel_node_dangerous(node)
+        || same_pos(ptile, params->start_tile)) {
       /* We found a path */
       return pf_fuel_map_construct_path(pffm, ptile);
     } else {
