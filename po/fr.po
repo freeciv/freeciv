@@ -7,7 +7,7 @@
 # Freeciv french team <freeciv-fr@egroups.fr>, 2000.
 # Freeciv french team <freeciv-fr@yahoogroupes.fr>, 2001-2004.
 # Frederic Rodrigo <f.rodrigo free.fr>, 2005-2007.
-# Pepeto <pepeto69gmail.com>, 2007-2010
+# Pepeto <pepeto69 gmail.com>, 2007-2010
 #
 #
 msgid ""
@@ -16,7 +16,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-31 13:18+0100\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
-"Last-Translator: Frederic Rodrigo <f.rodrigo free.fr>\n"
+"Last-Translator: Pepeto <pepeto69 gmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
@@ -56,15 +56,13 @@ msgid "Science"
 msgstr "Recherche"
 
 #: common/city.c:295
-#, fuzzy
 msgid "?wonder:W"
-msgstr "m"
+msgstr "M"
 
 # AR j'ai rien trouve de mieux
 #: common/city.c:297
-#, fuzzy
 msgid "?destroyed:D"
-msgstr "Destroyer"
+msgstr "D"
 
 #: common/city.c:299
 msgid "?built:B"
@@ -97,84 +95,80 @@ msgid " (observer)"
 msgstr " (observateur)"
 
 #: common/events.c:49
-#, fuzzy, c-format
+#,c-format
 msgid "Technology: %s"
-msgstr "Technologie"
+msgstr "Technologie : %s"
 
 #: common/events.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Improvement: %s"
-msgstr "Améliorations"
+msgstr "Amélioration : %s"
 
 #: common/events.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s"
 msgstr "Ville : %s"
 
 #: common/events.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomat Action: %s"
-msgstr "Actions diplomatiques/d'espionnage       "
+msgstr "Action diplomatique : %s"
 
 #: common/events.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy Diplomat: %s"
-msgstr "Diplomatie ennemi : soudoyage"
+msgstr "Diplomatie ennemi : %s"
 
 #: common/events.c:54
-#, fuzzy, c-format
+#, c-format
 msgid "Global: %s"
-msgstr "But"
+msgstr "Global : %s"
 
 #: common/events.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "Hut: %s"
-msgstr "Hôte : %s"
+msgstr "Hutte : %s"
 
 #: common/events.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "Nation: %s"
-msgstr "Nations"
+msgstr "Nation : %s"
 
 #: common/events.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Treaty: %s"
-msgstr "Excellents"
+msgstr "Traité : %s"
 
 #: common/events.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s"
-msgstr "Unité %s"
+msgstr "Unité : %s"
 
 #: common/events.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "Vote: %s"
-msgstr "Hôte : %s"
+msgstr "Vote : %s"
 
 #: common/events.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "Wonder: %s"
-msgstr "Merveilles : "
+msgstr "Merveille : %s"
 
 #: common/events.c:79
-#, fuzzy
 msgid "Learned From Great Library"
-msgstr "Technologie : apprise grâce à la grande bibliothèque"
+msgstr "apprise grâce à la grande bibliothèque"
 
 #: common/events.c:80
-#, fuzzy
 msgid "Learned New Tech"
-msgstr "Technologie : apprentissage d'une nouvelle technologie"
+msgstr "apprentissage d'une nouvelle technologie"
 
 #: common/events.c:81
-#, fuzzy
 msgid "Selected New Goal"
-msgstr "Choisissez la découverte que vous voulez voler"
+msgstr "Nouveau but technologique sélectionné"
 
 #: common/events.c:82 common/events.c:150
-#, fuzzy
 msgid "Bought"
-msgstr "Unité : achetée"
+msgstr "achetée"
 
 #: common/events.c:83 common/events.c:151 client/citydlg_common.c:339
 #: client/citydlg_common.c:349 client/gui-sdl/repodlgs.c:2028
@@ -183,127 +177,104 @@ msgid "Built"
 msgstr "Construit"
 
 #: common/events.c:84
-#, fuzzy
 msgid "Forced to Sell"
-msgstr "Amélioration : vendue par force"
+msgstr "vendue par force"
 
 #: common/events.c:85
-#, fuzzy
 msgid "New Improvement Selected"
-msgstr "Amélioration : nouvelle amélioration choisie"
+msgstr "nouvelle amélioration choisie"
 
 #: common/events.c:86
-#, fuzzy
 msgid "Sold"
-msgstr "Or"
+msgstr "Vendu"
 
 #: common/events.c:87
-#, fuzzy
 msgid "Building Unavailable Item"
-msgstr "Ville : construction en cours indisponible"
+msgstr "construction en cours indisponible"
 
 #: common/events.c:88
-#, fuzzy
 msgid "Captured/Destroyed"
-msgstr "Ville : capturée/détruite"
+msgstr "capturée/détruite"
 
 #: common/events.c:89
-#, fuzzy
 msgid "Celebrating"
-msgstr " - ville en fête"
+msgstr "en fête"
 
 #: common/events.c:90
-#, fuzzy
 msgid "Civil Disorder"
-msgstr "Ville : émeutes"
+msgstr "émeutes"
 
 #: common/events.c:91
-#, fuzzy
 msgid "Famine"
-msgstr "Ville : famine"
+msgstr "famine"
 
 #: common/events.c:92
-#, fuzzy
 msgid "Famine Feared"
-msgstr "Ville : la famine menace"
+msgstr "menace de famine"
 
 #: common/events.c:93
-#, fuzzy
 msgid "Growth"
 msgstr "Croissance de la ville"
 
 #: common/events.c:94
-#, fuzzy
 msgid "May Soon Grow"
-msgstr "Ville : croissance prochaine"
+msgstr "croissance prochaine"
 
 #: common/events.c:95
-#, fuzzy
 msgid "Needs Aqueduct"
-msgstr "Ville : aqueduc nécessaire"
+msgstr "aqueduc nécessaire"
 
 #: common/events.c:96
-#, fuzzy
 msgid "Needs Aqueduct Being Built"
-msgstr "Ville : aqueduc en construction nécessaire"
+msgstr "aqueduc en construction nécessaire"
 
 #: common/events.c:97 common/player.c:46
-#, fuzzy
 msgid "Normal"
 msgstr "normal"
 
 #: common/events.c:98
-#, fuzzy
 msgid "Nuked"
-msgstr "Duc"
+msgstr "Atomisée"
 
 #: common/events.c:99
-#, fuzzy
 msgid "Released from citizen governor"
-msgstr "Ville : détachée de l'agent de gestion urbaine"
+msgstr "détachée du gouverneur"
 
 #: common/events.c:100
-#, fuzzy
 msgid "Suggest Growth Throttling"
-msgstr "Ville : suggestion d'accélérer la croissance"
+msgstr "suggestion d'accélération de la croissance"
 
 #: common/events.c:101
-#, fuzzy
 msgid "Transfer"
-msgstr "Transformer"
+msgstr "transférée"
 
 #: common/events.c:102
-#, fuzzy
 msgid "Was Built"
-msgstr "Ville : a été bâtie"
+msgstr "a été bâtie"
 
 #: common/events.c:103
-#, fuzzy
 msgid "Has Plague"
-msgstr "Effacer clause"
+msgstr "frappée d'épidémie"
 
 #: common/events.c:104
-#, fuzzy
 msgid "Worklist Events"
-msgstr "Ville : événements de la liste de travail"
+msgstr "événements de la liste de travail"
 
 #: common/events.c:105
-#, fuzzy
 msgid "Production changed"
-msgstr "Ville : production changée"
+msgstr "production changée"
 
 #: common/events.c:106 common/events.c:115
 msgid "Bribe"
 msgstr "Corrompre"
 
 #: common/events.c:107
-#, fuzzy
 msgid "Caused Incident"
-msgstr "Incident %s !"
+msgstr "incident diplomatique"
 
 #: common/events.c:108
 msgid "Escape"
-msgstr "Échapper"
+msgstr "échapper"
 
 #: common/events.c:109 common/events.c:116 common/events.c:145
 #: client/plrdlg_common.c:266 client/gui-win32/diplodlg.c:618
@@ -312,19 +283,16 @@ msgid "Embassy"
 msgstr "Ambassade"
 
 #: common/events.c:110 common/events.c:117
-#, fuzzy
 msgid "Failed"
-msgstr "Une femme"
+msgstr "échec"
 
 #: common/events.c:111 common/events.c:118
-#, fuzzy
 msgid "Incite"
-msgstr "Inuit"
+msgstr "Incitation"
 
 #: common/events.c:112 common/events.c:119
-#, fuzzy
 msgid "Poison"
-msgstr "Empoisonner la ville"
+msgstr "Empoisonnement"
 
 #: common/events.c:113 common/events.c:120 client/gui-win32/dialogs.c:1503
 #: data/Freeciv.in:2415
@@ -333,89 +301,72 @@ msgstr "Sabotage"
 
 # AR
 #: common/events.c:114 common/events.c:121
-#, fuzzy
 msgid "Theft"
-msgstr "Temple"
+msgstr "vol"
 
 #: common/events.c:122
-#, fuzzy
 msgid "Eco-Disaster"
-msgstr "Global : désastre écologique"
+msgstr "désastre écologique"
 
 #: common/events.c:123
-#, fuzzy
 msgid "Nuke Detonated"
-msgstr "Global : explosion d'une bombe atomique"
+msgstr "explosion d'une bombe atomique"
 
 #: common/events.c:124
-#, fuzzy
 msgid "Barbarians in a Hut Roused"
-msgstr "Hutte : réveil de barbares dans une hutte"
+msgstr "réveil de barbares dans une hutte"
 
 #: common/events.c:125
-#, fuzzy
 msgid "City Founded from Hut"
-msgstr "Hutte : ville fondée depuis une hutte"
+msgstr "ville fondée depuis une hutte"
 
 #: common/events.c:126
-#, fuzzy
 msgid "Gold Found in Hut"
-msgstr "Hutte : or trouvé dans une hutte"
+msgstr "or trouvé dans une hutte"
 
 #: common/events.c:127
-#, fuzzy
 msgid "Killed by Barbarians in a Hut"
-msgstr "Hutte : tué par des barbares dans une hutte"
+msgstr "tué par des barbares dans une hutte"
 
 #: common/events.c:128
-#, fuzzy
 msgid "Mercenaries Found in Hut"
-msgstr "Hutte : mercenaires trouvés dans une hutte"
+msgstr "mercenaires trouvés dans une hutte"
 
 #: common/events.c:129
-#, fuzzy
 msgid "Settler Found in Hut"
-msgstr "Hutte : colon trouvé dans une hutte"
+msgstr "colon trouvé dans une hutte"
 
 #: common/events.c:130
-#, fuzzy
 msgid "Tech Found in Hut"
-msgstr "Hutte : technologie trouvée dans une hutte"
+msgstr "technologie trouvée dans une hutte"
 
 #: common/events.c:131
-#, fuzzy
 msgid "Unit Spared by Barbarians"
-msgstr "Hutte : unité mise en pièce par des barbares"
+msgstr "unité mise en pièce par des barbares"
 
 #: common/events.c:132
-#, fuzzy
 msgid "Barbarian Uprising"
-msgstr "Civ : les barbares poussent à la révolte"
+msgstr "les barbares poussent à la révolte"
 
 #: common/events.c:133
-#, fuzzy
 msgid "Civil War"
-msgstr " Guerre Civile"
+msgstr "guerre civile"
 
 #: common/events.c:134
-#, fuzzy
 msgid "Collapse to Anarchy"
-msgstr "Civ : à la limite de l'anarchie"
+msgstr "à la limite de l'anarchie"
 
 #: common/events.c:135
-#, fuzzy
 msgid "First Contact"
-msgstr "Civ : premier contact"
+msgstr "premier contact"
 
 #: common/events.c:136
-#, fuzzy
 msgid "Learned New Government"
-msgstr "Civ : apprentissage d'un nouveau gouvernement"
+msgstr "apprentissage d'un nouveau gouvernement"
 
 #: common/events.c:137
-#, fuzzy
 msgid "Low Funds"
-msgstr "Civ : à court de liquidités"
+msgstr "à court de liquidités"
 
 #: common/events.c:138 common/terrain.c:543 common/unit.c:522
 #: server/report.c:138 client/cityrepdata.c:517
@@ -424,90 +375,73 @@ msgid "Pollution"
 msgstr "Pollution"
 
 #: common/events.c:139
-#, fuzzy
 msgid "Revolt Ended"
-msgstr "Civ : fin de la révolution"
+msgstr "fin de la révolution"
 
 #: common/events.c:140
-#, fuzzy
 msgid "Revolt Started"
-msgstr "Civ : début d'une révolution"
+msgstr "début d'une révolution"
 
 #: common/events.c:141
-#, fuzzy
 msgid "Spaceship Events"
-msgstr "Civ : événements de vaisseau spatial"
+msgstr "événements de vaisseau spatial"
 
 #: common/events.c:142
-#, fuzzy
 msgid "Alliance"
-msgstr "Traité : alliance"
+msgstr "alliance"
 
 #: common/events.c:143
-#, fuzzy
 msgid "Broken"
-msgstr "Frère"
+msgstr "rompu"
 
 #: common/events.c:144
-#, fuzzy
 msgid "Cease-fire"
-msgstr "Traité : cessez-le-feu"
+msgstr "cessez-le-feu"
 
 # AR
 #: common/events.c:146
-#, fuzzy
 msgid "Peace"
-msgstr "Palais"
+msgstr "Paix"
 
 #: common/events.c:147
-#, fuzzy
 msgid "Shared Vision"
-msgstr "Vue partagée"
+msgstr "vue partagée"
 
 #: common/events.c:148
-#, fuzzy
 msgid "Attack Failed"
-msgstr "Unité : échec de l'attaque"
+msgstr "échec de l'attaque"
 
 #: common/events.c:149
-#, fuzzy
 msgid "Attack Succeeded"
-msgstr "Unité : succes de l'attaque"
+msgstr "succès de l'attaque"
 
 #: common/events.c:152
-#, fuzzy
 msgid "Defender Destroyed"
-msgstr "Unité : défenseur détruit"
+msgstr "défenseur détruit"
 
 #: common/events.c:153
-#, fuzzy
 msgid "Defender Survived"
-msgstr "Unité : survie du défenseur"
+msgstr "survie du défenseur"
 
 #: common/events.c:154
-#, fuzzy
 msgid "Promoted to Veteran"
-msgstr "Unité : gagne un niveau de vétéran"
+msgstr "gagne un niveau de vétéran"
 
 #: common/events.c:155
-#, fuzzy
 msgid "Lost outside battle"
-msgstr " en dehors de %s"
+msgstr "perdu hors du champ de bataille"
 
 #: common/events.c:156
-#, fuzzy
 msgid "Production Upgraded"
-msgstr "Unité : production mise à jour"
+msgstr "production mise à jour"
 
 #: common/events.c:157
-#, fuzzy
 msgid "Relocated"
-msgstr "Unité : déplacée"
+msgstr "déplacée"
 
 #: common/events.c:158
-#, fuzzy
 msgid "Orders / goto events"
-msgstr "Unité : ordres / aller à événements"
+msgstr "ordres / aller à événements"
 
 #: common/events.c:159 server/stdinhand.c:3598
 msgid "New vote"
@@ -522,29 +456,24 @@ msgid "Vote cancelled"
 msgstr "Vote annulé"
 
 #: common/events.c:162
-#, fuzzy
 msgid "Finished"
 msgstr "terminé"
 
 #: common/events.c:163
-#, fuzzy
 msgid "Made Obsolete"
-msgstr "Vendre obsolète"
+msgstr "rendue obsolète"
 
 #: common/events.c:164
-#, fuzzy
 msgid "Started"
-msgstr "État"
+msgstr "construction démarrée"
 
 #: common/events.c:165
-#, fuzzy
 msgid "Stopped"
-msgstr "Merveilles : stoppée"
+msgstr "construction stoppée"
 
 #: common/events.c:166
-#, fuzzy
 msgid "Will Finish Next Turn"
-msgstr "Merveille : terminée au prochain tour"
+msgstr "terminée au prochain tour"
 
 #: common/events.c:167
 msgid "AI Debug messages"
@@ -599,19 +528,16 @@ msgid "Report"
 msgstr "Rapport"
 
 #: common/events.c:180
-#, fuzzy
 msgid "Server Aborting"
-msgstr "Port du serveur"
+msgstr "abandon du serveur"
 
 #: common/events.c:181
-#, fuzzy
 msgid "Server Problems"
-msgstr "Options du serveur"
+msgstr "problèmes du serveur"
 
 #: common/events.c:182
-#, fuzzy
 msgid "Message from server operator"
-msgstr "Message de l'opérateur du serveur"
+msgstr "message de l'opérateur du serveur"
 
 #: common/events.c:183
 msgid "Server settings changed"
@@ -641,27 +567,22 @@ msgid "Away"
 msgstr "Distant"
 
 #: common/player.c:46
-#, fuzzy
 msgid "Novice"
 msgstr "novice"
 
 #: common/player.c:46
-#, fuzzy
 msgid "Easy"
 msgstr "facile"
 
 #: common/player.c:47
-#, fuzzy
 msgid "Hard"
 msgstr "difficile"
 
 #: common/player.c:47
-#, fuzzy
 msgid "Cheating"
-msgstr "Discussion"
+msgstr "tricherie"
 
 #: common/player.c:47
-#, fuzzy
 msgid "Experimental"
 msgstr "expérimental"
 
@@ -785,26 +706,26 @@ msgid "Size %d"
 msgstr "Taille %d"
 
 #: common/requirements.c:1392 common/requirements.c:1401
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s unités"
+msgstr "unités \"%s\""
 
 #: common/requirements.c:1397
 #, c-format
 msgid "%s units"
-msgstr "%s unités"
+msgstr "unités \"%s\""
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1417
-#, fuzzy, c-format
+#, c-format
 msgid "%s AI"
-msgstr "%d"
+msgstr "IA %s"
 
 #. TRANS: "Land terrain"
 #: common/requirements.c:1422
-#, fuzzy, c-format
+#, c-format
 msgid "%s terrain"
-msgstr "Terrain"
+msgstr "terrain \"%s\""
 
 #. TRANS: "Fortress base"
 #: common/requirements.c:1427
@@ -813,20 +734,19 @@ msgid "%s base"
 msgstr "base \"%s\""
 
 #: common/requirements.c:1431
-#, fuzzy, c-format
+#, c-format
 msgid "After %s"
-msgstr "près de %s"
+msgstr "après %s"
 
 #. TRANS: "Irrigation possible"
 #: common/requirements.c:1436
-#, fuzzy, c-format
+#, c-format
 msgid "%s possible"
-msgstr "impossible"
+msgstr "%s possible"
 
 #: common/requirements.c:1440
-#, fuzzy
 msgid "City center tile"
-msgstr "Centrer la vue"
+msgstr "centre-ville"
 
 #: common/tech.c:813 client/gui-gtk-2.0/repodlgs.c:506
 #, c-format
@@ -861,24 +781,20 @@ msgid "Land"
 msgstr "Terrestre"
 
 #: common/terrain.c:46
-#, fuzzy
 msgid "Oceanic"
-msgstr "Océan"
+msgstr "Océanique"
 
 #: common/terrain.c:50
-#, fuzzy
 msgid "CanIrrigate"
-msgstr "_Irrigation"
+msgstr "CanIrrigate"
 
 #: common/terrain.c:51
-#, fuzzy
 msgid "CanMine"
-msgstr "Mine"
+msgstr "CanMine"
 
 #: common/terrain.c:52
-#, fuzzy
 msgid "CanRoad"
-msgstr "Route"
+msgstr "CanRoad"
 
 #: common/terrain.c:539 common/terrain.c:777 common/unit.c:524
 #: manual/civmanual.c:217
@@ -961,9 +877,8 @@ msgid "Transform"
 msgstr "Transformer"
 
 #: common/unit.c:552
-#, fuzzy
 msgid "Base"
-msgstr "Basque"
+msgstr "Base"
 
 #: common/unit.c:560 client/text.c:160 client/gui-gtk-2.0/editprop.c:5741
 #: client/gui-sdl/citydlg.c:1973 client/gui-win32/citydlg.c:1229
@@ -1032,9 +947,9 @@ msgid "(beta version)"
 msgstr "(version béta)"
 
 #: common/version.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Freeciv version %s %s"
+msgstr "Freeciv version %s (%s)"
 
 #: common/version.c:44
 #, c-format
@@ -1099,14 +1014,13 @@ msgstr "Décembre"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: common/version.c:102
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in %s, at %s"
 msgstr ""
 "CECI EST UNE VERSION BÉTA\n"
-"Freeciv %s sortira en\n"
-"%s, sur %s"
+"Freeciv %s sortira en %s, sur %s"
 
 #: common/version.c:121
 msgid "'Cause civilization should be free!"
@@ -1149,33 +1063,28 @@ msgid "Flush ok"
 msgstr "Succès d'écriture"
 
 #: utility/ioz.c:512
-#, fuzzy
 msgid "Finish ok"
-msgstr "Finlandais"
+msgstr "Succès de finition"
 
 #: utility/ioz.c:515
-#, fuzzy
 msgid "Stream end"
-msgstr "Moteur à vapeur"
+msgstr "Fin de flux"
 
 #: utility/ioz.c:518
-#, fuzzy
 msgid "Config error"
-msgstr "Configurer"
+msgstr "Erreur de configuration"
 
 #: utility/ioz.c:521
-#, fuzzy
 msgid "Sequence error"
-msgstr "Rapport de Science"
+msgstr "Erreur de séquence"
 
 #: utility/ioz.c:524
 msgid "Parameter error"
 msgstr "Erreur de paramètre"
 
 #: utility/ioz.c:527
-#, fuzzy
 msgid "Mem error"
-msgstr "Empereur"
+msgstr "Erreur de mémoire"
 
 #: utility/ioz.c:530
 msgid "Data error"
@@ -1186,9 +1095,8 @@ msgid "Not bzip2 file"
 msgstr "Pas de fichier bzip2"
 
 #: utility/ioz.c:536
-#, fuzzy
 msgid "IO error"
-msgstr "Notre territoire"
+msgstr "Erreur d'entrée/sortie"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
@@ -1199,9 +1107,9 @@ msgid "Output buffer full"
 msgstr "Tampon de sortie plein"
 
 #: utility/ioz.c:549
-#, fuzzy, c-format
+#, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr "Année : %s (T%d)"
+msgstr "Bz2 : \"%s\" (%d)"
 
 #: utility/ioz.c:552
 #, c-format
@@ -1280,10 +1188,10 @@ msgstr "Argument manquant pour \"%s\".\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:943
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
-"FREECIV_PATH est spécifié mais vide; le chemin par défaut sera utilisé."
+"\"%s\" est spécifié mais vide ; le chemin par défaut \"%s\" sera utilisé."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:1048
@@ -1293,11 +1201,11 @@ msgstr "Impossible de lire le répertoire de données %s : %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1297
-#, fuzzy, c-format
+#,  c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr ""
 "Le chemin d'accès aux données peut être spécifié par la "
-"variabled'environnement FREECIV_PATH."
+"variable d'environnement \"%s\"."
 
 #: utility/shared.c:1300
 #, c-format
@@ -1380,12 +1288,13 @@ msgid "*%s (AI)* First break alliance with %s, %s."
 msgstr "*%s (IA)* Rompez d'abord votre alliance avec %s, %s."
 
 #: ai/advdiplomacy.c:336
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "*%s (AI)* I would like to see you keep your distance from %s for some time, %"
 "s."
 msgstr ""
-"*%s (IA)* J'espère que vous respecterez durablement le cessez-le-feu, %s."
+"*%s (IA)* J'aurais aimé vous voir garder vos distances avec %s pour "
+"quelques temps, %s."
 
 #: ai/advdiplomacy.c:349
 #, c-format
@@ -1793,10 +1702,10 @@ msgid "This server allows only preregistered users. Sorry."
 msgstr "Ce serveur n'autorise que les joueurs pré-enregistrés. Désolé."
 
 #: server/auth.c:456
-#, fuzzy, c-format
+#, c-format
 msgid "%s was rejected: Only preregistered users allowed."
 msgstr ""
-"%s a été rejeté : uniquement les joueurs préenregistrés sont autorisés."
+"%s a été rejeté : seuls les utilisateurs pré-enregistrés sont autorisés."
 
 #: server/auth.c:484 server/auth.c:542
 msgid "Sorry, too many wrong tries..."
@@ -1965,9 +1874,9 @@ msgstr "Perte de %s avec le contrôle de %s."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:842
-#, fuzzy, c-format
+#, c-format
 msgid "A replacement %s was built in %s."
-msgstr "Un nouveau %s a été construit à %s."
+msgstr "%s a été construit en remplacement dans %s."
 
 #: server/citytools.c:926
 #, c-format
@@ -1990,9 +1899,11 @@ msgid "You have founded %s."
 msgstr "Vous avez fondé %s."
 
 #: server/citytools.c:1248
-#, fuzzy, c-format
+#, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
-msgstr "Déplacé %s hors de votre ville démantelée %s pour éviter l'échouage."
+msgstr ""
+"L'unité %s a été déplacée hors de votre ville %s démantelée puisqu'elle "
+"ne pouvait rester sur place (%s)."
 
 #: server/citytools.c:1261
 #, c-format
@@ -2104,9 +2015,9 @@ msgid "Warning: Famine feared in %s."
 msgstr "Attention : la famine a menacé dans %s."
 
 #: server/cityturn.c:503
-#, fuzzy, c-format
+#, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
-msgstr "ATTENTION, nous sommes à court de liquidités."
+msgstr "ATTENTION, nous sommes à court de liquidités %s."
 
 #: server/cityturn.c:687
 #, c-format
@@ -2216,30 +2127,30 @@ msgstr ""
 "de taille %d. Mis en attente..."
 
 #: server/cityturn.c:1115
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
-"%s ne peut pas construire %s (dans la liste de travail) ; seulement %s peut "
-"le construire. Mis en attente..."
+"%s ne peut pas construire %s (dans la liste de travail) ; seulement une "
+"IA de niveau %s peut le construire. Mis en attente..."
 
 #: server/cityturn.c:1129
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
-"%s ne peut pas construire %s (dans la liste de travail), le terrain %s est "
-"nécessaire. Mis en attente..."
+"%s ne peut pas construire %s (dans la liste de travail) ; la classe de "
+"terrain %s est nécessaire. Mis en attente..."
 
 #: server/cityturn.c:1156
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s can't build %s from the worklist; Only available from %s.  Postponing..."
 msgstr ""
-"%s ne peut pas construire %s (dans la liste de travail) ; la technologie "
-"n'est pas encore disponible. Mis en attente..."
+"%s ne peut pas construire %s (dans la liste de travail) ; seulement "
+"disponible depuis %s. Mis en attente..."
 
 #: server/cityturn.c:1191
 #, c-format
@@ -2323,14 +2234,14 @@ msgid "Pollution near %s."
 msgstr "Pollution près de %s."
 
 #: server/cityturn.c:2059
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations in your honour in %s."
-msgstr "Gigantesque célébration en votre honneur à %s."
+msgstr "Célébrations en votre honneur à %s."
 
 #: server/cityturn.c:2065
-#, fuzzy, c-format
+#, c-format
 msgid "Celebrations canceled in %s."
-msgstr "Les célébrations finiront dans %s."
+msgstr "Les célébrations se sont achevées dans %s."
 
 #: server/cityturn.c:2077
 #, c-format
@@ -2426,9 +2337,9 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #: server/cityturn.c:2419
-#, fuzzy, c-format
+#, c-format
 msgid "%s was disbanded by its citizens."
-msgstr "%s est congédié dans %s."
+msgstr "%s a été démantelé par ces habitants."
 
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2439
@@ -2800,7 +2711,6 @@ msgid "Show server options."
 msgstr "Affiche les options du serveur."
 
 #: server/commands.c:127
-#, fuzzy
 msgid ""
 "With no arguments, shows vital server options (or available options, when "
 "used by clients). With an option name argument, show only the named option, "
@@ -2808,10 +2718,13 @@ msgid ""
 "\", \"situational\" or \"rare\", a set of options with this level. With "
 "\"changed\", it shows only the options which have been modified."
 msgstr ""
-"Sans argument, affiche toutes les options du serveur (ou bien uniquement les "
-"options disponibles, lorsqu'on l'utilise depuis le client). Avec un "
-"argument, affiche l'option nommée, ou toutes les options commençant par le "
-"préfixe donné."
+"Sans argument, affiche les options vitales du serveur (ou les options "
+"disponibles, lorsqu'utilisée depuis un client). Avec une nom d'option "
+"comme argument, montre seulement cette option, ou les options qui ont "
+"commencent par ce préfixe. Avec \"all\", cette commande affiche toutes "
+"les options. Avec \"vital\", \"situational\" ou \"rare\", un échantillon "
+"d'options de ce niveau. Avec \"changed\", seules les options modifiées "
+"sont listées."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:136
@@ -2830,14 +2743,12 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:144
-#, fuzzy
 msgid "connectmsg <message>"
-msgstr "Messages de connexion/déconnexion"
+msgstr "connectmsg <message>"
 
 #: server/commands.c:145
-#, fuzzy
 msgid "Set message to show to connecting players."
-msgstr "Envoie un message à tous les connectés."
+msgstr "Message à afficher à tous les joueurs se connectant."
 
 #: server/commands.c:146
 msgid ""
@@ -2849,16 +2760,15 @@ msgstr ""
 
 #. TRANS: translate text between [] only
 #: server/commands.c:151
-#, fuzzy
 msgid "vote yes|no|abstain [vote number]"
-msgstr "vote yes|no [n° de vote]"
+msgstr "vote yes|no|abstain [n° de vote]"
 
 #: server/commands.c:152
 msgid "Cast a vote."
 msgstr "Voter."
 
 #: server/commands.c:154
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "A player with info level access issuing a control level command starts a new "
 "vote for the command.  The /vote command followed by \"yes\", \"no\", or "
@@ -2868,7 +2778,7 @@ msgid ""
 "half of the voters who have not abstained vote for it, or fail immediately "
 "if at least half of the voters who have not abstained vote against it."
 msgstr ""
-"Un joueur avec le niveau info passant une commande de niveau contrôle initie "
+"Un joueur avec le niveau basic passant une commande de niveau contrôle initie "
 "un nouveau vote pour celle-ci.  La commande /vote suivie par \"yes\" ou \"no"
 "\", et éventuellement d'un numéro de vote donne votre voix. Si vous ne "
 "spécifiez pas de numéro de vote, vous votez pour la dernière commande. Vous "
@@ -3180,27 +3090,26 @@ msgstr ""
 
 #. TRANS: translate text between <> only
 #: server/commands.c:326
-#, fuzzy
 msgid ""
 "cheating\n"
 "cheating <player-name>"
-msgstr "create <nom-joueur>"
+msgstr ""
+"cheating\n"
+"cheating <nom-joueur>"
 
 #: server/commands.c:328
-#, fuzzy
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Règle le niveau du ou des joueurs IA à \"facile\"."
+msgstr "Règle le niveau du ou des joueurs IA à \"tricherie\"."
 
 #: server/commands.c:329
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'.  With an argument, "
 "sets the skill level for that player only."
 msgstr ""
 "Sans argument, cette commande règle le niveau de tous les joueurs IA "
-"(existants et à venir) sur \"facile\". Avec un argument, cette commande ne "
-"règle le niveau que du joueur IA concerné."
+"(existants et à venir) sur \"tricherie\". Avec un argument, cette "
+"commande ne règle le niveau que du joueur IA concerné."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:336
@@ -3450,9 +3359,8 @@ msgstr ""
 "fichier."
 
 #: server/commands.c:462
-#, fuzzy
 msgid "Reset all server settings."
-msgstr "Règle les options du serveur."
+msgstr "Ré-initialise toutes les options du serveur."
 
 #: server/commands.c:463
 msgid ""
@@ -3516,9 +3424,8 @@ msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Jeu par tour : en attente de %s pour finir le tour..."
 
 #: server/connecthand.c:240
-#, fuzzy
 msgid " *** Server is in edit mode. *** "
-msgstr " *** Le serveur quitte le mode édition. *** "
+msgstr " *** Serveur en mode édition. *** "
 
 #: server/connecthand.c:269
 #, c-format
@@ -4032,9 +3939,9 @@ msgstr ""
 "%s a provoqué un incident diplomatique en fomentant une révolte dans %s."
 
 #: server/edithand.c:154
-#, fuzzy, c-format
+#, c-format
 msgid " *** Server set to edit mode by %s! *** "
-msgstr " *** Le serveur passe en mode édition ! *** "
+msgstr " *** serveur passé en mode édition par %s ! *** "
 
 #: server/edithand.c:160
 #, c-format
@@ -4091,32 +3998,37 @@ msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:509
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
-msgstr "Vous ne pouvez pas créer l'unité %s sur ce terrain."
+msgstr ""
+"Impossible de créer des unités à %s parce que le type d'unité %d n'est "
+"pas valide."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
 #: server/edithand.c:519
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
-msgstr "Vous ne pouvez pas créer l'unité %s sur ce terrain."
+msgstr ""
+"Impossible de créer des unités de type %s à %s parce que le joueur %d "
+"n'est pas valide."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
 #: server/edithand.c:532
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
-msgstr "Vous ne pouvez pas créer d'unité sur un terrain ennemi."
+msgstr ""
+"Impossible de créer des unités de type %s sur une case ennemie à %s."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
 #: server/edithand.c:542
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
-msgstr "Vous ne pouvez pas créer l'unité %s sur ce terrain."
+msgstr "Impossible de créer des unités de type %s sur ce terrain à %s."
 
 #: server/edithand.c:587
 #, c-format
@@ -4145,9 +4057,9 @@ msgstr ""
 "joueur valide."
 
 #: server/edithand.c:638 server/edithand.c:663
-#, fuzzy, c-format
+#, c-format
 msgid "No such unit (ID %d)."
-msgstr "Aucun vote %d."
+msgstr "Unité inconnue (ID %d)."
 
 #: server/edithand.c:704
 #, c-format
@@ -4171,9 +4083,9 @@ msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
 #: server/edithand.c:756
-#, fuzzy, c-format
+#, c-format
 msgid "A city may not be built at %s."
-msgstr "* Ne peut pas être construit dans les villes.\n"
+msgstr "Une ville ne peut pas être construite à %s."
 
 #: server/edithand.c:803
 #, c-format
@@ -4181,9 +4093,9 @@ msgid "Cannot edit city with invalid city ID %d."
 msgstr "Impossible d'éditer une ville avec un ID %d invalide."
 
 #: server/edithand.c:816
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit city name: %s"
-msgstr "Nom de connexion : %s"
+msgstr "Impossible d'éditer le nom de la ville : %s"
 
 #: server/edithand.c:827
 #, c-format
@@ -4230,20 +4142,19 @@ msgstr ""
 "disponibles (%d utilisées)."
 
 #: server/edithand.c:971
-#, fuzzy
 msgid "Player cannot be created because random nation selection failed."
 msgstr ""
-"Les joueurs ne peuvent pas être supprimés une fois que la partie a commencé."
+"Impossible de créer un joueur parce que la sélection automatique d'une "
+"nation a échoué."
 
 #: server/edithand.c:980
-#, fuzzy
 msgid "Player creation failed."
-msgstr "Joueur détruit"
+msgstr "La création du joueur a échoué."
 
 #: server/edithand.c:1016
-#, fuzzy, c-format
+#, c-format
 msgid "No such player (ID %d)."
-msgstr "Aucun vote %d."
+msgstr "Joueur inconnu (ID %d)."
 
 #: server/edithand.c:1049
 #, c-format
@@ -4309,19 +4220,22 @@ msgstr ""
 "pas valide."
 
 #: server/edithand.c:1277
-#, fuzzy, c-format
+#, c-format
 msgid "No such city (ID %d)."
-msgstr "Aucun vote %d."
+msgstr "Ville inconnue (ID %d)."
 
 #: server/edithand.c:1303
-#, fuzzy
 msgid "Cannot toggle fog-of-war when it is already disabled."
-msgstr "Impossible de lancer la partie : elle est déjà en cours."
+msgstr ""
+"Impossible de basculer le brouillard de guerre lorsqu'il est déjà "
+"désactivé."
 
 #: server/edithand.c:1311
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
-msgstr "Impossible de sélectionner un joueur barbare."
+msgstr ""
+"Impossible de basculer le brouillard de guerre pour un joueur non-valide "
+"ID %d."
 
 #: server/edithand.c:1340
 #, c-format
@@ -4355,9 +4269,9 @@ msgstr ""
 "n'a de %s."
 
 #: server/gamehand.c:314
-#, fuzzy, c-format
+#, c-format
 msgid "No units placed for %s!"
-msgstr "Pas d'unité sélectionnée."
+msgstr "Pas d'unité placée pour %s !"
 
 #: server/gamehand.c:339 client/text.c:760
 #, c-format
@@ -4365,9 +4279,8 @@ msgid "Year: %s"
 msgstr "Année : %s"
 
 #: server/gamehand.c:422
-#, fuzzy
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum."
-msgstr "Le timeout a dépassé sa valeur maximale, mis au maximum"
+msgstr "La limite de temps a dépassé sa valeur maximale, mise au maximum."
 
 #: server/gamehand.c:430
 msgid "The turn timeout is smaller than zero, fixing at zero."
@@ -4407,9 +4320,9 @@ msgid "%s to allies: %s"
 msgstr "%s aux alliés : %s"
 
 #: server/handchat.c:201
-#, fuzzy, c-format
+#, c-format
 msgid "%s to global observers: %s"
-msgstr "%s observe maintenant %s"
+msgstr "%s aux observateurs globaux : %s"
 
 #: server/handchat.c:287
 msgid "You are not attached to a player."
@@ -4489,9 +4402,9 @@ msgid "Not reporting to the metaserver in this game."
 msgstr "Pas de rapport au métaserveur pour cette partie."
 
 #: server/meta.c:438
-#, fuzzy, c-format
+#, c-format
 msgid "Metaserver: bad address: <%s %d>."
-msgstr "Métaserveur: erreur d'adresse : [%s:%d]."
+msgstr "Métaserveur : mauvaise adresse : <%s %d>."
 
 #: server/plrhand.c:138
 #, c-format
@@ -4544,19 +4457,16 @@ msgstr ""
 "Vous devriez choisir un nouveau gouvernement dans le menu gouvernement."
 
 #: server/plrhand.c:442
-#, fuzzy
 msgid "Tax rate exceeded the max rate; adjusted."
-msgstr "Le taux d'imposition excède le maximum prévu pour %s; Ajusté."
+msgstr "Le taux d'imposition excède son maximum ; ajusté."
 
 #: server/plrhand.c:446
-#, fuzzy
 msgid "Science rate exceeded the max rate; adjusted."
-msgstr "Le taux de recherche excède le maximum prévu pour %s; Ajusté."
+msgstr "Le taux de recherche excède son maximum ; ajusté."
 
 #: server/plrhand.c:450
-#, fuzzy
 msgid "Luxury rate exceeded the max rate; adjusted."
-msgstr "Le taux de luxe excède le maximum prévu pour %s; Ajusté."
+msgstr "Le taux de luxe excède son maximum ; ajusté."
 
 #: server/plrhand.c:504
 #, c-format
@@ -4649,126 +4559,114 @@ msgid "Could not throw %s into civil war - no available nations"
 msgstr "Impossible de plonger %s dans une guerre civile - pas assez de nations"
 
 #: server/plrhand.c:1626
-#, fuzzy
 msgid "Your nation is thrust into civil war."
 msgstr "Votre nation plonge dans la guerre civile."
 
 #. TRANS: <leader> ... the Poles.
 #: server/plrhand.c:1630
-#, fuzzy, c-format
+#, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s est déclaré chef des États rebelles %s."
 
 #. TRANS: <city> ... the Poles.
 #: server/plrhand.c:1652
-#, fuzzy, c-format
+#, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s fait allégeance à %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
 #: server/plrhand.c:1667
-#, fuzzy, c-format
+#, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] ""
-"La prise de la capitale de %s et la destruction des structures "
-"administratives\n"
-"      de l'empire ont provoqué une guerre civile. Des opportunistes ont "
-"rejoint en masse la cause des rebelles,\n"
-"      l'arriviste %s détient dorénavant le pouvoir dans %d provinces "
-"rebelles."
+"La guerre civile divise les %s ; les %s détiennent dorénavant %d province."
 msgstr[1] ""
-"La prise de la capitale de %s et la destruction des structures "
-"administratives\n"
-"      de l'empire ont provoqué une guerre civile. Des opportunistes ont "
-"rejoint en masse la cause des rebelles,\n"
-"      l'arriviste %s détient dorénavant le pouvoir dans %d provinces "
-"rebelles."
+"La guerre civile divise les %s ; les %s détiennent dorénavant %d provinces."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "Rapport de %s sur les civilisations les plus RICHES du monde."
+msgstr ""
+"Rapport de %2$s sur les civilisations les plus RICHES du monde en %1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "Rapport de %s sur les civilisations les plus AVANCÉES du monde."
+msgstr ""
+"Rapport de %2$s sur les civilisations les plus AVANCÉES du monde en %1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "Rapport de %s sur les civilisations les plus MILITARISÉES du monde."
+msgstr ""
+"Rapport de %2$s sur les civilisations les plus MILITARISÉES du monde en "
+"%1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "Rapport de %s sur les civilisations les plus HEUREUSES du monde."
+msgstr ""
+"Rapport de %2$s sur les civilisations les plus HEUREUSES du monde en %1$s."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "Rapport de %s sur les civilisations les plus NOMBREUSES du monde."
+msgstr ""
+"Rapport de %2$s sur les civilisations les plus NOMBREUSES du monde en "
+"%1$s."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
-#, fuzzy
 msgid "Herodotus"
 msgstr "Hérodote"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
-#, fuzzy
 msgid "Thucydides"
-msgstr "Thucydides"
+msgstr "Thucydide"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:75
-#, fuzzy
 msgid "Pliny the Elder"
-msgstr "Pliny"
+msgstr "Pline l'Ancien"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:77
-#, fuzzy
 msgid "Livy"
-msgstr "Livy"
+msgstr "Tite-Live"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:79
-#, fuzzy
 msgid "Toynbee"
 msgstr "Toynbee"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:81
-#, fuzzy
 msgid "Gibbon"
 msgstr "Gibbon"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:83
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
-msgstr "Ssu-ma Ch'ien"
+msgstr "Sima Qian"
 
 # AR
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:85
-#, fuzzy
 msgid "Pan Ku"
-msgstr "Pan Ku"
+msgstr "Ban Gu"
 
 #: server/report.c:130
 msgid "Population"
@@ -4808,94 +4706,94 @@ msgstr "Service Militaire"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Supreme %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les suprêmes %s"
 
 # AR : les qualificatifs en général
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Magnificent %s"
-msgstr "Somptueux"
+msgstr "%2d: les somptueux %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Great %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les nobles %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Glorious %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les glorieux %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Excellent %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les excellents %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Eminent %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les éminents %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Distinguished %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les distingués %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Average %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les moyens %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Mediocre %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les médiocres %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Ordinary %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les quelconques %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Pathetic %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les pathétiques %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Useless %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les inutiles %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Valueless %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les pauvres %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Worthless %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les inoffensifs %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Wretched %s"
-msgstr "%2d: Les %s %s\n"
+msgstr "%2d: les misérables %s"
 
 #: server/report.c:253
 msgid "Historian Publishes!"
@@ -14298,65 +14196,57 @@ msgid "Veteran"
 msgstr "Vétéran"
 
 #: client/gui-gtk-2.0/editprop.c:3801
-#, fuzzy
 msgid "Buildings"
-msgstr "Constructions : "
+msgstr "Constructions"
 
 #: client/gui-gtk-2.0/editprop.c:3803
 msgid "Food Stock"
 msgstr "Stock de nourriture"
 
 #: client/gui-gtk-2.0/editprop.c:3805
-#, fuzzy
 msgid "Shield Stock"
 msgstr "Production"
 
 #: client/gui-gtk-2.0/editprop.c:3816
-#, fuzzy
 msgid "Inventions"
-msgstr "Invention"
+msgstr "Inventions"
 
 #: client/gui-gtk-2.0/editprop.c:3823
-#, fuzzy
 msgid "Year"
-msgstr "Année : %s"
+msgstr "Année"
 
 #: client/gui-gtk-2.0/editprop.c:3825
-#, fuzzy
 msgid "Scenario"
-msgstr "Choisissez un scénario"
+msgstr "Scénario"
 
 #: client/gui-gtk-2.0/editprop.c:3827
-#, fuzzy
 msgid "Scenario Name"
-msgstr "Démarrer un _scénario"
+msgstr "Nom du scénario"
 
 #: client/gui-gtk-2.0/editprop.c:3829
-#, fuzzy
 msgid "Scenario Description"
-msgstr "Description"
+msgstr "Description du scénario"
 
 #: client/gui-gtk-2.0/editprop.c:3832
-#, fuzzy
 msgid "Save Players"
-msgstr "Prendre ce joueur"
+msgstr "Sauvegarder les joueurs"
 
 # AR j'ai rien trouve de mieux
 #: client/gui-gtk-2.0/editprop.c:4109
-#, fuzzy
 msgid "Destroy"
-msgstr "Destroyer"
+msgstr "Détruire"
 
 #: client/gui-gtk-2.0/editprop.c:4114
 msgid ""
 "Pressing this button will send a request to the server to destroy (i.e. "
 "erase) the objects selected in the object list."
 msgstr ""
+"Presser ce bouton enverra une requête pour détruire (c'est-à-dire "
+"supprimer) les objets sélectionnés dans la liste des objets."
 
 #: client/gui-gtk-2.0/editprop.c:4125
-#, fuzzy
 msgid "Create"
-msgstr "Excellents"
+msgstr "Créer"
 
 #: client/gui-gtk-2.0/editprop.c:4130
 msgid ""
@@ -14365,16 +14255,20 @@ msgid ""
 "the objects is taken from the editor tool state. So for example, the \"tool "
 "value\" of the unit tool and its \"count\" parameter affect unit creation."
 msgstr ""
+"Presser ce bouton créera un nouvel objet du même type que la page de "
+"propriété courante et l'ajoutera à cette page. Le type type spécifique et "
+"le compte d'objets est déterminé par l'état de l'outil d'édition. Donc "
+"par exemple, l'outil \"valeur\" de l'outil unité et son paramètre "
+"\"compte\" affectent la création d'unités."
 
 #: client/gui-gtk-2.0/editprop.c:4179
-#, fuzzy, c-format
+#, c-format
 msgid "%s Properties"
-msgstr "_Propriétés"
+msgstr "Propriétés des %s"
 
 #: client/gui-gtk-2.0/editprop.c:4217
-#, fuzzy
 msgid "Filter:"
-msgstr "Chasseur"
+msgstr "Filtre :"
 
 #: client/gui-gtk-2.0/editprop.c:4222
 msgid ""
@@ -14383,6 +14277,10 @@ msgid ""
 "has higher precedence than |. A pattern may also be negated by prefixing it "
 "with !."
 msgstr ""
+"Entrer une chaîne pour limiter quelles propriétés sont montrées. Le "
+"filtre est une ou plusieurs expressions séparées par | (\"ou\") ou & "
+"(\"et\"). Le symbole & est prioritaire sur |. Une expression peut aussi "
+"être négative en la précédent de !."
 
 #: client/gui-gtk-2.0/editprop.c:4237
 msgid ""
@@ -14390,28 +14288,32 @@ msgid ""
 "selected in the object list to the server. Modified properties' names are "
 "shown in red in the properties panel."
 msgstr ""
+"Presser ce bouton enverra toutes les propriétés modifiées des objets "
+"sélectionnés dans la liste des objets au serveur. Les noms des propriétés "
+"modifiées sont affichées en rouge dans le panel d'édition."
 
 #: client/gui-gtk-2.0/editprop.c:4248
 msgid ""
 "Pressing this button will reset all modified properties of the selected "
 "objects to their current values (the values they have on the server)."
 msgstr ""
+"Presser ce bouton remettra toutes les propriétés modifiées des objects "
+"sélectionnés à leur valeur en vigueur (les valeurs qui sont disponibles "
+"sur le serveur)."
 
 #: client/gui-gtk-2.0/editprop.c:5363
-#, fuzzy
 msgid "Property Editor"
-msgstr "Éditeur de liste de travail"
+msgstr "Éditeur de propriétés"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5729
 msgid "Seen (Main)"
-msgstr ""
+msgstr "Vue (Principale)"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5733
-#, fuzzy
 msgid "Seen (Invis)"
-msgstr "Sélectionner la ou les unité(s)"
+msgstr "Vue (Invisible)"
 
 #: client/gui-gtk-2.0/finddlg.c:71 client/gui-sdl/finddlg.c:131
 #: client/gui-sdl/mapctrl.c:1590 client/gui-win32/finddlg.c:120
@@ -14844,27 +14746,23 @@ msgstr "E_ffacer les logs"
 
 #: client/gui-gtk-2.0/menu.c:1204
 msgid "Save Chat _Log"
-msgstr ""
+msgstr "Exporter les _logs de discussion"
 
 #: client/gui-gtk-2.0/menu.c:1207
-#, fuzzy
 msgid "_Local Client"
-msgstr "Options du client"
+msgstr "Options _locales du client"
 
 #: client/gui-gtk-2.0/menu.c:1209
-#, fuzzy
 msgid "_Message"
-msgstr "Me_ssages"
+msgstr "Options des _messages"
 
 #: client/gui-gtk-2.0/menu.c:1211
-#, fuzzy
 msgid "_Remote Server"
-msgstr "_Retirer"
+msgstr "Options du se_rveur"
 
 #: client/gui-gtk-2.0/menu.c:1213
-#, fuzzy
 msgid "Save Options _Now"
-msgstr "Sau_vegarder les options"
+msgstr "_Sauvegarder les options maintenant"
 
 #: client/gui-gtk-2.0/menu.c:1216
 msgid "_Reload Tileset"
@@ -15143,32 +15041,27 @@ msgstr "Champ de vision réel"
 
 #: client/gui-gtk-2.0/menu.c:1393
 msgid "Game/Scenario Properties"
-msgstr ""
+msgstr "Propriétés de la partie/du scénario"
 
 #: client/gui-gtk-2.0/menu.c:1395 client/gui-gtk-2.0/pages.c:2319
-#, fuzzy
 msgid "Save Scenario"
-msgstr "Démarrer un _scénario"
+msgstr "Sauvegarder le scénario"
 
 #: client/gui-gtk-2.0/menu.c:1418
-#, fuzzy
 msgid "_Unit"
-msgstr "_Unités"
+msgstr "_Unité"
 
 #: client/gui-gtk-2.0/menu.c:1419
-#, fuzzy
 msgid "_Work"
-msgstr "_Listes de travail"
+msgstr "_Travail"
 
 #: client/gui-gtk-2.0/menu.c:1420
-#, fuzzy
 msgid "_Combat"
-msgstr "Combat"
+msgstr "_Combat"
 
 #: client/gui-gtk-2.0/menu.c:1421
-#, fuzzy
 msgid "Build _Base"
-msgstr "Construire une base aérienne"
+msgstr "Construire une base"
 
 #: client/gui-gtk-2.0/menu.c:1426
 msgid "_Single Unit (Unselect Others)"
