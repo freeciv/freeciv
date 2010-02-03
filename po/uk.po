@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-02 21:22+0300\n"
+"PO-Revision-Date: 2010-02-04 00:24+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -99,14 +99,14 @@ msgid " (observer)"
 msgstr " (спостер╕гач)"
 
 #: common/events.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "Technology: %s"
-msgstr "Технолог╕я"
+msgstr "Технолог╕я: %s"
 
 #: common/events.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Improvement: %s"
-msgstr "Буд╕вл╕"
+msgstr "Покращення: %s"
 
 #: common/events.c:51
 #, c-format
@@ -114,14 +114,14 @@ msgid "City: %s"
 msgstr "М╕сто: %s"
 
 #: common/events.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomat Action: %s"
-msgstr "Д╕╖ Дипломата"
+msgstr "Д╕я Дипломата: %s"
 
 #: common/events.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy Diplomat: %s"
-msgstr "Ворожий д╕пломат"
+msgstr "Ворожий дипломат: %s"
 
 #: common/events.c:54
 #, fuzzy, c-format
@@ -129,14 +129,14 @@ msgid "Global: %s"
 msgstr "Мета"
 
 #: common/events.c:55
-#, fuzzy, c-format
+#, c-format
 msgid "Hut: %s"
-msgstr "Адреса:"
+msgstr "Хут╕р: %s"
 
 #: common/events.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "Nation: %s"
-msgstr "Нац╕я"
+msgstr "Нац╕я: %s"
 
 #: common/events.c:57
 #, fuzzy, c-format
@@ -567,9 +567,8 @@ msgid "Server Problems"
 msgstr "Показу╓ опц╕╖ сервера."
 
 #: common/events.c:182
-#, fuzzy
 msgid "Message from server operator"
-msgstr "Пов╕домлення в╕д оператора серверу"
+msgstr "Пов╕домлення в╕д оператора сервера"
 
 #: common/events.c:183
 #, fuzzy
@@ -752,14 +751,14 @@ msgstr "Розм╕р %d"
 
 #: common/requirements.c:1392
 #: common/requirements.c:1401
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" units"
-msgstr "%s п╕дрозд╕л╕в"
+msgstr "\"%s\" п╕дрозд╕л╕в"
 
 #: common/requirements.c:1397
-#, fuzzy, c-format
+#, c-format
 msgid "%s units"
-msgstr " заг╕н"
+msgstr "%s п╕дрозд╕л╕в"
 
 #. TRANS: "Hard AI"
 #: common/requirements.c:1417
@@ -780,15 +779,15 @@ msgid "%s base"
 msgstr ""
 
 #: common/requirements.c:1431
-#, fuzzy, c-format
+#, c-format
 msgid "After %s"
-msgstr "б╕ля %s"
+msgstr "П╕сля %s"
 
 #. TRANS: "Irrigation possible"
 #: common/requirements.c:1436
-#, fuzzy, c-format
+#, c-format
 msgid "%s possible"
-msgstr "неможливо"
+msgstr "%s можливо"
 
 #: common/requirements.c:1440
 #, fuzzy
@@ -826,9 +825,8 @@ msgid "None"
 msgstr "Нема╓"
 
 #: common/tech.c:898
-#, fuzzy
 msgid "Future Tech."
-msgstr "Технолог╕я майбутнього %d"
+msgstr "Технолог╕я майбутнього."
 
 #. TRANS: "Unknown" advance/technology
 #: common/tech.c:903
@@ -1046,9 +1044,9 @@ msgid "(beta version)"
 msgstr "(бета верс╕я)"
 
 #: common/version.c:41
-#, fuzzy, c-format
+#, c-format
 msgid "Freeciv version %s (%s)"
-msgstr "Верс╕я Freeciv %s %s"
+msgstr "Freeciv верс╕╖ %s (%s)"
 
 #: common/version.c:44
 #, c-format
@@ -1773,18 +1771,18 @@ msgid "Can't buy units when city is in disorder."
 msgstr "Неможливо купувати коли у м╕ст╕ заворушення."
 
 #: server/cityhand.c:322
-#, fuzzy, c-format
+#, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr "%s кошту╓ %d гривень, а Ви ма╓те лише %d гривень."
+msgstr "Потр╕бно %d гривень, а Ви ма╓те лише %d гривень."
 
 #: server/cityhand.c:434
 msgid "You have bought this turn, can't change."
 msgstr "Ви вже купили цього ходу, неможливо зм╕нити."
 
 #: server/citytools.c:320
-#, fuzzy, c-format
+#, c-format
 msgid "You already have a city called %s."
-msgstr "Ви вже ма╓те м╕сто назване %s"
+msgstr "Ви вже ма╓те м╕сто назване %s."
 
 #: server/citytools.c:332
 #, c-format
@@ -1898,14 +1896,14 @@ msgstr[1] "%s захопив %s та отримав здобич %d гривень."
 msgstr[2] "%s захопив %s та отримав здобич %d гривень."
 
 #: server/citytools.c:1450
-#, fuzzy, c-format
+#, c-format
 msgid "You conquer %s"
-msgstr "Вами атаковано атомною бомбою %s."
+msgstr "Ви захоплю╓те  %s."
 
 #: server/citytools.c:1453
-#, fuzzy, c-format
+#, c-format
 msgid "%s conquered %s."
-msgstr "%s в╕дкрив %s"
+msgstr "%s захопив %s."
 
 #: server/citytools.c:1460
 #, fuzzy, c-format
@@ -3602,7 +3600,7 @@ msgstr " *** %s перев╕в сервер до режиму редагування! *** "
 #: server/edithand.c:160
 #, c-format
 msgid " *** Edit mode cancelled by %s. *** "
-msgstr ""
+msgstr " *** Режим редагування скасовано %s. *** "
 
 #: server/edithand.c:309
 #: server/edithand.c:343
@@ -7435,9 +7433,9 @@ msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold and 
 msgstr "Ваш %s з %s досягнув %s, прибуток склада╓ться з %d гривень та досл╕джень."
 
 #: server/unittools.c:266
-#, fuzzy, c-format
+#, c-format
 msgid "%s was upgraded for free to %s."
-msgstr "%s модерн╕зував до %s."
+msgstr "%s було на шару модерн╕зовано до %s."
 
 #: server/unittools.c:307
 #, c-format
@@ -7461,9 +7459,9 @@ msgid "Your %s became more experienced!"
 msgstr "Ваш п╕дрозд╕л %s став б╕льш досв╕дченним!"
 
 #: server/unittools.c:1063
-#, fuzzy, c-format
+#, c-format
 msgid "Teleported your %s to %s."
-msgstr "Телепортовано Ваш %s з (%d, %d) до %s."
+msgstr "Ваш %s телепортовано до %s."
 
 #: server/unittools.c:1126
 #, fuzzy, c-format
@@ -7471,9 +7469,9 @@ msgid "Moved your %s."
 msgstr "Розпущено Ваш %s у (%d, %d)."
 
 #: server/unittools.c:1137
-#, fuzzy, c-format
+#, c-format
 msgid "Disbanded your %s."
-msgstr "Розпущено Ваш %s у (%d, %d)."
+msgstr "Ваш %s розпущено."
 
 #: server/unittools.c:1484
 #, c-format
@@ -7792,9 +7790,8 @@ msgid "Proceeding with sound support disabled."
 msgstr "Продовжую без п╕дтримки звуку"
 
 #: client/audio.c:211
-#, fuzzy
 msgid "For sound support, install SDL_mixer"
-msgstr "Для п╕дтримки звуку встанов╕ть esound або SDL_mixer"
+msgstr "Для п╕дтримки звуку встанов╕ть SDL_mixer"
 
 #: client/audio.c:224
 msgid "To get sound you need to download a sound set!"
@@ -7911,15 +7908,13 @@ msgstr "Есм╕нець"
 
 #: client/citydlg_common.c:343
 #: client/gui-sdl/wldlg.c:1369
-#, fuzzy
 msgid "Great Wonder"
-msgstr "Диво"
+msgstr "Велике Диво"
 
 #: client/citydlg_common.c:351
 #: client/gui-sdl/wldlg.c:1375
-#, fuzzy
 msgid "Small Wonder"
-msgstr "Доступн╕ дива"
+msgstr "Мале Диво"
 
 #: client/citydlg_common.c:403
 #, c-format
@@ -13123,14 +13118,12 @@ msgid "Index"
 msgstr "Простою╓"
 
 #: client/gui-gtk-2.0/editprop.c:3736
-#, fuzzy
 msgid "?coordinate:X"
-msgstr "Нев╕рн╕ координати на мап╕."
+msgstr "X"
 
 #: client/gui-gtk-2.0/editprop.c:3738
-#, fuzzy
 msgid "?coordinate:Y"
-msgstr "Нев╕рн╕ координати на мап╕."
+msgstr "Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
@@ -13152,9 +13145,8 @@ msgstr "При╓'днатись"
 #: client/gui-gtk-2.0/editprop.c:3750
 #: client/gui-gtk-2.0/editprop.c:3771
 #: client/gui-gtk-2.0/editprop.c:3797
-#, fuzzy
 msgid "?coordinates:X,Y"
-msgstr "Нев╕рн╕ координати на мап╕."
+msgstr "X,Y"
 
 #: client/gui-gtk-2.0/editprop.c:3752
 #: client/gui-win32/menu.c:353
@@ -13193,9 +13185,8 @@ msgid "Moves Left"
 msgstr "Рухи"
 
 #: client/gui-gtk-2.0/editprop.c:3775
-#, fuzzy
 msgid "Fuel"
-msgstr "Ж╕нка"
+msgstr "Паливо"
 
 #: client/gui-gtk-2.0/editprop.c:3777
 #, fuzzy
@@ -27806,7 +27797,7 @@ msgstr "Видалити предустановку"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr ""
+msgstr "Ви гра╓те Freeciv за типовими правилами."
 
 #: data/default/game.ruleset:184
 msgid "AD"
