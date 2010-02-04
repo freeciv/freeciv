@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-04 00:44+0300\n"
+"PO-Revision-Date: 2010-02-04 18:51+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -149,9 +149,9 @@ msgid "Unit: %s"
 msgstr "П╕дрозд╕л: %s"
 
 #: common/events.c:59
-#, fuzzy, c-format
+#, c-format
 msgid "Vote: %s"
-msgstr "Адреса:"
+msgstr "Голосування: %s"
 
 #: common/events.c:60
 #, c-format
@@ -469,9 +469,8 @@ msgstr "Накази / под╕╖ перем╕щення"
 
 #: common/events.c:159
 #: server/stdinhand.c:3598
-#, fuzzy
 msgid "New vote"
-msgstr "Нова гра"
+msgstr "Нове голосування"
 
 #: common/events.c:160
 msgid "Vote resolved"
@@ -2440,9 +2439,9 @@ msgstr "  -v, --version\t\tВивести верс╕ю\n"
 #: client/gui-sdl/gui_main.c:178
 #: client/gui-xaw/gui_main.c:252
 #: manual/civmanual.c:389
-#, fuzzy, c-format
+#, c-format
 msgid "Report bugs at %s\n"
-msgstr "Про помилки пов╕домляйте <%s>.\n"
+msgstr "Про помилки пов╕домляйте на %s\n"
 
 #: server/commands.c:45
 msgid "Start the game, or restart after loading a savegame."
@@ -2480,9 +2479,8 @@ msgid "Show a list of players, teams, connections, or scenarios."
 msgstr "Показати список гравц╕в, команд, з'╓днань або сценар╕╖в."
 
 #: server/commands.c:84
-#, fuzzy
 msgid "Show a list of players in the game, teams of players, connections to the server, or available scenarios.  The argument may be abbreviated, and defaults to 'players' if absent."
-msgstr "Показати список гравц╕в у гр╕, команд гравц╕в, з'╓днань з сервером або доступних сценар╕╖в. Аргумент може бути скороченням, та при в╕дсутност╕ прийма╓ться значення по замовчуванню 'players'."
+msgstr "Показати список гравц╕в у гр╕, команд гравц╕в, з'╓днань з сервером або доступних сценар╕╖в. Аргумент може бути скороченням, а при в╕дсутност╕ прийма╓ться типове значення 'players' (гравц╕)."
 
 #: server/commands.c:92
 msgid "Quit the game and shutdown the server."
@@ -2574,7 +2572,7 @@ msgstr ""
 #: server/commands.c:151
 #, fuzzy
 msgid "vote yes|no|abstain [vote number]"
-msgstr "vote yes|no [номер голосування]"
+msgstr "голосувати так|н╕|утриматися [номер голосування]"
 
 #: server/commands.c:152
 #, fuzzy
@@ -3834,7 +3832,7 @@ msgstr ""
 
 #: server/edithand.c:1431
 msgid "Scenario information not set. Cannot save scenario."
-msgstr ""
+msgstr "╤нформац╕ю про сценар╕й не встановлено. Не можу зберегти сценар╕й."
 
 #: server/gamehand.c:159
 #, c-format
@@ -3863,12 +3861,12 @@ msgstr "Таймаут ходу менше нуля, виправляю на нуль."
 
 #: server/ggzserver.c:123
 msgid "Unable to make temporary directory for GGZ game.\n"
-msgstr ""
+msgstr "Не можу створити тимчасову директор╕ю для гри GGZ.\n"
 
 #: server/ggzserver.c:131
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr ""
+msgstr "Не можу перейти до тимчасово╖ серверно╖ директор╕╖ %s.\n"
 
 #: server/ggzserver.c:266
 #: client/ggzclient.c:98
@@ -4825,15 +4823,15 @@ msgstr "Якщо гравц╕в при старт╕ гри менше, додатков╕ комп'ютерн╕ гравц╕ будуть с
 
 #: server/settings.c:458
 msgid "Event cache for this number of turns"
-msgstr ""
+msgstr "Кеш под╕й для ц╕╓╖ к╕лькост╕ ход╕в"
 
 #: server/settings.c:459
 msgid "Event messages are saved for this number of turns. A value of 0 deactivates the event cache."
-msgstr ""
+msgstr "Пов╕домлення про под╕╖ збер╕гаються вказану к╕льк╕сть ход╕в. Значення 0 деактиву╓ кеш под╕й."
 
 #: server/settings.c:466
 msgid "Size of the event cache"
-msgstr ""
+msgstr "Розм╕р кешу под╕й"
 
 #: server/settings.c:467
 msgid "This defines the maximal number of events in the event cache."
@@ -5570,7 +5568,7 @@ msgstr "Сервер: погана адреса: <%s:%d>."
 
 #: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
-msgstr ""
+msgstr "Сокет IPv6 не в╕дкрива╓ться, спробую натом╕сть IPv4"
 
 #: server/sernet.c:967
 #, c-format
@@ -6226,7 +6224,7 @@ msgstr "Чолов╕к"
 #: manual/civmanual.c:158
 #: manual/civmanual.c:167
 msgid "Minimum:"
-msgstr ""
+msgstr "М╕н╕мум:"
 
 #: server/stdinhand.c:1456
 #: server/stdinhand.c:1463
@@ -6234,17 +6232,15 @@ msgstr ""
 #: manual/civmanual.c:158
 #: manual/civmanual.c:168
 #: manual/civmanual.c:177
-#, fuzzy
 msgid "Default:"
-msgstr "Сервер по замовчуванню"
+msgstr "Типово:"
 
 #: server/stdinhand.c:1457
 #: server/stdinhand.c:1464
 #: manual/civmanual.c:159
 #: manual/civmanual.c:169
-#, fuzzy
 msgid "Maximum:"
-msgstr "не макс╕мум, "
+msgstr "Максимум:"
 
 #: server/stdinhand.c:1485
 msgid "Explanations are available for the following server options:"
@@ -6403,9 +6399,8 @@ msgstr "Гравець %s при╓днався до команди %s."
 
 #: server/stdinhand.c:2005
 #: server/voting.c:510
-#, fuzzy
 msgid "Teamvote"
-msgstr "Команда"
+msgstr "Командне голосування"
 
 #: server/stdinhand.c:2005
 #: server/voting.c:514
@@ -6439,12 +6434,12 @@ msgstr "Аргумент допомоги '%s' двозначний."
 #: server/stdinhand.c:2090
 #, fuzzy
 msgid "There are no votes running."
-msgstr "Нема╓ активних голосуваннь."
+msgstr "Нема╓ активних голосувань."
 
 #: server/stdinhand.c:2092
-#, fuzzy, c-format
+#, c-format
 msgid "No legal last vote (%d %s)."
-msgstr "Нема╓ останнього легального голосу."
+msgstr "Нема╓ останнього легального голосу (%d %s)."
 
 #: server/stdinhand.c:2093
 msgid "other vote running"
@@ -6466,14 +6461,13 @@ msgid "No such vote (%d)."
 msgstr "Нема╓ такого голосування (%d)."
 
 #: server/stdinhand.c:2112
-#, fuzzy
 msgid "You are not allowed to vote on that."
-msgstr "Вам не дозволено встановлювати цю опц╕ю."
+msgstr "Вам не дозволено голосувати за це."
 
 #: server/stdinhand.c:2117
-#, fuzzy, c-format
+#, c-format
 msgid "You voted for \"%s\""
-msgstr "Ви заснували %s"
+msgstr "Ви проголосували за \"%s\""
 
 #: server/stdinhand.c:2121
 #, c-format
@@ -6483,7 +6477,7 @@ msgstr "Ви проголосували проти \"%s\""
 #: server/stdinhand.c:2126
 #, c-format
 msgid "You abstained from voting on \"%s\""
-msgstr ""
+msgstr "Ви утрималися в╕д голосування за \"%s\""
 
 #: server/stdinhand.c:2161
 msgid "Missing argument <vote number> or the string \"all\"."
@@ -6492,30 +6486,30 @@ msgstr ""
 #: server/stdinhand.c:2168
 #, fuzzy
 msgid "You don't have any vote going on."
-msgstr "Ви не ма╓те прац╕вник╕в тут."
+msgstr "У вас нема╓ активних голосувань."
 
 #: server/stdinhand.c:2175
 #, fuzzy
 msgid "There isn't any vote going on."
-msgstr "Нема╓ активних голосуваннь."
+msgstr "Нема╓ активних голосувань."
 
 #: server/stdinhand.c:2180
 msgid "All votes have been removed."
 msgstr ""
 
 #: server/stdinhand.c:2197
-#, fuzzy, c-format
+#, c-format
 msgid "You are not allowed to cancel this vote (%d)."
-msgstr "Вам не дозволено встановлювати цю опц╕ю."
+msgstr "Вам не дозволено скасовувати це голосування (%d)."
 
 #: server/stdinhand.c:2203
 msgid "Usage: /cancelvote [<vote number>|all]"
 msgstr ""
 
 #: server/stdinhand.c:2212
-#, fuzzy, c-format
+#, c-format
 msgid "%s has cancelled the vote \"%s\" (number %d)."
-msgstr "Вибачьте, %s скасував торговий шлях в╕д %s до Вашого м╕ста %s."
+msgstr "%s скасував голосування \"%s\" (номер %d)."
 
 #: server/stdinhand.c:2218
 #, c-format
@@ -6525,7 +6519,7 @@ msgstr ""
 #: server/stdinhand.c:2239
 #, fuzzy
 msgid "Can only use this command once game has begun."
-msgstr "Не можна зм╕нити команду п╕сля старту гри."
+msgstr "Цю команду можна використовувати лише п╕сля початку гри."
 
 #: server/stdinhand.c:2270
 #, c-format
@@ -6555,9 +6549,8 @@ msgstr ""
 
 #: server/stdinhand.c:2332
 #: server/stdinhand.c:2363
-#, fuzzy
 msgid "Value 2 & 3 must be integer."
-msgstr "Значення повино бути ц╕лим."
+msgstr "Значення 2 ╕ 3 повинн╕ бути ц╕лими."
 
 #: server/stdinhand.c:2336
 #: server/stdinhand.c:2367
@@ -6588,9 +6581,8 @@ msgid "Ferry system in debug mode."
 msgstr "Система перев╕зу у стан╕ в╕дладки."
 
 #: server/stdinhand.c:2405
-#, fuzzy
 msgid "Value 2 must be integer."
-msgstr "Значення повино бути ц╕лим."
+msgstr "Значення 2 повинно бути ц╕лим."
 
 #: server/stdinhand.c:2409
 #, c-format
@@ -6875,14 +6867,12 @@ msgid "Unknown command.  Try '%shelp'."
 msgstr "Нев╕дома команда. Спробуйте '%shelp'."
 
 #: server/stdinhand.c:3580
-#, fuzzy
 msgid "Your new vote cancelled your previous vote."
-msgstr "Ваше нове голосування скасувало ваше попередне голосування."
+msgstr "Ваше нове голосування скасувало ваше попередн╓ голосування."
 
 #: server/stdinhand.c:3594
-#, fuzzy
 msgid "New teamvote"
-msgstr "Нова гра"
+msgstr "Нове командне голосування"
 
 #: server/stdinhand.c:3603
 #, fuzzy, c-format
@@ -7116,9 +7106,9 @@ msgstr "Список команд:"
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%2d : '%s' : %d гравець"
+msgstr[1] "%2d : '%s' : %d гравц╕"
+msgstr[2] "%2d : '%s' : %d гравц╕в"
 
 #: server/stdinhand.c:4393
 #, c-format
@@ -7707,12 +7697,12 @@ msgstr "Голосування \"%s\" не пройшло ╕з %d проти, %d за та %d утрималось."
 #: server/voting.c:546
 #, fuzzy, c-format
 msgid "%s %d: %s voted yes."
-msgstr "%s втратив %s у %s"
+msgstr "%s %d: %s проголосували за."
 
 #: server/voting.c:551
-#, c-format
+#, fuzzy, c-format
 msgid "%s %d: %s voted no."
-msgstr ""
+msgstr "%s %d: %s проголосували н╕."
 
 #: server/voting.c:556
 #, c-format
@@ -7825,7 +7815,7 @@ msgstr ""
 
 #: client/chatline_common.c:243
 msgid "Now ... Go give 'em hell!"
-msgstr ""
+msgstr "А зараз ... Дайте ╖м чорт╕в!"
 
 #. TRANS: Use longer of "XXX turns" and "never"
 #: client/citydlg_common.c:220
@@ -8807,7 +8797,7 @@ msgstr ""
 
 #: client/editor.c:1744
 msgid "Buffer empty."
-msgstr ""
+msgstr "Буфер порожн╕й."
 
 #: client/editor.c:1751
 #, c-format
@@ -10278,7 +10268,7 @@ msgstr ""
 
 #: client/options.c:751
 msgid "Always display the vote bar"
-msgstr ""
+msgstr "Завжди показувати рядок голосування"
 
 #: client/options.c:752
 msgid "If this option is turned on, the vote bar will never be hidden, notably when there won't be any running vote."
@@ -10286,7 +10276,7 @@ msgstr ""
 
 #: client/options.c:757
 msgid "Do not show vote bar if not a player"
-msgstr ""
+msgstr "Не показувати рядок голосування не-гравцям"
 
 #: client/options.c:758
 #, fuzzy
@@ -10295,7 +10285,7 @@ msgstr "Якщо встановлено цю опц╕ю, кл╕╓нт буде використовувати усю площу екрана 
 
 #: client/options.c:761
 msgid "Set new votes at front"
-msgstr ""
+msgstr "Поставити нов╕ голосування спереду"
 
 #: client/options.c:762
 #, fuzzy
@@ -11402,9 +11392,9 @@ msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1125
-#, fuzzy, c-format
+#, c-format
 msgid "Population:      %5d"
-msgstr "Населення: %s"
+msgstr "Населення:      %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1128
@@ -11492,9 +11482,9 @@ msgstr "Кер╕вництво: %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1288
-#, fuzzy, c-format
+#, c-format
 msgid "Observer: %s"
-msgstr " (спостер╕гач)"
+msgstr "Спостер╕гач: %s"
 
 #: client/text.c:1306
 msgid "Buildings: "
@@ -11677,16 +11667,14 @@ msgstr "Економ╕ка: Наука"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:87
 #: client/gui-win32/dialogs.c:1374
-#, fuzzy
 msgid "Ooops..."
-msgstr "Опц╕╖..."
+msgstr "Ойй..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:88
 #: client/gui-win32/dialogs.c:1375
 #: client/gui-xaw/diplomat_dialog.c:114
-#, fuzzy
 msgid "This unit cannot be bribed!"
-msgstr "Цей п╕дрозд╕л не може бути парашутований."
+msgstr "Цей п╕дрозд╕л неп╕дкупний!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:95
 #: client/gui-sdl/diplomat_dialog.c:1397
@@ -12010,9 +11998,9 @@ msgstr "Очищено в╕кно виводу"
 
 #. TRANS: "text" or "background".
 #: client/gui-gtk-2.0/chatline.c:959
-#, fuzzy, c-format
+#, c-format
 msgid "Select the %s color"
-msgstr "Нова Обрана Ц╕ль"
+msgstr "Вибер╕ть кол╕р %s "
 
 #: client/gui-gtk-2.0/chatline.c:1170
 msgid "Bold (Ctrl-B)"
@@ -12039,9 +12027,8 @@ msgid "foreground"
 msgstr ""
 
 #: client/gui-gtk-2.0/chatline.c:1219
-#, fuzzy
 msgid "Select the text color"
-msgstr "Нова Обрана Ц╕ль"
+msgstr "Вибер╕ть кол╕р тексту"
 
 #: client/gui-gtk-2.0/chatline.c:1231
 #, fuzzy
@@ -12609,9 +12596,9 @@ msgid "Available Wonders"
 msgstr "Доступн╕ дива"
 
 #: client/gui-gtk-2.0/cityrep.c:2032
-#, fuzzy, c-format
+#, c-format
 msgid "Total Buy Cost: %d"
-msgstr "Загалом кошту╓:"
+msgstr "Придбати загалом кошту╓: %d"
 
 #: client/gui-gtk-2.0/cma_fe.c:258
 #: client/gui-xaw/cma_fe.c:80
@@ -13902,7 +13889,6 @@ msgstr "План буд╕вництва"
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:1236
 #: client/gui-win32/menu.c:406
-#, fuzzy
 msgid "_Nations"
 msgstr "_Нац╕╖"
 
@@ -15627,9 +15613,8 @@ msgid "Granary"
 msgstr "Амбар"
 
 #: client/gui-sdl/citydlg.c:3306
-#, fuzzy
 msgid "finished"
-msgstr "Ф╕ни"
+msgstr "завершено"
 
 #: client/gui-sdl/citydlg.c:3599
 #, c-format
@@ -15861,14 +15846,12 @@ msgid "Patrol here"
 msgstr "Патрулювати тут"
 
 #: client/gui-sdl/dialogs.c:1337
-#, fuzzy
 msgid "Connect here"
-msgstr "При╓'днатись"
+msgstr "При╓днатись сюди"
 
 #: client/gui-sdl/dialogs.c:1358
-#, fuzzy
 msgid "Paradrop here"
-msgstr "Парашутувати"
+msgstr "Парашутувати сюди"
 
 #: client/gui-sdl/dialogs.c:1405
 #: client/gui-sdl/dialogs.c:1521
@@ -15903,9 +15886,8 @@ msgid "Choose Your New Government"
 msgstr "Обер╕ть нову форму керування"
 
 #: client/gui-sdl/dialogs.c:2106
-#, fuzzy
 msgid "REVOLUTION!"
-msgstr "РЕВОЛЮЦ╤Я..."
+msgstr "РЕВОЛЮЦ╤Я!"
 
 #: client/gui-sdl/dialogs.c:2265
 #: client/gui-sdl/dialogs.c:2653
@@ -15947,14 +15929,12 @@ msgid "Maps"
 msgstr "Мапи"
 
 #: client/gui-sdl/diplodlg.c:533
-#, fuzzy
 msgid "World map"
-msgstr "Мапу св╕ту"
+msgstr "Мапа св╕ту"
 
 #: client/gui-sdl/diplodlg.c:547
-#, fuzzy
 msgid "Sea map"
-msgstr "Мапу океану"
+msgstr "Мапа океану"
 
 #: client/gui-sdl/diplodlg.c:564
 msgid "Give embassy"
@@ -16107,9 +16087,9 @@ msgid "Unable to initialize SDL library: %s"
 msgstr "Не можу ╕н╕ц╕ал╕зувати SDL б╕бл╕отеку: %s"
 
 #: client/gui-sdl/graphics.c:1021
-#, fuzzy, c-format
+#, c-format
 msgid "Unable to initialize SDL_ttf library: %s"
-msgstr "Не можу ╕н╕ц╕ал╕зувати SDL_ttf б╕бл╕отеку: %s"
+msgstr "Не можу ╕н╕ц╕ал╕зувати б╕бл╕отеку SDL_ttf : %s"
 
 #: client/gui-sdl/graphics.c:1058
 #, c-format
@@ -16174,9 +16154,8 @@ msgid "Never"
 msgstr "Н╕коли"
 
 #: client/gui-sdl/helpdlg.c:602
-#, fuzzy
 msgid "Help : Units"
-msgstr "Обрати п╕дрозд╕ли"
+msgstr "Дов╕дка : П╕дрозд╕ли"
 
 #: client/gui-sdl/helpdlg.c:737
 #: client/gui-sdl/helpdlg.c:750
@@ -18282,9 +18261,8 @@ msgid "Go to/Airlift to City..."
 msgstr "Йти/Лет╕ти у м╕сто"
 
 #: client/gui-xaw/menu.c:216
-#, fuzzy
 msgid "Select Same Type Everywhere"
-msgstr "Обрати м╕сто"
+msgstr "Обрати той самий тип усюди"
 
 #: client/gui-xaw/menu.c:232
 msgid "Top Five Cities"
@@ -21281,47 +21259,41 @@ msgstr "В ус╕х м╕стах, ефект нещастя через в╕йськовий п╕дрозд╕л зменшу╓ться на 1
 #: data/civ2/cities.ruleset:29
 #, fuzzy
 msgid "elvis"
-msgstr "Сп╕вц╕"
+msgstr "сп╕вець"
 
 #: data/default/cities.ruleset:30
 #: data/civ2/cities.ruleset:30
 #, fuzzy
 msgid "?Elvis:E"
-msgstr "Сп╕вц╕"
+msgstr "С"
 
 #: data/default/cities.ruleset:37
 #: data/civ2/cities.ruleset:37
-#, fuzzy
 msgid "scientist"
-msgstr "Науковц╕"
+msgstr "науковець"
 
 #: data/default/cities.ruleset:38
 #: data/civ2/cities.ruleset:38
-#, fuzzy
 msgid "?Scientist:S"
-msgstr "?Науковц╕:Н"
+msgstr "Н"
 
 #: data/default/cities.ruleset:45
 #: data/civ2/cities.ruleset:45
-#, fuzzy
 msgid "taxman"
-msgstr "Гетьман"
+msgstr "податк╕вець"
 
 #: data/default/cities.ruleset:46
 #: data/civ2/cities.ruleset:46
-#, fuzzy
 msgid "?Taxman:T"
-msgstr "?Податк╕вц╕:П"
+msgstr "П"
 
 #: data/default/cities.ruleset:77
 #: data/civ2/cities.ruleset:76
-#, fuzzy
 msgid "?citystyle:European"
-msgstr "?стан_м╕ста:Захоплення"
+msgstr "╢вропейськ╕"
 
 #: data/default/cities.ruleset:86
 #: data/civ2/cities.ruleset:85
-#, fuzzy
 msgid "?citystyle:Classical"
 msgstr "Класичн╕"
 
@@ -21332,49 +21304,41 @@ msgstr "?citystyle:Троп╕чний"
 
 #: data/default/cities.ruleset:104
 #: data/civ2/cities.ruleset:103
-#, fuzzy
 msgid "?citystyle:Asian"
-msgstr "?м╕сто:Назва"
+msgstr "Аз╕атськ╕"
 
 #: data/default/cities.ruleset:113
 #: data/civ2/cities.ruleset:112
-#, fuzzy
 msgid "?citystyle:Babylonian"
-msgstr "Вав╕лоняни"
+msgstr "Вав╕лонськ╕"
 
 #: data/default/cities.ruleset:122
 #: data/civ2/cities.ruleset:121
-#, fuzzy
 msgid "?citystyle:Celtic"
-msgstr "?стан_м╕ста:Спок╕й"
+msgstr "Кельтськ╕"
 
 #: data/default/cities.ruleset:131
 #: data/civ2/cities.ruleset:141
-#, fuzzy
 msgid "?citystyle:Industrial"
-msgstr "?м╕сто:Назва"
+msgstr "╤ндустр╕альн╕"
 
 #: data/default/cities.ruleset:142
-#, fuzzy
 msgid "?citystyle:ElectricAge"
-msgstr "?стан_м╕ста:Спок╕й"
+msgstr "В╕ку Електрики"
 
 #: data/default/cities.ruleset:153
 #: data/civ2/cities.ruleset:152
-#, fuzzy
 msgid "?citystyle:Modern"
-msgstr "?стан_м╕ста:Заворушення"
+msgstr "Модерн╕"
 
 #: data/default/cities.ruleset:164
 #: data/civ2/cities.ruleset:163
-#, fuzzy
 msgid "?citystyle:PostModern"
-msgstr "?стан_м╕ста:Заворушення"
+msgstr "Пост-модерн╕"
 
 #: data/civ2/cities.ruleset:130
-#, fuzzy
 msgid "?citystyle:Renaissance"
-msgstr "Ренесанс"
+msgstr "Ренесансн╕"
 
 #: data/default/governments.ruleset:51
 #: data/civ2/governments.ruleset:48
@@ -23969,9 +23933,8 @@ msgid "?plural:Bavarians"
 msgstr "Баварц╕"
 
 #: data/nation/bavarian.ruleset:6
-#, fuzzy
 msgid "Bavaria, before national unification in 1870 AD, was one of the largest of the German kingdoms."
-msgstr "Бавар╕я, перед об'╓днанням у 1870, була одн╕╓ю з найб╕льших пров╕нц╕й у Н╕мецькому корол╕вств╕."
+msgstr "Бавар╕я, перед нац╕ональним об'╓днанням у 1870, була одним з найб╕льших н╕мецьких корол╕вств."
 
 #: data/nation/belarusian.ruleset:3
 msgid "Belarusian"
