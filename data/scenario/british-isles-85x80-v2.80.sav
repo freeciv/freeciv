@@ -1,6 +1,6 @@
 # Keep this section first
 [scenario]
-name=_("British Isles (medium/classic)")
+name=_("British Isles (classic/medium)")
 description=_("Classic-style 85x80 map of the British Isles.")
 
 [game]
