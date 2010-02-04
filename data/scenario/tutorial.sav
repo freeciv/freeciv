@@ -1,7 +1,8 @@
 # Keep this section first
 [scenario]
 name=_("Tutorial")
-description=_("Tutorial Scenario.")
+description=_("Play this tutorial scenario to get an\
+ introduction to Freeciv.")
 
 [script]
 code=$

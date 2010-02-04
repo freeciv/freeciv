@@ -1,7 +1,7 @@
 # Keep this section first
 [scenario]
 name=_("Iberian Peninsula (classic/large)")
-description=_("Large classic-style map of the Iberian Peninsula\
+description=_("Classic-style 136x100 map of the Iberian Peninsula\
  (modern-day Spain and Portugal).")
 
 [game]

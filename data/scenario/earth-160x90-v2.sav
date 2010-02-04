@@ -1,7 +1,7 @@
 # Keep this section first
 [scenario]
-name=_("Earth (classic, large)")
-description=_("Classic-style 160x90 Earth scenario.")
+name=_("Earth (classic/large)")
+description=_("Classic-style 160x90 map of the Earth.")
 
 [game]
 version=10900
