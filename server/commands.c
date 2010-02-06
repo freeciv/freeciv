@@ -151,7 +151,7 @@ static struct command commands[] = {
    N_("vote yes|no|abstain [vote number]"),
    N_("Cast a vote."),
       /* xgettext:no-c-format */
-   N_("A player with info level access issuing a control level command "
+   N_("A player with basic level access issuing a control level command "
       "starts a new vote for the command.  The /vote command followed by "
       "\"yes\", \"no\", or \"abstain\", and optionally a vote number, "
       "gives your vote.  If you do not add a vote number, your vote applies "
