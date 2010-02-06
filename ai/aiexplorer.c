@@ -73,7 +73,7 @@ static bool ai_may_explore(const struct tile *ptile,
 {
   /* Don't allow military units to cross borders. */
   if (!BV_ISSET(unit_flags, F_CIVILIAN)
-      && players_non_invade(tile_owner(ptile), pplayer)) {
+      && player_can_invade_tile(pplayer, ptile)) {
     return FALSE;
   }
 
