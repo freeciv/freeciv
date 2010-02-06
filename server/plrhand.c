@@ -267,12 +267,28 @@ static void finish_revolution(struct player *pplayer)
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
-    pplayer->economic.science
-      = MIN(100 - pplayer->economic.luxury, max);
-    pplayer->economic.tax
-      = MIN(100 - pplayer->economic.luxury - pplayer->economic.science, max);
-    pplayer->economic.luxury
-      = 100 - pplayer->economic.science - pplayer->economic.tax;
+    /* only change rates if one exceeds the maximal rate */
+    if (pplayer->economic.science > max || pplayer->economic.tax > max
+        || pplayer->economic.luxury > max) {
+      int save_science = pplayer->economic.science;
+      int save_tax = pplayer->economic.tax;
+      int save_luxury = pplayer->economic.luxury;
+
+      pplayer->economic.science = MIN(100 - pplayer->economic.luxury, max);
+      pplayer->economic.tax = MIN(100 - pplayer->economic.luxury
+                                  - pplayer->economic.science, max);
+      pplayer->economic.luxury = 100 - pplayer->economic.science
+                                 - pplayer->economic.tax;
+
+      notify_player(pplayer, NULL, E_REVOLT_DONE, ftc_server,
+                    _("The tax rates for the %s are changed from "
+                      "%3d%%/%3d%%/%3d%% (tax/luxury/science) to "
+                      "%3d%%/%3d%%/%3d%%."), 
+                    nation_plural_for_player(pplayer),
+                    save_tax, save_luxury, save_science,
+                    pplayer->economic.tax, pplayer->economic.luxury,
+                    pplayer->economic.science);
+    }
   }
 
   check_player_max_rates(pplayer);
