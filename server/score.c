@@ -435,7 +435,7 @@ void save_ppm(void)
 
        /* color for cities first, then units, then land */
        if (tile_city(ptile)) {
-         color = col[player_index(tile_owner(ptile))];
+         color = col[player_index(city_owner(tile_city(ptile)))];
        } else if (unit_list_size(ptile->units) > 0) {
          color = col[player_index(unit_owner(unit_list_get(ptile->units, 0)))];
        } else if (is_ocean_tile(ptile)) {

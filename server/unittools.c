@@ -2248,11 +2248,11 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 
   if (map_is_known_and_seen(ptile, pplayer, V_MAIN)
       && ((tile_city(ptile)
-	  && pplayers_non_attack(pplayer, tile_owner(ptile)))
+           && pplayers_non_attack(pplayer, city_owner(tile_city(ptile))))
       || is_non_attack_unit_tile(ptile, pplayer))) {
     notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
                   _("Cannot attack unless you declare war first."));
-    return FALSE;    
+    return FALSE;
   }
 
   {
@@ -2278,7 +2278,8 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return TRUE;
   }
 
-  if ((tile_city(ptile) && pplayers_non_attack(pplayer, tile_owner(ptile)))
+  if ((tile_city(ptile)
+       && pplayers_non_attack(pplayer, city_owner(tile_city(ptile))))
       || is_non_allied_unit_tile(ptile, pplayer)) {
     map_show_circle(pplayer, ptile, unit_type(punit)->vision_radius_sq);
     maybe_make_contact(ptile, pplayer);
@@ -2848,7 +2849,8 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     ASSERT_VISION(new_vision);
 
     /* Claim ownership of fortress? */
-    if (tile_has_claimable_base(pdesttile, unit_type(punit))
+    if (game.info.borders > 0
+        && tile_has_claimable_base(pdesttile, unit_type(punit))
         && (!tile_owner(pdesttile)
             || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
       map_claim_ownership(pdesttile, pplayer, pdesttile);

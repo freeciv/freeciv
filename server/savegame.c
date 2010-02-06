@@ -2124,7 +2124,8 @@ static void player_load_units(struct player *plr, int plrno,
     /* Claim ownership of fortress? */
     if (tile_has_claimable_base(punit->tile, unit_type(punit))
         && (!tile_owner(punit->tile)
-            || pplayers_at_war(tile_owner(punit->tile), plr))) {
+            || (tile_owner(punit->tile)
+                && pplayers_at_war(tile_owner(punit->tile), plr)))) {
       map_claim_ownership(punit->tile, plr, punit->tile);
       map_claim_border(punit->tile, plr);
       /* city_thaw_workers_queue() later */
@@ -2634,7 +2635,7 @@ static void player_load_cities(struct player *plr, int plrno,
     if (NULL != past) {
       pcity->original = past;
     }
-    past = tile_owner(pcenter);
+
     tile_set_owner(pcenter, plr, pcenter); /* for city_owner(), just in case? */
     /* no city_choose_build_default(), values loaded below! */
 
