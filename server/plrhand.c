@@ -250,12 +250,15 @@ static void finish_revolution(struct player *pplayer)
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
-    pplayer->economic.science
-      = MIN(100 - pplayer->economic.luxury, max);
-    pplayer->economic.tax
-      = MIN(100 - pplayer->economic.luxury - pplayer->economic.science, max);
-    pplayer->economic.luxury
-      = 100 - pplayer->economic.science - pplayer->economic.tax;
+    /* only change rates if one exceeds the maximal rate */
+    if (pplayer->economic.science > max || pplayer->economic.tax > max
+        || pplayer->economic.luxury > max) {
+      pplayer->economic.science = MIN(100 - pplayer->economic.luxury, max);
+      pplayer->economic.tax = MIN(100 - pplayer->economic.luxury
+                                  - pplayer->economic.science, max);
+      pplayer->economic.luxury = 100 - pplayer->economic.science
+                                 - pplayer->economic.tax;
+    }
   }
 
   check_player_max_rates(pplayer);
