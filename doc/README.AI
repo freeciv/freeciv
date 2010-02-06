@@ -276,9 +276,9 @@ whom, set from rulesets.  The latter is not yet well implemented.
 DIFFICULTY LEVELS
 =================
 
-There are currently five difficulty levels: 'novice', 'easy', 'medium', 
-'hard' and 'experimental'.  The 'hard' level is no-holds-barred, 
-while 'medium' has a number of handicaps.  In 'easy', the AI 
+There are currently five difficulty levels: 'novice', 'easy', 'normal',
+'hard' and 'experimental'.  The 'hard' level is no-holds-barred,
+while 'normal' has a number of handicaps.  In 'easy', the AI
 also does random stupid things through the ai_fuzzy function. The
 'experimental' level is only for coding - you can gate new code
 with the H_EXPERIMENTAL handicap and test 'experimental' level
@@ -286,13 +286,22 @@ AIs against 'hard' level AIs. In 'novice' the AI researches slower
 than normal players.
 
 Other handicaps used are:
-  H_RATES, can't set its rates beyond government limits
-  H_TARGETS, can't target anything it doesn't know exists
-  H_HUTS, doesn't know which unseen tiles have huts on them
-  H_FOG, can't see through fog of war
+  H_DIPLOMAT     Can't build offensive diplomats
+  H_LIMITEDHUTS  Can get only 25 gold and barbs from huts
+  H_DEFENSIVE    Build defensive buildings without calculating need
+  H_RATES        Can't set its rates beyond government limits
+  H_TARGETS      Can't target anything it doesn't know exists
+  H_HUTS         Doesn't know which unseen tiles have huts on them
+  H_FOG          Can't see through fog of war
+  H_NOPLANES     Doesn't build air units
+  H_MAP          Only knows map_is_known tiles
+  H_DIPLOMACY    Not very good at diplomacy
+  H_REVOLUTION   Cannot skip anarchy
+  H_EXPANSION    Don't like being much larger than human
+  H_DANGER       Always thinks its city is in danger
 
-The other defined handicaps (in common/player.h) are not currently in 
-use.
+For an up-to-date list of all handicaps and their use for each
+difficulty level see ./common/players.h.
 
 
 THINGS THAT NEED TO BE FIXED
