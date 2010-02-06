@@ -1133,7 +1133,7 @@ if (_count > MAX_VET_LEVELS) {						\
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
     if (!secfile_lookup_int(file, &ut->hp_loss_pct,
-                            "%s.min_speed", sec_name)) {
+                            "%s.hp_loss_pct", sec_name)) {
       ruleset_error(LOG_FATAL, "%s", secfile_error());
     }
 
