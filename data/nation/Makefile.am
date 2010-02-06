@@ -11,6 +11,7 @@ pkgdata_DATA = \
 		akwe.ruleset \
 		alandalus.ruleset \
 		algerian.ruleset \
+		amazonian.ruleset \
 		american.ruleset \
 		antarctican.ruleset \
 		arab.ruleset \
@@ -19,6 +20,7 @@ pkgdata_DATA = \
 		argentine.ruleset \
 		armenian.ruleset \
 		assyrian.ruleset \
+		asturian.ruleset \
 		australian.ruleset \
 		austrian.ruleset \
 		aymara.ruleset \

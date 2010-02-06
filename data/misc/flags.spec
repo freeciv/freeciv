@@ -18,6 +18,7 @@ artists = "
    Akwe			Dan Cottrell and Daniel Markstedt
    Algeria 		Lauris Kaplinski
    Almohad		Ch1902 (Wikipedia)
+   Amazon		Ann Barcomb
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -25,6 +26,7 @@ artists = "
    Argentina		Sigge Kotliar
    Armenia		Jason Short
    Assyria		Clevelander and Daniel Markstedt
+   Asturias		Banderas (http://commons.wikimedia.org/wiki/User:Banderas)
    Australia		Daniel McRae
    Austria		Christoph Breitler
    Aymara		Daniel Markstedt
@@ -225,6 +227,7 @@ sprites =
 		"f.akwe", "flags/akwe"
 		"f.algeria", "flags/algeria"
 		"f.almohad", "flags/almohad"
+		"f.amazon", "flags/amazon"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"
@@ -232,6 +235,7 @@ sprites =
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
 		"f.assyria", "flags/assyria"
+		"f.asturias", "flags/asturias"
 		"f.australia", "flags/australia"
 		"f.austria", "flags/austria"
 		"f.aymara", "flags/aymara"

@@ -10,6 +10,7 @@ flag_files =				\
 		akwe.png		\
 		algeria.png		\
 		almohad.png		\
+		amazon.png		\
 		antarctica.png		\
 		arab.png		\
 		aragon.png		\
@@ -17,6 +18,7 @@ flag_files =				\
 		argentina.png		\
 		armenia.png		\
 		assyria.png		\
+		asturias.png		\
 		australia.png		\
 		austria.png		\
 		aymara.png		\
@@ -214,6 +216,7 @@ shield_files =					\
 		akwe-shield.png			\
 		algeria-shield.png		\
 		almohad-shield.png		\
+		amazon-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png			\
@@ -221,6 +224,7 @@ shield_files =					\
 		argentina-shield.png		\
 		armenia-shield.png		\
 		assyria-shield.png		\
+		asturias-shield.png		\
 		australia-shield.png		\
 		austria-shield.png		\
 		aymara-shield.png		\
@@ -418,6 +422,7 @@ svg_files = 				\
 		akwe.svg		\
 		algeria.svg		\
 		almohad.svg		\
+		amazon.svg		\
 		antarctica.svg		\
 		arab.svg		\
 		aragon.svg		\
@@ -425,6 +430,7 @@ svg_files = 				\
 		argentina.svg		\
 		armenia.svg		\
 		assyria.svg		\
+		asturias.svg		\
 		australia.svg		\
 		austria.svg		\
 		aymara.svg		\
