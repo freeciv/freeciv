@@ -1689,6 +1689,7 @@ void map_calculate_borders(void)
           } unit_list_iterate_end;
         }
         if (found_unclaimed > dist
+            && tile_owner(ptile) != NULL
             && tile_owner(atile) == NULL
             && map_is_known(atile, tile_owner(ptile))
             && (!is_ocean(atile->terrain)
@@ -1703,7 +1704,8 @@ void map_calculate_borders(void)
         if (dist > expand_range || dist > found_unclaimed) {
           continue; /* only expand one extra circle radius each turn */
         }
-        if (map_is_known(atile, tile_owner(ptile))
+        if (tile_owner(ptile) != NULL
+            && map_is_known(atile, tile_owner(ptile))
             && tile_owner(atile) == NULL
             && ((!is_ocean(atile->terrain) 
                  && atile->continent == ptile->continent)

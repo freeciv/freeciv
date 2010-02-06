@@ -684,9 +684,11 @@ static void update_unit_activity(struct unit *punit)
 	}
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
-      
-      ai_incident_pillage(unit_owner(punit), tile_owner(ptile));
-      
+
+      if (tile_owner(ptile)) {
+        ai_incident_pillage(unit_owner(punit), tile_owner(ptile));
+      }
+
       /* Change vision if effects have changed. */
       unit_list_refresh_vision(ptile->units);
     }
@@ -2659,12 +2661,10 @@ static void handle_unit_move_consequences(struct unit *punit,
     /* entering/leaving a fortress or friendly territory */
     if (homecity) {
       if ((game.info.happyborders > 0 && tile_owner(src_tile) != tile_owner(dst_tile))
-          ||
-	  (tile_has_special(dst_tile, S_FORTRESS)
-	   && is_friendly_city_near(unit_owner(punit), dst_tile))
-	  ||
-          (tile_has_special(src_tile, S_FORTRESS) 
-	   && is_friendly_city_near(unit_owner(punit), src_tile))) {
+          || (game.info.borders > 0 && tile_has_special(dst_tile, S_FORTRESS)
+              && is_friendly_city_near(unit_owner(punit), dst_tile))
+          || (game.info.borders > 0 && tile_has_special(src_tile, S_FORTRESS)
+              && is_friendly_city_near(unit_owner(punit), src_tile))) {
         refresh_homecity = TRUE;
       }
     }
@@ -2798,7 +2798,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   /* Claim ownership of fortress? */
   if (tile_has_special(pdesttile, S_FORTRESS)
-      && (!tile_owner(pdesttile) || pplayers_at_war(tile_owner(pdesttile), pplayer))) {
+      && (!tile_owner(pdesttile)
+          || (tile_owner(pdesttile)
+              && pplayers_at_war(tile_owner(pdesttile), pplayer)))) {
     map_claim_ownership(pdesttile, pplayer, pdesttile);
   }
 

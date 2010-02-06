@@ -1017,10 +1017,12 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     break;
 
   case MR_PEACE:
-    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
-                  _("Cannot invade unless you break peace with "
-                    "%s first."),
-                  player_name(tile_owner(dest_tile)));
+    if (tile_owner(dest_tile)) {
+      notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND,
+                    _("Cannot invade unless you break peace with "
+                      "%s first."),
+                    player_name(tile_owner(dest_tile)));
+    }
     break;
 
   default:
