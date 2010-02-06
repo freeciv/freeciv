@@ -151,27 +151,27 @@
     </menu>
 
     <menu action="MENU_HELP">
-      <menuitem action="HELP_LANGUAGES" />
-      <menuitem action="HELP_CONNECTING" />
-      <menuitem action="HELP_CONTROLS" />
-      <menuitem action="HELP_CHATLINE" />
-      <menuitem action="HELP_WORKLIST_EDITOR" />
-      <menuitem action="HELP_CMA" />
       <menuitem action="HELP_PLAYING" />
-      <separator />
-      <menuitem action="HELP_RULESET" />
+      <menuitem action="HELP_TERRAIN" />
       <menuitem action="HELP_IMPROVEMENTS" />
+      <menuitem action="HELP_WONDERS" />
       <menuitem action="HELP_UNITS" />
       <menuitem action="HELP_COMBAT" />
       <menuitem action="HELP_ZOC" />
-      <menuitem action="HELP_TECH" />
-      <menuitem action="HELP_TERRAIN" />
-      <menuitem action="HELP_WONDERS" />
       <menuitem action="HELP_GOVERNMENT" />
       <menuitem action="HELP_DIPLOMACY" />
       <menuitem action="HELP_HAPPINESS" />
+      <menuitem action="HELP_TECH" />
       <menuitem action="HELP_SPACE_RACE" />
+      <menuitem action="HELP_RULESET" />
       <separator />
+      <menuitem action="HELP_CONNECTING" />
+      <menuitem action="HELP_CONTROLS" />
+      <menuitem action="HELP_CMA" />
+      <menuitem action="HELP_CHATLINE" />
+      <menuitem action="HELP_WORKLIST_EDITOR" />
+      <separator />
+      <menuitem action="HELP_LANGUAGES" />
       <menuitem action="HELP_COPYING" />
       <menuitem action="HELP_ABOUT" />
     </menu>

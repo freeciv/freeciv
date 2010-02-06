@@ -243,26 +243,29 @@ static struct MenuEntry editor_menu_entries[] = {
 };
 
 static struct MenuEntry help_menu_entries[]={
-    { { N_("Languages"), 0            },      "", MENU_HELP_LANGUAGES, 0 },
-    { { N_("Connecting"), 0           },      "", MENU_HELP_CONNECTING, 0 },
-    { { N_("Controls"), 0             },      "", MENU_HELP_CONTROLS, 0 },
-    { { N_("Chatline"), 0             },      "", MENU_HELP_CHATLINE, 0 },
-    { { N_("Playing"), 0              },      "", MENU_HELP_PLAYING, 0 },
-    { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
-    { { N_("Improvements"), 0         },      "", MENU_HELP_IMPROVEMENTS, 0 },
+    { { N_("Strategy and Tactics"), 0 },      "", MENU_HELP_PLAYING, 0 },
+    { { N_("Terrain"), 0              },      "", MENU_HELP_TERRAIN, 0 },
+    { { N_("City Improvements"), 0    },      "", MENU_HELP_IMPROVEMENTS, 0 },
+    { { N_("Wonders of the WOrld"), 0 },      "", MENU_HELP_WONDERS, 0 },
     { { N_("Units"), 0                },      "", MENU_HELP_UNITS, 0 },
     { { N_("Combat"), 0               },      "", MENU_HELP_COMBAT, 0 },
     { { N_("ZOC"), 0                  },      "", MENU_HELP_ZOC, 0 },
-    { { N_("Technology"), 0           },      "", MENU_HELP_TECH, 0 },
-    { { N_("Terrain"), 0              },      "", MENU_HELP_TERRAIN, 0 },
-    { { N_("Wonders"), 0              },      "", MENU_HELP_WONDERS, 0 },
     { { N_("Government"), 0           },      "", MENU_HELP_GOVERNMENT, 0 },
     { { N_("Diplomacy"), 0            },      "", MENU_HELP_DIPLOMACY, 0 },
     { { N_("Happiness"), 0            },      "", MENU_HELP_HAPPINESS, 0 },
+    { { N_("Technology"), 0           },      "", MENU_HELP_TECH, 0 },
     { { N_("Space Race"), 0           },      "", MENU_HELP_SPACE_RACE, 0 },
+    { { N_("About Ruleset"), 0        },      "", MENU_HELP_RULESET, 0 },
     { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
+    { { N_("Connecting"), 0           },      "", MENU_HELP_CONNECTING, 0 },
+    { { N_("Controls"), 0             },      "", MENU_HELP_CONTROLS, 0 },
+    { { N_("Citizen Governor"), 0     },      "", MENU_HELP_CMA, 0 },
+    { { N_("Chatline"), 0             },      "", MENU_HELP_CHATLINE, 0 },
+    { { N_("Worklist Editor"), 0      },      "", MENU_HELP_WORKLIST_EDITOR, 0 },
+    { { 0                             },      "", MENU_SEPARATOR_LINE, 0 },
+    { { N_("Languages"), 0            },      "", MENU_HELP_LANGUAGES, 0 },
     { { N_("Copying"), 0              },      "", MENU_HELP_COPYING, 0 },
-    { { N_("About"), 0                },      "", MENU_HELP_ABOUT, 0 },
+    { { N_("About Freeciv"), 0        },      "", MENU_HELP_ABOUT, 0 },
     { { 0,                            },       0, MENU_END_OF_LIST, 0 }
 };
 
@@ -886,8 +889,14 @@ static void help_menu_callback(Widget w, XtPointer client_data,
   case MENU_HELP_CONTROLS:
     popup_help_dialog_string(HELP_CONTROLS_ITEM);
     break;
+  case MENU_HELP_CMA:
+    popup_help_dialog_string(HELP_CMA_ITEM);
+    break;
   case MENU_HELP_CHATLINE:
     popup_help_dialog_string(HELP_CHATLINE_ITEM);
+    break;
+  case MENU_HELP_WORKLIST_EDITOR:
+    popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
     break;
   case MENU_HELP_PLAYING:
     popup_help_dialog_string(HELP_PLAYING_ITEM);
@@ -924,6 +933,9 @@ static void help_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_HELP_SPACE_RACE:
     popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
+    break;
+  case MENU_HELP_RULESET:
+    popup_help_dialog_string(HELP_RULESET_ITEM);
     break;
   case MENU_HELP_COPYING:
     popup_help_dialog_string(HELP_COPYING_ITEM);

@@ -29,7 +29,7 @@ void popdown_help_dialog(void);
 #define HELP_WORKLIST_EDITOR_ITEM "Worklist Editor"
 #define HELP_CMA_ITEM "Citizen Governor"
 #define HELP_CONTROLS_ITEM "Controls"
-#define HELP_RULESET_ITEM "Ruleset"
+#define HELP_RULESET_ITEM "About Ruleset"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"
 #define HELP_UNITS_ITEM "Units"
 #define HELP_COMBAT_ITEM "Combat"
@@ -42,6 +42,6 @@ void popdown_help_dialog(void);
 #define HELP_HAPPINESS_ITEM "Happiness"
 #define HELP_SPACE_RACE_ITEM "Space Race"
 #define HELP_COPYING_ITEM "Copying"
-#define HELP_ABOUT_ITEM "About"
+#define HELP_ABOUT_ITEM "About Freeciv"
 
 #endif  /* FC__HELPDLG_G_H */

@@ -171,6 +171,7 @@ enum MenuID {
   IDM_HELP_DIPLOMACY,
   IDM_HELP_HAPPINESS,
   IDM_HELP_SPACE_RACE,
+  IDM_HELP_RULESET,
   IDM_HELP_COPYING,
   IDM_HELP_ABOUT,
 
@@ -417,29 +418,30 @@ static struct my_menu main_menu[] = {
   {NULL, 0},
 
 
-  {N_("_Help"),					IDM_SUBMENU},
-  {N_("Language_s"),				IDM_HELP_LANGUAGES},
-  {N_("Co_nnecting"),				IDM_HELP_CONNECTING},
-  {N_("C_ontrols"),				IDM_HELP_CONTROLS},
-  {N_("C_hatline"),				IDM_HELP_CHATLINE},
-  {N_("_Worklist Editor"),			IDM_HELP_WORKLIST_EDITOR},
-  {N_("Citizen _Management"),			IDM_HELP_CMA},
-  {N_("_Playing"),				IDM_HELP_PLAYING},
+  {N_("Help"),					IDM_SUBMENU},
+  {N_("Strategy and Tactics"),			IDM_HELP_PLAYING},
+  {N_("Terrain"),				IDM_HELP_TERRAIN},
+  {N_("City Improvements"),			IDM_HELP_IMPROVEMENTS},
+  {N_("Wonders of the World"),			IDM_HELP_WONDERS},
+  {N_("Units"),					IDM_HELP_UNITS},
+  {N_("Combat"),				IDM_HELP_COMBAT},
+  {N_("Zones of Control"),			IDM_HELP_ZOC},
+  {N_("Government"),				IDM_HELP_GOVERNMENT},
+  {N_("Diplomacy"),				IDM_HELP_DIPLOMACY},
+  {N_("Happiness"),				IDM_HELP_HAPPINESS},
+  {N_("Technology"),				IDM_HELP_TECH},
+  {N_("Space Race"),				IDM_HELP_SPACE_RACE},
+  {N_("About Ruleset"),				IDM_HELP_RULESET},
   {"", IDM_SEPARATOR},
-  {N_("City _Improvements"),			IDM_HELP_IMPROVEMENTS},
-  {N_("_Units"),				IDM_HELP_UNITS},
-  {N_("Com_bat"),				IDM_HELP_COMBAT},
-  {N_("_ZOC"),					IDM_HELP_ZOC},
-  {N_("Techno_logy"),				IDM_HELP_TECH},
-  {N_("_Terrain"),				IDM_HELP_TERRAIN},
-  {N_("Won_ders"),				IDM_HELP_WONDERS},
-  {N_("_Government"),				IDM_HELP_GOVERNMENT},
-  {N_("Diplomac_y"),				IDM_HELP_DIPLOMACY},
-  {N_("Happin_ess"),				IDM_HELP_HAPPINESS},
-  {N_("Space _Race"),				IDM_HELP_SPACE_RACE},
+  {N_("Connecting"),				IDM_HELP_CONNECTING},
+  {N_("Controls"),				IDM_HELP_CONTROLS},
+  {N_("Citizen Governor"),			IDM_HELP_CMA},
+  {N_("Chatline"),				IDM_HELP_CHATLINE},
+  {N_("Worklist Editor"),			IDM_HELP_WORKLIST_EDITOR},
   {"", IDM_SEPARATOR},
-  {N_("_Copying"),				IDM_HELP_COPYING},
-  {N_("_About"),				IDM_HELP_ABOUT},
+  {N_("Languages"),				IDM_HELP_LANGUAGES},
+  {N_("Copying"),				IDM_HELP_COPYING},
+  {N_("About Freeciv"),				IDM_HELP_ABOUT},
   {NULL, 0},
   {NULL, 0}
 };
@@ -923,6 +925,9 @@ void handle_menu(int code)
       break;
     case IDM_HELP_SPACE_RACE:
       popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
+      break;
+    case IDM_HELP_RULESET:
+      popup_help_dialog_string(HELP_RULESET_ITEM);
       break;
     case IDM_HELP_COPYING:
       popup_help_dialog_string(HELP_COPYING_ITEM);
