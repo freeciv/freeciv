@@ -8,6 +8,9 @@ zipped_files =					\
 	france-140x90-v2.sav.gz			\
 	hagworld-120x60-v1.2.sav.gz		\
 	iberian-peninsula-136x100-v1.0.sav.gz	\
+	italy-100x100-v1.5.sav.gz		\
+	japan-88x100-v1.3.sav.gz		\
+	north_america_116x100-v1.2.sav.gz	\
 	tutorial.sav.gz
 
 unzipped_files =				\
@@ -18,6 +21,9 @@ unzipped_files =				\
 	france-140x90-v2.sav			\
 	hagworld-120x60-v1.2.sav		\
 	iberian-peninsula-136x100-v1.0.sav	\
+	italy-100x100-v1.5.sav			\
+	japan-88x100-v1.3.sav			\
+	north_america_116x100-v1.2.sav		\
 	tutorial.sav
 
 
