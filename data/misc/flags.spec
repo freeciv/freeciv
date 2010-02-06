@@ -17,7 +17,7 @@ artists = "
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
    Algeria 		Lauris Kaplinski
-   Almohad		Ch1902 (Wikipedia)
+   Almohad		Ch1902 (Wikimedia user)
    Amazon		Ann Barcomb
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
@@ -26,7 +26,7 @@ artists = "
    Argentina		Sigge Kotliar
    Armenia		Jason Short
    Assyria		Clevelander and Daniel Markstedt
-   Asturias		Banderas (http://commons.wikimedia.org/wiki/User:Banderas)
+   Asturias		Banderas (Wikimedia user)
    Australia		Daniel McRae
    Austria		Christoph Breitler
    Aymara		Daniel Markstedt
@@ -78,7 +78,7 @@ artists = "
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
    Germany		Philipp Sadleder
-   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikipedia)
+   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia user)
    Greece		Daniel McRae
    Greenland		Daniel McRae
    Gupta		Daniel Markstedt
@@ -131,7 +131,7 @@ artists = "
    Mexico		Cezary Biele
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
-   Morocco		Xiquet, Flad (Wikipedia)
+   Morocco		Xiquet, Flad (Wikimedia users)
    Muskogee		Daniel Markstedt
    Myanmar		Caleb Moore
    NATO			Christian Schaller
