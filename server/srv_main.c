@@ -1626,9 +1626,15 @@ void init_available_nations(void)
   }
 
   if (start_nations) {
-    nations_iterate(nation) {
-      nation->is_available = FALSE;
+    nations_iterate(pnation) {
+      if (nation_barbarian_type(pnation) != NOT_A_BARBARIAN) {
+        /* allow land and sea barbarians */
+        pnation->is_available = TRUE;
+      } else {
+        pnation->is_available = FALSE;
+      }
     } nations_iterate_end;
+
     for (i = 0; i < map.server.num_start_positions; i++) {
       map.server.start_positions[i].nation->is_available = TRUE;
     }
