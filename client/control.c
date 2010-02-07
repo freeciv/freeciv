@@ -1340,6 +1340,8 @@ void request_move_unit_direction(struct unit *punit, int dir)
     return;
   }
 
+  clear_unit_orders(punit);
+
   if (punit->moves_left > 0) {
     dsend_packet_unit_move(&aconnection, punit->id,
 			   dest_tile->x, dest_tile->y);

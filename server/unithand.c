@@ -658,6 +658,12 @@ void handle_unit_move(struct player *pplayer, int unit_id, int x, int y)
       || !is_player_phase(unit_owner(punit), game.info.phase)) {
     return;
   }
+
+  if (ACTIVITY_IDLE != punit->activity) {
+    /* Else, the unit cannot move. */
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
+  }
+
   (void) handle_unit_move_request(punit, ptile, FALSE, FALSE);
 }
 
@@ -1715,8 +1721,7 @@ void handle_unit_orders(struct player *pplayer,
   struct tile *src_tile = map_pos_to_tile(packet->src_x, packet->src_y);
   int i;
 
-  if (!punit || packet->length < 0 || punit->activity != ACTIVITY_IDLE
-      || packet->length > MAX_LEN_ROUTE) {
+  if (!punit || packet->length < 0 || packet->length > MAX_LEN_ROUTE) {
     return;
   }
 
@@ -1727,6 +1732,11 @@ void handle_unit_orders(struct player *pplayer,
      * discard the packet.  We don't send an error message to the client
      * here (though maybe we should?). */
     return;
+  }
+
+  if (ACTIVITY_IDLE != punit->activity) {
+    /* New orders implicitly abandon current activity */
+    handle_unit_activity_request(punit, ACTIVITY_IDLE);
   }
 
   for (i = 0; i < packet->length; i++) {
