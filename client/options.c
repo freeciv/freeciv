@@ -271,11 +271,13 @@ static client_option common_options[] = {
   GEN_BOOL_OPTION(unit_selection_clears_orders,
                   N_("Clear unit orders on selection"),
                   N_("Enabling this option will cause unit orders to be "
-                     "cleared whenever one or more units are selected. If "
-                     "this option is disabled, selecting units will not "
-                     "cause them to stop their current activity. Instead, "
-                     "their orders will be cleared only when new orders "
-                     "are given or if you press <space>."),
+                     "cleared as soon as one or more units are selected. If "
+                     "this option is disabled, busy units will not stop "
+                     "their current activity when selected. Giving them "
+                     "new orders will clear their current ones; pressing "
+                     "<space> once will clear their orders and leave them "
+                     "selected, and pressing <space> a second time will "
+                     "dismiss them."),
                   COC_INTERFACE),
 
   GEN_BOOL_OPTION(overview.layers[OLAYER_BACKGROUND],
