@@ -100,6 +100,13 @@ void global_warming(int effect)
     } else {
       new = old->warmer_drier_result;
     }
+
+    if (tile_city(ptile) != NULL && terrain_has_flag(new, TER_NO_CITIES)) {
+      /* do not change to a terrain with the flag TER_NO_CITIES if the tile
+       * has a city */
+      continue;
+    }
+
     if (new != T_NONE && old != new) {
       effect--;
       tile_change_terrain(ptile, new);
@@ -144,6 +151,13 @@ void nuclear_winter(int effect)
     } else {
       new = old->cooler_drier_result;
     }
+
+    if (tile_city(ptile) != NULL && terrain_has_flag(new, TER_NO_CITIES)) {
+      /* do not change to a terrain with the flag TER_NO_CITIES if the tile
+       * has a city */
+      continue;
+    }
+
     if (new != T_NONE && old != new) {
       effect--;
       tile_change_terrain(ptile, new);
