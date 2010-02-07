@@ -38,6 +38,7 @@
 #include "text.h"
 
 /* gui-sdl */
+#include "cityrep.h"
 #include "colors.h"
 #include "dialogs.h"
 #include "graphics.h"
@@ -3363,9 +3364,8 @@ void update_report_dialogs(void)
 {
   economy_report_dialog_update();
   activeunits_report_dialog_update();
-  if(pScienceDlg) {
-    science_dialog_update();
-  }
+  science_dialog_update();
+  city_report_dialog_update();
 }
 
 /* ===================================================================== */
