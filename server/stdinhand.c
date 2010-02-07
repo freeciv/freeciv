@@ -3392,7 +3392,9 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
               game.server.rulesetdir);
     return FALSE;
   }
-  if (S_S_INITIAL != server_state() || !game.info.is_new_game) {
+  if (S_S_INITIAL != server_state()
+      || !game.info.is_new_game
+      || !map_is_empty()) {
     cmd_reply(CMD_RULESETDIR, caller, C_FAIL,
               _("This setting can't be modified after the game has started."));
     return FALSE;
