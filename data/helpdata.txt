@@ -472,9 +472,10 @@ gain an extra hit point. A unit which spends a turn in a city \
 regains one third of its base hit points, and city improvements \
 appropriate to the unit type can improve this further. In the \
 default ruleset, units which stay in a fortress for a whole turn \
-regain all their hit points. Wonders can also boost recovery (such as \
-the United Nations in the default ruleset). Damaged units in Sentry \
-mode will wake up when they have regained all of their hit points.\
+regain a quarter of their hit points. Wonders can also boost recovery \
+(such as the United Nations in the default ruleset). Damaged units in \
+Sentry mode will wake up when they have regained all of their hit
+points.\
 ")
 
 [help_gen_units]
@@ -804,10 +805,9 @@ generate = "Governments"
 name = _("Diplomacy")
 text = _("\
 There are five diplomatic states between players: War, \
-Cease-fire, Armistice, Peace, and Alliance. The first is the default state, \
+Cease-fire, Armistice, Peace, and Alliance. The first is the natural state, \
 while the others can be achieved by signing diplomatic treaties.\
 "), _("\
-The diplomatic state between players defaults to War. \
 During War, you can freely move your units inside enemy territory and \
 attack their units and cities at will.\
 "), _("\
