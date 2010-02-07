@@ -18,9 +18,11 @@ BUILDDIR=`dirname $0`
 PROGNAME=freeciv
 EXENAME=${PROGNAME}@EXEEXT@
 
-gui=`echo "$1" | awk -F= '$1 ~ /^--gui$/ { print $2 }'`
-if test "x$gui" != "x" ; then
-  EXENAME=${PROGNAME}-${gui}@EXEEXT@
+if test "x$1" = "x--gui" ; then
+  if test "x$2" != "x" ; then
+    EXENAME=${PROGNAME}-$2
+    shift
+  fi
   shift
 fi
 
@@ -29,18 +31,23 @@ if test -x "$BUILDDIR/client/$EXENAME" ; then
 elif test -x "$BUILDDIR/$EXENAME" ; then
   EXE=$BUILDDIR/$EXENAME
 else
-  EXE=`ls -1 "$BUILDDIR/${PROGNAME}-"*@EXEEXT@ "$BUILDDIR/client/${PROGNAME}-"*@EXEEXT@ 2> /dev/null |\
+  echo "Unable to find client executable: $EXENAME"
+  echo "Searching for freeciv clients ..."
+
+  EXE=`ls -1 "$BUILDDIR/${PROGNAME}-"* "$BUILDDIR/client/${PROGNAME}-"* 2> /dev/null |\
   while read program ; do
     if test -x "$program" ; then
       echo $program
       break
     fi
   done`
-fi
 
-if test "x$EXE" = "x"; then
-  echo $0: Unable to find client executable: $EXENAME
-  exit 1
+  if test -x $EXE ; then
+    echo "... using $EXE"
+  else
+    echo "No client found"
+    exit 1
+  fi
 fi
 
 if test "x$FREECIV_PATH" = "x" ; then
