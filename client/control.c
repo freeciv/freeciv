@@ -2028,11 +2028,21 @@ void request_units_wait(struct unit_list *punits)
 void request_unit_move_done(void)
 {
   if (get_num_units_in_focus() > 0) {
+    enum unit_focus_status new_status = FOCUS_DONE;
+    unit_list_iterate(get_units_in_focus(), punit) {
+      /* If any of the focused units are busy, keep all of them
+       * in focus; another tap of the key will dismiss them */
+      if (punit->activity != ACTIVITY_IDLE) {
+        new_status = FOCUS_WAIT;
+      }
+    } unit_list_iterate_end;
     unit_list_iterate(get_units_in_focus(), punit) {
       clear_unit_orders(punit);
-      punit->focus_status = FOCUS_DONE;
+      punit->focus_status = new_status;
     } unit_list_iterate_end;
-    advance_unit_focus();
+    if (new_status == FOCUS_DONE) {
+      advance_unit_focus();
+    }
   }
 }
 
