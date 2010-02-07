@@ -788,6 +788,11 @@ void handle_unit_move(struct player *pplayer, int unit_id, int tile)
     return;
   }
 
+  if (ACTIVITY_IDLE != punit->activity) {
+    /* Else, the unit cannot move. */
+    unit_activity_handling(punit, ACTIVITY_IDLE);
+  }
+
   (void) unit_move_handling(punit, ptile, FALSE, FALSE);
 }
 
@@ -1960,14 +1965,6 @@ void handle_unit_orders(struct player *pplayer,
     return;
   }
 
-  if (ACTIVITY_IDLE != punit->activity) {
-    log_verbose("handle_unit_orders() invalid %s (%d) "
-                "activity %d (should be %d)",
-                unit_rule_name(punit), punit->id,
-                punit->activity, ACTIVITY_IDLE);
-    return;
-  }
-
   if (src_tile != unit_tile(punit)) {
     /* Failed sanity check.  Usually this happens if the orders were sent
      * in the previous turn, and the client thought the unit was in a
@@ -1978,6 +1975,11 @@ void handle_unit_orders(struct player *pplayer,
                 "!= (%d, %d)", unit_rule_name(punit), punit->id,
                 TILE_XY(src_tile), TILE_XY(unit_tile(punit)));
     return;
+  }
+
+  if (ACTIVITY_IDLE != punit->activity) {
+    /* New orders implicitly abandon current activity */
+    unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
   for (i = 0; i < packet->length; i++) {
