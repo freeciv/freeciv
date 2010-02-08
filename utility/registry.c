@@ -494,11 +494,13 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
          * purpose is to short-cut further loading of the file.  However
          * normally a section may be split up, and that will no longer
          * work here because it will be short-cut. */
-        inf_log(inf, LOG_DEBUG, "found requested section; finishing");
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Found requested section; finishing"));
         goto END;
       }
       if (table_state) {
-        inf_log(inf, LOG_ERROR, "new section during table");
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "New section during table"));
         error = TRUE;
         goto END;
       }
@@ -517,6 +519,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         }
       }
       if (!inf_token(inf, INF_TOK_EOL)) {
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Expected end of line"));
         error = TRUE;
         goto END;
       }
@@ -524,11 +528,14 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     }
     if (inf_token(inf, INF_TOK_TABLE_END)) {
       if (!table_state) {
-        inf_log(inf, LOG_ERROR, "misplaced \"}\"");
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Misplaced \"}\""));
         error = TRUE;
         goto END;
       }
       if (!inf_token(inf, INF_TOK_EOL)) {
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Expected end of line"));
         error = TRUE;
         goto END;
       }
@@ -543,6 +550,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         i++;
         inf_discard_tokens(inf, INF_TOK_EOL);   /* allow newlines */
         if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Expected value"));
           error = TRUE;
           goto END;
         }
@@ -563,6 +572,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Expected end of line"));
         error = TRUE;
         goto END;
       }
@@ -571,6 +582,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     }
 
     if (!(tok = inf_token(inf, INF_TOK_ENTRY_NAME))) {
+      SECFILE_LOG(secfile, psection, "%s",
+                  inf_log_str(inf, "Expected entry name"));
       error = TRUE;
       goto END;
     }
@@ -587,11 +600,14 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         i++;
         inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
         if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Expected value"));
           error = TRUE;
           goto END;
         }
         if (tok[0] != '\"') {
-          inf_log(inf, LOG_ERROR, "table column header non-string");
+          SECFILE_LOG(secfile, psection, "%s",
+                      inf_log_str(inf, "Table column header non-string"));
           error = TRUE;
           goto END;
         }
@@ -608,10 +624,12 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         }
         astr_minsize(&columns.p[i], strlen(tok));
         strcpy(columns.p[i].str, tok + 1);
-        
+
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Expected end of line"));
         error = TRUE;
         goto END;
       }
@@ -625,6 +643,8 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       i++;
       inf_discard_tokens(inf, INF_TOK_EOL);     /* allow newlines */
       if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+        SECFILE_LOG(secfile, psection, "%s",
+                    inf_log_str(inf, "Expected value"));
         error = TRUE;
         goto END;
       }
@@ -638,17 +658,16 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
       }
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
+      SECFILE_LOG(secfile, psection, "%s",
+                  inf_log_str(inf, "Expected end of line"));
       error = TRUE;
       goto END;
     }
   }
 
   if (table_state) {
-    if (filename) {
-      log_error("finished registry %s before end of table\n", filename);
-    } else {
-      log_error("finished registry before end of table\n");
-    }
+    SECFILE_LOG(secfile, psection,
+                "Finished registry before end of table");
     error = TRUE;
   }
 
@@ -786,7 +805,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
       }
 
       /* Tables: break out of this loop if this is a non-table
-       * entry (pentry and ent_iter unchanged) or after table (pentry
+            * entry (pentry and ent_iter unchanged) or after table (pentry
        * and ent_iter suitably updated, pentry possibly NULL).
        * After each table, loop again in case the next entry
        * is another table.

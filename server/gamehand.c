@@ -550,6 +550,9 @@ void handle_single_want_hack_req(struct connection *pc,
       token = secfile_lookup_str(secfile, "challenge.token");
       you_have_hack = (token && strcmp(token, packet->token) == 0);
       secfile_destroy(secfile);
+    } else {
+      log_debug("Error reading '%s':\n%s", get_challenge_fullname(pc),
+                secfile_error());
     }
 
     if (!token) {

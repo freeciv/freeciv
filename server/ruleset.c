@@ -216,10 +216,10 @@ static struct section_file *openload_ruleset_file(const char *whichset)
      section_file_load() may call datafilename() for includes. */
 
   sz_strlcpy(sfilename, dfilename);
-  
+
   if (!(secfile = secfile_load(sfilename, FALSE))) {
-    ruleset_error(LOG_FATAL, "\"%s\": could not load ruleset.",
-                  sfilename);
+    ruleset_error(LOG_FATAL, "Could not load ruleset '%s':\n%s",
+                  sfilename, secfile_error());
   }
   return secfile;
 }

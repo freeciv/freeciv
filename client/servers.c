@@ -387,8 +387,9 @@ static void meta_read_response(struct server_scan *scan)
 
       if (NULL == scan->servers) {
         my_snprintf(str, sizeof(str),
-                    _("Failed to parse the metaserver data from http://%s."),
-                    scan->meta.name);
+                    _("Failed to parse the metaserver data from http://%s:\n"
+                      "%s."),
+                    scan->meta.name, secfile_error());
         scan->error_func(scan, str);
       }
 

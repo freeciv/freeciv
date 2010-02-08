@@ -219,7 +219,8 @@ void audio_real_init(const char *const spec_name,
     return;
   }
   if (!(tagfile = secfile_load(filename, TRUE))) {
-    log_fatal(_("Could not load sound spec-file: %s"), filename);
+    log_fatal(_("Could not load sound spec-file '%s':\n%s"), filename,
+              secfile_error());
     exit(EXIT_FAILURE);
   }
 

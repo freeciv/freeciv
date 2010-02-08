@@ -1091,7 +1091,7 @@ static void ensure_big_sprite(struct specfile *sf)
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
   if (!(file = secfile_load(sf->file_name, TRUE))) {
-    log_fatal(_("Could not open \"%s\"."), sf->file_name);
+    log_fatal(_("Could not open '%s':\n%s"), sf->file_name, secfile_error());
     exit(EXIT_FAILURE);
   }
 
@@ -1125,7 +1125,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
   int i;
 
   if (!(file = secfile_load(sf->file_name, TRUE))) {
-    log_fatal(_("Could not open \"%s\"."), sf->file_name);
+    log_fatal(_("Could not open '%s':\n%s"), sf->file_name, secfile_error());
     exit(EXIT_FAILURE);
   }
   if (!check_tilespec_capabilities(file, "spec",
@@ -1346,7 +1346,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   log_verbose("tilespec file is \"%s\".", fname);
 
   if (!(file = secfile_load(fname, TRUE))) {
-    log_error("Could not open \"%s\".", fname);
+    log_error("Could not open '%s':\n%s", fname, secfile_error());
     free(fname);
     return NULL;
   }

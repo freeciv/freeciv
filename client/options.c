@@ -2111,6 +2111,7 @@ void options_load(void)
     return;
   }
   if (!(sf = secfile_load(name, TRUE))) {
+    log_debug("Error loading option file '%s':\n%s", name, secfile_error());
     /* try to create the rc file */
     sf = secfile_new(TRUE);
     secfile_insert_str(sf, VERSION_STRING, "client.version");

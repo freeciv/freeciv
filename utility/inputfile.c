@@ -141,7 +141,14 @@ tok_tab[INF_TOK_LAST] =
 };
 
 static bool read_a_line(struct inputfile *inf);
-static void inf_warn(struct inputfile *inf, const char *message);
+
+#define inf_log(inf, level, message, ...)                                   \
+  if (log_do_output_for_level(level)) {                                     \
+    do_log(__FILE__, __FUNCTION__, __LINE__, FALSE, level, "%s",            \
+           inf_log_str(inf, message, ## __VA_ARGS__));                      \
+  }
+#define inf_warn(inf, message)                                              \
+  inf_log(inf, LOG_NORMAL, "%s", message);
 
 /********************************************************************** 
   Return true if c is a 'comment' character: '#' or ';'
@@ -534,53 +541,55 @@ static void assign_flag_token(struct astring *astr, char val)
   strcpy(astr->str, flag_token);
 }
 
-/********************************************************************** 
-  Give a detailed log message, including information on
-  current line number etc.  Message can be NULL: then just logs
-  information on where we are in the file.
+/**********************************************************************
+  Return a detailed log message, including information on current line
+  number etc. Message can be NULL: then just logs information on where
+  we are in the file.
 ***********************************************************************/
-void inf_log_real(const char *file, const char *function, int line,
-                  struct inputfile *inf, enum log_level level,
-                  const char *message, ...)
+char *inf_log_str(struct inputfile *inf, const char *message, ...)
 {
   va_list args;
+  char buf[128];
+  static char str[512];
 
   assert_sanity(inf);
 
   if (message) {
     va_start(args, message);
-    vdo_log(file, function, line, FALSE, level, message, args);
+    my_vsnprintf(str, sizeof(str), message, args);
     va_end(args);
+    sz_strlcat(str, "\n");
+  } else {
+    str[0] = '\0';
   }
-  do_log(file, function, line, FALSE, level,
-         "  file \"%s\", line %d, pos %d%s",
-         inf_filename(inf), inf->line_num, inf->cur_line_pos,
-         (inf->at_eof ? ", EOF" : ""));
+
+  my_snprintf(buf, sizeof(buf), "  file \"%s\", line %d, pos %d%s",
+              inf_filename(inf), inf->line_num, inf->cur_line_pos,
+              (inf->at_eof ? ", EOF" : ""));
+  sz_strlcat(str, buf);
+
   if (inf->cur_line.str && inf->cur_line.n > 0) {
-    do_log(file, function, line, FALSE, level,
-           "  looking at: '%s'", inf->cur_line.str+inf->cur_line_pos);
+    my_snprintf(buf, sizeof(buf), "\n  looking at: '%s'",
+                inf->cur_line.str+inf->cur_line_pos);
+    sz_strlcat(str, buf);
   }
   if (inf->copy_line.str && inf->copy_line.n > 0) {
-    do_log(file, function, line, FALSE, level,
-           "  original line: '%s'", inf->copy_line.str);
+    my_snprintf(buf, sizeof(buf), "\n  original line: '%s'",
+                inf->copy_line.str);
+    sz_strlcat(str, buf);
   }
   if (inf->in_string) {
-    do_log(file, function, line, FALSE, level,
-           "  processing string starting at line %d", inf->string_start_line);
+    my_snprintf(buf, sizeof(buf), "\n  processing string starting at line %d",
+                inf->string_start_line);
+    sz_strlcat(str, buf);
   }
   while ((inf = inf->included_from)) {  /* local pointer assignment */
-    do_log(file, function, line, FALSE, level,
-           "  included from file \"%s\", line %d",
-           inf_filename(inf), inf->line_num);
+    my_snprintf(buf, sizeof(buf), "\n  included from file \"%s\", line %d",
+                inf_filename(inf), inf->line_num);
+    sz_strlcat(str, buf);
   }
-}
 
-/********************************************************************** 
-  ...
-***********************************************************************/
-static void inf_warn(struct inputfile *inf, const char *message)
-{
-  inf_log(inf, LOG_NORMAL, "%s", message);
+  return str;
 }
 
 /********************************************************************** 

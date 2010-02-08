@@ -284,7 +284,8 @@ static bool load_auth_config(const char *filename)
   assert(filename != NULL);
 
   if (!(secfile = secfile_load(filename, FALSE))) {
-    log_error(_("Cannot load auth config file \"%s\"!"), filename);
+    log_error(_("Cannot load auth config file '%s':\n%s"), filename,
+              secfile_error());
     return FALSE;
   }
 

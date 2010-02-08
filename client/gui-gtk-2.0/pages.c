@@ -1918,6 +1918,7 @@ static void update_scenario_page(void)
 			-1);
       secfile_destroy(sf);
     } else {
+      log_error("Error loading '%s':\n%s", pfile->fullname, secfile_error());
       gtk_list_store_set(scenario_store, &it,
 			 0, pfile->name,
 			 1, pfile->fullname,

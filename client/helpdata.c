@@ -686,7 +686,8 @@ void boot_help_texts(struct player *pplayer)
   /* after following call filename may be clobbered; use sf->filename instead */
   if (!(sf = secfile_load(filename, FALSE))) {
     /* this is now unlikely to happen */
-    log_error("failed reading help-texts");
+    log_error("failed reading help-texts from '%s':\n%s", filename,
+              secfile_error());
     return;
   }
 

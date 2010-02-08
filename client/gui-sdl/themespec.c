@@ -468,7 +468,7 @@ static void ensure_big_sprite(struct specfile *sf)
    * to be reloaded, but most of the time it's just loaded once, the small
    * sprites are extracted, and then it's freed. */
   if (!(file = secfile_load(sf->file_name, TRUE))) {
-    log_fatal(_("Could not open \"%s\"."), sf->file_name);
+    log_fatal(_("Could not open '%s':\n%s"), sf->file_name, secfile_error());
     exit(EXIT_FAILURE);
   }
 
@@ -502,7 +502,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
   int i;
 
   if (!(file = secfile_load(sf->file_name, TRUE))) {
-    log_fatal(_("Could not open \"%s\"."), sf->file_name);
+    log_fatal(_("Could not open '%s':\n%s"), sf->file_name, secfile_error());
     exit(EXIT_FAILURE);
   }
   if (!check_themespec_capabilities(file, "spec",
@@ -704,7 +704,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
   log_verbose("themespec file is \"%s\".", fname);
 
   if (!(file = secfile_load(fname, TRUE))) {
-    log_error("Could not open \"%s\".", fname);
+    log_error("Could not open '%s':\n%s", fname, secfile_error());
     FC_FREE(fname);
     theme_free(t);
     return NULL;
