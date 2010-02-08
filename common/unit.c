@@ -143,22 +143,35 @@ FIXME: Maybe we should allow airlifts between allies
 **************************************************************************/
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity)
 {
-  if(punit->moves_left == 0)
-    return FALSE;
-  if (!punit->tile->city) {
-    return FALSE;
-  }
-  if (punit->tile->city == pcity) {
+  struct city *acity = tile_get_city(punit->tile);
+
+  if (0 == punit->moves_left) {
     return FALSE;
   }
-  if (city_owner(punit->tile->city) != city_owner(pcity)) {
+
+  if (!is_ground_unit(punit)) {
     return FALSE;
   }
-  if (!punit->tile->city->airlift || !pcity->airlift) {
+
+  if (NULL == acity) {
     return FALSE;
   }
-  if (!is_ground_unit(punit))
+
+  if (acity == pcity) {
     return FALSE;
+  }
+
+  if (city_owner(acity) != unit_owner(punit)) {
+    return FALSE;
+  }
+
+  if (city_owner(acity) != city_owner(pcity)) {
+    return FALSE;
+  }
+
+  if (acity->airlift <= 0 || pcity->airlift <= 0) {
+    return FALSE;
+  }
 
   return TRUE;
 }
