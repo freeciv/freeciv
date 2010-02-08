@@ -280,27 +280,32 @@ text = _("\
 Settlers, Workers, and Engineers have the ability to alter terrain \
 tiles in several ways.\
 "), _("\
-Suitable types of terrain can be irrigated. Irrigating a tile causes \
-it to produce some extra food each turn. Building irrigation requires \
-a nearby source of water: an Ocean, Lake, or River tile, or another \
-tile which is irrigated, must share an edge (not just a corner) with \
-the target tile. Once irrigated, land remains so even if the water \
-source is removed. Given sufficient technology, you may irrigate a \
-tile a second time, turning it into even more productive Farmland.\
+Irrigation systems can be built on suitable types of terrain. \
+Irrigation causes a tile to produce some extra food each turn. \
+Building irrigation requires a nearby source of water: an Ocean, Lake, \
+or River tile, or another tile with an irrigation system, must share \
+an edge (not just a corner) with the target tile. Once irrigated, land \
+remains so even if the water source is removed. Given sufficient \
+technology, you may upgrade the irrigation system on a tile into even \
+more productive Farmland by irrigating it a second time.\
 "), _("\
-Some types of terrain can be mined, which increases the number of \
-resources (shields) produced by that tile. However, it is not \
-possible to have irrigation and a mine on the same tile.\
+Mines can be built on some types of terrain, which increases the \
+number of resources (shields) produced by that tile. However, it is \
+not possible to have irrigation and a mine on the same tile.\
 "), _("\
-Terrain not suitable for irrigation or mining can often be changed \
-into a type more suitable to the player's needs. Changing terrain \
-from one type to another in this way may destroy an existing mine or \
-irrigation system, if the resulting terrain is unsuitable for the \
-improvement, and may also remove special resources.\
+Terrain not suitable for irrigation systems or mines can often be \
+permanently converted into a type more suitable to the player's needs, \
+although this usually takes longer. Converting terrain from one type \
+to another in this way may destroy an existing mine or irrigation \
+system, if the resulting terrain is unsuitable for the improvement, \
+and may also remove special resources if they were specific to the \
+original terrain type.\
 "), _("\
- - Settlers and Workers have a limited range of alterations available \
-to them, initiated by attempting to mine or irrigate the terrain; see \
-the table below. (These actions do not require a water source.)\
+ - Settlers and Workers have a limited range of terrain conversions \
+available to them, initiated by issuing the \"irrigate\" or \"mine\" \
+orders when on terrain which cannot support the requested improvement; \
+see the table below. (Converting one kind of terrain into another with \
+the \"irrigate\" order does not require a water source.)\
 "), _("\
  - Engineers can perform a much wider range of transformations on \
 almost any type of terrain by issuing the \"transform\" order. \
