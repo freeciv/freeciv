@@ -2138,31 +2138,36 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
   go by airline, if both cities have an airport and neither has been used this
   turn the unit will be transported by it and have it's moves set to 0
 **************************************************************************/
-bool do_airline(struct unit *punit, struct city *city2)
+bool do_airline(struct unit *punit, struct city *pdest_city)
 {
-  struct tile *src_tile = punit->tile;
-  struct city *city1 = tile_city(src_tile);
+  struct city *psrc_city = tile_city(unit_tile(punit));
 
-  if (!city1)
-    return FALSE;
-  if (!unit_can_airlift_to(punit, city2))
-    return FALSE;
-  if (get_transporter_occupancy(punit) > 0) {
+  if (NULL == psrc_city) {
     return FALSE;
   }
-  city1->airlift--;
-  city2->airlift--;
+  if (!unit_can_airlift_to(punit, pdest_city)) {
+    return FALSE;
+  }
+  if (0 < get_transporter_occupancy(punit)) {
+    return FALSE;
+  }
 
-  notify_player(unit_owner(punit), city_tile(city2),
+  notify_player(unit_owner(punit), city_tile(pdest_city),
                 E_UNIT_RELOCATED, ftc_server,
                 _("%s transported successfully."),
                 unit_link(punit));
 
-  move_unit(punit, city2->tile, punit->moves_left);
+  move_unit(punit, pdest_city->tile, punit->moves_left);
 
-  /* airlift fields have changed. */
-  send_city_info(city_owner(city1), city1);
-  send_city_info(city_owner(city2), city2);
+  /* Update airlift fields. */
+  if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)) {
+    psrc_city->airlift--;
+    send_city_info(city_owner(psrc_city), psrc_city);
+  }
+  if (!(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+    pdest_city->airlift--;
+    send_city_info(city_owner(pdest_city), pdest_city);
+  }
 
   return TRUE;
 }

@@ -425,6 +425,10 @@ extern struct civ_game game;
 
 #define GAME_START_YEAR -4000
 
+#define GAME_DEFAULT_AIRLIFTINGSTYLE AIRLIFTING_CLASSICAL
+#define GAME_MIN_AIRLIFTINGSTYLE     AIRLIFTING_CLASSICAL
+#define GAME_MAX_AIRLIFTINGSTYLE     ((AIRLIFTING_UNLIMITED_DEST << 1) - 1)
+
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
 
 /* ruleset settings */

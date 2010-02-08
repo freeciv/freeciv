@@ -323,6 +323,7 @@ void game_init(void)
   game.info.save_compress_type = FZ_PLAIN;
 #endif
   game.info.government_during_revolution_id = G_MAGIC;   /* flag */
+  game.info.airlifting_style = GAME_DEFAULT_AIRLIFTINGSTYLE;
 
   game.info.calendar_skip_0 = FALSE;
 

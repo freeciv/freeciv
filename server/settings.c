@@ -349,7 +349,7 @@ static bool phasemode_callback(int value, struct connection *caller,
                 _min, _max, _default)                                   \
   {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
       scateg, slevel,                                                   \
-      {.integer = {&value, _default, _min, _max, func_validate}},       \
+      {.integer = {(int *) &value, _default, _min, _max, func_validate}}, \
       func_action},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
@@ -939,6 +939,24 @@ struct setting settings[] = {
               "can see any or all changes to borders as long as they "
               "have previously seen the tiles."), NULL, NULL,
            GAME_DEFAULT_FOGGEDBORDERS)
+
+  GEN_INT("airliftingstyle", game.info.airlifting_style,
+          SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
+          SSET_TO_CLIENT, N_("Airlifting style"),
+          N_("This settings affects airlifting units between cities. "
+             "The value of this setting is a OR-ed value from:\n"
+             "  0 = Like classical Freeciv, only as many units per turn "
+             "to source or to destination the ruleset allows between your "
+             "own cities.\n"
+             "  1 = Allows units to be airlifted from allied cities.\n"
+             "  2 = Allows units to be airlifted to allied cities.\n"
+             "  4 = Unlimited units from source. Airlifting from a city "
+             "doesn't reduce the airlifted counter, but still needs at "
+             "least 1.\n"
+             "  8 = Unlimited units to destination. Airlifting to a city "
+             "doesn't reduce the airlifted counter, and doesn't need any."),
+          NULL, NULL, GAME_MIN_AIRLIFTINGSTYLE, GAME_MAX_AIRLIFTINGSTYLE,
+          GAME_DEFAULT_AIRLIFTINGSTYLE)
 
   GEN_INT("diplchance", game.info.diplchance,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,

@@ -279,4 +279,20 @@ enum gui_type {
   GUI_LAST
 };
 
+#define SPECENUM_NAME airlifting_style
+#define SPECENUM_BITWISE
+/* Like classical Freeciv.  One unit per turn. */
+#define SPECENUM_ZERO   AIRLIFTING_CLASSICAL
+/* Allow airlifting from allied cities. */
+#define SPECENUM_VALUE0 AIRLIFTING_ALLIED_SRC
+/* Allow airlifting to allied cities. */
+#define SPECENUM_VALUE1 AIRLIFTING_ALLIED_DEST
+/* Unlimited units to airlift from the source (but always needs an Airport
+ * or equivalent). */
+#define SPECENUM_VALUE2 AIRLIFTING_UNLIMITED_SRC
+/* Unlimited units to airlift to the destination (doesn't require any
+ * Airport or equivalent). */
+#define SPECENUM_VALUE3 AIRLIFTING_UNLIMITED_DEST
+#include "specenum_gen.h"
+
 #endif /* FC__FC_TYPES_H */

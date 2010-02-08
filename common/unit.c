@@ -137,29 +137,73 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
   return FALSE;
 }
 
-/**************************************************************************
-FIXME: Maybe we should allow airlifts between allies
-**************************************************************************/
-bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity)
+/****************************************************************************
+  Determines if punit can be airlifted to dest_city now!  So punit needs
+  to be in a city now.
+****************************************************************************/
+bool unit_can_airlift_to(const struct unit *punit,
+                         const struct city *pdest_city)
 {
-  struct city *acity = tile_city(punit->tile);
+  const struct city *psrc_city = tile_city(punit->tile);
+  const struct player *punit_owner;
+  const struct player *pdest_city_owner;
+  const struct player *psrc_city_owner;
 
-  if(punit->moves_left == 0)
-    return FALSE;
-  if (!acity) {
-    return FALSE;
-  }
-  if (acity == pcity) {
+  if (0 == punit->moves_left) {
+    /* No moves left. */
     return FALSE;
   }
-  if (city_owner(acity) != city_owner(pcity)) {
+
+  if (!is_ground_unit(punit)) {
+    /* Only ground units can be airlifted currently. */
     return FALSE;
   }
-  if (acity->airlift <= 0 || pcity->airlift <= 0) {
+
+  if (NULL == psrc_city) {
+    /* No city there. */
     return FALSE;
   }
-  if (!is_ground_unit(punit))
+
+  if (psrc_city == pdest_city) {
+    /* Airlifting to our current position doesn't make sense. */
     return FALSE;
+  }
+
+  if (0 >= psrc_city->airlift) {
+    /* The source cannot airlift for this turn (maybe already airlifed
+     * or no airport).
+     *
+     * Note that (game.info.airlifting_style & AIRLIFTING_UNLIMITED_SRC)
+     * is not handled here because it always needs an airport to airlift.
+     * See also do_airline() in server/unittools.h. */
+    return FALSE;
+  }
+
+  if (0 >= pdest_city->airlift
+      && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
+    /* The destination cannot support airlifted units for this turn
+     * (maybe already airlifed or no airport).
+     * See also do_airline() in server/unittools.h. */
+    return FALSE;
+  }
+
+  punit_owner = unit_owner(punit);
+  psrc_city_owner = city_owner(psrc_city);
+  pdest_city_owner = city_owner(pdest_city);
+
+  if (punit_owner != psrc_city_owner
+      && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
+           && pplayers_allied(punit_owner, psrc_city_owner))) {
+    /* Not allowed to airlift from this source. */
+    return FALSE;
+  }
+
+  if (punit_owner != pdest_city_owner
+      && !(game.info.airlifting_style & AIRLIFTING_ALLIED_DEST
+           && pplayers_allied(punit_owner, pdest_city_owner))) {
+    /* Not allowed to airlift to this destination. */
+    return FALSE;
+  }
 
   return TRUE;
 }

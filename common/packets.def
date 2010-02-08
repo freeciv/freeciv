@@ -201,6 +201,7 @@ type EFFECT_TYPE	= uint8(enum effect_type)
 type BASE               = uint8(Base_type_id)
 type BASE_GUI           = uint8(enum base_gui_type)
 type GUI_TYPE           = uint8(enum gui_type)
+type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
 
 type BV_IMPRS		= bitvector(bv_imprs)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
@@ -491,6 +492,7 @@ PACKET_GAME_INFO=15; sc
   UINT16 base_incite_cost;
   UINT8 base_tech_cost;
   UINT16 ransom_gold;
+  AIRLIFTING_STYLE airlifting_style;
 
   UINT8 save_nturns;
   UINT8 save_compress_level;
