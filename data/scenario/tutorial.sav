@@ -153,7 +153,7 @@ There are several things that can be done about this.  One quick fix\n\
 is to build a temple (or other cultural building) that will make an\n\
 unhappy citizen content (see the help on buildings for specs\n\
 on each building type).  As you get more large cities, it may pay off\n\
-to change your tax rates (by pressing shift-T) to dedicate some of\n\
+to change your tax rates (by pressing ctrl-T) to dedicate some of\n\
 your taxes directly to luxuries (every two luxuries will pacify one\n\
 citizen).  Building a marketplace enhances the benefit from this\n\
 by providing +50%% luxuries to the city."))
