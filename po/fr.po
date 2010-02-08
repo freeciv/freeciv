@@ -14967,11 +14967,11 @@ msgstr "_Toutes les unités de la case"
 
 #: client/gui-gtk-2.0/menu.c:1431
 msgid "Same Type on _Tile"
-msgstr "Toutes les unités du _même type de la case."
+msgstr "Toutes les unités du _même type de la case"
 
 #: client/gui-gtk-2.0/menu.c:1433
 msgid "Same Type on _Continent"
-msgstr "Toutes les unités du même type sur le _continent."
+msgstr "Toutes les unités du même type sur le _continent"
 
 #: client/gui-gtk-2.0/menu.c:1435
 msgid "Same Type _Everywhere"
@@ -25693,19 +25693,16 @@ msgstr "Émir"
 
 #: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
 #: data/nation/kurd.ruleset:26 data/nation/uzbek.ruleset:28
-#, fuzzy
 msgid "Emira"
 msgstr "Émir"
 
 #: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "Padishah"
-msgstr "Padisah"
+msgstr "Padishah"
 
 #: data/nation/afghani.ruleset:25 data/nation/ottoman.ruleset:29
-#, fuzzy
 msgid "?female:Padishah"
-msgstr "Pharaonne"
+msgstr "Padishah"
 
 #: data/nation/afghani.ruleset:26 data/nation/slovakian.ruleset:29
 #: data/nation/soviet.ruleset:27
@@ -25722,9 +25719,8 @@ msgid "Mullah"
 msgstr "Mollah"
 
 #: data/nation/afghani.ruleset:27
-#, fuzzy
 msgid "?female:Mullah"
-msgstr "Chamanne"
+msgstr "Mollah"
 
 #: data/nation/afghani.ruleset:28 data/nation/australian.ruleset:28
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:22
@@ -25767,7 +25763,6 @@ msgid "Ainu"
 msgstr "Aïnou"
 
 #: data/nation/ainu.ruleset:4
-#, fuzzy
 msgid "?plural:Ainu"
 msgstr "Aïnous"
 
@@ -25785,7 +25780,6 @@ msgid "Nipa"
 msgstr "Nipa"
 
 #: data/nation/ainu.ruleset:20
-#, fuzzy
 msgid "?female:Nipa"
 msgstr "Nipa"
 
@@ -25795,7 +25789,6 @@ msgid "Nipsa"
 msgstr "Nipsa"
 
 #: data/nation/ainu.ruleset:22
-#, fuzzy
 msgid "?female:Nipsa"
 msgstr "Nipsa"
 
@@ -25823,7 +25816,6 @@ msgid "He'a"
 msgstr "He'a"
 
 #: data/nation/akwe.ruleset:24
-#, fuzzy
 msgid "?female:He'a"
 msgstr "He'a"
 
@@ -25944,9 +25936,8 @@ msgstr "La civilisation Arabe/Islam de 622 à 1495 ap. J.-C."
 
 #: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
 #: data/nation/himyarite.ruleset:30 data/nation/kurd.ruleset:25
-#, fuzzy
 msgid "Sheikh"
-msgstr "Suédois"
+msgstr "Cheikh"
 
 #: data/nation/arab.ruleset:22 data/nation/emirati.ruleset:26
 #: data/nation/himyarite.ruleset:32 data/nation/malaysian.ruleset:22
@@ -26203,9 +26194,8 @@ msgid "Tlatoani"
 msgstr "Tlatoani"
 
 #: data/nation/aztec.ruleset:22
-#, fuzzy
 msgid "?female:Tlatoani"
-msgstr "Chamanne"
+msgstr "Tlatoani"
 
 #. TRANS: Huey Tlatoani = Great Speaker
 #: data/nation/aztec.ruleset:24
@@ -26213,7 +26203,6 @@ msgid "Huey Tlatoani"
 msgstr "Huey Tlatoani"
 
 #: data/nation/aztec.ruleset:24
-#, fuzzy
 msgid "?female:Huey Tlatoani"
 msgstr "Huey Tlatoani"
 
@@ -26241,9 +26230,8 @@ msgid "Lugal"
 msgstr "Lugal"
 
 #: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:27
-#, fuzzy
 msgid "?female:Lugal"
-msgstr "Major"
+msgstr "Lugal"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -26301,12 +26289,10 @@ msgstr ""
 "grands royaumes germaniques."
 
 #: data/nation/belarusian.ruleset:3
-#, fuzzy
 msgid "Belarusian"
 msgstr "Biélorusse"
 
 #: data/nation/belarusian.ruleset:4
-#, fuzzy
 msgid "?plural:Belarusians"
 msgstr "Biélorusses"
 
@@ -26447,9 +26433,8 @@ msgid "Ban"
 msgstr "Ban"
 
 #: data/nation/bosnia.ruleset:27
-#, fuzzy
 msgid "?female:Ban"
-msgstr "Général"
+msgstr "Ban"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -26505,14 +26490,12 @@ msgid "?female:Director-President"
 msgstr "Présidente-directrice"
 
 #: data/nation/breton.ruleset:3
-#, fuzzy
 msgid "Breton"
-msgstr "Frère"
+msgstr "Breton"
 
 #: data/nation/breton.ruleset:4
-#, fuzzy
 msgid "?plural:Bretons"
-msgstr "Britanniques"
+msgstr "Bretons"
 
 #: data/nation/breton.ruleset:6
 msgid ""
@@ -26538,7 +26521,6 @@ msgid "Roue"
 msgstr "Roue"
 
 #: data/nation/breton.ruleset:36
-#, fuzzy
 msgid "Rouanez"
 msgstr "Rouanez"
 
@@ -26592,14 +26574,12 @@ msgid "Sveta Maika"
 msgstr "Sveta Maika"
 
 #: data/nation/burgundian.ruleset:3
-#, fuzzy
 msgid "Burgundian"
-msgstr "Bulgare"
+msgstr "Bourguignon"
 
 #: data/nation/burgundian.ruleset:4
-#, fuzzy
 msgid "?plural:Burgundians"
-msgstr "Britanniques"
+msgstr "Bourguignons"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -26644,10 +26624,9 @@ msgstr "Bohmugyi"
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundi"
-msgstr "Burundi"
+msgstr "Burundais"
 
 #: data/nation/burundi.ruleset:4
-#, fuzzy
 msgid "?plural:Burundi"
 msgstr "Burundais"
 
@@ -26704,19 +26683,16 @@ msgid "Basileus"
 msgstr "Basileus"
 
 #: data/nation/byzantium.ruleset:28
-#, fuzzy
 msgid "Basilissa"
-msgstr "Basileus"
+msgstr "Basilissa"
 
 #: data/nation/cambodian.ruleset:3
-#, fuzzy
 msgid "Cambodian"
-msgstr "Canadien"
+msgstr "Cambodgien"
 
 #: data/nation/cambodian.ruleset:4
-#, fuzzy
 msgid "?plural:Cambodians"
-msgstr "Canadiens"
+msgstr "Cambodgiens"
 
 #: data/nation/cambodian.ruleset:6
 #, fuzzy
@@ -26896,12 +26872,11 @@ msgstr "Le Chili se situe sur la côte sud-ouest de l'Amérique du sud."
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr "Captain General"
+msgstr "Capitaine Général"
 
 #: data/nation/chilean.ruleset:24
-#, fuzzy
 msgid "?female:Captain General"
-msgstr "Captain General"
+msgstr "Capitaine Générale"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
 #: data/nation/german.ruleset:34 data/nation/irish.ruleset:46
@@ -26957,14 +26932,12 @@ msgid "Dowager"
 msgstr "Douairière"
 
 #: data/nation/chola.ruleset:3
-#, fuzzy
 msgid "Chola"
-msgstr "Charbon"
+msgstr "Chola"
 
 #: data/nation/chola.ruleset:4
-#, fuzzy
 msgid "?plural:Cholas"
-msgstr "Chiliens"
+msgstr "Chola"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -26984,20 +26957,18 @@ msgstr "Râja"
 
 #: data/nation/chola.ruleset:24 data/nation/gupta.ruleset:20
 #: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
-#, fuzzy
 msgid "Rani"
-msgstr "Chemin de fer"
+msgstr "Rânî"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
 #: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
 msgid "Maharaja"
-msgstr "Maharadjah"
+msgstr "Mahârâja"
 
 #: data/nation/chola.ruleset:25 data/nation/gupta.ruleset:21
 #: data/nation/indian.ruleset:20 data/nation/majapahit.ruleset:27
-#, fuzzy
 msgid "Maharani"
-msgstr "Maharadjah"
+msgstr "Mahârânî"
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
@@ -27203,14 +27174,12 @@ msgstr ""
 "Blatand, qui unifia entre 958 et 988 ce qui est aujourd'hui le Danemark."
 
 #: data/nation/dominican.ruleset:3
-#, fuzzy
 msgid "Dominican"
-msgstr "Roumain"
+msgstr "Dominicain"
 
 #: data/nation/dominican.ruleset:4
-#, fuzzy
 msgid "?plural:Dominicans"
-msgstr "Roumains"
+msgstr "Dominicains"
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -27276,14 +27245,12 @@ msgid "?female:Great Pharaoh"
 msgstr "Grande Pharaonne"
 
 #: data/nation/emirati.ruleset:3
-#, fuzzy
 msgid "Emirati"
-msgstr "Émir"
+msgstr "Émirati"
 
 #: data/nation/emirati.ruleset:4
-#, fuzzy
 msgid "?plural:Emiratis"
-msgstr "Iraquiens"
+msgstr "Émiratis"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -27320,14 +27287,12 @@ msgid "Lady Protector"
 msgstr "Dame Protectrice"
 
 #: data/nation/esperant.ruleset:3
-#, fuzzy
 msgid "Esperant"
-msgstr "Européen"
+msgstr "Espérant"
 
 #: data/nation/esperant.ruleset:4
-#, fuzzy
 msgid "?plural:Esperants"
-msgstr "Européens"
+msgstr "Espérants"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -27476,14 +27441,12 @@ msgstr ""
 #. TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER
 #. TRANS: N WITH TILDE
 #: data/nation/galician.ruleset:25
-#, fuzzy
 msgid "Don"
-msgstr "Terminé"
+msgstr "Don"
 
 #: data/nation/galician.ruleset:25
-#, fuzzy
 msgid "Dona"
-msgstr "Doamna"
+msgstr "Dona"
 
 #: data/nation/galician.ruleset:26
 msgid "Raina"
@@ -27649,7 +27612,6 @@ msgid "Hawaiian"
 msgstr "Hawaïen"
 
 #: data/nation/hawaiian.ruleset:4
-#, fuzzy
 msgid "?plural:Hawaiians"
 msgstr "Hawaïens"
 
@@ -27678,14 +27640,12 @@ msgstr ""
 "Ottoman."
 
 #: data/nation/himyarite.ruleset:3
-#, fuzzy
 msgid "Himyarite"
-msgstr "Hittite"
+msgstr "Himyarite"
 
 #: data/nation/himyarite.ruleset:4
-#, fuzzy
 msgid "?plural:Himyar"
-msgstr "Aymaras"
+msgstr "Himyarites"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -27935,7 +27895,6 @@ msgid "Raiis Jomhoor"
 msgstr "Raiis Jomhoor"
 
 #: data/nation/iranian.ruleset:45
-#, fuzzy
 msgid "?female:Raiis Jomhoor"
 msgstr "Raiis Jomhoor"
 
@@ -28120,7 +28079,6 @@ msgid "Kazakh"
 msgstr "Kazakh"
 
 #: data/nation/kazakh.ruleset:4
-#, fuzzy
 msgid "?plural:Kazakhs"
 msgstr "Kazakhs"
 
@@ -28161,19 +28119,16 @@ msgid "Nabongo"
 msgstr "Nabongo"
 
 #: data/nation/kenyan.ruleset:18
-#, fuzzy
 msgid "?female:Nabongo"
-msgstr "Nawab"
+msgstr "Nabongo"
 
 #: data/nation/khwarezmian.ruleset:3
-#, fuzzy
 msgid "Khwarezmian"
-msgstr "Président"
+msgstr "Korasmien"
 
 #: data/nation/khwarezmian.ruleset:4
-#, fuzzy
 msgid "?plural:Khwarezmians"
-msgstr "Coréens"
+msgstr "Korasmiens"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -28188,14 +28143,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kongo.ruleset:3
-#, fuzzy
 msgid "Kongo"
-msgstr "Mongol"
+msgstr "Congolais"
 
 #: data/nation/kongo.ruleset:4
-#, fuzzy
 msgid "?plural:Kongo"
-msgstr "Mongols"
+msgstr "Congolais"
 
 #: data/nation/kongo.ruleset:7
 msgid ""
@@ -28207,14 +28160,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/kongo.ruleset:27
-#, fuzzy
 msgid "Manikongo"
-msgstr "Mines"
+msgstr "Manikongo"
 
 #: data/nation/kongo.ruleset:27
-#, fuzzy
 msgid "?female:Manikongo"
-msgstr "Major"
+msgstr "Manikongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
@@ -28240,14 +28191,12 @@ msgstr ""
 "guerre de Corée en 1953."
 
 #: data/nation/kurd.ruleset:3
-#, fuzzy
 msgid "Kurdish"
-msgstr "Irlandais"
+msgstr "Kurde"
 
 #: data/nation/kurd.ruleset:4
-#, fuzzy
 msgid "?plural:Kurds"
-msgstr "Turcs"
+msgstr "Kurdes"
 
 #: data/nation/kurd.ruleset:6
 msgid ""
@@ -28323,14 +28272,12 @@ msgid "?female:Supreme Commander"
 msgstr "Commandante suprême"
 
 #: data/nation/laotian.ruleset:3
-#, fuzzy
 msgid "Laotian"
-msgstr "Letton"
+msgstr "Laotien"
 
 #: data/nation/laotian.ruleset:4
-#, fuzzy
 msgid "?plural:Laotians"
-msgstr "Lettons"
+msgstr "Laotiens"
 
 #: data/nation/laotian.ruleset:6
 msgid ""
@@ -28388,9 +28335,8 @@ msgid "Colonel"
 msgstr "Colonel"
 
 #: data/nation/libyan.ruleset:24
-#, fuzzy
 msgid "?female:Colonel"
-msgstr "Consul"
+msgstr "Colonelle"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -28419,14 +28365,12 @@ msgid "Great Duchess"
 msgstr "Grande Duchesse"
 
 #: data/nation/lojbanistani.ruleset:3
-#, fuzzy
 msgid "Lojbanistani"
-msgstr "Roumain"
+msgstr "Lojbaniste"
 
 #: data/nation/lojbanistani.ruleset:4
-#, fuzzy
 msgid "?plural:Lojbanistanis"
-msgstr "Roumains"
+msgstr "Lojbanistes"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -28510,9 +28454,8 @@ msgid "Tun"
 msgstr "Tun"
 
 #: data/nation/malaysian.ruleset:23
-#, fuzzy
 msgid "?female:Tun"
-msgstr "Général"
+msgstr "Tun"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -28545,9 +28488,8 @@ msgid "Mansa"
 msgstr "Mansa"
 
 #: data/nation/malian.ruleset:26
-#, fuzzy
 msgid "?female:Mansa"
-msgstr "Chamanne"
+msgstr "Mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
@@ -28568,9 +28510,8 @@ msgstr ""
 "gouvernaire la Chine comme l'Emprie Mandchou, jusqu'en 1911."
 
 #: data/nation/manchu.ruleset:20
-#, fuzzy
 msgid "?female:Warlord"
-msgstr "Major"
+msgstr "Chef de Guerre"
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
@@ -28591,14 +28532,12 @@ msgstr ""
 "la migration commença vers 900 et continua jusqu'en 1400."
 
 #: data/nation/mapuche.ruleset:3
-#, fuzzy
 msgid "Mapuche"
-msgstr "Cambodgien"
+msgstr "Mapuche"
 
 #: data/nation/mapuche.ruleset:4
-#, fuzzy
 msgid "?plural:Mapuche"
-msgstr "Cambodgiens"
+msgstr "Mapuches"
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -28609,14 +28548,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/mapuche.ruleset:19
-#, fuzzy
 msgid "Toqui"
-msgstr "Iroquois"
+msgstr "Toqui"
 
 #: data/nation/mapuche.ruleset:19
-#, fuzzy
 msgid "?female:Toqui"
-msgstr "Druidesse"
+msgstr "Toqui"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -28673,7 +28610,6 @@ msgid "Moldovan"
 msgstr "Moldave"
 
 #: data/nation/moldovan.ruleset:4
-#, fuzzy
 msgid "?plural:Moldovans"
 msgstr "Moldaves"
 
@@ -28733,14 +28669,12 @@ msgstr ""
 "implacabilité à la guerre."
 
 #: data/nation/muskogee.ruleset:3
-#, fuzzy
 msgid "Muskogee"
-msgstr "Mousquetaires"
+msgstr "Muscogee"
 
 #: data/nation/muskogee.ruleset:4
-#, fuzzy
 msgid "?plural:Muskogee"
-msgstr "Birmans"
+msgstr "Muscogees"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -28782,14 +28716,12 @@ msgid "Nigeria won full independence from British rule in 1960."
 msgstr "Le Nigéria acquit ça totale indépendance des Britanniques en 1960."
 
 #: data/nation/norman.ruleset:3
-#, fuzzy
 msgid "Norman"
-msgstr "normal"
+msgstr "Normand"
 
 #: data/nation/norman.ruleset:4
-#, fuzzy
 msgid "?plural:Normans"
-msgstr "Romains"
+msgstr "Normands"
 
 #: data/nation/norman.ruleset:6
 msgid ""
@@ -28801,24 +28733,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/norman.ruleset:22 data/nation/swedish.ruleset:32
-#, fuzzy
 msgid "Jarl"
-msgstr "Patrouille"
+msgstr "Jarl"
 
 #: data/nation/norman.ruleset:22 data/nation/swedish.ruleset:32
-#, fuzzy
 msgid "?female:Jarl"
-msgstr "Major"
+msgstr "Jarl"
 
 #: data/nation/northkorean.ruleset:3
-#, fuzzy
 msgid "North Korean"
-msgstr "Coréen"
+msgstr "Nord-coréen"
 
 #: data/nation/northkorean.ruleset:4
-#, fuzzy
 msgid "?plural:North Koreans"
-msgstr "Coréens"
+msgstr "Nord-coréens"
 
 #: data/nation/northkorean.ruleset:6
 msgid ""
@@ -28855,14 +28783,12 @@ msgstr ""
 "acquirent leur indépendance après une union avec les Suédois."
 
 #: data/nation/nubian.ruleset:3
-#, fuzzy
 msgid "Nubian"
-msgstr "Cubain"
+msgstr "Nubien"
 
 #: data/nation/nubian.ruleset:4
-#, fuzzy
 msgid "?plural:Nubians"
-msgstr "Cubains"
+msgstr "Nubiens"
 
 #: data/nation/nubian.ruleset:6
 msgid ""
@@ -28882,14 +28808,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/numidian.ruleset:3
-#, fuzzy
 msgid "Numidian"
-msgstr "Nigérien"
+msgstr "Numide"
 
 #: data/nation/numidian.ruleset:4
-#, fuzzy
 msgid "?plural:Numidians"
-msgstr "Nigériens"
+msgstr "Numides"
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -28962,28 +28886,24 @@ msgid "Bey"
 msgstr "Bey"
 
 #: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
-#, fuzzy
 msgid "?female:Bey"
-msgstr "Chef"
+msgstr "Bey"
 
 #: data/nation/ottoman.ruleset:28
 msgid "Hakan"
 msgstr "Hakan"
 
 #: data/nation/ottoman.ruleset:28
-#, fuzzy
 msgid "?female:Hakan"
-msgstr "Hackeuse"
+msgstr "Hakan"
 
 #: data/nation/pakistani.ruleset:3
-#, fuzzy
 msgid "Pakistani"
-msgstr "Partisan"
+msgstr "Pakistanais"
 
 #: data/nation/pakistani.ruleset:4
-#, fuzzy
 msgid "?plural:Pakistanis"
-msgstr "Roumains"
+msgstr "Pakistanais"
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
@@ -29025,14 +28945,12 @@ msgstr ""
 "(Sassanide) de 226 à 642 ap. J.-C."
 
 #: data/nation/peruvian.ruleset:3
-#, fuzzy
 msgid "Peruvian"
-msgstr "Perse"
+msgstr "Péruvien"
 
 #: data/nation/peruvian.ruleset:4
-#, fuzzy
 msgid "?plural:Peruvians"
-msgstr "Perses"
+msgstr "Péruviens"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -29041,14 +28959,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/peruvian.ruleset:25
-#, fuzzy
 msgid "Protector"
-msgstr "Seigneur Protecteur"
+msgstr "Protecteur"
 
 #: data/nation/peruvian.ruleset:25
-#, fuzzy
 msgid "?female:Protector"
-msgstr "Gouverneur"
+msgstr "Protectrice"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -29071,24 +28987,20 @@ msgid ""
 msgstr ""
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milk"
-msgstr "Soie"
+msgstr "Milk"
 
 #: data/nation/phoenician.ruleset:28
-#, fuzzy
 msgid "Milkot"
-msgstr "Milice"
+msgstr "Milkot"
 
 #: data/nation/pirate.ruleset:3
-#, fuzzy
 msgid "Pirate"
-msgstr "Base aérienne"
+msgstr "Pirate"
 
 #: data/nation/pirate.ruleset:4
-#, fuzzy
 msgid "?plural:Pirates"
-msgstr "Portugais"
+msgstr "Pirates"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
@@ -29153,14 +29065,12 @@ msgstr ""
 "XVème siècle."
 
 #: data/nation/prussian.ruleset:3
-#, fuzzy
 msgid "Prussian"
-msgstr "Perse"
+msgstr "Prussien"
 
 #: data/nation/prussian.ruleset:4
-#, fuzzy
 msgid "?plural:Prussians"
-msgstr "Perses"
+msgstr "Prussiens"
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -29312,14 +29222,12 @@ msgstr ""
 "monde, maintenant comme république fédérative."
 
 #: data/nation/rwandan.ruleset:3
-#, fuzzy
 msgid "Rwandan"
-msgstr "Canadien"
+msgstr "Rwandais"
 
 #: data/nation/rwandan.ruleset:4
-#, fuzzy
 msgid "?plural:Rwandans"
-msgstr "Canadiens"
+msgstr "Rwandais"
 
 #: data/nation/rwandan.ruleset:6
 msgid ""
@@ -29328,9 +29236,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/rwandan.ruleset:22
-#, fuzzy
 msgid "?female:Mwami"
-msgstr "Chamanne"
+msgstr "Mwami"
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
@@ -29526,7 +29433,6 @@ msgstr ""
 "de la Tchécoslovaquie, et avant 1918 de l'empire Austro-Hongrois."
 
 #: data/nation/slovakian.ruleset:26
-#, fuzzy
 msgid "?title:Leader"
 msgstr "Chef"
 
@@ -29584,14 +29490,12 @@ msgstr ""
 "première fois véritablement démocratiquement, présidant d'Afrique du Sud."
 
 #: data/nation/southkorean.ruleset:3
-#, fuzzy
 msgid "South Korean"
-msgstr "Sud Africain"
+msgstr "Sud-coréen"
 
 #: data/nation/southkorean.ruleset:4
-#, fuzzy
 msgid "?plural:South Koreans"
-msgstr "Sud Africains"
+msgstr "Sud-coréens"
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -29649,12 +29553,11 @@ msgstr ""
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
-msgstr ""
+msgstr "Sriwijaya"
 
 #: data/nation/srivijaya.ruleset:4
-#, fuzzy
 msgid "?plural:Sri Vijaya"
-msgstr "Mayas"
+msgstr "Sriwijayas"
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -29666,14 +29569,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:21
-#, fuzzy
 msgid "Datu"
-msgstr "Statut"
+msgstr "Datu"
 
 #: data/nation/srivijaya.ruleset:21
-#, fuzzy
 msgid "?female:Datu"
-msgstr "Druidesse"
+msgstr "Datu"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -29714,9 +29615,8 @@ msgid "Ensi"
 msgstr "Ensi"
 
 #: data/nation/sumerian.ruleset:28
-#, fuzzy
 msgid "?female:Ensi"
-msgstr "Consul"
+msgstr "Ensi"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
@@ -29810,14 +29710,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/taino.ruleset:3
-#, fuzzy
 msgid "Taino"
-msgstr "Terrain"
+msgstr "Taïno"
 
 #: data/nation/taino.ruleset:4
-#, fuzzy
 msgid "?plural:Taino"
-msgstr "Thaïlandais"
+msgstr "Taïnos"
 
 #: data/nation/taino.ruleset:7
 msgid ""
@@ -29836,24 +29734,20 @@ msgstr ""
 
 #. TRANS: Cacike = Chief
 #: data/nation/taino.ruleset:31
-#, fuzzy
 msgid "Cacike"
-msgstr "Annuler"
+msgstr "Cacike"
 
 #: data/nation/taino.ruleset:31
-#, fuzzy
 msgid "?female:Cacike"
-msgstr "Hackeuse"
+msgstr "Cacike"
 
 #: data/nation/tairona.ruleset:3
-#, fuzzy
 msgid "Tairona"
-msgstr "Chemin de fer"
+msgstr "Tairona"
 
 #: data/nation/tairona.ruleset:4
-#, fuzzy
 msgid "?plural:Tairona"
-msgstr "Thaïlandais"
+msgstr "Tairona"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -29869,14 +29763,12 @@ msgstr ""
 
 #. TRANS: Hankwa = Chief
 #: data/nation/tairona.ruleset:26
-#, fuzzy
 msgid "Hankwa"
-msgstr "Hakan"
+msgstr "Hankwa"
 
 #: data/nation/tairona.ruleset:26
-#, fuzzy
 msgid "?female:Hankwa"
-msgstr "Hackeuse"
+msgstr "Hankwa"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
@@ -29897,14 +29789,12 @@ msgstr ""
 "où il forma la République de Chine."
 
 #: data/nation/tajik.ruleset:3
-#, fuzzy
 msgid "Tajik"
-msgstr "Thaïlandais"
+msgstr "Tadjik"
 
 #: data/nation/tajik.ruleset:4
-#, fuzzy
 msgid "?plural:Tajiks"
-msgstr "Thaïlandais"
+msgstr "Tadjiks"
 
 #: data/nation/tajik.ruleset:6
 msgid ""
@@ -29913,14 +29803,12 @@ msgid ""
 msgstr ""
 
 #: data/nation/templar.ruleset:3
-#, fuzzy
 msgid "Knights Templar"
-msgstr "Chevaliers"
+msgstr "Templier"
 
 #: data/nation/templar.ruleset:4
-#, fuzzy
 msgid "?plural:Templars"
-msgstr "Texans"
+msgstr "Templiers"
 
 #: data/nation/templar.ruleset:6
 msgid ""
@@ -29964,28 +29852,24 @@ msgstr ""
 "indépendance lors de l'ère coloniale des XVIIIème et XIXème siècles ap. J.-C."
 
 #: data/nation/thracian.ruleset:3
-#, fuzzy
 msgid "Thracian"
-msgstr "Terrain"
+msgstr "Thrace"
 
 #: data/nation/thracian.ruleset:4
-#, fuzzy
 msgid "?plural:Thracians"
-msgstr "Iraniens"
+msgstr "Thraces"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
 msgstr ""
 
 #: data/nation/thracian.ruleset:19
-#, fuzzy
 msgid "Rhesos"
-msgstr "Ressources"
+msgstr "Rhesos"
 
 #: data/nation/thracian.ruleset:19
-#, fuzzy
 msgid "?female:Rhesos"
-msgstr "Despote"
+msgstr "Rhesos"
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
@@ -30020,28 +29904,24 @@ msgid "Lama"
 msgstr "Lama"
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "?female:Lama"
-msgstr "Chamanne"
+msgstr "Lama"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
-msgstr "Dalai Lama"
+msgstr "Dalaï-lama"
 
 #: data/nation/tibetan.ruleset:28
-#, fuzzy
 msgid "?female:Dalai Lama"
-msgstr "Chamanne"
+msgstr "Dalaï-lama"
 
 #: data/nation/tocharian.ruleset:3
-#, fuzzy
 msgid "Tocharian"
-msgstr "Martien"
+msgstr "Tokharien"
 
 #: data/nation/tocharian.ruleset:4
-#, fuzzy
 msgid "?plural:Tocharians"
-msgstr "Martiens"
+msgstr "Tokhariens"
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -30063,14 +29943,12 @@ msgstr ""
 
 #. TRANS: Lant/Lantsa = King/Queen
 #: data/nation/tocharian.ruleset:34
-#, fuzzy
 msgid "Lant"
-msgstr "Terre"
+msgstr "Lant"
 
 #: data/nation/tocharian.ruleset:34
-#, fuzzy
 msgid "Lantsa"
-msgstr "Mansa"
+msgstr "Lantsa"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
@@ -30381,7 +30259,6 @@ msgstr ""
 "les autochtones Khoisans et en luttant contre les colons européens."
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
-#, fuzzy
 msgid "British Isles (classic/medium)"
 msgstr "Îles Britanniques (classique, moyen)"
 
@@ -30390,96 +30267,80 @@ msgid "Classic-style 85x80 map of the British Isles."
 msgstr "Carte des Îles Britanniques de 85x80, classique."
 
 #: data/scenario/earth-160x90-v2.sav:3
-#, fuzzy
 msgid "Earth (classic/large)"
 msgstr "Terre (classique, grand)"
 
 #: data/scenario/earth-160x90-v2.sav:4
-#, fuzzy
 msgid "Classic-style 160x90 map of the Earth."
-msgstr "Carte des Îles Britanniques de 85x80, classique."
+msgstr "Carte de la Terre de 160x90, classique."
 
 #: data/scenario/earth-80x50-v2.sav:3
-#, fuzzy
 msgid "Earth (classic/small)"
 msgstr "Terre (classique, petit)"
 
 #: data/scenario/earth-80x50-v2.sav:4
-#, fuzzy
 msgid "Classic-style 80x50 map of the Earth."
-msgstr "Carte des Îles Britanniques de 85x80, classique."
+msgstr "Carte de la Terre de 80x50, classique."
 
 #: data/scenario/europe-200x100-v2.sav:3
-#, fuzzy
 msgid "Europe (classic/giant)"
 msgstr "Europe (classique, énorme)"
 
 #: data/scenario/europe-200x100-v2.sav:4
-#, fuzzy
 msgid "Classic-style 200x100 map of Europe."
-msgstr "Trés grande carte de style classique de l'Europe"
+msgstr "Carte d'Europe de 200x100, classique."
 
 #: data/scenario/france-140x90-v2.sav:3
-#, fuzzy
 msgid "France (classic/large)"
-msgstr "Terre (classique, grand)"
+msgstr "France (classique, grand)"
 
 #: data/scenario/france-140x90-v2.sav:4
-#, fuzzy
 msgid "Classic-style 140x90 map of France."
-msgstr "Scénario de la terre 160x90, classique."
+msgstr "Carte de France de 140x90, classique."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
-#, fuzzy
 msgid "Earth (classic/medium)"
 msgstr "Terre (classique, moyen)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
-#, fuzzy
 msgid "Classic-style 120x60 map of the Earth."
-msgstr "Carte des Îles Britanniques de 85x80, classique."
+msgstr "Carte de la Terre de 120x60, classique."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
 msgstr "Péninsule Ibérique (classique, grand)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
-#, fuzzy
 msgid ""
 "Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
-"Carte classique de la péninsule Ibérique (Espagne moderne et Portugal)."
+"Carte classique de la péninsule Ibérique (Espagne moderne et Portugal) de "
+"136x100, classique."
 
 #: data/scenario/italy-100x100-v1.5.sav:3
-#, fuzzy
 msgid "Italy (classic/medium)"
-msgstr "Terre (classique, moyen)"
+msgstr "Italie (classique, moyen)"
 
 #: data/scenario/italy-100x100-v1.5.sav:4
-#, fuzzy
 msgid "Classic-style 100x100 map of Italy."
-msgstr "Carte des Îles Britanniques de 85x80, classique."
+msgstr "Carte d'Italie de 100x100, classique."
 
 #: data/scenario/japan-88x100-v1.3.sav:4
-#, fuzzy
 msgid "Japan (classic/medium)"
-msgstr "Terre (classique, moyen)"
+msgstr "Japon (classique, moyen)"
 
 #: data/scenario/japan-88x100-v1.3.sav:5
-#, fuzzy
 msgid "Classic-style 88x100 map of Japan."
-msgstr "Carte des Îles Britanniques de 85x80, classique."
+msgstr "Carte du Japon de 88x100, classique."
 
 #: data/scenario/north_america_116x100-v1.2.sav:4
-#, fuzzy
 msgid "North America (classic/medium)"
-msgstr "Terre (classique, moyen)"
+msgstr "Amérique du Nord (classique, moyen)"
 
 #: data/scenario/north_america_116x100-v1.2.sav:5
-#, fuzzy
 msgid "Classic-style 116x100 map of North America."
-msgstr "Scénario de la terre 160x90, classique."
+msgstr "Carte d'Amérique du Nord de 116x10, classique."
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
@@ -30629,6 +30490,14 @@ msgid ""
 "from this report.  The full power of the city report is beyond the\n"
 "scope of this tutorial, however."
 msgstr ""
+"Le nombre de villes dans votre empire augmente, il devient de plus\n"
+"en plus dur de toutes les contrôler. C'est maintenant que le rapport\n"
+"de villes devient utile. Appuyez sur F1 pour l'afficher. Ce rapport\n"
+"montre la liste des villes avec de diverses statistiques sur chacune\n"
+"d'entre elles. Jouez un peu avec si vous voulez (retournez à la carte\n"
+"en cliquant sur son onglet). Avec un peu de pratique il est possible\n"
+"de contrôler presque tous les aspects des villes depuis ce rapport.\n"
+"La maîtrise de cet écran est au delà de la portée de ce tutoriel."
 
 #: data/scenario/tutorial.sav:116
 msgid ""
@@ -30898,6 +30767,21 @@ msgid ""
 "are at war, however, you may wish to move your unit toward an enemy\n"
 "city to attack.  Be careful not to lose it though!"
 msgstr ""
+"Vous avez construit votre première unité militaire ! Les unités\n"
+"militaires ont deux buts à la base : attaquer et défendre. Chaque\n"
+"unité a une puissance d'attaque et une puissance de défense. Alors\n"
+"que les guerriers sont des 1/1 négligeable, une phalange est meilleure\n"
+"avec une défense de 2 (1/2). Une catapulte est une bonne unité\n"
+"d'attaque parce qu'elle a une attaque de 6 (6/1). \n"
+"\n"
+"Habituellement c'est une bonne idée de maintenir un ou deux\n"
+"défenseurs dans chaque ville. Les villes importantes comme votre\n"
+"capitale peuvent mériter plus de protection. Les unités construite\n"
+"dans une ville peuvent être envoyées dans une autre ville pour la\n"
+"défendre (appuyez sur la touche G pour entrer dans le mode \"aller à\",\n"
+"pour déplacer les unités plus facilement). Cependant si vous êtes en\n"
+"guerre, vous pouvez souhaiter déplacer votre unité vers une ville\n"
+ "ennemie pour l'attaquer. Faites cependant attention à ne pas la perdre !"
 
 #: data/scenario/tutorial.sav:305
 msgid ""
@@ -30987,6 +30871,22 @@ msgid ""
 "However Republic is a substantially better form of government\n"
 "than Despotism so the investment will soon pay off."
 msgstr ""
+"Vous avez accompli avec succès la recherche de la République.\n"
+"Cette technologie est particulièrement utile car elle permet une\n"
+"nouvelle forme de gouvernement. Le gouvernement de votre\n"
+"civilisation est très important car il détermine votre développement.\n"
+"Au début vous commencez avec le Despotisme, une forme très inefficace\n"
+"de gouvernement. Les options futures de gouvernement vous donneront\n"
+"un certain nombre de choix entre une civilisation de paisible\n"
+"marchande ou une machine à faire la guerre. Chacune a ses avantages.\n"
+"\n"
+"Actuellement, vous voulez probablement changer pour la République.\n"
+"Dans le menu Civilisation, allez au sous menu Gouvernement\n"
+"et choisissez République. Oui, vous voulez une révolution ! Changer\n"
+"de gouvernements signifie passer par quelques tours d'Anarchie, il\n"
+"n'y a rien sans rien. Cependant la République est une forme\n"
+"substantiellement meilleure de gouvernement que le Despotisme et\n"
+"l'investissement en vaut le coup."
 
 #: data/scenario/tutorial.sav:366
 msgid ""
@@ -31000,15 +30900,24 @@ msgid ""
 "unit instantly.  On average, it is beneficial to search out and enter\n"
 "any huts you find as soon as possible."
 msgstr ""
+"Votre unité a trouvé une hutte. Ce sont de petits villages dispersés à\n"
+"travers le paysage. Lors qu'une unité y entre plusieurs choses peuvent\n"
+"se produire. Le plus probable est que vous trouvez un peu d'or. Il est\n"
+"également possible de trouver des technologies ou des unités de\n"
+"mercenaires. Certaines huttes contiennent des colons indigènes qui ce\n"
+"joindront à votre civilisation et introduisant une nouvelle ville dans\n"
+"votre empire. Enfin quelques huttes contiennent des barbares qui\n"
+"tueront immédiatement votre unité. De façon générale, il est intéressant\n"
+"de rechercher et d'entrer dans toutes les huttes que vous trouverez\n"
+"aussitôt que possible."
 
 #: data/scenario/tutorial.sav:381
 msgid "Loading tutorial events."
 msgstr "Chargement des évènements de tutoriel."
 
 #: data/civ1/game.ruleset:18
-#, fuzzy
 msgid "Civ1 ruleset"
-msgstr "Chargement des jeux de règles"
+msgstr "Jeu de règles civ1"
 
 #: data/civ1/game.ruleset:21
 msgid ""
@@ -31019,6 +30928,13 @@ msgid ""
 " * There is less technologies, buildings and units\n"
 " * Units have no hitpoints. If they win battle, they remain in full health\n"
 msgstr ""
+"Vous jouez Freeciv avec les règles pour émuler civ1. Ces règles sont "
+"plus simples que les standards de Freeciv. Si vous ne connaissez que les "
+"règles standards, prenez le temps d'analyser les différences.\n"
+"\n"
+" * Il y a moins de technologies, bâtiments et unités.\n"
+" * Les unités n'ont pas de point de vie. Si elles gagnent une bataille, "
+"elles restent avec la vie maximale.\n"
 
 # AR
 #: data/civ1/game.ruleset:162 data/civ2/game.ruleset:156
@@ -31222,7 +31138,7 @@ msgid ""
 "default rules, but with some additions."
 msgstr ""
 "Vous jouez Freeciv avec les règles pour émuler civ2. Ces règles sont "
-"assez proches des règles standard de Freeciv, mais avec quelques ajouts."
+"assez proches des règles standards de Freeciv, mais avec quelques ajouts."
 
 #: data/default/game.ruleset:18
 msgid "Default ruleset"
