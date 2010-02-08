@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-04 18:51+0300\n"
+"PO-Revision-Date: 2010-02-08 20:19+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -263,9 +263,8 @@ msgid "Was Built"
 msgstr "Збудовано"
 
 #: common/events.c:103
-#, fuzzy
 msgid "Has Plague"
-msgstr "Видалити пункт"
+msgstr "Ма╓ пошесть"
 
 #: common/events.c:104
 msgid "Worklist Events"
@@ -1213,7 +1212,7 @@ msgstr "Р╕к: %s (Т%d)"
 #: utility/ioz.c:552
 #, c-format
 msgid "Bz2 error %d"
-msgstr ""
+msgstr "Помилка Bz2 %d"
 
 #: utility/log.c:84
 #, c-format
@@ -2169,7 +2168,7 @@ msgstr "Святкування зак╕нчилось у %s."
 #: server/cityturn.c:2077
 #, c-format
 msgid "%s had been struck by a plague! Population lost!"
-msgstr ""
+msgstr "%s вражено пошестю! Населення гине!"
 
 #: server/cityturn.c:2119
 #, c-format
@@ -4131,61 +4130,56 @@ msgstr[2] ""
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr "%s зв╕ту╓ про НАЙБАГАТШ╤ цив╕л╕зац╕╖ у св╕т╕ %s."
+msgstr "%s %s зв╕ту╓ про НАЙБАГАТШ╤ св╕тов╕ цив╕л╕зац╕╖."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr "%s зв╕ту╓ про НАЙРОЗВИНУТ╤Ш╤ цив╕л╕зац╕╖ у св╕т╕ %s."
+msgstr "%s %s зв╕ту╓ про НАЙРОЗВИНЕН╤Ш╤ св╕тов╕ цив╕л╕зац╕╖."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:62
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr "%s зв╕ту╓ про НАЙСИЛЬН╤Ш╤ цив╕л╕зац╕╖ у св╕т╕ %s."
+msgstr "%s %s зв╕ту╓ про НАЙСИЛЬН╤Ш╤ св╕тов╕ цив╕л╕зац╕╖."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:64
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr "%s зв╕ту╓ про НАЙЩАСЛИВ╤Ш╤ цив╕л╕зац╕╖ у св╕т╕ %s."
+msgstr "%s %s зв╕ту╓ про НАЙЩАСЛИВ╤Ш╤ св╕тов╕ цив╕л╕зац╕╖."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:66
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr "%s зв╕ту╓ про НАЙБ╤ЛЬШ╤ цив╕л╕зац╕╖ у св╕т╕ %s."
+msgstr "%s %s зв╕ту╓ про НАЙБ╤ЛЬШ╤ св╕тов╕ цив╕л╕зац╕╖."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
-#, fuzzy
 msgid "Herodotus"
 msgstr "Геродот"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
-#, fuzzy
 msgid "Thucydides"
-msgstr "Тр╕ц╕д╕с"
+msgstr "Фук╕д╕д"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:75
-#, fuzzy
 msgid "Pliny the Elder"
 msgstr "Пл╕н╕й Старший"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:77
-#, fuzzy
 msgid "Livy"
 msgstr "Л╕в╕й"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:79
-#, fuzzy
 msgid "Toynbee"
 msgstr "Тойнб╕"
 
@@ -4197,15 +4191,13 @@ msgstr "Г╕ббон"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:83
-#, fuzzy
 msgid "Ssu-ma Ch'ien"
-msgstr "Ссума Чи╓н"
+msgstr "Сима Цянь"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:85
-#, fuzzy
 msgid "Pan Ku"
-msgstr "Пан Ку"
+msgstr "Бань Гу"
 
 #: server/report.c:130
 msgid "Population"
@@ -5533,9 +5525,8 @@ msgid "This setting can't be modified after the game has started."
 msgstr "Ця установка не може бути зм╕нена коли гру вже стартовано."
 
 #: server/settings.c:1407
-#, fuzzy
 msgid "Value out of range."
-msgstr "Значення повино бути ц╕лим."
+msgstr "Значення поза д╕апазоном."
 
 #: server/settings.c:1463
 #, fuzzy
@@ -5573,7 +5564,7 @@ msgstr "Сокет IPv6 не в╕дкрива╓ться, спробую натом╕сть IPv4"
 #: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
-msgstr ""
+msgstr "Пошук серв╕су IPv4 зазнав невдач╕ <%d>."
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1315
@@ -5721,9 +5712,9 @@ msgstr "Замирення м╕ж %s та %s ск╕нчилося. Тепер вони воюють. Ви скасували ваш а
 
 #: server/srv_main.c:1098
 #: server/srv_main.c:1101
-#, fuzzy, c-format
+#, c-format
 msgid "Unsupported compression type %d"
-msgstr "п╕дтримуван╕ опц╕╖: %s"
+msgstr "Неп╕дтримуваний тип компресс╕╖ %d"
 
 #: server/srv_main.c:1131
 #, c-format
@@ -5785,9 +5776,8 @@ msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "╤нш╕й гравець вже обрав ╕м'я '%s'. Обер╕ть ╕нше."
 
 #: server/srv_main.c:1591
-#, fuzzy
 msgid "Please choose a name containing only ASCII characters."
-msgstr "Обер╕ть не пусте ╕м'я."
+msgstr "Обер╕ть ╕м'я, що м╕стить лише символи ASCII."
 
 #: server/srv_main.c:1688
 #, c-format
@@ -5828,7 +5818,7 @@ msgstr "%s голову╓ над %s."
 
 #: server/srv_main.c:2112
 msgid "This civserver program has player authentication support, but it's currently not in use."
-msgstr ""
+msgstr "Програма civserver ма╓ п╕дтримку аутентиф╕кац╕╖ гравц╕в, але зараз вона не використову╓ться."
 
 #: server/srv_main.c:2173
 #, fuzzy, c-format
@@ -6008,9 +5998,8 @@ msgid "That name exceeds the maximum of %d chars."
 msgstr "╤м'я перевищило максимум у %d символ╕в."
 
 #: server/stdinhand.c:781
-#, fuzzy
 msgid "That name is not allowed."
-msgstr "Як╕ з'╓днання дозволен╕."
+msgstr "Таке ╕м'я не дозволено."
 
 #: server/stdinhand.c:787
 msgid "A player already exists by that name."
@@ -6021,9 +6010,9 @@ msgid "A user already exists by that name."
 msgstr "Користувач з таким ╕м'ям вже ╕сну╓."
 
 #: server/stdinhand.c:806
-#, fuzzy, c-format
+#, c-format
 msgid "Failed to create new player %s."
-msgstr "Помилка створення нового комп'ютерного гравця: %s."
+msgstr "Не вдалося створити нового гравця %s."
 
 #: server/stdinhand.c:811
 #, c-format
@@ -6171,11 +6160,13 @@ msgstr "Нев╕рний аргумент %d."
 #: server/stdinhand.c:2938
 #: server/stdinhand.c:3105
 #: server/stdinhand.c:3248
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Usage:\n"
 "%s"
-msgstr "Використання: away"
+msgstr ""
+"Використання:\n"
+"%s"
 
 #: server/stdinhand.c:1371
 #, c-format
@@ -6444,9 +6435,9 @@ msgstr "Нема╓ останнього легального голосу (%d %s)."
 #: server/stdinhand.c:2093
 msgid "other vote running"
 msgid_plural "other votes running"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "╕нше голосування переб╕га╓"
+msgstr[1] "╕нш╕ голосування переб╕гають"
+msgstr[2] "╕нших голосувань переб╕га╓"
 
 #: server/stdinhand.c:2100
 #: server/stdinhand.c:2482
@@ -6889,9 +6880,8 @@ msgid "(server prompt)"
 msgstr "(сервер)"
 
 #: server/stdinhand.c:3749
-#, fuzzy
 msgid "Game ended in a draw."
-msgstr "Гру зак╕нчено"
+msgstr "Гру зак╕нчено вн╕чию."
 
 #: server/stdinhand.c:3753
 msgid "Ending the game. The server will restart once all clients have disconnected."
@@ -6907,14 +6897,13 @@ msgid "%s has conceded the game and can no longer win."
 msgstr "%s здався та б╕льше не може виграти."
 
 #: server/stdinhand.c:3779
-#, fuzzy
 msgid "You cannot surrender now."
-msgstr "Саботувати буд╕влю"
+msgstr "Зараз Ви не можете здатися."
 
 #: server/stdinhand.c:3800
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load the script file '%s'"
-msgstr "Не можу прочитати файл скрипту '%s'."
+msgstr "Не можу завантажити скриптовий файл '%s'."
 
 #: server/stdinhand.c:3811
 msgid "Settings re-initialized."
@@ -7707,7 +7696,7 @@ msgstr "%s %d: %s проголосували н╕."
 #: server/voting.c:556
 #, c-format
 msgid "%s %d: %s chose to abstain."
-msgstr ""
+msgstr "%s %d: %s вир╕шили утриматися."
 
 #. TRANS: Describing a new vote that can only pass
 #. * if there are no dissenting votes.
@@ -7977,7 +7966,7 @@ msgstr "%+4d : Прир╕ст в╕д %s (%+d%%)\n"
 #: client/citydlg_common.c:538
 #, c-format
 msgid "%2.1f : Total chance for a plague"
-msgstr ""
+msgstr "%2.1f : Загальна ймов╕рн╕сть пошест╕"
 
 #: client/cityrepdata.c:80
 msgid "?city_state:Rapture"
@@ -8999,7 +8988,7 @@ msgstr ""
 #: client/helpdata.c:518
 #, c-format
 msgid "Requires we reached the year %d.\n"
-msgstr ""
+msgstr "Вимага╓ досягнення %d року.\n"
 
 #: client/helpdata.c:526
 #, fuzzy, c-format
@@ -9544,7 +9533,7 @@ msgstr "* Кожне ╕з ваших м╕ст не буде сплачувати %d за утримання п╕дрозд╕ла.\n"
 #: client/helpdata.c:1884
 #, c-format
 msgid "* If you lose your capital, chance of civil war is %d%%.\n"
-msgstr ""
+msgstr "* Якщо Ви втратите свою столицю, ймов╕рн╕сть громадянсько╖ в╕йни становитиме %d%%.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1891
@@ -9678,13 +9667,12 @@ msgid "* %s production will suffer a small amount of waste.\n"
 msgstr "* виробництво %s виклика╓ незначне забруднення.\n"
 
 #: client/helpdata.c:2047
-#, fuzzy
 msgid "* Increases the possibility of plague within your cities.\n"
-msgstr "П╕двищу╓ забруднення що спричинено населенням.\n"
+msgstr "* Зб╕льшу╓ ймов╕рн╕сть пошест╕ у ваших м╕стах.\n"
 
 #: client/helpdata.c:2050
 msgid "* Decreases the possibility of plague within your cities.\n"
-msgstr ""
+msgstr "* Зменшу╓ ймов╕рн╕сть пошест╕ у ваших м╕стах.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2058
@@ -9991,9 +9979,8 @@ msgid "Setting this option will draw the pollution and the nuclear fallouts on t
 msgstr "Якщо цю опц╕ю включено, на п╕дрозд╕лах буде в╕дображатися ╕конка виробництва на флаз╕. Якщо цю опц╕ю в╕дключено, буде в╕дображатися повний флаг."
 
 #: client/options.c:576
-#, fuzzy
 msgid "Draw the cities"
-msgstr "Малювати панель м╕ста"
+msgstr "Малювати м╕ста"
 
 #: client/options.c:577
 #, fuzzy
@@ -10001,9 +9988,8 @@ msgid "Setting this option will draw the cities on the map."
 msgstr "Якщо активовано, назва м╕ста по замовчуванню буде буде визначатися в╕дпов╕дно до прилеглих земель."
 
 #: client/options.c:580
-#, fuzzy
 msgid "Draw the units"
-msgstr "Малювати панель м╕ста"
+msgstr "Малювати п╕дрозд╕ли"
 
 #: client/options.c:581
 #, fuzzy
@@ -10045,9 +10031,8 @@ msgid "Setting this option will draw the fog of war."
 msgstr ""
 
 #: client/options.c:606
-#, fuzzy
 msgid "Draw the borders"
-msgstr "Малювати панель м╕ста"
+msgstr "Малювати кордони"
 
 #: client/options.c:607
 msgid "Setting this option will draw the national borders."
@@ -10751,9 +10736,8 @@ msgid "Nation"
 msgstr "Нац╕я"
 
 #: client/plrdlg_common.c:261
-#, fuzzy
 msgid "Border"
-msgstr "Боер"
+msgstr "Кордон"
 
 #: client/plrdlg_common.c:262
 #: client/gui-gtk-2.0/repodlgs.c:1344
@@ -10767,9 +10751,8 @@ msgid "Team"
 msgstr "Команда"
 
 #: client/plrdlg_common.c:265
-#, fuzzy
 msgid "Attitude"
-msgstr "Актив╕зувати"
+msgstr "В╕дношення"
 
 #: client/plrdlg_common.c:267
 #: client/gui-win32/plrdlg.c:333
@@ -10796,9 +10779,9 @@ msgstr "Саботувати буд╕влю"
 
 #: client/repodlgs_common.c:382
 #: client/gui-gtk-2.0/cityrep.c:554
-#, fuzzy, c-format
+#, c-format
 msgid "Sold %d %s for %d gold."
-msgstr "Продано %d %s за %d гривень"
+msgstr "Продано %d %s за %d гривень."
 
 #: client/repodlgs_common.c:387
 #: client/gui-gtk-2.0/cityrep.c:557
@@ -10976,9 +10959,9 @@ msgstr "Незаймана територ╕я"
 
 #. TRANS: "City: <city name> | <username> (<nation + team>)"
 #: client/text.c:218
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s | %s (%s)"
-msgstr "М╕сто: %s(%s) %s"
+msgstr "М╕сто: %s | %s (%s)"
 
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn cease-fire)"
@@ -10993,9 +10976,9 @@ msgstr[2] "П╕дрозд╕л: %s(%s%s)"
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
 #: client/text.c:235
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s | %s (%s, %s)"
-msgstr "М╕сто: %s(%s) %s"
+msgstr "М╕сто: %s | %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:250
@@ -11146,17 +11129,17 @@ msgid "%d/- (never)"
 msgstr "%d/- (н╕коли)"
 
 #: client/text.c:643
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
-msgstr[0] "%d/%d %d ход╕в"
-msgstr[1] "%d/%d %d ход╕в"
-msgstr[2] "%d/%d %d ход╕в"
+msgstr[0] "%d/%d (%d х╕д)"
+msgstr[1] "%d/%d (%d ходи)"
+msgstr[2] "%d/%d (%d ход╕в)"
 
 #: client/text.c:646
-#, fuzzy, c-format
+#, c-format
 msgid "%d/%d (never)"
-msgstr "(Н╕коли)"
+msgstr "%d/%d (н╕коли)"
 
 #: client/text.c:683
 #, fuzzy, c-format
@@ -11913,16 +11896,14 @@ msgstr "Перекупити ворож╕й п╕дрозд╕л"
 #: client/gui-gtk-2.0/diplomat_dialog.c:698
 #: client/gui-win32/dialogs.c:1672
 #: client/gui-xaw/diplomat_dialog.c:782
-#, fuzzy
 msgid "The diplomat is waiting for your command"
-msgstr "Пане - д╕пломат очику╓ Вашо╖ команди"
+msgstr "Дипломат оч╕ку╓ Вашо╖ команди"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:699
 #: client/gui-win32/dialogs.c:1673
 #: client/gui-xaw/diplomat_dialog.c:783
-#, fuzzy
 msgid "The spy is waiting for your command"
-msgstr "Пане - шпигун очику╓ Вашо╖ команди"
+msgstr "Шпигун оч╕ку╓ Вашо╖ команди"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:700
 #: client/gui-win32/dialogs.c:1674
@@ -11935,9 +11916,9 @@ msgid "_Sabotage Enemy Unit"
 msgstr "Саботувати ворож╕й п╕дрозд╕л"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:82
-#, fuzzy, c-format
+#, c-format
 msgid "Help build _Wonder (%d remaining)"
-msgstr "Допомогти будувати Диво"
+msgstr "Допомогти будувати Диво (%d залиша╓ться)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:87
 #: client/gui-win32/dialogs.c:1065
@@ -12031,9 +12012,8 @@ msgid "Select the text color"
 msgstr "Вибер╕ть кол╕р тексту"
 
 #: client/gui-gtk-2.0/chatline.c:1231
-#, fuzzy
 msgid "background"
-msgstr "Шар фону"
+msgstr "фон"
 
 #: client/gui-gtk-2.0/chatline.c:1235
 #, fuzzy
@@ -12112,7 +12092,7 @@ msgstr "Забруднення:"
 #: client/gui-gtk-2.0/citydlg.c:596
 #: client/gui-win32/citydlg.c:693
 msgid "Plague Risk:"
-msgstr ""
+msgstr "Ризик пошест╕:"
 
 #: client/gui-gtk-2.0/citydlg.c:650
 #: client/gui-gtk-2.0/inteldlg.c:197
@@ -13023,9 +13003,8 @@ msgstr[2] "(%d шаг╕в)"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:918
-#, fuzzy
 msgid "(never)"
-msgstr "(Н╕коли)"
+msgstr "(н╕коли)"
 
 #. TRANS: Improvement was destroyed.
 #: client/gui-gtk-2.0/editprop.c:921
@@ -13117,9 +13096,8 @@ msgid "NAT Y"
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:3748
-#, fuzzy
 msgid "Continent"
-msgstr "При╓'днатись"
+msgstr "Континент"
 
 #: client/gui-gtk-2.0/editprop.c:3750
 #: client/gui-gtk-2.0/editprop.c:3771
@@ -13189,14 +13167,12 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1425
 #: client/gui-sdl/dialogs.c:1522
 #: client/gui-sdl/dialogs.c:1550
-#, fuzzy
 msgid "Veteran"
-msgstr "(ветеран)"
+msgstr "Ветеран"
 
 #: client/gui-gtk-2.0/editprop.c:3801
-#, fuzzy
 msgid "Buildings"
-msgstr "Буд╕вл╕:"
+msgstr "Буд╕вл╕"
 
 #: client/gui-gtk-2.0/editprop.c:3803
 msgid "Food Stock"
@@ -13213,24 +13189,20 @@ msgid "Inventions"
 msgstr "Винах╕дництво"
 
 #: client/gui-gtk-2.0/editprop.c:3823
-#, fuzzy
 msgid "Year"
-msgstr "Р╕к: %s"
+msgstr "Р╕к"
 
 #: client/gui-gtk-2.0/editprop.c:3825
-#, fuzzy
 msgid "Scenario"
-msgstr "Завантажити сценар╕й"
+msgstr "Сценар╕й"
 
 #: client/gui-gtk-2.0/editprop.c:3827
-#, fuzzy
 msgid "Scenario Name"
-msgstr "Стартувати нову гру"
+msgstr "Назва сценар╕ю"
 
 #: client/gui-gtk-2.0/editprop.c:3829
-#, fuzzy
 msgid "Scenario Description"
-msgstr "Опис"
+msgstr "Опис сценар╕ю"
 
 #: client/gui-gtk-2.0/editprop.c:3832
 #, fuzzy
@@ -21441,9 +21413,8 @@ msgstr "Товариш"
 #: data/default/governments.ruleset:122
 #: data/civ2/governments.ruleset:119
 #: data/civ1/governments.ruleset:121
-#, fuzzy
 msgid "?female:Comrade"
-msgstr "Товариш"
+msgstr "Товаришка"
 
 #: data/default/governments.ruleset:124
 #: data/civ1/governments.ruleset:123
@@ -21484,7 +21455,6 @@ msgstr "Консул"
 #: data/default/governments.ruleset:146
 #: data/civ2/governments.ruleset:171
 #: data/civ1/governments.ruleset:145
-#, fuzzy
 msgid "?female:Consul"
 msgstr "Консул"
 
@@ -21512,7 +21482,6 @@ msgstr "Президент"
 #: data/default/governments.ruleset:168
 #: data/civ2/governments.ruleset:193
 #: data/civ1/governments.ruleset:167
-#, fuzzy
 msgid "?female:President"
 msgstr "Президент"
 
@@ -21721,9 +21690,8 @@ msgstr "Двигун внутр╕шнього згоряння"
 
 #: data/default/techs.ruleset:179
 #: data/civ2/techs.ruleset:168
-#, fuzzy
 msgid "Reduces the effect of Cathedrals."
-msgstr "Знижу╓ ефективн╕сть Собор╕в.\n"
+msgstr "Зменшу╓ ефективн╕сть Собор╕в."
 
 #: data/default/techs.ruleset:182
 #: data/civ2/techs.ruleset:171
@@ -21762,9 +21730,8 @@ msgstr "Електрика"
 
 #: data/default/techs.ruleset:237
 #: data/civ2/techs.ruleset:226
-#, fuzzy
 msgid "Improves the effect of Colosseums."
-msgstr "Зб╕льшу╓ ефективн╕сть Цирк╕в.\n"
+msgstr "Зб╕льшу╓ ефективн╕сть Цирк╕в."
 
 #: data/default/techs.ruleset:240
 #: data/civ2/techs.ruleset:229
@@ -21953,9 +21920,8 @@ msgstr "М╕стицизм"
 #: data/default/techs.ruleset:496
 #: data/civ2/techs.ruleset:492
 #: data/civ1/techs.ruleset:386
-#, fuzzy
 msgid "Improves the effect of Temples."
-msgstr "Зб╕льшу╓ ефективн╕сть Церков.\n"
+msgstr "Зб╕льшу╓ ефективн╕сть Церков."
 
 #: data/default/techs.ruleset:499
 #: data/civ2/techs.ruleset:495
@@ -23335,9 +23301,8 @@ msgstr "Ем╕р"
 #: data/nation/emirati.ruleset:25
 #: data/nation/kurd.ruleset:26
 #: data/nation/uzbek.ruleset:28
-#, fuzzy
 msgid "Emira"
-msgstr "Ем╕р"
+msgstr "Ем╕ра"
 
 #: data/nation/afghani.ruleset:25
 #: data/nation/ottoman.ruleset:29
@@ -23516,16 +23481,14 @@ msgstr "Шейхиня"
 #: data/nation/algerian.ruleset:22
 #: data/nation/arab.ruleset:21
 #: data/nation/himyarite.ruleset:31
-#, fuzzy
 msgid "Malik"
-msgstr "Ополчення"
+msgstr "Мал╕к"
 
 #: data/nation/algerian.ruleset:22
 #: data/nation/arab.ruleset:21
 #: data/nation/himyarite.ruleset:31
-#, fuzzy
 msgid "Malikah"
-msgstr "Ополчення"
+msgstr "Мал╕ка"
 
 #: data/nation/algerian.ruleset:23
 #: data/nation/libyan.ruleset:23
@@ -24198,28 +24161,24 @@ msgid "Sveta Maika"
 msgstr "Света Майка"
 
 #: data/nation/burgundian.ruleset:3
-#, fuzzy
 msgid "Burgundian"
-msgstr "Бурунд╕"
+msgstr "Бургундц╕"
 
 #: data/nation/burgundian.ruleset:4
-#, fuzzy
 msgid "?plural:Burgundians"
-msgstr "Бурунд╕"
+msgstr "Бургундц╕"
 
 #: data/nation/burgundian.ruleset:6
 msgid "After the fall of the Western Roman Empire, a Germanic people known as the Burgundians settled in the Rhine Valley, lending their name to the region. Centuries later, the Duchy of Burgundy was a prosperous country with the court in Dijon outshining that of Paris. It is today one of the regions of France."
 msgstr ""
 
 #: data/nation/burgundian.ruleset:31
-#, fuzzy
 msgid "Margrave"
-msgstr "Каравела"
+msgstr "Маркграф"
 
 #: data/nation/burgundian.ruleset:31
-#, fuzzy
 msgid "Margravine"
-msgstr "Морськ╕й десант"
+msgstr "Маркграфиня"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
@@ -24266,14 +24225,12 @@ msgid "Mwamikazi"
 msgstr "Муам╕каз╕"
 
 #: data/nation/byzantium.ruleset:3
-#, fuzzy
 msgid "Byzantine"
-msgstr "Банк╕вська справа"
+msgstr "В╕зант╕йц╕"
 
 #: data/nation/byzantium.ruleset:4
-#, fuzzy
 msgid "?plural:Byzantines"
-msgstr "Аргентинц╕"
+msgstr "В╕зант╕йц╕"
 
 #: data/nation/byzantium.ruleset:6
 msgid "At the time of the decline of the old Roman empire, the Emperor Constantine moved the empire's capital to Byzantium and formed a new empire mostly known as the Eastern Roman empire or the Byzantine empire. This empire lasted until 1453 when its capital fell to the Ottomans. At the time of Justinian I, the Byzantines controlled nearly all of the Middle East, northern Africa, Italy, and parts of Spain."
@@ -24281,14 +24238,12 @@ msgstr ""
 
 #. TRANS: Basileus = Monarch
 #: data/nation/byzantium.ruleset:28
-#, fuzzy
 msgid "Basileus"
-msgstr "Оаз╕с"
+msgstr "Василевс"
 
 #: data/nation/byzantium.ruleset:28
-#, fuzzy
 msgid "Basilissa"
-msgstr "Оаз╕с"
+msgstr "Васил╕са"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
@@ -24540,9 +24495,8 @@ msgstr ""
 #: data/nation/gupta.ruleset:20
 #: data/nation/indian.ruleset:19
 #: data/nation/majapahit.ruleset:26
-#, fuzzy
 msgid "Raja"
-msgstr "Королева"
+msgstr "Раджа"
 
 #: data/nation/chola.ruleset:24
 #: data/nation/gupta.ruleset:20
@@ -25344,14 +25298,12 @@ msgid "?female:Ayatollah"
 msgstr "Тао╕с╕ч"
 
 #: data/nation/iraqi.ruleset:3
-#, fuzzy
 msgid "Iraqi"
-msgstr "╤зрал'╓тяни"
+msgstr "╤ракц╕"
 
 #: data/nation/iraqi.ruleset:4
-#, fuzzy
 msgid "?plural:Iraqis"
-msgstr "╤рланц╕"
+msgstr "╤ракц╕"
 
 #: data/nation/iraqi.ruleset:6
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
@@ -25387,14 +25339,12 @@ msgid "?female:Taoiseach"
 msgstr "Тао╕с╕ч"
 
 #: data/nation/iroquois.ruleset:3
-#, fuzzy
 msgid "Iroquois"
-msgstr "╤рланц╕"
+msgstr "╤рокези"
 
 #: data/nation/iroquois.ruleset:4
-#, fuzzy
 msgid "?plural:Iroquois"
-msgstr "╤рланц╕"
+msgstr "╤рокези"
 
 #: data/nation/iroquois.ruleset:6
 msgid "The Iroquois Confederacy - known as Haudenosaunee in their own language - was a North American group of nations with common language and culture. They were based in what is now upstate New York and consisted originally of five nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a written constitution and a currency system making them the most advanced state in North America upon the arrival of the Europeans."
@@ -26116,9 +26066,8 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:27
 #: data/nation/tunisian.ruleset:28
-#, fuzzy
 msgid "Bey"
-msgstr "Купити"
+msgstr "Бей"
 
 #: data/nation/ottoman.ruleset:27
 #: data/nation/tunisian.ruleset:28
@@ -26826,14 +26775,12 @@ msgid "The Knights Templar were formed after the first Crusade in order to prote
 msgstr ""
 
 #: data/nation/texan.ruleset:3
-#, fuzzy
 msgid "Texan"
-msgstr "Ч╕л╕йц╕"
+msgstr "Техасц╕"
 
 #: data/nation/texan.ruleset:4
-#, fuzzy
 msgid "?plural:Texans"
-msgstr "Американц╕"
+msgstr "Техасц╕"
 
 #: data/nation/texan.ruleset:6
 msgid "Texas is second largest and second most populous state of the USA, famous for its \"larger than life\" cowboy mentality."
@@ -26999,9 +26946,8 @@ msgid "Hetman"
 msgstr "Гетьман"
 
 #: data/nation/ukrainian.ruleset:18
-#, fuzzy
 msgid "?female:Hetman"
-msgstr "Шаман"
+msgstr "Гетьманка"
 
 #: data/nation/un.ruleset:3
 msgid "UN"
