@@ -487,6 +487,7 @@ static bool section_file_read_dup(struct section_file *sf,
 	}
       }
       if (!inf_token(inf, INF_TOK_EOL)) {
+        inf_log(inf, LOG_ERROR, "expected end of line");
         return FALSE;
       }
       continue;
@@ -506,6 +507,7 @@ static bool section_file_read_dup(struct section_file *sf,
         return FALSE;
       }
       if (!inf_token(inf, INF_TOK_EOL)) {
+        inf_log(inf, LOG_ERROR, "expected end of line");
         return FALSE;
       }
       table_state = FALSE;
@@ -519,6 +521,7 @@ static bool section_file_read_dup(struct section_file *sf,
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
 	if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+          inf_log(inf, LOG_ERROR, "expected value");
           return FALSE;
         }
 
@@ -544,6 +547,7 @@ static bool section_file_read_dup(struct section_file *sf,
       } while(inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
+        inf_log(inf, LOG_ERROR, "expected end of line");
         return FALSE;
       }
       table_lineno++;
@@ -551,6 +555,7 @@ static bool section_file_read_dup(struct section_file *sf,
     }
     
     if (!(tok = inf_token(inf, INF_TOK_ENTRY_NAME))) {
+      inf_log(inf, LOG_ERROR, "expected entry name");
       return FALSE;
     }
 
@@ -566,11 +571,12 @@ static bool section_file_read_dup(struct section_file *sf,
 	i++;
 	inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
 	if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+          inf_log(inf, LOG_ERROR, "expected value");
           return FALSE;
         }
 	if( tok[0] != '\"' ) {
 	  inf_log(inf, LOG_ERROR, "table column header non-string");
-          return FALSE;
+         return FALSE;
 	}
 	{ 	/* expand columns: */
 	  int j, n_prev;
@@ -589,6 +595,7 @@ static bool section_file_read_dup(struct section_file *sf,
       } while(inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
+        inf_log(inf, LOG_ERROR, "expected end of line");
         return FALSE;
       }
       table_state = TRUE;
@@ -601,6 +608,7 @@ static bool section_file_read_dup(struct section_file *sf,
       i++;
       inf_discard_tokens(inf, INF_TOK_EOL);  	/* allow newlines */
       if (!(tok = inf_token(inf, INF_TOK_VALUE))) {
+        inf_log(inf, LOG_ERROR, "expected value");
         return FALSE;
       }
       if (i==0) {
@@ -619,6 +627,7 @@ static bool section_file_read_dup(struct section_file *sf,
       }
     } while(inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
+      inf_log(inf, LOG_ERROR, "expected end of line");
       return FALSE;
     }
   }
