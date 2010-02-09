@@ -1547,57 +1547,17 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 	can_establish = FALSE;
       }
     }
-
-    /* Now cancel the trade route from the home city. */
-    if (can_establish && pcity_out_of_home) {
-      remove_trade_route(pcity_homecity, pcity_out_of_home);
-      notify_player(city_owner(pcity_out_of_home),
-                    city_tile(pcity_out_of_home),
-                    E_CARAVAN_ACTION, ftc_server,
-                    _("Sorry, %s has canceled the trade route "
-                      "from %s to your city %s."),
-                    player_name(city_owner(pcity_homecity)),
-                    homecity_link,
-                    city_link(pcity_out_of_home));
-    }
-
-    /* And the same for the dest city. */
-    if (can_establish && pcity_out_of_dest) {
-      remove_trade_route(pcity_dest, pcity_out_of_dest);
-      notify_player(city_owner(pcity_out_of_dest),
-                    city_tile(pcity_out_of_dest),
-                    E_CARAVAN_ACTION, ftc_server,
-                    _("Sorry, %s has canceled the trade route "
-                      "from %s to your city %s."),
-                    player_name(city_owner(pcity_dest)),
-                    destcity_link,
-                    city_link(pcity_out_of_dest));
-    }
   }
-  
+
+  /* We now know for sure whether we can establish a trade route. */
+
+  /* Calculate and announce initial revenue. */
   revenue = get_caravan_enter_city_trade_bonus(pcity_homecity, pcity_dest);
-  if (can_establish) {
-    /* establish trade route */
-    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-      if (pcity_homecity->trade[i] == 0) {
-        pcity_homecity->trade[i] = pcity_dest->id;
-        break;
-      }
-    }
-    assert(i < NUM_TRADE_ROUTES);
-  
-    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-      if (pcity_dest->trade[i] == 0) {
-        pcity_dest->trade[i] = pcity_homecity->id;
-        break;
-      }
-    }
-    assert(i < NUM_TRADE_ROUTES);
-  } else {
+  if (!can_establish) {
     /* enter marketplace */
     revenue = (revenue + 2) / 3;
   }
-  
+
   conn_list_do_buffer(pplayer->connections);
   notify_player(pplayer, city_tile(pcity_dest),
                 E_CARAVAN_ACTION, ftc_server,
@@ -1613,8 +1573,91 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
 
   /* Inform everyone about tech changes */
   send_player_info(pplayer, NULL);
-  
+
   if (can_establish) {
+
+    /* Announce creation of trade route (it's not actually created until
+     * later in this function, as we have to cancel existing routes, but
+     * it makes more sense to announce in this order) */
+
+    /* Always tell the unit owner */
+    notify_player(pplayer, NULL,
+                  E_CARAVAN_ACTION, ftc_server,
+                  _("New trade route established from %s to %s."),
+                  homecity_link,
+                  destcity_link);
+    if (pplayer != city_owner(pcity_dest)) {
+      notify_player(city_owner(pcity_dest), city_tile(pcity_dest),
+                    E_CARAVAN_ACTION, ftc_server,
+                    _("The %s established a trade route between their "
+                      "city %s and %s."),
+                    nation_plural_for_player(pplayer),
+                    homecity_link,
+                    destcity_link);
+    }
+
+    /* Now cancel any less profitable trade route from the home city. */
+    if (pcity_out_of_home) {
+      remove_trade_route(pcity_homecity, pcity_out_of_home);
+      assert(pplayer == city_owner(pcity_homecity));
+      if (pplayer == city_owner(pcity_out_of_home)) {
+        notify_player(city_owner(pcity_out_of_home),
+                      city_tile(pcity_out_of_home),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("Trade route between %s and %s canceled."),
+                      homecity_link,
+                      city_link(pcity_out_of_home));
+      } else {
+        notify_player(city_owner(pcity_out_of_home),
+                      city_tile(pcity_out_of_home),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("Sorry, the %s canceled the trade route "
+                        "from %s to your city %s."),
+                      nation_plural_for_player(pplayer),
+                      homecity_link,
+                      city_link(pcity_out_of_home));
+      }
+    }
+
+    /* And the same for the dest city. */
+    if (pcity_out_of_dest) {
+      remove_trade_route(pcity_dest, pcity_out_of_dest);
+      if (city_owner(pcity_dest) == city_owner(pcity_out_of_dest)) {
+        notify_player(city_owner(pcity_out_of_dest),
+                      city_tile(pcity_out_of_dest),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("Trade route between %s and %s canceled."),
+                      destcity_link,
+                      city_link(pcity_out_of_dest));
+      } else {
+        notify_player(city_owner(pcity_out_of_dest),
+                      city_tile(pcity_out_of_dest),
+                      E_CARAVAN_ACTION, ftc_server,
+                      _("Sorry, the %s canceled the trade route "
+                        "from %s to your city %s."),
+                      nation_plural_for_player(city_owner(pcity_dest)),
+                      destcity_link,
+                      city_link(pcity_out_of_dest));
+      }
+    }
+
+    /* Actually create the new trade route */
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+      if (pcity_homecity->trade[i] == 0) {
+        pcity_homecity->trade[i] = pcity_dest->id;
+        break;
+      }
+    }
+    assert(i < NUM_TRADE_ROUTES);
+
+    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+      if (pcity_dest->trade[i] == 0) {
+        pcity_dest->trade[i] = pcity_homecity->id;
+        break;
+      }
+    }
+    assert(i < NUM_TRADE_ROUTES);
+
     /* Refresh the cities. */
     city_refresh(pcity_homecity);
     city_refresh(pcity_dest);
@@ -1624,7 +1667,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     if (pcity_out_of_dest) {
       city_refresh(pcity_out_of_dest);
     }
-  
+
     /* Notify the owners of the cities. */
     send_city_info(pplayer, pcity_homecity);
     send_city_info(city_owner(pcity_dest), pcity_dest);
