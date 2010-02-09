@@ -1302,10 +1302,6 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 	mapgenerator2();
       }
 
-      if (map.server.generator == 3) {
-        smooth_water_depth();
-      }
-
       /* free terrain selection lists used by make_island() */
       island_terrain_free();
     }
@@ -1330,6 +1326,8 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     if (!map.server.tinyisles) {
       remove_tiny_islands();
     }
+
+    smooth_water_depth();
 
     /* Continent numbers must be assigned before regenerate_lakes() */
     assign_continent_numbers();

@@ -14,15 +14,17 @@
 #include <config.h>
 #endif
 
-/* utilities */
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "rand.h"
-#include "shared.h"		/* bool type */
+#include "shared.h"             /* bool type */
 
 /* common */
 #include "map.h"
 #include "packets.h"
+#include "terrain.h"
+#include "tile.h"
 
 #include "utilities.h"
 
@@ -485,78 +487,88 @@ struct terrain *pick_ocean(int depth)
 }
 
 /**************************************************************************
-  Makes a simple depth map for all ocean tiles based on their proximity
-  to any land tiles and reassignes ocean terrain types based on their
-  MG_OCEAN_DEPTH property values.
-
-  This is used by the island generator to regenerate shallow ocean areas
-  near the coast.
-
-  FIXME: Make the generated shallow areas more interesting, and take into
-  account map parameters. Remove the need for this function by making
-  the generator automatically create shallow ocean areas when islands
-  are created.
+  Determines the minimal distance to the land.
 **************************************************************************/
-void smooth_water_depth(void)
+static int real_distance_to_land(const struct tile *ptile, int max)
 {
-  struct terrain *ocean_type;
-  int num_ocean_types = 0, depth, i;
-  int *dmap;
-  const int dmap_max = 100;
-  const int ocean_max = TERRAIN_OCEAN_DEPTH_MAXIMUM;
-  const int ocean_min = TERRAIN_OCEAN_DEPTH_MINIMUM;
-  const int ocean_span = ocean_max - ocean_min;
+  square_dxy_iterate(ptile, max, atile, dx, dy) {
+    if (!terrain_has_flag(tile_terrain(atile), TER_OCEANIC)) {
+      return map_vector_to_real_distance(dx, dy);
+    }
+  } square_dxy_iterate_end;
+  return max + 1;
+}
 
-  /* Approximately controls how far out the shallow areas will go. */
-  const int spread = 2;
+/**************************************************************************
+  Determines what is the most popular ocean type arround (need 2/3 of the
+  adjcacent tiles).
+**************************************************************************/
+static struct terrain *most_adjacent_ocean_type(const struct tile *ptile)
+{
+  const int need = 2 * map.num_valid_dirs / 3;
+  int count;
 
   terrain_type_iterate(pterrain) {
-    if (pterrain->property[MG_OCEAN_DEPTH] > 0) {
-      num_ocean_types++;
-    }
-  } terrain_type_iterate_end;
-
-  if (num_ocean_types < 2) {
-    return;
-  }
-
-  dmap = fc_malloc(MAP_INDEX_SIZE * sizeof(int));
-
-  whole_map_iterate(ptile) {
-    /* The depth values are reversed so that the diffusion
-     * filter causes land to "flow" out into the ocean. */
-    dmap[tile_index(ptile)] = is_ocean_tile(ptile) ? 0 : dmap_max;
-  } whole_map_iterate_end;
-
-  for (i = 0; i < spread; i++) {
-    /* Use the gaussian diffusion filter to "spread"
-     * the height of the land into the ocean. */
-    smooth_int_map(dmap, TRUE);
-  }
-
-  whole_map_iterate(ptile) {
-    if (!is_ocean_tile(ptile)) {
+    if (!terrain_has_flag(pterrain, TER_OCEANIC)) {
       continue;
     }
 
-    depth = dmap[tile_index(ptile)];
+    count = 0;
+    adjc_iterate(ptile, atile) {
+      if (pterrain == tile_terrain(atile) && need <= ++count) {
+        return pterrain;
+      }
+    } adjc_iterate_end;
+  } terrain_type_iterate_end;
+  return NULL;
+}
 
-    /* Reverse the diffusion filter hack. */
-    depth = dmap_max - depth;
+/**************************************************************************
+  Makes a simple depth map for all ocean tiles based on their proximity
+  to any land tiles and reassignes ocean terrain types based on their
+  MG_OCEAN_DEPTH property values.
+**************************************************************************/
+void smooth_water_depth(void)
+{
+  const int OCEAN_DEPTH_STEP = 25;
+  const int OCEAN_DEPTH_RAND = 15;
+  const int OCEAN_DIST_MAX = TERRAIN_OCEAN_DEPTH_MAXIMUM / OCEAN_DEPTH_STEP;
+  struct terrain *ocean;
+  int dist;
 
-    /* Scale the depth value from the interval [0, dmap_max]
-     * to [ocean_min, ocean_max]. */
-    depth = ocean_min + ocean_span * depth / dmap_max;
+  /* First, improve the coasts. */
+  whole_map_iterate(ptile) {
+    if (!terrain_has_flag(tile_terrain(ptile), TER_OCEANIC)) {
+      continue;
+    }
 
-    /* Make sure that depth value is something that the
-     * function pick_ocean can understand. */
-    depth = CLIP(ocean_min, depth, ocean_max);
-
-    ocean_type = pick_ocean(depth);
-    if (ocean_type) {
-      tile_set_terrain(ptile, ocean_type);
+    dist = real_distance_to_land(ptile, OCEAN_DIST_MAX);
+    if (dist <= OCEAN_DIST_MAX) {
+      /* Overwrite the terrain. */
+      ocean = pick_ocean(dist * OCEAN_DEPTH_STEP + myrand(OCEAN_DEPTH_RAND));
+      if (NULL != ocean && ocean != tile_terrain(ptile)) {
+        log_debug("Replacing %s by %s at (%d, %d) "
+                  "to have shallow ocean on coast.",
+                  terrain_rule_name(tile_terrain(ptile)),
+                  terrain_rule_name(ocean), TILE_XY(ptile));
+        tile_set_terrain(ptile, ocean);
+      }
     }
   } whole_map_iterate_end;
 
-  free(dmap);
+  /* Now, try to have something more continous. */
+  whole_map_iterate(ptile) {
+    if (!terrain_has_flag(tile_terrain(ptile), TER_OCEANIC)) {
+      continue;
+    }
+
+    ocean = most_adjacent_ocean_type(ptile);
+    if (NULL != ocean && ocean != tile_terrain(ptile)) {
+      log_debug("Replacing %s by %s at (%d, %d) "
+                "to smooth the ocean types.",
+                terrain_rule_name(tile_terrain(ptile)),
+                terrain_rule_name(ocean), TILE_XY(ptile));
+      tile_set_terrain(ptile, ocean);
+    }
+  } whole_map_iterate_end;
 }
