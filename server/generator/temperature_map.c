@@ -89,7 +89,6 @@ void create_tmap(bool real)
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(ptile) {
-  
      /* the base temperature is equal to base map_colatitude */
     int t = map_colatitude(ptile);
     if (!real) {
@@ -147,7 +146,7 @@ static char *tmap_y2str(int ycoor)
   char *p = buf;
   int i, index;
 
-  for (i = 0; i < map.ysize; i++) {
+  for (i = 0; i < map.xsize; i++) {
     index = ycoor * map.xsize + i;
 
     if (index > map.xsize * map.ysize) {
