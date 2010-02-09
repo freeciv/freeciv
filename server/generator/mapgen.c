@@ -21,21 +21,24 @@
 #include <string.h>
 #include <time.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "map.h"
 #include "maphand.h" /* assign_continent_numbers(), MAP_NCONT */
 #include "mem.h"
 #include "rand.h"
 #include "shared.h"
 
+/* common */
+#include "map.h"
+
+/* server/generator */
 #include "height_map.h"
 #include "mapgen.h"
 #include "mapgen_topology.h"
 #include "startpos.h"
 #include "temperature_map.h"
 #include "utilities.h"
-
 
 /* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
 #define rmap(ptile) (river_map[tile_index(ptile)])
@@ -46,6 +49,57 @@ static void mapgenerator2(void);
 static void mapgenerator3(void);
 static void mapgenerator4(void);
 static void adjust_terrain_param(void);
+
+/* common variables for generator 2, 3 and 4 */
+struct gen234_state {
+  int isleindex, n, e, s, w;
+  long int totalmass;
+};
+
+/* define one terrain selection */
+struct terrain_select {
+  int weight;
+  enum mapgen_terrain_property target;
+  enum mapgen_terrain_property prefer;
+  enum mapgen_terrain_property avoid;
+  int temp_condition;
+  int wet_condition;
+};
+
+#define SPECLIST_TAG terrain_select
+#include "speclist.h"
+/* list iterator for terrain_select */
+#define terrain_select_list_iterate(tersel_list, ptersel)                   \
+  TYPED_LIST_ITERATE(struct terrain_select, tersel_list, ptersel)
+#define terrain_select_list_iterate_end                                     \
+  LIST_ITERATE_END
+
+static struct terrain_select *tersel_new(int weight,
+                                         enum mapgen_terrain_property target,
+                                         enum mapgen_terrain_property prefer,
+                                         enum mapgen_terrain_property avoid,
+                                         int temp_condition,
+                                         int wet_condition);
+static void tersel_free(struct terrain_select *ptersel);
+
+/* terrain selection lists for make_island() */
+static struct {
+  bool init;
+  struct terrain_select_list *forest;
+  struct terrain_select_list *desert;
+  struct terrain_select_list *mountain;
+  struct terrain_select_list *swamp;
+} island_terrain = { .init = FALSE };
+
+static void island_terrain_init(void);
+static void island_terrain_free(void);
+
+static void fill_island(int coast, long int *bucket,
+                        const struct terrain_select_list *tersel_list,
+                        const struct gen234_state *const pstate);
+static bool make_island(int islemass, int starters,
+                        struct gen234_state *pstate,
+                        int min_specific_island_size);
 
 #define RIVERS_MAXTRIES 32767
 enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
@@ -356,11 +410,17 @@ static void make_relief(void)
 	  (myrand(10) > 5 
 	   || !terrain_is_too_high(ptile, hmap_mountain_level, hmap(ptile))))
 	 || terrain_is_too_flat(ptile, hmap_mountain_level, hmap(ptile)))) {
-      struct terrain *pterrain
-	= pick_terrain(MG_MOUNTAINOUS, MG_LAST,
-		       (tmap_is(ptile, TT_NHOT) ? MG_GREEN : MG_LAST));
-
-      tile_set_terrain(ptile, pterrain);
+      if (tmap_is(ptile, TT_HOT)) {
+        /* Prefer hills to mountains in hot regions. */
+        tile_set_terrain(ptile,
+                         pick_terrain(MG_MOUNTAINOUS, myrand(10) < 4
+                                      ? MG_LAST : MG_GREEN, MG_LAST));
+      } else {
+        /* Prefer mountains hills to in cold regions. */
+        tile_set_terrain(ptile,
+                         pick_terrain(MG_MOUNTAINOUS, MG_LAST,
+                                      myrand(10) < 8 ? MG_GREEN : MG_LAST));
+      }
       map_set_placed(ptile);
     }
   } whole_map_iterate_end;
@@ -378,7 +438,7 @@ static void make_polar(void)
 	|| (tmap_is(ptile, TT_COLD)
 	    && (myrand(10) > 7)
 	    && is_temperature_type_near(ptile, TT_FROZEN))) { 
-      tile_set_terrain(ptile, pick_terrain(MG_FROZEN, MG_LAST, MG_LAST));
+      tile_set_terrain(ptile, pick_terrain(MG_FROZEN, MG_LAST, MG_TROPICAL));
     }
   } whole_map_iterate_end;
 }
@@ -538,23 +598,23 @@ static void make_terrains(void)
 
   /* the placement loop */
   do {
-    
+
     PLACE_ONE_TYPE(forests_count , plains_count,
-		   pick_terrain(MG_FOLIAGE, MG_TEMPERATE, MG_LAST),
-		   WC_ALL, TT_NFROZEN, MC_NONE, 60);
+                   pick_terrain(MG_FOLIAGE, MG_TEMPERATE, MG_TROPICAL),
+                   WC_ALL, TT_NFROZEN, MC_NONE, 60);
     PLACE_ONE_TYPE(jungles_count, forests_count,
-		   pick_terrain(MG_FOLIAGE, MG_TROPICAL, MG_COLD),
-		   WC_ALL, TT_TROPICAL, MC_NONE, 50);
+                   pick_terrain(MG_FOLIAGE, MG_TROPICAL, MG_COLD),
+                   WC_ALL, TT_TROPICAL, MC_NONE, 50);
     PLACE_ONE_TYPE(swamps_count, forests_count,
-		   pick_terrain(MG_FOLIAGE, MG_WET, MG_TROPICAL),
-		   WC_NDRY, TT_HOT, MC_LOW, 50);
+                   pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
+                   WC_NDRY, TT_HOT, MC_LOW, 50);
     PLACE_ONE_TYPE(deserts_count, alt_deserts_count,
-		   pick_terrain(MG_DRY, MG_TROPICAL, MG_COLD),
-		   WC_DRY, TT_NFROZEN, MC_NLOW, 80);
+                   pick_terrain(MG_DRY, MG_TROPICAL, MG_COLD),
+                   WC_DRY, TT_NFROZEN, MC_NLOW, 80);
     PLACE_ONE_TYPE(alt_deserts_count, plains_count,
-		   pick_terrain(MG_DRY, MG_TROPICAL, MG_COLD),
-		   WC_ALL, TT_NFROZEN, MC_NLOW, 40);
- 
+                   pick_terrain(MG_DRY, MG_TROPICAL, MG_WET),
+                   WC_ALL, TT_NFROZEN, MC_NLOW, 40);
+
   /* make the plains and tundras */
     if (plains_count > 0) {
       struct tile *ptile;
@@ -1144,7 +1204,7 @@ static void remove_tiny_islands(void)
 static void print_mapgen_map(void)
 {
   int terrain_counts[terrain_count()];
-  int total = 0;
+  int total = 0, ocean = 0;
 
   terrain_type_iterate(pterrain) {
     terrain_counts[terrain_index(pterrain)] = 0;
@@ -1154,16 +1214,38 @@ static void print_mapgen_map(void)
     struct terrain *pterrain = tile_terrain(ptile);
 
     terrain_counts[terrain_index(pterrain)]++;
-    if (!is_ocean(pterrain)) {
-      total++;
+    if (is_ocean(pterrain)) {
+      ocean++;
     }
+    total++;
   } whole_map_iterate_end;
 
+  log_verbose("map settings:");
+  log_verbose("  %-20s :    %5d%%", "mountain_pct", mountain_pct);
+  log_verbose("  %-20s :    %5d%%", "desert_pct", desert_pct);
+  log_verbose("  %-20s :    %5d%%", "forest_pct", forest_pct);
+  log_verbose("  %-20s :    %5d%%", "jungle_pct", jungle_pct);
+  log_verbose("  %-20s :    %5d%%", "swamp_pct", swamp_pct);
+
+  log_verbose("map statistics:");
   terrain_type_iterate(pterrain) {
-    log_debug("%20s : %4d %d%%  ",
-              terrain_rule_name(pterrain),
-              terrain_counts[terrain_index(pterrain)],
-              (terrain_counts[terrain_index(pterrain)] * 100 + 50) / total);
+    if (is_ocean(pterrain)) {
+      log_verbose("  %-20s : %4d %5.1f%% (ocean: %5.1f%%)",
+                  terrain_rule_name(pterrain),
+                  terrain_counts[terrain_index(pterrain)],
+                  (float) terrain_counts[terrain_index(pterrain)] * 100
+                  / total,
+                  (float) terrain_counts[terrain_index(pterrain)] * 100
+                  / ocean);
+    } else {
+      log_verbose("  %-20s : %4d %5.1f%% (land:  %5.1f%%)",
+                  terrain_rule_name(pterrain),
+                  terrain_counts[terrain_index(pterrain)],
+                  (float) terrain_counts[terrain_index(pterrain)] * 100
+                  / total,
+                  (float) terrain_counts[terrain_index(pterrain)] * 100
+                  / (total - ocean));
+    }
   } terrain_type_iterate_end;
 }
 
@@ -1202,8 +1284,11 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
-    
+
     if (map.server.generator == 3) {
+      /* initialise terrain selection lists used by make_island() */
+      island_terrain_init();
+
       /* 2 or 3 players per isle? */
       if (map.server.startpos == 2 || (map.server.startpos == 3)) { 
 	mapgenerator4();
@@ -1220,6 +1305,9 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       if (map.server.generator == 3) {
         smooth_water_depth();
       }
+
+      /* free terrain selection lists used by make_island() */
+      island_terrain_free();
     }
 
     if (map.server.generator == 2) {
@@ -1343,11 +1431,11 @@ static void adjust_terrain_param(void)
   /* 3 - 11 % */
   river_pct = (100 - polar) * (3 + map.server.wetness / 12) / 100;
 
-  /* 6 %  if wetness == 50 && temperature == 50 */
-  swamp_pct = factor * MAX(0,  (map.server.wetness * 9 - 150
-                                + map.server.temperature * 6));
-  desert_pct =factor * MAX(0, (map.server.temperature * 15 - 250
-                               + (100 - map.server.wetness) * 10)) ;
+  /* 7 %  if wetness == 50 && temperature == 50 */
+  swamp_pct = factor * MAX(0, (map.server.wetness * 12 - 150
+                               + map.server.temperature * 10));
+  desert_pct = factor * MAX(0, (map.server.temperature * 15 - 250
+                                + (100 - map.server.wetness) * 10)) ;
 }
 
 /****************************************************************************
@@ -1440,14 +1528,6 @@ static void add_resources(int prob)
 }
 
 /**************************************************************************
-  common variables for generator 2, 3 and 4
-**************************************************************************/
-struct gen234_state {
-  int isleindex, n, e, s, w;
-  long int totalmass;
-};
-
-/**************************************************************************
 Returns a random position in the rectangle denoted by the given state.
 **************************************************************************/
 static struct tile *get_random_map_position_from_state(
@@ -1468,64 +1548,111 @@ static struct tile *get_random_map_position_from_state(
 }
 
 /**************************************************************************
-  fill an island with up four types of terrains, rivers have extra code
+  ...
+**************************************************************************/
+static struct terrain_select *tersel_new(int weight,
+                                         enum mapgen_terrain_property target,
+                                         enum mapgen_terrain_property prefer,
+                                         enum mapgen_terrain_property avoid,
+                                         int temp_condition,
+                                         int wet_condition)
+{
+  struct terrain_select *ptersel = fc_malloc(sizeof(*ptersel));
+
+  ptersel->weight = weight;
+  ptersel->target = target;
+  ptersel->prefer = prefer;
+  ptersel->avoid = avoid;
+  ptersel->temp_condition = temp_condition;
+  ptersel->wet_condition = wet_condition;
+
+  return ptersel;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void tersel_free(struct terrain_select *ptersel)
+{
+  if (ptersel != NULL) {
+    FC_FREE(ptersel);
+  }
+}
+
+/**************************************************************************
+  Fill an island with different types of terrains; rivers have extra code.
 **************************************************************************/
 static void fill_island(int coast, long int *bucket,
-			int warm0_weight, int warm1_weight,
-			int cold0_weight, int cold1_weight,
-			struct terrain *warm0,
-			struct terrain *warm1,
-			struct terrain *cold0,
-			struct terrain *cold1,
-			const struct gen234_state *const pstate)
+                        const struct terrain_select_list *tersel_list,
+                        const struct gen234_state *const pstate)
 {
-  int i, k, capac;
+  int i, k, capac, total_weight = 0;
+  int ntersel = terrain_select_list_size(tersel_list);
   long int failsafe;
 
-  if (*bucket <= 0 ) return;
+  if (*bucket <= 0 ) {
+    return;
+  }
+
+  /* must have at least one terrain selection given in tersel_list */
+  log_assert_ret(ntersel != 0);
+
   capac = pstate->totalmass;
   i = *bucket / capac;
   i++;
   *bucket -= i * capac;
 
-  k= i;
+  k = i;
   failsafe = i * (pstate->s - pstate->n) * (pstate->e - pstate->w);
-  if (failsafe<0) {
-    failsafe= -failsafe;
+  if (failsafe < 0) {
+    failsafe = -failsafe;
   }
 
-  if (warm0_weight + warm1_weight + cold0_weight + cold1_weight <= 0)
-    i= 0;
+  terrain_select_list_iterate(tersel_list, ptersel) {
+    total_weight += ptersel->weight;
+  } terrain_select_list_iterate_end;
+
+  if (total_weight <= 0) {
+    return;
+  }
 
   while (i > 0 && (failsafe--) > 0) {
-    struct tile *ptile =  get_random_map_position_from_state(pstate);
+    struct tile *ptile = get_random_map_position_from_state(pstate);
 
-    if (tile_continent(ptile) == pstate->isleindex &&
-	not_placed(ptile)) {
+    if (tile_continent(ptile) != pstate->isleindex || !not_placed(ptile)) {
+      continue;
+    }
 
-      /* the first condition helps make terrain more contiguous,
-	 the second lets it avoid the coast: */
-      if ( ( i*3>k*2 
-	     || is_terrain_near_tile(ptile, warm0, FALSE) 
-	     || is_terrain_near_tile(ptile, warm1, FALSE)
-	     || myrand(100)<50 
-	     || is_terrain_near_tile(ptile, cold0, FALSE)
-	     || is_terrain_near_tile(ptile, cold1, FALSE)
-	     )
-	   &&( !is_cardinally_adj_to_ocean(ptile) || myrand(100) < coast )) {
-	if (map_colatitude(ptile) < COLD_LEVEL) {
-	  tile_set_terrain(ptile, (myrand(cold0_weight
-					+ cold1_weight) < cold0_weight) 
-			  ? cold0 : cold1);
-	  map_set_placed(ptile);
-	} else {
-	  tile_set_terrain(ptile, (myrand(warm0_weight
-					+ warm1_weight) < warm0_weight) 
-			  ? warm0 : warm1);
-	  map_set_placed(ptile);
-	}
-      }
-      if (!not_placed(ptile)) i--;
+    struct terrain_select *ptersel
+      = terrain_select_list_get(tersel_list, myrand(ntersel));
+
+    if (myrand(total_weight) > ptersel->weight) {
+      continue;
+    }
+
+    if (!tmap_is(ptile, ptersel->temp_condition)
+        || !test_wetness(ptile, ptersel->wet_condition)) {
+      continue;
+    }
+
+    struct terrain *pterrain = pick_terrain(ptersel->target, ptersel->prefer,
+                                            ptersel->avoid);
+
+    /* the first condition helps make terrain more contiguous,
+       the second lets it avoid the coast: */
+    if ((i * 3 > k * 2
+         || myrand(100) < 50
+         || is_terrain_near_tile(ptile, pterrain, FALSE))
+        && (!is_cardinally_adj_to_ocean(ptile) || myrand(100) < coast)) {
+      tile_set_terrain(ptile, pterrain);
+      map_set_placed(ptile);
+
+      log_debug("[fill_island] placed terrain '%s' at (%2d,%2d)",
+                terrain_rule_name(pterrain), TILE_XY(ptile));
+    }
+
+    if (!not_placed(ptile)) {
+      i--;
     }
   }
 }
@@ -1598,6 +1725,11 @@ static void fill_island_rivers(int coast, long int *bucket,
     ptile = get_random_map_position_from_state(pstate);
     if (tile_continent(ptile) != pstate->isleindex
         || tile_has_special(ptile, S_RIVER)) {
+      continue;
+    }
+
+    if (test_wetness(ptile, WC_DRY) && myrand(100) < 50) {
+      /* rivers don't like dry locations */
       continue;
     }
 
@@ -1779,26 +1911,123 @@ static bool create_island(int islemass, struct gen234_state *pstate)
 /*************************************************************************/
 
 /**************************************************************************
+  Initialize terrain selection lists for make_island().
+***************************************************************************/
+static void island_terrain_init(void)
+{
+  struct terrain_select *ptersel;
+
+  /* forest */
+  island_terrain.forest = terrain_select_list_new();
+  ptersel = tersel_new(1, MG_FOLIAGE, MG_TROPICAL, MG_DRY,
+                       TT_TROPICAL, WC_ALL);
+  terrain_select_list_append(island_terrain.forest, ptersel);
+  ptersel = tersel_new(3, MG_FOLIAGE, MG_TEMPERATE, MG_LAST,
+                       TT_ALL, WC_ALL);
+  terrain_select_list_append(island_terrain.forest, ptersel);
+  ptersel = tersel_new(1, MG_FOLIAGE, MG_WET, MG_FROZEN,
+                       TT_TROPICAL, WC_NDRY);
+  terrain_select_list_append(island_terrain.forest, ptersel);
+  ptersel = tersel_new(1, MG_FOLIAGE, MG_COLD, MG_LAST,
+                       TT_NFROZEN, WC_ALL);
+  terrain_select_list_append(island_terrain.forest, ptersel);
+
+  /* desert */
+  island_terrain.desert = terrain_select_list_new();
+  ptersel = tersel_new(3, MG_DRY, MG_TROPICAL, MG_GREEN,
+                       TT_HOT, WC_DRY);
+  terrain_select_list_append(island_terrain.desert, ptersel);
+  ptersel = tersel_new(2, MG_DRY, MG_TEMPERATE, MG_GREEN,
+                       TT_NFROZEN, WC_DRY);
+  terrain_select_list_append(island_terrain.desert, ptersel);
+  ptersel = tersel_new(1, MG_COLD, MG_DRY, MG_TROPICAL,
+                       TT_NHOT, WC_DRY);
+  terrain_select_list_append(island_terrain.desert, ptersel);
+  ptersel = tersel_new(1, MG_FROZEN, MG_DRY, MG_LAST,
+                       TT_FROZEN, WC_DRY);
+  terrain_select_list_append(island_terrain.desert, ptersel);
+
+  /* mountain */
+  island_terrain.mountain = terrain_select_list_new();
+  ptersel = tersel_new(2, MG_MOUNTAINOUS, MG_GREEN, MG_LAST,
+                       TT_ALL, WC_ALL);
+  terrain_select_list_append(island_terrain.mountain, ptersel);
+  ptersel = tersel_new(1, MG_MOUNTAINOUS, MG_LAST, MG_GREEN,
+                       TT_ALL, WC_ALL);
+  terrain_select_list_append(island_terrain.mountain, ptersel);
+
+  /* swamp */
+  island_terrain.swamp = terrain_select_list_new();
+  ptersel = tersel_new(1, MG_WET, MG_TROPICAL, MG_FOLIAGE,
+                       TT_TROPICAL, WC_NDRY);
+  terrain_select_list_append(island_terrain.swamp, ptersel);
+  ptersel = tersel_new(2, MG_WET, MG_TEMPERATE, MG_FOLIAGE,
+                       TT_HOT, WC_NDRY);
+  terrain_select_list_append(island_terrain.swamp, ptersel);
+  ptersel = tersel_new(1, MG_WET, MG_COLD, MG_FOLIAGE,
+                       TT_NHOT, WC_NDRY);
+  terrain_select_list_append(island_terrain.swamp, ptersel);
+
+  island_terrain.init = TRUE;
+}
+
+/**************************************************************************
+  Free memory allocated for terrain selection lists.
+***************************************************************************/
+static void island_terrain_free(void)
+{
+  if (!island_terrain.init) {
+    return;
+  }
+
+  terrain_select_list_iterate(island_terrain.forest, ptersel) {
+    terrain_select_list_unlink(island_terrain.forest, ptersel);
+    tersel_free(ptersel);
+  } terrain_select_list_iterate_end;
+
+  terrain_select_list_iterate(island_terrain.desert, ptersel) {
+    terrain_select_list_unlink(island_terrain.desert, ptersel);
+    tersel_free(ptersel);
+  } terrain_select_list_iterate_end;
+
+  terrain_select_list_iterate(island_terrain.mountain, ptersel) {
+    terrain_select_list_unlink(island_terrain.mountain, ptersel);
+    tersel_free(ptersel);
+  } terrain_select_list_iterate_end;
+
+  terrain_select_list_iterate(island_terrain.swamp, ptersel) {
+    terrain_select_list_unlink(island_terrain.swamp, ptersel);
+    tersel_free(ptersel);
+  } terrain_select_list_iterate_end;
+
+  island_terrain.init = FALSE;
+}
+
+/**************************************************************************
   make an island, fill every tile type except plains
   note: you have to create big islands first.
   Return TRUE if successful.
   min_specific_island_size is a percent value.
 ***************************************************************************/
 static bool make_island(int islemass, int starters,
-			struct gen234_state *pstate,
-			int min_specific_island_size)
+                        struct gen234_state *pstate,
+                        int min_specific_island_size)
 {
   /* int may be only 2 byte ! */
   static long int tilefactor, balance, lastplaced;
   static long int riverbuck, mountbuck, desertbuck, forestbuck, swampbuck;
-
   int i;
+
+  /* The terrain selection lists have to be initialised.
+   * (see island_terrain_init()) */
+  assert(island_terrain.init == TRUE);
 
   if (islemass == 0) {
     /* this only runs to initialise static things, not to actually
      * create an island. */
     balance = 0;
-    pstate->isleindex = map.num_continents + 1;	/* 0= none, poles, then isles */
+    /* 0 = none, poles, then isles */
+    pstate->isleindex = map.num_continents + 1;
 
     checkmass = pstate->totalmass;
 
@@ -1867,38 +2096,21 @@ static bool make_island(int islemass, int starters,
     riverbuck += river_pct * i;
     fill_island_rivers(1, &riverbuck, pstate);
 
-    mountbuck += mountain_pct * i;
-    fill_island(20, &mountbuck,
-		3, 1, 3,1,
-		pick_terrain(MG_MOUNTAINOUS, MG_GREEN, MG_LAST),
-		pick_terrain(MG_MOUNTAINOUS, MG_LAST, MG_GREEN),
-		pick_terrain(MG_MOUNTAINOUS, MG_GREEN, MG_LAST),
-		pick_terrain(MG_MOUNTAINOUS, MG_LAST, MG_GREEN),
-		pstate);
-    desertbuck += desert_pct * i;
-    fill_island(40, &desertbuck,
-		1, 1, 1, 1,
-		pick_terrain(MG_DRY, MG_TROPICAL, MG_LAST),
-		pick_terrain(MG_DRY, MG_TROPICAL, MG_LAST),
-		pick_terrain(MG_DRY, MG_TROPICAL, MG_LAST),
-		pick_terrain(MG_COLD, MG_LAST, MG_LAST),
-		pstate);
+    /* forest */
     forestbuck += forest_pct * i;
-    fill_island(60, &forestbuck,
-		forest_pct, swamp_pct, forest_pct, swamp_pct,
-		pick_terrain(MG_FOLIAGE, MG_TEMPERATE, MG_LAST),
-		pick_terrain(MG_FOLIAGE, MG_TROPICAL, MG_COLD),
-		pick_terrain(MG_FOLIAGE, MG_TEMPERATE, MG_LAST),
-		pick_terrain(MG_FOLIAGE, MG_TROPICAL, MG_COLD),
-		pstate);
+    fill_island(60, &forestbuck, island_terrain.forest, pstate);
+
+    /* desert */
+    desertbuck += desert_pct * i;
+    fill_island(40, &desertbuck, island_terrain.desert, pstate);
+
+    /* mountain */
+    mountbuck += mountain_pct * i;
+    fill_island(20, &mountbuck, island_terrain.mountain, pstate);
+
+    /* swamp */
     swampbuck += swamp_pct * i;
-    fill_island(80, &swampbuck,
-		1, 1, 1, 1,
-		pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
-		pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
-		pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
-		pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
-		pstate);
+    fill_island(80, &swampbuck, island_terrain.swamp, pstate);
 
     pstate->isleindex++;
     map.num_continents++;
