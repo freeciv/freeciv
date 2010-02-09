@@ -40,47 +40,48 @@ init_units=""
 civilwar_nations = "thai", "cambodian", "burmese", "vietnamese"
 
 cities =
- "Viangchan",
- "Louangphrabang",
+ "Vientiane", ; Viangchan
+ "Louangphrabang", ; Luang Prabang
  "Pakxe",
- "Attapu",
- "Salavan",
+ "Samakkhixai", ; Attapu
+ "Saravan", ; Salavan
+ "Khanthabouri",
  "Savannakhet",
- "Muang Khammouan",
- "Muang Pakxan",
+ "Thakhek", ; Muang Khammouan
+ "Pakxan", ; Muang Pakxan
  "Phongsali",
- "Ban Mouang Cha",
- "Xam Nua",
- "Ban Houayxay",
- "Xaignabouli",
- "Muang Xai",
- "Louang Namtha",
- "Muang Khong",
+ "Xaisomboun", ; Ban Mouang Cha
+ "Xam-Nua",
+ "Houayxay", ; Ban Houayxay
+ "Xaignabouri", ; Xaignabouli
+ "Xai", ; Muang Xai
+ "Louang-Namtha",
+ "Khong", ; Muang Khong
  "Champasak",
- "Lamarn",
- "Ban Bak",
- "Muang Khongxedon",
- "Muang Phin",
- "Muang Xepon",
- "Ban Xeno",
- "Ban Na Phao",
- "Ban Lakxao",
- "Ban Nape",
- "Muang Khamkeut",
- "Muang Pak-Lay",
- "Muang Phon-Hong",
- "Muang Thathom",
- "Xiangkhoang",
- "Ban Ban",
- "Viangxai",
- "Muang Xon",
- "Ban Muang-Et",
- "Ban Nale",
- "Muang Hongsa",
- "Ban Phoukhoun",
- "Khoa",
- "Ban Nambak",
- "Muang Pakbeng",
- "Muang Houn",
- "Ban Muang Qu-Tai",
- "Sing Buri"
+ "Laman", ; Lamarn
+ "Pek",
+ "Wang Tao",
+ "Phin", ; Muang Phin
+ "Xepon", ; Muang Xepon
+ "Champhon",
+ "Nam Phao", ; Ban Na Phao
+ "Pakkading",
+ "Nakay",
+ "Borikhan",
+ "Vangviang",
+ "Phonhong", ; Muang Phon-Hong
+ "Khoun",
+ "Kham",
+ "Phoukout",
+ "Xiangkho",
+ "Xiang-Ngeun",
+ "Xam-Tai",
+ "Chomphet",
+ "Xaithani",
+ "Phoukhoun", ; Ban Phoukhoun
+ "Boun Nua",
+ "Pha-Oudom",
+ "Pakbeng", ; Muang Pakbeng
+ "Boten",
+ "Long",
+ "Sing"
