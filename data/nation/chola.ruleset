@@ -2,7 +2,7 @@
 
 name=_("Chola")
 plural=_("?plural:Cholas")
-groups="Asian", "Ancient"
+groups="Asian", "Medieval"
 
 legend=_("The Cholas were a Tamil dynasty centered in southern India and\
  were rare in their level of influence in northern India. They began as a\
