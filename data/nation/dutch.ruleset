@@ -2,24 +2,43 @@
 
 name=_("Dutch")
 plural=_("?plural:Dutch")
-groups="Modern", "Medieval", "European"
+groups="Modern", "European"
 legend=_("When the Holy Roman Emperor sentenced the entire population to\
  death, the people of the Netherlands revolted and declared themselves\
  independent, forming the Union of Utrecht in 1579. The Netherlands grew\
  to be a dominant maritime and economic power in the 17th century.")
 leader=
- "Willem I",
+ "Willem de Zwijger",
  "Maurits",
- "Emma",
+ "Johan van Oldenbarnevelt",
+ "Frederik Hendrik",
+ "Johan de Witt",
+ "Willem IV",
+ "Willem V",
+ "Herman Willem Daendels",
+ "Lodewijk Napoleon",
+ "Willem I",
+ "Willem II",
+ "Johan Rudolph Thorbecke",
+ "Willem III",
+ "Abraham Kuyper",
  "Wilhelmina",
- "Juliana"
-leader_sex="Male", "Male", "Female", "Female", "Female"
+ "Hendrikus Colijn",
+ "Willem Drees",
+ "Juliana",
+ "Joop den Uyl",
+ "Beatrix"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male",
+ "Female", "Male", "Female"
 flag="netherlands"
 flag_alt = "holland"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
 		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
                  "Democracy", _("Prime Minister"),_("?female:Prime Minister")
+                 "Fundamentalism",       _("Reverend"), _("?female:Reverend")
                }
 
 init_techs=""
@@ -27,30 +46,93 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations="boer", "belgian", "frisian"
-
-;names from the Golden Age, from Holland circling outward
-;later important towns added at the end
+conflicts_with="burgundian"
+civilwar_nations="boer", "belgian", "frisian", "indonesian"
 
 cities =
-  "Amsterdam (ocean)", "Utrecht", "Leiden", "Haarlem", "Delft", "Alkmaar",
-  "Hoorn (ocean)", "Enkhuizen (ocean)", "'s-Gravenhage (ocean)", "Dordrecht (river)",
-  "Gouda", "Naarden",
-  "Rotterdam (ocean)", "Delfshaven (river)", "Schiedam (river)", "Vlaardingen (river)",
-  "Middelburg", "Goes (ocean)", "Veere (ocean)", "Vlissingen (ocean)",
-  "Brouwershaven (ocean)",
-  "Deventer", "Kampen (river)", "Zutphen (river)", "Zwolle (river)", "Arnhem (river, forest)",
-  "Amersfoort (forest)",
-  "Groningen", "Leeuwarden", "Dokkum", "Sneek (river)", "Stavoren (ocean)",
-  "Franeker (river)",
-  "Breda (forest)", "'s-Hertogenbosch (forest)", "Nijmegen", "Venlo", "Roermond", "Maastricht (river, hills)",
-  "Helmond", "Eindhoven", "Bergen op Zoom", "Hulst", "Batavia (ocean)", 
-  "Willemstad (ocean)",
-  "Tilburg", "Enschede", "Hengelo", "Almelo", "Oss",
-  "Heerlen", "Sittard", "Geleen", "Weert",
-  "Apeldoorn (forest)", "Ede (forest)", "Wageningen (forest)", "Veenendaal",
-  "Assen", "Emmen", "Hoogeveen", "Drachten", "Delfzijl (ocean)", "Veendam (river)",
-  "Zaandam (river)", "Beverwijk", "Velsen", "Purmerend", "Hilversum (forest)", "Bussum (forest)",
-  "Alphen a/d Rijn (river)", "Zoetermeer", "Woerden", "Capelle a/d IJssel (river)",
-  "Spijkenisse (river)", "Terneuzen (ocean)", "Emmeloord (ocean)", "Lelystad (ocean)", 
-  "Almere (ocean)"
+ "Amsterdam (ocean, lake, grassland)",
+ "Den Haag (ocean)",
+ "Rotterdam (river, grassland)",
+ "Utrecht (grassland, river)",
+ "Leiden (grassland, river)",
+ "Haarlem (forest)",
+ "Delft (grassland)",
+ "Nijmegen (river, forest, hills)",
+ "Groningen (plains)", 
+ "Leeuwarden (grassland)", 
+ "Middelburg (grassland)",
+ "Alkmaar (grassland, swamp)",
+ "Hoorn (ocean, lake)",
+ "Enkhuizen (ocean, lake)",
+ "Dordrecht (river, swamp)",
+ "Deventer (river, forest)",
+ "Maastricht (river, hills)",
+ "Zwolle (river)",
+ "Gouda (grassland)",
+ "Arnhem (river, forest, hills)",
+ "'s-Hertogenbosch (forest, swamp)",
+ "Schiedam (river)",
+ "Vlissingen (ocean)",
+ "Kampen (river)",
+ "Zutphen (river, forest)",
+ "Amersfoort (forest, hills, river)",
+ "Breda (forest)", 
+ "Dokkum (plains)", 
+ "Eindhoven (forest)", 
+ "Naarden (forest)",
+ "Sneek (river)",
+ "Stavoren (ocean, lake)",
+ "Venlo (river, forest)", 
+ "Enschede (forest)",
+ "Roermond (river, forest)",
+ "Delfshaven (river)",
+ "Goes (ocean)",
+ "Veere (ocean)",
+ "Franeker (river)",
+ "Assen (forest, plains)", 
+ "Bergen op Zoom (ocean, lake, forest)",
+ "Emmen (forest, plains, swamp)", 
+ "Hulst (swamp)",
+ "Hengelo (forest)",
+ "Apeldoorn (forest, hills)",
+ "Almelo (forest)",
+ "Heerlen (hills)",
+ "Vlaardingen (river)",
+ "Weert (forest)",
+ "Sittard (hills)",
+ "Purmerend (grassland)", 
+ "Helmond (forest)", 
+ "Geleen (hills)",
+ "Roosendaal (forest)",
+ "Ede (forest)",
+ "Wageningen (forest, river)",
+ "Hilversum (forest)",
+ "Brouwershaven (ocean)",
+ "Veenendaal (plains)",
+ "Hoogeveen (forest, swamp)",
+ "Zaandam (river)",
+ "Drachten (swamp)",
+ "Lelystad (ocean)",
+ "Terneuzen (ocean)",
+ "Oss (plains)",
+ "Woerden (grassland)",
+ "Delfzijl (ocean)",
+ "Alphen a/d Rijn (river, grassland)",
+ "Veendam (swamp)",
+ "Beverwijk (ocean, forest)",
+ "Velsen (ocean)",
+ "Almere (ocean)",
+ "Zoetermeer (grassland)",
+ "Capelle a/d IJssel (river)",
+ "Spijkenisse (river)",
+ "Emmeloord (ocean)",
+ "Appingedam (swamp)",
+ "Harlingen (ocean)",
+ "Hoofddorp (grassland)",
+ "Bussum (forest)",
+ "Naaldwijk (grassland)",
+ "Nieuwegein (river)",
+ "Leidschendam (grassland)",
+ "Den Helder (ocean)",
+ "Zeist (forest)",
+ "Vianen (river)"
