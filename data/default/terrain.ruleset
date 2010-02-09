@@ -357,6 +357,7 @@ native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
 property_dry         = 100
 property_tropical    = 50
+property_temperate   = 20
 helptext             = _("\
 Deserts are regions of extreme dryness, making agriculture and\
  trade very difficult.\
@@ -392,8 +393,10 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "no"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "Starter", "CanHaveRiver"
-property_dry         = 50
+property_cold        = 20
+property_wet         = 20
 property_foliage     = 50
+property_temperate   = 50
 helptext             = _("\
 Forests are densely wooded, making agriculture somewhat\
  problematic.\
@@ -613,8 +616,10 @@ cooler_wetter_result = "no"
 cooler_drier_result  = "terrain_tundra"
 native_to            = "Land", "Air", "Missile", "Helicopter"
 flags                = "CanHaveRiver"
-property_foliage     = 10
 property_wet         = 100
+property_tropical    = 10
+property_temperate   = 10
+property_cold        = 10
 helptext             = _("\
 Swamps suffer from an over-abundance of water, making agriculture\
  somewhat problematic.\
