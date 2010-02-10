@@ -8,18 +8,25 @@ legend=_("Colombia is a country in northern South America. The region was\
  settling Colombia's north coast around 1500. In 1819 the Republic of\
  Colombia gained independence.")
 leader=
- "Simón Bolívar",
  "G. Jiménez de Quesada",
+ "Francisco de Paula Santander",
+ "Simón Bolívar",
  "T. Cipriano de Mosquera",
- "Rafael Núñez"
-leader_sex="Male", "Male", "Male", "Male"
+ "Rafael Núñez",
+ "Jorge Eliécer Gaitán",
+ "Gustavo Rojas Pinilla",
+ "Alberto Lleras Camargo",
+ "Alfonso López Michelsen",
+ "Álvaro Uribe"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male"
 flag="colombia"
 flag_alt = "columbia"	; For backward compatibility
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Anarchy",        _("General"),         _("?female:General")
-                 "Despotism",      _("Governador"),      _("Governadora")
+                 "Communism",      _("Comandante"),      _("Comandanta")
+                 "Despotism",      _("General"),         _("?female:General")
                }
 
 init_techs=""
