@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-10 13:08+0300\n"
+"PO-Revision-Date: 2010-02-10 20:03+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1620,7 +1620,7 @@ msgstr "(типово)"
 #. TRANS: auth option originates from config file
 #: server/auth.c:195
 msgid " (config)"
-msgstr ""
+msgstr "(конф╕гурац╕я)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:199
@@ -13074,7 +13074,7 @@ msgstr "Охороня╓"
 #: client/gui-gtk-2.0/editprop.c:3763
 #: client/gui-gtk-2.0/editprop.c:3789
 msgid "Image"
-msgstr ""
+msgstr "Зображення"
 
 #: client/gui-gtk-2.0/editprop.c:3732
 #, fuzzy
@@ -20082,7 +20082,7 @@ msgstr ""
 
 #: data/helpdata.txt:1534
 msgid "The diplomatic state between players defaults to War. During War, you can freely move your units inside enemy territory and attack their units and cities at will."
-msgstr ""
+msgstr "Типовий дипломатичний стан м╕ж гравцями - В╕йна. Протягом в╕йни п╕дрозд╕ли можуть в╕льно рухатися кр╕зь ворожу територ╕ю, а також атакувати ворож╕ м╕ста та п╕дрозд╕ли."
 
 #: data/helpdata.txt:1538
 msgid "When two players decide to end hostilities between them, they can agree on a Cease-fire treaty. This prevents each player from attacking the other, but you can still move your units inside the other player's borders. After a set number of turns, the Cease-fire will lead back to War. Upon first contact with an AI player, it will automatically offer you a Cease-fire treaty."
@@ -21348,6 +21348,9 @@ msgid ""
 "\n"
 "Anarchy offers slightly less corruption than Despotism, but slightly more unhappiness."
 msgstr ""
+"Анарх╕я - це просто в╕дсутн╕сть визнаного уряду. Громадяни неорган╕зован╕ та непродуктивн╕; вони якнайшвидше витрачатимуть зароблене, зам╕сть того щоб сплачувати податки чи займатися досл╕дженнями.\n"
+"\n"
+"За Анарх╕╖ р╕вень корупц╕╖ трохи менший, н╕ж за Деспотизму, але люди менш щаслив╕."
 
 #: data/default/governments.ruleset:72
 #: data/civ2/governments.ruleset:69
@@ -21376,6 +21379,9 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption of all forms of government."
 msgstr ""
+"За Деспотизму, ви - абсолютний володар свого народу. Ваш контроль над громадянами значною м╕рою спира╓ться на в╕йськове положення.\n"
+"\n"
+"Деспотизм зазна╓ найвищого р╕вню корупц╕╖ пом╕ж ус╕х форм правл╕ння."
 
 #: data/default/governments.ruleset:92
 #: data/civ2/governments.ruleset:89
@@ -21405,6 +21411,9 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption that the Republic does."
 msgstr ""
+"За Монарх╕╖, король або королева викону╓ функц╕╖ спадкового ном╕нального кер╕вника уряду.\n"
+"\n"
+"Монарх╕╖ властивий такий же низький р╕вень корупц╕╖, як ╕ Республ╕ц╕."
 
 #: data/default/governments.ruleset:114
 #: data/civ2/governments.ruleset:111
@@ -21473,7 +21482,7 @@ msgstr "Консул"
 #: data/civ2/governments.ruleset:173
 #: data/civ1/governments.ruleset:147
 msgid "Under a Republican government, citizens hold an election to select a representative who will govern them; since elected leaders must remain popular to remain in control, citizens are given a greater degree of freedom.  Citizens under the Republic become unhappy easily, but the self-sufficiency of your citizens allows high levels of trade."
-msgstr ""
+msgstr "За республ╕канського правл╕ння громадяни проводять вибори, щоб обрати представник╕в, як╕ керуватимуть ними. Оск╕льки обран╕ л╕дери мають збер╕гати свою популярн╕сть, щоб залишатися при влад╕, громадяни мають значний р╕вень свободи. За Республ╕ки громадяни легко стають нещасливими, але ╖х самозабезпечен╕сть дозволя╓ висок╕ об'╓ми торг╕вл╕."
 
 #: data/default/governments.ruleset:160
 #: data/civ2/governments.ruleset:185
@@ -21506,6 +21515,9 @@ msgid ""
 "\n"
 "Anarchy offers slightly less corruption and waste than Despotism, but slightly more unhappiness."
 msgstr ""
+"Анарх╕я - це просто в╕дсутн╕сть визнаного уряду. Громадяни неорган╕зован╕ та непродуктивн╕; вони якнайшвидше витрачатимуть зароблене, зам╕сть того щоб сплачувати податки чи займатися досл╕дженнями.\n"
+"\n"
+"За Анарх╕╖ р╕вень корупц╕╖ та втрат трохи менший, н╕ж за Деспотизму, але люди менш щаслив╕."
 
 #: data/civ2/governments.ruleset:78
 msgid ""
@@ -21513,6 +21525,9 @@ msgid ""
 "\n"
 "Despotism suffers the highest level of corruption and waste of all forms of government."
 msgstr ""
+"За Деспотизму, ви - абсолютний володар свого народу. Ваш контроль над громадянами значною м╕рою спира╓ться на в╕йськове положення.\n"
+"\n"
+"Деспотизм зазна╓ найвищого р╕вню корупц╕╖ та втрат пом╕ж ус╕х форм правл╕ння."
 
 #: data/civ2/governments.ruleset:100
 msgid ""
@@ -21520,6 +21535,9 @@ msgid ""
 "\n"
 "Monarchy suffers the same small amount of corruption and waste that the Republic does."
 msgstr ""
+"За Монарх╕╖, король або королева викону╓ функц╕╖ спадкового ном╕нального кер╕вника уряду.\n"
+"\n"
+"Монарх╕╖ властивий такий же низький р╕вень корупц╕╖ та втрат, як ╕ Республ╕ц╕."
 
 #: data/civ2/governments.ruleset:121
 #, fuzzy
@@ -21791,7 +21809,7 @@ msgstr "Л╕таки"
 #: data/civ1/techs.ruleset:241
 #: data/civ1/techs.ruleset:451
 msgid "Decreases one-time revenue from new trade routes."
-msgstr ""
+msgstr "Зменшу╓ разову виручку в╕д нових торгових шлях╕в."
 
 #: data/default/techs.ruleset:297
 #: data/civ2/techs.ruleset:294
@@ -22158,7 +22176,7 @@ msgstr "Озеро"
 
 #: data/default/terrain.ruleset:214
 msgid "Lakes are substantial bodies of fresh water."
-msgstr ""
+msgstr "Озера - це велик╕ скупчення пр╕сно╖ води."
 
 #: data/default/terrain.ruleset:219
 #: data/civ2/terrain.ruleset:181
@@ -22168,7 +22186,7 @@ msgstr "Океан"
 
 #: data/default/terrain.ruleset:249
 msgid "Shallow oceans are mostly found near coastlines, and are often rich sources of food and other resources. They can be traversed by sea units, including Triremes."
-msgstr ""
+msgstr "М╕лководдя знаходиться, переважно, б╕ля узбережжя, ╕ часто ╓ багатим джерелом харч╕в та ╕нших ресурс╕в. ╥х можна перетинати морськими п╕дрозд╕лами, в тому числ╕ Триремами."
 
 #: data/default/terrain.ruleset:256
 msgid "Deep Ocean"
@@ -22553,7 +22571,7 @@ msgstr "Лучники"
 #: data/default/units.ruleset:484
 #: data/civ2/units.ruleset:342
 msgid "Archers fight with bows and arrows and have a good offensive value as well as decent defense."
-msgstr ""
+msgstr "Лучники воюють луками та стр╕лами; у них хороший р╕вень атаки та пристойний захист."
 
 #: data/default/units.ruleset:490
 #: data/civ2/units.ruleset:348
@@ -22565,7 +22583,7 @@ msgstr "Лег╕он"
 #: data/civ2/units.ruleset:374
 #: data/civ1/units.ruleset:295
 msgid "Legions are heavily armed and well disciplined infantry units with an excellent offensive value."
-msgstr ""
+msgstr "Лег╕они - це важко броньована та добре дисципл╕нована п╕хота, з прекрасним р╕внем атаки."
 
 #: data/default/units.ruleset:522
 #: data/civ2/units.ruleset:380
@@ -22575,7 +22593,7 @@ msgstr "П╕к╕нери"
 #: data/default/units.ruleset:548
 #: data/civ2/units.ruleset:406
 msgid "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city defender."
-msgstr ""
+msgstr "П╕к╕нери, озбро╓н╕ довгими п╕ками, зам╕нюють Фалангу у якост╕ першочергового захисника м╕ст."
 
 #: data/default/units.ruleset:554
 #: data/civ2/units.ruleset:412
@@ -22700,7 +22718,7 @@ msgstr "Лицар╕"
 #: data/civ2/units.ruleset:840
 #: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
-msgstr ""
+msgstr "Лицар╕ - це вершники у важких обладунках."
 
 #: data/default/units.ruleset:888
 #: data/civ2/units.ruleset:845
