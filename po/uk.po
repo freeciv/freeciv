@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-08 20:19+0300\n"
+"PO-Revision-Date: 2010-02-10 13:08+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -472,12 +472,13 @@ msgid "New vote"
 msgstr "Нове голосування"
 
 #: common/events.c:160
+#, fuzzy
 msgid "Vote resolved"
-msgstr ""
+msgstr "Голосування завершено"
 
 #: common/events.c:161
 msgid "Vote cancelled"
-msgstr ""
+msgstr "Голосування скасовано"
 
 #: common/events.c:162
 msgid "Finished"
@@ -1609,12 +1610,12 @@ msgstr "Встановити локальн╕ опц╕╖"
 #. may have been inserted between these.
 #: server/auth.c:187
 msgid " missing from config file (using default)"
-msgstr ""
+msgstr "в╕дсутн╓ у конф╕гурац╕йному файл╕ (використовую типове)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:190
 msgid " (default)"
-msgstr ""
+msgstr "(типово)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:195
@@ -4721,6 +4722,17 @@ msgid ""
 "\n"
 "0 means a very cold planet with large polar zones and no tropics"
 msgstr ""
+"Мал╕ значення сформують холодну карту, тод╕ як велик╕ - жарк╕шу.\n"
+"\n"
+"100 означа╓ дуже суху ╕ жарку планету, без полярних арктичних зон - лише сух╕ та троп╕чн╕ зони.\n"
+"\n"
+"70 означа╓ жарку планету з незначною к╕льк╕стю полярних льод╕в.\n"
+"\n"
+"50 означа╓ пом╕рну планету, з нормальними полярними, холодними, пом╕рними та троп╕чними зонами; зона пустель перекрива╓ться з троп╕чними та пом╕рними зонами.\n"
+"\n"
+"30 означа╓ холодну планету з маленькими троп╕чними зонами.\n"
+"\n"
+"0 означа╓ дуже холодну планету, з великими полярними зонами та без троп╕к╕в."
 
 #: server/settings.c:365
 msgid "Percentage of the map that is land"
@@ -4827,23 +4839,23 @@ msgstr "Розм╕р кешу под╕й"
 
 #: server/settings.c:467
 msgid "This defines the maximal number of events in the event cache."
-msgstr ""
+msgstr "Визнача╓ максимальну к╕льк╕сть под╕й у кеш╕ под╕й."
 
 #: server/settings.c:473
 msgid "Save chat messages in the event cache"
-msgstr ""
+msgstr "Зберегти пов╕домлення чату в кеш╕ под╕й"
 
 #: server/settings.c:474
 msgid "If set to 1 chat messages will be saved in the event cache."
-msgstr ""
+msgstr "Якщо встановлено в 1, пов╕домлення чату будуть збер╕гатися у кеш╕ под╕й."
 
 #: server/settings.c:479
 msgid "Print turn and time for each cached event"
-msgstr ""
+msgstr "Друкувати х╕д ╕ час для кожного закешованого пов╕домлення"
 
 #: server/settings.c:480
 msgid "If set to 1 all cached events will be marked by the turn and time of the event like '(T2 - 15:29:52)'."
-msgstr ""
+msgstr "Якщо встановлено в 1, ус╕ закешован╕ под╕╖ будуть позначен╕ сво╖м ходом ╕ часом, наприклад: '(T2 - 15:29:52)'."
 
 #: server/settings.c:491
 msgid "List of players' initial units"
@@ -5177,7 +5189,7 @@ msgstr "Якщо 1, гравц╕ мають змогу будувати косм╕чн╕й корабель."
 
 #: server/settings.c:834
 msgid "Should the game end if the spaceship arrives?"
-msgstr ""
+msgstr "Чи сл╕д гр╕ зак╕нчитися по прибуттю косм╕чного корабля?"
 
 #: server/settings.c:835
 #, fuzzy
@@ -6101,7 +6113,7 @@ msgstr "Р╕вень доступу до команд для першого гравця хто його в╕зьме: %s"
 
 #: server/stdinhand.c:1192
 msgid "?accslvllist:or "
-msgstr ""
+msgstr "або"
 
 #. TRANS: comma and 'or' separated list of access levels
 #: server/stdinhand.c:1197
@@ -6254,7 +6266,7 @@ msgstr "Оператор сервера: %s"
 #: server/stdinhand.c:1590
 #, c-format
 msgid "Connectmsg truncated to %u bytes."
-msgstr ""
+msgstr "Connectmsg обр╕зано до %u байт."
 
 #: server/stdinhand.c:1636
 #: server/stdinhand.c:1673
@@ -6494,8 +6506,9 @@ msgid "You are not allowed to cancel this vote (%d)."
 msgstr "Вам не дозволено скасовувати це голосування (%d)."
 
 #: server/stdinhand.c:2203
+#, fuzzy
 msgid "Usage: /cancelvote [<vote number>|all]"
-msgstr ""
+msgstr "Використання: /cancelvote [<номер голосу>|all]"
 
 #: server/stdinhand.c:2212
 #, c-format
@@ -6536,7 +6549,7 @@ msgstr "%s технолог╕я у стан╕ в╕дладки"
 #: server/stdinhand.c:2318
 #, c-format
 msgid "players=%d cities=%d citizens=%d units=%d"
-msgstr ""
+msgstr "гравц╕в=%d м╕ст=%d громадян=%d п╕дрозд╕л╕в=%d"
 
 #: server/stdinhand.c:2332
 #: server/stdinhand.c:2363
@@ -7800,7 +7813,7 @@ msgstr ""
 
 #: client/chatline_common.c:241
 msgid "See the \"Copying\" item on the Help menu."
-msgstr ""
+msgstr "Див. пункт \"Коп╕ювання\" у меню Дов╕дки."
 
 #: client/chatline_common.c:243
 msgid "Now ... Go give 'em hell!"
@@ -7946,7 +7959,7 @@ msgstr ""
 #: client/citydlg_common.c:515
 #, c-format
 msgid "%+2.1f : Risk from over crowdness\n"
-msgstr ""
+msgstr "%+2.1f : Ризик в╕д перенаселення\n"
 
 #: client/citydlg_common.c:517
 #, fuzzy, c-format
@@ -8569,14 +8582,12 @@ msgid "Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) 
 msgstr "Автоматично з'╓днуватись з сервером \"%s\" на порту %d як \"%s\" кожн╕ %d.%d секунд напротяз╕ %d раз╕в"
 
 #: client/connectdlg_common.c:207
-#, fuzzy
 msgid "Starting server..."
-msgstr "Стартую гру."
+msgstr "Запуска╓ться сервер..."
 
 #: client/connectdlg_common.c:336
-#, fuzzy
 msgid "Couldn't start the server."
-msgstr "Ви не можете атакувати тут."
+msgstr "Не вдалося запустити сервер."
 
 #: client/connectdlg_common.c:338
 #: client/connectdlg_common.c:373
@@ -8599,7 +8610,7 @@ msgstr "Виводить або встановлю╓ р╕вень доступу до команд."
 
 #: client/connectdlg_common.c:506
 msgid "Failed to obtain the required access level to take control of the server. The server will now be shutdown."
-msgstr ""
+msgstr "Не вдалося отримати р╕вень доступу, необх╕дний для контролю сервера. Тепер сервер буде вимкнено."
 
 #: client/control.c:1151
 msgid "Only transporter units can be unloaded."
@@ -8817,13 +8828,13 @@ msgstr ""
 "              "
 
 #: client/helpdata.c:211
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "\n"
 "Railroad           %3d"
 msgstr ""
 "\n"
-"              "
+"Зал╕зниця        %3d              "
 
 #: client/helpdata.c:214
 #, fuzzy, c-format
@@ -9478,7 +9489,7 @@ msgstr "Можливост╕:\n"
 #: client/helpdata.c:1820
 #: client/helpdata.c:1821
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr "Н╕чого"
 
 #: client/helpdata.c:1828
 #, fuzzy, c-format
@@ -10100,7 +10111,7 @@ msgstr "Якщо цю опц╕ю включено, дерево технолог╕й буде м╕стити ╕конки. Якщо цю о
 
 #: client/options.c:655
 msgid "Color to highlight your player/user name"
-msgstr ""
+msgstr "Кол╕р для п╕дсв╕чування ╕мен╕ вашого гравця/користувача"
 
 #: client/options.c:656
 msgid "If set, your player and user name in the new chat messages will be highlighted using this color as background.  If not set, it will just not highlight anything."
@@ -10221,7 +10232,7 @@ msgstr ""
 
 #: client/options.c:726
 msgid "Enable cursor changing"
-msgstr ""
+msgstr "Дозволити зм╕ну курсора"
 
 #: client/options.c:727
 msgid "This option controls whether the client should try to change the mouse cursor depending on what is being pointed at, as well as to indicate changes in the client or server state."
@@ -10229,7 +10240,7 @@ msgstr ""
 
 #: client/options.c:732
 msgid "Select cities before units"
-msgstr ""
+msgstr "Вибирати м╕ста перед п╕дрозд╕лами"
 
 #: client/options.c:733
 msgid "If this option is enabled, when both cities and units are present in the selection rectangle, only cities will be selected."
@@ -10387,7 +10398,7 @@ msgstr "Якщо це ув╕мкнено, то використову╓ться найкращий метод для в╕дображення 
 
 #: client/options.c:829
 msgid "Show time for each chat message"
-msgstr ""
+msgstr "Показувати час для кожного пов╕домлення чату"
 
 #: client/options.c:830
 msgid "If this option is enabled then all chat messages will be prefixed by a time string of the form [hour:minute:second]."
@@ -10465,7 +10476,7 @@ msgstr "М╕тка Нагадування"
 
 #: client/options.c:899
 msgid "This font is used to display server reports such as the demographic report or historian publications."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для серверних зв╕т╕в, наприклад демограф╕чного зв╕ту чи ╕сторичних публ╕кац╕й."
 
 #: client/options.c:904
 msgid "Spaceship Label"
@@ -10482,7 +10493,7 @@ msgstr "М╕тка Допомоги"
 
 #: client/options.c:910
 msgid "This font is used to display the help headers in the help window."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для заголовк╕в дов╕дки у в╕кн╕ дов╕дки."
 
 #: client/options.c:915
 msgid "Help Link"
@@ -10490,7 +10501,7 @@ msgstr "Ссилка Допомоги"
 
 #: client/options.c:916
 msgid "This font is used to display the help links in the help window."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для посилань дов╕дки у в╕кн╕ дов╕дки."
 
 #: client/options.c:921
 msgid "Help Text"
@@ -10498,7 +10509,7 @@ msgstr "Текст Допомоги"
 
 #: client/options.c:922
 msgid "This font is used to display the help body text in the help window."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для тексту дов╕дки у в╕кн╕ дов╕дки."
 
 #: client/options.c:927
 msgid "Chatline Area"
@@ -10506,7 +10517,7 @@ msgstr "Зона Чату"
 
 #: client/options.c:928
 msgid "This font is used to display the text in the chatline area."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для тексту в чат╕."
 
 #: client/options.c:933
 msgid "Beta Label"
@@ -10522,7 +10533,7 @@ msgstr "Маленький Шрифт"
 
 #: client/options.c:939
 msgid "This font is used for any small font request.  For example, it is used for display the building lists in the city dialog, the economic report or the unit report."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для вс╕х маленьких шрифт╕в. Наприклад, для списку буд╕вель у в╕кн╕ м╕ста, економ╕чного зв╕ту чи зв╕ту про п╕дрозд╕ли."
 
 #: client/options.c:946
 msgid "Comment Label"
@@ -10540,7 +10551,7 @@ msgstr "Назви м╕ст"
 
 #: client/options.c:953
 msgid "This font is used to the display the city names on the map."
-msgstr ""
+msgstr "Цей шрифт використову╓ться для назв м╕ст на мап╕."
 
 #: client/options.c:958
 msgid "City Productions"
