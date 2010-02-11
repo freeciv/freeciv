@@ -245,7 +245,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     switch (preq->range) {
     case REQ_RANGE_PLAYER:
       cat_snprintf(buf, bufsz,
-                   _("Requires to have researched the %s technology.\n"),
+                   _("Requires you to have researched the %s technology.\n"),
                    advance_name_for_player(pplayer, advance_number
                                            (preq->source.value.advance)));
       return TRUE;
@@ -276,7 +276,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_WORLD:
       if (is_great_wonder(preq->source.value.building)) {
         cat_snprintf(buf, bufsz,
-                     _("Requires that the %s wonder is built.\n"),
+                     _("Requires that the %s wonder has been built by "
+                       "any player.\n"),
                      improvement_name_translation
                      (preq->source.value.building));
         return TRUE;
@@ -284,7 +285,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       break;
     case REQ_RANGE_PLAYER:
       if (is_wonder(preq->source.value.building)) {
-        cat_snprintf(buf, bufsz, _("Requires the %s wonder.\n"),
+        cat_snprintf(buf, bufsz, _("Requires you to own the %s wonder.\n"),
                      improvement_name_translation
                      (preq->source.value.building));
         return TRUE;
@@ -293,7 +294,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
       if (is_wonder(preq->source.value.building)) {
         cat_snprintf(buf, bufsz,
-                     _("Requires the %s wonder on the continent.\n"),
+                     _("Requires the %s wonder to be owned by you and on "
+                       "the same continent.\n"),
                      improvement_name_translation
                      (preq->source.value.building));
         return TRUE;
@@ -327,7 +329,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_ADJACENT:
       cat_snprintf(buf, bufsz,
-                   _("Requires the %s terrain special near the tile.\n"),
+                   _("Requires the %s terrain special on the tile or "
+                     "an adjacent tile.\n"),
                    special_name_translation(preq->source.value.special));
       return TRUE;
     case REQ_RANGE_CITY:
@@ -347,7 +350,8 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    terrain_name_translation(preq->source.value.terrain));
       return TRUE;
     case REQ_RANGE_ADJACENT:
-      cat_snprintf(buf, bufsz,_("Requires the %s terrain near the tile.\n"),
+      cat_snprintf(buf, bufsz,_("Requires the %s terrain on the tile or "
+                                "an adjacent tile.\n"),
                    terrain_name_translation(preq->source.value.terrain));
       return TRUE;
     case REQ_RANGE_CITY:
@@ -480,7 +484,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
       return TRUE;
     case REQ_RANGE_ADJACENT:
       cat_snprintf(buf, bufsz,
-                   _("Requires %s terrain class near the tile.\n"),
+                   _("Requires %s terrain class on an adjacent tile.\n"),
                    terrain_class_name_translation
                    (preq->source.value.terrainclass));
       return TRUE;
@@ -501,7 +505,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    base_name_translation(preq->source.value.base));
       return TRUE;
     case REQ_RANGE_ADJACENT:
-      cat_snprintf(buf, bufsz, _("Requires a %s near the tile.\n"),
+      cat_snprintf(buf, bufsz, _("Requires a %s on an adjacent tile.\n"),
                    base_name_translation(preq->source.value.base));
       return TRUE;
     case REQ_RANGE_CITY:
@@ -1551,14 +1555,18 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   if (player_invention_state(pplayer, i) != TECH_KNOWN) {
     if (player_invention_state(pplayer, i) == TECH_PREREQS_KNOWN) {
       cat_snprintf(buf, bufsz,
-		   _("If we would now start with %s we would need %d bulbs."),
+		   _("Starting now, researching %s would need %d bulbs."),
 		   advance_name_for_player(pplayer, i),
 		   base_total_bulbs_required(pplayer, i));
     } else if (player_invention_reachable(pplayer, i)) {
       cat_snprintf(buf, bufsz,
-		   _("To reach %s we need to obtain %d other"
-		     " technologies first. The whole project"
-		     " will require %d bulbs to complete."),
+                   PL_("To reach %s you need to obtain %d other"
+                       " technology first. The whole project"
+                       " will require %d bulbs to complete.",
+                       "To reach %s you need to obtain %d other"
+                       " technologies first. The whole project"
+                       " will require %d bulbs to complete.",
+                       num_unknown_techs_for_goal(pplayer, i) - 1),
 		   advance_name_for_player(pplayer, i),
 		   num_unknown_techs_for_goal(pplayer, i) - 1,
 		   total_bulbs_required_for_goal(pplayer, i));
@@ -1570,7 +1578,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
      && player_invention_reachable(pplayer, i)) {
       CATLSTR(buf, bufsz,
 	      _(" This number may vary depending on what "
-		"other players will research.\n"));
+		"other players research.\n"));
     } else {
       CATLSTR(buf, bufsz, "\n");
     }
@@ -1829,17 +1837,22 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_UNHAPPY_FACTOR:
         cat_snprintf(buf, bufsz,
                      PL_("* Military units away from home and field units"
-                         " will cause %d citizen to become unhappy.\n",
+                         " will each cause %d citizen to become unhappy.\n",
                          "* Military units away from home and field units"
-                         " will cause %d citizens to become unhappy.\n",
+                         " will each cause %d citizens to become unhappy.\n",
                          peffect->value),
                      peffect->value);
         break;
       case EFT_MAKE_CONTENT:
+        cat_snprintf(buf, bufsz,
+                     _("* Each of your cities will avoid %d unhappiness,"
+                       " not including that caused by units.\n"),
+                     peffect->value);
+        break;
       case EFT_FORCE_CONTENT:
         cat_snprintf(buf, bufsz,
-                     _("* Each of your cities will avoid %d unhappiness"
-                       " that would otherwise be caused by units.\n"),
+                     _("* Each of your cities will avoid %d unhappiness,"
+                       " including unhappiness caused by units.\n"),
                      peffect->value);
         break;
       case EFT_UPKEEP_FACTOR:
@@ -1885,7 +1898,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
       case EFT_CIVIL_WAR_CHANCE:
         cat_snprintf(buf, bufsz,
                      _("* If you lose your capital,"
-                       " chance of civil war is %d%%.\n"),
+                       " the chance of civil war is %d%%.\n"),
                      peffect->value);
         break;
       case EFT_EMPIRE_SIZE_BASE:
@@ -1947,7 +1960,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         CATLSTR(buf, bufsz, _("* Your units cannot be bribed.\n"));
         break;
       case EFT_NO_INCITE:
-        CATLSTR(buf, bufsz, _("* Your cities cannot be incited.\n"));
+        CATLSTR(buf, bufsz, _("* Your cities cannot be incited to revolt.\n"));
         break;
       case EFT_REVOLUTION_WHEN_UNHAPPY:
         CATLSTR(buf, bufsz,
@@ -2047,10 +2060,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         break;
       case EFT_HEALTH_PCT:
         if (peffect->value > 0) {
-          CATLSTR(buf, bufsz, _("* Increases the possibility of plague"
+          CATLSTR(buf, bufsz, _("* Increases the chance of plague"
                                 " within your cities.\n"));
         } else if (peffect->value < 0) {
-          CATLSTR(buf, bufsz, _("* Decreases the possibility of plague"
+          CATLSTR(buf, bufsz, _("* Decreases the chance of plague"
                                 " within your cities.\n"));
         }
         break;
@@ -2076,11 +2089,11 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         }
       case EFT_MIGRATION_PCT:
         if (peffect->value > 0) {
-          CATLSTR(buf, bufsz, _("* Increases the possibility of migration"
-                                " into Your cities.\n"));
+          CATLSTR(buf, bufsz, _("* Increases the chance of migration"
+                                " into your cities.\n"));
         } else if (peffect->value < 0) {
-          CATLSTR(buf, bufsz, _("* Decreases the possibility of migration"
-                                " into Your cities.\n"));
+          CATLSTR(buf, bufsz, _("* Decreases the chance of migration"
+                                " into your cities.\n"));
         }
         break;
       default:
