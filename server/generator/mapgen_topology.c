@@ -32,7 +32,9 @@ int ice_base_colatitude = 0 ;
 int map_colatitude(const struct tile *ptile)
 {
   double x, y;
-  
+
+  log_assert_ret_val(ptile != NULL, MAX_COLATITUDE / 2);
+
   if (map.server.alltemperate) {
     /* An all-temperate map has "average" temperature everywhere.
      *
