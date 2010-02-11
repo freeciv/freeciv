@@ -2013,9 +2013,9 @@ static inline void citizen_happy_units(struct city *pcity)
     (*unhappy)++;
     amt -= 2;
   }
-  while (amt > 0 && *content > 0) {
-    (*content)--;
-    (*unhappy)++;
+  while (amt > 0 && *happy > 0) {
+    (*happy)--;
+    (*content)++;
     amt--;
   }
   /* Any remaining unhappiness is lost since angry citizens aren't created
