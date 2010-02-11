@@ -1521,14 +1521,14 @@ Fundamentalism  60% (Only in civ2 ruleset)
 Communism 	50%
 Republic  	40%
 Democracy 	30%
- * In addition each city in revolt adds 5%, each city in rapture 
+ * In addition each city in disorder adds 5%, each celebrating city
 subtracts 5% from the probability of a civil war.  
  * If you have at least 1 turns notice of the impending loss of 
 your capital, you can hike luxuries up to the hightest value,
 and by this reduce the chance of a civil war.  In fact by
 hiking the luxuries to 100% under Democracy, it is easy to
 get massively negative numbers - guaranteeing imunity from
-civil war.  Likewise, 3 revolting cities under despotism
+civil war.  Likewise, 3 cities in disorder under despotism
 guarantees a civil war.
  * This routine calculates these probabilities and returns true
 if a civil war is triggered.
