@@ -479,7 +479,7 @@ appropriate to the unit type can improve this further. In the \
 default ruleset, units which stay in a fortress for a whole turn \
 regain a quarter of their hit points. Wonders can also boost recovery \
 (such as the United Nations in the default ruleset). Damaged units in \
-Sentry mode will wake up when they have regained all of their hit
+Sentry mode will wake up when they have regained all of their hit \
 points.\
 ")
 
