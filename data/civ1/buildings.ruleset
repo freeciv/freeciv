@@ -154,7 +154,8 @@ sound		= "b_cathedral"
 sound_alt	= "b_generic"
 helptext	= _("\
 A Cathedral makes 4 unhappy citizens content in a city, making it\
- easier to maintain order in that city.\
+ easier to maintain order in that city; however, it does not affect\
+ citizens made unhappy by military activity.\
 ")
 
 [building_city_walls]
@@ -197,7 +198,8 @@ sabotage	= 100
 sound		= "b_colosseum"
 sound_alt	= "b_generic"
 helptext	= _("\
-Entertains the citizens of a city, making 3 unhappy citizens content.\
+Entertains the citizens of a city, making 3 unhappy citizens content. \
+ However, it does not affect citizens made unhappy by military activity.\
 ")
 
 [building_courthouse]
@@ -611,9 +613,10 @@ sabotage	= 100
 sound		= "b_temple"
 sound_alt	= "b_generic"
 helptext	= _("\
-Makes one unhappy citizen content.  Both the Mysticism advance\
- and the Oracle wonder double this effect.  With both Mysticism\
- and the Oracle, 4 citizens are made content.\
+Makes one unhappy citizen content.  The Mysticism advance doubles\
+ this effect.  With both Mysticism and the Oracle, 4 citizens are\
+ made content.  Does not affect citizens made unhappy by military\
+ activity.\
 ")
 
 [building_university]
@@ -716,7 +719,8 @@ sound		= "w_cure_for_cancer"
 sound_alt	= "w_generic"
 helptext	= _("\
 This stunning technological achievement makes one unhappy\
- citizen content in all cities.\
+ citizen content in each of your cities (including citizens unhappy\
+ about military activity).\
 ")
 
 [building_darwins_voyage]
@@ -797,11 +801,10 @@ sabotage	= 0
 sound		= "w_hanging_gardens"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes one content citizen happy in every city. Makes two extra\
- content citizens happy in the city containing the Hanging Gardens\
- (that is, a total of 3).  In the unlikely event where there are no\
- content citizens to get the effect of Hanging Gardens, the wonder\
- applies to unhappy citizens (making them content instead).\
+Makes one content citizen happy in every city. In the unlikely event\
+ where there are no content citizens to get the effect of Hanging\
+ Gardens, the wonder applies to unhappy citizens instead (including\
+ those unhappy about military activity), making each content.\
 ")
 
 [building_hoover_dam]
@@ -863,7 +866,8 @@ sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
 Makes two unhappy citizens content in every city of yours\
- on the same continent where the wonder is built.\
+ on the same continent where the wonder is built (including citizens\
+ unhappy about military activity).\
 ")
 
 [building_lighthouse]
@@ -957,7 +961,9 @@ sabotage	= 0
 sound		= "w_oracle"
 sound_alt	= "w_generic"
 helptext	= _("\
-Doubles the effect of Temples, in all cities.\
+Makes two additional unhappy citizens content in every city with\
+ a Temple.  Does not affect citizens made unhappy by military\
+ activity.\
 ")
 
 [building_pyramids]
@@ -1017,7 +1023,8 @@ sabotage	= 0
 sound		= "w_shakespeares_theatre"
 sound_alt	= "w_generic"
 helptext	= _("\
-Makes all unhappy citizens content, in the city where it is located.\
+Makes all angry and unhappy citizens content in the city where it\
+ is located, including citizens unhappy about military activity.\
 ")
 
 [building_united_nations]
