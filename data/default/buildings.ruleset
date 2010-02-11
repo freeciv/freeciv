@@ -294,7 +294,7 @@ sound		= "b_courthouse"
 sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-Reduces the corruption and waste in a city by 50%.  Under a Democracy, a\
+Reduces the corruption in a city by 50%.  Under a Democracy, a\
  Courthouse also makes 1 unhappy citizen content (unless that citizen is\
  unhappy about military activity). \
  Also makes the revolt cost of the city 4 times bigger.\

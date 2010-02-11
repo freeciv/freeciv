@@ -471,8 +471,17 @@ void get_city_dialog_output_text(const struct city *pcity,
   }
 
   if (pcity->waste[otype] != 0) {
-    cat_snprintf(buf, bufsz,
-		 _("%+4d : Waste\n"), -pcity->waste[otype]);
+    char *fmt;
+    switch (otype) {
+      case O_SHIELD:
+      default: /* FIXME other output types? */
+        fmt = _("%+4d : Waste\n");
+        break;
+      case O_TRADE:
+        fmt = _("%+4d : Corruption\n");
+        break;
+    }
+    cat_snprintf(buf, bufsz, fmt, -pcity->waste[otype]);
     total -= pcity->waste[otype];
   }
 
