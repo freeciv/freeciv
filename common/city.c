@@ -1144,8 +1144,8 @@ bool city_happy(const struct city *pcity)
 }
 
 /**************************************************************************
-  Return TRUE iff the city is unhappy.  An unhappy city will start
-  revolting soon.
+  Return TRUE iff the city is unhappy.  An unhappy city will fall
+  into disorder soon.
 **************************************************************************/
 bool city_unhappy(const struct city *pcity)
 {
@@ -2033,7 +2033,7 @@ static inline void citizen_happy_wonders(struct city *pcity)
 
 /**************************************************************************
   Set food, tax, science and shields production to zero if city is in
-  revolt.
+  disorder.
 **************************************************************************/
 static inline void unhappy_city_check(struct city *pcity)
 {

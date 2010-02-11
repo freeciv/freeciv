@@ -77,7 +77,7 @@ static const char *cr_entry_hstate_verbose(const struct city *pcity,
 {
   static char buf[16];
   my_snprintf(buf, sizeof(buf), "%s",
-	      (city_celebrating(pcity) ? Q_("?city_state:Rapture") :
+	      (city_celebrating(pcity) ? Q_("?city_state:Celebrating") :
 	       (city_unhappy(pcity) ? Q_("?city_state:Disorder") :
 		Q_("?city_state:Peace"))));
   return buf;
@@ -445,9 +445,9 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(cityname) },
   { TRUE,   2, 1, NULL,  N_("?size [short]:Sz"), N_("Size"),
     NULL, FUNC_TAG(size) },
-  { TRUE,  -8, 1, NULL,  N_("State"),   N_("Rapture/Peace/Disorder"),
+  { TRUE,  -8, 1, NULL,  N_("State"),   N_("Celebrating/Peace/Disorder"),
     NULL, FUNC_TAG(hstate_verbose) },
-  { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Rapture, X=Disorder"),
+  { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Celebrating, X=Disorder"),
     NULL, FUNC_TAG(hstate_concise) },
 
   /* Specialists grouped with init_city_report_game_data specialists */ 
