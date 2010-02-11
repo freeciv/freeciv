@@ -122,14 +122,14 @@ int map_colatitude(const struct tile *ptile)
    *
    * ....
    * :\ N
-   * : \ 
+   * : \
    * :S \
    *
    * Now flip it along the X direction to get this:
    *
    * ....
    * :N /
-   * : / 
+   * : /
    * :/ S
    */
   x = 1.0 - x;
@@ -139,7 +139,7 @@ int map_colatitude(const struct tile *ptile)
    *
    * .....
    * :P /
-   * : / 
+   * : /
    * :/
    *
    * where P is the polar regions and / is the equator. */
@@ -151,11 +151,11 @@ int map_colatitude(const struct tile *ptile)
   /* This projection makes poles with a shape of a quarter-circle along
    * "P" and the equator as a straight line along "/".
    *
-   * This is explained more fully at
-   * http://bugs.freeciv.org/Ticket/Display.html?id=8624. */
-  return MAX_COLATITUDE * (1.5 * (x * x * y + x * y * y) 
-		     - 0.5 * (x * x * x + y * y * y) 
-		     + 1.5 * (x * x + y * y));
+   * This is explained more fully in RT 8624; the discussion can be found at
+   * http://thread.gmane.org/gmane.games.freeciv.devel/42648 */
+  return MAX_COLATITUDE * (1.5 * (x * x * y + x * y * y)
+                           - 0.5 * (x * x * x + y * y * y)
+                           + 1.5 * (x * x + y * y));
 }
 
 /****************************************************************************
@@ -244,6 +244,8 @@ static void set_sizes(double size, int Xratio, int Yratio)
 ***************************************************************************/
 void generator_init_topology(bool autosize)
 {
+  int sqsize = get_sqsize();
+
   /* The default server behavior is to generate xsize/ysize from the
    * "size" server option.  Others may want to set xsize/ysize directly. */
   if (autosize) {
@@ -261,42 +263,28 @@ void generator_init_topology(bool autosize)
 
   /* initialize the ICE_BASE_LEVEL */
 
-  /*
-   * this is the base value for the isle poles 
-   */ 
-  ice_base_colatitude =  COLD_LEVEL /  3 ;
-
-  /*
-   *if maps has strip like poles we get smaller poles 
+  /* if maps has strip like poles we get smaller poles
    * (less playables than island poles)
-   *  5% for little maps; 2% for big ones, if map.server.temperature == 50 
-   * exept if separate poles is set
-   */
-  if (!topo_has_flag(TF_WRAPX) || !topo_has_flag(TF_WRAPY)) {
-    int sqsize = get_sqsize();
-
-    if (map.server.separatepoles) {
-      /* with separatepoles option strip poles are useless */
-      ice_base_colatitude =
-	  (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE) 
-	   + 1 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
-      /* correction for single pole 
-       * TODO uncomment it when generator 5 was well tuned 
-       *      sometime it can put too many land near pole 
-
-      if (topo_has_flag(TF_WRAPX) == topo_has_flag(TF_WRAPY)) {
-	ice_base_colatitude /= 2;
-      }
-
-      */
-    } else {
-      /* any way strip poles are not so playable has isle poles */
-      ice_base_colatitude =
-	  (MAX(0, 100 * COLD_LEVEL / 3 - 2 *  MAX_COLATITUDE) 
-	   + 2 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
-    }
+   *   5% for little maps
+   *   2% for big ones, if map.server.temperature == 50
+   * exept if separate poles is set */
+  if (map.server.separatepoles) {
+    /* with separatepoles option strip poles are useless */
+    ice_base_colatitude =
+        (MAX(0, 100 * COLD_LEVEL / 3 - 1 *  MAX_COLATITUDE)
+         + 1 *  MAX_COLATITUDE * sqsize) / (100 * sqsize);
+  } else {
+    /* any way strip poles are not so playable as isle poles */
+    ice_base_colatitude =
+        (MAX(0, 100 * COLD_LEVEL / 3 - 2 * MAX_COLATITUDE)
+         + 2 * MAX_COLATITUDE * sqsize) / (100 * sqsize);
   }
- 
+
+  /* correction for single pole (Flat Earth) */
+  if (!topo_has_flag(TF_WRAPX) && !topo_has_flag(TF_WRAPY)) {
+    ice_base_colatitude /= 2;
+  }
+
   map_init_topology(TRUE);
 }
 
