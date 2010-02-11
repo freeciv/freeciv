@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-01 23:21+0200\n"
-"PO-Revision-Date: 2010-02-10 20:03+0300\n"
+"PO-Revision-Date: 2010-02-11 20:13+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3208,7 +3208,7 @@ msgstr "Вимагають Вашу столицю (%s), Ви не можете п╕дписати угоду."
 #: server/diplhand.c:249
 #, c-format
 msgid "You cannot form an alliance because you are at war with an ally of %s."
-msgstr ""
+msgstr "Ви не можете укласти альянс, тому що вою╓те з союзником %s."
 
 #: server/diplhand.c:260
 msgid "You don't have enough gold, you can't accept treaty."
@@ -3725,7 +3725,7 @@ msgstr ""
 #: server/edithand.c:844
 #, c-format
 msgid "It is impossible for a city to have %s!"
-msgstr ""
+msgstr "М╕сто не може мати %s!"
 
 #: server/edithand.c:893
 #, c-format
@@ -3740,12 +3740,12 @@ msgstr ""
 #: server/edithand.c:954
 #, c-format
 msgid "No more players can be added because the maximum number of players (%d) has been reached."
-msgstr ""
+msgstr "Б╕льше гравц╕в додавати не можна, бо досягнуто максимально╖ к╕лькост╕ гравц╕в (%d)."
 
 #: server/edithand.c:962
 #, c-format
 msgid "No more players can be added because there are no available nations (%d used)."
-msgstr ""
+msgstr "Б╕льше гравц╕в додавати не можна, бо нема╓ в╕льних нац╕й (використано %d)."
 
 #: server/edithand.c:971
 msgid "Player cannot be created because random nation selection failed."
@@ -3768,12 +3768,12 @@ msgstr ""
 #: server/edithand.c:1061
 #, c-format
 msgid "Cannot set empty name for player (%d) '%s'."
-msgstr ""
+msgstr "Не можна встановити пусте ╕м'я для гравця (%d) '%s'."
 
 #: server/edithand.c:1074
 #, c-format
 msgid "Cannot change name of player (%d) '%s' to '%s': another player (%d) already has that name."
-msgstr ""
+msgstr "Не можна зм╕нити ╕м'я гравця (%d) з '%s' на '%s': ╕нший гравець (%d) уже ма╓ таке ╕м'я."
 
 #: server/edithand.c:1094
 #, c-format
@@ -3783,7 +3783,7 @@ msgstr ""
 #: server/edithand.c:1100
 #, c-format
 msgid "Cannot change nation for player %d (%s) to nation %d (%s) because that nation is already assigned to player %d (%s)."
-msgstr ""
+msgstr "Не можна зм╕нити нац╕ю гравця %d (%s) на нац╕ю %d (%s), бо та нац╕я вже призначена гравцю %d (%s)."
 
 #: server/edithand.c:1136
 #, c-format
@@ -4055,7 +4055,7 @@ msgstr "Дипломатичний стан м╕ж %s та %s в╕дтепер %s."
 #: server/plrhand.c:612
 #, c-format
 msgid " %s canceled the diplomatic agreement! The diplomatic state between the %s and the %s is now %s."
-msgstr " %s перервав д╕пломатичн╕ угоди! Дипломатичний стан м╕ж %s та %s в╕дтепер %s."
+msgstr " %s роз╕рвав дипломатичн╕ угоди! Дипломатичний стан м╕ж %s та %s в╕дтепер %s."
 
 #: server/plrhand.c:630
 #, c-format
@@ -6407,13 +6407,14 @@ msgstr "Командне голосування"
 
 #: server/stdinhand.c:2005
 #: server/voting.c:514
+#, fuzzy
 msgid "Vote"
-msgstr ""
+msgstr "Голосування"
 
 #: server/stdinhand.c:2007
 #, c-format
 msgid "%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %d players."
-msgstr ""
+msgstr "%s %d \"%s\" (потр╕бно %0.0f%%%s): %d за, %d проти, ╕ %d утрималося з %d гравц╕в."
 
 #: server/stdinhand.c:2011
 msgid " no dissent"
@@ -9243,16 +9244,15 @@ msgstr "* Можуть виконувати д╕╖ колон╕ст╕в.\n"
 
 #: client/helpdata.c:1289
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
-msgstr "* Можуть виконувати д╕пломатичн╕ д╕╖, а також деяк╕ мають шпигунськ╕ можливост╕.\n"
+msgstr "* Можуть виконувати дипломатичн╕ д╕╖, а також мають певн╕ шпигунськ╕ можливост╕.\n"
 
 #: client/helpdata.c:1292
 msgid "* Can perform diplomatic actions.\n"
-msgstr "* Можуть виконувати д╕пломатичн╕ д╕╖.\n"
+msgstr "* Можуть виконувати дипломатичн╕ д╕╖.\n"
 
 #: client/helpdata.c:1297
-#, fuzzy
 msgid "* Defends cities against diplomatic actions.\n"
-msgstr "* Можуть виконувати д╕пломатичн╕ д╕╖.\n"
+msgstr "* Захища╓ м╕ста в╕д дипломатичних д╕й.\n"
 
 #: client/helpdata.c:1300
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
@@ -9806,15 +9806,13 @@ msgstr ""
 
 #: client/options.c:476
 #: client/options.c:481
-#, fuzzy
 msgid "Theme"
-msgstr "Церква"
+msgstr "Тема"
 
 #: client/options.c:477
 #: client/options.c:482
-#, fuzzy
 msgid "By changing this option you change the active theme."
-msgstr "Зм╕нюючи цю опц╕ю Ви зм╕нюют╓ активну тему. Також самого ефекту можна досягти за допомогою параметру командно╖ строки -t."
+msgstr "Зм╕нюючи цю опц╕ю Ви зм╕ню╓те активну тему. "
 
 #: client/options.c:486
 #, fuzzy
@@ -10414,11 +10412,11 @@ msgstr ""
 
 #: client/options.c:841
 msgid "New message events go to top of list"
-msgstr ""
+msgstr "Нов╕ пов╕домлення про под╕╖ з'являються на початку списку"
 
 #: client/options.c:842
 msgid "If this option is enabled, new events in the message window will appear at the top of the list, rather than being appended at the bottom."
-msgstr ""
+msgstr "Якщо цю опц╕ю ув╕мкнено, нов╕ под╕╖ у в╕кн╕ пов╕домлень з'являтимуться на початку списку, зам╕сть того щоб дописуватися до к╕нця."
 
 #: client/options.c:847
 msgid "Show extra message window buttons"
@@ -11838,7 +11836,7 @@ msgstr ""
 #: client/gui-win32/dialogs.c:1618
 #: data/Freeciv.in:2280
 msgid "Choose Your Diplomat's Strategy"
-msgstr "Обер╕ть стратег╕ю д╕яльность д╕пломата"
+msgstr "Обер╕ть стратег╕ю д╕яльност╕ дипломата"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:632
 #: client/gui-gtk-2.0/diplomat_dialog.c:656
@@ -12931,7 +12929,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:594
 msgid "Show the property editor."
-msgstr ""
+msgstr "Показати редактор властивостей."
 
 #: client/gui-gtk-2.0/editgui.c:1008
 #, fuzzy
@@ -13352,6 +13350,8 @@ msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
+"Цей кл╕╓нт не ма╓ спец╕альних опц╕й командного рядка\n"
+"\n"
 
 #: client/gui-gtk-2.0/gui_main.c:726
 #: client/gui-gtk-2.0/gui_main.c:1451
@@ -13984,9 +13984,8 @@ msgstr "Кер╕вництво"
 
 #: client/gui-gtk-2.0/menu.c:1282
 #: client/gui-win32/menu.c:437
-#, fuzzy
 msgid "Diplomac_y"
-msgstr "Д╕пломат"
+msgstr "Дипломат╕я"
 
 #: client/gui-gtk-2.0/menu.c:1284
 #: client/gui-win32/menu.c:438
@@ -14150,7 +14149,7 @@ msgstr "Мара в╕йни"
 
 #: client/gui-gtk-2.0/menu.c:1393
 msgid "Game/Scenario Properties"
-msgstr ""
+msgstr "Властивост╕ гри/сценар╕ю"
 
 #: client/gui-gtk-2.0/menu.c:1395
 #: client/gui-gtk-2.0/pages.c:2319
@@ -14355,7 +14354,7 @@ msgstr "Руйну╓"
 
 #: client/gui-gtk-2.0/menu.c:1511
 msgid "_Diplomat/Spy Actions"
-msgstr "Д╕╖ Д╕пломата/Шпигуна"
+msgstr "Д╕╖ Дипломата/Шпигуна"
 
 #: client/gui-gtk-2.0/menu.c:1513
 #, fuzzy
@@ -15051,16 +15050,15 @@ msgstr "Запустити"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Рекомендована тема"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
-#, fuzzy
 msgid "Load theme"
-msgstr "Завантажити гру"
+msgstr "Завантажити тему"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
-msgstr ""
+msgstr "Залишити поточну тему"
 
 #: client/gui-gtk-2.0/theme_dlg.c:69
 #, c-format
@@ -15945,7 +15943,7 @@ msgstr "Технолог╕╖"
 #: client/gui-win32/diplodlg.c:604
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
-msgstr "Д╕пломатична зустр╕ч"
+msgstr "Дипломатична зустр╕ч"
 
 #: client/gui-sdl/diplodlg.c:882
 #: client/gui-win32/diplodlg.c:686
@@ -15999,9 +15997,8 @@ msgid "Withdraw vision"
 msgstr "Забрати бачення"
 
 #: client/gui-sdl/diplodlg.c:1506
-#, fuzzy
 msgid "Call Diplomatic Meeting"
-msgstr "Д╕пломатична зустр╕ч"
+msgstr "Скликати дипломатичну зустр╕ч"
 
 #: client/gui-sdl/diplodlg.c:1520
 msgid "Send him back"
@@ -17047,14 +17044,13 @@ msgid "No gui-sdl theme was found. For instructions on how to get one, please vi
 msgstr ""
 
 #: client/gui-sdl/themespec.c:337
-#, fuzzy
 msgid "No usable default theme found, aborting!"
-msgstr "Не знайдено фон╕в по замовчуванню, перериваюся! "
+msgstr "Не знайдено придатно╖ типово╖ теми, перериваюся! "
 
 #: client/gui-sdl/themespec.c:368
-#, fuzzy, c-format
+#, c-format
 msgid "Loading theme \"%s\"."
-msgstr "Завантажую правила"
+msgstr "Завантажую тему  \"%s\"."
 
 #: client/gui-sdl/wldlg.c:917
 #: client/gui-sdl/wldlg.c:1100
@@ -17622,7 +17618,7 @@ msgid ""
 "The %s %s %s"
 msgstr ""
 "Ця двостороння угода\n"
-"╓ результатом д╕пломатично╖ роботи м╕ж\n"
+"╓ результатом дипломатично╖ роботи м╕ж\n"
 "%s %s %s\n"
 "та\n"
 "%s %s %s"
@@ -17918,7 +17914,7 @@ msgstr "В╕дкрити м╕сто"
 #: client/gui-win32/plrdlg.c:72
 #: client/gui-xaw/plrdlg.c:359
 msgid "You need an embassy to establish a diplomatic meeting."
-msgstr "Вам необх╕дна посольство аби провадити д╕пломатичн╕ зустр╕ч╕."
+msgstr "Вам необх╕дна посольство аби влаштовувати дипломатичн╕ зустр╕ч╕."
 
 #: client/gui-win32/plrdlg.c:164
 #: client/gui-xaw/plrdlg.c:232
@@ -18311,7 +18307,7 @@ msgstr "Кер╕вництво"
 #: data/Freeciv.in:215
 #: data/helpdata.txt:1529
 msgid "Diplomacy"
-msgstr "Д╕пломат╕я"
+msgstr "Дипломат╕я"
 
 #: client/gui-xaw/menu.c:262
 #: data/helpdata.txt:1647
@@ -19463,7 +19459,7 @@ msgstr "   Дек╕лька зауважень:"
 
 #: data/helpdata.txt:848
 msgid "   - You can't give away your capital."
-msgstr ""
+msgstr "   - Ви не можете в╕ддати свою столицю."
 
 #: data/helpdata.txt:850
 msgid "   - You can only request property that you know about; so you can't request technology unless you have an embassy, and if you can't see a city on your map, then you can't request it.  Of course, the owner of that city can still give it to you, in which case the area around the city is shown on your map."
@@ -19785,9 +19781,8 @@ msgid " Combat example 2"
 msgstr " Приклад бою 2"
 
 #: data/helpdata.txt:1207
-#, fuzzy
 msgid "Suppose a veteran Battleship (A:12, D:12, HP:40, FP:2) with 3 movement points attacks a veteran Alpine Troops (A:5, D:5, HP:20, FP:1) inside a city built on a Grassland tile, with City Walls and a Coastal Defense."
-msgstr "Уявимо Л╕нкор ветеран (А:12, З:12, ЗД:40, СВ:2) з трьома ходами атакуючий П╕дрозд╕л-ветеран Альп╕йських Стр╕льц╕в (A:5, З:5, ЗД:20, СВ:1) у м╕ст╕ збудованому у Степу, з М╕ськими Ст╕нами та Прибережним Захистом."
+msgstr "Уявимо Л╕нкор ветеран (А:12, З:12, ЗД:40, СВ:2) з трьома ходами, що атаку╓ п╕дрозд╕л-ветеран Альп╕йських Стр╕льц╕в (A:5, З:5, ЗД:20, СВ:1) у м╕ст╕ збудованому в Степу, з М╕ськими Ст╕нами та Прибережним Захистом."
 
 #: data/helpdata.txt:1212
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
@@ -19969,7 +19964,7 @@ msgstr " - Зал╕зниц╕ зб╕льшують виробництво кл╕тини на 50%. (В залежност╕ в╕д оп
 
 #: data/helpdata.txt:1397
 msgid "Technology advances allow other kinds of structures to be built:"
-msgstr ""
+msgstr "Технолог╕чний прогрес дозволя╓ будувати ╕нш╕ типи споруд:"
 
 #: data/helpdata.txt:1399
 #, fuzzy
@@ -19982,7 +19977,7 @@ msgstr ""
 
 #: data/helpdata.txt:1408
 msgid " - Buoys may be built in the ocean (by units on a sea-going vessel); they give you permanent visibility of the area of the map around them."
-msgstr ""
+msgstr " - Бу╖ можна будувати в океан╕ (п╕дрозд╕лами на кораблях); вони дозволяють бачити частину мапи навколо себе."
 
 #: data/helpdata.txt:1411
 #, fuzzy
@@ -20106,7 +20101,7 @@ msgstr "Громадяни можуть бути щаслив╕, нейтральн╕ або нещаслив╕. Збереження Ваши
 
 #: data/helpdata.txt:1581
 msgid "If the number of unhappy citizens in a city exceeds the number of happy citizens, the city falls into disorder.  When a city falls into disorder, it produces nothing.  Cities which are in disorder are easier for enemy Diplomats and Spies to incite to revolt. Prolonged disorder under Democracy can lead to a spontaneous revolution, overthrowing your government."
-msgstr "Якщо к╕льк╕сть нещасних городян у м╕ст╕ перевищу╓ к╕льк╕сть щасливих, м╕сто впада╓ у заколот. Коли м╕сто впало у заколот, воно н╕чого не виробля╓. М╕ста що бунтують стають легкою здобичю для ворож╕х Д╕пломат╕в та Шпигун╕в при влаштуванн╕ революц╕╖. Продовжуючися заколоти за Демократ╕╖ можуть призвести до неочикувано╖ революц╕╖ проти Вашо╖ форми правл╕ння."
+msgstr "Якщо к╕льк╕сть нещасних городян у м╕ст╕ перевищу╓ к╕льк╕сть щасливих, м╕сто впада╓ у заколот. Коли м╕сто впало у заколот, воно н╕чого не виробля╓. М╕ста що бунтують стають легкою здобиччю для ворожих Дипломат╕в та Шпигун╕в при влаштуванн╕ революц╕╖. Тривал╕ заколоти за Демократ╕╖ можуть призвести до неоч╕кувано╖ революц╕╖ проти Вашо╖ форми правл╕ння."
 
 #: data/helpdata.txt:1588
 msgid "However, if the number of happy citizens in a city is at least as great as the number of content citizens, and you have no unhappy citizens in that city, and the city has at least 3 citizens, then the city celebrates.  This is designated by the term \"Rapture\" on the City Report.  The effects of celebration vary depending on your government type:"
@@ -22016,9 +22011,8 @@ msgid "Radio"
 msgstr "Рад╕о"
 
 #: data/default/techs.ruleset:572
-#, fuzzy
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr "Дозволя╓ %s будувати ав╕абази.\n"
+msgstr "Дозволя╓ Роб╕тникам та ╤нженерам будувати ав╕абази та бу╖.\n"
 
 #: data/default/techs.ruleset:584
 #: data/civ2/techs.ruleset:580
@@ -22412,9 +22406,8 @@ msgid "Oil"
 msgstr "Нафта"
 
 #: data/default/terrain.ruleset:920
-#, fuzzy
 msgid "Buoy"
-msgstr "Купити"
+msgstr "Буй"
 
 #: data/default/terrain.ruleset:936
 msgid "Ruins"
@@ -22641,7 +22634,7 @@ msgstr "Альп╕йськ╕ стр╕льц╕"
 #: data/default/units.ruleset:654
 #: data/civ2/units.ruleset:547
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
-msgstr ""
+msgstr "Альп╕йськ╕ стр╕льц╕ - це високо моб╕льн╕ п╕дрозд╕ли та чудов╕ захисники."
 
 #: data/default/units.ruleset:660
 #: data/civ2/units.ruleset:553
@@ -23029,7 +23022,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1728
 #: data/civ1/units.ruleset:1047
 msgid "Diplomat"
-msgstr "Д╕пломат"
+msgstr "Дипломат"
 
 #: data/default/units.ruleset:1797
 #: data/civ2/units.ruleset:1754
