@@ -2031,17 +2031,17 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (peffect->value > 30) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer massive waste.\n"),
+                       _("* %s production will suffer massive losses.\n"),
                        outputs_and.str);
         } else if (peffect->value >= 15) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer some waste.\n"),
+                       _("* %s production will suffer some losses.\n"),
                        outputs_and.str);
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s production will suffer a small amount of waste.\n"),
+                       _("* %s production will suffer a small amount of losses.\n"),
                        outputs_and.str);
         }
         break;
@@ -2058,19 +2058,19 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
         if (peffect->value >= 3) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s waste will increase quickly"
+                       _("* %s losses will increase quickly"
                          " with distance from capital.\n"),
                        outputs_and.str);
         } else if (peffect->value == 2) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s waste will increase"
+                       _("* %s losses will increase"
                          " with distance from capital.\n"),
                        outputs_and.str);
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
-                       _("* %s waste will increase slowly"
+                       _("* %s losses will increase slowly"
                          " with distance from capital.\n"),
                        outputs_and.str);
         }
