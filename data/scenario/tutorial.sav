@@ -98,10 +98,10 @@ _("As the number of cities in your empire grows, it becomes harder to\n\
 manage individual cities.  This is where the city report becomes\n\
 useful.  Press F4 to bring it up.  This report shows a list of cities\n\
 with various statistics about each.  Play around with it a bit if you\n\
-like (return to the map view by clicking on the Map tab).  With a bit\n\
-of practice it is possible to control almost every aspect of the cities\n\
-from this report.  The full power of the city report is beyond the\n\
-scope of this tutorial, however."))
+like (return to the map view by pressing F1 or clicking on the Map\n\
+tab).  With a bit of practice it is possible to control almost every\n\
+aspect of the cities from this report.  The full power of the city\n\
+report is beyond the scope of this tutorial, however."))
     end
     citiesbuilt = citiesbuilt + 1
   end
@@ -151,7 +151,7 @@ a wasted citizen.\n\
 \n\
 There are several things that can be done about this.  One quick fix\n\
 is to build a temple (or other cultural building) that will make an\n\
-unhappy citizen content (see the help on buildings for specs\n\
+unhappy citizen content (see the help on City Improvements for specs\n\
 on each building type).  As you get more large cities, it may pay off\n\
 to change your tax rates (by pressing ctrl-T) to dedicate some of\n\
 your taxes directly to luxuries (every two luxuries will pacify one\n\
@@ -216,8 +216,8 @@ and plains provide food for the city.  Forests and hills provide\n\
 the resources (shields) needed for building things.  Rivers and ocean\n\
 give trade bonuses that provide civilization-wide benefits.  Desert,\n\
 tundra, and mountains generally provide little output and are not\n\
-of much use to small cities.  See the help on terrain and specials\n\
-for more information about terrain specs."))
+of much use to small cities.  See the help on Terrain for more\n\
+information about terrain specs."))
     elseif settlersbuilt == 1 then
       notify.event(unit.owner, unit.tile, E.SCRIPT,
 _("Your second Settlers should also be used to build a new city.\n\
@@ -246,8 +246,8 @@ function building_built_callback(building, city)
 _("You have built a Barracks.  This building will make any military\n\
 units you build start out as veterans.  Veteran units are stronger\n\
 than inexperienced (green) troops, and will survive longer in\n\
-combat.  See the help on buildings for more information about this\n\
-and other buildings.\n\
+combat.  See the help on City Improvements for more information\n\
+about this and other buildings.\n\
 \n\
 You probably want to start building a military unit in the city\n\
 that built the Barracks.  A barracks are a significant investment\n\
@@ -318,7 +318,7 @@ comes from the taxable trade in your cities.  In the bottom of the\n\
 window is the tech tree; here you may left-click to set the research\n\
 target or research goal, or right-click to get help about a particular\n\
 technology.  When you are done playing around click on the Map tab\n\
-(Alt-M) to return to the map view."))
+(F1) to return to the map view."))
   elseif numtechs == 1 then
     notify.event(player, nil, E.SCRIPT,
 _("Now you have researched your second technology.  Go back into the\n\
@@ -346,7 +346,7 @@ civilization is to be a peaceful trading nation or a conquering\n\
 juggernaut.  Each has advantages.\n\
 \n\
 For now, you probably want to switch straight into Republic.  In the\n\
-Government menu, go to the Change Government submenu and choose\n\
+Civilization menu, go to the Government submenu and choose\n\
 Republic.  Yes you want a revolution!  Changing governments means\n\
 going through a few turns of anarchy, so it is not without cost.\n\
 However Republic is a substantially better form of government\n\
