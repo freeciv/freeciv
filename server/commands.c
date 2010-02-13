@@ -122,14 +122,16 @@ static struct command commands[] = {
       "show vital\n"
       "show situational\n"
       "show rare\n"
-      "show changed"),
+      "show changed\n"
+      "show locked"),
    N_("Show server options."),
    N_("With no arguments, shows vital server options (or available options, "
       "when used by clients). With an option name argument, show only the "
       "named option, or options with that prefix. With \"all\", it shows "
       "all options. With \"vital\", \"situational\" or \"rare\", a set of "
       "options with this level. With \"changed\", it shows only the options "
-      "which have been modified.")
+      "which have been modified, while with \"locked\" all settings locked "
+      "by the ruleset will be listed.")
   },
   {"wall",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */

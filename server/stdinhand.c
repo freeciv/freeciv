@@ -1408,7 +1408,7 @@ static enum sset_level lookup_option_level(const char *name)
 {
   enum sset_level i;
 
-  for (i = SSET_ALL; i <= SSET_CHANGED; i++) {
+  for (i = SSET_ALL; i < OLEVELS_NUM; i++) {
     if (0 == mystrcasecmp(name, sset_level_names[i])) {
       return i;
     }
@@ -1845,6 +1845,9 @@ static bool show_command(struct connection *caller, char *str, bool check)
     case SSET_RARE:
       cmd_reply_show(_("Rarely used options"));
       break;
+    case SSET_LOCKED:
+      cmd_reply_show(_("Options locked by the ruleset"));
+      break;
   }
   cmd_reply_show(_("! means the option is locked by the ruleset"));
   cmd_reply_show(_("+ means you may change the option"));
@@ -1865,14 +1868,14 @@ static bool show_command(struct connection *caller, char *str, bool check)
     is_changed = FALSE;
     if (setting_is_visible(pset, caller)
         && (cmd == -1 || cmd == -3 || level == SSET_CHANGED
-            || cmd == setting_number(pset)
+            || level == SSET_LOCKED || cmd == setting_number(pset)
         || (cmd == -2
             && mystrncasecmp(setting_name(pset), str, clen) == 0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       int len, feature_len = 0;
 
-      if (level == SSET_ALL || setting_level(pset) == level || cmd >= 0 
-          || level == SSET_CHANGED)  {
+      if (level == SSET_ALL || setting_level(pset) == level || cmd >= 0
+          || level == SSET_CHANGED || level == SSET_LOCKED)  {
         switch (setting_type(pset)) {
         case SSET_BOOL:
           is_changed = (setting_bool_get(pset) != setting_bool_def(pset));
@@ -1929,7 +1932,9 @@ static bool show_command(struct connection *caller, char *str, bool check)
           sz_strlcat(buf, " ");
         }
         sz_strlcat(buf, _(setting_short_help(pset)));
-        if ((is_changed) || (level != SSET_CHANGED)) {
+        if ((level < SSET_CHANGED)
+            || (level == SSET_CHANGED && is_changed)
+            || (level == SSET_LOCKED && setting_locked(pset))) {
           cmd_reply_show(buf);
         }
       }
@@ -1938,9 +1943,11 @@ static bool show_command(struct connection *caller, char *str, bool check)
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
     cmd_reply_show(_("Try 'show situational' or 'show rare' to show "
-		     "more options.\n"
-		     "Try 'show changed' to show settings with "
-		     "non-default values."));
+                     "more options.\n"
+                     "Try 'show changed' to show settings with "
+                     "non-default values.\n"
+                     "Try 'show locked' to show settings locked "
+                     "by the ruleset."));
     cmd_reply_show(horiz_line);
   }
   return TRUE;
