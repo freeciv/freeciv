@@ -3171,13 +3171,11 @@ static void player_load_vision(struct player *plr, int plrno,
     map_know_and_see_all(plr);
 
   /* load map if:
-     1) it from a fog of war build
-     2) fog of war was on (otherwise the private map wasn't saved)
-     3) is not from a "unit only" fog of war save file
-  */
-  if (secfile_lookup_int_default(file, -1, "game.fogofwar") != -1
-      && game.info.fogofwar == TRUE
-      && -1 != total_ncities
+   * - fogofwar is activated
+   *   (game.info.fogofwar is loaded in game_load_internal())
+   * - game.save_private_map is not set to FALSE in the scenario / savegame
+   */
+  if (game.info.fogofwar == TRUE
       && secfile_lookup_bool_default(file, TRUE, "game.save_private_map")) {
     LOAD_MAP_DATA(ch, nat_y, ptile,
 		  secfile_lookup_str(file, "player%d.map_t%03d",
