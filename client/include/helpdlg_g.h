@@ -22,6 +22,7 @@ void popup_help_dialog_string(const char *item);
 void popup_help_dialog_typed(const char *item, enum help_page_type);
 void popdown_help_dialog(void);
 
+#define HELP_OVERVIEW_ITEM "Overview"
 #define HELP_PLAYING_ITEM "Strategy and tactics"
 #define HELP_LANGUAGES_ITEM "Languages"
 #define HELP_CONNECTING_ITEM "Connecting"
@@ -30,6 +31,8 @@ void popdown_help_dialog(void);
 #define HELP_CMA_ITEM "Citizen Governor"
 #define HELP_CONTROLS_ITEM "Controls"
 #define HELP_RULESET_ITEM "About Ruleset"
+#define HELP_ECONOMY_ITEM "Economy"
+#define HELP_CITIES_ITEM "Cities"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"
 #define HELP_UNITS_ITEM "Units"
 #define HELP_COMBAT_ITEM "Combat"
@@ -39,7 +42,6 @@ void popdown_help_dialog(void);
 #define HELP_WONDERS_ITEM "Wonders of the World"
 #define HELP_GOVERNMENT_ITEM "Government"
 #define HELP_DIPLOMACY_ITEM "Diplomacy"
-#define HELP_HAPPINESS_ITEM "Happiness"
 #define HELP_SPACE_RACE_ITEM "Space Race"
 #define HELP_COPYING_ITEM "Copying"
 #define HELP_ABOUT_ITEM "About Freeciv"
