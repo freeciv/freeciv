@@ -830,7 +830,7 @@ static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
 
   g_return_if_fail(city_selection != NULL);
   gtk_tree_selection_selected_foreach(city_selection, set_worklist_foreach,
-                                      data);
+                                      (gpointer) global_worklist_get(pgwl));
 
   if (!pgwl) {
     /* Maybe removed by an other way, not an error. */
