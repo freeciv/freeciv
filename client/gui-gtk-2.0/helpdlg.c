@@ -579,15 +579,24 @@ static void create_help_dialog(void)
   help_ttable = gtk_table_new(5, 5, FALSE);
   gtk_box_pack_start(GTK_BOX(help_box), help_ttable, FALSE, FALSE, 0);
 
-  for (i=0; i<5; i++) {
-    for (j=0; j<4; j++) {
+  for (j=0; j<4; j++) {
+    for (i=0; i<5; i++) {
       help_tlabel[j][i] =
 	  gtk_label_new(help_tlabel_name[j][i] ? _(help_tlabel_name[j][i]) : "");
       gtk_widget_set_name(help_tlabel[j][i], "help_label");
 
-      gtk_table_attach_defaults(GTK_TABLE(help_ttable),
-					  help_tlabel[j][i], i, i+1, j, j+1);
-      gtk_widget_show(help_tlabel[j][i]);
+      /* Ugly (but these numbers are hardcoded in help_update_terrain() too) */
+      if (j==1 && i==1) {
+          /* Extra wide cell for terrain specials */
+          gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+                                    help_tlabel[j][i], i, i+4, j, j+1);
+          gtk_widget_show(help_tlabel[j][i]);
+          break; /* skip rest of row */
+      } else {
+          gtk_table_attach_defaults(GTK_TABLE(help_ttable),
+                                    help_tlabel[j][i], i, i+1, j, j+1);
+          gtk_widget_show(help_tlabel[j][i]);
+      }
     }
   }
 
@@ -1054,7 +1063,12 @@ static void help_update_terrain(const struct help_item *pitem,
       struct resource **r;
 
       for (r = pterrain->resources; *r; r++) {
-	sprintf (buf + strlen (buf), " %s,", resource_name_translation(*r));
+        /* TRANS: " Whales (2/1/2)," */
+        sprintf (buf + strlen (buf), " %s (%d/%d/%d),",
+                 resource_name_translation(*r),
+                 pterrain->output[O_FOOD]   + (*r)->output[O_FOOD],
+                 pterrain->output[O_SHIELD] + (*r)->output[O_SHIELD],
+                 pterrain->output[O_TRADE]  + (*r)->output[O_TRADE]);
       }
       buf[strlen (buf) - 1] = '.';
     } else {
