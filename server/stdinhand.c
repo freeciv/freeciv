@@ -109,6 +109,8 @@ static bool read_init_script_real(struct connection *caller,
                                   bool check, int read_recursion);
 static bool reset_command(struct connection *caller, bool check,
                           int read_recursion);
+static char setting_status(struct connection *caller,
+                           const struct setting *pset);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -221,6 +223,29 @@ static bool may_use_nothing(struct connection *caller)
     return FALSE;  /* on the console, everything is allowed */
   }
   return (ALLOW_NONE == conn_get_access(caller));
+}
+
+/**************************************************************************
+  Return the status of the setting (changeable, locked, fixed).
+  caller == NULL means console.
+**************************************************************************/
+static char setting_status(struct connection *caller,
+                           const struct setting *pset)
+{
+  /* first check for a ruleset lock as this is included in
+   * setting_is_changeable() */
+  if (setting_locked(pset)) {
+    /* setting is locked by the ruleset */
+    return '!';
+  }
+
+  if (setting_is_changeable(pset, caller, NULL)) {
+    /* setting can be changed */
+    return '+';
+  }
+
+  /* setting is fixed */
+  return ' ';
 }
 
 /**************************************************************************
@@ -1821,6 +1846,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
       cmd_reply_show(_("Rarely used options"));
       break;
   }
+  cmd_reply_show(_("! means the option is locked by the ruleset"));
   cmd_reply_show(_("+ means you may change the option"));
   cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
@@ -1890,8 +1916,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
         len = my_snprintf(buf, sizeof(buf),
                           "%-*s %c%c%s", OPTION_NAME_SPACE,
                           setting_name(pset),
-                          setting_is_changeable(pset, caller, NULL)
-                          ? '+' : ' ',
+                          setting_status(caller, pset),
                           is_changed ? ' ' : '=', value) - feature_len;
 
         if (len == -1) {
@@ -3382,10 +3407,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
     log_verbose("set_rulesetdir() does load_rulesets() with \"%s\"", str);
     sz_strlcpy(game.server.rulesetdir, str);
 
-    /* 1: reset all game settings */
-    log_normal("Reset game settings ...");
-    settings_reset();
-    /* 2: load ruleset (and game settings defined in the ruleset) */
+    /* load the ruleset (and game settings defined in the ruleset) */
     load_rulesets();
 
     if (game.est_connections) {
@@ -3747,8 +3769,8 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
 }
 
 /**************************************************************************
-  Reset all (changeable) game settings and reload the init script if it
-  was used.
+  Reload the game settings from the ruleset and reload the init script if
+  one was used.
 **************************************************************************/
 static bool reset_command(struct connection *caller, bool check,
                           int read_recursion)
@@ -3757,7 +3779,8 @@ static bool reset_command(struct connection *caller, bool check,
     return TRUE;
   }
 
-  settings_reset();
+  /* restore game settings save in game.ruleset */
+  reload_rulesets_settings();
 
   if (srvarg.script_filename &&
       !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
@@ -3766,9 +3789,6 @@ static bool reset_command(struct connection *caller, bool check,
               srvarg.script_filename);
     return FALSE;
   }
-
-  /* restore game settings save in game.ruleset */
-  reload_rulesets_settings();
 
   /* FIXME: Send server settings one by one to don't send the control
    * packet. */

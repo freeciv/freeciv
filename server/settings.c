@@ -119,10 +119,14 @@ struct setting {
 
   /* action function */
   const action_callback_func_t action;
+
+  /* ruleset lock for game settings */
+  bool locked;
 };
 
 static void setting_set_to_default(struct setting *pset);
-static bool setting_ruleset_one(const struct entry *pentry);
+static bool setting_ruleset_one(struct section_file *file,
+                                const char *name, const char *path);
 
 /* Category names must match the values in enum sset_category. */
 const char *sset_category_names[] = {N_("Geological"),
@@ -342,7 +346,7 @@ static bool phasemode_callback(int value, struct connection *caller,
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,          \
       scateg, slevel,                                                   \
       {.boolean = {&value, _default, func_validate}},                   \
-      func_action},
+      func_action, FALSE},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
                 short_help, extra_help, func_validate, func_action,     \
@@ -350,7 +354,7 @@ static bool phasemode_callback(int value, struct connection *caller,
   {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
       scateg, slevel,                                                   \
       {.integer = {(int *) &value, _default, _min, _max, func_validate}}, \
-      func_action},
+      func_action, FALSE},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
                    short_help, extra_help, func_validate, func_action,  \
@@ -358,14 +362,15 @@ static bool phasemode_callback(int value, struct connection *caller,
   {name, sclass, to_client, short_help, extra_help, SSET_STRING,        \
       scateg, slevel,                                                   \
       {.string = {value, _default, sizeof(value), func_validate}},      \
-      func_action},
+      func_action, FALSE},
 
 #define GEN_END                                                         \
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,             \
       SSET_NUM_CATEGORIES, SSET_NONE,                                   \
-      {.boolean = {FALSE, FALSE, NULL}}, NULL},
+      {.boolean = {FALSE, FALSE, NULL}}, NULL, FALSE},
 
-struct setting settings[] = {
+/* game settings */
+static struct setting settings[] = {
 
   /* These should be grouped by sclass */
   
@@ -1419,6 +1424,14 @@ bool setting_is_changeable(const struct setting *pset,
     return FALSE;
   }
 
+  if (setting_locked(pset)) {
+    /* setting is locked by the ruleset */
+    if (reject_msg) {
+      *reject_msg = _("This setting is locked by the ruleset.");
+    }
+    return FALSE;
+  }
+
   switch (pset->sclass) {
   case SSET_MAP_SIZE:
   case SSET_MAP_GEN:
@@ -1690,38 +1703,37 @@ void setting_action(const struct setting *pset) {
   }
 }
 
-
 /**************************************************************************
   Load game settings from ruleset file 'game.ruleset'.
 **************************************************************************/
-bool setting_ruleset(struct section_file *file, const char *section)
+bool settings_ruleset(struct section_file *file, const char *section)
 {
-  struct section *sec;
-  bool update = FALSE;
+  const char *name;
+  int j;
+
+  /* set all settings to their default values and unlock them */
+  settings_init();
 
   /* settings */
-  sec = secfile_section_by_name(file, section);
-  if (NULL == sec) {
+  if (NULL == secfile_section_by_name(file, section)) {
     /* no settings in ruleset file */
     log_verbose("no [%s] section for game settings in %s", section,
                 secfile_name(file));
     return FALSE;
   }
 
-  entry_list_iterate(section_entries(sec), pentry) {
-    if (setting_ruleset_one(pentry)) {
-      update = TRUE;
-    } else {
-      char buf[256];
-      entry_path(pentry, buf, sizeof(buf));
-      log_error("unknown setting: %s", buf);
-    }
-  } entry_list_iterate_end;
+  for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
+                                                 section, j)); j++) {
+    char path[256];
+    my_snprintf(path, sizeof(path), "%s.set%d", section, j);
 
-  if (update) {
-    /* send game settings */
-    send_server_settings(NULL);
+    if (!setting_ruleset_one(file, name, path)) {
+      log_error("unknown setting in '%s': %s", secfile_name(file), name);
+    }
   }
+
+  /* send game settings */
+  send_server_settings(NULL);
 
   return TRUE;
 }
@@ -1729,15 +1741,16 @@ bool setting_ruleset(struct section_file *file, const char *section)
 /**************************************************************************
   Set one setting from the game.ruleset file.
 **************************************************************************/
-static bool setting_ruleset_one(const struct entry *pentry)
+static bool setting_ruleset_one(struct section_file *file,
+                                const char *name, const char *path)
 {
-  bool bval;
+  bool bval, lock;
   int ival;
   const char *message = NULL, *sval = NULL;
   struct setting *pset = NULL;
 
   settings_iterate(pset_check) {
-    if (0 == strcmp(setting_name(pset_check), entry_name(pentry))) {
+    if (0 == strcmp(setting_name(pset_check), name)) {
       pset = pset_check;
       break;
     }
@@ -1751,58 +1764,75 @@ static bool setting_ruleset_one(const struct entry *pentry)
   /* FIXME: mostly a duplicate of parts of stdinhand:set_command() */
   switch (pset->stype) {
   case SSET_BOOL:
-    if (!entry_bool_get(pentry, &bval)) {
-        log_error("%s", secfile_error());
+    if (!secfile_lookup_bool(file, &bval, "%s.value", path)) {
+        log_error("Can't read value for setting '%s': %s", name,
+                  secfile_error());
     } else if (bval != setting_bool_get(pset)) {
-      if (!setting_bool_validate(pset, bval, NULL, &message)) {
-        log_error("%s", message);
+      if (setting_bool_set(pset, bval, NULL, &message)) {
+        log_normal(_("Option: %s has been set to %d."),
+                   setting_name(pset), setting_bool_get(pset) ? 1 : 0);
       } else {
-        if (setting_bool_set(pset, bval, NULL, &message)) {
-          log_normal(_("Option: %s has been set to %d."),
-                     setting_name(pset), setting_bool_get(pset) ? 1 : 0);
-        } else {
-          log_error("%s", message);
-        }
+        log_error("%s", message);
       }
     }
     break;
 
   case SSET_INT:
-    if (!entry_int_get(pentry, &ival)) {
-        log_error("%s", secfile_error());
+    if (!secfile_lookup_int(file, &ival, "%s.value", path)) {
+        log_error("Can't read value for setting '%s': %s", name,
+                  secfile_error());
     } else if (ival != setting_int_get(pset)) {
-      if (!setting_int_validate(pset, ival, NULL, &message)) {
-        log_error("%s", message);
+      if (setting_int_set(pset, ival, NULL, &message)) {
+        log_normal(_("Option: %s has been set to %d."),
+                   setting_name(pset), setting_int_get(pset));
       } else {
-        if (setting_int_set(pset, ival, NULL, &message)) {
-          log_normal(_("Option: %s has been set to %d."),
-                     setting_name(pset), setting_int_get(pset));
-        } else {
-          log_error("%s", message);
-        }
+        log_error("%s", message);
       }
     }
     break;
 
   case SSET_STRING:
-    if (!entry_str_get(pentry, &sval)) {
-        log_error("%s", secfile_error());
+    if (!(sval = secfile_lookup_str(file, "%s.value", path))) {
+        log_error("Can't read value for setting '%s': %s", name,
+                  secfile_error());
     } else if (strcmp(sval, setting_str_get(pset)) != 0) {
-      if (!setting_str_validate(pset, sval, NULL, &message)) {
-        log_error("%s", message);
+      if (setting_str_set(pset, sval, NULL, &message)) {
+        log_normal(_("Option: %s has been set to \"%s\"."),
+                   setting_name(pset), setting_str_get(pset));
       } else {
-        if (setting_str_set(pset, sval, NULL, &message)) {
-          log_normal(_("Option: %s has been set to \"%s\"."),
-                     setting_name(pset), setting_str_get(pset));
-        } else {
-          log_error("%s", message);
-        }
+        log_error("%s", message);
       }
     }
     break;
   }
 
+  if (!secfile_lookup_bool(file, &lock, "%s.lock", path)) {
+    log_error("Can't read lock status for setting '%s': %s", name,
+              secfile_error());
+  } else if (lock) {
+    /* set lock */
+    setting_lock_set(pset, lock);
+    log_normal(_("Option: %s has been locked by the ruleset."),
+               setting_name(pset));
+  }
+
   return TRUE;
+}
+
+/**************************************************************************
+  Returns if the setting is locked by the ruleset.
+**************************************************************************/
+bool setting_locked(const struct setting *pset)
+{
+  return pset->locked;
+}
+
+/**************************************************************************
+  Set the value for the lock of a setting.
+**************************************************************************/
+void setting_lock_set(struct setting *pset, bool lock)
+{
+  pset->locked = lock;
 }
 
 /**************************************************************************
@@ -1811,6 +1841,7 @@ static bool setting_ruleset_one(const struct entry *pentry)
 void settings_init(void)
 {
   settings_iterate(pset) {
+    setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
   } settings_iterate_end;
 }

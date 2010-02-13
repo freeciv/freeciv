@@ -102,7 +102,9 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller,
                           const char **reject_msg);
 void setting_action(const struct setting *pset);
-bool setting_ruleset(struct section_file *file, const char *section);
+
+bool setting_locked(const struct setting *pset);
+void setting_lock_set(struct setting *pset, bool lock);
 
 /* iterate over all settings */
 #define settings_iterate(_pset)                                            \
@@ -119,6 +121,8 @@ void settings_init(void);
 void settings_reset(void);
 void settings_turn(void);
 void settings_free(void);
+
+bool settings_ruleset(struct section_file *file, const char *section);
 
 void send_server_setting(struct conn_list *dest, const struct setting *pset);
 void send_server_settings(struct conn_list *dest);

@@ -3381,7 +3381,7 @@ static void load_ruleset_game(void)
   }
   free(svec);
 
-  setting_ruleset(file, "settings");
+  settings_ruleset(file, "settings");
 
   secfile_check_unused(file);
   secfile_destroy(file);
@@ -3980,7 +3980,7 @@ void reload_rulesets_settings(void)
   struct section_file *file;
 
   file = openload_ruleset_file("game");
-  setting_ruleset(file, "settings");
+  settings_ruleset(file, "settings");
   secfile_destroy(file);
 }
 

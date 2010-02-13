@@ -220,9 +220,11 @@ names =
  _("Team 31")
 
 [settings]
-; freeciv game settings
+; freeciv game settings for the default ruleset
 ;
-; add game settings as
-; <setting bool> = 0
-; <setting int> = 5
-; <setting string> = "abc"
+; set =
+;     { "name", "value", "lock"
+;       "bool_set", TRUE, FALSE
+;       "int_set", 123, FALSE
+;       "str_set", "test", FALSE
+;     }

@@ -187,7 +187,17 @@ names =
  _("Team 31")
 
 [settings]
-; civ2 game settings
-sciencebox = 50
-startunits = "cc"
-borders = 0
+; freeciv game settings for the civ2 ruleset
+;
+; set =
+;     { "name", "value", "lock"
+;       "bool_set", TRUE, FALSE
+;       "int_set", 123, FALSE
+;       "str_set", "test", FALSE
+;     }
+set =
+    { "name", "value", "lock"
+      "sciencebox", 50, FALSE
+      "startunits", "cc", FALSE
+      "borders", 0, FALSE
+    }
