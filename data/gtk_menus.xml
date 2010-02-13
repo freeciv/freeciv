@@ -151,8 +151,11 @@
     </menu>
 
     <menu action="MENU_HELP">
+      <menuitem action="HELP_OVERVIEW" />
       <menuitem action="HELP_PLAYING" />
       <menuitem action="HELP_TERRAIN" />
+      <menuitem action="HELP_ECONOMY" />
+      <menuitem action="HELP_CITIES" />
       <menuitem action="HELP_IMPROVEMENTS" />
       <menuitem action="HELP_WONDERS" />
       <menuitem action="HELP_UNITS" />
@@ -160,7 +163,6 @@
       <menuitem action="HELP_ZOC" />
       <menuitem action="HELP_GOVERNMENT" />
       <menuitem action="HELP_DIPLOMACY" />
-      <menuitem action="HELP_HAPPINESS" />
       <menuitem action="HELP_TECH" />
       <menuitem action="HELP_SPACE_RACE" />
       <menuitem action="HELP_RULESET" />

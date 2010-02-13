@@ -313,6 +313,14 @@ static void help_cma_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
+  Action "HELP_OVERVIEW" callback.
+*****************************************************************/
+static void help_overview_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_OVERVIEW_ITEM);
+}
+
+/****************************************************************
   Action "HELP_PLAYING" callback.
 *****************************************************************/
 static void help_playing_callback(GtkAction *action, gpointer data)
@@ -326,6 +334,22 @@ static void help_playing_callback(GtkAction *action, gpointer data)
 static void help_ruleset_callback(GtkAction *action, gpointer data)
 {
   popup_help_dialog_string(HELP_RULESET_ITEM);
+}
+
+/****************************************************************
+  Action "HELP_ECONOMY" callback.
+*****************************************************************/
+static void help_economy_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_ECONOMY_ITEM);
+}
+
+/****************************************************************
+  Action "HELP_CITIES" callback.
+*****************************************************************/
+static void help_cities_callback(GtkAction *action, gpointer data)
+{
+  popup_help_dialog_string(HELP_CITIES_ITEM);
 }
 
 /****************************************************************
@@ -401,15 +425,7 @@ static void help_diplomacy_callback(GtkAction *action, gpointer data)
 }
 
 /****************************************************************
-  Action "HELP_HAPPINESS" callback.
-*****************************************************************/
-static void help_happiness_callback(GtkAction *action, gpointer data)
-{
-  popup_help_dialog_string(HELP_HAPPINESS_ITEM);
-}
-
-/****************************************************************
-  Action "HELP_SPACE_RATE" callback.
+  Action "HELP_SPACE_RACE" callback.
 *****************************************************************/
 static void help_space_rate_callback(GtkAction *action, gpointer data)
 {
@@ -1254,10 +1270,16 @@ static GtkActionGroup *get_safe_group(void)
        "F11", NULL, G_CALLBACK(report_demographic_callback)},
 
       /* Help menu. */
+      {"HELP_OVERVIEW", NULL, _("Overview"),
+       NULL, NULL, G_CALLBACK(help_overview_callback)},
       {"HELP_PLAYING", NULL, _("Strategy and Tactics"),
        NULL, NULL, G_CALLBACK(help_playing_callback)},
       {"HELP_TERRAIN", NULL, _("Terrain"),
        NULL, NULL, G_CALLBACK(help_terrain_callback)},
+      {"HELP_ECONOMY", NULL, _("Economy"),
+       NULL, NULL, G_CALLBACK(help_economy_callback)},
+      {"HELP_CITIES", NULL, _("Cities"),
+       NULL, NULL, G_CALLBACK(help_cities_callback)},
       {"HELP_IMPROVEMENTS", NULL, _("City Improvements"),
        NULL, NULL, G_CALLBACK(help_improvements_callback)},
       {"HELP_WONDERS", NULL, _("Wonders of the World"),
@@ -1272,8 +1294,6 @@ static GtkActionGroup *get_safe_group(void)
        NULL, NULL, G_CALLBACK(help_government_callback)},
       {"HELP_DIPLOMACY", NULL, _("Diplomacy"),
        NULL, NULL, G_CALLBACK(help_diplomacy_callback)},
-      {"HELP_HAPPINESS", NULL, _("Happiness"),
-       NULL, NULL, G_CALLBACK(help_happiness_callback)},
       {"HELP_TECH", NULL, _("Technology"),
        NULL, NULL, G_CALLBACK(help_tech_callback)},
       {"HELP_SPACE_RACE", NULL, _("Space Race"),

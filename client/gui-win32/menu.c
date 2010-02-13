@@ -159,7 +159,10 @@ enum MenuID {
   IDM_HELP_CHATLINE,
   IDM_HELP_WORKLIST_EDITOR,
   IDM_HELP_CMA,
+  IDM_HELP_OVERVIEW,
   IDM_HELP_PLAYING,
+  IDM_HELP_ECONOMY,
+  IDM_HELP_CITIES,
   IDM_HELP_IMPROVEMENTS,
   IDM_HELP_UNITS,
   IDM_HELP_COMBAT,
@@ -169,7 +172,6 @@ enum MenuID {
   IDM_HELP_WONDERS,
   IDM_HELP_GOVERNMENT,
   IDM_HELP_DIPLOMACY,
-  IDM_HELP_HAPPINESS,
   IDM_HELP_SPACE_RACE,
   IDM_HELP_RULESET,
   IDM_HELP_COPYING,
@@ -419,8 +421,11 @@ static struct my_menu main_menu[] = {
 
 
   {N_("Help"),					IDM_SUBMENU},
+  {N_("Overview"),				IDM_HELP_OVERVIEW},
   {N_("Strategy and Tactics"),			IDM_HELP_PLAYING},
   {N_("Terrain"),				IDM_HELP_TERRAIN},
+  {N_("Economy"),				IDM_HELP_ECONOMY},
+  {N_("Cities"),				IDM_HELP_CITIES},
   {N_("City Improvements"),			IDM_HELP_IMPROVEMENTS},
   {N_("Wonders of the World"),			IDM_HELP_WONDERS},
   {N_("Units"),					IDM_HELP_UNITS},
@@ -428,7 +433,6 @@ static struct my_menu main_menu[] = {
   {N_("Zones of Control"),			IDM_HELP_ZOC},
   {N_("Government"),				IDM_HELP_GOVERNMENT},
   {N_("Diplomacy"),				IDM_HELP_DIPLOMACY},
-  {N_("Happiness"),				IDM_HELP_HAPPINESS},
   {N_("Technology"),				IDM_HELP_TECH},
   {N_("Space Race"),				IDM_HELP_SPACE_RACE},
   {N_("About Ruleset"),				IDM_HELP_RULESET},
@@ -890,8 +894,17 @@ void handle_menu(int code)
     case IDM_HELP_CMA:
       popup_help_dialog_string(HELP_CMA_ITEM);
       break;
+    case IDM_HELP_OVERVIEW:
+      popup_help_dialog_string(HELP_OVERVIEW_ITEM);
+      break;
     case IDM_HELP_PLAYING:
       popup_help_dialog_string(HELP_PLAYING_ITEM);
+      break;
+    case IDM_HELP_ECONOMY:
+      popup_help_dialog_string(HELP_ECONOMY_ITEM);
+      break;
+    case IDM_HELP_CITIES:
+      popup_help_dialog_string(HELP_CITIES_ITEM);
       break;
     case IDM_HELP_IMPROVEMENTS:
       popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
@@ -919,9 +932,6 @@ void handle_menu(int code)
       break;
     case IDM_HELP_DIPLOMACY:
       popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
-      break;
-    case IDM_HELP_HAPPINESS:
-      popup_help_dialog_string(HELP_HAPPINESS_ITEM);
       break;
     case IDM_HELP_SPACE_RACE:
       popup_help_dialog_string(HELP_SPACE_RACE_ITEM);

@@ -243,8 +243,11 @@ static struct MenuEntry editor_menu_entries[] = {
 };
 
 static struct MenuEntry help_menu_entries[]={
+    { { N_("Overview"), 0             },      "", MENU_HELP_OVERVIEW, 0 },
     { { N_("Strategy and Tactics"), 0 },      "", MENU_HELP_PLAYING, 0 },
     { { N_("Terrain"), 0              },      "", MENU_HELP_TERRAIN, 0 },
+    { { N_("Economy"), 0              },      "", MENU_HELP_ECONOMY, 0 },
+    { { N_("Cities"), 0               },      "", MENU_HELP_CITIES, 0 },
     { { N_("City Improvements"), 0    },      "", MENU_HELP_IMPROVEMENTS, 0 },
     { { N_("Wonders of the WOrld"), 0 },      "", MENU_HELP_WONDERS, 0 },
     { { N_("Units"), 0                },      "", MENU_HELP_UNITS, 0 },
@@ -252,7 +255,6 @@ static struct MenuEntry help_menu_entries[]={
     { { N_("ZOC"), 0                  },      "", MENU_HELP_ZOC, 0 },
     { { N_("Government"), 0           },      "", MENU_HELP_GOVERNMENT, 0 },
     { { N_("Diplomacy"), 0            },      "", MENU_HELP_DIPLOMACY, 0 },
-    { { N_("Happiness"), 0            },      "", MENU_HELP_HAPPINESS, 0 },
     { { N_("Technology"), 0           },      "", MENU_HELP_TECH, 0 },
     { { N_("Space Race"), 0           },      "", MENU_HELP_SPACE_RACE, 0 },
     { { N_("About Ruleset"), 0        },      "", MENU_HELP_RULESET, 0 },
@@ -898,8 +900,17 @@ static void help_menu_callback(Widget w, XtPointer client_data,
   case MENU_HELP_WORKLIST_EDITOR:
     popup_help_dialog_string(HELP_WORKLIST_EDITOR_ITEM);
     break;
+  case MENU_HELP_OVERVIEW:
+    popup_help_dialog_string(HELP_OVERVIEW_ITEM);
+    break;
   case MENU_HELP_PLAYING:
     popup_help_dialog_string(HELP_PLAYING_ITEM);
+    break;
+  case MENU_HELP_ECONOMY:
+    popup_help_dialog_string(HELP_ECONOMY_ITEM);
+    break;
+  case MENU_HELP_CITIES:
+    popup_help_dialog_string(HELP_CITIES_ITEM);
     break;
   case MENU_HELP_IMPROVEMENTS:
     popup_help_dialog_string(HELP_IMPROVEMENTS_ITEM);
@@ -927,9 +938,6 @@ static void help_menu_callback(Widget w, XtPointer client_data,
     break;
   case MENU_HELP_DIPLOMACY:
     popup_help_dialog_string(HELP_DIPLOMACY_ITEM);
-    break;
-  case MENU_HELP_HAPPINESS:
-    popup_help_dialog_string(HELP_HAPPINESS_ITEM);
     break;
   case MENU_HELP_SPACE_RACE:
     popup_help_dialog_string(HELP_SPACE_RACE_ITEM);
