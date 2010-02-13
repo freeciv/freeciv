@@ -1482,7 +1482,7 @@ if (_count > MAX_VET_LEVELS) {						\
 
   update_simple_ai_types();
 
-  free(csec);
+  section_list_free(csec);
   section_list_free(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
