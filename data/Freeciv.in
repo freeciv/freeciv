@@ -3357,7 +3357,16 @@ Freeciv*startpagelabel.right:              chainRight
 Freeciv*startpagelabel.label: _("\
 Name              Ready Leader          Nation          ")
 
-Freeciv*startpageplayerslist.fromVert:        startpagelabel
+Freeciv*startpageviewport.resizable:       true
+Freeciv*startpageviewport.allowVert:       true
+Freeciv*startpageviewport.allowHoriz:      false
+Freeciv*startpageviewport.forceBars:       true
+Freeciv*startpageviewport.top:             chainTop
+Freeciv*startpageviewport.bottom:          chainBottom
+Freeciv*startpageviewport.left:            chainLeft
+Freeciv*startpageviewport.right:           chainRight
+Freeciv*startpageviewport.fromVert:        startpagelabel
+
 Freeciv*startpageplayerslist.forceColumns:    true
 Freeciv*startpageplayerslist.defaultColumns:  1
 Freeciv*startpageplayerslist.verticalList:    true
@@ -3369,7 +3378,7 @@ Freeciv*startpageplayerslist.right:           chainRight
 Freeciv*startpageplayerslist.background:      white
 
 Freeciv*startpagecancelcommand.label:         _("Cancel")
-Freeciv*startpagecancelcommand.fromVert:      startpageplayerslist
+Freeciv*startpagecancelcommand.fromVert:      startpageviewport
 Freeciv*startpagecancelcommand.top:           chainBottom
 Freeciv*startpagecancelcommand.bottom:        chainBottom
 Freeciv*startpagecancelcommand.left:          chainLeft
@@ -3377,7 +3386,7 @@ Freeciv*startpagecancelcommand.right:         chainLeft
 
 Freeciv*startpagenationcommand.label:         _("Pick Nation")
 Freeciv*startpagenationcommand.fromHoriz:     startpagecancelcommand
-Freeciv*startpagenationcommand.fromVert:      startpageplayerslist
+Freeciv*startpagenationcommand.fromVert:      startpageviewport
 Freeciv*startpagenationcommand.top:           chainBottom
 Freeciv*startpagenationcommand.bottom:        chainBottom
 Freeciv*startpagenationcommand.left:          chainLeft
@@ -3385,7 +3394,7 @@ Freeciv*startpagenationcommand.right:         chainLeft
 
 Freeciv*startpagestartcommand.label:          _("Start")
 Freeciv*startpagestartcommand.fromHoriz:      startpagenationcommand
-Freeciv*startpagestartcommand.fromVert:       startpageplayerslist
+Freeciv*startpagestartcommand.fromVert:       startpageviewport
 Freeciv*startpagestartcommand.top:            chainBottom
 Freeciv*startpagestartcommand.bottom:         chainBottom
 Freeciv*startpagestartcommand.left:           chainLeft
