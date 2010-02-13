@@ -17,11 +17,12 @@
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+#include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
-#include <X11/Xaw/SimpleMenu.h>
-#include <X11/Xaw/Command.h>
 #include <X11/Xaw/List.h>
+#include <X11/Xaw/SimpleMenu.h>
+#include <X11/Xaw/Viewport.h>
 
 /* utility */
 #include "fcintl.h"
@@ -47,6 +48,7 @@ static enum client_pages old_page;
 static Widget start_page_shell;
 static Widget start_page_form;
 static Widget start_page_label;
+static Widget start_page_viewport;
 static Widget start_page_players_list;
 static Widget start_page_cancel_command;
 static Widget start_page_nation_command;
@@ -153,10 +155,14 @@ void create_start_page(void)
 					labelWidgetClass,
 					start_page_form, NULL));
 
+  start_page_viewport =
+    XtVaCreateManagedWidget("startpageviewport", viewportWidgetClass,
+                            start_page_form, NULL);
+
   start_page_players_list =
     XtVaCreateManagedWidget("startpageplayerslist",
 			    listWidgetClass,
-			    start_page_form,
+			    start_page_viewport,
 			    NULL);
 
   start_page_cancel_command =
@@ -217,7 +223,7 @@ void update_start_page(void)
     static char *namelist_ptrs[MAX_NUM_PLAYERS];
     static char namelist_text[MAX_NUM_PLAYERS][256];
     int j;
-    Dimension width;
+    Dimension width, height;
 
     j = 0;
     players_iterate(pplayer) {
@@ -265,10 +271,18 @@ void update_start_page(void)
       namelist_ptrs[j]=namelist_text[j];
       j++;
     } conn_list_iterate_end;
+    XawFormDoLayout(start_page_form, False);
     XawListChange(start_page_players_list, namelist_ptrs, j, 0, True);
 
-    XtVaGetValues(start_page_players_list, XtNwidth, &width, NULL);
-    XtVaSetValues(start_page_label, XtNwidth, width, NULL); 
+    XtVaGetValues(start_page_players_list, XtNlongest, &width, NULL);
+    XtVaGetValues(start_page_players_list, XtNheight, &height, NULL);
+    XtVaSetValues(start_page_viewport, XtNwidth, width + 15, NULL); 
+    XtVaSetValues(start_page_label, XtNwidth, width + 15, NULL); 
+    XawFormDoLayout(start_page_form, True);
+    if (height > 120) {
+      height = 120;
+    }
+    XtVaSetValues(start_page_viewport, XtNheight, height, NULL); 
   }
 }
 
@@ -309,3 +323,4 @@ void start_page_msg_close(Widget w)
 {
   popdown_start_page();
 }
+
