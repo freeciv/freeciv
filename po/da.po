@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-13 23:20+0100\n"
+"POT-Creation-Date: 2010-02-14 18:34+0100\n"
 "PO-Revision-Date: 2010-02-12 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -14135,7 +14135,7 @@ msgid "<%s AI>"
 msgstr "<%s computer>"
 
 #: client/gui-gtk-2.0/gui_main.c:1717 client/gui-win32/dialogs.c:609
-#: client/gui-xaw/pages.c:227
+#: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "Tilfældig"
 
@@ -18309,7 +18309,7 @@ msgstr "Verdens vidundere"
 msgid "ZOC"
 msgstr "Kontrolzone"
 
-#: client/gui-xaw/pages.c:221
+#: client/gui-xaw/pages.c:231
 msgid "<AI>"
 msgstr "<AI>"
 
