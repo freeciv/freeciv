@@ -2,9 +2,9 @@
 BUGS
 ====
 
-This is a beta release and may contain bugs.  Much of the following text
-applies to the upcoming stable release!  Please report all bugs to
-https://gna.org/bugs/?func=additem&group=freeciv.
+Freeciv 2.2 is a "stable" release and is considered bug-free enough
+for everyday use.  However if you do find a bug, we would really like to
+know, so that we can fix it.
 
 
 REPORTING A BUG:
