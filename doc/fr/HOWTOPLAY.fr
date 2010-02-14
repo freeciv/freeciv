@@ -10,8 +10,8 @@ Si vous n'avez jamais joué aux jeux Civilization, il sera plus facile de
 commencer par lire le "Freeciv Manual", disponible séparément aux
 endroits suivants :
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://fr.freeciv.wikia.com/wiki/Documentation
+     http://download.gna.org/freeciv/contrib/manual/
 
 Si vous cherchez des idées pour jouer à Freeciv, continuez à lire !
 
@@ -259,7 +259,7 @@ nécessaires pour pouvoir faire des recherches sur une nouvelle
 technologie.
 
 Sinon, vous pouvez télécharger le "techtree" de Daviid Pfitzner :
-http://msowww.anu.edu.au/~dwp/freeciv/.
+http://download.gna.org/freeciv/contrib/charts/.
 
 En dernier recours, vous pouvez lire les sources dans common/tech.c. Il
 y a une liste de toutes les technologies, et quelles technologies sont

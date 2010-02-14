@@ -229,7 +229,7 @@ Aankondigen van het spel:
 Als u uw opponenten niet wilt beperken tot lokale vrienden of KI-spelers,
 bezoek dan de Freeciv metaserver:
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/
 
 Het is een lijst van Freeciv servers. Om uw eigen server zich daar te laten
 aankondigen, start civserver met de '--meta' optie, of gewoon '-m'.
@@ -314,7 +314,7 @@ Voor heel veel meer informatie over de client, de server en de concepten
 en regels van het spel, bekijk de Freeciv handleiding, beschikbaar op de
 webpagina's op:
 
-  http://www.freeciv.org/manual/
+  http://freeciv.org/wiki/Manual
 
 
 Beëindigen van het spel:
@@ -447,66 +447,31 @@ versie en informatie over het rapporteren van fouten.
 Mailing lijsten:
 ================
 
-Wij onderhouden 7 mailing lijsten:
+Wij onderhouden 4 mailing lijsten:
 
-  freeciv          Algemene discussie
   freeciv-announce Aankondigingen van algemeen belang
                    Dit is een 'Alleen lezen' lijst met infrequente berichten.
                    M.a.w. u kunt niet naar deze lijst sturen, alleen maar
                    ontvangen. (Aankondigingen die hier naar toe gestuurd
                    worden komen ook op freeciv).
   freeciv-dev      Freeciv ontwikkeling.
-  freeciv-data     Freeciv data-map ontwikkeling.
-                   (Discussie over spelregels, vlakkensets, enz.)
-  freeciv-java     Freeciv Java client ontwikkeling.
-  freeciv-ai       Freeciv KI ontwikkeling.
-  freeciv-cvs      Kennisgevingen van veranderingen in de CVS repository.
+  freeciv-commit   Kennisgevingen van veranderingen in de SVN repository.
                    Dit is een 'Alleen lezen' lijst met uitsluitend
                    automatische berichten. M.a.w. u kunt niets naar deze
                    lijst sturen, u kunt alleen maar ontvangen.
+  freeciv-i18n
 
 Alle lijsten staan open voor het grote publiek en iedereen is welkom om mee te
 doen.
-
-Om mee te doen (of niet meer mee te doen) met deze lijsten volg de volgende
-stappen:
-
-  1. Email naar <listar@freeciv.org>.
-  2. Laat het onderwerp leeg
-  3. In het bericht van de email zet één van:
-      Om mee te doen:
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-ai
-        subscribe freeciv-cvs
-      To niet meer mee te doen:
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-ai
-        unsubscribe freeciv-cvs
-
-Om email naar de lijst te sturen, stuur het naar:
-
-  Voor freeciv, mail moet gestuurd worden naar <freeciv@freeciv.org>.
-  Voor freeciv-dev, mail moet gestuurd worden naar <freeciv-dev@freeciv.org>.
-  Voor freeciv-data, mail moet gestuurd worden naar <freeciv-data@freeciv.org>.
-  Voor freeciv-java, mail moet gestuurd worden naar <freeciv-java@freeciv.org>.
-  Voor freeciv-ai, mail moet gestuurd worden naar <freeciv-ai@freeciv.org>.
 
 
 Internet Relay Chat (IRC)
 =========================
 
-Diverse spelers en ontwikkelaars hangen rond op #freeciv op het Open Projects
+Diverse spelers en ontwikkelaars hangen rond op #freeciv op het Freenode
 netwerk. Probeer verbinding te maken met de server
 
-	irc.openprojects.net
+	irc.freenode.net
 
 
 Nieuwe versies:
