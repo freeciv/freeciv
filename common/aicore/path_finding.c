@@ -2583,9 +2583,11 @@ int pf_map_iterator_get_move_cost(struct pf_map *pfm)
   Read all info about the current position into pos.
 *******************************************************************/
 void pf_map_iterator_get_position(struct pf_map *pfm,
-				  struct pf_position *pos)
+                                  struct pf_position *pos)
 {
-  assert(pfm->get_position(pfm, pfm->tile, pos));
+  if (!pfm->get_position(pfm, pfm->tile, pos)) {
+    die("pf: get_postion() at current iterator failed!");
+  }
 }
 
 /************************************************************************
