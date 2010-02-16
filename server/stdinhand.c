@@ -2534,7 +2534,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     }
     if (val != 0 && val != 1) {
       cmd_reply(CMD_SET, caller, C_SYNTAX,
-                _("Value out of range (minimum: 0, maximum: 1)."));
+                _("Not a boolean value (only 0 and 1 allowed)."));
       goto cleanup;
     } else {
       if (check) {
@@ -2576,29 +2576,22 @@ static bool set_command(struct connection *caller, char *str, bool check)
         goto cleanup;
       }
     }
-    if (val < setting_int_min(pset) || val > setting_int_max(pset)) {
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-                _("Value out of range (minimum: %d, maximum: %d)."),
-                setting_int_min(pset), setting_int_max(pset));
-      goto cleanup;
+    if (check) {
+      if (!setting_int_validate(pset, val, caller, reject_msg,
+                                sizeof(reject_msg))) {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
+      }
     } else {
-      if (check) {
-        if (!setting_int_validate(pset, val, caller, reject_msg,
-                                  sizeof(reject_msg))) {
-          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-          goto cleanup;
-        }
+      if (setting_int_set(pset, val, caller, reject_msg,
+                          sizeof(reject_msg))) {
+        my_snprintf(buffer, sizeof(buffer),
+                    _("Option: %s has been set to %d."),
+                    setting_name(pset), setting_int_get(pset));
+        do_update = TRUE;
       } else {
-        if (setting_int_set(pset, val, caller, reject_msg,
-                            sizeof(reject_msg))) {
-          my_snprintf(buffer, sizeof(buffer),
-                      _("Option: %s has been set to %d."),
-                      setting_name(pset), setting_int_get(pset));
-          do_update = TRUE;
-        } else {
-          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-          goto cleanup;
-        }
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
       }
     }
     break;
