@@ -709,12 +709,13 @@ static void dem_line_item(char *outptr, size_t out_size,
 
 /*************************************************************************
   Verify that a given demography string is valid.  See
-  game.demography.
+  game.demography. If the string is not valid the index of the _first_
+  invalid character is return as 'error'.
 
   Other settings callback functions are in settings.c, but this one uses
   static values from this file so it's done separately.
 *************************************************************************/
-bool is_valid_demography(const char *demography)
+bool is_valid_demography(const char *demography, int *error)
 {
   int len = strlen(demography), i;
 
@@ -745,6 +746,9 @@ bool is_valid_demography(const char *demography)
     }
 
     if (!found) {
+      if (error != NULL) {
+        (*error) = i;
+      }
       /* The character is invalid. */
       return FALSE;
     }

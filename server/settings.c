@@ -202,12 +202,14 @@ static bool demography_callback(const char *value,
                                 char *reject_msg,
                                 size_t reject_msg_len)
 {
-  if (is_valid_demography(value)) {
+  int error;
+
+  if (is_valid_demography(value, &error)) {
     return TRUE;
   } else {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Demography string contains invalid characters. "
-                        "Try \"help demography\"."));
+                      _("Demography string validation failed at character: "
+                        "'%c'. Try \"help demography\"."), value[error]);
     return FALSE;
   }
 }
@@ -248,8 +250,9 @@ static bool allowtake_callback(const char *value,
 
     /* Looks like the character was invalid. */
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Allowed take string contains invalid\n"
-                        "characters. Try \"help allowtake\"."));
+                      _("Allowed take string validation failed at "
+                        "character: '%c'. Try \"help allowtake\"."),
+                      value[i]);
     return FALSE;
   }
 
@@ -285,16 +288,16 @@ static bool startunits_callback(const char *value,
 
     /* Looks like the character was invalid. */
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Starting units string contains invalid\n"
-                        "characters. Try \"help startunits\"."));
+                      _("Starting units string validation failed at "
+                        "characters '%c'. Try \"help startunits\"."),
+                      value[i]);
     return FALSE;
   }
 
   if (!have_founder) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Starting units string does not contain\n"
-                        "at least one city founder. Try \n"
-                        "\"help startunits\"."));
+                      _("No city founder ('c') within the starting units "
+                        "string: '%s'. Try \"help startunits\"."), value);
     return FALSE;
   }
 
@@ -335,8 +338,9 @@ static bool maxplayers_callback(int value, struct connection *caller,
 #endif
   if (value < player_count()) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Number of players is higher than requested "
-                        "value;\nKeeping old value."));
+                      _("Number of players (%d) is higher than requested "
+                        "value (%d). Keeping old value."), player_count(),
+                      value);
     return FALSE;
   }
 
@@ -1461,14 +1465,16 @@ bool setting_is_changeable(const struct setting *pset,
       && (caller->access_level < ALLOW_BASIC
           || (caller->access_level < ALLOW_HACK && !pset->to_client))) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("You are not allowed to set this option."));
+                      _("You are not allowed to change the setting '%s'."),
+                      setting_name(pset));
     return FALSE;
   }
 
   if (setting_locked(pset)) {
     /* setting is locked by the ruleset */
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting is locked by the ruleset."));
+                      _("The setting '%s' is locked by the ruleset."),
+                      setting_name(pset));
     return FALSE;
   }
 
@@ -1481,8 +1487,8 @@ bool setting_is_changeable(const struct setting *pset,
     }
 
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting can't be modified "
-                        "after the map is fixed."));
+                      _("The setting '%s' can't be modified after the map "
+                        "is fixed."), setting_name(pset));
     return FALSE;
 
   case SSET_MAP_ADD:
@@ -1498,8 +1504,8 @@ bool setting_is_changeable(const struct setting *pset,
     }
 
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting can't be modified "
-                        "after the game has started."));
+                      _("The setting '%s' can't be modified after the game "
+                        "has started."), setting_name(pset));
     return FALSE;
 
   case SSET_RULES_FLEXIBLE:
@@ -1654,7 +1660,8 @@ bool setting_int_validate(const struct setting *pset, int val,
 
   if (val < pset->integer.min_value || val > pset->integer.max_value) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("Value out of range."));
+                      _("Value out of range: %d (min: %d; max: %d)."),
+                      val, pset->integer.min_value, pset->integer.max_value);
     return FALSE;
   }
 
@@ -1715,7 +1722,8 @@ bool setting_str_validate(const struct setting *pset, const char *val,
 
   if (strlen(val) > pset->string.value_size) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("String value too long."));
+                      _("String value too long (max length: %lu)."),
+                      (unsigned long)pset->string.value_size);
     return FALSE;
   }
 

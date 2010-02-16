@@ -25,7 +25,7 @@ void log_civ_score(void);
 void make_history_report(void);
 void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);
-bool is_valid_demography(const char *demography);
+bool is_valid_demography(const char *demography, int *error);
 void report_demographics(struct connection *pconn);
 void report_final_scores(struct conn_list *dest);
 
