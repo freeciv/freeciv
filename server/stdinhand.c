@@ -239,7 +239,7 @@ static char setting_status(struct connection *caller,
     return '!';
   }
 
-  if (setting_is_changeable(pset, caller, NULL)) {
+  if (setting_is_changeable(pset, caller, NULL, 0)) {
     /* setting can be changed */
     return '+';
   }
@@ -1468,7 +1468,7 @@ static void show_help_option(struct connection *caller,
 		     "  ", "  %s", help);
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
-            _("Status: %s"), (setting_is_changeable(pset, NULL, NULL)
+            _("Status: %s"), (setting_is_changeable(pset, NULL, NULL, 0)
                               ? _("changeable") : _("fixed")));
 
   if (setting_is_visible(pset, caller)) {
@@ -2479,8 +2479,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
   int val, cmd, i, nargs;
   struct setting *pset;
   bool do_update;
-  char buffer[500];
-  const char *reject_msg = NULL;
+  char buffer[500], reject_msg[258] = "";
   bool ret = FALSE;
 
   /* '=' is also a valid delimiter for this function. */
@@ -2506,7 +2505,8 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   pset = setting_by_number(cmd);
 
-  if (!setting_is_changeable(pset, caller, &reject_msg) && !check) {
+  if (!setting_is_changeable(pset, caller, reject_msg, sizeof(reject_msg))
+      && !check) {
     cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
     goto cleanup;
   }
@@ -2538,12 +2538,14 @@ static bool set_command(struct connection *caller, char *str, bool check)
       goto cleanup;
     } else {
       if (check) {
-        if (!setting_bool_validate(pset, val != 0, caller, &reject_msg)) {
+        if (!setting_bool_validate(pset, val != 0, caller, reject_msg,
+                                   sizeof(reject_msg))) {
           cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
           goto cleanup;
         }
       } else {
-        if (setting_bool_set(pset, val != 0, caller, &reject_msg)) {
+        if (setting_bool_set(pset, val != 0, caller, reject_msg,
+                             sizeof(reject_msg))) {
           my_snprintf(buffer, sizeof(buffer),
                       _("Option: %s has been set to %d."),
                       setting_name(pset), setting_bool_get(pset) ? 1 : 0);
@@ -2581,12 +2583,14 @@ static bool set_command(struct connection *caller, char *str, bool check)
       goto cleanup;
     } else {
       if (check) {
-        if (!setting_int_validate(pset, val, caller, &reject_msg)) {
+        if (!setting_int_validate(pset, val, caller, reject_msg,
+                                  sizeof(reject_msg))) {
           cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
           goto cleanup;
         }
       } else {
-        if (setting_int_set(pset, val, caller, &reject_msg)) {
+        if (setting_int_set(pset, val, caller, reject_msg,
+                            sizeof(reject_msg))) {
           my_snprintf(buffer, sizeof(buffer),
                       _("Option: %s has been set to %d."),
                       setting_name(pset), setting_int_get(pset));
@@ -2601,12 +2605,14 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   case SSET_STRING:
     if (check) {
-      if (!setting_str_validate(pset, args[1], caller, &reject_msg)) {
+      if (!setting_str_validate(pset, args[1], caller, reject_msg,
+                                sizeof(reject_msg))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
     } else {
-      if (setting_str_set(pset, args[1], caller, &reject_msg)) {
+      if (setting_str_set(pset, args[1], caller, reject_msg,
+          sizeof(reject_msg))) {
         my_snprintf(buffer, sizeof(buffer),
                     _("Option: %s has been set to \"%s\"."),
                     setting_name(pset), setting_str_get(pset));

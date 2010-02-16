@@ -152,7 +152,7 @@ static bool manual_command(void)
          * the function setting_is_changeable() */
         if (!setting_locked(pset)) {
           fprintf(doc, _("Is locked by the ruleset."));
-        } else if (!setting_is_changeable(pset, &my_conn, NULL)) {
+        } else if (!setting_is_changeable(pset, &my_conn, NULL, 0)) {
           fprintf(doc, _("Can only be used in server console."));
         }
 

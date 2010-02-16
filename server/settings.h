@@ -72,36 +72,39 @@ const char *setting_category_name(const struct setting *pset);
 const char *setting_level_name(const struct setting *pset);
 
 bool setting_is_changeable(const struct setting *pset,
-                           struct connection *caller,
-                           const char **reject_msg);
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len);
 bool setting_is_visible(const struct setting *pset,
                         struct connection *caller);
 
 bool setting_bool_get(const struct setting *pset);
 bool setting_bool_def(const struct setting *pset);
 bool setting_bool_set(struct setting *pset, bool val,
-                      struct connection *caller, const char **reject_msg);
+                      struct connection *caller, char *reject_msg,
+                      size_t reject_msg_len);
 bool setting_bool_validate(const struct setting *pset, bool val,
-                           struct connection *caller,
-                           const char **reject_msg);
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len);
 
 int setting_int_get(const struct setting *pset);
 int setting_int_def(const struct setting *pset);
 int setting_int_min(const struct setting *pset);
 int setting_int_max(const struct setting *pset);
 bool setting_int_set(struct setting *pset, int val,
-                     struct connection *caller, const char **reject_msg);
+                     struct connection *caller, char *reject_msg,
+                     size_t reject_msg_len);
 bool setting_int_validate(const struct setting *pset, int val,
-                          struct connection *caller,
-                          const char **reject_msg);
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len);
 
 const char *setting_str_get(const struct setting *pset);
 const char *setting_str_def(const struct setting *pset);
 bool setting_str_set(struct setting *pset, const char *val,
-                     struct connection *caller, const char **reject_msg);
+                     struct connection *caller, char *reject_msg,
+                     size_t reject_msg_len);
 bool setting_str_validate(const struct setting *pset, const char *val,
-                          struct connection *caller,
-                          const char **reject_msg);
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len);
 void setting_action(const struct setting *pset);
 
 bool setting_locked(const struct setting *pset);

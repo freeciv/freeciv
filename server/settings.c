@@ -55,12 +55,15 @@ enum sset_class {
 };
 
 typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
-                                     const char **reject_message);
+                                     char *reject_msg,
+                                     size_t reject_msg_len);
 typedef bool (*int_validate_func_t)(int value, struct connection *pconn,
-                                    const char **reject_message);
+                                    char *reject_msg,
+                                    size_t reject_msg_len);
 typedef bool (*string_validate_func_t)(const char * value,
                                        struct connection *pconn,
-                                       const char **reject_message);
+                                       char *reject_msg,
+                                       size_t reject_msg_len);
 
 struct setting;
 typedef void (*action_callback_func_t)(const struct setting *pset);
@@ -153,6 +156,11 @@ static void setting_game_set(struct setting *pset, bool init);
 static void setting_game_free(struct setting *pset);
 static void setting_game_restore(struct setting *pset);
 
+#define settings_snprintf(_buf, _buf_len, format, ...)                      \
+  if (_buf != NULL) {                                                       \
+    my_snprintf(_buf, _buf_len, format, ## __VA_ARGS__);                    \
+  }
+
 /*************************************************************************
   Action callback functions. 'caller' and 'message' are not used and
   should be set to NULL by the calling function.
@@ -186,12 +194,32 @@ static void autotoggle_action(const struct setting *pset)
 *************************************************************************/
 
 /*************************************************************************
+  Verify that a given demography string is valid. See
+  game.demography.
+*************************************************************************/
+static bool demography_callback(const char *value,
+                                struct connection *caller,
+                                char *reject_msg,
+                                size_t reject_msg_len)
+{
+  if (is_valid_demography(value)) {
+    return TRUE;
+  } else {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Demography string contains invalid characters. "
+                        "Try \"help demography\"."));
+    return FALSE;
+  }
+}
+
+/*************************************************************************
   Verify that a given allowtake string is valid.  See
   game.allow_take.
 *************************************************************************/
 static bool allowtake_callback(const char *value,
                                struct connection *caller,
-                               const char **error_string)
+                               char *reject_msg,
+                               size_t reject_msg_len)
 {
   int len = strlen(value), i;
   bool havecharacter_state = FALSE;
@@ -219,13 +247,13 @@ static bool allowtake_callback(const char *value,
     }
 
     /* Looks like the character was invalid. */
-    *error_string = _("Allowed take string contains invalid\n"
-		      "characters.  Try \"help allowtake\".");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Allowed take string contains invalid\n"
+                        "characters. Try \"help allowtake\"."));
     return FALSE;
   }
 
   /* All characters were valid. */
-  *error_string = NULL;
   return TRUE;
 }
 
@@ -235,7 +263,8 @@ static bool allowtake_callback(const char *value,
 *************************************************************************/
 static bool startunits_callback(const char *value,
                                 struct connection *caller,
-                                const char **error_string)
+                                char *reject_msg,
+                                size_t reject_msg_len)
 {
   int len = strlen(value), i;
   bool have_founder = FALSE;
@@ -255,19 +284,21 @@ static bool startunits_callback(const char *value,
     }
 
     /* Looks like the character was invalid. */
-    *error_string = _("Starting units string contains invalid\n"
-		      "characters.  Try \"help startunits\".");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Starting units string contains invalid\n"
+                        "characters. Try \"help startunits\"."));
     return FALSE;
   }
 
   if (!have_founder) {
-    *error_string = _("Starting units string does not contain\n"
-		      "at least one city founder.  Try \n"
-		      "\"help startunits\".");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Starting units string does not contain\n"
+                        "at least one city founder. Try \n"
+                        "\"help startunits\"."));
     return FALSE;
   }
+
   /* All characters were valid. */
-  *error_string = NULL;
   return TRUE;
 }
 
@@ -275,11 +306,12 @@ static bool startunits_callback(const char *value,
   Verify that a given endturn is valid.
 *************************************************************************/
 static bool endturn_callback(int value, struct connection *caller,
-                             const char **error_string)
+                             char *reject_msg, size_t reject_msg_len)
 {
   if (value < game.info.turn) {
     /* Tried to set endturn earlier than current turn */
-    *error_string = _("Cannot set endturn earlier than current turn.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Cannot set endturn earlier than current turn."));
     return FALSE;
   }
   return TRUE;
@@ -289,24 +321,25 @@ static bool endturn_callback(int value, struct connection *caller,
   Verify that a given maxplayers string is valid.
 *************************************************************************/
 static bool maxplayers_callback(int value, struct connection *caller,
-                                const char **error_string)
+                                char *reject_msg, size_t reject_msg_len)
 {
 #ifdef GGZ_SERVER
   if (with_ggz) {
     /* In GGZ mode the maxplayers is the number of actual players - set
      * when the game is lauched and not changed thereafter.  This may be
      * changed in future. */
-    *error_string = _("Cannot change maxplayers in GGZ mode.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Cannot change maxplayers in GGZ mode."));
     return FALSE;
   }
 #endif
   if (value < player_count()) {
-    *error_string =_("Number of players is higher than requested value;\n"
-		     "Keeping old value.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Number of players is higher than requested "
+                        "value;\nKeeping old value."));
     return FALSE;
   }
 
-  *error_string = NULL;
   return TRUE;
 }
 
@@ -314,15 +347,15 @@ static bool maxplayers_callback(int value, struct connection *caller,
   Disallow low timeout values for non-hack connections.
 *************************************************************************/
 static bool timeout_callback(int value, struct connection *caller,
-                             const char **error_string)
+                             char *reject_msg, size_t reject_msg_len)
 {
   if (caller && caller->access_level < ALLOW_HACK && value < 30) {
-    *error_string = _("You are not allowed to set timeout values less "
-                      "than 30 seconds.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("You are not allowed to set timeout values less "
+                        "than 30 seconds."));
     return FALSE;
   }
 
-  *error_string = NULL;
   return TRUE;
 }
 
@@ -332,18 +365,19 @@ static bool timeout_callback(int value, struct connection *caller,
   alternating phase mode then make teamless players.
 *************************************************************************/
 static bool phasemode_callback(int value, struct connection *caller,
-                               const char **error_string)
+                               char *reject_msg, size_t reject_msg_len)
 {
   if (value == PMT_TEAMS_ALTERNATE) {
     players_iterate(pplayer) {
       if (!pplayer->team) {
-        *error_string = _("All players must have a team if this option "
-                          "value is used.");
+        settings_snprintf(reject_msg, reject_msg_len,
+                          _("All players must have a team if this option "
+                            "value is used."));
         return FALSE;
       }
     } players_iterate_end;
   }
-  *error_string = NULL;
+
   return TRUE;
 }
 
@@ -1283,7 +1317,7 @@ static struct setting settings[] = {
 		"    b = display \"best nation\" column\n"
 		"The order of characters is not significant, but "
 		"their capitalization is."),
-             is_valid_demography, NULL, GAME_DEFAULT_DEMOGRAPHY)
+             demography_callback, NULL, GAME_DEFAULT_DEMOGRAPHY)
 
   GEN_INT("saveturns", game.info.save_nturns,
 	  SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
@@ -1416,27 +1450,25 @@ const char *setting_level_name(const struct setting *pset)
 
 /****************************************************************************
   Returns whether the specified server setting (option) can currently
-  be changed by the caller.  If it returns FALSE, then a reject message is
-  stored into the 'reject_msg' argument, if not NULL.
+  be changed by the caller. If it returns FALSE, the reason of the failure
+  is available by the function setting_error().
 ****************************************************************************/
 bool setting_is_changeable(const struct setting *pset,
-                           struct connection *caller,
-                           const char **reject_msg)
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len)
 {
   if (caller
       && (caller->access_level < ALLOW_BASIC
           || (caller->access_level < ALLOW_HACK && !pset->to_client))) {
-    if (reject_msg) {
-      *reject_msg = _("You are not allowed to set this option.");
-    }
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("You are not allowed to set this option."));
     return FALSE;
   }
 
   if (setting_locked(pset)) {
     /* setting is locked by the ruleset */
-    if (reject_msg) {
-      *reject_msg = _("This setting is locked by the ruleset.");
-    }
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is locked by the ruleset."));
     return FALSE;
   }
 
@@ -1447,10 +1479,10 @@ bool setting_is_changeable(const struct setting *pset,
     if (map_is_empty()) {
       return TRUE;
     }
-    if (reject_msg) {
-      *reject_msg = _("This setting can't be modified "
-                      "after the map is fixed.");
-    }
+
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting can't be modified "
+                        "after the map is fixed."));
     return FALSE;
 
   case SSET_MAP_ADD:
@@ -1464,10 +1496,10 @@ bool setting_is_changeable(const struct setting *pset,
     if (map_is_empty() || game.info.is_new_game) {
       return TRUE;
     }
-    if (reject_msg) {
-      *reject_msg = _("This setting can't be modified "
-                      "after the game has started.");
-    }
+
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting can't be modified "
+                        "after the game has started."));
     return FALSE;
 
   case SSET_RULES_FLEXIBLE:
@@ -1481,9 +1513,7 @@ bool setting_is_changeable(const struct setting *pset,
 
   log_error("Wrong class variant for setting %s (%d): %d.",
             setting_name(pset), setting_number(pset), pset->sclass);
-  if (reject_msg) {
-    *reject_msg = _("Internal error.");
-  }
+  settings_snprintf(reject_msg, reject_msg_len, _("Internal error."));
 
   return FALSE;
 }
@@ -1519,15 +1549,17 @@ bool setting_bool_def(const struct setting *pset)
 }
 
 /****************************************************************************
-  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
-  the 'reject_msg' argument will point to the reason of the failure.
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available by the function setting_error().
 ****************************************************************************/
 bool setting_bool_set(struct setting *pset, bool val,
-                      struct connection *caller, const char **reject_msg)
+                      struct connection *caller, char *reject_msg,
+                      size_t reject_msg_len)
 {
   assert(pset->stype == SSET_BOOL);
 
-  if (!setting_bool_validate(pset, val, caller, reject_msg)) {
+  if (!setting_bool_validate(pset, val, caller, reject_msg,
+                             reject_msg_len)) {
     return FALSE;
   }
 
@@ -1536,19 +1568,21 @@ bool setting_bool_set(struct setting *pset, bool val,
 }
 
 /****************************************************************************
-  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
-  then reject_msg' argument will point to the reason.
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available by the function setting_error().
 
   FIXME: also check the access level of pconn.
 ****************************************************************************/
 bool setting_bool_validate(const struct setting *pset, bool val,
-                           struct connection *caller,
-                           const char **reject_msg)
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len)
 {
   assert(pset->stype == SSET_BOOL);
-  return (setting_is_changeable(pset, caller, reject_msg)
+
+  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
           && (!pset->boolean.validate
-              || pset->boolean.validate(val, caller, reject_msg)));
+              || pset->boolean.validate(val, caller, reject_msg,
+                                        reject_msg_len)));
 }
 
 /****************************************************************************
@@ -1588,15 +1622,17 @@ int setting_int_max(const struct setting *pset)
 }
 
 /****************************************************************************
-  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
-  the 'reject_msg' argument will point to the reason of the failure.
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available by the function setting_error().
 ****************************************************************************/
 bool setting_int_set(struct setting *pset, int val,
-                     struct connection *caller, const char **reject_msg)
+                     struct connection *caller, char *reject_msg,
+                     size_t reject_msg_len)
 {
   assert(pset->stype == SSET_INT);
 
-  if (!setting_int_validate(pset, val, caller, reject_msg)) {
+  if (!setting_int_validate(pset, val, caller, reject_msg,
+                            reject_msg_len)) {
     return FALSE;
   }
 
@@ -1605,24 +1641,27 @@ bool setting_int_set(struct setting *pset, int val,
 }
 
 /****************************************************************************
-  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
-  then reject_msg' argument will point to the reason.
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available by the function setting_error().
 
   FIXME: also check the access level of pconn.
 ****************************************************************************/
 bool setting_int_validate(const struct setting *pset, int val,
-                          struct connection *caller, const char **reject_msg)
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len)
 {
   assert(pset->stype == SSET_INT);
 
   if (val < pset->integer.min_value || val > pset->integer.max_value) {
-    *reject_msg = _("Value out of range.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Value out of range."));
     return FALSE;
   }
 
-  return (setting_is_changeable(pset, caller, reject_msg)
+  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
           && (!pset->integer.validate
-              || pset->integer.validate(val, caller, reject_msg)));
+              || pset->integer.validate(val, caller, reject_msg,
+                                        reject_msg_len)));
 }
 
 /****************************************************************************
@@ -1644,15 +1683,17 @@ const char *setting_str_def(const struct setting *pset)
 }
 
 /****************************************************************************
-  Set the setting to 'val'.  Returns TRUE on success.  If it fails, then
-  the 'reject_msg' argument will point to the reason of the failure.
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available by the function setting_error().
 ****************************************************************************/
 bool setting_str_set(struct setting *pset, const char *val,
-                     struct connection *caller, const char **reject_msg)
+                     struct connection *caller, char *reject_msg,
+                     size_t reject_msg_len)
 {
   assert(pset->stype == SSET_STRING);
 
-  if (!setting_str_validate(pset, val, caller, reject_msg)) {
+  if (!setting_str_validate(pset, val, caller, reject_msg,
+                            reject_msg_len)) {
     return FALSE;
   }
 
@@ -1661,24 +1702,27 @@ bool setting_str_set(struct setting *pset, const char *val,
 }
 
 /****************************************************************************
-  Returns TRUE if 'val' is a valid value for this setting.  If it's not,
-  then reject_msg' argument will point to the reason.
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available by the function setting_error().
 
   FIXME: also check the access level of pconn.
 ****************************************************************************/
 bool setting_str_validate(const struct setting *pset, const char *val,
-                          struct connection *caller, const char **reject_msg)
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len)
 {
   assert(pset->stype == SSET_STRING);
 
   if (strlen(val) > pset->string.value_size) {
-    *reject_msg = _("String value too long.");
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("String value too long."));
     return FALSE;
   }
 
-  return (setting_is_changeable(pset, caller, reject_msg)
+  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
           && (!pset->string.validate
-              || pset->string.validate(val, caller, reject_msg)));
+              || pset->string.validate(val, caller, reject_msg,
+                                       reject_msg_len)));
 }
 
 /********************************************************************
@@ -1754,7 +1798,8 @@ static bool setting_ruleset_one(struct section_file *file,
 {
   bool bval, lock;
   int ival;
-  const char *message = NULL, *sval = NULL;
+  const char *sval = NULL;
+  char reject_msg[258] = "";
   struct setting *pset = NULL;
 
   settings_iterate(pset_check) {
@@ -1776,11 +1821,12 @@ static bool setting_ruleset_one(struct section_file *file,
         log_error("Can't read value for setting '%s': %s", name,
                   secfile_error());
     } else if (bval != setting_bool_get(pset)) {
-      if (setting_bool_set(pset, bval, NULL, &message)) {
+      if (setting_bool_set(pset, bval, NULL, reject_msg,
+                           sizeof(reject_msg))) {
         log_normal(_("Option: %s has been set to %d."),
                    setting_name(pset), setting_bool_get(pset) ? 1 : 0);
       } else {
-        log_error("%s", message);
+        log_error("%s", reject_msg);
       }
     }
     break;
@@ -1790,11 +1836,12 @@ static bool setting_ruleset_one(struct section_file *file,
         log_error("Can't read value for setting '%s': %s", name,
                   secfile_error());
     } else if (ival != setting_int_get(pset)) {
-      if (setting_int_set(pset, ival, NULL, &message)) {
+      if (setting_int_set(pset, ival, NULL, reject_msg,
+                          sizeof(reject_msg))) {
         log_normal(_("Option: %s has been set to %d."),
                    setting_name(pset), setting_int_get(pset));
       } else {
-        log_error("%s", message);
+        log_error("%s", reject_msg);
       }
     }
     break;
@@ -1804,11 +1851,12 @@ static bool setting_ruleset_one(struct section_file *file,
         log_error("Can't read value for setting '%s': %s", name,
                   secfile_error());
     } else if (strcmp(sval, setting_str_get(pset)) != 0) {
-      if (setting_str_set(pset, sval, NULL, &message)) {
+      if (setting_str_set(pset, sval, NULL, reject_msg,
+                          sizeof(reject_msg))) {
         log_normal(_("Option: %s has been set to \"%s\"."),
                    setting_name(pset), setting_str_get(pset));
       } else {
-        log_error("%s", message);
+        log_error("%s", reject_msg);
       }
     }
     break;
@@ -1884,34 +1932,35 @@ static void setting_game_free(struct setting *pset)
 **************************************************************************/
 static void setting_game_restore(struct setting *pset)
 {
-  const char *error_msg;
-  bool res;
+  bool res = FALSE;
+  char reject_msg[258] = "";
 
-  if (!setting_is_changeable(pset, NULL, &error_msg)) {
-    log_debug("Can't restore '%s': %s", setting_name(pset), error_msg);
+  if (!setting_is_changeable(pset, NULL, reject_msg, sizeof(reject_msg))) {
+    log_debug("Can't restore '%s': %s", setting_name(pset),
+              reject_msg);
     return;
   }
 
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    res = setting_bool_set(pset, pset->boolean.game_value, NULL,
-                           &error_msg);
+    res = setting_bool_set(pset, pset->boolean.game_value, NULL, reject_msg,
+                           sizeof(reject_msg));
     break;
 
   case SSET_INT:
-    res = setting_int_set(pset, pset->integer.game_value, NULL,
-                          &error_msg);
+    res = setting_int_set(pset, pset->integer.game_value, NULL, reject_msg,
+                          sizeof(reject_msg));
     break;
 
   case SSET_STRING:
-    res = setting_str_set(pset, pset->string.game_value, NULL,
-                          &error_msg);
+    res = setting_str_set(pset, pset->string.game_value, NULL, reject_msg,
+                          sizeof(reject_msg));
     break;
   }
 
   if (!res) {
     log_error("Error restoring game setting '%s': %s", setting_name(pset),
-              error_msg);
+              reject_msg);
   }
 }
 
@@ -2019,7 +2068,7 @@ void settings_init(void)
 void settings_reset(void)
 {
   settings_iterate(pset) {
-    if (setting_is_changeable(pset, NULL, NULL)) {
+    if (setting_is_changeable(pset, NULL, NULL, 0)) {
       setting_set_to_default(pset);
     }
   } settings_iterate_end;
@@ -2066,7 +2115,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 
     packet.stype = setting_type(pset);
     packet.scategory = pset->scategory;
-    packet.is_changeable = setting_is_changeable(pset, pconn, NULL);
+    packet.is_changeable = setting_is_changeable(pset, pconn, NULL, 0);
     packet.is_visible = setting_is_visible(pset, pconn);
 
     if (packet.is_visible) {

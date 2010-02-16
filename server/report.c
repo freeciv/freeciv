@@ -714,9 +714,7 @@ static void dem_line_item(char *outptr, size_t out_size,
   Other settings callback functions are in settings.c, but this one uses
   static values from this file so it's done separately.
 *************************************************************************/
-bool is_valid_demography(const char *demography,
-                         struct connection *caller,
-                         const char **error_string)
+bool is_valid_demography(const char *demography)
 {
   int len = strlen(demography), i;
 
@@ -748,14 +746,11 @@ bool is_valid_demography(const char *demography,
 
     if (!found) {
       /* The character is invalid. */
-      *error_string = _("Demography string contains invalid characters. "
-			"Try \"help demography\".");
       return FALSE;
     }
   }
 
   /* Looks like all characters were valid. */
-  *error_string = NULL;
   return TRUE;
 }
 
