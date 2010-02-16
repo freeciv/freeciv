@@ -107,7 +107,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
 static bool read_init_script_real(struct connection *caller,
                                   char *script_filename, bool from_cmdline,
                                   bool check, int read_recursion);
-static bool reset_command(struct connection *caller, bool check,
+static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
@@ -3403,7 +3403,8 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_RULESETDIR, caller, C_OK,
                 _("Ruleset directory is already \"%s\""), str);
 
-      /* restore game settings save in game.ruleset */
+      /* Restore game settings save in game.ruleset and send it to all
+       * clients. */
       reload_rulesets_settings();
 
       return TRUE;
@@ -3702,7 +3703,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_WRITE_SCRIPT:
     return write_command(caller, arg, check);
   case CMD_RESET:
-    return reset_command(caller, check, read_recursion);
+    return reset_command(caller, arg, check, read_recursion);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -3775,33 +3776,121 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
   }
 }
 
+/* Define the possible arguments to the reset command */
+enum reset_args {
+  RESET_GAME = 0,
+  RESET_RULESET = 1,
+  RESET_SCRIPT = 2,
+  RESET_DEFAULT = 3,
+  RESET_LAST,
+};
+
+static const char * reset_args_names[] = {
+  "game",     /* RESET_GAME */
+  "ruleset",  /* RESET_RULESET */
+  "script",   /* RESET_SCRIPT */
+  "default",  /* RESET_DEFAULT */
+  NULL,
+};
+
+/**************************************************************************
+  Returns possible parameters for the reset command.
+**************************************************************************/
+static const char *reset_accessor(int i)
+{
+  i = CLIP(0, i, RESET_LAST - 1);
+  return reset_args_names[i];
+}
+
 /**************************************************************************
   Reload the game settings from the ruleset and reload the init script if
   one was used.
 **************************************************************************/
-static bool reset_command(struct connection *caller, bool check,
+static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion)
 {
+  enum m_pre_result result;
+  int ind;
+
+  /* match the argument */
+  result = match_prefix(reset_accessor, RESET_LAST, 0,
+                        mystrncasecmp, NULL, arg, &ind);
+
+  switch (result) {
+  case M_PRE_EXACT:
+  case M_PRE_ONLY:
+    /* we have a match */
+    break;
+  case M_PRE_AMBIGUOUS:
+  case M_PRE_EMPTY:
+    /* use 'ruleset' [1] if the game was not started; else use 'game' [2] */
+    if (S_S_INITIAL == server_state() && game.info.is_new_game) {
+      cmd_reply(CMD_RESET, caller, C_WARNING,
+                _("Guessing argument 'ruleset'."));
+      ind = RESET_RULESET;
+    } else {
+      cmd_reply(CMD_RESET, caller, C_WARNING,
+                _("Guessing argument 'game'."));
+      ind = RESET_GAME;
+    }
+    break;
+  case M_PRE_LONG:
+  case M_PRE_FAIL:
+  case M_PRE_LAST:
+    cmd_reply(CMD_RESET, caller, C_FAIL,
+              _("The valid arguments are: 'game', 'ruleset', 'script' "
+                "or 'default'."));
+    return FALSE;
+    break;
+  }
+
   if (check) {
     return TRUE;
   }
 
-  /* restore game settings save in game.ruleset */
-  reload_rulesets_settings();
+  switch (ind) {
+  case RESET_GAME:
+    if (!game.info.is_new_game) {
+      cmd_reply(CMD_RESET, caller, C_OK,
+                _("Reset all settings to the values at the game start."));
+      settings_game_reset();
+    } else {
+      cmd_reply(CMD_RESET, caller, C_FAIL,
+                _("No Game started ..."));
+      return FALSE;
+    }
+    break;
 
-  if (srvarg.script_filename &&
-      !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
-                             read_recursion)) {
-    log_error(_("Cannot load the script file '%s'"),
-              srvarg.script_filename);
-    return FALSE;
+  case RESET_RULESET:
+    cmd_reply(CMD_RESET, caller, C_OK,
+              _("Reset all settings to ruleset values."));
+    /* Restore game settings save in game.ruleset. */
+    reload_rulesets_settings();
+    break;
+
+  case RESET_SCRIPT:
+    cmd_reply(CMD_RESET, caller, C_OK,
+              _("Reset all settings and rereading the server start "
+                "script."));
+    settings_reset();
+    /* load initial script */
+    if (srvarg.script_filename &&
+        !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
+                               read_recursion + 1)) {
+      log_error(_("Cannot load the script file '%s'"),
+                srvarg.script_filename);
+      return FALSE;
+    }
+    break;
+
+  case RESET_DEFAULT:
+    cmd_reply(CMD_RESET, caller, C_OK,
+              _("Reset all settings to default values."));
+    settings_reset();
+    break;
   }
 
-  /* FIXME: Send server settings one by one to don't send the control
-   * packet. */
-  settings_iterate(pset) {
-    send_server_setting(NULL, pset);
-  } settings_iterate_end;
+  send_server_settings(game.est_connections);
   notify_conn(NULL, NULL, E_SETTING, ftc_server,
               _("Settings re-initialized."));
 

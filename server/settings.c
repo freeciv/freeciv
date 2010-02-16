@@ -99,6 +99,7 @@ struct setting {
       bool *const pvalue;
       const bool default_value;
       const bool_validate_func_t validate;
+      bool game_value;
     } boolean;
     /*** int part ***/
     struct {
@@ -107,6 +108,7 @@ struct setting {
       const int min_value;
       const int max_value;
       const int_validate_func_t validate;
+      int game_value;
     } integer;
     /*** string part ***/
     struct {
@@ -114,6 +116,7 @@ struct setting {
       const char *const default_value;
       const size_t value_size;
       const string_validate_func_t validate;
+      char *game_value;
     } string;
   };
 
@@ -123,10 +126,6 @@ struct setting {
   /* ruleset lock for game settings */
   bool locked;
 };
-
-static void setting_set_to_default(struct setting *pset);
-static bool setting_ruleset_one(struct section_file *file,
-                                const char *name, const char *path);
 
 /* Category names must match the values in enum sset_category. */
 const char *sset_category_names[] = {N_("Geological"),
@@ -146,6 +145,13 @@ const char *sset_level_names[] = {N_("None"),
 				  N_("Changed"),
 				  N_("Locked")};
 const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
+
+static void setting_set_to_default(struct setting *pset);
+static bool setting_ruleset_one(struct section_file *file,
+                                const char *name, const char *path);
+static void setting_game_set(struct setting *pset, bool init);
+static void setting_game_free(struct setting *pset);
+static void setting_game_restore(struct setting *pset);
 
 /*************************************************************************
   Action callback functions. 'caller' and 'message' are not used and
@@ -346,7 +352,7 @@ static bool phasemode_callback(int value, struct connection *caller,
                  _default)                                              \
   {name, sclass, to_client, short_help, extra_help, SSET_BOOL,          \
       scateg, slevel,                                                   \
-      {.boolean = {&value, _default, func_validate}},                   \
+      {.boolean = {&value, _default, func_validate, FALSE}},            \
       func_action, FALSE},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
@@ -354,7 +360,8 @@ static bool phasemode_callback(int value, struct connection *caller,
                 _min, _max, _default)                                   \
   {name, sclass, to_client, short_help, extra_help, SSET_INT,           \
       scateg, slevel,                                                   \
-      {.integer = {(int *) &value, _default, _min, _max, func_validate}}, \
+      {.integer = {(int *) &value, _default, _min, _max, func_validate, \
+                   0}},                                                 \
       func_action, FALSE},
 
 #define GEN_STRING(name, value, sclass, scateg, slevel, to_client,      \
@@ -362,13 +369,13 @@ static bool phasemode_callback(int value, struct connection *caller,
                    _default)                                            \
   {name, sclass, to_client, short_help, extra_help, SSET_STRING,        \
       scateg, slevel,                                                   \
-      {.string = {value, _default, sizeof(value), func_validate}},      \
+      {.string = {value, _default, sizeof(value), func_validate, ""}},  \
       func_action, FALSE},
 
 #define GEN_END                                                         \
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,             \
       SSET_NUM_CATEGORIES, SSET_NONE,                                   \
-      {.boolean = {FALSE, FALSE, NULL}}, NULL, FALSE},
+      {.boolean = {FALSE, FALSE, NULL, FALSE}}, NULL, FALSE},
 
 /* game settings */
 static struct setting settings[] = {
@@ -1837,6 +1844,164 @@ void setting_lock_set(struct setting *pset, bool lock)
 }
 
 /**************************************************************************
+  Save the setting value of the current game.
+**************************************************************************/
+static void setting_game_set(struct setting *pset, bool init)
+{
+  switch (setting_type(pset)) {
+  case SSET_BOOL:
+    pset->boolean.game_value = setting_bool_get(pset);
+    break;
+
+  case SSET_INT:
+    pset->integer.game_value = setting_int_get(pset);
+    break;
+
+  case SSET_STRING:
+    if (init) {
+      pset->string.game_value
+        = fc_calloc(1, pset->string.value_size
+                       * sizeof(pset->string.game_value));
+    }
+    mystrlcpy(pset->string.game_value, setting_str_get(pset),
+              pset->string.value_size);
+    break;
+  }
+}
+
+/**************************************************************************
+  Free the memory used for the settings at game start.
+**************************************************************************/
+static void setting_game_free(struct setting *pset)
+{
+  if (setting_type(pset) == SSET_STRING) {
+    FC_FREE(pset->string.game_value);
+  }
+}
+
+/**************************************************************************
+  Restore the setting to the value used at the start of the current game.
+**************************************************************************/
+static void setting_game_restore(struct setting *pset)
+{
+  const char *error_msg;
+  bool res;
+
+  if (!setting_is_changeable(pset, NULL, &error_msg)) {
+    log_debug("Can't restore '%s': %s", setting_name(pset), error_msg);
+    return;
+  }
+
+  switch (setting_type(pset)) {
+  case SSET_BOOL:
+    res = setting_bool_set(pset, pset->boolean.game_value, NULL,
+                           &error_msg);
+    break;
+
+  case SSET_INT:
+    res = setting_int_set(pset, pset->integer.game_value, NULL,
+                          &error_msg);
+    break;
+
+  case SSET_STRING:
+    res = setting_str_set(pset, pset->string.game_value, NULL,
+                          &error_msg);
+    break;
+  }
+
+  if (!res) {
+    log_error("Error restoring game setting '%s': %s", setting_name(pset),
+              error_msg);
+  }
+}
+
+/**************************************************************************
+  Initialize stuff related to this code module.
+**************************************************************************/
+void settings_game_start(void)
+{
+  settings_iterate(pset) {
+    setting_game_set(pset, FALSE);
+  } settings_iterate_end;
+}
+
+/********************************************************************
+  Save game settings.
+*********************************************************************/
+void settings_game_save(struct section_file *file, const char *section)
+{
+  settings_iterate(pset) {
+    switch (setting_type(pset)) {
+    case SSET_BOOL:
+      secfile_insert_bool(file, pset->boolean.game_value,
+                          "%s.%s", section, setting_name(pset));
+      break;
+    case SSET_INT:
+      secfile_insert_int(file, pset->integer.game_value,
+                         "%s.%s", section, setting_name(pset));
+      break;
+    case SSET_STRING:
+      secfile_insert_str(file, pset->string.game_value,
+                         "%s.%s", section, setting_name(pset));
+      break;
+    }
+  } settings_iterate_end;
+}
+
+/********************************************************************
+  Restore all settings from a savegame.
+*********************************************************************/
+void settings_game_load(struct section_file *file, const char *section)
+{
+  bool bval;
+  int ival;
+  const char *sval = NULL;
+
+  settings_iterate(pset) {
+    /* FIXME: mostly a duplicate of parts of stdinhand:set_command() */
+    switch (pset->stype) {
+    case SSET_BOOL:
+      if (!secfile_lookup_bool(file, &bval, "%s.%s", section,
+                               setting_name(pset))) {
+          log_error("Can't read value for setting '%s' at game start: %s",
+                    setting_name(pset), secfile_error());
+      } else {
+        pset->boolean.game_value = bval;
+      }
+      break;
+
+    case SSET_INT:
+      if (!secfile_lookup_int(file, &ival, "%s.%s", section, setting_name(pset))) {
+          log_error("Can't read value for setting '%s' at game start: %s",
+                    setting_name(pset), secfile_error());
+      } else {
+        pset->integer.game_value = ival;
+      }
+      break;
+
+    case SSET_STRING:
+      if (!(sval = secfile_lookup_str(file, "%s.%s", section, setting_name(pset)))) {
+          log_error("Can't read value for setting '%s' at game start: %s",
+                    setting_name(pset), secfile_error());
+      } else {
+        mystrlcpy(pset->string.game_value, sval, pset->string.value_size);
+      }
+      break;
+    }
+  } settings_iterate_end;
+}
+
+/********************************************************************
+  Reset all settings to the values at game start.
+*********************************************************************/
+void settings_game_reset(void)
+{
+  settings_iterate(pset) {
+    setting_game_restore(pset);
+  } settings_iterate_end;
+}
+
+/**************************************************************************
   Initialize stuff related to this code module.
 **************************************************************************/
 void settings_init(void)
@@ -1844,6 +2009,7 @@ void settings_init(void)
   settings_iterate(pset) {
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
+    setting_game_set(pset, TRUE);
   } settings_iterate_end;
 }
 
@@ -1873,7 +2039,9 @@ void settings_turn(void)
 **************************************************************************/
 void settings_free(void)
 {
-  /* Nothing at the moment. */
+  settings_iterate(pset) {
+    setting_game_free(pset);
+  } settings_iterate_end;
 }
 
 /****************************************************************************

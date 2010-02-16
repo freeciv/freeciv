@@ -462,8 +462,12 @@ static struct command commands[] = {
    /* no translatable parameters */
    SYN_ORIG_("reset"),
    N_("Reset all server settings."),
-   N_("Reset all settings and re-read the server start script, "
-      "if there was one given with the --read server argument. "),
+   N_("Reset all settings if it is possible. The following levels are "
+      "supported:\n"
+      "  game     - using the values defined at the game start\n"
+      "  ruleset  - using the values defined in the ruleset\n"
+      "  script   - using default values and rereading the start script\n"
+      "  default  - using default values\n"),
    VCF_NONE, 50
   },
   {"rfcstyle",	ALLOW_HACK,

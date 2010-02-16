@@ -2304,7 +2304,6 @@ static void srv_ready(void)
   }
 
   /* start the game */
-
   set_server_state(S_S_RUNNING);
   (void) send_server_info_to_metaserver(META_INFO);
 
@@ -2363,6 +2362,9 @@ static void srv_ready(void)
         }
       } players_iterate_end;
     } players_iterate_end;
+
+    /* Save all settings for the 'reset game' command. */
+    settings_game_start();
   }
 
   /* FIXME: can this be moved? */

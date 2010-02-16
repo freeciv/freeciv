@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
@@ -29,6 +30,7 @@
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "capability.h"
 #include "city.h"
 #include "game.h"
@@ -42,6 +44,7 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* server */
 #include "aicity.h"
 #include "aidata.h"
 #include "aiunit.h"
@@ -60,6 +63,7 @@
 #include "ruleset.h"
 #include "savegame.h"
 #include "score.h"
+#include "settings.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "stdinhand.h"
@@ -5164,6 +5168,9 @@ static void game_load_internal(struct section_file *file)
 
   /* load event cache */
   event_cache_load(file, "event_cache");
+
+  /* load settings from game start */
+  settings_game_load(file, "start_settings");
 }
 
 /***************************************************************
@@ -5520,5 +5527,8 @@ void game_save(struct section_file *file, const char *save_reason,
 
     /* save event cache */
     event_cache_save(file, "event_cache");
+
+    /* save settings from game start */
+    settings_game_save(file, "start_settings");
   }
 }
