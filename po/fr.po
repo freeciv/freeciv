@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-14 18:34+0100\n"
+"POT-Creation-Date: 2010-02-15 00:47+0100\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
 "Last-Translator: Pepeto <pepeto69 gmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -549,7 +549,7 @@ msgstr "Bip à chaque tour"
 
 #: common/events.c:185
 msgid "Scenario/ruleset script message"
-msgstr "Message du script de scénario/jeu de règles"
+msgstr "Message du script de scénario ou des règles du jeu"
 
 #: common/events.c:186
 msgid "Year Advance"
@@ -832,7 +832,7 @@ msgstr "Rivière"
 
 #: common/terrain.c:547 common/terrain.c:782
 msgid "Farmland"
-msgstr "Ferme"
+msgstr "Champs"
 
 #: common/terrain.c:548 common/unit.c:559 data/default/terrain.ruleset:909
 #: data/civ2/terrain.ruleset:801
@@ -1833,7 +1833,7 @@ msgstr "Impossible d'utiliser %s comme nom de ville. Il est réservé pour %s."
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
-"%s n'est pas un nom valide. Seuls les noms ASCII ou venant du jeu de règles "
+"%s n'est pas un nom valide. Seuls les noms ASCII ou venant des règles du jeu "
 "sont permis pour les villes."
 
 #: server/citytools.c:499
@@ -2829,19 +2829,19 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:193
 msgid "rulesetdir <directory>"
-msgstr "<répertoire> du jeu de règles"
+msgstr "rulesetdir <répertoire>"
 
 #: server/commands.c:194
 msgid "Choose new ruleset directory or modpack."
-msgstr "Sélectionne un nouveau répertoire de jeu de règles."
+msgstr "Sélectionne un nouveau répertoire de règles du jeu."
 
 #: server/commands.c:195
 msgid ""
 "Choose new ruleset directory or modpack. Calling this\n"
 " without any arguments will show you the currently selected ruleset."
 msgstr ""
-"Permet de choisir un nouveau répertoire de jeu de règles\n"
-" ou un modpack. Sans argument, montre le jeu de règles utilisé actuellement."
+"Permet de choisir un nouveau répertoire de règles du jeu\n"
+" ou un modpack. Sans argument, montre les règles du jeu utilisées actuellement."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:202
@@ -3333,7 +3333,7 @@ msgid ""
 "and server options are lost.\n"
 msgstr ""
 "Charge une partie depuis <nom-fichier>. Toutes les informations actuelles y "
-"compris joueurs, jeu de règles et options du serveur sont perdues.\n"
+"compris joueurs, règles du jeu et options du serveur sont perdues.\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:449
@@ -4920,7 +4920,7 @@ msgstr "Impossible de trouver un fichier de règles lisible \"%s.%s\"."
 
 #: server/ruleset.c:3778
 msgid "Loading rulesets"
-msgstr "Chargement des jeux de règles"
+msgstr "Chargement des règles du jeu"
 
 #: server/ruleset.c:3851
 msgid "Reducing aifill because there are not enough playable nations."
@@ -4947,8 +4947,8 @@ msgstr "Sauvegarde trop ancienne, une version 1.9.0 ou supérieure est requise."
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
-"La sauvegarde utilise le jeu de règles des terrains classique qui n'est plus "
-"supporté."
+"La sauvegarde utilise les règles du jeu des terrains classique qui ne sont "
+"plus supportées."
 
 #: server/savegame.c:4615
 #, c-format
@@ -4956,7 +4956,7 @@ msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
 "Using '%s'."
 msgstr ""
-"Attention : des répertoires de jeu de règles différent (\"%s\" et \"%s\") ne "
+"Attention : des répertoires de règles du jeu différent (\"%s\" et \"%s\") ne "
 "sont plus supportés. Utilisation de \"%s\"."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
@@ -5501,7 +5501,7 @@ msgid ""
 msgstr ""
 "Au début de la partie, ce nombre de technologies est donné à chaque joueur. "
 "Les technologies choisies sont aléatoires pour chaque joueur. En fonction de "
-"la valeur de tech_cost_style dans le jeu de règles, une grande valeur pour "
+"la valeur de tech_cost_style dans les règles du jeu, une grande valeur pour "
 "techlevel peut rendre les prochaines technologies vraiment coûteuses."
 
 #: server/settings.c:533
@@ -5516,7 +5516,8 @@ msgid ""
 msgstr ""
 "Influe sur la vitesse de recherche de technologies nouvelles. Tous les coûts "
 "de technologie sont multipliés par cette valeur (pourcentage). Les valeurs "
-"de base sont déterminées par les règles ou par les réglages de la partie."
+"de base sont déterminées par les règles du jeu ou par les réglages de la "
+"partie."
 
 #: server/settings.c:543
 msgid "Percentage penalty when changing tech"
@@ -5593,8 +5594,8 @@ msgid ""
 "the size of the city."
 msgstr ""
 "Ceci est la quantité de base de nourriture requise pour qu'une ville "
-"grossisse. Cette valeur est multipliée par un autre facteur venant du jeu de "
-"règles et qui dépend de la taille de la ville."
+"grossisse. Cette valeur est multipliée par un autre facteur venant des "
+"règles du jeu et qui dépend de la taille de la ville."
 
 #: server/settings.c:596
 msgid "Percentage food lost when building needed"
@@ -5670,7 +5671,7 @@ msgstr ""
 "Quand un joueur fonde une nouvelle ville, il est vérifié qu'il n'y a pas "
 "d'autre ville à cette distance. Par exemple, si cette valeur est 3, il doit "
 "y avoir au moins deux cases vides entre deux villes dans chaque direction. "
-"Si la valeur vaut 0 (par défaut), la valeur du jeu de règles est utilisée."
+"Si la valeur vaut 0 (par défaut), la valeur des règles du jeu est utilisée."
 
 #: server/settings.c:654
 msgid "Minimum distance for trade routes"
@@ -7757,22 +7758,22 @@ msgstr "Impossible de charger le fichier de sauvegarde : %s"
 #: server/stdinhand.c:3391
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr "Le répertoire du jeu de règles actuel est : \"%s\""
+msgstr "Le répertoire de règles du jeu actuel est : \"%s\""
 
 #: server/stdinhand.c:3414
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr "Le répertoire du jeu de règles \"%s\" n'a pas été trouvé"
+msgstr "Le répertoire de règles du jeu \"%s\" n'a pas été trouvé"
 
 #: server/stdinhand.c:3420
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr "Le répertoire du jeu de règles est déjà \"%s\""
+msgstr "Le répertoire de règles du jeu est déjà \"%s\""
 
 #: server/stdinhand.c:3424
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr "Le répertoire du jeu de règles est \"%s\""
+msgstr "Le répertoire de règles du jeu est \"%s\""
 
 #: server/stdinhand.c:3472
 msgid "Goodbye."
@@ -8902,7 +8903,7 @@ msgstr "%4d : Surplus total"
 
 #: client/citydlg_common.c:520
 msgid "Illness deactivated in ruleset."
-msgstr "Fatigue désactivée dans le jeu de règles."
+msgstr "Fatigue désactivée dans les règles du jeu."
 
 #: client/citydlg_common.c:524
 #, c-format
@@ -8971,7 +8972,6 @@ msgid "Celebrating/Peace/Disorder"
 msgstr "Fête/Paix/Troubles"
 
 #: client/cityrepdata.c:450
-#, fuzzy
 msgid "Concise *=Celebrating, X=Disorder"
 msgstr "Concis * pour Fête, X pour Troubles"
 
@@ -9938,7 +9938,7 @@ msgstr " Rivières"
 
 #: client/helpdata.c:811
 msgid "Current ruleset contains no description."
-msgstr "Le jeu de règles actuel n'a pas de description."
+msgstr "Les règles du jeu actuelles n'ont pas de description."
 
 #: client/helpdata.c:935
 #, c-format
@@ -10122,18 +10122,19 @@ msgstr "* Peut construire des irrigations sur les cases.\n"
 
 #: client/helpdata.c:1268
 msgid "* Can build farmland.\n"
-msgstr "* Peut construire une ferme.\n"
+msgstr "* Peut construire des champs labourés.\n"
 
 #: client/helpdata.c:1272
 #, c-format
 msgid "* Can build farmland (if %s is known).\n"
-msgstr "* Peut construire une ferme (si %s a été découvert).\n"
+msgstr "* Peut construire des champs labourés (si %s a été découvert).\n"
 
 #: client/helpdata.c:1276
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
 msgstr ""
-"* Peut construire des fermes (si au moins une a été découverte parmi %s).\n"
+"* Peut construire des champs labourés (si au moins une a été découverte "
+"parmi %s).\n"
 
 #: client/helpdata.c:1282
 msgid "* Can build fortresses.\n"
@@ -10402,15 +10403,16 @@ msgstr "* Permet aux %s de transformer les routes en chemin de fer.\n"
 #: client/helpdata.c:1616
 #, c-format
 msgid "* Allows %s to upgrade irrigation to farmland.\n"
-msgstr "* Permet aux %s de transformer les zones irriguées en champs.\n"
+msgstr ""
+"* Permet aux %s de transformer les zones irriguées en champs labourés.\n"
 
 #: client/helpdata.c:1650
 msgid "* Pollution cannot be generated on this terrain."
-msgstr "* Aucune pollution ne peut apparaître sur ce terrain."
+msgstr "* La pollution ne peut apparaître sur ce terrain."
 
 #: client/helpdata.c:1655
 msgid "* Fallout cannot be generated on this terrain."
-msgstr "* Aucune pollution ne peut apparaître sur ce terrain."
+msgstr "* Les retombés radioactives ne peut apparaître sur ce terrain."
 
 #: client/helpdata.c:1660
 msgid "* You cannot build cities on this terrain."
@@ -13914,8 +13916,8 @@ msgid ""
 "The current ruleset does not define any objects corresponding to this editor "
 "tool."
 msgstr ""
-"Le jeu de règles utilisé ne définit pas d'objet correspondant à cet outil "
-"d'édition."
+"Les règles du jeu utilisées ne définissent pas d'objet correspondant à cet "
+"outil d'édition."
 
 #: client/gui-gtk-2.0/editgui.c:238
 msgid "Global Observer"
@@ -14817,7 +14819,7 @@ msgstr "Course à l'espace"
 #: client/gui-gtk-2.0/menu.c:1293 client/gui-win32/menu.c:438
 #: client/gui-xaw/menu.c:260
 msgid "About Ruleset"
-msgstr "À propos du jeu de règles"
+msgstr "À propos des règles du jeu"
 
 #: client/gui-gtk-2.0/menu.c:1296 client/gui-win32/menu.c:440
 #: client/gui-xaw/menu.c:262 data/helpdata.txt:1336
@@ -15209,7 +15211,7 @@ msgstr "Changer en %s (_I)"
 
 #: client/gui-gtk-2.0/menu.c:2176
 msgid "Bu_ild Farmland"
-msgstr "Construire une _ferme"
+msgstr "Constru_ire des champs"
 
 #: client/gui-gtk-2.0/menu.c:2183
 #, c-format
@@ -15482,7 +15484,7 @@ msgstr "Niveau de l'I_A :"
 
 #: client/gui-gtk-2.0/pages.c:1584
 msgid "Ruleset _Version:"
-msgstr "Jeu de _règles :"
+msgstr "_Règles du jeu :"
 
 #: client/gui-gtk-2.0/pages.c:1592
 msgid "_More Game Options..."
@@ -18195,7 +18197,7 @@ msgstr "Transformer le terrain"
 
 #: client/gui-win32/menu.c:1275 client/gui-xaw/menu.c:176
 msgid "Build Farmland"
-msgstr "Construire une ferme"
+msgstr "Construire des champs"
 
 #: client/gui-win32/menu.c:1297
 msgid "Fortify"
@@ -18769,7 +18771,7 @@ msgstr "Plus d'info"
 #: manual/civmanual.c:383
 msgid "  -r, --ruleset RULESET  Make manual for RULESET\n"
 msgstr ""
-"  -r, --ruleset RÈGLES   Construit le manuel pour le jeu de règles RÈGLES\n"
+"  -r, --ruleset RÈGLES   Construit le manuel pour les règles du jeu RÈGLES\n"
 
 #: manual/civmanual.c:385
 msgid "  -h, --help             Print a summary of the options\n"
@@ -19782,7 +19784,7 @@ msgid ""
 msgstr ""
 " - Les Ingénieurs peuvent effectuer une gamme beaucoup plus large de "
 "transformations sur la plupart des terrains grâce à l'ordre \"transformer\". "
-"Dans certains jeux de règles, des ingénieurs à bord de navires peuvent "
+"Dans certaines règles du jeu, des ingénieurs à bord de navires peuvent "
 "assécher des eaux. De même, des terres peuvent être changées en océan, bien "
 "que ces changements radicaux nécessitent déjà un certain nombre de cases "
 "terrestres ou maritimes respectivement (les unités se déplaceront sur des "
@@ -19913,7 +19915,7 @@ msgid ""
 "choice of which terrain alteration to pillage, or they will be pillaged in "
 "the following order:"
 msgstr ""
-"Beaucoup d'unités (dans le jeu de règles standard, toutes les unités "
+"Beaucoup d'unités (dans les règles du jeu standard, toutes les unités "
 "terrestres) ont la possibilité de détruire les altérations du terrain par le "
 "pillage. Le pillage enlève 1 altération du terrain par tour et par unité. "
 "Selon les options du serveur, vous pouvez choisir quelle altération sera "
@@ -19977,7 +19979,7 @@ msgid ""
 "Later in the game, helicopters may also enter villages, but overflight by "
 "other aircraft will cause the villagers to take fright and disband."
 msgstr ""
-"Plus moi dans la partie, les hélicoptères peuvent aussi entrer dans les "
+"Plus loin dans la partie, les hélicoptères peuvent aussi entrer dans les "
 "villages indigènes, mais voler au-dessus avec tout autre unité aérienne "
 "causera la panique parmi les indigènes et le village se dispersera."
 
@@ -20022,8 +20024,8 @@ msgstr ""
 msgid ""
 "In the default ruleset, occupied fortresses also extend national borders."
 msgstr ""
-"Dans les règles standards, l'occupation des forteresses étendent également "
-"les frontières nationales."
+"Dans les règles du jeu standard, l'occupation des forteresses étendent "
+"également les frontières nationales."
 
 #: data/helpdata.txt:464
 msgid ""
@@ -20058,6 +20060,10 @@ msgid ""
 "per turn; in addition, some units (such as Settlers in the default ruleset) "
 "may require food points from the city supporting them."
 msgstr ""
+"Votre population a besoin de nourriture pour survivre. Chaque citoyen "
+"demande deux points de nourriture par tour. De plus, certaines unités (comme "
+"les Colons dans les règles du jeu standard) peuvent aussi nécessiter des "
+"points de nourriture à la ville de soutien."
 
 #: data/helpdata.txt:486
 msgid ""
@@ -20069,6 +20075,15 @@ msgid ""
 "food-consuming units first, followed by citizens, until the food deficit "
 "ends."
 msgstr ""
+"Chaque ville a un grenier pour amasser des points de nourriture (le bâtiment "
+"appelé Grenier dans les règles du jeu standard n'accentuent que cette "
+"capacité). Les villes collectant plus de nourriture que n'en réclament, "
+"accumulent leur surplus dans leur grenier, alors que les villes en "
+"produisant moins que nécessaire puisent dans leur grenier. Quand la "
+"nourriture est requise mais qu'il n'y en a plus de disponible, la population "
+"de la ville est en famine, tuant les unités consommatrices dans un premier "
+"temps, suivies par les citoyens, jusqu'à de que le déficit de nourriture "
+"prenne fin."
 
 #: data/helpdata.txt:494
 msgid ""
@@ -20079,6 +20094,13 @@ msgid ""
 "only for small cities. (An alternative way for cities to grow is \"rapture"
 "\", described in the section on Happiness.)"
 msgstr ""
+"Les excédents de nourriture peuvent augmenter la populations : le grenier a "
+"une capacité limitée et une fois rempli, la ville gagne un citoyen "
+"supplémentaire et le grenier redémarre comme vide. Mais puisque la capacité "
+"du grenier de la ville augmente avec la population, chaque citoyen est plus "
+"coûteux que le précédent, rendant ce mode de développement des villes "
+"efficace seulement pour les petites villes (une alternative pour les villes "
+"de grandir est l'\"extase\", décrite dans la section Bonheur."
 
 #: data/helpdata.txt:505
 msgid " Production"
@@ -20094,6 +20116,14 @@ msgid ""
 "time. If a unit is disbanded while in a city, half of its production cost "
 "will be put towards that city's surplus."
 msgstr ""
+"Les points de production représentent production manufacturière. La plupart "
+"des unités nécessitent des points de production pour l'entretien de leur "
+"ville de soutien, bien que sous certains régimes autocrates chaque ville "
+"soutient quelques unités gratuitement. Si la production de la ville est trop "
+"faible, les unités qui ne peuvent être supportées sont automatiquement "
+"congédiées. Les unités peuvent également être congédiées à n'importe quel "
+"moment. Si une unité est congédiée alors qu'elle se trouve dans une ville, "
+"alors la moitié de son coût de production sera ajouté au stock de la ville."
 
 #: data/helpdata.txt:514
 msgid ""
@@ -20106,6 +20136,17 @@ msgid ""
 "added to their city's list of structures. Any leftover production points "
 "remain available to be applied towards the next project."
 msgstr ""
+"Les points de production excédant ce que nécessitent les unités d'une ville "
+"sont ajoutés au stock de celle-ci selon l'unité, le bâtiment ou la merveille "
+"qui a été sélectionné comme production courante. Exactement comme les points "
+"de nourriture accumulés dans le grenier d'une ville produisent un citoyen "
+"lorsqu'il est plein, le points de production s'accumulent jusqu'à ce que le "
+"coût de la production courante soit atteint. Les produits fabriqués "
+"apparaissent dans la ville quand ils sont achevés (les unités apparaissent "
+"sur la carte alors que les bâtiments et merveilles sont ajoutées à la liste "
+"des structures de la ville. Chaque point de production excédentaire quand "
+"la production est achevée reste disponible et sera appliqué au prochain "
+"projet."
 
 #: data/helpdata.txt:524
 msgid ""
@@ -20116,6 +20157,13 @@ msgid ""
 "buildings whose upkeep you cannot afford, both of which will be disbanded "
 "immediately after completion."
 msgstr ""
+"Chaque joueur est libre de construire n'importe quelle unité, bâtiment ou "
+"merveille dont il connaît les technologies requises avec quelques "
+"restrictions ; voir les sections Unités, Bâtiments et Merveilles du Monde "
+"pour plus d'informations. Soyez vigilant : le jeu vous permet même de "
+"produire librement des unités que vous n'êtes pas en état de soutenir et "
+"des bâtiments que vous ne pouvez entretenir, qui tous deux seront détruits "
+"immédiatement après l'achèvement."
 
 #: data/helpdata.txt:531
 msgid ""
@@ -20125,18 +20173,29 @@ msgid ""
 "You can spend gold to complete a project in one turn by hitting the Buy "
 "button on the city dialog."
 msgstr ""
+"Vous pouvez toujours modifier la production que la ville est en train de "
+"fabriquer, bien que vous perdez la moitié des points de production accumulés "
+"quand vous changez de bâtiment, unité ou merveille à une des deux autres "
+"catégories de productions. Vous pouvez dépenser de l'or pour terminer un "
+"projet en un tour, en cliquant sur le bouton \"Acheter\" dans la fenêtre de "
+"ville."
 
 #: data/helpdata.txt:537
 msgid ""
 "Some production points may be lost to waste, although there is no waste in "
 "the default rules. Waste can result in your cities not building anything."
 msgstr ""
+"Quelques points de production peuvent être perdu à cause du gaspillage, bien "
+"que le gaspillage soit déactivé dans les règles du jeu standard. Vos villes "
+"pourraient ne plus rien produire du tout dû au gaspillage."
 
 #: data/helpdata.txt:541
 msgid ""
 "Cities with a large production output generate pollution; see the section on "
 "Cities for more information."
 msgstr ""
+"Les villes avec production importante génèrent de la pollution ; voir la "
+"section Villes pour plus d'informations."
 
 #: data/helpdata.txt:547
 msgid " Trade"
@@ -20152,6 +20211,15 @@ msgid ""
 "citizen morale; and science points (\"bulbs\") contribute towards the "
 "discovery of new technology."
 msgstr ""
+"Les points de commerce reflètent la richesse de chaque ville par le commerce "
+"extérieur. Quelques points de commerce peuvent être perdu à cause de la "
+"corruption, qui varie selon les formes de gouvernements et tendent à "
+"augmenter plus la distance avec votre capitale est importante. Chaque ville "
+"distribue ses points restants parmi trois utilisations : l'or, sous forme "
+"de taxes, qui va renflouer votre trésorerie nationale ; les points de luxe "
+"qui influent sur le morale des citoyens ; et les points de science "
+"(aussi appelés \"ampoules\") qui contribuent à la découverte de nouvelles "
+"technologies."
 
 #: data/helpdata.txt:556
 msgid ""
@@ -20160,6 +20228,11 @@ msgid ""
 "on any turn, you are constrained to multiples of ten percent, and most forms "
 "of government limit their maximum value."
 msgstr ""
+"Vous devez choisir un taux particulier pour votre civilisation par lequel "
+"les points de commerce sont distribués parmi les trois utilisations. Malgré "
+"que vous puissiez modifier les taux de taxe à n'importe quel tour, vous êtes "
+"contraints à des multiples de 10% et à la limite maximale que votre forme "
+"de gouvernement impose."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -20173,6 +20246,16 @@ msgid ""
 "entertainers). See the section on Happiness for more details on the effect "
 "of luxuries."
 msgstr ""
+"Ce taux particulier n'a pas d'influence sur l'or et la science, parce "
+"que le progrès financier et technologique affectent tous deux l'empire "
+"entier. Le luxe est plus problématique, cependant, parce que sont effet "
+"est local (il n'affecte que la ville qui le produit). Par conséquent, "
+"alors qu'il serait commode pour les villes malheureuses d'investir la "
+"totalité de leur commerce dans le luxe alors que d'autres investissent "
+"dans la science ou les taxes, vous devez plutôt faire des compromis entre "
+"les besoins de toutes vos villes (même si des ajustements locaux peuvent "
+"être faites en assignant les citoyens comme artistes). Voir la section "
+"Bonheur pour plus de détails sur l'effet de luxe."
 
 #: data/helpdata.txt:571
 msgid ""
@@ -20183,6 +20266,13 @@ msgid ""
 "away or belonging to a different civilization, and issuing the \"make trade "
 "route\" command."
 msgstr ""
+"Par ailleurs, exploitant les terrains dotés de marchandises rares, d'accès "
+"aux voies navigables ou aux routes, vous pouvez augmenter le commerce en "
+"établissent des routes commerciales entre les villes. Dans les règles du jeu "
+"standard, vous pouvez en obtenir en construisant une Caravane ou un Fret, "
+"l'envoyant à une autre cité, située à au moins neuf cases de distance, ou "
+"appartenant à une autre civilisation, et en ordonnant d'\"établir une route "
+"commerciale\"."
 
 #: data/helpdata.txt:578
 msgid ""
@@ -20192,6 +20282,11 @@ msgid ""
 "their distance apart. Some advances make transportation easier and reduce "
 "this one-time revenue."
 msgstr ""
+"La civilisation d'origine de l'unité gagne alors immédiatement un revenu en "
+"or et en science en vendant ses biens commerciaux à la ville de destination. "
+"Le revenu initial dépend du commerce déjà produit par deux villes impliquées "
+"et de leur distance. Certaines avancées technologiques rendent le transport "
+"plus facile et réduisent ce revenu initial."
 
 #: data/helpdata.txt:584
 msgid ""
@@ -20202,6 +20297,13 @@ msgid ""
 "are on different continents, and doubled again if the cities are from "
 "different civilizations."
 msgstr ""
+"Aussi, une route commerciale profite aux deux villes (celle d'origine, et "
+"celle de destination) équitablement en générant des points de commerce pour "
+"chacune d'entre elles chaque tour. Le montant du commerce en cours est basé "
+"(mais pas égal) sur la somme les points de commerces collectés par les cases "
+"exploitées des deux villes ; ce montant est doublé si les villes sont situés "
+"sur des continents différents, et doublé encore si les villes proviennent de "
+"différentes civilisations."
 
 #: data/helpdata.txt:591
 msgid ""
@@ -20209,6 +20311,10 @@ msgid ""
 "can still gain initial revenue by entering the marketplace and selling trade "
 "goods, but it is reduced to a third.)"
 msgstr ""
+"(Si une route commerciale existe déjà entre deux villes, la civilisation "
+"d'origine peut toujours gagner un certain revenu en entrant dans la place "
+"commerciale et en vendant les biens commerciaux, mais il est réduit à un "
+"tiers."
 
 #: data/helpdata.txt:595
 msgid ""
@@ -20216,18 +20322,27 @@ msgid ""
 "establish more routes, the trade route with the smallest ongoing revenue is "
 "canceled if it would be less than the new route."
 msgstr ""
+"Le nombre de routes commerciales par ville est limité à quatre. Si vous "
+"tentez d'en établir plus, la route commerciale avec le plus revenu est "
+"annulée s'il est moins important que la nouvelle route apporterait."
 
 #: data/helpdata.txt:599
 msgid ""
 "To view the current trade routes of a city, click and hold over the Trade: "
 "line in the Overview tab in the city view."
 msgstr ""
+"Pour voir les routes commerciales actuelles d'une ville, faites un clic "
+"continu au dessus de la ligne \"Commerce\" de l'onglet \"Aperçu global\" "
+"dans la fenêtre de ville."
 
 #: data/helpdata.txt:606
 msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
 msgstr ""
+"Les villes sont votre unique instrument pour exploiter les ressources "
+"naturelles et les utiliser pour l'expansion, le progrès technologique et la "
+"guerre."
 
 #: data/helpdata.txt:609
 msgid ""
@@ -20239,6 +20354,14 @@ msgid ""
 "city disappears (in the default ruleset, this can leave ruins, although "
 "these have no effect on gameplay)."
 msgstr ""
+"Une ville est créée quand un Colon exécute la commande \"bâtir une ville\" "
+"sur un terrain propice, ce qui retire l'unité du jeu pour donner à la ville "
+"son premier citoyen. Une ville peut croître et compter de très nombreux "
+"habitants, certains travaillant à l'intérieur de la ville et d'autre envoyés "
+"comme nouveaux colons. La famine et la guerre tuent les citoyens et réduit "
+"la population ; avec la perte du dernier habitant la ville disparaît (dans "
+"les règles du jeu standard, des ruines sont laissées, bien que ça n'ait "
+"pas d'effet sur la partie)."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -20252,6 +20375,17 @@ msgid ""
 "Settlers, and Engineers could even transform the terrain to make the tile "
 "less productive."
 msgstr ""
+"Chaque ville peut exploiter le terrain dans un rayon donné "
+"(approximativement trois cases). Pour extraire des ressources d'une case, "
+"vous devez avoir un citoyen travaillant à cet endroit. Vous ne pouvez ni "
+"exploiter une case qu'une ville voisine est déjà en train d'utiliser, ni "
+"une case sur laquelle une unité ennemie est postée, ni même une case "
+"appartenant au territoire d'un autre joueur. Par conséquent, vous pouvez "
+"simuler les conditions d'un siège en stationnant vos unités au-dessus des "
+"ressources précieuses autour d'une ville ennemie. Les unités peuvent aussi "
+"piller ces cases, ce qui endommagera les améliorations. Les Travailleurs, "
+"Colons et Ingénieurs pourrait même transformer le terrain pour rendre la "
+"case moins productive."
 
 #: data/helpdata.txt:627
 msgid ""
@@ -20271,6 +20405,23 @@ msgid ""
 "when technology has made them available, railroads (because cities come with "
 "transportation built-in)."
 msgstr ""
+"La section sur les Terrains décrit comment le rendement de chaque case est "
+"affecté par le terrain, la présence de ressources spéciales comme le gibier "
+"ou les minéraux et les améliorations comme les routes, les irrigations et "
+"les mines. Notez que la case sur laquelle la ville se trouve (le "
+"centre-ville) est exploité gracieusement, sans avoir recours aux citoyens. "
+"Dans les règles du jeu standard, la case de la ville produit toujours au "
+"moins un point de nourriture et un point de production, quelque soit le "
+"terrain. Elle reçoit également les avantages que le terrain offre avec le "
+"système d'irrigation (parce que les villes possèdent des systèmes "
+"hydroliques intégrés), mais il ne peut pas servir de source pour les autres "
+"cases ; pour cela, un système d'irrigation soit être explicitement construit "
+"sur la case (ce qui n'apportera aucun bénéfice à la ville elle-même). De "
+"même, avec la technologie et les améliorations nécessaires, le centre-ville "
+"prendra le bonus associé au champs labourés automatiquement. Les centre-"
+"villes sont aussi automatiquement équipés de routes et quand la technologie "
+"le permet, de chemins de fer (parce que les villes possèdent des systèmes "
+"de transports intégrés)."
 
 #: data/helpdata.txt:644
 msgid ""
@@ -20284,6 +20435,16 @@ msgid ""
 "who each produce three extra gold per turn for your treasury; and "
 "scientists, who each add three points to your research output."
 msgstr ""
+"Les premiers habitants de chaque cité sont habituellement des travailleurs, "
+"chacun s'acharnant à récupérer les ressources d'une case de terrain. "
+"Cependant, il y a plusieurs autres rôles de spécialistes que les citoyens "
+"peuvent assumer une fois soulagés de travailler la terre. En fait, prendre "
+"un autre rôle est le seul moyen d'arrêter de travailler. Dans les règles du "
+"jeu standard, il y a trois types de spécialistes : les artistes, qui "
+"produisent deux points de luxe par tour pour leur cité (dont les effets sont "
+"décrits dans la section Bonheur) ; les percepteurs d'impôts, qui produisent "
+"trois unités d'or supplémentaires par tour pour votre trésorerie ; et les "
+"scientifiques, qui ajouteront trois points à votre niveau de recherche."
 
 #: data/helpdata.txt:655
 msgid ""
@@ -20294,6 +20455,13 @@ msgid ""
 "icons. You can click another tile to assign the citizen to work it, or click "
 "on the specialist icon to change their specialist role."
 msgstr ""
+"Les rôles des citoyens sont contrôlés à partir de la fenêtre de la ville. "
+"Les habitants exploitant la terre sont représentés par trois nombres "
+"montrant leur productivité sur la case qu'ils exploitent. En cliquant sur "
+"ces nombres, le citoyen sera retiré de la case en le transformant en "
+"spécialiste ; ceci est observable sur la ligne l'icônes des citoyens. Vous "
+"pouvez cliquer une autre case pour assigner un habitant au travail dessus, "
+"ou cliquer sur l'icône du spécialiste pour changer son rôle de spécialiste."
 
 #: data/helpdata.txt:663
 msgid ""
@@ -20304,6 +20472,14 @@ msgid ""
 "role in which the new citizen has been placed. You can set different "
 "priorities for a city with the Citizen Governor; see its help section."
 msgstr ""
+"En cliquant sur la case centrale sur la carte de la ville, les rôles des "
+"citoyens sont automatiquement réassignés en favorisant sur la production "
+"de nourriture et la croissance. Les rôles des habitants sont automatiquement "
+"réassignés lorsque la ville s'agrandit ; vous pouvez inspecter les villes "
+"qui vienne de croître et ajuster les rôles pour lesquels les nouveaux "
+"citoyens affectés. Vous pouvez régler plusieurs priorités pour une ville "
+"avec le Gouverneur de la ville ; voir cette section spécifique pour plus "
+"de détails."
 
 #: data/helpdata.txt:671
 msgid ""
@@ -20312,6 +20488,10 @@ msgid ""
 "the sections on City Improvements and Wonders of the World for more "
 "information."
 msgstr ""
+"Les villes peuvent être améliorées avec une grande gamme de bâtiments, qui "
+"peuvent améliorer la productivité, la force militaire ou donner de nouvelles "
+"capacités. Voir les sections Bâtiments et Merveille du Monde pour plus "
+"d'informations."
 
 #: data/helpdata.txt:679
 msgid " Happiness"
@@ -20339,6 +20519,11 @@ msgid ""
 "default rules, each citizen in a city after the fourth will be generated "
 "unhappy, instead of content."
 msgstr ""
+"Chaque citoyen exploitant la terre est soit heureux, content, mécontent ou "
+"révolté. Un citoyen content est l'état normal. Cependant, quand vos villes "
+"deviennent plus grandes, la surpopulation cause du mécontentement. Dans les "
+"règles du jeu standard, chaque citoyen dans une ville après la taille quatre "
+"sera généré mécontent, à la place de content."
 
 #: data/helpdata.txt:692
 msgid ""
@@ -20366,6 +20551,13 @@ msgid ""
 "cities are ever to work more than four terrain tiles at once, the problem of "
 "morale must be confronted more directly."
 msgstr ""
+"Il convient de souligner que seuls les citoyens exploitant la terre ont un "
+"moral variant ; les artistes, scientifiques et percepteurs jouissent d'un "
+"privilège suffisant pour rester perpétuellement content. Par conséquent, une "
+"solution au problème du mécontentement d'un citoyen est de lui assigner "
+"simplement un rôle de spécialiste. Mais si les villes exploitent déjà "
+"plus de quatre cases de terrain à la fois, le problème du moral doit "
+"être traité plus directement."
 
 #: data/helpdata.txt:708
 msgid ""
@@ -20373,6 +20565,10 @@ msgid ""
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
 msgstr ""
+"Il y a de nombreuses façons de rendre les citoyens mécontents contents, ce "
+"qui prévient des troubles mais n'apporte pas plus de bénéfice. Rendre les "
+"citoyens heureux peut équilibrer l'effet des citoyens mécontents mais aussi "
+"apporte d'autres bénéfices."
 
 #: data/helpdata.txt:713
 msgid ""
@@ -20380,6 +20576,10 @@ msgid ""
 "citizens are happy and none remain unhappy. The effects of celebration vary "
 "depending on your government type; in the default ruleset:"
 msgstr ""
+"Les villes avec trois ou plus de citoyens célèbrent des fêtes quand au "
+"moins la moitié de leurs citoyens sont heureux. Les effets d'une ville en "
+"fête varient en fonction de votre type de gouvernement. Dans les règles du "
+"jeu standard :"
 
 #: data/helpdata.txt:717
 msgid ""
@@ -20425,6 +20625,11 @@ msgid ""
 "precise thresholds depend on government type; see the section on Government "
 "for details."
 msgstr ""
+"Dans de petits empires, comme indiqué précédemment, le cinquième citoyen "
+"dans chaque ville est le premier mécontent. En fait, plus vous obtenez de "
+"villes, cette limite se réduit pour simuler les difficultés à imposer une "
+"autorité à travers un large empire. Le seuil précis dépend du type de "
+"gouvernement ; voir section Gouvernement pour de plus amples détails."
 
 #: data/helpdata.txt:740
 msgid ""
@@ -20435,6 +20640,14 @@ msgid ""
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
 msgstr ""
+"Par conséquent, vous pouvez trouver que fonder ou conquérir une ville "
+"déclenchera des troubles généralisées dans votre empire. Le développement "
+"continu de l'empire peut conduire à des étapes de pénalités supplémentaire. "
+"Dans les empires qui croissent au-delà du point où aucun citoyen est "
+"naturellement content, des citoyens révoltés apparaîtront ; ceux-ci doivent "
+"tous être rendus mécontents avant que les citoyens mécontents ne puissent "
+"devenir contents. Dans tous les autres aspects, les citoyens révoltés se "
+"comportent comme les mécontents."
 
 #: data/helpdata.txt:750
 msgid ""
@@ -20445,6 +20658,13 @@ msgid ""
 "trade points it produces as luxury points according to your empire's tax "
 "rates; see the section on Trade."
 msgstr ""
+"Le luxe rend les citoyens heureux. Pour chaque deux points de luxe qu'une "
+"ville produit, un citoyen content est rendu heureux (si il n'y a pas de "
+"citoyen content restant, les citoyens mécontents deviennent contents puis "
+"heureux). Outre les points de luxe produits par les artistes de la cité, "
+"chaque ville reçoit des quelques points de commerce qu'elle produit des "
+"points de luxe en fonction des taux de taxation de votre empire ; voir "
+"section Commerce."
 
 #: data/helpdata.txt:757
 msgid ""
@@ -20453,6 +20673,10 @@ msgid ""
 "the default rules. Some wonders of the world can also have this effect. See "
 "the appropriate sections for details."
 msgstr ""
+"Il y a plusieurs bâtiments qui rendront content ces citoyens mécontents "
+"restants dus au surpeuplement, comme les Temples et les Colosses dans les "
+"règles du jeu standard. Quelques merveilles du monde peuvent également avoir "
+"cet effet. Voir les sections appropriées pour les détails."
 
 #: data/helpdata.txt:762
 msgid ""
@@ -20466,6 +20690,16 @@ msgid ""
 "(\"field units\") are inherently aggressive and cause unhappiness regardless "
 "of location."
 msgstr ""
+"Les unités militaires peuvent affecter le bonheur de la ville. Sous les "
+"régimes autoritaires, ceci est utile car les unités militaires stationnées "
+"dans une ville peuvent prévenir du mécontentement en imposant la loi "
+"martiale. En revanche, sous les gouvernement représentatifs, les citoyens "
+"deviennent mécontents lorsque leur ville soutient des unités militaires "
+"déployées agressivement. Ceci inclus les unités hors de vos frontières "
+"nationales, d'une ville amie (villes alliées comprises), ou d'une forteresse "
+"dans les limites de trois cases d'une ville amie. Cependant, certaines "
+"unités (\"unités de champ\") sont intrinsèquement agressives et causent "
+"du mécontentement, indépendamment de leur location."
 
 #: data/helpdata.txt:773
 msgid ""
@@ -20475,12 +20709,19 @@ msgid ""
 "special building -- the Police Station -- can offset this form of "
 "unhappiness."
 msgstr ""
+"Cette forme de mécontentement est distincte de celle causée par le "
+"surpeuplement et ne peut pas être réglé par les produits de luxe ainsi que "
+"la plupart des bâtiments. Dans les règles du jeu standard, seulement "
+"certaines merveilles (comme la Cathédrale J.-S. Bach) et un bâtiment spécial "
+"(le Commissariat) peuvent contrebalancer cette forme de mécontentement."
 
 #: data/helpdata.txt:779
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
 msgstr ""
+"L'onglet Bonheur dans fenêtre de ville vous donnera un aperçu détaillé du "
+"moral des citoyens et de ses causes."
 
 #: data/helpdata.txt:785
 msgid " Pollution"
@@ -20495,6 +20736,13 @@ msgid ""
 "percent chance of pollution appearing each turn; this percentage is shown in "
 "the city dialog."
 msgstr ""
+"La pollution peut affecter les grandes villes, surtout lorsque votre "
+"civilisation devient plus industrialisée. Le risque d'apparition de "
+"pollution autour d'une ville dépend de la somme de sa taille, "
+"aggravée par la découverte de plusieurs avancées technologiques, et sa "
+"production. Lorsque cette somme excède 20, elle devient le risque en "
+"pourcentage d'apparition de pollution chaque tour ; Ce pourcentage est "
+"montré dans la fenêtre de ville."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -20503,6 +20751,10 @@ msgid ""
 "pollution can only be cleared by dispatching Workers, Settlers, or Engineers "
 "with the \"clean pollution\" order."
 msgstr ""
+"La pollution se répand sur le terrain des cases autour de la ville. Une case "
+"polluée génère seulement la moitié de sa nourriture, sa production et son "
+"commerce habituels. La pollution ne peut être nettoyée qu'en envoyant des "
+"Travailleurs, Colons ou Ingénieurs avec la commande \"Dépolluer\"."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -20513,6 +20765,13 @@ msgid ""
 "jungles and swamps, and inland tiles are lost to desert. This tends to "
 "devastate cities and leads to global impoverishment."
 msgstr ""
+"Quand un case non-utilisée devient polluée, la tentation est grande d'éviter "
+"de la dépolluer. Mais la propagation de la pollution à des conséquences bien "
+"plus terribles : chaque case polluée augmente le risque de réchauffement de "
+"la planète. Chaque fois qu'un réchauffement a lieu, le monde entier perd des "
+"terres côtières pour des jungles et des marécages, et les cases à "
+"l'intérieur des terres sont perdues en désert. Ceci entraîne la dévastation "
+"des villes et conduit à un appauvrissement global."
 
 #: data/helpdata.txt:806
 msgid ""
@@ -20522,6 +20781,11 @@ msgid ""
 "an elevated risk of warming, its effects will be all the more severe when it "
 "does occur."
 msgstr ""
+"Le risque de réchauffement de la planète est cumulatif ; plus longtemps les "
+"cases sont laissées polluées, plus le risque devient important et le risque "
+"peut stagner pour quelque temps, même après que toute la pollution soit "
+"nettoyée. Si le risque reste élevé pendant une longue période, l'effet du "
+"réchauffement en sera d'autant plus sévère quand il se produira."
 
 #: data/helpdata.txt:816
 msgid ""
@@ -20529,6 +20793,10 @@ msgid ""
 "different effect. Each city may have only one of each improvement, and some "
 "improvements require others to have been built first."
 msgstr ""
+"Les villes peuvent être améliorées avec une grande variété de bâtiments, "
+"chacun avec un effet différent. Chaque ville ne peut contenir qu'un seul "
+"bâtiment de chaque type. Certains nécessitent qu'un autre soit construit "
+"au préalable."
 
 #: data/helpdata.txt:820
 msgid ""
@@ -20541,6 +20809,15 @@ msgid ""
 "obviously this should be avoided as the improvements chosen might not be "
 "ones you would have preferred to sell."
 msgstr ""
+"La construction des bâtiments coûte des points de production et une fois "
+"achevée, beaucoup d'entre eux nécessite un entretient d'une ou plus pièce "
+"d'or par tour. Vous pouvez démanteler et vendre un bâtiment, en recevant "
+"une pièce d'or pour chaque point de production utilisé dans la construction, "
+"bien que vous ne pouvez vendre qu'un seul bâtiment par tour. Si vous ne "
+"pouvez pas payer l'entretient de tous vos bâtiments, certains d'entre eux "
+"seront vendus automatiquement. Évidemment, ceci doit être évité car les "
+"améliorations proposées pourraient ne pas être celles que vous auriez "
+"préféré vendre."
 
 #: data/helpdata.txt:830
 msgid ""
@@ -20566,8 +20843,8 @@ msgstr ""
 "construites qu'une seule fois par un seul joueur par partie, et qui souvent "
 "améliore leur civilisation entière. Contrairement aux bâtiments ordinaires, "
 "qui doivent être construits avec la production locale, certaines unités "
-"spéciales construites dans une ville (Caravanes et Fret dans le jeu de "
-"règles standard) peuvent également contribuer de leur coût de production à "
+"spéciales construites dans une ville (Caravanes et Fret dans les règles du "
+"jeu standard) peuvent également contribuer de leur coût de production à "
 "la construction d'une merveille dans une autre ville."
 
 #: data/helpdata.txt:849
@@ -20693,7 +20970,7 @@ msgstr ""
 "régénère d'un point par tour. Les unités retranchées récupèrent un point de "
 "vie supplémentaire. Une unité qui passe un tour dans une ville regagne un "
 "tiers de ses points de vie, et si des bâtiments appropriés sont présents, "
-"cet effet peut encore être accentuer. Dans le jeu de règles par défaut, des "
+"cet effet peut encore être accentuer. Dans les règles du jeu standard, des "
 "unités restant un tour entier dans une forteresse regagne un quart de ses "
 "points. Les merveilles peuvent aussi jouer un rôle dans la récupération des "
 "points (comme les Nations Unies dans le jeu de règles standard). Les unités "
@@ -20726,8 +21003,8 @@ msgid ""
 "defenders, but few for attackers, aside from veteran status; an attacking "
 "unit can mostly expect circumstance to work against it."
 msgstr ""
-"La description ci-dessous est pour le jeu de règles par défaut, mais les "
-"principes sont similaires dans tous les jeux de règles. Notez que de "
+"La description ci-dessous est pour les règles du jeu standard, mais les "
+"principes sont similaires dans toutes les règles du jeu. Notez que de "
 "nombreux bonus sont possibles pour les défenseurs, alors que seulement "
 "quelques-uns pour les attaquants, mis à part le statut de vétéran ; une "
 "unité attaquantes peut assez précisément estimer les circonstances "
@@ -20907,7 +21184,7 @@ msgid ""
 "half."
 msgstr ""
 "Quelle qu'elle soit, l'unité qui survit au combat a une chance de devenir "
-"vétéran. Dans le jeu de règles standard, si la civilisation victorieuse "
+"vétéran. Dans les règles du jeu standard, si la civilisation victorieuse "
 "possède l'Académie de Guerre de Sun Tzu (et si elle n'est pas obsolète), la "
 "chance d'être promue sera augmentée de moitié."
 
@@ -22251,8 +22528,8 @@ msgid ""
 "will cause it to stop producing gold and start working on that item next "
 "turn."
 msgstr ""
-"Si une ville est en train de produire de l'or (Capitalisation dans le jeu de "
-"règles standard), une activité qui ne peut s'achever, ajouter une "
+"Si une ville est en train de produire de l'or (Capitalisation dans les "
+"règles du jeu standard), une activité qui ne peut s'achever, ajouter une "
 "construction à sa liste de travail causera l'arrêt de la production d'or et "
 "la ville commencera la nouvelle construction le tour suivant."
 
@@ -31503,7 +31780,7 @@ msgstr "Chargement des évènements de tutoriel."
 
 #: data/civ1/game.ruleset:18
 msgid "Civ1 ruleset"
-msgstr "Jeu de règles civ1"
+msgstr "Règles du jeu civ1"
 
 #: data/civ1/game.ruleset:21
 msgid ""
@@ -31515,8 +31792,8 @@ msgid ""
 " * Units have no hitpoints. If they win battle, they remain in full health\n"
 msgstr ""
 "Vous jouez Freeciv avec les règles pour émuler civ1. Ces règles sont plus "
-"simples que les standards de Freeciv. Si vous ne connaissez que les règles "
-"standards, prenez le temps d'analyser les différences.\n"
+"simples que les standard de Freeciv. Si vous ne connaissez que les règles "
+"standard, prenez le temps d'analyser les différences.\n"
 "\n"
 " * Il y a moins de technologies, bâtiments et unités.\n"
 " * Les unités n'ont pas de point de vie. Si elles gagnent une bataille, "
@@ -31716,7 +31993,7 @@ msgstr "Équipe 31"
 
 #: data/civ2/game.ruleset:18
 msgid "Civ2 ruleset"
-msgstr "Jeu de règles type civ2"
+msgstr "Règles du jeu civ2"
 
 #: data/civ2/game.ruleset:21
 msgid ""
@@ -31724,15 +32001,15 @@ msgid ""
 "default rules, but with some additions."
 msgstr ""
 "Vous jouez Freeciv avec les règles pour émuler civ2. Ces règles sont assez "
-"proches des règles standards de Freeciv, mais avec quelques ajouts."
+"proches des règles standard de Freeciv, mais avec quelques ajouts."
 
 #: data/default/game.ruleset:18
 msgid "Default ruleset"
-msgstr "Jeu de règles standard"
+msgstr "Règles du jeu standard"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr "Vous jouez Freeciv avec les règles standards."
+msgstr "Vous jouez Freeciv avec les règles standard."
 
 #: data/default/game.ruleset:184
 msgid "AD"
