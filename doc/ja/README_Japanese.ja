@@ -1,8 +1,7 @@
+この文章は日本語を表示する人向けに澤田<ama@petmail.net>が気づいたこと
+をメモしたものです。freeciv 1.14 向けです。
 
-����ʸ�Ϥ����ܸ��ɽ������͸�����߷��<ama@petmail.net>�����Ť�������
-���⤷����ΤǤ���freeciv 1.14 �����Ǥ���
-
-gtk-1.2�ǤΥե���ȤˤĤ���:
-~/freeciv.rc ������С��ɤޤ�ޤ����⤷ gtk �� �ե���Ȥ��ʤ��Ȥ�����
-�顼��Ф��褦�ʤ� data/freeciv.rc �� ~/freeciv.rc �إ��ԡ����ơ�fixed 
-�ȤʤäƤ���Ȥ����� * �˽��ؤ��ƤߤƲ�������
+gtk-1.2版のフォントについて:
+~/freeciv.rc があれば、読まれます。もし gtk が フォントがないというエ
+ラーを出すようなら data/freeciv.rc を ~/freeciv.rc へコピーして、fixed 
+となっているところを * に書き替えてみて下さい。
