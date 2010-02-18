@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-16 01:53+0100\n"
+"PO-Revision-Date: 2010-02-18 02:20+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4300,9 +4300,7 @@ msgstr "%s ara governa els %s com a %s."
 msgid ""
 "The tax rates for the %s are changed from %3d%%/%3d%%/%3d%% (tax/luxury/"
 "science) to %3d%%/%3d%%/%3d%%."
-msgstr ""
-"Les taxes d'impostos per als %s s'han canviat de %3d%%/%3d%%/%3d%% (impostos/"
-"luxe/ciència) a %3d%%/%3d%%/%3d%%."
+msgstr "Les proporcions d'impostos per als %s s'han canviat de %3d%%/%3d%%/%3d%% (impostos/luxe/ciència) a %3d%%/%3d%%/%3d%%."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -10283,11 +10281,11 @@ msgstr ""
 #: client/helpdata.c:1919
 #, c-format
 msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "* La taxa màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
+msgstr "* La proporció màxima que pots fixar per ciència, or o luxes és del %d%%.\n"
 
 #: client/helpdata.c:1924
 msgid "* Has unlimited science/gold/luxuries rates.\n"
-msgstr "* No té cap límit per les taxes de ciència/or/luxes.\n"
+msgstr "* No té cap límit per les proporcions de ciència/or/luxes.\n"
 
 #: client/helpdata.c:1929
 #, c-format
@@ -14009,7 +14007,7 @@ msgstr "Ciu_tats:"
 
 #: client/gui-gtk-2.0/gamedlgs.c:232 client/gui-win32/ratesdlg.c:297
 msgid "Select tax, luxury and science rates"
-msgstr "Escull les taxes d'impostos, luxes i ciència"
+msgstr "Escull les proporcions d'impostos, luxes i ciència"
 
 #: client/gui-gtk-2.0/gamedlgs.c:264 client/gui-gtk-2.0/gamedlgs.c:284
 #: client/gui-gtk-2.0/gamedlgs.c:304 client/gui-sdl/repodlgs.c:1891
@@ -14374,7 +14372,7 @@ msgstr "Com hem d'anomenar la nostra nova ciutat?"
 
 #: client/gui-gtk-2.0/mapview.c:172
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
-msgstr "Mostra els ratis actuals luxes/ciència/impostos; clica per canviar-los."
+msgstr "Mostra les proporcions actuals de luxes/ciència/impostos; clica per canviar-los."
 
 #: client/gui-gtk-2.0/mapview.c:668 client/gui-win32/canvas.c:280
 msgid "Better fog will only work in truecolor.  Disabling it"
@@ -17106,7 +17104,7 @@ msgstr "Tresor: "
 
 #: client/gui-sdl/repodlgs.c:1795
 msgid "Tax Rate: "
-msgstr "Rati Taxes"
+msgstr "Rati de Taxes:"
 
 #: client/gui-sdl/repodlgs.c:1816
 msgid "Total Income: "
@@ -18570,7 +18568,7 @@ msgstr "Ratis"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
-msgstr "Selecciona rati taxes, luxes i ciència:"
+msgstr "Selecciona rati de taxes, luxes i ciència:"
 
 #: data/Freeciv.in:1397
 msgid "Help:"
@@ -19236,7 +19234,7 @@ msgstr ""
 "\n"
 "  - Quin és el proper avenç que necessites.\n"
 "\n"
-"  - Com estan fixades les taxes d'impostos, luxes i recerca.\n"
+"  - Com estan fixades les proporcions d'impostos, luxes i recerca.\n"
 "\n"
 "  - Els tractats es trenquen sovint, no badis amb la defensa...\n"
 "\n"
@@ -19765,7 +19763,7 @@ msgid ""
 "are distributed among these three uses. Though you may alter the tax rates "
 "on any turn, you are constrained to multiples of ten percent, and most forms "
 "of government limit their maximum value."
-msgstr ""
+msgstr "Has de triar una única proporció per a la teva civilització, segons la qual es distribuiran els punts de comerç entre aquestes tres finalitats. Encara que pots modificar aquestes proporcions en qualsevol torn, has de fer-ho en múltiples del 10 per cent, i la majoria de les formes de govern en limiten els valors màxims."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -19778,7 +19776,7 @@ msgid ""
 "cities (although local adjustments can be made by assigning citizens as "
 "entertainers). See the section on Happiness for more details on the effect "
 "of luxuries."
-msgstr ""
+msgstr "Tenir una sola proporció no té impacte sobre l'or ni la ciència, perquè tant l'or com el progrés tecnològic són xifres d'àmbit imperial. El luxe és més problemàtic, però, perquè el seu efecte és local -- només afecta la ciutat que el produceix. Així, encara que seria pràctic que les ciutats descontentes invertissin tot el seu comerç en luxes mentre d'altres invertissin en ciència o impostos, hauràs de trobar un compromís entre les necessitats de totes les teves ciutats (encara que es poden fer ajustos locals assignant ciutadans perquè facin d'artistes). Veure la secció sobre Felicitat per més detalls sobre els efectes del luxe."
 
 #: data/helpdata.txt:571
 msgid ""
@@ -19788,7 +19786,7 @@ msgid ""
 "Caravan or Freight unit, sending them to another city at least nine tiles "
 "away or belonging to a different civilization, and issuing the \"make trade "
 "route\" command."
-msgstr ""
+msgstr "Apart de treballar terreny que tingui recursos rars, o amb accés a vies fluvials i carreteres, pots augmentar el comerç establint rutes comercials entre ciutats. Al joc de regles predeterminat, ho aconsegueixes produint una unitat Caravana o Comboi, i enviant-los a una altra ciutat que estigui com a mínim a nou caselles de distància, o que pertanyi a una altra civilització, i donant la comanda \"crear ruta comercial\"."
 
 #: data/helpdata.txt:578
 msgid ""
@@ -19797,7 +19795,7 @@ msgid ""
 "revenue depends on the trade already produced by the two cities involved and "
 "their distance apart. Some advances make transportation easier and reduce "
 "this one-time revenue."
-msgstr ""
+msgstr "La civilització origen de la unitat obté una renda immediata en or i ciència en vendre els seus béns comercials a la ciutat de destinació. La renda inicial depèn del comerç que ja es produeixi per les dues ciutats implicades i de la distància que les separa. Alguns avenços fan que el transport sigui més fàcil i redueixen aquest primer pagament."
 
 #: data/helpdata.txt:584
 msgid ""
@@ -19807,33 +19805,33 @@ msgid ""
 "points from the tiles worked by the two cities; it is doubled if the cities "
 "are on different continents, and doubled again if the cities are from "
 "different civilizations."
-msgstr ""
+msgstr "A més, s'estableix una ruta comercial contínua que beneficia tant l'origen com el destí de manera igual generant punts de comerç per a cada ciutat a cada torn. La quantitat d'aquest comerç continu es basa en (però no és exactament igual a) la suma dels punts de comerç de les caselles on treballen les dues ciutats; es duplica si les ciutats són de continents diferents, i es torna a duplicar si les ciutats són de civilitzacions diferents."
 
 #: data/helpdata.txt:591
 msgid ""
 "(If a trade route already exists between two cities, the origin civilization "
 "can still gain initial revenue by entering the marketplace and selling trade "
 "goods, but it is reduced to a third.)"
-msgstr ""
+msgstr "(Si ja existeix una ruta comercial entre dues ciutats, la civilització origen pot guanyar el pagament inicial igualment entrant al mercat i venent els béns, però es redueix a un terç)."
 
 #: data/helpdata.txt:595
 msgid ""
 "The number of trade routes per city is limited to four. If you attempt to "
 "establish more routes, the trade route with the smallest ongoing revenue is "
 "canceled if it would be less than the new route."
-msgstr ""
+msgstr "El nombre de rutes comercials per ciutat està limitat a quatre. Si intentes d'establir-ne més, la ruta comercial que tingui la renda contínua més petita es cancel·la si seria menor que la nova."
 
 #: data/helpdata.txt:599
 msgid ""
 "To view the current trade routes of a city, click and hold over the Trade: "
 "line in the Overview tab in the city view."
-msgstr ""
+msgstr "Per veure les rutes comercials actuals d'una ciutat, clica i aguanta clicant damunt de la línia de Comerç a la pestanya Resum de la vista de ciutat."
 
 #: data/helpdata.txt:606
 msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
-msgstr ""
+msgstr "Les ciutats són l'únic instrument que tens per desenvolupar recursos naturals i canalitzar-los envers l'expansió, el progrés tecnològic, i la guerra."
 
 #: data/helpdata.txt:609
 msgid ""
@@ -19844,7 +19842,7 @@ msgid ""
 "kill citizens and reduce population; with the loss of its last citizen a "
 "city disappears (in the default ruleset, this can leave ruins, although "
 "these have no effect on gameplay)."
-msgstr ""
+msgstr "Una ciutat es crea quan uns Colons reben l'ordre de \"bastir ciutat\" damunt de terreny apropiat, eliminant la unitat del joc per donar a la ciutat el primer ciutadà. Una ciutat pot créixer fins a tenir dotzenes de ciutadans, alguns d'ells treballant dins de la ciutat mentre d'altres es despatxen com a nous colons. La fam i la guerra maten ciutadans i en redueixen la població; amb la pèrdua de l'últim ciutadà, una ciutat desapareix (en el joc de regles per defecte, això pot deixar ruïnes, encara que no tenen cap efecte sobre el joc)."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -19857,7 +19855,7 @@ msgid ""
 "Units can also be ordered to pillage, which damages improvements. Workers, "
 "Settlers, and Engineers could even transform the terrain to make the tile "
 "less productive."
-msgstr ""
+msgstr "Cada ciutat pot treballar el terreny que hi ha dins d'un radi fix (aproximadament tres caselles). Per extreure recursos d'una casella has de tenir un ciutadà treballant-hi. No pots començar a treballar una casella on ja estigui treballant alguna ciutat veïna, ni tampoc pots treballar terreny sobre el qual hi hagi una unitat enemiga, ni terreny dins de les fronteres d'un altre jugador. Així, pots simular condicions de setge estacionant unitats sobre recursos valuosos del voltant d'una ciutat enemiga. Les unitats també poden rebre ordres de saquejar, cosa que fa malbé les millores. Els Treballadors, Colons i Enginyers fins i tot podrien transformar el terreny per fer la casella menys productiva."
 
 #: data/helpdata.txt:627
 msgid ""
@@ -19876,7 +19874,7 @@ msgid ""
 "with Farmland. City centers are also automatically developed with roads and, "
 "when technology has made them available, railroads (because cities come with "
 "transportation built-in)."
-msgstr ""
+msgstr "La secció sobre el Terreny descriu com el terreny afecta els beneficis de cada casella, la presència de recursos especials com ara la caça o els minerals, i millores com carreteres, regadius, i mines. Observa que la casella damunt de la qual se situa la ciutat -- el centre de la ciutat -- es treballa de franc, sense que se li assigni un ciutadà. Al joc de regles predeterminat, la casella de la ciutat sempre produeix com a mínim un punt de menjar i un punt de producció, sigui quin sigui el terreny. També obté qualsevol avantatge que ofereix el terreny amb un sistema de regadiu (perquè les ciutats vénen amb sistemes d'aigua incorporats), però això no es pot fer servir com a base a partir de la qual regar d'altres caselles; per fer això, cal construir expressament un regadiu a la casella (que no suposarà cap benefici addicional per a la ciutat). De manera similar, amb la tecnologia i les millores suficients, el centre de la ciutat obté automàticament qualsevol bonificació associada amb l'Horta. Als centres de la ciutat també s'hi construeixen automàticament camins i, quan la tecnologia ho faci possible, ferrocarrils (perquè les ciutats vénen amb el transport incorporat)."
 
 #: data/helpdata.txt:644
 msgid ""
@@ -19889,7 +19887,7 @@ msgid ""
 "(whose effects are described in the section on Happiness); tax collectors, "
 "who each produce three extra gold per turn for your treasury; and "
 "scientists, who each add three points to your research output."
-msgstr ""
+msgstr "Els primers ciutadans de cada ciutat són normalment treballadors, cadascun dels quals s'esforça per obtenir els recursos d'una casella de terreny. No obstant, hi ha d'altres funcions d'especialista que els ciutadans poden assumir un cop se'ls relleva de treballar a la terra; de fet, agafar una altra funció és l'única manera que tenen per deixar de treballar-hi. A les regles predeterminades, hi ha tres tipus d'especialista: els artistes, que produeixen cadascun dos punts de luxe per torn per a la seva ciutat (els efectes dels quals es descriuen a la secció sobre Felicitat); recaptadors d'impostos, que produeixen cadascun tres punts d'or per torn per al teu tresor; i científics, que afegeixen tres punts cadascun per torn al teu nivell de ciència."
 
 #: data/helpdata.txt:655
 msgid ""
@@ -19899,7 +19897,7 @@ msgid ""
 "tile, turning him into a specialist; this can be seen in the row of citizen "
 "icons. You can click another tile to assign the citizen to work it, or click "
 "on the specialist icon to change their specialist role."
-msgstr ""
+msgstr "Les funcions dels ciutadans es controlen des del diàleg de Ciutat. Els ciutadans que treballen a la terra es representen per tres nombres que mostren el seu benefici a la casella on estan treballant. Clicar damunt d'aquests nombres traurà el ciutadà de la casella, convertint-lo en especialista; això es pot veure a la fila d'icones dels ciutadans. Pots clicar una altra casella per assignar-hi el ciutadà perquè la treballi, o clicar damunt de la icona d'especialista per modificar-ne la funció."
 
 #: data/helpdata.txt:663
 msgid ""
@@ -19909,7 +19907,7 @@ msgid ""
 "grows; you may want to inspect cities that have just grown and adjust the "
 "role in which the new citizen has been placed. You can set different "
 "priorities for a city with the Citizen Governor; see its help section."
-msgstr ""
+msgstr "Clicar damunt de la casella del centre de la ciutat al mapa de la ciutat seleccionarà automàticament funcions per als ciutadans i caselles on treballar, prioritzant la producció de menjar i per tant el creixement. Les funcions dels ciutadans també s'assignen automàticament quan una ciutat creix; potser voldràs inspeccionar les ciutats que acaben de créixer i afinar la funció que s'ha donat al nou ciutadà. Pots donar prioritats diferents a una ciutat amb el Gestor de Ciutadans; veure'n la secció d'ajuda corresponent."
 
 #: data/helpdata.txt:671
 msgid ""
@@ -19917,15 +19915,13 @@ msgid ""
 "their productivity, their military strength, or give them new abilities. See "
 "the sections on City Improvements and Wonders of the World for more "
 "information."
-msgstr ""
+msgstr "Les ciutats es poden millorar amb una gran varietat d'edificis, que poden millorar-ne la productivitat, la força militar, o donar-los noves capacitats. Veure les seccions sobre Millores de la Ciutat i Meravelles del Món per més informació."
 
 #: data/helpdata.txt:679
-#, fuzzy
 msgid " Happiness"
-msgstr "Felicitat"
+msgstr " Felicitat"
 
 #: data/helpdata.txt:680
-#, fuzzy
 msgid ""
 "Keeping your citizens happy (or at least content) is one of the most "
 "important objectives in Freeciv. When your citizens become unhappy, your "
@@ -19933,8 +19929,7 @@ msgid ""
 "citizens are happy, your cities will celebrate, and your production will "
 "increase greatly."
 msgstr ""
-"Els ciutadans poden ser o bé feliços, contents o descontents. Mantenir els "
-"teus ciutadans feliços (o almenys contents) és un dels objectius més "
+"Mantenir els teus ciutadans feliços (o almenys contents) és un dels objectius més "
 "importants dins de Freeciv. Quan els teus ciutadans passen a descontents, "
 "les teves ciutats cauran en desordres (cosa que afecta a la producció); però "
 "quan els teus ciutadans són feliços, les teves ciutats estaran en festa, i "
@@ -19947,10 +19942,9 @@ msgid ""
 "cities grow larger, crowding causes citizens to become unhappy. In the "
 "default rules, each citizen in a city after the fourth will be generated "
 "unhappy, instead of content."
-msgstr ""
+msgstr "Cada ciutadà que treballa a la terra pot ser feliç, content, descontent, o enfadat. L'estat normal d'un ciutadà treballador és l'acontentament. No obstant, a mesura que les ciutats se't facin més grans, la superpoblació fa que els ciutadans siguin descontents. A les regles predeterminades, tots els ciutadans que es generin en una ciutat a partir del quart seran descontents, en comptes de contents."
 
 #: data/helpdata.txt:692
-#, fuzzy
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder. A city in disorder produces no food "
@@ -19961,10 +19955,7 @@ msgid ""
 msgstr ""
 "Si el nombre de ciutadans descontents d'una ciutat és superior al nombre de "
 "ciutadans feliços, la ciutat cau en el desordre. Quan una ciutat cau en "
-"desordre, no produeix res. Les ciutats que estan en desordre són més fàcils "
-"que es revoltin a causa de l'acció de Diplomàtics o Espies enemics. Un "
-"desordre prolongat en una Democràcia pot portar a una revolució espontània, "
-"enderrocant el teu govern."
+"desordre, no produeix excés de menjar ni producció, ni ciència, ni impostos; només queda la producció de luxes. És més fàcil que les ciutats que estan en desordre es revoltin a causa de l'acció de Diplomàtics o Espies enemics. Un desordre prolongat en Democràcia pot portar a una revolució nacional espontània, enderrocant el teu govern."
 
 #: data/helpdata.txt:700
 msgid ""
@@ -19974,35 +19965,33 @@ msgid ""
 "citizen is simply to assign that citizen to the role of a specialist. But if "
 "cities are ever to work more than four terrain tiles at once, the problem of "
 "morale must be confronted more directly."
-msgstr ""
+msgstr "Cal remarcar que només els ciutadans que treballen a la terra tenen canvis de moral -- els artistes, els científics i els recaptadors d'impostos tenen prou privilegis per estar contents de manera perpètua. Així, una solució al problema d'un ciutadà descontent és simplement assignar-li una funció d'especialista. Però si cal que les ciutats treballin més de quatre caselles de terreny alhora, cal afrontar el problema de la moral de forma més directa."
 
 #: data/helpdata.txt:708
 msgid ""
 "There are many ways of making unhappy citizens content, which does prevent "
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
-msgstr ""
+msgstr "Hi ha moltes maners de fer contents els ciutadans descontents, cosa que evita desordres, però no aporta més beneficis. Fer ciutadans feliços pot compensar l'efecte dels descontents i alhora aportar d'altres beneficis."
 
 #: data/helpdata.txt:713
 msgid ""
 "Cities with three or more citizens celebrate when at least half their "
 "citizens are happy and none remain unhappy. The effects of celebration vary "
 "depending on your government type; in the default ruleset:"
-msgstr ""
+msgstr "Les ciutats amb tres ciutadans o més celebren festes quan almenys la meitat dels ciutadans són feliços, i no n'hi ha cap de descontent. Els efectes de les celebracions varien segons el teu tipus de govern; al joc de regles predeterminat:"
 
 #: data/helpdata.txt:717
-#, fuzzy
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for tiles which produce more than 2 points of any resource (food, "
 "production, or trade)."
 msgstr ""
-"- Sota Anarquia o Despotisme, no patiràs la penalització normal de producció "
+"- Sota l'Anarquia o el Despotisme, no patiràs la penalització normal de producció "
 "per les caselles que produeixen més de 2 unitats de qualsevol recurs "
-"(menjar, escuts o comerç)."
+"(menjar, producció o comerç)."
 
 #: data/helpdata.txt:721
-#, fuzzy
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade point in any tile which "
@@ -20010,10 +19999,9 @@ msgid ""
 msgstr ""
 "- Sota la Monarquia o el Comunisme, la teva ciutat guanyarà la bonificació "
 "de comerç dels governs Republicà/Democràtic: un punt de comerç de "
-"bonificació a cada quadrat que ja produeixi almenys 1 de comerç."
+"bonificació a cada casella que ja produeixi almenys 1 de comerç."
 
 #: data/helpdata.txt:725
-#, fuzzy
 msgid ""
 " - Under a Republic or a Democracy, your city will enter \"rapture\": its "
 "population will increase by 1 each turn until there is no excess food or "
@@ -20022,9 +20010,9 @@ msgid ""
 "surplus -- which can be difficult enough -- and then waiting dozens of turns "
 "for their granary to fill."
 msgstr ""
-" - Sota una República o una Democràcia, la població de la teva ciutat "
+" - Sota una República o una Democràcia, la ciutat entrarà en \"festa\": la seva població "
 "s'incrementarà en 1 a cada torn fins que no hi hagi excedent de menjar, o "
-"fins que el nombre de ciutadans feliços ja no sigui suficient per celebrar."
+"fins que el nombre de ciutadans feliços ja no sigui suficient per celebrar. Sense la festa, les ciutats grans només poden créixer a base d'esforçar-se a produir excedents de menjar -- cosa que ja pot ser prou difícil -- i després esperant dotzenes de torns fins que s'ompli el graner."
 
 #: data/helpdata.txt:732
 msgid ""
@@ -20033,7 +20021,7 @@ msgid ""
 "to simulate the difficulty of imposing order upon a large empire. The "
 "precise thresholds depend on government type; see the section on Government "
 "for details."
-msgstr ""
+msgstr "En imperis petits, com ja hem dit, el cinquè ciutadà de cada ciutat és el primer descontent. A mesura que obtens més ciutats, aquest límit disminueix, per simular la dificultat d'imposar l'ordre sobre un imperi gran. Els llindars precisos depenen del tipus de govern; veure la secció sobre Govern per detalls."
 
 #: data/helpdata.txt:740
 msgid ""
@@ -20043,7 +20031,7 @@ msgid ""
 "naturally content, angry citizens will appear; these must all be made merely "
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
-msgstr ""
+msgstr "Així, pots trobar-te que fundar o conquerir una ciutat desencadena desordres generalitzats per tot el teu imperi. El creixement continu de l'imperi pot comportar penalitzacions addicionals. En imperis que creixen fins al punt que cap ciutadà sigui content de forma natural, començaran a aparèixer ciutadans enfadats; aquests cal fer que siguin descontents i prou abans de poder acontentar cap altre ciutadà descontent, però en la resta d'aspectes es comporten igual que els ciutadans descontents."
 
 #: data/helpdata.txt:750
 msgid ""
@@ -20053,7 +20041,7 @@ msgid ""
 "produced by any entertainers in a city, each city receives back some of the "
 "trade points it produces as luxury points according to your empire's tax "
 "rates; see the section on Trade."
-msgstr ""
+msgstr "El luxe fa feliços els ciutadans. Per cada dos punts de luxe que produeix una ciutat, es fa feliç un ciutadà content (si no queden ciutadans contents, els ciutadans descontents passen a contents, i després a feliços). Apart dels punts de luxe produïts pels artistes d'una ciutat, cada ciutat recupera alguns dels punts de comerç que genera en forma de punts de luxe segons les proporcions d'impostos del teu imperi; veure la secció sobre Comerç."
 
 #: data/helpdata.txt:757
 msgid ""
@@ -20061,7 +20049,7 @@ msgid ""
 "citizens that are unhappy due to crowding, such as Temples and Colosseums in "
 "the default rules. Some wonders of the world can also have this effect. See "
 "the appropriate sections for details."
-msgstr ""
+msgstr "Hi ha diferents millores de la ciutat que faran contents la resta de ciutadans que siguin descontents degut a la superpoblació, com ara els Temples i els Coliseus a les regles predeterminades. Algunes meravelles del món també poden tenir aquest efecte. Vegeu les seccions apropiades per detalls."
 
 #: data/helpdata.txt:762
 msgid ""
@@ -20074,7 +20062,7 @@ msgid ""
 "a fortress within three tiles of a friendly city; however, certain units "
 "(\"field units\") are inherently aggressive and cause unhappiness regardless "
 "of location."
-msgstr ""
+msgstr "Les unitats militars poden afectar la felicitat de la ciutat. Sota règims autoritaris, això t'ajuda, perquè les unitats militars estacionades dins d'una ciutat poden evitar el descontentament imposant la llei marcial. No obstant, sota governs representatius, els ciutadans passen a descontents quan la seva ciutat suporta unitats militars que s'hagin desplegat de forma agressiva. Això inclou les unitats que no siguin ni dins de les teves fronteres, ni en una ciutat amistosa (incloses les ciutats dels teus aliats), ni en una fortificació que sigui a tres caselles o menys d'una ciutat amistosa; no obstant, algunes unitats (\"unitats de batalla\") són de naturalesa agressiva, i provoquen descontentament siguin on siguin."
 
 #: data/helpdata.txt:773
 msgid ""
@@ -20083,18 +20071,17 @@ msgid ""
 "ruleset, only certain wonders -- such as J.S. Bach's Cathedral -- and one "
 "special building -- the Police Station -- can offset this form of "
 "unhappiness."
-msgstr ""
+msgstr "Aquesta forma de descontentament és diferent de la causada per la superpoblació, i no es pot compensar amb luxes ni amb la majoria de millores de la ciutat. Al joc de regles per defecte, només algunes meravelles -- com ara la Catedral de J.S. Bach -- i un edifici especial -- la Comissaria -- poden compensar-ho."
 
 #: data/helpdata.txt:779
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
-msgstr ""
+msgstr "La pestanya de Felicitat al diàleg de ciutat donarà explicacions detallades sobre l'humor de la ciutadania i les seves causes."
 
 #: data/helpdata.txt:785
-#, fuzzy
 msgid " Pollution"
-msgstr "Contaminació"
+msgstr " Contaminació"
 
 #: data/helpdata.txt:786
 msgid ""
@@ -20104,7 +20091,7 @@ msgid ""
 "its production point output. When this sum exceeds 20, the excess is the "
 "percent chance of pollution appearing each turn; this percentage is shown in "
 "the city dialog."
-msgstr ""
+msgstr "La contaminació pot ser un problema per les ciutats grans, sobretot a mesura que la teva civilització s'industrialitza. La probabilitat que aparegui contaminació al voltant d'una ciutat depèn de la suma de la seva població, agreujada per diferents avenços tecnològics, i la quantitat de punts de producció que fa. Quan aquesta suma passa de 20, l'excés és el percentatge de probabilitat d'aparició de contaminació a cada torn; aquest percentatge es mostra al diàleg de ciutat."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -20112,7 +20099,7 @@ msgid ""
 "polluted tile generates only half its usual food, production, and trade. The "
 "pollution can only be cleared by dispatching Workers, Settlers, or Engineers "
 "with the \"clean pollution\" order."
-msgstr ""
+msgstr "La contaminació apareix com a brossa que cobreix les caselles de terreny del voltant de la ciutat. Una casella contaminada només genera la meitat dels seus punts habituals de menjar, producció i comerç. La contaminació només es pot netejar enviant-hi Treballadors, Colons, o Enginyers, amb l'ordre de \"netejar contaminació\"."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -20122,7 +20109,7 @@ msgid ""
 "time global warming advances, the entire world loses coastal land for "
 "jungles and swamps, and inland tiles are lost to desert. This tends to "
 "devastate cities and leads to global impoverishment."
-msgstr ""
+msgstr "Quan la casella contaminada no és de les que es fan servir, hi ha la temptació d'evitar l'esforç de netejar-la; però si la contaminació s'escampa, els resultats són molt més terribles -- cada casella contaminada augmenta la probabilitat d'escalfament global. Cada vegada que l'escalfament global avança, tot el món sencer perd terres costaneres que es transformen en selves i aiguamolls, i les caselles de terra endins es desertitzen. Això sol devastar algunes ciutats, i comporta l'empobriment global."
 
 #: data/helpdata.txt:806
 msgid ""
@@ -20131,14 +20118,14 @@ msgid ""
 "time even after all pollution has been cleaned. If a long time passes with "
 "an elevated risk of warming, its effects will be all the more severe when it "
 "does occur."
-msgstr ""
+msgstr "El risc d'escalfament global és acumulatiu; com més temps es deixin sense netejar les caselles contaminades, més creix el risc, i el risc es pot mantenir durant cert temps fins i tot després d'haver netejat tota la contaminació. Si passa molt de temps amb un risc elevat d'escalfament, els seus efectes seran encara pitjors quan arribi."
 
 #: data/helpdata.txt:816
 msgid ""
 "Cities may be improved with a wide variety of buildings, each with a "
 "different effect. Each city may have only one of each improvement, and some "
 "improvements require others to have been built first."
-msgstr ""
+msgstr "Les ciutats es poden millorar amb una gamma àmplia d'edificis, cadascun dels quals té un efecte diferent. Cada ciutat pot tenir-ne només un de cada, i algunes millores requereixen que se n'hagin construït d'altres primer."
 
 #: data/helpdata.txt:820
 msgid ""
@@ -20150,14 +20137,14 @@ msgid ""
 "upkeep on all of your improvements, some of them will be automatically sold; "
 "obviously this should be avoided as the improvements chosen might not be "
 "ones you would have preferred to sell."
-msgstr ""
+msgstr "Construir millores costa punts de producció, i un cop completades, moltes millores necessiten un manteniment d'una o més peces d'or per torn. Pots desmantellar i vendre una millora, rebent una peça d'or per cada punt de producció utilitzat per construir-lo, encara que només pots vendre una millora per ciutat a cada torn. Si arriba un torn en què no pots pagar el manteniment de totes les teves millores, algunes es vendran automàticament; evidentment això s'hauria d'evitar perquè les millores seleccionades no tenen per què ser les que hauries volgut vendre tu."
 
 #: data/helpdata.txt:830
 msgid ""
 "Most improvements become available only when you achieve certain "
 "technologies, while further advances can render some improvements obsolete, "
 "at which point they are automatically sold."
-msgstr ""
+msgstr "La majoria de millores són disponibles només quan aconsegueixes certes tecnologies, mentre que d'altres avenços poden fer obsoletes algunes millores, moment en el qual es venen automàticament."
 
 #: data/helpdata.txt:841
 msgid ""
@@ -20167,10 +20154,9 @@ msgid ""
 "points, certain special units built in one city (Caravans and Freight in the "
 "default ruleset) can contribute their full cost in production points towards "
 "the construction of a wonder in another city."
-msgstr ""
+msgstr "Les meravelles són edificis especials que només pot completar un jugadar en cada partida, i que sovint milloren tota la civilització sencera. Al contrari de les millores de ciutat normals, que s'han de construir exclusivament amb els punts de producció locals, alguns unitats especials construïdes en una ciutat (les Caravanes i el Comboi en el joc de regles predeterminat) poden contribuir tot el seu cost en punts de producció a la construcció d'una meravella en una altra ciutat."
 
 #: data/helpdata.txt:849
-#, fuzzy
 msgid ""
 "Once built, a wonder is placed in the city that constructed it, and cannot "
 "be sold or destroyed (unless the entire city is destroyed). However, some "
@@ -20179,9 +20165,7 @@ msgid ""
 "advance required by each wonder to build it, it will be disabled when any "
 "player achieves the obsoleting advance."
 msgstr ""
-"Les meravelles són edificis especials que només pot completar un jugador a "
-"cada partida, i que sovint milloren tota la civilització sencera. Un cop "
-"construïda, una meravella queda col·locada a la ciutat que l'ha construïda, "
+"Un cop construïda, una meravella queda col·locada a la ciutat que l'ha construïda, "
 "i no es pot vendre ni destruir (si no és que es destrueix la ciutat "
 "sencera). No obstant, algunes meravelles queden obsoletes pel descobriment "
 "d'algun avenç, i perden els seus efectes. Observeu l'asimetria: mentre que "
@@ -21011,7 +20995,7 @@ msgid ""
 "advances with Diplomats and Spies; wonders can provide you with technology; "
 "and another player might grant technology in the terms of a pact. But "
 "otherwise advances must be discovered through the efforts of your own people."
-msgstr ""
+msgstr "Hi ha algunes maneres d'obtenir avenços a partir de les altres civilitzacions: de vegades descobriràs tecnologies enemigues quan capturis una ciutat; pots robar avenços amb Diplomàtics i Espies; les meravelles poden donar-te tecnologia; i un altre jugador pot donar-te tecnologia a les clàusules d'un pacte. Però en general, els avenços s'han de descobrir mitjançant els esforços de la teva gent."
 
 #: data/helpdata.txt:1281
 msgid ""
@@ -21019,7 +21003,7 @@ msgid ""
 "scientists (see the Cities section). While it is possible to change which "
 "advance you are currently researching, by default all progress is lost by "
 "doing so."
-msgstr ""
+msgstr "La major part del progrés tecnològic ve del comerç (veure la secció de Comerç) i dels científics (veure la secció de Ciutats). Encara que és possible de canviar quin avenç estàs investigant, per defecte tot el progrés fins al moment es perd en fer-ho."
 
 #: data/helpdata.txt:1286
 msgid ""
@@ -21143,7 +21127,6 @@ msgstr ""
 "metaserver, els noms dels jugadors s'hi poden trobar allà."
 
 #: data/helpdata.txt:1364
-#, fuzzy
 msgid ""
 "Unit Orders:\n"
 "============\n"
@@ -21189,44 +21172,47 @@ msgid ""
 msgstr ""
 "Ordres per Unitats\n"
 "============\n"
-"    a: (a)uto-colonitzar  (colons/enginyers)\n"
-"    b: bastir ciutat  (colons/enginyers)\n"
-"    b: ajudar a construir meravella (caravanes)\n"
-"    B: anar a (B)astir ciutat a la casella objectiu (colons)\n"
-"    d: accions (d)iplomàtiques/espia (diplomàtics/espies)\n"
-"    D: (D)esmantellar unitat\n"
-"    e: construir bas(e) aèria (unitats de base aèria)\n"
-"    f: (f)ortificar unitat  (unitats militars)\n"
-"    f: construir (f)ortificació  (colons/enginyers)\n"
-"    g: anar a casella (després fer clic esquerre per seleccionar la casella "
+"  a: (a)uto-colonitzar  (unitats colons/treballadors)\n"
+"  b: (b)astir ciutat  (unitats colons)\n"
+"  b: ajudar a construir meravella (unitats caravana)\n"
+"  B: anar a (B)astir ciutat a la casella objectiu (unitats colons)\n"
+"  d: accions (d)iplomàtiques/espia (unitats diplomàtics/espies)\n"
+"  D: (D)esmantellar unitat\n"
+"  e: construir bas(e) aèria (unitats de base aèria)\n"
+"  f: (f)ortificar unitat  (unitats militars)\n"
+"  f: construir (f)ortificació  (unitats colons/treballadors)\n"
+"  g: anar a casella (després fer clic esquerre per seleccionar la casella "
 "de destinació)\n"
-"    g: afegir un punt de camí (quan estàs en mode \"anar a\")\n"
-"    G: Retornar la unitat a la ciutat més pròxima\n"
-"    h: canviar ciutat base (a la ciutat actual)\n"
-"    i: construir (i)rrigació o convertir terreny (colons/enginyers)\n"
-"    I: connectar la casella actual i la de destinació amb irrigacions\n"
-"    l: embarcar unitat\n"
-"    L: connectar la casella actual i la de destinació amb ferrocarri(L)\n"
-"    m: construir (m)ina o convertir terreny (colons/enginyers)\n"
-"    n: (n)etejar residus nuclears\n"
-"    N: explotar (N)uclear\n"
-"    o: transf(o)rmar terreny (unitat d'enginyers)\n"
-"    p: netejar contaminació (colons/enginyers)\n"
-"    p: saltar en (p)aracaigudes  (unitats paracaigudistes)\n"
-"    P: Saqueig (destruir una alteració de terreny)\n"
-"    q: patrullar amb unitat (després fer clic esquerre per seleccionar un "
-"altre punt)\n"
-"    q: afegir un punt de pas de la patrulla (en mode patrulla)\n"
-"    r: construir camí/ferrocarril (colons/enginyers)\n"
-"    r: establir (r)uta comercial (caravanes)\n"
-"    R: connectar la casella actual i la de destinació amb camins\n"
-"    s: posar unitat en (s)entinella\n"
-"    S: treure de (s)entinella totes les unitats de la casella\n"
-"    t: Aero(t)ransportar unitat a ciutat\n"
-"    T: desembarcar totes les unitats d'un (T)ransport\n"
-"    u: desembarcar unitat d'un transport\n"
-"    U: millorar Unitat\n"
-"    x: auto-e(x)plorar\n"
+"  g: afegir un punt de camí (quan estàs en mode \"anar a\")\n"
+"  G: Retornar la unitat a la ciutat més pròxima\n"
+"  h: canviar ciutat base (a la ciutat actual)\n"
+"  i: construir (i)rrigació o convertir terreny (unitats colons/treballadors)\n"
+"  I: connectar la casella actual i la de destinació amb irrigacions\n"
+"  I: afegir un punt de camí d'irrigació (quan estàs connectant irrigacions)\n"
+"  l: embarcar unitat\n"
+"  L: connectar la casella actual i la de destinació amb ferrocarri(L)\n"
+"  L: afegir un punt de camí de ferrocarril (quan estàs connectant ferrocarrils)\n"
+"  m: construir (m)ina o convertir terreny (unitats colons/treballadors)\n"
+"  n: netejar residus (n)uclears\n"
+"  N: fer explotar míssil (N)uclear\n"
+"  o: transf(o)rmar terreny (unitat d'enginyers)\n"
+"  p: netejar contaminació (unitats colons/treballadors)\n"
+"  p: saltar en (p)aracaigudes  (unitats paracaigudistes)\n"
+"  P: Saqueig (destruir una alteració de terreny)\n"
+"  q: patrullar amb unitat (després fer clic esquerre per seleccionar el "
+"punt de destí)\n"
+"  q: afegir un punt de pas de la patrulla (en mode patrulla)\n"
+"  r: construir camí/ferrocarril (unitats colons/treballadors)\n"
+"  r: establir (r)uta comercial (unitats caravanes)\n"
+"  R: connectar la casella actual i la de destinació amb camins\n"
+"  R: afegir un punt de pas del camí (quan estàs connectant camins)\n"
+"  s: posar unitat en (s)entinella\n"
+"  S: treure de (s)entinella totes les unitats de la casella\n"
+"  t: Aero(t)ransportar unitat a ciutat\n"
+"  T: desembarcar totes les unitats d'un (T)ransport\n"
+"  u: desembarcar unitat d'un transport\n"
+"  U: millorar Unitat\n"
+"  x: auto-e(x)plorar\n"
 
 #: data/helpdata.txt:1406
 msgid ""
@@ -22827,13 +22813,10 @@ msgstr "Oracle"
 
 #: data/default/buildings.ruleset:1432 data/civ2/buildings.ruleset:1373
 #: data/civ1/buildings.ruleset:963
-#, fuzzy
 msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
-msgstr ""
-"Fa contents dos ciutadans descontents a totes les teves ciutats del mateix "
-"continent on s'ha construït la meravella."
+msgstr "Fa contents dos ciutadans descontents més a totes les ciutats que tinguin Temple. No afecta els ciutadans descontents per activitats militars."
 
 #: data/default/buildings.ruleset:1439 data/civ2/buildings.ruleset:1380
 #: data/civ1/buildings.ruleset:970
@@ -22871,13 +22854,10 @@ msgstr "Teatre de Shakespeare"
 
 #: data/default/buildings.ruleset:1495 data/civ2/buildings.ruleset:1434
 #: data/civ1/buildings.ruleset:1025
-#, fuzzy
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
 "located, including citizens unhappy about military activity."
-msgstr ""
-"Converteix a contents tots els ciutadans descontents de la ciutat on es "
-"construeix."
+msgstr "Converteix a contents tots els ciutadans enfadats i descontents de la ciutat on estigui ubicat, inclosos els ciutadans descontents per activitats militars."
 
 #: data/default/buildings.ruleset:1501 data/civ2/buildings.ruleset:1440
 msgid "Statue of Liberty"
@@ -22986,17 +22966,16 @@ msgid "?nationgroup:Fictional"
 msgstr "Ficticis"
 
 #: data/civ2/buildings.ruleset:252
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
 "Entreté els ciutadans d'una ciutat, fent contents tres ciutadans descontents "
-"(quatre després del descobriment de l'Electrònica.)"
+"(quatre després del descobriment de l'Electrònica). No obstant, no afecta els ciutadans descontents per activitats militars."
 
 #: data/civ2/buildings.ruleset:274
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Reduces the corruption and waste in a city by 50%.  Under a Democracy, a "
 "Courthouse also makes 1 unhappy citizen content (unless that citizen is "
@@ -23004,7 +22983,7 @@ msgid ""
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
 "Redueix la corrupció i el malbaratament d'una ciutat en un 50%. Sota la "
-"Democràcia, un Jutjat fa content un ciutadà descontent. També redueix a la "
+"Democràcia, un Jutjat fa content un ciutadà descontent (a no ser que aquest ciutadà estigui descontent a causa d'activitats militars). També redueix a la "
 "meitat la distància de fet a la capital a l'hora de calcular el cost d'una "
 "revolta."
 
@@ -23233,14 +23212,13 @@ msgstr ""
 "completament."
 
 #: data/civ1/buildings.ruleset:155
-#, fuzzy
 msgid ""
 "A Cathedral makes 4 unhappy citizens content in a city, making it easier to "
 "maintain order in that city; however, it does not affect citizens made "
 "unhappy by military activity."
 msgstr ""
 "Una Catedral acontenta quatre ciutadans descontents en una ciutat, "
-"facilitant de mantenir-hi l'ordre."
+"facilitant de mantenir-hi l'ordre; no obstant, no afecta els ciutadans descontents per activitats militars."
 
 #: data/civ1/buildings.ruleset:177
 msgid ""
@@ -23258,13 +23236,10 @@ msgstr ""
 "unitat terrestre."
 
 #: data/civ1/buildings.ruleset:200
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  "
 "However, it does not affect citizens made unhappy by military activity."
-msgstr ""
-"Entreté els ciutadans, convertint tres ciutadans descontents en contents "
-"(quatre després del descobriment de l'Electricitat.)"
+msgstr "Entreté els ciutadans, convertint tres ciutadans descontents en contents. No obstant, no afecta els ciutadans descontents per activitats militars."
 
 #: data/civ1/buildings.ruleset:221
 #, no-c-format
@@ -25339,7 +25314,7 @@ msgstr ""
 "\n"
 " - \"Establir Ambaixada\": Aquesta acció sempre té èxit, i dóna un contacte "
 "permanent amb el propietari de la ciutat, així com intel·ligència sobre les "
-"seves taxes d'impostos i tecnologies.\n"
+"seves proporcions d'impostos i tecnologies.\n"
 "\n"
 " - \"Investigar Ciutat\": La teva unitat intenta donar informació detallada "
 "sobre la ciutat: el seu estat, quins edificis i unitats hi ha, i què està "
@@ -25402,7 +25377,7 @@ msgstr ""
 "Un Espia és molt més destre en les arts de l'espionatge que el seu "
 "predecessor, el Diplomàtic.\n"
 "\n"
-"Pot fer totes les funcions del Diplomàtic, però amb una taxa d'èxit "
+"Pot fer totes les funcions del Diplomàtic, però amb un percentatge d'èxit "
 "superior. Veure l'ajuda sobre el Diplomàtic per més detalls. Al contrari del "
 "Diplomàtic, un Espia també pot sobreviure una operació en una ciutat "
 "estrangera i obtenir-ne experiència.\n"
@@ -27176,14 +27151,12 @@ msgstr ""
 "Colòmbia va obtenir la independència."
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandante"
-msgstr "Camarada"
+msgstr "Comandante"
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandanta"
-msgstr "Canadenc"
+msgstr "Comandanta"
 
 #: data/nation/colombian.ruleset:29 data/nation/swiss.ruleset:19
 msgid "General"
@@ -30913,7 +30886,6 @@ msgstr ""
 "la ciutat a créixer."
 
 #: data/scenario/tutorial.sav:97
-#, fuzzy
 msgid ""
 "As the number of cities in your empire grows, it becomes harder to\n"
 "manage individual cities.  This is where the city report becomes\n"
@@ -30925,11 +30897,11 @@ msgid ""
 "report is beyond the scope of this tutorial, however."
 msgstr ""
 "A mesura que el nombre de ciutats del teu imperi creix, cada cop es fa més\n"
-"difícil gestionar cadascuna de les ciutats. És ara que l'informe de ciutats\n"
+"difícil de gestionar cadascuna de les ciutats. És ara que l'informe de ciutats\n"
 "comença a ser útil. Prem F4 per a obrir-lo. Aquest informe mostra\n"
 "una llista de ciutats amb algunes estadístiques de cadascuna. Si vols\n"
-"pots entretenir-t'hi una mica, per a tornar al mapa clica la pestanya\n"
-"Mapa. Amb una mica de pràctica es poden controlar gairebé tots els \n"
+"pots entretenir-t'hi una mica (torna al mapa prement F1 o clicant la pestanya\n"
+"del Mapa). Amb una mica de pràctica es poden controlar gairebé tots els \n"
 "aspectes d'una ciutat des d'aquest informe. Però l'objectiu d'aquesta\n"
 "guia no és mostrar tota la potència del informe de ciutats."
 
@@ -30991,7 +30963,7 @@ msgstr ""
 "proporcionen només luxe (cosa que no serà útil fins més endavant)."
 
 #: data/scenario/tutorial.sav:146
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Now your city has grown to size five.  As cities get larger unrest\n"
 "becomes a problem.  A city of this size will usually have one unhappy\n"
@@ -31016,10 +30988,10 @@ msgstr ""
 "\n"
 "Hi ha diferents coses que s'hi poden fer. Una solució ràpida és\n"
 "construir un temple (o algun altre edifici cultural) que farà\n"
-"content un ciutadà descontent (veure l'ajuda sobre edificis per\n"
+"content un ciutadà descontent (veure l'ajuda sobre Millores en Ciutats per\n"
 "les especificacions de cada tipus d'edifici). A mesura que vas tenint\n"
-"més ciutats grans, pot valer la pena canviar els teus percentatges de\n"
-"taxes (prement ctrl-T) per dedicar part de les teves taxes directament\n"
+"més ciutats grans, pot valer la pena canviar les proporcions de taxes\n"
+"(prement ctrl-T) per dedicar part de les teves taxes directament\n"
 "a luxe (cada dos punts de luxe pacificaran un ciutadà). Construir un\n"
 "mercat multiplica el benefici d'aquest pas en proporcionar +50%% de\n"
 "luxes per la ciutat."
@@ -31079,7 +31051,6 @@ msgstr ""
 "comprar alguns edificis per accelerar la seva producció."
 
 #: data/scenario/tutorial.sav:209
-#, fuzzy
 msgid ""
 "You have built a settler unit.  Settlers are best used to build \n"
 "new cities, so as to expand your civilization.  Move your settler\n"
@@ -31101,13 +31072,13 @@ msgstr ""
 "ciutat.\n"
 "\n"
 "Com hem dit abans, és millor fundar les ciutats en terreny obert i\n"
-"a prop de l'aigua. Els prats i les planes proporcionen menjar per\n"
+"a prop de l'aigua. Els prats i les planes proporcionen menjar per a\n"
 "la ciutat. Boscos i turons proporcionen els recursos (escuts) que\n"
 "calen per construir coses. Els rius i l'oceà donen bonificacions de\n"
 "comerç que proporcionen beneficis a tota la civilització. El desert,\n"
 "la tundra, i les muntanyes normalment donen poca producció i no\n"
-"són gaire útils per ciutats petites. Mira l'ajuda sobre el terreny i les\n"
-"caselles especials per més informació."
+"són gaire útils per ciutats petites. Mira l'ajuda sobre Terreny per\n"
+"a més informació sobre les especificacions del terreny."
 
 #: data/scenario/tutorial.sav:223
 msgid ""
@@ -31135,7 +31106,6 @@ msgstr ""
 "ciutat tindrà accés a més recursos, permetent que creixin més."
 
 #: data/scenario/tutorial.sav:246
-#, fuzzy
 msgid ""
 "You have built a Barracks.  This building will make any military\n"
 "units you build start out as veterans.  Veteran units are stronger\n"
@@ -31150,14 +31120,14 @@ msgid ""
 msgstr ""
 "Has construït una Caserna. Aquest edifici farà que totes les unitats \n"
 "militars que construeixis surtin veteranes. Les unitats veteranes són\n"
-"més fortes que les tropes novelles, i sobreviuran més temps en\n"
-"combat. Mira l'ajuda d'edificis per obtenir més informació sobre aquest\n"
-"edifici i d'altres.\n"
+"més fortes que les tropes novelles, inexpertes, i sobreviuran més temps\n"
+"en combat. Mira l'ajuda sobre Millores de la Ciutat per obtenir més\n"
+"informació sobre aquest edifici i d'altres.\n"
 "\n"
 "Probablement voldràs començar construint una unitat militar a la \n"
-"ciutat que ha construït la Caserna. La Caserna és una inversió\n"
+"ciutat que ha construït la Caserna. Una Caserna és una inversió\n"
 "considerable i també té un petit cost de manteniment, per tant val\n"
-"més aprofitar-la."
+"la pena aprofitar-la."
 
 #: data/scenario/tutorial.sav:268
 msgid ""
