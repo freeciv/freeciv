@@ -97,8 +97,11 @@ static bool set_ai_level_named(struct connection *caller, const char *name,
 static bool set_ai_level(struct connection *caller, const char *name,
                          enum ai_level level, bool check);
 static bool set_away(struct connection *caller, char *name, bool check);
+static bool set_rulesetdir(struct connection *caller, char *str, bool check,
+                           int read_recursion);
 static bool show_command(struct connection *caller, char *str, bool check);
-static void show_changed(struct connection *caller, bool check);
+static void show_changed(struct connection *caller, bool check,
+                         int read_recursion);
 
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
@@ -898,6 +901,15 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
+  Main entry point for the read command.
+**************************************************************************/
+static bool read_command(struct connection *caller, char *arg, bool check,
+                         int read_recursion)
+{
+  return read_init_script_real(caller, arg, FALSE, check, read_recursion);
+}
+
+/**************************************************************************
   Main entry point for reading an init script.
 **************************************************************************/
 bool read_init_script(struct connection *caller, char *script_filename,
@@ -927,9 +939,6 @@ static bool read_init_script_real(struct connection *caller,
   char serv_filename[strlen(extension) + strlen(script_filename) + 2];
   char tilde_filename[4096];
   const char *real_filename;
-
-  /* increase the number of calls to read */
-  read_recursion++;
 
   /* check recursion depth */
   if (read_recursion > GAME_MAX_READ_RECURSION) {
@@ -980,9 +989,12 @@ static bool read_init_script_real(struct connection *caller,
     /* the size is set as to not overflow buffer in handle_stdin_input */
     while (fgets(buffer, MAX_LEN_CONSOLE_LINE - 1, script_file)) {
       /* Execute script contents with same permissions as caller */
-      handle_stdin_input_real(caller, buffer, check, read_recursion);
+      handle_stdin_input_real(caller, buffer, check, read_recursion + 1);
     }
     fclose(script_file);
+
+    show_changed(caller, check, read_recursion);
+
     return TRUE;
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
@@ -990,15 +1002,6 @@ static bool read_init_script_real(struct connection *caller,
     log_error(_("Could not read script file '%s'."), real_filename);
     return FALSE;
   }
-}
-
-/**************************************************************************
-  Main entry point for the read command.
-**************************************************************************/
-static bool read_command(struct connection *caller, char *arg, bool check,
-                         int read_recursion)
-{
-  return read_init_script_real(caller, arg, FALSE, check, read_recursion);
 }
 
 /**************************************************************************
@@ -1767,9 +1770,14 @@ static bool set_away(struct connection *caller, char *name, bool check)
 /**************************************************************************
   Show changed settings.
 **************************************************************************/
-static void show_changed(struct connection *caller, bool check)
+static void show_changed(struct connection *caller, bool check,
+                         int read_recursion)
 {
-  /* show changed settings */
+  if (read_recursion != 0) {
+    return;
+  }
+
+  /* show changed settings only at the top level of recursion */
   char *show_arg = "changed";
   show_command(caller, show_arg, check);
 }
@@ -3366,7 +3374,8 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   other bad stuff in the directory name, and will only use directories
   inside the data directories.
 **************************************************************************/
-static bool set_rulesetdir(struct connection *caller, char *str, bool check)
+static bool set_rulesetdir(struct connection *caller, char *str, bool check,
+                           int read_recursion)
 {
   char filename[512];
   const char *pfilename;
@@ -3423,7 +3432,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
       send_rulesets(game.est_connections);
     }
     /* list changed values */
-    show_changed(caller, check);
+    show_changed(caller, check, read_recursion);
   }
 
   return TRUE;
@@ -3575,7 +3584,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     }
 
     /* Check if the vote command would succeed. */
-    if (handle_stdin_input_real(caller, full_command, TRUE, read_recursion)
+    if (handle_stdin_input_real(caller, full_command, TRUE,
+                                read_recursion + 1)
         && (vote = vote_new(caller, allargs, cmd))) {
       char votedesc[MAX_LEN_CONSOLE_LINE];
       const struct player *teamplr;
@@ -3688,7 +3698,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_TEAM:
     return team_command(caller, arg, check);
   case CMD_RULESETDIR:
-    return set_rulesetdir(caller, arg, check);
+    return set_rulesetdir(caller, arg, check, read_recursion);
   case CMD_WALL:
     return wall(arg, check);
   case CMD_CONNECTMSG:
@@ -3894,7 +3904,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
               _("Settings re-initialized."));
 
   /* list changed values */
-  show_changed(caller, check);
+  show_changed(caller, check, read_recursion);
   return TRUE;
 }
 
