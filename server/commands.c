@@ -43,14 +43,14 @@ static struct command commands[] = {
    /* no translatable parameters */
    SYN_ORIG_("start"),
    N_("Start the game, or restart after loading a savegame."),
-   N_("This command starts the game.  When starting a new game, "
+   N_("This command starts the game. When starting a new game, "
       "it should be used after all human players have connected, and "
       "AI players have been created (if required), and any desired "
-      "changes to initial server options have been made.  "
+      "changes to initial server options have been made. "
       "After 'start', each human player will be able to "
-      "choose their nation, and then the game will begin.  "
+      "choose their nation, and then the game will begin. "
       "This command is also required after loading a savegame "
-      "for the game to recommence.  Once the game is running this command "
+      "for the game to recommence. Once the game is running this command "
       "is no longer available, since it would have no effect."),
    VCF_NONE, 0
   },
@@ -63,12 +63,12 @@ static struct command commands[] = {
       "help <command-name>\n"
       "help <option-name>"),
    N_("Show help about server commands and server options."),
-   N_("With no arguments gives some introductory help.  "
+   N_("With no arguments gives some introductory help. "
       "With argument \"commands\" or \"options\" gives respectively "
-      "a list of all commands or all options.  "
+      "a list of all commands or all options. "
       "Otherwise the argument is taken as a command name or option name, "
-      "and help is given for that command or option.  For options, the help "
-      "information includes the current and default values for that option.  "
+      "and help is given for that command or option. For options, the help "
+      "information includes the current and default values for that option. "
       "The argument may be abbreviated where unambiguous."),
    VCF_NONE, 0
   },
@@ -82,7 +82,7 @@ static struct command commands[] = {
              "list scenarios"),
    N_("Show a list of players, teams, connections, or scenarios."),
    N_("Show a list of players in the game, teams of players, connections to "
-      "the server, or available scenarios.  The argument may be abbreviated,"
+      "the server, or available scenarios. The argument may be abbreviated,"
       " and defaults to 'players' if absent."),
    VCF_NONE, 0
   },
@@ -97,8 +97,8 @@ static struct command commands[] = {
    N_("cut <connection-name>"),
    N_("Cut a client's connection to server."),
    N_("Cut specified client's connection to the server, removing that client "
-      "from the game.  If the game has not yet started that client's player "
-      "is removed from the game, otherwise there is no effect on the player.  "
+      "from the game. If the game has not yet started that client's player "
+      "is removed from the game, otherwise there is no effect on the player. "
       "Note that this command now takes connection names, not player names."),
    VCF_NONE, 50
   },
@@ -108,7 +108,7 @@ static struct command commands[] = {
       "explain <option-name>"),
    N_("Explain server options."),
    N_("The 'explain' command gives a subset of the functionality of 'help', "
-      "and is included for backward compatibility.  With no arguments it "
+      "and is included for backward compatibility. With no arguments it "
       "gives a list of options (like 'help options'), and with an argument "
       "it gives help for a particular option (like 'help <option-name>')."),
    VCF_NONE, 0
@@ -154,10 +154,10 @@ static struct command commands[] = {
    N_("Cast a vote."),
       /* xgettext:no-c-format */
    N_("A player with basic level access issuing a control level command "
-      "starts a new vote for the command.  The /vote command followed by "
+      "starts a new vote for the command. The /vote command followed by "
       "\"yes\", \"no\", or \"abstain\", and optionally a vote number, "
-      "gives your vote.  If you do not add a vote number, your vote applies "
-      "to the latest vote.  You can only suggest one vote at a time.  "
+      "gives your vote. If you do not add a vote number, your vote applies "
+      "to the latest vote. You can only suggest one vote at a time. "
       "The vote will pass immediately if more than half of the voters "
       "who have not abstained vote for it, or fail immediately if at "
       "least half of the voters who have not abstained vote against it."),
@@ -165,9 +165,15 @@ static struct command commands[] = {
   },
   {"debug",	ALLOW_CTRL,
    /* no translatable parameters */
-   SYN_ORIG_("debug [ diplomacy | ferries | player <player> | tech <player>"
-             " | city <x> <y> | units <x> <y> | unit <id> "
-             " | timing | info ]"),
+   SYN_ORIG_("debug diplomacy\n"
+             "debug ferries\n"
+             "debug player <player>\n"
+             "debug tech <player>\n"
+             "debug city <x> <y>\n"
+             "debug units <x> <y>\n"
+             "debug unit <id>\n"
+             "debug timing\n"
+             "debug info"),
    N_("Turn on or off AI debugging of given entity."),
    N_("Print AI debug information about given entity and turn continous "
       "debugging output for this entity on or off."),
@@ -194,7 +200,7 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("rulesetdir <directory>"),
    N_("Choose new ruleset directory or modpack."),
-   N_("Choose new ruleset directory or modpack. Calling this\n "
+   N_("Choose new ruleset directory or modpack. Calling this "
       "without any arguments will show you the currently selected "
       "ruleset."),
    VCF_NONE, 50
@@ -203,9 +209,9 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("metainfo <meta-line>"),
    N_("Set metaserver info line."),
-   N_("Set user defined metaserver info line. If parameter is omitted,\n"
-      "previously set metamessage will be removed. For most of the time\n"
-      "user defined metamessage will be used instead of automatically\n"
+   N_("Set user defined metaserver info line. If parameter is omitted, "
+      "previously set metamessage will be removed. For most of the time "
+      "user defined metamessage will be used instead of automatically "
       "generated messages, if it is available."),
    VCF_NONE, 50
   },
@@ -221,8 +227,8 @@ static struct command commands[] = {
              "metaconnection d|down\n"
              "metaconnection ?"),
    N_("Control metaserver connection."),
-   N_("'metaconnection ?' reports on the status of the connection to metaserver.\n"
-      "'metaconnection down' or 'metac d' brings the metaserver connection down.\n"
+   N_("'metaconnection ?' reports on the status of the connection to metaserver. "
+      "'metaconnection down' or 'metac d' brings the metaserver connection down. "
       "'metaconnection up' or 'metac u' brings the metaserver connection up."),
    VCF_NONE, 0
   },
@@ -244,7 +250,7 @@ static struct command commands[] = {
    N_("Take over a player's place in the game."),
    N_("Only the console and connections with cmdlevel 'hack' can force "
       "other connections to take over a player. If you're not one of these, "
-      "only the <player-name> argument is allowed.  If '-' is given for the "
+      "only the <player-name> argument is allowed. If '-' is given for the "
       "player name and the connection does not already control a player, one "
       "is created and assigned to the connection."),
    VCF_NONE, 0
@@ -289,7 +295,7 @@ static struct command commands[] = {
       "novice <player-name>"),
    N_("Set one or all AI players to 'novice'."),
    N_("With no arguments, sets all AI players to skill level 'novice', and "
-      "sets the default level for any new AI players to 'novice'.  With an "
+      "sets the default level for any new AI players to 'novice'. With an "
       "argument, sets the skill level for that player only."),
    VCF_NONE, 50
   },
@@ -299,7 +305,7 @@ static struct command commands[] = {
       "easy <player-name>"),
    N_("Set one or all AI players to 'easy'."),
    N_("With no arguments, sets all AI players to skill level 'easy', and "
-      "sets the default level for any new AI players to 'easy'.  With an "
+      "sets the default level for any new AI players to 'easy'. With an "
       "argument, sets the skill level for that player only."),
    VCF_NONE, 50
   },
@@ -309,7 +315,7 @@ static struct command commands[] = {
       "normal <player-name>"),
    N_("Set one or all AI players to 'normal'."),
    N_("With no arguments, sets all AI players to skill level 'normal', and "
-      "sets the default level for any new AI players to 'normal'.  With an "
+      "sets the default level for any new AI players to 'normal'. With an "
       "argument, sets the skill level for that player only."),
    VCF_NONE, 50
   },
@@ -319,7 +325,7 @@ static struct command commands[] = {
       "hard <player-name>"),
    N_("Set one or all AI players to 'hard'."),
    N_("With no arguments, sets all AI players to skill level 'hard', and "
-      "sets the default level for any new AI players to 'hard'.  With an "
+      "sets the default level for any new AI players to 'hard'. With an "
       "argument, sets the skill level for that player only."),
    VCF_NONE, 50
   },
@@ -329,7 +335,7 @@ static struct command commands[] = {
       "cheating <player-name>"),
    N_("Set one or all AI players to 'cheating'."),
    N_("With no arguments, sets all AI players to skill level 'cheating', and "
-      "sets the default level for any new AI players to 'cheating'.  With an "
+      "sets the default level for any new AI players to 'cheating'. With an "
       "argument, sets the skill level for that player only."),
    VCF_NONE, 50
   },
@@ -339,7 +345,7 @@ static struct command commands[] = {
       "experimental <player-name>"),
    N_("Set one or all AI players to 'experimental'."),
    N_("With no arguments, sets all AI players to skill 'experimental', and "
-      "sets the default level for any new AI players to this.  With an "
+      "sets the default level for any new AI players to this. With an "
       "argument, sets the skill level for that player only. THIS IS ONLY "
       "FOR TESTING OF NEW AI FEATURES! For ordinary servers, this option "
       "has no effect."),
@@ -353,25 +359,25 @@ static struct command commands[] = {
       "cmdlevel <level> first\n"
       "cmdlevel <level> <connection-name>"),
    N_("Query or set command access level access."),
-   N_("The command access level controls which server commands are available\n"
-      "to users via the client chatline.  The available levels are:\n"
+   N_("The command access level controls which server commands are available "
+      "to users via the client chatline. The available levels are:\n"
       "    none  -  no commands\n"
       "    info  -  informational or observer commands only\n"
       "    basic -  commands available to players in the game\n"
       "    ctrl  -  commands that affect the game and users\n"
       "    admin -  commands that affect server operation\n"
       "    hack  -  *all* commands - dangerous!\n"
-      "With no arguments, the current command access levels are reported.\n"
+      "With no arguments, the current command access levels are reported. "
       "With a single argument, the level is set for all existing "
-      "connections,\nand the default is set for future connections.\n"
-      "If 'new' is specified, the level is set for newly connecting clients.\n"
-      "If 'first come' is specified, the 'first come' level is set; it will be\n"
-      "granted to the first client to connect, or if there are connections\n"
-      "already, the first client to issue the 'first' command.\n"
+      "connections, and the default is set for future connections. "
+      "If 'new' is specified, the level is set for newly connecting clients. "
+      "If 'first come' is specified, the 'first come' level is set; it will be "
+      "granted to the first client to connect, or if there are connections "
+      "already, the first client to issue the 'first' command. "
       "If a connection name is specified, the level is set for that "
       "connection only.\n"
       "Command access levels do not persist if a client disconnects, "
-      "because some untrusted person could reconnect with the same name.  "
+      "because some untrusted person could reconnect with the same name. "
       "Note that this command now takes connection names, not player names."
       )
   },
@@ -386,7 +392,7 @@ static struct command commands[] = {
    N_("timeoutincrease <turn> <turninc> <value> <valuemult>"), 
    N_("See \"help timeoutincrease\"."),
    N_("Every <turn> turns, add <value> to timeout timer, then add <turninc> "
-      "to <turn> and multiply <value> by <valuemult>.  Use this command in "
+      "to <turn> and multiply <value> by <valuemult>. Use this command in "
       "concert with the option \"timeout\". Defaults are 0 0 0 1"),
    VCF_NONE, 50
   },
@@ -396,7 +402,7 @@ static struct command commands[] = {
       "cancelvote <vote number>\n"
       "cancelvote all\n"),
    N_("Cancel a running vote.\n"),
-   N_("With no arguments this command removes your own vote.  If you have "
+   N_("With no arguments this command removes your own vote. If you have "
       "an admin access level, you can cancel any vote by vote number, or "
       "all votes with the \'all\' argument."),
     VCF_NONE, 0
@@ -421,7 +427,7 @@ static struct command commands[] = {
    N_("remove <player-name>"),
    N_("Fully remove player from game."),
    N_("This *completely* removes a player from the game, including "
-      "all cities and units etc.  Use with care!"),
+      "all cities and units etc. Use with care!"),
    VCF_NONE, 50
   },
   {"save",	ALLOW_ADMIN,
@@ -429,11 +435,11 @@ static struct command commands[] = {
    N_("save\n"
       "save <file-name>"),
    N_("Save game to file."),
-   N_("Save the current game to file <file-name>.  If no file-name "
-      "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
+   N_("Save the current game to file <file-name>. If no file-name "
+      "argument is given saves to \"<auto-save name prefix><year>m.sav[.gz]\". "
       "To reload a savegame created by 'save', start the server with "
       "the command-line argument:\n"
-      "    --file <filename>\n"
+      "    '--file <filename>' or '-f <filename>'\n"
       "and use the 'start' command once players have reconnected."),
    VCF_NONE, 0
   },
@@ -443,7 +449,7 @@ static struct command commands[] = {
       "load <file-name>"),
    N_("Load game from file."),
    N_("Load a game from <file-name>. Any current data including players, "
-      "rulesets and server options are lost.\n"),
+      "rulesets and server options are lost."),
    VCF_NONE, 50
   },
   {"read",	ALLOW_CTRL,

@@ -44,6 +44,9 @@
 #define MAX_GRANARY_INIS 24
 #define MAX_LEN_STARTUNIT (20+1)
 
+/* Line breaks after this number of characters; be carefull and use only 70 */
+#define LINE_BREAK 70
+
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 

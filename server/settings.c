@@ -473,18 +473,18 @@ static struct setting settings[] = {
    * interest only, and cannot be changed.
    */
   GEN_INT("generator", map.server.generator,
-	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
-	  N_("Method used to generate map"),
-	  N_("0 = Scenario map - no generator;\n"
-	     "1 = Fully random height generator;              [4]\n"
-	     "2 = Pseudo-fractal height generator;             [3]\n"
-	     "3 = Island-based generator (fairer but boring)   [1]\n"
-	     "\n"
-	     "Numbers in [] give the default values for placement of "
-	     "starting positions.  If the default value of startpos is "
-	     "used then a startpos setting will be chosen based on the "
+          SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
+          N_("Method used to generate map"),
+          N_("0 = Scenario map - no generator\n"
+             "1 = Fully random height generator              [4]\n"
+             "2 = Pseudo-fractal height generator            [3]\n"
+             "3 = Island-based generator (fairer but boring) [1]\n"
+             "\n"
+             "Numbers in [] give the default values for placement of "
+             "starting positions.  If the default value of startpos is "
+             "used then a startpos setting will be chosen based on the "
              "generator.  See the \"startpos\" setting."), NULL, NULL,
-	  MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
+          MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
 
   GEN_INT("startpos", map.server.startpos,
 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
@@ -520,20 +520,20 @@ static struct setting settings[] = {
            NULL, NULL, MAP_DEFAULT_ALLTEMPERATE)
 
   GEN_INT("temperature", map.server.temperature,
- 	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
- 	  N_("Average temperature of the planet"),
- 	  N_("Small values will give a cold map, while larger values will "
+          SSET_MAP_GEN, SSET_GEOLOGY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+          N_("Average temperature of the planet"),
+          N_("Small values will give a cold map, while larger values will "
              "give a hotter map.\n"
-	     "\n"
-	     "100 means a very dry and hot planet with no polar arctic "
-	     "zones, only tropical and dry zones.\n\n"
-	     "70 means a hot planet with little polar ice.\n\n"
-             "50 means a temperate planet with normal polar, cold, "
-	     "temperate, and tropical zones; a desert zone overlaps "
-	     "tropical and temperate zones.\n\n"
-	     "30 means a cold planet with small tropical zones.\n\n"
-	     "0 means a very cold planet with large polar zones and no "
-	     "tropics"),
+             "\n"
+             "100 means a very dry and hot planet with no polar arctic "
+             "zones, only tropical and dry zones.\n"
+             " 70 means a hot planet with little polar ice.\n"
+             " 50 means a temperate planet with normal polar, cold, "
+             "temperate, and tropical zones; a desert zone overlaps "
+             "tropical and temperate zones.\n"
+             " 30 means a cold planet with small tropical zones.\n"
+             "  0 means a very cold planet with large polar zones and no "
+             "tropics"),
           NULL, NULL,
           MAP_MIN_TEMPERATURE, MAP_MAX_TEMPERATURE, MAP_DEFAULT_TEMPERATURE)
  
@@ -916,21 +916,21 @@ static struct setting settings[] = {
 	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
 
   GEN_INT("citynames", game.info.allowed_city_names,
-	  SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
-	  N_("Allowed city names"),
-	  N_("0 = There are no restrictions: players can have "
-	     "multiple cities with the same names.\n\n"
-	     "1 = City names have to be unique to a player: "
-	     "one player can't have multiple cities with the same name.\n\n"
-	     "2 = City names have to be globally unique: "
-	     "all cities in a game have to have different names.\n\n"
-	     "3 = Like setting 2, but a player isn't allowed to use a "
-	     "default city name of another nations unless it is a default "
-	     "for their nation also."),
+          SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Allowed city names"),
+          N_("0 = There are no restrictions: players can have "
+             "multiple cities with the same names.\n"
+             "1 = City names have to be unique to a player: "
+             "one player can't have multiple cities with the same name.\n"
+             "2 = City names have to be globally unique: "
+             "all cities in a game have to have different names.\n"
+             "3 = Like setting 2, but a player isn't allowed to use a "
+             "default city name of another nations unless it is a default "
+             "for their nation also."),
           NULL, NULL,
-	  GAME_MIN_ALLOWED_CITY_NAMES, GAME_MAX_ALLOWED_CITY_NAMES, 
-	  GAME_DEFAULT_ALLOWED_CITY_NAMES)
-  
+          GAME_MIN_ALLOWED_CITY_NAMES, GAME_MAX_ALLOWED_CITY_NAMES,
+          GAME_DEFAULT_ALLOWED_CITY_NAMES)
+
   /* Flexible rules: these can be changed after the game has started.
    *
    * The distinction between "rules" and "flexible rules" is not always
@@ -1163,15 +1163,15 @@ static struct setting settings[] = {
    * players stop playing and look at the score.)
    */
   GEN_STRING("allowtake", game.server.allow_take,
-	     SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
+             SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
              N_("Players that users are allowed to take"),
              N_("This should be a string of characters, each of which "
-                "specifies a type or status of a civilization (player). "
-                "Clients will only be permitted to take "
-                "or observe those players which match one of the specified "
-                "letters. This only affects future uses of the take or "
-                "observe command; it is not retroactive. The characters "
-		"and their meanings are:\n"
+                "specifies a type or status of a civilization (player).\n"
+                "Clients will only be permitted to take or observe those "
+                "players which match one of the specified letters. This "
+                "only affects future uses of the take or observe command; "
+                "it is not retroactive. The characters and their meanings "
+                "are:\n"
                 "    o,O = Global observer\n"
                 "    b   = Barbarian players\n"
                 "    d   = Dead players\n"
@@ -1181,21 +1181,21 @@ static struct setting settings[] = {
                 "player is the one which applies. Thus 'd' does not "
                 "include dead barbarians, 'a' does not include dead AI "
                 "players, and so on. Upper case letters apply before "
-                "the game has started, lower case letters afterwards.\n\n"
+                "the game has started, lower case letters afterwards.\n"
                 "Each character above may be followed by one of the "
                 "following numbers to allow or restrict the manner "
-                "of connection:\n\n"
+                "of connection:\n"
                 "(none) = Controller allowed, observers allowed, "
                 "can displace connections. (Displacing a connection means "
-		"that you may take over a player, even when another user "
-		"already controls that player.)\n\n"
-                "1 = Controller allowed, observers allowed, "
-                "can't displace connections;\n\n"
-                "2 = Controller allowed, no observers allowed, "
-                "can displace connections;\n\n"
-                "3 = Controller allowed, no observers allowed, "
-                "can't displace connections;\n\n"
-                "4 = No controller allowed, observers allowed;\n\n"),
+                "that you may take over a player, even when another user "
+                "already controls that player.)\n"
+                "     1 = Controller allowed, observers allowed, "
+                "can't displace connections;\n"
+                "     2 = Controller allowed, no observers allowed, "
+                "can displace connections;\n"
+                "     3 = Controller allowed, no observers allowed, "
+                "can't displace connections;\n"
+                "     4 = No controller allowed, observers allowed"),
              allowtake_callback, NULL, GAME_DEFAULT_ALLOW_TAKE)
 
   GEN_BOOL("autotoggle", game.info.auto_ai_toggle,

@@ -755,6 +755,27 @@ bool is_reg_file_for_access(const char *name, bool write_access)
   }
 }
 
+/****************************************************************************
+  Replace the spaces by line breaks when the line lenght is over the desired
+  one.
+****************************************************************************/
+void fc_break_lines(char *str, size_t desired_len)
+{
+  char *c;
+  size_t n = 0;
+
+  for (c = str; '\0' != *c; c++) {
+    if ('\n' == *c) {
+      n = 0;
+    } else if (my_isspace(*c) && n >= desired_len) {
+      *c = '\n';
+      n = 0;
+    } else {
+      n++;
+    }
+  }
+}
+
 /**********************************************************************
   Character function wrappers
 

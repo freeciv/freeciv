@@ -34,6 +34,7 @@
 /* common */
 #include "connection.h"
 #include "events.h"
+#include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
 #include "improvement.h"
 #include "map.h"
@@ -136,13 +137,15 @@ static bool manual_command(void)
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       settings_iterate(pset) {
-        const char *help = _(setting_extra_help(pset));
-
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
         if (strlen(setting_extra_help(pset)) > 0) {
+          char *help = mystrdup(_(setting_extra_help(pset)));
+
+          fc_break_lines(help, LINE_BREAK);
           fprintf(doc, "<pre>%s</pre>\n\n", help);
+          FC_FREE(help);
         }
         fprintf(doc, "<p class=\"misc\">");
         fprintf(doc, _("Level: %s.<br>"), _(setting_level_name(pset)));
@@ -206,8 +209,12 @@ static bool manual_command(void)
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
         if (command_extra_help(cmd)) {
+          char *help = mystrdup(command_extra_help(cmd));
+
+          fc_break_lines(help, LINE_BREAK);
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", command_extra_help(cmd));
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
+          FC_FREE(help);
         }
       }
       break;

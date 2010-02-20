@@ -43,6 +43,6 @@ void astr_add(struct astring *astr, const char *format, ...)
       fc__attribute((__format__(__printf__, 2, 3)));
 void astr_add_line(struct astring *astr, const char *format, ...)
       fc__attribute((__format__(__printf__, 2, 3)));
-void astr_cut_lines(struct astring *astr, size_t desired_len);
+void astr_break_lines(struct astring *astr, size_t desired_len);
 
 #endif  /* FC__ASTRING_H */

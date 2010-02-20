@@ -121,6 +121,8 @@ char *my_read_console(void);
 
 bool is_reg_file_for_access(const char *name, bool write_access);
 
+void fc_break_lines(char *str, size_t desired_len);
+
 bool my_isalnum(char c);
 bool my_isalpha(char c);
 bool my_isdigit(char c);

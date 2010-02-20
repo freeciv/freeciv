@@ -42,6 +42,7 @@
 /* common */
 #include "capability.h"
 #include "events.h"
+#include "fc_types.h" /* LINE_BREAK */
 #include "featured_text.h"
 #include "game.h"
 #include "map.h"
@@ -1463,12 +1464,13 @@ static void show_help_option(struct connection *caller,
               _("Option: %s"), setting_name(pset));
   }
 
-  if(setting_extra_help(pset) && strcmp(setting_extra_help(pset),"")!=0) {
-    const char *help = _(setting_extra_help(pset));
+  if (strlen(setting_extra_help(pset)) > 0) {
+    char *help = mystrdup(_(setting_extra_help(pset)));
 
+    fc_break_lines(help, LINE_BREAK);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
-    cmd_reply_prefix(help_cmd, caller, C_COMMENT,
-		     "  ", "  %s", help);
+    cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ", "  %s", help);
+    FC_FREE(help);
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
             _("Status: %s"), (setting_is_changeable(pset, NULL, NULL, 0)
@@ -4056,30 +4058,36 @@ static bool cut_client_connection(struct connection *caller, char *name,
 }
 
 /**************************************************************************
- Show caller introductory help about the server.
- help_cmd is the command the player used.
+  Show caller introductory help about the server. help_cmd is the command
+  the player used.
 **************************************************************************/
-static void show_help_intro(struct connection *caller, enum command_id help_cmd)
+static void show_help_intro(struct connection *caller,
+                            enum command_id help_cmd)
 {
   /* This is formated like extra_help entries for settings and commands: */
-  const char *help =
-    /* TRANS: line break width 70 */
-    _("Welcome - this is the introductory help text for the Freeciv server.\n\n"
-      "Two important server concepts are Commands and Options.\n"
-      "Commands, such as 'help', are used to interact with the server.\n"
-      "Some commands take one or more arguments, separated by spaces.\n"
-      "In many cases commands and command arguments may be abbreviated.\n"
-      "Options are settings which control the server as it is running.\n\n"
-      "To find out how to get more information about commands and options,\n"
-      "use 'help help'.\n\n"
+  char *help = mystrdup(
+    _("Welcome - this is the introductory help text for the Freeciv "
+      "server.\n"
+      "\n"
+      "Two important server concepts are Commands and Options. Commands, "
+      "such as 'help', are used to interact with the server. Some commands "
+      "take one or more arguments, separated by spaces. In many cases "
+      "commands and command arguments may be abbreviated. Options are "
+      "settings which control the server as it is running.\n"
+      "\n"
+      "To find out how to get more information about commands and options, "
+      "use 'help help'.\n"
+      "\n"
       "For the impatient, the main commands to get going are:\n"
       "  show   -  to see current options\n"
       "  set    -  to set options\n"
       "  start  -  to start the game once players have connected\n"
       "  save   -  to save the current game\n"
-      "  quit   -  to exit");
+      "  quit   -  to exit"));
 
+  fc_break_lines(help, LINE_BREAK);
   cmd_reply(help_cmd, caller, C_COMMENT, "%s", help);
+  FC_FREE(help);
 }
 
 /**************************************************************************
@@ -4117,9 +4125,12 @@ static void show_help_command(struct connection *caller,
   cmd_reply(help_cmd, caller, C_COMMENT,
             _("Level: %s"), cmdlevel_name(command_level(cmd)));
   if (command_extra_help(cmd)) {
+    char *help = mystrdup(command_extra_help(cmd));
+
+    fc_break_lines(help, LINE_BREAK);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
-    cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ",
-                     "  %s", command_extra_help(cmd));
+    cmd_reply_prefix(help_cmd, caller, C_COMMENT, "  ", "  %s", help);
+    FC_FREE(help);
   }
 }
 

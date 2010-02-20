@@ -27,6 +27,7 @@
 
 /* common */
 #include "combat.h"
+#include "fc_types.h" /* LINE_BREAK */
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -378,7 +379,8 @@ const char *popup_info_text(struct tile *ptile)
       astr_add(&str, _("  (%d more)"), unit_list_size(ptile->units) - 1);
     }
   }
-  astr_cut_lines(&str, 80);
+
+  astr_break_lines(&str, LINE_BREAK);
   return str.str;
 }
 
