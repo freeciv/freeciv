@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-20 18:16+0300\n"
+"PO-Revision-Date: 2010-02-20 21:54+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7077,9 +7077,8 @@ msgid "?clistmore:, %s"
 msgstr ", %s"
 
 #: server/stdinhand.c:4322
-#, fuzzy
 msgid ", ready"
-msgstr ", Помер"
+msgstr ", готово"
 
 #: server/stdinhand.c:4326
 msgid ", not ready"
@@ -7148,9 +7147,9 @@ msgid "The %s have researched Future Tech. %d."
 msgstr "%s вивчили технологію майбутнього %d."
 
 #: server/techtools.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%s acquired from %s!"
-msgstr "%s здобув %s (Угода) від %s"
+msgstr "%s здобуто від %s!"
 
 #: server/techtools.c:230
 #, c-format
@@ -7163,9 +7162,9 @@ msgid "Discovery of %s OBSOLETES %s in %s!"
 msgstr "Відкриття %s робить ЗАСТАРІЛИМ %s у %s!"
 
 #: server/techtools.c:359
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "Відкрито %s. Вчені концентруються на %s, мета %s."
+msgstr "Відкрито %s. Наші вчені концентруються на %s; мета - %s."
 
 #: server/techtools.c:376
 #, c-format
@@ -7183,9 +7182,9 @@ msgid "Researching %s."
 msgstr "Вивчається %s."
 
 #: server/techtools.c:391
-#, fuzzy, c-format
+#, c-format
 msgid "Learned %s.  Scientists do not know what to research next."
-msgstr "Відкрито %s. Науковці вибрали для вивчення %s."
+msgstr "Відкрито %s. Науковці не знають, що досліджувати далі."
 
 #: server/techtools.c:408
 msgid "Great scientists from all the world join your civilization: you get an immediate advance."
@@ -7906,9 +7905,8 @@ msgstr "Застаріло"
 
 #: client/citydlg_common.c:341
 #: client/gui-sdl/wldlg.c:1367
-#, fuzzy
 msgid "Destroyed"
-msgstr "Есмінець"
+msgstr "Знищено"
 
 #: client/citydlg_common.c:343
 #: client/gui-sdl/wldlg.c:1369
@@ -23548,9 +23546,8 @@ msgid "Mullah"
 msgstr "Мула"
 
 #: data/nation/afghani.ruleset:27
-#, fuzzy
 msgid "?female:Mullah"
-msgstr "Махатма"
+msgstr "Мулла"
 
 #: data/nation/afghani.ruleset:28
 #: data/nation/australian.ruleset:28
@@ -23731,9 +23728,8 @@ msgstr "Халіф"
 #: data/nation/arab.ruleset:23
 #: data/nation/emirati.ruleset:27
 #: data/nation/himyarite.ruleset:33
-#, fuzzy
 msgid "?female:Caliph"
-msgstr "Майор"
+msgstr "Халіфа"
 
 #: data/nation/american.ruleset:3
 #: data/nation/muskogee.ruleset:5
@@ -23820,9 +23816,8 @@ msgstr "Султан"
 #: data/nation/malaysian.ruleset:22
 #: data/nation/singaporean.ruleset:32
 #: data/nation/turk.ruleset:23
-#, fuzzy
 msgid "Sultana"
-msgstr "Султан"
+msgstr "Султана"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
@@ -24586,9 +24581,8 @@ msgstr "?female:Велика Вождь"
 #: data/nation/sioux.ruleset:29
 #: data/nation/swazi.ruleset:24
 #: data/nation/zulu.ruleset:39
-#, fuzzy
 msgid "Spokesman"
-msgstr "Сінгапурці"
+msgstr "Делегат"
 
 #: data/nation/cherokee.ruleset:23
 #: data/nation/iroquois.ruleset:27
@@ -24638,12 +24632,11 @@ msgstr "Чілі розташовано на південно-західному
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr "Капітан Генерал"
+msgstr "Генерал-капітан"
 
 #: data/nation/chilean.ruleset:24
-#, fuzzy
 msgid "?female:Captain General"
-msgstr "Капітан Генерал"
+msgstr "Генерал-капітан"
 
 #: data/nation/chilean.ruleset:25
 #: data/nation/french.ruleset:28
@@ -24730,34 +24723,29 @@ msgid "Maharani"
 msgstr "Махарані"
 
 #: data/nation/colombian.ruleset:3
-#, fuzzy
 msgid "Colombian"
-msgstr "Битва"
+msgstr "Колумбійці"
 
 #: data/nation/colombian.ruleset:4
-#, fuzzy
 msgid "?plural:Colombians"
-msgstr "Румуни"
+msgstr "Колумбійці"
 
 #: data/nation/colombian.ruleset:6
 msgid "Colombia is a country in northern South America. The region was an Amerindian cultural center in pre-European time. The Spanish began settling Colombia's north coast around 1500. In 1819 the Republic of Colombia gained independence."
 msgstr ""
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandante"
-msgstr "Товариш"
+msgstr "Коменданте"
 
 #: data/nation/colombian.ruleset:28
-#, fuzzy
 msgid "Comandanta"
-msgstr "Канадці"
+msgstr "Коменданта"
 
 #: data/nation/colombian.ruleset:29
 #: data/nation/swiss.ruleset:19
-#, fuzzy
 msgid "General"
-msgstr "Індустріальні"
+msgstr "Генерал"
 
 #: data/nation/colombian.ruleset:29
 #: data/nation/swiss.ruleset:19
@@ -26255,14 +26243,12 @@ msgid "?female:Chaabat"
 msgstr "Маґараджа"
 
 #: data/nation/ottoman.ruleset:3
-#, fuzzy
 msgid "Ottoman"
-msgstr "Румуни"
+msgstr "Оттомани"
 
 #: data/nation/ottoman.ruleset:4
-#, fuzzy
 msgid "?plural:Ottomans"
-msgstr "Румуни"
+msgstr "Оттомани"
 
 #: data/nation/ottoman.ruleset:6
 msgid "In the beginning of the 14th century Osman, a leader of a minor Turkish tribe in western Anatolia, conquered all his neighboring tribes. A century later the Byzantine capital fell to Turkish rule which gave the Ottoman empire access to Europe. The Ottomans subsequently conquered large parts of south-eastern Europe, the Islamic Arab world as well as Egypt and much of North Africa, making it a regional superpower until its dissolution in the aftermath of World War I."
