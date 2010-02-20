@@ -2014,33 +2014,30 @@ void settings_game_load(struct section_file *file, const char *section)
   int ival;
   const char *sval = NULL;
 
+  if (NULL == secfile_section_by_name(file, section)) {
+    log_verbose("No initial game settings to read.");
+    return;
+  }
+
   settings_iterate(pset) {
-    /* FIXME: mostly a duplicate of parts of stdinhand:set_command() */
     switch (pset->stype) {
     case SSET_BOOL:
-      if (!secfile_lookup_bool(file, &bval, "%s.%s", section,
-                               setting_name(pset))) {
-          log_error("Can't read value for setting '%s' at game start: %s",
-                    setting_name(pset), secfile_error());
-      } else {
+      if (secfile_lookup_bool(file, &bval, "%s.%s", section,
+                              setting_name(pset))) {
         pset->boolean.game_value = bval;
       }
       break;
 
     case SSET_INT:
-      if (!secfile_lookup_int(file, &ival, "%s.%s", section, setting_name(pset))) {
-          log_error("Can't read value for setting '%s' at game start: %s",
-                    setting_name(pset), secfile_error());
-      } else {
+      if (secfile_lookup_int(file, &ival, "%s.%s",
+                             section, setting_name(pset))) {
         pset->integer.game_value = ival;
       }
       break;
 
     case SSET_STRING:
-      if (!(sval = secfile_lookup_str(file, "%s.%s", section, setting_name(pset)))) {
-          log_error("Can't read value for setting '%s' at game start: %s",
-                    setting_name(pset), secfile_error());
-      } else {
+      if ((sval = secfile_lookup_str(file, "%s.%s",
+                                     section, setting_name(pset)))) {
         mystrlcpy(pset->string.game_value, sval, pset->string.value_size);
       }
       break;
