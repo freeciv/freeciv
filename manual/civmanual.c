@@ -91,6 +91,21 @@ enum manuals {
 #endif
 
 /**************************************************************************
+  Replace html special characters ('&', '<' and '>').
+**************************************************************************/
+static char *html_special_chars(const char *str)
+{
+  char *buf1, *buf2;
+
+  buf1 = fc_strrep(str, "&", "&amp;");
+  buf2 = fc_strrep(buf1, "<", "&lt;");
+  FC_FREE(buf1);
+  buf1 = fc_strrep(buf2, ">", "&gt;");
+
+  return buf1;
+}
+
+/**************************************************************************
   Useless stubs for compiling client code.
 **************************************************************************/
 void popup_help_dialog_string(const char *item)
@@ -144,7 +159,7 @@ static bool manual_command(void)
           char *help = mystrdup(_(setting_extra_help(pset)));
 
           fc_break_lines(help, LINE_BREAK);
-          fprintf(doc, "<pre>%s</pre>\n\n", help);
+          fprintf(doc, "<pre>%s</pre>\n\n", html_special_chars(help));
           FC_FREE(help);
         }
         fprintf(doc, "<p class=\"misc\">");
@@ -204,7 +219,8 @@ static bool manual_command(void)
         if (command_synopsis(cmd)) {
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
                          "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>", command_synopsis(cmd));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>",
+                  html_special_chars(command_synopsis(cmd)));
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
@@ -213,7 +229,7 @@ static bool manual_command(void)
 
           fc_break_lines(help, LINE_BREAK);
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", help);
+          fprintf(doc, "<pre>%s</pre>\n\n", html_special_chars(help));
           FC_FREE(help);
         }
       }

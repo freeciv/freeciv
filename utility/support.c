@@ -44,6 +44,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <errno.h>
+#include <math.h> /* ceil() */
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -85,8 +86,10 @@
 #  include <strings.h>
 #endif
 
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
+#include "log.h"
 #include "mem.h"
 #include "netintf.h"
 
@@ -435,6 +438,47 @@ void myusleep(unsigned long usec)
 #endif
 }
 
+/**************************************************************************
+  Replace 'search' by 'replace' within 'string'. The returned string has
+  to be freed by the caller.
+**************************************************************************/
+char *fc_strrep(const char *string, const char *search, const char *replace)
+{
+  size_t len_search, len_replace, len_new;
+  char *s, *p, *new;
+
+  log_assert_ret_val(string != NULL, NULL);
+  if (search == NULL || replace == NULL) {
+    return mystrdup(string);
+  }
+
+  len_search = strlen(search);
+  len_replace = strlen(replace);
+
+  if (len_search >= len_replace) {
+    len_new = strlen(string) + 1;
+  } else {
+    /* replace string is longer than search string; allocated enough memory
+     * for the worst case */
+    len_new = ceil((double)strlen(string) * len_replace / len_search) + 1;
+  }
+  new = fc_malloc(len_new);
+  mystrlcpy(new, string, len_new);
+
+  s = new;
+  while (s != NULL) {
+    p = strstr(s, search);
+    if (p == NULL) {
+      return new;
+    }
+
+    memmove(p + len_replace, p + len_search, strlen(p + len_search) + 1);
+    memcpy(p, replace, len_replace);
+    s = p + len_replace;
+  }
+
+  return new;
+}
 
 /**********************************************************************
  mystrlcpy() and mystrlcat() provide (non-standard) functions
