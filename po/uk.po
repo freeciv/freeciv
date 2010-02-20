@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-18 21:36+0300\n"
+"PO-Revision-Date: 2010-02-20 18:16+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1589,7 +1589,7 @@ msgstr "*%s (ШІ)* Мої вітання, сусіде, чи можемо ми 
 #: ai/advdiplomacy.c:1679
 #, c-format
 msgid "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a cessation of hostilities?"
-msgstr "*%s (ШІ)* Постійне кровопролиття стомило нас. Чи можемо ми запропонувати припинення війскових дій?"
+msgstr "*%s (ШІ)* Постійне кровопролиття стомило нас. Чи можемо ми запропонувати припинення військових дій?"
 
 #: ai/advdiplomacy.c:1824
 #, c-format
@@ -4248,93 +4248,93 @@ msgstr "Військове діло"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:156
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Supreme %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Найвеличніші %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:158
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Magnificent %s"
-msgstr "Величні"
+msgstr "%2d: Величні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:160
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Great %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Великі %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:162
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Glorious %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Славні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:164
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Excellent %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Чудові %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:166
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Eminent %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Видатні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:168
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Distinguished %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Визначні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:170
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Average %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Середньостатистичні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:172
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Mediocre %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Посередні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Ordinary %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Звичайні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Pathetic %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Жалюгідні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:178
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Useless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Нездатні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:180
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Valueless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Несуттєві %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:182
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Worthless %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Нікчемні %s"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:184
-#, fuzzy, c-format
+#, c-format
 msgid "%2d: The Wretched %s"
-msgstr "%2d: %s %s\n"
+msgstr "%2d: Убогі %s"
 
 #: server/report.c:253
 msgid "Historian Publishes!"
@@ -4457,9 +4457,9 @@ msgstr "%s %s (%s)"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:190
-#, fuzzy, c-format
+#, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr "Не можу знайти доступний файл \"%s\" з правилами."
+msgstr "Не можу знайти читабельний файл \"%s.%s\"\" з правилами."
 
 #: server/ruleset.c:3778
 msgid "Loading rulesets"
@@ -4471,21 +4471,18 @@ msgstr ""
 
 #. TRANS: Minor error message.
 #: server/savegame.c:187
-#, fuzzy
 msgid "Saved game contains incomplete map data.  This can happen with old saved games, or it may indicate an invalid saved game file.  Proceed at your own risk."
-msgstr "Збережена гра містить неповні дані мапи. Це може вказувати на гру старої версії або погано збережену гру. Продовжуємо на Ваш страх та ризик."
+msgstr "Збережена гра містить неповні дані мапи. Це може вказувати на гру старої версії або на погано збережену гру. Продовжуйте на власний страх і ризик."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4304
-#, fuzzy
 msgid "Saved game is too old, at least version 1.9.0 required."
-msgstr "Збережена гра стара, мінімально потрібна версія 1.9.0."
+msgstr "Збережена гра надто стара, потрібна принаймі версія 1.9.0."
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4606
-#, fuzzy
 msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
-msgstr "Збережена гра використовує правила класичних теріторій, які вже не підтримуюється."
+msgstr "Збережена гра використовує правила \"класичних\" територій, які вже не підтримуються."
 
 #: server/savegame.c:4615
 #, c-format
@@ -5002,14 +4999,12 @@ msgid "Minimum distance between cities"
 msgstr "Мінімальна відстань між містами"
 
 #: server/settings.c:643
-#, fuzzy
 msgid "When a player attempts to found a new city, there may be no other city in this distance. For example, when this value is 3, there have to be at least two empty fields between two cities in every direction. If set to 0 (default), the ruleset value will be used."
-msgstr "Якщо гравеці засновує місто, то перевіряється чи не має інших міст на відстані citymindist. Наприклад, якщо citymindist встановлено у 3, повино бути не менш ніж два пусті поля між двома містами у будь якому напрямку. Якщо встановлено 0 (по замовчуванню), значення береться з поточних правил коли гра стартує."
+msgstr "Якщо гравець засновує місто, то на такій відстані не повинно бути інших міст. Наприклад, якщо це значення встановлено у 3, повинно бути принаймі два пусті поля між двома містами у будь якому напрямку. Якщо встановлено 0 (типово), значення береться з набору правил."
 
 #: server/settings.c:654
-#, fuzzy
 msgid "Minimum distance for trade routes"
-msgstr "Мінімальна відстань між містами (у рухах)"
+msgstr "Мінімальна відстань для торгових шляхів"
 
 #: server/settings.c:655
 msgid "In order to establish a trade route, cities must be at least this far apart on the map. The distance is calculated as \"manhattan distance\", that is, the sum of the displacements along the x and y directions."
@@ -5029,9 +5024,8 @@ msgid "Chance for conquered building destruction"
 msgstr "Ймовірність знищення будівлі при захопленні міста"
 
 #: server/settings.c:675
-#, fuzzy
 msgid "When a player conquers a city, each city improvement has this percentage chance to be destroyed."
-msgstr "Коли гравець захоплює місто, то кожна будівля має таку ймовірність бути зруйнованою. "
+msgstr "Коли гравець захоплює місто, то кожна будівля має таку відсоткову ймовірність бути зруйнованою. "
 
 #: server/settings.c:681
 msgid "Chance of moving into tile after attack"
@@ -5082,9 +5076,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:725
-#, fuzzy
 msgid "Units inside borders cause no unhappiness"
-msgstr "Військові підрозділи у полі можуть спричинити нещастя."
+msgstr "Підрозділи в межах кордонів не спричиняють нещастя."
 
 #: server/settings.c:726
 msgid "If this is set, units will not cause unhappiness when inside your own borders."
@@ -5108,7 +5101,6 @@ msgid "Allowed city names"
 msgstr "Дозволені назви міст"
 
 #: server/settings.c:743
-#, fuzzy
 msgid ""
 "0 = There are no restrictions: players can have multiple cities with the same names.\n"
 "\n"
@@ -5117,14 +5109,20 @@ msgid ""
 "2 = City names have to be globally unique: all cities in a game have to have different names.\n"
 "\n"
 "3 = Like setting 2, but a player isn't allowed to use a default city name of another nations unless it is a default for their nation also."
-msgstr "Якщо 0, то немає обмежень: гравці можуть мати багато міст з однією назвою. Якщо 1, назви міст у гравця повинні бути унікальними: один гравець не може мати декілька міст з однією назвою. Якщо 2 або 3, назви міст повинні бути глобально унікальними: усі міста у грі повинні мати різні назви. Якщо 3, гравцю не дозволено використовувати назву міста по замовчуванню іншої нації."
+msgstr ""
+"0 = Немає обмежень: гравці можуть мати багато міст з однаковою назвою.\n"
+"\n"
+"1 = Назви міст у гравця повинні бути унікальними: один гравець не може мати декілька міст з однаковою назвою.\n"
+"\n"
+"2 = Назви міст повинні бути глобально унікальними: усі міста у грі повинні мати різні назви.\n"
+"\n"
+"3 = Як і 2, але гравцю не дозволено використовувати типові назви міст іншої нації, якщо вони не є типовими і для його нації."
 
 #: server/settings.c:771
 msgid "Barbarian appearance frequency"
 msgstr "Рівень присутность дикунів"
 
 #: server/settings.c:772
-#, fuzzy
 msgid ""
 "0 = no barbarians \n"
 "1 = barbarians only in huts \n"
@@ -5134,19 +5132,17 @@ msgid ""
 msgstr ""
 "0 - немає дикунів \n"
 "1 - дикуни лише на хуторах \n"
-"2 - звичайна кількість появ дикунів \n"
-"3 - часті дикунські набігі \n"
-"4 - навали дикунів"
+"2 - звичайна частота появи дикунів \n"
+"3 - часті дикунські набіги \n"
+"4 - навали шалених орд дикунів"
 
 #: server/settings.c:782
-#, fuzzy
 msgid "Barbarian onset turn"
-msgstr "Рік появи дикунів"
+msgstr "Хід нападу дикунів"
 
 #: server/settings.c:783
-#, fuzzy
 msgid "Barbarians will not appear before this turn."
-msgstr "Дикуни не будуть з'являтися перед цим роком."
+msgstr "Дикуни не будуть з'являтися до цього ходу."
 
 #: server/settings.c:789
 msgid "Length in turns of revolution"
@@ -5163,7 +5159,7 @@ msgstr "Чи вмикати мару війни"
 #: server/settings.c:800
 #, fuzzy
 msgid "If this is set to 1, only those units and cities within the vision range of your own units and cities will be revealed to you. You will not see new cities or terrain changes in tiles not observed."
-msgstr "Якщо 1, тількі міста та підрозділи на відстані не більше sightrange від Ваших міст та підрозділів доступні Вашому погляду. Ви не побачите нові міста або зміни територій на клітинах що поза відстан'ю sightrange."
+msgstr "Якщо 1, тільки міста та підрозділи на відстані не більше sightrange від Ваших міст та підрозділів доступні Вашому погляду. Ви не побачите нові міста або зміни територій на клітинах що поза відстан'ю sightrange."
 
 #: server/settings.c:808
 #, fuzzy
@@ -8660,7 +8656,7 @@ msgstr "Лише атомні падрозділи можуть зробити �
 
 #: client/control.c:1589
 msgid "Only paratrooper units can do this."
-msgstr "Лише парашутісти можуть робити це."
+msgstr "Лише підрозділи десантників можуть це робити."
 
 #: client/control.c:2145
 msgid "Too far for this unit."
@@ -8884,9 +8880,9 @@ msgid ""
 msgstr "Очистити забруднення"
 
 #: client/helpdata.c:248
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to have researched the %s technology.\n"
-msgstr "Потребує вивченої технології %s.\n"
+msgstr "Потребує вивченої Вами технології %s.\n"
 
 #: client/helpdata.c:254
 #, c-format
@@ -8899,19 +8895,19 @@ msgid "Requires the %s government.\n"
 msgstr "Потребує уряд %s.\n"
 
 #: client/helpdata.c:279
-#, fuzzy, c-format
+#, c-format
 msgid "Requires that the %s wonder has been built by any player.\n"
-msgstr "Потребує збудованого чуда %s.\n"
+msgstr "Потребує чуда %s, збудованого будь-яким гравцем.\n"
 
 #: client/helpdata.c:288
-#, fuzzy, c-format
+#, c-format
 msgid "Requires you to own the %s wonder.\n"
-msgstr "Потребує чуда %s.\n"
+msgstr "Потребує чуда %s у Вашому володінні.\n"
 
 #: client/helpdata.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "Requires the %s wonder to be owned by you and on the same continent.\n"
-msgstr "Потребує чуда %s на континенті.\n"
+msgstr "Потребує чуда %s у Вашому володінні на тому ж континенті.\n"
 
 #: client/helpdata.c:306
 #, c-format
@@ -8919,11 +8915,9 @@ msgid "Requires the %s building in the city.\n"
 msgstr "Потребує в місті будівлю %s.\n"
 
 #: client/helpdata.c:312
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to \"%s\" buildings.\n"
-msgstr ""
-"Відноситься лише до підрозділів %s.\n"
-"\n"
+msgstr "Стосується лише будівель \"%s\".\n"
 
 #: client/helpdata.c:327
 #, fuzzy, c-format
@@ -8965,34 +8959,26 @@ msgstr "Потребує націю %s у грі.\n"
 
 #: client/helpdata.c:390
 #: client/helpdata.c:425
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to %s units.\n"
-msgstr ""
-"Відноситься лише до підрозділів %s.\n"
-"\n"
+msgstr "Стосується лише підрозділів %s.\n"
 
 #: client/helpdata.c:407
 #: client/helpdata.c:442
-#, fuzzy, c-format
+#, c-format
 msgid "Only applies to \"%s\" units.\n"
-msgstr ""
-"Відноситься лише до підрозділів %s.\n"
-"\n"
+msgstr "Стосується лише підрозділів \"%s\".\n"
 
 #: client/helpdata.c:459
 #: client/helpdata.c:464
-#, fuzzy, c-format
+#, c-format
 msgid "Applies only to %s.\n"
-msgstr ""
-"Відноситься лише до %s.\n"
-"\n"
+msgstr "Стосується лише %s.\n"
 
 #: client/helpdata.c:469
-#, fuzzy, c-format
+#, c-format
 msgid "Requires a minimum size of %d.\n"
-msgstr ""
-"Вимагає мінімальний розмір %d.\n"
-"\n"
+msgstr "Потребує мінімальний розмір %d.\n"
 
 #: client/helpdata.c:474
 #, fuzzy, c-format
@@ -9042,11 +9028,8 @@ msgstr ""
 "\n"
 
 #: client/helpdata.c:546
-#, fuzzy
 msgid "Applies only to city centers.\n"
-msgstr ""
-"Відноситься лише до %s.\n"
-"\n"
+msgstr "Стосується лише центрів міст.\n"
 
 #: client/helpdata.c:607
 #, c-format
@@ -9064,9 +9047,8 @@ msgid " Rivers"
 msgstr " Річки"
 
 #: client/helpdata.c:811
-#, fuzzy
 msgid "Current ruleset contains no description."
-msgstr "Поточний каталог правил \"%s\""
+msgstr "Поточний набір правил не містить опису."
 
 #: client/helpdata.c:935
 #, c-format
@@ -9118,27 +9100,25 @@ msgid "  * Speed is not affected by terrain.\n"
 msgstr "  * Місцевість не впливає на швидкість.\n"
 
 #: client/helpdata.c:1145
-#, fuzzy
 msgid "  * Does not get defense bonuses from terrain.\n"
-msgstr "  * Місцевість не впливає на швидкість.\n"
+msgstr "  * Не отримує покращення захисту від місцевості.\n"
 
 #: client/helpdata.c:1148
 msgid "  * Not subject to zones of control.\n"
 msgstr "  * Ігнорує зони контролю.\n"
 
 #: client/helpdata.c:1151
-#, fuzzy
 msgid "  * Slowed down while damaged.\n"
-msgstr "  * Уповільнюється коли завдано шкоди\n"
+msgstr "  * Уповільнюється, поки пошкоджене.\n"
 
 #: client/helpdata.c:1154
 msgid "  * Gets used up in making an attack.\n"
 msgstr "* Застосовується для організації атак.\n"
 
 #: client/helpdata.c:1160
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "  * May fortify, granting a 50% defensive bonus.\n"
-msgstr "* Може укріплятися, отримуючи 50% підвіщення захисту.\n"
+msgstr "* Може укріплятися, отримуючи 50% підвищення захисту.\n"
 
 #: client/helpdata.c:1164
 msgid "  * Is unreachable. Most units cannot attack this one.\n"
@@ -9164,9 +9144,8 @@ msgid "* Can only be built with %s as government.\n"
 msgstr "* Може бути збудовано лише за уряда %s.\n"
 
 #: client/helpdata.c:1188
-#, fuzzy
 msgid "* May not be built in cities.\n"
-msgstr "* Можуть засновувати міста.\n"
+msgstr "* Не може будуватися в містах.\n"
 
 #: client/helpdata.c:1191
 msgid "* Only barbarians may build this.\n"
@@ -9203,9 +9182,9 @@ msgid "  * %s units\n"
 msgstr "  * %s загонів\n"
 
 #: client/helpdata.c:1229
-#, fuzzy, c-format
+#, c-format
 msgid "* Can establish trade routes (must travel to target city and must be at least %d tiles [in Manhattan distance] from this unit's home city).\n"
-msgstr "* Може встановлювати торгові шляхи (має подорожувати до міста призначення, яке має бути щонайменьш 9 клітин [у Манхеттенській відстані] від рідного міста цього підрозділа).\n"
+msgstr "* Може встановлювати торгові шляхи (має подорожувати до міста призначення, яке має бути принаймі за %d клітин [у Манхеттенській відстані] від рідного міста цього підрозділу).\n"
 
 #: client/helpdata.c:1236
 #, fuzzy, c-format
@@ -9828,9 +9807,8 @@ msgid "The metaserver is a host that the client contacts to find out about games
 msgstr ""
 
 #: client/options.c:461
-#, fuzzy
 msgid "Soundset"
-msgstr "Раунди"
+msgstr "Набір звуків"
 
 #: client/options.c:462
 msgid "This is the soundset that will be used.  Changing this is the same as using the -S command-line parameter."
@@ -10154,7 +10132,7 @@ msgstr "Колір для підсвічування імені вашого г�
 
 #: client/options.c:656
 msgid "If set, your player and user name in the new chat messages will be highlighted using this color as background.  If not set, it will just not highlight anything."
-msgstr ""
+msgstr "Якщо встановлено, то у нових повідомленнях чату Ваше ім’я гравця та користувача підсвічуватиметься фоном цього кольору. Якщо ж ні, то просто не підсвічуватиметься."
 
 #: client/options.c:661
 msgid "Manual Turn Done in AI Mode"
@@ -10275,7 +10253,7 @@ msgstr "Дозволити зміну курсора"
 
 #: client/options.c:727
 msgid "This option controls whether the client should try to change the mouse cursor depending on what is being pointed at, as well as to indicate changes in the client or server state."
-msgstr ""
+msgstr "Ця опція вказує, чи слід клієнту змінювати курсор миші залежно від того, на що його наведено, або щоб повідомити про зміни стану клієнта чи сервера."
 
 #: client/options.c:732
 msgid "Select cities before units"
@@ -10295,7 +10273,7 @@ msgstr ""
 
 #: client/options.c:748
 msgid "Enable vote bar"
-msgstr ""
+msgstr "Увімкнути смугу голосування"
 
 #: client/options.c:749
 msgid "If this option is turned on, the vote bar will be displayed to show vote information."
@@ -16645,7 +16623,7 @@ msgstr "Очистити радіацію"
 #: client/gui-win32/menu.c:1304
 #: client/gui-xaw/menu.c:185
 msgid "Drop Paratrooper"
-msgstr "Висадити парашутистів"
+msgstr "Парашутувати десантників"
 
 #: client/gui-sdl/menu.c:696
 #: client/gui-win32/menu.c:1306
@@ -18853,7 +18831,7 @@ msgstr " Ок "
 
 #: data/Freeciv.in:3216
 msgid "Name             Nation       Embassy  Dipl.State      Vision   Reputation    State    Host"
-msgstr "Ім'я             Нація        Посольство Діп.Стан       Бачення  Репутація     Стан     Хост"
+msgstr "Ім'я             Нація        Посольство Дипл.Стан     Бачення  Репутація     Стан     Хост"
 
 #: data/Freeciv.in:3253
 msgid "Cancel pact"
@@ -22073,7 +22051,7 @@ msgstr "Винахідництво"
 
 #: data/default/techs.ruleset:351
 msgid "Increases units' vision when in fortresses."
-msgstr ""
+msgstr "Покращує зір підрозділів в укріпленнях."
 
 #: data/default/techs.ruleset:354
 #: data/civ2/techs.ruleset:350
@@ -22814,12 +22792,12 @@ msgstr "Мушкетери"
 #: data/default/units.ruleset:581
 #: data/civ2/units.ruleset:439
 msgid "Musketeers are infantry equipped with early firearms and replace Pikemen as the preferred city defender."
-msgstr ""
+msgstr "Мушкетери - це піхота, озброєна ранньою вогнепальною зброєю. Вони замінюють Пікінерів у якості першочергового захисника міст."
 
 #: data/default/units.ruleset:588
 #: data/civ2/units.ruleset:481
 msgid "Partisan"
-msgstr "Партізани"
+msgstr "Партизани"
 
 #: data/default/units.ruleset:614
 #: data/civ2/units.ruleset:507
@@ -22863,27 +22841,27 @@ msgstr "Стрільці"
 #: data/civ2/units.ruleset:579
 #: data/civ1/units.ruleset:361
 msgid "Riflemen are World War-era infantry, very good at defending your cities."
-msgstr ""
+msgstr "Стрільці - це піхота періоду Світової Війни, дуже добра у якості захисника міст."
 
 #: data/default/units.ruleset:692
 #: data/civ2/units.ruleset:585
 msgid "Marines"
-msgstr "Морській десант"
+msgstr "Морська піхота"
 
 #: data/default/units.ruleset:718
 #: data/civ2/units.ruleset:611
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr ""
+msgstr "Морська піхота - це піхота, що спеціалізується у військових діях на морі."
 
 #: data/default/units.ruleset:723
 #: data/civ2/units.ruleset:616
 msgid "Paratroopers"
-msgstr "Парашутисти"
+msgstr "Десантники"
 
 #: data/default/units.ruleset:749
 #: data/civ2/units.ruleset:642
 msgid "Paratroopers are experts at airborne attacks."
-msgstr ""
+msgstr "Десантники - це спеціалісти повітряно-десантних атак."
 
 #: data/default/units.ruleset:758
 #: data/civ2/units.ruleset:651
@@ -22905,7 +22883,7 @@ msgstr "Кіннота"
 #: data/default/units.ruleset:817
 #: data/civ2/units.ruleset:710
 msgid "Horsemen are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr ""
+msgstr "Кіннота - це вояки на конях, ранні ударні війська, що можуть проникнути вглиб ворожої території."
 
 #: data/default/units.ruleset:824
 #: data/civ2/units.ruleset:717
@@ -26336,9 +26314,8 @@ msgid "The Papuans are a Melanesian people on the island of New Guinea."
 msgstr "Папуаси це меланезійский народ з островів Нової Гвінеї."
 
 #: data/nation/papuan.ruleset:16
-#, fuzzy
 msgid "Governor-General"
-msgstr "Керівництво"
+msgstr "Генерал-губернатор"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
@@ -26349,9 +26326,8 @@ msgid "?plural:Persians"
 msgstr "Перси"
 
 #: data/nation/persian.ruleset:6
-#, fuzzy
 msgid "The first Persian (Achaemenid) Empire lasted from 550 BC to 330 BC; the second (Sassanid) from 226 AD to 642 AD."
-msgstr "Перша Перська (Акмаенідська) Імперія існувала з 55 до н.е. по 330 до н.е.; друга (Сасанідська) з 226 по 642 роки."
+msgstr "Перша Перська Імперія (Ахеменідів) існувала з 550 до н.е. по 330 до н.е.; друга (Сасанідів) з 226 по 642 роки н.е."
 
 #: data/nation/peruvian.ruleset:3
 msgid "Peruvian"
@@ -26370,9 +26346,8 @@ msgid "Protector"
 msgstr "Захисник"
 
 #: data/nation/peruvian.ruleset:25
-#, fuzzy
 msgid "?female:Protector"
-msgstr "Прем'єр"
+msgstr "Протекторка"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
@@ -26470,18 +26445,16 @@ msgstr "Великий Магістр"
 
 #: data/nation/prussian.ruleset:25
 #: data/nation/templar.ruleset:42
-#, fuzzy
 msgid "Grand Mistress"
-msgstr "Великий Магістр"
+msgstr "Велика Магістр"
 
 #: data/nation/prussian.ruleset:27
 msgid "Elector"
 msgstr "Виборщик"
 
 #: data/nation/prussian.ruleset:27
-#, fuzzy
 msgid "?female:Elector"
-msgstr "Майор"
+msgstr "Курфюрстиня"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
@@ -26501,18 +26474,16 @@ msgid "Caconzi"
 msgstr "Цацонзі"
 
 #: data/nation/purhepecha.ruleset:32
-#, fuzzy
 msgid "?female:Caconzi"
-msgstr "Консул"
+msgstr "Каконци"
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
 msgstr "Квебекці"
 
 #: data/nation/quebecois.ruleset:4
-#, fuzzy
 msgid "?plural:Quebecois"
-msgstr "Шотландці"
+msgstr "Квебекці"
 
 #: data/nation/quebecois.ruleset:6
 msgid "Quebec is the largest province of Canada, housing the majority of the Francophone population of America."
@@ -26576,9 +26547,8 @@ msgid "Ryukyuan"
 msgstr "Рюкюанці"
 
 #: data/nation/ryukyuan.ruleset:4
-#, fuzzy
 msgid "?plural:Ryukyuans"
-msgstr "Москалі"
+msgstr "Рюкюсці"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful maritime trading nation eventually invaded, occupied, and annexed by Japan."
@@ -26639,9 +26609,8 @@ msgid "?plural:Scots"
 msgstr "Шотландці"
 
 #: data/nation/scottish.ruleset:6
-#, fuzzy
 msgid "Scotland, originally settled in late Roman times by Irish raiders who displaced the native Picts, was an independent kingdom from around 1034 AD to the Union of Crowns with England in 1701."
-msgstr "Шотландія, спочатку колонізована у пізні Римські часи ірланськими завойовниками, що витісніли тубільних Піктів, була незалежним королівством з 1034 року до об'єднання з Англією у 1701."
+msgstr "Шотландія, заснована у пізні Римські часи ірландськими завойовниками, що витіснили тубільних Піктів, була незалежним королівством з 1034 року аж до \"Об'єднання корон\" з Англією у 1701."
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
@@ -26660,9 +26629,8 @@ msgid "?plural:Serbians"
 msgstr "Серби"
 
 #: data/nation/serbian.ruleset:6
-#, fuzzy
 msgid "Serbia is part of the region of the Southern Slavs that was conquered by the Ottomans after the collapse of the Byzantine Empire.  During most of the 20th century it was part of the Yugoslav Federation."
-msgstr "Сербія це частина регіону Південних Словян що була захоплена Отоманською імперією після розпаду Візантії. Напротязі більшості часу 20 сторіччя це була частина Югославської Федерації."
+msgstr "Сербія - це частина регіону Південних Слов'ян, що була захоплена Оттоманською імперією після розпаду Візантії. На протязі переважної частини 20 сторіччя була частиною Югославської Федерації."
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
@@ -26685,9 +26653,8 @@ msgid "?plural:Singaporeans"
 msgstr "Сінгапурці"
 
 #: data/nation/singaporean.ruleset:18
-#, fuzzy
 msgid "Singapore is a mercantile city-state located at the southernmost tip of the Malaysian Peninsula."
-msgstr "Сінгапур це заможне місто-країна що розташована на півдні Малазійського півострова."
+msgstr "Сингапур - це торгівельне місто-країна, розташоване у найпівденнішій точці Малайзійського півострова."
 
 #. TRANS: Encik = Sir
 #: data/nation/singaporean.ruleset:34
@@ -26734,9 +26701,8 @@ msgid "?female:Leader"
 msgstr "Товариш"
 
 #: data/nation/slovakian.ruleset:28
-#, fuzzy
 msgid "Priestess"
-msgstr "Духовний лідер"
+msgstr "Жриця"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -26795,9 +26761,8 @@ msgid "?plural:Spanish"
 msgstr "Іспанці"
 
 #: data/nation/spanish.ruleset:6
-#, fuzzy
 msgid "The modern Spanish nation was formed when the rulers of the kingdoms of Castile and Aragon led the recapture of the Iberian peninsula from the Moslems.  The Reconquista was completed in 1492 AD, the same year Columbus sailed."
-msgstr "Сучасні Іспанці сформувалися коли володарі королівств Кастілья та Арагон відвоювали Іберійське нагірря у Мусульман. Ріконкісту було закінчено у 1492 н.е., того ж року Колумб зробив своє відкриття."
+msgstr "Сучасні Іспанці сформувалися, коли володарі королівств Кастилія та Арагон відвоювали Іберійський півострів у Мусульман. Реконкісту було закінчено у 1492 н.е., того ж року, коли й плавання Колумба."
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
@@ -26816,9 +26781,8 @@ msgid "Datu"
 msgstr "Дату"
 
 #: data/nation/srivijaya.ruleset:21
-#, fuzzy
 msgid "?female:Datu"
-msgstr "Друід"
+msgstr "Дату"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
@@ -26900,9 +26864,8 @@ msgid "Switzerland is a federation of cantons, some of which have more than 700 
 msgstr "Швейцарія є федерацією кантонів, деякі з котрих мають більш ніж 700-річну історію як конфедерація."
 
 #: data/nation/swiss.ruleset:20
-#, fuzzy
 msgid "Bailiff"
-msgstr "Бразильці"
+msgstr "Бейліф"
 
 #: data/nation/swiss.ruleset:20
 msgid "?female:Bailiff"
@@ -26938,9 +26901,8 @@ msgid "Cacike"
 msgstr "Цаціке"
 
 #: data/nation/taino.ruleset:31
-#, fuzzy
 msgid "?female:Cacike"
-msgstr "Хакер"
+msgstr "Касіка"
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
@@ -27062,18 +27024,16 @@ msgid "Lama"
 msgstr "Лама"
 
 #: data/nation/tibetan.ruleset:27
-#, fuzzy
 msgid "?female:Lama"
-msgstr "Махатма"
+msgstr "Лама"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dalai Lama"
 msgstr "Далай Лама"
 
 #: data/nation/tibetan.ruleset:28
-#, fuzzy
 msgid "?female:Dalai Lama"
-msgstr "Махатма"
+msgstr "Далай Лама"
 
 #: data/nation/tocharian.ruleset:3
 msgid "Tocharian"
@@ -27151,9 +27111,8 @@ msgid "?plural:Turks"
 msgstr "Турки"
 
 #: data/nation/turk.ruleset:6
-#, fuzzy
 msgid "Modern Turkey is the successor state of the Ottoman Empire, which collapsed and was dismembered by the victors in World War I after backing the Central Powers.  The country was subsequently reformed and secularized by Kemal Mustapha, the hero of the defense of Gallipoli."
-msgstr "Сучасні Турки це залишок Отоманської Імперії, що закінчила своє існування та була розформована переможцями у Першій Світовій Війні. Країну було реформовано Кемалем Мустафою, героєм захисту Галіполі."
+msgstr "Сучасна Туреччина - це нащадок Оттоманської Імперії, яка закінчила своє існування та була розформована переможцями у Першій Світовій Війні. По тому, країну було реформовано та секуляризовано Кемалем Мустафою, героєм захисту Галіполі."
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
@@ -27232,9 +27191,8 @@ msgid "?plural:Uzbeks"
 msgstr "?plural:Узбеки"
 
 #: data/nation/uzbek.ruleset:6
-#, fuzzy
 msgid "Nation in Central Asia. Uzbekistan was the center of ancient states such as Khoresm, the Khanate of Bukhara, the Khanate of Kokand, and others. Conquered by the Russian Empire in 19th century, Uzbekistan got independence from the Soviet Union in 1991."
-msgstr "Нація у Центральній Азії. Узбекістан був центром древніх держав, таких як Хорезм, Бухарський ханат, Кокандський ханат та інших. Захоплений Російською імперією у 19-му сторіччі, Узбекістан набув незалежності від Радяньского Союзу у 1991."
+msgstr "Нація у Центральній Азії. Узбекистан був центром древніх держав, таких як Хорезм, Бухарське ханство, Кокандське ханство та інших. Захоплений Російською імперією у 19-му сторіччі, Узбекистан набув незалежності від Радянського Союзу у 1991."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
@@ -27248,14 +27206,12 @@ msgstr "Венесуельці"
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/venezuelan.ruleset:9
-#, fuzzy
 msgid "Venezuela is the northernmost country in South America. Having been a Spanish colony since the 16th century, the country gained independence on July 5th 1811 under the leadership of El Libertador Simon Bolivar - The Liberator."
-msgstr "Венесуела є самою північною країною південної Америки. Вона була іспанською колонією с 16-го сторіччя, країна набула незалежності 5 липня 1811 року під керівництвом Ель Лібертадор Сімона Болівара - Визволителя."
+msgstr "Венесуела - це найпівнічніша країна Південної Америки. Вона була іспанською колонією з 16-го сторіччя. Країна набула незалежності 5 липня 1811 року під керівництвом Сімона Болівара - Визволителя."
 
 #: data/nation/venezuelan.ruleset:27
-#, fuzzy
 msgid "Governador"
-msgstr "Мордорці"
+msgstr "Губернатор"
 
 #: data/nation/venezuelan.ruleset:27
 msgid "Governadora"
@@ -27282,9 +27238,8 @@ msgid "?plural:Vikings"
 msgstr "Вікінгі"
 
 #: data/nation/viking.ruleset:6
-#, fuzzy
 msgid "The Vikings raided and traded along the coasts of Europe between 800 AD and 1100 AD. Viking raiders eventually became the rulers of Normandy, Russia, and a short-lived kingdom in Sicily."
-msgstr "Вікінгі грабували та торгували на узбережжі Європи між 800 н.е. та 1100 н.е. У результаті нападів Вікінгів вони очоліли Нормандію, Україну та не довго існувавше королівство на Сіцілії."
+msgstr "Вікінги грабували узбережжя Європи та торгували там між 800 н.е. та 1100 н.е. Врешті, нападники-вікінги  стали правителями Нормандії, Русі та недовговічного королівства на Сицилії."
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
