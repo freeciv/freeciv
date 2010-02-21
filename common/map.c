@@ -109,6 +109,7 @@ void map_init(void)
   map.num_oceans = 0;
   map.tiles = NULL;
   map.startpos_table = NULL;
+  map.iterate_outwards_indices = NULL;
 
   /* The [xy]size values are set in map_init_topology.  It is initialized
    * to a non-zero value because some places erronously use these values
@@ -143,7 +144,6 @@ void map_init(void)
 static void generate_map_indices(void)
 {
   int i = 0, nat_x, nat_y, tiles;
-  struct iter_index *array = map.iterate_outwards_indices;
   int nat_center_x, nat_center_y, nat_min_x, nat_min_y, nat_max_x, nat_max_y;
   int map_center_x, map_center_y;
 
@@ -193,7 +193,9 @@ static void generate_map_indices(void)
 	       : (nat_center_y + map.ysize - 1));
   tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
 
-  array = fc_realloc(array, tiles * sizeof(*array));
+  assert(map.iterate_outwards_indices == NULL);
+  map.iterate_outwards_indices =
+      fc_malloc(tiles * sizeof(*map.iterate_outwards_indices));
 
   for (nat_x = nat_min_x; nat_x <= nat_max_x; nat_x++) {
     for (nat_y = nat_min_y; nat_y <= nat_max_y; nat_y++) {
@@ -208,25 +210,28 @@ static void generate_map_indices(void)
       dx = map_x - map_center_x;
       dy = map_y - map_center_y;
 
-      array[i].dx = dx;
-      array[i].dy = dy;
-      array[i].dist = map_vector_to_real_distance(dx, dy);
+      map.iterate_outwards_indices[i].dx = dx;
+      map.iterate_outwards_indices[i].dy = dy;
+      map.iterate_outwards_indices[i].dist =
+          map_vector_to_real_distance(dx, dy);
       i++;
     }
   }
   assert(i == tiles);
 
-  qsort(array, tiles, sizeof(*array), compare_iter_index);
+  qsort(map.iterate_outwards_indices, tiles,
+        sizeof(*map.iterate_outwards_indices), compare_iter_index);
 
 #if 0
   for (i = 0; i < tiles; i++) {
     log_debug("%5d : (%3d,%3d) : %d", i,
-              array[i].dx, array[i].dy, array[i].dist);
+              map.iterate_outwards_indices[i].dx,
+              map.iterate_outwards_indices[i].dy,
+              map.iterate_outwards_indices[i].dist);
   }
 #endif
 
   map.num_iterate_outwards_indices = tiles;
-  map.iterate_outwards_indices = array;
 }
 
 /****************************************************************************
@@ -455,6 +460,9 @@ void map_free(void)
       hash_free(map.startpos_table);
       map.startpos_table = NULL;
     }
+
+    FC_FREE(map.iterate_outwards_indices);
+    free_city_map_index();
   }
 }
 

@@ -584,6 +584,7 @@ struct tile *city_map_to_tile(const struct tile *city_center,
 /* Initialization functions */
 int compare_iter_index(const void *a, const void *b);
 void generate_city_map_indices(void);
+void free_city_map_index(void);
 
 /* output on spot */
 int city_tile_output(const struct city *pcity, const struct tile *ptile,
