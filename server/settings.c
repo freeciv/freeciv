@@ -828,7 +828,7 @@ static struct setting settings[] = {
 	  GAME_DEFAULT_CITYMINDIST)
 
   GEN_INT("trademindist", game.info.trademindist,
-          SSET_RULES_FLEXIBLE, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
+          SSET_RULES, SSET_ECONOMICS, SSET_RARE, SSET_TO_CLIENT,
           N_("Minimum distance for trade routes"),
           N_("In order to establish a trade route, cities must be at "
              "least this far apart on the map. The distance is calculated "
