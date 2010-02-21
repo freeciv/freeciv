@@ -44,10 +44,6 @@ c) Get a Freeciv source tree (this file is in its top directory).
       ./autogen.sh   [any other options e.g. --prefix=...]
 
    If you get messages of missing or outdated components, install them.
-   If you still have problems, read the RT tickets
-
-     http://rt.freeciv.org/Ticket/Display.html?id=2626
-     http://rt.freeciv.org/Ticket/Display.html?id=2705
 
 d) Compile and install Freeciv:
 

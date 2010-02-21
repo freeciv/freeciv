@@ -235,7 +235,7 @@ Tillkännage spelet:
 Om man vill ha andra motståndare än lokala vänner och datorstyrda
 spelare kan man besöka Freecivs metaserver:
 
-  http://meta.freeciv.org/metaserver.phtml
+  http://meta.freeciv.org/
 
 Det är en lista över freecivservrar. För att få sin server att anmäla
 sig där kör man civserver med kommandoradsargumentet "--meta" eller
