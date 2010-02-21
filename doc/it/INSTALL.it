@@ -617,7 +617,7 @@ debian.
 
 Prerequisiti: un ambiete unix con gcc e binutils per windows (mingw32)
 per il client win32 nativo: libz e libpng
-(da ftp://ftp.freeciv.org/pub/freeciv/requirements)
+(da http://download.gna.org/freeciv/requirements)
 Puoi usare i makefile gcc standard ma devi modificare le variabili CC
 e RANLIB appropriatamente.
 
@@ -680,10 +680,6 @@ errori/omissioni nel presente documento.
 Comunicate eventuali inesattezze all'indirizzo email:
 
 slug-freeciv@siena.linux.it
-
-o consultate l'indirizzo web:
-
-http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================

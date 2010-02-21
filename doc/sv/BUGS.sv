@@ -11,7 +11,7 @@ information om att anmäla programfel.
 Listan innehåller endast de tydligaste programfelen. För en
 fullständig lista, se:
 
-    http://rt.freeciv.org/
+    https://gna.org/bugs/?group=freeciv
 
 KÄNDA PROGRAMFEL:
 =================
@@ -108,8 +108,8 @@ ANMÄLA PROGRAMFEL
 =================
 
 Om det är ett fel i en översättning ska det anmälas till översättaren
-för språket i fråga. För svenska är det "Erik Sigra", "sigra@home.se".
-Se <http://www.freeciv.org/l10n.phtml> för namn på och epostadresser
+för språket i fråga.
+Se <http://freeciv.org/wiki/Translations> för namn på och epostadresser
 till övriga översättare.
 
 Så här gör man:
@@ -122,26 +122,22 @@ Så här gör man:
   Man kanske vill prova en utvecklarversion från CVS-upplaget. De kan
   hämtas från:
 
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
 - Tittar på Freecivs FAQ på <http://www.freeciv.org/faq> för att se om
   något sätt att upphäva problemet har offentliggjorts.
 
 - Tittar på Freecivs system för spårning av programfel vid:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        https://gna.org/bugs/?group=freeciv
 
   för att se om programfelet redan har anmälts.
 
 - Anmäler programfelet
 
-   Man kan änmäla ett programfel genom att skicka epost till
-    <bugs@freeciv.freeciv.org> eller på väven vid
-    <http://www.freeciv.org/cgi-bin/bugs>.
-
    Om man vill skicka förslag till freecivutvecklarna utan att göra en
    programfelsanmälan kan man skicka epost till
-   <freeciv-dev@freeciv.org>, freecivutvecklarnas sändlista.
+   <freeciv-dev@gna.org>, freecivutvecklarnas sändlista.
 
    Vad man ska nämna i sin programfelsanmälan:
 

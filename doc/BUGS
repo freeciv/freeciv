@@ -9,7 +9,7 @@ and gives information about reporting new bugs.
 
 This lists only the most obvious bugs.  For a complete list, see:
 
-    http://rt.freeciv.org/
+    https://gna.org/bugs/?group=freeciv
 
 KNOWN BUGS:
 ===========
@@ -97,7 +97,7 @@ REPORTING A BUG:
 ================
 
 (If it is a bug in a translation, it should be mailed to the Primary
-Contact for the language.  See <http://www.freeciv.org/l10n.phtml> for
+Contact for the language.  See <http://freeciv.org/wiki/Translations> for
 the names and addresses of these people.)
 
 Here's what to do:
@@ -110,26 +110,22 @@ Here's what to do:
    In particular, you might like to try a development snapshot,
    from our CVS repository.  You can FTP them from:
 
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
  - Check the Freeciv FAQ on the Freeciv website to see if we've
    published a way to work around your bug.
 
  - Check the Freeciv Bug Tracking System at:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        https://gna.org/bugs/?group=freeciv
 
    to see if the bug has already been reported.
 
  - Submit a bug report!
 
-   You can submit a bug report either by sending email to
-   <bugs@freeciv.freeciv.org>, or via the web at
-   <http://www.freeciv.org/cgi-bin/bugs>.
-
-   Or, if you want to send the Freeciv developers some comments
+   If you want to send the Freeciv developers some comments
    but don't want to lodge a bug report, you can sent email to
-   <freeciv-dev@freeciv.org>, the Freeciv developer's mailing list.
+   <freeciv-dev@gna.org>, the Freeciv developer's mailing list.
 
    What to include in your bug report:
 

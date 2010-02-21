@@ -20,7 +20,7 @@ Per avere Freeciv funzionante vedi il file README (oppure doc/README.it Ndt).
 Se non hai mai giocato a giochi come Civilization, e' piu' facile cominciare
 leggendo il manuale di Freeciv, disponibile separatamente presso:
 
-     http://www.freeciv.org/manual/
+     http://freeciv.org/wiki/It:Manual
 
 Se stai cercando idee per giocare a Freeciv continua a leggere!!
 
@@ -159,7 +159,7 @@ D. Quali altre strategie esistono?
         Ci sono alcuni tutorial e guide strategiche disponibili presso le
 pagine web di Freeciv, presso:
 
-        http://www.freeciv.org/tutorials/
+        http://freeciv.org/wiki/It:Docs
 
 Inoltre la guida in linea di Freeciv descrive un'altra strategia.
 
@@ -242,7 +242,7 @@ D. Come posso ottenere la tecnologia _____?
 Cercala nella guida in linea. Mostra le tecnologie di cui hai bisogno prima.
 
 In alternativa puoi scaricare il grafico "techtree" di David Pfitzner da
-        http://msowww.anu.edu.au/~dwp/freeciv/
+        http://download.gna.org/freeciv/contrib/charts/
 
         Oppure puoi leggere l'insieme di regole per le tecnologie nel file
 'data/default/techs.ruleset' che elenca tutte le tecnologie e quali tecnologie
@@ -274,10 +274,6 @@ errori/omissioni nel presente documento.
 Comunicate eventuali inesattezze all'indirizzo email:
 
 slug-freeciv@siena.linux.it
-
-o consultate l'indirizzo web:
-
-http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================

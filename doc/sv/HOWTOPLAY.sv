@@ -8,7 +8,7 @@ För upplysningar om hur man kör Freeciv, se README.sv
 Om man aldrig har spelat civilisationsspel är det enklast om man börjar
 med att läsa Freecivs handbok som är tillgänglig vid:
 
-     http://www.freeciv.org/manual/manual.html
+     http://www.freeciv.org/wiki/Manual
 
 För upplysningar om hur man spelar Freeciv, fortsätt läsa!
 
@@ -150,7 +150,7 @@ Fråga: Vilka andra strategier finns det?
 	Det finns ett antal handledningar och strategianvisningar
 tillgängliga vid Freecivs webplats vid:
 
-	 http://www.freeciv.org/tutorials/
+	 http://www.freeciv.org/wiki/Tutorials
 
 Dessutom beskriver Freecivs inbyggda hjälp en annan strategi.
 
@@ -233,7 +233,7 @@ Fråga: Hur får man en viss teknologi?
 måste ha först.
 
 Det går även att se detta i David Pfitzners "techtree"-karta som kan
-laddas ned från <http://msowww.anu.edu.au/~dwp/freeciv/>.
+laddas ned från <http://download.gna.org/freeciv/contrib/charts/>.
 
 Om det inte går man kan läsa i "data/default/techs.ruleset". Där står
 vilka teknologier som man måste ha innan man kan få en given

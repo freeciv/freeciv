@@ -9,7 +9,7 @@ Als u zoekt hoe u Freeciv moet starten, kijk in README.
 Als u nog nooit Civilisation-spelen gespeeld hebt, is het het gemakkelijkst
 om te beginnen met de Freeciv handleiding (in Engels), apart beschikbaar op:
 
-     http://www.freeciv.org/manual/
+     http://freeciv.org/wiki/Manual
 
 Als u zoekt naar ideëen om Freeciv te spelen, blijf dan lezen!!
 
@@ -148,7 +148,7 @@ V. Welke strategieën zijn er nog meer?
         Er zijn een aantal (Engelstalige) instructie- en strategie-documenten
 beschikbaar op de Freeciv web pagina's op:
 
-	 http://www.freeciv.org/tutorials/
+	 http://freeciv.org/wiki/Tutorials
 
 Plus, de Freeciv online help beschrijft een andere strategie.
 
@@ -232,7 +232,7 @@ Zoek de technologie op in de online help. Het zal u de technologieën tonen die
 u eerst dient te ontwikkelen.
 
 Alternatief: u kunt David Pfitzner's "techtree" kaart van 
-http://msowww.anu.edu.au/~dwp/freeciv/ downloaden.
+http://download.gna.org/freeciv/contrib/charts/ downloaden.
 
 Als dat allemaal niet lukt, dan kunt u de technologie spelregels in
 'data/default/techs.ruleset' lezen. Het toont de lijst van alle technologieën
