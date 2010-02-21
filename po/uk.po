@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-20 21:54+0300\n"
+"PO-Revision-Date: 2010-02-21 15:37+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10275,7 +10275,7 @@ msgstr "Увімкнути смугу голосування"
 
 #: client/options.c:749
 msgid "If this option is turned on, the vote bar will be displayed to show vote information."
-msgstr ""
+msgstr "Якщо цю опцію ввімкнено, смуга голосування відображатиметься для показу інформації про голосування."
 
 #: client/options.c:753
 msgid "Always display the vote bar"
@@ -10283,7 +10283,7 @@ msgstr "Завжди показувати рядок голосування"
 
 #: client/options.c:754
 msgid "If this option is turned on, the vote bar will never be hidden, notably when there won't be any running vote."
-msgstr ""
+msgstr "Якщо цю опцію ввімкнено, смуга голосування ніколи не приховуватиметься, зокрема коли не буде активних голосувань."
 
 #: client/options.c:759
 msgid "Do not show vote bar if not a player"
@@ -10417,7 +10417,7 @@ msgstr "Показувати час для кожного повідомленн
 
 #: client/options.c:832
 msgid "If this option is enabled then all chat messages will be prefixed by a time string of the form [hour:minute:second]."
-msgstr ""
+msgstr "Якщо цю опцію увімкнено, всі повідомлення чату матимуть префікс з часом у формі [год:хв:сек]."
 
 #: client/options.c:837
 msgid "Split bottom notebook area"
@@ -10437,7 +10437,7 @@ msgstr "Якщо цю опцію увімкнено, нові події у ві
 
 #: client/options.c:849
 msgid "Show extra message window buttons"
-msgstr ""
+msgstr "Показувати додаткові кнопки у вікні повідомлень"
 
 #: client/options.c:850
 msgid "If this option is enabled, there will be two buttons displayed in the message window for inspecting a city and going to a location. If this option is disabled, these buttons will not appear (you can still double-click with the left mouse button or right-click on a row to inspect or goto respectively). This option will only take effect once the message window is closed and reopened."
@@ -10657,11 +10657,11 @@ msgstr "Не можу знайти Ваш домашній каталог"
 #: client/options.c:1742
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
-msgstr ""
+msgstr "Не знайшовся файл опцій '%s', натомість завантажую з '%s'."
 
 #: client/options.c:2036
 msgid "Didn't find the option file."
-msgstr ""
+msgstr "Не знайшовся файл опцій."
 
 #: client/options.c:2051
 #: client/options.c:2150
@@ -10846,7 +10846,7 @@ msgstr "Не вдалося відкрити тимчасовий файл."
 #: client/servers.c:390
 #, c-format
 msgid "Failed to parse the metaserver data from http://%s."
-msgstr ""
+msgstr "Не вдалося розпарсити дані метасарвера з http://%s."
 
 #: client/servers.c:421
 #, fuzzy
@@ -12965,7 +12965,7 @@ msgstr "Інструменти редагування"
 
 #: client/gui-gtk-2.0/editgui.c:1192
 msgid "Click to change value if applicable."
-msgstr ""
+msgstr "Клацніть щоб змінити значення, якщо підходить,"
 
 #: client/gui-gtk-2.0/editgui.c:1220
 #, fuzzy
@@ -13245,7 +13245,7 @@ msgstr "Знищити"
 
 #: client/gui-gtk-2.0/editprop.c:4114
 msgid "Pressing this button will send a request to the server to destroy (i.e. erase) the objects selected in the object list."
-msgstr ""
+msgstr "Якщо натиснути цю кнопку, на сервер буде відіслано запит на знищення (стирання) об'єктів, виділених у списку об'єктів."
 
 #: client/gui-gtk-2.0/editprop.c:4125
 msgid "Create"
@@ -13271,11 +13271,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:4237
 msgid "Pressing this button will send all modified properties of the objects selected in the object list to the server. Modified properties' names are shown in red in the properties panel."
-msgstr ""
+msgstr "Якщо натиснути цю кнопку, усі змінені властивості об'єктів, виділених у списку об'єктів, буде надіслано на сервер. Назви змінених властивостей показані червоним кольором на панелі властивостей."
 
 #: client/gui-gtk-2.0/editprop.c:4248
 msgid "Pressing this button will reset all modified properties of the selected objects to their current values (the values they have on the server)."
-msgstr ""
+msgstr "Якщо натиснути цю кнопку, усі змінені властивості виділених об'єктів буде повернути до їхніх поточних значень (значень, які в них є на сервері)."
 
 #: client/gui-gtk-2.0/editprop.c:5363
 #, fuzzy
@@ -16122,7 +16122,7 @@ msgstr "  -t,  --theme ТЕМА\tВикористати тему графічн�
 #: client/gui-sdl/gui_main.c:635
 #, c-format
 msgid "Making screenshot %s"
-msgstr ""
+msgstr "Робиться знімок екрану %s"
 
 #: client/gui-sdl/gui_main.c:767
 #, c-format
@@ -17041,7 +17041,7 @@ msgstr "load_gfxfile: Не можу завантажити графічний ф
 #: client/gui-sdl/themes.c:55
 #, c-format
 msgid "No gui-sdl theme was found. For instructions on how to get one, please visit %s"
-msgstr ""
+msgstr "Не знайдено теми gui-sdl. Щоб взнати, як таку дістати, відвідайте %s"
 
 #: client/gui-sdl/themespec.c:337
 msgid "No usable default theme found, aborting!"
@@ -18842,23 +18842,23 @@ msgstr "Сервер                              Порт  Версія      С
 
 #: data/helpdata.txt:38
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization. You compete against several opponents to found cities, use them to support a military and economy, and finally to complete an empire that survives all encounters with its neighbors to emerge victorious. Each opponent may be either another human or be controlled by the computer. All players begin at the dawn of history with a handful of units -- typically with an explorer and a couple of settlers in 4000 BC -- and race to expand outward from those humble beginnings."
-msgstr ""
+msgstr "Freeciv - це походова стратегічна гра, в якій кожен гравець є лідером цивілізації. Ви змагаєтеся проти кількох опонентів, засновуючи міста та використовуючи їх для підтримки військового й економічного розвитку, щоб створити імперію, яка витримає всі зіткнення зі своїми сусідами, та врешті перемогти. Кожен суперник може бути контрольований або іншою людиною, або ж комп'ютером. Усі гравці починають на початку історії з кількома підрозділами -- як правило, дослідником та парою поселенців у 4000 р. до н.е. - і з цього скромного маєтку починається боротьба за розвиток."
 
 #: data/helpdata.txt:48
 msgid "Achieving success requires a balance between economic expansion, military strength, and technological development. Not only must you develop all three in concert to both expand and successfully defend your empire, but any of the three may provide victory over your opponents:"
-msgstr ""
+msgstr "Досягнення успіху вимагає балансу між економічним розвитком, військовою силою та технологічними дослідженнями. Потрібно розвивати всі три напрямки не лише щоб розширювати та успішно захищати свою імперію, але й тому що кожен з трьох може забезпечити перемогу над суперниками:"
 
 #: data/helpdata.txt:54
 msgid " - As in other games of conquest and expansion, you are declared the winner by default once the last city and unit of every other civilization is destroyed."
-msgstr ""
+msgstr " - Як і в інших іграх про завоювання та експансію, Ви проголошуєтеся переможцем щойно останні міста та підрозділи всіх інших цивілізацій буде знищено."
 
 #: data/helpdata.txt:58
 msgid " - Once technological progress has brought you into the space age, you may launch a spacecraft destined for Alpha Centauri; the first civilization whose craft reaches the system wins."
-msgstr ""
+msgstr "- Щойно технологічний прогрес приведе Вас до космічної ери, Ви можете запустити космічний корабель на Альфу Центавра; перша цивілізація, чий корабель досягне цієї зоряної системи, переможе."
 
 #: data/helpdata.txt:62
 msgid " - In the absence of other means to determine victory, the game will end in the year 2000 AD if no spacecraft have yet been launched. The surviving civilizations are then rated, and the one with the highest score is the winner."
-msgstr ""
+msgstr " - За відсутності інших способів визначити переможця, та якщо космічний корабель не було запущено, гра закінчиться у 2000р. н.е. Буде визначено рейтинг цивілізацій, які вижили, і та, в якої він буде найвищим, переможе."
 
 #: data/helpdata.txt:70
 msgid "Strategy and tactics"
@@ -19247,7 +19247,7 @@ msgstr ""
 
 #: data/helpdata.txt:461
 msgid "In the default ruleset, occupied fortresses also extend national borders."
-msgstr ""
+msgstr "У типовому наборі правил зайняті фортеці також розширюють національні кордони."
 
 #: data/helpdata.txt:464
 msgid "Borders can only extend into water for tiles adjacent to a city; other water tiles remain unclaimed territory."
@@ -19338,15 +19338,15 @@ msgstr ""
 
 #: data/helpdata.txt:595
 msgid "The number of trade routes per city is limited to four. If you attempt to establish more routes, the trade route with the smallest ongoing revenue is canceled if it would be less than the new route."
-msgstr ""
+msgstr "Кількість торгових шляхів на місто обмежена чотирма. Якщо спробувати встановити більше шляхів, то шлях з найменшим існуючим прибутком скасовується, якщо цей прибуток менший, ніж у нового шляху."
 
 #: data/helpdata.txt:599
 msgid "To view the current trade routes of a city, click and hold over the Trade: line in the Overview tab in the city view."
-msgstr ""
+msgstr "Щоб переглянути поточні торгові шляхи міста, клацніть та утримуйте мишку над рядком Торгівля: на вкладці Огляд у вікні міста."
 
 #: data/helpdata.txt:606
 msgid "Cities are your sole instrument for developing natural resources and channeling them toward expansion, technological progress, and warfare."
-msgstr ""
+msgstr "Міста - це єдиний інструмент для розробки природних ресурсів та їх перетворення в експансію, технологічний прогрес та військову справу."
 
 #: data/helpdata.txt:609
 msgid "A city is created when Settlers are given the \"build city\" command on suitable terrain, removing the unit from play to provide the city with its first citizen. A city may grow to include dozens of citizens, some working within the city while others are dispatched as new settlers. Famine and war kill citizens and reduce population; with the loss of its last citizen a city disappears (in the default ruleset, this can leave ruins, although these have no effect on gameplay)."
@@ -19448,7 +19448,7 @@ msgstr ""
 
 #: data/helpdata.txt:779
 msgid "The Happiness tab on the city dialog will give detailed insight into the mood of the citizenry and its causes."
-msgstr ""
+msgstr "Вкладка Щастя у вікні міста надає детальну інформацію про настрій громадян та фактори, що на нього впливають."
 
 #: data/helpdata.txt:785
 #, fuzzy
@@ -19493,7 +19493,7 @@ msgstr ""
 
 #: data/helpdata.txt:863
 msgid "Units both offer mobility to your civilization and supply the violence with which it will survive and expand. The available units may be classified as military units, whose talents are those of defense and aggression, and a few noncombatants which support expansion, diplomacy, and trade."
-msgstr ""
+msgstr "Підрозділи надають цивілізації мобільності, та забезпечують її виживання і розширення. Усі підрозділи поділяються на військові, метою яких є захист або агресія, та декілька цивільних, які забезпечують розвиток, дипломатію та торгівлю."
 
 #: data/helpdata.txt:869
 msgid "Units are usually built in cities using production points. Once built, units are owned by the city that built them (although they can later be re-homed while visiting a different city) and demand support from that city; this will be one of your major expenses. Most units require upkeep such as production points from their home city every turn, although some autocratic styles of government can force cities to support several units for free. A few units, particularly those that you start the game with, have no home city and thus require no upkeep."
@@ -22881,7 +22881,7 @@ msgstr "Кіннота"
 #: data/default/units.ruleset:817
 #: data/civ2/units.ruleset:710
 msgid "Horsemen are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr "Кіннота - це вояки на конях, ранні ударні війська, що можуть проникнути вглиб ворожої території."
+msgstr "Кіннота - це вояки на конях, ранні ударні війська, здатні вклинитися вглиб ворожої території."
 
 #: data/default/units.ruleset:824
 #: data/civ2/units.ruleset:717
@@ -22892,7 +22892,7 @@ msgstr "Колесніця"
 #: data/default/units.ruleset:850
 #: data/civ2/units.ruleset:743
 msgid "Chariots are horse-pulled war wagons, stronger but more expensive than horsemen."
-msgstr ""
+msgstr "Колісниці - це бойові візки на кінній тязі, сильніші але й дорожчі за кінноту."
 
 #: data/default/units.ruleset:856
 #: data/civ2/units.ruleset:813
@@ -22914,7 +22914,7 @@ msgstr "Драгуни"
 #: data/default/units.ruleset:915
 #: data/civ2/units.ruleset:872
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "Драгуни - це вершники, озброєні ранньою вогнепальною зброєю."
 
 #: data/default/units.ruleset:920
 #: data/civ2/units.ruleset:877
@@ -22925,7 +22925,7 @@ msgstr "Кавалерія"
 #: data/default/units.ruleset:946
 #: data/civ2/units.ruleset:903
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "Кавалерія - це добре треновані вершники."
 
 #: data/default/units.ruleset:951
 #: data/civ2/units.ruleset:908
@@ -22949,7 +22949,7 @@ msgstr "Катапульта"
 #: data/civ2/units.ruleset:967
 #: data/civ1/units.ruleset:556
 msgid "Catapults are large rock-throwing machines of war. They are very strong attackers but equally weak defenders and will need an escort to be effective."
-msgstr ""
+msgstr "Катапульти - це військові машини, що кидають велике каміння. Вони дуже сильні в нападі, але настільки ж слабкі в захисті, і для ефективності їм потрібен супровід."
 
 #: data/default/units.ruleset:1017
 #: data/civ2/units.ruleset:974
@@ -22961,7 +22961,7 @@ msgstr "Пушка"
 #: data/civ2/units.ruleset:1000
 #: data/civ1/units.ruleset:589
 msgid "Cannons are large firearms that can fire heavy projectiles over long distances. They are very strong attackers but equally weak defenders and will need an escort to be effective."
-msgstr ""
+msgstr "Гармати - це велика вогнепальна зброя, здатна стріляти важкими снарядами на велику відстань. Вони дуже сильні в нападі, але настільки ж слабкі в захисті, тож для ефективності їм потрібен супровід."
 
 #: data/default/units.ruleset:1051
 #: data/civ2/units.ruleset:1008
@@ -22972,7 +22972,7 @@ msgstr "Артілерія"
 #: data/default/units.ruleset:1077
 #: data/civ2/units.ruleset:1034
 msgid "The artillery is an upgraded cannon. It is a very strong attacker but equally weak defender and will need an escort to be effective."
-msgstr ""
+msgstr "Артилерія - це покращена гармата. Вона дуже сильна в нападі, але настільки ж слабка у захисті, тож потребує супроводу для ефективності."
 
 #: data/default/units.ruleset:1084
 #: data/civ2/units.ruleset:1041
@@ -22982,7 +22982,7 @@ msgstr "Гаубиця"
 #: data/default/units.ruleset:1110
 #: data/civ2/units.ruleset:1067
 msgid "Howitzers are upgraded artillery with improved defensive as well as offensive capabilities."
-msgstr ""
+msgstr "Гаубиці - це модернізована артилерія, з покращеними атакою та захистом. Призначені переважно для навісної стрільби із закритих вогневих позицій, поза прямою видимістю цілі."
 
 #: data/default/units.ruleset:1116
 #: data/civ2/units.ruleset:1073
@@ -22994,7 +22994,7 @@ msgstr "Винищувач"
 #: data/civ2/units.ruleset:1100
 #: data/civ1/units.ruleset:656
 msgid "Fighters are your first airborne units. They can move anywhere and attack any unit."
-msgstr ""
+msgstr "Винищувачі - це перші авіаційні підрозділи. Вони можуть рухатися куди завгодно й атакувати будь-які підрозділи."
 
 #: data/default/units.ruleset:1149
 #: data/civ2/units.ruleset:1106
@@ -23006,7 +23006,7 @@ msgstr "Бомбардувальник"
 #: data/civ2/units.ruleset:1132
 #: data/civ1/units.ruleset:688
 msgid "Bombers are specialized airborne units that may only attack ground targets, not other airborne units."
-msgstr ""
+msgstr "Бомбардувальники - це спеціалізовані авіаційні підрозділи, що можуть атакувати лише наземні цілі, але не інші повітряні підрозділи."
 
 #: data/default/units.ruleset:1208
 #: data/civ2/units.ruleset:1165
@@ -23036,7 +23036,7 @@ msgstr "Покращений Бомбардувальник - покращено
 
 #: data/default/units.ruleset:1309
 msgid "The Trireme is your first boat unit. It can act as a transport ship and has rudimentary offensive capabilities, but may not enter deep ocean tiles."
-msgstr ""
+msgstr "Трирема - це перший корабельний підрозділ. Він може діяти як транспортний корабель, а також має зародкові можливості нападу, але не може рухатися по глибокому океану."
 
 #: data/default/units.ruleset:1316
 #: data/civ2/units.ruleset:1273
@@ -23045,7 +23045,7 @@ msgstr "Каравела"
 
 #: data/default/units.ruleset:1343
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
-msgstr ""
+msgstr "Каравела замінює Трирему і може рухатися по всьому океану."
 
 #: data/default/units.ruleset:1349
 #: data/civ2/units.ruleset:1306
@@ -23055,7 +23055,7 @@ msgstr "Галеон"
 #: data/default/units.ruleset:1376
 #: data/civ2/units.ruleset:1333
 msgid "The Galleon is a pure transport ship and cannot attack other ships, though it may still defend itself when attacked."
-msgstr ""
+msgstr "Галеон - це чисто транспортний корабель, що не може нападати на інші кораблі, але здатний захищатися, коли його атакують."
 
 #: data/default/units.ruleset:1383
 #: data/civ2/units.ruleset:1340
@@ -23067,7 +23067,7 @@ msgstr "Фрігат"
 #: data/civ2/units.ruleset:1367
 #: data/civ1/units.ruleset:789
 msgid "The Frigate is a highly versatile boat unit, that is both a strong offensive unit as well as a decent transport ship."
-msgstr ""
+msgstr "Фрегат - це багатоцільовий корабель, що може бути як атакувальним підрозділом, так і непоганим транспортним кораблем."
 
 #: data/default/units.ruleset:1417
 #: data/civ2/units.ruleset:1374
@@ -23079,7 +23079,7 @@ msgstr "Броненосець"
 #: data/civ2/units.ruleset:1400
 #: data/civ1/units.ruleset:822
 msgid "The Ironclad is an armored ship that is much more sturdy than the Frigate but loses the latter's transport capability."
-msgstr ""
+msgstr "Броненосець - це броньований корабель, значно міцніший ніж Фрегат, але без транспортувальної здатності."
 
 #: data/default/units.ruleset:1450
 #: data/civ2/units.ruleset:1407
@@ -23105,7 +23105,7 @@ msgstr "Крейсер"
 #: data/civ2/units.ruleset:1467
 #: data/civ1/units.ruleset:855
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr ""
+msgstr "Крейсер - це сильний атакувальний корабельний підрозділ."
 
 #: data/default/units.ruleset:1515
 #: data/civ2/units.ruleset:1472
@@ -23127,7 +23127,7 @@ msgstr "Лінкор"
 #: data/civ2/units.ruleset:1530
 #: data/civ1/units.ruleset:886
 msgid "The Battleship is the supreme naval unit with excellent offensive and defensive values."
-msgstr ""
+msgstr "Лінкор - це найпотужніший морський підрозділ з чудовою здатністю до атаки та захисту."
 
 #: data/default/units.ruleset:1579
 #: data/civ2/units.ruleset:1536
@@ -23168,7 +23168,7 @@ msgstr "Транспорт"
 #: data/civ2/units.ruleset:1634
 #: data/civ1/units.ruleset:988
 msgid "The Transport cannot attack on its own but may defend itself when under attack."
-msgstr ""
+msgstr "Транспорт не може нападати, але здатен захищатися від ворожих атак."
 
 #: data/default/units.ruleset:1683
 #: data/civ2/units.ruleset:1640
@@ -23393,7 +23393,7 @@ msgstr ""
 #: data/civ2/units.ruleset:1266
 #: data/civ1/units.ruleset:722
 msgid "The Trireme is your first boat unit. It can act as a transport ship and has rudimentary offensive capabilities, but may not stray too far from the shore."
-msgstr ""
+msgstr "Трирема - це перший корабельний підрозділ. Він може діяти як транспортний корабель, а також має зародкові можливості нападу, але може заблукати вдалині від берега."
 
 #: data/civ2/units.ruleset:1300
 msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
@@ -23426,7 +23426,7 @@ msgstr "Ополчення"
 
 #: data/civ1/units.ruleset:328
 msgid "Musketeers are infantry equipped with early firearms and replace Phalanx as the preferred city defender."
-msgstr ""
+msgstr "Мушкетери - це піхота, озброєна ранньою вогнепальною зброєю. Вони замінюють Фалангу у якості першочергового захисника міст."
 
 #: data/civ1/units.ruleset:393
 msgid "Mechanized Infantry; this unit has the strongest defence strength of any land unit, but is only available near the end of the technology tree."
@@ -23434,15 +23434,15 @@ msgstr "БТР; цей підрозділ має найбільший захис
 
 #: data/civ1/units.ruleset:426
 msgid "Cavalry are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
-msgstr ""
+msgstr "Кіннота - це вояки на конях, ранні ударні війська, здатні вклинитися вглиб ворожої території."
 
 #: data/civ1/units.ruleset:459
 msgid "Chariots are horse-pulled war wagons, stronger but more expensive than Cavalry."
-msgstr ""
+msgstr "Колісниці - це бойові візки на кінній тязі, сильніші але й дорожчі за кінноту."
 
 #: data/civ1/units.ruleset:623
 msgid "The artillery is an upgraded cannon with improved defensive as well as offensive capabilities."
-msgstr ""
+msgstr "Артилерія - це модернізована гармата, з покращеною здатністю до захисту та нападу."
 
 #: data/civ1/units.ruleset:729
 msgid "Sail"
@@ -23450,7 +23450,7 @@ msgstr "Парусник"
 
 #: data/civ1/units.ruleset:756
 msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
-msgstr ""
+msgstr "Вітрильник замінює Трирему; він значно надійніший у відкритому морі."
 
 #: data/civ1/units.ruleset:1020
 #, fuzzy
@@ -23844,7 +23844,7 @@ msgstr "Аргентинці"
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 243.
 #: data/nation/argentine.ruleset:9
 msgid "Argentina is located on the south-eastern coast of South America. Since independence from Spain in 1816, it has been plagued by several internal and external conflicts. In the decades after World War II, the country's politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" Peron."
-msgstr ""
+msgstr "Аргентина розташована на південно-східному узбережжі Південної Америки. З часу здобуття незалежності від Іспанії у 1816 її зачепило декілька внутрішніх та зовнішніх конфліктів. На протязі десятиріч після Другої Світової Війни політику країни визначав Хуан Перон та його харизматична дружина Єва \"Евіта\" Перон."
 
 #: data/nation/argentine.ruleset:28
 #: data/nation/cuban.ruleset:21
@@ -23896,7 +23896,7 @@ msgstr "Вірмени"
 
 #: data/nation/armenian.ruleset:6
 msgid "According to legend, the Armenian people are the descendants of Haik - the great-great-grandson of Noah. The modern Republic of Armenia gained independence from the Soviet Union in 1991."
-msgstr ""
+msgstr "Згідно легенди, Вірмени - це нащадки Хайка, пра-правнука Ноя. Сучасна Республіка Вірменія здобула незалежність від Радянського Союзу в 1991."
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
@@ -23930,7 +23930,7 @@ msgstr "Австралійці"
 
 #: data/nation/australian.ruleset:6
 msgid "Australia was founded as a British penal colony in 1788 AD. Originally comprising of several colonies (New South Wales, Victoria, Queensland, South Australia, Western Australia and Tasmania) it became a single country in 1902. It is the only country on earth to occupy an entire continent."
-msgstr ""
+msgstr "Австралія була заснована у 1788 як британська каторжна колонія. Спершу вона складалася з декількох колоній (Новий Південний Уельс, Вікторія, Квінсленд, Південна Австралія, Західна Австралія і Тасманія), але у 1902 стала однією країною. Це єдина країна на Землі, що займає цілий континент."
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
@@ -23954,7 +23954,7 @@ msgstr "Аймарці"
 
 #: data/nation/aymara.ruleset:6
 msgid "After the collapse of the Tiwanaku civilization in the Andes, their heirs reorganized into a set of culturally close Aymara kingdoms that thrived around the Titicaca lake until they were conquered by the Incas."
-msgstr ""
+msgstr "Після занепаду цивілізації Тіуанако в Андах, їхні нащадки сформували декілька королівств Аймара зі спорідненою культурою, що процвітали навколо озера Тітікака, допоки не були завойовані Інками."
 
 #: data/nation/aymara.ruleset:30
 msgid "Mallku"
@@ -24080,7 +24080,7 @@ msgstr "Баски"
 
 #: data/nation/basque.ruleset:6
 msgid "The Basques have lived since times immemorial by the western foothills of the Pyrenees. By maintaining their age-old cultural traditions, and keeping their historic identity alive, the Basques provide a link with man's distant past. Euskara, the language spoken by the Basque people, is probably the oldest living language in Europe."
-msgstr ""
+msgstr "Баски з давніх-давен жили біля західного підніжжя Піринеїв. Підтримуючи свої віковічні культурні традиції та історичну самоідентичність, народ Басків підтримує зв'язок з далеким минулим людства. Баскійска мова, ймовірно, є найдревнішою живою мовою в Європі."
 
 #. TRANS: Lehendakari = Basque neologism equivalent with President
 #: data/nation/basque.ruleset:33
@@ -24243,7 +24243,7 @@ msgstr "Бразильці"
 
 #: data/nation/brazilian.ruleset:6
 msgid "Brazil was founded as a colony of Portugal but became independent in 1822 as a result of Portugal's occupation by Napoleonic France. The country was first established as an empire under the exiled Portuguese royal family. The empire lasted until the establishment of a republican government in 1889."
-msgstr ""
+msgstr "Бразилія була заснована як колонія Португалії, але у 1822 стала незалежною, внаслідок окупації Португалії наполеонівською Францією. Спочатку державним устроєм була імперія під владою вигнаної португальської королівської родини, і так тривало аж до встановлення республіканської форми правління у 1889."
 
 #: data/nation/brazilian.ruleset:24
 #: data/nation/iraqi.ruleset:21
@@ -24304,7 +24304,7 @@ msgstr "Британці"
 
 #: data/nation/breton.ruleset:6
 msgid "Known to the Romans as Armorica, Brittany had been Celtic speaking for many centuries before Britons arrived in the peninsula as mercenaries, colonists and refugees in response to the chaos in Gaul and the invasion of Britain by Germanic tribes in the fifth century AD. Over the centuries, use of the Breton language has been pushed towards the west of the peninsula, with people speaking French instead. The Dukedom of Brittany itself was formally annexed to France in 1491."
-msgstr ""
+msgstr "Відома римлянам як Арморика, Бретань була кельтською на протязі багатьох століть до того, як Брити прибули на цей півострів у якості найманців, колоністів та біженців внаслідок хаосу в Галії та вторгнення германських племен у Британію в 5 столітті до н.е. Протягом століть, бретонська мова витіснялася в західну частину півострова франкомовним населенням. Герцогство Бретань було формально приєднане до Франції у 1491."
 
 #: data/nation/breton.ruleset:35
 msgid "Dug"
@@ -24374,7 +24374,7 @@ msgstr "Бургундці"
 
 #: data/nation/burgundian.ruleset:6
 msgid "After the fall of the Western Roman Empire, a Germanic people known as the Burgundians settled in the Rhine Valley, lending their name to the region. Centuries later, the Duchy of Burgundy was a prosperous country with the court in Dijon outshining that of Paris. It is today one of the regions of France."
-msgstr ""
+msgstr "Після падіння Західної Римської Імперії, германський народ, відомий як Бургундці, оселився в долині Рейну та надав цьому регіону своє ім'я. Минули віки, і Герцогство Бургундія стало процвітаючою країною, двір якої у Діжоні затьмарював паризький. Тепер це один з регіонів Франції."
 
 #: data/nation/burgundian.ruleset:31
 msgid "Margrave"
