@@ -244,7 +244,7 @@ Fråga: Hur får man en viss teknologi?
 måste ha först.
 
 Det går även att se detta i David Pfitzners "techtree"-karta som kan
-laddas ned från <http://msowww.anu.edu.au/~dwp/freeciv/>.
+laddas ned från <http://download.gna.org/freeciv/contrib/charts/>.
 
 Om det inte går man kan läsa i "data/default/techs.ruleset". Där står
 vilka teknologier som man måste ha innan man kan få en given

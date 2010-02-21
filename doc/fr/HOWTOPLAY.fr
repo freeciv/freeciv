@@ -10,8 +10,8 @@ Si vous n'avez jamais joué aux jeux Civilization, il sera plus facile de
 commencer par lire le "Freeciv Manual", disponible séparément aux
 endroits suivants :
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://fr.freeciv.wikia.com/wiki/Manuel
+     http://download.gna.org/freeciv/contrib/manual/
 
 Si vous cherchez des idées pour jouer à Freeciv, continuez à lire !
 
@@ -164,7 +164,7 @@ Q : Y-a-t-il d'autres stratégies ?
 	Il y a un certain nombre de tutoriaux et de guides de stratégie
 disponibles sur les pages web de Freeciv :
 
-	 http://www.freeciv.org/tutorials/tutorials.phtml
+	 http://fr.freeciv.wikia.com/wiki/Documentation
 
 L'aide en ligne de Freeciv décrit également une autre stratégie.
 
@@ -258,8 +258,8 @@ Consultez l'aide en ligne. Elle vous indique quelles technologies sont
 nécessaires pour pouvoir faire des recherches sur une nouvelle
 technologie.
 
-Sinon, vous pouvez télécharger le "techtree" de Daviid Pfitzner :
-http://msowww.anu.edu.au/~dwp/freeciv/.
+Sinon, vous pouvez télécharger le "techtree" de David Pfitzner :
+http://download.gna.org/freeciv/contrib/charts/.
 
 En dernier recours, vous pouvez lire les sources dans common/tech.c. Il
 y a une liste de toutes les technologies, et quelles technologies sont

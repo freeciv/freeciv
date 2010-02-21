@@ -9,7 +9,7 @@ nation files for Freeciv. A nation consists of a nation file in the
 rulesets and a flag in the tilesets. 
 
 The contents of this file is based on this page from the Freeciv wiki:
-http://www.freeciv.org/index.php/Nations
+http://freeciv.org/wiki/Nations
 
 
 
@@ -328,12 +328,6 @@ The ordering of cities should take both chronology of founding and
 overall historical importance into consideration. Note that a city 
 earlier in the list has a higher chance of being chosen than later 
 cities.
-
-A discussion of city ordering appears in the freeciv-dev archive:
-  http://arch.freeciv.org/freeciv-dev-199910/msg00030.html 
-
-There is even a perl script available to do the job in the same thread:
-  http://arch.freeciv.org/freeciv-dev-199910/msg00074.html 
 
 
 Natural city names

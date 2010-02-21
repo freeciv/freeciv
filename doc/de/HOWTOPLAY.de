@@ -7,8 +7,8 @@ Nachahmungen gespielt haben, sollten Sie zunächst einen Blick in die
 (leider veraltete und nur in Englisch vorliegende) Bedienungsanleitung
 werfen:
 
-     http://www.freeciv.org/manual/manual.html
-     ftp://ftp.freeciv.org/pub/freeciv/contrib/manual/
+     http://de.freeciv.wikia.com/wiki/Handbuch
+     http://download.gna.org/freeciv/contrib/manual/
 
 ***************************************************************************
 *  Wenn Sie wissen wollen, wie man Freeciv spielt, sind Sie hier richtig! *
@@ -153,7 +153,7 @@ Frage: Gibt es noch andere Strategien?
 Es gibt einige Tutorials und Strategieführer, verfügbar auf der
 Freeciv-Homepage:
 
-	 http://www.freeciv.org/tutorials/tutorials.phtml
+	 http://freeciv.org/wiki/Tutorials
 
 Außerdem beschreibt die Freeciv-Online-Hilfe noch eine andere
 Strategie.
@@ -239,7 +239,7 @@ Technologien aufgeführt, die Voraussetzungen sind.
 Als Alternative können Sie David Pfitzner's "techtree"-Übersicht
 downloaden:
 
-http://msowww.anu.edu.au/~dwp/freeciv/
+http://download.gna.org/freeciv/contrib/charts/
 
 
 Außerdem können Sie sich die Datei '../data/default/techs.ruleset' ansehen.

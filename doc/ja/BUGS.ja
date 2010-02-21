@@ -5,14 +5,14 @@ Translator: SAWADA Katsuya <ama@petmail.net>
 バグ
 ====
 
-Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶにはバグ
+Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶにはバグ
 がないと見なせます。もしもバグを見つけたら、是非教えて下さい。その結果、
 我々はそのバグを修正できるようになります。このファイルには今回のリリー
 ス時点での既知のバグと、新しいバグを報告する方法が書かれています。
 
 このバグリストは、ほとんど明白なバグのみです。完全なリストは、
 
-    http://rt.freeciv.org/
+    https://gna.org/bugs/?group=freeciv
 
 を見て下さい。
 
@@ -77,7 +77,7 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶ
 
 (そのバグが翻訳上のものであるなら、その言語の「コンタクトを取る相手」
 にメールして下さい。名前とメールアドレスは 
-<http://www.freeciv.org/l10n.phtml> を見て下さい。)
+<http://freeciv.org/wiki/Translations> を見て下さい。)
 
 手順:
 
@@ -88,7 +88,7 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶ
 
    さらに CVS リポジトリの開発中のスナップショットも利用して頂けます。
    
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
    から FTP できます。
 
@@ -97,17 +97,14 @@ Freeciv 1.14.0 は、「安定版(stable)」リリースです。普通に遊ぶ
 
  - バグが既に報告されていないか確かめるために
 
-        http://rt.freeciv.org/
+        https://gna.org/bugs/?group=freeciv
 
    の Freeciv バグ追跡システムを調べて下さい。
 
  - バグを報告する!
 
-   <bugs@freeciv.freeciv.org> へ email を送るか、
-   <http://rt.freeciv.org/> のweb経由でバグを報告できます。
-
-   もしくは、 Freeciv 開発者にコメントを送りたいがバグ報告に委ねたくな
-   いなら、Freeciv 開発者メーリング・リストへemailを送ることもできます。
+   Freeciv 開発者にコメントを送りたいがバグ報告に委ねたくないなら、
+   Freeciv 開発者メーリング・リストへemailを送ることもできます。
 
    何らかの GDK/GTK メッセージを受け取ったら、(以下のようなもの:
 

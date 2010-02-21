@@ -1,6 +1,6 @@
-===================
-Freeciv Versió 2.1
-===================
+==================
+Freeciv Versió 2.2
+==================
 
 Benvingut a Freeciv!
 
@@ -243,7 +243,7 @@ Anunciar la partida:
 Si no vols limitar els teus rivals a amics locals o jugadors IA,
 visita el metaservidor de Freeciv:
 
-  http://meta.freeciv.org/metaserver.phtml
+  http://meta.freeciv.org/
 
 És una llista de servidors de Freeciv. Per fer que el teu servidor s'hi
 anunciï, engega civserver amb l'opció '--meta', o '-m' per abreujar.

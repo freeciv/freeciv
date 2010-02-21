@@ -2,7 +2,7 @@
 BUGS c.q. FOUTEN
 ================
 
-Freeciv 1.13.0 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
+Freeciv 2.2 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
 voor dagelijks gebruik. Indien u echter een bug ontdekt dan willen we dat echt
 graag weten, zodat we dat kunnen verhelpen. Dit document is een opsomming van
 ons bekende fouten in deze versie en geeft informatie over hoe u een nieuwe
@@ -11,7 +11,7 @@ bug kunt rapporteren.
 De opsomming betreft uitsluitend de meest zichtbare fouten. Voor een complete
 opsomming zie:
 
-    http://www.freeciv.org/cgi-bin/bugs
+    https://gna.org/bugs/?group=freeciv
 
 BEKENDE FOUTEN:
 ===============
@@ -99,7 +99,7 @@ RAPPORTEREN VAN FOUTEN:
 (Als het vertalingsfouten betreft in de Nederlandse versie, neem dan contact
 op met Pieter J. Kersten <kersten@dia.eur.nl>. Voor vertalingsfouten in andere
 talen, neem contact op met de primaire contactpersoon voor die taal. Kijk op 
-<http://www.freeciv.org/i10n.phtml> voor de namen en mailadressen van deze
+<http://freeciv.org/wiki/Translations> voor de namen en mailadressen van deze
 mensen.)
 
 Dit is wat u moet doen:
@@ -112,26 +112,22 @@ Dit is wat u moet doen:
    In het bijzonder zou u een ontwikkelaars-versie kunnen proberen uit onze
    CVS database. Deze kunt u FTP'en van:
 
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
  - Controleer de Freeciv FAQ (Frequent Asked Questions) op het Freeciv website
    om te kijken of er een noodoplossing (Engels: workaround) is voor uw fout.
 
  - Controleer het Freeciv foutenvolgsysteem op:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        https://gna.org/bugs/?group=freeciv
 
    om te kijken of de fout al eerder gerapporteerd is.
 
  - Verstuur een foutrapport!
 
-   U kunt een foutrapport per email aan <bugs@freeciv.freeciv.org> versturen
-   of via het website op <http://www.freeciv.org/cgi-bin/bugs> een formulier
-   invullen. Let op: de voertaal is Engels!
-
    Of, als u de Freeciv ontwikkelaars enig commentaar wilt sturen maar niet
    direct een foutrapport in wilt vullen, kunt u email sturen naar
-   <freeciv-dev@freeciv.org>, de Freeciv ontwikkelaars mailinglijst.
+   <freeciv-dev@gna.org>, de Freeciv ontwikkelaars mailinglijst.
 
    Wat moet er in uw rapport staan (Let op: in het Engels!):
 

@@ -2,7 +2,7 @@
 FEHLER
 ======                                                                                                 
 
-Freeciv 1.14.0 ist eine stabile Version, und kann für den täglichen
+Freeciv 2.2 ist eine stabile Version, und kann für den täglichen
 Gebrauch als ausreichend fehlerfrei betrachtet werden. Informationen
 über Fehler sind jederzeit willkommen.
 
@@ -12,7 +12,7 @@ darüber, wie Fehler berichtet werden können.
 Hier sind nur die offensichtlichsten Fehler aufgeführt. Eine vollständige
 Liste findet man unter:
 	
-	http://www.freeciv.org/cgi-bin/bugs
+	https://gna.org/bugs/?group=freeciv
 
 
 BEKANNTE FEHLER:
@@ -109,7 +109,7 @@ Bitte gehen Sie so vor:
    Insbesondere könnten Sie die neueste Entwicklerversion ausprobieren. Sie
    können über FTP bekommen, unter:
 
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
  - Prüfen Sie die FAQ auf der Freeciv Website, ob dort steht, wie Sie den
    Fehler umgehen können.
@@ -117,16 +117,9 @@ Bitte gehen Sie so vor:
  - Schauen Sie im Freeciv Fehlerberichtssystem nach, ob der Fehler bereits
    berichtet wurde:
 
-        http://www.freeciv.org/cgi-bin/bugs
+        https://gna.org/bugs/?group=freeciv
 
  - Übermitteln Sie einen Fehlerbericht!
-
-   Dazu können Sie entweder eine Mail an <bugs@freeciv.freeciv.org> schicken,
-   oder das Web-Interface unter <http://www.freeciv.org/cgi-bin/bugs> benutzen.
-
-   Oder, wenn Sie den Freeciv Entwicklern lieber ein paar Kommentare schicken
-   wollen, mailen Sie an <freeciv-dev@freeciv.org>, die Mailingliste der
-   Freeciv Entwickler.
 
    In Ihrem Fehlerbericht sollte folgendes stehen:
    

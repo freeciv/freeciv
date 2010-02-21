@@ -2,7 +2,7 @@
 BUGS
 ====
 
-Freeciv 1.14.0 est une version "stable" et est considérée comme suffisament
+Freeciv 2.2 est une version "stable" et est considérée comme suffisament
 exempte de bugs pour un usage de tous les jours. Cependant, si vous trouvez un
 bug, nous voulons réellement le savoir afin de pouvoir le corriger. Ce fichier
 liste les bugs connus de la version et donne des informations sur la manière de
@@ -11,7 +11,7 @@ rpporter un nouveau bug.
 Ne sont listés que les bugs les plus évidents. Pour une liste exhaustive, 
 voyez : 
 
-    http://www.freeciv.org/cgi-bin/bugs
+    https://gna.org/bugs/?group=freeciv
 
 BUGS CONNUS :
 ===========
@@ -89,8 +89,8 @@ FAIRE UN RAPPORT DE BUG :
 =======================
 
 (S'il s'agit d'un bug dans la traduction, il doit être rapporté au contact
-primaire pour la langage. Voyez <http://www.freeciv.org/l10n.phtml> pour les
-noms et adresses des personnes.)
+primaire pour la langage. Voyez <http://freeciv.org/wiki/Translations> pour
+les noms et adresses des personnes.)
 
 Voici ce qu'il faut faire :
 
@@ -102,26 +102,22 @@ Voici ce qu'il faut faire :
    En particulier, vous pouvez essayer une version de développement depuis 
 	 notre CVS. Vous pouvez la récupérer à :
 
-        http://www.freeciv.org/latest.html
+        http://download.gna.org/freeciv/latest/
 
  - Vérifiez la FAQ Freeciv dans le site web pour voir si un moyen de contourner
    le bug n'a pas été publié.
 
  - Vérifiez le système de rapport de bugs à :
 
-        http://www.freeciv.org/cgi-bin/bugs
+        https://gna.org/bugs/?group=freeciv
 
    pour voir si le bug n'a pas déjà été rapporté.
 
  - Soumettez un rapport !
 
-   Vous pouvez le faire soit en envoyant un message à 
-	 <bugs@freeciv.freeciv.org>, ou par le web à 
-   <http://www.freeciv.org/cgi-bin/bugs>.
-
    Si vous voulez faire part aux développeurs Freeciv des commentaires sans pour
 	 autant présenter un rapport de bug, vous pouvez envoyer un message à 
-	 <freeciv-dev@freeciv.org>, la liste de diffusion des développeurs Freeciv.
+	 <freeciv-dev@gna.org>, la liste de diffusion des développeurs Freeciv.
 
    A inclure dans votre rapport de bug :
 
