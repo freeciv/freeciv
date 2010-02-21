@@ -666,22 +666,26 @@ msgstr "Grupo"
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:583 common/requirements.c:598
 msgid "World-ranged requirements are only supported for wonders."
-msgstr "Los requisitos a nivel de Mundo sólo están soportados por las maravillas."
+msgstr ""
+"Los requisitos a nivel de Mundo sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:614
 msgid "Player-ranged requirements are only supported for wonders."
-msgstr "Los requisitos a nivel de jugador sólo están soportados por las maravillas."
+msgstr ""
+"Los requisitos a nivel de jugador sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:636
 msgid "Island-ranged requirements are only supported for wonders."
-msgstr "Los requisitos a nivel de isla sólo están soportados por las maravillas."
+msgstr ""
+"Los requisitos a nivel de isla sólo están soportados por las maravillas."
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:686
 msgid "Surviving requirements are only supported at world range."
-msgstr "Los requisitos de supervivencia sólo están soportados a nivel de Mundo."
+msgstr ""
+"Los requisitos de supervivencia sólo están soportados a nivel de Mundo."
 
 #. TRANS: missing value
 #. TRANS: "Resources: (none)"
@@ -1270,7 +1274,8 @@ msgstr "%s ha vendido %s (no se necesitaba) por %d."
 #: ai/advdiplomacy.c:316
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr "*%s (Ordenador)* En modo ausente el Ordenador no puede firmar este tratado"
+msgstr ""
+"*%s (Ordenador)* En modo ausente el Ordenador no puede firmar este tratado"
 
 #: ai/advdiplomacy.c:326
 #, c-format
@@ -1303,7 +1308,8 @@ msgstr ""
 #: ai/advdiplomacy.c:377
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr "*%s (Ordenador)* Sinceramente no confío en tí porque tienes una alianza, %s."
+msgstr ""
+"*%s (Ordenador)* Sinceramente no confío en tí porque tienes una alianza, %s."
 
 #: ai/advdiplomacy.c:471
 #, c-format
@@ -1318,7 +1324,8 @@ msgstr "*%s (Ordenador)* Lo siento pero no es seguro compartir la vision."
 #: ai/advdiplomacy.c:610
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (Ordenador)* ¡Este pacto no nos ha sido muy bueno para nosotros, %s!"
+msgstr ""
+"*%s (Ordenador)* ¡Este pacto no nos ha sido muy bueno para nosotros, %s!"
 
 #: ai/advdiplomacy.c:633
 #, c-format
@@ -1378,7 +1385,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1175
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr "*%s (Ordenador)* ¡Tus chanchullos hostiles te han llevado a esta guerra!"
+msgstr ""
+"*%s (Ordenador)* ¡Tus chanchullos hostiles te han llevado a esta guerra!"
 
 #: ai/advdiplomacy.c:1182
 #, c-format
@@ -1447,7 +1455,8 @@ msgstr[1] ""
 
 #: ai/advdiplomacy.c:1303
 #, c-format
-msgid "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
+msgid ""
+"*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
 msgstr ""
 "*%s (Ordenador)* Si quieres una pieza del botín, ¡no dudes en unirte a la "
 "acción!"
@@ -1637,7 +1646,8 @@ msgstr "No se puede cargar el fichero de config de la autentificacion \"%s\"!"
 #: server/auth.c:396
 #, c-format
 msgid "Warning: the guest name '%s' has been taken, renaming to user '%s'."
-msgstr "Atención: se ha adquirido el nombre del invitado '%s', se le renombra a '%s'."
+msgstr ""
+"Atención: se ha adquirido el nombre del invitado '%s', se le renombra a '%s'."
 
 #: server/auth.c:402
 msgid "Guests are not allowed on this server. Sorry."
@@ -1808,7 +1818,8 @@ msgstr "No se puede usar %s como nombre de ciudad; está reservado para los %s."
 
 #: server/citytools.c:379
 #, c-format
-msgid "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
+msgid ""
+"%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
 "%s no es un nombre válido. Sólo se permite ASCII o nombres del ruleset en "
 "las ciudades."
@@ -1857,7 +1868,8 @@ msgstr "Un unidad reemplazo %s fue construída en %s."
 #: server/citytools.c:926
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
-msgstr "Ya tenías una ciudad llamada %s, así que su nombre se ha cambiado a %s."
+msgstr ""
+"Ya tenías una ciudad llamada %s, así que su nombre se ha cambiado a %s."
 
 #: server/citytools.c:991
 #, c-format
@@ -1883,7 +1895,8 @@ msgstr ""
 
 #: server/citytools.c:1261
 #, c-format
-msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
+msgid ""
+"When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "Cuando se abandonó %s, tu %s no pudo salir, y se quedó varado."
 
 #: server/citytools.c:1405
@@ -1971,7 +1984,8 @@ msgstr "Nota: La maravilla %s de %s se va a terminar el próximo turno."
 
 #: server/cityturn.c:413
 #, c-format
-msgid "Suggest throttling growth in %s to use %s (being built) more effectively."
+msgid ""
+"Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr ""
 "Sería bueno que %s no creciera tan rápido para usar %s (en construcción) de "
 "una forma más efectiva."
@@ -2023,7 +2037,8 @@ msgstr "Destruyes %s por completo."
 
 #: server/cityturn.c:930
 #, c-format
-msgid "%s can't build %s from the worklist; tech not yet available.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas, porque todavía no se dispone "
 "de esa tecnología. Posponiendo..."
@@ -2050,42 +2065,48 @@ msgstr ""
 
 #: server/cityturn.c:1032
 #, c-format
-msgid "%s can't build %s from the worklist; need to have %s first.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita %s. "
 "Posponiendo..."
 
 #: server/cityturn.c:1046
 #, c-format
-msgid "%s can't build %s from the worklist; it needs %s government.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita la forma "
 "de gobierno %s. Posponiendo..."
 
 #: server/cityturn.c:1059
 #, c-format
-msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se requiere el %s "
 "especial. Posponiendo..."
 
 #: server/cityturn.c:1072
 #, c-format
-msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; se necesita el terreno %s. "
 "Posponiendo..."
 
 #: server/cityturn.c:1087
 #, c-format
-msgid "%s can't build %s from the worklist; only %s may build this.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; sólo %s puede producir esto.  "
 "Posponiendo..."
 
 #: server/cityturn.c:1100
 #, c-format
-msgid "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; la ciudad tiene que ser del "
 "tamaño %d. Posponiendo..."
@@ -2110,7 +2131,8 @@ msgstr ""
 
 #: server/cityturn.c:1156
 #, c-format
-msgid "%s can't build %s from the worklist; Only available from %s.  Postponing..."
+msgid ""
+"%s can't build %s from the worklist; Only available from %s.  Postponing..."
 msgstr ""
 "%s no puede producir %s de la lista de tareas; Sólo disponible para %s.  "
 "Posponiendo..."
@@ -2157,8 +2179,10 @@ msgstr "%s ha terminado de producir %s."
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
-msgstr[0] "%s impulsa la investigación; consigues %d descubrimiento inmediatamente."
-msgstr[1] "%s impulsa la investigación; consigues %d descubrimientos inmediatamente."
+msgstr[0] ""
+"%s impulsa la investigación; consigues %d descubrimiento inmediatamente."
+msgstr[1] ""
+"%s impulsa la investigación; consigues %d descubrimientos inmediatamente."
 
 #: server/cityturn.c:1519 server/techtools.c:180
 #, c-format
@@ -2184,7 +2208,8 @@ msgstr "%s ha terminado de producir %s."
 #: server/cityturn.c:1684
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr "¡No hay suficiente dinero para mantener %s en %s, se vende el edificio!"
+msgstr ""
+"¡No hay suficiente dinero para mantener %s en %s, se vende el edificio!"
 
 #: server/cityturn.c:1727
 #, c-format
@@ -2234,7 +2259,8 @@ msgstr "El pueblo ha derrocado a tu %s, tu nación está sumida en revueltas."
 #: server/cityturn.c:2178
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr "%s no puede producir %s todavía, y no podemos abandonar nuestra única ciudad."
+msgstr ""
+"%s no puede producir %s todavía, y no podemos abandonar nuestra única ciudad."
 
 #. TRANS: "<city> is disbanded into Settler."
 #: server/cityturn.c:2206
@@ -2245,7 +2271,8 @@ msgstr "Se abandona %s; sus habitantes ahora son %s."
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2351
 #, c-format
-msgid "Migrants from %s can't go to %s because there is not enough food available!"
+msgid ""
+"Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 "Migrantes de %s no pueden ir a %s porque no hay suficiente alimento "
 "disponible!"
@@ -2272,7 +2299,8 @@ msgstr ""
 
 #: server/cityturn.c:2377
 #, c-format
-msgid "Migrants from %s can't go to %s because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 "Migrantes de %s no puede ir a %s, porque necesita una instalación para "
 "crecer!"
@@ -2280,7 +2308,8 @@ msgstr ""
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
 #: server/cityturn.c:2384
 #, c-format
-msgid "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 "Migrantes de %s no puede ir a %s (%s), porque necesita una instalación para "
 "crecer!"
@@ -2288,7 +2317,8 @@ msgstr ""
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
 #: server/cityturn.c:2389
 #, c-format
-msgid "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
+msgid ""
+"Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 "Migrantes de %s (%s) no puede ir a %s, porque necesita una instalación para "
 "crecer!"
@@ -2319,11 +2349,13 @@ msgstr "Migrantes de %s (%s) se trasladan a %s en busca de una vida mejor."
 #: server/cityturn.c:2601
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
-msgstr "Ciudadanos de %s está pensando en emigrar a %s para tener una vida mejor."
+msgstr ""
+"Ciudadanos de %s está pensando en emigrar a %s para tener una vida mejor."
 
 #: server/cityturn.c:2622
 #, c-format
-msgid "Citizens of %s are thinking about migrating to %s (%s) for a better life."
+msgid ""
+"Citizens of %s are thinking about migrating to %s (%s) for a better life."
 msgstr ""
 "Ciudadanos de %s está pensando en emigrar a %s (%s) para tener una vida "
 "mejor."
@@ -2336,7 +2368,8 @@ msgstr ""
 
 #: server/civserver.c:97
 msgid "You must interrupt Freeciv twice within one second to make it exit.\n"
-msgstr "Debes interrumpir Freeciv dos veces en un segundo para cerrar el programa.\n"
+msgstr ""
+"Debes interrumpir Freeciv dos veces en un segundo para cerrar el programa.\n"
 
 #: server/civserver.c:156
 #, c-format
@@ -2361,7 +2394,8 @@ msgstr "Fallo al ignorar SIGPIPE: %s\n"
 #: server/civserver.c:211
 #, c-format
 msgid "Warning: the %s option is obsolete.  Use -m to enable the metaserver.\n"
-msgstr "Atención: la opción %s está obsoleta.  Usa -m para activar el metaservidor.\n"
+msgstr ""
+"Atención: la opción %s está obsoleta.  Usa -m para activar el metaservidor.\n"
 
 #: server/civserver.c:281
 #, c-format
@@ -2423,10 +2457,12 @@ msgstr ""
 
 #: server/civserver.c:313
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr "  -b  --bind DIRE\tEsperar conexiones de clientes en la dirección DIRE\n"
+msgstr ""
+"  -b  --bind DIRE\tEsperar conexiones de clientes en la dirección DIRE\n"
 
 #: server/civserver.c:315 client/client_main.c:290
-msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
+msgid ""
+"  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tEstablecer el nivel de depuración (de 0 a 4, o 4:fich1,"
 "min,max:...)\n"
@@ -2507,7 +2543,8 @@ msgstr "Informa de los bugs a %s\n"
 
 #: server/commands.c:45
 msgid "Start the game, or restart after loading a savegame."
-msgstr "Comenzar la partida, o volver a empezar tras cargar una partida salvada."
+msgstr ""
+"Comenzar la partida, o volver a empezar tras cargar una partida salvada."
 
 #: server/commands.c:46
 msgid ""
@@ -2680,8 +2717,10 @@ msgid "Send message to all connections."
 msgstr "Envía el mensaje a todas las conexiones."
 
 #: server/commands.c:138
-msgid "For each connected client, pops up a window showing the message entered."
-msgstr "En cada cliente conectado, muestra una ventana con el mensaje especificado."
+msgid ""
+"For each connected client, pops up a window showing the message entered."
+msgstr ""
+"En cada cliente conectado, muestra una ventana con el mensaje especificado."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:144
@@ -2720,12 +2759,15 @@ msgid ""
 "half of the voters who have not abstained vote for it, or fail immediately "
 "if at least half of the voters who have not abstained vote against it."
 msgstr ""
-"Un jugador con nivel de acceso básico provoca que comience un nuevo voto para el comando de nivel de control que se ha entrando. El comando /vote seguido de \"yes\" o \"no\", o \"abstain\" y opcionalmente un número de voto, te "
-"permite votar. Si no se especifica el número de voto, este se aplica al "
-"último comando entrado. Sólo se puede sugerir un solo voto a la vez. El voto "
-"pasará inmediatamente si hay más de la mitad de los votantes que no se han "
-"abstenido que han votado a favor, o se malogrará inmediatamente si al menos "
-"la mitad de los electores que no se han abstenido votan en contra."
+"Un jugador con nivel de acceso básico provoca que comience un nuevo voto "
+"para el comando de nivel de control que se ha entrando. El comando /vote "
+"seguido de \"yes\" o \"no\", o \"abstain\" y opcionalmente un número de "
+"voto, te permite votar. Si no se especifica el número de voto, este se "
+"aplica al último comando entrado. Sólo se puede sugerir un solo voto a la "
+"vez. El voto pasará inmediatamente si hay más de la mitad de los votantes "
+"que no se han abstenido que han votado a favor, o se malogrará "
+"inmediatamente si al menos la mitad de los electores que no se han abstenido "
+"votan en contra."
 
 #: server/commands.c:169
 msgid "Turn on or off AI debugging of given entity."
@@ -2924,7 +2966,8 @@ msgid "Create an AI player with a given name."
 msgstr "Crea un jugador controlado por el ordenador."
 
 #: server/commands.c:273
-msgid "The 'create' command is only available before the game has been started."
+msgid ""
+"The 'create' command is only available before the game has been started."
 msgstr "El comando 'create' sólo está disponible antes de comenzar la partida."
 
 #: server/commands.c:280
@@ -2946,7 +2989,8 @@ msgstr ""
 
 #: server/commands.c:288
 msgid "Set one or all AI players to 'novice'."
-msgstr "Cambia uno o todos los jugadores controlados por el ordenador a 'novato'."
+msgstr ""
+"Cambia uno o todos los jugadores controlados por el ordenador a 'novato'."
 
 #: server/commands.c:289
 msgid ""
@@ -3482,7 +3526,8 @@ msgstr "Piden tu capital (%s), no puedes aceptar el pacto."
 #: server/diplhand.c:249
 #, c-format
 msgid "You cannot form an alliance because you are at war with an ally of %s."
-msgstr "No puedes formar una allianza porque estás en guerra con un aliado de %s."
+msgstr ""
+"No puedes formar una allianza porque estás en guerra con un aliado de %s."
 
 #: server/diplhand.c:260
 msgid "You don't have enough gold, you can't accept treaty."
@@ -3498,7 +3543,8 @@ msgstr[1] "Se ha firmado un pacto con %d puntos."
 #: server/diplhand.c:313 server/diplhand.c:317
 #, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr "¡Una de las ciudades que %s está dando está destruida! ¡Se cancela el pacto!"
+msgstr ""
+"¡Una de las ciudades que %s está dando está destruida! ¡Se cancela el pacto!"
 
 #: server/diplhand.c:324 server/diplhand.c:329
 #, c-format
@@ -3720,7 +3766,8 @@ msgstr "¡Han pillado a tu %s intentando provocar una sublevación!"
 #: server/diplomats.c:755
 #, c-format
 msgid "You caught %s %s attempting to incite a revolt in %s!"
-msgstr "¡Has pillado a un %2$s %1$s intentando incitar una sublevación en %3$s!"
+msgstr ""
+"¡Has pillado a un %2$s %1$s intentando incitar una sublevación en %3$s!"
 
 #: server/diplomats.c:779
 #, c-format
@@ -3822,7 +3869,8 @@ msgstr "Han eliminado %2$s %1$s al infiltrarse con nuestras tropas."
 
 #: server/diplomats.c:1247
 #, c-format
-msgid "Your %s has successfully completed the mission and returned unharmed to %s."
+msgid ""
+"Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "Tu %s ha completado su misión con éxito y ha vuelto ileso a %s."
 
 #: server/diplomats.c:1266
@@ -3884,7 +3932,8 @@ msgstr "No se puede editar la casilla (%d,%d) porque no está en el mapa!"
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:318
 #, c-format
-msgid "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
+msgid ""
+"Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
 "No se puede modificar el terreno para la casilla %s porque %d no es un "
 "identificador válido de terreno."
@@ -3902,7 +3951,8 @@ msgstr ""
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:413
 #, c-format
-msgid "Cannot modify base for the tile %s because %d is not a valid base type id."
+msgid ""
+"Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 "No se puede modificar la base para la casilla %s porque %d no es un tipo de "
 "identificación de base válido."
@@ -3922,7 +3972,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:509
 #, c-format
-msgid "Cannot create a unit at %s because the given unit type id %d is invalid."
+msgid ""
+"Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr ""
 "No se puede crear la unidad en %s porque el identificador %d de tipo de "
 "unidad proporcionado no es válido."
@@ -3961,7 +4012,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:596
 #, c-format
-msgid "Cannot remove a unit at %s because the given unit type id %d is invalid."
+msgid ""
+"Cannot remove a unit at %s because the given unit type id %d is invalid."
 msgstr ""
 "No se puede eliminar la unidad en %s porque la id de tipo de unidad %d dada "
 "es inválida."
@@ -3995,7 +4047,8 @@ msgstr "No se puede crear una ciudad en (%d, %d) porque no está en el mapa!"
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:744
 #, c-format
-msgid "Cannot create a city at %s because the given owner's player id %d is invalid"
+msgid ""
+"Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 "No se puede crear una ciudad en %s porque la id de jugador %d dada es "
 "inválida"
@@ -4028,14 +4081,16 @@ msgstr "No se posible que una ciudad tenga %s!"
 
 #: server/edithand.c:893
 #, c-format
-msgid "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
+msgid ""
+"Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 "Acopio de comida %d de la ciudad %s no válido (rango permitido es de %d a %"
 "d)."
 
 #: server/edithand.c:907
 #, c-format
-msgid "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
+msgid ""
+"Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 "Cantidad de producción %d de la ciudad %s no válido (rango permitido es de %"
 "d a %d)."
@@ -4121,7 +4176,8 @@ msgstr ""
 
 #: server/edithand.c:1195
 #, c-format
-msgid "Cannot edit vision for the tile at (%d, %d) because it is not on the map!"
+msgid ""
+"Cannot edit vision for the tile at (%d, %d) because it is not on the map!"
 msgstr ""
 "No se puede editar la visión de la casilla en (%d,%d) porque no está en el "
 "mapa!"
@@ -4129,7 +4185,8 @@ msgstr ""
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1204
 #, c-format
-msgid "Cannot edit vision for the tile at %s because given player id %d is invalid."
+msgid ""
+"Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 "No se puede editar la visión de la casilla en %s porque el id de jugador %d "
 "dado no es válido."
@@ -4155,7 +4212,8 @@ msgstr ""
 #: server/edithand.c:1340
 #, c-format
 msgid "Cannot place a start position at (%d, %d) because it is not on the map!"
-msgstr "No se pueden poner una posición inicial (%d,%d) porque no está en el mapa!"
+msgstr ""
+"No se pueden poner una posición inicial (%d,%d) porque no está en el mapa!"
 
 #: server/edithand.c:1381
 #, c-format
@@ -4177,7 +4235,8 @@ msgstr ""
 #: server/gamehand.c:159
 #, c-format
 msgid "Sea moving start units are not yet supported. Nobody gets %s."
-msgstr "Aún no están soportadas las unidades navales de inicio. Nadie, recibe %s."
+msgstr ""
+"Aún no están soportadas las unidades navales de inicio. Nadie, recibe %s."
 
 #: server/gamehand.c:314
 #, c-format
@@ -4206,7 +4265,8 @@ msgstr "No se ha podido crear el directorio temporal para el juego GGZ.\n"
 #: server/ggzserver.c:131
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr "No se ha podido cambiar la ruta al directorio temporal del servidor %s.\n"
+msgstr ""
+"No se ha podido cambiar la ruta al directorio temporal del servidor %s.\n"
 
 #: server/ggzserver.c:266 client/ggzclient.c:98
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
@@ -4347,7 +4407,9 @@ msgstr "%s ahora gobierna a los %s como %s."
 msgid ""
 "The tax rates for the %s are changed from %3d%%/%3d%%/%3d%% (tax/luxury/"
 "science) to %3d%%/%3d%%/%3d%%."
-msgstr "Los impuestos de %s han cambiado de  %3d%%/%3d%%/%3d%% (impuestos/lujos/ciencia) a %3d%%/%3d%%/%3d%%."
+msgstr ""
+"Los impuestos de %s han cambiado de  %3d%%/%3d%%/%3d%% (impuestos/lujos/"
+"ciencia) a %3d%%/%3d%%/%3d%%."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -4402,8 +4464,10 @@ msgstr ""
 
 #: server/plrhand.c:584
 #, c-format
-msgid "The senate passes your bill because of the constant provocations of the %s."
-msgstr "El Senado ha aprobado tu ley por las constantes provocaciones de los %s."
+msgid ""
+"The senate passes your bill because of the constant provocations of the %s."
+msgstr ""
+"El Senado ha aprobado tu ley por las constantes provocaciones de los %s."
 
 #: server/plrhand.c:589
 #, c-format
@@ -4430,8 +4494,10 @@ msgstr ""
 
 #: server/plrhand.c:646
 #, c-format
-msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
-msgstr "¡%s ha atacado a uno de tu aliado %s! Tu cancelas la alianza con el agresor."
+msgid ""
+"%s has attacked your ally %s! You cancel your alliance to the aggressor."
+msgstr ""
+"¡%s ha atacado a uno de tu aliado %s! Tu cancelas la alianza con el agresor."
 
 #: server/plrhand.c:658
 #, c-format
@@ -4842,7 +4908,8 @@ msgstr ""
 
 #. TRANS: Fatal error message.
 #: server/savegame.c:4606
-msgid "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
+msgid ""
+"Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La partida grabada usa las reglas \"clásicas\" para el terreno, que ya no "
 "están soportadas."
@@ -4939,7 +5006,8 @@ msgstr ""
 
 #: server/settings.c:144
 msgid "Cannot set endturn earlier than current turn."
-msgstr "No se puede establecer el turno de final de partida a uno menor al actual."
+msgstr ""
+"No se puede establecer el turno de final de partida a uno menor al actual."
 
 #: server/settings.c:161
 msgid "Cannot change maxplayers in GGZ mode."
@@ -5118,7 +5186,8 @@ msgstr "Forzar que los polos sean continentes separados"
 
 #: server/settings.c:335
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
-msgstr "0 = los continentes pueden estart unidos a los polos; 1 = polos separados"
+msgstr ""
+"0 = los continentes pueden estart unidos a los polos; 1 = polos separados"
 
 #: server/settings.c:341
 msgid "All the map is temperate"
@@ -5435,7 +5504,8 @@ msgstr ""
 
 #: server/settings.c:553
 msgid "Penalty when getting tech or gold from treaty"
-msgstr "Penalización cuando se obtiene tecnología o dinero a traves de un pacto"
+msgstr ""
+"Penalización cuando se obtiene tecnología o dinero a traves de un pacto"
 
 #: server/settings.c:554
 msgid ""
@@ -5593,7 +5663,10 @@ msgstr "Número en turnos antes del efecto del éxtasis (crecimiento)"
 msgid ""
 "Sets the number of turns between rapture growth of a city. If set to n a "
 "city will grow after celebrating for n+1 turns."
-msgstr "Establece el número de turnos hasta el éxtasis que debe pasar una ciudad para crecer. Si se le da el valor n, las ciudades crecerán tras estar en celebraciones durante n+1 turnos."
+msgstr ""
+"Establece el número de turnos hasta el éxtasis que debe pasar una ciudad "
+"para crecer. Si se le da el valor n, las ciudades crecerán tras estar en "
+"celebraciones durante n+1 turnos."
 
 #: server/settings.c:674
 msgid "Chance for conquered building destruction"
@@ -5678,7 +5751,8 @@ msgstr ""
 
 #: server/settings.c:725
 msgid "Units inside borders cause no unhappiness"
-msgstr "Las unidades dentro de las fronteras nacionales no causan descontento. "
+msgstr ""
+"Las unidades dentro de las fronteras nacionales no causan descontento. "
 
 #: server/settings.c:726
 msgid ""
@@ -5829,7 +5903,8 @@ msgstr "Permitir o no la carrera espacial"
 
 #: server/settings.c:828
 msgid "If this option is set to 1, players can build spaceships."
-msgstr "Si esta opción vale 1, los jugadores pueden construir naves espaciales."
+msgstr ""
+"Si esta opción vale 1, los jugadores pueden construir naves espaciales."
 
 #: server/settings.c:834
 msgid "Should the game end if the spaceship arrives?"
@@ -5992,7 +6067,8 @@ msgstr ""
 
 #: server/settings.c:933
 msgid "Percent probability for migration within the same nation"
-msgstr "Tanto por ciento de probabilidad de la migración dentro de la misma nación"
+msgstr ""
+"Tanto por ciento de probabilidad de la migración dentro de la misma nación"
 
 #: server/settings.c:934
 msgid ""
@@ -6010,7 +6086,8 @@ msgstr ""
 
 #: server/settings.c:945
 msgid "Percent probability for migration between foreign cities"
-msgstr "Tanto por ciento de probabilidad de migración entre ciudades extranjeras"
+msgstr ""
+"Tanto por ciento de probabilidad de migración entre ciudades extranjeras"
 
 #: server/settings.c:946
 msgid ""
@@ -6142,7 +6219,8 @@ msgstr ""
 
 #: server/settings.c:1027
 msgid "Timeout at least n seconds when enemy moved"
-msgstr "Añade como mínimo n segundos de tiempo cuando un enemino mueva unidades"
+msgstr ""
+"Añade como mínimo n segundos de tiempo cuando un enemino mueva unidades"
 
 #: server/settings.c:1028
 msgid ""
@@ -6215,8 +6293,10 @@ msgid "Time to cut a client"
 msgstr "Plazo de desconexión de un cliente"
 
 #: server/settings.c:1078
-msgid "If a client doesn't reply to a PING in this time the client is disconnected."
-msgstr "Si un cliente no contesta a un PING antes de este plazo, se le desconecta."
+msgid ""
+"If a client doesn't reply to a PING in this time the client is disconnected."
+msgstr ""
+"Si un cliente no contesta a un PING antes de este plazo, se le desconecta."
 
 #: server/settings.c:1084
 msgid "Turn-blocking game play mode"
@@ -6471,11 +6551,13 @@ msgstr "¡No tienes ningún Componente Espacial sin conectar!"
 
 #: server/spacerace.c:248
 msgid "Your spaceship already has the maximum number of Fuel Components!"
-msgstr "¡Tu nave espacial ya tiene el número máximo de Componentes de Combustible!"
+msgstr ""
+"¡Tu nave espacial ya tiene el número máximo de Componentes de Combustible!"
 
 #: server/spacerace.c:269
 msgid "Your spaceship already has the maximum number of Propulsion Components!"
-msgstr "¡Tu nave espacial ya tiene el número máximo de Componentes de Propulsión!"
+msgstr ""
+"¡Tu nave espacial ya tiene el número máximo de Componentes de Propulsión!"
 
 #: server/spacerace.c:285 server/spacerace.c:306 server/spacerace.c:327
 msgid "You don't have any unplaced Space Modules!"
@@ -6487,11 +6569,13 @@ msgstr "¡Tu nave espacial ya tiene el número máximo de Módulos Habitables!"
 
 #: server/spacerace.c:311
 msgid "Your spaceship already has the maximum number of Life Support Modules!"
-msgstr "¡Tu nave espacial ya tiene el número máximo de Módulos de Soporte Vital!"
+msgstr ""
+"¡Tu nave espacial ya tiene el número máximo de Módulos de Soporte Vital!"
 
 #: server/spacerace.c:332
 msgid "Your spaceship already has the maximum number of Solar Panel Modules!"
-msgstr "¡Tu nave espacial ya tiene el número máximo de Módulos de Paneles Solares!"
+msgstr ""
+"¡Tu nave espacial ya tiene el número máximo de Módulos de Paneles Solares!"
 
 #: server/spacerace.c:351
 #, c-format
@@ -6529,11 +6613,13 @@ msgstr "La partida ha acabado en tablas"
 #: server/srv_main.c:506 server/srv_main.c:517
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
-msgstr "Tu %s ha sido desarticulada de acuerdo con tu tratado de paz con los %s."
+msgstr ""
+"Tu %s ha sido desarticulada de acuerdo con tu tratado de paz con los %s."
 
 #: server/srv_main.c:556
 #, c-format
-msgid "Concerned citizens point out that the cease-fire with %s will run out soon."
+msgid ""
+"Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
 "Los ciudadanos, preocupados, te recuerdan que la tregua con %s se acabará "
 "pronto."
@@ -6607,7 +6693,8 @@ msgstr "No se te permite editar."
 #: server/srv_main.c:1436
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
-msgstr "Se ha recibido un paquete de tipo %d de un jugador muerto o de un observador"
+msgstr ""
+"Se ha recibido un paquete de tipo %d de un jugador muerto o de un observador"
 
 #: server/srv_main.c:1538
 msgid "Please choose a non-blank name."
@@ -6680,7 +6767,8 @@ msgstr "Enviando información al metaservidor <%s>"
 
 #: server/srv_main.c:2201
 msgid "Not starting without explicitly requested metaserver connection."
-msgstr "No se reinicia sin haber solicitado expresamente una conexión al metaserver ."
+msgstr ""
+"No se reinicia sin haber solicitado expresamente una conexión al metaserver ."
 
 #: server/srv_main.c:2232
 msgid "The game is over..."
@@ -6795,7 +6883,8 @@ msgstr "El mensaje del metaservidor se cambió a '%s'."
 #: server/stdinhand.c:504
 #, c-format
 msgid "Metaserver message string set to '%s', not reporting to metaserver."
-msgstr "El mensaje del metaservidor se cambió a '%s', sin informar al metaservidor."
+msgstr ""
+"El mensaje del metaservidor se cambió a '%s', sin informar al metaservidor."
 
 #: server/stdinhand.c:525
 #, c-format
@@ -6878,7 +6967,8 @@ msgstr "%s reemplazando a %s cómo un jugador del ordenador."
 
 #: server/stdinhand.c:857
 msgid "Players cannot be removed once the game has started."
-msgstr "No se puede eliminar a los jugadores cuando la partida ya ha comenzado."
+msgstr ""
+"No se puede eliminar a los jugadores cuando la partida ya ha comenzado."
 
 #: server/stdinhand.c:869
 #, c-format
@@ -6937,7 +7027,8 @@ msgstr "Se le ha dado el mivel de acceso a comandos '%s' a la conexión %s."
 
 #: server/stdinhand.c:1144
 #, c-format
-msgid "Anyone can now become game organizer '%s' by issuing the 'first' command."
+msgid ""
+"Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
 "Cualquiera puede asumir ahora el nivel organizador '%s' usando el comando "
 "'first'."
@@ -6968,7 +7059,8 @@ msgstr "Error: el nivel de acceso a comandos debe ser uno de %s."
 
 #: server/stdinhand.c:1201
 #, c-format
-msgid "Cannot increase command access level to '%s'; you only have '%s' yourself."
+msgid ""
+"Cannot increase command access level to '%s'; you only have '%s' yourself."
 msgstr ""
 "No puedes aumentar el nivel de acceso a comandos a '%s'; tú mismo sólo "
 "tienes '%s'."
@@ -6976,7 +7068,8 @@ msgstr ""
 #: server/stdinhand.c:1228 server/stdinhand.c:1242 server/stdinhand.c:1263
 #, c-format
 msgid "Command access level set to '%s' for new players."
-msgstr "El nivel de acceso a comandos para nuevas conexiones se ha establecido en %s."
+msgstr ""
+"El nivel de acceso a comandos para nuevas conexiones se ha establecido en %s."
 
 #: server/stdinhand.c:1233 server/stdinhand.c:1247 server/stdinhand.c:1257
 #, c-format
@@ -6987,7 +7080,8 @@ msgstr ""
 
 #: server/stdinhand.c:1292
 msgid "The 'first' command makes no sense from the server command line."
-msgstr "El comando 'first' no tiene sentido en la línea de comandos del servidor."
+msgstr ""
+"El comando 'first' no tiene sentido en la línea de comandos del servidor."
 
 #: server/stdinhand.c:1296
 #, c-format
@@ -7471,11 +7565,13 @@ msgstr "Lo siento, en esta partida no se permite controlar a los bárbaros."
 
 #: server/stdinhand.c:2696
 msgid "Sorry, one can't observe dead players in this game."
-msgstr "Lo siento, en esta partida no se permite observar a los jugadores muertos."
+msgstr ""
+"Lo siento, en esta partida no se permite observar a los jugadores muertos."
 
 #: server/stdinhand.c:2699
 msgid "Sorry, one can't take dead players in this game."
-msgstr "Lo siento, en esta partida no se permite controlar a los jugadores muertos."
+msgstr ""
+"Lo siento, en esta partida no se permite controlar a los jugadores muertos."
 
 #: server/stdinhand.c:2709
 msgid "Sorry, one can't observe AI players in this game."
@@ -7491,11 +7587,13 @@ msgstr ""
 
 #: server/stdinhand.c:2722
 msgid "Sorry, one can't observe human players in this game."
-msgstr "Lo siento, en esta partida no se permite observar a los jugadores humanos."
+msgstr ""
+"Lo siento, en esta partida no se permite observar a los jugadores humanos."
 
 #: server/stdinhand.c:2726
 msgid "Sorry, one can't take human players in this game."
-msgstr "Lo siento, en esta partida no se permite controlar a los jugadores humanos."
+msgstr ""
+"Lo siento, en esta partida no se permite controlar a los jugadores humanos."
 
 #: server/stdinhand.c:2736
 msgid "Sorry, one can't observe in this game."
@@ -7507,7 +7605,8 @@ msgstr "Lo siento, en esta partida no se permite controlar otros jugadores."
 
 #: server/stdinhand.c:2748
 msgid "Sorry, one can't take players already connected in this game."
-msgstr "Lo siento, en esta partida no se permite controlar jugadores ya conectados."
+msgstr ""
+"Lo siento, en esta partida no se permite controlar jugadores ya conectados."
 
 #: server/stdinhand.c:2785 server/stdinhand.c:2933
 msgid "Only the player name form is allowed."
@@ -7663,7 +7762,8 @@ msgstr "Lo siento, no se te permite usar comandos del servidor."
 #: server/stdinhand.c:3563
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
-msgstr "Aviso: '%s' se interpreta como '%s', pero es ambiguo.  Prueba '%shelp'."
+msgstr ""
+"Aviso: '%s' se interpreta como '%s', pero es ambiguo.  Prueba '%shelp'."
 
 #: server/stdinhand.c:3568
 #, c-format
@@ -7697,7 +7797,8 @@ msgid "Game ended in a draw."
 msgstr "La partida ha acabado en tablas"
 
 #: server/stdinhand.c:3755
-msgid "Ending the game. The server will restart once all clients have disconnected."
+msgid ""
+"Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 "El juego se ha acabado. El servidor se reiniciará cuando todos los clientes "
 "se desconecten."
@@ -7734,14 +7835,16 @@ msgstr "No hay jugadores, no se puede empezar la partida."
 
 #: server/stdinhand.c:3892
 msgid "Not enough nations for all players, game will not start."
-msgstr "No hay naciones para todos los jugadores, no se puede empezar la partida."
+msgstr ""
+"No hay naciones para todos los jugadores, no se puede empezar la partida."
 
 #: server/stdinhand.c:3901
 msgid "All players are ready; starting game."
 msgstr "Todos los jugadorres están preparados; comenzando la partida."
 
 #: server/stdinhand.c:3917
-msgid "Cannot start the game: the game is waiting for all clients to disconnect."
+msgid ""
+"Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 "No se puede empezar la partida: el juego está esperando que todos los "
 "clientes se desconecten."
@@ -7960,7 +8063,8 @@ msgstr "¡El descubrimiento de %s DEJA OBSOLETO %s en %s!"
 #: server/techtools.c:359
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "Hemos descubierto %s. Nuestros científicos se dedican a %s, la meta es %s."
+msgstr ""
+"Hemos descubierto %s. Nuestros científicos se dedican a %s, la meta es %s."
 
 #: server/techtools.c:376
 #, c-format
@@ -8192,7 +8296,8 @@ msgstr "Tu %s ayuda a construir %s en %s (%d de superávit)."
 
 #: server/unithand.c:1460
 #, c-format
-msgid "Sorry, your %s cannot establish a trade route because it has no home city"
+msgid ""
+"Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
 "¡Lo siento, tu %s no puede establecer una ruta comercial porque no pertenece "
 "a ninguna ciudad!"
@@ -8239,7 +8344,8 @@ msgstr "La ruta comercial entre %s y %s ha sido cancelada."
 #: server/unithand.c:1601 server/unithand.c:1623
 #, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr "Lo siento, los %s han cancelado la ruta comercial de %s a tu ciudad %s."
+msgstr ""
+"Lo siento, los %s han cancelado la ruta comercial de %s a tu ciudad %s."
 
 #: server/unittools.c:266
 #, c-format
@@ -8305,7 +8411,8 @@ msgstr "%s ha escapado de la destrucción de %s y se ha ido a %s."
 #: server/unittools.c:1675
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
-msgstr "Has capturado a un jefe bárbaro, y obtienes %d monedas de oro como rescate."
+msgstr ""
+"Has capturado a un jefe bárbaro, y obtienes %d monedas de oro como rescate."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1693
@@ -8323,9 +8430,12 @@ msgstr "Has perdido un %1$s bajo un ataque de un %3$s %2$s."
 #: server/unittools.c:1736
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
-msgid_plural "Your attacking %s succeeded against the %s %s (and %d other units)!"
-msgstr[0] "¡Tu %1$s ha atacado y destruido a un %3$s de %2$s (y %4$d unidad más)!"
-msgstr[1] "¡Tu %1$s ha atacado y destruido a un %3$s de %2$s (y %4$d unidades más)!"
+msgid_plural ""
+"Your attacking %s succeeded against the %s %s (and %d other units)!"
+msgstr[0] ""
+"¡Tu %1$s ha atacado y destruido a un %3$s de %2$s (y %4$d unidad más)!"
+msgstr[1] ""
+"¡Tu %1$s ha atacado y destruido a un %3$s de %2$s (y %4$d unidades más)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -8348,8 +8458,10 @@ msgstr "Has perdido un %1$s (y %2$s) bajo un ataque de un %4$s %3$s."
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
-msgstr[0] "Has perdido un %1$s y %2$d unidad más bajo un ataque de un %4$s %3$s."
-msgstr[1] "Has perdido un %1$s y %2$d unidades más bajo un ataque de un %4$s %3$s."
+msgstr[0] ""
+"Has perdido un %1$s y %2$d unidad más bajo un ataque de un %4$s %3$s."
+msgstr[1] ""
+"Has perdido un %1$s y %2$d unidades más bajo un ataque de un %4$s %3$s."
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -8417,7 +8529,8 @@ msgstr "Esta unidad no se puede tirar en paracaídas sobre %s."
 #: server/unittools.c:2276
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
-msgstr "La distancia al objetivo (%i) es mayor que el alcance de la unidad (%i)."
+msgstr ""
+"La distancia al objetivo (%i) es mayor que el alcance de la unidad (%i)."
 
 #: server/unittools.c:2287
 #, c-format
@@ -8462,7 +8575,8 @@ msgstr "Órdenes de %s abortadas porque hay unidades cerca."
 #: server/unittools.c:3193
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
-msgstr "Órdenes de %s abortadas porque la construcción de la ciudad fue imposible."
+msgstr ""
+"Órdenes de %s abortadas porque la construcción de la ciudad fue imposible."
 
 #: server/unittools.c:3209
 #, c-format
@@ -8506,7 +8620,8 @@ msgstr "Tu %s tiene órdenes inválidas."
 
 #: server/voting.c:520
 #, c-format
-msgid "%s %d \"%s\" is passed %d to %d with %d abstentions and %d who did not vote."
+msgid ""
+"%s %d \"%s\" is passed %d to %d with %d abstentions and %d who did not vote."
 msgstr "%s %d \"%s\" pasó %d a %d con %d abstenciones y %d que no votaron."
 
 #: server/voting.c:526
@@ -8576,7 +8691,8 @@ msgstr ""
 "Quizás el número de jugadores es excesivo para este mapa."
 
 #: client/attribute.c:366
-msgid "There has been a CMA error.  Your citizen governor settings may be broken."
+msgid ""
+"There has been a CMA error.  Your citizen governor settings may be broken."
 msgstr ""
 "Ha habido un error de CMA. Tu configuración del gobernador CMA poden estar "
 "corruptas."
@@ -9129,7 +9245,8 @@ msgstr ""
 #: client/client_main.c:306
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
-msgstr "  -P, --Plugin PLUGIN\tUsar el PLUGIN para la reproducción de sonido %s\n"
+msgstr ""
+"  -P, --Plugin PLUGIN\tUsar el PLUGIN para la reproducción de sonido %s\n"
 
 #: client/client_main.c:308
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
@@ -9139,7 +9256,8 @@ msgstr ""
 
 #: client/client_main.c:311
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
-msgstr "  -s, --server HOST\tConectarse al servidor en HOST (normalmente con -a)\n"
+msgstr ""
+"  -s, --server HOST\tConectarse al servidor en HOST (normalmente con -a)\n"
 
 #: client/client_main.c:313
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
@@ -9170,7 +9288,8 @@ msgstr "Prueba usando --help.\n"
 #: client/client_main.c:361
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
-msgstr "Nivel de depuración \"%s\" inválido, especificado con la opción --debug.\n"
+msgstr ""
+"Nivel de depuración \"%s\" inválido, especificado con la opción --debug.\n"
 
 #: client/client_main.c:381
 #, c-format
@@ -9335,7 +9454,8 @@ msgstr ""
 
 #: client/clinet.c:486
 msgid "Connection to server refused. Please start the server."
-msgstr "Rechazado la conexión con el servidor.  Por favor, ejecuta el servidor."
+msgstr ""
+"Rechazado la conexión con el servidor.  Por favor, ejecuta el servidor."
 
 #: client/clinet.c:495 client/clinet.c:522
 #, c-format
@@ -9376,7 +9496,8 @@ msgid "We probably couldn't start it from here."
 msgstr "Probablemente no lo hemos podido iniciar desde aquí."
 
 #: client/connectdlg_common.c:500
-msgid "Established control over the server. You have command access level 'hack'."
+msgid ""
+"Established control over the server. You have command access level 'hack'."
 msgstr ""
 "Establecido el control sobre el servidor. Tu tienes el nivel de acceso a "
 "comandos 'hack'."
@@ -9816,7 +9937,8 @@ msgstr "* El descubrimiento de %s dejará obsoleto %s.\n"
 #: client/helpdata.c:1045
 #, c-format
 msgid "* Allows all players with knowledge of %s to build %s units.\n"
-msgstr "* Permite a todos los jugadores que conozcan %s construir unidades %s.\n"
+msgstr ""
+"* Permite a todos los jugadores que conozcan %s construir unidades %s.\n"
 
 #: client/helpdata.c:1058
 #, c-format
@@ -9982,7 +10104,8 @@ msgstr "* Puede construir huertas ( si %s es conocido).\n"
 #: client/helpdata.c:1276
 #, c-format
 msgid "* Can build farmland (if any of the following are known: %s).\n"
-msgstr "* Puede construir huertas (si alguno de los siguientes son conocidos: %s).\n"
+msgstr ""
+"* Puede construir huertas (si alguno de los siguientes son conocidos: %s).\n"
 
 #: client/helpdata.c:1282
 msgid "* Can build fortresses.\n"
@@ -10016,7 +10139,8 @@ msgstr "* Defiende las ciudades de las acciones diplomáticas.\n"
 
 #: client/helpdata.c:1304
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
-msgstr "* Nunca perderá un combate de un diplomático contra otro diplomático.\n"
+msgstr ""
+"* Nunca perderá un combate de un diplomático contra otro diplomático.\n"
 
 #: client/helpdata.c:1307
 msgid "* May not be bribed.\n"
@@ -10024,11 +10148,13 @@ msgstr "* No se puede sobornar.\n"
 
 #: client/helpdata.c:1311
 msgid "* Is invisible except when next to an enemy unit or city.\n"
-msgstr "* Es invisible excepto cuando está junto a una ciudad o unidad enemiga.\n"
+msgstr ""
+"* Es invisible excepto cuando está junto a una ciudad o unidad enemiga.\n"
 
 #: client/helpdata.c:1315
 msgid "* Can only attack units on ocean tiles (no land attacks).\n"
-msgstr "* Sólo puede atacar a unidades en casillas de océano (no ataca a tierra).\n"
+msgstr ""
+"* Sólo puede atacar a unidades en casillas de océano (no ataca a tierra).\n"
 
 #: client/helpdata.c:1319
 msgid ""
@@ -10040,7 +10166,8 @@ msgstr ""
 
 #: client/helpdata.c:1324
 #, c-format
-msgid "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
+msgid ""
+"* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
 msgstr ""
 "* Se puede tirar en paracaídas desde una ciudad amiga o base aérea (Alcance: "
 "%d casillas).\n"
@@ -10055,7 +10182,8 @@ msgstr "* Es una unidad 'a caballo' (eso importa contra ciertos defensores).\n"
 
 #: client/helpdata.c:1338
 msgid "* Counts as 'helicopter' against certain attackers.\n"
-msgstr "* Es una unidad 'helicóptero' (eso importa contra ciertos defensores).\n"
+msgstr ""
+"* Es una unidad 'helicóptero' (eso importa contra ciertos defensores).\n"
 
 #: client/helpdata.c:1342
 msgid "* Very good at attacking 'helicopter' units.\n"
@@ -10186,14 +10314,17 @@ msgstr ", "
 #, c-format
 msgid "* Unit has to be in a city, or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or a base after %d turns.\n"
-msgstr[0] "* La unidad tiene que acabar en una ciudad o una base cada %d turno.\n"
-msgstr[1] "* La unidad tiene que acabar en una ciudad o una base cada %d turnos.\n"
+msgstr[0] ""
+"* La unidad tiene que acabar en una ciudad o una base cada %d turno.\n"
+msgstr[1] ""
+"* La unidad tiene que acabar en una ciudad o una base cada %d turnos.\n"
 
 #: client/helpdata.c:1510
 #, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
-msgstr[0] "* La unidad tiene que acabar en una ciudad, una base o un %s cada %d turno.\n"
+msgstr[0] ""
+"* La unidad tiene que acabar en una ciudad, una base o un %s cada %d turno.\n"
 msgstr[1] ""
 "* La unidad tiene que acabar en una ciudad, una base o un %s cada %d "
 "turnos.\n"
@@ -10229,7 +10360,8 @@ msgstr " Este número puede cambiar según lo que investiguen otros jugadores.\n"
 #: client/helpdata.c:1589
 #, c-format
 msgid "* The first player to research %s gets an immediate advance.\n"
-msgstr "* El primer jugador que descubra %s obtiene un avance inmediatamente.\n"
+msgstr ""
+"* El primer jugador que descubra %s obtiene un avance inmediatamente.\n"
 
 #: client/helpdata.c:1595
 msgid "* Increases the pollution generated by the population.\n"
@@ -10299,14 +10431,18 @@ msgstr[1] ""
 msgid ""
 "* Each of your cities will avoid %d unhappiness, not including that caused "
 "by units.\n"
-msgstr "* Cada una de tus ciudades evitará %d descontentos, no incluidos los causados por las unidades.\n"
+msgstr ""
+"* Cada una de tus ciudades evitará %d descontentos, no incluidos los "
+"causados por las unidades.\n"
 
 #: client/helpdata.c:1851
 #, c-format
 msgid ""
 "* Each of your cities will avoid %d unhappiness, including unhappiness "
 "caused by units.\n"
-msgstr "* Cada una de tus ciudades evitará %d descontentos, incluidos los causados por las unidades.\n"
+msgstr ""
+"* Cada una de tus ciudades evitará %d descontentos, incluidos los causados "
+"por las unidades.\n"
 
 #. TRANS: %s is the output type, like 'shield' or 'gold'.
 #: client/helpdata.c:1859
@@ -10344,12 +10480,14 @@ msgstr ""
 #: client/helpdata.c:1890
 #, c-format
 msgid "* Each of your cities will avoid paying %d upkeep for your units.\n"
-msgstr "* Cada una de tus ciudades evitará pagar %d de sustento para tus unidades.\n"
+msgstr ""
+"* Cada una de tus ciudades evitará pagar %d de sustento para tus unidades.\n"
 
 #: client/helpdata.c:1897
 #, c-format
 msgid "* If you lose your capital, the chance of civil war is %d%%.\n"
-msgstr "* Si tu pierdes tu capital, la posibilidad de una guerra civil es %d%%.\n"
+msgstr ""
+"* Si tu pierdes tu capital, la posibilidad de una guerra civil es %d%%.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1904
@@ -10373,8 +10511,10 @@ msgstr ""
 
 #: client/helpdata.c:1919
 #, c-format
-msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "El máxima tasa que puedes imponer para Ciencia, Oro, o Lujos es %d%%.\n"
+msgid ""
+"* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
+msgstr ""
+"El máxima tasa que puedes imponer para Ciencia, Oro, o Lujos es %d%%.\n"
 
 #: client/helpdata.c:1924
 msgid "* Has unlimited science/gold/luxuries rates.\n"
@@ -10529,7 +10669,8 @@ msgstr "* Disminuye la posibilidad de plagas en tus ciudades.\n"
 #: client/helpdata.c:2071
 #, c-format
 msgid "* %s losses will increase quickly with distance from capital.\n"
-msgstr "* El desperdicio de %s aumenta rápidamente con la distancia a la capital.\n"
+msgstr ""
+"* El desperdicio de %s aumenta rápidamente con la distancia a la capital.\n"
 
 #. TRANS: %s is list of output types, with 'and'
 #: client/helpdata.c:2077
@@ -10541,7 +10682,8 @@ msgstr "* El desperdicio de %s aumentará con la distancia a la capital.\n"
 #: client/helpdata.c:2083
 #, c-format
 msgid "* %s losses will increase slowly with distance from capital.\n"
-msgstr "* El desperdicio de %s aumentará lentamente con la distancia a la capital.\n"
+msgstr ""
+"* El desperdicio de %s aumentará lentamente con la distancia a la capital.\n"
 
 #: client/helpdata.c:2089
 msgid "* Increases the chance of migration into your cities.\n"
@@ -10729,7 +10871,8 @@ msgstr "Mostrar los nombres de las ciudades"
 
 #: client/options.c:515
 msgid "Setting this option will draw the names of the cities on the map."
-msgstr "Activando esta opción, se mostrarán los nombres de las ciudades en el mapa."
+msgstr ""
+"Activando esta opción, se mostrarán los nombres de las ciudades en el mapa."
 
 #: client/options.c:519
 msgid "Draw the city growth"
@@ -10793,7 +10936,8 @@ msgstr "Mostrar la linea de la costa"
 
 #: client/options.c:544
 msgid "Setting this option will draw a line to separate the land of the ocean."
-msgstr "Activando esta opción, se mostrará una linea para separar la tierra del mar."
+msgstr ""
+"Activando esta opción, se mostrará una linea para separar la tierra del mar."
 
 #: client/options.c:548
 msgid "Draw the roads and the railroads"
@@ -10835,7 +10979,8 @@ msgstr "Mostrar los especiales"
 
 #: client/options.c:567
 msgid "Setting this option will draw the specials on the map."
-msgstr "Activando esta opción se mostrarán los especiales de las casillas en el mapa."
+msgstr ""
+"Activando esta opción se mostrarán los especiales de las casillas en el mapa."
 
 #: client/options.c:571
 msgid "Draw the pollution/nuclear fallouts"
@@ -11228,7 +11373,10 @@ msgid ""
 msgstr ""
 "Al habilitar esta opción hará que las órdenes de las unidades se borren "
 "cuando una o más unidades se seleccionen. Si esta opción está desactivada, "
-"la selección de las unidades no hará cesar su actividad actual. Cuando se den nuevas órdenes, sus órdenes serán borradas; presionar <espacio> una vez borrará sus órdenes y las dejará seleccionados, y presionar <espacio> una segunda vez las ignorará."
+"la selección de las unidades no hará cesar su actividad actual. Cuando se "
+"den nuevas órdenes, sus órdenes serán borradas; presionar <espacio> una vez "
+"borrará sus órdenes y las dejará seleccionados, y presionar <espacio> una "
+"segunda vez las ignorará."
 
 #: client/options.c:748
 msgid "Enable vote bar"
@@ -11299,7 +11447,8 @@ msgid "Borders layer"
 msgstr "Capa de fronteras"
 
 #: client/options.c:779
-msgid "The borders layer of the overview shows which tiles are owned by each player."
+msgid ""
+"The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 "La capa de fronteras de la vista general muestra qué casillas pertenecen a "
 "cada jugador."
@@ -11349,7 +11498,8 @@ msgstr "Mostrar barras de desplazamiento en el mapa"
 
 #: client/options.c:805
 msgid "Disable this option to hide the scrollbars on the map view."
-msgstr "Desactiva esta opción para ocultar las barras laterales en la vista del mapa."
+msgstr ""
+"Desactiva esta opción para ocultar las barras laterales en la vista del mapa."
 
 #: client/options.c:808
 msgid "Keep dialogs on top"
@@ -11650,7 +11800,8 @@ msgid "Requirement Tree"
 msgstr "Árbol de requisitos"
 
 #: client/options.c:967
-msgid "This font is used to the display the requirement tree in the science report."
+msgid ""
+"This font is used to the display the requirement tree in the science report."
 msgstr ""
 "Esta fuente se utiliza para mostrar el árbol de requisitos en el informe de "
 "la ciencia."
@@ -11660,8 +11811,10 @@ msgid "Full Screen"
 msgstr "Pantalla Completa"
 
 #: client/options.c:974
-msgid "If this option is set the client will use the whole screen area for drawing"
-msgstr "Si es activa esta opción, el cliente usará toda la pantalla para la ventana"
+msgid ""
+"If this option is set the client will use the whole screen area for drawing"
+msgstr ""
+"Si es activa esta opción, el cliente usará toda la pantalla para la ventana"
 
 #: client/options.c:977
 msgid "Screen width"
@@ -12567,7 +12720,8 @@ msgstr "Lujo: %d en total."
 
 #: client/tilespec.c:909
 msgid "No usable default tileset found, aborting!"
-msgstr "No encuentro un aspecto (tileset) por defecto que pueda usar, ¡cancelando!"
+msgstr ""
+"No encuentro un aspecto (tileset) por defecto que pueda usar, ¡cancelando!"
 
 #: client/tilespec.c:941
 #, c-format
@@ -12590,7 +12744,8 @@ msgstr "Usando el tileset por defecto."
 
 #: client/tilespec.c:1381
 msgid "Client does not support overhead view tilesets."
-msgstr "El cliente no soporta los aspectos de vista superior (overhead view tileset)."
+msgstr ""
+"El cliente no soporta los aspectos de vista superior (overhead view tileset)."
 
 #: client/tilespec.c:4240
 msgid "Paths longer than 99 turns are not supported."
@@ -14472,7 +14627,8 @@ msgstr ""
 
 #: client/gui-gtk-2.0/mapview.c:668 client/gui-win32/canvas.c:280
 msgid "Better fog will only work in truecolor.  Disabling it"
-msgstr "Mejor neblina de la guerra sólo funcionará mejor en truecolor. Se deshabilita"
+msgstr ""
+"Mejor neblina de la guerra sólo funcionará mejor en truecolor. Se deshabilita"
 
 #: client/gui-gtk-2.0/menu.c:184
 msgid "Leaving a local game will end it!"
@@ -15046,7 +15202,8 @@ msgid ""
 "window"
 msgstr ""
 "¿Dónde mostrar los mensajes?\n"
-"Ventana de <b>sal</b>ida ; Ventana de <b>men</b>sajes ; Ventana <b>eme</b>rgente individual"
+"Ventana de <b>sal</b>ida ; Ventana de <b>men</b>sajes ; Ventana <b>eme</"
+"b>rgente individual"
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
@@ -16415,7 +16572,8 @@ msgstr "No se puede convertir la imagen del fichero %s al formato %d."
 #: client/gui-sdl/graphics.c:344
 #, c-format
 msgid "Unable to create Sprite (Surface) of size %d x %d %d Bits in format %d"
-msgstr "No se puede crear un Sprite (Área) de tamaño %d x %d %d Bits en formato %d"
+msgstr ""
+"No se puede crear un Sprite (Área) de tamaño %d x %d %d Bits en formato %d"
 
 #: client/gui-sdl/graphics.c:1012
 #, c-format
@@ -18915,7 +19073,16 @@ msgid ""
 "the computer. All players begin at the dawn of history with a handful of "
 "units -- typically with an explorer and a couple of settlers in 4000 BC -- "
 "and race to expand outward from those humble beginnings."
-msgstr "Freeciv es un juego de estrategia basado en turnos, en el que cada jugador se convierte en el líder de una civilización. Puedes competir contra varios oponentes fundando ciudades, utilizándolas para soportar una fuerza militar y económica, para finalmente, completar un imperio que sobrevive a todas las relaciones con sus vecinos para salir victorioso. Cada oponente puede ser otro ser humano, o ser controlado por la computadora. Todos los jugadores comienzan en los albores de la historia con un puñado de unidades - normalmente con un explorador y un par de colonos en 4000 aC - y luchan para crecer y expandirse a partir de esos humildes comienzos."
+msgstr ""
+"Freeciv es un juego de estrategia basado en turnos, en el que cada jugador "
+"se convierte en el líder de una civilización. Puedes competir contra varios "
+"oponentes fundando ciudades, utilizándolas para soportar una fuerza militar "
+"y económica, para finalmente, completar un imperio que sobrevive a todas las "
+"relaciones con sus vecinos para salir victorioso. Cada oponente puede ser "
+"otro ser humano, o ser controlado por la computadora. Todos los jugadores "
+"comienzan en los albores de la historia con un puñado de unidades - "
+"normalmente con un explorador y un par de colonos en 4000 aC - y luchan para "
+"crecer y expandirse a partir de esos humildes comienzos."
 
 #: data/helpdata.txt:48
 msgid ""
@@ -18923,21 +19090,31 @@ msgid ""
 "strength, and technological development. Not only must you develop all three "
 "in concert to both expand and successfully defend your empire, but any of "
 "the three may provide victory over your opponents:"
-msgstr "Lograr el éxito requiere un equilibrio entre la expansión económica, la fuerza militar, y el desarrollo tecnológico. No sólo hay que desarrollar los tres en conjunto para expandir y defender con éxito su imperio, pero cualquiera ellos puede proporcionar la victoria sobre sus oponentes:"
+msgstr ""
+"Lograr el éxito requiere un equilibrio entre la expansión económica, la "
+"fuerza militar, y el desarrollo tecnológico. No sólo hay que desarrollar los "
+"tres en conjunto para expandir y defender con éxito su imperio, pero "
+"cualquiera ellos puede proporcionar la victoria sobre sus oponentes:"
 
 #: data/helpdata.txt:54
 msgid ""
 " - As in other games of conquest and expansion, you are declared the winner "
 "by default once the last city and unit of every other civilization is "
 "destroyed."
-msgstr "- Como en otros juegos de conquista y expansión, tu serás el ganador por defecto cuando se destruya la última ciudad y unidad de todas las otras civilizaciones."
+msgstr ""
+"- Como en otros juegos de conquista y expansión, tu serás el ganador por "
+"defecto cuando se destruya la última ciudad y unidad de todas las otras "
+"civilizaciones."
 
 #: data/helpdata.txt:58
 msgid ""
 " - Once technological progress has brought you into the space age, you may "
 "launch a spacecraft destined for Alpha Centauri; the first civilization "
 "whose craft reaches the system wins."
-msgstr "- Una vez que el progreso tecnológico te haya impulsado a la era espacial, puedes fletar una nave espacial destinada a Alpha Centauri; la primera civilización cuya nave llega primero al sistema gana."
+msgstr ""
+"- Una vez que el progreso tecnológico te haya impulsado a la era espacial, "
+"puedes fletar una nave espacial destinada a Alpha Centauri; la primera "
+"civilización cuya nave llega primero al sistema gana."
 
 #: data/helpdata.txt:62
 msgid ""
@@ -18945,7 +19122,11 @@ msgid ""
 "the year 2000 AD if no spacecraft have yet been launched. The surviving "
 "civilizations are then rated, and the one with the highest score is the "
 "winner."
-msgstr "- A falta de otros medios para determinar la victoria, el juego terminará en el año 2000 AD, si no hay ninguna nave espacial que se haya puesto en marcha. Las civilizaciones que sobreviven son entonces evaluadas, y el jugador con la puntuación más alta será el ganador."
+msgstr ""
+"- A falta de otros medios para determinar la victoria, el juego terminará en "
+"el año 2000 AD, si no hay ninguna nave espacial que se haya puesto en "
+"marcha. Las civilizaciones que sobreviven son entonces evaluadas, y el "
+"jugador con la puntuación más alta será el ganador."
 
 #: data/helpdata.txt:70
 msgid "Strategy and tactics"
@@ -19423,10 +19604,11 @@ msgstr ""
 "cantidad producida depende del terreno. Estos tres productos son tan "
 "importantes que especificamos el rendimiento de una casilla simplemente "
 "listándolos con barras en medio: por ejemplo, \"1/2/0\", describe una "
-"casilla que cada turno cuando se trabaja produce un punto de comida, "
-"dos puntos de producción, y nada de comercio. Además de la producción "
+"casilla que cada turno cuando se trabaja produce un punto de comida, dos "
+"puntos de producción, y nada de comercio. Además de la producción "
 "característica del terreno, algunas casillas tienen recursos especiales "
-"adicionales que aumentan uno o dos de los productos. Mira la sección de Economía para más información en el uso de estos productos."
+"adicionales que aumentan uno o dos de los productos. Mira la sección de "
+"Economía para más información en el uso de estos productos."
 
 #: data/helpdata.txt:300
 msgid ""
@@ -19444,7 +19626,10 @@ msgid ""
 "Cities for more detail."
 msgstr ""
 "Es posible que las unidades puedan cambiar el terreno y por lo tanto sus "
-"efectos; Vea la sección sobre las alteraciones del terreno para más detalles. Los centros de las ciudades (la casilla donde está la ciudad) reciben estos beneficios gratis, mira la sección de las Ciudades para más detalles."
+"efectos; Vea la sección sobre las alteraciones del terreno para más "
+"detalles. Los centros de las ciudades (la casilla donde está la ciudad) "
+"reciben estos beneficios gratis, mira la sección de las Ciudades para más "
+"detalles."
 
 #: data/helpdata.txt:314
 msgid " Terrain Alterations"
@@ -19467,7 +19652,15 @@ msgid ""
 "the target tile. Once irrigated, land remains so even if the water source is "
 "removed. Given sufficient technology, you may upgrade the irrigation system "
 "on a tile into even more productive Farmland by irrigating it a second time."
-msgstr "Se pueden crear regadíos en los terrenos adecuados. El regadío produce más comida extra en la casilla cada turno. Esto requiere la existencia de una fuente de agua cercana: un Océano, Lago, Río o otra casilla colindante con irrigación que comparten un borde (no sólo una esquina) con la casilla en cuestión. Una vez irrigada, la tierra permanece así incluso si se elimina la fuente de agua. Además, si dispones de la tecnología apropiada, puedes irrigar una casilla por segunda vez, transformándola en una Huerta que es todavía más productiva."
+msgstr ""
+"Se pueden crear regadíos en los terrenos adecuados. El regadío produce más "
+"comida extra en la casilla cada turno. Esto requiere la existencia de una "
+"fuente de agua cercana: un Océano, Lago, Río o otra casilla colindante con "
+"irrigación que comparten un borde (no sólo una esquina) con la casilla en "
+"cuestión. Una vez irrigada, la tierra permanece así incluso si se elimina la "
+"fuente de agua. Además, si dispones de la tecnología apropiada, puedes "
+"irrigar una casilla por segunda vez, transformándola en una Huerta que es "
+"todavía más productiva."
 
 #: data/helpdata.txt:327
 msgid ""
@@ -19476,8 +19669,8 @@ msgid ""
 "possible to have irrigation and a mine on the same tile."
 msgstr ""
 "Las Minas se pueden crear en algunos tipos de terreno, aumentando así la "
-"producción que se obtiene de esa casilla. Sin embargo, no es posible "
-"tener regadío y una mina en la misma casilla."
+"producción que se obtiene de esa casilla. Sin embargo, no es posible tener "
+"regadío y una mina en la misma casilla."
 
 #: data/helpdata.txt:331
 msgid ""
@@ -19487,7 +19680,13 @@ msgid ""
 "another in this way may destroy an existing mine or irrigation system, if "
 "the resulting terrain is unsuitable for the improvement, and may also remove "
 "special resources if they were specific to the original terrain type."
-msgstr "El terreno no apto para el riego o la minería a menudo puede ser cambiado permanentemente en un tipo más adecuado a las necesidades del jugador, aunque esto suele costar más esfuerzo. Cambiar el terreno de un tipo a otro de esta manera pueden destruir una mina existente o un regadío, si el terreno resultante no es apto para la mejora, y también puede eliminar recursos especiales si éran específicos para ese terreno."
+msgstr ""
+"El terreno no apto para el riego o la minería a menudo puede ser cambiado "
+"permanentemente en un tipo más adecuado a las necesidades del jugador, "
+"aunque esto suele costar más esfuerzo. Cambiar el terreno de un tipo a otro "
+"de esta manera pueden destruir una mina existente o un regadío, si el "
+"terreno resultante no es apto para la mejora, y también puede eliminar "
+"recursos especiales si éran específicos para ese terreno."
 
 #: data/helpdata.txt:339
 msgid ""
@@ -19497,8 +19696,11 @@ msgid ""
 "table below. (Converting one kind of terrain into another with the \"irrigate"
 "\" order does not require a water source.)"
 msgstr ""
-"- Los colonos y los obreros tienen un rango limitado de alteraciones "
-"para realizar sobre el terreno, comenzadas por ordenar el \"regadío\" o la \"mina\" en un terreno que no puede soportar la mejora pedida; ver la tabla más abajo. (Convertir un tipo de terreno en otro con la acción de \"regadío\" no requiere una fuente de agua.)"
+"- Los colonos y los obreros tienen un rango limitado de alteraciones para "
+"realizar sobre el terreno, comenzadas por ordenar el \"regadío\" o la \"mina"
+"\" en un terreno que no puede soportar la mejora pedida; ver la tabla más "
+"abajo. (Convertir un tipo de terreno en otro con la acción de \"regadío\" no "
+"requiere una fuente de agua.)"
 
 #: data/helpdata.txt:345
 msgid ""
@@ -19513,9 +19715,10 @@ msgstr ""
 "- Los ingenieros pueden realizar una gama mucho más amplia de "
 "transformaciones en casi cualquier tipo de terreno mediante la emisión de la "
 "orden de \"transformación\". En algunos ruleset, los ingenieros a bordo de "
-"buques, incluso puede terraformar casillas de agua en tierra, y lo mismo se puede transformar la tierra en océano, aunque tan radical transformación puede "
-"requerir un cierto número de casillas adyacentes a la transformada que sean "
-"tierra o agua, respectivamente. (Las unidades se trasladarán a casillas "
+"buques, incluso puede terraformar casillas de agua en tierra, y lo mismo se "
+"puede transformar la tierra en océano, aunque tan radical transformación "
+"puede requerir un cierto número de casillas adyacentes a la transformada que "
+"sean tierra o agua, respectivamente. (Las unidades se trasladarán a casillas "
 "vecinas seguras cuando la transformación se lleve a cabo, si es posible.)"
 
 #: data/helpdata.txt:354
@@ -19586,7 +19789,8 @@ msgstr ""
 " - Las fortalezas mejoran la defensa. Las unidades que están dentro de una "
 "fortaleza tienen el doble de fuerza defensiva, y además sólo se pueden "
 "destruir de una en una. Véase la ayuda sobre Combate para más detalles. Las "
-"fortalezas ocupadas además extienden tus fronteras nacionales(mire la sección de Fronteras Nacionales)."
+"fortalezas ocupadas además extienden tus fronteras nacionales(mire la "
+"sección de Fronteras Nacionales)."
 
 #: data/helpdata.txt:384
 msgid ""
@@ -19617,15 +19821,15 @@ msgid ""
 "to one task, though; excess effort can be wasted, and a group of Settlers, "
 "Workers, and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
-"La siguiente tabla muestra el número de turnos necesarios para una unidad "
-"de Colonos o Obreros para completar una actividad. Estos números se "
-"reducen a la mitad (redondeando hacia arriba) para los ingenieros. El tiempo "
-"que puede reducirse aún más si varias unidades trabajan juntos como un "
-"equipo; si dos o más unidades están ejerciendo la misma tarea en la misma "
-"casilla, cada turno sus esfuerzos se combinarán hasta que la tarea sea "
-"terminada. No obstante, ten cuidado de no asignar demasiadas unidades a una "
-"misma tarea; el exceso de trabajo se podría desperdiciar, y un grupo de "
-"Trabajadores, Colonos y/o Ingenieros es vulnerable a los ataques enemigos."
+"La siguiente tabla muestra el número de turnos necesarios para una unidad de "
+"Colonos o Obreros para completar una actividad. Estos números se reducen a "
+"la mitad (redondeando hacia arriba) para los ingenieros. El tiempo que puede "
+"reducirse aún más si varias unidades trabajan juntos como un equipo; si dos "
+"o más unidades están ejerciendo la misma tarea en la misma casilla, cada "
+"turno sus esfuerzos se combinarán hasta que la tarea sea terminada. No "
+"obstante, ten cuidado de no asignar demasiadas unidades a una misma tarea; "
+"el exceso de trabajo se podría desperdiciar, y un grupo de Trabajadores, "
+"Colonos y/o Ingenieros es vulnerable a los ataques enemigos."
 
 #: data/helpdata.txt:406
 msgid "  Pillaging"
@@ -19639,8 +19843,12 @@ msgid ""
 "choice of which terrain alteration to pillage, or they will be pillaged in "
 "the following order:"
 msgstr ""
-"Muchas unidades -- en las reglas por defecto, todas las unidades terrestres -- tiene la habilidad de poder destruir las modificaciones del terreno por medio del saqueo. El saqueo elimina una modificación del terreno por unidad y turno. Según del ruleset, puedes tener la opción de elegir qué modificación del terreno "
-"deseas destruir, o bien serán destruidas en el siguiente orden:"
+"Muchas unidades -- en las reglas por defecto, todas las unidades terrestres "
+"-- tiene la habilidad de poder destruir las modificaciones del terreno por "
+"medio del saqueo. El saqueo elimina una modificación del terreno por unidad "
+"y turno. Según del ruleset, puedes tener la opción de elegir qué "
+"modificación del terreno deseas destruir, o bien serán destruidas en el "
+"siguiente orden:"
 
 #: data/helpdata.txt:413
 msgid ""
@@ -19686,13 +19894,24 @@ msgid ""
 "be destroyed. If they are friendly, the player could receive gold, a new "
 "technology, a military unit (occasionally a settler; and sometimes a unit "
 "that the player cannot yet create), or even a new city."
-msgstr "Pueblos (también llamado \"chocas\") son las comunidades primitivas repartidas en todo el mundo al comienzo del juego. Cualquier unidad de tierra puede entrar en un pueblo, haciendo desaparecer el pueblo y dando una respuesta al azar. Si el pueblo resulta hostil, podría producir bárbaros o destruir la unidad que entró. Si son amigos, el jugador puede recibir oro, una nueva tecnología, una unidad militar (de vez en cuando un colono, y algunas veces una unidad que el jugador aún no puede crear), o incluso una nueva ciudad."
+msgstr ""
+"Pueblos (también llamado \"chocas\") son las comunidades primitivas "
+"repartidas en todo el mundo al comienzo del juego. Cualquier unidad de "
+"tierra puede entrar en un pueblo, haciendo desaparecer el pueblo y dando una "
+"respuesta al azar. Si el pueblo resulta hostil, podría producir bárbaros o "
+"destruir la unidad que entró. Si son amigos, el jugador puede recibir oro, "
+"una nueva tecnología, una unidad militar (de vez en cuando un colono, y "
+"algunas veces una unidad que el jugador aún no puede crear), o incluso una "
+"nueva ciudad."
 
 #: data/helpdata.txt:440
 msgid ""
 "Later in the game, helicopters may also enter villages, but overflight by "
 "other aircraft will cause the villagers to take fright and disband."
-msgstr "Más adelante en el juego, los helicópteros también pueden entrar en las aldeas, pero con el sobrevuelo de aeronaves hará que los aldeanos que se asusten y desaparezcan."
+msgstr ""
+"Más adelante en el juego, los helicópteros también pueden entrar en las "
+"aldeas, pero con el sobrevuelo de aeronaves hará que los aldeanos que se "
+"asusten y desaparezcan."
 
 #: data/helpdata.txt:446
 msgid " National Borders"
@@ -19706,7 +19925,14 @@ msgid ""
 "be aggressively deployed by your citizens (see the section on Happiness). "
 "Borders also come into play when there is a diplomatic pact between nations "
 "(see the section on Diplomacy)."
-msgstr "Si se habilita en el servidor, cada nación tiene fronteras, que se ven como líneas de puntos en el mapa. Las fronteras determinan la tierra que tus ciudadanos puedan trabajar y donde se pueden fundar nuevas ciudades, y si las unidades se consideran desplegadas agresivamente por tus ciudadanos (véase la sección relativa a la Felicidad). Las fronteras también entran en juego cuando hay un pacto diplomático entre dos naciones (véase la sección sobre la Diplomacia)."
+msgstr ""
+"Si se habilita en el servidor, cada nación tiene fronteras, que se ven como "
+"líneas de puntos en el mapa. Las fronteras determinan la tierra que tus "
+"ciudadanos puedan trabajar y donde se pueden fundar nuevas ciudades, y si "
+"las unidades se consideran desplegadas agresivamente por tus ciudadanos "
+"(véase la sección relativa a la Felicidad). Las fronteras también entran en "
+"juego cuando hay un pacto diplomático entre dos naciones (véase la sección "
+"sobre la Diplomacia)."
 
 #: data/helpdata.txt:454
 msgid ""
@@ -19715,17 +19941,30 @@ msgid ""
 "ownership unless the city does (or is destroyed). However, the ownership of "
 "land that is out of range of any city can change depending on factors such "
 "as the relative size of nearby nations' cities."
-msgstr "La fundación de una ciudad establece un derecho sobre un área de tierra alrededor de la ciudad. Una vez reclamada, que una casilla puede ser directamente trabajada por una ciudad no puede cambiar de propiedad a menos que la ciudad cambie de manos (o se destruya). Sin embargo, la propiedad de la tierra que está fuera del alcance de cualquier ciudad puede cambiar dependiendo de factores tales como el tamaño relativo de las ciudades de naciones vecinas."
+msgstr ""
+"La fundación de una ciudad establece un derecho sobre un área de tierra "
+"alrededor de la ciudad. Una vez reclamada, que una casilla puede ser "
+"directamente trabajada por una ciudad no puede cambiar de propiedad a menos "
+"que la ciudad cambie de manos (o se destruya). Sin embargo, la propiedad de "
+"la tierra que está fuera del alcance de cualquier ciudad puede cambiar "
+"dependiendo de factores tales como el tamaño relativo de las ciudades de "
+"naciones vecinas."
 
 #: data/helpdata.txt:461
-msgid "In the default ruleset, occupied fortresses also extend national borders."
-msgstr "En el conjunto de reglas por defecto, las fortalezas ocupadas también extienden las fronteras nacionales."
+msgid ""
+"In the default ruleset, occupied fortresses also extend national borders."
+msgstr ""
+"En el conjunto de reglas por defecto, las fortalezas ocupadas también "
+"extienden las fronteras nacionales."
 
 #: data/helpdata.txt:464
 msgid ""
 "Borders can only extend into water for tiles adjacent to a city; other water "
 "tiles remain unclaimed territory."
-msgstr "Las fronteras sólo se puede extender en el agua para las casillas adyacentes a una ciudad, las otras casillas de agua siguen siendo un territorio no reclamado."
+msgstr ""
+"Las fronteras sólo se puede extender en el agua para las casillas adyacentes "
+"a una ciudad, las otras casillas de agua siguen siendo un territorio no "
+"reclamado."
 
 #: data/helpdata.txt:471
 msgid ""
@@ -19734,7 +19973,12 @@ msgid ""
 "products: food points, production points, and trade points. The following "
 "sections describe each of these resources along with its properties, uses, "
 "and limitations."
-msgstr "Los productos que tus ciudades extraen del terreno circundante son la fuente de la que tu civilización se nutre. Hay tres tipos de productos: los puntos de comida, los puntos de producción y puntos de comercio. Las secciones siguientes describen cada uno de estos recursos, junto con sus propiedades, usos y limitaciones."
+msgstr ""
+"Los productos que tus ciudades extraen del terreno circundante son la fuente "
+"de la que tu civilización se nutre. Hay tres tipos de productos: los puntos "
+"de comida, los puntos de producción y puntos de comercio. Las secciones "
+"siguientes describen cada uno de estos recursos, junto con sus propiedades, "
+"usos y limitaciones."
 
 #: data/helpdata.txt:480
 msgid " Food"
@@ -19745,7 +19989,11 @@ msgid ""
 "Your population needs food to survive. Each citizen requires two food points "
 "per turn; in addition, some units (such as Settlers in the default ruleset) "
 "may require food points from the city supporting them."
-msgstr "Tu población necesita alimentos para sobrevivir. Cada ciudadano requiere de dos puntos de alimento por turno y, además, algunas unidades (como colonos en el conjunto de reglas por defecto) puede requerir puntos de alimentos de la ciudad que los soporta."
+msgstr ""
+"Tu población necesita alimentos para sobrevivir. Cada ciudadano requiere de "
+"dos puntos de alimento por turno y, además, algunas unidades (como colonos "
+"en el conjunto de reglas por defecto) puede requerir puntos de alimentos de "
+"la ciudad que los soporta."
 
 #: data/helpdata.txt:486
 msgid ""
@@ -19756,7 +20004,15 @@ msgid ""
 "When food is needed but none remains, the city population starves, killing "
 "food-consuming units first, followed by citizens, until the food deficit "
 "ends."
-msgstr "Cada ciudad tiene un granero para almacenar puntos de alimentos (el edificio que se llama un Granero en el conjunto de reglas por defecto sólo aumenta esta capacidad). Las ciudades que producen más alimento del necesario acumulan el excedente en su granero, mientras que los que producen menos de lo que requiere agotan su granero. Cuando se necesita comida pero no hay, la población de la ciudad sufre hambre, matando primero a las unidades que consumen alimentos, seguido de los ciudadanos, hasta que el déficit de alimentos termina."
+msgstr ""
+"Cada ciudad tiene un granero para almacenar puntos de alimentos (el edificio "
+"que se llama un Granero en el conjunto de reglas por defecto sólo aumenta "
+"esta capacidad). Las ciudades que producen más alimento del necesario "
+"acumulan el excedente en su granero, mientras que los que producen menos de "
+"lo que requiere agotan su granero. Cuando se necesita comida pero no hay, la "
+"población de la ciudad sufre hambre, matando primero a las unidades que "
+"consumen alimentos, seguido de los ciudadanos, hasta que el déficit de "
+"alimentos termina."
 
 #: data/helpdata.txt:494
 msgid ""
@@ -19766,7 +20022,14 @@ msgid ""
 "citizen is more costly than the last, making this mode of growth important "
 "only for small cities. (An alternative way for cities to grow is \"rapture"
 "\", described in the section on Happiness.)"
-msgstr "El exceso de comida puede aumentar la población: el granero de la ciudad tiene una capacidad limitada, y una vez llena la ciudad crece en un ciudadano y el granero se vacía. Pero dado que aumenta la capacidad de granero con la población, cada ciudadano es más costoso que el anterior, haciendo de este modo de crecimiento importante sólo para las ciudades pequeñas. (Una forma alternativa para que las ciudades crezcan es el \"éxtasis \", descrito en la sección sobre la Felicidad.)"
+msgstr ""
+"El exceso de comida puede aumentar la población: el granero de la ciudad "
+"tiene una capacidad limitada, y una vez llena la ciudad crece en un "
+"ciudadano y el granero se vacía. Pero dado que aumenta la capacidad de "
+"granero con la población, cada ciudadano es más costoso que el anterior, "
+"haciendo de este modo de crecimiento importante sólo para las ciudades "
+"pequeñas. (Una forma alternativa para que las ciudades crezcan es el "
+"\"éxtasis \", descrito en la sección sobre la Felicidad.)"
 
 #: data/helpdata.txt:505
 msgid " Production"
@@ -19781,7 +20044,16 @@ msgid ""
 "supported are automatically disbanded. Units can also be disbanded at any "
 "time. If a unit is disbanded while in a city, half of its production cost "
 "will be put towards that city's surplus."
-msgstr "Los puntos de producción (también conocidos como \"escudos\") representan la producción manufacturera. La mayoría de las unidades requieren puntos de producción para su mantenimiento, y la requiere de su ciudad de origen, aunque bajo regímenes autocráticos cada ciudad soporta unas pocas unidades de forma gratuita. Si la producción de la ciudad baja demasiado, las unidades que no pueden ser soportadas son automáticamente desmanteladas. Las unidades también se puede desarticular en cualquier momento. Si una unidad se desmanteló, mientras estaba en una ciudad, la mitad de su coste de producción se recuperará para la producción de esa ciudad."
+msgstr ""
+"Los puntos de producción (también conocidos como \"escudos\") representan la "
+"producción manufacturera. La mayoría de las unidades requieren puntos de "
+"producción para su mantenimiento, y la requiere de su ciudad de origen, "
+"aunque bajo regímenes autocráticos cada ciudad soporta unas pocas unidades "
+"de forma gratuita. Si la producción de la ciudad baja demasiado, las "
+"unidades que no pueden ser soportadas son automáticamente desmanteladas. Las "
+"unidades también se puede desarticular en cualquier momento. Si una unidad "
+"se desmanteló, mientras estaba en una ciudad, la mitad de su coste de "
+"producción se recuperará para la producción de esa ciudad."
 
 #: data/helpdata.txt:514
 msgid ""
@@ -19793,7 +20065,17 @@ msgid ""
 "when complete -- units appear on the map while improvements and wonders are "
 "added to their city's list of structures. Any leftover production points "
 "remain available to be applied towards the next project."
-msgstr "El exceso de los puntos de producción requeridos para el mantenimiento de las unidades de la ciudad se ponen a disposición de cualquier unidad, instalación, o maravilla que ha sido seleccionada como producto actual de la ciudad. Así como los puntos de los alimentos se acumulan en el granero de la ciudad y incrementan un ciudadano cuando queda lleno, igualmente los puntos de producción se acumulan hasta que el costo del producto se ha logrado. Los productos aparecen en tu ciudad, cuando se hayan completado - las unidades aparecen en el mapa mientras que las mejoras y las maravillas se añadirán a la lista de instalaciones de la ciudad. Todos los puntos de producción que restan permanecerán disponibles para ser aplicados hacia el próximo proyecto."
+msgstr ""
+"El exceso de los puntos de producción requeridos para el mantenimiento de "
+"las unidades de la ciudad se ponen a disposición de cualquier unidad, "
+"instalación, o maravilla que ha sido seleccionada como producto actual de la "
+"ciudad. Así como los puntos de los alimentos se acumulan en el granero de la "
+"ciudad y incrementan un ciudadano cuando queda lleno, igualmente los puntos "
+"de producción se acumulan hasta que el costo del producto se ha logrado. Los "
+"productos aparecen en tu ciudad, cuando se hayan completado - las unidades "
+"aparecen en el mapa mientras que las mejoras y las maravillas se añadirán a "
+"la lista de instalaciones de la ciudad. Todos los puntos de producción que "
+"restan permanecerán disponibles para ser aplicados hacia el próximo proyecto."
 
 #: data/helpdata.txt:524
 msgid ""
@@ -19803,7 +20085,13 @@ msgid ""
 "the game even gives you the freedom to produce units you cannot support and "
 "buildings whose upkeep you cannot afford, both of which will be disbanded "
 "immediately after completion."
-msgstr "Cada jugador es libre de construir cualquier producto que su tecnología ha puesto a su disposición, con algunas restricciones, vea las secciones en las Unidades, Instalaciones de la Ciudad, y Maravillas del Mundo para más información. Ten cuidado - el juego incluso te da la libertad para producir unidades que no puedes suportar y edificios cuyo mantenimiento no puedes pagar, los cuales serán disueltos inmediatamente después de su finalización."
+msgstr ""
+"Cada jugador es libre de construir cualquier producto que su tecnología ha "
+"puesto a su disposición, con algunas restricciones, vea las secciones en las "
+"Unidades, Instalaciones de la Ciudad, y Maravillas del Mundo para más "
+"información. Ten cuidado - el juego incluso te da la libertad para producir "
+"unidades que no puedes suportar y edificios cuyo mantenimiento no puedes "
+"pagar, los cuales serán disueltos inmediatamente después de su finalización."
 
 #: data/helpdata.txt:531
 msgid ""
@@ -19812,19 +20100,29 @@ msgid ""
 "building, unit, or wonder to a product from one of the other two categories. "
 "You can spend gold to complete a project in one turn by hitting the Buy "
 "button on the city dialog."
-msgstr "Siempre puedes cambiar el producto en el que una ciudad está trabajando, aunque se pierde la mitad de los puntos de producción acumulada al pasar de una instalación, unidad o maravilla a un producto de una de las otras dos categorías. Puedes gastar oro para completar un proyecto en un solo turno pulsando en el botón Comprar en el cuadro de diálogo de la ciudad."
+msgstr ""
+"Siempre puedes cambiar el producto en el que una ciudad está trabajando, "
+"aunque se pierde la mitad de los puntos de producción acumulada al pasar de "
+"una instalación, unidad o maravilla a un producto de una de las otras dos "
+"categorías. Puedes gastar oro para completar un proyecto en un solo turno "
+"pulsando en el botón Comprar en el cuadro de diálogo de la ciudad."
 
 #: data/helpdata.txt:537
 msgid ""
 "Some production points may be lost to waste, although there is no waste in "
 "the default rules. Waste can result in your cities not building anything."
-msgstr "Algunos puntos de la producción puede perderse en mermas, aunque no hay mermas en las reglas predeterminadas. Las mermas pueden resultar en que tus ciudades no construyan nada."
+msgstr ""
+"Algunos puntos de la producción puede perderse en mermas, aunque no hay "
+"mermas en las reglas predeterminadas. Las mermas pueden resultar en que tus "
+"ciudades no construyan nada."
 
 #: data/helpdata.txt:541
 msgid ""
 "Cities with a large production output generate pollution; see the section on "
 "Cities for more information."
-msgstr "Las ciudades con una gran producción generan contaminación, mírate la sección sobre las Ciudades para obtener más información."
+msgstr ""
+"Las ciudades con una gran producción generan contaminación, mírate la "
+"sección sobre las Ciudades para obtener más información."
 
 #: data/helpdata.txt:547
 msgid " Trade"
@@ -19839,7 +20137,15 @@ msgid ""
 "form of taxes, goes into your national treasury; luxury points influence "
 "citizen morale; and science points (\"bulbs\") contribute towards the "
 "discovery of new technology."
-msgstr "Los puntos de comercio reflejan la riqueza generada en cada ciudad por el comercio exterior. Algunos puntos de comercio se pueden perder con la corrupción, que varía según las formas de gobierno, y tiende a aumentar con la distancia de tu ciudad capital. Cada ciudad distribuye sus puntos de comercio restantes entre tres usos: el oro, en forma de impuestos, va a su tesoro nacional, los lujos que influyen en la moral de los ciudadanos; y los puntos de ciencia (\"bombillas\") que contribuyen al descubrimiento de nuevas tecnologías."
+msgstr ""
+"Los puntos de comercio reflejan la riqueza generada en cada ciudad por el "
+"comercio exterior. Algunos puntos de comercio se pueden perder con la "
+"corrupción, que varía según las formas de gobierno, y tiende a aumentar con "
+"la distancia de tu ciudad capital. Cada ciudad distribuye sus puntos de "
+"comercio restantes entre tres usos: el oro, en forma de impuestos, va a su "
+"tesoro nacional, los lujos que influyen en la moral de los ciudadanos; y los "
+"puntos de ciencia (\"bombillas\") que contribuyen al descubrimiento de "
+"nuevas tecnologías."
 
 #: data/helpdata.txt:556
 msgid ""
@@ -19847,7 +20153,12 @@ msgid ""
 "are distributed among these three uses. Though you may alter the tax rates "
 "on any turn, you are constrained to multiples of ten percent, and most forms "
 "of government limit their maximum value."
-msgstr "Tu debes elegir una sola ratio de impuestos para tu civilización por la que los puntos de comercio se distribuyen entre estos tres usos. Aunque tu puedes modificar los tipos impositivos en cualquier turno, está obligado a múltiplos de diez por ciento, y la mayoría de las formas de gobierno limitan su valor máximo."
+msgstr ""
+"Tu debes elegir una sola ratio de impuestos para tu civilización por la que "
+"los puntos de comercio se distribuyen entre estos tres usos. Aunque tu "
+"puedes modificar los tipos impositivos en cualquier turno, está obligado a "
+"múltiplos de diez por ciento, y la mayoría de las formas de gobierno limitan "
+"su valor máximo."
 
 #: data/helpdata.txt:561
 msgid ""
@@ -19860,7 +20171,17 @@ msgid ""
 "cities (although local adjustments can be made by assigning citizens as "
 "entertainers). See the section on Happiness for more details on the effect "
 "of luxuries."
-msgstr "Tener esta relación única no tiene impacto sobre el oro y la ciencia, porque el oro y el progreso tecnológico son unos recuentos a nivel de imperio. Los lujos son más problemáticos, sin embargo, porque su efecto es local - sólo afecta a la ciudad que lo produce. Así, mientras que sería conveniente en las ciudades infelices invertir todo su comercio en lujos, en otras seria mejor invertir en ciencia o impuestos en su lugar. Esto significa que tendrás que llegar a un compromiso entre las necesidades de todas las ciudades (aunque los ajustes locales puede realizarse mediante la asignación de los ciudadanos como artistas). Mira la sección sobre la Felicidad para más información sobre el efecto de lujos."
+msgstr ""
+"Tener esta relación única no tiene impacto sobre el oro y la ciencia, porque "
+"el oro y el progreso tecnológico son unos recuentos a nivel de imperio. Los "
+"lujos son más problemáticos, sin embargo, porque su efecto es local - sólo "
+"afecta a la ciudad que lo produce. Así, mientras que sería conveniente en "
+"las ciudades infelices invertir todo su comercio en lujos, en otras seria "
+"mejor invertir en ciencia o impuestos en su lugar. Esto significa que "
+"tendrás que llegar a un compromiso entre las necesidades de todas las "
+"ciudades (aunque los ajustes locales puede realizarse mediante la asignación "
+"de los ciudadanos como artistas). Mira la sección sobre la Felicidad para "
+"más información sobre el efecto de lujos."
 
 #: data/helpdata.txt:571
 msgid ""
@@ -19870,7 +20191,14 @@ msgid ""
 "Caravan or Freight unit, sending them to another city at least nine tiles "
 "away or belonging to a different civilization, and issuing the \"make trade "
 "route\" command."
-msgstr "Además de trabajar el terreno dotados de especiales raros, o con acceso a las vías navegables y carreteras, tu puedes incrementar el comercio mediante el establecimiento de rutas comerciales entre las ciudades. En el conjunto de reglas por defecto, esto se logra mediante la producción de una caravana o un convoy, enviándolos a otra ciudad por lo menos nueve casillas lejos o de una civilización diferente, y emitiendo la orden \"hacer una ruta comercial\"."
+msgstr ""
+"Además de trabajar el terreno dotados de especiales raros, o con acceso a "
+"las vías navegables y carreteras, tu puedes incrementar el comercio mediante "
+"el establecimiento de rutas comerciales entre las ciudades. En el conjunto "
+"de reglas por defecto, esto se logra mediante la producción de una caravana "
+"o un convoy, enviándolos a otra ciudad por lo menos nueve casillas lejos o "
+"de una civilización diferente, y emitiendo la orden \"hacer una ruta "
+"comercial\"."
 
 #: data/helpdata.txt:578
 msgid ""
@@ -19879,7 +20207,12 @@ msgid ""
 "revenue depends on the trade already produced by the two cities involved and "
 "their distance apart. Some advances make transportation easier and reduce "
 "this one-time revenue."
-msgstr "La civilización de origen de la unidad gana unos ingresos inmediatos en oro y ciencia por la venta de sus productos comerciales en la ciudad de destino. El ingreso inicial depende del comercio ya producido por las dos ciudades en cuestión y su distancia. Algunos de los avances facilitan el transporte y reducen el ingreso inicial."
+msgstr ""
+"La civilización de origen de la unidad gana unos ingresos inmediatos en oro "
+"y ciencia por la venta de sus productos comerciales en la ciudad de destino. "
+"El ingreso inicial depende del comercio ya producido por las dos ciudades en "
+"cuestión y su distancia. Algunos de los avances facilitan el transporte y "
+"reducen el ingreso inicial."
 
 #: data/helpdata.txt:584
 msgid ""
@@ -19889,33 +20222,51 @@ msgid ""
 "points from the tiles worked by the two cities; it is doubled if the cities "
 "are on different continents, and doubled again if the cities are from "
 "different civilizations."
-msgstr "Asimismo, se establece una ruta de comercio continua que beneficia tanto a su origen como a su destino en partes iguales, generando puntos de comercio en cada ciudad y turno. La cantidad de comercio recurrente se basa en (pero no igual a) la suma de los puntos de comercio de las casillas trabajadas de las dos ciudades; se duplica si las ciudades están en continentes diferentes, y se duplica de nuevo, si las ciudades son de diferentes civilizaciones."
+msgstr ""
+"Asimismo, se establece una ruta de comercio continua que beneficia tanto a "
+"su origen como a su destino en partes iguales, generando puntos de comercio "
+"en cada ciudad y turno. La cantidad de comercio recurrente se basa en (pero "
+"no igual a) la suma de los puntos de comercio de las casillas trabajadas de "
+"las dos ciudades; se duplica si las ciudades están en continentes "
+"diferentes, y se duplica de nuevo, si las ciudades son de diferentes "
+"civilizaciones."
 
 #: data/helpdata.txt:591
 msgid ""
 "(If a trade route already exists between two cities, the origin civilization "
 "can still gain initial revenue by entering the marketplace and selling trade "
 "goods, but it is reduced to a third.)"
-msgstr "(Si ya existe una ruta comercial entre las dos ciudades, la civilización de origen todavía puede obtener ingresos iniciales por entrar en el mercado y vender los productos comerciales, pero se reduce a un tercio.)"
+msgstr ""
+"(Si ya existe una ruta comercial entre las dos ciudades, la civilización de "
+"origen todavía puede obtener ingresos iniciales por entrar en el mercado y "
+"vender los productos comerciales, pero se reduce a un tercio.)"
 
 #: data/helpdata.txt:595
 msgid ""
 "The number of trade routes per city is limited to four. If you attempt to "
 "establish more routes, the trade route with the smallest ongoing revenue is "
 "canceled if it would be less than the new route."
-msgstr "El número de rutas de comercio por ciudad se limita a cuatro. Si intentas establecer más rutas, la ruta de comercio con los ingresos más pequeños en curso se cancela si es inferior a la nueva."
+msgstr ""
+"El número de rutas de comercio por ciudad se limita a cuatro. Si intentas "
+"establecer más rutas, la ruta de comercio con los ingresos más pequeños en "
+"curso se cancela si es inferior a la nueva."
 
 #: data/helpdata.txt:599
 msgid ""
 "To view the current trade routes of a city, click and hold over the Trade: "
 "line in the Overview tab in the city view."
-msgstr "Para ver las rutas comerciales actuales de una ciudad, haz clic y mantenlo sobre la línea de comercio de la pestaña general en la vista de la ciudad."
+msgstr ""
+"Para ver las rutas comerciales actuales de una ciudad, haz clic y mantenlo "
+"sobre la línea de comercio de la pestaña general en la vista de la ciudad."
 
 #: data/helpdata.txt:606
 msgid ""
 "Cities are your sole instrument for developing natural resources and "
 "channeling them toward expansion, technological progress, and warfare."
-msgstr "Las ciudades son el único instrumento para el desarrollo de los recursos naturales y canalizarlos hacia la expansión, el progreso tecnológico, y la guerra."
+msgstr ""
+"Las ciudades son el único instrumento para el desarrollo de los recursos "
+"naturales y canalizarlos hacia la expansión, el progreso tecnológico, y la "
+"guerra."
 
 #: data/helpdata.txt:609
 msgid ""
@@ -19926,7 +20277,15 @@ msgid ""
 "kill citizens and reduce population; with the loss of its last citizen a "
 "city disappears (in the default ruleset, this can leave ruins, although "
 "these have no effect on gameplay)."
-msgstr "Una ciudad es creada cuando se le da la orden de \"construir ciudad\" a unos colonos en un terreno adecuado; entonces se elimina la unidad para dotar a la ciudad con su primer ciudadano. Una ciudad puede crecer para incluir a decenas de ciudadanos, algunos trabajando dentro de la ciudad, mientras que otros son enviados como nuevos colonos. La hambre y la guerra matan a los ciudadanos y reducen la población; con la pérdida de su último ciudadano una ciudad desaparece (en el conjunto de reglas por defecto, esto puede dejar ruinas, aunque estas no tienen ningún efecto en el juego)."
+msgstr ""
+"Una ciudad es creada cuando se le da la orden de \"construir ciudad\" a unos "
+"colonos en un terreno adecuado; entonces se elimina la unidad para dotar a "
+"la ciudad con su primer ciudadano. Una ciudad puede crecer para incluir a "
+"decenas de ciudadanos, algunos trabajando dentro de la ciudad, mientras que "
+"otros son enviados como nuevos colonos. La hambre y la guerra matan a los "
+"ciudadanos y reducen la población; con la pérdida de su último ciudadano una "
+"ciudad desaparece (en el conjunto de reglas por defecto, esto puede dejar "
+"ruinas, aunque estas no tienen ningún efecto en el juego)."
 
 #: data/helpdata.txt:617
 msgid ""
@@ -19939,7 +20298,17 @@ msgid ""
 "Units can also be ordered to pillage, which damages improvements. Workers, "
 "Settlers, and Engineers could even transform the terrain to make the tile "
 "less productive."
-msgstr "Cada ciudad puede trabajar el terreno en un radio fijo (aproximadamente tres cuadros). Para extraer los recursos de una casilla debes tener un ciudadano trabajando allí. Tu no puedes comenzar a trabajar una casilla que una ciudad vecina ya está trabajando, ni se puede trabajar terreno en el que una unidad enemiga esté, o el terreno dentro de las fronteras de otro jugador. Asimismo tu puedes simular las condiciones de sitio mediante el envío de unidades a casillas con recursos valiosos en torno a una ciudad enemiga. También puedes ordenar a las unidades que saqueen, lo que daña las mejoras. Los obreros, los colonos, y los ingenieros podrían transformar el terreno para hacer las casillas de ciudades enemigas menos productivas."
+msgstr ""
+"Cada ciudad puede trabajar el terreno en un radio fijo (aproximadamente tres "
+"cuadros). Para extraer los recursos de una casilla debes tener un ciudadano "
+"trabajando allí. Tu no puedes comenzar a trabajar una casilla que una ciudad "
+"vecina ya está trabajando, ni se puede trabajar terreno en el que una unidad "
+"enemiga esté, o el terreno dentro de las fronteras de otro jugador. Asimismo "
+"tu puedes simular las condiciones de sitio mediante el envío de unidades a "
+"casillas con recursos valiosos en torno a una ciudad enemiga. También puedes "
+"ordenar a las unidades que saqueen, lo que daña las mejoras. Los obreros, "
+"los colonos, y los ingenieros podrían transformar el terreno para hacer las "
+"casillas de ciudades enemigas menos productivas."
 
 #: data/helpdata.txt:627
 msgid ""
@@ -19958,7 +20327,25 @@ msgid ""
 "with Farmland. City centers are also automatically developed with roads and, "
 "when technology has made them available, railroads (because cities come with "
 "transportation built-in)."
-msgstr "La sección de los terrenos describe cómo los recursos de cada casilla se ven afectados por el terreno, la presencia de recursos especiales como la caza o minerales, así como mejoras de caminos, riego, y minas. Ten en cuenta que la casilla sobre la que descansa la propia ciudad - el centro de la ciudad - se trabaja de forma gratuita, sin que se le asigne a un ciudadano. En el conjunto de reglas por defecto, la casilla de la ciudad siempre produce al menos un punto de alimento y al menos un punto de producción, independientemente del terreno. Asimismo, el centro también gana las ventajas del terreno con un regadío (porque las ciudades cuentan con sistemas de agua incorporado), pero esto no puede ser utilizado como base para el riego de otras fichas, para eso, un sistema de riego debe ser explícitamente construido en la casilla (que no será de ningún beneficio adicional a la propia ciudad). Del mismo modo, con la tecnología suficiente y mejoras, el centro de la ciudad obtiene automáticamente un bono asociado con la Huerta. Los centros de las ciudades también se equipan de forma automática con carreteras y, cuando la tecnología lo ha puesto a tu disposición, ferrocarriles (porque las ciudades cuentan con transporte integrado)."
+msgstr ""
+"La sección de los terrenos describe cómo los recursos de cada casilla se ven "
+"afectados por el terreno, la presencia de recursos especiales como la caza o "
+"minerales, así como mejoras de caminos, riego, y minas. Ten en cuenta que la "
+"casilla sobre la que descansa la propia ciudad - el centro de la ciudad - se "
+"trabaja de forma gratuita, sin que se le asigne a un ciudadano. En el "
+"conjunto de reglas por defecto, la casilla de la ciudad siempre produce al "
+"menos un punto de alimento y al menos un punto de producción, "
+"independientemente del terreno. Asimismo, el centro también gana las "
+"ventajas del terreno con un regadío (porque las ciudades cuentan con "
+"sistemas de agua incorporado), pero esto no puede ser utilizado como base "
+"para el riego de otras fichas, para eso, un sistema de riego debe ser "
+"explícitamente construido en la casilla (que no será de ningún beneficio "
+"adicional a la propia ciudad). Del mismo modo, con la tecnología suficiente "
+"y mejoras, el centro de la ciudad obtiene automáticamente un bono asociado "
+"con la Huerta. Los centros de las ciudades también se equipan de forma "
+"automática con carreteras y, cuando la tecnología lo ha puesto a tu "
+"disposición, ferrocarriles (porque las ciudades cuentan con transporte "
+"integrado)."
 
 #: data/helpdata.txt:644
 msgid ""
@@ -19971,7 +20358,18 @@ msgid ""
 "(whose effects are described in the section on Happiness); tax collectors, "
 "who each produce three extra gold per turn for your treasury; and "
 "scientists, who each add three points to your research output."
-msgstr "Los primeros ciudadanos de cada ciudad son por lo general trabajadores, cada uno encargado de entregar los recursos de una casilla de terreno. Sin embargo, cuando se le libera de tener que trabajar la tierra, hay varios otros tipos de especialistas que los ciudadanos pueden asumir; de hecho, asumir otro papel es la única manera que pueden dejar de funcionar. En las reglas por defecto, hay tres tipos de especialistas: artistas, que producen cada uno dos puntos de lujos por vuelta para tu ciudad (cuyos efectos se describen en la sección relativa a la Felicidad); recaudadores de impuestos, que producen cada uno tres medallas de oro adicionales por turno para tu tesorería; y los científicos, que cada uno se encarga de agregar tres puntos de ciencia por turno."
+msgstr ""
+"Los primeros ciudadanos de cada ciudad son por lo general trabajadores, cada "
+"uno encargado de entregar los recursos de una casilla de terreno. Sin "
+"embargo, cuando se le libera de tener que trabajar la tierra, hay varios "
+"otros tipos de especialistas que los ciudadanos pueden asumir; de hecho, "
+"asumir otro papel es la única manera que pueden dejar de funcionar. En las "
+"reglas por defecto, hay tres tipos de especialistas: artistas, que producen "
+"cada uno dos puntos de lujos por vuelta para tu ciudad (cuyos efectos se "
+"describen en la sección relativa a la Felicidad); recaudadores de impuestos, "
+"que producen cada uno tres medallas de oro adicionales por turno para tu "
+"tesorería; y los científicos, que cada uno se encarga de agregar tres puntos "
+"de ciencia por turno."
 
 #: data/helpdata.txt:655
 msgid ""
@@ -19981,7 +20379,14 @@ msgid ""
 "tile, turning him into a specialist; this can be seen in the row of citizen "
 "icons. You can click another tile to assign the citizen to work it, or click "
 "on the specialist icon to change their specialist role."
-msgstr "El rol de los ciudadanos es controlado desde el diálogo de la ciudad. Los ciudadanos que trabajan la tierra están representados por tres números que muestran sus productos en la casilla que están trabajando. Al hacer clic en estos números se eliminará el ciudadano de la casilla, convirtiéndolo en un especialista, esto se puede ver en la fila de iconos de los ciudadanos. Puedes hacer clic en otra casilla para asignar los ciudadanos a trabajar, o haz clic en el icono de especialista para cambiar su papel de especialista."
+msgstr ""
+"El rol de los ciudadanos es controlado desde el diálogo de la ciudad. Los "
+"ciudadanos que trabajan la tierra están representados por tres números que "
+"muestran sus productos en la casilla que están trabajando. Al hacer clic en "
+"estos números se eliminará el ciudadano de la casilla, convirtiéndolo en un "
+"especialista, esto se puede ver en la fila de iconos de los ciudadanos. "
+"Puedes hacer clic en otra casilla para asignar los ciudadanos a trabajar, o "
+"haz clic en el icono de especialista para cambiar su papel de especialista."
 
 #: data/helpdata.txt:663
 msgid ""
@@ -19991,7 +20396,15 @@ msgid ""
 "grows; you may want to inspect cities that have just grown and adjust the "
 "role in which the new citizen has been placed. You can set different "
 "priorities for a city with the Citizen Governor; see its help section."
-msgstr "Al hacer clic en la casilla del centro de la ciudad en el mapa de la ciudad elegirá automáticamente los roles de los ciudadanos y las casillas para trabajar, con un énfasis en la producción de alimentos y por lo tanto en el crecimiento. Los roles de ciudadanos también son asignados automáticamente cuando una ciudad crece; es posible que desees inspeccionar las ciudades que han crecido y acabar de ajustar el papel del nuevo ciudadano. Puedes establecer diferentes prioridades para una ciudad con el Gobernador de Ciudadanos; ver la sección de ayuda."
+msgstr ""
+"Al hacer clic en la casilla del centro de la ciudad en el mapa de la ciudad "
+"elegirá automáticamente los roles de los ciudadanos y las casillas para "
+"trabajar, con un énfasis en la producción de alimentos y por lo tanto en el "
+"crecimiento. Los roles de ciudadanos también son asignados automáticamente "
+"cuando una ciudad crece; es posible que desees inspeccionar las ciudades que "
+"han crecido y acabar de ajustar el papel del nuevo ciudadano. Puedes "
+"establecer diferentes prioridades para una ciudad con el Gobernador de "
+"Ciudadanos; ver la sección de ayuda."
 
 #: data/helpdata.txt:671
 msgid ""
@@ -19999,7 +20412,11 @@ msgid ""
 "their productivity, their military strength, or give them new abilities. See "
 "the sections on City Improvements and Wonders of the World for more "
 "information."
-msgstr "Las ciudades pueden ser mejoradas con una gran variedad de edificios, que pueden mejorar su productividad, su fuerza militar, o darles nuevas habilidades. Vea las secciones sobre las Mejoras de la Ciudad y de las Maravillas del Mundo para más información."
+msgstr ""
+"Las ciudades pueden ser mejoradas con una gran variedad de edificios, que "
+"pueden mejorar su productividad, su fuerza militar, o darles nuevas "
+"habilidades. Vea las secciones sobre las Mejoras de la Ciudad y de las "
+"Maravillas del Mundo para más información."
 
 #: data/helpdata.txt:679
 msgid " Happiness"
@@ -20012,7 +20429,12 @@ msgid ""
 "cities will fall into disorder, which disrupts production; but when your "
 "citizens are happy, your cities will celebrate, and your production will "
 "increase greatly."
-msgstr "Mantener a tus ciudadanos felices (o al menos conformes) es uno de los objetivos más importantes en Freeciv. Cuando tus ciudadanos están descontentos, habrá disturbios en tus ciudades, lo que impide la producción; pero cuando tus ciudadanos son felices, las ciudades entrarán en celebraciones, y tu producción aumentará considerablemente."
+msgstr ""
+"Mantener a tus ciudadanos felices (o al menos conformes) es uno de los "
+"objetivos más importantes en Freeciv. Cuando tus ciudadanos están "
+"descontentos, habrá disturbios en tus ciudades, lo que impide la producción; "
+"pero cuando tus ciudadanos son felices, las ciudades entrarán en "
+"celebraciones, y tu producción aumentará considerablemente."
 
 #: data/helpdata.txt:686
 msgid ""
@@ -20021,7 +20443,13 @@ msgid ""
 "cities grow larger, crowding causes citizens to become unhappy. In the "
 "default rules, each citizen in a city after the fourth will be generated "
 "unhappy, instead of content."
-msgstr "Cada ciudadano que trabaja la tierra puede ser feliz, conforme, descontento o enfadado. El estado normal de un ciudadano que trabaja es la conformidad. Sin embargo, a medida que crecen las ciudades y se hacen más grandes, el hacinamiento hace que los ciudadanos se enfaden. En las reglas por defecto, cada ciudadano en una ciudad después del cuarto se generará descontento, en lugar de conforme."
+msgstr ""
+"Cada ciudadano que trabaja la tierra puede ser feliz, conforme, descontento "
+"o enfadado. El estado normal de un ciudadano que trabaja es la conformidad. "
+"Sin embargo, a medida que crecen las ciudades y se hacen más grandes, el "
+"hacinamiento hace que los ciudadanos se enfaden. En las reglas por defecto, "
+"cada ciudadano en una ciudad después del cuarto se generará descontento, en "
+"lugar de conforme."
 
 #: data/helpdata.txt:692
 msgid ""
@@ -20034,8 +20462,11 @@ msgid ""
 msgstr ""
 "Si el número de ciudadanos descontentos de una ciudad supera al número de "
 "ciudadanos felices, habrá disturbios en la ciudad. Una ciudad en la que hay "
-"disturbios no produce ni comida ni producción, ni ciencia ni impuestos, sólo lujos. Las ciudades con disturbios es más fácil que se subleve bajo la incitación de un Diplomático o Espía enemigo. Los disturbios prolongados en Democracia "
-"pueden dar lugar a una revolución espontánea, derrocando a tu gobierno."
+"disturbios no produce ni comida ni producción, ni ciencia ni impuestos, sólo "
+"lujos. Las ciudades con disturbios es más fácil que se subleve bajo la "
+"incitación de un Diplomático o Espía enemigo. Los disturbios prolongados en "
+"Democracia pueden dar lugar a una revolución espontánea, derrocando a tu "
+"gobierno."
 
 #: data/helpdata.txt:700
 msgid ""
@@ -20045,21 +20476,36 @@ msgid ""
 "citizen is simply to assign that citizen to the role of a specialist. But if "
 "cities are ever to work more than four terrain tiles at once, the problem of "
 "morale must be confronted more directly."
-msgstr "Cabe destacar que sólo los ciudadanos que trabajan la tierra varían en la moral - artistas, científicos, y recaudadores de impuestos disfrutar del privilegio de  permanecer perpetuamente contento. Así, una solución para el problema de un ciudadano descontento es simplemente de asignar a ese ciudadano al papel de un especialista. Pero si las ciudades tienen que trabajar más de cuatro casillas de terreno a la vez, el problema de la moral debe ser enfrentado de manera más directa."
+msgstr ""
+"Cabe destacar que sólo los ciudadanos que trabajan la tierra varían en la "
+"moral - artistas, científicos, y recaudadores de impuestos disfrutar del "
+"privilegio de  permanecer perpetuamente contento. Así, una solución para el "
+"problema de un ciudadano descontento es simplemente de asignar a ese "
+"ciudadano al papel de un especialista. Pero si las ciudades tienen que "
+"trabajar más de cuatro casillas de terreno a la vez, el problema de la moral "
+"debe ser enfrentado de manera más directa."
 
 #: data/helpdata.txt:708
 msgid ""
 "There are many ways of making unhappy citizens content, which does prevent "
 "disorder but is without further benefit. Producing happy citizens can "
 "balance the effect of unhappy citizens and also bring other benefits."
-msgstr "Hay muchas maneras de hacer conformes ciudadanos descontentos, que impide que el desorden, pero es, sin mayor beneficio. La producción de ciudadanos felices puede equilibrar el efecto de los ciudadanos descontentos y también aportan otros beneficios."
+msgstr ""
+"Hay muchas maneras de hacer conformes ciudadanos descontentos, que impide "
+"que el desorden, pero es, sin mayor beneficio. La producción de ciudadanos "
+"felices puede equilibrar el efecto de los ciudadanos descontentos y también "
+"aportan otros beneficios."
 
 #: data/helpdata.txt:713
 msgid ""
 "Cities with three or more citizens celebrate when at least half their "
 "citizens are happy and none remain unhappy. The effects of celebration vary "
 "depending on your government type; in the default ruleset:"
-msgstr "Las ciudades con tres o más ciudadanos entran en celebraciones cuando al menos la mitad de sus ciudadanos están contentos y no hay ninguno descontento. Los efectos de la celebración varían en función de tu tipo de gobierno, en el conjunto de reglas por defecto:"
+msgstr ""
+"Las ciudades con tres o más ciudadanos entran en celebraciones cuando al "
+"menos la mitad de sus ciudadanos están contentos y no hay ninguno "
+"descontento. Los efectos de la celebración varían en función de tu tipo de "
+"gobierno, en el conjunto de reglas por defecto:"
 
 #: data/helpdata.txt:717
 msgid ""
@@ -20089,7 +20535,14 @@ msgid ""
 "Without rapture, large cities can grow only by struggling to produce a food "
 "surplus -- which can be difficult enough -- and then waiting dozens of turns "
 "for their granary to fill."
-msgstr " - Bajo República y Democracia, tu ciudad entrará en \"éxtasis\": la población de tu ciudad aumentará en 1 cada turno hasta que no haya exceso de alimento o hasta que el número de ciudadanos felices ya no sea suficiente para seguir con las celebraciones. Sin éxtasis, las grandes ciudades sólo puede crecer luchando para producir un excedente de alimentos - que puede ser bastante difícil - y luego esperar docenas de vueltas para llenar su granero."
+msgstr ""
+" - Bajo República y Democracia, tu ciudad entrará en \"éxtasis\": la "
+"población de tu ciudad aumentará en 1 cada turno hasta que no haya exceso de "
+"alimento o hasta que el número de ciudadanos felices ya no sea suficiente "
+"para seguir con las celebraciones. Sin éxtasis, las grandes ciudades sólo "
+"puede crecer luchando para producir un excedente de alimentos - que puede "
+"ser bastante difícil - y luego esperar docenas de vueltas para llenar su "
+"granero."
 
 #: data/helpdata.txt:732
 msgid ""
@@ -20098,7 +20551,12 @@ msgid ""
 "to simulate the difficulty of imposing order upon a large empire. The "
 "precise thresholds depend on government type; see the section on Government "
 "for details."
-msgstr "En imperios pequeños, como ya se indicó, el quinto ciudadano en cada ciudad es el primero descontento. A medida que obtienes más ciudades, este límite en realidad disminuye, para simular la dificultad de imponer orden en un gran imperio. Los límites precisos dependen del tipo de gobierno; mire la sección sobre el Gobierno para obtener detalles."
+msgstr ""
+"En imperios pequeños, como ya se indicó, el quinto ciudadano en cada ciudad "
+"es el primero descontento. A medida que obtienes más ciudades, este límite "
+"en realidad disminuye, para simular la dificultad de imponer orden en un "
+"gran imperio. Los límites precisos dependen del tipo de gobierno; mire la "
+"sección sobre el Gobierno para obtener detalles."
 
 #: data/helpdata.txt:740
 msgid ""
@@ -20108,7 +20566,15 @@ msgid ""
 "naturally content, angry citizens will appear; these must all be made merely "
 "unhappy before any unhappy citizens can be made content, but in all other "
 "respects behave as unhappy citizens."
-msgstr "Por lo tanto, es posible que la fundación o la conquista de una ciudad provoque el desorden generalizado en todo su imperio. El crecimiento continúo del imperio puede dar lugar a sanciones adicionales. En los imperios que crecen más allá del punto en el que los ciudadanos no son naturalmente conformes, ciudadanos enfadados van a aparecer; todos estos debe convertirse en ciudadanos descontentos antes de que los ciudadanos descontentos puedan ser pasados a conformes, pero en todos los demás aspectos se comportan como ciudadanos descontentos."
+msgstr ""
+"Por lo tanto, es posible que la fundación o la conquista de una ciudad "
+"provoque el desorden generalizado en todo su imperio. El crecimiento "
+"continúo del imperio puede dar lugar a sanciones adicionales. En los "
+"imperios que crecen más allá del punto en el que los ciudadanos no son "
+"naturalmente conformes, ciudadanos enfadados van a aparecer; todos estos "
+"debe convertirse en ciudadanos descontentos antes de que los ciudadanos "
+"descontentos puedan ser pasados a conformes, pero en todos los demás "
+"aspectos se comportan como ciudadanos descontentos."
 
 #: data/helpdata.txt:750
 msgid ""
@@ -20118,7 +20584,14 @@ msgid ""
 "produced by any entertainers in a city, each city receives back some of the "
 "trade points it produces as luxury points according to your empire's tax "
 "rates; see the section on Trade."
-msgstr "Los lujos hacen que los ciudadanos sean felices. Por cada dos puntos de lujo que una ciudad produce, un ciudadano conforme se hace feliz (si no quedan ciudadanos conformes, los ciudadanos descontentos pasan a ser conformes y después felices). Además de los puntos de lujo producidos por los artistas en la ciudad, cada ciudad recibe de nuevo algunos puntos de comercio que produce como lujos de acuerdo a las tasas de impuestos de tu imperio; mira la sección sobre comercio."
+msgstr ""
+"Los lujos hacen que los ciudadanos sean felices. Por cada dos puntos de lujo "
+"que una ciudad produce, un ciudadano conforme se hace feliz (si no quedan "
+"ciudadanos conformes, los ciudadanos descontentos pasan a ser conformes y "
+"después felices). Además de los puntos de lujo producidos por los artistas "
+"en la ciudad, cada ciudad recibe de nuevo algunos puntos de comercio que "
+"produce como lujos de acuerdo a las tasas de impuestos de tu imperio; mira "
+"la sección sobre comercio."
 
 #: data/helpdata.txt:757
 msgid ""
@@ -20126,7 +20599,11 @@ msgid ""
 "citizens that are unhappy due to crowding, such as Temples and Colosseums in "
 "the default rules. Some wonders of the world can also have this effect. See "
 "the appropriate sections for details."
-msgstr "Hay varias instalaciones urbanas que van a hacer conformes a los que aún están descontentos por la aglomeración, tales como templos y coliseos en las reglas predeterminadas. Algunas Maravillas del Mundo también pueden tener este efecto. Mira las secciones apropiadas para más detalles."
+msgstr ""
+"Hay varias instalaciones urbanas que van a hacer conformes a los que aún "
+"están descontentos por la aglomeración, tales como templos y coliseos en las "
+"reglas predeterminadas. Algunas Maravillas del Mundo también pueden tener "
+"este efecto. Mira las secciones apropiadas para más detalles."
 
 #: data/helpdata.txt:762
 msgid ""
@@ -20139,7 +20616,18 @@ msgid ""
 "a fortress within three tiles of a friendly city; however, certain units "
 "(\"field units\") are inherently aggressive and cause unhappiness regardless "
 "of location."
-msgstr "Las unidades militares pueden afectar a la felicidad de la ciudad. Bajo los regímenes autoritarios esto es útil, porque las unidades militares estacionadas en una ciudad pueden evitar la infelicidad imponiendo la ley marcial. Sin embargo, en los gobiernos representativos, los ciudadanos se enfadan cuando su ciudad está soportando a unidades militares que se han desplegado de una manera agresiva. Esto incluye las unidades que no están dentro de sus fronteras nacionales, una ciudad amiga (incluyendo las ciudades de tus aliados), o una fortaleza a tres casillas de una ciudad amiga; sin embargo, ciertas unidades (\"unidades de campo\") son inherentemente agresivas y causan infelicidad independientemente de su ubicación."
+msgstr ""
+"Las unidades militares pueden afectar a la felicidad de la ciudad. Bajo los "
+"regímenes autoritarios esto es útil, porque las unidades militares "
+"estacionadas en una ciudad pueden evitar la infelicidad imponiendo la ley "
+"marcial. Sin embargo, en los gobiernos representativos, los ciudadanos se "
+"enfadan cuando su ciudad está soportando a unidades militares que se han "
+"desplegado de una manera agresiva. Esto incluye las unidades que no están "
+"dentro de sus fronteras nacionales, una ciudad amiga (incluyendo las "
+"ciudades de tus aliados), o una fortaleza a tres casillas de una ciudad "
+"amiga; sin embargo, ciertas unidades (\"unidades de campo\") son "
+"inherentemente agresivas y causan infelicidad independientemente de su "
+"ubicación."
 
 #: data/helpdata.txt:773
 msgid ""
@@ -20148,13 +20636,20 @@ msgid ""
 "ruleset, only certain wonders -- such as J.S. Bach's Cathedral -- and one "
 "special building -- the Police Station -- can offset this form of "
 "unhappiness."
-msgstr "Esta forma de la infelicidad es distinta de la causada por el hacinamiento, y no puede ser compensada por los lujos, o por la mayoría de las mejoras de la ciudad. En el conjunto de reglas por defecto, sólo hay unas pocas Maravillas -- por ejemplo la Catedral de J.S. Bach -- y un edificio especial -- la Comisaría -- que pueden compensar esta forma de infelicidad."
+msgstr ""
+"Esta forma de la infelicidad es distinta de la causada por el hacinamiento, "
+"y no puede ser compensada por los lujos, o por la mayoría de las mejoras de "
+"la ciudad. En el conjunto de reglas por defecto, sólo hay unas pocas "
+"Maravillas -- por ejemplo la Catedral de J.S. Bach -- y un edificio especial "
+"-- la Comisaría -- que pueden compensar esta forma de infelicidad."
 
 #: data/helpdata.txt:779
 msgid ""
 "The Happiness tab on the city dialog will give detailed insight into the "
 "mood of the citizenry and its causes."
-msgstr "La pestaña de la felicidad en el cuadro de diálogo de la ciudad te dará información detallada sobre el estado de ánimo de la ciudadanía y sus causas."
+msgstr ""
+"La pestaña de la felicidad en el cuadro de diálogo de la ciudad te dará "
+"información detallada sobre el estado de ánimo de la ciudadanía y sus causas."
 
 #: data/helpdata.txt:785
 msgid " Pollution"
@@ -20168,7 +20663,14 @@ msgid ""
 "its production point output. When this sum exceeds 20, the excess is the "
 "percent chance of pollution appearing each turn; this percentage is shown in "
 "the city dialog."
-msgstr "La contaminación puede ser una plaga en las grandes ciudades, especialmente a medida que tu civilización se hace más industrializada. La posibilidad de contaminación que aparece alrededor de una ciudad depende de la suma de su población, agravado por varios avances tecnológicos, y su producción. Cuando esta suma sea superior a 20, el exceso es el porcentaje de probabilidad de la aparición de contaminación para cada turno, porcentaje que se muestra en el cuadro de diálogo de la ciudad."
+msgstr ""
+"La contaminación puede ser una plaga en las grandes ciudades, especialmente "
+"a medida que tu civilización se hace más industrializada. La posibilidad de "
+"contaminación que aparece alrededor de una ciudad depende de la suma de su "
+"población, agravado por varios avances tecnológicos, y su producción. Cuando "
+"esta suma sea superior a 20, el exceso es el porcentaje de probabilidad de "
+"la aparición de contaminación para cada turno, porcentaje que se muestra en "
+"el cuadro de diálogo de la ciudad."
 
 #: data/helpdata.txt:793
 msgid ""
@@ -20176,7 +20678,12 @@ msgid ""
 "polluted tile generates only half its usual food, production, and trade. The "
 "pollution can only be cleared by dispatching Workers, Settlers, or Engineers "
 "with the \"clean pollution\" order."
-msgstr "La contaminación aparece como mugre que cubre las casillas de terreno alrededor de la ciudad. Una casilla contaminada genera sólo la mitad de su comida, producción y comercio habitual. La contaminación sólo puede ser limpiada mediante el envío de obreros, colonos, o ingenieros con la orden de \"limpiar contaminación\"."
+msgstr ""
+"La contaminación aparece como mugre que cubre las casillas de terreno "
+"alrededor de la ciudad. Una casilla contaminada genera sólo la mitad de su "
+"comida, producción y comercio habitual. La contaminación sólo puede ser "
+"limpiada mediante el envío de obreros, colonos, o ingenieros con la orden de "
+"\"limpiar contaminación\"."
 
 #: data/helpdata.txt:798
 msgid ""
@@ -20186,7 +20693,14 @@ msgid ""
 "time global warming advances, the entire world loses coastal land for "
 "jungles and swamps, and inland tiles are lost to desert. This tends to "
 "devastate cities and leads to global impoverishment."
-msgstr "Cuando una casilla no utilizada se contamina, existe la tentación de evitar el esfuerzo de limpiarla, pero la propagación de la contaminación tiene resultados mucho más terribles - cada casilla contaminada aumenta el riesgo de calentamiento global. Cada vez que avanza el calentamiento global, el mundo entero pierde terreno de la costa por selvas y ciénagas, y también se pierden casillas tierra adentro por desiertos. Esto tiende a devastar las ciudades y conduce a un empobrecimiento global."
+msgstr ""
+"Cuando una casilla no utilizada se contamina, existe la tentación de evitar "
+"el esfuerzo de limpiarla, pero la propagación de la contaminación tiene "
+"resultados mucho más terribles - cada casilla contaminada aumenta el riesgo "
+"de calentamiento global. Cada vez que avanza el calentamiento global, el "
+"mundo entero pierde terreno de la costa por selvas y ciénagas, y también se "
+"pierden casillas tierra adentro por desiertos. Esto tiende a devastar las "
+"ciudades y conduce a un empobrecimiento global."
 
 #: data/helpdata.txt:806
 msgid ""
@@ -20195,14 +20709,23 @@ msgid ""
 "time even after all pollution has been cleaned. If a long time passes with "
 "an elevated risk of warming, its effects will be all the more severe when it "
 "does occur."
-msgstr "El riesgo de calentamiento global es acumulativo; cuando más tiempo se dejen sin limpiar las casillas contaminadas, mayor será el riesgo, y el riesgo puede persistir durante algún tiempo, incluso después de que toda la contaminación se ha limpiado. Si pasa mucho tiempo con un elevado riesgo de calentamiento, sus efectos serán mucho más graves cuando se produzca."
+msgstr ""
+"El riesgo de calentamiento global es acumulativo; cuando más tiempo se dejen "
+"sin limpiar las casillas contaminadas, mayor será el riesgo, y el riesgo "
+"puede persistir durante algún tiempo, incluso después de que toda la "
+"contaminación se ha limpiado. Si pasa mucho tiempo con un elevado riesgo de "
+"calentamiento, sus efectos serán mucho más graves cuando se produzca."
 
 #: data/helpdata.txt:816
 msgid ""
 "Cities may be improved with a wide variety of buildings, each with a "
 "different effect. Each city may have only one of each improvement, and some "
 "improvements require others to have been built first."
-msgstr "Las ciudades pueden ser mejoradas con una gran variedad de edificios, cada uno con un efecto diferente. Cada ciudad puede tener sólo uno de cada instalación, y algunas instalaciones requieren que otras se hayan construido primero."
+msgstr ""
+"Las ciudades pueden ser mejoradas con una gran variedad de edificios, cada "
+"uno con un efecto diferente. Cada ciudad puede tener sólo uno de cada "
+"instalación, y algunas instalaciones requieren que otras se hayan construido "
+"primero."
 
 #: data/helpdata.txt:820
 msgid ""
@@ -20214,14 +20737,26 @@ msgid ""
 "upkeep on all of your improvements, some of them will be automatically sold; "
 "obviously this should be avoided as the improvements chosen might not be "
 "ones you would have preferred to sell."
-msgstr "Construir mejoras cuesta puntos de producción, y una vez completadas, muchas mejoras requieren un mantenimiento de una o más piezas de oro por turno. Tu puedes desmantelar y vender una instalación, recibiendo una moneda de oro por cada punto de producción utilizados en su construcción, aunque sólo puedes vender una instalación por ciudad por turno. Si llega un turno en el que no puedes pagar el mantenimiento de todas tus instalaciones, algunas de ellas se venderán de forma automática; obviamente esto debe evitarse en la medida de que las mejoras elegidas podrían no ser las que hubieras preferido vender."
+msgstr ""
+"Construir mejoras cuesta puntos de producción, y una vez completadas, muchas "
+"mejoras requieren un mantenimiento de una o más piezas de oro por turno. Tu "
+"puedes desmantelar y vender una instalación, recibiendo una moneda de oro "
+"por cada punto de producción utilizados en su construcción, aunque sólo "
+"puedes vender una instalación por ciudad por turno. Si llega un turno en el "
+"que no puedes pagar el mantenimiento de todas tus instalaciones, algunas de "
+"ellas se venderán de forma automática; obviamente esto debe evitarse en la "
+"medida de que las mejoras elegidas podrían no ser las que hubieras preferido "
+"vender."
 
 #: data/helpdata.txt:830
 msgid ""
 "Most improvements become available only when you achieve certain "
 "technologies, while further advances can render some improvements obsolete, "
 "at which point they are automatically sold."
-msgstr "La mayoría de las instalaciones sólo están disponibles cuando tu alcanzas ciertas tecnologías, sin embargo avances futuros pueden hacer algunas mejoras obsoletas, momento en el que se venden de forma automática."
+msgstr ""
+"La mayoría de las instalaciones sólo están disponibles cuando tu alcanzas "
+"ciertas tecnologías, sin embargo avances futuros pueden hacer algunas "
+"mejoras obsoletas, momento en el que se venden de forma automática."
 
 #: data/helpdata.txt:841
 msgid ""
@@ -20231,7 +20766,14 @@ msgid ""
 "points, certain special units built in one city (Caravans and Freight in the "
 "default ruleset) can contribute their full cost in production points towards "
 "the construction of a wonder in another city."
-msgstr "Las maravillas son edificios especiales que sólo pueden ser completados por un solo jugador por partida, y que a menudo ayudan a mejorar tu civilización. A diferencia de las instalaciones de una ciudad ordinaria, que deben ser construidas con los puntos de producción locales, algunas unidades especiales construidas en ciudades (Caravanas y Convoyes en el conjunto de reglas por defecto) pueden contribuir con su coste en puntos de producción hacia la construcción de una maravilla en otra ciudad."
+msgstr ""
+"Las maravillas son edificios especiales que sólo pueden ser completados por "
+"un solo jugador por partida, y que a menudo ayudan a mejorar tu "
+"civilización. A diferencia de las instalaciones de una ciudad ordinaria, que "
+"deben ser construidas con los puntos de producción locales, algunas unidades "
+"especiales construidas en ciudades (Caravanas y Convoyes en el conjunto de "
+"reglas por defecto) pueden contribuir con su coste en puntos de producción "
+"hacia la construcción de una maravilla en otra ciudad."
 
 #: data/helpdata.txt:849
 msgid ""
@@ -20242,13 +20784,13 @@ msgid ""
 "advance required by each wonder to build it, it will be disabled when any "
 "player achieves the obsoleting advance."
 msgstr ""
-"Una vez construida, una maravilla se encuentra en la ciudad "
-"que la construyó, y no pueden ser vendidas o destruidas (a menos que toda la "
-"ciudad sea destruida). Sin embargo, algunas maravillas se vuelven obsoletas "
-"con el descubrimiento de un cierto avance, y pierden su efecto. Ten en "
-"cuenta la asimetría: mientras que tu tienes que lograr el avance necesario "
-"de cada maravilla para construirla, ésta será desactivada cuando otro "
-"jugador logre el avance que la vuelve obsoleta."
+"Una vez construida, una maravilla se encuentra en la ciudad que la "
+"construyó, y no pueden ser vendidas o destruidas (a menos que toda la ciudad "
+"sea destruida). Sin embargo, algunas maravillas se vuelven obsoletas con el "
+"descubrimiento de un cierto avance, y pierden su efecto. Ten en cuenta la "
+"asimetría: mientras que tu tienes que lograr el avance necesario de cada "
+"maravilla para construirla, ésta será desactivada cuando otro jugador logre "
+"el avance que la vuelve obsoleta."
 
 #: data/helpdata.txt:863
 msgid ""
@@ -20275,7 +20817,15 @@ msgid ""
 "city and thus require no upkeep."
 msgstr ""
 "Las unidades son generalmente construidas en las ciudades con su producción. "
-"Una vez construidas, las unidades son propiedad de la ciudad que las construyó (aunque luego pueden ser establecidas al visitar una ciudad diferente) y requiere de soporte de esa ciudad, que será uno de tus gastos principales. La mayoría de las unidades requieren mantenimiento, tales como puntos de producción de su ciudad natal, aunque algunos estilos autocráticos de gobierno puede obligar las ciudades a prestar apoyo a varias unidades de forma gratuita. Algunas unidades, especialmente con las que se inicia el juego, no cuentan con ninguna ciudad de origen y por lo tanto no requieren mantenimiento."
+"Una vez construidas, las unidades son propiedad de la ciudad que las "
+"construyó (aunque luego pueden ser establecidas al visitar una ciudad "
+"diferente) y requiere de soporte de esa ciudad, que será uno de tus gastos "
+"principales. La mayoría de las unidades requieren mantenimiento, tales como "
+"puntos de producción de su ciudad natal, aunque algunos estilos autocráticos "
+"de gobierno puede obligar las ciudades a prestar apoyo a varias unidades de "
+"forma gratuita. Algunas unidades, especialmente con las que se inicia el "
+"juego, no cuentan con ninguna ciudad de origen y por lo tanto no requieren "
+"mantenimiento."
 
 #: data/helpdata.txt:878
 msgid ""
@@ -20351,7 +20901,11 @@ msgstr ""
 "ganan un punto extra. Una unidad que pasa un turno en una ciudad recupera un "
 "tercio de sus puntos de vida totales, y las mejoras de la ciudad apropiadas "
 "al tipo de unidad pueden ayudar a mejorarlo. En las reglas por defecto, una "
-"unidad que pasa un turno en una fortaleza recupera un cuarto de sus puntos de vida. Las maravillas también pueden ayudar a amplificar el efecto de recuperación (por ejemplo Las Naciones Unidas en las reglas por defecto). Las unidades dañadas que estén en modo Vigilancia se despertarán cuando hayan recuperado todos sus puntos de vida."
+"unidad que pasa un turno en una fortaleza recupera un cuarto de sus puntos "
+"de vida. Las maravillas también pueden ayudar a amplificar el efecto de "
+"recuperación (por ejemplo Las Naciones Unidas en las reglas por defecto). "
+"Las unidades dañadas que estén en modo Vigilancia se despertarán cuando "
+"hayan recuperado todos sus puntos de vida."
 
 #: data/helpdata.txt:921
 msgid ""
@@ -20444,7 +20998,8 @@ msgstr ""
 "misiles)."
 
 #: data/helpdata.txt:956
-msgid " - An SDI Defense doubles the defender's strength against missile attacks."
+msgid ""
+" - An SDI Defense doubles the defender's strength against missile attacks."
 msgstr ""
 " - La Defensa SDI duplica nuevamente la fuerza del defensor contra ataques "
 "de misiles."
@@ -20698,7 +21253,8 @@ msgstr ""
 
 #: data/helpdata.txt:1079
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
-msgstr "La fuerza inicial del atacante es 12, pero aumenta a 18 por ser veterano."
+msgstr ""
+"La fuerza inicial del atacante es 12, pero aumenta a 18 por ser veterano."
 
 #: data/helpdata.txt:1082
 msgid ""
@@ -20977,13 +21533,17 @@ msgid ""
 "others can be achieved by signing diplomatic treaties."
 msgstr ""
 "Hay cinco estados diplomáticos entre los jugadores: la guerra, la tregua, el "
-"armisticio, la paz y la alianza. El primero es el estado por defecto, mientras que los otros pueden ser alcanzados mediante la firma de tratados diplomáticos."
+"armisticio, la paz y la alianza. El primero es el estado por defecto, "
+"mientras que los otros pueden ser alcanzados mediante la firma de tratados "
+"diplomáticos."
 
 #: data/helpdata.txt:1231
 msgid ""
 "During War, you can freely move your units inside enemy territory and attack "
 "their units and cities at will."
-msgstr "Durante la guerra, puedes mover libremente tus unidades dentro de territorio enemigo y puedes atacar a sus unidades y sus ciudades a tu antojo."
+msgstr ""
+"Durante la guerra, puedes mover libremente tus unidades dentro de territorio "
+"enemigo y puedes atacar a sus unidades y sus ciudades a tu antojo."
 
 #: data/helpdata.txt:1234
 msgid ""
@@ -21071,7 +21631,13 @@ msgid ""
 "advances with Diplomats and Spies; wonders can provide you with technology; "
 "and another player might grant technology in the terms of a pact. But "
 "otherwise advances must be discovered through the efforts of your own people."
-msgstr "Hay varias maneras de conseguir avances de otras civilizaciones: a veces se descubre la tecnología del enemigo cuando se captura una ciudad; puedes robar avances con diplomáticos y espías; las Maravillas te pueden proporcionar tecnología; y otro jugador puede concederte tecnología a través de un pacto diplomático. Sino, los avances deben ser descubiertos a través de los esfuerzos de tu propio pueblo."
+msgstr ""
+"Hay varias maneras de conseguir avances de otras civilizaciones: a veces se "
+"descubre la tecnología del enemigo cuando se captura una ciudad; puedes "
+"robar avances con diplomáticos y espías; las Maravillas te pueden "
+"proporcionar tecnología; y otro jugador puede concederte tecnología a través "
+"de un pacto diplomático. Sino, los avances deben ser descubiertos a través "
+"de los esfuerzos de tu propio pueblo."
 
 #: data/helpdata.txt:1281
 msgid ""
@@ -21079,7 +21645,11 @@ msgid ""
 "scientists (see the Cities section). While it is possible to change which "
 "advance you are currently researching, by default all progress is lost by "
 "doing so."
-msgstr "La mayoría de los avances en tecnología proviene del comercio (mire la sección de Comercio) y de los científicos (véase la sección sobre las Ciudades). Si bien es posible cambiar lo que se está investigando, por defecto el progreso realizado se pierde con ello."
+msgstr ""
+"La mayoría de los avances en tecnología proviene del comercio (mire la "
+"sección de Comercio) y de los científicos (véase la sección sobre las "
+"Ciudades). Si bien es posible cambiar lo que se está investigando, por "
+"defecto el progreso realizado se pierde con ello."
 
 #: data/helpdata.txt:1286
 msgid ""
@@ -21088,7 +21658,13 @@ msgid ""
 "leaving the ones you have already made intact -- obsolete improvements are "
 "immediately sold, and obsolete wonders lose their effect. See the relevant "
 "sections for more information."
-msgstr "Los avances tecnológicos pueden hacer que las unidades, las instalaciones de las ciudades, y las Maravillas se vuelvan obsoletas. Mientras que las unidades obsoletas simplemente no se pueden construir - deja las ya construidas intactas - las instalaciones obsoletas se venden de inmediato, y las Maravillas obsoletas pierden su efecto. Mira las secciones pertinentes para obtener más información."
+msgstr ""
+"Los avances tecnológicos pueden hacer que las unidades, las instalaciones de "
+"las ciudades, y las Maravillas se vuelvan obsoletas. Mientras que las "
+"unidades obsoletas simplemente no se pueden construir - deja las ya "
+"construidas intactas - las instalaciones obsoletas se venden de inmediato, y "
+"las Maravillas obsoletas pierden su efecto. Mira las secciones pertinentes "
+"para obtener más información."
 
 #: data/helpdata.txt:1299
 msgid ""
@@ -21402,9 +21978,12 @@ msgstr ""
 "  Botón izquierdo en la ciudad:          Muestra el cuadro de la ciudad\n"
 "  Botón izquierdo en la unidad:           Activa la unidad\n"
 "  Botón izquierdo y arrastrar la unidad: Comando 'Ir a' para la unidad\n"
-"                              (si el modo de Ir a sin teclado se ha activado en opciones)\n"
-"  Botón central:                                  Muestra la info de la casilla\n"
-"  Botón derecho:                                Centrar la vista a esta casilla\n"
+"                              (si el modo de Ir a sin teclado se ha activado "
+"en opciones)\n"
+"  Botón central:                                  Muestra la info de la "
+"casilla\n"
+"  Botón derecho:                                Centrar la vista a esta "
+"casilla\n"
 "\n"
 "  Shift + botón izquierdo:            \t  Copia la producción (GTK)\n"
 "  Shift + botón derecho en la ciudad:    Pega la producción en ciudad (GTK)\n"
@@ -21525,17 +22104,18 @@ msgid ""
 "hints, some background information, and some preset examples in the file "
 "README.cma, included with Freeciv.\n"
 msgstr ""
-"El Gobernador de Ciudadanos (en inglés CMA, Citizen Management Agent) "
-"te ayuda a controlar tus ciudades.  Distribuye los obreros disponibles por "
-"las casillas que rodean a la ciudad para conseguir un rendimiento óptimo.  "
-"También cambia a los obreros por científicos, recaudadores u artistas, si "
-"es necesario.  Y el gobernador tiene otra habilidad sorprendente: si es posible, "
-"evita los disturbios en la ciudad.\n"
+"El Gobernador de Ciudadanos (en inglés CMA, Citizen Management Agent) te "
+"ayuda a controlar tus ciudades.  Distribuye los obreros disponibles por las "
+"casillas que rodean a la ciudad para conseguir un rendimiento óptimo.  "
+"También cambia a los obreros por científicos, recaudadores u artistas, si es "
+"necesario.  Y el gobernador tiene otra habilidad sorprendente: si es "
+"posible, evita los disturbios en la ciudad.\n"
 "\n"
 "Hay varias formas de indicar al gobernador qué te gustaría que produjese la "
-"ciudad.  Abre la ventana de ciudad y pulsa en la pestaña del gobernador; verás que hay dos tipos de controles.  Con los de la izquierda, puedes fijar un "
-"'Superávit mínimo' para cada tipo de producto; por ejemplo, Oro = +3 obliga "
-"a que la ciudad produzca como mínimo 3 monedas de oro más de las que "
+"ciudad.  Abre la ventana de ciudad y pulsa en la pestaña del gobernador; "
+"verás que hay dos tipos de controles.  Con los de la izquierda, puedes fijar "
+"un 'Superávit mínimo' para cada tipo de producto; por ejemplo, Oro = +3 "
+"obliga a que la ciudad produzca como mínimo 3 monedas de oro más de las que "
 "necesita para el mantenimiento de sus instalaciones.  Con los controles de "
 "la derecha puedes establecer las prioridades relativas de los tipos de "
 "producción; por ejemplo, si fijas la ciencia a 3 estarás indicando que "
@@ -21544,20 +22124,26 @@ msgstr ""
 "producción, según tus necesidades de cada momento.\n"
 "\n"
 "Si fijas un 'Superávit mínimo' que no se puede alcanzar, el gobernador se "
-"desactivará para esa ciudad.  Siempre que el gobernador descubre que no puede alcanzar los objetivos que le has fijado para una ciudad, te devuelve el "
-"control de esa ciudad, así que es preferible fijar un superávit mínimo más "
-"bien bajo y usar las prioridades para definir tus objetivos.\n"
+"desactivará para esa ciudad.  Siempre que el gobernador descubre que no "
+"puede alcanzar los objetivos que le has fijado para una ciudad, te devuelve "
+"el control de esa ciudad, así que es preferible fijar un superávit mínimo "
+"más bien bajo y usar las prioridades para definir tus objetivos.\n"
 "\n"
-"Si activas la casilla de 'Celebraciones' indicarás que el gobernador debe mantener la ciudad en celebraciones, aunque esto sólo será posible si la ciudad produce mucho lujo.  Lee la ayuda acerca de la 'Felicidad'.\n"
+"Si activas la casilla de 'Celebraciones' indicarás que el gobernador debe "
+"mantener la ciudad en celebraciones, aunque esto sólo será posible si la "
+"ciudad produce mucho lujo.  Lee la ayuda acerca de la 'Felicidad'.\n"
 "\n"
-"Si pulsas 'Controlar ciudad' el gobernador pasará a controlar la ciudad, y si "
-"pulsas en 'Dejar ciudad' el gobernador dejará esa ciudad y recibirás de nuevo su control.\n"
+"Si pulsas 'Controlar ciudad' el gobernador pasará a controlar la ciudad, y "
+"si pulsas en 'Dejar ciudad' el gobernador dejará esa ciudad y recibirás de "
+"nuevo su control.\n"
 "\n"
 "Para una mayor facilidad de uso, puedes grabar tu configuración de "
 "controladores con un nombre.  Pulsa en 'Añadir configuración' e introduce un "
 "nombre para tu configuración.  Tras esto, podrás usar esta configuración en "
 "cualquier ciudad simplemente pulsando en el nombre.  También puedes ver tu "
-"configuración desde el 'Informe de ciudades', en la columna Gobernador.  Y puedes cambiarlo desde ahí (con 'cambiar' -> 'Gobernador') si es una configuración grabada.\n"
+"configuración desde el 'Informe de ciudades', en la columna Gobernador.  Y "
+"puedes cambiarlo desde ahí (con 'cambiar' -> 'Gobernador') si es una "
+"configuración grabada.\n"
 "\n"
 "Usa 'Juego' -> 'Grabar preferencias' para grabar tus configuraciones "
 "permanentemente.\n"
@@ -21607,7 +22193,8 @@ msgstr ""
 
 #: data/helpdata.txt:1565
 msgid "  - Messages starting with '.' will be sent only to all your allies."
-msgstr "  - Los mensajes que comiencen con '.' sólo serán enviados a tus aliados."
+msgstr ""
+"  - Los mensajes que comiencen con '.' sólo serán enviados a tus aliados."
 
 #: data/helpdata.txt:1567
 msgid ""
@@ -21658,11 +22245,15 @@ msgstr ""
 "* Obtener colores:\n"
 "Secuencia con el nombre completo: '[color] ... [/color]' \n"
 "Secuencia Abreviada: '[c] ... [/c]'\n"
-"Tecla rápida en la entrada: Ctrl-C (tienes que seleccionar el color en la barra de herramientas sobre la entrada)\n"
-"La secuencia de comienzo del color siempre tiene como mínimo una de los siguientes parametros:\n"
-"- 'foreground' (abreviación 'fg'): un nombre de color(en inglés) cómo red, o una especificación en hex como #3050b2 o #35b.\n"
+"Tecla rápida en la entrada: Ctrl-C (tienes que seleccionar el color en la "
+"barra de herramientas sobre la entrada)\n"
+"La secuencia de comienzo del color siempre tiene como mínimo una de los "
+"siguientes parametros:\n"
+"- 'foreground' (abreviación 'fg'): un nombre de color(en inglés) cómo red, o "
+"una especificación en hex como #3050b2 o #35b.\n"
 "- 'background' (abreviación 'bg'): como arriba.\n"
-"Ejemplo: '[c fg=\"blue\" bg=\"yellow\"]color[/c]' mostrará la palabra 'color' en azul sobre un fondo amarillo."
+"Ejemplo: '[c fg=\"blue\" bg=\"yellow\"]color[/c]' mostrará la palabra "
+"'color' en azul sobre un fondo amarillo."
 
 #: data/helpdata.txt:1593
 msgid ""
@@ -21728,13 +22319,18 @@ msgstr ""
 "* Conseguir enlaces a ciudades:\n"
 "Secuencia con el nombre completo: '[link target=\"ciudad\"] ... [/link]'\n"
 "Secuencia Abreviada: '[l tgt=\"ciudad\"] ... [/l]'\n"
-"Tecla rápida en la entrada: Control-Alt-clic derecho en la ciudad en el mapa.\n"
+"Tecla rápida en la entrada: Control-Alt-clic derecho en la ciudad en el "
+"mapa.\n"
 "El parametro 'id' se tiene que asignar al Id de la ciudad que enlazas.\n"
-"Un parametro adicional 'name' se puede poner para enlazar la ciudad en caso que el usuario no tenga la ciudad en el mapa.\n"
-"Esta expresión puede ser iniciada y finalizada con el mismo par de corchetes, como '[link target=\"ciudad\" id=121 /]' (nótese la barra al final).\n"
-"Ejemplos: '[l tgt=\"ciudad\" id=65]ciudad[/l]' mostrar la palabra 'ciudad' "
-"a la que se podrá hacer clic para enlazar con la ciudad id 65.\n"
-"'[l tgt=\"ciudad\" id=65 name=\"sinnombre\" /]' mostrará el nombre de la ciudad id 65 si se conoce, sino la palabra 'sinnombre'."
+"Un parametro adicional 'name' se puede poner para enlazar la ciudad en caso "
+"que el usuario no tenga la ciudad en el mapa.\n"
+"Esta expresión puede ser iniciada y finalizada con el mismo par de "
+"corchetes, como '[link target=\"ciudad\" id=121 /]' (nótese la barra al "
+"final).\n"
+"Ejemplos: '[l tgt=\"ciudad\" id=65]ciudad[/l]' mostrar la palabra 'ciudad' a "
+"la que se podrá hacer clic para enlazar con la ciudad id 65.\n"
+"'[l tgt=\"ciudad\" id=65 name=\"sinnombre\" /]' mostrará el nombre de la "
+"ciudad id 65 si se conoce, sino la palabra 'sinnombre'."
 
 #: data/helpdata.txt:1628
 msgid ""
@@ -21753,11 +22349,16 @@ msgstr ""
 "* Obtener enlaces de texto:\n"
 "Secuencia con el nombre completo: '[link target=\"título\"] ... [/link]'\n"
 "Secuencia Abreviada: '[l tgt=\"título\"] ... [/l]'\n"
-"Tecla rápida: Control-Alt-clic derecho en una casilla sin ciudad en el mapa.\n"
-"Los parametros 'x' e 'y' se tienen que asignar a la localización que estás apuntando.\n"
-"Esta expresión puede ser iniciada y finalizada con el mismo par de corchetes, como '[link target=\"título\" x=5 y=36 /]' (nótese la barra al final).\n"
-"Ejemplo: '[l tgt=\"título\" x=17 y=3]esta casilla[/l]' mostrará la cadena 'esta "
-"casilla' a la que se podrá hacer clic para enlazar con la casilla (17, 3)."
+"Tecla rápida: Control-Alt-clic derecho en una casilla sin ciudad en el "
+"mapa.\n"
+"Los parametros 'x' e 'y' se tienen que asignar a la localización que estás "
+"apuntando.\n"
+"Esta expresión puede ser iniciada y finalizada con el mismo par de "
+"corchetes, como '[link target=\"título\" x=5 y=36 /]' (nótese la barra al "
+"final).\n"
+"Ejemplo: '[l tgt=\"título\" x=17 y=3]esta casilla[/l]' mostrará la cadena "
+"'esta casilla' a la que se podrá hacer clic para enlazar con la casilla (17, "
+"3)."
 
 #: data/helpdata.txt:1640
 msgid ""
@@ -21779,12 +22380,18 @@ msgstr ""
 "* Obtener enlaces a unidades:\n"
 "Secuencia con el nombre completo: '[link target=\"unidad\"] ... [/link]'\n"
 "Secuencia Abreviada: '[l tgt=\"unidad\"] ... [/l]'\n"
-"Tecla rápida en la entrada: Shift-Control-Alt-clic derecho en unidad en el mapa.\n"
-"El parametro 'id' se tiene que asignar al Id de la unidad que enlazas.  Se puede poner un parametro opcional 'name' para enlazar al nombre de la unidad en caso que los destinatarios no tengan esta unidad en su mapa.\n"
-"Esta expresión puede ser iniciada y finalizada con el mismo par de corchetes, como '[link target=\"unidad\" id=109 /]' (nótese la barra al final).\n"
+"Tecla rápida en la entrada: Shift-Control-Alt-clic derecho en unidad en el "
+"mapa.\n"
+"El parametro 'id' se tiene que asignar al Id de la unidad que enlazas.  Se "
+"puede poner un parametro opcional 'name' para enlazar al nombre de la unidad "
+"en caso que los destinatarios no tengan esta unidad en su mapa.\n"
+"Esta expresión puede ser iniciada y finalizada con el mismo par de "
+"corchetes, como '[link target=\"unidad\" id=109 /]' (nótese la barra al "
+"final).\n"
 "Ejemplos: '[l tgt=\"unidad\" id=235]unidad[/l]' mostrará la palabra 'unidad' "
 "a la que se podrá hacer clic para enlazar con la unidad con id 235.\n"
-"'[l tgt=\"unidad\" id=235 name=\"Guerrero\" /]' mostrará el nombre de la unidad id 235 si se conoce, sino la palabra 'Guerrero'."
+"'[l tgt=\"unidad\" id=235 name=\"Guerrero\" /]' mostrará el nombre de la "
+"unidad id 235 si se conoce, sino la palabra 'Guerrero'."
 
 #: data/helpdata.txt:1655
 msgid ""
@@ -21855,7 +22462,11 @@ msgid ""
 "rules), an activity which never completes, putting an item on its worklist "
 "will cause it to stop producing gold and start working on that item next "
 "turn."
-msgstr "Si una ciudad en la actualidad está produciendo oro (Acuñación en las reglas por defecto), una actividad que nunca se completa, y se agrega un elemento en su lista de trabajo, se detendrá la producción de oro y se comenzará a trabajar sobre ese tema el próximo turno."
+msgstr ""
+"Si una ciudad en la actualidad está produciendo oro (Acuñación en las reglas "
+"por defecto), una actividad que nunca se completa, y se agrega un elemento "
+"en su lista de trabajo, se detendrá la producción de oro y se comenzará a "
+"trabajar sobre ese tema el próximo turno."
 
 #: data/helpdata.txt:1692
 msgid ""
@@ -21881,12 +22492,15 @@ msgstr ""
 "consulta las instrucciones en:"
 
 #: data/helpdata.txt:1706
-msgid "You are also welcome to send any questions to the translation mailing list:"
-msgstr "También puedes enviarnos tus preguntas a la lista de correo de traducción:"
+msgid ""
+"You are also welcome to send any questions to the translation mailing list:"
+msgstr ""
+"También puedes enviarnos tus preguntas a la lista de correo de traducción:"
 
 #: data/helpdata.txt:1722
 msgid "Freeciv is covered by the GPL, which is included here: "
-msgstr "Freeciv se distribuye bajo la licencia GPL, que se reproduce a continuación: "
+msgstr ""
+"Freeciv se distribuye bajo la licencia GPL, que se reproduce a continuación: "
 
 #: data/helpdata.txt:2024
 msgid ""
@@ -22010,8 +22624,9 @@ msgid ""
 "the number of unhappy citizens made content."
 msgstr ""
 "Una Catedral hace que 3 ciudadanos descontentos pasen a estar conformes, "
-"facilitando el mantenimiento del orden público en la ciudad; sin embargo, esto no afecta a los ciudadanos descontentos por las actividades militares. El "
-"descubrimiento de la Teología incrementa el efecto de la Catedral, "
+"facilitando el mantenimiento del orden público en la ciudad; sin embargo, "
+"esto no afecta a los ciudadanos descontentos por las actividades militares. "
+"El descubrimiento de la Teología incrementa el efecto de la Catedral, "
 "transformando a un ciudadano descontento adicional en conforme.  El "
 "descubrimiento del Comunismo reduce el efecto de la Catedral, reduciendo en "
 "uno el número de ciudadanos descontentos que pasan a ser conformes."
@@ -22055,8 +22670,9 @@ msgid ""
 "made unhappy by military activity."
 msgstr ""
 "Proporciona diversión a los ciudadanos de una ciudad, haciendo que 3 "
-"ciudadanos descontentos pasen a estar conformes. (4 tras el descubrimiento de "
-"la Electricidad). Sin embargo, esto no afecta a los ciudadanos descontentos por las actividades militares."
+"ciudadanos descontentos pasen a estar conformes. (4 tras el descubrimiento "
+"de la Electricidad). Sin embargo, esto no afecta a los ciudadanos "
+"descontentos por las actividades militares."
 
 #: data/default/buildings.ruleset:281 data/civ2/buildings.ruleset:259
 #: data/civ1/buildings.ruleset:206
@@ -22069,7 +22685,11 @@ msgid ""
 "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse "
 "also makes 1 unhappy citizen content (unless that citizen is unhappy about "
 "military activity).  Also makes the revolt cost of the city 4 times bigger."
-msgstr "Reduce en un 50% la corrupción de una ciudad. Bajo una Democracia, los juzgados hacen que 1 ciudadano descontento pase a estar conforme (a no ser que esté descontento por la actividad militar). Además hace que el coste de una revuelva en la ciudad sea 4 veces mayor."
+msgstr ""
+"Reduce en un 50% la corrupción de una ciudad. Bajo una Democracia, los "
+"juzgados hacen que 1 ciudadano descontento pase a estar conforme (a no ser "
+"que esté descontento por la actividad militar). Además hace que el coste de "
+"una revuelva en la ciudad sea 4 veces mayor."
 
 #: data/default/buildings.ruleset:304 data/civ2/buildings.ruleset:283
 #: data/civ1/buildings.ruleset:229
@@ -22568,7 +23188,11 @@ msgid ""
 "Makes one unhappy citizen content.  The Mysticism advance doubles this "
 "effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
 "Does not affect citizens made unhappy by military activity."
-msgstr "Hace que un ciudadano descontento pase a estar conforme.  La tecnología del Misticismo duplica el efecto.  Con el Misticismo y el Oráculo, 4 ciudadanos se transforman en conformes.  No afecta a los ciudadanos descontentos por la actividad militar."
+msgstr ""
+"Hace que un ciudadano descontento pase a estar conforme.  La tecnología del "
+"Misticismo duplica el efecto.  Con el Misticismo y el Oráculo, 4 ciudadanos "
+"se transforman en conformes.  No afecta a los ciudadanos descontentos por la "
+"actividad militar."
 
 #: data/default/buildings.ruleset:978 data/civ2/buildings.ruleset:926
 #: data/civ1/buildings.ruleset:623 data/default/techs.ruleset:737
@@ -22654,7 +23278,8 @@ msgid ""
 "each of your cities (including citizens unhappy about military activity)."
 msgstr ""
 "Este asombroso logro tecnológico hace que un ciudadano descontento pase a "
-"estar conforme en todas las ciudades (incluyendo a los ciudadanos descontentos por la actividad militar)."
+"estar conforme en todas las ciudades (incluyendo a los ciudadanos "
+"descontentos por la actividad militar)."
 
 #: data/default/buildings.ruleset:1106 data/civ2/buildings.ruleset:1052
 #: data/civ1/buildings.ruleset:727
@@ -22678,7 +23303,8 @@ msgstr "La Torre Eiffel"
 
 #: data/default/buildings.ruleset:1142
 #, no-c-format
-msgid "Your reputation and goodwill among other nations is recovered twice as fast."
+msgid ""
+"Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
 "Tu reputación y buena voluntad entre las naciones se incrementa al doble de "
 "velocidad."
@@ -22724,7 +23350,8 @@ msgstr ""
 "la ciudad que lo contiene, dos ciudadanos conformes adicionales pasarán a "
 "ser felices (esto es, un total de 3).  Donde no haya ningún ciudadano "
 "conforme sobre el que actuar, la maravilla operará sobre los ciudadanos "
-"descontentos (incluyendo a los descontentos por la actividad militar), haciéndolos conformes."
+"descontentos (incluyendo a los descontentos por la actividad militar), "
+"haciéndolos conformes."
 
 #: data/default/buildings.ruleset:1214 data/civ2/buildings.ruleset:1159
 #: data/civ1/buildings.ruleset:811
@@ -22808,7 +23435,8 @@ msgstr "La Expedición de Magallanes"
 
 #: data/default/buildings.ruleset:1351
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
+msgstr ""
+"Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
 
 #: data/default/buildings.ruleset:1356 data/civ2/buildings.ruleset:1297
 #: data/civ1/buildings.ruleset:912
@@ -22840,8 +23468,12 @@ msgid ""
 "the number of unhappy citizens made content."
 msgstr ""
 "Opera como si hubiera una Catedral en todas tus ciudades.  Esto hace que 3 "
-"ciudadanos descontentos pasen a estar conformes en cada ciudad; sin embargo, esto no afecta a los ciudadanos descontentos por la actividad militar.  El "
-"descubrimiento de la Teología incrementa este efecto, convirtiendo un ciudadano más de descontento a conforme. El descubrimiento del Comunismo disminuye el efecto, reduciendo en uno el número de descontentos convertidos a conformes."
+"ciudadanos descontentos pasen a estar conformes en cada ciudad; sin embargo, "
+"esto no afecta a los ciudadanos descontentos por la actividad militar.  El "
+"descubrimiento de la Teología incrementa este efecto, convirtiendo un "
+"ciudadano más de descontento a conforme. El descubrimiento del Comunismo "
+"disminuye el efecto, reduciendo en uno el número de descontentos convertidos "
+"a conformes."
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1359
 #: data/civ1/buildings.ruleset:949
@@ -22855,7 +23487,8 @@ msgid ""
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
 "Hace que dos ciudadanos descontentos pasen a estar conformes en todas tus "
-"ciudades con un Templo. No afecta a los ciudadanos descontentos con la actividad militar."
+"ciudades con un Templo. No afecta a los ciudadanos descontentos con la "
+"actividad militar."
 
 #: data/default/buildings.ruleset:1439 data/civ2/buildings.ruleset:1380
 #: data/civ1/buildings.ruleset:970
@@ -22895,7 +23528,10 @@ msgstr "El Teatro de Shakespeare"
 msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
 "located, including citizens unhappy about military activity."
-msgstr "Hace que todos los ciudadanos enfadados y descontentos de la ciudad en la que se encuentra pasen a estar conformes, incluso los descontentos con la actividad militar."
+msgstr ""
+"Hace que todos los ciudadanos enfadados y descontentos de la ciudad en la "
+"que se encuentra pasen a estar conformes, incluso los descontentos con la "
+"actividad militar."
 
 #: data/default/buildings.ruleset:1501 data/civ2/buildings.ruleset:1440
 msgid "Statue of Liberty"
@@ -23008,7 +23644,8 @@ msgid ""
 msgstr ""
 "Proporciona diversión a los ciudadanos de una ciudad, haciendo que 3 "
 "ciudadanos descontentos pasen a estar conformes (4 tras el descubrimiento de "
-"la Electricidad). Sin embargo, no afecta a los ciudadanos descontentos con la actividad militar."
+"la Electricidad). Sin embargo, no afecta a los ciudadanos descontentos con "
+"la actividad militar."
 
 #: data/civ2/buildings.ruleset:274
 #, no-c-format
@@ -23019,7 +23656,10 @@ msgid ""
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
 "Reduce en un 50% la corrupción y las mermas de una ciudad.  Bajo una "
-"Democracia, los Juzgados transforman a 1 ciudadano descontento en conforme (a no ser que esté descontento con la actividad militar).  Además reduce a la mitad la distancia efectiva a la capital, para el propósito de calcular el coste de provocar una sublevación."
+"Democracia, los Juzgados transforman a 1 ciudadano descontento en conforme "
+"(a no ser que esté descontento con la actividad militar).  Además reduce a "
+"la mitad la distancia efectiva a la capital, para el propósito de calcular "
+"el coste de provocar una sublevación."
 
 #: data/civ2/buildings.ruleset:366
 #, no-c-format
@@ -23188,7 +23828,8 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1292
 msgid "Gives all sea units 2 additional movement points."
-msgstr "Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
+msgstr ""
+"Otorga a todas las unidades marítimas 2 puntos de movimiento adicionales."
 
 #: data/civ2/buildings.ruleset:1394
 msgid "Counts as having a Granary in every city."
@@ -23251,7 +23892,8 @@ msgid ""
 "unhappy by military activity."
 msgstr ""
 "Una Catedral hace que 4 ciudadanos descontentos pasen a estar conformes, "
-"facilitando el mantenimiento de la orden público en la ciudad; sin embargo, no afecta a los ciudadanos descontentos con la actividad militar."
+"facilitando el mantenimiento de la orden público en la ciudad; sin embargo, "
+"no afecta a los ciudadanos descontentos con la actividad militar."
 
 #: data/civ1/buildings.ruleset:177
 msgid ""
@@ -23274,7 +23916,8 @@ msgid ""
 "However, it does not affect citizens made unhappy by military activity."
 msgstr ""
 "Proporciona diversión a los ciudadanos de una ciudad, haciendo que 3 "
-"ciudadanos descontentos pasen a estar conformes. Sin embargo, no afecta a los ciudadanos descontentos por la actividad militar."
+"ciudadanos descontentos pasen a estar conformes. Sin embargo, no afecta a "
+"los ciudadanos descontentos por la actividad militar."
 
 #: data/civ1/buildings.ruleset:221
 #, no-c-format
@@ -23381,7 +24024,11 @@ msgid ""
 "there are no content citizens to get the effect of Hanging Gardens, the "
 "wonder applies to unhappy citizens instead (including those unhappy about "
 "military activity), making each content."
-msgstr "Hace que un ciudadano conforme pase a ser feliz en todas las ciudades.  Si no hay ningún ciudadano conforme sobre el que actuar, la maravilla operará sobre los ciudadanos descontentos (incluyendo los descontentos con la actividad militar), haciéndolos conformes."
+msgstr ""
+"Hace que un ciudadano conforme pase a ser feliz en todas las ciudades.  Si "
+"no hay ningún ciudadano conforme sobre el que actuar, la maravilla operará "
+"sobre los ciudadanos descontentos (incluyendo los descontentos con la "
+"actividad militar), haciéndolos conformes."
 
 #: data/civ1/buildings.ruleset:825
 msgid ""
@@ -23400,7 +24047,8 @@ msgid ""
 "military activity)."
 msgstr ""
 "Hace que dos ciudadanos descontentos pasen a estar conformes en todas tus "
-"ciudades que se encuentren en el mismo continente que la maravilla (incluyendo los cuidadanos descontentos con la actividad militar)."
+"ciudades que se encuentren en el mismo continente que la maravilla "
+"(incluyendo los cuidadanos descontentos con la actividad militar)."
 
 #: data/civ1/buildings.ruleset:888
 msgid "Gives all your sea units 1 additional movement point."
@@ -23408,7 +24056,8 @@ msgstr "Otorga a todas las unidades marítimas 1 punto de movimiento adicional."
 
 #: data/civ1/buildings.ruleset:907
 msgid "Gives all sea units 1 additional movement point."
-msgstr "Proporciona 1 punto de movimiento adicional a todas las unidades marítimas."
+msgstr ""
+"Proporciona 1 punto de movimiento adicional a todas las unidades marítimas."
 
 #: data/civ1/buildings.ruleset:944
 msgid "Double effects of Cathedrals, in all cities."
@@ -23691,7 +24340,8 @@ msgstr ""
 "lleguen, en lugar de pagar los impuestos o aprovecharlos para el avance "
 "tecnológico.\n"
 "\n"
-"La Anarquía ofrece un poco menos de corrupción y mermas que el Despotismo, pero un poco más de descontento general."
+"La Anarquía ofrece un poco menos de corrupción y mermas que el Despotismo, "
+"pero un poco más de descontento general."
 
 #: data/civ2/governments.ruleset:78
 msgid ""
@@ -23704,7 +24354,8 @@ msgstr ""
 "Bajo Despotismo, tendrás absoluto control del Pueblo. Y esto puede "
 "prolongarse con la imposición de la Ley Marcial.\n"
 "\n"
-"El Despotismo ofrece el mayor nivel de corrupcióny mermas de entre todos los tipos de gobierno."
+"El Despotismo ofrece el mayor nivel de corrupcióny mermas de entre todos los "
+"tipos de gobierno."
 
 #: data/civ2/governments.ruleset:100
 msgid ""
@@ -23733,8 +24384,9 @@ msgstr ""
 "Comunismo ofrece un balance entre lo militar y lo comercial de cada "
 "gobierno.\n"
 "\n"
-"Bajo Comunismo, la corrupción y las mermas no varían con la distancia a la capital; todas las ciudades (inclusive la capital) tienen una modesta cantidad de "
-"corrupción."
+"Bajo Comunismo, la corrupción y las mermas no varían con la distancia a la "
+"capital; todas las ciudades (inclusive la capital) tienen una modesta "
+"cantidad de corrupción."
 
 #: data/civ2/governments.ruleset:135 data/civ2/techs.ruleset:286
 msgid "Fundamentalism"
@@ -23771,8 +24423,8 @@ msgstr ""
 "preservarlas.\n"
 "\n"
 "Las mejoras que normalmente hacen que los ciudadanos descontentos pasen a "
-"contentos, producen 'diezmos' (oro) equivalente al número de gente que pasaría "
-"a contenta, y no requiere ningún tipo de mantenimiento."
+"contentos, producen 'diezmos' (oro) equivalente al número de gente que "
+"pasaría a contenta, y no requiere ningún tipo de mantenimiento."
 
 #: data/civ2/governments.ruleset:195
 msgid ""
@@ -23788,7 +24440,9 @@ msgid ""
 msgstr ""
 "Bajo Democracia, los ciudadanos gobiernan directamente mediante sufragio. La "
 "Democracia ofrece el mayor nivel de comercio posible, pero también ofrece el "
-"mayor descontento en potencia. La corrupción y las mermas no tienen lugar cuando hay Democracia, pero los ciudadanos se enfadan bastante cuando vienen guerras.\n"
+"mayor descontento en potencia. La corrupción y las mermas no tienen lugar "
+"cuando hay Democracia, pero los ciudadanos se enfadan bastante cuando vienen "
+"guerras.\n"
 "\n"
 "Porque los ciudadanos (felices) en Democracia creen profundamente in su "
 "gobierno, su lealtad es indiscutible. Las unidades militares de las "
@@ -23941,7 +24595,8 @@ msgstr "Construcción"
 
 #: data/default/techs.ruleset:204
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
-msgstr "Permite construir fortalezas a los Colonos, los Obreros y los Ingenieros."
+msgstr ""
+"Permite construir fortalezas a los Colonos, los Obreros y los Ingenieros."
 
 #: data/default/techs.ruleset:207 data/civ2/techs.ruleset:196
 #: data/civ1/techs.ruleset:179
@@ -24295,8 +24950,11 @@ msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
-"En cualquier tipo de terreno puede haber un Río.  El Río hace que esa casilla genere un recurso de comercio más. También incrementa el factor de defensa de la casilla en un 50%.  Además, las unidades de tierra que se mueven sobre un Río (pero no diagonalmente) sólo gastan 1/3 de puntos de movimiento por cada "
-"casilla de Río que recorran.\n"
+"En cualquier tipo de terreno puede haber un Río.  El Río hace que esa "
+"casilla genere un recurso de comercio más. También incrementa el factor de "
+"defensa de la casilla en un 50%.  Además, las unidades de tierra que se "
+"mueven sobre un Río (pero no diagonalmente) sólo gastan 1/3 de puntos de "
+"movimiento por cada casilla de Río que recorran.\n"
 "\n"
 "Sólo puedes construir caminos y vías férreas en casillas de Río si tu "
 "civilización conoce la Construcción de Puentes."
@@ -24404,7 +25062,8 @@ msgstr "Jungla"
 #: data/default/terrain.ruleset:511 data/civ2/terrain.ruleset:415
 #: data/civ1/terrain.ruleset:404
 msgid "Jungles are densely overgrown, making agriculture somewhat problematic."
-msgstr "En las junglas la vegetación es muy densa, dificultando la agricultura."
+msgstr ""
+"En las junglas la vegetación es muy densa, dificultando la agricultura."
 
 #: data/default/terrain.ruleset:517 data/civ2/terrain.ruleset:421
 #: data/civ1/terrain.ruleset:410
@@ -24455,7 +25114,8 @@ msgstr "Tundra"
 
 #: data/default/terrain.ruleset:659 data/civ2/terrain.ruleset:552
 #: data/civ1/terrain.ruleset:538
-msgid "Tundra are broad, cold regions, fit for some agriculture and little else."
+msgid ""
+"Tundra are broad, cold regions, fit for some agriculture and little else."
 msgstr ""
 "La tundra es una región amplia y fría en la que se puede hacer algo de "
 "agricultura y poco más."
@@ -24628,9 +25288,15 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
-"Los Colonos son una de las unidades clave en el juego. Así como pueden construir nuevas ciudades, también puede mejorar el terreno, por ejemplo, construyendo el regadío, las minas, y las carreteras. Ver la sección de las Alteraciones del Terreno de la ayuda para más detalles.\n"
+"Los Colonos son una de las unidades clave en el juego. Así como pueden "
+"construir nuevas ciudades, también puede mejorar el terreno, por ejemplo, "
+"construyendo el regadío, las minas, y las carreteras. Ver la sección de las "
+"Alteraciones del Terreno de la ayuda para más detalles.\n"
 "\n"
-"El mantenimiento de los colonos es en forma de alimentos y producción, y un colono puede morir si su ciudad de origen se queda sin alimentos. Los colonos en una República o en Democracia requieren el doble de alimentos por turno."
+"El mantenimiento de los colonos es en forma de alimentos y producción, y un "
+"colono puede morir si su ciudad de origen se queda sin alimentos. Los "
+"colonos en una República o en Democracia requieren el doble de alimentos por "
+"turno."
 
 #: data/default/units.ruleset:320
 msgid "?unit:Workers"
@@ -24642,10 +25308,10 @@ msgid ""
 "Terrain Alterations section of the help for more details of the available "
 "improvements. However, Workers cannot build new cities."
 msgstr ""
-"Los Obreros son similares a los colonos, pueden mejorar el terreno - "
-"ver las Alteraciones de Terreno de la sección de ayuda para más detalles de "
-"las mejoras posibles. Sin embargo, los Obreros no pueden construir "
-"nuevas ciudades."
+"Los Obreros son similares a los colonos, pueden mejorar el terreno - ver las "
+"Alteraciones de Terreno de la sección de ayuda para más detalles de las "
+"mejoras posibles. Sin embargo, los Obreros no pueden construir nuevas "
+"ciudades."
 
 #: data/default/units.ruleset:353 data/civ2/units.ruleset:211
 msgid "Engineers"
@@ -24668,13 +25334,15 @@ msgstr ""
 "Los Ingenieros son similares a los Obreros, pero trabajan y se mueven al "
 "doble de velocidad.  Los Ingenieros también pueden realizar importantes "
 "transformaciones del terreno (como por ejemplo, convertir la Tundra en "
-"Desierto) de las cuales los Obreros y los Colonos no son capaces; mira la sección de Alteraciones de Terreno para más detalles.\n"
+"Desierto) de las cuales los Obreros y los Colonos no son capaces; mira la "
+"sección de Alteraciones de Terreno para más detalles.\n"
 "\n"
 "CONSEJO 1:  Mejora los Obreros a Ingenieros en cuanto puedas, ya que el "
 "sustento de los Ingenieros es el mismo que el de los Obreros normales.\n"
 "\n"
 "CONSEJO 2:  Si consigues construir el Taller de Leonardo, investiga los "
-"Explosivos antes de que el Taller quede obsoleto.  Así, tus Obreros serán mejorados gratis."
+"Explosivos antes de que el Taller quede obsoleto.  Así, tus Obreros serán "
+"mejorados gratis."
 
 #: data/default/units.ruleset:395 data/civ2/units.ruleset:253
 msgid "Warriors"
@@ -24795,7 +25463,8 @@ msgstr "Fusileros"
 
 #: data/default/units.ruleset:686 data/civ2/units.ruleset:579
 #: data/civ1/units.ruleset:361
-msgid "Riflemen are World War-era infantry, very good at defending your cities."
+msgid ""
+"Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 "Los Fusileros son la infantería de la Primera Guerra Mundial, muy buenos en "
 "la defensa de sus ciudades."
@@ -24862,7 +25531,8 @@ msgstr "Caballeros"
 #: data/default/units.ruleset:883 data/civ2/units.ruleset:840
 #: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
-msgstr "Los Caballeros son guerreros montados a caballos y con armadura pesada."
+msgstr ""
+"Los Caballeros son guerreros montados a caballos y con armadura pesada."
 
 #: data/default/units.ruleset:888 data/civ2/units.ruleset:845
 msgid "Dragoons"
@@ -25105,8 +25775,10 @@ msgid "AEGIS Cruiser"
 msgstr "Crucero AEGIS"
 
 #: data/default/units.ruleset:1541 data/civ2/units.ruleset:1498
-msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
-msgstr "El Crucero Aegis está equipado con un avanzado sistema defensivo de misiles."
+msgid ""
+"The AEGIS Cruiser is equipped with an advanced defensive missile system."
+msgstr ""
+"El Crucero Aegis está equipado con un avanzado sistema defensivo de misiles."
 
 #: data/default/units.ruleset:1547 data/civ2/units.ruleset:1504
 #: data/civ1/units.ruleset:860
@@ -25396,19 +26068,29 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
-"Una espía es más experta en las artes del espionaje que su predecesor el diplomático.\n"
+"Una espía es más experta en las artes del espionaje que su predecesor el "
+"diplomático.\n"
 "\n"
-"Ella puede realizar todas las funciones del diplomático, pero con una mayor tasa de éxito. Refiérete a la entrada Diplomático para más detalles. A diferencia de un Diplomático, una espía también puede sobrevivir a una operación en una ciudad extranjera y se vuelven más experimentadas como consecuencia de ello.\n"
+"Ella puede realizar todas las funciones del diplomático, pero con una mayor "
+"tasa de éxito. Refiérete a la entrada Diplomático para más detalles. A "
+"diferencia de un Diplomático, una espía también puede sobrevivir a una "
+"operación en una ciudad extranjera y se vuelven más experimentadas como "
+"consecuencia de ello.\n"
 "\n"
 "También se puede utilizar para:\n"
-" - Sabotear una unidad enemiga (reducir sus puntos de ataque a la mitad), si está solo en una casilla y los jugadores están en guerra;\n"
-" - Envenenar el suministro de agua de una ciudad enemiga (reduce la población en uno y vacía el granero);\n"
+" - Sabotear una unidad enemiga (reducir sus puntos de ataque a la mitad), si "
+"está solo en una casilla y los jugadores están en guerra;\n"
+" - Envenenar el suministro de agua de una ciudad enemiga (reduce la "
+"población en uno y vacía el granero);\n"
 " - Robar una tecnología específica (con una menor posibilidad de éxito);\n"
-" - Robar más tecnologías de una ciudad que ya ha sido robada antes "
-"(aunque las ciudades se vuelven más resistentes cada vez que son robadas);\n"
-" - Sabotear objetivos determinados de una ciudad (con una menor posibilidad de éxito).\n"
+" - Robar más tecnologías de una ciudad que ya ha sido robada antes (aunque "
+"las ciudades se vuelven más resistentes cada vez que son robadas);\n"
+" - Sabotear objetivos determinados de una ciudad (con una menor posibilidad "
+"de éxito).\n"
 "\n"
-"Una Espía que sobrevive a las acciones más agresivas (sabotaje, robo, incitación a la rebelión, y el envenenamiento) se escapa a la seguridad de la ciudad amiga más cercana."
+"Una Espía que sobrevive a las acciones más agresivas (sabotaje, robo, "
+"incitación a la rebelión, y el envenenamiento) se escapa a la seguridad de "
+"la ciudad amiga más cercana."
 
 #: data/default/units.ruleset:1913 data/civ2/units.ruleset:1870
 #: data/civ1/units.ruleset:1137
@@ -25511,9 +26193,15 @@ msgid ""
 "require twice as much food per turn, and in Communist or Fundamentalist "
 "societies, three times as much."
 msgstr ""
-"Los Colonos son una de las unidades clave en el juego. Así como pueden construir nuevas ciudades, también pueden mejorar el terreno, por ejemplo, la construcción de regadíos, las minas, y las carreteras. Mira la sección de las Alteraciones del Terreno de la ayuda para más detalles.\n"
+"Los Colonos son una de las unidades clave en el juego. Así como pueden "
+"construir nuevas ciudades, también pueden mejorar el terreno, por ejemplo, "
+"la construcción de regadíos, las minas, y las carreteras. Mira la sección de "
+"las Alteraciones del Terreno de la ayuda para más detalles.\n"
 "\n"
-"El mantenimiento de los Colonos es con alimentos, así como con producción, y un Colono puede morirse si la ciudad que lo soporta se queda sin alimentos. Los Colonos en una República o en Democracia requieren el doble de alimentos por turno, y en las sociedades comunistas o fundamentalistas, tres veces más."
+"El mantenimiento de los Colonos es con alimentos, así como con producción, y "
+"un Colono puede morirse si la ciudad que lo soporta se queda sin alimentos. "
+"Los Colonos en una República o en Democracia requieren el doble de alimentos "
+"por turno, y en las sociedades comunistas o fundamentalistas, tres veces más."
 
 #: data/civ2/units.ruleset:237
 msgid ""
@@ -25533,7 +26221,8 @@ msgstr ""
 "Los Ingenieros son similares a los Colonos, pero trabajan y se mueven al "
 "doble de velocidad.  Los Ingenieros también pueden realizar importantes "
 "transformaciones del terreno (como por ejemplo, convertir la Tundra en "
-"Desierto) de las cuales los Colonos no son capaces; mira la sección de las Alteraciones del Terreno para más detalles.\n"
+"Desierto) de las cuales los Colonos no son capaces; mira la sección de las "
+"Alteraciones del Terreno para más detalles.\n"
 "\n"
 "CONSEJO 1:  Mejora los Colonos a Ingenieros en cuanto puedas, ya que el "
 "sustento de los Ingenieros es el mismo que el de los Colonos normales.\n"
@@ -25577,7 +26266,8 @@ msgid "Crusaders"
 msgstr "Cruzados"
 
 #: data/civ2/units.ruleset:807
-msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
+msgid ""
+"Crusaders are highly disciplined mounted warriors driven by a higher cause."
 msgstr ""
 "Los Cruzados son unos guerreros montados muy disciplinados impulsados por "
 "una causa superior."
@@ -25592,8 +26282,10 @@ msgstr ""
 "alejarse demasiado de la orilla."
 
 #: data/civ2/units.ruleset:1300
-msgid "The Caravel replaces the Trireme and is much more reliable on the open seas."
-msgstr "La carabela sustituye al trirreme y es mucho más fiable en mar abierto."
+msgid ""
+"The Caravel replaces the Trireme and is much more reliable on the open seas."
+msgstr ""
+"La carabela sustituye al trirreme y es mucho más fiable en mar abierto."
 
 #: data/civ2/units.ruleset:1701
 msgid ""
@@ -25622,9 +26314,15 @@ msgstr ""
 "Puedes producir unidades Nucleares cuando tienes el avance apropiado, y "
 "cualquier jugador ha construido el Proyecto Manhattan.\n"
 "\n"
-"Cuando se usa, la explosión destruye todas las unidades en un área de 3 casillas (cuadrado de 3x3 para rejillas rectangulares) , incluyendo las unidades amigas.  Cualquier ciudad dentro de la explosión pierde la mitad de su población, y en las casillas que la rodean puede aparecer radiactividad.\n"
+"Cuando se usa, la explosión destruye todas las unidades en un área de 3 "
+"casillas (cuadrado de 3x3 para rejillas rectangulares) , incluyendo las "
+"unidades amigas.  Cualquier ciudad dentro de la explosión pierde la mitad de "
+"su población, y en las casillas que la rodean puede aparecer radiactividad.\n"
 "\n"
-"Análogamente a la contaminación y el calentamiento global, el riesgo de invierno nuclear mundial aumenta con la radioactividad. Si el invierno nuclear se produce, el terreno en todo el mundo cambia a desierto, tundra, y hielo. Los Colonos y los Ingenieros pueden limpiar la radioactivadad.\n"
+"Análogamente a la contaminación y el calentamiento global, el riesgo de "
+"invierno nuclear mundial aumenta con la radioactividad. Si el invierno "
+"nuclear se produce, el terreno en todo el mundo cambia a desierto, tundra, y "
+"hielo. Los Colonos y los Ingenieros pueden limpiar la radioactivadad.\n"
 "\n"
 "CONSEJO 1:  Si la explosión tiene lugar en el Océano no generará "
 "radiactividad, y es una forma eficaz (¡pero cara!) de librarse de los barcos "
@@ -25677,14 +26375,16 @@ msgstr ""
 msgid ""
 "The artillery is an upgraded cannon with improved defensive as well as "
 "offensive capabilities."
-msgstr "La Artillería es un cañón mejorado con una mejora defensiva así comoofensiva."
+msgstr ""
+"La Artillería es un cañón mejorado con una mejora defensiva así comoofensiva."
 
 #: data/civ1/units.ruleset:729
 msgid "Sail"
 msgstr "Barco"
 
 #: data/civ1/units.ruleset:756
-msgid "The Sail replaces the Trireme and is much more reliable on the open seas."
+msgid ""
+"The Sail replaces the Trireme and is much more reliable on the open seas."
 msgstr "El Barco sustituye el trirreme y es mucho más fiable en mar abierto."
 
 #: data/civ1/units.ruleset:1020
@@ -25714,9 +26414,16 @@ msgstr ""
 "Puedes producir unidades Nucleares cuando tienes el avance apropiado, y "
 "cualquier jugador ha construido el Proyecto Manhattan.\n"
 "\n"
-"Cuando se usa, la explosión destruye todas las unidades en un área de 3 casillas (cuadrada de 3x3 en rejillas rectangulares), incluyendo las unidades amigas.  Si hay alguna ciudad dentro de la explosión el tamaño de la ciudad se reduce a la mitad, y en las casillas que la rodean puede aparecer radiactividad.\n"
+"Cuando se usa, la explosión destruye todas las unidades en un área de 3 "
+"casillas (cuadrada de 3x3 en rejillas rectangulares), incluyendo las "
+"unidades amigas.  Si hay alguna ciudad dentro de la explosión el tamaño de "
+"la ciudad se reduce a la mitad, y en las casillas que la rodean puede "
+"aparecer radiactividad.\n"
 "\n"
-"Análogamente a la contaminación y el calentamiento global, el riesgo de invierno nuclear mundial aumenta con la radioactividad. Si el invierno nuclear se produce, el terreno en todo el mundo cambia a desierto, tundra, y hielo. Los Colonos pueden limpiar la radioactividad.\n"
+"Análogamente a la contaminación y el calentamiento global, el riesgo de "
+"invierno nuclear mundial aumenta con la radioactividad. Si el invierno "
+"nuclear se produce, el terreno en todo el mundo cambia a desierto, tundra, y "
+"hielo. Los Colonos pueden limpiar la radioactividad.\n"
 "\n"
 "CONSEJO 1:  Si la explosión tiene lugar en el Océano no generará "
 "radiactividad, y es una forma eficaz (¡pero cara!) de librarse de los barcos "
@@ -26160,7 +26867,8 @@ msgid "?plural:Assyrians"
 msgstr "Asirios"
 
 #: data/nation/assyrian.ruleset:6
-msgid "Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
+msgid ""
+"Assyria was an empire in northern Mesopotamia, named after its capital Ashur."
 msgstr ""
 "Assyria fue un imperio al norte de Mesopotamia, nombrado después de su "
 "capital Ashur."
@@ -26303,7 +27011,8 @@ msgstr ""
 "Los Aztecas, una gente procedente del desierto de Sonora y que habla el "
 "Náhuatl, tomaron el control de las civilizaciones derivadas los Toltecas del "
 "Centro de México durante el siglo XV d.C., reviviendo la práctica del "
-"sacrificio humano. Fueron conquistados por los Españoles bajo el mando Hernán Cortés en 1524."
+"sacrificio humano. Fueron conquistados por los Españoles bajo el mando "
+"Hernán Cortés en 1524."
 
 #. TRANS: Tlahtoani = Speaker
 #. TRANS: Cihua = Female
@@ -27457,7 +28166,8 @@ msgstr "Esperantista"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
-msgstr "Los Esperantistas son una comunidad mundial unida por el idioma Esperanto."
+msgstr ""
+"Los Esperantistas son una comunidad mundial unida por el idioma Esperanto."
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
@@ -28857,7 +29567,8 @@ msgid "?plural:Mexicans"
 msgstr "Mejicanos"
 
 #: data/nation/mexican.ruleset:6
-msgid "Mexico borrows its name from the Mexica people, another name for the Aztecs."
+msgid ""
+"Mexico borrows its name from the Mexica people, another name for the Aztecs."
 msgstr ""
 "Méjico toma prestado su nombre de la gente Méjica, otro de los nombres que "
 "recibieron los Aztecas."
@@ -30473,7 +31184,8 @@ msgid "?plural:UN"
 msgstr "UNs"
 
 #: data/nation/un.ruleset:6
-msgid "The United Nations believe in human rights and the protection of the weak."
+msgid ""
+"The United Nations believe in human rights and the protection of the weak."
 msgstr ""
 "Las Naciones Unidas creen en los derechos humanos y la protección de los "
 "débiles."
@@ -30728,8 +31440,8 @@ msgid ""
 "Classic-style 136x100 map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
-"Mapa al estilo clásico, 136x100, de la Península Ibérica (actualmente, España y "
-"Portugal)."
+"Mapa al estilo clásico, 136x100, de la Península Ibérica (actualmente, "
+"España y Portugal)."
 
 #: data/scenario/italy-100x100-v1.5.sav:3
 msgid "Italy (classic/medium)"
@@ -30916,7 +31628,8 @@ msgstr ""
 "muestra una lista de ciudades con diversas estadísticas acerca de cada\n"
 "una de ellas. Juega un poco si quieres (puedes volver a la vista de mapa\n"
 "pulsando F1 o haciendo clic en la pestaña Mapa). Con un poco de práctica,\n"
-"es posible controlar casi cualquier aspecto de las ciudades de este informe.\n"
+"es posible controlar casi cualquier aspecto de las ciudades de este "
+"informe.\n"
 "Sin embargo, el poder completo del informe de la ciudad está más allá del\n"
 "alcance de este tutorial."
 
@@ -31008,11 +31721,11 @@ msgstr ""
 "\n"
 "Hay varias cosas que puedes hacer al respecto. Una solución rápida\n"
 "es construir un templo (o un edificio cultural de otro tipo) que hará\n"
-"conforme un ciudadano descontento (consulta la ayuda de las Instalaciones\n "
-"Urbanas para las especificaciones de cada tipo de edificio). A medida que\n"
+"conforme un ciudadano descontento (consulta la ayuda de las Instalaciones\n"
+" Urbanas para las especificaciones de cada tipo de edificio). A medida que\n"
 "tienes ciudades más grandes, puede convenirte cambiar tus tarifas de\n"
-"impuestos (pulsando Ctrl-T) para dedicar parte de tus impuestos\n "
-"directamente a los lujos (cada dos lujos se pacifica un ciudadano). La\n"
+"impuestos (pulsando Ctrl-T) para dedicar parte de tus impuestos\n"
+" directamente a los lujos (cada dos lujos se pacifica un ciudadano). La\n"
 "construcción de un mercado aumenta el beneficio de esto proporcionando\n"
 "+50%% lujos a la ciudad."
 
@@ -31101,8 +31814,10 @@ msgstr ""
 "agua. Las Praderas y las llanuras proporcionar alimentos a la ciudad. Los\n"
 "bosques y las colinas proporcionan los recursos necesarios(escudos) para\n"
 "la construcción de cosas. Los ríos y los océanos dan bonus comerciales\n"
-"que proporcionan beneficios a toda la civilización. El desierto, la tundra, y\n"
-"las montañas en general, proporcionan pocos recursos y no son de gran\n utilidad para las pequeñas ciudades. Consulta la ayuda de los terrenos y\n"
+"que proporcionan beneficios a toda la civilización. El desierto, la tundra, "
+"y\n"
+"las montañas en general, proporcionan pocos recursos y no son de gran\n"
+" utilidad para las pequeñas ciudades. Consulta la ayuda de los terrenos y\n"
 "sus especiales para obtener más información acerca de las sus\n"
 "características."
 
@@ -31240,7 +31955,8 @@ msgid ""
 msgstr ""
 "Has descubierto tu primera tecnología! Los avances tecnológicos\n"
 "son un concepto primordial en Freeciv. A medida que aumenta tu nivel de\n"
-"tecnología, unidades, edificios, tipos de gobierno y diversas bonificaciones\n"
+"tecnología, unidades, edificios, tipos de gobierno y diversas "
+"bonificaciones\n"
 "estarán disponible para ti.\n"
 "\n"
 "Ahora, ves al diálogo de la Ciencia a jugar un poco. Presiona F6 para abrir\n"
@@ -31251,7 +31967,8 @@ msgstr ""
 "esta tecnología se elegirá de forma automática. En la parte superior de\n"
 "la ventana se muestra la cantidad de investigación científica que se\n"
 "obtiene cada turno - la investigación (bombillas) proviene del comercio\n"
-"efectivo en tus ciudades. En la parte inferior de la ventana hay el árbol de\n"
+"efectivo en tus ciudades. En la parte inferior de la ventana hay el árbol "
+"de\n"
 "tecnología; aquí se puede hacer clic con el boton izquierdo para establecer\n"
 "la investigación objetivo o meta de la investigación, o hacer clic con el\n"
 "botón derecho para obtener ayuda acerca de esta tecnología en particular.\n"
@@ -31311,9 +32028,9 @@ msgstr ""
 "forma de gobierno de tu civilización es muy importante en la determinación\n"
 "de su desarrollo. En un principio se inició en despotismo, una forma muy\n"
 "ineficiente de gobierno. Más tarde, las opciones de gobierno te darán la\n"
-"opción de elegir si tu civilización quiere ser una pacífica nación comercial\n"
-"o un monstruo conquistador. Cada una tiene sus ventajas. "
-"\n"
+"opción de elegir si tu civilización quiere ser una pacífica nación "
+"comercial\n"
+"o un monstruo conquistador. Cada una tiene sus ventajas. \n"
 "Por ahora, es probable que quieras cambiar directamente a la República.\n"
 "En el menú de la Civilización, vés al Gobierno y elije la República. Si,\n"
 "deseas una revolución! Cambiar de gobierno significa pasar unos cuantos\n"
@@ -31555,4 +32272,3 @@ msgstr "dC"
 #: data/default/game.ruleset:185
 msgid "BC"
 msgstr "aC"
-
