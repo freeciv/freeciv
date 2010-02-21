@@ -289,12 +289,53 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 
   for (j = 0; (type = secfile_lookup_str_default(file, NULL, "%s.%s%d.type",
                                                  sec, sub, j)); j++) {
+    char buf[MAX_LEN_NAME];
     const char *range;
     bool survives, negated;
+    struct entry *pentry;
     struct requirement req;
 
-    name = secfile_lookup_str(file, "%s.%s%d.name", sec, sub, j);
-    range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j);
+    if (!(pentry = secfile_entry_lookup(file, "%s.%s%d.name",
+                                        sec, sub, j))) {
+      log_error("%s", secfile_error());
+      continue;
+    }
+    name = NULL;
+    switch (entry_type(pentry)) {
+    case ENTRY_BOOL:
+      {
+        bool val;
+
+        if (entry_bool_get(pentry, &val)) {
+          my_snprintf(buf, sizeof(buf), "%d", val);
+          name = buf;
+        }
+      }
+      break;
+    case ENTRY_INT:
+      {
+        int val;
+
+        if (entry_int_get(pentry, &val)) {
+          my_snprintf(buf, sizeof(buf), "%d", val);
+          name = buf;
+        }
+      }
+      break;
+    case ENTRY_STR:
+      (void) entry_str_get(pentry, &name);
+      break;
+    }
+    if (NULL == name) {
+      log_error("\"%s\": error in handling requirement name for '%s.%s%d'.",
+                filename, sec, sub, j);
+      continue;
+    }
+
+    if (!(range = secfile_lookup_str(file, "%s.%s%d.range", sec, sub, j))) {
+      log_error("%s", secfile_error());
+      continue;
+    }
 
     survives = secfile_lookup_bool_default(file, FALSE,
 	"%s.%s%d.survives", sec, sub, j);
