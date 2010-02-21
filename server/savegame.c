@@ -4754,7 +4754,8 @@ static void game_load_internal(struct section_file *file)
 
   set_player_count(secfile_lookup_int_default(file, 0, "game.nplayers"));
   player_slots_iterate(pplayer) {
-      server_player_init(pplayer, FALSE, FALSE);
+    player_slot_set_used(pplayer, FALSE);
+    server_player_init(pplayer, FALSE, FALSE);
   } player_slots_iterate_end;
 
   script_state_load(file);
