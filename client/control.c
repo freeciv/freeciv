@@ -138,6 +138,8 @@ void control_done(void)
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_free(battlegroups[i]);
   }
+
+  set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   free_client_goto();
 }
 
