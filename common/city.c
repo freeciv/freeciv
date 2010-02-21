@@ -46,7 +46,7 @@
 #undef CITY_DEBUGGING
 
 /* Iterate a city map, from the center (the city) outwards */
-struct iter_index *city_map_iterate_outwards_indices;
+struct iter_index *city_map_iterate_outwards_indices = NULL;
 
 struct citystyle *city_styles = NULL;
 
@@ -181,7 +181,6 @@ int compare_iter_index(const void *a, const void *b)
 void generate_city_map_indices(void)
 {
   int i = 0, dx, dy;
-  struct iter_index *array = city_map_iterate_outwards_indices;
 
   /* We don't use city-map iterators in this function because they may
    * rely on the indices that have not yet been generated. */
@@ -195,36 +194,45 @@ void generate_city_map_indices(void)
     }
   }
 
-  /* Realloc is used because this function may be called multiple times. */
-  array = fc_realloc(array, CITY_TILES * sizeof(*array));
+  assert(NULL == city_map_iterate_outwards_indices);
+  city_map_iterate_outwards_indices =
+      fc_malloc(CITY_TILES * sizeof(*city_map_iterate_outwards_indices));
 
   for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
     for (dy = -CITY_MAP_RADIUS; dy <= CITY_MAP_RADIUS; dy++) {
       if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
-	array[i].dx = dx;
-	array[i].dy = dy;
-	array[i].dist = map_vector_to_sq_distance(dx, dy);
-	i++;
+        city_map_iterate_outwards_indices[i].dx = dx;
+        city_map_iterate_outwards_indices[i].dy = dy;
+        city_map_iterate_outwards_indices[i].dist =
+            map_vector_to_sq_distance(dx, dy);
+        i++;
       }
     }
   }
   assert(i == CITY_TILES);
 
-  qsort(array, CITY_TILES, sizeof(*array), compare_iter_index);
+  qsort(city_map_iterate_outwards_indices, CITY_TILES,
+        sizeof(*city_map_iterate_outwards_indices), compare_iter_index);
 
 #ifdef DEBUG
   for (i = 0; i < CITY_TILES; i++) {
     freelog(LOG_DEBUG, "%2d : (%2d,%2d) : %d", i,
-	    array[i].dx + CITY_MAP_RADIUS, array[i].dy + CITY_MAP_RADIUS,
-	    array[i].dist);
+            city_map_iterate_outwards_indices[i].dx + CITY_MAP_RADIUS,
+            city_map_iterate_outwards_indices[i].dy + CITY_MAP_RADIUS,
+            city_map_iterate_outwards_indices[i].dist);
   }
-#endif
-
-  city_map_iterate_outwards_indices = array;
+#endif /* DEBUG */
 
   cm_init_citymap();
 }
 
+/****************************************************************************
+  Free memory allocated by generate_citymap_index
+*****************************************************************************/
+void free_city_map_index(void)
+{
+  FC_FREE(city_map_iterate_outwards_indices);
+}
 
 /****************************************************************************
   Return an id string for the output type.  This string can be used
