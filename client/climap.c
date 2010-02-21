@@ -79,3 +79,58 @@ enum direction8 map_to_gui_dir(enum direction8 map_dir)
     return map_dir;
   }
 }
+
+/***************************************************************************
+  Client variant of city_tile().  This include the case of this could a
+  ghost city (see client/packhand.c).  In a such case, the returned tile
+  is an approximative position of the city on the map.
+***************************************************************************/
+struct tile *client_city_tile(const struct city *pcity)
+{
+  int dx, dy;
+  double x = 0, y = 0;
+  size_t num = 0;
+
+  if (NULL == pcity) {
+    return NULL;
+  }
+
+  if (NULL != city_tile(pcity)) {
+    /* Normal city case. */
+    return city_tile(pcity);
+  }
+
+  whole_map_iterate(ptile) {
+    if (pcity == tile_worked(ptile)) {
+      if (0 == num) {
+        x = ptile->x;
+        y = ptile->y;
+        num = 1;
+      } else {
+        num++;
+        base_map_distance_vector(&dx, &dy, (int) x, (int) y,
+                                 ptile->x, ptile->y);
+        x += (double) dx / num;
+        y += (double) dy / num;
+      }
+    }
+  } whole_map_iterate_end;
+
+  if (0 < num) {
+    return map_pos_to_tile((int) x, (int) y);
+  } else {
+    return NULL;
+  }
+}
+
+/**************************************************************************
+  Returns TRUE when a tile is available to be worked, or the city itself
+  is currently working the tile (and can continue).
+
+  See also city_can_work_tile() (common/city.[ch]).
+**************************************************************************/
+bool client_city_can_work_tile(const struct city *pcity,
+                               const struct tile *ptile)
+{
+  return base_city_can_work_tile(client_player(), pcity, ptile);
+}

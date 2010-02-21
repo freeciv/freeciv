@@ -42,5 +42,6 @@ void output_window_force_thaw(void);
 bool is_output_window_frozen(void);
 
 void chat_welcome_message(void);
+void write_chatline_content(const char *txt);
 
 #endif  /* FC__CHATLINE_COMMON_H */

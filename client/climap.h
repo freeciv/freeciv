@@ -24,4 +24,8 @@ enum known_type client_tile_get_known(const struct tile *ptile);
 enum direction8 gui_to_map_dir(enum direction8 gui_dir);
 enum direction8 map_to_gui_dir(enum direction8 map_dir);
 
+struct tile *client_city_tile(const struct city *pcity);
+bool client_city_can_work_tile(const struct city *pcity,
+                               const struct tile *ptile);
+
 #endif

@@ -34,8 +34,6 @@ void client_remove_unit(struct unit *punit);
 void client_change_all(struct universal from,
 		       struct universal to);
 
-struct tile *client_city_tile(const struct city *pcity);
-
 const char *get_embassy_status(const struct player *me,
 				const struct player *them);
 const char *get_vision_status(const struct player *me,
@@ -106,7 +104,6 @@ void handle_event(const char *featured_text, struct tile *ptile,
 void create_event(struct tile *ptile, enum event_type event,
                   const struct ft_color color, const char *format, ...)
                   fc__attribute((__format__ (__printf__, 4, 5)));
-void write_chatline_content(const char *txt);
 
 void reports_freeze(void);
 void reports_freeze_till(int request_id);
