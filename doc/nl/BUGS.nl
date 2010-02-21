@@ -2,7 +2,7 @@
 BUGS c.q. FOUTEN
 ================
 
-Freeciv 1.13.0 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
+Freeciv 2.2 is een "stabiele" versie en wordt bug/foutvrij genoeg geacht
 voor dagelijks gebruik. Indien u echter een bug ontdekt dan willen we dat echt
 graag weten, zodat we dat kunnen verhelpen. Dit document is een opsomming van
 ons bekende fouten in deze versie en geeft informatie over hoe u een nieuwe

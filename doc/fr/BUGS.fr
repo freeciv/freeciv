@@ -2,7 +2,7 @@
 BUGS
 ====
 
-Freeciv 1.14.0 est une version "stable" et est considérée comme suffisament
+Freeciv 2.2 est une version "stable" et est considérée comme suffisament
 exempte de bugs pour un usage de tous les jours. Cependant, si vous trouvez un
 bug, nous voulons réellement le savoir afin de pouvoir le corriger. Ce fichier
 liste les bugs connus de la version et donne des informations sur la manière de

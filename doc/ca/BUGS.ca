@@ -2,7 +2,7 @@
 PROBLEMES
 =========
 
-Freeciv 2.1 és una versió "estable" i es considera prou lliure d'errors
+Freeciv 2.2 és una versió "estable" i es considera prou lliure d'errors
 per l'ús normal. No obstant, si hi trobes algun problema, ens agradaria
 molt saber-ho, i així el podrem solucionar.
 
@@ -22,7 +22,7 @@ S'ha de fer el següent:
 
  - Mirar el Sistema de Seguiment d'Errors de Freeciv a:
 
-        http://bugs.freeciv.org/
+        https://gna.org/bugs/?group=freeciv
 
    per veure si ja s'ha informat del problema.
 

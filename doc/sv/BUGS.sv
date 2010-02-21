@@ -2,7 +2,7 @@
 BUGGAR
 ======
 
-Freeciv 2.1 är en "driftssäker" utgåva och anses vara tillräckligt
+Freeciv 2.2 är en "driftssäker" utgåva och anses vara tillräckligt
 fri från programfel för dagligt bruk. Om man trots allt hittar
 buggar skulle vi vilja få reda på det så att vi kan rätta
 dem.
