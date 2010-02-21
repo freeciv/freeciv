@@ -241,3 +241,23 @@ void chat_welcome_message(void)
                                   "Help menu."));
   output_window_append(ftc_any, _("Now ... Go give 'em hell!"));
 }
+
+/**************************************************************************
+  Writes the supplied string into the file civgame.log.
+**************************************************************************/
+void write_chatline_content(const char *txt)
+{
+  FILE *fp = fc_fopen("civgame.log", "w");	/* should allow choice of name? */
+
+  output_window_append(ftc_client,
+                       _("Exporting output window to civgame.log ..."));
+  if (fp) {
+    fputs(txt, fp);
+    fclose(fp);
+    output_window_append(ftc_client, _("Export complete."));
+  } else {
+    output_window_append(ftc_client,
+                         _("Export failed, couldn't write to file."));
+  }
+}
+

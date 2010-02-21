@@ -36,7 +36,7 @@
 
 /* client */
 #include "client_main.h"
-#include "climisc.h"
+#include "climap.h"
 #include "control.h"
 #include "mapview_common.h"
 

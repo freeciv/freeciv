@@ -901,15 +901,29 @@ int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
   return city_tile_output(pcity, ptile, city_celebrating(pcity), otype);
 }
 
-/**************************************************************************
+/****************************************************************************
   Returns TRUE when a tile is available to be worked, or the city itself is
   currently working the tile (and can continue).
-**************************************************************************/
-bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
+
+  The paramter 'restriction', which is usually client_player(), allow a
+  player to handle with its real knownledge to guess it the work of this
+  tile is possible.
+
+  This function shouldn't be called directly, but with city_can_work_tile()
+  (common/city.[ch]) or client_city_can_work_tile() (client/climap.[ch]).
+****************************************************************************/
+bool base_city_can_work_tile(const struct player *restriction,
+                             const struct city *pcity,
+                             const struct tile *ptile)
 {
   struct player *powner = city_owner(pcity);
 
   if (NULL == ptile) {
+    return FALSE;
+  }
+
+  if (NULL != restriction
+      && TILE_UNKNOWN == tile_get_known(ptile, restriction)) {
     return FALSE;
   }
 
@@ -922,12 +936,13 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
     return FALSE;
   }
 
-  if (TILE_KNOWN_SEEN != tile_get_known(ptile, powner)) {
+  if ((NULL == restriction || powner == restriction)
+      && TILE_KNOWN_SEEN != tile_get_known(ptile, powner)) {
     return FALSE;
   }
 
   if (!is_free_worked(pcity, ptile)
-   && NULL != unit_occupies_tile(ptile, powner)) {
+      && NULL != unit_occupies_tile(ptile, powner)) {
     return FALSE;
   }
 
@@ -936,6 +951,17 @@ bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Returns TRUE when a tile is available to be worked, or the city itself is
+  currently working the tile (and can continue).
+
+  See also client_city_can_work_tile() (client/climap.[ch]).
+**************************************************************************/
+bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
+{
+  return base_city_can_work_tile(NULL, pcity, ptile);
 }
 
 /**************************************************************************

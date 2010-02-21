@@ -183,49 +183,6 @@ void client_change_all(struct universal from,
 }
 
 /***************************************************************************
-  Client variant of city_tile().  This include the case of this could a
-  ghost city (see client/packhand.c).  In a such case, the returned tile
-  is an approximative position of the city on the map.
-***************************************************************************/
-struct tile *client_city_tile(const struct city *pcity)
-{
-  int dx, dy;
-  double x = 0, y = 0;
-  size_t num = 0;
-
-  if (NULL == pcity) {
-    return NULL;
-  }
-
-  if (NULL != city_tile(pcity)) {
-    /* Normal city case. */
-    return city_tile(pcity);
-  }
-
-  whole_map_iterate(ptile) {
-    if (pcity == tile_worked(ptile)) {
-      if (0 == num) {
-        x = ptile->x;
-        y = ptile->y;
-        num = 1;
-      } else {
-        num++;
-        base_map_distance_vector(&dx, &dy, (int) x, (int) y,
-                                 ptile->x, ptile->y);
-        x += (double) dx / num;
-        y += (double) dy / num;
-      }
-    }
-  } whole_map_iterate_end;
-
-  if (0 < num) {
-    return map_pos_to_tile((int) x, (int) y);
-  } else {
-    return NULL;
-  }
-}
-
-/***************************************************************************
   Return a string indicating one nation's embassy status with another
 ***************************************************************************/
 const char *get_embassy_status(const struct player *me,
@@ -1036,25 +993,6 @@ void create_event(struct tile *ptile, enum event_type event,
     handle_event(colored_text, ptile, event, -1);
   } else {
     handle_event(message, ptile, event, -1);
-  }
-}
-
-/**************************************************************************
-  Writes the supplied string into the file civgame.log.
-**************************************************************************/
-void write_chatline_content(const char *txt)
-{
-  FILE *fp = fc_fopen("civgame.log", "w");	/* should allow choice of name? */
-
-  output_window_append(ftc_client,
-                       _("Exporting output window to civgame.log ..."));
-  if (fp) {
-    fputs(txt, fp);
-    fclose(fp);
-    output_window_append(ftc_client, _("Export complete."));
-  } else {
-    output_window_append(ftc_client,
-                         _("Export failed, couldn't write to file."));
   }
 }
 

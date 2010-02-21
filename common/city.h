@@ -592,6 +592,9 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
 int city_tile_output_now(const struct city *pcity, const struct tile *ptile,
 			 Output_type_id otype);
 
+bool base_city_can_work_tile(const struct player *restriction,
+                             const struct city *pcity,
+                             const struct tile *ptile);
 bool city_can_work_tile(const struct city *pcity, const struct tile *ptile);
 
 bool city_can_be_built_here(const struct tile *ptile,

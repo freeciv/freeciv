@@ -4221,8 +4221,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
 
     if (citymode
         /* test to ensure valid coordinates? */
-     && city_base_to_city_map(&cx, &cy, citymode, ptile)
-     && !city_can_work_tile(citymode, ptile)) {
+        && city_base_to_city_map(&cx, &cy, citymode, ptile)
+        && !client_city_can_work_tile(citymode, ptile)) {
       ADD_SPRITE_SIMPLE(t->sprites.grid.unavailable);
     }
   }
