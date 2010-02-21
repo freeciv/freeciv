@@ -977,11 +977,11 @@ static struct client_option options[] = {
   GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
                  N_("This option saves the width of the selected screen "
                     "resolution"),
-                 COC_INTERFACE, GUI_SDL, 640, 320, 1280, NULL),
+                 COC_INTERFACE, GUI_SDL, 640, 320, 3200, NULL),
   GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
                  N_("This option saves the height of the selected screen "
                     "resolution"),
-                 COC_INTERFACE, GUI_SDL, 480, 240, 960, NULL),
+                 COC_INTERFACE, GUI_SDL, 480, 240, 2400, NULL),
 
   /* gui-win32 client specific options. */
   GEN_BOOL_OPTION(gui_win32_better_fog,
