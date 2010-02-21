@@ -168,9 +168,8 @@ Mailinglisten
 Es gibt mehrere englischsprachige, öffentliche Mailinglisten zu Freeciv.
 Die interessantesten sind:
 
-	<freeciv@freeciv.org>		für Spieler
-	<freeciv-dev@freeciv.org>	für Fehlerberichte und Entwickler
-	<freeciv-announce@freeciv.org>	zur Ankündigung *WICHTIGER*
+	<freeciv-dev@gna.org>	für Fehlerberichte und Entwickler
+	<freeciv-announce@gna.org>	zur Ankündigung *WICHTIGER*
 					Neuigkeiten
 	
 Sie können Sie mit einer Email an <listar@freeciv.org> abonnieren, in dem

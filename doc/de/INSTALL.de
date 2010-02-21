@@ -623,7 +623,7 @@ zukünftigen Debian-Releases korrigiert.
 
 Benötigt werden:
 	- eine Unix-Umgebung mit gcc und den binutils für Windows (mingw32)
-	- libz und libpng (unter ftp://ftp.freeciv.org/pub/freeciv/requirements)
+	- libz und libpng (unter http://download.gna.org/freeciv/requirements)
 
 Diese funktionieren mit den Standard-Makefiles des gcc, allerdings müssen CC
 und RANLIB entsprechend gesetzt werden. Werden libpng/libz benutzt, die bei

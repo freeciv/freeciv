@@ -12,7 +12,7 @@ Freeciv の遊び方 HOWTO
 Civilization ゲームを一度も遊んだことがないなら、マニュアルを読むこと
 から始めるのが簡単です。マニュアルは以下から入手できます。
 
-     http://www.freeciv.org/manual/
+     http://ja.freeciv.wikia.com/wiki/マニュアル
 
 Freeciv の遊び方のアイディアを探しているなら、このまま読み進めて下さい。
 
@@ -133,7 +133,7 @@ Q. ほかにどんな戦略がありますか?
 
 多くのチュートリアルと戦略ガイドが Freeciv ウェブ・ページにあります:
 
-         http://www.freeciv.org/tutorials/
+         http://ja.freeciv.wikia.com/wiki/チュートリアル
 
 
 加えて、Freeciv オンライン・ヘルプには別の戦略があります。
@@ -214,9 +214,9 @@ Q. 〜という科学を得るにはどうしたらいいですか?
 のある科学が表示されます。
 
 かわりに David Pfitzner の "techtree" 図を 
-http://msowww.anu.edu.au/~dwp/freeciv/ からダウンロードすることもでき
+http://download.gna.org/freeciv/contrib/charts/ からダウンロードすることもでき
 ます。(訳注: 拙者の翻訳版が 
-http://amanatto.hoops.ne.jp/freeciv.ja.html にあります。)
+http://amanatto.hp.infoseek.co.jp/freeciv/index.ja.html にあります。)
 
 これらがうまくいかないなら、 'data/default/techs.ruleset' の科学ルール
 セットを読むこともできます。これには全ての科学のリストと、その科学を得

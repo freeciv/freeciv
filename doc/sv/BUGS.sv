@@ -102,7 +102,7 @@ Så här gör man:
 
 - Tittar på Freecivs system för spårning av programfel vid:
 
-        http://bugs.freeciv.org/
+        https://gna.org/bugs/?group=freeciv
 
   för att se om programfelet redan har anmälts.
 

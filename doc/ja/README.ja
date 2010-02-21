@@ -235,7 +235,7 @@ Freeciv の実行には、サーバ、それからクライアント、AI の起
 ローカルの友達や AI プレイヤーに敵を限定したくなければ、 Freeciv メタ
 サーバを訪れて下さい。
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/
 
 ここには Freeciv サーバがリストされます。自分のサーバをそこへアナウン
 スするには、 '--meta' もしくは短かく '-m' オプション付きで civserver 
@@ -320,7 +320,7 @@ asleep or what?? ;).
 クライアント、サーバ、そしてゲームのコンセプトやルールについてのもっと
 沢山の情報は、 Freeciv マニュアルを見て下さい。ウェブページにあります:
 
-  http://www.freeciv.org/manual/
+  http://ja.freeciv.wikia.com/wiki/マニュアル
 
 
 ゲームの終局:
@@ -463,9 +463,8 @@ max の範囲のデバッグメッセージだけが印字されます。各フ�
 メーリングリスト:
 =================
 
-我々は八つのメーリングリストを維持しています:
+我々は四つのメーリングリストを維持しています:
 
-  freeciv          一般的な議論。
   freeciv-announce 一般の人が関心を持つアナウンス
                    これはまれにしかメールされない「読み出し専用」リストです。
                    このリストへは投稿できません。読むだけです。
@@ -474,48 +473,11 @@ max の範囲のデバッグメッセージだけが印字されます。各フ�
                    Freeciv コード、文章、ウェブサイトを英語以外に翻訳
                    する上での議論。
   freeciv-dev      Freeciv 開発用。
-  freeciv-data     Freeciv データディレクトリ開発用。
-                   (rulesets, tilesets 他の議論)
-  freeciv-java     Freeciv Java クライアント開発用。
-  freeciv-ai       Freeciv AI 開発用。
-  freeciv-cvs      CVS リポジトリの変更通知。
+  freeciv-commits  SVN リポジトリの変更通知。
                    これは自動的に送られる「読み出し専用」リストです。
                    このリストへは投稿できません。読むだけです。
 
 全てのリストは一般へ歓迎されています。誰でも参加を歓迎します。
-
-参加(退会)するには、以下の方法に従います:
-
-  1. <listar@freeciv.org> へ Eメールする。
-  2. サブジェクト(表題)は空白のままにする。
-  3. email 本文へ次のいずれかを書きます。
-      参加するに場合:
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-i18n
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-ai
-        subscribe freeciv-cvs
-      退会する場合:
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-i18n
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-ai
-        unsubscribe freeciv-cvs
-
-リストへ email を送るには:
-
-  freeciv へは、メールを <freeciv@freeciv.org> へ送ります。
-  freeciv-i18n へは、メールを <freeciv-i18n@freeciv.org> へ送ります。
-  freeciv-dev へは、メールを <freeciv-dev@freeciv.org> へ送ります。
-  freeciv-data へは、メールを <freeciv-data@freeciv.org> へ送ります。
-  freeciv-java へは、ヘールを <freeciv-java@freeciv.org> へ送ります。
-  freeciv-ai へは、ヘールを <freeciv-ai@freeciv.org> へ送ります。
 
 (訳注: メールは英語で送って下さい。日本語のメーリングリストはありませ
 ん。)

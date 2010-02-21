@@ -237,7 +237,7 @@ Annoncer la partie :
 Si vous ne voulez pas limiter la concurrence à vos amis ou aux joueurs
 IA, visitez le métaserveur Freeciv :
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/
 
 C'est une liste de serveurs Freeciv. Pour que votre propre serveur
 s'y annonce lui-même, lancez civserver avec l'option '--meta', ou '-m'.
@@ -328,7 +328,7 @@ Pour avoir beaucoup plus de renseignements à propos du client, du
 serveur et des concepts et règles du jeu, consultez le manuel de Freeciv
 disponible sur le site web :
 
-  http://www.freeciv.org/index.php/Manual
+  http://fr.freeciv.wikia.com/wiki/Manuel
  
 
 Fin de la partie :

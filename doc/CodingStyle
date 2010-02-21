@@ -216,7 +216,7 @@ int foo(struct city *pcity)
 - If you send patches, use "diff -u" (or "diff -r -u"). "svn diff" works
   correctly without extra parameters.
   For further information, see
-  <http://www.freeciv.org/index.php/How_to_Contribute>.
+  <http://www.freeciv.org/wiki/How_to_Contribute>.
   Also, name patch files descriptively (e.g. "fix-foo-bug-0.diff" is good,
   but "freeciv.diff" is not).
 

@@ -246,7 +246,7 @@ Annunciare il gioco:
 Se non vuoi limitare il gioco ad amici o giocatori artificiali, visita il
 metaserver di Freeciv:
 
-  http://meta.freeciv.org/metaserver/
+  http://meta.freeciv.org/
 
 E' una lista di server Freeciv. Perche' il tuo server sia annunciato sul
 metaserver, devi avviare civserver con l'opzione '--meta', o solo '-m'
@@ -331,7 +331,7 @@ un'occhiata al Freeciv playing HOWTO, contenuto nel file HOWTOPLAY.
 Per molte piu' informazioni sul client, sul server esui concetti e le regole di
 gioco, confrontate il manuale di Freeciv, disponibile presso:
 
-  http://www.freeciv.org/manual/
+  http://freeciv.org/wiki/It:Docs
 
 
 Concludere il gioco:
@@ -459,63 +459,29 @@ informazioni su come farci sapere di nuovi bug.
 Mailing list:
 =============
 
-Abbiamo 7 mailing list:
+Abbiamo 4 mailing list:
 
-  freeciv          Discussione generale.
   freeciv-announce Annunci di interesse generale.
                    Questa e' una lista "solo in lettura", con rari messaggi.
                    In altre parole non potete postare, ma solo leggerla.
                    (Questi annunci sono postati anche su freeciv.)
   freeciv-dev      Sviluppo di Freeciv.
-  freeciv-data     Discussioni sullo sviluppo di dati per Freeciv.
-                   (Discussioni of set di regole, tileset, ecc.)
-  freeciv-java     Sviluppo del client Freeciv per Java.
-  freeciv-ai       Sviluppo della IA di Freeciv.
-  freeciv-cvs      Notifiche di cambiamenti al server CVS.
+  freeciv-commits  Notifiche di cambiamenti al server SVN.
                    Questa e' una lista "solo in lettura", con messaggi
                    automatici.
                    In altre parole non potete postare, ma solo leggerla.
+  freeciv-i18n
 
 Tutte le liste sono aperte al pubblico e chiunque e' il benvenuto.
-
-Per iscrivervi o rimuovervi queste liste seguite queste istruzioni:
-
-  1. Mandate un'e-mail a <listar@freeciv.org>.
-  2. Lasciate il soggetto in bianco.
-  3. Nel corpo del messaggio inserite una delle seguenti linee:
-      Per iscrivervi:
-        subscribe freeciv
-        subscribe freeciv-announce
-        subscribe freeciv-dev
-        subscribe freeciv-data
-        subscribe freeciv-java
-        subscribe freeciv-ai
-        subscribe freeciv-cvs
-      Per rimuovervi:
-        unsubscribe freeciv
-        unsubscribe freeciv-announce
-        unsubscribe freeciv-dev
-        unsubscribe freeciv-data
-        unsubscribe freeciv-java
-        unsubscribe freeciv-ai
-        unsubscribe freeciv-cvs
-
-Per mandare una e-mail alle liste indirizzatela a:
-
-  Per freeciv: <freeciv@freeciv.org>.
-  Per freeciv-dev:, <freeciv-dev@freeciv.org>.
-  Per freeciv-data: <freeciv-data@freeciv.org>.
-  Per freeciv-java: <freeciv-java@freeciv.org>.
-  Per freeciv-ai: <freeciv-ai@freeciv.org>.
 
 
 Internet Relay Chat (IRC)
 =========================
 
 Parecchi giocatori e sviluppatori sono presenti sul canale #freeciv sui
-server della rete Open Project. Provate a connettervi al server
+server della rete Freenode. Provate a connettervi al server
 
-       irc.openprojects.net
+       irc.freenode.net
 
 (Provate anche ad affacciarvi sul canale #freeciv-italia spesso ci trovate
 i giocatori italiani. Ndt)
@@ -546,10 +512,6 @@ errori/omissioni nel presente documento.
 Comunicate eventuali inesattezze all'indirizzo email:
 
 slug-freeciv@siena.linux.it
-
-o consultate l'indirizzo web:
-
-http://www.freeciv.it
 
 per eventuali aggiornamenti/revisioni.
 ===========================================================================

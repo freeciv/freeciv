@@ -20,13 +20,13 @@ or copy or link those sounds into whichever directory is mentioned in this
 file first, or edit it to refer to the right files. All references are by 
 default relative to the data/ directory. Soundpacks can be downloaded from
 the Freeciv website in the tar format. You will either need to unpack them
-with eg "tar -xzvf stdsoundsX.tar.gz" or use WinZip (for Windows), and
+with eg "tar -xzvf stdsoundsX.tar.gz" or use 7-Zip (for Windows etc.), and
 put the files in the data directory mentioned above.
 
 Note that the svn version neither includes any sound files nor any
 sound spec file. You can get soundsets (sound files and a spec file)
-from <ftp://ftp.freeciv.org/freeciv/contrib/audio/soundsets/>. At this address
-you find also extra sound files to change an existing soundset or
+from <http://download.gna.org/freeciv/contrib/audio/soundsets>. At this
+address you find also extra sound files to change an existing soundset or
 create a new one.
 
 ================================

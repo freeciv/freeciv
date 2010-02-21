@@ -693,16 +693,16 @@ Cygwin specific installation notes can be found in doc/INSTALL-Cygwin.
 ======================================
 Requirements: a unix environment with gcc and binutils for windows (mingw32)
               for the native win32 client: libz and libpng
-              (from ftp://ftp.freeciv.org/pub/freeciv/requirements)
+              (from http://download.gna.org/freeciv/requirements)
 You can use the standard gcc makefiles for them, but set CC and RANLIB to the
 right thing. If you use the libpng/libz binary shipped with cygwin, you are
 asking for trouble. 
-To compile the zlib from ftp.freeciv.org enter
+To compile zlib from above source enter
 with the cygwin utils: make CC="gcc -mno-cygwin"
 with a mingw32 cross compiler: 
 make CC=iX86-mingw32-gcc RANLIB=iX86-mingw32-ranlib
 
-To compile libpng from ftp.freeciv.org enter
+To compile libpng from above source enter
 with the cygwin utils: 
 make -f scripts/makefile.gcc CC="gcc -mno-cygwin"
 with a mingw32 cross compiler:
