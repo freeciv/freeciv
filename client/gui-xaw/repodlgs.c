@@ -1314,8 +1314,7 @@ void create_settable_options_dialog(void)
   for (i = 0; i < num_settable_options; i++) {
     struct options_settable *o = &settable_options[i];
 
-    if (setting_class_is_changeable(o->sclass)
-	&& o->is_visible) {
+    if (o->is_changeable && o->is_visible) {
       switch (o->stype) {
       case SSET_BOOL:
 	if (settable_options_widgets[i]) {
@@ -1413,8 +1412,7 @@ void update_settable_options_dialog(void)
     for (i = 0; i < num_settable_options; i++) {
       struct options_settable *o = &settable_options[i];
 
-      if (setting_class_is_changeable(o->sclass)
-	  && o->is_visible) {
+      if (o->is_changeable && o->is_visible) {
 	switch (o->stype) {
 	case SSET_BOOL:
 	  XtVaSetValues(settable_options_widgets[i],
@@ -1481,8 +1479,7 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
     for (i = 0; i < num_settable_options; i++) {
       struct options_settable *o = &settable_options[i];
 
-      if (setting_class_is_changeable(o->sclass)
-	  && o->is_visible) {
+      if (o->is_changeable && o->is_visible) {
 
 	switch (o->stype) {
 	case SSET_BOOL:
