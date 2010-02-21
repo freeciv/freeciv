@@ -668,7 +668,7 @@ void event_cache_load(struct section_file *file, const char *section)
   const char *p, *q;
 
   event_count = secfile_lookup_int_default(file, 0, "%s.count", section);
-  log_verbose("saved events: %d", event_count);
+  log_verbose("Saved events: %d.", event_count);
 
   if (0 >= event_count) {
     return;
@@ -760,7 +760,7 @@ void event_cache_load(struct section_file *file, const char *section)
       FC_FREE(players);
     }
 
-    log_verbose("load event %4d: [T%03d] %s", i, turn, packet.message);
+    log_verbose("Event %4d loaded.", i);
   }
 }
 
@@ -812,8 +812,7 @@ void event_cache_save(struct section_file *file, const char *section)
     secfile_insert_str(file, pdata->packet.message, "%s.events%d.message",
                        section, event_count);
 
-    log_verbose("save event %4d: [T%03d] %s", event_count,
-                pdata->turn, pdata->packet.message);
+    log_verbose("Event %4d saved.", event_count);
 
     event_count++;
   } event_cache_iterate_end;
@@ -821,7 +820,7 @@ void event_cache_save(struct section_file *file, const char *section)
   /* save the number of events in the event cache */
   secfile_insert_int(file, event_count, "%s.count", section);
 
-  log_verbose("events saved: %d", event_count);
+  log_verbose("Events saved: %d.", event_count);
 
   event_cache_status = TRUE;
 }
