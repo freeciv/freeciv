@@ -1580,6 +1580,8 @@ void handle_game_info(struct packet_game_info *pinfo)
   
   if (game.info.is_edit_mode != pinfo->is_edit_mode) {
     popdown_all_city_dialogs();
+    /* Clears the current goto command. */
+    set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
 
   game.info = *pinfo;

@@ -146,6 +146,9 @@ void free_client_goto(void)
     goto_map_list_free(goto_maps);
     goto_maps = NULL;
   }
+
+  goto_destination = NULL;
+  goto_warned = FALSE;
 }
 
 /**********************************************************************
