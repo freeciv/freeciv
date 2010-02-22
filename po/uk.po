@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-21 15:37+0300\n"
+"PO-Revision-Date: 2010-02-21 20:50+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -913,7 +913,7 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
-"Модернізація %s до %s за %d гривень?\n"
+"Модернізувати %s до %s коштує %d гривень.\n"
 "Бюджет налічує %d гривень."
 
 #: common/unit.c:1612
@@ -933,7 +933,7 @@ msgstr " та "
 
 #: common/unittype.c:465 client/helpdata.c:1807
 msgid "?and:, "
-msgstr "?та:, "
+msgstr ", "
 
 #: common/version.c:38
 #, c-format
@@ -3131,7 +3131,7 @@ msgstr ""
 
 #: server/commands.c:379
 msgid "If there is none, become the game organizer with increased permissions."
-msgstr "Якщо ще нема, стати організатором гри із підвіщеним рівнем допуску."
+msgstr "Якщо ще нема, стати організатором гри із підвищеним рівнем допуску."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:384
@@ -5703,20 +5703,18 @@ msgid "Whether to allow space race"
 msgstr "Чи дозволено заселення космосу"
 
 #: server/settings.c:828
-#, fuzzy
 msgid "If this option is set to 1, players can build spaceships."
-msgstr "Якщо 1, гравці мають змогу будувати космічній корабель."
+msgstr "Якщо цю опцію встановлено в 1, гравці можуть збудувати космічний корабель."
 
 #: server/settings.c:834
 msgid "Should the game end if the spaceship arrives?"
 msgstr "Чи слід грі закінчитися по прибуттю космічного корабля?"
 
 #: server/settings.c:835
-#, fuzzy
 msgid ""
 "If this option is set to 1, the game will end with the arrival of a "
 "spaceship at Alpha Centauri."
-msgstr "Якщо 1, гравці мають змогу будувати космічній корабель."
+msgstr "Якщо цю опцію встановлено в 1, гра завершиться по прибутті космічного корабля на Альфу Центавра."
 
 #: server/settings.c:841
 msgid "Minimum number of cities for civil war"
@@ -5748,21 +5746,19 @@ msgstr ""
 "ходів після останнього контакту. Встановіть у нуль аби вимкнути цю опцію."
 
 #: server/settings.c:862
-#, fuzzy
 msgid "Rebuild palace whenever capital is conquered"
-msgstr "Будувати палац якщо столицю захоплено"
+msgstr "Перебудовувати палац, якщо столицю захоплено"
 
 #: server/settings.c:863
-#, fuzzy
 msgid ""
 "If this is set to 1, when the capital is conquered the palace is "
 "automatically rebuilt for free in another randomly choosen city. This is "
 "significant because the technology requirement for building a palace will be "
 "ignored."
 msgstr ""
-"Якщо встановлено у 1 то при захопленні столиці, палац автоматично та "
-"безкоштовно будується у іншому випадково обраному місті, відповідно до "
-"знання про Будівництво."
+"Якщо встановлено у 1 то при захопленні столиці палац автоматично та "
+"безкоштовно будується у іншому випадково обраному місті. Це суттєво, бо "
+"в цьому випадку вимоги до технологічного розвитку для будівництва палацу ігноруються."
 
 #: server/settings.c:872
 msgid "Whether to use natural city names"
@@ -5777,9 +5773,8 @@ msgstr ""
 "відповідно до прилеглих земель."
 
 #: server/settings.c:879
-#, fuzzy
 msgid "Whether to enable citizen migration"
-msgstr "Чи вмикати мару війни"
+msgstr "Чи дозволяти міграцію громадян"
 
 #: server/settings.c:880
 msgid ""
@@ -5798,9 +5793,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:898
-#, fuzzy
 msgid "Number of turns between migrations from a city"
-msgstr "Кількість ходів між бумами"
+msgstr "Кількість ходів між еміграціями з міста"
 
 #: server/settings.c:899
 msgid ""
@@ -5936,14 +5930,12 @@ msgstr ""
 "під'єднується, та забирає його на себе при від'єднанні."
 
 #: server/settings.c:1007
-#, fuzzy
 msgid "Turn the game ends"
-msgstr "Рік кінця гри"
+msgstr "Хід кінця гри"
 
 #: server/settings.c:1008
-#, fuzzy
 msgid "The game will end at the end of the given turn."
-msgstr "Гра закінчиться у кінці вказаного року."
+msgstr "Гра закінчиться у кінці вказаного ходу."
 
 #: server/settings.c:1014
 msgid "Maximum seconds per turn"
@@ -6760,12 +6752,12 @@ msgid "Command access level set to '%s' for connection %s."
 msgstr "Рівень доступу до команд встановлено у '%s' для з'єднання %s."
 
 #: server/stdinhand.c:1144
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Anyone can now become game organizer '%s' by issuing the 'first' command."
 msgstr ""
-"Хто завгодно може зараз отримати рівень доступу до команд '%s' виконавши "
-"команду 'firstlevel'."
+"Зараз хто завгодно може стати організатором гри '%s' за допомогою "
+"команди 'first'."
 
 #: server/stdinhand.c:1168
 msgid "Command access levels in effect:"
@@ -6787,11 +6779,10 @@ msgstr "або"
 
 #. TRANS: comma and 'or' separated list of access levels
 #: server/stdinhand.c:1197
-#, fuzzy, c-format
+#, c-format
 msgid "Error: command access level must be one of %s."
 msgstr ""
-"Помилка: рівень доступу до команд може бути один з 'none', 'info', 'ctrl' "
-"або 'hack'."
+"Помилка: рівень доступу до команд має бути одним з %s. "
 
 #: server/stdinhand.c:1201
 #, c-format
@@ -6812,9 +6803,8 @@ msgstr ""
 "Рівень доступу до команд встановлено у '%s' для першого хто забере його."
 
 #: server/stdinhand.c:1292
-#, fuzzy
 msgid "The 'first' command makes no sense from the server command line."
-msgstr "Команда 'firstlevel' не має сенсу з консолі сервера."
+msgstr "Команда 'first' не має сенсу з командного рядка сервера."
 
 #: server/stdinhand.c:1296
 #, c-format
@@ -6822,9 +6812,8 @@ msgid "You already have command access level '%s' or better."
 msgstr "Ви вже маєте рівень доступу до команд '%s' або краще."
 
 #: server/stdinhand.c:1301
-#, fuzzy
 msgid "Someone else already is game organizer."
-msgstr "Хтось іншій вже має рівень доступу до команд '%s' або краще."
+msgstr "Хтось іншій вже є організатором гри."
 
 #: server/stdinhand.c:1306
 #, c-format
@@ -6854,15 +6843,15 @@ msgstr "Дінамічний таймаут встановлено у %d %d %d %
 
 #. TRANS: <untranslated name> - translated short help
 #: server/stdinhand.c:1432
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s  -  %s"
-msgstr "Опція: %s  -  %s."
+msgstr "Опція: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:1437
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s"
-msgstr "Опції: %s"
+msgstr "Опція: %s"
 
 #: server/stdinhand.c:1443 server/stdinhand.c:4028
 msgid "Description:"
@@ -6967,14 +6956,12 @@ msgid "Unknown option '%s'."
 msgstr "Невідома опція '%s'."
 
 #: server/stdinhand.c:1803
-#, fuzzy
 msgid "All options with non-default values"
-msgstr "= вказує, що опція містить значення по замовчуванню"
+msgstr "Усі опції з нетиповими значеннями"
 
 #: server/stdinhand.c:1806
-#, fuzzy
 msgid "All options"
-msgstr "Встановити локальні опції"
+msgstr "Усі опції"
 
 #: server/stdinhand.c:1809
 #, fuzzy
@@ -6982,9 +6969,8 @@ msgid "Vital options"
 msgstr "Опції міста"
 
 #: server/stdinhand.c:1812
-#, fuzzy
 msgid "Situational options"
-msgstr "Встановити локальні опції"
+msgstr "Ситуативні опції"
 
 #: server/stdinhand.c:1815
 msgid "Rarely used options"
@@ -7026,11 +7012,13 @@ msgstr "Не можна змінити команду після старту г
 #: server/stdinhand.c:1945 server/stdinhand.c:2078 server/stdinhand.c:2259
 #: server/stdinhand.c:2284 server/stdinhand.c:2327 server/stdinhand.c:2358
 #: server/stdinhand.c:2400 server/stdinhand.c:2425 server/stdinhand.c:2453
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Undefined argument.  Usage:\n"
 "%s"
-msgstr "Невідомий аргумент. Використання: set <опція> <значення>."
+msgstr ""
+"Невизначений аргумент. Використання:\n"
+"%s"
 
 #: server/stdinhand.c:1966
 #, c-format
@@ -7079,9 +7067,9 @@ msgid "You are not allowed to use this command."
 msgstr "Вам не дозволено використовувати цю команду."
 
 #: server/stdinhand.c:2073
-#, fuzzy, c-format
+#, c-format
 msgid "The argument \"%s\" is ambigious."
-msgstr "Аргумент допомоги '%s' двозначний."
+msgstr "Аргумент \"%s\" неоднозначний."
 
 #: server/stdinhand.c:2090
 #, fuzzy
@@ -23104,7 +23092,6 @@ msgstr ""
 "місті."
 
 #: data/civ1/buildings.ruleset:177
-#, fuzzy
 msgid ""
 "City Walls make it easier to defend a city.  They triple the defence "
 "strength of units within the city against land, sea, and helicopter units.  "
@@ -23119,13 +23106,12 @@ msgstr ""
 "сухопутного підрозділу."
 
 #: data/civ1/buildings.ruleset:200
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  "
 "However, it does not affect citizens made unhappy by military activity."
 msgstr ""
-"Розважає городян, що нейтралізує 3 нещасних городян. (4 після відкриття "
-"Електрики.)"
+"Розважає громадян міста, нейтралізуючи 3 нещасних городян.  "
+"Втім, не впливає на городян, нещасних внаслідок військових дій."
 
 #: data/civ1/buildings.ruleset:221
 #, no-c-format
@@ -23385,9 +23371,8 @@ msgstr "Вождь"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
 #: data/civ1/governments.ruleset:78
-#, fuzzy
 msgid "?female:Chief"
-msgstr "Товариш"
+msgstr "Вождиня"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:80
 msgid ""
@@ -24550,11 +24535,10 @@ msgstr "Воїни"
 
 #: data/default/units.ruleset:421 data/civ2/units.ruleset:279
 #: data/civ1/units.ruleset:232
-#, fuzzy
 msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
-msgstr "Можуть будуватися з початку гри. Найслабші вояки."
+msgstr "Можуть будуватися з самого початку гри. Це найслабші вояки."
 
 #: data/default/units.ruleset:427 data/civ2/units.ruleset:285
 #: data/civ1/units.ruleset:238
@@ -24563,9 +24547,8 @@ msgstr "Фаланга"
 
 #: data/default/units.ruleset:453 data/civ2/units.ruleset:311
 #: data/civ1/units.ruleset:264
-#, fuzzy
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr "Фаланга - це броньована піхота, ?корисна? для захисту міст."
+msgstr "Фаланга - це броньована піхота, придатна для захисту міст."
 
 #: data/default/units.ruleset:458 data/civ2/units.ruleset:316
 msgid "Archers"
@@ -24989,11 +24972,10 @@ msgstr "Підводний човен"
 
 #: data/default/units.ruleset:1607 data/civ2/units.ruleset:1564
 #: data/civ1/units.ruleset:918
-#, fuzzy
 msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
-msgstr "Підводний човен має велику стратегічну цінність, але слабо захищений."
+msgstr "Підводний човен подорожує під поверхнею океану і має велику стратегічну цінність, але слабо захищений якщо його виявлять."
 
 #: data/default/units.ruleset:1614 data/civ2/units.ruleset:1571
 #: data/civ1/units.ruleset:925
@@ -25002,15 +24984,16 @@ msgstr "Авіаносець"
 
 #: data/default/units.ruleset:1641 data/civ2/units.ruleset:1598
 #: data/civ1/units.ruleset:952
-#, fuzzy
 msgid ""
 "The Carrier is a mobile airport.\n"
 "\n"
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
-"Порада: Конвоюйте Авіаносець деякою кількістю швидких кораблів да Лінкором, "
-"бо ж втрата повність навантаженого Авіаносця дуже болісна та дорга."
+"Авіаносець - це мобільний аеродром.\n"
+"\n"
+"Порада: Конвоюйте Авіаносці ескадрою швидких кораблів та Лінкором, "
+"бо ж втрата повністю навантаженого Авіаносця ДУЖЕ болісна та дорога."
 
 #: data/default/units.ruleset:1650 data/civ2/units.ruleset:1607
 #: data/civ1/units.ruleset:961
@@ -25217,11 +25200,10 @@ msgid "Explorer"
 msgstr "Дослідник"
 
 #: data/default/units.ruleset:2009 data/civ2/units.ruleset:1966
-#, fuzzy
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
-msgstr "Дослідники стають у пригоді при дослідженні невідомих територій."
+msgstr "Дослідники - це хоробрі люди, що стають у пригоді при дослідженні невідомих територій."
 
 #: data/default/units.ruleset:2015
 #, fuzzy
@@ -25240,7 +25222,6 @@ msgid "Barbarian Leader"
 msgstr "Лідер дикунів"
 
 #: data/default/units.ruleset:2075 data/civ2/units.ruleset:1998
-#, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world.\n"
@@ -25248,8 +25229,10 @@ msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
-"Коли вождя дикунів вбивають на клітинці без будь яких захисних підрозділів, "
-"то виплачується винагорода в 100 гривень, але тількі для сухопутних "
+"Один Вождь Дикунів з'являється щоразу, коли десь у світі виникає навала дикунів.\n"
+"\n"
+"Коли вождя дикунів вбивають на клітинці без будь-яких захисних підрозділів, "
+"то виплачується винагорода в 100 гривень, але тільки для сухопутних "
 "підрозділів та гелікоптерів."
 
 #: data/default/units.ruleset:2084
@@ -25490,7 +25473,6 @@ msgstr ""
 "ядерної зими. Екологічно дружній взрив!"
 
 #: data/civ1/units.ruleset:1202
-#, fuzzy
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world.\n"
@@ -25498,9 +25480,11 @@ msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units."
 msgstr ""
+"Один Вождь Дикунів з'являється щоразу, коли десь у світі виникає навала дикунів.\n"
+"\n"
 "Коли вождя дикунів вбивають на клітинці без будь яких захисних підрозділів, "
-"то виплачується винагорода в 100 гривень, але тількі для сухопутних "
-"підрозділів та гелікоптерів."
+"то виплачується винагорода в 100 гривень, але тільки для сухопутних "
+"підрозділів."
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
@@ -25794,9 +25778,8 @@ msgid "?plural:Arabs"
 msgstr "Араби"
 
 #: data/nation/arab.ruleset:6
-#, fuzzy
 msgid "The Arab/Islamic civilization of 622 AD-1495 AD."
-msgstr "Арабська/Ісламська цивілізація у 622 н.е - 1495 н.е."
+msgstr "Арабська/Ісламська цивілізація 622 н.е - 1495 н.е."
 
 #: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
 #: data/nation/himyarite.ruleset:30 data/nation/kurd.ruleset:25
@@ -26033,9 +26016,8 @@ msgstr "Шах"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/khwarezmian.ruleset:26 data/nation/persian.ruleset:21
-#, fuzzy
 msgid "Shahbanu"
-msgstr "Голова"
+msgstr "Шахбану"
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
@@ -26061,14 +26043,12 @@ msgstr ""
 #. TRANS: Tlahtoani = Speaker
 #. TRANS: Cihua = Female
 #: data/nation/aztec.ruleset:30
-#, fuzzy
 msgid "Tlahtoani"
 msgstr "Тлатоані"
 
 #: data/nation/aztec.ruleset:30
-#, fuzzy
 msgid "Cihualahtoani"
-msgstr "Тлатоані"
+msgstr "Сіхуатлатоані"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
@@ -26184,9 +26164,8 @@ msgstr "Великий князь"
 #: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
 #: data/nation/russian.ruleset:47 data/nation/samogitian.ruleset:20
 #: data/nation/serbian.ruleset:36
-#, fuzzy
 msgid "Duchess"
-msgstr "Велика княжна"
+msgstr "Герцогиня"
 
 #: data/nation/belarusian.ruleset:22 data/nation/bulgarian.ruleset:31
 #: data/nation/russian.ruleset:48 data/nation/ukrainian.ruleset:19
@@ -26266,15 +26245,14 @@ msgid "?plural:Boers"
 msgstr "Боер"
 
 #: data/nation/boer.ruleset:6
-#, fuzzy
 msgid ""
 "The Boers were Dutch settlers in British-controlled South Africa from 1650 "
 "AD.  They briefly controlled two republics, the Transvaal and the Orange "
 "Free State, before being defeated by the British in the war of 1899-1902."
 msgstr ""
-"Боери це Голандські колоністи на підконтрольних Британії територіях у "
-"Південній Афріці у 1650. Вони контролювали дві республіки Трансваал та Оранж "
-"Фри Стейтс, до того як їх захопила Англія у війні 1899-1902."
+"Бури - це Голандські колоністи на підконтрольних Британії територіях у "
+"Південній Афріці з 1650. Вони контролювали дві республіки, Трансвааль та  "
+"Оранжеву Республіку, до поразки від Британії у війні 1899-1902."
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
@@ -26294,14 +26272,12 @@ msgstr ""
 
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:27
-#, fuzzy
 msgid "Ban"
-msgstr "Банк"
+msgstr "Бан"
 
 #: data/nation/bosnia.ruleset:27
-#, fuzzy
 msgid "?female:Ban"
-msgstr "Хан"
+msgstr "Бані"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -26361,14 +26337,12 @@ msgid "?female:Director-President"
 msgstr "Директор Президент"
 
 #: data/nation/breton.ruleset:3
-#, fuzzy
 msgid "Breton"
-msgstr "Розірвано"
+msgstr "Бретонці"
 
 #: data/nation/breton.ruleset:4
-#, fuzzy
 msgid "?plural:Bretons"
-msgstr "Британці"
+msgstr "Бретонці"
 
 #: data/nation/breton.ruleset:6
 msgid ""
@@ -26392,9 +26366,8 @@ msgid "Dug"
 msgstr ""
 
 #: data/nation/breton.ruleset:35
-#, fuzzy
 msgid "Dugez"
-msgstr "Великий князь"
+msgstr "Герцогиня"
 
 #: data/nation/breton.ruleset:36
 #, fuzzy
@@ -26407,14 +26380,12 @@ msgid "Rouanez"
 msgstr "Румуни"
 
 #: data/nation/british.ruleset:3
-#, fuzzy
 msgid "British"
-msgstr "Ірланці"
+msgstr "Британський"
 
 #: data/nation/british.ruleset:4
-#, fuzzy
 msgid "?plural:Britons"
-msgstr "Баварці"
+msgstr "Брити"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -26490,9 +26461,8 @@ msgid "Burmese"
 msgstr "Бурманці"
 
 #: data/nation/burmese.ruleset:4
-#, fuzzy
 msgid "?plural:Burmese"
-msgstr "Турки"
+msgstr "Бірманці"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -26606,12 +26576,11 @@ msgid "?plural:Canadians"
 msgstr "Канадці"
 
 #: data/nation/canadian.ruleset:7
-#, fuzzy
 msgid ""
 "Geographically, Canada is the second largest country in world. The magnetic "
 "north pole currently lies on Canadian territory."
 msgstr ""
-"Канада географічно є самою північною країною у світі: магнітний північний "
+"Канада географічно є другою за розміром країною у світі. Магнітний північний "
 "полюс зараз знаходиться на території Канади."
 
 #: data/nation/carthaginian.ruleset:3
@@ -26623,14 +26592,13 @@ msgid "?plural:Carthaginians"
 msgstr "Карфагеняни"
 
 #: data/nation/carthaginian.ruleset:8
-#, fuzzy
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
 "the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
 "by Rome in 146 BC."
 msgstr ""
-"Карфагеняни, наступники Фінікійській торговців, що мали імперію у "
-"середземномор'ї між 5 та 2 сторіччями до н.е. Карфаген було зруйновано Римом "
+"Карфагеняни, наступники Фінікійських торговців, мали морську імперію у "
+"Середземномор'ї між 5 та 2 сторіччями до н.е. Карфаген було зруйновано Римом "
 "у 146 до н.е."
 
 #: data/nation/catalan.ruleset:3
@@ -26914,9 +26882,8 @@ msgstr ""
 #: data/nation/cornish.ruleset:20 data/nation/french.ruleset:26
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
-#, fuzzy
 msgid "Chieftain"
-msgstr "Чілійці"
+msgstr "Вождь"
 
 #: data/nation/cornish.ruleset:20 data/nation/french.ruleset:26
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
@@ -26925,14 +26892,12 @@ msgid "?female:Chieftain"
 msgstr "Вождь"
 
 #: data/nation/cornish.ruleset:21 data/nation/irish.ruleset:45
-#, fuzzy
 msgid "High King"
-msgstr "Король"
+msgstr "Великий Король"
 
 #: data/nation/cornish.ruleset:21 data/nation/irish.ruleset:45
-#, fuzzy
 msgid "High Queen"
-msgstr "Королева"
+msgstr "Велика Королева"
 
 #: data/nation/cree.ruleset:3
 msgid "Cree"
@@ -27030,13 +26995,12 @@ msgstr "Датчани"
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
 #. TRANS: your charset.  In ISO-8859-1 (ISO Latin 1) this is 0xE5.
 #: data/nation/danish.ruleset:9
-#, fuzzy
 msgid ""
 "The founding of the Danish kingdom is generally assigned to the reign of "
 "Harald Blatand, who unified what is now Denmark between 958 AD and 988 AD."
 msgstr ""
-"Заснування Датського королівства в цілому справа рук Геральда Галасливого, "
-"що об'єднав те що є зараз Данією між 958 та 988 роками."
+"Заснування Датського королівства в цілому справа рук Геральда Синьозубого, "
+"що об'єднав те, що є зараз Данією між 958 та 988 роками."
 
 #: data/nation/dominican.ruleset:3
 msgid "Dominican"
@@ -27080,15 +27044,14 @@ msgid "?plural:Egyptians"
 msgstr "Єгиптяни"
 
 #: data/nation/egyptian.ruleset:6
-#, fuzzy
 msgid ""
 "Egypt was the second-oldest of the world's civilizations.  Since ancient "
 "times it has been unusually urbanized, supporting a large population on silt "
 "deposited by the annual floodings of the Nile."
 msgstr ""
-"Єгіпет це друга найстаріша світова цивілізація. З антічних часів вона була "
+"Єгіпет - це друга найстаріша світова цивілізація. З древніх часів вона була "
 "надзвичайно урбанізована, підтримувала велике населення землеробством на "
-"ілових осадах після щорічних розлівів Нілу."
+"намулових осадах після щорічних розлівів Нілу."
 
 #: data/nation/egyptian.ruleset:26 data/nation/nubian.ruleset:33
 msgid "Pharaoh"
@@ -27170,13 +27133,12 @@ msgid "?plural:Estonians"
 msgstr "Естонці"
 
 #: data/nation/estonian.ruleset:6
-#, fuzzy
 msgid ""
 "Estonia is a small country on the south shore of the eastern Baltic Sea.  "
 "Its people and language are closely related to those of Finland."
 msgstr ""
-"Естонія це невеличка країна на півдні сходу Балтійського моря. Її населення "
-"та мова дуже подібні до Фінляндії."
+"Естонія - це маленька країна на південному березі сходу Балтійського моря. Її населення "
+"та мова дуже подібні до Фінляндських."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -27254,13 +27216,12 @@ msgid "?plural:Finns"
 msgstr "Фіни"
 
 #: data/nation/finnish.ruleset:6
-#, fuzzy
 msgid ""
 "Finland is a small, cold country on the northern fringe of Europe, noted for "
 "exporting timber, cellular phones, and world-class operating systems."
 msgstr ""
-"Фінляндія це мала, холодна країна на півночі Європи, що екпортує деревину, "
-"мобільні телефони та всесвітньо відому операційну систему Linux."
+"Фінляндія це невелика, холодна країна на півночі Європи, що відома експортом деревини, "
+"мобільних телефонів та операційних систем світового рівня."
 
 #: data/nation/french.ruleset:3
 msgid "French"
@@ -27289,14 +27250,12 @@ msgid "?female:Premier"
 msgstr "Прем'єр"
 
 #: data/nation/galician.ruleset:3
-#, fuzzy
 msgid "Galician"
-msgstr "Італійці"
+msgstr "Ґалісійці"
 
 #: data/nation/galician.ruleset:4
-#, fuzzy
 msgid "?plural:Galicians"
-msgstr "Італійці"
+msgstr "Ґалісійці"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -27320,14 +27279,12 @@ msgid "Raina"
 msgstr "Королева"
 
 #: data/nation/gallic.ruleset:3
-#, fuzzy
 msgid "Gallic"
-msgstr "Італійці"
+msgstr "Галли"
 
 #: data/nation/gallic.ruleset:4
-#, fuzzy
 msgid "?plural:Gauls"
-msgstr "Зулуси"
+msgstr "Галли"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -27342,9 +27299,8 @@ msgid ""
 msgstr ""
 
 #: data/nation/gallic.ruleset:30
-#, fuzzy
 msgid "Druid"
-msgstr "Фрукти"
+msgstr "Друїд"
 
 #: data/nation/gallic.ruleset:30
 msgid "?female:Druid"
