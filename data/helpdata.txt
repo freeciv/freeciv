@@ -574,7 +574,8 @@ to waterways and roads, you can increase trade by establishing trade \
 routes between cities. In the default ruleset, you accomplish this by \
 producing a Caravan or Freight unit, sending them to another city at \
 least nine tiles away or belonging to a different civilization, and \
-issuing the \"make trade route\" command.\
+issuing the \"make trade route\" command. (The minimum distance can be \
+changed with the 'trademindist' server option.)\
 "), _("\
 The origin civilization of the unit gains immediate revenue in gold \
 and science from selling its trade goods at the destination city. The \
@@ -584,10 +585,14 @@ transportation easier and reduce this one-time revenue.\
 "), _("\
 Also, an ongoing trade route is established that benefits both its \
 origin and destination equally by generating trade points for each \
-city every turn. The amount of ongoing trade is based on (but not \
-equal to) the sum of trade points from the tiles worked by the two \
-cities; it is doubled if the cities are on different continents, and \
-doubled again if the cities are from different civilizations.\
+city every turn. The amount of ongoing trade increases with the size \
+of each city and the distance between them; it is doubled if the \
+cities are on different continents, and doubled again if the cities \
+are from different civilizations. This last condition means the net \
+benefit to your civilization of a trade route is the same regardless \
+of whether you own both cities or only one of them; if you only own \
+one city, trade in each city is doubled, but you only get the benefit \
+from one end of the route route.\
 "), _("\
 (If a trade route already exists between two cities, the origin \
 civilization can still gain initial revenue by entering the \
