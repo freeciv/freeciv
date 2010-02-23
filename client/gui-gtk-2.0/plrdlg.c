@@ -207,10 +207,10 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
 
       if (ev->button == 1) {
         if (can_intel_with_player(plr)) {
-	  popup_intel_dialog(plr);
-	}
-      } else {
-	dsend_packet_diplomacy_init_meeting_req(&client.conn, id);
+          popup_intel_dialog(plr);
+        }
+      } else if (can_meet_with_player(plr)) {
+        dsend_packet_diplomacy_init_meeting_req(&client.conn, id);
       }
     }
   }
