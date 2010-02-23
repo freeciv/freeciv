@@ -2322,7 +2322,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
   if (!punit || !pcity || !free_unhappy || happy_cost <= 0) {
     return 0;
   }
-  assert(free_unhappy >= 0);
+  assert(*free_unhappy >= 0);
 
   happy_cost -= get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER);
 
