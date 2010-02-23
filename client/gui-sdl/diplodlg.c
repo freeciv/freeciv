@@ -1264,10 +1264,13 @@ static int call_meeting_dlg_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     popdown_sdip_dialog();
-    
-    dsend_packet_diplomacy_init_meeting_req(&client.conn,
-                                            player_number(pWidget->data.player));
-    
+
+    if (can_meet_with_player(pWidget->data.player)) {
+      dsend_packet_diplomacy_init_meeting_req(&client.conn,
+                                              player_number
+                                              (pWidget->data.player));
+    }
+
     flush_dirty();
   }
   return -1;
