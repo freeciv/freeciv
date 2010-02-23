@@ -205,11 +205,11 @@ static gboolean button_press_callback(GtkTreeView *view, GdkEventButton *ev)
       plr = player_by_number(id);
 
       if (ev->button == 1) {
-	if (can_intel_with_player(plr)) {
-	  popup_intel_dialog(plr);
-	}
-      } else {
-	dsend_packet_diplomacy_init_meeting_req(&aconnection, id);
+        if (can_intel_with_player(plr)) {
+          popup_intel_dialog(plr);
+        }
+      } else if (can_meet_with_player(plr)) {
+        dsend_packet_diplomacy_init_meeting_req(&aconnection, id);
       }
     }
   }
