@@ -249,7 +249,7 @@ static struct MenuEntry help_menu_entries[]={
     { { N_("Economy"), 0              },      "", MENU_HELP_ECONOMY, 0 },
     { { N_("Cities"), 0               },      "", MENU_HELP_CITIES, 0 },
     { { N_("City Improvements"), 0    },      "", MENU_HELP_IMPROVEMENTS, 0 },
-    { { N_("Wonders of the WOrld"), 0 },      "", MENU_HELP_WONDERS, 0 },
+    { { N_("Wonders of the World"), 0 },      "", MENU_HELP_WONDERS, 0 },
     { { N_("Units"), 0                },      "", MENU_HELP_UNITS, 0 },
     { { N_("Combat"), 0               },      "", MENU_HELP_COMBAT, 0 },
     { { N_("ZOC"), 0                  },      "", MENU_HELP_ZOC, 0 },
