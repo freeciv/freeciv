@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-22 20:01+0300\n"
+"PO-Revision-Date: 2010-02-23 17:39+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -6566,7 +6566,7 @@ msgstr "Підрозділа %d не існує."
 #: server/stdinhand.c:2461
 #, c-format
 msgid "Option '%s' not recognized."
-msgstr ""
+msgstr "Опцію '%s' не розпізнано."
 
 #: server/stdinhand.c:2492
 #, c-format
@@ -6889,7 +6889,7 @@ msgstr "Не можу завантажити скриптовий файл '%s'.
 
 #: server/stdinhand.c:3813
 msgid "Settings re-initialized."
-msgstr ""
+msgstr "Налаштування переініціалізовано."
 
 #: server/stdinhand.c:3883
 #, fuzzy
@@ -7394,7 +7394,7 @@ msgstr "Вибачте, Ваш %s не може встановити тут то
 #: server/unithand.c:1616
 #, c-format
 msgid "Trade route between %s and %s canceled."
-msgstr ""
+msgstr "Торговий шлях між %s і %s скасовано."
 
 #: server/unithand.c:1601
 #: server/unithand.c:1623
@@ -9242,19 +9242,17 @@ msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* Невидимий якщо у сусідній клітинці не має ворожого підрозділу або міста.\n"
 
 #: client/helpdata.c:1315
-#, fuzzy
 msgid "* Can only attack units on ocean tiles (no land attacks).\n"
-msgstr "* Можуть атакувати лише у океані (не на суші)\n"
+msgstr "* Можуть атакувати лише підрозділи в океані (не на суші).\n"
 
 #: client/helpdata.c:1319
-#, fuzzy
 msgid "* Can attack from aboard sea units: against enemy cities and onto land tiles.\n"
-msgstr "* Можє атакувати з водних підрозділів ворожі міста або підрозділи на сухопутних територіях."
+msgstr "* Можуть атакувати з борту морських підрозділів ворожі міста або підрозділи на сухопутних територіях.\n"
 
 #: client/helpdata.c:1324
 #, fuzzy, c-format
 msgid "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
-msgstr "* Може бути парашутовано з дружнього міста (Відстань: %d)."
+msgstr "* Можуть бути парашутованими з дружнього міста (відстань: %d)."
 
 #: client/helpdata.c:1330
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -9293,9 +9291,9 @@ msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ігнорує Стіни міста.\n"
 
 #: client/helpdata.c:1366
-#, fuzzy, c-format
+#, c-format
 msgid "* Does bombard attacks (%d per turn).  These attacks will only damage (never kill) the defender, but have no risk for the attacker.\n"
-msgstr "* Виконує бомбардувальні напади (%d за хід).  Ці напади тільки спричинять шкоду захисникові (не знищать), проте не становлять ризику для нападника.\n"
+msgstr "* Здійснює бомбардувальні напади (%d за хід).  Ці напади тільки спричинять шкоду захисникові (не знищать), проте не становлять ризику для нападника.\n"
 
 #: client/helpdata.c:1373
 msgid "* Gets quintuple defense against missiles and aircraft.\n"
@@ -9376,20 +9374,20 @@ msgid "?or:, "
 msgstr "?або:, "
 
 #: client/helpdata.c:1502
-#, fuzzy, c-format
+#, c-format
 msgid "* Unit has to be in a city, or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or a base after %d turns.\n"
-msgstr[0] "* Підрозділ має бути у місті або на підрозділі %s після %d ходу.\n"
-msgstr[1] "* Підрозділ має бути у місті або на підрозділі %s після %d ходів.\n"
-msgstr[2] "* Підрозділ має бути у місті або на підрозділі %s після %d ходів.\n"
+msgstr[0] "* Підрозділ має бути у місті або на базі через %d хід.\n"
+msgstr[1] "* Підрозділ має бути у місті або на базі через %d ходи.\n"
+msgstr[2] "* Підрозділ має бути у місті або на базі через %d ходів.\n"
 
 #: client/helpdata.c:1510
-#, fuzzy, c-format
+#, c-format
 msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
-msgstr[0] "* Підрозділ має бути у місті або на підрозділі %s після %d ходу.\n"
-msgstr[1] "* Підрозділ має бути у місті або на підрозділі %s після %d ходів.\n"
-msgstr[2] "* Підрозділ має бути у місті або на підрозділі %s після %d ходів.\n"
+msgstr[0] "* Підрозділ має бути у місті, на базі або на %s через %d хід.\n"
+msgstr[1] "* Підрозділ має бути у місті, на базі або на %s через %d ходи.\n"
+msgstr[2] "* Підрозділ має бути у місті, на базі або на %s через %d ходів.\n"
 
 #: client/helpdata.c:1555
 #, fuzzy, c-format
@@ -9409,9 +9407,8 @@ msgid "You cannot research this technology."
 msgstr "Ви не можете винайти цю технологію."
 
 #: client/helpdata.c:1577
-#, fuzzy
 msgid " This number may vary depending on what other players research.\n"
-msgstr " Це число багато в чому залежить від того, що відкриють інші гравці.\n"
+msgstr " Це число може змінюватися залежно від того, що досліджують інші гравці.\n"
 
 #: client/helpdata.c:1589
 #, fuzzy, c-format
@@ -9448,9 +9445,8 @@ msgid "* Fallout cannot be generated on this terrain."
 msgstr "* Цю місцевість не можна забруднити."
 
 #: client/helpdata.c:1660
-#, fuzzy
 msgid "* You cannot build cities on this terrain."
-msgstr "Ви не можете перетягнути на свій бік підрозділ цієї нації."
+msgstr "* На цій території не можна будувати міста."
 
 #: client/helpdata.c:1666
 msgid "* The coastline of this terrain is unsafe."
@@ -9532,25 +9528,24 @@ msgstr "* Якщо Ви втратите свою столицю, ймовірн
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1904
-#, fuzzy, c-format
+#, c-format
 msgid "* When you have %d cities, the first unhappy citizen will appear in each city due to civilization size.\n"
-msgstr "* У кожному місці з'явиться перший нещасливий через розмір цивілізації городянин, коли Ви будете мати %d міст.\n"
+msgstr "* У кожному місті з'явиться перший нещасливий через розмір цивілізації городянин, коли Ви матимете %d міст.\n"
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1911
-#, fuzzy, c-format
+#, c-format
 msgid "* After the first unhappy citizen due to civilization size, for each %d additional cities another unhappy citizen will appear.\n"
-msgstr "* Після першого нещасливого через розмір цивілізацїї городянина, буде з'являтися ще один нещасливий городянин із прирістом кожних %d міст.\n"
+msgstr "* Після появи першого нещасливого через розмір цивілізації городянина, зі збільшенням кількості міст на %d буде з'являтися ще один нещасливий городянин .\n"
 
 #: client/helpdata.c:1919
-#, fuzzy, c-format
+#, c-format
 msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
-msgstr "Максимальне відношення, яке Ви можете встановити для науки, грошей, або розкошу %d%%.\n"
+msgstr "* Максимальне співвідношення, яке Ви можете встановити для науки, грошей або розкоші: %d%%.\n"
 
 #: client/helpdata.c:1924
-#, fuzzy
 msgid "* Has unlimited science/gold/luxuries rates.\n"
-msgstr "Має необмежені відношення наука/гроші/розкіш.\n"
+msgstr "* Має необмежені співвідношення науки/грошей/розкоші.\n"
 
 #: client/helpdata.c:1929
 #, c-format
@@ -9687,19 +9682,17 @@ msgid "* %s losses will increase slowly with distance from capital.\n"
 msgstr "* забрудення %s буде повільно збільшуватися із відстанню від столиці.\n"
 
 #: client/helpdata.c:2089
-#, fuzzy
 msgid "* Increases the chance of migration into your cities.\n"
-msgstr "Підвищує забруднення що спричинено населенням.\n"
+msgstr "* Збільшує ймовірність міграції до Ваших міст.\n"
 
 #: client/helpdata.c:2092
-#, fuzzy
 msgid "* Decreases the chance of migration into your cities.\n"
-msgstr "Підвищує забруднення що спричинено населенням.\n"
+msgstr "* Зменшує ймовірність міграції до Ваших міст.\n"
 
 #: client/helpdata.c:2109
-#, fuzzy, c-format
+#, c-format
 msgid "* Allows you to build %s.\n"
-msgstr "Дозволяє %s будувати авіабази.\n"
+msgstr "* Дозволяє будувати %s.\n"
 
 #. TRANS: "2 Food" or ", 1 Shield"
 #: client/helpdata.c:2135
@@ -9717,9 +9710,9 @@ msgstr ", "
 
 #. TRANS: "2 Unhappy" or ", 1 Unhappy"
 #: client/helpdata.c:2143
-#, fuzzy, c-format
+#, c-format
 msgid "%s%d Unhappy"
-msgstr "%s%d нещасливих"
+msgstr "%s%d Нещасливих"
 
 #: client/mapctrl_common.c:394
 #, c-format
@@ -9808,14 +9801,12 @@ msgid "By changing this option you change the active tileset.  This is the same 
 msgstr "Змінюючи цю опцію Ви змінюютє активну тему. Також самого ефекту можна досягти за допомогою параметру командної строки -t."
 
 #: client/options.c:493
-#, fuzzy
 msgid "Draw city outlines"
-msgstr "Опції міста"
+msgstr "Малювати межі міста"
 
 #: client/options.c:494
-#, fuzzy
 msgid "Setting this option will draw a line at the city workable limit."
-msgstr "Якщо цю опцію встановлено, діалоги новозаснованих міст будуть відкриватися автоматично."
+msgstr "Якщо цю опцію встановлено, територія, на якій можуть працювати городяни, буде обведена лінією."
 
 #: client/options.c:498
 #, fuzzy
@@ -9845,14 +9836,12 @@ msgid "Setting this option will display a 'citybar' containing useful informatio
 msgstr "Якщо цю опцію включено, буде відображатися 'плашка міста', яка містить корисну інформацію про кожне місто. Якщо цю опцію відключено, то буде відображатися лише ім'я міста та, опціонально, інформація про виробництво."
 
 #: client/options.c:514
-#, fuzzy
 msgid "Draw the city names"
-msgstr "Малювати панель міста"
+msgstr "Малювати назви міст"
 
 #: client/options.c:515
-#, fuzzy
 msgid "Setting this option will draw the names of the cities on the map."
-msgstr "Якщо цю опцію відключено, на огляді мапи не буде відображатися анімація боїв між підрозділами."
+msgstr "Якщо цю опцію увімкнено, на мапі відображатимуться назви міст."
 
 #: client/options.c:519
 #, fuzzy
@@ -9883,73 +9872,60 @@ msgid "Setting this option will draw how many golds are needed to buy the produc
 msgstr ""
 
 #: client/options.c:534
-#, fuzzy
 msgid "Draw the city trade routes"
-msgstr "Малювати панель міста"
+msgstr "Малювати торгові шляхи міст"
 
 #: client/options.c:535
 msgid "Setting this option will draw trade route lines between cities which have trade routes."
 msgstr ""
 
 #: client/options.c:539
-#, fuzzy
 msgid "Draw the terrain"
-msgstr "Малювати панель міста"
+msgstr "Малювати територію"
 
 #: client/options.c:540
-#, fuzzy
 msgid "Setting this option will draw the terrain."
-msgstr "Якщо активовано, назва міста по замовчуванню буде буде визначатися відповідно до прилеглих земель."
+msgstr "Якщо цю опцію ввімкнено, території відображатимуться."
 
 #: client/options.c:543
-#, fuzzy
 msgid "Draw the coast line"
-msgstr "Малювати панель міста"
+msgstr "Малювати лінію узбережжя"
 
 #: client/options.c:544
-#, fuzzy
 msgid "Setting this option will draw a line to separate the land of the ocean."
-msgstr "Якщо цю опцію включено, на підрозділах буде відображатися іконка виробництва на флазі. Якщо цю опцію відключено, буде відображатися повний флаг."
+msgstr "Якщо цю опцію ввімкнено, суша та океан розділятимуться намальованою лінією."
 
 #: client/options.c:548
-#, fuzzy
 msgid "Draw the roads and the railroads"
-msgstr "* Допомогають будувати дива.\n"
+msgstr "Малювати дороги та залізниці"
 
 #: client/options.c:549
-#, fuzzy
 msgid "Setting this option will draw the roads and the railroads on  the map."
-msgstr "Якщо цю опцію включено, на підрозділах буде відображатися іконка виробництва на флазі. Якщо цю опцію відключено, буде відображатися повний флаг."
+msgstr "Якщо цю опцію ввімкнено, на карті відображатимуться дороги та залізниці."
 
 #: client/options.c:553
-#, fuzzy
 msgid "Draw the irrigations"
-msgstr "Зрошення"
+msgstr "Малювати зрошення"
 
 #: client/options.c:554
-#, fuzzy
 msgid "Setting this option will draw the irrigations on the map."
-msgstr "Якщо цю опцію відключено, на огляді мапи не буде відображатися анімація боїв між підрозділами."
+msgstr "Якщо цю опцію ввімкнено, на мапі відображатиметься зрошення."
 
 #: client/options.c:558
-#, fuzzy
 msgid "Draw the mines"
-msgstr "Малювати панель міста"
+msgstr "Малювати шахти"
 
 #: client/options.c:559
-#, fuzzy
 msgid "Setting this option will draw the mines on the map."
-msgstr "Якщо активовано, назва міста по замовчуванню буде буде визначатися відповідно до прилеглих земель."
+msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться шахти."
 
 #: client/options.c:562
-#, fuzzy
 msgid "Draw the bases"
-msgstr "Малювати панель міста"
+msgstr "Малювати бази"
 
 #: client/options.c:563
-#, fuzzy
 msgid "Setting this option will draw the bases on the map."
-msgstr "Відключення цієї опції сховає лінійку прокрутки мапи."
+msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться бази."
 
 #: client/options.c:566
 #, fuzzy
@@ -9975,18 +9951,16 @@ msgid "Draw the cities"
 msgstr "Малювати міста"
 
 #: client/options.c:577
-#, fuzzy
 msgid "Setting this option will draw the cities on the map."
-msgstr "Якщо активовано, назва міста по замовчуванню буде буде визначатися відповідно до прилеглих земель."
+msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться міста."
 
 #: client/options.c:580
 msgid "Draw the units"
 msgstr "Малювати підрозділи"
 
 #: client/options.c:581
-#, fuzzy
 msgid "Setting this option will draw the units on the map."
-msgstr "Якщо активовано, назва міста по замовчуванню буде буде визначатися відповідно до прилеглих земель."
+msgstr "Якщо цю опцію ввімкнено, на мапі відображатимуться підрозділи."
 
 #: client/options.c:585
 msgid "Solid unit background color"
@@ -10256,9 +10230,8 @@ msgid "Do not show vote bar if not a player"
 msgstr "Не показувати рядок голосування не-гравцям"
 
 #: client/options.c:760
-#, fuzzy
 msgid "If this option is enabled, the client won't show the vote bar if you are not a player."
-msgstr "Якщо встановлено цю опцію, клієнт буде використовувати усю площу екрана для малювання"
+msgstr "Якщо встановлено цю опцію, клієнт не показуватиме смугу голосування, якщо Ви не гравець."
 
 #: client/options.c:763
 msgid "Set new votes at front"
@@ -10737,9 +10710,8 @@ msgstr "Кордон"
 
 #: client/plrdlg_common.c:262
 #: client/gui-gtk-2.0/repodlgs.c:1344
-#, fuzzy
 msgid "Score"
-msgstr "Отримати рахунки"
+msgstr "Рахунок"
 
 #: client/plrdlg_common.c:263
 #: client/gui-gtk-2.0/pages.c:1626
@@ -10870,21 +10842,18 @@ msgstr "?nation:Дружні(команда)"
 
 #: client/text.c:143
 #: client/gui-sdl/mapview.c:596
-#, fuzzy
 msgid "?city:Neutral"
-msgstr "?місто:Назва"
+msgstr "Нейтральне"
 
 #: client/text.c:143
 #: client/gui-sdl/mapview.c:596
-#, fuzzy
 msgid "?city:Hostile"
-msgstr "?місто:Назва"
+msgstr "Вороже"
 
 #: client/text.c:145
 #: client/gui-sdl/mapview.c:597
-#, fuzzy
 msgid "?city:Peaceful"
-msgstr "?стан_міста:Спокій"
+msgstr "Мирне"
 
 #: client/text.c:145
 #: client/gui-sdl/mapview.c:598
@@ -11002,9 +10971,9 @@ msgstr "?blistend:"
 
 #. TRANS: "Trade from Warsaw: 5"
 #: client/text.c:277
-#, fuzzy, c-format
+#, c-format
 msgid "Trade from %s: %d"
-msgstr "далеко від %s"
+msgstr "Торгівля з %s: %d"
 
 #: client/text.c:293
 #, c-format
@@ -11169,9 +11138,9 @@ msgid "Gold: %d (%+d)"
 msgstr "Гривень: %d (%+d)"
 
 #: client/text.c:721
-#, fuzzy, c-format
+#, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr "Податки:%d Розкіш:%d Наука:%d"
+msgstr "Податки: %d Розкіш: %d Наука: %d"
 
 #: client/text.c:728
 #: client/text.c:735
@@ -11363,11 +11332,8 @@ msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Вірогідність катастрофічної зими кожного ходу: %d%%"
 
 #: client/text.c:1099
-#, fuzzy
 msgid "Shows your current government:"
-msgstr ""
-"Показати поточне правління:\n"
-"%s."
+msgstr "Показує Ваш поточний уряд:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1125
@@ -11455,9 +11421,9 @@ msgstr "%6d.%02d мс"
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
 #: client/text.c:1278
-#, fuzzy, c-format
+#, c-format
 msgid "?nationgovernment:%s %s"
-msgstr "Керівництво: %s"
+msgstr "%s %s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1288
@@ -11494,10 +11460,10 @@ msgstr[2] "%d нейтральних до штрафу "
 
 #. TRANS: 0-21 unhappy citizen(s).
 #: client/text.c:1405
-#, fuzzy, c-format
+#, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
-msgstr[0] "%d додаткових нещасних городян."
+msgstr[0] "%d додатковий нещасний городянин."
 msgstr[1] "%d додаткових нещасних городян."
 msgstr[2] "%d додаткових нещасних городян."
 
@@ -11568,11 +11534,8 @@ msgid "Client does not support overhead view tilesets."
 msgstr "Клієнт не підтримує горішні фони. Використовую фони по замовчуванню."
 
 #: client/tilespec.c:4240
-#, fuzzy
 msgid "Paths longer than 99 turns are not supported."
-msgstr ""
-"Шляхи довші ніж 99 ходів не підтримуються.\n"
-"Повідомьте про цю помилку до %s"
+msgstr "Шляхи довші ніж 99 ходів не підтримуються."
 
 #: client/agents/cma_core.c:398
 #, fuzzy, c-format
@@ -12012,9 +11975,8 @@ msgid "background"
 msgstr "фон"
 
 #: client/gui-gtk-2.0/chatline.c:1235
-#, fuzzy
 msgid "Select the background color"
-msgstr "Заповнення фону з'єднання"
+msgstr "Вибрати колір фону"
 
 #. TRANS: "Return" means the return key.
 #: client/gui-gtk-2.0/chatline.c:1253
@@ -12907,9 +12869,8 @@ msgid "The current ruleset does not define any objects corresponding to this edi
 msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:238
-#, fuzzy
 msgid "Global Observer"
-msgstr " (спостерігач)"
+msgstr "Глобальний спостерігач"
 
 #: client/gui-gtk-2.0/editgui.c:581
 msgid "Switch player point-of-view. Use this to edit from the perspective of different players, or even as a global observer."
@@ -12991,12 +12952,12 @@ msgid "%d present"
 msgstr "Додати предустановку"
 
 #: client/gui-gtk-2.0/editprop.c:894
-#, fuzzy, c-format
+#, c-format
 msgid "%d byte"
 msgid_plural "%d bytes"
-msgstr[0] "(%d шаг)"
-msgstr[1] "(%d шаги)"
-msgstr[2] "(%d шагів)"
+msgstr[0] "%d байт"
+msgstr[1] "%d байти"
+msgstr[2] "%d байтів"
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:918
@@ -13108,17 +13069,15 @@ msgid "Specials"
 msgstr "Спеціальне"
 
 #: client/gui-gtk-2.0/editprop.c:3754
-#, fuzzy
 msgid "Bases"
-msgstr "База"
+msgstr "Бази"
 
 #: client/gui-gtk-2.0/editprop.c:3756
 #: client/gui-gtk-2.0/editprop.c:3765
 #: client/gui-gtk-2.0/editprop.c:3793
 #: client/gui-gtk-2.0/editprop.c:3812
-#, fuzzy
 msgid "Address"
-msgstr "Додати предустановку"
+msgstr "Адреса"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:3767
@@ -13133,9 +13092,8 @@ msgid "Type"
 msgstr "Тип"
 
 #: client/gui-gtk-2.0/editprop.c:3773
-#, fuzzy
 msgid "Moves Left"
-msgstr "Рухи"
+msgstr "Ходів зосталось"
 
 #: client/gui-gtk-2.0/editprop.c:3775
 msgid "Fuel"
@@ -13929,9 +13887,8 @@ msgstr "Космічна гонка"
 #: client/gui-gtk-2.0/menu.c:1293
 #: client/gui-win32/menu.c:438
 #: client/gui-xaw/menu.c:260
-#, fuzzy
 msgid "About Ruleset"
-msgstr "Збір правил:"
+msgstr "Про набір правил"
 
 #: client/gui-gtk-2.0/menu.c:1296
 #: client/gui-win32/menu.c:440
@@ -15014,9 +14971,8 @@ msgstr "Космічний корабель\n"
 #: client/gui-gtk-2.0/repodlgs.c:1498
 #: data/Freeciv.in:3406
 #: data/Freeciv.in:3415
-#, fuzzy
 msgid "Game Settings"
-msgstr "Зберегти установки"
+msgstr "Налаштування гри"
 
 #: client/gui-gtk-2.0/repodlgs.c:1603
 #: client/gui-xaw/repodlgs.c:1439
@@ -15156,9 +15112,9 @@ msgid "%sVote %d by %s: %s%s"
 msgstr "Нове голосування (номер %d) від %s: %s."
 
 #: client/gui-sdl/caravan_dialog.c:131
-#, fuzzy, c-format
+#, c-format
 msgid "Your caravan has arrived at %s"
-msgstr "Ваш караван досяг мети"
+msgstr "Ваш караван прибув до %s"
 
 #: client/gui-sdl/caravan_dialog.c:156
 #, fuzzy, c-format
@@ -15237,9 +15193,8 @@ msgid "Load Game"
 msgstr "Завантажити гру"
 
 #: client/gui-sdl/chatline.c:862
-#, fuzzy
 msgid "Server Settings"
-msgstr "Зберегти установки"
+msgstr "Налаштування сервера"
 
 #: client/gui-sdl/citydlg.c:425
 msgid "Unit commands"
@@ -15683,19 +15638,16 @@ msgid "City of %s (Population %s citizens) : %s"
 msgstr "Місто %s (Населення %s горожан) : %s"
 
 #: client/gui-sdl/cma_fe.c:975
-#, fuzzy
 msgid "Save settings as..."
-msgstr "Зберегти установки"
+msgstr "Зберегти налаштування як..."
 
 #: client/gui-sdl/cma_fe.c:984
-#, fuzzy
 msgid "Load settings"
-msgstr "Зберегти установки"
+msgstr "Завантажити налаштування"
 
 #: client/gui-sdl/cma_fe.c:993
-#, fuzzy
 msgid "Delete settings"
-msgstr "Видалити предустановку"
+msgstr "Знищити налаштування"
 
 #: client/gui-sdl/cma_fe.c:1002
 #: client/gui-win32/cma_fe.c:495
@@ -16446,9 +16398,8 @@ msgid "End of Turn"
 msgstr "Кінець Хода"
 
 #: client/gui-sdl/mapview.c:893
-#, fuzzy
 msgid "Press"
-msgstr "Установки"
+msgstr "Натисніть"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:374
@@ -16868,11 +16819,10 @@ msgid "active"
 msgstr "активний"
 
 #: client/gui-sdl/repodlgs.c:340
-#, fuzzy
 msgid ""
 "under\n"
 "construction"
-msgstr "Конструювання"
+msgstr "будується\n"
 
 #: client/gui-sdl/repodlgs.c:344
 #, fuzzy
@@ -17526,9 +17476,8 @@ msgstr "Рівень ШІ:"
 
 #: client/gui-win32/connectdlg.c:1036
 #: client/gui-win32/repodlgs.c:934
-#, fuzzy
 msgid "Game Options"
-msgstr "Опції повідомлень"
+msgstr "Опції гри"
 
 #: client/gui-win32/connectdlg.c:1040
 msgid "Start Game"
@@ -17672,15 +17621,14 @@ msgstr "Розкіш: %d%%"
 
 #: client/gui-win32/inteldlg.c:130
 #: client/gui-xaw/inteldlg.c:248
-#, fuzzy
 msgid "Researching: (Unknown)"
-msgstr "Досліджується: %s(%d/%d)"
+msgstr "Досліджується: (Невідомо)"
 
 #: client/gui-win32/inteldlg.c:133
 #: client/gui-xaw/inteldlg.c:251
-#, fuzzy, c-format
+#, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr "Досліджується: %s(%d/%d)"
+msgstr "Досліджується: Невідомо(%d/-)"
 
 #: client/gui-win32/inteldlg.c:137
 #: client/gui-xaw/inteldlg.c:255
@@ -18233,7 +18181,6 @@ msgid "Tools"
 msgstr "Інструменти"
 
 #: client/gui-xaw/menu.c:252
-#, fuzzy
 msgid "Wonders of the WOrld"
 msgstr "Дива світу"
 
@@ -18289,12 +18236,14 @@ msgstr "Не можу записати файл скрипту '%s'."
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
-msgstr "Вибір сервера Freeciv"
+msgstr ""
+"<h1>Опції сервера %s Freeciv</h1>\n"
+"\n"
 
 #: manual/civmanual.c:148
-#, fuzzy, c-format
+#, c-format
 msgid "Level: %s.<br>"
-msgstr "Рівень: %s"
+msgstr "Рівень: %s.<br>"
 
 #: manual/civmanual.c:149
 #, c-format
@@ -18357,11 +18306,13 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:204
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p>Description:</p>\n"
 "\n"
-msgstr "Опис:"
+msgstr ""
+"<p>Опис:</p>\n"
+"\n"
 
 #: manual/civmanual.c:211
 #, c-format
@@ -18442,9 +18393,8 @@ msgid "Requirement"
 msgstr "Потребує:"
 
 #: manual/civmanual.c:301
-#, fuzzy
 msgid "Obsolete by"
-msgstr "Застаріле через:"
+msgstr "Застаріле через"
 
 #: manual/civmanual.c:301
 msgid "More info"
@@ -18455,14 +18405,12 @@ msgid "  -r, --ruleset RULESET  Make manual for RULESET\n"
 msgstr ""
 
 #: manual/civmanual.c:385
-#, fuzzy
 msgid "  -h, --help             Print a summary of the options\n"
-msgstr "  -h, --help\t\tВивести підказку по опціям\n"
+msgstr "  -h, --help             Показати підказку по опціям\n"
 
 #: manual/civmanual.c:387
-#, fuzzy
 msgid "  -v, --version          Print the version number\n"
-msgstr "  -v, --version\t\tВивести версію\n"
+msgstr "  -v, --version          Показати номер версії\n"
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
@@ -18592,9 +18540,8 @@ msgid "Release City"
 msgstr "Відпустити місто"
 
 #: data/Freeciv.in:1474
-#, fuzzy
 msgid "Minimal Surplus:"
-msgstr "Мінімальний надлишок"
+msgstr "Мінімальний надлишок:"
 
 #: data/Freeciv.in:1476
 #, fuzzy
@@ -18802,9 +18749,8 @@ msgid "Cancel pact"
 msgstr "Розірвати угоду"
 
 #: data/Freeciv.in:3357
-#, fuzzy
 msgid "Name              Ready Leader          Nation          "
-msgstr "Сервер                              Порт  Версія      Стан    Гравців  Інфо"
+msgstr "Ім'я              Готовність Лідер          Нація          "
 
 #: data/helpdata.txt:38
 msgid "Freeciv is a turn-based strategy game, in which each player becomes the leader of a civilization. You compete against several opponents to found cities, use them to support a military and economy, and finally to complete an empire that survives all encounters with its neighbors to emerge victorious. Each opponent may be either another human or be controlled by the computer. All players begin at the dawn of history with a handful of units -- typically with an explorer and a couple of settlers in 4000 BC -- and race to expand outward from those humble beginnings."
@@ -19809,9 +19755,8 @@ msgid "There are five diplomatic states between players: War, Cease-fire, Armist
 msgstr ""
 
 #: data/helpdata.txt:1231
-#, fuzzy
 msgid "During War, you can freely move your units inside enemy territory and attack their units and cities at will."
-msgstr "Типовий дипломатичний стан між гравцями - Війна. Протягом війни підрозділи можуть вільно рухатися крізь ворожу територію, а також атакувати ворожі міста та підрозділи."
+msgstr "Протягом війни підрозділи можуть вільно рухатися крізь ворожу територію, а також атакувати ворожі міста та підрозділи."
 
 #: data/helpdata.txt:1234
 msgid "When two players decide to end hostilities between them, they can agree on a Cease-fire treaty. This prevents each player from attacking the other, but you can still move your units inside the other player's borders. After a set number of turns, the Cease-fire will lead back to War. Upon first contact with an AI player, it will automatically offer you a Cease-fire treaty."
@@ -20307,12 +20252,8 @@ msgid "  Present administrators: "
 msgstr "  Поточні адміністратори: "
 
 #: data/helpdata.txt:2037
-#, fuzzy
 msgid "If you find any bugs, then please send us a bug report.  This is best done by visiting the Freeciv Bug Tracking System, at:"
-msgstr ""
-"Якщо Ви знайдете помилку, відправьте звіт про неї.  Найкраще це робити відвідавши Систему Відсліжування Помилок Freeciv, на:\n"
-"\n"
-"  http://bugs.freeciv.org/"
+msgstr "Якщо Ви знайдете помилку, надішліть звіт про неї.  Найкраще це робити відвідавши Систему Обліку Помилок Freeciv, на:"
 
 #: data/helpdata.txt:2042
 msgid "For more information about submitting bug reports see the file BUGS in the Freeciv distribution.  For more information in general, visit the Freeciv website, at:"
@@ -20338,9 +20279,8 @@ msgstr "Водогін"
 
 #: data/default/buildings.ruleset:85
 #: data/civ2/buildings.ruleset:68
-#, fuzzy
 msgid "Allows a city to grow larger than size 8.  A Sewer System is also required for a city to grow larger than size 12."
-msgstr "Дозволяє місту зростати понад 12. Водогін спершу потрібен для росту міста понад 8."
+msgstr "Дозволяє місту зростати у розмірі понад 8. Щоб місто змогло вирости у розмірі понад 12, потрібна Каналізація."
 
 #: data/default/buildings.ruleset:91
 #: data/civ2/buildings.ruleset:74
@@ -20385,15 +20325,13 @@ msgstr "Собор"
 
 #: data/default/buildings.ruleset:202
 #: data/civ2/buildings.ruleset:182
-#, fuzzy
 msgid "A Cathedral makes 3 unhappy citizens content in a city, making it easier to maintain order in that city; however, it does not affect citizens made unhappy by military activity.  The discovery of Theology increases the effect of a Cathedral, making an additional unhappy citizen content.  The discovery of Communism lessens the effect of a Cathedral, reducing by one the number of unhappy citizens made content."
-msgstr "Собор робіть 3 нещасних громадян міста нейтральними, допомагаючи підтримувати спокій. Відкриття Теології збільшує ефективність Собору на 1.  Відкриття Комунізму навпаки зменшує ефективність Собору на 1."
+msgstr "Собор робить 3 нещасних громадян міста нейтральними, допомагаючи підтримувати спокій; втім, він не впливає на городян, нещасних внаслідок військових дій.  Відкриття Теології збільшує ефективність Собору на 1.  Відкриття Комунізму навпаки, зменшує ефективність Собору на 1."
 
 #: data/default/buildings.ruleset:228
 #: data/civ2/buildings.ruleset:208
-#, fuzzy
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against land and helicopter units.  They are ineffective against airborne and sea units as well as Howitzers.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
-msgstr "Стіни міста допомагають захищати місто. Вони потроюють захисну силу підрозділів у місті проти наземних або ґелікоптерних підрозділів. Вони неєфективні проти повітряних, морських підрозділів та Гаубиць. Міські стіни також запобігають втратам мирного населення, що бувають при знищенні захисних наземних підрозділів."
+msgstr "Стіни міста допомагають захищати місто. Вони потроюють захисну силу підрозділів у місті проти сухопутних та гелікоптерних підрозділів. Вони неефективні проти повітряних і морських підрозділів та Гаубиць. Міські стіни також запобігають втратам мирного населення, що трапляються при знищенні захисних підрозділів сухопутними військами."
 
 #: data/default/buildings.ruleset:237
 #: data/civ2/buildings.ruleset:217
@@ -20412,9 +20350,8 @@ msgid "Colosseum"
 msgstr "Цирк"
 
 #: data/default/buildings.ruleset:272
-#, fuzzy
 msgid "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four after the discovery of Electricity.)  However, it does not affect citizens made unhappy by military activity."
-msgstr "Розважає городян, що нейтралізує 3 нещасних городян. (4 після відкриття Електрики.)"
+msgstr "Розважає городян, нейтралізуючи 3 нещасних городян. (4 після відкриття Електрики.) Втім, не впливає на городян, нещасних внаслідок військових дій."
 
 #: data/default/buildings.ruleset:281
 #: data/civ2/buildings.ruleset:259
@@ -20425,7 +20362,7 @@ msgstr "Суд"
 #: data/default/buildings.ruleset:296
 #, fuzzy, no-c-format
 msgid "Reduces the corruption in a city by 50%.  Under a Democracy, a Courthouse also makes 1 unhappy citizen content (unless that citizen is unhappy about military activity).  Also makes the revolt cost of the city 4 times bigger."
-msgstr "Зменшує корупцію та втрати у місті на 50%. При Демократії Суд нейтралізує 1 незадоволеного. Також зменшує вдвічі відстань до столиці, при обрахунку кошторису революції."
+msgstr "Зменшує корупцію в місті на 50%. При Демократії Суд також нейтралізує 1 незадоволеного (якщо це не через військові дії). Також збільшує вартість революції в місті в 4 рази."
 
 #: data/default/buildings.ruleset:304
 #: data/civ2/buildings.ruleset:283
@@ -20453,9 +20390,8 @@ msgstr "Гавань"
 
 #: data/default/buildings.ruleset:364
 #: data/civ2/buildings.ruleset:343
-#, fuzzy
 msgid "Gives one extra food resource on all Oceanic tiles.  The city needs to be coastal to build this improvement."
-msgstr "Збільшує на 1 кількість їжі на усіх Океанських територіях. Місто повинно бути прибережним аби побудувати цю будівлю."
+msgstr "Збільшує на 1 кількість їжі на всіх Океанських територіях. Місто має бути прибережним, аби побудувати цю будівлю."
 
 #: data/default/buildings.ruleset:370
 #: data/civ2/buildings.ruleset:349
@@ -20478,9 +20414,9 @@ msgid "Library"
 msgstr "Бібліотека"
 
 #: data/default/buildings.ruleset:421
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr "Підвищуе розвиток науки на 50% у місті де її побудовано."
+msgstr "Підвищує розвиток науки у місті на 100%."
 
 #: data/default/buildings.ruleset:426
 #: data/civ2/buildings.ruleset:400
@@ -20541,9 +20477,8 @@ msgstr "Офшорна платформа"
 
 #: data/default/buildings.ruleset:541
 #: data/civ2/buildings.ruleset:510
-#, fuzzy
 msgid "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The city needs to be coastal to build this improvement."
-msgstr "Збільшує на 1 виробництво з усіх океанських територій міста. Аби побудувати Офшорну платформу місту потрібно бути прибережним."
+msgstr "Збільшує на 1 виробництво з усіх океанських територій міста. Місто має бути прибережним, аби побудувати цю будівлю."
 
 #: data/default/buildings.ruleset:547
 #: data/civ2/buildings.ruleset:516
@@ -20632,9 +20567,8 @@ msgstr "Протиповітряна оборона"
 
 #: data/default/buildings.ruleset:719
 #: data/civ2/buildings.ruleset:676
-#, fuzzy
 msgid "Doubles the defense of all units inside the city when attacked by aircraft (not including helicopters or missiles)."
-msgstr "Подвоює захист усіх підрозділів у місті при атаці неатомним повітряним підрозділом."
+msgstr "Подвоює захист усіх підрозділів у місті від атак повітряних військ (окрім гелікоптерів та ракет)."
 
 #: data/default/buildings.ruleset:725
 #: data/civ2/buildings.ruleset:682
@@ -20761,9 +20695,9 @@ msgstr "Шосе"
 
 #: data/default/buildings.ruleset:926
 #: data/civ2/buildings.ruleset:876
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases trade resources by 50% on all tiles with roads or railroads."
-msgstr "Збільшує торгові ресурси на 50% на усіх клітинах з шляхами та залізницями."
+msgstr "Збільшує торгові ресурси на 50% на всіх клітинках зі шляхами та залізницями."
 
 #: data/default/buildings.ruleset:934
 #: data/civ2/buildings.ruleset:882
@@ -20772,9 +20706,9 @@ msgstr "Супермаркет"
 
 #: data/default/buildings.ruleset:949
 #: data/civ2/buildings.ruleset:897
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases the food resources by 50% on each farmland tile which is being used around the city.  Farmland tiles are those which have been irrigated a second time."
-msgstr "Збільшує отримання продовольства на 50% на кожній фермі навколо міста. Ферми - це клітини які було зрошено двічі."
+msgstr "Збільшує виробництво продовольства на 50% на кожній фермі навколо міста. Ферми - це клітини, які було зрошено двічі."
 
 #: data/default/buildings.ruleset:956
 #: data/civ2/buildings.ruleset:904
@@ -21303,9 +21237,8 @@ msgid "With a Barracks, each new unit built in a city will automatically have Ve
 msgstr "З Казармами, кожний новий підрозділ, що збудовано у місті автоматично має статус ветерана, якій збільшує силу атаки та захисту на 50%. Також, поранені підрозділи, що залишаються у місті на один повний хід без руху, повністю відновлюються. "
 
 #: data/civ1/buildings.ruleset:155
-#, fuzzy
 msgid "A Cathedral makes 4 unhappy citizens content in a city, making it easier to maintain order in that city; however, it does not affect citizens made unhappy by military activity."
-msgstr "Собор нейтралізує 4 нещасних у місті, що робить легшим підтримання ладу у місті."
+msgstr "Собор нейтралізує 4 нещасних у місті, що спрощуючи підтримання ладу в місті. Втім, він не впливає на городян, нещасних через військові дії."
 
 #: data/civ1/buildings.ruleset:177
 msgid "City Walls make it easier to defend a city.  They triple the defence strength of units within the city against land, sea, and helicopter units.  They are ineffective against non-helicopter airborne units as well as Artillery.  City Walls also prevent the loss of population which occurs when a defending unit is destroyed by a land unit."
@@ -21358,9 +21291,8 @@ msgid "Protects a city and its environs (up to 2 tiles away) from attacks by Nuc
 msgstr ""
 
 #: data/civ1/buildings.ruleset:657
-#, fuzzy
 msgid "All cities on the map become visible for the player who owns it -- the player always has up-to-date knowledge of all tiles with cities despite fog-of-war. It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
-msgstr "Усі міста на мапі стають видимимі для гравця який цим володіє. Дозволяє усім гравцям розпочати будівництво частин космічного корабля (за умови дослідження ними необхідних технологій)."
+msgstr "Усі міста на мапі стають видимими для гравця, який цим володіє -- цей гравець завжди знає про всі клітинки з містами, незважаючи на мару війни. Дозволяє усім гравцям розпочати будівництво частин космічного корабля (за умови, що вони знають необхідні технології)."
 
 #: data/civ1/buildings.ruleset:803
 #, fuzzy
@@ -21372,9 +21304,8 @@ msgid "Works as if you had a Hydro Plant in every city on the same continent whe
 msgstr "Працює нібито Ви маєте Гадростанцію у кожному місті на тому континенті де це Диво збудовано. (Це зменшує забруднення та збільшує ефективність Фабрик та Заводів.)"
 
 #: data/civ1/buildings.ruleset:867
-#, fuzzy
 msgid "Makes two unhappy citizens content in every city of yours on the same continent where the wonder is built (including citizens unhappy about military activity)."
-msgstr "Нейтралізує 2 нещасних у кожному місті на континенті де збудовано це Диво."
+msgstr "Нейтралізує двох нещасних у кожному Вашому місті на континенті, де збудовано це Диво (включно з городянами, нещасними через військові дії)."
 
 #: data/civ1/buildings.ruleset:888
 msgid "Gives all your sea units 1 additional movement point."
@@ -24797,7 +24728,7 @@ msgstr "Кубинці"
 
 #: data/nation/cuban.ruleset:6
 msgid "Cuba came under Spanish control in the 16th century. In the following centuries, the island became one of the leading producers of tobacco, sugar and coffee in the world. Cuba was granted nominal independence in 1902."
-msgstr ""
+msgstr "Куба потрапила під владу Іспанії у 16 столітті. З часом цей острів став одним з найбільших світових виробників тютюну, цукру та кави. У 1902 Кубі було надано номінальну незалежність."
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
@@ -24844,7 +24775,7 @@ msgstr "Домініканці"
 
 #: data/nation/dominican.ruleset:6
 msgid "The island of Dominica was first sighted by Europeans, including Christopher Columbus, in 1493. Legend has it that the island was named so since the day of its first sighting was a Sunday. Officially the \"Commonwealth of Dominica\", the country should not be confused with the Dominican Republic, another Caribbean nation."
-msgstr ""
+msgstr "Острів Домініка європейці, на чолі з Христофором Колумбом, побачили у 1493. Згідно легенди, його так назвали через те, що вперше його побачили в Неділю. Офіційно це \"Співдружність Домініка\", яку не слід плутати з іншою карибською нацією - Домініканською Республікою."
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
@@ -24900,7 +24831,7 @@ msgstr "Еміратці"
 
 #: data/nation/emirati.ruleset:6
 msgid "The history of the United Arab Emirates goes back to the 7th century. In the 19th century the Emirates became a dependency of the United Kingdom. In 1971 six emirates joined in a federative state as the United Arab Emirates. The following year, the seventh member emirate joined them."
-msgstr ""
+msgstr "Історія Об'єднаних Арабських Еміратів розпочинається у 7 столітті. У 19 столітті Емірати стали залежними від Великобританії. У 1971 шість еміратів об'єдналися у федеративну державу Об'єднані Арабські Емірати. Наступного року до них приєднався сьомий емірат."
 
 #: data/nation/english.ruleset:3
 msgid "English"
@@ -25362,7 +25293,7 @@ msgstr "Індонезійці"
 
 #: data/nation/indonesian.ruleset:6
 msgid "Indonesia is a large country on the Malay Archipelago with central government on the island of Java. The country has a Muslim majority and is one of the most populous in the world."
-msgstr ""
+msgstr "Індонезія - це велика країна в Малайському архіпелазі, уряд якої знаходиться на острові Ява. Населення країни є одним з найбільших у світі, і його більшість становлять мусульмани."
 
 #: data/nation/inuit.ruleset:3
 #, fuzzy
@@ -25917,7 +25848,7 @@ msgstr "Маорі"
 
 #: data/nation/maori.ruleset:6
 msgid "The Maori are a Polynesian people that migrated to and settled the island group that is now New Zealand. According to archeological evidence, the migration commenced in the 900s and continued until the 1400s."
-msgstr ""
+msgstr "Маорі - це полінезійський народ, що заселив острови Нової Зеландії. Згідно археологічних доказів, їх міграція туди розпочалася у 900х і тривала до 1400х."
 
 #: data/nation/mapuche.ruleset:3
 msgid "Mapuche"
@@ -26609,9 +26540,8 @@ msgid "?plural:Slovakians"
 msgstr "Словаки"
 
 #: data/nation/slovakian.ruleset:6
-#, fuzzy
 msgid "Slovakia is a country in the heart of Europe. Formerly part of Czechoslovakia, until 1918 it was part of the Austro-Hungarian Empire."
-msgstr "Сучасна Чеська республіка існувала до 1993 як частина Чехословакії, що була частиною Австро-Угорської імперії до 1918."
+msgstr "Словаччина - це країна у центрі Європи. Колишня частина Чехословаччини, до 1918 вона була у складі Австро-Угорської імперії."
 
 #: data/nation/slovakian.ruleset:26
 #, fuzzy
@@ -26673,7 +26603,7 @@ msgstr "Радянські"
 
 #: data/nation/soviet.ruleset:6
 msgid "The history of the Soviet Union starts in November 1917, when under Lenin's leadership a Bolshevik revolution occurred. On December 31 1922, four Soviet republics integrated into one country. The Soviet Union became one of most powerful states in the 20th century, but by the end of 1991 it had disintegrated into fifteen independent countries due to social and economic problems."
-msgstr ""
+msgstr "Історія Радянського Союзу розпочалася у листопаді 1917, коли під керівництвом Леніна відбулася більшовицька Велика Жовтнева Революція. 31 грудня 1922 чотири радянські республіки об'єдналися в одну країну. Радянський союз став однією з наймогутніших держав 20-го століття, але наприкінці 1991 він розпався на п'ятнадцять незалежних республік, через соціально-економічні негаразди."
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
