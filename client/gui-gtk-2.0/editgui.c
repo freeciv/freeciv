@@ -1256,7 +1256,7 @@ static struct editinfobox *editinfobox_create(void)
                    GINT_TO_POINTER(SPIN_BUTTON_SIZE));
   gtk_box_pack_start(GTK_BOX(hbox), spin, FALSE, FALSE, 0);
   ei->size_spin_button = spin;
-  label = gtk_label_new("Size");
+  label = gtk_label_new(_("Size"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
   
   hbox = gtk_hbox_new(FALSE, 8);
@@ -1272,7 +1272,7 @@ static struct editinfobox *editinfobox_create(void)
                    GINT_TO_POINTER(SPIN_BUTTON_COUNT));
   gtk_box_pack_start(GTK_BOX(hbox), spin, FALSE, FALSE, 0);
   ei->count_spin_button = spin;
-  label = gtk_label_new("Count");
+  label = gtk_label_new(_("Count"));
   gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
 
   /* combo section */
