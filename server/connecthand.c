@@ -561,9 +561,11 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
   case S_S_RUNNING:
     send_packet_freeze_hint(pconn);
     send_all_info(pconn->self);
-    send_diplomatic_meetings(pconn);
     send_packet_thaw_hint(pconn);
+    /* Enter C_S_RUNNING client state. */
     dsend_packet_start_phase(pconn, game.info.phase);
+    /* Must be after C_S_RUNNING client state to be effective. */
+    send_diplomatic_meetings(pconn);
     send_pending_events(pconn, FALSE);
     break;
 
