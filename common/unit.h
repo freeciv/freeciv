@@ -226,6 +226,9 @@ bool unit_can_help_build_wonder(const struct unit *punit,
 				const struct city *pcity);
 bool unit_can_help_build_wonder_here(const struct unit *punit);
 bool unit_can_est_trade_route_here(const struct unit *punit);
+bool base_unit_can_airlift_to(const struct player *restriction,
+                              const struct unit *punit,
+                              const struct city *pcity);
 bool unit_can_airlift_to(const struct unit *punit, const struct city *pcity);
 bool unit_has_orders(const struct unit *punit);
 

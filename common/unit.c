@@ -139,10 +139,12 @@ bool is_diplomat_action_available(const struct unit *pdiplomat,
 
 /****************************************************************************
   Determines if punit can be airlifted to dest_city now!  So punit needs
-  to be in a city now.
+  to be in a city now.  The 'restriction' parameter simulate the client
+  knownledge (one player only).
 ****************************************************************************/
-bool unit_can_airlift_to(const struct unit *punit,
-                         const struct city *pdest_city)
+bool base_unit_can_airlift_to(const struct player *restriction,
+                              const struct unit *punit,
+                              const struct city *pdest_city)
 {
   const struct city *psrc_city = tile_city(punit->tile);
   const struct player *punit_owner;
@@ -169,7 +171,10 @@ bool unit_can_airlift_to(const struct unit *punit,
     return FALSE;
   }
 
-  if (0 >= psrc_city->airlift) {
+   psrc_city_owner = city_owner(psrc_city);
+
+  if ((NULL == restriction || psrc_city_owner == restriction)
+      && 0 >= psrc_city->airlift) {
     /* The source cannot airlift for this turn (maybe already airlifed
      * or no airport).
      *
@@ -179,7 +184,10 @@ bool unit_can_airlift_to(const struct unit *punit,
     return FALSE;
   }
 
-  if (0 >= pdest_city->airlift
+  pdest_city_owner = city_owner(pdest_city);
+
+  if ((NULL == restriction || pdest_city_owner == restriction)
+      && 0 >= pdest_city->airlift
       && !(game.info.airlifting_style & AIRLIFTING_UNLIMITED_DEST)) {
     /* The destination cannot support airlifted units for this turn
      * (maybe already airlifed or no airport).
@@ -188,8 +196,6 @@ bool unit_can_airlift_to(const struct unit *punit,
   }
 
   punit_owner = unit_owner(punit);
-  psrc_city_owner = city_owner(psrc_city);
-  pdest_city_owner = city_owner(pdest_city);
 
   if (punit_owner != psrc_city_owner
       && !(game.info.airlifting_style & AIRLIFTING_ALLIED_SRC
@@ -206,6 +212,16 @@ bool unit_can_airlift_to(const struct unit *punit,
   }
 
   return TRUE;
+}
+
+/****************************************************************************
+  Determines if punit can be airlifted to dest_city now!  So punit needs
+  to be in a city now.
+****************************************************************************/
+bool unit_can_airlift_to(const struct unit *punit,
+                         const struct city *pdest_city)
+{
+  return base_unit_can_airlift_to(NULL, punit, pdest_city);
 }
 
 /****************************************************************************
