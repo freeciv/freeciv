@@ -16,15 +16,16 @@
 /**************************************************************************
   Toplevel window pages modes.
 **************************************************************************/
-enum client_pages {
-  PAGE_MAIN,            /* Main menu, aka intro page.  */
-  PAGE_START,           /* Start new game page.  */
-  PAGE_SCENARIO,        /* Start new scenario page. */
-  PAGE_LOAD,            /* Load saved game page. */
-  PAGE_NETWORK,         /* Connect to network page.  */
-  PAGE_GAME,            /* In game page. */
-  PAGE_GGZ              /* In game page.  This one must be last. */
-};
+#define SPECENUM_NAME client_pages
+#define SPECENUM_VALUE0 PAGE_MAIN       /* Main menu, aka intro page.  */
+#define SPECENUM_VALUE1 PAGE_START      /* Start new game page.  */
+#define SPECENUM_VALUE2 PAGE_SCENARIO   /* Start new scenario page. */
+#define SPECENUM_VALUE3 PAGE_LOAD       /* Load saved game page. */
+#define SPECENUM_VALUE4 PAGE_NETWORK    /* Connect to network page.  */
+#define SPECENUM_VALUE5 PAGE_GAME       /* In game page. */
+#define SPECENUM_VALUE6 PAGE_GGZ        /* In game page.
+                                         * This one must be last. */
+#include "specenum_gen.h"
 
 void set_client_page(enum client_pages page);
 enum client_pages get_client_page(void);

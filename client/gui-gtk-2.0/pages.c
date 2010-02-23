@@ -123,10 +123,13 @@ static void load_saved_game_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void main_callback(GtkWidget *w, gpointer data)
 {
+  enum client_pages page = in_ggz ? PAGE_GGZ : PAGE_MAIN;
+
   if (client.conn.used) {
     disconnect_from_server();
-  } else {
-    set_client_page(in_ggz ? PAGE_GGZ : PAGE_MAIN);
+  }
+  if (page != get_client_page()) {
+    set_client_page(page);
   }
 }
 
@@ -2049,6 +2052,10 @@ static gboolean set_client_page_callback(gpointer data)
    * before we reach the end of this function. */
   enum client_pages new_page = next_page;
 
+  log_debug("Switching client page from %s to %s.",
+            -1 == old_page ? "(no page)" : client_pages_name(old_page),
+            client_pages_name(new_page));
+
   /* Remove GSource id. */
   *((guint *) data) = 0;
 
@@ -2159,6 +2166,7 @@ void set_client_page(enum client_pages page)
 {
   static guint callback_id = 0;
 
+  log_debug("Requested %s client page.", client_pages_name(page));
   next_page = page;
   if (0 == callback_id) {
     callback_id = g_idle_add(set_client_page_callback, &callback_id);
