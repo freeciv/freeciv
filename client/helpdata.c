@@ -1223,7 +1223,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     } unit_class_iterate_end
   }
   if (utype_has_flag(utype, F_TRIREME)) {
-    CATLSTR(buf, bufsz, "* Must stay next to coast.\n");
+    CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
   }
   if (utype_has_flag(utype, F_TRADE_ROUTE)) {
     /* TRANS: "Manhattan" distance is the distance along gridlines, with
@@ -1456,7 +1456,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   unit_class_iterate(pclass) {
     if (uclass_has_flag(pclass, UCF_UNREACHABLE)
         && BV_ISSET(utype->targets, uclass_index(pclass))) {
-      cat_snprintf(buf, bufsz, "* Can attack against %s units, which are usually not reachable.\n",
+      cat_snprintf(buf, bufsz,
+                   _("* Can attack against %s units, which are usually not "
+                     "reachable.\n"),
                    uclass_name_translation(pclass));
     }
   } unit_class_iterate_end;
