@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <stdio.h> /* for sprintf */
 #include <stdlib.h>
 #include <string.h>
 
@@ -484,8 +482,8 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
 						int type)
 {
   /* Sanity check the index. */
-  assert(type >= 0);
-  assert(type < state->lattice.size);
+  fc_assert_ret_val(0 <= type, NULL);
+  fc_assert_ret_val(state->lattice.size > type, NULL);
   return state->lattice.p[type];
 }
 
@@ -497,9 +495,9 @@ static const struct cm_tile_type *tile_type_get(const struct cm_state *state,
 ****************************************************************************/
 static const struct cm_tile *tile_get(const struct cm_tile_type *ptype, int j)
 {
-  assert(!ptype->is_specialist);
-  assert(j >= 0);
-  assert(j < ptype->tiles.size);
+  fc_assert_ret_val(!ptype->is_specialist, NULL);
+  fc_assert_ret_val(0 <= j, NULL);
+  fc_assert_ret_val(j < ptype->tiles.size, NULL);
   return &ptype->tiles.p[j];
 }
 
@@ -633,7 +631,7 @@ static void apply_solution(struct cm_state *state,
   performance.current->apply_count++;
 #endif
 
-  assert(soln->idle == 0);
+  fc_assert_ret(0 == soln->idle);
 
   /* Clear all specialists, and remove all workers from fields (except
    * the city center). */
@@ -681,7 +679,7 @@ static void apply_solution(struct cm_state *state,
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
   city_refresh_from_main_map(pcity, FALSE); /* from city_map[] instead */
-  assert(citizens == pcity->size);
+  fc_assert_ret(citizens == pcity->size);
 }
 
 /****************************************************************************
@@ -784,7 +782,7 @@ static int compare_tile_type_by_lattice_order(const struct cm_tile_type *a,
   } output_type_iterate_end;
 
   /* If we get here, then we have two copies of identical types, an error */
-  assert(0);
+  fc_assert(FALSE);
   return 0;
 }
 
@@ -1191,7 +1189,7 @@ static bool choice_stack_empty(struct cm_state *state)
 ****************************************************************************/
 static int last_choice(struct cm_state *state)
 {
-  assert(!choice_stack_empty(state));
+  fc_assert_ret_val(!choice_stack_empty(state), -1);
   return state->choice.stack[state->choice.size - 1];
 }
 
@@ -1225,29 +1223,29 @@ static void add_workers(struct partial_solution *soln,
 
   /* update the number of idle workers */
   newcount = soln->idle - number;
-  assert(newcount >= 0);
-  assert(newcount <= state->pcity->size);
+  fc_assert_ret(newcount >= 0);
+  fc_assert_ret(newcount <= state->pcity->size);
   soln->idle = newcount;
 
   /* update the worker counts */
   newcount = soln->worker_counts[itype] + number;
-  assert(newcount >= 0);
-  assert(newcount <= tile_type_num_tiles(ptype));
+  fc_assert_ret(newcount >= 0);
+  fc_assert_ret(newcount <= tile_type_num_tiles(ptype));
   soln->worker_counts[itype] = newcount;
 
   /* update prereqs array: if we are no longer full but we were,
    * we need to decrement the count, and vice-versa. */
   if (old_worker_count == tile_type_num_tiles(ptype)) {
-    assert(number < 0);
+    fc_assert_ret(number < 0);
     tile_type_vector_iterate(&ptype->worse_types, other) {
       soln->prereqs_filled[other->lattice_index]--;
-      assert(soln->prereqs_filled[other->lattice_index] >= 0);
+      fc_assert_ret(soln->prereqs_filled[other->lattice_index] >= 0);
     } tile_type_vector_iterate_end;
   } else if (soln->worker_counts[itype] == tile_type_num_tiles(ptype)) {
-    assert(number > 0);
+    fc_assert_ret(number > 0);
     tile_type_vector_iterate(&ptype->worse_types, other) {
       soln->prereqs_filled[other->lattice_index]++;
-      assert(soln->prereqs_filled[other->lattice_index]
+      fc_assert_ret(soln->prereqs_filled[other->lattice_index]
           <= tile_type_num_prereqs(other));
     } tile_type_vector_iterate_end;
   }
@@ -1255,7 +1253,7 @@ static void add_workers(struct partial_solution *soln,
   /* update production */
   output_type_iterate(stat) {
     newcount = soln->production[stat] + number * ptype->production[stat];
-    assert(newcount >= 0);
+    fc_assert_ret(newcount >= 0);
     soln->production[stat] = newcount;
   } output_type_iterate_end;
 }
@@ -1284,7 +1282,7 @@ static void remove_worker(struct partial_solution *soln,
 ****************************************************************************/
 static void pop_choice(struct cm_state *state)
 {
-  assert(!choice_stack_empty(state));
+  fc_assert_ret(!choice_stack_empty(state));
   remove_worker(&state->current, last_choice(state), state);
   state->choice.size--;
 }

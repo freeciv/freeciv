@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "log.h"
 #include "support.h"
@@ -390,10 +388,11 @@ int tile_activity_time(enum unit_activity activity, const struct tile *ptile)
   struct terrain *pterrain = tile_terrain(ptile);
 
   /* Make sure nobody uses old activities */
-  assert(activity != ACTIVITY_FORTRESS && activity != ACTIVITY_AIRBASE);
+  fc_assert_ret_val(activity != ACTIVITY_FORTRESS
+                    && activity != ACTIVITY_AIRBASE, FC_INFINITY);
 
   /* ACTIVITY_BASE not handled here */
-  assert(activity != ACTIVITY_BASE);
+  fc_assert_ret_val(activity != ACTIVITY_BASE, FC_INFINITY);
 
   switch (activity) {
   case ACTIVITY_POLLUTION:
@@ -489,7 +488,7 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
 ****************************************************************************/
 void tile_add_special(struct tile *ptile, enum tile_special_type special)
 {
-  assert(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+  fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
 
   tile_set_special(ptile, special);
 
@@ -524,7 +523,7 @@ void tile_add_special(struct tile *ptile, enum tile_special_type special)
 ****************************************************************************/
 void tile_remove_special(struct tile *ptile, enum tile_special_type special)
 {
-  assert(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
+  fc_assert_ret(special != S_OLD_FORTRESS && special != S_OLD_AIRBASE);
 
   tile_clear_special(ptile, special);
 
@@ -661,7 +660,7 @@ bool tile_apply_activity(struct tile *ptile, Activity_type_id act)
        on terrain type or tile specials */
     return FALSE;
   }
-  assert(0);
+  fc_assert(FALSE);
   return FALSE;
 }
 

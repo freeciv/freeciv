@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -109,7 +108,7 @@
   for (_nat_y = 0; _nat_y < map.ysize; _nat_y++) {			    \
     for (_nat_x = 0; _nat_x < map.xsize; _nat_x++) {			    \
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
-      assert(ptile != NULL);                                                \
+      fc_assert_action(ptile != NULL, continue);                            \
       line[_nat_x] = (GET_XY_CHAR);                                         \
       if (!my_isprint(line[_nat_x] & 0x7f)) {                               \
           die("Trying to write invalid map "                                \
@@ -420,7 +419,7 @@ static char order2char(enum unit_orders order)
     break;
   }
 
-  assert(0);
+  fc_assert(FALSE);
   return '?';
 }
 
@@ -478,7 +477,7 @@ static char dir2char(enum direction8 dir)
     return '1';
   }
 
-  assert(0);
+  fc_assert(FALSE);
   return '?';
 }
 
@@ -529,7 +528,7 @@ static char activity2char(enum unit_activity activity)
     break;
   }
 
-  assert(0);
+  fc_assert(FALSE);
   return '?';
 }
 
@@ -586,18 +585,18 @@ static int unquote_block(const char *const quoted_, void *dest,
   const char *quoted = quoted_;
 
   parsed = sscanf(quoted, "%d", &length);
-  assert(parsed == 1);
+  fc_assert_ret_val(parsed == 1, 0);
 
-  assert(length <= dest_length);
+  fc_assert_ret_val(length <= dest_length, 0);
   quoted = strchr(quoted, ':');
-  assert(quoted != NULL);
+  fc_assert_ret_val(quoted != NULL, 0);
   quoted++;
 
   for (i = 0; i < length; i++) {
     tmp = strtol(quoted, &endptr, 16);
-    assert((endptr - quoted) == 2);
-    assert(*endptr == ' ');
-    assert((tmp & 0xff) == tmp);
+    fc_assert_ret_val((endptr - quoted) == 2, 0);
+    fc_assert_ret_val(*endptr == ' ', 0);
+    fc_assert_ret_val((tmp & 0xff) == tmp, 0);
     ((unsigned char *) dest)[i] = tmp;
     quoted += 3;
   }
@@ -693,7 +692,7 @@ static void worklist_save(struct section_file *file,
 		       "%s.wl_value%d", path_str, i);
   }
 
-  assert(max_length <= MAX_LEN_WORKLIST);
+  fc_assert_ret(max_length <= MAX_LEN_WORKLIST);
 
   /* We want to keep savegame in tabular format, so each line has to be
    * of equal length. Fill table up to maximum worklist size. */
@@ -863,7 +862,7 @@ static void map_load_rivers_overlay(struct section_file *file,
   } else {
     /* Get the bits of the special flags which contain the river special
        and extract the rivers overlay from them. */
-    assert(S_LAST <= 32);
+    fc_assert_ret(S_LAST <= 32);
     LOAD_MAP_DATA(ch, line, ptile,
       secfile_lookup_str(file, "map.n%03d", line),
       set_savegame_special(&ptile->special, NULL, ch, default_specials + 8));
@@ -1019,7 +1018,7 @@ static void set_savegame_old_resource(struct resource **r,
 				      const struct terrain *terrain,
 				      char ch, int n)
 {
-  assert (n == 0 || n == 1);
+  fc_assert_ret(n == 0 || n == 1);
   /* If resource is already set to non-NULL or there is no resource found
    * in this half-byte, then abort */
   if (*r || !(ascii_hex2bin (ch, 0) & 0x1) || !terrain->resources[0]) {
@@ -3134,21 +3133,19 @@ static void player_load_attributes(struct player *plr, int plrno,
                 (unsigned long) quoted_length,
                 (unsigned long) strlen(quoted),
                 (unsigned long) strlen(current));
-      assert(strlen(quoted) + strlen(current) <= quoted_length);
+      fc_assert(strlen(quoted) + strlen(current) <= quoted_length);
       strcat(quoted, current);
     }
-    if (quoted_length != strlen(quoted)) {
-      log_fatal("attribute_v2_block_length_quoted=%lu actual=%lu",
-                (unsigned long) quoted_length,
-                (unsigned long) strlen(quoted));
-      assert(0);
-    }
+    fc_assert_msg(quoted_length == strlen(quoted),
+                  "attribute_v2_block_length_quoted=%lu actual=%lu",
+                  (unsigned long) quoted_length,
+                  (unsigned long) strlen(quoted));
 
     actual_length =
 	unquote_block(quoted,
 		      plr->attribute_block.data,
 		      plr->attribute_block.length);
-    assert(actual_length == plr->attribute_block.length);
+    fc_assert(actual_length == plr->attribute_block.length);
     free(quoted);
   }
 }
@@ -3806,7 +3803,7 @@ static void player_save_cities(struct player *plr, int plrno,
     if (pcity->turn_founded == game.info.turn) {
       j = -1; /* undocumented hack */
     } else {
-      assert(pcity->did_buy == TRUE || pcity->did_buy == FALSE);
+      fc_assert(pcity->did_buy == TRUE || pcity->did_buy == FALSE);
       j = pcity->did_buy ? 1 : 0;
     }
     secfile_insert_int(file, j, "player%d.c%d.did_buy", plrno, i);
@@ -3862,7 +3859,7 @@ static void player_save_cities(struct player *plr, int plrno,
       }
     }
     citymap_buf[j]='\0';
-    assert(j < ARRAY_SIZE(citymap_buf));
+    fc_assert(j < ARRAY_SIZE(citymap_buf));
     secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
 
     /* Save improvement list as bytevector. Note that improvement order
@@ -3874,7 +3871,7 @@ static void player_save_cities(struct player *plr, int plrno,
         ? '0' : '1';
     } improvement_iterate_end;
     impr_buf[improvement_count()] = '\0';
-    assert(strlen(impr_buf) < sizeof(impr_buf));
+    fc_assert(strlen(impr_buf) < sizeof(impr_buf));
     secfile_insert_str(file, impr_buf,
 		       "player%d.c%d.improvements_new", plrno, i);    
 
@@ -4004,7 +4001,7 @@ static void player_save_vision(struct player *plr, int plrno,
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement_order.
        */
-      assert(improvement_count() < sizeof(impr_buf));
+      fc_assert(improvement_count() < sizeof(impr_buf));
       improvement_iterate(pimprove) {
         impr_buf[improvement_index(pimprove)] =
           BV_ISSET(pdcity->improvements, improvement_index(pimprove))
@@ -4096,7 +4093,7 @@ static void player_save_attributes(struct player *plr, int plrno,
       bytes_left -= size_of_current_part;
       quoted_at = &quoted_at[size_of_current_part];
     }
-    assert(bytes_left == 0);
+    fc_assert(bytes_left == 0);
     free(quoted);
   }
 #undef PART_ADJUST
@@ -4868,9 +4865,9 @@ static void game_load_internal(struct section_file *file)
         || !secfile_lookup_int(file, &rstate.x, "random.index_X")) {
       die("%s", secfile_error());
     }
-    for(i = 0; i < 8; i++) {
+    for (i = 0; i < 8; i++) {
       string = secfile_lookup_str(file, "random.table%d",i);
-      assert(NULL != string);
+      fc_assert(NULL != string);
       sscanf(string, "%8x %8x %8x %8x %8x %8x %8x", &rstate.v[7*i],
              &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
              &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
@@ -5444,7 +5441,7 @@ void game_save(struct section_file *file, const char *save_reason,
   if (myrand_is_init() && game.server.save_options.save_random) {
     RANDOM_STATE rstate = get_myrand_state();
     secfile_insert_int(file, 1, "game.save_random");
-    assert(rstate.is_init);
+    fc_assert(rstate.is_init);
 
     secfile_insert_int(file, rstate.j, "random.index_J");
     secfile_insert_int(file, rstate.k, "random.index_K");

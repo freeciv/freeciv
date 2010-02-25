@@ -41,7 +41,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <ctype.h>
 #include <errno.h>
 #include <math.h> /* ceil() */
@@ -447,7 +446,7 @@ char *fc_strrep(const char *string, const char *search, const char *replace)
   size_t len_search, len_replace, len_new;
   char *s, *p, *new;
 
-  log_assert_ret_val(string != NULL, NULL);
+  fc_assert_ret_val(string != NULL, NULL);
   if (search == NULL || replace == NULL) {
     return mystrdup(string);
   }
@@ -506,12 +505,13 @@ char *fc_strrep(const char *string, const char *search, const char *replace)
  trying to ensure correct behaviour on strange inputs.
  In particular note that n==0 is prohibited (eg, since there
  must at least be room for a nul); could consider other options.
+
 ***********************************************************************/
 size_t mystrlcpy(char *dest, const char *src, size_t n)
 {
-  assert(dest != NULL);
-  assert(src != NULL);
-  assert(n>0);
+  fc_assert_ret_val(NULL != dest, -1);
+  fc_assert_ret_val(NULL != src, -1);
+  fc_assert_ret_val(0 < n, -1);
 #ifdef HAVE_STRLCPY
   return strlcpy(dest, src, n);
 #else
@@ -531,9 +531,9 @@ size_t mystrlcpy(char *dest, const char *src, size_t n)
 ***********************************************************************/
 size_t mystrlcat(char *dest, const char *src, size_t n)
 {
-  assert(dest != NULL);
-  assert(src != NULL);
-  assert(n>0);
+  fc_assert_ret_val(NULL != dest, -1);
+  fc_assert_ret_val(NULL != src, -1);
+  fc_assert_ret_val(0 < n, -1);
 #ifdef HAVE_STRLCAT
   return strlcat(dest, src, n);
 #else
@@ -541,7 +541,7 @@ size_t mystrlcat(char *dest, const char *src, size_t n)
     size_t num_to_copy, len_dest, len_src;
     
     len_dest = strlen(dest);
-    assert(len_dest<n);
+    fc_assert_ret_val(len_dest < n, -1);
     /* Otherwise have bad choice of leaving dest not nul-terminated
      * within the specified length n (which should be assumable as
      * a post-condition of mystrlcat), or modifying dest before end
@@ -620,9 +620,9 @@ int my_vsnprintf(char *str, size_t n, const char *format, va_list ap)
   /* This may be overzealous, but I suspect any triggering of these to
    * be bugs.  */
 
-  assert(str != NULL);
-  assert(n>0);
-  assert(format != NULL);
+  fc_assert_ret_val(NULL != str, -1);
+  fc_assert_ret_val(0 < n, -1);
+  fc_assert_ret_val(NULL != format, -1);
 
 #ifdef HAVE_WORKING_VSNPRINTF
   r = vsnprintf(str, n, format, ap);
@@ -680,12 +680,42 @@ int my_snprintf(char *str, size_t n, const char *format, ...)
   int ret;
   va_list ap;
 
-  assert(format != NULL);
-  
+  fc_assert_ret_val(NULL != format, -1);
+
   va_start(ap, format);
   ret = my_vsnprintf(str, n, format, ap);
   va_end(ap);
   return ret;
+}
+
+/**********************************************************************
+ cat_snprintf is like a combination of my_snprintf and mystrlcat;
+ it does snprintf to the end of an existing string.
+
+ Like mystrlcat, n is the total length available for str, including
+ existing contents and trailing nul.  If there is no extra room
+ available in str, does not change the string.
+
+ Also like mystrlcat, returns the final length that str would have
+ had without truncation.  I.e., if return is >= n, truncation occurred.
+**********************************************************************/
+int cat_snprintf(char *str, size_t n, const char *format, ...)
+{
+  size_t len;
+  int ret;
+  va_list ap;
+
+  fc_assert_ret_val(NULL != format, -1);
+  fc_assert_ret_val(NULL != str, -1);
+  fc_assert_ret_val(0 < n, -1);
+
+  len = strlen(str);
+  fc_assert_ret_val(len < n, -1);
+
+  va_start(ap, format);
+  ret = my_vsnprintf(str+len, n-len, format, ap);
+  va_end(ap);
+  return (int) (ret + len);
 }
 
 /**********************************************************************

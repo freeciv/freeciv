@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -551,7 +550,7 @@ void city_report_dialog_update(void)
     city_list_iterate(client.conn.playing->cities, pcity) {
       cities_in_list[i++] = pcity;
     } city_list_iterate_end;
-    assert(i==n);
+    fc_assert(i==n);
     qsort(cities_in_list, n, sizeof(struct city*), city_name_compare);
     for(i=0; i<n; i++) {
       get_city_text(cities_in_list[i], city_list_text[i], MAX_LEN_CITY_TEXT);

@@ -1558,7 +1558,7 @@ static void citizen_callback(Widget w, XtPointer client_data,
       break;
     }
   }
-  assert(i < pdialog->pcity->size);
+  fc_assert(i < pdialog->pcity->size);
 
   city_rotate_specialist(pdialog->pcity, i);
 }
@@ -2554,7 +2554,7 @@ void cityopt_ok_command_callback(Widget w, XtPointer client_data,
     bv_city_options new_options;
     Boolean b;
 
-    assert(CITYO_LAST == 3);
+    fc_assert(CITYO_LAST == 3);
 
     BV_CLR_ALL(new_options);
 /*    for(i=0; i<NUM_CITYOPT_TOGGLES; i++)  {

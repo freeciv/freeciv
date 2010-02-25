@@ -423,8 +423,7 @@ void popup_unit_upgrade_dlg(struct unit *pUnit, bool city)
     flush_dirty();
     return;
   }
-  CHECK_UNIT_TYPE(unit_type(pUnit));
-    
+
   pUnit_Upgrade_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
   unit_upgrade_result = get_unit_upgrade_info(cBuf, sizeof(cBuf), pUnit);

@@ -15,10 +15,15 @@
 #include <config.h>
 #endif
 
+/* utility */
+#include "fcintl.h"
+#include "log.h"
+
+/* common */
 #include "city.h"
 #include "effects.h"
-#include "fcintl.h"
 #include "game.h"
+
 #include "specialist.h"
 
 struct specialist specialists[SP_MAX];
@@ -70,7 +75,7 @@ Specialist_type_id specialist_count(void)
 ****************************************************************************/
 Specialist_type_id specialist_index(const struct specialist *sp)
 {
-  assert(sp);
+  fc_assert_ret_val(NULL != sp, -1);
   return sp - specialists;
 }
 
@@ -79,7 +84,7 @@ Specialist_type_id specialist_index(const struct specialist *sp)
 ****************************************************************************/
 Specialist_type_id specialist_number(const struct specialist *sp)
 {
-  assert(sp);
+  fc_assert_ret_val(NULL != sp, -1);
   return sp->item_number;
 }
 

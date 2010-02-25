@@ -1246,7 +1246,7 @@ void worklist_populate_worklist(struct worklist_dialog *pdialog)
     const struct global_worklist *pgwl =
       global_worklist_by_id(pdialog->global_worklist_id);
 
-    assert(NULL != pgwl);
+    fc_assert(NULL != pgwl);
 
     pwl = global_worklist_get(pgwl);
   }

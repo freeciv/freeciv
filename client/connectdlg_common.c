@@ -14,7 +14,6 @@ Freeciv - Copyright (C) 2004 - The Freeciv Project
 #include <config.h>
 #endif
 
-#include <assert.h>  
 #include <fcntl.h>
 #include <stdio.h>
 #include <signal.h>             /* SIGTERM and kill */
@@ -242,7 +241,7 @@ bool client_start_server(void)
       argv[argc++] = scriptfile;
     }
     argv[argc] = NULL;
-    assert(argc <= max_nargs);
+    fc_assert(argc <= max_nargs);
 
     /* avoid terminal spam, but still make server output available */ 
     fclose(stdout);

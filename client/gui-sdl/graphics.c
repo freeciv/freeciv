@@ -25,8 +25,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include "SDL_image.h"
 #include "SDL_syswm.h"
 
@@ -710,9 +708,10 @@ static void put_vline(SDL_Surface * pDest, int x, Sint16 y0, Sint16 y1,
         buf_ptr += pitch;
       }, lng);
     return;
-    default:
-      assert(0);
   }
+
+  log_error("Not supported BytesPerPixel variant: %d.",
+            pDest->format->BytesPerPixel);
 }
 
 /**************************************************************************
@@ -772,9 +771,10 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
       buf_ptr += (x0 * 4);
       my_memset32(buf_ptr, color, lng);
     return;
-    default:
-      assert(0);
   }
+
+  log_error("Not supported BytesPerPixel variant: %d.",
+            pDest->format->BytesPerPixel);
 }
 
 /**************************************************************************
@@ -3378,7 +3378,7 @@ SDL_Rect get_smaller_surface_rect(SDL_Surface * pSurface)
   Uint16 minX, maxX, minY, maxY;
   Uint32 colorkey;
   SDL_Rect src;
-  assert(pSurface != NULL);
+  fc_assert(pSurface != NULL);
   
   minX = pSurface->w;
   maxX = 0;

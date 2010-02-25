@@ -17,11 +17,17 @@
 
 #include <math.h>
 
-#include "caravan.h"
-#include "game.h"
+/* utility */
 #include "log.h"
+
+/* common */
+#include "game.h"
+
+/* aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
+
+#include "caravan.h"
 
 /***************************************************************************
   Create a valid parameter with default values.
@@ -338,7 +344,7 @@ static double wonder_benefit(const struct unit *caravan, int arrival_time,
   costwith = impr_buy_gold_cost(dest->production.value.building,
       shields_at_arrival + unit_build_shield_cost(caravan));
 
-  assert(costwithout >= costwith);
+  fc_assert_ret_val(costwithout >= costwith, -1.0);
   return costwithout - costwith;
 }
 

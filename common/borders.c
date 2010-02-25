@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"

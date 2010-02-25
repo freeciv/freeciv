@@ -100,7 +100,8 @@ bool can_units_do_activity(const struct unit_list *punits,
 			   enum unit_activity activity)
 {
   /* Make sure nobody uses these old activities any more */
-  assert(activity != ACTIVITY_FORTRESS && activity != ACTIVITY_AIRBASE);
+  fc_assert_ret_val(activity != ACTIVITY_FORTRESS
+                    && activity != ACTIVITY_AIRBASE, FALSE);
 
   unit_list_iterate(punits, punit) {
     if (can_unit_do_activity(punit, activity)) {

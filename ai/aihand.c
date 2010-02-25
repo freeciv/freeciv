@@ -15,23 +15,26 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
-#include "city.h"
+/* utility */
 #include "distribute.h"
+#include "log.h"
+#include "shared.h"
+#include "timing.h"
+
+/* common */
+#include "city.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
 #include "unit.h"
-#include "timing.h"
 
+/* aicore */
 #include "cm.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
@@ -39,6 +42,7 @@
 #include "spacerace.h"
 #include "unithand.h"
 
+/* ai */
 #include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"
@@ -49,6 +53,7 @@
 #include "aiunit.h"
 
 #include "aihand.h"
+
 
 /****************************************************************************
   A man builds a city
@@ -262,8 +267,8 @@ static void ai_manage_taxes(struct player *pplayer)
     pplayer->economic.tax = science;
   }
 
-  assert(pplayer->economic.tax + pplayer->economic.luxury 
-         + pplayer->economic.science == 100);
+  fc_assert(pplayer->economic.tax + pplayer->economic.luxury
+            + pplayer->economic.science == 100);
   log_base(LOGLEVEL_TAX, "%s rates: Sci=%d Lux=%d Tax=%d "
            "trade=%d expenses=%d  celeb=(%d/%d)",
            player_name(pplayer), pplayer->economic.science,

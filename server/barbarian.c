@@ -128,7 +128,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
   barbarians->government = nation->init_government;
-  assert(barbarians->revolution_finishes < 0);
+  fc_assert(barbarians->revolution_finishes < 0);
   barbarians->capital = FALSE;
   barbarians->economic.gold = 100;
 
@@ -212,7 +212,7 @@ static int random_unchecked_direction(int possibilities, const bool *checked)
     j++;
     while (checked[j]) {
       j++;
-      assert(j < 8);
+      fc_assert(j < 8);
     }
   }
 

@@ -19,18 +19,20 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
-#include "connection.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "log.h"
 #include "mem.h"
-#include "nation.h"
-#include "player.h"
 #include "support.h"
+
+/* common */
+#include "connection.h"
+#include "game.h"
+#include "government.h"
+#include "player.h"
 #include "tech.h"
+
+#include "nation.h"
 
 static struct nation_type *nations = NULL;
 
@@ -274,7 +276,7 @@ bool check_nation_leader_name(const struct nation_type *pnation,
 ****************************************************************************/
 struct nation_type *nation_of_player(const struct player *pplayer)
 {
-  assert(NULL != pplayer);
+  fc_assert_ret_val(NULL != pplayer, NULL);
   if (!bounds_check_nation(pplayer->nation, LOG_FATAL)) {
 #if defined(__APPLE__)
     /* force trace log */
@@ -291,7 +293,7 @@ struct nation_type *nation_of_player(const struct player *pplayer)
 ****************************************************************************/
 struct nation_type *nation_of_city(const struct city *pcity)
 {
-  assert(pcity != NULL);
+  fc_assert_ret_val(pcity != NULL, NULL);
   return nation_of_player(city_owner(pcity));
 }
 
@@ -300,7 +302,7 @@ struct nation_type *nation_of_city(const struct city *pcity)
 ****************************************************************************/
 struct nation_type *nation_of_unit(const struct unit *punit)
 {
-  assert(punit != NULL);
+  fc_assert_ret_val(punit != NULL, NULL);
   return nation_of_player(unit_owner(punit));
 }
 
@@ -323,7 +325,7 @@ struct nation_type *nation_by_number(const Nation_type_id nation)
 **************************************************************************/
 Nation_type_id nation_number(const struct nation_type *pnation)
 {
-  assert(pnation);
+  fc_assert_ret_val(NULL != pnation, -1);
   return pnation->item_number;
 }
 
@@ -335,7 +337,7 @@ Nation_type_id nation_number(const struct nation_type *pnation)
 **************************************************************************/
 Nation_type_id nation_index(const struct nation_type *pnation)
 {
-  assert(pnation);
+  fc_assert_ret_val(NULL != pnation, -1);
   return pnation - nations;
 }
 
@@ -552,7 +554,7 @@ int nation_group_count(void)
 **************************************************************************/
 int nation_group_index(const struct nation_group *pgroup)
 {
-  assert(pgroup);
+  fc_assert_ret_val(NULL != pgroup, -1);
   return pgroup - nation_groups;
 }
 
@@ -561,7 +563,7 @@ int nation_group_index(const struct nation_group *pgroup)
 **************************************************************************/
 int nation_group_number(const struct nation_group *pgroup)
 {
-  assert(pgroup);
+  fc_assert_ret_val(NULL != pgroup, -1);
   return pgroup->item_number;
 }
 

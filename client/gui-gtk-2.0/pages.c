@@ -566,7 +566,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
   case AUTH_NEWUSER_FIRST:
   case AUTH_NEWUSER_RETRY:
     set_connection_state(NEW_PASSWORD_TYPE);
-    break;
+    return;
   case AUTH_LOGIN_FIRST:
     /* if we magically have a password already present in 'password'
      * then, use that and skip the password entry dialog */
@@ -579,13 +579,13 @@ void handle_authentication_req(enum authentication_type type, char *message)
     } else {
       set_connection_state(ENTER_PASSWORD_TYPE);
     }
-    break;
+    return;
   case AUTH_LOGIN_RETRY:
     set_connection_state(ENTER_PASSWORD_TYPE);
-    break;
-  default:
-    assert(0);
+    return;
   }
+
+  log_error("Unsupported authentication type %d: %s.", type, message);
 }
 
 /**************************************************************************
@@ -611,7 +611,7 @@ static void connect_callback(GtkWidget *w, gpointer data)
 
       output_window_append(ftc_client, errbuf);
     }
-    break; 
+    return; 
   case NEW_PASSWORD_TYPE:
     if (w != network_password) {
       sz_strlcpy(password,
@@ -630,19 +630,19 @@ static void connect_callback(GtkWidget *w, gpointer data)
 	set_connection_state(NEW_PASSWORD_TYPE);
       }
     }
-    break;
+    return;
   case ENTER_PASSWORD_TYPE:
     sz_strlcpy(reply.password,
 	gtk_entry_get_text(GTK_ENTRY(network_password)));
     send_packet_authentication_reply(&client.conn, &reply);
 
     set_connection_state(WAITING_TYPE);
-    break;
+    return;
   case WAITING_TYPE:
-    break;
-  default:
-    assert(0);
+    return;
   }
+
+  log_error("Unsupported connection status: %d", connection_status);
 }
 
 /**************************************************************************
@@ -1163,8 +1163,8 @@ static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
 {
   char *command = data;
 
-  assert(command != NULL);
-  assert(conn_menu_player != NULL);
+  fc_assert_ret(command != NULL);
+  fc_assert_ret(conn_menu_player != NULL);
 
   send_chat_printf("/%s \"%s\"", command, player_name(conn_menu_player));
 }
@@ -1189,8 +1189,8 @@ static void conn_menu_connection_command(GtkMenuItem *menuitem, gpointer data)
 {
   const char *command = data;
 
-  assert(conn_menu_conn != NULL);
-  assert(command != NULL);
+  fc_assert_ret(conn_menu_conn != NULL);
+  fc_assert_ret(command != NULL);
 
   send_chat_printf("/%s \"%s\"", command, conn_menu_conn->username);
 }

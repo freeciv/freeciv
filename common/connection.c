@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <string.h>
 #include <time.h>
@@ -34,14 +33,17 @@
 #include <winsock.h>
 #endif
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"		/* game.all_connections */
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
+#include "support.h"            /* mystr(n)casecmp */
+
+/* common */
+#include "game.h"               /* game.all_connections */
 #include "packets.h"
-#include "support.h"		/* mystr(n)casecmp */
 
 #include "connection.h"
 
@@ -77,7 +79,7 @@ static const char *levelnames[] = {
 **************************************************************************/
 const char *cmdlevel_name(enum cmdlevel_id lvl)
 {
-  assert (lvl >= 0 && lvl < ALLOW_NUM);
+  fc_assert_ret_val(lvl >= 0 && lvl < ALLOW_NUM, NULL);
   return levelnames[lvl];
 }
 
@@ -562,7 +564,7 @@ int get_next_request_id(int old_request_id)
                "setting from %d to 2", result);
     result = 2;
   }
-  assert(result);
+  fc_assert(0 != result);
   return result;
 }
 

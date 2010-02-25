@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -169,7 +168,7 @@ static const char *valid_ruleset_filename(const char *subdir,
   char filename[512];
   const char *dfilename;
 
-  assert(subdir && name && extension);
+  fc_assert_ret_val(subdir && name && extension, NULL);
 
   my_snprintf(filename, sizeof(filename), "%s/%s.%s", subdir, name, extension);
   log_verbose("Trying \"%s\".", filename);
@@ -1404,7 +1403,7 @@ if (_count > MAX_VET_LEVELS) {						\
     const int i = utype_index(u);
 
     BV_CLR_ALL(u->flags);
-    assert(!utype_has_flag(u, F_LAST-1));
+    fc_assert(!utype_has_flag(u, F_LAST - 1));
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags",
                                    section_name(section_list_get(sec, i)));
@@ -1425,7 +1424,7 @@ if (_count > MAX_VET_LEVELS) {						\
       } else {
         BV_SET(u->flags, ival);
       }
-      assert(utype_has_flag(u, ival));
+      fc_assert(utype_has_flag(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
@@ -1455,7 +1454,7 @@ if (_count > MAX_VET_LEVELS) {						\
       } else {
         BV_SET(u->roles, ival - L_FIRST);
       }
-      assert(utype_has_role(u, ival));
+      fc_assert(utype_has_role(u, ival));
     }
     free(slist);
   } unit_type_iterate_end;
@@ -1988,7 +1987,7 @@ static void load_ruleset_terrain(struct section_file *file)
 	"tropical", "temperate", "cold", "frozen",
 	"wet", "dry", "ocean_depth"
       };
-      assert(ARRAY_SIZE(mg_names) == MG_LAST);
+      fc_assert(ARRAY_SIZE(mg_names) == MG_LAST);
 
       pterrain->property[j] = secfile_lookup_int_default(file, 0,
 							 "%s.property_%s",
@@ -2838,7 +2837,7 @@ static void load_ruleset_nations(struct section_file *file)
       }
     } nations_iterate_end;
 
-    assert(sizeof(parents[0]) == sizeof(*pl->parent_nations));
+    fc_assert(sizeof(parents[0]) == sizeof(*pl->parent_nations));
     pl->parent_nations = fc_malloc((count + 1) * sizeof(parents[0]));
     memcpy(pl->parent_nations, parents, count * sizeof(parents[0]));
     pl->parent_nations[count] = NO_NATION_SELECTED;
@@ -3811,8 +3810,8 @@ static void send_ruleset_nations(struct conn_list *dest)
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
-  assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
-  assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
+  fc_assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
+  fc_assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
 
   nations_iterate(n) {
     packet.id = nation_number(n);
@@ -3892,13 +3891,13 @@ static void send_ruleset_game(struct conn_list *dest)
          sizeof(game.work_veteran_chance));
   memcpy(misc_p.veteran_chance, game.veteran_chance, 
          sizeof(game.veteran_chance));
-    
-  assert(sizeof(misc_p.global_init_techs) ==
-	 sizeof(game.server.rgame.global_init_techs));
-  assert(ARRAY_SIZE(misc_p.global_init_techs) ==
-	 ARRAY_SIZE(game.server.rgame.global_init_techs));
+
+  fc_assert(sizeof(misc_p.global_init_techs)
+            == sizeof(game.server.rgame.global_init_techs));
+  fc_assert(ARRAY_SIZE(misc_p.global_init_techs)
+            == ARRAY_SIZE(game.server.rgame.global_init_techs));
   memcpy(misc_p.global_init_techs, game.server.rgame.global_init_techs,
-	 sizeof(misc_p.global_init_techs));
+         sizeof(misc_p.global_init_techs));
 
   misc_p.default_specialist = DEFAULT_SPECIALIST;
 
@@ -4091,7 +4090,8 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
 {
   int rc;
 
-  assert(preq->source.kind >= 0 && preq->source.kind < VUT_LAST);
+  fc_assert_ret_val(preq->source.kind >= 0 && preq->source.kind < VUT_LAST,
+                    FALSE);
 
   /* Add to counter */
   reqs_of_type[preq->source.kind]++;
@@ -4143,7 +4143,7 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
        break;
      case VUT_LAST:
        /* Should never be in requirement vector */
-       assert(FALSE);
+       fc_assert(FALSE);
        return FALSE;
        break;
        /* No default handling here, as we want compiler warning

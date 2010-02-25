@@ -15,22 +15,21 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "player.h"
 #include "tech.h"
 
 #include "government.h"
 
 struct government *governments = NULL;
-
-#define CHECK_GOVERNMENT(gp) assert((NULL != gp) && ((gp) == &governments[(gp)->item_number]))
 
 /****************************************************************************
   Returns the government that has the given (translated) name.
@@ -80,7 +79,7 @@ int government_count(void)
 **************************************************************************/
 int government_index(const struct government *pgovern)
 {
-  assert(pgovern);
+  fc_assert_ret_val(NULL != pgovern, -1);
   return pgovern - governments;
 }
 
@@ -89,7 +88,7 @@ int government_index(const struct government *pgovern)
 **************************************************************************/
 int government_number(const struct government *pgovern)
 {
-  assert(pgovern);
+  fc_assert_ret_val(NULL != pgovern, -1);
   return pgovern->item_number;
 }
 
@@ -112,7 +111,7 @@ struct government *government_by_number(const int gov)
 ****************************************************************************/
 struct government *government_of_player(const struct player *pplayer)
 {
-  assert(pplayer != NULL);
+  fc_assert_ret_val(NULL != pplayer, NULL);
   return pplayer->government;
 }
 
@@ -121,7 +120,7 @@ struct government *government_of_player(const struct player *pplayer)
 ****************************************************************************/
 struct government *government_of_city(const struct city *pcity)
 {
-  assert(pcity != NULL);
+  fc_assert_ret_val(NULL != pcity, NULL);
   return government_of_player(city_owner(pcity));
 }
 
@@ -131,7 +130,7 @@ struct government *government_of_city(const struct city *pcity)
 ****************************************************************************/
 const char *government_rule_name(const struct government *pgovern)
 {
-  CHECK_GOVERNMENT(pgovern);
+  fc_assert_ret_val(NULL != pgovern, NULL);
   return Qn_(pgovern->name.vernacular);
 }
 
@@ -141,7 +140,7 @@ const char *government_rule_name(const struct government *pgovern)
 ****************************************************************************/
 const char *government_name_translation(struct government *pgovern)
 {
-  CHECK_GOVERNMENT(pgovern);
+  fc_assert_ret_val(NULL != pgovern, NULL);
   if (NULL == pgovern->name.translated) {
     /* delayed (unified) translation */
     pgovern->name.translated = ('\0' == pgovern->name.vernacular[0])
@@ -172,7 +171,7 @@ const char *ruler_title_translation(const struct player *pp)
   struct name_translation *sex;
   int i;
 
-  CHECK_GOVERNMENT(gp);
+  fc_assert_ret_val(NULL != pp, NULL);
 
   for(i=0; i<gp->num_ruler_titles; i++) {
     struct ruler_title *title = &gp->ruler_titles[i];
@@ -213,9 +212,9 @@ const char *ruler_title_translation(const struct player *pp)
   Returns FALSE if pplayer is NULL (used for observers).
 ***************************************************************/
 bool can_change_to_government(struct player *pplayer,
-			      const struct government *gov)
+                              const struct government *gov)
 {
-  CHECK_GOVERNMENT(gov);
+  fc_assert_ret_val(NULL != gov, FALSE);
 
   if (!pplayer) {
     return FALSE;

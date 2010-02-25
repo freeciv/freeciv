@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -281,7 +280,7 @@ void handle_city_remove(int city_id)
 {
   struct city *pcity = game_find_city_by_number(city_id);
 
-  log_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
+  fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
 
   agents_city_remove(pcity);
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, TRUE);
@@ -431,9 +430,8 @@ void handle_city_info(struct packet_city_info *packet)
   struct tile *ptile = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
 
-  log_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
-  log_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.",
-                     packet->tile);
+  fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
+  fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
 
   if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
     log_error("handle_city_info() bad production_kind %d.",
@@ -788,9 +786,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   struct tile_list *worked_tiles = NULL;
   struct player *powner = valid_player_by_number(packet->owner);
 
-  log_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
-  log_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.",
-                     packet->tile);
+  fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
+  fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
 
   if (NULL != pcity) {
     ptile = city_tile(pcity);
@@ -936,7 +933,7 @@ void handle_new_year(int year, int turn)
   /*
    * The turn was increased in handle_before_new_year()
    */
-  assert(game.info.turn == turn);
+  fc_assert(game.info.turn == turn);
   update_info_label();
 
   update_unit_focus();
@@ -1445,7 +1442,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     }
   } /*** End of Create new unit ***/
 
-  assert(punit != NULL);
+  fc_assert_ret_val(punit != NULL, ret);
 
   if (unit_is_in_focus(punit)
       || get_focus_unit_on_tile(punit->tile)
@@ -1519,7 +1516,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
       unit_list_prepend(pcity->info_units_supported, punit);
     } else {
-      assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
+      fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
       unit_list_prepend(pcity->info_units_present, punit);
     }
 
@@ -1685,8 +1682,8 @@ void handle_player_remove(int playerno)
   struct player *pplayer;
   pplayer = player_slot_by_number(playerno);
 
-  log_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
-                     playerno);
+  fc_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
+                    playerno);
 
   if (!player_slot_is_used(pplayer)) {
     /* Ok, just ignore. */
@@ -1732,8 +1729,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* First verify packet fields. */
 
   pplayer = player_slot_by_number(pinfo->playerno);
-  log_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
-                     pinfo->playerno);
+  fc_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
+                    pinfo->playerno);
 
   pnation = nation_by_number(pinfo->nation);
   pgov = government_by_number(pinfo->government);
@@ -2098,7 +2095,7 @@ static bool spaceship_autoplace(struct player *pplayer,
     } else {
       num = ship->solar_panels + 1;
     }
-    assert(num <= NUM_SS_MODULES / 3);
+    fc_assert(num <= NUM_SS_MODULES / 3);
 
     dsend_packet_spaceship_place(&client.conn, type, num);
     return TRUE;
@@ -2172,8 +2169,8 @@ static bool spaceship_autoplace(struct player *pplayer,
       }
     }
     /* sanity: */
-    assert(req!=-1);
-    assert(!ship->structure[req]);
+    fc_assert(req != -1);
+    fc_assert(!ship->structure[req]);
     
     /* Now we want to find a structural we can build which leads to req.
        This loop should bottom out, because everything leads back to s0,
@@ -2199,8 +2196,8 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
   struct player_spaceship *ship;
   struct player *pplayer = valid_player_by_number(p->player_num);
 
-  log_assert_ret_msg(NULL != pplayer, "Invalid player number %d.",
-                     p->player_num);
+  fc_assert_ret_msg(NULL != pplayer, "Invalid player number %d.",
+                    p->player_num);
 
   ship = &pplayer->spaceship;
   ship->state        = p->sship_state;
@@ -2260,7 +2257,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   struct tile *ptile = index_to_tile(packet->tile);
   const struct nation_type *pnation;
 
-  log_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
+  fc_assert_ret_msg(NULL != ptile, "Invalid tile index %d.", packet->tile);
   old_known = client_tile_get_known(ptile);
 
   if (NULL == tile_terrain(ptile) || pterrain != tile_terrain(ptile)) {
@@ -2428,7 +2425,7 @@ void handle_tile_info(struct packet_tile_info *packet)
                 unit_rule_name(punit), TILE_XY(unit_tile(punit)),
                 player_name(unit_owner(punit)));
     } unit_list_iterate_end;
-    assert(unit_list_size(ptile->units) == 0);
+    fc_assert(unit_list_size(ptile->units) == 0);
     unit_list_clear(ptile->units);
   }
 
@@ -2547,7 +2544,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 {
   struct unit_class *c = uclass_by_number(p->id);
 
-  log_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
+  fc_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
   sz_strlcpy(c->name.vernacular, p->name);
   c->name.translated = NULL;	/* unittype.c uclass_name_translation */
@@ -2567,7 +2564,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
   int i;
   struct unit_type *u = utype_by_number(p->id);
 
-  log_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->id);
+  fc_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->id);
 
   sz_strlcpy(u->name.vernacular, p->name);
   u->name.translated = NULL;	/* unittype.c utype_name_translation */
@@ -2626,7 +2623,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 {
   struct advance *a = advance_by_number(p->id);
 
-  log_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
+  fc_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
 
   sz_strlcpy(a->name.vernacular, p->name);
   a->name.translated = NULL;	/* tech.c advance_name_translation */
@@ -2651,7 +2648,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   int i;
   struct impr_type *b = improvement_by_number(p->id);
 
-  log_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
+  fc_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
 
   b->genus = p->genus;
   sz_strlcpy(b->name.vernacular, p->name);
@@ -2661,7 +2658,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&b->reqs, &p->reqs[i]);
   }
-  assert(b->reqs.size == p->reqs_count);
+  fc_assert(b->reqs.size == p->reqs_count);
   b->obsolete_by = advance_by_number(p->obsolete_by);
   b->replaced_by = improvement_by_number(p->replaced_by);
   b->build_cost = p->build_cost;
@@ -2708,14 +2705,14 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   int j;
   struct government *gov = government_by_number(p->id);
 
-  log_assert_ret_msg(NULL != gov, "Bad government %d.", p->id);
+  fc_assert_ret_msg(NULL != gov, "Bad government %d.", p->id);
 
   gov->item_number = p->id;
 
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&gov->reqs, &p->reqs[j]);
   }
-  assert(gov->reqs.size == p->reqs_count);
+  fc_assert(gov->reqs.size == p->reqs_count);
 
   gov->num_ruler_titles    = p->num_ruler_titles;
     
@@ -2740,10 +2737,10 @@ void handle_ruleset_government_ruler_title
 {
   struct government *gov = government_by_number(p->gov);
 
-  log_assert_ret_msg(NULL != gov, "Bad government %d.", p->gov);
-  log_assert_ret_msg(0 <= p->id && gov->num_ruler_titles > p->id,
-                     "Bad government ruler title %d for government \"%s\".",
-                     p->id, gov->name.vernacular);
+  fc_assert_ret_msg(NULL != gov, "Bad government %d.", p->gov);
+  fc_assert_ret_msg(0 <= p->id && gov->num_ruler_titles > p->id,
+                    "Bad government ruler title %d for government \"%s\".",
+                    p->id, gov->name.vernacular);
 
   gov->ruler_titles[p->id].nation = nation_by_number(p->nation);
   /* government.c ruler_title_translation */
@@ -2761,7 +2758,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   int j;
   struct terrain *pterrain = terrain_by_number(p->id);
 
-  log_assert_ret_msg(NULL != pterrain, "Bad terrain %d.", p->id);
+  fc_assert_ret_msg(NULL != pterrain, "Bad terrain %d.", p->id);
 
   pterrain->native_to = p->native_to;
   sz_strlcpy(pterrain->name.vernacular, p->name_orig);
@@ -2821,7 +2818,7 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 {
   struct resource *presource = resource_by_number(p->id);
 
-  log_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
+  fc_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
 
   sz_strlcpy(presource->name.vernacular, p->name_orig);
   presource->name.translated = NULL;	/* terrain.c resource_name_translation */
@@ -2843,7 +2840,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   int i;
   struct base_type *pbase = base_by_number(p->id);
 
-  log_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
+  fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
   sz_strlcpy(pbase->name.vernacular, p->name);
   pbase->name.translated = NULL;	/* base.c base_name_translation */
@@ -2856,7 +2853,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   for (i = 0; i < p->reqs_count; i++) {
     requirement_vector_append(&pbase->reqs, &p->reqs[i]);
   }
-  assert(pbase->reqs.size == p->reqs_count);
+  fc_assert(pbase->reqs.size == p->reqs_count);
 
   pbase->native_to = p->native_to;
 
@@ -2891,7 +2888,7 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
   for (i = 0; i < packet->ngroups; i++) {
     struct nation_group *group = add_new_nation_group(packet->groups[i]);
 
-    assert(group != NULL && nation_group_index(group) == i);
+    fc_assert(group != NULL && nation_group_index(group) == i);
   }
 }
 
@@ -2903,7 +2900,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   int i;
   struct nation_type *pl = nation_by_number(p->id);
 
-  log_assert_ret_msg(NULL != pl, "Bad nation %d.", p->id);
+  fc_assert_ret_msg(NULL != pl, "Bad nation %d.", p->id);
 
   sz_strlcpy(pl->adjective.vernacular, p->adjective);
   pl->adjective.translated = NULL;
@@ -2960,14 +2957,14 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   struct citystyle *cs;
 
   id = packet->style_id;
-  log_assert_ret_msg(0 <= id && game.control.styles_count > id,
-                     "Bad citystyle %d.", id);
+  fc_assert_ret_msg(0 <= id && game.control.styles_count > id,
+                    "Bad citystyle %d.", id);
   cs = &city_styles[id];
 
   for (j = 0; j < packet->reqs_count; j++) {
     requirement_vector_append(&cs->reqs, &packet->reqs[j]);
   }
-  assert(cs->reqs.size == packet->reqs_count);
+  fc_assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
 
   sz_strlcpy(cs->name.vernacular, packet->name);
@@ -3006,7 +3003,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
   int j;
   struct specialist *s = specialist_by_number(p->id);
 
-  log_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
+  fc_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
 
   sz_strlcpy(s->name.vernacular, p->name);
   s->name.translated = NULL;
@@ -3016,7 +3013,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&s->reqs, &p->reqs[j]);
   }
-  assert(s->reqs.size == p->reqs_count);
+  fc_assert(s->reqs.size == p->reqs_count);
 
   tileset_setup_specialist_type(tileset, p->id);
 }
@@ -3051,7 +3048,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   struct unit *punit = game_find_unit_by_number(target_id);
   struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
-  log_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
+  fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
 
   switch (action_type) {
   case DIPLOMAT_BRIBE:
@@ -3091,8 +3088,8 @@ void handle_city_sabotage_list(int diplomat_id, int city_id,
   struct city *pcity = game_find_city_by_number(city_id);
   struct unit *pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
 
-  log_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
-  log_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
+  fc_assert_ret_msg(NULL != pdiplomat, "Bad diplomat %d.", diplomat_id);
+  fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
 
   if (can_client_issue_orders()) {
     improvement_iterate(pimprove) {
@@ -3140,7 +3137,7 @@ void handle_processing_started(void)
 {
   agents_processing_started();
 
-  assert(client.conn.client.request_id_of_currently_handled_packet == 0);
+  fc_assert(client.conn.client.request_id_of_currently_handled_packet == 0);
   client.conn.client.request_id_of_currently_handled_packet =
       get_next_request_id(client.conn.
 			  client.last_processed_request_id_seen);
@@ -3159,7 +3156,7 @@ void handle_processing_finished(void)
   log_debug("finish processing packet %d",
             client.conn.client.request_id_of_currently_handled_packet);
 
-  assert(client.conn.client.request_id_of_currently_handled_packet != 0);
+  fc_assert(client.conn.client.request_id_of_currently_handled_packet != 0);
 
   client.conn.client.last_processed_request_id_seen =
       client.conn.client.request_id_of_currently_handled_packet;
@@ -3182,9 +3179,9 @@ void handle_processing_finished(void)
 ...
 **************************************************************************/
 void notify_about_incoming_packet(struct connection *pc,
-				   int packet_type, int size)
+                                  int packet_type, int size)
 {
-  assert(pc == &client.conn);
+  fc_assert(pc == &client.conn);
   log_debug("incoming packet={type=%d, size=%d}", packet_type, size);
 }
 
@@ -3192,14 +3189,14 @@ void notify_about_incoming_packet(struct connection *pc,
 ...
 **************************************************************************/
 void notify_about_outgoing_packet(struct connection *pc,
-				  int packet_type, int size,
-				  int request_id)
+                                  int packet_type, int size,
+                                  int request_id)
 {
-  assert(pc == &client.conn);
+  fc_assert(pc == &client.conn);
   log_debug("outgoing packet={type=%d, size=%d, request_id=%d}",
             packet_type, size, request_id);
 
-  assert(request_id);
+  fc_assert(request_id);
 }
 
 /**************************************************************************
@@ -3325,9 +3322,9 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
-  log_assert_ret_msg(NULL != vi,
-                     "Got packet_vote_update for non-existant vote %d!",
-                     vote_no);
+  fc_assert_ret_msg(NULL != vi,
+                    "Got packet_vote_update for non-existant vote %d!",
+                    vote_no);
 
   vi->yes = yes;
   vi->no = no;
@@ -3342,9 +3339,9 @@ void handle_vote_update(int vote_no, int yes, int no, int abstain,
 **************************************************************************/
 void handle_vote_new(struct packet_vote_new *packet)
 {
-  log_assert_ret_msg(NULL == voteinfo_queue_find(packet->vote_no),
-                     "Got a packet_vote_new for already existing "
-                     "vote %d!", packet->vote_no);
+  fc_assert_ret_msg(NULL == voteinfo_queue_find(packet->vote_no),
+                    "Got a packet_vote_new for already existing "
+                    "vote %d!", packet->vote_no);
 
   voteinfo_queue_add(packet->vote_no,
                      packet->user,
@@ -3362,9 +3359,9 @@ void handle_vote_resolve(int vote_no, bool passed)
   struct voteinfo *vi;
 
   vi = voteinfo_queue_find(vote_no);
-  log_assert_ret_msg(NULL != vi,
-                     "Got packet_vote_resolve for non-existant vote %d!",
-                     vote_no);
+  fc_assert_ret_msg(NULL != vi,
+                    "Got packet_vote_resolve for non-existant vote %d!",
+                    vote_no);
 
   vi->resolved = TRUE;
   vi->passed = passed;

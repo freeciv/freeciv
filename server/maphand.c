@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -564,7 +562,7 @@ static void really_fog_tile(struct player *pplayer, struct tile *ptile,
   log_debug("Fogging %i,%i. Previous fog: %i.",
             TILE_XY(ptile), map_get_seen(ptile, pplayer, vlayer));
  
-  assert(map_get_seen(ptile, pplayer, vlayer) == 0);
+  fc_assert(map_get_seen(ptile, pplayer, vlayer) == 0);
 
   unit_list_iterate(ptile->units, punit)
     if (unit_is_visible_on_layer(punit, vlayer)) {
@@ -672,7 +670,7 @@ void map_show_tile(struct player *src_player, struct tile *ptile)
 
   log_debug("Showing %i,%i to %s", TILE_XY(ptile), player_name(src_player));
 
-  assert(recurse == 0);
+  fc_assert(recurse == 0);
   recurse++;
 
   players_iterate(pplayer) {
@@ -724,7 +722,7 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
 
   log_debug("Hiding %d,%d to %s", TILE_XY(ptile), player_name(src_player));
 
-  assert(recurse == 0);
+  fc_assert(recurse == 0);
   recurse++;
 
   players_iterate(pplayer) {
@@ -801,14 +799,16 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 ...
 ***************************************************************/
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
-			   enum vision_layer vlayer)
+                           enum vision_layer vlayer)
 {
-  assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
-	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
-		 > 0)));
+  fc_assert_ret_val(!game.info.fogofwar
+                    || (BV_ISSET(ptile->tile_seen[vlayer],
+                                 player_index(pplayer))
+                        == (map_get_player_tile(ptile,
+                                                pplayer)->seen_count[vlayer]
+                            > 0)), FALSE);
   return (BV_ISSET(ptile->tile_known, player_index(pplayer))
-	  && BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer)));
+          && BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer)));
 }
 
 /****************************************************************************
@@ -819,13 +819,15 @@ bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
   this case the tile is unknown (but map_get_seen will still return TRUE).
 ****************************************************************************/
 static int map_get_seen(const struct tile *ptile,
-			const struct player *pplayer,
-			enum vision_layer vlayer)
+                        const struct player *pplayer,
+                        enum vision_layer vlayer)
 {
-  assert(!game.info.fogofwar
-	 || (BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer))
-	     == (map_get_player_tile(ptile, pplayer)->seen_count[vlayer]
-		 > 0)));
+  fc_assert_ret_val(!game.info.fogofwar
+                    || (BV_ISSET(ptile->tile_seen[vlayer],
+                                 player_index(pplayer))
+                        == (map_get_player_tile(ptile,
+                                                pplayer)->seen_count[vlayer]
+                            > 0)), 0);
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
 }
 
@@ -837,8 +839,8 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
 {
   struct player_tile *plrtile = map_get_player_tile(ptile, pplayer);
 
-  /* assert to avoid underflow */
-  assert(0 <= change || -change <= plrtile->seen_count[vlayer]);
+  /* fc_assert to avoid underflow */
+  fc_assert(0 <= change || -change <= plrtile->seen_count[vlayer]);
 
   plrtile->seen_count[vlayer] += change;
   if (plrtile->seen_count[vlayer] != 0) {
@@ -1019,7 +1021,7 @@ struct vision_site *map_get_player_city(const struct tile *ptile,
 {
   struct vision_site *psite = map_get_player_site(ptile, pplayer);
 
-  assert(psite == NULL || psite->location == ptile);
+  fc_assert_ret_val(psite == NULL || psite->location == ptile, NULL);
  
   return psite;
 }
@@ -1299,7 +1301,8 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 void remove_shared_vision(struct player *pfrom, struct player *pto)
 {
   int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
-  assert(pfrom != pto);
+
+  fc_assert_ret(pfrom != pto);
   if (!gives_shared_vision(pfrom, pto)) {
     log_error("Tried removing the shared vision from %s to %s, "
               "but it did not exist in the first place!",

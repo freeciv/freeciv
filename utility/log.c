@@ -266,34 +266,6 @@ bool log_do_output_for_level_at_location(enum log_level level,
 #endif /* DEBUG */
 
 /**************************************************************************
-  Set what signal the log_assert* macros should raise on failed assertion
-  (-1 to disable).
-**************************************************************************/
-void log_assert_set_fatal(int fatal_assertions)
-{
-  fc_fatal_assertions = fatal_assertions;
-}
-
-/**************************************************************************
-  Returns wether the log_assert* macros should raise a signal on failed
-  assertion.
-**************************************************************************/
-bool log_assert_fatal(void)
-{
-  return 0 <= fc_fatal_assertions;
-}
-
-/**************************************************************************
-  Maybe raise a signal if the user set it.
-**************************************************************************/
-void log_assert_throw(void)
-{
-  if (log_assert_fatal()) {
-    raise(fc_fatal_assertions);
-  }
-}
-
-/**************************************************************************
   Unconditionally print a simple string.
   Let the callback do its own level formating and add a '\n' if it wants.
 **************************************************************************/
@@ -339,9 +311,18 @@ void vdo_log(const char *file, const char *function, int line,
   static unsigned int repeated = 0; /* total times current message repeated */
   static unsigned int next = 2; /* next total to print update */
   static unsigned int prev = 0; /* total on last update */
-  static int prev_level = -1; /* only count as repeat if same level  */
+  /* only count as repeat if same level */
+  static enum log_level prev_level = -1;
+  static bool recursive = FALSE;
   char buf[MAX_LEN_LOG_LINE];
   FILE *fs;
+
+  if (recursive) {
+    fc_fprintf(stderr, _("Error: recursive calls to log.\n"));
+    return;
+  }
+
+  recursive = TRUE;
 
   if (log_filename) {
     if (!(fs = fc_fopen(log_filename, "a"))) {
@@ -408,6 +389,7 @@ void vdo_log(const char *file, const char *function, int line,
   if (log_filename) {
     fclose(fs);
   }
+  recursive = FALSE;
 }
 
 /**************************************************************************
@@ -427,3 +409,45 @@ void do_log(const char *file, const char *function, int line,
   vdo_log(file, function, line, print_from_where, level, message, args);
   va_end(args);
 }
+
+/**************************************************************************
+  Set what signal the fc_assert* macros should raise on failed assertion
+  (-1 to disable).
+**************************************************************************/
+void fc_assert_set_fatal(int fatal_assertions)
+{
+  fc_fatal_assertions = fatal_assertions;
+}
+
+#ifndef NDEBUG
+/**************************************************************************
+  Returns wether the fc_assert* macros should raise a signal on failed
+  assertion.
+**************************************************************************/
+void fc_assert_fail(const char *file, const char *function, int line,
+                    const char *assertion, const char *message, ...)
+{
+  enum log_level level = (0 <= fc_fatal_assertions ? LOG_FATAL : LOG_ERROR);
+
+  do_log(file, function, line, TRUE, level,
+         "assertion '%s' failed.", assertion);
+
+  if (NULL != message) {
+    /* Additional message. */
+    va_list args;
+
+    va_start(args, message);
+    vdo_log(file, function, line, FALSE, level, message, args);
+    va_end(args);
+  }
+
+  do_log(file, function, line, FALSE, level,
+         /* TRANS: No full stop after the URL, could cause confusion. */
+         _("Please report this message at %s"), BUG_URL);
+
+  if (0 <= fc_fatal_assertions) {
+    /* Emit a signal. */
+    raise(fc_fatal_assertions);
+  }
+}
+#endif /* NDEBUG */

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -157,7 +156,7 @@ static void add_to_mapqueue(int cost, struct tile *ptile)
 {
   struct mappos_array *our_array;
 
-  assert(cost < MAXCOST && cost >= 0);
+  fc_assert(cost < MAXCOST && cost >= 0);
 
   our_array = cost_lookup[cost].last_array;
   if (!our_array) {
@@ -231,12 +230,12 @@ static void init_warmap(struct tile *orig_tile, enum unit_move_type move_type)
   switch (move_type) {
   case LAND_MOVING:
   case BOTH_MOVING:
-    assert(sizeof(*warmap.cost) == sizeof(char));
+    fc_assert(sizeof(*warmap.cost) == sizeof(char));
     memset(warmap.cost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
     warmap.cost[tile_index(orig_tile)] = 0;
     break;
   case SEA_MOVING:
-    assert(sizeof(*warmap.seacost) == sizeof(char));
+    fc_assert(sizeof(*warmap.seacost) == sizeof(char));
     memset(warmap.seacost, MAXCOST, MAP_INDEX_SIZE * sizeof(char));
     warmap.seacost[tile_index(orig_tile)] = 0;
     break;
@@ -508,7 +507,7 @@ static int straightest_direction(struct tile *src_tile,
   } else if (diff_x < 0) {
     best_dir = (diff_y > 0) ? DIR8_SOUTHWEST : DIR8_NORTHWEST;
   } else {
-    assert(0);
+    fc_assert(0);
     best_dir = 0;
   }
 
@@ -667,7 +666,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
     return -1;
   }
   if (total_distance == 0) {
-    assert(moves >= 0);
+    fc_assert(moves >= 0);
     return moves;
   }
 
@@ -698,8 +697,8 @@ int air_can_move_between(int moves, struct tile *src_tile,
   }
   if (dist == 1) {
     /* Looks like the O(n) quicksearch worked. */
-    assert(real_map_distance(ptile, dest_tile) == 1);
-    assert(moves - total_distance >= 0);
+    fc_assert(real_map_distance(ptile, dest_tile) == 1);
+    fc_assert(moves - total_distance >= 0);
     return moves - total_distance;
   }
 
@@ -741,7 +740,7 @@ int air_can_move_between(int moves, struct tile *src_tile,
                   WARMAP_COST(ptile) + 1);
 	/* The -1 is because we haven't taken the final
 	   step yet. */
-	assert(moves - WARMAP_COST(ptile) - 1 >= 0);
+        fc_assert(moves - WARMAP_COST(ptile) - 1 >= 0);
 	return moves - WARMAP_COST(ptile) - 1;
       }
 

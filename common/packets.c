@@ -18,7 +18,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <assert.h>
 #include <limits.h>
 
 /* utility */
@@ -162,7 +161,7 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
 	    compress2(compressed, &compressed_size,
 		      pc->compression.queue.p, pc->compression.queue.size,
 		      compression_level);
-	assert(error == Z_OK);
+        fc_assert_ret_val(error == Z_OK, -1);
 	if (compressed_size + 2 < pc->compression.queue.size) {
 	    struct data_out dout;
 
@@ -317,7 +316,7 @@ void *get_packet_from_connection(struct connection *pc,
   int header_size = 0;
 #endif
 
-  assert(sizeof(utype.type) == sizeof(utype.itype));
+  fc_assert_ret_val(sizeof(utype.type) == sizeof(utype.itype), NULL);
 
   *presult = FALSE;
 
@@ -381,7 +380,7 @@ void *get_packet_from_connection(struct connection *pc,
 
       log_error("Uncompressing of the packet stream failed. "
                 "The connection will be closed now.");
-      assert(close_callback);
+      fc_assert_ret_val(close_callback, NULL);
       (*close_callback) (pc);
 
       return NULL;
@@ -430,7 +429,7 @@ void *get_packet_from_connection(struct connection *pc,
 
     log_error("The packet stream is corrupt. The connection "
               "will be closed now.");
-    assert(close_callback);
+    fc_assert_ret_val(close_callback, NULL);
     (*close_callback) (pc);
 
     return NULL;
@@ -522,7 +521,7 @@ void check_packet(struct data_in *din, struct connection *pc)
     char from[MAX_LEN_ADDR + MAX_LEN_NAME + 128];
     int type, len;
 
-    assert(pc != NULL);
+    fc_assert_ret(pc != NULL);
     my_snprintf(from, sizeof(from), " from %s", conn_description(pc));
 
     dio_input_rewind(din);
@@ -622,8 +621,8 @@ void send_attribute_block(const struct player *pplayer,
     return;
   }
 
-  assert(pplayer->attribute_block.length > 0 &&
-	 pplayer->attribute_block.length < MAX_ATTRIBUTE_BLOCK);
+  fc_assert_ret(pplayer->attribute_block.length > 0
+                && pplayer->attribute_block.length < MAX_ATTRIBUTE_BLOCK);
 
   chunks =
       (pplayer->attribute_block.length - 1) / ATTRIBUTE_CHUNK_SIZE + 1;
@@ -660,16 +659,16 @@ void send_attribute_block(const struct player *pplayer,
   Test and log for sending player attribute_block
 **************************************************************************/
 void pre_send_packet_player_attribute_chunk(struct connection *pc,
-					    struct packet_player_attribute_chunk
-					    *packet)
+                                            struct packet_player_attribute_chunk
+                                            *packet)
 {
-  assert(packet->total_length > 0
-	 && packet->total_length < MAX_ATTRIBUTE_BLOCK);
+  fc_assert(packet->total_length > 0
+            && packet->total_length < MAX_ATTRIBUTE_BLOCK);
   /* 500 bytes header, just to be sure */
-  assert(packet->chunk_length > 0
-	 && packet->chunk_length < MAX_LEN_PACKET - 500);
-  assert(packet->chunk_length <= packet->total_length);
-  assert(packet->offset >= 0 && packet->offset < packet->total_length);
+  fc_assert(packet->chunk_length > 0
+            && packet->chunk_length < MAX_LEN_PACKET - 500);
+  fc_assert(packet->chunk_length <= packet->total_length);
+  fc_assert(packet->offset >= 0 && packet->offset < packet->total_length);
 
   log_packet("sending attribute chunk %d/%d %d",
              packet->offset, packet->total_length, packet->chunk_length);

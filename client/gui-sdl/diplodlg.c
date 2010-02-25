@@ -709,7 +709,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	pBuf->action = cities_callback;
 	set_wstate(pBuf, FC_WS_NORMAL);
 	/* MAX_ID is unigned short type range and city id must be in this range */
-	assert(city_list_ptrs[j]->id <= MAX_ID);
+        fc_assert(city_list_ptrs[j]->id <= MAX_ID);
         add_to_gui_list(MAX_ID - city_list_ptrs[j]->id, pBuf);
 	count++;      
       }

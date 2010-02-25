@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -91,7 +90,7 @@ const struct strvec *get_soundset_list(void)
 **************************************************************************/
 void audio_add_plugin(struct audio_plugin *p)
 {
-  assert(num_plugins_used < MAX_NUM_PLUGINS);
+  fc_assert_ret(num_plugins_used < MAX_NUM_PLUGINS);
   memcpy(&plugins[num_plugins_used], p, sizeof(struct audio_plugin));
   num_plugins_used++;
 }
@@ -138,10 +137,10 @@ bool audio_select_plugin(const char *const name)
   Initialize base audio system. Note that this function is called very
   early at the client startup. So for example logging isn't available.
 **************************************************************************/
-void audio_init()
+void audio_init(void)
 {
   audio_none_init();
-  assert(num_plugins_used == 1);
+  fc_assert(num_plugins_used == 1);
   selected_plugin = 0;
 
 #ifdef AUDIO_SDL
@@ -298,7 +297,7 @@ void audio_play_sound(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  assert(tag != NULL);
+  fc_assert_ret(tag != NULL);
 
   log_debug("audio_play_sound('%s', '%s')", tag, pretty_alt_tag);
 
@@ -315,7 +314,7 @@ void audio_play_music(const char *const tag, char *const alt_tag)
 {
   char *pretty_alt_tag = alt_tag ? alt_tag : "(null)";
 
-  assert(tag != NULL);
+  fc_assert_ret(tag != NULL);
 
   log_debug("audio_play_music('%s', '%s')", tag, pretty_alt_tag);
 

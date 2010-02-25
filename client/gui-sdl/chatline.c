@@ -431,10 +431,10 @@ static void add_to_chat_list(Uint16 *pUniStr, size_t n_alloc)
 {
   SDL_String16 *pStr;
   struct widget *pBuf, *pWindow = pConnDlg->pEndWidgetList;
-  
-  assert(pUniStr != NULL);
-  assert(n_alloc != 0);
-  
+
+  fc_assert_ret(pUniStr != NULL);
+  fc_assert_ret(n_alloc != 0);
+
   pStr = create_string16(pUniStr, n_alloc, adj_font(12));
    
   if (convert_string_to_const_surface_width(pStr, pConnDlg->text_width - adj_size(5))) {

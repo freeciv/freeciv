@@ -35,8 +35,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include "log.h"
 #include "support.h"            /* TRUE, FALSE */
 
@@ -84,7 +82,7 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as,
   RANDOM_TYPE new_rand, divisor, max;
   int bailout = 0;
 
-  assert(rand_state.is_init);
+  fc_assert_ret_val(rand_state.is_init, 0);
 
   if (size > 1) {
     divisor = MAX_UINT32 / size;
@@ -267,9 +265,9 @@ RANDOM_TYPE myrandomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
 #define SMALL_PRIME (1009)
 
   /* Check for overflow and underflow */
-  assert(seed < MAX_UINT32 / LARGE_PRIME);
-  assert(size < SMALL_PRIME);
-  assert(size > 0);
+  fc_assert_ret_val(seed < MAX_UINT32 / LARGE_PRIME, 0);
+  fc_assert_ret_val(size < SMALL_PRIME, 0);
+  fc_assert_ret_val(size > 0, 0);
   result = ((seed * LARGE_PRIME) % SMALL_PRIME) % size;
 
   log_rand("%s(%lu,%lu) = %lu at %s:%d",

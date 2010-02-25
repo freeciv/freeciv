@@ -1006,7 +1006,7 @@ static const int num_options = ARRAY_SIZE(options);
 **************************************************************************/
 struct client_option *option_by_number(int id)
 {
-  log_assert_ret_val(0 <= id && id < num_options, NULL);
+  fc_assert_ret_val(0 <= id && id < num_options, NULL);
   return options + id;
 }
 
@@ -1062,7 +1062,7 @@ struct client_option *option_next(struct client_option *poption)
 void option_set_changed_callback(struct client_option *poption,
                                  void (*callback) (struct client_option *))
 {
-  log_assert_ret(NULL != poption);
+  fc_assert_ret(NULL != poption);
 
   poption->changed_callback = callback;
 }
@@ -1072,7 +1072,7 @@ void option_set_changed_callback(struct client_option *poption,
 **************************************************************************/
 void option_changed(struct client_option *poption)
 {
-  log_assert_ret(NULL != poption);
+  fc_assert_ret(NULL != poption);
 
   /* Prevent to use non-initialized datas. */
   if (options_fully_initialized
@@ -1086,7 +1086,7 @@ void option_changed(struct client_option *poption)
 **************************************************************************/
 bool option_reset(struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
 
   switch (option_type(poption)) {
   case COT_BOOLEAN:
@@ -1106,8 +1106,8 @@ bool option_reset(struct client_option *poption)
 **************************************************************************/
 bool option_load(struct client_option *poption, struct section_file *sf)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(NULL != sf, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(NULL != sf, FALSE);
 
   switch (option_type(poption)) {
   case COT_BOOLEAN:
@@ -1151,7 +1151,7 @@ bool option_load(struct client_option *poption, struct section_file *sf)
 **************************************************************************/
 int option_number(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, -1);
+  fc_assert_ret_val(NULL != poption, -1);
 
   return poption - options;
 }
@@ -1161,7 +1161,7 @@ int option_number(const struct client_option *poption)
 **************************************************************************/
 const char *option_name(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
 
   return poption->name;
 }
@@ -1171,7 +1171,7 @@ const char *option_name(const struct client_option *poption)
 **************************************************************************/
 const char *option_description(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
 
   return _(poption->description);
 }
@@ -1181,7 +1181,7 @@ const char *option_description(const struct client_option *poption)
 **************************************************************************/
 const char *option_help_text(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
 
   return _(poption->help_text);
 }
@@ -1191,7 +1191,7 @@ const char *option_help_text(const struct client_option *poption)
 **************************************************************************/
 enum client_option_type option_type(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, -1);
+  fc_assert_ret_val(NULL != poption, -1);
 
   return poption->type;
 }
@@ -1201,7 +1201,7 @@ enum client_option_type option_type(const struct client_option *poption)
 **************************************************************************/
 enum client_option_class option_class(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, COC_MAX);
+  fc_assert_ret_val(NULL != poption, COC_MAX);
 
   return poption->category;
 }
@@ -1238,7 +1238,7 @@ const char *option_class_name(enum client_option_class option_class)
 **************************************************************************/
 void option_set_gui_data(struct client_option *poption, void *data)
 {
-  log_assert_ret(NULL != poption);
+  fc_assert_ret(NULL != poption);
 
   poption->gui_data = data;
 }
@@ -1248,7 +1248,7 @@ void option_set_gui_data(struct client_option *poption, void *data)
 **************************************************************************/
 void *option_get_gui_data(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
 
   return poption->gui_data;
 }
@@ -1258,8 +1258,8 @@ void *option_get_gui_data(const struct client_option *poption)
 **************************************************************************/
 bool option_bool_get(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
 
   return *poption->boolean.pvalue;
 }
@@ -1269,8 +1269,8 @@ bool option_bool_get(const struct client_option *poption)
 **************************************************************************/
 bool option_bool_def(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
 
   return poption->boolean.def;
 }
@@ -1281,8 +1281,8 @@ bool option_bool_def(const struct client_option *poption)
 **************************************************************************/
 bool option_bool_set(struct client_option *poption, bool val)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_BOOLEAN == poption->type, FALSE);
 
   if (*poption->boolean.pvalue == val) {
     return FALSE;
@@ -1298,8 +1298,8 @@ bool option_bool_set(struct client_option *poption, bool val)
 **************************************************************************/
 int option_int_get(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, 0);
-  log_assert_ret_val(COT_INTEGER == poption->type, 0);
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(COT_INTEGER == poption->type, 0);
 
   return *poption->integer.pvalue;
 }
@@ -1309,8 +1309,8 @@ int option_int_get(const struct client_option *poption)
 **************************************************************************/
 int option_int_def(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, 0);
-  log_assert_ret_val(COT_INTEGER == poption->type, 0);
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(COT_INTEGER == poption->type, 0);
 
   return poption->integer.def;
 }
@@ -1320,8 +1320,8 @@ int option_int_def(const struct client_option *poption)
 **************************************************************************/
 int option_int_min(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, 0);
-  log_assert_ret_val(COT_INTEGER == poption->type, 0);
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(COT_INTEGER == poption->type, 0);
 
   return poption->integer.min;
 }
@@ -1331,8 +1331,8 @@ int option_int_min(const struct client_option *poption)
 **************************************************************************/
 int option_int_max(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, 0);
-  log_assert_ret_val(COT_INTEGER == poption->type, 0);
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(COT_INTEGER == poption->type, 0);
 
   return poption->integer.max;
 }
@@ -1343,8 +1343,8 @@ int option_int_max(const struct client_option *poption)
 **************************************************************************/
 bool option_int_set(struct client_option *poption, int val)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_INTEGER == poption->type, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_INTEGER == poption->type, FALSE);
 
   if (val < poption->integer.min
       || val > poption->integer.max
@@ -1362,8 +1362,8 @@ bool option_int_set(struct client_option *poption, int val)
 **************************************************************************/
 const char *option_str_get(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
-  log_assert_ret_val(COT_STRING == poption->type, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(COT_STRING == poption->type, NULL);
 
   return poption->string.pvalue;
 }
@@ -1373,8 +1373,8 @@ const char *option_str_get(const struct client_option *poption)
 **************************************************************************/
 const char *option_str_def(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
-  log_assert_ret_val(COT_STRING == poption->type, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(COT_STRING == poption->type, NULL);
 
   return poption->string.def;
 }
@@ -1384,8 +1384,8 @@ const char *option_str_def(const struct client_option *poption)
 **************************************************************************/
 const struct strvec *option_str_values(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
-  log_assert_ret_val(COT_STRING == poption->type, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(COT_STRING == poption->type, NULL);
 
   return (poption->string.val_accessor
           ? poption->string.val_accessor() : NULL);
@@ -1397,9 +1397,9 @@ const struct strvec *option_str_values(const struct client_option *poption)
 **************************************************************************/
 bool option_str_set(struct client_option *poption, const char *str)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_STRING == poption->type, FALSE);
-  log_assert_ret_val(NULL != str, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_STRING == poption->type, FALSE);
+  fc_assert_ret_val(NULL != str, FALSE);
 
   if (strlen(str) >= poption->string.size
       || 0 == strcmp(poption->string.pvalue, str)) {
@@ -1416,8 +1416,8 @@ bool option_str_set(struct client_option *poption, const char *str)
 **************************************************************************/
 const char *option_font_get(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
-  log_assert_ret_val(COT_FONT == poption->type, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(COT_FONT == poption->type, NULL);
 
   return poption->font.pvalue;
 }
@@ -1427,8 +1427,8 @@ const char *option_font_get(const struct client_option *poption)
 **************************************************************************/
 const char *option_font_def(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, NULL);
-  log_assert_ret_val(COT_FONT == poption->type, NULL);
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(COT_FONT == poption->type, NULL);
 
   return poption->font.def;
 }
@@ -1438,8 +1438,8 @@ const char *option_font_def(const struct client_option *poption)
 **************************************************************************/
 const char *option_font_target(const struct client_option *poption)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_FONT == poption->type, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_FONT == poption->type, FALSE);
 
   return poption->font.target;
 }
@@ -1450,9 +1450,9 @@ const char *option_font_target(const struct client_option *poption)
 **************************************************************************/
 bool option_font_set(struct client_option *poption, const char *str)
 {
-  log_assert_ret_val(NULL != poption, FALSE);
-  log_assert_ret_val(COT_FONT == poption->type, FALSE);
-  log_assert_ret_val(NULL != str, FALSE);
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(COT_FONT == poption->type, FALSE);
+  fc_assert_ret_val(NULL != str, FALSE);
 
   if (strlen(str) >= poption->font.size
       || 0 == strcmp(poption->font.pvalue, str)) {
@@ -1819,7 +1819,7 @@ static void settable_options_load(struct section_file *sf)
   bool bval;
   int ival;
 
-  log_assert_ret(NULL != settable_options_hash);
+  fc_assert_ret(NULL != settable_options_hash);
 
   hash_delete_all_entries(settable_options_hash);
 
@@ -1868,7 +1868,7 @@ static void settable_options_load(struct section_file *sf)
 *****************************************************************/
 static void settable_options_save(struct section_file *sf)
 {
-  log_assert_ret(NULL != settable_options_hash);
+  fc_assert_ret(NULL != settable_options_hash);
 
   hash_iterate(settable_options_hash, iter) {
     secfile_insert_str(sf, (const char *) hash_iter_get_value(iter),
@@ -1887,7 +1887,7 @@ void desired_settable_options_update(void)
   const char *value, *def_val;
   int i;
 
-  log_assert_ret(NULL != settable_options_hash);
+  fc_assert_ret(NULL != settable_options_hash);
 
   for (i = 0; i < num_settable_options; i++) {
     pset = settable_options + i;
@@ -1938,7 +1938,7 @@ void desired_settable_option_update(const char *op_name,
                                     const char *op_value,
                                     bool allow_replace)
 {
-  log_assert_ret(NULL != settable_options_hash);
+  fc_assert_ret(NULL != settable_options_hash);
 
   if (allow_replace) {
     hash_delete_entry(settable_options_hash, op_name);
@@ -1955,7 +1955,7 @@ void desired_settable_option_send(struct options_settable *pset)
   const char *desired;
   const char *value;
 
-  log_assert_ret(NULL != settable_options_hash);
+  fc_assert_ret(NULL != settable_options_hash);
 
   desired = hash_lookup_data(settable_options_hash, pset->name);
   if (NULL == desired) {
@@ -1996,7 +1996,7 @@ static void options_dialogs_load(struct section_file *sf)
   const char **prefix;
   bool visible;
 
-  log_assert_ret(NULL != dialog_options_hash);
+  fc_assert_ret(NULL != dialog_options_hash);
 
   entries = section_entries(secfile_section_by_name(sf, "client"));
 
@@ -2020,7 +2020,7 @@ static void options_dialogs_load(struct section_file *sf)
 *****************************************************************/
 static void options_dialogs_save(struct section_file *sf)
 {
-  log_assert_ret(NULL != dialog_options_hash);
+  fc_assert_ret(NULL != dialog_options_hash);
 
   options_dialogs_update();
   hash_iterate(dialog_options_hash, iter) {
@@ -2039,7 +2039,7 @@ void options_dialogs_update(void)
   char buf[64];
   int i;
 
-  log_assert_ret(NULL != dialog_options_hash);
+  fc_assert_ret(NULL != dialog_options_hash);
 
   /* Player report dialog options. */
   for (i = 1; i < num_player_dlg_columns; i++) {
@@ -2068,7 +2068,7 @@ void options_dialogs_set(void)
   const void *data;
   int i;
 
-  log_assert_ret(NULL != dialog_options_hash);
+  fc_assert_ret(NULL != dialog_options_hash);
 
   /* Player report dialog options. */
   for (i = 1; i < num_player_dlg_columns; i++) {
@@ -2351,6 +2351,6 @@ static void voteinfo_bar_callback(struct client_option *poption)
 ****************************************************************************/
 static void font_changed_callback(struct client_option *poption)
 {
-  log_assert_ret(COT_FONT == option_type(poption));
+  fc_assert_ret(COT_FONT == option_type(poption));
   gui_update_font(option_font_target(poption), option_font_get(poption));
 }

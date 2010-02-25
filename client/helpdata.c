@@ -20,7 +20,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -1008,7 +1007,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     .value = {.building = pimprove}
   };
 
-  assert(NULL != buf && 0 < bufsz);
+  fc_assert_ret_val(NULL != buf && 0 < bufsz, NULL);
   buf[0] = '\0';
 
   if (NULL == pimprove) {
@@ -1041,7 +1040,6 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
   if (building_has_effect(pimprove, EFT_ENABLE_NUKE)
       && num_role_units(F_NUCLEAR) > 0) {
     struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
-    CHECK_UNIT_TYPE(u);
 
     /* TRANS: 'Allows all players with knowledge of atomic power to
      * build nuclear units.' */
@@ -1099,7 +1097,7 @@ static int techs_with_flag_string(char *buf, size_t bufsz,
 {
   int count = 0;
 
-  assert(NULL != buf && 0 < bufsz);
+  fc_assert_ret_val(NULL != buf && 0 < bufsz, 0);
   buf[0] = '\0';
 
   techs_with_flag_iterate(flag, tech_id) {
@@ -1126,7 +1124,7 @@ static int techs_with_flag_string(char *buf, size_t bufsz,
 char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 		    const char *user_text, struct unit_type *utype)
 {
-  assert(NULL != buf && 0 < bufsz && NULL != user_text);
+  fc_assert_ret_val(NULL != buf && 0 < bufsz && NULL != user_text, NULL);
 
   if (!utype) {
     log_error("Unknown unit!");
@@ -1547,7 +1545,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     .value = {.advance = vap}
   };
 
-  assert(NULL != buf && 0 < bufsz && NULL != user_text);
+  fc_assert_ret(NULL != buf && 0 < bufsz && NULL != user_text);
   mystrlcpy(buf, user_text, bufsz);
 
   if (NULL == vap) {
@@ -1642,7 +1640,7 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     .value = {.terrain = pterrain}
   };
 
-  assert(NULL != buf && 0 < bufsz);
+  fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (!pterrain) {
@@ -1707,7 +1705,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     .value = {.govern = gov}
   };
 
-  assert(NULL != buf && 0 < bufsz);
+  fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
   if (gov->helptext[0] != '\0') {

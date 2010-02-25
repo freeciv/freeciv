@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -430,7 +429,7 @@ static void editbar_add_tool_button(struct editbar *eb,
   }
 
   sprite = editor_tool_get_sprite(ett);
-  assert(sprite != NULL);
+  fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
   image = gtk_image_new_from_pixbuf(pixbuf);
 
@@ -489,7 +488,7 @@ static void editbar_add_mode_button(struct editbar *eb,
   button = gtk_toggle_button_new();
 
   sprite = editor_get_mode_sprite(etm);
-  assert(sprite != NULL);
+  fc_assert_ret(sprite != NULL);
   pixbuf = sprite_get_pixbuf(sprite);
   image = gtk_image_new_from_pixbuf(pixbuf);
 

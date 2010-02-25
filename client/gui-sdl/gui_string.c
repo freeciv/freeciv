@@ -23,8 +23,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include "SDL.h"
 
 /* utility */
@@ -194,9 +192,9 @@ SDL_String16 * copy_chars_to_string16(SDL_String16 *pString,
 						const char *pCharString)
 {
   size_t n;
-  
-  assert(pString != NULL);
-  assert(pCharString != NULL);
+
+  fc_assert_ret_val(pString != NULL, NULL);
+  fc_assert_ret_val(pCharString != NULL, NULL);
   
   n = (strlen(pCharString) + 1) * 2;
   
@@ -401,7 +399,7 @@ SDL_Surface * create_text_surf_from_str16(SDL_String16 *pString)
 **************************************************************************/
 SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
 {
-  assert(pString != NULL);
+  fc_assert_ret_val(pString != NULL, NULL);
 
   SDL_Surface *pText = create_text_surf_from_str16(pString);
   
@@ -428,8 +426,7 @@ SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
 	  change_ptsize16(pString, pString->ptsize - 1);
 	  pText = create_text_surf_from_str16(pString);
 	} else {
-	  /* die */
-          assert(pText != NULL);
+          fc_assert_ret_val(pText != NULL, NULL);
 	}
       }
     } while (pText->w > w - 4);    
@@ -452,8 +449,8 @@ bool convert_string_to_const_surface_width(SDL_String16 *pString,
   int w;
   bool converted = FALSE;
   
-  assert(pString != NULL);
-  assert(pString->text != NULL);
+  fc_assert_ret_val(pString != NULL, FALSE);
+  fc_assert_ret_val(pString->text != NULL, FALSE);
   
   w = str16size(pString).w;
   if(w > width) {
@@ -542,7 +539,7 @@ SDL_Surface * create_text_surf_smaller_that_w(SDL_String16 *pString, int w)
   int ptsize;
   SDL_Surface *pText;
   
-  assert(pString != NULL);
+  fc_assert_ret_val(pString != NULL, NULL);
   
   ptsize = pString->ptsize;
   convert_string_to_const_surface_width(pString, w);
@@ -599,7 +596,7 @@ static TTF_Font * load_font(Uint16 ptsize)
   if(!pFont_with_FullPath) {
     const char *path = theme_font_filename(theme);
     pFont_with_FullPath = mystrdup(path);
-    assert(pFont_with_FullPath != NULL);
+    fc_assert_ret_val(pFont_with_FullPath != NULL, NULL);
   }
 
   /* Load Font */

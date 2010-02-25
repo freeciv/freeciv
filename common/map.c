@@ -14,20 +14,22 @@
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
-#include <assert.h>
-#include <string.h>		/* strlen */
+#include <string.h>             /* strlen */
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
-#include "movement.h"
-#include "packets.h"
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "movement.h"
+#include "packets.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -193,7 +195,7 @@ static void generate_map_indices(void)
 	       : (nat_center_y + map.ysize - 1));
   tiles = (nat_max_x - nat_min_x + 1) * (nat_max_y - nat_min_y + 1);
 
-  assert(map.iterate_outwards_indices == NULL);
+  fc_assert(NULL == map.iterate_outwards_indices);
   map.iterate_outwards_indices =
       fc_malloc(tiles * sizeof(*map.iterate_outwards_indices));
 
@@ -217,7 +219,7 @@ static void generate_map_indices(void)
       i++;
     }
   }
-  assert(i == tiles);
+  fc_assert(i == tiles);
 
   qsort(map.iterate_outwards_indices, tiles,
         sizeof(*map.iterate_outwards_indices), compare_iter_index);
@@ -255,14 +257,14 @@ void map_init_topology(bool set_sizes)
   }
   
   /* sanity check for iso topologies*/
-  assert(!MAP_IS_ISOMETRIC || (map.ysize % 2) == 0);
+  fc_assert(!MAP_IS_ISOMETRIC || (map.ysize % 2) == 0);
 
   /* The size and ratio must satisfy the minimum and maximum *linear*
    * restrictions on width */
-  assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
-  assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
-  assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
-  assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(MAP_WIDTH >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(MAP_HEIGHT >= MAP_MIN_LINEAR_SIZE);
+  fc_assert(MAP_WIDTH <= MAP_MAX_LINEAR_SIZE);
+  fc_assert(MAP_HEIGHT <= MAP_MAX_LINEAR_SIZE);
 
   map.num_valid_dirs = map.num_cardinal_dirs = 0;
   for (dir = 0; dir < 8; dir++) {
@@ -275,9 +277,9 @@ void map_init_topology(bool set_sizes)
       map.num_cardinal_dirs++;
     }
   }
-  assert(map.num_valid_dirs > 0 && map.num_valid_dirs <= 8);
-  assert(map.num_cardinal_dirs > 0
-	 && map.num_cardinal_dirs <= map.num_valid_dirs);
+  fc_assert(map.num_valid_dirs > 0 && map.num_valid_dirs <= 8);
+  fc_assert(map.num_cardinal_dirs > 0
+            && map.num_cardinal_dirs <= map.num_valid_dirs);
 }
 
 /***************************************************************
@@ -414,7 +416,7 @@ void map_allocate(void)
   log_debug("map_allocate (was %p) (%d,%d)",
             (void *) map.tiles, map.xsize, map.ysize);
 
-  assert(map.tiles == NULL);
+  fc_assert_ret(NULL == map.tiles);
   map.tiles = fc_calloc(MAP_INDEX_SIZE, sizeof(*map.tiles));
 
   /* Note this use of whole_map_iterate may be a bit sketchy, since the
@@ -773,9 +775,9 @@ int map_move_cost_ai(const struct tile *tile0, const struct tile *tile1)
 {
   const int maxcost = 72; /* Arbitrary. */
 
-  assert(!is_server()
-	 || (tile_terrain(tile0) != T_UNKNOWN 
-	  && tile_terrain(tile1) != T_UNKNOWN));
+  fc_assert_ret_val(!is_server()
+                    || (tile_terrain(tile0) != T_UNKNOWN
+                        && tile_terrain(tile1) != T_UNKNOWN), FC_INFINITY);
 
   /* A ship can take the step if:
    * - both tiles are ocean or
@@ -837,7 +839,7 @@ bool is_tiles_adjacent(const struct tile *tile0, const struct tile *tile1)
 ***************************************************************/
 bool same_pos(const struct tile *tile1, const struct tile *tile2)
 {
-  assert(tile1 != NULL && tile2 != NULL);
+  fc_assert_ret_val(tile1 != NULL && tile2 != NULL, FALSE);
   return (tile1 == tile2);
 }
 
@@ -1003,7 +1005,7 @@ struct tile *rand_neighbour(const struct tile *ptile)
     dirs[choice] = dirs[n - 1];
   }
 
-  assert(0);			/* Are we on a 1x1 map with no wrapping??? */
+  fc_assert(FALSE);     /* Are we on a 1x1 map with no wrapping??? */
   return NULL;
 }
 
@@ -1112,7 +1114,7 @@ enum direction8 dir_cw(enum direction8 dir)
   case DIR8_NORTHWEST:
     return DIR8_NORTH;
   default:
-    assert(0);
+    fc_assert(FALSE);
     return -1;
   }
 }
@@ -1141,7 +1143,7 @@ enum direction8 dir_ccw(enum direction8 dir)
   case DIR8_NORTHWEST:
     return DIR8_WEST;
   default:
-    assert(0);
+    fc_assert(FALSE);
     return -1;
   }
 }
@@ -1228,7 +1230,7 @@ int get_direction_for_step(const struct tile *start_tile,
     return dir;
   }
 
-  assert(0);
+  fc_assert(FALSE);
   return -1;
 }
 

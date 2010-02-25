@@ -19,7 +19,6 @@
 #include <windows.h>	/* LoadLibrary() */
 #endif
 
-#include <assert.h>
 #include <math.h>
 #include <signal.h>
 #include <stdio.h>

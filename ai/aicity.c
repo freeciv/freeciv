@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -184,7 +183,7 @@ static inline int city_want(struct player *pplayer, struct city *acity,
 
     add_specialist_output(acity, prod);
   } else {
-    assert(sizeof(*prod) == sizeof(*acity->citizen_base));
+    fc_assert(sizeof(*prod) == sizeof(*acity->citizen_base));
     memcpy(prod, acity->citizen_base, O_LAST * sizeof(*prod));
   }
 
@@ -1252,8 +1251,9 @@ static void adjust_wants_by_effects(struct player *pplayer,
           adjust_improvement_wants_by_effects(pplayer, pcity, 
                                               pimprove, already);
 
-          assert(!(already
-                   && 0 < pcity->ai->building_want[improvement_index(pimprove)]));
+          fc_assert(!(already
+                      && 0 < pcity->ai->building_want
+                      [improvement_index(pimprove)]));
         } else if (city_has_building(pcity, pimprove)) {
           /* Never want to build something we already have. */
           pcity->ai->building_want[improvement_index(pimprove)] = 0;
@@ -1897,10 +1897,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
       log_base(LOG_EMERGENCY, "%s taking over %s square in (%d, %d)",
                city_name(pcity), city_name(acity), TILE_XY(atile));
 
-      if (!is_valid) {
-        assert(is_valid);
-        continue;
-      }
+      fc_assert_action(is_valid, continue);
 
       if (is_free_worked(acity, atile)) {
 	/* Can't remove a worker here. */

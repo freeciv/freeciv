@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -38,6 +37,7 @@
 #include "specialist.h"
 #include "unit.h"
 
+/* aicore */
 #include "cm.h"
 
 #include "city.h"
@@ -70,8 +70,8 @@ struct output_type output_types[O_LAST] = {
 bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
                            int city_tile_index, int city_radius)
 {
-  assert(city_radius >= CITY_MAP_RADIUS);
-  assert(city_radius <= CITY_MAP_RADIUS);
+  fc_assert_ret_val(city_radius >= CITY_MAP_RADIUS, FALSE);
+  fc_assert_ret_val(city_radius <= CITY_MAP_RADIUS, FALSE);
 
   /* tile indices are sorted from smallest to largest city radius */
   if (city_tile_index < 0
@@ -96,8 +96,8 @@ int city_map_tiles(int city_radius)
     return 0;
   }
 
-  assert(city_radius >= CITY_MAP_RADIUS);
-  assert(city_radius <= CITY_MAP_RADIUS);
+  fc_assert_ret_val(city_radius >= CITY_MAP_RADIUS, -1);
+  fc_assert_ret_val(city_radius <= CITY_MAP_RADIUS, -1);
 
   return city_tiles;
 }
@@ -165,7 +165,7 @@ struct tile *city_map_to_tile(const struct tile *city_center,
 {
   int x, y;
 
-  assert(is_valid_city_coords(city_map_x, city_map_y));
+  fc_assert_ret_val(is_valid_city_coords(city_map_x, city_map_y), NULL);
   x = city_center->x + city_map_x - CITY_MAP_SIZE / 2;
   y = city_center->y + city_map_y - CITY_MAP_SIZE / 2;
 
@@ -209,7 +209,7 @@ int compare_iter_index(const void *a, const void *b)
   }
 
   value = cmp(index1->dy, index2->dy);
-  assert(value != 0);
+  fc_assert(0 != value);
   return value;
 }
 
@@ -233,7 +233,7 @@ void generate_city_map_indices(void)
     }
   }
 
-  assert(NULL == city_map_index);
+  fc_assert(NULL == city_map_index);
   city_map_index = fc_malloc(CITY_TILES * sizeof(*city_map_index));
 
   for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
@@ -246,7 +246,7 @@ void generate_city_map_indices(void)
       }
     }
   }
-  assert(i == CITY_TILES);
+  fc_assert(i == CITY_TILES);
 
   qsort(city_map_index, CITY_TILES,
         sizeof(*city_map_index), compare_iter_index);
@@ -278,10 +278,7 @@ void free_city_map_index(void)
 *****************************************************************************/
 const char *get_output_identifier(Output_type_id output)
 {
-  if (output < 0 || output >= O_LAST) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(output >= 0 && output < O_LAST, NULL);
   return output_types[output].id;
 }
 
@@ -291,10 +288,7 @@ const char *get_output_identifier(Output_type_id output)
 *****************************************************************************/
 const char *get_output_name(Output_type_id output)
 {
-  if (output < 0 || output >= O_LAST) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(output >= 0 && output < O_LAST, NULL);
   return _(output_types[output].name);
 }
 
@@ -303,10 +297,7 @@ const char *get_output_name(Output_type_id output)
 ****************************************************************************/
 struct output_type *get_output_type(Output_type_id output)
 {
-  if (output < 0 || output >= O_LAST) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(output >= 0 && output < O_LAST, NULL);
   return &output_types[output];
 }
 
@@ -667,7 +658,8 @@ void city_choose_build_default(struct city *pcity)
 	} unit_type_iterate_end;
       }
 
-      assert(found);
+      fc_assert_msg(found, "No production found for city %s!",
+                    city_name(pcity));
     }
   }
 }
@@ -687,8 +679,8 @@ const char *city_name(const struct city *pcity)
 **************************************************************************/
 struct player *city_owner(const struct city *pcity)
 {
-  assert(NULL != pcity);
-  assert(NULL != pcity->owner);
+  fc_assert_ret_val(NULL != pcity, NULL);
+  fc_assert(NULL != pcity->owner);
   return pcity->owner;
 }
 
@@ -801,7 +793,7 @@ int city_tile_output(const struct city *pcity, const struct tile *ptile,
   int prod;
   struct terrain *pterrain = tile_terrain(ptile);
 
-  assert(otype >= 0 && otype < O_LAST);
+  fc_assert_ret_val(otype >= 0 && otype < O_LAST, 0);
 
   if (T_UNKNOWN == pterrain) {
     /* Special case for the client.  The server doesn't allow unknown tiles
@@ -1057,9 +1049,8 @@ bool can_establish_trade_route(const struct city *pc1, const struct city *pc2)
 {
   int trade = -1;
 
-  assert(can_cities_trade(pc1, pc2));
-
   if (!pc1 || !pc2 || pc1 == pc2
+      || !can_cities_trade(pc1, pc2)
       || have_cities_trade_route(pc1, pc2)) {
     return FALSE;
   }
@@ -1789,12 +1780,12 @@ static inline void get_worked_tile_output(const struct city *pcity,
     if (is_worked) {
       output_type_iterate(o) {
 #ifdef CITY_DEBUGGING
-	/* This assertion never fails, but it's so slow that we disable
-	 * it by default. */
-	assert(pcity->tile_output[x][y][o]
-	       == city_tile_output(pcity, ptile, is_celebrating, o));
+        /* This assertion never fails, but it's so slow that we disable
+         * it by default. */
+        fc_assert(pcity->tile_output[x][y][o]
+                  == city_tile_output(pcity, ptile, is_celebrating, o));
 #endif
-	output[o] += pcity->tile_output[x][y][o];
+        output[o] += pcity->tile_output[x][y][o];
       } output_type_iterate_end;
     }
   } city_tile_iterate_cxy_end;
@@ -2322,7 +2313,7 @@ int city_unit_unhappiness(struct unit *punit, int *free_unhappy)
   if (!punit || !pcity || !free_unhappy || happy_cost <= 0) {
     return 0;
   }
-  assert(*free_unhappy >= 0);
+  fc_assert_ret_val(0 <= *free_unhappy, 0);
 
   happy_cost -= get_city_bonus(pcity, EFT_MAKE_CONTENT_MIL_PER);
 
@@ -2618,13 +2609,13 @@ struct city *create_city_virtual(struct player *pplayer,
    * initialized, if you ever allocate it by some other mean than fc_calloc() */
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
-  assert(pplayer != NULL); /* No unowned cities! */
+  fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned cities! */
   pcity->original = pplayer;
   pcity->owner = pplayer;
 
   pcity->tile = ptile;
 
-  assert(name != NULL);
+  fc_assert_ret_val(NULL != name, NULL);
   sz_strlcpy(pcity->name, name);
 
   /* City structure was allocated with fc_calloc(), so

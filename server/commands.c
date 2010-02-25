@@ -496,7 +496,7 @@ static struct command commands[] = {
 **************************************************************************/
 const struct command *command_by_number(int i)
 {
-  assert(i >= 0 && i < CMD_NUM);
+  fc_assert_ret_val(i >= 0 && i < CMD_NUM, NULL);
   return &commands[i];
 }
 

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <limits.h> /* USHRT_MAX */
 
 /* utility */

@@ -388,7 +388,7 @@ class Field:
     {
       int i;
 
-      assert(%(array_size_u)s < 255);
+      fc_assert(%(array_size_u)s < 255);
 
       for (i = 0; i < %(array_size_u)s; i++) {
         if(old->%(name)s[i] != real_packet->%(name)s[i]) {
@@ -1155,7 +1155,7 @@ class Packet:
               conn_description(pc));
     return NULL;
   }
-  assert(pc->phs.variant != NULL);
+  fc_assert_ret_val(NULL != pc->phs.variant, NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
   switch(pc->phs.variant[%(type)s]) {
@@ -1190,7 +1190,7 @@ class Packet:
               conn_description(pc));
     return -1;
   }
-  assert(pc->phs.variant != NULL);
+  fc_assert_ret_val(NULL != pc->phs.variant, -1);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
   switch(pc->phs.variant[%(type)s]) {
@@ -1480,7 +1480,6 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -1555,8 +1554,10 @@ static int stats_total_sent;
 #ifndef FC__HAND_GEN_H
 #define FC__HAND_GEN_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "fc_types.h"
 #include "packets.h"
 
@@ -1597,8 +1598,11 @@ bool server_handle_packet(enum packet_type type, void *packet,
 #ifndef FC__PACKHAND_GEN_H
 #define FC__PACKHAND_GEN_H
 
-#include "packets.h"
+/* utility */
 #include "shared.h"
+
+/* common */
+#include "packets.h"
 
 bool client_handle_packet(enum packet_type type, void *packet);
 
@@ -1630,6 +1634,7 @@ bool client_handle_packet(enum packet_type type, void *packet);
 #include <config.h>
 #endif
 
+/* common */
 #include "packets.h"
 
 #include "hand_gen.h"
@@ -1685,6 +1690,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
 #include <config.h>
 #endif
 
+/* common */
 #include "packets.h"
 
 #include "packhand_gen.h"

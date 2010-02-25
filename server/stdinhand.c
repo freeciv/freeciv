@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -573,7 +572,7 @@ static bv_handicap handicap_of_skill_level(int level)
 {
   bv_handicap handicap;
 
-  assert(level>0 && level<=10);
+  fc_assert(level > 0 && level <= 10);
 
   BV_CLR_ALL(handicap);
 
@@ -632,8 +631,8 @@ level (1 to 10).  See ai_fuzzy() in common/player.c
 static int fuzzy_of_skill_level(int level)
 {
   int f[11] = { -1, 0, 400/*novice*/, 300/*easy*/, 0, 0, 0, 0, 0, 0, 0 };
-  
-  assert(level>0 && level<=10);
+
+  fc_assert_ret_val(level > 0 && level <= 10, 0);
   return f[level];
 }
 
@@ -648,8 +647,8 @@ static int science_cost_of_skill_level(int level)
 {
   int x[11] = { -1, 100, 250/*novice*/, 100/*easy*/, 100, 100, 100, 100, 
                 100, 100, 100 };
-  
-  assert(level>0 && level<=10);
+
+  fc_assert_ret_val(level > 0 && level <= 10, 0);
   return x[level];
 }
 
@@ -662,8 +661,8 @@ static int expansionism_of_skill_level(int level)
 {
   int x[11] = { -1, 100, 10/*novice*/, 10/*easy*/, 100, 100, 100, 100, 
                 100, 100, 100 };
-  
-  assert(level>0 && level<=10);
+
+  fc_assert_ret_val(level > 0 && level <= 10, 0);
   return x[level];
 }
 
@@ -689,7 +688,7 @@ static bool save_command(struct connection *caller, char *arg, bool check)
 **************************************************************************/
 void toggle_ai_player_direct(struct connection *caller, struct player *pplayer)
 {
-  assert(pplayer != NULL);
+  fc_assert_ret(pplayer != NULL);
   if (is_barbarian(pplayer)) {
     cmd_reply(CMD_AITOGGLE, caller, C_FAIL,
 	      _("Cannot toggle a barbarian player."));
@@ -1098,7 +1097,8 @@ static bool set_cmdlevel(struct connection *caller,
                          struct connection *ptarget,
                          enum cmdlevel_id level)
 {
-  assert(ptarget != NULL);    /* only ever call me for specific connection */
+  /* Only ever call me for specific connection. */
+  fc_assert_ret_val(ptarget != NULL, FALSE);
 
   if (caller && ptarget->access_level > caller->access_level) {
     /*
@@ -1638,7 +1638,7 @@ void set_ai_level_directer(struct player *pplayer, enum ai_level level)
 ******************************************************************/
 static enum command_id cmd_of_level(enum ai_level level)
 {
-  switch(level) {
+  switch (level) {
     case AI_LEVEL_AWAY         : return CMD_AWAY;
     case AI_LEVEL_NOVICE       : return CMD_NOVICE;
     case AI_LEVEL_EASY         : return CMD_EASY;
@@ -1648,8 +1648,8 @@ static enum command_id cmd_of_level(enum ai_level level)
     case AI_LEVEL_EXPERIMENTAL : return CMD_EXPERIMENTAL;
     case AI_LEVEL_LAST         : return CMD_NORMAL;
   }
-  assert(FALSE);
-  return CMD_NORMAL; /* to satisfy compiler */
+  log_error("Unknown AI level variant: %d.", level);
+  return CMD_NORMAL;
 }
 
 /******************************************************************
@@ -1685,7 +1685,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
   enum m_pre_result match_result;
   struct player *pplayer;
 
-  assert(level > 0 && level < 11);
+  fc_assert_ret_val(level > 0 && level < 11, FALSE);
 
   pplayer=find_player_by_name_prefix(name, &match_result);
 
@@ -2174,7 +2174,8 @@ static bool vote_command(struct connection *caller, char *str,
               _("You abstained from voting on \"%s\""), pvote->cmdline);
     connection_vote(caller, pvote, VOTE_ABSTAIN);
   } else {
-    assert(0);                  /* Must never happen */
+    /* Must never happen. */
+    fc_assert_action(FALSE, goto CLEANUP);
   }
 
   res = TRUE;
@@ -2252,7 +2253,7 @@ static bool cancelvote_command(struct connection *caller,
     return FALSE;
   }
 
-  assert(pvote != NULL);
+  fc_assert_ret_val(NULL != pvote, FALSE);
 
   if (caller) {
     notify_team(conn_get_player(vote_get_caller(pvote)),
@@ -3030,7 +3031,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
               pconn->username);
     goto end;
   }
-  assert(player_count() <= player_slot_count());
+  fc_assert_action(player_count() <= player_slot_count(), goto end);
 
   res = TRUE;
   if (check) {
@@ -3735,11 +3736,11 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   case CMD_NUM:
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
-  default:
-    log_fatal("bug in civserver: impossible command recognized; bye!");
-    assert(0);
+    break;
   }
-  return FALSE; /* should NEVER happen but we need to satisfy some compilers */
+  /* should NEVER happen! */
+  log_error("Unknown command variant: %d.", cmd);
+  return FALSE;
 }
 
 /**************************************************************************
@@ -4018,7 +4019,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
                     _("Cannot start the game: it is already running."));
     return FALSE;
   }
-  assert(FALSE);
+  log_error("Unknown server state variant: %d.", server_state());
   return FALSE;
 }
 
@@ -4247,7 +4248,7 @@ static bool show_help(struct connection *caller, char *arg)
   enum m_pre_result match_result;
   int ind;
 
-  assert(!may_use_nothing(caller));
+  fc_assert_ret_val(!may_use_nothing(caller), FALSE);
     /* no commands means no help, either */
 
   match_result = match_prefix_full(helparg_accessor, HELP_ARG_NUM, 0,
@@ -4272,7 +4273,7 @@ static bool show_help(struct connection *caller, char *arg)
   }
 
   /* other cases should be above */
-  assert(match_result < M_PRE_AMBIGUOUS);
+  fc_assert_ret_val(match_result < M_PRE_AMBIGUOUS, FALSE);
   
   if (ind < CMD_NUM) {
     show_help_command(caller, CMD_HELP, ind);

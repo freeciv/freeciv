@@ -267,7 +267,7 @@ void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity)
     for (i = 0; i < AIT_LAST; i++) {
       clear_timer(aitimer[i][0]);
     }
-    assert(activity == TIMER_START);
+    fc_assert(activity == TIMER_START);
   }
 
   if (activity == TIMER_START && recursion[timer] == 0) {

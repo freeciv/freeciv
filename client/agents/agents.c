@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <string.h>
 
@@ -107,7 +106,7 @@ static bool calls_are_equal(const struct call *pcall1,
     return TRUE;
   }
 
-  assert(0);
+  log_error("Unsupported call type %d.", pcall1->type);
   return FALSE;
 }
 
@@ -142,8 +141,6 @@ static void enqueue_call(struct my_agent *agent,
   case OCT_NEW_TURN:
     /* nothing */
     break;
-  default:
-    assert(0);
   }
   va_end(ap);
 
@@ -204,17 +201,20 @@ static struct call *remove_and_return_a_call(void)
 ***********************************************************************/
 static void execute_call(const struct call *call)
 {
-  if (call->type == OCT_NEW_TURN) {
+  switch (call->type) {
+  case OCT_NEW_TURN:
     call->agent->agent.turn_start_notify();
-  } else if (call->type == OCT_UNIT) {
+    break;
+  case OCT_UNIT:
     call->agent->agent.unit_callbacks[call->cb_type] (call->arg);
-  } else if (call->type == OCT_CITY) {
+    break;
+  case OCT_CITY:
     call->agent->agent.city_callbacks[call->cb_type] (call->arg);
-  } else if (call->type == OCT_TILE) {
+    break;
+  case OCT_TILE:
     call->agent->agent.tile_callbacks[call->cb_type]
       (index_to_tile(call->arg));
-  } else {
-    assert(0);
+    break;
   }
 }
 
@@ -275,7 +275,7 @@ static void thaw(void)
 {
   log_debug_freeze("A: thaw() current level=%d", frozen_level);
   frozen_level--;
-  assert(frozen_level >= 0);
+  fc_assert(frozen_level >= 0);
   if (0 == frozen_level && C_S_RUNNING == client_state()) {
     call_handle_methods();
   }
@@ -293,7 +293,6 @@ static struct my_agent *find_agent_by_name(const char *agent_name)
       return &agents.entries[i];
   }
 
-  assert(0);
   return NULL;
 }
 
@@ -371,8 +370,8 @@ void register_agent(const struct agent *agent)
 {
   struct my_agent *priv_agent = &agents.entries[agents.entries_used];
 
-  assert(agents.entries_used < MAX_AGENTS);
-  assert(agent->level > 0);
+  fc_assert_ret(agents.entries_used < MAX_AGENTS);
+  fc_assert_ret(agent->level > 0);
 
   memcpy(&priv_agent->agent, agent, sizeof(struct agent));
 
@@ -732,9 +731,9 @@ void wait_for_requests(const char *agent_name, int first_request_id,
   log_request_ids("A:%s: wait_for_request(ids=[%d..%d])",
                   agent->agent.name, first_request_id, last_request_id);
 
-  assert(first_request_id != 0 && last_request_id != 0
-	 && first_request_id <= last_request_id);
-  assert(agent->first_outstanding_request_id == 0);
+  fc_assert_ret(first_request_id != 0 && last_request_id != 0
+                && first_request_id <= last_request_id);
+  fc_assert_ret(agent->first_outstanding_request_id == 0);
   agent->first_outstanding_request_id = first_request_id;
   agent->last_outstanding_request_id = last_request_id;
 
@@ -767,7 +766,7 @@ void cause_a_unit_changed_for_agent(const char *name_of_calling_agent,
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
-  assert(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
+  fc_assert_ret(agent->agent.unit_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_UNIT, CB_CHANGE, punit->id);
   call_handle_methods();
 }
@@ -780,7 +779,7 @@ void cause_a_city_changed_for_agent(const char *name_of_calling_agent,
 {
   struct my_agent *agent = find_agent_by_name(name_of_calling_agent);
 
-  assert(agent->agent.city_callbacks[CB_CHANGE] != NULL);
+  fc_assert_ret(agent->agent.city_callbacks[CB_CHANGE] != NULL);
   enqueue_call(agent, OCT_CITY, CB_CHANGE, pcity->id);
   call_handle_methods();
 }

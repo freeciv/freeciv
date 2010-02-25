@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
@@ -202,7 +202,7 @@ enum event_type sorted_events[E_LAST];
 **************************************************************************/
 const char *get_event_message_text(enum event_type event)
 {
-  assert(event >= 0 && event < E_LAST);
+  fc_assert_ret_val(event >= 0 && event < E_LAST, NULL);
 
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].full_descr;
@@ -235,7 +235,7 @@ const char *get_event_sound_tag(enum event_type event)
     return NULL;
   }
 
-  assert(event >= 0 && event < E_LAST);
+  fc_assert_ret_val(event >= 0 && event < E_LAST, NULL);
 
   if (events[event_to_index[event]].event == event) {
     return events[event_to_index[event]].tag_name;

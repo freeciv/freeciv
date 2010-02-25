@@ -17,7 +17,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <assert.h>
 
 #include "city.h"
 #include "game.h"
@@ -107,7 +106,7 @@ void citymap_reserve_city_spot(struct tile *ptile, int id)
 #ifdef DEBUG
   log_citymap("id %d reserving (%d, %d), was %d", 
               id, TILE_XY(ptile), citymap[tile_index(ptile)]);
-  assert(citymap[tile_index(ptile)] >= 0);
+  fc_assert_ret(0 <= citymap[tile_index(ptile)]);
 #endif
 
   /* Tiles will now be "reserved" by actual workers, so free excess
@@ -146,7 +145,7 @@ void citymap_free_city_spot(struct tile *ptile, int id)
 void citymap_reserve_tile(struct tile *ptile, int id)
 {
 #ifdef DEBUG
-  assert(!citymap_is_reserved(ptile));
+  fc_assert_ret(!citymap_is_reserved(ptile));
 #endif
 
   citymap[tile_index(ptile)] = -id;

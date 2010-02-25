@@ -15,15 +15,17 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "map.h"
-#include "mem.h"		/* free */
+#include "log.h"                /* fc_assert */
+#include "mem.h"                /* free */
 #include "rand.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
 
 #include "terrain.h"
 
@@ -51,12 +53,6 @@ static const char *terrain_alteration_names[] = {
   N_("CanMine"),
   N_("CanRoad")
 };
-
-/* T_UNKNOWN isn't allowed here. */
-#define SANITY_CHECK_TERRAIN(pterrain)					\
-  assert((pterrain)->item_number >= 0					\
-	 && (pterrain)->item_number < terrain_count()			\
-	 && &civ_terrains[terrain_index(pterrain)] == (pterrain))
 
 /****************************************************************************
   Initialize terrain and resource structures.
@@ -128,7 +124,7 @@ Terrain_type_id terrain_count(void)
 **************************************************************************/
 char terrain_identifier(const struct terrain *pterrain)
 {
-  assert(pterrain);
+  fc_assert_ret_val(pterrain, '\0');
   return pterrain->identifier;
 }
 
@@ -140,7 +136,7 @@ char terrain_identifier(const struct terrain *pterrain)
 **************************************************************************/
 Terrain_type_id terrain_index(const struct terrain *pterrain)
 {
-  assert(pterrain);
+  fc_assert_ret_val(pterrain, -1);
   return pterrain - civ_terrains;
 }
 
@@ -149,7 +145,7 @@ Terrain_type_id terrain_index(const struct terrain *pterrain)
 **************************************************************************/
 Terrain_type_id terrain_number(const struct terrain *pterrain)
 {
-  assert(pterrain);
+  fc_assert_ret_val(pterrain, -1);
   return pterrain->item_number;
 }
 
@@ -296,7 +292,7 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
     "Freshwater"
   };
 
-  assert(ARRAY_SIZE(flag_names) == TER_COUNT);
+  fc_assert_ret_val(ARRAY_SIZE(flag_names) == TER_COUNT, TER_LAST);
 
   for (flag = TER_FIRST; flag < TER_LAST; flag++) {
     if (mystrcasecmp(flag_names[flag], s) == 0) {
@@ -362,7 +358,7 @@ Resource_type_id resource_count(void)
 **************************************************************************/
 Resource_type_id resource_index(const struct resource *presource)
 {
-  assert(presource);
+  fc_assert_ret_val(NULL != presource, -1);
   return presource - civ_resources;
 }
 
@@ -371,7 +367,7 @@ Resource_type_id resource_index(const struct resource *presource)
 **************************************************************************/
 Resource_type_id resource_number(const struct resource *presource)
 {
-  assert(presource);
+  fc_assert_ret_val(NULL != presource, -1);
   return presource->item_number;
 }
 
@@ -554,7 +550,7 @@ static const char *tile_special_type_names[] =
 ****************************************************************************/
 enum tile_special_type find_special_by_rule_name(const char *name)
 {
-  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, S_LAST);
 
   tile_special_type_iterate(i) {
     if (0 == strcmp(tile_special_type_names[i], name)) {
@@ -570,8 +566,8 @@ enum tile_special_type find_special_by_rule_name(const char *name)
 ****************************************************************************/
 const char *special_name_translation(enum tile_special_type type)
 {
-  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
-  assert(type >= 0 && type < S_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
+  fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
   return _(tile_special_type_names[type]);
 }
 
@@ -580,8 +576,8 @@ const char *special_name_translation(enum tile_special_type type)
 ****************************************************************************/
 const char *special_rule_name(enum tile_special_type type)
 {
-  assert(ARRAY_SIZE(tile_special_type_names) == S_LAST);
-  assert(type >= 0 && type < S_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(tile_special_type_names) == S_LAST, NULL);
+  fc_assert_ret_val(type >= 0 && type < S_LAST, NULL);
   return tile_special_type_names[type];
 }
 
@@ -590,7 +586,7 @@ const char *special_rule_name(enum tile_special_type type)
 ****************************************************************************/
 void set_special(bv_special *set, enum tile_special_type to_set)
 {
-  assert(to_set >= 0 && to_set < S_LAST);
+  fc_assert_ret(to_set >= 0 && to_set < S_LAST);
   BV_SET(*set, to_set);
 }
 
@@ -599,7 +595,7 @@ void set_special(bv_special *set, enum tile_special_type to_set)
 ****************************************************************************/
 void clear_special(bv_special *set, enum tile_special_type to_clear)
 {
-  assert(to_clear >= 0 && to_clear < S_LAST);
+  fc_assert_ret(to_clear >= 0 && to_clear < S_LAST);
   BV_CLR(*set, to_clear);
 }
 
@@ -617,7 +613,7 @@ void clear_all_specials(bv_special *set)
 bool contains_special(bv_special set,
 		      enum tile_special_type to_test_for)
 {
-  assert(to_test_for >= 0 && to_test_for < S_LAST);
+  fc_assert_ret_val(to_test_for >= 0 && to_test_for < S_LAST, FALSE);
   return BV_ISSET(set, to_test_for);
 }
 
@@ -862,7 +858,7 @@ bool terrain_belongs_to_class(const struct terrain *pterrain,
      return FALSE;
   }
 
-  assert(FALSE);
+  fc_assert(FALSE);
   return FALSE;
 }
 
@@ -887,7 +883,7 @@ bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class cla
      return FALSE;
   }
 
-  assert(FALSE);
+  fc_assert(FALSE);
   return FALSE;
 }
 
@@ -954,7 +950,7 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
      break;
   }
 
-  assert(FALSE);
+  fc_assert(FALSE);
   return FALSE;
 }
 

@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "registry.h"
 
@@ -61,7 +59,7 @@ struct theme_background_system *theme_background_system_read(struct section_file
   int i;
   struct theme_background_system *backgrounds = fc_malloc(sizeof(*backgrounds));
 
-  assert(ARRAY_SIZE(background_names) == BACKGROUND_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(background_names) == BACKGROUND_LAST, NULL);
   
   for (i = 0; i < BACKGROUND_LAST; i++) {
     backgrounds->backgrounds[i] = 

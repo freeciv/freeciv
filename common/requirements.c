@@ -74,8 +74,8 @@ enum req_range req_range_from_str(const char *str)
 {
   enum req_range range;
 
-  log_assert_ret_val(ARRAY_SIZE(req_range_names) == REQ_RANGE_LAST,
-                     REQ_RANGE_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(req_range_names) == REQ_RANGE_LAST,
+                    REQ_RANGE_LAST);
 
   for (range = 0; range < REQ_RANGE_LAST; range++) {
     if (0 == mystrcasecmp(req_range_names[range], str)) {
@@ -98,7 +98,7 @@ struct universal universal_by_rule_name(const char *kind,
 {
   struct universal source = { .kind = VUT_LAST };
 
-  log_assert_ret_val(ARRAY_SIZE(universal_names) == VUT_LAST, source);
+  fc_assert_ret_val(ARRAY_SIZE(universal_names) == VUT_LAST, source);
 
   if (kind) {
     for (source.kind = 0;
@@ -402,8 +402,8 @@ int universal_number(const struct universal *source)
   }
 
   /* If we reach here there's been an error. */
-  log_assert_msg(FALSE, "universal_number(): invalid source kind %d.",
-                 source->kind);
+  fc_assert_msg(FALSE, "universal_number(): invalid source kind %d.",
+                source->kind);
   return 0;
 }
 
@@ -717,7 +717,7 @@ static int count_buildings_in_range(const struct player *target_player,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return 0;
 }
 
@@ -748,7 +748,7 @@ static bool is_tech_in_range(const struct player *target_player,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -773,7 +773,7 @@ static bool is_special_in_range(const struct tile *target_tile,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -802,7 +802,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -831,7 +831,7 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -860,7 +860,7 @@ static bool is_base_type_in_range(const struct tile *target_tile,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -889,7 +889,7 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -919,7 +919,7 @@ static bool is_nation_in_range(const struct player *target_player,
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid range %d.", range);
+  fc_assert_msg(FALSE, "Invalid range %d.", range);
   return FALSE;
 }
 
@@ -1220,7 +1220,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_LAST:
     break;
   }
-  log_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
+  fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
   return TRUE;
 }
 
@@ -1278,7 +1278,7 @@ bool are_universals_equal(const struct universal *psource1,
   case VUT_LAST:
     break;
   }
-  log_assert_msg(FALSE, "Invalid source kind %d.", psource1->kind);
+  fc_assert_msg(FALSE, "Invalid source kind %d.", psource1->kind);
   return FALSE;
 }
 
@@ -1288,7 +1288,7 @@ bool are_universals_equal(const struct universal *psource1,
 *****************************************************************************/
 const char *universal_kind_name(const enum universals_n kind)
 {
-  log_assert_ret_val(kind >= 0 && kind < ARRAY_SIZE(universal_names), NULL);
+  fc_assert_ret_val(kind >= 0 && kind < ARRAY_SIZE(universal_names), NULL);
   return universal_names[kind];
 }
 
@@ -1342,7 +1342,7 @@ const char *universal_rule_name(const struct universal *psource)
     break;
   }
 
-  log_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
+  fc_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
   return NULL;
 }
 
@@ -1434,7 +1434,7 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_LAST:
     break;
   }
-  log_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
+  fc_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
   return buf;
 }
 

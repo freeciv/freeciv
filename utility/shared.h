@@ -107,8 +107,8 @@
 #define _BV_BYTE_INDEX(bits)	((bits) / 8)
 #define _BV_BITMASK(bit)	(1u << ((bit) & 0x7))
 #ifdef DEBUG
-#  define _BV_ASSERT(bv, bit) assert((bit) >= 0 \
-                                     && (bit) < sizeof((bv).vec) * 8)
+#  define _BV_ASSERT(bv, bit) fc_assert((bit) >= 0 \
+                                        && (bit) < sizeof((bv).vec) * 8)
 #else
 #  define _BV_ASSERT(bv, bit) (void)0
 #endif
@@ -175,8 +175,6 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
     loud_strlcpy(buffer, str, sizeof(buffer), errmsg)
 
 char *end_of_strn(char *str, int *nleft);
-int cat_snprintf(char *str, size_t n, const char *format, ...)
-     fc__attribute((__format__ (__printf__, 3, 4)));
 
 #define die(format, ...) \
   real_die(__FILE__, __FUNCTION__, __LINE__, format, ## __VA_ARGS__)

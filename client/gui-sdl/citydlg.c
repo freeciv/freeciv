@@ -1245,7 +1245,7 @@ void popup_hurry_production_dialog(struct city *pCity, SDL_Surface *pDest)
     window_y = pCityDlg->pBuy_Button->size.y - pWindow->size.h;
   } else {
     if(is_city_report_open()) {
-      assert(pSellected_Widget != NULL);
+      fc_assert(pSellected_Widget != NULL);
       if (pSellected_Widget->size.x + tileset_tile_width(tileset) + pWindow->size.w > Main.screen->w)
       {
         window_x = pSellected_Widget->size.x - pWindow->size.w;
@@ -1610,10 +1610,11 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
     struct city **array;
     int i, dir, non_open_size;
     int size = city_list_size(client.conn.playing->cities);
-  
-    assert(size >= 1);
-    assert(city_owner(pCityDlg->pCity) == client.conn.playing);
-  
+
+    fc_assert_ret_val(size >= 1, -1);
+    fc_assert_ret_val(city_owner(pCityDlg->pCity)
+                      == client.conn.playing, -1);
+
     if (size == 1) {
       return -1;
     }
@@ -1625,7 +1626,9 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
       if (pButton->ID == ID_CITY_DLG_PREV_BUTTON) {
         dir = -1;
       } else {
-        assert(0);
+        /* Always fails. */
+        fc_assert_ret_val(pButton->ID == ID_CITY_DLG_NEXT_BUTTON
+                          || pButton->ID != ID_CITY_DLG_PREV_BUTTON, -1);
         dir = 1;
       }
     }
@@ -1637,8 +1640,8 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
       array[non_open_size++] = city_list_get(client.conn.playing->cities, i);
     }
   
-    assert(non_open_size > 0);
-  
+    fc_assert_ret_val(non_open_size > 0, -1);
+
     if (non_open_size == 1) {
       FC_FREE(array);
       return -1;
@@ -1653,7 +1656,7 @@ static int next_prev_city_dlg_callback(struct widget *pButton)
       }
     }
   
-    assert(i < non_open_size);
+    fc_assert_ret_val(i < non_open_size, -1);
     pCityDlg->pCity = array[(i + dir + non_open_size) % non_open_size];
     FC_FREE(array);
   

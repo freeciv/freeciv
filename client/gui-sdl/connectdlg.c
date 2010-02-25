@@ -1091,11 +1091,11 @@ void close_connection_dialog(void)
 void handle_authentication_req(enum authentication_type type, char *message)
 {
   switch (type) {
-    case AUTH_NEWUSER_FIRST:
-    case AUTH_NEWUSER_RETRY:
-      popup_new_user_passwd_dialog(message);
-    break;
-    case AUTH_LOGIN_FIRST:
+  case AUTH_NEWUSER_FIRST:
+  case AUTH_NEWUSER_RETRY:
+    popup_new_user_passwd_dialog(message);
+    return;
+  case AUTH_LOGIN_FIRST:
     /* if we magically have a password already present in 'password'
      * then, use that and skip the password entry dialog */
     if (password[0] != '\0') {
@@ -1107,14 +1107,13 @@ void handle_authentication_req(enum authentication_type type, char *message)
     } else {
       popup_user_passwd_dialog(message);
     }
-    break;
-    case AUTH_LOGIN_RETRY:
-      popup_user_passwd_dialog(message);
-    break;
-    default:
-      assert(0);
+    return;
+  case AUTH_LOGIN_RETRY:
+    popup_user_passwd_dialog(message);
+    return;
   }
 
+  log_error("Not supported authentication type %d: %s.", type, message);
 }
 
 /**************************************************************************

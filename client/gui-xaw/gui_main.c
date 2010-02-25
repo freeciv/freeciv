@@ -20,7 +20,6 @@
 #include "SDL.h"
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -543,7 +542,7 @@ static void unit_icon_callback(Widget w, XtPointer client_data,
   struct unit *punit;
   int i = (size_t)client_data;
 
-  assert(i>=0 && i<num_units_below);
+  fc_assert_ret(i >= 0 && i < num_units_below);
   if (unit_ids[i] == 0) /* no unit displayed at this place */
     return;
   punit=game_find_unit_by_number(unit_ids[i]);
@@ -896,8 +895,8 @@ void timer_callback(XtPointer client_data, XtIntervalId * id)
 void set_unit_icon(int idx, struct unit *punit)
 {
   Widget w;
-  
-  assert(idx>=-1 && idx<num_units_below);
+
+  fc_assert_ret(idx >= -1 && idx < num_units_below);
   if (idx == -1) {
     w = unit_pix_canvas;
   } else {

@@ -85,8 +85,8 @@ void color_free(struct color *color)
 ****************************************************************************/
 size_t color_to_string(GdkColor *color, char *string, size_t length)
 {
-  log_assert_ret_val(NULL != string, 0);
-  log_assert_ret_val(0 < length, 0);
+  fc_assert_ret_val(NULL != string, 0);
+  fc_assert_ret_val(0 < length, 0);
 
   if (NULL == color) {
     string[0] = '\0';

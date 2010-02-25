@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "hash.h"
@@ -208,14 +206,14 @@ static void gui_to_map_pos(const struct tileset *t,
     int x, y, dx, dy;
     int xmult, ymult, mod, compar;
 
-    assert(tileset_is_isometric(t));
+    fc_assert(tileset_is_isometric(t));
 
     x = DIVIDE(gui_x, W);
     y = DIVIDE(gui_y, H);
     dx = gui_x - x * W;
     dy = gui_y - y * H;
-    assert(dx >= 0 && dx < W);
-    assert(dy >= 0 && dy < H);
+    fc_assert(dx >= 0 && dx < W);
+    fc_assert(dy >= 0 && dy < H);
 
     /* Now fold so we consider only one-quarter tile. */
     xmult = (dx >= W / 2) ? -1 : 1;
@@ -1853,7 +1851,7 @@ bool show_unit_orders(struct unit *punit)
 	  /* This shouldn't happen unless the server gives us invalid
 	   * data.  To avoid disaster we need to break out of the
 	   * switch and the enclosing for loop. */
-	  assert(0);
+          fc_assert(NULL != ptile);
 	  i = punit->orders.length;
 	}
 	break;
@@ -2019,7 +2017,7 @@ void move_unit_map_canvas(struct unit *punit,
     int canvas_dx, canvas_dy;
     double timing_sec = (double)smooth_move_unit_msec / 1000.0, mytime;
 
-    assert(smooth_move_unit_msec > 0);
+    fc_assert(smooth_move_unit_msec > 0);
 
     map_to_gui_vector(tileset, &canvas_dx, &canvas_dy, dx, dy);
 

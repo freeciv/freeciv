@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -1387,7 +1386,7 @@ void refresh_worklist(GtkWidget *editor)
   if (ptr->pcity) {
     city_get_queue(ptr->pcity, &queue);
   } else {
-    assert(NULL != pgwl);
+    fc_assert(NULL != pgwl);
     worklist_copy(&queue, global_worklist_get(pgwl));
   }
 

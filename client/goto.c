@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -196,8 +195,8 @@ static bool update_last_part(struct goto_map *goto_map,
           if (is_valid_dir(a->dir_to_next_pos)) {
             mapdeco_remove_gotoline(a->tile, a->dir_to_next_pos);
           } else {
-            assert(i < p->path->length - 1
-                   && a->tile == p->path->positions[i + 1].tile);
+            fc_assert(i < p->path->length - 1
+                      && a->tile == p->path->positions[i + 1].tile);
           }
         }
         pf_path_destroy(p->path);
@@ -234,8 +233,8 @@ static bool update_last_part(struct goto_map *goto_map,
       if (is_valid_dir(a->dir_to_next_pos)) {
         mapdeco_remove_gotoline(a->tile, a->dir_to_next_pos);
       } else {
-	assert(i < p->path->length - 1
-	       && a->tile == p->path->positions[i + 1].tile);
+        fc_assert(i < p->path->length - 1
+                  && a->tile == p->path->positions[i + 1].tile);
       }
     }
     pf_path_destroy(p->path);
@@ -251,8 +250,8 @@ static bool update_last_part(struct goto_map *goto_map,
     if (is_valid_dir(a->dir_to_next_pos)) {
       mapdeco_add_gotoline(a->tile, a->dir_to_next_pos);
     } else {
-      assert(i < new_path->length - 1
-	     && a->tile == new_path->positions[i + 1].tile);
+      fc_assert(i < new_path->length - 1
+                && a->tile == new_path->positions[i + 1].tile);
     }
   }
   p->path = new_path;
@@ -343,7 +342,7 @@ static void remove_last_part(struct goto_map *goto_map)
 {
   struct part *p = &goto_map->parts[goto_map->num_parts - 1];
 
-  assert(goto_map->num_parts >= 1);
+  fc_assert_ret(goto_map->num_parts >= 1);
 
   reset_last_part(goto_map);
   if (p->path) {
@@ -361,7 +360,7 @@ bool goto_add_waypoint(void)
 {
   struct tile *ptile_start = NULL;
 
-  assert(goto_is_active());
+  fc_assert_ret_val(goto_is_active(), FALSE);
   if (NULL == goto_destination) {
     /* Not a valid position. */
     return FALSE;
@@ -396,7 +395,7 @@ bool goto_pop_waypoint(void)
 {
   bool popped = FALSE;
 
-  assert(goto_is_active());
+  fc_assert_ret_val(goto_is_active(), FALSE);
   goto_map_list_iterate(goto_maps, goto_map) {
     struct part *p = &goto_map->parts[goto_map->num_parts - 1];
     struct tile *end_tile = p->end_tile;
@@ -484,8 +483,8 @@ static int get_activity_time(const struct tile *ptile,
   struct terrain *pterrain = tile_terrain(ptile);
   int activity_mc = 0;
 
-  assert(hover_state == HOVER_CONNECT);
-  assert(terrain_control.may_road);
+  fc_assert_ret_val(hover_state == HOVER_CONNECT, -1);
+  fc_assert_ret_val(terrain_control.may_road, -1);
  
   switch (connect_activity) {
   case ACTIVITY_IRRIGATE:
@@ -631,7 +630,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
 	return -1;
       }
     } else {
-      /* assert(connect_activity == ACTIVITY_RAILROAD) */
+      /* fc_assert(connect_activity == ACTIVITY_RAILROAD) */
       if (total_cost > *dest_cost 
 	  || (total_cost == *dest_cost && total_cost >= *dest_cost)) {
 	return -1;
@@ -747,10 +746,10 @@ static void fill_client_goto_parameter(struct unit *punit,
 				       int *connect_speed)
 {
   pft_fill_unit_parameter(parameter, punit);
-  assert(parameter->get_EC == NULL);
+  fc_assert(parameter->get_EC == NULL);
   parameter->get_EC = get_EC;
-  assert(parameter->get_TB == NULL);
-  assert(parameter->get_MC != NULL);
+  fc_assert(parameter->get_TB == NULL);
+  fc_assert(parameter->get_MC != NULL);
 
   switch (hover_state) {
   case HOVER_CONNECT:
@@ -812,7 +811,7 @@ static void fill_client_goto_parameter(struct unit *punit,
 ***********************************************************************/
 void enter_goto_state(struct unit_list *punits)
 {
-  assert(!goto_is_active());
+  fc_assert_ret(!goto_is_active());
 
   /* Can't have selection rectangle and goto going on at the same time. */
   cancel_selection_rectangle();
@@ -924,7 +923,7 @@ bool goto_get_turns(int *min, int *max)
 ***********************************************************************/
 bool is_valid_goto_draw_line(struct tile *dest_tile)
 {
-  assert(goto_is_active());
+  fc_assert_ret_val(goto_is_active(), FALSE);
   if (NULL == dest_tile) {
     return FALSE;
   }
@@ -985,7 +984,7 @@ static void send_path_orders(struct unit *punit, struct pf_path *path,
 
   /* We skip the start position. */
   p.length = path->length - 1;
-  assert(p.length < MAX_LEN_ROUTE);
+  fc_assert(p.length < MAX_LEN_ROUTE);
   old_tile = path->positions[0].tile;
 
   log_goto_packet("  Repeat: %d. Vigilant: %d. Length: %d",
@@ -1064,7 +1063,7 @@ bool send_goto_tile(struct unit *punit, struct tile *ptile)
 **************************************************************************/
 void send_patrol_route(void)
 {
-  assert(goto_is_active());
+  fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct pf_map *pfm;
@@ -1109,7 +1108,7 @@ void send_patrol_route(void)
 **************************************************************************/
 void send_connect_route(enum unit_activity activity)
 {
-  assert(goto_is_active());
+  fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct packet_unit_orders p;
@@ -1171,7 +1170,7 @@ void send_connect_route(enum unit_activity activity)
       if (i != path->length - 1) {
 	struct tile *new_tile = path->positions[i + 1].tile;
 
-	assert(!same_pos(new_tile, old_tile));
+        fc_assert(!same_pos(new_tile, old_tile));
 
 	p.orders[p.length] = ORDER_MOVE;
 	p.dir[p.length] = get_direction_for_step(old_tile, new_tile);
@@ -1194,7 +1193,7 @@ void send_connect_route(enum unit_activity activity)
 **************************************************************************/
 void send_goto_route(void)
 {
-  assert(goto_is_active());
+  fc_assert_ret(goto_is_active());
   goto_map_unit_iterate(goto_maps, goto_map, punit) {
     int i;
     struct pf_path *path = NULL;
@@ -1221,8 +1220,8 @@ void send_goto_route(void)
 
       /* ORDER_MOVE would require real direction,
        * ORDER_ACTIVITY would require real activity */
-      assert(goto_last_order != ORDER_MOVE
-	     && goto_last_order != ORDER_ACTIVITY);
+      fc_assert(goto_last_order != ORDER_MOVE
+                && goto_last_order != ORDER_ACTIVITY);
 
       send_goto_path(punit, path, &order);
     }

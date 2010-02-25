@@ -56,10 +56,10 @@ void handle_authentication_req(enum authentication_type type, char *message)
   switch (type) {
   case AUTH_NEWUSER_FIRST:
      /* PORTME: switch configs if need be */
-    break;
+    return;
   case AUTH_NEWUSER_RETRY:
      /* PORTME: switch configs if need be */
-    break;
+    return;
   case AUTH_LOGIN_FIRST:
     /* if we magically have a password already present in 'password'
      * then, use that and skip the password entry dialog */
@@ -72,15 +72,13 @@ void handle_authentication_req(enum authentication_type type, char *message)
     } else {
      /* PORTME: switch configs if need be */
     }
-    break;
+    return;
   case AUTH_LOGIN_RETRY:
      /* PORTME: switch configs if need be */
-    break;
-  default:
-    assert(0);
+    return;
   }
 
-  /* PORTME etc. */
+  log_error("Unsupported authentication type %d: %s.", type, message);
 }
 
 /**************************************************************************

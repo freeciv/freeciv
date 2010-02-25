@@ -232,9 +232,6 @@ struct unit_type {
   char *helptext;
 };
 
-#define CHECK_UNIT_TYPE(ut) (assert((ut) != NULL			    \
-			     && (utype_by_number((ut)->item_number) == (ut))))
-
 /* General unit and unit type (matched) routines */
 Unit_type_id utype_count(void);
 Unit_type_id utype_index(const struct unit_type *punittype);

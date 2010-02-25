@@ -281,7 +281,7 @@ static bool load_auth_config(const char *filename)
 {
   struct section_file *secfile;
 
-  assert(filename != NULL);
+  fc_assert_ret_val(NULL != filename, FALSE);
 
   if (!(secfile = secfile_load(filename, FALSE))) {
     log_error(_("Cannot load auth config file '%s':\n%s"), filename,
@@ -461,7 +461,7 @@ bool authenticate_user(struct connection *pconn, char *username)
       }
       break;
     default:
-      assert(0);
+      fc_assert(FALSE);
       break;
     }
     return TRUE;
@@ -568,7 +568,7 @@ void process_authentication_status(struct connection *pconn)
     break;
   case AS_ESTABLISHED:
     /* this better fail bigtime */
-    assert(pconn->server.status != AS_ESTABLISHED);
+    fc_assert(pconn->server.status != AS_ESTABLISHED);
     break;
   }
 }

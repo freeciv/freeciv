@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -1111,10 +1110,10 @@ void init_connections(void)
 ...
 **************************************************************************/
 static void start_processing_request(struct connection *pconn,
-				     int request_id)
+                                     int request_id)
 {
-  assert(request_id);
-  assert(pconn->server.currently_processed_request_id == 0);
+  fc_assert_ret(request_id);
+  fc_assert_ret(pconn->server.currently_processed_request_id == 0);
   log_debug("start processing packet %d from connection %d",
             request_id, pconn->id);
   send_packet_processing_started(pconn);
@@ -1129,7 +1128,7 @@ static void finish_processing_request(struct connection *pconn)
   if (!pconn || !pconn->used) {
     return;
   }
-  assert(pconn->server.currently_processed_request_id);
+  fc_assert_ret(pconn->server.currently_processed_request_id);
   log_debug("finish processing packet %d from connection %d",
             pconn->server.currently_processed_request_id, pconn->id);
   send_packet_processing_finished(pconn);
@@ -1183,7 +1182,7 @@ static void send_ping_times_to_all(void)
     if (!pconn->used) {
       continue;
     }
-    assert(i < ARRAY_SIZE(packet.conn_id));
+    fc_assert(i < ARRAY_SIZE(packet.conn_id));
     packet.conn_id[i] = pconn->id;
     packet.ping_time[i] = pconn->ping_time;
     i++;

@@ -15,28 +15,33 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <math.h>
 
+/* utility */
+#include "log.h"
+#include "mem.h"
+#include "rand.h"
+#include "shared.h"
+#include "timing.h"
+
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
-#include "pf_tools.h"
 #include "player.h"
-#include "rand.h"
-#include "shared.h"
-#include "timing.h"
 #include "unit.h"
 #include "unitlist.h"
 
-#include "barbarian.h"
+/* aicore */
 #include "caravan.h"
+#include "pf_tools.h"
+
+/* server */
+#include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
 #include "diplomats.h"
@@ -46,6 +51,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
@@ -61,6 +67,7 @@
 #include "aitools.h"
 
 #include "aiunit.h"
+
 
 #define LOGLEVEL_RECOVERY LOG_DEBUG
 #define LOG_CARAVAN       LOG_DEBUG
@@ -166,8 +173,8 @@ static void ai_airlift(struct player *pplayer)
 **************************************************************************/
 static bool could_be_my_zoc(struct unit *myunit, struct tile *ptile)
 {
-  assert(is_ground_unit(myunit));
-  
+  fc_assert_ret_val(is_ground_unit(myunit), TRUE);
+
   if (same_pos(ptile, myunit->tile))
     return FALSE; /* can't be my zoc */
   if (is_tiles_adjacent(ptile, myunit->tile)
@@ -646,7 +653,7 @@ static struct pf_path *find_rampage_target(struct unit *punit,
   if (max_want > 0) {
     /* We found something */
     path = pf_map_get_path(tgt_map, ptile);
-    assert(path != NULL);
+    fc_assert(path != NULL);
   }
 
   pf_map_destroy(tgt_map);
@@ -677,7 +684,7 @@ bool ai_military_rampage(struct unit *punit, int thresh_adj,
   TIMING_LOG(AIT_RAMPAGE, TIMER_START);  
   CHECK_UNIT(punit);
 
-  assert(thresh_adj <= thresh_move);
+  fc_assert_ret_val(thresh_adj <= thresh_move, TRUE);
   /* This teaches the AI about the dangers inherent in occupychance. */
   thresh_adj += ((thresh_move - thresh_adj) * game.info.occupychance / 100);
 
@@ -691,7 +698,7 @@ bool ai_military_rampage(struct unit *punit, int thresh_adj,
     path = NULL;
   }
 
-  assert(!path);
+  fc_assert(NULL == path);
 
   TIMING_LOG(AIT_RAMPAGE, TIMER_STOP);
   return (count >= 0);
@@ -1856,7 +1863,8 @@ static void ai_caravan_goto(struct player *pplayer,
                             bool help_wonder)
 {
   bool alive = TRUE;
-  assert(pcity);
+
+  fc_assert_ret(NULL != pcity);
 
   /* if we're not there yet, and we can move, move. */
   if (!same_pos(pcity->tile, punit->tile) && punit->moves_left != 0) {
@@ -2079,7 +2087,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   switch (punit->ai.ai_role) {
   case AIUNIT_AUTO_SETTLER:
   case AIUNIT_BUILD_CITY:
-    assert(FALSE); /* This is not the place for this role */
+    fc_assert(FALSE); /* This is not the place for this role */
     break;
   case AIUNIT_DEFEND_HOME:
     TIMING_LOG(AIT_DEFENDERS, TIMER_START);
@@ -2117,10 +2125,10 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     TIMING_LOG(AIT_RECOVER, TIMER_STOP);
     break;
   case AIUNIT_HUNTER:
-    assert(FALSE); /* dealt with above */
+    fc_assert(FALSE); /* dealt with above */
     break;
   default:
-    assert(FALSE);
+    fc_assert(FALSE);
   }
 
   /* If we are still alive, either sentry or fortify. */
@@ -2623,7 +2631,7 @@ void unit_class_ai_init(void)
     } else if (move_land_enabled && move_land_disabled) {
       pclass->ai.land_move = MOVE_PARTIAL;
     } else {
-      assert(!move_land_enabled);
+      fc_assert(!move_land_enabled);
       pclass->ai.land_move = MOVE_NONE;
     }
 
@@ -2632,7 +2640,7 @@ void unit_class_ai_init(void)
     } else if (move_sea_enabled && move_sea_disabled) {
       pclass->ai.sea_move = MOVE_PARTIAL;
     } else {
-      assert(!move_sea_enabled);
+      fc_assert(!move_sea_enabled);
       pclass->ai.sea_move = MOVE_NONE;
     }
 

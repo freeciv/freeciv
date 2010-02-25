@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -266,7 +265,7 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
 
   /* This function corresponds to city_can_buy() in the client. */
 
-  assert(pcity && player_owns_city(pplayer, pcity));
+  fc_assert_ret(pcity && player_owns_city(pplayer, pcity));
  
   if (pcity->turn_founded == game.info.turn) {
     notify_player(pplayer, pcity->tile, E_BAD_COMMAND, ftc_server,

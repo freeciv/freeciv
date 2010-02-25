@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <string.h>
 
@@ -585,7 +584,7 @@ const char *science_dialog_text(void)
   if (NULL == client.conn.playing || (ours == 0 && theirs == 0)) {
     return _("Progress: no research");
   }
-  assert(ours >= 0 && theirs >= 0);
+  fc_assert(ours >= 0 && theirs >= 0);
 
   if (A_UNSET == get_player_research(client.conn.playing)->researching) {
     astr_add(&str, _("Progress: no research target"));

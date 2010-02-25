@@ -332,10 +332,8 @@ void overview_to_map_pos(int *map_x, int *map_y,
   }
 
   NATURAL_TO_MAP_POS(map_x, map_y, ntl_x, ntl_y);
-  if (!normalize_map_pos(map_x, map_y)) {
-    /* All positions on the overview should be valid. */
-    assert(FALSE);
-  }
+  /* All positions on the overview should be valid. */
+  fc_assert(normalize_map_pos(map_x, map_y));
 }
 
 /**************************************************************************

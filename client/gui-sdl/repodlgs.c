@@ -165,8 +165,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     if (pUnits_Upg_Dlg) {
       return 1;
     }
-    CHECK_UNIT_TYPE(ut1);
-    
+
     set_wstate(pWidget, FC_WS_NORMAL);
     pSellected_Widget = NULL;
     widget_redraw(pWidget);

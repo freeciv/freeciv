@@ -497,9 +497,9 @@ Uint32 create_vertical_scrollbar(struct ADVANCED_DLG *pDlg,
 {
   Uint16 count = 0;
   struct widget *pBuf = NULL, *pWindow = NULL;
-    
-  assert(pDlg != NULL);
-  
+
+  fc_assert_ret_val(pDlg != NULL, 0);
+
   pWindow = pDlg->pEndWidgetList;
   
   if (!pDlg->pScroll) {
@@ -576,7 +576,7 @@ void setup_vertical_scrollbar_area(struct ScrollBar *pScroll,
 {
   bool buttons_exist;
   
-  assert(pScroll != NULL);
+  fc_assert_ret(pScroll != NULL);
   
   buttons_exist = (pScroll->pDown_Right_Button && pScroll->pUp_Left_Button);
   
@@ -1165,9 +1165,9 @@ bool add_widget_to_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
   int count = 0;
   bool last = FALSE, seen = TRUE;
   
-  assert(pNew_Widget != NULL);
-  assert(pDlg != NULL);
-  assert(pDlg->pScroll != NULL);
+  fc_assert_ret_val(pNew_Widget != NULL, FALSE);
+  fc_assert_ret_val(pDlg != NULL, FALSE);
+  fc_assert_ret_val(pDlg->pScroll != NULL, FALSE);
   
   if (!pAdd_Dock) {
     pAdd_Dock = pDlg->pBeginWidgetList; /* last item */
@@ -1356,8 +1356,8 @@ bool del_widget_from_vertical_scroll_widget_list(struct ADVANCED_DLG *pDlg,
 {
   int count = 0;
   struct widget *pBuf = pWidget;
-  assert(pWidget != NULL);
-  assert(pDlg != NULL);
+  fc_assert_ret_val(pWidget != NULL, FALSE);
+  fc_assert_ret_val(pDlg != NULL, FALSE);
   
   /* if begin == end -> size = 1 */
   if (pDlg->pBeginActiveWidgetList == pDlg->pEndActiveWidgetList) {
@@ -1532,7 +1532,7 @@ STD:  while (pBuf != pWidget) {
 **************************************************************************/
 void setup_vertical_scrollbar_default_callbacks(struct ScrollBar *pScroll)
 {
-  assert(pScroll != NULL);
+  fc_assert_ret(pScroll != NULL);
   if(pScroll->pUp_Left_Button) {
     pScroll->pUp_Left_Button->action = std_up_advanced_dlg_callback;
   }
@@ -1559,7 +1559,7 @@ Uint32 create_horizontal_scrollbar(struct ADVANCED_DLG *pDlg,
   Uint16 count = 0;
   struct widget *pBuf = NULL, *pWindow = NULL;
     
-  assert(pDlg != NULL);
+  fc_assert_ret_val(pDlg != NULL, 0);
   
   pWindow = pDlg->pEndWidgetList;
   

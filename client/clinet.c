@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -366,7 +365,7 @@ static int read_from_connection(struct connection *pc, bool block)
 **************************************************************************/
 void input_from_server(int fd)
 {
-  assert(fd == client.conn.sock);
+  fc_assert_ret(fd == client.conn.sock);
 
   if (read_from_connection(&client.conn, FALSE) >= 0) {
     enum packet_type type;
@@ -379,11 +378,11 @@ void input_from_server(int fd)
 						&type, &result);
 
       if (result) {
-	assert(packet != NULL);
+        fc_assert_action(packet != NULL, break);
 	client_packet_input(packet, type);
 	free(packet);
       } else {
-	assert(packet == NULL);
+        fc_assert(packet == NULL);
 	break;
       }
     }
@@ -403,8 +402,8 @@ void input_from_server(int fd)
 void input_from_server_till_request_got_processed(int fd, 
 						  int expected_request_id)
 {
-  assert(expected_request_id);
-  assert(fd == client.conn.sock);
+  fc_assert_ret(expected_request_id);
+  fc_assert_ret(fd == client.conn.sock);
 
   log_debug("input_from_server_till_request_got_processed("
             "expected_request_id=%d)", expected_request_id);
@@ -418,11 +417,11 @@ void input_from_server_till_request_got_processed(int fd,
 	void *packet = get_packet_from_connection(&client.conn,
 						  &type, &result);
 	if (!result) {
-	  assert(packet == NULL);
+          fc_assert(packet == NULL);
 	  break;
 	}
 
-	assert(packet != NULL);
+        fc_assert_action(packet != NULL, break);
 	client_packet_input(packet, type);
 	free(packet);
 

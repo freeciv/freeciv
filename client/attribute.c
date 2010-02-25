@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "dataio.h"
 #include "fcintl.h"
@@ -67,22 +65,22 @@ static int attr_hash_cmp_fn(const void *key1, const void *key2)
 }
 
 /****************************************************************************
-...
-*****************************************************************************/
-void attribute_init()
+  Initializes the attribute module.
+****************************************************************************/
+void attribute_init(void)
 {
-  assert(attribute_hash == NULL);
+  fc_assert(attribute_hash == NULL);
   attribute_hash = hash_new(attr_hash_val_fn, attr_hash_cmp_fn);
 }
 
 /****************************************************************************
-...
-*****************************************************************************/
-void attribute_free()
+  Frees the attribute module.
+****************************************************************************/
+void attribute_free(void)
 {
   int i, entries = hash_num_entries(attribute_hash);
 
-  assert(attribute_hash != NULL);
+  fc_assert_ret(attribute_hash != NULL);
 
   for (i = 0; i < entries; i++) {
     const void *pkey = hash_key_by_number(attribute_hash, 0);
@@ -183,7 +181,7 @@ static enum attribute_serial serialize_hash( struct hash_table *hash,
     dio_put_memory(&dout, ADD_TO_POINTER(pvalue, 4), value_lengths[i]);
   }
 
-  assert(!dout.too_short);
+  fc_assert(!dout.too_short);
 
   /*
    * Step 6: cleanup
@@ -314,7 +312,7 @@ void attribute_flush(void)
     return;
   }
 
-  assert(attribute_hash != NULL);
+  fc_assert_ret(attribute_hash != NULL);
 
   if (hash_num_entries(attribute_hash) == 0)
     return;
@@ -341,7 +339,7 @@ void attribute_restore(void)
     return;
   }
 
-  assert(attribute_hash != NULL);
+  fc_assert_ret(attribute_hash != NULL);
 
   switch (unserialize_hash(attribute_hash,
                            pplayer->attribute_block.data,
@@ -372,7 +370,7 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
                 "data_length=%d, data=%p)", key, id, x, y,
                 (unsigned int) data_length, data);
 
-  assert(attribute_hash != NULL);
+  fc_assert_ret(attribute_hash != NULL);
 
   pkey = fc_malloc(sizeof(struct attr_key));
   pkey->key = key;
@@ -399,9 +397,7 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 
   if (data_length != 0) {
-    if (!hash_insert(attribute_hash, pkey, pvalue)) {
-      assert(FALSE);
-    }
+    fc_assert(hash_insert(attribute_hash, pkey, pvalue));
   }
 }
 
@@ -425,7 +421,7 @@ size_t attribute_get(int key, int id, int x, int y, size_t max_data_length,
                 "max_data_length=%d, data=%p)", key, id, x, y,
                 (unsigned int) max_data_length, data);
 
-  assert(attribute_hash != NULL);
+  fc_assert_ret_val(attribute_hash != NULL, 0);
 
   pkey.key = key;
   pkey.id = id;

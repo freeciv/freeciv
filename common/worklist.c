@@ -19,6 +19,7 @@
 #include <string.h>
 
 /* utility */
+#include "log.h"
 #include "mem.h"
 #include "support.h"
 
@@ -55,7 +56,7 @@ void worklist_init(struct worklist *pwl)
 ****************************************************************************/
 int worklist_length(const struct worklist *pwl)
 {
-  assert(pwl->length >= 0 && pwl->length <= MAX_LEN_WORKLIST);
+  fc_assert_ret_val(pwl->length >= 0 && pwl->length <= MAX_LEN_WORKLIST, -1);
   return pwl->length;
 }
 
@@ -110,7 +111,7 @@ void worklist_advance(struct worklist *pwl)
 ****************************************************************/
 void worklist_copy(struct worklist *dst, const struct worklist *src)
 {
-  assert(sizeof(*dst) == sizeof(*src));
+  fc_assert_ret(sizeof(*dst) == sizeof(*src));
   memcpy(dst, src, sizeof(*dst));
 }
 

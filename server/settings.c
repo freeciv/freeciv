@@ -1382,7 +1382,7 @@ const int SETTINGS_NUM = ARRAY_SIZE(settings) - 1;
 ****************************************************************************/
 struct setting *setting_by_number(int id)
 {
-  assert(0 <= id && id < SETTINGS_NUM);
+  fc_assert_ret_val(0 <= id && id < SETTINGS_NUM, NULL);
   return settings + id;
 }
 
@@ -1391,7 +1391,7 @@ struct setting *setting_by_number(int id)
 ****************************************************************************/
 int setting_number(const struct setting *pset)
 {
-  assert(pset != NULL);
+  fc_assert_ret_val(pset != NULL, -1);
   return pset - settings;
 }
 
@@ -1541,7 +1541,7 @@ bool setting_is_visible(const struct setting *pset,
 ****************************************************************************/
 bool setting_bool_get(const struct setting *pset)
 {
-  assert(pset->stype == SSET_BOOL);
+  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
   return *pset->boolean.pvalue;
 }
 
@@ -1550,7 +1550,7 @@ bool setting_bool_get(const struct setting *pset)
 ****************************************************************************/
 bool setting_bool_def(const struct setting *pset)
 {
-  assert(pset->stype == SSET_BOOL);
+  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
   return pset->boolean.default_value;
 }
 
@@ -1562,8 +1562,6 @@ bool setting_bool_set(struct setting *pset, bool val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_BOOL);
-
   if (!setting_bool_validate(pset, val, caller, reject_msg,
                              reject_msg_len)) {
     return FALSE;
@@ -1583,7 +1581,11 @@ bool setting_bool_validate(const struct setting *pset, bool val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_BOOL);
+  if (SSET_BOOL != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a boolean."));
+    return FALSE;
+  }
 
   return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
           && (!pset->boolean.validate
@@ -1596,7 +1598,7 @@ bool setting_bool_validate(const struct setting *pset, bool val,
 ****************************************************************************/
 int setting_int_get(const struct setting *pset)
 {
-  assert(pset->stype == SSET_INT);
+  fc_assert_ret_val(pset->stype == SSET_INT, 0);
   return *pset->integer.pvalue;
 }
 
@@ -1605,7 +1607,7 @@ int setting_int_get(const struct setting *pset)
 ****************************************************************************/
 int setting_int_def(const struct setting *pset)
 {
-  assert(pset->stype == SSET_INT);
+  fc_assert_ret_val(pset->stype == SSET_INT, 0);
   return pset->integer.default_value;
 }
 
@@ -1614,7 +1616,7 @@ int setting_int_def(const struct setting *pset)
 ****************************************************************************/
 int setting_int_min(const struct setting *pset)
 {
-  assert(pset->stype == SSET_INT);
+  fc_assert_ret_val(pset->stype == SSET_INT, 0);
   return pset->integer.min_value;
 }
 
@@ -1623,7 +1625,7 @@ int setting_int_min(const struct setting *pset)
 ****************************************************************************/
 int setting_int_max(const struct setting *pset)
 {
-  assert(pset->stype == SSET_INT);
+  fc_assert_ret_val(pset->stype == SSET_INT, 0);
   return pset->integer.max_value;
 }
 
@@ -1635,8 +1637,6 @@ bool setting_int_set(struct setting *pset, int val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_INT);
-
   if (!setting_int_validate(pset, val, caller, reject_msg,
                             reject_msg_len)) {
     return FALSE;
@@ -1656,7 +1656,11 @@ bool setting_int_validate(const struct setting *pset, int val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_INT);
+  if (SSET_INT != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not an integer."));
+    return FALSE;
+  }
 
   if (val < pset->integer.min_value || val > pset->integer.max_value) {
     settings_snprintf(reject_msg, reject_msg_len,
@@ -1676,7 +1680,7 @@ bool setting_int_validate(const struct setting *pset, int val,
 ****************************************************************************/
 const char *setting_str_get(const struct setting *pset)
 {
-  assert(pset->stype == SSET_STRING);
+  fc_assert_ret_val(pset->stype == SSET_STRING, NULL);
   return pset->string.value;
 }
 
@@ -1685,7 +1689,7 @@ const char *setting_str_get(const struct setting *pset)
 ****************************************************************************/
 const char *setting_str_def(const struct setting *pset)
 {
-  assert(pset->stype == SSET_STRING);
+  fc_assert_ret_val(pset->stype == SSET_STRING, NULL);
   return pset->string.default_value;
 }
 
@@ -1697,8 +1701,6 @@ bool setting_str_set(struct setting *pset, const char *val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_STRING);
-
   if (!setting_str_validate(pset, val, caller, reject_msg,
                             reject_msg_len)) {
     return FALSE;
@@ -1718,7 +1720,11 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len)
 {
-  assert(pset->stype == SSET_STRING);
+  if (SSET_STRING != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a string."));
+    return FALSE;
+  }
 
   if (strlen(val) > pset->string.value_size) {
     settings_snprintf(reject_msg, reject_msg_len,

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -23,25 +22,37 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#include "city.h"
+/* utility */
 #include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "support.h"
+
+/* common */
+#include "city.h"
 #include "game.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
-#include "shared.h"
-#include "support.h"
 #include "unitlist.h"
 
-#include "cityrep.h"
+/* client */
 #include "client_main.h"
-#include "cma_fe.h"
-#include "cma_fec.h" 
 #include "colors.h"
 #include "control.h"
 #include "climap.h"
+#include "options.h"
+#include "text.h"
+#include "tilespec.h"
+
+/* client/agents */
+#include "cma_fec.h" 
+
+/* client/gui-gtk-2.0 */
+#include "cityrep.h"
+#include "cma_fe.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
@@ -50,14 +61,11 @@
 #include "helpdlg.h"
 #include "inputdlg.h"
 #include "mapview.h"
-#include "options.h"
 #include "repodlgs.h"
-#include "tilespec.h"
 #include "wldlg.h"
-#include "log.h"
-#include "text.h"
 
 #include "citydlg.h"
+
 
 #define CITYMAP_WIDTH MIN(300, canvas_width)
 #define CITYMAP_HEIGHT (CITYMAP_WIDTH * canvas_height / canvas_width)
@@ -294,7 +302,7 @@ static void initialize_city_dialogs(void)
   GdkColor orange = { 0, 65535, 32768, 0 };	/* not currently used */
   GdkColor red = { 0, 65535, 0, 0 };
 
-  assert(!city_dialogs_have_been_initialised);
+  fc_assert_ret(!city_dialogs_have_been_initialised);
 
   dialog_list = dialog_list_new();
   init_citydlg_dimensions();
@@ -1632,7 +1640,7 @@ static void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     struct sprite *sprite;
     struct universal target = items[item].item;
 
-    assert(VUT_IMPROVEMENT == target.kind);
+    fc_assert_action(VUT_IMPROVEMENT == target.kind, continue);
     /* This takes effects (like Adam Smith's) into account. */
     upkeep = city_improvement_upkeep(pdialog->pcity, target.value.building);
     sprite = get_building_sprite(tileset, target.value.building);
@@ -2697,7 +2705,7 @@ static void cityopt_callback(GtkWidget * w, gpointer data)
     struct city *pcity = pdialog->pcity;
     bv_city_options new_options;
 
-    assert(CITYO_LAST == 3);
+    fc_assert(CITYO_LAST == 3);
 
     BV_CLR_ALL(new_options);
     if (GTK_TOGGLE_BUTTON(pdialog->misc.disband_on_settler)->active) {
@@ -2839,9 +2847,9 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
 
   size = city_list_size(client.conn.playing->cities);
 
-  assert(city_dialogs_have_been_initialised);
-  assert(size >= 1);
-  assert(city_owner(pdialog->pcity) == client.conn.playing);
+  fc_assert_ret(city_dialogs_have_been_initialised);
+  fc_assert_ret(size >= 1);
+  fc_assert_ret(city_owner(pdialog->pcity) == client.conn.playing);
 
   if (size == 1) {
     return;
@@ -2853,7 +2861,9 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   } else if (w == pdialog->prev_command) {
     dir = -1;
   } else {
-    assert(0);
+    /* Always fails. */
+    fc_assert_ret(w == pdialog->next_command
+                  || w == pdialog->prev_command);
     dir = 1;
   }
 
@@ -2863,14 +2873,14 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
     }
   }
 
-  assert(i < size);
+  fc_assert_ret(i < size);
 
   for (j = 1; j < size; j++) {
     struct city *other_pcity = city_list_get(client.conn.playing->cities,
 					     (i + dir * j + size) % size);
     struct city_dialog *other_pdialog = get_city_dialog(other_pcity);
 
-    assert(other_pdialog != pdialog);
+    fc_assert_ret(other_pdialog != pdialog);
     if (!other_pdialog) {
       new_pcity = other_pcity;
       break;

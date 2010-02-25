@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "log.h"
 
@@ -367,7 +365,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       /* Found target, coordinates are in punit's goto_dest.
        * TODO: separate attacking into a function, check for the best 
        * tile to attack from */
-      assert(path != NULL && dst_tile != NULL);
+      fc_assert_ret(path != NULL && dst_tile != NULL);
       if (!ai_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */

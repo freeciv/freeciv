@@ -21,7 +21,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>		/* exit */
 #include <string.h>
@@ -673,7 +672,7 @@ static const char *dir_get_tileset_name(enum direction8 dir)
   case DIR8_NORTHWEST:
     return "nw";
   }
-  assert(0);
+  log_error("Wrong direction8 variant: %d.", dir);
   return "";
 }
 
@@ -1041,7 +1040,7 @@ void tilespec_reread_callback(struct client_option *poption)
 {
   const char *tileset_name = option_str_get(poption);
 
-  log_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
+  fc_assert_ret(NULL != tileset_name && tileset_name[0] != '\0');
   tilespec_reread(tileset_name);
   menus_init();
 }
@@ -1181,7 +1180,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
                                            sec_name, j);
 
         /* there must be at least 1 because of the while(): */
-        assert(num_tags > 0);
+        fc_assert_action(num_tags > 0, continue);
 
         x1 = x_top_left + (dx + pixel_border) * column;
         y1 = y_top_left + (dy + pixel_border) * row;
@@ -1396,13 +1395,13 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
   if (t->is_isometric && !isometric_view_supported()) {
     log_normal(_("Client does not support isometric tilesets."));
     log_normal(_("Using default tileset instead."));
-    assert(tileset_name != NULL);
+    fc_assert(tileset_name != NULL);
     goto ON_ERROR;
   }
   if (!t->is_isometric && !overhead_view_supported()) {
     log_normal(_("Client does not support overhead view tilesets."));
     log_normal(_("Using default tileset instead."));
-    assert(tileset_name != NULL);
+    fc_assert(tileset_name != NULL);
     goto ON_ERROR;
   }
 
@@ -1423,7 +1422,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
     dir = dir_cw(dir);
   } while (dir != DIR8_NORTH);
-  assert(t->num_valid_tileset_dirs % 2 == 0); /* Assumed elsewhere. */
+  fc_assert(t->num_valid_tileset_dirs % 2 == 0); /* Assumed elsewhere. */
   t->num_index_valid = 1 << t->num_valid_tileset_dirs;
   t->num_index_cardinal = 1 << t->num_cardinal_tileset_dirs;
 
@@ -1536,7 +1535,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     goto ON_ERROR;
   }
 
-  assert(t->tile_hash == NULL);
+  fc_assert(t->tile_hash == NULL);
   t->tile_hash = hash_new(hash_fval_string, hash_fcmp_string);
 
   section_list_iterate(sections, psection) {
@@ -1706,7 +1705,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
     goto ON_ERROR;
   }
 
-  assert(t->sprite_hash == NULL);
+  fc_assert(t->sprite_hash == NULL);
   t->sprite_hash = hash_new_full(hash_fval_string, hash_fcmp_string,
                                  sprite_hash_free_key, NULL);
   for (i = 0; i < num_spec_files; i++) {
@@ -1837,11 +1836,11 @@ static struct sprite *load_sprite(struct tileset *t, const char *tag_name)
     return NULL;
   }
 
-  assert(ss->ref_count >= 0);
+  fc_assert(ss->ref_count >= 0);
 
   if (!ss->sprite) {
     /* If the sprite hasn't been loaded already, then load it. */
-    assert(ss->ref_count == 0);
+    fc_assert(ss->ref_count == 0);
     if (ss->file) {
       ss->sprite = load_gfx_file(ss->file);
       if (!ss->sprite) {
@@ -1880,9 +1879,9 @@ static void unload_sprite(struct tileset *t, const char *tag_name)
 {
   struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
 
-  assert(ss);
-  assert(ss->ref_count >= 1);
-  assert(ss->sprite);
+  fc_assert_ret(ss);
+  fc_assert_ret(ss->ref_count >= 1);
+  fc_assert_ret(ss->sprite);
 
   ss->ref_count--;
 
@@ -1909,7 +1908,7 @@ static void insert_sprite(struct tileset *t, const char *tag_name,
 {
   struct small_sprite *ss = fc_calloc(sizeof(*ss), 1);
 
-  assert(load_sprite(t, tag_name) == 0);
+  fc_assert_ret(load_sprite(t, tag_name) == 0);
   ss->ref_count = 1;
   ss->sprite = sprite;
   small_sprite_list_prepend(t->small_sprites, ss);
@@ -2027,7 +2026,7 @@ static struct sprite *get_city_sprite(const struct city_sprite *city_sprite,
   struct city_style_threshold *thresholds;
   int t;
 
-  assert(style < city_sprite->num_styles);
+  fc_assert_ret_val(style < city_sprite->num_styles, NULL);
 
   if (is_ocean_tile(pcity->tile)
       && city_sprite->styles[style].oceanic_num_thresholds != 0) {
@@ -2159,8 +2158,8 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   const char dir_char[] = "nsew";
   const int W = t->normal_tile_width, H = t->normal_tile_height;
   int i, j, f;
-  
-  assert(t->sprite_hash != NULL);
+
+  fc_assert_ret(t->sprite_hash != NULL);
 
   SET_SPRITE(treaty_thumb[0], "treaty.disagree_thumb_down");
   SET_SPRITE(treaty_thumb[1], "treaty.agree_thumb_up");
@@ -2207,7 +2206,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 		"invalid", "attack", "edit_paint", "edit_add", "wait"};
       struct small_sprite *ss;
 
-      assert(ARRAY_SIZE(names) == CURSOR_LAST);
+      fc_assert(ARRAY_SIZE(names) == CURSOR_LAST);
       my_snprintf(buffer, sizeof(buffer), "cursor.%s%d", names[i], f);
       SET_SPRITE(cursor[i].frame[f], buffer);
       ss = hash_lookup_data(t->sprite_hash, buffer);
@@ -2340,7 +2339,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     my_snprintf(buffer, sizeof(buffer), "unit.battlegroup_%d", i);
     my_snprintf(buffer2, sizeof(buffer2), "city.size_%d", i + 1);
-    assert(MAX_NUM_BATTLEGROUPS < NUM_TILES_DIGITS);
+    fc_assert(MAX_NUM_BATTLEGROUPS < NUM_TILES_DIGITS);
     SET_SPRITE_ALT(unit.battlegroup[i], buffer, buffer2);
   }
   SET_SPRITE(unit.lowfuel, "unit.lowfuel");
@@ -2626,7 +2625,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
 
 	cat_snprintf(buf, sizeof(buf), "_%c", ids[values[j]]);
       }
-      assert(k == 0);
+      fc_assert(k == 0);
 
       t->sprites.tx.fullfog[i] = load_sprite(t, buf);
     }
@@ -2759,13 +2758,13 @@ void tileset_setup_tech_type(struct tileset *t,
   tilespec_load_tiles().
 ****************************************************************************/
 void tileset_setup_resource(struct tileset *t,
-			    const struct resource *presource)
+                            const struct resource *presource)
 {
-  assert(presource);
+  fc_assert_ret(NULL != presource);
   t->sprites.resource[resource_index(presource)] =
     tiles_lookup_sprite_tag_alt(t, LOG_VERBOSE, presource->graphic_str,
-				presource->graphic_alt, "resource",
-				resource_rule_name(presource));
+                                presource->graphic_alt, "resource",
+                                resource_rule_name(presource));
 }
 
 /****************************************************************************
@@ -2778,7 +2777,7 @@ void tileset_setup_base(struct tileset *t,
   char full_tag_name[MAX_LEN_NAME + strlen("_fg")];
   const int id = base_index(pbase);
 
-  assert(id >= 0 && id < base_count());
+  fc_assert_ret(id >= 0 && id < base_count());
 
   sz_strlcpy(full_tag_name, pbase->graphic_str);
   strcat(full_tag_name, "_bg");
@@ -2903,8 +2902,8 @@ void tileset_setup_tile_type(struct tileset *t,
 	break;
       case MATCH_PAIR:
       case MATCH_FULL:
-	assert(0); /* not yet defined */
-	break;
+        fc_assert(FALSE); /* not yet defined */
+        break;
       };
       break;
     case CELL_CORNER:
@@ -2919,7 +2918,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	case MATCH_PAIR:
 	case MATCH_SAME:
 	  /* N directions (NSEW) * 3 dimensions of matching */
-	  assert(count == 2);
+          fc_assert(count == 2);
 	  number = NUM_CORNER_DIRS * 2 * 2 * 2;
 	  break;
 	case MATCH_FULL:
@@ -2986,7 +2985,7 @@ void tileset_setup_tile_type(struct tileset *t,
 	      value /= count;
 	      v3 = dlp->match_index[value % count];
 
-	      assert(v1 < count && v2 < count && v3 < count);
+              fc_assert(v1 < count && v2 < count && v3 < count);
 
 	      /* Assume merged cells.  This should be a separate option. */
 	      switch (dir) {
@@ -3191,7 +3190,7 @@ static struct sprite *get_unit_nation_flag_sprite(const struct tileset *t,
 #define FULL_TILE_Y_OFFSET (t->normal_tile_height - t->full_tile_height)
 
 #define ADD_SPRITE(s, draw_fog, x_offset, y_offset)			    \
-  (assert(s != NULL),							    \
+  (fc_assert(s != NULL),						    \
    sprs->sprite = s,							    \
    sprs->foggable = (draw_fog && t->fogstyle == FOG_AUTO),		    \
    sprs->offset_x = x_offset,						    \
@@ -3378,7 +3377,7 @@ static int fill_road_corner_sprites(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   int i;
 
-  assert(draw_roads_rails);
+  fc_assert_ret_val(draw_roads_rails, 0);
 
   /* Roads going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
@@ -3424,7 +3423,7 @@ static int fill_rail_corner_sprites(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
   int i;
 
-  assert(draw_roads_rails);
+  fc_assert_ret_val(draw_roads_rails, 0);
 
   /* Rails going diagonally adjacent to this tile need to be
    * partly drawn on this tile. */
@@ -3671,8 +3670,8 @@ static int fill_irrigation_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
 
   /* Tiles with S_FARMLAND also have S_IRRIGATION set. */
-  assert(!contains_special(tspecial, S_FARMLAND)
-	 || contains_special(tspecial, S_IRRIGATION));
+  fc_assert_ret_val(!contains_special(tspecial, S_FARMLAND)
+                    || contains_special(tspecial, S_IRRIGATION), 0);
 
   /* We don't draw the irrigation if there's a city (it just gets overdrawn
    * anyway, and ends up looking bad). */
@@ -3720,7 +3719,7 @@ static int fill_city_overlays_sprite_array(const struct tileset *t,
 
   /* Below code does not work if pcity is invisible.
    * Make sure it is not. */
-  assert(pcity == NULL || pcity->tile != NULL);
+  fc_assert_ret_val(pcity == NULL || pcity->tile != NULL, 0);
   if (pcity && !pcity->tile) {
     pcity = NULL;
   }
@@ -3845,7 +3844,7 @@ static int fill_fog_sprite_array(const struct tileset *t,
 	  break;
 	}
       }
-      assert(value >= 0 && value < 3);
+      fc_assert(value >= 0 && value < 3);
 
       tileno = tileno * 3 + value;
     }
@@ -3923,8 +3922,8 @@ static int fill_terrain_sprite_array(struct tileset *t,
 	}
       case MATCH_PAIR:
       case MATCH_FULL:
-	assert(0); /* not yet defined */
-	break;
+        fc_assert(FALSE); /* not yet defined */
+        break;
       };
       break;
     }
@@ -4380,7 +4379,7 @@ int fill_sprite_array(struct tileset *t,
 
   case LAYER_TERRAIN3:
     if (NULL != pterrain && draw_terrain && !solid_bg) {
-      assert(MAX_NUM_LAYERS == 3);
+      fc_assert(MAX_NUM_LAYERS == 3);
       sprs += fill_terrain_sprite_layer(t, sprs, 2, ptile, pterrain, tterrain_near);
     }
     break;
@@ -4597,7 +4596,7 @@ int fill_sprite_array(struct tileset *t,
     break;
 
   case LAYER_COUNT:
-    assert(0);
+    fc_assert(FALSE);
     break;
   }
 
@@ -4764,7 +4763,7 @@ void tileset_free_tiles(struct tileset *t)
     if (ss->file) {
       free(ss->file);
     }
-    assert(ss->sprite == NULL);
+    fc_assert(ss->sprite == NULL);
     free(ss);
   } small_sprite_list_iterate_end;
 
@@ -4835,10 +4834,10 @@ struct sprite *get_citizen_sprite(const struct tileset *t,
   const struct citizen_graphic *graphic;
 
   if (type < CITIZEN_SPECIALIST) {
-    assert(type >= 0);
+    fc_assert(type >= 0);
     graphic = &t->sprites.citizen[type];
   } else {
-    assert(type < (CITIZEN_SPECIALIST + SP_MAX));
+    fc_assert(type < (CITIZEN_SPECIALIST + SP_MAX));
     graphic = &t->sprites.specialist[type - CITIZEN_SPECIALIST];
   }
 
@@ -4859,10 +4858,7 @@ struct sprite *get_nation_flag_sprite(const struct tileset *t,
 **************************************************************************/
 struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
 {
-  if (tech < 0 || tech >= advance_count()) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(0 <= tech && tech < advance_count(), NULL);
   return t->sprites.tech[tech];
 }
 
@@ -4870,12 +4866,9 @@ struct sprite *get_tech_sprite(const struct tileset *t, Tech_type_id tech)
   Return the sprite for the building/improvement.
 **************************************************************************/
 struct sprite *get_building_sprite(const struct tileset *t,
-				   struct impr_type *pimprove)
+                                   struct impr_type *pimprove)
 {
-  if (!pimprove) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(NULL != pimprove, NULL);
   return t->sprites.building[improvement_index(pimprove)];
 }
 
@@ -4883,12 +4876,9 @@ struct sprite *get_building_sprite(const struct tileset *t,
   Return the sprite for the government.
 ****************************************************************************/
 struct sprite *get_government_sprite(const struct tileset *t,
-				     const struct government *gov)
+                                     const struct government *gov)
 {
-  if (!gov) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(NULL != gov, NULL);
   return t->sprites.government[government_index(gov)];
 }
 
@@ -4896,12 +4886,9 @@ struct sprite *get_government_sprite(const struct tileset *t,
   Return the sprite for the unit type (the base "unit" sprite).
 ****************************************************************************/
 struct sprite *get_unittype_sprite(const struct tileset *t,
-				   const struct unit_type *punittype)
+                                   const struct unit_type *punittype)
 {
-  if (!punittype) {
-    assert(0);
-    return NULL;
-  }
+  fc_assert_ret_val(NULL != punittype, NULL);
   return t->sprites.unittype[utype_index(punittype)];
 }
 
@@ -4926,9 +4913,9 @@ struct sprite *get_sample_city_sprite(const struct tileset *t,
   Return a sprite with an "arrow" theme graphic.
 **************************************************************************/
 struct sprite *get_arrow_sprite(const struct tileset *t,
-				enum arrow_type arrow)
+                                enum arrow_type arrow)
 {
-  assert(arrow >= 0 && arrow < ARROW_LAST);
+  fc_assert_ret_val(arrow >= 0 && arrow < ARROW_LAST, NULL);
 
   return t->sprites.arrow[arrow];
 }
@@ -5048,11 +5035,11 @@ struct sprite *get_attention_crosshair_sprite(const struct tileset *t)
   index should be in [0, NUM_TILES_PROGRESS).
 ****************************************************************************/
 struct sprite *get_indicator_sprite(const struct tileset *t,
-				    enum indicator_type indicator,
-				    int index)
+                                    enum indicator_type indicator,
+                                    int index)
 {
   index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-  assert(indicator >= 0 && indicator < INDICATOR_COUNT);
+  fc_assert_ret_val(indicator >= 0 && indicator < INDICATOR_COUNT, NULL);
   return t->sprites.indicator[indicator][index];
 }
 

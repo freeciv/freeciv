@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -306,7 +304,7 @@ int player_index(const struct player *pplayer)
 **************************************************************************/
 int player_number(const struct player *pplayer)
 {
-  assert(pplayer);
+  fc_assert_ret_val(NULL != pplayer, -1);
   return pplayer - game.players;
 }
 
@@ -344,11 +342,11 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 {
   if (pplayer->nation != pnation) {
     if (pplayer->nation) {
-      assert(pplayer->nation->player == pplayer);
+      fc_assert(pplayer->nation->player == pplayer);
       pplayer->nation->player = NULL;
     }
     if (pnation) {
-      assert(pnation->player == NULL);
+      fc_assert(pnation->player == NULL);
       pnation->player = pplayer;
     }
     pplayer->nation = pnation;
@@ -722,7 +720,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
     economic.science = maxrate;
   }
 
-  assert(surplus % 10 == 0);
+  fc_assert(surplus % 10 == 0);
   while (surplus > 0) {
     if (economic.science < maxrate) {
       economic.science += 10;
@@ -828,7 +826,7 @@ const char *love_text(const int love)
   } else if (love <= MAX_AI_LOVE * 90 / 100) {
     return Q_("?attitude:Admiring");
   } else {
-    assert(love > MAX_AI_LOVE * 90 / 100);
+    fc_assert(love > MAX_AI_LOVE * 90 / 100);
     return Q_("?attitude:Worshipful");
   }
 }
@@ -1068,7 +1066,7 @@ enum ai_level find_ai_level_by_name(const char *name)
 ***************************************************************/
 const char *ai_level_name(enum ai_level level)
 {
-  assert(level >= 0 && level < AI_LEVEL_LAST);
+  fc_assert_ret_val(level >= 0 && level < AI_LEVEL_LAST, NULL);
 
   if (ai_level_names[level] == NULL) {
     return NULL;
@@ -1082,7 +1080,7 @@ const char *ai_level_name(enum ai_level level)
 ***************************************************************/
 const char *ai_level_cmd(enum ai_level level)
 {
-  assert(level >= 0 && level < AI_LEVEL_LAST);
+  fc_assert_ret_val(level >= 0 && level < AI_LEVEL_LAST, NULL);
 
   if (ai_level_names[level] == NULL) {
     return NULL;

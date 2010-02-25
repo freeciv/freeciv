@@ -213,10 +213,7 @@ static void script_callback_push_args(int nargs, va_list args)
 	  void *arg;
 
 	  name = get_api_type_name(type);
-	  if (!name) {
-	    assert(0);
-	    return;
-	  }
+          fc_assert_ret(NULL != name);
 
 	  arg = va_arg(args, void*);
 	  tolua_pushusertype(state, arg, name);

@@ -171,7 +171,8 @@ void handle_authentication_req(enum authentication_type type, char *message)
     dialog_config = ENTER_PASSWORD_TYPE;
     break;
   default:
-    assert(0);
+    log_error("Unsupported authentication type %d: %s.", type, message);
+    break;
   }
 
   XtPopup(shell, XtGrabNone);
@@ -336,7 +337,8 @@ void connect_callback(Widget w, XtPointer client_data,
     send_packet_authentication_reply(&client.conn, &reply);
     break;
   default:
-    assert(0);
+    log_error("Unsupported dialog configuration: %d", dialog_config)
+    break;
   }
 }
 

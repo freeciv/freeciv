@@ -33,7 +33,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -198,7 +197,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     fp->u.bz2.plain = fc_fopen(filename, mode);
     if (fp->u.bz2.plain) {
       /*  Open for read handled earlier */
-      assert(mode[0] == 'w');
+      fc_assert_ret_val('w' == mode[0], NULL);
       fp->u.bz2.file = BZ2_bzWriteOpen(&fp->u.bz2.error, fp->u.bz2.plain,
                                        compress_level, 1, 15);
       if (fp->u.bz2.error != BZ_OK) {

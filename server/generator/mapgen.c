@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,11 +33,13 @@
 
 /* server/generator */
 #include "height_map.h"
-#include "mapgen.h"
 #include "mapgen_topology.h"
 #include "startpos.h"
 #include "temperature_map.h"
 #include "utilities.h"
+
+#include "mapgen.h"
+
 
 /* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
 #define rmap(ptile) (river_map[tile_index(ptile)])
@@ -156,7 +157,7 @@ typedef enum { MC_NONE, MC_LOW, MC_NLOW } miscellaneous_c;
 ***************************************************************************/
 static bool test_wetness(const struct tile *ptile, wetness_c c)
 {
-  switch(c) {
+  switch (c) {
   case WC_ALL:
     return TRUE;
   case WC_DRY:
@@ -164,7 +165,7 @@ static bool test_wetness(const struct tile *ptile, wetness_c c)
   case WC_NDRY:
     return !map_pos_is_dry(ptile);
   }
-  assert(0);
+  log_error("Invalid wetness_c %d", c);
   return FALSE;
 }
 
@@ -181,7 +182,7 @@ static bool test_miscellaneous(const struct tile *ptile, miscellaneous_c c)
   case MC_NLOW:
     return !map_pos_is_low(ptile);
   }
-  assert(0);
+  log_error("Invalid miscellaneous_c %d", c);
   return FALSE;
 }
 
@@ -491,7 +492,7 @@ static void place_terrain(struct tile *ptile, int diff,
   if (*to_be_placed <= 0) {
     return;
   }
-  assert(not_placed(ptile));
+  fc_assert_ret(not_placed(ptile));
   tile_set_terrain(ptile, pterrain);
   map_set_placed(ptile);
   (*to_be_placed)--;
@@ -894,7 +895,7 @@ static bool make_river(struct tile *ptile)
       cardinal_adjc_dir_iterate(ptile, tile1, dir) {
 	if (rd_direction_is_valid[dir]) {
 	  rd_comparison_val[dir] = (test_funcs[func_num].func) (tile1);
-	  assert(rd_comparison_val[dir] >= 0);
+          fc_assert_action(rd_comparison_val[dir] >= 0, continue);
 	  if (best_val == -1) {
 	    best_val = rd_comparison_val[dir];
 	  } else {
@@ -902,7 +903,7 @@ static bool make_river(struct tile *ptile)
 	  }
 	}
       } cardinal_adjc_dir_iterate_end;
-      assert(best_val != -1);
+      fc_assert_action(best_val != -1, continue);
 
       /* should we abort? */
       if (best_val > 0 && test_funcs[func_num].fatal) {
@@ -950,7 +951,7 @@ static bool make_river(struct tile *ptile)
 	}
       }
     } cardinal_adjc_dir_iterate_end;
-    assert(direction == 0);
+    fc_assert_ret_val(direction == 0, FALSE);
 
   } /* end while; (Make a river.) */
 }
@@ -1098,16 +1099,15 @@ static void make_land(void)
       break;
     }
   } terrain_type_iterate_end;
-  if (land_fill == NULL) {
-    log_fatal("No land terrain type could be found for the "
-              "purpose of temporarily filling in land tiles during map "
-              "generation. This could be an error in freeciv, or a "
-              "mistake in the terrain.ruleset file. Please make sure "
-              "there is at least one land terrain type in the ruleset, "
-              "or use a different map generator. If this error persists, "
-              "please report it at: %s", BUG_URL);
-    assert(land_fill != NULL);
-  }
+
+  fc_assert_exit_msg(NULL != land_fill,
+                     "No land terrain type could be found for the purpose "
+                     "of temporarily filling in land tiles during map "
+                     "generation. This could be an error in freeciv, or a "
+                     "mistake in the terrain.ruleset file. Please make sure "
+                     "there is at least one land terrain type in the "
+                     "ruleset, or use a different map generator. If this "
+                     "error persists, please report it at: %s", BUG_URL);
 
   hmap_shore_level = (hmap_max_level * (100 - map.server.landpercent)) / 100;
   ini_hmap_low_level();
@@ -1187,7 +1187,7 @@ static void remove_tiny_islands(void)
 {
   struct terrain *shallow = most_shallow_ocean();
 
-  assert(NULL != shallow);
+  fc_assert_ret(NULL != shallow);
   whole_map_iterate(ptile) {
     if (is_tiny_island(ptile)) {
       tile_set_terrain(ptile, shallow);
@@ -1391,7 +1391,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       switch(mode) {
         case MT_SINGLE:
 	  mode = MT_2or3;
-	  break;
+	  continue;
 	case MT_2or3:
 	  mode = MT_ALL;
 	  break;
@@ -1399,7 +1399,6 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 	  mode = MT_VARIABLE;
 	  break;
 	default:
-	  assert(0);
 	  die("The server couldn't allocate starting positions.");
       }
     }
@@ -1534,10 +1533,10 @@ static struct tile *get_random_map_position_from_state(
 {
   int xn, yn;
 
-  assert((pstate->e - pstate->w) > 0);
-  assert((pstate->e - pstate->w) < map.xsize);
-  assert((pstate->s - pstate->n) > 0);
-  assert((pstate->s - pstate->n) < map.ysize);
+  fc_assert_ret_val((pstate->e - pstate->w) > 0, NULL);
+  fc_assert_ret_val((pstate->e - pstate->w) < map.xsize, NULL);
+  fc_assert_ret_val((pstate->s - pstate->n) > 0, NULL);
+  fc_assert_ret_val((pstate->s - pstate->n) < map.ysize, NULL);
 
   xn = pstate->w + myrand(pstate->e - pstate->w);
   yn = pstate->n + myrand(pstate->s - pstate->n);
@@ -1593,7 +1592,7 @@ static void fill_island(int coast, long int *bucket,
   }
 
   /* must have at least one terrain selection given in tersel_list */
-  log_assert_ret(ntersel != 0);
+  fc_assert_ret(ntersel != 0);
 
   capac = pstate->totalmass;
   i = *bucket / capac;
@@ -2018,7 +2017,7 @@ static bool make_island(int islemass, int starters,
 
   /* The terrain selection lists have to be initialised.
    * (see island_terrain_init()) */
-  assert(island_terrain.init == TRUE);
+  fc_assert_ret_val(island_terrain.init, FALSE);
 
   if (islemass == 0) {
     /* this only runs to initialise static things, not to actually
@@ -2066,7 +2065,7 @@ static bool make_island(int islemass, int starters,
     if (i <= 0) {
       return FALSE;
     }
-    assert(starters >= 0);
+    fc_assert_ret_val(starters >= 0, FALSE);
     log_verbose("island %i", pstate->isleindex);
 
     /* keep trying to place an island, and decrease the size of
@@ -2123,7 +2122,7 @@ static void initworld(struct gen234_state *pstate)
 {
   struct terrain *deepest_ocean = pick_ocean(TERRAIN_OCEAN_DEPTH_MAXIMUM);
 
-  assert(NULL != deepest_ocean);
+  fc_assert(NULL != deepest_ocean);
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
   create_placed_map(); /* land tiles which aren't placed yet */
   create_tmap(FALSE);
@@ -2179,7 +2178,8 @@ static void mapgenerator2(void)
                        * (map.xsize - spares)) / 100;
   totalweight = 100 * player_count();
 
-  assert(!placed_map_is_initialized());
+  fc_assert_action(!placed_map_is_initialized(),
+                   map.server.generator = 1; return);
 
   while (!done && bigfrac > midfrac) {
     done = TRUE;

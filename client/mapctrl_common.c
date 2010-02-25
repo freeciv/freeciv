@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdlib.h>		/* qsort */
 
 /* utility */
@@ -574,7 +573,7 @@ void adjust_workers_button_pressed(int canvas_x, int canvas_y)
       int city_x, city_y;
       bool success = city_base_to_city_map(&city_x, &city_y, pcity, ptile);
 
-      assert(success);
+      fc_assert(success);
 
       if (NULL != tile_worked(ptile) && tile_worked(ptile) == pcity) {
 	dsend_packet_city_make_specialist(&client.conn, pcity->id,

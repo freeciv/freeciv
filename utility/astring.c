@@ -42,11 +42,11 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 
+#include "log.h"                /* fc_assert */
 #include "mem.h"
-#include "support.h"		/* my_vsnprintf, mystrlcat */
+#include "support.h"            /* my_vsnprintf, mystrlcat */
 
 #include "astring.h"
 
@@ -56,7 +56,8 @@
 void astr_init(struct astring *astr)
 {
   struct astring zero_astr = ASTRING_INIT;
-  assert(astr != NULL);
+
+  fc_assert_ret(NULL != astr);
   *astr = zero_astr;
 }
 
@@ -71,9 +72,9 @@ void astr_minsize(struct astring *astr, size_t n)
 {
   int n1;
   bool was_null = (astr->n == 0);
-  
-  assert(astr != NULL);
-  
+
+  fc_assert_ret(NULL != astr);
+
   astr->n = n;
   if (n <= astr->n_alloc) {
     return;
@@ -96,10 +97,10 @@ void astr_free(struct astring *astr)
 {
   struct astring zero_astr = ASTRING_INIT;
 
-  assert(astr != NULL);
-  
+  fc_assert_ret(NULL != astr);
+
   if (astr->n_alloc > 0) {
-    assert(astr->str != NULL);
+    fc_assert_ret(NULL != astr->str);
     free(astr->str);
   }
   *astr = zero_astr;
@@ -161,7 +162,7 @@ void astr_add_line(struct astring *astr, const char *format, ...)
 ****************************************************************************/
 void astr_break_lines(struct astring *astr, size_t desired_len)
 {
-  assert(NULL != astr);
+  fc_assert_ret(NULL != astr);
 
   fc_break_lines(astr->str, desired_len);
 }
@@ -171,7 +172,7 @@ void astr_break_lines(struct astring *astr, size_t desired_len)
 ***********************************************************************/
 void astr_clear(struct astring *astr)
 {
-  assert(astr != NULL);
+  fc_assert_ret(NULL != astr);
 
   if (astr->n == 0) {
     /* astr_minsize is really astr_size, so we don't want to reduce the

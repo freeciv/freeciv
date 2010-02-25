@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* gui-sdl */
 #include "colors.h"
 #include "themespec.h"
@@ -149,7 +147,8 @@ struct theme_color_system *theme_color_system_read(struct section_file *file)
   int i;
   struct theme_color_system *colors = fc_malloc(sizeof(*colors));
 
-  assert(ARRAY_SIZE(color_names) == (THEME_COLOR_LAST - COLOR_LAST));
+  fc_assert_ret_val(ARRAY_SIZE(color_names)
+                    == (THEME_COLOR_LAST - COLOR_LAST), NULL);
   for (i = 0; i < (THEME_COLOR_LAST - COLOR_LAST); i++) {
     colors->colors[i].r
       = secfile_lookup_int_default(file, 0, "colors.%s0.r", color_names[i]);

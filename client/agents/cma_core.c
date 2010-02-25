@@ -15,40 +15,47 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 #ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
-/* common & utility */
-#include "city.h"
-#include "dataio.h"
-#include "events.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
-#include "government.h"
 #include "hash.h"
 #include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "shared.h"		/* for MIN() */
+#include "shared.h"             /* for MIN() */
 #include "specialist.h"
 #include "support.h"
 #include "timing.h"
 
+/* common */
+#include "city.h"
+#include "dataio.h"
+#include "events.h"
+#include "game.h"
+#include "government.h"
+#include "packets.h"
+#include "specialist.h"
+
 /* client */
-#include "agents.h"
 #include "attribute.h"
+#include "client_main.h"
+#include "climisc.h"
+#include "packhand.h"
+
+/* client/include */
 #include "chatline_g.h"
 #include "citydlg_g.h"
 #include "cityrep_g.h"
-#include "client_main.h"
-#include "climisc.h"
 #include "messagewin_g.h"
-#include "packhand.h"
+
+/* client/agents */
+#include "agents.h"
 
 #include "cma_core.h"
+
 
 /*
  * The CMA is an agent. The CMA will subscribe itself to all city
@@ -160,7 +167,7 @@ static bool apply_result_on_server(struct city *pcity,
   bool success;
   struct tile *pcenter = city_tile(pcity);
 
-  assert(result->found_a_valid);
+  fc_assert_ret_val(result->found_a_valid, FALSE);
   cm_result_from_main_map(&current_state, pcity, TRUE);
 
   if (my_results_are_equal(&current_state, result)
@@ -225,7 +232,7 @@ static bool apply_result_on_server(struct city *pcity,
     if (NULL == tile_worked(ptile)
      && result->worker_positions_used[x][y]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);
-      assert(city_can_work_tile(pcity, ptile));
+      fc_assert_action(city_can_work_tile(pcity, ptile), break);
 
       last_request_id =
         dsend_packet_city_make_worker(&client.conn, pcity->id, x, y);
@@ -401,7 +408,7 @@ static void handle_city(struct city *pcity)
   pcity = game_find_city_by_number(city_id);
 
   if (!handled) {
-    assert(pcity != NULL);
+    fc_assert_ret(pcity != NULL);
     log_handle_city2("  not handled");
 
     create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
@@ -487,7 +494,7 @@ void cma_init(void)
 bool cma_apply_result(struct city *pcity,
 		     const struct cm_result *const result)
 {
-  assert(!cma_is_city_under_agent(pcity, NULL));
+  fc_assert(!cma_is_city_under_agent(pcity, NULL));
   if (result->found_a_valid) {
     return apply_result_on_server(pcity, result);
   } else
@@ -503,7 +510,7 @@ void cma_put_city_under_agent(struct city *pcity,
   log_debug("cma_put_city_under_agent(city %d=\"%s\")",
             pcity->id, city_name(pcity));
 
-  assert(city_owner(pcity) == client.conn.playing);
+  fc_assert_ret(city_owner(pcity) == client.conn.playing);
 
   cma_set_parameter(ATTR_CITY_CMA_PARAMETER, pcity->id, parameter);
 
@@ -562,12 +569,12 @@ bool cma_get_parameter(enum attr_city attr, int city_id,
   if (len == 0) {
     return FALSE;
   }
-  assert(len == SAVED_PARAMETER_SIZE);
+  fc_assert_ret_val(len == SAVED_PARAMETER_SIZE, FALSE);
 
   dio_input_init(&din, buffer, len);
 
   dio_get_uint8(&din, &version);
-  assert(version == 2);
+  fc_assert_ret_val(version == 2, FALSE);
 
   /* Initialize the parameter (includes some AI-only fields that aren't
    * touched below). */
@@ -610,7 +617,7 @@ void cma_set_parameter(enum attr_city attr, int city_id,
   dio_put_uint8(&dout, 0); /* Dummy value; used to be factor_target. */
   dio_put_bool8(&dout, parameter->require_happy);
 
-  assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
+  fc_assert(dio_output_used(&dout) == SAVED_PARAMETER_SIZE);
 
   attr_city_set(attr, city_id, SAVED_PARAMETER_SIZE, buffer);
 }

@@ -57,7 +57,7 @@ static void package_event_full(struct packet_chat_msg *packet,
                                const struct ft_color color,
                                const char *format, va_list vargs)
 {
-  log_assert_ret(NULL != packet);
+  fc_assert_ret(NULL != packet);
 
   packet->tile = (NULL != ptile ? tile_index(ptile) : -1);
   packet->event = event;
@@ -393,8 +393,8 @@ static bool event_cache_status = FALSE;
 **************************************************************************/
 static void event_cache_data_destroy(struct event_cache_data *pdata)
 {
-  log_assert_ret(NULL != event_cache);
-  log_assert_ret(NULL != pdata);
+  fc_assert_ret(NULL != event_cache);
+  fc_assert_ret(NULL != pdata);
 
   event_cache_data_list_unlink(event_cache, pdata);
   free(pdata);
@@ -418,7 +418,7 @@ event_cache_data_new(const struct packet_chat_msg *packet, int turn,
      * recursion. */
     return NULL;
   }
-  log_assert_ret_val(NULL != packet, NULL);
+  fc_assert_ret_val(NULL != packet, NULL);
 
   if (!game.server.event_cache.chat && packet->event == E_CHAT_MSG) {
     /* chat messages should _not_ be saved */
@@ -535,7 +535,7 @@ void event_cache_add_for_player(const struct packet_chat_msg *packet,
 
     pdata = event_cache_data_new(packet, game.info.turn, time(NULL),
                                  server_state(), ECT_PLAYERS, NULL);
-    log_assert_ret(NULL != pdata);
+    fc_assert_ret(NULL != pdata);
     BV_SET(pdata->target, player_index(pplayer));
   }
 }

@@ -15,10 +15,8 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
-#include "government.h"
+#include "log.h"
 #include "mem.h"
 #include "shared.h"
 
@@ -26,7 +24,7 @@
 #include "city.h"
 #include "combat.h"
 #include "game.h"
-#include "log.h"
+#include "government.h"
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
@@ -89,7 +87,7 @@ const char *ai_unit_task_rule_name(const enum ai_unit_task task)
      return "Hunter";
   }
   /* no default, ensure all types handled somehow */
-  assert(FALSE);
+  log_error("Unsupported ai_unit_task %d.", task);
   return NULL;
 }
 
@@ -112,7 +110,7 @@ const char *ai_choice_rule_name(const struct ai_choice *choice)
     return "(unknown)";
   };
   /* no default, ensure all types handled somehow */
-  assert(FALSE);
+  log_error("Unsupported ai_unit_task %d.", choice->type);
   return NULL;
 }
 
@@ -848,7 +846,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   /* If the unit is under (human) orders we shouldn't control it.
    * Allow removal of old role with AIUNIT_NONE. */
-  assert(!unit_has_orders(punit) || task == AIUNIT_NONE);
+  fc_assert_ret(!unit_has_orders(punit) || task == AIUNIT_NONE);
 
   UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
            ai_unit_task_rule_name(punit->ai.ai_role),
@@ -912,7 +910,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     /* Set victim's hunted bit - the hunt is on! */
     struct unit *target = game_find_unit_by_number(punit->ai.target);
 
-    assert(target != NULL);
+    fc_assert_ret(target != NULL);
     target->ai.hunted |= (1 << player_index(unit_owner(punit)));
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
@@ -938,7 +936,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 bool ai_unit_make_homecity(struct unit *punit, struct city *pcity)
 {
   CHECK_UNIT(punit);
-  assert(unit_owner(punit) == city_owner(pcity));
+  fc_assert_ret_val(unit_owner(punit) == city_owner(pcity), TRUE);
 
   if (punit->homecity == 0 && !unit_has_type_role(punit, L_EXPLORER)) {
     /* This unit doesn't pay any upkeep while it doesn't have a homecity,
@@ -968,11 +966,11 @@ static void ai_unit_bodyguard_move(struct unit *bodyguard, struct tile *ptile)
   struct unit *punit;
   struct player *pplayer;
 
-  assert(bodyguard != NULL);
+  fc_assert_ret(bodyguard != NULL);
   pplayer = unit_owner(bodyguard);
-  assert(pplayer != NULL);
+  fc_assert_ret(pplayer != NULL);
   punit = aiguard_charge_unit(bodyguard);
-  assert(punit != NULL);
+  fc_assert_ret(punit != NULL);
 
   CHECK_GUARD(bodyguard);
   CHECK_CHARGE_UNIT(punit);
@@ -1001,8 +999,8 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   bool alive;
 
   CHECK_UNIT(punit);
-  assert(unit_owner(punit)->ai_data.control);
-  assert(is_tiles_adjacent(punit->tile, ptile));
+  fc_assert_ret_val(unit_owner(punit)->ai_data.control, TRUE);
+  fc_assert_ret_val(is_tiles_adjacent(punit->tile, ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
   (void) unit_move_handling(punit, ptile, FALSE, FALSE);
@@ -1035,11 +1033,11 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   const bool is_ai = pplayer->ai_data.control;
 
   CHECK_UNIT(punit);
-  log_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
-                         "Tiles not adjacent: Unit = %d, "
-                         "from = (%d, %d]) to = (%d, %d).",
-                         punit->id, TILE_XY(unit_tile(punit)),
-                         TILE_XY(ptile));
+  fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
+                        "Tiles not adjacent: Unit = %d, "
+                        "from = (%d, %d]) to = (%d, %d).",
+                        punit->id, TILE_XY(unit_tile(punit)),
+                        TILE_XY(ptile));
 
   /* if enemy, stop and give a chance for the ai attack function
    * or the human player to handle this case */

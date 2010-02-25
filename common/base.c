@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -178,9 +176,9 @@ bool can_build_base(const struct unit *punit, const struct base_type *pbase,
 enum base_flag_id base_flag_from_str(const char *s)
 {
   enum base_flag_id i;
-  
-  assert(ARRAY_SIZE(base_type_flag_names) == BF_LAST);
-  
+
+  fc_assert_ret_val(ARRAY_SIZE(base_type_flag_names) == BF_LAST, BF_LAST);
+
   for(i = 0; i < BF_LAST; i++) {
     if (mystrcasecmp(base_type_flag_names[i], s)==0) {
       return i;
@@ -205,7 +203,7 @@ struct base_type *base_by_number(const Base_type_id id)
 **************************************************************************/
 Base_type_id base_number(const struct base_type *pbase)
 {
-  assert(pbase);
+  fc_assert_ret_val(NULL != pbase, -1);
   return pbase->item_number;
 }
 
@@ -217,7 +215,7 @@ Base_type_id base_number(const struct base_type *pbase)
 **************************************************************************/
 Base_type_id base_index(const struct base_type *pbase)
 {
-  assert(pbase);
+  fc_assert_ret_val(NULL != pbase, -1);
   return pbase - base_types;
 }
 
@@ -281,9 +279,10 @@ void base_types_free(void)
 enum base_gui_type base_gui_type_from_str(const char *s)
 {
   enum base_gui_type i;
-  
-  assert(ARRAY_SIZE(base_gui_type_names) == BASE_GUI_LAST);
-  
+
+  fc_assert_ret_val(ARRAY_SIZE(base_gui_type_names) == BASE_GUI_LAST,
+                    BASE_GUI_LAST);
+
   for(i = 0; i < BASE_GUI_LAST; i++) {
     if (mystrcasecmp(base_gui_type_names[i], s)==0) {
       return i;

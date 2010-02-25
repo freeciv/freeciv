@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -169,7 +167,7 @@ void report_dialogs_freeze(void)
 void report_dialogs_thaw(void)
 {
   frozen_level--;
-  assert(frozen_level >= 0);
+  fc_assert(frozen_level >= 0);
   if (frozen_level == 0) {
     update_report_dialogs();
   }

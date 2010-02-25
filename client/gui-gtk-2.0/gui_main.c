@@ -19,7 +19,6 @@
 #include "SDL.h"
 #endif
 
-#include <assert.h>
 #ifdef HAVE_LOCALE_H
 #include <locale.h>
 #endif
@@ -418,8 +417,8 @@ static gboolean key_press_map_canvas(GtkWidget *w, GdkEventKey *ev,
     return FALSE;
   }
 
-  assert(MAX_NUM_BATTLEGROUPS == 4);
-  
+  fc_assert(MAX_NUM_BATTLEGROUPS == 4);
+
   if ((ev->state & GDK_CONTROL_MASK)) {
     switch (ev->keyval) {
 
@@ -1819,8 +1818,8 @@ void sound_bell(void)
 void set_unit_icon(int idx, struct unit *punit)
 {
   GtkWidget *w;
-  
-  assert(idx >= -1 && idx < num_units_below);
+
+  fc_assert_ret(idx >= -1 && idx < num_units_below);
 
   if (idx == -1) {
     w = unit_pixmap;
@@ -1972,7 +1971,7 @@ static void set_wait_for_writable_socket(struct connection *pc,
 {
   static bool previous_state = FALSE;
 
-  assert(pc == &client.conn);
+  fc_assert_ret(pc == &client.conn);
 
   if (previous_state == socket_writable)
     return;

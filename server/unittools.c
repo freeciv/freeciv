@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1356,7 +1355,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   punit->id = identity_number();
   idex_register_unit(punit);
 
-  assert(ptile != NULL);
+  fc_assert_ret_val(ptile != NULL, NULL);
   punit->tile = ptile;
 
   pcity = game_find_city_by_number(homecity_id);
@@ -1380,7 +1379,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
     /* Set transporter for unit. */
     punit->transported_by = ptrans->id;
   } else {
-    assert(!ptile || can_unit_exist_at_tile(punit, ptile));
+    fc_assert_ret_val(!ptile || can_unit_exist_at_tile(punit, ptile), NULL);
   }
 
   /* Assume that if moves_left < 0 then the unit is "fresh",
@@ -1392,7 +1391,7 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
   unit_list_prepend(pplayer->units, punit);
   unit_list_prepend(ptile->units, punit);
   if (pcity && !utype_has_flag(type, F_NOHOME)) {
-    assert(city_owner(pcity) == pplayer);
+    fc_assert(city_owner(pcity) == pplayer);
     unit_list_prepend(pcity->units_supported, punit);
     /* Refresh the unit's homecity. */
     city_refresh(pcity);
@@ -1432,7 +1431,7 @@ static void server_remove_unit(struct unit *punit)
 
 #ifdef DEBUG
   unit_list_iterate(ptile->units, pcargo) {
-    assert(pcargo->transported_by != punit->id);
+    fc_assert(pcargo->transported_by != punit->id);
   } unit_list_iterate_end;
 #endif
 
@@ -1705,7 +1704,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
     struct unit *other_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
-    assert(unitcount > 1);
+    fc_assert(unitcount > 1);
 
     /* initialize */
     for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
@@ -1749,7 +1748,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
-          assert(other_killed[i] == NULL);
+          fc_assert(other_killed[i] == NULL);
           notify_player(player_by_number(i), unit_tile(punit),
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon ... the Polish Destroyer." */
@@ -1758,7 +1757,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                         nation_adjective_for_player(pvictor),
                         pkiller_link);
         } else {
-          assert(other_killed[i] != punit);
+          fc_assert(other_killed[i] != punit);
           notify_player(player_by_number(i), unit_tile(punit),
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon lost when the Polish Destroyer
@@ -2378,7 +2377,7 @@ static void unit_enter_hut(struct unit *punit)
 static void put_unit_onto_transporter(struct unit *punit, struct unit *ptrans)
 {
   /* In the future we may updated ptrans->occupancy. */
-  assert(punit->transported_by == -1);
+  fc_assert(punit->transported_by == -1);
   punit->transported_by = ptrans->id;
 }
 
@@ -2389,7 +2388,7 @@ static void pull_unit_from_transporter(struct unit *punit,
 				       struct unit *ptrans)
 {
   /* In the future we may updated ptrans->occupancy. */
-  assert(punit->transported_by == ptrans->id);
+  fc_assert(punit->transported_by == ptrans->id);
   punit->transported_by = -1;
 }
 
@@ -3093,7 +3092,7 @@ bool execute_orders(struct unit *punit)
   enum unit_activity activity;
   Base_type_id base;
 
-  assert(unit_has_orders(punit));
+  fc_assert_ret_val(unit_has_orders(punit), TRUE);
 
   if (punit->activity != ACTIVITY_IDLE) {
     /* Unit's in the middle of an activity; wait for it to finish. */
@@ -3322,13 +3321,13 @@ bool execute_orders(struct unit *punit)
     }
 
     if (last_order) {
-      assert(punit->has_orders == FALSE);
+      fc_assert(punit->has_orders == FALSE);
       log_debug("  stopping because orders are complete");
       return TRUE;
     }
 
     if (punit->orders.index == punit->orders.length) {
-      assert(punit->orders.repeat);
+      fc_assert(punit->orders.repeat);
       /* Start over. */
       log_debug("  repeating orders.");
       punit->orders.index = 0;
@@ -3358,7 +3357,7 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
     break;
   }
 
-  assert(0);
+  log_error("Unsupported vision layer variant: %d.", vlayer);
   return 0;
 }
 

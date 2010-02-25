@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include <gdk/gdkkeysyms.h>
 
 /* utility */

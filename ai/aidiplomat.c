@@ -15,25 +15,28 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
+/* utility */
+#include "log.h"
+#include "mem.h"
+#include "shared.h"
+#include "timing.h"
 
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "packets.h"
-#include "path_finding.h"
-#include "pf_tools.h"
 #include "player.h"
-#include "shared.h"
-#include "timing.h"
 #include "unit.h"
 #include "unitlist.h"
 
+/* aicore */
+#include "pf_tools.h"
+
+/* server */
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -43,6 +46,7 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -53,6 +57,7 @@
 #include "aiunit.h"
 
 #include "aidiplomat.h"
+
 
 #define LOG_DIPLOMAT LOG_DEBUG
 #define LOG_DIPLOMAT_BUILD LOG_DEBUG
@@ -280,7 +285,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   int gold_avail = pplayer->economic.gold - 2 * pplayer->ai_data.est_upkeep;
   int incite_cost;
 
-  assert(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_data.control);
 
   if (punit->moves_left == 0) {
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");
@@ -346,7 +351,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
   int incite_cost = 0; /* incite cost */
   bool dipldef; /* whether target is protected by diplomats */
 
-  assert(punit != NULL);
+  fc_assert_ret(punit != NULL);
   *ctarget = NULL;
   *move_dist = -1;
 
@@ -674,8 +679,8 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     }
 
     ai_unit_new_role(punit, task, ctarget->tile);
-    assert(punit->moves_left > 0 && ctarget 
-           && punit->ai.ai_role != AIUNIT_NONE);
+    fc_assert(punit->moves_left > 0 && ctarget 
+              && punit->ai.ai_role != AIUNIT_NONE);
   }
 
   CHECK_UNIT(punit);

@@ -351,7 +351,7 @@ void ggz_report_victory(void)
       teams[i] = num_teams;
       num_teams++;
     } else {
-      assert(teams[i] >= 0 && teams[i] < num_teams);
+      fc_assert(teams[i] >= 0 && teams[i] < num_teams);
     }
   }
 

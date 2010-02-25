@@ -774,7 +774,7 @@ void send_diplomatic_meetings(struct connection *dest)
     struct Treaty *ptreaty = find_treaty(pplayer, other);
 
     if (ptreaty) {
-      assert(pplayer != other);
+      fc_assert_action(pplayer != other, continue);
       dsend_packet_diplomacy_init_meeting(dest, player_number(other),
                                           player_number(pplayer));
       clause_list_iterate(ptreaty->clauses, pclause) {

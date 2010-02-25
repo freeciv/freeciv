@@ -97,7 +97,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 #include "log.h"
@@ -410,7 +409,7 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
   struct hash_table *h_new;
   unsigned i;
 
-  assert(new_nbuckets >= h->num_entries);
+  fc_assert_ret(new_nbuckets >= h->num_entries);
 
   h_new = hash_new_nbuckets(h->fval, h->fcmp,
 			    h->free_key_func, h->free_data_func,
@@ -421,9 +420,7 @@ static void hash_resize_table(struct hash_table *h, unsigned int new_nbuckets)
     struct hash_bucket *bucket = &h->buckets[i];
 
     if (bucket->used == BUCKET_USED) {
-      if (!hash_insert(h_new, bucket->key, bucket->data)) {
-	assert(0);
-      }
+      fc_assert_ret(hash_insert(h_new, bucket->key, bucket->data));
     }
   }
   h_new->frozen = FALSE;
@@ -544,7 +541,7 @@ bool hash_insert(struct hash_table *h, const void *key, const void *data)
     return FALSE;
   }
   if (bucket->used == BUCKET_DELETED) {
-    assert(h->num_deleted>0);
+    fc_assert_ret_val(0 < h->num_deleted, FALSE);
     h->num_deleted--;
   }
 
@@ -582,7 +579,7 @@ void *hash_replace(struct hash_table *h, const void *key, const void *data)
   } else {
     ret = NULL;
     if (bucket->used == BUCKET_DELETED) {
-      assert(h->num_deleted>0);
+      fc_assert_ret_val(0 < h->num_deleted, NULL);
       h->num_deleted--;
     }
     h->num_entries++;
@@ -630,7 +627,7 @@ static void hash_delete_bucket(struct hash_table *h,
     zero_hbucket(bucket);
     bucket->used = BUCKET_DELETED;
     h->num_deleted++;
-    assert(h->num_entries > 0);
+    fc_assert_ret(0 < h->num_entries);
     h->num_entries--;
   } else {
     if (old_key) {
@@ -765,10 +762,11 @@ unsigned int hash_num_deleted(const struct hash_table *h)
   random order.
 **************************************************************************/
 const void *hash_key_by_number(const struct hash_table *h,
-			       unsigned int entry_number)
+                               unsigned int entry_number)
 {
   unsigned int bucket_nr, counter = 0;
-  assert(entry_number < h->num_entries);
+
+  fc_assert_ret_val(entry_number < h->num_entries, NULL);
 
   for (bucket_nr = 0; bucket_nr < h->num_buckets; bucket_nr++) {
     struct hash_bucket *bucket = &h->buckets[bucket_nr];

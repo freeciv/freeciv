@@ -422,17 +422,19 @@ static void check_vote(struct vote *pvote)
     switch (pvc->vote_cast) {
     case VOTE_YES:
       pvote->yes++;
-      break;
+      continue;
     case VOTE_NO:
       pvote->no++;
-      break;
+      continue;
     case VOTE_ABSTAIN:
       pvote->abstain++;
-      break;
-    default:
-      assert(0);
+      continue;
+    case VOTE_NUM:
       break;
     }
+
+    log_error("Unkown vote cast variant: %d.", pvc->vote_cast);
+    pvote->abstain++;
   } vote_cast_list_iterate_end;
 
   flags = pvote->flags;
@@ -644,7 +646,9 @@ void connection_vote(struct connection *pconn,
     pvc->conn_id = pconn->id;
   } else {
     /* Must never happen */
-    assert(0);
+    log_error("Failed to create a vote cast for connection %s.",
+              pconn->username);
+    return;
   }
   check_vote(pvote);
 }

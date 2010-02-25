@@ -22,7 +22,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdlib.h>
 
 #include "SDL.h"
@@ -348,7 +347,7 @@ static void add_target_to_production(struct widget *pTarget)
 {
   int dummy;
   struct universal prod;
-  assert(pTarget != NULL);
+  fc_assert_ret(pTarget != NULL);
   
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
@@ -384,7 +383,7 @@ static void get_target_help_data(struct widget *pTarget)
 {
   struct universal prod;
 
-  assert(pTarget != NULL);
+  fc_assert_ret(pTarget != NULL);
   
   /* redraw Target Icon */
   set_wstate(pTarget, FC_WS_SELLECTED);
@@ -852,8 +851,8 @@ static int global_worklist_callback(struct widget *pWidget)
 static const char * get_production_name(struct city *pCity,
 					struct universal prod, int *cost)
 {
-  assert(cost != NULL);
-        
+  fc_assert_ret_val(cost != NULL, NULL);
+
   *cost = universal_build_shield_cost(&prod);
   if(VUT_UTYPE == prod.kind) {
     return utype_name_translation(prod.value.utype);
@@ -872,7 +871,7 @@ static SDL_Surface * get_progress_icon(int stock, int cost, int *progress)
 {
   SDL_Surface *pIcon = NULL;
   int width;
-  assert(progress != NULL);
+  fc_assert_ret_val(progress != NULL, NULL);
   
   if(stock < cost) {
     width = ((float)stock / cost) * adj_size(116.0);

@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "ioz.h"
@@ -157,7 +155,7 @@ void game_remove_unit(struct unit *punit)
   struct city *pcity;
 
   /* Opaque server-only variable: the server must free this earlier. */
-  assert(punit->server.vision == NULL);
+  fc_assert(punit->server.vision == NULL);
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
@@ -230,9 +228,9 @@ void game_remove_city(struct city *pcity)
       }
     } city_tile_iterate_end;
   }
-  
+
   /* Opaque server-only variable: the server must free this earlier. */
-  assert(pcity->server.vision == NULL);
+  fc_assert(pcity->server.vision == NULL);
 
   idex_unregister_city(pcity);
   destroy_city_virtual(pcity);
@@ -477,7 +475,7 @@ void game_remove_player(struct player *pplayer)
   game_player_reset(pplayer);
 
 #if 0
-  assert(conn_list_size(pplayer->connections) == 0);
+  fc_assert(conn_list_size(pplayer->connections) == 0);
   /* FIXME: Connections that are unlinked here are left dangling.  It's up to
    * the caller to fix them.  This happens when /loading a game while a
    * client is connected. */
@@ -681,15 +679,15 @@ bool is_player_phase(const struct player *pplayer, int phase)
     return player_number(pplayer) == phase;
     break;
   case PMT_TEAMS_ALTERNATE:
-    assert(pplayer->team != NULL);
+    fc_assert_ret_val(NULL != pplayer->team, FALSE);
     return team_number(pplayer->team) == phase;
     break;
   default:
     break;
   }
 
-  log_fatal("Unrecognized phase mode %d in is_player_phase().", phase);
-  assert(FALSE);
+  fc_assert_msg(FALSE, "Unrecognized phase mode %d in is_player_phase().",
+                phase);
   return TRUE;
 }
 
@@ -701,7 +699,7 @@ const char *population_to_text(int thousand_citizen)
 {
   /* big_int_to_text can't handle negative values, and in any case we'd
    * better not have a negative population. */
-  assert(thousand_citizen >= 0);
+  fc_assert_ret_val(thousand_citizen >= 0, NULL);
   return big_int_to_text(thousand_citizen, 3);
 }
 

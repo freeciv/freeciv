@@ -27,16 +27,16 @@ sbuffer: ("string buffer")
   in separate sbuffer module by David Pfitzner <dwp@mso.anu.edu.au>.
 
   Uses fc_malloc() etc for allocations, so malloc failures
-  are handled there; makes liberal use of assert().
+  are handled there; makes liberal use of fc_assert_exit().
 ***************************************************************************/
 
 #ifdef HAVE_CONFIG_H
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
+#include "log.h"                /* fc_assert. */
 #include "mem.h"
 #include "shared.h"
 
@@ -80,8 +80,9 @@ static void sbuf_expand(struct sbuffer *sb)
 {
   void *prev_buffer;
 
-  assert(sb && (sb->size>0));
-  
+  fc_assert_ret(NULL != sb);
+  fc_assert_ret(0 < sb->size);
+
   prev_buffer = sb->buffer;
   sb->buffer = fc_malloc(sb->size);
 
@@ -96,9 +97,10 @@ static void sbuf_expand(struct sbuffer *sb)
 static void sbuf_align(struct sbuffer *sb)
 {
   int align_offset;
-  
-  assert(sb && (sb->offset>0));
-  
+
+  fc_assert_ret(NULL != sb);
+  fc_assert_ret(0 < sb->offset);
+
   align_offset = sb->offset % SBUF_ALIGN_SIZE;
   if (align_offset != 0) {
     sb->offset += SBUF_ALIGN_SIZE - align_offset;
@@ -112,7 +114,7 @@ static struct sbuffer *sbuf_new_size(size_t size)
 {
   struct sbuffer *sb;
 
-  assert(size>2*SBUF_ALIGN_SIZE);
+  fc_assert_ret_val(size > 2 * SBUF_ALIGN_SIZE, NULL);
 
   sb = (struct sbuffer *)fc_malloc(sizeof(*sb));
   sb->size = size;
@@ -138,9 +140,13 @@ struct sbuffer *sbuf_new(void)
 void *sbuf_malloc(struct sbuffer *sb, size_t size)
 {
   void *ret;
-  
-  assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
-  assert(size > 0 && size <= (sb->size-SBUF_ALIGN_SIZE));
+
+  fc_assert_exit(NULL != sb);
+  fc_assert_exit(NULL != sb->buffer);
+  fc_assert_exit(0 < sb->size);
+  fc_assert_exit(0 < sb->offset);
+  fc_assert_ret_val(0 < size, NULL);
+  fc_assert_exit(sb->size - SBUF_ALIGN_SIZE >= size);
 
   sbuf_align(sb);
 
@@ -148,7 +154,7 @@ void *sbuf_malloc(struct sbuffer *sb, size_t size)
   if (size > (sb->size - sb->offset)) {
     sbuf_expand(sb);
     sbuf_align(sb);
-    assert(size <= (sb->size - sb->offset));
+    fc_assert_exit(sb->size - sb->offset >= size);
   }
 
   ret = ADD_TO_POINTER(sb->buffer, sb->offset);
@@ -163,14 +169,17 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str)
 {
   size_t size = strlen(str)+1;
   char *ret;
-  
-  assert(sb && sb->buffer && (sb->size>0) && (sb->offset>0));
-  assert(size <= (sb->size-sizeof(char*)));
+
+  fc_assert_exit(NULL != sb);
+  fc_assert_exit(NULL != sb->buffer);
+  fc_assert_exit(0 < sb->size);
+  fc_assert_exit(0 < sb->offset);
+  fc_assert_exit(sb->size - sizeof(char *) >= size);
 
   /* check for space: */
   if (size > (sb->size - sb->offset)) {
     sbuf_expand(sb);
-    assert(size <= (sb->size - sb->offset));
+    fc_assert_exit(sb->size - sb->offset >= size);
   }
   ret = ADD_TO_POINTER(sb->buffer, sb->offset);
   memcpy(ret, str, size);	/* includes null-terminator */
@@ -184,8 +193,9 @@ char *sbuf_strdup(struct sbuffer *sb, const char *str)
 **************************************************************************/
 void sbuf_free(struct sbuffer *sb)
 {
-  assert(sb && sb->buffer);
-  
+  fc_assert_ret(NULL != sb);
+  fc_assert_ret(NULL != sb->buffer);
+
   do {
     void *next = *(char **)sb->buffer;
     free(sb->buffer);

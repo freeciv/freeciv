@@ -30,13 +30,14 @@ struct pft_amphibious;
 
 #ifdef DEBUG
 #define CHECK_UNIT(punit)                                                   \
-  (assert(punit != NULL),						    \
-   assert(unit_type(punit) != NULL),						    \
-   assert(unit_owner(punit) != NULL),					    \
-   assert(valid_player_by_number(player_index(unit_owner(punit))) == unit_owner(punit)),	    \
-   assert(game_find_unit_by_number(punit->id) != NULL))
+  (fc_assert(punit != NULL),                                                \
+   fc_assert(unit_type(punit) != NULL),                                     \
+   fc_assert(unit_owner(punit) != NULL),                                    \
+   fc_assert(valid_player_by_number(player_index(unit_owner(punit)))        \
+             == unit_owner(punit)),                                         \
+   fc_assert(game_find_unit_by_number(punit->id) != NULL))
 #else
-#define CHECK_UNIT(punit) assert(TRUE)
+#define CHECK_UNIT(punit) /* Do nothing */
 #endif
 
 /*

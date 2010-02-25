@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -107,7 +106,7 @@ Unit_type_id utype_count(void)
 **************************************************************************/
 Unit_type_id utype_index(const struct unit_type *punittype)
 {
-  assert(punittype);
+  fc_assert_ret_val(punittype, -1);
   return punittype - unit_types;
 }
 
@@ -116,7 +115,7 @@ Unit_type_id utype_index(const struct unit_type *punittype)
 **************************************************************************/
 Unit_type_id utype_number(const struct unit_type *punittype)
 {
-  assert(punittype);
+  fc_assert_ret_val(punittype, -1);
   return punittype->item_number;
 }
 
@@ -197,9 +196,9 @@ int utype_happy_cost(const struct unit_type *ut,
   Return whether the given unit class has the flag.
 **************************************************************************/
 bool uclass_has_flag(const struct unit_class *punitclass,
-		     enum unit_class_flag_id flag)
+                     enum unit_class_flag_id flag)
 {
-  assert(flag >= 0 && flag < UCF_LAST);
+  fc_assert_ret_val(flag >= 0 && flag < UCF_LAST, FALSE);
   return BV_ISSET(punitclass->flags, flag);
 }
 
@@ -208,7 +207,7 @@ bool uclass_has_flag(const struct unit_class *punitclass,
 **************************************************************************/
 bool utype_has_flag(const struct unit_type *punittype, int flag)
 {
-  assert(flag>=0 && flag<F_LAST);
+  fc_assert_ret_val(flag >= 0 && flag < F_LAST, FALSE);
   return BV_ISSET(punittype->flags, flag);
 }
 
@@ -226,7 +225,7 @@ bool unit_has_type_flag(const struct unit *punit, enum unit_flag_id flag)
 **************************************************************************/
 bool utype_has_role(const struct unit_type *punittype, int role)
 {
-  assert(role>=L_FIRST && role<L_LAST);
+  fc_assert_ret_val(role >= L_FIRST && role < L_LAST, FALSE);
   return BV_ISSET(punittype->roles, role - L_FIRST);
 }
 
@@ -570,8 +569,8 @@ enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
 {
   enum unit_class_flag_id i;
 
-  assert(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST);
-  
+  fc_assert_ret_val(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST, UCF_LAST);
+
   for(i = 0; i < UCF_LAST; i++) {
     if (mystrcasecmp(unit_class_flag_names[i], s)==0) {
       return i;
@@ -585,8 +584,8 @@ enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
 **************************************************************************/
 const char *unit_class_flag_rule_name(enum unit_class_flag_id id)
 {
-  assert(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST);
-  assert(id >= 0 && id < UCF_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST, NULL);
+  fc_assert_ret_val(id >= 0 && id < UCF_LAST, NULL);
   return unit_class_flag_names[id];
 }
 
@@ -597,7 +596,7 @@ void set_user_unit_flag_name(enum unit_flag_id id, const char *name)
 {
   int ufid = id - F_USER_FLAG_1;
 
-  assert(id >= F_USER_FLAG_1 && id < F_LAST);
+  fc_assert_ret(id >= F_USER_FLAG_1 && id < F_LAST);
 
   if (user_flag_names[ufid] != NULL) {
     free(user_flag_names[ufid]);
@@ -617,8 +616,8 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 {
   enum unit_flag_id i;
 
-  assert(ARRAY_SIZE(flag_names) == F_USER_FLAG_1);
-  
+  fc_assert_ret_val(ARRAY_SIZE(flag_names) == F_USER_FLAG_1, F_LAST);
+
   for (i = 0; i < F_USER_FLAG_1; i++) {
     if (mystrcasecmp(flag_names[i], s) == 0) {
       return i;
@@ -639,8 +638,8 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
 **************************************************************************/
 const char *unit_flag_rule_name(enum unit_flag_id id)
 {
-  assert(ARRAY_SIZE(flag_names) == F_USER_FLAG_1);
-  assert(id >= 0 && id < F_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(flag_names) == F_USER_FLAG_1, NULL);
+  fc_assert_ret_val(id >= 0 && id < F_LAST, NULL);
 
   if (id < F_USER_FLAG_1) {
     return flag_names[id];
@@ -657,7 +656,7 @@ enum unit_role_id find_unit_role_by_rule_name(const char *s)
 {
   enum unit_role_id i;
 
-  assert(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST));
+  fc_assert_ret_val(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST), L_LAST);
 
   for(i=L_FIRST; i<L_LAST; i++) {
     if (mystrcasecmp(role_names[i-L_FIRST], s)==0) {
@@ -672,8 +671,8 @@ enum unit_role_id find_unit_role_by_rule_name(const char *s)
 **************************************************************************/
 const char *unit_role_rule_name(enum unit_role_id id)
 {
-  assert(ARRAY_SIZE(role_names) == L_LAST);
-  assert(id >= 0 && id < L_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(role_names) == L_LAST, NULL);
+  fc_assert_ret_val(id >= 0 && id < L_LAST, NULL);
   return role_names[id];
 }
 
@@ -683,9 +682,9 @@ ignoring whether unit is obsolete and assuming the
 player has a coastal city.
 **************************************************************************/
 bool can_player_build_unit_direct(const struct player *p,
-				  const struct unit_type *punittype)
+                                  const struct unit_type *punittype)
 {
-  CHECK_UNIT_TYPE(punittype);
+  fc_assert_ret_val(NULL != punittype, FALSE);
 
   if (is_barbarian(p)
       && !utype_has_role(punittype, L_BARBARIAN_BUILD)
@@ -726,7 +725,8 @@ bool can_player_build_unit_direct(const struct player *p,
        * In the beginning of this function we checked that
        * barbarian player tries to build only role
        * L_BARBARIAN_BUILD or L_BARBARIAN_BUILD_TECH units. */
-      assert(utype_has_role(punittype, L_BARBARIAN_BUILD_TECH));
+      fc_assert_ret_val(utype_has_role(punittype, L_BARBARIAN_BUILD_TECH),
+                        FALSE);
 
       /* Client does not know all the advances other players have
        * got. So following gives wrong answer in the client.
@@ -800,9 +800,9 @@ returns TRUE if unit is available with current tech OR will be available
 with future tech. Returns FALSE if unit is obsolete.
 **************************************************************************/
 bool can_player_build_unit_later(const struct player *p,
-				 const struct unit_type *punittype)
+                                 const struct unit_type *punittype)
 {
-  CHECK_UNIT_TYPE(punittype);
+  fc_assert_ret_val(NULL != punittype, FALSE);
   if (utype_has_flag(punittype, F_NOBUILD)) {
     return FALSE;
   }
@@ -848,7 +848,7 @@ static void precalc_one(int i,
 	with_role[i][j++] = u;
       }
     } unit_type_iterate_end;
-    assert(j==n_with_role[i]);
+    fc_assert(j == n_with_role[i]);
   }
 }
 
@@ -884,8 +884,9 @@ How many unit types have specified role/flag.
 **************************************************************************/
 int num_role_units(int role)
 {
-  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
-  assert(!first_init);
+  fc_assert_ret_val((role >= 0 && role < F_LAST)
+                    || (role >= L_FIRST && role < L_LAST), -1);
+  fc_assert_ret_val(!first_init, -1);
   return n_with_role[role];
 }
 
@@ -895,10 +896,13 @@ Index -1 means (n-1), ie last one.
 **************************************************************************/
 struct unit_type *get_role_unit(int role, int index)
 {
-  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
-  assert(!first_init);
-  if (index==-1) index = n_with_role[role]-1;
-  assert(index>=0 && index<n_with_role[role]);
+  fc_assert_ret_val((role >= 0 && role < F_LAST)
+                    || (role >= L_FIRST && role < L_LAST), NULL);
+  fc_assert_ret_val(!first_init, NULL);
+  if (index==-1) {
+    index = n_with_role[role]-1;
+  }
+  fc_assert_ret_val(index >= 0 && index < n_with_role[role], NULL);
   return with_role[role][index];
 }
 
@@ -910,9 +914,10 @@ struct unit_type *best_role_unit(const struct city *pcity, int role)
 {
   struct unit_type *u;
   int j;
-  
-  assert((role>=0 && role<F_LAST) || (role>=L_FIRST && role<L_LAST));
-  assert(!first_init);
+
+  fc_assert_ret_val((role >= 0 && role < F_LAST)
+                    || (role >= L_FIRST && role < L_LAST), NULL);
+  fc_assert_ret_val(!first_init, NULL);
 
   for(j=n_with_role[role]-1; j>=0; j--) {
     u = with_role[role][j];
@@ -934,8 +939,9 @@ struct unit_type *best_role_unit_for_player(const struct player *pplayer,
 {
   int j;
 
-  assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
-  assert(!first_init);
+  fc_assert_ret_val((role >= 0 && role < F_LAST)
+                    || (role >= L_FIRST && role < L_LAST), NULL);
+  fc_assert_ret_val(!first_init, NULL);
 
   for(j = n_with_role[role]-1; j >= 0; j--) {
     struct unit_type *utype = with_role[role][j];
@@ -957,8 +963,9 @@ struct unit_type *first_role_unit_for_player(const struct player *pplayer,
 {
   int j;
 
-  assert((role >= 0 && role < F_LAST) || (role >= L_FIRST && role < L_LAST));
-  assert(!first_init);
+  fc_assert_ret_val((role >= 0 && role < F_LAST)
+                    || (role >= L_FIRST && role < L_LAST), NULL);
+  fc_assert_ret_val(!first_init, NULL);
 
   for(j = 0; j < n_with_role[role]; j++) {
     struct unit_type *utype = with_role[role][j];
@@ -1057,7 +1064,7 @@ Unit_Class_id uclass_count(void)
 **************************************************************************/
 Unit_Class_id uclass_index(const struct unit_class *pclass)
 {
-  assert(pclass);
+  fc_assert_ret_val(pclass, -1);
   return pclass - unit_classes;
 }
 
@@ -1066,7 +1073,7 @@ Unit_Class_id uclass_index(const struct unit_class *pclass)
 **************************************************************************/
 Unit_Class_id uclass_number(const struct unit_class *pclass)
 {
-  assert(pclass);
+  fc_assert_ret_val(pclass, -1);
   return pclass->item_number;
 }
 
@@ -1086,7 +1093,7 @@ struct unit_class *uclass_by_number(const Unit_Class_id id)
 ***************************************************************/
 struct unit_class *utype_class(const struct unit_type *punittype)
 {
-  assert(punittype->uclass);
+  fc_assert(NULL != punittype->uclass);
   return punittype->uclass;
 }
 

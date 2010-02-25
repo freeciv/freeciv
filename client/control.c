@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "hash.h"
@@ -246,9 +244,10 @@ void set_hover_state(struct unit_list *punits, enum cursor_hover_state state,
 		     enum unit_activity activity,
 		     enum unit_orders order)
 {
-  assert((punits && unit_list_size(punits) > 0) || state == HOVER_NONE);
-  assert(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
-  assert(state == HOVER_GOTO || order == ORDER_LAST);
+  fc_assert_ret((punits && unit_list_size(punits) > 0)
+                || state == HOVER_NONE);
+  fc_assert_ret(state == HOVER_CONNECT || activity == ACTIVITY_LAST);
+  fc_assert_ret(state == HOVER_GOTO || order == ORDER_LAST);
   hover_state = state;
   connect_activity = activity;
   goto_last_order = order;
@@ -386,7 +385,7 @@ void set_unit_focus(struct unit *punit)
   if (!can_client_change_view()) {
     /* This function can be called to set the focus to NULL when
      * disconnecting.  In this case we don't want any other actions! */
-    assert(punit == NULL);
+    fc_assert(punit == NULL);
     return;
   }
 
@@ -933,7 +932,7 @@ void request_unit_goto(enum unit_orders last_order)
     update_unit_info_label(punits);
     control_mouse_cursor(NULL);
   } else {
-    assert(goto_is_active());
+    fc_assert_ret(goto_is_active());
     goto_add_waypoint();
   }
 }
@@ -1135,7 +1134,7 @@ void request_unit_connect(enum unit_activity activity)
     update_unit_info_label(punits);
     control_mouse_cursor(NULL);
   } else {
-    assert(goto_is_active());
+    fc_assert_ret(goto_is_active());
     goto_add_waypoint();
   }
 }
@@ -1615,7 +1614,7 @@ void request_unit_patrol(void)
     enter_goto_state(punits);
     create_line_at_mouse_pos();
   } else {
-    assert(goto_is_active());
+    fc_assert_ret(goto_is_active());
     goto_add_waypoint();
   }
 }
@@ -2244,7 +2243,7 @@ static struct unit *quickselect(struct tile *ptile,
               *panymoveland = NULL, *panyland = NULL,
               *panymoveunit = NULL, *panyunit = NULL;
 
-  assert(qtype > SELECT_POPUP);
+  fc_assert_ret_val(qtype > SELECT_POPUP, NULL);
 
   if (listsize == 0) {
     return NULL;

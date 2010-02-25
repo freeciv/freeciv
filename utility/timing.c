@@ -44,7 +44,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <time.h>
 
 #ifdef HAVE_GETTIMEOFDAY
@@ -234,7 +233,7 @@ bool timer_in_use(struct timer *t)
 ***********************************************************************/
 void clear_timer(struct timer *t)
 {
-  assert(t != NULL);
+  fc_assert_ret(NULL != t);
   t->state = TIMER_STOPPED;
   t->sec = 0.0;
   t->usec = 0;
@@ -246,7 +245,7 @@ void clear_timer(struct timer *t)
 ***********************************************************************/
 void start_timer(struct timer *t)
 {
-  assert(t != NULL);
+  fc_assert_ret(NULL != t);
 
   if (t->use == TIMER_IGNORE) {
     return;
@@ -298,8 +297,8 @@ void clear_timer_start(struct timer *t)
 ***********************************************************************/
 void stop_timer(struct timer *t)
 {
-  assert(t != NULL);
-  
+  fc_assert_ret(NULL != t);
+
   if (t->use == TIMER_IGNORE) {
     return;
   }
@@ -369,8 +368,8 @@ void stop_timer(struct timer *t)
 ***********************************************************************/
 double read_timer_seconds(struct timer *t)
 {
-  assert(t != NULL);
-  
+  fc_assert_ret_val(NULL != t, -1.0);
+
   if (t->use == TIMER_IGNORE) {
     return 0.0;
   }
@@ -395,7 +394,7 @@ void usleep_since_timer_start(struct timer *t, long usec)
   long elapsed_usec;
   long wait_usec;
 
-  assert(t != NULL);
+  fc_assert_ret(NULL != t);
 
   ret = gettimeofday(&tv_now, NULL);
 

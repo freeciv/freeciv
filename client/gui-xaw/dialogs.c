@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -706,7 +705,7 @@ static int number_of_columns(int n)
   double sqrt(); double ceil();
   return ceil(sqrt((double)n/5.0));
 #else
-  assert(MAX_SELECT_UNITS == 100);
+  fc_assert(MAX_SELECT_UNITS == 100);
   if(n<=5) return 1;
   else if(n<=20) return 2;
   else if(n<=45) return 3;

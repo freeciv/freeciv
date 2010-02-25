@@ -110,7 +110,7 @@ static bool is_valid_start_pos(const struct tile *ptile, const void *dataptr)
       return FALSE;
   } 
 
-  assert(cont > 0);
+  fc_assert_ret_val(cont > 0, FALSE);
   if (islands[islands_index[cont]].starters == 0) {
     return FALSE;
   }
@@ -362,7 +362,7 @@ bool create_start_positions(enum start_mode mode,
       log_verbose("starters on isle %i", k);
     }
   }
-  assert(player_count() <= data.count + sum);
+  fc_assert_ret_val(player_count() <= data.count + sum, FALSE);
 
   /* now search for the best place and set start_positions */
   map.server.start_positions =

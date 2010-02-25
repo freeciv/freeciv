@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -239,7 +238,7 @@ void apply_cmresult_to_city(struct city *pcity,
       if (NULL == pwork) {
         city_map_update_worker(pcity, ptile, x, y);
       } else {
-        assert(pwork == pcity);
+        fc_assert(pwork == pcity);
       }
     } else {
       if (pwork == pcity) {
@@ -344,7 +343,7 @@ void auto_arrange_workers(struct city *pcity)
     cm_init_emergency_parameter(&cmp);
     cm_query_result(pcity, &cmp, &cmr);
   }
-  assert(cmr.found_a_valid);
+  fc_assert_ret(cmr.found_a_valid);
 
   apply_cmresult_to_city(pcity, &cmr);
 
@@ -442,8 +441,8 @@ void update_city_activities(struct player *pplayer)
 {
   int n, gold;
 
-  assert(pplayer != NULL);
-  assert(pplayer->cities != NULL);
+  fc_assert(NULL != pplayer);
+  fc_assert(NULL != pplayer->cities);
 
   n = city_list_size(pplayer->cities);
   gold = pplayer->economic.gold;
@@ -491,7 +490,7 @@ void update_city_activities(struct player *pplayer)
     }
 
     /* Should not happen. */
-    assert(pplayer->economic.gold >= 0);
+    fc_assert(pplayer->economic.gold >= 0);
   }
 
   pplayer->ai_data.prev_gold = gold;
@@ -519,7 +518,8 @@ void update_city_activities(struct player *pplayer)
 static int city_reduce_specialists(struct city *pcity, int change)
 {
   int want = change;
-  assert(0 < change);
+
+  fc_assert_ret_val(0 < change, 0);
 
   specialist_type_iterate(sp) {
     int fix = MIN(want, pcity->specialists[sp]);
@@ -540,7 +540,7 @@ static int city_reduce_workers(struct city *pcity, int change)
   struct tile *pcenter = city_tile(pcity);
   int want = change;
 
-  assert(0 < change);
+  fc_assert_ret_val(0 < change, 0);
 
   city_tile_iterate_skip_free_cxy(pcenter, ptile, city_x, city_y) {
     if (0 < want
@@ -605,11 +605,11 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
     send_city_info(city_owner(pcity), pcity);
   }
 
-  if (0 != loss_remain) {
-    log_fatal("city_reduce_size() has remaining %d of %d for \"%s\"[%d]",
-              loss_remain, pop_loss, city_name(pcity), pcity->size);
-    assert(0);
-  }
+  fc_assert_ret_val_msg(0 == loss_remain, TRUE,
+                        "city_reduce_size() has remaining"
+                        "%d of %d for \"%s\"[%d]",
+                        loss_remain, pop_loss,
+                        city_name(pcity), pcity->size);
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
@@ -639,11 +639,9 @@ void city_repair_size(struct city *pcity, int change)
       need += city_reduce_workers(pcity, -need);
     }
 
-    if (0 != need) {
-      log_fatal("city_repair_size() has remaining %d of %d for \"%s\"[%d]",
-                need, change, city_name(pcity), pcity->size);
-      assert(0);
-    }
+    fc_assert_msg(0 == need,
+                  "city_repair_size() has remaining %d of %d for \"%s\"[%d]",
+                  need, change, city_name(pcity), pcity->size);
   }
 }
 
@@ -758,7 +756,7 @@ static bool city_increase_size(struct city *pcity)
 ****************************************************************************/
 bool city_change_size(struct city *pcity, int size)
 {
-  assert(size >= 0 && size <= MAX_CITY_SIZE);
+  fc_assert_ret_val(size >= 0 && size <= MAX_CITY_SIZE, TRUE);
 
   if (size > pcity->size) {
     /* Increase city size until size reached, or increase fails */
@@ -1161,9 +1159,9 @@ static bool worklist_change_build_target(struct player *pplayer,
 	    case VUT_NONE:
 	    case VUT_LAST:
 	    default:
-              log_fatal("worklist_change_build_target() "
-                        "called with invalid preq");
-	      assert(0);
+              fc_assert_ret_val_msg(FALSE, TRUE,
+                                    "worklist_change_build_target() "
+                                    "called with invalid preq");
 	      break;
 	    };
 	    break;
@@ -1387,7 +1385,8 @@ static bool city_distribute_surplus_shields(struct player *pplayer,
       int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_SHIELD);
 
       if (upkeep > 0 && pcity->surplus[O_SHIELD] < 0) {
-	assert(unit_has_type_flag(punit, F_UNDISBANDABLE));
+        fc_assert_action(unit_has_type_flag(punit, F_UNDISBANDABLE),
+                         continue);
         notify_player(pplayer, city_tile(pcity),
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Citizens in %s perish for their failure to "
@@ -1422,7 +1421,7 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
   int saved_id = pcity->id;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    assert(pcity->surplus[O_SHIELD] >= 0);
+    fc_assert(pcity->surplus[O_SHIELD] >= 0);
     /* pcity->before_change_shields already contains the surplus from
      * this turn. */
     pplayer->economic.gold += pcity->before_change_shields;
@@ -1586,7 +1585,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       return TRUE;
     }
 
-    assert(pop_cost == 0 || pcity->size >= pop_cost);
+    fc_assert(pop_cost == 0 || pcity->size >= pop_cost);
 
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.info.turn;
@@ -1642,7 +1641,7 @@ static bool city_build_stuff(struct player *pplayer, struct city *pcity)
     return city_build_unit(pplayer, pcity);
   default:
     /* must never happen! */
-    assert(0);
+    fc_assert(FALSE);
     break;
   };
   return FALSE;
@@ -1666,7 +1665,7 @@ static bool sell_random_buildings(struct player *pplayer,
   struct impr_type *pimprove;
   int n, r;
 
-  assert(pplayer != NULL);
+  fc_assert_ret_val(pplayer != NULL, FALSE);
 
   n = imprs ? cityimpr_vector_size(imprs) : 0;
   while (pplayer->economic.gold < 0 && n > 0) {
@@ -1709,7 +1708,7 @@ static bool sell_random_units(struct player *pplayer,
   struct unit *punit;
   int gold_upkeep, n, r;
 
-  assert(pplayer != NULL);
+  fc_assert_ret_val(pplayer != NULL, FALSE);
 
   n = punitlist ? unit_list_size(punitlist) : 0;
   while (pplayer->economic.gold < 0 && n > 0) {

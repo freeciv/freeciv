@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -123,7 +122,7 @@ void city_freeze_workers(struct city *pcity)
 void city_thaw_workers(struct city *pcity)
 {
   pcity->server.workers_frozen--;
-  assert(pcity->server.workers_frozen >= 0);
+  fc_assert(pcity->server.workers_frozen >= 0);
   if (pcity->server.workers_frozen == 0 && pcity->server.needs_arrange) {
     city_refresh(pcity); /* Citizen count sanity */
     auto_arrange_workers(pcity);
@@ -502,7 +501,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   }
   
   /* This had better be impossible! */
-  assert(FALSE);
+  fc_assert(FALSE);
   sz_strlcpy(tempname, _("A poorly-named city"));
   return tempname;
 }
@@ -696,12 +695,12 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
     }
   } unit_list_iterate_safe_end;
 
-#ifndef NDEBUG
+#ifdef DEBUG
   unit_list_iterate(pcity->units_supported, punit) {
-    assert(punit->homecity == pcity->id);
-    assert(unit_owner(punit) == pplayer);
+    fc_assert(punit->homecity == pcity->id);
+    fc_assert(unit_owner(punit) == pplayer);
   } unit_list_iterate_end;
-#endif /* NDEBUG */
+#endif /* DEBUG */
 }
 
 /**********************************************************************
@@ -775,7 +774,7 @@ static void reestablish_city_trade_routes(struct city *pcity)
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     ptrade_city = game_find_city_by_number(pcity->trade[i]);
 
-    assert(pcity->trade[i] == 0 || ptrade_city != NULL);
+    fc_assert_action(pcity->trade[i] == 0 || ptrade_city != NULL, continue);
 
     if (!ptrade_city) {
       /* no trade route on this slot */
@@ -822,7 +821,8 @@ static void build_free_small_wonders(struct player *pplayer,
       /* FIXME: instead, find central city */
       struct city *pnew_city = city_list_get(pplayer->cities, myrand(size));
 
-      assert(find_city_from_small_wonder(pplayer, pimprove) == NULL);
+      fc_assert_action(!find_city_from_small_wonder(pplayer, pimprove),
+                       continue);
 
       city_add_improvement(pnew_city, pimprove);
 
@@ -867,7 +867,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   bool city_remains = TRUE;
   bool had_great_wonders = FALSE;
 
-  assert(pgiver != ptaker);
+  fc_assert_ret(pgiver != ptaker);
 
   city_freeze_workers(pcity);
 
@@ -1075,7 +1075,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
       if (is_small_wonder(pimprove)) {
         has_small_wonders = TRUE;
       }
-      assert(!is_great_wonder(pimprove));
+      fc_assert(!is_great_wonder(pimprove));
     }
     for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
       Impr_type_id n = nation->init_buildings[i];
@@ -1279,11 +1279,8 @@ void remove_city(struct city *pcity)
   for (o = 0; o < NUM_TRADE_ROUTES; o++) {
     struct city *pother_city = game_find_city_by_number(pcity->trade[o]);
 
-    assert(pcity->trade[o] == 0 || pother_city != NULL);
-
-    if (pother_city) {
-      remove_trade_route(pother_city, pcity);
-    }
+    fc_assert_action(pcity->trade[o] == 0 || pother_city != NULL, continue);
+    remove_trade_route(pother_city, pcity);
   }
 
   map_clear_border(pcenter);
@@ -1499,7 +1496,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
     }
   } players_iterate_end;
 
-  assert(pcity->size > 1); /* reduce size should not destroy this city */
+  fc_assert(pcity->size > 1); /* reduce size should not destroy this city */
   city_reduce_size(pcity, 1, pplayer);
   send_player_info(pplayer, pplayer); /* Update techs */
 
@@ -1966,7 +1963,7 @@ void reality_check_city(struct player *pplayer,struct tile *ptile)
       struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
       dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
-      assert(playtile->site == pdcity);
+      fc_assert_ret(playtile->site == pdcity);
       playtile->site = NULL;
       free_vision_site(pdcity);
     }
@@ -1984,7 +1981,7 @@ void remove_dumb_city(struct player *pplayer, struct tile *ptile)
     struct player_tile *playtile = map_get_player_tile(ptile, pplayer);
 
     dlsend_packet_city_remove(pplayer->connections, pdcity->identity);
-    assert(playtile->site == pdcity);
+    fc_assert_ret(playtile->site == pdcity);
     playtile->site = NULL;
     free_vision_site(pdcity);
   }
@@ -1997,7 +1994,7 @@ void remove_trade_route(struct city *pc1, struct city *pc2)
 {
   int i;
 
-  assert(pc1 && pc2);
+  fc_assert_ret(pc1 && pc2);
 
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     if (pc1->trade[i] == pc2->id)

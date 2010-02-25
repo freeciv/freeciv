@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -56,7 +55,7 @@ void meswin_freeze(void)
 void meswin_thaw(void)
 {
   frozen_level--;
-  assert(frozen_level >= 0);
+  fc_assert(frozen_level >= 0);
   if (frozen_level == 0) {
     update_meswin_dialog();
   }
@@ -200,7 +199,7 @@ void set_message_visited_state(int message_index, bool state)
 **************************************************************************/
 void meswin_popup_city(int message_index)
 {
-  assert(message_index < messages_total);
+  fc_assert_ret(message_index < messages_total);
 
   if (messages[message_index].city_ok) {
     struct tile *ptile = messages[message_index].tile;
@@ -229,7 +228,7 @@ void meswin_popup_city(int message_index)
 **************************************************************************/
 void meswin_goto(int message_index)
 {
-  assert(message_index < messages_total);
+  fc_assert_ret(message_index < messages_total);
 
   if (messages[message_index].location_ok) {
     center_tile_mapcanvas(messages[message_index].tile);
@@ -241,7 +240,7 @@ void meswin_goto(int message_index)
 **************************************************************************/
 void meswin_double_click(int message_index)
 {
-  assert(message_index < messages_total);
+  fc_assert_ret(message_index < messages_total);
 
   if (messages[message_index].city_ok
       && is_city_event(messages[message_index].event)) {

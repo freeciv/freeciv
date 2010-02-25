@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -53,9 +52,9 @@ void spaceship_calc_derived(struct player_spaceship *ship)
   int life_support=0;
   int solar_panels=0;
 
-  assert(ship->structurals <= NUM_SS_STRUCTURALS);
-  assert(ship->components <= NUM_SS_COMPONENTS);
-  assert(ship->modules <= NUM_SS_MODULES);
+  fc_assert_ret(ship->structurals <= NUM_SS_STRUCTURALS);
+  fc_assert_ret(ship->components <= NUM_SS_COMPONENTS);
+  fc_assert_ret(ship->modules <= NUM_SS_MODULES);
   
   ship->mass = 0;
   ship->support_rate = ship->energy_rate =

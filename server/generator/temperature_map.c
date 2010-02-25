@@ -66,7 +66,7 @@ bool is_temperature_type_near(const struct tile *ptile, temperature_type tt)
  ****************************************************************************/
 void destroy_tmap(void)
 {
-  assert(temperature_map != NULL);
+  fc_assert_ret(NULL != temperature_map);
   free(temperature_map);
   temperature_map = NULL;
 }
@@ -82,10 +82,8 @@ void create_tmap(bool real)
 
   /* if map is defined this is not changed */
   /* TO DO load if from scenario game with tmap */
-  assert(temperature_map == NULL); /* to debug, never load a this time */
-  if (temperature_map != NULL) {
-    return;
-  }
+  /* to debug, never load a this time */
+  fc_assert_ret(NULL == temperature_map);
 
   temperature_map = fc_malloc(sizeof(*temperature_map) * MAP_INDEX_SIZE);
   whole_map_iterate(ptile) {

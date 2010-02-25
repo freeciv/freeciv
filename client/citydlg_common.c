@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -96,10 +94,7 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
   *canvas_x += (width - tileset_tile_width(tileset)) / 2;
   *canvas_y += (height - tileset_tile_height(tileset)) / 2;
 
-  if (!is_valid_city_coords(city_x, city_y)) {
-    assert(FALSE);
-    return FALSE;
-  }
+  fc_assert_ret_val(is_valid_city_coords(city_x, city_y), FALSE);
   return TRUE;
 }
 
@@ -582,7 +577,7 @@ int get_city_citizen_types(struct city *pcity, enum citizen_feeling index,
 			   enum citizen_category *citizens)
 {
   int i = 0, n;
-  assert(index >= 0 && index < FEELING_LAST);
+  fc_assert(index >= 0 && index < FEELING_LAST);
 
   for (n = 0; n < pcity->feel[CITIZEN_HAPPY][index]; n++, i++) {
     citizens[i] = CITIZEN_HAPPY;
@@ -629,7 +624,7 @@ void city_rotate_specialist(struct city *pcity, int citizen_index)
   /* Loop through all specialists in order until we find a usable one
    * (or run out of choices). */
   to = from;
-  assert(to >= 0 && to < specialist_count());
+  fc_assert(to >= 0 && to < specialist_count());
   do {
     to = (to + 1) % specialist_count();
   } while (to != from && !city_can_use_specialist(pcity, to));
@@ -950,7 +945,7 @@ int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 {
   struct tile *ptile = city_map_to_tile(city_tile(pcity), city_x, city_y);
 
-  assert(is_valid_city_coords(city_x, city_y));
+  fc_assert(is_valid_city_coords(city_x, city_y));
   if (NULL == ptile) {
     return 0;
   }

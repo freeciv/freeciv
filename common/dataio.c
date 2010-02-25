@@ -23,7 +23,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <limits.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -203,7 +202,7 @@ void dio_put_uint8(struct data_out *dout, int value)
   if (enough_space(dout, 1)) {
     uint8_t x = value;
 
-    assert(sizeof(x) == 1);
+    fc_assert(sizeof(x) == 1);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 1);
     dout->current++;
   }
@@ -217,7 +216,7 @@ void dio_put_uint16(struct data_out *dout, int value)
   if (enough_space(dout, 2)) {
     uint16_t x = htons(value);
 
-    assert(sizeof(x) == 2);
+    fc_assert(sizeof(x) == 2);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 2);
     dout->current += 2;
   }
@@ -231,7 +230,7 @@ void dio_put_uint32(struct data_out *dout, int value)
   if (enough_space(dout, 4)) {
     uint32_t x = htonl(value);
 
-    assert(sizeof(x) == 4);
+    fc_assert(sizeof(x) == 4);
     memcpy(ADD_TO_POINTER(dout->dest, dout->current), &x, 4);
     dout->current += 4;
   }
@@ -347,8 +346,8 @@ void dio_put_bit_string(struct data_out *dout, const char *value)
   size_t max = (unsigned short)(-1);
 
   if (bits > max) {
-    log_error( "Bit string too long: %lu bits.", (unsigned long)bits);
-    assert(FALSE);
+    fc_assert_msg(FALSE, "Bit string too long: %lu bits.",
+                  (unsigned long) bits);
     bits = max;
   }
   bytes = (bits + 7) / 8;
@@ -412,7 +411,7 @@ void dio_get_uint8(struct data_in *din, int *dest)
     if (dest) {
       uint8_t x;
 
-      assert(sizeof(x) == 1);
+      fc_assert(sizeof(x) == 1);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 1);
       *dest = x;
     }
@@ -432,7 +431,7 @@ void dio_get_uint16(struct data_in *din, int *dest)
     if (dest) {
       uint16_t x;
 
-      assert(sizeof(x) == 2);
+      fc_assert(sizeof(x) == 2);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 2);
       *dest = ntohs(x);
     }
@@ -452,7 +451,7 @@ void dio_get_uint32(struct data_in *din, int *dest)
     if (dest) {
       uint32_t x;
 
-      assert(sizeof(x) == 4);
+      fc_assert(sizeof(x) == 4);
       memcpy(&x, ADD_TO_POINTER(din->src, din->current), 4);
       *dest = ntohl(x);
     }
@@ -550,7 +549,7 @@ void dio_get_string(struct data_in *din, char *dest, size_t max_dest_size)
   size_t ps_len;		/* length in packet, not including null */
   size_t offset, remaining;
 
-  assert(max_dest_size > 0 || dest == NULL);
+  fc_assert(max_dest_size > 0 || dest == NULL);
 
   if (!enough_data(din, 1)) {
     dest[0] = '\0';
@@ -591,7 +590,7 @@ void dio_get_bit_string(struct data_in *din, char *dest,
   int npack = 0;		/* number claimed in packet */
   int i;			/* iterate the bytes */
 
-  assert(dest != NULL && max_dest_size > 0);
+  fc_assert(dest != NULL && max_dest_size > 0);
 
   if (!enough_data(din, 1)) {
     dest[0] = '\0';

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h> /* for remove() */ 
 
 /* utility */
@@ -90,7 +89,7 @@ struct unit_type *crole_to_unit_type(char crole,struct player *pplayer)
     role = L_ATTACK_STRONG;
     break;
   default: 
-    assert(FALSE);
+    fc_assert_ret_val(FALSE, NULL);
     return NULL;
   }
 
@@ -133,7 +132,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
     return NULL;
   }
 
-  assert(!is_non_allied_unit_tile(ptile, pplayer));
+  fc_assert_ret_val(!is_non_allied_unit_tile(ptile, pplayer), NULL);
 
   /* For scenarios or dispersion, huts may coincide with player starts (in 
    * other cases, huts are avoided as start positions).  Remove any such hut,
@@ -227,7 +226,7 @@ void init_new_game(void)
   log_verbose("Assigning matching nations.");
   players_iterate(pplayer) {
     for (i = 0; i < map.server.num_start_positions; i++) {
-      assert(pplayer->nation != NO_NATION_SELECTED);
+      fc_assert_action(pplayer->nation != NO_NATION_SELECTED, continue);
       if (pplayer->nation == map.server.start_positions[i].nation) {
         log_verbose("Start_pos %d matches player %d (%s).",
                     i, player_number(pplayer),
@@ -260,7 +259,7 @@ void init_new_game(void)
 	}
       }
     }
-    assert(start_pos[player_index(pplayer)] != NO_START_POS);
+    fc_assert(start_pos[player_index(pplayer)] != NO_START_POS);
   } players_iterate_end;
 
   /* Loop over all players, creating their initial units... */

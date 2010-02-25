@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <errno.h>
 #include <stdarg.h>
 #include <stdio.h>
@@ -157,7 +156,7 @@ void init_character_encodings(const char *my_internal_encoding,
 ***************************************************************************/
 const char *get_data_encoding(void)
 {
-  assert(is_init);
+  fc_assert_ret_val(is_init, NULL);
   return data_encoding;
 }
 
@@ -167,7 +166,7 @@ const char *get_data_encoding(void)
 const char *get_local_encoding(void)
 {
 #ifdef HAVE_ICONV
-  assert(is_init);
+  fc_assert_ret_val(is_init, NULL);
   return local_encoding;
 #else
 #  ifdef HAVE_LIBCHARSET
@@ -188,7 +187,7 @@ const char *get_local_encoding(void)
 ***************************************************************************/
 const char *get_internal_encoding(void)
 {
-  assert(is_init);
+  fc_assert_ret_val(is_init, NULL);
   return internal_encoding;
 }
 
@@ -210,8 +209,8 @@ char *convert_string(const char *text,
   size_t from_len = strlen(text) + 1, to_len;
   bool alloc = (buf == NULL);
 
-  assert(is_init && from != NULL && to != NULL);
-  assert(text != NULL);
+  fc_assert_ret_val(is_init && NULL != from && NULL != to, NULL);
+  fc_assert_ret_val(NULL != text, NULL);
 
   if (cd == (iconv_t) (-1)) {
     /* TRANS: "Could not convert text from <encoding a> to <encoding b>:" 
@@ -387,8 +386,9 @@ size_t get_internal_string_length(const char *text)
   int i = 0;
 
   convert_string(text, internal_encoding, "UCS-4",
-		 (char *)text2, sizeof(text2));
-  assert(text2[0] != 0x0000FEFF && text2[0] != 0xFFFE0000); /* No BOM */
+                 (char *)text2, sizeof(text2));
+  /* Check BOM */
+  fc_assert_ret_val(0x0000FEFF != text2[0]&& 0xFFFE0000!= text2[0], -1);
   for (i = 0; ; i++) {
     if (text2[i] == 0) {
       return i;

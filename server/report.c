@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -636,7 +635,7 @@ static const char *number_to_ordinal_string(int num)
   static char buf[16];
   char fmt[] = "(%d%s)";
 
-  assert(num > 0);
+  fc_assert_action(num > 0, num = (num % 10) + 10);
 
   if ((num % 10) == 1 && num != 11) {
     my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
@@ -773,7 +772,7 @@ void report_demographics(struct connection *pconn)
   struct player *pplayer = pconn->playing;
 
   BV_CLR_ALL(selcols);
-  assert(ARRAY_SIZE(coltable) == DEM_COL_LAST);
+  fc_assert_ret(ARRAY_SIZE(coltable) == DEM_COL_LAST);
   for (i = 0; i < DEM_COL_LAST; i++) {
     if (strchr(game.server.demography, coltable[i].key)) {
       BV_SET(selcols, i);
@@ -879,7 +878,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
         return FALSE;
       }
 
-      assert(turn > *last_turn);
+      fc_assert_ret_val(turn > *last_turn, FALSE);
       *last_turn = turn;
     }
 

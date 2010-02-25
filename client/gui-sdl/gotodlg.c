@@ -160,7 +160,7 @@ static void update_goto_dialog(void)
         set_wstate(pBuf, FC_WS_NORMAL);
       }
       
-      assert((MAX_ID - pCity->id) > 0);
+      fc_assert((MAX_ID - pCity->id) > 0);
       pBuf->ID = MAX_ID - pCity->id;
       
       DownAdd(pBuf, pAdd_Dock);

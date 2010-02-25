@@ -108,7 +108,7 @@ static void ai_choose_help_wonder(struct city *pcity,
     int dist = pcity->ai->distance_to_wonder_city /
                unit_type->move_rate;
 
-    assert(VUT_IMPROVEMENT == wonder_city->production.kind);
+    fc_assert_ret(VUT_IMPROVEMENT == wonder_city->production.kind);
 
     want /= MAX(dist, 1);
     CITY_LOG(LOG_DEBUG, pcity, "want %s to help wonder in %s with %d", 

@@ -202,7 +202,7 @@ static void aiferry_request_boat(struct unit *punit)
 **************************************************************************/
 static void aiferry_psngr_meet_boat(struct unit *punit, struct unit *pferry)
 {
-  assert(unit_owner(punit) == unit_owner(pferry));
+  fc_assert_ret(unit_owner(punit) == unit_owner(pferry));
 
   /* First delete the unit from the list of passengers and 
    * release its previous ferry */
@@ -393,15 +393,15 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
 
   /* We may end calling pf_destroy_path for *path if it's not NULL.
    * Most likely you are passing garbage or path you don't want
-   * destroyed if this assert fails.
+   * destroyed if this assertion fails.
    * Don't try to be clever and pass 'fallback' path that will be returned
    * if no path is found. Instead check for NULL return value and then
    * use fallback path in calling function. */
-  assert(path == NULL || *path == NULL);
+  fc_assert_ret_val(path == NULL || *path == NULL, 0);
 
-  assert(0 < ferryboat
-	 || FERRY_NONE == ferryboat
-	 || FERRY_WANTED == ferryboat);
+  fc_assert_ret_val(0 < ferryboat
+                    || FERRY_NONE == ferryboat
+                    || FERRY_WANTED == ferryboat, 0);
   UNIT_LOG(LOGLEVEL_FINDFERRY, punit, "asked aiferry_find_boat for a boat");
 
   if (aiferry_avail_boats(unit_owner(punit)) <= 0 
@@ -522,9 +522,9 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
   struct pf_map *pfm;
   struct pf_path *path;
 
-  assert(pplayer->ai_data.control);
-  assert(!unit_has_orders(passenger));
-  assert(ferry->tile == passenger->tile);
+  fc_assert_ret_val(pplayer->ai_data.control, TRUE);
+  fc_assert_ret_val(!unit_has_orders(passenger), TRUE);
+  fc_assert_ret_val(ferry->tile == passenger->tile, TRUE);
 
   ptile = immediate_destination(passenger, ptile);
 
@@ -696,7 +696,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
     }
 
     handle_unit_load(pplayer, punit->id, ferryboat->id);
-    assert(punit->transported_by > 0);
+    fc_assert(punit->transported_by > 0);
   }
 
   if (punit->transported_by > 0) {
@@ -735,8 +735,8 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
         }
       }
       if (bodyguard) {
-        assert(same_pos(punit->tile, bodyguard->tile));
-	handle_unit_load(pplayer, bodyguard->id, ferryboat->id);
+        fc_assert(same_pos(punit->tile, bodyguard->tile));
+        handle_unit_load(pplayer, bodyguard->id, ferryboat->id);
       }
       if (!aiferry_goto_amphibious(ferryboat, punit, dest_tile)) {
         /* died */
@@ -1001,7 +1001,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
       int bossid = punit->ai.passenger;    /* Loop prevention */
       struct unit *boss = game_find_unit_by_number(punit->ai.passenger);
 
-      assert(boss != NULL);
+      fc_assert_ret(NULL != boss);
 
       if (unit_has_type_flag(boss, F_SETTLERS) || unit_has_type_flag(boss, F_CITIES)) {
         /* Temporary hack: settlers all go in the end, forcing them 
@@ -1063,7 +1063,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
         struct unit *cargo = game_find_unit_by_number(punit->ai.passenger);
 
         /* See if passenger can jump on board! */
-        assert(cargo != punit);
+        fc_assert_ret(cargo != punit);
         ai_manage_unit(pplayer, cargo);
       }
     }

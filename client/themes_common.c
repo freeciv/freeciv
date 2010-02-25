@@ -14,8 +14,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include <unistd.h>
 #include <string.h>
 #include <sys/stat.h>
@@ -139,6 +137,6 @@ void theme_reread_callback(struct client_option *poption)
 {
   const char *theme_name = option_str_get(poption);
 
-  log_assert_ret(NULL != theme_name && theme_name[0] != '\0');
+  fc_assert_ret(NULL != theme_name && theme_name[0] != '\0');
   load_theme(theme_name);
 }

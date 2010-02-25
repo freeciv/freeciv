@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "log.h"
 #include "mem.h"
@@ -446,7 +444,7 @@ static int pf_normal_map_adjust_cost(const struct pf_normal_map *pfnm,
   const struct pf_normal_node *node;
   int moves_left;
 
-  assert(cost >= 0);
+  fc_assert_ret_val(cost >= 0, PF_IMPOSSIBLE_MC);
 
   params = pf_map_get_parameter(PF_MAP(pfnm));
   node = &pfnm->lattice[tile_index(PF_MAP(pfnm)->tile)];
@@ -757,7 +755,7 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
   pfnm->queue = pq_create(INITIAL_QUEUE_SIZE);
 
   /* MC callback must be set */
-  assert(parameter->get_MC != NULL);
+  fc_assert_ret_val(parameter->get_MC != NULL, NULL);
 
   /* Copy parameters */
   *params = *parameter;
@@ -1071,7 +1069,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
       pos->total_EC = node->extra_cost;
     } else {
       /* When on dangerous tiles, must have a valid danger segment. */
-      assert(danger_seg != NULL);
+      fc_assert_ret_val(danger_seg != NULL, NULL);
       pos->total_MC = danger_seg->cost;
       pos->total_EC = danger_seg->extra_cost;
     }
@@ -1085,7 +1083,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     /* 3: Check if we finished */
     if (i == 0) {
       /* We should be back at the start now! */
-      assert(same_pos(iter_tile, params->start_tile));
+      fc_assert_ret_val(same_pos(iter_tile, params->start_tile), NULL);
       return path;
     }
 
@@ -1160,7 +1158,7 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
   }
 
   /* Make sure we reached a safe node or the start point */
-  assert(!node->is_dangerous || !is_valid_dir(node->dir_to_here));
+  fc_assert_ret(!node->is_dangerous || !is_valid_dir(node->dir_to_here));
 }
 
 /**********************************************************************
@@ -1394,7 +1392,7 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
   pfm->tile = tile;
   node = &pfdm->lattice[index];
 
-  assert(node->status > NS_INIT);
+  fc_assert(node->status > NS_INIT);
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
@@ -1538,10 +1536,10 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
   pfdm->danger_queue = pq_create(INITIAL_QUEUE_SIZE);
 
   /* MC callback must be set */
-  assert(parameter->get_MC != NULL);
+  fc_assert_ret_val(parameter->get_MC != NULL, NULL);
 
   /* is_pos_dangerous callback must be set */
-  assert(parameter->is_pos_dangerous != NULL);
+  fc_assert_ret_val(parameter->is_pos_dangerous != NULL, NULL);
 
   /* Copy parameters */
   *params = *parameter;
@@ -1939,7 +1937,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     /* 3: Check if we finished */
     if (i == 0) {
       /* We should be back at the start now! */
-      assert(same_pos(iter_tile, params->start_tile));
+      fc_assert_ret_val(same_pos(iter_tile, params->start_tile), NULL);
       return path;
     }
 
@@ -2015,7 +2013,8 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
   }
 
   /* Make sure we reached a safe node, or the start tile */
-  assert(node->moves_left_req == 0 || !is_valid_dir(node->dir_to_here));
+  fc_assert_ret(node->moves_left_req == 0
+                || !is_valid_dir(node->dir_to_here));
 }
 
 /***************************************************************************
@@ -2310,7 +2309,7 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
   pfm->tile = tile;
   node = &pffm->lattice[index];
 
-  assert(node->status > NS_INIT);
+  fc_assert(node->status > NS_INIT);
 
   if (node->status == NS_WAITING) {
     /* We've already returned this node once, skip it */
@@ -2457,10 +2456,10 @@ static struct pf_map *pf_fuel_map_new(const struct pf_parameter *parameter)
   pffm->out_of_fuel_queue = pq_create(INITIAL_QUEUE_SIZE);
 
   /* MC callback must be set */
-  assert(parameter->get_MC != NULL);
+  fc_assert_ret_val(parameter->get_MC != NULL, NULL);
 
   /* get_moves_left_req callback must be set */
-  assert(parameter->get_moves_left_req != NULL);
+  fc_assert_ret_val(parameter->get_moves_left_req != NULL, NULL);
 
   /* Copy parameters */
   *params = *parameter;
@@ -2585,9 +2584,7 @@ int pf_map_iterator_get_move_cost(struct pf_map *pfm)
 void pf_map_iterator_get_position(struct pf_map *pfm,
                                   struct pf_position *pos)
 {
-  if (!pfm->get_position(pfm, pfm->tile, pos)) {
-    die("pf: get_postion() at current iterator failed!");
-  }
+  fc_assert(pfm->get_position(pfm, pfm->tile, pos));
 }
 
 /************************************************************************
@@ -2738,7 +2735,7 @@ void pf_city_map_destroy(struct pf_city_map *pfcm)
 {
   size_t i;
 
-  assert(NULL != pfcm);
+  fc_assert_ret(NULL != pfcm);
 
   for (i = 0; i < utype_count(); i++) {
     if (pfcm->maps[i]) {

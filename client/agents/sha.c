@@ -15,16 +15,20 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "log.h"
 #include "support.h"
 
+/* common */
 #include "game.h"
 #include "map.h"
 #include "unitlist.h"
 
+/* client/agents */
 #include "agents.h"
 
 #include "sha.h"
+
 
 /**************************************************************************
 This is the simple historian agent.
@@ -60,7 +64,7 @@ static void sha_unit_change(int id)
 
   log_debug("sha got unit: %d", id);
 
-  assert(pold_unit);
+  fc_assert_ret(NULL != pold_unit);
   *pold_unit = *punit;
 }
 
@@ -87,7 +91,7 @@ static void sha_unit_remove(int id)
 
   log_debug("sha got unit: %d", id);
 
-  assert(pold_unit);
+  fc_assert_ret(NULL != pold_unit);
   unit_list_unlink(previous_units, pold_unit);
   /* list pointers were struct copied, cannot destroy_unit_virtual() */
   memset(pold_unit, 0, sizeof(*pold_unit)); /* ensure no pointers remain */

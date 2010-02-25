@@ -15,12 +15,12 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* common */
 #include "government.h"
 #include "packets.h"
 #include "spaceship.h"
 
+/* server */
 #include "spacerace.h"
 
 #include "advspace.h"
@@ -62,7 +62,7 @@ bool ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *shi
     } else {
       num = ship->solar_panels + 1;
     }
-    assert(num <= NUM_SS_MODULES / 3);
+    fc_assert_ret_val(num <= NUM_SS_MODULES / 3, FALSE);
 
     handle_spaceship_place(pplayer, type, num);
     retval = TRUE;
@@ -135,8 +135,8 @@ bool ai_spaceship_autoplace(struct player *pplayer, struct player_spaceship *shi
       }
     }
     /* sanity: */
-    assert(req!=-1);
-    assert(!ship->structure[req]);
+    fc_assert_ret_val(-1 != req, FALSE);
+    fc_assert_ret_val(!ship->structure[req], FALSE);
     
     /* Now we want to find a structural we can build which leads to req.
        This loop should bottom out, because everything leads back to s0,

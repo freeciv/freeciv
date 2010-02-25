@@ -54,9 +54,9 @@ void voteinfo_queue_delayed_remove(int vote_no)
 {
   struct voteinfo *vi;
 
-  log_assert_ret_msg(NULL != voteinfo_queue,
-                     "%s() called before votinfo_queue_init()!",
-                     __FUNCTION__);
+  fc_assert_ret_msg(NULL != voteinfo_queue,
+                    "%s() called before votinfo_queue_init()!",
+                    __FUNCTION__);
 
   vi = voteinfo_queue_find(vote_no);
   if (vi == NULL) {
@@ -104,9 +104,9 @@ void voteinfo_queue_remove(int vote_no)
 {
   struct voteinfo *vi;
 
-  log_assert_ret_msg(NULL != voteinfo_queue,
-                     "%s() called before votinfo_queue_init()!",
-                     __FUNCTION__);
+  fc_assert_ret_msg(NULL != voteinfo_queue,
+                    "%s() called before votinfo_queue_init()!",
+                    __FUNCTION__);
 
   vi = voteinfo_queue_find(vote_no);
   if (vi == NULL) {
@@ -125,9 +125,9 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
 {
   struct voteinfo *vi;
 
-  log_assert_ret_msg(NULL != voteinfo_queue,
-                     "%s() called before votinfo_queue_init()!",
-                     __FUNCTION__);
+  fc_assert_ret_msg(NULL != voteinfo_queue,
+                    "%s() called before votinfo_queue_init()!",
+                    __FUNCTION__);
 
   vi = fc_calloc(1, sizeof(struct voteinfo));
   vi->vote_no = vote_no;
@@ -149,9 +149,9 @@ void voteinfo_queue_add(int vote_no, const char *user, const char *desc,
 **************************************************************************/
 struct voteinfo *voteinfo_queue_find(int vote_no)
 {
-  log_assert_ret_val_msg(NULL != voteinfo_queue, NULL,
-                         "%s() called before votinfo_queue_init()!",
-                         __FUNCTION__);
+  fc_assert_ret_val_msg(NULL != voteinfo_queue, NULL,
+                        "%s() called before votinfo_queue_init()!",
+                        __FUNCTION__);
 
   voteinfo_list_iterate(voteinfo_queue, vi) {
     if (vi->vote_no == vote_no) {

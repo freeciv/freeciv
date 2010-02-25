@@ -14,8 +14,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -286,8 +284,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
   /* HACK: A_FUTURE doesn't "exist" and is thus not "available".  This may
    * or may not be the correct thing to do.  For these sanity checks we
    * just special-case it. */
-  assert(tech_found == A_FUTURE
-	 || (vap && player_invention_state(plr, tech_found) != TECH_KNOWN));
+  fc_assert_ret(tech_found == A_FUTURE
+                || (vap && player_invention_state(plr, tech_found)
+                    != TECH_KNOWN));
 
   /* got_tech allows us to change research without applying techpenalty
    * (without loosing bulbs) */
@@ -501,7 +500,7 @@ static Tech_type_id pick_random_tech(struct player* plr)
       }
     }
   } advance_index_iterate_end;
-  assert(0);
+  log_error("Failed to pick a random tech.");
   return A_FUTURE;
 }
 
@@ -547,8 +546,8 @@ void choose_tech(struct player *plr, Tech_type_id tech)
     /* subtract a penalty because we changed subject */
     if (research->bulbs_researched > 0) {
       research->bulbs_researched
-	-= ((research->bulbs_researched * game.info.techpenalty) / 100);
-      assert(research->bulbs_researched >= 0);
+        -= ((research->bulbs_researched * game.info.techpenalty) / 100);
+      fc_assert(research->bulbs_researched >= 0);
     }
   } else if (tech == research->researching_saved) {
     research->bulbs_researched = research->bulbs_researching_saved;
@@ -703,13 +702,15 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
 	  break;
         }
       } advance_index_iterate_end;
-      assert(stolen_tech != A_NONE);
+      fc_assert(stolen_tech != A_NONE);
     }
   } else { /* preferred != A_UNSET */
-    assert((preferred == A_FUTURE
-            && player_invention_state(victim, A_FUTURE) == TECH_PREREQS_KNOWN)
-	   || (valid_advance_by_number(preferred)
-	       && player_invention_state(victim, preferred) == TECH_KNOWN));
+    fc_assert((preferred == A_FUTURE
+               && (player_invention_state(victim, A_FUTURE)
+                   == TECH_PREREQS_KNOWN))
+              || (valid_advance_by_number(preferred)
+                  && (player_invention_state(victim, preferred)
+                      == TECH_KNOWN)));
     stolen_tech = preferred;
   }
 

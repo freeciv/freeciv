@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -689,9 +688,9 @@ static void begin_turn(bool is_new_turn)
     game.info.num_phases = team_count();
     break;
   default:
-    log_fatal("Unrecognized phase mode %d in begin_turn().",
+    log_error("Unrecognized phase mode %d in begin_turn().",
               game.info.phase_mode);
-    assert(FALSE);
+    game.info.num_phases = 1;
     break;
   }
   send_game_info(NULL);
@@ -1158,7 +1157,7 @@ void save_game_auto(const char *save_reason, const char *reason_filename)
 {
   char filename[512];
 
-  assert(strlen(game.server.save_name)<256);
+  fc_assert(256 > strlen(game.server.save_name));
 
   generate_save_name(filename, sizeof(filename), TRUE, reason_filename);
   save_game(filename, save_reason, FALSE);
@@ -1643,12 +1642,12 @@ void init_available_nations(void)
      * (since it has beeen initialized in load_rulesets() ). */
     if (nation->player != NULL) {
 
-      log_error("Player assigned to nation before init_available_nations()");
-
-      /* When we enter this execution branch, assert() will always
+      /* When we enter this execution branch, fc_assert() will always
        * fail. This one just provides more informative message than
-       * simple assert(FAIL); */
-      assert(nation->player == NULL);
+       * simple fc_assert(FAIL); */
+      fc_assert_msg(nation->player == NULL,
+                    "Player assigned to nation before "
+                    "init_available_nations()");
 
       /* Try to handle error situation as well as we can */
       if (nation->player->nation == nation) {
@@ -1914,7 +1913,7 @@ static void generate_players(void)
                                                NOT_A_BARBARIAN));
     }
 
-    assert(pplayer->nation != NO_NATION_SELECTED);
+    fc_assert(pplayer->nation != NO_NATION_SELECTED);
     pplayer->city_style = city_style_of_nation(nation_of_player(pplayer));
 
     /* don't change the name of a created player */
@@ -2026,7 +2025,7 @@ static void srv_running(void)
    */
   lsend_packet_freeze_client(game.est_connections);
 
-  assert(S_S_RUNNING == server_state());
+  fc_assert(S_S_RUNNING == server_state());
   while (S_S_RUNNING == server_state()) {
     /* The beginning of a turn.
      *
@@ -2253,7 +2252,7 @@ static void final_ruleset_adjustments()
     pplayer->government = pnation->init_government;
 
     if (pnation->init_government == game.government_during_revolution) {
-      /* If we do not do this, an assert will trigger. This enables us to
+      /* If we do not do this, an assertion will trigger. This enables us to
        * select a valid government on game start. */
       pplayer->revolution_finishes = 0;
     }

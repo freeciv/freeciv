@@ -20,7 +20,6 @@
 #include <sys/types.h>
 #endif
 
-#include <assert.h>
 #include <dirent.h>
 #include <errno.h>
 #include <limits.h>
@@ -277,7 +276,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
 {
   int token = 0;
 
-  assert(str != NULL);
+  fc_assert_ret_val(NULL != str, -1);
 
   for(;;) {
     size_t len, padlength = 0;
@@ -351,8 +350,8 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
   seplen = strlen(sep);
 
 #if 0 /* Not needed while the values are unsigned. */
-  assert(mantissa >= 0);
-  assert(exponent >= 0);
+  fc_assert_ret_val(0 <= mantissa, NULL);
+  fc_assert_ret_val(0 <= exponent, NULL);
 #endif
 
   if (mantissa == 0) {
@@ -369,7 +368,7 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
 
     if (ptr <= buf + seplen) {
       /* Avoid a buffer overflow. */
-      assert(ptr > buf + seplen);
+      fc_assert_ret_val(ptr > buf + seplen, NULL);
       return ptr;
     }
 
@@ -393,7 +392,7 @@ const char *big_int_to_text(unsigned int mantissa, unsigned int exponent)
 	break;
       }
       ptr -= seplen;
-      assert(ptr >= buf);
+      fc_assert_ret_val(ptr >= buf, NULL);
       memcpy(ptr, sep, seplen);
       if (*(grp + 1) != 0) {
 	/* Zero means to repeat the present group-size indefinitely. */
@@ -579,7 +578,7 @@ int compare_strings_strvec(const char *const *first,
 ***************************************************************************/
 char *skip_leading_spaces(char *s)
 {
-  assert(s!=NULL);
+  fc_assert_ret_val(NULL != s, NULL);
   while(*s != '\0' && my_isspace(*s)) {
     s++;
   }
@@ -594,7 +593,7 @@ static void remove_leading_spaces(char *s)
 {
   char *t;
 
-  assert(s!=NULL);
+  fc_assert_ret(NULL != s);
   t = skip_leading_spaces(s);
   if (t != s) {
     while (*t != '\0') {
@@ -613,7 +612,7 @@ static void remove_trailing_spaces(char *s)
   char *t;
   size_t len;
 
-  assert(s!=NULL);
+  fc_assert_ret(NULL != s);
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
@@ -644,7 +643,7 @@ static void remove_trailing_char(char *s, char trailing)
 {
   char *t;
 
-  assert(s!=NULL);
+  fc_assert_ret(NULL != s);
   t = s + strlen(s) -1;
   while(t>=s && (*t) == trailing) {
     *t = '\0';
@@ -720,7 +719,7 @@ char *end_of_strn(char *str, int *nleft)
 {
   int len = strlen(str);
   *nleft -= len;
-  assert((*nleft)>0);		/* space for the terminating nul */
+  fc_assert_ret_val(0 < (*nleft), NULL); /* space for the terminating nul */
   return str + len;
 }
 
@@ -731,11 +730,7 @@ char *end_of_strn(char *str, int *nleft)
 **********************************************************************/
 bool check_strlen(const char *str, size_t len, const char *errmsg)
 {
-  if (strlen(str) >= len) {
-    log_error(errmsg, str, len);
-    assert(0);
-    return TRUE;
-  }
+  fc_assert_ret_val_msg(strlen(str) < len, TRUE, errmsg, str, len);
   return FALSE;
 }
 
@@ -743,40 +738,10 @@ bool check_strlen(const char *str, size_t len, const char *errmsg)
   Call check_strlen() on str and then strlcpy() it into buffer.
 **********************************************************************/
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
-		   const char *errmsg)
+                    const char *errmsg)
 {
   (void) check_strlen(str, len, errmsg);
   return mystrlcpy(buffer, str, len);
-}
-
-/**********************************************************************
- cat_snprintf is like a combination of my_snprintf and mystrlcat;
- it does snprintf to the end of an existing string.
-
- Like mystrlcat, n is the total length available for str, including
- existing contents and trailing nul.  If there is no extra room
- available in str, does not change the string.
-
- Also like mystrlcat, returns the final length that str would have
- had without truncation.  I.e., if return is >= n, truncation occurred.
-**********************************************************************/
-int cat_snprintf(char *str, size_t n, const char *format, ...)
-{
-  size_t len;
-  int ret;
-  va_list ap;
-
-  assert(format != NULL);
-  assert(str != NULL);
-  assert(n>0);
-
-  len = strlen(str);
-  assert(len < n);
-
-  va_start(ap, format);
-  ret = my_vsnprintf(str+len, n-len, format, ap);
-  va_end(ap);
-  return (int) (ret + len);
 }
 
 /***************************************************************************
@@ -794,9 +759,7 @@ void real_die(const char *file, const char *function, int line,
   vdo_log(file, function, line, FALSE, LOG_FATAL, format, args);
   va_end(args);
 
-  assert(FALSE);
-
-  exit(EXIT_FAILURE);
+  fc_assert_exit(FALSE);
 }
 
 /***************************************************************************
@@ -940,7 +903,7 @@ char *user_username(char *buf, size_t bufsz)
   my_snprintf(buf, bufsz, "name%d", (int)getuid());
 #endif
   log_verbose("fake username is %s", buf);
-  assert(is_ascii_name(buf));
+  fc_assert(is_ascii_name(buf));
   return buf;
 }
 
@@ -1190,7 +1153,7 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
   struct strvec *files = strvec_new();
   size_t suffix_len = strlen(suffix);
 
-  assert(!strchr(suffix, '/'));
+  fc_assert_ret_val(!strchr(suffix, '/'), NULL);
 
   if (NULL == dirs) {
     return files;
@@ -1439,7 +1402,7 @@ const char *fileinfoname_required(const struct strvec *dirs,
 {
   const char *dname;
 
-  assert(NULL != filename);
+  fc_assert_exit(NULL != filename);
   dname = fileinfoname(dirs, filename);
 
   if (dname) {
@@ -1663,7 +1626,7 @@ const char *m_pre_description(enum m_pre_result result)
     N_("too long"),
     N_("non-match")
   };
-  assert(result >= 0 && result < ARRAY_SIZE(descriptions));
+  fc_assert_ret_val(result >= 0 && result < ARRAY_SIZE(descriptions), NULL);
   return descriptions[result];
 }
 
@@ -1759,7 +1722,7 @@ bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
 		   size_t size1, size_t size2)
 {
   size_t i;
-  assert(size1 == size2);
+  fc_assert_ret_val(size1 == size2, FALSE);
 
   for (i = 0; i < size1; i++) {
     if ((vec1[0] & vec2[0]) != 0) {
@@ -1775,7 +1738,7 @@ bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
 		  size_t size1, size_t size2)
 {
   size_t i;
-  assert(size1 == size2);
+  fc_assert_ret_val(size1 == size2, FALSE);
 
   for (i = 0; i < size1; i++) {
     if (vec1[0] != vec2[0]) {

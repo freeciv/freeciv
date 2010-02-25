@@ -89,7 +89,7 @@ int city_map_tiles(int city_radius);
 #define city_map_iterate_outwards_radius(_radius_min, _radius_max,	\
                                          _index, _x, _y)		\
 {									\
-  assert(_radius_min <= _radius_max);					\
+  fc_assert(_radius_min <= _radius_max);				\
   int _x = 0, _y = 0, _index;						\
   int _x##_y##_index = city_map_tiles(_radius_min);			\
   while (city_tile_index_to_xy(&_x, &_y, _x##_y##_index,		\
@@ -206,13 +206,13 @@ enum choice_type {
 #define ASSERT_CHOICE(c)                                                 \
   do {                                                                   \
     if ((c).want > 0) {                                                  \
-      assert((c).type > CT_NONE && (c).type < CT_LAST);                  \
+      fc_assert((c).type > CT_NONE && (c).type < CT_LAST);               \
       if ((c).type == CT_BUILDING) {                                     \
         int _iindex = improvement_index((c).value.building);             \
-        assert(_iindex >= 0 && _iindex < improvement_count());           \
+        fc_assert(_iindex >= 0 && _iindex < improvement_count());        \
       } else {                                                           \
         int _uindex = utype_index((c).value.utype);                      \
-        assert(_uindex >= 0 && _uindex < utype_count());                 \
+        fc_assert(_uindex >= 0 && _uindex < utype_count());              \
       }                                                                  \
     }                                                                    \
   } while(0);

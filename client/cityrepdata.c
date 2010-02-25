@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -596,7 +595,8 @@ void init_city_report_game_data(void)
     p++;
   }
 
-  assert(NUM_CREPORT_COLS == ARRAY_SIZE(base_city_report_specs) + specialist_count());
+  fc_assert(NUM_CREPORT_COLS == ARRAY_SIZE(base_city_report_specs)
+            + specialist_count());
 }
 
 /**********************************************************************

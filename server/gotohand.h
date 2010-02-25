@@ -58,9 +58,12 @@ struct move_cost_map {
 
 extern struct move_cost_map warmap;
 
-#define WARMAP_COST(_tile) (assert(!warmap.invalid), warmap.cost[tile_index(_tile)])
-#define WARMAP_SEACOST(_tile) (assert(!warmap.invalid), warmap.seacost[tile_index(_tile)])
-#define WARMAP_VECTOR(_tile) (assert(!warmap.invalid), warmap.vector[tile_index(_tile)])
+#define WARMAP_COST(_tile) \
+  (fc_assert(!warmap.invalid), warmap.cost[tile_index(_tile)])
+#define WARMAP_SEACOST(_tile) \
+  (fc_assert(!warmap.invalid), warmap.seacost[tile_index(_tile)])
+#define WARMAP_VECTOR(_tile) \
+  (fc_assert(!warmap.invalid), warmap.vector[tile_index(_tile)])
 
 #define WARMAP_INVALIDATE {warmap.invalid = TRUE;}
 

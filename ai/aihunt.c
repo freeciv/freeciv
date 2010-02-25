@@ -15,29 +15,35 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
+/* utility */
+#include "log.h"
 
+/* common */
 #include "city.h"
 #include "combat.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
-#include "log.h"
-#include "pf_tools.h"
 #include "player.h"
 #include "unit.h"
 #include "unitlist.h"
 
+/* aicore */
+#include "pf_tools.h"
+
+/* server */
 #include "citytools.h"
 #include "settlers.h"
 #include "unittools.h"
 
+/* ai */
 #include "aidata.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 
 #include "aihunt.h"
+
 
 /**************************************************************************
   We don't need a hunter in this city if we already have one. Return 
@@ -389,8 +395,8 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
   struct unit *original_target = game_find_unit_by_number(punit->ai.target);
   int original_threat = 0, original_cost = 0;
 
-  assert(!is_barbarian(pplayer));
-  assert(pplayer->is_alive);
+  fc_assert_ret_val(!is_barbarian(pplayer), 0);
+  fc_assert_ret_val(pplayer->is_alive, 0);
 
   pft_fill_unit_parameter(&parameter, punit);
   pfm = pf_map_new(&parameter);

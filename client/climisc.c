@@ -20,7 +20,6 @@ used throughout the client.
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -285,7 +284,7 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
                 nation_plural_for_player(pclause->from));
     break;
   default:
-    assert(FALSE);
+    fc_assert(FALSE);
     if (bufsiz > 0) {
       *buf = '\0';
     }
@@ -407,13 +406,13 @@ void center_on_something(void)
              && 0 < city_list_size(client.conn.playing->cities)) {
     /* Just focus on any city. */
     pcity = city_list_get(client.conn.playing->cities, 0);
-    assert(pcity != NULL);
+    fc_assert_ret(pcity != NULL);
     center_tile_mapcanvas(pcity->tile);
   } else if (NULL != client.conn.playing
              && 0 < unit_list_size(client.conn.playing->units)) {
     /* Just focus on any unit. */
     punit = unit_list_get(client.conn.playing->units, 0);
-    assert(punit != NULL);
+    fc_assert_ret(punit != NULL);
     center_tile_mapcanvas(punit->tile);
   } else {
     struct tile *ctile = native_pos_to_tile(map.xsize / 2, map.ysize / 2);
@@ -816,7 +815,7 @@ int collect_already_built_targets(struct universal *targets,
 {
   int cids_used = 0;
 
-  assert(pcity != NULL);
+  fc_assert_ret_val(pcity != NULL, 0);
 
   city_built_iterate(pcity, pimprove) {
     targets[cids_used].kind = VUT_IMPROVEMENT;
@@ -1177,7 +1176,7 @@ enum unit_bg_color_type unit_color_type(const struct unit_type *punittype)
     return UNIT_BG_SEA;
   }
 
-  assert(pclass->move_type == BOTH_MOVING);
+  fc_assert(pclass->move_type == BOTH_MOVING);
 
   if (uclass_has_flag(pclass, UCF_TERRAIN_SPEED)) {
     /* Unit moves on both sea and land by speed determined by terrain */

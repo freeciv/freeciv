@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
 /* utility */
@@ -1007,10 +1006,10 @@ struct pf_path *pft_concat(struct pf_path *dest_path,
   } else {
     int old_length = dest_path->length;
 
-    assert(pf_path_get_last_position(dest_path)->tile
-	   == src_path->positions[0].tile);
-    assert(pf_path_get_last_position(dest_path)->moves_left
-	   == src_path->positions[0].moves_left);
+    fc_assert_ret_val(pf_path_get_last_position(dest_path)->tile
+                      == src_path->positions[0].tile, NULL);
+    fc_assert_ret_val(pf_path_get_last_position(dest_path)->moves_left
+                      == src_path->positions[0].moves_left, NULL);
     dest_path->length += src_path->length - 1;
     dest_path->positions =
 	fc_realloc(dest_path->positions,
@@ -1040,7 +1039,7 @@ bool pft_advance_path(struct pf_path *path, struct tile *ptile)
       return FALSE;
     }
   }
-  assert(i < path->length);
+  fc_assert_ret_val(i < path->length, FALSE);
   path->length -= i;
   new_positions = fc_malloc(sizeof(*path->positions) * path->length);
   memcpy(new_positions, path->positions + i,

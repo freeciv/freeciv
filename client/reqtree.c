@@ -15,10 +15,11 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <log.h>
 #include <stdarg.h>
 #include <string.h>
+
+/* utility */
+#include "log.h"
 
 /* common */
 #include "government.h"
@@ -435,7 +436,7 @@ static struct reqtree *create_dummy_reqtree(struct player *pplayer)
   j = 0;
   advance_index_iterate(A_FIRST, tech) {
     if (nodes[tech]) {
-      assert(valid_advance_by_number(nodes[tech]->tech));
+      fc_assert_action(valid_advance_by_number(nodes[tech]->tech), continue);
       tree->nodes[j++] = nodes[tech];
     }
   } advance_index_iterate_end;
@@ -569,7 +570,7 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
     struct tree_node *node = tree->nodes[i];
     int mpl;
 
-    assert(!node->is_dummy);
+    fc_assert_action(!node->is_dummy, continue);
 
     mpl = max_provide_layer(node);
 
@@ -602,7 +603,7 @@ static struct reqtree *add_dummy_nodes(struct reqtree *tree)
 
     if (mpl > node->layer + 1) {
       k += mpl - node->layer - 1;
-      assert(k <= new_tree->num_nodes);
+      fc_assert(k <= new_tree->num_nodes);
     }
   }
   new_tree->layers = NULL;
@@ -917,7 +918,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
    
   /* find the required tech */
   while (node->is_dummy) {
-    assert(node->nrequire == 1);
+    fc_assert(node->nrequire == 1);
     node = node->require[0];
   }
   
@@ -927,7 +928,7 @@ static enum reqtree_edge_type get_edge_type(struct tree_node *node,
     enum reqtree_edge_type sum_type = REQTREE_EDGE;
     int i;
 
-    assert(dest_node->nprovide > 0);
+    fc_assert(dest_node->nprovide > 0);
     for (i = 0; i < dest_node->nprovide; ++i) {
       enum reqtree_edge_type type = get_edge_type(node, dest_node->provide[i]);
       switch (type) {

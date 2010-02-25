@@ -308,7 +308,7 @@ static void real_info_city_report_dialog_update(void)
       set_wflag(pBuf, WF_HIDDEN);
     }
     hh = MAX(hh, pBuf->size.h);
-    assert(MAX_ID > pCity->id);
+    fc_assert(MAX_ID > pCity->id);
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->action = popup_cma_from_city_report_callback;

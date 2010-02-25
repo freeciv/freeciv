@@ -21,8 +21,7 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+#include "log.h"                /* fc_assert. */
 #include "mem.h"
 
 #include "pqueue.h"
@@ -60,7 +59,7 @@ struct pqueue *pq_create(int initial_size)
 ********************************************************************/
 void pq_destroy(struct pqueue *q)
 {
-  assert(q != NULL);
+  fc_assert_ret(NULL != q);
   free(q->cells);
   free(q->priorities);
   free(q);
@@ -73,7 +72,7 @@ void pq_insert(struct pqueue *q, pq_data_t datum, int datum_priority)
 {
   int i;
 
-  assert(q != NULL);
+  fc_assert_ret(NULL != q);
 
   /* allocate more memory if necessary */
   if (q->size >= q->avail) {
@@ -110,13 +109,13 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
   pq_data_t top;
   int i = 1;
 
-  assert(q != NULL);
+  fc_assert_ret_val(NULL != q, FALSE);
 
   if (q->size == 1) {
     return FALSE;
   }
 
-  assert(q->size <= q->avail);
+  fc_assert_ret_val(q->size <= q->avail, FALSE);
   top = q->cells[1];
   q->size--;
   tmp = q->cells[q->size];
@@ -150,7 +149,7 @@ bool pq_remove(struct pqueue * q, pq_data_t *dest)
 **********************************************************************/
 bool pq_peek(struct pqueue *q, pq_data_t * dest)
 {
-  assert(q != NULL);
+  fc_assert_ret_val(NULL != q, FALSE);
   if (q->size == 1) {
     return FALSE;
   }

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 
 /* utility */
@@ -237,18 +236,10 @@ static void finish_revolution(struct player *pplayer)
 {
   struct government *government = pplayer->target_government;
 
-  if (pplayer->target_government == game.government_during_revolution
-      || pplayer->target_government == NULL) {
-    /* More descriptive assert than just assert(FALSE) */
-    assert(pplayer->target_government != game.government_during_revolution
-           && pplayer->target_government != NULL);
-    return;
-  }
-  if (pplayer->revolution_finishes > game.info.turn) {
-    /* More descriptive assert than just assert(FALSE) */
-    assert(pplayer->revolution_finishes <= game.info.turn);
-    return;
-  }
+  fc_assert_ret(pplayer->target_government
+                != game.government_during_revolution
+                && NULL != pplayer->target_government);
+  fc_assert_ret(pplayer->revolution_finishes <= game.info.turn);
 
   pplayer->government = government;
   pplayer->target_government = NULL;
@@ -361,7 +352,7 @@ void handle_player_change_government(struct player *pplayer, int government)
                   turns,
                   government_name_translation(pplayer->target_government));
   } else {
-    assert(pplayer->target_government == game.government_during_revolution);
+    fc_assert(pplayer->target_government == game.government_during_revolution);
     notify_player(pplayer, NULL, E_REVOLT_START, ftc_server,
                   _("Revolution: returning to anarchy."));
   }
@@ -545,7 +536,6 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     break;
   default:
     log_error("non-pact diplstate in handle_player_cancel_pact");
-    assert(FALSE);
     return;
   }
 
@@ -937,14 +927,14 @@ static void package_player_info(struct player *plr,
    * This may be an odd time to check these values but we can be sure
    * to have a consistent state here.
    */
-  assert(S_S_RUNNING != server_state()
-         || A_UNSET == research->researching
-	 || is_future_tech(research->researching)
-	 || (A_NONE != research->researching
-	     && valid_advance_by_number(research->researching)));
-  assert(A_UNSET == research->tech_goal
-	 || (A_NONE != research->tech_goal
-	     && valid_advance_by_number(research->tech_goal)));
+  fc_assert(S_S_RUNNING != server_state()
+            || A_UNSET == research->researching
+            || is_future_tech(research->researching)
+            || (A_NONE != research->researching
+                && valid_advance_by_number(research->researching)));
+  fc_assert(A_UNSET == research->tech_goal
+            || (A_NONE != research->tech_goal
+                && valid_advance_by_number(research->tech_goal)));
 }
 
 /**************************************************************************
@@ -1153,7 +1143,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     send_player_info(pplayer2, pplayer2);
     return;
   } else {
-    assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
+    fc_assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
   }
   if (player_has_embassy(pplayer1, pplayer2)
       || player_has_embassy(pplayer2, pplayer1)) {
@@ -1338,8 +1328,8 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
     }
   } nations_iterate_end;
 
-  assert(num_nations_avail > 0);
-  assert(pref_nations_avail >= 0);
+  fc_assert_ret_val(num_nations_avail > 0, NO_NATION_SELECTED);
+  fc_assert_ret_val(pref_nations_avail >= 0, NO_NATION_SELECTED);
 
   if (pref_nations_avail == 0) {
     pick = myrand(num_nations_avail);
@@ -1359,7 +1349,7 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
     }
   } nations_iterate_end;
 
-  assert(0);
+  log_error("No nation found!");
   return NO_NATION_SELECTED;
 }
 
@@ -1409,7 +1399,7 @@ static struct player *split_player(struct player *pplayer)
   sz_strlcpy(cplayer->username, ANON_USER_NAME);
   cplayer->is_connected = FALSE;
   cplayer->government = nation_of_player(cplayer)->init_government;
-  assert(cplayer->revolution_finishes < 0);
+  fc_assert(cplayer->revolution_finishes < 0);
   cplayer->capital = TRUE;
 
   /* cplayer is not yet part of players_iterate which goes only

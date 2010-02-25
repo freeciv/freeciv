@@ -67,7 +67,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -164,7 +163,7 @@ static bool is_comment(int c)
 ***********************************************************************/
 static void init_zeros(struct inputfile *inf)
 {
-  assert(inf != NULL);
+  fc_assert_ret(NULL != inf);
   inf->magic = INF_MAGIC;
   inf->filename = NULL;
   inf->fp = NULL;
@@ -182,29 +181,32 @@ static void init_zeros(struct inputfile *inf)
 /********************************************************************** 
   Check sensible values for an opened inputfile.
 ***********************************************************************/
-static void assert_sanity(struct inputfile *inf)
+static bool inf_sanity_check(struct inputfile *inf)
 {
-  assert(inf != NULL);
-  assert(inf->magic==INF_MAGIC);
-  assert(inf->fp != NULL);
-  assert(inf->line_num >= 0);
-  assert(inf->cur_line_pos >= 0);
-  assert(inf->at_eof == FALSE || inf->at_eof == TRUE);
-  assert(inf->in_string == FALSE || inf->in_string == TRUE);
+  fc_assert_ret_val(NULL != inf, FALSE);
+  fc_assert_ret_val(INF_MAGIC == inf->magic, FALSE);
+  fc_assert_ret_val(NULL != inf->fp, FALSE);
+  fc_assert_ret_val(0 <= inf->line_num, FALSE);
+  fc_assert_ret_val(0 <= inf->cur_line_pos, FALSE);
+  fc_assert_ret_val(FALSE == inf->at_eof
+                    || TRUE == inf->at_eof, FALSE);
+  fc_assert_ret_val(FALSE == inf->in_string
+                    || TRUE == inf->in_string, FALSE);
 #ifdef DEBUG
-  assert(inf->string_start_line >= 0);
-  assert(inf->cur_line.n >= 0);
-  assert(inf->copy_line.n >= 0);
-  assert(inf->token.n >= 0);
-  assert(inf->partial.n >= 0);
-  assert(inf->cur_line.n_alloc >= 0);
-  assert(inf->copy_line.n_alloc >= 0);
-  assert(inf->token.n_alloc >= 0);
-  assert(inf->partial.n_alloc >= 0);
-  if(inf->included_from) {
-    assert_sanity(inf->included_from);
+  fc_assert_ret_val(0 <= inf->string_start_line, FALSE);
+  fc_assert_ret_val(0 <= inf->cur_line.n, FALSE);
+  fc_assert_ret_val(0 <= inf->copy_line.n, FALSE);
+  fc_assert_ret_val(0 <= inf->token.n, FALSE);
+  fc_assert_ret_val(0 <= inf->partial.n, FALSE);
+  fc_assert_ret_val(0 <= inf->cur_line.n_alloc, FALSE);
+  fc_assert_ret_val(0 <= inf->copy_line.n_alloc, FALSE);
+  fc_assert_ret_val(0 <= inf->token.n_alloc, FALSE);
+  fc_assert_ret_val(0 <= inf->partial.n_alloc, FALSE);
+  if (inf->included_from && !inf_sanity_check(inf->included_from)) {
+    return FALSE;
   }
 #endif
+  return TRUE;
 }
 
 /**************************************************************************
@@ -225,13 +227,13 @@ static const char *inf_filename(struct inputfile *inf)
   Returns NULL if the file could not be opened.
 ***********************************************************************/
 struct inputfile *inf_from_file(const char *filename,
-				datafilename_fn_t datafn)
+                                datafilename_fn_t datafn)
 {
   struct inputfile *inf;
   fz_FILE *fp;
 
-  assert(filename != NULL);
-  assert(strlen(filename) > 0);
+  fc_assert_ret_val(NULL != filename, NULL);
+  fc_assert_ret_val(0 < strlen(filename), NULL);
   fp = fz_from_file(filename, "r", FZ_NOT_USED, FZ_NOT_USED);
   if (!fp) {
     return NULL;
@@ -250,7 +252,7 @@ struct inputfile *inf_from_stream(fz_FILE * stream, datafilename_fn_t datafn)
 {
   struct inputfile *inf;
 
-  assert(stream != NULL);
+  fc_assert_ret_val(NULL != stream, NULL);
   inf = fc_malloc(sizeof(*inf));
   init_zeros(inf);
   
@@ -271,7 +273,7 @@ struct inputfile *inf_from_stream(fz_FILE * stream, datafilename_fn_t datafn)
 ***********************************************************************/
 static void inf_close_partial(struct inputfile *inf)
 {
-  assert_sanity(inf);
+  fc_assert_ret(inf_sanity_check(inf));
 
   log_debug("inputfile: sub-closing \"%s\"", inf_filename(inf));
 
@@ -308,7 +310,7 @@ static void inf_close_partial(struct inputfile *inf)
 ***********************************************************************/
 void inf_close(struct inputfile *inf)
 {
-  assert_sanity(inf);
+  fc_assert_ret(inf_sanity_check(inf));
 
   log_debug("inputfile: closing \"%s\"", inf_filename(inf));
   if (inf->included_from) {
@@ -320,30 +322,30 @@ void inf_close(struct inputfile *inf)
 }
 
 /********************************************************************** 
-  Return 1 if have data for current line.
+  Return TRUE if have data for current line.
 ***********************************************************************/
 static bool have_line(struct inputfile *inf)
 {
-  assert_sanity(inf);
+  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
   return (inf->cur_line.n > 0);
 }
 
 /********************************************************************** 
-  Return 1 if current pos is at end of current line.
+  Return TRUE if current pos is at end of current line.
 ***********************************************************************/
 static bool at_eol(struct inputfile *inf)
 {
-  assert_sanity(inf);
-  assert(inf->cur_line_pos <= inf->cur_line.n);
+  fc_assert_ret_val(inf_sanity_check(inf), TRUE);
+  fc_assert_ret_val(inf->cur_line_pos <= inf->cur_line.n, TRUE);
   return (inf->cur_line_pos >= inf->cur_line.n - 1);
 }
 
 /********************************************************************** 
-  ...
+  Return TRUE if current pos is at end of file.
 ***********************************************************************/
 bool inf_at_eof(struct inputfile *inf)
 {
-  assert_sanity(inf);
+  fc_assert_ret_val(inf_sanity_check(inf), TRUE);
   return inf->at_eof;
 }
 
@@ -365,7 +367,7 @@ static bool check_include(struct inputfile *inf)
   if (len==0) {
     len = strlen(include_prefix);
   }
-  assert_sanity(inf);
+  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
   if (inf->at_eof || inf->in_string || inf->cur_line.n <= len
       || inf->cur_line_pos > 0) {
     return FALSE;
@@ -450,12 +452,13 @@ static bool read_a_line(struct inputfile *inf)
   struct astring *line;
   char *ret;
   int pos;
-  
-  assert_sanity(inf);
 
-  if (inf->at_eof)
+  fc_assert_ret_val(inf_sanity_check(inf), FALSE);
+
+  if (inf->at_eof) {
     return FALSE;
-  
+  }
+
   /* abbreviation: */
   line = &inf->cur_line;
   
@@ -534,7 +537,7 @@ static void assign_flag_token(struct astring *astr, char val)
 {
   static char flag_token[2];
 
-  assert(astr != NULL);
+  fc_assert_ret(NULL != astr);
   flag_token[0] = val;
   flag_token[1] = '\0';
   astr_minsize(astr, 2);
@@ -552,7 +555,7 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
   char buf[128];
   static char str[512];
 
-  assert_sanity(inf);
+  fc_assert_ret_val(inf_sanity_check(inf), NULL);
 
   if (message) {
     va_start(args, message);
@@ -600,9 +603,9 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
   const char *c;
   const char *name;
   get_token_fn_t func;
-  
-  assert_sanity(inf);
-  assert(type>=INF_TOK_FIRST && type<INF_TOK_LAST);
+
+  fc_assert_ret_val(inf_sanity_check(inf), NULL);
+  fc_assert_ret_val(INF_TOK_FIRST <= type && INF_TOK_LAST > type, NULL);
 
   name = tok_tab[type].name ? tok_tab[type].name : "(unnamed)";
   func = tok_tab[type].func;
@@ -644,8 +647,8 @@ int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
 static const char *get_token_section_name(struct inputfile *inf)
 {
   char *c, *start;
-  
-  assert(have_line(inf));
+
+  fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
   if (*c++ != '[')
@@ -669,8 +672,8 @@ static const char *get_token_section_name(struct inputfile *inf)
 static const char *get_token_entry_name(struct inputfile *inf)
 {
   char *c, *start, *end;
-  
-  assert(have_line(inf));
+
+  fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
   while(*c != '\0' && my_isspace(*c)) {
@@ -704,8 +707,8 @@ static const char *get_token_entry_name(struct inputfile *inf)
 static const char *get_token_eol(struct inputfile *inf)
 {
   char *c;
-  
-  assert(have_line(inf));
+
+  fc_assert_ret_val(have_line(inf), NULL);
 
   if (!at_eol(inf)) {
     c = inf->cur_line.str + inf->cur_line_pos;
@@ -732,8 +735,8 @@ static const char *get_token_white_char(struct inputfile *inf,
 					char target)
 {
   char *c;
-  
-  assert(have_line(inf));
+
+  fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
   while(*c != '\0' && my_isspace(*c)) {
@@ -780,8 +783,8 @@ static const char *get_token_value(struct inputfile *inf)
   char trailing;
   bool has_i18n_marking = FALSE;
   char border_character = '\"';
-  
-  assert(have_line(inf));
+
+  fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
   while(*c != '\0' && my_isspace(*c)) {

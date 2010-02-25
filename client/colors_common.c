@@ -15,8 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
 #include "hash.h"
 #include "log.h"
 #include "shared.h"
@@ -107,7 +105,7 @@ struct color_system *color_system_read(struct section_file *file)
   int i;
   struct color_system *colors = fc_malloc(sizeof(*colors));
 
-  assert(ARRAY_SIZE(color_names) == COLOR_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(color_names) == COLOR_LAST, NULL);
   for (i = 0; i < COLOR_LAST; i++) {
     if (!secfile_lookup_int(file, &colors->colors[i].r,
                             "colors.%s0.r", color_names[i])
@@ -277,11 +275,12 @@ struct color *get_player_color(const struct tileset *t,
     struct color_system *colors = get_color_system(t);
     int index = player_index(pplayer);
 
-    assert(index >= 0 && colors->num_player_colors > 0);
+    fc_assert_ret_val(index >= 0 && colors->num_player_colors > 0, NULL);
     index %= colors->num_player_colors;
     return ensure_color(&colors->player_colors[index]);
   } else {
-    assert(0);
+    /* Always fails. */
+    fc_assert(NULL != pplayer);
     return NULL;
   }
 }
@@ -300,7 +299,8 @@ struct color *get_terrain_color(const struct tileset *t,
 
     return ensure_color(&colors->terrain_colors[terrain_index(pterrain)]);
   } else {
-    assert(0);
+    /* Always fails. */
+    fc_assert(NULL != pterrain);
     return NULL;
   }
 }

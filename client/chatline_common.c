@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <string.h>
 
@@ -104,7 +103,7 @@ void output_window_freeze(void)
   frozen_level++;
 
   if (frozen_level == 1) {
-    assert(remaining_list_size(remains) == 0);
+    fc_assert(remaining_list_size(remains) == 0);
   }
 }
 
@@ -116,7 +115,7 @@ void output_window_freeze(void)
 void output_window_thaw(void)
 {
   frozen_level--;
-  assert(frozen_level >= 0);
+  fc_assert(frozen_level >= 0);
 
   if (frozen_level == 0) {
     remaining_list_iterate(remains, pline) {

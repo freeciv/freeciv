@@ -47,7 +47,7 @@ bool placed_map_is_initialized(void)
 ****************************************************************************/
 void create_placed_map(void)                               
 {                                                          
-  assert(!placed_map_is_initialized());                              
+  fc_assert_ret(!placed_map_is_initialized());
   placed_map = fc_malloc (sizeof(bool) * MAP_INDEX_SIZE);   
   INITIALIZE_ARRAY(placed_map, MAP_INDEX_SIZE, FALSE );     
 }
@@ -57,7 +57,7 @@ void create_placed_map(void)
 ****************************************************************************/
 void destroy_placed_map(void)   
 {                              
-  assert(placed_map_is_initialized()); 
+  fc_assert_ret(placed_map_is_initialized());
   free(placed_map);            
   placed_map = NULL;           
 }
@@ -192,7 +192,7 @@ bool is_normal_nat_pos(int x, int y)
   int alt_int_map[MAP_INDEX_SIZE];
   int *target_map, *source_map;
 
-  assert(int_map != NULL);
+  fc_assert_ret(NULL != int_map);
 
   target_map = alt_int_map;
   source_map = int_map;
@@ -370,7 +370,7 @@ int get_lake_surrounders(Continent_id cont)
 *************************************************************************/
 int get_continent_size(Continent_id id)
 {
-  assert(id > 0);
+  fc_assert_ret_val(id > 0, -1);
   return continent_sizes[id];
 }
 
@@ -380,7 +380,7 @@ int get_continent_size(Continent_id id)
 *************************************************************************/
 int get_ocean_size(Continent_id id) 
 {
-  assert(id > 0);
+  fc_assert_ret_val(id > 0, -1);
   return ocean_sizes[id];
 }
 

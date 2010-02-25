@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
@@ -104,7 +103,7 @@ static void complain_ambiguous(struct connection *pconn, const char *name,
                 _("%s is an anonymous name. Use connection name"), name);
     break;
   default:
-    assert(0);
+    log_error("Unkown variant in %s(): %d.", __FUNCTION__, player_conn);
   }
 }
 

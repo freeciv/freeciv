@@ -15,26 +15,35 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
-#include "city.h"
-#include "citytools.h"
-#include "game.h"
+/* utility */
 #include "log.h"
-#include "maphand.h"
-#include "pf_tools.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
 #include "player.h"
 #include "unit.h"
 #include "unitlist.h"
+
+/* aicore */
+#include "pf_tools.h"
+
+/* server */
+#include "citytools.h"
+#include "maphand.h"
 #include "unittools.h"
 
+/* generator */
+#include "utilities.h"
+
+/* ai */
 #include "aidata.h"
 #include "ailog.h"
-#include "aiparatrooper.h"
 #include "aiunit.h"
 #include "aitools.h"
 
-#include "utilities.h"
+#include "aiparatrooper.h"
+
 
 #define LOGLEVEL_PARATROOPER LOG_DEBUG
 

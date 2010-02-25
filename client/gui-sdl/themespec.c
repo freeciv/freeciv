@@ -21,7 +21,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>		/* exit */
 #include <string.h>
@@ -560,7 +559,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
                                            gridname, j);
 
         /* there must be at least 1 because of the while(): */
-        assert(num_tags > 0);
+        fc_assert_action(num_tags > 0, continue);
 
         x1 = x_top_left + (dx + pixel_border) * column;
         y1 = y_top_left + (dy + pixel_border) * row;
@@ -764,7 +763,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     return NULL;
   }
 
-  assert(t->sprite_hash == NULL);
+  fc_assert(t->sprite_hash == NULL);
   t->sprite_hash = hash_new(hash_fval_string, hash_fcmp_string);
   for (i = 0; i < num_spec_files; i++) {
     struct specfile *sf = fc_malloc(sizeof(*sf));
@@ -815,11 +814,11 @@ static struct sprite *load_sprite(struct theme *t, const char *tag_name)
     return NULL;
   }
 
-  assert(ss->ref_count >= 0);
+  fc_assert_ret_val(ss->ref_count >= 0, NULL);
 
   if (!ss->sprite) {
     /* If the sprite hasn't been loaded already, then load it. */
-    assert(ss->ref_count == 0);
+    fc_assert_ret_val(ss->ref_count == 0, NULL);
     if (ss->file) {
       ss->sprite = load_gfx_file(ss->file);
       if (!ss->sprite) {
@@ -858,9 +857,9 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 {
   struct small_sprite *ss = hash_lookup_data(t->sprite_hash, tag_name);
 
-  assert(ss);
-  assert(ss->ref_count >= 1);
-  assert(ss->sprite);
+  fc_assert_ret(ss);
+  fc_assert_ret(ss->ref_count >= 1);
+  fc_assert_ret(ss->sprite);
 
   ss->ref_count--;
 
@@ -984,7 +983,7 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
 #define FULL_TILE_Y_OFFSET (t->normal_tile_height - t->full_tile_height)
 
 #define ADD_SPRITE(s, draw_fog, x_offset, y_offset)			    \
-  (assert(s != NULL),							    \
+  (fc_assert(s != NULL),						    \
    sprs->sprite = s,							    \
    sprs->foggable = (draw_fog && t->fogstyle == FOG_AUTO),		    \
    sprs->offset_x = x_offset,						    \
@@ -1044,7 +1043,7 @@ void theme_free_sprites(struct theme *t)
     if (ss->file) {
       FC_FREE(ss->file);
     }
-    assert(ss->sprite == NULL);
+    fc_assert(ss->sprite == NULL);
     FC_FREE(ss);
   } small_sprite_list_iterate_end;
 

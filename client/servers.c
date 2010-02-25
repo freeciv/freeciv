@@ -368,7 +368,13 @@ static void meta_read_response(struct server_scan *scan)
       rewind(scan->meta.fp);
 
       f = fz_from_stream(scan->meta.fp);
-      assert(f != NULL);
+      if (NULL == f) {
+        my_snprintf(str, sizeof(str),
+                    _("Failed to read the metaserver data from http://%s."),
+                    scan->meta.name);
+        scan->error_func(scan, str);
+        return;
+      }
 
       /* skip HTTP headers */
       /* XXX: TODO check for magic Content-Type: text/x-ini -vasc */
@@ -497,11 +503,9 @@ get_metaserver_list(struct server_scan *scan)
   case META_DONE:
     return SCAN_STATUS_DONE;
     break;
-  default:
-    break;
   }
 
-  assert(0);
+  log_error("Unsupported metaserver state: %d.", scan->meta.state);
   return SCAN_STATUS_ERROR;
 }
 

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -1020,10 +1019,8 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
   XawListReturnStruct *ret;
   ret=XawListShowCurrent(activeunits_list);
 
-  if(ret->list_index!=XAW_LIST_NONE) {
+  if (ret->list_index != XAW_LIST_NONE) {
     punittype1 = utype_by_number(activeunits_type[ret->list_index]);
-    CHECK_UNIT_TYPE(punittype1);
-
     punittype2 = can_upgrade_unittype(client.conn.playing, punittype1);
 
     my_snprintf(buf, sizeof(buf),

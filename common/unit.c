@@ -15,14 +15,14 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "astring.h"
 #include "fcintl.h"
 #include "mem.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "city.h"
 #include "game.h"
@@ -32,8 +32,9 @@
 #include "packets.h"
 #include "player.h"
 #include "tech.h"
-#include "unit.h"
 #include "unitlist.h"
+
+#include "unit.h"
 
 /**************************************************************************
 bribe unit
@@ -438,7 +439,7 @@ enum add_build_city_result test_unit_add_or_build_city(const struct unit *
   if (punit->moves_left == 0)
     return AB_NO_MOVES_ADD;
 
-  assert(unit_pop_value(punit) > 0);
+  fc_assert(unit_pop_value(punit) > 0);
   new_pop = pcity->size + unit_pop_value(punit);
 
   if (new_pop > game.info.add_to_size_limit)
@@ -616,7 +617,7 @@ const char *get_activity_text(enum unit_activity activity)
     break;
   }
 
-  assert(0);
+  fc_assert(FALSE);
   return _("Unknown");
 }
 
@@ -1054,8 +1055,8 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum tile_special_type new_target,
                                 Base_type_id base)
 {
-  assert(new_target != ACTIVITY_FORTRESS
-         && new_target != ACTIVITY_AIRBASE);
+  fc_assert_ret(new_target != ACTIVITY_FORTRESS
+                && new_target != ACTIVITY_AIRBASE);
 
   set_unit_activity(punit, new_activity);
   punit->activity_target = new_target;
@@ -1098,7 +1099,7 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
   unit_list_iterate(ptile->units, punit) {
     if (punit->activity == ACTIVITY_PILLAGE
         && punit->activity_target != S_LAST) {
-      assert(punit->activity_target < S_LAST);
+      fc_assert_action(punit->activity_target < S_LAST, continue);
       BV_SET(tgt_ret, punit->activity_target);
     }
   } unit_list_iterate_end;
@@ -1238,8 +1239,8 @@ void unit_upkeep_astr(const struct unit *punit, struct astring *astr)
 **************************************************************************/
 struct player *unit_owner(const struct unit *punit)
 {
-  assert(NULL != punit);
-  assert(NULL != punit->owner);
+  fc_assert_ret_val(NULL != punit, NULL);
+  fc_assert(NULL != punit->owner);
   return punit->owner;
 }
 
@@ -1249,7 +1250,7 @@ struct player *unit_owner(const struct unit *punit)
 **************************************************************************/
 struct tile *unit_tile(const struct unit *punit)
 {
-  assert(NULL != punit);
+  fc_assert_ret_val(NULL != punit, NULL);
   return punit->tile;
 }
 
@@ -1462,10 +1463,10 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   /* It does not register the unit so the id is set to 0. */
   punit->id = IDENTITY_NUMBER_ZERO;
 
-  CHECK_UNIT_TYPE(punittype); /* No untyped units! */
+  fc_assert_ret_val(NULL != punittype, NULL);   /* No untyped units! */
   punit->utype = punittype;
 
-  assert(pplayer != NULL); /* No unowned units! */
+  fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned units! */
   punit->owner = pplayer;
 
   if (pcity) {

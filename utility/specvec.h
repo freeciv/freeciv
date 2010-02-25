@@ -40,7 +40,6 @@
    which _is_ itself protected against multiple inclusions.
 */
 
-#include <assert.h>
 #include <string.h>		/* for memcpy */
 
 #include "mem.h"

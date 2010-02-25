@@ -20,20 +20,26 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "log.h"
 #include "mem.h"
-#include "specialist.h"
 #include "support.h"
 
-#include "agents.h"
+/* common */
+#include "game.h"
+#include "specialist.h"
+
+/* client */
 #include "attribute.h"
 
+/* client/agents */
+#include "agents.h"
+
 #include "cma_fec.h"
+
 
 #define RESULT_COLUMNS		10
 #define BUFFER_SIZE		100
@@ -147,7 +153,7 @@ void cmafec_preset_remove(int index)
 {
   struct cma_preset *ppreset;
 
-  assert(index >= 0 && index < cmafec_preset_num());
+  fc_assert_ret(index >= 0 && index < cmafec_preset_num());
 
   ppreset = preset_list_get(preset_list, index);
   preset_list_unlink(preset_list, ppreset);
@@ -163,7 +169,7 @@ char *cmafec_preset_get_descr(int index)
 {
   struct cma_preset *ppreset;
 
-  assert(index >= 0 && index < cmafec_preset_num());
+  fc_assert_ret_val(index >= 0 && index < cmafec_preset_num(), NULL);
 
   ppreset = preset_list_get(preset_list, index);
   return ppreset->descr;
@@ -176,7 +182,7 @@ const struct cm_parameter *cmafec_preset_get_parameter(int index)
 {
   struct cma_preset *ppreset;
 
-  assert(index >= 0 && index < cmafec_preset_num());
+  fc_assert_ret_val(index >= 0 && index < cmafec_preset_num(), NULL);
 
   ppreset = preset_list_get(preset_list, index);
   return &ppreset->parameter;

@@ -109,9 +109,13 @@ size_t mystrlcat(char *dest, const char *src, size_t n);
 #define sz_strlcat(dest,src) ((void)mystrlcat((dest),(src),sizeof(dest)))
 
 int my_snprintf(char *str, size_t n, const char *format, ...)
-     fc__attribute((__format__ (__printf__, 3, 4)));
-
-int my_vsnprintf(char *str, size_t n, const char *format, va_list ap );
+     fc__attribute((__format__ (__printf__, 3, 4)))
+     fc__attribute((nonnull (1, 3)));
+int my_vsnprintf(char *str, size_t n, const char *format, va_list ap )
+     fc__attribute((nonnull (1, 3)));
+int cat_snprintf(char *str, size_t n, const char *format, ...)
+     fc__attribute((__format__ (__printf__, 3, 4)))
+     fc__attribute((nonnull (1, 3)));
 
 int my_gethostname(char *buf, size_t len);
 

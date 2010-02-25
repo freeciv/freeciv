@@ -32,11 +32,12 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
-#include "city.h"
+/* utility */
 #include "hash.h"
 #include "log.h"
+
+/* common */
+#include "city.h"
 #include "unit.h"
 
 #include "idex.h"
@@ -58,8 +59,8 @@ static struct hash_table *idex_unit_hash = NULL;
 ***************************************************************************/
 void idex_init(void)
 {
-  assert(idex_city_hash == NULL);
-  assert(idex_unit_hash == NULL);
+  fc_assert_ret(idex_city_hash == NULL);
+  fc_assert_ret(idex_unit_hash == NULL);
 
   idex_city_hash = hash_new(hash_fval_int, hash_fcmp_int);
   idex_unit_hash = hash_new(hash_fval_int, hash_fcmp_int);

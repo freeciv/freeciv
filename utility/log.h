@@ -45,9 +45,6 @@ enum log_level log_get_level(void);
 bool log_do_output_for_level_at_location(enum log_level level,
                                          const char *file, int line);
 #endif
-void log_assert_set_fatal(int fatal_assertions);
-bool log_assert_fatal(void);
-void log_assert_throw(void);
 
 void vdo_log(const char *file, const char *function, int line,
              bool print_from_where, enum log_level level,
@@ -93,60 +90,60 @@ void do_log(const char *file, const char *function, int line,
 #define log_packet log_verbose
 
 
-#define log_assert_full(condition, action)                                  \
+/* Assertions. */
+void fc_assert_set_fatal(int fatal_assertions);
+#ifdef NDEBUG
+/* Disable the assertion failures, but not the tests! */
+#define fc_assert_fail(...) (void) 0
+#else
+void fc_assert_fail(const char *file, const char *function, int line,
+                    const char *assertion, const char *message, ...)
+                    fc__attribute((__format__ (__printf__, 5, 6)));
+#endif /* NDEBUG */
+
+#define fc_assert_full(file, function, line,                                \
+                       condition, action, message, ...)                     \
   if (!(condition)) {                                                       \
-    if (log_assert_fatal()) {                                               \
-      do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
-             LOG_FATAL, "assertion '%s' failed.", #condition);              \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             /* TRANS: No full stop after the URL, could cause confusion. */\
-             LOG_FATAL, _("Please report this message at %s"), BUG_URL);    \
-      log_assert_throw();                                                   \
-    } else if (log_do_output_for_level(LOG_ERROR)) {                        \
-      do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
-             LOG_ERROR, "assertion '%s' failed.", #condition);              \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             /* TRANS: No full stop after the URL, could cause confusion. */\
-             LOG_ERROR, _("Please report this message at %s"), BUG_URL);    \
-    }                                                                       \
+    fc_assert_fail(file, function, line, #condition,                        \
+                   message, ## __VA_ARGS__);                                \
     action;                                                                 \
   }
 
-#define log_assert_msg_full(condition, action, message, ...)                \
-  if (!(condition)) {                                                       \
-    if (log_assert_fatal()) {                                               \
-      do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
-             LOG_FATAL, "assertion '%s' failed.", #condition);              \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             LOG_FATAL, message, ## __VA_ARGS__);                           \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             /* TRANS: No full stop after the URL, could cause confusion. */\
-             LOG_FATAL, _("Please report this message at %s"), BUG_URL);    \
-      log_assert_throw();                                                   \
-    } else if (log_do_output_for_level(LOG_ERROR)) {                        \
-      do_log(__FILE__, __FUNCTION__, __LINE__, TRUE,                        \
-             LOG_ERROR, "assertion '%s' failed.", #condition);              \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             LOG_ERROR, message, ## __VA_ARGS__);                           \
-      do_log(__FILE__, __FUNCTION__, __LINE__, FALSE,                       \
-             /* TRANS: No full stop after the URL, could cause confusion. */\
-             LOG_ERROR, _("Please report this message at %s"), BUG_URL);    \
-    }                                                                       \
-    action;                                                                 \
-  }
+/* Like assert(). */
+#define fc_assert(condition)                                                \
+  ((condition) ? (void) 0                                                   \
+   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NULL))
+/* Do action on failure. */
+#define fc_assert_action(condition, action)                                 \
+  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action, NULL)
+/* Return on failure. */
+#define fc_assert_ret(condition)                                            \
+  fc_assert_action(condition, return)
+/* Return a value on failure. */
+#define fc_assert_ret_val(condition, val)                                   \
+  fc_assert_action(condition, return val)
+/* Exit on failure. */
+#define fc_assert_exit(condition)                                           \
+  fc_assert_action(condition, exit(EXIT_FAILURE))
 
-#define log_assert(condition) \
-  log_assert_full(condition, )
-#define log_assert_ret(condition) \
-  log_assert_full(condition, return)
-#define log_assert_ret_val(condition, val) \
-  log_assert_full(condition, return val)
-
-#define log_assert_msg(condition, message, ...) \
-  log_assert_msg_full(condition, , message, ## __VA_ARGS__)
-#define log_assert_ret_msg(condition, message, ...) \
-  log_assert_msg_full(condition, return, message, ## __VA_ARGS__)
-#define log_assert_ret_val_msg(condition, val, message, ...) \
-  log_assert_msg_full(condition, return val, message, ## __VA_ARGS__)
+/* Like assert() with extra message. */
+#define fc_assert_msg(condition, message, ...)                              \
+  ((condition) ? (void) 0                                                   \
+   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__,                       \
+                    #condition, message, ## __VA_ARGS__))
+/* Do action on failure with extra message. */
+#define fc_assert_action_msg(condition, action, message, ...)               \
+  fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
+                 message, ## __VA_ARGS__)
+/* Return on failure with extra message. */
+#define fc_assert_ret_msg(condition, message, ...)                          \
+  fc_assert_action_msg(condition, return, message, ## __VA_ARGS__)
+/* Return a value on failure with extra message. */
+#define fc_assert_ret_val_msg(condition, val, message, ...)                 \
+  fc_assert_action_msg(condition, return val, message, ## __VA_ARGS__)
+/* Exit on failure with extra message. */
+#define fc_assert_exit_msg(condition, message, ...)                         \
+  fc_assert_action_msg(condition, exit(EXIT_FAILURE),                       \
+                       message, ## __VA_ARGS__)
 
 #endif  /* FC__LOG_H */

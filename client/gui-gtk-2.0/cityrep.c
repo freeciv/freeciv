@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -527,7 +526,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
                                           GINT_TO_POINTER(cid_encode(target)));
       break;
     case CO_SELL:
-      assert(target.kind == VUT_IMPROVEMENT);
+      fc_assert_action(target.kind == VUT_IMPROVEMENT, break);
       {
         struct impr_type *building = target.value.building;
         struct sell_data sd = { 0, 0, building };
@@ -679,15 +678,15 @@ static void append_cma_to_menu_item(GtkMenuItem *parent_item, bool change_cma)
     w = gtk_menu_item_new_with_label(_("none"));
     gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
     g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
-		     GINT_TO_POINTER(CMA_NONE));
-    assert(GPOINTER_TO_INT(GINT_TO_POINTER(CMA_NONE)) == CMA_NONE);
+                     GINT_TO_POINTER(CMA_NONE));
+    fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(CMA_NONE)) == CMA_NONE);
 
     for (i = 0; i < cmafec_preset_num(); i++) {
       w = gtk_menu_item_new_with_label(cmafec_preset_get_descr(i));
       gtk_menu_shell_append(GTK_MENU_SHELL(menu), w);
       g_signal_connect(w, "activate", G_CALLBACK(select_cma_callback),
-		       GINT_TO_POINTER(i));
-      assert(GPOINTER_TO_INT(GINT_TO_POINTER(i)) == i);
+                       GINT_TO_POINTER(i));
+      fc_assert(GPOINTER_TO_INT(GINT_TO_POINTER(i)) == i);
     }
   } else {
     /* search for a "none" */

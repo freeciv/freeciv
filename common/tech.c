@@ -15,18 +15,21 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-#include <stdlib.h>		/* exit */
+#include <stdlib.h>             /* exit */
 #include <string.h>
 #include <math.h>
 
+/* utility */
 #include "fcintl.h"
 #include "game.h"
 #include "log.h"
-#include "mem.h"		/* free */
-#include "player.h"
-#include "shared.h"		/* ARRAY_SIZE */
+#include "mem.h"                /* free */
+#include "shared.h"             /* ARRAY_SIZE */
 #include "support.h"
+
+/* common */
+#include "player.h"
+
 
 #include "tech.h"
 
@@ -79,7 +82,7 @@ Tech_type_id advance_count(void)
 **************************************************************************/
 Tech_type_id advance_index(const struct advance *padvance)
 {
-  assert(padvance);
+  fc_assert_ret_val(NULL != padvance, -1);
   return padvance - advances;
 }
 
@@ -88,7 +91,7 @@ Tech_type_id advance_index(const struct advance *padvance)
 **************************************************************************/
 Tech_type_id advance_number(const struct advance *padvance)
 {
-  assert(padvance);
+  fc_assert_ret_val(NULL != padvance, -1);
   return padvance->item_number;
 }
 
@@ -115,8 +118,9 @@ struct advance *advance_by_number(const Tech_type_id atype)
 enum tech_state player_invention_state(const struct player *pplayer,
 				       Tech_type_id tech)
 {
-  assert(tech == A_FUTURE
-         || (tech >= 0 && tech < game.control.num_tech_types));
+  fc_assert_ret_val(tech == A_FUTURE
+                    || (tech >= 0 && tech < game.control.num_tech_types),
+                    -1);
 
   if (!pplayer) {
     if (tech != A_FUTURE && game.info.global_advances[tech]) {
@@ -186,8 +190,8 @@ bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
 Tech_type_id advance_required(const Tech_type_id tech,
 			      enum tech_req require)
 {
-  assert(require >= 0 && require < AR_SIZE);
-  assert(tech >= A_NONE || tech < A_LAST);
+  fc_assert_ret_val(require >= 0 && require < AR_SIZE, -1);
+  fc_assert_ret_val(tech >= A_NONE || tech < A_LAST, -1);
   if (A_NEVER == advances[tech].require[require]) {
     /* out of range */
     return A_LAST;
@@ -201,8 +205,8 @@ Tech_type_id advance_required(const Tech_type_id tech,
 struct advance *advance_requires(const struct advance *padvance,
 				 enum tech_req require)
 {
-  assert(require >= 0 && require < AR_SIZE);
-  assert(NULL != padvance);
+  fc_assert_ret_val(require >= 0 && require < AR_SIZE, NULL);
+  fc_assert_ret_val(NULL != padvance, NULL);
   return padvance->require[require];
 }
 
@@ -457,7 +461,7 @@ struct advance *find_advance_by_rule_name(const char *name)
 **************************************************************************/
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
-  assert(flag >= 0 && flag < TF_LAST);
+  fc_assert_ret_val(flag >= 0 && flag < TF_LAST, FALSE);
   return TEST_BIT(advance_by_number(tech)->flags, flag);
 }
 
@@ -469,7 +473,7 @@ enum tech_flag_id find_advance_flag_by_rule_name(const char *s)
 {
   enum tech_flag_id i;
 
-  assert(ARRAY_SIZE(flag_names) == TF_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(flag_names) == TF_LAST, TF_LAST);
   
   for(i=0; i<TF_LAST; i++) {
     if (mystrcasecmp(flag_names[i], s)==0) {
@@ -645,7 +649,7 @@ int base_total_bulbs_required(const struct player *pplayer,
    * gets science benefits */
 
   if (pplayer && pplayer->ai_data.control) {
-    assert(pplayer->ai_data.science_cost > 0);
+    fc_assert_ret_val(pplayer->ai_data.science_cost > 0, FC_INFINITY);
     base_cost *= (double)pplayer->ai_data.science_cost / 100.0;
   }
 

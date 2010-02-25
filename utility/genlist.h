@@ -82,7 +82,7 @@ const struct genlist_link *genlist_link_next(const struct genlist_link *plink);
 
 #ifdef DEBUG
 #  define TYPED_LIST_CHECK(typed_list) \
-  log_assert_full(NULL != typed_list, break)
+  fc_assert_action(NULL != typed_list, break)
 #else
 #  define TYPED_LIST_CHECK(typed_list) /* Nothing. */
 #endif /* DEBUG */

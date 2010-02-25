@@ -15,30 +15,35 @@
 #include <config.h>
 #endif
 
-#include <stdio.h>  
-#include <string.h>  
-#include <assert.h>
+#include <stdio.h>
+#include <string.h>
 
+/* utility */
+#include "mem.h"
+#include "log.h"
+#include "support.h" 
+#include "timing.h"
+
+/* common */
 #include "city.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
-#include "log.h"
 #include "packets.h"
-#include "path_finding.h"
-#include "pf_tools.h"
 #include "player.h"
-#include "support.h" 
-#include "timing.h"
 
+/* aicore */
+#include "pf_tools.h"
+
+/* server */
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
 #include "settlers.h"
 #include "unittools.h"
 
+/* ai */
 #include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
@@ -48,6 +53,7 @@
 #include "citymap.h"
 
 #include "aisettler.h"
+
 
 /* COMMENTS */
 /* 
@@ -271,8 +277,8 @@ void cityresult_fill(struct player *pplayer,
     tile_set_owner(result->tile, saved_owner, saved_claimer);
   }
 
-  assert(result->city_center >= 0);
-  assert(result->remaining >= 0);
+  fc_assert(result->city_center >= 0);
+  fc_assert(result->remaining >= 0);
 }
 
 /**************************************************************************
@@ -387,7 +393,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
 {  
   struct city *pcity = tile_city(ptile);
 
-  assert(punit && ai && pplayer && result);
+  fc_assert_ret(punit && ai && pplayer && result);
 
   result->tile = ptile;
   result->total = 0;
@@ -442,7 +448,7 @@ static void city_desirability(struct player *pplayer, struct ai_data *ai,
   /* Add remaining points, which is our potential */
   result->total += result->remaining;
 
-  assert(result->total >= 0);
+  fc_assert(result->total >= 0);
 
   return;
 }
@@ -539,7 +545,7 @@ static bool settler_map_iterate(struct pf_parameter *parameter,
 
   pf_map_destroy(pfm);
 
-  assert(!found || 0 <= best->result);
+  fc_assert(!found || 0 <= best->result);
   return found;
 }
 
@@ -562,9 +568,9 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct unit *ferry = NULL;
   struct unit_class *ferry_class = NULL;
 
-  assert(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_data.control);
   /* Only virtual units may use virtual boats: */
-  assert(0 == punit->id || !use_virt_boat);
+  fc_assert_ret(0 == punit->id || !use_virt_boat);
 
   best->tile = NULL;
   best->result = 0;
@@ -618,7 +624,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
 
     ferry_class = unit_class(ferry);
 
-    assert(ferry_class->ai.sea_move != MOVE_NONE);
+    fc_assert(ferry_class->ai.sea_move != MOVE_NONE);
     pft_fill_unit_overlap_param(&parameter, ferry);
     parameter.get_TB = no_fights_or_unknown;
 
@@ -637,6 +643,6 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
     }
   }
   /* If we use a virtual boat, we must have permission and be emigrating: */
-  assert(!best->virt_boat || use_virt_boat);
-  assert(!best->virt_boat || best->overseas);
+  fc_assert(!best->virt_boat || use_virt_boat);
+  fc_assert(!best->virt_boat || best->overseas);
 }

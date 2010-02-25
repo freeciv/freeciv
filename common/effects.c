@@ -14,18 +14,18 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <ctype.h>
 #include <string.h>
 
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
 #include "support.h"
 #include "shared.h" /* ARRAY_SIZE */
 
+/* common */
 #include "city.h"
-#include "effects.h"
 #include "game.h"
 #include "government.h"
 #include "improvement.h"
@@ -33,7 +33,9 @@
 #include "packets.h"
 #include "player.h"
 #include "tech.h"
- 
+
+#include "effects.h"
+
 /* Names of effect types.
  * (These must correspond to enum effect_type_id in effects.h.) */
 static const char *effect_type_names[EFT_LAST] = {
@@ -136,7 +138,7 @@ enum effect_type effect_type_from_str(const char *str)
 {
   enum effect_type effect_type;
 
-  assert(ARRAY_SIZE(effect_type_names) == EFT_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(effect_type_names) == EFT_LAST, EFT_LAST);
 
   for (effect_type = 0; effect_type < EFT_LAST; effect_type++) {
     if (0 == mystrcasecmp(effect_type_names[effect_type], str)) {
@@ -153,11 +155,11 @@ enum effect_type effect_type_from_str(const char *str)
 **************************************************************************/
 const char *effect_type_name(enum effect_type effect_type)
 {
-  assert(ARRAY_SIZE(effect_type_names) == EFT_LAST);
+  fc_assert_ret_val(ARRAY_SIZE(effect_type_names) == EFT_LAST, NULL);
   if (effect_type >= 0 && effect_type < EFT_LAST) {
     return effect_type_names[effect_type];
   } else {
-    assert(0);
+    fc_assert(FALSE);
     return NULL;
   }
 }
@@ -514,7 +516,7 @@ Impr_type_id ai_find_source_building(struct city *pcity,
 
   /* There's no point in defining both of these as uclass is more restrictive
    * than move_type */
-  assert(uclass == NULL || move == MOVETYPE_LAST);
+  fc_assert_ret_val(uclass == NULL || move == MOVETYPE_LAST, B_LAST);
 
   effect_list_iterate(get_effects(effect_type), peffect) {
     if (peffect->value > greatest_value) {
@@ -850,9 +852,9 @@ int get_city_specialist_output_bonus(const struct city *pcity,
 				     const struct output_type *poutput,
 				     enum effect_type effect_type)
 {
-  assert(pcity != NULL);
-  assert(pspecialist != NULL);
-  assert(poutput != NULL);
+  fc_assert_ret_val(pcity != NULL, 0);
+  fc_assert_ret_val(pspecialist != NULL, 0);
+  fc_assert_ret_val(poutput != NULL, 0);
   return get_target_bonus_effects(NULL,
 				  city_owner(pcity), pcity, NULL,
 				  NULL, NULL, poutput, pspecialist,
@@ -873,7 +875,7 @@ int get_city_tile_output_bonus(const struct city *pcity,
 			       const struct output_type *poutput,
 			       enum effect_type effect_type)
 {
-  assert(pcity != NULL);
+  fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity, NULL,
 				  ptile, NULL, poutput, NULL,
@@ -891,9 +893,9 @@ int get_player_output_bonus(const struct player *pplayer,
     return 0;
   }
 
-  assert(pplayer != NULL);
-  assert(poutput != NULL);
-  assert(effect_type != EFT_LAST);
+  fc_assert_ret_val(pplayer != NULL, 0);
+  fc_assert_ret_val(poutput != NULL, 0);
+  fc_assert_ret_val(effect_type != EFT_LAST, 0);
   return get_target_bonus_effects(NULL, pplayer, NULL, NULL, NULL,
                                   NULL, poutput, NULL, effect_type);
 }
@@ -909,9 +911,9 @@ int get_city_output_bonus(const struct city *pcity,
     return 0;
   }
 
-  assert(pcity != NULL);
-  assert(poutput != NULL);
-  assert(effect_type != EFT_LAST);
+  fc_assert_ret_val(pcity != NULL, 0);
+  fc_assert_ret_val(poutput != NULL, 0);
+  fc_assert_ret_val(effect_type != EFT_LAST, 0);
   return get_target_bonus_effects(NULL, city_owner(pcity), pcity, NULL,
                                   NULL, NULL, poutput, NULL, effect_type);
 }
@@ -927,7 +929,7 @@ int get_building_bonus(const struct city *pcity,
     return 0;
   }
 
-  assert(NULL != pcity && NULL != building);
+  fc_assert_ret_val(NULL != pcity && NULL != building, 0);
   return get_target_bonus_effects(NULL,
 			 	  city_owner(pcity), pcity,
 				  building,
@@ -952,7 +954,8 @@ int get_unittype_bonus(const struct player *pplayer,
     return 0;
   }
 
-  assert(pplayer != NULL && ptile != NULL && punittype != NULL);
+  fc_assert_ret_val(pplayer != NULL && ptile != NULL && punittype != NULL,
+                    0);
   return get_target_bonus_effects(NULL,
                                  pplayer, tile_city(ptile), NULL, ptile,
                                  punittype, NULL, NULL, effect_type);
@@ -967,7 +970,7 @@ int get_unit_bonus(const struct unit *punit, enum effect_type effect_type)
     return 0;
   }
 
-  assert(punit != NULL);
+  fc_assert_ret_val(punit != NULL, 0);
   return get_target_bonus_effects(NULL,
 				  unit_owner(punit),
 				  punit->tile ? tile_city(punit->tile) : NULL,
@@ -990,7 +993,7 @@ int get_player_bonus_effects(struct effect_list *plist,
     return 0;
   }
 
-  assert(pplayer != NULL);
+  fc_assert_ret_val(pplayer != NULL, 0);
   return get_target_bonus_effects(plist,
 			  	  pplayer, NULL, NULL,
 				  NULL, NULL, NULL, NULL,
@@ -1012,7 +1015,7 @@ int get_city_bonus_effects(struct effect_list *plist,
     return 0;
   }
 
-  assert(pcity != NULL);
+  fc_assert_ret_val(pcity != NULL, 0);
   return get_target_bonus_effects(plist,
 			 	  city_owner(pcity), pcity, NULL,
 				  NULL, NULL, poutput, NULL,
@@ -1090,7 +1093,7 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
 **************************************************************************/
 bool iterate_effect_cache(iec_cb cb)
 {
-  assert(cb != NULL);
+  fc_assert_ret_val(cb != NULL, FALSE);
 
   effect_list_iterate(ruleset_cache.tracker, peffect) {
     if (!cb(peffect)) {

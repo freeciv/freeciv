@@ -1061,10 +1061,9 @@ static void propval_free_data(struct propval *pv)
     free(pv->data.v_pointer);
     break;
   default:
-    log_fatal("Unhandled request to free data %p "
+    log_error("Unhandled request to free data %p "
               "(type %s) in propval_free_data().",
               pv->data.v_pointer, valtype_get_name(pv->valtype));
-    assert(FALSE);
     break;
   }
   pv->data.v_pointer = NULL;

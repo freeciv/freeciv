@@ -54,7 +54,7 @@ static SDL_Surface *pFuture_Tech_Icon;
 #define load_GUI_surface(pSpr, pStruct, pSurf, tag)		  \
 do {								  \
   pSpr = theme_lookup_sprite_tag_alt(theme, LOG_FATAL, tag, "", "", ""); \
-  assert(pSpr != NULL);				                  \
+  fc_assert_action(pSpr != NULL, break);                          \
   pStruct->pSurf = adj_surf(GET_SURF(pSpr));            	  \
   FREESURFACE(GET_SURF(pSpr));                                    \
 } while(0)
@@ -126,7 +126,7 @@ void tilespec_setup_city_gfx(void) {
 
   pCity_Surf = (pSpr ? adj_surf(GET_SURF(pSpr)) : NULL);
   
-  assert(pCity_Surf != NULL);
+  fc_assert(pCity_Surf != NULL);
 }
 
 /**********************************************************************

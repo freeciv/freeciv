@@ -130,9 +130,8 @@ def make_documentation(file):
 
 def make_macros(file):
     file.write('''
+#include "log.h"        /* fc_assert. */
 #include "support.h"    /* bool type. */
-
-#include <assert.h>     /* assert() */
 
 #ifndef SPECENUM_NAME
 #error Must define a SPECENUM_NAME to use this header
@@ -276,7 +275,7 @@ def make_invalid(file):
 **************************************************************************/
 static inline enum SPECENUM_NAME SPECENUM_FOO(_invalid)(void)
 {
-  assert(!SPECENUM_FOO(_is_valid(SPECENUM_INVALID)));
+  fc_assert(!SPECENUM_FOO(_is_valid(SPECENUM_INVALID)));
   return SPECENUM_INVALID;
 }
 ''')

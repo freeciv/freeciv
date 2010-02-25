@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -388,7 +387,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   /* Calling this function when new_pcity is same as old_pcity should
    * be safe with current implementation, but it is not meant to
    * be used that way. */
-  assert(new_pcity != old_pcity);
+  fc_assert_ret(new_pcity != old_pcity);
 
   if (old_owner != new_owner) {
     vision_clear_sight(punit->server.vision);
@@ -406,7 +405,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 
   /* Remove from old city first and add to new city only after that.
    * This is more robust in case old_city == new_city (currently
-   * prohibited by assert in the beginning of the function).
+   * prohibited by fc_assert in the beginning of the function).
    */
   if (old_pcity) {
     /* Even if unit is dead, we have to unlink unit pointer (punit). */
@@ -433,12 +432,12 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
   send_city_info(new_owner, new_pcity);
 
   if (old_pcity) {
-    assert(city_owner(old_pcity) == old_owner);
+    fc_assert(city_owner(old_pcity) == old_owner);
     city_refresh(old_pcity);
     send_city_info(old_owner, old_pcity);
   }
 
-  assert(unit_owner(punit) == city_owner(new_pcity));
+  fc_assert(unit_owner(punit) == city_owner(new_pcity));
 }
 
 /**************************************************************************
@@ -617,7 +616,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
 {
   struct city *pcity = tile_city(punit->tile);
 
-  assert(unit_pop_value(punit) > 0);
+  fc_assert_ret(unit_pop_value(punit) > 0);
   pcity->size += unit_pop_value(punit);
   /* Make the new people something, otherwise city fails the checks */
   pcity->specialists[DEFAULT_SPECIALIST] += unit_pop_value(punit);
@@ -653,7 +652,7 @@ static void city_build(struct player *pplayer, struct unit *punit,
   if (size > 1) {
     struct city *pcity = tile_city(punit->tile);
 
-    assert(pcity != NULL);
+    fc_assert_ret(pcity != NULL);
 
     city_change_size(pcity, size);
   }
@@ -824,13 +823,13 @@ static void see_combat(struct unit *pattacker, struct unit *pdefender)
     if (map_is_known_and_seen(pattacker->tile, other_player, V_MAIN)
 	|| map_is_known_and_seen(pdefender->tile, other_player, V_MAIN)) {
       if (!can_player_see_unit(other_player, pattacker)) {
-	assert(other_player != unit_owner(pattacker));
+        fc_assert(other_player != unit_owner(pattacker));
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_att_short_packet);
       }
 
       if (!can_player_see_unit(other_player, pdefender)) {
-	assert(other_player != unit_owner(pdefender));
+        fc_assert(other_player != unit_owner(pdefender));
 	lsend_packet_unit_short_info(other_player->connections,
 				     &unit_def_short_packet);
       }
@@ -1335,7 +1334,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       unit_attack_handling(punit, victim);
       return TRUE;
     } else {
-      assert(is_enemy_city_tile(pdesttile, pplayer) != NULL);
+      fc_assert_ret_val(is_enemy_city_tile(pdesttile, pplayer) != NULL,
+                        TRUE);
 
       if (unit_has_type_flag(punit, F_NUCLEAR)) {
         if (move_unit(punit, pcity->tile, 0)) {
@@ -1509,8 +1509,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the home city. */
     if (home_full) {
       if (get_city_min_trade_route(pcity_homecity, &slot) < trade) {
-	pcity_out_of_home = game_find_city_by_number(pcity_homecity->trade[slot]);
-	assert(pcity_out_of_home != NULL);
+        pcity_out_of_home = game_find_city_by_number(pcity_homecity->trade[slot]);
+        fc_assert(pcity_out_of_home != NULL);
       } else {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -1530,8 +1530,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* See if there's a trade route we can cancel at the dest city. */
     if (can_establish && dest_full) {
       if (get_city_min_trade_route(pcity_dest, &slot) < trade) {
-	pcity_out_of_dest = game_find_city_by_number(pcity_dest->trade[slot]);
-	assert(pcity_out_of_dest != NULL);
+        pcity_out_of_dest = game_find_city_by_number(pcity_dest->trade[slot]);
+        fc_assert(pcity_out_of_dest != NULL);
       } else {
         notify_player(pplayer, city_tile(pcity_dest),
                       E_BAD_COMMAND, ftc_server,
@@ -1599,7 +1599,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     /* Now cancel any less profitable trade route from the home city. */
     if (pcity_out_of_home) {
       remove_trade_route(pcity_homecity, pcity_out_of_home);
-      assert(pplayer == city_owner(pcity_homecity));
+      fc_assert(pplayer == city_owner(pcity_homecity));
       if (pplayer == city_owner(pcity_out_of_home)) {
         notify_player(city_owner(pcity_out_of_home),
                       city_tile(pcity_out_of_home),
@@ -1648,7 +1648,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
         break;
       }
     }
-    assert(i < NUM_TRADE_ROUTES);
+    fc_assert(i < NUM_TRADE_ROUTES);
 
     for (i = 0; i < NUM_TRADE_ROUTES; i++) {
       if (pcity_dest->trade[i] == 0) {
@@ -1656,7 +1656,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
         break;
       }
     }
-    assert(i < NUM_TRADE_ROUTES);
+    fc_assert(i < NUM_TRADE_ROUTES);
 
     /* Refresh the cities. */
     city_refresh(pcity_homecity);
@@ -2087,7 +2087,7 @@ void handle_unit_orders(struct player *pplayer,
   punit->done_moving = (punit->moves_left <= 0);
 
   if (packet->length == 0) {
-    assert(!unit_has_orders(punit));
+    fc_assert(!unit_has_orders(punit));
     send_unit_info(NULL, punit);
     return;
   }

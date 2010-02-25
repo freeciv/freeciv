@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 #include <string.h>
 
@@ -121,16 +120,16 @@ static int greed(int missing_love)
 ****************************************************************************/
 static enum diplstate_type pact_clause_to_diplstate_type(enum clause_type type)
 {
-  switch(type) {
-    case CLAUSE_ALLIANCE:
-	return DS_ALLIANCE;
-    case CLAUSE_PEACE:
-        return DS_PEACE;
-    case CLAUSE_CEASEFIRE:
-	return DS_CEASEFIRE;
-    default:
-	assert(0);
-	return DS_WAR;
+  switch (type) {
+  case CLAUSE_ALLIANCE:
+    return DS_ALLIANCE;
+  case CLAUSE_PEACE:
+    return DS_PEACE;
+  case CLAUSE_CEASEFIRE:
+    return DS_CEASEFIRE;
+  default:
+    log_error("Invalid diplomatic clause %d.", type)
+    return DS_WAR;
   }
 }
 
@@ -286,8 +285,8 @@ static int ai_goldequiv_clause(struct player *pplayer,
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
   bool is_dangerous;
 
-  assert(pplayer != aplayer);
-  
+  fc_assert_ret_val(pplayer != aplayer, 0);
+
   diplomacy_verbose = verbose;
   ds_after = MAX(ds_after, pplayer->diplstates[player_index(aplayer)].type);
   giver = pclause->from;
@@ -672,8 +671,8 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   enum diplstate_type ds_after =
     pplayer_get_diplstate(pplayer, aplayer)->type;
 
-  assert(pplayer != aplayer);
-  
+  fc_assert_ret(pplayer != aplayer);
+
   clause_list_iterate(ptreaty->clauses, pclause) {
     if (is_pact_clause(pclause->type)) {
       ds_after = pact_clause_to_diplstate_type(pclause->type);
@@ -893,7 +892,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 
   memset(war_desire, 0, sizeof(war_desire));
 
-  assert(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_data.control);
   if (!pplayer->is_alive) {
     return; /* duh */
   }
@@ -1144,8 +1143,8 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
 {
   struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(target)];
 
-  assert(pplayer != target);
-  assert(target->is_alive);
+  fc_assert_ret(pplayer != target);
+  fc_assert_ret(target->is_alive);
 
   switch (reason) {
   case WAR_REASON_SPACE:
@@ -1194,7 +1193,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
     break;
   }
 
-  assert(adip->countdown < 0);
+  fc_assert_ret(adip->countdown < 0);
 
   if (gives_shared_vision(pplayer, target)) {
     remove_shared_vision(pplayer, target);
@@ -1222,7 +1221,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   }
   pplayer->ai_data.love[player_index(target)] -= MAX_AI_LOVE / 8;
 
-  assert(!gives_shared_vision(pplayer, target));
+  fc_assert(!gives_shared_vision(pplayer, target));
   DIPLO_LOG(LOG_DIPL, pplayer, target, "war declared");
 }
 
@@ -1247,7 +1246,7 @@ void static war_countdown(struct player *pplayer, struct player *target,
   DIPLO_LOG(LOG_DIPL, pplayer, target, "countdown to war in %d", countdown);
 
   /* Otherwise we're resetting an existing countdown, which is very bad */
-  assert(adip->countdown == -1);
+  fc_assert_ret(adip->countdown == -1);
 
   adip->countdown = countdown;
   adip->war_reason = reason;
@@ -1341,7 +1340,7 @@ void static war_countdown(struct player *pplayer, struct player *target,
 	       player_name(target),
 	       countdown);
       } else {
-        assert(FALSE); /* Huh? */
+        fc_assert(FALSE); /* Huh? */
       }
       break;
     }
@@ -1361,7 +1360,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   struct player *target = NULL;
   int most_hatred = MAX_AI_LOVE;
 
-  assert(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_data.control);
   if (!pplayer->is_alive) {
     return;
   }
@@ -1630,7 +1629,7 @@ void ai_diplomacy_actions(struct player *pplayer)
           if (gives_shared_vision(pplayer, aplayer)) {
             remove_shared_vision(pplayer, aplayer);
           }
-          assert(!gives_shared_vision(pplayer, aplayer));
+          fc_assert(!gives_shared_vision(pplayer, aplayer));
           break;
       }
       break;
@@ -1728,7 +1727,7 @@ void ai_incident(enum incident_type type, struct player *violator,
       break;
     case INCIDENT_LAST:
       /* Assert that always fails, but with meaningfull message */
-      assert(type != INCIDENT_LAST);
+      fc_assert(type != INCIDENT_LAST);
       break;
   }
 }

@@ -1843,7 +1843,7 @@ void show_game_page()
   
   /* cooling icon */
   pIcon_theme = adj_surf(GET_SURF(client_cooling_sprite()));
-  assert(pIcon_theme != NULL);
+  fc_assert(pIcon_theme != NULL);
   pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
 
 #ifdef SMALL_SCREEN
@@ -1860,7 +1860,7 @@ void show_game_page()
 
   /* warming icon */
   pIcon_theme = adj_surf(GET_SURF(client_warming_sprite()));
-  assert(pIcon_theme != NULL);
+  fc_assert(pIcon_theme != NULL);
 
   pWidget = create_iconlabel(pIcon_theme, Main.gui, NULL, WF_FREE_THEME);
 

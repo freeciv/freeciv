@@ -15,22 +15,23 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
 #include "base.h"
 #include "effects.h"
 #include "fc_types.h"
 #include "map.h"
-#include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
 #include "terrain.h"
+
+#include "movement.h"
 
 static const char *move_type_names[] = {
   "Land", "Sea", "Both"

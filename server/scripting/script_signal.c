@@ -41,13 +41,14 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <stdarg.h>
 
+/* utility */
 #include "hash.h"
 #include "log.h"
 #include "registry.h"
 
+/* scripting */
 #include "script.h"
 
 #include "script_signal.h"
@@ -330,7 +331,7 @@ void script_signals_init(void)
   if (!signals) {
     signals = hash_new(hash_fval_string, hash_fcmp_string);
 
-    assert(ARRAY_SIZE(api_type_names) == API_TYPE_LAST);
+    fc_assert(ARRAY_SIZE(api_type_names) == API_TYPE_LAST);
 
     signals_create();
   }

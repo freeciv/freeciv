@@ -485,10 +485,10 @@ struct player *find_uncontrolled_player(void)
 bool connection_attach(struct connection *pconn, struct player *pplayer,
                        bool observing)
 {
-  log_assert_ret_val(pconn != NULL, FALSE);
-  log_assert_ret_val_msg(!pconn->observer && pconn->playing == NULL, FALSE,
-                         "connections must be detached with "
-                         "connection_detach() before calling this!");
+  fc_assert_ret_val(pconn != NULL, FALSE);
+  fc_assert_ret_val_msg(!pconn->observer && pconn->playing == NULL, FALSE,
+                        "connections must be detached with "
+                        "connection_detach() before calling this!");
 
   if (!observing) {
     if (NULL == pplayer) {
@@ -592,7 +592,7 @@ void connection_detach(struct connection *pconn)
 {
   struct player *pplayer;
 
-  log_assert_ret(pconn != NULL);
+  fc_assert_ret(pconn != NULL);
 
   if (NULL != (pplayer = pconn->playing)) {
     bool was_connected = pplayer->is_connected;

@@ -15,7 +15,6 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -777,7 +776,7 @@ static void economy_selection_callback(GtkTreeSelection *selection,
       gtk_widget_set_sensitive(sellall_command, can_client_issue_orders());
       break;
     default:
-      assert(0);
+      log_error("Not supported type: %d.", economy_row_type[row].kind);
       break;
     };
   } else {
@@ -837,7 +836,7 @@ static void economy_command_callback(struct gui_dialog *dlg, int response,
     disband_all_units(economy_row_type[row].value.utype, FALSE, buf, sizeof(buf));
     break;
   default:
-    assert(0);
+    log_error("Not supported type: %d.", economy_row_type[row].kind);
     break;
   };
 
@@ -1154,8 +1153,6 @@ static void activeunits_command_callback(struct gui_dialog *dlg, int response,
     gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
     utype1 = utype_by_number(ut);
   }
-
-  CHECK_UNIT_TYPE(utype1);
 
   if (response == ACTIVEUNITS_NEAREST) {
     struct tile *ptile;

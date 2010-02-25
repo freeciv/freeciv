@@ -15,10 +15,10 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
-
+/* utility */
 #include "log.h"
 
+/* common */
 #include "city.h"
 #include "game.h"
 #include "government.h"
@@ -30,13 +30,15 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* server */
 #include "citytools.h"
-#include "cityturn.h"		/* city_repair_size() */
+#include "cityturn.h"           /* city_repair_size() */
 #include "maphand.h"
 #include "srv_main.h"
 #include "unittools.h"
 
 #include "sanitycheck.h"
+
 
 #ifdef SANITY_CHECKING
 

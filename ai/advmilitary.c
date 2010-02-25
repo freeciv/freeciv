@@ -15,22 +15,26 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <string.h>
 
+/* utility */
+#include "log.h"
+
+/* common */
 #include "combat.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
 #include "movement.h"
 #include "unitlist.h"
 
+/* server */
 #include "citytools.h"
 #include "cityturn.h"
-#include "gotohand.h"		/* warmap has been redeployed */
+#include "gotohand.h"           /* warmap has been redeployed */
 #include "settlers.h"
 
+/* ai */
 #include "aiair.h"
 #include "aicity.h"
 #include "aidata.h"
@@ -874,7 +878,7 @@ static void process_attacker_want(struct city *pcity,
   int needferry = 0;
   bool unhap = ai_assess_military_unhappiness(pcity);
 
-  assert(orig_move_type == SEA_MOVING || orig_move_type == LAND_MOVING);
+  fc_assert(orig_move_type == SEA_MOVING || orig_move_type == LAND_MOVING);
 
   if (orig_move_type == LAND_MOVING && !boat && boattype) {
     /* cost of ferry */
@@ -1091,7 +1095,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   best_choice.type = CT_ATTACKER;
   best_choice.want = choice->want;
 
-  assert(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
+  fc_assert_ret(is_military_unit(myunit) && !utype_fuel(unit_type(myunit)));
 
   if (pcity->ai->danger != 0 && assess_defense(pcity) == 0) {
     /* Defence comes first! */
@@ -1151,7 +1155,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
           boattype = get_role_unit(L_FERRYBOAT, 0);
         }
       }
-      assert(LAND_MOVING != utype_move_type(boattype));
+      fc_assert_ret(LAND_MOVING != utype_move_type(boattype));
 
       go_by_boat = !(WARMAP_COST(ptile) <= (MIN(6, move_rate) * THRESHOLD)
                      && goto_is_sane(myunit, acity->tile, TRUE));
@@ -1217,7 +1221,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
                           &best_choice, NULL, NULL);
   } else { 
     /* Attract a boat to our city or retain the one that's already here */
-    assert(is_ground_unit(myunit));
+    fc_assert_ret(is_ground_unit(myunit));
     best_choice.need_boat = TRUE;
     process_attacker_want(pcity, benefit, def_type, def_owner,
 			  def_vet, ptile, 
@@ -1236,7 +1240,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
     if (go_by_boat && !ferryboat) { /* need a new ferry */
       /* We might need a new boat even if there are boats free,
        * if they are blockaded or in inland seas*/
-      assert(is_ground_unit(myunit));
+      fc_assert_ret(is_ground_unit(myunit));
       ai_choose_role_unit(pplayer, pcity, choice, CT_ATTACKER,
                           L_FERRYBOAT, choice->want, TRUE);
       if (SEA_MOVING == utype_move_type(choice->value.utype)) {

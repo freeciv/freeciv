@@ -15,14 +15,15 @@
 #include <config.h>
 #endif
 
-#include <assert.h>
 #include <math.h>
 
+/* utility */
 #include "rand.h"
+#include "log.h"
 
+/* common */
 #include "base.h"
 #include "game.h"
-#include "log.h"
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
@@ -422,11 +423,9 @@ static int defense_multiplication(const struct unit_type *att_type,
   struct city *pcity = tile_city(ptile);
   int mod;
 
-  CHECK_UNIT_TYPE(def_type);
+  fc_assert_ret_val(NULL != def_type, 0);
 
-  if (att_type) {
-    CHECK_UNIT_TYPE(att_type);
-
+  if (NULL != att_type) {
     if (utype_has_flag(def_type, F_PIKEMEN)
 	&& utype_has_flag(att_type, F_HORSE)) {
       defensepower *= 2;
@@ -560,12 +559,13 @@ struct unit *get_defender(const struct unit *attacker,
       int unit_def 
         = (int) (100000 * (1 - unit_win_chance(attacker, defender)));
 
-      assert(unit_def >= 0);
+      fc_assert_action(0 <= unit_def, continue);
 
       if (unit_has_type_flag(defender, F_GAMELOSS)
           && !is_stack_vulnerable(defender->tile)) {
-        unit_def = -1; // then always use leader as last defender
-        // FIXME: multiple gameloss units with varying defense value not handled
+        unit_def = -1; /* then always use leader as last defender. */
+        /* FIXME: multiple gameloss units with varying defense value
+         * not handled. */
       }
 
       if (unit_def > bestvalue) {
