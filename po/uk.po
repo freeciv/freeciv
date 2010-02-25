@@ -16830,6 +16830,7 @@ msgid ""
 "soonest\n"
 "completion"
 msgstr "Конструювання\n"
+" "
 
 #: client/gui-sdl/repodlgs.c:348
 #, fuzzy
