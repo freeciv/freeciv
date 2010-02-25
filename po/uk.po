@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-23 17:39+0300\n"
+"PO-Revision-Date: 2010-02-25 13:06+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16822,15 +16822,17 @@ msgstr "активний"
 msgid ""
 "under\n"
 "construction"
-msgstr "будується\n"
+msgstr ""
+"ще\n"
+"будується"
 
 #: client/gui-sdl/repodlgs.c:344
-#, fuzzy
 msgid ""
 "soonest\n"
 "completion"
-msgstr "Конструювання\n"
-" "
+msgstr ""
+"найшвидше\n"
+"завершення"
 
 #: client/gui-sdl/repodlgs.c:348
 #, fuzzy
