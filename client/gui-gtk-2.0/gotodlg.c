@@ -144,7 +144,7 @@ static void create_goto_dialog(void)
   vbox = gtk_vbox_new(FALSE, 6);
   gtk_container_add(GTK_CONTAINER(label), vbox);
 
-  store = gtk_list_store_new(2, G_TYPE_STRING, G_TYPE_BOOLEAN);
+  store = gtk_list_store_new(3, G_TYPE_STRING, G_TYPE_BOOLEAN, G_TYPE_INT);
   gtk_tree_sortable_set_sort_column_id(GTK_TREE_SORTABLE(store),
     0, GTK_SORT_ASCENDING);
 
@@ -221,15 +221,15 @@ static struct city *get_selected_city(void)
 {
   GtkTreeModel *model;
   GtkTreeIter it;
-  char *name;
+  int city_id;
 
   if (!gtk_tree_selection_get_selected(selection, NULL, &it))
     return NULL;
 
   model = gtk_tree_view_get_model(GTK_TREE_VIEW(view));
 
-  gtk_tree_model_get(model, &it, 0, &name, -1);
-  return game_find_city_by_name(name);
+  gtk_tree_model_get(model, &it, 2, &city_id, -1);
+  return game_find_city_by_number(city_id);
 }
 
 /**************************************************************************
@@ -253,7 +253,11 @@ static void update_goto_dialog(GtkToggleButton *button)
       gtk_list_store_append(store, &it);
 
       /* FIXME: should use unit_can_airlift_to(). */
-      gtk_list_store_set(store, &it, 0, city_name(pcity), 1, pcity->airlift, -1);
+      gtk_list_store_set(store, &it,
+                         0, city_name(pcity),
+                         1, pcity->airlift,
+                         2, pcity->id,
+                         -1);
     }
     city_list_iterate_end;
   }
