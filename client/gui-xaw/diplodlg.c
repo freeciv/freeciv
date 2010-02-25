@@ -98,7 +98,7 @@ struct Diplomacy_dialog {
 
   Widget dip_erase_clause_command;
   
-  char clauselist_strings[MAX_NUM_CLAUSES+1][64];
+  char clauselist_strings[MAX_NUM_CLAUSES+1][128];
   char *clauselist_strings_ptrs[MAX_NUM_CLAUSES+1];
 };
 

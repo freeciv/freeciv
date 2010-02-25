@@ -1018,7 +1018,7 @@ static void update_acceptance_icons(struct diplomacy_dialog *pdialog)
 static void update_clauses_list(struct diplomacy_dialog *pdialog) {
   SDL_String16 *pStr;
   struct widget *pBuf, *pWindow = pdialog->pdialog->pEndWidgetList;
-  char cBuf[64];
+  char cBuf[128];
   bool redraw_all, scroll = (pdialog->pdialog->pActiveWidgetList != NULL);
   int len = pdialog->pdialog->pScroll->pUp_Left_Button->size.w;
   
