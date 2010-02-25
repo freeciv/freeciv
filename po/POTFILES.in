@@ -200,6 +200,7 @@ client/gui-xaw/plrdlg.c
 client/gui-xaw/ratesdlg.c
 client/gui-xaw/repodlgs.c
 client/gui-xaw/wldlg.c
+client/include/helpdlg_g.h
 manual/civmanual.c
 data/Freeciv.in
 data/helpdata.txt

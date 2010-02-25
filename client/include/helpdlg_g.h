@@ -30,7 +30,7 @@ void popdown_help_dialog(void);
 #define HELP_WORKLIST_EDITOR_ITEM "Worklist Editor"
 #define HELP_CMA_ITEM "Citizen Governor"
 #define HELP_CONTROLS_ITEM "Controls"
-#define HELP_RULESET_ITEM "About Ruleset"
+#define HELP_RULESET_ITEM N_("About Ruleset")
 #define HELP_ECONOMY_ITEM "Economy"
 #define HELP_CITIES_ITEM "Cities"
 #define HELP_IMPROVEMENTS_ITEM "City Improvements"

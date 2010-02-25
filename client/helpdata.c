@@ -805,12 +805,13 @@ void boot_help_texts(struct player *pplayer)
             break;
           case HELP_RULESET:
             pitem = new_help_item(HELP_RULESET);
-            /*           pitem->topic = mystrdup(game.control.name); */
-            pitem->topic = mystrdup(HELP_RULESET_ITEM);
+            /*           pitem->topic = mystrdup(_(game.control.name)); */
+            pitem->topic = mystrdup(_(HELP_RULESET_ITEM));
             if (game.control.description[0] != '\0') {
-              pitem->text = mystrdup(game.control.description);
+              pitem->text = mystrdup(_(game.control.description));
             } else {
-              pitem->text = mystrdup(_("Current ruleset contains no description."));
+              pitem->text =
+                  mystrdup(_("Current ruleset contains no description."));
             }
             help_list_append(help_nodes, pitem);
             break;
