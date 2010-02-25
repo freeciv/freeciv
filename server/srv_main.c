@@ -1383,6 +1383,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       || type == PACKET_NATION_SELECT_REQ
       || type == PACKET_REPORT_REQ
       || type == PACKET_CLIENT_INFO
+      || type == PACKET_CONN_PONG
       || type == PACKET_SAVE_SCENARIO
       || is_client_edit_packet(type)) {
 
@@ -1404,7 +1405,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 
   pplayer = pconn->playing;
 
-  if (NULL == pplayer) {
+  if (NULL == pplayer || pconn->observer) {
     /* don't support these yet */
     freelog(LOG_ERROR, "Received packet %s from non-player connection %s",
             get_packet_name(type), conn_description(pconn));
@@ -1414,9 +1415,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   if (S_S_RUNNING != server_state()
       && type != PACKET_NATION_SELECT_REQ
       && type != PACKET_PLAYER_READY
-      && type != PACKET_CONN_PONG
-      && type != PACKET_REPORT_REQ
-      && type != PACKET_CLIENT_INFO) {
+      && type != PACKET_VOTE_SUBMIT) {
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
 	 out lots of error messages. Ie, we use LOG_DEBUG. */
@@ -1429,12 +1428,10 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     return TRUE;
   }
 
-  pplayer->nturns_idle=0;
+  pplayer->nturns_idle = 0;
 
-  if((!pplayer->is_alive || pconn->observer)
-     && !(type == PACKET_REPORT_REQ || type == PACKET_CONN_PONG)) {
-    freelog(LOG_ERROR, _("Got a packet of type %d from a "
-			 "dead or observer player"), type);
+  if (!pplayer->is_alive && type != PACKET_REPORT_REQ) {
+    freelog(LOG_ERROR, "Got a packet of type %d from a dead player", type);
     return TRUE;
   }
   
