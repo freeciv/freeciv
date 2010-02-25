@@ -676,7 +676,7 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 
   gtk_list_store_clear(store);
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
-    char buf[64];
+    char buf[128];
 
     client_diplomacy_clause_string(buf, sizeof(buf), pclause);
 
