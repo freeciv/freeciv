@@ -132,33 +132,16 @@ extern int gui_sdl_screen_height;
 extern bool gui_win32_better_fog;
 extern bool gui_win32_enable_alpha;
 
-enum client_option_type {
-  COT_BOOLEAN,
-  COT_INTEGER,
-  COT_STRING,
-  COT_FONT
+
+enum option_type {
+  OT_BOOLEAN,
+  OT_INTEGER,
+  OT_STRING,
+  OT_FONT
 };
 
-enum client_option_class {
-  COC_GRAPHICS,
-  COC_OVERVIEW,
-  COC_SOUND,
-  COC_INTERFACE,
-  COC_NETWORK,
-  COC_FONT,
-  COC_MAX
-};
+struct option;                  /* Opaque type. */
 
-struct client_option;           /* Opaque type. */
-
-#define client_options_iterate(_p)                                          \
-{                                                                           \
-  struct client_option *_p = option_first();                                \
-  for (; _p; _p = option_next(_p)) {                                        \
-
-#define client_options_iterate_end                                          \
-  }                                                                         \
-}
 
 /* Main functions. */
 void options_init(void);
@@ -167,54 +150,65 @@ void options_load(void);
 void options_save(void);
 
 
-/* Option function accessors. */
-struct client_option *option_by_number(int id);
-struct client_option *option_by_name(const char *name);
-struct client_option *option_first(void);
-struct client_option *option_next(struct client_option *poption);
+/* Common option functions. */
+int option_number(const struct option *poption);
+const char *option_name(const struct option *poption);
+const char *option_description(const struct option *poption);
+const char *option_help_text(const struct option *poption);
+enum option_type option_type(const struct option *poption);
+int option_category(const struct option *poption);
+struct option *option_next(const struct option *poption);
 
-void option_set_changed_callback(struct client_option *poption,
-                                 void (*callback) (struct client_option *));
-void option_changed(struct client_option *poption);
-bool option_reset(struct client_option *poption);
-struct section_file;
-bool option_load(struct client_option *poption, struct section_file *sf);
-
-int option_number(const struct client_option *poption);
-const char *option_name(const struct client_option *poption);
-const char *option_description(const struct client_option *poption);
-const char *option_help_text(const struct client_option *poption);
-enum client_option_type option_type(const struct client_option *poption);
-enum client_option_class option_class(const struct client_option *poption);
-const char *option_class_name(enum client_option_class option_class);
+bool option_reset(struct option *poption);
+void option_set_changed_callback(struct option *poption,
+                                 void (*callback) (struct option *));
+void option_changed(struct option *poption);
 
 /* Option gui functions. */
-void option_set_gui_data(struct client_option *poption, void *data);
-void *option_get_gui_data(const struct client_option *poption);
+void option_set_gui_data(struct option *poption, void *data);
+void *option_get_gui_data(const struct option *poption);
 
 /* Option type COT_BOOLEAN functions. */
-bool option_bool_get(const struct client_option *poption);
-bool option_bool_def(const struct client_option *poption);
-bool option_bool_set(struct client_option *poption, bool val);
+bool option_bool_get(const struct option *poption);
+bool option_bool_def(const struct option *poption);
+bool option_bool_set(struct option *poption, bool val);
 
 /* Option type COT_INTEGER functions. */
-int option_int_get(const struct client_option *poption);
-int option_int_def(const struct client_option *poption);
-int option_int_min(const struct client_option *poption);
-int option_int_max(const struct client_option *poption);
-bool option_int_set(struct client_option *poption, int val);
+int option_int_get(const struct option *poption);
+int option_int_def(const struct option *poption);
+int option_int_min(const struct option *poption);
+int option_int_max(const struct option *poption);
+bool option_int_set(struct option *poption, int val);
 
 /* Option type COT_STRING functions. */
-const char *option_str_get(const struct client_option *poption);
-const char *option_str_def(const struct client_option *poption);
-const struct strvec *option_str_values(const struct client_option *poption);
-bool option_str_set(struct client_option *poption, const char *str);
+const char *option_str_get(const struct option *poption);
+const char *option_str_def(const struct option *poption);
+const struct strvec *option_str_values(const struct option *poption);
+bool option_str_set(struct option *poption, const char *str);
 
 /* Option type COT_FONT functions. */
-const char *option_font_get(const struct client_option *poption);
-const char *option_font_def(const struct client_option *poption);
-const char *option_font_target(const struct client_option *poption);
-bool option_font_set(struct client_option *poption, const char *str);
+const char *option_font_get(const struct option *poption);
+const char *option_font_def(const struct option *poption);
+const char *option_font_target(const struct option *poption);
+bool option_font_set(struct option *poption, const char *font);
+
+
+/* Client options function accessors. */
+struct option *client_option_by_number(int id);
+struct option *client_option_by_name(const char *name);
+struct option *client_option_first(void);
+
+int client_option_category_number(void);
+const char *client_option_category_name(int category);
+
+#define client_options_iterate(poption)                                     \
+{                                                                           \
+  struct option *poption = client_option_first();                           \
+  for (; NULL != poption; poption = option_next(poption)) {                 \
+
+#define client_options_iterate_end                                          \
+  }                                                                         \
+}
 
 
 /** Desired settable options. **/

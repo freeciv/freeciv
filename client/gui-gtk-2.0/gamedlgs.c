@@ -379,12 +379,12 @@ static void option_command_processing(void)
   client_options_iterate(poption) {
     w = GTK_WIDGET(option_get_gui_data(poption));
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       (void) option_bool_set(poption, gtk_toggle_button_get_active
                              (GTK_TOGGLE_BUTTON(w)));
       break;
 
-    case COT_INTEGER:
+    case OT_INTEGER:
       {
         int val;
 
@@ -394,7 +394,7 @@ static void option_command_processing(void)
       }
       break;
 
-    case COT_STRING:
+    case OT_STRING:
       if (option_str_values(poption) != NULL) {
         (void) option_str_set(poption, gtk_entry_get_text
                               (GTK_ENTRY(GTK_COMBO(w)->entry)));
@@ -403,7 +403,7 @@ static void option_command_processing(void)
       }
       break;
 
-    case COT_FONT:
+    case OT_FONT:
       (void) option_font_set(poption, gtk_font_button_get_font_name
                              (GTK_FONT_BUTTON(w)));
       break;
@@ -450,9 +450,10 @@ static void option_command_callback(GtkWidget *win, gint rid)
 *****************************************************************/
 static void create_option_dialog(void)
 {
-  GtkWidget *ebox, *label, *notebook, *align, *vbox[COC_MAX], *sw;
-  int i, len[COC_MAX];
-  GtkSizeGroup *group[2][COC_MAX];
+  const int CATEGORY_NUM = client_option_category_number();
+  GtkWidget *ebox, *label, *notebook, *align, *vbox[CATEGORY_NUM], *sw;
+  int i, len[CATEGORY_NUM];
+  GtkSizeGroup *group[2][CATEGORY_NUM];
   GtkTooltips *tips;
 
   option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
@@ -471,8 +472,8 @@ static void create_option_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(option_dialog_shell)->vbox),
                      notebook, TRUE, TRUE, 0);
 
-  for (i = 0; i < COC_MAX; i++) {
-    label = gtk_label_new_with_mnemonic(option_class_name(i));
+  for (i = 0; i < CATEGORY_NUM; i++) {
+    label = gtk_label_new_with_mnemonic(client_option_category_name(i));
 
     sw = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -497,20 +498,20 @@ static void create_option_dialog(void)
 
   client_options_iterate(poption) {
     GtkWidget *hbox, *w = NULL;
-    enum client_option_class oclass = option_class(poption);
+    int ocategory = option_category(poption);
 
-    if (oclass == COC_MAX) {
+    if (ocategory == CATEGORY_NUM) {
       continue;
     }
 
-    i = len[oclass];
+    i = len[ocategory];
 
     hbox = gtk_hbox_new(FALSE, 2);
-    gtk_container_add(GTK_CONTAINER(vbox[oclass]), hbox);
+    gtk_container_add(GTK_CONTAINER(vbox[ocategory]), hbox);
 
     ebox = gtk_event_box_new();
     gtk_container_add(GTK_CONTAINER(hbox), ebox);
-    gtk_size_group_add_widget(group[0][oclass], ebox);
+    gtk_size_group_add_widget(group[0][ocategory], ebox);
 
     label = gtk_label_new(option_description(poption));
     gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -519,17 +520,17 @@ static void create_option_dialog(void)
     gtk_tooltips_set_tip(tips, ebox, option_help_text(poption), NULL);
 
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       w = gtk_check_button_new();
       break;
 
-    case COT_INTEGER:
+    case OT_INTEGER:
       w = gtk_entry_new();
       gtk_entry_set_max_length(GTK_ENTRY(w), 5);
       gtk_widget_set_size_request(w, 45, -1);
       break;
 
-    case COT_STRING:
+    case OT_STRING:
       if (option_str_values(poption) != NULL) {
         w = gtk_combo_new();
       } else {
@@ -538,7 +539,7 @@ static void create_option_dialog(void)
       gtk_widget_set_size_request(w, 150, -1);
       break;
 
-    case COT_FONT:
+    case OT_FONT:
       w = gtk_font_button_new();
       g_object_set(G_OBJECT(w), "use-font", TRUE, NULL);
       break;
@@ -552,9 +553,9 @@ static void create_option_dialog(void)
     }
 
     gtk_container_add(GTK_CONTAINER(hbox), w);
-    gtk_size_group_add_widget(group[1][oclass], w);
+    gtk_size_group_add_widget(group[1][ocategory], w);
 
-    len[oclass]++;
+    len[ocategory]++;
   } client_options_iterate_end;
 
   g_signal_connect(option_dialog_shell, "response",
@@ -582,17 +583,17 @@ void popup_option_dialog(void)
     w = GTK_WIDGET(option_get_gui_data(poption));
 
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(w),
                                    option_bool_get(poption));
       break;
 
-    case COT_INTEGER:
+    case OT_INTEGER:
       my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
       gtk_entry_set_text(GTK_ENTRY(w), valstr);
       break;
 
-    case COT_STRING:
+    case OT_STRING:
       if ((vals = option_str_values(poption))) {
         GList *items = NULL;
         const char *current_val = option_str_get(poption);
@@ -610,7 +611,7 @@ void popup_option_dialog(void)
       }
       break;
 
-    case COT_FONT:
+    case OT_FONT:
       gtk_font_button_set_font_name(GTK_FONT_BUTTON(w),
                                     option_font_get(poption));
       break;

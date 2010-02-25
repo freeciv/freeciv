@@ -1465,7 +1465,7 @@ void ui_main(int argc, char **argv)
   civ_gc = gdk_gc_new(root_window);
 
   client_options_iterate(poption) {
-    if (COT_FONT == option_type(poption)) {
+    if (OT_FONT == option_type(poption)) {
       /* Force to call the appropriated callback. */
       option_changed(poption);
     }
@@ -2107,7 +2107,7 @@ void add_idle_callback(void (callback)(void *), void *data)
 /****************************************************************************
   Option callback for the 'gui_gtk2_split_bottom_notebook' option.
 ****************************************************************************/
-static void split_bottom_notebook_callback(struct client_option *poption)
+static void split_bottom_notebook_callback(struct option *poption)
 {
   popdown_meswin_dialog();
   if (option_bool_get(poption)) {
@@ -2123,7 +2123,7 @@ static void split_bottom_notebook_callback(struct client_option *poption)
   Option callback for the 'gui_gtk2_allied_chat_only' option.
   This updates the state of the associated toggle button.
 ****************************************************************************/
-static void allied_chat_only_callback(struct client_option *poption)
+static void allied_chat_only_callback(struct option *poption)
 {
   GtkWidget *button;
 
@@ -2138,7 +2138,7 @@ static void allied_chat_only_callback(struct client_option *poption)
 /****************************************************************************
   Change the city names font.
 ****************************************************************************/
-static void apply_city_names_font(struct client_option *poption)
+static void apply_city_names_font(struct option *poption)
 {
   gui_update_font_full(option_font_target(poption),
                        option_font_get(poption),
@@ -2149,7 +2149,7 @@ static void apply_city_names_font(struct client_option *poption)
 /****************************************************************************
   Change the city productions font.
 ****************************************************************************/
-static void apply_city_productions_font(struct client_option *poption)
+static void apply_city_productions_font(struct option *poption)
 {
   gui_update_font_full(option_font_target(poption),
                        option_font_get(poption),
@@ -2160,7 +2160,7 @@ static void apply_city_productions_font(struct client_option *poption)
 /****************************************************************************
   Change the city productions font.
 ****************************************************************************/
-static void apply_reqtree_text_font(struct client_option *poption)
+static void apply_reqtree_text_font(struct option *poption)
 {
   gui_update_font_full(option_font_target(poption),
                        option_font_get(poption),
@@ -2175,10 +2175,10 @@ static void apply_reqtree_text_font(struct client_option *poption)
 void gui_options_extra_init(void)
 {
 
-  struct client_option *poption;
+  struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \
-  if ((poption = option_by_name(#var))) {                                   \
+  if ((poption = client_option_by_name(#var))) {                            \
     option_set_changed_callback(poption, callback);                         \
   } else {                                                                  \
     log_error("Didn't find option %s!", #var);                              \

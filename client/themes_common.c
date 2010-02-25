@@ -133,7 +133,7 @@ bool load_theme(const char *theme_name)
 /****************************************************************************
   Wrapper for load_theme. It's is used by local options dialog
 ****************************************************************************/
-void theme_reread_callback(struct client_option *poption)
+void theme_reread_callback(struct option *poption)
 {
   const char *theme_name = option_str_get(poption);
 

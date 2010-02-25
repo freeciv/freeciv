@@ -80,21 +80,21 @@ void popup_option_dialog(void)
     gui_data = option_get_gui_data(poption);
 
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       XtVaSetValues((Widget) gui_data, XtNstate, option_bool_get(poption),
                     XtNlabel, option_bool_get(poption) ? _("Yes") : _("No"),
                     NULL);
       break;
-    case COT_INTEGER:
+    case OT_INTEGER:
       my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
       XtVaSetValues((Widget) gui_data, XtNstring, valstr, NULL);
       break;
-    case COT_STRING:
+    case OT_STRING:
       XtVaSetValues((Widget) gui_data,
                     option_str_values(poption) ? "label" : XtNstring,
                     option_str_get(poption), NULL);
       break;
-    case COT_FONT:
+    case OT_FONT:
       /* FIXME */
       break;
     }
@@ -201,7 +201,7 @@ void create_option_dialog(void)
      * option.
      */
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       if (gui_data) {
 	prev_widget =
 	  XtVaCreateManagedWidget("toggle", toggleWidgetClass,
@@ -218,7 +218,7 @@ void create_option_dialog(void)
       }
       XtAddCallback(prev_widget, XtNcallback, toggle_callback, NULL);
       break;
-    case COT_STRING:
+    case OT_STRING:
       if (option_str_values(poption)) {
         const struct strvec *vals = option_str_values(poption);
 	Widget popupmenu;
@@ -265,7 +265,7 @@ void create_option_dialog(void)
 	break;
       }
       /* else fall through */
-    case COT_INTEGER:
+    case OT_INTEGER:
       if (gui_data) {
 	prev_widget =
 	  XtVaCreateManagedWidget("input", asciiTextWidgetClass,
@@ -281,7 +281,7 @@ void create_option_dialog(void)
 				  NULL);
       }
       break;
-    case COT_FONT:
+    case OT_FONT:
       /* FIXME */
       break;
     }
@@ -338,22 +338,22 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
     gui_data = (Widget) option_get_gui_data(poption);
 
     switch (option_type(poption)) {
-    case COT_BOOLEAN:
+    case OT_BOOLEAN:
       XtVaGetValues(gui_data, XtNstate, &b, NULL);
       (void) option_bool_set(poption, b);
       break;
-    case COT_INTEGER:
+    case OT_INTEGER:
       XtVaGetValues(gui_data, XtNstring, &dp, NULL);
       sscanf(dp, "%d", &val);
       (void) option_int_set(poption, val);
       break;
-    case COT_STRING:
+    case OT_STRING:
       XtVaGetValues(gui_data,
                     option_str_values(poption) ? "label" : XtNstring,
                     &dp, NULL);
       (void) option_str_set(poption, dp);
       break;
-    case COT_FONT:
+    case OT_FONT:
       /* FIXME */
       break;
     }

@@ -19,6 +19,6 @@ void init_themes(void);
 struct strvec;
 const struct strvec *get_themes_list(void);
 bool load_theme(const char* theme_name);
-void theme_reread_callback(struct client_option *option);
+void theme_reread_callback(struct option *option);
 
 #endif /* FC__THEMES_COMMON_H */

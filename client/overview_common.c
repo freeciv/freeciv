@@ -464,7 +464,7 @@ void calculate_overview_dimensions(void)
 /****************************************************************************
   Callback to be called when an overview option is changed.
 ****************************************************************************/
-void overview_redraw_callback(struct client_option *option)
+void overview_redraw_callback(struct option *option)
 {
   /* This is called once for each option changed so it is slower than
    * necessary.  If this becomes a problem it could be switched to use a

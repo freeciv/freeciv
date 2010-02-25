@@ -1036,7 +1036,7 @@ void tilespec_reread(const char *new_tileset_name)
   This is merely a wrapper for tilespec_reread (above) for use in
   options.c and the client local options dialog.
 **************************************************************************/
-void tilespec_reread_callback(struct client_option *poption)
+void tilespec_reread_callback(struct option *poption)
 {
   const char *tileset_name = option_str_get(poption);
 
