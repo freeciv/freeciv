@@ -704,7 +704,7 @@ static void update_unit_activity(struct unit *punit)
 
   case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST
-        && punit->activity_base == -1) { /* case for old save files */
+        && punit->activity_base == BASE_NONE) { /* case for old save files */
       if (punit->activity_count >= 1) {
         enum tile_special_type what;
         bv_bases bases;
@@ -740,7 +740,7 @@ static void update_unit_activity(struct unit *punit)
                                      punit->activity_target) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      if (what_pillaged == S_LAST && punit->activity_base != -1) {
+      if (what_pillaged == S_LAST && punit->activity_base != BASE_NONE) {
         unit_pillage_base(ptile, base_by_number(punit->activity_base));
       } else {
         tile_clear_special(ptile, what_pillaged);
@@ -1916,7 +1916,7 @@ void package_short_unit(struct unit *punit,
   if (punit->activity == ACTIVITY_EXPLORE
       || punit->activity == ACTIVITY_GOTO) {
     packet->activity = ACTIVITY_IDLE;
-    packet->activity_base = -1;
+    packet->activity_base = BASE_NONE;
   } else {
     packet->activity = punit->activity;
     packet->activity_base = punit->activity_base;

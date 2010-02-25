@@ -773,7 +773,7 @@ bool can_unit_continue_current_activity(struct unit *punit)
 
   punit->activity = ACTIVITY_IDLE;
   punit->activity_target = S_LAST;
-  punit->activity_base = -1;
+  punit->activity_base = BASE_NONE;
 
   result = can_unit_do_activity_targeted(punit, current2, target, base);
 
@@ -792,9 +792,9 @@ bool can_unit_continue_current_activity(struct unit *punit)
   can_unit_do_activity_targeted.
 **************************************************************************/
 bool can_unit_do_activity(const struct unit *punit,
-			  enum unit_activity activity)
+                          enum unit_activity activity)
 {
-  return can_unit_do_activity_targeted(punit, activity, S_LAST, -1);
+  return can_unit_do_activity_targeted(punit, activity, S_LAST, BASE_NONE);
 }
 
 /**************************************************************************
@@ -975,7 +975,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
           return FALSE;
         }
 
-	if (target == S_LAST && base == -1) {
+	if (target == S_LAST && base == BASE_NONE) {
 	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
 	    enum tile_special_type spe = infrastructure_specials[i];
 
@@ -992,7 +992,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		   && target != get_preferred_pillage(pspresent, bases)) {
 	  return FALSE;
 	} else {
-          if (target == S_LAST && base != -1) {
+          if (target == S_LAST && base != BASE_NONE) {
             return BV_ISSET(bases, base);
           } else {
             return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
@@ -1040,7 +1040,7 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target = S_LAST;
-  punit->activity_base = -1;
+  punit->activity_base = BASE_NONE;
   if (new_activity == ACTIVITY_IDLE && punit->moves_left > 0) {
     /* No longer done. */
     punit->done_moving = FALSE;

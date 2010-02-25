@@ -729,7 +729,8 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
     break;
 
   case ACTIVITY_EXPLORE:
-    unit_activity_handling_targeted(punit, activity, activity_target, -1);
+    unit_activity_handling_targeted(punit, activity,
+                                    activity_target, BASE_NONE);
 
     /* Exploring is handled here explicitly, since the player expects to
      * see an immediate response from setting a unit to auto-explore.
@@ -1846,7 +1847,7 @@ static void unit_activity_handling_targeted(struct unit *punit,
                                             Base_type_id base)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target,
-                                    -1)) {
+                                    BASE_NONE)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 

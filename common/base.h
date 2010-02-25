@@ -57,6 +57,7 @@ struct base_type {
   bv_bases conflicts;
 };
 
+#define BASE_NONE       -1
 
 /* General base accessor functions. */
 Base_type_id base_count(void);
