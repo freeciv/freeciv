@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-25 13:06+0300\n"
+"PO-Revision-Date: 2010-02-25 22:56+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4191,7 +4191,6 @@ msgstr "Тойнбі"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:81
-#, fuzzy
 msgid "Gibbon"
 msgstr "Гіббон"
 
@@ -4577,9 +4576,8 @@ msgstr ""
 "\"help startunits\"."
 
 #: server/settings.c:144
-#, fuzzy
 msgid "Cannot set endturn earlier than current turn."
-msgstr "не можу встановити рік завершення гри раніше ніж поточний рік."
+msgstr "Не можу встановити хід завершення гри раніше ніж поточний хід."
 
 #: server/settings.c:161
 msgid "Cannot change maxplayers in GGZ mode."
@@ -5199,9 +5197,8 @@ msgid "Turns until player contact is lost"
 msgstr "Ходи до контакту гравця втрачені"
 
 #: server/settings.c:852
-#, fuzzy
 msgid "Players may meet for diplomacy this number of turns after their units have last met, even when they do not have an embassy. If set to zero, then players cannot meet unless they have an embassy."
-msgstr "Гравці можуть зустрітись для діпломатичного спілкування через таку кількість ходів після останнього контакту. Встановіть у нуль аби вимкнути цю опцію."
+msgstr "Гравці можуть вести дипломатичні перемовини таку кількість ходів після останнього контакту їх підрозділів, навіть якщо у них немає посольства. Якщо встановлено в нуль, гравці не зможуть вести перемовини, поки не матимуть посольства."
 
 #: server/settings.c:862
 msgid "Rebuild palace whenever capital is conquered"
@@ -5525,19 +5522,17 @@ msgid "Server cannot read standard input. Ignoring input."
 msgstr "Сервер не може прочитати стандартний ввід. Ігнорую його."
 
 #: server/sernet.c:503
-#, fuzzy
 msgid "restarting for lack of players"
-msgstr "Початкова кількість гривень на гравця"
+msgstr "перезапуск через нестачу гравців"
 
 #: server/sernet.c:526
-#, fuzzy, c-format
+#, c-format
 msgid "restarting in %d seconds for lack of players"
-msgstr "Початкова кількість гривень на гравця"
+msgstr "за %d секунд буде перезапуск через нестачу гравців"
 
 #: server/sernet.c:529
-#, fuzzy
 msgid "restarting soon for lack of players"
-msgstr "Початкова кількість гривень на гравця"
+msgstr "скоро буде перезапуск через нестачу гравців"
 
 #: server/sernet.c:949
 #, c-format
@@ -6361,9 +6356,8 @@ msgid "No such team %s.  Please give a valid team name or number."
 msgstr "Нема такої команди %s.  Будь ласка, вкажіть вірне ім'я або номер команди."
 
 #: server/stdinhand.c:1973
-#, fuzzy
 msgid "Cannot team a barbarian."
-msgstr "Не можливо перемикнути гравця дикуна."
+msgstr "Не можна бути в команді з дикуном."
 
 #: server/stdinhand.c:1979
 #, c-format
@@ -6659,14 +6653,12 @@ msgid "Sorry, one can't observe in this game."
 msgstr "На жаль, у цій грі не можна спостерігати."
 
 #: server/stdinhand.c:2741
-#, fuzzy
 msgid "Sorry, one can't take players in this game."
-msgstr "Не звітуємо метасерверу у цій грі."
+msgstr "На жаль, у цій грі гравців брати не можна."
 
 #: server/stdinhand.c:2748
-#, fuzzy
 msgid "Sorry, one can't take players already connected in this game."
-msgstr "Перехоплено місце гравця %s у грі."
+msgstr "На жаль, вже приєднаних до гри гравців брати на можна."
 
 #: server/stdinhand.c:2785
 #: server/stdinhand.c:2933
@@ -6797,7 +6789,7 @@ msgid "Cannot find savegame or scenario with the name \"%s\"."
 msgstr "Не можу знайти файл збереженої гри з ім'ям \"%s\"."
 
 #: server/stdinhand.c:3298
-#, fuzzy, c-format
+#, c-format
 msgid "Could not load savefile: %s"
 msgstr "Не можу завантажити гру: %s"
 
@@ -6897,23 +6889,20 @@ msgid "Not enough human players, game will not start."
 msgstr "Не вистачає гравців, гру не стартовано."
 
 #: server/stdinhand.c:3888
-#, fuzzy
 msgid "No players, game will not start."
-msgstr "Не вистачає гравців, гру не стартовано."
+msgstr "Немає гравців, гра не розпочнеться."
 
 #: server/stdinhand.c:3892
-#, fuzzy
 msgid "Not enough nations for all players, game will not start."
-msgstr "Не вистачає гравців, гру не стартовано."
+msgstr "Не вистачає націй для всіх гравців, гра не розпочнеться."
 
 #: server/stdinhand.c:3901
 msgid "All players are ready; starting game."
 msgstr "Усі гравці готові; починаємо гру."
 
 #: server/stdinhand.c:3917
-#, fuzzy
 msgid "Cannot start the game: the game is waiting for all clients to disconnect."
-msgstr "Не можу стартувати гру: її вже запущено."
+msgstr "Не можу розпочати гру: гра чекає, щоб усі клієнти від'єдналися."
 
 #: server/stdinhand.c:3924
 msgid "Cannot start the game: it is already running."
@@ -7270,9 +7259,9 @@ msgstr "Атомну атаку у %s було нейтралізовано за
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1042
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr "Ваш %s витримав невдалу атаку від %s %s."
+msgstr "Ваш %s витримав жалюгідну атаку від %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1052
@@ -7305,9 +7294,9 @@ msgid "%s cannot move that far from the coast line."
 msgstr "%s не може рухатися так далеко від берега."
 
 #: server/unithand.c:1162
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot invade unless you break peace with %s first."
-msgstr "Не можу атакувати доки Ви не проголосите війну."
+msgstr "Не можна вторгатися, доки Ви не проголосите %s війну."
 
 #: server/unithand.c:1208
 msgid "This unit has no moves left."
@@ -7381,14 +7370,14 @@ msgid "Your %s from %s has arrived in %s, and revenues amount to %d in gold and 
 msgstr "Ваш %s з %s досягнув %s, прибуток складається з %d гривень та досліджень."
 
 #: server/unithand.c:1573
-#, fuzzy, c-format
+#, c-format
 msgid "New trade route established from %s to %s."
-msgstr "Ці торгові шляхи було встановлено з %s:\n"
+msgstr "Новий торговий шлях було встановлено з %s до %s."
 
 #: server/unithand.c:1579
-#, fuzzy, c-format
+#, c-format
 msgid "The %s established a trade route between their city %s and %s."
-msgstr "Вибачте, Ваш %s не може встановити тут торговий шлях!"
+msgstr "%s встановив торговий шлях між їхнім містом %s і %s."
 
 #: server/unithand.c:1594
 #: server/unithand.c:1616
@@ -7398,9 +7387,9 @@ msgstr "Торговий шлях між %s і %s скасовано."
 
 #: server/unithand.c:1601
 #: server/unithand.c:1623
-#, fuzzy, c-format
+#, c-format
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
-msgstr "Вибачьте, %s скасував торговий шлях від %s до Вашого міста %s."
+msgstr "На жаль, %s скасував торговий шлях із %s до Вашого міста %s."
 
 #: server/unittools.c:266
 #, c-format
@@ -7786,12 +7775,9 @@ msgid "Perhaps there is some misconfiguration or bad permissions."
 msgstr "З причини невірної конфігурації або невірних прав доступу"
 
 #: client/chatline_common.c:238
-#, fuzzy
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
 msgstr ""
-"Freeciv є вільною програмою, тож Ви можете вільно розповсюджувати її, але\n"
-"з урахуванням деяких застережень; Дивіться розділ \"Копірайт\" у Допомозі.\n"
-"А тепер задайте їм перцю!\n"
+"Freeciv є вільною програмою, тож Ви можете вільно розповсюджувати її, алез урахуванням деяких застережень; А тепер задайте їм перцю!\n"
 "Слава Україні! Героям слава!"
 
 #: client/chatline_common.c:241
@@ -7895,9 +7881,9 @@ msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : Податків від торгівлі\n"
 
 #: client/citydlg_common.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Trade route with %s\n"
-msgstr "Торгових шляхів не існує.\n"
+msgstr "%+4d : Торговий шлях з %s\n"
 
 #: client/citydlg_common.c:441
 #, fuzzy, c-format
@@ -7915,9 +7901,9 @@ msgid "%+4d : Waste\n"
 msgstr "%+4d : Втрати\n"
 
 #: client/citydlg_common.c:481
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Corruption\n"
-msgstr "Корумпованість"
+msgstr "%+4d : Корумпованість\n"
 
 #: client/citydlg_common.c:490
 #, c-format
@@ -8071,6 +8057,7 @@ msgid "?city:Workers"
 msgstr "Працівники"
 
 #: client/cityrepdata.c:468
+#, fuzzy
 msgid "?happy/content/unhappy/angry:H/C/U/A"
 msgstr "?щасливі/нейтральні/нещасні/злі:Щ/Й/Н/З"
 
@@ -8450,15 +8437,15 @@ msgstr "Немає контакту"
 
 #: client/climisc.c:270
 msgid "?vision:Both"
-msgstr "?бачення:Обидва"
+msgstr "Обидва"
 
 #: client/climisc.c:272
 msgid "?vision:To Them"
-msgstr "?баченні:Їм"
+msgstr "Їм"
 
 #: client/climisc.c:275
 msgid "?vision:To Us"
-msgstr "?бачення:Нам"
+msgstr "Нам"
 
 #: client/climisc.c:291
 #: client/climisc.c:298
@@ -18995,7 +18982,7 @@ msgstr ""
 
 #: data/helpdata.txt:267
 msgid "You'll find more tips for playing, and details of how to contact other players."
-msgstr ""
+msgstr "Ви знайдете більше порад про гру та про те, як контактувати з іншими гравцями."
 
 #: data/helpdata.txt:274
 msgid "Terrain serves three roles: the theater upon which your units battle rival civilizations, the landscape across which your units travel, and the medium which your cities work to produce resources. The different types of terrain each have different strengths and drawbacks; see the sections on each terrain type for details."
@@ -19289,7 +19276,7 @@ msgstr ""
 
 #: data/helpdata.txt:671
 msgid "Cities may be enhanced with a wide variety of buildings, which can improve their productivity, their military strength, or give them new abilities. See the sections on City Improvements and Wonders of the World for more information."
-msgstr ""
+msgstr "Міста можна покращувати різноманітними будівлями, які можуть збільшити їхню продуктивність, військову силу чи надати їм нових можливостей. Перегляньте розділ Будівлі Міста та Дива Світу, щоб дізнатися більше."
 
 #: data/helpdata.txt:679
 #, fuzzy
@@ -22764,9 +22751,8 @@ msgstr "БТР"
 
 #: data/default/units.ruleset:784
 #: data/civ2/units.ruleset:677
-#, fuzzy
 msgid "The Mechanized Infantry has the strongest defensive strength of any land unit, but is only available near the end of the technology tree."
-msgstr "БТР; цей підрозділ має найбільший захист з усіх наземних підрозділів, але він доступний лише наприкінці технологічного розвитку."
+msgstr "Мотострільці мають найбільший захист з усіх наземних підрозділів, але вони доступні лише наприкінці технологічного розвитку."
 
 #: data/default/units.ruleset:791
 #: data/civ2/units.ruleset:684
@@ -22983,12 +22969,14 @@ msgstr "Есмінець"
 
 #: data/default/units.ruleset:1476
 #: data/civ2/units.ruleset:1433
-#, fuzzy
 msgid ""
 "An improved Ironclad, with better move rate and vision.\n"
 "\n"
 "TIP:  A very fast unit, which is very useful for hunting down enemy Transports."
-msgstr "Порада: Швидкий корабель для охоти та знищення ворожіх Транспортів"
+msgstr ""
+"Покращений Броненосець, з більшою швидкістю та кращим зором.\n"
+"\n"
+"ПОРАДА: Це дуже швидкий підрозділ, зручний для полювання на ворожих Транспортників."
 
 #: data/default/units.ruleset:1484
 #: data/civ2/units.ruleset:1441
@@ -23235,7 +23223,7 @@ msgstr "Літак спостереження"
 
 #: data/default/units.ruleset:2110
 msgid "The AWACS (Airborne Warning and Control System) is an airplane with an advanced radar that can determine the location of enemy units over a wide area."
-msgstr "Літак спостереження - це літак з потужним радаром що може визначити місцеросташування ворожих загонів на широких просторах."
+msgstr "Літак спостереження - це літак з потужним радаром що може виявити розташування ворожих загонів на широких просторах."
 
 #: data/civ2/units.ruleset:198
 msgid ""
@@ -23261,7 +23249,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:446
 msgid "Fanatics"
-msgstr "Фанатіки"
+msgstr "Фанатики"
 
 #: data/civ2/units.ruleset:473
 #, fuzzy
@@ -23327,7 +23315,7 @@ msgstr "Мушкетери - це піхота, озброєна ранньою 
 
 #: data/civ1/units.ruleset:393
 msgid "Mechanized Infantry; this unit has the strongest defence strength of any land unit, but is only available near the end of the technology tree."
-msgstr "БТР; цей підрозділ має найбільший захист з усіх наземних підрозділів, але він доступний лише наприкінці технологічного розвитку."
+msgstr "Мотострільці; цей підрозділ має найбільший захист з усіх наземних підрозділів, але вони доступні лише наприкінці технологічного розвитку."
 
 #: data/civ1/units.ruleset:426
 msgid "Cavalry are mounted warriors and an early shock-troop that can penetrate deep into enemy territory."
@@ -25691,14 +25679,12 @@ msgid "The region that is now Libya was a Roman colony until it was conquered by
 msgstr "Регіон, який зарав відомий як Лівія, раніше був римською колонією, доку ії не захопили арабські цивілізації у 7-му сторіччі. У 1912 вона підпала під контроль Італії, та після Другої світової війни Лівія отримала незалежність як частина угоди між Італією та союзниками."
 
 #: data/nation/libyan.ruleset:24
-#, fuzzy
 msgid "Colonel"
-msgstr "Закрити"
+msgstr "Полковник"
 
 #: data/nation/libyan.ruleset:24
-#, fuzzy
 msgid "?female:Colonel"
-msgstr "Консул"
+msgstr "Полковник"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
@@ -25754,14 +25740,12 @@ msgid "?female:Mahapatih"
 msgstr "Махатма"
 
 #: data/nation/malagasy.ruleset:3
-#, fuzzy
 msgid "Malagasy"
-msgstr "Чоловік"
+msgstr "Малагасійці"
 
 #: data/nation/malagasy.ruleset:4
-#, fuzzy
 msgid "?plural:Malagasies"
-msgstr "Італійці"
+msgstr "Малагасійці"
 
 #: data/nation/malagasy.ruleset:6
 msgid "The Malagasy are the people of Madagascar. For centuries, tribes from Indonesia, East Africa and the Arab world have gathered on the island."
