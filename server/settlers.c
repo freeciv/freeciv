@@ -425,8 +425,10 @@ static int ai_calc_transform(struct city *pcity,
 			     int city_x, int city_y, struct tile *ptile)
 {
   int goodness;
+  /* FIXME: Isn't an other way to know the goodness of the transformation? */
   struct terrain *old_terrain = tile_terrain(ptile);
   bv_special old_special = ptile->special;
+  bv_bases old_bases = ptile->bases;
   struct terrain *new_terrain = old_terrain->transform_result;
 
   if (old_terrain == new_terrain || new_terrain == T_NONE) {
@@ -451,8 +453,10 @@ static int ai_calc_transform(struct city *pcity,
   tile_change_terrain(ptile, new_terrain);
   goodness = city_tile_value(pcity, ptile, 0, 0);
 
+  /* FIXME: Very ugly hacking */
   tile_set_terrain(ptile, old_terrain);
   ptile->special = old_special;
+  ptile->bases = old_bases;
 
   return goodness;
 }
