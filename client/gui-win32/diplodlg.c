@@ -111,7 +111,7 @@ static void popup_diplomacy_dialog(int other_player_id);
 static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   HDC hdc;
-  char buf[64];
+  char buf[128];
   ListBox_ResetContent(pdialog->list);
   
   clause_list_iterate(pdialog->treaty.clauses, pclause) {
