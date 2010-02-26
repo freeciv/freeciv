@@ -4672,8 +4672,8 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_int_default(file, game.info.allowed_city_names,
                                  "game.allowed_city_names"); 
     game.info.migration =
-      secfile_lookup_int_default(file, game.info.migration,
-                                 "game.migration");
+      secfile_lookup_bool_default(file, game.info.migration,
+                                  "game.migration");
     game.info.mgr_turninterval =
       secfile_lookup_int_default(file, game.info.mgr_turninterval,
                                  "game.mgr_turninterval");
