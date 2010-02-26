@@ -4754,7 +4754,14 @@ static void game_load_internal(struct section_file *file)
     team_remove_player(pplayer);
   } players_iterate_end;
 
-  set_player_count(secfile_lookup_int_default(file, 0, "game.nplayers"));
+  {
+    int nplayers = MAX(game.info.aifill,
+                       secfile_lookup_int_default(file, 0, "game.nplayers"));
+
+    aifill(nplayers);
+    set_player_count(nplayers);
+  }
+
   player_slots_iterate(pplayer) {
     player_slot_set_used(pplayer, FALSE);
     server_player_init(pplayer, FALSE, FALSE);
