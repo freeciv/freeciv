@@ -2140,8 +2140,15 @@ static void srv_prepare(void)
 
   fc_init_network();
 
+  /* must be before con_log_init() */
+  init_connections();
   con_log_init(srvarg.log_filename, srvarg.loglevel);
-  
+  /* logging available after this point */
+
+  if (!with_ggz) {
+    server_open_socket();
+  }
+
 #if IS_BETA_VERSION
   con_puts(C_COMMENT, "");
   con_puts(C_COMMENT, beta_message());
@@ -2157,12 +2164,6 @@ static void srv_prepare(void)
   diplhand_init();
   voting_init();
   ai_init();
-
-  /* init network */  
-  init_connections(); 
-  if (!with_ggz) {
-    server_open_socket();
-  }
 
   server_game_init();
 
