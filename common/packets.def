@@ -565,7 +565,7 @@ PACKET_CITY_INFO = 21; sc, lsend, is-game-info, cancel(PACKET_CITY_SHORT_INFO)
   UINT8 trade_value[NUM_TRADE_ROUTES];
 
   UINT16 pollution;
-  UINT16 illness;
+  UINT16 illness_trade;
 
   UINT8 production_kind;
   UINT8 production_value;

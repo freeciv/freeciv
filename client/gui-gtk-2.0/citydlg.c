@@ -1409,7 +1409,7 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 					   GtkWidget **info_label,
                                            struct city_dialog *pdialog)
 {
-  int i, style;
+  int i, style, illness = 0;
   char buf[NUM_INFO_FIELDS][512];
   struct city *pcity = pdialog->pcity;
   int granaryturns;
@@ -1460,8 +1460,10 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   if (!game.info.illness_on) {
     my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
   } else {
+    illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
+    /* illness is in tenth of percent */
     my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
-                ((float)pcity->illness / 10.0));
+                (float)illness / 10.0);
   }
 
   /* stick 'em in the labels */
@@ -1486,7 +1488,8 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
   style = (pcity->pollution >= 10) ? RED : NORMAL;
   gtk_widget_modify_style(info_label[POLLUTION], info_label_style[style]);
 
-  style = (pcity->illness >= 20) ? RED : NORMAL;
+  /* illness is in tenth of percent, i.e 100 != 10.0% */
+  style = (illness >= 100) ? RED : NORMAL;
   gtk_widget_modify_style(info_label[ILLNESS], info_label_style[style]);
 }
 

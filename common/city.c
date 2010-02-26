@@ -2211,8 +2211,8 @@ static int get_city_health(const struct city *pcity)
   The illness is reduced by the percentage given by the health effect.
   Illness cannot exceed 999 (= 99.9%), or be less then 0
  *************************************************************************/
-int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
-                 int *ill_trade, int *ill_pollution)
+int city_illness_calc(const struct city *pcity, int *ill_base,
+                      int *ill_size, int *ill_trade, int *ill_pollution)
 {
   int illness_size = 0, illness_trade = 0, illness_pollution = 0;
   int illness_base, illness_percent;
@@ -2223,7 +2223,16 @@ int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
 
     illness_size = (int)((1.0 - exp(- (float)use_size / 10.0))
                          * 10.0 * game.info.illness_base_factor);
-    illness_trade = get_trade_illness(pcity);
+    if (is_server()) {
+      /* on the server we recalculate the illness due to trade as we have
+       * all informations */
+      illness_trade = get_trade_illness(pcity);
+    } else {
+      /* on the client we have to rely on the value saved within the city
+       * struct */
+      illness_trade = pcity->illness_trade;
+    }
+
     illness_pollution = pcity->pollution
                         * game.info.illness_pollution_factor / 100;
   }
@@ -2419,9 +2428,6 @@ void city_refresh_from_main_map(struct city *pcity, bool full_refresh)
   set_city_production(pcity);
   citizen_base_mood(pcity);
   pcity->pollution = city_pollution(pcity, pcity->prod[O_SHIELD]);
-
-  /* This must be after pollution */
-  pcity->illness = city_illness(pcity, NULL, NULL, NULL, NULL);
 
   happy_copy(pcity, FEELING_LUXURY);
   citizen_happy_luxury(pcity);	/* with our new found luxuries */
@@ -2668,7 +2674,6 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->food_stock = 0;
   pcity->shield_stock = 0;
   pcity->pollution = 0;
-  pcity->illness = 0;
 
   pcity->airlift = 0;
   pcity->debug = FALSE;
@@ -2685,6 +2690,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->steal = 0;
 #endif
 
+  pcity->illness = 0;
+  pcity->illness_trade = 0;
   pcity->turn_plague = -1; /* -1 = never */
 
   pcity->turn_founded = game.info.turn;

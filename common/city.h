@@ -341,6 +341,11 @@ struct city {
   int shield_stock;
   int pollution;                /* not saved */
   int illness;                  /* not saved */
+  int illness_trade;            /* not saved; illness due to trade; it is
+                                   calculated within the server and send to
+                                   the clients as the clients do not have all
+                                   information about the trade cities */
+  int turn_plague;              /* last turn with an illness in the city */
 
   /* turn states */
   int airlift;
@@ -349,7 +354,6 @@ struct city {
   bool did_sell;
   bool is_updated;              /* not saved */
   bool was_happy;
-  int turn_plague;              /* last turn with plague in the city */
 
   int anarchy;                  /* anarchy rounds count */ 
   int rapture;                  /* rapture rounds count */ 
@@ -677,8 +681,8 @@ int get_city_tithes_bonus(const struct city *pcity);
 int city_pollution_types(const struct city *pcity, int shield_total,
 			 int *pollu_prod, int *pollu_pop, int *pollu_mod);
 int city_pollution(const struct city *pcity, int shield_total);
-int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
-                 int *ill_trade, int *ill_pollution);
+int city_illness_calc(const struct city *pcity, int *ill_base,
+                      int *ill_size, int *ill_trade, int *ill_pollution);
 
 bool city_exist(int id);
 

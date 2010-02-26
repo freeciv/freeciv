@@ -531,7 +531,7 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_HEALTH_PCT:
     /* Is plague possible */
-    if (game.info.illness_on && pcity->size > 1) {
+    if (game.info.illness_on) {
       v += c * 5 + (amount / 5) * pcity->illness;
     }
     break;

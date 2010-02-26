@@ -563,8 +563,8 @@ void handle_city_info(struct packet_city_info *packet)
     shield_stock_changed = TRUE;
     pcity->shield_stock = packet->shield_stock;
   }
-  pcity->pollution=packet->pollution;
-  pcity->illness = packet->illness;
+  pcity->pollution = packet->pollution;
+  pcity->illness_trade = packet->illness_trade;
 
   if (city_is_new
       || !are_universals_equal(&pcity->production, &product)) {

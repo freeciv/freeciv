@@ -2680,6 +2680,11 @@ static void player_load_cities(struct player *plr, int plrno,
     pcity->turn_plague =
       secfile_lookup_int_default(file, 0, "player%d.c%d.turn_plague",
                                  plrno,i);
+    if (game.info.illness_on) {
+      /* recalculate city illness */
+      pcity->illness = city_illness_calc(pcity, NULL, NULL,
+                                         &(pcity->illness_trade), NULL);
+    }
 
     if (!secfile_lookup_int(file, &pcity->anarchy,
                             "player%d.c%d.anarchy", plrno, i)) {

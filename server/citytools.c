@@ -1847,12 +1847,12 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     packet->usage[o] = pcity->usage[o];
   } output_type_iterate_end;
 
-  packet->food_stock=pcity->food_stock;
-  packet->shield_stock=pcity->shield_stock;
-  packet->pollution=pcity->pollution;
-  packet->illness = pcity->illness;
+  packet->food_stock = pcity->food_stock;
+  packet->shield_stock = pcity->shield_stock;
+  packet->pollution = pcity->pollution;
+  packet->illness_trade = pcity->illness_trade;
   packet->city_options = pcity->city_options;
-  
+
   packet->production_kind = pcity->production.kind;
   packet->production_value = universal_number(&pcity->production);
 
@@ -2045,6 +2045,14 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
       pc2->trade[i] = pc1->id;
       break;
     }
+  }
+
+  /* recalculate illness due to trade */
+  if (game.info.illness_on) {
+    pc1->illness = city_illness_calc(pc1, NULL, NULL, &(pc1->illness_trade),
+                                     NULL);
+    pc2->illness = city_illness_calc(pc2, NULL, NULL, &(pc2->illness_trade),
+                                     NULL);
   }
 }
 
