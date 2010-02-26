@@ -599,8 +599,6 @@ PACKET_CITY_SHORT_INFO = 22; sc, lsend, is-game-info, cancel(PACKET_CITY_INFO)
   PLAYER owner;
   UINT8 size;
 
-  UINT16 tile_trade;
-
   BOOL occupied;
   BOOL walls;
 

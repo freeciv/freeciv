@@ -849,9 +849,6 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   pcity->specialists[DEFAULT_SPECIALIST] =
   pcity->size = packet->size;
 
-  /* HACK: special case for trade routes */
-  pcity->citizen_base[O_TRADE] = packet->tile_trade;
-
   /* We can't actually see the internals of the city, but the server tells
    * us this much. */
   if (pcity->client.occupied != packet->occupied) {

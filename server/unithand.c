@@ -1680,7 +1680,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     }
 
     /* Notify each player about the other cities so that they know about
-     * the tile_trade value. */
+     * its size for the trade calculation . */
     if (pplayer != city_owner(pcity_dest)) {
       send_city_info(city_owner(pcity_dest), pcity_homecity);
       send_city_info(pplayer, pcity_dest);

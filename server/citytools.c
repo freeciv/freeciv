@@ -1546,7 +1546,6 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
 			      struct packet_city_short_info *packet)
 {
   struct vision_site *pdcity = map_get_player_city(ptile, pplayer);
-  struct city *pcity = tile_city(ptile);
 
   packet->id = pdcity->identity;
   packet->owner = player_number(vision_owner(pdcity));
@@ -1555,12 +1554,6 @@ static void package_dumb_city(struct player* pplayer, struct tile *ptile,
   sz_strlcpy(packet->name, pdcity->name);
 
   packet->size = pdcity->size;
-
-  if (pcity && player_has_trade_route_with_city(pplayer, pcity)) {
-    packet->tile_trade = pcity->citizen_base[O_TRADE];
-  } else {
-    packet->tile_trade = 0;
-  }
 
   packet->occupied = pdcity->occupied;
   packet->walls = pdcity->walls;
