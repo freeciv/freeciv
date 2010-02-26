@@ -846,7 +846,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     memset(pcity->specialists, 0, sizeof(pcity->specialists));
   }
 
-  pcity->specialists[DEFAULT_SPECIALIST] =
+  pcity->specialists[DEFAULT_SPECIALIST] = packet->size;
   pcity->size = packet->size;
 
   /* We can't actually see the internals of the city, but the server tells
