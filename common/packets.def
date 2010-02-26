@@ -572,7 +572,6 @@ PACKET_CITY_INFO = 21; sc, lsend, is-game-info, cancel(PACKET_CITY_SHORT_INFO)
 
   TURN turn_founded;
   TURN turn_last_built;
-  FLOAT migration_score;
   UINT8 changed_from_kind;
   UINT8 changed_from_value;
   UINT16 before_change_shields;

@@ -2680,9 +2680,6 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
 
-  pcity->migration_score = 0.0; /* Updated by check_city_migrations. */
-  pcity->mgr_score_calc_turn = -1; /* -1 = never */
-
 #ifdef ZERO_VARIABLES_FOR_SEARCHING
   pcity->before_change_shields = 0;
   pcity->caravan_shields = 0;
@@ -2717,6 +2714,9 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->client.unhappy = FALSE;
   pcity->client.colored = FALSE;
   pcity->client.color_index = FALSE;
+
+  pcity->server.migration_score = 0.0; /* Updated by check_city_migrations. */
+  pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
 
   pcity->server.workers_frozen = 0;
   pcity->server.needs_arrange = FALSE;

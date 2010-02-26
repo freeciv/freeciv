@@ -2249,9 +2249,9 @@ static float city_migration_score(struct city *pcity)
     return score;
   }
 
-  if (pcity->mgr_score_calc_turn == game.info.turn) {
+  if (pcity->server.mgr_score_calc_turn == game.info.turn) {
     /* up-to-date migration score */
-    return pcity->migration_score;
+    return pcity->server.migration_score;
   }
 
   /* feeling of the citizens */
@@ -2297,9 +2297,9 @@ static float city_migration_score(struct city *pcity)
   log_debug("[M] %s score: %.3f", city_name(pcity), score);
 
   /* set migration score for the city */
-  pcity->migration_score = score;
+  pcity->server.migration_score = score;
   /* set the turn, when the score was calculated */
-  pcity->mgr_score_calc_turn = game.info.turn;
+  pcity->server.mgr_score_calc_turn = game.info.turn;
 
   return score;
 }
