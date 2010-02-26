@@ -2061,7 +2061,7 @@ static void update_city_activity(struct city *pcity)
     pcity->was_happy = city_happy(pcity);
 
     /* Handle the illness. */
-    if (game.info.illness_on && pcity->size > MAX(1, game.info.illness_min_size)) {
+    if (game.info.illness_on && pcity->size > 1) {
       /* illness only if the city has a size greater than 1 */
       if (check_plague(pcity)) {
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,

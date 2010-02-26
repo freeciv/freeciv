@@ -2173,20 +2173,21 @@ int city_pollution(const struct city *pcity, int shield_total)
  *************************************************************************/
 static int get_trade_illness(const struct city *pcity)
 {
+  float illness_trade = 0.0;
   int i;
-  int total_penalty = 0;
 
   for (i = 0 ; i < NUM_TRADE_ROUTES ; i++) {
     struct city *trade_city = game_find_city_by_number(pcity->trade[i]);
     if (trade_city != NULL
         && trade_city->turn_plague != -1
-        && trade_city->turn_plague - game.info.turn < 5) {
-      total_penalty += game.info.illness_trade_infection / 100
-                       * sqrt(pcity->size * trade_city->size);
+        && game.info.turn - trade_city->turn_plague < 5) {
+      illness_trade += (float)game.info.illness_trade_infection
+                       * sqrt(1.0 * pcity->size * trade_city->size)
+                       / 100.0;
     }
   }
 
-  return total_penalty;
+  return (int)illness_trade;
 }
 
 /**************************************************************************
@@ -2201,25 +2202,34 @@ static int get_city_health(const struct city *pcity)
 /**************************************************************************
   Calculate city's illness in tenth of percent:
 
-  base illness (maximum illness given by 'game.info.illness_base_factor')
-  + trade illness (see get_trade_illness())
-  + pollution illness (ruleset option 'game.info.illness_pollution_factor'
-  times the pollution in the city)
+  base illness        (the maximum value for illness in percent is given by
+                       'game.info.illness_base_factor')
+  + trade illness     (see get_trade_illness())
+  + pollution illness (the pollution in the city times
+                       'game.info.illness_pollution_factor')
 
   The illness is reduced by the percentage given by the health effect.
-  Illness cannot exceed 999, or be less then 0
+  Illness cannot exceed 999 (= 99.9%), or be less then 0
  *************************************************************************/
 int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
                  int *ill_trade, int *ill_pollution)
 {
-  int illness_size = (1- exp(- pcity->size / 10)) * 10
-                     * game.info.illness_base_factor;
-  int illness_trade = get_trade_illness(pcity);
-  int illness_pollution = game.info.illness_pollution_factor / 100
-                          * pcity->pollution;
-  int illness_base = illness_size + illness_trade + illness_pollution;
+  int illness_size = 0, illness_trade = 0, illness_pollution = 0;
+  int illness_base, illness_percent;
 
-  int illness_percent = 100 - get_city_health(pcity);
+  if (pcity->size > game.info.illness_min_size) {
+    /* offset the city size by game.info.illness_min_size */
+    int use_size = pcity->size - game.info.illness_min_size;
+
+    illness_size = (int)((1.0 - exp(- (float)use_size / 10.0))
+                         * 10.0 * game.info.illness_base_factor);
+    illness_trade = get_trade_illness(pcity);
+    illness_pollution = pcity->pollution
+                        * game.info.illness_pollution_factor / 100;
+  }
+
+  illness_base = illness_size + illness_trade + illness_pollution;
+  illness_percent = 100 - get_city_health(pcity);
 
   /* returning other data */
   if (ill_size) {
@@ -2238,7 +2248,7 @@ int city_illness(const struct city *pcity, int *ill_base, int *ill_size,
     *ill_base = illness_base;
   }
 
-  return CLIP(0, illness_base*illness_percent/100 , 999);
+  return CLIP(0, illness_base * illness_percent / 100 , 999);
 }
 
 /**************************************************************************
