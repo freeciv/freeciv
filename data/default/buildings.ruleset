@@ -86,6 +86,7 @@ helptext	= _("\
 Allows a city to grow larger than size 8.  A Sewer System is also\
  required for a city to grow larger than size 12.\
 ")
+; NB: plague (illness) has to be activated in the ruleset
 
 [building_bank]
 name		= _("Bank")
@@ -766,6 +767,7 @@ helptext	= _("\
 Allows a city to grow larger than size 12.  An Aqueduct is first\
  required for a city to grow larger than size 8.\
 ")
+; NB: plague (illness) has to be activated in the ruleset
 
 [building_solar_plant]
 name		= _("Solar Plant")
@@ -1099,8 +1101,8 @@ This stunning technological achievement makes one unhappy\
  citizen content in each of your cities (including citizens unhappy\
  about military activity).\
 ")
-; NOTE:
-; In Civ2 this makes 1 content citizen happy in all cities.
+; NB: In Civ2 this makes 1 content citizen happy in all cities.
+; NB: plague (illness) has to be activated in the ruleset
 
 [building_darwins_voyage]
 name		= _("Darwin's Voyage")
