@@ -1136,10 +1136,13 @@ static void make_land(void)
 
   if (HAS_POLES) {
     renormalize_hmap_poles();
-  } 
+  }
 
-  create_tmap(TRUE); /* base temperature map, need hmap and oceans */
-  
+  /* destroy old dummy temperature map ... */
+  destroy_tmap();
+  /* ... and create a real temperature map (needs hmap and oceans) */
+  create_tmap(TRUE);
+
   if (HAS_POLES) { /* this is a hack to terrains set with not frizzed oceans*/
     make_polar_land(); /* make extra land at poles*/
   }
@@ -1259,7 +1262,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 {
   /* save the current random state: */
   RANDOM_STATE rstate = get_myrand_state();
- 
+
   if (map.server.seed == 0) {
     /* Create a "random" map seed.  Note the call to myrand() which will
      * depend on the game seed. */
@@ -1277,6 +1280,9 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     adjust_terrain_param();
     /* if one mapgenerator fails, it will choose another mapgenerator */
     /* with a lower number to try again */
+
+    /* create a temperature map */
+    create_tmap(FALSE);
 
     if (map.server.generator == 3) {
       /* initialise terrain selection lists used by make_island() */
@@ -1331,6 +1337,7 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
     assign_continent_numbers();
   }
 
+  /* create a temperature map if it was not done before */
   if (!temperature_is_initialized()) {
     create_tmap(FALSE);
   }
@@ -1346,7 +1353,6 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 
   /* restore previous random state: */
   set_myrand_state(rstate);
-  destroy_tmap();
 
   /* We don't want random start positions in a scenario which already
    * provides them. */
@@ -1397,6 +1403,9 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
       }
     }
   }
+
+  /* destroy temperature map */
+  destroy_tmap();
 
   print_mapgen_map();
 }
@@ -2111,6 +2120,7 @@ static bool make_island(int islemass, int starters,
 
 /**************************************************************************
   fill ocean and make polar
+  A temperature map is created in map_fractal_generate().
 **************************************************************************/
 static void initworld(struct gen234_state *pstate)
 {
@@ -2119,8 +2129,7 @@ static void initworld(struct gen234_state *pstate)
   assert(NULL != deepest_ocean);
   height_map = fc_malloc(MAP_INDEX_SIZE * sizeof(*height_map));
   create_placed_map(); /* land tiles which aren't placed yet */
-  create_tmap(FALSE);
-  
+
   whole_map_iterate(ptile) {
     tile_set_terrain(ptile, deepest_ocean);
     tile_set_continent(ptile, 0);
@@ -2128,15 +2137,15 @@ static void initworld(struct gen234_state *pstate)
     tile_clear_all_specials(ptile);
     tile_set_owner(ptile, NULL, NULL);
   } whole_map_iterate_end;
-  
+
   if (HAS_POLES) {
     make_polar();
   }
-  
+
   /* Set poles numbers.  After the map is generated continents will 
    * be renumbered. */
   make_island(0, 0, pstate, 0);
-}  
+}
 
 /* This variable is the Default Minimum Specific Island Size, 
  * ie the smallest size we'll typically permit our island, as a % of
@@ -2179,7 +2188,6 @@ static void mapgenerator2(void)
 
     if (placed_map_is_initialized()) {
       destroy_placed_map();
-      destroy_tmap();
     }
 
     initworld(pstate);
