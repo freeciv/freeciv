@@ -512,14 +512,15 @@ void get_city_dialog_illness_text(const struct city *pcity,
   int illness, ill_base, ill_size, ill_trade, ill_pollution;
   struct effect_list *plist;
 
-  illness = city_illness(pcity, &ill_base, &ill_size, &ill_trade,
-                         &ill_pollution);
   buf[0] = '\0';
 
   if (!game.info.illness_on) {
     cat_snprintf(buf, bufsz, _("Illness deactivated in ruleset."));
     return;
   }
+
+  illness = city_illness_calc(pcity, &ill_base, &ill_size, &ill_trade,
+                              &ill_pollution);
 
   cat_snprintf(buf, bufsz, _("%+2.1f : Risk from over crowdness\n"),
                ((float)(ill_size) / 10.0));

@@ -555,7 +555,8 @@ PACKET_CITY_INFO=21; sc,lsend
   UINT8 trade_value[NUM_TRADE_ROUTES];
 
   UINT16 pollution;
-  UINT16 illness;
+  UINT16 illness; remove-cap(trade_illness)
+  UINT16 illness_trade; add-cap(trade_illness)
 
   UINT8 production_kind;
   UINT8 production_value;

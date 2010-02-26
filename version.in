@@ -24,4 +24,4 @@ RELEASE_MONTH=4
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+2.2b"
-NETWORK_CAPSTRING_OPTIONAL=""
+NETWORK_CAPSTRING_OPTIONAL="trade_illness"

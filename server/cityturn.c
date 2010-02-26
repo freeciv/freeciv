@@ -112,7 +112,7 @@ static bool disband_city(struct city *pcity);
 static void define_orig_production_values(struct city *pcity);
 static void update_city_activity(struct city *pcity);
 static void nullify_caravan_and_disband_plus(struct city *pcity);
-static bool check_plague(const struct city * pcity);
+static bool city_illness_check(const struct city * pcity);
 
 static float city_migration_score(struct city *pcity);
 static bool do_city_migration(struct city *pcity_from,
@@ -2070,14 +2070,23 @@ static void update_city_activity(struct city *pcity)
     pcity->was_happy = city_happy(pcity);
 
     /* Handle the illness. */
-    if (game.info.illness_on && pcity->size > 1) {
-      /* illness only if the city has a size greater than 1 */
-      if (check_plague(pcity)) {
+    if (game.info.illness_on) {
+      /* recalculate city illness; illness due to trade has to be saved
+       * within the city struct as the client has not all data to
+       * calculate it */
+      pcity->illness = city_illness_calc(pcity, NULL, NULL,
+                                         &(pcity->illness_trade), NULL);
+
+      if (city_illness_check(pcity)) {
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
                       _("%s had been struck by a plague! Population lost!"), 
                       city_link(pcity));
         city_reduce_size(pcity, 1, NULL);
         pcity->turn_plague = game.info.turn;
+
+        /* recalculate illness */
+        pcity->illness = city_illness_calc(pcity, NULL, NULL,
+                                           &(pcity->illness_trade), NULL);
       }
     }
 
@@ -2149,7 +2158,7 @@ static void update_city_activity(struct city *pcity)
 /*****************************************************************************
  check if city suffers from a plague. Return TRUE if it does, FALSE if not.
  ****************************************************************************/
-static bool check_plague(const struct city * pcity)
+static bool city_illness_check(const struct city * pcity)
 {
   if (myrand(1000) < pcity->illness) {
     return TRUE;

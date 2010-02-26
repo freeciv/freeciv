@@ -482,8 +482,10 @@ static void city_dialog_update_information(HWND *info_label,
   if (!game.info.illness_on) {
     my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
   } else {
+    /* illness is in tenth of percent */
     my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
-                ((float)pcity->illness / 10.0));
+                (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)
+                / 10.0);
   }
 
   /* stick 'em in the labels */

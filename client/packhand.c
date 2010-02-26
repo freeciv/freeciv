@@ -593,8 +593,13 @@ void handle_city_info(struct packet_city_info *packet)
     shield_stock_changed = TRUE;
     pcity->shield_stock = packet->shield_stock;
   }
-  pcity->pollution=packet->pollution;
-  pcity->illness = packet->illness;
+  pcity->pollution = packet->pollution;
+  if (has_capability("trade_illness", our_capability)) {
+    pcity->illness_trade = packet->illness_trade;
+  } else {
+    freelog(LOG_ERROR, "Missing capability: 'trade_illness'.");
+    pcity->illness_trade = 0;
+  }
 
   if (city_is_new
       || !are_universals_equal(&pcity->production, &product)) {
