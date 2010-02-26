@@ -1081,7 +1081,8 @@ int server_open_socket(void)
 
 
 /********************************************************************
-...
+  Initialize connection related stuff. Attention: Logging is not
+  available within this functions!
 ********************************************************************/
 void init_connections(void)
 {
