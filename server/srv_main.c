@@ -2466,9 +2466,13 @@ void srv_main(void)
        * is ready to start (usually set within start_game()). */
     }
 
-    srv_ready(); /* srv_ready() sets server state to S_S_RUNNING. */
-    srv_running();
-    srv_scores();
+    if (S_S_RUNNING > server_state()) {
+      /* If restarting for lack of players, the state is S_S_OVER,
+       * so don't try to start the game. */
+      srv_ready(); /* srv_ready() sets server state to S_S_RUNNING. */
+      srv_running();
+      srv_scores();
+    }
 
     /* Remain in S_S_OVER until players log out */
     while (conn_list_size(game.est_connections) > 0) {
