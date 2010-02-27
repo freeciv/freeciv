@@ -23,4 +23,7 @@ void handle_unit_activity_request(struct unit *punit,
 				  enum unit_activity new_activity);
 void real_unit_change_homecity(struct unit *punit, struct city *new_pcity);
 
+void city_add_or_build_error(struct player *pplayer, struct unit *punit,
+                             enum add_build_city_result res);
+
 #endif  /* FC__UNITHAND_H */
