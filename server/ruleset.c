@@ -2388,7 +2388,12 @@ static struct nation_city* load_city_name_list(struct section_file *file,
 	      }
 	    } terrain_type_iterate_end;
 	    if (!handled) {
-	      ruleset_error(LOG_ERROR,
+	      /* Nation authors may use terrains like "lake" that are
+	       * available in the default ruleset but not in civ1/civ2.
+	       * In normal use we should just ignore hints for unknown
+	       * terrains, but nation authors may want to know about this
+	       * to spot typos etc. */
+	      ruleset_error(LOG_VERBOSE,
 			    "\"%s\" [%s] %s: terrain \"%s\" not found;"
 			    " skipping it.",
 			    secfile_filename(file),
@@ -2472,12 +2477,22 @@ static void load_ruleset_nations(struct section_file *file)
     
     conflicts = 
       secfile_lookup_str_vec(file, &dim, "%s.conflicts_with", sec[i]);
-    pl->num_conflicts = dim;
     pl->conflicts_with = fc_calloc(dim + 1, sizeof(*(pl->conflicts_with)));
 
-    for (j = 0; j < dim; j++) {
-      /* NO_NATION_SELECTED is allowed here */
-      pl->conflicts_with[j] = find_nation_by_rule_name(conflicts[j]);
+    for (j = 0, k = 0; k < dim; j++, k++) {
+      pl->conflicts_with[j] = find_nation_by_rule_name(conflicts[k]);
+
+      if (pl->conflicts_with[j] == NO_NATION_SELECTED) {
+	/* For nation authors, this would probably be considered an error.
+	 * But it can happen normally.  The civ1 compatibility ruleset only
+	 * uses the nations that were in civ1, so not all of the links will
+	 * exist. */
+	j--;
+	freelog(LOG_VERBOSE,
+		"Nation %s: conflicts_with nation \"%s\" is unknown.",
+		nation_rule_name(pl),
+		conflicts[k]);
+      }
     }
     pl->conflicts_with[j] = NO_NATION_SELECTED; /* extra at end of list */
     free(conflicts);

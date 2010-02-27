@@ -103,8 +103,8 @@ struct nation_type {
   struct nation_group **groups;
   
   /* Nations which we don't want in the same game.
-   * For example, British and English. */
-  int num_conflicts;
+   * For example, British and English.
+   * Terminated with NO_NATION_SELECTED. */
   struct nation_type **conflicts_with;
 
   /* Unavailable nations aren't allowed to be chosen in the scenario. */
