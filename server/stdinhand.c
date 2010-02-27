@@ -3930,15 +3930,16 @@ bool start_command(struct connection *caller, bool check, bool notify)
       return TRUE;
     }
   case S_S_OVER:
-    /* TRANS: given when /start is invoked during gameover. */
     start_cmd_reply(caller, notify,
+                    /* TRANS: given when /start is invoked during gameover. */
                     _("Cannot start the game: the game is waiting for all clients "
                       "to disconnect."));
     return FALSE;
   case S_S_RUNNING:
   case S_S_GENERATING_WAITING:
-    /* TRANS: given when /start is invoked while the game is running. */
     start_cmd_reply(caller, notify,
+                    /* TRANS: given when /start is invoked while the game
+                     * is running. */
                     _("Cannot start the game: it is already running."));
     return FALSE;
   }

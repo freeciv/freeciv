@@ -182,8 +182,8 @@
     }									\
   }									\
   if (_printed_warning) {						\
-    /* TRANS: Minor error message. */					\
     freelog(LOG_ERROR,							\
+	    /* TRANS: Minor error message. */				\
 	    _("Saved game contains incomplete map data.  This can"	\
 	    " happen with old saved games, or it may indicate an"	\
 	    " invalid saved game file.  Proceed at your own risk."));	\
