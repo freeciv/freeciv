@@ -2460,9 +2460,13 @@ void srv_main(void)
       server_sniff_all_input(); /* Accepting commands. */
     }
 
-    srv_ready();
-    srv_running();
-    srv_scores();
+    if (S_S_RUNNING > server_state()) {
+      /* If restarting for lack of players, the state is S_S_OVER,
+       * so don't try to start the game. */
+      srv_ready();
+      srv_running();
+      srv_scores();
+    }
 
     /* Remain in S_S_OVER until players log out */
     while (conn_list_size(game.est_connections) > 0) {
