@@ -23,7 +23,9 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/* server/scripting */
 #include "api_find.h"
+#include "script.h"
 #include "script_signal.h"
 
 #include "api_actions.h"
@@ -34,6 +36,7 @@
 **************************************************************************/
 bool api_actions_unleash_barbarians(Tile *ptile)
 {
+  SCRIPT_ASSERT(NULL != ptile, FALSE);
   return unleash_barbarians(ptile);
 }
 
@@ -44,6 +47,9 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 		  	      int veteran_level, City *homecity,
 			      int moves_left)
 {
+  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  SCRIPT_ASSERT(NULL != ptile, NULL);
+
   if (ptype == NULL
       || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
     return NULL;
@@ -58,6 +64,9 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 **************************************************************************/
 void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
 {
+  SCRIPT_ASSERT(NULL != pplayer);
+  SCRIPT_ASSERT(NULL != ptile);
+
   if (!name || name[0] == '\0') {
     name = city_name_suggestion(pplayer, ptile);
   }
@@ -69,6 +78,8 @@ void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
 **************************************************************************/
 void api_actions_change_gold(Player *pplayer, int amount)
 {
+  SCRIPT_ASSERT(NULL != pplayer);
+
   pplayer->economic.gold += amount;
 }
 
@@ -83,6 +94,8 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
 {
   Tech_type_id id;
   Tech_Type *result;
+
+  SCRIPT_ASSERT(NULL != pplayer, NULL);
 
   if (ptech) {
     id = advance_number(ptech);
@@ -113,6 +126,9 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
 void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
 {
   struct base_type *pbase;
+
+  SCRIPT_ASSERT(NULL != pplayer);
+  SCRIPT_ASSERT(NULL != ptile);
 
   if (!name) {
     return;
