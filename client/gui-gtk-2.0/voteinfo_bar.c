@@ -263,6 +263,7 @@ void voteinfo_gui_update(void)
   if (vi != NULL) {
     escaped_desc = g_markup_escape_text(vi->desc, -1);
     escaped_user = g_markup_escape_text(vi->user, -1);
+    /* TRANS: "Vote" as a process */
     my_snprintf(buf, sizeof(buf), _("%sVote %d by %s: %s%s"),
                 ordstr, vi->vote_no, escaped_user, status,
                 escaped_desc);
