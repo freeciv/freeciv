@@ -512,18 +512,19 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
       server_player_init(pplayer, FALSE, TRUE);
       /* Make it human! */
       pplayer->ai_data.control = FALSE;
-
-      if (!pplayer->was_created && NULL == pplayer->nation) {
-        /* Temporarily set player_name() to username. */
-        sz_strlcpy(pplayer->name, pconn->username);
-      }
-
-      aifill(game.info.aifill);
     }
 
     sz_strlcpy(pplayer->username, pconn->username);
     pplayer->user_turns = 0; /* reset for a new user */
     pplayer->is_connected = TRUE;
+
+    if (S_S_INITIAL == server_state() && game.info.is_new_game) {
+      if (!pplayer->was_created && NULL == pplayer->nation) {
+        /* Temporarily set player_name() to username. */
+        sz_strlcpy(pplayer->name, pconn->username);
+      }
+      aifill(game.info.aifill);
+    }
 
     if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
       toggle_ai_player_direct(NULL, pplayer);
