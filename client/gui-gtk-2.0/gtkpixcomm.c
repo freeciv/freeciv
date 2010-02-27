@@ -163,8 +163,8 @@ gtk_pixcomm_new(gint width, gint height)
 ****************************************************************************/
 void gtk_pixcomm_set_scale(GtkPixcomm *pixcomm, gdouble scale)
 {
-  g_return_if_fail(GTK_IS_PIXCOMM(pixcomm));
-  g_return_if_fail(scale > 0.0);
+  fc_assert_ret(GTK_IS_PIXCOMM(pixcomm));
+  fc_assert_ret(scale > 0.0);
 
   if (scale == 1.0) {
     pixcomm->is_scaled = FALSE;
@@ -187,7 +187,7 @@ refresh(GtkPixcomm *p)
 void
 gtk_pixcomm_clear(GtkPixcomm *p)
 {
-  g_return_if_fail(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
 
   g_array_set_size(p->actions, 0);
   refresh(p);
@@ -198,8 +198,8 @@ gtk_pixcomm_fill(GtkPixcomm *p, GdkColor *color)
 {
   struct op v;
 
-  g_return_if_fail(GTK_IS_PIXCOMM(p));
-  g_return_if_fail(color != NULL);
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(color != NULL);
 
   g_array_set_size(p->actions, 0);
 
@@ -213,8 +213,8 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 {
   struct op v;
 
-  g_return_if_fail(GTK_IS_PIXCOMM(p));
-  g_return_if_fail(src != NULL);
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(src != NULL);
 
   v.type	= OP_COPY;
   v.src		= src;
@@ -227,8 +227,8 @@ void gtk_pixcomm_copyto(GtkPixcomm *p, struct sprite *src, gint x, gint y)
 static gboolean
 gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 {
-  g_return_val_if_fail(GTK_IS_PIXCOMM(widget), FALSE);
-  g_return_val_if_fail(ev!=NULL, FALSE);
+  fc_assert_ret_val(GTK_IS_PIXCOMM(widget), FALSE);
+  fc_assert_ret_val(ev!=NULL, FALSE);
 
   if (GTK_WIDGET_DRAWABLE(widget)) {
     GtkPixcomm *p;
@@ -323,7 +323,7 @@ gtk_pixcomm_expose(GtkWidget *widget, GdkEventExpose *ev)
 void
 gtk_pixcomm_freeze(GtkPixcomm *p)
 {
-  g_return_if_fail(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
 
   p->freeze_count++;
 }
@@ -331,7 +331,7 @@ gtk_pixcomm_freeze(GtkPixcomm *p)
 void
 gtk_pixcomm_thaw(GtkPixcomm *p)
 {
-  g_return_if_fail(GTK_IS_PIXCOMM(p));
+  fc_assert_ret(GTK_IS_PIXCOMM(p));
 
   if (p->freeze_count > 0) {
     p->freeze_count--;

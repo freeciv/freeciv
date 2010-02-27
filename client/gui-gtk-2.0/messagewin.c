@@ -104,7 +104,7 @@ static void meswin_set_visited(GtkTreeIter *it, bool visited)
   gint row;
 
   store = meswin_store;
-  g_return_if_fail(store != NULL);
+  fc_assert_ret(store != NULL);
 
   gtk_list_store_set(store, it, 1, visited, -1);
   gtk_tree_model_get(GTK_TREE_MODEL(store), it, 2, &row, -1);
@@ -146,7 +146,7 @@ static gboolean meswin_button_press_callback(GtkWidget *widget,
   GtkTreeIter iter;
   gint row;
 
-  g_return_val_if_fail(GTK_IS_TREE_VIEW(widget), FALSE);
+  fc_assert_ret_val(GTK_IS_TREE_VIEW(widget), FALSE);
 
   if (ev->type != GDK_BUTTON_PRESS || ev->button != 3) {
     return FALSE;
@@ -246,7 +246,7 @@ void real_update_meswin_dialog(void)
   GtkTreeIter it;
 
   store = meswin_store;
-  g_return_if_fail(store != NULL);
+  fc_assert_ret(store != NULL);
 
   gtk_list_store_clear(store);
   num = get_num_messages();
@@ -350,7 +350,7 @@ static void meswin_response_callback(struct gui_dialog *dlg, int response,
   }
 
   sel = meswin_selection;
-  g_return_if_fail(sel != NULL);
+  fc_assert_ret(sel != NULL);
   if (!gtk_tree_selection_get_selected(sel, &model, &iter)) {
     return;
   }

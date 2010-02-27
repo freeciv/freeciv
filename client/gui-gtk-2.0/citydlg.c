@@ -1966,7 +1966,7 @@ static void city_menu_position(GtkMenu *menu, gint *x, gint *y,
   gint ypos;
   gint width;
 
-  g_return_if_fail(GTK_IS_BUTTON(data));
+  fc_assert_ret(GTK_IS_BUTTON(data));
 
   widget = GTK_WIDGET(data);
 

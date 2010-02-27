@@ -374,12 +374,12 @@ static void scroll_if_necessary(GtkTextView *textview,
   GtkAdjustment *vadj;
   gdouble val, max, upper, page_size;
 
-  g_return_if_fail(textview != NULL);
-  g_return_if_fail(scroll_target != NULL);
+  fc_assert_ret(textview != NULL);
+  fc_assert_ret(scroll_target != NULL);
 
   sw = gtk_widget_get_parent(GTK_WIDGET(textview));
-  g_return_if_fail(sw != NULL);
-  g_return_if_fail(GTK_IS_SCROLLED_WINDOW(sw));
+  fc_assert_ret(sw != NULL);
+  fc_assert_ret(GTK_IS_SCROLLED_WINDOW(sw));
 
   vadj = gtk_scrolled_window_get_vadjustment(GTK_SCROLLED_WINDOW(sw));
   val = gtk_adjustment_get_value(GTK_ADJUSTMENT(vadj));

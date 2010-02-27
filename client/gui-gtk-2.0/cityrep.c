@@ -767,7 +767,7 @@ static void append_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
   struct city *pcity;
 
   pwl = data;
-  g_return_if_fail(pwl != NULL);
+  fc_assert_ret(pwl != NULL);
 
   gtk_tree_model_get(model, it, 0, &pcity, -1);
   if (!pcity || !game_find_city_by_number(pcity->id)) {
@@ -786,7 +786,7 @@ static void append_worklist_callback(GtkMenuItem *menuitem, gpointer data)
   struct global_worklist *pgwl =
     global_worklist_by_id(GPOINTER_TO_INT(data));
 
-  g_return_if_fail(city_selection != NULL);
+  fc_assert_ret(city_selection != NULL);
 
   if (!pgwl) {
     /* Maybe removed by an other way, not an error. */
@@ -809,7 +809,7 @@ static void set_worklist_foreach(GtkTreeModel *model, GtkTreePath *path,
   struct city *pcity;
 
   pwl = data;
-  g_return_if_fail(pwl != NULL);
+  fc_assert_ret(pwl != NULL);
 
   gtk_tree_model_get(model, it, 0, &pcity, -1);
   if (!pcity || !game_find_city_by_number(pcity->id)) {
@@ -827,7 +827,7 @@ static void set_worklist_callback(GtkMenuItem *menuitem, gpointer data)
   struct global_worklist *pgwl =
     global_worklist_by_id(GPOINTER_TO_INT(data));
 
-  g_return_if_fail(city_selection != NULL);
+  fc_assert_ret(city_selection != NULL);
   gtk_tree_selection_selected_foreach(city_selection, set_worklist_foreach,
                                       (gpointer) global_worklist_get(pgwl));
 
@@ -853,11 +853,11 @@ static void production_menu_shown(GtkWidget *widget, gpointer data)
   int count = 0;
 
   parent_item = data;
-  g_return_if_fail(parent_item != NULL);
-  g_return_if_fail(GTK_IS_MENU_ITEM(parent_item));
+  fc_assert_ret(parent_item != NULL);
+  fc_assert_ret(GTK_IS_MENU_ITEM(parent_item));
 
   callback = g_object_get_data(G_OBJECT(parent_item), "item_callback");
-  g_return_if_fail(callback != NULL);
+  fc_assert_ret(callback != NULL);
 
   menu = gtk_menu_item_get_submenu(parent_item);
   if (menu != NULL && GTK_WIDGET_VISIBLE(menu)) {
@@ -903,7 +903,7 @@ static void city_report_update_views(void)
   GList *columns, *p;
 
   view = GTK_TREE_VIEW(city_view);
-  g_return_if_fail(view != NULL);
+  fc_assert_ret(view != NULL);
 
   columns = gtk_tree_view_get_columns(view);
 
@@ -1740,7 +1740,7 @@ static void popup_next_to_last_menu(GtkMenuShell *menu, gpointer data)
   GCallback callback;
   int n;
 
-  g_return_if_fail(city_selection != NULL);
+  fc_assert_ret(city_selection != NULL);
 
   n = gtk_tree_selection_count_selected_rows(city_selection);
   callback = G_CALLBACK(select_impr_or_unit_callback);
@@ -2087,7 +2087,7 @@ static void city_clear_worklist_callback(GtkMenuItem *item, gpointer data)
 {
   struct connection *pconn = &client.conn;
 
-  g_return_if_fail(city_selection != NULL);
+  fc_assert_ret(city_selection != NULL);
 
   connection_do_buffer(pconn);
   gtk_tree_selection_selected_foreach(city_selection,

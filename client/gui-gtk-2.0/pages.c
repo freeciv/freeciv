@@ -667,7 +667,7 @@ static void update_server_playerlist(const struct server *pserver)
   int n, i;
 
   store = server_playerlist_store;
-  g_return_if_fail(store != NULL);
+  fc_assert_ret(store != NULL);
 
   gtk_list_store_clear(store);
   if (!pserver || !pserver->players) {

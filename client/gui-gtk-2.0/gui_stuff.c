@@ -650,7 +650,7 @@ static void gui_dialog_pack_button(struct gui_dialog *dlg, GtkWidget *button,
 {
   gint signal_id;
 
-  g_return_if_fail(GTK_IS_BUTTON(button));
+  fc_assert_ret(GTK_IS_BUTTON(button));
 
   g_object_set_data(G_OBJECT(button), "gui-dialog-response-data",
       GINT_TO_POINTER(response));
@@ -1076,9 +1076,9 @@ GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
   GtkCellRenderer *rend;
   const char *attr;
 
-  g_return_val_if_fail(view != NULL, NULL);
-  g_return_val_if_fail(GTK_IS_TREE_VIEW(view), NULL);
-  g_return_val_if_fail(title != NULL, NULL);
+  fc_assert_ret_val(view != NULL, NULL);
+  fc_assert_ret_val(GTK_IS_TREE_VIEW(view), NULL);
+  fc_assert_ret_val(title != NULL, NULL);
 
   if (gtype == G_TYPE_BOOLEAN) {
     rend = gtk_cell_renderer_toggle_new();

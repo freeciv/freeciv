@@ -2128,8 +2128,8 @@ static void allied_chat_only_callback(struct option *poption)
   GtkWidget *button;
 
   button = allied_chat_toggle_button;
-  g_return_if_fail(button != NULL);
-  g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
+  fc_assert_ret(button != NULL);
+  fc_assert_ret(GTK_IS_TOGGLE_BUTTON(button));
 
   gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(button),
                                option_bool_get(poption));
@@ -2207,8 +2207,8 @@ void refresh_chat_buttons(void)
   GtkWidget *button;
 
   button = allied_chat_toggle_button;
-  g_return_if_fail(button != NULL);
-  g_return_if_fail(GTK_IS_TOGGLE_BUTTON(button));
+  fc_assert_ret(button != NULL);
+  fc_assert_ret(GTK_IS_TOGGLE_BUTTON(button));
 
   /* Hide the "Allies Only" button for local games. */
   if (is_server_running()) {
