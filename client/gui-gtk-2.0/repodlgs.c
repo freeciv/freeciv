@@ -1420,46 +1420,63 @@ static void option_changed_callback(GtkWidget *widget, gpointer data)
 /*************************************************************************
   helper function for server options dialog
 *************************************************************************/
-static void settable_options_processing(GtkWidget *final, gboolean local_update)
+static void settable_options_processing(GtkWidget *final,
+                                        gboolean local_update)
 {
-  const char *desired_string;
   GtkWidget *w = final;
 
   while (NULL != w) {
-    struct options_settable *o =
-      (struct options_settable *)g_object_get_data(G_OBJECT(w), "changed");
+    struct option *poption =
+      (struct option *) g_object_get_data(G_OBJECT(w), "changed");
 
     /* If the entry has been changed, then send the changes to the server. */
-    if (NULL != o) {
-      desired_string = NULL;
-
+    if (NULL != poption) {
       /* Get the setting string value. */
-      switch (o->stype) {
-      case SSET_BOOL:
-        desired_string = (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))
-                          ? "1" : "0");
-        break;
-      case SSET_INT:
-      case SSET_STRING:
-        desired_string = gtk_entry_get_text(GTK_ENTRY(w));
-        break;
-      };
-
-      if (NULL != desired_string) {
-        /* Send to server. */
-        send_chat_printf("/set %s %s", gtk_widget_get_name(w), desired_string);
+      switch (option_type(poption)) {
+      case OT_BOOLEAN:
+        option_bool_set(poption,
+                        gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)));
         if (local_update) {
           /* Make a local change of the desired value for this option,
            * probably because we want to save it before the server send its
            * new value to us. */
           desired_settable_option_update(gtk_widget_get_name(w),
-                                         desired_string, TRUE);
+                                         gtk_toggle_button_get_active
+                                         (GTK_TOGGLE_BUTTON(w)) ? "1" : "0",
+                                         TRUE);
         }
-      }
+        break;
+      case OT_INTEGER:
+        option_int_set(poption,
+                       gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(w)));
+        if (local_update) {
+          /* Make a local change of the desired value for this option,
+           * probably because we want to save it before the server send its
+           * new value to us. */
+          desired_settable_option_update(gtk_widget_get_name(w),
+                                         gtk_entry_get_text(GTK_ENTRY(w)),
+                                         TRUE);
+        }
+        break;
+      case OT_STRING:
+        option_str_set(poption, gtk_entry_get_text(GTK_ENTRY(w)));
+        if (local_update) {
+          /* Make a local change of the desired value for this option,
+           * probably because we want to save it before the server send its
+           * new value to us. */
+          desired_settable_option_update(gtk_widget_get_name(w),
+                                         gtk_entry_get_text(GTK_ENTRY(w)),
+                                         TRUE);
+        }
+        break;
+      case OT_FONT:
+        log_error("Option type %d not supported yet.", option_type(poption));
+        break;
+      };
     }
 
     /* using the linked list, work backwards and check the previous widget */
-    w = (GtkWidget *)g_object_get_data(G_OBJECT(w), "prev");
+    w = (GtkWidget *) g_object_get_data(G_OBJECT(w), "prev");
   }
 }
 
@@ -1492,7 +1509,8 @@ static void create_settable_options_dialog(void)
   GtkWidget *win, *book, **vbox, *label;
   GtkWidget *prev_widget = NULL;
   GtkTooltips *tips = gtk_tooltips_new();
-  bool *used = fc_calloc(num_options_categories, sizeof(*used));
+  int category_num = server_option_category_number();
+  bool *used = fc_calloc(category_num, sizeof(*used));
 
   settable_options_dialog_shell =
     gtk_dialog_new_with_buttons(_("Game Settings"),
@@ -1513,118 +1531,122 @@ static void create_settable_options_dialog(void)
   gtk_box_pack_start(GTK_BOX(GTK_DIALOG(win)->vbox), book, FALSE, FALSE, 2);
 
   /* create a number of notebook pages for each category */
-  vbox = fc_calloc(num_options_categories, sizeof(*vbox));
+  vbox = fc_calloc(category_num, sizeof(*vbox));
 
-  for (i = 0; i < num_options_categories; i++) {
+  for (i = 0; i < category_num; i++) {
     vbox[i] = gtk_vbox_new(FALSE, 2);
     gtk_container_set_border_width(GTK_CONTAINER(vbox[i]), 6);
-    label = gtk_label_new(_(options_categories[i]));
+    label = gtk_label_new(server_option_category_name(i));
     gtk_notebook_append_page(GTK_NOTEBOOK(book), vbox[i], label);
   }
 
   /* fill each category */
-  for (i = 0; i < num_settable_options; i++) {
+  server_options_iterate(poption) {
     GtkWidget *ebox, *hbox, *ent = NULL;
-    struct options_settable *o = &settable_options[i];
+    int category = option_category(poption);
 
     /* create a box for the new option and insert it in the correct page */
     hbox = gtk_hbox_new(FALSE, 0);
-    gtk_box_pack_start(GTK_BOX(vbox[o->scategory]), hbox, FALSE, FALSE, 0);
-    used[o->scategory] = TRUE;
+    gtk_box_pack_start(GTK_BOX(vbox[category]), hbox, FALSE, FALSE, 0);
+    used[category] = TRUE;
 
     /* create an event box for the option label */
     ebox = gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(hbox), ebox, FALSE, FALSE, 5);
 
     /* insert the option short help as the label into the event box */
-    label = gtk_label_new(_(o->short_help));
+    label = gtk_label_new(option_description(poption));
     gtk_container_add(GTK_CONTAINER(ebox), label);
 
     /* if we have extra help, use that as a tooltip */
-    if (strlen(o->extra_help) > 0) {
-      char *help = mystrdup(_(o->extra_help));
+    if (strlen(option_help_text(poption)) > 0) {
+      char *help = mystrdup(option_help_text(poption));
       char buf[4096];
 
       fc_break_lines(help, LINE_BREAK);
-      my_snprintf(buf, sizeof(buf), "%s\n\n%s", o->name, help);
+      my_snprintf(buf, sizeof(buf), "%s\n\n%s", option_name(poption), help);
       gtk_tooltips_set_tip(tips, ebox, buf, NULL);
       FC_FREE(help);
     }
 
-    if (o->is_changeable && o->is_visible) {
+    if (option_is_changeable(poption)) {
       double step, max, min;
 
       /* create the proper entry method depending on the type */
-      switch (o->stype) {
-      case SSET_BOOL:
-	/* boolean */
-	ent = gtk_check_button_new();
-	gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent), o->val);
+      switch (option_type(poption)) {
+      case OT_BOOLEAN:
+        /* boolean */
+        ent = gtk_check_button_new();
+        gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(ent),
+                                     option_bool_get(poption));
 
-	g_signal_connect(ent, "toggled", 
-			 G_CALLBACK(option_changed_callback), o);
-	break;
+        g_signal_connect(ent, "toggled",
+                         G_CALLBACK(option_changed_callback), poption);
+        break;
 
-      case SSET_INT:
-	/* integer */
+      case OT_INTEGER:
+        /* integer */
 
-	min = o->min;
-	max = o->max;
- 
-	/* pick a reasonable step size */
-	step = ceil((max - min) / 100.0);
-	if (step > 100.0) {
-	  /* this is ridiculous, the bounds must be meaningless */
-	  step = 5.0;
-	}
+        min = option_int_min(poption);
+        max = option_int_max(poption);
 
-	ent = gtk_spin_button_new_with_range(min, max, step);
-	gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent), o->val);
+        /* pick a reasonable step size */
+        step = ceil((max - min) / 100.0);
+        if (step > 100.0) {
+          /* this is ridiculous, the bounds must be meaningless */
+          step = 5.0;
+        }
 
-	g_signal_connect(ent, "changed", 
-			 G_CALLBACK(option_changed_callback), o);
-	break;
-      case SSET_STRING:
-	/* string */
-	ent = gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(ent), o->strval);
+        ent = gtk_spin_button_new_with_range(min, max, step);
+        gtk_spin_button_set_value(GTK_SPIN_BUTTON(ent),
+                                  option_int_get(poption));
 
-	g_signal_connect(ent, "changed", 
-			 G_CALLBACK(option_changed_callback), o);
-	break;
+        g_signal_connect(ent, "changed", 
+                         G_CALLBACK(option_changed_callback), poption);
+        break;
+      case OT_STRING:
+        /* string */
+        ent = gtk_entry_new();
+        gtk_entry_set_text(GTK_ENTRY(ent), option_str_get(poption));
+
+        g_signal_connect(ent, "changed", 
+                         G_CALLBACK(option_changed_callback), poption);
+        break;
+      case OT_FONT:
+        log_error("Option type %d not supported yet.", option_type(poption));
+        break;
       }
     } else {
       char buf[1024];
 
-      if (o->is_visible) {
-	switch (o->stype) {
-	case SSET_BOOL:
-	  my_snprintf(buf, sizeof(buf), "%s",
-		      o->val != 0 ? _("true") : _("false"));
-	  break;
-	case SSET_INT:
-	  my_snprintf(buf, sizeof(buf), "%d", o->val);
-	  break;
-	case SSET_STRING:
-	  my_snprintf(buf, sizeof(buf), "%s", o->strval);
-	  break;
-	}
-      } else {
-	my_snprintf(buf, sizeof(buf), "%s", _("(hidden)"));
+      switch (option_type(poption)) {
+      case OT_BOOLEAN:
+        my_snprintf(buf, sizeof(buf), "%s",
+                    option_bool_get(poption) ? _("true") : _("false"));
+        break;
+      case OT_INTEGER:
+        my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+        break;
+      case OT_STRING:
+        my_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
+        break;
+      case OT_FONT:
+        log_error("Option type %d not supported yet.", option_type(poption));
+        break;
       }
       ent = gtk_label_new(buf);
     }
     gtk_box_pack_end(GTK_BOX(hbox), ent, FALSE, FALSE, 0);
 
     /* set up a linked list so we can work our way through the widgets */
-    gtk_widget_set_name(ent, o->name);
+    gtk_widget_set_name(ent, option_name(poption));
     g_object_set_data(G_OBJECT(ent), "prev", prev_widget);
     g_object_set_data(G_OBJECT(ent), "changed", NULL);
     prev_widget = ent;
-  }
+  } server_options_iterate_end;
 
   /* remove any unused categories pages */
-  for (i = num_options_categories - 1; i >= 0; i--) {
+  for (i = category_num - 1; i >= 0; i--) {
     if (!used[i]) {
       gtk_notebook_remove_page(GTK_NOTEBOOK(book), i);
     }

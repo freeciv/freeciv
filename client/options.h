@@ -152,11 +152,13 @@ void options_save(void);
 
 /* Common option functions. */
 int option_number(const struct option *poption);
+#define option_index option_number
 const char *option_name(const struct option *poption);
 const char *option_description(const struct option *poption);
 const char *option_help_text(const struct option *poption);
 enum option_type option_type(const struct option *poption);
 int option_category(const struct option *poption);
+bool option_is_changeable(const struct option *poption);
 struct option *option_next(const struct option *poption);
 
 bool option_reset(struct option *poption);
@@ -192,32 +194,52 @@ const char *option_font_def(const struct option *poption);
 const char *option_font_target(const struct option *poption);
 bool option_font_set(struct option *poption, const char *font);
 
+#define options_iterate(first, poption)                                     \
+{                                                                           \
+  struct option *poption;                                                   \
+  for (poption = first; NULL != poption; poption = option_next(poption)) {  \
+
+#define options_iterate_end                                                 \
+  }                                                                         \
+}
+
 
 /* Client options function accessors. */
 struct option *client_option_by_number(int id);
+#define client_option_by_index client_option_by_number
 struct option *client_option_by_name(const char *name);
 struct option *client_option_first(void);
 
 int client_option_category_number(void);
 const char *client_option_category_name(int category);
 
-#define client_options_iterate(poption)                                     \
-{                                                                           \
-  struct option *poption = client_option_first();                           \
-  for (; NULL != poption; poption = option_next(poption)) {                 \
+#define client_options_iterate(poption) \
+  options_iterate(client_option_first(), poption)
+#define client_options_iterate_end options_iterate_end
 
-#define client_options_iterate_end                                          \
-  }                                                                         \
-}
+
+/** Server options. **/
+void server_options_init(void);
+void server_options_free(void);
+
+struct option *server_option_by_number(int id);
+#define server_option_by_index server_option_by_number
+struct option *server_option_by_name(const char *name);
+struct option *server_option_first(void);
+
+int server_option_category_number(void);
+const char *server_option_category_name(int category);
+
+#define server_options_iterate(poption) \
+  options_iterate(server_option_first(), poption)
+#define server_options_iterate_end options_iterate_end
 
 
 /** Desired settable options. **/
-struct options_settable;
 void desired_settable_options_update(void);
 void desired_settable_option_update(const char *op_name,
                                     const char *op_value,
                                     bool allow_replace);
-void desired_settable_option_send(struct options_settable *pset);
 
 
 /** Dialog report options. **/

@@ -2110,7 +2110,7 @@ void settings_free(void)
 ****************************************************************************/
 void send_server_setting(struct conn_list *dest, const struct setting *pset)
 {
-  struct packet_options_settable packet;
+  struct packet_server_setting packet;
 
   if (!dest) {
     dest = game.est_connections;
@@ -2152,7 +2152,7 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
 
     packet.initial_setting = game.info.is_new_game;
 
-    send_packet_options_settable(pconn, &packet);
+    send_packet_server_setting(pconn, &packet);
   } conn_list_iterate_end;
 }
 
@@ -2184,18 +2184,18 @@ void send_server_hack_level_settings(struct conn_list *dest)
 ****************************************************************************/
 void send_server_setting_control(struct connection *pconn)
 {
-  struct packet_options_settable_control control;
+  struct packet_server_setting_control control;
   int i;
 
   /* count the number of settings */
-  control.num_settings = SETTINGS_NUM;
+  control.settings_num = SETTINGS_NUM;
 
   /* fill in the category strings */
-  control.num_categories = SSET_NUM_CATEGORIES;
+  control.categories_num = SSET_NUM_CATEGORIES;
   for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
     strcpy(control.category_names[i], sset_category_names[i]);
   }
 
   /* send off the control packet */
-  send_packet_options_settable_control(pconn, &control);
+  send_packet_server_setting_control(pconn, &control);
 }

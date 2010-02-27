@@ -193,7 +193,7 @@ static void client_game_init(void)
   control_init();
   link_marks_init();
   voteinfo_queue_init();
-  settable_options_init();
+  server_options_init();
 }
 
 /**************************************************************************
@@ -204,7 +204,7 @@ static void client_game_free(void)
   editgui_popdown_all();
 
   packhand_free();
-  settable_options_free();
+  server_options_free();
   voteinfo_queue_free();
   link_marks_free();
   control_done();

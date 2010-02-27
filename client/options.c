@@ -48,9 +48,11 @@
 #include "audio.h"
 #include "cityrepdata.h"
 #include "client_main.h"
+#include "connectdlg_common.h"
 #include "global_worklist.h"
 #include "mapview_common.h"
 #include "overview_common.h"
+#include "packhand_gen.h"
 #include "plrdlg_common.h"
 #include "repodlgs_common.h"
 #include "servers.h"
@@ -177,9 +179,6 @@ bool gui_win32_enable_alpha = TRUE;
  * of non-initialized datas when calling the changed callback. */
 static bool options_fully_initialized = FALSE;
 
-static struct hash_table *settable_options_hash = NULL;
-static struct hash_table *dialog_options_hash = NULL;
-
 
 /****************************************************************************
   The base class for options.
@@ -195,6 +194,7 @@ struct option {
     const char * (*description) (const struct option *);
     const char * (*help_text) (const struct option *);
     int (*category) (const struct option *);
+    bool (*is_changeable) (const struct option *);
     struct option * (*next) (const struct option *);
   } *common_vtable;
   /* Specific typed accessors. */
@@ -284,7 +284,8 @@ static const char *client_option_name(const struct option *poption);
 static const char *client_option_description(const struct option *poption);
 static const char *client_option_help_text(const struct option *poption);
 static int client_option_category(const struct option *poption);
-static struct option *client_option_next(const struct option *);
+static bool client_option_is_changeable(const struct option *poption);
+static struct option *client_option_next(const struct option *poption);
 
 static const struct option_common_vtable client_option_common_vtable = {
   .number = client_option_number,
@@ -292,6 +293,7 @@ static const struct option_common_vtable client_option_common_vtable = {
   .description = client_option_description,
   .help_text = client_option_help_text,
   .category = client_option_category,
+  .is_changeable = client_option_is_changeable,
   .next = client_option_next
 };
 
@@ -1237,6 +1239,16 @@ int option_category(const struct option *poption)
 }
 
 /****************************************************************************
+  Returns TRUE if this option can be modified.
+****************************************************************************/
+bool option_is_changeable(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+
+  return poption->common_vtable->is_changeable(poption);
+}
+
+/****************************************************************************
   Returns the next option or NULL if this is the last.
 ****************************************************************************/
 struct option *option_next(const struct option *poption)
@@ -1510,8 +1522,9 @@ bool option_font_set(struct option *poption, const char *font)
 ****************************************************************************/
 struct option *client_option_by_number(int id)
 {
-  fc_assert_ret_val(0 <= id && id < client_options_num, NULL);
-
+  if (0 > id || id > client_options_num)  {
+    return NULL;
+  }
   return OPTION(client_options + id);
 }
 
@@ -1593,6 +1606,14 @@ static const char *client_option_help_text(const struct option *poption)
 static int client_option_category(const struct option *poption)
 {
   return CLIENT_OPTION(poption)->category;
+}
+
+/****************************************************************************
+  Returns TRUE if this client option can be modified.
+****************************************************************************/
+static bool client_option_is_changeable(const struct option *poption)
+{
+  return TRUE;
 }
 
 /****************************************************************************
@@ -1849,6 +1870,572 @@ const char *client_option_category_name(int category)
   log_error("%s: invalid option category number %d.",
             __FUNCTION__, category);
   return NULL;
+}
+
+
+/****************************************************************************
+  Server options variables.
+****************************************************************************/
+static char **server_options_categories = NULL;
+static struct server_option *server_options = NULL;
+
+static int server_options_categories_num = 0;
+static int server_options_num = 0;
+
+/****************************************************************************
+  Virtuals tables for the client options.
+****************************************************************************/
+static int server_option_number(const struct option *poption);
+static const char *server_option_name(const struct option *poption);
+static const char *server_option_description(const struct option *poption);
+static const char *server_option_help_text(const struct option *poption);
+static int server_option_category(const struct option *poption);
+static bool server_option_is_changeable(const struct option *poption);
+static struct option *server_option_next(const struct option *poption);
+
+static const struct option_common_vtable server_option_common_vtable = {
+  .number = server_option_number,
+  .name = server_option_name,
+  .description = server_option_description,
+  .help_text = server_option_help_text,
+  .category = server_option_category,
+  .is_changeable = server_option_is_changeable,
+  .next = server_option_next
+};
+
+static bool server_option_bool_get(const struct option *poption);
+static bool server_option_bool_def(const struct option *poption);
+static bool server_option_bool_set(struct option *poption, bool val);
+
+static const struct option_bool_vtable server_option_bool_vtable = {
+  .get = server_option_bool_get,
+  .def = server_option_bool_def,
+  .set = server_option_bool_set
+};
+
+static int server_option_int_get(const struct option *poption);
+static int server_option_int_def(const struct option *poption);
+static int server_option_int_min(const struct option *poption);
+static int server_option_int_max(const struct option *poption);
+static bool server_option_int_set(struct option *poption, int val);
+
+static const struct option_int_vtable server_option_int_vtable = {
+  .get = server_option_int_get,
+  .def = server_option_int_def,
+  .min = server_option_int_min,
+  .max = server_option_int_max,
+  .set = server_option_int_set
+};
+
+static const char *server_option_str_get(const struct option *poption);
+static const char *server_option_str_def(const struct option *poption);
+static const struct strvec *
+    server_option_str_values(const struct option *poption);
+static bool server_option_str_set(struct option *poption, const char *str);
+
+static const struct option_str_vtable server_option_str_vtable = {
+  .get = server_option_str_get,
+  .def = server_option_str_def,
+  .values = server_option_str_values,
+  .set = server_option_str_set
+};
+
+/****************************************************************************
+  Derived class server option, inherinting of base class option.
+****************************************************************************/
+struct server_option {
+  struct option base_option;    /* Base structure, must be the first! */
+
+  char *name;                   /* Short name - used as an identifier */
+  char *description;            /* One-line description */
+  char *help_text;              /* Paragraph-length help text */
+  unsigned char category;
+  bool desired_sent;
+  bool is_changeable;
+  bool is_visible;
+
+  union {
+    /* OT_BOOLEAN type option. */
+    struct {
+      bool value;
+      bool def;
+    } boolean;
+    /* OT_INTEGER type option. */
+    struct {
+      int value;
+      int def, min, max;
+    } integer;
+    /* OT_STRING type option. */
+    struct {
+      char *value;
+      char *def;
+    } string;
+  };
+};
+
+#define SERVER_OPTION(poption) ((struct server_option *) (poption))
+
+static void desired_settable_option_send(struct option *poption);
+
+
+/****************************************************************************
+  Initialize the server options (not received yet).
+****************************************************************************/
+void server_options_init(void)
+{
+  fc_assert(NULL == server_options_categories);
+  fc_assert(NULL == server_options);
+  fc_assert(0 == server_options_categories_num);
+  fc_assert(0 == server_options_num);
+}
+
+/****************************************************************************
+  Free one server option.
+****************************************************************************/
+static void server_option_free(struct server_option *poption)
+{
+  if (OT_STRING == option_type(OPTION(poption))) {
+    if (NULL != poption->string.value) {
+      FC_FREE(poption->string.value);
+    }
+    if (NULL != poption->string.def) {
+      FC_FREE(poption->string.def);
+    }
+  }
+  if (NULL != poption->name) {
+    FC_FREE(poption->name);
+  }
+  if (NULL != poption->description) {
+    FC_FREE(poption->description);
+  }
+  if (NULL != poption->help_text) {
+    FC_FREE(poption->help_text);
+  }
+}
+
+/****************************************************************************
+  Free the server options, if already received.
+****************************************************************************/
+void server_options_free(void)
+{
+  int i;
+
+  /* Free the options themselves. */
+  if (NULL != server_options) {
+    for (i = 0; i < server_options_num; i++) {
+      server_option_free(server_options + i);
+    }
+    FC_FREE(server_options);
+    server_options_num = 0;
+  }
+
+  /* Free the categories. */
+  if (NULL != server_options_categories) {
+    for (i = 0; i < server_options_categories_num; i++) {
+      if (NULL != server_options_categories[i]) {
+        FC_FREE(server_options_categories[i]);
+      }
+    }
+    FC_FREE(server_options_categories);
+    server_options_categories_num = 0;
+  }
+}
+
+/****************************************************************************
+  Allocate the server options and categories.
+****************************************************************************/
+void handle_server_setting_control(struct packet_server_setting_control *packet)
+{
+  int i;
+
+  /* This packet should be received only once. */
+  fc_assert_ret(NULL == server_options_categories);
+  fc_assert_ret(NULL == server_options);
+  fc_assert_ret(0 == server_options_categories_num);
+  fc_assert_ret(0 == server_options_num);
+
+  /* Allocate server option categories. */
+  if (0 < packet->categories_num) {
+    server_options_categories_num = packet->categories_num;
+    server_options_categories =
+        fc_calloc(server_options_categories_num,
+                  sizeof(*server_options_categories));
+
+    for (i = 0; i < server_options_categories_num; i++) {
+      /* NB: Translate now. */
+      server_options_categories[i] = mystrdup(_(packet->category_names[i]));
+    }
+  }
+
+  /* Allocate server options. */
+  if (0 < packet->settings_num) {
+    server_options_num = packet->settings_num;
+    server_options = fc_calloc(server_options_num, sizeof(*server_options));
+  }
+}
+
+/****************************************************************************
+  Returns the client option type equivalent to the server setting type.
+****************************************************************************/
+static enum option_type sset_type_to_option_type(enum sset_type type)
+{
+  switch (type) {
+  case SSET_BOOL:
+    return OT_BOOLEAN;
+  case SSET_INT:
+    return OT_INTEGER;
+  case SSET_STRING:
+    return OT_STRING;
+  }
+
+  log_error("Unsupported server setting type: %d.", type);
+  return -1;
+}
+
+/****************************************************************************
+  Receive a server setting info packet.
+****************************************************************************/
+void handle_server_setting(struct packet_server_setting *packet)
+{
+  struct option *poption = server_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_type_initialization = FALSE;
+  const char *string;
+
+  fc_assert_ret(NULL != poption);
+
+  if (NULL == poption->common_vtable) {
+    /* Not initialized yet. */
+    poption->common_vtable = &server_option_common_vtable;
+    need_type_initialization = TRUE;
+  } else if (poption->type != sset_type_to_option_type(packet->stype)) {
+    log_error("The server setting %d has changed type?", packet->id);
+    /* Let's try to reset this setting. */
+    server_option_free(psoption);
+    memset(psoption, 0, sizeof(*psoption));
+    need_type_initialization = TRUE;
+  }
+
+  if (need_type_initialization) {
+    poption->type = sset_type_to_option_type(packet->stype);
+    switch (poption->type) {
+    case OT_BOOLEAN:
+      poption->bool_vtable = &server_option_bool_vtable;
+      break;
+    case OT_INTEGER:
+      poption->int_vtable = &server_option_int_vtable;
+      break;
+    case OT_STRING:
+      poption->str_vtable = &server_option_str_vtable;
+      break;
+    case OT_FONT:
+      log_error("Option type %d not supported yet.", poption->type);
+      poption->font_vtable = NULL;
+      break;
+    }
+  }
+
+#define server_option_set_string(target, string)                            \
+  if (NULL == target) {                                                     \
+    target = mystrdup(string);                                              \
+  } else if (0 != strcmp(target, string)) {                                 \
+    free(target);                                                           \
+    target = mystrdup(string);                                              \
+  }
+
+  server_option_set_string(psoption->name, packet->name);
+  string = _(packet->short_help);       /* NB: Translate now. */
+  server_option_set_string(psoption->description, string);
+  string = _(packet->extra_help);       /* NB: Translate now. */
+  server_option_set_string(psoption->help_text, string);
+
+  psoption->category = packet->scategory;
+  psoption->is_changeable = packet->is_changeable;
+  psoption->is_visible = packet->is_visible;
+
+  switch (poption->type) {
+  case OT_BOOLEAN:
+    psoption->boolean.value = (packet->val != 0);
+    psoption->boolean.def = (packet->default_val != 0);
+    break;
+  case OT_INTEGER:
+    psoption->integer.value = packet->val;
+    psoption->integer.def = packet->default_val;
+    psoption->integer.min = packet->min;
+    psoption->integer.max = packet->max;
+    break;
+  case OT_STRING:
+    server_option_set_string(psoption->string.value, packet->strval);
+    server_option_set_string(psoption->string.def, packet->default_strval);
+    break;
+  case OT_FONT:
+    log_error("Option type %d not supported yet.", poption->type);
+    break;
+  }
+
+#undef server_option_set_string
+
+  if (!psoption->desired_sent
+      && psoption->is_visible
+      && psoption->is_changeable
+      && is_server_running()
+      && packet->initial_setting) {
+    /* Only send our private settings if we are running
+     * on a forked local server, i.e. started by the
+     * client with the "Start New Game" button.
+     * Do now override settings that are already saved to savegame
+     * and now loaded. */
+    desired_settable_option_send(poption);
+    psoption->desired_sent = TRUE;
+  }
+}
+
+/****************************************************************************
+  Returns the server option associated to the number
+****************************************************************************/
+struct option *server_option_by_number(int id)
+{
+  if (0 > id || id > server_options_num)  {
+    return NULL;
+  }
+  return OPTION(server_options + id);
+}
+
+/***************************************************************************
+  Returns the option corresponding to this name.
+****************************************************************************/
+struct option *server_option_by_name(const char *name)
+{
+  server_options_iterate(poption) {
+    if (0 == strcmp(option_name(poption), name)) {
+      return poption;
+    }
+  } server_options_iterate_end;
+  return NULL;
+}
+
+/****************************************************************************
+  Returns the next valid option pointer for the current gui type.
+****************************************************************************/
+static struct server_option *
+    server_option_next_valid(struct server_option *poption)
+{
+  const struct server_option *const max = 
+    server_options + server_options_num;
+
+  while (NULL != poption && poption < max && !poption->is_visible) {
+    poption++;
+  }
+
+  return (poption < max ? poption : NULL);
+}
+
+/****************************************************************************
+  Returns the first valid (visible) option pointer.
+****************************************************************************/
+struct option *server_option_first(void)
+{
+  return OPTION(server_option_next_valid(server_options));
+}
+
+/****************************************************************************
+  Returns the number of server option categories.
+****************************************************************************/
+int server_option_category_number(void)
+{
+  return server_options_categories_num;
+}
+
+/****************************************************************************
+  Returns the name (translated) of the server option category.
+****************************************************************************/
+const char *server_option_category_name(int category)
+{
+  if (0 > category || category >= server_options_categories_num) {
+    return NULL;
+  }
+
+  return server_options_categories[category];
+}
+
+/***************************************************************************
+  Returns the number of this server option.
+****************************************************************************/
+static int server_option_number(const struct option *poption)
+{
+  return SERVER_OPTION(poption) - server_options;
+}
+
+/****************************************************************************
+  Returns the name of this server option.
+****************************************************************************/
+static const char *server_option_name(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->name;
+}
+
+/****************************************************************************
+  Returns the description of this server option.
+****************************************************************************/
+static const char *server_option_description(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->description;
+}
+
+/****************************************************************************
+  Returns the help text for this server option.
+****************************************************************************/
+static const char *server_option_help_text(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->help_text;
+}
+
+/****************************************************************************
+  Returns the category of this server option.
+****************************************************************************/
+static int server_option_category(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->category;
+}
+
+/****************************************************************************
+  Returns TRUE if this client option can be modified.
+****************************************************************************/
+static bool server_option_is_changeable(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->is_changeable;
+}
+
+/****************************************************************************
+  Returns the next valid (visible) option pointer.
+****************************************************************************/
+static struct option *server_option_next(const struct option *poption)
+{
+  return OPTION(server_option_next_valid(SERVER_OPTION(poption) + 1));
+}
+
+/****************************************************************************
+  Returns the value of this server option of type OT_BOOLEAN.
+****************************************************************************/
+static bool server_option_bool_get(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->boolean.value;
+}
+
+/****************************************************************************
+  Returns the default value of this server option of type OT_BOOLEAN.
+****************************************************************************/
+static bool server_option_bool_def(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->boolean.def;
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_BOOLEAN.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_bool_set(struct option *poption, bool val)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+
+  if (psoption->boolean.value == val) {
+    return FALSE;
+  }
+
+  send_chat_printf("/set %s %d", psoption->name, val ? 1 : 0);
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns the value of this server option of type OT_INTEGER.
+****************************************************************************/
+static int server_option_int_get(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->integer.value;
+}
+
+/****************************************************************************
+  Returns the default value of this server option of type OT_INTEGER.
+****************************************************************************/
+static int server_option_int_def(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->integer.def;
+}
+
+/****************************************************************************
+  Returns the minimal value for this server option of type OT_INTEGER.
+****************************************************************************/
+static int server_option_int_min(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->integer.min;
+}
+
+/****************************************************************************
+  Returns the maximal value for this server option of type OT_INTEGER.
+****************************************************************************/
+static int server_option_int_max(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->integer.max;
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_INTEGER.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_int_set(struct option *poption, int val)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+
+  if (val < psoption->integer.min
+      || val > psoption->integer.max
+      || psoption->integer.value == val) {
+    return FALSE;
+  }
+
+  send_chat_printf("/set %s %d", psoption->name, val);
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns the value of this server option of type OT_STRING.
+****************************************************************************/
+static const char *server_option_str_get(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->string.value;
+}
+
+/****************************************************************************
+  Returns the default value of this server option of type OT_STRING.
+****************************************************************************/
+static const char *server_option_str_def(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->string.def;
+}
+
+/****************************************************************************
+  Returns the possible string values of this server option of type
+  OT_STRING.
+****************************************************************************/
+static const struct strvec *
+    server_option_str_values(const struct option *poption)
+{
+  return NULL;
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_STRING.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_str_set(struct option *poption, const char *str)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+
+  if (0 == strcmp(psoption->string.value, str)) {
+    return FALSE;
+  }
+
+  send_chat_printf("/set %s %s", psoption->name, str);
+  return TRUE;
 }
 
 
@@ -2194,6 +2781,11 @@ static const char *get_last_option_file_name(void)
 #undef FIRST_MINOR_NEW_OPTION_FILE_NAME
 
 
+/****************************************************************************
+  Desired settable options.
+****************************************************************************/
+static struct hash_table *settable_options_hash = NULL;
+
 /**************************************************************************
   Load the server options.
 **************************************************************************/
@@ -2270,51 +2862,49 @@ static void settable_options_save(struct section_file *sf)
 void desired_settable_options_update(void)
 {
   char val_buf[64], def_buf[64];
-  struct options_settable *pset;
   const char *value, *def_val;
-  int i;
 
   fc_assert_ret(NULL != settable_options_hash);
 
-  for (i = 0; i < num_settable_options; i++) {
-    pset = settable_options + i;
-    if (!pset->is_visible) {
-      /* Cannot know the value of this setting in this case,
-       * don't overwrite. */
-      continue;
-    }
-
+  server_options_iterate(poption) {
     value = NULL;
     def_val = NULL;
-    switch (pset->stype) {
-    case SSET_BOOL:
-    case SSET_INT:
-      my_snprintf(val_buf, sizeof(val_buf), "%d", pset->val);
+    switch (option_type(poption)) {
+    case OT_BOOLEAN:
+      my_snprintf(val_buf, sizeof(val_buf), "%d", option_bool_get(poption));
       value = val_buf;
-      my_snprintf(def_buf, sizeof(def_buf), "%d", pset->default_val);
+      my_snprintf(def_buf, sizeof(def_buf), "%d", option_bool_def(poption));
       def_val = def_buf;
       break;
-    case SSET_STRING:
-      value = pset->strval;
-      def_val = pset->default_strval;
+    case OT_INTEGER:
+      my_snprintf(val_buf, sizeof(val_buf), "%d", option_int_get(poption));
+      value = val_buf;
+      my_snprintf(def_buf, sizeof(def_buf), "%d", option_int_def(poption));
+      def_val = def_buf;
+      break;
+    case OT_STRING:
+      value = option_str_get(poption);
+      def_val = option_str_def(poption);
+      break;
+    case OT_FONT:
       break;
     }
 
     if (NULL == value || NULL == def_val) {
-      log_error("Wrong setting type (%d) for '%s'.",
-                pset->stype, pset->name);
+      log_error("Option type %d not supported for '%s'.",
+                option_type(poption), option_name(poption));
       continue;
     }
 
     if (0 == strcmp(value, def_val)) {
       /* Not set, using default... */
-      hash_delete_entry(settable_options_hash, pset->name);
+      hash_delete_entry(settable_options_hash, option_name(poption));
     } else {
       /* Really desired. */
       hash_replace(settable_options_hash,
-                   mystrdup(pset->name), mystrdup(value));
+                   mystrdup(option_name(poption)), mystrdup(value));
     }
-  }
+  } server_options_iterate_end;
 }
 
 /****************************************************************
@@ -2336,7 +2926,7 @@ void desired_settable_option_update(const char *op_name,
 /****************************************************************
   Send the desired server options to the server.
 *****************************************************************/
-void desired_settable_option_send(struct options_settable *pset)
+static void desired_settable_option_send(struct option *poption)
 {
   char buf[64];
   const char *desired;
@@ -2344,34 +2934,42 @@ void desired_settable_option_send(struct options_settable *pset)
 
   fc_assert_ret(NULL != settable_options_hash);
 
-  desired = hash_lookup_data(settable_options_hash, pset->name);
+  desired = hash_lookup_data(settable_options_hash, option_name(poption));
   if (NULL == desired) {
     /* No change explicitly  desired. */
     return;
   }
 
   value = NULL;
-  switch (pset->stype) {
+  switch (option_type(poption)) {
   case SSET_BOOL:
+    my_snprintf(buf, sizeof(buf), "%d", option_bool_get(poption));
+    value = buf;
+    break;
   case SSET_INT:
-    my_snprintf(buf, sizeof(buf), "%d", pset->val);
+    my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
     value = buf;
     break;
   case SSET_STRING:
-    value = pset->strval;
+    value = option_str_get(poption);
+    break;
+  case OT_FONT:
     break;
   }
 
-  if (NULL != value) {
-    if (0 != strcmp(value, desired)) {
-      send_chat_printf("/set %s %s", pset->name, desired);
-    }
-  } else {
-    log_error("Wrong setting type (%d) for '%s'.",
-              pset->stype, pset->name);
+  if (NULL == value) {
+    log_error("Option type %d not supported for '%s'.",
+              option_type(poption), option_name(poption));
+  } else if (0 != strcmp(value, desired)) {
+    send_chat_printf("/set %s %s", option_name(poption), desired);
   }
 }
 
+
+/****************************************************************
+  City and player report dialog options.
+*****************************************************************/
+static struct hash_table *dialog_options_hash = NULL;
 
 /****************************************************************
   Load the city and player report dialog options.

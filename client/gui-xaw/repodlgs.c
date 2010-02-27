@@ -50,8 +50,10 @@
 #include "chatline_common.h" /* for send_chat() */
 #include "client_main.h"
 #include "climisc.h"
+#include "options.h"
 #include "text.h"
 
+/* client/gui-xaw */
 #include "cityrep.h"
 #include "dialogs.h"
 #include "gui_main.h"
@@ -1257,19 +1259,25 @@ void create_settable_options_dialog(void)
     XtVaCreateManagedWidget("settableoptionsscrollform", formWidgetClass, 
 			    settable_options_viewport, NULL);
 
+  /* Count the server options. */
+  i = 0;
+  server_options_iterate(poption) {
+    i++;
+  } server_options_iterate_end;
+
   if (!settable_options_widgets) {
-    settable_options_widgets = fc_calloc(num_settable_options, sizeof(Widget));
+    settable_options_widgets = fc_calloc(i, sizeof(Widget));
   }
 
   prev_widget = NULL; /* init the prev-Widget */
 
-  for (i = 0; i < num_settable_options; i++) {
+  i = 0;
+  server_options_iterate(poption) {
     char buf[256];
     size_t len;
-    struct options_settable *o = &settable_options[i];
 
-    my_snprintf(buf, sizeof(buf), "%s: %s", o->name,
-		_(o->short_help));
+    my_snprintf(buf, sizeof(buf), "%s: %s",
+                option_name(poption), option_description(poption));
     len = strlen(buf);
 
     /* 
@@ -1303,17 +1311,17 @@ void create_settable_options_dialog(void)
      */
     XtVaGetValues(prev_widget, XtNwidth, &width, NULL);
     XtVaSetValues(prev_widget, XtNwidth, width + 15, NULL);
-  }
+    i++;
+  } server_options_iterate_end;
 
   XtVaGetValues(longest_label, XtNwidth, &width, NULL);
   XtVaSetValues(settable_options_label, XtNwidth, width + 15, NULL);
 
-  for (i = 0; i < num_settable_options; i++) {
-    struct options_settable *o = &settable_options[i];
-
-    if (o->is_changeable && o->is_visible) {
-      switch (o->stype) {
-      case SSET_BOOL:
+  i = 0;
+  server_options_iterate(poption) {
+    if (option_is_changeable(poption)) {
+      switch (option_type(poption)) {
+      case OT_BOOLEAN:
 	if (settable_options_widgets[i]) {
 	  prev_widget =
 	    XtVaCreateManagedWidget("toggle", toggleWidgetClass,
@@ -1331,8 +1339,8 @@ void create_settable_options_dialog(void)
 	XtAddCallback(prev_widget, XtNcallback,
 		      settable_options_toggle_callback, NULL);
 	break;
-      case SSET_INT:
-      case SSET_STRING:
+      case OT_INTEGER:
+      case OT_STRING:
 	if (settable_options_widgets[i]) {
 	  prev_widget =
 	    XtVaCreateManagedWidget("input", asciiTextWidgetClass,
@@ -1348,6 +1356,9 @@ void create_settable_options_dialog(void)
 				    NULL);
 	}
 	break;
+      case OT_FONT:
+        log_error("Option type %d not supported yet.", option_type(poption));
+        break;
       }
 
     } else {
@@ -1368,7 +1379,8 @@ void create_settable_options_dialog(void)
     }
     /* store the final widget */
     settable_options_widgets[i] = prev_widget;
-  }
+    i++;
+  } server_options_iterate_end;
 
   settable_options_ok_command =
     I_L(XtVaCreateManagedWidget("settableoptionsokcommand",
@@ -1404,48 +1416,51 @@ void update_settable_options_dialog(void)
 {
   if (settable_options_dialog_shell) {
     char buf[256];
-    int i;
+    int i = 0;
 
-    for (i = 0; i < num_settable_options; i++) {
-      struct options_settable *o = &settable_options[i];
-
-      if (o->is_changeable && o->is_visible) {
-	switch (o->stype) {
-	case SSET_BOOL:
-	  XtVaSetValues(settable_options_widgets[i],
-			XtNstate, o->val ? True : False,
-			XtNlabel,
-			o->val ? _("Yes") : _("No"), NULL);
-	  break;
-	case SSET_INT:
-	  my_snprintf(buf, sizeof(buf), "%d", o->val);
-	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
-	  break;
-	case SSET_STRING:
-	  my_snprintf(buf, sizeof(buf), "%s", o->strval);
-	  XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
-	  break;
-	}
+    server_options_iterate(poption) {
+      if (option_is_changeable(poption)) {
+        switch (option_type(poption)) {
+        case OT_BOOLEAN:
+          XtVaSetValues(settable_options_widgets[i],
+                        XtNstate, option_bool_get(poption) ? True : False,
+                        XtNlabel,
+                        option_bool_get(poption) ? _("Yes") : _("No"), NULL);
+          break;
+        case OT_INTEGER:
+          my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+          XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
+          break;
+        case OT_STRING:
+          my_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
+          XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
+          break;
+        case OT_FONT:
+          log_error("Option type %d not supported yet.",
+                    option_type(poption));
+          break;
+        }
       } else {
-	if (o->is_visible) {
-	  switch (o->stype) {
-	  case SSET_BOOL:
-	    my_snprintf(buf, sizeof(buf), "%s",
-	      o->val != 0 ? _("true") : _("false"));
-	    break;
-	  case SSET_INT:
-	    my_snprintf(buf, sizeof(buf), "%d", o->val);
-	    break;
-	  case SSET_STRING:
-	    my_snprintf(buf, sizeof(buf), "%s", o->strval);
-	    break;
-	  }
-	} else {
-	  my_snprintf(buf, sizeof(buf), _("(hidden)"));
-	}
-	XtVaSetValues(settable_options_widgets[i], XtNlabel, buf, NULL);
+        switch (option_type(poption)) {
+        case OT_BOOLEAN:
+          my_snprintf(buf, sizeof(buf), "%s",
+                      option_bool_get(poption) ? _("true") : _("false"));
+          break;
+        case OT_INTEGER:
+          my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+          break;
+        case OT_STRING:
+          my_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
+          break;
+        case OT_FONT:
+          log_error("Option type %d not supported yet.",
+                    option_type(poption));
+          break;
+        }
+        XtVaSetValues(settable_options_widgets[i], XtNlabel, buf, NULL);
       }
-    }
+      i++;
+    } server_options_iterate_end;
   }
 }
 
@@ -1469,42 +1484,34 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
 				  XtPointer call_data)
 {
   if (settable_options_dialog_shell) {
-    Boolean b, old_b;
-    int val, i;
+    Boolean b;
+    int val, i = 0;
     XtPointer dp;
 
-    for (i = 0; i < num_settable_options; i++) {
-      struct options_settable *o = &settable_options[i];
-
-      if (o->is_changeable && o->is_visible) {
-
-	switch (o->stype) {
-	case SSET_BOOL:
-	  old_b = o->val ? True: False;
-	  XtVaGetValues(settable_options_widgets[i], XtNstate, &b, NULL);
-	  if (b != old_b) {
-	    send_chat_printf("/set %s %s",
-                             o->name, b ? "1" : "0");
-	  }
-	  break;
-	case SSET_INT:
-	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
-	  sscanf(dp, "%d", &val);
-	  if (val != o->val) {
-	    send_chat_printf("/set %s %d",
-                             o->name, val);
-	  }
-	  break;
-	case SSET_STRING:
-	  XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
-	  if (strcmp(o->strval, dp)) {
-	    send_chat_printf("/set %s %s",
-                             o->name, (char *)dp);
-	  }
-	  break;
-	}
+    server_options_iterate(poption) {
+      if (option_is_changeable(poption)) {
+        switch (option_type(poption)) {
+        case OT_BOOLEAN:
+          XtVaGetValues(settable_options_widgets[i], XtNstate, &b, NULL);
+          option_bool_set(poption, b);
+          break;
+        case OT_INTEGER:
+          XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
+          sscanf(dp, "%d", &val);
+          option_int_set(poption, val);
+          break;
+        case OT_STRING:
+          XtVaGetValues(settable_options_widgets[i], XtNstring, &dp, NULL);
+          option_str_set(poption, dp);
+          break;
+        case OT_FONT:
+          log_error("Option type %d not supported yet.",
+                    option_type(poption));
+          break;
+        }
       }
-    }
+      i++;
+    } server_options_iterate_end;
 
     popdown_settable_options_dialog();
   }
