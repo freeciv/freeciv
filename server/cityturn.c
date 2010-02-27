@@ -2372,8 +2372,8 @@ static bool do_city_migration(struct city *pcity_from,
     /* receiver city can't grow  */
     if (pplayer_from == pplayer_to) {
       /* migration between one nation */
-      /* TRANS: From <city1> to <city2>. */
       notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER, ftc_server,
+                    /* TRANS: From <city1> to <city2>. */
                     _("Migrants from %s can't go to %s because it needs "
                       "an improvement to grow!"),
                     name_from, name_to);
@@ -2617,8 +2617,8 @@ static void check_city_migrations_player(const struct player *pplayer)
         /* no migration */
         /* N.B.: city_link always returns the same pointer. */
         sz_strlcpy(city_link_text, city_link(pcity));
-        /* TRANS: <city1> to <city2> (<city2 nation adjective>). */
         notify_player(pplayer, city_tile(pcity), E_CITY_TRANSFER, ftc_server,
+                      /* TRANS: <city1> to <city2> (<city2 nation adjective>). */
                       _("Citizens of %s are thinking about migrating to %s "
                         "(%s) for a better life."),
                       city_link_text, city_link(best_city_world), nname);

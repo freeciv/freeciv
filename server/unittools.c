@@ -1118,8 +1118,8 @@ void bounce_unit(struct unit *punit, bool verbose)
     struct tile *ptile = tiles[myrand(count)];
 
     if (verbose) {
-      /* TRANS: A unit is moved to resolve stack conflicts. */
       notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
+                    /* TRANS: A unit is moved to resolve stack conflicts. */
                     _("Moved your %s."),
                     unit_link(punit));
     }
@@ -1129,8 +1129,8 @@ void bounce_unit(struct unit *punit, bool verbose)
 
   /* Didn't find a place to bounce the unit, just disband it. */
   if (verbose) {
-    /* TRANS: A unit is disbanded to resolve stack conflicts. */
     notify_player(pplayer, punit_tile, E_UNIT_LOST_MISC, ftc_server,
+                  /* TRANS: A unit is disbanded to resolve stack conflicts. */
                   _("Disbanded your %s."),
                   unit_tile_link(punit));
   }

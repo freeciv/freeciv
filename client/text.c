@@ -183,9 +183,9 @@ const char *popup_info_text(struct tile *ptile)
       if (ds[player_index(owner)].type == DS_CEASEFIRE) {
 	int turns = ds[player_index(owner)].turns_left;
 
-        /* TRANS: "Territory of <username> (<nation + team>)
-         * (<number> turn cease-fire)" */
         astr_add_line(&str,
+                      /* TRANS: "Territory of <username> (<nation + team>)
+                       * (<number> turn cease-fire)" */
                       PL_("Territory of %s (%s) (%d turn cease-fire)",
                           "Territory of %s (%s) (%d turn cease-fire)",
                           turns),
@@ -600,8 +600,8 @@ const char *science_dialog_text(void)
 	      PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
   if (theirs > 0) {
     /* Techpool version */
-    /* TRANS: This is appended to "%d bulb/turn" text */
     my_snprintf(theirbuf, sizeof(theirbuf),
+		/* TRANS: This is appended to "%d bulb/turn" text */
 		PL_(", %d bulb/turn from team",
 		    ", %d bulbs/turn from team", theirs), theirs);
   }

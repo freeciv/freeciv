@@ -275,8 +275,8 @@ bool check_for_game_over(void)
     }
   } players_iterate_end;
   if (winners) {
-    /* TRANS: There can be several winners listed */
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
+                /* TRANS: There can be several winners listed */
                 _("Scenario victory to %s."), str.str);
     ggz_report_victory();
     return TRUE;

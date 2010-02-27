@@ -1041,9 +1041,9 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
       && num_role_units(F_NUCLEAR) > 0) {
     struct unit_type *u = get_role_unit(F_NUCLEAR, 0);
 
-    /* TRANS: 'Allows all players with knowledge of atomic power to
-     * build nuclear units.' */
     cat_snprintf(buf, bufsz,
+		 /* TRANS: 'Allows all players with knowledge of atomic
+		  * power to build nuclear units.' */
 		 _("* Allows all players with knowledge of %s "
 		   "to build %s units.\n"),
 		 advance_name_for_player(pplayer,
@@ -1225,9 +1225,9 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
   }
   if (utype_has_flag(utype, F_TRADE_ROUTE)) {
-    /* TRANS: "Manhattan" distance is the distance along gridlines, with
-     * no diagonals allowed. */
     cat_snprintf(buf, bufsz,
+                 /* TRANS: "Manhattan" distance is the distance along
+                  * gridlines, with no diagonals allowed. */
                  _("* Can establish trade routes (must travel to target"
                    " city and must be at least %d tiles [in Manhattan"
                    " distance] from this unit's home city).\n"),
