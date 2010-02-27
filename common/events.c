@@ -56,6 +56,7 @@ static const char *event_sections[] = {
   N_("Nation: %s"),
   N_("Treaty: %s"),
   N_("Unit: %s"),
+  /* TRANS: "Vote" as a process */
   N_("Vote: %s"),
   N_("Wonder: %s"),
   NULL
@@ -156,8 +157,11 @@ static struct {
   GEN_EV(E_UNIT_UPGRADED,	E_S_UNIT,	N_("Production Upgraded")),
   GEN_EV(E_UNIT_RELOCATED,	E_S_UNIT,	N_("Relocated")),
   GEN_EV(E_UNIT_ORDERS,		E_S_UNIT,	N_("Orders / goto events")),
+  /* TRANS: "vote" as a process */
   GEN_EV(E_VOTE_NEW,		E_S_VOTE,	N_("New vote")),
+  /* TRANS: "Vote" as a process */
   GEN_EV(E_VOTE_RESOLVED,	E_S_VOTE,	N_("Vote resolved")),
+  /* TRANS: "Vote" as a process */
   GEN_EV(E_VOTE_ABORTED,	E_S_VOTE,	N_("Vote cancelled")),
   GEN_EV(E_WONDER_BUILD,	E_S_WONDER,	N_("Finished")),
   GEN_EV(E_WONDER_OBSOLETE,	E_S_WONDER,	N_("Made Obsolete")),

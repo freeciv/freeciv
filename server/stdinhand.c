@@ -2050,8 +2050,11 @@ static void show_votes(struct connection *caller)
       if (!conn_can_see_vote(caller, pvote)) {
         continue;
       }
+      /* TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
+       * part of a sentence. */
       title = vote_is_team_only(pvote) ? _("Teamvote") : _("Vote");
       cmd_reply(CMD_VOTE, caller, C_COMMENT,
+                /* TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..." */
                 _("%s %d \"%s\" (needs %0.0f%%%s): %d for, "
                   "%d against, and %d abstained out of %d players."),
                 title, pvote->vote_no, pvote->cmdline,
@@ -2137,6 +2140,7 @@ static bool vote_command(struct connection *caller, char *str,
       if (num_votes == 0) {
         cmd_reply(CMD_VOTE, caller, C_FAIL, _("There are no votes running."));
       } else {
+        /* TRANS: "vote" as a process */
         cmd_reply(CMD_VOTE, caller, C_FAIL, _("No legal last vote (%d %s)."),
                   num_votes, PL_("other vote running", "other votes running",
                                  num_votes));
@@ -2151,6 +2155,7 @@ static bool vote_command(struct connection *caller, char *str,
   }
 
   if (!(pvote = get_vote_by_no(which))) {
+    /* TRANS: "vote" as a process */
     cmd_reply(CMD_VOTE, caller, C_FAIL, _("No such vote (%d)."), which);
     goto CLEANUP;
   }
@@ -2207,6 +2212,7 @@ static bool cancelvote_command(struct connection *caller,
     if (caller == NULL) {
       /* Server prompt */
       cmd_reply(CMD_CANCELVOTE, caller, C_SYNTAX,
+                /* TRANS: "vote" as a process */
                 _("Missing argument <vote number> or "
                   "the string \"all\"."));
       return FALSE;
@@ -2226,6 +2232,7 @@ static bool cancelvote_command(struct connection *caller,
     } else if (!caller || conn_get_access(caller) >= ALLOW_ADMIN) {
       clear_all_votes();
       notify_conn(NULL, NULL, E_VOTE_ABORTED, ftc_server,
+                  /* TRANS: "votes" as a process */
                   _("All votes have been removed."));
       return TRUE;
     } else {
@@ -2238,17 +2245,20 @@ static bool cancelvote_command(struct connection *caller,
      * is not owned). */
     if (!(pvote = get_vote_by_no(vote_no))) {
       cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                /* TRANS: "vote" as a process */
                 _("No such vote (%d)."), vote_no);
       return FALSE;
     } else if (caller && conn_get_access(caller) < ALLOW_ADMIN
                && caller->id != pvote->caller_id) {
       cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
+                /* TRANS: "vote" as a process */
                 _("You are not allowed to cancel this vote (%d)."),
                 vote_no);
       return FALSE;
     }
   } else {
     cmd_reply(CMD_CANCELVOTE, caller, C_SYNTAX,
+              /* TRANS: "vote" as a process */
               _("Usage: /cancelvote [<vote number>|all]"));
     return FALSE;
   }
@@ -2258,12 +2268,14 @@ static bool cancelvote_command(struct connection *caller,
   if (caller) {
     notify_team(conn_get_player(vote_get_caller(pvote)),
                 NULL, E_VOTE_ABORTED, ftc_server,
+                /* TRANS: "vote" as a process */
                 _("%s has cancelled the vote \"%s\" (number %d)."),
                 caller->username, pvote->cmdline, pvote->vote_no);
   } else {
     /* Server prompt */
     notify_team(conn_get_player(vote_get_caller(pvote)),
                 NULL, E_VOTE_ABORTED, ftc_server,
+                /* TRANS: "vote" as a process */
                 _("The vote \"%s\" (number %d) has been cancelled."),
                 pvote->cmdline, pvote->vote_no);
   }
@@ -3583,6 +3595,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
      * vote command. You can only have one vote at a time. */
     if (get_vote_by_caller(caller)) {
       cmd_reply(CMD_VOTE, caller, C_COMMENT,
+                /* TRANS: "vote" as a process */
                 _("Your new vote cancelled your previous vote."));
     }
 
@@ -3598,15 +3611,19 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
       describe_vote(vote, votedesc, sizeof(votedesc));
 
       if (vote_is_team_only(vote)) {
+        /* TRANS: "vote" as a process */
         what = _("New teamvote");
         teamplr = conn_get_player(caller);
         color = ftc_vote_team;
       } else {
+        /* TRANS: "vote" as a process */
         what = _("New vote");
         teamplr = NULL;
         color = ftc_vote_public;
       }
       notify_team(teamplr, NULL, E_VOTE_NEW, color,
+                  /* TRANS: "[New vote|New teamvote] (number 3)
+                   * by fred: proposed change" */
                   _("%s (number %d) by %s: %s"), what,
                   vote->vote_no, caller->username, votedesc);
 
@@ -3616,6 +3633,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
 
     } else {
       cmd_reply(CMD_VOTE, caller, C_FAIL,
+                /* TRANS: "vote" as a process */
                 _("Your new vote (\"%s\") was not "
                   "legal or was not recognized."), full_command);
       return FALSE;

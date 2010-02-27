@@ -149,8 +149,9 @@ static struct command commands[] = {
       "Empty message means that no message is sent.")
   },
   {"vote",	ALLOW_BASIC,
-   /* TRANS: translate text between [] only */
+   /* TRANS: translate text between [] only; "vote" is as a process */
    N_("vote yes|no|abstain [vote number]"),
+   /* TRANS: "vote" as an instance of voting */
    N_("Cast a vote."),
       /* xgettext:no-c-format */
    N_("A player with basic level access issuing a control level command "
@@ -397,11 +398,13 @@ static struct command commands[] = {
    VCF_NONE, 50
   },
   {"cancelvote", ALLOW_BASIC,
-   /* TRANS: translate text between <> only */
+   /* TRANS: translate text between <> only; "vote" is as a process */
    N_("cancelvote\n"
       "cancelvote <vote number>\n"
       "cancelvote all\n"),
+   /* TRANS: "vote" as a process */
    N_("Cancel a running vote.\n"),
+   /* TRANS: "vote" as a process */
    N_("With no arguments this command removes your own vote. If you have "
       "an admin access level, you can cancel any vote by vote number, or "
       "all votes with the \'all\' argument."),

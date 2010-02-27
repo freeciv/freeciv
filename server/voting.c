@@ -507,22 +507,26 @@ static void check_vote(struct vote *pvote)
   if (vote_is_team_only(pvote)) {
     const struct connection *caller;
 
+    /* TRANS: "Vote" as a process. Used as part of a sentence. */
     title = _("Teamvote");
     caller = vote_get_caller(pvote);
     callplr = conn_get_player(caller);
   } else {
+    /* TRANS: "Vote" as a process. Used as part of a sentence. */
     title = _("Vote");
     callplr = NULL;
   }
 
   if (passed) {
     notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_passed,
+                /* TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..." */
                 _("%s %d \"%s\" is passed %d to %d with "
                   "%d abstentions and %d who did not vote."),
                 title, pvote->vote_no, pvote->cmdline, pvote->yes,
                 pvote->no, pvote->abstain, num_voters - num_cast);
   } else {
     notify_team(callplr, NULL, E_VOTE_RESOLVED, ftc_vote_failed,
+                /* TRANS: "[Vote|Teamvote] 3 \"proposed change\" failed ..." */
                 _("%s %d \"%s\" failed with %d against, %d for, "
                   "%d abstentions and %d who did not vote."),
                 title, pvote->vote_no, pvote->cmdline, pvote->no,
