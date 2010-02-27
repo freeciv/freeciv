@@ -19,7 +19,21 @@
 struct section_file;
 
 /* internal api error function. */
-int script_error(const char *fmt, ...);
+int script_error(const char *fmt, ...)
+    fc__attribute((__format__ (__printf__, 1, 2)));
+
+/* Returns additional arguments on failure. */
+#ifdef NDEBUG
+#define SCRIPT_ASSERT(check, ...) /* Nothing. */
+#else
+#define SCRIPT_ASSERT_CAT(str1, str2) str1 ## str2
+#define SCRIPT_ASSERT(check, ...)                                           \
+  if (!(check)) {                                                           \
+    script_error("in %s() [%s::%d]: the assertion '%s' failed.",            \
+                 __FUNCTION__, __FILE__, __LINE__, #check);                 \
+    return SCRIPT_ASSERT_CAT(, __VA_ARGS__);                                \
+  }
+#endif /* NDEBUG */
 
 /* callback invocation function. */
 bool script_callback_invoke(const char *callback_name,
