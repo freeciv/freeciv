@@ -1055,9 +1055,10 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 **************************************************************************/
 static void start_start_callback(GtkWidget *w, gpointer data)
 {
-  if (NULL != client.conn.playing) {
-    dsend_packet_player_ready(&client.conn, player_number(client.conn.playing),
-			      !client.conn.playing->is_ready);
+  if (can_client_control()) {
+    dsend_packet_player_ready(&client.conn,
+                              player_number(client.conn.playing),
+                              !client.conn.playing->is_ready);
   }
 }
 

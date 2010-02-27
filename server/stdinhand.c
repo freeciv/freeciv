@@ -2959,6 +2959,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
   struct connection *pconn = caller;
   struct player *pplayer = NULL;
   bool res = FALSE;
+  bool player_was_created;
 
   /******** PART I: fill pconn and pplayer ********/
 
@@ -3050,6 +3051,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
     goto end;
   }
 
+  player_was_created = (NULL != pplayer ? pplayer->was_created : FALSE);
+
   /* if the player is controlled by another user,
    * forcibly convert the user to an observer.
    */
@@ -3064,6 +3067,10 @@ static bool take_command(struct connection *caller, char *str, bool check)
                   pconn->username,
                   caller->username);
     }
+
+    /* HACK: to keep this player on S_S_INITIAL state, we set temporarily
+     * it as created with the /create command. */
+    pplayer->was_created = TRUE;
 
     /* We are reassigning this nation, so we need to detach the current
      * user to set a new one. */
@@ -3117,6 +3124,8 @@ static bool take_command(struct connection *caller, char *str, bool check)
               _("%s failed to attach to any player."),
               pconn->username);
   }
+
+  pplayer->was_created = player_was_created;
 
   end:;
   /* free our args */
