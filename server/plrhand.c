@@ -1237,15 +1237,16 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2,
   
   /* Scottish is a good civil war nation for British */
   if (!ignore_conflicts) {
-  
-    for (i = 0; i < n1->num_conflicts; i++) {
-      if (n1->conflicts_with[i] == n2) {
+    struct nation_type **p;
+
+    for (p = n1->conflicts_with; *p != NO_NATION_SELECTED; p++) {
+      if (*p == n2) {
         return -1;
       }
     }
 
-    for (i = 0; i < n2->num_conflicts; i++) {
-      if (n2->conflicts_with[i] == n1) {
+    for (p = n2->conflicts_with; *p != NO_NATION_SELECTED; p++) {
+      if (*p == n1) {
         return -1;
       }
     }
