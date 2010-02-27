@@ -1468,6 +1468,11 @@ void check_for_full_turn_done(void)
 {
   bool connected = FALSE;
 
+  if (S_S_RUNNING != server_state()) {
+    /* Not in a running state, no turn done. */
+    return;
+  }
+
   /* fixedlength is only applicable if we have a timeout set */
   if (game.info.fixedlength && game.info.timeout != 0) {
     return;
