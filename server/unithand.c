@@ -60,9 +60,6 @@
 
 #include "unithand.h"
 
-static void city_add_or_build_error(struct player *pplayer,
-				    struct unit *punit,
-				    enum add_build_city_result res);
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
 		       char *name);
@@ -522,9 +519,8 @@ void handle_unit_disband(struct player *pplayer, int unit_id)
  after a call to unit_add_build_city_result, which does the
  consistency checking.
 **************************************************************************/
-static void city_add_or_build_error(struct player *pplayer,
-				    struct unit *punit,
-				    enum add_build_city_result res)
+void city_add_or_build_error(struct player *pplayer, struct unit *punit,
+                             enum add_build_city_result res)
 {
   /* Given that res came from test_unit_add_or_build_city, pcity will
      be non-null for all required status values. */

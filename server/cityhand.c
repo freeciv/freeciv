@@ -42,6 +42,7 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
+#include "unithand.h"
 
 #include "cityhand.h"
 
@@ -50,19 +51,47 @@
   suggested name and with same id which was passed in (either unit id
   for city builder or existing city id for rename, we don't care here).
 **************************************************************************/
-void handle_city_name_suggestion_req(struct player *pplayer, int value)
+void handle_city_name_suggestion_req(struct player *pplayer, int unit_id)
 {
-  struct unit *punit = player_find_unit_by_id(pplayer, value);
-  
-  if (!punit) {
+  struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
+  enum add_build_city_result res;
+
+  if (NULL == punit) {
+    /* Probably died or bribed. */
+    log_verbose("handle_city_name_suggestion_req() invalid unit %d",
+                unit_id);
     return;
   }
 
-  log_verbose("handle_city_name_suggest_req(unit_pos=(%d,%d))",
-              TILE_XY(unit_tile(punit)));
+  res = test_unit_add_or_build_city(punit);
 
-  dlsend_packet_city_name_suggestion_info(pplayer->connections, value, 
-      city_name_suggestion(pplayer, punit->tile));
+  switch (res) {
+  case AB_BUILD_OK:
+    log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d))",
+                TILE_XY(unit_tile(punit)));
+    dlsend_packet_city_name_suggestion_info(pplayer->connections, unit_id,
+        city_name_suggestion(pplayer, unit_tile(punit)));
+    break;
+
+  case AB_NOT_BUILD_LOC:
+  case AB_NOT_BUILD_UNIT:
+  case AB_NO_MOVES_BUILD:
+    log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
+                "cannot build there.", TILE_XY(unit_tile(punit)));
+    city_add_or_build_error(pplayer, punit, res);       /* Message. */
+    break;
+
+  case AB_ADD_OK:
+  case AB_NOT_ADDABLE_UNIT:
+  case AB_NO_MOVES_ADD:
+  case AB_NOT_OWNER:
+  case AB_TOO_BIG:
+  case AB_NO_SPACE:
+    log_verbose("handle_city_name_suggest_req(unit_pos (%d, %d)): "
+                "there is already a city there.", TILE_XY(unit_tile(punit)));
+    /* Ignoring. */
+    break;
+  }
 }
 
 /**************************************************************************
