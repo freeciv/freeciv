@@ -1308,14 +1308,18 @@ static void create_endgame_report(struct packet_endgame_report *packet)
     N_("Player\n"),
     N_("Score\n"),
     N_("Population\n"),
+    /* TRANS: "M goods" = million goods */
     N_("Trade\n(M goods)"), 
+    /* TRANS: "M tons" = million tons */
     N_("Production\n(M tons)"), 
     N_("Cities\n"),
     N_("Technologies\n"),
     N_("Military Service\n(months)"), 
     N_("Wonders\n"),
     N_("Research Speed\n(%)"), 
+    /* TRANS: "sq. mi." is abbreviation for "square miles" */
     N_("Land Area\n(sq. mi.)"), 
+    /* TRANS: "sq. mi." is abbreviation for "square miles" */
     N_("Settled Area\n(sq. mi.)"), 
     N_("Literacy\n(%)"), 
     N_("Spaceship\n")
