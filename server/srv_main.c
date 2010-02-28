@@ -260,15 +260,17 @@ bool check_for_game_over(void)
   struct astring str = ASTRING_INIT;
 
   astr_clear(&str);
-  /* Check for scenatio victory */
+  /* Check for scenario victory */
   players_iterate(pplayer) {
     if (pplayer->is_winner) {
       if (winners) {
-        /* TRANS: Another entry in winners list */
-        astr_add(&str, ", the %s", nation_adjective_for_player(pplayer));
+        /* TRANS: Another entry in winners list (", the Tibetans") */
+        astr_add(&str, Q_("?winners:, the %s"),
+                 nation_plural_for_player(pplayer));
       } else {
-        /* TRANS: Beginning of the winners list */
-        astr_add(&str, "the %s", nation_adjective_for_player(pplayer));
+        /* TRANS: Beginning of the winners list ("the French") */
+        astr_add(&str, Q_("?winners:the %s"),
+                 nation_plural_for_player(pplayer));
       }
       ggz_report_victor(pplayer);
       winners++;
