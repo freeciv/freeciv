@@ -594,7 +594,8 @@ static const char *value_units(int val, const char *uni)
 **************************************************************************/
 static const char *area_to_text(int value)
 {
-  return value_units(value, _(" sq. mi."));
+  /* TRANS: abbreviation of "square miles" */
+  return value_units(value, PL_(" sq. mi.", " sq. mi.", value));
 }
 
 static const char *percent_to_text(int value)
@@ -604,17 +605,20 @@ static const char *percent_to_text(int value)
 
 static const char *production_to_text(int value)
 {
-  return value_units(MAX(0, value), _(" M tons"));
+  int clip = MAX(0, value);
+  /* TRANS: "M tons" = million tons, so always plural */
+  return value_units(clip, PL_(" M tons", " M tons", clip));
 }
 
 static const char *economics_to_text(int value)
 {
-  return value_units(value, _(" M goods"));
+  /* TRANS: "M goods" = million goods, so always plural */
+  return value_units(value, PL_(" M goods", " M goods", value));
 }
 
 static const char *science_to_text(int value)
 {
-  return value_units(value, _(" bulbs"));
+  return value_units(value, PL_(" bulb", " bulbs", value));
 }
 
 static const char *mil_service_to_text(int value)
