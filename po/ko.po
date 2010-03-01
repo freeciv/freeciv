@@ -3,14 +3,14 @@
 # This file is distributed under the same license as the Freeciv package.
 # Daniel Markstedt <himasaram@spray.se>, 2007 - 2009
 # Jungho Lee <junghoya@gmail.com>, 2007
-#
+# Sungdae Back <skzptnlqor@yahoo.co.kr>, 2010
 msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-02-14 18:34+0100\n"
+"POT-Creation-Date: 2010-02-14 20:39+0100\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
-"Last-Translator: Daniel\n"
+"Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1298,12 +1298,12 @@ msgstr "에러 %d(sterror이 없는 컴파일)"
 #: ai/aicity.c:1494 server/citytools.c:2197
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr "%s(은)는 %s의 건설을 %s어서 중단했습니다."
+msgstr "%s(은)는 %s의 건설을 %s에서 중단했습니다."
 
 #: ai/aicity.c:1504 server/citytools.c:2235
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr "%s(은)는 %s의 건설을 %s어서 시작했습니다."
+msgstr "%s(은)는 %s의 건설을 %s에서 시작했습니다."
 
 #: ai/aicity.c:1849
 #, c-format
@@ -15944,7 +15944,7 @@ msgstr "요새 세우기"
 
 #: client/gui-sdl/menu.c:744
 msgid "Transform Tile"
-msgstr "지대 개조"
+msgstr "지형 개조"
 
 #: client/gui-sdl/menu.c:757 client/gui-sdl/menu.c:1138
 #: client/gui-win32/menu.c:1143 client/gui-xaw/menu.c:178
@@ -17005,7 +17005,7 @@ msgstr "%s(으)로 개조"
 
 #: client/gui-win32/menu.c:1144 client/gui-xaw/menu.c:180
 msgid "Transform Terrain"
-msgstr "지대 개조"
+msgstr "지형 개조"
 
 #: client/gui-win32/menu.c:1275 client/gui-xaw/menu.c:176
 msgid "Build Farmland"
@@ -20127,7 +20127,6 @@ msgid ""
 msgstr ""
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
-#, fuzzy
 msgid ""
 "Allows a city to produce veteran air units (including helicopters).  Also, "
 "damaged air units (again, including helicopters) which stay in town for one "
@@ -20138,12 +20137,13 @@ msgid ""
 "the unit's movement points.  A unit must have some movement points left to "
 "be airlifted."
 msgstr ""
-"도시의 전문 공군부대의 생산을 허용합니다. 또한 피해입은 공군부대는 아무런 명"
-"령없이 도시안에 1턴동안 있으면 완전히 회복됩니다.\n"
+"도시의 숙련자인 공중 부대의 생산을 허용합니다.(헬리콥터를 포함해서 입니다.) "
+"또한, 손상받은 공중 부대가 도시 안에서 한 차례 움직임 없이 머무르면 완전히 회복됩니다. "
+"(다시 말해서, 헬리콥터를 포함해서 입니다.)\n"
 "\n"
-"2개의 도시에 있는 공항은 매턴당 하나의 부대가 공수할수 있습니다. 공수는 즉시 "
-"한 부대를 다른 도시로 모든 부대의 움직임에 설정할수 있습니다. 한 부대가 반드"
-"시 공수되기 위해서 몇몇 이동점이 필요합니다."
+"2개의 도시와 함께 있는 공항은, 매 차례당 하나의 부대가 공수 할 수 있습니다. 공수는 즉시 "
+"한 부대를 다른 도시로 모든 부대의 움직임에 설정 할 수 있습니다. 한 부대가 공수되기 "
+"위해서 반드시 몇몇의 이동점이 필요합니다."
 
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
@@ -20154,7 +20154,9 @@ msgstr "수로"
 msgid ""
 "Allows a city to grow larger than size 8.  A Sewer System is also required "
 "for a city to grow larger than size 12."
-msgstr ""
+msgstr"" 
+"8 크기보다 크게 성장하기를 허락합니다. 또한 하수도 시설도 도시가 12 크기보다 "
+"크게 성장하기 위해서 요구됩니다."
 
 #: data/default/buildings.ruleset:91 data/civ2/buildings.ruleset:74
 #: data/civ1/buildings.ruleset:47
@@ -20168,6 +20170,7 @@ msgid ""
 "Together with the Marketplace improvement, a Bank increases the luxury and "
 "tax production within a city by 100%."
 msgstr ""
+"시장과 함께 시설되는 은행은, 도시 안의 복지와 세금을 100% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:129 data/default/buildings.ruleset:154
 #: data/default/buildings.ruleset:178 data/civ2/buildings.ruleset:111
@@ -20179,6 +20182,10 @@ msgid ""
 "increased by 50%.  Also, damaged land units which stay in town for one full "
 "turn without moving are completely restored."
 msgstr ""
+"군영이 있으면, 각각의 도시 안의 새로운 지상 부대는 공격과 방어가 "
+"50% 증가되는, 숙련가 상태로 자동적으로 생산됩니다. "
+"또한, 손상받은 지상 부대가 도시 안에서 한 차례 움직임 없이 머무르면 "
+"완전히 회복됩니다."
 
 #: data/default/buildings.ruleset:138 data/civ2/buildings.ruleset:120
 #: data/civ1/buildings.ruleset:93
@@ -20204,6 +20211,11 @@ msgid ""
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
 msgstr ""
+"대성당은 도시 안의 3 단위의 불만족스러워하는 시민들을 만족시켜서, "
+"그 도시 안에 명령을 유지하기 쉽게합니다: 그러나, 군사 활동으로부터 "
+"불만족스러워하는 시민에게는 영향을 끼치지는 않습니다. "
+"신학의 발견은 대성당의 효과에, 추가적으로 불만족스러운하는 시민을 만족시키는 것을 "
+"증가시킵니다."
 
 #: data/default/buildings.ruleset:228 data/civ2/buildings.ruleset:208
 msgid ""
@@ -20213,6 +20225,10 @@ msgid ""
 "Walls also prevent the loss of population which occurs when a defending unit "
 "is destroyed by a land unit."
 msgstr ""
+"성벽은 도시를 방어하기 쉽게 만듭니다. 도시 안의 부대의 방어를 "
+"3배로 하여 지상과 헬리콥터 부대들을 저항합니다. 공수 부대와 해상 부대에는 곡사포"
+"만큼 효과 없이 저항합니다. 또한 성벽은 방어하는 부대가 지상 부대로 부터 파괴될 때, "
+"발생하는 인구의 감소를 막습니다."
 
 #: data/default/buildings.ruleset:237 data/civ2/buildings.ruleset:217
 msgid "Coastal Defense"
@@ -20223,6 +20239,7 @@ msgid ""
 "Increases the defence strength of units within a city by a factor of 2 when "
 "defending against bombardments from enemy ships."
 msgstr ""
+"적 함대로 부터 포격에 저항을 의존할때 도시 안의 부대의 방어를 2 단위로 증가시킵니다."
 
 #: data/default/buildings.ruleset:258 data/civ2/buildings.ruleset:238
 #: data/civ1/buildings.ruleset:186
@@ -20230,14 +20247,14 @@ msgid "Colosseum"
 msgstr "콜로세움"
 
 #: data/default/buildings.ruleset:272
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electricity.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
-"한 도시의 시민 즐겁게 하면,불행한 시민 3곳을 불평없게 만듭니다.(전기의 발견이"
-"후는 4곳)"
+"도시의 시민들을 즐겁게 해 주어서, 3 단위의 불만족스러워하는 시민들을 만족시킵니다. "
+"(전기의 발견 이후에는 4 단위입니다.) 그러나, 군사 활동으로부터 불만족스러워하는 "
+"시민들에게는 영향을 끼치지 않습니다."
 
 #: data/default/buildings.ruleset:281 data/civ2/buildings.ruleset:259
 #: data/civ1/buildings.ruleset:206
@@ -20251,6 +20268,9 @@ msgid ""
 "also makes 1 unhappy citizen content (unless that citizen is unhappy about "
 "military activity).  Also makes the revolt cost of the city 4 times bigger."
 msgstr ""
+"도시 안의 부패를 50% 로 감소시킵니다. 민주주의 아래에서, 법원은 또한 1 단위의 "
+"불만족스러워하는 시민을 만족시킵니다. (시민이 군사 활동에 불만족스러워하지 않는 한입니다.) "
+"또한 도시의 혁명 비용을 4 시간 더 크게 만듭니다. "
 
 #: data/default/buildings.ruleset:304 data/civ2/buildings.ruleset:283
 #: data/civ1/buildings.ruleset:229
@@ -20264,6 +20284,7 @@ msgid ""
 "Increases the shield production in a city by 50%.  This increase may also "
 "contribute significantly to pollution."
 msgstr ""
+"도시 안의 보호 생산을 50% 로 증가시킵니다. 이것은 크게 공해의 원인이 될 것입니다."
 
 #: data/default/buildings.ruleset:339 data/civ2/buildings.ruleset:318
 #: data/civ1/buildings.ruleset:264
@@ -20272,6 +20293,8 @@ msgid ""
 "Granary shrinks or grows. This helps a city to grow faster and more easily "
 "withstand famine."
 msgstr ""
+"도시와 함께 곡창이 줄거나 늘어날때마다 저장된 식량의 양이 반쯤 차게 할 것입니다. "
+"이것은 도시가 더 빠르게 성장하고 기아현상을 더 쉽게 견디게 도와줄 것입니다."
 
 #: data/default/buildings.ruleset:349 data/civ2/buildings.ruleset:328
 msgid "Harbour"
@@ -20282,6 +20305,8 @@ msgid ""
 "Gives one extra food resource on all Oceanic tiles.  The city needs to be "
 "coastal to build this improvement."
 msgstr ""
+"모든 바다의 타일들 위의 1 단위의 추가적인 식량을 줄 것입니다. 도시는 이 시설을 "
+"짓기 위해서 해안에 있어야 할 필요가 있습니다."
 
 #: data/default/buildings.ruleset:370 data/civ2/buildings.ruleset:349
 #: data/civ1/buildings.ruleset:274
@@ -20303,6 +20328,16 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"공장과 제조공장의 효과를 증가시킵니다. 도시의 보호 생산에 지어두면, "
+"또한 그것으로부터 발생되는 공해의 양을 줄입니다. 수력 발전소는 "
+"공장이나 제조공장와 결합합니다. 발전소가 동등한 결합 "
+"(수력 발전소, 공장, 그리고 생산공장)으로, 75% 만의 공해를 "
+"주는 동안, 이 시설은 이들의 시설없이 75% 의 생산 보너스를 줍니다. "
+"이 시설은 발전소가 동등한 결합으로 50% 만의 공해와 함께, 150% 의 "
+"생산 보너스를 함께 줍니다.\n"
+"\n"
+"각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 "
+"태양열 발전소중 오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
 #: data/default/buildings.ruleset:406 data/civ2/buildings.ruleset:380
 #: data/civ1/buildings.ruleset:305
@@ -20312,7 +20347,7 @@ msgstr "도서관"
 #: data/default/buildings.ruleset:421
 #, no-c-format
 msgid "Increases the science output in a city by 100%."
-msgstr "도시안의 과학 결과물이 100% 증가합니다"
+msgstr "도시 안의 과학 생산물을 100% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:426 data/civ2/buildings.ruleset:400
 #: data/civ1/buildings.ruleset:325
@@ -20323,7 +20358,7 @@ msgstr "시장"
 #: data/civ1/buildings.ruleset:340
 #, no-c-format
 msgid "Increases the luxury and tax output in a city by 50%."
-msgstr "도시안의 복지와 세금이 50% 증가합니다"
+msgstr "도시 안의 복지와 세금의 생산량을 50% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:446 data/civ2/buildings.ruleset:420
 #: data/civ1/buildings.ruleset:345
@@ -20336,6 +20371,8 @@ msgid ""
 "Neutralizes the pollution generated by the population.  The population "
 "simply has no effect on the pollution generated in the city."
 msgstr ""
+"인구로부터 발생되는 공해를 무효화시킵니다. 간단히 인구는 도시안에 "
+"발생되는 공해에 영향을 가지지 않습니다."
 
 #: data/default/buildings.ruleset:467 data/civ2/buildings.ruleset:441
 #: data/civ1/buildings.ruleset:366
@@ -20349,6 +20386,7 @@ msgid ""
 "Together with a Factory, a Manufacturing Plant increases the shield "
 "production in a city by 100%."
 msgstr ""
+"공장과 함께 있는 제조공장은, 도시안에서 보호 생산을 100% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:489 data/civ2/buildings.ruleset:463
 #: data/civ1/buildings.ruleset:388
@@ -20370,6 +20408,16 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"공장과 제조공장의 효과를 증가시킵니다. 도시의 보호 생산에 지어두면, "
+"또한 그것으로부터 발생되는 공해의 양을 줄입니다. 원자력 발전소는 "
+"공장이나 제조공장와 결합합니다. 발전소가 동등한 결합"
+"(원자력 발전소, 공장, 그리고 생산공장)으로 75% 만의 공해를 "
+"주는 동안, 이 시설은 이들의 시설없이 75% 의 생산 보너스를 줍니다. "
+"이 시설은 발전소가 동등한 결합으로는 50% 만의 공해와 함께, 150% 의 "
+"생산 보너스를 함께 줍니다.\n"
+"\n"
+"각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 "
+"태양열 발전소중 오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
 #: data/default/buildings.ruleset:526 data/civ2/buildings.ruleset:495
 msgid "Offshore Platform"
@@ -20380,6 +20428,8 @@ msgid ""
 "Adds 1 extra shield resource on all Oceanic tiles worked by a city.  The "
 "city needs to be coastal to build this improvement."
 msgstr ""
+"도시로 부터 모든 바다의 타일들 위로, 보호 생산에 1 단위의 추가로 작동됩니다. "
+"그 도시는 이 시설을 짓기 위해서 해안에 있어야 할 필요가 있습니다."
 
 #: data/default/buildings.ruleset:547 data/civ2/buildings.ruleset:516
 #: data/civ1/buildings.ruleset:420
@@ -20402,6 +20452,17 @@ msgid ""
 "Under Despotism the city containing the palace gains a +75% production "
 "bonus, and under Monarchy a +50% production bonus."
 msgstr ""
+"도시를 수도와 당신의 정부의 중심으로 만듭니다. 정부가 민주주의나 공산주의일 때를 "
+"제외하고, 다른 도시들의 부패는 그들이 수도로 부터 얼마나 먼가에 관련되있습니다. "
+"또한 도시 안의 봉기에 조장하는 것의 비용이, 도시의 수도로 부터의 거리에 의존합니다. "
+"(정부의 모든 종류의 아래에서 입니다.)\n"
+"\n"
+"당신의 수도가 손실되면 당신의 제국이 내전에 뛰어들 수 있으니, 잘 관리하십시오. "
+"당신의 지금의 수도를 잃어버리는 것은 또한 아마도 당신이 우주선을 가진 것을 "
+"잃게 될 것입니다.\n"
+"\n"
+"전체주의 아래에서, 도시가 포함하는 궁전은 75% 의 생산 보너스를, "
+"그리고 군주제 아래에서는 50% 의 생산 보너스를 줍니다."
 
 #: data/default/buildings.ruleset:580 data/civ2/buildings.ruleset:545
 msgid "Police Station"
@@ -20414,6 +20475,10 @@ msgid ""
 "neutralises the unhappiness caused by a single military unit. This "
 "improvement has no effect under other governments."
 msgstr ""
+"도시에 소유된 공격적인 군사 부대들을 배치함으로서, "
+"민주주의 아래에서는 2 단위, 그리고 공화제 아래에서는 1 단위로 불만족을 "
+"줄입니다. -다시 말해서, 단일의 군사 부대로서 야기되는 불만족을 무효화시킵니다. "
+"이 시설은 다른 정부들 아래에서는 효과를 못 가집니다."
 
 #: data/default/buildings.ruleset:605 data/civ2/buildings.ruleset:567
 msgid "Port Facility"
@@ -20424,8 +20489,8 @@ msgid ""
 "Allows a city to build veteran sea units.  Also, damaged sea units which "
 "stay in town for one full turn without moving are completely restored."
 msgstr ""
-"숙련된 해상부대를 짓도록 도시를허용하십시요. 또한 부상당한 해상부대가 한 턴동"
-"안 아무런 명령없이 이곳에 머무르면 완전히 회복됩니다."
+"숙련된 해상 부대를 짓도록 도시를 허락합니다. 또한, 손상받은 해상 부대는 "
+"도시 안에서 한 차례 움직임 없이 머무르면 완전히 회복됩니다."
 
 #: data/default/buildings.ruleset:627 data/civ2/buildings.ruleset:589
 #: data/civ1/buildings.ruleset:449
@@ -20445,6 +20510,14 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"공장과 제조공장의 효과를 증가시킵니다. 도시의 보호 생산에 지어집니다. "
+"발전소는 공장이나 제조공장과 결합됩니다.  발전소는 이 결합"
+"(발전소, 공장, 그리고 제조공장)없이는 75% 의 생산 보너스를 줍니다. "
+"발전소가 위의 결합과 함께라면 150% 의 생산 보너스를 줍니다. "
+"추가적인 생산은 도시에 공해를, 더 발생하도록 이끌 수 있습니다.\n"
+"\n"
+"각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 "
+"태양열 발전소중 오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
 #: data/default/buildings.ruleset:660 data/civ2/buildings.ruleset:617
 #: data/civ1/buildings.ruleset:477
@@ -20458,6 +20531,7 @@ msgid ""
 "Building a Recycling Center reduces the amount of pollution generated by "
 "production in a city by 66%."
 msgstr ""
+"재활용 센터를 세우면, 도시 안의 생산으로 발생되는 공해의 양을 66% 로 줄입니다."
 
 #: data/default/buildings.ruleset:681 data/civ2/buildings.ruleset:638
 msgid "Research Lab"
@@ -20470,6 +20544,8 @@ msgid ""
 "a city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
 msgstr ""
+"도서관과 함께 있는 연구소는, 도시의 과학 생산물을 200% 로 증가시킵니다. "
+"도서관와 대학이 함께 있는 연구소는, 도시의 과학 생산물을 450% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:705 data/civ2/buildings.ruleset:662
 msgid "SAM Battery"
@@ -20480,6 +20556,8 @@ msgid ""
 "Doubles the defense of all units inside the city when attacked by aircraft "
 "(not including helicopters or missiles)."
 msgstr ""
+"공중 부대에게 공격 당할 때 도시 안의 모든 부대의 방어가 두배로 됩니다. "
+"(헬리콥터나 미사일은 포함하지 않습니다.)"
 
 #: data/default/buildings.ruleset:725 data/civ2/buildings.ruleset:682
 #: data/civ1/buildings.ruleset:498
@@ -20494,6 +20572,10 @@ msgid ""
 "simply has no effect. Also, doubles defence for units in the city against "
 "non-nuclear missiles."
 msgstr ""
+"도시와 주변(2 타일 떨어진 곳 입니다.)을 핵병기로의 공격으로부터 보호합니다. "
+"핵병기가 SDI 방위 시스템와 함께 있는 도시를 공격하거나, 또는 거리 안의 "
+"부대를 공격할 때(또는 고의적으로 폭발할 때 입니다.) 격추시키고, 간단히 "
+"영향이 없게 합니다."
 
 #: data/default/buildings.ruleset:750 data/civ2/buildings.ruleset:707
 msgid "Sewer System"
@@ -20504,6 +20586,8 @@ msgid ""
 "Allows a city to grow larger than size 12.  An Aqueduct is first required "
 "for a city to grow larger than size 8."
 msgstr ""
+"도시가 12 크기보다 크게 성장하기를 허락합니다. 수로는 도시가 8 크기보다 "
+"크게 성장하기 위해 먼저 요구됩니다."
 
 #: data/default/buildings.ruleset:771 data/civ2/buildings.ruleset:728
 msgid "Solar Plant"
@@ -20524,6 +20608,16 @@ msgid ""
 "In each city, only one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant can take effect at any one time."
 msgstr ""
+"공장과 제조공장의 효과를 증가시킵니다. 도시의 보호 생산에 지어두면, "
+"또한 그 생산으로부터 발생되는 공해의 양을 크게 줄입니다. 태양열 발전소는 "
+"공장이나 제조공장와 결합합니다. 발전소가 동등한 결합 "
+"(태양열 발전소, 공장, 그리고 생산공장)으로, 50% 만의 공해를 "
+"주는 동안, 이 시설은 이들의 시설없이 75% 의 생산 보너스를 줍니다. "
+"이 시설은 동등한 결합으로, 그 도시 안의 생산으로부터 발생하는 모든 공해를 없애고, "
+"150% 의 생산 보너스를 함께 줍니다.\n"
+"\n"
+"각각의 도시안에서, 발전소, 수력 발전소, 원자력 발전소, 또는 "
+"태양열 발전소중 오직 하나만이 한번의 시간에 영향을 가질 수 있습니다."
 
 #: data/default/buildings.ruleset:803 data/civ2/buildings.ruleset:756
 #: data/civ1/buildings.ruleset:520
@@ -20540,6 +20634,11 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"우주 부품은 추진력과 연료 요소를 구분 짓습니다. 그들의 각각의 한쌍은 "
+"당신의 우주선의 여행 시간을 줄입니다. 당신은 8 쌍을 지을 수 있습니다.\n"
+"\n"
+"당신이 어느 우주선 부품을 지을 수 있기 전에, 아폴로 계획(불가사의)가 "
+"어느 플레이어로부터 반드시 지어져 있어야 합니다."
 
 #: data/default/buildings.ruleset:828 data/civ2/buildings.ruleset:780
 #: data/civ1/buildings.ruleset:544
@@ -20565,6 +20664,18 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"우주 모듈은 우주선의 가장 비싼 부품입니다. 우주 모듈의 세가지의 다른 종류가 있습니다:\n"
+"\n"
+"-거주 모듈: 10,000 명에게 거주 공간을 제공합니다.\n"
+"\n"
+"-생명 유지 모듈: 음식과 물을 하나의 거주 모듈의 인구에게 제공합니다.\n"
+"\n"
+"태양 전지판: 어떤 다른 모듈의 2개에게 필요한 에너지를 제공합니다.\n"
+"\n"
+"각각 종류의 우주 모듈을 4개를 지을 수 있습니다.\n"
+"\n"
+"당신이 어느 우주선 부품을 지을 수 있기 전에, 아폴로 계획(불가사의)가 "
+"어느 플레이어로부터 반드시 지어져 있어야 합니다."
 
 #: data/default/buildings.ruleset:862 data/civ2/buildings.ruleset:813
 #: data/civ1/buildings.ruleset:577
@@ -20581,27 +20692,35 @@ msgid ""
 "Before you can build any spaceship parts, the Apollo Program wonder must "
 "have been built by any player."
 msgstr ""
+"우주선 구조물은 당신의 우주선의 바탕을 형성합니다. 모든 다른 우주선 부품들은 "
+"기능을 하기 위해 구조물과 연결되어야 합니다. 당신은 32개의 우주선 구조물을 "
+"지을 수 있습니다.\n"
+"\n"
+"당신이 어느 우주선 부품을 지을 수 있기 전에, 아폴로 계획(불가사의)가 "
+"어느 플레이어로부터 반드시 지어져 있어야 합니다."
 
 #: data/default/buildings.ruleset:887 data/civ2/buildings.ruleset:837
 msgid "Stock Exchange"
 msgstr "증권 거래소"
 
 #: data/default/buildings.ruleset:903 data/civ2/buildings.ruleset:853
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "Together with a Bank, a Stock Exchange boosts tax and luxury production in a "
 "city by 50%. Together with a Marketplace and a Bank, a Stock Exchange boosts "
 "tax and luxury production in a city by 150%."
-msgstr "시장과 은행이 함께 있으면, 주식거래세금과 복지 생산이 150%이 됩니다."
+msgstr ""
+"은행과 함께 있는 증권 거래소는, 도시 안의 세금과 복지 생산을, 50% 로 향상시킵니다. "
+"은행과 시장이 함께 있는 증권 거래소는 도시 안의 세금과 복지 생산을, 150% 로 향상시킵니다."
 
 #: data/default/buildings.ruleset:911 data/civ2/buildings.ruleset:861
 msgid "Super Highways"
 msgstr "고속 도로"
 
 #: data/default/buildings.ruleset:926 data/civ2/buildings.ruleset:876
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Increases trade resources by 50% on all tiles with roads or railroads."
-msgstr "도로와 철도가 있는 모든 면적은 교역자원이 50% 증가합니다"
+msgstr "도로와 철도와 함께 있는 모든 타일은 무역 자원을 50% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:934 data/civ2/buildings.ruleset:882
 msgid "Supermarket"
@@ -20614,6 +20733,8 @@ msgid ""
 "used around the city.  Farmland tiles are those which have been irrigated a "
 "second time."
 msgstr ""
+"도시 주위의 사용되는 각각의 농지 타일에서 50% 의 음식 자원을 증가시킵니다. "
+"농지 타일은 두 번 관개되어 있어야 합니다."
 
 #: data/default/buildings.ruleset:956 data/civ2/buildings.ruleset:904
 #: data/civ1/buildings.ruleset:601
@@ -20627,6 +20748,10 @@ msgid ""
 "effect.  With both Mysticism and the Oracle, 4 citizens are made content.  "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
+"하나의 불만족스러워 하는 시민을 만족시킵니다. 신비주의는 이 영향을 "
+"두배로 향상시킵니다. 신비주의와 신탁 둘 다 함께있으면, 4 단위 시민들을 "
+"만족시킵니다. 군사 활동으로부터 불만족스러워하는 시민들에게는 "
+"영향을 끼치지 않습니다. "
 
 #: data/default/buildings.ruleset:978 data/civ2/buildings.ruleset:926
 #: data/civ1/buildings.ruleset:623 data/default/techs.ruleset:737
@@ -20640,6 +20765,7 @@ msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 250%."
 msgstr ""
+"도서관과 함께 있는 대학교는, 도시의 과학 생산물을 250% 로 증가시킵니다."
 
 #: data/default/buildings.ruleset:1000 data/civ2/buildings.ruleset:948
 #: data/civ1/buildings.ruleset:645
@@ -20653,6 +20779,10 @@ msgid ""
 "units) despite fog-of-war. It allows all players to start building spaceship "
 "parts (assuming they have researched the necessary technologies)."
 msgstr ""
+"지도 전체가 영구히 이것을 소유한 플레이어에게 보여집니다 - 그 플레이어는 "
+"모든 지형과 도시들을(하지만 부대는 아닙니다.) 전운 설정에도 불구하고 "
+"항상 최신으로 가집니다. 이것은 모든 플레이어가 우주선 부품을 짓기를 "
+"시작하기를 허락합니다.(그들이 중요한 기술들에 도달했을 때를 가정하고 입니다.)"
 
 #: data/default/buildings.ruleset:1023 data/civ2/buildings.ruleset:971
 msgid "A.Smith's Trading Co."
@@ -20663,6 +20793,7 @@ msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all your cities."
 msgstr ""
+"당신의 모든 도시에서, 유지비가 보통 1 단위로 가지는 도시 시설은, 유지비가 공짜가 됩니다."
 
 #: data/default/buildings.ruleset:1043 data/civ2/buildings.ruleset:991
 #: data/civ1/buildings.ruleset:666
@@ -20675,6 +20806,8 @@ msgid ""
 "Each tile around the city where this wonder is built that is already "
 "generating some trade produces one extra trade resource."
 msgstr ""
+"이 불가사의가 지어진 도시에서, 주위의 각각의 타일에서, 하나의 추가적인 "
+"무역 자원을, 어떤 무역 생산에서 이미 발생시킵니다."
 
 #: data/default/buildings.ruleset:1063 data/civ2/buildings.ruleset:1011
 #: data/civ1/buildings.ruleset:686
@@ -20685,7 +20818,7 @@ msgstr "코페르니쿠스의 천문대"
 #: data/civ1/buildings.ruleset:848
 #, no-c-format
 msgid "Boosts science production by 100% in the city where it is built."
-msgstr ""
+msgstr "이것이 지어진 도시에서 100% 의 과학 생산물을 향상시킵니다."
 
 #: data/default/buildings.ruleset:1083 data/civ2/buildings.ruleset:1031
 #: data/civ1/buildings.ruleset:706
@@ -20698,6 +20831,8 @@ msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity)."
 msgstr ""
+"이 깜짝 놀랄 기술 성취는, 당신의 각각의 도시에서, 하나의 불만족스러워 하는 "
+"시민을 만족시킵니다.(군사 활동에 대한 시민들의 불만족도 포함합니다.)"
 
 #: data/default/buildings.ruleset:1106 data/civ2/buildings.ruleset:1052
 #: data/civ1/buildings.ruleset:727
@@ -20711,6 +20846,8 @@ msgid ""
 "species, which inspired greater confidence in science. Gives two immediate "
 "technology advances."
 msgstr ""
+"찰스 다윈의 항해는, 과학의 혼란보다 큰 영감을 주는, 종의 진화의 발견을 "
+"유발시킵니다. 기술 진전이 즉시 2 단위를 줍니다."
 
 #: data/default/buildings.ruleset:1127 data/civ2/buildings.ruleset:1073
 msgid "Eiffel Tower"
@@ -20721,11 +20858,12 @@ msgstr "에펠탑"
 msgid ""
 "Your reputation and goodwill among other nations is recovered twice as fast."
 msgstr ""
+"다른 국가 사이에서 당신의 명성과 호의를, 두배나 빠르게 회복시킵니다."
 
 #: data/default/buildings.ruleset:1148 data/civ2/buildings.ruleset:1094
 #: data/civ1/buildings.ruleset:748
 msgid "Great Library"
-msgstr "대형도서관"
+msgstr "대형 도서관"
 
 #: data/default/buildings.ruleset:1162 data/civ2/buildings.ruleset:1108
 #: data/civ1/buildings.ruleset:762
@@ -20733,6 +20871,8 @@ msgid ""
 "The civilization which builds the Great Library gets every advance that at "
 "least two other civilizations have achieved."
 msgstr ""
+"대형 도서관을 지은 문명은, 적어도 다른 문명 둘이 성취한 진보를, 매번 "
+"가집니다."
 
 #: data/default/buildings.ruleset:1168 data/civ2/buildings.ruleset:1114
 #: data/civ1/buildings.ruleset:768
@@ -20742,7 +20882,7 @@ msgstr "만리장성"
 #: data/default/buildings.ruleset:1182 data/civ2/buildings.ruleset:1128
 #: data/civ1/buildings.ruleset:782
 msgid "Works as a City Wall in all your cities."
-msgstr "모든 당신의 도시성곽처럼 동작하고 있습니다."
+msgstr "당신의 모든 도시에서 성벽처럼 동작시킵니다."
 
 #: data/default/buildings.ruleset:1190 data/civ2/buildings.ruleset:1135
 #: data/civ1/buildings.ruleset:789
@@ -20757,6 +20897,11 @@ msgid ""
 "effect of Hanging Gardens, the wonder applies to unhappy citizens (including "
 "those unhappy about military activity), making each content then happy."
 msgstr ""
+"모든 도시에서 하나의 시민을 행복하게 만족시킵니다. 공중 정원을 포함하는 "
+"도시는 둘의 추가적으로 행복하게 만족시킵니다.(그것은, 총합으로 3 입니다.) "
+"공중 정원의 영향을 가지고, 시민들을 만족시키지 못하는 예상 밖의 "
+"사건에서는, 이 불가사의는 불만족스러워 하는 시민에게(군사 활동에 대한 "
+"시민들의 불만족도 포함합니다.) 먼저 적용해서, 만족시킨 다음에 행복하게 합니다."
 
 #: data/default/buildings.ruleset:1214 data/civ2/buildings.ruleset:1159
 #: data/civ1/buildings.ruleset:811
@@ -20768,6 +20913,8 @@ msgid ""
 "Works as if you had a Hydro Plant in every city.  (This reduces pollution "
 "and increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
+"모든 도시에서 수력 발전소를 가진 것 처럼 작동시킵니다. (이것은 공해를 "
+"줄이고, 공장과 제조공장,발전소의 영향을 증가시킵니다.)"
 
 #: data/default/buildings.ruleset:1235 data/civ2/buildings.ruleset:1179
 #: data/civ1/buildings.ruleset:833
@@ -20780,6 +20927,8 @@ msgid ""
 "Boosts science production by 100% in every city you control that has a "
 "University."
 msgstr ""
+"당신이 대학을 가진 통제하는 모든 도시에서 과학 생산물을 100% 로 "
+"향상시킵니다."
 
 #: data/default/buildings.ruleset:1256 data/civ2/buildings.ruleset:1199
 #: data/civ1/buildings.ruleset:853
@@ -20787,11 +20936,11 @@ msgid "J.S. Bach's Cathedral"
 msgstr "바흐의 대성당"
 
 #: data/default/buildings.ruleset:1270 data/civ2/buildings.ruleset:1213
-#, fuzzy
 msgid ""
 "Makes two unhappy citizens content in every city (including citizens unhappy "
 "about military activity)."
-msgstr "모든 도시의 불행한 2도시를 만족하게 만듭니다"
+msgstr "모든 도시의 불만족스러워하는 두 시민을 만족시킵니다. (군사 활동에 "
+"대한 시민의 불만족도 포함합니다.)"
 
 #: data/default/buildings.ruleset:1276 data/civ2/buildings.ruleset:1219
 msgid "King Richard's Crusade"
@@ -20802,6 +20951,8 @@ msgid ""
 "Adds one extra shield resource on every tile around the city where it is "
 "built."
 msgstr ""
+"이것이 지어진 도시 주위의 모든 타일에서, 하나의 추가적인 보호 자원을 "
+"추가시킵니다."
 
 #: data/default/buildings.ruleset:1296 data/civ2/buildings.ruleset:1239
 msgid "Leonardo's Workshop"
@@ -20809,7 +20960,7 @@ msgstr "레오나르도의 작업장"
 
 #: data/default/buildings.ruleset:1310 data/civ2/buildings.ruleset:1253
 msgid "Upgrades one obsolete unit per game turn."
-msgstr "게임턴당 쓸모없는 유닛을 업그레이드 합니다"
+msgstr "게임 차례당 하나의 구식인 부대를 개선시킵니다."
 
 #: data/default/buildings.ruleset:1315 data/civ2/buildings.ruleset:1258
 #: data/civ1/buildings.ruleset:874
@@ -20821,6 +20972,8 @@ msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all your cities)."
 msgstr ""
+"당신의 모든 해상 부대에게 1 의 추가적인 이동 단위를 줍니다. 당신의 새로운 "
+"해상 부대를 숙련가로 만듭니다. (당신의 모든 도시에서 입니다.)"
 
 #: data/default/buildings.ruleset:1336 data/civ2/buildings.ruleset:1278
 #: data/civ1/buildings.ruleset:893
@@ -20829,7 +20982,7 @@ msgstr "마젤란의 탐험"
 
 #: data/default/buildings.ruleset:1351
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "모든 해상부대에게 추가 2의 이동포인트를 줍니다."
+msgstr "당신의 모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
 #: data/default/buildings.ruleset:1356 data/civ2/buildings.ruleset:1297
 #: data/civ1/buildings.ruleset:912
@@ -20842,7 +20995,7 @@ msgstr "마르코 폴로의 대사관"
 
 #: data/default/buildings.ruleset:1388 data/civ2/buildings.ruleset:1329
 msgid "The player who owns it gets an embassy with all players."
-msgstr ""
+msgstr "이것을 소유한 플레이어는 모든 플레이어와 대사관을 가집니다."
 
 #: data/default/buildings.ruleset:1393 data/civ2/buildings.ruleset:1334
 #: data/civ1/buildings.ruleset:930
@@ -20858,6 +21011,11 @@ msgid ""
 "discovery of Communism lessens the effect of a Cathedral, reducing by one "
 "the number of unhappy citizens made content."
 msgstr ""
+"당신의 각각의 도시가 대성당을 가진 것으로 간주합니다. 이것은 각각의 도시에서 "
+"3 단위의 불만족스러워 하는 시민을 만족시킵니다; 그러나, 군사 활동으로 불만족하는 "
+"시민에게는 영향을 주지않습니다. 신학의 발견으로 대성당의 영향이, 추가적인 불만족스러워 "
+"하는 시민을 만족시킴을 증가시킵니다. 공산주의의 발견으로 대성당의 영향이, 불만족스러워 "
+"하는 시민을 만족시킴의 수를 한 단위 줄입니다."
 
 #: data/default/buildings.ruleset:1418 data/civ2/buildings.ruleset:1359
 #: data/civ1/buildings.ruleset:949
@@ -20870,6 +21028,8 @@ msgid ""
 "Makes two additional unhappy citizens content in every city with a Temple.  "
 "Does not affect citizens made unhappy by military activity."
 msgstr ""
+"사원과 함께 있는 모든 도시안에서, 불만족스러워 하는 시민을 둘을 추가적으로 "
+"만족시킵니다. 군사 활동으로 불만족하는 시민에게는 영향을 주지않습니다."
 
 #: data/default/buildings.ruleset:1439 data/civ2/buildings.ruleset:1380
 #: data/civ1/buildings.ruleset:970
@@ -20883,6 +21043,9 @@ msgid ""
 "reduced by 25%.  This helps a city to grow faster and more easily withstand "
 "famine.  Cumulative with Granary."
 msgstr ""
+"당신의 하나의 도시가 자라거나 줄어들 때의 저장된 음식의 양을 잃는 것을 "
+"25% 로 줄입니다. 이것은 도시가 더 빠르게 성장하고 기아현상을 더 쉽게 견디게 "
+"도와줄 것입니다. 곡창과 누적됩니다."
 
 #: data/default/buildings.ruleset:1461 data/civ2/buildings.ruleset:1399
 #: data/civ1/buildings.ruleset:991
@@ -20892,7 +21055,7 @@ msgstr "SETI 계획"
 #: data/default/buildings.ruleset:1476
 #, no-c-format
 msgid "Boosts science production in each city with a Research Lab by 100%. "
-msgstr ""
+msgstr "연구소와 함께 있는 각각의 도시 안의 과학 생산물을 100% 로 향상시킵니다."
 
 #: data/default/buildings.ruleset:1481 data/civ2/buildings.ruleset:1420
 #: data/civ1/buildings.ruleset:1011
@@ -20905,6 +21068,8 @@ msgid ""
 "Makes all angry and unhappy citizens content in the city where it is "
 "located, including citizens unhappy about military activity."
 msgstr ""
+"이것이 위치한 도시의 화나고 불만족스러워 하는 모든 시민을, 군사 활동에 대한 "
+"불만족하는 시민을 포함해서 만족시킵니다."
 
 #: data/default/buildings.ruleset:1501 data/civ2/buildings.ruleset:1440
 msgid "Statue of Liberty"
@@ -20917,6 +21082,8 @@ msgid ""
 "researched by your civilization, and without the transition period of "
 "Anarchy."
 msgstr ""
+"당신의 문명에 아직 발견되지 않은 것들을 포함해서, 무정부 상태의 과도기없이 "
+"당신이 어느 정부를 선택하기를 허락합니다."
 
 #: data/default/buildings.ruleset:1522 data/civ2/buildings.ruleset:1461
 msgid "Sun Tzu's War Academy"
@@ -20927,6 +21094,8 @@ msgid ""
 "All your new land units start at the first veteran level. The chance of a "
 "land unit getting the next veteran level after a battle increases by half."
 msgstr ""
+"당신의 새로운 지상 부대가 처음부터 숙련가 수준에서 시작시킵니다. 지상 부대가 "
+"전투 후의 다음 숙련가 수준에 도달하기에 반을 증가시키는 기회입니다."
 
 #: data/default/buildings.ruleset:1543 data/civ2/buildings.ruleset:1483
 #: data/civ1/buildings.ruleset:1031
@@ -20935,7 +21104,7 @@ msgstr "국제 연합"
 
 #: data/default/buildings.ruleset:1557 data/civ2/buildings.ruleset:1497
 msgid "All your units regain two extra hitpoints per turn."
-msgstr "당신의 모든 부대는 매 턴당 2의 추가 타격포인트를 회복하였습니다"
+msgstr "당신의 모든 부대는 매 차례당 2의 추가적인 타격 단위를 되찾습니다."
 
 #: data/default/buildings.ruleset:1570 data/civ2/buildings.ruleset:1510
 #: data/civ1/buildings.ruleset:1057
@@ -20950,6 +21119,10 @@ msgid ""
 "neutralises the unhappiness caused by a single military unit per city. This "
 "wonder has no effect under other governments.)"
 msgstr ""
+"모든 도시 안에 경찰서로서 간주합니다. (그것은, 각각의 도시에서, 소유된 공격적인 "
+"군사 부대에 대해 민주주의 아래에서는 2 단위, 그리고 공화제 아래에서는 1 단위로 불만족을 "
+"줄입니다. -다시 말해서, 단일의 군사 부대로서 야기되는 불만족을 도시마다 무효화시킵니다. "
+"이 불가사의는 다른 정부 아래에서는 아무 영향을 가지지 못합니다."
 
 #: data/default/buildings.ruleset:1597
 msgid "Coinage"
@@ -20961,8 +21134,8 @@ msgid ""
 "Coinage means its shield production is converted to tax output (money, "
 "coins!)."
 msgstr ""
-"이것은 정상적인 성장이 아닙니다. 그보다도, 도시의 화폐주조는 세금생산에 후원"
-"자역할을 합니다.(돈, 화폐)"
+"이것은 보통의 시설이 아닙니다. 대신에, 도시의 생산을 화폐주조로 설정하는 것은, "
+"보호 생산을 세금 생산물로 변환시킵니다.(돈, 화폐!)"
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
@@ -21001,14 +21174,14 @@ msgid "?nationgroup:Fictional"
 msgstr "허구"
 
 #: data/civ2/buildings.ruleset:252
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  (Four "
 "after the discovery of Electronics.)  However, it does not affect citizens "
 "made unhappy by military activity."
 msgstr ""
-"한 도시의 시민 즐겁게 하면,불행한 시민 3곳을 불평없게 만듭니다.(전기의 발견이"
-"후는 4곳)"
+"도시의 시민들을 즐겁게 해 주어서, 3 단위의 불만족스러워하는 시민들을 만족시킵니다. "
+"(전기의 발견 이후에는 4 단위입니다.) 그러나, 군사 활동으로부터 불만족스러워하는 "
+"시민들에게는 영향을 끼치지 않습니다."
 
 #: data/civ2/buildings.ruleset:274
 #, no-c-format
@@ -21018,6 +21191,9 @@ msgid ""
 "unhappy about military activity).  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
+"도시 안의 부패와 낭비를 50% 로 감소시킵니다. 민주주의 아래에서, 법원은 또한 1 단위의 "
+"불만족스러워하는 시민을 만족시킵니다. (시민이 군사 활동에 불만족스러워하지 않는 한입니다.) "
+"또한 혁명 비용을 계산하는 목적을 위하여, 수도와의 거리를 효과적으로 반으로 줄입니다."
 
 #: data/civ2/buildings.ruleset:366
 #, no-c-format
@@ -21032,11 +21208,17 @@ msgid ""
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
 "Mountain or River tile."
 msgstr ""
+"도시 안의 생산으로부터 발생되는 공해의 양을 50% 로 줄입니다. 또한 도시 안의 "
+"공장이나 제조 공장의 보호 생산을 증가시킵니다.(공장과 수력 발전소는 100% 의 생산 보너스를, "
+"공장, 제조 공장과 수력 발전소는 150% 의 생산 보너스를 줍니다.)\n"
+"\n"
+"도시는 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중, 오직 하나만 가질 수 있습니다. "
+"도시는 오직 산이나 강 타일의 옆에(또는 위에서입니다.) 있어야만 지을 수 있습니다."
 
 #: data/civ2/buildings.ruleset:395 data/civ1/buildings.ruleset:320
 #, no-c-format
 msgid "Increases the science output in a city by 50%."
-msgstr ""
+msgstr "도시 안의 과학 생산물을 50% 로 증가시킵니다."
 
 #: data/civ2/buildings.ruleset:479
 #, no-c-format
@@ -21050,6 +21232,11 @@ msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
+"도시 안의 생산으로부터 발생되는 공해의 양을 50% 로 줄입니다. 또한 도시 안의 "
+"공장이나 제조 공장의 보호 생산을 증가시킵니다.(공장과 원자력 발전소는 100% 의 생산 보너스를, "
+"공장, 제조 공장과 원자력 발전소는 150% 의 생산 보너스를 줍니다.)\n"
+"\n"
+"도시는 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중, 오직 하나만 가질 수 있습니다."
 
 #: data/civ2/buildings.ruleset:531 data/civ1/buildings.ruleset:435
 msgid ""
@@ -21063,6 +21250,14 @@ msgid ""
 "plunging into civil war. Losing your current palace also results in losing "
 "whatever spaceship you might have."
 msgstr ""
+"도시를 수도와 당신의 정부의 중심으로 만듭니다. 정부가 민주주의나 공산주의일 때를 "
+"제외하고, 다른 도시들의 부패는 그들이 수도로 부터 얼마나 먼가에 관련되있습니다. "
+"또한 도시 안의 봉기에 조장하는 것의 비용이, 도시의 수도로 부터의 거리에 의존합니다. "
+"(정부의 모든 종류의 아래에서 입니다.)\n"
+"\n"
+"당신의 수도가 손실되면 당신의 제국이 내전에 뛰어들 수 있으니, 잘 관리하십시오. "
+"당신의 지금의 수도를 잃어버리는 것은 또한 아마도 당신이 우주선을 가진 것을 "
+"잃게 될 것입니다."
 
 #: data/civ2/buildings.ruleset:605
 #, no-c-format
@@ -21075,6 +21270,11 @@ msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
+"공장과 제조공장의  보호 생산을 증가시킵니다. (공장과 발전소는 함께 "
+"100% 의 생산 보너스를 주고, 공장, 제조 공장 그리고 발전소는 함께 150% 의 "
+"생산 보너스를 줍니다. 추가적인 생산은 도시에 공해를, 더 발생하도록 이끌 수 있습니다.\n"
+"\n"
+"도시는 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중, 오직 하나만 가질 수 있습니다."
 
 #: data/civ2/buildings.ruleset:654
 #, no-c-format
@@ -21083,6 +21283,8 @@ msgid ""
 "a city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
 msgstr ""
+"도서관과 함께 있는 연구소는, 도시의 과학 생산물을 100% 로 증가시킵니다. "
+"도서관와 대학이 함께 있는 연구소는, 도시의 과학 생산물을 150% 로 증가시킵니다."
 
 #: data/civ2/buildings.ruleset:744
 #, no-c-format
@@ -21095,6 +21297,11 @@ msgid ""
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
 msgstr ""
+"도시 안의 생산으로 부터 발생되는 모든 공해를 없앱니다. 또한 도시 안의 공장이나 "
+"제조 공장의 보호 생산을 증가시킵니다. (공장과 태양열 발전소는 함께 100% 의 생산 보너스, "
+"공장, 제조 공장 그리고 태양열 발전소는 함께 150% 의 생산 보너스르 줍니다.\n"
+"\n"
+"도시는 발전소, 수력 발전소, 원자력 발전소, 또는 태양열 발전소중, 오직 하나만 가질 수 있습니다."
 
 #: data/civ2/buildings.ruleset:942 data/civ1/buildings.ruleset:639
 #, no-c-format
@@ -21102,17 +21309,19 @@ msgid ""
 "Together with a Library, a University increases the science production of a "
 "city by 100%."
 msgstr ""
+"도서관과 함께 있는 대학은, 도시의 과학 생산물을 100% 로 증가시킵니다."
 
 #: data/civ2/buildings.ruleset:985
 msgid ""
 "City improvements which would normally have an upkeep of 1 are free of "
 "upkeep, for all cities."
 msgstr ""
+"당신의 모든 도시에서, 유지비가 보통 1 단위로 가지는 도시 시설은, 유지비가 공짜가 됩니다."
 
 #: data/civ2/buildings.ruleset:1026 data/civ1/buildings.ruleset:701
 #, no-c-format
 msgid "Boosts science production by 50% in the city where it is built."
-msgstr ""
+msgstr "이것이 지어진 도시에서 50% 의 과학 생산물을 향상시킵니다."
 
 #: data/civ2/buildings.ruleset:1088
 #, no-c-format
@@ -21120,20 +21329,23 @@ msgid ""
 "Your reputation and goodwill among other nations is recovered four times as "
 "fast."
 msgstr ""
+"다른 국가 사이에서 당신의 명성과 호의를, 네배나 빠르게 회복시킵니다."
 
 #: data/civ2/buildings.ruleset:1272
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new sea "
 "units veterans (for all cities)."
 msgstr ""
+"당신의 모든 해상 부대에게 1 의 추가적인 이동 단위를 줍니다. 당신의 새로운 "
+"해상 부대를 숙련가로 만듭니다. (당신의 모든 도시에서 입니다.)"
 
 #: data/civ2/buildings.ruleset:1292
 msgid "Gives all sea units 2 additional movement points."
-msgstr ""
+msgstr "모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
 #: data/civ2/buildings.ruleset:1394
 msgid "Counts as having a Granary in every city."
-msgstr ""
+msgstr "모든 도시에 곡창을 가진 것으로 간주합니다."
 
 #: data/civ2/buildings.ruleset:1414
 #, no-c-format
@@ -21141,6 +21353,8 @@ msgid ""
 "Boosts science production in each city with a Library by 50%.  (Counts as "
 "having a Research Lab in all of your cities.)"
 msgstr ""
+"각각의 도시와 함께있는 도서관에서 과학 생산물을 50% 로 향상시킵니다. "
+"(당신의 도시의 전체에서 연구소를 가진 것으로 간주합니다.)"
 
 #: data/civ2/buildings.ruleset:1476
 #, no-c-format
@@ -21148,10 +21362,12 @@ msgid ""
 "All your new land units become veterans (for all cities).  The chance of a "
 "land unit becoming a veteran after a battle increases from 50% to 100%."
 msgstr ""
+"모든 당신의 새로운 지상 부대는 숙련가가 됩니다. (모든 도시에서 입니다.) 지상 부대가 "
+"전투 후에 숙련가가 되기를, 50% 에서 100% 로 증가시키는 기회입니다."
 
 #: data/civ2/buildings.ruleset:1534
 msgid "Capitalization"
-msgstr "수도화"
+msgstr "자본화"
 
 #: data/civ2/buildings.ruleset:1547
 msgid ""
@@ -21159,10 +21375,12 @@ msgid ""
 "Capitalization means its shield production is converted to tax output "
 "(money)."
 msgstr ""
+"이것은 보통의 시설이 아닙니다. 대신에, 도시의 생산을 자본화로 설정하는 것은, "
+"보호 생산을 세금 생산물로 변환시킵니다.(돈)"
 
 #: data/civ1/buildings.ruleset:42
 msgid "Allows a city to grow larger than size 10."
-msgstr "도시가 사이즈10보다 더 성장가능하도록 허용함."
+msgstr "도시가 8 크기보다 크게 성장하기를 허락합니다."
 
 #: data/civ1/buildings.ruleset:84 data/civ1/buildings.ruleset:108
 #: data/civ1/buildings.ruleset:132
@@ -21173,9 +21391,10 @@ msgid ""
 "increased by 50%.  Also, damaged units which stay in town for one full turn "
 "without moving are completely restored."
 msgstr ""
-"막사와 함께 도시안의 각각의 부대는 퇴역군인을 자동으로 가지는 상태가 됩니다 "
-"이 의미는 이들이 50%의 공격, 방어 힘을 증가시킵니다. 또한 한 턴동안 어떠한 명"
-"령없이 도시에 머무른 피해입은 부대는 완전하게 회복됩니다"
+"군영이 있으면, 각각의 도시 안의 새로운 부대는 공격과 방어가 "
+"50% 증가되는, 숙련가 상태로 자동적으로 생산됩니다. "
+"또한, 손상받은 지상 부대가 도시 안에서 한 차례 움직임 없이 머무르면 "
+"완전히 회복됩니다."
 
 #: data/civ1/buildings.ruleset:155
 msgid ""
@@ -21183,6 +21402,9 @@ msgid ""
 "maintain order in that city; however, it does not affect citizens made "
 "unhappy by military activity."
 msgstr ""
+"대성당은 도시 안의 4 단위의 불만족스러워하는 시민들을 만족시켜서, "
+"그 도시 안에 명령을 유지하기 쉽게합니다: 그러나, 군사 활동으로부터 "
+"불만족스러워하는 시민에게는 영향을 끼치지는 않습니다."
 
 #: data/civ1/buildings.ruleset:177
 msgid ""
@@ -21192,15 +21414,19 @@ msgid ""
 "Artillery.  City Walls also prevent the loss of population which occurs when "
 "a defending unit is destroyed by a land unit."
 msgstr ""
+"성벽은 도시를 방어하기 쉽게 만듭니다. 도시 안의 부대의 방어를 "
+"3배로 하여 지상, 해양, 그리고 헬리콥터 부대에 저항합니다. 공수 부대에는 곡사포"
+"만큼 효과 없이 저항합니다. 또한 성벽은 방어하는 부대가 지상 부대로 부터 파괴될 때, "
+"발생하는 인구의 감소를 막습니다."
 
 #: data/civ1/buildings.ruleset:200
-#, fuzzy
 msgid ""
 "Entertains the citizens of a city, making 3 unhappy citizens content.  "
 "However, it does not affect citizens made unhappy by military activity."
 msgstr ""
-"한 도시의 시민 즐겁게 하면,불행한 시민 3곳을 불평없게 만듭니다.(전기의 발견이"
-"후는 4곳)"
+"도시의 시민들을 즐겁게 해 주어서, 3 단위의 불만족스러워하는 시민들을 만족시킵니다. "
+"그러나, 군사 활동으로부터 불만족스러워하는 시민들에게는 영향을 "
+"끼치지 않습니다."
 
 #: data/civ1/buildings.ruleset:221
 #, no-c-format
@@ -21209,6 +21435,9 @@ msgid ""
 "makes 1 unhappy citizen content.  Also halves the effective distance to the "
 "capital, for the purpose of calculating revolt cost."
 msgstr ""
+"도시 안의 부패를 50% 로 감소시킵니다. 민주주의 아래에서, 법원은 또한 1 단위의 "
+"불만족스러워하는 시민을 만족시킵니다. "
+"또한 혁명 비용을 계산하는 목적을 위하여, 수도와의 거리를 효과적으로 반으로 줄입니다."
 
 #: data/civ1/buildings.ruleset:291
 #, no-c-format
@@ -21223,6 +21452,12 @@ msgid ""
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
 "tile."
 msgstr ""
+"도시 안의 생산으로부터 발생되는 공해의 양을 50% 로 줄입니다. 또한 도시 안의 "
+"공장이나 제조 공장의 보호 생산을 증가시킵니다.(공장과 수력 발전소는 100% 의 생산 보너스를, "
+"공장, 제조 공장과 수력 발전소는 150% 의 생산 보너스를 줍니다.)\n"
+"\n"
+"도시는 발전소, 수력 발전소, 또는 원자력 발전소중, 오직 하나만 가질 수 있습니다. "
+"도시는 오직 산이나 강 타일의 옆에(또는 위에서입니다.) 있어야만 지을 수 있습니다."
 
 #: data/civ1/buildings.ruleset:404
 #, no-c-format
@@ -21235,6 +21470,11 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"도시 안의 생산으로부터 발생되는 공해의 양을 50% 로 줄입니다. 또한 도시 안의 "
+"공장이나 제조 공장의 보호 생산을 증가시킵니다.(공장과 원자력 발전소는 100% 의 생산 보너스를, "
+"공장, 제조 공장과 원자력 발전소는 150% 의 생산 보너스를 줍니다.)\n"
+"\n"
+"도시는 발전소, 수력 발전소, 또는 원자력 발전소중, 오직 하나만 가질 수 있습니다."
 
 #: data/civ1/buildings.ruleset:465
 #, no-c-format
@@ -21246,6 +21486,11 @@ msgid ""
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
+"공장과 제조공장의  보호 생산을 증가시킵니다. (공장과 발전소는 함께 "
+"100% 의 생산 보너스를 주고, 공장, 제조 공장 그리고 발전소는 함께 150% 의 "
+"생산 보너스를 줍니다. 추가적인 생산은 도시에 공해를, 더 발생하도록 이끌 수 있습니다.\n"
+"\n"
+"도시는 발전소, 수력 발전소, 또는 원자력 발전소중, 오직 하나만 가질 수 있습니다."
 
 #: data/civ1/buildings.ruleset:512
 msgid ""
@@ -21254,6 +21499,10 @@ msgid ""
 "attacking a unit (or deliberately exploded) within range, is shot down and "
 "simply has no effect."
 msgstr ""
+"도시와 주변(2 타일 떨어진 곳 입니다.)을 핵병기로의 공격으로부터 보호합니다. "
+"핵병기가 SDI 방위 시스템와 함께 있는 도시를 공격하거나, 또는 거리 안의 "
+"부대를 공격할 때(또는 고의적으로 폭발할 때 입니다.) 격추시키고, 간단히 "
+"영향이 없게 합니다."
 
 #: data/civ1/buildings.ruleset:657
 msgid ""
@@ -21262,6 +21511,10 @@ msgid ""
 "of-war. It allows all players to start building spaceship parts (assuming "
 "they have researched the necessary technologies)."
 msgstr ""
+"지도의 모든 도시가 영구히 이것을 소유한 플레이어에게 보여집니다. - 그 플레이어는 "
+"모든 지형과 도시들을 전운 설정에도 불구하고 항상 최신으로 가집니다. "
+"이것은 모든 플레이어가 우주선 부품을 짓기를 "
+"시작하기를 허락합니다.(그들이 중요한 기술들에 도달했을 때를 가정하고 입니다.)"
 
 #: data/civ1/buildings.ruleset:803
 msgid ""
@@ -21270,6 +21523,10 @@ msgid ""
 "wonder applies to unhappy citizens instead (including those unhappy about "
 "military activity), making each content."
 msgstr ""
+"모든 도시에서 하나의 시민을 행복하게 만족시킵니다. "
+"공중 정원의 영향을 가지고, 시민들을 만족시키지 못하는 예상 밖의 "
+"사건에서는, 이 불가사의는 불만족스러워 하는 시민에게(군사 활동에 대한 "
+"시민들의 불만족도 포함합니다.) 먼저 적용해서 만족시킵니다."
 
 #: data/civ1/buildings.ruleset:825
 msgid ""
@@ -21277,6 +21534,8 @@ msgid ""
 "the wonder is built.  (This reduces pollution and increases the effects of "
 "Factories and Mfg. Plants.)"
 msgstr ""
+"이 불가사의가 지어진 같은 대륙의 모든 도시에서, 수력 발전소를 가진 것 처럼 작동시킵니다. "
+"(이것은 공해를 줄이고, 공장과 제조공장,발전소의 영향을 증가시킵니다.)"
 
 #: data/civ1/buildings.ruleset:867
 msgid ""
@@ -21284,24 +21543,25 @@ msgid ""
 "continent where the wonder is built (including citizens unhappy about "
 "military activity)."
 msgstr ""
+"이 불가사의가 지어진 같은 대륙의 모든 도시에서, 불만족스러워하는 두 시민을 만족시킵니다. "
+"(군사 활동에 대한 시민의 불만족도 포함합니다.)"
 
 #: data/civ1/buildings.ruleset:888
-#, fuzzy
 msgid "Gives all your sea units 1 additional movement point."
-msgstr "모든 해상부대에게 추가 2의 이동포인트를 줍니다."
+msgstr "당신의 모든 해상 부대에게 2 의 추가적인 이동 단위를 줍니다."
 
 #: data/civ1/buildings.ruleset:907
 msgid "Gives all sea units 1 additional movement point."
-msgstr ""
+msgstr "모든 해상 부대에게 1의 추가적인 이동 단위를 줍니다."
 
 #: data/civ1/buildings.ruleset:944
 msgid "Double effects of Cathedrals, in all cities."
-msgstr ""
+msgstr "모든 도시에서, 대성당의 영향을 두배로 합니다."
 
 #: data/civ1/buildings.ruleset:1006
 #, no-c-format
 msgid "Boosts science production in each city by 50%."
-msgstr ""
+msgstr "각각의 도시에서 과학 생산물을 50%로 향상시킵니다."
 
 #: data/civ1/buildings.ruleset:1071
 msgid ""
@@ -21309,6 +21569,9 @@ msgid ""
 "means that in a Republic, units do not cause unhappiness, and in a "
 "Democracy, aggressive units cause only 1 unhappy citizen each."
 msgstr ""
+"모든 도시에서, 모든 부대의 불만족스러워 하는 영향을 1 로 줄입니다. "
+"공화제에서, 부대는 불만족을 야기하기 않고, 그리고 민주주의에서는, 공격적인 "
+"부대는 각각 오직 1 단위의 불만족스러워하는 시민만 야기합니다."
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 msgid "elvis"
@@ -21620,28 +21883,28 @@ msgstr ""
 #: data/default/default.lua:33
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
-msgstr ""
+msgstr "당신은 고대의 지혜의 두루마리에서 %s 를 발견했습니다."
 
 #: data/default/default.lua:36
 #, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
-msgstr ""
+msgstr "%s 는 고대의 지혜의 두루마리로부터 %s 를 얻었습니다."
 
 #: data/default/default.lua:56
 msgid "A band of friendly mercenaries joins your cause."
-msgstr ""
+msgstr "우호적인 용병의 무리가 당신의 조직에 합류했습니다."
 
 #: data/default/default.lua:72
 msgid "You found a friendly city."
-msgstr ""
+msgstr "당신은 우호적인 도시를 발견했습니다."
 
 #: data/default/default.lua:76
 msgid "Friendly nomads are impressed by you, and join you."
-msgstr ""
+msgstr "우호적인 유목민이 당신으로부터 감동받았고, 당신에게 합류했습니다."
 
 #: data/default/default.lua:99
 msgid "You have unleashed a horde of barbarians!"
-msgstr ""
+msgstr "당신은 야만인의 무리를 불러일으켰습니다."
 
 #: data/default/techs.ruleset:53 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
@@ -21718,7 +21981,7 @@ msgstr "연소 기관"
 
 #: data/default/techs.ruleset:179 data/civ2/techs.ruleset:168
 msgid "Reduces the effect of Cathedrals."
-msgstr ""
+msgstr "대성당의 영향을 줄입니다."
 
 #: data/default/techs.ruleset:182 data/civ2/techs.ruleset:171
 #: data/civ1/techs.ruleset:154
@@ -21736,10 +21999,9 @@ msgid "Construction"
 msgstr "건설"
 
 #: data/default/techs.ruleset:204
-#, fuzzy
 msgid "Allows Settlers, Workers and Engineers to build fortresses."
 msgstr ""
-"이주민과 기술자는 지대면적을 몇가지 종류로 바꿀수 있는 능력이 있습니다."
+"이주민과 노동자가, 요새를 세울 수 있도록 허락합니다."
 
 #: data/default/techs.ruleset:207 data/civ2/techs.ruleset:196
 #: data/civ1/techs.ruleset:179
@@ -21753,7 +22015,7 @@ msgstr "전기"
 
 #: data/default/techs.ruleset:237 data/civ2/techs.ruleset:226
 msgid "Improves the effect of Colosseums."
-msgstr "콜로세움의 영향으로 향상됨"
+msgstr "콜로세움의 영향이 증가합니다."
 
 #: data/default/techs.ruleset:240 data/civ2/techs.ruleset:229
 #: data/civ1/techs.ruleset:203
@@ -21792,7 +22054,7 @@ msgstr "비행술"
 #: data/civ2/techs.ruleset:283 data/civ2/techs.ruleset:577
 #: data/civ1/techs.ruleset:241 data/civ1/techs.ruleset:451
 msgid "Decreases one-time revenue from new trade routes."
-msgstr ""
+msgstr "새로운 무역 경로로부터 한 차례의 수익이 감소합니다."
 
 #: data/default/techs.ruleset:297 data/civ2/techs.ruleset:294
 #: data/civ1/techs.ruleset:244
@@ -21830,7 +22092,7 @@ msgstr "발명"
 
 #: data/default/techs.ruleset:351
 msgid "Increases units' vision when in fortresses."
-msgstr ""
+msgstr "요새에 있을때 부대의 시야를 증가시킵니다."
 
 #: data/default/techs.ruleset:354 data/civ2/techs.ruleset:350
 #: data/civ1/techs.ruleset:292
@@ -21909,7 +22171,7 @@ msgstr "신비주의"
 #: data/default/techs.ruleset:496 data/civ2/techs.ruleset:492
 #: data/civ1/techs.ruleset:386
 msgid "Improves the effect of Temples."
-msgstr "신전의 영향으로 향상됨"
+msgstr "신전의 영향이 증가합니다."
 
 #: data/default/techs.ruleset:499 data/civ2/techs.ruleset:495
 #: data/civ1/techs.ruleset:389
@@ -21928,7 +22190,7 @@ msgstr "원자력"
 
 #: data/default/techs.ruleset:521 data/civ2/techs.ruleset:517
 msgid "Gives sea units one extra move."
-msgstr "해상 부대에게 추가 이동을 주었습니다"
+msgstr "해상 부대에게 하나의 추가 이동을 줍니다."
 
 #: data/default/techs.ruleset:524 data/civ2/techs.ruleset:520
 #: data/civ1/techs.ruleset:413
@@ -21940,6 +22202,8 @@ msgid ""
 "Great philosophers from all the world join your civilization: you get an "
 "immediate advance."
 msgstr ""
+"모든 세계로부터 대단한 철학자가 당신의 문명에 합류했습니다.; 당신은 "
+"빠른 진보를 가집니다."
 
 #: data/default/techs.ruleset:534 data/civ2/techs.ruleset:530
 #: data/civ1/techs.ruleset:421
@@ -21966,7 +22230,7 @@ msgstr "라디오"
 
 #: data/default/techs.ruleset:572
 msgid "Allows Workers and Engineers to build airbases and buoys."
-msgstr ""
+msgstr "노동자와 기술자가 공군 기지과 부표를 세울 수 있도록 허락합니다."
 
 #: data/default/techs.ruleset:584 data/civ2/techs.ruleset:580
 #: data/civ1/techs.ruleset:454
@@ -22049,7 +22313,7 @@ msgstr "신학"
 
 #: data/default/techs.ruleset:718 data/civ2/techs.ruleset:714
 msgid "Improves the effect of Cathedrals."
-msgstr "성당의 영향으로 향상됨"
+msgstr "대성당의 영향을 증가합니다."
 
 #: data/default/techs.ruleset:721 data/civ2/techs.ruleset:717
 #: data/civ1/techs.ruleset:550
@@ -22067,16 +22331,15 @@ msgstr "집필"
 
 #: data/civ2/techs.ruleset:193
 msgid "Allows Settlers and Engineers to build fortresses."
-msgstr ""
+msgstr "이주민과 기술자가 요새를 세울 수 있도록 허락합니다."
 
 #: data/civ2/techs.ruleset:568
 msgid "Allows Settlers and Engineers to build airbases."
-msgstr ""
+msgstr "이주민과 기술자가 공군 기지를 세울 수 있도록 허락합니다."
 
 #: data/civ1/techs.ruleset:176
-#, fuzzy
 msgid "Allows Settlers to build fortresses."
-msgstr "※ 요새를 세울 수 있슴.\n"
+msgstr "이주민이 요새를 세울 수 있도록 허락합니다."
 
 #: data/civ1/techs.ruleset:470
 msgid "Religion"
@@ -22092,11 +22355,11 @@ msgid ""
 "Roads and railroads can only be built on River tiles if your civilization "
 "has learned Bridge Building technology."
 msgstr ""
+""
 
 #: data/default/terrain.ruleset:184
-#, fuzzy
 msgid "Lake"
-msgstr "스리랑카"
+msgstr "호수"
 
 #: data/default/terrain.ruleset:214
 msgid "Lakes are substantial bodies of fresh water."
@@ -22402,6 +22665,13 @@ msgid ""
 "if its supporting city runs out of food. Settlers in a Republic or Democracy "
 "require twice as much food per turn."
 msgstr ""
+"이주자는 게임에서의 핵심적인 부대중 하나입니다. 새로운 도시를 세울 수 있고, "
+"게다가, 또한 그들은 지형에, 예를 들어 관개, 광산, 그리고 길을 지을 수 있습니다. "
+"지형 개조 구역의 도움말에 더 상세하게 볼 수 있습니다.\n"
+"\n"
+"이주자를 유지하기 위해서 음식뿐만 아니라 생산이 있고, 만약 지원하는 도시의 "
+"음식이 다 떨어지면, 죽을 수 있습니다. 공화제나 민주주의에서 이주자는 매 차례마다 두배만큼의 "
+"음식을 요구합니다."
 
 #: data/default/units.ruleset:320
 msgid "?unit:Workers"
@@ -22413,10 +22683,13 @@ msgid ""
 "Terrain Alterations section of the help for more details of the available "
 "improvements. However, Workers cannot build new cities."
 msgstr ""
+"노동자는 이주자와 비슷하게 그들은 지형을 개선시킬 수 있습니다. - 지형 개조 구역의 "
+"도움말에 이용할 수 있는 개선에, 더 상세하게 볼 수 있습니다. 그러나, 노동자는 새로운 "
+"도시를 만들 수 없습니다."
 
 #: data/default/units.ruleset:353 data/civ2/units.ruleset:211
 msgid "Engineers"
-msgstr "엔지니어"
+msgstr "기술자"
 
 #: data/default/units.ruleset:379
 msgid ""
@@ -22432,6 +22705,14 @@ msgid ""
 "before the Workshop becomes obsolete.  This way, your Workers units will be "
 "upgraded for free."
 msgstr ""
+"기술자는 노동자와 비슷하지만, 그들은 두배나 빠르게 일하고, 이동합니다. "
+"기술자는 또한 노동자와 이주자의 능력으로 할 수 없는, 주요 지형 변화를 형성할 수 있습니다. "
+"(예를 들어, 툰드라를 사막으로 변환합니다.); 지형 개조 구역의 도움말에 더 상세하게 볼 수 있습니다.\n"
+"\n"
+"조언 1: 기술자가 평범한 노동자만큼 같은 자원을 요구하면, 가능할 때  노동자를 기술자로 개선하십시오.\n"
+"\n"
+"조언 2: 만약 당신이 레오나르도의 작업장을 세워 관리한다면, 작업장이 더 이상 쓸모가 없기 전에 "
+"폭약을 연구하십시오. 이 방법은, 당신의 노동자 부대가 공짜로 개선 될 수 있습니다."
 
 #: data/default/units.ruleset:395 data/civ2/units.ruleset:253
 msgid "Warriors"
@@ -22443,6 +22724,8 @@ msgid ""
 "This unit may be built from the start of the game.  It is the weakest "
 "offensive unit."
 msgstr ""
+"이 부대는 아마 게임의 시작부터 만들 수 있습니다. 이것은 가장 약한 "
+"공격용의 부대입니다."
 
 #: data/default/units.ruleset:427 data/civ2/units.ruleset:285
 #: data/civ1/units.ruleset:238
@@ -22452,7 +22735,7 @@ msgstr "밀진 보병"
 #: data/default/units.ruleset:453 data/civ2/units.ruleset:311
 #: data/civ1/units.ruleset:264
 msgid "The Phalanx is armored infantry, suitable for defending your cities."
-msgstr ""
+msgstr "밀진 보병은 당신의 도시를 방어하기에 적절한, 무장한 보병입니다."
 
 #: data/default/units.ruleset:458 data/civ2/units.ruleset:316
 msgid "Archers"
@@ -22463,6 +22746,8 @@ msgid ""
 "Archers fight with bows and arrows and have a good offensive value as well "
 "as decent defense."
 msgstr ""
+"사수는 활과 화살로 싸우고, 적절한 방어와 마찬가지로 좋은 공격용의 가치가 "
+"있습니다."
 
 #: data/default/units.ruleset:490 data/civ2/units.ruleset:348
 #: data/civ1/units.ruleset:269
@@ -22475,6 +22760,7 @@ msgid ""
 "Legions are heavily armed and well disciplined infantry units with an "
 "excellent offensive value."
 msgstr ""
+"보병은 중무장했고, 훌륭한 공격용의 가치와 함께, 잘 달련된 보병 부대입니다."
 
 #: data/default/units.ruleset:522 data/civ2/units.ruleset:380
 msgid "Pikemen"
@@ -22485,6 +22771,7 @@ msgid ""
 "Equipped with long pikes, Pikemen replaces Phalanx as the preferred city "
 "defender."
 msgstr ""
+"긴 창을 장비한 창병은, 밀집 보병처럼 도시 방어자로서 배치하기를 선호됩니다."
 
 #: data/default/units.ruleset:554 data/civ2/units.ruleset:412
 #: data/civ1/units.ruleset:301
@@ -22496,6 +22783,8 @@ msgid ""
 "Musketeers are infantry equipped with early firearms and replace Pikemen as "
 "the preferred city defender."
 msgstr ""
+"머스킷 총병은 초기의 화기로 무장한 부대이고, 창병처럼 도시 방어자로서 배치하기를 "
+"선호됩니다."
 
 #: data/default/units.ruleset:588 data/civ2/units.ruleset:481
 msgid "Partisan"
@@ -22514,6 +22803,15 @@ msgid ""
 " - You must know about Communism and Gunpowder.\n"
 " - You must run either a Democracy or a Communist government."
 msgstr ""
+"유격병은 지형을 그들의 장점으로 사용하기에 전문가인, 게릴라 투사입니다.\n"
+"\n"
+"다수의 유격병은 적이 당신의 도시를 정복할때, 풀어주기를 승인받습니다. - 그들은 "
+"자동적으로, 도시 주위에 둘러싸는 방어적인 자세를 취합니다. -- 그러나 오직 이 조건 "
+"아래에서 입니다.\n"
+" - 게릴라전이 반드시 적어도 한 플레이어로부터 알려져야 합니다.\n"
+" - 당신은 반드시 도시를 원래 지은 플레이어야 합니다.\n"
+" - 당신은 반드시 공산주의와 화약에 대해 알아야 합니다.\n"
+" - 당신은 반드시 민주주의나 공산주의 정부중에서, 하나를 운영해야 합니다."
 
 #: data/default/units.ruleset:628 data/civ2/units.ruleset:521
 msgid "Alpine Troops"
@@ -22521,18 +22819,19 @@ msgstr "스키 부대"
 
 #: data/default/units.ruleset:654 data/civ2/units.ruleset:547
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
-msgstr ""
+msgstr "스키 부대는 훌륭한 방어자와 마찬가지로 고도의 기동성있는 부대입니다."
 
 #: data/default/units.ruleset:660 data/civ2/units.ruleset:553
 #: data/civ1/units.ruleset:335
 msgid "Riflemen"
-msgstr "라이플 총병"
+msgstr "소총수"
 
 #: data/default/units.ruleset:686 data/civ2/units.ruleset:579
 #: data/civ1/units.ruleset:361
 msgid ""
 "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
+"소총수는 세계 대전 시대의 부대로, 당신의 도시를 방어하기에 아주 훌륭합니다."
 
 #: data/default/units.ruleset:692 data/civ2/units.ruleset:585
 msgid "Marines"
@@ -22540,7 +22839,7 @@ msgstr "해병"
 
 #: data/default/units.ruleset:718 data/civ2/units.ruleset:611
 msgid "Marines are infantry who are experts at marine warfare."
-msgstr "해병은 해상 전투에 있어 달인인 보병입니다."
+msgstr "해병은 해상 전투에 전문가인 보병입니다."
 
 #: data/default/units.ruleset:723 data/civ2/units.ruleset:616
 msgid "Paratroopers"
@@ -22548,7 +22847,7 @@ msgstr "낙하산병"
 
 #: data/default/units.ruleset:749 data/civ2/units.ruleset:642
 msgid "Paratroopers are experts at airborne attacks."
-msgstr "낙하산병은 공수 공격에 있어서 전문가입니다"
+msgstr "낙하산병은 공수 공격에 전문가입니다."
 
 #: data/default/units.ruleset:758 data/civ2/units.ruleset:651
 #: data/civ1/units.ruleset:367
@@ -22560,6 +22859,8 @@ msgid ""
 "The Mechanized Infantry has the strongest defensive strength of any land "
 "unit, but is only available near the end of the technology tree."
 msgstr ""
+"기계화 보병은 어느 지상 부대보다 가장 강한 방어력을 가졌지만, 기술 나무의 끝의 근처에 "
+"도달해야만 유효합니다."
 
 #: data/default/units.ruleset:791 data/civ2/units.ruleset:684
 msgid "Horsemen"
@@ -22570,6 +22871,7 @@ msgid ""
 "Horsemen are mounted warriors and an early shock-troop that can penetrate "
 "deep into enemy territory."
 msgstr ""
+"기수는 말을 탄 전사이고, 적 영토에 깊게 침투하는 초기의 기습 부대입니다."
 
 #: data/default/units.ruleset:824 data/civ2/units.ruleset:717
 #: data/civ1/units.ruleset:433
@@ -22581,6 +22883,7 @@ msgid ""
 "Chariots are horse-pulled war wagons, stronger but more expensive than "
 "horsemen."
 msgstr ""
+"전차는 말이 끄는 전쟁용 마차이고 강하지만, 기수보다 더 비쌉니다."
 
 #: data/default/units.ruleset:856 data/civ2/units.ruleset:813
 #: data/civ1/units.ruleset:465
@@ -22590,7 +22893,7 @@ msgstr "기사"
 #: data/default/units.ruleset:883 data/civ2/units.ruleset:840
 #: data/civ1/units.ruleset:492
 msgid "Knights are mounted and heavily armored warriors."
-msgstr "기사는 육중하게 무장한 전사가 올라타 있습니다"
+msgstr "기사는 말을 타고 중무장을 한 전사입니다."
 
 #: data/default/units.ruleset:888 data/civ2/units.ruleset:845
 msgid "Dragoons"
@@ -22598,7 +22901,7 @@ msgstr "용기병"
 
 #: data/default/units.ruleset:915 data/civ2/units.ruleset:872
 msgid "Dragoons are mounted warriors carrying early firearms."
-msgstr ""
+msgstr "용기병은 초기의 화기를 가지고 말을 탄 전사입니다."
 
 #: data/default/units.ruleset:920 data/civ2/units.ruleset:877
 #: data/civ1/units.ruleset:400
@@ -22607,7 +22910,7 @@ msgstr "기병"
 
 #: data/default/units.ruleset:946 data/civ2/units.ruleset:903
 msgid "Cavalry are mounted and highly trained soldiers."
-msgstr ""
+msgstr "기병은 말을 타고 고도로 훈련받은 군인입니다."
 
 #: data/default/units.ruleset:951 data/civ2/units.ruleset:908
 #: data/civ1/units.ruleset:497
@@ -22619,7 +22922,8 @@ msgstr "탱크"
 msgid ""
 "Armors are motorized war wagons that are faster, stronger, and can take more "
 "damage than any mounted unit."
-msgstr ""
+msgstr "탱크는 동력 설비를 갖춘, 빠르고, 강하고, 그리고 어느 말을 탄 부대보다 "
+"더 많은 손상을 받을 수 있는, 전쟁 마차입니다."
 
 #: data/default/units.ruleset:984 data/civ2/units.ruleset:941
 #: data/civ1/units.ruleset:530
@@ -22632,11 +22936,13 @@ msgid ""
 "Catapults are large rock-throwing machines of war. They are very strong "
 "attackers but equally weak defenders and will need an escort to be effective."
 msgstr ""
+"투석기는 큰 돌을 던지는 전쟁 기계입니다. 그들은 매우 강한 공격자이지만, 마찬가지로 "
+"방어자에게 약하고, 효과적이려면 호위가 필요할 수 있습니다."
 
 #: data/default/units.ruleset:1017 data/civ2/units.ruleset:974
 #: data/civ1/units.ruleset:563
 msgid "Cannon"
-msgstr "캐논포"
+msgstr "대포"
 
 #: data/default/units.ruleset:1043 data/civ2/units.ruleset:1000
 #: data/civ1/units.ruleset:589
@@ -22645,27 +22951,33 @@ msgid ""
 "distances. They are very strong attackers but equally weak defenders and "
 "will need an escort to be effective."
 msgstr ""
+"대포는 무거운 발사체를 긴 거리를 두고 발사할 수 있는, 큰 화기입니다. "
+"그들은 매우 강한 공격자이지만, 마찬가지로 방어자에게 약하고, 효과적이려면 "
+"호위가 필요할 수 있습니다."
 
 #: data/default/units.ruleset:1051 data/civ2/units.ruleset:1008
 #: data/civ1/units.ruleset:597
 msgid "Artillery"
-msgstr "대포"
+msgstr "포"
 
 #: data/default/units.ruleset:1077 data/civ2/units.ruleset:1034
 msgid ""
 "The artillery is an upgraded cannon. It is a very strong attacker but "
 "equally weak defender and will need an escort to be effective."
 msgstr ""
+"포는 대포에서 개선된 것입니다. 이것은 매우 강한 공격자이지만, "
+"마찬가지로 방어자에게 약하고, 효과적이려면 호위가 필요할 수 있습니다."
 
 #: data/default/units.ruleset:1084 data/civ2/units.ruleset:1041
 msgid "Howitzer"
-msgstr "유탄포"
+msgstr "곡사포"
 
 #: data/default/units.ruleset:1110 data/civ2/units.ruleset:1067
 msgid ""
 "Howitzers are upgraded artillery with improved defensive as well as "
 "offensive capabilities."
 msgstr ""
+"곡사포는 공격 능력뿐만 아니라 방어의 향상과 함께, 포에서 개선된 것입니다."
 
 #: data/default/units.ruleset:1116 data/civ2/units.ruleset:1073
 #: data/civ1/units.ruleset:629
@@ -22678,11 +22990,13 @@ msgid ""
 "Fighters are your first airborne units. They can move anywhere and attack "
 "any unit."
 msgstr ""
+"전투기는 당신의 최초의 공수 부대입니다. 그들은 어디든지 이동하고, "
+"어느 부대도 공격할 수 있습니다."
 
 #: data/default/units.ruleset:1149 data/civ2/units.ruleset:1106
 #: data/civ1/units.ruleset:662
 msgid "Bomber"
-msgstr "폭력기"
+msgstr "폭격기"
 
 #: data/default/units.ruleset:1175 data/civ2/units.ruleset:1132
 #: data/civ1/units.ruleset:688
@@ -22690,6 +23004,8 @@ msgid ""
 "Bombers are specialized airborne units that may only attack ground targets, "
 "not other airborne units."
 msgstr ""
+"폭격기는 다른 공수 부대가 아닌, 오직 지상 목표를 공격하는데에만 "
+"전문화된 공수 부대입니다."
 
 #: data/default/units.ruleset:1208 data/civ2/units.ruleset:1165
 #, fuzzy
@@ -22700,9 +23016,10 @@ msgid ""
 "you have the United Nations wonder, and Helicopters may be attacked by "
 "ground units."
 msgstr ""
-"헬리콥터는 도시를 점령하고 비행하는 가장 강력한 부대입니다.도시에서 매턴마다 "
-"작은 양의 health를 잃기때문에 국제연합 불가사의를 갖기 전까지 잘 훈련시키도"
-"록 돌봐야 합니다"
+"헬리콥터는 도시를 점령하고 비행하는 할 수 있는 매우 강력한 부대입니다. "
+"헬리콥터는 매 차레마다, 도시나 공군 기지나 항공 모함에서 시간을 보내지 않으면 "
+"작은 양의 체력을 잃어서, 당신이 국제 연합 불가사의를 가지지 않는 한, 반드시 주의를 "
+"기울여야 하고, 그리고 헬리콥터는 아마 지상 부대로부터 공격 당할 수 있습니다."
 
 #: data/default/units.ruleset:1217 data/civ2/units.ruleset:1174
 msgid "Stealth Fighter"
