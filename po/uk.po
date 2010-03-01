@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-02-25 22:56+0300\n"
+"PO-Revision-Date: 2010-03-01 19:39+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -10799,9 +10799,8 @@ msgstr "%s, команда %s"
 #: client/text.c:139
 #: client/text.c:144
 #: client/gui-sdl/mapview.c:563
-#, fuzzy
 msgid "?nation:Neutral"
-msgstr "?тривалість:ніколи"
+msgstr "Нейтральні"
 
 #: client/text.c:138
 #: client/gui-sdl/mapview.c:563
@@ -10934,21 +10933,21 @@ msgstr "Місто: %s | %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:250
-#, fuzzy, c-format
+#, c-format
 msgid "?clistbegin: with %s"
 msgstr " з %s"
 
 #. TRANS: This appears with two or more previous entries in the list
 #: client/text.c:260
-#, fuzzy, c-format
+#, c-format
 msgid "?clistlast:, and %s"
-msgstr "?blistlast: та "
+msgstr ", та "
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:264
-#, fuzzy, c-format
+#, c-format
 msgid "?clistlast: and %s"
-msgstr "?blistlast: та "
+msgstr " та %s"
 
 #: client/text.c:267
 #: client/text.c:1324
@@ -11136,18 +11135,18 @@ msgstr "Рухається: Ніхто"
 
 #: client/text.c:730
 #: client/text.c:737
-#, fuzzy, c-format
+#, c-format
 msgid "Moving: %s"
-msgstr "у %s"
+msgstr "Рухається: %s"
 
 #: client/text.c:741
 msgid "(Click for more info)"
 msgstr "(Клацніть за подробицями)"
 
 #: client/text.c:757
-#, fuzzy, c-format
+#, c-format
 msgid "%s People"
-msgstr "%s Ласкаво просимо"
+msgstr "Народ %s"
 
 #: client/text.c:761
 #, c-format
@@ -11168,9 +11167,9 @@ msgstr "Чистий прубуток: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr "Податки:%d Розкіш:%d Наука:%d"
+msgstr "Рівень податків: Гроші:%d%% Розкіш:%d%% Наука:%d%%"
 
 #: client/text.c:773
 #, c-format
@@ -11205,7 +11204,7 @@ msgstr[2] "%d загонів"
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:848
 msgid "?goto:Unreachable"
-msgstr ""
+msgstr "Недосяжне"
 
 #: client/text.c:850
 #, c-format
@@ -11261,21 +11260,18 @@ msgid_plural ""
 "Upgrade %d units for %d gold?\n"
 "Treasury contains %d gold."
 msgstr[0] ""
-"Модернізувати %s до %s за %d гривень?\n"
+"Модернізувати %d підрозділ за %d гривню?\n"
 "Бюджет налічує %d гривень."
 msgstr[1] ""
-"Модернізувати %s до %s за %d гривень?\n"
+"Модернізувати %d підрозділ за %d гривні?\n"
 "Бюджет налічує %d гривень."
 msgstr[2] ""
-"Модернізувати %s до %s за %d гривень?\n"
+"Модернізувати %d підрозділ за %d гривень?\n"
 "Бюджет налічує %d гривень."
 
 #: client/text.c:1032
-#, fuzzy
 msgid "Shows your progress in researching the current technology."
-msgstr ""
-"Демонструє прогрес у вивченні нових технологій.\n"
-"%s: %d/%d."
+msgstr "Показує Ваш прогрес у дослідженні поточної технології.\n"
 
 #: client/text.c:1039
 msgid "no research target."
@@ -11581,18 +11577,16 @@ msgid "?cma:Max food"
 msgstr "?cma:Макс. їжа"
 
 #: client/agents/cma_fec.c:415
-#, fuzzy
 msgid "?cma:Max production"
-msgstr "Серійне виробництво"
+msgstr "Максимальне виробництво"
 
 #: client/agents/cma_fec.c:416
 msgid "?cma:Max gold"
 msgstr "?cma:Макс. гроші"
 
 #: client/agents/cma_fec.c:417
-#, fuzzy
 msgid "?cma:Max science"
-msgstr "Економіка: Наука"
+msgstr "Максимальна наука"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:87
 #: client/gui-win32/dialogs.c:1374
@@ -12327,9 +12321,8 @@ msgid "Are you sure to sell those %s?"
 msgstr "Ви впевнені, що хочете продати ці %s?"
 
 #: client/gui-gtk-2.0/cityrep.c:889
-#, fuzzy
 msgid "(no worklists defined)"
-msgstr "(план будівництва)"
+msgstr "(планів будівництва не визначено)"
 
 #: client/gui-gtk-2.0/cityrep.c:964
 #, fuzzy
@@ -12361,14 +12354,12 @@ msgid "Add _Last"
 msgstr "Додати предустановку"
 
 #: client/gui-gtk-2.0/cityrep.c:994
-#, fuzzy
 msgid "Set Worklist"
-msgstr "План будівництва"
+msgstr "Встановити план будівництва"
 
 #: client/gui-gtk-2.0/cityrep.c:1000
-#, fuzzy
 msgid "Append Worklist"
-msgstr "Перейменувати план будівництва"
+msgstr "Додати план будівництва"
 
 #: client/gui-gtk-2.0/cityrep.c:1006
 #, fuzzy
@@ -12873,23 +12864,20 @@ msgid "Select Tool Value"
 msgstr "Оберіть"
 
 #: client/gui-gtk-2.0/editgui.c:1178
-#, fuzzy
 msgid "Editor Tool"
-msgstr "Інструменти редагування"
+msgstr "Інструмент редагування"
 
 #: client/gui-gtk-2.0/editgui.c:1192
 msgid "Click to change value if applicable."
 msgstr "Клацніть щоб змінити значення, якщо підходить,"
 
 #: client/gui-gtk-2.0/editgui.c:1220
-#, fuzzy
 msgid "Click to change tool mode."
-msgstr "Не можу змінити розмір міста."
+msgstr "Клацніть щоб змінити режим інструмента."
 
 #: client/gui-gtk-2.0/editgui.c:1234
-#, fuzzy
 msgid "Mode"
-msgstr "Модерні"
+msgstr "Режим"
 
 #: client/gui-gtk-2.0/editgui.c:1250
 msgid "Use this to change the \"size\" parameter for the tool. This parameter controls for example the half-width of the square of tiles that will be affected by the tool, or the size of a created city."
@@ -12926,17 +12914,17 @@ msgstr "%3d/%3d %s"
 
 #. TRANS: "Number of technologies known".
 #: client/gui-gtk-2.0/editprop.c:868
-#, fuzzy, c-format
+#, c-format
 msgid "%d known"
-msgstr "Невідомий"
+msgstr "%d відомо"
 
 #. TRANS: "The number of terrain specials (e.g. road,
 #. * rail, hut, etc.) present on a tile."
 #: client/gui-gtk-2.0/editprop.c:879
 #: client/gui-gtk-2.0/editprop.c:888
-#, fuzzy, c-format
+#, c-format
 msgid "%d present"
-msgstr "Додати предустановку"
+msgstr "%d присутні"
 
 #: client/gui-gtk-2.0/editprop.c:894
 #, c-format
@@ -13092,9 +13080,8 @@ msgid "Moved"
 msgstr "Рухи"
 
 #: client/gui-gtk-2.0/editprop.c:3779
-#, fuzzy
 msgid "Done Moving"
-msgstr "Обробка бронзи"
+msgstr "Рухи завершено"
 
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-2.0/editprop.c:3782
@@ -14058,9 +14045,8 @@ msgid "Fog of _War"
 msgstr "Мара війни"
 
 #: client/gui-gtk-2.0/menu.c:1379
-#, fuzzy
 msgid "Better Fog of War"
-msgstr "Мара війни"
+msgstr "Покращена мара війни"
 
 #: client/gui-gtk-2.0/menu.c:1382
 msgid "_Full Screen"
@@ -14082,9 +14068,8 @@ msgstr "Властивості гри/сценарію"
 
 #: client/gui-gtk-2.0/menu.c:1415
 #: client/gui-gtk-2.0/pages.c:2319
-#, fuzzy
 msgid "Save Scenario"
-msgstr "Стартувати нову гру"
+msgstr "Зберегти сценарій"
 
 #: client/gui-gtk-2.0/menu.c:1438
 #, fuzzy
@@ -14591,9 +14576,9 @@ msgid "Player name: %s"
 msgstr "Ім'я гравця: %s"
 
 #: client/gui-gtk-2.0/pages.c:1212
-#, fuzzy, c-format
+#, c-format
 msgid "Host: %s"
-msgstr "Адреса:"
+msgstr "Адреса: %s"
 
 #: client/gui-gtk-2.0/pages.c:1220
 msgid "Player/conn info"
