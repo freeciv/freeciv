@@ -361,6 +361,11 @@ bool check_for_game_over(void)
   team_iterate(pteam) {
     bool win = TRUE; /* optimistic */
 
+    /* Teams-of-one are handled below */
+    if (pteam->players == 1) {
+      continue;
+    }
+
     /* If there are any players alive and unconceded outside our
      * team, we have not yet won. */
     players_iterate(pplayer) {
