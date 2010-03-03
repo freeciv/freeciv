@@ -317,6 +317,8 @@ bool net_lookup_service(const char *name, int port, union fc_sockaddr *addr,
 
     if (!force_ipv4) {
     addr->saddr.sa_family = AF_INET6;
+    sock6->sin6_flowinfo = 0;
+    sock6->sin6_scope_id = 0;
     sock6->sin6_port = htons(port);
 
     if (!name) {
