@@ -64,7 +64,7 @@ void start_page_start_callback(Widget w, XtPointer client_data,
 /***************************************************************************
   Returns current client page
 ***************************************************************************/
-enum client_pages get_client_page(void)
+enum client_pages get_current_client_page(void)
 {
   return old_page;
 }
@@ -73,7 +73,7 @@ enum client_pages get_client_page(void)
   Sets the "page" that the client should show.  See documentation in
   pages_g.h.
 **************************************************************************/
-void set_client_page(enum client_pages page)
+void real_set_client_page(enum client_pages page)
 {
   /* PORTME, PORTME, PORTME */
   switch (page) {

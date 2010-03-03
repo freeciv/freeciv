@@ -1867,7 +1867,7 @@ static const char *get_tile_change_menu_text(struct tile *ptile,
 /****************************************************************
   Updates the menus.
 *****************************************************************/
-static gboolean menus_update_callback(gpointer data)
+void real_menus_update(void)
 {
   GtkActionGroup *safe_group;
   GtkActionGroup *edit_group;
@@ -1879,10 +1879,8 @@ static gboolean menus_update_callback(gpointer data)
   char irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
 
-  /* Remove GSource id. */
-  *((guint *) data) = 0;
   if (NULL == ui_manager && !can_client_change_view()) {
-    return FALSE;
+    return;
   }
 
   safe_group = get_safe_group();
@@ -1908,7 +1906,7 @@ static gboolean menus_update_callback(gpointer data)
   editgui_refresh();
 
   if (!can_client_issue_orders()) {
-    return FALSE;
+    return;
   }
 
   /* Set government sensitivity. */
@@ -1929,7 +1927,7 @@ static gboolean menus_update_callback(gpointer data)
   }
 
   if (!punits) {
-    return FALSE;
+    return;
   }
 
   /* Remaining part of this function: Update Unit, Work, and Combat menus */
@@ -2116,15 +2114,13 @@ static gboolean menus_update_callback(gpointer data)
   } else {
     menus_rename(unit_group, "CLEAN_POLLUTION", _("Clean _Pollution"));
   }
-
-  return FALSE;
 }
 
 /**************************************************************************
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
 **************************************************************************/
-static gboolean menus_init_callback(gpointer data)
+void real_menus_init(void)
 {
   GtkActionGroup *safe_group;
   GtkActionGroup *edit_group;
@@ -2134,9 +2130,7 @@ static gboolean menus_init_callback(gpointer data)
   GtkMenu *menu;
 
   if (NULL == ui_manager) {
-    /* Remove GSource id. */
-    *((guint *) data) = 0;
-    return FALSE;
+    return;
   }
 
   safe_group = get_safe_group();
@@ -2164,9 +2158,7 @@ static gboolean menus_init_callback(gpointer data)
     gtk_action_group_set_sensitive(unit_group, FALSE);
     gtk_action_group_set_sensitive(player_group, FALSE);
     gtk_action_group_set_sensitive(playing_group, FALSE);
-    /* Remove GSource id. */
-    *((guint *) data) = 0;
-    return FALSE;
+    return;
   }
 
   if ((menu = find_action_menu(playing_group, "MENU_GOVERNMENT"))) {
@@ -2286,46 +2278,4 @@ static gboolean menus_init_callback(gpointer data)
   view_menu_update_sensitivity();
 
   menus_set_active(safe_group, "FULL_SCREEN", fullscreen_mode);
-
-  return menus_update_callback(data);
-}
-
-/****************************************************************
-  Updates the menus.
-*****************************************************************/
-static void menus_idle_update(bool init)
-{
-  static guint callback_id = 0;
-  static bool need_init = FALSE;
-
-  if (NULL == ui_manager) {
-    return;
-  }
-
-  if (callback_id == 0) {
-    need_init = init;
-    callback_id = g_idle_add(need_init ? menus_init_callback
-                             : menus_update_callback, &callback_id);
-  } else if (init && !need_init) {
-    g_source_remove(callback_id);
-    need_init = TRUE;
-    callback_id = g_idle_add(menus_init_callback, &callback_id);
-  }
-}
-
-/****************************************************************
-  Initialize menus (sensitivity, name, etc.) based on the
-  current state and current ruleset, etc.  Call menus_update().
-*****************************************************************/
-void menus_init(void)
-{
-  menus_idle_update(TRUE);
-}
-
-/****************************************************************
-  Updates the menus.
-*****************************************************************/
-void menus_update(void)
-{
-  menus_idle_update(FALSE);
 }

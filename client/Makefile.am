@@ -116,6 +116,8 @@ freeciv_client_src = $(AUDIO_SDL_FILES) \
 	themes_common.h	\
 	tilespec.c	\
 	tilespec.h	\
+	update_queue.c	\
+	update_queue.h	\
 	voteinfo.c	\
 	voteinfo.h	\
 	audio.c         \

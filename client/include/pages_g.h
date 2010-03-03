@@ -27,8 +27,12 @@
                                          * This one must be last. */
 #include "specenum_gen.h"
 
+void real_set_client_page(enum client_pages page);
+enum client_pages get_current_client_page(void);
+void update_start_page(void);
+
+/* Actually defined in update_queue.c */
 void set_client_page(enum client_pages page);
 enum client_pages get_client_page(void);
-void update_start_page(void);
 
 #endif  /* FC__PAGES_G_H */

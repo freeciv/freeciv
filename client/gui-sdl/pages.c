@@ -325,7 +325,7 @@ static void popdown_start_menu()
   Sets the "page" that the client should show.  See documentation in
   pages_g.h.
 **************************************************************************/
-void set_client_page(enum client_pages page)
+void real_set_client_page(enum client_pages page)
 {
   switch (old_page) {
     case PAGE_MAIN:
@@ -380,7 +380,7 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 /**************************************************************************
   Returns current client page
 **************************************************************************/
-enum client_pages get_client_page(void)
+enum client_pages get_current_client_page(void)
 {
   return old_page;
 }

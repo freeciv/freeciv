@@ -74,9 +74,9 @@ static GtkWidget *server_playerlist_view;
 static GtkTreeSelection *load_selection, *scenario_selection;
 static GtkTreeSelection *meta_selection, *lan_selection;
 
-/* This is the current page, or the next we will switch to when the idle
- * callback will be called. */
-static enum client_pages next_page = -1;
+/* This is the current page. Invalid value at start, to be sure that it won't
+ * be catch throught a switch() statement. */
+static enum client_pages old_page = -1;
 
 static void set_page_callback(GtkWidget *w, gpointer data);
 
@@ -2036,35 +2036,28 @@ GtkWidget *create_scenario_page(void)
 /**************************************************************************
   Returns current client page
 **************************************************************************/
-enum client_pages get_client_page(void)
+enum client_pages get_current_client_page(void)
 {
-  return next_page;
+  return old_page;
 }
 
 /**************************************************************************
-  changes the current page.
-  this is basically a state machine. jumps actions are hardcoded.
+  Changes the current page.  The action is delayed.
 **************************************************************************/
-static gboolean set_client_page_callback(gpointer data)
+void real_set_client_page(enum client_pages page)
 {
-  /* Invalid value at start, to be sure that it won't be catch throught a
-   * switch(). */
-  static enum client_pages old_page = -1;
   /* Don't use next_page directly here because maybe it could be modified
    * before we reach the end of this function. */
-  enum client_pages new_page = next_page;
+  enum client_pages new_page = page;
+
+  /* If the page remains the same, don't do anything. */
+  if (old_page == new_page) {
+    return;
+  }
 
   log_debug("Switching client page from %s to %s.",
             -1 == old_page ? "(no page)" : client_pages_name(old_page),
             client_pages_name(new_page));
-
-  /* Remove GSource id. */
-  *((guint *) data) = 0;
-
-  /* If the page remains the same, don't do anything. */
-  if (old_page == new_page) {
-    return FALSE;
-  }
 
   switch (old_page) {
   case PAGE_SCENARIO:
@@ -2157,22 +2150,6 @@ static gboolean set_client_page_callback(gpointer data)
   }
 
   old_page = new_page;
-
-  return FALSE;
-}
-
-/**************************************************************************
-  Changes the current page.  The action is delayed.
-**************************************************************************/
-void set_client_page(enum client_pages page)
-{
-  static guint callback_id = 0;
-
-  log_debug("Requested %s client page.", client_pages_name(page));
-  next_page = page;
-  if (0 == callback_id) {
-    callback_id = g_idle_add(set_client_page_callback, &callback_id);
-  }
 }
 
 /**************************************************************************

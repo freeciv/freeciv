@@ -22,7 +22,7 @@
 /**************************************************************************
   Sets the "page" that the client should show.  See also pages_g.h.
 **************************************************************************/
-void set_client_page(enum client_pages page)
+void real_set_client_page(enum client_pages page)
 {
   /* PORTME */
 }
@@ -40,7 +40,7 @@ void gui_set_rulesets(int num_rulesets, char **rulesets)
 /**************************************************************************
   Returns current client page
 **************************************************************************/
-enum client_pages get_client_page(void)
+enum client_pages get_current_client_page(void)
 {
   /* PORTME */
   return PAGE_MAIN;

@@ -77,6 +77,7 @@
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
+#include "update_queue.h"
 #include "voteinfo.h"
 
 #include "packhand.h"
@@ -3153,7 +3154,9 @@ void handle_processing_started(void)
   fc_assert(client.conn.client.request_id_of_currently_handled_packet == 0);
   client.conn.client.request_id_of_currently_handled_packet =
       get_next_request_id(client.conn.
-			  client.last_processed_request_id_seen);
+                          client.last_processed_request_id_seen);
+  update_queue_processing_started(client.conn.client.
+                                  request_id_of_currently_handled_packet);
 
   log_debug("start processing packet %d",
             client.conn.client.request_id_of_currently_handled_packet);
@@ -3173,6 +3176,8 @@ void handle_processing_finished(void)
 
   client.conn.client.last_processed_request_id_seen =
       client.conn.client.request_id_of_currently_handled_packet;
+  update_queue_processing_finished(client.conn.client.
+                                   last_processed_request_id_seen);
 
   client.conn.client.request_id_of_currently_handled_packet = 0;
 

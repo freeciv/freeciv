@@ -21,18 +21,16 @@
   Initialize menus (sensitivity, name, etc.) based on the
   current state and current ruleset, etc.  Call menus_update().
 **************************************************************************/
-void menus_init(void)
+void real_menus_init(void)
 {
   /* PORTME */
-
-  menus_update();
 }
 
 /**************************************************************************
   Update all of the menus (sensitivity, name, etc.) based on the
   current state.
 **************************************************************************/
-void menus_update(void)
+void real_menus_update(void)
 {
   /* PORTME */
 }

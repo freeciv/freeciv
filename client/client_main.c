@@ -84,6 +84,7 @@
 #include "packhand.h"
 #include "tilespec.h"
 #include "themes_common.h"
+#include "update_queue.h"
 #include "voteinfo.h"
 
 #include "client_main.h"
@@ -177,6 +178,7 @@ static void at_exit(void)
 {
   client_kill_server(TRUE);
   fc_shutdown_network();
+  update_queue_free();
 }
 
 /**************************************************************************
@@ -194,6 +196,7 @@ static void client_game_init(void)
   link_marks_init();
   voteinfo_queue_init();
   server_options_init();
+  update_queue_init();  
 }
 
 /**************************************************************************
@@ -212,6 +215,7 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
+  update_queue_init();
 
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
@@ -435,6 +439,7 @@ int client_main(int argc, char *argv[])
   ui_init();
   charsets_init();
   fc_init_network();
+  update_queue_init();
 
   /* register exit handler */ 
   atexit(at_exit);
@@ -661,7 +666,7 @@ void set_client_state(enum client_states newstate)
 
     if (get_client_page() != PAGE_SCENARIO
         && get_client_page() != PAGE_LOAD) {
-      set_client_page(PAGE_START);
+    set_client_page(PAGE_START);
     }
     break;
 
