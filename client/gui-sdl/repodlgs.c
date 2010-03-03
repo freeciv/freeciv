@@ -3386,11 +3386,3 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
                       _("The Greatest Civilizations in the world."),
                       buffer);
 }
-
-/*************************************************************************
-  Server options dialog
-*************************************************************************/
-void popup_settable_options_dialog(void)
-{
-  /* PORT ME */
-}

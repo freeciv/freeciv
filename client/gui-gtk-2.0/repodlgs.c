@@ -1507,17 +1507,17 @@ static void settable_options_callback(GtkWidget *win, gint rid, GtkWidget *w)
 /*************************************************************************
   Server options dialog.
 *************************************************************************/
-static void create_settable_options_dialog(void)
+static void create_settable_options_dialog(const char *name)
 {
   int i;
   GtkWidget *win, *book, **vbox, *label;
   GtkWidget *prev_widget = NULL;
   GtkTooltips *tips = gtk_tooltips_new();
-  int category_num = server_option_category_number();
+  int category_num = optset_category_number(server_optset);
   bool *used = fc_calloc(category_num, sizeof(*used));
 
   settable_options_dialog_shell =
-    gtk_dialog_new_with_buttons(_("Game Settings"),
+    gtk_dialog_new_with_buttons(name,
       NULL, 0,
       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
       GTK_STOCK_APPLY, GTK_RESPONSE_APPLY,
@@ -1540,12 +1540,12 @@ static void create_settable_options_dialog(void)
   for (i = 0; i < category_num; i++) {
     vbox[i] = gtk_vbox_new(FALSE, 2);
     gtk_container_set_border_width(GTK_CONTAINER(vbox[i]), 6);
-    label = gtk_label_new(server_option_category_name(i));
+    label = gtk_label_new(optset_category_name(server_optset, i));
     gtk_notebook_append_page(GTK_NOTEBOOK(book), vbox[i], label);
   }
 
   /* fill each category */
-  server_options_iterate(poption) {
+  options_iterate(server_optset, poption) {
     GtkWidget *ebox, *hbox, *ent = NULL;
     int category = option_category(poption);
 
@@ -1647,7 +1647,7 @@ static void create_settable_options_dialog(void)
     g_object_set_data(G_OBJECT(ent), "prev", prev_widget);
     g_object_set_data(G_OBJECT(ent), "changed", NULL);
     prev_widget = ent;
-  } server_options_iterate_end;
+  } options_iterate_end;
 
   /* remove any unused categories pages */
   for (i = category_num - 1; i >= 0; i--) {
@@ -1666,10 +1666,10 @@ static void create_settable_options_dialog(void)
 /**************************************************************************
   Show a dialog with the server options.
 **************************************************************************/
-void popup_settable_options_dialog(void)
+void popup_settable_options_dialog(const char *name)
 {
   if (!settable_options_dialog_shell) {
-    create_settable_options_dialog();
+    create_settable_options_dialog(name);
     gtk_window_set_position(GTK_WINDOW(settable_options_dialog_shell), GTK_WIN_POS_MOUSE);
   }
   gtk_window_present(GTK_WINDOW(settable_options_dialog_shell));

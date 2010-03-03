@@ -128,7 +128,7 @@ static Widget *settable_options_widgets = NULL;
 static Widget settable_options_ok_command;
 static Widget settable_options_cancel_command;
 
-void create_settable_options_dialog(void);
+void create_settable_options_dialog(const char *name);
 void update_settable_options_dialog(void);
 void settable_options_toggle_callback(Widget w, XtPointer client_data,
 				      XtPointer call_data);
@@ -1209,10 +1209,10 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
 /****************************************************************************
   Show a dialog with the server options.
 ****************************************************************************/
-void popup_settable_options_dialog(void)
+void popup_settable_options_dialog(const char *name)
 {
   if (!settable_options_dialog_shell) {
-    create_settable_options_dialog();
+    create_settable_options_dialog(name);
   }
 
   update_settable_options_dialog();
@@ -1234,7 +1234,7 @@ void popdown_settable_options_dialog(void)
 /****************************************************************************
   Server options dialog.
 ****************************************************************************/
-void create_settable_options_dialog(void)
+void create_settable_options_dialog(const char *name)
 {
   Widget prev_widget, longest_label = NULL;
   size_t longest_len = 0;
@@ -1261,9 +1261,9 @@ void create_settable_options_dialog(void)
 
   /* Count the server options. */
   i = 0;
-  server_options_iterate(poption) {
+  options_iterate(server_optset, poption) {
     i++;
-  } server_options_iterate_end;
+  } options_iterate_end;
 
   if (!settable_options_widgets) {
     settable_options_widgets = fc_calloc(i, sizeof(Widget));
@@ -1272,7 +1272,7 @@ void create_settable_options_dialog(void)
   prev_widget = NULL; /* init the prev-Widget */
 
   i = 0;
-  server_options_iterate(poption) {
+  options_iterate(server_optset, poption) {
     char buf[256];
     size_t len;
 
@@ -1312,13 +1312,13 @@ void create_settable_options_dialog(void)
     XtVaGetValues(prev_widget, XtNwidth, &width, NULL);
     XtVaSetValues(prev_widget, XtNwidth, width + 15, NULL);
     i++;
-  } server_options_iterate_end;
+  } options_iterate_end;
 
   XtVaGetValues(longest_label, XtNwidth, &width, NULL);
   XtVaSetValues(settable_options_label, XtNwidth, width + 15, NULL);
 
   i = 0;
-  server_options_iterate(poption) {
+  options_iterate(server_optset, poption) {
     if (option_is_changeable(poption)) {
       switch (option_type(poption)) {
       case OT_BOOLEAN:
@@ -1380,7 +1380,7 @@ void create_settable_options_dialog(void)
     /* store the final widget */
     settable_options_widgets[i] = prev_widget;
     i++;
-  } server_options_iterate_end;
+  } options_iterate_end;
 
   settable_options_ok_command =
     I_L(XtVaCreateManagedWidget("settableoptionsokcommand",
@@ -1418,7 +1418,7 @@ void update_settable_options_dialog(void)
     char buf[256];
     int i = 0;
 
-    server_options_iterate(poption) {
+    options_iterate(server_optset, poption) {
       if (option_is_changeable(poption)) {
         switch (option_type(poption)) {
         case OT_BOOLEAN:
@@ -1460,7 +1460,7 @@ void update_settable_options_dialog(void)
         XtVaSetValues(settable_options_widgets[i], XtNlabel, buf, NULL);
       }
       i++;
-    } server_options_iterate_end;
+    } options_iterate_end;
   }
 }
 
@@ -1488,7 +1488,7 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
     int val, i = 0;
     XtPointer dp;
 
-    server_options_iterate(poption) {
+    options_iterate(server_optset, poption) {
       if (option_is_changeable(poption)) {
         switch (option_type(poption)) {
         case OT_BOOLEAN:
@@ -1511,7 +1511,7 @@ void settable_options_ok_callback(Widget w, XtPointer client_data,
         }
       }
       i++;
-    } server_options_iterate_end;
+    } options_iterate_end;
 
     popdown_settable_options_dialog();
   }

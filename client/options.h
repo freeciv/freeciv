@@ -141,16 +141,36 @@ enum option_type {
 };
 
 struct option;                  /* Opaque type. */
+struct option_set;              /* Opaque type. */
 
 
 /* Main functions. */
 void options_init(void);
 void options_free(void);
+void server_options_init(void);
+void server_options_free(void);
 void options_load(void);
 void options_save(void);
 
 
+/* Option sets. */
+extern const struct option_set const *client_optset;
+extern const struct option_set const *server_optset;
+
+struct option *optset_option_by_number(const struct option_set *poptset,
+                                       int id);
+#define optset_option_by_index optset_option_by_number
+struct option *optset_option_by_name(const struct option_set *poptset,
+                                     const char *name);
+struct option *optset_option_first(const struct option_set *poptset);
+
+int optset_category_number(const struct option_set *poptset);
+const char *optset_category_name(const struct option_set *poptset,
+                                 int category);
+
+
 /* Common option functions. */
+const struct option_set *option_optset(const struct option *poption);
 int option_number(const struct option *poption);
 #define option_index option_number
 const char *option_name(const struct option *poption);
@@ -158,6 +178,7 @@ const char *option_description(const struct option *poption);
 const char *option_help_text(const struct option *poption);
 enum option_type option_type(const struct option *poption);
 int option_category(const struct option *poption);
+const char *option_category_name(const struct option *poption);
 bool option_is_changeable(const struct option *poption);
 struct option *option_next(const struct option *poption);
 
@@ -194,45 +215,14 @@ const char *option_font_def(const struct option *poption);
 const char *option_font_target(const struct option *poption);
 bool option_font_set(struct option *poption, const char *font);
 
-#define options_iterate(first, poption)                                     \
+#define options_iterate(poptset, poption)                                   \
 {                                                                           \
-  struct option *poption;                                                   \
-  for (poption = first; NULL != poption; poption = option_next(poption)) {  \
+  struct option *poption = optset_option_first(poptset);                    \
+  for (; NULL != poption; poption = option_next(poption))                {  \
 
 #define options_iterate_end                                                 \
   }                                                                         \
 }
-
-
-/* Client options function accessors. */
-struct option *client_option_by_number(int id);
-#define client_option_by_index client_option_by_number
-struct option *client_option_by_name(const char *name);
-struct option *client_option_first(void);
-
-int client_option_category_number(void);
-const char *client_option_category_name(int category);
-
-#define client_options_iterate(poption) \
-  options_iterate(client_option_first(), poption)
-#define client_options_iterate_end options_iterate_end
-
-
-/** Server options. **/
-void server_options_init(void);
-void server_options_free(void);
-
-struct option *server_option_by_number(int id);
-#define server_option_by_index server_option_by_number
-struct option *server_option_by_name(const char *name);
-struct option *server_option_first(void);
-
-int server_option_category_number(void);
-const char *server_option_category_name(int category);
-
-#define server_options_iterate(poption) \
-  options_iterate(server_option_first(), poption)
-#define server_options_iterate_end options_iterate_end
 
 
 /** Desired settable options. **/

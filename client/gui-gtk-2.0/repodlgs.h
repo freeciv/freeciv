@@ -18,5 +18,6 @@
 void popdown_science_dialog(void);
 void popdown_economy_report_dialog(void);
 void popdown_activeunits_report_dialog(void);
+void popup_settable_options_dialog(const char *name);
 
 #endif  /* FC__REPODLGS_H */

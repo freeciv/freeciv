@@ -376,7 +376,7 @@ static void option_command_processing(void)
 {
   GtkWidget *w;
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     w = GTK_WIDGET(option_get_gui_data(poption));
     switch (option_type(poption)) {
     case OT_BOOLEAN:
@@ -408,7 +408,7 @@ static void option_command_processing(void)
                              (GTK_FONT_BUTTON(w)));
       break;
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   if (gui_gtk2_map_scrollbars) {
     gtk_widget_show(map_horizontal_scrollbar);
@@ -448,15 +448,15 @@ static void option_command_callback(GtkWidget *win, gint rid)
 /****************************************************************
 ... 
 *****************************************************************/
-static void create_option_dialog(void)
+static void create_option_dialog(const char *name)
 {
-  const int CATEGORY_NUM = client_option_category_number();
+  const int CATEGORY_NUM = optset_category_number(client_optset);
   GtkWidget *ebox, *label, *notebook, *align, *vbox[CATEGORY_NUM], *sw;
   int i, len[CATEGORY_NUM];
   GtkSizeGroup *group[2][CATEGORY_NUM];
   GtkTooltips *tips;
 
-  option_dialog_shell = gtk_dialog_new_with_buttons(_("Set local options"),
+  option_dialog_shell = gtk_dialog_new_with_buttons(name,
   	NULL,
 	0,
 	GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
@@ -473,7 +473,8 @@ static void create_option_dialog(void)
                      notebook, TRUE, TRUE, 0);
 
   for (i = 0; i < CATEGORY_NUM; i++) {
-    label = gtk_label_new_with_mnemonic(client_option_category_name(i));
+    label = gtk_label_new_with_mnemonic(optset_category_name(client_optset,
+                                                             i));
 
     sw = gtk_scrolled_window_new(NULL, NULL);
     gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
@@ -496,7 +497,7 @@ static void create_option_dialog(void)
 
   tips = gtk_tooltips_new();
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     GtkWidget *hbox, *w = NULL;
     int ocategory = option_category(poption);
 
@@ -556,7 +557,7 @@ static void create_option_dialog(void)
     gtk_size_group_add_widget(group[1][ocategory], w);
 
     len[ocategory]++;
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   g_signal_connect(option_dialog_shell, "response",
 		   G_CALLBACK(option_command_callback), NULL);
@@ -569,17 +570,17 @@ static void create_option_dialog(void)
 /****************************************************************
 ... 
 *****************************************************************/
-void popup_option_dialog(void)
+void popup_option_dialog(const char *name)
 {
   char valstr[64];
   const struct strvec *vals;
   GtkWidget *w;
 
   if (!option_dialog_shell) {
-    create_option_dialog();
+    create_option_dialog(name);
   }
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     w = GTK_WIDGET(option_get_gui_data(poption));
 
     switch (option_type(poption)) {
@@ -616,7 +617,7 @@ void popup_option_dialog(void)
                                     option_font_get(poption));
       break;
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   gtk_widget_show(option_dialog_shell);
 }

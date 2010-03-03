@@ -15,7 +15,9 @@
 
 #include <X11/Intrinsic.h>
 
-void popup_option_dialog(void);
+#include "optiondlg_g.h"
+
+void popup_option_dialog(const char *name);
 void toggle_callback(Widget w, XtPointer client_data, XtPointer call_data);
 
 #endif  /* FC__OPTIONDLG_H */

@@ -2053,7 +2053,7 @@ static int map_setting_callback(struct widget *pWidget)
 static int disconnect_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_optiondlg();
+    option_dialog_popdown(client_optset);
     enable_options_button();
     disconnect_from_server();
   }
@@ -2072,7 +2072,7 @@ static int back_callback(struct widget *pWidget)
     }
     
     if (SDL_Client_Flags & CF_OPTION_MAIN) {
-      popdown_optiondlg();
+      option_dialog_popdown(client_optset);
       if (client.conn.established) {
         enable_options_button();
         widget_redraw(pOptions_Button);
@@ -2116,8 +2116,8 @@ int optiondlg_callback(struct widget *pButton)
     clear_surface(pButton->dst->surface, &pButton->size);
     widget_redraw(pButton);
     widget_flush(pButton);
-  
-    popup_optiondlg();
+
+    option_dialog_popup(_("Options"), client_optset);
   }
   return -1;
 }
@@ -2169,7 +2169,7 @@ static int save_game_callback(struct widget *pWidget)
 static int exit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_optiondlg();
+    option_dialog_popdown(client_optset);
     force_exit_from_event_loop();
   }
   return 0;
@@ -2178,7 +2178,7 @@ static int exit_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-void popup_optiondlg(void)
+static void popup_optiondlg(const char *name)
 {
   struct widget *pTmp_GUI, *pWindow;
   struct widget *pCloseButton;
@@ -2200,7 +2200,7 @@ void popup_optiondlg(void)
   pLogo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
   
   /* create window widget */
-  pStr = create_str16_from_char(_("Options"), adj_font(12));
+  pStr = create_str16_from_char(name, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
   pWindow = create_window_skeleton(NULL, pStr, 0);
@@ -2375,7 +2375,7 @@ void popup_optiondlg(void)
 /**************************************************************************
   ...
 **************************************************************************/
-void popdown_optiondlg(void)
+static void popdown_optiondlg(void)
 {
   if (pOption_Dlg) {
     popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,
@@ -2418,4 +2418,59 @@ void update_worklist_report_dialog(void)
                  pOption_Dlg->pEndOptionsWidgetList, 0);
     widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
   }
+}
+
+/****************************************************************************
+  Popup the option dialog for the option set.
+  FIXME/PORTME
+****************************************************************************/
+void option_dialog_popup(const char *name, const struct option_set *poptset)
+{
+  if (poptset == client_optset) {
+    /* FIXME: this is a big hack! */
+    popup_optiondlg(name);
+  } else {
+    log_error("%s(): PORTME!", __FUNCTION__);
+  }
+}
+
+/****************************************************************************
+  Popdown the option dialog for the option set.
+  FIXME/PORTME
+****************************************************************************/
+void option_dialog_popdown(const struct option_set *poptset)
+{
+  if (poptset == client_optset) {
+    /* FIXME: this is a big hack! */
+    popdown_optiondlg();
+  } else {
+    log_error("%s(): PORTME!", __FUNCTION__);
+  }
+}
+
+/****************************************************************************
+  Update the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_update(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
+}
+
+/****************************************************************************
+  Add the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_add(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
+}
+
+/****************************************************************************
+  Remove the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_remove(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
 }

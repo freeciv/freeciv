@@ -15,7 +15,9 @@
 
 #include <gtk/gtk.h>
 
-void popup_option_dialog(void);
+#include "optiondlg_g.h"
+
+void popup_option_dialog(const char *name);
 void toggle_callback(GtkWidget *w, gpointer data);
 
 #endif  /* FC__OPTIONDLG_H */

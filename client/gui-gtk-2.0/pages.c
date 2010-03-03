@@ -52,6 +52,7 @@
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "optiondlg.h"
 #include "plrdlg.h"             /* get_flag() */
 #include "repodlgs.h"
 #include "voteinfo_bar.h"
@@ -1000,7 +1001,7 @@ static GtkWidget *start_aifill_spin;
 **************************************************************************/
 static void game_options_callback(GtkWidget *w, gpointer data)
 {
-  popup_settable_options_dialog();
+  option_dialog_popup(_("Game Settings"), server_optset);
 }
 
 /**************************************************************************

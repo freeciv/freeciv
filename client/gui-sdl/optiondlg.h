@@ -22,14 +22,14 @@
 #ifndef FC__OPTIONDLG_H
 #define FC__OPTIONDLG_H
 
+#include "optiondlg_g.h"
+
 struct widget *pOptions_Button;
 
 void init_options_button(void);
 void enable_options_button(void);
 void disable_options_button(void);
 
-void popup_optiondlg(void);
-void popdown_optiondlg(void);
 int optiondlg_callback(struct widget *pButton);
 
 #endif				/* FC__OPTIONDLG_H */

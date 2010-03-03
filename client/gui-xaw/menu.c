@@ -546,7 +546,7 @@ static void game_menu_callback(Widget w, XtPointer client_data,
 
   switch(pane_num) {
   case MENU_GAME_OPTIONS:
-    popup_option_dialog();
+    option_dialog_popup(_("Local Options"), client_optset);
     break;
   case MENU_GAME_MSG_OPTIONS:
     popup_messageopt_dialog();
@@ -555,7 +555,7 @@ static void game_menu_callback(Widget w, XtPointer client_data,
     options_save();
     break;
   case MENU_GAME_SERVER_OPTIONS:
-    popup_settable_options_dialog();
+    option_dialog_popup(_("Game Settings"), server_optset);
     break;
   case MENU_GAME_OUTPUT_LOG:
     log_output_window();

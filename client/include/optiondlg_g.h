@@ -10,22 +10,17 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__REPODLGS_G_H
-#define FC__REPODLGS_G_H
+#ifndef FC__OPTIONDLG_G_H
+#define FC__OPTIONDLG_G_H
 
-#include "packets.h"         
-#include "shared.h"		/* bool type */
+struct option;
+struct option_set;
 
-#include "repodlgs_common.h"
+void option_dialog_popup(const char *name, const struct option_set *poptset);
+void option_dialog_popdown(const struct option_set *poptset);
 
-void update_report_dialogs(void);
+void option_gui_update(const struct option *poption);
+void option_gui_add(const struct option *poption);
+void option_gui_remove(const struct option *poption);
 
-void science_dialog_update(void);
-void popup_science_dialog(bool raise);
-void economy_report_dialog_update(void);
-void popup_economy_report_dialog(bool raise);
-void activeunits_report_dialog_update(void);
-void popup_activeunits_report_dialog(bool raise);
-void popup_endgame_report_dialog(struct packet_endgame_report *packet);
-
-#endif  /* FC__REPODLGS_G_H */
+#endif  /* FC__OPTIONDLG_G_H */

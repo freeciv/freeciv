@@ -39,7 +39,7 @@
 #include "options.h"
 #include "tilespec.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "chatline.h"
 #include "cityrep.h"
 #include "dialogs.h"
@@ -105,7 +105,7 @@ static void save_chat_logs_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void local_options_callback(GtkAction *action, gpointer data)
 {
-  popup_option_dialog();
+  option_dialog_popup(_("Set local options"), client_optset);
 }
 
 /****************************************************************
@@ -121,7 +121,7 @@ static void message_options_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void server_options_callback(GtkAction *action, gpointer data)
 {
-  popup_settable_options_dialog();
+  option_dialog_popup(_("Game Settings"), server_optset);
 }
 
 /****************************************************************

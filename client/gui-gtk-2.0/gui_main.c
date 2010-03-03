@@ -1471,12 +1471,12 @@ void ui_main(int argc, char **argv)
 
   civ_gc = gdk_gc_new(root_window);
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     if (OT_FONT == option_type(poption)) {
       /* Force to call the appropriated callback. */
       option_changed(poption);
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   if (NULL == city_names_style) {
     city_names_style = gtk_style_new();
@@ -2185,7 +2185,7 @@ void gui_options_extra_init(void)
   struct option *poption;
 
 #define option_var_set_callback(var, callback)                              \
-  if ((poption = client_option_by_name(#var))) {                            \
+  if ((poption = optset_option_by_name(client_optset, #var))) {             \
     option_set_changed_callback(poption, callback);                         \
   } else {                                                                  \
     log_error("Didn't find option %s!", #var);                              \

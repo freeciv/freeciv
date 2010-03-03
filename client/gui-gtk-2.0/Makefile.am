@@ -79,6 +79,7 @@ libgui_gtk2_la_SOURCES = \
 	messagedlg.h	\
 	messagewin.c	\
 	messagewin.h	\
+	optiondlg.c	\
 	optiondlg.h	\
 	pages.c		\
 	pages.h		\

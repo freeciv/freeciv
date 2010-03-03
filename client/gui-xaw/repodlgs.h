@@ -17,15 +17,18 @@
 
 #include "repodlgs_g.h"
 
+void popup_settable_options_dialog(const char *name);
+void popdown_settable_options_dialog(void);
+
 void popdown_science_dialog(void);
 void popdown_economy_report_dialog(void);
 void popdown_activeunits_report_dialog(void);
-void popdown_settable_options_dialog(void);
 
 void activeunits_msg_close(Widget w);
 void sciencereport_msg_close(Widget w);
 void economyreport_msg_close(Widget w);
 void settable_options_msg_close(Widget w);
 const char *get_centered_report_title(const char *report_name);
+
 
 #endif  /* FC__REPODLGS_H */

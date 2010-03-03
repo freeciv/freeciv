@@ -47,19 +47,20 @@
 /* client */
 #include "options.h"
 
-/* gui-xaw */
+/* client/gui-xaw */
 #include "chatline.h"
 #include "cityrep.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
+#include "repodlgs.h"
 
 #include "optiondlg.h"
 
 static Widget option_dialog_shell;
 
 /******************************************************************/
-void create_option_dialog(void);
+void create_option_dialog(const char *name);
 
 void option_ok_command_callback(Widget w, XtPointer client_data, 
 			        XtPointer call_data);
@@ -69,14 +70,14 @@ void option_cancel_command_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ... 
 *****************************************************************/
-void popup_option_dialog(void)
+void popup_option_dialog(const char *name)
 {
   char valstr[64];
   void *gui_data;
 
-  create_option_dialog();
+  create_option_dialog(name);
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     gui_data = option_get_gui_data(poption);
 
     switch (option_type(poption)) {
@@ -98,7 +99,7 @@ void popup_option_dialog(void)
       /* FIXME */
       break;
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   xaw_set_relative_position(toplevel, option_dialog_shell, 25, 25);
   XtPopup(option_dialog_shell, XtGrabNone);
@@ -123,7 +124,7 @@ static void stropt_change_callback(Widget w,
 /****************************************************************
 ...
 *****************************************************************/
-void create_option_dialog(void)
+void create_option_dialog(const char *name)
 {
   Widget option_form, option_label;
   Widget option_viewport, option_scrollform;
@@ -153,7 +154,7 @@ void create_option_dialog(void)
 			    option_viewport, NULL);   
 
   prev_widget = NULL; /* init the prev-Widget */
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     const char *descr = option_description(poption);
     size_t len = strlen(descr);
 
@@ -187,12 +188,12 @@ void create_option_dialog(void)
       longest_len = len;
       longest_label = prev_widget;
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   XtVaGetValues(longest_label, XtNwidth, &width, NULL);
   XtVaSetValues(option_label, XtNwidth, width + 15, NULL);
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     void *gui_data = option_get_gui_data(poption);
 
     /* 
@@ -288,7 +289,7 @@ void create_option_dialog(void)
 
     /* store the final widget */
     option_set_gui_data(poption, (void *) prev_widget);
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   option_ok_command =
     I_L(XtVaCreateManagedWidget("optionokcommand", commandWidgetClass,
@@ -334,7 +335,7 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
   XtPointer dp;
   Widget gui_data;
 
-  client_options_iterate(poption) {
+  options_iterate(client_optset, poption) {
     gui_data = (Widget) option_get_gui_data(poption);
 
     switch (option_type(poption)) {
@@ -357,7 +358,7 @@ void option_ok_command_callback(Widget w, XtPointer client_data,
       /* FIXME */
       break;
     }
-  } client_options_iterate_end;
+  } options_iterate_end;
 
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(option_dialog_shell);
@@ -371,4 +372,61 @@ void option_cancel_command_callback(Widget w, XtPointer client_data,
 {
   XtSetSensitive(main_form, TRUE);
   XtDestroyWidget(option_dialog_shell);
+}
+
+/****************************************************************************
+  Popup the option dialog for the option set.
+  FIXME/PORTME
+****************************************************************************/
+void option_dialog_popup(const char *name, const struct option_set *poptset)
+{
+  if (poptset == client_optset) {
+    /* FIXME: this is a big hack! */
+    popup_option_dialog(name);
+  } else if (poptset == server_optset) {
+    popup_settable_options_dialog(name);
+  } else {
+    log_error("%s(): PORTME!", __FUNCTION__);
+  }
+}
+
+/****************************************************************************
+  Popdown the option dialog for the option set.
+  FIXME/PORTME
+****************************************************************************/
+void option_dialog_popdown(const struct option_set *poptset)
+{
+  if (poptset == server_optset) {
+    /* FIXME: this is a big hack! */
+    popdown_settable_options_dialog();
+  } else {
+    log_error("%s(): PORTME!", __FUNCTION__);
+  }
+}
+
+/****************************************************************************
+  Update the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_update(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
+}
+
+/****************************************************************************
+  Add the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_add(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
+}
+
+/****************************************************************************
+  Remove the GUI for the option.
+  FIXME/PORTME
+****************************************************************************/
+void option_gui_remove(const struct option *poption)
+{
+  log_error("%s(): PORTME!", __FUNCTION__);
 }
