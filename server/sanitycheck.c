@@ -300,10 +300,11 @@ static void check_city_map(struct city *pcity, const char *file,
 {
   struct player *pplayer = city_owner(pcity);
   struct tile *pcenter = city_tile(pcity);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
 
   /* not using city_tile_iterate_cxy() as that skips out of range values */
-  city_map_iterate(x, y) {
-    struct tile *ptile = city_map_to_tile(pcenter, x, y);
+  city_map_iterate(city_radius_sq, index, x, y) {
+    struct tile *ptile = city_map_to_tile(pcenter, city_radius_sq, x, y);
 
     if (NULL == ptile) {
       SANITY_CITY(pcity, city_map_status(pcity, x, y) == C_TILE_UNUSABLE);
@@ -423,7 +424,8 @@ static void check_city_size(struct city *pcity, const char *file,
 
   SANITY_CITY(pcity, pcity->size >= 1);
 
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
+                                  ptile, cx, cy) {
     if (tile_worked(ptile) == pcity) {
       citizens++;
     }

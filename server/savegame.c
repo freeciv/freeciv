@@ -2835,9 +2835,9 @@ static void player_load_cities(struct player *plr, int plrno,
 
     /* Fix for old buggy savegames. */
     if (!has_capability("known32fix", savefile_options)
-	&& plrno >= 16) {
-      city_tile_iterate(pcenter, tile1) {
-	map_set_known(tile1, plr);
+        && plrno >= 16) {
+      city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, tile1) {
+        map_set_known(tile1, plr);
       } city_tile_iterate_end;
     }
 
@@ -2853,21 +2853,24 @@ static void player_load_cities(struct player *plr, int plrno,
 
     p = secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
 
-    if (strlen(p) != CITY_MAP_SIZE * CITY_MAP_SIZE) {
+    if (strlen(p) != CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE) {
       /* FIXME: somehow need to rearrange */
       log_error("player%d.c%d.workers length %lu not equal city map size "
                 "%lu, needs rearranging!",
                 plrno, i, (unsigned long) strlen(p),
-                (unsigned long) (CITY_MAP_SIZE * CITY_MAP_SIZE));
+                (unsigned long) (CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE));
     }
 
-    for(y = 0; y < CITY_MAP_SIZE; y++) {
+    for(y = 0; y < CITY_MAP_MAX_SIZE; y++) {
       struct city *pwork = NULL;
       int x;
 
-      for(x = 0; x < CITY_MAP_SIZE; x++) {
-        struct tile *ptile = is_valid_city_coords(x, y)
-                             ? city_map_to_tile(pcenter, x, y)
+      for(x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+        struct tile *ptile = is_valid_city_coords(CITY_MAP_DEFAULT_RADIUS_SQ,
+                                                  x, y)
+                             ? city_map_to_tile(pcenter,
+                                                CITY_MAP_DEFAULT_RADIUS_SQ,
+                                                x, y)
                              : NULL;
 
         switch (*p) {
@@ -2963,7 +2966,9 @@ static void player_load_cities(struct player *plr, int plrno,
                   pwork->size, TILE_XY(pcenter), city_name(pcity),
                   pcity->size);
 
-        city_tile_to_city_map(&city_x, &city_y, city_tile(pwork), pcenter);
+        city_tile_to_city_map(&city_x, &city_y,
+                              city_map_radius_sq_get(pcity), city_tile(pwork),
+                              pcenter);
         pwork->city_map[city_x][city_y] = C_TILE_UNAVAILABLE;
         pwork->specialists[DEFAULT_SPECIALIST]++;
         auto_arrange_workers(pwork);
@@ -2973,7 +2978,7 @@ static void player_load_cities(struct player *plr, int plrno,
                   plrno, i, TILE_XY(pcenter), city_name(pcity), pcity->size);
       }
 
-      pcity->city_map[CITY_MAP_SIZE/2][CITY_MAP_SIZE/2] = C_TILE_WORKER;
+      pcity->city_map[CITY_MAP_MAX_SIZE/2][CITY_MAP_MAX_SIZE/2] = C_TILE_WORKER;
       tile_set_worked(pcenter, pcity); /* repair */
 
       city_repair_size(pcity, -1);
@@ -3076,6 +3081,15 @@ static void player_load_cities(struct player *plr, int plrno,
     pcity->server.vision = vision_new(plr, pcenter);
     vision_reveal_tiles(pcity->server.vision, game.info.vision_reveal_tiles);
     city_refresh_vision(pcity);
+
+    /* Check the squared city radius. Must be after improvements, as the
+     * effect City_Radius_SQ could be influenced by improvements; and after
+     * the vision is defined, as the function calls city_refresh_vision(). */
+    if (city_map_update_radius_sq(pcity, FALSE)) {
+      /* squared city radius has been changed - repair the city */
+      auto_arrange_workers(pcity);
+      city_refresh(pcity);
+    }
 
     city_list_append(plr->cities, pcity);
   }
@@ -3763,7 +3777,7 @@ static void player_save_cities(struct player *plr, int plrno,
 
   city_list_iterate(plr->cities, pcity) {
     int j, x, y;
-    char citymap_buf[CITY_MAP_SIZE * CITY_MAP_SIZE + 1];
+    char citymap_buf[CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE + 1];
     char impr_buf[MAX_NUM_ITEMS + 1];
     struct tile *pcenter = city_tile(pcity);
 
@@ -3845,10 +3859,13 @@ static void player_save_cities(struct player *plr, int plrno,
        After 2.2.0, use the (more reliable) main map itself for saving.
      */
     j=0;
-    for(y=0; y<CITY_MAP_SIZE; y++) {
-      for(x=0; x<CITY_MAP_SIZE; x++) {
-        struct tile *ptile = is_valid_city_coords(x, y)
-                             ? city_map_to_tile(pcenter, x, y)
+    for(y=0; y<CITY_MAP_MAX_SIZE; y++) {
+      for(x=0; x<CITY_MAP_MAX_SIZE; x++) {
+        struct tile *ptile = is_valid_city_coords(CITY_MAP_DEFAULT_RADIUS_SQ,
+                                                  x, y)
+                             ? city_map_to_tile(pcenter,
+                                                CITY_MAP_DEFAULT_RADIUS_SQ,
+                                                x, y)
                              : NULL;
 
         if (NULL == ptile) {
@@ -4159,8 +4176,9 @@ static void apply_unit_ordering(void)
 static void repair_city_worker(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
+  int radius_sq = city_map_radius_sq_get(pcity);
 
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_cxy(radius_sq, pcenter, ptile, x, y) {
     bool res = city_can_work_tile(pcity, ptile);
 
     /* bypass city_map_status() checks is_valid_city_coords() */
@@ -4191,7 +4209,7 @@ static void repair_city_worker(struct city *pcity)
                    x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
                    pcity->size);
 
-        city_tile_iterate(ptile, tile2) {
+        city_tile_iterate(radius_sq, ptile, tile2) {
           struct city *pcity2 = tile_city(tile2);
 
           if (pcity2 && pcity2 != pcity) {

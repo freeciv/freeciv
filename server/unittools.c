@@ -913,7 +913,7 @@ static bool find_a_good_partisan_spot(struct city *pcity,
   int bestvalue = 0;
 
   /* coords of best tile in arg pointers */
-  city_tile_iterate(pcenter, ptile) {
+  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
     int value;
 
     if (is_ocean_tile(ptile)) {
@@ -2319,7 +2319,7 @@ static bool hut_get_limited(struct unit *punit)
     notify_player(pplayer, unit_tile(punit), E_HUT_GOLD, ftc_server,
                   _("You found %d gold."), cred);
     pplayer->economic.gold += cred;
-  } else if (city_exists_within_city_radius(punit->tile, TRUE)
+  } else if (city_exists_within_max_city_map(punit->tile, TRUE)
              || unit_has_type_flag(punit, F_GAMELOSS)) {
     notify_player(pplayer, unit_tile(punit),
                   E_HUT_BARB_CITY_NEAR, ftc_server,

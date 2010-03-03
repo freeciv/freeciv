@@ -597,15 +597,17 @@ struct unit *player_find_unit_by_id(const struct player *pplayer,
 }
 
 /*************************************************************************
-Return 1 if x,y is inside any of the player's city radii.
+  Return true iff x,y is inside any of the player's city map.
 **************************************************************************/
-bool player_in_city_radius(const struct player *pplayer,
-			   const struct tile *ptile)
+bool player_in_city_map(const struct player *pplayer,
+                        const struct tile *ptile)
 {
-  city_tile_iterate(ptile, ptile1) {
+  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     struct city *pcity = tile_city(ptile1);
 
-    if (pcity && city_owner(pcity) == pplayer) {
+    if (pcity && city_owner(pcity) == pplayer
+        && city_map_radius_sq_get(pcity) >= sq_map_distance(ptile,
+                                                            ptile1)) {
       return TRUE;
     }
   } city_tile_iterate_end;

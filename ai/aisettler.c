@@ -147,7 +147,9 @@ void cityresult_fill(struct player *pplayer,
     virtual_city = TRUE;
   }
 
-  city_tile_iterate_cxy(result->tile, ptile, i, j) {
+  result->city_radius_sq = city_map_radius_sq_get(pcity);
+
+  city_tile_iterate_cxy(result->city_radius_sq, result->tile, ptile, i, j) {
     int reserved = citymap_read(ptile);
     bool city_center = (result->tile == ptile); /*is_city_center()*/
 
@@ -241,18 +243,21 @@ void cityresult_fill(struct player *pplayer,
     /* Corruption and waste of a size one city deducted. Notice that we
      * don't do this if 'fulltradesize' is changed, since then we'd
      * never make cities. */
+#define CMMR CITY_MAP_MAX_RADIUS
     if (game.info.fulltradesize == 1) {
       result->corruption = ai->science_priority
-	* city_waste(pcity, O_TRADE,
-		     result->citymap[result->o_x][result->o_y].trade
-		     + result->citymap[2][2].trade);
+        * city_waste(pcity, O_TRADE,
+                     result->citymap[result->o_x][result->o_y].trade
+                     + result->citymap[CMMR][CMMR].trade);
     } else {
       result->corruption = 0;
     }
+
     result->waste = ai->shield_priority
       * city_waste(pcity, O_SHIELD,
-		   result->citymap[result->o_x][result->o_y].shield
-		   + result->citymap[2][2].shield);
+                   result->citymap[result->o_x][result->o_y].shield
+                   + result->citymap[CMMR][CMMR].shield);
+#undef CMMR
   } else {
     /* Deduct difference in corruption and waste for real cities. Note that it
      * is possible (with notradesize) that we _gain_ value here. */
@@ -287,7 +292,7 @@ void cityresult_fill(struct player *pplayer,
 static bool food_starvation(struct cityresult *result)
 {
   /* Avoid starvation: We must have enough food to grow. */
-  return (result->citymap[2][2].food 
+  return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].food
           + result->citymap[result->o_x][result->o_y].food < 3);
 }
 
@@ -297,7 +302,7 @@ static bool food_starvation(struct cityresult *result)
 static bool shield_starvation(struct cityresult *result)
 {
   /* Avoid resource starvation. */
-  return (result->citymap[2][2].shield
+  return (result->citymap[CITY_MAP_MAX_RADIUS][CITY_MAP_MAX_RADIUS].shield
           + result->citymap[result->o_x][result->o_y].shield == 0);
 }
 
@@ -339,6 +344,12 @@ static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai)
 {
+  if (CITY_MAP_MAX_RADIUS != CITY_MAP_MIN_RADIUS
+      && CITY_MAP_MIN_RADIUS != 2) {
+    /* this function is only valid for radius = 2 */
+    return;
+  }
+
   log_test("Result=(%d, %d)\nReservations:\n"
            "     %4d %4d %4d   \n"
            "%4d %4d %4d %4d %4d\n"
@@ -577,6 +588,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   best->total = 0;
   best->overseas = FALSE;
   best->virt_boat = FALSE;
+  best->city_radius_sq = game.info.init_city_radius_sq;
 
   /* Phase 1: Consider building cities on our continent */
 

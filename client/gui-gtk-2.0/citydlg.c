@@ -2435,7 +2435,9 @@ static gboolean button_down_citymap(GtkWidget * w, GdkEventButton * ev,
   canvas_x = ev->x * (double)canvas_width / (double)CITYMAP_WIDTH;
   canvas_y = ev->y * (double)canvas_height / (double)CITYMAP_HEIGHT;
 
-  if (canvas_to_city_pos(&city_x, &city_y, canvas_x, canvas_y)) {
+  if (canvas_to_city_pos(&city_x, &city_y,
+                         city_map_radius_sq_get(pdialog->pcity),
+                         canvas_x, canvas_y)) {
     city_toggle_worker(pdialog->pcity, city_x, city_y);
   }
 

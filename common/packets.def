@@ -459,6 +459,7 @@ PACKET_GAME_INFO=15; sc
   BOOL vision_reveal_tiles;
   UINT8 min_city_center_output[O_LAST];
   UINT8 min_dist_bw_cities;
+  UINT8 init_city_radius_sq;
   UINT8 init_vis_radius_sq;
   BOOL pillage_select;
   UINT8 nuke_contamination;
@@ -547,6 +548,7 @@ PACKET_CITY_INFO = 21; sc, lsend, is-game-info, cancel(PACKET_CITY_SHORT_INFO)
 
   PLAYER owner;
   UINT8 size;
+  UINT8 city_radius_sq;
 
   UINT8 ppl_happy[5], ppl_content[5], ppl_unhappy[5], ppl_angry[5];
 

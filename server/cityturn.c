@@ -231,7 +231,8 @@ void apply_cmresult_to_city(struct city *pcity,
   struct tile *pcenter = city_tile(pcity);
 
   /* Now apply results */
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
+                                  ptile, x, y) {
     struct city *pwork = tile_worked(ptile);
 
     if (cmr->worker_positions_used[x][y]) {
@@ -542,7 +543,8 @@ static int city_reduce_workers(struct city *pcity, int change)
 
   fc_assert_ret_val(0 < change, 0);
 
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, city_x, city_y) {
+  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
+                                  ptile, city_x, city_y) {
     if (0 < want
      && tile_worked(ptile) == pcity) {
       city_map_update_empty(pcity, ptile, city_x, city_y);
@@ -610,6 +612,11 @@ bool city_reduce_size(struct city *pcity, int pop_loss,
                         "%d of %d for \"%s\"[%d]",
                         loss_remain, pop_loss,
                         city_name(pcity), pcity->size);
+
+  /* check squared city radius */
+  if (city_map_update_radius_sq(pcity, TRUE)) {
+    city_refresh(pcity);
+  }
 
   /* Update cities that have trade routes with us */
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
@@ -708,7 +715,8 @@ static bool city_increase_size(struct city *pcity)
    * make new citizens into scientists or taxmen -- Massimo */
 
   /* Ignore food if no square can be worked */
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
+                                  ptile, cx, cy) {
     if (tile_worked(ptile) != pcity /* quick test */
      && city_can_work_tile(pcity, ptile)) {
       have_square = TRUE;
@@ -725,6 +733,9 @@ static bool city_increase_size(struct city *pcity)
     pcity->specialists[DEFAULT_SPECIALIST]++; /* or else city is !sane */
     auto_arrange_workers(pcity);
   }
+
+  /* check squared city radius */
+  city_map_update_radius_sq(pcity, TRUE);
 
   city_refresh(pcity);
 
@@ -1522,8 +1533,11 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
       pplayer->spaceship.state = SSHIP_STARTED;
     }
     if (space_part) {
+      /* space ship part build */
       send_spaceship_info(pplayer, NULL);
-    } else {
+    }
+    if (!space_part || city_map_update_radius_sq(pcity, TRUE)) {
+      /* new building or updated squared city radius */
       city_refresh(pcity);
     }
 
@@ -1880,18 +1894,19 @@ static void check_pollution(struct city *pcity)
 {
   struct tile *ptile;
   struct tile *pcenter = city_tile(pcity);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
   int k=100;
 
   if (pcity->pollution != 0 && myrand(100) <= pcity->pollution) {
     while (k > 0) {
-      /* place pollution somewhere in city radius */
-      int cx = myrand(CITY_MAP_SIZE);
-      int cy = myrand(CITY_MAP_SIZE);
+      /* place pollution on a random city tile */
+      int cx, cy;
+      int tile_id = myrand(city_map_tiles(city_radius_sq));
+      city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
 
-      /* if is a corner tile or not a real map position */
-      if (!is_valid_city_coords(cx, cy)
-	  || !(ptile = city_map_to_tile(pcenter, cx, cy))) {
-	continue;
+      /* check for a a real map position */
+      if (!(ptile = city_map_to_tile(pcenter, city_radius_sq, cx, cy))) {
+        continue;
       }
 
       if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)

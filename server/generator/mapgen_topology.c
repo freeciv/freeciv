@@ -164,7 +164,7 @@ int map_colatitude(const struct tile *ptile)
 ****************************************************************************/
 bool near_singularity(const struct tile *ptile)
 {
-  return is_singular_tile(ptile, CITY_MAP_RADIUS);
+  return is_singular_tile(ptile, CITY_MAP_MAX_RADIUS);
 }
 
 

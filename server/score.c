@@ -153,7 +153,7 @@ static void build_landarea_map(struct claim_map *pcmap)
     city_list_iterate(pplayer->cities, pcity) {
       struct tile *pcenter = city_tile(pcity);
 
-      city_tile_iterate(pcenter, tile1) {
+      city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, tile1) {
 	BV_SET(claims[tile_index(tile1)], player_index(city_owner(pcity)));
       } city_tile_iterate_end;
     } city_list_iterate_end;

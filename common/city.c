@@ -47,10 +47,15 @@
 
 /* Get city tile informations using the city tile index. */
 static struct iter_index *city_map_index = NULL;
+/* Get city tile informations using the city tile coordinates. This is an
+ * [x][y] array of integer values corresponding to city_map_index. The
+ * coordinates x and y are in the range [0, CITY_MAP_MAX_SIZE] */
+static int city_map_xy[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+
+/* number of tiles of a city; depends on the squared city radius */
+static int city_map_numtiles[CITY_MAP_MAX_RADIUS_SQ + 1];
 
 struct citystyle *city_styles = NULL;
-
-static int city_tiles;
 
 /* One day these values may be read in from the ruleset.  In the meantime
  * they're just an easy way to access information about each output type. */
@@ -65,52 +70,72 @@ struct output_type output_types[O_LAST] = {
 
 /**************************************************************************
   Returns the coordinates for the given city tile index taking into account
-  the city radius.
+  the squared city radius.
 **************************************************************************/
 bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
-                           int city_tile_index, int city_radius)
+                           int city_tile_index, int city_radius_sq)
 {
-  fc_assert_ret_val(city_radius >= CITY_MAP_RADIUS, FALSE);
-  fc_assert_ret_val(city_radius <= CITY_MAP_RADIUS, FALSE);
+  fc_assert_ret_val(city_radius_sq >= CITY_MAP_MIN_RADIUS_SQ, FALSE);
+  fc_assert_ret_val(city_radius_sq <= CITY_MAP_MAX_RADIUS_SQ, FALSE);
 
   /* tile indices are sorted from smallest to largest city radius */
   if (city_tile_index < 0
-      || city_tile_index >= city_tiles) {
+      || city_tile_index >= city_map_tiles(city_radius_sq)) {
     return FALSE;
   }
 
-  *city_map_x = CITY_MAP_RADIUS + city_map_index[city_tile_index].dx;
-  *city_map_y = CITY_MAP_RADIUS + city_map_index[city_tile_index].dy;
+  *city_map_x = CITY_REL2ABS(city_map_index[city_tile_index].dx);
+  *city_map_y = CITY_REL2ABS(city_map_index[city_tile_index].dy);
 
   return TRUE;
+}
+
+/**************************************************************************
+  Returns the current squared radius of the city.
+**************************************************************************/
+int city_map_radius_sq_get(const struct city *pcity)
+{
+  /* a save return value is only the minimal squared radius */
+  fc_assert_ret_val(pcity != NULL, CITY_MAP_MIN_RADIUS_SQ);
+
+  return pcity->city_radius_sq;
+}
+
+/**************************************************************************
+  Returns the current squared radius of the city.
+**************************************************************************/
+void city_map_radius_sq_set(struct city *pcity, int radius_sq)
+{
+  fc_assert_ret(radius_sq >= CITY_MAP_MIN_RADIUS_SQ);
+  fc_assert_ret(radius_sq <= CITY_MAP_MAX_RADIUS_SQ);
+
+  pcity->city_radius_sq = radius_sq;
 }
 
 /**************************************************************************
   Return the number of tiles for the given city radius. Special case is
   the value -1 for no city tiles.
 **************************************************************************/
-int city_map_tiles(int city_radius)
+int city_map_tiles(int city_radius_sq)
 {
-  if (city_radius == -1) {
-    /* special case: minimal index value = city center */
+  if (city_radius_sq == CITY_MAP_CENTER_RADIUS_SQ) {
+    /* special case: city center; first tile of the city map */
     return 0;
   }
 
-  fc_assert_ret_val(city_radius >= CITY_MAP_RADIUS, -1);
-  fc_assert_ret_val(city_radius <= CITY_MAP_RADIUS, -1);
+  fc_assert_ret_val(city_radius_sq >= CITY_MAP_MIN_RADIUS_SQ, -1);
+  fc_assert_ret_val(city_radius_sq <= CITY_MAP_MAX_RADIUS_SQ, -1);
 
-  return city_tiles;
+  return city_map_numtiles[city_radius_sq];
 }
 
 /**************************************************************************
   Return TRUE if the given city coordinate pair is "valid"; that is, if it
   is a part of the citymap and thus is workable by the city.
 **************************************************************************/
-bool is_valid_city_coords(const int city_x, const int city_y)
+bool is_valid_city_coords(const int city_radius_sq, const int city_map_x,
+                          const int city_map_y)
 {
-  int dist = map_vector_to_sq_distance(city_x - CITY_MAP_RADIUS,
-				       city_y - CITY_MAP_RADIUS);
-
   /* The city's valid positions are in a circle of radius CITY_MAP_RADIUS
    * around the city center.  Depending on the value of CITY_MAP_RADIUS
    * this circle will be:
@@ -128,7 +153,10 @@ bool is_valid_city_coords(const int city_x, const int city_y)
    * This diagram is for rectangular topologies only.  But this is taken
    * care of inside map_vector_to_sq_distance so it works for all topologies.
    */
-  return dist <= CITY_MAP_RADIUS_SQ;
+  int dist = map_vector_to_sq_distance(CITY_ABS2REL(city_map_x),
+                                       CITY_ABS2REL(city_map_y));
+
+  return dist <= city_radius_sq;
 }
 
 /**************************************************************************
@@ -136,38 +164,45 @@ bool is_valid_city_coords(const int city_x, const int city_y)
   center. Returns whether the map position is inside of the city map.
 **************************************************************************/
 bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
-			   const struct tile *city_center,
-			   const struct tile *map_tile)
+                           const int city_radius_sq,
+                           const struct tile *city_center,
+                           const struct tile *map_tile)
 {
   map_distance_vector(city_map_x, city_map_y, city_center, map_tile);
-  *city_map_x += CITY_MAP_RADIUS;
-  *city_map_y += CITY_MAP_RADIUS;
-  return is_valid_city_coords(*city_map_x, *city_map_y);
+
+  *city_map_x += CITY_MAP_MAX_RADIUS;
+  *city_map_y += CITY_MAP_MAX_RADIUS;
+
+  return is_valid_city_coords(city_radius_sq, *city_map_x, *city_map_y);
 }
 
 /**************************************************************************
-Finds the city map coordinate for a given map position and a
-city. Returns whether the map position is inside of the city map.
+  Finds the city map coordinate for a given map position and a
+  city. Returns whether the map position is inside of the city map.
 **************************************************************************/
 bool city_base_to_city_map(int *city_map_x, int *city_map_y,
-			   const struct city *const pcity,
-			   const struct tile *map_tile)
+                           const struct city *const pcity,
+                           const struct tile *map_tile)
 {
-  return city_tile_to_city_map(city_map_x, city_map_y, pcity->tile, map_tile);
+  return city_tile_to_city_map(city_map_x, city_map_y,
+                               city_map_radius_sq_get(pcity), pcity->tile,
+                               map_tile);
 }
 
 /**************************************************************************
-Finds the map position for a given city map coordinate of a certain
-city. Returns true if the map position found is real.
+  Finds the map position for a given city map coordinate of a certain
+  city. Returns true if the map position found is real.
 **************************************************************************/
 struct tile *city_map_to_tile(const struct tile *city_center,
-			      int city_map_x, int city_map_y)
+                              int city_radius_sq, int city_map_x,
+                              int city_map_y)
 {
   int x, y;
 
-  fc_assert_ret_val(is_valid_city_coords(city_map_x, city_map_y), NULL);
-  x = city_center->x + city_map_x - CITY_MAP_SIZE / 2;
-  y = city_center->y + city_map_y - CITY_MAP_SIZE / 2;
+  fc_assert_ret_val(is_valid_city_coords(city_radius_sq, city_map_x,
+                                         city_map_y), NULL);
+  x = city_center->x + CITY_ABS2REL(city_map_x);
+  y = city_center->y + CITY_ABS2REL(city_map_y);
 
   return map_pos_to_tile(x, y);
 }
@@ -187,7 +222,7 @@ static int cmp(int v1, int v2)
 }
 
 /**************************************************************************
-  Compare two iter_index values from the city_map_iterate_outward_indices.
+  Compare two iter_index values from the city_map_index.
 
   This function will be passed to qsort().  It should never return zero,
   or the sort order will be left up to qsort and will be undefined.  This
@@ -214,49 +249,79 @@ int compare_iter_index(const void *a, const void *b)
 }
 
 /**************************************************************************
-  Fill the iterate_outwards_indices array.  This may depend on topology and
-  ruleset settings.
+  Fill the arrays city_map_index, city_map_xy and city_map_numtiles. This
+  may depend on topology and ruleset settings.
 ***************************************************************************/
 void generate_city_map_indices(void)
 {
-  int i = 0, dx, dy;
+  int i, dx, dy, city_x, city_y, dist, city_count_tiles = 0;
+  struct iter_index city_map_index_tmp[CITY_MAP_MAX_SIZE
+                                       * CITY_MAP_MAX_SIZE];
+
+  /* initialise map information for each city radii */
+  for (i = 0; i <= CITY_MAP_MAX_RADIUS_SQ; i++) {
+     city_map_numtiles[i] = 0; /* will be set below */
+  }
 
   /* We don't use city-map iterators in this function because they may
-   * rely on the indices that have not yet been generated. */
+   * rely on the indices that have not yet been generated. Furthermore,
+   * we don't know the number of tiles within the city radius, so we need
+   * an temporary city_map_index array. Its content will be copied into
+   * the real array below. */
+  for (dx = -CITY_MAP_MAX_RADIUS; dx <= CITY_MAP_MAX_RADIUS; dx++) {
+    for (dy = -CITY_MAP_MAX_RADIUS; dy <= CITY_MAP_MAX_RADIUS; dy++) {
+      dist = map_vector_to_sq_distance(dx, dy);
 
-  city_tiles = 0;
-  for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
-    for (dy = -CITY_MAP_RADIUS; dy <= CITY_MAP_RADIUS; dy++) {
-      if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
-	city_tiles++;
+      if (dist <= CITY_MAP_MAX_RADIUS_SQ) {
+        city_map_index_tmp[city_count_tiles].dx = dx;
+        city_map_index_tmp[city_count_tiles].dy = dy;
+        city_map_index_tmp[city_count_tiles].dist = dist;
+
+        for (i = CITY_MAP_MAX_RADIUS_SQ; i >= 0; i--) {
+          if (dist <= i) {
+            /* increase number of tiles within this squared city radius */
+            city_map_numtiles[i]++;
+          }
+        }
+
+        city_count_tiles++;
       }
+
+      /* Initialise city_map_xy. -1 defines a invalid city map positions. */
+      city_map_xy[CITY_REL2ABS(dx)][CITY_REL2ABS(dy)] = -1;
     }
   }
 
   fc_assert(NULL == city_map_index);
-  city_map_index = fc_malloc(CITY_TILES * sizeof(*city_map_index));
+  city_map_index = fc_malloc(city_count_tiles * sizeof(*city_map_index));
 
-  for (dx = -CITY_MAP_RADIUS; dx <= CITY_MAP_RADIUS; dx++) {
-    for (dy = -CITY_MAP_RADIUS; dy <= CITY_MAP_RADIUS; dy++) {
-      if (is_valid_city_coords(dx + CITY_MAP_RADIUS, dy + CITY_MAP_RADIUS)) {
-        city_map_index[i].dx = dx;
-        city_map_index[i].dy = dy;
-        city_map_index[i].dist = map_vector_to_sq_distance(dx, dy);
-        i++;
-      }
-    }
+  /* copy the index numbers from city_map_index_tmp into city_map_index */
+  for (i = 0; i < city_count_tiles; i++) {
+    city_map_index[i] = city_map_index_tmp[i];
   }
-  fc_assert(i == CITY_TILES);
 
-  qsort(city_map_index, CITY_TILES,
-        sizeof(*city_map_index), compare_iter_index);
+  qsort(city_map_index, city_count_tiles, sizeof(*city_map_index),
+        compare_iter_index);
+
+  /* set the static variable city_map_xy */
+  for (i = 0; i < city_count_tiles; i++) {
+    city_x = CITY_REL2ABS(city_map_index[i].dx);
+    city_y = CITY_REL2ABS(city_map_index[i].dy);
+    city_map_xy[city_x][city_y] = i;
+  }
 
 #ifdef DEBUG
-  for (i = 0; i < CITY_TILES; i++) {
-    log_debug("%2d : (%2d,%2d) : %d", i,
-              city_map_index[i].dx + CITY_MAP_RADIUS,
-              city_map_index[i].dy + CITY_MAP_RADIUS,
-              city_map_index[i].dist);
+  for (i = CITY_MAP_MIN_RADIUS_SQ; i <= CITY_MAP_MAX_RADIUS_SQ; i++) {
+    log_debug("radius_sq = %2d, tiles = %2d", i, city_map_tiles(i));
+  }
+
+  for (i = 0; i < city_count_tiles; i++) {
+    city_x = CITY_REL2ABS(city_map_index[i].dx);
+    city_y = CITY_REL2ABS(city_map_index[i].dy);
+    log_debug("[%2d]: (dx,dy) = (%+2d,%+2d), (x,y) = (%2d,%2d), "
+              "dist = %2d, check = %2d", i,
+              city_map_index[i].dx, city_map_index[i].dy, city_x, city_y,
+              city_map_index[i].dist, city_map_xy[city_x][city_y]);
   }
 #endif /* DEBUG */
 
@@ -1615,13 +1680,13 @@ bool is_friendly_city_near(const struct player *owner,
   Return true iff a city exists within a city radius of the given 
   location. may_be_on_center determines if a city at x,y counts.
 **************************************************************************/
-bool city_exists_within_city_radius(const struct tile *ptile,
-				    bool may_be_on_center)
+bool city_exists_within_max_city_map(const struct tile *ptile,
+                                     bool may_be_on_center)
 {
-  city_tile_iterate(ptile, ptile1) {
+  city_tile_iterate(CITY_MAP_MAX_RADIUS_SQ, ptile, ptile1) {
     if (may_be_on_center || !same_pos(ptile, ptile1)) {
       if (tile_city(ptile1)) {
-	return TRUE;
+        return TRUE;
       }
     }
   } city_tile_iterate_end;
@@ -1767,14 +1832,15 @@ static inline void get_worked_tile_output(const struct city *pcity,
   struct tile *pcenter = city_tile(pcity);
 
   memset(output, 0, O_LAST * sizeof(*output));
-  
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+
+  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
+                        city_map_x, city_map_y) {
     if (main_map) {
       struct city *pwork = tile_worked(ptile);
 
       is_worked = (NULL != pwork && pwork == pcity);
     } else {
-      is_worked = (C_TILE_WORKER == pcity->city_map[x][y]);
+      is_worked = (C_TILE_WORKER == pcity->city_map[city_map_x][city_map_y]);
     }
 
     if (is_worked) {
@@ -1782,10 +1848,10 @@ static inline void get_worked_tile_output(const struct city *pcity,
 #ifdef CITY_DEBUGGING
         /* This assertion never fails, but it's so slow that we disable
          * it by default. */
-        fc_assert(pcity->tile_output[x][y][o]
+        fc_assert(pcity->tile_output[city_map_x][city_map_y][o]
                   == city_tile_output(pcity, ptile, is_celebrating, o));
 #endif
-        output[o] += pcity->tile_output[x][y][o];
+        output[o] += pcity->tile_output[city_map_x][city_map_y][o];
       } output_type_iterate_end;
     }
   } city_tile_iterate_cxy_end;
@@ -1837,10 +1903,11 @@ static inline void set_city_tile_output(struct city *pcity)
 
   /* Any unreal tiles are skipped - these values should have been memset
    * to 0 when the city was created. */
-  city_tile_iterate_cxy(pcity->tile, ptile, x, y) {
+  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcity->tile, ptile,
+                        city_map_x, city_map_y) {
     output_type_iterate(o) {
-      pcity->tile_output[x][y][o] =
-	city_tile_output(pcity, ptile, is_celebrating, o);
+      pcity->tile_output[city_map_x][city_map_y][o] =
+        city_tile_output(pcity, ptile, is_celebrating, o);
     } output_type_iterate_end;
   } city_tile_iterate_cxy_end;
 }
@@ -2694,6 +2761,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->illness_trade = 0;
   pcity->turn_plague = -1; /* -1 = never */
 
+  pcity->city_radius_sq = game.info.init_city_radius_sq;
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
 

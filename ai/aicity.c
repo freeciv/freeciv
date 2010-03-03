@@ -170,10 +170,10 @@ static inline int city_want(struct player *pplayer, struct city *acity,
     struct tile *acenter = city_tile(acity);
     bool celebrating = base_city_celebrating(acity);
 
-    /* The below calculation mostly duplicates get_worked_tile_output(). 
+    /* The below calculation mostly duplicates get_worked_tile_output().
      * We do this only for buildings that we know may change tile
      * outputs. */
-    city_tile_iterate(acenter, ptile) {
+    city_tile_iterate(city_map_radius_sq_get(acity), acenter, ptile) {
       if (tile_worked(ptile) == acity) {
         output_type_iterate(o) {
           prod[o] += city_tile_output(acity, ptile, celebrating, o);
@@ -1887,7 +1887,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
            pcity->surplus[O_FOOD],
            pcity->surplus[O_SHIELD]);
 
-  city_tile_iterate(pcenter, atile) {
+  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, atile) {
     struct city *acity = tile_worked(atile);
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {

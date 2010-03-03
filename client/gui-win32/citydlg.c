@@ -1575,7 +1575,9 @@ static void city_dlg_mouse(struct city_dialog *pdialog, int x, int y,
 	  xr = x - pdialog->map.x;
 	  yr = y - pdialog->map.y;
 
-	  if (canvas_to_city_pos(&tile_x, &tile_y, xr, yr)) {
+          if (canvas_to_city_pos(&tile_x, &tile_y,
+                                 city_map_radius_sq_get(pdialog->pcity),
+                                 xr, yr)) {
 	    city_toggle_worker(pdialog->pcity, tile_x, tile_y);
 	  }
 	}
@@ -2076,10 +2078,11 @@ static  LONG CALLBACK happiness_proc(HWND win, UINT message,
 	  (y>=pdialog->maph.y)&&(y<(pdialog->maph.y+pdialog->map_h))) {
 	int tile_x,tile_y;
 
-	if (canvas_to_city_pos(&tile_x, &tile_y,
-			       x-pdialog->maph.x, y-pdialog->maph.y)) {
-	  city_toggle_worker(pdialog->pcity, tile_x, tile_y);
-	}
+        if (canvas_to_city_pos(&tile_x, &tile_y,
+                               city_map_radius_sq_get(pdialog->pcity)
+                               x-pdialog->maph.x, y-pdialog->maph.y)) {
+          city_toggle_worker(pdialog->pcity, tile_x, tile_y);
+        }
       }
       break;
     case WM_PAINT:

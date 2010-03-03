@@ -28,9 +28,9 @@ int get_citydlg_canvas_width(void);
 int get_citydlg_canvas_height(void);
 void generate_citydlg_dimensions(void);
 
-bool city_to_canvas_pos(int *canvas_x, int *canvas_y,
-                        int city_x, int city_y);
-bool canvas_to_city_pos(int *city_x, int *city_y,
+bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x,
+                        int city_y, int city_radius_sq);
+bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
                         int canvas_x, int canvas_y);
 void city_dialog_redraw_map(struct city *pcity,
                             struct canvas *pcanvas);

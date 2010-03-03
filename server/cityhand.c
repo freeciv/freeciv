@@ -129,11 +129,12 @@ void handle_city_change_specialist(struct player *pplayer, int city_id,
 ...
 **************************************************************************/
 void handle_city_make_specialist(struct player *pplayer, int city_id,
-				 int worker_x, int worker_y)
+                                 int worker_x, int worker_y)
 {
   struct tile *ptile;
   struct tile *pcenter;
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
 
   if (NULL == pcity) {
     /* Probably lost. */
@@ -141,17 +142,18 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
                 city_id);
     return;
   }
-  
-  if (!is_valid_city_coords(worker_x, worker_y)) {
+
+  if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
     log_error("handle_city_make_specialist() invalid city map {%d,%d} "
               "\"%s\".", worker_x, worker_y, city_name(pcity));
     return;
   }
   pcenter = city_tile(pcity);
 
-  if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
-    log_verbose("handle_city_make_specialist() unavailable city map {%d,%d} "
-                "\"%s\".", worker_x, worker_y, city_name(pcity));
+  if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
+                                        worker_y))) {
+    log_error("handle_city_make_specialist() unavailable city map {%d,%d} "
+              "\"%s\".", worker_x, worker_y, city_name(pcity));
     return;
   }
 
@@ -183,6 +185,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
   struct tile *ptile;
   struct tile *pcenter;
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
 
   if (NULL == pcity) {
     /* Probably lost. */
@@ -190,16 +193,17 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
     return;
   }
 
-  if (!is_valid_city_coords(worker_x, worker_y)) {
-    log_error("handle_city_make_worker() invalid city map {%d,%d} \"%s\".",
-              worker_x, worker_y, city_name(pcity));
+  if (!is_valid_city_coords(city_radius_sq, worker_x, worker_y)) {
+    log_error("handle_city_make_worker() invalid city map {%d,%d} "
+              "\"%s\".", worker_x, worker_y, city_name(pcity));
     return;
   }
   pcenter = city_tile(pcity);
 
-  if (NULL == (ptile = city_map_to_tile(pcenter, worker_x, worker_y))) {
-    log_verbose("handle_city_make_worker() unavailable city map {%d,%d} "
-                "\"%s\".", worker_x, worker_y, city_name(pcity));
+  if (NULL == (ptile = city_map_to_tile(pcenter, city_radius_sq, worker_x,
+                                        worker_y))) {
+    log_error("handle_city_make_worker() unavailable city map {%d,%d} "
+              "\"%s\".", worker_x, worker_y, city_name(pcity));
     return;
   }
 

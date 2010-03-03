@@ -427,6 +427,8 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
    * techs aren't researched that often.
    */
   cities_iterate(pcity) {
+    /* update squared city radius */
+    city_map_update_radius_sq(pcity, TRUE);
     city_refresh(pcity);
     send_city_info(city_owner(pcity), pcity);
   } cities_iterate_end;

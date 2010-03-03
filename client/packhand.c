@@ -464,7 +464,8 @@ void handle_city_info(struct packet_city_info *packet)
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles.  The server won't
        * send to us again. */
-      city_tile_iterate_skip_free_cxy(ptile, pworked, _x, _y) {
+      city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), ptile,
+                                      pworked, _x, _y) {
         if (pcity == tile_worked(pworked)) {
           if (NULL == worked_tiles) {
             worked_tiles = tile_list_new();
@@ -541,6 +542,8 @@ void handle_city_info(struct packet_city_info *packet)
               pcity->size, packet->size, city_name(pcity));
     pcity->size = packet->size;
   }
+
+  pcity->city_radius_sq = packet->city_radius_sq;
 
   pcity->city_options = packet->city_options;
 
@@ -804,7 +807,8 @@ void handle_city_short_info(struct packet_city_short_info *packet)
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles.  The server won't
        * send to us again. */
-      city_tile_iterate_skip_free_cxy(ptile, pworked, _x, _y) {
+      city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), ptile,
+                                      pworked, _x, _y) {
         if (pcity == tile_worked(pworked)) {
           if (NULL == worked_tiles) {
             worked_tiles = tile_list_new();

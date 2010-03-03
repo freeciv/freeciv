@@ -14,12 +14,15 @@
 #include <config.h>
 #endif
 
+/* utility */
 #include "log.h"
 #include "fcintl.h"
+
+/* common */
+#include "map.h"
 #include "movement.h"
 
-#include "map.h"
-
+/* server */
 #include "maphand.h"
 
 #include "mapgen_topology.h"
@@ -238,11 +241,12 @@ bool create_start_positions(enum start_mode mode,
     int this_tile_value = tile_value_aux[tile_index(ptile)];
     int lcount = 0, bcount = 0;
 
-    city_tile_iterate(ptile, ptile1) {
+    /* check all tiles within the default city radius */
+    city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, ptile, ptile1) {
       if (this_tile_value > tile_value_aux[tile_index(ptile1)]) {
-	lcount++;
+        lcount++;
       } else if (this_tile_value < tile_value_aux[tile_index(ptile1)]) {
-	bcount++;
+        bcount++;
       }
     } city_tile_iterate_end;
 

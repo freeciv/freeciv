@@ -3225,6 +3225,7 @@ static void load_ruleset_game(void)
   food_ini = secfile_lookup_int_vec(file, (size_t *)
                                     &game.info.granary_num_inis,
                                     "civstyle.granary_food_ini");
+
   if (game.info.granary_num_inis > MAX_GRANARY_INIS) {
     ruleset_error(LOG_FATAL,
                   "Too many granary_food_ini entries (%d, max %d)",
@@ -3294,6 +3295,13 @@ static void load_ruleset_game(void)
                                          RS_MIN_VIS_RADIUS_SQ,
                                          RS_MAX_VIS_RADIUS_SQ,
                                          "civstyle.init_vis_radius_sq");
+
+  game.info.init_city_radius_sq
+    = secfile_lookup_int_default_min_max(file,
+                                         RS_DEFAULT_CITY_RADIUS_SQ,
+                                         RS_MIN_CITY_RADIUS_SQ,
+                                         RS_MAX_CITY_RADIUS_SQ,
+                                         "civstyle.init_city_radius_sq");
 
   game.info.gold_upkeep_style
     = secfile_lookup_int_default_min_max(file,

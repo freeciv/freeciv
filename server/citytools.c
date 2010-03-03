@@ -1826,6 +1826,8 @@ void package_city(struct city *pcity, struct packet_city_info *packet,
     }
   }
 
+  packet->city_radius_sq = pcity->city_radius_sq;
+
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     packet->trade[i]=pcity->trade[i];
     packet->trade_value[i]=pcity->trade_value[i];
@@ -2243,7 +2245,8 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 enum city_tile_type city_map_status(const struct city *pcity,
                                     int city_x, int city_y)
 {
-  if (!is_valid_city_coords(city_x, city_y)) {
+  if (!is_valid_city_coords(city_map_radius_sq_get(pcity), city_x,
+                            city_y)) {
     return C_TILE_UNUSABLE;
   }
 
@@ -2353,7 +2356,8 @@ void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, cx, cy) {
+  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
+                                  ptile, cx, cy) {
     /* bypass city_map_update_tile_now() for efficiency */
     city_map_update_tile_direct(ptile, FALSE);
   } city_tile_iterate_skip_free_cxy_end;
@@ -2422,10 +2426,20 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
+  int vision_radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
 
-  vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
+  vision_change_sight(pcity->server.vision, V_MAIN, vision_radius_sq);
   vision_change_sight(pcity->server.vision, V_INVIS, 2);
 
   ASSERT_VISION(pcity->server.vision);
+}
+
+/**************************************************************************
+  Updates the squared city radius. If the radius is changed and
+  arrange_workers is set to TRUE auto_arrange_workers() is called.
+**************************************************************************/
+bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
+{
+  /* dummy function */
+  return FALSE;
 }

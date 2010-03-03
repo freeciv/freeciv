@@ -86,7 +86,7 @@ function hut_get_barbarians(unit)
   local type = unit.utype
   local owner = unit.owner
 
-  if unit.tile:city_exists_within_city_radius(true) 
+  if unit.tile:city_exists_within_max_city_map(true)
     or type:has_flag('Gameloss') then
     notify.event(owner, unit.tile, E.HUT_BARB_CITY_NEAR,
                  _("An abandoned village is here."))

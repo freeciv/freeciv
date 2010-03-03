@@ -4150,7 +4150,8 @@ static int fill_grid_sprite_array(const struct tileset *t,
               && !unit_has_orders(pfocus_unit)
               && city_can_be_built_here(pfocus_unit->tile, pfocus_unit)
               && city_tile_to_city_map(&dummy_x, &dummy_y,
-                                      pfocus_unit->tile, tile)) {
+                                       game.info.init_city_radius_sq,
+                                       pfocus_unit->tile, tile)) {
             unit[i] = TRUE;
             break;
           }
@@ -4159,10 +4160,10 @@ static int fill_grid_sprite_array(const struct tileset *t,
       worked[i] = FALSE;
 
       city[i] = (tile
-		 && (NULL == powner || NULL == client.conn.playing
-		     || powner == client.conn.playing)
-		 && (NULL == client.conn.playing
-		     || player_in_city_radius(client.conn.playing, tile)));
+                 && (NULL == powner || NULL == client.conn.playing
+                     || powner == client.conn.playing)
+                 && (NULL == client.conn.playing
+                     || player_in_city_map(client.conn.playing, tile)));
       if (city[i]) {
 	if (citymode) {
 	  /* In citymode, we only draw worked tiles for this city - other

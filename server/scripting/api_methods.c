@@ -89,11 +89,11 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
   Return TRUE there is a city inside city radius from ptile
 **************************************************************************/
 
-bool api_methods_tile_city_exists_within_city_radius(Tile *ptile,
-                                                     bool may_be_on_center)
+bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
+                                                      bool may_be_on_center)
 {
   SCRIPT_ASSERT(NULL != ptile, FALSE);
-  return city_exists_within_city_radius(ptile, may_be_on_center);
+  return city_exists_within_max_city_map(ptile, may_be_on_center);
 }
 
 /**************************************************************************

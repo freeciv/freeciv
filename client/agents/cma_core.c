@@ -111,7 +111,9 @@ static bool my_results_are_equal(const struct cm_result *const result1,
     T(surplus[stat]);
   } output_type_iterate_end;
 
-  city_map_iterate(x, y) {
+  fc_assert_ret_val(result1->city_radius_sq == result2->city_radius_sq,
+                    FALSE);
+  city_map_iterate(result1->city_radius_sq, index, x, y) {
     if (is_free_worked_cxy(x, y)) {
       continue;
     }
@@ -163,6 +165,7 @@ static bool apply_result_on_server(struct city *pcity,
 				   const struct cm_result *const result)
 {
   int first_request_id = 0, last_request_id = 0, i;
+  int city_radius_sq = city_map_radius_sq_get(pcity);
   struct cm_result current_state;
   bool success;
   struct tile *pcenter = city_tile(pcity);
@@ -193,7 +196,7 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Remove all surplus workers */
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_skip_free_cxy(city_radius_sq, pcenter, ptile, x, y) {
     if (tile_worked(ptile) == pcity
      && !result->worker_positions_used[x][y]) {
       log_apply_result("Removing worker at {%d,%d}.", x, y);
@@ -228,7 +231,7 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  city_tile_iterate_skip_free_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_skip_free_cxy(city_radius_sq, pcenter, ptile, x, y) {
     if (NULL == tile_worked(ptile)
      && result->worker_positions_used[x][y]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);

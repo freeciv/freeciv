@@ -496,6 +496,11 @@ extern struct civ_game game;
 #define RS_MIN_CITIES_MIN_DIST                   1
 #define RS_MAX_CITIES_MIN_DIST                   RS_MAX_VALUE
 
+/* the constants CITY_MAP_*_RADIUS are defined in city.c */
+#define RS_DEFAULT_CITY_RADIUS_SQ                CITY_MAP_DEFAULT_RADIUS_SQ
+#define RS_MIN_CITY_RADIUS_SQ                    CITY_MAP_MIN_RADIUS_SQ
+#define RS_MAX_CITY_RADIUS_SQ                    CITY_MAP_MAX_RADIUS_SQ
+
 #define RS_DEFAULT_VIS_RADIUS_SQ                 5 /* city radius 2 */
 #define RS_MIN_VIS_RADIUS_SQ                     0
 #define RS_MAX_VIS_RADIUS_SQ                     401 /* city radius 20 */

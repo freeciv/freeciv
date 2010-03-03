@@ -50,10 +50,13 @@ min_city_center_trade   = 0
 
 ; Minimum distance between cities (move distance).
 ; (Minimum value for this is 1, which means adjacent is okay.)
-min_dist_bw_cities      = 2
+min_dist_bw_cities	= 2
+
+; Square of initially city radius
+init_city_radius_sq     = 5
 
 ; Square of initially visible radius (true distance).
-init_vis_radius_sq      = 5
+init_vis_radius_sq	= 5
 
 ; The type of collateral contamination produced by a nuclear attack.
 ;   "Pollution" - Pollution (same as industrial/population-generated).

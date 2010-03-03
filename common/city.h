@@ -47,17 +47,24 @@ enum city_options {
 };
 BV_DEFINE(bv_city_options, CITYO_LAST);
 
-/* Changing this requires updating CITY_TILES and network capabilities. */
-#define CITY_MAP_RADIUS 2
+/* Changing the max radius requires updating network capabilities and results
+ * in incompatible savefiles. */
+#define CITY_MAP_MIN_RADIUS       2 /* 0 */
+#define CITY_MAP_DEFAULT_RADIUS   2 /* 2 */
+#define CITY_MAP_MAX_RADIUS       2 /* 5 */
 
-/* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_RADIUS_SQ */
-#define CITY_MAP_RADIUS_SQ (CITY_MAP_RADIUS * CITY_MAP_RADIUS + 1)
+/* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_*_RADIUS_SQ */
+#define CITY_MAP_DEFAULT_RADIUS_SQ \
+  (CITY_MAP_DEFAULT_RADIUS * CITY_MAP_DEFAULT_RADIUS + 1)
+#define CITY_MAP_MIN_RADIUS_SQ \
+  (CITY_MAP_MIN_RADIUS * CITY_MAP_MIN_RADIUS + 1)
+#define CITY_MAP_MAX_RADIUS_SQ \
+  (CITY_MAP_MAX_RADIUS * CITY_MAP_MAX_RADIUS + 1)
+/* the id for the city center */
+#define CITY_MAP_CENTER_RADIUS_SQ      -1
 
-/* Diameter of the workable city area.  Some places harcdode this number. */
-#define CITY_MAP_SIZE (CITY_MAP_RADIUS * 2 + 1) 
-
-/* Number of tiles a city can use */
-#define CITY_TILES city_tiles
+/* Maximum diameter of the workable city area. */
+#define CITY_MAP_MAX_SIZE (CITY_MAP_MAX_RADIUS * 2 + 1)
 
 #define INCITE_IMPOSSIBLE_COST (1000 * 1000 * 1000)
 
@@ -71,63 +78,71 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
  *
  * The constant may be changed since it isn't externally visible.
  */
-#define MAX_CITY_SIZE					100
+#define MAX_CITY_SIZE		250
 
 /* Iterate a city map, from the center (the city) outwards */
 struct iter_index {
   int dx, dy, dist;
 };
 
+#define CITY_REL2ABS(_coor) (_coor + CITY_MAP_MAX_RADIUS)
+#define CITY_ABS2REL(_coor) (_coor - CITY_MAP_MAX_RADIUS)
+
 bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
-                           int city_tile_index, int city_radius);
-int city_map_tiles(int city_radius);
+                           int city_tile_index, int city_radius_sq);
+int city_map_radius_sq_get(const struct city *pcity);
+void city_map_radius_sq_set(struct city *pcity, int radius_sq);
+int city_map_tiles(int city_radius_sq);
 
 /* Iterate over the tiles of a city map. Starting at a given city radius
- * (starting at the city center is possible using _radius_min = -1) outward
- * to the tiles of _radius_max. (_x, _y) will be the valid elements of
- * [0, CITY_MAP_SIZE] taking into account the city radius. */
-#define city_map_iterate_outwards_radius(_radius_min, _radius_max,	\
-                                         _index, _x, _y)		\
+ * (the city center is _radius_sq_min = 0) outward to the tiles of
+ * _radius_sq_max. (_x, _y) will be the valid elements of
+ * [0, CITY_MAP_MAX_SIZE] taking into account the city radius. */
+#define city_map_iterate_outwards_radius_sq(_radius_sq_min,		\
+                                            _radius_sq_max,		\
+                                            _index, _x, _y)		\
 {									\
-  fc_assert(_radius_min <= _radius_max);				\
+  fc_assert(_radius_sq_min <= _radius_sq_max);				\
   int _x = 0, _y = 0, _index;						\
-  int _x##_y##_index = city_map_tiles(_radius_min);			\
+  int _x##_y##_index = city_map_tiles(_radius_sq_min);			\
   while (city_tile_index_to_xy(&_x, &_y, _x##_y##_index,		\
-                               _radius_max)) {				\
+                               _radius_sq_max)) {			\
     _index = _x##_y##_index;						\
     _x##_y##_index++;
 
-#define city_map_iterate_outwards_radius_end				\
+#define city_map_iterate_outwards_radius_sq_end				\
   }									\
 }
 
 /* Iterate a city map. This iterates over all city positions in the city
  * map starting at the city center (i.e., positions that are workable by
- * the city) using the coordinates (_x, _y). It is an abbreviation for
- * city_map_iterate_outwards_radius(_end). */
-#define city_map_iterate(_x, _y)					\
-  city_map_iterate_outwards_radius(-1, CITY_MAP_RADIUS, _index##_x_y,	\
-                                   _x, _y)
+ * the city) using the index (_index) and  the coordinates (_x, _y). It
+ * is an abbreviation for city_map_iterate_outwards_radius_sq(_end). */
+#define city_map_iterate(_radius_sq, _index, _x, _y)			\
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
+                                      _radius_sq, _index, _x, _y)
 
 #define city_map_iterate_end						\
-  city_map_iterate_outwards_radius_end
+  city_map_iterate_outwards_radius_sq_end
 
 /* Iterate the tiles between two radii of a city map. */
-#define city_map_iterate_radius(_radius_min, _radius_max, _x, _y)	\
-  city_map_iterate_outwards_radius(_radius_min, _radius_max,		\
-                                   _index##_x_y, _x, _y)
+#define city_map_iterate_radius_sq(_radius_sq_min, _radius_sq_max,	\
+                                   _x, _y)				\
+  city_map_iterate_outwards_radius_sq(_radius_sq_min, _radius_sq_max,	\
+                                      _index##_x_y, _x, _y)
 
-#define city_map_iterate_radius_end					\
-  city_map_iterate_outwards_radius_end
+#define city_map_iterate_radius_sq_end					\
+  city_map_iterate_outwards_radius_sq_end
 
 /* Iterate a city map in checked real map coordinates.
- * _radius is the city radius.
+ * _radius_sq is the squared city radius.
  * _city_tile is the center of the (possible) city.
- * (_x, _y) will be the valid elements of [0, CITY_MAP_SIZE] taking
- * into account the city radius. */
-#define city_tile_iterate_cxy(_city_tile, _tile, _x, _y) {		\
-  city_map_iterate(_x, _y) {						\
-    struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);		\
+ * (_x, _y) will be the valid elements of [0, CITY_MAP_MAX_SIZE] taking
+ * into account the (squared) city radius. */
+#define city_tile_iterate_cxy(_radius_sq, _city_tile, _tile, _x, _y) {	\
+  city_map_iterate(_radius_sq, _index, _x, _y) {			\
+    struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
+                                          _x, _y);			\
     if (NULL != _tile) {
 
 #define city_tile_iterate_cxy_end					\
@@ -136,38 +151,28 @@ int city_map_tiles(int city_radius);
 }
 
 /* simple extension to skip is_free_worked() tiles. */
-#define city_tile_iterate_skip_free_cxy(_city_tile, _tile,		\
-                                        _x, _y) {			\
-  city_map_iterate(_x, _y) {						\
+#define city_tile_iterate_skip_free_cxy(_radius_sq, _city_tile, _tile,	\
+                                         _x, _y) {			\
+  city_map_iterate(_radius_sq, _index, _x, _y) {			\
     if (!is_free_worked_cxy(_x, _y)) {					\
-      struct tile *_tile = city_map_to_tile(_city_tile, _x, _y);	\
+      struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
+                                            _x, _y);			\
       if (NULL != _tile) {
 
 #define city_tile_iterate_skip_free_cxy_end				\
       }									\
     }									\
- } city_map_iterate_end;						\
+  } city_map_iterate_end;						\
 }
 
 /* Does the same thing as city_tile_iterate_cxy, but keeps the city
  * coordinates hidden. */
-#define city_tile_iterate(_city_tile, _tile)				\
-{									\
-  city_tile_iterate_cxy(_city_tile, _tile, _tile##_x, _tile##_y) {
+#define city_tile_iterate(_radius_sq, _city_tile, _tile)		\
+  city_tile_iterate_cxy(_radius_sq, _city_tile, _tile, _tile##_x,	\
+                        _tile##_y)
 
- #define city_tile_iterate_end						\
-   } city_tile_iterate_cxy_end;						\
- }
-
-/* Iterate a city map. This iterates over all city positions in the city
- * map starting at the city center (i.e., positions that are workable by
- * the city) using the index (_index). It is an abbreviation for
- * city_map_iterate_outwards_radius(_end). */
-#define city_map_iterate_index_xy(_index, _x, _y)			\
-  city_map_iterate_outwards_radius(-1, CITY_MAP_RADIUS, _index, _x, _y)
-
-#define city_map_iterate_index_xy_end					\
-  city_map_iterate_outwards_radius_end
+#define city_tile_iterate_end						\
+  city_tile_iterate_cxy_end;						\
 
 /* Improvement status (for cities' lists of improvements)
  * (replaced Impr_Status) */
@@ -278,7 +283,7 @@ struct ai_city {
 
   /* Used for caching change in value from a worker performing
    * a particular activity on a particular tile. */
-  int act_value[ACTIVITY_LAST][CITY_MAP_SIZE][CITY_MAP_SIZE];
+  int act_value[ACTIVITY_LAST][CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
 };
 
 enum citizen_category {
@@ -320,7 +325,7 @@ struct city {
   int trade[NUM_TRADE_ROUTES], trade_value[NUM_TRADE_ROUTES];
 
   /* Tile output, regardless of if the tile is actually worked. */
-  unsigned char tile_output[CITY_MAP_SIZE][CITY_MAP_SIZE][O_LAST];
+  unsigned char tile_output[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE][O_LAST];
 
   /* the productions */
   int surplus[O_LAST]; /* Final surplus in each category. */
@@ -346,6 +351,7 @@ struct city {
                                    the clients as the clients do not have all
                                    information about the trade cities */
   int turn_plague;              /* last turn with an illness in the city */
+  int city_radius_sq;           /* current squared city radius */
 
   /* turn states */
   int airlift;
@@ -383,7 +389,7 @@ struct city {
      propagated to the clients. Instead, tile_worked() points directly
      to the affected city.
    */
-  enum city_tile_type city_map[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  enum city_tile_type city_map[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
 
   struct {
     /* Only used at the client (the server is omniscient). */
@@ -575,16 +581,19 @@ const char *city_improvement_name_translation(const struct city *pcity,
 const char *city_production_name_translation(const struct city *pcity);
 
 /* city map functions */
-bool is_valid_city_coords(const int city_x, const int city_y);
+bool is_valid_city_coords(const int city_radius_sq, const int city_map_x,
+                          const int city_map_y);
 bool city_base_to_city_map(int *city_map_x, int *city_map_y,
-			   const struct city *const pcity,
-			   const struct tile *map_tile);
+                           const struct city *const pcity,
+                           const struct tile *map_tile);
 bool city_tile_to_city_map(int *city_map_x, int *city_map_y,
-			   const struct tile *city_center,
-			   const struct tile *map_tile);
+                           const int city_radius_sq,
+                           const struct tile *city_center,
+                           const struct tile *map_tile);
 
 struct tile *city_map_to_tile(const struct tile *city_center,
-			      int city_map_x, int city_map_y);
+                              int city_radius_sq, int city_map_x,
+                              int city_map_y);
 
 /* Initialization functions */
 int compare_iter_index(const void *a, const void *b);
@@ -643,9 +652,9 @@ struct city *is_non_allied_city_tile(const struct tile *ptile,
 
 bool is_unit_near_a_friendly_city(const struct unit *punit);
 bool is_friendly_city_near(const struct player *owner,
-			   const struct tile *ptile);
-bool city_exists_within_city_radius(const struct tile *ptile,
-				    bool may_be_on_center);
+                           const struct tile *ptile);
+bool city_exists_within_max_city_map(const struct tile *ptile,
+                                     bool may_be_on_center);
 
 /* granary size as a function of city size */
 int city_granary_size(int city_size);
@@ -717,7 +726,7 @@ bool city_exist(int id);
 #define is_city_center(_city, _tile) (_city->tile == _tile)
 #define is_free_worked(_city, _tile) (_city->tile == _tile)
 #define is_free_worked_cxy(city_x, city_y) \
-	(CITY_MAP_RADIUS == city_x && CITY_MAP_RADIUS == city_y)
+  (CITY_MAP_MAX_RADIUS == city_x && CITY_MAP_MAX_RADIUS == city_y)
 #define FREE_WORKED_TILES (1)
 
 enum citytile_type find_citytile_by_rule_name(const char *name);

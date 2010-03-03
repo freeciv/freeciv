@@ -69,7 +69,10 @@ void citymap_turn_init(struct player *pplayer)
     city_list_iterate(pplayer->cities, pcity) {
       struct tile *pcenter = city_tile(pcity);
 
-      city_tile_iterate(pcenter, ptile) {
+      /* reserve at least the default (squared) city radius */
+      city_tile_iterate(MAX(city_map_radius_sq_get(pcity),
+                            CITY_MAP_DEFAULT_RADIUS_SQ),
+                        pcenter, ptile) {
         struct city *pwork = tile_worked(ptile);
 
         if (NULL != pwork) {
@@ -85,7 +88,9 @@ void citymap_turn_init(struct player *pplayer)
     if (unit_has_type_flag(punit, F_CITIES)
         && punit->ai.ai_role == AIUNIT_BUILD_CITY) {
 
-      city_tile_iterate(punit->goto_tile, ptile) {
+      /* use default (squared) city radius */
+      city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, punit->goto_tile,
+                        ptile) {
         if (citymap[tile_index(ptile)] >= 0) {
           citymap[tile_index(ptile)]++;
         }
@@ -110,9 +115,9 @@ void citymap_reserve_city_spot(struct tile *ptile, int id)
 #endif
 
   /* Tiles will now be "reserved" by actual workers, so free excess
-   * reservations. Also mark tiles for city overlapping, or 
-   * 'crowding'. */
-  city_tile_iterate(ptile, ptile1) {
+   * reservations. Also mark tiles for city overlapping, or 'crowding'.
+   * Uses the default city map size / squared city radius. */
+  city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, ptile, ptile1) {
     if (citymap[tile_index(ptile1)] == -id) {
       citymap[tile_index(ptile1)] = 0;
     }
@@ -129,7 +134,7 @@ void citymap_reserve_city_spot(struct tile *ptile, int id)
 **************************************************************************/
 void citymap_free_city_spot(struct tile *ptile, int id)
 {
-  city_tile_iterate(ptile, ptile1) {
+  city_tile_iterate(CITY_MAP_DEFAULT_RADIUS_SQ, ptile, ptile1) {
     if (citymap[tile_index(ptile1)] == -(id)) {
       citymap[tile_index(ptile1)] = 0;
     } else if (citymap[tile_index(ptile1)] > 0) {

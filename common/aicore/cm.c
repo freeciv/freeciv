@@ -623,9 +623,8 @@ static void copy_partial_solution(struct partial_solution *dst,
 static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
 {
-  int i;
-  int citizens = 0;
   struct city *pcity = state->pcity;
+  int i, citizens = 0, city_radius_sq = city_map_radius_sq_get(pcity);
 
 #ifdef GATHER_TIME_STATS
   performance.current->apply_count++;
@@ -637,7 +636,7 @@ static void apply_solution(struct cm_state *state,
    * the city center). */
   memset(&pcity->specialists, 0, sizeof(pcity->specialists));
 
-  city_map_iterate(x, y) {
+  city_map_iterate(city_radius_sq, index, x, y) {
     if (is_free_worked_cxy(x, y)) {
       continue;
     }
@@ -1139,7 +1138,8 @@ static void init_tile_lattice(struct city *pcity,
   /* add all the fields into the lattice */
   tile_type_init(&type); /* init just once */
 
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
+                        x, y) {
     if (is_free_worked(pcity, ptile)) {
       pcity->city_map[x][y] = C_TILE_WORKER;
       continue;
@@ -1579,7 +1579,7 @@ static void init_min_production(struct cm_state *state)
       min = min * 100 / pcity->bonus[o];
     }
 
-    city_tile_iterate(pcenter, ptile) {
+    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (is_free_worked(pcity, ptile)) {
 	min -= city_tile_output(pcity, ptile, is_celebrating, o);
       }
@@ -1903,7 +1903,7 @@ int cm_result_workers(const struct cm_result *result)
 {
   int count = 0;
 
-  city_map_iterate(x, y) {
+  city_map_iterate(result->city_radius_sq, index, x, y) {
     if (is_free_worked_cxy(x, y)) {
       continue;
     }
@@ -1947,9 +1947,12 @@ void cm_result_from_main_map(struct cm_result *result,
   struct tile *pcenter = city_tile(pcity);
 
   memset(result->worker_positions_used, 0,
-	 sizeof(result->worker_positions_used));
+         sizeof(result->worker_positions_used));
 
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+  /* set squared city radius */
+  result->city_radius_sq = city_map_radius_sq_get(pcity);
+
+  city_tile_iterate_cxy(result->city_radius_sq, pcenter, ptile, x, y) {
     if (main_map) {
       struct city *pwork = tile_worked(ptile);
 
@@ -2108,7 +2111,8 @@ void cm_print_city(const struct city *pcity)
            pcity->size, specialists_string(pcity->specialists));
 
   log_test("  workers at:");
-  city_tile_iterate_cxy(pcenter, ptile, x, y) {
+  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
+                        x, y) {
     struct city *pwork = tile_worked(ptile);
 
     if (NULL != pwork && pwork == pcity) {
@@ -2146,20 +2150,20 @@ void cm_print_result(const struct cm_result *result)
            result->found_a_valid, result->disorder, result->happy);
 
   log_test("  workers at:");
-  city_map_iterate(x, y) {
+  city_map_iterate(result->city_radius_sq, index, x, y) {
     if (result->worker_positions_used[x][y]) {
       log_test("    {%2d,%2d}", x, y);
     }
   } city_map_iterate_end;
 
-  for (y = 0; y < CITY_MAP_SIZE; y++) {
-    char line[CITY_MAP_SIZE + 1];
+  for (y = 0; y < CITY_MAP_MAX_SIZE; y++) {
+    char line[CITY_MAP_MAX_SIZE + 1];
     int x;
 
-    line[CITY_MAP_SIZE] = 0;
+    line[CITY_MAP_MAX_SIZE] = 0;
 
-    for (x = 0; x < CITY_MAP_SIZE; x++) {
-      if (!is_valid_city_coords(x, y)) {
+    for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+      if (!is_valid_city_coords(result->city_radius_sq, x, y)) {
         line[x] = '-';
       } else if (is_free_worked_cxy(x, y)) {
         line[x] = '+';

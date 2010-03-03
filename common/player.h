@@ -258,8 +258,8 @@ struct city *player_find_city_by_id(const struct player *pplayer,
 struct unit *player_find_unit_by_id(const struct player *pplayer,
 				    int unit_id);
 
-bool player_in_city_radius(const struct player *pplayer,
-			   const struct tile *ptile);
+bool player_in_city_map(const struct player *pplayer,
+                        const struct tile *ptile);
 bool player_knows_techs_with_flag(const struct player *pplayer,
 				  enum tech_flag_id flag);
 int num_known_tech_with_flag(const struct player *pplayer,

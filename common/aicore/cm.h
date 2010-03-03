@@ -26,7 +26,7 @@
  * the weighted sum over the surplus of each type.
  */
 
-#include "city.h"		/* CITY_MAP_SIZE */
+#include "city.h"		/* CITY_MAP_MAX_SIZE */
 #include "shared.h"		/* bool type */
 
 /* A description of the goal. */
@@ -45,8 +45,9 @@ struct cm_result {
   bool found_a_valid, disorder, happy;
 
   int surplus[O_LAST];
+  int city_radius_sq;
 
-  bool worker_positions_used[CITY_MAP_SIZE][CITY_MAP_SIZE];
+  bool worker_positions_used[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
   int specialists[SP_MAX];
 };
 

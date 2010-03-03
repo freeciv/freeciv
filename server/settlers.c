@@ -818,7 +818,8 @@ static int evaluate_improvements(struct unit *punit,
     struct tile *pcenter = city_tile(pcity);
 
     /* try to work near the city */
-    city_tile_iterate_cxy(pcenter, ptile, cx, cy) {
+    city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
+                          cx, cy) {
       bool consider = TRUE;
       bool in_use = (tile_worked(ptile) == pcity);
 
@@ -1198,7 +1199,7 @@ static int best_worker_tile_value(struct city *pcity)
   struct tile *pcenter = city_tile(pcity);
   int best = 0;
 
-  city_tile_iterate(pcenter, ptile) {
+  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
     if (is_free_worked(pcity, ptile)
 	|| tile_worked(ptile) == pcity /* quick test */
 	|| city_can_work_tile(pcity, ptile)) {
@@ -1224,15 +1225,16 @@ void initialize_infrastructure_cache(struct player *pplayer)
 {
   city_list_iterate(pplayer->cities, pcity) {
     struct tile *pcenter = city_tile(pcity);
+    int radius_sq = city_map_radius_sq_get(pcity);
     int best = best_worker_tile_value(pcity);
 
-    city_map_iterate(city_x, city_y) {
+    city_map_iterate(radius_sq, city_index, city_x, city_y) {
       activity_type_iterate(act) {
         pcity->ai->act_value[act][city_x][city_y] = -1;
       } activity_type_iterate_end;
     } city_map_iterate_end;
 
-    city_tile_iterate_cxy(pcenter, ptile, city_x, city_y) {
+    city_tile_iterate_cxy(radius_sq, pcenter, ptile, city_x, city_y) {
 #ifndef NDEBUG
       struct terrain *old_terrain = tile_terrain(ptile);
       bv_special old_special = ptile->special;

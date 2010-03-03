@@ -222,7 +222,7 @@ void game_remove_city(struct city *pcity)
               nation_rule_name(nation_of_player(powner)),
               city_name(pcity));
 
-    city_tile_iterate(pcenter, ptile) {
+    city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
       if (tile_worked(ptile) == pcity) {
         tile_set_worked(ptile, NULL);
       }

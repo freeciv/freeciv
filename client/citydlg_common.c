@@ -63,11 +63,12 @@ void generate_citydlg_dimensions(void)
 {
   int min_x = 0, max_x = 0, min_y = 0, max_y = 0;
 
-  city_map_iterate(city_x, city_y) {
+  /* use maximum possible squared city radius. */
+  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, city_index, city_x, city_y) {
     int canvas_x, canvas_y;
 
-    map_to_gui_vector(tileset, &canvas_x, &canvas_y,
-		      city_x - CITY_MAP_RADIUS, city_y - CITY_MAP_RADIUS);
+    map_to_gui_vector(tileset, &canvas_x, &canvas_y, CITY_ABS2REL(city_x),
+                      CITY_ABS2REL(city_y));
 
     min_x = MIN(canvas_x, min_x);
     max_x = MAX(canvas_x, max_x);
@@ -83,18 +84,21 @@ void generate_citydlg_dimensions(void)
   Converts a (cartesian) city position to citymap canvas coordinates.
   Returns TRUE if the city position is valid.
 **************************************************************************/
-bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
+bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x,
+                        int city_y, int city_radius_sq)
 {
-  const int x0 = CITY_MAP_RADIUS, y0 = CITY_MAP_RADIUS;
   const int width = get_citydlg_canvas_width();
   const int height = get_citydlg_canvas_height();
 
   /* The citymap is centered over the center of the citydlg canvas. */
-  map_to_gui_vector(tileset, canvas_x, canvas_y, city_x - x0, city_y - y0);
+  map_to_gui_vector(tileset, canvas_x, canvas_y, CITY_ABS2REL(city_x),
+                    CITY_ABS2REL(city_y));
   *canvas_x += (width - tileset_tile_width(tileset)) / 2;
   *canvas_y += (height - tileset_tile_height(tileset)) / 2;
 
-  fc_assert_ret_val(is_valid_city_coords(city_x, city_y), FALSE);
+  fc_assert_ret_val(is_valid_city_coords(city_radius_sq, city_x, city_y),
+                    FALSE);
+
   return TRUE;
 }
 
@@ -102,7 +106,8 @@ bool city_to_canvas_pos(int *canvas_x, int *canvas_y, int city_x, int city_y)
   Converts a citymap canvas position to a (cartesian) city coordinate
   position.  Returns TRUE iff the city position is valid.
 **************************************************************************/
-bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
+bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
+                        int canvas_x, int canvas_y)
 {
   int orig_canvas_x = canvas_x, orig_canvas_y = canvas_y;
   const int width = get_citydlg_canvas_width();
@@ -130,13 +135,13 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int canvas_x, int canvas_y)
 
   /* Add on the offset of the top-left corner to get the final
    * coordinates (like in canvas_to_map_pos). */
-  *city_x += CITY_MAP_RADIUS;
-  *city_y += CITY_MAP_RADIUS;
+  *city_x += CITY_MAP_MAX_RADIUS;
+  *city_y += CITY_MAP_MAX_RADIUS;
 
-  log_debug("canvas_to_city_pos(pos=(%d,%d))=(%d,%d)",
-            orig_canvas_x, orig_canvas_y, *city_x, *city_y);
+  log_debug("canvas_to_city_pos(pos=(%d,%d))=(%d,%d)@radius=%d",
+            orig_canvas_x, orig_canvas_y, *city_x, *city_y, city_radius_sq);
 
-  return is_valid_city_coords(*city_x, *city_y);
+  return is_valid_city_coords(city_radius_sq, *city_x, *city_y);
 }
 
 /* Iterate over all known tiles in the city.  This iteration follows the
@@ -944,9 +949,11 @@ int city_change_specialist(struct city *pcity, Specialist_type_id from,
 **************************************************************************/
 int city_toggle_worker(struct city *pcity, int city_x, int city_y)
 {
-  struct tile *ptile = city_map_to_tile(city_tile(pcity), city_x, city_y);
+  int city_radius_sq = city_map_radius_sq_get(pcity);
+  struct tile *ptile = city_map_to_tile(city_tile(pcity), city_radius_sq,
+                                        city_x, city_y);
 
-  fc_assert(is_valid_city_coords(city_x, city_y));
+  fc_assert(is_valid_city_coords(city_radius_sq, city_x, city_y));
   if (NULL == ptile) {
     return 0;
   }

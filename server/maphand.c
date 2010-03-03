@@ -295,7 +295,7 @@ void give_citymap_from_player_to_player(struct city *pcity,
 
   buffer_shared_vision(pdest);
 
-  city_tile_iterate(pcenter, ptile) {
+  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
     give_tile_info_from_player_to_player(pfrom, pdest, ptile);
   } city_tile_iterate_end;
 
@@ -1699,11 +1699,10 @@ void map_claim_border(struct tile *ptile, struct player *owner)
         int city_x, city_y;
 
         map_distance_vector(&city_x, &city_y, ccity->tile, dtile);
-        city_x += CITY_MAP_RADIUS;
-        city_y += CITY_MAP_RADIUS;
 
-        if (is_valid_city_coords(city_x, city_y)) {
-          /* Tile is within city radius */
+        if (is_valid_city_coords(city_map_radius_sq_get(ccity),
+            CITY_ABS2REL(city_x), CITY_ABS2REL(city_y))) {
+          /* Tile is within squared city radius */
           continue;
         }
       }
