@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-03-01 19:39+0300\n"
+"PO-Revision-Date: 2010-03-03 20:08+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -22983,7 +22983,7 @@ msgstr "Ракетний крейсер"
 #: data/default/units.ruleset:1541
 #: data/civ2/units.ruleset:1498
 msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
-msgstr ""
+msgstr "Ракетний крейсер озброєно потужною захисною ракетною системою."
 
 #: data/default/units.ruleset:1547
 #: data/civ2/units.ruleset:1504
@@ -23250,7 +23250,7 @@ msgstr "Слони"
 
 #: data/civ2/units.ruleset:775
 msgid "Elephants are towering animals trained for war that are often used as powerful shock troops, but defend poorly against most other units."
-msgstr ""
+msgstr "Слони - це великі тварини, видресирувані для військових дій, що часто використовуються як потужні війська для нападу. Втім, вони погано захищаються від більшості інших підрозділів."
 
 #: data/civ2/units.ruleset:781
 msgid "Crusaders"
@@ -23258,7 +23258,7 @@ msgstr "Хрестоносці"
 
 #: data/civ2/units.ruleset:807
 msgid "Crusaders are highly disciplined mounted warriors driven by a higher cause."
-msgstr ""
+msgstr "Хрестоносці - це високо дисципліновані кінні воїни, яких веде вища мета."
 
 #: data/civ2/units.ruleset:1266
 #: data/civ1/units.ruleset:722
@@ -25101,7 +25101,7 @@ msgstr "Хакер"
 
 #: data/nation/hacker.ruleset:40
 msgid "?title:1337"
-msgstr ""
+msgstr "1337"
 
 #: data/nation/hacker.ruleset:40
 #, fuzzy
@@ -25158,7 +25158,7 @@ msgstr "Шотландці"
 
 #: data/nation/hittite.ruleset:6
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
-msgstr ""
+msgstr "Королівство Хеттів існувало з 1680р. до н.е. до 1180р. до н.е. Це перша цивілізація, що користувалася залізом. У період свого розквіту, вони контролювали центральну Анатолію, північно-західну Сирію та Месопотамію аж до Вавилону."
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
@@ -25344,7 +25344,7 @@ msgstr "Іракці"
 
 #: data/nation/iraqi.ruleset:6
 msgid "Iraq was founded after the fall of the Ottoman empire. It is encompassing the ancient region of Mesopotamia at the confluence of the Tigris and Euphrates rivers."
-msgstr ""
+msgstr "Ірак було засновано після розпаду Оттоманської імперії. Він охоплює територію древньої Месопотамії біля злиття річок Тігра та Ефрата."
 
 #: data/nation/iraqi.ruleset:21
 msgid "Dictatress"
@@ -25832,7 +25832,7 @@ msgstr "Мапуче"
 
 #: data/nation/mapuche.ruleset:7
 msgid "The Mapuche people successfully resisted the expansion of the Inka empire, halting them at the Maule river in what is now central Chile. They proved to be stubborn opponents of the Spanish, too, who, along with their Chilean successors, took 300 years to conquer them."
-msgstr ""
+msgstr "Народ Мапуче успішно чинив опір експансії імперії Інків, зупинивши їх просування на річці Мауле у центральному Чилі. Вони також вперто боронилися від іспанців, яким, враховуючи їх чилійських наступників, знадобилося 300 років, щоб скорити Мапуче."
 
 #: data/nation/mapuche.ruleset:19
 msgid "Toqui"
@@ -26378,7 +26378,7 @@ msgstr "Рюкюсці"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid "The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful maritime trading nation eventually invaded, occupied, and annexed by Japan."
-msgstr ""
+msgstr "Ванство Рюкю (1372-1879) було мирною приморською торговою державою, яку врешті захопила та приєднала Японія."
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
@@ -26412,7 +26412,7 @@ msgstr "Самогитяне"
 
 #: data/nation/samogitian.ruleset:6
 msgid "Samogitia - historical country near the Baltic Sea - home to the last pagans in Europe (official until 1413). Today, Samogitia is a region of Lithuania"
-msgstr ""
+msgstr "Жемайтія - історична область біля Балтійського моря, останній притулок поган у Європі (офіційно, до 1413). Зараз Жемайтія входить до складу Литви."
 
 #: data/nation/saxon.ruleset:3
 msgid "Saxon"
@@ -26424,7 +26424,7 @@ msgstr "Саксонці"
 
 #: data/nation/saxon.ruleset:6
 msgid "The Electorate of Saxony was an independent hereditary electorate of the Holy Roman Empire from 1356-1806."
-msgstr ""
+msgstr "Курфюрство Саксонія було незалежним спадковим курфюрством Священної Римської Імперії у 1356-1806."
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
@@ -26631,7 +26631,7 @@ msgstr "Шумери"
 
 #: data/nation/sumerian.ruleset:6
 msgid "Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of Sumerian writing some 5500 years old have been found, pre-dating every other writing in history."
-msgstr ""
+msgstr "Шумери контролювали південну Месопотамію до розквіту Вавилону. Таблички з шумерським клинописом - це найдревніше відоме письмо в історії людства - їм понад 5500 років."
 
 #: data/nation/sumerian.ruleset:28
 #, fuzzy
