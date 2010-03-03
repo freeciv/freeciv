@@ -10941,7 +10941,7 @@ msgstr " з %s"
 #: client/text.c:260
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ", та "
+msgstr ", та %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:264
@@ -11271,7 +11271,7 @@ msgstr[2] ""
 
 #: client/text.c:1032
 msgid "Shows your progress in researching the current technology."
-msgstr "Показує Ваш прогрес у дослідженні поточної технології.\n"
+msgstr "Показує Ваш прогрес у дослідженні поточної технології."
 
 #: client/text.c:1039
 msgid "no research target."
