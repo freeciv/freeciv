@@ -57,6 +57,7 @@
 #include "ruleset.h"
 #include "savegame.h"
 #include "settings.h"
+#include "sernet.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 
@@ -382,6 +383,12 @@ int main(int argc, char **argv)
 
   init_nls();
   init_character_encodings(FC_DEFAULT_DATA_ENCODING, FALSE);
+
+  /* must be before con_log_init() */
+  init_connections();
+  con_log_init(srvarg.log_filename, srvarg.loglevel,
+               srvarg.fatal_assertions);
+  /* logging available after this point */
 
   /* Initialize game with default values */
   game_init();
