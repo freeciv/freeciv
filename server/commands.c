@@ -187,14 +187,14 @@ static struct command commands[] = {
    VCF_NONE, 50
   },
   {"team",	ALLOW_CTRL,
-   /* TRANS: translate text between <> and [] only */
-   N_("team <player> [team]"),
-   N_("Change, add or remove a player's team affiliation."),
-   N_("Sets a player as member of a team. If no team specified, the "
-      "player is set teamless. Use \"\" if names contain whitespace. "
-      "A team is a group of players that start out allied, with shared "
+   /* TRANS: translate text between <> only */
+   N_("team <player> <team>"),
+   N_("Change a player's team affiliation."),
+   N_("A team is a group of players that start out allied, with shared "
       "vision and embassies, and fight together to achieve team victory "
-      "with averaged individual scores."),
+      "with averaged individual scores. Each player is always a member "
+      "of a team (possibly the only member). This command changes which "
+      "team a player is a member of. Use \"\" if names contain whitespace."),
    VCF_NONE, 50
   },
   {"rulesetdir", ALLOW_CTRL,
