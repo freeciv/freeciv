@@ -1964,17 +1964,13 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     if (!pconn) {
       log_verbose("Server reports new connection %d %s",
                   pinfo->id, pinfo->username);
-      if (pinfo->id == client.conn.id) {
-        /* Our connection. */
-        pconn = &client.conn;
-      } else {
-        pconn = fc_calloc(1, sizeof(struct connection));
-        pconn->buffer = NULL;
-        pconn->send_buffer = NULL;
-        pconn->ping_time = -1.0;
-      }
+
+      pconn = fc_calloc(1, sizeof(struct connection));
+      pconn->buffer = NULL;
+      pconn->send_buffer = NULL;
+      pconn->ping_time = -1.0;
       if (pplayer) {
-	conn_list_append(pplayer->connections, pconn);
+        conn_list_append(pplayer->connections, pconn);
       }
       conn_list_append(game.all_connections, pconn);
       conn_list_append(game.est_connections, pconn);
@@ -1991,14 +1987,6 @@ void handle_conn_info(struct packet_conn_info *pinfo)
       }
     }
 
-    if (pconn == &client.conn
-        && (pconn->playing != pplayer
-            || pconn->observer != pinfo->observer)) {
-      /* Our connection state changed, let prepare the changes and reset
-       * the game. */
-      preparing_client_state = TRUE;
-    }
-
     pconn->id = pinfo->id;
     pconn->established = pinfo->established;
     pconn->observer = pinfo->observer;
@@ -2008,12 +1996,36 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     sz_strlcpy(pconn->username, pinfo->username);
     sz_strlcpy(pconn->addr, pinfo->addr);
     sz_strlcpy(pconn->capability, pinfo->capability);
+
+    if (pinfo->id == client.conn.id) {
+      /* NB: In this case, pconn is not a duplication of client.conn.
+       *
+       * pconn->addr is our address that the server knows whereas
+       * client.conn.addr is the address to the server. Also,
+       * pconn->capability stores our capabilites known at server side
+       * whereas client.conn.capability represents the capabilities of the
+       * server. */
+      if (client.conn.playing != pplayer
+          || client.conn.observer != pinfo->observer) {
+        /* Our connection state changed, let prepare the changes and reset
+         * the game. */
+        preparing_client_state = TRUE;
+      }
+
+      /* Copy our current state into the static structure (our connection
+       * to the server). */
+      client.conn.established = pinfo->established;
+      client.conn.observer = pinfo->observer;
+      client.conn.access_level = pinfo->access_level;
+      client.conn.playing = pplayer;
+      sz_strlcpy(client.conn.username, pinfo->username);
+    }
   }
 
   update_players_dialog();
   update_conn_list_dialog();
 
-  if (pinfo->used && pconn == &client.conn) {
+  if (pinfo->used && pinfo->id == client.conn.id) {
     /* For updating the sensitivity of the "Edit Mode" menu item,
      * among other things. */
     menus_update();
