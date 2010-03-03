@@ -953,7 +953,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
     create_tech_tree(help_tech_tree, 0, advance_count(), 3);
     strcpy(buf, pitem->text);
   }
-  wordwrap_string(buf, 68);
+  fc_break_lines(buf, 68);
   XtVaSetValues(help_text, XtNstring, buf, NULL);
 }
 

@@ -269,7 +269,7 @@ struct ct_string *ct_string_wrap(const struct ct_string *orig, int max_width)
   for (columns = 100; columns > 1; columns--) {
     char *copy = mystrdup(orig->text);
 
-    wordwrap_string(copy, columns);
+    fc_break_lines(copy, columns);
     result = ct_string_clone3(orig, copy);
     free(copy);
     if (result->size.width <= max_width) {

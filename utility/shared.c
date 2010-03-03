@@ -652,56 +652,6 @@ static void remove_trailing_char(char *s, char trailing)
 }
 
 /***************************************************************************
-  Change spaces in s into newlines, so as to keep lines length len
-  or shorter.  That is, modifies s.
-  Returns number of lines in modified s.
-***************************************************************************/
-int wordwrap_string(char *s, int len)
-{
-  int num_lines = 0;
-  int slen = strlen(s);
-
-  /* At top of this loop, s points to the rest of string,
-   * either at start or after inserted newline: */
- top:
-  if (s && *s != '\0' && slen > len) {
-    char *c;
-
-    num_lines++;
-
-    /* check if there is already a newline: */
-    for(c=s; c<s+len; c++) {
-      if (*c == '\n') {
-	slen -= c+1 - s;
-	s = c+1;
-	goto top;
-      }
-    }
-
-    /* find space and break: */
-    for(c=s+len; c>s; c--) {
-      if (my_isspace(*c)) {
-	*c = '\n';
-	slen -= c+1 - s;
-	s = c+1;
-	goto top;
-      }
-    }
-
-    /* couldn't find a good break; settle for a bad one... */
-    for (c = s + len + 1; *c != '\0'; c++) {
-      if (my_isspace(*c)) {
-	*c = '\n';
-	slen -= c+1 - s;
-	s = c+1;
-	goto top;
-      }
-    }
-  }
-  return num_lines;
-}
-
-/***************************************************************************
   Returns pointer to '\0' at end of string 'str', and decrements
   *nleft by the length of 'str'.  This is intended to be useful to
   allow strcat-ing without traversing the whole string each time,

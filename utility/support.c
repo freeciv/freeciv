@@ -831,23 +831,52 @@ bool is_reg_file_for_access(const char *name, bool write_access)
 
 /****************************************************************************
   Replace the spaces by line breaks when the line lenght is over the desired
-  one.
+  one. 'str' is modified. Returns number of lines in modified s.
 ****************************************************************************/
-void fc_break_lines(char *str, size_t desired_len)
+int fc_break_lines(char *str, size_t desired_len)
 {
-  char *c;
-  size_t n = 0;
+  size_t slen = (size_t)strlen(str);
+  int num_lines = 0;
 
-  for (c = str; '\0' != *c; c++) {
-    if ('\n' == *c) {
-      n = 0;
-    } else if (my_isspace(*c) && n >= desired_len) {
-      *c = '\n';
-      n = 0;
-    } else {
-      n++;
+  /* At top of this loop, s points to the rest of string,
+   * either at start or after inserted newline: */
+ top:
+  if (str && *str != '\0' && slen > desired_len) {
+    char *c;
+
+    num_lines++;
+
+    /* check if there is already a newline: */
+    for (c = str; c < str + desired_len; c++) {
+      if (*c == '\n') {
+        slen -= c + 1 - str;
+        str = c + 1;
+        goto top;
+      }
+    }
+
+    /* find space and break: */
+    for(c = str + desired_len; c > str; c--) {
+      if (my_isspace(*c)) {
+        *c = '\n';
+        slen -= c + 1 - str;
+        str = c + 1;
+        goto top;
+      }
+    }
+
+    /* couldn't find a good break; settle for a bad one... */
+    for (c = str + desired_len + 1; *c != '\0'; c++) {
+      if (my_isspace(*c)) {
+        *c = '\n';
+        slen -= c + 1 - str;
+        str = c + 1;
+        goto top;
+      }
     }
   }
+
+  return num_lines;
 }
 
 /**********************************************************************

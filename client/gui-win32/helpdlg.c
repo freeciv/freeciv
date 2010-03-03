@@ -782,7 +782,7 @@ static void help_update_tech(const struct help_item *pitem, char *title)
 	  TECH_TREE_EXPANDED_DEPTH, NULL);
     */
     helptext_advance(buf, sizeof(buf), client.conn.playing, pitem->text, i);
-    wordwrap_string(buf, 68);
+    fc_break_lines(buf, 68);
     fcwin_box_add_static(helpdlg_page_vbox,buf,0,SS_LEFT,FALSE,FALSE,5);
 
     improvement_iterate(pimprove) {

@@ -27,7 +27,7 @@
 #include "log.h"
 #include "mem.h"
 #include "packets.h"
-#include "shared.h"		/* wordwrap_string() */
+#include "shared.h"
 #include "support.h"
 
 #include "climisc.h"

@@ -165,7 +165,6 @@ int compare_strings_strvec(const char *const *first,
 
 char *skip_leading_spaces(char *s);
 void remove_leading_trailing_spaces(char *s);
-int wordwrap_string(char *s, int len);
 
 bool check_strlen(const char *str, size_t len, const char *errmsg);
 size_t loud_strlcpy(char *buffer, const char *str, size_t len,
