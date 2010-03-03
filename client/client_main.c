@@ -761,9 +761,8 @@ void client_remove_cli_conn(struct connection *pconn)
   }
   conn_list_unlink(game.all_connections, pconn);
   conn_list_unlink(game.est_connections, pconn);
-  if (pconn != &client.conn) {
-    free(pconn);
-  }
+  RETURN_IF_FAIL(pconn != &client.conn);
+  free(pconn);
 }
 
 /**************************************************************************
