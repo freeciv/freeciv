@@ -5,10 +5,10 @@ noinst_PROGRAMS = tolua
 AM_CPPFLAGS = \
 	-I$(top_srcdir)/dependencies/lua-5.1/src \
 	-I$(top_srcdir)/dependencies/lua-5.1/etc \
-	-I$(top_srcdir)/dependencies/tolua-5.1b/include
+	-I$(top_srcdir)/dependencies/tolua-5.1/include
 
 tolua_SOURCES = \
-	$(top_srcdir)/dependencies/tolua-5.1b/include/tolua.h \
+	$(top_srcdir)/dependencies/tolua-5.1/include/tolua.h \
 	tolua.c \
 	toluabind.c
 

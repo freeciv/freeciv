@@ -13,33 +13,33 @@
 */
 
 #include <stdio.h>
+#include <string.h>
 
 #include "tolua.h"
-#include "tolua_event.h"
 
 /* Store at ubox
 	* It stores, creating the corresponding table if needed,
 	* the pair key/value in the corresponding ubox table
 */
-static void storeatubox (lua_State* L, void* u)
+static void storeatpeer (lua_State* L, int index)
 {
 	 /* stack: key value (to be stored) */
-		lua_pushstring(L,"tolua_ubox");
-		lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: k v ubox */
-		lua_pushlightuserdata(L,u);
-		lua_rawget(L,-2);                       /* stack: k v ubox ubox[u] */
+		lua_pushstring(L,"tolua_peer");
+		lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: k v peer */
+  lua_pushvalue(L, index);
+		lua_rawget(L,-2);                       /* stack: k v peer peer[u] */
 		if (!lua_istable(L,-1))
 		{
-			lua_pop(L,1);                          /* stack: k v ubox */
-			lua_newtable(L);                       /* stack: k v ubox table */
-			lua_pushlightuserdata(L,lua_touserdata(L,1));
-			lua_pushvalue(L,-2);                   /* stack: k v ubox table u table */
-			lua_rawset(L,-4);                      /* stack: k v ubox ubox[u]=table */
+			lua_pop(L,1);                          /* stack: k v peer */
+			lua_newtable(L);                       /* stack: k v peer table */
+			lua_pushvalue(L,index);
+			lua_pushvalue(L,-2);                   /* stack: k v peer table u table */
+			lua_rawset(L,-4);                      /* stack: k v peer peer[u]=table */
 		}
 		lua_insert(L,-4);                       /* put table before k */
-		lua_pop(L,1);                           /* pop ubox */
+		lua_pop(L,1);                           /* pop peer */
 		lua_rawset(L,-3);                       /* store at table */
-		lua_pop(L,1);                           /* pop ubox[u] */
+		lua_pop(L,1);                           /* pop peer[u] */
 }
 
 /* Module index function
@@ -128,9 +128,9 @@ static int class_index_event (lua_State* L)
 	if (t == LUA_TUSERDATA)
 	{
 		/* Access alternative table */
-		lua_pushstring(L,"tolua_ubox");
+		lua_pushstring(L,"tolua_peer");
 		lua_rawget(L,LUA_REGISTRYINDEX);        /* stack: obj key ubox */
-		lua_pushlightuserdata(L,lua_touserdata(L,1));
+		lua_pushvalue(L,1);
 		lua_rawget(L,-2);                       /* stack: obj key ubox ubox[u] */
 		if (lua_istable(L,-1))
 		{
@@ -193,7 +193,7 @@ static int class_index_event (lua_State* L)
 						lua_pushvalue(L,-1);            /* stack: obj key met table table */
 						lua_pushvalue(L,2);             /* stack: obj key mt table table key */
 						lua_insert(L,-2);               /*  stack: obj key mt table key table */
-						storeatubox(L,u);               /* stack: obj key mt table */
+						storeatpeer(L,1);               /* stack: obj key mt table */
 						return 1;
 					}
 				}
@@ -266,7 +266,7 @@ static int class_newindex_event (lua_State* L)
 	 lua_settop(L,3);                          /* stack: t k v */
 
 		/* then, store as a new field */
-		storeatubox(L,lua_touserdata(L,1));
+		storeatpeer(L,1);
 	}
 	else if (t== LUA_TTABLE)
 	{
@@ -296,8 +296,16 @@ static int do_operator (lua_State* L, const char* op)
 			lua_settop(L,3);
 		}
 	}
-	tolua_error(L,"Attempt to perform operation on an invalid operand",NULL);
-	return 0;
+ if (strcmp(op,".eq")==0)
+ {
+  lua_pushboolean(L,lua_rawequal(L,1,2));
+  return 1;
+ }
+ else
+ {
+	 tolua_error(L,"Attempt to perform operation on an invalid operand",NULL);
+	 return 0;
+ }
 }
 
 static int class_add_event (lua_State* L)
@@ -337,22 +345,35 @@ static int class_eq_event (lua_State* L)
 
 static int class_gc_event (lua_State* L)
 {
-	void* u = *((void**)lua_touserdata(L,1));
- lua_pushstring(L,"tolua_gc");
- lua_rawget(L,LUA_REGISTRYINDEX);
-	lua_pushlightuserdata(L,u);
-	lua_rawget(L,-2);
-	if (lua_isfunction(L,-1))
-	{
-	 lua_pushvalue(L,1);
-		lua_call(L,1,0);
-	 lua_pushlightuserdata(L,u);
-		lua_pushnil(L);
-		lua_rawset(L,-3);
-	}
-	lua_pop(L,2);
+  int top = lua_gettop(L);
+	 void* u = *((void**)lua_touserdata(L,1));
+  lua_pushstring(L,"tolua_gc");
+  lua_rawget(L,LUA_REGISTRYINDEX);   /* gc */
+  lua_pushlightuserdata(L,u);        /* gc u */
+  lua_rawget(L,-2);                  /* gc func */
+  if (!lua_isnil(L, -1))
+  {
+    /* remove entry from table */
+    lua_pushlightuserdata(L,u);
+    lua_pushnil(L);
+    lua_rawset(L,-4);
+    if (lua_isfunction(L,-1)) {
+      /* call collect function */
+      lua_pushvalue(L,1);            /* tolua_gc tolua_gc.u(func) u */
+      lua_call(L,1,0);               /* tolua_gc */
+    }
+    else if (lua_isuserdata(L,-1) && *((void**)lua_touserdata(L,-1))==NULL) {
+      /* free object */
+      free(u);
+      tolua_release(L,u);                /* unmap from tolua tables */
+    }
+  }
+	lua_settop(L,top);
 	return 0;
 }
+
+
+
 
 /* Register module events
 	* It expects the metatable on the top of the stack

@@ -31,16 +31,16 @@ setmetatable(classClass,classContainer)
 -- register class
 function classClass:register ()
  push(self)
- output('#ifdef __cplusplus\n')
  if _collect[self.type] then
-   output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",tolua_collect_'.._collect[self.type]..');')
+ 	output('#ifdef __cplusplus\n')
+ 	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",'.._collect[self.type]..');')
+ 	output('#else\n')
+ 	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",NULL);')
+ 	output('#endif\n')
  else
-   output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",0);')
+	output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",NULL);')
  end
-	output('#else\n')
- output(' tolua_cclass(tolua_S,"'..self.lname..'","'..self.type..'","'..self.btype..'",tolua_collect);')
-	output('#endif\n')
-	output(' tolua_beginmodule(tolua_S,"'..self.lname..'");')
+ output(' tolua_beginmodule(tolua_S,"'..self.lname..'");')
  local i=1
  while self[i] do
   self[i]:register()
@@ -53,15 +53,19 @@ end
 -- return collection requirement
 function classClass:requirecollection (t)
  push(self)
+	local r = false
  local i=1
  while self[i] do
-  self[i]:requirecollection(t)
+  r = self[i]:requirecollection(t) or r
   i = i+1
  end
  pop()
-  -- TODO
- --t[self.type] = gsub(self.type,"::","_")
- return true
+	-- only class that exports destructor can be appropriately collected  
+	if self._delete then
+  t[self.type] = "tolua_collect_" .. gsub(self.type,"::","_")
+		r = true
+	end
+ return r
 end
 
 -- output tags

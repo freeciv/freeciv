@@ -75,26 +75,41 @@ function classFunction:supcode ()
  if class then
 	 local func = 'tolua_isusertype'
 		local type = self.parent.type
+		if self.const ~= '' then
+		 type = self.const .. " " .. type
+		end
 	 if self.name=='new' or static~=nil then
 		 func = 'tolua_isusertable'
 			type = self.parent.type
 		end
-		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) ||\n') 
+		output('     !'..func..'(tolua_S,1,"'..type..'",0,&tolua_err) || \n') 
  end
  -- check args
+ local vararg = false
  if self.args[1].type ~= 'void' then
   local i=1
-  while self.args[i] do
-   if isbasic(self.args[i].type) ~= 'value' then
-    output('     !'..self.args[i]:outchecktype(narg)..' ||\n')
+  while self.args[i] and self.args[i].type ~= "..." do
+		 local btype = isbasic(self.args[i].type) 
+			if btype ~= 'state' then
+    output('     !'..self.args[i]:outchecktype(narg,false)..' || \n')
    end
-   narg = narg+1
+			if btype ~= 'state' then
+        narg = narg+1
+			end
    i = i+1
+  end
+  if self.args[i] then
+   vararg = true
   end
  end
  -- check end of list 
- output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n )')
-	output('  goto tolua_lerror;')
+ if not vararg then
+   output('     !tolua_isnoobj(tolua_S,'..narg..',&tolua_err)\n')
+ else
+   output('     0\n')
+ end
+ output('    )')
+ output('  goto tolua_lerror;')
 
  output(' else\n')
 	if overload < 0 then
@@ -115,9 +130,11 @@ function classFunction:supcode ()
  -- declare parameters
  if self.args[1].type ~= 'void' then
   local i=1
-  while self.args[i] do
+  while self.args[i] and self.args[i].type ~= "..." do
    self.args[i]:declare(narg)
-   narg = narg+1
+			if isbasic(self.args[i].type) ~= "state" then
+        narg = narg+1
+			end
    i = i+1
   end
  end
@@ -133,23 +150,32 @@ function classFunction:supcode ()
  if class then narg=2 else narg=1 end
  if self.args[1].type ~= 'void' then
   local i=1
-  while self.args[i] do
-   self.args[i]:getarray(narg)
-   narg = narg+1
+  while self.args[i] and self.args[i].type ~= "..." do
+	 if isbasic(self.args[i].type) ~= "state" then
+     self.args[i]:getarray(narg)
+     narg = narg+1
+   end
    i = i+1
   end
  end
 
  -- call function
  if class and self.name=='delete' then
+  output('  tolua_release(tolua_S,self);')
   output('  delete self;')
  elseif class and self.name == 'operator&[]' then
   output('  self->operator[](',self.args[1].name,'-1) = ',self.args[2].name,';')
  else
   output('  {')
   if self.type ~= '' and self.type ~= 'void' then
-   output('  ',self.mod,self.type,self.ptr,'tolua_ret = ')
-   output('(',self.mod,self.type,self.ptr,') ')
+   local ctype = self.type
+   if ctype == 'value' or ctype == 'function' then
+    ctype = 'int'
+   end
+   output('  ',self.mod,ctype,self.ptr,'tolua_ret = ')
+   if isbasic(self.type) or self.ptr ~= '' then
+    output('(',self.mod,ctype,self.ptr,') ')
+   end
   else
    output('  ')
   end
@@ -165,10 +191,10 @@ function classFunction:supcode ()
 
   -- write parameters
   local i=1
-  while self.args[i] do
+  while self.args[i] and self.args[i].type ~= "..." do
    self.args[i]:passpar()
    i = i+1
-   if self.args[i] then
+   if self.args[i] and self.args[i].type ~= "..." then
     output(',')
    end
   end
@@ -184,23 +210,34 @@ function classFunction:supcode ()
    nret = nret + 1
    local t,ct = isbasic(self.type)
    if t then
-    output('   tolua_push'..t..'(tolua_S,(',ct,')tolua_ret);')
+     if t=='function' then t='value' end
+     if self.type == 'tolua_index' then
+      output('   if (tolua_ret < 0) lua_pushnil(tolua_S);')
+      output('   else tolua_push'..t..'(tolua_S,(',ct,')tolua_ret+1);')
+     else
+      output('   tolua_push'..t..'(tolua_S,(',ct,')tolua_ret);')
+     end
    else
 			 t = self.type
     if self.ptr == '' then
      output('   {')
      output('#ifdef __cplusplus\n')
      output('    void* tolua_obj = new',t,'(tolua_ret);') 
-     output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,tolua_collect_'.._collect[t]..'),"',t,'");')
+	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,'.. (_collect[t] or 'NULL') ..'),"',t,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&tolua_ret,sizeof(',t,'));')
-     output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,tolua_collect),"',t,'");')
+	    output('    tolua_pushusertype(tolua_S,tolua_clone(tolua_S,tolua_obj,NULL),"',t,'");')
      output('#endif\n')
      output('   }')
     elseif self.ptr == '&' then
      output('   tolua_pushusertype(tolua_S,(void*)&tolua_ret,"',t,'");')
     else
      output('   tolua_pushusertype(tolua_S,(void*)tolua_ret,"',t,'");')
+     if self.mod == 'tolua_own' then
+       output('   lua_pushcfunction(tolua_S, tolua_bnd_takeownership);')
+       output('   lua_pushvalue(tolua_S, -2);')
+       output('   lua_call(tolua_S, 1, 0);')
+     end
     end
    end
   end
@@ -216,9 +253,11 @@ function classFunction:supcode ()
   if self.args[1].type ~= 'void' then
    local i=1
    while self.args[i] do
-    self.args[i]:setarray(narg)
-    narg = narg+1
-    i = i+1
+     if isbasic(self.args[i].type) ~= "state" then
+       self.args[i]:setarray(narg)
+       narg = narg+1
+     end
+     i = i+1
    end
   end
  
@@ -281,7 +320,8 @@ end
 function classFunction:requirecollection (t)
 	local r = false
 	if self.type ~= '' and not isbasic(self.type) and self.ptr=='' then
-	 t[self.type] = gsub(self.type,"::","_")
+	 local type = gsub(self.type,"%s*const%s*","")
+	 t[type] = "tolua_collect_" .. gsub(type,"::","_")
 	 r = true
 	end
 	local i=1
@@ -317,6 +357,7 @@ function _Function (t)
   elseif t.name == '~'..t.parent.name then
    t.name = 'delete'
    t.lname = 'delete'
+   t.parent._delete = true
   end
  end
  t.cname = t:cfuncname("tolua")..t:overload(t)
