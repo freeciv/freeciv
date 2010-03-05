@@ -1068,9 +1068,27 @@ Debugging and Profiling
 ===========================================================================
 
 Debugging has to be activated on compile time by adding the option
-'--enable-debug=some' or '--enable-debug=yes' to the configure script. It
-enables the log level LOG_DEBUG with an increased output. Furthermore,
-various additional checks are activated (hint: fc_assert_*()).
+'--enable-debug=no/some/yes/checks' to the configure script. The different
+options have the following meaning:
+
+  no:     no debugging enabled(NDEBUG is defined)
+          additional compiler flags for optimisation (-O3 -fomit-frame-pointer)
+  some:   default build (neither NDEBUG nor DEBUG is defined)
+  yes:    debugging enable (DEBUG is defined)
+          debugging log level available (4, log_debug())
+          additional compiler flag: -Werror
+  checks: same as 'yes' but with more compiler checks (-Wall -Wpointer-arith
+          -Wcast-align -Wmissing-prototypes -Wmissing-declarations
+          -Wstrict-prototypes -Wnested-externs)
+
+REMARK: The debug option '--enable-debug=checks' adds additionally compiler
+        options. This is OK for the server and most clients but in the case
+        of the gtk client there is a problems in its main external library
+        (gtk2) which prevent the compilation of the client using the
+        extended flags. A fix is available but will not be applied due to
+        compatibility issues. To compile freeciv with this option,
+        temporary patch the file gtkitemfactory.h
+        (see http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=148766).
 
 Profiling is enabled by '--enable-gprof'. After the compilation run freeciv
 normally. It will be 5 to 10 times slower due to the added calls to the
