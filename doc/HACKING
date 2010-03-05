@@ -1064,3 +1064,19 @@ The local_encoding is the one supported on the command line.  This is not
 under our control, and all output to the command line must be converted.
 
 ===========================================================================
+Debugging and Profiling
+===========================================================================
+
+Debugging has to be activated on compile time by adding the option
+'--enable-debug=some' or '--enable-debug=yes' to the configure script. It
+enables the log level LOG_DEBUG with an increased output. Furthermore,
+various additional checks are activated (hint: fc_assert_*()).
+
+Profiling is enabled by '--enable-gprof'. After the compilation run freeciv
+normally. It will be 5 to 10 times slower due to the added calls to the
+profiling functions. After freeciv quits normally (not after a crash) the
+file gmon.out is written. It can be analyzed by calling
+'gprof ./server/freeciv-server gmon.out > gprof.txt'. More information can
+be found at http://sourceware.org/binutils/docs/gprof/index.html.
+
+===========================================================================

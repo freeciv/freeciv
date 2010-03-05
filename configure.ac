@@ -413,7 +413,10 @@ FC_C_FLAGS([-Wall -Wpointer-arith -Wcast-align -Wmissing-prototypes -Wmissing-de
 FC_CXX_FLAGS([-Wall -Wpointer-arith -Wcast-align],
  [], [EXTRA_DEBUG_CXXFLAGS])
 
+dnl check debugging
 FC_DEBUG
+dnl check profiling
+FC_GPROF
 AC_C99_VARIADIC_MACROS
 AC_C99_VARIABLE_ARRAYS
 AC_C99_INITIALIZERS
@@ -1079,8 +1082,9 @@ AC_OUTPUT
 AC_MSG_NOTICE([
 ****************** Configuration Summary ******************
 
-  Build freeciv client: $client
-    Debugging support:  $enable_debug
+  Build freeciv client:  $client
+    Debugging support:     $enable_debug
+    Profiling support:     $enable_gprof
 
   Maintained client frontends:
     Gtk-2.0: $gui_gtk2
@@ -1093,8 +1097,9 @@ AC_MSG_NOTICE([
     Win32:   $gui_win32
     FTWL:    $gui_ftwl
 
-  Build freeciv server:    $server
+  Build freeciv server:  $server
     Debugging support:     $enable_debug
+    Profiling support:     $enable_gprof
     Auth database support: $auth
 ])
 
