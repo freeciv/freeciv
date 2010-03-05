@@ -127,7 +127,6 @@ void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
 {
   struct base_type *pbase;
 
-  SCRIPT_ASSERT(NULL != pplayer);
   SCRIPT_ASSERT(NULL != ptile);
 
   if (!name) {
