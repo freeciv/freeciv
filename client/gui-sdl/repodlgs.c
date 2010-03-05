@@ -2751,7 +2751,7 @@ void science_dialog_update(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popdown_science_dialog()
+static void popdown_science_dialog(void)
 {
   if(pScienceDlg) {
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
@@ -2814,7 +2814,7 @@ static int change_research_goal_dialog_callback(struct widget *pWindow)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popup_change_research_dialog()
+static void popup_change_research_dialog(void)
 {
   struct widget *pBuf = NULL;
   struct widget *pWindow;
@@ -3000,7 +3000,7 @@ static int change_research_goal_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popup_change_research_goal_dialog()
+static void popup_change_research_goal_dialog(void)
 {
   struct widget *pBuf = NULL;
   struct widget *pWindow;

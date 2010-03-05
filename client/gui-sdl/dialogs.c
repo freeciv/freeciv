@@ -2670,8 +2670,11 @@ static void select_random_leader(Nation_type_id nation)
   
 }
 
-static int get_playable_nation_count() {
- 
+/**************************************************************************
+  ...
+**************************************************************************/
+static int get_playable_nation_count(void)
+{
   int playable_nation_count = 0;
     
   nations_iterate(pnation) {

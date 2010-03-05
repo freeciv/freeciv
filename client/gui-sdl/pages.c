@@ -126,7 +126,7 @@ static int quit_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static void show_main_page()
+static void show_main_page(void)
 {
   SDL_Color bg_color = {255, 255, 255, 96};
   SDL_Color line_color = {128, 128, 128, 255};

@@ -2257,7 +2257,7 @@ static void srv_scores(void)
   We cannot do this during ruleset loading, since some players may be
   added later than that.
 **************************************************************************/
-static void final_ruleset_adjustments()
+static void final_ruleset_adjustments(void)
 {
   players_iterate(pplayer) {
     struct nation_type *pnation = nation_of_player(pplayer);

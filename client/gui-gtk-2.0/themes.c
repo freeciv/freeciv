@@ -44,7 +44,7 @@ static int num_default_files;
 /****************************************************************************
   Initialize the default_files array.
 ****************************************************************************/
-static void load_default_files()
+static void load_default_files(void)
 {
   int i;
   gchar** f;
