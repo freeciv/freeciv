@@ -115,8 +115,10 @@ dnl auto: Autodetect one.
 dnl all:  Autodetect as many as possible.
 dnl comma-separated-list: Detect these or abort.
 AC_ARG_ENABLE(client,
-[  --enable-client[=auto/all/gtk/sdl/xaw/win32/ftwl/stub)]
-                          clients to compile [[auto]] (or list for multiple)],
+[  --enable-client[=auto/all/gtk/sdl/xaw/win32/ftwl/stub]
+                          clients to compile [[auto]] (or list for multiple)
+                          maintained clients: gtk/sdl/xaw/stub
+                          unmaintained clients: win32/ftwl],
 [clients=${enableval}],
 [client=auto])
 
@@ -1080,13 +1082,16 @@ AC_MSG_NOTICE([
   Build freeciv client: $client
     Debugging support:  $enable_debug
 
-  Client frontends:
+  Maintained client frontends:
     Gtk-2.0: $gui_gtk2
     SDL:     $gui_sdl
     Xaw:     $gui_xaw
+    Stub:    $gui_stub
+
+  Not maintained client frontends:
+  (no guaranty that they even compile)
     Win32:   $gui_win32
     FTWL:    $gui_ftwl
-    Stub:    $gui_stub
 
   Build freeciv server:    $server
     Debugging support:     $enable_debug
