@@ -391,7 +391,7 @@ void update_info_label(void)
 #endif
   SDL_String16 *pText;
 
-  if (get_client_page() != PAGE_GAME) {
+  if (get_current_client_page() != PAGE_GAME) {
     return;
   }
   

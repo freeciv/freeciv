@@ -37,7 +37,7 @@
 #include "climisc.h"
 #include "overview_common.h"
 
-/* gui-sdl */
+/* client/gui-sdl */
 #include "citydlg.h"
 #include "cityrep.h"
 #include "colors.h"
@@ -53,6 +53,7 @@
 #include "menu.h"
 #include "messagewin.h"
 #include "optiondlg.h"
+#include "pages.h"
 #include "plrdlg.h"
 #include "repodlgs.h"
 #include "sprite.h"
@@ -2693,7 +2694,7 @@ void popdown_newcity_dialog(void)
 **************************************************************************/
 void set_turn_done_button_state(bool state)
 {
-  if (C_S_RUNNING == client_state()) {
+  if (PAGE_GAME == get_current_client_page()) {
     if (state) {
       set_wstate(pNew_Turn_Button, FC_WS_NORMAL);
     } else {

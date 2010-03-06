@@ -34,6 +34,7 @@
 #include "gui_tilespec.h"
 #include "mapctrl.h"
 #include "mapview.h"
+#include "menu.h"
 #include "messagewin.h"
 #include "optiondlg.h"
 #include "themespec.h"
@@ -360,6 +361,13 @@ void real_set_client_page(enum client_pages page)
     case PAGE_GAME:
       show_game_page();
       enable_main_widgets();
+      update_info_label();
+      update_unit_focus();
+      update_unit_info_label(get_units_in_focus());
+      update_turn_done_button_state();
+      refresh_overview();
+      menus_update();
+      break;
     default:
       break;
   }  
