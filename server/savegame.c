@@ -4338,11 +4338,19 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_str_default(file, "", "game.metamessage");
     }
 
-    sz_strlcpy(srvarg.metaserver_addr,
-	       secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
-					  "game.metaserver"));
-    sz_strlcpy(srvarg.serverid,
-	       secfile_lookup_str_default(file, "", "game.serverid"));
+    if (0 == strcmp(DEFAULT_META_SERVER_ADDR, srvarg.metaserver_addr)) {
+      /* Do not overwrite this if the user requested a specific metaserver
+       * from the command line (option --Metaserver). */
+      sz_strlcpy(srvarg.metaserver_addr,
+                 secfile_lookup_str_default(file, DEFAULT_META_SERVER_ADDR,
+                                            "game.metaserver"));
+    }
+    if ('\0' == srvarg.serverid[0]) {
+      /* Do not overwrite this if the user requested a specific metaserver
+       * from the command line (option --serverid). */
+      sz_strlcpy(srvarg.serverid,
+                 secfile_lookup_str_default(file, "", "game.serverid"));
+    }
 
     game.info.gold          = secfile_lookup_int(file, "game.gold");
     game.info.tech          = secfile_lookup_int(file, "game.tech");
