@@ -76,7 +76,7 @@ static GtkTreeSelection *meta_selection, *lan_selection;
 
 /* This is the current page. Invalid value at start, to be sure that it won't
  * be catch throught a switch() statement. */
-static enum client_pages old_page = -1;
+static enum client_pages current_page = -1;
 
 static void set_page_callback(GtkWidget *w, gpointer data);
 
@@ -2038,17 +2038,17 @@ GtkWidget *create_scenario_page(void)
 **************************************************************************/
 enum client_pages get_current_client_page(void)
 {
-  return old_page;
+  return current_page;
 }
 
 /**************************************************************************
   Changes the current page.  The action is delayed.
 **************************************************************************/
-void real_set_client_page(enum client_pages page)
+void real_set_client_page(enum client_pages new_page)
 {
-  /* Don't use next_page directly here because maybe it could be modified
+  /* Don't use current_page directly here because maybe it could be modified
    * before we reach the end of this function. */
-  enum client_pages new_page = page;
+  enum client_pages old_page = current_page;
 
   /* If the page remains the same, don't do anything. */
   if (old_page == new_page) {
@@ -2058,6 +2058,8 @@ void real_set_client_page(enum client_pages page)
   log_debug("Switching client page from %s to %s.",
             -1 == old_page ? "(no page)" : client_pages_name(old_page),
             client_pages_name(new_page));
+
+  current_page = new_page;
 
   switch (old_page) {
   case PAGE_SCENARIO:
@@ -2148,8 +2150,6 @@ void real_set_client_page(enum client_pages page)
     gtk_editable_set_position(GTK_EDITABLE(network_login), 0);
     break;
   }
-
-  old_page = new_page;
 }
 
 /**************************************************************************
