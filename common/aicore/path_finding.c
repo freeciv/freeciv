@@ -103,7 +103,7 @@ struct pf_map {
   turn.  Thus the rest of the PF code doesn't actually know that the unit
   has fuel, it just thinks it has that many more MP.
 ****************************************************************************/
-static int get_moves_left_initially(const struct pf_parameter *param)
+static inline int get_moves_left_initially(const struct pf_parameter *param)
 {
   return (param->moves_left_initially
           + (param->fuel_left_initially - 1) * param->move_rate);
@@ -117,7 +117,7 @@ static int get_moves_left_initially(const struct pf_parameter *param)
   to be one turn. Thus the rest of the PF code doesn't actually know that
   the unit has fuel, it just thinks it has that many more MP.
 *************************************************************************/
-static int get_move_rate(const struct pf_parameter *param)
+static inline int get_move_rate(const struct pf_parameter *param)
 {
   return param->move_rate * param->fuel;
 }
@@ -127,9 +127,11 @@ static int get_move_rate(const struct pf_parameter *param)
   See comment in pf_map_new() about the usage of
   get_moves_left_initially().
 ********************************************************************/
-static int get_turn(const struct pf_parameter *param, int cost)
+static inline int get_turn(const struct pf_parameter *param, int cost)
 {
-  if (get_move_rate(param) <= 0) {
+  int move_rate = param->move_rate;
+
+  if (move_rate <= 0) {
     /* This unit cannot move by itself. */
     return FC_INFINITY;
   }
@@ -138,8 +140,9 @@ static int get_turn(const struct pf_parameter *param, int cost)
    * move-rate (due to wonders transfer etc).  Although this may be a bug, 
    * we'd better be ready.
    *
-   * Note that cost==0 corresponds to the current turn with full MP. */
-  return (cost < 0 ? 0 : cost / get_move_rate(param));
+   * Note that cost == 0 corresponds to the current turn with full MP. */
+  return (cost < 0 ? 0
+          : cost / move_rate + param->fuel_left_initially - param->fuel);
 }
 
 /********************************************************************
@@ -147,7 +150,7 @@ static int get_turn(const struct pf_parameter *param, int cost)
   See comment in required() about the usage of
   get_moves_left_initially().
 ********************************************************************/
-static int get_moves_left(const struct pf_parameter *param, int cost)
+static inline int get_moves_left(const struct pf_parameter *param, int cost)
 {
   int move_rate = get_move_rate(param);
 
@@ -157,15 +160,14 @@ static int get_moves_left(const struct pf_parameter *param, int cost)
   }
 
   /* Cost may be negative; see get_turn(). */
-  return (cost < 0 ? move_rate - cost
-          : (move_rate - (cost % move_rate)));
+  return (cost < 0 ? move_rate - cost : move_rate - (cost % move_rate));
 }
 
 /***************************************************************************
   Obtain cost-of-path from pure cost and extra cost
 ***************************************************************************/
-static int get_total_CC(const struct pf_parameter *param, int cost,
-                        int extra)
+static inline int get_total_CC(const struct pf_parameter *param,
+                               int cost, int extra)
 {
   return PF_TURN_FACTOR * cost + extra * get_move_rate(param);
 }
@@ -176,24 +178,23 @@ static int get_total_CC(const struct pf_parameter *param, int cost,
 
   See get_moves_left_initially and get_move_rate.
 ***************************************************************************/
-static void finalize_position(const struct pf_parameter *param,
-                              struct pf_position *pos)
+static inline void finalize_position(const struct pf_parameter *param,
+                                     struct pf_position *pos)
 {
   int move_rate;
 
   if (param->turn_mode == TM_BEST_TIME
       || param->turn_mode == TM_WORST_TIME) {
     pos->turn *= param->fuel;
-    move_rate = get_move_rate(param);
+    move_rate = param->move_rate;
     if (move_rate > 0) {
-      pos->turn += ((get_move_rate(param) - pos->moves_left)
-                    / param->move_rate);
+      pos->turn += ((move_rate - pos->moves_left) / move_rate);
 
       /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
        * ranges from [1,ut->fuel] not from [0,ut->fuel) as one may think. */
-      pos->fuel_left = pos->moves_left / param->move_rate + 1;
+      pos->fuel_left = pos->moves_left / move_rate + 1;
 
-      pos->moves_left %= param->move_rate;
+      pos->moves_left %= move_rate;
     } else {
       /* This unit cannot move by itself. */
       pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
@@ -649,8 +650,8 @@ static bool pf_normal_map_iterate(struct pf_map *pfm)
 /************************************************************************
   Iterate the map until ptile is reached.
 ************************************************************************/
-static bool pf_normal_map_iterate_until(struct pf_normal_map *pfnm,
-					struct tile *ptile)
+static inline bool pf_normal_map_iterate_until(struct pf_normal_map *pfnm,
+                                               struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pfnm);
   const struct pf_normal_node *node = &pfnm->lattice[tile_index(ptile)];
@@ -972,6 +973,24 @@ static void pf_danger_map_fill_position(const struct pf_danger_map *pfdm,
   finalize_position(params, pos);
 }
 
+/*****************************************************************************
+  This function returns the fills the cost needed for a position, to get full
+  moves at the next turn. This would be called only when the status is
+  NS_WAITING.
+*****************************************************************************/
+static inline int
+pf_danger_map_fill_cost_for_full_moves(const struct pf_parameter *param,
+                                       int cost)
+{
+  int moves_left = get_moves_left(param, cost);
+
+  if (moves_left < get_move_rate(param)) {
+    return cost + moves_left;
+  } else {
+    return cost;
+  }
+}
+
 /*******************************************************************
   Read off the path to the node ptile, but with danger
   NB: will only find paths to safe tiles!
@@ -1046,9 +1065,10 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
         pos = &path->positions[i];
         pos->tile = iter_tile;
         pos->total_EC = node->extra_cost;
-        pos->turn = get_turn(params, node->cost) + 1;
-        pos->moves_left = get_move_rate(params);
-        pos->total_MC = ((path->positions[i].turn - 1) * params->move_rate
+        pos->turn = get_turn(params,
+            pf_danger_map_fill_cost_for_full_moves(params, node->cost));
+        pos->moves_left = params->move_rate;
+        pos->total_MC = ((pos->turn - 1) * params->move_rate
                          + params->moves_left_initially);
         pos->dir_to_next_pos = dir_next;
         finalize_position(params, pos);
@@ -1164,9 +1184,9 @@ static void pf_danger_map_create_segment(struct pf_danger_map *pfdm,
 /**********************************************************************
   Adjust cost taking into account possibility of making the move.
 **********************************************************************/
-static int pf_danger_map_adjust_cost(const struct pf_parameter *params,
-                                     int cost, bool to_danger,
-                                     int moves_left)
+static inline int
+pf_danger_map_adjust_cost(const struct pf_parameter *params,
+                          int cost, bool to_danger, int moves_left)
 {
   if (cost == PF_IMPOSSIBLE_MC) {
     return PF_IMPOSSIBLE_MC;
@@ -1191,24 +1211,6 @@ static int pf_danger_map_adjust_cost(const struct pf_parameter *params,
   }
 
   return cost;
-}
-
-/*****************************************************************************
-  This function returns the fills the cost needed for a position, to get full
-  moves at the next turn. This would be called only when the status is
-  NS_WAITING.
-*****************************************************************************/
-static int
-pf_danger_map_fill_cost_for_full_moves(const struct pf_parameter *param,
-                                       int cost)
-{
-  int moves_left = get_moves_left(param, cost);
-
-  if (moves_left < get_move_rate(param)) {
-    return cost + moves_left;
-  } else {
-    return cost;
-  }
 }
 
 /*****************************************************************************
@@ -1411,8 +1413,8 @@ static bool pf_danger_map_iterate(struct pf_map *pfm)
 /************************************************************************
   Iterate the map until ptile is reached.
 ************************************************************************/
-static bool pf_danger_map_iterate_until(struct pf_danger_map *pfdm,
-					struct tile *ptile)
+static inline bool pf_danger_map_iterate_until(struct pf_danger_map *pfdm,
+                                               struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pfdm);
   const struct pf_danger_node *node = &pfdm->lattice[tile_index(ptile)];
@@ -1738,17 +1740,17 @@ static inline bool pf_fuel_node_dangerous(const struct pf_fuel_node *node)
 /****************************************************************************
   Finalize the fuel position.
 ****************************************************************************/
-static void pf_fuel_base_finalize_position(const struct pf_parameter *param,
-                                           struct pf_position *pos,
-                                           int cost, int moves_left)
+static inline void
+pf_fuel_base_finalize_position(const struct pf_parameter *param,
+                               struct pf_position *pos,
+                               int cost, int moves_left)
 {
-  int move_rate = get_move_rate(param);
+  int move_rate = param->move_rate;
 
   if (move_rate > 0) {
-    /* Cost may be negative; see get_turn(). */
-    pos->turn = cost < 0 ? 0 : cost / move_rate;
+    pos->turn = get_turn(param, cost);
     pos->fuel_left = (moves_left - 1) / move_rate + 1;
-    pos->moves_left = moves_left % move_rate;
+    pos->moves_left = (moves_left - 1) % move_rate + 1;
   } else {
     /* This unit cannot move by itself. */
     pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
@@ -1760,10 +1762,11 @@ static void pf_fuel_base_finalize_position(const struct pf_parameter *param,
 /****************************************************************************
   Finalize the fuel position.
 ****************************************************************************/
-static void pf_fuel_finalize_position(struct pf_position *pos,
-                                      const struct pf_parameter *params,
-                                      const struct pf_fuel_node *node,
-                                      const struct pf_fuel_pos *head)
+static inline void
+pf_fuel_finalize_position(struct pf_position *pos,
+                          const struct pf_parameter *params,
+                          const struct pf_fuel_node *node,
+                          const struct pf_fuel_pos *head)
 {
   if (head) {
     pf_fuel_base_finalize_position(params, pos,
@@ -1816,6 +1819,18 @@ static void pf_fuel_map_fill_position(const struct pf_fuel_map *pffm,
   pos->dir_to_next_pos = -1;
 }
 
+/*****************************************************************************
+  This function returns the fill cost needed for a position, to get full
+  moves at the next turn. This would be called only when the status is
+  NS_WAITING.
+*****************************************************************************/
+static inline int
+pf_fuel_map_fill_cost_for_full_moves(const struct pf_parameter *param,
+                                     int cost, int moves_left)
+{
+  return cost + moves_left % param->move_rate;
+}
+
 /*******************************************************************
   Read off the path to the node (x, y), but with danger
   NB: will only find paths to safe tiles!
@@ -1828,7 +1843,8 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
   enum direction8 dir_next = -1;
   struct pf_fuel_pos *segment = NULL;
   struct pf_fuel_node *node = &pffm->lattice[tile_index(ptile)];
-  bool waited = node->waited;
+  /* There is no need to wait at destination if it is a refuel point. */
+  bool waited = (0 != node->moves_left_req ? node->waited : FALSE);
   int length = 1;
   struct tile *iter_tile = ptile;
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pffm));
@@ -1887,7 +1903,8 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
   iter_tile = ptile;
   node = &pffm->lattice[tile_index(ptile)];
   segment = NULL;
-  waited = node->waited;
+  /* There is no need to wait at destination if it is a refuel point. */
+  waited = (0 != node->moves_left_req ? node->waited : FALSE);
   dir_next = -1;
 
   for (i = length - 1; i >= 0; i--) {
@@ -1905,10 +1922,21 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
          * full move points). */
         pos = &path->positions[i];
         pos->tile = iter_tile;
-        pos->total_EC = segment ? segment->extra_cost : node->extra_cost;
-        pf_fuel_finalize_position(pos, params, node, segment);
+        if (NULL != segment) {
+          pos->total_EC = segment->extra_cost;
+          pos->turn = get_turn(params,
+              pf_fuel_map_fill_cost_for_full_moves(params, segment->cost,
+                                                   segment->moves_left));
+        } else {
+          pos->total_EC = node->extra_cost;
+          pos->turn = get_turn(params,
+              pf_fuel_map_fill_cost_for_full_moves(params, node->cost,
+                                                   node->moves_left));
+        }
         pos->total_MC = ((pos->turn - 1) * params->move_rate
                          + params->moves_left_initially);
+        pos->moves_left = params->move_rate;
+        pos->fuel_left = params->fuel;
         pos->dir_to_next_pos = dir_next;
         /* Set old_waited so that we record -1 as a direction at
          * the step we were going to wait. */
@@ -1929,10 +1957,10 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
       pos->total_MC = node->cost;
       pos->total_EC = node->extra_cost;
     }
-    pf_fuel_finalize_position(pos, params, node, segment);
     pos->total_MC -= (get_move_rate(params)
                       - get_moves_left_initially(params));
     pos->dir_to_next_pos = (old_waited ? -1 : dir_next);
+    pf_fuel_finalize_position(pos, params, node, segment);
 
     /* 3: Check if we finished */
     if (i == 0) {
@@ -2023,9 +2051,9 @@ static void pf_fuel_map_create_segment(struct pf_fuel_map *pffm,
   moves_left: moves left before the attack.
   moves_left_req: required moves left to hold on the tile after attacking.
 ***************************************************************************/
-static bool pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
-                                           int moves_left,
-                                           int moves_left_req)
+static inline bool
+pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
+                               int moves_left, int moves_left_req)
 {
   if (BV_ISSET(param->unit_flags, F_ONEATTACK)) {
     if (param->fuel == 1) {
@@ -2048,18 +2076,6 @@ static bool pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
       return TRUE;
     }
   }
-}
-
-/*****************************************************************************
-  This function returns the fill cost needed for a position, to get full
-  moves at the next turn. This would be called only when the status is
-  NS_WAITING.
-*****************************************************************************/
-static int
-pf_fuel_map_fill_cost_for_full_moves(const struct pf_parameter *param,
-                                     int cost, int moves_left)
-{
-  return cost + moves_left % param->move_rate;
 }
 
 /***************************************************************************
@@ -2328,8 +2344,8 @@ static bool pf_fuel_map_iterate(struct pf_map *pfm)
 /************************************************************************
   Iterate the map until ptile is reached.
 ************************************************************************/
-static bool pf_fuel_map_iterate_until(struct pf_fuel_map *pffm,
-				      struct tile *ptile)
+static inline bool pf_fuel_map_iterate_until(struct pf_fuel_map *pffm,
+                                             struct tile *ptile)
 {
   struct pf_map *pfm = PF_MAP(pffm);
   const struct pf_fuel_node *node = &pffm->lattice[tile_index(ptile)];
@@ -2647,7 +2663,8 @@ void pf_path_destroy(struct pf_path *path)
 /******************************************************************
   Get the last position of "path".
 ******************************************************************/
-const struct pf_position *pf_path_get_last_position(const struct pf_path *path)
+const struct pf_position *
+pf_path_get_last_position(const struct pf_path *path)
 {
   return &path->positions[path->length - 1];
 }
