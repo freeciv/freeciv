@@ -807,7 +807,7 @@ void destroy_tile_virtual(struct tile *vtile)
         destroy_unit_virtual(vunit);
       }
     } unit_list_iterate_end;
-    unit_list_free(vtile->units);
+    unit_list_destroy(vtile->units);
     vtile->units = NULL;
   }
 

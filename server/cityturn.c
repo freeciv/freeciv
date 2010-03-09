@@ -179,7 +179,7 @@ void city_refresh_queue_processing(void)
     }
   } city_list_iterate_end;
 
-  city_list_free(city_refresh_queue);
+  city_list_destroy(city_refresh_queue);
   city_refresh_queue = NULL;
 }
 
@@ -1733,7 +1733,7 @@ static bool sell_random_units(struct player *pplayer,
     notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                   _("Not enough gold. %s disbanded"),
                   unit_tile_link(punit));
-    unit_list_unlink(punitlist, punit);
+    unit_list_remove(punitlist, punit);
     wipe_unit(punit);
 
     /* Get the upkeep gold back. */
@@ -1807,7 +1807,7 @@ static bool player_balance_treasury_units(struct player *pplayer)
     die("Player cannot have negative gold.");
   }
 
-  unit_list_free(punitlist);
+  unit_list_destroy(punitlist);
 
   return pplayer->economic.gold >= 0;
 }
@@ -1881,7 +1881,7 @@ static bool city_balance_treasury_units(struct city *pcity)
   /* If we get here the player has negative gold, but hopefully
    * another city will be able to pay the deficit, so continue. */
 
-  unit_list_free(punitlist);
+  unit_list_destroy(punitlist);
 
   return pplayer->economic.gold >= 0;
 }

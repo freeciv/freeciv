@@ -118,7 +118,7 @@ void control_done(void)
   const struct genlist_link *plink;
   int i;
 
-  genlist_free(caravan_arrival_queue);
+  genlist_destroy(caravan_arrival_queue);
   caravan_arrival_queue = NULL;
 
   /* Datas in diplomat_arrival_queue are malloced. */
@@ -126,15 +126,15 @@ void control_done(void)
        plink = genlist_link_next(plink)) {
     free(genlist_link_data(plink));
   }
-  genlist_free(diplomat_arrival_queue);
+  genlist_destroy(diplomat_arrival_queue);
   diplomat_arrival_queue = NULL;
 
-  unit_list_free(current_focus);
-  unit_list_free(previous_focus);
-  unit_list_free(urgent_focus_queue);
+  unit_list_destroy(current_focus);
+  unit_list_destroy(previous_focus);
+  unit_list_destroy(urgent_focus_queue);
 
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
-    unit_list_free(battlegroups[i]);
+    unit_list_destroy(battlegroups[i]);
   }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
@@ -188,17 +188,17 @@ void control_unit_killed(struct unit *punit)
 
   goto_unit_killed(punit);
 
-  unit_list_unlink(get_units_in_focus(), punit);
+  unit_list_remove(get_units_in_focus(), punit);
   if (get_num_units_in_focus() < 1) {
     set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
   }
   update_unit_info_label(get_units_in_focus());
 
-  unit_list_unlink(previous_focus, punit);
-  unit_list_unlink(urgent_focus_queue, punit);
+  unit_list_remove(previous_focus, punit);
+  unit_list_remove(urgent_focus_queue, punit);
 
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
-    unit_list_unlink(battlegroups[i], punit);
+    unit_list_remove(battlegroups[i], punit);
   }
 }
 
@@ -216,7 +216,7 @@ void unit_change_battlegroup(struct unit *punit, int battlegroup)
       unit_list_append(battlegroups[battlegroup], punit);
     }
     if (punit->battlegroup != BATTLEGROUP_NONE) {
-      unit_list_unlink(battlegroups[punit->battlegroup], punit);
+      unit_list_remove(battlegroups[punit->battlegroup], punit);
     }
     punit->battlegroup = battlegroup;
   }
@@ -525,7 +525,7 @@ void advance_unit_focus(void)
         }
       } unit_list_iterate_end;
     }
-    unit_list_unlink(urgent_focus_queue, candidate);
+    unit_list_remove(urgent_focus_queue, candidate);
 
     /* Autocenter on Wakeup, regardless of the local option 
      * "auto_center_on_unit". */
@@ -829,7 +829,7 @@ void process_caravan_arrival(struct unit *punit)
     void *data;
 
     data = genlist_get(caravan_arrival_queue, 0);
-    genlist_unlink(caravan_arrival_queue, data);
+    genlist_remove(caravan_arrival_queue, data);
     punit = game_find_unit_by_number(FC_PTR_TO_INT(data));
 
     if (punit && (unit_can_help_build_wonder_here(punit)
@@ -884,7 +884,7 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     struct unit *punit;
 
     p_ids = genlist_get(diplomat_arrival_queue, 0);
-    genlist_unlink(diplomat_arrival_queue, p_ids);
+    genlist_remove(diplomat_arrival_queue, p_ids);
     diplomat_id = p_ids[0];
     victim_id = p_ids[1];
     free(p_ids);
@@ -2067,7 +2067,7 @@ void do_move_unit(struct unit *punit, struct unit *target_unit)
 		     unit_type(punit)->sound_move_alt);
   }
 
-  unit_list_unlink(src_tile->units, punit);
+  unit_list_remove(src_tile->units, punit);
 
   if (unit_owner(punit) == client.conn.playing
       && auto_center_on_unit
@@ -2853,7 +2853,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
 	  dsend_packet_unit_battlegroup(&client.conn,
 					punit->id, BATTLEGROUP_NONE);
 	  refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
-	  unit_list_unlink(battlegroups[battlegroup], punit);
+	  unit_list_remove(battlegroups[battlegroup], punit);
 	}
       } unit_list_iterate_safe_end;
     }
@@ -2861,7 +2861,7 @@ void key_unit_assign_battlegroup(int battlegroup, bool append)
       if (punit->battlegroup != battlegroup) {
 	if (punit->battlegroup >= 0
 	    && punit->battlegroup < MAX_NUM_BATTLEGROUPS) {
-	  unit_list_unlink(battlegroups[punit->battlegroup], punit);
+	  unit_list_remove(battlegroups[punit->battlegroup], punit);
 	}
 	punit->battlegroup = battlegroup;
 	dsend_packet_unit_battlegroup(&client.conn,

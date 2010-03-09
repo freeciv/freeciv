@@ -400,7 +400,7 @@ struct tile *index_to_tile(int index)
 ***************************************************************/
 static void tile_free(struct tile *ptile)
 {
-  unit_list_free(ptile->units);
+  unit_list_destroy(ptile->units);
   if (ptile->spec_sprite) {
     free(ptile->spec_sprite);
     ptile->spec_sprite = NULL;

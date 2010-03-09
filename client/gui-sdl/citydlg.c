@@ -2482,7 +2482,7 @@ static void redraw_happyness_city_dialog(const struct widget *pCityWindow,
     }
   }
   
-  effect_list_free(sources);
+  effect_list_destroy(sources);
 }
 
 /**************************************************************************

@@ -392,7 +392,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
 
     ai_reinit(punit);
 
-    unit_list_unlink(old_owner->units, punit);
+    unit_list_remove(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);
     punit->owner = new_owner;
 
@@ -406,7 +406,7 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
    */
   if (old_pcity) {
     /* Even if unit is dead, we have to unlink unit pointer (punit). */
-    unit_list_unlink(old_pcity->units_supported, punit);
+    unit_list_remove(old_pcity->units_supported, punit);
     /* update unit upkeep */
     city_units_upkeep(old_pcity);
   }

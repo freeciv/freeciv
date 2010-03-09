@@ -596,7 +596,7 @@ LONG CALLBACK cma_proc(HWND win, UINT message,
     case WM_DESTROY:
       break;
       if (guidata) {
-	dialog_list_unlink(dialog_list, guidata->pdialog);
+	dialog_list_remove(dialog_list, guidata->pdialog);
 	free(guidata->pdialog);
 	free(guidata);
       }

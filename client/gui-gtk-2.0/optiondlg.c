@@ -297,7 +297,7 @@ static void option_dialog_destroy(struct option_dialog *pdialog)
   GtkWidget *shell = pdialog->shell;
 
   if (NULL != option_dialogs) {
-    option_dialog_list_unlink(option_dialogs, pdialog);
+    option_dialog_list_remove(option_dialogs, pdialog);
   }
 
   options_iterate(pdialog->poptset, poption) {

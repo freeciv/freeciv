@@ -309,7 +309,7 @@ static void flush_hbmp_cache()
     crect_list_iterate(free_rects, pcrect) {
       free(pcrect);
     } crect_list_iterate_end;
-    crect_list_free(free_rects);
+    crect_list_destroy(free_rects);
   }
 
   free_rects = crect_list_new();
@@ -319,7 +319,7 @@ static void flush_hbmp_cache()
     crect_list_iterate(used_rects, pcrect) {
       free(pcrect);
     } crect_list_iterate_end;
-    crect_list_free(used_rects);
+    crect_list_destroy(used_rects);
   }
 
   used_rects = crect_list_new();
@@ -397,7 +397,7 @@ struct crect *getcachehbitmap(BITMAP *bmp, int *cache_id)
       used_hbmps[hbmp_count] = hbmp;
       hbmp_count++;
     } else {
-      crect_list_unlink(free_rects, found);
+      crect_list_remove(free_rects, found);
     }
 
     x = found->x;

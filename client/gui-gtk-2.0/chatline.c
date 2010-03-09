@@ -153,7 +153,7 @@ static void inputline_return(GtkEntry *w, gpointer data)
       void *data;
 
       data = genlist_get(history_list, -1);
-      genlist_unlink(history_list, data);
+      genlist_remove(history_list, data);
       free(data);
     }
 

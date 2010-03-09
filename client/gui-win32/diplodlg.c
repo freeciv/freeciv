@@ -454,7 +454,7 @@ static LONG CALLBACK diplomacy_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM l
   case WM_DESTROY:
     if (pdialog->menu_shown)
       DestroyMenu(pdialog->menu_shown);
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
     free(pdialog);
     break;
   case WM_COMMAND:

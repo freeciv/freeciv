@@ -85,7 +85,7 @@ void diplomacy_dialog_init()
 *****************************************************************/
 void diplomacy_dialog_done()
 {
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
 }
 
 /****************************************************************
@@ -1183,7 +1183,7 @@ static void popdown_diplomacy_dialog(int counterpart)
     popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
 			                  pdialog->pdialog->pEndWidgetList);
       
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
       
     FC_FREE(pdialog->pdialog->pScroll);
     FC_FREE(pdialog->pdialog);  

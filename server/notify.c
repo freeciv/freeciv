@@ -314,7 +314,7 @@ void notify_team(const struct player *pplayer,
   notify_conn_packet(dest, &genmsg);
 
   if (pplayer) {
-    conn_list_free(dest);
+    conn_list_destroy(dest);
   }
 }
 
@@ -396,7 +396,7 @@ static void event_cache_data_destroy(struct event_cache_data *pdata)
   fc_assert_ret(NULL != event_cache);
   fc_assert_ret(NULL != pdata);
 
-  event_cache_data_list_unlink(event_cache, pdata);
+  event_cache_data_list_remove(event_cache, pdata);
   free(pdata);
 }
 
@@ -474,7 +474,7 @@ void event_cache_free(void)
     event_cache_iterate(pdata) {
       event_cache_data_destroy(pdata);
     } event_cache_iterate_end;
-    event_cache_data_list_free(event_cache);
+    event_cache_data_list_destroy(event_cache);
     event_cache = NULL;
   }
   event_cache_status = FALSE;

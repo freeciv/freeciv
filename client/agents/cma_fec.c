@@ -95,7 +95,7 @@ void cmafec_free(void)
   while (cmafec_preset_num() > 0) {
     cmafec_preset_remove(0);
   }
-  preset_list_free(preset_list);
+  preset_list_destroy(preset_list);
 }
 
 /**************************************************************************
@@ -156,7 +156,7 @@ void cmafec_preset_remove(int index)
   fc_assert_ret(index >= 0 && index < cmafec_preset_num());
 
   ppreset = preset_list_get(preset_list, index);
-  preset_list_unlink(preset_list, ppreset);
+  preset_list_remove(preset_list, ppreset);
 
   free(ppreset->descr);
   free(ppreset);

@@ -876,8 +876,8 @@ void tileset_free(struct tileset *t)
 {
   tileset_free_tiles(t);
   tileset_free_toplevel(t);
-  specfile_list_free(t->specfiles);
-  small_sprite_list_free(t->small_sprites);
+  specfile_list_destroy(t->specfiles);
+  small_sprite_list_destroy(t->small_sprites);
   free(t);
 }
 
@@ -1216,7 +1216,7 @@ static void scan_specfile(struct tileset *t, struct specfile *sf,
         tags = NULL;
       }
     } section_list_iterate_end;
-    section_list_free(sections);
+    section_list_destroy(sections);
   }
 
   /* Load "extra" sprites.  Each sprite is one file. */
@@ -1695,7 +1695,7 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
       goto ON_ERROR;
     }
   } section_list_iterate_end;
-  section_list_free(sections);
+  section_list_destroy(sections);
   sections = NULL;
 
   spec_filenames = secfile_lookup_str_vec(file, &num_spec_files,
@@ -1752,7 +1752,7 @@ ON_ERROR:
   free(fname);
   tileset_free(t);
   if (NULL != sections) {
-    section_list_free(sections);
+    section_list_destroy(sections);
   }
   return NULL;
 }
@@ -4760,7 +4760,7 @@ void tileset_free_tiles(struct tileset *t)
   }
 
   small_sprite_list_iterate(t->small_sprites, ss) {
-    small_sprite_list_unlink(t->small_sprites, ss);
+    small_sprite_list_remove(t->small_sprites, ss);
     if (ss->file) {
       free(ss->file);
     }
@@ -4769,7 +4769,7 @@ void tileset_free_tiles(struct tileset *t)
   } small_sprite_list_iterate_end;
 
   specfile_list_iterate(t->specfiles, sf) {
-    specfile_list_unlink(t->specfiles, sf);
+    specfile_list_remove(t->specfiles, sf);
     free(sf->file_name);
     if (sf->big_sprite) {
       free_sprite(sf->big_sprite);

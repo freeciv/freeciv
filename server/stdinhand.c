@@ -3383,7 +3383,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
       connection_attach(pconn, NULL, TRUE);
     }
   } conn_list_iterate_end;
-  conn_list_free(global_observers);
+  conn_list_destroy(global_observers);
 
   aifill(game.info.aifill);
   return TRUE;
@@ -4581,7 +4581,7 @@ static void show_scenarios(struct connection *caller)
     my_snprintf(buf, sizeof(buf), "%s", pfile->name);
     cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
   } fileinfo_list_iterate_end;
-  fileinfo_list_free_all(files);
+  fileinfo_list_destroy(files);
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }

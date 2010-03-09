@@ -2838,7 +2838,7 @@ void destroy_city_virtual(struct city *pcity)
     }
   } ai_type_iterate_end;
 
-  unit_list_free(pcity->units_supported);
+  unit_list_destroy(pcity->units_supported);
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
 }

@@ -30,17 +30,27 @@
    including this file would provide a struct definition for:
       struct foo_list;
    and prototypes for the following functions:
-      struct foolist *foo_list_new();
-      void foo_list_free(struct foo_list *This);
-      int  foo_list_size(struct foo_list *This);
-      foo_t *foo_list_get(struct foo_list *This, int index);
+      struct foolist *foo_list_new(void);
+      struct foolist *foo_list_new_full(void (*free_data_func) (foo_t *));
+      void foo_list_destroy(struct foo_list *This);
+      struct foolist *foo_list_copy(const struct foolist *plist);
+      struct foolist *foo_list_copy_full(const struct foolist *plist,
+                                  foo_t * (*copy_data_func) (const foo_t *)),
+                                  void (*free_data_func) (foo_t *));
+      int  foo_list_size(const struct foo_list *This);
+      foo_t *foo_list_get(const struct foo_list *This, int index);
       void foo_list_prepend(struct foo_list *This, foo_t *pfoo);
       void foo_list_append(struct foo_list *This, foo_t *pfoo);
-      bool foo_list_unlink(struct foo_list *This, foo_t *pfoo);
+      void foo_list_insert(struct foo_list *This, foo_t *pfoo, int idx);
+      bool foo_list_remove(struct foo_list *This, foo_t *pfoo);
       void foo_list_clear(struct foo_list *This);
+      void foo_list_unique(struct foo_list *This);
+      void foo_list_unique_full(struct foo_list *This,
+                                bool (*comp_data_func) (const foo_t *,
+                                                        const foo_t *));
       bool foo_list_search(struct foo_list *this, foo_t *pfoo);
       void foo_list_sort(struct foo_list *This, 
-         int (*compar)(const void *, const void *));
+         int (*compar) (const foo_t *const *, const foo_t *const *));
       void foo_list_shuffle(struct foo_list *This);
       const struct genlist *foo_list_base(const struct foo_list *This);
 
@@ -88,19 +98,28 @@ static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
   return SPECLIST(genlist_new());
 }
 
+static inline SPECLIST_LIST *SPECLIST_FOO(_list_new_full) (void (*free_data_func) (SPECLIST_TYPE *))
+{
+  return SPECLIST(genlist_new_full((genlist_free_fn_t) free_data_func));
+}
+
+static inline void SPECLIST_FOO(_list_destroy) (SPECLIST_LIST *tthis)
+{
+  genlist_destroy(GENLIST(tthis));
+}
+
 static inline SPECLIST_LIST *SPECLIST_FOO(_list_copy) (const SPECLIST_LIST *plist)
 {
   return SPECLIST(genlist_copy(GENLIST(plist)));
 }
 
-static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
+static inline SPECLIST_LIST *SPECLIST_FOO(_list_copy_full) (const SPECLIST_LIST *plist,
+                                                            SPECLIST_TYPE * (*copy_data_func) (const SPECLIST_TYPE *),
+                                                            void (*free_data_func) (SPECLIST_TYPE *))
 {
-  genlist_prepend(GENLIST(tthis), pfoo);
-}
-
-static inline bool SPECLIST_FOO(_list_unlink) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
-{
-  return genlist_unlink(GENLIST(tthis), pfoo);
+  return SPECLIST(genlist_copy_full(GENLIST(plist),
+                                    (genlist_copy_fn_t) copy_data_func,
+                                    (genlist_free_fn_t) free_data_func));
 }
 
 static inline int SPECLIST_FOO(_list_size) (const SPECLIST_LIST *tthis)
@@ -118,14 +137,35 @@ static inline void SPECLIST_FOO(_list_append) (SPECLIST_LIST *tthis, SPECLIST_TY
   genlist_append(GENLIST(tthis), pfoo);
 }
 
+static inline void SPECLIST_FOO(_list_prepend) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
+{
+  genlist_prepend(GENLIST(tthis), pfoo);
+}
+
+static inline void SPECLIST_FOO(_list_insert) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo, int idx)
+{
+  genlist_insert(GENLIST(tthis), pfoo, idx);
+}
+
+static inline bool SPECLIST_FOO(_list_remove) (SPECLIST_LIST *tthis, SPECLIST_TYPE *pfoo)
+{
+  return genlist_remove(GENLIST(tthis), pfoo);
+}
+
 static inline void SPECLIST_FOO(_list_clear) (SPECLIST_LIST *tthis)
 {
   genlist_clear(GENLIST(tthis));
 }
 
-static inline void SPECLIST_FOO(_list_free) (SPECLIST_LIST *tthis)
+static inline void SPECLIST_FOO(_list_unique) (SPECLIST_LIST *tthis)
 {
-  genlist_free(GENLIST(tthis));
+  genlist_unique(GENLIST(tthis));
+}
+
+static inline void SPECLIST_FOO(_list_unique_full) (SPECLIST_LIST *tthis,
+                                                    bool (*comp_data_func) (const SPECLIST_TYPE *, const SPECLIST_TYPE *))
+{
+  genlist_unique_full(GENLIST(tthis), (genlist_comp_fn_t) comp_data_func);
 }
 
 /****************************************************************************
@@ -133,7 +173,7 @@ static inline void SPECLIST_FOO(_list_free) (SPECLIST_LIST *tthis)
 
   This is an O(n) operation.  Hence, "search".
 ****************************************************************************/
-static inline bool SPECLIST_FOO(_list_search) (SPECLIST_LIST *tthis,
+static inline bool SPECLIST_FOO(_list_search) (const SPECLIST_LIST *tthis,
                                                const SPECLIST_TYPE *pfoo)
 {
   return genlist_search(GENLIST(tthis), pfoo);

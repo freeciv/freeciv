@@ -185,7 +185,7 @@ internal_signal_callback_append(struct signal_callback_list *list,
 static void internal_signal_callback_remove(struct signal_callback_list *list,
 					    struct signal_callback *callback)
 {
-  signal_callback_list_unlink(list, callback);
+  signal_callback_list_remove(list, callback);
 
   free(callback->name);
   free(callback);
@@ -228,7 +228,7 @@ static void internal_signal_free(const char *signal_name)
       internal_signal_callback_remove(signal->callbacks, pcallback);
     } signal_callback_list_iterate_end;
 
-    signal_callback_list_free(signal->callbacks);
+    signal_callback_list_destroy(signal->callbacks);
     free(signal);
   } else {
     log_error("Signal \"%s\" does not exist, so cannot be freed.",

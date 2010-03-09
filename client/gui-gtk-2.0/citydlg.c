@@ -467,7 +467,7 @@ void popdown_all_city_dialogs(void)
   while (dialog_list_size(dialog_list)) {
     close_city_dialog(dialog_list_get(dialog_list, 0));
   }
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
   city_dialogs_have_been_initialised = FALSE;
 }
 
@@ -2388,7 +2388,7 @@ static void unit_upgrade_callback(GtkWidget *w, gpointer data)
   punits = unit_list_new();
   unit_list_append(punits, punit);
   popup_upgrade_dialog(punits);
-  unit_list_free(punits);
+  unit_list_destroy(punits);
 }
 
 /*** Callbacks for citizen bar, map funcs that are not update ***/
@@ -2793,7 +2793,7 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   if (pdialog->popup_menu)
     gtk_widget_destroy(pdialog->popup_menu);
 
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
 
   unit_node_vector_free(&pdialog->overview.supported_units);
   unit_node_vector_free(&pdialog->overview.present_units);

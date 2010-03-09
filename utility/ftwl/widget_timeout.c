@@ -146,7 +146,7 @@ void sw_remove_timeout(int id)
   assert(id > 0);
   callback_list_iterate(callback_list, callback) {
     if (callback->id == id) {
-      callback_list_unlink(callback_list, callback);
+      callback_list_remove(callback_list, callback);
       free(callback);
     }
   } callback_list_iterate_end;
@@ -173,7 +173,7 @@ void handle_callbacks(void)
          callback->time.tv_usec); */
       if (timercmp(&callback->time, &now, <)) {
 	/*printf("  call\n"); */
-	callback_list_unlink(callback_list, callback);
+	callback_list_remove(callback_list, callback);
 	callback->callback(callback->data);
 	free(callback);
 	one_called = TRUE;
@@ -202,7 +202,7 @@ void handle_idle_callbacks(void)
     bool change = FALSE;
 
     idle_callback_list_iterate(idle_callback_list, callback) {
-      idle_callback_list_unlink(idle_callback_list, callback);
+      idle_callback_list_remove(idle_callback_list, callback);
       callback->callback(callback->data);
       free(callback);
       change = TRUE;

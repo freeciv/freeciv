@@ -57,17 +57,33 @@ struct genlist_link;
 /* A genlist, opaque type. */
 struct genlist;
 
-int genlist_size(const struct genlist *pgenlist);
-void *genlist_get(const struct genlist *pgenlist, int idx);
+/* Function type definitions. */
+typedef void (*genlist_free_fn_t) (void *);
+typedef void * (*genlist_copy_fn_t) (const void *);
+typedef bool (*genlist_comp_fn_t) (const void *, const void *);
+
 struct genlist *genlist_new(void);
+struct genlist *genlist_new_full(genlist_free_fn_t free_data_func);
+void genlist_destroy(struct genlist *pgenlist);
+
 struct genlist *genlist_copy(const struct genlist *pgenlist);
+struct genlist *genlist_copy_full(const struct genlist *pgenlist,
+                                  genlist_copy_fn_t copy_data_func,
+                                  genlist_free_fn_t free_data_func);
+
 void genlist_clear(struct genlist *pgenlist);
-void genlist_free(struct genlist *pgenlist);
+void genlist_unique(struct genlist *pgenlist);
+void genlist_unique_full(struct genlist *pgenlist,
+                         genlist_comp_fn_t comp_data_func);
 void genlist_append(struct genlist *pgenlist, void *data);
 void genlist_prepend(struct genlist *pgenlist, void *data);
-bool genlist_unlink(struct genlist *pgenlist, void *punlink);
+void genlist_insert(struct genlist *pgenlist, void *data, int idx);
+bool genlist_remove(struct genlist *pgenlist, void *data);
 
-bool genlist_search(struct genlist *pgenlist, const void *data);
+int genlist_size(const struct genlist *pgenlist);
+void *genlist_get(const struct genlist *pgenlist, int idx);
+
+bool genlist_search(const struct genlist *pgenlist, const void *data);
 
 void genlist_sort(struct genlist *pgenlist,
                   int (*compar)(const void *, const void *));

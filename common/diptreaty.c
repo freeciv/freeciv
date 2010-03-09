@@ -91,7 +91,7 @@ void clear_treaty(struct Treaty *ptreaty)
   clause_list_iterate(ptreaty->clauses, pclause) {
     free(pclause);
   } clause_list_iterate_end;
-  clause_list_free(ptreaty->clauses);
+  clause_list_destroy(ptreaty->clauses);
 }
 
 /****************************************************************
@@ -103,7 +103,7 @@ bool remove_clause(struct Treaty *ptreaty, struct player *pfrom,
   clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type && pclause->from==pfrom &&
        pclause->value==val) {
-      clause_list_unlink(ptreaty->clauses, pclause);
+      clause_list_remove(ptreaty->clauses, pclause);
       free(pclause);
 
       ptreaty->accept0 = FALSE;

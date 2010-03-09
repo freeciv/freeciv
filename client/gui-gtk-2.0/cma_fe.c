@@ -93,7 +93,7 @@ void cma_fe_init()
 **************************************************************************/
 void cma_fe_done()
 {
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
 }
 
 /**************************************************************************
@@ -119,7 +119,7 @@ static void cma_dialog_destroy_callback(GtkWidget *w, gpointer data)
 
   g_object_unref(pdialog->tips);
 
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
 }
 

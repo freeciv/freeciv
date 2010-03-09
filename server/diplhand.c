@@ -100,7 +100,7 @@ void diplhand_free(void)
 {
   free_treaties();
 
-  treaty_list_free(treaties);
+  treaty_list_destroy(treaties);
   treaties = NULL;
 }
 
@@ -576,7 +576,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     }
 
   cleanup:
-    treaty_list_unlink(treaties, ptreaty);
+    treaty_list_remove(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
     send_player_info(pplayer, NULL);
@@ -699,7 +699,7 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
     notify_player(pplayer, NULL, E_DIPLOMACY, ftc_server,
                   _("Meeting with %s canceled."), 
                   player_name(pother));
-    treaty_list_unlink(treaties, ptreaty);
+    treaty_list_remove(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
   }

@@ -890,7 +890,7 @@ void close_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 {
   XtDestroyWidget(pdialog->dip_dialog_shell);
   
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
 }
 

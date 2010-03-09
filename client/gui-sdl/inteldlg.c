@@ -70,7 +70,7 @@ void intel_dialog_init()
 *****************************************************************/
 void intel_dialog_done()
 {
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
 }
 
 /****************************************************************
@@ -172,7 +172,7 @@ void popdown_intel_dialog(struct player *p)
     popdown_window_group_dialog(pdialog->pdialog->pBeginWidgetList,
 			                  pdialog->pdialog->pEndWidgetList);
       
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
       
     FC_FREE(pdialog->pdialog->pScroll);
     FC_FREE(pdialog->pdialog);  

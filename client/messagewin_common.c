@@ -107,7 +107,7 @@ void clear_notify_window(void)
     messages[i].descr = NULL;
 
     text_tag_list_clear_all(messages[i].tags);
-    text_tag_list_free(messages[i].tags);
+    text_tag_list_destroy(messages[i].tags);
     messages[i].tags = NULL;
   }
   messages_total = 0;

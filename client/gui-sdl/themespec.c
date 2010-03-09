@@ -298,8 +298,8 @@ void theme_free(struct theme *t)
   if (t) {
     theme_free_sprites(t);
     theme_free_toplevel(t);
-    specfile_list_free(t->specfiles);
-    small_sprite_list_free(t->small_sprites);
+    specfile_list_destroy(t->specfiles);
+    small_sprite_list_destroy(t->small_sprites);
     FC_FREE(t);
   }
 }
@@ -594,7 +594,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
         FC_FREE(tags);
       }
     } section_list_iterate_end;
-    section_list_free(sections);
+    section_list_destroy(sections);
   }
 
   /* Load "extra" sprites.  Each sprite is one file. */
@@ -1039,7 +1039,7 @@ void theme_free_sprites(struct theme *t)
   }
 
   small_sprite_list_iterate(t->small_sprites, ss) {
-    small_sprite_list_unlink(t->small_sprites, ss);
+    small_sprite_list_remove(t->small_sprites, ss);
     if (ss->file) {
       FC_FREE(ss->file);
     }
@@ -1048,7 +1048,7 @@ void theme_free_sprites(struct theme *t)
   } small_sprite_list_iterate_end;
 
   specfile_list_iterate(t->specfiles, sf) {
-    specfile_list_unlink(t->specfiles, sf);
+    specfile_list_remove(t->specfiles, sf);
     FC_FREE(sf->file_name);
     if (sf->big_sprite) {
       free_sprite(sf->big_sprite);

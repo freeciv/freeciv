@@ -799,7 +799,7 @@ ui_main(int argc, char *argv[])
      * and do animations */
     if (idle && callbacks && callback_list_size(callbacks) > 0) {
       struct callback *cb = callback_list_get(callbacks, 0);
-      callback_list_unlink(callbacks, cb);
+      callback_list_remove(callbacks, cb);
       (cb->callback)(cb->data);
       free(cb);
 
@@ -814,7 +814,7 @@ ui_main(int argc, char *argv[])
 
   free_timer(anim_timer);
   free_timer(callback_timer);
-  callback_list_free(callbacks);
+  callback_list_destroy(callbacks);
 
   FreeLibrary(hmsimg32);
 }

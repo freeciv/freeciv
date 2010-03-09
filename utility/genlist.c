@@ -17,10 +17,12 @@
 
 #include <stdlib.h>
 
+/* utility */
+#include "log.h"
 #include "mem.h"
+#include "shared.h"  /* array_shuffle */
 
 #include "genlist.h"
-#include "shared.h"  /* array_shuffle */
 
 /* A single element of a genlist, storing the pointer to user
    data, and pointers to the next and previous elements:
@@ -38,70 +40,119 @@ struct genlist {
   int nelements;
   struct genlist_link *head_link;
   struct genlist_link *tail_link;
+  genlist_free_fn_t free_data_func;
 };
 
 static struct genlist_link *
     find_genlist_position(const struct genlist *pgenlist, int pos);
 
-/************************************************************************
+/****************************************************************************
+  Default function of type genlist_free_fn_t.
+****************************************************************************/
+static void genlist_default_free_data_func(void *data)
+{
+  /* Do nothing. */
+}
+
+/****************************************************************************
+  Default function of type genlist_copy_fn_t.
+****************************************************************************/
+static void *genlist_default_copy_data_func(const void *data)
+{
+  return (void *) data; /* Returns the data. */
+}
+
+/****************************************************************************
+  Default function of type genlist_comp_fn_t.
+****************************************************************************/
+static bool genlist_default_comp_data_func(const void *data1,
+                                           const void *data2)
+{
+  return data1 == data2;
+}
+
+/****************************************************************************
   Create a new empty genlist.
-************************************************************************/
+****************************************************************************/
 struct genlist *genlist_new(void)
 {
-  struct genlist *pgenlist = fc_malloc(sizeof(*pgenlist));
+  return genlist_new_full(NULL);
+}
 
+/****************************************************************************
+  Create a new empty genlist with a free data function.
+****************************************************************************/
+struct genlist *genlist_new_full(genlist_free_fn_t free_data_func)
+{
+  struct genlist *pgenlist = fc_calloc(1, sizeof(*pgenlist));
+
+#ifdef ZERO_VARIABLES_FOR_SEARCHING
   pgenlist->nelements = 0;
   pgenlist->head_link = NULL;
   pgenlist->tail_link = NULL;
+#endif
+  pgenlist->free_data_func = (free_data_func ? free_data_func
+                              : genlist_default_free_data_func);
 
   return pgenlist;
 }
 
-/************************************************************************
+/****************************************************************************
   Returns a new genlist that's a copy of the existing one.
-************************************************************************/
+****************************************************************************/
 struct genlist *genlist_copy(const struct genlist *pgenlist)
 {
-  struct genlist *pcopy = genlist_new();
+  return genlist_copy(pgenlist);
+}
+
+/****************************************************************************
+  Returns a new genlist that's a copy of the existing one.
+****************************************************************************/
+struct genlist *genlist_copy_full(const struct genlist *pgenlist,
+                                  genlist_copy_fn_t copy_data_func,
+                                  genlist_free_fn_t free_data_func)
+{
+  struct genlist *pcopy = genlist_new_full(free_data_func);
 
   if (pgenlist) {
     struct genlist_link *plink;
 
+    if (NULL == copy_data_func) {
+      copy_data_func = genlist_default_copy_data_func;
+    }
     for (plink = pgenlist->head_link; plink; plink = plink->next) {
-      genlist_append(pcopy, plink->dataptr);
+      genlist_append(pcopy, copy_data_func(plink->dataptr));
     }
   }
 
   return pcopy;
 }
 
-/************************************************************************
-  Free all memory allocated by the genlist.
-************************************************************************/
-void genlist_free(struct genlist *pgenlist)
+/****************************************************************************
+  Destroys the genlist.
+****************************************************************************/
+void genlist_destroy(struct genlist *pgenlist)
 {
-  if (!pgenlist) {
-    return;
-  }
+  fc_assert_ret(NULL != pgenlist);
   genlist_clear(pgenlist);
   free(pgenlist);
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the number of elements stored in the genlist.
-************************************************************************/
+****************************************************************************/
 int genlist_size(const struct genlist *pgenlist)
 {
+  fc_assert_ret_val(NULL != pgenlist, 0);
   return pgenlist->nelements;
 }
 
-
-/************************************************************************
+/****************************************************************************
   Returns the user-data pointer stored in the genlist at the position
   given by 'idx'.  For idx out of range (including an empty list),
   returns NULL.
   Recall 'idx' can be -1 meaning the last element.
-************************************************************************/
+****************************************************************************/
 void *genlist_get(const struct genlist *pgenlist, int idx)
 {
   struct genlist_link *link = find_genlist_position(pgenlist, idx);
@@ -113,38 +164,87 @@ void *genlist_get(const struct genlist *pgenlist, int idx)
   }
 }
 
-
-/************************************************************************
+/****************************************************************************
   Frees all the internal data used by the genlist (but doesn't touch
   the user-data).  At the end the state of the genlist will be the
   same as when genlist_init() is called on a new genlist.
-************************************************************************/
+****************************************************************************/
 void genlist_clear(struct genlist *pgenlist)
 {
-  if (pgenlist->nelements > 0) {
-    struct genlist_link *plink = pgenlist->head_link, *plink2;
+  fc_assert_ret(NULL != pgenlist);
 
-    do {
-      plink2=plink->next;
-      free(plink);
-    } while ((plink = plink2) != NULL);
+  if (0 < pgenlist->nelements) {
+    genlist_free_fn_t free_data_func = pgenlist->free_data_func;
+    struct genlist_link *plink = pgenlist->head_link, *plink2;
 
     pgenlist->head_link = NULL;
     pgenlist->tail_link = NULL;
 
-    pgenlist->nelements=0;
+    pgenlist->nelements = 0;
+
+    do {
+      plink2 = plink->next;
+      free_data_func(plink->dataptr);
+      free(plink);
+    } while ((plink = plink2) != NULL);
   }
 }
 
+/****************************************************************************
+  Remove all duplicates of element from every consecutive group of equal
+  elements in the list.
+****************************************************************************/
+void genlist_unique(struct genlist *pgenlist)
+{
+  genlist_unique_full(pgenlist, NULL);
+}
 
-/************************************************************************
+/****************************************************************************
+  Remove all duplicates of element from every consecutive group of equal
+  elements in the list (equality is assumed from if the compare function
+  return TRUE).
+****************************************************************************/
+void genlist_unique_full(struct genlist *pgenlist,
+                         genlist_comp_fn_t comp_data_func)
+{
+  fc_assert_ret(NULL != pgenlist);
+
+  if (0 < pgenlist->nelements) {
+    genlist_free_fn_t free_data_func = pgenlist->free_data_func;
+    struct genlist_link *plink = pgenlist->head_link, *plink2;
+
+    if (NULL == comp_data_func) {
+      comp_data_func = genlist_default_comp_data_func;
+    }
+    do {
+      plink2 = plink->next;
+      if (NULL != plink2 && comp_data_func(plink->dataptr,
+                                           plink2->dataptr)) {
+        /* Remove this element. */
+        plink2->prev = plink->prev;
+        if (NULL != plink->prev) {
+          plink->prev->next = plink2;
+        } else {
+          pgenlist->head_link = plink2;
+        }
+        pgenlist->nelements--;
+        free_data_func(plink->dataptr);
+        free(plink);
+      }
+    } while ((plink = plink2) != NULL);
+  }
+}
+
+/****************************************************************************
   Remove an element of the genlist with the specified user-data pointer
   given by 'punlink'.  If there is no such element, does nothing.
   If there are multiple such elements, removes the first one.  Return
   TRUE if one element has been removed.
-************************************************************************/
-bool genlist_unlink(struct genlist *pgenlist, void *punlink)
+****************************************************************************/
+bool genlist_remove(struct genlist *pgenlist, void *punlink)
 {
+  fc_assert_ret_val(NULL != pgenlist, FALSE);
+
   if (pgenlist->nelements > 0) {
     struct genlist_link *plink = pgenlist->head_link;
 
@@ -164,6 +264,7 @@ bool genlist_unlink(struct genlist *pgenlist, void *punlink)
       } else {
         plink->next->prev = plink->prev;
       }
+      pgenlist->free_data_func(plink->dataptr);
       free(plink);
       pgenlist->nelements--;
       return TRUE;
@@ -173,17 +274,18 @@ bool genlist_unlink(struct genlist *pgenlist, void *punlink)
   return FALSE;
 }
 
-
-/************************************************************************
+/****************************************************************************
   Insert a new element in the list, at position 'pos', with the specified
   user-data pointer 'data'.  Existing elements at >= pos are moved one
   space to the "right".  Recall 'pos' can be -1 meaning add at the
   end of the list.  For an empty list pos has no effect.
   A bad 'pos' value for a non-empty list is treated as -1 (is this
   a good idea?)
-************************************************************************/
-static void genlist_insert(struct genlist *pgenlist, void *data, int pos)
+****************************************************************************/
+void genlist_insert(struct genlist *pgenlist, void *data, int pos)
 {
+  fc_assert_ret(NULL != pgenlist);
+
   if (pgenlist->nelements == 0) { /*list is empty, ignore pos */
     
     struct genlist_link *plink = fc_malloc(sizeof(*plink));
@@ -223,30 +325,28 @@ static void genlist_insert(struct genlist *pgenlist, void *data, int pos)
   pgenlist->nelements++;
 }
 
-
-/************************************************************************
+/****************************************************************************
   Insert an item at the start of the list.
-************************************************************************/
+****************************************************************************/
 void genlist_prepend(struct genlist *pgenlist, void *data)
 {
   genlist_insert(pgenlist, data, 0); /* beginning */
 }
 
-
-/************************************************************************
+/****************************************************************************
   Insert an item at the end of the list.
-************************************************************************/
+****************************************************************************/
 void genlist_append(struct genlist *pgenlist, void *data)
 {
   genlist_insert(pgenlist, data, -1); /* end */
 }
 
-/************************************************************************
+/****************************************************************************
   Returns a pointer to the genlist link structure at the specified
   position.  Recall 'pos' -1 refers to the last position.
   For pos out of range returns NULL.
   Traverses list either forwards or backwards for best efficiency.
-************************************************************************/
+****************************************************************************/
 static struct genlist_link *find_genlist_position(const struct genlist *pgenlist,
                                                   int pos)
 {
@@ -279,9 +379,11 @@ static struct genlist_link *find_genlist_position(const struct genlist *pgenlist
 
   This is an O(n) operation.  Hence, "search".
 ****************************************************************************/
-bool genlist_search(struct genlist *pgenlist, const void *data)
+bool genlist_search(const struct genlist *pgenlist, const void *data)
 {
-  struct genlist_link *plink;
+  const struct genlist_link *plink;
+
+  fc_assert_ret_val(NULL != pgenlist, FALSE);
 
   for (plink = pgenlist->head_link; plink; plink = plink->next) {
     if (plink->dataptr == data) {
@@ -292,7 +394,7 @@ bool genlist_search(struct genlist *pgenlist, const void *data)
   return FALSE;
 }
 
-/************************************************************************
+/****************************************************************************
   Sort the elements of a genlist.
 
   The comparison function should be a function usable by qsort; note
@@ -302,7 +404,7 @@ bool genlist_search(struct genlist *pgenlist, const void *data)
   To do the sort we first construct an array of pointers corresponding
   the the genlist dataptrs, then sort those and put them back into
   the genlist.
-************************************************************************/
+****************************************************************************/
 void genlist_sort(struct genlist *pgenlist,
                   int (*compar)(const void *, const void *))
 {
@@ -328,11 +430,11 @@ void genlist_sort(struct genlist *pgenlist,
   }
 }
 
-/************************************************************************
+/****************************************************************************
   Randomize the elements of a genlist using the Fisher-Yates shuffle.
 
   see: genlist_sort() and shared.c:array_shuffle()
-************************************************************************/
+****************************************************************************/
 void genlist_shuffle(struct genlist *pgenlist)
 {
   const int n = genlist_size(pgenlist);
@@ -361,42 +463,44 @@ void genlist_shuffle(struct genlist *pgenlist)
   }
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the head link of the genlist.
-************************************************************************/
+****************************************************************************/
 const struct genlist_link *genlist_head(const struct genlist *pgenlist)
 {
   return pgenlist ? pgenlist->head_link : NULL;
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the tail link of the genlist.
-************************************************************************/
+****************************************************************************/
 const struct genlist_link *genlist_tail(const struct genlist *pgenlist)
 {
   return pgenlist ? pgenlist->tail_link : NULL;
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the pointer of this link.
-************************************************************************/
+****************************************************************************/
 void *genlist_link_data(const struct genlist_link *plink)
 {
   return plink ? plink->dataptr : NULL;
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the previous link.
-************************************************************************/
-const struct genlist_link *genlist_link_prev(const struct genlist_link *plink)
+****************************************************************************/
+const struct genlist_link *
+genlist_link_prev(const struct genlist_link *plink)
 {
   return plink ? plink->prev : NULL;
 }
 
-/************************************************************************
+/****************************************************************************
   Returns the next link.
-************************************************************************/
-const struct genlist_link *genlist_link_next(const struct genlist_link *plink)
+****************************************************************************/
+const struct genlist_link *
+genlist_link_next(const struct genlist_link *plink)
 {
   return plink ? plink->next : NULL;
 }

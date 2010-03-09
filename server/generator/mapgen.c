@@ -1987,22 +1987,22 @@ static void island_terrain_free(void)
   }
 
   terrain_select_list_iterate(island_terrain.forest, ptersel) {
-    terrain_select_list_unlink(island_terrain.forest, ptersel);
+    terrain_select_list_remove(island_terrain.forest, ptersel);
     tersel_free(ptersel);
   } terrain_select_list_iterate_end;
 
   terrain_select_list_iterate(island_terrain.desert, ptersel) {
-    terrain_select_list_unlink(island_terrain.desert, ptersel);
+    terrain_select_list_remove(island_terrain.desert, ptersel);
     tersel_free(ptersel);
   } terrain_select_list_iterate_end;
 
   terrain_select_list_iterate(island_terrain.mountain, ptersel) {
-    terrain_select_list_unlink(island_terrain.mountain, ptersel);
+    terrain_select_list_remove(island_terrain.mountain, ptersel);
     tersel_free(ptersel);
   } terrain_select_list_iterate_end;
 
   terrain_select_list_iterate(island_terrain.swamp, ptersel) {
-    terrain_select_list_unlink(island_terrain.swamp, ptersel);
+    terrain_select_list_remove(island_terrain.swamp, ptersel);
     tersel_free(ptersel);
   } terrain_select_list_iterate_end;
 

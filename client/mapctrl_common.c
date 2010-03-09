@@ -172,13 +172,13 @@ static void define_tiles_within_rectangle(void)
     if (!rectangle_append) {
       struct unit *punit = unit_list_get(units, 0);
       set_unit_focus(punit);
-      unit_list_unlink(units, punit);
+      unit_list_remove(units, punit);
     }
     unit_list_iterate(units, punit) {
       add_unit_focus(punit);
     } unit_list_iterate_end;
   }
-  unit_list_free(units);
+  unit_list_destroy(units);
 
   /* Clear previous rectangle. */
   draw_selection_rectangle(rec_corner_x, rec_corner_y, rec_w, rec_h);

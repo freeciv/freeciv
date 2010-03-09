@@ -190,7 +190,7 @@ static struct call *remove_and_return_a_call(void)
   call_list_sort(agents.calls, my_call_sort);
 
   result = call_list_get(agents.calls, 0);
-  call_list_unlink(agents.calls, result);
+  call_list_remove(agents.calls, result);
 
   log_todo_lists("A: removed call");
   return result;
@@ -360,7 +360,7 @@ void agents_free(void)
 
     free_timer(agent->stats.network_wall_timer);
   }
-  call_list_free(agents.calls);
+  call_list_destroy(agents.calls);
 }
 
 /***********************************************************************

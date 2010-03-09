@@ -2439,7 +2439,7 @@ void unqueue_mapview_updates(bool write_to_screen)
   }
   for (i = 0; i < TILE_UPDATE_COUNT; i++) {
     if (my_tile_updates[i]) {
-      tile_list_free(my_tile_updates[i]);
+      tile_list_destroy(my_tile_updates[i]);
     }
   }
   needed_updates = UPDATE_NONE;
@@ -3080,7 +3080,7 @@ static struct link_mark *link_mark_new(enum text_link_type type,
 ***********************************************************************/
 static void link_mark_remove(struct link_mark *pmark)
 {
-  link_mark_list_unlink(link_marks, pmark);
+  link_mark_list_remove(link_marks, pmark);
   free(pmark);
 }
 
@@ -3181,7 +3181,7 @@ void link_marks_free(void)
   link_marks_iterate(pmark) {
     free(pmark);
   } link_marks_iterate_end;
-  link_mark_list_free(link_marks);
+  link_mark_list_destroy(link_marks);
   link_marks = NULL;
 }
 

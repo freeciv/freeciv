@@ -540,7 +540,7 @@ static void popup_properties(struct tile *ptile)
 
   editgui_popup_properties(tiles, NUM_OBJTYPES);
 
-  tile_list_free(tiles);
+  tile_list_destroy(tiles);
 }
 
 /****************************************************************************
@@ -1361,7 +1361,7 @@ void edit_buffer_free(struct edit_buffer *ebuf)
     tile_list_iterate(ebuf->vtiles, vtile) {
       destroy_tile_virtual(vtile);
     } tile_list_iterate_end;
-    tile_list_free(ebuf->vtiles);
+    tile_list_destroy(ebuf->vtiles);
     ebuf->vtiles = NULL;
   }
   free(ebuf);

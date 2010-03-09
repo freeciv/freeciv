@@ -195,7 +195,7 @@ static void free_vote(struct vote *pvote)
   vote_cast_list_iterate(pvote->votes_cast, pvc) {
     free(pvc);
   } vote_cast_list_iterate_end;
-  vote_cast_list_free(pvote->votes_cast);
+  vote_cast_list_destroy(pvote->votes_cast);
   free(pvote);
 }
 
@@ -208,7 +208,7 @@ void remove_vote(struct vote *pvote)
     return;
   }
 
-  vote_list_unlink(vote_list, pvote);
+  vote_list_remove(vote_list, pvote);
   lsend_vote_remove(NULL, pvote);
   free_vote(pvote);
 }
@@ -624,7 +624,7 @@ static void remove_vote_cast(struct vote *pvote, struct vote_cast *pvc)
     return;
   }
 
-  vote_cast_list_unlink(pvote->votes_cast, pvc);
+  vote_cast_list_remove(pvote->votes_cast, pvc);
   free(pvc);
   check_vote(pvote);            /* Maybe can pass */
 }
@@ -707,7 +707,7 @@ void voting_free(void)
 {
   clear_all_votes();
   if (vote_list) {
-    vote_list_free(vote_list);
+    vote_list_destroy(vote_list);
     vote_list = NULL;
   }
 }

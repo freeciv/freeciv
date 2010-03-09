@@ -374,7 +374,7 @@ void lost_connection_to_client(struct connection *pconn)
    * really lost (as opposed to server shutting it down) which would
    * trigger an error on send and recurse back to here.
    * Safe to unlink even if not in list: */
-  conn_list_unlink(game.est_connections, pconn);
+  conn_list_remove(game.est_connections, pconn);
   delayed_disconnect++;
   /* Special color (white on black) for player loss */
   notify_conn(game.est_connections, NULL, E_CONNECTION,
@@ -598,7 +598,7 @@ void connection_detach(struct connection *pconn)
   if (NULL != (pplayer = pconn->playing)) {
     bool was_connected = pplayer->is_connected;
 
-    conn_list_unlink(pplayer->connections, pconn);
+    conn_list_remove(pplayer->connections, pconn);
 
     pplayer->is_connected = FALSE;
 

@@ -347,7 +347,7 @@ static struct city_descr_style *find_city_descr_style(struct city *pcity)
 void prepare_show_city_descriptions(void)
 {
   widget_list_iterate(city_descr_windows, widget) {
-    widget_list_unlink(city_descr_windows, widget);
+    widget_list_remove(city_descr_windows, widget);
     sw_widget_destroy(widget);
   } widget_list_iterate_end;
 }
@@ -1295,7 +1295,7 @@ void popdown_mapcanvas(void)
   region_list_iterate(region_list, region) {
     free(region);
   } region_list_iterate_end;
-  region_list_free(region_list);
+  region_list_destroy(region_list);
   
   te_destroy_screen(screen);
 }

@@ -5284,7 +5284,7 @@ static void property_page_create_button_clicked(GtkButton *button,
   } property_page_objbind_iterate_end;
 
   property_page_create_objects(pp, tiles);
-  tile_list_free(tiles);
+  tile_list_destroy(tiles);
 }
 
 /****************************************************************************

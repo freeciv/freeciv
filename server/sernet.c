@@ -210,13 +210,13 @@ void close_connection(struct connection *pconn)
     timer_list_iterate(pconn->server.ping_timers, timer) {
       free_timer(timer);
     } timer_list_iterate_end;
-    timer_list_free(pconn->server.ping_timers);
+    timer_list_destroy(pconn->server.ping_timers);
     pconn->server.ping_timers = NULL;
   }
 
   /* safe to do these even if not in lists: */
-  conn_list_unlink(game.all_connections, pconn);
-  conn_list_unlink(game.est_connections, pconn);
+  conn_list_remove(game.all_connections, pconn);
+  conn_list_remove(game.est_connections, pconn);
 
   pconn->playing = NULL;
   pconn->access_level = ALLOW_NONE;
@@ -237,12 +237,12 @@ void close_connections_and_socket(void)
     if(connections[i].used) {
       close_connection(&connections[i]);
     }
-    conn_list_free(connections[i].self);
+    conn_list_destroy(connections[i].self);
   }
 
   /* Remove the game connection lists and make sure they are empty. */
-  conn_list_free(game.all_connections);
-  conn_list_free(game.est_connections);
+  conn_list_destroy(game.all_connections);
+  conn_list_destroy(game.est_connections);
 
   fc_closesocket(sock);
   fc_closesocket(socklan);
@@ -1162,7 +1162,7 @@ void handle_conn_pong(struct connection *pconn)
   }
 
   timer = timer_list_get(pconn->server.ping_timers, 0);
-  timer_list_unlink(pconn->server.ping_timers, timer);
+  timer_list_remove(pconn->server.ping_timers, timer);
   pconn->ping_time = read_timer_seconds(timer);
   free_timer(timer);
   log_debug("got pong from %s (open=%d); ping time = %fs",

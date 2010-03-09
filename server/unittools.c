@@ -266,11 +266,11 @@ static void do_upgrade_effects(struct player *pplayer)
                   _("%s was upgraded for free to %s."),
                   utype_name_translation(type_from),
                   unit_link(punit));
-    unit_list_unlink(candidates, punit);
+    unit_list_remove(candidates, punit);
     upgrades--;
   }
 
-  unit_list_free(candidates);
+  unit_list_destroy(candidates);
 }
 
 /***************************************************************************
@@ -2517,12 +2517,12 @@ static bool unit_survive_autoattack(struct unit *punit)
     if (game_find_unit_by_number(sanity1)) {
       send_unit_info(NULL, punit);
     } else {
-      unit_list_free(autoattack);
+      unit_list_destroy(autoattack);
       return FALSE; /* moving unit dead */
     }
   } unit_list_iterate_safe_end;
 
-  unit_list_free(autoattack);
+  unit_list_destroy(autoattack);
   if (game_find_unit_by_number(sanity1)) {
     /* We could have lost movement in combat */
     punit->moves_left = MIN(punit->moves_left, moves);
@@ -2792,7 +2792,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     /* First make a list of the units to be moved. */
     unit_list_iterate(psrctile->units, pcargo) {
       if (pcargo->transported_by == punit->id) {
-	unit_list_unlink(psrctile->units, pcargo);
+	unit_list_remove(psrctile->units, pcargo);
 	unit_list_prepend(cargo_units, pcargo);
       }
     } unit_list_iterate_end;
@@ -2827,7 +2827,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
       unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
     } unit_list_iterate_end;
-    unit_list_free(cargo_units);
+    unit_list_destroy(cargo_units);
   }
 
   unit_lives = unit_alive(saved_id);
@@ -2863,7 +2863,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       city_refresh_queue_processing();
     }
 
-    unit_list_unlink(psrctile->units, punit);
+    unit_list_remove(psrctile->units, punit);
     punit->tile = pdesttile;
     punit->moved = TRUE;
     if (punit->transported_by != -1) {

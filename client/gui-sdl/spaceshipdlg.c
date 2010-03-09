@@ -236,7 +236,7 @@ void popdown_spaceship_dialog(struct player *pPlayer)
   if((pSpaceShp = get_spaceship_dialog(pPlayer))) {
     popdown_window_group_dialog(pSpaceShp->pBeginWidgetList,
 					    pSpaceShp->pEndWidgetList);
-    dialog_list_unlink(dialog_list, pSpaceShp);
+    dialog_list_remove(dialog_list, pSpaceShp);
     FC_FREE(pSpaceShp);
   }
   

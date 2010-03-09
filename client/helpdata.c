@@ -88,7 +88,7 @@ void helpdata_init(void)
 *****************************************************************/
 void helpdata_done(void)
 {
-  help_list_free(help_nodes);
+  help_list_destroy(help_nodes);
 }
 
 /****************************************************************
@@ -822,7 +822,7 @@ void boot_help_texts(struct player *pplayer)
           help_list_iterate(category_nodes, ptmp) {
             help_list_append(help_nodes, ptmp);
           } help_list_iterate_end;
-          help_list_free(category_nodes);
+          help_list_destroy(category_nodes);
           continue;
         }
       }
@@ -852,7 +852,7 @@ void boot_help_texts(struct player *pplayer)
       help_list_append(help_nodes, pitem);
     } section_list_iterate_end;
 
-    section_list_free(sec);
+    section_list_destroy(sec);
   }
 
   secfile_check_unused(sf);

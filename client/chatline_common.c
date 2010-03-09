@@ -63,7 +63,7 @@ void chatline_common_init(void)
 **************************************************************************/
 void chatline_common_done(void)
 {
-  remaining_list_free(remains);
+  remaining_list_destroy(remains);
 }
 
 /**************************************************************************
@@ -122,7 +122,7 @@ void output_window_thaw(void)
       real_output_window_append(pline->text, pline->tags, pline->conn_id);
       free(pline->text);
       text_tag_list_clear_all(pline->tags);
-      text_tag_list_free(pline->tags);
+      text_tag_list_destroy(pline->tags);
       free(pline);
     } remaining_list_iterate_end;
     remaining_list_clear(remains);
@@ -171,7 +171,7 @@ void output_window_append(const struct ft_color color,
   if (frozen_level == 0) {
     real_output_window_append(plain_text, tags, -1);
     text_tag_list_clear_all(tags);
-    text_tag_list_free(tags);
+    text_tag_list_destroy(tags);
   } else {
     struct remaining *premain = fc_malloc(sizeof(*premain));
 

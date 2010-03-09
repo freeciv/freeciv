@@ -142,7 +142,7 @@ void free_client_goto(void)
     goto_map_list_iterate(goto_maps, goto_map) {
       goto_map_free(goto_map);
     } goto_map_list_iterate_end;
-    goto_map_list_free(goto_maps);
+    goto_map_list_destroy(goto_maps);
     goto_maps = NULL;
   }
 
@@ -864,7 +864,7 @@ void goto_unit_killed(struct unit *punit)
       goto_map_free(goto_map);
       /* Still safe using goto_map pointer, as it is not used for 
        * dereferencing, only as value. */
-      goto_map_list_unlink(goto_maps, goto_map);
+      goto_map_list_remove(goto_maps, goto_map);
       /* stop now, links are gone! */
       break;
     }

@@ -154,7 +154,7 @@ void popdown_intel_dialog(struct intel_dialog *pdialog)
   pdialog->intel_dialog_shell = 0;
 
   if (!(pdialog->intel_diplo_dialog_shell)) {
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
     free(pdialog);
   }
 }
@@ -400,7 +400,7 @@ void popdown_intel_diplo_dialog(struct intel_dialog *pdialog)
   pdialog->intel_diplo_dialog_shell = 0;
 
   if (!(pdialog->intel_dialog_shell)) {
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
     free(pdialog);
   }
 }

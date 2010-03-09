@@ -967,7 +967,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Free tags */
   text_tag_list_clear_all(tags);
-  text_tag_list_free(tags);
+  text_tag_list_destroy(tags);
 }
 
 /**************************************************************************

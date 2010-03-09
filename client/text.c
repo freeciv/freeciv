@@ -1336,7 +1336,7 @@ const char *text_happiness_buildings(const struct city *pcity)
       astr_add(&str, "%s", buf);
     }
   } effect_list_iterate_end;
-  effect_list_free(plist);
+  effect_list_destroy(plist);
 
   if (faces == 0) {
     astr_add(&str, _("None. "));
@@ -1374,7 +1374,7 @@ const char *text_happiness_wonders(const struct city *pcity)
     }
   } effect_list_iterate_end;
 
-  effect_list_free(plist);
+  effect_list_destroy(plist);
 
   if (faces == 0) {
     astr_add(&str, _("None. "));

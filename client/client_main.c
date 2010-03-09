@@ -525,8 +525,8 @@ void client_exit(void)
   }
 
   helpdata_done(); /* client_exit() unlinks help text list */
-  conn_list_free(game.all_connections);
-  conn_list_free(game.est_connections);
+  conn_list_destroy(game.all_connections);
+  conn_list_destroy(game.est_connections);
 
   free_nls();
 
@@ -770,10 +770,10 @@ enum client_states client_state(void)
 void client_remove_cli_conn(struct connection *pconn)
 {
   if (NULL != pconn->playing) {
-    conn_list_unlink(pconn->playing->connections, pconn);
+    conn_list_remove(pconn->playing->connections, pconn);
   }
-  conn_list_unlink(game.all_connections, pconn);
-  conn_list_unlink(game.est_connections, pconn);
+  conn_list_remove(game.all_connections, pconn);
+  conn_list_remove(game.est_connections, pconn);
   fc_assert_ret(pconn != &client.conn);
   free(pconn);
 }

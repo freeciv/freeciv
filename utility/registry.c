@@ -347,7 +347,7 @@ struct section_file *secfile_new(bool allow_duplicates)
 
   secfile->name = NULL;
   secfile->num_entries = 0;
-  secfile->sections = section_list_new();
+  secfile->sections = section_list_new_full(section_destroy);
   secfile->allow_duplicates = allow_duplicates;
 
   secfile->hash.sections = hash_new(hash_fval_string,
@@ -376,10 +376,7 @@ void secfile_destroy(struct section_file *secfile)
     secfile->hash.entries = NULL;
   }
 
-  section_list_iterate(secfile->sections, psection) {
-    section_destroy(psection);
-  } section_list_iterate_end;
-  section_list_free(secfile->sections);
+  section_list_destroy(secfile->sections);
 
   if (NULL != secfile->name) {
     free(secfile->name);
@@ -798,7 +795,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
          ent_iter && (pentry = genlist_link_data(ent_iter));
          ent_iter = genlist_link_next(ent_iter)) {
 
-      if (entry_list_unlink(skip, pentry)) {
+      if (entry_list_remove(skip, pentry)) {
         /* Ignore this one.  Probably a part of a vector. */
         continue;
       }
@@ -950,7 +947,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         fz_fprintf(fs, "\n");
       }
     }
-    entry_list_free(skip);
+    entry_list_destroy(skip);
   } section_list_iterate_end;
   
   if (0 != fz_ferror(fs)) {
@@ -1837,7 +1834,7 @@ struct section *secfile_section_new(struct section_file *secfile,
 
   psection = fc_malloc(sizeof(struct section));
   psection->name = mystrdup(name);
-  psection->entries = entry_list_new();
+  psection->entries = entry_list_new_full(entry_destroy);
 
   /* Append to secfile. */
   psection->secfile = secfile;
@@ -1862,13 +1859,13 @@ void section_destroy(struct section *psection)
 
   if ((secfile = psection->secfile)) {
     /* Detach from secfile. */
-    section_list_unlink(secfile->sections, psection);
+    section_list_remove(secfile->sections, psection);
     if (NULL != secfile->hash.sections) {
       hash_delete_entry(secfile->hash.sections, psection->name);
     }
   }
 
-  entry_list_free(psection->entries);
+  entry_list_destroy(psection->entries);
   free(psection->name);
   free(psection);
 }
@@ -1880,10 +1877,8 @@ void section_clear_all(struct section *psection)
 {
   SECFILE_RETURN_IF_FAIL(NULL, psection, NULL != psection);
 
-  entry_list_iterate(psection->entries, pentry) {
-    /* This include the removing of the hash datas. */
-    entry_destroy(pentry);
-  } entry_list_iterate_end;
+  /* This include the removing of the hash datas. */
+  entry_list_clear(psection->entries);
 
   if (0 < entry_list_size(psection->entries)) {
     SECFILE_LOG(psection->secfile, psection,
@@ -2153,7 +2148,7 @@ void entry_destroy(struct entry *pentry)
 
   if ((psection = pentry->psection)) {
     /* Detach from section. */
-    entry_list_unlink(psection->entries, pentry);
+    entry_list_remove(psection->entries, pentry);
     if ((secfile = psection->secfile)) {
       /* Detach from secfile. */
       secfile->num_entries--;

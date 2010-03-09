@@ -94,7 +94,7 @@ void voteinfo_queue_check_removed(void)
     voteinfo_gui_update();
   }
 
-  voteinfo_list_free(removed);
+  voteinfo_list_destroy(removed);
 }
 
 /**************************************************************************
@@ -113,7 +113,7 @@ void voteinfo_queue_remove(int vote_no)
     return;
   }
 
-  voteinfo_list_unlink(voteinfo_queue, vi);
+  voteinfo_list_remove(voteinfo_queue, vi);
   free(vi);
 }
 
@@ -188,7 +188,7 @@ void voteinfo_queue_free(void)
     }
   } voteinfo_list_iterate_end;
 
-  voteinfo_list_free(voteinfo_queue);
+  voteinfo_list_destroy(voteinfo_queue);
   voteinfo_queue = NULL;
   voteinfo_queue_current_index = 0;
 }

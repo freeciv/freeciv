@@ -178,7 +178,7 @@ static LONG CALLBACK spaceship_proc(HWND dlg,UINT message,
     DestroyWindow(dlg);
     break;
   case WM_DESTROY:
-    dialog_list_unlink(dialog_list, pdialog);
+    dialog_list_remove(dialog_list, pdialog);
     free(pdialog);
     break;
   case WM_COMMAND:

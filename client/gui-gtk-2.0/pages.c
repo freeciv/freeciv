@@ -1757,7 +1757,7 @@ static void update_saves_store(GtkListStore *store,
     gtk_list_store_set(store, &it,
                        0, pfile->name, 1, pfile->fullname, -1);
   } fileinfo_list_iterate_end;
-  fileinfo_list_free_all(files);
+  fileinfo_list_destroy(files);
 }
 
 /**************************************************************************
@@ -1932,7 +1932,7 @@ static void update_scenario_page(void)
     }
   } fileinfo_list_iterate_end;
 
-  fileinfo_list_free_all(files);
+  fileinfo_list_destroy(files);
 }
 
 /**************************************************************************

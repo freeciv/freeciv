@@ -207,7 +207,6 @@ const struct strvec *get_scenario_dirs(void);
 struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix);
 struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
                                          const char *infix, bool nodups);
-void fileinfo_list_free_all(struct fileinfo_list *files);
 const char *fileinfoname(const struct strvec *dirs, const char *filename);
 struct strvec *fileinfonames(const struct strvec *dirs,
                              const char *filename);

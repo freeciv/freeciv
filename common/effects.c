@@ -308,12 +308,12 @@ static void effect_free(struct effect *peffect)
   requirement_list_iterate(peffect->reqs, preq) {
     free(preq);
   } requirement_list_iterate_end;
-  requirement_list_free(peffect->reqs);
+  requirement_list_destroy(peffect->reqs);
 
   requirement_list_iterate(peffect->nreqs, preq) {
     free(preq);
   } requirement_list_iterate_end;
-  requirement_list_free(peffect->nreqs);
+  requirement_list_destroy(peffect->nreqs);
 
   free(peffect);
 }
@@ -382,7 +382,7 @@ void ruleset_cache_free(void)
     effect_list_iterate(plist, peffect) {
       effect_free(peffect);
     } effect_list_iterate_end;
-    effect_list_free(plist);
+    effect_list_destroy(plist);
     ruleset_cache.tracker = NULL;
   }
 
@@ -390,7 +390,7 @@ void ruleset_cache_free(void)
     struct effect_list *plist = ruleset_cache.effects[i];
 
     if (plist) {
-      effect_list_free(plist);
+      effect_list_destroy(plist);
       ruleset_cache.effects[i] = NULL;
     }
   }
@@ -399,7 +399,7 @@ void ruleset_cache_free(void)
     struct effect_list *plist = ruleset_cache.reqs.buildings[i];
 
     if (plist) {
-      effect_list_free(plist);
+      effect_list_destroy(plist);
       ruleset_cache.reqs.buildings[i] = NULL;
     }
   }
@@ -408,7 +408,7 @@ void ruleset_cache_free(void)
     struct effect_list *plist = ruleset_cache.reqs.govs[i];
 
     if (plist) {
-      effect_list_free(plist);
+      effect_list_destroy(plist);
       ruleset_cache.reqs.govs[i] = NULL;
     }
   }

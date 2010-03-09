@@ -156,8 +156,8 @@ static void destroy(struct sw_widget *widget)
     ct_string_destroy(widget->data.window.title);
   }
 
-  widget_list_unlink(windows_front_to_back, widget);
-  widget_list_unlink(windows_back_to_front, widget);
+  widget_list_remove(windows_front_to_back, widget);
+  widget_list_remove(windows_back_to_front, widget);
 }
 
 /*************************************************************************
@@ -346,7 +346,7 @@ void sw_window_remove(struct sw_widget *widget)
   } widget_list_iterate_end;
 
   assert(found == 1);
-  widget_list_unlink(old_parent->data.window.children, widget);
+  widget_list_remove(old_parent->data.window.children, widget);
   widget->parent = NULL;
 }
 
@@ -670,7 +670,7 @@ static void merge_regions(struct region_list *list)
     }
   } region_list_iterate_end;
 
-  region_list_free(tmp);
+  region_list_destroy(tmp);
 }
 
 /*************************************************************************
@@ -737,7 +737,7 @@ void sw_paint_all(void)
     region_list_iterate(widget->data.window.to_flush, region) {
       region->x += widget->outer_bounds.x;
       region->y += widget->outer_bounds.y;
-      region_list_unlink(widget->data.window.to_flush, region);
+      region_list_remove(widget->data.window.to_flush, region);
       region_list_prepend(normalized_regions, region);
     } region_list_iterate_end;
   } widget_list_iterate_end;
@@ -820,7 +820,7 @@ void sw_paint_all(void)
     flush_rect_to_screen(region);
 #endif
     
-    region_list_unlink(normalized_regions, region);
+    region_list_remove(normalized_regions, region);
     free(region);
 #if DUMP_UPDATES
     region_nr++;

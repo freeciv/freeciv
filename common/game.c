@@ -159,7 +159,7 @@ void game_remove_unit(struct unit *punit)
 
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
-    unit_list_unlink(pcity->units_supported, punit);
+    unit_list_remove(pcity->units_supported, punit);
 
     log_debug("game_remove_unit()"
               " at (%d,%d) unit %d, %s %s home (%d,%d) city %d, %s %s",
@@ -187,8 +187,8 @@ void game_remove_unit(struct unit *punit)
               punit->homecity);
   }
 
-  unit_list_unlink(punit->tile->units, punit);
-  unit_list_unlink(unit_owner(punit)->units, punit);
+  unit_list_remove(punit->tile->units, punit);
+  unit_list_remove(unit_owner(punit)->units, punit);
 
   idex_unregister_unit(punit);
 
@@ -208,7 +208,7 @@ void game_remove_city(struct city *pcity)
 
   if (NULL != powner) {
     /* always unlink before clearing data */
-    city_list_unlink(powner->cities, pcity);
+    city_list_remove(powner->cities, pcity);
   }
 
   if (NULL == pcenter) {
@@ -486,13 +486,13 @@ void game_remove_player(struct player *pplayer)
    * the caller to fix them.  This happens when /loading a game while a
    * client is connected. */
 #endif
-  conn_list_free(pplayer->connections);
+  conn_list_destroy(pplayer->connections);
   pplayer->connections = NULL;
 
-  unit_list_free(pplayer->units);
+  unit_list_destroy(pplayer->units);
   pplayer->units = NULL;
 
-  city_list_free(pplayer->cities);
+  city_list_destroy(pplayer->cities);
   pplayer->cities = NULL;
 
   /* This comes last because log calls in the above functions may use it. */

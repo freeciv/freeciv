@@ -2315,7 +2315,7 @@ void close_city_dialog(struct city_dialog *pdialog)
     XtDestroyWidget(pdialog->worklist_shell);
 
   XtDestroyWidget(pdialog->shell);
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
 
   free(pdialog->citizen_labels);
 

@@ -240,7 +240,7 @@ static void popup_load_game_dialog(void)
 
     max_label_width = MAX(max_label_width, pFilenameLabel->size.w);
   } fileinfo_list_iterate_end;
-  fileinfo_list_free_all(files);
+  fileinfo_list_destroy(files);
 
   pLastLabel = pFilenameLabel;
 

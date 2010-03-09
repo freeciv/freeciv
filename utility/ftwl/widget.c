@@ -286,7 +286,7 @@ void handle_destroyed_widgets(void)
     }
 
     real_widget_destroy(pwidget);
-    widget_list_unlink(deferred_destroyed_widgets, pwidget);
+    widget_list_remove(deferred_destroyed_widgets, pwidget);
   } widget_list_iterate_end;
 }
 

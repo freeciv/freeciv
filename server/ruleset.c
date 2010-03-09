@@ -784,7 +784,7 @@ static void load_tech_names(struct section_file *file)
     a->name.translated = NULL;
     i++;
   } advance_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 }
 
 /**************************************************************************
@@ -929,7 +929,7 @@ restart:
     }
   } advance_iterate_end;
 
-  section_list_free(sec);
+  section_list_destroy(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
 }
@@ -988,7 +988,7 @@ static void load_unit_names(struct section_file *file)
     name_strlcpy(punitclass->name.vernacular, name);
     punitclass->name.translated = NULL;
   } unit_class_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   /* The names: */
   sec = secfile_sections_by_name_prefix(file, UNIT_SECTION_PREFIX);
@@ -1012,7 +1012,7 @@ static void load_unit_names(struct section_file *file)
     name_strlcpy(punittype->name.vernacular, name);
     punittype->name.translated = NULL;
   } unit_type_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 }
 
 /**************************************************************************
@@ -1522,8 +1522,8 @@ if (_count > MAX_VET_LEVELS) {						\
 
   update_simple_ai_types();
 
-  section_list_free(csec);
-  section_list_free(sec);
+  section_list_destroy(csec);
+  section_list_destroy(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
 }
@@ -1562,7 +1562,7 @@ static void load_building_names(struct section_file *file)
     b->name.translated = NULL;
   }
 
-  section_list_free(sec);
+  section_list_destroy(sec);
 }
 
 /**************************************************************************
@@ -1683,7 +1683,7 @@ static void load_ruleset_buildings(struct section_file *file)
     }
   } improvement_iterate_end;
 
-  section_list_free(sec);
+  section_list_destroy(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
 }
@@ -1732,7 +1732,7 @@ static void load_terrain_names(struct section_file *file)
     section_strlcpy(&terrain_sections[i * MAX_SECTION_LABEL], sec_name);
   } terrain_type_iterate_end;
 
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   /* resource names */
 
@@ -1765,7 +1765,7 @@ static void load_terrain_names(struct section_file *file)
   } resource_type_iterate_end;
 
   if (NULL != sec) {
-    section_list_free(sec);
+    section_list_destroy(sec);
   }
 
   /* base names */
@@ -1795,7 +1795,7 @@ static void load_terrain_names(struct section_file *file)
   } base_type_iterate_end;
 
   if (NULL != sec) {
-    section_list_free(sec);
+    section_list_destroy(sec);
   }
 }
 
@@ -2216,7 +2216,7 @@ static void load_government_names(struct section_file *file)
     name_strlcpy(gov->name.vernacular, name);
     gov->name.translated = NULL;
   } government_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 }
 
 /**************************************************************************
@@ -2283,7 +2283,7 @@ static void load_ruleset_governments(struct section_file *file)
     title->female.translated = NULL;
   } government_iterate_end;
 
-  section_list_free(sec);
+  section_list_destroy(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
 }
@@ -2388,7 +2388,7 @@ static void load_nation_names(struct section_file *file)
       }
     }
   } nations_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 }
 
 /**************************************************************************
@@ -2565,7 +2565,7 @@ static void load_ruleset_nations(struct section_file *file)
       ruleset_error(LOG_FATAL, "Error: %s", secfile_error());
     }
   } section_list_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   sec = secfile_sections_by_name_prefix(file, NATION_SECTION_PREFIX);
 
@@ -2854,7 +2854,7 @@ static void load_ruleset_nations(struct section_file *file)
     pl->parent_nations[count] = NO_NATION_SELECTED;
   } nations_iterate_end;
 
-  section_list_free(sec);
+  section_list_destroy(sec);
   secfile_check_unused(file);
   secfile_destroy(file);
 
@@ -2888,7 +2888,7 @@ static void load_citystyle_names(struct section_file *file)
       city_styles[i].name.translated = NULL;
       i++;
     } section_list_iterate_end;
-    section_list_free(styles);
+    section_list_destroy(styles);
   } else {
     city_styles_alloc(0);
   }
@@ -2943,7 +2943,7 @@ static void load_ruleset_cities(struct section_file *file)
                   "\"%s\": must give a min_size of 0 for at least one "
                   "specialist type.", filename);
   }
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   /* City Parameters */
 
@@ -3016,7 +3016,7 @@ static void load_ruleset_cities(struct section_file *file)
       }
     }
   }
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   secfile_check_unused(file);
   secfile_destroy(file);
@@ -3071,7 +3071,7 @@ static void load_ruleset_effects(struct section_file *file)
       effect_req_append(peffect, TRUE, preq);
     } requirement_vector_iterate_end;
   } section_list_iterate_end;
-  section_list_free(sec);
+  section_list_destroy(sec);
 
   secfile_check_unused(file);
   secfile_destroy(file);

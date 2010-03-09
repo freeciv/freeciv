@@ -1216,6 +1216,16 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
 }
 
 /**************************************************************************
+  Destroys the file info structure.
+**************************************************************************/
+static void fileinfo_destroy(struct fileinfo *pfile)
+{
+  free(pfile->name);
+  free(pfile->fullname);
+  free(pfile);
+}
+
+/**************************************************************************
   Compare modification times.
 **************************************************************************/
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
@@ -1234,12 +1244,21 @@ static int compare_file_name_ptrs(const struct fileinfo *const *ppa,
 }
 
 /**************************************************************************
+  Compare names.
+**************************************************************************/
+static bool compare_fileinfo_name(const struct fileinfo *pa,
+                                  const struct fileinfo *pb)
+{
+  return 0 == base_compare_strings(pa->name, pb->name);
+}
+
+/**************************************************************************
   Search for filenames with the "infix" substring in the "subpath"
   subdirectory of the data path.
   "nodups" removes duplicate names.
   The returned list will be sorted by name first and modification time
   second.  Returned "name"s will be truncated starting at the "infix"
-  substring.  The returned list must be freed with fileinfo_list_free_all().
+  substring.  The returned list must be freed with fileinfo_list_destroy().
 **************************************************************************/
 struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
                                          const char *infix, bool nodups)
@@ -1250,7 +1269,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
     return NULL;
   }
 
-  res = fileinfo_list_new();
+  res = fileinfo_list_new_full(fileinfo_destroy);
 
   /* First assemble a full list of names. */
   strvec_iterate(dirs, dirname) {
@@ -1306,41 +1325,13 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
   fileinfo_list_sort(res, compare_file_name_ptrs);
 
   if (nodups) {
-    char *name = "";
-
-    fileinfo_list_iterate(res, pfile) {
-      if (base_compare_strings(name, pfile->name) != 0) {
-        name = pfile->name;
-      } else {
-        fileinfo_list_unlink(res, pfile);
-        free(pfile->name);
-        free(pfile->fullname);
-        free(pfile);
-      }
-    } fileinfo_list_iterate_end;
+    fileinfo_list_unique_full(res, compare_fileinfo_name);
   }
 
   /* Sort the list by last modification time. */
   fileinfo_list_sort(res, compare_file_mtime_ptrs);
 
   return res;
-}
-
-/***************************************************************************
-  Frees a list of struct fileinfo, usually returned by fileinfolist_infix().
-***************************************************************************/
-void fileinfo_list_free_all(struct fileinfo_list *files)
-{
-  if (NULL == files) {
-    return;
-  }
-
-  fileinfo_list_iterate(files, pfile) {
-    free(pfile->name);
-    free(pfile->fullname);
-    free(pfile);
-  } fileinfo_list_iterate_end;
-  fileinfo_list_free(files);
 }
 
 /***************************************************************************

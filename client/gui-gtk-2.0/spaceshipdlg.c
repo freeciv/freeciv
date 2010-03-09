@@ -93,7 +93,7 @@ void spaceship_dialog_init()
 *****************************************************************/
 void spaceship_dialog_done()
 {
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
 }
 
 /****************************************************************
@@ -185,7 +185,7 @@ static void spaceship_destroy_callback(GtkWidget *w, gpointer data)
 {
   struct spaceship_dialog *pdialog = (struct spaceship_dialog *)data;
   
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
 
   free(pdialog);
 }

@@ -466,7 +466,7 @@ void get_city_dialog_output_text(const struct city *pcity,
 		     peffect->value);
 	total = new_total;
       } effect_list_iterate_end;
-      effect_list_free(plist);
+      effect_list_destroy(plist);
     }
   }
 
@@ -542,7 +542,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
                  _("%+5.1f : Bonus from %s\n"),
                  -(0.1 * ill_base * peffect->value / 100), buf2);
   } effect_list_iterate_end;
-  effect_list_free(plist);
+  effect_list_destroy(plist);
 
   cat_snprintf(buf, bufsz, _("==== : Adds up to\n"));
   cat_snprintf(buf, bufsz, _("%5.1f : Total chance for a plague"),

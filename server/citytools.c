@@ -159,7 +159,7 @@ void city_thaw_workers_queue(void)
     city_thaw_workers(pcity);
   } city_list_iterate_end;
 
-  city_list_free(arrange_workers_queue);
+  city_list_destroy(arrange_workers_queue);
   arrange_workers_queue = NULL;
 }
 
@@ -643,13 +643,13 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
       /* Don't transfer units already owned by new city-owner --wegge */
       if (unit_owner(vunit) == pvictim) {
         /* vunit may die during transfer_unit().
-         * unit_list_unlink() is still safe using vunit pointer, as
+         * unit_list_remove() is still safe using vunit pointer, as
          * pointer is not used for dereferencing, only as value.
          * Not sure if it would be safe to unlink first and transfer only
          * after that. Not sure if it is correct to unlink at all in
          * some cases, depending which list 'units' points to. */
 	transfer_unit(vunit, pcity, verbose);
-	unit_list_unlink(units, vunit);
+	unit_list_remove(units, vunit);
       } else if (!pplayers_allied(pplayer, unit_owner(vunit))) {
         /* the owner of vunit is allied to pvictim but not to pplayer */
         bounce_unit(vunit, verbose);
@@ -926,7 +926,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   }
 
   /* Has to follow the unfog call above. */
-  city_list_unlink(pgiver->cities, pcity);
+  city_list_remove(pgiver->cities, pcity);
   map_clear_border(pcenter);
   /* city_thaw_workers_queue() later */
 
@@ -938,7 +938,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 		      pcity, NULL,
 		      kill_outside, transfer_unit_verbose);
   /* The units themselves are allready freed by transfer_city_units. */
-  unit_list_free(old_city_units);
+  unit_list_destroy(old_city_units);
 
   if (resolve_stack) {
     resolve_unit_stacks(pgiver, ptaker, transfer_unit_verbose);

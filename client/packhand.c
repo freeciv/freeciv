@@ -107,7 +107,7 @@ void packhand_free(void)
       destroy_city_virtual(pcity);
     } city_list_iterate_end;
 
-    city_list_free(invisible_cities);
+    city_list_destroy(invisible_cities);
     invisible_cities = NULL;
   }
 }
@@ -454,7 +454,7 @@ void handle_city_info(struct packet_city_info *packet)
 
     if (NULL == ptile) {
       /* invisible worked city */
-      city_list_unlink(invisible_cities, pcity);
+      city_list_remove(invisible_cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
@@ -709,7 +709,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     tile_list_iterate(worked_tiles, pwork) {
       tile_set_worked(pwork, pcity);
     } tile_list_iterate_end;
-    tile_list_free(worked_tiles);
+    tile_list_destroy(worked_tiles);
   }
 
   if (is_new) {
@@ -798,7 +798,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
     if (NULL == ptile) {
       /* invisible worked city */
-      city_list_unlink(invisible_cities, pcity);
+      city_list_remove(invisible_cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
@@ -1272,7 +1272,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* change homecity */
       struct city *pcity;
       if ((pcity=game_find_city_by_number(punit->homecity))) {
-	unit_list_unlink(pcity->units_supported, punit);
+	unit_list_remove(pcity->units_supported, punit);
 	refresh_city_dialog(pcity);
       }
       
@@ -1980,7 +1980,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
                  pinfo->id, pinfo->username);
       if (pplayer != pconn->playing) {
 	if (NULL != pconn->playing) {
-	  conn_list_unlink(pconn->playing->connections, pconn);
+	  conn_list_remove(pconn->playing->connections, pconn);
 	}
 	if (pplayer) {
 	  conn_list_append(pplayer->connections, pconn);

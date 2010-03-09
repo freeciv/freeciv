@@ -92,7 +92,7 @@ static void sha_unit_remove(int id)
   log_debug("sha got unit: %d", id);
 
   fc_assert_ret(NULL != pold_unit);
-  unit_list_unlink(previous_units, pold_unit);
+  unit_list_remove(previous_units, pold_unit);
   /* list pointers were struct copied, cannot destroy_unit_virtual() */
   memset(pold_unit, 0, sizeof(*pold_unit)); /* ensure no pointers remain */
   free(pold_unit);
@@ -129,7 +129,7 @@ void simple_historian_init(void)
 **************************************************************************/
 void simple_historian_done(void)
 {
-  unit_list_free(previous_units);
+  unit_list_destroy(previous_units);
 }
 
 /**************************************************************************

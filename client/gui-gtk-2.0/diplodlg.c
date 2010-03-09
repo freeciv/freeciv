@@ -405,7 +405,7 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
 static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
 {
   gui_dialog_destroy(pdialog->dialog);
-  dialog_list_unlink(dialog_list, pdialog);
+  dialog_list_remove(dialog_list, pdialog);
   free(pdialog);
 }
 
@@ -858,7 +858,7 @@ void diplomacy_dialog_init()
 *****************************************************************/
 void diplomacy_dialog_done()
 {
-  dialog_list_free(dialog_list);
+  dialog_list_destroy(dialog_list);
 }
 
 /*****************************************************************
