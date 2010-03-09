@@ -2134,6 +2134,9 @@ void server_options_free(void)
 {
   int i;
 
+  /* Don't keep this dialog open. */
+  option_dialog_popdown(server_optset);
+
   /* Free the options themselves. */
   if (NULL != server_options) {
     for (i = 0; i < server_options_num; i++) {
@@ -2222,6 +2225,7 @@ void handle_server_setting(struct packet_server_setting *packet)
 
   if (NULL == poption->common_vtable) {
     /* Not initialized yet. */
+    poption->poptset = server_optset;
     poption->common_vtable = &server_option_common_vtable;
     need_type_initialization = TRUE;
   } else if (poption->type != sset_type_to_option_type(packet->stype)) {

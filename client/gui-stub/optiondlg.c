@@ -43,7 +43,7 @@ void option_dialog_popdown(const struct option_set *poptset)
   Update the GUI for the option.
   FIXME/PORTME
 ****************************************************************************/
-void option_gui_update(const struct option *poption)
+void option_gui_update(struct option *poption)
 {
   log_error("%s(): PORTME!", __FUNCTION__);
 }
@@ -52,7 +52,7 @@ void option_gui_update(const struct option *poption)
   Add the GUI for the option.
   FIXME/PORTME
 ****************************************************************************/
-void option_gui_add(const struct option *poption)
+void option_gui_add(struct option *poption)
 {
   log_error("%s(): PORTME!", __FUNCTION__);
 }
@@ -61,7 +61,7 @@ void option_gui_add(const struct option *poption)
   Remove the GUI for the option.
   FIXME/PORTME
 ****************************************************************************/
-void option_gui_remove(const struct option *poption)
+void option_gui_remove(struct option *poption)
 {
   log_error("%s(): PORTME!", __FUNCTION__);
 }
