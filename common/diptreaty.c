@@ -159,7 +159,17 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
               nation_rule_name(nation_of_player(pfrom)));
     return FALSE;
   }
-      
+
+  if (!game.info.trading_gold && type == CLAUSE_GOLD) {
+    return FALSE;
+  }
+  if (!game.info.trading_tech && type == CLAUSE_ADVANCE) {
+    return FALSE;
+  }
+  if (!game.info.trading_city && type == CLAUSE_CITY) {
+    return FALSE;
+  }
+
   clause_list_iterate(ptreaty->clauses, pclause) {
     if(pclause->type==type
        && pclause->from==pfrom

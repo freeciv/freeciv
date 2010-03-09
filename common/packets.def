@@ -448,6 +448,7 @@ PACKET_GAME_INFO=15; sc
   BOOL slow_invasions;
   UINT8 add_to_size_limit;
   UINT8 notradesize, fulltradesize;
+  BOOL trading_tech, trading_gold, trading_city;
   UINT8 trademindist;
   UINT8 allowed_city_names;
   IMPROVEMENT palace_building;

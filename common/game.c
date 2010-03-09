@@ -304,6 +304,9 @@ void game_init(void)
   game.info.fulltradesize = GAME_DEFAULT_FULLTRADESIZE;
   game.info.barbarianrate = GAME_DEFAULT_BARBARIANRATE;
   game.info.onsetbarbarian= GAME_DEFAULT_ONSETBARBARIAN;
+  game.info.trading_tech  = GAME_DEFAULT_TRADING_TECH;
+  game.info.trading_gold  = GAME_DEFAULT_TRADING_GOLD;
+  game.info.trading_city  = GAME_DEFAULT_TRADING_CITY;
   game.info.trademindist  = GAME_DEFAULT_TRADEMINDIST;
   game.info.occupychance  = GAME_DEFAULT_OCCUPYCHANCE;
   game.info.autoattack    = GAME_DEFAULT_AUTOATTACK;
