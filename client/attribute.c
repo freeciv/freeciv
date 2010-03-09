@@ -397,7 +397,10 @@ void attribute_set(int key, int id, int x, int y, size_t data_length,
   }
 
   if (data_length != 0) {
-    fc_assert(hash_insert(attribute_hash, pkey, pvalue));
+    if (!hash_insert(attribute_hash, pkey, pvalue)) {
+      /* Always fails. */
+      fc_assert(hash_insert(attribute_hash, pkey, pvalue));
+    }
   }
 }
 

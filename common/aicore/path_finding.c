@@ -2600,7 +2600,10 @@ int pf_map_iterator_get_move_cost(struct pf_map *pfm)
 void pf_map_iterator_get_position(struct pf_map *pfm,
                                   struct pf_position *pos)
 {
-  fc_assert(pfm->get_position(pfm, pfm->tile, pos));
+  if (!pfm->get_position(pfm, pfm->tile, pos)) {
+    /* Always fails. */
+    fc_assert(pfm->get_position(pfm, pfm->tile, pos));
+  }
 }
 
 /************************************************************************

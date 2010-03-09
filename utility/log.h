@@ -109,10 +109,22 @@ void fc_assert_fail(const char *file, const char *function, int line,
     action;                                                                 \
   }
 
+#ifdef NDEBUG
+/* Disabled. */
+#define fc_assert(...) (void) 0
+#define fc_assert_msg(...) (void) 0
+#else
 /* Like assert(). */
 #define fc_assert(condition)                                                \
   ((condition) ? (void) 0                                                   \
    : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__, #condition, NULL))
+/* Like assert() with extra message. */
+#define fc_assert_msg(condition, message, ...)                              \
+  ((condition) ? (void) 0                                                   \
+   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__,                       \
+                    #condition, message, ## __VA_ARGS__))
+#endif /* NDEBUG */
+
 /* Do action on failure. */
 #define fc_assert_action(condition, action)                                 \
   fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action, NULL)
@@ -126,11 +138,6 @@ void fc_assert_fail(const char *file, const char *function, int line,
 #define fc_assert_exit(condition)                                           \
   fc_assert_action(condition, exit(EXIT_FAILURE))
 
-/* Like assert() with extra message. */
-#define fc_assert_msg(condition, message, ...)                              \
-  ((condition) ? (void) 0                                                   \
-   : fc_assert_fail(__FILE__, __FUNCTION__, __LINE__,                       \
-                    #condition, message, ## __VA_ARGS__))
 /* Do action on failure with extra message. */
 #define fc_assert_action_msg(condition, action, message, ...)               \
   fc_assert_full(__FILE__, __FUNCTION__, __LINE__, condition, action,       \
