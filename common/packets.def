@@ -442,7 +442,9 @@ PACKET_GAME_INFO=15; sc
   BOOL turnblock;
   BOOL fixedlength;
   BOOL auto_ai_toggle;
-  BOOL fogofwar;  
+  BOOL fogofwar;
+  BOOL global_warming;
+  BOOL nuclear_winter;
   UINT8 borders;
   BOOL happyborders;
   BOOL slow_invasions;

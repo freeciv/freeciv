@@ -371,6 +371,9 @@ void game_init(void)
     game.server.scoreturn = GAME_DEFAULT_SCORETURN;
     game.server.seed = GAME_DEFAULT_SEED;
 
+    game.info.global_warming = GAME_DEFAULT_GLOBAL_WARMING;
+    game.info.nuclear_winter = GAME_DEFAULT_NUCLEAR_WINTER;
+
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
     sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
 

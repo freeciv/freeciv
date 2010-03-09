@@ -778,12 +778,21 @@ const char *get_info_label_text_popup(void)
 
   /* These mirror the code in get_global_warming_tooltip and
    * get_nuclear_winter_tooltip. */
-  astr_add_line(&str, _("Global warming chance: %d%% (%+d%%/turn)"),
-		CLIP(0, (game.info.globalwarming + 1) / 2, 100),
-		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
-  astr_add_line(&str, _("Nuclear winter chance: %d%% (%+d%%/turn)"),
-		CLIP(0, (game.info.nuclearwinter + 1) / 2, 100),
-		DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
+  if (game.info.global_warming) {
+    astr_add_line(&str, _("Global warming chance: %d%% (%+d%%/turn)"),
+                  CLIP(0, (game.info.globalwarming + 1) / 2, 100),
+                  DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+  } else {
+    astr_add_line(&str, _("Global Warming deactivated."));
+  }
+
+  if (game.info.nuclear_winter) {
+    astr_add_line(&str, _("Nuclear winter chance: %d%% (%+d%%/turn)"),
+                  CLIP(0, (game.info.nuclearwinter + 1) / 2, 100),
+                  DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
+  } else {
+    astr_add_line(&str, _("Nuclear winter deactivated."));
+  }
 
   if (NULL != client.conn.playing) {
     astr_add_line(&str, _("Government: %s"),
@@ -1059,12 +1068,17 @@ const char *get_global_warming_tooltip(void)
 
   astr_clear(&str);
 
-  /* This mirrors the logic in update_environmental_upset. */
-  astr_add_line(&str, _("Shows the progress of global warming:"));
-  astr_add_line(&str, _("Pollution rate: %d%%"),
-		DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
-  astr_add_line(&str, _("Chance of catastrophic warming each turn: %d%%"),
-		CLIP(0, (game.info.globalwarming + 1) / 2, 100));
+  if (!game.info.global_warming) {
+    astr_add_line(&str, _("Global Warming deactivated."));
+  } else {
+    /* This mirrors the logic in update_environmental_upset. */
+    astr_add_line(&str, _("Shows the progress of global warming:"));
+    astr_add_line(&str, _("Pollution rate: %d%%"),
+                  DIVIDE(game.info.heating - game.info.warminglevel + 1, 2));
+    astr_add_line(&str, _("Chance of catastrophic warming each turn: %d%%"),
+                  CLIP(0, (game.info.globalwarming + 1) / 2, 100));
+  }
+
   return str.str;
 }
 
@@ -1078,12 +1092,17 @@ const char *get_nuclear_winter_tooltip(void)
 
   astr_clear(&str);
 
-  /* This mirrors the logic in update_environmental_upset. */
-  astr_add_line(&str, _("Shows the progress of nuclear winter:"));
-  astr_add_line(&str, _("Fallout rate: %d%%"),
-		DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
-  astr_add_line(&str, _("Chance of catastrophic winter each turn: %d%%"),
-		CLIP(0, (game.info.nuclearwinter + 1) / 2, 100));
+  if (!game.info.nuclear_winter) {
+    astr_add_line(&str, _("Nuclear winter deactivated."));
+  } else {
+    /* This mirrors the logic in update_environmental_upset. */
+    astr_add_line(&str, _("Shows the progress of nuclear winter:"));
+    astr_add_line(&str, _("Fallout rate: %d%%"),
+                  DIVIDE(game.info.cooling - game.info.coolinglevel + 1, 2));
+    astr_add_line(&str, _("Chance of catastrophic winter each turn: %d%%"),
+                  CLIP(0, (game.info.nuclearwinter + 1) / 2, 100));
+  }
+
   return str.str;
 }
 

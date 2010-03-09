@@ -967,12 +967,18 @@ static void end_turn(void)
     check_city_migrations();
   }
 
-  update_environmental_upset(S_POLLUTION, &game.info.heating,
-			     &game.info.globalwarming, &game.info.warminglevel,
-			     global_warming);
-  update_environmental_upset(S_FALLOUT, &game.info.cooling,
-			     &game.info.nuclearwinter, &game.info.coolinglevel,
-			     nuclear_winter);
+  if (game.info.global_warming) {
+    update_environmental_upset(S_POLLUTION, &game.info.heating,
+                               &game.info.globalwarming,
+                               &game.info.warminglevel, global_warming);
+  }
+
+  if (game.info.nuclear_winter) {
+    update_environmental_upset(S_FALLOUT, &game.info.cooling,
+                               &game.info.nuclearwinter,
+                               &game.info.coolinglevel, nuclear_winter);
+  }
+
   update_diplomatics();
   make_history_report();
   settings_turn();

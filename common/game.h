@@ -86,6 +86,10 @@ struct civ_game {
       bool scorelog;
       int scoreturn;    /* next make_history_report() */
       int seed;
+
+      bool global_warming;
+      bool nuclear_winter;
+
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
       bool foggedborders;
@@ -222,6 +226,9 @@ extern struct civ_game game;
 #define GAME_DEFAULT_FOGOFWAR        TRUE
 
 #define GAME_DEFAULT_FOGGEDBORDERS   FALSE
+
+#define GAME_DEFAULT_GLOBAL_WARMING  TRUE
+#define GAME_DEFAULT_NUCLEAR_WINTER  TRUE
 
 /* 0 means no national borders. */
 #define GAME_DEFAULT_BORDERS         1

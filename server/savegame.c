@@ -4652,6 +4652,13 @@ static void game_load_internal(struct section_file *file)
       = secfile_lookup_bool_default(file, GAME_DEFAULT_FOGGEDBORDERS,
                                     "game.foggedborders");
 
+    game.info.global_warming
+      = secfile_lookup_bool_default(file, GAME_DEFAULT_GLOBAL_WARMING,
+                                    "game.global_warming");
+    game.info.nuclear_winter
+      = secfile_lookup_bool_default(file, GAME_DEFAULT_NUCLEAR_WINTER,
+                                    "game.nuclear_winter");
+
     game.info.civilwarsize =
       secfile_lookup_int_default(file, GAME_DEFAULT_CIVILWARSIZE,
 				 "game.civilwarsize");
@@ -5421,6 +5428,10 @@ void game_save(struct section_file *file, const char *save_reason,
 
   secfile_insert_bool(file, game.info.fogofwar, "game.fogofwar");
   secfile_insert_bool(file, game.server.foggedborders, "game.foggedborders");
+  secfile_insert_bool(file, game.info.global_warming,
+                      "game.global_warming");
+  secfile_insert_bool(file, game.info.nuclear_winter,
+                      "game.nuclear_winter");
   secfile_insert_bool(file, game.info.spacerace, "game.spacerace");
   secfile_insert_bool(file, game.info.endspaceship, "game.endspaceship");
   secfile_insert_bool(file, game.info.auto_ai_toggle, "game.auto_ai_toggle");

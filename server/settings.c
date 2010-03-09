@@ -559,6 +559,21 @@ static struct setting settings[] = {
              "jungles, and rivers."), NULL, NULL,
           MAP_MIN_WETNESS, MAP_MAX_WETNESS, MAP_DEFAULT_WETNESS)
 
+  GEN_BOOL("globalwarming", game.info.global_warming,
+           SSET_RULES, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Global warming"),
+           N_("If turned off, global warming will not occur "
+              "as a result of pollution. This settings does not "
+              "affect pollution."), NULL, NULL,
+           GAME_DEFAULT_GLOBAL_WARMING)
+
+  GEN_BOOL("nuclearwinter", game.info.nuclear_winter,
+           SSET_RULES, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Nuclear winter"),
+           N_("If turned off, nuclear winter will not occur "
+              "as a result of nuclear war."), NULL, NULL,
+           GAME_DEFAULT_NUCLEAR_WINTER)
+
   GEN_INT("mapseed", map.server.seed,
 	  SSET_MAP_GEN, SSET_INTERNAL, SSET_RARE, SSET_SERVER_ONLY,
 	  N_("Map generation random seed"),
