@@ -5354,6 +5354,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.server.timeoutinc, "game.timeoutinc");
   secfile_insert_int(file, game.server.timeoutincmult, "game.timeoutincmult"); 
   secfile_insert_int(file, game.server.timeoutcounter, "game.timeoutcounter");
+  secfile_insert_int(file, game.server.timeoutaddenemymove,
+                     "game.timeoutaddenemymove");
 
   secfile_insert_int(file, game.info.end_turn, "game.end_turn");
   secfile_insert_int(file, game.info.year, "game.year");
