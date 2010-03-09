@@ -15,7 +15,9 @@
 #include <config.h>
 #endif
 
+#include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* utility */
@@ -424,6 +426,19 @@ static const char *cr_entry_waste(const struct city *pcity,
   return buf;
 }
 
+static const char *cr_entry_plague_risk(const struct city *pcity,
+                                        const void *data)
+{
+  static char buf[8];
+  if (!game.info.illness_on) {
+    my_snprintf(buf, sizeof(buf), " -.-");
+  } else {
+    my_snprintf(buf, sizeof(buf), "%4.1f",
+                (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)/10.0);
+  }
+  return buf;
+}
+
 static const char *cr_entry_cma(const struct city *pcity,
 				const void *data)
 {
@@ -515,6 +530,8 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(num_trade) },
   { FALSE,  3, 1, NULL, N_("?pollution [short]:Pol"), N_("Pollution"),
     NULL, FUNC_TAG(pollution) },
+  { FALSE,  4, 1, N_("?plague risk [short]:Pla"), N_("(%)"), N_("Plague risk"),
+    NULL, FUNC_TAG(plague_risk) },
   { FALSE, 15, 1, NULL, N_("?cma:Governor"), N_("Citizen Governor"),
     NULL, FUNC_TAG(cma) },
 
@@ -605,8 +622,8 @@ void init_city_report_game_data(void)
   it's better than sorting alphabetically.
 
   The GUI gives us two values to compare (as strings).  We try to split
-  them into an array of integer and string fields, then we compare
-  lexicographically.  Two integer fields are compared in the obvious
+  them into an array of numeric and string fields, then we compare
+  lexicographically.  Two numeric fields are compared in the obvious
   way, two character fields are compared alphabetically.  Arbitrarily, a
   numeric field is sorted before a character field (for "justification"
   note that numbers are before letters in the ASCII table).
@@ -616,7 +633,7 @@ void init_city_report_game_data(void)
    A datum_vector represents a long string of alternating strings and
    numbers. */
 struct datum {
-  long numeric_value;
+  float numeric_value;
   char *string_value;
   bool is_numeric;
 };
@@ -639,10 +656,10 @@ static void init_datum_string(struct datum *dat, const char *left,
 }
 
 /**********************************************************************
-  Init a datum from a number (a long because we happen to use
-  strtol).
+  Init a datum from a number (a float because we happen to use
+  strtof).
 **********************************************************************/
-static void init_datum_number(struct datum *dat, long val)
+static void init_datum_number(struct datum *dat, float val)
 {
   dat->is_numeric = TRUE;
   dat->numeric_value = val;
@@ -669,7 +686,15 @@ static int datum_compare(const struct datum *a, const struct datum *b)
 {
   if(a->is_numeric == b->is_numeric) {
     if(a->is_numeric) {
-      return a->numeric_value - b->numeric_value;
+      if (a->numeric_value == b->numeric_value) {
+        return 0;
+      } else if (a->numeric_value < b->numeric_value) {
+        return -1;
+      } else if (a->numeric_value > b->numeric_value) {
+        return +1;
+      } else {
+        return 0; /* shrug */
+      }
     } else {
       return strcmp(a->string_value, b->string_value);
     }
@@ -717,15 +742,15 @@ static void split_string(struct datum_vector *data, const char *str)
   string_start = str;
   while(*str) {
     char *endptr;
-    long value;
+    float value;
 
-    value = strtol(str, &endptr, 0);
-    if(endptr == str) {
-      /* that wasn't an integer; go on */
+    value = strtof(str, &endptr);
+    if(endptr == str || !isfinite(value)) {
+      /* that wasn't a sensible number; go on */
       str++;
     } else {
-      /* that was an integer, so stop the string we were parsing, add 
-         it (unless it's empty), then add the integer we just parsed */
+      /* that was a number, so stop the string we were parsing, add 
+         it (unless it's empty), then add the number we just parsed */
       struct datum d;
 
       if(str != string_start) {
