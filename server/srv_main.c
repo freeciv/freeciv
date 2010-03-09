@@ -1380,8 +1380,9 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   }
 
   if (!pconn->established) {
-    freelog(LOG_ERROR, "Received game packet from unaccepted connection %s",
-	    conn_description(pconn));
+    freelog(LOG_ERROR,
+            "Received game packet %s(%d) from unaccepted connection %s.",
+            get_packet_name(type), type, conn_description(pconn));
     return TRUE;
   }
   
@@ -1405,8 +1406,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     }
 
     if (!server_handle_packet(type, packet, NULL, pconn)) {
-      freelog(LOG_ERROR, "Received unknown packet %d from %s",
-	      type, conn_description(pconn));
+      freelog(LOG_ERROR, "Received unknown packet %d from %s.",
+              type, conn_description(pconn));
     }
     return TRUE;
   }
@@ -1415,8 +1416,9 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 
   if (NULL == pplayer || pconn->observer) {
     /* don't support these yet */
-    freelog(LOG_ERROR, "Received packet %s from non-player connection %s",
-            get_packet_name(type), conn_description(pconn));
+    freelog(LOG_ERROR,
+            "Received packet %s(%d) from non-player connection %s.",
+            get_packet_name(type), type, conn_description(pconn));
     return TRUE;
   }
 
@@ -1426,12 +1428,13 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
       && type != PACKET_VOTE_SUBMIT) {
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
-	 out lots of error messages. Ie, we use LOG_DEBUG. */
-      freelog(LOG_DEBUG, "got a packet of type %d "
-			  "in S_S_OVER", type);
+       * out lots of error messages. Ie, we use LOG_DEBUG. */
+      freelog(LOG_DEBUG, "Got a packet of type %s(%d) in %s.",
+              get_packet_name(type), type, server_states_name(S_S_OVER));
     } else {
-      freelog(LOG_ERROR, "got a packet of type %d "
-	                 "outside S_S_RUNNING", type);
+      freelog(LOG_ERROR,
+              "Got a packet of type %s(%d) outside %s.",
+              get_packet_name(type), type, server_states_name(S_S_RUNNING));
     }
     return TRUE;
   }
@@ -1439,7 +1442,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->nturns_idle = 0;
 
   if (!pplayer->is_alive && type != PACKET_REPORT_REQ) {
-    freelog(LOG_ERROR, "Got a packet of type %d from a dead player", type);
+    freelog(LOG_ERROR, "Got a packet of type %s(%d) from a dead player.",
+            get_packet_name(type), type);
     return TRUE;
   }
   
@@ -1447,8 +1451,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->current_conn = pconn;
 
   if (!server_handle_packet(type, packet, pplayer, pconn)) {
-    freelog(LOG_ERROR, "Received unknown packet %d from %s",
-	    type, conn_description(pconn));
+    freelog(LOG_ERROR, "Received unknown packet %d from %s.",
+            type, conn_description(pconn));
   }
 
   if (S_S_RUNNING == server_state()
