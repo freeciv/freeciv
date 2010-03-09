@@ -438,37 +438,68 @@ void myusleep(unsigned long usec)
 }
 
 /**************************************************************************
-  Replace 'search' by 'replace' within 'string'. The returned string has
-  to be freed by the caller.
+  Replace 'search' by 'replace' within 'str'. If needed 'str' is resized
+  using realloc() to fit the modified string. The new pointer to the string
+  is returned.
 **************************************************************************/
-char *fc_strrep(const char *string, const char *search, const char *replace)
+char *fc_strrep_resize(char *str, size_t *len, const char *search,
+                       const char *replace)
 {
-  size_t len_search, len_replace, len_new;
-  char *s, *p, *new;
+  size_t len_max;
 
-  fc_assert_ret_val(string != NULL, NULL);
+  fc_assert_ret_val(str != NULL, NULL);
+  fc_assert_ret_val(len != NULL, NULL);
   if (search == NULL || replace == NULL) {
-    return mystrdup(string);
+    return str;
+  }
+
+  len_max = ceil((double)strlen(str) * strlen(replace) / strlen(search)) + 1;
+  if ((*len) < len_max) {
+    /* replace string is longer than search string; allocated enough memory
+     * for the worst case */
+    (*len) = len_max;
+    str = fc_realloc(str, len_max);
+  }
+
+  /* should never happen */
+  fc_assert_ret_val_msg(fc_strrep(str, (*len), search, replace), NULL,
+                        "Can't replace '%s' by '%s' in '%s'. To small "
+                        "size after reallocation: %lu.", search, replace,
+                        str, *len);
+
+  return str;
+}
+
+/**************************************************************************
+  Replace 'search' by 'replace' within 'str'. sizeof(str) should be large
+  enough for the modified value of 'str'. Returns if the replacement was
+  succesfull. If now try again with a larger size of 'str'.
+**************************************************************************/
+bool fc_strrep(char *str, size_t len, const char *search,
+               const char *replace)
+{
+  size_t len_search, len_replace;
+  char *s, *p;
+
+  fc_assert_ret_val(str != NULL, FALSE);
+  if (search == NULL || replace == NULL) {
+    return TRUE;
   }
 
   len_search = strlen(search);
   len_replace = strlen(replace);
 
-  if (len_search >= len_replace) {
-    len_new = strlen(string) + 1;
-  } else {
-    /* replace string is longer than search string; allocated enough memory
-     * for the worst case */
-    len_new = ceil((double)strlen(string) * len_replace / len_search) + 1;
-  }
-  new = fc_malloc(len_new);
-  mystrlcpy(new, string, len_new);
-
-  s = new;
+  s = str;
   while (s != NULL) {
     p = strstr(s, search);
     if (p == NULL) {
-      return new;
+      /* nothing found */
+      break;
+    }
+
+    if (len < (strlen(str) + len_replace - len_search + 1)) {
+      /* sizeof(str) not large enough to do the replacement */
+      return FALSE;
     }
 
     memmove(p + len_replace, p + len_search, strlen(p + len_search) + 1);
@@ -476,7 +507,7 @@ char *fc_strrep(const char *string, const char *search, const char *replace)
     s = p + len_replace;
   }
 
-  return new;
+  return TRUE;
 }
 
 /**********************************************************************

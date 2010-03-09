@@ -94,16 +94,15 @@ enum manuals {
 /**************************************************************************
   Replace html special characters ('&', '<' and '>').
 **************************************************************************/
-static char *html_special_chars(const char *str)
+static char *html_special_chars(char *str, size_t *len)
 {
-  char *buf1, *buf2;
+  char *buf;
 
-  buf1 = fc_strrep(str, "&", "&amp;");
-  buf2 = fc_strrep(buf1, "<", "&lt;");
-  FC_FREE(buf1);
-  buf1 = fc_strrep(buf2, ">", "&gt;");
+  buf = fc_strrep_resize(str, len, "&", "&amp;");
+  buf = fc_strrep_resize(buf, len, "<", "&lt;");
+  buf = fc_strrep_resize(buf, len, ">", "&gt;");
 
-  return buf1;
+  return buf;
 }
 
 /**************************************************************************
@@ -158,9 +157,11 @@ static bool manual_command(void)
                 _(setting_short_help(pset)), SECTION_END);
         if (strlen(setting_extra_help(pset)) > 0) {
           char *help = mystrdup(_(setting_extra_help(pset)));
+          size_t help_len = strlen(help) + 1;
 
           fc_break_lines(help, LINE_BREAK);
-          fprintf(doc, "<pre>%s</pre>\n\n", html_special_chars(help));
+          help = html_special_chars(help, &help_len);
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
           FC_FREE(help);
         }
         fprintf(doc, "<p class=\"misc\">");
@@ -218,19 +219,25 @@ static bool manual_command(void)
         fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
                 command_short_help(cmd), SECTION_END);
         if (command_synopsis(cmd)) {
+          char *cmdstr = mystrdup(command_synopsis(cmd));
+          size_t cmdstr_len = strlen(cmdstr) + 1;
+
+          cmdstr = html_special_chars(cmdstr, &cmdstr_len);
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
                          "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>",
-                  html_special_chars(command_synopsis(cmd)));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>", cmdstr);
+          FC_FREE(cmdstr);
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
         if (command_extra_help(cmd)) {
           char *help = mystrdup(command_extra_help(cmd));
+          size_t help_len = strlen(help) + 1;
 
           fc_break_lines(help, LINE_BREAK);
+          help = html_special_chars(help, &help_len);
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", html_special_chars(help));
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
           FC_FREE(help);
         }
       }
