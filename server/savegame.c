@@ -4321,7 +4321,7 @@ void game_save(struct section_file *file, const char *save_reason)
   secfile_insert_int(file, game.timeoutincmult, "game.timeoutincmult"); 
   secfile_insert_int(file, game.timeoutcounter, "game.timeoutcounter");
   secfile_insert_int(file, game.timeoutaddenemymove,
-		     "game.info.timeoutaddenemymove");
+                     "game.timeoutaddenemymove");
   secfile_insert_int(file, game.info.end_year, "game.end_year");
   secfile_insert_int(file, game.info.year, "game.year");
   secfile_insert_int(file, game.info.turn, "game.turn");
