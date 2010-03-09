@@ -90,6 +90,20 @@ enum manuals {
 #endif
 
 /**************************************************************************
+  Replace html special characters ('&', '<' and '>').
+**************************************************************************/
+static char *html_special_chars(char *str, size_t *len)
+{
+  char *buf;
+
+  buf = fc_strrep_resize(str, len, "&", "&amp;");
+  buf = fc_strrep_resize(buf, len, "<", "&lt;");
+  buf = fc_strrep_resize(buf, len, ">", "&gt;");
+
+  return buf;
+}
+
+/**************************************************************************
   Useless stubs for compiling client code.
 **************************************************************************/
 void popup_help_dialog_string(const char *item)
@@ -136,18 +150,21 @@ static bool manual_command(void)
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       settings_iterate(pset) {
-        const char *help = _(setting_extra_help(pset));
-
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
         if (strlen(setting_extra_help(pset)) > 0) {
+          char *help = mystrdup(_(setting_extra_help(pset)));
+          size_t help_len = strlen(help) + 1;
+
+          help = html_special_chars(help, &help_len);
           fprintf(doc, "<pre>%s</pre>\n\n", help);
+          FC_FREE(help);
         }
         fprintf(doc, "<p class=\"misc\">");
         fprintf(doc, _("Level: %s.<br>"), _(setting_level_name(pset)));
         fprintf(doc, _("Category: %s.<br>"), _(setting_category_name(pset)));
-        
+
         if (!setting_is_changeable(pset, &my_conn, NULL)) {
           fprintf(doc, _("Can only be used in server console. "));
         }
@@ -194,15 +211,25 @@ static bool manual_command(void)
         fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
                 command_short_help(cmd), SECTION_END);
         if (command_synopsis(cmd)) {
+          char *cmdstr = mystrdup(command_synopsis(cmd));
+          size_t cmdstr_len = strlen(cmdstr) + 1;
+
+          cmdstr = html_special_chars(cmdstr, &cmdstr_len);
           fprintf(doc, _("<table>\n<tr>\n<td valign=\"top\">"
                          "<pre>Synopsis:</pre></td>\n<td>"));
-          fprintf(doc, "<pre>%s</pre></td></tr></table>", command_synopsis(cmd));
+          fprintf(doc, "<pre>%s</pre></td></tr></table>", cmdstr);
+          FC_FREE(cmdstr);
         }
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
         if (command_extra_help(cmd)) {
+          char *help = mystrdup(command_extra_help(cmd));
+          size_t help_len = strlen(help) + 1;
+
+          help = html_special_chars(help, &help_len);
           fprintf(doc, _("<p>Description:</p>\n\n"));
-          fprintf(doc, "<pre>%s</pre>\n\n", command_extra_help(cmd));
+          fprintf(doc, "<pre>%s</pre>\n\n", help);
+          FC_FREE(help);
         }
       }
       break;
