@@ -1387,8 +1387,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   }
 
   if (!pconn->established) {
-    log_error("Received game packet from unaccepted connection %s",
-              conn_description(pconn));
+    log_error("Received game packet %s(%d) from unaccepted connection %s.",
+              packet_name(type), type, conn_description(pconn));
     return TRUE;
   }
   
@@ -1412,7 +1412,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     }
 
     if (!server_handle_packet(type, packet, NULL, pconn)) {
-      log_error("Received unknown packet %d from %s",
+      log_error("Received unknown packet %d from %s.",
                 type, conn_description(pconn));
     }
     return TRUE;
@@ -1422,8 +1422,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
 
   if (NULL == pplayer || pconn->observer) {
     /* don't support these yet */
-    log_error("Received packet %s from non-player connection %s",
-              packet_name(type), conn_description(pconn));
+    log_error("Received packet %s(%d) from non-player connection %s.",
+              packet_name(type), type, conn_description(pconn));
     return TRUE;
   }
 
@@ -1434,9 +1434,11 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
     if (S_S_OVER == server_state()) {
       /* This can happen by accident, so we don't want to print
        * out lots of error messages. Ie, we use log_debug(). */
-      log_debug("got a packet of type %d in S_S_OVER", type);
+      log_debug("Got a packet of type %s(%d) in %s.",
+                packet_name(type), type, server_states_name(S_S_OVER));
     } else {
-      log_error("got a packet of type %d outside S_S_RUNNING", type);
+      log_error("Got a packet of type %s(%d) outside %s.",
+                packet_name(type), type, server_states_name(S_S_RUNNING));
     }
     return TRUE;
   }
@@ -1444,7 +1446,8 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->nturns_idle = 0;
 
   if (!pplayer->is_alive && type != PACKET_REPORT_REQ) {
-    log_error("Got a packet of type %d from a dead player", type);
+    log_error("Got a packet of type %s(%d) from a dead player.",
+              packet_name(type), type);
     return TRUE;
   }
   
@@ -1452,7 +1455,7 @@ bool server_packet_input(struct connection *pconn, void *packet, int type)
   pplayer->current_conn = pconn;
 
   if (!server_handle_packet(type, packet, pplayer, pconn)) {
-    log_error("Received unknown packet %d from %s",
+    log_error("Received unknown packet %d from %s.",
               type, conn_description(pconn));
   }
 
