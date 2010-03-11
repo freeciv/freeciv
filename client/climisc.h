@@ -41,6 +41,9 @@ const char *get_vision_status(const struct player *me,
 void client_diplomacy_clause_string(char *buf, int bufsiz,
 				    struct Clause *pclause);
 
+void global_warming_scaled(int *chance, int *rate, int max);
+void nuclear_winter_scaled(int *chance, int *rate, int max);
+
 struct sprite *client_research_sprite(void);
 struct sprite *client_warming_sprite(void);
 struct sprite *client_cooling_sprite(void);

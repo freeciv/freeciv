@@ -293,6 +293,48 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 }
 
 /**************************************************************************
+  Return global catastrophe chance and rate of change, scaled to some
+  maximum (e.g. 100 gives percentages).
+  This mirrors the logic in update_environmental_upset().
+**************************************************************************/
+static void catastrophe_scaled(int *chance, int *rate, int max,
+                               int current, int accum, int level)
+{
+  /* 20 from factor in update_environmental_upset() */
+  int numer = 20 * max;
+  int denom = map_num_tiles();
+
+  if (chance) {
+    *chance = CLIP(0,
+                   (int)((((long)accum * numer) + (denom - 1)) / denom),
+                   max);
+  }
+  if (rate) {
+    *rate = DIVIDE(((long)(current - level) * numer) + (denom - 1), denom);
+  }
+}
+
+/**************************************************************************
+  Return global warming chance and rate of change, scaled to max.
+**************************************************************************/
+void global_warming_scaled(int *chance, int *rate, int max)
+{
+  return catastrophe_scaled(chance, rate, max,
+                            game.info.heating, game.info.globalwarming,
+                            game.info.warminglevel);
+}
+
+/**************************************************************************
+  Return nuclear winter chance and rate of change, scaled to max.
+**************************************************************************/
+void nuclear_winter_scaled(int *chance, int *rate, int max)
+{
+  return catastrophe_scaled(chance, rate, max,
+                            game.info.cooling, game.info.nuclearwinter,
+                            game.info.coolinglevel);
+}
+
+/**************************************************************************
   Return the sprite for the research indicator.
 **************************************************************************/
 struct sprite *client_research_sprite(void)
@@ -320,24 +362,15 @@ struct sprite *client_research_sprite(void)
 **************************************************************************/
 struct sprite *client_warming_sprite(void)
 {
-  if (NULL != client.conn.playing && can_client_change_view()) {
-    int index;
-
-    if ((game.info.globalwarming <= 0) &&
-	(game.info.heating < (NUM_TILES_PROGRESS / 2))) {
-      index = MAX(0, game.info.heating);
-    } else {
-      index = MIN(NUM_TILES_PROGRESS,
-		  (MAX(0, 4 + game.info.globalwarming) / 5) +
-		  ((NUM_TILES_PROGRESS / 2) - 1));
-    }
-
-    /* The clipping is needed because the above math is a little fuzzy. */
-    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(tileset, INDICATOR_WARMING, index);
+  int index;
+  if (can_client_change_view()) {
+    /* Highest sprite kicks in at about 25% risk */
+    global_warming_scaled(&index, NULL, (NUM_TILES_PROGRESS-1)*4);
+    index = CLIP(0, index, NUM_TILES_PROGRESS-1);
   } else {
-    return get_indicator_sprite(tileset, INDICATOR_WARMING, 0);
+    index = 0;
   }
+  return get_indicator_sprite(tileset, INDICATOR_WARMING, index);
 }
 
 /**************************************************************************
@@ -345,24 +378,15 @@ struct sprite *client_warming_sprite(void)
 **************************************************************************/
 struct sprite *client_cooling_sprite(void)
 {
+  int index;
   if (can_client_change_view()) {
-    int index;
-
-    if ((game.info.nuclearwinter <= 0) &&
-	(game.info.cooling < (NUM_TILES_PROGRESS / 2))) {
-      index = MAX(0, game.info.cooling);
-    } else {
-      index = MIN(NUM_TILES_PROGRESS,
-		  (MAX(0, 4 + game.info.nuclearwinter) / 5) +
-		  ((NUM_TILES_PROGRESS / 2) - 1));
-    }
-
-    /* The clipping is needed because the above math is a little fuzzy. */
-    index = CLIP(0, index, NUM_TILES_PROGRESS - 1);
-    return get_indicator_sprite(tileset, INDICATOR_COOLING, index);
+    /* Highest sprite kicks in at about 25% risk */
+    nuclear_winter_scaled(&index, NULL, (NUM_TILES_PROGRESS-1)*4);
+    index = CLIP(0, index, NUM_TILES_PROGRESS-1);
   } else {
-    return get_indicator_sprite(tileset, INDICATOR_COOLING, 0);
+    index = 0;
   }
+  return get_indicator_sprite(tileset, INDICATOR_COOLING, index);
 }
 
 /**************************************************************************
