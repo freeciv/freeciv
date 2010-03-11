@@ -2259,6 +2259,14 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
     return FALSE;
   }
 
+  if (!player_can_invade_tile(pplayer, ptile)) {
+    notify_player(pplayer, ptile, E_BAD_COMMAND, ftc_server,
+                  _("Cannot invade unless you break peace with "
+                    "%s first."),
+                  player_name(tile_owner(ptile)));
+    return FALSE;
+  }
+
   {
     int range = unit_type(punit)->paratroopers_range;
     int distance = real_map_distance(punit->tile, ptile);
