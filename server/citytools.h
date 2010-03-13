@@ -61,6 +61,8 @@ bool update_dumb_city(struct player *pplayer, struct city *pcity);
 void refresh_dumb_city(struct city *pcity);
 void remove_dumb_city(struct player *pplayer, struct tile *ptile);
 
+void city_build_free_buildings(struct city *pcity);
+
 void create_city(struct player *pplayer, struct tile *ptile,
 		 const char *name);
 void remove_city(struct city *pcity);
