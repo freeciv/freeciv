@@ -311,7 +311,9 @@ void game_init(void)
   game.info.occupychance  = GAME_DEFAULT_OCCUPYCHANCE;
   game.info.autoattack    = GAME_DEFAULT_AUTOATTACK;
   game.info.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
+  game.info.global_warming = GAME_DEFAULT_GLOBAL_WARMING;
   game.info.heating       = 0;
+  game.info.nuclear_winter = GAME_DEFAULT_NUCLEAR_WINTER;
   game.info.cooling       = 0;
   game.info.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
   game.info.save_nturns   = GAME_DEFAULT_SAVETURNS;
@@ -370,9 +372,6 @@ void game_init(void)
     game.server.scorelog = GAME_DEFAULT_SCORELOG;
     game.server.scoreturn = GAME_DEFAULT_SCORETURN;
     game.server.seed = GAME_DEFAULT_SEED;
-
-    game.info.global_warming = GAME_DEFAULT_GLOBAL_WARMING;
-    game.info.nuclear_winter = GAME_DEFAULT_NUCLEAR_WINTER;
 
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
     sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
