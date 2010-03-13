@@ -270,4 +270,6 @@ char scanin(const char **buf, char *delimiters, char *dest, int size);
 
 void array_shuffle(int *array, int n);
 
+void format_time_duration(time_t t, char *buf, int maxlen);
+
 #endif  /* FC__SHARED_H */
