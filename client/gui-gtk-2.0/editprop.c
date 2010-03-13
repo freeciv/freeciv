@@ -1240,9 +1240,8 @@ static struct objbind *objbind_new(int objtype, gpointer object)
   ob = fc_calloc(1, sizeof(*ob));
   ob->object_id = id;
   ob->objtype = objtype;
-  ob->propstate_table = hash_new_full(hash_fval_keyval,
-                                      hash_fcmp_keyval, NULL,
-                                      (hash_free_fn_t) propstate_free);
+  ob->propstate_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
+                                      NULL, (hash_free_fn_t) propstate_free);
 
   return ob;
 }
@@ -1790,7 +1789,7 @@ static void objbind_clear_modified_value(struct objbind *ob,
   }
   
   propid = objprop_get_id(op);
-  hash_delete_entry(ob->propstate_table, GINT_TO_POINTER(propid));
+  hash_delete_entry(ob->propstate_table, FC_INT_TO_PTR(propid));
 }
 
 /****************************************************************************
@@ -1811,7 +1810,7 @@ static bool objbind_property_is_modified(struct objbind *ob,
   }
 
   propid = objprop_get_id(op);
-  return hash_key_exists(ob->propstate_table, GINT_TO_POINTER(propid));
+  return hash_key_exists(ob->propstate_table, FC_INT_TO_PTR(propid));
 }
 
 /****************************************************************************
@@ -1874,11 +1873,10 @@ static void objbind_set_modified_value(struct objbind *ob,
 
   pv_copy = propval_copy(pv);
 
-  ps = hash_lookup_data(ob->propstate_table,
-                        GINT_TO_POINTER(propid));
+  ps = hash_lookup_data(ob->propstate_table, FC_INT_TO_PTR(propid));
   if (!ps) {
     ps = propstate_new(op, pv_copy);
-    hash_insert(ob->propstate_table, GINT_TO_POINTER(propid), ps);
+    hash_insert(ob->propstate_table, FC_INT_TO_PTR(propid), ps);
   } else {
     propstate_set_value(ps, pv_copy);
   }
@@ -1901,7 +1899,7 @@ static struct propval *objbind_get_modified_value(struct objbind *ob,
   }
 
   propid = objprop_get_id(op);
-  ps = hash_lookup_data(ob->propstate_table, GINT_TO_POINTER(propid));
+  ps = hash_lookup_data(ob->propstate_table, FC_INT_TO_PTR(propid));
   if (!ps) {
     return NULL;
   }
@@ -3715,7 +3713,7 @@ static void property_page_setup_objprops(struct property_page *pp)
 #define ADDPROP(ARG_id, ARG_name, ARG_flags, ARG_valtype) do {\
   struct objprop *MY_op = objprop_new(ARG_id, ARG_name,\
                                       ARG_flags, ARG_valtype, pp);\
-  hash_insert(pp->objprop_table, &MY_op->id, MY_op);\
+  hash_insert(pp->objprop_table, FC_INT_TO_PTR(MY_op->id), MY_op);\
 } while (0)
 
   switch (property_page_get_objtype(pp)) {
@@ -3990,7 +3988,7 @@ property_page_new(int objtype, struct property_editor *pe)
 
   sizegroup = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  pp->objprop_table = hash_new(hash_fval_int, hash_fcmp_int);
+  pp->objprop_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
   property_page_setup_objprops(pp);
 
   pp->objbind_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,

@@ -439,7 +439,7 @@ void map_allocate(void)
   if (map.startpos_table != NULL) {
     hash_free(map.startpos_table);
   }
-  map.startpos_table = hash_new_full(hash_fval_int, hash_fcmp_int,
+  map.startpos_table = hash_new_full(hash_fval_keyval, hash_fcmp_keyval,
                                      NULL, free);
 }
 

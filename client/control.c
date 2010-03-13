@@ -1258,7 +1258,7 @@ void request_unit_select(struct unit_list *punits,
   pplayer = unit_owner(punit_first);
   tile_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
   type_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
-  cont_table = hash_new(hash_fval_int, hash_fcmp_int);
+  cont_table = hash_new(hash_fval_keyval, hash_fcmp_keyval);
 
   unit_list_iterate(punits, punit) {
     if (seltype == SELTYPE_SAME) {

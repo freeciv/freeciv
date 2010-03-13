@@ -32,10 +32,6 @@ typedef void (*hash_free_fn_t)(void *);
 unsigned int hash_fval_string(const void *vkey, unsigned int num_buckets);
 int hash_fcmp_string(const void *vkey1, const void *vkey2);
 
-/* Appropriate for int values: */
-unsigned int hash_fval_int(const void *vkey, unsigned int num_buckets);
-int hash_fcmp_int(const void *vkey1, const void *vkey2);
-
 /* Appropriate for void pointers or casted longs, used as keys
    directly instead of by reference. */
 unsigned int hash_fval_keyval(const void *vkey, unsigned int num_buckets);
