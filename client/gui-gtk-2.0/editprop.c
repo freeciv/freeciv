@@ -382,8 +382,7 @@ static void objprop_set_extviewer(struct objprop *op,
 static struct extviewer *objprop_get_extviewer(struct objprop *op);
 static void objprop_refresh_widget(struct objprop *op,
                                    struct objbind *ob);
-static void objprop_widget_entry_activated(GtkEntry *entry,
-                                           gpointer userdata);
+static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata);
 static void objprop_widget_spin_button_changed(GtkSpinButton *spin,
                                                gpointer userdata);
 static void objprop_widget_toggle_button_changed(GtkToggleButton *button,
@@ -2471,10 +2470,9 @@ static bool objprop_is_readonly(const struct objprop *op)
 }
 
 /****************************************************************************
-  Callback for entry widget 'activate' signal.
+  Callback for entry widget 'changed' signal.
 ****************************************************************************/
-static void objprop_widget_entry_activated(GtkEntry *entry,
-                                           gpointer userdata)
+static void objprop_widget_entry_changed(GtkEntry *entry, gpointer userdata)
 {
   struct objprop *op;
   struct property_page *pp;
@@ -2590,8 +2588,8 @@ static void objprop_setup_widget(struct objprop *op)
   case OPID_GAME_SCENARIO_NAME:
     entry = gtk_entry_new();
     gtk_entry_set_width_chars(GTK_ENTRY(entry), 8);
-    g_signal_connect(entry, "activate",
-        G_CALLBACK(objprop_widget_entry_activated), op);
+    g_signal_connect(entry, "changed",
+        G_CALLBACK(objprop_widget_entry_changed), op);
     gtk_box_pack_start(GTK_BOX(hbox), entry, TRUE, TRUE, 0);
     objprop_set_child_widget(op, "entry", entry);
     break;
