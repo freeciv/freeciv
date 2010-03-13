@@ -22,28 +22,28 @@ void popup_help_dialog_string(const char *item);
 void popup_help_dialog_typed(const char *item, enum help_page_type);
 void popdown_help_dialog(void);
 
-#define HELP_OVERVIEW_ITEM "Overview"
-#define HELP_PLAYING_ITEM "Strategy and tactics"
-#define HELP_LANGUAGES_ITEM "Languages"
-#define HELP_CONNECTING_ITEM "Connecting"
-#define HELP_CHATLINE_ITEM "Chatline"
-#define HELP_WORKLIST_EDITOR_ITEM "Worklist Editor"
-#define HELP_CMA_ITEM "Citizen Governor"
-#define HELP_CONTROLS_ITEM "Controls"
+#define HELP_OVERVIEW_ITEM N_("Overview")
+#define HELP_PLAYING_ITEM N_("Strategy and tactics")
+#define HELP_LANGUAGES_ITEM N_("Languages")
+#define HELP_CONNECTING_ITEM N_("Connecting")
+#define HELP_CHATLINE_ITEM N_("Chatline")
+#define HELP_WORKLIST_EDITOR_ITEM N_("Worklist Editor")
+#define HELP_CMA_ITEM N_("Citizen Governor")
+#define HELP_CONTROLS_ITEM N_("Controls")
 #define HELP_RULESET_ITEM N_("About Ruleset")
-#define HELP_ECONOMY_ITEM "Economy"
-#define HELP_CITIES_ITEM "Cities"
-#define HELP_IMPROVEMENTS_ITEM "City Improvements"
-#define HELP_UNITS_ITEM "Units"
-#define HELP_COMBAT_ITEM "Combat"
-#define HELP_ZOC_ITEM "Zones of Control"
-#define HELP_TECHS_ITEM "Technology"
-#define HELP_TERRAIN_ITEM "Terrain"
-#define HELP_WONDERS_ITEM "Wonders of the World"
-#define HELP_GOVERNMENT_ITEM "Government"
-#define HELP_DIPLOMACY_ITEM "Diplomacy"
-#define HELP_SPACE_RACE_ITEM "Space Race"
-#define HELP_COPYING_ITEM "Copying"
-#define HELP_ABOUT_ITEM "About Freeciv"
+#define HELP_ECONOMY_ITEM N_("Economy")
+#define HELP_CITIES_ITEM N_("Cities")
+#define HELP_IMPROVEMENTS_ITEM N_("City Improvements")
+#define HELP_UNITS_ITEM N_("Units")
+#define HELP_COMBAT_ITEM N_("Combat")
+#define HELP_ZOC_ITEM N_("Zones of Control")
+#define HELP_TECHS_ITEM N_("Technology")
+#define HELP_TERRAIN_ITEM N_("Terrain")
+#define HELP_WONDERS_ITEM N_("Wonders of the World")
+#define HELP_GOVERNMENT_ITEM N_("Government")
+#define HELP_DIPLOMACY_ITEM N_("Diplomacy")
+#define HELP_SPACE_RACE_ITEM N_("Space Race")
+#define HELP_COPYING_ITEM N_("Copying")
+#define HELP_ABOUT_ITEM N_("About Freeciv")
 
 #endif  /* FC__HELPDLG_G_H */
