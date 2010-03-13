@@ -1652,6 +1652,9 @@ void civil_war(struct player *pplayer)
 
   i = city_list_size(cplayer->cities);
 
+  /* Choose a capital (random). */
+  city_build_free_buildings(city_list_get(cplayer->cities, myrand(i)));
+
   notify_player(NULL, NULL, E_CIVIL_WAR, ftc_server,
                 /* TRANS: ... Danes ... Poles ... <7> cities. */
                 PL_("Civil war partitions the %s;"

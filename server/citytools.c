@@ -1040,18 +1040,94 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   sync_cities();
 }
 
+/****************************************************************************
+  Give to a city the free (initial) buildings. Updates the
+  pplayer->capital field.
+  If need_player_info isn't NULL, it will be stored here a player pointer
+  that need to be updated at client sides, using send_player_info().
+  If need_game_info isn't NULL, it will be stored here whether the game_info
+  packet should be sent again or not, using seng_game_info().
+****************************************************************************/
+void city_build_free_buildings(struct city *pcity)
+{
+  struct player *pplayer;
+  struct nation_type *nation;
+  int i;
+  bool has_small_wonders;
+  bool has_great_wonders;
+
+  fc_assert_ret(NULL != pcity);
+  pplayer = city_owner(pcity);
+  fc_assert_ret(NULL != pplayer);
+  nation = nation_of_player(pplayer);
+  fc_assert_ret(NULL != nation);
+
+  if (pplayer->capital) {
+    /* Already got it. */
+    return;
+  }
+
+  has_small_wonders = FALSE;
+  has_great_wonders = FALSE;
+
+  /* Global free buildings. */
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    Impr_type_id n = game.server.rgame.global_init_buildings[i];
+    struct impr_type *pimprove;
+
+    if (n == B_LAST) {
+      break;
+    }
+
+    pimprove = improvement_by_number(n);
+    city_add_improvement(pcity, pimprove);
+    if (is_small_wonder(pimprove)) {
+      has_small_wonders = TRUE;
+    }
+    fc_assert(!is_great_wonder(pimprove));
+  }
+
+  /* Nation specific free buildings. */
+  for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
+    Impr_type_id n = nation->init_buildings[i];
+    struct impr_type *pimprove;
+
+    if (n == B_LAST) {
+      break;
+    }
+
+    pimprove = improvement_by_number(n);
+    city_add_improvement(pcity, pimprove);
+    if (is_small_wonder(pimprove)) {
+      has_small_wonders = TRUE;
+    } else if (is_great_wonder(pimprove)) {
+      has_great_wonders = TRUE;
+    }
+  }
+
+  pplayer->capital = TRUE;
+
+  /* Update wonder infos. */
+  if (has_small_wonders) {
+    send_game_info(NULL);
+    /* No need to send to detached connections. */
+    send_player_info(pplayer, NULL);
+  } else if (has_small_wonders) {
+    /* No need to send to detached connections. */
+    send_player_info(pplayer, NULL);
+  }
+}
+
 /**************************************************************************
   Creates real city.
 **************************************************************************/
 void create_city(struct player *pplayer, struct tile *ptile,
-		 const char *name)
+                 const char *name)
 {
-  struct nation_type *nation = nation_of_player(pplayer);
   struct player *saved_owner = tile_owner(ptile);
   struct tile *saved_claimer = tile_claimer(ptile);
   struct city *pwork = tile_worked(ptile);
   struct city *pcity = create_city_virtual(pplayer, ptile, name);
-  bool has_small_wonders = FALSE, has_great_wonders = FALSE;
 
   log_debug("create_city() %s", name);
 
@@ -1062,34 +1138,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
   idex_register_city(pcity);
 
   if (!pplayer->capital) {
-    int i;
-    pplayer->capital = TRUE;
-
-    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-      Impr_type_id n = game.server.rgame.global_init_buildings[i];
-      struct impr_type *pimprove = improvement_by_number(n);
-      if (n == B_LAST) {
-	break;
-      }
-      city_add_improvement(pcity, pimprove);
-      if (is_small_wonder(pimprove)) {
-        has_small_wonders = TRUE;
-      }
-      fc_assert(!is_great_wonder(pimprove));
-    }
-    for (i = 0; i < MAX_NUM_BUILDING_LIST; i++) {
-      Impr_type_id n = nation->init_buildings[i];
-      struct impr_type *pimprove = improvement_by_number(n);
-      if (n == B_LAST) {
-	break;
-      }
-      city_add_improvement(pcity, pimprove);
-      if (is_small_wonder(pimprove)) {
-        has_small_wonders = TRUE;
-      } else if (is_great_wonder(pimprove)) {
-        has_great_wonders = TRUE;
-      }
-    }
+    city_build_free_buildings(pcity);
+    fc_assert(TRUE == pplayer->capital);
   }
 
   /* Place a worker at the is_city_center() is_free_worked().
@@ -1172,16 +1222,6 @@ void create_city(struct player *pplayer, struct tile *ptile,
       send_city_info(city_owner(home), home);
     }
   } unit_list_iterate_end;
-
-  /* Update wonder infos. */
-  if (has_great_wonders) {
-    send_game_info(NULL);
-    /* No need to send to detached connections. */
-    send_player_info(pplayer, NULL);
-  } else if (has_small_wonders) {
-    /* No need to send to detached connections. */
-    send_player_info(pplayer, NULL);
-  }
 
   sanity_check_city(pcity);
 
