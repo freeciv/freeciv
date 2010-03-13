@@ -2834,6 +2834,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       vision_free(old_vision);
 
       unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
+      unit_did_action(pcargo);
     } unit_list_iterate_end;
     unit_list_destroy(cargo_units);
   }
@@ -2884,6 +2885,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     }
     unit_list_prepend(pdesttile->units, punit);
     check_unit_activity(punit);
+    unit_did_action(punit);
   }
 
   /*
@@ -3397,4 +3399,51 @@ void unit_list_refresh_vision(struct unit_list *punitlist)
   unit_list_iterate(punitlist, punit) {
     unit_refresh_vision(punit);
   } unit_list_iterate_end;
+}
+
+/****************************************************************************
+  Used to implement the game rule controlled by the unitwaittime setting.
+  Notifies the unit owner if the unit is unable to act.
+****************************************************************************/
+bool unit_can_do_action_now(const struct unit *punit)
+{
+  time_t dt;
+
+  if (!punit) {
+    return FALSE;
+  }
+
+  if (game.server.unitwaittime <= 0) {
+    return TRUE;
+  }
+
+  if (punit->server.action_turn != game.info.turn - 1) {
+    return TRUE;
+  }
+
+  dt = time(NULL) - punit->server.action_timestamp;
+  if (dt < game.server.unitwaittime) {
+    char buf[64];
+    format_time_duration(game.server.unitwaittime - dt, buf, sizeof(buf));
+    notify_player(unit_owner(punit), unit_tile(punit), E_BAD_COMMAND,
+                  ftc_server, _("Your unit may not move for another %s "
+                                "this turn. See /help unitwaittime."), buf);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Mark a unit as having done something at the current time. This is used
+  in conjunction with unit_can_do_action_now() and the unitwaittime setting.
+****************************************************************************/
+void unit_did_action(struct unit *punit)
+{
+  if (!punit) {
+    return;
+  }
+
+  punit->server.action_timestamp = time(NULL);
+  punit->server.action_turn = game.info.turn;
 }

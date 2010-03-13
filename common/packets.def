@@ -379,7 +379,7 @@ PACKET_GAME_INFO=15; sc
   GOLD gold;
   UINT32 tech;
   UINT32 skill_level;
-  
+
   UINT8 aifill;
 
   BOOL is_new_game;   # TRUE only in pregame for "new" (not loaded) games

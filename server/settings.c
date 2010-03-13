@@ -360,6 +360,48 @@ static bool timeout_callback(int value, struct connection *caller,
     return FALSE;
   }
 
+  if (value == -1 && game.server.unitwaittime != 0) {
+    /* autogame only with 'unitwaitime' = 0 */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("For autogames ('timeout' = -1) 'unitwaittime' "
+                        "should be deactivated (= 0)."));
+    return FALSE;
+  }
+
+  if (value != -1 && value < game.server.unitwaittime * 3 / 2) {
+    /* for normal games 'timeout' should be at least 3/2 times the value
+     * of 'unitwaittime' */
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("'timeout' can not be lower than 3/2 of the "
+                        "'unitwaittime' setting (= %d). Please change "
+                        "'unitwaittime' first."), game.server.unitwaittime);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
+  Check 'timeout' setting if 'unitwaittime' is changed.
+*************************************************************************/
+static bool unitwaittime_callback(int value, struct connection *caller,
+                                  char *reject_msg, size_t reject_msg_len)
+{
+  if (game.info.timeout == -1 && value != 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("For autogames ('timeout' = -1) 'unitwaittime' "
+                        "should be deactivated (= 0)."));
+    return FALSE;
+  }
+
+  if (value > game.info.timeout * 2 / 3) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("'unitwaittime' has to be lower than 2/3 of the "
+                        "'timeout' setting (= %d). Please change 'timeout' "
+                        "first."), game.info.timeout);
+    return FALSE;
+  }
+
   return TRUE;
 }
 
@@ -1267,6 +1309,20 @@ static struct setting settings[] = {
 	  N_("Any time a unit moves while in sight of an enemy player, "
 	     "the remaining timeout is increased to this value."),
           NULL, NULL, 0, GAME_MAX_TIMEOUT, GAME_DEFAULT_TIMEOUTADDEMOVE)
+
+  GEN_INT("unitwaittime", game.server.unitwaittime,
+          SSET_RULES_FLEXIBLE, SSET_INTERNAL, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Time between unit moves over turn change"),
+          N_("This setting gives the minimum amount of time in seconds "
+             "between unit moves after a turn change occurs. For "
+             "example, if this setting is set to 20 and a unit moves "
+             "5 seconds before the turn change, it will not be able "
+             "to move in the next turn for at least 15 seconds. Building "
+             "cities is also affected by this setting, as well as units "
+             "moving inside a transporter. This value is limited to "
+             "a maximum value of 2/3 'timeout'."),
+          unitwaittime_callback, NULL, GAME_MIN_UNITWAITTIME,
+          GAME_MAX_UNITWAITTIME, GAME_DEFAULT_UNITWAITTIME)
 
   /* This setting points to the "stored" value; changing it won't have
    * an effect until the next synchronization point (i.e., the start of

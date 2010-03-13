@@ -189,6 +189,8 @@ struct unit {
   } client;
   struct {
     struct vision *vision;
+    time_t action_timestamp;
+    int action_turn;
   } server;
 
   bool has_orders;

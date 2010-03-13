@@ -75,6 +75,8 @@ struct civ_game {
       int timeoutintinc;  /* ... and increase timeoutint by this amount */
       int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
       int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
+      int unitwaittime;   /* minimal time between two movements of a unit */
+
       time_t last_ping;
       struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
       /* The .info.phase_mode value indicates the phase mode currently in
@@ -332,6 +334,10 @@ extern struct civ_game game;
 
 #define GAME_MIN_TIMEOUT             -1
 #define GAME_MAX_TIMEOUT             8639999
+
+#define GAME_MIN_UNITWAITTIME        0
+#define GAME_MAX_UNITWAITTIME        GAME_MAX_TIMEOUT
+#define GAME_DEFAULT_UNITWAITTIME    0
 
 #define GAME_DEFAULT_PHASE_MODE 0
 #define GAME_MIN_PHASE_MODE 0

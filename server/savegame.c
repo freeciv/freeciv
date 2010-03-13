@@ -4493,6 +4493,10 @@ static void game_load_internal(struct section_file *file)
       = secfile_lookup_int_default(file, game.server.timeoutaddenemymove,
 				   "game.timeoutaddenemymove");
 
+    game.server.unitwaittime
+      = secfile_lookup_int_default(file, GAME_DEFAULT_UNITWAITTIME,
+                                   "game.unitwaittime");
+
     game.info.end_turn      = secfile_lookup_int_default(file, 5000,
                                                          "game.end_turn");
     game.info.shieldbox
@@ -5374,6 +5378,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.server.timeoutcounter, "game.timeoutcounter");
   secfile_insert_int(file, game.server.timeoutaddenemymove,
                      "game.timeoutaddenemymove");
+
+  secfile_insert_int(file, game.server.unitwaittime, "game.unitwaittime");
 
   secfile_insert_int(file, game.info.end_turn, "game.end_turn");
   secfile_insert_int(file, game.info.year, "game.year");

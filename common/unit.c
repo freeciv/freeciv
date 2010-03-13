@@ -1508,6 +1508,8 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
   punit->battlegroup = BATTLEGROUP_NONE;
   punit->client.colored = FALSE;
   punit->server.vision = NULL; /* No vision. */
+  punit->server.action_timestamp = 0;
+  punit->server.action_turn = 0;
   punit->has_orders = FALSE;
 
   return punit;

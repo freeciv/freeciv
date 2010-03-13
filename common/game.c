@@ -330,10 +330,10 @@ void game_init(void)
 
   game.info.calendar_skip_0 = FALSE;
 
-  game.info.is_new_game   = TRUE;
+  game.info.is_new_game  = TRUE;
   game.info.is_edit_mode = FALSE;
 
-  game.info.aifill      = GAME_DEFAULT_AIFILL;
+  game.info.aifill       = GAME_DEFAULT_AIFILL;
   sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
 
   game.control.num_unit_classes = 0;
@@ -367,6 +367,7 @@ void game_init(void)
     game.server.timeoutincmult = GAME_DEFAULT_TIMEOUTINCMULT;
     game.server.timeoutcounter = 1;
     game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
+    game.server.unitwaittime = GAME_DEFAULT_UNITWAITTIME;
 
     game.server.last_ping = 0;
     game.server.scorelog = GAME_DEFAULT_SCORELOG;

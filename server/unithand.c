@@ -672,6 +672,11 @@ void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
     return;
   }
 
+  if (!unit_can_do_action_now(punit)) {
+    /* Building a city not possible due to unixwaittime setting. */
+    return;
+  }
+
   res = test_unit_add_or_build_city(punit);
 
   if (res == AB_BUILD_OK) {
@@ -1015,6 +1020,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   if (pdefender->moves_left < 0) {
     pdefender->moves_left = 0;
   }
+  unit_did_action(punit);
 
   if (punit->hp > 0
       && (pcity = tile_city(def_tile))
@@ -1219,6 +1225,10 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
   if (punit->moves_left <= 0) {
     notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
                   _("This unit has no moves left."));
+    return FALSE;
+  }
+
+  if (!unit_can_do_action_now(punit)) {
     return FALSE;
   }
 
