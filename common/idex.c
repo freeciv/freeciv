@@ -60,8 +60,8 @@ void idex_init(void)
   assert(idex_city_hash == NULL);
   assert(idex_unit_hash == NULL);
 
-  idex_city_hash = hash_new(hash_fval_int, hash_fcmp_int);
-  idex_unit_hash = hash_new(hash_fval_int, hash_fcmp_int);
+  idex_city_hash = hash_new(hash_fval_keyval, hash_fcmp_keyval);
+  idex_unit_hash = hash_new(hash_fval_keyval, hash_fcmp_keyval);
 }
 
 /**************************************************************************
