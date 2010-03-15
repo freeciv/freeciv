@@ -297,8 +297,10 @@ int client_main(int argc, char *argv[])
       fc_fprintf(stderr, _("  -d, --debug NUM\tSet debug log level (%d to "
                            "%d)\n"), LOG_FATAL, LOG_VERBOSE);
 #endif
+#ifndef NDEBUG
       fc_fprintf(stderr, _("  -F, --Fatal [SIGNAL]\t"
                            "Raise a signal on failed assertion\n"));
+#endif
       fc_fprintf(stderr,
 		 _("  -h, --help\t\tPrint a summary of the options\n"));
       fc_fprintf(stderr, _("  -l, --log FILE\tUse FILE as logfile "
@@ -332,6 +334,7 @@ int client_main(int argc, char *argv[])
       exit(EXIT_SUCCESS);
     } else if ((option = get_option_malloc("--log", argv, &i, argc))) {
       logfile = option; /* never free()d */
+#ifndef NDEBUG
     } else if (is_option("--Fatal", argv[i])) {
       if (i + 1 >= argc || '-' == argv[i + 1][0]) {
         fatal_assertions = SIGABRT;
@@ -343,6 +346,7 @@ int client_main(int argc, char *argv[])
         fc_fprintf(stderr, _("Try using --help.\n"));
         exit(EXIT_FAILURE);
       }
+#endif
     } else  if ((option = get_option_malloc("--read", argv, &i, argc))) {
       scriptfile = option; /* never free()d */
     } else if ((option = get_option_malloc("--name", argv, &i, argc))) {
