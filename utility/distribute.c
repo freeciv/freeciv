@@ -33,7 +33,7 @@
 void distribute(int number, int groups, int *ratios, int *result)
 {
   int i, sum = 0, rest[groups], max_groups[groups], max_count, max;
-#ifndef NDEBUG
+#ifdef DEBUG
   const int original_number = number;
 #endif
 

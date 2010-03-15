@@ -2900,8 +2900,9 @@ void handle_ruleset_nation_groups(struct packet_ruleset_nation_groups *packet)
 
   nation_groups_free();
   for (i = 0; i < packet->ngroups; i++) {
-    struct nation_group *group = add_new_nation_group(packet->groups[i]);
+    struct nation_group *group;
 
+    group = add_new_nation_group(packet->groups[i]);
     fc_assert(group != NULL && nation_group_index(group) == i);
   }
 }

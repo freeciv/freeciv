@@ -208,6 +208,9 @@ enum choice_type {
   CT_LAST
 };
 
+#ifdef NDEBUG
+#define ASSERT_CHOICE(c) /* Do nothing. */
+#else
 #define ASSERT_CHOICE(c)                                                 \
   do {                                                                   \
     if ((c).want > 0) {                                                  \
@@ -221,6 +224,7 @@ enum choice_type {
       }                                                                  \
     }                                                                    \
   } while(0);
+#endif /* NDEBUG */
 
 struct ai_choice {
   enum choice_type type;
