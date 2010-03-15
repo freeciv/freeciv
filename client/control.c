@@ -98,7 +98,7 @@ void control_init(void)
   int i;
 
   caravan_arrival_queue = genlist_new();
-  diplomat_arrival_queue = genlist_new();
+  diplomat_arrival_queue = genlist_new_full(free);
 
   current_focus = unit_list_new();
   previous_focus = unit_list_new();
@@ -115,17 +115,11 @@ void control_init(void)
 **************************************************************************/
 void control_done(void)
 {
-  const struct genlist_link *plink;
   int i;
 
   genlist_destroy(caravan_arrival_queue);
   caravan_arrival_queue = NULL;
 
-  /* Datas in diplomat_arrival_queue are malloced. */
-  for (plink = genlist_head(diplomat_arrival_queue); NULL != plink;
-       plink = genlist_link_next(plink)) {
-    free(genlist_link_data(plink));
-  }
   genlist_destroy(diplomat_arrival_queue);
   diplomat_arrival_queue = NULL;
 
@@ -884,11 +878,9 @@ void process_diplomat_arrival(struct unit *pdiplomat, int victim_id)
     struct unit *punit;
 
     p_ids = genlist_get(diplomat_arrival_queue, 0);
-    genlist_remove(diplomat_arrival_queue, p_ids);
     diplomat_id = p_ids[0];
     victim_id = p_ids[1];
-    free(p_ids);
-    p_ids = NULL;
+    genlist_remove(diplomat_arrival_queue, p_ids); /* Do free(p_ids). */
     pdiplomat = player_find_unit_by_id(client.conn.playing, diplomat_id);
     pcity = game_find_city_by_number(victim_id);
     punit = game_find_unit_by_number(victim_id);
