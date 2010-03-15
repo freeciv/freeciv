@@ -2539,7 +2539,7 @@ static void objprop_setup_widget(struct objprop *op)
   w = hbox;
   op->widget = w;
 
-  label = gtk_label_new(NULL);
+  label = gtk_label_new(objprop_get_name(op));
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
   objprop_set_child_widget(op, "name-label", label);
