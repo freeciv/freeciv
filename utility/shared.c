@@ -1946,3 +1946,169 @@ void array_shuffle(int *array, int n)
     }
   }
 }
+
+/****************************************************************************
+  Test an asterisk in the pattern against test. Returns TRUE if test fit the
+  pattern. May be recursive, as it calls wildcard_fit_string() itself (if
+  many asterisks).
+****************************************************************************/
+static bool wildcard_asterisk_fit(const char *pattern, const char *test)
+{
+  char jump_to;
+
+  /* Jump over the leading asterisks. */
+  pattern++;
+  while (TRUE) {
+    switch (*pattern) {
+    case '\0':
+      /* It is a leading asterisk. */
+      return TRUE;
+    case '*':
+      pattern++;
+      continue;
+    case '?':
+      if ('\0' == *test) {
+        return FALSE;
+      }
+      test++;
+      pattern++;
+      continue;
+    }
+
+    break;
+  }
+
+  if ('[' != *pattern) {
+    if ('\\' == *pattern) {
+      jump_to = *(pattern + 1);
+    } else {
+      jump_to = *pattern;
+    }
+  } else {
+    jump_to = '\0';
+  }
+
+  while ('\0' != *test) {
+    if ('\0' != jump_to) {
+      /* Jump to next matching charather. */
+      test = strchr(test, jump_to);
+      if (NULL == test) {
+        /* No match. */
+        return FALSE;
+      }
+    }
+
+    if (wildcard_fit_string(pattern, test)) {
+      return TRUE;
+    }
+
+    (test)++;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Test a range in the pattern against test. Returns TRUE if **test fit the
+  first range in *pattern.
+****************************************************************************/
+static bool wildcard_range_fit(const char **pattern, const char **test)
+{
+  const char *start = (*pattern + 1);
+  char testc;
+  bool negation;
+
+  if ('\0' == **test) {
+    /* Need one character. */
+    return FALSE;
+  }
+
+  /* Find the end of the pattern. */
+  while (TRUE) {
+    *pattern = strchr(*pattern, ']');
+    if (NULL == *pattern) {
+      /* Wildcard format error. */
+      return FALSE;
+    } else if (*(*pattern - 1) != '\\') {
+      /* This is the end. */
+      break;
+    } else {
+      /* Try again. */
+      (*pattern)++;
+    }
+  }
+
+  if ('!' == *start) {
+    negation = TRUE;
+    start++;
+  } else {
+    negation = FALSE;
+  }
+  testc = **test;
+  (*test)++;
+  (*pattern)++;
+
+  for (; start < *pattern; start++) {
+    if ('-' == *start || '!' == *start) {
+      /* Wildcard format error. */
+      return FALSE;
+    } else if (start < *pattern - 2 && '-' == *(start + 1)) {
+      /* Case range. */
+      if (*start <= testc && testc <= *(start + 2)) {
+        return !negation;
+      }
+      start += 2;
+    } else if (*start == testc) {
+      /* Single character. */
+      return !negation;
+    }
+  }
+
+  return negation;
+}
+
+/****************************************************************************
+  Returns TRUE if test fit the pattern. The pattern can contain special
+  characters:
+  * '*': to specify a substitute for any zero or more characters.
+  * '?': to specify a substitute for any one character.
+  * '[...]': to specify a range of characters:
+    * '!': at the begenning of the range means that the matching result
+      will be inverted
+    * 'A-Z': means any character between 'A' and 'Z'.
+    * 'agr': means 'a', 'g' or 'r'.
+****************************************************************************/
+bool wildcard_fit_string(const char *pattern, const char *test)
+{
+  while (TRUE) {
+    switch (*pattern) {
+    case '\0':
+      /* '\0' != test. */
+      return '\0' == *test;
+    case '*':
+      return wildcard_asterisk_fit(pattern, test); /* Maybe recursive. */
+    case '[':
+      if (!wildcard_range_fit(&pattern, &test)) {
+        return FALSE;
+      }
+      continue;
+    case '?':
+      if ('\0' == *test) {
+        return FALSE;
+      }
+      break;
+    case '\\':
+      pattern++;
+      /* break; not missing. */
+    default:
+      if (*pattern != *test) {
+        return FALSE;
+      }
+      break;
+    }
+    pattern++;
+    test++;
+  }
+
+  return FALSE;
+}

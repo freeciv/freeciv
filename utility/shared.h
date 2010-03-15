@@ -278,4 +278,6 @@ void array_shuffle(int *array, int n);
 
 void format_time_duration(time_t t, char *buf, int maxlen);
 
+bool wildcard_fit_string(const char *pattern, const char *test);
+
 #endif  /* FC__SHARED_H */
