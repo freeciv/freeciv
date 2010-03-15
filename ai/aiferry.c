@@ -521,11 +521,10 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 				    struct pft_amphibious *parameter)
 {
   bool alive = TRUE;
-  struct player *pplayer = unit_owner(passenger);
   struct pf_map *pfm;
   struct pf_path *path;
 
-  assert(pplayer->ai_data.control);
+  assert(unit_owner(passenger)->ai_data.control);
   assert(!unit_has_orders(passenger));
   assert(ferry->tile == passenger->tile);
 

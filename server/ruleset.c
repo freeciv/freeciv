@@ -3659,7 +3659,6 @@ static void send_ruleset_nations(struct conn_list *dest)
 {
   struct packet_ruleset_nation packet;
   struct packet_ruleset_nation_groups groups_packet;
-  struct nation_type *n;
   int i;
 
   groups_packet.ngroups = nation_group_count();
@@ -3668,8 +3667,10 @@ static void send_ruleset_nations(struct conn_list *dest)
   } nation_groups_iterate_end;
   lsend_packet_ruleset_nation_groups(dest, &groups_packet);
 
-  assert(sizeof(packet.init_techs) == sizeof(n->init_techs));
-  assert(ARRAY_SIZE(packet.init_techs) == ARRAY_SIZE(n->init_techs));
+  assert(sizeof(packet.init_techs)
+         == FC_MEMBER_SIZEOF(struct nation_type, init_techs));
+  assert(ARRAY_SIZE(packet.init_techs)
+         == FC_MEMBER_ARRAY_SIZE(struct nation_type, init_techs));
 
   nations_iterate(n) {
     packet.id = nation_number(n);
