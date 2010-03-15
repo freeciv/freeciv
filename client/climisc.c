@@ -891,7 +891,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 		  enum event_type event, int conn_id)
 {
   char plain_text[MAX_LEN_MSG];
-  struct text_tag_list *tags = text_tag_list_new();
+  struct text_tag_list *tags;
   int where = MW_OUTPUT;	/* where to display the message */
   bool fallback_needed = FALSE; /* we want fallback if actual 'where' is not
                                  * usable */
@@ -906,7 +906,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Get the original text. */
   featured_text_to_plain_text(featured_text, plain_text,
-                              sizeof(plain_text), tags);
+                              sizeof(plain_text), &tags);
 
   /* Display link marks when an user is pointed us something. */
   if (conn_id != -1) {
@@ -990,7 +990,6 @@ void handle_event(const char *featured_text, struct tile *ptile,
   play_sound_for_event(event);
 
   /* Free tags */
-  text_tag_list_clear_all(tags);
   text_tag_list_destroy(tags);
 }
 

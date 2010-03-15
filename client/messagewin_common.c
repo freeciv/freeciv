@@ -106,7 +106,6 @@ void clear_notify_window(void)
     free(messages[i].descr);
     messages[i].descr = NULL;
 
-    text_tag_list_clear_all(messages[i].tags);
     text_tag_list_destroy(messages[i].tags);
     messages[i].tags = NULL;
   }
@@ -142,7 +141,7 @@ void add_notify_window(const char *message, const struct text_tag_list *tags,
   messages[messages_total].tile = ptile;
   messages[messages_total].event = event;
   messages[messages_total].descr = s;
-  messages[messages_total].tags = text_tag_list_dup(tags);
+  messages[messages_total].tags = text_tag_list_copy(tags);
   messages[messages_total].location_ok = (ptile != NULL);
   messages[messages_total].visited = FALSE;
   messages_total++;

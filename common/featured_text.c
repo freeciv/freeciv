@@ -649,6 +649,24 @@ struct text_tag *text_tag_new(enum text_tag_type tag_type,
 }
 
 /**************************************************************************
+  This function returns a new pointer to a text_tag which is similar
+  to the 'ptag' argument.
+**************************************************************************/
+struct text_tag *text_tag_copy(const struct text_tag *ptag)
+{
+  struct text_tag *pnew_tag;
+
+  if (!ptag) {
+    return NULL;
+  }
+
+  pnew_tag = fc_malloc(sizeof(struct text_tag));
+  *pnew_tag = *ptag;
+
+  return pnew_tag;
+}
+
+/**************************************************************************
   Free a text_tag structure.
 **************************************************************************/
 void text_tag_destroy(struct text_tag *ptag)
@@ -735,46 +753,6 @@ int text_tag_link_id(const struct text_tag *ptag)
   }
 
   return ptag->link.id;
-}
-
-/**************************************************************************
-  Clear and free all tags inside the tag list.  It doesn't free the list
-  itself.  It just should be used instead of text_tag_list_clear() which
-  doesn't free the tags.
-**************************************************************************/
-void text_tag_list_clear_all(struct text_tag_list *tags)
-{
-  if (!tags) {
-    return;
-  }
-
-  text_tag_list_iterate(tags, ptag) {
-    text_tag_destroy(ptag);
-  } text_tag_list_iterate_end;
-  text_tag_list_clear(tags);
-}
-
-/**************************************************************************
-  This function returns a new pointer to a text_tag_list which is similar
-  to the 'tags' argument.
-**************************************************************************/
-struct text_tag_list *text_tag_list_dup(const struct text_tag_list *tags)
-{
-  struct text_tag_list *new_tags;
-
-  if (!tags) {
-    return NULL;
-  }
-
-  new_tags = text_tag_list_new();
-  text_tag_list_iterate(tags, ptag) {
-    struct text_tag *pnew_tag = fc_malloc(sizeof(struct text_tag));
-
-    *pnew_tag = *ptag;
-    text_tag_list_append(new_tags, pnew_tag);
-  } text_tag_list_iterate_end;
-
-  return new_tags;
 }
 
 /**************************************************************************
@@ -870,14 +848,14 @@ static size_t extract_sequence_text(const char *featured_text,
 **************************************************************************/
 size_t featured_text_to_plain_text(const char *featured_text,
                                    char *plain_text, size_t plain_text_len,
-                                   struct text_tag_list *tags)
+                                   struct text_tag_list **tags)
 {
   const char *read = featured_text;
   char *write = plain_text;
   size_t write_len = plain_text_len;
 
   if (tags) {
-    text_tag_list_clear_all(tags);
+    *tags = text_tag_list_new();
   }
 
   while (*read != '\0' && write_len > 1) {
@@ -900,7 +878,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
 
             if (text_tag_init_from_sequence(ptag, type,
                                             write - plain_text, buf)) {
-              text_tag_list_append(tags, ptag);
+              text_tag_list_append(*tags, ptag);
             } else {
               text_tag_destroy(ptag);
               log_featured_text("Couldn't create a text tag with \"%s\".",
@@ -914,7 +892,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
             struct text_tag *ptag = NULL;
 
             /* Look up on reversed order. */
-            text_tag_list_rev_iterate(tags, piter) {
+            text_tag_list_rev_iterate(*tags, piter) {
               if (piter->type == type
                   && piter->stop_offset == OFFSET_UNSET) {
                 ptag = piter;
@@ -949,7 +927,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
 
                 *ptag = tag;
                 ptag->stop_offset = write - plain_text;
-                text_tag_list_append(tags, ptag);
+                text_tag_list_append(*tags, ptag);
               }
             }
           }

@@ -121,7 +121,6 @@ void output_window_thaw(void)
     remaining_list_iterate(remains, pline) {
       real_output_window_append(pline->text, pline->tags, pline->conn_id);
       free(pline->text);
-      text_tag_list_clear_all(pline->tags);
       text_tag_list_destroy(pline->tags);
       free(pline);
     } remaining_list_iterate_end;
@@ -148,11 +147,11 @@ void output_window_append(const struct ft_color color,
                           const char *featured_text)
 {
   char plain_text[MAX_LEN_MSG];
-  struct text_tag_list *tags = text_tag_list_new();
+  struct text_tag_list *tags;
 
   /* Separate the text and the tags. */
   featured_text_to_plain_text(featured_text, plain_text,
-                              sizeof(plain_text), tags);
+                              sizeof(plain_text), &tags);
 
   if (ft_color_requested(color)) {
     /* A color is requested. */
@@ -170,7 +169,6 @@ void output_window_append(const struct ft_color color,
 
   if (frozen_level == 0) {
     real_output_window_append(plain_text, tags, -1);
-    text_tag_list_clear_all(tags);
     text_tag_list_destroy(tags);
   } else {
     struct remaining *premain = fc_malloc(sizeof(*premain));
@@ -223,7 +221,7 @@ void output_window_event(const char *plain_text,
 
     remaining_list_append(remains, premain);
     premain->text = mystrdup(plain_text);
-    premain->tags = text_tag_list_dup(tags);
+    premain->tags = text_tag_list_copy(tags);
     premain->conn_id = conn_id;
   }
 }
