@@ -1875,6 +1875,7 @@ void real_menus_update(void)
   GtkActionGroup *playing_group;
   GtkActionGroup *player_group;
   struct unit_list *punits = NULL;
+  bool units_all_same_tile = TRUE;
   GtkMenu *menu;
   char irrtext[128], mintext[128], transtext[128];
   struct terrain *pterrain;
@@ -1890,7 +1891,18 @@ void real_menus_update(void)
   player_group = get_player_group();
 
   if (get_num_units_in_focus() > 0) {
+    const struct tile *ptile = NULL;
     punits = get_units_in_focus();
+    unit_list_iterate(punits, punit) {
+      if (ptile) {
+        if (punit->tile != ptile) {
+          units_all_same_tile = FALSE;
+          break;
+        }
+      } else {
+        ptile = punit->tile;
+      }
+    } unit_list_iterate_end;
   }
 
   gtk_action_group_set_sensitive(edit_group,
@@ -2060,7 +2072,7 @@ void real_menus_update(void)
     menus_rename(unit_group, "BUILD_ROAD", _("Build _Road"));
   }
 
-  if (unit_list_size(punits) == 1) {
+  if (units_all_same_tile) {
     struct unit *punit = unit_list_get(punits, 0);
 
     pterrain = tile_terrain(punit->tile);
