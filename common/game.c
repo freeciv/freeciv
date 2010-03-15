@@ -374,6 +374,8 @@ void game_init(void)
     game.server.scoreturn = GAME_DEFAULT_SCORETURN;
     game.server.seed = GAME_DEFAULT_SEED;
 
+    game.server.killunhomed = GAME_DEFAULT_KILLUNHOMED;
+
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
     sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
 

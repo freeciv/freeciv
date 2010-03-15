@@ -299,13 +299,22 @@ void player_restore_units(struct player *pplayer)
     unit_restore_hitpoints(punit);
 
     /* 3) Check that unit has hitpoints */
-    if (punit->hp<=0) {
-      /* This should usually only happen for heli units,
-       * but if any other units get 0 hp somehow, catch
-       * them too.  --dwp  */
-      notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
-                    _("Your %s has run out of hit points."), 
-                    unit_tile_link(punit));
+    if (punit->hp <= 0) {
+      /* This should usually only happen for heli units, but if any other
+       * units get 0 hp somehow, catch them too.  --dwp  */
+      /* if 'game.server.killunhomed' is activated unhomed units are slowly
+       * killed; notify player here */
+      if (!punit->homecity && 0 < game.server.killunhomed) {
+        notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC,
+                      ftc_server, "Your %s has run out of hit points "
+                                  "because it has no supporting homecity.",
+                      unit_tile_link(punit));
+      } else {
+        notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
+                      _("Your %s has run out of hit points."),
+                      unit_tile_link(punit));
+      }
+
       wipe_unit(punit);
       continue; /* Continue iterating... */
     }
@@ -427,6 +436,9 @@ void player_restore_units(struct player *pplayer)
   will actually not loose hp's every turn if player have that wonder.
   Units which have moved don't gain hp, except the United Nations and
   helicopter effects still occur.
+
+  If 'game.server.killunhomed' is greater than 0, unhomed units loose
+  'game.server.killunhomed' hitpoints each turn, killing the unit at the end.
 *****************************************************************************/
 static void unit_restore_hitpoints(struct unit *punit)
 {
@@ -434,10 +446,16 @@ static void unit_restore_hitpoints(struct unit *punit)
   struct unit_class *class = unit_class(punit);
   struct city *pcity = tile_city(punit->tile);
 
-  was_lower=(punit->hp < unit_type(punit)->hp);
+  was_lower = (punit->hp < unit_type(punit)->hp);
 
-  if(!punit->moved) {
-    punit->hp+=hp_gain_coord(punit);
+  if (!punit->homecity && 0 < game.server.killunhomed) {
+    /* hit point loss of units without homecity; at least 1 hp! */
+    punit->hp -= MAX(unit_type(punit)->hp * game.server.killunhomed / 100,
+                     1);
+  }
+
+  if (!punit->moved) {
+    punit->hp += hp_gain_coord(punit);
   }
 
   /* Bonus recovery HP (traditionally from the United Nations) */
@@ -448,14 +466,16 @@ static void unit_restore_hitpoints(struct unit *punit)
     punit->hp -= unit_type(punit)->hp * class->hp_loss_pct / 100;
   }
 
-  if(punit->hp>=unit_type(punit)->hp) {
-    punit->hp=unit_type(punit)->hp;
-    if(was_lower&&punit->activity==ACTIVITY_SENTRY){
-      set_unit_activity(punit,ACTIVITY_IDLE);
+  if (punit->hp >= unit_type(punit)->hp) {
+    punit->hp = unit_type(punit)->hp;
+    if (was_lower && punit->activity == ACTIVITY_SENTRY) {
+      set_unit_activity(punit, ACTIVITY_IDLE);
     }
   }
-  if(punit->hp<0)
-    punit->hp=0;
+
+  if (punit->hp < 0) {
+    punit->hp = 0;
+  }
 
   punit->moved = FALSE;
   punit->paradropped = FALSE;

@@ -95,6 +95,7 @@ struct civ_game {
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
       bool foggedborders;
+      int killunhomed;   /* slowly killing unhomed units */
       char rulesetdir[MAX_LEN_NAME];
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
@@ -306,6 +307,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_KILLCITIZEN     1
 #define GAME_MIN_KILLCITIZEN         0
 #define GAME_MAX_KILLCITIZEN         ((1 << MOVETYPE_LAST) - 1)
+
+#define GAME_DEFAULT_KILLUNHOMED     0
+#define GAME_MIN_KILLUNHOMED         0
+#define GAME_MAX_KILLUNHOMED         100
 
 #define GAME_DEFAULT_TECHPENALTY     100
 #define GAME_MIN_TECHPENALTY         0

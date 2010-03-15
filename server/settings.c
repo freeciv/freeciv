@@ -963,6 +963,17 @@ static struct setting settings[] = {
           GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
           GAME_DEFAULT_KILLCITIZEN)
 
+  GEN_INT("killunhomed", game.server.killunhomed,
+          SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+          N_("Slowly kill unhomecitied units (eg. startunits)"),
+          N_("If greater than 0, then every unit without a homecity will "
+             "loose hitpoints each turn. The number of hitpoints lost is "
+             "given by 'killunhomed' percent of the hitpoints of the unit "
+             "type. At least one hitpoint is lost every turn until the "
+             "death of the unit."),
+          NULL, NULL, GAME_MIN_KILLUNHOMED, GAME_MAX_KILLUNHOMED,
+          GAME_DEFAULT_KILLUNHOMED)
+
   GEN_INT("borders", game.info.borders,
 	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
 	  N_("National borders"),

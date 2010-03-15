@@ -4704,6 +4704,9 @@ static void game_load_internal(struct section_file *file)
     game.info.killcitizen =
       secfile_lookup_int_default(file, game.info.killcitizen,
                                  "game.killcitizen");
+    game.server.killunhomed =
+      secfile_lookup_int_default(file, game.server.killunhomed,
+                                 "game.killunhomed");
     game.info.savepalace =
       secfile_lookup_bool_default(file, game.info.savepalace,
                                   "game.savepalace");
@@ -5454,6 +5457,7 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.diplchance, "game.diplchance");
   secfile_insert_int(file, game.info.aqueductloss, "game.aqueductloss");
   secfile_insert_int(file, game.info.killcitizen, "game.killcitizen");
+  secfile_insert_int(file, game.server.killunhomed, "game.killunhomed");
   secfile_insert_bool(file, game.info.savepalace, "game.savepalace");
   secfile_insert_bool(file, game.info.turnblock, "game.turnblock");
   secfile_insert_bool(file, game.info.fixedlength, "game.fixedlength");
