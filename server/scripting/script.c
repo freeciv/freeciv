@@ -121,10 +121,12 @@ static int script_call(lua_State *L, int narg, int nret)
 {
   int status;
   int base = lua_gettop(L) - narg;  /* Function index */
+  /* stack the debug.traceback function */
+  lua_getglobal(L, "debug");
+  lua_getfield(L, -1, "traceback");
+  lua_insert(L, base);
+  lua_pop(L, 1); /* Pop debug table */
 
-  lua_pushliteral(L, "_TRACEBACK");
-  lua_rawget(L, LUA_GLOBALSINDEX);  /* Get traceback function */
-  lua_insert(L, base);  /* Put it under chunk and args */
   status = lua_pcall(L, narg, nret, base);
   if (status) {
     script_report(state, status, NULL);
