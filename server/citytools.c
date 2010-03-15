@@ -774,8 +774,6 @@ static void reestablish_city_trade_routes(struct city *pcity)
   for (i = 0; i < NUM_TRADE_ROUTES; i++) {
     ptrade_city = game_find_city_by_number(pcity->trade[i]);
 
-    fc_assert_action(pcity->trade[i] == 0 || ptrade_city != NULL, continue);
-
     if (!ptrade_city) {
       /* no trade route on this slot */
       continue;
@@ -1319,7 +1317,10 @@ void remove_city(struct city *pcity)
   for (o = 0; o < NUM_TRADE_ROUTES; o++) {
     struct city *pother_city = game_find_city_by_number(pcity->trade[o]);
 
-    fc_assert_action(pcity->trade[o] == 0 || pother_city != NULL, continue);
+    if (!pother_city) {
+      continue;
+    }
+
     remove_trade_route(pother_city, pcity);
   }
 
