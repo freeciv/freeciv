@@ -53,5 +53,6 @@ bool api_methods_city_has_building(City *pcity, Building_Type *building);
 bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building);
 
 void api_methods_player_victory(Player *pplayer);
+int api_methods_player_number(Player *pplayer);
 
 #endif /* FC__API_METHODS_H */
