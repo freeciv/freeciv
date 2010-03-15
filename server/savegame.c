@@ -1279,7 +1279,7 @@ static void map_load(struct section_file *file,
 /***************************************************************
 ...
 ***************************************************************/
-static void map_save(struct section_file *file)
+static void map_save(struct section_file *file, bool save_players)
 {
   int i;
 
@@ -1287,6 +1287,8 @@ static void map_save(struct section_file *file)
    * are now always saved in game_save()
    */
 
+  /* NB: Start positions are not players-depedent, so we are ignoring
+   * save_players here. */
   secfile_insert_bool(file, game.server.save_options.save_starts,
                       "game.save_starts");
   if (game.server.save_options.save_starts) {
@@ -1390,7 +1392,10 @@ static void map_save(struct section_file *file)
 			 get_savegame_bases(ptile->bases, mod));
   } bases_halfbyte_iterate_end;
 
-  /* Store owner and ownership source as plain numbers */
+  /* Store owner and ownership source as plain numbers.
+   *
+   * Note: even if save_players is off we need to save it (but set all tiles
+   * without owner) because servers cannot load a map without owners. */
   {
     int x, y;
 
@@ -1402,10 +1407,11 @@ static void map_save(struct section_file *file)
         char token[TOKEN_SIZE];
         struct tile *ptile = native_pos_to_tile(x, y);
 
-        if (tile_owner(ptile) == NULL) {
+        if (!save_players || tile_owner(ptile) == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", player_number(tile_owner(ptile)));
+          my_snprintf(token, sizeof(token),
+                      "%d", player_number(tile_owner(ptile)));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1436,39 +1442,43 @@ static void map_save(struct section_file *file)
     }
   }
 
-  secfile_insert_bool(file, game.server.save_options.save_known,
-                      "game.save_known");
-  if (game.server.save_options.save_known) {
-    int known[MAP_INDEX_SIZE];
+  if (!save_players) {
+    secfile_insert_bool(file, FALSE, "game.save_known");
+  } else {
+    secfile_insert_bool(file, game.server.save_options.save_known,
+                        "game.save_known");
+    if (game.server.save_options.save_known) {
+      int known[MAP_INDEX_SIZE];
 
-    /* HACK: we convert the data into a 32-bit integer, and then save it as
-     * hex. */
-    memset(known, 0, sizeof(known));
-    whole_map_iterate(ptile) {
-      players_iterate(pplayer) {
-	if (map_is_known(ptile, pplayer)) {
-	  known[tile_index(ptile)] |= (1u << player_index(pplayer));
-	}
-      } players_iterate_end;
-    } whole_map_iterate_end;
+      /* HACK: we convert the data into a 32-bit integer, and then save it as
+       * hex. */
+      memset(known, 0, sizeof(known));
+      whole_map_iterate(ptile) {
+        players_iterate(pplayer) {
+          if (map_is_known(ptile, pplayer)) {
+            known[tile_index(ptile)] |= (1u << player_index(pplayer));
+          }
+        } players_iterate_end;
+      } whole_map_iterate_end;
 
-    /* put 4-bit segments of the 32-bit "known" field */
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.a%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 0));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.b%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 1));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.c%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 2));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.d%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 3));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.e%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 4));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.g%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 5));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.h%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 6));
-    SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
-			 bin2ascii_hex(known[tile_index(ptile)], 7));
+      /* put 4-bit segments of the 32-bit "known" field */
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.a%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 0));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.b%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 1));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.c%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 2));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.d%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 3));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.e%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 4));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.g%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 5));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.h%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 6));
+      SAVE_NORMAL_MAP_DATA(ptile, file, "map.i%03d",
+                           bin2ascii_hex(known[tile_index(ptile)], 7));
+    }
   }
 }
 
@@ -5534,8 +5544,18 @@ void game_save(struct section_file *file, const char *save_reason,
 
   secfile_insert_str(file, game.server.rulesetdir, "game.rulesetdir");
 
+  if (!game_was_started()) {
+    save_players = FALSE;
+  } else if (scenario) {
+    save_players = game.scenario.players;
+  } else {
+    save_players = TRUE;
+  }
+
+  secfile_insert_bool(file, save_players, "game.save_players");
+
   if (!map_is_empty()) {
-    map_save(file);
+    map_save(file, save_players);
   }
   
   script_state_save(file);
@@ -5544,14 +5564,6 @@ void game_save(struct section_file *file, const char *save_reason,
     return; /* want to save scenarios as well */
   }
 
-  if (scenario) {
-    save_players = game.scenario.players;
-  } else {
-    save_players = TRUE;
-  }
-
-  secfile_insert_bool(file, save_players,
-		      "game.save_players");
   if (save_players) {
     /* 1.14 servers depend on improvement order in ruleset. Here we
      * are trying to simulate 1.14.1 default order
