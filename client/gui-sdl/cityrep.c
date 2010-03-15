@@ -1130,7 +1130,7 @@ void city_report_dialog_update(void)
 /**************************************************************************
   Update the city report dialog for a single city.
 **************************************************************************/
-void city_report_dialog_update_city(struct city *pCity)
+void real_city_report_update_city(struct city *pCity)
 {
   if(pCityRep && pCity && !is_report_dialogs_frozen()) {
     struct widget *pBuf = pCityRep->pEndActiveWidgetList;

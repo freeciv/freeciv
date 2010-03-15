@@ -310,6 +310,16 @@ enum citizen_feeling {
   FEELING_LAST
 };
 
+/* This enumerators are used at client side only (so changing it doesn't
+ * break the compability) to mark that the city need specific gui updates
+ * (e.g. city dialog, or city report). */
+enum city_updates {
+  CU_NO_UPDATE          = 0,
+  CU_UPDATE_REPORT      = 1 << 0,
+  CU_UPDATE_DIALOG      = 1 << 1,
+  CU_POPUP_DIALOG       = 1 << 2
+};
+
 struct city {
   char name[MAX_LEN_NAME];
   struct tile *tile; /* May be NULL, should check! */
@@ -405,6 +415,9 @@ struct city {
     /* The color is an index into the city_colors array in mapview_common */
     bool colored;
     int color_index;
+
+    /* Updates needed for the city. */
+    enum city_updates need_updates;
   } client;
 
   struct {

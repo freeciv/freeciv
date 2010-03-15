@@ -19,10 +19,13 @@
 
 void popup_city_report_dialog(bool raise);
 void city_report_dialog_update(void);
-void city_report_dialog_update_city(struct city *pcity);
+void real_city_report_update_city(struct city *pcity);
 
 /* Area Selection on canvas */
 void hilite_cities_from_canvas(void);
 void toggle_city_hilite(struct city *pcity, bool on_off);
+
+/* Actually defined in update_queue.c */
+void city_report_dialog_update_city(struct city *pcity);
 
 #endif  /* FC__CITYREP_G_H */

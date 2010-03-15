@@ -586,7 +586,7 @@ void city_report_dialog_update(void)
 /****************************************************************
   Update the text for a single city in the city report
 *****************************************************************/
-void city_report_dialog_update_city(struct city *pcity)
+void real_city_report_update_city(struct city *pcity)
 {
   int i;
 

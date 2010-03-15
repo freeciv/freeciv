@@ -2799,6 +2799,7 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->client.unhappy = FALSE;
   pcity->client.colored = FALSE;
   pcity->client.color_index = FALSE;
+  pcity->client.need_updates = CU_NO_UPDATE;
 
   pcity->server.migration_score = 0.0; /* Updated by check_city_migrations. */
   pcity->server.mgr_score_calc_turn = -1; /* -1 = never */

@@ -20,7 +20,13 @@
 #include "log.h"
 #include "support.h"            /* bool */
 
+/* common */
+#include "city.h"
+#include "player.h"
+
 /* include */
+#include "citydlg_g.h"
+#include "cityrep_g.h"
 #include "gui_main_g.h"
 #include "menu_g.h"
 
@@ -295,4 +301,75 @@ void menus_update(void)
   if (!update_queue_has_callback(menus_update_callback, NULL)) {
     update_queue_add(menus_update_callback, FC_INT_TO_PTR(FALSE));
   }
+}
+
+
+/****************************************************************************
+  Update cities gui.
+****************************************************************************/
+static void cities_update_callback(void *data)
+{
+#ifdef DEBUG
+#define NEED_UPDATE(city_update, action)                                    \
+  if (city_update & need_update) {                                          \
+    action;                                                                 \
+    need_update &= ~city_update;                                            \
+  }
+#else
+#define NEED_UPDATE(city_update, action)                                    \
+  if (city_update & need_update) {                                          \
+    action;                                                                 \
+  }
+#endif /* DEBUG */
+
+  cities_iterate(pcity) {
+    enum city_updates need_update = pcity->client.need_updates;
+
+    if (CU_NO_UPDATE == need_update) {
+      continue;
+    }
+
+    /* Clear all updates. */
+    pcity->client.need_updates = CU_NO_UPDATE;
+
+    NEED_UPDATE(CU_UPDATE_REPORT, real_city_report_update_city(pcity));
+    NEED_UPDATE(CU_UPDATE_DIALOG, real_city_dialog_refresh(pcity));
+    NEED_UPDATE(CU_POPUP_DIALOG, real_city_dialog_popup(pcity));
+
+#ifdef DEBUG
+    if (CU_NO_UPDATE != need_update) {
+      log_error("Some city updates not handled "
+                "for city %s (id %d): %d left.",
+                city_name(pcity), pcity->id, need_update);
+    }
+#endif /* DEBUG */
+  } cities_iterate_end;
+#undef NEED_UPDATE
+}
+
+/****************************************************************************
+  Request the city dialog to be popped up for the city.
+****************************************************************************/
+void popup_city_dialog(struct city *pcity)
+{
+  pcity->client.need_updates |= CU_POPUP_DIALOG;
+  update_queue_add(cities_update_callback, NULL);
+}
+
+/****************************************************************************
+  Request the city dialog to be updated for the city.
+****************************************************************************/
+void refresh_city_dialog(struct city *pcity)
+{
+  pcity->client.need_updates |= CU_UPDATE_DIALOG;
+  update_queue_add(cities_update_callback, NULL);
+}
+
+/****************************************************************************
+  Request the city to be updated in the city report.
+****************************************************************************/
+void city_report_dialog_update_city(struct city *pcity)
+{
+  pcity->client.need_updates |= CU_UPDATE_REPORT;
+  update_queue_add(cities_update_callback, NULL);
 }

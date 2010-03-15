@@ -361,7 +361,7 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-void refresh_city_dialog(struct city *pcity)
+void real_city_dialog_refresh(struct city *pcity)
 {
   struct city_dialog *pdialog = get_city_dialog(pcity);
 
@@ -425,7 +425,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity)
+void real_city_dialog_popup(struct city *pcity)
 {
   struct city_dialog *pdialog;
 
@@ -1314,7 +1314,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   dialog_list_prepend(dialog_list, pdialog);
 
-  refresh_city_dialog(pdialog->pcity);
+  real_city_dialog_refresh(pdialog->pcity);
 
   /* need to do this every time a new dialog is opened. */
   city_dialog_update_prev_next();
@@ -2912,7 +2912,7 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   can_slide = FALSE;
   center_tile_mapcanvas(pdialog->pcity->tile);
   can_slide = TRUE;
-  set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
+  set_cityopt_values(pdialog);	/* need not be in real_city_dialog_refresh */
 
-  refresh_city_dialog(pdialog->pcity);
+  real_city_dialog_refresh(pdialog->pcity);
 }

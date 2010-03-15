@@ -345,7 +345,7 @@ bool city_dialog_is_open(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
-void refresh_city_dialog(struct city *pcity)
+void real_city_dialog_refresh(struct city *pcity)
 {
   struct city_dialog *pdialog;
   
@@ -417,7 +417,7 @@ void refresh_unit_city_dialogs(struct unit *punit)
 /****************************************************************
 popup the dialog 10% inside the main-window 
 *****************************************************************/
-void popup_city_dialog(struct city *pcity)
+void real_city_dialog_popup(struct city *pcity)
 {
   struct city_dialog *pdialog;
   
@@ -1059,7 +1059,7 @@ struct city_dialog *create_city_dialog(struct city *pcity)
 
   XtRealizeWidget(pdialog->shell);
 
-  refresh_city_dialog(pdialog->pcity);
+  real_city_dialog_refresh(pdialog->pcity);
 /*
   if(make_modal)
     XtSetSensitive(toplevel, FALSE);

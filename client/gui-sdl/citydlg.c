@@ -3632,7 +3632,7 @@ static void rebuild_citydlg_title_str(struct widget *pWindow,
   Pop up (or bring to the front) a dialog for the given city.  It may or
   may not be modal.
 **************************************************************************/
-void popup_city_dialog(struct city *pCity)
+void real_city_dialog_popup(struct city *pCity)
 {
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_Surface *pLogo = NULL;
@@ -3913,7 +3913,7 @@ void popdown_all_city_dialogs(void)
 /**************************************************************************
   Refresh (update) all data for the given city's dialog.
 **************************************************************************/
-void refresh_city_dialog(struct city *pCity)
+void real_city_dialog_refresh(struct city *pCity)
 {
   if (city_dialog_is_open(pCity)) {
     redraw_city_dialog(pCityDlg->pCity);
