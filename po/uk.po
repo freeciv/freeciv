@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-03-15 19:03+0300\n"
+"PO-Revision-Date: 2010-03-15 19:51+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -11006,9 +11006,9 @@ msgstr "Шансів на виграш: А:%d%% З:%d%%"
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
 #: client/text.c:369
-#, fuzzy, c-format
+#, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
-msgstr "А:%d З:%d СВ:%d З:%d/%d%s%s"
+msgstr "А:%d З:%d СВ:%d ЗД:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
 #: client/text.c:378
@@ -11041,14 +11041,12 @@ msgid "from %s"
 msgstr "з %s"
 
 #: client/text.c:584
-#, fuzzy
 msgid "Progress: no research"
-msgstr "Рахунки:"
+msgstr "Прогрес: не досліджується"
 
 #: client/text.c:589
-#, fuzzy
 msgid "Progress: no research target"
-msgstr "Рахунки:"
+msgstr "Прогрес: нема мети досліджень"
 
 #: client/text.c:594
 #, fuzzy, c-format
@@ -12901,9 +12899,8 @@ msgid "Player"
 msgstr "Гравець"
 
 #: client/gui-gtk-2.0/editprop.c:618
-#, fuzzy
 msgid "?play:Game"
-msgstr "?місто:Назва"
+msgstr "Почати гру"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -13075,9 +13072,8 @@ msgid "Fuel"
 msgstr "Паливо"
 
 #: client/gui-gtk-2.0/editprop.c:3777
-#, fuzzy
 msgid "Moved"
-msgstr "Рухи"
+msgstr "Рухався"
 
 #: client/gui-gtk-2.0/editprop.c:3779
 msgid "Done Moving"
@@ -13086,7 +13082,7 @@ msgstr "Рухи завершено"
 #. TRANS: HP = Hit Points of a unit.
 #: client/gui-gtk-2.0/editprop.c:3782
 msgid "HP"
-msgstr ""
+msgstr "ЗД"
 
 #: client/gui-gtk-2.0/editprop.c:3784
 #: client/gui-sdl/dialogs.c:670
@@ -13112,7 +13108,6 @@ msgid "Shield Stock"
 msgstr "Виробництво"
 
 #: client/gui-gtk-2.0/editprop.c:3816
-#, fuzzy
 msgid "Inventions"
 msgstr "Винахідництво"
 
@@ -13133,9 +13128,8 @@ msgid "Scenario Description"
 msgstr "Опис сценарію"
 
 #: client/gui-gtk-2.0/editprop.c:3832
-#, fuzzy
 msgid "Save Players"
-msgstr "Міста"
+msgstr "Зберегти гравців"
 
 #: client/gui-gtk-2.0/editprop.c:4109
 msgid "Destroy"
@@ -13176,9 +13170,8 @@ msgid "Pressing this button will reset all modified properties of the selected o
 msgstr "Якщо натиснути цю кнопку, усі змінені властивості виділених об'єктів буде повернути до їхніх поточних значень (значень, які в них є на сервері)."
 
 #: client/gui-gtk-2.0/editprop.c:5363
-#, fuzzy
 msgid "Property Editor"
-msgstr "Редактор Плану Будівництва"
+msgstr "Редактор властивостей"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5729
@@ -13646,9 +13639,9 @@ msgid "_Techs"
 msgstr "Так"
 
 #: client/gui-gtk-2.0/inteldlg.c:305
-#, fuzzy, c-format
+#, c-format
 msgid "Foreign Intelligence: %s Empire"
-msgstr "Звіт іноземної розвідки"
+msgstr "Іноземна розвідка: Імперія %s"
 
 #: client/gui-gtk-2.0/mapctrl.c:182
 #: client/gui-win32/mapctrl.c:353
@@ -14914,11 +14907,12 @@ msgstr ""
 "(%)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1318
-#, fuzzy
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
-msgstr "Місцевість"
+msgstr ""
+"Площа території\n"
+"(кв. миль)"
 
 #: client/gui-gtk-2.0/repodlgs.c:1319
 msgid ""
@@ -15690,9 +15684,9 @@ msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
 msgstr "Контактувати %s (%d / %d) %s(%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:680
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "А:%d З:%d СВ:%d З:%d0%%"
+msgstr "%s %s %s(А:%d З:%d Х:%d СВ:%d) ЗД:%d%%"
 
 #: client/gui-sdl/dialogs.c:692
 #: client/gui-sdl/dialogs.c:1435
@@ -15750,9 +15744,9 @@ msgstr "Активувати %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1423
 #: client/gui-sdl/dialogs.c:1548
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
-msgstr "А:%d З:%d СВ:%d З:%d0%%"
+msgstr "%s %s %s (А:%d З:%d Х:%d СВ:%d) ЗД:%d%%"
 
 #: client/gui-sdl/dialogs.c:1484
 #: client/gui-win32/dialogs.c:776
@@ -16107,9 +16101,9 @@ msgid "Foreign Intelligence Report"
 msgstr "Звіт іноземної розвідки"
 
 #: client/gui-sdl/inteldlg.c:261
-#, fuzzy, c-format
+#, c-format
 msgid "Intelligence Information about the %s Spaceship"
-msgstr "Розвідувальна інформація по Імперії нації %s"
+msgstr "Розвідка доповідає про космічний корабель нації %s"
 
 #: client/gui-sdl/inteldlg.c:269
 #: client/gui-win32/inteldlg.c:95
@@ -16119,7 +16113,7 @@ msgid "Intelligence Information for the %s Empire"
 msgstr "Розвідувальна інформація по Імперії нації %s"
 
 #: client/gui-sdl/inteldlg.c:292
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Ruler: %s %s  Government: %s\n"
 "Capital: %s  Gold: %d\n"
@@ -16129,7 +16123,7 @@ msgstr ""
 "Правитель: %s %s  Уряд: %s\n"
 "Столиця: %s  Гроші: %d\n"
 "Податки: %d%% Наука: %d%% Розкіш: %d%%\n"
-"Досліджує: Невідомо"
+"Досліджує: невідомо"
 
 #: client/gui-sdl/inteldlg.c:304
 #, c-format
@@ -16247,22 +16241,14 @@ msgstr ""
 "%s."
 
 #: client/gui-sdl/mapview.c:415
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d "
-msgstr ""
-"Населення: %s\n"
-"Рік: %s\n"
-"Грошей: %d\n"
-"Под: %d Роз: %d Наука: %d"
+msgstr "%s Населення: %s  Рік: %s  Гроші %d "
 
 #: client/gui-sdl/mapview.c:423
-#, fuzzy, c-format
+#, c-format
 msgid "%s Population: %s  Year: %s  Gold %d Tax: %d Lux: %d Sci: %d "
-msgstr ""
-"Населення: %s\n"
-"Рік: %s\n"
-"Грошей: %d\n"
-"Под: %d Роз: %d Наука: %d"
+msgstr "%s Населення: %s  Рік: %s  Гроші %d Подат: %d Розк: %d Наука: %d "
 
 #: client/gui-sdl/mapview.c:534
 #: data/default/units.ruleset:28
@@ -16318,7 +16304,6 @@ msgstr ""
 "Місто %s"
 
 #: client/gui-sdl/mapview.c:617
-#, fuzzy
 msgid "?blistbegin: with "
 msgstr " з "
 
@@ -16421,9 +16406,8 @@ msgid "Go to City"
 msgstr "До міста"
 
 #: client/gui-sdl/menu.c:476
-#, fuzzy
 msgid "Airlift to City"
-msgstr "Йти/Летіти у місто"
+msgstr "Летіти до міста"
 
 #: client/gui-sdl/menu.c:488
 #: client/gui-xaw/menu.c:206
@@ -16612,9 +16596,8 @@ msgid "Plant Forest"
 msgstr "Посадити ліс"
 
 #: client/gui-sdl/menu.c:1152
-#, fuzzy
 msgid "Transform to"
-msgstr "Трансформувати у %s"
+msgstr "Трансформувати в"
 
 #: client/gui-sdl/optiondlg.c:177
 #: client/gui-win32/wldlg.c:303
@@ -16647,9 +16630,8 @@ msgstr ""
 "%dx%d"
 
 #: client/gui-sdl/optiondlg.c:557
-#, fuzzy
 msgid "No modes available!"
-msgstr "Див немає"
+msgstr "Немає доступних режимів!"
 
 #: client/gui-sdl/optiondlg.c:563
 msgid "All resolutions available."
@@ -17407,9 +17389,8 @@ msgid "Password:"
 msgstr "Пароль:"
 
 #: client/gui-win32/connectdlg.c:172
-#, fuzzy
 msgid "Couldn't load the savegame"
-msgstr "Не можу завантажити гру: %s"
+msgstr "Не вдалося завантажити гру"
 
 #: client/gui-win32/connectdlg.c:287
 #: client/gui-xaw/connectdlg.c:312
@@ -17530,7 +17511,6 @@ msgid "%s view:"
 msgstr "погляд %s:"
 
 #: client/gui-win32/diplodlg.c:678
-#, fuzzy
 msgid "Erase Clause"
 msgstr "Видалити пункт"
 
@@ -17702,9 +17682,8 @@ msgid "Transf_orm to Hills"
 msgstr "Трансформувати у пагорби"
 
 #: client/gui-win32/menu.c:387
-#, fuzzy
 msgid "Connect With"
-msgstr "Приє'днатись"
+msgstr "З'єднатися з"
 
 #: client/gui-win32/menu.c:388
 #, fuzzy
@@ -18131,9 +18110,8 @@ msgid "City Production Levels"
 msgstr "Виробництво міст"
 
 #: client/gui-xaw/menu.c:207
-#, fuzzy
 msgid "Go to/Airlift to City..."
-msgstr "Йти/Летіти у місто"
+msgstr "Рухатись/Летіти до міста..."
 
 #: client/gui-xaw/menu.c:216
 msgid "Select Same Type Everywhere"
@@ -18207,7 +18185,7 @@ msgid "Could not write manual file %s."
 msgstr "Не можу записати файл скрипту '%s'."
 
 #: manual/civmanual.c:137
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<h1>Freeciv %s server options</h1>\n"
 "\n"
@@ -18306,9 +18284,8 @@ msgid "Resources"
 msgstr "Ресурси"
 
 #: manual/civmanual.c:215
-#, fuzzy
 msgid "Move cost"
-msgstr "Ціна руху: %ld"
+msgstr "Вартість руху"
 
 #: manual/civmanual.c:215
 #, fuzzy
@@ -18325,9 +18302,8 @@ msgid "turns"
 msgstr "ходів"
 
 #: manual/civmanual.c:219
-#, fuzzy
 msgid "Rail"
-msgstr "Парусник"
+msgstr "Залізниця"
 
 #: manual/civmanual.c:220
 #, fuzzy
@@ -19108,9 +19084,8 @@ msgid "Tiles that do not have such terrain alterations cannot be pillaged. In ad
 msgstr "Клітини без покращань територій (ферм, зрошень, шахт, укріплень, авіабаз, залізниць або шляхів) не можуть піддаватися руйнуванню. На додаток, зміни територій та їх трансформації не можуть бути повернені через руйнування. Наприклад, якщо Ви зробили зрошення на лісовій клітинці та змінили її на, рівнину, руйнування не змінить її назад до лісу - аби зробити це, Ви повинні змінити клітину знову Колоністами або Інженерами."
 
 #: data/helpdata.txt:430
-#, fuzzy
 msgid " Villages"
-msgstr "Руйнує"
+msgstr " Хутори"
 
 #: data/helpdata.txt:431
 msgid "Villages (also called \"huts\") are primitive communities spread across the world at the beginning of the game. Any land unit can enter a village, making the village disappear and deliver a random response. If the village proves hostile, it could produce barbarians or the unit entering may simply be destroyed. If they are friendly, the player could receive gold, a new technology, a military unit (occasionally a settler; and sometimes a unit that the player cannot yet create), or even a new city."
@@ -19145,9 +19120,8 @@ msgid "The products which your cities extract from the surrounding terrain are t
 msgstr ""
 
 #: data/helpdata.txt:480
-#, fuzzy
 msgid " Food"
-msgstr "Їжа"
+msgstr " Їжа"
 
 #: data/helpdata.txt:481
 msgid "Your population needs food to survive. Each citizen requires two food points per turn; in addition, some units (such as Settlers in the default ruleset) may require food points from the city supporting them."
@@ -19162,9 +19136,8 @@ msgid "Excess food can increase the population: the city granary has a limited c
 msgstr ""
 
 #: data/helpdata.txt:505
-#, fuzzy
 msgid " Production"
-msgstr "Виробництво"
+msgstr " Виробництво"
 
 #: data/helpdata.txt:506
 msgid "Production points (also known as \"shields\") represent manufacturing output. Most units require production points as upkeep, and demand them from their home city, although under autocratic regimes each city supports a few units for free. If city production drops too low, the units that cannot be supported are automatically disbanded. Units can also be disbanded at any time. If a unit is disbanded while in a city, half of its production cost will be put towards that city's surplus."
@@ -19191,9 +19164,8 @@ msgid "Cities with a large production output generate pollution; see the section
 msgstr ""
 
 #: data/helpdata.txt:547
-#, fuzzy
 msgid " Trade"
-msgstr "Торгівля"
+msgstr " Торгівля"
 
 #: data/helpdata.txt:548
 msgid "Trade points reflect wealth generated in each city by external commerce. Some trade points may be lost to corruption, which varies among forms of government, and tends to increase with distance from your capital city. Each city distributes its remaining trade points among three uses: gold, in the form of taxes, goes into your national treasury; luxury points influence citizen morale; and science points (\"bulbs\") contribute towards the discovery of new technology."
@@ -19264,9 +19236,8 @@ msgid "Cities may be enhanced with a wide variety of buildings, which can improv
 msgstr "Міста можна покращувати різноманітними будівлями, які можуть збільшити їхню продуктивність, військову силу чи надати їм нових можливостей. Перегляньте розділ Будівлі Міста та Дива Світу, щоб дізнатися більше."
 
 #: data/helpdata.txt:679
-#, fuzzy
 msgid " Happiness"
-msgstr "Щастя"
+msgstr " Щастя"
 
 #: data/helpdata.txt:680
 #, fuzzy
@@ -23613,9 +23584,8 @@ msgid "?plural:Americans"
 msgstr "Американці"
 
 #: data/nation/american.ruleset:6
-#, fuzzy
 msgid "Formally named the United States of America.  Independent from Great Britain after a revolution in 1776-1783 AD."
-msgstr "Офіційна назва Сполучені Штати Амеріки. Незалежні від Великої Британії після революції у 1776-1783 н.е."
+msgstr "Офіційна назва: Сполучені Штати Америки. Незалежні від Великої Британії після революції у 1776-1783 н.е."
 
 #: data/nation/american.ruleset:51
 #: data/nation/confederate.ruleset:25
@@ -24902,9 +24872,8 @@ msgid "?plural:Filipinos"
 msgstr "Філіпінци"
 
 #: data/nation/filipino.ruleset:7
-#, fuzzy
 msgid "After centuries of Spanish rule, the Philippines were ceded to the Americans in 1898. They attained home rule in 1935 and independence in 1946."
-msgstr "Після звільнення від Іспанського керування, Філіпіни були захоплені Амеріканціми у 1898. Вони отримали самоврядування у 1935 та незалежність у 1946."
+msgstr "Після звільнення від Іспанського керування, Філіппіни були захоплені Американцями у 1898. Вони отримали самоврядування у 1935 та незалежність у 1946."
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
@@ -25548,9 +25517,8 @@ msgid "?plural:Koreans"
 msgstr "Корейці"
 
 #: data/nation/korean.ruleset:6
-#, fuzzy
 msgid "According to legend, the first Korean kingdom was founded in prehistory by the ancestral Tangun in southern Manchuria. The Korean kingdoms were united in 668 by king Munmu. Today the Korean peninsula is divided into two states, North and South Korea as a result of the stalemate after the Korean war in 1953."
-msgstr "Згідно із легендою, перше корейське королівство було засновано у доісторичні часи родом Тангун у південній Манчжурії. Корейські королівства були об'єднані у 668 році королем Мунму. Зараз Корейський півострів поділений між двома країнами, Північной та Південной Кореями як тупіковий результат Корейскої війни 1953 року."
+msgstr "Згідно легенди, перше корейське королівство було засновано у доісторичні часи родом Тангун у південній Маньчжурії. Корейські королівства були об'єднані у 668 році королем Мунму. Зараз Корейський півострів поділений між двома країнами, Північною та Південною Кореями внаслідок патового становища після Корейської війни 1953 року."
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
