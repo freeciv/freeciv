@@ -1859,7 +1859,10 @@ void section_destroy(struct section *psection)
 
   if ((secfile = psection->secfile)) {
     /* Detach from secfile. */
-    section_list_remove(secfile->sections, psection);
+    if (section_list_remove(secfile->sections, psection)) {
+      /* This has called section_destroy() already then. */
+      return;
+    }
     if (NULL != secfile->hash.sections) {
       hash_delete_entry(secfile->hash.sections, psection->name);
     }
@@ -2148,7 +2151,10 @@ void entry_destroy(struct entry *pentry)
 
   if ((psection = pentry->psection)) {
     /* Detach from section. */
-    entry_list_remove(psection->entries, pentry);
+    if (entry_list_remove(psection->entries, pentry)) {
+      /* This has called entry_destroy() already then. */
+      return;
+    }
     if ((secfile = psection->secfile)) {
       /* Detach from secfile. */
       secfile->num_entries--;
