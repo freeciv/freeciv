@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-03-03 20:08+0300\n"
+"PO-Revision-Date: 2010-03-15 19:03+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -3696,7 +3696,7 @@ msgstr ""
 #: server/edithand.c:735
 #, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
-msgstr ""
+msgstr "Не можна створити місто на (%d, %d), тому ще це поза мапою!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:744
@@ -25577,14 +25577,12 @@ msgid "Nation in Central Asia. Conquered by the Russian Empire in 19th century, 
 msgstr "Нація у Центральній Азії. Захоплена Російскою Імепрією у 19-му сторіччі, Киргизстан отримав незалежність від Радяньского Союзу у 1991."
 
 #: data/nation/lankese.ruleset:3
-#, fuzzy
 msgid "Lankese"
-msgstr "Японці"
+msgstr "Ланкійці"
 
 #: data/nation/lankese.ruleset:4
-#, fuzzy
 msgid "?plural:Lankese"
-msgstr "Датчани"
+msgstr "Ланкійці"
 
 #: data/nation/lankese.ruleset:6
 msgid "Prince Vijaya came to Sri Lanka from Orissa, in north-eastern India during the 6th century BC and founded the Sinhalese kingdom there. During British colonialism the country was known as Ceylon."
@@ -25645,19 +25643,16 @@ msgid "?plural:Latvians"
 msgstr "Латиші"
 
 #: data/nation/latvian.ruleset:7
-#, fuzzy
 msgid "In the aftermath of World War I Latvia proclaimed its independence from Russia. In 1940, Latvia was forcibly occupied by the Soviet Union. After the collapse of Soviet Union in 1991 Latvia restored its independence."
-msgstr "Після Першої світової війни Латвія проголосила незалежність від Росії. У 1940 році Латвію окупував Радяньский Союз. Після розпаду Радяньского Союзу у 1991 Латвія відновила свою незалежність."
+msgstr "Після Першої світової війни Латвія проголосила незалежність від Росії. У 1940 році Латвію окупував Радянський Союз. Після розпаду Радянського Союзу у 1991 Латвія відновила свою незалежність."
 
 #: data/nation/libyan.ruleset:3
-#, fuzzy
 msgid "Libyan"
-msgstr "Розпустити"
+msgstr "Лівійці"
 
 #: data/nation/libyan.ruleset:4
-#, fuzzy
 msgid "?plural:Libyans"
-msgstr "Латиші"
+msgstr "Лівійці"
 
 #: data/nation/libyan.ruleset:6
 msgid "The region that is now Libya was a Roman colony until it was conquered by the Arab civilization in the 7th century. In 1912 it came under the control of Italy and after the Second World War Libya was granted independence as a condition of the Allied peace treaty with Italy."
@@ -25767,14 +25762,12 @@ msgid "?female:Tun"
 msgstr "Хан"
 
 #: data/nation/malian.ruleset:3
-#, fuzzy
 msgid "Malian"
-msgstr "Гра"
+msgstr "Малійці"
 
 #: data/nation/malian.ruleset:4
-#, fuzzy
 msgid "?plural:Malians"
-msgstr "Італійці"
+msgstr "Малійці"
 
 #: data/nation/malian.ruleset:6
 msgid "Sub-Saharan Africa has been a cultural and ethnical melting pot for millennia. In medieval times, the region was home to a succession of empires called the Sahelian kingdoms. Of these, the Islamic Mali Empire was the most influential. This empire reigned from the 14th to the 17th century and was famed for its wealth and benevolent kings. The modern Republic of Mali derives its name from this empire."
@@ -25782,24 +25775,20 @@ msgstr ""
 
 #. TRANS: Mansa = King of kings
 #: data/nation/malian.ruleset:26
-#, fuzzy
 msgid "Mansa"
-msgstr "Морській десант"
+msgstr "Манса"
 
 #: data/nation/malian.ruleset:26
-#, fuzzy
 msgid "?female:Mansa"
-msgstr "Махатма"
+msgstr "Манса"
 
 #: data/nation/manchu.ruleset:3
-#, fuzzy
 msgid "Manchu"
-msgstr "Березень"
+msgstr "Маньчжури"
 
 #: data/nation/manchu.ruleset:4
-#, fuzzy
 msgid "?plural:Manchus"
-msgstr "Інки"
+msgstr "Маньчжури"
 
 #: data/nation/manchu.ruleset:6
 msgid "The Manchus were a semi-nomadic people originating from the region called Manchuria in Northeast Asia. In the 17th century they conquered and ruled China as the Manchu Empire until 1911."
@@ -25839,9 +25828,8 @@ msgid "Toqui"
 msgstr "Ток'і"
 
 #: data/nation/mapuche.ruleset:19
-#, fuzzy
 msgid "?female:Toqui"
-msgstr "Друід"
+msgstr "Ток'і"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -25939,9 +25927,8 @@ msgid "?plural:Mongols"
 msgstr "Монголи"
 
 #: data/nation/mongol.ruleset:6
-#, fuzzy
 msgid "In the centuries after their unification by Chinggis Khan, the Mongols conquered the largest empire in human history, encompassing most of the continent of Asia.  They became notorious for their utter ruthlessness in warfare."
-msgstr "Після об'єднання Ченгіс Ханом, Монголи створили найбільшу імперію в історії людства, що була розташована на більшость азійського контіненту. Вони були безжальними воїнами."
+msgstr "Протягом століть після їх об'єднання Чингіз Ханом, Монголи створили найбільшу імперію в історії людства, що охоплювала більшу частину Азії. Вони були відомі, як безжальні воїни."
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -26911,9 +26898,8 @@ msgid "Morubixaba"
 msgstr "Морубіксаба"
 
 #: data/nation/tupi.ruleset:24
-#, fuzzy
 msgid "?female:Morubixaba"
-msgstr "Махатма"
+msgstr "Морубіксаба"
 
 #: data/nation/turkmen.ruleset:3
 msgid "Turkmen"
