@@ -104,6 +104,8 @@ bool api_methods_player_has_wonder
         @ methods_player_has_wonder (Player *pplayer, Building_Type *building);
 void api_methods_player_victory
         @ methods_player_victory (Player *pplayer);
+int api_methods_player_number
+        @ methods_player_number (Player *pplayer);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here
@@ -171,6 +173,10 @@ $[
 -- Player methods.
 function Player:is_human()
   return not self.ai_data.control
+end
+
+function Player:number()
+  return methods_player_number(self)
 end
 
 function Player:num_cities()
@@ -301,7 +307,7 @@ $]
 
 /* Object find module. */
 module find {
-  Player *api_find_player @ player (int player_id);
+  Player *api_find_player @ player (int player_number);
   City *api_find_city @ city (Player *pplayer, int city_id);
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
@@ -357,6 +363,8 @@ function _freeciv_state_dump()
       res = res .. k .. '=find.' .. method
       if method == 'city' or method == 'unit' then
          res = res .. '(nil,' .. v.id .. ')'
+      elseif method == 'player' then
+         res = res .. '(' .. v:number() .. ')'
       else
          res = res .. '(' .. v.id .. ')'
       end

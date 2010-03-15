@@ -277,3 +277,12 @@ void api_methods_player_victory(Player *pplayer)
   SCRIPT_ASSERT(NULL != pplayer);
   player_set_winner(pplayer);
 }
+
+/**************************************************************************
+  Return player number
+**************************************************************************/
+int api_methods_player_number(Player *pplayer)
+{
+  SCRIPT_ASSERT(NULL != pplayer, -1);
+  return player_number(pplayer);
+}
