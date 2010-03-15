@@ -81,6 +81,12 @@
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof((x)[0]))
 #define ADD_TO_POINTER(p, n) ((void *)((char *)(p)+(n)))
 
+#define FC_MEMBER(type, member) (((type *) NULL)->member)
+#define FC_MEMBER_OFFSETOF(type, member) ((size_t) &FC_MEMBER(type, member))
+#define FC_MEMBER_SIZEOF(type, member) sizeof(FC_MEMBER(type, member))
+#define FC_MEMBER_ARRAY_SIZE(type, member) \
+  ARRAY_SIZE(FC_MEMBER(type, member))
+
 #define FC_INT_TO_PTR(i) ((void *) (unsigned long) (i))
 #define FC_PTR_TO_INT(p) ((int) (unsigned long) (p))
 #define FC_UINT_TO_PTR(u) ((void *) (unsigned long) (u))
