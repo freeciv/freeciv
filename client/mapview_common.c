@@ -3070,7 +3070,6 @@ static struct link_mark *link_mark_new(enum text_link_type type,
   pmark->type = type;
   pmark->id = id;
   pmark->turn_counter = turns;
-  link_mark_list_append(link_marks, pmark);
 
   return pmark;
 }
@@ -3078,9 +3077,8 @@ static struct link_mark *link_mark_new(enum text_link_type type,
 /********************************************************************** 
   Remove a link mark.
 ***********************************************************************/
-static void link_mark_remove(struct link_mark *pmark)
+static void link_mark_destroy(struct link_mark *pmark)
 {
-  link_mark_list_remove(link_marks, pmark);
   free(pmark);
 }
 
@@ -3166,7 +3164,7 @@ void link_marks_init(void)
     link_marks_free();
   }
 
-  link_marks = link_mark_list_new();
+  link_marks = link_mark_list_new_full(link_mark_destroy);
 }
 
 /********************************************************************** 
@@ -3178,9 +3176,6 @@ void link_marks_free(void)
     return;
   }
 
-  link_marks_iterate(pmark) {
-    free(pmark);
-  } link_marks_iterate_end;
   link_mark_list_destroy(link_marks);
   link_marks = NULL;
 }
@@ -3200,10 +3195,7 @@ void link_marks_draw_all(void)
 ***********************************************************************/
 void link_marks_clear_all(void)
 {
-  link_marks_iterate(pmark) {
-    link_mark_remove(pmark);
-  } link_marks_iterate_end;
-
+  link_mark_list_clear(link_marks);
   update_map_canvas_visible();
 }
 
@@ -3214,7 +3206,7 @@ void link_marks_decrease_turn_counters(void)
 {
   link_marks_iterate(pmark) {
     if (--pmark->turn_counter <= 0) {
-      link_mark_remove(pmark);
+      link_mark_list_remove(link_marks, pmark);
     }
   } link_marks_iterate_end;
 
@@ -3236,6 +3228,7 @@ void link_mark_add_new(enum text_link_type type, int id)
   }
 
   pmark = link_mark_new(type, id, 2);
+  link_mark_list_append(link_marks, pmark);
   ptile = link_mark_tile(pmark);
   if (ptile && tile_visible_mapcanvas(ptile)) {
     refresh_tile_mapcanvas(ptile, FALSE, FALSE);
@@ -3255,6 +3248,7 @@ void link_mark_restore(enum text_link_type type, int id)
   }
 
   pmark = link_mark_new(type, id, 1);
+  link_mark_list_append(link_marks, pmark);
   ptile = link_mark_tile(pmark);
   if (ptile && tile_visible_mapcanvas(ptile)) {
     refresh_tile_mapcanvas(ptile, FALSE, FALSE);
