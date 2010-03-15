@@ -1401,6 +1401,21 @@ void update_menus(void)
       const char *roadtext;
       struct terrain *pterrain;
       struct unit_list *punits = get_units_in_focus();
+      bool units_all_same_tile = TRUE;
+
+      if (punits) {
+        const struct tile *ptile = NULL;
+        unit_list_iterate(punits, punit) {
+          if (ptile) {
+            if (punit->tile != ptile) {
+              units_all_same_tile = FALSE;
+              break;
+            }
+          } else {
+            ptile = punit->tile;
+          }
+        } unit_list_iterate_end;
+      }
 
       sz_strlcpy(irrtext, _("Build _Irrigation"));
       sz_strlcpy(mintext, _("Build _Mine"));
@@ -1516,7 +1531,7 @@ void update_menus(void)
       else
 	menus_rename("<main>/_Orders/Build _Road", _("Build _Road"));
 
-      if (unit_list_size(punits) == 1) {
+      if (units_all_same_tile) {
 	struct unit *punit = unit_list_get(punits, 0);
 
 	pterrain = punit->tile->terrain;
