@@ -412,7 +412,12 @@ void script_free(void)
 **************************************************************************/
 bool script_do_file(const char *filename)
 {
-  return (luaL_dofile(state, filename) == 0);
+  int status = luaL_dofile(state, filename);
+
+  if (status) {
+    status = script_report(state, status, NULL);
+  }
+  return (status == 0);
 }
 
 /**************************************************************************
