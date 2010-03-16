@@ -24,6 +24,35 @@
 #include "api_effects.h"
 
 /************************************************************************
+  Returns the effect bonus in the world
+************************************************************************/
+int api_effects_world_bonus(const char *effect_type)
+{
+  enum effect_type etype = EFT_LAST;
+  etype = effect_type_from_str(effect_type);
+  if (etype == EFT_LAST) {
+    return 0;
+  }
+  return get_world_bonus(etype);
+}
+
+/************************************************************************
+  Returns the effect bonus for a player
+************************************************************************/
+int api_effects_player_bonus(Player *pplayer, const char *effect_type)
+{
+  enum effect_type etype = EFT_LAST;
+
+  SCRIPT_ASSERT(NULL != pplayer, 0);
+
+  etype = effect_type_from_str(effect_type);
+  if (etype == EFT_LAST) {
+    return 0;
+  }
+  return get_player_bonus(pplayer, etype);
+}
+
+/************************************************************************
   Returns the effect bonus at a city.
 ************************************************************************/
 int api_effects_city_bonus(City *pcity, const char *effect_type)

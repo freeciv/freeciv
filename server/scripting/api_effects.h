@@ -16,6 +16,8 @@
 
 #include "api_types.h"
 
+int api_effects_world_bonus(const char *effect_type);
+int api_effects_player_bonus(Player *pplayer, const char *effect_type);
 int api_effects_city_bonus(City *pcity, const char *effect_type);
 
 #endif
