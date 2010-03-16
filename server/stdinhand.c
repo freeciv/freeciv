@@ -1874,7 +1874,8 @@ static bool show_command(struct connection *caller, char *str, bool check)
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0, OFFSET_UNSET,
+                                                  TTT_COLOR, 0,
+                                                  FT_OFFSET_UNSET,
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
@@ -4354,7 +4355,7 @@ void show_players(struct connection *caller)
           n = strlen(buf2);
           featured_text_apply_tag(_(", not ready"),
                                   buf2 + n, sizeof(buf2) - n,
-                                  TTT_COLOR, 1, OFFSET_UNSET,
+                                  TTT_COLOR, 1, FT_OFFSET_UNSET,
                                   ftc_changed);
 	}
       }
