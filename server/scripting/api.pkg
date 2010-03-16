@@ -11,6 +11,13 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
+/****************************************************************************
+  ADVERTISEMENT: do not attempt to change the name of the API functions.
+  They *must* be compatible between the minor Freeciv versions within the
+  same major version. If you really like to change a function name, be sure
+  to keep also the old one running.
+****************************************************************************/
+
 $#ifdef HAVE_CONFIG_H
 $#include <config.h>
 $#endif
@@ -207,6 +214,11 @@ end
 -- Tile methods
 function Tile:city_exists_within_max_city_map(center)
   return methods_tile_city_exists_within_max_city_map(self, center)
+end
+
+-- Deprecated. New one is Tile:city_exists_within_max_city_map().
+function Tile:city_exists_within_city_radius(center)
+  return self.city_exists_within_max_city_map(center)
 end
 
 -- Government methods
