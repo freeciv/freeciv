@@ -229,7 +229,7 @@ bool script_callback_invoke(const char *callback_name,
 			    int nargs, va_list args)
 {
   int nres;
-  bool res;
+  bool stop_emission = FALSE;
 
   /* The function name */
   lua_getglobal(state, callback_name);
@@ -249,19 +249,15 @@ bool script_callback_invoke(const char *callback_name,
 
   nres = lua_gettop(state);
 
+  /* Shall we stop the emission of this signal? */
   if (nres == 1) {
     if (lua_isboolean(state, -1)) {
-      res = lua_toboolean(state, -1);
-
-      /* Shall we stop the emission of this signal? */
-      if (res) {
-	return TRUE;
-      }
+      stop_emission = lua_toboolean(state, -1);
     }
   }
 
   lua_pop(state, nres);
-  return FALSE;
+  return stop_emission;
 }
 
 /**************************************************************************
