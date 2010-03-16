@@ -24,6 +24,7 @@ $#endif
 
 $#include "api_types.h"
 $#include "api_actions.h"
+$#include "api_effects.h"
 $#include "api_find.h"
 $#include "api_intl.h"
 $#include "api_methods.h"
@@ -548,10 +549,16 @@ function notify.embassies(player, ptile, event, ...)
 end
 $]
 
+/* Effects module */
+module effects {
+  int api_effects_city_bonus @ city_bonus (City *pcity, const char *effect_type);
+}
+
 /* Utilities module. */
 int api_utilities_random @ random (int min, int max);
 void api_utilities_error_log @ error_log (const char *msg);
 void api_utilities_debug_log @ debug_log (const char *msg);
+
 
 /* Actions module. */
 Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
