@@ -116,8 +116,11 @@ static int script_report(lua_State *L, int status, const char *code)
 
 /**************************************************************************
   Call a Lua function.
+
+  If available pass the source code string as code, else NULL.
+  Will handle Lua errors by printing error description and traceback.
 **************************************************************************/
-static int script_call(lua_State *L, int narg, int nret)
+static int script_call(lua_State *L, int narg, int nret, const char *code)
 {
   int status;
   int base = lua_gettop(L) - narg;  /* Function index */
@@ -129,7 +132,7 @@ static int script_call(lua_State *L, int narg, int nret)
 
   status = lua_pcall(L, narg, nret, base);
   if (status) {
-    script_report(state, status, NULL);
+    script_report(state, status, code);
   }
   lua_remove(L, base);  /* Remove traceback function */
   return status;
@@ -146,7 +149,7 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
   if (status) {
     script_report(state, status, str);
   } else {
-    status = script_call(L, 0, LUA_MULTRET);
+    status = script_call(L, 0, LUA_MULTRET, str);
   }
   return status;
 }
@@ -243,7 +246,7 @@ bool script_callback_invoke(const char *callback_name,
   script_callback_push_args(nargs, args);
 
   /* Call the function with nargs arguments, return 1 results */
-  if (script_call(state, nargs, 1)) {
+  if (script_call(state, nargs, 1, NULL)) {
     return FALSE;
   }
 
