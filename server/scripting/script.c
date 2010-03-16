@@ -147,9 +147,6 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
     script_report(state, status, str);
   } else {
     status = script_call(L, 0, LUA_MULTRET);
-    if (status) {
-      script_report(state, status, str);
-    }
   }
   return status;
 }
