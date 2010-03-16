@@ -123,37 +123,25 @@ struct specialist *find_specialist_by_rule_name(const char *name)
 **************************************************************************/
 const char *specialist_rule_name(const struct specialist *sp)
 {
-  return Qn_(sp->name.vernacular);
+  return rule_name(&sp->name);
 }
 
 /**************************************************************************
   Return the (translated) name of the specialist type.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *specialist_name_translation(struct specialist *sp)
+const char *specialist_name_translation(const struct specialist *sp)
 {
-  if (NULL == sp->name.translated) {
-    /* delayed (unified) translation */
-    sp->name.translated = ('\0' == sp->name.vernacular[0])
-			  ? sp->name.vernacular
-			  : Q_(sp->name.vernacular);
-  }
-  return sp->name.translated;
+  return name_translation(&sp->name);
 }
 
 /**************************************************************************
   Return the (translated) abbreviation of the specialist type.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *specialist_abbreviation_translation(struct specialist *sp)
+const char *specialist_abbreviation_translation(const struct specialist *sp)
 {
-  if (NULL == sp->abbreviation.translated) {
-    /* delayed (unified) translation */
-    sp->abbreviation.translated = ('\0' == sp->abbreviation.vernacular[0])
-				  ? sp->abbreviation.vernacular
-				  : Q_(sp->abbreviation.vernacular);
-  }
-  return sp->abbreviation.translated;
+  return name_translation(&sp->abbreviation);
 }
 
 /****************************************************************************

@@ -67,7 +67,7 @@ Base_type_id base_number(const struct base_type *pbase);
 struct base_type *base_by_number(const Base_type_id id);
 
 const char *base_rule_name(const struct base_type *pbase);
-const char *base_name_translation(struct base_type *pbase);
+const char *base_name_translation(const struct base_type *pbase);
 
 struct base_type *find_base_type_by_rule_name(const char *name);
 

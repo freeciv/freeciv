@@ -71,7 +71,7 @@ struct government *find_government_by_rule_name(const char *name);
 struct government *find_government_by_translated_name(const char *name);
 
 const char *government_rule_name(const struct government *pgovern);
-const char *government_name_translation(struct government *pgovern);
+const char *government_name_translation(const struct government *pgovern);
 const char *government_name_for_player(const struct player *pplayer);
 
 /* Ancillary routines */

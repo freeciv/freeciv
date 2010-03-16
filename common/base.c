@@ -92,15 +92,9 @@ bool base_has_flag_for_utype(const struct base_type *pbase,
   Return the (translated) name of the base type.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *base_name_translation(struct base_type *pbase)
+const char *base_name_translation(const struct base_type *pbase)
 {
-  if (NULL == pbase->name.translated) {
-    /* delayed (unified) translation */
-    pbase->name.translated = ('\0' == pbase->name.vernacular[0])
-			      ? pbase->name.vernacular
-			      : Q_(pbase->name.vernacular);
-  }
-  return pbase->name.translated;
+  return name_translation(&pbase->name);
 }
 
 /**************************************************************************
@@ -109,7 +103,7 @@ const char *base_name_translation(struct base_type *pbase)
 **************************************************************************/
 const char *base_rule_name(const struct base_type *pbase)
 {
-  return Qn_(pbase->name.vernacular);
+  return rule_name(&pbase->name);
 }
 
 /**************************************************************************

@@ -127,43 +127,31 @@ const char *nation_rule_name(const struct nation_type *pnation)
   if (!bounds_check_nation(pnation, LOG_ERROR)) {
     return "";
   }
-  return Qn_(pnation->adjective.vernacular);
+  return rule_name(&pnation->adjective);
 }
 
 /****************************************************************************
   Return the (translated) adjective for the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_adjective_translation(struct nation_type *pnation)
+const char *nation_adjective_translation(const struct nation_type *pnation)
 {
   if (!bounds_check_nation(pnation, LOG_ERROR)) {
     return "";
   }
-  if (NULL == pnation->adjective.translated) {
-    /* delayed (unified) translation */
-    pnation->adjective.translated = ('\0' == pnation->adjective.vernacular[0])
-				    ? pnation->adjective.vernacular
-				    : Q_(pnation->adjective.vernacular);
-  }
-  return pnation->adjective.translated;
+  return name_translation(&pnation->adjective);
 }
 
 /****************************************************************************
   Return the (translated) plural noun of the given nation. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *nation_plural_translation(struct nation_type *pnation)
+const char *nation_plural_translation(const struct nation_type *pnation)
 {
   if (!bounds_check_nation(pnation, LOG_ERROR)) {
     return "";
   }
-  if (NULL == pnation->noun_plural.translated) {
-    /* delayed (unified) translation */
-    pnation->noun_plural.translated = ('\0' == pnation->noun_plural.vernacular[0])
-				      ? pnation->noun_plural.vernacular
-				      : Q_(pnation->noun_plural.vernacular);
-  }
-  return pnation->noun_plural.translated;
+  return name_translation(&pnation->noun_plural);
 }
 
 /****************************************************************************

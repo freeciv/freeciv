@@ -1421,15 +1421,7 @@ int find_city_style_by_rule_name(const char *s)
 ****************************************************************************/
 const char *city_style_name_translation(const int style)
 {
-  struct citystyle *csp = &city_styles[style];
-
-  if (NULL == csp->name.translated) {
-    /* delayed (unified) translation */
-    csp->name.translated = ('\0' == csp->name.vernacular[0])
-			   ? csp->name.vernacular
-			   : Q_(csp->name.vernacular);
-  }
-  return csp->name.translated;
+  return name_translation(&city_styles[style].name);
 }
 
 
@@ -1439,7 +1431,7 @@ const char *city_style_name_translation(const int style)
 ****************************************************************************/
 const char* city_style_rule_name(const int style)
 {
-   return Qn_(city_styles[style].name.vernacular);
+   return rule_name(&city_styles[style].name);
 }
 
 /****************************************************************************

@@ -847,15 +847,9 @@ const char *advance_name_researching(const struct player *pplayer)
   Return the (translated) name of the given advance/technology.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *advance_name_translation(struct advance *padvance)
+const char *advance_name_translation(const struct advance *padvance)
 {
-  if (NULL == padvance->name.translated) {
-    /* delayed (unified) translation */
-    padvance->name.translated = ('\0' == padvance->name.vernacular[0])
-				? padvance->name.vernacular
-				: Q_(padvance->name.vernacular);
-  }
-  return padvance->name.translated;
+  return name_translation(&padvance->name);
 }
 
 /****************************************************************************
@@ -864,7 +858,7 @@ const char *advance_name_translation(struct advance *padvance)
 ****************************************************************************/
 const char *advance_rule_name(const struct advance *padvance)
 {
-  return Qn_(padvance->name.vernacular); 
+  return rule_name(&padvance->name);
 }
 
 /**************************************************************************
@@ -891,21 +885,17 @@ void techs_init(void)
 
   /* Initialize dummy tech A_NONE */
   /* TRANS: "None" tech */
-  sz_strlcpy(advances[A_NONE].name.vernacular, N_("None"));
-  advances[A_NONE].name.translated = NULL;
+  name_set(&advances[A_NONE].name, N_("None"));
 
   /* Initialize dummy tech A_UNSET */
-  sz_strlcpy(advances[A_UNSET].name.vernacular, N_("None"));
-  advances[A_UNSET].name.translated = NULL;
+  name_set(&advances[A_UNSET].name, N_("None"));
 
   /* Initialize dummy tech A_FUTURE */
-  sz_strlcpy(advances[A_FUTURE].name.vernacular, N_("Future Tech."));
-  advances[A_FUTURE].name.translated = NULL;
+  name_set(&advances[A_FUTURE].name, N_("Future Tech."));
 
   /* Initialize dummy tech A_UNKNOWN */
   /* TRANS: "Unknown" advance/technology */
-  sz_strlcpy(advances[A_UNKNOWN].name.vernacular, N_("(Unknown)"));
-  advances[A_UNKNOWN].name.translated = NULL;
+  name_set(&advances[A_UNKNOWN].name, N_("(Unknown)"));
 }
 
 /***************************************************************

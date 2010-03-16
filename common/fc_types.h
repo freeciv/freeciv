@@ -201,15 +201,6 @@ enum req_problem_type {
 #define REVERSED_RPT(x) \
   (x == RPT_CERTAIN ? RPT_POSSIBLE : RPT_CERTAIN)
 
-/* ruleset strings (such as names) are kept in their original vernacular, 
- * translated upon first use.  The translation is cached for future use.
- */
-struct name_translation
-{
-  const char *translated;		/* string doesn't need freeing */
-  char vernacular[MAX_LEN_NAME];	/* original string for comparisons */
-};
-
 /* Originally in requirements.h, bumped up and revised to unify with
  * city_production and worklists.  Functions remain in requirements.c
  */

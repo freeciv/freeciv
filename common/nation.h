@@ -13,9 +13,9 @@
 #ifndef FC__NATION_H
 #define FC__NATION_H
 
-#include "shared.h"		/* MAX_LEN_NAME */
-
+/* common */
 #include "fc_types.h"
+#include "name_translation.h"
 #include "terrain.h"            /* MAX_NUM_TERRAINS */
 
 #define MAX_NUM_TECH_GOALS 10
@@ -128,9 +128,9 @@ struct nation_type *find_nation_by_translated_name(const char *name);
 
 const char *nation_rule_name(const struct nation_type *pnation);
 
-const char *nation_adjective_translation(struct nation_type *pnation);
+const char *nation_adjective_translation(const struct nation_type *pnation);
 const char *nation_adjective_for_player(const struct player *pplayer);
-const char *nation_plural_translation(struct nation_type *pnation);
+const char *nation_plural_translation(const struct nation_type *pnation);
 const char *nation_plural_for_player(const struct player *pplayer);
 
 int city_style_of_nation(const struct nation_type *nation);

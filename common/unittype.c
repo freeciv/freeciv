@@ -323,15 +323,9 @@ enum unit_move_type utype_move_type(const struct unit_type *punittype)
   Return the (translated) name of the unit type.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *utype_name_translation(struct unit_type *punittype)
+const char *utype_name_translation(const struct unit_type *punittype)
 {
-  if (NULL == punittype->name.translated) {
-    /* delayed (unified) translation */
-    punittype->name.translated = ('\0' == punittype->name.vernacular[0])
-				 ? punittype->name.vernacular
-				 : Q_(punittype->name.vernacular);
-  }
-  return punittype->name.translated;
+  return name_translation(&punittype->name);
 }
 
 /**************************************************************************
@@ -349,7 +343,7 @@ const char *unit_name_translation(const struct unit *punit)
 **************************************************************************/
 const char *utype_rule_name(const struct unit_type *punittype)
 {
-  return Qn_(punittype->name.vernacular);
+  return rule_name(&punittype->name);
 }
 
 /**************************************************************************
@@ -388,7 +382,7 @@ const char *utype_values_string(const struct unit_type *punittype)
 /**************************************************************************
 ...
 **************************************************************************/
-const char *utype_values_translation(struct unit_type *punittype)
+const char *utype_values_translation(const struct unit_type *punittype)
 {
   static char buffer[256];
 
@@ -403,15 +397,9 @@ const char *utype_values_translation(struct unit_type *punittype)
   Return the (translated) name of the unit class.
   You don't have to free the return pointer.
 **************************************************************************/
-const char *uclass_name_translation(struct unit_class *pclass)
+const char *uclass_name_translation(const struct unit_class *pclass)
 {
-  if (NULL == pclass->name.translated) {
-    /* delayed (unified) translation */
-    pclass->name.translated = ('\0' == pclass->name.vernacular[0])
-			      ? pclass->name.vernacular
-			      : Q_(pclass->name.vernacular);
-  }
-  return pclass->name.translated;
+  return name_translation(&pclass->name);
 }
 
 /**************************************************************************
@@ -420,7 +408,7 @@ const char *uclass_name_translation(struct unit_class *pclass)
 **************************************************************************/
 const char *uclass_rule_name(const struct unit_class *pclass)
 {
-  return Qn_(pclass->name.vernacular);
+  return rule_name(&pclass->name);
 }
 
 /**************************************************************************

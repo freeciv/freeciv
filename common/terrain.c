@@ -253,15 +253,9 @@ int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int buf
   Return the (translated) name of the terrain.
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *terrain_name_translation(struct terrain *pterrain)
+const char *terrain_name_translation(const struct terrain *pterrain)
 {
-  if (NULL == pterrain->name.translated) {
-    /* delayed (unified) translation */
-    pterrain->name.translated = ('\0' == pterrain->name.vernacular[0])
-				? pterrain->name.vernacular
-				: Q_(pterrain->name.vernacular);
-  }
-  return pterrain->name.translated;
+  return name_translation(&pterrain->name);
 }
 
 /**************************************************************************
@@ -270,7 +264,7 @@ const char *terrain_name_translation(struct terrain *pterrain)
 **************************************************************************/
 const char *terrain_rule_name(const struct terrain *pterrain)
 {
-  return Qn_(pterrain->name.vernacular);
+  return rule_name(&pterrain->name);
 }
 
 /****************************************************************************
@@ -417,15 +411,9 @@ struct resource *find_resource_by_rule_name(const char *name)
   Return the (translated) name of the resource.
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *resource_name_translation(struct resource *presource)
+const char *resource_name_translation(const struct resource *presource)
 {
-  if (NULL == presource->name.translated) {
-    /* delayed (unified) translation */
-    presource->name.translated = ('\0' == presource->name.vernacular[0])
-				 ? presource->name.vernacular
-				 : Q_(presource->name.vernacular);
-  }
-  return presource->name.translated;
+  return name_translation(&presource->name);
 }
 
 /**************************************************************************
@@ -434,7 +422,7 @@ const char *resource_name_translation(struct resource *presource)
 **************************************************************************/
 const char *resource_rule_name(const struct resource *presource)
 {
-  return Qn_(presource->name.vernacular);
+  return rule_name(&presource->name);
 }
 
 

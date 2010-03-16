@@ -131,23 +131,17 @@ struct government *government_of_city(const struct city *pcity)
 const char *government_rule_name(const struct government *pgovern)
 {
   fc_assert_ret_val(NULL != pgovern, NULL);
-  return Qn_(pgovern->name.vernacular);
+  return rule_name(&pgovern->name);
 }
 
 /****************************************************************************
   Return the (translated) name of the given government. 
   You don't have to free the return pointer.
 ****************************************************************************/
-const char *government_name_translation(struct government *pgovern)
+const char *government_name_translation(const struct government *pgovern)
 {
   fc_assert_ret_val(NULL != pgovern, NULL);
-  if (NULL == pgovern->name.translated) {
-    /* delayed (unified) translation */
-    pgovern->name.translated = ('\0' == pgovern->name.vernacular[0])
-				? pgovern->name.vernacular
-				: Q_(pgovern->name.vernacular);
-  }
-  return pgovern->name.translated;
+  return name_translation(&pgovern->name);
 }
 
 /****************************************************************************
@@ -168,7 +162,6 @@ const char *ruler_title_translation(const struct player *pp)
   struct government *gp = government_of_player(pp);
   struct nation_type *np = nation_of_player(pp);
   struct ruler_title *best_match = NULL;
-  struct name_translation *sex;
   int i;
 
   fc_assert_ret_val(NULL != pp, NULL);
@@ -193,15 +186,8 @@ const char *ruler_title_translation(const struct player *pp)
     return pp->is_male ? "Mr." : "Ms.";
   }
 
-  sex = pp->is_male ? &best_match->male : &best_match->female;
-
-  if (NULL == sex->translated) {
-    /* delayed (unified) translation */
-    sex->translated = ('\0' == sex->vernacular[0])
-                      ? sex->vernacular
-                      : Q_(sex->vernacular);
-  }
-  return sex->translated;
+  return name_translation(pp->is_male ? &best_match->male
+                          : &best_match->female);
 }
 
 /***************************************************************

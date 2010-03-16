@@ -13,9 +13,12 @@
 #ifndef FC__TECH_H
 #define FC__TECH_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "fc_types.h"
+#include "name_translation.h"
 
 /*
   [kept for amusement and posterity]
@@ -189,7 +192,7 @@ const char *advance_name_for_player(const struct player *pplayer,
 const char *advance_name_researching(const struct player *pplayer);
 
 const char *advance_rule_name(const struct advance *padvance);
-const char *advance_name_translation(struct advance *padvance);
+const char *advance_name_translation(const struct advance *padvance);
 
 /* General advance/technology flag accessor routines */
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag);

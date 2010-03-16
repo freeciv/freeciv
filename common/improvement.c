@@ -206,15 +206,9 @@ struct impr_type *valid_improvement_by_number(const Impr_type_id id)
   Return the (translated) name of the given improvement. 
   You don't have to free the return pointer.
 **************************************************************************/
-const char *improvement_name_translation(struct impr_type *pimprove)
+const char *improvement_name_translation(const struct impr_type *pimprove)
 {
-  if (NULL == pimprove->name.translated) {
-    /* delayed (unified) translation */
-    pimprove->name.translated = ('\0' == pimprove->name.vernacular[0])
-				? pimprove->name.vernacular
-				: Q_(pimprove->name.vernacular);
-  }
-  return pimprove->name.translated;
+  return name_translation(&pimprove->name);
 }
 
 /****************************************************************************
@@ -223,7 +217,7 @@ const char *improvement_name_translation(struct impr_type *pimprove)
 ****************************************************************************/
 const char *improvement_rule_name(const struct impr_type *pimprove)
 {
-  return Qn_(pimprove->name.vernacular); 
+  return rule_name(&pimprove->name);
 }
 
 /****************************************************************************

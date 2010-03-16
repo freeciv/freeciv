@@ -14,9 +14,12 @@
 #ifndef FC__SPECIALIST_H
 #define FC__SPECIALIST_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "fc_types.h"
+#include "name_translation.h"
 #include "requirements.h"
 
 struct specialist {
@@ -41,8 +44,8 @@ struct specialist *specialist_by_number(const Specialist_type_id id);
 struct specialist *find_specialist_by_rule_name(const char *name);
 
 const char *specialist_rule_name(const struct specialist *sp);
-const char *specialist_name_translation(struct specialist *sp);
-const char *specialist_abbreviation_translation(struct specialist *sp);
+const char *specialist_name_translation(const struct specialist *sp);
+const char *specialist_abbreviation_translation(const struct specialist *sp);
 
 /* Ancillary routines */
 const char *specialists_string(const int *specialists);

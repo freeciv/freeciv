@@ -15,6 +15,7 @@
 
 /* common */
 #include "fc_types.h"
+#include "name_translation.h"
 #include "improvement.h"
 #include "unitlist.h"
 #include "vision.h"

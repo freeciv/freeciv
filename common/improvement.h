@@ -15,10 +15,12 @@
 
 /* City Improvements, including Wonders.  (Alternatively "Buildings".) */
 
-#include "shared.h"		/* bool */
+/* utility */
+#include "support.h"            /* bool */
 
+/* common */
 #include "fc_types.h"
-
+#include "name_translation.h"
 #include "requirements.h"
 
 /* B_LAST is a value that is guaranteed to be larger than all
@@ -87,7 +89,7 @@ struct impr_type *find_improvement_by_rule_name(const char *name);
 struct impr_type *find_improvement_by_translated_name(const char *name);
 
 const char *improvement_rule_name(const struct impr_type *pimprove);
-const char *improvement_name_translation(struct impr_type *pimprove);
+const char *improvement_name_translation(const struct impr_type *pimprove);
 
 /* General improvement flag accessor routines */
 bool improvement_has_flag(const struct impr_type *pimprove,

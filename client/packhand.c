@@ -31,6 +31,7 @@
 #include "government.h"
 #include "idex.h"
 #include "map.h"
+#include "name_translation.h"
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
@@ -2560,8 +2561,7 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
 
   fc_assert_ret_msg(NULL != c, "Bad unit_class %d.", p->id);
 
-  sz_strlcpy(c->name.vernacular, p->name);
-  c->name.translated = NULL;	/* unittype.c uclass_name_translation */
+  name_set(&c->name, p->name);
   c->move_type   = p->move_type;
   c->min_speed   = p->min_speed;
   c->hp_loss_pct = p->hp_loss_pct;
@@ -2580,8 +2580,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
 
   fc_assert_ret_msg(NULL != u, "Bad unit_type %d.", p->id);
 
-  sz_strlcpy(u->name.vernacular, p->name);
-  u->name.translated = NULL;	/* unittype.c utype_name_translation */
+  name_set(&u->name, p->name);
   sz_strlcpy(u->graphic_str, p->graphic_str);
   sz_strlcpy(u->graphic_alt, p->graphic_alt);
   sz_strlcpy(u->sound_move, p->sound_move);
@@ -2639,8 +2638,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
 
   fc_assert_ret_msg(NULL != a, "Bad advance %d.", p->id);
 
-  sz_strlcpy(a->name.vernacular, p->name);
-  a->name.translated = NULL;	/* tech.c advance_name_translation */
+  name_set(&a->name, p->name);
   sz_strlcpy(a->graphic_str, p->graphic_str);
   sz_strlcpy(a->graphic_alt, p->graphic_alt);
   a->require[AR_ONE] = advance_by_number(p->req[AR_ONE]);
@@ -2665,8 +2663,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   fc_assert_ret_msg(NULL != b, "Bad improvement %d.", p->id);
 
   b->genus = p->genus;
-  sz_strlcpy(b->name.vernacular, p->name);
-  b->name.translated = NULL;	/* improvement.c improvement_name_translation */
+  name_set(&b->name, p->name);
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
@@ -2729,9 +2726,8 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   fc_assert(gov->reqs.size == p->reqs_count);
 
   gov->num_ruler_titles    = p->num_ruler_titles;
-    
-  sz_strlcpy(gov->name.vernacular, p->name);
-  gov->name.translated = NULL;	/* government.c government_name_translation */
+
+  name_set(&gov->name, p->name);
   sz_strlcpy(gov->graphic_str, p->graphic_str);
   sz_strlcpy(gov->graphic_alt, p->graphic_alt);
 
@@ -2754,14 +2750,12 @@ void handle_ruleset_government_ruler_title
   fc_assert_ret_msg(NULL != gov, "Bad government %d.", p->gov);
   fc_assert_ret_msg(0 <= p->id && gov->num_ruler_titles > p->id,
                     "Bad government ruler title %d for government \"%s\".",
-                    p->id, gov->name.vernacular);
+                    p->id, rule_name(&gov->name));
 
   gov->ruler_titles[p->id].nation = nation_by_number(p->nation);
   /* government.c ruler_title_translation */
-  sz_strlcpy(gov->ruler_titles[p->id].male.vernacular, p->male_title);
-  gov->ruler_titles[p->id].male.translated = NULL;
-  sz_strlcpy(gov->ruler_titles[p->id].female.vernacular, p->female_title);
-  gov->ruler_titles[p->id].female.translated = NULL;
+  name_set(&gov->ruler_titles[p->id].male, p->male_title);
+  name_set(&gov->ruler_titles[p->id].female, p->female_title);
 }
 
 /**************************************************************************
@@ -2775,8 +2769,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   fc_assert_ret_msg(NULL != pterrain, "Bad terrain %d.", p->id);
 
   pterrain->native_to = p->native_to;
-  sz_strlcpy(pterrain->name.vernacular, p->name_orig);
-  pterrain->name.translated = NULL;	/* terrain.c terrain_name_translation */
+  name_set(&pterrain->name, p->name_orig);
   sz_strlcpy(pterrain->graphic_str, p->graphic_str);
   sz_strlcpy(pterrain->graphic_alt, p->graphic_alt);
   pterrain->movement_cost = p->movement_cost;
@@ -2834,8 +2827,7 @@ void handle_ruleset_resource(struct packet_ruleset_resource *p)
 
   fc_assert_ret_msg(NULL != presource, "Bad resource %d.", p->id);
 
-  sz_strlcpy(presource->name.vernacular, p->name_orig);
-  presource->name.translated = NULL;	/* terrain.c resource_name_translation */
+  name_set(&presource->name, p->name_orig);
   sz_strlcpy(presource->graphic_str, p->graphic_str);
   sz_strlcpy(presource->graphic_alt, p->graphic_alt);
 
@@ -2856,8 +2848,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
 
   fc_assert_ret_msg(NULL != pbase, "Bad base %d.", p->id);
 
-  sz_strlcpy(pbase->name.vernacular, p->name);
-  pbase->name.translated = NULL;	/* base.c base_name_translation */
+  name_set(&pbase->name, p->name);
   sz_strlcpy(pbase->graphic_str, p->graphic_str);
   sz_strlcpy(pbase->graphic_alt, p->graphic_alt);
   sz_strlcpy(pbase->activity_gfx, p->activity_gfx);
@@ -2917,10 +2908,8 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
 
   fc_assert_ret_msg(NULL != pl, "Bad nation %d.", p->id);
 
-  sz_strlcpy(pl->adjective.vernacular, p->adjective);
-  pl->adjective.translated = NULL;
-  sz_strlcpy(pl->noun_plural.vernacular, p->noun_plural);
-  pl->noun_plural.translated = NULL;
+  name_set(&pl->adjective, p->adjective);
+  name_set(&pl->noun_plural, p->noun_plural);
   sz_strlcpy(pl->flag_graphic_str, p->graphic_str);
   sz_strlcpy(pl->flag_graphic_alt, p->graphic_alt);
   pl->leader_count = p->leader_count;
@@ -2982,8 +2971,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   fc_assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
 
-  sz_strlcpy(cs->name.vernacular, packet->name);
-  cs->name.translated = NULL;
+  name_set(&cs->name, packet->name);
   sz_strlcpy(cs->graphic, packet->graphic);
   sz_strlcpy(cs->graphic_alt, packet->graphic_alt);
   sz_strlcpy(cs->oceanic_graphic, packet->oceanic_graphic);
@@ -3020,10 +3008,8 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
 
   fc_assert_ret_msg(NULL != s, "Bad specialist %d.", p->id);
 
-  sz_strlcpy(s->name.vernacular, p->name);
-  s->name.translated = NULL;
-  sz_strlcpy(s->abbreviation.vernacular, p->short_name);
-  s->abbreviation.translated = NULL;
+  name_set(&s->name, p->name);
+  name_set(&s->abbreviation, p->short_name);
 
   for (j = 0; j < p->reqs_count; j++) {
     requirement_vector_append(&s->reqs, &p->reqs[j]);

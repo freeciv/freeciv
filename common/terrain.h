@@ -13,10 +13,12 @@
 #ifndef FC__TERRAIN_H
 #define FC__TERRAIN_H
 
+/* utility */
 #include "shared.h"
 
+/* common */
 #include "fc_types.h"
-
+#include "name_translation.h"
 #include "unittype.h"
 
 struct base_type;
@@ -219,7 +221,7 @@ struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag);
 
 char terrain_identifier(const struct terrain *pterrain);
 const char *terrain_rule_name(const struct terrain *pterrain);
-const char *terrain_name_translation(struct terrain *pterrain);
+const char *terrain_name_translation(const struct terrain *pterrain);
 
 /* Functions to operate on a terrain flag. */
 enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
@@ -267,7 +269,7 @@ struct resource *find_resource_by_identifier(const char identifier);
 struct resource *find_resource_by_rule_name(const char *name);
 
 const char *resource_rule_name(const struct resource *presource);
-const char *resource_name_translation(struct resource *presource);
+const char *resource_name_translation(const struct resource *presource);
 
 /* General special accessor functions. */
 enum tile_special_type find_special_by_rule_name(const char *name);
