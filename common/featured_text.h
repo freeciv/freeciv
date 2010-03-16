@@ -93,9 +93,9 @@
  */
 
 /* Offset type (in bytes). */
-typedef int offset_t;
+typedef int ft_offset_t;
 /* Unset offset value. */
-#define OFFSET_UNSET ((offset_t) -1)
+#define FT_OFFSET_UNSET ((ft_offset_t) -1)
 
 /* Opaque type. */
 struct text_tag;               
@@ -193,7 +193,8 @@ size_t featured_text_to_plain_text(const char *featured_text,
 size_t featured_text_apply_tag(const char *text_source,
                                char *featured_text, size_t featured_text_len,
                                enum text_tag_type tag_type,
-                               offset_t start_offset, offset_t stop_offset,
+                               ft_offset_t start_offset,
+                               ft_offset_t stop_offset,
                                ...);
 
 /* Text tag list functions. NB: Overwrite the ones defined in speclist.h. */
@@ -205,14 +206,15 @@ size_t featured_text_apply_tag(const char *text_source,
 
 /* Text tag functions. */
 struct text_tag *text_tag_new(enum text_tag_type tag_type,
-                              offset_t start_offset, offset_t stop_offset,
+                              ft_offset_t start_offset,
+                              ft_offset_t stop_offset,
                               ...);
 struct text_tag *text_tag_copy(const struct text_tag *ptag);
 void text_tag_destroy(struct text_tag *ptag);
 
 enum text_tag_type text_tag_type(const struct text_tag *ptag);
-offset_t text_tag_start_offset(const struct text_tag *ptag);
-offset_t text_tag_stop_offset(const struct text_tag *ptag);
+ft_offset_t text_tag_start_offset(const struct text_tag *ptag);
+ft_offset_t text_tag_stop_offset(const struct text_tag *ptag);
 
 /* Specific TTT_COLOR text tag type functions. */
 const char *text_tag_color_foreground(const struct text_tag *ptag);

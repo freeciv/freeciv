@@ -155,7 +155,8 @@ void output_window_append(const struct ft_color color,
 
   if (ft_color_requested(color)) {
     /* A color is requested. */
-    struct text_tag *ptag = text_tag_new(TTT_COLOR, 0, OFFSET_UNSET, color);
+    struct text_tag *ptag = text_tag_new(TTT_COLOR, 0, FT_OFFSET_UNSET,
+                                         color);
 
     if (ptag) {
       /* Prepends to the list, to avoid to overwrite inside colors. */

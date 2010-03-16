@@ -1011,7 +1011,7 @@ void create_event(struct tile *ptile, enum event_type event,
     char colored_text[MAX_LEN_MSG];
 
     featured_text_apply_tag(message, colored_text, sizeof(colored_text),
-                            TTT_COLOR, 0, OFFSET_UNSET, color);
+                            TTT_COLOR, 0, FT_OFFSET_UNSET, color);
     handle_event(colored_text, ptile, event, -1);
   } else {
     handle_event(message, ptile, event, -1);

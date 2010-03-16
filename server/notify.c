@@ -69,7 +69,7 @@ static void package_event_full(struct packet_chat_msg *packet,
 
     my_vsnprintf(buf, sizeof(buf), format, vargs);
     featured_text_apply_tag(buf, packet->message, sizeof(packet->message),
-                            TTT_COLOR, 0, OFFSET_UNSET, color);
+                            TTT_COLOR, 0, FT_OFFSET_UNSET, color);
   } else {
     /* Simple case */
     my_vsnprintf(packet->message, sizeof(packet->message), format, vargs);

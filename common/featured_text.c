@@ -47,8 +47,8 @@
 /* The text_tag structure.  See documentation in featured_text.h. */
 struct text_tag {
   enum text_tag_type type;              /* The type of the tag. */
-  offset_t start_offset;                /* The start offset (in bytes). */
-  offset_t stop_offset;                 /* The stop offset (in bytes). */
+  ft_offset_t start_offset;             /* The start offset (in bytes). */
+  ft_offset_t stop_offset;              /* The stop offset (in bytes). */
   union {
     struct {                            /* TTT_COLOR only. */
       char foreground[MAX_LEN_STR];     /* foreground color name. */
@@ -217,12 +217,12 @@ static bool find_option(const char *read, const char *option,
 **************************************************************************/
 static bool text_tag_init_from_sequence(struct text_tag *ptag,
                                         enum text_tag_type type,
-                                        offset_t start_offset,
+                                        ft_offset_t start_offset,
                                         const char *sequence)
 {
   ptag->type = type;
   ptag->start_offset = start_offset;
-  ptag->stop_offset = OFFSET_UNSET;
+  ptag->stop_offset = FT_OFFSET_UNSET;
 
   switch (type) {
   case TTT_BOLD:
@@ -380,7 +380,7 @@ static bool text_tag_init_from_sequence(struct text_tag *ptag,
   Returns TRUE on success.
 **************************************************************************/
 static bool text_tag_initv(struct text_tag *ptag, enum text_tag_type type,
-                           offset_t start_offset, offset_t stop_offset,
+                           ft_offset_t start_offset, ft_offset_t stop_offset,
                            va_list args)
 {
   ptag->type = type;
@@ -629,7 +629,8 @@ static size_t text_tag_replace_text(const struct text_tag *ptag,
   See also comment for text_tag_initv().
 **************************************************************************/
 struct text_tag *text_tag_new(enum text_tag_type tag_type,
-                              offset_t start_offset, offset_t stop_offset,
+                              ft_offset_t start_offset,
+                              ft_offset_t stop_offset,
                               ...)
 {
   struct text_tag *ptag = fc_malloc(sizeof(struct text_tag));
@@ -685,7 +686,7 @@ enum text_tag_type text_tag_type(const struct text_tag *ptag)
 /**************************************************************************
   Return the start offset (in bytes) of this text tag.
 **************************************************************************/
-offset_t text_tag_start_offset(const struct text_tag *ptag)
+ft_offset_t text_tag_start_offset(const struct text_tag *ptag)
 {
   return ptag->start_offset;
 }
@@ -693,7 +694,7 @@ offset_t text_tag_start_offset(const struct text_tag *ptag)
 /**************************************************************************
   Return the stop offset (in bytes) of this text tag.
 **************************************************************************/
-offset_t text_tag_stop_offset(const struct text_tag *ptag)
+ft_offset_t text_tag_stop_offset(const struct text_tag *ptag)
 {
   return ptag->stop_offset;
 }
@@ -894,7 +895,7 @@ size_t featured_text_to_plain_text(const char *featured_text,
             /* Look up on reversed order. */
             text_tag_list_rev_iterate(*tags, piter) {
               if (piter->type == type
-                  && piter->stop_offset == OFFSET_UNSET) {
+                  && piter->stop_offset == FT_OFFSET_UNSET) {
                 ptag = piter;
                 break;
               }
@@ -967,16 +968,17 @@ size_t featured_text_to_plain_text(const char *featured_text,
 size_t featured_text_apply_tag(const char *text_source,
                                char *featured_text, size_t featured_text_len,
                                enum text_tag_type tag_type,
-                               offset_t start_offset, offset_t stop_offset,
+                               ft_offset_t start_offset,
+                               ft_offset_t stop_offset,
                                ...)
 {
   struct text_tag tag;
   size_t len, total_len = 0;
   va_list args;
 
-  if (start_offset == OFFSET_UNSET
+  if (start_offset == FT_OFFSET_UNSET
       || start_offset > strlen(text_source)
-      || (stop_offset != OFFSET_UNSET
+      || (stop_offset != FT_OFFSET_UNSET
           && stop_offset < start_offset)) {
     log_featured_text("featured_text_apply_tag(): invalid offsets.");
     return 0;

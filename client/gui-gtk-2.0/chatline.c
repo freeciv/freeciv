@@ -260,13 +260,13 @@ void inputline_make_tag(GtkEntry *entry, enum text_tag_type type)
     color_to_string(bg_color, bg_color_text, sizeof(bg_color_text));
 
     if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
-                                     TTT_COLOR, 0, OFFSET_UNSET,
+                                     TTT_COLOR, 0, FT_OFFSET_UNSET,
                                      ft_color(fg_color_text,
                                               bg_color_text))) {
       goto CLEAN_UP;
     }
   } else if (0 == featured_text_apply_tag(selection, buf, sizeof(buf),
-                                          type, 0, OFFSET_UNSET)) {
+                                          type, 0, FT_OFFSET_UNSET)) {
     goto CLEAN_UP;
   }
 
@@ -322,7 +322,7 @@ void inputline_make_chat_link(struct tile *ptile, bool unit)
     }
 
     if (0 != featured_text_apply_tag(chars, buf, sizeof(buf), TTT_LINK,
-                                     0, OFFSET_UNSET, type, target)) {
+                                     0, FT_OFFSET_UNSET, type, target)) {
       /* Replace the selection. */
       gtk_editable_delete_text(editable, start_pos, end_pos);
       end_pos = start_pos;
@@ -588,7 +588,7 @@ void set_message_buffer_view_link_handlers(GtkWidget *view)
   Convert a struct text_tag to a GtkTextTag.
 **************************************************************************/
 static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
-                           offset_t text_start_offset, const char *text)
+                           ft_offset_t text_start_offset, const char *text)
 {
   static bool initalized = FALSE;
   GtkTextIter start, stop;
@@ -613,7 +613,7 @@ static void apply_text_tag(const struct text_tag *ptag, GtkTextBuffer *buf,
   gtk_text_buffer_get_iter_at_offset(buf, &start, text_start_offset
                                      + g_utf8_pointer_to_offset(text,
                                      text + text_tag_start_offset(ptag)));
-  if (text_tag_stop_offset(ptag) == OFFSET_UNSET) {
+  if (text_tag_stop_offset(ptag) == FT_OFFSET_UNSET) {
     gtk_text_buffer_get_end_iter(buf, &stop);
   } else {
     gtk_text_buffer_get_iter_at_offset(buf, &stop, text_start_offset
@@ -717,7 +717,7 @@ void real_output_window_append(const char *astring,
   GtkTextBuffer *buf;
   GtkTextIter iter;
   GtkTextMark *mark;
-  offset_t text_start_offset;
+  ft_offset_t text_start_offset;
 
   buf = message_buffer;
   gtk_text_buffer_get_end_iter(buf, &iter);
