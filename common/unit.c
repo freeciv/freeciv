@@ -627,7 +627,7 @@ const char *get_activity_text(enum unit_activity activity)
 ****************************************************************************/
 bool could_unit_load(const struct unit *pcargo, const struct unit *ptrans)
 {
-  if (!pcargo || !ptrans) {
+  if (!pcargo || !ptrans || pcargo == ptrans) {
     return FALSE;
   }
 
