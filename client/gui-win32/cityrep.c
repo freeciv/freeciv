@@ -286,7 +286,7 @@ static void get_city_table_header(char *text[], int n)
   struct city_report_spec *spec;
   int i;
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-    my_snprintf(text[i], n, "%*s\n%*s",
+    fc_snprintf(text[i], n, "%*s\n%*s",
             NEG_VAL(spec->width), spec->title1 ? spec->title1: "",
             NEG_VAL(spec->width), spec->title2 ? spec->title2: "");
   }
@@ -303,7 +303,7 @@ static void get_city_text(struct city *pcity, char *buf[], int n)
   for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
     buf[i][0]='\0';
     if(!spec->show) continue;
-    my_snprintf(buf[i], n, "%*s", NEG_VAL(spec->width)-2,
+    fc_snprintf(buf[i], n, "%*s", NEG_VAL(spec->width)-2,
 		(spec->func)(pcity, spec->data)); 
   }
 }
@@ -1104,7 +1104,7 @@ popup_city_report_dialog(bool raise)
 static int compare_cities(char *rowold[],char *row[])
 {
   int tmp;
-  tmp=mystrcasecmp(rowold[city_sort_id],row[city_sort_id]);
+  tmp=fc_strcasecmp(rowold[city_sort_id],row[city_sort_id]);
   return city_sort_order?tmp:-tmp;
 }
 

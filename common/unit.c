@@ -1645,35 +1645,35 @@ enum unit_upgrade_result get_unit_upgrade_info(char *buf, size_t bufsz,
   case UR_OK:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
     /* This message is targeted toward the GUI callers. */
-    my_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
-			      "Treasury contains %d gold."),
-		utype_name_translation(from_unittype),
-		utype_name_translation(to_unittype),
-		upgrade_cost, pplayer->economic.gold);
+    fc_snprintf(buf, bufsz, _("Upgrade %s to %s for %d gold?\n"
+                              "Treasury contains %d gold."),
+                utype_name_translation(from_unittype),
+                utype_name_translation(to_unittype),
+                upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NO_UNITTYPE:
-    my_snprintf(buf, bufsz,
-		_("Sorry, cannot upgrade %s (yet)."),
-		utype_name_translation(from_unittype));
+    fc_snprintf(buf, bufsz,
+                _("Sorry, cannot upgrade %s (yet)."),
+                utype_name_translation(from_unittype));
     break;
   case UR_NO_MONEY:
     upgrade_cost = unit_upgrade_price(pplayer, from_unittype, to_unittype);
-    my_snprintf(buf, bufsz,
-		_("Upgrading %s to %s costs %d gold.\n"
-		  "Treasury contains %d gold."),
-		utype_name_translation(from_unittype),
-		utype_name_translation(to_unittype),
-		upgrade_cost, pplayer->economic.gold);
+    fc_snprintf(buf, bufsz,
+                _("Upgrading %s to %s costs %d gold.\n"
+                  "Treasury contains %d gold."),
+                utype_name_translation(from_unittype),
+                utype_name_translation(to_unittype),
+                upgrade_cost, pplayer->economic.gold);
     break;
   case UR_NOT_IN_CITY:
   case UR_NOT_CITY_OWNER:
-    my_snprintf(buf, bufsz,
-		_("You can only upgrade units in your cities."));
+    fc_snprintf(buf, bufsz,
+                _("You can only upgrade units in your cities."));
     break;
   case UR_NOT_ENOUGH_ROOM:
-    my_snprintf(buf, bufsz,
-		_("Upgrading this %s would strand units it transports."),
-		utype_name_translation(from_unittype));
+    fc_snprintf(buf, bufsz,
+                _("Upgrading this %s would strand units it transports."),
+                utype_name_translation(from_unittype));
     break;
   }
 

@@ -573,7 +573,7 @@ static void handle_hscroll(HWND win, HWND winctl, UINT code, int pos)
   if (poscur < posmin) poscur = posmin;
   if (poscur > posmax) poscur = posmax;
   ScrollBar_SetPos(winctl, poscur, TRUE);
-  my_snprintf(buf, sizeof(buf), "%d", poscur);
+  fc_snprintf(buf, sizeof(buf), "%d", poscur);
   SetWindowText(GetNextSibling(winctl), buf);
 
 }

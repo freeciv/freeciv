@@ -189,7 +189,7 @@ void popup_option_dialog(void)
 		      option_bool_get(poption)?BST_CHECKED:BST_UNCHECKED);
       break;
     case COT_INTEGER:
-      my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
+      fc_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
       SetWindowText((HWND)(gui_data), valstr);
       break;
     case COT_STRING:

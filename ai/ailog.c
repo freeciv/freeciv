@@ -60,14 +60,14 @@ void real_tech_log(const char *file, const char *function, int line,
     return;
   }
 
-  my_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ", 
+  fc_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ",
               player_name(pplayer),
-              advance_name_by_player(pplayer, advance_number(padvance)), 
-              pplayer->ai_data.tech_want[advance_index(padvance)], 
+              advance_name_by_player(pplayer, advance_number(padvance)),
+              pplayer->ai_data.tech_want[advance_index(padvance)],
               num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
 
   va_start(ap, msg);
-  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
@@ -95,17 +95,17 @@ void real_diplo_log(const char *file, const char *function, int line,
   /* Don't use ai_data_get since it can have side effects. */
   adip = ai_diplomacy_get(pplayer, aplayer);
 
-  my_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ", 
+  fc_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ",
               player_name(pplayer),
-              player_name(aplayer), 
+              player_name(aplayer),
               pplayer->ai_data.love[player_index(aplayer)],
-              adip->countdown, 
+              adip->countdown,
               adip->distance,
               adip->is_allied_with_enemy ? "?" :
               (adip->at_war_with_ally ? "!" : ""));
 
   va_start(ap, msg);
-  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
@@ -127,7 +127,7 @@ void real_city_log(const char *file, const char *function, int line,
   char buffer2[500];
   va_list ap;
 
-  my_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
+  fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
@@ -135,7 +135,7 @@ void real_city_log(const char *file, const char *function, int line,
               pcity->ai->grave_danger);
 
   va_start(ap, msg);
-  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
@@ -167,7 +167,7 @@ void real_unit_log(const char *file, const char *function, int line,
     gx = gy = -1;
   }
   
-  my_snprintf(buffer, sizeof(buffer),
+  fc_snprintf(buffer, sizeof(buffer),
 	      "%s %s[%d] %s (%d,%d)->(%d,%d){%d,%d} ",
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
@@ -178,7 +178,7 @@ void real_unit_log(const char *file, const char *function, int line,
               punit->ai.bodyguard, punit->ai.ferryboat);
 
   va_start(ap, msg);
-  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
@@ -225,7 +225,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   }
   /* else perhaps the charge died */
 
-  my_snprintf(buffer, sizeof(buffer),
+  fc_snprintf(buffer, sizeof(buffer),
               "%s %s[%d] %s (%d,%d){%s:%d@%d,%d} ",
               nation_rule_name(nation_of_unit(punit)),
               unit_rule_name(punit),
@@ -235,7 +235,7 @@ void real_bodyguard_log(const char *file, const char *function, int line,
               s, id, charge_x, charge_y);
 
   va_start(ap, msg);
-  my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
+  fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
   cat_snprintf(buffer, sizeof(buffer), "%s", buffer2);
@@ -289,7 +289,7 @@ void TIMING_RESULTS(void)
   char buf[200];
 
 #define AILOG_OUT(text, which)                                              \
-  my_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,     \
+  fc_snprintf(buf, sizeof(buf), "  %s: %g sec turn, %g sec game", text,     \
               read_timer_seconds(aitimer[which][0]),                        \
               read_timer_seconds(aitimer[which][1]));                       \
   log_test("%s", buf);                                                      \

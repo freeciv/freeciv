@@ -87,7 +87,7 @@ static const char *edit_get_initial_value(const char *id)
   if (strcmp(id, "port") == 0) {
     static char buf[10];
 
-    my_snprintf(buf, sizeof(buf), "%d", server_port);
+    fc_snprintf(buf, sizeof(buf), "%d", server_port);
     return buf;
   } else if (strcmp(id, "username") == 0) {
     return user_name;

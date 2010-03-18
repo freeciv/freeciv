@@ -363,18 +363,16 @@ const char *utype_values_string(const struct unit_type *punittype)
   static char buffer[256];
 
   if (utype_fuel(punittype)) {
-    my_snprintf(buffer, sizeof(buffer),
-		"%d/%d/%d(%d)",
-		punittype->attack_strength,
-		punittype->defense_strength,
-		punittype->move_rate / 3,
-		punittype->move_rate / 3 * utype_fuel(punittype));
+    fc_snprintf(buffer, sizeof(buffer), "%d/%d/%d(%d)",
+                punittype->attack_strength,
+                punittype->defense_strength,
+                punittype->move_rate / 3,
+                punittype->move_rate / 3 * utype_fuel(punittype));
   } else {
-    my_snprintf(buffer, sizeof(buffer),
-		"%d/%d/%d",
-		punittype->attack_strength,
-		punittype->defense_strength,
-		punittype->move_rate / 3);
+    fc_snprintf(buffer, sizeof(buffer), "%d/%d/%d",
+                punittype->attack_strength,
+                punittype->defense_strength,
+                punittype->move_rate / 3);
   }
   return buffer;
 }
@@ -386,7 +384,7 @@ const char *utype_values_translation(const struct unit_type *punittype)
 {
   static char buffer[256];
 
-  my_snprintf(buffer, sizeof(buffer),
+  fc_snprintf(buffer, sizeof(buffer),
               "%s [%s]",
               utype_name_translation(punittype),
               utype_values_string(punittype));
@@ -424,7 +422,7 @@ const char *role_units_translations(int flag)
   int count = num_role_units(flag);
 
   if (count == 1) {
-    return mystrdup(utype_name_translation(get_role_unit(flag, 0)));
+    return fc_strdup(utype_name_translation(get_role_unit(flag, 0)));
   }
 
   if (count > 0) {
@@ -525,7 +523,7 @@ struct unit_type *find_unit_type_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   unit_type_iterate(punittype) {
-    if (0 == mystrcasecmp(utype_rule_name(punittype), qname)) {
+    if (0 == fc_strcasecmp(utype_rule_name(punittype), qname)) {
       return punittype;
     }
   } unit_type_iterate_end;
@@ -542,7 +540,7 @@ struct unit_class *find_unit_class_by_rule_name(const char *s)
   const char *qs = Qn_(s);
 
   unit_class_iterate(pclass) {
-    if (0 == mystrcasecmp(uclass_rule_name(pclass), qs)) {
+    if (0 == fc_strcasecmp(uclass_rule_name(pclass), qs)) {
       return pclass;
     }
   } unit_class_iterate_end;
@@ -560,7 +558,7 @@ enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
   fc_assert_ret_val(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST, UCF_LAST);
 
   for(i = 0; i < UCF_LAST; i++) {
-    if (mystrcasecmp(unit_class_flag_names[i], s)==0) {
+    if (fc_strcasecmp(unit_class_flag_names[i], s)==0) {
       return i;
     }
   }
@@ -592,7 +590,7 @@ void set_user_unit_flag_name(enum unit_flag_id id, const char *name)
   }
 
   if (name && name[0] != '\0') {
-    user_flag_names[ufid] = mystrdup(name);
+    user_flag_names[ufid] = fc_strdup(name);
   }
 }
 
@@ -607,13 +605,13 @@ enum unit_flag_id find_unit_flag_by_rule_name(const char *s)
   fc_assert_ret_val(ARRAY_SIZE(flag_names) == F_USER_FLAG_1, F_LAST);
 
   for (i = 0; i < F_USER_FLAG_1; i++) {
-    if (mystrcasecmp(flag_names[i], s) == 0) {
+    if (fc_strcasecmp(flag_names[i], s) == 0) {
       return i;
     }
   }
   for (i = 0; i < MAX_NUM_USER_UNIT_FLAGS; i++) {
     if (user_flag_names[i] != NULL
-        && mystrcasecmp(user_flag_names[i], s) == 0) {
+        && fc_strcasecmp(user_flag_names[i], s) == 0) {
       return i + F_USER_FLAG_1;
     }
   }
@@ -646,8 +644,8 @@ enum unit_role_id find_unit_role_by_rule_name(const char *s)
 
   fc_assert_ret_val(ARRAY_SIZE(role_names) == (L_LAST - L_FIRST), L_LAST);
 
-  for(i=L_FIRST; i<L_LAST; i++) {
-    if (mystrcasecmp(role_names[i-L_FIRST], s)==0) {
+  for(i = L_FIRST; i < L_LAST; i++) {
+    if (fc_strcasecmp(role_names[i - L_FIRST], s) == 0) {
       return i;
     }
   }

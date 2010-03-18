@@ -79,13 +79,13 @@ typedef long int fc_errno;
 typedef int fc_errno;
 #endif
 
-int mystrcasecmp(const char *str0, const char *str1);
-int mystrncasecmp(const char *str0, const char *str1, size_t n);
-int mystrncasequotecmp(const char *str0, const char *str1, size_t n);
+int fc_strcasecmp(const char *str0, const char *str1);
+int fc_strncasecmp(const char *str0, const char *str1, size_t n);
+int fc_strncasequotecmp(const char *str0, const char *str1, size_t n);
 
 size_t effectivestrlenquote(const char *str);
 
-char *mystrcasestr(const char *haystack, const char *needle);
+char *fc_strcasestr(const char *haystack, const char *needle);
 
 FILE *fc_fopen(const char *filename, const char *opentype);
 #ifdef HAVE_LIBZ
@@ -97,7 +97,7 @@ int fc_stat(const char *filename, struct stat *buf);
 
 fc_errno fc_get_errno(void);
 const char *fc_strerror(fc_errno err);
-void myusleep(unsigned long usec);
+void fc_usleep(unsigned long usec);
 
 bool fc_strrep(char *str, size_t len, const char *search,
                const char *replace);
@@ -105,41 +105,41 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
                        const char *replace)
                        fc__attribute((warn_unused_result));
 
-size_t mystrlcpy(char *dest, const char *src, size_t n);
-size_t mystrlcat(char *dest, const char *src, size_t n);
+size_t fc_strlcpy(char *dest, const char *src, size_t n);
+size_t fc_strlcat(char *dest, const char *src, size_t n);
 
 /* convenience macros for use when dest is a char ARRAY: */
-#define sz_strlcpy(dest,src) ((void)mystrlcpy((dest),(src),sizeof(dest)))
-#define sz_strlcat(dest,src) ((void)mystrlcat((dest),(src),sizeof(dest)))
+#define sz_strlcpy(dest,src) ((void) fc_strlcpy((dest), (src), sizeof(dest)))
+#define sz_strlcat(dest,src) ((void) fc_strlcat((dest), (src), sizeof(dest)))
 
-int my_snprintf(char *str, size_t n, const char *format, ...)
+int fc_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((__format__ (__printf__, 3, 4)))
      fc__attribute((nonnull (1, 3)));
-int my_vsnprintf(char *str, size_t n, const char *format, va_list ap )
+int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap )
      fc__attribute((nonnull (1, 3)));
 int cat_snprintf(char *str, size_t n, const char *format, ...)
      fc__attribute((__format__ (__printf__, 3, 4)))
      fc__attribute((nonnull (1, 3)));
 
-int my_gethostname(char *buf, size_t len);
+int fc_gethostname(char *buf, size_t len);
 
 #ifdef SOCKET_ZERO_ISNT_STDIN
 /* Support for console I/O in case SOCKET_ZERO_ISNT_STDIN. */
-void my_init_console(void);
-char *my_read_console(void);
+void fc_init_console(void);
+char *fc_read_console(void);
 #endif
 
 bool is_reg_file_for_access(const char *name, bool write_access);
 
 int fc_break_lines(char *str, size_t desired_len);
 
-bool my_isalnum(char c);
-bool my_isalpha(char c);
-bool my_isdigit(char c);
-bool my_isprint(char c);
-bool my_isspace(char c);
-bool my_isupper(char c);
-char my_toupper(char c);
-char my_tolower(char c);
+bool fc_isalnum(char c);
+bool fc_isalpha(char c);
+bool fc_isdigit(char c);
+bool fc_isprint(char c);
+bool fc_isspace(char c);
+bool fc_isupper(char c);
+char fc_toupper(char c);
+char fc_tolower(char c);
 
 #endif  /* FC__SUPPORT_H */

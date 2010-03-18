@@ -120,7 +120,7 @@ science_dialog_update(void)
 		       id);
     text[0] = '\0';
   } else {
-    my_snprintf(text, sizeof(text), "%d/%d",
+    fc_snprintf(text, sizeof(text), "%d/%d",
 		get_player_research(client.conn.playing)->bulbs_researched,
 		total_bulbs_required(client.conn.playing));
   }
@@ -182,7 +182,7 @@ science_dialog_update(void)
 
   steps = num_unknown_techs_for_goal(client.conn.playing,
                             get_player_research(client.conn.playing)->tech_goal);
-  my_snprintf(text, sizeof(text),
+  fc_snprintf(text, sizeof(text),
 	      PL_("(%d step)", "(%d steps)", steps), steps);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);
   fcwin_redo_layout(science_dlg);
@@ -235,7 +235,7 @@ static LONG CALLBACK science_proc(HWND hWnd,
 	      to = ComboBox_GetItemData(GetDlgItem(hWnd, ID_SCIENCE_GOAL),
 					to);
 	      steps = num_unknown_techs_for_goal(client.conn.playing, to);
-	      my_snprintf(text, sizeof(text), 
+	      fc_snprintf(text, sizeof(text), 
 	                  PL_("(%d step)", "(%d steps)", steps),
 			  steps);
 	      SetWindowText(GetDlgItem(hWnd,ID_SCIENCE_STEPS), text);
@@ -346,16 +346,16 @@ economy_report_dialog_update(void)
   for (i = 0; i < entries_used; i++) {
     struct improvement_entry *p = &entries[i];
 
-    my_snprintf(buf0, sizeof(buf0), "%s", improvement_name_translation(p->type));
-    my_snprintf(buf1, sizeof(buf1), "%5d", p->count);
-    my_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
-    my_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
+    fc_snprintf(buf0, sizeof(buf0), "%s", improvement_name_translation(p->type));
+    fc_snprintf(buf1, sizeof(buf1), "%5d", p->count);
+    fc_snprintf(buf2, sizeof(buf2), "%5d", p->cost);
+    fc_snprintf(buf3, sizeof(buf3), "%6d", p->total_cost);
 
     fcwin_listview_add_row(lv, i, 4, row);
 
     economy_improvement_type[i] = p->type;
   }
-  my_snprintf(economy_total, sizeof(economy_total),
+  fc_snprintf(economy_total, sizeof(economy_total),
 	      _("Income:%6d    Total Costs: %6d"), tax, total);
   SetWindowText(GetDlgItem(economy_dlg,ID_TRADEREP_CASH),economy_total);
   ListView_SetColumnWidth(lv,0,LVSCW_AUTOSIZE);
@@ -567,7 +567,7 @@ static LONG CALLBACK activeunits_proc(HWND hWnd,
 	      ut1 = activeunits_type[sel];
 	      CHECK_UNIT_TYPE(ut1);
 	      ut2 = can_upgrade_unittype(client.conn.playing, activeunits_type[sel]);
-	      my_snprintf(buf, sizeof(buf),
+	      fc_snprintf(buf, sizeof(buf),
 			  _("Upgrade as many %s to %s as possible for %d gold each?\n"
 			    "Treasury contains %d gold."),
 			  utype_name_translation(ut1),
@@ -652,16 +652,16 @@ activeunits_report_dialog_update(void)
       if ((unitarray[index].active_count > 0)
 	  || (unitarray[index].building_count > 0)) {
         can = (can_upgrade_unittype(client.conn.playing, putype) != NULL);
-        my_snprintf(buf[0], sizeof(buf[0]), "%s",
+        fc_snprintf(buf[0], sizeof(buf[0]), "%s",
                     utype_name_translation(putype));
-        my_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
-        my_snprintf(buf[2], sizeof(buf[2]), "%3d",
+        fc_snprintf(buf[1], sizeof(buf[1]), "%c", can ? '*': '-');
+        fc_snprintf(buf[2], sizeof(buf[2]), "%3d",
                     unitarray[index].building_count);
-        my_snprintf(buf[3], sizeof(buf[3]), "%3d",
+        fc_snprintf(buf[3], sizeof(buf[3]), "%3d",
                     unitarray[index].active_count);
-        my_snprintf(buf[4], sizeof(buf[4]), "%3d",
+        fc_snprintf(buf[4], sizeof(buf[4]), "%3d",
                     unitarray[index].upkeep[O_SHIELD]);
-        my_snprintf(buf[5], sizeof(buf[5]), "%3d",
+        fc_snprintf(buf[5], sizeof(buf[5]), "%3d",
                     unitarray[index].upkeep[O_FOOD]);
         /* TODO: add upkeep[O_GOLD] here */
         fcwin_listview_add_row(lv,k,AU_COL,row);
@@ -675,12 +675,12 @@ activeunits_report_dialog_update(void)
       }
     } unit_type_iterate_end;
 
-    my_snprintf(buf[0],sizeof(buf[0]),"%s",_("Totals"));
+    fc_snprintf(buf[0],sizeof(buf[0]),"%s",_("Totals"));
     buf[1][0]='\0';
-    my_snprintf(buf[2],sizeof(buf[2]),"%d",unittotals.building_count);
-    my_snprintf(buf[3],sizeof(buf[3]),"%d",unittotals.active_count);
-    my_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep[O_SHIELD]);
-    my_snprintf(buf[5],sizeof(buf[5]),"%d",unittotals.upkeep[O_FOOD]);
+    fc_snprintf(buf[2],sizeof(buf[2]),"%d",unittotals.building_count);
+    fc_snprintf(buf[3],sizeof(buf[3]),"%d",unittotals.active_count);
+    fc_snprintf(buf[4],sizeof(buf[4]),"%d",unittotals.upkeep[O_SHIELD]);
+    fc_snprintf(buf[5],sizeof(buf[5]),"%d",unittotals.upkeep[O_FOOD]);
     /* TODO: add upkeep[O_GOLD] here */
     fcwin_listview_add_row(lv,k,AU_COL,row);
     EnableWindow(GetDlgItem(activeunits_dlg,ID_MILITARY_UPGRADE),FALSE);
@@ -968,15 +968,15 @@ static void create_settable_options_dialog(void)
       /* integer */
       char buf[80];
       int length;
-      my_snprintf(buf, 80, "%d", o->max);
+      fc_snprintf(buf, 80, "%d", o->max);
       buf[79] = 0;
       length = strlen(buf);
-      my_snprintf(buf, 80, "%d", o->min);
+      fc_snprintf(buf, 80, "%d", o->min);
       buf[79] = 0;
       if (length < strlen(buf)) {
         length = strlen(buf);
       }
-      my_snprintf(buf, 80, "%d", o->val);
+      fc_snprintf(buf, 80, "%d", o->val);
       fcwin_box_add_edit(hbox, buf, length, ID_OPTIONS_BASE + i, 0, FALSE,
 			 TRUE, 5);
     } else {

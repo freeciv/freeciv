@@ -1074,7 +1074,7 @@ void put_nuke_mushroom_pixmaps(struct tile *ptile)
   flush_dirty();
   gui_flush();
 
-  myusleep(1000000);
+  fc_usleep(1000000);
 
   update_map_canvas_visible();
 }
@@ -1421,7 +1421,7 @@ static void show_full_citybar(struct canvas *pcanvas,
 				   growth, sizeof(growth), &growth_color);
 
   if (draw_city_names) {
-    my_snprintf(size, sizeof(size), "%d", pcity->size);
+    fc_snprintf(size, sizeof(size), "%d", pcity->size);
 
     get_text_size(&size_rect.w, &size_rect.h, FONT_CITY_SIZE, size);
     get_text_size(&name_rect.w, &name_rect.h, FONT_CITY_NAME, name);
@@ -1929,7 +1929,7 @@ void decrease_unit_hp_smooth(struct unit *punit0, int hp0,
 
     anim_timer = renew_timer_start(anim_timer, TIMER_USER, TIMER_ACTIVE);
 
-    if (myrand(diff0 + diff1) < diff0) {
+    if (fc_rand(diff0 + diff1) < diff0) {
       punit0->hp--;
       refresh_unit_mapcanvas(punit0, punit0->tile, FALSE, FALSE);
     } else {
@@ -2245,7 +2245,7 @@ void get_city_mapview_trade_routes(struct city *pcity,
     num_trade_routes++;
   }
 
-  my_snprintf(trade_routes_buffer, trade_routes_buffer_len,
+  fc_snprintf(trade_routes_buffer, trade_routes_buffer_len,
               "%d/%d", num_trade_routes, NUM_TRADE_ROUTES);
 
   if (pcolor) {
@@ -2461,20 +2461,20 @@ void get_city_mapview_name_and_growth(struct city *pcity,
 				      size_t growth_buffer_len,
 				      enum color_std *growth_color)
 {
-  mystrlcpy(name_buffer, city_name(pcity), name_buffer_len);
+  fc_strlcpy(name_buffer, city_name(pcity), name_buffer_len);
 
   if (NULL == client.conn.playing
       || city_owner(pcity) == client.conn.playing) {
     int turns = city_turns_to_grow(pcity);
 
     if (turns == 0) {
-      my_snprintf(growth_buffer, growth_buffer_len, "X");
+      fc_snprintf(growth_buffer, growth_buffer_len, "X");
     } else if (turns == FC_INFINITY) {
-      my_snprintf(growth_buffer, growth_buffer_len, "-");
+      fc_snprintf(growth_buffer, growth_buffer_len, "-");
     } else {
       /* Negative turns means we're shrinking, but that's handled
          down below. */
-      my_snprintf(growth_buffer, growth_buffer_len, "%d", abs(turns));
+      fc_snprintf(growth_buffer, growth_buffer_len, "%d", abs(turns));
     }
 
     if (turns <= 0) {

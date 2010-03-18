@@ -126,7 +126,7 @@ void establish_new_connection(struct connection *pconn)
   /* send join_reply packet */
   packet.you_can_join = TRUE;
   sz_strlcpy(packet.capability, our_capability);
-  my_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
+  fc_snprintf(packet.message, sizeof(packet.message), _("%s Welcome"),
               pconn->username);
   sz_strlcpy(packet.challenge_file, new_challenge_filename(pconn));
   packet.conn_id = pconn->id;
@@ -145,7 +145,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   /* introduce the server to the connection */
-  if (my_gethostname(hostname, sizeof(hostname)) == 0) {
+  if (fc_gethostname(hostname, sizeof(hostname)) == 0) {
     notify_conn(dest, NULL, E_CONNECTION, ftc_any,
                 _("Welcome to the %s Server running at %s port %d."),
                 freeciv_name_version(), hostname, srvarg.port);
@@ -291,7 +291,7 @@ bool handle_login_request(struct connection *pconn,
   
   /* Make sure the server has every capability the client needs */
   if (!has_capabilities(our_capability, req->capability)) {
-    my_snprintf(msg, sizeof(msg),
+    fc_snprintf(msg, sizeof(msg),
                 _("The client is missing a capability that this server needs.\n"
                    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
                    "  Upgrading may help!"),
@@ -306,7 +306,7 @@ bool handle_login_request(struct connection *pconn,
 
   /* Make sure the client has every capability the server needs */
   if (!has_capabilities(req->capability, our_capability)) {
-    my_snprintf(msg, sizeof(msg),
+    fc_snprintf(msg, sizeof(msg),
                 _("The server is missing a capability that the client needs.\n"
                    "Server version: %d.%d.%d%s Client version: %d.%d.%d%s."
                    "  Upgrading may help!"),
@@ -323,7 +323,7 @@ bool handle_login_request(struct connection *pconn,
 
   /* Name-sanity check: could add more checks? */
   if (!is_valid_username(req->username)) {
-    my_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
+    fc_snprintf(msg, sizeof(msg), _("Invalid username '%s'"), req->username);
     reject_new_connection(msg, pconn);
     log_normal(_("%s was rejected: Invalid name [%s]."),
                req->username, pconn->addr);
@@ -332,8 +332,8 @@ bool handle_login_request(struct connection *pconn,
 
   /* don't allow duplicate logins */
   conn_list_iterate(game.all_connections, aconn) {
-    if (mystrcasecmp(req->username, aconn->username) == 0) { 
-      my_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
+    if (fc_strcasecmp(req->username, aconn->username) == 0) { 
+      fc_snprintf(msg, sizeof(msg), _("'%s' already connected."), 
                   req->username);
       reject_new_connection(msg, pconn);
       log_normal(_("%s was rejected: Duplicate login name [%s]."),

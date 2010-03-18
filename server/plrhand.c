@@ -318,7 +318,7 @@ void handle_player_change_government(struct player *pplayer, int government)
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
   } else if (game.info.revolution_length == 0) {
-    turns = myrand(5) + 1;
+    turns = fc_rand(5) + 1;
   } else {
     turns = game.info.revolution_length;
   }
@@ -1333,10 +1333,10 @@ struct nation_type *pick_a_nation(struct nation_type **choices,
   fc_assert_ret_val(pref_nations_avail >= 0, NO_NATION_SELECTED);
 
   if (pref_nations_avail == 0) {
-    pick = myrand(num_nations_avail);
+    pick = fc_rand(num_nations_avail);
     looking_for = AVAILABLE; /* Use any available nation. */
   } else {
-    pick = myrand(pref_nations_avail);
+    pick = fc_rand(pref_nations_avail);
     looking_for = PREFERRED; /* Use a preferred nation only. */
   }
 
@@ -1529,7 +1529,7 @@ bool civil_war_triggered(struct player *pplayer)
 {
   /* Get base probabilities */
 
-  int dice = myrand(100); /* Throw the dice */
+  int dice = fc_rand(100); /* Throw the dice */
   int prob = get_player_bonus(pplayer, EFT_CIVIL_WAR_CHANCE);
 
   /* Now compute the contribution of the cities. */
@@ -1627,7 +1627,7 @@ void civil_war(struct player *pplayer)
   j = city_list_size(pplayer->cities);	    /* number left to process */
   city_list_iterate(pplayer->cities, pcity) {
     if (!is_capital(pcity)) {
-      if (i >= j || (i > 0 && myrand(2) == 1)) {
+      if (i >= j || (i > 0 && fc_rand(2) == 1)) {
         /* Transfer city and units supported by this city to the new owner.
          * We do NOT resolve stack conflicts here, but rather later.
          * Reason: if we have a transporter from one city which is carrying
@@ -1653,7 +1653,7 @@ void civil_war(struct player *pplayer)
   i = city_list_size(cplayer->cities);
 
   /* Choose a capital (random). */
-  city_build_free_buildings(city_list_get(cplayer->cities, myrand(i)));
+  city_build_free_buildings(city_list_get(cplayer->cities, fc_rand(i)));
 
   notify_player(NULL, NULL, E_CIVIL_WAR, ftc_server,
                 /* TRANS: ... Danes ... Poles ... <7> cities. */

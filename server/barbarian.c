@@ -207,7 +207,7 @@ static int random_unchecked_direction(int possibilities, const bool *checked)
   int j = -1;
   int i;
 
-  int num = myrand(possibilities);
+  int num = fc_rand(possibilities);
   for (i = 0; i <= num; i++) {
     j++;
     while (checked[j]) {
@@ -262,7 +262,7 @@ bool unleash_barbarians(struct tile *ptile)
     return FALSE;
   }
 
-  unit_cnt = 3 + myrand(4);
+  unit_cnt = 3 + fc_rand(4);
   for (i = 0; i < unit_cnt; i++) {
     struct unit_type *punittype
       = find_a_unit_type(L_BARBARIAN, L_BARBARIAN_TECH);
@@ -504,10 +504,10 @@ static void try_summon_barbarians(void)
   }
 
   /* do not harass small civs - in practice: do not uprise at the beginning */
-  if ((int)myrand(UPRISE_CIV_MORE) >
+  if ((int)fc_rand(UPRISE_CIV_MORE) >
            (int)city_list_size(victim->cities) -
                 UPRISE_CIV_SIZE/(game.info.barbarianrate-1)
-      || myrand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
+      || fc_rand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
     return;
   }
   log_debug("Barbarians are willing to fight");
@@ -518,7 +518,7 @@ static void try_summon_barbarians(void)
     update_tile_knowledge(utile);
   }
 
-  barb_count = myrand(3) + uprise * game.info.barbarianrate;
+  barb_count = fc_rand(3) + uprise * game.info.barbarianrate;
   leader_type = get_role_unit(L_BARBARIAN_LEADER, 0);
 
   if (!is_ocean_tile(utile)) {

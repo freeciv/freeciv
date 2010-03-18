@@ -345,7 +345,7 @@ static void script_code_load(struct section_file *file)
     const char *section = "script.code";
 
     code = secfile_lookup_str_default(file, "", "%s", section);
-    script_code = mystrdup(code);
+    script_code = fc_strdup(code);
     script_dostring(state, script_code, section);
   }
 }

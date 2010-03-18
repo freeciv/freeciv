@@ -582,7 +582,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
       g_signal_connect_swapped(button, "clicked",
 	  G_CALLBACK(gui_dialog_delete_tab_handler), dlg);
 
-      my_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), _("Ctrl+W"));
+      fc_snprintf(buf, sizeof(buf), _("Close Tab:\n%s"), _("Ctrl+W"));
       gtk_tooltips_set_tip(main_tips, button, buf, "");
 
       image = gtk_image_new_from_stock(GTK_STOCK_CLOSE, GTK_ICON_SIZE_MENU);
@@ -916,7 +916,7 @@ void gui_dialog_set_title(struct gui_dialog *dlg, const char *title)
   if (dlg->title) {
     free(dlg->title);
   }
-  dlg->title = mystrdup(title);
+  dlg->title = fc_strdup(title);
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
     gtk_window_set_title(GTK_WINDOW(dlg->v.window), title);
@@ -990,7 +990,7 @@ void gui_update_font(const char *font_name, const char *font_value)
 {
   char str[512];
 
-  my_snprintf(str, sizeof(str),
+  fc_snprintf(str, sizeof(str),
               "style \"ext-%s\" {\n"
               "  font_name = \"%s\"\n"
               "}\n"
@@ -1017,7 +1017,7 @@ void gui_update_font_full(const char *font_name, const char *font_value,
   screen = gdk_screen_get_default();
   settings = gtk_settings_get_for_screen(screen);
 
-  my_snprintf(buf, sizeof(buf), "Freeciv*.%s", font_name);
+  fc_snprintf(buf, sizeof(buf), "Freeciv*.%s", font_name);
   style = gtk_rc_get_style_by_paths(settings, buf, NULL, G_TYPE_NONE);
 
   if (style) {

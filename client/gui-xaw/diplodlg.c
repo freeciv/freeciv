@@ -360,7 +360,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 					       pdialog->dip_main_form, 
 					       NULL);
   
-  my_snprintf(buf, sizeof(buf), _("The %s offerings"),
+  fc_snprintf(buf, sizeof(buf), _("The %s offerings"),
 	      nation_adjective_for_player(plr0));
   pdialog->dip_headline0=XtVaCreateManagedWidget("dipheadline0", 
 						 labelWidgetClass, 
@@ -368,7 +368,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						 XtNlabel, buf,
 						 NULL);   
 
-  my_snprintf(buf, sizeof(buf), _("The %s offerings"),
+  fc_snprintf(buf, sizeof(buf), _("The %s offerings"),
 	      nation_adjective_for_player(plr1));
   pdialog->dip_headline1=XtVaCreateManagedWidget("dipheadline1", 
 						 labelWidgetClass, 
@@ -482,14 +482,14 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						   pdialog->dip_form1,
 						   NULL);
   
-  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
+  fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
   pdialog->dip_gold_label0=XtVaCreateManagedWidget("dipgoldlabel0", 
 						   labelWidgetClass,
 						   pdialog->dip_form0,
 						   XtNlabel, buf,
 						   NULL);
 
-  my_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
+  fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
   pdialog->dip_gold_label1=XtVaCreateManagedWidget("dipgoldlabel1", 
 						   labelWidgetClass,
 						   pdialog->dip_form1,
@@ -541,7 +541,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtAddCallback(entry, XtNcallback, diplomacy_dialog_alliance_callback,
 		(XtPointer)pdialog);
   
-  my_snprintf(buf, sizeof(buf),
+  fc_snprintf(buf, sizeof(buf),
 	      _("This Eternal Treaty\n"
 		 "marks the results of the diplomatic work between\n"
 		 "The %s %s %s\nand\nThe %s %s %s"),
@@ -582,7 +582,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaSetValues(pdialog->dip_view, XtNwidth, width, NULL); 
   XtVaSetValues(pdialog->dip_clauselist, XtNwidth, width, NULL); 
 
-  my_snprintf(buf, sizeof(buf), _("%s view:"),
+  fc_snprintf(buf, sizeof(buf), _("%s view:"),
               nation_adjective_for_player(plr0));
   pdialog->dip_acceptlabel0=XtVaCreateManagedWidget("dipacceptlabel0",
 						    labelWidgetClass, 
@@ -594,7 +594,7 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 						    pdialog->dip_formm, 
 						    XtNbitmap, get_thumb_pixmap(0),
 						    NULL);
-  my_snprintf(buf, sizeof(buf), _("%s view:"),
+  fc_snprintf(buf, sizeof(buf), _("%s view:"),
               nation_adjective_for_player(plr1));
   pdialog->dip_acceptlabel1=XtVaCreateManagedWidget("dipacceptlabel1",
 						    labelWidgetClass, 

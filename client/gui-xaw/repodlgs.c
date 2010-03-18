@@ -165,7 +165,7 @@ static const char *get_report_title_plus(const char *report_name,
 {
   char buf[512];
   
-  my_snprintf(buf, sizeof(buf), "%s%s", get_report_title(report_name),
+  fc_snprintf(buf, sizeof(buf), "%s%s", get_report_title(report_name),
 	      additional);
 
   return create_centered_string(buf);
@@ -230,13 +230,13 @@ void create_science_dialog(bool make_modal)
     struct player_research *research = get_player_research(client.conn.playing);
 
     if (research->researching == A_UNSET) {
-      my_snprintf(current_text, sizeof(current_text),
+      fc_snprintf(current_text, sizeof(current_text),
 		  _("Researching %s: %d/%s"),
 		  advance_name_translation(advance_by_number(A_NONE)),
 		  research->bulbs_researched,
 		  _("unknown"));
     } else {
-      my_snprintf(current_text, sizeof(current_text),
+      fc_snprintf(current_text, sizeof(current_text),
 		  _("Researching %s: %d/%d"),
 		  advance_name_researching(client.conn.playing),
 		  research->bulbs_researched,
@@ -244,12 +244,12 @@ void create_science_dialog(bool make_modal)
     }
 
     if (research->tech_goal == A_UNSET) {
-      my_snprintf(goal_text, sizeof(goal_text),
+      fc_snprintf(goal_text, sizeof(goal_text),
 		  _("Goal: %s (%d steps)"),
 		  advance_name_translation(advance_by_number(A_NONE)),
 		  0);
     } else {
-      my_snprintf(goal_text, sizeof(goal_text),
+      fc_snprintf(goal_text, sizeof(goal_text),
 		  _("Goal: %s (%d steps)"),
 		  advance_name_translation(advance_by_number(research->tech_goal)),
 		  num_unknown_techs_for_goal(client.conn.playing,
@@ -276,7 +276,7 @@ void create_science_dialog(bool make_modal)
 					   formWidgetClass,
 					   science_dialog_shell,
 					   NULL);
-    my_snprintf(rate_text, sizeof(rate_text), "\ntext not set yet");
+    fc_snprintf(rate_text, sizeof(rate_text), "\ntext not set yet");
     /* TRANS: Research report title */
     report_title = get_report_title_plus(_("Research"), rate_text);
     science_label = XtVaCreateManagedWidget("sciencelabel",
@@ -507,13 +507,13 @@ void science_dialog_update(void)
     free((void *) report_title);
 
     if (research->researching == A_UNSET) {
-      my_snprintf(text, sizeof(text),
+      fc_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%s"),
 		  advance_name_translation(advance_by_number(A_NONE)),
 		  research->bulbs_researched,
 		  _("unknown"));
     } else {
-      my_snprintf(text, sizeof(text),
+      fc_snprintf(text, sizeof(text),
 		  _("Researching %s: %d/%d"),
 		  advance_name_researching(client.conn.playing),
 		  research->bulbs_researched,
@@ -523,12 +523,12 @@ void science_dialog_update(void)
     xaw_set_label(science_current_label, text);
 
     if (research->tech_goal == A_UNSET) {
-      my_snprintf(text, sizeof(text),
+      fc_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
 		  advance_name_translation(advance_by_number(A_NONE)),
 		  0);
     } else {
-      my_snprintf(text, sizeof(text),
+      fc_snprintf(text, sizeof(text),
 		  _("Goal: %s (%d steps)"),
 		  advance_name_translation(advance_by_number(research->tech_goal)),
 		  num_unknown_techs_for_goal(client.conn.playing,
@@ -808,7 +808,7 @@ void economy_report_dialog_update(void)
     for (i = 0; i < entries_used; i++) {
       struct improvement_entry *p = &entries[i];
 
-      my_snprintf(economy_list_names[i], sizeof(economy_list_names[i]),
+      fc_snprintf(economy_list_names[i], sizeof(economy_list_names[i]),
 		  "%-20s%5d%5d%6d",
 		  improvement_name_translation(p->type),
 		  p->count, p->cost, p->total_cost);
@@ -824,7 +824,7 @@ void economy_report_dialog_update(void)
     }
     economy_list_names_ptrs[entries_used] = NULL;
 
-    my_snprintf(economy_total, sizeof(economy_total),
+    fc_snprintf(economy_total, sizeof(economy_total),
 		_("Income:%6d    Total Costs: %6d"), tax, total); 
     xaw_set_label(economy_label2, economy_total); 
     
@@ -1025,7 +1025,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
     punittype1 = utype_by_number(activeunits_type[ret->list_index]);
     punittype2 = can_upgrade_unittype(client.conn.playing, punittype1);
 
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Upgrade as many %s to %s as possible for %d gold each?\n"
 		  "Treasury contains %d gold."),
 		utype_name_translation(punittype1),
@@ -1128,7 +1128,7 @@ void activeunits_report_dialog_update(void)
     unit_type_iterate(punittype) {
       i = utype_index(punittype);
       if ((unitarray[i].active_count > 0) || (unitarray[i].building_count > 0)) {
-	my_snprintf
+	fc_snprintf
 	  (
 	   activeunits_list_names[k],
 	   sizeof(activeunits_list_names[k]),
@@ -1158,7 +1158,7 @@ void activeunits_report_dialog_update(void)
       k=1;
     }
 
-    my_snprintf(activeunits_total, sizeof(activeunits_total),
+    fc_snprintf(activeunits_total, sizeof(activeunits_total),
 	    _("Totals:                     %9d%9d%9d%9d"),
 	    unittotals.building_count, unittotals.active_count,
            unittotals.upkeep[O_SHIELD], unittotals.upkeep[O_FOOD]);
@@ -1276,7 +1276,7 @@ void create_settable_options_dialog(const char *name)
     char buf[256];
     size_t len;
 
-    my_snprintf(buf, sizeof(buf), "%s: %s",
+    fc_snprintf(buf, sizeof(buf), "%s: %s",
                 option_name(poption), option_description(poption));
     len = strlen(buf);
 
@@ -1428,11 +1428,11 @@ void update_settable_options_dialog(void)
                         option_bool_get(poption) ? _("Yes") : _("No"), NULL);
           break;
         case OT_INTEGER:
-          my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+          fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
           XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
           break;
         case OT_STRING:
-          my_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
+          fc_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
           XtVaSetValues(settable_options_widgets[i], XtNstring, buf, NULL);
           break;
         case OT_FONT:
@@ -1443,14 +1443,14 @@ void update_settable_options_dialog(void)
       } else {
         switch (option_type(poption)) {
         case OT_BOOLEAN:
-          my_snprintf(buf, sizeof(buf), "%s",
+          fc_snprintf(buf, sizeof(buf), "%s",
                       option_bool_get(poption) ? _("true") : _("false"));
           break;
         case OT_INTEGER:
-          my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+          fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
           break;
         case OT_STRING:
-          my_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
+          fc_snprintf(buf, sizeof(buf), "%s", option_str_get(poption));
           break;
         case OT_FONT:
           log_error("Option type %d not supported yet.",

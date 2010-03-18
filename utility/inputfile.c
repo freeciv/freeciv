@@ -25,7 +25,7 @@
   pointing to some data if the token was found, or NULL otherwise.
   The data pointed to should not be modified.  The retuned pointer
   is valid _only_ until another inputfile is performed.  (So should
-  be used immediately, or mystrdup-ed etc.)
+  be used immediately, or fc_strdup-ed etc.)
   
   The tokens recognised are as follows:
   (Single quotes are delimiters used here, but are not part of the
@@ -240,7 +240,7 @@ struct inputfile *inf_from_file(const char *filename,
   }
   log_debug("inputfile: opened \"%s\" ok", filename);
   inf = inf_from_stream(fp, datafn);
-  inf->filename = mystrdup(filename);
+  inf->filename = fc_strdup(filename);
   return inf;
 }
 
@@ -381,7 +381,9 @@ static bool check_include(struct inputfile *inf)
   /* skip any whitespace: */
   inf->cur_line_pos = len;
   c = inf->cur_line.str + len;
-  while (*c != '\0' && my_isspace(*c)) c++;
+  while (*c != '\0' && fc_isspace(*c)) {
+    c++;
+  }
 
   if (*c != '\"') {
     inf_log(inf, LOG_ERROR, 
@@ -402,7 +404,9 @@ static bool check_include(struct inputfile *inf)
   inf->cur_line_pos = c - inf->cur_line.str;
 
   /* check rest of line is well-formed: */
-  while (*c != '\0' && my_isspace(*c) && !is_comment(*c)) c++;
+  while (*c != '\0' && fc_isspace(*c) && !is_comment(*c)) {
+    c++;
+  }
   if (!(*c=='\0' || is_comment(*c))) {
     inf_log(inf, LOG_ERROR, "Junk after filename for '*include' line");
     return FALSE;
@@ -559,35 +563,35 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
 
   if (message) {
     va_start(args, message);
-    my_vsnprintf(str, sizeof(str), message, args);
+    fc_vsnprintf(str, sizeof(str), message, args);
     va_end(args);
     sz_strlcat(str, "\n");
   } else {
     str[0] = '\0';
   }
 
-  my_snprintf(buf, sizeof(buf), "  file \"%s\", line %d, pos %d%s",
+  fc_snprintf(buf, sizeof(buf), "  file \"%s\", line %d, pos %d%s",
               inf_filename(inf), inf->line_num, inf->cur_line_pos,
               (inf->at_eof ? ", EOF" : ""));
   sz_strlcat(str, buf);
 
   if (inf->cur_line.str && inf->cur_line.n > 0) {
-    my_snprintf(buf, sizeof(buf), "\n  looking at: '%s'",
+    fc_snprintf(buf, sizeof(buf), "\n  looking at: '%s'",
                 inf->cur_line.str+inf->cur_line_pos);
     sz_strlcat(str, buf);
   }
   if (inf->copy_line.str && inf->copy_line.n > 0) {
-    my_snprintf(buf, sizeof(buf), "\n  original line: '%s'",
+    fc_snprintf(buf, sizeof(buf), "\n  original line: '%s'",
                 inf->copy_line.str);
     sz_strlcat(str, buf);
   }
   if (inf->in_string) {
-    my_snprintf(buf, sizeof(buf), "\n  processing string starting at line %d",
+    fc_snprintf(buf, sizeof(buf), "\n  processing string starting at line %d",
                 inf->string_start_line);
     sz_strlcat(str, buf);
   }
   while ((inf = inf->included_from)) {  /* local pointer assignment */
-    my_snprintf(buf, sizeof(buf), "\n  included from file \"%s\", line %d",
+    fc_snprintf(buf, sizeof(buf), "\n  included from file \"%s\", line %d",
                 inf_filename(inf), inf->line_num);
     sz_strlcat(str, buf);
   }
@@ -676,16 +680,16 @@ static const char *get_token_entry_name(struct inputfile *inf)
   fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && my_isspace(*c)) {
+  while(*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c == '\0')
     return NULL;
   start = c;
-  while (*c != '\0' && !my_isspace(*c) && *c != '=' && !is_comment(*c)) {
+  while (*c != '\0' && !fc_isspace(*c) && *c != '=' && !is_comment(*c)) {
     c++;
   }
-  if (!(*c != '\0' && (my_isspace(*c) || *c == '='))) 
+  if (!(*c != '\0' && (fc_isspace(*c) || *c == '='))) 
     return NULL;
   end = c;
   while (*c != '\0' && *c != '=' && !is_comment(*c)) {
@@ -712,7 +716,7 @@ static const char *get_token_eol(struct inputfile *inf)
 
   if (!at_eol(inf)) {
     c = inf->cur_line.str + inf->cur_line_pos;
-    while(*c != '\0' && my_isspace(*c)) {
+    while(*c != '\0' && fc_isspace(*c)) {
       c++;
     }
     if (*c != '\0' && !is_comment(*c))
@@ -739,7 +743,7 @@ static const char *get_token_white_char(struct inputfile *inf,
   fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && my_isspace(*c)) {
+  while(*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c != target)
@@ -787,20 +791,20 @@ static const char *get_token_value(struct inputfile *inf)
   fc_assert_ret_val(have_line(inf), NULL);
 
   c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && my_isspace(*c)) {
+  while(*c != '\0' && fc_isspace(*c)) {
     c++;
   }
   if (*c == '\0')
     return NULL;
 
-  if (*c == '-' || my_isdigit(*c)) {
+  if (*c == '-' || fc_isdigit(*c)) {
     /* a number: */
     start = c++;
-    while(*c != '\0' && my_isdigit(*c)) {
+    while(*c != '\0' && fc_isdigit(*c)) {
       c++;
     }
     /* check that the trailing stuff is ok: */
-    if (!(*c == '\0' || *c == ',' || my_isspace(*c) || is_comment(*c))) {
+    if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,
@@ -820,7 +824,7 @@ static const char *get_token_value(struct inputfile *inf)
   if (*c == '_' && *(c+1) == '(') {
     has_i18n_marking = TRUE;
     c += 2;
-    while(*c != '\0' && my_isspace(*c)) {
+    while(*c != '\0' && fc_isspace(*c)) {
       c++;
     }
     if (*c == '\0')
@@ -834,11 +838,11 @@ static const char *get_token_value(struct inputfile *inf)
       && border_character != '$') {
     /* A one-word string: maybe FALSE or TRUE. */
     start = c;
-    while (my_isalnum(*c)) {
+    while (fc_isalnum(*c)) {
       c++;
     }
     /* check that the trailing stuff is ok: */
-    if (!(*c == '\0' || *c == ',' || my_isspace(*c) || is_comment(*c))) {
+    if (!(*c == '\0' || *c == ',' || fc_isspace(*c) || is_comment(*c))) {
       return NULL;
     }
     /* If its a comma, we don't want to obliterate it permanently,

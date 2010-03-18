@@ -198,7 +198,7 @@ static struct city *get_selected_city(void)
   len = strlen(ret->string);
   if(len>3 && strcmp(ret->string+len-3, "(A)")==0) {
     char name[MAX_LEN_NAME];
-    mystrlcpy(name, ret->string, MIN(sizeof(name),len-2));
+    fc_strlcpy(name, ret->string, MIN(sizeof(name),len-2));
     return game_find_city_by_name(name);
   }
   return game_find_city_by_name(ret->string);
@@ -242,7 +242,7 @@ void update_goto_dialog(Widget goto_list)
       if (pcity->airlift) {
 	sz_strlcat(name, "(A)");
       }
-      city_name_ptrs[j++]=mystrdup(name);
+      city_name_ptrs[j++]=fc_strdup(name);
     } city_list_iterate_end;
   } players_iterate_end;
 

@@ -390,10 +390,10 @@ static int change_mode_callback(struct widget *pWidget)
     
     /* change setting label */
     if (Main.screen->flags & SDL_FULLSCREEN) {
-      my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
+      fc_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
               Main.screen->w, Main.screen->h);
     } else {
-      my_snprintf(cBuf, sizeof(cBuf), _("Current Setup\n%dx%d"),
+      fc_snprintf(cBuf, sizeof(cBuf), _("Current Setup\n%dx%d"),
               Main.screen->w, Main.screen->h);
     }
     copy_chars_to_string16(
@@ -575,10 +575,10 @@ static int video_callback(struct widget *pWidget)
   
     /* create setting label */
     if (Main.screen->flags & SDL_FULLSCREEN) {
-      my_snprintf(cBuf, sizeof(cBuf),_("Current Setup\nFullscreen %dx%d"),
+      fc_snprintf(cBuf, sizeof(cBuf),_("Current Setup\nFullscreen %dx%d"),
               Main.screen->w, Main.screen->h);
     } else {
-      my_snprintf(cBuf, sizeof(cBuf),_("Current Setup\n%dx%d"), Main.screen->w,
+      fc_snprintf(cBuf, sizeof(cBuf),_("Current Setup\n%dx%d"), Main.screen->w,
               Main.screen->h);
     }
   
@@ -633,7 +633,7 @@ static int video_callback(struct widget *pWidget)
         continue;
       }
     
-      my_snprintf(cBuf, sizeof(cBuf), "%dx%d",
+      fc_snprintf(cBuf, sizeof(cBuf), "%dx%d",
                                   pModes_Rect[i]->w, pModes_Rect[i]->h);
       pTmpGui = create_icon_button_from_chars(NULL, pWindow->dst, cBuf, adj_font(14), 0);
     
@@ -925,7 +925,7 @@ static int local_setting_callback(struct widget *pWidget)
     /* 'smooth unit move msec' */
   
     /* edit */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_msec);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_msec);
     pTmpGui = create_edit_from_chars(NULL, pWindow->dst, cBuf, adj_font(11), adj_size(25),
                                             WF_RESTORE_BACKGROUND);
     pTmpGui->action = smooth_move_unit_msec_callback;
@@ -2144,7 +2144,7 @@ void init_options_button(void)
 				       (WF_WIDGET_HAS_INFO_LABEL |
 					WF_RESTORE_BACKGROUND));
   pOptions_Button->action = optiondlg_callback;
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
   pOptions_Button->key = SDLK_ESCAPE;
   set_wflag(pOptions_Button, WF_HIDDEN);

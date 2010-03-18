@@ -50,7 +50,7 @@
 #include "helpdata.h"
 
 /* helper macro for easy conversion from snprintf and cat_snprintf */
-#define CATLSTR(_b, _s, _t) mystrlcat(_b, _t, _s)
+#define CATLSTR(_b, _s, _t) fc_strlcat(_b, _t, _s)
 
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
@@ -136,15 +136,16 @@ static void insert_generated_table(char *outbuf, size_t outlen, const char *name
             "---------------------------------------------------------------\n");
     terrain_type_iterate(pterrain) {
       if (0 != strlen(terrain_rule_name(pterrain))) {
-	char road_time[4], irrigation_time[4],
-	     mining_time[4], transform_time[4];
-	my_snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
-	my_snprintf(irrigation_time, sizeof(irrigation_time),
-		 "%d", pterrain->irrigation_time);
-	my_snprintf(mining_time, sizeof(mining_time),
-		 "%d", pterrain->mining_time);
-	my_snprintf(transform_time, sizeof(transform_time),
-		 "%d", pterrain->transform_time);
+        char road_time[4], irrigation_time[4],
+             mining_time[4], transform_time[4];
+
+        fc_snprintf(road_time, sizeof(road_time), "%d", pterrain->road_time);
+        fc_snprintf(irrigation_time, sizeof(irrigation_time),
+                    "%d", pterrain->irrigation_time);
+        fc_snprintf(mining_time, sizeof(mining_time),
+                    "%d", pterrain->mining_time);
+        fc_snprintf(transform_time, sizeof(transform_time),
+                    "%d", pterrain->transform_time);
 	cat_snprintf(outbuf, outlen,
 		"%-10s %3s    %3s %-10s %3s %-10s %3s %-10s\n",
 		terrain_name_translation(pterrain),
@@ -728,10 +729,10 @@ void boot_help_texts(struct player *pplayer)
           case HELP_UNIT:
             unit_type_iterate(punittype) {
               pitem = new_help_item(current_type);
-              my_snprintf(name, sizeof(name), " %s",
+              fc_snprintf(name, sizeof(name), " %s",
                           utype_name_translation(punittype));
-              pitem->topic = mystrdup(name);
-              pitem->text = mystrdup("");
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
             } unit_type_iterate_end;
             break;
@@ -739,10 +740,10 @@ void boot_help_texts(struct player *pplayer)
             advance_index_iterate(A_FIRST, i) {
               if (valid_advance_by_number(i)) {
                 pitem = new_help_item(current_type);
-                my_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), " %s",
                             advance_name_for_player(pplayer, i));
-                pitem->topic = mystrdup(name);
-                pitem->text = mystrdup("");
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
               }
             } advance_index_iterate_end;
@@ -751,10 +752,10 @@ void boot_help_texts(struct player *pplayer)
             terrain_type_iterate(pterrain) {
               if (0 != strlen(terrain_rule_name(pterrain))) {
                 pitem = new_help_item(current_type);
-                my_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), " %s",
                             terrain_name_translation(pterrain));
-                pitem->topic = mystrdup(name);
-                pitem->text = mystrdup("");
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
               }
             } terrain_type_iterate_end;
@@ -762,19 +763,19 @@ void boot_help_texts(struct player *pplayer)
             if (terrain_control.river_help_text) {
               pitem = new_help_item(HELP_TEXT);
               /* TRANS: preserve single space at beginning */
-              pitem->topic = mystrdup(_(" Rivers"));
+              pitem->topic = fc_strdup(_(" Rivers"));
               sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
-              pitem->text = mystrdup(long_buffer);
+              pitem->text = fc_strdup(long_buffer);
               help_list_append(category_nodes, pitem);
             }
             break;
           case HELP_GOVERNMENT:
             government_iterate(gov) {
               pitem = new_help_item(current_type);
-              my_snprintf(name, sizeof(name), " %s",
+              fc_snprintf(name, sizeof(name), " %s",
                           government_name_translation(gov));
-              pitem->topic = mystrdup(name);
-              pitem->text = mystrdup("");
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
               help_list_append(category_nodes, pitem);
             } government_iterate_end;
             break;
@@ -782,10 +783,10 @@ void boot_help_texts(struct player *pplayer)
             improvement_iterate(pimprove) {
               if (valid_improvement(pimprove) && !is_great_wonder(pimprove)) {
                 pitem = new_help_item(current_type);
-                my_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), " %s",
                             improvement_name_translation(pimprove));
-                pitem->topic = mystrdup(name);
-                pitem->text = mystrdup("");
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
               }
             } improvement_iterate_end;
@@ -794,23 +795,23 @@ void boot_help_texts(struct player *pplayer)
             improvement_iterate(pimprove) {
               if (valid_improvement(pimprove) && is_great_wonder(pimprove)) {
                 pitem = new_help_item(current_type);
-                my_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), " %s",
                             improvement_name_translation(pimprove));
-                pitem->topic = mystrdup(name);
-                pitem->text = mystrdup("");
+                pitem->topic = fc_strdup(name);
+                pitem->text = fc_strdup("");
                 help_list_append(category_nodes, pitem);
               }
             } improvement_iterate_end;
             break;
           case HELP_RULESET:
             pitem = new_help_item(HELP_RULESET);
-            /*           pitem->topic = mystrdup(_(game.control.name)); */
-            pitem->topic = mystrdup(_(HELP_RULESET_ITEM));
+            /*           pitem->topic = fc_strdup(_(game.control.name)); */
+            pitem->topic = fc_strdup(_(HELP_RULESET_ITEM));
             if (game.control.description[0] != '\0') {
-              pitem->text = mystrdup(_(game.control.description));
+              pitem->text = fc_strdup(_(game.control.description));
             } else {
               pitem->text =
-                  mystrdup(_("Current ruleset contains no description."));
+                  fc_strdup(_("Current ruleset contains no description."));
             }
             help_list_append(help_nodes, pitem);
             break;
@@ -830,7 +831,8 @@ void boot_help_texts(struct player *pplayer)
       /* It wasn't a "generate" node: */
       
       pitem = new_help_item(HELP_TEXT);
-      pitem->topic = mystrdup(_(secfile_lookup_str(sf, "%s.name", sec_name)));
+      pitem->topic = fc_strdup(_(secfile_lookup_str(sf, "%s.name",
+                                                    sec_name)));
 
       paras = secfile_lookup_str_vec(sf, &npara, "%s.text", sec_name);
 
@@ -848,7 +850,7 @@ void boot_help_texts(struct player *pplayer)
       }
       free(paras);
       paras = NULL;
-      pitem->text=mystrdup(long_buffer);
+      pitem->text=fc_strdup(long_buffer);
       help_list_append(help_nodes, pitem);
     } section_list_iterate_end;
 
@@ -934,11 +936,11 @@ get_help_item_spec(const char *name, enum help_page_type htype, int *pos)
     sz_strlcpy(vtopic, name);
     vitem.text = vtext;
     if(htype==HELP_ANY || htype==HELP_TEXT) {
-      my_snprintf(vtext, sizeof(vtext),
+      fc_snprintf(vtext, sizeof(vtext),
 		  _("Sorry, no help topic for %s.\n"), vitem.topic);
       vitem.type = HELP_TEXT;
     } else {
-      my_snprintf(vtext, sizeof(vtext),
+      fc_snprintf(vtext, sizeof(vtext),
 		  _("Sorry, no help topic for %s.\n"
 		    "This page was auto-generated.\n\n"),
 		  vitem.topic);
@@ -1025,7 +1027,7 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     }
   } requirement_vector_iterate_end;
   if (reqs) {
-    mystrlcat(buf, "\n", bufsz);
+    fc_strlcat(buf, "\n", bufsz);
   }
 
 
@@ -1128,7 +1130,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
   if (!utype) {
     log_error("Unknown unit!");
-    mystrlcpy(buf, user_text, bufsz);
+    fc_strlcpy(buf, user_text, bufsz);
     return buf;
   }
   buf[0] = '\0';
@@ -1473,7 +1475,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
 
     unit_type_iterate(transport) {
       if (can_unit_type_transport(transport, utype_class(utype))) {
-        mystrlcpy(allowed_units[num_allowed_units],
+        fc_strlcpy(allowed_units[num_allowed_units],
                   utype_name_translation(transport),
                   sizeof(allowed_units[num_allowed_units]));
         num_allowed_units++;
@@ -1546,7 +1548,7 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
   };
 
   fc_assert_ret(NULL != buf && 0 < bufsz && NULL != user_text);
-  mystrlcpy(buf, user_text, bufsz);
+  fc_strlcpy(buf, user_text, bufsz);
 
   if (NULL == vap) {
     log_error("Unknown tech %d.", i);
@@ -1719,7 +1721,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
     }
   } requirement_vector_iterate_end;
   if (reqs) {
-    mystrlcat(buf, "\n", bufsz);
+    fc_strlcat(buf, "\n", bufsz);
   }
 
   /* Effects */
@@ -2151,7 +2153,7 @@ char *helptext_unit_upkeep_str(struct unit_type *utype)
 
   if (any == 0) {
     /* strcpy(buf, _("None")); */
-    my_snprintf(buf, sizeof(buf), "%d", 0);
+    fc_snprintf(buf, sizeof(buf), "%d", 0);
   }
   return buf;
 }

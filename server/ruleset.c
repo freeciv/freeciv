@@ -169,21 +169,23 @@ static const char *valid_ruleset_filename(const char *subdir,
 
   fc_assert_ret_val(subdir && name && extension, NULL);
 
-  my_snprintf(filename, sizeof(filename), "%s/%s.%s", subdir, name, extension);
+  fc_snprintf(filename, sizeof(filename), "%s/%s.%s",
+              subdir, name, extension);
   log_verbose("Trying \"%s\".", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
 
-  my_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
+  fc_snprintf(filename, sizeof(filename), "default/%s.%s", name, extension);
   log_verbose("Trying \"%s\": default ruleset directory.", filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
   if (dfilename) {
     return dfilename;
   }
 
-  my_snprintf(filename, sizeof(filename), "%s_%s.%s", subdir, name, extension);
+  fc_snprintf(filename, sizeof(filename), "%s_%s.%s",
+              subdir, name, extension);
   log_verbose("Trying \"%s\": alternative ruleset filename syntax.",
               filename);
   dfilename = fileinfoname(get_data_dirs(), filename);
@@ -305,7 +307,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
         bool val;
 
         if (entry_bool_get(pentry, &val)) {
-          my_snprintf(buf, sizeof(buf), "%d", val);
+          fc_snprintf(buf, sizeof(buf), "%d", val);
           name = buf;
         }
       }
@@ -315,7 +317,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
         int val;
 
         if (entry_int_get(pentry, &val)) {
-          my_snprintf(buf, sizeof(buf), "%d", val);
+          fc_snprintf(buf, sizeof(buf), "%d", val);
           name = buf;
         }
       }
@@ -676,7 +678,7 @@ static char *lookup_string(struct section_file *file, const char *prefix,
     /* FIXME: The cast should be safe, but code style is ugly. */
     sval = skip_leading_spaces((char *) sval);
     if (strlen(sval) > 0) {
-      return mystrdup(sval);
+      return fc_strdup(sval);
     }
   }
   return NULL;
@@ -700,7 +702,7 @@ static struct resource *lookup_resource(const char *filename,
   resource_type_iterate(presource) {
     const int i = resource_index(presource);
     const char *isection = &resource_sections[i * MAX_SECTION_LABEL];
-    if (0 == mystrcasecmp(isection, name)) {
+    if (0 == fc_strcasecmp(isection, name)) {
       return presource;
     }
   } resource_type_iterate_end;
@@ -737,7 +739,7 @@ static struct terrain *lookup_terrain(struct section_file *file,
   terrain_type_iterate(pterrain) {
     const int i = terrain_index(pterrain);
     const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
-    if (0 == mystrcasecmp(isection, name)) {
+    if (0 == fc_strcasecmp(isection, name)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -1160,8 +1162,8 @@ if (_count > MAX_VET_LEVELS) {						\
     const char *hut_str;
     const char *sec_name = section_name(section_list_get(csec, i));
 
-    mystrlcat(tmp, sec_name, 200);
-    mystrlcat(tmp, ".move_type", 200);
+    fc_strlcat(tmp, sec_name, 200);
+    fc_strlcat(tmp, ".move_type", 200);
     ut->move_type = lookup_move_type(file, tmp, filename);
     if (secfile_lookup_int(file, &ut->min_speed, "%s.min_speed", sec_name)) {
       ut->min_speed *= SINGLE_MOVE;
@@ -1174,11 +1176,11 @@ if (_count > MAX_VET_LEVELS) {						\
     }
 
     hut_str = secfile_lookup_str_default(file, "Normal", "%s.hut_behavior", sec_name);
-    if (mystrcasecmp(hut_str, "Normal") == 0) {
+    if (fc_strcasecmp(hut_str, "Normal") == 0) {
       ut->hut_behavior = HUT_NORMAL;
-    } else if (mystrcasecmp(hut_str, "Nothing") == 0) {
+    } else if (fc_strcasecmp(hut_str, "Nothing") == 0) {
       ut->hut_behavior = HUT_NOTHING;
-    } else if (mystrcasecmp(hut_str, "Frighten") == 0) {
+    } else if (fc_strcasecmp(hut_str, "Frighten") == 0) {
       ut->hut_behavior = HUT_FRIGHTEN;
     } else {
       ruleset_error(LOG_FATAL,
@@ -1228,8 +1230,8 @@ if (_count > MAX_VET_LEVELS) {						\
                                      rule_name(&u->name));
     if (NULL != section_entry_by_name(psection, "gov_req")) {
       char tmp[200] = "\0";
-      mystrlcat(tmp, section_name(psection), sizeof(tmp));
-      mystrlcat(tmp, ".gov_req", sizeof(tmp));
+      fc_strlcat(tmp, section_name(psection), sizeof(tmp));
+      fc_strlcat(tmp, ".gov_req", sizeof(tmp));
       u->need_government = lookup_government(file, tmp, filename);
     } else {
       u->need_government = NULL; /* no requirement */
@@ -2243,7 +2245,7 @@ static void load_ruleset_governments(struct section_file *file)
     if (NULL != secfile_entry_lookup(file, "%s.ai_better", sec_name)) {
       char entry[100];
 
-      my_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
+      fc_snprintf(entry, sizeof(entry), "%s.ai_better", sec_name);
       g->ai.better = lookup_government(file, entry, filename);
     } else {
       g->ai.better = NULL;
@@ -2465,33 +2467,34 @@ static struct nation_city *load_city_name_list(struct section_file *file,
 	  } else {
 	    setting = 1;
 	  }
-	
-	  if (mystrcasecmp(name, "river") == 0) {
-	    city_names[j].river = setting;
-	  } else {
-	    /* "handled" tracks whether we find a match (for error handling) */
-	    bool handled = FALSE;
-	    int l = strlen(name);
 
-	    if (l > 0  && 's' == my_tolower(name[l-1])) {
-	      /* remove frequent trailing 's' */
-	      name[--l] = '\0';
-	    }
+          if (fc_strcasecmp(name, "river") == 0) {
+            city_names[j].river = setting;
+          } else {
+            /* "handled" tracks whether we find a match
+             * (for error handling) */
+            bool handled = FALSE;
+            int l = strlen(name);
 
-	    terrain_type_iterate(pterrain) {
-	      const int i = terrain_index(pterrain);
-	      const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
+            if (l > 0  && 's' == fc_tolower(name[l-1])) {
+              /* remove frequent trailing 's' */
+              name[--l] = '\0';
+            }
+
+            terrain_type_iterate(pterrain) {
+              const int i = terrain_index(pterrain);
+              const char *isection = &terrain_sections[i * MAX_SECTION_LABEL];
               /*
                * Note that the section name is unique (by definition).
                * The sub-strings are carefully crafted for this function.
                */
-	      if (NULL != mystrcasestr(isection, name)) {
-	        city_names[j].terrain[i] = setting;
-	        handled = TRUE;
-		break;
-	      }
-	    } terrain_type_iterate_end;
-	    if (!handled) {
+              if (NULL != fc_strcasestr(isection, name)) {
+                city_names[j].terrain[i] = setting;
+                handled = TRUE;
+                break;
+              }
+            } terrain_type_iterate_end;
+            if (!handled) {
              /* Nation authors may use terrains like "lake" that are
               * available in the default ruleset but not in civ1/civ2.
               * In normal use we should just ignore hints for unknown
@@ -2508,7 +2511,7 @@ static struct nation_city *load_city_name_list(struct section_file *file,
     } /* if (name) */
     /* FIXME: Remove the cast-HACK. */
     remove_leading_trailing_spaces((char *) cities[j]);
-    city_names[j].name = mystrdup(cities[j]);
+    city_names[j].name = fc_strdup(cities[j]);
     if (check_name(city_names[j].name)) {
       /* The ruleset contains a name that is too long.  This shouldn't
 	 happen - if it does, the author should get immediate feedback */
@@ -2616,7 +2619,7 @@ static void load_ruleset_nations(struct section_file *file)
     pl->leaders = fc_calloc(dim /*exact*/, sizeof(*(pl->leaders)));
 
     for(j = 0; j < dim; j++) {
-      pl->leaders[j].name = mystrdup(leaders[j]);
+      pl->leaders[j].name = fc_strdup(leaders[j]);
       if (check_name(leaders[j])) {
 	pl->leaders[j].name[MAX_LEN_NAME - 1] = '\0';
       }
@@ -2647,9 +2650,9 @@ static void load_ruleset_nations(struct section_file *file)
                     nation_rule_name(pl), (int) dim, pl->leader_count);
     }
     for (j = 0; j < dim; j++) {
-      if (0 == mystrcasecmp(leaders[j], "Male")) {
+      if (0 == fc_strcasecmp(leaders[j], "Male")) {
         pl->leaders[j].is_male = TRUE;
-      } else if (0 == mystrcasecmp(leaders[j], "Female")) {
+      } else if (0 == fc_strcasecmp(leaders[j], "Female")) {
         pl->leaders[j].is_male = FALSE;
       } else {
         log_error("Nation %s, leader %s: sex must be either Male or Female; "
@@ -2674,9 +2677,9 @@ static void load_ruleset_nations(struct section_file *file)
     /* Check barbarian type. Default is "None" meaning not a barbarian */    
     barb_type = secfile_lookup_str_default(file, "None",
                                            "%s.barbarian_type", sec_name);
-    if (mystrcasecmp(barb_type, "None") == 0) {
+    if (fc_strcasecmp(barb_type, "None") == 0) {
       pl->barb_type = NOT_A_BARBARIAN;
-    } else if (mystrcasecmp(barb_type, "Land") == 0) {
+    } else if (fc_strcasecmp(barb_type, "Land") == 0) {
       if (pl->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
@@ -2686,7 +2689,7 @@ static void load_ruleset_nations(struct section_file *file)
       }
       pl->barb_type = LAND_BARBARIAN;
       barb_land_count++;
-    } else if (mystrcasecmp(barb_type, "Sea") == 0) {
+    } else if (fc_strcasecmp(barb_type, "Sea") == 0) {
       if (pl->is_playable) {
         /* We can't allow players to use barbarian nations, barbarians
          * may run out of nations */
@@ -2807,15 +2810,15 @@ static void load_ruleset_nations(struct section_file *file)
                          pl->init_buildings, filename);
     lookup_unit_list(file, sec_name, "init_units", LOG_ERROR, pl->init_units,
                      filename);
-    mystrlcat(tmp, sec_name, 200);
-    mystrlcat(tmp, ".init_government", 200);
+    fc_strlcat(tmp, sec_name, 200);
+    fc_strlcat(tmp, ".init_government", 200);
     pl->init_government = lookup_government(file, tmp, filename);
 
     /* read "normal" city names */
 
     pl->city_names = load_city_name_list(file, sec_name, "cities");
 
-    pl->legend = mystrdup(secfile_lookup_str(file, "%s.legend", sec_name));
+    pl->legend = fc_strdup(secfile_lookup_str(file, "%s.legend", sec_name));
     if (check_strlen(pl->legend, MAX_LEN_MSG, "Legend '%s' is too long")) {
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
@@ -3078,7 +3081,7 @@ static int secfile_lookup_int_default_min_max(struct section_file *file,
   va_list args;
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!secfile_lookup_int(file, &ival, "%s", fullpath)) {
@@ -3257,9 +3260,9 @@ static void load_ruleset_game(void)
   } output_type_iterate_end;
 
   sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
-  if (mystrcasecmp(sval, "Pollution") == 0) {
+  if (fc_strcasecmp(sval, "Pollution") == 0) {
     game.info.nuke_contamination = CONTAMINATION_POLLUTION;
-  } else if (mystrcasecmp(sval, "Fallout") == 0) {
+  } else if (fc_strcasecmp(sval, "Fallout") == 0) {
     game.info.nuke_contamination = CONTAMINATION_FALLOUT;
   } else {
     log_error("Bad value %s for nuke_contamination. Using "

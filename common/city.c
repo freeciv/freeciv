@@ -374,7 +374,7 @@ Output_type_id find_output_type_by_identifier(const char *id)
   Output_type_id o;
 
   for (o = 0; o < O_LAST; o++) {
-    if (mystrcasecmp(output_types[o].name, id) == 0) {
+    if (fc_strcasecmp(output_types[o].name, id) == 0) {
       return o;
     }
   }
@@ -412,9 +412,8 @@ const char *city_improvement_name_translation(const struct city *pcity,
   }
 
   if (state) {
-    my_snprintf(buffer, sizeof(buffer), "%s(%s)",
-		improvement_name_translation(pimprove),
-		state); 
+    fc_snprintf(buffer, sizeof(buffer), "%s(%s)",
+                improvement_name_translation(pimprove), state); 
     return buffer;
   } else {
     return improvement_name_translation(pimprove);
@@ -1331,7 +1330,7 @@ struct city *city_list_find_id(struct city_list *This, int id)
 struct city *city_list_find_name(struct city_list *This, const char *name)
 {
   city_list_iterate(This, pcity) {
-    if (mystrcasecmp(name, pcity->name) == 0) {
+    if (fc_strcasecmp(name, pcity->name) == 0) {
       return pcity;
     }
   } city_list_iterate_end;
@@ -1340,14 +1339,14 @@ struct city *city_list_find_name(struct city_list *This, const char *name)
 }
 
 /**************************************************************************
-Comparison function for qsort for city _pointers_, sorting by city name.
-Args are really (struct city**), to sort an array of pointers.
-(Compare with old_city_name_compare() in game.c, which use city_id's)
+  Comparison function for qsort for city _pointers_, sorting by city name.
+  Args are really (struct city**), to sort an array of pointers.
+  (Compare with old_city_name_compare() in game.c, which use city_id's)
 **************************************************************************/
 int city_name_compare(const void *p1, const void *p2)
 {
-  return mystrcasecmp( (*(const struct city**)p1)->name,
-		       (*(const struct city**)p2)->name );
+  return fc_strcasecmp((*(const struct city **) p1)->name,
+                       (*(const struct city **) p2)->name);
 }
 
 /**************************************************************************
@@ -1407,7 +1406,7 @@ int find_city_style_by_rule_name(const char *s)
   int i;
 
   for (i = 0; i < game.control.styles_count; i++) {
-    if (0 == mystrcasecmp(city_style_rule_name(i), qs)) {
+    if (0 == fc_strcasecmp(city_style_rule_name(i), qs)) {
       return i;
     }
   }
@@ -2871,7 +2870,7 @@ bool city_is_virtual(const struct city *pcity)
 **************************************************************************/
 enum citytile_type find_citytile_by_rule_name(const char *name)
 {
-  if (!mystrcasecmp(name, "center")) {
+  if (!fc_strcasecmp(name, "center")) {
     return CITYT_CENTER;
   }
 

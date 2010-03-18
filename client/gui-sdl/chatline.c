@@ -222,7 +222,7 @@ static void popup_load_game_dialog(void)
      
     /* store filename */
     pFilenameLabel->data.ptr = fc_calloc(1, strlen(pfile->fullname) + 1);
-    mystrlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
+    fc_strlcpy((char*)pFilenameLabel->data.ptr, pfile->fullname, strlen(pfile->fullname) + 1);
     
     pFilenameLabel->action = load_selected_game_callback;
      
@@ -378,7 +378,7 @@ void real_output_window_append(const char *astring,
     add_to_chat_list(pUniStr, n);
   } else {
     char message[MAX_LEN_MSG];
-    my_snprintf(message , MAX_LEN_MSG, "%s" , astring);
+    fc_snprintf(message , MAX_LEN_MSG, "%s" , astring);
     
     add_notify_window(message, tags, NULL, E_CHAT_MSG);
   }
@@ -724,7 +724,7 @@ static void popup_conn_list_dialog(void)
   
   {  
     char cBuf[256];   
-    my_snprintf(cBuf, sizeof(cBuf), _("Total users logged in : %d"), n);
+    fc_snprintf(cBuf, sizeof(cBuf), _("Total users logged in : %d"), n);
     pStr = create_str16_from_char(cBuf, adj_font(12));
   }
   

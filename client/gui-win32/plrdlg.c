@@ -130,7 +130,7 @@ static void build_row(const char **row, int player_index, int update)
   /* we cassume that neither name nor the nation of a player changes */
   if (update == 0) {
     /* the playername */
-    my_snprintf(namebuf, sizeof(namebuf), "%-16s", player_name(pplayer));
+    fc_snprintf(namebuf, sizeof(namebuf), "%-16s", player_name(pplayer));
     row[0] = namebuf;
 
 
@@ -148,10 +148,10 @@ static void build_row(const char **row, int player_index, int update)
   } else {
     pds = pplayer_get_diplstate(client.conn.playing, pplayer);
     if (pds->type == DS_CEASEFIRE) {
-      my_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
+      fc_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
     } else {
-      my_snprintf(dsbuf, sizeof(dsbuf), "%s", diplstate_text(pds->type));
+      fc_snprintf(dsbuf, sizeof(dsbuf), "%s", diplstate_text(pds->type));
     }
   }
 
@@ -160,7 +160,7 @@ static void build_row(const char **row, int player_index, int update)
 
   /* text for idleness */
   if (pplayer->nturns_idle > 3) {
-    my_snprintf(idlebuf, sizeof(idlebuf),
+    fc_snprintf(idlebuf, sizeof(idlebuf),
 		PL_("(idle %d turn)",
 		    "(idle %d turns)",
 		    pplayer->nturns_idle - 1),
@@ -194,7 +194,7 @@ static int CALLBACK sort_proc(LPARAM lParam1, LPARAM lParam2,
   sz_strlcpy(text1,row_texts[lParamSort]);
   build_row(row_texts,lParam2,0);
   sz_strlcpy(text2,row_texts[lParamSort]);
-  return sort_dir*mystrcasecmp(text1,text2);
+  return sort_dir*fc_strcasecmp(text1,text2);
 }
 
 /******************************************************************

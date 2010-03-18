@@ -114,7 +114,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0, NULL);
   } else if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Bribe unit for %d gold?\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
@@ -123,7 +123,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
 			 diplomat_bribe_no_callback, 0, 0,
 			 NULL);
   } else {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
@@ -641,12 +641,12 @@ void popup_incite_dialog(struct city *pcity, int cost)
   char buf[128];
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
-    my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
+    fc_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(toplevel, "diplomatnogolddialog", buf,
 			 diplomat_incite_no_callback, 0, 0, NULL);
   } else if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
@@ -656,7 +656,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
 			diplomat_incite_no_callback, 0, 0,
 			NULL);
   } else {
-   my_snprintf(buf, sizeof(buf),
+   fc_snprintf(buf, sizeof(buf),
 	       _("Inciting a revolt costs %d gold.\n"
 		 "Treasury contains %d gold."), 
 	       cost, client.conn.playing->economic.gold);
@@ -716,7 +716,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name_translation(punit),
 		city_name(pcity));

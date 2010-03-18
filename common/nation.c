@@ -110,7 +110,7 @@ struct nation_type *find_nation_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   nations_iterate(pnation) {
-    if (0 == mystrcasecmp(nation_rule_name(pnation), qname)) {
+    if (0 == fc_strcasecmp(nation_rule_name(pnation), qname)) {
       return pnation;
     }
   } nations_iterate_end;
@@ -508,7 +508,7 @@ struct nation_group *add_new_nation_group(const char *name)
   }
 
   for (i = 0; i < num_nation_groups; i++) {
-    if (mystrcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
+    if (fc_strcasecmp(Qn_(name), Qn_(nation_groups[i].name)) == 0) {
       log_fatal("Duplicate group name %s.", Qn_(name));
       exit(EXIT_FAILURE);
     }
@@ -579,7 +579,7 @@ struct nation_group *find_nation_group_by_rule_name(const char *name)
   int i;
 
   for (i = 0; i < num_nation_groups; i++) {
-    if (0 == mystrcasecmp(Qn_(nation_groups[i].name), qname)) {
+    if (0 == fc_strcasecmp(Qn_(nation_groups[i].name), qname)) {
       return &nation_groups[i];
     }
   }

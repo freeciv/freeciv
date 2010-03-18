@@ -620,8 +620,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     log_debug("steal-tech: difficulty: %d", count);
     /* Determine success or failure. */
     while (count > 0) {
-      if (myrand (100) >= game.info.diplchance) {
-	break;
+      if (fc_rand (100) >= game.info.diplchance) {
+        break;
       }
       count--;
     }
@@ -744,7 +744,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   log_debug("incite: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  if (myrand (100) >= game.info.diplchance) {
+  if (fc_rand (100) >= game.info.diplchance) {
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
@@ -857,7 +857,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   log_debug("sabotage: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  if (myrand (100) >= success_prob) {
+  if (fc_rand (100) >= success_prob) {
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
@@ -908,12 +908,12 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
       log_debug("sabotage: random: nothing to do");
       return;
     }
-    if (count == 0 || myrand (2) == 1) {
+    if (count == 0 || fc_rand (2) == 1) {
       ptarget = NULL;
       log_debug("sabotage: random: targeted production");
     } else {
       ptarget = NULL;
-      which = myrand (count);
+      which = fc_rand (count);
 
       city_built_iterate(pcity, pimprove) {
 	if (pimprove->sabotage > 0) {
@@ -1011,7 +1011,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
     vulnerability -= (vulnerability
 		      * get_city_bonus(pcity, EFT_SPY_RESISTANT) / 100);
 
-    if (myrand(100) >= vulnerability) {
+    if (fc_rand(100) >= vulnerability) {
       /* Caught! */
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
@@ -1112,7 +1112,7 @@ static bool diplomat_success_vs_defender(struct unit *pattacker,
     }
   }
   
-  return myrand(100) < chance;
+  return fc_rand(100) < chance;
 }
 
 /**************************************************************************
@@ -1238,7 +1238,8 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
 
   if (spyhome
       && unit_has_type_flag(pdiplomat, F_SPY)
-      && (myrand (100) < escapechance || unit_has_type_flag(pdiplomat, F_SUPERSPY))) {
+      && (unit_has_type_flag(pdiplomat, F_SUPERSPY)
+          || fc_rand (100) < escapechance)) {
     /* Attacking Spy/Diplomat survives. */
     notify_player(pplayer, ptile, E_MY_DIPLOMAT_ESCAPE, ftc_server,
                   _("Your %s has successfully completed"

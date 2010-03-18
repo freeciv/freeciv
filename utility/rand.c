@@ -43,9 +43,9 @@
 #define log_rand log_debug
 
 /* A global random state:
- * Initialized by mysrand(), updated by myrand(),
- * Can be duplicated/saved/restored via get_myrand_state()
- * and set_myrand_state().
+ * Initialized by fc_srand(), updated by fc_rand(),
+ * Can be duplicated/saved/restored via fc_rand_state()
+ * and fc_rand_set_state().
  */
 static RANDOM_STATE rand_state;
 
@@ -76,8 +76,8 @@ static RANDOM_STATE rand_state;
   directly representable in type RANDOM_TYPE, so we do instead:
          divisor = MAX_UINT32/size
 *************************************************************************/
-RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as,
-			 int line, const char *file) 
+RANDOM_TYPE fc_rand_debug(RANDOM_TYPE size, const char *called_as,
+                          int line, const char *file) 
 {
   RANDOM_TYPE new_rand, divisor, max;
   int bailout = 0;
@@ -133,7 +133,7 @@ RANDOM_TYPE myrand_debug(RANDOM_TYPE size, const char *called_as,
 /*************************************************************************
   Initialize the generator; see comment at top of file.
 *************************************************************************/
-void mysrand(RANDOM_TYPE seed) 
+void fc_srand(RANDOM_TYPE seed) 
 { 
     int  i; 
 
@@ -150,21 +150,21 @@ void mysrand(RANDOM_TYPE seed)
     rand_state.is_init = TRUE;
 
     /* Heat it up a bit:
-     * Using modulus in myrand() this was important to pass
-     * test_random1().  Now using divisor in myrand() that particular
+     * Using modulus in fc_rand() this was important to pass
+     * test_random1().  Now using divisor in fc_rand() that particular
      * test no longer indicates problems, but this seems a good idea
      * anyway -- eg, other tests could well reveal other initial
      * problems even using divisor.
      */
     for (i=0; i<10000; i++) {
-      (void) myrand(MAX_UINT32);
+      (void) fc_rand(MAX_UINT32);
     }
 } 
 
 /*************************************************************************
   Return whether the current state has been initialized.
 *************************************************************************/
-bool myrand_is_init(void)
+bool fc_rand_is_init(void)
 {
   return rand_state.is_init;
 }
@@ -172,14 +172,14 @@ bool myrand_is_init(void)
 /*************************************************************************
   Return a copy of the current rand_state; eg for save/restore.
 *************************************************************************/
-RANDOM_STATE get_myrand_state(void)
+RANDOM_STATE fc_rand_state(void)
 {
   int i;
 
-  log_rand("get_myrand_state J=%d K=%d X=%d",
+  log_rand("fc_rand_state J=%d K=%d X=%d",
            rand_state.j, rand_state.k, rand_state.x);
   for (i  = 0; i < 8; i++) {
-    log_rand("get_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+    log_rand("fc_rand_state %d, %08x %08x %08x %08x %08x %08x %08x",
              i, rand_state.v[7 * i],
              rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
              rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
@@ -193,16 +193,16 @@ RANDOM_STATE get_myrand_state(void)
   Replace current rand_state with user-supplied; eg for save/restore.
   Caller should take care to set state.is_init beforehand if necessary.
 *************************************************************************/
-void set_myrand_state(RANDOM_STATE state)
+void fc_rand_set_state(RANDOM_STATE state)
 {
   int i;
 
   rand_state = state;
 
-  log_rand("set_myrand_state J=%d K=%d X=%d",
+  log_rand("fc_rand_set_state J=%d K=%d X=%d",
            rand_state.j, rand_state.k, rand_state.x);
   for (i  = 0; i < 8; i++) {
-    log_rand("set_myrand_state %d, %08x %08x %08x %08x %08x %08x %08x",
+    log_rand("fc_rand_set_state %d, %08x %08x %08x %08x %08x %08x %08x",
              i, rand_state.v[7 * i],
              rand_state.v[7 * i + 1], rand_state.v[7 * i + 2],
              rand_state.v[7 * i + 3], rand_state.v[7 * i + 4],
@@ -224,11 +224,11 @@ void test_random1(int n)
   bool didchange, olddidchange = FALSE;
   int behaviourchange = 0, behavioursame = 0;
 
-  saved_state = get_myrand_state();
-  /* mysrand(time(NULL)); */  /* use current state */
+  saved_state = fc_rand_state();
+  /* fc_srand(time(NULL)); */  /* use current state */
 
   for (i = 0; i < n+2; i++) {
-    new_value = myrand(2);
+    new_value = fc_rand(2);
     if (i > 0) {		/* have old */
       didchange = (new_value != old_value);
       if (i > 1) {		/* have olddidchange */
@@ -246,18 +246,19 @@ void test_random1(int n)
            n, behavioursame, behaviourchange);
 
   /* restore state: */
-  set_myrand_state(saved_state);
+  fc_rand_set_state(saved_state);
 }
 
 /*************************************************************************
   Local pseudo-random function for repeatedly reaching the same result,
-  instead of myrand().  Primarily needed for tiles.
+  instead of fc_rand().  Primarily needed for tiles.
 
   Use an invariant equation for seed.
   Result is 0 to (size - 1).
 *************************************************************************/
-RANDOM_TYPE myrandomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
-			     const char *called_as, int line, const char *file)
+RANDOM_TYPE fc_randomly_debug(RANDOM_TYPE seed, RANDOM_TYPE size,
+                              const char *called_as,
+                              int line, const char *file)
 {
   RANDOM_TYPE result;
 

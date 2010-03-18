@@ -86,7 +86,7 @@ void send_chat_printf(const char *format, ...)
   va_list ap;
   va_start(ap, format);
   /* FIXME: terminating like this can lead to invalid utf-8, a major no-no. */
-  my_vsnprintf(msg, maxlen, format, ap);
+  fc_vsnprintf(msg, maxlen, format, ap);
   msg[maxlen - 1] = '\0'; /* Make sure there is always ending zero */
   send_chat(msg);
   va_end(ap);
@@ -175,7 +175,7 @@ void output_window_append(const struct ft_color color,
     struct remaining *premain = fc_malloc(sizeof(*premain));
 
     remaining_list_append(remains, premain);
-    premain->text = mystrdup(plain_text);
+    premain->text = fc_strdup(plain_text);
     premain->tags = tags;
     premain->conn_id = -1;
   }
@@ -190,7 +190,7 @@ void output_window_vprintf(const struct ft_color color,
 {
   char featured_text[MAX_LEN_MSG];
 
-  my_vsnprintf(featured_text, sizeof(featured_text), format, args);
+  fc_vsnprintf(featured_text, sizeof(featured_text), format, args);
   output_window_append(color, featured_text);
 }
 
@@ -221,7 +221,7 @@ void output_window_event(const char *plain_text,
     struct remaining *premain = fc_malloc(sizeof(*premain));
 
     remaining_list_append(remains, premain);
-    premain->text = mystrdup(plain_text);
+    premain->text = fc_strdup(plain_text);
     premain->tags = text_tag_list_copy(tags);
     premain->conn_id = conn_id;
   }

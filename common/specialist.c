@@ -109,7 +109,7 @@ struct specialist *find_specialist_by_rule_name(const char *name)
 
   specialist_type_iterate(i) {
     struct specialist *sp = specialist_by_number(i);
-    if (0 == mystrcasecmp(specialist_rule_name(sp), qname)) {
+    if (0 == fc_strcasecmp(specialist_rule_name(sp), qname)) {
       return sp;
     }
   } specialist_type_iterate_end;

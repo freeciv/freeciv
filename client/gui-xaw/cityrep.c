@@ -557,7 +557,7 @@ void city_report_dialog_update(void)
     }
     i = n;
     if(!n) {
-      mystrlcpy(city_list_text[0], 
+      fc_strlcpy(city_list_text[0], 
 		"                                                             ",
 		MAX_LEN_CITY_TEXT);
       i=1;
@@ -606,7 +606,7 @@ void real_city_report_update_city(struct city *pcity)
       }
       get_city_text(pcity, new_city_line, sizeof(new_city_line));
       if(strcmp(new_city_line, list[i])==0) return; /* no change */
-      mystrlcpy(list[i], new_city_line, MAX_LEN_CITY_TEXT);
+      fc_strlcpy(list[i], new_city_line, MAX_LEN_CITY_TEXT);
 
       /* It seems really inefficient to regenerate the whole list just to
          change one line.  It's also annoying to have to set the size
@@ -698,7 +698,7 @@ void create_city_report_config_dialog(void)
   config_toggle = fc_realloc(config_toggle,
 			     NUM_CREPORT_COLS * sizeof(*config_toggle));
   for(i=0, spec=city_report_specs+i; i<NUM_CREPORT_COLS; i++, spec++) {
-    my_snprintf(buf, sizeof(buf), "%-32s", spec->explanation);
+    fc_snprintf(buf, sizeof(buf), "%-32s", spec->explanation);
     above = (i==1)?config_label:config_optlabel;
 
     config_optlabel = XtVaCreateManagedWidget("cityconfiglabel", 
@@ -1086,7 +1086,7 @@ static void chgall_refresh_command_callback(Widget w,
   state->fr_count = collect_currently_building_targets(targets);
   name_and_sort_items(targets, state->fr_count, items, false, NULL);
   for (i = 0; i < state->fr_count; i++) {
-    state->fr_list[i] = mystrdup(items[i].descr);
+    state->fr_list[i] = fc_strdup(items[i].descr);
     state->fr_cids[i] = cid_encode(items[i].item);
   }
   XawListChange(state->w.fr, state->fr_list, state->fr_count, 0, FALSE);
@@ -1094,7 +1094,7 @@ static void chgall_refresh_command_callback(Widget w,
   state->to_count = collect_buildable_targets(targets);
   name_and_sort_items(targets, state->to_count, items, TRUE, NULL);
   for (i = 0; i < state->to_count; i++) {
-    state->to_list[i] = mystrdup(items[i].descr);
+    state->to_list[i] = fc_strdup(items[i].descr);
     state->to_cids[i] = cid_encode(items[i].item);
   }
   XawListChange(state->w.to, state->to_list, state->to_count, 0, FALSE);

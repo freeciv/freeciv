@@ -2338,7 +2338,7 @@ void handle_tile_info(struct packet_tile_info *packet)
            */
           placeholder = player_by_number(MAX_NUM_PLAYERS);
         }
-        my_snprintf(named, sizeof(named), "%06u", packet->worked);
+        fc_snprintf(named, sizeof(named), "%06u", packet->worked);
 
         pwork = create_city_virtual(placeholder, NULL, named);
         pwork->id = packet->worked;
@@ -2403,7 +2403,7 @@ void handle_tile_info(struct packet_tile_info *packet)
       if (ptile->spec_sprite) {
 	free(ptile->spec_sprite);
       }
-      ptile->spec_sprite = mystrdup(packet->spec_sprite);
+      ptile->spec_sprite = fc_strdup(packet->spec_sprite);
       tile_changed = TRUE;
     }
   } else {
@@ -2624,7 +2624,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
     u->veteran[i].move_bonus = p->move_bonus[i];
   }
 
-  u->helptext = mystrdup(p->helptext);
+  u->helptext = fc_strdup(p->helptext);
 
   tileset_setup_unit_type(tileset, u);
 }
@@ -2647,7 +2647,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->flags = p->flags;
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
-  a->helptext = mystrdup(p->helptext);
+  a->helptext = fc_strdup(p->helptext);
 
   tileset_setup_tech_type(tileset, a);
 }
@@ -2676,7 +2676,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
   b->flags = p->flags;
-  b->helptext = mystrdup(p->helptext);
+  b->helptext = fc_strdup(p->helptext);
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
@@ -2734,7 +2734,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
 				sizeof(struct ruler_title));
 
-  gov->helptext = mystrdup(p->helptext);
+  gov->helptext = fc_strdup(p->helptext);
   
   tileset_setup_government(tileset, gov);
 }
@@ -2813,7 +2813,7 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
   if (pterrain->helptext != NULL) {
     free(pterrain->helptext);
   }
-  pterrain->helptext = mystrdup(p->helptext);
+  pterrain->helptext = fc_strdup(p->helptext);
   
   tileset_setup_tile_type(tileset, pterrain);
 }
@@ -2915,7 +2915,7 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   pl->leader_count = p->leader_count;
   pl->leaders = fc_malloc(sizeof(*pl->leaders) * pl->leader_count);
   for (i = 0; i < pl->leader_count; i++) {
-    pl->leaders[i].name = mystrdup(p->leader_name[i]);
+    pl->leaders[i].name = fc_strdup(p->leader_name[i]);
     pl->leaders[i].is_male = p->leader_sex[i];
   }
   pl->city_style = p->city_style;
@@ -2931,9 +2931,9 @@ void handle_ruleset_nation(struct packet_ruleset_nation *p)
   pl->init_government = government_by_number(p->init_government);
 
   if (p->legend[0] != '\0') {
-    pl->legend = mystrdup(_(p->legend));
+    pl->legend = fc_strdup(_(p->legend));
   } else {
-    pl->legend = mystrdup("");
+    pl->legend = fc_strdup("");
   }
 
   pl->num_groups = p->ngroups;

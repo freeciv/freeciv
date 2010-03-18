@@ -62,7 +62,7 @@ static void load_default_files(void)
   default_files = fc_malloc(sizeof(char*) * (i + 2));
   
   for (i = 0; i < num_default_files; i++) {
-    default_files[i] = mystrdup(f[i]);
+    default_files[i] = fc_strdup(f[i]);
   }
   default_files[i] = default_files[i + 1] = NULL;
 }
@@ -80,8 +80,8 @@ void gui_load_theme(const char *directory, const char *theme_name)
   default_files[num_default_files + 1] = NULL;
   
   /* Gtk theme is a directory containing gtk-2.0/gtkrc file */
-  my_snprintf(buf, sizeof(buf), "%s/%s/gtk-2.0/gtkrc", directory,
-	      theme_name);
+  fc_snprintf(buf, sizeof(buf), "%s/%s/gtk-2.0/gtkrc", directory,
+              theme_name);
 
   gtk_rc_set_default_files(default_files);
 
@@ -152,14 +152,14 @@ char **get_gui_specific_themes_directories(int *count)
   strvec_iterate(data_dirs, dir_name) {
     char buf[strlen(dir_name) + strlen("/themes/gui-gtk-2.0") + 1];
 
-    my_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-2.0", dir_name);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-gtk-2.0", dir_name);
 
-    directories[(*count)++] = mystrdup(buf);
+    directories[(*count)++] = fc_strdup(buf);
   } strvec_iterate_end;
 
   /* standard GTK+ themes directory (e.g. /usr/share/themes) */
   standard_dir = gtk_rc_get_theme_dir();
-  directories[(*count)++] = mystrdup(standard_dir);
+  directories[(*count)++] = fc_strdup(standard_dir);
   g_free(standard_dir);
 
   /* user GTK+ themes directory (~/.themes) */
@@ -167,8 +167,8 @@ char **get_gui_specific_themes_directories(int *count)
   if (home_dir) {
     char buf[strlen(home_dir) + 16];
     
-    my_snprintf(buf, sizeof(buf), "%s/.themes/", home_dir);
-    directories[(*count)++] = mystrdup(buf);
+    fc_snprintf(buf, sizeof(buf), "%s/.themes/", home_dir);
+    directories[(*count)++] = fc_strdup(buf);
   }
 
   return directories;
@@ -202,8 +202,8 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     char buf[strlen(directory) + strlen(entry->d_name) + 32];
     struct stat stat_result;
 
-    my_snprintf(buf, sizeof(buf),
-		"%s/%s/gtk-2.0/gtkrc", directory, entry->d_name);
+    fc_snprintf(buf, sizeof(buf),
+                "%s/%s/gtk-2.0/gtkrc", directory, entry->d_name);
 
     if (fc_stat(buf, &stat_result) != 0) {
       /* File doesn't exist */
@@ -223,7 +223,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
       t_size *= 2;
     }
 
-    theme_names[*count] = mystrdup(entry->d_name);
+    theme_names[*count] = fc_strdup(entry->d_name);
     (*count)++;
   }
 

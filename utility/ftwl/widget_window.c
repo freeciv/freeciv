@@ -393,7 +393,7 @@ void flush_all_to_screen(void)
     static int counter = 0;
     char b[100];
 
-    my_snprintf(b, sizeof(b), "fc_%05d.ppm", counter++);
+    fc_snprintf(b, sizeof(b), "fc_%05d.ppm", counter++);
     freelog(LOG_NORMAL, _("Making screenshot %s"), b);
 
     be_write_osda_to_file(whole_osda, b);

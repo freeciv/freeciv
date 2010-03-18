@@ -134,7 +134,7 @@ static void update_goto_dialog(void)
 	continue;
       }
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name(pCity), pCity->size);
+      fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", city_name(pCity), pCity->size);
       
       pStr = create_str16_from_char(cBuf, adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;

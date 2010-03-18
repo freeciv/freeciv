@@ -376,13 +376,13 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
                     advance_name_for_player(plr, tech_found),
                     advance_name_researching(plr));
       } else if (research->researching != A_UNSET) {
-	char buffer1[300], buffer2[300];
+        char buffer1[300], buffer2[300];
 
-	my_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
-		    advance_name_researching(plr));
-	research->future_tech++;
-	my_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
-		    advance_name_researching(plr));
+        fc_snprintf(buffer1, sizeof(buffer1), _("Learned %s. "),
+                    advance_name_researching(plr));
+        research->future_tech++;
+        fc_snprintf(buffer2, sizeof(buffer2), _("Researching %s."),
+                    advance_name_researching(plr));
         notify_team(plr, NULL, E_TECH_LEARNED, ftc_server,
                     "%s%s", buffer1, buffer2);
       } else {
@@ -492,7 +492,7 @@ static Tech_type_id pick_random_tech(struct player* plr)
   if (researchable == 0) {
     return A_FUTURE;
   }
-  chosen = myrand(researchable) + 1;
+  chosen = fc_rand(researchable) + 1;
   
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(plr, i) == TECH_PREREQS_KNOWN) {
@@ -691,7 +691,7 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
       }
     } else {
       /* pick random tech */
-      j = myrand(j) + 1;
+      j = fc_rand(j) + 1;
       stolen_tech = A_NONE; /* avoid compiler warning */
       advance_index_iterate(A_FIRST, i) {
         if (player_invention_reachable(pplayer, i)

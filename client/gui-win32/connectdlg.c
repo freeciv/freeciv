@@ -736,7 +736,7 @@ void handle_save_load(const char *title, bool is_save)
       GetCurrentDirectory(MAX_PATH, saved_games_dirname);
       SetCurrentDirectory(dirname);
 
-      fc_current_filename = mystrdup(ofn.lpstrFile);
+      fc_current_filename = fc_strdup(ofn.lpstrFile);
 
       send_save_game(fc_current_filename);
     } else {
@@ -751,7 +751,7 @@ void handle_save_load(const char *title, bool is_save)
       GetCurrentDirectory(MAX_PATH, saved_games_dirname);
       SetCurrentDirectory(dirname);
 
-      fc_current_filename = mystrdup(ofn.lpstrFile);
+      fc_current_filename = fc_strdup(ofn.lpstrFile);
 
       send_chat_printf("/load %s", ofn.lpstrFile);
     } else {
@@ -1058,7 +1058,7 @@ void gui_server_connect()
 		     TRUE, TRUE, 10);
   fcwin_box_add_edit(vbox, server_host, 40, ID_CONNECTDLG_HOST, 0,
 		     TRUE, TRUE, 10);
-  my_snprintf(buf, sizeof(buf), "%d", server_port);
+  fc_snprintf(buf, sizeof(buf), "%d", server_port);
   fcwin_box_add_edit(vbox, buf, 8, ID_CONNECTDLG_PORT, 0, TRUE, TRUE, 15);
 
   fcwin_box_add_box(hbox, vbox, TRUE, TRUE, 5);

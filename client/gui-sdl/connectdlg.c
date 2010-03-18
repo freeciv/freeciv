@@ -236,7 +236,7 @@ void popup_connection_dialog(bool lan_scan)
   
   area = pLabelWindow->area;
   
-  my_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Creating Server List..."));
   pStr = create_str16_from_char(cBuf, adj_font(16));
   pStr->style = TTF_STYLE_BOLD;
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -313,7 +313,7 @@ void popup_connection_dialog(bool lan_scan)
   /* servers */
   server_list_iterate(pServer_list, pServer) {
 
-    my_snprintf(cBuf, sizeof(cBuf), "%s Port %d Ver: %s %s %s %d\n%s",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s Port %d Ver: %s %s %s %d\n%s",
     	pServer->host, pServer->port, pServer->version, _(pServer->state),
     		_("Players"), pServer->nplayers, pServer->message);
 
@@ -507,7 +507,7 @@ static int convert_portnr_callback(struct widget *pWidget)
       FC_FREE(tmp);
     } else {
       /* empty input -> restore previous content */
-      my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+      fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
       copy_chars_to_string16(pWidget->string16, pCharPort);
       widget_redraw(pWidget);
       widget_mark_dirty(pWidget);
@@ -594,7 +594,7 @@ void popup_join_game_dialog()
   area.h += pBuf->size.h + adj_size(5);
   
   /* port edit */
-  my_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
+  fc_snprintf(pCharPort, sizeof(pCharPort), "%d", server_port);
   
   pBuf = create_edit_from_chars(NULL, pWindow->dst, pCharPort, adj_font(14), adj_size(210),
 					 WF_RESTORE_BACKGROUND);
@@ -713,7 +713,7 @@ static int convert_passwd_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     char *tmp = convert_to_chars(pWidget->string16->text);
     if(tmp) {
-      my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+      fc_snprintf(password, MAX_LEN_NAME, "%s", tmp);
       FC_FREE(tmp);
     }
   }
@@ -881,7 +881,7 @@ static int convert_first_passwd_callback(struct widget *pWidget)
     char *tmp = convert_to_chars(pWidget->string16->text);
     
     if(tmp) {
-      my_snprintf(password, MAX_LEN_NAME, "%s", tmp);
+      fc_snprintf(password, MAX_LEN_NAME, "%s", tmp);
       FC_FREE(tmp);
       set_wstate(pWidget->prev, FC_WS_NORMAL);
       widget_redraw(pWidget->prev);

@@ -178,7 +178,7 @@ struct color_system *color_system_read(struct section_file *file)
     if (NULL == key) {
       log_error("warning: tag for tiles %d: %s", i, secfile_error());
       free(prgb);
-    } else if (!hash_insert(colors->terrain_hash, mystrdup(key), prgb)) {
+    } else if (!hash_insert(colors->terrain_hash, fc_strdup(key), prgb)) {
       log_error("warning: already have a color for %s", key);
     }
   }

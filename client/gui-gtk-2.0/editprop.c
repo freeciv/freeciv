@@ -852,7 +852,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
     } improvement_iterate_end;
     /* TRANS: "Number of buildings, number of small
      * wonders (e.g. palace), number of great wonders." */
-    ret = my_snprintf(buf, buflen, _("%db %ds %dW"),
+    ret = fc_snprintf(buf, buflen, _("%db %ds %dW"),
                       building_count, small_wonder_count,
                       great_wonder_count);
     break;
@@ -864,7 +864,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
       }
     } advance_index_iterate_end;
     /* TRANS: "Number of technologies known". */
-    ret = my_snprintf(buf, buflen, _("%d known"), count);
+    ret = fc_snprintf(buf, buflen, _("%d known"), count);
     break;
 
   case VALTYPE_BV_SPECIAL:
@@ -875,7 +875,7 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
     } tile_special_type_iterate_end;
     /* TRANS: "The number of terrain specials (e.g. road,
      * rail, hut, etc.) present on a tile." */
-    ret = my_snprintf(buf, buflen, _("%d present"), count);
+    ret = fc_snprintf(buf, buflen, _("%d present"), count);
     break;
 
   case VALTYPE_BV_BASES:
@@ -884,13 +884,13 @@ static int propval_as_string(struct propval *pv, char *buf, int buflen)
         count++;
       }
     } base_type_iterate_end;
-    ret = my_snprintf(buf, buflen, _("%d present"), count);
+    ret = fc_snprintf(buf, buflen, _("%d present"), count);
     break;
 
   case VALTYPE_STRING:
     /* Assume it is a very long string. */
     count = strlen(pv->data.v_const_string);
-    ret = my_snprintf(buf, buflen, PL_("%d byte", "%d bytes", count),
+    ret = fc_snprintf(buf, buflen, PL_("%d byte", "%d bytes", count),
                       count);
     break;
 
@@ -914,12 +914,12 @@ static int built_status_to_string(char *buf, int buflen,
 
   if (turn_built == I_NEVER) {
     /* TRANS: Improvement never built. */
-    ret = my_snprintf(buf, buflen, "%s", _("(never)"));
+    ret = fc_snprintf(buf, buflen, "%s", _("(never)"));
   } else if (turn_built == I_DESTROYED) {
     /* TRANS: Improvement was destroyed. */
-    ret = my_snprintf(buf, buflen, "%s", _("(destroyed)"));
+    ret = fc_snprintf(buf, buflen, "%s", _("(destroyed)"));
   } else {
-    ret = my_snprintf(buf, buflen, "%d", turn_built);
+    ret = fc_snprintf(buf, buflen, "%d", turn_built);
   }
 
   return ret;
@@ -986,7 +986,7 @@ static struct propval *propval_copy(struct propval *pv)
 
   switch (pv->valtype) {
   case VALTYPE_STRING:
-    pv_copy->data.v_string = mystrdup(pv->data.v_string);
+    pv_copy->data.v_string = fc_strdup(pv->data.v_string);
     pv_copy->must_free = TRUE;
     break;
   case VALTYPE_PIXBUF:
@@ -2753,7 +2753,7 @@ static void objprop_refresh_widget(struct objprop *op,
     label = objprop_get_child_widget(op, "value-label");
     if (pv) {
       char buf[16];
-      my_snprintf(buf, sizeof(buf), "%d", pv->data.v_int);
+      fc_snprintf(buf, sizeof(buf), "%d", pv->data.v_int);
       gtk_label_set_text(GTK_LABEL(label), buf);
     } else {
       gtk_label_set_text(GTK_LABEL(label), NULL);
@@ -2808,7 +2808,7 @@ static void objprop_refresh_widget(struct objprop *op,
         gtk_spin_button_set_range(GTK_SPIN_BUTTON(spin), min, max);
         gtk_spin_button_set_increments(GTK_SPIN_BUTTON(spin),
                                        step, big_step);
-        my_snprintf(buf, sizeof(buf), "/%d", (int) max);
+        fc_snprintf(buf, sizeof(buf), "/%d", (int) max);
         gtk_label_set_text(GTK_LABEL(label), buf);
       } else {
         gtk_label_set_text(GTK_LABEL(label), NULL);
@@ -2871,7 +2871,7 @@ static void objprop_refresh_widget(struct objprop *op,
     const char *name = objprop_get_name(op);
     if (modified) {
       char buf[128];
-      my_snprintf(buf, sizeof(buf),
+      fc_snprintf(buf, sizeof(buf),
                   "<span foreground=\"red\">%s</span>", name);
       gtk_label_set_markup(GTK_LABEL(label), buf);
     } else {
@@ -4170,7 +4170,7 @@ property_page_new(int objtype, struct property_editor *pe)
 
   /* Now create the properties panel. */
 
-  my_snprintf(title, sizeof(title), _("%s Properties"),
+  fc_snprintf(title, sizeof(title), _("%s Properties"),
               objtype_get_name(objtype));
   frame = gtk_frame_new(title);
   gtk_widget_set_size_request(frame, 256, -1);
@@ -4510,7 +4510,7 @@ static bool property_page_set_store_value(struct property_page *pp,
     gtk_list_store_set(store, iter, col_id, pv->data.v_bool, -1);
     break;
   case VALTYPE_STRING:
-    if (mystrlcpy(buf, pv->data.v_string, 28) >= 28) {
+    if (fc_strlcpy(buf, pv->data.v_string, 28) >= 28) {
       sz_strlcat(buf, "...");
     }
     for (p = buf; *p; p++) {
@@ -5599,10 +5599,10 @@ static struct property_filter *property_filter_new(const char *filter)
       switch (pattern[0]) {
       case '!':
         pfp->negate = TRUE;
-        pfp->text = mystrdup(pattern + 1);
+        pfp->text = fc_strdup(pattern + 1);
         break;
       default:
-        pfp->text = mystrdup(pattern);
+        pfp->text = fc_strdup(pattern);
         break;
       }
       pfc->count++;
@@ -5666,7 +5666,7 @@ static bool property_filter_match(struct property_filter *pf,
     for (j = 0; j < pfc->count; j++) {
       pfp = &pfc->conjunction[j];
       match = (pfp->text[0] == '\0'
-               || mystrcasestr(name, pfp->text));
+               || fc_strcasestr(name, pfp->text));
       if (pfp->negate) {
         match = !match;
       }

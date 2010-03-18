@@ -522,7 +522,7 @@ void check_packet(struct data_in *din, struct connection *pc)
     int type, len;
 
     fc_assert_ret(pc != NULL);
-    my_snprintf(from, sizeof(from), " from %s", conn_description(pc));
+    fc_snprintf(from, sizeof(from), " from %s", conn_description(pc));
 
     dio_input_rewind(din);
     dio_get_uint16(din, &len);

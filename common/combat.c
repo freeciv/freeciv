@@ -328,8 +328,10 @@ struct city *sdi_try_defend(const struct player *owner,
 {
   square_iterate(ptile, 2, ptile1) {
     struct city *pcity = tile_city(ptile1);
-    if (pcity && (!pplayers_allied(city_owner(pcity), owner))
-	&& myrand(100) < get_city_bonus(pcity, EFT_NUKE_PROOF)) {
+
+    if (pcity
+        && !pplayers_allied(city_owner(pcity), owner)
+        && fc_rand(100) < get_city_bonus(pcity, EFT_NUKE_PROOF)) {
       return pcity;
     }
   } square_iterate_end;

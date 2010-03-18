@@ -139,7 +139,7 @@ void load_intro_gfx(void)
 
   y += lin;
 
-  my_snprintf(s, sizeof(s), "%d.%d.%d%s",
+  fc_snprintf(s, sizeof(s), "%d.%d.%d%s",
 	      MAJOR_VERSION, MINOR_VERSION,
 	      PATCH_VERSION, VERSION_LABEL);
   w = XmbTextEscapement(main_font_set, s, strlen(s));

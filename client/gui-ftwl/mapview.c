@@ -697,8 +697,8 @@ static void update_focus_tile_list2(void)
     item->unselected = terrain_to_osda(ptile);
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
-    item->tooltip=mystrdup(mapview_get_terrain_tooltip_text(ptile));
-    item->info_text=mystrdup(popup_info_text(ptile));
+    item->tooltip=fc_strdup(mapview_get_terrain_tooltip_text(ptile));
+    item->info_text=fc_strdup(popup_info_text(ptile));
   }
 
   if (tile_city(ptile)) {
@@ -712,8 +712,8 @@ static void update_focus_tile_list2(void)
     item->selected = create_selected_osda(item->unselected);
     item->button = NULL;
     item->pcity = pcity;
-    item->tooltip = mystrdup(mapview_get_city_tooltip_text(pcity));
-    item->info_text = mystrdup(mapview_get_city_info_text(pcity));
+    item->tooltip = fc_strdup(mapview_get_city_tooltip_text(pcity));
+    item->info_text = fc_strdup(mapview_get_city_info_text(pcity));
   }
 
   unit_list_iterate(ptile->units, punit) {
@@ -727,8 +727,8 @@ static void update_focus_tile_list2(void)
     item->button = NULL;
     item->punit = punit;
 
-    item->tooltip = mystrdup(mapview_get_unit_tooltip_text(punit));
-    item->info_text = mystrdup(mapview_get_unit_info_text(punit));
+    item->tooltip = fc_strdup(mapview_get_unit_tooltip_text(punit));
+    item->info_text = fc_strdup(mapview_get_unit_info_text(punit));
   } unit_list_iterate_end;
 
   if (tile_list2.items > 1) {
@@ -942,7 +942,7 @@ static void action_button_callback(struct sw_widget *widget, void *data)
 static bool is_float(char *str, double *dest)
 {
   char *p;
-  char *copy = mystrdup(str);
+  char *copy = fc_strdup(str);
   struct lconv *locale_data;
   double res;
   int i;
@@ -988,7 +988,7 @@ static void action_callback(const char *action)
     }
 
     for (i = 0; i < 8; i++) {
-      if (mystrcasecmp(dir_str, dir_get_name(i)) == 0) {
+      if (fc_strcasecmp(dir_str, dir_get_name(i)) == 0) {
 	dir = i;
 	found = TRUE;
 	break;
@@ -1107,7 +1107,7 @@ static void read_properties(void)
     for (i = 0; i < num; i++) {
       struct ct_string *string = NULL;
       struct sw_widget *widget;
-      char *id = mystrdup(strchr(sec[i], '_') + 1);
+      char *id = fc_strdup(strchr(sec[i], '_') + 1);
       char *background;
       int order = secfile_lookup_int(file, "%s.order", sec[i]);
       struct be_key *key;
@@ -1197,7 +1197,7 @@ static const char *info_get_value(const char *id)
   if (strcmp(id, "year") == 0) {
     return textyear(game.info.year);
   } else if (strcmp(id, "gold") == 0) {
-    my_snprintf(buffer, sizeof(buffer),
+    fc_snprintf(buffer, sizeof(buffer),
 		"%d", client.conn.playing->economic.gold);
     return buffer;
   } else if (strcmp(id, "nation_name") == 0) {
@@ -1205,7 +1205,7 @@ static const char *info_get_value(const char *id)
   } else if (strcmp(id, "population") == 0) {
       return population_to_text(civ_population(client.conn.playing));
   } else if (strcmp(id, "general") == 0) {
-      my_snprintf(buffer, sizeof(buffer),
+      fc_snprintf(buffer, sizeof(buffer),
 		  _("Population: %s\n"
 		"Year: %s\n"
 		"Gold %d\n"
@@ -1220,7 +1220,7 @@ static const char *info_get_value(const char *id)
   } else if (strcmp(id, "focus_item") == 0) {
       return tile_list2.item[tile_list2.selected].info_text;
 #if 0      
-      my_snprintf(buffer, sizeof(buffer),
+      fc_snprintf(buffer, sizeof(buffer),
 		  _("Population: %s "
 		"Year: %s "
 		"Gold %d "
@@ -1349,12 +1349,12 @@ static const char *format_shortcut(const char *action)
 }
 
 #define ADD(x) \
-  actions_shown.action[actions_shown.actions].name = mystrdup(x);\
+  actions_shown.action[actions_shown.actions].name = fc_strdup(x);\
   actions_shown.action[actions_shown.actions].enabled = TRUE;\
   actions_shown.actions++;
 
 #define ADD_DIS(x) \
-  actions_shown.action[actions_shown.actions].name = mystrdup(x);\
+  actions_shown.action[actions_shown.actions].name = fc_strdup(x);\
   actions_shown.action[actions_shown.actions].enabled = FALSE;\
   actions_shown.actions++;
 
@@ -1456,7 +1456,7 @@ static void fill_actions(void)
     /* Add tooltips */
     for (i = 0; i < actions_shown.actions; i++) {
       actions_shown.action[i].tooltip =
-	  mystrdup(mapview_get_unit_action_tooltip
+	  fc_strdup(mapview_get_unit_action_tooltip
 		   (punit, actions_shown.action[i].name,
 		    format_shortcut(actions_shown.action[i].name)));
     }
@@ -1475,7 +1475,7 @@ static void fill_actions(void)
     /* Add tooltips */
     for (i = 0; i < actions_shown.actions; i++) {
       actions_shown.action[i].tooltip =
-	  mystrdup(mapview_get_city_action_tooltip
+	  fc_strdup(mapview_get_city_action_tooltip
 		   (pcity, actions_shown.action[i].name,
 		    format_shortcut(actions_shown.action[i].name)));
     }

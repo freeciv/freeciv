@@ -57,9 +57,9 @@ static void form_chat_name(struct connection *pconn, char *buffer, size_t len)
   if (!pplayer
       || pconn->observer
       || strcmp(player_name(pplayer), ANON_PLAYER_NAME) == 0) {
-    my_snprintf(buffer, len, "(%s)", pconn->username);
+    fc_snprintf(buffer, len, "(%s)", pconn->username);
   } else {
-    my_snprintf(buffer, len, "%s", player_name(pplayer));
+    fc_snprintf(buffer, len, "%s", player_name(pplayer));
   }
 }
 
@@ -327,8 +327,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     char name[MAX_LEN_NAME];
     char *cpblank;
 
-    (void) mystrlcpy(name, message,
-		     MIN(sizeof(name), cp - message + 1));
+    (void) fc_strlcpy(name, message, MIN(sizeof(name), cp - message + 1));
 
     double_colon = (*(cp+1) == ':');
     if (double_colon) {

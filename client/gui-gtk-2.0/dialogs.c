@@ -1122,7 +1122,7 @@ static void select_random_leader(void)
   if (unique) {
     gtk_entry_set_text(GTK_ENTRY(text), name);
   } else {
-    i = myrand(nleaders);
+    i = fc_rand(nleaders);
     gtk_entry_set_text(GTK_ENTRY(text), g_list_nth_data(items, i));
   }
 

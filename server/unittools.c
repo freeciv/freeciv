@@ -138,7 +138,7 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
      */
     die("No unit types in find_a_unit_type(%d,%d)!", role, role_tech);
   }
-  return which[myrand(num)];
+  return which[fc_rand(num)];
 }
 
 /**************************************************************************
@@ -162,7 +162,7 @@ bool maybe_make_veteran(struct unit *punit)
     /* The modification is tacked on as a multiplier to the base chance.
      * For example with a base chance of 50% for green units and a modifier
      * of +50% the end chance is 75%. */
-    if (myrand(100) < game.veteran_chance[punit->veteran] * mod / 100) {
+    if (fc_rand(100) < game.veteran_chance[punit->veteran] * mod / 100) {
       punit->veteran++;
       return TRUE;
     }
@@ -198,8 +198,8 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
     int rate = unit_type(attacker)->bombard_rate;
 
     for (i = 0; i < rate; i++) {
-      if (myrand(attackpower+defensepower) >= defensepower) {
-	defender->hp -= attack_firepower;
+      if (fc_rand(attackpower+defensepower) >= defensepower) {
+        defender->hp -= attack_firepower;
       }
     }
 
@@ -216,7 +216,7 @@ void unit_versus_unit(struct unit *attacker, struct unit *defender,
       defender->hp=0;
   }
   while (attacker->hp>0 && defender->hp>0) {
-    if (myrand(attackpower+defensepower) >= defensepower) {
+    if (fc_rand(attackpower+defensepower) >= defensepower) {
       defender->hp -= attack_firepower;
     } else {
       attacker->hp -= defense_firepower;
@@ -256,7 +256,7 @@ static void do_upgrade_effects(struct player *pplayer)
   while (upgrades > 0 && unit_list_size(candidates) > 0) {
     /* Upgrade one unit.  The unit is chosen at random from the list of
      * available candidates. */
-    int candidate_to_upgrade = myrand(unit_list_size(candidates));
+    int candidate_to_upgrade = fc_rand(unit_list_size(candidates));
     struct unit *punit = unit_list_get(candidates, candidate_to_upgrade);
     struct unit_type *type_from = unit_type(punit);
     struct unit_type *type_to = can_upgrade_unittype(pplayer, type_from);
@@ -602,7 +602,7 @@ static bool maybe_settler_become_veteran(struct unit *punit)
     return FALSE;
   }
   if (unit_has_type_flag(punit, F_SETTLERS)
-      && myrand(100) < game.work_veteran_chance[punit->veteran]) {
+      && fc_rand(100) < game.work_veteran_chance[punit->veteran]) {
     punit->veteran++;
     return TRUE;
   }
@@ -957,7 +957,7 @@ static bool find_a_good_partisan_spot(struct tile *pcenter,
       value /= 2;
     }
 
-    value -= myrand(value/3);
+    value -= fc_rand(value/3);
 
     if (value > bestvalue) {
       *dst_tile = ptile;
@@ -1112,7 +1112,7 @@ void bounce_unit(struct unit *punit, bool verbose)
   } square_iterate_end;
 
   if (count > 0) {
-    struct tile *ptile = tiles[myrand(count)];
+    struct tile *ptile = tiles[fc_rand(count)];
 
     if (verbose) {
       notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
@@ -2096,7 +2096,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     city_reduce_size(pcity, pcity->size / 2, pplayer);
   }
 
-  if (!is_ocean_tile(ptile) && myrand(2) == 1) {
+  if (!is_ocean_tile(ptile) && fc_rand(2) == 1) {
     if (game.info.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);
@@ -2316,7 +2316,7 @@ bool do_paradrop(struct unit *punit, struct tile *ptile)
 static bool hut_get_limited(struct unit *punit)
 {
   bool ok = TRUE;
-  int hut_chance = myrand(12);
+  int hut_chance = fc_rand(12);
   struct player *pplayer = unit_owner(punit);
   /* 1 in 12 to get barbarians */
   if (hut_chance != 0) {

@@ -279,7 +279,7 @@ static void create_tech_tree(Widget tree, Widget parent, int tech, int levels)
      return;
   }
   
-  my_snprintf(label, sizeof(label),
+  fc_snprintf(label, sizeof(label),
 	      "%s:%d", advance_name_translation(advance_by_number(tech)),
 	      num_unknown_techs_for_goal(client.conn.playing, tech));
 

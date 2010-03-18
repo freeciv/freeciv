@@ -28,7 +28,8 @@
 ************************************************************************/
 int api_utilities_random(int min, int max)
 {
-  double roll = (double)(myrand(MAX_UINT32) % MAX_UINT32) / (double)MAX_UINT32;
+  double roll = ((double) (fc_rand(MAX_UINT32) % MAX_UINT32)
+                 / (double) MAX_UINT32);
 
   return (min + floor(roll * (max - min + 1)));
 }

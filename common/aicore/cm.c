@@ -1982,12 +1982,12 @@ void cm_result_from_main_map(struct cm_result *result,
 ****************************************************************************/
 #ifdef CM_DEBUG
 static void snprint_production(char *buffer, size_t bufsz,
-			       const int production[])
+                               const int production[])
 {
-  my_snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
-	      production[O_FOOD], production[O_SHIELD],
-	      production[O_TRADE], production[O_GOLD],
-	      production[O_LUXURY], production[O_SCIENCE]);
+  fc_snprintf(buffer, bufsz, "[%d %d %d %d %d %d]",
+              production[O_FOOD], production[O_SHIELD],
+              production[O_TRADE], production[O_GOLD],
+              production[O_LUXURY], production[O_SCIENCE]);
 }
 
 /****************************************************************************
@@ -2048,7 +2048,7 @@ static void real_print_partial_solution(enum log_level level,
   do_log(file, function, line, FALSE, level, "tiles used:");
   for (i = 0; i < num_types(state); i++) {
     if (soln->worker_counts[i] != 0) {
-      my_snprintf(buf, sizeof(buf), "  %d tiles of type ",
+      fc_snprintf(buf, sizeof(buf), "  %d tiles of type ",
                   soln->worker_counts[i]);
       real_print_tile_type(level, file, function, line,
                            tile_type_get(state, i), buf);

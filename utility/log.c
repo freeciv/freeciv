@@ -126,7 +126,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   log_files = fc_realloc(log_files,
                          log_num_files * sizeof(struct log_fileinfo));
 
-  dup = mystrdup(c + 2);
+  dup = fc_strdup(c + 2);
   tok = strtok(dup, ":");
 
   if (!tok) {
@@ -167,7 +167,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
       ret = FALSE;
       goto out;
     }
-    pfile->name = mystrdup(tok);
+    pfile->name = fc_strdup(tok);
     i++;
     tok = strtok(NULL, ":");
   } while(tok);
@@ -204,7 +204,7 @@ void log_init(const char *filename, enum log_level initial_level,
     log_filename = NULL;
   }
   if (filename && strlen(filename) > 0) {
-    log_filename = mystrdup(filename);
+    log_filename = fc_strdup(filename);
   } else {
     log_filename = NULL;
   }
@@ -286,7 +286,7 @@ static void log_write(FILE *fs, enum log_level level,
     if (print_from_where) {
       char buf[MAX_LEN_LOG_LINE];
 
-      my_snprintf(buf, sizeof(buf), "in %s() [%s::%d]: %s",
+      fc_snprintf(buf, sizeof(buf), "in %s() [%s::%d]: %s",
                   function, file, line, message);
       log_callback(level, buf, log_filename != NULL);
     } else {
@@ -335,14 +335,14 @@ void vdo_log(const char *file, const char *function, int line,
     fs = stderr;
   }
 
-  my_vsnprintf(bufbuf1 ? bufbuf[1] : bufbuf[0],
+  fc_vsnprintf(bufbuf1 ? bufbuf[1] : bufbuf[0],
                MAX_LEN_LOG_LINE, message, args);
 
   if (level == prev_level && 0 == strncmp(bufbuf[0], bufbuf[1],
                                           MAX_LEN_LOG_LINE - 1)){
     repeated++;
     if (repeated == next) {
-      my_snprintf(buf, sizeof(buf),
+      fc_snprintf(buf, sizeof(buf),
                   PL_("last message repeated %d time",
                       "last message repeated %d times",
                       repeated-prev), repeated-prev);
@@ -364,7 +364,7 @@ void vdo_log(const char *file, const char *function, int line,
         log_write(fs, prev_level, file, function, line,
                   print_from_where, bufbuf1 ? bufbuf[0] : bufbuf[1]);
       } else {
-        my_snprintf(buf, sizeof(buf),
+        fc_snprintf(buf, sizeof(buf),
                     PL_("last message repeated %d time", 
                         "last message repeated %d times",
                         repeated - prev), repeated - prev);

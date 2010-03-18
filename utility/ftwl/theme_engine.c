@@ -70,11 +70,11 @@ void te_init(const char *theme, char *example_file)
   be_screen_get_size(&size);
   char filename[512];
 
-  current_theme = mystrdup(theme);
-  my_snprintf(current_res, sizeof(current_res), "%dx%d", size.width,
+  current_theme = fc_strdup(theme);
+  fc_snprintf(current_res, sizeof(current_res), "%dx%d", size.width,
 	      size.height);
 
-  my_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
+  fc_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
 	      current_theme, current_res, example_file);
   if (!datafilename(filename)) {
     freelog(LOG_FATAL, "There is no theme '%s' in resolution '%s'.",
@@ -92,20 +92,20 @@ struct sprite *te_load_gfx(const char *filename)
   char prefix[prefixes][512];
   int i;
 
-  my_snprintf(prefix[0], sizeof(prefix[0]), "themes/gui-ftwl/%s/%s/", current_theme,
+  fc_snprintf(prefix[0], sizeof(prefix[0]), "themes/gui-ftwl/%s/%s/", current_theme,
 	      current_res);
-  my_snprintf(prefix[1], sizeof(prefix[1]), "themes/gui-ftwl/%s/", current_theme);
-  my_snprintf(prefix[2], sizeof(prefix[2]), "themes/gui-ftwl/common/%s/",
+  fc_snprintf(prefix[1], sizeof(prefix[1]), "themes/gui-ftwl/%s/", current_theme);
+  fc_snprintf(prefix[2], sizeof(prefix[2]), "themes/gui-ftwl/common/%s/",
 	      current_res);
-  my_snprintf(prefix[3], sizeof(prefix[3]), "themes/gui-ftwl/common/");
-  my_snprintf(prefix[4], sizeof(prefix[4]), "themes/gui-ftwl/");
-  my_snprintf(prefix[5], sizeof(prefix[5]), "%s", "");
+  fc_snprintf(prefix[3], sizeof(prefix[3]), "themes/gui-ftwl/common/");
+  fc_snprintf(prefix[4], sizeof(prefix[4]), "themes/gui-ftwl/");
+  fc_snprintf(prefix[5], sizeof(prefix[5]), "%s", "");
 
   for (i = 0; i < prefixes; i++) {
     char fullname[512];
     char *tmp;
 
-    my_snprintf(fullname, sizeof(fullname), "%s%s", prefix[i], filename);
+    fc_snprintf(fullname, sizeof(fullname), "%s%s", prefix[i], filename);
 
     tmp = datafilename(fullname);
     if (tmp) {
@@ -357,38 +357,38 @@ static void customize_widget(struct section_file *file, const char *name,
 *************************************************************************/
 static enum ws_alignment str_alignment_to_enum(const char *s)
 {
-  if (mystrcasecmp(s, "n") == 0)
+  if (fc_strcasecmp(s, "n") == 0)
     return A_N;
-  if (mystrcasecmp(s, "s") == 0)
+  if (fc_strcasecmp(s, "s") == 0)
     return A_S;
-  if (mystrcasecmp(s, "w") == 0)
+  if (fc_strcasecmp(s, "w") == 0)
     return A_W;
-  if (mystrcasecmp(s, "e") == 0)
+  if (fc_strcasecmp(s, "e") == 0)
     return A_E;
 
-  if (mystrcasecmp(s, "nc") == 0)
+  if (fc_strcasecmp(s, "nc") == 0)
     return A_NC;
-  if (mystrcasecmp(s, "sc") == 0)
+  if (fc_strcasecmp(s, "sc") == 0)
     return A_SC;
-  if (mystrcasecmp(s, "wc") == 0)
+  if (fc_strcasecmp(s, "wc") == 0)
     return A_WC;
-  if (mystrcasecmp(s, "ec") == 0)
+  if (fc_strcasecmp(s, "ec") == 0)
     return A_EC;
 
-  if (mystrcasecmp(s, "nw") == 0)
+  if (fc_strcasecmp(s, "nw") == 0)
     return A_NW;
-  if (mystrcasecmp(s, "ne") == 0)
+  if (fc_strcasecmp(s, "ne") == 0)
     return A_NE;
-  if (mystrcasecmp(s, "sw") == 0)
+  if (fc_strcasecmp(s, "sw") == 0)
     return A_SW;
-  if (mystrcasecmp(s, "se") == 0)
+  if (fc_strcasecmp(s, "se") == 0)
     return A_SE;
 
-  if (mystrcasecmp(s, "ns") == 0)
+  if (fc_strcasecmp(s, "ns") == 0)
     return A_NS;
-  if (mystrcasecmp(s, "we") == 0)
+  if (fc_strcasecmp(s, "we") == 0)
     return A_WE;
-  if (mystrcasecmp(s, "center") == 0)
+  if (fc_strcasecmp(s, "center") == 0)
     return A_CENTER;
   assert(0);
   return 0;
@@ -454,7 +454,7 @@ static void construct_infos_text(struct section_file *file,
 
   for (i = 0; i < num; i++) {
     struct info_data *data = fc_malloc(sizeof(*data));
-    char *id = mystrdup(sec[i] + strlen(prefix));
+    char *id = fc_strdup(sec[i] + strlen(prefix));
     bool inserted;
 
     data->is_text = TRUE;
@@ -487,7 +487,7 @@ static void construct_infos_tooltip(struct section_file *file,
 
   for (i = 0; i < num; i++) {
     struct info_data *data = fc_malloc(sizeof(*data));
-    char *id = mystrdup(sec[i] + strlen(prefix));
+    char *id = fc_strdup(sec[i] + strlen(prefix));
     bool inserted;
 
     data->is_text = FALSE;
@@ -533,7 +533,7 @@ static void construct_edits(struct section_file *file,
     enum ws_alignment alignment;
     struct ct_string *template, *string;
     struct sw_widget *widget;
-    char *id = mystrdup(strchr(sec[i], '_') + 1);
+    char *id = fc_strdup(strchr(sec[i], '_') + 1);
     bool inserted;
 
     te_read_bounds_alignment(file, sec[i], &bounds, &alignment);
@@ -578,7 +578,7 @@ static void construct_buttons(struct section_file *file,
     enum ws_alignment alignment;
     struct ct_string *string = NULL;
     struct sw_widget *widget;
-    char *id = mystrdup(strchr(sec[i], '_') + 1);
+    char *id = fc_strdup(strchr(sec[i], '_') + 1);
     char *background;
     struct button_callback *callback = fc_malloc(sizeof(*callback));
 
@@ -608,7 +608,7 @@ struct section_file *te_open_themed_file(const char *name)
   struct section_file *result = fc_malloc(sizeof(*result));
   char filename[512],*tmp;
 
-  my_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
+  fc_snprintf(filename, sizeof(filename), "themes/gui-ftwl/%s/%s/%s",
 	      current_theme, current_res, name);
   tmp = datafilename_required(filename);
 
@@ -657,7 +657,7 @@ static void read_keybindings(struct section_file *file,
     struct keybinding *binding = fc_malloc(sizeof(*binding));
 
     binding->key = ct_key_parse(key);
-    binding->action = mystrdup(action);
+    binding->action = fc_strdup(action);
     keybinding_list_prepend(screen->keybindings, binding);
   }
 
@@ -680,7 +680,7 @@ struct te_screen *te_get_screen(struct sw_widget *parent_window,
   result->widgets = hash_new(hash_fval_string, hash_fcmp_string);
   sw_widget_set_position(result->window, 0, 0);
 
-  my_snprintf(filename, sizeof(filename), "%s.screen", screen_name);
+  fc_snprintf(filename, sizeof(filename), "%s.screen", screen_name);
 
   file = te_open_themed_file(filename);
 

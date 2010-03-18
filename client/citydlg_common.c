@@ -219,13 +219,13 @@ void get_city_dialog_production(struct city *pcity,
      * translators can fudge it by changing this "filler" string. 
      */
     /* TRANS: Use longer of "XXX turns" and "never" */
-    mystrlcpy(buffer, Q_("?filler:XXX/XXX XXX turns"), buffer_len);
+    fc_strlcpy(buffer, Q_("?filler:XXX/XXX XXX turns"), buffer_len);
 
     return;
   }
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    my_snprintf(buffer, buffer_len, _("%3d gold per turn"),
+    fc_snprintf(buffer, buffer_len, _("%3d gold per turn"),
                 MAX(0, pcity->surplus[O_SHIELD]));
     return;
   }
@@ -235,20 +235,20 @@ void get_city_dialog_production(struct city *pcity,
 
   if (turns < FC_INFINITY) {
     if (concise_city_production) {
-      my_snprintf(time, sizeof(time), "%3d", turns);
+      fc_snprintf(time, sizeof(time), "%3d", turns);
     } else {
-      my_snprintf(time, sizeof(time),
+      fc_snprintf(time, sizeof(time),
                   PL_("%3d turn", "%3d turns", turns), turns);
     }
   } else {
-    my_snprintf(time, sizeof(time), "%s",
+    fc_snprintf(time, sizeof(time), "%s",
                 concise_city_production ? "-" : _("never"));
   }
 
   if (concise_city_production) {
-    my_snprintf(buffer, buffer_len, _("%3d/%3d:%s"), stock, cost, time);
+    fc_snprintf(buffer, buffer_len, _("%3d/%3d:%s"), stock, cost, time);
   } else {
-    my_snprintf(buffer, buffer_len, _("%3d/%3d %s"), stock, cost, time);
+    fc_snprintf(buffer, buffer_len, _("%3d/%3d %s"), stock, cost, time);
   }
 }
 
@@ -272,9 +272,8 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 
   switch (target.kind) {
   case VUT_IMPROVEMENT:
-    mystrlcpy(buffer,
-	      city_improvement_name_translation(pcity, target.value.building),
-	      buffer_len);
+    fc_strlcpy(buffer, city_improvement_name_translation
+               (pcity, target.value.building), buffer_len);
 
     if (improvement_has_flag(target.value.building, IF_GOLD)) {
       cat_snprintf(buffer, buffer_len, " (--) ");
@@ -314,8 +313,8 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   {
     struct unit_type *ptype = target.value.utype;
 
-    mystrlcpy(buf[1], utype_values_string(ptype), column_size);
-    my_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(ptype));
+    fc_strlcpy(buf[1], utype_values_string(ptype), column_size);
+    fc_snprintf(buf[2], column_size, "(%d)", utype_build_shield_cost(ptype));
     break;
   }
   case VUT_IMPROVEMENT:
@@ -326,11 +325,11 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
     /* Total & turns left meaningless on capitalization */
     if (improvement_has_flag(pimprove, IF_GOLD)) {
       buf[1][0] = '\0';
-      my_snprintf(buf[2], column_size, "---");
+      fc_snprintf(buf[2], column_size, "---");
     } else {
       /* from city.c city_improvement_name_translation() */
       if (pcity && is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
-	my_snprintf(buf[1], column_size, "*");
+        fc_snprintf(buf[1], column_size, "*");
       } else {
 	const char *state = "";
 
@@ -352,12 +351,12 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
           } else {
             state = _("Small Wonder");
           }
-	}
-	mystrlcpy(buf[1], state, column_size);
+        }
+        fc_strlcpy(buf[1], state, column_size);
       }
 
-      my_snprintf(buf[2], column_size, "%d",
-		  impr_build_shield_cost(pimprove));
+      fc_snprintf(buf[2], column_size, "%d",
+                  impr_build_shield_cost(pimprove));
     }
     break;
   }
@@ -371,19 +370,19 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
   if (pcity) {
     if (VUT_IMPROVEMENT == target.kind
      && improvement_has_flag(target.value.building, IF_GOLD)) {
-      my_snprintf(buf[3], column_size, _("%d/turn"),
-		  MAX(0, pcity->surplus[O_SHIELD]));
+      fc_snprintf(buf[3], column_size, _("%d/turn"),
+                  MAX(0, pcity->surplus[O_SHIELD]));
     } else {
       int turns = city_turns_to_build(pcity, target, FALSE);
 
       if (turns < FC_INFINITY) {
-	my_snprintf(buf[3], column_size, "%d", turns);
+        fc_snprintf(buf[3], column_size, "%d", turns);
       } else {
-	my_snprintf(buf[3], column_size, _("never"));
+        fc_snprintf(buf[3], column_size, _("never"));
       }
     }
   } else {
-    my_snprintf(buf[3], column_size, "---");
+    fc_snprintf(buf[3], column_size, "---");
   }
 }
 

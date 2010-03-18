@@ -209,8 +209,8 @@ static int write_socket_data(struct connection *pc,
     fd_set writefs, exceptfs;
     struct timeval tv;
 
-    MY_FD_ZERO(&writefs);
-    MY_FD_ZERO(&exceptfs);
+    FC_FD_ZERO(&writefs);
+    FC_FD_ZERO(&exceptfs);
     FD_SET(pc->sock, &writefs);
     FD_SET(pc->sock, &exceptfs);
 
@@ -420,7 +420,7 @@ void conn_list_do_unbuffer(struct conn_list *dest)
 struct connection *find_conn_by_user(const char *user_name)
 {
   conn_list_iterate(game.all_connections, pconn) {
-    if (mystrcasecmp(user_name, pconn->username)==0) {
+    if (fc_strcasecmp(user_name, pconn->username)==0) {
       return pconn;
     }
   } conn_list_iterate_end;
@@ -444,8 +444,8 @@ struct connection *find_conn_by_user_prefix(const char *user_name,
   int ind;
 
   *result = match_prefix(connection_accessor,
-			 conn_list_size(game.all_connections),
-			 MAX_LEN_NAME-1, mystrncasequotecmp,
+                         conn_list_size(game.all_connections),
+                         MAX_LEN_NAME-1, fc_strncasequotecmp,
                          effectivestrlenquote, user_name, &ind);
   
   if (*result < M_PRE_AMBIGUOUS) {
@@ -516,8 +516,8 @@ const char *conn_description(const struct connection *pconn)
   buffer[0] = '\0';
 
   if (*pconn->username != '\0') {
-    my_snprintf(buffer, sizeof(buffer), _("%s from %s"),
-		pconn->username, pconn->addr); 
+    fc_snprintf(buffer, sizeof(buffer), _("%s from %s"),
+                pconn->username, pconn->addr); 
   } else {
     sz_strlcpy(buffer, "server");
   }

@@ -46,7 +46,7 @@ void gui_ggz_embed_ensure_server(void)
     char buf[128];
 
     user_username(buf, sizeof(buf));
-    cat_snprintf(buf, sizeof(buf), "%d", myrand(100));
+    cat_snprintf(buf, sizeof(buf), "%d", fc_rand(100));
     ggz_embed_ensure_server("Pubserver", "freeciv.ggzgamingzone.org",
                            5688, buf);
   }

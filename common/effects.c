@@ -141,7 +141,7 @@ enum effect_type effect_type_from_str(const char *str)
   fc_assert_ret_val(ARRAY_SIZE(effect_type_names) == EFT_LAST, EFT_LAST);
 
   for (effect_type = 0; effect_type < EFT_LAST; effect_type++) {
-    if (0 == mystrcasecmp(effect_type_names[effect_type], str)) {
+    if (0 == fc_strcasecmp(effect_type_names[effect_type], str)) {
       return effect_type;
     }
   }
@@ -1077,7 +1077,7 @@ void get_effect_req_text(struct effect *peffect, char *buf, size_t buf_len)
 
   requirement_list_iterate(peffect->reqs, preq) {
     if (buf[0] != '\0') {
-      mystrlcat(buf, "+", buf_len);
+      fc_strlcat(buf, "+", buf_len);
     }
 
     universal_name_translation(&preq->source,

@@ -317,8 +317,8 @@ void flush_packets(void)
     if (tv.tv_sec < 0)
       return;
 
-    MY_FD_ZERO(&writefs);
-    MY_FD_ZERO(&exceptfs);
+    FC_FD_ZERO(&writefs);
+    FC_FD_ZERO(&exceptfs);
     max_desc=-1;
 
     for(i=0; i<MAX_NUM_CONNECTIONS; i++) {
@@ -573,13 +573,13 @@ enum server_events server_sniff_all_input(void)
     tv.tv_sec = 1;
     tv.tv_usec = 0;
 
-    MY_FD_ZERO(&readfs);
-    MY_FD_ZERO(&writefs);
-    MY_FD_ZERO(&exceptfs);
+    FC_FD_ZERO(&readfs);
+    FC_FD_ZERO(&writefs);
+    FC_FD_ZERO(&exceptfs);
 
     if (!no_input) {
 #ifdef SOCKET_ZERO_ISNT_STDIN
-      my_init_console();
+      fc_init_console();
 #else /* SOCKET_ZERO_ISNT_STDIN */
 #   if !defined(__VMS)
       FD_SET(0, &readfs);
@@ -689,7 +689,7 @@ enum server_events server_sniff_all_input(void)
 #endif /* GGZ_SERVER */
     
 #ifdef SOCKET_ZERO_ISNT_STDIN
-    if (!no_input && (bufptr = my_read_console())) {
+    if (!no_input && (bufptr = fc_read_console())) {
       char *bufptr_internal = local_to_internal_string_malloc(bufptr);
 
       con_prompt_enter();	/* will need a new prompt, regardless */
@@ -804,7 +804,7 @@ static const char *makeup_connection_name(int *id)
 
   for(;;) {
     if (i==(unsigned short)-1) i++;              /* don't use 0 */
-    my_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
+    fc_snprintf(name, sizeof(name), "c%u", (unsigned int)++i);
     if (!find_player_by_name(name)
 	&& !find_player_by_user(name)
 	&& !find_conn_by_id(i)
@@ -1297,31 +1297,31 @@ static void send_lanserver_response(void)
   }
 
   /* Create a description of server state to send to clients.  */
-  if (my_gethostname(hostname, sizeof(hostname)) != 0) {
+  if (fc_gethostname(hostname, sizeof(hostname)) != 0) {
     sz_strlcpy(hostname, "none");
   }
 
-  my_snprintf(version, sizeof(version), "%d.%d.%d%s",
+  fc_snprintf(version, sizeof(version), "%d.%d.%d%s",
               MAJOR_VERSION, MINOR_VERSION, PATCH_VERSION, VERSION_LABEL);
 
   switch (server_state()) {
   case S_S_INITIAL:
     /* TRANS: Game state for local server */
-    my_snprintf(status, sizeof(status), _("Pregame"));
+    fc_snprintf(status, sizeof(status), _("Pregame"));
     break;
   case S_S_RUNNING:
     /* TRANS: Game state for local server */
-    my_snprintf(status, sizeof(status), _("Running"));
+    fc_snprintf(status, sizeof(status), _("Running"));
     break;
   case S_S_OVER:
     /* TRANS: Game state for local server */
-    my_snprintf(status, sizeof(status), _("Game over"));
+    fc_snprintf(status, sizeof(status), _("Game over"));
     break;
   }
 
-   my_snprintf(players, sizeof(players), "%d",
+   fc_snprintf(players, sizeof(players), "%d",
                normal_player_count());
-   my_snprintf(port, sizeof(port), "%d",
+   fc_snprintf(port, sizeof(port), "%d",
               srvarg.port );
 
   dio_output_init(&dout, buffer, sizeof(buffer));

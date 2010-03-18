@@ -305,7 +305,7 @@ int get_tokens(const char *str, char **tokens, size_t num_tokens,
     }
 
     tokens[token] = fc_malloc(len + 1);
-    (void) mystrlcpy(tokens[token], str, len + 1);	/* adds the '\0' */
+    (void) fc_strlcpy(tokens[token], str, len + 1);     /* adds the '\0' */
 
     token++;
 
@@ -523,7 +523,7 @@ void randomize_base64url_string(char *s, size_t n)
   }
 
   for (; i < (n - 1); i++) {
-    s[i] = base64url[myrand(sizeof(base64url) - 1)];
+    s[i] = base64url[fc_rand(sizeof(base64url) - 1)];
   }
   s[i] = '\0';
 }
@@ -579,7 +579,7 @@ int compare_strings_strvec(const char *const *first,
 char *skip_leading_spaces(char *s)
 {
   fc_assert_ret_val(NULL != s, NULL);
-  while(*s != '\0' && my_isspace(*s)) {
+  while(*s != '\0' && fc_isspace(*s)) {
     s++;
   }
   return s;
@@ -616,7 +616,7 @@ static void remove_trailing_spaces(char *s)
   len = strlen(s);
   if (len > 0) {
     t = s + len -1;
-    while(my_isspace(*t)) {
+    while(fc_isspace(*t)) {
       *t = '\0';
       if (t == s) {
 	break;
@@ -661,9 +661,9 @@ static void remove_trailing_char(char *s, char trailing)
      int n = sizeof(buf);
      char *p = buf;
 
-     my_snprintf(p, n, "foo%p", p);
+     fc_snprintf(p, n, "foo%p", p);
      p = end_of_strn(p, &n);
-     mystrlcpy(p, "yyy", n);
+     fc_strlcpy(p, "yyy", n);
 ***************************************************************************/
 char *end_of_strn(char *str, int *nleft)
 {
@@ -691,7 +691,7 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
                     const char *errmsg)
 {
   (void) check_strlen(str, len, errmsg);
-  return mystrlcpy(buffer, str, len);
+  return fc_strlcpy(buffer, str, len);
 }
 
 /***************************************************************************
@@ -729,7 +729,7 @@ char *user_home_dir(void)
   if (!init) {
     char *env = getenv("HOME");
     if (env) {
-      home_dir = mystrdup(env);	        /* never free()d */
+      home_dir = fc_strdup(env);        /* never free()d */
       log_verbose("HOME is %s", home_dir);
     } else {
 
@@ -807,7 +807,7 @@ char *user_username(char *buf, size_t bufsz)
     char *env = getenv("USER");
 
     if (env) {
-      mystrlcpy(buf, env, bufsz);
+      fc_strlcpy(buf, env, bufsz);
       if (is_ascii_name(buf)) {
         log_verbose("USER username is %s", buf);
         return buf;
@@ -822,7 +822,7 @@ char *user_username(char *buf, size_t bufsz)
     struct passwd *pwent = getpwuid(getuid());
 
     if (pwent) {
-      mystrlcpy(buf, pwent->pw_name, bufsz);
+      fc_strlcpy(buf, pwent->pw_name, bufsz);
       if (is_ascii_name(buf)) {
         log_verbose("getpwuid username is %s", buf);
         return buf;
@@ -838,7 +838,7 @@ char *user_username(char *buf, size_t bufsz)
     DWORD length = sizeof(name);
 
     if (GetUserName(name, &length)) {
-      mystrlcpy(buf, name, bufsz);
+      fc_strlcpy(buf, name, bufsz);
       if (is_ascii_name(buf)) {
         log_verbose("GetUserName username is %s", buf);
         return buf;
@@ -848,9 +848,9 @@ char *user_username(char *buf, size_t bufsz)
 #endif
 
 #ifdef ALWAYS_ROOT
-  mystrlcpy(buf, "name", bufsz);
+  fc_strlcpy(buf, "name", bufsz);
 #else
-  my_snprintf(buf, bufsz, "name%d", (int)getuid());
+  fc_snprintf(buf, bufsz, "name%d", (int) getuid());
 #endif
   log_verbose("fake username is %s", buf);
   fc_assert(is_ascii_name(buf));
@@ -867,7 +867,7 @@ static struct strvec *base_get_dirs(const char *dir_list)
   struct strvec *dirs = strvec_new();
   char *path, *tok;
 
-  path = mystrdup(dir_list);    /* something we can strtok */
+  path = fc_strdup(dir_list);   /* something we can strtok */
   tok = strtok(path, PATH_SEPARATOR);
   do {
     int i;                      /* strlen(tok), or -1 as flag */
@@ -894,7 +894,7 @@ static struct strvec *base_get_dirs(const char *dir_list)
           int len = strlen(home) + i;   /* +1 -1 */
           char *tmp = fc_malloc(len);
 
-          my_snprintf(tmp, len, "%s%s", home, tok + 1);
+          fc_snprintf(tmp, len, "%s%s", home, tok + 1);
           tok = tmp;
           i = -1;       /* flag to free tok below */
         }
@@ -1009,7 +1009,7 @@ const struct strvec *get_save_dirs(void)
 
       for (i = 0; i < strvec_size(dirs); i++) {
         path = strvec_get(dirs, i);
-        my_snprintf(buf, sizeof(buf), "%s/saves", path);
+        fc_snprintf(buf, sizeof(buf), "%s/saves", path);
         strvec_insert(dirs, ++i, buf);
       }
     }
@@ -1074,7 +1074,7 @@ const struct strvec *get_scenario_dirs(void)
       for (i = 0; i < strvec_size(dirs); i++) {
         path = strvec_get(dirs, i);
         for (subdir = subdirs; NULL != *subdir; subdir++) {
-          my_snprintf(buf, sizeof(buf), "%s/%s", path, *subdir);
+          fc_snprintf(buf, sizeof(buf), "%s/%s", path, *subdir);
           strvec_insert(dirs, ++i, buf);
         }
       }
@@ -1136,7 +1136,7 @@ struct strvec *fileinfolist(const struct strvec *dirs, const char *suffix)
       if (len > suffix_len
           && strcmp(suffix, entry->d_name + len - suffix_len) == 0) {
         /* Strdup the entry so we can safely write to it. */
-        char *match = mystrdup(entry->d_name);
+        char *match = fc_strdup(entry->d_name);
 
         /* Clip the suffix. */
         match[len - suffix_len] = '\0';
@@ -1193,9 +1193,9 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
       if (first) {
         first = FALSE;
       } else {
-        (void) mystrlcat(realfile.str, PATH_SEPARATOR, len);
+        (void) fc_strlcat(realfile.str, PATH_SEPARATOR, len);
       }
-      (void) mystrlcat(realfile.str, dirname, len);
+      (void) fc_strlcat(realfile.str, dirname, len);
     } strvec_iterate_end;
     return realfile.str;
   }
@@ -1205,7 +1205,7 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
     size_t len = strlen(dirname) + strlen(filename) + 2;
 
     astr_minsize(&realfile, len);
-    my_snprintf(realfile.str, len, "%s/%s", dirname, filename);
+    fc_snprintf(realfile.str, len, "%s/%s", dirname, filename);
     if (fc_stat(realfile.str, &buf) == 0) {
       return realfile.str;
     }
@@ -1287,7 +1287,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
       struct fileinfo *file;
       char *ptr;
       /* Strdup the entry so we can safely write to it. */
-      char *filename = mystrdup(entry->d_name);
+      char *filename = fc_strdup(entry->d_name);
 
       /* Make sure the file name matches. */
       if ((ptr = strstr(filename, infix))) {
@@ -1296,7 +1296,7 @@ struct fileinfo_list *fileinfolist_infix(const struct strvec *dirs,
         size_t len = strlen(dirname) + strlen(filename) + 2;
 
         fullname = fc_malloc(len);
-        my_snprintf(fullname, len, "%s/%s", dirname, filename);
+        fc_snprintf(fullname, len, "%s/%s", dirname, filename);
 
         if (fc_stat(fullname, &buf) == 0) {
           file = fc_malloc(sizeof(*file));
@@ -1462,8 +1462,8 @@ void init_nls(void)
    * Setup the cached locale numeric formatting information. Defaults
    * are as appropriate for the US.
    */
-  grouping = mystrdup("\3");
-  grouping_sep = mystrdup(",");
+  grouping = fc_strdup("\3");
+  grouping_sep = fc_strdup(",");
 
 #ifdef ENABLE_NLS
 
@@ -1472,7 +1472,7 @@ void init_nls(void)
   if (langname) {
     static char envstr[40];
 
-    my_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
+    fc_snprintf(envstr, sizeof(envstr), "LANG=%s", langname);
     putenv(envstr);
   }
 #endif
@@ -1510,7 +1510,7 @@ void init_nls(void)
       memcpy(grouping, lc->grouping, len);
     }
     free(grouping_sep);
-    grouping_sep = mystrdup(lc->thousands_sep);
+    grouping_sep = fc_strdup(lc->thousands_sep);
   }
 #endif
 }
@@ -1709,15 +1709,15 @@ char *get_multicast_group(bool ipv6_prefered)
   if (!init) {
     char *env = getenv("FREECIV_MULTICAST_GROUP");
     if (env) {
-      group = mystrdup(env);
+      group = fc_strdup(env);
     } else {
 #ifdef IPV6_SUPPORT
       if (ipv6_prefered) {
-        group = mystrdup(default_multicast_group_ipv6);
+        group = fc_strdup(default_multicast_group_ipv6);
       } else
 #endif /* IPv6 support */
       {
-        group = mystrdup(default_multicast_group_ipv4);
+        group = fc_strdup(default_multicast_group_ipv4);
       }
     }
     init = TRUE;
@@ -1735,7 +1735,7 @@ char *get_multicast_group(bool ipv6_prefered)
 void interpret_tilde(char* buf, size_t buf_size, const char* filename)
 {
   if (filename[0] == '~' && filename[1] == '/') {
-    my_snprintf(buf, buf_size, "%s/%s", user_home_dir(), filename + 2);
+    fc_snprintf(buf, buf_size, "%s/%s", user_home_dir(), filename + 2);
   } else if (filename[0] == '~' && filename[1] == '\0') {
     strncpy(buf, user_home_dir(), buf_size);
   } else  {
@@ -1759,12 +1759,12 @@ char *interpret_tilde_alloc(const char* filename)
     filename += 2; /* Skip past "~/" */
     sz = strlen(home) + strlen(filename) + 2;
     buf = fc_malloc(sz);
-    my_snprintf(buf, sz, "%s/%s", home, filename);
+    fc_snprintf(buf, sz, "%s/%s", home, filename);
     return buf;
   } else if (filename[0] == '~' && filename[1] == '\0') {
-    return mystrdup(user_home_dir());
+    return fc_strdup(user_home_dir());
   } else  {
-    return mystrdup(filename);
+    return fc_strdup(filename);
   }
 }
 
@@ -1939,7 +1939,7 @@ void array_shuffle(int *array, int n)
   if (n > 1 && array != NULL) {
     int i, j, t;
     for (i = 0; i < n - 1; i++) {
-      j = i + myrand(n - i);
+      j = i + fc_rand(n - i);
       t = array[j];
       array[j] = array[i];
       array[i] = t;

@@ -79,7 +79,7 @@ void real_output_window_append(const char *astring,
    * Now uses window's font size and width.  Assumes fixed-width font.  --jjm
    */
   String theoutput;
-  char *newout, *rmcr, *astring2 = mystrdup(astring);
+  char *newout, *rmcr, *astring2 = fc_strdup(astring);
 
   XtVaGetValues(outputwindow_text, XtNstring, &theoutput, NULL);
   newout=fc_malloc(strlen(astring2)+strlen(theoutput)+2);

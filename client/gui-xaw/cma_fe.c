@@ -381,7 +381,7 @@ static void update_cma_preset_list(void)
   if (cmafec_preset_num()) {
     /* Add all CMA presets to the list. */
     for (i = 0; i < cmafec_preset_num(); i++) {
-      mystrlcpy(preset_text[i], cmafec_preset_get_descr(i),
+      fc_strlcpy(preset_text[i], cmafec_preset_get_descr(i),
 		sizeof(preset_text[i]));
       preset_lines[i] = preset_text[i];
     }
@@ -446,7 +446,7 @@ static void remove_preset(Widget w, XtPointer list,
   char buf[256]; 
 
   if (ret->list_index != XAW_LIST_NONE && cmafec_preset_num()) {
-    my_snprintf(buf, sizeof(buf), 
+    fc_snprintf(buf, sizeof(buf), 
                 _("Do you really want to remove %s?"),
                 cmafec_preset_get_descr(ret->list_index));
 
@@ -690,19 +690,19 @@ static void update_stat_labels(bool is_valid)
   char buf[256]; 
 
   output_type_iterate(i) {
-    my_snprintf(buf, sizeof(buf), "%-9s%3d",
+    fc_snprintf(buf, sizeof(buf), "%-9s%3d",
                 get_output_name(i),
                 minimal_surplus[i]);
     xaw_set_label(stat_surplus_label[i], buf);
   } output_type_iterate_end;
 
   output_type_iterate(i) {
-    my_snprintf(buf, sizeof(buf), "%-9s%3d",
+    fc_snprintf(buf, sizeof(buf), "%-9s%3d",
                 get_output_name(i),
                 factors[i]);
     xaw_set_label(stat_factor_label[i], buf);
   } output_type_iterate_end;
-  my_snprintf(buf, sizeof(buf), "%-9s%3d",
+  fc_snprintf(buf, sizeof(buf), "%-9s%3d",
               "Celebrate",
               factors[O_LAST]);
   xaw_set_label(stat_factor_label[O_LAST], buf);

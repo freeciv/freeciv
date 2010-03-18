@@ -197,8 +197,8 @@ int main(int argc, char **argv)
 void ui_main(int argc, char *argv[])
 {
   int i = 1;
-  char *theme = mystrdup(DEFAULT_THEME);
-  char *resolution = mystrdup(DEFAULT_RESOLUTION);
+  char *theme = fc_strdup(DEFAULT_THEME);
+  char *resolution = fc_strdup(DEFAULT_RESOLUTION);
   bool fullscreen = FALSE;
   char *option = NULL;
   struct ct_size res;
@@ -231,11 +231,11 @@ void ui_main(int argc, char *argv[])
       fullscreen = TRUE;
     } else if ((option = get_option_malloc("--res", argv, &i, argc))) {
       free(resolution);
-      resolution = mystrdup(option);
+      resolution = fc_strdup(option);
       free(option);
     } else if ((option = get_option_malloc("--theme", argv, &i, argc))) {
       free(theme);
-      theme = mystrdup(option);
+      theme = fc_strdup(option);
       free(option);
     } else {
       log_error(_("Unknown option \"%s\""), argv[i]);

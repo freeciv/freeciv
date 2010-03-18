@@ -109,7 +109,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   if (tax!=rates_tax_value)
     {
       scroll=GetDlgItem(ratesdlg,ID_RATES_TAX);
-      my_snprintf(buf, sizeof(buf), "%3d%%", tax); 
+      fc_snprintf(buf, sizeof(buf), "%3d%%", tax); 
       SetWindowText(GetNextSibling(scroll),buf);
       
       if (!no_tax_scroll)
@@ -122,7 +122,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   if (lux!=rates_lux_value)
     {
       scroll=GetDlgItem(ratesdlg,ID_RATES_LUXURY);
-      my_snprintf(buf, sizeof(buf), "%3d%%", lux); 
+      fc_snprintf(buf, sizeof(buf), "%3d%%", lux); 
       SetWindowText(GetNextSibling(scroll),buf);
       
       if (!no_lux_scroll)
@@ -135,7 +135,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   if (sci!=rates_sci_value)
     {
       scroll=GetDlgItem(ratesdlg,ID_RATES_SCIENCE);
-      my_snprintf(buf, sizeof(buf), "%3d%%", sci); 
+      fc_snprintf(buf, sizeof(buf), "%3d%%", sci); 
       SetWindowText(GetNextSibling(scroll),buf);
       
       if (!no_sci_scroll)
@@ -330,7 +330,7 @@ popup_rates_dialog(void)
     fcwin_box_add_button(hbox,_("Cancel"),IDCANCEL,0,TRUE,TRUE,20);
     fcwin_box_add_box(vbox,hbox,TRUE,TRUE,10);
 
-    my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
+    fc_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
 		government_name_for_player(client.conn.playing),
 		get_player_bonus(client.conn.playing, EFT_MAX_RATES));
     SetWindowText(GetDlgItem(ratesdlg,ID_RATES_MAX),buf);

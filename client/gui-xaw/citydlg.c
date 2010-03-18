@@ -205,7 +205,7 @@ static void get_contents_of_pollution(struct city_dialog *pdialog,
     pollution=pcity->pollution;
   }
 
-  my_snprintf(retbuf, n, _("Pollution:    %3d"), pollution);
+  fc_snprintf(retbuf, n, _("Pollution:    %3d"), pollution);
 }
 
 /****************************************************************
@@ -225,7 +225,7 @@ static void get_contents_of_storage(struct city_dialog *pdialog,
   }
 
   /* We used to mark cities with a granary with a "*" here. */
-  my_snprintf(retbuf, n, _("Granary:  %3d/%-3d"),
+  fc_snprintf(retbuf, n, _("Granary:  %3d/%-3d"),
 	      foodstock, foodbox);
 }
 
@@ -253,7 +253,7 @@ static void get_contents_of_production(struct city_dialog *pdialog,
     tradesurplus = pcity->surplus[O_TRADE];
   }
 
-  my_snprintf(retbuf, n,
+  fc_snprintf(retbuf, n,
 	  _("Food:  %3d (%+-4d)\n"
 	    "Prod:  %3d (%+-4d)\n"
 	    "Trade: %3d (%+-4d)"),
@@ -282,7 +282,7 @@ static void get_contents_of_output(struct city_dialog *pdialog,
     scitotal=pcity->prod[O_SCIENCE];
   }
 
-  my_snprintf(retbuf, n, 
+  fc_snprintf(retbuf, n, 
 	  _("Gold:  %3d (%+-4d)\n"
 	    "Lux:   %3d\n"
 	    "Sci:   %3d"),
@@ -309,9 +309,9 @@ static void get_contents_of_worklist(struct city_dialog *pdialog,
   struct city *pcity = pdialog ? pdialog->pcity : NULL;
 
   if (pcity && worklist_is_empty(&pcity->worklist)) {
-    mystrlcpy(retbuf, _("(is empty)"), n);
+    fc_strlcpy(retbuf, _("(is empty)"), n);
   } else {
-    mystrlcpy(retbuf, _("(in prog.)"), n);
+    fc_strlcpy(retbuf, _("(in prog.)"), n);
   }
 }
 
@@ -1444,7 +1444,7 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
 
   pdialog=(struct city_dialog *)client_data;
 
-  my_snprintf(buf, sizeof(buf),
+  fc_snprintf(buf, sizeof(buf),
 	      _("These trade routes have been established with %s:\n"),
 	      city_name(pdialog->pcity));
   bptr = end_of_strn(bptr, &nleft);
@@ -1455,19 +1455,19 @@ void trade_callback(Widget w, XtPointer client_data, XtPointer call_data)
       x=1;
       total+=pdialog->pcity->trade_value[i];
       if((pcity=game_find_city_by_number(pdialog->pcity->trade[i]))) {
-	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
+	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"),
 		    city_name(pcity), pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       } else {	
-	my_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
+	fc_snprintf(bptr, nleft, _("%32s: %2d Trade/Year\n"), _("Unknown"),
 		    pdialog->pcity->trade_value[i]);
 	bptr = end_of_strn(bptr, &nleft);
       }
     }
   if (!x) {
-    mystrlcpy(bptr, _("No trade routes exist.\n"), nleft);
+    fc_strlcpy(bptr, _("No trade routes exist.\n"), nleft);
   } else {
-    my_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Year\n"), total);
+    fc_snprintf(bptr, nleft, _("\nTotal trade %d Trade/Year\n"), total);
   }
   
   popup_message_dialog(pdialog->shell, 
@@ -1812,7 +1812,7 @@ void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   String now;
   
-  my_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
+  fc_snprintf(buf, sizeof(buf), _("%s - %s citizens  Governor: %s"),
 	      city_name(pdialog->pcity),
 	      population_to_text(city_population(pdialog->pcity)),
                    cmafec_get_short_descr_of_city(pdialog->pcity));
@@ -1925,7 +1925,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
 
   if (value <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Buy %s for %d gold?\nTreasury contains %d gold."), 
 		name, value, client.conn.playing->economic.gold);
     popup_message_dialog(pdialog->shell, "buydialog", buf,
@@ -1934,7 +1934,7 @@ void buy_callback(Widget w, XtPointer client_data, XtPointer call_data)
 			 NULL);
   }
   else {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("%s costs %d gold.\nTreasury contains %d gold."), 
 		name, value, client.conn.playing->economic.gold);
     popup_message_dialog(pdialog->shell, "buynodialog", buf,
@@ -2291,7 +2291,7 @@ void sell_callback(Widget w, XtPointer client_data, XtPointer call_data)
 	}
 
 	pdialog->sell_id = improvement_number(pimprove);
-	my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+	fc_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
 		    city_improvement_name_translation(pdialog->pcity, pimprove),
 		    impr_sell_gold(pimprove));
 

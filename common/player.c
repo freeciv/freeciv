@@ -371,7 +371,7 @@ void player_set_unit_focus_status(struct player *pplayer)
 struct player *find_player_by_name(const char *name)
 {
   players_iterate(pplayer) {
-    if (mystrcasecmp(name, pplayer->name) == 0) {
+    if (fc_strcasecmp(name, pplayer->name) == 0) {
       return pplayer;
     }
   } players_iterate_end;
@@ -414,7 +414,7 @@ struct player *find_player_by_name_prefix(const char *name,
 
   *result = match_prefix(player_slot_name_by_number,
                          player_slot_count(), MAX_LEN_NAME-1,
-                         mystrncasequotecmp, effectivestrlenquote,
+                         fc_strncasequotecmp, effectivestrlenquote,
                          name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
@@ -430,7 +430,7 @@ Find player by its user name (not player/leader name)
 struct player *find_player_by_user(const char *name)
 {
   players_iterate(pplayer) {
-    if (mystrcasecmp(name, pplayer->username) == 0) {
+    if (fc_strcasecmp(name, pplayer->username) == 0) {
       return pplayer;
     }
   } players_iterate_end;
@@ -791,7 +791,7 @@ bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
   if (!pplayer->ai_data.control || pplayer->ai_data.fuzzy == 0) {
     return normal_decision;
   }
-  if (myrand(1000) >= pplayer->ai_data.fuzzy) {
+  if (fc_rand(1000) >= pplayer->ai_data.fuzzy) {
     return normal_decision;
   }
   return !normal_decision;
@@ -1017,9 +1017,9 @@ int player_in_territory(const struct player *pplayer,
 bool is_valid_username(const char *name)
 {
   return (strlen(name) > 0
-	  && !my_isdigit(name[0])
-	  && is_ascii_name(name)
-	  && mystrcasecmp(name, ANON_USER_NAME) != 0);
+          && !fc_isdigit(name[0])
+          && is_ascii_name(name)
+          && fc_strcasecmp(name, ANON_USER_NAME) != 0);
 }
 
 /****************************************************************************
@@ -1053,7 +1053,7 @@ enum ai_level find_ai_level_by_name(const char *name)
   for (level = 0; level < AI_LEVEL_LAST; level++) {
     if (ai_level_names[level] != NULL) {
       /* Only consider levels that really have names */
-      if (mystrcasecmp(ai_level_names[level], name) == 0) {
+      if (fc_strcasecmp(ai_level_names[level], name) == 0) {
         return level;
       }
     }

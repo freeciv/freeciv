@@ -186,7 +186,7 @@ struct terrain *find_terrain_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   terrain_type_iterate(pterrain) {
-    if (0 == mystrcasecmp(terrain_rule_name(pterrain), qname)) {
+    if (0 == fc_strcasecmp(terrain_rule_name(pterrain), qname)) {
       return pterrain;
     }
   } terrain_type_iterate_end;
@@ -220,7 +220,7 @@ struct terrain *rand_terrain_by_flag(enum terrain_flag_id flag)
   terrain_type_iterate(pterr) {
     if (terrain_has_flag(pterr, flag)) {
       num++;
-      if (myrand(num) == 1) {
+      if (fc_rand(num) == 1) {
         terr = pterr;
       }
     }
@@ -289,7 +289,7 @@ enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
   fc_assert_ret_val(ARRAY_SIZE(flag_names) == TER_COUNT, TER_LAST);
 
   for (flag = TER_FIRST; flag < TER_LAST; flag++) {
-    if (mystrcasecmp(flag_names[flag], s) == 0) {
+    if (fc_strcasecmp(flag_names[flag], s) == 0) {
       return flag;
     }
   }
@@ -399,7 +399,7 @@ struct resource *find_resource_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   resource_type_iterate(presource) {
-    if (0 == mystrcasecmp(resource_rule_name(presource), qname)) {
+    if (0 == fc_strcasecmp(resource_rule_name(presource), qname)) {
       return presource;
     }
   } resource_type_iterate_end;

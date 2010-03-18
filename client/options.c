@@ -1877,7 +1877,7 @@ static bool client_option_str_set(struct option *poption, const char *str)
     return FALSE;
   }
 
-  mystrlcpy(pcoption->string.pvalue, str, pcoption->string.size);
+  fc_strlcpy(pcoption->string.pvalue, str, pcoption->string.size);
   return TRUE;
 }
 
@@ -1918,7 +1918,7 @@ static bool client_option_font_set(struct option *poption, const char *font)
     return FALSE;
   }
 
-  mystrlcpy(pcoption->font.pvalue, font, pcoption->font.size);
+  fc_strlcpy(pcoption->font.pvalue, font, pcoption->font.size);
   return TRUE;
 }
 
@@ -2180,7 +2180,7 @@ void handle_server_setting_control(struct packet_server_setting_control *packet)
 
     for (i = 0; i < server_options_categories_num; i++) {
       /* NB: Translate now. */
-      server_options_categories[i] = mystrdup(_(packet->category_names[i]));
+      server_options_categories[i] = fc_strdup(_(packet->category_names[i]));
     }
   }
 
@@ -2258,10 +2258,10 @@ void handle_server_setting(struct packet_server_setting *packet)
 
 #define server_option_set_string(target, string)                            \
   if (NULL == target) {                                                     \
-    target = mystrdup(string);                                              \
+    target = fc_strdup(string);                                             \
   } else if (0 != strcmp(target, string)) {                                 \
     free(target);                                                           \
-    target = mystrdup(string);                                              \
+    target = fc_strdup(string);                                             \
   }
 
   server_option_set_string(psoption->name, packet->name);
@@ -2819,14 +2819,14 @@ static const char *get_current_option_file_name(void)
     sz_strlcpy(name_buffer, name);
   } else {
 #ifdef OPTION_FILE_NAME
-    mystrlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
+    fc_strlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
 #else
     name = user_home_dir();
     if (!name) {
       log_error(_("Cannot find your home directory"));
       return NULL;
     }
-    my_snprintf(name_buffer, sizeof(name_buffer),
+    fc_snprintf(name_buffer, sizeof(name_buffer),
                 "%s/" NEW_OPTION_FILE_NAME, name,
                 MAJOR_NEW_OPTION_FILE_NAME, MINOR_NEW_OPTION_FILE_NAME);
 #endif /* OPTION_FILE_NAME */
@@ -2852,7 +2852,7 @@ static const char *get_last_option_file_name(void)
     sz_strlcpy(name_buffer, name);
   } else {
 #ifdef OPTION_FILE_NAME
-    mystrlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
+    fc_strlcpy(name_buffer, OPTION_FILE_NAME, sizeof(name_buffer));
 #else
     int major, minor;
     struct stat buf;
@@ -2868,7 +2868,7 @@ static const char *get_last_option_file_name(void)
       for (; (major == FIRST_MAJOR_NEW_OPTION_FILE_NAME
               ? minor >= FIRST_MINOR_NEW_OPTION_FILE_NAME 
               : minor >= 0); minor--) {
-        my_snprintf(name_buffer, sizeof(name_buffer),
+        fc_snprintf(name_buffer, sizeof(name_buffer),
                     "%s/" NEW_OPTION_FILE_NAME, name, major, minor);
         if (0 == fc_stat(name_buffer, &buf)) {
           if (MAJOR_NEW_OPTION_FILE_NAME != major
@@ -2884,7 +2884,7 @@ static const char *get_last_option_file_name(void)
       minor = 99;       /* Looks enough big. */
     }
     /* Try with the old one. */
-    my_snprintf(name_buffer, sizeof(name_buffer),
+    fc_snprintf(name_buffer, sizeof(name_buffer),
                 "%s/" OLD_OPTION_FILE_NAME, name);
     if (0 == fc_stat(name_buffer, &buf)) {
       log_normal(_("Didn't find '%s' option file, "
@@ -2939,14 +2939,14 @@ static void settable_options_load(struct section_file *sf)
     switch (entry_type(pentry)) {
     case ENTRY_BOOL:
       if (entry_bool_get(pentry, &bval)) {
-        my_snprintf(buf, sizeof(buf), "%d", bval);
+        fc_snprintf(buf, sizeof(buf), "%d", bval);
         string = buf;
       }
       break;
 
     case ENTRY_INT:
       if (entry_int_get(pentry, &ival)) {
-        my_snprintf(buf, sizeof(buf), "%d", ival);
+        fc_snprintf(buf, sizeof(buf), "%d", ival);
         string = buf;
       }
       break;
@@ -2963,7 +2963,7 @@ static void settable_options_load(struct section_file *sf)
     }
 
     hash_insert(settable_options_hash,
-                mystrdup(entry_name(pentry)), mystrdup(string));
+                fc_strdup(entry_name(pentry)), fc_strdup(string));
   } entry_list_iterate_end;
 }
 
@@ -2996,15 +2996,15 @@ void desired_settable_options_update(void)
     def_val = NULL;
     switch (option_type(poption)) {
     case OT_BOOLEAN:
-      my_snprintf(val_buf, sizeof(val_buf), "%d", option_bool_get(poption));
+      fc_snprintf(val_buf, sizeof(val_buf), "%d", option_bool_get(poption));
       value = val_buf;
-      my_snprintf(def_buf, sizeof(def_buf), "%d", option_bool_def(poption));
+      fc_snprintf(def_buf, sizeof(def_buf), "%d", option_bool_def(poption));
       def_val = def_buf;
       break;
     case OT_INTEGER:
-      my_snprintf(val_buf, sizeof(val_buf), "%d", option_int_get(poption));
+      fc_snprintf(val_buf, sizeof(val_buf), "%d", option_int_get(poption));
       value = val_buf;
-      my_snprintf(def_buf, sizeof(def_buf), "%d", option_int_def(poption));
+      fc_snprintf(def_buf, sizeof(def_buf), "%d", option_int_def(poption));
       def_val = def_buf;
       break;
     case OT_STRING:
@@ -3027,7 +3027,7 @@ void desired_settable_options_update(void)
     } else {
       /* Really desired. */
       hash_replace(settable_options_hash,
-                   mystrdup(option_name(poption)), mystrdup(value));
+                   fc_strdup(option_name(poption)), fc_strdup(value));
     }
   } options_iterate_end;
 }
@@ -3045,7 +3045,8 @@ void desired_settable_option_update(const char *op_name,
   if (allow_replace) {
     hash_delete_entry(settable_options_hash, op_name);
   }
-  hash_insert(settable_options_hash, mystrdup(op_name), mystrdup(op_value));
+  hash_insert(settable_options_hash, fc_strdup(op_name),
+              fc_strdup(op_value));
 }
 
 /****************************************************************
@@ -3068,11 +3069,11 @@ static void desired_settable_option_send(struct option *poption)
   value = NULL;
   switch (option_type(poption)) {
   case SSET_BOOL:
-    my_snprintf(buf, sizeof(buf), "%d", option_bool_get(poption));
+    fc_snprintf(buf, sizeof(buf), "%d", option_bool_get(poption));
     value = buf;
     break;
   case SSET_INT:
-    my_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+    fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
     value = buf;
     break;
   case SSET_STRING:
@@ -3116,7 +3117,7 @@ static void options_dialogs_load(struct section_file *sf)
         if (0 == strncmp(*prefix, entry_name(pentry), strlen(*prefix))
             && secfile_lookup_bool(sf, &visible, "client.%s",
                                    entry_name(pentry))) {
-          hash_replace(dialog_options_hash, mystrdup(entry_name(pentry)),
+          hash_replace(dialog_options_hash, fc_strdup(entry_name(pentry)),
                        FC_INT_TO_PTR(visible));
           break;
         }
@@ -3153,17 +3154,17 @@ void options_dialogs_update(void)
 
   /* Player report dialog options. */
   for (i = 1; i < num_player_dlg_columns; i++) {
-    my_snprintf(buf, sizeof(buf), "player_dlg_%s",
+    fc_snprintf(buf, sizeof(buf), "player_dlg_%s",
                 player_dlg_columns[i].tagname);
-    hash_replace(dialog_options_hash, mystrdup(buf),
+    hash_replace(dialog_options_hash, fc_strdup(buf),
                  FC_INT_TO_PTR(player_dlg_columns[i].show));
   }
 
   /* City report dialog options. */
   for (i = 0; i < num_city_report_spec(); i++) {
-    my_snprintf(buf, sizeof(buf), "city_report_%s",
+    fc_snprintf(buf, sizeof(buf), "city_report_%s",
                 city_report_spec_tagname(i));
-    hash_replace(dialog_options_hash, mystrdup(buf),
+    hash_replace(dialog_options_hash, fc_strdup(buf),
                  FC_INT_TO_PTR(*city_report_spec_show_ptr(i)));
   }
 }
@@ -3182,7 +3183,7 @@ void options_dialogs_set(void)
 
   /* Player report dialog options. */
   for (i = 1; i < num_player_dlg_columns; i++) {
-    my_snprintf(buf, sizeof(buf), "player_dlg_%s",
+    fc_snprintf(buf, sizeof(buf), "player_dlg_%s",
                 player_dlg_columns[i].tagname);
     if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
       player_dlg_columns[i].show = FC_PTR_TO_INT(data);
@@ -3191,7 +3192,7 @@ void options_dialogs_set(void)
 
   /* City report dialog options. */
   for (i = 0; i < num_city_report_spec(); i++) {
-    my_snprintf(buf, sizeof(buf), "city_report_%s",
+    fc_snprintf(buf, sizeof(buf), "city_report_%s",
                 city_report_spec_tagname(i));
     if (hash_lookup(dialog_options_hash, buf, NULL, &data)) {
       *city_report_spec_show_ptr(i) = FC_PTR_TO_INT(data);
@@ -3376,7 +3377,7 @@ void options_init(void)
       if (default_user_name == option_str_get(poption)) {
         /* Hack to get a default value. */
         *((const char **) &(CLIENT_OPTION(poption)->string.def)) =
-            mystrdup(default_user_name);
+            fc_strdup(default_user_name);
       }
 
       if (NULL == option_str_def(poption)) {

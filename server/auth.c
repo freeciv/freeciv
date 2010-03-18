@@ -173,7 +173,8 @@ static void print_auth_option(enum log_level level,
   if (show_value || real_show_source) {
     /* We will print this line. Begin it. */
     /* TRANS: Further information about option will follow. */
-    my_snprintf(buffer, sizeof(buffer), _("Auth option \"%s\":"), target->name);
+    fc_snprintf(buffer, sizeof(buffer), _("Auth option \"%s\":"),
+                target->name);
   }
 
   if (show_value) {
@@ -438,7 +439,7 @@ bool authenticate_user(struct connection *pconn, char *username)
       break;
     case AUTH_DB_SUCCESS:
       /* we found a user */
-      my_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
+      fc_snprintf(buffer, sizeof(buffer), _("Enter password for %s:"),
                   pconn->username);
       dsend_packet_authentication_req(pconn, AUTH_LOGIN_FIRST, buffer);
       pconn->server.auth_settime = time(NULL);
@@ -578,7 +579,7 @@ void process_authentication_status(struct connection *pconn)
 **************************************************************************/
 bool is_guest_name(const char *name)
 {
-  return (mystrncasecmp(name, GUEST_NAME, strlen(GUEST_NAME)) == 0);
+  return (fc_strncasecmp(name, GUEST_NAME, strlen(GUEST_NAME)) == 0);
 }
 
 /**************************************************************************
@@ -595,14 +596,14 @@ void get_unique_guest_name(char *name)
   } 
 
   /* next try bare guest name */
-  mystrlcpy(name, GUEST_NAME, MAX_LEN_NAME);
+  fc_strlcpy(name, GUEST_NAME, MAX_LEN_NAME);
   if (!find_conn_by_user(name)) {
     return;
   }
 
   /* bare name is taken, append numbers */
   for (i = 1; ; i++) {
-    my_snprintf(name, MAX_LEN_NAME, "%s%u", GUEST_NAME, i);
+    fc_snprintf(name, MAX_LEN_NAME, "%s%u", GUEST_NAME, i);
 
 
     /* attempt to find this name; if we can't we're good to go */
@@ -624,23 +625,23 @@ static bool is_good_password(const char *password, char *msg)
    
   /* check password length */
   if (strlen(password) < MIN_PASSWORD_LEN) {
-    my_snprintf(msg, MAX_LEN_MSG,
+    fc_snprintf(msg, MAX_LEN_MSG,
                 _("Your password is too short, the minimum length is %d. "
                   "Try again."), MIN_PASSWORD_LEN);
     return FALSE;
   }
  
-  my_snprintf(msg, MAX_LEN_MSG,
+  fc_snprintf(msg, MAX_LEN_MSG,
               _("The password must have at least %d capital letters, %d "
                 "numbers, and be at minimum %d [printable] characters long. "
                 "Try again."), 
               MIN_PASSWORD_CAPS, MIN_PASSWORD_NUMS, MIN_PASSWORD_LEN);
 
   for (i = 0; i < strlen(password); i++) {
-    if (my_isupper(password[i])) {
+    if (fc_isupper(password[i])) {
       num_caps++;
     }
-    if (my_isdigit(password[i])) {
+    if (fc_isdigit(password[i])) {
       num_nums++;
     }
   }
@@ -696,7 +697,7 @@ static bool authdb_check_password(struct connection *pconn,
 
     if (name_buffer != NULL) {
       /* insert an entry into our log */
-      str_result = my_snprintf(buffer, bufsize,
+      str_result = fc_snprintf(buffer, bufsize,
                                "insert into %s (name, logintime, address, succeed) "
                                "values ('%s',unix_timestamp(),'%s','%s')",
                                auth_config.login_table.value,
@@ -752,7 +753,7 @@ static enum authdb_status auth_db_load(struct connection *pconn)
 
   if (name_buffer != NULL) {
     /* select the password from the entry */
-    str_result = my_snprintf(buffer, bufsize,
+    str_result = fc_snprintf(buffer, bufsize,
                              "select password from %s where name = '%s'",
                              auth_config.table.value, name_buffer);
 
@@ -785,12 +786,12 @@ static enum authdb_status auth_db_load(struct connection *pconn)
 
     /* if there are rows, then fetch them and use the first one */
     row = mysql_fetch_row(res);
-    mystrlcpy(pconn->server.password, row[0], sizeof(pconn->server.password));
+    fc_strlcpy(pconn->server.password, row[0], sizeof(pconn->server.password));
     mysql_free_result(res);
 
     /* update the access time for this user */
     memset(buffer, 0, bufsize);
-    str_result = my_snprintf(buffer, bufsize,
+    str_result = fc_snprintf(buffer, bufsize,
                              "update %s set accesstime=unix_timestamp(), "
                              "address='%s', logincount=logincount+1 "
                              "where strcmp(name, '%s') = 0",
@@ -877,7 +878,7 @@ static bool auth_db_save(struct connection *pconn)
   /* insert new user into table. we insert the following things: name
    * md5sum of the password, the creation time in seconds, the accesstime
    * also in seconds from 1970, the users address (twice) and the logincount */
-  str_result = my_snprintf(buffer, bufsize,
+  str_result = fc_snprintf(buffer, bufsize,
                            "insert into %s values "
                            "(NULL, '%s', md5('%s'), NULL, "
                            "unix_timestamp(), unix_timestamp(),"
@@ -898,7 +899,7 @@ static bool auth_db_save(struct connection *pconn)
 
   /* insert an entry into our log */
   memset(buffer, 0, bufsize);
-  str_result = my_snprintf(buffer, bufsize,
+  str_result = fc_snprintf(buffer, bufsize,
                            "insert into %s (name, logintime, address, succeed) "
                            "values ('%s',unix_timestamp(),'%s', 'S')",
                            auth_config.login_table.value,

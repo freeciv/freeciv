@@ -241,7 +241,7 @@ void update_start_page(void)
 	leader = player_name(pplayer);
       }
 
-      my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
+      fc_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 		  "%-16s %-5s %-16s %-16s %4d",
 		  name,
 		  is_ready ? " Yes " : " No  ",
@@ -260,7 +260,7 @@ void update_start_page(void)
       nation = "";
       leader = "";
 
-      my_snprintf(namelist_text[j], sizeof(namelist_text[j]),
+      fc_snprintf(namelist_text[j], sizeof(namelist_text[j]),
 		  "%-16s %-5s %-16s %-16s %4d",
 		  name,
 		  " No   ",

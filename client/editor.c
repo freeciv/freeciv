@@ -1473,7 +1473,7 @@ void edit_buffer_copy(struct edit_buffer *ebuf, const struct tile *ptile)
         char name[MAX_LEN_NAME];
 
         pcity = tile_city(ptile);
-        my_snprintf(name, sizeof(name), "Copy of %s",
+        fc_snprintf(name, sizeof(name), "Copy of %s",
                     city_name(pcity));
         vcity = create_city_virtual(city_owner(pcity), NULL, name);
         vcity->size = pcity->size;
@@ -1738,7 +1738,7 @@ int edit_buffer_get_status_string(const struct edit_buffer *ebuf,
     return 0;
   }
 
-  ret = mystrlcpy(buf, _("Buffer empty."), buflen);
+  ret = fc_strlcpy(buf, _("Buffer empty."), buflen);
   if (!ebuf || !ebuf->vtiles) {
     return ret;
   }
@@ -1746,7 +1746,7 @@ int edit_buffer_get_status_string(const struct edit_buffer *ebuf,
   total = tile_list_size(ebuf->vtiles);
   if (total > 0) {
     fmt = PL_("%d tile copied.", "%d tiles copied.", total);
-    ret = my_snprintf(buf, buflen, fmt, total);
+    ret = fc_snprintf(buf, buflen, fmt, total);
   }
 
   return ret;

@@ -179,9 +179,9 @@ static struct tile *find_dispersed_position(struct player *pplayer,
   int x, y;
 
   do {
-    x = p->tile->x + myrand(2 * game.info.dispersion + 1) 
+    x = p->tile->x + fc_rand(2 * game.info.dispersion + 1) 
         - game.info.dispersion;
-    y = p->tile->y + myrand(2 * game.info.dispersion + 1)
+    y = p->tile->y + fc_rand(2 * game.info.dispersion + 1)
         - game.info.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
              && tile_continent(p->tile) == tile_continent(ptile)
@@ -242,7 +242,7 @@ void init_new_game(void)
   log_verbose("Assigning random nations.");
   players_iterate(pplayer) {
     if (start_pos[player_index(pplayer)] == NO_START_POS) {
-      int which = myrand(map.server.num_start_positions - num_used);
+      int which = fc_rand(map.server.num_start_positions - num_used);
 
       for (i = 0; i < map.server.num_start_positions; i++) {
 	if (!pos_used[i]) {
@@ -478,7 +478,7 @@ static const char *get_challenge_filename(struct connection *pc)
 {
   static char filename[MAX_LEN_PATH];
 
-  my_snprintf(filename, sizeof(filename), "%s_%d_%d",
+  fc_snprintf(filename, sizeof(filename), "%s_%d_%d",
       CHALLENGE_ROOT, srvarg.port, pc->id);
 
   return filename;

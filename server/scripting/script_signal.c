@@ -173,7 +173,7 @@ internal_signal_callback_append(struct signal_callback_list *list,
   struct signal_callback *callback;
 
   callback = fc_malloc(sizeof(*callback));
-  callback->name = mystrdup(callback_name);
+  callback->name = fc_strdup(callback_name);
 
   signal_callback_list_append(list, callback);
   return callback;
@@ -203,7 +203,7 @@ static void internal_signal_create(const char *signal_name,
     char *name;
     struct signal *signal;
 
-    name = mystrdup(signal_name);
+    name = fc_strdup(signal_name);
 
     signal = fc_malloc(sizeof(*signal));
     signal->nargs = nargs;

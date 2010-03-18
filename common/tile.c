@@ -676,15 +676,15 @@ static bool tile_info_pollution(char *buf, int bufsz,
   if (tile_has_special(ptile, special)) {
     if (!prevp) {
       if (linebreak) {
-        mystrlcat(buf, "\n[", bufsz);
+        fc_strlcat(buf, "\n[", bufsz);
       } else {
-        mystrlcat(buf, " [", bufsz);
+        fc_strlcat(buf, " [", bufsz);
       }
     } else {
-      mystrlcat(buf, "/", bufsz);
+      fc_strlcat(buf, "/", bufsz);
     }
 
-    mystrlcat(buf, special_name_translation(special), bufsz);
+    fc_strlcat(buf, special_name_translation(special), bufsz);
 
     return TRUE;
   }

@@ -467,7 +467,7 @@ void update_city_activities(struct player *pplayer)
 
     /* Iterate over cities in a random order. */
     while (i > 0) {
-      r = myrand(i);
+      r = fc_rand(i);
       /* update unit upkeep */
       city_units_upkeep(cities[r]);
       update_city_activity(cities[r]);
@@ -1683,7 +1683,7 @@ static bool sell_random_buildings(struct player *pplayer,
 
   n = imprs ? cityimpr_vector_size(imprs) : 0;
   while (pplayer->economic.gold < 0 && n > 0) {
-    r = myrand(n);
+    r = fc_rand(n);
     pcity = imprs->p[r].pcity;
     pimprove = imprs->p[r].pimprove;
 
@@ -1726,7 +1726,7 @@ static bool sell_random_units(struct player *pplayer,
 
   n = punitlist ? unit_list_size(punitlist) : 0;
   while (pplayer->economic.gold < 0 && n > 0) {
-    r = myrand(n);
+    r = fc_rand(n);
     punit = unit_list_get(punitlist, r);
     gold_upkeep = punit->upkeep[O_GOLD];
 
@@ -1897,11 +1897,11 @@ static void check_pollution(struct city *pcity)
   int city_radius_sq = city_map_radius_sq_get(pcity);
   int k=100;
 
-  if (pcity->pollution != 0 && myrand(100) <= pcity->pollution) {
+  if (pcity->pollution != 0 && fc_rand(100) <= pcity->pollution) {
     while (k > 0) {
       /* place pollution on a random city tile */
       int cx, cy;
-      int tile_id = myrand(city_map_tiles(city_radius_sq));
+      int tile_id = fc_rand(city_map_tiles(city_radius_sq));
       city_tile_index_to_xy(&cx, &cy, tile_id, city_radius_sq);
 
       /* check for a a real map position */
@@ -2166,7 +2166,7 @@ static void update_city_activity(struct city *pcity)
  ****************************************************************************/
 static bool city_illness_check(const struct city * pcity)
 {
-  if (myrand(1000) < pcity->illness) {
+  if (fc_rand(1000) < pcity->illness) {
     return TRUE;
   }
 
@@ -2608,7 +2608,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
     if (best_city_player_score > 0) {
       /* first, do the migration within one nation */
-      if (myrand(100) >= game.info.mgr_nationchance) {
+      if (fc_rand(100) >= game.info.mgr_nationchance) {
         /* no migration */
         /* N.B.: city_link always returns the same pointer. */
         sz_strlcpy(city_link_text, city_link(pcity));
@@ -2626,7 +2626,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
     if (best_city_world_score > 0) {
       /* second, do the migration between all nations */
-      if (myrand(100) >= game.info.mgr_worldchance) {
+      if (fc_rand(100) >= game.info.mgr_worldchance) {
         const char *nname;
         nname = nation_adjective_for_player(city_owner(best_city_world));
         /* no migration */

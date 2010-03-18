@@ -346,7 +346,7 @@ void regenerate_lakes(tile_knowledge_cb knowledge_cb)
       }
       if (0 < lake_surrounders[-here]) {
         if (terrain_control.lake_max_size >= ocean_sizes[-here]) {
-          tile_change_terrain(ptile, lakes[myrand(num_laketypes)]);
+          tile_change_terrain(ptile, lakes[fc_rand(num_laketypes)]);
         }
         if (knowledge_cb) {
           knowledge_cb(ptile);
@@ -545,7 +545,8 @@ void smooth_water_depth(void)
     dist = real_distance_to_land(ptile, OCEAN_DIST_MAX);
     if (dist <= OCEAN_DIST_MAX) {
       /* Overwrite the terrain. */
-      ocean = pick_ocean(dist * OCEAN_DEPTH_STEP + myrand(OCEAN_DEPTH_RAND));
+      ocean = pick_ocean(dist * OCEAN_DEPTH_STEP
+                         + fc_rand(OCEAN_DEPTH_RAND));
       if (NULL != ocean && ocean != tile_terrain(ptile)) {
         log_debug("Replacing %s by %s at (%d, %d) "
                   "to have shallow ocean on coast.",

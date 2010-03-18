@@ -459,7 +459,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
     /*if(type == DS_WAR || type == DS_NEUTRAL) {*/
     if(type != DS_CEASEFIRE) {
-      my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
+      fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Cease-fire"));
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
       pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_TEXT);
@@ -473,7 +473,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     }
     
     if(type != DS_PEACE) {
-      my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Peace"));
+      fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Peace"));
   
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -488,7 +488,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     }
     
     if(pplayer_can_make_treaty(pPlayer0, pPlayer1, DS_ALLIANCE)) {
-      my_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
+      fc_snprintf(cBuf, sizeof(cBuf), "  %s", Q_("?diplomatic_state:Alliance"));
       
       pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -530,7 +530,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     count++;
     
     /* ----- */
-    my_snprintf(cBuf, sizeof(cBuf), "  %s", _("World map"));
+    fc_snprintf(cBuf, sizeof(cBuf), "  %s", _("World map"));
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -544,7 +544,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     count++;
     
     /* ----- */
-    my_snprintf(cBuf, sizeof(cBuf), "  %s", _("Sea map"));
+    fc_snprintf(cBuf, sizeof(cBuf), "  %s", _("Sea map"));
   
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 	cBuf, adj_font(12), (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -577,7 +577,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   if(pPlayer0->economic.gold > 0) {
     pCont->value = pPlayer0->economic.gold;
     
-    my_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
+    fc_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
     pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
 			  cBuf, adj_font(12), WF_RESTORE_BACKGROUND);
     pBuf->string16->fgcol = *get_game_colorRGB(COLOR_THEME_DIPLODLG_MEETING_HEADING_TEXT);
@@ -617,7 +617,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
              add_to_gui_list(ID_LABEL, pBuf);
 	     count++;
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
+	     fc_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -641,7 +641,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 	  (player_invention_state(pPlayer1, i) == TECH_UNKNOWN || 
 	   player_invention_state(pPlayer1, i) == TECH_PREREQS_KNOWN)) {
 	     
-	     my_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
+	     fc_snprintf(cBuf, sizeof(cBuf), "  %s", advance_name_translation(advance_by_number(i)));
   
              pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	         (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -698,7 +698,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
       qsort(city_list_ptrs, i, sizeof(struct city *), city_name_compare);
         
       for (j = 0; j < i; j++) {
-	my_snprintf(cBuf, sizeof(cBuf), "  %s", city_name(city_list_ptrs[j]));
+	fc_snprintf(cBuf, sizeof(cBuf), "  %s", city_name(city_list_ptrs[j]));
   
         pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, cBuf, adj_font(12),
 	     (WF_RESTORE_BACKGROUND|WF_DRAW_TEXT_LABEL_WITH_SPACE));
@@ -827,7 +827,7 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     pCont->id0 = player_number(pPlayer0);
     pCont->id1 = player_number(pPlayer1);
     
-    my_snprintf(cBuf, sizeof(cBuf), _("Diplomacy meeting"));
+    fc_snprintf(cBuf, sizeof(cBuf), _("Diplomacy meeting"));
     
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
@@ -1301,7 +1301,7 @@ static void popup_war_dialog(struct player *pPlayer)
   
   pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 
-  my_snprintf(cBuf, sizeof(cBuf),
+  fc_snprintf(cBuf, sizeof(cBuf),
               /* TRANS: "Polish incident !" FIXME!!! */
               _("%s incident !"),
               nation_adjective_for_player(pPlayer));
@@ -1321,7 +1321,7 @@ static void popup_war_dialog(struct player *pPlayer)
   
   /* ============================================================= */
   /* label */
-  my_snprintf(cBuf, sizeof(cBuf), _("Shall we declare WAR on them?"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Shall we declare WAR on them?"));
   
   pStr = create_str16_from_char(cBuf, adj_font(14));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -1432,7 +1432,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
   
     pSDip_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
           
-    my_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
+    fc_snprintf(cBuf, sizeof(cBuf),  _("Foreign Minister"));
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= TTF_STYLE_BOLD;
 
@@ -1448,7 +1448,7 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     
     /* ============================================================= */
     /* label */
-    my_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
+    fc_snprintf(cBuf, sizeof(cBuf), _("Sir!, the %s ambassador has arrived\n"
     		"What are your wishes?"),
     		nation_adjective_for_player(pPlayer));
   
@@ -1464,9 +1464,9 @@ void popup_diplomacy_dialog(struct player *pPlayer)
     if(type != DS_WAR && can_client_issue_orders()) {
       
       if(type == DS_ARMISTICE) {
-	my_snprintf(cBuf, sizeof(cBuf), _("Declare WAR"));
+	fc_snprintf(cBuf, sizeof(cBuf), _("Declare WAR"));
       } else {
-	my_snprintf(cBuf, sizeof(cBuf), _("Cancel Treaty"));
+	fc_snprintf(cBuf, sizeof(cBuf), _("Cancel Treaty"));
       }
       
       /* cancel treaty */

@@ -110,7 +110,7 @@
       struct tile *ptile = native_pos_to_tile(_nat_x, _nat_y);		    \
       fc_assert_action(ptile != NULL, continue);                            \
       line[_nat_x] = (GET_XY_CHAR);                                         \
-      if (!my_isprint(line[_nat_x] & 0x7f)) {                               \
+      if (!fc_isprint(line[_nat_x] & 0x7f)) {                               \
           die("Trying to write invalid map "                                \
               "data: '%c' %d", line[_nat_x], line[_nat_x]);                 \
       }                                                                     \
@@ -542,7 +542,7 @@ static enum unit_activity char2activity(char activity)
   for (a = 0; a < ACTIVITY_LAST; a++) {
     char achar = activity2char(a);
 
-    if (activity == achar || activity == my_toupper(achar)) {
+    if (activity == achar || activity == fc_toupper(achar)) {
       return a;
     }
   }
@@ -624,7 +624,7 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  fc_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   worklist_init(pwl);
@@ -674,7 +674,7 @@ static void worklist_save(struct section_file *file,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  fc_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   secfile_insert_int(file, pwl->length, "%s.wl_length", path_str);
@@ -813,7 +813,7 @@ static void map_load_tiles(struct section_file *file)
                                                  "map.spec_sprite_%d_%d",
                                                  ptile->nat_x, ptile->nat_y);
     if (NULL != ptile->spec_sprite) {
-      ptile->spec_sprite = mystrdup(spec_sprite);
+      ptile->spec_sprite = fc_strdup(spec_sprite);
     }
   } whole_map_iterate_end;
 }
@@ -1410,7 +1410,7 @@ static void map_save(struct section_file *file, bool save_players)
         if (!save_players || tile_owner(ptile) == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token),
+          fc_snprintf(token, sizeof(token),
                       "%d", player_number(tile_owner(ptile)));
         }
         strcat(line, token);
@@ -1431,7 +1431,8 @@ static void map_save(struct section_file *file, bool save_players)
         if (ptile->claimer == NULL) {
           strcpy(token, "-");
         } else {
-          my_snprintf(token, sizeof(token), "%d", tile_index(ptile->claimer));
+          fc_snprintf(token, sizeof(token), "%d",
+                      tile_index(ptile->claimer));
         }
         strcat(line, token);
         if (x + 1 < map.xsize) {
@@ -1721,8 +1722,8 @@ static Tech_type_id technology_load(struct section_file *file,
   const char* name;
   struct advance *padvance;
   int id;
-  
-  my_snprintf(path_with_name, sizeof(path_with_name), 
+
+  fc_snprintf(path_with_name, sizeof(path_with_name),
               "%s_name", path);
 
   name = secfile_lookup_str(file, path_with_name, plrno);
@@ -1735,13 +1736,13 @@ static Tech_type_id technology_load(struct section_file *file,
     }
   }
 
-  if (mystrcasecmp(name, "A_FUTURE") == 0) {
+  if (fc_strcasecmp(name, "A_FUTURE") == 0) {
     return A_FUTURE;
   }
-  if (mystrcasecmp(name, "A_NONE") == 0) {
+  if (fc_strcasecmp(name, "A_NONE") == 0) {
     return A_NONE;
   }
-  if (mystrcasecmp(name, "A_UNSET") == 0) {
+  if (fc_strcasecmp(name, "A_UNSET") == 0) {
     return A_UNSET;
   }
   if (name[0] == '\0') {
@@ -1766,7 +1767,7 @@ static void technology_save(struct section_file *file,
   char path_with_name[128];
   const char* name;
  
-  my_snprintf(path_with_name, sizeof(path_with_name), 
+  fc_snprintf(path_with_name, sizeof(path_with_name), 
               "%s_name", path);
   
   switch (tech) {
@@ -2527,7 +2528,7 @@ static void player_load_main(struct player *plr, int plrno,
     char prefix[32];
     const char *st;
     
-    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
+    fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
     if (!secfile_lookup_int(file, (int *) &ship->state,
                             "%s.state", prefix)) {
@@ -2630,7 +2631,7 @@ static void player_load_cities(struct player *plr, int plrno,
     }
 
     /* lookup name out of order */
-    my_snprintf(named, sizeof(named), "player%d.c%d.name", plrno, i);
+    fc_snprintf(named, sizeof(named), "player%d.c%d.name", plrno, i);
     /* instead of dying, use name string for damaged name */
     name = secfile_lookup_str_default(file, named, "%s", named);
     /* copied into city->name */
@@ -3063,7 +3064,7 @@ static void player_load_cities(struct player *plr, int plrno,
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.urgency",
                                  plrno, i);
 
-    /* avoid myrand recalculations on subsequent reload. */
+    /* avoid fc_rand recalculations on subsequent reload. */
     pcity->ai->building_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.building_turn",
                                  plrno, i);
@@ -3072,7 +3073,7 @@ static void player_load_cities(struct player *plr, int plrno,
                                  "player%d.c%d.ai.building_wait",
                                  plrno, i);
 
-    /* avoid myrand and expensive recalculations on subsequent reload. */
+    /* avoid fc_rand and expensive recalculations on subsequent reload. */
     pcity->ai->founder_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_turn",
                                  plrno, i);
@@ -3270,7 +3271,7 @@ static void player_load_vision(struct player *plr, int plrno,
       bases_halfbyte_iterate(j, num_base_types) {
         char buf[32]; /* should be enough for snprintf() below */
 
-        my_snprintf(buf, sizeof(buf), "player%d.map_b%02d_%%03d", plrno, j);
+        fc_snprintf(buf, sizeof(buf), "player%d.map_b%02d_%%03d", plrno, j);
 
         LOAD_MAP_DATA(ch, nat_y, ptile,
                       secfile_lookup_str_default(file, zeroline, buf, nat_y),
@@ -3596,8 +3597,8 @@ static void player_save_main(struct player *plr, int plrno,
     char prefix[32];
     char st[NUM_SS_STRUCTURALS+1];
     int i;
-    
-    my_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
+
+    fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
 
     secfile_insert_int(file, ship->structurals, "%s.structurals", prefix);
     secfile_insert_int(file, ship->components, "%s.components", prefix);
@@ -3920,13 +3921,13 @@ static void player_save_cities(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->ai->urgency,
 		       "player%d.c%d.ai.urgency", plrno, i);
 
-    /* avoid myrand recalculations on subsequent reload. */
+    /* avoid fc_rand recalculations on subsequent reload. */
     secfile_insert_int(file, pcity->ai->building_turn,
 		       "player%d.c%d.ai.building_turn", plrno, i);
     secfile_insert_int(file, pcity->ai->building_wait,
 		       "player%d.c%d.ai.building_wait", plrno, i);
 
-    /* avoid myrand and expensive recalculations on subsequent reload. */
+    /* avoid fc_rand and expensive recalculations on subsequent reload. */
     secfile_insert_int(file, pcity->ai->founder_turn,
 		       "player%d.c%d.ai.founder_turn", plrno, i);
     secfile_insert_int(file, pcity->ai->founder_want,
@@ -4946,7 +4947,7 @@ static void game_load_internal(struct section_file *file)
              &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
     }
     rstate.is_init = TRUE;
-    set_myrand_state(rstate);
+    fc_rand_set_state(rstate);
   } else {
     /* mark it */
     (void) secfile_lookup_bool_default(file, TRUE, "game.save_random");
@@ -4956,13 +4957,14 @@ static void game_load_internal(struct section_file *file)
      * be needed later during the load. */
     if (S_S_RUNNING <= tmp_server_state) {
       init_game_seed();
-      rstate = get_myrand_state();
+      rstate = fc_rand_state();
     }
   }
 
   if (0 == strlen(server.game_identifier)
       || !is_base64url(server.game_identifier)) {
-    /* This uses myrand(), so random state has to be initialized before this. */
+    /* This uses fc_rand(), so random state has to be initialized
+     * before this. */
     randomize_base64url_string(server.game_identifier,
                                sizeof(server.game_identifier));
   }
@@ -5234,7 +5236,7 @@ static void game_load_internal(struct section_file *file)
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {
-    set_myrand_state(rstate);
+    fc_rand_set_state(rstate);
   }
 
   /* load event cache */
@@ -5523,8 +5525,8 @@ void game_save(struct section_file *file, const char *save_reason,
 
   secfile_insert_int(file, game.server.seed, "game.randseed");
   
-  if (myrand_is_init() && game.server.save_options.save_random) {
-    RANDOM_STATE rstate = get_myrand_state();
+  if (fc_rand_is_init() && game.server.save_options.save_random) {
+    RANDOM_STATE rstate = fc_rand_state();
     secfile_insert_int(file, 1, "game.save_random");
     fc_assert(rstate.is_init);
 
@@ -5535,11 +5537,11 @@ void game_save(struct section_file *file, const char *save_reason,
     for (i = 0; i < 8; i++) {
       char vec[100];
 
-      my_snprintf(vec, sizeof(vec),
-		  "%8x %8x %8x %8x %8x %8x %8x", rstate.v[7 * i],
-		  rstate.v[7 * i + 1], rstate.v[7 * i + 2],
-		  rstate.v[7 * i + 3], rstate.v[7 * i + 4],
-		  rstate.v[7 * i + 5], rstate.v[7 * i + 6]);
+      fc_snprintf(vec, sizeof(vec),
+                  "%8x %8x %8x %8x %8x %8x %8x", rstate.v[7 * i],
+                  rstate.v[7 * i + 1], rstate.v[7 * i + 2],
+                  rstate.v[7 * i + 3], rstate.v[7 * i + 4],
+                  rstate.v[7 * i + 5], rstate.v[7 * i + 6]);
       secfile_insert_str(file, vec, "random.table%d", i);
     }
   } else {

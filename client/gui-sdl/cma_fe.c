@@ -117,7 +117,7 @@ static Uint16 scroll_mouse_motion_handler(SDL_MouseMotionEvent *pMotionEvent, vo
     *(int *)pMotion->pScrollBar->data.ptr =
     		pMotion->base + (pMotion->pScrollBar->size.x - pMotion->min);
     
-    my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pMotion->pScrollBar->data.ptr);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pMotion->pScrollBar->data.ptr);
     copy_chars_to_string16(pMotion->pScrollBar->next->string16, cBuf);
     
     /* redraw label */
@@ -632,7 +632,7 @@ static void set_cma_hscrollbars(void)
   output_type_iterate(i) {
     /* min label */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
     copy_chars_to_string16(pBuf->string16, cBuf);
         
     /* min scrollbar */
@@ -642,7 +642,7 @@ static void set_cma_hscrollbars(void)
     
     /* factor label */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
     copy_chars_to_string16(pBuf->string16, cBuf);
     
     /* factor scrollbar*/
@@ -654,7 +654,7 @@ static void set_cma_hscrollbars(void)
   
   /* happy factor label */
   pBuf = pBuf->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", *(int *)pBuf->prev->data.ptr);
   copy_chars_to_string16(pBuf->string16, cBuf);
   
   /* happy factor scrollbar */
@@ -854,7 +854,7 @@ void popup_city_cma_dialog(struct city *pCity)
   
   /* --------------------------- */
     
-  my_snprintf(cBuf, sizeof(cBuf),
+  fc_snprintf(cBuf, sizeof(cBuf),
 	      _("City of %s (Population %s citizens) : %s"),
 	      city_name(pCity),
 	      population_to_text(city_population(pCity)),

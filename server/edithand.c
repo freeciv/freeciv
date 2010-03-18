@@ -1056,7 +1056,7 @@ void handle_edit_player(struct connection *pc,
         if (other_player == pplayer) {
           continue;
         }
-        if (0 != mystrcasecmp(player_name(other_player), packet->name)) {
+        if (0 != fc_strcasecmp(player_name(other_player), packet->name)) {
           continue;
         }
         notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,

@@ -120,7 +120,7 @@ static int con_dump(enum rfc_status rfc_status, const char *message, ...)
   va_list args;
   
   va_start(args, message);
-  my_vsnprintf(buf, sizeof(buf), message, args);
+  fc_vsnprintf(buf, sizeof(buf), message, args);
   va_end(args);
 
   if (console_prompt_is_showing) {
@@ -147,7 +147,7 @@ void con_write(enum rfc_status rfc_status, const char *message, ...)
   va_list args;
 
   va_start(args, message);
-  my_vsnprintf(buf1, sizeof(buf1), message, args);
+  fc_vsnprintf(buf1, sizeof(buf1), message, args);
   va_end(args);
 
   /* remove all format tags */

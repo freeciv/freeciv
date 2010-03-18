@@ -724,13 +724,13 @@ int describe_vote(struct vote *pvote, char *buf, int buflen)
   /* NB We don't handle votes with multiple flags here. */
 
   if (pvote->flags & VCF_NODISSENT) {
-    ret = my_snprintf(buf, buflen,
+    ret = fc_snprintf(buf, buflen,
         /* TRANS: Describing a new vote that can only pass
          * if there are no dissenting votes. */
         _("%s (needs %0.0f%% and no dissent)."),
         pvote->cmdline, MIN(100.0, pvote->need_pc * 100.0 + 1));
   } else {
-    ret = my_snprintf(buf, buflen,
+    ret = fc_snprintf(buf, buflen,
         /* TRANS: Describing a new vote that can pass only if the
          * given percentage of players votes 'yes'. */
         _("%s (needs %0.0f%% in favor)."),

@@ -528,7 +528,7 @@ enum unit_move_type move_type_from_str(const char *s)
   int i;
 
   for (i = 0; i < MOVETYPE_LAST; i++) {
-    if (mystrcasecmp(move_type_names[i], s)==0) {
+    if (fc_strcasecmp(move_type_names[i], s)==0) {
       return i;
     }
   }

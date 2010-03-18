@@ -227,10 +227,10 @@ static void secfile_log(const struct section_file *secfile,
   va_list args;
 
   va_start(args, format);
-  my_vsnprintf(message, sizeof(message), format, args);
+  fc_vsnprintf(message, sizeof(message), format, args);
   va_end(args);
 
-  my_snprintf(error_buffer, sizeof(error_buffer),
+  fc_snprintf(error_buffer, sizeof(error_buffer),
               "In %s() [%s:%d]: secfile '%s' in section '%s': %s",
               function, file, line, secfile_name(secfile),
               psection != NULL ? section_name(psection) : "NULL", message);
@@ -329,7 +329,7 @@ static bool check_name(const char *name)
   static const char *const allowed = "_.,[]";
 
   while ('\0' != *name) {
-    if (!my_isalnum(*name) && NULL == strchr(allowed, *name)) {
+    if (!fc_isalnum(*name) && NULL == strchr(allowed, *name)) {
       return FALSE;
     }
     name++;
@@ -460,7 +460,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
   /* Assign the real value later, to speed up the creation of new entries. */
   secfile = secfile_new(TRUE);
   if (filename) {
-    secfile->name = mystrdup(filename);
+    secfile->name = fc_strdup(filename);
   } else {
     secfile->name = NULL;
   }
@@ -554,12 +554,12 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
 
         if (i < num_columns) {
           astr_minsize(&entry_name, base_name.n + 10 + columns.p[i].n);
-          my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
+          fc_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
                       base_name.str, table_lineno, columns.p[i].str);
         } else {
           astr_minsize(&entry_name,
                        base_name.n + 20 + columns.p[num_columns - 1].n);
-          my_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
+          fc_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
                       base_name.str, table_lineno,
                       columns.p[num_columns - 1].str,
                       (int) (i - num_columns + 1));
@@ -648,7 +648,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         entry_from_token(psection, base_name.str, tok);
       } else {
         astr_minsize(&entry_name, base_name.n + 20);
-        my_snprintf(entry_name.str, entry_name.n_alloc,
+        fc_snprintf(entry_name.str, entry_name.n_alloc,
                     "%s,%d", base_name.str, i);
         entry_from_token(psection, entry_name.str, tok);
       }
@@ -823,17 +823,17 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
 
         sz_strlcpy(pentry_name, entry_name(pentry));
         c = first = pentry_name;
-        if (*c == '\0' || !my_isalpha(*c)) {
+        if (*c == '\0' || !fc_isalpha(*c)) {
           break;
         }
-        for (; *c != '\0' && my_isalpha(*c); c++) {
+        for (; *c != '\0' && fc_isalpha(*c); c++) {
           /* nothing */
         }
         if (0 != strncmp(c, "0.", 2)) {
           break;
         }
         c += 2;
-        if (*c == '\0' || !my_isalnum(*c)) {
+        if (*c == '\0' || !fc_isalnum(*c)) {
           break;
         }
 
@@ -875,7 +875,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           pentry = genlist_link_data(ent_iter);
           col_pentry = genlist_link_data(col_iter);
 
-          my_snprintf(expect, sizeof(expect), "%s%d.%s",
+          fc_snprintf(expect, sizeof(expect), "%s%d.%s",
                       base, irow, entry_name(col_pentry) + offset);
 
           /* break out of tabular if doesn't match: */
@@ -1054,7 +1054,7 @@ struct entry *secfile_insert_bool_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   psection = secfile_insert_base(secfile, fullpath, &ent_name);
@@ -1103,7 +1103,7 @@ size_t secfile_insert_bool_vec_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* NB: 'path,0' is actually 'path'.  See comment in the head
@@ -1141,7 +1141,7 @@ struct entry *secfile_insert_int_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   psection = secfile_insert_base(secfile, fullpath, &ent_name);
@@ -1190,7 +1190,7 @@ size_t secfile_insert_int_vec_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* NB: 'path,0' is actually 'path'.  See comment in the head
@@ -1229,7 +1229,7 @@ struct entry *secfile_insert_str_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   psection = secfile_insert_base(secfile, fullpath, &ent_name);
@@ -1278,7 +1278,7 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* NB: 'path,0' is actually 'path'.  See comment in the head
@@ -1359,7 +1359,7 @@ struct entry *secfile_entry_lookup(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   return secfile_entry_by_path(secfile, fullpath);
@@ -1378,7 +1378,7 @@ bool secfile_lookup_bool(const struct section_file *secfile, bool *bval,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1404,7 +1404,7 @@ bool secfile_lookup_bool_default(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1435,7 +1435,7 @@ bool *secfile_lookup_bool_vec(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* Check size. */
@@ -1478,7 +1478,7 @@ bool secfile_lookup_int(const struct section_file *secfile, int *ival,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1504,7 +1504,7 @@ int secfile_lookup_int_default(const struct section_file *secfile, int def,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1535,7 +1535,7 @@ int secfile_lookup_int_def_min_max(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, defval);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1582,7 +1582,7 @@ int *secfile_lookup_int_vec(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* Check size. */
@@ -1626,7 +1626,7 @@ const char *secfile_lookup_str(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1657,7 +1657,7 @@ const char *secfile_lookup_str_default(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, def);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
@@ -1689,7 +1689,7 @@ const char **secfile_lookup_str_vec(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   /* Check size. */
@@ -1749,7 +1749,7 @@ struct section *secfile_section_lookup(const struct section_file *secfile,
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   return secfile_section_by_name(secfile, fullpath);
@@ -1833,7 +1833,7 @@ struct section *secfile_section_new(struct section_file *secfile,
   }
 
   psection = fc_malloc(sizeof(struct section));
-  psection->name = mystrdup(name);
+  psection->name = fc_strdup(name);
   psection->entries = entry_list_new_full(entry_destroy);
 
   /* Append to secfile. */
@@ -1942,7 +1942,7 @@ bool section_set_name(struct section *psection, const char *name)
 
   /* Really rename. */
   free(psection->name);
-  psection->name = mystrdup(name);
+  psection->name = fc_strdup(name);
 
   /* Reinsert new references into the hash tables. */
   if (NULL != secfile->hash.sections) {
@@ -1997,7 +1997,7 @@ struct entry *section_entry_lookup(const struct section *psection,
   SECFILE_RETURN_VAL_IF_FAIL(NULL, psection, NULL != psection, NULL);
 
   va_start(args, path);
-  my_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
   va_end(args);
 
   if ((pentry = section_entry_by_name(psection, fullpath))) {
@@ -2071,7 +2071,7 @@ static struct entry *entry_new(struct section *psection, const char *name)
   }
 
   pentry = fc_malloc(sizeof(struct entry));
-  pentry->name = mystrdup(name);
+  pentry->name = fc_strdup(name);
   pentry->type = -1;    /* Invalid case. */
   pentry->used = 0;
   pentry->comment = NULL;
@@ -2130,7 +2130,7 @@ struct entry *section_entry_str_new(struct section *psection,
 
   if (NULL != pentry) {
     pentry->type = ENTRY_STR;
-    pentry->string.value = mystrdup(NULL != value ? value : "");
+    pentry->string.value = fc_strdup(NULL != value ? value : "");
     pentry->string.escaped = escaped;
   }
 
@@ -2202,7 +2202,7 @@ enum entry_type entry_type(const struct entry *pentry)
 **************************************************************************/
 int entry_path(const struct entry *pentry, char *buf, size_t buf_len)
 {
-  return my_snprintf(buf, buf_len, "%s.%s",
+  return fc_snprintf(buf, buf_len, "%s.%s",
                      section_name(entry_section(pentry)),
                      entry_name(pentry));
 }
@@ -2256,7 +2256,7 @@ bool entry_set_name(struct entry *pentry, const char *name)
 
   /* Really rename the entry. */
   free(pentry->name);
-  pentry->name = mystrdup(name);
+  pentry->name = fc_strdup(name);
 
   /* Insert into hash table the new path. */
   secfile_hash_insert(secfile, pentry);
@@ -2284,7 +2284,7 @@ void entry_set_comment(struct entry *pentry, const char *comment)
     free(pentry->comment);
   }
 
-  pentry->comment = (NULL != comment ? mystrdup(comment) : NULL);
+  pentry->comment = (NULL != comment ? fc_strdup(comment) : NULL);
 }
 
 /**************************************************************************
@@ -2393,7 +2393,7 @@ bool entry_str_set(struct entry *pentry, const char *value)
                              ENTRY_STR == pentry->type, FALSE);
 
   free(pentry->string.value);
-  pentry->string.value = mystrdup(NULL != value ? value : "");
+  pentry->string.value = fc_strdup(NULL != value ? value : "");
   return TRUE;
 }
 
@@ -2459,7 +2459,7 @@ static void entry_from_token(struct section *psection,
     return;
   }
 
-  if (my_isdigit(tok[0]) || ('-' == tok[0] && my_isdigit(tok[1]))) {
+  if (fc_isdigit(tok[0]) || ('-' == tok[0] && fc_isdigit(tok[1]))) {
     int value;
 
     if (1 == sscanf(tok, "%d", &value)) {
@@ -2469,9 +2469,9 @@ static void entry_from_token(struct section *psection,
     }
   }
 
-  if (0 == mystrncasecmp(tok, "FALSE", 5)
-      || 0 == mystrncasecmp(tok, "TRUE", 4)) {
-    bool value = (0 == mystrncasecmp(tok, "TRUE", 4));
+  if (0 == fc_strncasecmp(tok, "FALSE", 5)
+      || 0 == fc_strncasecmp(tok, "TRUE", 4)) {
+    bool value = (0 == fc_strncasecmp(tok, "TRUE", 4));
 
     (void) section_entry_bool_new(psection, name, value);
     DEBUG_ENTRIES("entry %s %s", name, value ? "TRUE" : "FALSE");

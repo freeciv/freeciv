@@ -1371,7 +1371,7 @@ void ai_manage_buildings(struct player *pplayer)
     if (pcity->ai->building_turn <= game.info.turn) {
       /* This will spread recalcs out so that no one turn end is 
        * much longer than others */
-      pcity->ai->building_wait = myrand(RECALC_SPEED) + RECALC_SPEED;
+      pcity->ai->building_wait = fc_rand(RECALC_SPEED) + RECALC_SPEED;
       pcity->ai->building_turn = game.info.turn + pcity->ai->building_wait;
     }
   } city_list_iterate_end;
@@ -1803,7 +1803,7 @@ void ai_manage_cities(struct player *pplayer)
       contemplate_new_city(pcity);
       /* Avoid recalculating all the time.. */
       pcity->ai->founder_turn = 
-        game.info.turn + myrand(RECALC_SPEED) + RECALC_SPEED;
+        game.info.turn + fc_rand(RECALC_SPEED) + RECALC_SPEED;
     } else if (pcity->debug) {
       /* recalculate every turn */
       contemplate_new_city(pcity);

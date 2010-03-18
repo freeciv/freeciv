@@ -398,7 +398,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
     {
       char buffer[65536];
       int num;
-      num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
+      num = fc_vsnprintf(buffer, sizeof(buffer), format, ap);
       if (num == -1) {
         log_error("Too much data: truncated in fz_fprintf (%lu)",
                   (unsigned long) sizeof(buffer));
@@ -417,7 +417,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
     {
       char buffer[65536];
       int num;
-      num = my_vsnprintf(buffer, sizeof(buffer), format, ap);
+      num = fc_vsnprintf(buffer, sizeof(buffer), format, ap);
       if (num == -1) {
         log_error("Too much data: truncated in fz_fprintf (%lu)",
                   (unsigned long) sizeof(buffer));
@@ -545,10 +545,10 @@ const char *fz_strerror(fz_FILE *fp)
       }
 
       if (cleartext != NULL) {
-        my_snprintf(bzip2error, sizeof(bzip2error), _("Bz2: \"%s\" (%d)"),
+        fc_snprintf(bzip2error, sizeof(bzip2error), _("Bz2: \"%s\" (%d)"),
                     cleartext, fp->u.bz2.error);
       } else {
-        my_snprintf(bzip2error, sizeof(bzip2error), _("Bz2 error %d"),
+        fc_snprintf(bzip2error, sizeof(bzip2error), _("Bz2 error %d"),
                     fp->u.bz2.error);
       }
       retval = bzip2error;

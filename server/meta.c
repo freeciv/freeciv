@@ -244,38 +244,39 @@ static bool send_to_metaserver(enum meta_flag flag)
   /* get hostname */
   if (srvarg.metaserver_name[0] != '\0') {
     sz_strlcpy(host, srvarg.metaserver_name);
-  } else if (my_gethostname(host, sizeof(host)) != 0) {
+  } else if (fc_gethostname(host, sizeof(host)) != 0) {
     sz_strlcpy(host, "unknown");
   }
 
-  my_snprintf(s, rest, "host=%s&port=%d&state=%s&", host, srvarg.port, state);
+  fc_snprintf(s, rest, "host=%s&port=%d&state=%s&",
+              host, srvarg.port, state);
   s = end_of_strn(s, &rest);
 
   if (flag == META_GOODBYE) {
-    mystrlcpy(s, "bye=1&", rest);
+    fc_strlcpy(s, "bye=1&", rest);
     s = end_of_strn(s, &rest);
   } else {
-    my_snprintf(s, rest, "version=%s&", fc_url_encode(VERSION_STRING));
+    fc_snprintf(s, rest, "version=%s&", fc_url_encode(VERSION_STRING));
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "patches=%s&", 
+    fc_snprintf(s, rest, "patches=%s&", 
                 fc_url_encode(get_meta_patches_string()));
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "capability=%s&", fc_url_encode(our_capability));
+    fc_snprintf(s, rest, "capability=%s&", fc_url_encode(our_capability));
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "serverid=%s&",
+    fc_snprintf(s, rest, "serverid=%s&",
                 fc_url_encode(srvarg.serverid));
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "message=%s&",
+    fc_snprintf(s, rest, "message=%s&",
                 fc_url_encode(get_meta_message_string()));
     s = end_of_strn(s, &rest);
 
     /* NOTE: send info for ALL players or none at all. */
     if (normal_player_count() == 0) {
-      mystrlcpy(s, "dropplrs=1&", rest);
+      fc_strlcpy(s, "dropplrs=1&", rest);
       s = end_of_strn(s, &rest);
     } else {
       n = 0; /* a counter for players_available */
@@ -295,22 +296,22 @@ static bool send_to_metaserver(enum meta_flag flag)
           sz_strlcpy(type, "Human");
         }
 
-        my_snprintf(s, rest, "plu[]=%s&", fc_url_encode(plr->username));
+        fc_snprintf(s, rest, "plu[]=%s&", fc_url_encode(plr->username));
         s = end_of_strn(s, &rest);
 
-        my_snprintf(s, rest, "plt[]=%s&", type);
+        fc_snprintf(s, rest, "plt[]=%s&", type);
         s = end_of_strn(s, &rest);
 
-        my_snprintf(s, rest, "pll[]=%s&", fc_url_encode(player_name(plr)));
+        fc_snprintf(s, rest, "pll[]=%s&", fc_url_encode(player_name(plr)));
         s = end_of_strn(s, &rest);
 
-        my_snprintf(s, rest, "pln[]=%s&",
+        fc_snprintf(s, rest, "pln[]=%s&",
                     fc_url_encode(plr->nation != NO_NATION_SELECTED 
                                   ? nation_plural_for_player(plr)
                                   : "none"));
         s = end_of_strn(s, &rest);
 
-        my_snprintf(s, rest, "plh[]=%s&",
+        fc_snprintf(s, rest, "plh[]=%s&",
                     pconn ? fc_url_encode(pconn->addr) : "");
         s = end_of_strn(s, &rest);
 
@@ -341,50 +342,50 @@ static bool send_to_metaserver(enum meta_flag flag)
       } players_iterate_end;
 
       /* send the number of available players. */
-      my_snprintf(s, rest, "available=%d&", n);
+      fc_snprintf(s, rest, "available=%d&", n);
       s = end_of_strn(s, &rest);
     }
 
     /* send some variables: should be listed in inverted order
      * FIXME: these should be input from the settings array */
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("timeout"), game.info.timeout);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("year"), game.info.year);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("turn"), game.info.turn);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("endturn"), game.info.end_turn);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("minplayers"), game.info.min_players);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("maxplayers"), game.info.max_players);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%s&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%s&",
                 fc_url_encode("allowtake"), game.server.allow_take);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("generator"), map.server.generator);
     s = end_of_strn(s, &rest);
 
-    my_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
+    fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
                 fc_url_encode("size"), map.server.size);
     s = end_of_strn(s, &rest);
   }
 
-  n = my_snprintf(msg, sizeof(msg),
+  n = fc_snprintf(msg, sizeof(msg),
     "POST %s HTTP/1.1\r\n"
     "Host: %s:%d\r\n"
     "Content-Type: application/x-www-form-urlencoded; charset=\"utf-8\"\r\n"
@@ -429,7 +430,7 @@ bool server_open_meta(void)
     return FALSE;
   }
   
-  metaserver_path = mystrdup(path);
+  metaserver_path = fc_strdup(path);
 
   if (!net_lookup_service(metaname, metaport, &meta_addr, FALSE)) {
     log_error(_("Metaserver: bad address: <%s %d>."), metaname, metaport);

@@ -632,7 +632,7 @@ void popup_unit_select_dialog(struct tile *ptile)
   is_unit_move_blocked = TRUE;  
   pUnit_Select_Dlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
     
-  my_snprintf(cBuf , sizeof(cBuf),"%s (%d)", _("Unit selection") , n);
+  fc_snprintf(cBuf , sizeof(cBuf),"%s (%d)", _("Unit selection") , n);
   pStr = create_str16_from_char(cBuf , adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
@@ -665,7 +665,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     pUnitType = unit_type(pUnit);
         
     if (unit_owner(pUnit) == client.conn.playing) {
-      my_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
+      fc_snprintf(cBuf , sizeof(cBuf), _("Contact %s (%d / %d) %s(%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
             utype_name_translation(pUnitType),
@@ -676,7 +676,7 @@ void popup_unit_select_dialog(struct tile *ptile)
     } else {
       int att_chance, def_chance;
       
-      my_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
+      fc_snprintf(cBuf , sizeof(cBuf), _("%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
@@ -816,7 +816,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
     bonus += terrain_control.river_defense_bonus;
   }
 
-  my_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
+  fc_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
 
   return buffer;
 }
@@ -841,7 +841,7 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   pTerrain_Info_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
   /* ----------- */  
-  my_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
+  fc_snprintf(cBuf, sizeof(cBuf), "%s [%d,%d]", _("Terrain Info"), ptile->x , ptile->y);
   
   pWindow = create_window_skeleton(NULL, create_str16_from_char(cBuf , adj_font(12)), 0);
   pWindow->string16->style |= TTF_STYLE_BOLD;
@@ -1250,7 +1250,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     area.h += pBuf->next->size.h;
     /* ------------------ */
     
-    my_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name(pCity) );
+    fc_snprintf(cBuf, sizeof(cBuf), _("Zoom to : %s"), city_name(pCity) );
     
     create_active_iconlabel(pBuf, pWindow->dst,
 		    pStr, cBuf, zoom_to_city_callback);
@@ -1400,7 +1400,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	}
         pUnitType = unit_type(pUnit);
         if (unit_owner(pUnit) == client.conn.playing) {
-          my_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -1419,7 +1419,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	} else {
 	  int att_chance, def_chance;
 	  
-          my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
@@ -1480,7 +1480,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 
       if (my_units > 1) {
 	
-	my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Ready all"), my_units);
+	fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Ready all"), my_units);
 	create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	       cBuf, adv_unit_select_all_callback);
         pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
@@ -1489,7 +1489,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
 	DownAdd(pBuf, pLast);
 	area.h += pBuf->size.h;
 	
-	my_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
+	fc_snprintf(cBuf, sizeof(cBuf), "%s (%d)", _("Sentry idle"), my_units);
 	create_active_iconlabel(pBuf, pWindow->dst, pStr,
 	       cBuf, adv_unit_sentry_idle_callback);
         pBuf->data.unit = pAdvanced_Terrain_Dlg->pEndActiveWidgetList->data.unit;
@@ -1516,7 +1516,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         if ((pCity && city_owner(pCity) == client.conn.playing)
 	 || (unit_owner(pUnit) == client.conn.playing))
         {
-          my_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cBuf, sizeof(cBuf),
             _("Activate %s (%d / %d) %s (%d,%d,%d) %s"),
             pUnit->veteran ? _("Veteran") : "" ,
             pUnit->hp, pUnitType->hp,
@@ -1544,7 +1544,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         } else {
 	  int att_chance, def_chance;
 	
-          my_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"),
             nation_adjective_for_player(unit_owner(pUnit)),
             (pUnit->veteran ? _("Veteran") : ""),
             utype_name_translation(pUnitType),
@@ -1574,7 +1574,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
         }
       }
       /* ---------------- */
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
             _("View Civiliopedia entry for %s"),
             utype_name_translation(pUnitType));
       create_active_iconlabel(pBuf, pWindow->dst, pStr,
@@ -2301,7 +2301,7 @@ static int next_name_callback(struct widget *pNext)
     
     FC_FREE(pLeaderName);
     pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-    mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+    fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                          strlen(leaders[pSetup->selected_leader].name) + 1);
     
     if ((dim - 1) == pSetup->selected_leader) {
@@ -2356,7 +2356,7 @@ static int prev_name_callback(struct widget *pPrev)
     
     FC_FREE(pLeaderName);
     pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-    mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+    fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                          strlen(leaders[pSetup->selected_leader].name) + 1);
     
     if (!pSetup->selected_leader) {
@@ -2634,13 +2634,13 @@ static void select_random_leader(Nation_type_id nation)
   struct nation_leader *leaders = get_nation_leaders(nation_by_number(nation), &dim);
   
     
-  pSetup->selected_leader = myrand(dim);
+  pSetup->selected_leader = fc_rand(dim);
   copy_chars_to_string16(pSetup->pName_Edit->string16,
   				leaders[pSetup->selected_leader].name);
   
   FC_FREE(pLeaderName);
   pLeaderName = fc_calloc(1, strlen(leaders[pSetup->selected_leader].name) + 1);
-  mystrlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
+  fc_strlcpy(pLeaderName, leaders[pSetup->selected_leader].name,
                        strlen(leaders[pSetup->selected_leader].name) + 1);
   
   /* initialize leader sex */
@@ -2819,7 +2819,7 @@ void popup_races_dialog(struct player *pplayer)
     
   /* nation name */
   
-  pSetup->nation = myrand(get_playable_nation_count());
+  pSetup->nation = fc_rand(get_playable_nation_count());
   pSetup->nation_city_style = city_style_of_nation(nation_by_number(pSetup->nation));
   
   copy_chars_to_string16(pStr, nation_plural_translation(nation_by_number(pSetup->nation)));
@@ -3099,7 +3099,7 @@ void races_toggles_set_sensitive()
   
   if (change) {
     do {
-      pSetup->nation = myrand(get_playable_nation_count());
+      pSetup->nation = fc_rand(get_playable_nation_count());
       pNat = get_widget_pointer_form_main_list(MAX_ID - pSetup->nation);
     } while(get_wstate(pNat) == FC_WS_DISABLED);
     if (get_wstate(pSetup->pName_Edit) == FC_WS_PRESSED) {

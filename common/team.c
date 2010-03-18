@@ -190,7 +190,7 @@ struct team *find_team_by_rule_name(const char *team_name)
   for (index = 0; index < game.info.num_teams; index++) {
     struct team *pteam = team_by_number(index);
 
-    if (0 == mystrcasecmp(team_rule_name(pteam), team_name)) {
+    if (0 == fc_strcasecmp(team_rule_name(pteam), team_name)) {
       return pteam;
     }
   }

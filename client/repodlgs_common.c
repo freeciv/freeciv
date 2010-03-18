@@ -18,23 +18,25 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
-#include "mem.h"		/* free */
-#include "support.h"		/* my_snprintf */
+#include "mem.h"                /* free() */
+#include "support.h"            /* fc_snprintf() */
 
 /* common */
 #include "game.h"
 #include "government.h"
 #include "unitlist.h"
 
+/* client/include */
 #include "repodlgs_g.h"
 
 /* client */
 #include "client_main.h"
-#include "connectdlg_common.h"	/* is_server_running */
+#include "connectdlg_common.h"  /* is_server_running() */
 #include "control.h"
 #include "options.h"
-#include "repodlgs_common.h"
 #include "packhand_gen.h"
+
+#include "repodlgs_common.h"
 
 
 /****************************************************************
@@ -196,7 +198,7 @@ void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
   int count = 0, gold = 0;
 
   if (!can_client_issue_orders()) {
-    my_snprintf(message, message_sz, _("You cannot sell improvements."));
+    fc_snprintf(message, message_sz, _("You cannot sell improvements."));
     return;
   }
 
@@ -212,13 +214,11 @@ void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
   } city_list_iterate_end;
 
   if (count > 0) {
-    my_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
-		count,
-		improvement_name_translation(pimprove),
-		gold);
+    fc_snprintf(message, message_sz, _("Sold %d %s for %d gold."),
+                count, improvement_name_translation(pimprove), gold);
   } else {
-    my_snprintf(message, message_sz, _("No %s could be sold."),
-		improvement_name_translation(pimprove));
+    fc_snprintf(message, message_sz, _("No %s could be sold."),
+                improvement_name_translation(pimprove));
   }
 }
 
@@ -236,13 +236,13 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
 
   if (!can_client_issue_orders()) {
     /* TRANS: Obscure observer error. */
-    my_snprintf(message, message_sz, _("You cannot disband units."));
+    fc_snprintf(message, message_sz, _("You cannot disband units."));
     return;
   }
 
   if (utype_has_flag(punittype, F_UNDISBANDABLE)) {
-    my_snprintf(message, message_sz, _("%s cannot be disbanded."),
-		utype_name_translation(punittype));
+    fc_snprintf(message, message_sz, _("%s cannot be disbanded."),
+                utype_name_translation(punittype));
     return;
   }
 
@@ -262,11 +262,10 @@ void disband_all_units(struct unit_type *punittype, bool in_cities_only,
   } city_list_iterate_end;
 
   if (count > 0) {
-    my_snprintf(message, message_sz, _("Disbanded %d %s."),
-		count,
-		utype_name_translation(punittype));
+    fc_snprintf(message, message_sz, _("Disbanded %d %s."),
+                count, utype_name_translation(punittype));
   } else {
-    my_snprintf(message, message_sz, _("No %s could be disbanded."),
-		utype_name_translation(punittype));
+    fc_snprintf(message, message_sz, _("No %s could be disbanded."),
+                utype_name_translation(punittype));
   }
 }

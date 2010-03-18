@@ -180,7 +180,7 @@ static int rename_worklist_editor_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if(pWidget->string16->text) {
       char *pText = convert_to_chars(pWidget->string16->text);
-      my_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s", pText);
+      fc_snprintf(pEditor->worklist_name, MAX_LEN_NAME, "%s", pText);
       FC_FREE(pText);
     } else {
       /* empty input -> restore previous content */
@@ -912,7 +912,7 @@ static void refresh_production_label(int stock)
   if (VUT_IMPROVEMENT == pEditor->currently_building.kind
      && improvement_has_flag(pEditor->currently_building.value.building, IF_GOLD))
   {
-     my_snprintf(cBuf, sizeof(cBuf),
+     fc_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pEditor->pCity->surplus[O_SHIELD]));
   } else {
     if(stock < cost) {
@@ -920,13 +920,13 @@ static void refresh_production_label(int stock)
 				  pEditor->currently_building, TRUE);
       if(turns == 999)
       {
-        my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+        fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
       } else {
-        my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+        fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
 		    name, turns, PL_("turn", "turns", turns));
       }
     } else {
-      my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+      fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
     }
   }
   copy_chars_to_string16(pEditor->pProduction_Name->string16, cBuf);
@@ -953,7 +953,7 @@ static void refresh_production_label(int stock)
   pEditor->pProduction_Progres->theme =
 		  get_progress_icon(stock, cost, &cost);
     
-  my_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , cost);
   copy_chars_to_string16(pEditor->pProduction_Progres->string16, cBuf);
   widget_redraw(pEditor->pProduction_Progres);
   widget_mark_dirty(pEditor->pProduction_Progres);
@@ -966,7 +966,7 @@ static void refresh_worklist_count_label(void)
   char cBuf[64];
   SDL_Rect area;
 
-  my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
+  fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
   				worklist_length(&pEditor->worklist_copy));
   copy_chars_to_string16(pEditor->pWorkList_Counter->string16, cBuf);
 
@@ -1030,7 +1030,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     pEditor->currently_building = pCity->production;
     pEditor->stock = pCity->shield_stock;
     worklist_copy(&pEditor->worklist_copy, &pCity->worklist);
-    my_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
+    fc_snprintf(pEditor->worklist_name, sizeof(pEditor->worklist_name),
                 "%s worklist", city_name(pCity));
   } else if (pGWL) {
     pEditor->pCity = NULL;
@@ -1064,9 +1064,9 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   
   /* ---------------- */
   if (pCity) {
-    my_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
+    fc_snprintf(cBuf, sizeof(cBuf), _("Worklist of\n%s"), city_name(pCity));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(pGWL));
+    fc_snprintf(cBuf, sizeof(cBuf), "%s", global_worklist_name(pGWL));
   }
     
   pStr = create_str16_from_char(cBuf, adj_font(12));
@@ -1077,7 +1077,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
   add_to_gui_list(ID_LABEL, pBuf);
   /* --------------------------- */
 
-  my_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
+  fc_snprintf(cBuf, sizeof(cBuf), _("( %d entries )"),
               worklist_length(&pEditor->worklist_copy));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->bgcol = (SDL_Color) {0, 0, 0, 0};
@@ -1095,20 +1095,20 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     
     if (city_production_has_flag(pCity, IF_GOLD))
     {
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
       	_("%s\n%d gold per turn"), name, MAX(0, pCity->surplus[O_SHIELD]));
     } else {
       if(pCity->shield_stock < count) {
         turns = city_production_turns_to_build(pCity, TRUE);
         if(turns == 999)
         {
-          my_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s\nblocked!"), name);
         } else {
-          my_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%s\n%d %s"),
 		    name, turns, PL_("turn", "turns", turns));
         }
       } else {
-        my_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
+        fc_snprintf(cBuf, sizeof(cBuf), _("%s\nfinished!"), name);
       }
     }
     pStr = create_str16_from_char(cBuf, adj_font(10));
@@ -1120,7 +1120,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
     
     pIcon = get_progress_icon(pCity->shield_stock, count, &turns);
     
-    my_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d%%" , turns);
     pStr = create_str16_from_char(cBuf, adj_font(12));
     pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
     
@@ -1351,7 +1351,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 
       pIcon = crop_rect_from_surface(pMain, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImprove));
+      fc_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImprove));
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pIcon->w - 4);
@@ -1384,28 +1384,28 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
             
           if (turns == FC_INFINITY) {
 	    if(state) {
-              my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%s"),
+              fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%s"),
 			  state, pCity->shield_stock,
 			  impr_build_shield_cost(pImprove),
 			  PL_("shield", "shields",
 			      impr_build_shield_cost(pImprove)),
 			  _("never"));
 	    } else {
-	      my_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%s"),
+	      fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%s"),
 			  pCity->shield_stock, impr_build_shield_cost(pImprove),
 			  PL_("shield","shields",
 			      impr_build_shield_cost(pImprove)), _("never"));
 	    }	  
           } else {
             if (state) {
-	      my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%d %s"),
+	      fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d/%d %s\n%d %s"),
 			  state, pCity->shield_stock,
 			  impr_build_shield_cost(pImprove),
 			  PL_("shield","shields",
 			      impr_build_shield_cost(pImprove)),
 			  turns, PL_("turn", "turns", turns));
             } else {
-	      my_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%d %s"),
+	      fc_snprintf(cBuf, sizeof(cBuf), _("%d/%d %s\n%d %s"),
 			  pCity->shield_stock, impr_build_shield_cost(pImprove),
 			  PL_("shield","shields",
 			      impr_build_shield_cost(pImprove)),
@@ -1414,25 +1414,25 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
           }
         } else {
           /* capitalization */
-          my_snprintf(cBuf, sizeof(cBuf), _("%d gold per turn"),
+          fc_snprintf(cBuf, sizeof(cBuf), _("%d gold per turn"),
 		    MAX(0, pCity->surplus[O_SHIELD]));
         }
       } else {
         /* non city mode */
         if(!improvement_has_flag(pImprove, IF_GOLD)) {
           if(state) {
-            my_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
+            fc_snprintf(cBuf, sizeof(cBuf), _("(%s)\n%d %s"),
 			state, impr_build_shield_cost(pImprove),
 			PL_("shield","shields",
 			    impr_build_shield_cost(pImprove)));
           } else {
-	    my_snprintf(cBuf, sizeof(cBuf), _("%d %s"),
+	    fc_snprintf(cBuf, sizeof(cBuf), _("%d %s"),
 			impr_build_shield_cost(pImprove),
 			PL_("shield","shields",
 			    impr_build_shield_cost(pImprove)));
           }
         } else {
-          my_snprintf(cBuf, sizeof(cBuf), _("shields into gold"));
+          fc_snprintf(cBuf, sizeof(cBuf), _("shields into gold"));
         }
       }
   
@@ -1501,7 +1501,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 	
       pIcon = crop_rect_from_surface(pMain, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", utype_name_translation(un));
+      fc_snprintf(cBuf, sizeof(cBuf), "%s", utype_name_translation(un));
   
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
@@ -1510,14 +1510,14 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
       if (pCity) {
         turns = city_turns_to_build(pCity, cid_production(cid_encode_unit(un)), TRUE);
         if (turns == FC_INFINITY) {
-          my_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d/%d %s\nnever"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
 		    pCity->shield_stock, utype_build_shield_cost(un),
 	  	    PL_("shield","shields", utype_build_shield_cost(un)));
         } else {
-          my_snprintf(cBuf, sizeof(cBuf),
+          fc_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d/%d %s\n%d %s"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,
@@ -1526,7 +1526,7 @@ void popup_worklist_editor(struct city *pCity, struct global_worklist *pGWL)
 		    turns, PL_("turn", "turns", turns));
         }
       } else {
-        my_snprintf(cBuf, sizeof(cBuf),
+        fc_snprintf(cBuf, sizeof(cBuf),
 		    _("(%d/%d/%d)\n%d %s"),
 		    pUnit->attack_strength,
 		    pUnit->defense_strength, pUnit->move_rate / SINGLE_MOVE,

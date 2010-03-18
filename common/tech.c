@@ -448,7 +448,7 @@ struct advance *find_advance_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   advance_iterate(A_NONE, padvance) {
-    if (0 == mystrcasecmp(advance_rule_name(padvance), qname)) {
+    if (0 == fc_strcasecmp(advance_rule_name(padvance), qname)) {
       return padvance;
     }
   } advance_iterate_end;
@@ -474,9 +474,9 @@ enum tech_flag_id find_advance_flag_by_rule_name(const char *s)
   enum tech_flag_id i;
 
   fc_assert_ret_val(ARRAY_SIZE(flag_names) == TF_LAST, TF_LAST);
-  
-  for(i=0; i<TF_LAST; i++) {
-    if (mystrcasecmp(flag_names[i], s)==0) {
+
+  for (i = 0; i < TF_LAST; i++) {
+    if (fc_strcasecmp(flag_names[i], s) == 0) {
       return i;
     }
   }
@@ -768,11 +768,11 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
       }
       if (!future.p[research->future_tech]) {
         char buffer[1024];
-  
-        my_snprintf(buffer, sizeof(buffer), "%s %d",
+
+        fc_snprintf(buffer, sizeof(buffer), "%s %d",
                     advance_rule_name(&advances[tech]),
                     research->future_tech + 1);
-        future.p[research->future_tech] = mystrdup(buffer);
+        future.p[research->future_tech] = fc_strdup(buffer);
       }
       return future.p[research->future_tech];
     } else {
@@ -813,10 +813,10 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
       }
       if (!future.p[research->future_tech]) {
         char buffer[1024];
-  
-        my_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
+
+        fc_snprintf(buffer, sizeof(buffer), _("Future Tech. %d"),
                     research->future_tech + 1);
-        future.p[research->future_tech] = mystrdup(buffer);
+        future.p[research->future_tech] = fc_strdup(buffer);
       }
       return future.p[research->future_tech];
     } else {

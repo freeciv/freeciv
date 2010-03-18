@@ -160,7 +160,7 @@ static int get_server_address(const char *hostname, int port,
     hostname = "localhost";
 
   if (!net_lookup_service(hostname, port, &server_addr, FALSE)) {
-    (void) mystrlcpy(errbuf, _("Failed looking up host."), errbufsize);
+    (void) fc_strlcpy(errbuf, _("Failed looking up host."), errbufsize);
     return -1;
   }
 
@@ -184,19 +184,19 @@ static int try_to_connect(const char *username, char *errbuf, int errbufsize)
 
   /* connection in progress? wait. */
   if (client.conn.used) {
-    (void) mystrlcpy(errbuf, _("Connection in progress."), errbufsize);
+    (void) fc_strlcpy(errbuf, _("Connection in progress."), errbufsize);
     return -1;
   }
   
   if ((client.conn.sock = socket(server_addr.saddr.sa_family,
                                  SOCK_STREAM, 0)) == -1) {
-    (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
+    (void) fc_strlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
     return -1;
   }
 
   if (fc_connect(client.conn.sock, &server_addr.saddr,
                  sockaddr_size(&server_addr)) == -1) {
-    (void) mystrlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
+    (void) fc_strlcpy(errbuf, fc_strerror(fc_get_errno()), errbufsize);
     fc_closesocket(client.conn.sock);
     client.conn.sock = -1;
 #ifdef HAVE_WINSOCK
@@ -308,14 +308,14 @@ static int read_from_connection(struct connection *pc, bool block)
     tv.tv_sec = 0;
     tv.tv_usec = 0;
 
-    MY_FD_ZERO(&readfs);
+    FC_FD_ZERO(&readfs);
     FD_SET(socket_fd, &readfs);
 
-    MY_FD_ZERO(&exceptfs);
+    FC_FD_ZERO(&exceptfs);
     FD_SET(socket_fd, &exceptfs);
 
     if (have_data_for_server) {
-      MY_FD_ZERO(&writefs);
+      FC_FD_ZERO(&writefs);
       FD_SET(socket_fd, &writefs);
       n =
 	  fc_select(socket_fd + 1, &readfs, &writefs, &exceptfs,

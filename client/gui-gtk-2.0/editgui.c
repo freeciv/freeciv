@@ -1229,7 +1229,7 @@ static struct editinfobox *editinfobox_create(void)
   gtk_box_pack_start(GTK_BOX(hbox), vbox2, FALSE, FALSE, 0);
 
   label = gtk_label_new(NULL);
-  my_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
+  fc_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
               _("Mode"));
   gtk_label_set_markup(GTK_LABEL(label), buf);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -1534,7 +1534,7 @@ static void editinfobox_refresh(struct editinfobox *ei)
     pixbuf = NULL;
   }
 
-  my_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
+  fc_snprintf(buf, sizeof(buf), "<span weight=\"bold\">%s</span>",
               editor_tool_get_name(ett));
   gtk_label_set_markup(GTK_LABEL(ei->tool_label), buf);
 

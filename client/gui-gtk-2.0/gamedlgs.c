@@ -130,8 +130,8 @@ static void rates_set_values(int tax, int no_tax_scroll,
 
   }
 
-  if(tax!=rates_tax_value) {
-    my_snprintf(buf, sizeof(buf), "%3d%%", tax);
+  if (tax!=rates_tax_value) {
+    fc_snprintf(buf, sizeof(buf), "%3d%%", tax);
     if (strcmp(buf, GTK_LABEL(rates_tax_label)->label) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_tax_label), buf);
     if(!no_tax_scroll)
@@ -144,7 +144,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(lux!=rates_lux_value) {
-    my_snprintf(buf, sizeof(buf), "%3d%%", lux);
+    fc_snprintf(buf, sizeof(buf), "%3d%%", lux);
     if (strcmp(buf, GTK_LABEL(rates_lux_label)->label) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_lux_label), buf);
     if(!no_lux_scroll)
@@ -157,7 +157,7 @@ static void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(sci!=rates_sci_value) {
-    my_snprintf(buf, sizeof(buf), "%3d%%", sci);
+    fc_snprintf(buf, sizeof(buf), "%3d%%", sci);
     if (strcmp(buf, GTK_LABEL(rates_sci_label)->label) != 0)
 	gtk_label_set_text(GTK_LABEL(rates_sci_label),buf);
     if(!no_sci_scroll)
@@ -354,7 +354,7 @@ void popup_rates_dialog(void)
     return;
   }
 
-  my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
+  fc_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
       government_name_for_player(client.conn.playing),
       get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   gtk_label_set_text(GTK_LABEL(rates_gov_label), buf);

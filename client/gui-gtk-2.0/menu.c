@@ -2082,7 +2082,7 @@ void real_menus_update(void)
     pterrain = tile_terrain(punit->tile);
     if (pterrain->irrigation_result != T_NONE
         && pterrain->irrigation_result != pterrain) {
-      my_snprintf(irrtext, sizeof(irrtext), _("Change to %s (_I)"),
+      fc_snprintf(irrtext, sizeof(irrtext), _("Change to %s (_I)"),
                   get_tile_change_menu_text(punit->tile,
                                             ACTIVITY_IRRIGATE));
     } else if (tile_has_special(punit->tile, S_IRRIGATION)
@@ -2095,7 +2095,7 @@ void real_menus_update(void)
 
     if (pterrain->mining_result != T_NONE
         && pterrain->mining_result != pterrain) {
-      my_snprintf(mintext, sizeof(mintext), _("Change to %s (_M)"),
+      fc_snprintf(mintext, sizeof(mintext), _("Change to %s (_M)"),
                   get_tile_change_menu_text(punit->tile, ACTIVITY_MINE));
     } else {
       sz_strlcpy(mintext, _("Build _Mine"));
@@ -2103,7 +2103,7 @@ void real_menus_update(void)
 
     if (pterrain->transform_result != T_NONE
         && pterrain->transform_result != pterrain) {
-      my_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
+      fc_snprintf(transtext, sizeof(transtext), _("Transf_orm to %s"),
                   get_tile_change_menu_text(punit->tile,
                                             ACTIVITY_TRANSFORM));
     } else {
@@ -2204,7 +2204,7 @@ void real_menus_init(void)
 
     government_iterate(g) {
       if (g != game.government_during_revolution) {
-        my_snprintf(buf, sizeof(buf), _("%s..."),
+        fc_snprintf(buf, sizeof(buf), _("%s..."),
                     government_name_translation(g));
         item = gtk_image_menu_item_new_with_label(buf);
         g_object_set_data(G_OBJECT(item), "government", g);

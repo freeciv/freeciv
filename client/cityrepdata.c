@@ -60,7 +60,7 @@ static const char *cr_entry_size(const struct city *pcity,
 				 const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->size);
+  fc_snprintf(buf, sizeof(buf), "%2d", pcity->size);
   return buf;
 }
 
@@ -68,8 +68,9 @@ static const char *cr_entry_hstate_concise(const struct city *pcity,
 					   const void *data)
 {
   static char buf[4];
-  my_snprintf(buf, sizeof(buf), "%s", (city_celebrating(pcity) ? "*" :
-				       (city_unhappy(pcity) ? "X" : " ")));
+  fc_snprintf(buf, sizeof(buf), "%s",
+              (city_celebrating(pcity) ? "*"
+               : (city_unhappy(pcity) ? "X" : " ")));
   return buf;
 }
 
@@ -77,10 +78,10 @@ static const char *cr_entry_hstate_verbose(const struct city *pcity,
 					   const void *data)
 {
   static char buf[16];
-  my_snprintf(buf, sizeof(buf), "%s",
-	      (city_celebrating(pcity) ? Q_("?city_state:Celebrating") :
-	       (city_unhappy(pcity) ? Q_("?city_state:Disorder") :
-		Q_("?city_state:Peace"))));
+  fc_snprintf(buf, sizeof(buf), "%s",
+              (city_celebrating(pcity) ? Q_("?city_state:Celebrating")
+               : (city_unhappy(pcity) ? Q_("?city_state:Disorder")
+                  : Q_("?city_state:Peace"))));
   return buf;
 }
 
@@ -88,11 +89,11 @@ static const char *cr_entry_workers(const struct city *pcity,
 				    const void *data)
 {
   static char buf[32];
-  my_snprintf(buf, sizeof(buf), "%d/%d/%d/%d",
-	      pcity->feel[CITIZEN_HAPPY][FEELING_FINAL],
-	      pcity->feel[CITIZEN_CONTENT][FEELING_FINAL],
-	      pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
-	      pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
+  fc_snprintf(buf, sizeof(buf), "%d/%d/%d/%d",
+              pcity->feel[CITIZEN_HAPPY][FEELING_FINAL],
+              pcity->feel[CITIZEN_CONTENT][FEELING_FINAL],
+              pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL],
+              pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
   return buf;
 }
 
@@ -100,7 +101,8 @@ static const char *cr_entry_happy(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]);
+  fc_snprintf(buf, sizeof(buf), "%2d",
+              pcity->feel[CITIZEN_HAPPY][FEELING_FINAL]);
   return buf;
 }
 
@@ -108,7 +110,8 @@ static const char *cr_entry_content(const struct city *pcity,
 				    const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]);
+  fc_snprintf(buf, sizeof(buf), "%2d",
+              pcity->feel[CITIZEN_CONTENT][FEELING_FINAL]);
   return buf;
 }
 
@@ -116,7 +119,8 @@ static const char *cr_entry_unhappy(const struct city *pcity,
 				    const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]);
+  fc_snprintf(buf, sizeof(buf), "%2d",
+              pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]);
   return buf;
 }
 
@@ -124,7 +128,8 @@ static const char *cr_entry_angry(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
+  fc_snprintf(buf, sizeof(buf), "%2d",
+              pcity->feel[CITIZEN_ANGRY][FEELING_FINAL]);
   return buf;
 }
 
@@ -140,7 +145,8 @@ static const char *cr_entry_specialist(const struct city *pcity,
   static char buf[8];
   const struct specialist *sp = data;
 
-  my_snprintf(buf, sizeof(buf), "%2d", pcity->specialists[specialist_index(sp)]);
+  fc_snprintf(buf, sizeof(buf), "%2d",
+              pcity->specialists[specialist_index(sp)]);
   return buf;
 }
 
@@ -218,7 +224,7 @@ static const char *cr_entry_supported(const struct city *pcity,
     num_supported++;
   } unit_list_iterate_end;
 
-  my_snprintf(buf, sizeof(buf), "%2d", num_supported);
+  fc_snprintf(buf, sizeof(buf), "%2d", num_supported);
 
   return buf;
 }
@@ -233,7 +239,7 @@ static const char *cr_entry_present(const struct city *pcity,
     num_present++;
   } unit_list_iterate_end;
 
-  my_snprintf(buf, sizeof(buf), "%2d", num_present);
+  fc_snprintf(buf, sizeof(buf), "%2d", num_present);
 
   return buf;
 }
@@ -242,10 +248,10 @@ static const char *cr_entry_resources(const struct city *pcity,
 				      const void *data)
 {
   static char buf[32];
-  my_snprintf(buf, sizeof(buf), "%d/%d/%d",
-	      pcity->surplus[O_FOOD], 
-	      pcity->surplus[O_SHIELD], 
-	      pcity->surplus[O_TRADE]);
+  fc_snprintf(buf, sizeof(buf), "%d/%d/%d",
+              pcity->surplus[O_FOOD],
+              pcity->surplus[O_SHIELD],
+              pcity->surplus[O_TRADE]);
   return buf;
 }
 
@@ -253,8 +259,7 @@ static const char *cr_entry_foodplus(const struct city *pcity,
 				     const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->surplus[O_FOOD]);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_FOOD]);
   return buf;
 }
 
@@ -262,8 +267,7 @@ static const char *cr_entry_prodplus(const struct city *pcity,
 				     const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->surplus[O_SHIELD]);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_SHIELD]);
   return buf;
 }
 
@@ -271,8 +275,7 @@ static const char *cr_entry_tradeplus(const struct city *pcity,
 				      const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->surplus[O_TRADE]);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_TRADE]);
   return buf;
 }
 
@@ -282,10 +285,8 @@ static const char *cr_entry_output(const struct city *pcity,
   static char buf[32];
   int goldie = pcity->surplus[O_GOLD];
 
-  my_snprintf(buf, sizeof(buf), "%3d/%d/%d",
-	      goldie,
-	      pcity->prod[O_LUXURY],
-	      pcity->prod[O_SCIENCE]);
+  fc_snprintf(buf, sizeof(buf), "%3d/%d/%d",
+              goldie, pcity->prod[O_LUXURY], pcity->prod[O_SCIENCE]);
   return buf;
 }
 
@@ -295,9 +296,9 @@ static const char *cr_entry_gold(const struct city *pcity,
   static char buf[8];
 
   if (pcity->surplus[O_GOLD] > 0) {
-    my_snprintf(buf, sizeof(buf), "+%d", pcity->surplus[O_GOLD]);
+    fc_snprintf(buf, sizeof(buf), "+%d", pcity->surplus[O_GOLD]);
   } else {
-    my_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_GOLD]);
+    fc_snprintf(buf, sizeof(buf), "%3d", pcity->surplus[O_GOLD]);
   }
   return buf;
 }
@@ -306,8 +307,7 @@ static const char *cr_entry_luxury(const struct city *pcity,
 				   const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->prod[O_LUXURY]);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->prod[O_LUXURY]);
   return buf;
 }
 
@@ -315,8 +315,7 @@ static const char *cr_entry_science(const struct city *pcity,
 				    const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d",
-	      pcity->prod[O_SCIENCE]);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->prod[O_SCIENCE]);
   return buf;
 }
 
@@ -329,15 +328,13 @@ static const char *cr_entry_growturns(const struct city *pcity,
 
   if (turns == FC_INFINITY) {
     /* 'never' wouldn't be easily translatable here. */
-    my_snprintf(buffer, sizeof(buffer), "---");
+    fc_snprintf(buffer, sizeof(buffer), "---");
   } else {
     /* Shrinking cities get a negative value. */
-    my_snprintf(buffer, sizeof(buffer), "%4d", turns);
+    fc_snprintf(buffer, sizeof(buffer), "%4d", turns);
   }
-  my_snprintf(buf, sizeof(buf), "%s (%d/%d)",
-	      buffer,
-	      pcity->food_stock,
-	      city_granary_size(pcity->size) );
+  fc_snprintf(buf, sizeof(buf), "%s (%d/%d)",
+              buffer, pcity->food_stock, city_granary_size(pcity->size));
   return buf;
 }
 
@@ -345,7 +342,7 @@ static const char *cr_entry_pollution(const struct city *pcity,
 				      const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d", pcity->pollution);
+  fc_snprintf(buf, sizeof(buf), "%3d", pcity->pollution);
   return buf;
 }
 
@@ -353,7 +350,7 @@ static const char *cr_entry_num_trade(const struct city *pcity,
 				      const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%d", city_num_trade_routes(pcity));
+  fc_snprintf(buf, sizeof(buf), "%d", city_num_trade_routes(pcity));
   return buf;
 }
 
@@ -364,17 +361,17 @@ static const char *cr_entry_building(const struct city *pcity,
   const char *from_worklist =
     worklist_is_empty(&pcity->worklist) ? "" :
     concise_city_production ? "+" : _("(worklist)");
-	
+
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    my_snprintf(buf, sizeof(buf), "%s (%d)%s",
-		city_production_name_translation(pcity),
-		MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
+    fc_snprintf(buf, sizeof(buf), "%s (%d)%s",
+                city_production_name_translation(pcity),
+                MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
-    my_snprintf(buf, sizeof(buf), "%s (%d/%d)%s",
-		city_production_name_translation(pcity),
-		pcity->shield_stock,
-		city_production_build_shield_cost(pcity),
-		from_worklist);
+    fc_snprintf(buf, sizeof(buf), "%s (%d/%d)%s",
+                city_production_name_translation(pcity),
+                pcity->shield_stock,
+                city_production_build_shield_cost(pcity),
+                from_worklist);
   }
 
   return buf;
@@ -390,23 +387,23 @@ static const char *cr_entry_build_cost(const struct city *pcity,
   int turns;
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    my_snprintf(buf, sizeof(buf), "*");
+    fc_snprintf(buf, sizeof(buf), "*");
     return buf;
   }
   price = city_production_buy_gold_cost(pcity);
   turns = city_production_turns_to_build(pcity, TRUE);
 
   if (price > 99999) {
-    my_snprintf(bufone, sizeof(bufone), "---");
+    fc_snprintf(bufone, sizeof(bufone), "---");
   } else {
-    my_snprintf(bufone, sizeof(bufone), "%d", price);
+    fc_snprintf(bufone, sizeof(bufone), "%d", price);
   }
   if (turns > 999) {
-    my_snprintf(buftwo, sizeof(buftwo), "--");
+    fc_snprintf(buftwo, sizeof(buftwo), "--");
   } else {
-    my_snprintf(buftwo, sizeof(buftwo), "%3d", turns);
+    fc_snprintf(buftwo, sizeof(buftwo), "%3d", turns);
   }
-  my_snprintf(buf, sizeof(buf), "%s/%s", buftwo, bufone);
+  fc_snprintf(buf, sizeof(buf), "%s/%s", buftwo, bufone);
   return buf;
 }
 
@@ -414,7 +411,7 @@ static const char *cr_entry_corruption(const struct city *pcity,
 				       const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_TRADE]));
+  fc_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_TRADE]));
   return buf;
 }
 
@@ -422,7 +419,7 @@ static const char *cr_entry_waste(const struct city *pcity,
 				  const void *data)
 {
   static char buf[8];
-  my_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_SHIELD]));
+  fc_snprintf(buf, sizeof(buf), "%3d", -(pcity->waste[O_SHIELD]));
   return buf;
 }
 
@@ -431,9 +428,9 @@ static const char *cr_entry_plague_risk(const struct city *pcity,
 {
   static char buf[8];
   if (!game.info.illness_on) {
-    my_snprintf(buf, sizeof(buf), " -.-");
+    fc_snprintf(buf, sizeof(buf), " -.-");
   } else {
-    my_snprintf(buf, sizeof(buf), "%4.1f",
+    fc_snprintf(buf, sizeof(buf), "%4.1f",
                 (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)/10.0);
   }
   return buf;
@@ -588,9 +585,8 @@ void init_city_report_game_data(void)
     p->space = 1;
     p->title1 = Q_("?specialist:S");
     p->title2 = specialist_abbreviation_translation(s);
-    my_snprintf(explanation[i], sizeof(explanation[i]),
-		_("Specialists: %s"),
-		specialist_name_translation(s));
+    fc_snprintf(explanation[i], sizeof(explanation[i]),
+                _("Specialists: %s"), specialist_name_translation(s));
     p->explanation = explanation[i];
     p->data = s;
     p->func = cr_entry_specialist;

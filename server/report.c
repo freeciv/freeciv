@@ -244,11 +244,11 @@ static void historian_generic(enum historian_type which_news)
 		 _(ranking[rank]),
 		 i + 1,
 		 nation_plural_for_player(size[i].player));
-    mystrlcat(buffer, "\n", sizeof(buffer));
+    fc_strlcat(buffer, "\n", sizeof(buffer));
   }
-  my_snprintf(title, sizeof(title), _(historian_message[which_news]),
+  fc_snprintf(title, sizeof(title), _(historian_message[which_news]),
               textyear(game.info.year),
-              _(historian_name[myrand(ARRAY_SIZE(historian_name))]));
+              _(historian_name[fc_rand(ARRAY_SIZE(historian_name))]));
   page_conn_etype(game.est_connections, _("Historian Publishes!"),
 		  title, buffer, E_BROADCAST_REPORT);
 }
@@ -581,7 +581,7 @@ static const char *value_units(int val, const char *uni)
 {
   static char buf[64];
 
-  if (my_snprintf(buf, sizeof(buf), "%s%s", int_to_text(val), uni) == -1) {
+  if (fc_snprintf(buf, sizeof(buf), "%s%s", int_to_text(val), uni) == -1) {
     die("String truncated in value_units()!");
   }
 
@@ -642,13 +642,13 @@ static const char *number_to_ordinal_string(int num)
   fc_assert_action(num > 0, num = (num % 10) + 10);
 
   if ((num % 10) == 1 && num != 11) {
-    my_snprintf(buf, sizeof(buf), fmt, num, _("st"));
+    fc_snprintf(buf, sizeof(buf), fmt, num, _("st"));
   } else if ((num % 10) == 2 && num != 12) {
-    my_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
+    fc_snprintf(buf, sizeof(buf), fmt, num, _("nd"));
   } else if ((num % 10) == 3 && num != 13) {
-    my_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
+    fc_snprintf(buf, sizeof(buf), fmt, num, _("rd"));
   } else {
-    my_snprintf(buf, sizeof(buf), fmt, num, _("th"));
+    fc_snprintf(buf, sizeof(buf), fmt, num, _("th"));
   }
 
   return buf;
@@ -800,7 +800,7 @@ void report_demographics(struct connection *pconn)
 
   /* TRANS: <nation adjective> <government name> (<year>).
    * E.g. "Polish Despotism (200 AD)". */
-  my_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
+  fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
               nation_adjective_for_player(pplayer),
               government_name_for_player(pplayer),
               textyear(game.info.year));
@@ -866,7 +866,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
         log_error("Multiple ID entries!");
         return FALSE;
       }
-      mystrlcpy(id, line + strlen("id "), MAX_LEN_GAME_IDENTIFIER);
+      fc_strlcpy(id, line + strlen("id "), MAX_LEN_GAME_IDENTIFIER);
       if (strcmp(id, server.game_identifier) != 0) {
         log_error("IDs don't match! game='%s' scorelog='%s'",
                   server.game_identifier, id);
@@ -896,7 +896,7 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
         return FALSE;
       }
 
-      mystrlcpy(player_names[plr_no], plr_name, MAX_LEN_NAME);
+      fc_strlcpy(player_names[plr_no], plr_name, MAX_LEN_NAME);
     }
 
     if (strncmp(line, "delplayer ", strlen("delplayer ")) == 0) {
@@ -1072,8 +1072,8 @@ void log_civ_score(void)
       fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
 	      player_number(pplayer),
 	      player_name(pplayer));
-      mystrlcpy(player_name_ptrs[player_index(pplayer)], player_name(pplayer),
-		MAX_LEN_NAME);
+      fc_strlcpy(player_name_ptrs[player_index(pplayer)],
+                 player_name(pplayer), MAX_LEN_NAME);
     }
   } players_iterate_end;
 
@@ -1084,8 +1084,8 @@ void log_civ_score(void)
       fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
 	      player_number(pplayer),
 	      player_name(pplayer));
-      mystrlcpy(player_names[player_index(pplayer)], player_name(pplayer),
-		MAX_LEN_NAME);
+      fc_strlcpy(player_names[player_index(pplayer)],
+                 player_name(pplayer), MAX_LEN_NAME);
     }
   } players_iterate_end;
 
@@ -1128,7 +1128,7 @@ void make_history_report(void)
   }
 
   game.server.scoreturn = (game.info.turn + GAME_DEFAULT_SCORETURN
-                           + myrand(GAME_DEFAULT_SCORETURN));
+                           + fc_rand(GAME_DEFAULT_SCORETURN));
 
   historian_generic(game.server.scoreturn % HISTORIAN_LAST);
 }
@@ -1205,7 +1205,7 @@ static void page_conn_etype(struct conn_list *dest, const char *caption,
   int len;
   struct packet_page_msg genmsg;
 
-  len = my_snprintf(genmsg.message, sizeof(genmsg.message),
+  len = fc_snprintf(genmsg.message, sizeof(genmsg.message),
                     "%s\n%s\n%s", caption, headline, lines);
   if (len == -1) {
     log_error("Message truncated in page_conn_etype()!");

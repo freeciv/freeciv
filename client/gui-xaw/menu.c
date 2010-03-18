@@ -1118,11 +1118,11 @@ static char *menu_entry_text(enum MenuIndex menu, int ent, int var,
   xlt=_(pmenu->entries[ent].text[var]);
 
   if (strstr(xlt, "%s")) {
-    my_snprintf(tmp, sizeof(tmp), xlt, terr);
+    fc_snprintf(tmp, sizeof(tmp), xlt, terr);
     xlt=tmp;
   }
 
-  my_snprintf(retbuf, sizeof(retbuf), "%*.*s%*.*s",
+  fc_snprintf(retbuf, sizeof(retbuf), "%*.*s%*.*s",
 	  -pmenu->maxitemlen, pmenu->maxitemlen, xlt,
 	  pmenu->maxacellen, pmenu->maxacellen, pmenu->entries[ent].acel);
 

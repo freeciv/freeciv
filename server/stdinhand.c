@@ -145,9 +145,9 @@ static PlayerNameStatus test_player_name(char* name)
       return PNameEmpty;
   } else if (len > MAX_LEN_NAME-1) {
       return PNameTooLong;
-  } else if (mystrcasecmp(name, ANON_PLAYER_NAME) == 0) {
+  } else if (fc_strcasecmp(name, ANON_PLAYER_NAME) == 0) {
       return PNameIllegal;
-  } else if (mystrcasecmp(name, "Observer") == 0) {
+  } else if (fc_strcasecmp(name, "Observer") == 0) {
     /* "Observer" used to be illegal and we keep it that way for now. */
       return PNameIllegal;
   }
@@ -168,7 +168,7 @@ static enum command_id command_named(const char *token, bool accept_ambiguity)
   int ind;
 
   result = match_prefix(command_name_by_number, CMD_NUM, 0,
-			mystrncasecmp, NULL, token, &ind);
+                        fc_strncasecmp, NULL, token, &ind);
 
   if (result < M_PRE_AMBIGUOUS) {
     return ind;
@@ -304,7 +304,7 @@ static void vcmd_reply_prefix(enum command_id cmd, struct connection *caller,
   char buf[4096];
   char *c0, *c1;
 
-  my_vsnprintf(buf, sizeof(buf), format, ap);
+  fc_vsnprintf(buf, sizeof(buf), format, ap);
 
   c0 = buf;
   while ((c1=strstr(c0, "\n"))) {
@@ -457,8 +457,8 @@ static bool metaconnection_command(struct connection *caller, char *arg,
       cmd_reply(CMD_METACONN, caller, C_COMMENT,
 		_("Metaserver connection is closed."));
     }
-  } else if ((0 == mystrcasecmp(arg, "u")) ||
-	     (0 == mystrcasecmp(arg, "up"))) {
+  } else if (0 == fc_strcasecmp(arg, "u")
+             || 0 == fc_strcasecmp(arg, "up")) {
     if (!is_metaserver_open()) {
       if (!check) {
         open_metaserver_connection(caller);
@@ -468,8 +468,8 @@ static bool metaconnection_command(struct connection *caller, char *arg,
 		_("Metaserver connection is already open."));
       return FALSE;
     }
-  } else if ((0 == mystrcasecmp(arg, "d")) ||
-	     (0 == mystrcasecmp(arg, "down"))) {
+  } else if (0 == fc_strcasecmp(arg, "d")
+             || 0 == fc_strcasecmp(arg, "down")) {
     if (is_metaserver_open()) {
       if (!check) {
         close_metaserver_connection(caller);
@@ -950,7 +950,7 @@ static bool read_init_script_real(struct connection *caller,
   real_filename = script_filename + strlen(script_filename) 
                   - MIN(strlen(extension), strlen(script_filename));
   if (strcmp(real_filename, extension) != 0) {
-    my_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
+    fc_snprintf(serv_filename, sizeof(serv_filename), "%s%s", 
                 script_filename, extension);
   } else {
     sz_strlcpy(serv_filename, script_filename);
@@ -1263,7 +1263,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
 
     ret = TRUE;
 
-  } else if (mystrcasecmp(arg[1], "new") == 0) {
+  } else if (fc_strcasecmp(arg[1], "new") == 0) {
     default_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
               _("Command access level set to '%s' for new players."),
@@ -1278,7 +1278,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
 
     ret = TRUE;
 
-  } else if (mystrcasecmp(arg[1], "first") == 0) {
+  } else if (fc_strcasecmp(arg[1], "first") == 0) {
     first_access_level = level;
     cmd_reply(CMD_CMDLEVEL, caller, C_OK,
               _("Command access level set to '%s' "
@@ -1413,7 +1413,7 @@ static enum sset_level lookup_option_level(const char *name)
   enum sset_level i;
 
   for (i = SSET_ALL; i < OLEVELS_NUM; i++) {
-    if (0 == mystrcasecmp(name, sset_level_names[i])) {
+    if (0 == fc_strcasecmp(name, sset_level_names[i])) {
       return i;
     }
   }
@@ -1435,8 +1435,8 @@ static int lookup_option(const char *name)
     return -3;
   }
 
-  result = match_prefix(optname_accessor, SETTINGS_NUM, 0, mystrncasecmp,
-			NULL, name, &ind);
+  result = match_prefix(optname_accessor, SETTINGS_NUM, 0, fc_strncasecmp,
+                        NULL, name, &ind);
 
   return ((result < M_PRE_AMBIGUOUS) ? ind :
 	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
@@ -1465,7 +1465,7 @@ static void show_help_option(struct connection *caller,
   }
 
   if (strlen(setting_extra_help(pset)) > 0) {
-    char *help = mystrdup(_(setting_extra_help(pset)));
+    char *help = fc_strdup(_(setting_extra_help(pset)));
 
     fc_break_lines(help, LINE_BREAK);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
@@ -1863,8 +1863,8 @@ static bool show_command(struct connection *caller, char *str, bool check)
   cmd_reply_show(_("+ means you may change the option"));
   cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
-  len1 = my_snprintf(buf, sizeof(buf),
-	_("%-*s value   (min,max)      "), OPTION_NAME_SPACE, _("Option"));
+  len1 = fc_snprintf(buf, sizeof(buf), _("%-*s value   (min,max)      "),
+                     OPTION_NAME_SPACE, _("Option"));
   if (len1 == -1) {
     len1 = sizeof(buf) -1;
   }
@@ -1880,7 +1880,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
         && (cmd == -1 || cmd == -3 || level == SSET_CHANGED
             || level == SSET_LOCKED || cmd == setting_number(pset)
         || (cmd == -2
-            && mystrncasecmp(setting_name(pset), str, clen) == 0))) {
+            && fc_strncasecmp(setting_name(pset), str, clen) == 0))) {
       /* in the cmd==i case, this loop is inefficient. never mind - rp */
       int len, feature_len = 0;
 
@@ -1889,7 +1889,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
         switch (setting_type(pset)) {
         case SSET_BOOL:
           is_changed = (setting_bool_get(pset) != setting_bool_def(pset));
-          len = my_snprintf(value, sizeof(value), "%-5d (0,1)",
+          len = fc_snprintf(value, sizeof(value), "%-5d (0,1)",
                             (setting_bool_get(pset)) ? 1 : 0);
           if (is_changed) {
             /* Emphasizes the changed option. */
@@ -1901,7 +1901,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
           break;
         case SSET_INT:
           is_changed = (setting_int_get(pset) != setting_int_def(pset));
-          len = my_snprintf(value, sizeof(value), "%-5d (%d,%d)",
+          len = fc_snprintf(value, sizeof(value), "%-5d (%d,%d)",
                             setting_int_get(pset), setting_int_min(pset),
                             setting_int_max(pset));
           if (is_changed) {
@@ -1914,7 +1914,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
           break;
         case SSET_STRING:
           is_changed = strcmp(setting_str_get(pset), setting_str_def(pset));
-          len = my_snprintf(value, sizeof(value), "\"%s\"",
+          len = fc_snprintf(value, sizeof(value), "\"%s\"",
                             setting_str_get(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
@@ -1927,7 +1927,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
           break;
         }
 
-        len = my_snprintf(buf, sizeof(buf),
+        len = fc_snprintf(buf, sizeof(buf),
                           "%-*s %c%c%s", OPTION_NAME_SPACE,
                           setting_name(pset),
                           setting_status(caller, pset),
@@ -2118,7 +2118,7 @@ static bool vote_command(struct connection *caller, char *str,
   }
 
   match_result = match_prefix(vote_arg_accessor, VOTE_NUM, 0,
-                              mystrncasecmp, NULL, arg[0], &i);
+                              fc_strncasecmp, NULL, arg[0], &i);
 
   if (match_result == M_PRE_AMBIGUOUS) {
     cmd_reply(CMD_VOTE, caller, C_SYNTAX,
@@ -2224,7 +2224,7 @@ static bool cancelvote_command(struct connection *caller,
                 _("You don't have any vote going on."));
       return FALSE;
     }
-  } else if (mystrcasecmp(arg, "all") == 0) {
+  } else if (fc_strcasecmp(arg, "all") == 0) {
     /* Cancel all votes (needs some privileges). */
     if (vote_list_size(vote_list) == 0) {
       cmd_reply(CMD_CANCELVOTE, caller, C_FAIL,
@@ -2570,7 +2570,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
       } else {
         if (setting_bool_set(pset, val != 0, caller, reject_msg,
                              sizeof(reject_msg))) {
-          my_snprintf(buffer, sizeof(buffer),
+          fc_snprintf(buffer, sizeof(buffer),
                       _("Option: %s has been set to %d."),
                       setting_name(pset), setting_bool_get(pset) ? 1 : 0);
           do_update = TRUE;
@@ -2609,7 +2609,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       if (setting_int_set(pset, val, caller, reject_msg,
                           sizeof(reject_msg))) {
-        my_snprintf(buffer, sizeof(buffer),
+        fc_snprintf(buffer, sizeof(buffer),
                     _("Option: %s has been set to %d."),
                     setting_name(pset), setting_int_get(pset));
         do_update = TRUE;
@@ -2630,7 +2630,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       if (setting_str_set(pset, args[1], caller, reject_msg,
           sizeof(reject_msg))) {
-        my_snprintf(buffer, sizeof(buffer),
+        fc_snprintf(buffer, sizeof(buffer),
                     _("Option: %s has been set to \"%s\"."),
                     setting_name(pset), setting_str_get(pset));
         do_update = TRUE;
@@ -2686,7 +2686,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     /* Global observer. */
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'O' : 'o')))) {
-      mystrlcpy(msg, _("Sorry, one can't observe globally in this game."),
+      fc_strlcpy(msg, _("Sorry, one can't observe globally in this game."),
                 msg_len);
       return FALSE;
     }
@@ -2694,13 +2694,13 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     /* Auto-taking a new player */
 
     if (game_was_started()) {
-      mystrlcpy(msg, _("You cannot take a new player at this time."),
+      fc_strlcpy(msg, _("You cannot take a new player at this time."),
                 msg_len);
       return FALSE;
     }
 
     if (player_count() >= game.info.max_players) {
-      my_snprintf(msg, msg_len,
+      fc_snprintf(msg, msg_len,
                   /* TRANS: Do not translate "maxplayers". */
                   PL_("You cannot take a new player because "
                       "the maximum of %d player has already "
@@ -2714,7 +2714,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     }
 
     if (player_count() >= player_slot_count()) {
-      mystrlcpy(msg, _("You cannot take a new player because there "
+      fc_strlcpy(msg, _("You cannot take a new player because there "
                        "are no free player slots."),
                 msg_len);
       return FALSE;
@@ -2725,24 +2725,25 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   } else if (is_barbarian(pplayer)) {
     if (!(allow = strchr(game.server.allow_take, 'b'))) {
       if (will_obs) {
-        mystrlcpy(msg,
-                  _("Sorry, one can't observe barbarians in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't observe barbarians in this game."),
+                   msg_len);
       } else {
-        mystrlcpy(msg, _("Sorry, one can't take barbarians in this game."),
-                  msg_len);
+        fc_strlcpy(msg, _("Sorry, one can't take barbarians in this game."),
+                   msg_len);
       }
       return FALSE;
     }
   } else if (!pplayer->is_alive) {
     if (!(allow = strchr(game.server.allow_take, 'd'))) {
       if (will_obs) {
-        mystrlcpy(msg,
-                  _("Sorry, one can't observe dead players in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't observe dead players in this game."),
+                   msg_len);
       } else {
-        mystrlcpy(msg, _("Sorry, one can't take dead players in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't take dead players in this game."),
+                   msg_len);
       }
       return FALSE;
     }
@@ -2750,11 +2751,11 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'A' : 'a')))) {
       if (will_obs) {
-        mystrlcpy(msg,
-                  _("Sorry, one can't observe AI players in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't observe AI players in this game."),
+                   msg_len);
       } else {
-        mystrlcpy(msg, _("Sorry, one can't take AI players in this game."),
+        fc_strlcpy(msg, _("Sorry, one can't take AI players in this game."),
                   msg_len);
       }
       return FALSE;
@@ -2763,13 +2764,13 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
     if (!(allow = strchr(game.server.allow_take,
                          (game.info.is_new_game ? 'H' : 'h')))) {
       if (will_obs) {
-        mystrlcpy(msg, 
-                  _("Sorry, one can't observe human players in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't observe human players in this game."),
+                   msg_len);
       } else {
-        mystrlcpy(msg,
-                  _("Sorry, one can't take human players in this game."),
-                  msg_len);
+        fc_strlcpy(msg,
+                   _("Sorry, one can't take human players in this game."),
+                   msg_len);
       }
       return FALSE;
     }
@@ -2778,20 +2779,20 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
   allow++;
 
   if (will_obs && (*allow == '2' || *allow == '3')) {
-    mystrlcpy(msg, _("Sorry, one can't observe in this game."), msg_len);
+    fc_strlcpy(msg, _("Sorry, one can't observe in this game."), msg_len);
     return FALSE;
   }
 
   if (!will_obs && *allow == '4') {
-    mystrlcpy(msg, _("Sorry, one can't take players in this game."),
+    fc_strlcpy(msg, _("Sorry, one can't take players in this game."),
               MAX_LEN_MSG);
     return FALSE;
   }
 
   if (!will_obs && pplayer->is_connected
       && (*allow == '1' || *allow == '3')) {
-    mystrlcpy(msg, _("Sorry, one can't take players already connected "
-                     "in this game."), msg_len);
+    fc_strlcpy(msg, _("Sorry, one can't take players already "
+                      "connected in this game."), msg_len);
     return FALSE;
   }
 
@@ -3287,7 +3288,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
 
     for (path = pathes; !found && *path; path++) {
       for (ext = exts; !found && *ext; ext++) {
-        my_snprintf(testfile, sizeof(testfile), "%s.%s", filename, *ext);
+        fc_snprintf(testfile, sizeof(testfile), "%s.%s", filename, *ext);
         if ((found = fileinfoname(*path, testfile))) {
           sz_strlcpy(arg, found);
         }
@@ -3425,7 +3426,7 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
     return FALSE;
   }
 
-  my_snprintf(filename, sizeof(filename), "%s", str);
+  fc_snprintf(filename, sizeof(filename), "%s", str);
   pfilename = fileinfoname(get_data_dirs(), filename);
   if (!pfilename) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
@@ -3552,7 +3553,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
      given on the server command line - rp */
   if (*cptr_s == SERVER_COMMAND_PREFIX) cptr_s++;
 
-  for (; *cptr_s != '\0' && !my_isalnum(*cptr_s); cptr_s++) {
+  for (; *cptr_s != '\0' && !fc_isalnum(*cptr_s); cptr_s++) {
     /* nothing */
   }
 
@@ -3564,10 +3565,11 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
    * skipped leading whitespace, the SERVER_COMMAND_PREFIX and any
    * other non-alphanumeric characters.
    */
-  for (cptr_d = command; *cptr_s != '\0' && my_isalnum(*cptr_s) &&
-      cptr_d < command+sizeof(command)-1; cptr_s++, cptr_d++)
-    *cptr_d=*cptr_s;
-  *cptr_d='\0';
+  for (cptr_d = command; *cptr_s != '\0' && fc_isalnum(*cptr_s)
+       && cptr_d < command + sizeof(command) - 1; cptr_s++, cptr_d++) {
+    *cptr_d = *cptr_s;
+  }
+  *cptr_d = '\0';
 
   cptr_s = skip_leading_spaces(cptr_s);
 
@@ -3579,7 +3581,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
   cut_comment(arg);
 
   i = strlen(arg) - 1;
-  while (i > 0 && my_isspace(arg[i])) {
+  while (i > 0 && fc_isspace(arg[i])) {
     arg[i--] = '\0';
   }
 
@@ -3855,7 +3857,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
 
   /* match the argument */
   result = match_prefix(reset_accessor, RESET_LAST, 0,
-                        mystrncasecmp, NULL, arg, &ind);
+                        fc_strncasecmp, NULL, arg, &ind);
 
   switch (result) {
   case M_PRE_EXACT:
@@ -4096,7 +4098,7 @@ static void show_help_intro(struct connection *caller,
                             enum command_id help_cmd)
 {
   /* This is formated like extra_help entries for settings and commands: */
-  char *help = mystrdup(
+  char *help = fc_strdup(
     _("Welcome - this is the introductory help text for the Freeciv "
       "server.\n"
       "\n"
@@ -4149,14 +4151,14 @@ static void show_help_command(struct connection *caller,
     size_t synlen = strlen(syn);
     char prefix[40];
 
-    my_snprintf(prefix, sizeof(prefix), "%*s", (int) synlen, " ");
+    fc_snprintf(prefix, sizeof(prefix), "%*s", (int) synlen, " ");
     cmd_reply_prefix(help_cmd, caller, C_COMMENT, prefix,
                      "%s%s", syn, command_synopsis(cmd));
   }
   cmd_reply(help_cmd, caller, C_COMMENT,
             _("Level: %s"), cmdlevel_name(command_level(cmd)));
   if (command_extra_help(cmd)) {
-    char *help = mystrdup(command_extra_help(cmd));
+    char *help = fc_strdup(command_extra_help(cmd));
 
     fc_break_lines(help, LINE_BREAK);
     cmd_reply(help_cmd, caller, C_COMMENT, _("Description:"));
@@ -4282,7 +4284,7 @@ static bool show_help(struct connection *caller, char *arg)
     /* no commands means no help, either */
 
   match_result = match_prefix_full(helparg_accessor, HELP_ARG_NUM, 0,
-                                   mystrncasecmp, NULL, arg, &ind, matches,
+                                   fc_strncasecmp, NULL, arg, &ind, matches,
                                    ARRAY_SIZE(matches), &num_matches);
 
   if (match_result==M_PRE_EMPTY) {
@@ -4359,7 +4361,7 @@ static bool show_list(struct connection *caller, char *arg)
 
   remove_leading_trailing_spaces(arg);
   match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
-			      mystrncasecmp, NULL, arg, &ind_int);
+                              fc_strncasecmp, NULL, arg, &ind_int);
   ind = ind_int;
 
   if (match_result > M_PRE_EMPTY) {
@@ -4425,8 +4427,8 @@ void show_players(struct connection *caller)
        */
       buf2[0] = '\0';
       if (strlen(pplayer->username) > 0
-	  && strcmp(pplayer->username, "nouser") != 0) {
-	my_snprintf(buf2, sizeof(buf2), _("user %s, "), pplayer->username);
+          && strcmp(pplayer->username, "nouser") != 0) {
+        fc_snprintf(buf2, sizeof(buf2), _("user %s, "), pplayer->username);
       }
       
       if (is_barbarian(pplayer)) {
@@ -4463,7 +4465,7 @@ void show_players(struct connection *caller)
                                   ftc_changed);
 	}
       }
-      my_snprintf(buf, sizeof(buf), "%s (%s)", player_name(pplayer), buf2);
+      fc_snprintf(buf, sizeof(buf), "%s (%s)", player_name(pplayer), buf2);
       
       n = conn_list_size(pplayer->connections);
       if (n > 0) {
@@ -4473,11 +4475,12 @@ void show_players(struct connection *caller)
       cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
       
       conn_list_iterate(pplayer->connections, pconn) {
-	my_snprintf(buf, sizeof(buf),
-		    _("  %s from %s (command access level %s), bufsize=%dkb"),
-		    pconn->username, pconn->addr, 
-		    cmdlevel_name(pconn->access_level),
-		    (pconn->send_buffer->nsize>>10));
+        fc_snprintf(buf, sizeof(buf),
+                    _("  %s from %s (command access level %s), "
+                      "bufsize=%dkb"),
+                    pconn->username, pconn->addr, 
+                    cmdlevel_name(pconn->access_level),
+                    (pconn->send_buffer->nsize >> 10));
 	if (pconn->observer) {
 	  sz_strlcat(buf, _(" (observer mode)"));
 	}
@@ -4580,7 +4583,7 @@ static void show_scenarios(struct connection *caller)
   files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
   
   fileinfo_list_iterate(files, pfile) {
-    my_snprintf(buf, sizeof(buf), "%s", pfile->name);
+    fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
     cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
   } fileinfo_list_iterate_end;
   fileinfo_list_destroy(files);
@@ -4628,7 +4631,7 @@ static char *generic_generator(const char *text, int state, int num,
     name = index2str(list_index);
     list_index++;
 
-    if (name != NULL && mystrncasecmp(name, mytext, len) == 0) {
+    if (name != NULL && fc_strncasecmp(name, mytext, len) == 0) {
       free(mytext);
       return internal_to_local_string_malloc(name);
     }
@@ -4745,20 +4748,26 @@ static bool contains_str_before_start(int start, const char *cmd, bool allow_flu
   char *str_itr = rl_line_buffer;
   int cmd_len = strlen(cmd);
 
-  while (str_itr < rl_line_buffer + start && !my_isalnum(*str_itr))
+  while (str_itr < rl_line_buffer + start && !fc_isalnum(*str_itr)) {
     str_itr++;
+  }
 
-  if (mystrncasecmp(str_itr, cmd, cmd_len) != 0)
+  if (fc_strncasecmp(str_itr, cmd, cmd_len) != 0) {
     return FALSE;
+  }
   str_itr += cmd_len;
 
-  if (my_isalnum(*str_itr)) /* not a distinct word */
+  if (fc_isalnum(*str_itr)) {
+    /* Not a distinct word. */
     return FALSE;
+  }
 
   if (!allow_fluff) {
-    for (; str_itr < rl_line_buffer + start; str_itr++)
-      if (my_isalnum(*str_itr))
-	return FALSE;
+    for (; str_itr < rl_line_buffer + start; str_itr++) {
+      if (fc_isalnum(*str_itr)) {
+        return FALSE;
+      }
+    }
   }
 
   return TRUE;
@@ -4777,8 +4786,9 @@ static bool is_command(int start)
   /* if there is only it is also OK */
   str_itr = rl_line_buffer;
   while (str_itr - rl_line_buffer < start) {
-    if (my_isalnum(*str_itr))
+    if (fc_isalnum(*str_itr)) {
       return FALSE;
+    }
     str_itr++;
   }
   return TRUE;
@@ -4810,10 +4820,10 @@ static int num_tokens(int start)
   char *chptr = rl_line_buffer;
 
   while (chptr - rl_line_buffer < start) {
-    if (my_isalnum(*chptr)) {
+    if (fc_isalnum(*chptr)) {
       if (!alnum) {
-	alnum = TRUE;
-	res++;
+        alnum = TRUE;
+        res++;
       }
     } else {
       alnum = FALSE;

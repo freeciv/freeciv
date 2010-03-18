@@ -238,49 +238,49 @@ void client_diplomacy_clause_string(char *buf, int bufsiz,
 
   switch(pclause->type) {
   case CLAUSE_ADVANCE:
-    my_snprintf(buf, bufsiz, _("The %s give %s"),
-		nation_plural_for_player(pclause->from),
-		advance_name_for_player(client.conn.playing, pclause->value));
+    fc_snprintf(buf, bufsiz, _("The %s give %s"),
+                nation_plural_for_player(pclause->from),
+                advance_name_for_player(client.conn.playing, pclause->value));
     break;
   case CLAUSE_CITY:
     pcity = game_find_city_by_number(pclause->value);
     if (pcity) {
-      my_snprintf(buf, bufsiz, _("The %s give %s"),
+      fc_snprintf(buf, bufsiz, _("The %s give %s"),
                   nation_plural_for_player(pclause->from),
-		  city_name(pcity));
+                  city_name(pcity));
     } else {
-      my_snprintf(buf, bufsiz,_("The %s give unknown city."),
+      fc_snprintf(buf, bufsiz,_("The %s give unknown city."),
                   nation_plural_for_player(pclause->from));
     }
     break;
   case CLAUSE_GOLD:
-    my_snprintf(buf, bufsiz, _("The %s give %d gold"),
-		nation_plural_for_player(pclause->from),
-		pclause->value);
+    fc_snprintf(buf, bufsiz, _("The %s give %d gold"),
+                nation_plural_for_player(pclause->from),
+                pclause->value);
     break;
   case CLAUSE_MAP:
-    my_snprintf(buf, bufsiz, _("The %s give their worldmap"),
-		nation_plural_for_player(pclause->from));
+    fc_snprintf(buf, bufsiz, _("The %s give their worldmap"),
+                nation_plural_for_player(pclause->from));
     break;
   case CLAUSE_SEAMAP:
-    my_snprintf(buf, bufsiz, _("The %s give their seamap"),
-		nation_plural_for_player(pclause->from));
+    fc_snprintf(buf, bufsiz, _("The %s give their seamap"),
+                nation_plural_for_player(pclause->from));
     break;
   case CLAUSE_CEASEFIRE:
-    my_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
+    fc_snprintf(buf, bufsiz, _("The parties agree on a cease-fire"));
     break;
   case CLAUSE_PEACE:
-    my_snprintf(buf, bufsiz, _("The parties agree on a peace"));
+    fc_snprintf(buf, bufsiz, _("The parties agree on a peace"));
     break;
   case CLAUSE_ALLIANCE:
-    my_snprintf(buf, bufsiz, _("The parties create an alliance"));
+    fc_snprintf(buf, bufsiz, _("The parties create an alliance"));
     break;
   case CLAUSE_VISION:
-    my_snprintf(buf, bufsiz, _("The %s give shared vision"),
-		nation_plural_for_player(pclause->from));
+    fc_snprintf(buf, bufsiz, _("The %s give shared vision"),
+                nation_plural_for_player(pclause->from));
     break;
   case CLAUSE_EMBASSY:
-    my_snprintf(buf, bufsiz, _("The %s give an embassy"),
+    fc_snprintf(buf, bufsiz, _("The %s give an embassy"),
                 nation_plural_for_player(pclause->from));
     break;
   default:
@@ -600,7 +600,7 @@ static int my_cmp(const void *p1, const void *p2)
   int s2 = target_get_section(i2->item);
 
   if (s1 == s2) {
-    return mystrcasecmp(i1->descr, i2->descr);
+    return fc_strcasecmp(i1->descr, i2->descr);
   }
   return s1 - s2;
 }
@@ -644,12 +644,13 @@ void name_and_sort_items(struct universal *targets, int num_targets,
 
     if (show_cost) {
       if (cost < 0) {
-	my_snprintf(pitem->descr, sizeof(pitem->descr), "%s (XX)", name);
+        fc_snprintf(pitem->descr, sizeof(pitem->descr), "%s (XX)", name);
       } else {
-	my_snprintf(pitem->descr, sizeof(pitem->descr), "%s (%d)", name, cost);
+        fc_snprintf(pitem->descr, sizeof(pitem->descr),
+                    "%s (%d)", name, cost);
       }
     } else {
-      (void) mystrlcpy(pitem->descr, name, sizeof(pitem->descr));
+      (void) fc_strlcpy(pitem->descr, name, sizeof(pitem->descr));
     }
   }
 
@@ -938,13 +939,13 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
     for (p = plain_text; *p != '\0'; p++) {
       if (username
-          && 0 == mystrncasecmp(p, username, userlen)) {
+          && 0 == fc_strncasecmp(p, username, userlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
                              p - plain_text + userlen,
                              ft_color(NULL, highlight_our_names)));
       } else if (playername
-                 && 0 == mystrncasecmp(p, playername, playerlen)) {
+                 && 0 == fc_strncasecmp(p, playername, playerlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
                              p - plain_text + playerlen,
@@ -1004,7 +1005,7 @@ void create_event(struct tile *ptile, enum event_type event,
   char message[MAX_LEN_MSG];
 
   va_start(ap, format);
-  my_vsnprintf(message, sizeof(message), format, ap);
+  fc_vsnprintf(message, sizeof(message), format, ap);
   va_end(ap);
 
   if (ft_color_requested(color)) {

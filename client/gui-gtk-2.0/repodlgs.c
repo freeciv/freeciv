@@ -529,9 +529,9 @@ void science_dialog_update(void)
       data = advance_name_for_player(client.conn.playing,
 			GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)));
     } else {
-      my_snprintf(text, sizeof(text), _("Future Tech. %d"),
-		  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
-		  - advance_count());
+      fc_snprintf(text, sizeof(text), _("Future Tech. %d"),
+                  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
+                  - advance_count());
       data=text;
     }
 
@@ -601,8 +601,8 @@ void science_dialog_update(void)
     gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
     gtk_size_group_add_widget(group1, label);
 
-    my_snprintf(text, sizeof(text), "%d",
-	num_unknown_techs_for_goal(client.conn.playing, tech));
+    fc_snprintf(text, sizeof(text), "%d",
+                num_unknown_techs_for_goal(client_player(), tech));
 
     label = gtk_label_new(text);
     gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
@@ -931,8 +931,9 @@ void economy_report_dialog_update(void)
       economy_row_type[i + nbr_impr].value.utype = entries_units[i].type;
     }
 
-    my_snprintf(economy_total, sizeof(economy_total),
-		_("Income: %d    Total Costs: %d"), tax, total_impr + total_unit); 
+    fc_snprintf(economy_total, sizeof(economy_total),
+                _("Income: %d    Total Costs: %d"),
+                tax, total_impr + total_unit); 
     gtk_label_set_text(GTK_LABEL(economy_label2), economy_total);
   }  
 }

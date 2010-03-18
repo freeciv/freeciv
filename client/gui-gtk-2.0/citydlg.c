@@ -1336,16 +1336,16 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
   char buf[512];
   const gchar *now;
 
-  my_snprintf(buf, sizeof(buf), _("<b>%s</b> - %s citizens"),
-	      city_name(pdialog->pcity),
-	      population_to_text(city_population(pdialog->pcity)));
+  fc_snprintf(buf, sizeof(buf), _("<b>%s</b> - %s citizens"),
+              city_name(pdialog->pcity),
+              population_to_text(city_population(pdialog->pcity)));
 
   if (city_unhappy(pdialog->pcity)) {
-    mystrlcat(buf, _(" - DISORDER"), sizeof(buf));
+    fc_strlcat(buf, _(" - DISORDER"), sizeof(buf));
   } else if (city_celebrating(pdialog->pcity)) {
-    mystrlcat(buf, _(" - celebrating"), sizeof(buf));
+    fc_strlcat(buf, _(" - celebrating"), sizeof(buf));
   } else if (city_happy(pdialog->pcity)) {
-    mystrlcat(buf, _(" - happy"), sizeof(buf));
+    fc_strlcat(buf, _(" - happy"), sizeof(buf));
   }
 
   now = gtk_label_get_text(GTK_LABEL(pdialog->name_label));
@@ -1420,49 +1420,49 @@ static void city_dialog_update_information(GtkWidget **info_ebox,
 
   /* fill the buffers with the necessary info */
 
-  my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
-	      pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
-  my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
-	      pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
-	      pcity->surplus[O_SHIELD]);
-  my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
-	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
-	      pcity->surplus[O_TRADE]);
-  my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
-	      pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
-  my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
-	      pcity->prod[O_LUXURY]);
+  fc_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
+              pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
+  fc_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
+              pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
+              pcity->surplus[O_SHIELD]);
+  fc_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
+              pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
+              pcity->surplus[O_TRADE]);
+  fc_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
+              pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
+  fc_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
+              pcity->prod[O_LUXURY]);
 
-  my_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
-	      pcity->prod[O_SCIENCE]);
+  fc_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
+              pcity->prod[O_SCIENCE]);
 
-  my_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
-	      pcity->food_stock, city_granary_size(pcity->size));
-	
+  fc_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
+              pcity->food_stock, city_granary_size(pcity->size));
+
   granaryturns = city_turns_to_grow(pcity);
   if (granaryturns == 0) {
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("blocked"));
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("blocked"));
   } else if (granaryturns == FC_INFINITY) {
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("never"));
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("never"));
   } else {
     /* A negative value means we'll have famine in that many turns.
        But that's handled down below. */
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
-		PL_("%d turn", "%d turns", abs(granaryturns)),
-		abs(granaryturns));
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
+                PL_("%d turn", "%d turns", abs(granaryturns)),
+                abs(granaryturns));
   }
-  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
+  fc_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
               pcity->waste[O_TRADE]);
-  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
+  fc_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
               pcity->waste[O_SHIELD]);
-  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
+  fc_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
               pcity->pollution);
   if (!game.info.illness_on) {
-    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
   } else {
     illness = city_illness_calc(pcity, NULL, NULL, NULL, NULL);
     /* illness is in tenth of percent */
-    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
                 (float)illness / 10.0);
   }
 
@@ -1571,9 +1571,8 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
     pct = 1.0;
   }
   
-  my_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
-	      worklist_is_empty(&pcity->worklist) ? "" : " (+)",
-	      buf);
+  fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+              worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), buf2);
   gtk_progress_bar_set_text(
@@ -1779,7 +1778,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
   gtk_tooltips_enable(pdialog->tips);
 
 
-  my_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
+  fc_snprintf(buf, sizeof(buf), _("Supported units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.supported_units_frame), buf);
 }
 
@@ -1894,7 +1893,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
   gtk_tooltips_enable(pdialog->tips);
 
 
-  my_snprintf(buf, sizeof(buf), _("Present units %d"), n);
+  fc_snprintf(buf, sizeof(buf), _("Present units %d"), n);
   gtk_frame_set_label(GTK_FRAME(pdialog->overview.present_units_frame), buf);
 }
 

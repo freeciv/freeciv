@@ -54,7 +54,7 @@ static int get_seat_for_player(const struct player *pplayer)
   for (i = 0; i < num_players; i++) {
     GGZSeat seat = ggzdmod_get_seat(ggzdmod, i);
 
-    if (mystrcasecmp(pplayer->username, seat.name) == 0) {
+    if (fc_strcasecmp(pplayer->username, seat.name) == 0) {
       return seat.num;
     }
   }
@@ -82,7 +82,7 @@ static struct player *get_player_for_seat(int seat_num)
   }
 
   players_iterate(pplayer) {
-    if (mystrcasecmp(pplayer->username, seat.name)) {
+    if (fc_strcasecmp(pplayer->username, seat.name)) {
       return pplayer;
     }
   } players_iterate_end;

@@ -1069,11 +1069,11 @@ static void targets_list_update(struct worklist_editor *peditor)
         break;
       }
 
-      my_snprintf(buf[0], BUFFER_SIZE, "%s",
+      fc_snprintf(buf[0], BUFFER_SIZE, "%s",
                   global_worklist_name(pgwl));
-      my_snprintf(buf[1], BUFFER_SIZE, _("Worklist"));
-      my_snprintf(buf[2], BUFFER_SIZE, "---");
-      my_snprintf(buf[3], BUFFER_SIZE, "---");
+      fc_snprintf(buf[1], BUFFER_SIZE, _("Worklist"));
+      fc_snprintf(buf[2], BUFFER_SIZE, "---");
+      fc_snprintf(buf[3], BUFFER_SIZE, "---");
     } else {
       struct universal target = 
         universal_by_number(wid_is_unit(wid) ? VUT_UTYPE : VUT_IMPROVEMENT,

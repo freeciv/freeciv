@@ -115,7 +115,7 @@ struct base_type *find_base_type_by_rule_name(const char *name)
   const char *qs = Qn_(name);
 
   base_type_iterate(pbase) {
-    if (!mystrcasecmp(base_rule_name(pbase), qs)) {
+    if (!fc_strcasecmp(base_rule_name(pbase), qs)) {
       return pbase;
     }
   } base_type_iterate_end;
@@ -174,7 +174,7 @@ enum base_flag_id base_flag_from_str(const char *s)
   fc_assert_ret_val(ARRAY_SIZE(base_type_flag_names) == BF_LAST, BF_LAST);
 
   for(i = 0; i < BF_LAST; i++) {
-    if (mystrcasecmp(base_type_flag_names[i], s)==0) {
+    if (fc_strcasecmp(base_type_flag_names[i], s)==0) {
       return i;
     }
   }
@@ -278,7 +278,7 @@ enum base_gui_type base_gui_type_from_str(const char *s)
                     BASE_GUI_LAST);
 
   for(i = 0; i < BASE_GUI_LAST; i++) {
-    if (mystrcasecmp(base_gui_type_names[i], s)==0) {
+    if (fc_strcasecmp(base_gui_type_names[i], s)==0) {
       return i;
     }
   }

@@ -426,12 +426,12 @@ int client_main(int argc, char *argv[])
   if (!is_valid_username(default_user_name)) {
     char buf[sizeof(default_user_name)];
 
-    my_snprintf(buf, sizeof(buf), "_%s", default_user_name);
+    fc_snprintf(buf, sizeof(buf), "_%s", default_user_name);
     if (is_valid_username(buf)) {
       sz_strlcpy(default_user_name, buf);
     } else {
-      my_snprintf(default_user_name, sizeof(default_user_name),
-		  "player%d", myrand(10000));
+      fc_snprintf(default_user_name, sizeof(default_user_name),
+                  "player%d", fc_rand(10000));
     }
   }
 
@@ -481,7 +481,7 @@ int client_main(int argc, char *argv[])
 
   /* This seed is not saved anywhere; randoms in the client should
      have cosmetic effects only (eg city name suggestions).  --dwp */
-  mysrand(time(NULL));
+  fc_srand(time(NULL));
   helpdata_init();
   boot_help_texts(NULL);
 

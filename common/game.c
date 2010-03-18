@@ -736,11 +736,11 @@ const char *textyear(int year)
   static char y[32];
   if (year < 0) {
     /* TRANS: <year> <label> -> "1000 BC" */
-    my_snprintf(y, sizeof(y), _("%d %s"), -year,
+    fc_snprintf(y, sizeof(y), _("%d %s"), -year,
                 game.info.negative_year_label);
   } else {
     /* TRANS: <year> <label> -> "1000 AD" */
-    my_snprintf(y, sizeof(y), _("%d %s"), year,
+    fc_snprintf(y, sizeof(y), _("%d %s"), year,
                 game.info.positive_year_label);
   }
   return y;

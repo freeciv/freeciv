@@ -402,7 +402,7 @@ void usleep_since_timer_start(struct timer *t, long usec)
       (t->type != TIMER_USER) ||
       (t->use != TIMER_ACTIVE) ||
       (t->state != TIMER_STARTED)) {
-    myusleep(usec);
+    fc_usleep(usec);
     return;
   }
 
@@ -412,7 +412,7 @@ void usleep_since_timer_start(struct timer *t, long usec)
   wait_usec = usec - elapsed_usec;
 
   if (wait_usec > 0)
-    myusleep(wait_usec);
+    fc_usleep(wait_usec);
 #elif HAVE_FTIME
   struct timeb now;
   long elapsed_usec, wait_usec;
@@ -424,10 +424,10 @@ void usleep_since_timer_start(struct timer *t, long usec)
   wait_usec = usec - elapsed_usec;
 
   if (wait_usec > 0) {
-    myusleep(wait_usec);
+    fc_usleep(wait_usec);
   }
 #else
-  myusleep(usec);
+  fc_usleep(usec);
 #endif
 }
 

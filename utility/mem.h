@@ -35,9 +35,8 @@
                                            
 #define FC_FREE(ptr)       do { free(ptr); (ptr) = NULL; } while(0)
 
-#define mystrdup(str)      real_mystrdup((str), "strdup", \
-					 __LINE__, __FILE__)
-     
+#define fc_strdup(str) real_fc_strdup((str), "strdup", __LINE__, __FILE__)
+
 /***********************************************************************/
 
 /* You shouldn't call these functions directly;
@@ -53,8 +52,8 @@ void *fc_real_calloc(size_t nelem, size_t elsize,
                      const char *called_as, int line, const char *file)
                      fc__attribute((warn_unused_result));
 
-char *real_mystrdup(const char *str, 
-                    const char *called_as, int line, const char *file)
-                    fc__attribute((warn_unused_result));
+char *real_fc_strdup(const char *str,
+                     const char *called_as, int line, const char *file)
+                     fc__attribute((warn_unused_result));
 
 #endif /* FC__MEM_H */

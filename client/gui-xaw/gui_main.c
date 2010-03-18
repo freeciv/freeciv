@@ -383,9 +383,9 @@ void ui_main(int argc, char *argv[])
     values.graphics_exposures = False;
     civ_gc = XCreateGC(display, root_window, GCGraphicsExposures, &values);
 
-    city_names_font = mystrdup("-*-*-*-*-*-*-14-*");
+    city_names_font = fc_strdup("-*-*-*-*-*-*-14-*");
 
-    city_productions_font_name = mystrdup("-*-*-*-*-*-*-14-*");
+    city_productions_font_name = fc_strdup("-*-*-*-*-*-*-14-*");
 
     main_font_set = XCreateFontSet(display, city_names_font,
 	&missing_charset_list_return,
@@ -681,7 +681,7 @@ void setup_widgets(void)
 
   for(i=0; i<num_units_below; i++) {
     char unit_below_name[32];
-    my_snprintf(unit_below_name, sizeof(unit_below_name),
+    fc_snprintf(unit_below_name, sizeof(unit_below_name),
 		"unitbelowcanvas%ld", i);
     unit_below_canvas[i] = XtVaCreateManagedWidget(unit_below_name,
 						   pixcommWidgetClass,

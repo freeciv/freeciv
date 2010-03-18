@@ -74,7 +74,7 @@ void make_random_hmap(int smooth)
   int i = 0;
   height_map = fc_malloc(sizeof(*height_map) * MAP_INDEX_SIZE);
 
-  INITIALIZE_ARRAY(height_map, MAP_INDEX_SIZE, myrand(1000 * smooth));
+  INITIALIZE_ARRAY(height_map, MAP_INDEX_SIZE, fc_rand(1000 * smooth));
 
   for (; i < smooth; i++) {
     smooth_int_map(height_map, TRUE);
@@ -124,18 +124,18 @@ static void gen5rec(int step, int x0, int y0, int x1, int y1)
   }
 
   set_midpoints((x0 + x1) / 2, y0,
-		(val[0][0] + val[1][0]) / 2 + myrand(step) - step / 2);
+                (val[0][0] + val[1][0]) / 2 + fc_rand(step) - step / 2);
   set_midpoints((x0 + x1) / 2,  y1wrap,
-		(val[0][1] + val[1][1]) / 2 + myrand(step) - step / 2);
+                (val[0][1] + val[1][1]) / 2 + fc_rand(step) - step / 2);
   set_midpoints(x0, (y0 + y1)/2,
-		(val[0][0] + val[0][1]) / 2 + myrand(step) - step / 2);  
+                (val[0][0] + val[0][1]) / 2 + fc_rand(step) - step / 2);
   set_midpoints(x1wrap,  (y0 + y1) / 2,
-		(val[1][0] + val[1][1]) / 2 + myrand(step) - step / 2);  
+                (val[1][0] + val[1][1]) / 2 + fc_rand(step) - step / 2);
 
   /* set middle to average of midpoints plus a random factor, if not set */
   set_midpoints((x0 + x1) / 2, (y0 + y1) / 2,
-		((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
-		 + myrand(step) - step / 2));
+                ((val[0][0] + val[0][1] + val[1][0] + val[1][1]) / 4
+                 + fc_rand(step) - step / 2));
 
 #undef set_midpoints
 
@@ -192,8 +192,8 @@ void make_pseudofractal1_hmap(int extra_div)
   for (xn = 0; xn < xdiv2; xn++) {
     for (yn = 0; yn < ydiv2; yn++) {
       do_in_map_pos(ptile, (xn * xmax / xdiv), (yn * ymax / ydiv)) {
-	/* set initial points */
-	hmap(ptile) = myrand(2 * step) - (2 * step) / 2;
+        /* set initial points */
+        hmap(ptile) = fc_rand(2 * step) - (2 * step) / 2;
 
 	if (near_singularity(ptile)) {
 	  /* avoid edges (topological singularities) */
@@ -202,7 +202,7 @@ void make_pseudofractal1_hmap(int extra_div)
 
 	if (map_colatitude(ptile) <= ICE_BASE_LEVEL / 2 ) {
 	  /* separate poles and avoid too much land at poles */
-	  hmap(ptile) -= myrand(avoidedge);
+          hmap(ptile) -= fc_rand(avoidedge);
 	}
       } do_in_map_pos_end;
     }
@@ -218,7 +218,7 @@ void make_pseudofractal1_hmap(int extra_div)
 
   /* put in some random fuzz */
   whole_map_iterate(ptile) {
-    hmap(ptile) = 8 * hmap(ptile) + myrand(4) - 2;
+    hmap(ptile) = 8 * hmap(ptile) + fc_rand(4) - 2;
   } whole_map_iterate_end;
 
   adjust_int_map(height_map, hmap_max_level);

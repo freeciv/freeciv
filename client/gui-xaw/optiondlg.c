@@ -87,7 +87,7 @@ void popup_option_dialog(const char *name)
                     NULL);
       break;
     case OT_INTEGER:
-      my_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
+      fc_snprintf(valstr, sizeof(valstr), "%d", option_int_get(poption));
       XtVaSetValues((Widget) gui_data, XtNstring, valstr, NULL);
       break;
     case OT_STRING:

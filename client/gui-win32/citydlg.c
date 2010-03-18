@@ -282,7 +282,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
     /* This takes effects (like Adam Smith's) into account. */
     upkeep = city_improvement_upkeep(pdialog->pcity, target.value.building);
 
-    my_snprintf(buf, sizeof(buf), "%d", upkeep);
+    fc_snprintf(buf, sizeof(buf), "%d", upkeep);
    
     row=fcwin_listview_add_row(pdialog->buildings_list,
 			   item, 2, strings);
@@ -291,7 +291,7 @@ void city_dialog_update_improvement_list(struct city_dialog *pdialog)
   }
   lvc.mask=LVCF_TEXT;
   lvc.pszText=buf;
-  my_snprintf(buf, sizeof(buf), _("Upkeep (Total: %d)"), total);
+  fc_snprintf(buf, sizeof(buf), _("Upkeep (Total: %d)"), total);
   ListView_SetColumn(pdialog->buildings_list,1,&lvc);
   ListView_SetColumnWidth(pdialog->buildings_list,0,LVSCW_AUTOSIZE);
   ListView_SetColumnWidth(pdialog->buildings_list,1,LVSCW_AUTOSIZE_USEHEADER);
@@ -418,7 +418,7 @@ void city_dialog_update_building(struct city_dialog *pdialog)
 
   get_city_dialog_production(pcity, buf, sizeof(buf));
   
-  my_snprintf(buf2, sizeof(buf2), "%s\r\n%s", descr, buf);
+  fc_snprintf(buf2, sizeof(buf2), "%s\r\n%s", descr, buf);
   SetWindowText(pdialog->build_area, buf2);
   SetWindowText(pdialog->build_area, buf2);
   resize_city_dialog(pdialog);
@@ -442,48 +442,48 @@ static void city_dialog_update_information(HWND *info_label,
 
   /* fill the buffers with the necessary info */
 
-  my_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
+  fc_snprintf(buf[FOOD], sizeof(buf[FOOD]), "%2d (%+2d)",
 	      pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
-  my_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
+  fc_snprintf(buf[SHIELD], sizeof(buf[SHIELD]), "%2d (%+2d)",
 	      pcity->prod[O_SHIELD] + pcity->waste[O_SHIELD],
 	      pcity->surplus[O_SHIELD]);
-  my_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
+  fc_snprintf(buf[TRADE], sizeof(buf[TRADE]), "%2d (%+2d)",
 	      pcity->surplus[O_TRADE] + pcity->waste[O_TRADE],
 	      pcity->surplus[O_TRADE]);
-  my_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
+  fc_snprintf(buf[GOLD], sizeof(buf[GOLD]), "%2d (%+2d)",
 	      pcity->prod[O_GOLD], pcity->surplus[O_GOLD]);
-  my_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
+  fc_snprintf(buf[LUXURY], sizeof(buf[LUXURY]), "%2d      ",
 	      pcity->prod[O_LUXURY]);
 
-  my_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
+  fc_snprintf(buf[SCIENCE], sizeof(buf[SCIENCE]), "%2d",
 	      pcity->prod[O_SCIENCE]);
 
-  my_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
+  fc_snprintf(buf[GRANARY], sizeof(buf[GRANARY]), "%d/%-d",
 	      pcity->food_stock, city_granary_size(pcity->size));
 	
   granaryturns = city_turns_to_grow(pcity);
   if (granaryturns == 0) {
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("blocked"));
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("blocked"));
   } else if (granaryturns == FC_INFINITY) {
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("never"));
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]), _("never"));
   } else {
     /* A negative value means we'll have famine in that many turns.
        But that's handled down below. */
-    my_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
+    fc_snprintf(buf[GROWTH], sizeof(buf[GROWTH]),
 		PL_("%d turn", "%d turns", abs(granaryturns)),
 		abs(granaryturns));
   }
-  my_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
+  fc_snprintf(buf[CORRUPTION], sizeof(buf[CORRUPTION]), "%4d",
               pcity->waste[O_TRADE]);
-  my_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
+  fc_snprintf(buf[WASTE], sizeof(buf[WASTE]), "%4d",
               pcity->waste[O_SHIELD]);
-  my_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
+  fc_snprintf(buf[POLLUTION], sizeof(buf[POLLUTION]), "%4d",
               pcity->pollution);
   if (!game.info.illness_on) {
-    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), " -.-");
   } else {
     /* illness is in tenth of percent */
-    my_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
+    fc_snprintf(buf[ILLNESS], sizeof(buf[ILLNESS]), "%4.1f",
                 (float)city_illness_calc(pcity, NULL, NULL, NULL, NULL)
                 / 10.0);
   }
@@ -918,7 +918,7 @@ static void buy_callback(struct city_dialog *pdialog)
   int value = city_production_buy_gold_cost(pcity);
  
   if (value <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
             _("Buy %s for %d gold?\nTreasury contains %d gold."),
             name, value, client.conn.playing->economic.gold);
  
@@ -927,7 +927,7 @@ static void buy_callback(struct city_dialog *pdialog)
                          _("_No"), buy_callback_no, 0, 0);
   }
   else {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
             _("%s costs %d gold.\nTreasury contains %d gold."),
             name, value, client.conn.playing->economic.gold);
  
@@ -973,7 +973,7 @@ static void sell_callback(struct city_dialog *pdialog)
   }
   
   pdialog->sell_id = pdialog->id_selected;
-  my_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
+  fc_snprintf(buf, sizeof(buf), _("Sell %s for %d gold?"),
 	      city_improvement_name_translation(pdialog->pcity, improvement_by_number(pdialog->id_selected)),
 	      impr_sell_gold(improvement_by_number(pdialog->id_selected)));
   

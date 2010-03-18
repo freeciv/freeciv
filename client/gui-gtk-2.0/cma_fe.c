@@ -493,7 +493,7 @@ static void update_cma_preset_list(struct cma_dialog *pdialog)
     gtk_tooltips_disable(pdialog->tips);
 
     for (i = 0; i < cmafec_preset_num(); i++) {
-      mystrlcpy(buf, cmafec_preset_get_descr(i), sizeof(buf));
+      fc_strlcpy(buf, cmafec_preset_get_descr(i), sizeof(buf));
       gtk_list_store_append(pdialog->store, &it);
       gtk_list_store_set(pdialog->store, &it, 0, buf, -1);
     }

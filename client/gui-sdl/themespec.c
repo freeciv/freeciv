@@ -195,7 +195,7 @@ const char **get_theme_list(void)
       struct theme *t = theme_read_toplevel(file);
 
       if (t) {
-        themes[count++] = mystrdup(file);
+        themes[count++] = fc_strdup(file);
         theme_free(t);
       }
     } strvec_iterate_end;
@@ -218,14 +218,14 @@ static char *themespec_fullname(const char *theme_name)
   if (theme_name) {
     char fname[strlen(theme_name) + strlen(THEMESPEC_SUFFIX) + 1], *dname;
 
-    my_snprintf(fname, sizeof(fname),
+    fc_snprintf(fname, sizeof(fname),
 		"%s%s", theme_name, THEMESPEC_SUFFIX);
 
 /*    dname = fileinfoname(get_data_dirs(), fname);*/
     dname = fname;
 
     if (dname) {
-      return mystrdup(dname);
+      return fc_strdup(dname);
     }
   }
 
@@ -580,14 +580,14 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 
         if (!duplicates_ok) {
           for (k = 0; k < num_tags; k++) {
-            if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
+            if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
               log_error("warning: already have a sprite for \"%s\".",
                         tags[k]);
             }
           }
         } else {
           for (k = 0; k < num_tags; k++) {
-            (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
+            (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
           }
         }
 
@@ -620,7 +620,7 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 
     ss = fc_malloc(sizeof(*ss));
     ss->ref_count = 0;
-    ss->file = mystrdup(filename);
+    ss->file = fc_strdup(filename);
     ss->sf = NULL;
     ss->sprite = NULL;
     ss->hot_x = hot_x;
@@ -630,13 +630,13 @@ static void scan_specfile(struct theme *t, struct specfile *sf,
 
     if (!duplicates_ok) {
       for (k = 0; k < num_tags; k++) {
-        if (!hash_insert(t->sprite_hash, mystrdup(tags[k]), ss)) {
+        if (!hash_insert(t->sprite_hash, fc_strdup(tags[k]), ss)) {
           log_error("warning: already have a sprite for \"%s\".", tags[k]);
         }
       }
     } else {
       for (k = 0; k < num_tags; k++) {
-        (void) hash_replace(t->sprite_hash, mystrdup(tags[k]), ss);
+        (void) hash_replace(t->sprite_hash, fc_strdup(tags[k]), ss);
       }
     }
     FC_FREE(tags);
@@ -666,7 +666,7 @@ char *themespec_gfx_filename(const char *gfx_filename)
     real_full_name = fileinfoname(get_data_dirs(), full_name);
     FC_FREE(full_name);
     if (real_full_name) {
-      return mystrdup(real_full_name);
+      return fc_strdup(real_full_name);
     }
   }
 
@@ -740,7 +740,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
     c = secfile_lookup_str(file, "themespec.font_file");
   }
   if ((filename = fileinfoname(get_data_dirs(), c))) {
-    t->font_filename = mystrdup(filename);
+    t->font_filename = fc_strdup(filename);
   } else {
     log_fatal("Could not open font: %s", c);
     secfile_destroy(file);
@@ -779,7 +779,7 @@ struct theme *theme_read_toplevel(const char *theme_name)
       theme_free(t);
       return NULL;
     }
-    sf->file_name = mystrdup(filename);
+    sf->file_name = fc_strdup(filename);
     scan_specfile(t, sf, duplicates_ok);
 
     specfile_list_prepend(t->specfiles, sf);

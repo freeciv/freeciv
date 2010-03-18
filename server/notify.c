@@ -67,12 +67,12 @@ static void package_event_full(struct packet_chat_msg *packet,
     /* A color is requested. */
     char buf[MAX_LEN_MSG];
 
-    my_vsnprintf(buf, sizeof(buf), format, vargs);
+    fc_vsnprintf(buf, sizeof(buf), format, vargs);
     featured_text_apply_tag(buf, packet->message, sizeof(packet->message),
                             TTT_COLOR, 0, FT_OFFSET_UNSET, color);
   } else {
     /* Simple case */
-    my_vsnprintf(packet->message, sizeof(packet->message), format, vargs);
+    fc_vsnprintf(packet->message, sizeof(packet->message), format, vargs);
   }
 }
 
@@ -644,7 +644,7 @@ void send_pending_events(struct connection *pconn, bool include_public)
         strftime(timestr, sizeof(timestr), "%H:%M:%S",
                  localtime(&pdata->timestamp));
         pcm = pdata->packet;
-        my_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
+        fc_snprintf(pcm.message, sizeof(pcm.message), "(T%d - %s) %s",
                     pdata->turn, timestr, pdata->packet.message);
         notify_conn_packet(pconn->self, &pcm);
       } else {
@@ -687,7 +687,7 @@ void event_cache_load(struct section_file *file, const char *section)
       log_verbose("[Event cache %4d] Missing event type.", i);
       continue;
     }
-    packet.event = event_type_by_name(p, mystrcasecmp);
+    packet.event = event_type_by_name(p, fc_strcasecmp);
     if (!event_type_is_valid(packet.event)) {
       log_verbose("[Event cache %4d] Not supported event type: %s", i, p);
       continue;
@@ -712,7 +712,7 @@ void event_cache_load(struct section_file *file, const char *section)
       log_verbose("[Event cache %4d] Missing server state info.", i);
       continue;
     }
-    server_status = server_states_by_name(p, mystrcasecmp);
+    server_status = server_states_by_name(p, fc_strcasecmp);
     if (!server_states_is_valid(server_status)) {
       log_verbose("[Event cache %4d] Server state no supported: %s", i, p);
       continue;
@@ -722,9 +722,9 @@ void event_cache_load(struct section_file *file, const char *section)
     if (NULL == p) {
       log_verbose("[Event cache %4d] Missing target info.", i);
       continue;
-    } else if (0 == mystrcasecmp(p, "All")) {
+    } else if (0 == fc_strcasecmp(p, "All")) {
       target_type = ECT_ALL;
-    } else if (0 == mystrcasecmp(p, "Global Observers")) {
+    } else if (0 == fc_strcasecmp(p, "Global Observers")) {
       target_type = ECT_GLOBAL_OBSERVERS;
     } else {
       bool valid = TRUE;
@@ -794,7 +794,7 @@ void event_cache_save(struct section_file *file, const char *section)
                        "%s.events%d.event", section, event_count);
     switch (pdata->target_type) {
     case ECT_ALL:
-      my_snprintf(target, sizeof(target), "All");
+      fc_snprintf(target, sizeof(target), "All");
       break;
     case ECT_PLAYERS:
       p = target;
@@ -804,7 +804,7 @@ void event_cache_save(struct section_file *file, const char *section)
       *p = '\0';
     break;
     case ECT_GLOBAL_OBSERVERS:
-      my_snprintf(target, sizeof(target), "Global Observers");
+      fc_snprintf(target, sizeof(target), "Global Observers");
       break;
     }
     secfile_insert_str(file, target, "%s.events%d.target",

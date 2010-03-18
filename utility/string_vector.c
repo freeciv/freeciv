@@ -45,7 +45,7 @@ static void string_free(char *string)
 static char *string_duplicate(const char *string)
 {
   if (string) {
-    return mystrdup(string);
+    return fc_strdup(string);
   }
   return NULL;
 }

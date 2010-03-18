@@ -310,10 +310,10 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(gov)), TRUE);    
   
   if (NULL != client.conn.playing) {
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     government_name_for_player(client.conn.playing));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     "None");
   }        
   copy_chars_to_string16(pBuf->string16, cBuf);
@@ -330,17 +330,17 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 
   if (NULL == client.conn.playing) {
     /* TRANS: Research report action */
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
                                     "None", 0, 0);
   } else if (A_UNSET != get_player_research(client.conn.playing)->researching) {
     /* TRANS: Research report action */
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
 		advance_name_researching(client.conn.playing),
 		get_player_research(client.conn.playing)->bulbs_researched,
 		total_bulbs_required(client.conn.playing));
   } else {
     /* TRANS: Research report action */
-    my_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
 		advance_name_researching(client.conn.playing),
 		get_player_research(client.conn.playing)->bulbs_researched,
 		0);
@@ -408,7 +408,7 @@ void update_info_label(void)
 
   if (NULL != client.conn.playing) {
 #ifdef SMALL_SCREEN
-    my_snprintf(buffer, sizeof(buffer),
+    fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d "),
                 nation_adjective_for_player(client.conn.playing),
@@ -416,7 +416,7 @@ void update_info_label(void)
                 textyear(game.info.year),
                 client.conn.playing->economic.gold);
 #else
-    my_snprintf(buffer, sizeof(buffer),
+    fc_snprintf(buffer, sizeof(buffer),
                 _("%s Population: %s  Year: %s  "
                   "Gold %d Tax: %d Lux: %d Sci: %d "),
                 nation_adjective_for_player(client.conn.playing),
@@ -548,7 +548,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           (DEFAULT_UNITS_H + (pInfo_Window->size.h - pInfo_Window->area.h)) || right) {
 	int h = TTF_FontHeight(pInfo_Window->string16->font);
 				     
-	my_snprintf(buffer, sizeof(buffer),"%s",
+	fc_snprintf(buffer, sizeof(buffer),"%s",
 				sdl_get_tile_defense_info_text(pTile));
 	
         if (pInfo_Window->size.h > 
@@ -760,7 +760,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    
 	  pUType = unit_type(aunit);
           pHome_City = game_find_city_by_number(aunit->homecity);
-          my_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
+          fc_snprintf(buffer, sizeof(buffer), "%s (%d,%d,%d)%s\n%s\n(%d/%d)\n%s",
 		utype_name_translation(pUType),
 		pUType->attack_strength,
 		pUType->defense_strength, pUType->move_rate / SINGLE_MOVE,
@@ -886,7 +886,7 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 
       if (NULL != client.conn.playing) {
         char buf[256];
-        my_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
+        fc_snprintf(buf, sizeof(buf), "%s\n%s\n%s",
                     _("End of Turn"), _("Press"), _("Shift+Return"));
         pStr = create_str16_from_char(buf, adj_font(14));
         pStr->style = SF_CENTER;

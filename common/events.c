@@ -226,8 +226,8 @@ static int compar_event_message_texts(const void *i1, const void *i2)
   const enum event_type *j1 = i1;
   const enum event_type *j2 = i2;
   
-  return mystrcasecmp(get_event_message_text(*j1),
-		      get_event_message_text(*j2));
+  return fc_strcasecmp(get_event_message_text(*j1),
+                       get_event_message_text(*j2));
 }
 
 /****************************************************************************
@@ -307,7 +307,7 @@ void events_init(void)
       int l = 1 + strlen(event_format) + strlen(_(events[i].descr_orig));
 
       events[i].full_descr = fc_malloc(l);
-      my_snprintf(events[i].full_descr, l, event_format,
+      fc_snprintf(events[i].full_descr, l, event_format,
                   _(events[i].descr_orig));
     } else {
       /* No section part */
@@ -315,9 +315,9 @@ void events_init(void)
     }
 
     event_to_index[events[i].event] = i;
-    events[i].tag_name = mystrdup(events[i].enum_name);
+    events[i].tag_name = fc_strdup(events[i].enum_name);
     for (j = 0; j < strlen(events[i].tag_name); j++) {
-      events[i].tag_name[j] = my_tolower(events[i].tag_name[j]);
+      events[i].tag_name[j] = fc_tolower(events[i].tag_name[j]);
     }
     log_debug("event[%d]=%d: name='%s' / '%s'\n"
               "\tdescr_orig='%s'\n"

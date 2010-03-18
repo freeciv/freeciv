@@ -156,9 +156,9 @@ void global_worklists_unbuild(void)
       for (i = 0; i < worklist_length(&worklist); i++) {
         puni_name = pgwl->unbuilt.entries + i;
         puni_name->kind =
-          mystrdup(universal_type_rule_name(worklist.entries + i));
+          fc_strdup(universal_type_rule_name(worklist.entries + i));
         puni_name->name =
-          mystrdup(universal_rule_name(worklist.entries + i));
+          fc_strdup(universal_rule_name(worklist.entries + i));
       }
     }
   } global_worklists_iterate_all_end;
@@ -341,7 +341,7 @@ static bool global_worklist_load(struct section_file *file,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  fc_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   length = secfile_lookup_int_default(file, -1, "%s.wl_length", path_str);
@@ -373,8 +373,8 @@ static bool global_worklist_load(struct section_file *file,
     if (NULL == kind || '\0' == kind[0] || NULL == name || '\0' == name[0]) {
       break;
     } else {
-      pgwl->unbuilt.entries[i].kind = mystrdup(kind);
-      pgwl->unbuilt.entries[i].name = mystrdup(name);
+      pgwl->unbuilt.entries[i].kind = fc_strdup(kind);
+      pgwl->unbuilt.entries[i].name = fc_strdup(name);
       pgwl->unbuilt.length++;
     }
   }
@@ -418,7 +418,7 @@ static void global_worklist_save(const struct global_worklist *pgwl,
   /* The first part of the registry path is taken from the varargs to the
    * function. */
   va_start(ap, path);
-  my_vsnprintf(path_str, sizeof(path_str), path, ap);
+  fc_vsnprintf(path_str, sizeof(path_str), path, ap);
   va_end(ap);
 
   secfile_insert_str(file, pgwl->name, "%s.wl_name", path_str);  

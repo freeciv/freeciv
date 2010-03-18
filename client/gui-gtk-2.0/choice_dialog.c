@@ -39,7 +39,7 @@ static GtkWidget* choice_dialog_get_nth_button(GtkWidget *cd,
   char button_name[512];
   GtkWidget *b;
 
-  my_snprintf(button_name, sizeof(button_name), "button%d", button);
+  fc_snprintf(button_name, sizeof(button_name), "button%d", button);
 
   b = g_object_get_data(G_OBJECT(cd), button_name);
 
@@ -130,7 +130,7 @@ void choice_dialog_add(GtkWidget *dshell, const gchar *label,
   nbuttons = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(dshell), "nbuttons"));
   g_object_set_data(G_OBJECT(dshell), "nbuttons", GINT_TO_POINTER(nbuttons+1));
 
-  my_snprintf(name, sizeof(name), "button%d", nbuttons);
+  fc_snprintf(name, sizeof(name), "button%d", nbuttons);
 
   button = gtk_button_new_from_stock(label);
   gtk_container_add(GTK_CONTAINER(bbox), button);

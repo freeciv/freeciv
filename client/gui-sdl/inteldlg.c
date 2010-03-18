@@ -257,7 +257,7 @@ void update_intel_dialog(struct player *p)
     pBuf->action = spaceship_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.player = p;
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"), 
                 nation_adjective_for_player(p));
     pBuf->string16 = create_str16_from_char(cBuf, adj_font(12));
@@ -265,7 +265,7 @@ void update_intel_dialog(struct player *p)
     add_to_gui_list(ID_ICON, pBuf);
           
     /* ---------- */
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information for the %s Empire"), 
                 nation_adjective_for_player(p));
     
@@ -288,7 +288,7 @@ void update_intel_dialog(struct player *p)
     switch (research->researching) {
     case A_UNKNOWN:
     case A_UNSET:
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: unknown"),
         ruler_title_translation(p),
@@ -300,7 +300,7 @@ void update_intel_dialog(struct player *p)
         p->economic.tax, p->economic.science, p->economic.luxury);
       break;
     default:
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
         _("Ruler: %s %s  Government: %s\nCapital: %s  Gold: %d\nTax: %d%%"
           " Science: %d%% Luxury: %d%%\nResearching: %s(%d/%d)"),
         ruler_title_translation(p),
@@ -369,7 +369,7 @@ void update_intel_dialog(struct player *p)
       
       area.w = MAX(area.w, col * pBuf->size.w + count);
       
-      my_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
+      fc_snprintf(cBuf, sizeof(cBuf), _("Their techs that we don't have :"));
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText2 = create_text_surf_from_str16(pStr);

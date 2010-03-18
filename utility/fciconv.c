@@ -101,15 +101,15 @@ void init_character_encodings(const char *my_internal_encoding,
     local_encoding = "";
 #endif
 #endif
-    if (mystrcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
-	|| mystrcasecmp(local_encoding, "ASCII") == 0
-	|| mystrcasecmp(local_encoding, "US-ASCII") == 0) {
+    if (fc_strcasecmp(local_encoding, "ANSI_X3.4-1968") == 0
+        || fc_strcasecmp(local_encoding, "ASCII") == 0
+        || fc_strcasecmp(local_encoding, "US-ASCII") == 0) {
       /* HACK: use latin1 instead of ascii in typical cases when the
        * encoding is unconfigured. */
       local_encoding = "ISO-8859-1";
     }
 
-    if (mystrcasecmp(local_encoding, "646") == 0) {
+    if (fc_strcasecmp(local_encoding, "646") == 0) {
       /* HACK: On Solaris the encoding always comes up as "646" (ascii),
        * which iconv doesn't understand.  Work around it by using UTF-8
        * instead. */
@@ -219,9 +219,9 @@ char *convert_string(const char *text,
               from, to, fc_strerror(fc_get_errno()));
     /* The best we can do? */
     if (alloc) {
-      return mystrdup(text);
+      return fc_strdup(text);
     } else {
-      my_snprintf(buf, bufsz, "%s", text);
+      fc_snprintf(buf, bufsz, "%s", text);
       return buf;
     }
   }
@@ -255,9 +255,9 @@ char *convert_string(const char *text,
         iconv_close(cd);
         if (alloc) {
           free(buf);
-          return mystrdup(text); /* The best we can do? */
+          return fc_strdup(text); /* The best we can do? */
         } else {
-          my_snprintf(buf, bufsz, "%s", text);
+          fc_snprintf(buf, bufsz, "%s", text);
           return buf;
         }
       }
@@ -287,7 +287,7 @@ char *convert_string(const char *text,
     buf[bufsz - 1] = '\0';
     return buf;
   } else {
-    return mystrdup(text);
+    return fc_strdup(text);
   }
 #endif /* HAVE_ICONV */
 }
@@ -298,7 +298,7 @@ char *src ## _to_ ## dst ## _string_malloc(const char *text)                \
   const char *encoding1 = (dst ## _encoding);				    \
   char encoding[strlen(encoding1) + strlen(transliteration_string) + 1];    \
 									    \
-  my_snprintf(encoding, sizeof(encoding),				    \
+  fc_snprintf(encoding, sizeof(encoding),				    \
 	      "%s%s", encoding1, transliteration_string);		    \
   return convert_string(text, (src ## _encoding),			    \
 			(encoding), NULL, 0);				    \
@@ -311,7 +311,7 @@ char *src ## _to_ ## dst ## _string_buffer(const char *text,                \
   const char *encoding1 = (dst ## _encoding);				    \
   char encoding[strlen(encoding1) + strlen(transliteration_string) + 1];    \
 									    \
-  my_snprintf(encoding, sizeof(encoding),				    \
+  fc_snprintf(encoding, sizeof(encoding),				    \
 	      "%s%s", encoding1, transliteration_string);		    \
   return convert_string(text, (src ## _encoding),			    \
                         encoding, buf, bufsz);				    \
@@ -355,7 +355,7 @@ void fc_fprintf(FILE *stream, const char *format, ...)
   }
 
   va_start(ap, format);
-  my_vsnprintf(string, sizeof(string), format, ap);
+  fc_vsnprintf(string, sizeof(string), format, ap);
   va_end(ap);
 
   recursion = TRUE;

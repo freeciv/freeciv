@@ -160,21 +160,21 @@ static void real_info_city_report_dialog_update(void)
     pCityRep = fc_calloc(1, sizeof(struct ADVANCED_DLG));
   }
   
-  my_snprintf(cBuf, sizeof(cBuf), _("size"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("size"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= SF_CENTER;
   pText1 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("time\nto grow"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("time\nto grow"));
   copy_chars_to_string16(pStr, cBuf);
   pText2 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("City Name"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("City Name"));
   copy_chars_to_string16(pStr, cBuf);
   pText3 = create_text_surf_from_str16(pStr);
   name_w = pText3->w + adj_size(6);
       
-  my_snprintf(cBuf, sizeof(cBuf), _("Production"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Production"));
   copy_chars_to_string16(pStr, cBuf);
   pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYREP_TEXT);
   pText4 = create_text_surf_from_str16(pStr);
@@ -289,7 +289,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);  
 
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -314,7 +314,7 @@ static void real_info_city_report_dialog_update(void)
     pBuf->action = popup_cma_from_city_report_callback;
         
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_OVERVIEW_LAND);	
@@ -328,7 +328,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
 
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_FOOD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_FOOD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_FOOD_SURPLUS);
@@ -345,13 +345,13 @@ static void real_info_city_report_dialog_update(void)
     togrow = city_turns_to_grow(pCity);
     switch (togrow) {
       case 0:
-        my_snprintf(cBuf, sizeof(cBuf), "#");
+        fc_snprintf(cBuf, sizeof(cBuf), "#");
       break;
       case FC_INFINITY:
-        my_snprintf(cBuf, sizeof(cBuf), "--");
+        fc_snprintf(cBuf, sizeof(cBuf), "--");
       break;
       default:
-        my_snprintf(cBuf, sizeof(cBuf), "%d", togrow);
+        fc_snprintf(cBuf, sizeof(cBuf), "%d", togrow);
       break;
     }
     
@@ -370,7 +370,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
    
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_TRADE]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_TRADE]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_TRADE);
@@ -384,7 +384,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_TRADE]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_TRADE]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -397,7 +397,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
             
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_GOLD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_GOLD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_GOLD);
@@ -411,7 +411,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SCIENCE]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SCIENCE]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_SCIENCE);
@@ -425,7 +425,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
     
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_LUXURY]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_LUXURY]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_LUX);
@@ -439,7 +439,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
   
   /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d",
+    fc_snprintf(cBuf, sizeof(cBuf), "%d",
   			pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
@@ -454,7 +454,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
   
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_SHIELD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_SHIELD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -467,7 +467,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
   
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d",
+    fc_snprintf(cBuf, sizeof(cBuf), "%d",
 	  pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD] - pCity->surplus[O_SHIELD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
@@ -482,7 +482,7 @@ static void real_info_city_report_dialog_update(void)
     add_to_gui_list(MAX_ID - pCity->id, pBuf);
   
     /* ----------- */
-    my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_SHIELD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_SHIELD]);
     pStr = create_str16_from_char(cBuf, adj_font(10));
     pStr->style |= SF_CENTER;
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_CITYDLG_TRADE);
@@ -516,10 +516,10 @@ static void real_info_city_report_dialog_update(void)
       dst.x = pLogo->w - pIcons->pWorklist->w;
       dst.y = 0;
       alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
-      my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
+      fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
       	pName, pCity->shield_stock, togrow, _("worklist"));
     } else {
-      my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)%s",
+      fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)%s",
       	pName, pCity->shield_stock, togrow,
 	      pCity->shield_stock > togrow ? _("\nfinished"): "" );
     }
@@ -531,9 +531,9 @@ static void real_info_city_report_dialog_update(void)
     togrow = city_production_turns_to_build(pCity, TRUE);
     if(togrow == 999)
     {
-      my_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));
+      fc_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));
     } else {
-      my_snprintf(cBuf, sizeof(cBuf), "%d %s",
+      fc_snprintf(cBuf, sizeof(cBuf), "%d %s",
       			togrow, PL_("turn", "turns", togrow));
     }
   
@@ -930,7 +930,7 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
    
   /* city size */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->size);
   copy_chars_to_string16(pWidget->string16, cBuf);
       
   /* cma check box */
@@ -941,12 +941,12 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   
   /* food consumptions */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_FOOD] - pCity->surplus[O_FOOD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* food surplus */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_FOOD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_FOOD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* time to grow */
@@ -954,13 +954,13 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   togrow = city_turns_to_grow(pCity);
   switch (togrow) {
     case 0:
-      my_snprintf(cBuf, sizeof(cBuf), "#");
+      fc_snprintf(cBuf, sizeof(cBuf), "#");
     break;
     case FC_INFINITY:
-      my_snprintf(cBuf, sizeof(cBuf), "--");
+      fc_snprintf(cBuf, sizeof(cBuf), "--");
     break;
     default:
-      my_snprintf(cBuf, sizeof(cBuf), "%d", togrow);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", togrow);
     break;
   }
   copy_chars_to_string16(pWidget->string16, cBuf);
@@ -973,49 +973,49 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
     
   /* trade production */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_TRADE]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_TRADE]);
   copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* corruptions */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_TRADE]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_TRADE]);
   copy_chars_to_string16(pWidget->string16, cBuf);
             
   /* gold surplus */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_GOLD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_GOLD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* science income */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SCIENCE]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SCIENCE]);
   copy_chars_to_string16(pWidget->string16, cBuf);
     
   /* lugury income */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_LUXURY]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_LUXURY]);
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* total production */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d",
+  fc_snprintf(cBuf, sizeof(cBuf), "%d",
   			pCity->prod[O_SHIELD] + pCity->waste[O_SHIELD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* waste */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_SHIELD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->waste[O_SHIELD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* units support */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SHIELD] +
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->prod[O_SHIELD] +
                             pCity->waste[O_SHIELD] - pCity->surplus[O_SHIELD]);          
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* production income */
   pWidget = pWidget->prev;
-  my_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_SHIELD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", pCity->surplus[O_SHIELD]);
   copy_chars_to_string16(pWidget->string16, cBuf);
   
   /* change production */
@@ -1037,10 +1037,10 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
     dst.x = pLogo->w - pIcons->pWorklist->w;
     dst.y = 0;
     alphablit(pIcons->pWorklist, NULL, pLogo, &dst);
-    my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)\n%s",
       	pName, pCity->shield_stock, togrow, _("worklist"));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s\n(%d/%d)",
       		pName, pCity->shield_stock, togrow);
   }
     
@@ -1055,9 +1055,9 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
   togrow = city_production_turns_to_build(pCity, TRUE);
   if(togrow == 999)
   {
-    my_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));
+    fc_snprintf(cBuf, sizeof(cBuf), "%s", _("never"));
   } else {
-    my_snprintf(cBuf, sizeof(cBuf), "%d %s",
+    fc_snprintf(cBuf, sizeof(cBuf), "%d %s",
       			togrow, PL_("turn", "turns", togrow));
   }
   

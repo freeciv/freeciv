@@ -92,7 +92,7 @@ size_t color_to_string(GdkColor *color, char *string, size_t length)
     string[0] = '\0';
     return 0;
   } else {
-    return my_snprintf(string, length, "#%02x%02x%02x",
+    return fc_snprintf(string, length, "#%02x%02x%02x",
                        color->red >> 8, color->green >> 8, color->blue >> 8);
   }
 }

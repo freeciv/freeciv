@@ -149,7 +149,7 @@ static gboolean intro_expose(GtkWidget *w, GdkEventExpose *ev)
     pango_layout_set_font_description(layout,
          pango_font_description_from_string("Sans Bold 10"));
 
-    my_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
+    fc_snprintf(msgbuf, sizeof(msgbuf), "%s%s",
                 word_version(), VERSION_STRING);
     pango_layout_set_text(layout, msgbuf, -1);
 
@@ -468,7 +468,7 @@ void append_network_statusbar(const char *text, bool force)
       clear_network_statusbar();
       gtk_label_set_text(GTK_LABEL(statusbar), text);
     } else {
-      g_queue_push_tail(statusbar_queue, mystrdup(text));
+      g_queue_push_tail(statusbar_queue, fc_strdup(text));
     }
   }
 }
@@ -720,7 +720,7 @@ static void network_list_callback(GtkTreeSelection *select, gpointer data)
   gtk_tree_model_get(model, &it, 0, &host, 1, &port, -1);
 
   gtk_entry_set_text(GTK_ENTRY(network_host), host);
-  my_snprintf(portstr, sizeof(portstr), "%d", port);
+  fc_snprintf(portstr, sizeof(portstr), "%d", port);
   gtk_entry_set_text(GTK_ENTRY(network_port), portstr);
 }
 
@@ -736,7 +736,7 @@ static void update_network_page(void)
 
   gtk_entry_set_text(GTK_ENTRY(network_login), user_name);
   gtk_entry_set_text(GTK_ENTRY(network_host), server_host);
-  my_snprintf(buf, sizeof(buf), "%d", server_port);
+  fc_snprintf(buf, sizeof(buf), "%d", server_port);
   gtk_entry_set_text(GTK_ENTRY(network_port), buf);
 
   set_connection_state(LOGIN_TYPE);
@@ -1249,8 +1249,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   menu = gtk_menu_new();
 
-  my_snprintf(buf, sizeof(buf), _("%s info"),
-	      pconn ? pconn->username : player_name(pplayer));
+  fc_snprintf(buf, sizeof(buf), _("%s info"),
+              pconn ? pconn->username : player_name(pplayer));
   entry = gtk_menu_item_new_with_label(buf);
   g_object_set_data_full(G_OBJECT(menu),
 			 "info", entry,
@@ -1368,7 +1368,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
         static char lvl_cmd_tmp[AI_LEVEL_LAST][50];
 
         /* Copy to non-const string */
-        mystrlcpy(lvl_cmd_tmp[level], level_cmd, sizeof(lvl_cmd_tmp[level]));
+        fc_strlcpy(lvl_cmd_tmp[level], level_cmd,
+                   sizeof(lvl_cmd_tmp[level]));
 
         entry = gtk_menu_item_new_with_label(level_name);
         g_object_set_data_full(G_OBJECT(menu),
@@ -1406,7 +1407,8 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       }
 
       /* TRANS: e.g., "Put on Team 5" */
-      my_snprintf(text, sizeof(text), _("Put on %s"), team_name_translation(pteam));
+      fc_snprintf(text, sizeof(text), _("Put on %s"),
+                  team_name_translation(pteam));
       entry = gtk_menu_item_new_with_label(text);
       g_object_set_data_full(G_OBJECT(menu),
 			     team_rule_name(pteam), entry,

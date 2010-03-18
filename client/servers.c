@@ -61,7 +61,7 @@
 #include "log.h"
 #include "mem.h"
 #include "netintf.h"
-#include "rand.h" /* myrand() */
+#include "rand.h" /* fc_rand() */
 #include "registry.h"
 #include "support.h"
 
@@ -125,19 +125,19 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
     struct server *pserver = (struct server*)fc_malloc(sizeof(struct server));
 
     host = secfile_lookup_str_default(file, "", "server%d.host", i);
-    pserver->host = mystrdup(host);
+    pserver->host = fc_strdup(host);
 
     port = secfile_lookup_str_default(file, "", "server%d.port", i);
     pserver->port = atoi(port);
 
     version = secfile_lookup_str_default(file, "", "server%d.version", i);
-    pserver->version = mystrdup(version);
+    pserver->version = fc_strdup(version);
 
     state = secfile_lookup_str_default(file, "", "server%d.state", i);
-    pserver->state = mystrdup(state);
+    pserver->state = fc_strdup(state);
 
     message = secfile_lookup_str_default(file, "", "server%d.message", i);
-    pserver->message = mystrdup(message);
+    pserver->message = fc_strdup(message);
 
     nplayers = secfile_lookup_str_default(file, "0", "server%d.nplayers", i);
     n = atoi(nplayers);
@@ -154,19 +154,19 @@ static struct server_list *parse_metaserver_data(fz_FILE *f)
 
       name = secfile_lookup_str_default(file, "", 
                                         "server%d.player%d.name", i, j);
-      pserver->players[j].name = mystrdup(name);
+      pserver->players[j].name = fc_strdup(name);
 
       type = secfile_lookup_str_default(file, "",
                                         "server%d.player%d.type", i, j);
-      pserver->players[j].type = mystrdup(type);
+      pserver->players[j].type = fc_strdup(type);
 
       host = secfile_lookup_str_default(file, "", 
                                         "server%d.player%d.host", i, j);
-      pserver->players[j].host = mystrdup(host);
+      pserver->players[j].host = fc_strdup(host);
 
       nation = secfile_lookup_str_default(file, "",
                                           "server%d.player%d.nation", i, j);
-      pserver->players[j].nation = mystrdup(nation);
+      pserver->players[j].nation = fc_strdup(nation);
     }
 
     server_list_append(server_list, pserver);
@@ -186,11 +186,7 @@ static void my_uname(char *buf, size_t len)
     struct utsname un;
 
     uname(&un);
-    my_snprintf(buf, len,
-		"%s %s [%s]",
-		un.sysname,
-		un.release,
-		un.machine);
+    fc_snprintf(buf, len, "%s %s [%s]", un.sysname, un.release, un.machine);
   }
 #else /* ! HAVE_UNAME */
   /* Fill in here if you are making a binary without sys/utsname.h and know
@@ -251,8 +247,8 @@ static void my_uname(char *buf, size_t len)
 	    ptype = 6;
 	  else
 	    ptype = sysinfo.wProcessorLevel;
-	  
-	  my_snprintf(cpuname, sizeof(cpuname), "i%d86", ptype);
+
+          fc_snprintf(cpuname, sizeof(cpuname), "i%d86", ptype);
 	}
 	break;
 
@@ -276,14 +272,11 @@ static void my_uname(char *buf, size_t len)
 	sz_strlcpy(cpuname, "unknown");
 	break;
     }
-    my_snprintf(buf, len,
-		"%s %ld.%ld [%s]",
-		osname, osvi.dwMajorVersion, osvi.dwMinorVersion,
-		cpuname);
+    fc_snprintf(buf, len, "%s %ld.%ld [%s]",
+                osname, osvi.dwMajorVersion, osvi.dwMinorVersion, cpuname);
   }
 #else
-  my_snprintf(buf, len,
-              "unknown unknown [unknown]");
+  fc_snprintf(buf, len, "unknown unknown [unknown]");
 #endif
 #endif /* HAVE_UNAME */
 }
@@ -301,7 +294,7 @@ static void meta_send_request(struct server_scan *scan)
 
   capstr = fc_url_encode(our_capability);
 
-  my_snprintf(str, sizeof(str),
+  fc_snprintf(str, sizeof(str),
     "POST %s HTTP/1.1\r\n"
     "Host: %s:%d\r\n"
     "User-Agent: Freeciv/%s %s %s\r\n"
@@ -338,7 +331,7 @@ static void meta_read_response(struct server_scan *scan)
     char filename[MAX_PATH];
 
     GetTempPath(sizeof(filename), filename);
-    cat_snprintf(filename, sizeof(filename), "fctmp%d", myrand(1000));
+    cat_snprintf(filename, sizeof(filename), "fctmp%d", fc_rand(1000));
 
     scan->meta.fp = fc_fopen(filename, "w+b");
 #else
@@ -369,7 +362,7 @@ static void meta_read_response(struct server_scan *scan)
 
       f = fz_from_stream(scan->meta.fp);
       if (NULL == f) {
-        my_snprintf(str, sizeof(str),
+        fc_snprintf(str, sizeof(str),
                     _("Failed to read the metaserver data from http://%s."),
                     scan->meta.name);
         scan->error_func(scan, str);
@@ -392,7 +385,7 @@ static void meta_read_response(struct server_scan *scan)
       scan->meta.fp = NULL;
 
       if (NULL == scan->servers) {
-        my_snprintf(str, sizeof(str),
+        fc_snprintf(str, sizeof(str),
                     _("Failed to parse the metaserver data from http://%s:\n"
                       "%s."),
                     scan->meta.name, secfile_error());
@@ -770,7 +763,7 @@ get_lan_server_list(struct server_scan *scan)
     dio_get_string(&din, players, sizeof(players));
     dio_get_string(&din, message, sizeof(message));
 
-    if (!mystrcasecmp("none", servername)) {
+    if (!fc_strcasecmp("none", servername)) {
       bool nameinfo = FALSE;
 #ifdef IPV6_SUPPORT
       char dst[INET6_ADDRSTRLEN];
@@ -809,7 +802,7 @@ get_lan_server_list(struct server_scan *scan)
 
     /* UDP can send duplicate or delayed packets. */
     server_list_iterate(scan->servers, aserver) {
-      if (0 == mystrcasecmp(aserver->host, servername)
+      if (0 == fc_strcasecmp(aserver->host, servername)
           && aserver->port == port) {
 	duplicate = TRUE;
 	break;
@@ -822,12 +815,12 @@ get_lan_server_list(struct server_scan *scan)
     log_debug("Received a valid announcement from a server on the LAN.");
 
     pserver = fc_malloc(sizeof(*pserver));
-    pserver->host = mystrdup(servername);
+    pserver->host = fc_strdup(servername);
     pserver->port = port;
-    pserver->version = mystrdup(version);
-    pserver->state = mystrdup(status);
+    pserver->version = fc_strdup(version);
+    pserver->state = fc_strdup(status);
     pserver->nplayers = atoi(players);
-    pserver->message = mystrdup(message);
+    pserver->message = fc_strdup(message);
     pserver->players = NULL;
     found_new = TRUE;
 

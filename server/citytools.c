@@ -211,7 +211,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    */
 
   priority += 10.0;
-  priority *= 10.0 + myrand(5);
+  priority *= 10.0 + fc_rand(5);
 
   /*
    * The terrain priority in the struct nation_city will be either
@@ -257,7 +257,7 @@ static bool is_default_city_name(const char *name, struct player *pplayer)
   int choice;
 
   for (choice = 0; nation->city_names[choice].name; choice++) {
-    if (mystrcasecmp(name, nation->city_names[choice].name) == 0) {
+    if (fc_strcasecmp(name, nation->city_names[choice].name) == 0) {
       return TRUE;
     }
   }
@@ -316,8 +316,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   if (game.info.allowed_city_names == 1 &&
       city_list_find_name(pplayer->cities, cityname)) {
     if (error_buf) {
-      my_snprintf(error_buf, bufsz, _("You already have a city called %s."),
-		  cityname);
+      fc_snprintf(error_buf, bufsz, _("You already have a city called %s."),
+                  cityname);
     }
     return FALSE;
   }
@@ -327,8 +327,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
        || game.info.allowed_city_names == 3)
       && game_find_city_by_name(cityname)) {
     if (error_buf) {
-      my_snprintf(error_buf, bufsz,
-		  _("A city called %s already exists."), cityname);
+      fc_snprintf(error_buf, bufsz,
+                  _("A city called %s already exists."), cityname);
     }
     return FALSE;
   }
@@ -355,10 +355,9 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
 
     if (pother != NULL) {
       if (error_buf) {
-	my_snprintf(error_buf, bufsz, _("Can't use %s as a city name. It is "
-					"reserved for %s."),
-		    cityname,
-		    nation_plural_for_player(pother));
+        fc_snprintf(error_buf, bufsz,
+                    _("Can't use %s as a city name. It is reserved for %s."),
+                    cityname, nation_plural_for_player(pother));
       }
       return FALSE;
     }
@@ -374,10 +373,10 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   if (!is_ascii_name(cityname)
       && (!pconn || pconn->access_level != ALLOW_HACK)) {
     if (error_buf) {
-      my_snprintf(error_buf, bufsz,
-		  _("%s is not a valid name. Only ASCII or "
-		    "ruleset names are allowed for cities."),
-		  cityname);
+      fc_snprintf(error_buf, bufsz,
+                  _("%s is not a valid name. Only ASCII or "
+                    "ruleset names are allowed for cities."),
+                  cityname);
     }
     return FALSE;
   }
@@ -440,9 +439,9 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
       struct nation_type *nation;
 
       {
-	/* Pick a random nation from the queue. */
-	const int which = i + myrand(queue_size - i);
-	struct nation_type *tmp = nation_list[i];
+        /* Pick a random nation from the queue. */
+        const int which = i + fc_rand(queue_size - i);
+        struct nation_type *tmp = nation_list[i];
 
 	nation_list[i] = nation_list[which];
 	nation_list[which] = tmp;
@@ -494,7 +493,7 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
   }
 
   for (i = 1; i <= num_tiles; i++ ) {
-    my_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
+    fc_snprintf(tempname, MAX_LEN_NAME, _("City no. %d"), i);
     if (!game_find_city_by_name(tempname)) {
       return tempname;
     }
@@ -753,7 +752,7 @@ static void raze_city(struct city *pcity)
        * would remove small wonders anyway. */
       city_remove_improvement(pcity, pimprove);
     }
-    if (is_improvement(pimprove) && (myrand(100) < razechance)) {
+    if (is_improvement(pimprove) && (fc_rand(100) < razechance)) {
       city_remove_improvement(pcity, pimprove);
     }
   } city_built_iterate_end;
@@ -817,7 +816,7 @@ static void build_free_small_wonders(struct player *pplayer,
   improvement_iterate(pimprove) {
     if (BV_ISSET(*had_small_wonders, improvement_index(pimprove))) {
       /* FIXME: instead, find central city */
-      struct city *pnew_city = city_list_get(pplayer->cities, myrand(size));
+      struct city *pnew_city = city_list_get(pplayer->cities, fc_rand(size));
 
       fc_assert_action(!find_city_from_small_wonder(pplayer, pimprove),
                        continue);
@@ -1458,7 +1457,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
 
   coins = cplayer->economic.gold;
-  coins = myrand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
+  coins = fc_rand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
   send_player_info(cplayer, cplayer);

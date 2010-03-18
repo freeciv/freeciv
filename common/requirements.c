@@ -78,7 +78,7 @@ enum req_range req_range_from_str(const char *str)
                     REQ_RANGE_LAST);
 
   for (range = 0; range < REQ_RANGE_LAST; range++) {
-    if (0 == mystrcasecmp(req_range_names[range], str)) {
+    if (0 == fc_strcasecmp(req_range_names[range], str)) {
       return range;
     }
   }
@@ -104,7 +104,7 @@ struct universal universal_by_rule_name(const char *kind,
     for (source.kind = 0;
          source.kind < ARRAY_SIZE(universal_names);
          source.kind++) {
-      if (0 == mystrcasecmp(universal_names[source.kind], kind)) {
+      if (0 == fc_strcasecmp(universal_names[source.kind], kind)) {
         break;
       }
     }
@@ -1357,28 +1357,31 @@ const char *universal_name_translation(const struct universal *psource,
   switch (psource->kind) {
   case VUT_NONE:
     /* TRANS: missing value */
-    mystrlcat(buf, _("(none)"), bufsz);
+    fc_strlcat(buf, _("(none)"), bufsz);
     return buf;
   case VUT_ADVANCE:
-    mystrlcat(buf, advance_name_translation(psource->value.advance), bufsz);
+    fc_strlcat(buf, advance_name_translation(psource->value.advance), bufsz);
     return buf;
   case VUT_GOVERNMENT:
-    mystrlcat(buf, government_name_translation(psource->value.govern), bufsz);
+    fc_strlcat(buf, government_name_translation(psource->value.govern),
+               bufsz);
     return buf;
   case VUT_IMPROVEMENT:
-    mystrlcat(buf, improvement_name_translation(psource->value.building), bufsz);
+    fc_strlcat(buf, improvement_name_translation(psource->value.building),
+               bufsz);
     return buf;
   case VUT_SPECIAL:
-    mystrlcat(buf, special_name_translation(psource->value.special), bufsz);
+    fc_strlcat(buf, special_name_translation(psource->value.special), bufsz);
     return buf;
   case VUT_TERRAIN:
-    mystrlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
+    fc_strlcat(buf, terrain_name_translation(psource->value.terrain), bufsz);
     return buf;
   case VUT_NATION:
-    mystrlcat(buf, nation_adjective_translation(psource->value.nation), bufsz);
+    fc_strlcat(buf, nation_adjective_translation(psource->value.nation),
+               bufsz);
     return buf;
   case VUT_UTYPE:
-    mystrlcat(buf, utype_name_translation(psource->value.utype), bufsz);
+    fc_strlcat(buf, utype_name_translation(psource->value.utype), bufsz);
     return buf;
   case VUT_UTFLAG:
     cat_snprintf(buf, bufsz, _("\"%s\" units"),
@@ -1395,10 +1398,11 @@ const char *universal_name_translation(const struct universal *psource,
 		 unit_class_flag_rule_name(psource->value.unitclassflag));
     return buf;
   case VUT_OTYPE:
-    mystrlcat(buf, get_output_name(psource->value.outputtype), bufsz); /* FIXME */
+    /* FIXME */
+    fc_strlcat(buf, get_output_name(psource->value.outputtype), bufsz);
     return buf;
   case VUT_SPECIALIST:
-    mystrlcat(buf, specialist_name_translation(psource->value.specialist), bufsz);
+    fc_strlcat(buf, specialist_name_translation(psource->value.specialist), bufsz);
     return buf;
   case VUT_MINSIZE:
     cat_snprintf(buf, bufsz, _("Size %d"),
@@ -1429,7 +1433,7 @@ const char *universal_name_translation(const struct universal *psource,
                  terrain_alteration_name_translation(psource->value.terrainalter));
     return buf;
   case VUT_CITYTILE:
-    mystrlcat(buf, _("City center tile"), bufsz);
+    fc_strlcat(buf, _("City center tile"), bufsz);
     return buf;
   case VUT_LAST:
     break;

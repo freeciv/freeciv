@@ -621,10 +621,10 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *dest_tile)
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id = pcity->id;
-    my_snprintf(buf, sizeof(buf),
-		_("Your %s has arrived at %s.\nWhat is your command?"),
-		unit_name_translation(punit),
-		city_name(pcity));
+    fc_snprintf(buf, sizeof(buf),
+                _("Your %s has arrived at %s.\nWhat is your command?"),
+                unit_name_translation(punit),
+                city_name(pcity));
 
     if (!unit_has_type_flag(punit, F_SPY)){
       shl = popup_choice_dialog(GTK_WINDOW(toplevel),

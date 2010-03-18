@@ -22,16 +22,17 @@
 
 #include "capability.h"
 
-#define	GET_TOKEN(start, end)	\
-  {									\
-    /* skip leading whitespace */					\
-    while (my_isspace(*start)) {					\
-      start++;								\
-    }									\
-    /* skip to end of token */						\
-    for (end = start; *end != '\0' && !my_isspace(*end) && *end != ','; end++) { \
-      /* nothing */							\
-    }                                                                   \
+#define GET_TOKEN(start, end)                                               \
+  {                                                                         \
+    /* skip leading whitespace */                                           \
+    while (fc_isspace(*start)) {                                            \
+      start++;                                                              \
+    }                                                                       \
+    /* skip to end of token */                                              \
+    for (end = start; *end != '\0' && !fc_isspace(*end) && *end != ',';     \
+         end++) {                                                           \
+      /* nothing */                                                         \
+    }                                                                       \
   }
 
 /* This routine returns true if the capability in cap appears

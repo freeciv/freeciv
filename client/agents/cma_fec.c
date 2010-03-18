@@ -142,7 +142,7 @@ void cmafec_preset_add(const char *descr_name, struct cm_parameter *pparam)
 
   cm_copy_parameter(&ppreset->parameter, pparam);
   ppreset->descr = fc_malloc(MAX_LEN_PRESET_NAME);
-  (void) mystrlcpy(ppreset->descr, descr_name, MAX_LEN_PRESET_NAME);
+  (void) fc_strlcpy(ppreset->descr, descr_name, MAX_LEN_PRESET_NAME);
   preset_list_prepend(preset_list, ppreset);
 }
 
@@ -253,7 +253,7 @@ static const char *get_city_growth_string(struct city *pcity, int surplus)
   static char buffer[50];
 
   if (surplus == 0) {
-    my_snprintf(buffer, sizeof(buffer), _("never"));
+    fc_snprintf(buffer, sizeof(buffer), _("never"));
     return buffer;
   }
 
@@ -273,8 +273,8 @@ static const char *get_city_growth_string(struct city *pcity, int surplus)
       turns = (stock / surplus);
     }
   }
-  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
-	      turns);
+  fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+              turns);
   return buffer;
 }
 
@@ -287,14 +287,13 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
   static char buffer[50];
 
   if (surplus <= 0) {
-    my_snprintf(buffer, sizeof(buffer), _("never"));
+    fc_snprintf(buffer, sizeof(buffer), _("never"));
     return buffer;
   }
 
   if (city_production_has_flag(pcity, IF_GOLD)) {
-    mystrlcpy(buffer,
-	      improvement_name_translation(pcity->production.value.building),
-	      sizeof(buffer));
+    fc_strlcpy(buffer, improvement_name_translation
+               (pcity->production.value.building), sizeof(buffer));
     return buffer;
   }
   stock = pcity->shield_stock + surplus;
@@ -311,8 +310,8 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
       turns = (stock / surplus);
     }
   }
-  my_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
-	      turns);
+  fc_snprintf(buffer, sizeof(buffer), PL_("%d turn", "%d turns", turns),
+              turns);
   return buffer;
 }
 
@@ -331,36 +330,36 @@ const char *cmafec_get_result_descr(struct city *pcity,
 
   if (!result->found_a_valid) {
     for (j = 0; j < RESULT_COLUMNS; j++)
-      my_snprintf(buf[j], BUFFER_SIZE, "---");
+      fc_snprintf(buf[j], BUFFER_SIZE, "---");
   } else {
     output_type_iterate(j) {
-      my_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
+      fc_snprintf(buf[j], BUFFER_SIZE, "%+3d", result->surplus[j]);
     } output_type_iterate_end;
 
-    my_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
-		pcity->size - cm_result_specialists(result),
-		specialists_string(result->specialists),
-		result->happy ? _(" happy") : "");
+    fc_snprintf(buf[6], BUFFER_SIZE, "%d/%s%s",
+                pcity->size - cm_result_specialists(result),
+                specialists_string(result->specialists),
+                result->happy ? _(" happy") : "");
 
-    my_snprintf(buf[7], BUFFER_SIZE, "%s",
-		get_city_growth_string(pcity, result->surplus[O_FOOD]));
-    my_snprintf(buf[8], BUFFER_SIZE, "%s",
-		get_prod_complete_string(pcity, result->surplus[O_SHIELD]));
-    my_snprintf(buf[9], BUFFER_SIZE, "%s",
-		cmafec_get_short_descr(parameter));
+    fc_snprintf(buf[7], BUFFER_SIZE, "%s",
+                get_city_growth_string(pcity, result->surplus[O_FOOD]));
+    fc_snprintf(buf[8], BUFFER_SIZE, "%s",
+                get_prod_complete_string(pcity, result->surplus[O_SHIELD]));
+    fc_snprintf(buf[9], BUFFER_SIZE, "%s",
+                cmafec_get_short_descr(parameter));
   }
 
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Name: %s\n"
-		"Food:       %10s Gold:    %10s\n"
-		"Production: %10s Luxury:  %10s\n"
-		"Trade:      %10s Science: %10s\n"
-		"\n"
-		"    People (W/E/S/T): %s\n"
-		"          City grows: %s\n"
-		"Production completed: %s"),
-	      buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
-	      buf[O_TRADE], buf[O_SCIENCE], buf[6], buf[7], buf[8]);
+  fc_snprintf(buffer, sizeof(buffer),
+              _("Name: %s\n"
+                "Food:       %10s Gold:    %10s\n"
+                "Production: %10s Luxury:  %10s\n"
+                "Trade:      %10s Science: %10s\n"
+                "\n"
+                "    People (W/E/S/T): %s\n"
+                "          City grows: %s\n"
+                "Production completed: %s"),
+              buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
+              buf[O_TRADE], buf[O_SCIENCE], buf[6], buf[7], buf[8]);
 
   log_debug("\n%s", buffer);
   return buffer;

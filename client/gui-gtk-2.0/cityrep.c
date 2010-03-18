@@ -171,10 +171,10 @@ static void get_city_table_header(char **text, int n)
   struct city_report_spec *spec;
   int i;
 
-  for(i=0, spec=city_report_specs; i<NUM_CREPORT_COLS; i++, spec++) {
-    my_snprintf(text[i], n, "%*s\n%*s",
-	    NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
-	    NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
+  for (i = 0, spec = city_report_specs; i < NUM_CREPORT_COLS; i++, spec++) {
+    fc_snprintf(text[i], n, "%*s\n%*s",
+                NEG_VAL(spec->width), spec->title1 ? spec->title1 : "",
+                NEG_VAL(spec->width), spec->title2 ? spec->title2 : "");
   }
 }
 
@@ -310,8 +310,8 @@ static void append_impr_or_unit_to_menu_item(GtkMenuItem *parent_item,
         continue;
       }
 
-      my_snprintf(txt, ARRAY_SIZE(txt), "<span %s>%s</span>",
-		  markup[i], row[i]);
+      fc_snprintf(txt, ARRAY_SIZE(txt), "<span %s>%s</span>",
+                  markup[i], row[i]);
 
       label = gtk_label_new(NULL);
       gtk_label_set_markup(GTK_LABEL(label), txt);
@@ -536,7 +536,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
         const char *imprname = improvement_name_translation(building);
 
         /* Ask confirmation */
-        my_snprintf(buf, sizeof(buf),
+        fc_snprintf(buf, sizeof(buf),
                     _("Are you sure to sell those %s?"), imprname);
         w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
                                    GTK_MESSAGE_QUESTION,
@@ -550,10 +550,10 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
         gtk_tree_selection_selected_foreach(city_selection,
                                             sell_impr_iterate, &sd);
         if (sd.count > 0) {
-          my_snprintf(buf, sizeof(buf), _("Sold %d %s for %d gold."),
+          fc_snprintf(buf, sizeof(buf), _("Sold %d %s for %d gold."),
                       sd.count, imprname, sd.gold);
         } else {
-          my_snprintf(buf, sizeof(buf), _("No %s could be sold."),
+          fc_snprintf(buf, sizeof(buf), _("No %s could be sold."),
                       imprname);
         }
         w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
@@ -1048,8 +1048,8 @@ static void cityrep_cell_data_func(GtkTreeViewColumn *col,
   g_value_unset(&value);
 
   sp = &city_report_specs[n];
-  my_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(sp->width),
-	      (sp->func)(pcity, sp->data));
+  fc_snprintf(buf, sizeof(buf), "%*s", NEG_VAL(sp->width),
+              (sp->func) (pcity, sp->data));
 
   g_value_init(&value, G_TYPE_STRING);
   g_value_set_string(&value, buf);
@@ -1081,10 +1081,10 @@ static gint cityrep_sort_func(GtkTreeModel *model,
   g_value_unset(&value);
 
   sp = &city_report_specs[n];
-  my_snprintf(buf1, sizeof(buf1), "%*s", NEG_VAL(sp->width),
-	      (sp->func)(pcity1, sp->data));
-  my_snprintf(buf2, sizeof(buf2), "%*s", NEG_VAL(sp->width),
-	      (sp->func)(pcity2, sp->data));
+  fc_snprintf(buf1, sizeof(buf1), "%*s", NEG_VAL(sp->width),
+              (sp->func) (pcity1, sp->data));
+  fc_snprintf(buf2, sizeof(buf2), "%*s", NEG_VAL(sp->width),
+              (sp->func) (pcity2, sp->data));
 
   return cityrepfield_compare(buf1, buf2);
 }
@@ -2028,7 +2028,7 @@ static void update_total_buy_cost(void)
 
   if (total > 0) {
     char buf[128];
-    my_snprintf(buf, sizeof(buf), _("Total Buy Cost: %d"), total);
+    fc_snprintf(buf, sizeof(buf), _("Total Buy Cost: %d"), total);
     gtk_label_set_text(GTK_LABEL(label), buf);
   } else {
     gtk_label_set_text(GTK_LABEL(label), NULL);

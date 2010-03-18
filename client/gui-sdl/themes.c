@@ -38,7 +38,7 @@ void gui_load_theme(const char *directory, const char *theme_name)
   /* free previous loaded theme, if any */
   theme_free(theme);
   
-  my_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
+  fc_snprintf(buf, sizeof(buf), "%s/%s/theme", directory, theme_name);
   
   themespec_try_read(buf);
   theme_load_sprites(theme);
@@ -74,9 +74,9 @@ char **get_gui_specific_themes_directories(int *count)
   strvec_iterate(data_dirs, data_dir) {
     char buf[strlen(data_dir) + strlen("/themes/gui-sdl") + 1];
     
-    my_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl", data_dir);
+    fc_snprintf(buf, sizeof(buf), "%s/themes/gui-sdl", data_dir);
 
-    directories[i++] = mystrdup(buf);
+    directories[i++] = fc_strdup(buf);
   } strvec_iterate_end;
 
   return directories;
@@ -109,7 +109,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
     char buf[strlen(directory) + strlen(entry->d_name) + 32];
     struct stat stat_result;
 
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		"%s/%s/theme.themespec", directory, entry->d_name);
     
     if (fc_stat(buf, &stat_result) != 0) {
@@ -130,7 +130,7 @@ char **get_useable_themes_in_directory(const char *directory, int *count)
       t_size *= 2;
     }
 
-    theme_names[*count] = mystrdup(entry->d_name);
+    theme_names[*count] = fc_strdup(entry->d_name);
     (*count)++;
   }
 

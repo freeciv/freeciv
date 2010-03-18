@@ -61,9 +61,9 @@ const char *get_tile_output_text(const struct tile *ptile)
     }
 
     if (before_penalty > 0 && x > before_penalty) {
-      my_snprintf(output_text[i], sizeof(output_text[i]), "%d(-1)", x);
+      fc_snprintf(output_text[i], sizeof(output_text[i]), "%d(-1)", x);
     } else {
-      my_snprintf(output_text[i], sizeof(output_text[i]), "%d", x);
+      fc_snprintf(output_text[i], sizeof(output_text[i]), "%d", x);
     }
   }
   
@@ -94,9 +94,9 @@ static inline void get_full_username(char *buf, int buflen,
 
   if (pplayer->ai_data.control) {
     /* TRANS: "AI <player name>" */
-    my_snprintf(buf, buflen, _("AI %s"), pplayer->name);
+    fc_snprintf(buf, buflen, _("AI %s"), pplayer->name);
   } else {
-    mystrlcpy(buf, pplayer->username, buflen);
+    fc_strlcpy(buf, pplayer->username, buflen);
   }
 }
 
@@ -118,11 +118,11 @@ static inline void get_full_nation(char *buf, int buflen,
 
   if (pplayer->team) {
     /* TRANS: "<nation adjective>, team <team name>" */
-    my_snprintf(buf, buflen, _("%s, team %s"),
+    fc_snprintf(buf, buflen, _("%s, team %s"),
                 nation_adjective_for_player(pplayer),
                 team_name_translation(pplayer->team));
   } else {
-    mystrlcpy(buf, nation_adjective_for_player(pplayer), buflen);
+    fc_strlcpy(buf, nation_adjective_for_player(pplayer), buflen);
   }
 }
 
@@ -596,14 +596,14 @@ const char *science_dialog_text(void)
 		       "Progress: %d turns/advance",
 		       turns_to_advance), turns_to_advance);
   }
-  my_snprintf(ourbuf, sizeof(ourbuf),
-	      PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
+  fc_snprintf(ourbuf, sizeof(ourbuf),
+              PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
   if (theirs > 0) {
     /* Techpool version */
-    my_snprintf(theirbuf, sizeof(theirbuf),
-		/* TRANS: This is appended to "%d bulb/turn" text */
-		PL_(", %d bulb/turn from team",
-		    ", %d bulbs/turn from team", theirs), theirs);
+    fc_snprintf(theirbuf, sizeof(theirbuf),
+                /* TRANS: This is appended to "%d bulb/turn" text */
+                PL_(", %d bulb/turn from team",
+                    ", %d bulbs/turn from team", theirs), theirs);
   }
   astr_add(&str, " (%s%s)", ourbuf, theirbuf);
   return str.str;
@@ -680,16 +680,16 @@ const char *get_science_goal_text(Tech_type_id goal)
     bulbs_needed -= research->bulbs_researched;
   }
 
-  my_snprintf(buf1, sizeof(buf1),
-	      PL_("%d step", "%d steps", steps), steps);
-  my_snprintf(buf2, sizeof(buf2),
-	      PL_("%d bulb", "%d bulbs", bulbs), bulbs);
+  fc_snprintf(buf1, sizeof(buf1),
+              PL_("%d step", "%d steps", steps), steps);
+  fc_snprintf(buf2, sizeof(buf2),
+              PL_("%d bulb", "%d bulbs", bulbs), bulbs);
   if (perturn > 0) {
     turns = (bulbs_needed + perturn - 1) / perturn;
-    my_snprintf(buf3, sizeof(buf3),
-		PL_("%d turn", "%d turns", turns), turns);
+    fc_snprintf(buf3, sizeof(buf3),
+                PL_("%d turn", "%d turns", turns), turns);
   } else {
-    my_snprintf(buf3, sizeof(buf3), _("never"));
+    fc_snprintf(buf3, sizeof(buf3), _("never"));
   }
   astr_add_line(&str, "(%s - %s - %s)", buf1, buf2, buf3);
 
@@ -989,7 +989,7 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
 			    struct unit_list *punits)
 {
   if (unit_list_size(punits) == 0) {
-    my_snprintf(buf, bufsz, _("No units to upgrade!"));
+    fc_snprintf(buf, bufsz, _("No units to upgrade!"));
     return FALSE;
   } else if (unit_list_size(punits) == 1) {
     return (get_unit_upgrade_info(buf, bufsz, unit_list_get(punits, 0))
@@ -1014,18 +1014,19 @@ bool get_units_upgrade_info(char *buf, size_t bufsz,
       }
     } unit_list_iterate_end;
     if (num_upgraded == 0) {
-      my_snprintf(buf, bufsz, _("None of these units may be upgraded."));
+      fc_snprintf(buf, bufsz, _("None of these units may be upgraded."));
       return FALSE;
     } else {
       /* This may trigger sometimes if you don't have enough money for
        * a full upgrade.  If you have enough to upgrade at least one, it
        * will do it. */
-      my_snprintf(buf, bufsz, PL_("Upgrade %d unit for %d gold?\n"
-				  "Treasury contains %d gold.", 
-				  "Upgrade %d units for %d gold?\n"
-				  "Treasury contains %d gold.",
-				  num_upgraded),
-		  num_upgraded, upgrade_cost, client.conn.playing->economic.gold);
+      fc_snprintf(buf, bufsz, PL_("Upgrade %d unit for %d gold?\n"
+                                  "Treasury contains %d gold.",
+                                  "Upgrade %d units for %d gold?\n"
+                                  "Treasury contains %d gold.",
+                                  num_upgraded),
+                  num_upgraded, upgrade_cost,
+                  client_player()->economic.gold);
       return TRUE;
     }
   }

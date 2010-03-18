@@ -579,7 +579,7 @@ static int up_width_callback(struct widget *pWidget)
          (pMiniMap_Window->size.w - pMiniMap_Window->area.w) + BLOCKM_W) <= 
          pUnits_Info_Window->dst->dest_rect.x) {
       char cBuf[4];
-      my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
       copy_chars_to_string16(pWidget->next->string16, cBuf);
       widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
@@ -599,7 +599,7 @@ static int down_width_callback(struct widget *pWidget)
     widget_mark_dirty(pWidget);
     if (OVERVIEW_TILE_WIDTH > 1) {
       char cBuf[4];
-      my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_WIDTH);
       copy_chars_to_string16(pWidget->prev->string16, cBuf);
       widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
@@ -621,7 +621,7 @@ static int up_height_callback(struct widget *pWidget)
       char cBuf[4];
         
       OVERVIEW_TILE_HEIGHT++;
-      my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
       copy_chars_to_string16(pWidget->next->string16, cBuf);
       widget_redraw(pWidget->next);
       widget_mark_dirty(pWidget->next);
@@ -641,7 +641,7 @@ static int down_height_callback(struct widget *pWidget)
       char cBuf[4];
       
       OVERVIEW_TILE_HEIGHT--;
-      my_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", OVERVIEW_TILE_HEIGHT);
       copy_chars_to_string16(pWidget->prev->string16, cBuf);
       widget_redraw(pWidget->prev);
       widget_mark_dirty(pWidget->prev);
@@ -695,7 +695,7 @@ static void popup_minimap_scale_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
   
-  my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_WIDTH);
   pStr = create_str16_from_char(cBuf, adj_font(24));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
@@ -715,7 +715,7 @@ static void popup_minimap_scale_dialog(void)
   set_wstate(pBuf, FC_WS_NORMAL);
   add_to_gui_list(ID_BUTTON, pBuf);
   
-  my_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d" , OVERVIEW_TILE_HEIGHT);
   pStr = create_str16_from_char(cBuf, adj_font(24));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   pBuf = create_iconlabel(NULL, pWindow->dst, pStr, WF_RESTORE_BACKGROUND);
@@ -1397,7 +1397,7 @@ void popup_unitinfo_window() {
   pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst, WF_FREE_GFX
                       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
@@ -1410,7 +1410,7 @@ void popup_unitinfo_window() {
   pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())), pUnits_Info_Window->dst, WF_FREE_GFX
 		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   /* TRANS: Research report action */
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");                       
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");                       
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
@@ -1422,7 +1422,7 @@ void popup_unitinfo_window() {
   /* revolution button */
   pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())), pUnits_Info_Window->dst, (WF_FREE_GFX
 			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND | WF_FREE_THEME));
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
@@ -1563,7 +1563,7 @@ void popup_minimap_window() {
   /* new turn button */
   pWidget = create_themeicon(pTheme->NEW_TURN_Icon, pMiniMap_Window->dst,
 			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
@@ -1577,7 +1577,7 @@ void popup_minimap_window() {
   pWidget = create_themeicon(pTheme->PLAYERS_Icon, pMiniMap_Window->dst,
 			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
   /* TRANS: Nations report action */
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
@@ -1587,7 +1587,7 @@ void popup_minimap_window() {
   /* find city button */
   pWidget = create_themeicon(pTheme->FindCity_Icon, pMiniMap_Window->dst,
    			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
+  fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
                                 "F4", _("or"), _("Find City"), "Ctrl+F");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->string16->style |= SF_CENTER;
@@ -1602,7 +1602,7 @@ void popup_minimap_window() {
   /* units button */
   pWidget = create_themeicon(pTheme->UNITS2_Icon, pMiniMap_Window->dst,
 		             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
@@ -1612,7 +1612,7 @@ void popup_minimap_window() {
   /* show/hide log window button */
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F9;
@@ -1622,7 +1622,7 @@ void popup_minimap_window() {
   /* toggle minimap mode button */
   pWidget = create_themeicon(pTheme->BORDERS_Icon, pMiniMap_Window->dst,
  			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
   pWidget->string16 = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
@@ -1634,7 +1634,7 @@ void popup_minimap_window() {
   /* options button */
   pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst,
  			             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  my_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
   pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
   
   pOptions_Button->action = optiondlg_callback;  
@@ -2569,7 +2569,7 @@ void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
   }
 
   pSuggestedCityName = fc_calloc(1, strlen(pSuggestname) + 1);
-  mystrlcpy(pSuggestedCityName, pSuggestname, strlen(pSuggestname) + 1);
+  fc_strlcpy(pSuggestedCityName, pSuggestname, strlen(pSuggestname) + 1);
   
   pNewCity_Dlg = fc_calloc(1, sizeof(struct SMALL_DLG));
 

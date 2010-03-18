@@ -135,8 +135,8 @@ static const char *col_diplstate(const struct player *player)
   } else {
     pds = pplayer_get_diplstate(client.conn.playing, player);
     if (pds->type == DS_CEASEFIRE || pds->type == DS_ARMISTICE) {
-      my_snprintf(buf, sizeof(buf), "%s (%d)",
-		  diplstate_text(pds->type), pds->turns_left);
+      fc_snprintf(buf, sizeof(buf), "%s (%d)",
+                  diplstate_text(pds->type), pds->turns_left);
       return buf;
     } else {
       return diplstate_text(pds->type);
@@ -235,7 +235,7 @@ static const char *col_idle(const struct player *plr)
   } else {
     idle = 0;
   }
-  my_snprintf(buf, sizeof(buf), "%d", idle);
+  fc_snprintf(buf, sizeof(buf), "%d", idle);
   return buf;
 }
 

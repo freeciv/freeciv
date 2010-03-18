@@ -58,9 +58,9 @@
 #endif   
 
 #ifdef FD_ZERO
-#define MY_FD_ZERO FD_ZERO
+#define FC_FD_ZERO FD_ZERO
 #else
-#define MY_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
+#define FC_FD_ZERO(p) memset((void *)(p), 0, sizeof(*(p)))
 #endif
 
 #ifdef IPV6_ADD_MEMBERSHIP

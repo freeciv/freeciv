@@ -46,7 +46,7 @@
 
 #include "log.h"                /* fc_assert */
 #include "mem.h"
-#include "support.h"            /* my_vsnprintf, mystrlcat */
+#include "support.h"            /* fc_vsnprintf, fc_strlcat */
 
 #include "astring.h"
 
@@ -114,7 +114,7 @@ static void vadd(struct astring *astr, const char *format, va_list ap)
   size_t new_len;
   char buf[1024];
 
-  if (my_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
+  if (fc_vsnprintf(buf, sizeof(buf), format, ap) == -1) {
     die("Formatted string bigger than %lu bytes",
         (unsigned long)sizeof(buf));
   }
@@ -125,7 +125,7 @@ static void vadd(struct astring *astr, const char *format, va_list ap)
   new_len = strlen(astr->str) + strlen(buf) + 1;
 
   astr_minsize(astr, new_len);
-  mystrlcat(astr->str, buf, astr->n_alloc);
+  fc_strlcat(astr->str, buf, astr->n_alloc);
 }
 
 /****************************************************************************

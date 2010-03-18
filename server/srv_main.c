@@ -157,8 +157,8 @@ void init_game_seed(void)
     log_debug("Setting game.seed:%d", game.server.seed);
   }
  
-  if (!myrand_is_init()) {
-    mysrand(game.server.seed);
+  if (!fc_rand_is_init()) {
+    fc_srand(game.server.seed);
   }
 }
 
@@ -496,7 +496,7 @@ static void update_environmental_upset(enum tile_special_type cause,
     *accum = 0;
   } else {
     *accum -= *level;
-    if (myrand((map_num_tiles() + 19) / 20) <= *accum) {
+    if (fc_rand((map_num_tiles() + 19) / 20) <= *accum) {
       upset_action_fn((map.xsize / 10) + (map.ysize / 10) + ((*accum) * 5));
       *accum = 0;
       *level += (map_num_tiles() + 999) / 1000;
@@ -1034,11 +1034,11 @@ static int generate_save_name(char *buf, int buflen, bool is_auto_save,
   /* NB: If you change the format here, be sure to update the above
    * function comment and the help text for the 'savename' setting. */
   if (reason == NULL) {
-    nb = my_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
+    nb = fc_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
                      game.server.save_name, game.info.turn, year,
                      year_suffix, is_auto_save ? "" : "m");
   } else {
-    nb = my_snprintf(buf, buflen, "%s-%s-T%03d-Y%d%s%s",
+    nb = fc_snprintf(buf, buflen, "%s-%s-T%03d-Y%d%s%s",
                      game.server.save_name, reason, game.info.turn, year,
                      year_suffix, is_auto_save ? "" : "m");
   }
@@ -1537,7 +1537,7 @@ static bool is_default_nation_name(const char *name,
   int choice;
 
   for (choice = 0; choice < nation->leader_count; choice++) {
-    if (mystrcasecmp(name, nation->leaders[choice].name) == 0) {
+    if (fc_strcasecmp(name, nation->leaders[choice].name) == 0) {
       return TRUE;
     }
   }
@@ -1559,7 +1559,7 @@ static bool is_allowed_player_name(struct player *pplayer,
   /* An empty name is surely not allowed. */
   if (strlen(name) == 0) {
     if (error_buf) {
-      my_snprintf(error_buf, bufsz, _("Please choose a non-blank name."));
+      fc_snprintf(error_buf, bufsz, _("Please choose a non-blank name."));
     }
     return FALSE;
   }
@@ -1575,7 +1575,7 @@ static bool is_allowed_player_name(struct player *pplayer,
      */
     if (other_player->nation == nation) {
       if (error_buf) {
-	my_snprintf(error_buf, bufsz, _("That nation is already in use."));
+        fc_snprintf(error_buf, bufsz, _("That nation is already in use."));
       }
       return FALSE;
     } else {
@@ -1588,13 +1588,13 @@ static bool is_allowed_player_name(struct player *pplayer,
        * times (for server commands etc), including during nation
        * allocation phase.
        */
-      if (mystrcasecmp(player_name(other_player), name) == 0) {
-	if (error_buf) {
-	  my_snprintf(error_buf, bufsz,
-		      _("Another player already has the name '%s'.  Please "
-			"choose another name."), name);
-	}
-	return FALSE;
+      if (fc_strcasecmp(player_name(other_player), name) == 0) {
+        if (error_buf) {
+          fc_snprintf(error_buf, bufsz,
+                      _("Another player already has the name '%s'.  Please "
+                        "choose another name."), name);
+        }
+        return FALSE;
       }
     }
   } players_iterate_end;
@@ -1612,8 +1612,8 @@ static bool is_allowed_player_name(struct player *pplayer,
   if (!is_ascii_name(name)
       && (!pconn || pconn->access_level != ALLOW_HACK)) {
     if (error_buf) {
-      my_snprintf(error_buf, bufsz, _("Please choose a name containing "
-				      "only ASCII characters."));
+      fc_snprintf(error_buf, bufsz, _("Please choose a name containing "
+                                      "only ASCII characters."));
     }
     return FALSE;
   }
@@ -1734,7 +1734,7 @@ void handle_nation_select_req(struct connection *pc,
       return;
     }
 
-    name[0] = my_toupper(name[0]);
+    name[0] = fc_toupper(name[0]);
     sz_strlcpy(pplayer->name, name);
 
     notify_conn(NULL, NULL, E_NATION_SELECTED, ftc_server,
@@ -1850,8 +1850,7 @@ void aifill(int amount)
     player_set_nation(pplayer, NULL);
 
     do {
-      my_snprintf(leader_name, sizeof(leader_name),
-		  "AI*%d", filled++);
+      fc_snprintf(leader_name, sizeof(leader_name), "AI*%d", filled++);
     } while (find_player_by_name(leader_name));
     sz_strlcpy(pplayer->name, leader_name);
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
@@ -1924,7 +1923,7 @@ static void generate_players(void)
           && is_nation_playable(pnation)
           && pnation->is_available
           && NULL == pnation->player
-          && 0 == myrand(++c)) {
+          && 0 == fc_rand(++c)) {
         player_set_nation(pplayer, pnation);
       }
     }
@@ -1950,7 +1949,7 @@ static void generate_players(void)
       pplayer->is_male = get_nation_leader_sex(nation_of_player(pplayer),
                                                pplayer->name);
     } else {
-      pplayer->is_male = (myrand(2) == 1);
+      pplayer->is_male = (fc_rand(2) == 1);
     }
 
     announce_player(pplayer);
@@ -1964,7 +1963,7 @@ static void generate_players(void)
 *************************************************************************/
 static bool good_name(char *ptry, char *buf) {
   if (!(find_player_by_name(ptry) || find_player_by_user(ptry))) {
-     (void) mystrlcpy(buf, ptry, MAX_LEN_NAME);
+     (void) fc_strlcpy(buf, ptry, MAX_LEN_NAME);
      return TRUE;
   }
   return FALSE;
@@ -1990,7 +1989,7 @@ void pick_random_player_name(const struct nation_type *pnation,
     * then "Player 1" etc:
     */
    for(i=0; i<names_count; i++) {
-     if (good_name(leaders[myrand(names_count)].name, newname)) {
+     if (good_name(leaders[fc_rand(names_count)].name, newname)) {
        return;
      }
    }
@@ -2003,7 +2002,7 @@ void pick_random_player_name(const struct nation_type *pnation,
    
    for(i=1; /**/; i++) {
      char tempname[50];
-     my_snprintf(tempname, sizeof(tempname), _("Player %d"), i);
+     fc_snprintf(tempname, sizeof(tempname), _("Player %d"), i);
      if (good_name(tempname, newname)) return;
    }
 }

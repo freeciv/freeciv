@@ -158,7 +158,7 @@ static void setting_game_restore(struct setting *pset);
 
 #define settings_snprintf(_buf, _buf_len, format, ...)                      \
   if (_buf != NULL) {                                                       \
-    my_snprintf(_buf, _buf_len, format, ## __VA_ARGS__);                    \
+    fc_snprintf(_buf, _buf_len, format, ## __VA_ARGS__);                    \
   }
 
 /*************************************************************************
@@ -1809,7 +1809,7 @@ bool setting_str_set(struct setting *pset, const char *val,
     return FALSE;
   }
 
-  mystrlcpy(pset->string.value, val, pset->string.value_size);
+  fc_strlcpy(pset->string.value, val, pset->string.value_size);
   return TRUE;
 }
 
@@ -1855,7 +1855,7 @@ static void setting_set_to_default(struct setting *pset)
     (*pset->integer.pvalue) = pset->integer.default_value;
     break;
   case SSET_STRING:
-    mystrlcpy(pset->string.value, pset->string.default_value,
+    fc_strlcpy(pset->string.value, pset->string.default_value,
               pset->string.value_size);
     break;
   }
@@ -1894,7 +1894,7 @@ bool settings_ruleset(struct section_file *file, const char *section)
   for (j = 0; (name = secfile_lookup_str_default(file, NULL, "%s.set%d.name",
                                                  section, j)); j++) {
     char path[256];
-    my_snprintf(path, sizeof(path), "%s.set%d", section, j);
+    fc_snprintf(path, sizeof(path), "%s.set%d", section, j);
 
     if (!setting_ruleset_one(file, name, path)) {
       log_error("unknown setting in '%s': %s", secfile_name(file), name);
@@ -2028,7 +2028,7 @@ static void setting_game_set(struct setting *pset, bool init)
         = fc_calloc(1, pset->string.value_size
                        * sizeof(pset->string.game_value));
     }
-    mystrlcpy(pset->string.game_value, setting_str_get(pset),
+    fc_strlcpy(pset->string.game_value, setting_str_get(pset),
               pset->string.value_size);
     break;
   }
@@ -2147,7 +2147,7 @@ void settings_game_load(struct section_file *file, const char *section)
     case SSET_STRING:
       if ((sval = secfile_lookup_str(file, "%s.%s",
                                      section, setting_name(pset)))) {
-        mystrlcpy(pset->string.game_value, sval, pset->string.value_size);
+        fc_strlcpy(pset->string.game_value, sval, pset->string.value_size);
       }
       break;
     }

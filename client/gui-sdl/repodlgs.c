@@ -176,7 +176,7 @@ static int popup_upgrade_unit_callback(struct widget *pWidget)
     ut2 = can_upgrade_unittype(client.conn.playing, ut1);
     value = unit_upgrade_price(client.conn.playing, ut1, ut2);
     
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
           _("Upgrade as many %s to %s as possible for %d gold each?\n"
             "Treasury contains %d gold."),
           utype_name_translation(ut1),
@@ -331,24 +331,24 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
     pUnitsDlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));  
   }
   
-  my_snprintf(cBuf, sizeof(cBuf), _("active"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("active"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= SF_CENTER;
   pText1 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("under\nconstruction"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("under\nconstruction"));
   copy_chars_to_string16(pStr, cBuf);
   pText2 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("soonest\ncompletion"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("soonest\ncompletion"));
   copy_chars_to_string16(pStr, cBuf);
   pText5 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("Total"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Total"));
   copy_chars_to_string16(pStr, cBuf);
   pText3 = create_text_surf_from_str16(pStr);
     
-  my_snprintf(cBuf, sizeof(cBuf), _("Units"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Units"));
   copy_chars_to_string16(pStr, cBuf);
   pText4 = create_text_surf_from_str16(pStr);
   name_w = pText4->w;
@@ -380,7 +380,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   add_to_gui_list(ID_BUTTON, pBuf);
   /* ------------------------- */
   /* totals */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->active_count);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total->active_count);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -392,7 +392,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w + adj_size(6);
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_SHIELD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_SHIELD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -402,7 +402,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */	
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_FOOD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_FOOD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -412,7 +412,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */	
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_GOLD]);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total->upkeep[O_GOLD]);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -422,7 +422,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   pBuf->size.w = pText1->w;
   add_to_gui_list(ID_LABEL, pBuf);
   /* ---------------------------------------------- */	
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total->building_count);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total->building_count);
 	
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
@@ -472,7 +472,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
       
       /* active */	
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].active_count);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].active_count);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -485,7 +485,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
       
       /* shield upkeep */	
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -498,7 +498,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 	
       /* food upkeep */
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -512,7 +512,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       add_to_gui_list(MAX_ID - utype_number(i), pBuf);
 
       /* gold upkeep */
-      my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
       pBuf = create_iconlabel(NULL, pWindow->dst, pStr,
@@ -527,9 +527,9 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       
       /* building */
       if(units[utype_index(i)].building_count > 0) {
-	my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].building_count);
+	fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].building_count);
       } else {
-	my_snprintf(cBuf, sizeof(cBuf), "--");
+	fc_snprintf(cBuf, sizeof(cBuf), "--");
       }
       pStr = create_str16_from_char(cBuf, adj_font(10));
       pStr->style |= SF_CENTER;
@@ -544,10 +544,10 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
       
       /* soonest completion */
       if(units[utype_index(i)].building_count > 0) {
-	my_snprintf(cBuf, sizeof(cBuf), "%d %s", units[utype_index(i)].soonest_completions,
+	fc_snprintf(cBuf, sizeof(cBuf), "%d %s", units[utype_index(i)].soonest_completions,
 			PL_("turn", "turns", units[utype_index(i)].soonest_completions));
       } else {
-	my_snprintf(cBuf, sizeof(cBuf), "--");
+	fc_snprintf(cBuf, sizeof(cBuf), "--");
       }
 	
       pStr = create_str16_from_char(cBuf, adj_font(10));
@@ -895,35 +895,35 @@ void activeunits_report_dialog_update(void)
             }
 
             pBuf = pBuf->prev; /* active */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].active_count);
+            fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].active_count);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* shield upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
+            fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_SHIELD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* food upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
+            fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_FOOD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* gold upkeep */
-            my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
+            fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].upkeep[O_GOLD]);
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* building */
             if(units[utype_index(i)].building_count > 0) {
-              my_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].building_count);
+              fc_snprintf(cBuf, sizeof(cBuf), "%d", units[utype_index(i)].building_count);
             } else {
-              my_snprintf(cBuf, sizeof(cBuf), "--");
+              fc_snprintf(cBuf, sizeof(cBuf), "--");
             }
             copy_chars_to_string16(pBuf->string16, cBuf);
 
             pBuf = pBuf->prev; /* soonest completion */
             if(units[utype_index(i)].building_count > 0) {
-              my_snprintf(cBuf, sizeof(cBuf), "%d %s", units[utype_index(i)].soonest_completions,
+              fc_snprintf(cBuf, sizeof(cBuf), "%d %s", units[utype_index(i)].soonest_completions,
                           PL_("turn", "turns", units[utype_index(i)].soonest_completions));
             } else {
-              my_snprintf(cBuf, sizeof(cBuf), "--");
+              fc_snprintf(cBuf, sizeof(cBuf), "--");
             }
             copy_chars_to_string16(pBuf->string16, cBuf);
 
@@ -976,22 +976,22 @@ void activeunits_report_dialog_update(void)
 
     /* total active */
     pBuf = pUnitsDlg->pEndWidgetList->prev->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.active_count);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", units_total.active_count);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total shields cost */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_SHIELD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_SHIELD]);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total food cost widget */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_FOOD]);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", units_total.upkeep[O_FOOD]);
     copy_chars_to_string16(pBuf->string16, cBuf);
   
     /* total building count */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", units_total.building_count);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", units_total.building_count);
     copy_chars_to_string16(pBuf->string16, cBuf);
 
     /* -------------------------------------- */
@@ -1181,9 +1181,9 @@ static Uint16 report_scroll_mouse_motion_handler(
       *pMotion->src_rate += inc;
       *pMotion->dst_rate -= inc;
 	  	  
-      my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->src_rate);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->src_rate);
       copy_chars_to_string16(pMotion->pLabel_Src->string16, cBuf);
-      my_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->dst_rate);
+      fc_snprintf(cBuf, sizeof(cBuf), "%d%%", *pMotion->dst_rate);
       copy_chars_to_string16(pMotion->pLabel_Dst->string16, cBuf);
       		      
       /* redraw label */
@@ -1510,14 +1510,14 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     } city_list_iterate_end;
     
     if(count > 0) {
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
                   _("We have %d of %s\n(total value is : %d)\n"
                     "We can sell %d of them for %d gold."),
                   total_count,
                   improvement_name_translation(improvement_by_number(imp)),
                   total_count * value, count, gold); 
     } else {
-      my_snprintf(cBuf, sizeof(cBuf),
+      fc_snprintf(cBuf, sizeof(cBuf),
                   _("We can't sell any %s in this turn."),
                   improvement_name_translation(improvement_by_number(imp))); 
     }
@@ -1644,25 +1644,25 @@ void economy_report_dialog_update(void)
   
     /* tresure */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", client.conn.playing->economic.gold);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", client.conn.playing->economic.gold);
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Icome */
     pBuf = pBuf->prev->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", tax);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", tax);
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Cost */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", total);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", total);
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
   
     /* Netto */
     pBuf = pBuf->prev;
-    my_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
+    fc_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
     copy_chars_to_string16(pBuf->string16, cBuf);
     remake_label_size(pBuf);
     if(tax - total < 0) {
@@ -1769,14 +1769,14 @@ void popup_economy_report_dialog(bool make_modal)
   /* ------------------------- */
   
   /* "Treasury" text surface */
-  my_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Treasury: "));
   pStr2 = create_str16_from_char(cBuf, adj_font(12));
   pStr2->style |= TTF_STYLE_BOLD;
   pTreasuryText = create_text_surf_from_str16(pStr2);
   w3 = MAX(w3, pTreasuryText->w);
   
   /* "Treasury" value label*/
-  my_snprintf(cBuf, sizeof(cBuf), "%d", client.conn.playing->economic.gold);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", client.conn.playing->economic.gold);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
 
@@ -1791,14 +1791,14 @@ void popup_economy_report_dialog(bool make_modal)
   h += pBuf->size.h;
   
   /* "Tax Rate" text surface */
-  my_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Tax Rate: "));
   copy_chars_to_string16(pStr2, cBuf);
   pTaxRateText = create_text_surf_from_str16(pStr2);
   w3 = MAX(w3, pTaxRateText->w);
   
   /* "Tax Rate" value label */
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% " , client.conn.playing->economic.tax);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d%% " , client.conn.playing->economic.tax);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
@@ -1812,13 +1812,13 @@ void popup_economy_report_dialog(bool make_modal)
   h += pBuf->size.h;
 
   /* "Total Income" text surface */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Income: "));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Total Income: "));
   copy_chars_to_string16(pStr2, cBuf);
   pTotalIncomeText = create_text_surf_from_str16(pStr2);
   w3 = MAX(w3, pTotalIncomeText->w);
 
   /* "Total Icome" value label */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", tax);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", tax);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
@@ -1832,12 +1832,12 @@ void popup_economy_report_dialog(bool make_modal)
   h += pBuf->size.h;
 
   /* "Total Cost" text surface */
-  my_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Total Cost: "));
   copy_chars_to_string16(pStr2, cBuf);
   pTotalCostText = create_text_surf_from_str16(pStr2);
   
   /* "Total Cost" value label */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", total);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", total);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= TTF_STYLE_BOLD;
   
@@ -1851,13 +1851,13 @@ void popup_economy_report_dialog(bool make_modal)
   h += pBuf->size.h;
   
   /* "Net Income" text surface */
-  my_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Net Income: "));
   copy_chars_to_string16(pStr2, cBuf);
   pNetIncomeText = create_text_surf_from_str16(pStr2);
   w3 = MAX(w3, pNetIncomeText->w);
   
   /* "Net Icome" value label */
-  my_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d", tax - total);
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pStr->style |= (TTF_STYLE_BOLD|SF_CENTER);
   
@@ -1875,7 +1875,7 @@ void popup_economy_report_dialog(bool make_modal)
   h += pBuf->size.h;
 
   /* gov and taxrate */
-  my_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
+  fc_snprintf(cBuf, sizeof(cBuf), _("%s max rate : %d%%"),
     government_name_translation(pGov),
     get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   copy_chars_to_string16(pStr2, cBuf);
@@ -1887,7 +1887,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* lux rate */
   
   /* lux rate lock */
-  my_snprintf(cBuf, sizeof(cBuf), _("Lock"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Lock"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1919,7 +1919,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* lux rate iconlabel */
   
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.conn.playing->economic.luxury);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.conn.playing->economic.luxury);
   pStr = create_str16_from_char(cBuf, adj_font(11));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1933,7 +1933,7 @@ void popup_economy_report_dialog(bool make_modal)
   /* science rate */
 
   /* science rate lock */
-  my_snprintf(cBuf, sizeof(cBuf), _("Lock"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Lock"));
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1963,7 +1963,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* science rate iconlabel */
   /* it is important to leave 1 space at ending of this string */
-  my_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.conn.playing->economic.science);
+  fc_snprintf(cBuf, sizeof(cBuf), "%d%% ", client.conn.playing->economic.science);
   pStr = create_str16_from_char(cBuf, adj_font(11));
   pStr->style |= TTF_STYLE_BOLD;
 
@@ -1974,7 +1974,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* ---- */
   
-  my_snprintf(cBuf, sizeof(cBuf), _("Update"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Update"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pBuf = create_themeicon_button(pTheme->Small_OK_Icon, pWindow->dst, pStr, 0);
   pBuf->action = apply_taxrates_callback;
@@ -1984,7 +1984,7 @@ void popup_economy_report_dialog(bool make_modal)
   
   /* ---- */
   
-  my_snprintf(cBuf, sizeof(cBuf), _("Close Dialog (Esc)"));
+  fc_snprintf(cBuf, sizeof(cBuf), _("Close Dialog (Esc)"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
                                   WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
@@ -2018,13 +2018,13 @@ void popup_economy_report_dialog(bool make_modal)
 
       pSurf = crop_rect_from_surface(pBackground, NULL);
       
-      my_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImprove));
+      fc_snprintf(cBuf, sizeof(cBuf), "%s", improvement_name_translation(pImprove));
       
       copy_chars_to_string16(pStr, cBuf);
       pStr->style |= TTF_STYLE_BOLD;
       pText_Name = create_text_surf_smaller_that_w(pStr, pSurf->w - adj_size(4));
             
-      my_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
+      fc_snprintf(cBuf, sizeof(cBuf), "%s %d\n%s %d",
 			_("Built"), p->count, _("U Total"),p->total_cost);
       copy_chars_to_string16(pStr, cBuf);
       pStr->style &= ~TTF_STYLE_BOLD;
@@ -2573,7 +2573,7 @@ void science_dialog_update(void)
     widget_set_position(pChangeResearchButton, dest.x, dest.y + adj_size(18));
     
     /* current research text */
-    my_snprintf(cBuf, sizeof(cBuf), "%s: %s",
+    fc_snprintf(cBuf, sizeof(cBuf), "%s: %s",
       advance_name_researching(client.conn.playing),
       get_science_target_text(NULL));
 
@@ -2682,7 +2682,7 @@ void science_dialog_update(void)
     if (A_UNSET != get_player_research(client.conn.playing)->tech_goal)
     {
       /* current goal text */
-      my_snprintf(cBuf, sizeof(cBuf), "%s",
+      fc_snprintf(cBuf, sizeof(cBuf), "%s",
         advance_name_for_player(client.conn.playing,
           get_player_research(client.conn.playing)->tech_goal));
       
@@ -3093,7 +3093,7 @@ static void popup_change_research_goal_dialog(void)
 	    || i == get_player_research(client.conn.playing)->tech_goal)) {
 
       count++;
-      my_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
+      fc_snprintf(cBuf, sizeof(cBuf), "%s\n%d %s",
                   advance_name_translation(advance_by_number(i)),
                   num,
                   PL_("step", "steps", num));

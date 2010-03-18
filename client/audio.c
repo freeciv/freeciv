@@ -164,7 +164,7 @@ static const char *soundspec_fullname(const char *soundset_name)
   free(fname);
 
   if (dname) {
-    return mystrdup(dname);
+    return fc_strdup(dname);
   }
 
   if (strcmp(soundset_name, soundset_default) == 0) {

@@ -130,11 +130,11 @@ void *fc_real_calloc(size_t nelem, size_t elsize,
 }
 
 /***************************************************************
- Function used by mystrdup macro, strdup() replacement
+ Function used by fc_strdup macro, strdup() replacement
  No need to check return value.
 ***************************************************************/
-char *real_mystrdup(const char *str, 
-		    const char *called_as, int line, const char *file)
+char *real_fc_strdup(const char *str,
+                     const char *called_as, int line, const char *file)
 {
   char *dest = fc_real_malloc(strlen(str)+1, called_as, line, file);
 

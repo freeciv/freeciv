@@ -992,7 +992,7 @@ struct tile *rand_neighbour(const struct tile *ptile)
   /* This clever loop by Trent Piepho will take no more than
    * 8 tries to find a valid direction. */
   for (n = 8; n > 0; n--) {
-    enum direction8 choice = (enum direction8) myrand(n);
+    enum direction8 choice = (enum direction8) fc_rand(n);
 
     /* this neighbour's OK */
     tile1 = mapstep(ptile, dirs[choice]);
@@ -1015,7 +1015,7 @@ struct tile *rand_neighbour(const struct tile *ptile)
 **************************************************************************/
 struct tile *rand_map_pos(void)
 {
-  int nat_x = myrand(map.xsize), nat_y = myrand(map.ysize);
+  int nat_x = fc_rand(map.xsize), nat_y = fc_rand(map.ysize);
 
   return native_pos_to_tile(nat_x, nat_y);
 }
@@ -1037,7 +1037,7 @@ struct tile *rand_map_pos_filtered(void *data,
   /* First do a few quick checks to find a spot.  The limit on number of
    * tries could use some tweaking. */
   do {
-    ptile = map.tiles + myrand(MAP_INDEX_SIZE);
+    ptile = map.tiles + fc_rand(MAP_INDEX_SIZE);
   } while (filter && !filter(ptile, data) && ++tries < max_tries);
 
   /* If that fails, count all available spots and pick one.
@@ -1056,7 +1056,7 @@ struct tile *rand_map_pos_filtered(void *data,
       return NULL;
     }
 
-    return map.tiles + positions[myrand(count)];
+    return map.tiles + positions[fc_rand(count)];
   } else {
     return ptile;
   }

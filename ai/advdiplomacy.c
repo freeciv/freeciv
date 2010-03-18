@@ -1410,7 +1410,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       } else if (ship->state == SSHIP_STARTED 
 		 && adip->warned_about_space == 0) {
         pplayer->ai_data.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
-        adip->warned_about_space = 10 + myrand(6);
+        adip->warned_about_space = 10 + fc_rand(6);
         notify(aplayer, _("*%s (AI)* Your attempt to unilaterally "
                "dominate outer space is highly offensive."),
                player_name(pplayer));
@@ -1479,8 +1479,8 @@ void ai_diplomacy_actions(struct player *pplayer)
         && adip->countdown == -1
         && !adip->is_allied_with_ally
         && !pplayers_at_war(pplayer, aplayer)
-	&& (pplayer_get_diplstate(pplayer, aplayer)->type != DS_CEASEFIRE || 
-	    myrand(5) < 1)) {
+        && (pplayer_get_diplstate(pplayer, aplayer)->type != DS_CEASEFIRE
+            || fc_rand(5) < 1)) {
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "plans war to help ally %s",
                 player_name(adip->at_war_with_ally));
       war_countdown(pplayer, aplayer, 2 + map.server.size, WAR_REASON_ALLIANCE);
@@ -1559,9 +1559,9 @@ void ai_diplomacy_actions(struct player *pplayer)
      * we spam them with our gibbering chatter. */
     if (!aplayer->ai_data.control) {
       if (!pplayers_allied(pplayer, aplayer)) {
-        adip->spam = myrand(4) + 3; /* Bugger allies often. */
+        adip->spam = fc_rand(4) + 3; /* Bugger allies often. */
       } else {
-        adip->spam = myrand(8) + 6; /* Others are less important. */
+        adip->spam = fc_rand(8) + 6; /* Others are less important. */
       }
     }
 

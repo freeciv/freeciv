@@ -32,7 +32,7 @@
 /* common & utility */
 #include "fcintl.h"
 #include "log.h"
-#include "mem.h"     /* mystrdup() */
+#include "mem.h"     /* fc_strdup() */
 #include "support.h"
 #include "version.h"
 
@@ -216,7 +216,7 @@ void gui_server_connect(void)
   ihost=XtVaCreateManagedWidget("chosti", asciiTextWidgetClass, form, 
 			  XtNstring, server_host, NULL);
 
-  my_snprintf(buf, sizeof(buf), "%d", server_port);
+  fc_snprintf(buf, sizeof(buf), "%d", server_port);
   
   I_L(XtVaCreateManagedWidget("cportl", labelWidgetClass, form, NULL));
   iport=XtVaCreateManagedWidget("cporti", asciiTextWidgetClass, form, 
@@ -544,7 +544,7 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
       server_list = server_scan_get_list(lan);
       if (server_list == NULL) {
 	if (num_lanservers_timer == 0) {
-	  *list = mystrdup(" ");;
+	  *list = fc_strdup(" ");;
 	  return 0;
 	} else {
 	  return -1;
@@ -563,11 +563,11 @@ static int get_server_list(char **list, char *errbuf, int n_errbuf)
 
   server_list_iterate(server_list,pserver) {
     if (pserver == NULL) continue;
-    my_snprintf(line, sizeof(line), "%-35s %-5d %-11s %-11s %2d   %s",
+    fc_snprintf(line, sizeof(line), "%-35s %-5d %-11s %-11s %2d   %s",
 		pserver->host, pserver->port, pserver->version,
 		_(pserver->state), pserver->nplayers, pserver->message);
     if (*list) free(*list);
-    *list=mystrdup(line);
+    *list=fc_strdup(line);
     list++;
   } server_list_iterate_end;
 

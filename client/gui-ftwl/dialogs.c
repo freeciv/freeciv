@@ -99,7 +99,7 @@ static void select_random_nation(void)
 {
   /* try to find a free nation */
   while (1) {
-    int index = myrand(game.control.playable_nation_count);
+    int index = fc_rand(game.control.playable_nation_count);
 
     if (sw_list_is_row_enabled(nations_list, index)) {
       sw_list_set_selected_row(nations_list, index, TRUE);
@@ -117,7 +117,7 @@ static void select_random_leader(void)
   
   get_nation_leaders(selected_nation, &leader_count);
 
-  i = myrand(leader_count);
+  i = fc_rand(leader_count);
   sw_list_set_selected_row(leaders_list, i, TRUE);
 }
 

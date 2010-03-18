@@ -55,7 +55,7 @@ struct government *find_government_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   government_iterate(gov) {
-    if (0 == mystrcasecmp(government_rule_name(gov), qname)) {
+    if (0 == fc_strcasecmp(government_rule_name(gov), qname)) {
       return gov;
     }
   } government_iterate_end;

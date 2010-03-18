@@ -595,7 +595,7 @@ static TTF_Font * load_font(Uint16 ptsize)
 
   if(!pFont_with_FullPath) {
     const char *path = theme_font_filename(theme);
-    pFont_with_FullPath = mystrdup(path);
+    pFont_with_FullPath = fc_strdup(path);
     fc_assert_ret_val(pFont_with_FullPath != NULL, NULL);
   }
 

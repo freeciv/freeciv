@@ -38,17 +38,17 @@ void update_info_label(void)
   /* PORTME */
   char buffer[512];
 
-  my_snprintf(buffer, sizeof(buffer),
-	      _("Population: %s\n"
-		"Year: %s\n"
-		"Gold %d\n"
-		"Tax: %d Lux: %d Sci: %d"),
-	      population_to_text(civ_population(client.conn.playing)),
-	      textyear(game.info.year),
-	      client.conn.playing->economic.gold,
-	      client.conn.playing->economic.tax,
-	      client.conn.playing->economic.luxury,
-	      client.conn.playing->economic.science);
+  fc_snprintf(buffer, sizeof(buffer),
+              _("Population: %s\n"
+                "Year: %s\n"
+                "Gold %d\n"
+                "Tax: %d Lux: %d Sci: %d"),
+              population_to_text(civ_population(client_player())),
+              textyear(game.info.year),
+              client.conn.playing->economic.gold,
+              client.conn.playing->economic.tax,
+              client.conn.playing->economic.luxury,
+              client.conn.playing->economic.science);
 
   /* ... */
 }

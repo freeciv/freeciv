@@ -219,7 +219,7 @@ bool client_start_server(void)
     /* inside the child */
 
     /* Set up the command-line parameters. */
-    my_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
+    fc_snprintf(port_buf, sizeof(port_buf), "%d", internal_server_port);
     argv[argc++] = "freeciv-server";
     argv[argc++] = "-p";
     argv[argc++] = port_buf;
@@ -300,27 +300,31 @@ bool client_start_server(void)
 
   /* the server expects command line arguments to be in local encoding */ 
   if (logfile) {
-    char *logfile_in_local_encoding = internal_to_local_string_malloc(logfile);
-    my_snprintf(logcmdline, sizeof(logcmdline), " --debug 3 --log %s",
-		logfile_in_local_encoding);
+    char *logfile_in_local_encoding =
+        internal_to_local_string_malloc(logfile);
+
+    fc_snprintf(logcmdline, sizeof(logcmdline), " --debug 3 --log %s",
+                logfile_in_local_encoding);
     free(logfile_in_local_encoding);
   }
   if (scriptfile) {
-    char *scriptfile_in_local_encoding = internal_to_local_string_malloc(scriptfile);
-    my_snprintf(scriptcmdline, sizeof(scriptcmdline),  " --read %s",
-		scriptfile_in_local_encoding);
+    char *scriptfile_in_local_encoding =
+        internal_to_local_string_malloc(scriptfile);
+
+    fc_snprintf(scriptcmdline, sizeof(scriptcmdline),  " --read %s",
+                scriptfile_in_local_encoding);
     free(scriptfile_in_local_encoding);
   }
 
   interpret_tilde(savesdir, sizeof(savesdir), "~/.freeciv/saves");
   internal_to_local_string_buffer(savesdir, savescmdline, sizeof(savescmdline));
 
-  my_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
-	      internal_server_port, logcmdline, scriptcmdline, savescmdline);
-  my_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
-  my_snprintf(cmdline2, sizeof(cmdline2),
+  fc_snprintf(options, sizeof(options), "-p %d -q 1 -e%s%s --saves \"%s\"",
+              internal_server_port, logcmdline, scriptcmdline, savescmdline);
+  fc_snprintf(cmdline1, sizeof(cmdline1), "./ser %s", options);
+  fc_snprintf(cmdline2, sizeof(cmdline2),
               "./server/freeciv-server %s", options);
-  my_snprintf(cmdline3, sizeof(cmdline3),
+  fc_snprintf(cmdline3, sizeof(cmdline3),
               "freeciv-server %s", options);
 
   if (!CreateProcess(NULL, cmdline1, NULL, NULL, TRUE,
@@ -346,7 +350,7 @@ bool client_start_server(void)
   /* a reasonable number of tries */ 
   while (connect_to_server(user_name, "localhost", internal_server_port, 
                            buf, sizeof(buf)) == -1) {
-    myusleep(WAIT_BETWEEN_TRIES);
+    fc_usleep(WAIT_BETWEEN_TRIES);
 #ifdef HAVE_WORKING_FORK
 #ifndef WIN32_NATIVE
     if (waitpid(server_pid, NULL, WNOHANG) != 0) {
@@ -395,7 +399,7 @@ bool client_start_server(void)
   {
     char buf[16];
 
-    my_snprintf(buf, sizeof(buf), "%d",
+    fc_snprintf(buf, sizeof(buf), "%d",
                 (TF_WRAPX
                  | ((tileset_is_isometric(tileset)
                     && tileset_hex_height(tileset) == 0) ? TF_ISO : 0)
@@ -418,7 +422,7 @@ static void randomize_string(char *str, size_t n)
   int i;
 
   for (i = 0; i < n - 1; i++) {
-    str[i] = chars[myrand(sizeof(chars) - 1)];
+    str[i] = chars[fc_rand(sizeof(chars) - 1)];
   }
   str[i] = '\0';
 }
@@ -532,7 +536,7 @@ void handle_ruleset_choices(struct packet_ruleset_choices *packet)
   for (i = 0; i < packet->ruleset_count; i++) {
     size_t len = strlen(packet->rulesets[i]);
 
-    rulesets[i] = mystrdup(packet->rulesets[i]);
+    rulesets[i] = fc_strdup(packet->rulesets[i]);
 
     if (len > suf_len
 	&& strcmp(rulesets[i] + len - suf_len, RULESET_SUFFIX) == 0) {
@@ -554,7 +558,7 @@ void set_ruleset(const char *ruleset)
 {
   char buf[4096];
 
-  my_snprintf(buf, sizeof(buf), "/read %s%s", ruleset, RULESET_SUFFIX);
+  fc_snprintf(buf, sizeof(buf), "/read %s%s", ruleset, RULESET_SUFFIX);
   log_debug("Executing '%s'", buf);
   send_chat(buf);
 }

@@ -138,7 +138,7 @@ static bool manual_command(void)
   for (manuals = 0; manuals < MANUAL_COUNT; manuals++) {
     int i;
 
-    my_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
+    fc_snprintf(filename, sizeof(filename), "manual%d.html", manuals + 1);
 
     if (!is_reg_file_for_access(filename, TRUE)
         || !(doc = fc_fopen(filename, "w"))) {
@@ -156,7 +156,7 @@ static bool manual_command(void)
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
         if (strlen(setting_extra_help(pset)) > 0) {
-          char *help = mystrdup(_(setting_extra_help(pset)));
+          char *help = fc_strdup(_(setting_extra_help(pset)));
           size_t help_len = strlen(help) + 1;
 
           fc_break_lines(help, LINE_BREAK);
@@ -219,7 +219,7 @@ static bool manual_command(void)
         fprintf(doc, "%s%s  -  %s%s\n\n", SECTION_BEGIN, command_name(cmd),
                 command_short_help(cmd), SECTION_END);
         if (command_synopsis(cmd)) {
-          char *cmdstr = mystrdup(command_synopsis(cmd));
+          char *cmdstr = fc_strdup(command_synopsis(cmd));
           size_t cmdstr_len = strlen(cmdstr) + 1;
 
           cmdstr = html_special_chars(cmdstr, &cmdstr_len);
@@ -231,7 +231,7 @@ static bool manual_command(void)
         fprintf(doc, _("<p class=\"level\">Level: %s</p>\n\n"),
                 cmdlevel_name(command_level(cmd)));
         if (command_extra_help(cmd)) {
-          char *help = mystrdup(command_extra_help(cmd));
+          char *help = fc_strdup(command_extra_help(cmd));
           size_t help_len = strlen(help) + 1;
 
           fc_break_lines(help, LINE_BREAK);

@@ -95,7 +95,7 @@ void popup_rates_dialog(void)
 		    &x, &y);
   XtVaSetValues(rates_dialog_shell, XtNx, x, XtNy, y, NULL);
 
-  my_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
+  fc_snprintf(buf, sizeof(buf), _("%s max rate: %d%%"),
 	      government_name_for_player(client.conn.playing),
 	      get_player_bonus(client.conn.playing, EFT_MAX_RATES));
   xaw_set_label(rates_gov_label, buf);
@@ -308,7 +308,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
   
   if(tax!=rates_tax_value) {
-    my_snprintf(buf, sizeof(buf), _("Tax: %d%%"), tax);
+    fc_snprintf(buf, sizeof(buf), _("Tax: %d%%"), tax);
     xaw_set_label(rates_tax_label, buf);
     if(!no_tax_scroll)
       XawScrollbarSetThumb(rates_tax_scroll, (tax/10)*1/11.0f, 1/11.0f);
@@ -316,7 +316,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(lux!=rates_lux_value) {
-    my_snprintf(buf, sizeof(buf), _("Luxury: %d%%"), lux);
+    fc_snprintf(buf, sizeof(buf), _("Luxury: %d%%"), lux);
     xaw_set_label(rates_lux_label, buf);
     if(!no_lux_scroll)
       XawScrollbarSetThumb(rates_lux_scroll, (lux/10)*1/11.0f, 1/11.0f);
@@ -324,7 +324,7 @@ void rates_set_values(int tax, int no_tax_scroll,
   }
 
   if(sci!=rates_sci_value) {
-    my_snprintf(buf, sizeof(buf), _("Science: %d%%"), sci);
+    fc_snprintf(buf, sizeof(buf), _("Science: %d%%"), sci);
     xaw_set_label(rates_sci_label, buf);
     if(!no_sci_scroll)
       XawScrollbarSetThumb(rates_sci_scroll, (sci/10)*1/11.0f, 1/11.0f);

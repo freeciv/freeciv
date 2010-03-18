@@ -392,7 +392,7 @@ void save_ppm(void)
   }
 
   /* put this file in the same place we put savegames */
-  my_snprintf(filename, sizeof(filename),
+  fc_snprintf(filename, sizeof(filename),
               "%s%+05d.int.ppm", game.server.save_name, game.info.year);
 
   /* Ensure the saves directory exists. */

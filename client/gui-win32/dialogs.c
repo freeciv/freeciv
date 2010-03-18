@@ -324,7 +324,7 @@ static void update_nation_info()
 **************************************************************************/
 static void select_random_race(HWND hWnd)
 {
-  selected_nation = myrand(nation_count());
+  selected_nation = fc_rand(nation_count());
   update_nation_info();
   update_radio_buttons(0);
 }
@@ -342,7 +342,7 @@ static void select_random_leader(HWND hWnd)
   for (j = 0; j < leader_num; j++) {
     ComboBox_AddString(GetDlgItem(hWnd,ID_RACESDLG_LEADER), leaders[j].name);
   }
-  selected_leader=myrand(leader_num);
+  selected_leader=fc_rand(leader_num);
   ComboBox_SetCurSel(GetDlgItem(hWnd,ID_RACESDLG_LEADER),selected_leader);
   SetWindowText(GetDlgItem(hWnd,ID_RACESDLG_LEADER),
 		leaders[selected_leader].name);
@@ -816,7 +816,7 @@ popup_unit_select_dialog(struct tile *ptile)
 
       unit_select_ids[i]=punit->id;
 
-      my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
+      fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
 		  pcity ? city_name(pcity) : "",
 		  unit_activity_text(punit));
@@ -850,7 +850,7 @@ popup_unit_select_dialog(struct tile *ptile)
       canvas_store.wnd = NULL;
       canvas_store.tmp = NULL;
 
-      my_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
+      fc_snprintf(buffer, sizeof(buffer), "%s(%s)\n%s",
 		  utype_name_translation(punittemp),
 		  pcity ? city_name(pcity) : "",
 		  unit_activity_text(punit));
@@ -1046,7 +1046,7 @@ popup_caravan_dialog(struct unit *punit,
   char buf[128];
   bool can_establish, can_trade;
   
-  my_snprintf(buf, sizeof(buf),
+  fc_snprintf(buf, sizeof(buf),
               _("Your caravan from %s reaches the city of %s.\nWhat now?"),
               city_name(phomecity), city_name(pdestcity));
  
@@ -1375,7 +1375,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                          _("This unit cannot be bribed!"),
                          diplomat_bribe_no_callback, 0, 0);
   } else if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
                 _("Bribe unit for %d gold?\nTreasury contains %d gold."), 
                 cost, client.conn.playing->economic.gold);
     popup_message_dialog(root_window, /*"diplomatbribedialog"*/_("Bribe Enemy Unit"
@@ -1383,7 +1383,7 @@ void popup_bribe_dialog(struct unit *punit, int cost)
                         _("_Yes"), diplomat_bribe_yes_callback, 0,
                         _("_No"), diplomat_bribe_no_callback, 0, 0);
   } else {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
                 _("Bribing the unit costs %d gold.\n"
                   "Treasury contains %d gold."), 
                 cost, client.conn.playing->economic.gold);
@@ -1556,12 +1556,12 @@ void popup_incite_dialog(struct city *pcity, int cost)
   char buf[128];
 
   if (INCITE_IMPOSSIBLE_COST == cost) {
-    my_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
+    fc_snprintf(buf, sizeof(buf), _("You can't incite a revolt in %s."),
 		city_name(pcity));
     popup_message_dialog(root_window, _("City can't be incited!"), buf,
 			 _("Darn"), diplomat_incite_no_callback, 0, 0);
   } else if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
    diplomat_target_id = pcity->id;
@@ -1569,7 +1569,7 @@ void popup_incite_dialog(struct city *pcity, int cost)
 		       _("_Yes"), diplomat_incite_yes_callback, 0,
 		       _("_No"), diplomat_incite_no_callback, 0, 0);
   } else {
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
@@ -1608,7 +1608,7 @@ void popup_diplomat_dialog(struct unit *punit, struct tile *ptile)
     /* Spy/Diplomat acting against a city */
 
     diplomat_target_id=pcity->id;
-    my_snprintf(buf, sizeof(buf),
+    fc_snprintf(buf, sizeof(buf),
 		_("Your %s has arrived at %s.\nWhat is your command?"),
 		unit_name_translation(punit),
 		city_name(pcity));

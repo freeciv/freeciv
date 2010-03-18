@@ -57,7 +57,7 @@ enum impr_genus_id find_genus_by_rule_name(const char *s)
   enum impr_genus_id i;
 
   for(i = 0; i < ARRAY_SIZE(genus_names); i++) {
-    if (mystrcasecmp(genus_names[i], s) == 0) {
+    if (fc_strcasecmp(genus_names[i], s) == 0) {
       break;
     }
   }
@@ -296,7 +296,7 @@ struct impr_type *find_improvement_by_rule_name(const char *name)
   const char *qname = Qn_(name);
 
   improvement_iterate(pimprove) {
-    if (0 == mystrcasecmp(improvement_rule_name(pimprove), qname)) {
+    if (0 == fc_strcasecmp(improvement_rule_name(pimprove), qname)) {
       return pimprove;
     }
   } improvement_iterate_end;
@@ -325,7 +325,7 @@ enum impr_flag_id find_improvement_flag_by_rule_name(const char *s)
   fc_assert_ret_val(ARRAY_SIZE(flag_names) == IF_LAST, IF_LAST);
   
   for(i = 0; i < IF_LAST; i++) {
-    if (mystrcasecmp(flag_names[i], s) == 0) {
+    if (fc_strcasecmp(flag_names[i], s) == 0) {
       return i;
     }
   }

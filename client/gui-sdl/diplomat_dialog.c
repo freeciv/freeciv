@@ -1166,7 +1166,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
     exit = TRUE;
     /* --------------- */
     
-    my_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
+    fc_snprintf(cBuf, sizeof(cBuf), _("You can't incite a revolt in %s."),
 		city_name(pCity));
 
     create_active_iconlabel(pBuf, pWindow->dst, pStr, cBuf, NULL);
@@ -1185,7 +1185,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
     area.h += pBuf->size.h;
     
   } else if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
 		_("Incite a revolt for %d gold?\nTreasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
     
@@ -1234,7 +1234,7 @@ void popup_incite_dialog(struct city *pCity, int cost)
     exit = TRUE;
     /* --------------- */
 
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
 		_("Inciting a revolt costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
@@ -1393,7 +1393,7 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
   area.h = MAX(area.h, adj_size(2));
   
   if (cost <= client.conn.playing->economic.gold) {
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
 		_("Bribe unit for %d gold?\nTreasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
     
@@ -1440,7 +1440,7 @@ void popup_bribe_dialog(struct unit *pUnit, int cost)
     exit = TRUE;
     /* --------------- */
 
-    my_snprintf(cBuf, sizeof(cBuf),
+    fc_snprintf(cBuf, sizeof(cBuf),
 		_("Bribing the unit costs %d gold.\n"
 		  "Treasury contains %d gold."), 
 		cost, client.conn.playing->economic.gold);
