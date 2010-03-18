@@ -133,3 +133,43 @@ function hut_enter_callback(unit)
 end
 
 signal.connect("hut_enter", "hut_enter_callback")
+
+
+--[[
+  Make partisans around conquered city
+
+  if requirements to make partisans when a city is conquered is fullfilled
+  this routine makes a lot of partisans based on the city's size.
+  To be candidate for partisans the following things must be satisfied:
+  1) The loser of the city is the original owner.
+  2) The Inspire_Partisans effect must be larger than zero.
+
+  If these conditions are ever satisfied, the ruleset must have a unit
+  with the Partisan role.
+
+  In the default ruleset, the requirements for inspiring partisans are:
+  a) Guerilla warfare must be known by atleast 1 player
+  b) The player must know about Communism and Gunpowder
+  c) The player must run either a democracy or a communist society.
+]]--
+
+function make_partisans_callback(city, loser, winner)
+  if city.original:number() ~= loser:number() then
+    return
+  end
+  if effects.player_bonus(loser, "Inspire_Partisans") <= 0 then
+    return
+  end
+
+  local partisans = random(0, 1 + (city.size + 1) / 2) + 1
+  if partisans > 8 then
+    partisans = 8
+  end
+  place_partisans(city.tile, loser, partisans, city:map_sq_radius())
+  notify.event(loser, city.tile, E.CITY_LOST,
+      _("The loss of %s has inspired partisans!"), city.name)
+  notify.event(winner, city.tile, E.UNIT_WIN_ATT,
+      _("The loss of %s has inspired partisans!"), city.name)
+end
+
+signal.connect("city_lost", "make_partisans_callback")

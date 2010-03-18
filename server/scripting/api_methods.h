@@ -16,43 +16,55 @@
 
 #include "api_types.h"
 
-bool api_methods_unit_city_can_be_built_here(Unit *punit);
-
-int api_methods_player_num_cities(Player *pplayer);
-int api_methods_player_num_units(Player *pplayer);
-
-bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
-bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
-
-bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
-                                                      bool may_be_on_center);
-
+/* Building Type */
 bool api_methods_building_type_is_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding);
 bool api_methods_building_type_is_improvement(Building_Type *pbuilding);
+const char *api_methods_building_type_rule_name(Building_Type *pbuilding);
+const char *api_methods_building_type_name_translation(Building_Type 
+                                                       *pbuilding);
 
-/* rule name and translated name methods */
+/* City */
+bool api_methods_city_has_building(City *pcity, Building_Type *building);
+int api_methods_city_map_sq_radius(City *pcity);
+
+/* Government */
 const char *api_methods_government_rule_name(Government *pgovernment);
 const char *api_methods_government_name_translation(Government *pgovernment);
+
+/* Nation */
 const char *api_methods_nation_type_rule_name(Nation_Type *pnation);
 const char *api_methods_nation_type_name_translation(Nation_Type *pnation);
 const char *api_methods_nation_type_plural_translation(Nation_Type
                                                        *pnation);
-const char *api_methods_building_type_rule_name(Building_Type *pbuilding);
-const char *api_methods_building_type_name_translation(Building_Type 
-                                                       *pbuilding);
-const char *api_methods_unit_type_rule_name(Unit_Type *punit_type);
-const char *api_methods_unit_type_name_translation(Unit_Type *punit_type);
+
+/* Player */
+bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building);
+int api_methods_player_number(Player *pplayer);
+int api_methods_player_num_cities(Player *pplayer);
+int api_methods_player_num_units(Player *pplayer);
+void api_methods_player_victory(Player *pplayer);
+
+/* Tech Type */
 const char *api_methods_tech_type_rule_name(Tech_Type *ptech);
 const char *api_methods_tech_type_name_translation(Tech_Type *ptech);
+
+/* Terrain */
 const char *api_methods_terrain_rule_name(Terrain *pterrain);
 const char *api_methods_terrain_name_translation(Terrain *pterrain);
 
-bool api_methods_city_has_building(City *pcity, Building_Type *building);
-bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building);
+/* Tile */
+bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
+                                                      bool may_be_on_center);
 
-void api_methods_player_victory(Player *pplayer);
-int api_methods_player_number(Player *pplayer);
+/* Unit */
+bool api_methods_unit_city_can_be_built_here(Unit *punit);
+
+/* Unit Type */
+bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
+bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
+const char *api_methods_unit_type_rule_name(Unit_Type *punit_type);
+const char *api_methods_unit_type_name_translation(Unit_Type *punit_type);
 
 #endif /* FC__API_METHODS_H */

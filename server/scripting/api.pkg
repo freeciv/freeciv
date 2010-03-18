@@ -47,7 +47,9 @@ struct Player {
 struct City {
   const char *name;
   Player *owner;
+  Player *original;
   Tile *tile;
+  int size;
 
   const int id;
 };
@@ -176,74 +178,10 @@ const char *api_methods_terrain_name_translation
 /* City */
 bool api_methods_city_has_building
         @ methods_city_has_building(City *pcity, Building_Type *building);
+int api_methods_city_map_sq_radius
+        @ methods_city_map_sq_radius(City *pcity);
 
 $[
--- Player methods.
-function Player:is_human()
-  return not self.ai_data.control
-end
-
-function Player:number()
-  return methods_player_number(self)
-end
-
-function Player:num_cities()
-  return methods_player_num_cities(self)
-end
-
-function Player:num_units()
-  return methods_player_num_units(self)
-end
-
-function Player:has_wonder(building)
-  return methods_player_has_wonder(self, building)
-end
-
-function Player:victory()
-  methods_player_victory(self)
-end
-
--- Unit methods.
-function Unit:get_homecity()
-  return find.city(self.owner, self.homecity)
-end
-
-function Unit:is_on_possible_city_tile()
-  return methods_unit_city_can_be_built_here(self)
-end
-
--- Tile methods
-function Tile:city_exists_within_max_city_map(center)
-  return methods_tile_city_exists_within_max_city_map(self, center)
-end
-
--- Deprecated. New one is Tile:city_exists_within_max_city_map().
-function Tile:city_exists_within_city_radius(center)
-  return self.city_exists_within_max_city_map(center)
-end
-
--- Government methods
-function Government:rule_name()
-  return methods_government_rule_name(self)
-end
-
-function Government:name_translation()
-  return methods_government_name_translation(self)
-end
-
--- Nation_Type methods
-function Nation_Type:rule_name()
-  return methods_nation_type_rule_name(self)
-end
-
-function Nation_Type:name_translation()
-  return methods_nation_type_name_translation(self)
-end
-
-function Nation_Type:plural_translation()
-  return methods_nation_type_plural_translation(self)
-end
-
 -- Building_Type methods.
 function Building_Type:build_shield_cost()
   return self.build_cost
@@ -273,6 +211,108 @@ function Building_Type:name_translation()
   return methods_building_type_name_translation(self)
 end
 
+
+-- City methods
+function City:has_building(building)
+  return methods_city_has_building(self, building)
+end
+
+function City:map_sq_radius()
+  return methods_city_map_sq_radius(self)
+end
+
+
+-- Government methods
+function Government:rule_name()
+  return methods_government_rule_name(self)
+end
+
+function Government:name_translation()
+  return methods_government_name_translation(self)
+end
+
+
+-- Nation_Type methods
+function Nation_Type:rule_name()
+  return methods_nation_type_rule_name(self)
+end
+
+function Nation_Type:name_translation()
+  return methods_nation_type_name_translation(self)
+end
+
+function Nation_Type:plural_translation()
+  return methods_nation_type_plural_translation(self)
+end
+
+
+-- Player methods.
+function Player:has_wonder(building)
+  return methods_player_has_wonder(self, building)
+end
+
+function Player:is_human()
+  return not self.ai_data.control
+end
+
+function Player:number()
+  return methods_player_number(self)
+end
+
+function Player:num_cities()
+  return methods_player_num_cities(self)
+end
+
+function Player:num_units()
+  return methods_player_num_units(self)
+end
+
+function Player:victory()
+  methods_player_victory(self)
+end
+
+
+-- Tech_Type methods
+function Tech_Type:rule_name()
+  return methods_tech_type_rule_name(self)
+end
+
+function Tech_Type:name_translation()
+  return methods_tech_type_name_translation(self)
+end
+
+
+-- Terrain methods
+function Terrain:rule_name()
+  return methods_terrain_rule_name(self)
+end
+
+function Terrain:name_translation()
+  return methods_terrain_name_translation(self)
+end
+
+
+-- Tile methods
+function Tile:city_exists_within_max_city_map(center)
+  return methods_tile_city_exists_within_max_city_map(self, center)
+end
+
+--   Deprecated. New one is Tile:city_exists_within_max_city_map().
+function Tile:city_exists_within_city_radius(center)
+  return self.city_exists_within_max_city_map(center)
+end
+
+
+-- Unit methods.
+function Unit:get_homecity()
+  return find.city(self.owner, self.homecity)
+end
+
+function Unit:is_on_possible_city_tile()
+  return methods_unit_city_can_be_built_here(self)
+end
+
+
 -- Unit_Type methods.
 function Unit_Type:build_shield_cost()
   return self.build_cost
@@ -292,29 +332,6 @@ end
 
 function Unit_Type:name_translation()
   return methods_unit_type_name_translation(self)
-end
-
--- Tech_Type methods
-function Tech_Type:rule_name()
-  return methods_tech_type_rule_name(self)
-end
-
-function Tech_Type:name_translation()
-  return methods_tech_type_name_translation(self)
-end
-
--- Terrain methods
-function Terrain:rule_name()
-  return methods_terrain_rule_name(self)
-end
-
-function Terrain:name_translation()
-  return methods_terrain_name_translation(self)
-end
-
--- City methods
-function City:has_building(building)
-  return methods_city_has_building(self, building)
 end
 $]
 
@@ -578,3 +595,7 @@ Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
 						    Tech_Type *ptech,
 						    const char *reason);
 bool api_actions_unleash_barbarians @ unleash_barbarians (Tile *ptile);
+void api_actions_place_partisans @ place_partisans (Tile *ptile,
+                                                    Player *pplayer,
+                                                    int count,
+                                                    int sq_radius);

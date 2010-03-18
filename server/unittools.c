@@ -924,16 +924,16 @@ enum goto_move_restriction get_activity_move_restriction(enum unit_activity acti
 /**************************************************************************
 ...
 **************************************************************************/
-static bool find_a_good_partisan_spot(struct city *pcity,
-				      struct unit_type *u_type,
-				      struct tile **dst_tile)
+static bool find_a_good_partisan_spot(struct tile *pcenter,
+                                      struct player *powner,
+                                      struct unit_type *u_type,
+                                      int sq_radius,
+                                      struct tile **dst_tile)
 {
-  struct tile *pcenter = city_tile(pcity);
-  struct player *powner = city_owner(pcity);
   int bestvalue = 0;
 
   /* coords of best tile in arg pointers */
-  city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, ptile) {
+  circle_iterate(pcenter, sq_radius, ptile) {
     int value;
 
     if (is_ocean_tile(ptile)) {
@@ -948,7 +948,7 @@ static bool find_a_good_partisan_spot(struct city *pcity,
       continue;
     }
 
-    /* City has not changed hands yet; see place_partisans(). */
+    /* City may not have changed hands yet; see place_partisans(). */
     value = get_virtual_defense_power(NULL, u_type, powner,
 				      ptile, FALSE, 0);
     value *= 10;
@@ -963,54 +963,31 @@ static bool find_a_good_partisan_spot(struct city *pcity,
       *dst_tile = ptile;
       bestvalue = value;
     }
-  } city_tile_iterate_end;
+  } circle_iterate_end;
 
   return bestvalue > 0;
 }
 
 /**************************************************************************
-  finds a spot around pcity and place a partisan.
+  Place partisans for powner around pcenter (normally around a city).
 **************************************************************************/
-static void place_partisans(struct city *pcity, int count)
+void place_partisans(struct tile *pcenter, struct player *powner,
+                     int count, int sq_radius)
 {
   struct tile *ptile = NULL;
   struct unit_type *u_type = get_role_unit(L_PARTISAN, 0);
 
-  while ((count--) > 0 && find_a_good_partisan_spot(pcity, u_type, &ptile)) {
+  while (count-- > 0
+         && find_a_good_partisan_spot(pcenter, powner, u_type,
+                                      sq_radius, &ptile)) {
     struct unit *punit;
 
-    punit = create_unit(city_owner(pcity), ptile, u_type, 0, 0, -1);
+    punit = create_unit(powner, ptile, u_type, 0, 0, -1);
     if (can_unit_do_activity(punit, ACTIVITY_FORTIFYING)) {
       punit->activity = ACTIVITY_FORTIFIED; /* yes; directly fortified */
       send_unit_info(NULL, punit);
     }
   }
-}
-
-/**************************************************************************
-  if requirements to make partisans when a city is conquered is fullfilled
-  this routine makes a lot of partisans based on the city's size.
-  To be candidate for partisans the following things must be satisfied:
-  1) Guerilla warfare must be known by atleast 1 player
-  2) The owner of the city is the original player.
-  3) The player must know about communism and gunpowder
-  4) the player must run either a democracy or a communist society.
-**************************************************************************/
-void make_partisans(struct city *pcity)
-{
-  int partisans;
-
-  if (num_role_units(L_PARTISAN) <= 0
-      || pcity->original != city_owner(pcity)
-      || get_city_bonus(pcity, EFT_INSPIRE_PARTISANS) <= 0) {
-    return;
-  }
-  
-  partisans = myrand(1 + pcity->size/2) + 1;
-  if (partisans > 8) 
-    partisans = 8;
-  
-  place_partisans(pcity,partisans);
 }
 
 /**************************************************************************

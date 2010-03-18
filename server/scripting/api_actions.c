@@ -15,6 +15,9 @@
 #include <config.h>
 #endif
 
+/* common */
+#include "unittype.h"
+
 /* server */
 #include "barbarian.h"
 #include "citytools.h"
@@ -38,6 +41,19 @@ bool api_actions_unleash_barbarians(Tile *ptile)
 {
   SCRIPT_ASSERT(NULL != ptile, FALSE);
   return unleash_barbarians(ptile);
+}
+
+/**************************************************************************
+  Place partisans for a player around a tile (normally around a city).
+**************************************************************************/
+void api_actions_place_partisans(Tile *ptile, Player *pplayer,
+                                 int count, int sq_radius)
+{
+  SCRIPT_ASSERT(NULL != ptile);
+  SCRIPT_ASSERT(NULL != pplayer);
+  SCRIPT_ASSERT(0 < num_role_units(L_PARTISAN));
+  SCRIPT_ASSERT(0 <= sq_radius);
+  return place_partisans(ptile, pplayer, count, sq_radius);
 }
 
 /**************************************************************************
