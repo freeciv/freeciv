@@ -1460,7 +1460,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
 
   menu = create_conn_menu(pplayer, pconn);
   gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-                 NULL, NULL, event->button, 0);
+                 NULL, NULL, event->button, event->time);
 
   gtk_tree_path_free(path);
   return TRUE;
