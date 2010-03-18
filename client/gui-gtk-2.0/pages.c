@@ -1455,8 +1455,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   pconn = find_conn_by_id(conn_id);
 
   gtk_menu_popup(GTK_MENU(create_conn_menu(pplayer, pconn)),
-		 NULL, NULL, NULL, NULL,
-		 event->button, 0);
+                 NULL, NULL, NULL, NULL, event->button, event->time);
   return TRUE;
 #if 0
   return show_conn_popup(widget, event, data);
