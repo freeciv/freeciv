@@ -63,6 +63,10 @@
 
 #include "menu.h"
 
+#ifndef GTK_STOCK_EDIT
+#define GTK_STOCK_EDIT NULL
+#endif
+
 static GtkUIManager *ui_manager = NULL;
 
 static GtkActionGroup *get_safe_group(void);

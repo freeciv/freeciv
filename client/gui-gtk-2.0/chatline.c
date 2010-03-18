@@ -1260,7 +1260,11 @@ void chatline_init(void)
   button = gtk_toggle_button_new();
   gtk_box_pack_start(GTK_BOX(hbox), button, FALSE, FALSE, 2);
   gtk_container_add(GTK_CONTAINER(button),
+#ifdef GTK_STOCK_EDIT
                     gtk_image_new_from_stock(GTK_STOCK_EDIT,
+#else
+                    gtk_image_new_from_stock(GTK_STOCK_PREFERENCES,
+#endif
                                              GTK_ICON_SIZE_MENU));
   g_signal_connect(button, "toggled", G_CALLBACK(button_toggled), &toolkit);
   gtk_tooltips_set_tip(tooltips, GTK_WIDGET(button), _("Chat tools"), NULL);
