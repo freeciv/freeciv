@@ -1107,7 +1107,7 @@ void tileset_changed(void)
   /* PORTME */
   /* Here you should do any necessary redraws (for instance, the city
    * dialogs usually need to be resized). */
-  
+  popdown_all_game_dialogs();
 }
 
 /* =====================================================================

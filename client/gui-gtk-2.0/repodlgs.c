@@ -349,6 +349,35 @@ void create_science_dialog(bool make_modal)
 }
 
 /****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_dialog_redraw(void)
+{
+  struct reqtree *reqtree;
+  int width, height;
+
+  if (NULL == science_dialog_shell) {
+    /* Not existant. */
+    return;
+  }
+
+  if (can_conn_edit(&client.conn)) {
+    /* Show all techs in editor mode, not only currently reachable ones */
+    reqtree = create_reqtree(NULL);
+  } else {
+    /* Show only at some point reachable techs */
+    reqtree = create_reqtree(client_player());
+  }
+
+  get_reqtree_dimensions(reqtree, &width, &height);
+  gtk_layout_set_size(GTK_LAYOUT(science_drawing_area), width, height);
+  g_object_set_data_full(G_OBJECT(science_drawing_area), "reqtree", reqtree,
+                         (GDestroyNotify) destroy_reqtree);
+
+  gtk_widget_queue_draw(science_drawing_area);
+}
+
+/****************************************************************************
   Called to set several texts in the science dialog.
 ****************************************************************************/
 static void update_science_text(void)

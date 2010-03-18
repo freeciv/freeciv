@@ -42,19 +42,22 @@
 #include "climisc.h"
 #include "colors.h"
 #include "control.h" /* get_unit_in_focus() */
-#include "editgui.h"
 #include "editor.h"
-#include "graphics.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
-#include "mapctrl.h"
 #include "options.h"
 #include "overview_common.h"
 #include "tilespec.h"
 #include "text.h"
+
+/* client/gui-gtk-2.0 */
+#include "citydlg.h" /* For reset_city_dialogs() */
+#include "editgui.h"
+#include "graphics.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
+#include "mapctrl.h"
+#include "repodlgs.h"
 #include "wldlg.h"
 
-#include "citydlg.h" /* For reset_city_dialogs() */
 #include "mapview.h"
 
 static GtkObject *map_hadj, *map_vadj;
@@ -832,6 +835,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 **************************************************************************/
 void tileset_changed(void)
 {
+  science_dialog_redraw();
   reset_city_dialogs();
   reset_unit_table();
   blank_max_unit_size();
