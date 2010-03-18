@@ -1021,7 +1021,6 @@ void tilespec_reread(const char *new_tileset_name)
    *
    * Do any necessary redraws.
    */
-  popdown_all_game_dialogs();
   generate_citydlg_dimensions();
   tileset_changed();
   can_slide = FALSE;
