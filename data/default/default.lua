@@ -31,11 +31,11 @@ function hut_get_tech(unit)
   if tech then
     notify.event(owner, unit.tile, E.HUT_TECH,
                  _("You found %s in ancient scrolls of wisdom."),
-                 methods_tech_type_name_translation(tech))
+                 tech:name_translation())
     notify.embassies(owner, unit.tile, E.HUT_TECH,
                  _("The %s have acquired %s from ancient scrolls of wisdom."),
-                 methods_nation_type_plural_translation(owner.nation),
-                 methods_tech_type_name_translation(tech))
+                 owner.nation:plural_translation(),
+                 tech:name_translation())
     return true
   else
     return false
