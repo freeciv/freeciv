@@ -16,7 +16,7 @@
 -- default.lua updated when ever it changes in Freeciv distribution.
 
 -- Get gold from entering a hut.
-function hut_get_gold(unit, gold)
+function default_hut_get_gold(unit, gold)
   local owner = unit.owner
 
   notify.event(owner, unit.tile, E.HUT_GOLD, _("You found %d gold."), gold)
@@ -24,7 +24,7 @@ function hut_get_gold(unit, gold)
 end
 
 -- Get a tech from entering a hut.
-function hut_get_tech(unit)
+function default_hut_get_tech(unit)
   local owner = unit.owner
   local tech = give_technology(owner, nil, "hut")
 
@@ -43,7 +43,7 @@ function hut_get_tech(unit)
 end
 
 -- Get a mercenary unit from entering a hut.
-function hut_get_mercenaries(unit)
+function default_hut_get_mercenaries(unit)
   local owner = unit.owner
   local type = find.role_unit_type('HutTech', owner)
 
@@ -62,7 +62,7 @@ function hut_get_mercenaries(unit)
 end
 
 -- Get new city from hut, or settlers (nomads) if terrain is poor.
-function hut_get_city(unit)
+function default_hut_get_city(unit)
   local owner = unit.owner
   local settlers = find.role_unit_type('Cities', owner)
 
@@ -81,7 +81,7 @@ end
 
 -- Get barbarians from hut, unless close to a city or king enters
 -- Unit may die: returns true if unit is alive
-function hut_get_barbarians(unit)
+function default_hut_get_barbarians(unit)
   local tile = unit.tile
   local type = unit.utype
   local owner = unit.owner
@@ -106,33 +106,33 @@ function hut_get_barbarians(unit)
 end
 
 -- Randomly choose a hut event
-function hut_enter_callback(unit)
+function default_hut_enter_callback(unit)
   local chance = random(0, 11)
   local alive = true
 
   if chance == 0 then
-    hut_get_gold(unit, 25)
+    default_hut_get_gold(unit, 25)
   elseif chance == 1 or chance == 2 or chance == 3 then
-    hut_get_gold(unit, 50)
+    default_hut_get_gold(unit, 50)
   elseif chance == 4 then
-    hut_get_gold(unit, 100)
+    default_hut_get_gold(unit, 100)
   elseif chance == 5 or chance == 6 or chance == 7 then
-    hut_get_tech(unit)
+    default_hut_get_tech(unit)
   elseif chance == 8 or chance == 9 then
-    if not hut_get_mercenaries(unit) then
-      hut_get_gold(unit, 25)
+    if not default_hut_get_mercenaries(unit) then
+      default_hut_get_gold(unit, 25)
     end
   elseif chance == 10 then
-    alive = hut_get_barbarians(unit)
+    alive = default_hut_get_barbarians(unit)
   elseif chance == 11 then
-    hut_get_city(unit)
+    default_hut_get_city(unit)
   end
 
   -- continue processing if unit is alive
   return (not alive)
 end
 
-signal.connect("hut_enter", "hut_enter_callback")
+signal.connect("hut_enter", "default_hut_enter_callback")
 
 
 --[[
@@ -153,7 +153,7 @@ signal.connect("hut_enter", "hut_enter_callback")
   c) The player must run either a democracy or a communist society.
 ]]--
 
-function make_partisans_callback(city, loser, winner)
+function default_make_partisans_callback(city, loser, winner)
   if city.original:number() ~= loser:number() then
     return
   end
@@ -172,4 +172,4 @@ function make_partisans_callback(city, loser, winner)
       _("The loss of %s has inspired partisans!"), city.name)
 end
 
-signal.connect("city_lost", "make_partisans_callback")
+signal.connect("city_lost", "default_make_partisans_callback")
