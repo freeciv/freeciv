@@ -426,34 +426,23 @@ const char *role_units_translations(int flag)
   }
 
   if (count > 0) {
-    struct astring astr;
-
-    astr_init(&astr);
-    astr_minsize(&astr, 1);
-    astr.str[0] = 0;
+    struct astring astr = ASTRING_INIT;
 
     while ((count--) > 0) {
       struct unit_type *u = get_role_unit(flag, count);
       const char *unitname = utype_name_translation(u);
 
       /* there should be something like astr_append() */
-      astr_minsize(&astr, astr.n + strlen(unitname));
-      strcat(astr.str, unitname);
+      astr_add(&astr, "%s", unitname);
 
       if (count == 1) {
-	const char *and_str = _(" and ");
-
-        astr_minsize(&astr, astr.n + strlen(and_str));
-        strcat(astr.str, and_str);
+        astr_add(&astr, "%s", _(" and "));
       } else {
         if (count != 0) {
-	  const char *and_comma = Q_("?and:, ");
-
-	  astr_minsize(&astr, astr.n + strlen(and_comma));
-	  strcat(astr.str, and_comma);
+          astr_add(&astr, "%s", Q_("?and:, "));
         } else {
-	  return astr.str;
-	}
+          return astr_str(&astr);
+        }
       }
     }
   }

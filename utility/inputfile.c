@@ -90,10 +90,7 @@ struct inputfile {
   char *filename;		/* filename as passed to fopen */
   fz_FILE *fp;			/* read from this */
   bool at_eof;			/* flag for end-of-file */
-  struct astring cur_line;	/* data from current line, or .n==0 if
-				   have not yet read in the current line */
-  struct astring copy_line;	/* original cur_line (sometimes insert nulls
-				   in cur_line for processing) */
+  struct astring cur_line;	/* data from current line */
   int cur_line_pos;		/* position in current line */
   int line_num;			/* line number from file in cur_line */
   struct astring token;		/* data returned to user */
@@ -173,7 +170,6 @@ static void init_zeros(struct inputfile *inf)
   inf->at_eof = inf->in_string = FALSE;
   inf->string_start_line = 0;
   astr_init(&inf->cur_line);
-  astr_init(&inf->copy_line);
   astr_init(&inf->token);
   astr_init(&inf->partial);
 }
@@ -194,14 +190,6 @@ static bool inf_sanity_check(struct inputfile *inf)
                     || TRUE == inf->in_string, FALSE);
 #ifdef DEBUG
   fc_assert_ret_val(0 <= inf->string_start_line, FALSE);
-  fc_assert_ret_val(0 <= inf->cur_line.n, FALSE);
-  fc_assert_ret_val(0 <= inf->copy_line.n, FALSE);
-  fc_assert_ret_val(0 <= inf->token.n, FALSE);
-  fc_assert_ret_val(0 <= inf->partial.n, FALSE);
-  fc_assert_ret_val(0 <= inf->cur_line.n_alloc, FALSE);
-  fc_assert_ret_val(0 <= inf->copy_line.n_alloc, FALSE);
-  fc_assert_ret_val(0 <= inf->token.n_alloc, FALSE);
-  fc_assert_ret_val(0 <= inf->partial.n_alloc, FALSE);
   if (inf->included_from && !inf_sanity_check(inf->included_from)) {
     return FALSE;
   }
@@ -291,7 +279,6 @@ static void inf_close_partial(struct inputfile *inf)
   }
   inf->filename = NULL;
   astr_free(&inf->cur_line);
-  astr_free(&inf->copy_line);
   astr_free(&inf->token);
   astr_free(&inf->partial);
 
@@ -327,7 +314,7 @@ void inf_close(struct inputfile *inf)
 static bool have_line(struct inputfile *inf)
 {
   fc_assert_ret_val(inf_sanity_check(inf), FALSE);
-  return (inf->cur_line.n > 0);
+  return !astr_empty(&inf->cur_line);
 }
 
 /********************************************************************** 
@@ -336,8 +323,8 @@ static bool have_line(struct inputfile *inf)
 static bool at_eol(struct inputfile *inf)
 {
   fc_assert_ret_val(inf_sanity_check(inf), TRUE);
-  fc_assert_ret_val(inf->cur_line_pos <= inf->cur_line.n, TRUE);
-  return (inf->cur_line_pos >= inf->cur_line.n - 1);
+  fc_assert_ret_val(inf->cur_line_pos <= astr_len(&inf->cur_line), TRUE);
+  return (inf->cur_line_pos >= astr_len(&inf->cur_line));
 }
 
 /********************************************************************** 
@@ -361,18 +348,20 @@ static bool check_include(struct inputfile *inf)
 {
   const char *include_prefix = "*include";
   static size_t len = 0;
-  char *bare_name, *full_name, *c;
+  size_t bare_name_len;
+  char *bare_name;
+  const char *c, *bare_name_start, *full_name;
   struct inputfile *new_inf, temp;
 
   if (len==0) {
     len = strlen(include_prefix);
   }
   fc_assert_ret_val(inf_sanity_check(inf), FALSE);
-  if (inf->at_eof || inf->in_string || inf->cur_line.n <= len
+  if (inf->at_eof || inf->in_string || astr_len(&inf->cur_line) <= len
       || inf->cur_line_pos > 0) {
     return FALSE;
   }
-  if (strncmp(inf->cur_line.str, include_prefix, len)!=0) {
+  if (strncmp(astr_str(&inf->cur_line), include_prefix, len) != 0) {
     return FALSE;
   }
   /* from here, the include-line must be well formed or we die */
@@ -380,8 +369,8 @@ static bool check_include(struct inputfile *inf)
 
   /* skip any whitespace: */
   inf->cur_line_pos = len;
-  c = inf->cur_line.str + len;
-  while (*c != '\0' && fc_isspace(*c)) {
+  c = astr_str(&inf->cur_line) + len;
+  while (*c != '\0' && fc_isspace(*c)){
     c++;
   }
 
@@ -391,46 +380,52 @@ static bool check_include(struct inputfile *inf)
     return FALSE;
   }
   c++;
-  inf->cur_line_pos = c - inf->cur_line.str;
+  inf->cur_line_pos = c - astr_str(&inf->cur_line);
 
-  bare_name = c;
+  bare_name_start = c;
   while (*c != '\0' && *c != '\"') c++;
   if (*c != '\"') {
     inf_log(inf, LOG_ERROR, 
             "Did not find closing doublequote for '*include' line");
     return FALSE;
   }
-  *c++ = '\0';
-  inf->cur_line_pos = c - inf->cur_line.str;
+  c++;
+  bare_name_len = c - bare_name_start;
+  bare_name = fc_malloc(bare_name_len);
+  strncpy(bare_name, bare_name_start, bare_name_len - 1);
+  bare_name[bare_name_len - 1] = '\0';
+  inf->cur_line_pos = c - astr_str(&inf->cur_line);
 
   /* check rest of line is well-formed: */
   while (*c != '\0' && fc_isspace(*c) && !is_comment(*c)) {
     c++;
   }
-  if (!(*c=='\0' || is_comment(*c))) {
+  if (!(*c == '\0' || is_comment(*c))) {
     inf_log(inf, LOG_ERROR, "Junk after filename for '*include' line");
     return FALSE;
   }
-  inf->cur_line_pos = inf->cur_line.n-1;
+  inf->cur_line_pos = astr_len(&inf->cur_line) - 1;
 
-  full_name = (char *) inf->datafn(bare_name);
+  full_name = inf->datafn(bare_name);
   if (!full_name) {
     log_error("Could not find included file \"%s\"", bare_name);
+    free(bare_name);
     return FALSE;
   }
+  free(bare_name);
 
   /* avoid recursion: (first filename may not have the same path,
-     but will at least stop infinite recursion) */
+   * but will at least stop infinite recursion) */
   {
     struct inputfile *inc = inf;
     do {
-      if (inc->filename && strcmp(full_name, inc->filename)==0) {
+      if (inc->filename && strcmp(full_name, inc->filename) == 0) {
         log_error("Recursion trap on '*include' for \"%s\"", full_name);
         return FALSE;
       }
-    } while((inc=inc->included_from));
+    } while ((inc = inc->included_from));
   }
-  
+
   new_inf = inf_from_file(full_name, inf->datafn);
 
   /* Swap things around so that memory pointed to by inf (user pointer,
@@ -446,7 +441,7 @@ static bool check_include(struct inputfile *inf)
 }
 
 /********************************************************************** 
-  Read a new line into cur_line; also copy to copy_line.
+  Read a new line into cur_line.
   Increments line_num and cur_line_pos.
   Returns 0 if didn't read or other problem: treat as EOF.
   Strips newline from input.
@@ -465,87 +460,62 @@ static bool read_a_line(struct inputfile *inf)
 
   /* abbreviation: */
   line = &inf->cur_line;
-  
+
   /* minimum initial line length: */
-  astr_minsize(line, 80);
+  astr_reserve(line, 80);
+  astr_clear(line);
   pos = 0;
 
-  /* don't print "orig line" in warnings until we have it: */
-  inf->copy_line.n = 0;
-  
   /* Read until we get a full line:
    * At start of this loop, pos is index to trailing null
    * (or first position) in line.
    */
   for(;;) {
-    ret = fz_fgets(line->str + pos, line->n_alloc - pos, inf->fp);
-    
+    ret = fz_fgets((char *) astr_str(line) + pos,
+                   astr_capacity(line) - pos, inf->fp);
+
     if (!ret) {
       /* fgets failed */
       inf->at_eof = TRUE;
       if (pos != 0) {
-	inf_warn(inf, "missing newline at EOF, or failed read");
-	/* treat as simple EOF, ignoring last line: */
-	pos = 0;
+        inf_warn(inf, "missing newline at EOF, or failed read");
+        /* treat as simple EOF, ignoring last line: */
+        pos = 0;
       }
-      line->str[0] = '\0';
-      line->n = 0;
+      astr_clear(line);
       if (inf->in_string) {
-	/* Note: Don't allow multi-line strings to cross "include"
-	   boundaries */
-	inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
+        /* Note: Don't allow multi-line strings to cross "include"
+         * boundaries */
+        inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
         return FALSE;
       }
       if (inf->included_from) {
-	/* Pop the include, and get next line from file above instead. */
-	struct inputfile *inc = inf->included_from;
-	inf_close_partial(inf);
-	*inf = *inc;		/* so the user pointer in still valid
-				   (and inf pointers in calling functions) */
-	free(inc);
-	return read_a_line(inf);
+        /* Pop the include, and get next line from file above instead. */
+        struct inputfile *inc = inf->included_from;
+        inf_close_partial(inf);
+        *inf = *inc;    /* so the user pointer in still valid
+                         * (and inf pointers in calling functions) */
+        free(inc);
+        return read_a_line(inf);
       }
       break;
     }
-    
-    pos += strlen(line->str + pos);
-    line->n = pos + 1;
-    
-    if (line->str[pos-1] == '\n') {
-      line->str[pos-1] = '\0';
-      line->n--;
+
+    pos = astr_len(line);
+
+    if (0 < pos && astr_str(line)[pos - 1] == '\n') {
+      *((char *) astr_str(line) + pos - 1) = '\0';
       break;
     }
-    if (line->n != line->n_alloc) {
-      log_verbose("inputfile: expect missing newline at EOF");
-    }
-    astr_minsize(line, line->n*2);
+    astr_reserve(line, astr_len(line) * 2);
   }
   inf->line_num++;
   inf->cur_line_pos = 0;
-
-  astr_minsize(&inf->copy_line, inf->cur_line.n + ((inf->cur_line.n == 0) ? 1 : 0));
-  strcpy(inf->copy_line.str, inf->cur_line.str);
 
   if (check_include(inf)) {
     return read_a_line(inf);
   }
   return (!inf->at_eof);
-}
-
-/********************************************************************** 
-  Set "flag" token when we don't really want to return anything,
-  except non-null.
-***********************************************************************/
-static void assign_flag_token(struct astring *astr, char val)
-{
-  static char flag_token[2];
-
-  fc_assert_ret(NULL != astr);
-  flag_token[0] = val;
-  flag_token[1] = '\0';
-  astr_minsize(astr, 2);
-  strcpy(astr->str, flag_token);
 }
 
 /**********************************************************************
@@ -556,7 +526,6 @@ static void assign_flag_token(struct astring *astr, char val)
 char *inf_log_str(struct inputfile *inf, const char *message, ...)
 {
   va_list args;
-  char buf[128];
   static char str[512];
 
   fc_assert_ret_val(inf_sanity_check(inf), NULL);
@@ -570,30 +539,22 @@ char *inf_log_str(struct inputfile *inf, const char *message, ...)
     str[0] = '\0';
   }
 
-  fc_snprintf(buf, sizeof(buf), "  file \"%s\", line %d, pos %d%s",
-              inf_filename(inf), inf->line_num, inf->cur_line_pos,
-              (inf->at_eof ? ", EOF" : ""));
-  sz_strlcat(str, buf);
+  cat_snprintf(str, sizeof(str), "  file \"%s\", line %d, pos %d%s",
+               inf_filename(inf), inf->line_num, inf->cur_line_pos,
+               (inf->at_eof ? ", EOF" : ""));
 
-  if (inf->cur_line.str && inf->cur_line.n > 0) {
-    fc_snprintf(buf, sizeof(buf), "\n  looking at: '%s'",
-                inf->cur_line.str+inf->cur_line_pos);
-    sz_strlcat(str, buf);
-  }
-  if (inf->copy_line.str && inf->copy_line.n > 0) {
-    fc_snprintf(buf, sizeof(buf), "\n  original line: '%s'",
-                inf->copy_line.str);
-    sz_strlcat(str, buf);
+  if (!astr_empty(&inf->cur_line)) {
+    cat_snprintf(str, sizeof(str), "\n  looking at: '%s'",
+                 astr_str(&inf->cur_line) + inf->cur_line_pos);
   }
   if (inf->in_string) {
-    fc_snprintf(buf, sizeof(buf), "\n  processing string starting at line %d",
-                inf->string_start_line);
-    sz_strlcat(str, buf);
+    cat_snprintf(str, sizeof(str),
+                 "\n  processing string starting at line %d",
+                 inf->string_start_line);
   }
   while ((inf = inf->included_from)) {  /* local pointer assignment */
-    fc_snprintf(buf, sizeof(buf), "\n  included from file \"%s\", line %d",
-                inf_filename(inf), inf->line_num);
-    sz_strlcat(str, buf);
+    cat_snprintf(str, sizeof(str), "\n  included from file \"%s\", line %d",
+                 inf_filename(inf), inf->line_num);
   }
 
   return str;
@@ -618,8 +579,9 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
     log_error("token type %d (%s) not supported yet", type, name);
     c = NULL;
   } else {
-    if (!have_line(inf))
-      (void) read_a_line(inf);
+    while (!have_line(inf) && read_a_line(inf)) {
+      /* Nothing. */
+    }
     if (!have_line(inf)) {
       c = NULL;
     } else {
@@ -627,7 +589,7 @@ const char *inf_token(struct inputfile *inf, enum inf_token_type type)
     }
   }
   if (c && INF_DEBUG_FOUND) {
-    log_debug("inputfile: found %s '%s'", name, inf->token.str);
+    log_debug("inputfile: found %s '%s'", name, astr_str(&inf->token));
   }
   return c;
 }
@@ -650,24 +612,26 @@ int inf_discard_tokens(struct inputfile *inf, enum inf_token_type type)
 ***********************************************************************/
 static const char *get_token_section_name(struct inputfile *inf)
 {
-  char *c, *start;
+  const char *c, *start;
 
   fc_assert_ret_val(have_line(inf), NULL);
 
-  c = inf->cur_line.str + inf->cur_line_pos;
-  if (*c++ != '[')
+  c = astr_str(&inf->cur_line) + inf->cur_line_pos;
+  if (*c++ != '[') {
     return NULL;
+  }
   start = c;
   while (*c != '\0' && *c != ']') {
     c++;
   }
-  if (*c != ']')
+  if (*c != ']') {
     return NULL;
-  *c++ = '\0';
-  inf->cur_line_pos = c - inf->cur_line.str;
-  astr_minsize(&inf->token, strlen(start)+1);
-  strcpy(inf->token.str, start);
-  return inf->token.str;
+  }
+  *((char *) c) = '\0'; /* Tricky. */
+  astr_set(&inf->token, "%s", start);
+  *((char *) c) = ']';  /* Revert. */
+  inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+  return astr_str(&inf->token);
 }
 
 /********************************************************************** 
@@ -675,22 +639,25 @@ static const char *get_token_section_name(struct inputfile *inf)
 ***********************************************************************/
 static const char *get_token_entry_name(struct inputfile *inf)
 {
-  char *c, *start, *end;
+  const char *c, *start, *end;
+  char trailing;
 
   fc_assert_ret_val(have_line(inf), NULL);
 
-  c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && fc_isspace(*c)) {
+  c = astr_str(&inf->cur_line) + inf->cur_line_pos;
+  while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
-  if (*c == '\0')
+  if (*c == '\0') {
     return NULL;
+  }
   start = c;
   while (*c != '\0' && !fc_isspace(*c) && *c != '=' && !is_comment(*c)) {
     c++;
   }
-  if (!(*c != '\0' && (fc_isspace(*c) || *c == '='))) 
+  if (!(*c != '\0' && (fc_isspace(*c) || *c == '='))) {
     return NULL;
+  }
   end = c;
   while (*c != '\0' && *c != '=' && !is_comment(*c)) {
     c++;
@@ -698,11 +665,12 @@ static const char *get_token_entry_name(struct inputfile *inf)
   if (*c != '=') {
     return NULL;
   }
-  *end = '\0';
-  inf->cur_line_pos = c + 1 - inf->cur_line.str;
-  astr_minsize(&inf->token, strlen(start)+1);
-  strcpy(inf->token.str, start);
-  return inf->token.str;
+  trailing = *end;
+  *((char *) end) = '\0';       /* Tricky. */
+  astr_set(&inf->token, "%s", start);
+  *((char *) end) = trailing;   /* Revert. */
+  inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+  return astr_str(&inf->token);
 }
 
 /********************************************************************** 
@@ -710,25 +678,26 @@ static const char *get_token_entry_name(struct inputfile *inf)
 ***********************************************************************/
 static const char *get_token_eol(struct inputfile *inf)
 {
-  char *c;
+  const char *c;
 
   fc_assert_ret_val(have_line(inf), NULL);
 
   if (!at_eol(inf)) {
-    c = inf->cur_line.str + inf->cur_line_pos;
-    while(*c != '\0' && fc_isspace(*c)) {
+    c = astr_str(&inf->cur_line) + inf->cur_line_pos;
+    while (*c != '\0' && fc_isspace(*c)) {
       c++;
     }
-    if (*c != '\0' && !is_comment(*c))
+    if (*c != '\0' && !is_comment(*c)) {
       return NULL;
+    }
   }
 
   /* finished with this line: say that we don't have it any more: */
-  inf->cur_line.n = 0;
+  astr_clear(&inf->cur_line);
   inf->cur_line_pos = 0;
-  
-  assign_flag_token(&inf->token, ' ');
-  return inf->token.str;
+
+  astr_set(&inf->token, " ");
+  return astr_str(&inf->token);
 }
 
 /********************************************************************** 
@@ -736,21 +705,22 @@ static const char *get_token_eol(struct inputfile *inf)
   preceeding whitespace.
 ***********************************************************************/
 static const char *get_token_white_char(struct inputfile *inf,
-					char target)
+                                        char target)
 {
-  char *c;
+  const char *c;
 
   fc_assert_ret_val(have_line(inf), NULL);
 
-  c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && fc_isspace(*c)) {
+  c = astr_str(&inf->cur_line) + inf->cur_line_pos;
+  while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
-  if (*c != target)
+  if (*c != target) {
     return NULL;
-  inf->cur_line_pos = c + 1 - inf->cur_line.str;
-  assign_flag_token(&inf->token, target);
-  return inf->token.str;
+  }
+  inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+  astr_set(&inf->token, "%c", target);
+  return astr_str(&inf->token);
 }
 
 /********************************************************************** 
@@ -783,19 +753,20 @@ static const char *get_token_comma(struct inputfile *inf)
 static const char *get_token_value(struct inputfile *inf)
 {
   struct astring *partial;
-  char *c, *start;
+  const char *c, *start;
   char trailing;
   bool has_i18n_marking = FALSE;
   char border_character = '\"';
 
   fc_assert_ret_val(have_line(inf), NULL);
 
-  c = inf->cur_line.str + inf->cur_line_pos;
-  while(*c != '\0' && fc_isspace(*c)) {
+  c = astr_str(&inf->cur_line) + inf->cur_line_pos;
+  while (*c != '\0' && fc_isspace(*c)) {
     c++;
   }
-  if (*c == '\0')
+  if (*c == '\0') {
     return NULL;
+  }
 
   if (*c == '-' || fc_isdigit(*c)) {
     /* a number: */
@@ -810,25 +781,25 @@ static const char *get_token_value(struct inputfile *inf)
     /* If its a comma, we don't want to obliterate it permanently,
      * so rememeber it: */
     trailing = *c;
-    *c = '\0';
-    
-    inf->cur_line_pos = c - inf->cur_line.str;
-    astr_minsize(&inf->token, strlen(start)+1);
-    strcpy(inf->token.str, start);
-    
-    *c = trailing;
-    return inf->token.str;
+    *((char *) c) = '\0';       /* Tricky. */
+
+    inf->cur_line_pos = c - astr_str(&inf->cur_line);
+    astr_set(&inf->token, "%s", start);
+
+    *((char *) c) = trailing;   /* Revert. */
+    return astr_str(&inf->token);
   }
 
   /* allow gettext marker: */
-  if (*c == '_' && *(c+1) == '(') {
+  if (*c == '_' && *(c + 1) == '(') {
     has_i18n_marking = TRUE;
     c += 2;
-    while(*c != '\0' && fc_isspace(*c)) {
+    while (*c != '\0' && fc_isspace(*c)) {
       c++;
     }
-    if (*c == '\0')
+    if (*c == '\0') {
       return NULL;
+    }
   }
 
   border_character = *c;
@@ -848,14 +819,13 @@ static const char *get_token_value(struct inputfile *inf)
     /* If its a comma, we don't want to obliterate it permanently,
      * so rememeber it: */
     trailing = *c;
-    *c = '\0';
+    *((char *) c) = '\0';       /* Tricky. */
 
-    inf->cur_line_pos = c - inf->cur_line.str;
-    astr_minsize(&inf->token, strlen(start) + 1);
-    strcpy(inf->token.str, start);
+    inf->cur_line_pos = c - astr_str(&inf->cur_line);
+    astr_set(&inf->token, "%s", start);
 
-    *c = trailing;
-    return inf->token.str;
+    *((char *) c) = trailing;   /* Revert. */
+    return astr_str(&inf->token);
   }
 
   /* From here, we know we have a string, we just have to find the
@@ -875,20 +845,17 @@ static const char *get_token_value(struct inputfile *inf)
   inf->string_start_line = inf->line_num;
   inf->in_string = TRUE;
 
-  partial = &inf->partial;	/* abbreviation */
-  astr_minsize(partial, 1);
-  partial->str[0] = '\0';
-  
-  start = c++;			/* start includes the initial \", to
-				   distinguish from a number */
-  for(;;) {
-    int pos;
-    
-    while(*c != '\0' && *c != border_character) {
+  partial = &inf->partial;      /* abbreviation */
+  astr_clear(partial);
+
+  start = c++;                  /* start includes the initial \", to
+                                 * distinguish from a number */
+  for (;;) {
+    while (*c != '\0' && *c != border_character) {
       /* skip over escaped chars, including backslash-doublequote,
-	 and backslash-backslash: */
-      if (*c == '\\' && *(c+1) != '\0') {  
-	c++;
+       * and backslash-backslash: */
+      if (*c == '\\' && *(c + 1) != '\0') {
+        c++;
       }
       c++;
     }
@@ -898,30 +865,25 @@ static const char *get_token_value(struct inputfile *inf)
       break;
     }
 
-    /* Accumulate to partial string and try more lines;
-     * note partial->n must be _exactly_ the right size, so we
-     * can strcpy instead of strcat-ing all the way to the end
-     * each time. */
-    pos = partial->n - 1;
-    astr_minsize(partial, partial->n + c - start + 1);
-    strcpy(partial->str + pos, start);
-    strcpy(partial->str + partial->n - 2, "\n");
-    
+    astr_add(partial, "%s\n", start);
+
     if (!read_a_line(inf)) {
       /* shouldn't happen */
       inf_log(inf, LOG_ERROR, 
               "Bad return for multi-line string from read_a_line");
       return NULL;
     }
-    c = start = inf->cur_line.str;
+    c = start = astr_str(&inf->cur_line);
   }
 
   /* found end of string */
-  *c = '\0';
-  inf->cur_line_pos = c + 1 - inf->cur_line.str;
-  astr_minsize(&inf->token, partial->n + strlen(start));
-  strcpy(inf->token.str, partial->str);
-  strcpy(inf->token.str + partial->n - 1, start);
+  trailing = *c;
+  *((char *) c) = '\0';         /* Tricky. */
+
+  inf->cur_line_pos = c + 1 - astr_str(&inf->cur_line);
+  astr_set(&inf->token, "%s%s", astr_str(partial), start);
+
+  *((char *) c) = trailing;     /* Revert. */
 
   /* check gettext tag at end: */
   if (has_i18n_marking) {
@@ -932,5 +894,5 @@ static const char *get_token_value(struct inputfile *inf)
     }
   }
   inf->in_string = FALSE;
-  return inf->token.str;
+  return astr_str(&inf->token);
 }

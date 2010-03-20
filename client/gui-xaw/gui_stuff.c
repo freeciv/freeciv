@@ -272,11 +272,10 @@ static const char *convert_intl_marking(const char *str)
   int len = strlen(str);
 
   fc_assert_ret_val(len >= 5, str);
-  astr_minsize(&buf, len-2);	/* +1 nul, -3 start */
-  strcpy(buf.str, str+3);
-  buf.str[len-5] = '\0';
+  astr_set(&buf, "%s", str + 3);
+  *((char *) &astr_str(&buf)[len - 5]) = '\0';
 
-  return _(buf.str);
+  return _(astr_str(&buf));
 }
 
 /**************************************************************************

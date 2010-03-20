@@ -11,38 +11,110 @@
    GNU General Public License for more details.
 ***********************************************************************/
 
-/********************************************************************** 
-  Allocated/allocatable strings (and things?)
+/****************************************************************************
+  Allocated/allocatable strings
   See comments in astring.c
-***********************************************************************/
+****************************************************************************/
 
 #ifndef FC__ASTRING_H
 #define FC__ASTRING_H
 
-#include <stddef.h>		/* size_t */
+#include <string.h>             /* strlen() */
 
-#include "shared.h"		/* ADD_TO_POINTER */
+/* utility */
+#include "support.h"            /* bool, fc__attribute() */
+
+/* Don't let others modules using the fields directly. */
+#define str     _private_str_
+#define n       _private_n_
+#define n_alloc _private_n_alloc_
 
 struct astring {
-  char *str;			/* the string */
-  size_t n;			/* size most recently requested */
-  size_t n_alloc;		/* total allocated */
+  char *str;                    /* the string */
+  size_t n;                     /* size most recently requested */
+  size_t n_alloc;               /* total allocated */
 };
 
 /* Can assign this in variable declaration to initialize:
  * Notice a static astring var is exactly this already.
- * For athing need to call ath_init() due to size.
- */
-#define ASTRING_INIT  { NULL, 0, 0 }
+ * For athing need to call ath_init() due to size. */
+#define ASTRING_INIT { NULL, 0, 0 }
 
-void astr_init(struct astring *astr);
-void astr_minsize(struct astring *astr, size_t n);
-void astr_free(struct astring *astr);
-void astr_clear(struct astring *astr);
+void astr_init(struct astring *astr) fc__attribute((nonnull (1)));
+void astr_free(struct astring *astr) fc__attribute((nonnull (1)));
+
+static inline const char *astr_str(const struct astring *astr)
+                          fc__attribute((nonnull (1)));
+static inline size_t astr_len(const struct astring *astr)
+                     fc__attribute((nonnull (1)));
+static inline size_t astr_size(const struct astring *astr)
+                     fc__attribute((nonnull (1)));
+static inline size_t astr_capacity(const struct astring *astr)
+                     fc__attribute((nonnull (1)));
+static inline bool astr_empty(const struct astring *astr)
+                   fc__attribute((nonnull (1)));
+
+void astr_reserve(struct astring *astr, size_t size)
+     fc__attribute((nonnull (1)));
+void astr_clear(struct astring *astr)
+     fc__attribute((nonnull (1)));
+void astr_set(struct astring *astr, const char *format, ...)
+     fc__attribute((__format__(__printf__, 2, 3)))
+     fc__attribute((nonnull (1, 2)));
 void astr_add(struct astring *astr, const char *format, ...)
-      fc__attribute((__format__(__printf__, 2, 3)));
+     fc__attribute((__format__(__printf__, 2, 3)))
+     fc__attribute((nonnull (1, 2)));
 void astr_add_line(struct astring *astr, const char *format, ...)
-      fc__attribute((__format__(__printf__, 2, 3)));
-void astr_break_lines(struct astring *astr, size_t desired_len);
+     fc__attribute((__format__(__printf__, 2, 3)))
+     fc__attribute((nonnull (1, 2)));
+void astr_break_lines(struct astring *astr, size_t desired_len)
+     fc__attribute((nonnull (1)));
+void astr_copy(struct astring *dest, const struct astring *src)
+     fc__attribute((nonnull (1, 2)));
+
+
+/****************************************************************************
+  Returns the string.
+****************************************************************************/
+static inline const char *astr_str(const struct astring *astr)
+{
+  return astr->str;
+}
+
+/****************************************************************************
+  Returns the lenght of the string.
+****************************************************************************/
+static inline size_t astr_len(const struct astring *astr)
+{
+  return (NULL != astr->str ? strlen(astr->str) : 0);
+}
+
+/****************************************************************************
+  Returns the current size requested for the string.
+****************************************************************************/
+static inline size_t astr_size(const struct astring *astr)
+{
+  return astr->n;
+}
+
+/****************************************************************************
+  Returns the real size requested for the string.
+****************************************************************************/
+static inline size_t astr_capacity(const struct astring *astr)
+{
+  return astr->n_alloc;
+}
+
+/****************************************************************************
+  Returns wether the string is empty or not.
+****************************************************************************/
+static inline bool astr_empty(const struct astring *astr)
+{
+  return (0 == astr->n || '\0' == astr->str[0]);
+}
+
+#undef str
+#undef n
+#undef n_alloc
 
 #endif  /* FC__ASTRING_H */

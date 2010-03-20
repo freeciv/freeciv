@@ -228,9 +228,9 @@ void update_players_dialog(void)
           }
         }
       }
-      
-      copy_chars_to_string16(pPlayer0->string16, astr.str);
-      
+
+      copy_chars_to_string16(pPlayer0->string16, astr_str(&astr));
+
       astr_free(&astr);
           
       /* now add some eye candy ... */

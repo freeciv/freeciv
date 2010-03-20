@@ -1119,7 +1119,7 @@ const char *unit_activity_text(const struct unit *punit) {
   astr_clear(&str);
   unit_activity_astr(punit, &str);
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /**************************************************************************

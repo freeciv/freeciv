@@ -66,14 +66,11 @@ const char *get_tile_output_text(const struct tile *ptile)
       fc_snprintf(output_text[i], sizeof(output_text[i]), "%d", x);
     }
   }
-  
-  astr_clear(&str);
-  astr_add_line(&str, "%s/%s/%s",
-                output_text[O_FOOD],
-		output_text[O_SHIELD],
-		output_text[O_TRADE]);
 
-  return str.str;
+  astr_set(&str, "%s/%s/%s", output_text[O_FOOD],
+           output_text[O_SHIELD], output_text[O_TRADE]);
+
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -158,7 +155,7 @@ const char *popup_info_text(struct tile *ptile)
 
   if (client_tile_get_known(ptile) == TILE_UNKNOWN) {
     astr_add(&str, _("Unknown"));
-    return str.str;
+    return astr_str(&str);
   }
   astr_add_line(&str, _("Terrain: %s"),  tile_get_info_text(ptile, 0));
   astr_add_line(&str, _("Food/Prod/Trade: %s"),
@@ -380,7 +377,7 @@ const char *popup_info_text(struct tile *ptile)
   }
 
   astr_break_lines(&str, LINE_BREAK);
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -453,7 +450,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
     }
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 #define FAR_CITY_SQUARE_DIST (2*(6*6))
@@ -486,7 +483,7 @@ const char *get_nearest_city_text(struct city *pcity, int sq_dist)
                  ? city_name(pcity)
                  : "");
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -532,7 +529,7 @@ const char *unit_description(struct unit *punit)
   astr_add_line(&str, "Unit ID: %d", punit->id);
 #endif
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -606,7 +603,7 @@ const char *science_dialog_text(void)
                     ", %d bulbs/turn from team", theirs), theirs);
   }
   astr_add(&str, " (%s%s)", ourbuf, theirbuf);
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -652,7 +649,7 @@ const char *get_science_target_text(double *percent)
     }
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -693,7 +690,7 @@ const char *get_science_goal_text(Tech_type_id goal)
   }
   astr_add_line(&str, "(%s - %s - %s)", buf1, buf2, buf3);
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -740,7 +737,7 @@ const char *get_info_label_text(void)
     }
   }
   astr_add_line(&str, _("(Click for more info)"));
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -801,7 +798,7 @@ const char *get_info_label_text_popup(void)
 		  government_name_for_player(client.conn.playing));
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -824,7 +821,7 @@ const char *get_unit_info_label_text1(struct unit_list *punits)
       astr_add(&str, PL_("%d unit", "%d units", count), count);
     }
   }
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -977,7 +974,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
   }
 #endif
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1058,7 +1055,7 @@ const char *get_bulb_tooltip(void)
 		    total_bulbs_required(client.conn.playing));
     }
   }
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1082,7 +1079,7 @@ const char *get_global_warming_tooltip(void)
                   chance);
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1106,7 +1103,7 @@ const char *get_nuclear_winter_tooltip(void)
                   chance);
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1125,7 +1122,7 @@ const char *get_government_tooltip(void)
     astr_add_line(&str, "%s",
 		  government_name_for_player(client.conn.playing));
   }
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1180,7 +1177,7 @@ const char *get_spaceship_descr(struct player_spaceship *pship)
 				  (int) pship->travel_time))
 		: "-   ");
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1199,7 +1196,7 @@ const char *get_timeout_label_text(void)
     astr_add(&str, "%s", format_duration(get_seconds_to_turndone()));
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1230,7 +1227,7 @@ const char *format_duration(int duration)
     astr_add(&str, "%s", Q_("?duration:overflow"));
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1257,7 +1254,7 @@ const char *get_ping_time_text(const struct player *pplayer)
     }
   } conn_list_iterate_end;
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1278,7 +1275,7 @@ const char *get_score_text(const struct player *pplayer)
     astr_add(&str, "?");
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1311,7 +1308,7 @@ const char *get_report_title(const char *report_name)
     astr_add_line(&str, _("Observer: %s"),
 		  textyear(game.info.year));
   }
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1347,7 +1344,7 @@ const char *text_happiness_buildings(const struct city *pcity)
     astr_add(&str, "%s", Q_("?clistend:."));
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1385,7 +1382,7 @@ const char *text_happiness_wonders(const struct city *pcity)
     astr_add(&str, "%s",  Q_("?clistend:."));
   }
 
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1429,7 +1426,7 @@ const char *text_happiness_cities(const struct city *pcity)
                     "%d additional unhappy citizens.",
                     penalty),
                 penalty);
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1464,7 +1461,7 @@ const char *text_happiness_units(const struct city *pcity)
     astr_add_line(&str,
                   _("Military units have no happiness effect. "));
   }
-  return str.str;
+  return astr_str(&str);
 }
 
 /****************************************************************************
@@ -1479,5 +1476,5 @@ const char *text_happiness_luxuries(const struct city *pcity)
   astr_add_line(&str,
                 _("Luxury: %d total."),
                 pcity->prod[O_LUXURY]);
-  return str.str;
+  return astr_str(&str);
 }

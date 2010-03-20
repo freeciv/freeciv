@@ -1179,35 +1179,26 @@ const char *fileinfoname(const struct strvec *dirs, const char *filename)
   }
 
   if (!filename) {
-    size_t len = 1;             /* in case num_dirs == 0 */
-    size_t seplen = strlen(PATH_SEPARATOR);
     bool first = TRUE;
 
-    strvec_iterate(dirs, dirname) {
-      len += strlen(dirname) + MAX(1, seplen);  /* separator or '\0' */
-    } strvec_iterate_end;
-    astr_minsize(&realfile, len);
-    realfile.str[0] = '\0';
-
+    astr_clear(&realfile);
     strvec_iterate(dirs, dirname) {
       if (first) {
+        astr_add(&realfile, "%s%s", PATH_SEPARATOR, dirname);
         first = FALSE;
       } else {
-        (void) fc_strlcat(realfile.str, PATH_SEPARATOR, len);
+        astr_add(&realfile, "%s", dirname);
       }
-      (void) fc_strlcat(realfile.str, dirname, len);
     } strvec_iterate_end;
-    return realfile.str;
+    return astr_str(&realfile);
   }
 
   strvec_iterate(dirs, dirname) {
     struct stat buf;    /* see if we can open the file or directory */
-    size_t len = strlen(dirname) + strlen(filename) + 2;
 
-    astr_minsize(&realfile, len);
-    fc_snprintf(realfile.str, len, "%s/%s", dirname, filename);
-    if (fc_stat(realfile.str, &buf) == 0) {
-      return realfile.str;
+    astr_set(&realfile, "%s/%s", dirname, filename);
+    if (fc_stat(astr_str(&realfile), &buf) == 0) {
+      return astr_str(&realfile);
     }
   } strvec_iterate_end;
 

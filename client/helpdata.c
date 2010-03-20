@@ -1467,11 +1467,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     char allowed_units[10][64];
     int num_allowed_units = 0;
     int j;
-    struct astring astr;
-
-    astr_init(&astr);
-    astr_minsize(&astr,1);
-    astr.str[0] = '\0';
+    struct astring astr = ASTRING_INIT;
 
     unit_type_iterate(transport) {
       if (can_unit_type_transport(transport, utype_class(utype))) {
@@ -1485,22 +1481,16 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     for (j = 0; j < num_allowed_units; j++) {
       const char *deli_str = NULL;
 
-      /* there should be something like astr_append() */
-      astr_minsize(&astr, astr.n + strlen(allowed_units[j]));
-      strcat(astr.str, allowed_units[j]);
-
       if (j == num_allowed_units - 2) {
         /* TRANS: List of possible unit types has this between
          *        last two elements */
-	deli_str = Q_(" or ");
+        deli_str = Q_(" or ");
       } else if (j < num_allowed_units - 1) {
-	deli_str = Q_("?or:, ");
+        deli_str = Q_("?or:, ");
       }
 
-      if (deli_str) {
-	astr_minsize(&astr, astr.n + strlen(deli_str));
-	strcat(astr.str, deli_str);
-      }
+      astr_add(&astr, "%s%s", allowed_units[j],
+               NULL != deli_str ? deli_str : "");
     }
 
     if (num_allowed_units == 0) {
@@ -1518,8 +1508,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                        "* Unit has to be in a city, a base, or on a %s"
                        " after %d turns.\n",
                        utype_fuel(utype)),
-                   astr.str,
-                   utype_fuel(utype));
+                   astr_str(&astr), utype_fuel(utype));
     }
     astr_free(&astr);
   }
@@ -1863,8 +1852,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is the output type, like 'shield' or 'gold'. */
                        _("* You pay %d times normal %s upkeep for your units.\n"),
-                       peffect->value,
-                       outputs_and.str);
+                       peffect->value, astr_str(&outputs_and));
         } else if (peffect->value > 1) {
           cat_snprintf(buf, bufsz,
                        _("* You pay %d times normal upkeep for your units.\n"),
@@ -1873,7 +1861,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is the output type, like 'shield' or 'gold'. */
                        _("* You pay no %s upkeep for your units.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         } else if (peffect->value == 0) {
           CATLSTR(buf, bufsz,
                   _("* You pay no upkeep for your units.\n"));
@@ -1887,8 +1875,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                         * singular/plural version of these. */
                        _("* Each of your cities will avoid paying %d %s"
                          " upkeep for your units.\n"),
-                       peffect->value,
-                       outputs_and.str);
+                       peffect->value, astr_str(&outputs_and));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: Amount is subtracted from upkeep cost
@@ -2016,49 +2003,45 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                      /* TRANS: %s is list of output types, with 'or' */
                      _("* Each worked tile that gives more than %d %s will"
                        " suffer a -1 penalty unless celebrating.\n"),
-                     peffect->value,
-                     outputs_or.str);
+                     peffect->value, astr_str(&outputs_or));
         break;
       case EFT_OUTPUT_INC_TILE_CELEBRATE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
                      _("* Each worked tile with at least 1 %s will yield"
                        " %d more of it while celebrating.\n"),
-                     outputs_or.str,
-                     peffect->value);
+                     astr_str(&outputs_or), peffect->value);
         break;
       case EFT_OUTPUT_INC_TILE:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'or' */
                      _("* Each worked tile with at least 1 %s will yield"
                        " %d more of it.\n"),
-                     outputs_or.str,
-                     peffect->value);
+                     astr_str(&outputs_or), peffect->value);
         break;
       case EFT_OUTPUT_BONUS:
       case EFT_OUTPUT_BONUS_2:
         cat_snprintf(buf, bufsz,
                      /* TRANS: %s is list of output types, with 'and' */
                      _("* %s production is increased %d%%.\n"),
-                     outputs_and.str,
-                     peffect->value);
+                     astr_str(&outputs_and), peffect->value);
         break;
       case EFT_OUTPUT_WASTE:
         if (peffect->value > 30) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s production will suffer massive losses.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         } else if (peffect->value >= 15) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s production will suffer some losses.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s production will suffer a small amount of losses.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         }
         break;
       case EFT_HEALTH_PCT:
@@ -2076,19 +2059,19 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s losses will increase quickly"
                          " with distance from capital.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         } else if (peffect->value == 2) {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s losses will increase"
                          " with distance from capital.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         } else {
           cat_snprintf(buf, bufsz,
                        /* TRANS: %s is list of output types, with 'and' */
                        _("* %s losses will increase slowly"
                          " with distance from capital.\n"),
-                       outputs_and.str);
+                       astr_str(&outputs_and));
         }
       case EFT_MIGRATION_PCT:
         if (peffect->value > 0) {

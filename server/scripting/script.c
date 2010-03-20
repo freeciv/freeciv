@@ -49,15 +49,13 @@ static char *script_code;
 static int script_report(lua_State *L, int status, const char *code)
 {
   if (status) {
+    struct astring str = ASTRING_INIT;
     const char *msg;
-    static struct astring str = ASTRING_INIT;
     int lineno;
 
     if (!(msg = lua_tostring(L, -1))) {
       msg = "(error with no message)";
     }
-
-    astr_clear(&str);
 
     /* Add error message. */
     astr_add_line(&str, "lua error:");
@@ -104,7 +102,7 @@ static int script_report(lua_State *L, int status, const char *code)
       }
     }
 
-    log_error("%s", str.str);
+    log_error("%s", astr_str(&str));
 
     astr_free(&str);
 

@@ -553,18 +553,14 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         }
 
         if (i < num_columns) {
-          astr_minsize(&entry_name, base_name.n + 10 + columns.p[i].n);
-          fc_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s",
-                      base_name.str, table_lineno, columns.p[i].str);
+          astr_set(&entry_name, "%s%d.%s", astr_str(&base_name),
+                   table_lineno, astr_str(&columns.p[i]));
         } else {
-          astr_minsize(&entry_name,
-                       base_name.n + 20 + columns.p[num_columns - 1].n);
-          fc_snprintf(entry_name.str, entry_name.n_alloc, "%s%d.%s,%d",
-                      base_name.str, table_lineno,
-                      columns.p[num_columns - 1].str,
-                      (int) (i - num_columns + 1));
+          astr_set(&entry_name, "%s%d.%s,%d", astr_str(&base_name),
+                   table_lineno, astr_str(&columns.p[num_columns - 1]),
+                   (int) (i - num_columns + 1));
         }
-        entry_from_token(psection, entry_name.str, tok);
+        entry_from_token(psection, astr_str(&entry_name), tok);
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
@@ -585,8 +581,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
     }
 
     /* need to store tok before next calls: */
-    astr_minsize(&base_name, strlen(tok)+1);
-    strcpy(base_name.str, tok);
+    astr_set(&base_name, "%s", tok);
 
     inf_discard_tokens(inf, INF_TOK_EOL);       /* allow newlines */
 
@@ -618,8 +613,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
             astr_init(&columns.p[j]);
           }
         }
-        astr_minsize(&columns.p[i], strlen(tok));
-        strcpy(columns.p[i].str, tok + 1);
+        astr_set(&columns.p[i], "%s", tok + 1);
 
       } while (inf_token(inf, INF_TOK_COMMA));
 
@@ -645,12 +639,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         goto END;
       }
       if (i == 0) {
-        entry_from_token(psection, base_name.str, tok);
+        entry_from_token(psection, astr_str(&base_name), tok);
       } else {
-        astr_minsize(&entry_name, base_name.n + 20);
-        fc_snprintf(entry_name.str, entry_name.n_alloc,
-                    "%s,%d", base_name.str, i);
-        entry_from_token(psection, entry_name.str, tok);
+        astr_set(&entry_name, "%s,%d", astr_str(&base_name), i);
+        entry_from_token(psection, astr_str(&entry_name), tok);
       }
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
