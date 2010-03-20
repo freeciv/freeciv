@@ -313,10 +313,24 @@ void script_signal_connect(const char *signal_name, const char *callback_name)
     script_error("nil string argument 'callback_name'.");
   } else {
     struct signal *signal;
+    bool duplicate = FALSE;
 
     signal = hash_lookup_data(signals, signal_name);
     if (signal) {
-      internal_signal_callback_append(signal->callbacks, callback_name);
+      /* check for a duplicate callback */
+      signal_callback_list_iterate(signal->callbacks, pcallback) {
+        if (!strcmp(pcallback->name, callback_name)) {
+          duplicate = TRUE;
+          break;
+        }
+      } signal_callback_list_iterate_end;
+
+      if (duplicate) {
+        script_error("Signal \"%s\" already has a callback called \"%s\".",
+                     signal_name, callback_name);
+      } else {
+        internal_signal_callback_append(signal->callbacks, callback_name);
+      }
     } else {
       script_error("Signal \"%s\" does not exist.", signal_name);
     }
