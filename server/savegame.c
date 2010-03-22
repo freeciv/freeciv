@@ -853,7 +853,7 @@ static void map_load_rivers_overlay(struct section_file *file,
   if (special_order) {
     special_halfbyte_iterate(j) {
       char buf[16]; /* enough for sprintf() below */
-      sprintf (buf, "map.spe%02d%%03d", j);
+      sprintf (buf, "map.spe%02d_%%03d", j);
 
       LOAD_MAP_DATA(ch, nat_y, ptile,
 	secfile_lookup_str(file, buf, nat_y),
