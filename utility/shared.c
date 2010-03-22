@@ -2103,3 +2103,195 @@ bool wildcard_fit_string(const char *pattern, const char *test)
 
   return FALSE;
 }
+
+/****************************************************************************
+  Print a string with a custom format. sequences is a pointer to an array of
+  sequences, probably defined with CF_*_SEQ(). sequences_num is the number of
+  the sequences, or -1 in the case the array is terminated with CF_END.
+
+  Example:
+  static const struct cf_sequence sequences[] = {
+    CF_INT_SEQ('y', 2010)
+  };
+  char buf[256];
+
+  fc_vsnprintcf(buf, sizeof(buf), "%y %+06y", sequences, 1);
+  // This will print "2010 +02010" into buf.
+****************************************************************************/
+int fc_vsnprintcf(char *buf, size_t buf_len, const char *format,
+                  const struct cf_sequence *sequences, size_t sequences_num)
+{
+  const struct cf_sequence *pseq;
+  char cformat[32];
+  const char *f = format;
+  char *const max = buf + buf_len - 1;
+  char *b = buf, *c;
+  const char *const cmax = cformat + sizeof(cformat - 2);
+  int i, j;
+
+  if ((size_t) -1 == sequences_num) {
+    /* Find the number of sequences. */
+    sequences_num = 0;
+    for (pseq = sequences; CF_LAST != pseq->type; pseq++) {
+      sequences_num++;
+    }
+  }
+
+  while ('\0' != *f) {
+    if ('%' == *f) {
+      /* Sequence. */
+
+      f++;
+      if ('%' == *f) {
+        /* Double '%'. */
+        *b++ = '%';
+        f++;
+        continue;
+      }
+
+      /* Make format. */
+      c = cformat;
+      *c++ = '%';
+      for (; !fc_isalpha(*f) && '\0' != *f && '%' != *f && cmax > c; f++) {
+        *c++ = *f;
+      }
+
+      if (!fc_isalpha(*f)) {
+        /* Beginning of a new sequence, end of the format, or too long
+         * sequence. */
+        *c = '\0';
+        j = fc_snprintf(b, max - b + 1, "%s", cformat);
+        if (-1 == j) {
+          return -1;
+        }
+        b += j;
+        continue;
+      }
+
+      for (i = 0, pseq = sequences; i < sequences_num; i++, pseq++) {
+        if (pseq->letter == *f) {
+          j = -2;
+          switch (pseq->type) {
+          case CF_BOOLEAN:
+            *c++ = 's';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat,
+                            pseq->bool_value ? "TRUE" : "FALSE");
+            break;
+          case CF_TRANS_BOOLEAN:
+            *c++ = 's';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat,
+                            pseq->bool_value ? _("TRUE") : _("FALSE"));
+            break;
+          case CF_CHARACTER:
+            *c++ = 'c';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->char_value);
+            break;
+          case CF_INTEGER:
+            *c++ = 'd';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->int_value);
+            break;
+          case CF_HEXA:
+            *c++ = 'x';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->int_value);
+            break;
+          case CF_FLOAT:
+            *c++ = 'f';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->float_value);
+            break;
+          case CF_POINTER:
+            *c++ = 'p';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->ptr_value);
+            break;
+          case CF_STRING:
+            *c++ = 's';
+            *c = '\0';
+            j = fc_snprintf(b, max - b + 1, cformat, pseq->str_value);
+            break;
+          case CF_LAST:
+            break;
+          };
+          if (-2 == j) {
+            log_error("Error: unsupported sequence type: %d.", pseq->type);
+            break;
+          }
+          if (-1 == j) {
+            /* Full! */
+            return -1;
+          }
+          f++;
+          b += j;
+          break;
+        }
+      }
+      if (i >= sequences_num) {
+        /* Format not supported. */
+        *c = '\0';
+        j = fc_snprintf(b, max - b + 1, "%s%c", cformat, *f);
+        if (-1 == j) {
+          return -1;
+        }
+        f++;
+        b += j;
+      }
+    } else {
+      /* Not a sequence. */
+      *b++ = *f++;
+    }
+    if (max <= b) {
+      /* Too long. */
+      *max = '\0';
+      return -1;
+    }
+  }
+  *b = '\0';
+  return b - buf;
+}
+
+/****************************************************************************
+  Print a string with a custom format. The additional arguments are a suite
+  of cf_*_seq() finished by cf_end(). This return the number of printed
+  characters (excluding the last '\0') or -1 if the buffer is full.
+
+  Example:
+  char buf[256];
+
+  fc_snprintcf(buf, sizeof(buf), "%y %+06y",
+               cf_int_seq('y', 2010), cf_end());
+  // This will print "2010 +02010" into buf.
+****************************************************************************/
+int fc_snprintcf(char *buf, size_t buf_len, const char *format, ...)
+{
+  struct cf_sequence sequences[16];
+  size_t sequences_num = 0;
+  va_list args;
+
+  /* Collect sequence array. */
+  va_start(args, format);
+  do {
+    sequences[sequences_num] = va_arg(args, struct cf_sequence);
+    if (CF_LAST == sequences[sequences_num].type) {
+      break;
+    } else {
+      sequences_num++;
+    }
+  } while (ARRAY_SIZE(sequences) > sequences_num);
+
+  if (ARRAY_SIZE(sequences) <= sequences_num
+      && CF_LAST != va_arg(args, struct cf_sequence).type) {
+    log_error("Too many custom sequences. Maybe did you forget cf_end() "
+              "at the end of the arguments?");
+    buf[0] = '\0';
+    va_end(args);
+    return -1;
+  }
+  va_end(args);
+
+  return fc_vsnprintcf(buf, buf_len, format, sequences, sequences_num);
+}

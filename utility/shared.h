@@ -280,4 +280,152 @@ void format_time_duration(time_t t, char *buf, int maxlen);
 
 bool wildcard_fit_string(const char *pattern, const char *test);
 
+/* Custom format strings. */
+struct cf_sequence;
+
+int fc_snprintcf(char *buf, size_t buf_len, const char *format, ...)
+     fc__attribute((nonnull (1, 3)));   /* Not a printf format. */
+int fc_vsnprintcf(char *buf, size_t buf_len, const char *format,
+                  const struct cf_sequence *sequences, size_t sequences_num)
+     fc__attribute((nonnull (1, 3, 4)));
+
+/* Tools for fc_snprintcf(). */
+static inline struct cf_sequence cf_bool_seq(char letter, bool value);
+static inline struct cf_sequence cf_trans_bool_seq(char letter, bool value);
+static inline struct cf_sequence cf_char_seq(char letter, char value);
+static inline struct cf_sequence cf_int_seq(char letter, int value);
+static inline struct cf_sequence cf_hexa_seq(char letter, int value);
+static inline struct cf_sequence cf_float_seq(char letter, float value);
+static inline struct cf_sequence cf_ptr_seq(char letter, const void *value);
+static inline struct cf_sequence cf_str_seq(char letter, const char *value);
+static inline struct cf_sequence cf_end(void);
+
+/* Tools for fc_vsnprintcf(). */
+#define CF_BOOL_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_BOOLEAN, .letter = ARG_letter, { .bool_value = ARG_value } }
+#define CF_TRANS_BOOL_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_TRANS_BOOLEAN, .letter = ARG_letter, \
+    { .bool_value = ARG_value } }
+#define CF_CHAR_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_CHARACTER, .letter = ARG_letter, { .char_value = ARG_value } }
+#define CF_INT_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_INTEGER, .letter = ARG_letter, { .int_value = ARG_value } }
+#define CF_HEXA_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_HEXA, .letter = ARG_letter, { .int_value = ARG_value } }
+#define CF_FLOAT_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_FLOAT, .letter = ARG_letter, { .float_value = ARG_value } }
+#define CF_PTR_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_POINTER, .letter = ARG_letter, { .ptr_value = ARG_value } }
+#define CF_STR_SEQ(ARG_letter, ARG_value) \
+  { .type = CF_STRING, .letter = ARG_letter, { .str_value = ARG_value } }
+#define CF_END { .type = CF_LAST }
+
+enum cf_type {
+  CF_BOOLEAN,
+  CF_TRANS_BOOLEAN,
+  CF_CHARACTER,
+  CF_INTEGER,
+  CF_HEXA,
+  CF_FLOAT,
+  CF_POINTER,
+  CF_STRING,
+
+  CF_LAST = -1
+};
+
+struct cf_sequence {
+  enum cf_type type;
+  char letter;
+  union {
+    bool bool_value;
+    char char_value;
+    int int_value;
+    float float_value;
+    const void *ptr_value;
+    const char *str_value;
+  };
+};
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of boolean type.
+****************************************************************************/
+static inline struct cf_sequence cf_bool_seq(char letter, bool value)
+{
+  struct cf_sequence sequence = CF_BOOL_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of boolean type (result will be
+  translated).
+****************************************************************************/
+static inline struct cf_sequence cf_trans_bool_seq(char letter, bool value)
+{
+  struct cf_sequence sequence = CF_TRANS_BOOL_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of character type (%c).
+****************************************************************************/
+static inline struct cf_sequence cf_char_seq(char letter, char value)
+{
+  struct cf_sequence sequence = CF_CHAR_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of integer type (%d).
+****************************************************************************/
+static inline struct cf_sequence cf_int_seq(char letter, int value)
+{
+  struct cf_sequence sequence = CF_INT_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of hexadecimal type (%x).
+****************************************************************************/
+static inline struct cf_sequence cf_hexa_seq(char letter, int value)
+{
+  struct cf_sequence sequence = CF_HEXA_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of float type (%f).
+****************************************************************************/
+static inline struct cf_sequence cf_float_seq(char letter, float value)
+{
+  struct cf_sequence sequence = CF_FLOAT_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of pointer type (%p).
+****************************************************************************/
+static inline struct cf_sequence cf_ptr_seq(char letter, const void *value)
+{
+  struct cf_sequence sequence = CF_PTR_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Build an argument for fc_snprintcf() of string type (%s).
+****************************************************************************/
+static inline struct cf_sequence cf_str_seq(char letter, const char *value)
+{
+  struct cf_sequence sequence = CF_STR_SEQ(letter, value);
+  return sequence;
+}
+
+/****************************************************************************
+  Must finish the list of the arguments of fc_snprintcf().
+****************************************************************************/
+static inline struct cf_sequence cf_end(void)
+{
+  struct cf_sequence sequence = CF_END;
+  return sequence;
+}
+
 #endif  /* FC__SHARED_H */
