@@ -5619,3 +5619,77 @@ void game_save(struct section_file *file, const char *save_reason,
     settings_game_save(file, "start_settings");
   }
 }
+
+/**************************************************************************
+  Return a string conaining the save year.
+**************************************************************************/
+static char *year_suffix(void)
+{
+  static char buf[MAX_LEN_NAME];
+  const char *year_suffix;
+  char safe_year_suffix[MAX_LEN_NAME];
+  const char *max = safe_year_suffix + MAX_LEN_NAME - 1;
+  char *c = safe_year_suffix;
+
+  if (game.info.year < 0) {
+    year_suffix = game.info.negative_year_label;
+  } else {
+    year_suffix = game.info.positive_year_label;
+  }
+
+  /* Remove all non alphanumeric characters from the year suffix. */
+  for (; '\0' != *year_suffix && c < max; year_suffix++) {
+    if (fc_isalnum(*year_suffix)) {
+      *c++ = *year_suffix;
+    }
+  }
+  *c = '\0';
+
+  fc_snprintf(buf, sizeof(buf), "%s", safe_year_suffix);
+
+  return buf;
+}
+
+/**************************************************************************
+  Generate a default save file name and place it in the provided buffer.
+  Within the name the following custom formats are allowed:
+
+    %R = <reason>
+    %S = <suffix>
+    %T = <game.info.turn>
+    %Y = <game.info.year>
+
+  Example: 'civgame-T%04T-Y%+04Y%S-%R' => 'civgame-T0302-Y+1716AD-manual'
+
+  Returns the number of characters written, or the number of characters
+  that would have been written if truncation occurs.
+
+  NB: If you change the format definition, be sure to update the above
+      function comment and the help text for the 'savename' setting.
+**************************************************************************/
+int generate_save_name(char *buf, int buflen, const char *reason)
+{
+  struct cf_sequence sequences[] = {
+    CF_STR_SEQ('R', (reason == NULL) ? "auto" : reason),
+    CF_STR_SEQ('S', year_suffix()),
+    CF_INT_SEQ('T', game.info.turn),
+    CF_INT_SEQ('Y', game.info.year),
+    CF_END
+  };
+
+  fc_vsnprintcf(buf, buflen, game.server.save_name, sequences, -1);
+
+  if (0 == strcmp(game.server.save_name, buf)) {
+    /* Use the default savename if 'game.server.save_name' does not contain
+     * printf information. */
+    char savename[512];
+
+    fc_snprintf(savename, sizeof(savename), "%s-T%%04T-Y%%+04Y%%S-%%R",
+                game.server.save_name);
+    fc_vsnprintcf(buf, buflen, savename, sequences, -1);
+  }
+
+  log_debug("save name generated from '%s': %s", game.server.save_name, buf);
+
+  return strlen(buf);
+}

@@ -1454,12 +1454,23 @@ static struct setting settings[] = {
 	  GAME_DEFAULT_COMPRESS_TYPE)
 
   GEN_STRING("savename", game.server.save_name,
-	     SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
-	     N_("Auto-save name prefix"),
-	     N_("Automatically saved games will have name "
-		"\"<prefix>-T<turn>-Y<year>.sav\". This setting sets "
-                "the <prefix> part."), NULL, NULL,
-	     GAME_DEFAULT_SAVE_NAME)
+             SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
+             N_("Definition of the save file name"),
+             N_("Within the string the following custom formats are "
+                "allowed:\n"
+                "  %R = <reason>\n"
+                "  %S = <suffix>\n"
+                "  %T = <game.info.turn>\n"
+                "  %Y = <game.info.year>\n"
+                "\n"
+                "Example: 'civgame-T%04T-Y%+04Y%S-%R' => "
+                "'civgame-T0302-Y+1716AD-manual'\n"
+                "\n"
+                "Be carefull to use at least one of %T and %Y, else newer "
+                "savegames will overwrite old ones. If non of the formats "
+                "are used '-T%04T-Y%+04Y%S-%R' is appended to the value of "
+                "'savename'."),
+             NULL, NULL, GAME_DEFAULT_SAVE_NAME)
 
   GEN_BOOL("scorelog", game.server.scorelog,
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,

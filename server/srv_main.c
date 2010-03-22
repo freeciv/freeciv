@@ -1003,50 +1003,6 @@ static void end_turn(void)
 }
 
 /**************************************************************************
-  Generate a default save file name and place it in the provided buffer.
-  The name will be of the form
-  "<prefix>-<reason>-T<turn>-Y<year><suffix><m>" where:
-
-    <prefix> = game.save_name
-    <reason> = save reason if not normal save
-    <turn>   = game.info.turn (zero padded to 3 places)
-    <year>   = game.info.year (not padded and no sign)
-    <suffix> = "BC" or "AD" for negative or positive year resp.
-    <m>      = "m" (for "manual save") if 'is_auto_save' is FALSE
-
-  Returns the number of characters written, or the number of characters
-  that would have been written if truncation occurs.
-**************************************************************************/
-static int generate_save_name(char *buf, int buflen, bool is_auto_save,
-                              const char *reason)
-{
-  int nb, year;
-  const char *year_suffix;
-
-  if (game.info.year < 0) {
-    year = -game.info.year;
-    year_suffix = game.info.negative_year_label;
-  } else {
-    year = game.info.year;
-    year_suffix = game.info.positive_year_label;
-  }
-
-  /* NB: If you change the format here, be sure to update the above
-   * function comment and the help text for the 'savename' setting. */
-  if (reason == NULL) {
-    nb = fc_snprintf(buf, buflen, "%s-T%03d-Y%d%s%s",
-                     game.server.save_name, game.info.turn, year,
-                     year_suffix, is_auto_save ? "" : "m");
-  } else {
-    nb = fc_snprintf(buf, buflen, "%s-%s-T%03d-Y%d%s%s",
-                     game.server.save_name, reason, game.info.turn, year,
-                     year_suffix, is_auto_save ? "" : "m");
-  }
-
-  return nb;
-}
-
-/**************************************************************************
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
 
@@ -1086,8 +1042,9 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
 
   /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0'){
+    /* manual save */
     generate_save_name(filename, sizeof(filepath) + filepath - filename,
-                       FALSE, NULL);
+                       "manual");
   }
 
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -1173,7 +1130,7 @@ void save_game_auto(const char *save_reason, const char *reason_filename)
 
   fc_assert(256 > strlen(game.server.save_name));
 
-  generate_save_name(filename, sizeof(filename), TRUE, reason_filename);
+  generate_save_name(filename, sizeof(filename), reason_filename);
   save_game(filename, save_reason, FALSE);
   save_ppm();
 }
