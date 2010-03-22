@@ -31,7 +31,7 @@ enum quickselect_type {
 };
 
 void control_init(void);
-void control_done(void);
+void control_free(void);
 void control_unit_killed(struct unit *punit);
 
 void unit_change_battlegroup(struct unit *punit, int battlegroup);

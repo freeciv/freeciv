@@ -210,7 +210,7 @@ static void client_game_free(void)
   server_options_free();
   voteinfo_queue_free();
   link_marks_free();
-  control_done();
+  control_free();
   free_help_texts();
   attribute_free();
   agents_free();
@@ -229,7 +229,7 @@ static void client_game_reset(void)
 {
   packhand_free();
   link_marks_free();
-  control_done();
+  control_free();
   attribute_free();
   agents_free();
 

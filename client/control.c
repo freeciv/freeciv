@@ -53,15 +53,14 @@
 int num_units_below = MAX_NUM_UNITS_BELOW;
 
 /* current_focus points to the current unit(s) in focus */
-static struct unit_list *current_focus;
+static struct unit_list *current_focus = NULL;
 
 /* The previously focused unit(s).  Focus can generally be recalled
- * with keypad 5 (or the equivalent). 
- * FIXME: this is not reset when the client disconnects. */
-static struct unit_list *previous_focus;
+ * with keypad 5 (or the equivalent). */
+static struct unit_list *previous_focus = NULL;
 
 /* The priority unit(s) for advance_unit_focus(). */
-static struct unit_list *urgent_focus_queue;
+static struct unit_list *urgent_focus_queue = NULL;
 
 /* These should be set via set_hover_state() */
 enum cursor_hover_state hover_state = HOVER_NONE;
@@ -76,8 +75,8 @@ static struct unit *punit_attacking = NULL;
 static struct unit *punit_defending = NULL;
 
 /* unit arrival lists */
-static struct genlist *caravan_arrival_queue;
-static struct genlist *diplomat_arrival_queue;
+static struct genlist *caravan_arrival_queue = NULL;
+static struct genlist *diplomat_arrival_queue = NULL;
 
 /*
  * This variable is TRUE iff a NON-AI controlled unit was focused this
@@ -113,7 +112,7 @@ void control_init(void)
 /**************************************************************************
   Called only by client_game_free() in client/civclient.c
 **************************************************************************/
-void control_done(void)
+void control_free(void)
 {
   int i;
 
@@ -124,11 +123,15 @@ void control_done(void)
   diplomat_arrival_queue = NULL;
 
   unit_list_destroy(current_focus);
+  current_focus = NULL;
   unit_list_destroy(previous_focus);
+  previous_focus = NULL;
   unit_list_destroy(urgent_focus_queue);
+  urgent_focus_queue = NULL;
 
   for (i = 0; i < MAX_NUM_BATTLEGROUPS; i++) {
     unit_list_destroy(battlegroups[i]);
+    battlegroups[i] = NULL;
   }
 
   set_hover_state(NULL, HOVER_NONE, ACTIVITY_LAST, ORDER_LAST);
@@ -148,7 +151,7 @@ struct unit_list *get_units_in_focus(void)
 ****************************************************************************/
 int get_num_units_in_focus(void)
 {
-  return unit_list_size(current_focus);
+  return (NULL != current_focus ? unit_list_size(current_focus) : 0);
 }
 
 /**************************************************************************
