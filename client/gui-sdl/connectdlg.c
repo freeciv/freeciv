@@ -313,7 +313,9 @@ void popup_connection_dialog(bool lan_scan)
   /* servers */
   server_list_iterate(pServer_list, pServer) {
 
-    fc_snprintf(cBuf, sizeof(cBuf), "%s Port %d Ver: %s %s %s %d\n%s",
+    /* TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
+     * [server message]" */
+    fc_snprintf(cBuf, sizeof(cBuf), _("%s Port %d Ver: %s %s %s %d\n%s"),
     	pServer->host, pServer->port, pServer->version, _(pServer->state),
     		_("Players"), pServer->nplayers, pServer->message);
 

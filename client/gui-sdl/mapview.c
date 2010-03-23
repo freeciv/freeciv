@@ -314,7 +314,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
                                     government_name_for_player(client.conn.playing));
   } else {
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
-                                    "None");
+                                    _("None"));
   }        
   copy_chars_to_string16(pBuf->string16, cBuf);
       
@@ -331,7 +331,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
   if (NULL == client.conn.playing) {
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",
-                                    "None", 0, 0);
+                                    _("None"), 0, 0);
   } else if (A_UNSET != get_player_research(client.conn.playing)->researching) {
     /* TRANS: Research report action */
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s (%d/%d)", _("Research"), "F6",

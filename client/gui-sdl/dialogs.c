@@ -688,6 +688,7 @@ void popup_unit_select_dialog(struct tile *ptile)
       
       /* calculate chance to win */
       if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus)) {
+          /* TRANS: "CtW" = "Chance to Win" */
           cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                att_chance, def_chance);
       }
@@ -816,7 +817,7 @@ const char *sdl_get_tile_defense_info_text(struct tile *ptile)
     bonus += terrain_control.river_defense_bonus;
   }
 
-  fc_snprintf(buffer, sizeof(buffer), "Terrain Defense Bonus: +%d%% ", bonus);
+  fc_snprintf(buffer, sizeof(buffer), _("Terrain Defense Bonus: +%d%% "), bonus);
 
   return buffer;
 }
@@ -1431,6 +1432,7 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
     
           /* calculate chance to win */
           if (sdl_get_chance_to_win(&att_chance, &def_chance, pUnit, pFocus_Unit)) {
+            /* TRANS: "CtW" = "Chance to Win" */
             cat_snprintf(cBuf, sizeof(cBuf), _(" CtW: Att:%d%% Def:%d%%"),
                att_chance, def_chance);
 	  }
@@ -2495,7 +2497,7 @@ static int nation_button_callback(struct widget *pNationButton)
     
       pHelpDlg = fc_calloc(1, sizeof(struct SMALL_DLG));
     
-      pStr = create_str16_from_char("Nation's Legend", adj_font(12));
+      pStr = create_str16_from_char(_("Nation's Legend"), adj_font(12));
       pStr->style |= TTF_STYLE_BOLD;
   
       pWindow = create_window_skeleton(NULL, pStr, 0);
@@ -2526,7 +2528,7 @@ static int nation_button_callback(struct widget *pNationButton)
     if (pNation->legend && *(pNation->legend) != '\0') {
       pStr = create_str16_from_char(pNation->legend, adj_font(12));
     } else {
-      pStr = create_str16_from_char("SORRY... NO INFO", adj_font(12));
+      pStr = create_str16_from_char(_("SORRY... NO INFO"), adj_font(12));
     }
     
     pStr->fgcol = *get_game_colorRGB(COLOR_THEME_NATIONDLG_LEGEND);

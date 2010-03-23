@@ -1563,7 +1563,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
     
     if (count > 0) {
       pBuf = create_themeicon_button_from_chars(pTheme->OK_Icon, pWindow->dst,
-                                                "Sell", adj_font(12), 0);
+                                                _("Sell"), adj_font(12), 0);
           
       pBuf->action = ok_sell_impv_callback;
       set_wstate(pBuf, FC_WS_NORMAL);
