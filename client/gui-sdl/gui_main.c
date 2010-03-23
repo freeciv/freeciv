@@ -790,7 +790,7 @@ void ui_init(void)
     putframe(Main.map, 0, 0, Main.map->w - 1, Main.map->h - 1,
     			SDL_MapRGB(Main.map->format, 255, 255, 255));
     FREESURFACE(pBgd);
-    SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv");
+    SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
   } else {
     
 #ifndef SMALL_SCREEN
@@ -805,7 +805,7 @@ void ui_init(void)
       FREESURFACE(pBgd);
     } else {
       SDL_FillRect(Main.map, NULL, SDL_MapRGB(Main.map->format, 0, 0, 128));
-      SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv");
+      SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
     }
   }
   
@@ -981,7 +981,7 @@ void ui_main(int argc, char *argv[])
 #endif
   }
 
-  /* SDL_WM_SetCaption("SDL Client for Freeciv", "Freeciv"); */
+  /* SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv")); */
 
   /* this need correct Main.screen size */
   init_mapcanvas_and_overview();    

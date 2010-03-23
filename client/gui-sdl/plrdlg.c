@@ -414,7 +414,7 @@ void popup_players_dialog(bool raise)
     pBuf->string16 = pStr;
       
     if(!pPlayer->is_alive) {
-      pStr = create_str16_from_char("R.I.P" , adj_font(10));
+      pStr = create_str16_from_char(_("R.I.P.") , adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
       pStr->fgcol = *get_game_colorRGB(COLOR_THEME_PLRDLG_TEXT);
       pLogo = create_text_surf_from_str16(pStr);
