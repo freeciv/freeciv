@@ -373,11 +373,11 @@ void create_units_order_widgets(void)
   /* TRANS: keyboard */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("No Orders"), _("Space"));
   pBuf = create_themeicon(pTheme->ODone_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_SPACE;
   add_to_gui_list(ID_UNIT_ORDER_DONE, pBuf);
   /* --------- */  
@@ -387,11 +387,11 @@ void create_units_order_widgets(void)
   /* Wait */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Wait"), "W");
   pBuf = create_themeicon(pTheme->OWait_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_w;
   add_to_gui_list(ID_UNIT_ORDER_WAIT, pBuf);
   /* --------- */  
@@ -399,11 +399,11 @@ void create_units_order_widgets(void)
   /* Explode Nuclear */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Explode Nuclear"), "Shift+N");
   pBuf = create_themeicon(pTheme->ONuke_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_n;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_NUKE, pBuf);
@@ -412,11 +412,11 @@ void create_units_order_widgets(void)
   /* Diplomat|Spy Actions */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Diplomat/Spy Actions"), "D");
   pBuf = create_themeicon(pTheme->OSpy_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_d;
   add_to_gui_list(ID_UNIT_ORDER_DIPLOMAT_DLG, pBuf);
   /* --------- */
@@ -424,11 +424,11 @@ void create_units_order_widgets(void)
   /* Disband */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Disband Unit"), "Shift+D");
   pBuf = create_themeicon(pTheme->ODisband_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_d;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_DISBAND, pBuf);
@@ -437,11 +437,11 @@ void create_units_order_widgets(void)
   /* Upgrade */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Upgrade Unit"), "Shift+U");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_u;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_UPGRADE, pBuf);
@@ -450,11 +450,11 @@ void create_units_order_widgets(void)
   /* Return to nearest city */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Return to Nearest City"), "Shift+G");
   pBuf = create_themeicon(pTheme->OReturn_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_g;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_RETURN, pBuf);
@@ -463,11 +463,11 @@ void create_units_order_widgets(void)
   /* Goto City */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Go to City"), "T");
   pBuf = create_themeicon(pTheme->OGotoCity_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_t;
   add_to_gui_list(ID_UNIT_ORDER_GOTO_CITY, pBuf);
   /* --------- */
@@ -475,11 +475,11 @@ void create_units_order_widgets(void)
   /* Airlift */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Airlift to City"), "T");
   pBuf = create_themeicon(pTheme->Order_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_t;
   add_to_gui_list(ID_UNIT_ORDER_AIRLIFT, pBuf);
   /* --------- */
@@ -487,11 +487,11 @@ void create_units_order_widgets(void)
   /* Goto location */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Go to Tile"), "G");
   pBuf = create_themeicon(pTheme->OGoto_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_g;
   add_to_gui_list(ID_UNIT_ORDER_GOTO, pBuf);
   /* --------- */
@@ -499,11 +499,11 @@ void create_units_order_widgets(void)
   /* Patrol */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Patrol"), "Q");
   pBuf = create_themeicon(pTheme->OPatrol_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_q;
   add_to_gui_list(ID_UNIT_ORDER_PATROL, pBuf);
   /* --------- */
@@ -511,11 +511,11 @@ void create_units_order_widgets(void)
   /* Connect irrigation */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Irrigation"), "Shift+I");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_i;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_IRRIGATE, pBuf);
@@ -524,11 +524,11 @@ void create_units_order_widgets(void)
   /* Connect road */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Road"), "Shift+R");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_ROAD, pBuf);
@@ -537,11 +537,11 @@ void create_units_order_widgets(void)
   /* Connect railroad */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Connect With Rail"), "Shift+L");
   pBuf = create_themeicon(pTheme->OAutoConnect_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_l;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_CONNECT_RAILROAD, pBuf);
@@ -550,12 +550,11 @@ void create_units_order_widgets(void)
   /* Auto-Explore */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Explore"), "X");
   pBuf = create_themeicon(pTheme->OAutoExp_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 =
-      create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_x;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_EXPLORE, pBuf);
   /* --------- */
@@ -567,14 +566,14 @@ void create_units_order_widgets(void)
   len = MAX(len, strlen(cBuf));
   
   pBuf = create_themeicon(pTheme->OAutoSett_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
   unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->string16 = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_a;
   add_to_gui_list(ID_UNIT_ORDER_AUTO_SETTLER, pBuf);
   
@@ -584,11 +583,11 @@ void create_units_order_widgets(void)
   /* Wake Up Others */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unsentry All On Tile"), "Shift+S");
   pBuf = create_themeicon(pTheme->OWakeUp_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_s;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_WAKEUP_OTHERS, pBuf);
@@ -597,11 +596,11 @@ void create_units_order_widgets(void)
   /* Unload */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unload All From Transporter"), "Shift+T");
   pBuf = create_themeicon(pTheme->OUnload_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->mod = KMOD_SHIFT;
   pBuf->key = SDLK_t;
   add_to_gui_list(ID_UNIT_ORDER_UNLOAD_TRANSPORTER, pBuf);
@@ -610,11 +609,11 @@ void create_units_order_widgets(void)
   /* Load */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Load Unit"), "L");
   pBuf = create_themeicon(pTheme->OLoad_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_l;
   add_to_gui_list(ID_UNIT_ORDER_LOAD, pBuf);
   /* --------- */
@@ -622,11 +621,11 @@ void create_units_order_widgets(void)
   /* Unload */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Unload Unit"), "U");
   pBuf = create_themeicon(pTheme->OUnload_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_u;
   add_to_gui_list(ID_UNIT_ORDER_UNLOAD, pBuf);
   /* --------- */
@@ -634,11 +633,11 @@ void create_units_order_widgets(void)
   /* Find Homecity */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Find Home City"), "H");
   pBuf = create_themeicon(pTheme->OHomeCity_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_h;
   add_to_gui_list(ID_UNIT_ORDER_HOMECITY, pBuf);
   /* --------- */
@@ -646,11 +645,11 @@ void create_units_order_widgets(void)
   /* Pillage */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Pillage"), "Shift+P");
   pBuf = create_themeicon(pTheme->OPillage_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_p;
   pBuf->mod = KMOD_SHIFT;
   add_to_gui_list(ID_UNIT_ORDER_PILLAGE, pBuf);
@@ -659,11 +658,11 @@ void create_units_order_widgets(void)
   /* Sentry */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Sentry Unit"), "S");
   pBuf = create_themeicon(pTheme->OSentry_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_s;
   add_to_gui_list(ID_UNIT_ORDER_SENTRY, pBuf);
   /* --------- */
@@ -671,11 +670,11 @@ void create_units_order_widgets(void)
   /* Clean Nuclear Fallout */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Nuclear Fallout"), "N");
   pBuf = create_themeicon(pTheme->OFallout_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_n;
   add_to_gui_list(ID_UNIT_ORDER_FALLOUT, pBuf);
   /* --------- */
@@ -683,11 +682,11 @@ void create_units_order_widgets(void)
   /* Paradrop */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Drop Paratrooper"), "P");
   pBuf = create_themeicon(pTheme->OParaDrop_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 =  create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label =  create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_p;
   add_to_gui_list(ID_UNIT_ORDER_PARADROP, pBuf);
   /* --------- */
@@ -695,11 +694,11 @@ void create_units_order_widgets(void)
   /* Clean Pollution */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Clean Pollution"), "P");
   pBuf = create_themeicon(pTheme->OPollution_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_p;
   add_to_gui_list(ID_UNIT_ORDER_POLLUTION, pBuf);
   /* --------- */
@@ -707,11 +706,11 @@ void create_units_order_widgets(void)
   /* Build Airbase */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Airbase"), "E");
   pBuf = create_themeicon(pTheme->OAirBase_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_e;
   add_to_gui_list(ID_UNIT_ORDER_AIRBASE, pBuf);
   /* --------- */
@@ -719,11 +718,11 @@ void create_units_order_widgets(void)
   /* Fortify */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Fortify Unit"), "F");
   pBuf = create_themeicon(pTheme->OFortify_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_f;
   add_to_gui_list(ID_UNIT_ORDER_FORTIFY, pBuf);
   /* --------- */
@@ -731,11 +730,11 @@ void create_units_order_widgets(void)
   /* Build Fortress */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Fortress"), "F");
   pBuf = create_themeicon(pTheme->OFortress_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_f;
   add_to_gui_list(ID_UNIT_ORDER_FORTRESS, pBuf);
   /* --------- */
@@ -743,11 +742,11 @@ void create_units_order_widgets(void)
   /* Transform Tile */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Transform Tile"), "O");
   pBuf = create_themeicon(pTheme->OTransform_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_o;
   pOrder_Transform_Button = pBuf;
   add_to_gui_list(ID_UNIT_ORDER_TRANSFORM, pBuf);
@@ -756,11 +755,11 @@ void create_units_order_widgets(void)
   /* Build Mine */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Mine"), "M");
   pBuf = create_themeicon(pTheme->OMine_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_m;
   add_to_gui_list(ID_UNIT_ORDER_MINE, pBuf);
   
@@ -770,12 +769,12 @@ void create_units_order_widgets(void)
   /* Build Irrigation */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build Irrigation"), "I");
   pBuf = create_themeicon(pTheme->OIrrigation_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   pBuf->key = SDLK_i;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   add_to_gui_list(ID_UNIT_ORDER_IRRIGATE, pBuf);
   
   pOrder_Irrigation_Button = pBuf;
@@ -784,11 +783,11 @@ void create_units_order_widgets(void)
   /* Form Trade route */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Establish Trade Route"), "R");
   pBuf = create_themeicon(pTheme->OTrade_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_TRADE_ROUTE, pBuf);
 
@@ -806,14 +805,14 @@ void create_units_order_widgets(void)
   len = MAX(len, strlen(cBuf));
   
   pBuf = create_themeicon(pTheme->ORoad_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
   unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->string16 = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_r;
   add_to_gui_list(ID_UNIT_ORDER_ROAD, pBuf);
 
@@ -823,11 +822,11 @@ void create_units_order_widgets(void)
   /* Help Build Wonder */
   fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Help Build Wonder"), "B");
   pBuf = create_themeicon(pTheme->OWonder_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
-  pBuf->string16 = create_str16_from_char(cBuf, adj_font(10));
+  pBuf->info_label = create_str16_from_char(cBuf, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_WONDER, pBuf);
   /* --------- */  
@@ -839,14 +838,14 @@ void create_units_order_widgets(void)
   len = MAX(len, strlen(cBuf));
       
   pBuf = create_themeicon(pTheme->OBuildCity_Icon, Main.gui,
-			  (WF_HIDDEN | WF_RESTORE_BACKGROUND |
-			   WF_WIDGET_HAS_INFO_LABEL));
+                          WF_HIDDEN | WF_RESTORE_BACKGROUND
+                          | WF_WIDGET_HAS_INFO_LABEL);
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->action = unit_order_callback;
   len = (len + 1) * sizeof(Uint16);
   unibuf = fc_calloc(1, len);
   convertcopy_to_utf16(unibuf, len, cBuf);
-  pBuf->string16 = create_string16(unibuf, len, adj_font(10));
+  pBuf->info_label = create_string16(unibuf, len, adj_font(10));
   pBuf->key = SDLK_b;
   add_to_gui_list(ID_UNIT_ORDER_BUILD_CITY, pBuf);
   
@@ -1031,7 +1030,8 @@ void real_menus_update(void)
 	} else {
 	  fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Build City"), "B");
 	}
-	copy_chars_to_string16(pOrder_Build_AddTo_City_Button->string16, cBuf);
+        copy_chars_to_string16(pOrder_Build_AddTo_City_Button->info_label,
+                               cBuf);
 	clear_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
       } else {
 	set_wflag(pOrder_Build_AddTo_City_Button, WF_HIDDEN);
@@ -1058,7 +1058,7 @@ void real_menus_update(void)
 			PL_("turn", "turns", time));
 	  pOrder_Road_Button->theme = pTheme->ORoad_Icon;
 	}
-	copy_chars_to_string16(pOrder_Road_Button->string16, cBuf);
+        copy_chars_to_string16(pOrder_Road_Button->info_label, cBuf);
 	clear_wflag(pOrder_Road_Button, WF_HIDDEN);
       } else {
 	set_wflag(pOrder_Road_Button, WF_HIDDEN);
@@ -1083,10 +1083,10 @@ void real_menus_update(void)
                       city_name(pHomecity),
                       revenue);
         }
-	copy_chars_to_string16(pOrder_Trade_Button->string16, cBuf);
-	clear_wflag(pOrder_Trade_Button, WF_HIDDEN);
+        copy_chars_to_string16(pOrder_Trade_Button->info_label, cBuf);
+        clear_wflag(pOrder_Trade_Button, WF_HIDDEN);
       } else {
-	set_wflag(pOrder_Trade_Button, WF_HIDDEN);
+        set_wflag(pOrder_Trade_Button, WF_HIDDEN);
       }
 
       if (can_unit_do_activity(pUnit, ACTIVITY_IRRIGATE)) {
@@ -1114,7 +1114,7 @@ void real_menus_update(void)
 	  pOrder_Irrigation_Button->theme = pTheme->OIrrigation_Icon;
 	}
 
-	copy_chars_to_string16(pOrder_Irrigation_Button->string16, cBuf);
+        copy_chars_to_string16(pOrder_Irrigation_Button->info_label, cBuf);
 	clear_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
       } else {
 	set_wflag(pOrder_Irrigation_Button, WF_HIDDEN);
@@ -1149,7 +1149,7 @@ void real_menus_update(void)
 	  pOrder_Mine_Button->theme = pTheme->OMine_Icon;
 	}
 
-        copy_chars_to_string16(pOrder_Mine_Button->string16, cBuf);
+        copy_chars_to_string16(pOrder_Mine_Button->info_label, cBuf);
 	clear_wflag(pOrder_Mine_Button, WF_HIDDEN);
       } else {
 	set_wflag(pOrder_Mine_Button, WF_HIDDEN);
@@ -1162,7 +1162,7 @@ void real_menus_update(void)
 	  terrain_name_translation(pTerrain->transform_result),
 			"M", time , 
 			PL_("turn", "turns", time));
-	copy_chars_to_string16(pOrder_Transform_Button->string16, cBuf);
+        copy_chars_to_string16(pOrder_Transform_Button->info_label, cBuf);
 	clear_wflag(pOrder_Transform_Button, WF_HIDDEN);
       } else {
 	set_wflag(pOrder_Transform_Button, WF_HIDDEN);
@@ -1254,13 +1254,15 @@ void real_menus_update(void)
 	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoSett_Icon) {
 	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Settler"), "A");
 	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoSett_Icon;
-	    copy_chars_to_string16(pOrder_Automate_Unit_Button->string16, cBuf);
+            copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
+                                   cBuf);
 	  }
 	} else {
 	  if(pOrder_Automate_Unit_Button->theme != pTheme->OAutoAtt_Icon) {
 	    fc_snprintf(cBuf, sizeof(cBuf),"%s (%s)", _("Auto Attack"), "A");
 	    pOrder_Automate_Unit_Button->theme = pTheme->OAutoAtt_Icon;
-	    copy_chars_to_string16(pOrder_Automate_Unit_Button->string16, cBuf);
+            copy_chars_to_string16(pOrder_Automate_Unit_Button->info_label,
+                                   cBuf);
 	  }
 	}
 	clear_wflag(pOrder_Automate_Unit_Button, WF_HIDDEN);

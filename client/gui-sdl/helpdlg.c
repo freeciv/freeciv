@@ -227,8 +227,10 @@ void popup_impr_info(Impr_type_id impr)
 
     /* close button */
     pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-    pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                                    WF_WIDGET_HAS_INFO_LABEL
+                                    | WF_RESTORE_BACKGROUND);
+    pCloseButton->info_label =
+        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -616,8 +618,10 @@ void popup_unit_info(Unit_type_id type_id)
 
     /* close button */
     pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-    pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                                    WF_WIDGET_HAS_INFO_LABEL
+                                    | WF_RESTORE_BACKGROUND);
+    pCloseButton->info_label =
+        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;
@@ -1919,8 +1923,10 @@ void popup_tech_info(Tech_type_id tech)
 
     /* close button */
     pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                    WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-    pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                                    WF_WIDGET_HAS_INFO_LABEL
+                                    | WF_RESTORE_BACKGROUND);
+    pCloseButton->info_label =
+        create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
     pCloseButton->action = exit_help_dlg_callback;
     set_wstate(pCloseButton, FC_WS_NORMAL);
     pCloseButton->key = SDLK_ESCAPE;

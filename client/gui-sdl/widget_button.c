@@ -61,7 +61,7 @@ static int redraw_ibutton(struct widget *pIButton)
     return ret;
   }
 
-  if (pIButton->string16 && !(get_wflags(pIButton) & WF_WIDGET_HAS_INFO_LABEL)) {
+  if (pIButton->string16) {
 
     /* make copy of string16 */
     TMPString = *pIButton->string16;
@@ -286,7 +286,7 @@ struct widget * create_icon_button(SDL_Surface *pIcon, struct gui_layer *pDest,
   baseclass_redraw = pButton->redraw;  
   pButton->redraw = redraw_ibutton;
 
-  if (pStr && !(flags & WF_WIDGET_HAS_INFO_LABEL)) {
+  if (pStr) {
     pButton->string16->style |= SF_CENTER;
     /* if BOLD == true then longest wight */
     if (!(pStr->style & TTF_STYLE_BOLD)) {

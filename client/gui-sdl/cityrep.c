@@ -200,8 +200,8 @@ static void real_info_city_report_dialog_update(void)
   /* ------------------------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND));
-  pBuf->string16 = create_str16_from_char(_("Close Dialog"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog"), adj_font(12));
   pBuf->action = exit_city_report_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -212,10 +212,9 @@ static void real_info_city_report_dialog_update(void)
 #if 0
   /* ------------------------- */
   pBuf = create_themeicon(pTheme->INFO_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
-
-  pBuf->string16 = create_str16_from_char(_("Information Report"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Information Report"),
+                                            adj_font(12));
 /*
   pBuf->action = info_city_report_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -223,10 +222,8 @@ static void real_info_city_report_dialog_update(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
   pBuf = create_themeicon(pTheme->Happy_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
-
-  pBuf->string16 = create_str16_from_char(_("Happiness Report"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Happiness Report"), adj_font(12));
 /*
   pBuf->action = happy_city_report_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -234,10 +231,10 @@ static void real_info_city_report_dialog_update(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
   pBuf = create_themeicon(pTheme->Army_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
 
-  pBuf->string16 = create_str16_from_char(_("Garrison Report"), adj_font(12));
+  pBuf->info_label = create_str16_from_char(_("Garrison Report"),
+                                            adj_font(12));
 /*
   pBuf->action = army_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -245,10 +242,9 @@ static void real_info_city_report_dialog_update(void)
   add_to_gui_list(ID_BUTTON, pBuf);
   /* -------- */
   pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
-			  (WF_WIDGET_HAS_INFO_LABEL |
-			   WF_RESTORE_BACKGROUND));
-
-  pBuf->string16 = create_str16_from_char(_("Maintenance Report"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Maintenance Report"),
+                                            adj_font(12));
 /*
   pBuf->action = supported_unit_city_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -538,8 +534,9 @@ static void real_info_city_report_dialog_update(void)
     }
   
     pBuf = create_icon2(pLogo, pWindow->dst,
-    	(WF_WIDGET_HAS_INFO_LABEL|WF_RESTORE_BACKGROUND|WF_FREE_THEME));
-    pBuf->string16 = pStr;
+                        WF_WIDGET_HAS_INFO_LABEL |WF_RESTORE_BACKGROUND
+                        | WF_FREE_THEME);
+    pBuf->info_label = pStr;
     if(count > 13 * COL) {
       set_wflag(pBuf, WF_HIDDEN);
     }

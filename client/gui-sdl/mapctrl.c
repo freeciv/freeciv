@@ -271,7 +271,8 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
       /* new button direction */
       alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
   
-      copy_chars_to_string16(pIcon_Widget->string16, _("Show Unit Info Window"));
+      copy_chars_to_string16(pIcon_Widget->info_label,
+                             _("Show Unit Info Window"));
           
       SDL_Client_Flags &= ~CF_UNITINFO_SHOWN;
   
@@ -327,7 +328,8 @@ static int toggle_unit_info_window_callback(struct widget *pIcon_Widget)
         pSellected_Widget = NULL;
                     
         /* SHOW */
-        copy_chars_to_string16(pIcon_Widget->string16, _("Hide Unit Info Window"));
+        copy_chars_to_string16(pIcon_Widget->info_label,
+                               _("Hide Unit Info Window"));
          
         alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_Widget->theme, NULL);
   
@@ -380,9 +382,9 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
   
       set_wstate(pMap_Button, FC_WS_NORMAL);
       pSellected_Widget = NULL;
-      
-      copy_chars_to_string16(pMap_Button->string16, _("Show Mini Map"));
-          
+
+      copy_chars_to_string16(pMap_Button->info_label, _("Show Mini Map"));
+
       /* make new map icon */
       alphablit(pTheme->R_ARROW_Icon, NULL, pMap_Button->theme, NULL);
   
@@ -459,8 +461,8 @@ static int toggle_map_window_callback(struct widget *pMap_Button)
         pSellected_Widget = NULL;
         
         /* show MiniMap */
-        copy_chars_to_string16(pMap_Button->string16, _("Hide Mini Map"));
-          
+        copy_chars_to_string16(pMap_Button->info_label, _("Hide Mini Map"));
+
         alphablit(pTheme->L_ARROW_Icon, NULL, pMap_Button->theme, NULL);
         SDL_Client_Flags |= CF_OVERVIEW_SHOWN;
               
@@ -511,10 +513,10 @@ static int toggle_msg_window_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
     if (is_meswin_open()) {
       popdown_meswin_dialog();
-      copy_chars_to_string16(pWidget->string16, _("Show Messages (F9)"));
+      copy_chars_to_string16(pWidget->info_label, _("Show Messages (F9)"));
     } else {
       popup_meswin_dialog(true);
-      copy_chars_to_string16(pWidget->string16, _("Hide Messages (F9)"));
+      copy_chars_to_string16(pWidget->info_label, _("Hide Messages (F9)"));
     }
   
     pSellected_Widget = pWidget;
@@ -1394,11 +1396,12 @@ void popup_unitinfo_window() {
   pUnits_Info_Window->private_data.adv_dlg = pUnitInfo_Dlg;
 
   /* economy button */
-  pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst, WF_FREE_GFX
-                      | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  pWidget = create_icon2(get_tax_surface(O_GOLD), pUnits_Info_Window->dst,
+                         WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
+                         | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
 
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Economy"), "F5");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = economy_callback;
   pWidget->key = SDLK_F5;
 
@@ -1407,11 +1410,13 @@ void popup_unitinfo_window() {
   pTax_Button = pWidget; 
 
   /* research button */
-  pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())), pUnits_Info_Window->dst, WF_FREE_GFX
-		       | WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
+  pWidget = create_icon2(adj_surf(GET_SURF(client_research_sprite())),
+                         pUnits_Info_Window->dst,
+                         WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
+                         | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   /* TRANS: Research report action */
-  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");                       
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Research"), "F6");
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = research_callback;
   pWidget->key = SDLK_F6;
 
@@ -1420,10 +1425,12 @@ void popup_unitinfo_window() {
   pResearch_Button = pWidget;
 
   /* revolution button */
-  pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())), pUnits_Info_Window->dst, (WF_FREE_GFX
-			| WF_WIDGET_HAS_INFO_LABEL| WF_RESTORE_BACKGROUND | WF_FREE_THEME));
+  pWidget = create_icon2(adj_surf(GET_SURF(client_government_sprite())),
+                         pUnits_Info_Window->dst,
+                         WF_FREE_GFX | WF_WIDGET_HAS_INFO_LABEL
+                         | WF_RESTORE_BACKGROUND | WF_FREE_THEME);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Revolution"), "Ctrl+Shift+R");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = revolution_callback;
   pWidget->key = SDLK_r;
   pWidget->mod = KMOD_CTRL | KMOD_SHIFT;
@@ -1441,11 +1448,12 @@ void popup_unitinfo_window() {
   alphablit(pTheme->R_ARROW_Icon, NULL, pIcon_theme, NULL);
 
   pWidget = create_themeicon(pIcon_theme, pUnits_Info_Window->dst,
-			  WF_FREE_GFX | WF_FREE_THEME |
-		WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
+                             WF_FREE_GFX | WF_FREE_THEME |
+                             WF_RESTORE_BACKGROUND
+                             | WF_WIDGET_HAS_INFO_LABEL);
+  pWidget->info_label = create_str16_from_char(_("Hide Unit Info Window"),
+                                               adj_font(12));
 
-  pWidget->string16 = create_str16_from_char(_("Hide Unit Info Window"), adj_font(12));
-  
   pWidget->action = toggle_unit_info_window_callback;
 
   add_to_gui_list(ID_TOGGLE_UNITS_WINDOW_BUTTON, pWidget);
@@ -1562,9 +1570,10 @@ void popup_minimap_window() {
 
   /* new turn button */
   pWidget = create_themeicon(pTheme->NEW_TURN_Icon, pMiniMap_Window->dst,
-			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Turn Done"), _("Shift+Return"));
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = end_turn_callback;
   pWidget->key = SDLK_RETURN;
   pWidget->mod = KMOD_SHIFT;
@@ -1575,10 +1584,11 @@ void popup_minimap_window() {
 
   /* players button */
   pWidget = create_themeicon(pTheme->PLAYERS_Icon, pMiniMap_Window->dst,
-			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   /* TRANS: Nations report action */
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Nations"), "F3");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = players_action_callback;
   pWidget->key = SDLK_F3;
 
@@ -1586,11 +1596,12 @@ void popup_minimap_window() {
 
   /* find city button */
   pWidget = create_themeicon(pTheme->FindCity_Icon, pMiniMap_Window->dst,
-   			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)\n%s\n%s (%s)", _("Cities Report"),
                                 "F4", _("or"), _("Find City"), "Ctrl+F");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
-  pWidget->string16->style |= SF_CENTER;
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label->style |= SF_CENTER;
   pWidget->action = cities_action_callback;
   pWidget->key = SDLK_f;
   pWidget->mod = KMOD_CTRL;
@@ -1601,9 +1612,10 @@ void popup_minimap_window() {
 
   /* units button */
   pWidget = create_themeicon(pTheme->UNITS2_Icon, pMiniMap_Window->dst,
-		             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Units"), "F2");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = units_action_callback;
   pWidget->key = SDLK_F2;
 
@@ -1611,9 +1623,10 @@ void popup_minimap_window() {
 
   /* show/hide log window button */
   pWidget = create_themeicon(pTheme->LOG_Icon, pMiniMap_Window->dst,
- 			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Hide Messages"), "F9");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_msg_window_callback;
   pWidget->key = SDLK_F9;
 
@@ -1621,9 +1634,10 @@ void popup_minimap_window() {
 
   /* toggle minimap mode button */
   pWidget = create_themeicon(pTheme->BORDERS_Icon, pMiniMap_Window->dst,
- 			     WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Toggle Mini Map Mode"), "Shift+\\");
-  pWidget->string16 = create_str16_from_char(buf, adj_font(12));
+  pWidget->info_label = create_str16_from_char(buf, adj_font(12));
   pWidget->action = toggle_minimap_mode_callback;
   pWidget->key = SDLK_BACKSLASH;
   pWidget->mod = KMOD_SHIFT;
@@ -1632,10 +1646,12 @@ void popup_minimap_window() {
 
   #ifdef SMALL_SCREEN
   /* options button */
-  pOptions_Button = create_themeicon(pTheme->Options_Icon, pMiniMap_Window->dst,
- 			             WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pOptions_Button = create_themeicon(pTheme->Options_Icon,
+                                     pMiniMap_Window->dst,
+                                     WF_WIDGET_HAS_INFO_LABEL
+                                     | WF_RESTORE_BACKGROUND);
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
+  pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
   
   pOptions_Button->action = optiondlg_callback;  
   pOptions_Button->key = SDLK_ESCAPE;
@@ -1652,10 +1668,12 @@ void popup_minimap_window() {
   alphablit(pTheme->L_ARROW_Icon, NULL, pIcon_theme, NULL);
 
   pWidget = create_themeicon(pIcon_theme, pMiniMap_Window->dst,
-			  WF_FREE_GFX | WF_FREE_THEME |
-		          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+                             WF_FREE_GFX | WF_FREE_THEME |
+                             WF_WIDGET_HAS_INFO_LABEL
+                             | WF_RESTORE_BACKGROUND);
 
-  pWidget->string16 = create_str16_from_char(_("Hide Mini Map"), adj_font(12));
+  pWidget->info_label = create_str16_from_char(_("Hide Mini Map"),
+                                               adj_font(12));
   pWidget->action = toggle_map_window_callback;
 
   add_to_gui_list(ID_TOGGLE_MAP_WINDOW_BUTTON, pWidget);

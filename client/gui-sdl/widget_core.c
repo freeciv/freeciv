@@ -94,6 +94,10 @@ void widget_free(struct widget **pWidget)
   if ((get_wflags(pGUI) & WF_FREE_STRING) == WF_FREE_STRING) {
     FREESTRING16(pGUI->string16);
   }
+  if ((get_wflags(pGUI) & WF_WIDGET_HAS_INFO_LABEL)
+      == WF_WIDGET_HAS_INFO_LABEL) {
+    FREESTRING16(pGUI->info_label);
+  }
   if ((get_wflags(pGUI) & WF_FREE_GFX) == WF_FREE_GFX) {
     FREESURFACE(pGUI->gfx);
   }

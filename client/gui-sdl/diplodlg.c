@@ -876,23 +876,22 @@ static void update_diplomacy_dialog(struct diplomacy_dialog *pdialog)
     add_to_gui_list(ID_ICON, pBuf);
     /* ============================================================= */
     
-    pBuf = create_themeicon(pTheme->CANCEL_PACT_Icon, pWindow->dst, 
-    	(WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING|WF_RESTORE_BACKGROUND));
-	
-    pBuf->string16 = create_str16_from_char(_("Cancel meeting"), adj_font(12));
-    
+    pBuf = create_themeicon(pTheme->CANCEL_PACT_Icon, pWindow->dst,
+                            WF_WIDGET_HAS_INFO_LABEL
+                            | WF_RESTORE_BACKGROUND);
+    pBuf->info_label = create_str16_from_char(_("Cancel meeting"),
+                                              adj_font(12));
     pBuf->action = cancel_meeting_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);
     
     add_to_gui_list(ID_ICON, pBuf);
     
-    pBuf = create_themeicon(pTheme->OK_PACT_Icon, pWindow->dst, 
-    	(WF_FREE_DATA|WF_WIDGET_HAS_INFO_LABEL|
-				WF_FREE_STRING|WF_RESTORE_BACKGROUND));
-	
-    pBuf->string16 = create_str16_from_char(_("Accept treaty"), adj_font(12));
-    
+    pBuf = create_themeicon(pTheme->OK_PACT_Icon, pWindow->dst,
+                            WF_FREE_DATA | WF_WIDGET_HAS_INFO_LABEL
+                            | WF_RESTORE_BACKGROUND);
+    pBuf->info_label = create_str16_from_char(_("Accept treaty"),
+                                              adj_font(12));
     pBuf->action = accept_treaty_callback;
     pBuf->data.cont = pCont;
     set_wstate(pBuf, FC_WS_NORMAL);

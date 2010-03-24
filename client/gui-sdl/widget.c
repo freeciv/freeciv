@@ -466,18 +466,18 @@ void redraw_widget_info_label(SDL_Rect *rect)
   }
 
   if (!pInfo_Label) {
-  
     pInfo_Area = fc_calloc(1, sizeof(SDL_Rect));
-  
-    color = pWidget->string16->fgcol;
-    pWidget->string16->style |= TTF_STYLE_BOLD;
-    pWidget->string16->fgcol = *get_game_colorRGB(COLOR_THEME_QUICK_INFO_TEXT);
-    
-    /* create string and bcgd theme */
-    pText = create_text_surf_from_str16(pWidget->string16);
 
-    pWidget->string16->fgcol = color;
-    
+    color = pWidget->info_label->fgcol;
+    pWidget->info_label->style |= TTF_STYLE_BOLD;
+    pWidget->info_label->fgcol =
+        *get_game_colorRGB(COLOR_THEME_QUICK_INFO_TEXT);
+
+    /* create string and bcgd theme */
+    pText = create_text_surf_from_str16(pWidget->info_label);
+
+    pWidget->info_label->fgcol = color;
+
     pBcgd = create_filled_surface(pText->w + adj_size(10), pText->h + adj_size(6),
               SDL_SWSURFACE, get_game_colorRGB(COLOR_THEME_QUICK_INFO_BG), TRUE);
     

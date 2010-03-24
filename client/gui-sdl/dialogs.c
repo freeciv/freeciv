@@ -285,8 +285,9 @@ void popup_notify_dialog(const char *caption, const char *headline,
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->action = exit_notify_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -649,8 +650,9 @@ void popup_unit_select_dialog(struct tile *ptile)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->action = exit_unit_select_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -883,8 +885,9 @@ static void popup_terrain_info_dialog(SDL_Surface *pDest, struct tile *ptile)
   
   /* exit icon */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->size.x = area.x + area.w - pBuf->size.w - 1;
   pBuf->size.y = pWindow->size.y + adj_size(2);
   pBuf->action = exit_terrain_info_dialog_callback;
@@ -1213,8 +1216,9 @@ void popup_advanced_terrain_dialog(struct tile *ptile, Uint16 pos_x, Uint16 pos_
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_advanced_terrain_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -1778,8 +1782,9 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_pillage_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

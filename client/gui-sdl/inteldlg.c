@@ -236,8 +236,10 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     /* exit button */
     pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                            WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-    pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                            WF_WIDGET_HAS_INFO_LABEL
+                            | WF_RESTORE_BACKGROUND);
+    pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                              adj_font(12));
     area.w = MAX(area.w, pBuf->size.w + adj_size(10));
     pBuf->action = exit_intel_dlg_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
@@ -252,16 +254,16 @@ void update_intel_dialog(struct player *p)
     pLogo = pText1;
           
     pBuf = create_icon2(pLogo, pWindow->dst,
-          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|
-                                          WF_FREE_STRING|WF_FREE_THEME));
+                        WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
+                        | WF_FREE_THEME);
     pBuf->action = spaceship_callback;
     set_wstate(pBuf, FC_WS_NORMAL);
     pBuf->data.player = p;
     fc_snprintf(cBuf, sizeof(cBuf),
                 _("Intelligence Information about the %s Spaceship"), 
                 nation_adjective_for_player(p));
-    pBuf->string16 = create_str16_from_char(cBuf, adj_font(12));
-          
+    pBuf->info_label = create_str16_from_char(cBuf, adj_font(12));
+
     add_to_gui_list(ID_ICON, pBuf);
           
     /* ---------- */
@@ -332,14 +334,15 @@ void update_intel_dialog(struct player *p)
        && TECH_KNOWN != player_invention_state(client.conn.playing, i)) {
 
         pBuf = create_icon2(get_tech_icon(i), pWindow->dst,
-          (WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING | WF_FREE_THEME));
+                            WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
+                            | WF_FREE_THEME);
         pBuf->action = tech_callback;
         set_wstate(pBuf, FC_WS_NORMAL);
-  
-        pBuf->string16 = create_str16_from_char(
-                           advance_name_translation(advance_by_number(i)),
-                           adj_font(12));
-          
+
+        pBuf->info_label =
+            create_str16_from_char(advance_name_translation
+                                   (advance_by_number(i)), adj_font(12));
+
         add_to_gui_list(ID_ICON, pBuf);
           
         if(n > ((2 * col) - 1)) {

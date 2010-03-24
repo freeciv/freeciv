@@ -468,8 +468,9 @@ static void popup_load_del_presets_dialog(bool load, struct widget *pButton)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-	                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->action = cancel_SLD_cma_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -875,8 +876,9 @@ void popup_city_cma_dialog(struct city *pCity)
   /* ---------- */
   /* create exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  	                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->action = exit_cma_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -969,56 +971,53 @@ void popup_city_cma_dialog(struct city *pCity)
     
   /* save as ... */
   pBuf = create_themeicon(pTheme->SAVE_Icon, pWindow->dst,
-	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+                          WF_RESTORE_BACKGROUND |WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = save_cma_callback;
-  pBuf->string16 = create_str16_from_char(_("Save settings as..."), adj_font(10));
-  
+  pBuf->info_label = create_str16_from_char(_("Save settings as..."),
+                                            adj_font(10));
+
   add_to_gui_list(ID_ICON, pBuf);
   
   /* load settings */
   pBuf = create_themeicon(pTheme->LOAD_Icon, pWindow->dst,
-  	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = load_cma_callback;
-  pBuf->string16 = create_str16_from_char(_("Load settings"), adj_font(10));
+  pBuf->info_label = create_str16_from_char(_("Load settings"),
+                                            adj_font(10));
   
   add_to_gui_list(ID_ICON, pBuf);
   
   /* del settings */
   pBuf = create_themeicon(pTheme->DELETE_Icon, pWindow->dst,
-  	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = del_cma_callback;
-  pBuf->string16 = create_str16_from_char(_("Delete settings"), adj_font(10));
-  
+  pBuf->info_label = create_str16_from_char(_("Delete settings"),
+                                            adj_font(10));
+
   add_to_gui_list(ID_ICON, pBuf);
     
   /* run cma */
   pBuf = create_themeicon(pTheme->QPROD_Icon, pWindow->dst,
-  	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_callback;
-  pBuf->string16 = create_str16_from_char(_("Control city"), adj_font(10));
-  
+  pBuf->info_label = create_str16_from_char(_("Control city"), adj_font(10));
+
   add_to_gui_list(ID_ICON, pBuf);
   
   /* run cma onece */
   pBuf = create_themeicon(pTheme->FindCity_Icon, pWindow->dst,
-  	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = run_cma_once_callback;
-  pBuf->string16 = create_str16_from_char(_("Apply once"), adj_font(10));
-  
+  pBuf->info_label = create_str16_from_char(_("Apply once"), adj_font(10));
+
   add_to_gui_list(ID_ICON, pBuf);
   
   /* del settings */
-  pBuf = create_themeicon(pTheme->Support_Icon,	pWindow->dst,
-  	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_STRING));
-  
+  pBuf = create_themeicon(pTheme->Support_Icon, pWindow->dst,
+                          WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   pBuf->action = stop_cma_callback;
-  pBuf->string16 = create_str16_from_char(_("Release city"), adj_font(10));
-  
+  pBuf->info_label = create_str16_from_char(_("Release city"), adj_font(10));
+
   add_to_gui_list(ID_ICON, pBuf);
   
   /* -------------------------------- */

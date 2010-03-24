@@ -316,7 +316,7 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
     fc_snprintf(cBuf, sizeof(cBuf), "%s (%s)\n%s", _("Revolution"), "Ctrl+Shift+R",
                                     _("None"));
   }        
-  copy_chars_to_string16(pBuf->string16, cBuf);
+  copy_chars_to_string16(pBuf->info_label, cBuf);
       
   widget_redraw(pBuf);
   widget_mark_dirty(pBuf);
@@ -346,8 +346,8 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 		0);
   }
 
-  copy_chars_to_string16(pBuf->string16, cBuf);
-  
+  copy_chars_to_string16(pBuf->info_label, cBuf);
+
   set_new_icon2_theme(pBuf, adj_surf(GET_SURF(bulb)), TRUE);  
   
   widget_redraw(pBuf);
@@ -794,10 +794,9 @@ void redraw_unit_info_label(struct unit_list *punitlist)
           pStr->style |= SF_CENTER;
     
           pBuf = create_icon2(pBuf_Surf, pInfo_Window->dst,
-	             (WF_FREE_THEME | WF_RESTORE_BACKGROUND |
-						    WF_WIDGET_HAS_INFO_LABEL));
-	
-    	  pBuf->string16 = pStr;
+                              WF_FREE_THEME | WF_RESTORE_BACKGROUND
+                              | WF_WIDGET_HAS_INFO_LABEL);
+          pBuf->info_label = pStr;
           pBuf->data.unit = aunit;
 	  pBuf->ID = ID_ICON;
 	  DownAdd(pBuf, pDock);

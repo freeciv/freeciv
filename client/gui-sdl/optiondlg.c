@@ -2141,11 +2141,11 @@ void init_options_button(void)
   char buf[256];
   
   pOptions_Button = create_themeicon(pTheme->Options_Icon, Main.gui,
-				       (WF_WIDGET_HAS_INFO_LABEL |
-					WF_RESTORE_BACKGROUND));
+                                     WF_WIDGET_HAS_INFO_LABEL
+                                     | WF_RESTORE_BACKGROUND);
   pOptions_Button->action = optiondlg_callback;
   fc_snprintf(buf, sizeof(buf), "%s (%s)", _("Options"), "Esc");
-  pOptions_Button->string16 = create_str16_from_char(buf, adj_font(12));
+  pOptions_Button->info_label = create_str16_from_char(buf, adj_font(12));
   pOptions_Button->key = SDLK_ESCAPE;
   set_wflag(pOptions_Button, WF_HIDDEN);
   widget_set_position(pOptions_Button, adj_size(5), adj_size(5));
@@ -2214,8 +2214,10 @@ static void popup_optiondlg(const char *name)
 
   /* close button */
   pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pCloseButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                                  WF_WIDGET_HAS_INFO_LABEL
+                                  | WF_RESTORE_BACKGROUND);
+  pCloseButton->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                                    adj_font(12));
   pCloseButton->action = back_callback;
   set_wstate(pCloseButton, FC_WS_NORMAL);
   pCloseButton->key = SDLK_ESCAPE;

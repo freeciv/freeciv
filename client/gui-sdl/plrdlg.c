@@ -341,8 +341,9 @@ void popup_players_dialog(bool raise)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   pBuf->action = exit_players_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -409,10 +410,10 @@ void popup_players_dialog(bool raise)
     pZoomed = zoomSurface(pLogo, DEFAULT_ZOOM * (3.0 - n * 0.05), DEFAULT_ZOOM * (3.0 - n * 0.05), 1);
             
     pBuf = create_icon2(pZoomed, pWindow->dst,
-    	(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL|WF_FREE_THEME));
-    
-    pBuf->string16 = pStr;
-      
+                        WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL
+                        | WF_FREE_THEME);
+    pBuf->info_label = pStr;
+
     if(!pPlayer->is_alive) {
       pStr = create_str16_from_char(_("R.I.P.") , adj_font(10));
       pStr->style |= TTF_STYLE_BOLD;
@@ -619,8 +620,9 @@ void popup_players_nations_dialog(void)
   /* ---------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   area.w = MAX(area.w, pBuf->size.w + adj_size(10));
   pBuf->action = exit_players_nations_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);

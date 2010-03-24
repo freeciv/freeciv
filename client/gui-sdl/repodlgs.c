@@ -371,8 +371,8 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
   /* ------------------------- */
   /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
   pBuf->action = exit_units_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -1891,11 +1891,11 @@ void popup_economy_report_dialog(bool make_modal)
   pStr = create_str16_from_char(cBuf, adj_font(10));
   pStr->style |= TTF_STYLE_BOLD;
 
-  pBuf = create_checkbox(pWindow->dst, 
-      		(SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK),
-      		(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
+  pBuf = create_checkbox(pWindow->dst,
+                         SDL_Client_Flags & CF_CHANGE_TAXRATE_LUX_BLOCK,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
-  pBuf->string16 = pStr;
+  pBuf->info_label = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1938,12 +1938,12 @@ void popup_economy_report_dialog(bool make_modal)
   pStr->style |= TTF_STYLE_BOLD;
 
   pBuf = create_checkbox(pWindow->dst,
-	      (SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK),
-      		(WF_RESTORE_BACKGROUND|WF_WIDGET_HAS_INFO_LABEL));
+                         SDL_Client_Flags & CF_CHANGE_TAXRATE_SCI_BLOCK,
+                         WF_RESTORE_BACKGROUND | WF_WIDGET_HAS_INFO_LABEL);
 
   set_new_checkbox_theme(pBuf, pTheme->LOCK_Icon, pTheme->UNLOCK_Icon);
-    
-  pBuf->string16 = pStr;
+
+  pBuf->info_label = pStr;
   pBuf->action = toggle_block_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
 
@@ -1987,8 +1987,8 @@ void popup_economy_report_dialog(bool make_modal)
   fc_snprintf(cBuf, sizeof(cBuf), _("Close Dialog (Esc)"));
   pStr = create_str16_from_char(cBuf, adj_font(12));
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = pStr;
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = pStr;
   pBuf->action = exit_economy_dialog_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
   pBuf->key = SDLK_ESCAPE;
@@ -2856,8 +2856,9 @@ static void popup_change_research_dialog(void)
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3043,8 +3044,9 @@ static void popup_change_research_goal_dialog(void)
   /* ------------------------- */
     /* exit button */
   pBuf = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-  			  WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pBuf->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                          WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
+  pBuf->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                            adj_font(12));
   area.w += pBuf->size.w + adj_size(10);
   pBuf->action = exit_change_tech_dlg_callback;
   set_wstate(pBuf, FC_WS_NORMAL);
@@ -3308,8 +3310,10 @@ void popup_science_dialog(bool raise)
   /* ------ */
   /* exit button */
   pExitButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                 WF_WIDGET_HAS_INFO_LABEL | WF_RESTORE_BACKGROUND);
-  pExitButton->string16 = create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+                                 WF_WIDGET_HAS_INFO_LABEL
+                                 | WF_RESTORE_BACKGROUND);
+  pExitButton->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                                   adj_font(12));
   pExitButton->action = popdown_science_dialog_callback;
   set_wstate(pExitButton, FC_WS_NORMAL);
   pExitButton->key = SDLK_ESCAPE;
