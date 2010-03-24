@@ -41,19 +41,6 @@
 static bool is_init = FALSE;
 static char convert_buffer[4096];
 
-/*
-  See PR#40028 for additional explanation.
-
-  The data_encoding is used in all data files and network transactions.
-  This is UTF-8.  Currently, the rulesets are in latin1 (ISO-8859-1).
-
-  The internal_encoding is used internally within freeciv.  This is always
-  UTF-8 at the server, but can be configured by the GUI client.  (When your
-  charset is the same as your GUI library, GUI writing is easier.)
-
-  The local_encoding is the one supported on the command line.  This is not
-  under our control, and all output to the command line must be converted.
-*/
 #ifdef HAVE_ICONV
 static const char *local_encoding, *data_encoding, *internal_encoding;
 static const char *transliteration_string;

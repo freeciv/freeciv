@@ -29,7 +29,7 @@ data/nation/<nationname>.ruleset
   ok though.
   - The name should be the same as the name of the nation inside the
   ruleset file.
-  - The file must be encoded in Unicode.
+  - The file must be encoded in UTF-8.
 
 data/default/nations.ruleset
 

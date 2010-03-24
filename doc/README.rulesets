@@ -72,6 +72,9 @@ self-explanatory.  A few points:
   game (rather than intrinsic properties of the unit).
   See comments in common/unit.h
 
+- Rulesets must be in UTF-8; translatable texts should be American English
+  ASCII.
+
 Properties of units and advances are now fairly well generalised.
 Properties of buildings are still rather inflexible.
 
