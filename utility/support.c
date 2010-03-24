@@ -430,7 +430,7 @@ void fc_usleep(unsigned long usec)
   tv.tv_usec=usec;
   /* FIXME: an interrupt can cause an EINTR return here.  In that case we
    * need to have another select call. */
-  my_select(0, NULL, NULL, NULL, &tv);
+  fc_select(0, NULL, NULL, NULL, &tv);
 #endif
 #endif
 #endif
