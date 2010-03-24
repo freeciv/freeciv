@@ -134,9 +134,8 @@ void init_character_encodings(const char *my_internal_encoding,
 #endif
 
 #ifdef DEBUG
-  /* FIXME: Remove this output when this code has stabilized. */
   fprintf(stderr, "Encodings: Data=%s, Local=%s, Internal=%s\n",
-	     data_encoding, local_encoding, internal_encoding);
+          data_encoding, local_encoding, internal_encoding);
 #endif
 
 #else
