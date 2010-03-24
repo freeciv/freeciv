@@ -1461,7 +1461,7 @@ Main Map (Mouse):\n\
 \n\
   Shift-Control-Left-click:    Adjust city workers\n\
   Control-Center-click:        Wake up sentried units\n\
-  Shift-Control-Right-click:   Show city workers (mouse over or near city)\n\
+  Shift-Alt-Right-click:       Show city workers (mouse over or near city)\n\
 \n\
   Area Selection mode (GTK):\n\
   ==========================\n\
