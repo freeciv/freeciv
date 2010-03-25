@@ -96,7 +96,7 @@ void api_actions_change_gold(Player *pplayer, int amount)
 {
   SCRIPT_ASSERT(NULL != pplayer);
 
-  pplayer->economic.gold += amount;
+  pplayer->economic.gold = MAX(0, pplayer->economic.gold + amount);
 }
 
 /**************************************************************************
