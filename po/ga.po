@@ -20249,15 +20249,15 @@ msgstr "Rónta"
 #: data/default/units.ruleset:23 data/civ2/units.ruleset:18
 #: data/civ1/units.ruleset:18
 msgid "green"
-msgstr "uaine"
+msgstr "núíosach"
 
 #: data/default/units.ruleset:23
 msgid "hardened"
-msgstr "cruaite"
+msgstr "seanchleachta"
 
 #: data/default/units.ruleset:23
 msgid "elite"
-msgstr "scoth"
+msgstr "scothaonad"
 
 #: data/default/units.ruleset:83 data/civ2/units.ruleset:78
 #: data/civ1/units.ruleset:102
@@ -20946,7 +20946,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:445
 msgid "Fanatics"
-msgstr ""
+msgstr "Fanaicigh"
 
 #: data/civ2/units.ruleset:472
 msgid ""
@@ -20958,7 +20958,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:751
 msgid "Elephants"
-msgstr ""
+msgstr "Eilifintí"
 
 #: data/civ2/units.ruleset:777
 msgid ""
@@ -20968,7 +20968,7 @@ msgstr ""
 
 #: data/civ2/units.ruleset:783
 msgid "Crusaders"
-msgstr ""
+msgstr "Crosáidithe"
 
 #: data/civ2/units.ruleset:809
 msgid ""
@@ -21013,7 +21013,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:212
 msgid "Militia"
-msgstr ""
+msgstr "Mílíste"
 
 #: data/civ1/units.ruleset:334
 msgid ""
@@ -21041,7 +21041,7 @@ msgstr ""
 
 #: data/civ1/units.ruleset:735
 msgid "Sail"
-msgstr ""
+msgstr "Seol"
 
 #: data/civ1/units.ruleset:762
 msgid ""
@@ -21078,11 +21078,11 @@ msgstr ""
 
 #: data/nation/aborigines.ruleset:3
 msgid "Australian Aboriginal"
-msgstr ""
+msgstr "Bundúchasach Astrálach"
 
 #: data/nation/aborigines.ruleset:4
 msgid "?plural:Aborigines"
-msgstr ""
+msgstr "?plural:Bundúchasaigh"
 
 #: data/nation/aborigines.ruleset:6
 msgid ""
@@ -21093,11 +21093,11 @@ msgstr ""
 
 #: data/nation/afghani.ruleset:3
 msgid "Afghani"
-msgstr ""
+msgstr "Afganastánach"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr ""
+msgstr "?plural:Afganastánaigh"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -21111,16 +21111,16 @@ msgstr ""
 #: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
 #: data/nation/kurd.ruleset:25 data/nation/uzbek.ruleset:28
 msgid "Emir"
-msgstr ""
+msgstr "Éimír"
 
 #: data/nation/afghani.ruleset:25 data/nation/slovakian.ruleset:30
 #: data/nation/soviet.ruleset:28
 msgid "General Secretary"
-msgstr ""
+msgstr "Ard-Rúnaí"
 
 #: data/nation/afghani.ruleset:26
 msgid "Mullah"
-msgstr ""
+msgstr "Mulla"
 
 #: data/nation/afghani.ruleset:27 data/nation/australian.ruleset:28
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:23
@@ -21137,7 +21137,7 @@ msgstr ""
 #: data/nation/swedish.ruleset:32 data/nation/tibetan.ruleset:30
 #: data/nation/welsh.ruleset:27
 msgid "Prime Minister"
-msgstr ""
+msgstr "Príomh-Aire"
 
 #: data/nation/afghani.ruleset:27 data/nation/australian.ruleset:28
 #: data/nation/british.ruleset:22 data/nation/burmese.ruleset:23
@@ -21154,15 +21154,15 @@ msgstr ""
 #: data/nation/swedish.ruleset:32 data/nation/tibetan.ruleset:30
 #: data/nation/welsh.ruleset:27
 msgid "?female:Prime Minister"
-msgstr ""
+msgstr "?female:Príomh-Aire"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr ""
+msgstr "Ainu"
 
 #: data/nation/ainu.ruleset:4
 msgid "?plural:Ainu"
-msgstr ""
+msgstr "?plural:Lucht Ainu"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -21173,7 +21173,7 @@ msgstr ""
 #. TRANS: Nipa = Chief
 #: data/nation/ainu.ruleset:20
 msgid "Nipa"
-msgstr ""
+msgstr "Nipa"
 
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
@@ -21182,11 +21182,11 @@ msgstr ""
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr ""
+msgstr "Akwe"
 
 #: data/nation/akwe.ruleset:4
 msgid "?plural:Akwe"
-msgstr ""
+msgstr "?plura:Lucht Akwe"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -21201,19 +21201,19 @@ msgstr ""
 
 #: data/nation/akwe.ruleset:23
 msgid "He'a"
-msgstr ""
+msgstr "He'a"
 
 #: data/nation/akwe.ruleset:24 data/nation/srivijaya.ruleset:22
 msgid "Senapati"
-msgstr ""
+msgstr "Senapati"
 
 #: data/nation/algerian.ruleset:3
 msgid "Algerian"
-msgstr ""
+msgstr "Ailgéarach"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr ""
+msgstr "?plural:Ailgéaraigh"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -21223,11 +21223,11 @@ msgstr ""
 
 #: data/nation/american.ruleset:3 data/nation/muskogee.ruleset:5
 msgid "American"
-msgstr ""
+msgstr "Meiriceánach"
 
 #: data/nation/american.ruleset:4
 msgid "?plural:Americans"
-msgstr ""
+msgstr "?plural:Meiriceánaigh"
 
 #: data/nation/american.ruleset:6
 msgid ""
@@ -21237,27 +21237,27 @@ msgstr ""
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
 msgid "Speaker"
-msgstr ""
+msgstr "Ceann Comhairle"
 
 #: data/nation/american.ruleset:51 data/nation/scottish.ruleset:25
 msgid "?female:Speaker"
-msgstr ""
+msgstr "?female:Ceann Comhairle"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "Reverend"
-msgstr ""
+msgstr "Oirmhinneach"
 
 #: data/nation/american.ruleset:52 data/nation/texan.ruleset:20
 msgid "?female:Reverend"
-msgstr ""
+msgstr "?female:Oirmhinneach"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
-msgstr ""
+msgstr "Antartach"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr ""
+msgstr "?plural:Antartaigh"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -21265,11 +21265,11 @@ msgstr ""
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
-msgstr ""
+msgstr "Arabach"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr ""
+msgstr "?plural:Arabaigh"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -21277,15 +21277,15 @@ msgstr ""
 
 #: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
 msgid "Caliph"
-msgstr ""
+msgstr "Cailif"
 
 #: data/nation/aramean.ruleset:3
 msgid "Aramean"
-msgstr ""
+msgstr "Aramach"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
-msgstr ""
+msgstr "?plural:Aramaigh"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -21295,11 +21295,11 @@ msgstr ""
 
 #: data/nation/argentine.ruleset:3
 msgid "Argentine"
-msgstr ""
+msgstr "Airgintíneach"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr ""
+msgstr "?plural:Airgintínigh"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -21314,11 +21314,11 @@ msgstr ""
 
 #: data/nation/armenian.ruleset:3
 msgid "Armenian"
-msgstr ""
+msgstr "Airméanach"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr ""
+msgstr "?plural:Airméanaigh"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -21329,11 +21329,11 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:3
 msgid "Assyrian"
-msgstr ""
+msgstr "Aisiriach"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr ""
+msgstr "?plural:Aisiriaigh"
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -21342,19 +21342,19 @@ msgstr ""
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malka"
-msgstr ""
+msgstr "Malka"
 
 #: data/nation/assyrian.ruleset:21
 msgid "Malikta"
-msgstr ""
+msgstr "Malikta"
 
 #: data/nation/australian.ruleset:3
 msgid "Australian"
-msgstr ""
+msgstr "Astrálach"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr ""
+msgstr "?plural:Astrálaigh"
 
 #: data/nation/australian.ruleset:6
 msgid ""
@@ -21366,11 +21366,11 @@ msgstr ""
 
 #: data/nation/austrian.ruleset:3
 msgid "Austrian"
-msgstr ""
+msgstr "Ostarach"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
-msgstr ""
+msgstr "?plural:Ostaraigh"
 
 #: data/nation/austrian.ruleset:6
 msgid ""
@@ -21380,11 +21380,11 @@ msgstr ""
 
 #: data/nation/aymara.ruleset:3
 msgid "Aymara"
-msgstr ""
+msgstr "Adhmarach"
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr ""
+msgstr "?plural:Adhmaraigh"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -21395,40 +21395,40 @@ msgstr ""
 
 #: data/nation/aymara.ruleset:30
 msgid "Jiliri"
-msgstr ""
+msgstr "Jiliri"
 
 #: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
 msgid "Mallku"
-msgstr ""
+msgstr "Mallku"
 
 #: data/nation/aymara.ruleset:31 data/nation/aymara.ruleset:32
 msgid "Ttalla"
-msgstr ""
+msgstr "Ttalla"
 
 #: data/nation/aymara.ruleset:33
 msgid "Willka"
-msgstr ""
+msgstr "Willka"
 
 #: data/nation/aymara.ruleset:34
 msgid "Tata"
-msgstr ""
+msgstr "Tata"
 
 #. TRANS: Mama = Priest
 #: data/nation/aymara.ruleset:34 data/nation/tairona.ruleset:30
 msgid "Mama"
-msgstr ""
+msgstr "Mama"
 
 #: data/nation/aymara.ruleset:35
 msgid "Markachiri"
-msgstr ""
+msgstr "Markachiri"
 
 #: data/nation/azeri.ruleset:3
 msgid "Azeri"
-msgstr ""
+msgstr "Asarbaiseánach"
 
 #: data/nation/azeri.ruleset:4
 msgid "?plural:Azeris"
-msgstr ""
+msgstr "?plural:Asarbaiseánaigh"
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -21445,31 +21445,31 @@ msgstr ""
 #: data/nation/tajik.ruleset:23 data/nation/turkmen.ruleset:22
 #: data/nation/uyghur.ruleset:29 data/nation/uzbek.ruleset:27
 msgid "Khan"
-msgstr ""
+msgstr "Cán"
 
 #: data/nation/azeri.ruleset:40 data/nation/kazakh.ruleset:26
 #: data/nation/kyrgyz.ruleset:25 data/nation/tajik.ruleset:23
 #: data/nation/turkmen.ruleset:22 data/nation/uzbek.ruleset:27
 msgid "Khatan"
-msgstr ""
+msgstr "Khatan"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
 msgid "Shah"
-msgstr ""
+msgstr "Shah"
 
 #: data/nation/azeri.ruleset:41 data/nation/iranian.ruleset:43
 #: data/nation/persian.ruleset:21
 msgid "Shahbanu"
-msgstr ""
+msgstr "Shahbanu"
 
 #: data/nation/aztec.ruleset:3
 msgid "Aztec"
-msgstr ""
+msgstr "Aisticeach"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr ""
+msgstr "?plural:Aisticigh"
 
 #: data/nation/aztec.ruleset:6
 msgid ""
@@ -21482,20 +21482,20 @@ msgstr ""
 #. TRANS: Tlatoani = Speaker
 #: data/nation/aztec.ruleset:22
 msgid "Tlatoani"
-msgstr ""
+msgstr "Tlatoani"
 
 #. TRANS: Huey Tlatoani = Great Speaker
 #: data/nation/aztec.ruleset:24
 msgid "Huey Tlatoani"
-msgstr ""
+msgstr "Huey Tlatoani"
 
 #: data/nation/babylonian.ruleset:3
 msgid "Babylonian"
-msgstr ""
+msgstr "Bablónach"
 
 #: data/nation/babylonian.ruleset:4
 msgid "?plural:Babylonians"
-msgstr ""
+msgstr "?plural:Bablónaigh"
 
 #: data/nation/babylonian.ruleset:6
 msgid ""
@@ -21507,11 +21507,11 @@ msgstr ""
 #. TRANS: Lugal = Great Man
 #: data/nation/babylonian.ruleset:23 data/nation/sumerian.ruleset:28
 msgid "Lugal"
-msgstr ""
+msgstr "Lugal"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
-msgstr ""
+msgstr "?plural:Barbaraigh"
 
 #: data/nation/barbarian.ruleset:5
 msgid ""
@@ -21521,11 +21521,11 @@ msgstr ""
 
 #: data/nation/basque.ruleset:3
 msgid "Basque"
-msgstr ""
+msgstr "Bascach"
 
 #: data/nation/basque.ruleset:4
 msgid "?plural:Basques"
-msgstr ""
+msgstr "?plural:Bascaigh"
 
 #: data/nation/basque.ruleset:6
 msgid ""
@@ -21539,47 +21539,47 @@ msgstr ""
 #. TRANS: Buruzagi = Leader, head (like spanish Caudillo)
 #: data/nation/basque.ruleset:33
 msgid "Buruzagi"
-msgstr ""
+msgstr "Buruzagi"
 
 #: data/nation/basque.ruleset:33
 msgid "?female:Buruzagi"
-msgstr ""
+msgstr "?female:Buruzagi"
 
 #. TRANS: Apaiz nagusi = Pope, Lord Protector
 #: data/nation/basque.ruleset:35
 msgid "Apaiz nagusi"
-msgstr ""
+msgstr "Apaiz nagusi"
 
 #: data/nation/basque.ruleset:35
 msgid "Emakume Apaiz nagusi"
-msgstr ""
+msgstr "Emakume Apaiz nagusi"
 
 #. TRANS: Errege and Erregina = King and Queen
 #: data/nation/basque.ruleset:37
 msgid "Errege"
-msgstr ""
+msgstr "Errege"
 
 #: data/nation/basque.ruleset:37
 msgid "Erregina"
-msgstr ""
+msgstr "Erregina"
 
 #. TRANS: Lehendakari = similar to President
 #. ; /* TRANS: (but is quite inexact for Basques to call him/her "president")
 #: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
 msgid "Lehendakari"
-msgstr ""
+msgstr "Lehendakari"
 
 #: data/nation/basque.ruleset:40 data/nation/basque.ruleset:41
 msgid "?female:Lehendakari"
-msgstr ""
+msgstr "?female:Lehendakari"
 
 #: data/nation/bavarian.ruleset:3
 msgid "Bavarian"
-msgstr ""
+msgstr "Bavárach"
 
 #: data/nation/bavarian.ruleset:4
 msgid "?plural:Bavarians"
-msgstr ""
+msgstr "?plural:Baváraigh"
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
@@ -21589,11 +21589,11 @@ msgstr ""
 
 #: data/nation/belarusian.ruleset:3
 msgid "Belarusian"
-msgstr ""
+msgstr "Bealarúiseach"
 
 #: data/nation/belarusian.ruleset:4
 msgid "?plural:Belarusians"
-msgstr ""
+msgstr "?plural:Bealarúisigh"
 
 #: data/nation/belarusian.ruleset:6
 msgid ""
@@ -21605,11 +21605,11 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:3
 msgid "Belgian"
-msgstr ""
+msgstr "Beilgeach"
 
 #: data/nation/belgian.ruleset:4
 msgid "?plural:Belgians"
-msgstr ""
+msgstr "?plural:Beilgigh"
 
 #: data/nation/belgian.ruleset:6
 msgid ""
@@ -21621,11 +21621,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:3
 msgid "Bengali"
-msgstr ""
+msgstr "Beangálach"
 
 #: data/nation/bengali.ruleset:4
 msgid "?plural:Bengalis"
-msgstr ""
+msgstr "?plural:Beangálaigh"
 
 #: data/nation/bengali.ruleset:6
 msgid ""
@@ -21637,11 +21637,11 @@ msgstr ""
 
 #: data/nation/bengali.ruleset:25
 msgid "Nabob"
-msgstr ""
+msgstr "Nabob"
 
 #: data/nation/bengali.ruleset:25
 msgid "?female:Nabob"
-msgstr ""
+msgstr "?female:Nabob"
 
 #: data/nation/bengali.ruleset:26
 msgid "Major"
@@ -21653,11 +21653,11 @@ msgstr ""
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
-msgstr ""
+msgstr "Bórach"
 
 #: data/nation/boer.ruleset:4
 msgid "?plural:Boers"
-msgstr ""
+msgstr "?plural:Bóraigh"
 
 #: data/nation/boer.ruleset:6
 msgid ""
@@ -21668,11 +21668,11 @@ msgstr ""
 
 #: data/nation/bosnia.ruleset:3
 msgid "Bosnian-Herzegovinian"
-msgstr ""
+msgstr "Boisniach-Heirseagaivéineach"
 
 #: data/nation/bosnia.ruleset:4
 msgid "?plural:Bosnians"
-msgstr ""
+msgstr "?plural:Boisniaigh"
 
 #: data/nation/bosnia.ruleset:6
 msgid ""
@@ -21687,11 +21687,11 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
-msgstr ""
+msgstr "Brasaíleach"
 
 #: data/nation/brazilian.ruleset:4
 msgid "?plural:Brazilians"
-msgstr ""
+msgstr "?plural:Brasaíligh"
 
 #: data/nation/brazilian.ruleset:6
 msgid ""
@@ -21704,7 +21704,7 @@ msgstr ""
 #: data/nation/brazilian.ruleset:24 data/nation/iraqi.ruleset:21
 #: data/nation/roman.ruleset:39
 msgid "Dictator"
-msgstr ""
+msgstr "Deachtóir"
 
 #: data/nation/brazilian.ruleset:24 data/nation/roman.ruleset:39
 msgid "Dictatrix"
@@ -21722,12 +21722,12 @@ msgstr ""
 
 #: data/nation/brazilian.ruleset:26 data/nation/chinese.ruleset:32
 msgid "Chairman"
-msgstr ""
+msgstr "Cathaoirleach"
 
 #: data/nation/brazilian.ruleset:26 data/nation/chinese.ruleset:32
 #: data/nation/un.ruleset:23
 msgid "Chairperson"
-msgstr ""
+msgstr "Cathaoirleach"
 
 #: data/nation/brazilian.ruleset:27 data/nation/romanian.ruleset:39
 msgid "Director-President"
@@ -21739,11 +21739,11 @@ msgstr ""
 
 #: data/nation/breton.ruleset:3
 msgid "Breton"
-msgstr ""
+msgstr "Briotánach"
 
 #: data/nation/breton.ruleset:4
 msgid "?plural:Bretons"
-msgstr ""
+msgstr "?plural:Briotánaigh"
 
 #: data/nation/breton.ruleset:6
 msgid ""
@@ -21762,23 +21762,23 @@ msgstr ""
 
 #: data/nation/breton.ruleset:35
 msgid "Dugez"
-msgstr ""
+msgstr "Dugez"
 
 #: data/nation/breton.ruleset:36
 msgid "Roue"
-msgstr ""
+msgstr "Roue"
 
 #: data/nation/breton.ruleset:36
 msgid "Rouanez"
-msgstr ""
+msgstr "Rouanez"
 
 #: data/nation/british.ruleset:3
 msgid "British"
-msgstr ""
+msgstr "Briotanach"
 
 #: data/nation/british.ruleset:4
 msgid "?plural:Britons"
-msgstr ""
+msgstr "?plural:Briotanaigh"
 
 #: data/nation/british.ruleset:6
 msgid ""
@@ -21790,11 +21790,11 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:3
 msgid "Bulgarian"
-msgstr ""
+msgstr "Bulgárach"
 
 #: data/nation/bulgarian.ruleset:4
 msgid "?plural:Bulgarians"
-msgstr ""
+msgstr "?plural:Bulgáraigh"
 
 #: data/nation/bulgarian.ruleset:6
 msgid ""
@@ -23078,11 +23078,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
-msgstr ""
+msgstr "Éireannach"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr ""
+msgstr "?plural:Éireannaigh"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -23095,11 +23095,11 @@ msgstr ""
 
 #: data/nation/irish.ruleset:45
 msgid "High King"
-msgstr ""
+msgstr "Ard-Rí"
 
 #: data/nation/irish.ruleset:45
 msgid "High Queen"
-msgstr ""
+msgstr "Ard-Bhanríon"
 
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
@@ -23108,11 +23108,11 @@ msgstr ""
 #. TRANS: Taoiseach = Prime Minister
 #: data/nation/irish.ruleset:48
 msgid "Taoiseach"
-msgstr ""
+msgstr "Taoiseach"
 
 #: data/nation/irish.ruleset:48
 msgid "?female:Taoiseach"
-msgstr ""
+msgstr "?female:Taoiseach"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
@@ -23165,11 +23165,11 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:3
 msgid "Japanese"
-msgstr ""
+msgstr "Seapánach"
 
 #: data/nation/japanese.ruleset:4
 msgid "?plural:Japanese"
-msgstr ""
+msgstr "?plural:Seapánaigh"
 
 #: data/nation/japanese.ruleset:6
 msgid ""
