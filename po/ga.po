@@ -12,8 +12,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? "
-"3 : 4\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : n<7 ? 2 : n < 11 ? 3 : "
+"4\n"
 
 #: common/city.c:58 client/gui-gtk-2.0/repodlgs.c:961
 #: client/gui-win32/repodlgs.c:709
@@ -349,8 +349,7 @@ msgid "Low Funds"
 msgstr ""
 
 #: common/events.c:136 common/terrain.c:547 common/unit.c:521
-#: server/report.c:138 client/cityrepdata.c:511
-#: client/gui-sdl/optiondlg.c:1854
+#: server/report.c:138 client/cityrepdata.c:511 client/gui-sdl/optiondlg.c:1854
 msgid "Pollution"
 msgstr ""
 
@@ -738,8 +737,8 @@ msgstr ""
 msgid "(Unknown)"
 msgstr ""
 
-#: common/terrain.c:45 data/default/units.ruleset:91
-#: data/civ2/units.ruleset:86 data/civ1/units.ruleset:78
+#: common/terrain.c:45 data/default/units.ruleset:91 data/civ2/units.ruleset:86
+#: data/civ1/units.ruleset:78
 msgid "Land"
 msgstr ""
 
@@ -766,8 +765,7 @@ msgstr ""
 
 #: common/terrain.c:544 common/terrain.c:738 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:901 client/gui-sdl/optiondlg.c:1961
-#: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155
-#: manual/civmanual.c:216
+#: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155 manual/civmanual.c:216
 msgid "Irrigation"
 msgstr ""
 
@@ -1344,13 +1342,13 @@ msgstr ""
 #: ai/advdiplomacy.c:1243
 #, c-format
 msgid ""
-"*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turn and expect you to honour your alliance with "
-"us and do likewise!"
+"*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will "
+"answer in force in %d turn and expect you to honour your alliance with us and "
+"do likewise!"
 msgid_plural ""
-"*%s (AI)* %s has grossly violated his treaties with us for own gain.  We "
-"will answer in force in %d turns and expect you to honour your alliance with "
-"us and do likewise!"
+"*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will "
+"answer in force in %d turns and expect you to honour your alliance with us "
+"and do likewise!"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -1390,8 +1388,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1285
 #, c-format
 msgid ""
-"*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  "
-"Hold on - we are coming!"
+"*%s (AI)* We will honour our alliance and declare war on %s in %d turn.  Hold "
+"on - we are coming!"
 msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
@@ -1445,8 +1443,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1573
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. "
+"Why do I need to remind you of your promises?"
 msgstr ""
 
 #: ai/advdiplomacy.c:1580
@@ -1479,8 +1477,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1785
 #, c-format
 msgid ""
-"*%s (AI)* We have been savagely attacked by %s, and we need your help! "
-"Honour our glorious alliance and your name will never be forgotten!"
+"*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour "
+"our glorious alliance and your name will never be forgotten!"
 msgstr ""
 
 #. TRANS: Further information about option will follow.
@@ -1908,8 +1906,7 @@ msgstr ""
 #: server/cityturn.c:1015
 #, c-format
 msgid ""
-"%s can't build %s from the worklist; tech %s not yet available.  "
-"Postponing..."
+"%s can't build %s from the worklist; tech %s not yet available.  Postponing..."
 msgstr ""
 
 #: server/cityturn.c:1028
@@ -2115,8 +2112,7 @@ msgstr ""
 
 #: server/cityturn.c:2378
 #, c-format
-msgid ""
-"Migrants from %s can't go to %s because it needs an improvement to grow!"
+msgid "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #: server/cityturn.c:2385
@@ -2312,9 +2308,9 @@ msgstr ""
 msgid ""
 "This command starts the game.  When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
-"required), and any desired changes to initial server options have been "
-"made.  After 'start', each human player will be able to choose their nation, "
-"and then the game will begin.  This command is also required after loading a "
+"required), and any desired changes to initial server options have been made.  "
+"After 'start', each human player will be able to choose their nation, and "
+"then the game will begin.  This command is also required after loading a "
 "savegame for the game to recommence.  Once the game is running this command "
 "is no longer available, since it would have no effect."
 msgstr ""
@@ -2337,10 +2333,10 @@ msgstr ""
 msgid ""
 "With no arguments gives some introductory help.  With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options.  "
-"Otherwise the argument is taken as a command name or option name, and help "
-"is given for that command or option.  For options, the help information "
-"includes the current and default values for that option.  The argument may "
-"be abbreviated where unambiguous."
+"Otherwise the argument is taken as a command name or option name, and help is "
+"given for that command or option.  For options, the help information includes "
+"the current and default values for that option.  The argument may be "
+"abbreviated where unambiguous."
 msgstr ""
 
 #: server/commands.c:78
@@ -2423,8 +2419,7 @@ msgid "Send message to all connections."
 msgstr ""
 
 #: server/commands.c:125
-msgid ""
-"For each connected client, pops up a window showing the message entered."
+msgid "For each connected client, pops up a window showing the message entered."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -2458,9 +2453,9 @@ msgid ""
 "vote for the command.  The /vote command followed by \"yes\", \"no\", or "
 "\"abstain\", and optionally a vote number, gives your vote.  If you do not "
 "add a vote number, your vote applies to the latest vote.  You can only "
-"suggest one vote at a time.  The vote will pass immediately if more than "
-"half of the voters who have not abstained vote for it, or fail immediately "
-"if at least half of the voters who have not abstained vote against it."
+"suggest one vote at a time.  The vote will pass immediately if more than half "
+"of the voters who have not abstained vote for it, or fail immediately if at "
+"least half of the voters who have not abstained vote against it."
 msgstr ""
 
 #: server/commands.c:156
@@ -2583,8 +2578,8 @@ msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
 "<player-name> argument is allowed.  If '-' is given for the player name and "
-"the connection does not already control a player, one is created and "
-"assigned to the connection."
+"the connection does not already control a player, one is created and assigned "
+"to the connection."
 msgstr ""
 
 #. TRANS: translate text between [] only
@@ -2599,10 +2594,10 @@ msgstr ""
 #: server/commands.c:241
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
-"connections to observe a player. If you're not one of these, only the "
-"[player-name] argument is allowed. If the console gives no player-name or "
-"the connection uses no arguments, then the connection is attached to a "
-"global observer."
+"connections to observe a player. If you're not one of these, only the [player-"
+"name] argument is allowed. If the console gives no player-name or the "
+"connection uses no arguments, then the connection is attached to a global "
+"observer."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -2630,8 +2625,7 @@ msgid "Create an AI player with a given name."
 msgstr ""
 
 #: server/commands.c:260
-msgid ""
-"The 'create' command is only available before the game has been started."
+msgid "The 'create' command is only available before the game has been started."
 msgstr ""
 
 #: server/commands.c:267
@@ -2656,8 +2650,8 @@ msgstr ""
 #: server/commands.c:276
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
-"default level for any new AI players to 'novice'.  With an argument, sets "
-"the skill level for that player only."
+"default level for any new AI players to 'novice'.  With an argument, sets the "
+"skill level for that player only."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -2692,8 +2686,8 @@ msgstr ""
 #: server/commands.c:296
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
-"default level for any new AI players to 'normal'.  With an argument, sets "
-"the skill level for that player only."
+"default level for any new AI players to 'normal'.  With an argument, sets the "
+"skill level for that player only."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -2805,8 +2799,8 @@ msgstr ""
 #: server/commands.c:373
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
-"<turn> and multiply <value> by <valuemult>.  Use this command in concert "
-"with the option \"timeout\". Defaults are 0 0 0 1"
+"<turn> and multiply <value> by <valuemult>.  Use this command in concert with "
+"the option \"timeout\". Defaults are 0 0 0 1"
 msgstr ""
 
 #: server/commands.c:381
@@ -2819,8 +2813,8 @@ msgstr ""
 
 #: server/commands.c:388
 msgid ""
-"This tells everyone else that you concede the game, and if all but one "
-"player (or one team) have conceded the game in this way then the game ends."
+"This tells everyone else that you concede the game, and if all but one player "
+"(or one team) have conceded the game in this way then the game ends."
 msgstr ""
 
 #. TRANS: translate text between <> only
@@ -2851,8 +2845,8 @@ msgstr ""
 
 #: server/commands.c:406
 msgid ""
-"Save the current game to file <file-name>.  If no file-name argument is "
-"given saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
+"Save the current game to file <file-name>.  If no file-name argument is given "
+"saves to \"<auto-save name prefix><year>m.sav[.gz]\".\n"
 "To reload a savegame created by 'save', start the server with the command-"
 "line argument:\n"
 "    --file <filename>\n"
@@ -3450,8 +3444,8 @@ msgstr ""
 #: server/edithand.c:189
 #, c-format
 msgid ""
-"Cannot modify terrain for the tile (%d, %d) because %d is not a valid "
-"terrain id."
+"Cannot modify terrain for the tile (%d, %d) because %d is not a valid terrain "
+"id."
 msgstr ""
 
 #: server/edithand.c:261
@@ -3481,8 +3475,7 @@ msgstr ""
 #: server/edithand.c:418
 #, c-format
 msgid ""
-"Cannot create a unit at (%d, %d) because the given unit type id %d is "
-"invalid."
+"Cannot create a unit at (%d, %d) because the given unit type id %d is invalid."
 msgstr ""
 
 #: server/edithand.c:426
@@ -3510,8 +3503,7 @@ msgstr ""
 #: server/edithand.c:498
 #, c-format
 msgid ""
-"Cannot remove a unit at (%d, %d) because the given unit type id %d is "
-"invalid."
+"Cannot remove a unit at (%d, %d) because the given unit type id %d is invalid."
 msgstr ""
 
 #: server/edithand.c:506
@@ -3590,8 +3582,7 @@ msgstr ""
 #: server/edithand.c:840
 #, c-format
 msgid ""
-"No more players can be added because there are no available nations (%d "
-"used)."
+"No more players can be added because there are no available nations (%d used)."
 msgstr ""
 
 #: server/edithand.c:849
@@ -3634,8 +3625,8 @@ msgstr ""
 #: server/edithand.c:983
 #, c-format
 msgid ""
-"Cannot change nation for player %d (%s) to nation %d (%s) because that "
-"nation is already assigned to player %d (%s)."
+"Cannot change nation for player %d (%s) to nation %d (%s) because that nation "
+"is already assigned to player %d (%s)."
 msgstr ""
 
 #: server/edithand.c:1019
@@ -3771,8 +3762,7 @@ msgstr ""
 
 #: server/maphand.c:117
 msgid ""
-"Coastlines have been flooded and vast ranges of grassland have become "
-"deserts."
+"Coastlines have been flooded and vast ranges of grassland have become deserts."
 msgstr ""
 
 #: server/maphand.c:159
@@ -3785,8 +3775,8 @@ msgstr ""
 
 #: server/maphand.c:182
 msgid ""
-"New hope sweeps like fire through the country as the discovery of railroad "
-"is announced.\n"
+"New hope sweeps like fire through the country as the discovery of railroad is "
+"announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 
@@ -3912,8 +3902,7 @@ msgstr ""
 
 #: server/plrhand.c:625
 #, c-format
-msgid ""
-"%s has attacked your ally %s! You cancel your alliance to the aggressor."
+msgid "%s has attacked your ally %s! You cancel your alliance to the aggressor."
 msgstr ""
 
 #: server/plrhand.c:637
@@ -4323,8 +4312,8 @@ msgstr ""
 #: server/savegame.c:4394
 #, c-format
 msgid ""
-"Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
-"Using '%s'."
+"Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. Using "
+"'%s'."
 msgstr ""
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
@@ -4441,8 +4430,8 @@ msgstr ""
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:258
 msgid ""
-"Freeciv maps are always two-dimensional. They may wrap at the north-south "
-"and east-west directions to form a flat map, a cylinder, or a torus (donut). "
+"Freeciv maps are always two-dimensional. They may wrap at the north-south and "
+"east-west directions to form a flat map, a cylinder, or a torus (donut). "
 "Individual tiles may be rectangular or hexagonal, with either a classic or "
 "isometric alignment - this should be set based on the tileset being used.\n"
 "   0 Flat Earth (unwrapped)\n"
@@ -4541,8 +4530,8 @@ msgid ""
 "Small values will give a cold map, while larger values will give a hotter "
 "map.\n"
 "\n"
-"100 means a very dry and hot planet with no polar arctic zones, only "
-"tropical and dry zones.\n"
+"100 means a very dry and hot planet with no polar arctic zones, only tropical "
+"and dry zones.\n"
 "\n"
 "70 means a hot planet with little polar ice.\n"
 "\n"
@@ -4570,8 +4559,8 @@ msgstr ""
 
 #: server/settings.c:373
 msgid ""
-"Small values give flat maps, while higher values give a steeper map with "
-"more hills and mountains."
+"Small values give flat maps, while higher values give a steeper map with more "
+"hills and mountains."
 msgstr ""
 
 #: server/settings.c:379
@@ -4590,8 +4579,8 @@ msgstr ""
 
 #: server/settings.c:388
 msgid ""
-"The same seed will always produce the same map; for zero (the default) a "
-"seed will be chosen based on the time to give a random map. This setting is "
+"The same seed will always produce the same map; for zero (the default) a seed "
+"will be chosen based on the time to give a random map. This setting is "
 "usually only of interest while debugging the game."
 msgstr ""
 
@@ -4621,8 +4610,8 @@ msgstr ""
 
 #: server/settings.c:418
 msgid ""
-"This setting gives the exact number of huts that will be placed on the "
-"entire map. Huts are small tribal villages that may be investigated by units."
+"This setting gives the exact number of huts that will be placed on the entire "
+"map. Huts are small tribal villages that may be investigated by units."
 msgstr ""
 
 #: server/settings.c:431
@@ -4631,8 +4620,8 @@ msgstr ""
 
 #: server/settings.c:432
 msgid ""
-"There must be at least this many players (connected human players) before "
-"the game can start."
+"There must be at least this many players (connected human players) before the "
+"game can start."
 msgstr ""
 
 #: server/settings.c:439
@@ -4642,8 +4631,8 @@ msgstr ""
 #: server/settings.c:440
 msgid ""
 "The maximal number of human and AI players who can be in the game. When this "
-"number of players are connected in the pregame state, any new players who "
-"try to connect will be rejected."
+"number of players are connected in the pregame state, any new players who try "
+"to connect will be rejected."
 msgstr ""
 
 #: server/settings.c:448
@@ -4701,9 +4690,9 @@ msgstr ""
 #: server/settings.c:496
 msgid ""
 "At the beginning of the game, each player is given this many technologies. "
-"The technologies chosen are random for each player. Depending on the value "
-"of tech_cost_style in the ruleset, a big value for techlevel can make the "
-"next techs really expensive."
+"The technologies chosen are random for each player. Depending on the value of "
+"tech_cost_style in the ruleset, a big value for techlevel can make the next "
+"techs really expensive."
 msgstr ""
 
 #: server/settings.c:505
@@ -4724,8 +4713,8 @@ msgstr ""
 #: server/settings.c:516
 msgid ""
 "If you change your current research technology, and you have positive "
-"research points, you lose this percentage of those research points. This "
-"does not apply when you have just gained a technology this turn."
+"research points, you lose this percentage of those research points. This does "
+"not apply when you have just gained a technology this turn."
 msgstr ""
 
 #: server/settings.c:525
@@ -4758,10 +4747,9 @@ msgstr ""
 #: server/settings.c:548
 msgid ""
 "For each technology you gain \"for free\" (other than covered by diplcost or "
-"conquercost: specifically, from huts or from Great Library effects), you "
-"lose research points equal to this percentage of the cost to research a new "
-"technology. If this is non-zero, you can end up with negative research "
-"points."
+"conquercost: specifically, from huts or from Great Library effects), you lose "
+"research points equal to this percentage of the cost to research a new "
+"technology. If this is non-zero, you can end up with negative research points."
 msgstr ""
 
 #: server/settings.c:559
@@ -4782,8 +4770,8 @@ msgstr ""
 #: server/settings.c:569
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
-"System), it loses this percentage of its foodbox (or half that amount when "
-"it has a Granary)."
+"System), it loses this percentage of its foodbox (or half that amount when it "
+"has a Granary)."
 msgstr ""
 
 #: server/settings.c:578
@@ -4792,8 +4780,8 @@ msgstr ""
 
 #: server/settings.c:579
 msgid ""
-"This affects how quickly units and buildings can be produced.  The base "
-"costs are multiplied by this value (as a percentage)."
+"This affects how quickly units and buildings can be produced.  The base costs "
+"are multiplied by this value (as a percentage)."
 msgstr ""
 
 #: server/settings.c:593
@@ -4802,10 +4790,10 @@ msgstr ""
 
 #: server/settings.c:594
 msgid ""
-"There is a trade penalty in all cities smaller than this. The penalty is "
-"100% (no trade at all) for sizes up to notradesize, and decreases gradually "
-"to 0% (no penalty except the normal corruption) for size=fulltradesize. See "
-"also notradesize."
+"There is a trade penalty in all cities smaller than this. The penalty is 100% "
+"(no trade at all) for sizes up to notradesize, and decreases gradually to 0% "
+"(no penalty except the normal corruption) for size=fulltradesize. See also "
+"notradesize."
 msgstr ""
 
 #: server/settings.c:604
@@ -4837,8 +4825,8 @@ msgstr ""
 
 #: server/settings.c:627
 msgid ""
-"Sets the number of turns between rapture growth of a city. If set to n a "
-"city will grow after celebrating for n+1 turns."
+"Sets the number of turns between rapture growth of a city. If set to n a city "
+"will grow after celebrating for n+1 turns."
 msgstr ""
 
 #: server/settings.c:636
@@ -4859,8 +4847,8 @@ msgstr ""
 msgid ""
 "If set to 0, combat is Civ1/2-style (when you attack, you remain in place). "
 "If set to 100, attacking units will always move into the tile they attacked "
-"when they win the combat (and no enemy units remain in the tile). If set to "
-"a value between 0 and 100, this will be used as the percent chance of "
+"when they win the combat (and no enemy units remain in the tile). If set to a "
+"value between 0 and 100, this will be used as the percent chance of "
 "\"occupying\" territory."
 msgstr ""
 
@@ -4908,8 +4896,7 @@ msgstr ""
 
 #: server/settings.c:689
 msgid ""
-"If this is set, units will not cause unhappiness when inside your own "
-"borders."
+"If this is set, units will not cause unhappiness when inside your own borders."
 msgstr ""
 
 #: server/settings.c:695
@@ -4931,8 +4918,8 @@ msgstr ""
 
 #: server/settings.c:706
 msgid ""
-"0 = There are no restrictions: players can have multiple cities with the "
-"same names.\n"
+"0 = There are no restrictions: players can have multiple cities with the same "
+"names.\n"
 "\n"
 "1 = City names have to be unique to a player: one player can't have multiple "
 "cities with the same name.\n"
@@ -5011,8 +4998,8 @@ msgstr ""
 
 #: server/settings.c:788
 msgid ""
-"If this option is set to 1, the game will end with the arrival of a "
-"spaceship at Alpha Centauri."
+"If this option is set to 1, the game will end with the arrival of a spaceship "
+"at Alpha Centauri."
 msgstr ""
 
 #: server/settings.c:794
@@ -5033,8 +5020,8 @@ msgstr ""
 #: server/settings.c:805
 msgid ""
 "Players may meet for diplomacy this number of turns after their units have "
-"last met, even when they do not have an embassy. If set to zero, then "
-"players cannot meet unless they have an embassy."
+"last met, even when they do not have an embassy. If set to zero, then players "
+"cannot meet unless they have an embassy."
 msgstr ""
 
 #: server/settings.c:815
@@ -5069,9 +5056,9 @@ msgid ""
 "in the game. If enabled, citizens may automatically move from less desirable "
 "cities to more desirable ones. The \"desirability\" of a given city is "
 "calculated from a number of factors. In general larger cities with more "
-"income and improvements will be preferred. Citizens will never migrate out "
-"of the capital, or cause a wonder to be lost by disbanding a city. A number "
-"of other settings control how migration behaves:\n"
+"income and improvements will be preferred. Citizens will never migrate out of "
+"the capital, or cause a wonder to be lost by disbanding a city. A number of "
+"other settings control how migration behaves:\n"
 "  mgr_turninterval - How often citizens try to migrate.\n"
 "  mgr_foodneeded   - Whether destination food is checked.\n"
 "  mgr_distance     - How far citizens will migrate.\n"
@@ -5086,11 +5073,11 @@ msgstr ""
 #: server/settings.c:852
 msgid ""
 "This setting controls the number of turns between migration checks for a "
-"given city. The interval is calculated from the founding turn of the city. "
-"So for example if this setting is 5, citizens will look for a suitable "
-"migration destination every five turns from the founding of their current "
-"city. Migration will never occur the same turn that a city is built. This "
-"setting has no effect unless migration is enabled by the 'migration' setting."
+"given city. The interval is calculated from the founding turn of the city. So "
+"for example if this setting is 5, citizens will look for a suitable migration "
+"destination every five turns from the founding of their current city. "
+"Migration will never occur the same turn that a city is built. This setting "
+"has no effect unless migration is enabled by the 'migration' setting."
 msgstr ""
 
 #: server/settings.c:865
@@ -5111,8 +5098,8 @@ msgstr ""
 #: server/settings.c:875
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
-"destination when deciding which city to migrate to. For example, with a "
-"value of 3, there can be at most a 2 tile distance between cities undergoing "
+"destination when deciding which city to migrate to. For example, with a value "
+"of 3, there can be at most a 2 tile distance between cities undergoing "
 "migration. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
@@ -5123,9 +5110,9 @@ msgstr ""
 
 #: server/settings.c:887
 msgid ""
-"This setting controls how likely it is for citizens to migrate between "
-"cities owned by the same player. Zero indicates migration will never occur, "
-"100 means that migration will always occur if the citizens find a suitable "
+"This setting controls how likely it is for citizens to migrate between cities "
+"owned by the same player. Zero indicates migration will never occur, 100 "
+"means that migration will always occur if the citizens find a suitable "
 "destination. This setting has no effect unless migration is activated by the "
 "'migration' setting."
 msgstr ""
@@ -5160,12 +5147,12 @@ msgid ""
 "    a,A = AI players\n"
 "    h,H = Human players\n"
 "The first description on this list which matches a player is the one which "
-"applies. Thus 'd' does not include dead barbarians, 'a' does not include "
-"dead AI players, and so on. Upper case letters apply before the game has "
-"started, lower case letters afterwards.\n"
+"applies. Thus 'd' does not include dead barbarians, 'a' does not include dead "
+"AI players, and so on. Upper case letters apply before the game has started, "
+"lower case letters afterwards.\n"
 "\n"
-"Each character above may be followed by one of the following numbers to "
-"allow or restrict the manner of connection:\n"
+"Each character above may be followed by one of the following numbers to allow "
+"or restrict the manner of connection:\n"
 "\n"
 "(none) = Controller allowed, observers allowed, can displace connections. "
 "(Displacing a connection means that you may take over a player, even when "
@@ -5207,10 +5194,9 @@ msgstr ""
 msgid ""
 "If all players have not hit \"Turn Done\" before this time is up, then the "
 "turn ends automatically. Zero means there is no timeout. In servers compiled "
-"with debugging, a timeout of -1 sets the autogame test mode. Only "
-"connections with hack level access may set the timeout to lower than 30 "
-"seconds. Use this with the command \"timeoutincrease\" to have a dynamic "
-"timer."
+"with debugging, a timeout of -1 sets the autogame test mode. Only connections "
+"with hack level access may set the timeout to lower than 30 seconds. Use this "
+"with the command \"timeoutincrease\" to have a dynamic timer."
 msgstr ""
 
 #: server/settings.c:980
@@ -5264,8 +5250,8 @@ msgstr ""
 
 #: server/settings.c:1023
 msgid ""
-"The civserver will poll the clients with a PING request each time this "
-"period elapses."
+"The civserver will poll the clients with a PING request each time this period "
+"elapses."
 msgstr ""
 
 #: server/settings.c:1030
@@ -5315,8 +5301,8 @@ msgid ""
 "    E = include Economics\n"
 "    M = include Military Service\n"
 "    O = include Pollution\n"
-"Additionally, the following characters control whether or not certain "
-"columns are displayed in the report:\n"
+"Additionally, the following characters control whether or not certain columns "
+"are displayed in the report:\n"
 "    q = display \"quantity\" column\n"
 "    r = display \"rank\" column\n"
 "    b = display \"best nation\" column\n"
@@ -5372,9 +5358,9 @@ msgstr ""
 
 #: server/settings.c:1114
 msgid ""
-"If this is set to 1, player statistics are appended to the file \"civscore."
-"log\" every turn. These statistics can be used to create power graphs after "
-"the game."
+"If this is set to 1, player statistics are appended to the file \"civscore.log"
+"\" every turn. These statistics can be used to create power graphs after the "
+"game."
 msgstr ""
 
 #: server/sernet.c:152
@@ -6851,8 +6837,8 @@ msgstr ""
 #: server/techtools.c:219
 #, c-format
 msgid ""
-"Discovery of %s makes the government form %s available. You may want to "
-"start a revolution."
+"Discovery of %s makes the government form %s available. You may want to start "
+"a revolution."
 msgstr ""
 
 #: server/techtools.c:298
@@ -7497,8 +7483,8 @@ msgstr ""
 
 #: client/chatline_common.c:169
 msgid ""
-"Freeciv is free software and you are welcome to distribute copies of it "
-"under certain conditions;"
+"Freeciv is free software and you are welcome to distribute copies of it under "
+"certain conditions;"
 msgstr ""
 
 #: client/chatline_common.c:171
@@ -8191,8 +8177,8 @@ msgstr ""
 #: client/clinet.c:520
 #, c-format
 msgid ""
-"Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for "
-"%d times"
+"Auto-connecting to server \"%s\" at port %d as \"%s\" every %f second(s) for %"
+"d times"
 msgstr ""
 
 #: client/connectdlg_common.c:208
@@ -8222,8 +8208,8 @@ msgstr ""
 
 #: client/connectdlg_common.c:486
 msgid ""
-"Failed to obtain the required access level to take control of the server. "
-"The server will now be shutdown."
+"Failed to obtain the required access level to take control of the server. The "
+"server will now be shutdown."
 msgstr ""
 
 #: client/control.c:1144
@@ -8648,8 +8634,8 @@ msgstr ""
 
 #: client/helpdata.c:890
 msgid ""
-"* Can establish trade routes (must travel to target city and must be at "
-"least 9 tiles [in Manhattan distance] from this unit's home city).\n"
+"* Can establish trade routes (must travel to target city and must be at least "
+"9 tiles [in Manhattan distance] from this unit's home city).\n"
 msgstr ""
 
 #: client/helpdata.c:896
@@ -9020,8 +9006,8 @@ msgstr ""
 #: client/helpdata.c:1523
 #, c-format
 msgid ""
-"* When you have %d cities, the first unhappy citizen will appear in each "
-"city due to civilization size.\n"
+"* When you have %d cities, the first unhappy citizen will appear in each city "
+"due to civilization size.\n"
 msgstr ""
 
 #. TRANS: %d should always be greater than 2.
@@ -9034,8 +9020,7 @@ msgstr ""
 
 #: client/helpdata.c:1538
 #, c-format
-msgid ""
-"* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
+msgid "* The maximum rate you can set for science, gold, or luxuries is %d%%.\n"
 msgstr ""
 
 #: client/helpdata.c:1543
@@ -9117,8 +9102,8 @@ msgstr ""
 #: client/helpdata.c:1630
 #, c-format
 msgid ""
-"* Each worked tile that gives more than %d %s will suffer a -1 penalty "
-"unless celebrating.\n"
+"* Each worked tile that gives more than %d %s will suffer a -1 penalty unless "
+"celebrating.\n"
 msgstr ""
 
 #. TRANS: %s is list of output types, with 'or'
@@ -9323,8 +9308,8 @@ msgstr ""
 
 #: client/options.c:164
 msgid ""
-"Setting this option will cause units on the map view to be drawn with a "
-"solid background color instead of the flag backdrop."
+"Setting this option will cause units on the map view to be drawn with a solid "
+"background color instead of the flag backdrop."
 msgstr ""
 
 #: client/options.c:168 client/gui-sdl/optiondlg.c:959
@@ -9396,9 +9381,9 @@ msgstr ""
 
 #: client/options.c:206
 msgid ""
-"Setting this option make the technology tree diagram use curved lines to "
-"show technology relations. Turning this option off causes the lines to be "
-"drawn straight."
+"Setting this option make the technology tree diagram use curved lines to show "
+"technology relations. Turning this option off causes the lines to be drawn "
+"straight."
 msgstr ""
 
 #: client/options.c:211
@@ -9407,8 +9392,8 @@ msgstr ""
 
 #: client/options.c:212
 msgid ""
-"Setting this option will draw a shield icon as the flags on units.  If "
-"unset, the full flag will be drawn."
+"Setting this option will draw a shield icon as the flags on units.  If unset, "
+"the full flag will be drawn."
 msgstr ""
 
 #: client/options.c:216
@@ -9417,8 +9402,8 @@ msgstr ""
 
 #: client/options.c:217
 msgid ""
-"Disable this option if you do not want to press the Turn Done button "
-"manually when watching an AI player."
+"Disable this option if you do not want to press the Turn Done button manually "
+"when watching an AI player."
 msgstr ""
 
 #: client/options.c:221 client/gui-sdl/optiondlg.c:1120
@@ -9447,7 +9432,6 @@ msgid "Auto Center on New Turn"
 msgstr ""
 
 #: client/options.c:232
-#, fuzzy
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
@@ -9497,8 +9481,8 @@ msgstr ""
 
 #: client/options.c:254
 msgid ""
-"Setting this option makes your turn end automatically when all your units "
-"are done moving."
+"Setting this option makes your turn end automatically when all your units are "
+"done moving."
 msgstr ""
 
 #: client/options.c:257 client/gui-sdl/optiondlg.c:1225
@@ -9540,9 +9524,9 @@ msgstr ""
 
 #: client/options.c:276
 msgid ""
-"This option controls whether the client should try to change the mouse "
-"cursor depending on what is being pointed at, as well as to indicate changes "
-"in the client or server state."
+"This option controls whether the client should try to change the mouse cursor "
+"depending on what is being pointed at, as well as to indicate changes in the "
+"client or server state."
 msgstr ""
 
 #: client/options.c:281
@@ -9562,8 +9546,8 @@ msgstr ""
 #: client/options.c:288
 msgid ""
 "Enabling this option will cause unit orders to be cleared whenever one or "
-"more units are selected. If this option is disabled, selecting units will "
-"not cause them to stop their current activity. Instead, their orders will be "
+"more units are selected. If this option is disabled, selecting units will not "
+"cause them to stop their current activity. Instead, their orders will be "
 "cleared only when new orders are given or if you press <space>."
 msgstr ""
 
@@ -9599,8 +9583,8 @@ msgstr ""
 #: client/options.c:311
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
-"look ugly with many islands). This option is only of interest if you have "
-"set the option \"Borders layer\" already."
+"look ugly with many islands). This option is only of interest if you have set "
+"the option \"Borders layer\" already."
 msgstr ""
 
 #: client/options.c:317
@@ -10461,8 +10445,8 @@ msgstr ""
 msgid "Loading tileset \"%s\"."
 msgstr ""
 
-#: client/tilespec.c:1081 client/tilespec.c:1115
-#: client/gui-sdl/themespec.c:485 client/gui-sdl/themespec.c:519
+#: client/tilespec.c:1081 client/tilespec.c:1115 client/gui-sdl/themespec.c:485
+#: client/gui-sdl/themespec.c:519
 #, c-format
 msgid "Could not open \"%s\"."
 msgstr ""
@@ -10561,9 +10545,9 @@ msgid ""
 "Treasury contains %d gold."
 msgstr ""
 
-#: client/gui-gtk-2.0/diplomat_dialog.c:97
-#: client/gui-sdl/diplomat_dialog.c:703 client/gui-sdl/diplomat_dialog.c:1379
-#: client/gui-win32/dialogs.c:1380 data/Freeciv.in:2426 data/Freeciv.in:2439
+#: client/gui-gtk-2.0/diplomat_dialog.c:97 client/gui-sdl/diplomat_dialog.c:703
+#: client/gui-sdl/diplomat_dialog.c:1379 client/gui-win32/dialogs.c:1380
+#: data/Freeciv.in:2426 data/Freeciv.in:2439
 msgid "Bribe Enemy Unit"
 msgstr ""
 
@@ -11809,10 +11793,10 @@ msgstr "Cruthaigh"
 
 #: client/gui-gtk-2.0/editprop.c:4130
 msgid ""
-"Pressing this button will create a new object of the same type as the "
-"current property page and add it to the page. The specific type and count of "
-"the objects is taken from the editor tool state. So for example, the \"tool "
-"value\" of the unit tool and its \"count\" parameter affect unit creation."
+"Pressing this button will create a new object of the same type as the current "
+"property page and add it to the page. The specific type and count of the "
+"objects is taken from the editor tool state. So for example, the \"tool value"
+"\" of the unit tool and its \"count\" parameter affect unit creation."
 msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:4179
@@ -12007,12 +11991,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:239
 msgid ""
-"If this option is enabled, there will be two buttons displayed in the "
-"message window for inspecting a city and going to a location. If this option "
-"is disabled, these buttons will not appear (you can still double-click with "
-"the left mouse button or right-click on a row to inspect or goto "
-"respectively). This option will only take effect once the message window is "
-"closed and reopened."
+"If this option is enabled, there will be two buttons displayed in the message "
+"window for inspecting a city and going to a location. If this option is "
+"disabled, these buttons will not appear (you can still double-click with the "
+"left mouse button or right-click on a row to inspect or goto respectively). "
+"This option will only take effect once the message window is closed and "
+"reopened."
 msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:249
@@ -12045,10 +12029,10 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:269
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
-"that they take up the least amount of total screen space. Specifically, the "
-"left panel containing the overview, player status, and the unit information "
-"box will be extended over the entire left side of the window. This option "
+"If this option is enabled, widgets in the main window will be arrange so that "
+"they take up the least amount of total screen space. Specifically, the left "
+"panel containing the overview, player status, and the unit information box "
+"will be extended over the entire left side of the window. This option "
 "requires a restart in order to take effect."
 msgstr ""
 
@@ -13066,8 +13050,7 @@ msgstr ""
 #: client/gui-gtk-2.0/messagedlg.c:71
 msgid ""
 "Where to display messages?\n"
-"<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual "
-"window"
+"<b>Out</b>put window ; <b>Mes</b>sages window ; <b>Pop</b>up individual window"
 msgstr ""
 
 #: client/gui-gtk-2.0/messagedlg.c:117
@@ -13552,8 +13535,7 @@ msgstr ""
 msgid "Spaceship\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/repodlgs.c:1507 data/Freeciv.in:3397
-#: data/Freeciv.in:3406
+#: client/gui-gtk-2.0/repodlgs.c:1507 data/Freeciv.in:3397 data/Freeciv.in:3406
 msgid "Game Settings"
 msgstr ""
 
@@ -15184,8 +15166,8 @@ msgstr ""
 #: client/gui-sdl/themes.c:57
 #, c-format
 msgid ""
-"No gui-sdl theme was found. For instructions on how to get one, please visit "
-"%s"
+"No gui-sdl theme was found. For instructions on how to get one, please visit %"
+"s"
 msgstr ""
 
 #: client/gui-sdl/themespec.c:337
@@ -15663,9 +15645,9 @@ msgstr ""
 
 #: client/gui-win32/gui_main.c:127
 msgid ""
-"If this is enabled, then alpha blending will be used in rendering, instead "
-"of an ordered dither.  If there is no hardware support for alpha blending, "
-"this is much slower."
+"If this is enabled, then alpha blending will be used in rendering, instead of "
+"an ordered dither.  If there is no hardware support for alpha blending, this "
+"is much slower."
 msgstr ""
 
 #: client/gui-win32/helpdlg.c:799 client/gui-win32/helpdlg.c:828
@@ -15862,8 +15844,7 @@ msgstr ""
 msgid "Meet"
 msgstr ""
 
-#: client/gui-win32/plrdlg.c:357 client/gui-xaw/menu.c:234
-#: data/Freeciv.in:3269
+#: client/gui-win32/plrdlg.c:357 client/gui-xaw/menu.c:234 data/Freeciv.in:3269
 msgid "Spaceship"
 msgstr ""
 
@@ -16443,8 +16424,7 @@ msgstr ""
 
 #: data/Freeciv.in:132
 msgid ""
-"Server Name                         Port  Version     Status  Players  "
-"Comment"
+"Server Name                         Port  Version     Status  Players  Comment"
 msgstr ""
 
 #: data/Freeciv.in:215
@@ -16734,8 +16714,8 @@ msgstr ""
 
 #: data/Freeciv.in:3216
 msgid ""
-"Name             Nation       Embassy  Dipl.State      Vision   "
-"Reputation    State    Host"
+"Name             Nation       Embassy  Dipl.State      Vision   Reputation    "
+"State    Host"
 msgstr ""
 
 #: data/Freeciv.in:3253
@@ -16765,8 +16745,8 @@ msgstr ""
 
 #: data/helpdata.txt:55
 msgid ""
-"If you find any bugs, then please send us a bug report.  This is best done "
-"by visiting the Freeciv Bug Tracking System, at:"
+"If you find any bugs, then please send us a bug report.  This is best done by "
+"visiting the Freeciv Bug Tracking System, at:"
 msgstr ""
 
 #: data/helpdata.txt:60
@@ -16803,8 +16783,8 @@ msgstr ""
 #: data/helpdata.txt:402
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
-"hostname and port number (5556 by default). If the server is started with "
-"the -m flag, it will report to the metaserver,"
+"hostname and port number (5556 by default). If the server is started with the "
+"-m flag, it will report to the metaserver,"
 msgstr ""
 
 #: data/helpdata.txt:409
@@ -17058,12 +17038,11 @@ msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
 "    Start the game by wandering around BRIEFLY to find a good place to build "
-"the first city.  Don't feel tempted to investigate any yellow-roofed "
-"villages yet - they might contain barbarian tribes.  Build the city close to "
-"resources and perhaps close to the sea.  Keep in mind that the city you "
-"build first will be your capital!  The idea is to balance the quality of the "
-"site you find against getting your first city established as early as "
-"possible."
+"the first city.  Don't feel tempted to investigate any yellow-roofed villages "
+"yet - they might contain barbarian tribes.  Build the city close to resources "
+"and perhaps close to the sea.  Keep in mind that the city you build first "
+"will be your capital!  The idea is to balance the quality of the site you "
+"find against getting your first city established as early as possible."
 msgstr ""
 
 #: data/helpdata.txt:621
@@ -17073,9 +17052,8 @@ msgid ""
 "    After the capital city has been founded, it will start producing a "
 "warrior unit.  These units can be used to rove around exploring the "
 "countryside.  Remember, it is risky to leave a city undefended, so perhaps "
-"keep the first warrior in the city, and use the following one to explore.  "
-"If you started the game with an explorer unit, use that to explore, "
-"obviously!"
+"keep the first warrior in the city, and use the following one to explore.  If "
+"you started the game with an explorer unit, use that to explore, obviously!"
 msgstr ""
 
 #: data/helpdata.txt:630
@@ -17092,11 +17070,11 @@ msgstr ""
 #: data/helpdata.txt:640
 #, no-c-format
 msgid ""
-"    Keep in mind that with some types of government, military units inside "
-"or outside cities can reduce or create unhappiness. Also remember that when "
-"a unit is inside a city, it gets a 50% defensive bonus, as if fortified.  "
-"When a new city is built, the city starts to build the best available "
-"defensive unit from the above list."
+"    Keep in mind that with some types of government, military units inside or "
+"outside cities can reduce or create unhappiness. Also remember that when a "
+"unit is inside a city, it gets a 50% defensive bonus, as if fortified.  When "
+"a new city is built, the city starts to build the best available defensive "
+"unit from the above list."
 msgstr ""
 
 #: data/helpdata.txt:647
@@ -17105,8 +17083,8 @@ msgid ""
 "\n"
 "    After building one or two Warrior units, start building Settlers.  The "
 "second Settler can be used to build roads and irrigate the farmland close to "
-"the city, and the third can be used to build a new city.  Or, you can use "
-"the second Settler to build another city, and use the third Settler for "
+"the city, and the third can be used to build a new city.  Or, you can use the "
+"second Settler to build another city, and use the third Settler for "
 "agricultural improvements in the farmland around the cities.  Keep in mind "
 "that a large population increases both the amount of productivity and your "
 "civilization's research rate."
@@ -17129,21 +17107,21 @@ msgid ""
 "    The best location for a city is a matter of taste.  A city which is "
 "placed near the sea is easier to spot by opponents, but can also serve as a "
 "port for sea-going units.  (They also usually need a coastal defense later "
-"on.)  The best strategy is to build a few of both, but keep in mind that "
-"your opponents will find it harder to locate your city if you don't build it "
-"by the sea."
+"on.)  The best strategy is to build a few of both, but keep in mind that your "
+"opponents will find it harder to locate your city if you don't build it by "
+"the sea."
 msgstr ""
 
 #: data/helpdata.txt:675
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
-"    Every city has a band of citizens.  The number of citizens depends on "
-"the city's population.  When you click on a city, you can see how the "
-"farmland around the city is being used.  You can assign your citizens to the "
-"farmland, or they can be scientists, entertainers or taxmen.  Especially at "
-"the start of the game, care should be taken to ensure that the citizens are "
-"employed so that they maximise growth, trade and production."
+"    Every city has a band of citizens.  The number of citizens depends on the "
+"city's population.  When you click on a city, you can see how the farmland "
+"around the city is being used.  You can assign your citizens to the farmland, "
+"or they can be scientists, entertainers or taxmen.  Especially at the start "
+"of the game, care should be taken to ensure that the citizens are employed so "
+"that they maximise growth, trade and production."
 msgstr ""
 
 #: data/helpdata.txt:685
@@ -17162,10 +17140,10 @@ msgstr ""
 
 #: data/helpdata.txt:696
 msgid ""
-"    The golden rule of taking care of a city is that there should be at "
-"least as many happy citizens as unhappy citizens.  A city where this is not "
-"so is labelled with a lightning bolt.  Take care not to let this happen to "
-"any of your cities, as unhappy cities produce nothing, and will soon revolt."
+"    The golden rule of taking care of a city is that there should be at least "
+"as many happy citizens as unhappy citizens.  A city where this is not so is "
+"labelled with a lightning bolt.  Take care not to let this happen to any of "
+"your cities, as unhappy cities produce nothing, and will soon revolt."
 msgstr ""
 
 #: data/helpdata.txt:702
@@ -17216,10 +17194,10 @@ msgid ""
 "\n"
 "    If you have recently contacted (or established an embassy with) another "
 "player, then you can arrange a diplomatic meeting. This is done by going to "
-"the `Reports' menu, selecting `Players', clicking on the player with whom "
-"you wish to meet, and finally clicking the `Meet' button below.  If the "
-"entry under the embassy column is not blank and the other player is "
-"connected (or is a server AI) then a diplomacy menu will pop up."
+"the `Reports' menu, selecting `Players', clicking on the player with whom you "
+"wish to meet, and finally clicking the `Meet' button below.  If the entry "
+"under the embassy column is not blank and the other player is connected (or "
+"is a server AI) then a diplomacy menu will pop up."
 msgstr ""
 
 #: data/helpdata.txt:747
@@ -17261,8 +17239,8 @@ msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
 "note: any units in the field and supported by that city are also transferred "
-"(but not those sitting in other cities).  So make sure the other player "
-"isn't getting a better deal than you expect."
+"(but not those sitting in other cities).  So make sure the other player isn't "
+"getting a better deal than you expect."
 msgstr ""
 
 #: data/helpdata.txt:780
@@ -17275,10 +17253,10 @@ msgstr ""
 #: data/helpdata.txt:784
 msgid ""
 "     To have a diplomatic relationship with another player, you must "
-"establish contact with that player. Contact occurs whenever one of your "
-"units is within sight of a city or unit belonging to another player, or vice "
-"versa. Unless you establish an embassy with that player, you may again lose "
-"contact with them a set number of turns after most recent contact."
+"establish contact with that player. Contact occurs whenever one of your units "
+"is within sight of a city or unit belonging to another player, or vice versa. "
+"Unless you establish an embassy with that player, you may again lose contact "
+"with them a set number of turns after most recent contact."
 msgstr ""
 
 #: data/helpdata.txt:791
@@ -17291,9 +17269,9 @@ msgstr ""
 #: data/helpdata.txt:795
 msgid ""
 "     When two players decide to end hostilities between them, they can agree "
-"on a Cease-fire treaty. After a set number of turns, the Cease-fire will "
-"lead back to War. Upon first contact with an AI player, it will "
-"automatically offer you a Cease-fire treaty."
+"on a Cease-fire treaty. After a set number of turns, the Cease-fire will lead "
+"back to War. Upon first contact with an AI player, it will automatically "
+"offer you a Cease-fire treaty."
 msgstr ""
 
 #: data/helpdata.txt:800
@@ -17307,59 +17285,57 @@ msgstr ""
 #: data/helpdata.txt:805
 msgid ""
 "     At the moment two players enter into the diplomatic state of Peace, all "
-"units belonging to either player that happen to be within the other's "
-"borders will be automatically disbanded according to the treaty. After this, "
-"you may not move units into the other's territory until you either declare "
-"War, or forge an Alliance. Breaking a Peace treaty will drop you directly "
-"back to War."
+"units belonging to either player that happen to be within the other's borders "
+"will be automatically disbanded according to the treaty. After this, you may "
+"not move units into the other's territory until you either declare War, or "
+"forge an Alliance. Breaking a Peace treaty will drop you directly back to War."
 msgstr ""
 
 #: data/helpdata.txt:812
 msgid ""
-"     An Alliance is the ultimate diplomatic relationship between two "
-"players. In this state, you may move units into each other's cities and your "
-"units may share the same square. An allied AI player will freely give you "
-"its world maps, shared vision, as well as seriously consider trading "
-"technologies and cities. The only drawback with an alliance is that it will "
-"draw you into any wars your ally enters against other players. Breaking an "
-"Alliance will drop you to an Armistice treaty."
+"     An Alliance is the ultimate diplomatic relationship between two players. "
+"In this state, you may move units into each other's cities and your units may "
+"share the same square. An allied AI player will freely give you its world "
+"maps, shared vision, as well as seriously consider trading technologies and "
+"cities. The only drawback with an alliance is that it will draw you into any "
+"wars your ally enters against other players. Breaking an Alliance will drop "
+"you to an Armistice treaty."
 msgstr ""
 
 #: data/helpdata.txt:824
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
-"It deploys the available workers on the free tiles around the city to "
-"achieve maximal city output. It also changes workers to scientists, taxmen, "
-"or entertainers, if appropriate. And the governor has another ability: "
-"whenever possible, it keeps your cities content.\n"
+"It deploys the available workers on the free tiles around the city to achieve "
+"maximal city output. It also changes workers to scientists, taxmen, or "
+"entertainers, if appropriate. And the governor has another ability: whenever "
+"possible, it keeps your cities content.\n"
 "\n"
 "There are various means to tell the governor what kind of output you would "
-"like. Open the city window and click on the governor tab. There are two "
-"kinds of sliders: On the left, you can set a Minimal Surplus for each kind "
-"of production; e.g. Gold = +3 means the city earns 3 gold more than it needs "
-"to upkeep its improvements. On the right, the sliders let you define by how "
-"much you prefer one kind of production to another; setting science to 3 "
-"means you prefer a single bulb to three shields (or gold, trade,...). You "
-"can set different factors for each kind of production, according to your "
-"needs.\n"
+"like. Open the city window and click on the governor tab. There are two kinds "
+"of sliders: On the left, you can set a Minimal Surplus for each kind of "
+"production; e.g. Gold = +3 means the city earns 3 gold more than it needs to "
+"upkeep its improvements. On the right, the sliders let you define by how much "
+"you prefer one kind of production to another; setting science to 3 means you "
+"prefer a single bulb to three shields (or gold, trade,...). You can set "
+"different factors for each kind of production, according to your needs.\n"
 "\n"
 "If you set up some Minimal Surpluses which are impossible to fulfill, the "
 "governor can't be activated. Whenever the governor can't fulfill its task in "
 "the ongoing game, it passes back control to you. So you'd better not define "
 "too high a surplus; instead, use factors to achieve your goals.\n"
 "\n"
-"The Celebrate checkbox lets your city - celebrate. This will work only with "
-"a high luxury rate. See help about 'Happiness'.\n"
+"The Celebrate checkbox lets your city - celebrate. This will work only with a "
+"high luxury rate. See help about 'Happiness'.\n"
 "\n"
 "Clicking on 'Control city' puts the city under control of the governor, "
 "'Release city' passes control back to you.\n"
 "\n"
 "For ease of use, you can save your slider setting as a preset with a name. "
 "Click on 'add preset' and enter a name for your setting. You can use this "
-"preset in every city by just clicking on its name. Also, you can control "
-"your setting from within the city report, in the governor column. And you "
-"can change it from there (use 'change' --> 'Citizen Governor'), if you have "
-"saved it as a preset.\n"
+"preset in every city by just clicking on its name. Also, you can control your "
+"setting from within the city report, in the governor column. And you can "
+"change it from there (use 'change' --> 'Citizen Governor'), if you have saved "
+"it as a preset.\n"
 "\n"
 "Use 'Game' --> 'Save Settings' to store your presets permanently.\n"
 "\n"
@@ -17397,8 +17373,8 @@ msgstr ""
 #: data/helpdata.txt:916
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
-"How useful a particular unit is for each of these roles depends on the "
-"unit's strength in attack and defense, and its ability to move."
+"How useful a particular unit is for each of these roles depends on the unit's "
+"strength in attack and defense, and its ability to move."
 msgstr ""
 
 #: data/helpdata.txt:921
@@ -17418,8 +17394,8 @@ msgid ""
 "are the only units subject to zones of control.  On land, land units can "
 "fortify to get a 50% defensive bonus; land units in cities automatically get "
 "this bonus, whether fortified or not.  When a land unit successfully attacks "
-"a city without City Walls, the city is reduced by one population point.  "
-"Land units with zero attack strength are non-military units: they require no "
+"a city without City Walls, the city is reduced by one population point.  Land "
+"units with zero attack strength are non-military units: they require no "
 "upkeep, have no happiness effects, and cannot attack enemy units or capture "
 "enemy cities."
 msgstr ""
@@ -17427,11 +17403,11 @@ msgstr ""
 #: data/helpdata.txt:939
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
-"can only be built by such cities.  The movement rate of sea units is "
-"affected by several wonders (Lighthouse, Magellan's Expedition) and by the "
-"advance of Nuclear Power.  Most sea units can attack units on the coast and "
-"in coastal cities, but they cannot enter an enemy city to capture it, even "
-"if the city is undefended."
+"can only be built by such cities.  The movement rate of sea units is affected "
+"by several wonders (Lighthouse, Magellan's Expedition) and by the advance of "
+"Nuclear Power.  Most sea units can attack units on the coast and in coastal "
+"cities, but they cannot enter an enemy city to capture it, even if the city "
+"is undefended."
 msgstr ""
 
 #: data/helpdata.txt:946
@@ -17454,8 +17430,8 @@ msgid ""
 "unit or enemy city, and their movement rate is not affected by loss of "
 "hitpoints.  Helicopters do not require fuel, but they lose a small amount of "
 "health for every turn not spent in a city or an Airbase, unless you have the "
-"United Nations wonder.  Unlike other air units, Helicopters can capture "
-"enemy cities."
+"United Nations wonder.  Unlike other air units, Helicopters can capture enemy "
+"cities."
 msgstr ""
 
 #: data/helpdata.txt:965
@@ -17467,20 +17443,19 @@ msgid ""
 "will regain all lost hit points if a full turn is spent (without moving) in "
 "the city. Otherwise, a unit which spends a turn in a city regains one third "
 "of its base hit points.  A unit which spends a turn on a fortress regains an "
-"extra one quarter of its base hitpoints.  Units which are fortified regain "
-"an extra hit point.  If a player has the United Nations wonder, that "
-"player's units regain an extra two hit points per turn, even for units which "
-"have moved.  In addition to all other effects, Helicopters lose two hit "
-"points (or gain two hit points less than they otherwise would) each turn "
-"that they do not end in a city.  Damaged units in Sentry mode will wake up "
-"when they have regained all of their hit points."
+"extra one quarter of its base hitpoints.  Units which are fortified regain an "
+"extra hit point.  If a player has the United Nations wonder, that player's "
+"units regain an extra two hit points per turn, even for units which have "
+"moved.  In addition to all other effects, Helicopters lose two hit points (or "
+"gain two hit points less than they otherwise would) each turn that they do "
+"not end in a city.  Damaged units in Sentry mode will wake up when they have "
+"regained all of their hit points."
 msgstr ""
 
 #: data/helpdata.txt:982
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
-"population of a City without City Walls by one point upon a successful "
-"attack."
+"population of a City without City Walls by one point upon a successful attack."
 msgstr ""
 
 #: data/helpdata.txt:993
@@ -17491,8 +17466,8 @@ msgstr ""
 
 #: data/helpdata.txt:994
 msgid ""
-"When one unit attacks another unit, either the attacker will be destroyed, "
-"or the defender will be destroyed -- never both (unless the attacker was a "
+"When one unit attacks another unit, either the attacker will be destroyed, or "
+"the defender will be destroyed -- never both (unless the attacker was a "
 "missile).  The outcome depends on several factors, including chance."
 msgstr ""
 
@@ -17509,8 +17484,7 @@ msgid "Next, the defender's strength is modified."
 msgstr ""
 
 #: data/helpdata.txt:1005
-msgid ""
-" - If the defender is a veteran, then its strength is multiplied by 1.5."
+msgid " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr ""
 
 #: data/helpdata.txt:1008
@@ -17521,8 +17495,8 @@ msgstr ""
 
 #: data/helpdata.txt:1011
 msgid ""
-" - Next, the defender's strength is doubled if it is a Pikeman unit "
-"defending against a mounted unit."
+" - Next, the defender's strength is doubled if it is a Pikeman unit defending "
+"against a mounted unit."
 msgstr ""
 
 #: data/helpdata.txt:1014
@@ -17552,14 +17526,13 @@ msgstr ""
 
 #: data/helpdata.txt:1028
 msgid ""
-" - Against land units (other than Howitzers) and Helicopters, defending "
-"units in a city with City Walls have their strength tripled."
+" - Against land units (other than Howitzers) and Helicopters, defending units "
+"in a city with City Walls have their strength tripled."
 msgstr ""
 
 #: data/helpdata.txt:1032
 msgid ""
-" - If the defender is in a fortress (and not a city), its strength is "
-"doubled."
+" - If the defender is in a fortress (and not a city), its strength is doubled."
 msgstr ""
 
 #: data/helpdata.txt:1035
@@ -17587,8 +17560,8 @@ msgstr ""
 
 #: data/helpdata.txt:1047
 msgid ""
-" - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
-"is set to 1."
+" - If a Fighter is attacking an Helicopter the firepower of the Helicopter is "
+"set to 1."
 msgstr ""
 
 #: data/helpdata.txt:1050
@@ -17657,9 +17630,9 @@ msgstr ""
 
 #: data/helpdata.txt:1096
 msgid ""
-"Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, "
-"HP:20, F:1) inside a city with City Walls built on a Forest tile.  Neither "
-"are veteran."
+"Suppose a Cannon (A:8, D:1, HP:20, F:1) attacks a Musketeer (A:3, D:3, HP:20, "
+"F:1) inside a city with City Walls built on a Forest tile.  Neither are "
+"veteran."
 msgstr ""
 
 #: data/helpdata.txt:1100
@@ -17672,9 +17645,8 @@ msgstr ""
 
 #: data/helpdata.txt:1105
 msgid ""
-"Strength values inside the game are actually multiplied by 10, with "
-"fractions dropped, so the attacker's strength is 80, and the defender's "
-"strength is 202."
+"Strength values inside the game are actually multiplied by 10, with fractions "
+"dropped, so the attacker's strength is 80, and the defender's strength is 202."
 msgstr ""
 
 #: data/helpdata.txt:1109
@@ -17684,9 +17656,9 @@ msgstr ""
 #: data/helpdata.txt:1112
 #, no-c-format
 msgid ""
-"Each round of combat, a random number between 1 and 282 is generated.  If "
-"the number is greater than 202 (about a 28% chance), the defender loses 1 "
-"hit point.  Otherwise (about a 72% chance), the attacker loses 1 point."
+"Each round of combat, a random number between 1 and 282 is generated.  If the "
+"number is greater than 202 (about a 28% chance), the defender loses 1 hit "
+"point.  Otherwise (about a 72% chance), the attacker loses 1 point."
 msgstr ""
 
 #: data/helpdata.txt:1123
@@ -17706,8 +17678,8 @@ msgstr ""
 #: data/helpdata.txt:1134
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
-"attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
-"on a Grassland tile, with City Walls and a Coastal Defense."
+"attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built on "
+"a Grassland tile, with City Walls and a Coastal Defense."
 msgstr ""
 
 #: data/helpdata.txt:1139
@@ -17737,18 +17709,18 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
-"than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, "
-"the attacker loses 1 hit point."
+"than 225 (about a 44% chance) the defender loses 1 hit point.  Otherwise, the "
+"attacker loses 1 hit point."
 msgstr ""
 
 #: data/helpdata.txt:1165
 #, no-c-format
 msgid ""
-"In this case, the odds greatly favor the attacker winning.  The Battleship "
-"is 25% less likely to score a hit in any given round, but the Battleship has "
+"In this case, the odds greatly favor the attacker winning.  The Battleship is "
+"25% less likely to score a hit in any given round, but the Battleship has "
 "twice as many hit points. The Battleship should expect to lose about 60% of "
-"its hit points during the fight, and should expect to have no movement "
-"points left."
+"its hit points during the fight, and should expect to have no movement points "
+"left."
 msgstr ""
 
 #: data/helpdata.txt:1174
@@ -17787,8 +17759,8 @@ msgid ""
 "\n"
 "- Non-land units can impose ZOC (that is, count as enemy occupied squares), "
 "but only if they are on a land square.  So effectively sea units cannot "
-"impose ZOC (unless they are in a city), and air units (including "
-"helicopters) do not impose ZOC if they are over ocean squares.\n"
+"impose ZOC (unless they are in a city), and air units (including helicopters) "
+"do not impose ZOC if they are over ocean squares.\n"
 "\n"
 "- ZOC does not restrict unit attacks, only movement.\n"
 "\n"
@@ -17843,9 +17815,9 @@ msgstr ""
 
 #: data/helpdata.txt:1245
 msgid ""
-"Suitable types of terrain can be irrigated.  This requires a nearby source "
-"of water: an Ocean or River square, or another square which is irrigated, "
-"must be directly adjacent to the target square, to the north, south, east or "
+"Suitable types of terrain can be irrigated.  This requires a nearby source of "
+"water: an Ocean or River square, or another square which is irrigated, must "
+"be directly adjacent to the target square, to the north, south, east or "
 "west.  Irrigating a square causes it to produce some extra food each turn.  "
 "In addition, given sufficient technology, you may irrigate a square a second "
 "time, turning it into even more productive Farmland."
@@ -17867,14 +17839,14 @@ msgstr ""
 
 #: data/helpdata.txt:1261
 msgid ""
-" - Units use only one third of a movement point when going from one square "
-"to an adjacent square, if both squares have a road."
+" - Units use only one third of a movement point when going from one square to "
+"an adjacent square, if both squares have a road."
 msgstr ""
 
 #: data/helpdata.txt:1264
 msgid ""
-" - Units expend no movement points when moving along a railroad. You may "
-"ride a railroad indefinitely."
+" - Units expend no movement points when moving along a railroad. You may ride "
+"a railroad indefinitely."
 msgstr ""
 
 #: data/helpdata.txt:1267
@@ -17913,11 +17885,10 @@ msgstr ""
 msgid ""
 "City centers (the tile a city is on) are special.  A city center is worked "
 "for free in the default rules. When a city is built a road is automatically "
-"put on the city, and a railroad will also be placed there whenever "
-"possible.  City centers are auto-irrigated: they get the benefits of "
-"irrigation, although they are not actually irrigated. Finally the city "
-"center may have a ruleset-dependent minimum for food, shield, and trade "
-"output."
+"put on the city, and a railroad will also be placed there whenever possible.  "
+"City centers are auto-irrigated: they get the benefits of irrigation, "
+"although they are not actually irrigated. Finally the city center may have a "
+"ruleset-dependent minimum for food, shield, and trade output."
 msgstr ""
 
 #: data/helpdata.txt:1300
@@ -17946,11 +17917,11 @@ msgstr ""
 #: data/helpdata.txt:1315
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
-"fortress, airbase, railroad or road) cannot be pillaged. In addition, "
-"terrain conversions and transformations cannot be undone by pillaging.  For "
-"example, if you have irrigated a Forest tile to convert it into a Plain, "
-"pillaging will not convert it back into a Forest -- to do so, you would have "
-"to convert the tile again with a Settler or Engineer."
+"fortress, airbase, railroad or road) cannot be pillaged. In addition, terrain "
+"conversions and transformations cannot be undone by pillaging.  For example, "
+"if you have irrigated a Forest tile to convert it into a Plain, pillaging "
+"will not convert it back into a Forest -- to do so, you would have to convert "
+"the tile again with a Settler or Engineer."
 msgstr ""
 
 #: data/helpdata.txt:1327
@@ -17961,20 +17932,20 @@ msgstr ""
 
 #: data/helpdata.txt:1330
 msgid ""
-"Your civilization starts out under a Despotism.  As your technology "
-"improves, you can select other forms of government (listed below). In order "
-"to change your form of government, you must start a revolution.  This will "
-"cause your civilization to undergo a period of Anarchy (lasting 1-5 turns); "
-"at the end of this time, you will be able to choose your new government."
+"Your civilization starts out under a Despotism.  As your technology improves, "
+"you can select other forms of government (listed below). In order to change "
+"your form of government, you must start a revolution.  This will cause your "
+"civilization to undergo a period of Anarchy (lasting 1-5 turns); at the end "
+"of this time, you will be able to choose your new government."
 msgstr ""
 
 #: data/helpdata.txt:1337
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
-"trade will be lost to corruption.  (If you do not have a capital, your "
-"cities will suffer extremely high levels of corruption.)  A Courthouse will "
-"reduce the level of corruption in a city."
+"trade will be lost to corruption.  (If you do not have a capital, your cities "
+"will suffer extremely high levels of corruption.)  A Courthouse will reduce "
+"the level of corruption in a city."
 msgstr ""
 
 #: data/helpdata.txt:1344
@@ -17989,9 +17960,9 @@ msgstr ""
 #: data/helpdata.txt:1351
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
-"Democratic governments unless you give your citizens lots of luxuries to "
-"keep them happy.  When conquering other civilizations, it may be helpful to "
-"switch to one of the more militant styles of government."
+"Democratic governments unless you give your citizens lots of luxuries to keep "
+"them happy.  When conquering other civilizations, it may be helpful to switch "
+"to one of the more militant styles of government."
 msgstr ""
 
 #: data/helpdata.txt:1357
@@ -18037,10 +18008,10 @@ msgstr ""
 
 #: data/helpdata.txt:1386
 msgid ""
-"The number of cities an empire needs before it can erupt into civil war is "
-"by default 10.  That is, empires with fewer than 10 cities are immune from "
-"civil war.  However, this is a server option, and may vary upwards from a "
-"minimum of 6."
+"The number of cities an empire needs before it can erupt into civil war is by "
+"default 10.  That is, empires with fewer than 10 cities are immune from civil "
+"war.  However, this is a server option, and may vary upwards from a minimum "
+"of 6."
 msgstr ""
 
 #: data/helpdata.txt:1398
@@ -18086,9 +18057,9 @@ msgstr ""
 
 #: data/helpdata.txt:1427
 msgid ""
-" - Under a Republic or a Democracy, your city's population will increase by "
-"1 each turn until there is no excess food or until the number of happy "
-"citizens is no longer sufficient for celebration."
+" - Under a Republic or a Democracy, your city's population will increase by 1 "
+"each turn until there is no excess food or until the number of happy citizens "
+"is no longer sufficient for celebration."
 msgstr ""
 
 #: data/helpdata.txt:1432
@@ -18108,25 +18079,24 @@ msgid ""
 "or even a Courthouse if your government is a Democracy), and/or relevant "
 "wonders of the world, and/or convert part of your trade into luxuries.  For "
 "every two luxuries produced in a city, one content citizen is made happy.  "
-"After converting all content citizens to happy citizens, unhappy citizens "
-"are converted to happy and/or content.  Some wonders of the world have also "
+"After converting all content citizens to happy citizens, unhappy citizens are "
+"converted to happy and/or content.  Some wonders of the world have also "
 "effects on citizens' happiness (see the appropriate sections for details)."
 msgstr ""
 
 #: data/helpdata.txt:1452
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
-"create contentment by imposing martial law.  Under a Republic or a "
-"Democracy, however, military units can cause unhappiness (see Government for "
-"details).  It is noted that, in this case, city improvements, such as those "
-"mentioned above, do not have any effect on citizens' unhappiness.  This form "
-"of unhappiness can be offset by building a Police Station, relevant wonders "
-"of the world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure "
-"for Cancer, Shakespeare's Theatre, and, of course, the Women's Suffrage; "
-"note, however, that the Michelangelo's Chapel will not have an effect in "
-"this case, since it counts as a Cathedral in every city or double effects of "
-"Cathedrals, depending on ruleset), or converting part of your trade into "
-"luxuries."
+"create contentment by imposing martial law.  Under a Republic or a Democracy, "
+"however, military units can cause unhappiness (see Government for details).  "
+"It is noted that, in this case, city improvements, such as those mentioned "
+"above, do not have any effect on citizens' unhappiness.  This form of "
+"unhappiness can be offset by building a Police Station, relevant wonders of "
+"the world (such as the Hanging Gardens, J.S. Bach's Cathedral, the Cure for "
+"Cancer, Shakespeare's Theatre, and, of course, the Women's Suffrage; note, "
+"however, that the Michelangelo's Chapel will not have an effect in this case, "
+"since it counts as a Cathedral in every city or double effects of Cathedrals, "
+"depending on ruleset), or converting part of your trade into luxuries."
 msgstr ""
 
 #: data/helpdata.txt:1471
@@ -18169,9 +18139,9 @@ msgstr ""
 
 #: data/helpdata.txt:1497
 msgid ""
-"TIP:  If an enemy civilization has launched a spaceship, try to quickly "
-"build a light spaceship with many propulsion units that will arrive "
-"earlier.  The only other option is to capture their capital."
+"TIP:  If an enemy civilization has launched a spaceship, try to quickly build "
+"a light spaceship with many propulsion units that will arrive earlier.  The "
+"only other option is to capture their capital."
 msgstr ""
 
 #: data/default/buildings.ruleset:59 data/civ2/buildings.ruleset:42
@@ -18179,10 +18149,9 @@ msgid ""
 "Allows a city to produce veteran air units.  Also, damaged air units which "
 "stay in town for one full turn without moving are completely restored.\n"
 "\n"
-"Two cities with Airports can airlift one unit per turn.  Airlifting "
-"instantly transports the unit from one city to another and will use all of "
-"the unit's movement points.  A unit must have some movement points left to "
-"be airlifted."
+"Two cities with Airports can airlift one unit per turn.  Airlifting instantly "
+"transports the unit from one city to another and will use all of the unit's "
+"movement points.  A unit must have some movement points left to be airlifted."
 msgstr ""
 
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
@@ -18240,17 +18209,17 @@ msgid ""
 "A Cathedral makes 3 unhappy citizens content in a city, making it easier to "
 "maintain order in that city.  The discovery of Theology increases the effect "
 "of a Cathedral, making an additional unhappy citizen content.  The discovery "
-"of Communism lessens the effect of a Cathedral, reducing by one the number "
-"of unhappy citizens made content."
+"of Communism lessens the effect of a Cathedral, reducing by one the number of "
+"unhappy citizens made content."
 msgstr ""
 
 #: data/default/buildings.ruleset:227 data/civ2/buildings.ruleset:207
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
-"strength of units within the city against ground and helicopter units.  They "
-"are ineffective against airborne and sea units as well as Howitzers.  City "
-"Walls also prevent the loss of population which occurs when a defending unit "
-"is destroyed by a land unit."
+"City Walls make it easier to defend a city.  They triple the defence strength "
+"of units within the city against ground and helicopter units.  They are "
+"ineffective against airborne and sea units as well as Howitzers.  City Walls "
+"also prevent the loss of population which occurs when a defending unit is "
+"destroyed by a land unit."
 msgstr ""
 
 #: data/default/buildings.ruleset:236 data/civ2/buildings.ruleset:216
@@ -18326,11 +18295,10 @@ msgstr ""
 #: data/default/buildings.ruleset:384
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Hydro Plant together give a 75% production bonus, and "
-"a Factory, Mfg. Plant and Hydro Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Hydro Plant together give a 75% production bonus, and a "
+"Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
@@ -18365,8 +18333,8 @@ msgstr ""
 #: data/default/buildings.ruleset:454 data/civ2/buildings.ruleset:431
 #: data/civ1/buildings.ruleset:357
 msgid ""
-"Neutralizes the pollution generated by the population.  The population "
-"simply has no effect on the pollution generated in the city."
+"Neutralizes the pollution generated by the population.  The population simply "
+"has no effect on the pollution generated in the city."
 msgstr ""
 
 #: data/default/buildings.ruleset:461 data/civ2/buildings.ruleset:438
@@ -18390,11 +18358,10 @@ msgstr ""
 #: data/default/buildings.ruleset:499
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Nuclear Plant together give a 75% production bonus, "
-"and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Nuclear Plant together give a 75% production bonus, and a "
+"Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
@@ -18420,9 +18387,9 @@ msgstr ""
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
-"when the government is Democracy or Communism.  The cost of inciting a "
-"revolt in a city also depends upon the city's distance from the capital "
-"(under all forms of government).\n"
+"when the government is Democracy or Communism.  The cost of inciting a revolt "
+"in a city also depends upon the city's distance from the capital (under all "
+"forms of government).\n"
 "\n"
 "Take good care of your capital, as its loss may result in your empire "
 "plunging into civil war. Losing your current palace also results in losing "
@@ -18449,8 +18416,8 @@ msgstr ""
 
 #: data/default/buildings.ruleset:610 data/civ2/buildings.ruleset:578
 msgid ""
-"Allows a city to build veteran sea units.  Also, damaged sea units which "
-"stay in town for one full turn without moving are completely restored."
+"Allows a city to build veteran sea units.  Also, damaged sea units which stay "
+"in town for one full turn without moving are completely restored."
 msgstr ""
 
 #: data/default/buildings.ruleset:617 data/civ2/buildings.ruleset:585
@@ -18490,8 +18457,8 @@ msgstr ""
 #: data/default/buildings.ruleset:685
 #, no-c-format
 msgid ""
-"Together with a Library, a Research Lab increases the science production of "
-"a city by 200%. Together with a Library and a University, a Research Lab "
+"Together with a Library, a Research Lab increases the science production of a "
+"city by 200%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 450%."
 msgstr ""
 
@@ -18501,8 +18468,8 @@ msgstr ""
 
 #: data/default/buildings.ruleset:707 data/civ2/buildings.ruleset:672
 msgid ""
-"Doubles the defense of all units inside the city when attacked by non-"
-"nuclear air units."
+"Doubles the defense of all units inside the city when attacked by non-nuclear "
+"air units."
 msgstr ""
 
 #: data/default/buildings.ruleset:713 data/civ2/buildings.ruleset:678
@@ -18513,9 +18480,8 @@ msgstr ""
 #: data/default/buildings.ruleset:727 data/civ2/buildings.ruleset:692
 #: data/civ1/buildings.ruleset:510
 msgid ""
-"Protects a city from attacks from Nuclear units.  Nuclear attacks simply "
-"have no effect on the city.  Also, doubles defence against non-nuclear "
-"missiles."
+"Protects a city from attacks from Nuclear units.  Nuclear attacks simply have "
+"no effect on the city.  Also, doubles defence against non-nuclear missiles."
 msgstr ""
 
 #: data/default/buildings.ruleset:736 data/civ2/buildings.ruleset:701
@@ -18524,8 +18490,8 @@ msgstr ""
 
 #: data/default/buildings.ruleset:751 data/civ2/buildings.ruleset:716
 msgid ""
-"Allows a city to grow larger than size 12.  An Aqueduct is first required "
-"for a city to grow larger than size 8."
+"Allows a city to grow larger than size 12.  An Aqueduct is first required for "
+"a city to grow larger than size 8."
 msgstr ""
 
 #: data/default/buildings.ruleset:757 data/civ2/buildings.ruleset:722
@@ -18535,10 +18501,10 @@ msgstr ""
 #: data/default/buildings.ruleset:773
 #, no-c-format
 msgid ""
-"Eliminates all pollution generated by production in a city. It also "
-"increases the shield production of a Factory or Mfg. Plant in the city: a "
-"Factory and a Solar Plant together give a 75% production bonus, and a "
-"Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
+"Eliminates all pollution generated by production in a city. It also increases "
+"the shield production of a Factory or Mfg. Plant in the city: a Factory and a "
+"Solar Plant together give a 75% production bonus, and a Factory, Mfg. Plant "
+"and Solar Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
@@ -18556,8 +18522,8 @@ msgid ""
 "Each pair of them reduces your spaceship's travel time.  You can build up to "
 "8 pairs.\n"
 "\n"
-"Before you can build any spaceship parts, the Apollo Program wonder must "
-"have been built by any player."
+"Before you can build any spaceship parts, the Apollo Program wonder must have "
+"been built by any player."
 msgstr ""
 
 #: data/default/buildings.ruleset:810 data/civ2/buildings.ruleset:774
@@ -18581,8 +18547,8 @@ msgid ""
 "\n"
 "You can build up to 4 Space Modules of each kind.\n"
 "\n"
-"Before you can build any spaceship parts, the Apollo Program wonder must "
-"have been built by any player."
+"Before you can build any spaceship parts, the Apollo Program wonder must have "
+"been built by any player."
 msgstr ""
 
 #: data/default/buildings.ruleset:844 data/civ2/buildings.ruleset:807
@@ -18593,12 +18559,12 @@ msgstr ""
 #: data/default/buildings.ruleset:859 data/civ2/buildings.ruleset:821
 #: data/civ1/buildings.ruleset:590
 msgid ""
-"Space Structurals form the base of your spaceship.  All other spaceship "
-"parts need to be connected to Structurals in order to function.  You can "
-"build up to 32 Space Structurals.\n"
+"Space Structurals form the base of your spaceship.  All other spaceship parts "
+"need to be connected to Structurals in order to function.  You can build up "
+"to 32 Space Structurals.\n"
 "\n"
-"Before you can build any spaceship parts, the Apollo Program wonder must "
-"have been built by any player."
+"Before you can build any spaceship parts, the Apollo Program wonder must have "
+"been built by any player."
 msgstr ""
 
 #: data/default/buildings.ruleset:869 data/civ2/buildings.ruleset:831
@@ -18619,8 +18585,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:908 data/civ2/buildings.ruleset:868
 #, no-c-format
-msgid ""
-"Increases trade resources by 50% on all squares with roads or railroads."
+msgid "Increases trade resources by 50% on all squares with roads or railroads."
 msgstr ""
 
 #: data/default/buildings.ruleset:916 data/civ2/buildings.ruleset:874
@@ -18631,8 +18596,8 @@ msgstr ""
 #, no-c-format
 msgid ""
 "Increases the food resources by 50% on each farmland square which is being "
-"used around the city.  Farmland squares are those which have been irrigated "
-"a second time."
+"used around the city.  Farmland squares are those which have been irrigated a "
+"second time."
 msgstr ""
 
 #: data/default/buildings.ruleset:938 data/civ2/buildings.ruleset:896
@@ -18643,9 +18608,9 @@ msgstr ""
 #: data/default/buildings.ruleset:952 data/civ2/buildings.ruleset:910
 #: data/civ1/buildings.ruleset:614
 msgid ""
-"Makes one unhappy citizen content.  Both the Mysticism advance and the "
-"Oracle wonder double this effect.  With both Mysticism and the Oracle, 4 "
-"citizens are made content."
+"Makes one unhappy citizen content.  Both the Mysticism advance and the Oracle "
+"wonder double this effect.  With both Mysticism and the Oracle, 4 citizens "
+"are made content."
 msgstr ""
 
 #: data/default/buildings.ruleset:959 data/civ2/buildings.ruleset:917
@@ -18668,8 +18633,8 @@ msgstr ""
 
 #: data/default/buildings.ruleset:995 data/civ2/buildings.ruleset:953
 msgid ""
-"Entire map becomes visible for the player who owns it.  It allows all "
-"players to start building spaceship parts (assuming they have researched the "
+"Entire map becomes visible for the player who owns it.  It allows all players "
+"to start building spaceship parts (assuming they have researched the "
 "necessary technologies)."
 msgstr ""
 
@@ -18783,8 +18748,8 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1206 data/civ2/buildings.ruleset:1160
 msgid ""
-"Works as if you had a Hydro Plant in every city.  (This reduces pollution "
-"and increases the effects of Factories and Mfg. Plants.)"
+"Works as if you had a Hydro Plant in every city.  (This reduces pollution and "
+"increases the effects of Factories and Mfg. Plants.)"
 msgstr ""
 
 #: data/default/buildings.ruleset:1212 data/civ2/buildings.ruleset:1166
@@ -18869,8 +18834,8 @@ msgid ""
 "Counts as having a Cathedral in each of your cities.  This makes 3 unhappy "
 "citizens content in each city.  The discovery of Theology increases the "
 "effect of a Cathedral, making an additional unhappy citizen content.  The "
-"discovery of Communism lessens the effect of a Cathedral, reducing by one "
-"the number of unhappy citizens made content."
+"discovery of Communism lessens the effect of a Cathedral, reducing by one the "
+"number of unhappy citizens made content."
 msgstr ""
 
 #: data/default/buildings.ruleset:1393 data/civ2/buildings.ruleset:1344
@@ -18923,8 +18888,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:980 data/civ1/buildings.ruleset:1040
 msgid ""
 "Allows you to choose any government, including those that have not yet been "
-"researched by your civilization, and without the transition period of "
-"Anarchy."
+"researched by your civilization, and without the transition period of Anarchy."
 msgstr ""
 
 #: data/default/buildings.ruleset:1494 data/civ2/buildings.ruleset:1443
@@ -19022,11 +18986,10 @@ msgstr ""
 #: data/civ2/buildings.ruleset:363
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Hydro Plant together give a 100% production bonus, and "
-"a Factory, Mfg. Plant and Hydro Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Hydro Plant together give a 100% production bonus, and a "
+"Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant.  A city can only build a Hydro Plant if it is next to (or on) a "
@@ -19041,11 +19004,10 @@ msgstr ""
 #: data/civ2/buildings.ruleset:476
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Nuclear Plant together give a 100% production bonus, "
-"and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Nuclear Plant together give a 100% production bonus, and a "
+"Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
@@ -19055,9 +19017,9 @@ msgstr ""
 msgid ""
 "Makes a city the capital and the center of your government.  Corruption in "
 "other cities is related to how far away from the capital they are, except "
-"when the government is Democracy or Communism.  The cost of inciting a "
-"revolt in a city also depends upon the city's distance from the capital "
-"(under all forms of government).\n"
+"when the government is Democracy or Communism.  The cost of inciting a revolt "
+"in a city also depends upon the city's distance from the capital (under all "
+"forms of government).\n"
 "\n"
 "Take good care of your capital, as its loss may result in your empire "
 "plunging into civil war. Losing your current palace also results in losing "
@@ -19079,18 +19041,18 @@ msgstr ""
 #: data/civ2/buildings.ruleset:650
 #, no-c-format
 msgid ""
-"Together with a Library, a Research Lab increases the science production of "
-"a city by 100%. Together with a Library and a University, a Research Lab "
+"Together with a Library, a Research Lab increases the science production of a "
+"city by 100%. Together with a Library and a University, a Research Lab "
 "increases the science production of a city by 150%."
 msgstr ""
 
 #: data/civ2/buildings.ruleset:738
 #, no-c-format
 msgid ""
-"Eliminates all pollution generated by production in a city. It also "
-"increases the shield production of a Factory or Mfg. Plant in the city: a "
-"Factory and a Solar Plant together give a 100% production bonus, and a "
-"Factory, Mfg. Plant and Solar Plant together give a 150% production bonus.\n"
+"Eliminates all pollution generated by production in a city. It also increases "
+"the shield production of a Factory or Mfg. Plant in the city: a Factory and a "
+"Solar Plant together give a 100% production bonus, and a Factory, Mfg. Plant "
+"and Solar Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Power Plant, Hydro Plant, Nuclear Plant, or Solar "
 "Plant."
@@ -19181,8 +19143,7 @@ msgstr ""
 #: data/civ2/buildings.ruleset:1527
 msgid ""
 "This is not a normal improvement.  Instead, setting a city's production to "
-"Capitalization means its shield production is converted to tax output "
-"(money)."
+"Capitalization means its shield production is converted to tax output (money)."
 msgstr ""
 
 #: data/civ1/buildings.ruleset:42
@@ -19207,11 +19168,11 @@ msgstr ""
 
 #: data/civ1/buildings.ruleset:176
 msgid ""
-"City Walls make it easier to defend a city.  They triple the defence "
-"strength of units within the city against ground, sea, and helicopter "
-"units.  They are ineffective against non-helicopter airborne units as well "
-"as Artillery.  City Walls also prevent the loss of population which occurs "
-"when a defending unit is destroyed by a land unit."
+"City Walls make it easier to defend a city.  They triple the defence strength "
+"of units within the city against ground, sea, and helicopter units.  They are "
+"ineffective against non-helicopter airborne units as well as Artillery.  City "
+"Walls also prevent the loss of population which occurs when a defending unit "
+"is destroyed by a land unit."
 msgstr ""
 
 #: data/civ1/buildings.ruleset:199
@@ -19229,11 +19190,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:289
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Hydro Plant together give a 100% production bonus, and "
-"a Factory, Mfg. Plant and Hydro Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Hydro Plant together give a 100% production bonus, and a "
+"Factory, Mfg. Plant and Hydro Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant.  A city "
 "can only build a Hydro Plant if it is next to (or on) a Mountain or River "
@@ -19243,11 +19203,10 @@ msgstr ""
 #: data/civ1/buildings.ruleset:402
 #, no-c-format
 msgid ""
-"Reduces the amount of pollution generated by production in a city by 50%.  "
-"It also increases the shield production of a Factory or Mfg. Plant in the "
-"city: a Factory and a Nuclear Plant together give a 100% production bonus, "
-"and a Factory, Mfg. Plant and Nuclear Plant together give a 150% production "
-"bonus.\n"
+"Reduces the amount of pollution generated by production in a city by 50%.  It "
+"also increases the shield production of a Factory or Mfg. Plant in the city: "
+"a Factory and a Nuclear Plant together give a 100% production bonus, and a "
+"Factory, Mfg. Plant and Nuclear Plant together give a 150% production bonus.\n"
 "\n"
 "A city can only have one Hydro Plant, Power Plant, or Nuclear Plant."
 msgstr ""
@@ -19299,8 +19258,8 @@ msgstr ""
 #: data/civ1/buildings.ruleset:1066
 msgid ""
 "In all cities, the unhappiness effect of every unit is reduced by 1. This "
-"means that in a Republic, units do not cause unhappiness, and in a "
-"Democracy, aggressive units cause only 1 unhappy citizen each."
+"means that in a Republic, units do not cause unhappiness, and in a Democracy, "
+"aggressive units cause only 1 unhappy citizen each."
 msgstr ""
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
@@ -19580,17 +19539,17 @@ msgstr ""
 
 #: data/civ2/governments.ruleset:142
 msgid "High Priest"
-msgstr ""
+msgstr "Ardsagart"
 
 #: data/civ2/governments.ruleset:143
 msgid "High Priestess"
-msgstr ""
+msgstr "Ard-Bhansagart"
 
 #: data/civ2/governments.ruleset:145
 msgid ""
 "Fundamentalism is a form of government organized around a central set of "
-"beliefs. The beliefs, usually religious in nature, form a rigid guideline "
-"for actions and reactions of both the rulers and the people.\n"
+"beliefs. The beliefs, usually religious in nature, form a rigid guideline for "
+"actions and reactions of both the rulers and the people.\n"
 "\n"
 "In a fundamentalist society, the people and the rulers are entirely devoted "
 "to their beliefs, and are usually willing to die to preserve them.\n"
@@ -19604,8 +19563,8 @@ msgstr ""
 msgid ""
 "Under Democracy, citizens govern directly by voting on issues. Democracy "
 "offers the highest possible level of trade, but also offers the most "
-"potential for unhappiness.  There is no corruption or waste during "
-"Democracy, but citizens become very upset during wars.\n"
+"potential for unhappiness.  There is no corruption or waste during Democracy, "
+"but citizens become very upset during wars.\n"
 "\n"
 "Because (happy) citizens of Democracy believe strongly in the government, "
 "their loyalty is unswerving.  Military units of Democratic civilizations "
@@ -19629,66 +19588,66 @@ msgstr ""
 #: data/default/techs.ruleset:53 data/civ2/techs.ruleset:42
 #: data/civ1/techs.ruleset:42
 msgid "Advanced Flight"
-msgstr ""
+msgstr "Ardeitilt"
 
 #: data/default/techs.ruleset:61 data/civ2/techs.ruleset:50
 #: data/civ1/techs.ruleset:50
 msgid "Alphabet"
-msgstr ""
+msgstr "Aibítir"
 
 #: data/default/techs.ruleset:69 data/civ2/techs.ruleset:58
 msgid "Amphibious Warfare"
-msgstr ""
+msgstr "Cogaíocht Amfaibiach"
 
 #: data/default/techs.ruleset:77 data/civ2/techs.ruleset:66
 #: data/civ1/techs.ruleset:58
 msgid "Astronomy"
-msgstr ""
+msgstr "Réalteolaíocht"
 
 #: data/default/techs.ruleset:85 data/civ2/techs.ruleset:74
 #: data/civ1/techs.ruleset:66
 msgid "Atomic Theory"
-msgstr ""
+msgstr "Teoiric Adamhach"
 
 #: data/default/techs.ruleset:93 data/civ2/techs.ruleset:82
 #: data/civ1/techs.ruleset:74
 msgid "Automobile"
-msgstr ""
+msgstr "Gluaisteán"
 
 #: data/default/techs.ruleset:101 data/civ2/techs.ruleset:90
 #: data/civ1/techs.ruleset:82
 msgid "Banking"
-msgstr ""
+msgstr "Baincéireacht"
 
 #: data/default/techs.ruleset:109 data/civ2/techs.ruleset:98
 #: data/civ1/techs.ruleset:90
 msgid "Bridge Building"
-msgstr ""
+msgstr "Tógáil Droichead"
 
 #: data/default/techs.ruleset:117 data/civ2/techs.ruleset:106
 #: data/civ1/techs.ruleset:98
 msgid "Bronze Working"
-msgstr ""
+msgstr "Cré-Obair"
 
 #: data/default/techs.ruleset:125 data/civ2/techs.ruleset:114
 #: data/civ1/techs.ruleset:106
 msgid "Ceremonial Burial"
-msgstr ""
+msgstr "Adhlacadh Searmanach"
 
 #: data/default/techs.ruleset:133 data/civ2/techs.ruleset:122
 #: data/civ1/techs.ruleset:114
 msgid "Chemistry"
-msgstr ""
+msgstr "Ceimic"
 
 #: data/default/techs.ruleset:141 data/civ2/techs.ruleset:130
 #: data/civ1/techs.ruleset:122
 msgid "Chivalry"
-msgstr ""
+msgstr "Niachas"
 
 #: data/default/techs.ruleset:149 data/civ2/techs.ruleset:138
 #: data/civ1/techs.ruleset:130
 msgid "Code of Laws"
-msgstr ""
+msgstr "Córas Dlíthe"
 
 #: data/default/techs.ruleset:157 data/civ2/techs.ruleset:146
 msgid "Combined Arms"
@@ -19697,7 +19656,7 @@ msgstr ""
 #: data/default/techs.ruleset:165 data/civ2/techs.ruleset:154
 #: data/civ1/techs.ruleset:138
 msgid "Combustion"
-msgstr ""
+msgstr "Dóchán"
 
 #: data/default/techs.ruleset:179 data/civ2/techs.ruleset:168
 msgid "Reduces the effect of Cathedrals."
@@ -19706,27 +19665,27 @@ msgstr ""
 #: data/default/techs.ruleset:182 data/civ2/techs.ruleset:171
 #: data/civ1/techs.ruleset:154
 msgid "Computers"
-msgstr ""
+msgstr "Ríomhairí"
 
 #: data/default/techs.ruleset:190 data/civ2/techs.ruleset:179
 #: data/civ1/techs.ruleset:162
 msgid "Conscription"
-msgstr ""
+msgstr "Coinscríobh"
 
 #: data/default/techs.ruleset:198 data/civ2/techs.ruleset:187
 #: data/civ1/techs.ruleset:170
 msgid "Construction"
-msgstr ""
+msgstr "Tógáil"
 
 #: data/default/techs.ruleset:206 data/civ2/techs.ruleset:195
 #: data/civ1/techs.ruleset:178
 msgid "Currency"
-msgstr ""
+msgstr "Airgeadra"
 
 #: data/default/techs.ruleset:230 data/civ2/techs.ruleset:219
 #: data/civ1/techs.ruleset:194
 msgid "Electricity"
-msgstr ""
+msgstr "Leictreachas"
 
 #: data/default/techs.ruleset:236 data/civ2/techs.ruleset:225
 msgid "Improves the effect of Colosseums."
@@ -19735,143 +19694,143 @@ msgstr ""
 #: data/default/techs.ruleset:239 data/civ2/techs.ruleset:228
 #: data/civ1/techs.ruleset:202
 msgid "Electronics"
-msgstr ""
+msgstr "Leictreonaic"
 
 #: data/default/techs.ruleset:247 data/civ2/techs.ruleset:236
 #: data/civ1/techs.ruleset:210
 msgid "Engineering"
-msgstr ""
+msgstr "Innealtóireacht"
 
 #: data/default/techs.ruleset:255 data/civ2/techs.ruleset:244
 msgid "Environmentalism"
-msgstr ""
+msgstr "Comhshaolachas"
 
 #: data/default/techs.ruleset:263 data/civ2/techs.ruleset:252
 msgid "Espionage"
-msgstr ""
+msgstr "Spiaireacht"
 
 #: data/default/techs.ruleset:271 data/civ2/techs.ruleset:260
 #: data/civ1/techs.ruleset:218
 msgid "Explosives"
-msgstr ""
+msgstr "Pléascáin"
 
 #: data/default/techs.ruleset:279 data/civ2/techs.ruleset:268
 #: data/civ1/techs.ruleset:226
 msgid "Feudalism"
-msgstr ""
+msgstr "Feodachas"
 
 #: data/default/techs.ruleset:287 data/civ2/techs.ruleset:276
 #: data/civ1/techs.ruleset:234
 msgid "Flight"
-msgstr ""
+msgstr "Eitilt"
 
 #: data/default/techs.ruleset:295 data/civ2/techs.ruleset:292
 #: data/civ1/techs.ruleset:242
 msgid "Fusion Power"
-msgstr ""
+msgstr "Cumhacht Comhleáite"
 
 #: data/default/techs.ruleset:303 data/civ2/techs.ruleset:300
 #: data/civ1/techs.ruleset:250
 msgid "Genetic Engineering"
-msgstr ""
+msgstr "Innealtóireacht Ghéiniteach"
 
 #: data/default/techs.ruleset:311 data/civ2/techs.ruleset:308
 msgid "Guerilla Warfare"
-msgstr ""
+msgstr "Treallchogaíocht"
 
 #: data/default/techs.ruleset:319 data/civ2/techs.ruleset:316
 #: data/civ1/techs.ruleset:258
 msgid "Gunpowder"
-msgstr ""
+msgstr "Púdar Gunna"
 
 #: data/default/techs.ruleset:327 data/civ2/techs.ruleset:324
 #: data/civ1/techs.ruleset:266
 msgid "Horseback Riding"
-msgstr ""
+msgstr "Marcaíocht"
 
 #: data/default/techs.ruleset:335 data/civ2/techs.ruleset:332
 #: data/civ1/techs.ruleset:274
 msgid "Industrialization"
-msgstr ""
+msgstr "Tionsclaíocht"
 
 #: data/default/techs.ruleset:343 data/civ2/techs.ruleset:340
 #: data/civ1/techs.ruleset:282
 msgid "Invention"
-msgstr ""
+msgstr "Aireag"
 
 #: data/default/techs.ruleset:351 data/civ2/techs.ruleset:348
 #: data/civ1/techs.ruleset:290
 msgid "Iron Working"
-msgstr ""
+msgstr "Oibriú Iarainn"
 
 #: data/default/techs.ruleset:359 data/civ2/techs.ruleset:356
 #: data/civ1/techs.ruleset:298
 msgid "Labor Union"
-msgstr ""
+msgstr "Ceardchumann"
 
 #: data/default/techs.ruleset:367 data/civ2/techs.ruleset:364
 msgid "Laser"
-msgstr ""
+msgstr "Léasar"
 
 #: data/default/techs.ruleset:375 data/civ2/techs.ruleset:372
 msgid "Leadership"
-msgstr ""
+msgstr "Ceannaireacht"
 
 #: data/default/techs.ruleset:391 data/civ2/techs.ruleset:388
 msgid "Machine Tools"
-msgstr ""
+msgstr "Uirlisí Meaisín"
 
 #: data/default/techs.ruleset:399 data/civ2/techs.ruleset:396
 #: data/civ1/techs.ruleset:314
 msgid "Magnetism"
-msgstr ""
+msgstr "Maighnéadachas"
 
 #: data/default/techs.ruleset:407 data/civ2/techs.ruleset:404
 #: data/civ1/techs.ruleset:322
 msgid "Map Making"
-msgstr ""
+msgstr "Cartagrafaíocht"
 
 #: data/default/techs.ruleset:415 data/civ2/techs.ruleset:412
 #: data/civ1/techs.ruleset:330
 msgid "Masonry"
-msgstr ""
+msgstr "Saoirseacht Chloiche"
 
 #: data/default/techs.ruleset:423 data/civ2/techs.ruleset:420
 #: data/civ1/techs.ruleset:338
 msgid "Mass Production"
-msgstr ""
+msgstr "Olltáirgeadh"
 
 #: data/default/techs.ruleset:431 data/civ2/techs.ruleset:428
 #: data/civ1/techs.ruleset:346
 msgid "Mathematics"
-msgstr ""
+msgstr " Matamaitic"
 
 #: data/default/techs.ruleset:439 data/civ2/techs.ruleset:436
 #: data/civ1/techs.ruleset:354
 msgid "Medicine"
-msgstr ""
+msgstr "Leigheas"
 
 #: data/default/techs.ruleset:447 data/civ2/techs.ruleset:444
 #: data/civ1/techs.ruleset:362
 msgid "Metallurgy"
-msgstr ""
+msgstr "Miotaleolaíocht"
 
 #: data/default/techs.ruleset:455 data/civ2/techs.ruleset:452
 msgid "Miniaturization"
-msgstr ""
+msgstr "Mionadúchán"
 
 #: data/default/techs.ruleset:463 data/civ2/techs.ruleset:460
 msgid "Mobile Warfare"
-msgstr ""
+msgstr "Cogaíocht Shoghluaiste"
 
 #: data/default/techs.ruleset:479 data/civ2/techs.ruleset:476
 msgid "Monotheism"
-msgstr ""
+msgstr "Aondiachas"
 
 #: data/default/techs.ruleset:487 data/civ2/techs.ruleset:484
 #: data/civ1/techs.ruleset:378
 msgid "Mysticism"
-msgstr ""
+msgstr "Misteachas"
 
 #: data/default/techs.ruleset:493 data/civ2/techs.ruleset:490
 #: data/civ1/techs.ruleset:384
@@ -19881,17 +19840,17 @@ msgstr ""
 #: data/default/techs.ruleset:496 data/civ2/techs.ruleset:493
 #: data/civ1/techs.ruleset:387
 msgid "Navigation"
-msgstr ""
+msgstr "Loingseoireacht"
 
 #: data/default/techs.ruleset:504 data/civ2/techs.ruleset:501
 #: data/civ1/techs.ruleset:395
 msgid "Nuclear Fission"
-msgstr ""
+msgstr "Eamhnú Núicléach"
 
 #: data/default/techs.ruleset:512 data/civ2/techs.ruleset:509
 #: data/civ1/techs.ruleset:403
 msgid "Nuclear Power"
-msgstr ""
+msgstr "Cumhacht Núicléach"
 
 #: data/default/techs.ruleset:518 data/civ2/techs.ruleset:515
 msgid "Gives sea units one extra move."
@@ -19900,7 +19859,7 @@ msgstr ""
 #: data/default/techs.ruleset:521 data/civ2/techs.ruleset:518
 #: data/civ1/techs.ruleset:411
 msgid "Philosophy"
-msgstr ""
+msgstr "Fealsúnacht"
 
 #: data/default/techs.ruleset:525 data/civ2/techs.ruleset:522
 msgid ""
@@ -19911,104 +19870,104 @@ msgstr ""
 #: data/default/techs.ruleset:531 data/civ2/techs.ruleset:528
 #: data/civ1/techs.ruleset:419
 msgid "Physics"
-msgstr ""
+msgstr "Fisic"
 
 #: data/default/techs.ruleset:539 data/civ2/techs.ruleset:536
 #: data/civ1/techs.ruleset:427
 msgid "Plastics"
-msgstr ""
+msgstr "Plaistigh"
 
 #: data/default/techs.ruleset:547 data/civ2/techs.ruleset:544
 msgid "Polytheism"
-msgstr ""
+msgstr "Ildiachas"
 
 #: data/default/techs.ruleset:555 data/civ2/techs.ruleset:552
 #: data/civ1/techs.ruleset:435
 msgid "Pottery"
-msgstr ""
+msgstr "Criadóireacht"
 
 #: data/default/techs.ruleset:563 data/civ2/techs.ruleset:560
 msgid "Radio"
-msgstr ""
+msgstr "Raidió"
 
 #: data/default/techs.ruleset:579 data/civ2/techs.ruleset:576
 #: data/civ1/techs.ruleset:451
 msgid "Recycling"
-msgstr ""
+msgstr "Athchúrsáil"
 
 #: data/default/techs.ruleset:587 data/civ2/techs.ruleset:584
 #: data/civ1/techs.ruleset:459
 msgid "Refining"
-msgstr ""
+msgstr "Scagadh"
 
 #: data/default/techs.ruleset:595 data/civ2/techs.ruleset:592
 msgid "Refrigeration"
-msgstr ""
+msgstr "Cuisniú"
 
 #: data/default/techs.ruleset:603 data/civ2/techs.ruleset:600
 #: data/civ1/techs.ruleset:475
 msgid "Robotics"
-msgstr ""
+msgstr "Róbaitic"
 
 #: data/default/techs.ruleset:611 data/civ2/techs.ruleset:608
 #: data/civ1/techs.ruleset:483
 msgid "Rocketry"
-msgstr ""
+msgstr "Roicéadóireacht"
 
 #: data/default/techs.ruleset:619 data/civ2/techs.ruleset:616
 msgid "Sanitation"
-msgstr ""
+msgstr "Sláintíocht"
 
 #: data/default/techs.ruleset:627 data/civ2/techs.ruleset:624
 msgid "Seafaring"
-msgstr ""
+msgstr "Farraigeoireacht"
 
 #: data/default/techs.ruleset:635 data/civ2/techs.ruleset:632
 #: data/civ1/techs.ruleset:491
 msgid "Space Flight"
-msgstr ""
+msgstr "Spáseitilt"
 
 #: data/default/techs.ruleset:643 data/civ2/techs.ruleset:640
 msgid "Stealth"
-msgstr ""
+msgstr "Fáilíocht"
 
 #: data/default/techs.ruleset:651 data/civ2/techs.ruleset:648
 #: data/civ1/techs.ruleset:499
 msgid "Steam Engine"
-msgstr ""
+msgstr "Galinneall"
 
 #: data/default/techs.ruleset:659 data/civ2/techs.ruleset:656
 #: data/civ1/techs.ruleset:507
 msgid "Steel"
-msgstr ""
+msgstr "Cruach"
 
 #: data/default/techs.ruleset:667 data/civ2/techs.ruleset:664
 #: data/civ1/techs.ruleset:515
 msgid "Superconductors"
-msgstr ""
+msgstr "Forsheoltóirí"
 
 #: data/default/techs.ruleset:675 data/civ2/techs.ruleset:672
 msgid "Tactics"
-msgstr ""
+msgstr "Oirbheartaíocht"
 
 #: data/default/techs.ruleset:683 data/civ2/techs.ruleset:680
 #: data/civ1/techs.ruleset:523
 msgid "The Corporation"
-msgstr ""
+msgstr "An Chorparáid"
 
 #: data/default/techs.ruleset:691 data/civ2/techs.ruleset:688
 #: data/civ1/techs.ruleset:531
 msgid "The Republic"
-msgstr ""
+msgstr "An Phoblacht"
 
 #: data/default/techs.ruleset:699 data/civ2/techs.ruleset:696
 #: data/civ1/techs.ruleset:539
 msgid "The Wheel"
-msgstr ""
+msgstr "An Roth"
 
 #: data/default/techs.ruleset:707 data/civ2/techs.ruleset:704
 msgid "Theology"
-msgstr ""
+msgstr "Diagacht"
 
 #: data/default/techs.ruleset:713 data/civ2/techs.ruleset:710
 msgid "Improves the effect of Cathedrals."
@@ -20017,7 +19976,7 @@ msgstr ""
 #: data/default/techs.ruleset:716 data/civ2/techs.ruleset:713
 #: data/civ1/techs.ruleset:547
 msgid "Theory of Gravity"
-msgstr ""
+msgstr "Teoiric na Domhantarraingthe"
 
 #: data/default/techs.ruleset:740 data/civ2/techs.ruleset:737
 msgid "Warrior Code"
@@ -20026,17 +19985,17 @@ msgstr ""
 #: data/default/techs.ruleset:748 data/civ2/techs.ruleset:745
 #: data/civ1/techs.ruleset:571
 msgid "Writing"
-msgstr ""
+msgstr "Scríbhneoireacht"
 
 #: data/civ1/techs.ruleset:467
 msgid "Religion"
-msgstr ""
+msgstr "Creideamh"
 
 #: data/default/terrain.ruleset:57 data/civ2/terrain.ruleset:54
 msgid ""
-"Any terrain type (except Ocean) may have a River on it.  A River adds 1 "
-"trade to the resources produced by that tile.  It also increases a tile's "
-"defense factor by 50%.  Finally, land units may move along a River (but not "
+"Any terrain type (except Ocean) may have a River on it.  A River adds 1 trade "
+"to the resources produced by that tile.  It also increases a tile's defense "
+"factor by 50%.  Finally, land units may move along a River (but not "
 "diagonally); movement along a River costs only 1/3 of a movement point.\n"
 "\n"
 "Roads and railroads can only be built on River squares if your civilization "
@@ -20045,7 +20004,7 @@ msgstr ""
 
 #: data/default/terrain.ruleset:184
 msgid "Lake"
-msgstr ""
+msgstr "Loch"
 
 #: data/default/terrain.ruleset:214
 msgid "Lake squares can never be polluted or subjected to fallout."
@@ -20054,32 +20013,31 @@ msgstr ""
 #: data/default/terrain.ruleset:219 data/civ2/terrain.ruleset:181
 #: data/civ1/terrain.ruleset:173
 msgid "Ocean"
-msgstr ""
+msgstr "Aigéan"
 
 #: data/default/terrain.ruleset:249 data/civ2/terrain.ruleset:208
 #: data/civ1/terrain.ruleset:200
 msgid ""
-"Oceans cover much of the world, and only sea units (Triremes and other "
-"boats) can travel on them.\n"
+"Oceans cover much of the world, and only sea units (Triremes and other boats) "
+"can travel on them.\n"
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
 
 #: data/default/terrain.ruleset:257
 msgid "Deep Ocean"
-msgstr ""
+msgstr "Duibheagán"
 
 #: data/default/terrain.ruleset:287
 msgid ""
-"Oceans cover much of the world, and only seaworthy units can travel on "
-"them.\n"
+"Oceans cover much of the world, and only seaworthy units can travel on them.\n"
 "\n"
 "Ocean squares can never be polluted or subjected to fallout."
 msgstr ""
 
 #: data/default/terrain.ruleset:295 data/civ2/terrain.ruleset:216
 msgid "Glacier"
-msgstr ""
+msgstr "Oighearshruth"
 
 #: data/default/terrain.ruleset:325 data/civ2/terrain.ruleset:243
 msgid ""
@@ -20090,7 +20048,7 @@ msgstr ""
 #: data/default/terrain.ruleset:332 data/civ2/terrain.ruleset:250
 #: data/civ1/terrain.ruleset:242
 msgid "Desert"
-msgstr ""
+msgstr "Gaineamhlach"
 
 #: data/default/terrain.ruleset:363 data/civ2/terrain.ruleset:278
 #: data/civ1/terrain.ruleset:269
@@ -20102,7 +20060,7 @@ msgstr ""
 #: data/default/terrain.ruleset:369 data/civ2/terrain.ruleset:284
 #: data/civ1/terrain.ruleset:275
 msgid "Forest"
-msgstr ""
+msgstr "Foraois"
 
 #: data/default/terrain.ruleset:400 data/civ2/terrain.ruleset:312
 #: data/civ1/terrain.ruleset:303
@@ -20112,7 +20070,7 @@ msgstr ""
 #: data/default/terrain.ruleset:406 data/civ2/terrain.ruleset:318
 #: data/civ1/terrain.ruleset:309
 msgid "Grassland"
-msgstr ""
+msgstr "Talamh Féaraigh"
 
 #: data/default/terrain.ruleset:437 data/civ2/terrain.ruleset:346
 #: data/civ1/terrain.ruleset:337
@@ -20122,7 +20080,7 @@ msgstr ""
 #: data/default/terrain.ruleset:442 data/civ2/terrain.ruleset:351
 #: data/civ1/terrain.ruleset:342
 msgid "Hills"
-msgstr ""
+msgstr "Cnoic"
 
 #: data/default/terrain.ruleset:473 data/civ2/terrain.ruleset:379
 #: data/civ1/terrain.ruleset:370
@@ -20134,7 +20092,7 @@ msgstr ""
 #: data/default/terrain.ruleset:479 data/civ2/terrain.ruleset:385
 #: data/civ1/terrain.ruleset:376
 msgid "Jungle"
-msgstr ""
+msgstr "Dufair"
 
 #: data/default/terrain.ruleset:511 data/civ2/terrain.ruleset:414
 #: data/civ1/terrain.ruleset:403
@@ -20144,7 +20102,7 @@ msgstr ""
 #: data/default/terrain.ruleset:517 data/civ2/terrain.ruleset:420
 #: data/civ1/terrain.ruleset:409
 msgid "Mountains"
-msgstr ""
+msgstr "Sléibhte"
 
 #: data/default/terrain.ruleset:547 data/civ2/terrain.ruleset:447
 #: data/civ1/terrain.ruleset:435
@@ -20156,7 +20114,7 @@ msgstr ""
 #: data/default/terrain.ruleset:553 data/civ2/terrain.ruleset:453
 #: data/civ1/terrain.ruleset:441
 msgid "Plains"
-msgstr ""
+msgstr "Machairí"
 
 #: data/default/terrain.ruleset:584 data/civ2/terrain.ruleset:482
 #: data/civ1/terrain.ruleset:469
@@ -20168,7 +20126,7 @@ msgstr ""
 #: data/default/terrain.ruleset:590 data/civ2/terrain.ruleset:488
 #: data/civ1/terrain.ruleset:475
 msgid "Swamp"
-msgstr ""
+msgstr "Seascann"
 
 #: data/default/terrain.ruleset:621 data/civ2/terrain.ruleset:516
 #: data/civ1/terrain.ruleset:502
@@ -20180,7 +20138,7 @@ msgstr ""
 #: data/default/terrain.ruleset:627 data/civ2/terrain.ruleset:522
 #: data/civ1/terrain.ruleset:508
 msgid "Tundra"
-msgstr ""
+msgstr "Tundra"
 
 #: data/default/terrain.ruleset:657 data/civ2/terrain.ruleset:549
 #: data/civ1/terrain.ruleset:535
@@ -20190,89 +20148,89 @@ msgstr ""
 
 #: data/default/terrain.ruleset:690 data/civ2/terrain.ruleset:582
 msgid "Iron"
-msgstr ""
+msgstr "Iarann"
 
 #: data/default/terrain.ruleset:698 data/civ2/terrain.ruleset:590
 #: data/civ1/terrain.ruleset:568
 msgid "?animals:Game"
-msgstr ""
+msgstr "?animals:Seilg"
 
 #: data/default/terrain.ruleset:707 data/civ2/terrain.ruleset:599
 msgid "Furs"
-msgstr ""
+msgstr "Seithí"
 
 #: data/default/terrain.ruleset:716 data/civ2/terrain.ruleset:608
 #: data/civ1/terrain.ruleset:576
 msgid "Coal"
-msgstr ""
+msgstr "Gual"
 
 #: data/default/terrain.ruleset:724 data/civ2/terrain.ruleset:620
 #: data/civ1/terrain.ruleset:584
 msgid "Fish"
-msgstr ""
+msgstr "Iasc"
 
 #: data/default/terrain.ruleset:732 data/civ2/terrain.ruleset:628
 msgid "Fruit"
-msgstr ""
+msgstr "Toradh"
 
 #: data/default/terrain.ruleset:741 data/civ2/terrain.ruleset:637
 #: data/civ1/terrain.ruleset:592
 msgid "Gems"
-msgstr ""
+msgstr "Geamanna"
 
 #: data/default/terrain.ruleset:751 data/civ2/terrain.ruleset:645
 msgid "Buffalo"
-msgstr ""
+msgstr "Buabhall"
 
 #: data/default/terrain.ruleset:759 data/civ2/terrain.ruleset:653
 msgid "Wheat"
-msgstr ""
+msgstr "Cruithneacht"
 
 #: data/default/terrain.ruleset:773 data/civ2/terrain.ruleset:661
 #: data/civ1/terrain.ruleset:608
 msgid "Oasis"
-msgstr ""
+msgstr "Ósais"
 
 #: data/default/terrain.ruleset:781 data/civ2/terrain.ruleset:669
 msgid "Peat"
-msgstr ""
+msgstr "Móin"
 
 #: data/default/terrain.ruleset:789 data/civ2/terrain.ruleset:677
 msgid "Pheasant"
-msgstr ""
+msgstr "Piasún"
 
 #: data/default/terrain.ruleset:807 data/civ2/terrain.ruleset:693
 msgid "Ivory"
-msgstr ""
+msgstr "Eabhar"
 
 #: data/default/terrain.ruleset:817 data/civ2/terrain.ruleset:703
 msgid "Silk"
-msgstr ""
+msgstr "Síoda"
 
 #: data/default/terrain.ruleset:825 data/civ2/terrain.ruleset:711
 msgid "Spice"
-msgstr ""
+msgstr "Spíosra"
 
 #: data/default/terrain.ruleset:836 data/civ2/terrain.ruleset:720
 msgid "Whales"
-msgstr ""
+msgstr "Míolta Móra"
 
 #: data/default/terrain.ruleset:845 data/civ2/terrain.ruleset:729
 msgid "Wine"
-msgstr ""
+msgstr "Fíon"
 
 #: data/default/terrain.ruleset:853 data/civ2/terrain.ruleset:737
 #: data/civ2/terrain.ruleset:745 data/civ1/terrain.ruleset:616
 msgid "Oil"
-msgstr ""
+msgstr "Ola"
 
 #: data/default/terrain.ruleset:921
 msgid "Buoy"
-msgstr ""
+msgstr "Baoi"
 
 #: data/civ1/terrain.ruleset:208
 msgid "Arctic"
-msgstr ""
+msgstr "An tArtach"
 
 #: data/civ1/terrain.ruleset:235
 msgid ""
@@ -20282,75 +20240,74 @@ msgstr ""
 
 #: data/civ1/terrain.ruleset:600
 msgid "Horses"
-msgstr ""
+msgstr "Capaill"
 
 #: data/civ1/terrain.ruleset:632
 msgid "Seals"
-msgstr ""
+msgstr "Rónta"
 
 #: data/default/units.ruleset:23 data/civ2/units.ruleset:18
 #: data/civ1/units.ruleset:18
 msgid "green"
-msgstr ""
+msgstr "uaine"
 
 #: data/default/units.ruleset:23
 msgid "hardened"
-msgstr ""
+msgstr "cruaite"
 
 #: data/default/units.ruleset:23
 msgid "elite"
-msgstr ""
+msgstr "scoth"
 
 #: data/default/units.ruleset:83 data/civ2/units.ruleset:78
 #: data/civ1/units.ruleset:102
 msgid "Missile"
-msgstr ""
+msgstr "Arm Diúractha"
 
 #: data/default/units.ruleset:100 data/civ2/units.ruleset:95
 #: data/civ1/units.ruleset:87
 msgid "Sea"
-msgstr ""
+msgstr "Farraige"
 
 #: data/default/units.ruleset:107 data/default/units.ruleset:1293
 #: data/civ2/units.ruleset:1240 data/civ1/units.ruleset:701
 msgid "Trireme"
-msgstr ""
+msgstr "Tríréim"
 
 #: data/default/units.ruleset:114 data/default/units.ruleset:1194
 #: data/civ2/units.ruleset:102 data/civ2/units.ruleset:1141
 msgid "Helicopter"
-msgstr ""
+msgstr "Héileacaptar"
 
 #: data/default/units.ruleset:121 data/civ2/units.ruleset:109
 #: data/civ1/units.ruleset:94
 msgid "Air"
-msgstr ""
+msgstr "Aer"
 
 #: data/default/units.ruleset:278 data/civ2/units.ruleset:167
 #: data/civ1/units.ruleset:168
 msgid "Settlers"
-msgstr ""
+msgstr "Lonnaitheoirí"
 
 #: data/default/units.ruleset:304
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses and mines, and "
+"Settlers are one of the key units in the game.  They can be used to found new "
+"cities, irrigate land, build roads, railroads, fortresses and mines, and "
 "clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
 "well as production, and a Settler can die if its supporting city runs out of "
 "food.\n"
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time "
 "required for long projects.  If two or more Settlers and/or Engineers are "
-"both working on the same task in the same square, their efforts will be "
-"added together each turn until the task is finished.  Be careful not to "
-"dedicate too many workers to one task, though; excess effort can be wasted, "
-"and a group of Settlers and/or Engineers is highly vulnerable to enemy "
-"attacks."
+"both working on the same task in the same square, their efforts will be added "
+"together each turn until the task is finished.  Be careful not to dedicate "
+"too many workers to one task, though; excess effort can be wasted, and a "
+"group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
 
 #: data/default/units.ruleset:322
 msgid "?unit:Workers"
-msgstr ""
+msgstr "?unit:Oibrithe"
 
 #: data/default/units.ruleset:348
 msgid ""
@@ -20359,17 +20316,17 @@ msgid ""
 "pollution and nuclear fallout. \n"
 "\n"
 "Settlers, Workers and Engineers may work together to decrease the amount of "
-"time required for long projects.  If two or more Workers and/or Engineers "
-"are both working on the same task in the same square, their efforts will be "
-"added together each turn until the task is finished.  Be careful not to "
-"dedicate too many workers to one task, though; excess effort can be wasted, "
-"and a group of Workers, Settlers and/or Engineers is highly vulnerable to "
-"enemy attacks."
+"time required for long projects.  If two or more Workers and/or Engineers are "
+"both working on the same task in the same square, their efforts will be added "
+"together each turn until the task is finished.  Be careful not to dedicate "
+"too many workers to one task, though; excess effort can be wasted, and a "
+"group of Workers, Settlers and/or Engineers is highly vulnerable to enemy "
+"attacks."
 msgstr ""
 
 #: data/default/units.ruleset:363 data/civ2/units.ruleset:211
 msgid "Engineers"
-msgstr ""
+msgstr "Innealtóirí"
 
 #: data/default/units.ruleset:389
 msgid ""
@@ -20388,7 +20345,7 @@ msgstr ""
 
 #: data/default/units.ruleset:404 data/civ2/units.ruleset:252
 msgid "Warriors"
-msgstr ""
+msgstr "Gaiscígh"
 
 #: data/default/units.ruleset:430 data/civ2/units.ruleset:278
 #: data/civ1/units.ruleset:238
@@ -20400,7 +20357,7 @@ msgstr ""
 #: data/default/units.ruleset:436 data/civ2/units.ruleset:284
 #: data/civ1/units.ruleset:244
 msgid "Phalanx"
-msgstr ""
+msgstr "Falang"
 
 #: data/default/units.ruleset:462 data/civ2/units.ruleset:310
 #: data/civ1/units.ruleset:270
@@ -20409,7 +20366,7 @@ msgstr ""
 
 #: data/default/units.ruleset:467 data/civ2/units.ruleset:315
 msgid "Archers"
-msgstr ""
+msgstr "Boghdóirí"
 
 #: data/default/units.ruleset:493 data/civ2/units.ruleset:341
 msgid ""
@@ -20420,7 +20377,7 @@ msgstr ""
 #: data/default/units.ruleset:499 data/civ2/units.ruleset:347
 #: data/civ1/units.ruleset:275
 msgid "Legion"
-msgstr ""
+msgstr "Léigiún"
 
 #: data/default/units.ruleset:525 data/civ2/units.ruleset:373
 #: data/civ1/units.ruleset:301
@@ -20431,7 +20388,7 @@ msgstr ""
 
 #: data/default/units.ruleset:531 data/civ2/units.ruleset:379
 msgid "Pikemen"
-msgstr ""
+msgstr "Lucht Pící"
 
 #: data/default/units.ruleset:557 data/civ2/units.ruleset:405
 msgid ""
@@ -20442,7 +20399,7 @@ msgstr ""
 #: data/default/units.ruleset:563 data/civ2/units.ruleset:411
 #: data/civ1/units.ruleset:307
 msgid "Musketeers"
-msgstr ""
+msgstr "Muscaedóirí"
 
 #: data/default/units.ruleset:590 data/civ2/units.ruleset:438
 msgid ""
@@ -20452,12 +20409,12 @@ msgstr ""
 
 #: data/default/units.ruleset:597 data/civ2/units.ruleset:480
 msgid "Partisan"
-msgstr ""
+msgstr "Páirtíneach"
 
 #: data/default/units.ruleset:623 data/civ2/units.ruleset:506
 msgid ""
-"Partisans are guerilla fighters who are experts at using the terrain to "
-"their advantage.\n"
+"Partisans are guerilla fighters who are experts at using the terrain to their "
+"advantage.\n"
 "\n"
 "A number of Partisans are granted free when an enemy conquers your city, but "
 "only under these conditions:\n"
@@ -20473,7 +20430,7 @@ msgstr ""
 
 #: data/default/units.ruleset:640 data/civ2/units.ruleset:523
 msgid "Alpine Troops"
-msgstr ""
+msgstr "Buíon Alpach"
 
 #: data/default/units.ruleset:666 data/civ2/units.ruleset:549
 msgid "Alpine Troops are highly mobile units as well as excellent defenders."
@@ -20482,17 +20439,16 @@ msgstr ""
 #: data/default/units.ruleset:672 data/civ2/units.ruleset:555
 #: data/civ1/units.ruleset:341
 msgid "Riflemen"
-msgstr ""
+msgstr "Lucht Raidhflí"
 
 #: data/default/units.ruleset:698 data/civ2/units.ruleset:581
 #: data/civ1/units.ruleset:367
-msgid ""
-"Riflemen are World War-era infantry, very good at defending your cities."
+msgid "Riflemen are World War-era infantry, very good at defending your cities."
 msgstr ""
 
 #: data/default/units.ruleset:704 data/civ2/units.ruleset:587
 msgid "Marines"
-msgstr ""
+msgstr "Muirshaighdiúirí"
 
 #: data/default/units.ruleset:730 data/civ2/units.ruleset:613
 msgid "Marines are infantry who are experts at marine warfare."
@@ -20500,7 +20456,7 @@ msgstr ""
 
 #: data/default/units.ruleset:735 data/civ2/units.ruleset:618
 msgid "Paratroopers"
-msgstr ""
+msgstr "Paratrúipéirí"
 
 #: data/default/units.ruleset:761 data/civ2/units.ruleset:644
 msgid "Paratroopers are experts at airborne attacks."
@@ -20519,7 +20475,7 @@ msgstr ""
 
 #: data/default/units.ruleset:803 data/civ2/units.ruleset:686
 msgid "Horsemen"
-msgstr ""
+msgstr "Marcshlua"
 
 #: data/default/units.ruleset:829 data/civ2/units.ruleset:712
 msgid ""
@@ -20530,7 +20486,7 @@ msgstr ""
 #: data/default/units.ruleset:836 data/civ2/units.ruleset:719
 #: data/civ1/units.ruleset:439
 msgid "Chariot"
-msgstr ""
+msgstr "Carbad"
 
 #: data/default/units.ruleset:862 data/civ2/units.ruleset:745
 #: data/civ1/units.ruleset:465
@@ -20542,7 +20498,7 @@ msgstr ""
 #: data/default/units.ruleset:868 data/civ2/units.ruleset:815
 #: data/civ1/units.ruleset:471
 msgid "Knights"
-msgstr ""
+msgstr "Ridirí"
 
 #: data/default/units.ruleset:895 data/civ2/units.ruleset:842
 #: data/civ1/units.ruleset:498
@@ -20551,7 +20507,7 @@ msgstr ""
 
 #: data/default/units.ruleset:900 data/civ2/units.ruleset:847
 msgid "Dragoons"
-msgstr ""
+msgstr "Dragúin"
 
 #: data/default/units.ruleset:927 data/civ2/units.ruleset:874
 msgid "Dragoons are mounted warriors carrying early firearms."
@@ -20560,7 +20516,7 @@ msgstr ""
 #: data/default/units.ruleset:932 data/civ2/units.ruleset:879
 #: data/civ1/units.ruleset:406
 msgid "Cavalry"
-msgstr ""
+msgstr "Marcra"
 
 #: data/default/units.ruleset:958 data/civ2/units.ruleset:905
 msgid "Cavalry are mounted and highly trained soldiers."
@@ -20569,7 +20525,7 @@ msgstr ""
 #: data/default/units.ruleset:963 data/civ2/units.ruleset:910
 #: data/civ1/units.ruleset:503
 msgid "Armor"
-msgstr ""
+msgstr "Armúr"
 
 #: data/default/units.ruleset:989 data/civ2/units.ruleset:936
 #: data/civ1/units.ruleset:529
@@ -20581,7 +20537,7 @@ msgstr ""
 #: data/default/units.ruleset:996 data/civ2/units.ruleset:943
 #: data/civ1/units.ruleset:536
 msgid "Catapult"
-msgstr ""
+msgstr "Crann Tabhaill"
 
 #: data/default/units.ruleset:1022 data/civ2/units.ruleset:969
 #: data/civ1/units.ruleset:562
@@ -20593,53 +20549,53 @@ msgstr ""
 #: data/default/units.ruleset:1029 data/civ2/units.ruleset:976
 #: data/civ1/units.ruleset:569
 msgid "Cannon"
-msgstr ""
+msgstr "Gunna Mór"
 
 #: data/default/units.ruleset:1055 data/civ2/units.ruleset:1002
 #: data/civ1/units.ruleset:595
 msgid ""
 "Cannons are large firearms that can fire heavy projectiles over long "
-"distances. They are very strong attackers but equally weak defenders and "
-"will need an escort to be effective."
+"distances. They are very strong attackers but equally weak defenders and will "
+"need an escort to be effective."
 msgstr ""
 
 #: data/default/units.ruleset:1063 data/civ2/units.ruleset:1010
 #: data/civ1/units.ruleset:603
 msgid "Artillery"
-msgstr ""
+msgstr "Airtléire"
 
 #: data/default/units.ruleset:1089 data/civ2/units.ruleset:1036
 msgid ""
-"The artillery is an upgraded cannon. It is a very strong attacker but "
-"equally weak defender and will need an escort to be effective."
+"The artillery is an upgraded cannon. It is a very strong attacker but equally "
+"weak defender and will need an escort to be effective."
 msgstr ""
 
 #: data/default/units.ruleset:1096 data/civ2/units.ruleset:1043
 msgid "Howitzer"
-msgstr ""
+msgstr "Habhatsar"
 
 #: data/default/units.ruleset:1122 data/civ2/units.ruleset:1069
 msgid ""
-"Howitzers are upgraded artillery with improved defensive as well as "
-"offensive capabilities."
+"Howitzers are upgraded artillery with improved defensive as well as offensive "
+"capabilities."
 msgstr ""
 
 #: data/default/units.ruleset:1128 data/civ2/units.ruleset:1075
 #: data/civ1/units.ruleset:635
 msgid "Fighter"
-msgstr ""
+msgstr "Trodaí"
 
 #: data/default/units.ruleset:1155 data/civ2/units.ruleset:1102
 #: data/civ1/units.ruleset:662
 msgid ""
-"Fighters are your first airborne units. They can move anywhere and attack "
-"any unit."
+"Fighters are your first airborne units. They can move anywhere and attack any "
+"unit."
 msgstr ""
 
 #: data/default/units.ruleset:1161 data/civ2/units.ruleset:1108
 #: data/civ1/units.ruleset:668
 msgid "Bomber"
-msgstr ""
+msgstr "Buamadóir"
 
 #: data/default/units.ruleset:1187 data/civ2/units.ruleset:1134
 #: data/civ1/units.ruleset:694
@@ -20652,8 +20608,8 @@ msgstr ""
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
-"health for every turn not spent in a city, unless you have the United "
-"Nations wonder."
+"health for every turn not spent in a city, unless you have the United Nations "
+"wonder."
 msgstr ""
 
 #: data/default/units.ruleset:1228 data/civ2/units.ruleset:1175
@@ -20680,7 +20636,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1327 data/civ2/units.ruleset:1274
 msgid "Caravel"
-msgstr ""
+msgstr "Carbhal"
 
 #: data/default/units.ruleset:1354
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
@@ -20688,18 +20644,18 @@ msgstr ""
 
 #: data/default/units.ruleset:1360 data/civ2/units.ruleset:1307
 msgid "Galleon"
-msgstr ""
+msgstr "Gaileon"
 
 #: data/default/units.ruleset:1387 data/civ2/units.ruleset:1334
 msgid ""
-"The Galleon is a pure transport ship and cannot attack other ships, though "
-"it may still defend itself when attacked."
+"The Galleon is a pure transport ship and cannot attack other ships, though it "
+"may still defend itself when attacked."
 msgstr ""
 
 #: data/default/units.ruleset:1394 data/civ2/units.ruleset:1341
 #: data/civ1/units.ruleset:768
 msgid "Frigate"
-msgstr ""
+msgstr "Frigéad"
 
 #: data/default/units.ruleset:1421 data/civ2/units.ruleset:1368
 #: data/civ1/units.ruleset:795
@@ -20716,13 +20672,13 @@ msgstr ""
 #: data/default/units.ruleset:1454 data/civ2/units.ruleset:1401
 #: data/civ1/units.ruleset:828
 msgid ""
-"The Ironclad is an armored ship that is much more sturdy than the Frigate "
-"but loses the latter's transport capability."
+"The Ironclad is an armored ship that is much more sturdy than the Frigate but "
+"loses the latter's transport capability."
 msgstr ""
 
 #: data/default/units.ruleset:1461 data/civ2/units.ruleset:1408
 msgid "Destroyer"
-msgstr ""
+msgstr "Scriostóir"
 
 #: data/default/units.ruleset:1487 data/civ2/units.ruleset:1434
 msgid ""
@@ -20735,7 +20691,7 @@ msgstr ""
 #: data/default/units.ruleset:1495 data/civ2/units.ruleset:1442
 #: data/civ1/units.ruleset:835
 msgid "Cruiser"
-msgstr ""
+msgstr "Cúrsóir"
 
 #: data/default/units.ruleset:1521 data/civ2/units.ruleset:1468
 #: data/civ1/units.ruleset:861
@@ -20747,14 +20703,13 @@ msgid "AEGIS Cruiser"
 msgstr ""
 
 #: data/default/units.ruleset:1552 data/civ2/units.ruleset:1499
-msgid ""
-"The AEGIS Cruiser is equipped with an advanced defensive missile system."
+msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
 
 #: data/default/units.ruleset:1558 data/civ2/units.ruleset:1505
 #: data/civ1/units.ruleset:866
 msgid "Battleship"
-msgstr ""
+msgstr "Cathlong"
 
 #: data/default/units.ruleset:1584 data/civ2/units.ruleset:1531
 #: data/civ1/units.ruleset:892
@@ -20766,7 +20721,7 @@ msgstr ""
 #: data/default/units.ruleset:1590 data/civ2/units.ruleset:1537
 #: data/civ1/units.ruleset:898
 msgid "Submarine"
-msgstr ""
+msgstr "Fomhuireán"
 
 #: data/default/units.ruleset:1618 data/civ2/units.ruleset:1565
 #: data/civ1/units.ruleset:924
@@ -20778,21 +20733,21 @@ msgstr ""
 #: data/default/units.ruleset:1625 data/civ2/units.ruleset:1572
 #: data/civ1/units.ruleset:931
 msgid "Carrier"
-msgstr ""
+msgstr "Iompróir Aerárthaí"
 
 #: data/default/units.ruleset:1652 data/civ2/units.ruleset:1599
 #: data/civ1/units.ruleset:958
 msgid ""
 "The Carrier is a mobile airport and cannot attack other units on its own.\n"
 "\n"
-"TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
-"as losing a fully-equipped Carrier is VERY painful and expensive."
+"TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, as "
+"losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
 
 #: data/default/units.ruleset:1662 data/civ2/units.ruleset:1609
 #: data/civ1/units.ruleset:968
 msgid "Transport"
-msgstr ""
+msgstr "Long Iompair"
 
 #: data/default/units.ruleset:1689 data/civ2/units.ruleset:1636
 #: data/civ1/units.ruleset:995
@@ -20807,8 +20762,8 @@ msgstr ""
 
 #: data/default/units.ruleset:1721 data/civ2/units.ruleset:1668
 msgid ""
-"The Cruise Missile is a long-distance missile that can strike deep into "
-"enemy territory.\n"
+"The Cruise Missile is a long-distance missile that can strike deep into enemy "
+"territory.\n"
 "\n"
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
@@ -20817,7 +20772,7 @@ msgstr ""
 #: data/default/units.ruleset:1730 data/civ2/units.ruleset:1677
 #: data/civ1/units.ruleset:1001
 msgid "Nuclear"
-msgstr ""
+msgstr "Núicléach"
 
 #: data/default/units.ruleset:1756 data/civ2/units.ruleset:1703
 msgid ""
@@ -20832,16 +20787,16 @@ msgid ""
 "(but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
-"country en masse, but the enemy cities are too strong. Before using a "
-"Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city "
-"and have them ready to fix the fallout on the same turn it occurs!  This "
-"minimizes the chance of nuclear winter.  Eco-friendly nukes!"
+"country en masse, but the enemy cities are too strong. Before using a Nuclear "
+"unit, assemble a gang of Settlers and/or Engineers next to the city and have "
+"them ready to fix the fallout on the same turn it occurs!  This minimizes the "
+"chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
 
 #: data/default/units.ruleset:1777 data/civ2/units.ruleset:1724
 #: data/civ1/units.ruleset:1048
 msgid "Diplomat"
-msgstr ""
+msgstr "Taidhleoir"
 
 #: data/default/units.ruleset:1803 data/civ2/units.ruleset:1750
 #: data/civ1/units.ruleset:1074
@@ -20858,8 +20813,8 @@ msgid ""
 "- \"Establish Embassy\" Get permanent intelligence on the player.\n"
 "- \"Sabotage\" Ruin any production in the city.\n"
 "- \"Steal Technology\" Acquire an advance from the city's owner.\n"
-"- \"Incite a Revolt\" Make a city your own by paying a sum of gold. Note "
-"that you cannot incite a revolt in a capital city.\n"
+"- \"Incite a Revolt\" Make a city your own by paying a sum of gold. Note that "
+"you cannot incite a revolt in a capital city.\n"
 "\n"
 "In some game strategies, hordes of Diplomats can be used to wreak havoc on "
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
@@ -20868,7 +20823,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1828 data/civ2/units.ruleset:1775
 msgid "Spy"
-msgstr ""
+msgstr "Spiaire"
 
 #: data/default/units.ruleset:1854 data/civ2/units.ruleset:1801
 msgid ""
@@ -20881,8 +20836,8 @@ msgid ""
 "She can also be used to: poison the water supply of an enemy city (reducing "
 "the population); steal specific technology; and sabotage predetermined city "
 "targets (note: sabotaging improvements in a capital or sabotaging City Walls "
-"increases the risks of capture). A Spy can also infiltrate a city and "
-"ferment a revolt.\n"
+"increases the risks of capture). A Spy can also infiltrate a city and ferment "
+"a revolt.\n"
 "\n"
 "A Spy can also be of aid on the battlefield - sabotaging enemy units as well "
 "as bribing them to change allegiance."
@@ -20891,13 +20846,13 @@ msgstr ""
 #: data/default/units.ruleset:1871 data/civ2/units.ruleset:1818
 #: data/civ1/units.ruleset:1099
 msgid "Caravan"
-msgstr ""
+msgstr "Carbhán"
 
 #: data/default/units.ruleset:1897 data/civ2/units.ruleset:1844
 #: data/civ1/units.ruleset:1125
 msgid ""
-"A Caravan carries goods or material for trading with foreign countries, or "
-"to help building wonders in your cities.\n"
+"A Caravan carries goods or material for trading with foreign countries, or to "
+"help building wonders in your cities.\n"
 "\n"
 "Every Caravan that is used to build a wonder will add 50 shields towards the "
 "production of the wonder.\n"
@@ -20909,7 +20864,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1910 data/civ2/units.ruleset:1857
 msgid "Freight"
-msgstr ""
+msgstr "Lasta"
 
 #: data/default/units.ruleset:1936 data/civ2/units.ruleset:1883
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
@@ -20917,7 +20872,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1941 data/civ2/units.ruleset:1888
 msgid "Explorer"
-msgstr ""
+msgstr "Taiscéalaí"
 
 #: data/default/units.ruleset:1967 data/civ2/units.ruleset:1914
 msgid ""
@@ -20949,7 +20904,7 @@ msgstr ""
 
 #: data/default/units.ruleset:2042
 msgid "AWACS"
-msgstr ""
+msgstr "AWACS"
 
 #: data/default/units.ruleset:2068
 msgid ""
@@ -20960,30 +20915,29 @@ msgstr ""
 
 #: data/civ2/units.ruleset:193
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses, airbases and "
-"mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is "
-"in food as well as production, and a Settler can die if its supporting city "
-"runs out of food.\n"
+"Settlers are one of the key units in the game.  They can be used to found new "
+"cities, irrigate land, build roads, railroads, fortresses, airbases and "
+"mines, and clean up pollution and nuclear fallout.  Upkeep for Settlers is in "
+"food as well as production, and a Settler can die if its supporting city runs "
+"out of food.\n"
 "\n"
 "Settlers and Engineers may work together to decrease the amount of time "
 "required for long projects.  If two or more Settlers and/or Engineers are "
-"both working on the same task in the same square, their efforts will be "
-"added together each turn until the task is finished.  Be careful not to "
-"dedicate too many workers to one task, though; excess effort can be wasted, "
-"and a group of Settlers and/or Engineers is highly vulnerable to enemy "
-"attacks."
+"both working on the same task in the same square, their efforts will be added "
+"together each turn until the task is finished.  Be careful not to dedicate "
+"too many workers to one task, though; excess effort can be wasted, and a "
+"group of Settlers and/or Engineers is highly vulnerable to enemy attacks."
 msgstr ""
 
 #: data/civ2/units.ruleset:237
 msgid ""
-"Engineers are similar to Settlers, but they work twice as fast and move "
-"twice as fast.  Engineers may also perform major terrain transformations "
-"(for example, converting Tundra into Desert) which are beyond the "
-"capabilities of Settlers.\n"
+"Engineers are similar to Settlers, but they work twice as fast and move twice "
+"as fast.  Engineers may also perform major terrain transformations (for "
+"example, converting Tundra into Desert) which are beyond the capabilities of "
+"Settlers.\n"
 "\n"
-"TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require "
-"the same resources as ordinary Settlers.\n"
+"TIP 1:  Upgrade Settlers to Engineers when possible, as Engineers require the "
+"same resources as ordinary Settlers.\n"
 "\n"
 "TIP 2:  If you manage to build Leonardo's Workshop, research Explosives "
 "before the Workshop becomes obsolete.  This way, your Settler units will be "
@@ -21043,18 +20997,18 @@ msgstr ""
 
 #: data/civ1/units.ruleset:194
 msgid ""
-"Settlers are one of the key units in the game.  They can be used to found "
-"new cities, irrigate land, build roads, railroads, fortresses and mines, and "
+"Settlers are one of the key units in the game.  They can be used to found new "
+"cities, irrigate land, build roads, railroads, fortresses and mines, and "
 "clean up pollution and nuclear fallout.  Upkeep for Settlers is in food as "
 "well as production, and a Settler can die if its supporting city runs out of "
 "food.\n"
 "\n"
 "Settlers may work together to decrease the amount of time required for long "
 "projects.  If two or more Settlers are both working on the same task in the "
-"same square, their efforts will be added together each turn until the task "
-"is finished.  Be careful not to dedicate too many workers to one task, "
-"though; excess effort can be wasted, and a group of Settlers is highly "
-"vulnerable to enemy attacks."
+"same square, their efforts will be added together each turn until the task is "
+"finished.  Be careful not to dedicate too many workers to one task, though; "
+"excess effort can be wasted, and a group of Settlers is highly vulnerable to "
+"enemy attacks."
 msgstr ""
 
 #: data/civ1/units.ruleset:212
@@ -21069,14 +21023,14 @@ msgstr ""
 
 #: data/civ1/units.ruleset:399
 msgid ""
-"Mechanized Infantry; this unit has the strongest defence strength of any "
-"land unit, but is only available near the end of the technology tree."
+"Mechanized Infantry; this unit has the strongest defence strength of any land "
+"unit, but is only available near the end of the technology tree."
 msgstr ""
 
 #: data/civ1/units.ruleset:432
 msgid ""
-"Cavalry are mounted warriors and an early shock-troop that can penetrate "
-"deep into enemy territory."
+"Cavalry are mounted warriors and an early shock-troop that can penetrate deep "
+"into enemy territory."
 msgstr ""
 
 #: data/civ1/units.ruleset:629
@@ -21107,10 +21061,10 @@ msgid ""
 "(but expensive!!) way of getting rid of enemy ships.\n"
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy "
-"country en masse, but the enemy cities are too strong. Before using a "
-"Nuclear unit, assemble a gang of Settlers next to the city and have them "
-"ready to fix the fallout on the same turn it occurs!  This minimizes the "
-"chance of nuclear winter.  Eco-friendly nukes!"
+"country en masse, but the enemy cities are too strong. Before using a Nuclear "
+"unit, assemble a gang of Settlers next to the city and have them ready to fix "
+"the fallout on the same turn it occurs!  This minimizes the chance of nuclear "
+"winter.  Eco-friendly nukes!"
 msgstr ""
 
 #: data/civ1/units.ruleset:1164
@@ -21134,8 +21088,7 @@ msgstr ""
 msgid ""
 "Australian Aborigines is a collective term for the original inhabitants of "
 "the Australian continent. Aborigines from different parts of Australia refer "
-"to themselves with different names, including Koori, Yamaji, Nunga, and "
-"Murri."
+"to themselves with different names, including Koori, Yamaji, Nunga, and Murri."
 msgstr ""
 
 #: data/nation/afghani.ruleset:3
@@ -21151,8 +21104,8 @@ msgid ""
 "Afghanistan, often called the crossroads of Central Asia, has had a very "
 "turbulent history. Through the ages, the country has been occupied by many "
 "forces including the Persian Empire, Genghis Khan and Alexander the Great. "
-"The Afghanistan nation-state as it is known today came into existence in "
-"1746 when Ahmad Shah founded the Durrani Empire."
+"The Afghanistan nation-state as it is known today came into existence in 1746 "
+"when Ahmad Shah founded the Durrani Empire."
 msgstr ""
 
 #: data/nation/afghani.ruleset:24 data/nation/emirati.ruleset:25
@@ -21355,9 +21308,8 @@ msgstr ""
 msgid ""
 "Argentina is located on the south-eastern coast of South America. Since "
 "independence from Spain in 1816, it has been plagued by several internal and "
-"external conflicts. In the decades after World War II, the country's "
-"politics was dominated by Juan Peron and his charismatic wife Eva \"Evita\" "
-"Peron."
+"external conflicts. In the decades after World War II, the country's politics "
+"was dominated by Juan Peron and his charismatic wife Eva \"Evita\" Peron."
 msgstr ""
 
 #: data/nation/armenian.ruleset:3
@@ -21521,10 +21473,10 @@ msgstr ""
 
 #: data/nation/aztec.ruleset:6
 msgid ""
-"The Azteca, a Nahuatl speaking people from the Sonoran desert, seized "
-"control of the Toltec-derived civilizations of Central Mexico during the "
-"15th century AD, reviving the practice of human sacrifice.  They were "
-"conquered by the Spanish under Cortez in 1524."
+"The Azteca, a Nahuatl speaking people from the Sonoran desert, seized control "
+"of the Toltec-derived civilizations of Central Mexico during the 15th century "
+"AD, reviving the practice of human sacrifice.  They were conquered by the "
+"Spanish under Cortez in 1524."
 msgstr ""
 
 #. TRANS: Tlatoani = Speaker
@@ -21548,8 +21500,8 @@ msgstr ""
 #: data/nation/babylonian.ruleset:6
 msgid ""
 "Babylon was the dominant city of Mesopotamia from the 18th to 7th centuries "
-"BC under a succession of peoples including Amorites, Kassites, Assyrians, "
-"and Chaldeans."
+"BC under a succession of peoples including Amorites, Kassites, Assyrians, and "
+"Chaldeans."
 msgstr ""
 
 #. TRANS: Lugal = Great Man
@@ -21577,11 +21529,11 @@ msgstr ""
 
 #: data/nation/basque.ruleset:6
 msgid ""
-"The Basques have lived since times immemorial by the western foothills of "
-"the Pyrenees. By maintaining their age-old cultural traditions, and keeping "
-"their historic identity alive, the Basques provide a link with man's distant "
-"past. Euskara, the language spoken by the Basque people, is probably the "
-"oldest living language in Europe."
+"The Basques have lived since times immemorial by the western foothills of the "
+"Pyrenees. By maintaining their age-old cultural traditions, and keeping their "
+"historic identity alive, the Basques provide a link with man's distant past. "
+"Euskara, the language spoken by the Basque people, is probably the oldest "
+"living language in Europe."
 msgstr ""
 
 #. TRANS: Buruzagi = Leader, head (like spanish Caudillo)
@@ -21631,8 +21583,8 @@ msgstr ""
 
 #: data/nation/bavarian.ruleset:6
 msgid ""
-"Bavaria, before national unification in 1870AD, was one of the largest of "
-"the German kingdoms."
+"Bavaria, before national unification in 1870AD, was one of the largest of the "
+"German kingdoms."
 msgstr ""
 
 #: data/nation/belarusian.ruleset:3
@@ -21661,10 +21613,10 @@ msgstr ""
 
 #: data/nation/belgian.ruleset:6
 msgid ""
-"Belgium gained independance from the Dutch Kingdom in 1830. Belgium is "
-"mainly characterized by its movement from a unified state to a federal one. "
-"This is the result of the Flemish and the Walloon's nationalist (almost) "
-"peaceful fights."
+"Belgium gained independance from the Dutch Kingdom in 1830. Belgium is mainly "
+"characterized by its movement from a unified state to a federal one. This is "
+"the result of the Flemish and the Walloon's nationalist (almost) peaceful "
+"fights."
 msgstr ""
 
 #: data/nation/bengali.ruleset:3
@@ -21679,9 +21631,8 @@ msgstr ""
 msgid ""
 "Bengal is a region in the easternmost part of the Indian subcontinent. The "
 "first recorded independent king of the Bengali is Shashanka who reigned "
-"around 606 AD. Today the People's Republic of Bangladesh occupies the "
-"eastern part of the region, while the western part is the Indian state of "
-"West Bengal."
+"around 606 AD. Today the People's Republic of Bangladesh occupies the eastern "
+"part of the region, while the western part is the Indian state of West Bengal."
 msgstr ""
 
 #: data/nation/bengali.ruleset:25
@@ -21745,9 +21696,9 @@ msgstr ""
 #: data/nation/brazilian.ruleset:6
 msgid ""
 "Brazil was founded as a colony of Portugal but became independent in 1822 as "
-"a result of Portugal's occupation by Napoleonic France. The country was "
-"first established as an empire under the exiled Portuguese royal family. The "
-"empire lasted until the establishment of a republican government in 1889."
+"a result of Portugal's occupation by Napoleonic France. The country was first "
+"established as an empire under the exiled Portuguese royal family. The empire "
+"lasted until the establishment of a republican government in 1889."
 msgstr ""
 
 #: data/nation/brazilian.ruleset:24 data/nation/iraqi.ruleset:21
@@ -21797,8 +21748,8 @@ msgstr ""
 #: data/nation/breton.ruleset:6
 msgid ""
 "Known to the Romans as Amorica, Brittany has been Celtic speaking for many "
-"centuries before Britons arrive in the peninsula a mercenaries, colonists "
-"and refugees in response to the chaos in Gaul and the invasion of Britain by "
+"centuries before Britons arrive in the peninsula a mercenaries, colonists and "
+"refugees in response to the chaos in Gaul and the invasion of Britain by "
 "Germanic tribes in the fifth century CE. Over the centuries, use of the "
 "Breton language has been pushed towards the west of the peninsula, with "
 "people speaking French instead. The Dukedom of Brittany itself was formally "
@@ -21982,10 +21933,10 @@ msgstr ""
 msgid ""
 "At the time of the decline of the old Roman empire, the Emperor Constantine "
 "moved the empire's capital to Byzantium and formed a new empire mostly known "
-"as the Eastern Roman empire or the Byzantine empire. This empire lasted "
-"until 1453 when its capital fell to the Ottomans. At the time of Justinian "
-"I, the Byzantines controlled nearly all of the Middle East, northern Africa, "
-"Italy, and parts of Spain."
+"as the Eastern Roman empire or the Byzantine empire. This empire lasted until "
+"1453 when its capital fell to the Ottomans. At the time of Justinian I, the "
+"Byzantines controlled nearly all of the Middle East, northern Africa, Italy, "
+"and parts of Spain."
 msgstr ""
 
 #: data/nation/byzantium.ruleset:26 data/nation/russian.ruleset:49
@@ -22011,9 +21962,9 @@ msgstr ""
 
 #: data/nation/cambodian.ruleset:6
 msgid ""
-"Kampuchea (known in English as Cambodia) is the modern successor state of "
-"the mighty Khmer Empire, which ruled most of the Indochinese Peninsula "
-"between the 11th and 14th centuries."
+"Kampuchea (known in English as Cambodia) is the modern successor state of the "
+"mighty Khmer Empire, which ruled most of the Indochinese Peninsula between "
+"the 11th and 14th centuries."
 msgstr ""
 
 #: data/nation/cambodian.ruleset:21 data/nation/manchu.ruleset:20
@@ -22053,8 +22004,8 @@ msgstr ""
 #: data/nation/carthaginian.ruleset:8
 msgid ""
 "The Carthaginians, descendants of Phoenician traders, ran a naval empire in "
-"the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed "
-"by Rome in 146BC."
+"the Mediterranean from the 5th to 2nd centuries BC. Carthage was destroyed by "
+"Rome in 146BC."
 msgstr ""
 
 #: data/nation/catalan.ruleset:3
@@ -22072,10 +22023,10 @@ msgid ""
 "to parts of Italy and Greece. This confederation/empire became a major naval "
 "and trading power in the Mediterranean area. Catalans kept their self-rule "
 "after a dynastic union with the neighboring kingdom of Castile, and sided "
-"with England and Austria against France and Castile in the Spanish "
-"Succession War. In 1713, England signed the Treaty of Utrecht and dropped "
-"out of the alliance, and the Catalans were finally defeated in 1714, losing "
-"their national rights as a result."
+"with England and Austria against France and Castile in the Spanish Succession "
+"War. In 1713, England signed the Treaty of Utrecht and dropped out of the "
+"alliance, and the Catalans were finally defeated in 1714, losing their "
+"national rights as a result."
 msgstr ""
 
 #: data/nation/catalan.ruleset:31
@@ -22191,13 +22142,13 @@ msgstr ""
 
 #: data/nation/chinese.ruleset:6
 msgid ""
-"China is the oldest major civilization that is still in existence today, "
-"with written records dating back over 3,500 years.  After first being "
-"unified by the Qin dynasty in 221BC, China alternated between periods of "
-"unity and disunity, and was often conquered by external ethnicities.  Today, "
-"the People's Republic of China, established by the Communists in 1949, "
-"occupies the mainland, while the former Nationalist government of the "
-"Republic of China had fled to the island of Taiwan after the civil war."
+"China is the oldest major civilization that is still in existence today, with "
+"written records dating back over 3,500 years.  After first being unified by "
+"the Qin dynasty in 221BC, China alternated between periods of unity and "
+"disunity, and was often conquered by external ethnicities.  Today, the "
+"People's Republic of China, established by the Communists in 1949, occupies "
+"the mainland, while the former Nationalist government of the Republic of "
+"China had fled to the island of Taiwan after the civil war."
 msgstr ""
 
 #: data/nation/chinese.ruleset:31 data/nation/ethiopian.ruleset:24
@@ -22223,10 +22174,10 @@ msgid ""
 "The Cholas were a Tamil dynasty in centered in southern India and were rare "
 "in their level of influence in northern India. They began as a tributary "
 "state to the Pallavas, but in the 9th century their power began to grow. "
-"During the 11th century, they lead expeditions against other Indian states "
-"as far north as Bengal, as well as against the Maldives, Sri Lanka and even "
-"the Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s "
-"as other southern Indian states rose up."
+"During the 11th century, they lead expeditions against other Indian states as "
+"far north as Bengal, as well as against the Maldives, Sri Lanka and even the "
+"Indonesian kingdom of Sri Vijaya. They collapsed, however, in the 1250s as "
+"other southern Indian states rose up."
 msgstr ""
 
 #: data/nation/colombian.ruleset:3
@@ -22239,10 +22190,9 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:6
 msgid ""
-"Colombia is a country in northern South America. The region was an "
-"Amerindian cultural center in pre-European time. The Spanish began settling "
-"Colombia's north coast around 1500. In 1819 the Republic of Colombia gained "
-"independence."
+"Colombia is a country in northern South America. The region was an Amerindian "
+"cultural center in pre-European time. The Spanish began settling Colombia's "
+"north coast around 1500. In 1819 the Republic of Colombia gained independence."
 msgstr ""
 
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
@@ -22309,10 +22259,10 @@ msgstr ""
 
 #: data/nation/cree.ruleset:7
 msgid ""
-"The Cree are the largest native group in Canada with over 200,000 members "
-"who speak an Algonquian language and often call themselves \"Iiyiyuu\" or "
-"\"Iinuu,\" meaning \"people.\" They originally inhabited much of Quebec, "
-"Labrador, Alberta, Saskatchewan, Ontario and Manitoba."
+"The Cree are the largest native group in Canada with over 200,000 members who "
+"speak an Algonquian language and often call themselves \"Iiyiyuu\" or \"Iinuu,"
+"\" meaning \"people.\" They originally inhabited much of Quebec, Labrador, "
+"Alberta, Saskatchewan, Ontario and Manitoba."
 msgstr ""
 
 #. TRANS: Uchimaahkaan = Chief
@@ -22346,8 +22296,8 @@ msgstr ""
 #: data/nation/croatian.ruleset:6
 msgid ""
 "Croatia is the region of the Southern Slavs that was held by the Austro-"
-"Hungarian Empire, rather than coming under Ottoman rule after the collapse "
-"of Byzantium. During most of the 20th century it was part of the Yugoslav "
+"Hungarian Empire, rather than coming under Ottoman rule after the collapse of "
+"Byzantium. During most of the 20th century it was part of the Yugoslav "
 "Federation."
 msgstr ""
 
@@ -22503,8 +22453,8 @@ msgstr ""
 
 #: data/nation/english.ruleset:6
 msgid ""
-"England was unified by Alfred the Great of Wessex in the late 9th century "
-"AD, only to be conquered by William of Normandy a century later, in the last "
+"England was unified by Alfred the Great of Wessex in the late 9th century AD, "
+"only to be conquered by William of Normandy a century later, in the last "
 "successful invasion of the country."
 msgstr ""
 
@@ -22538,8 +22488,8 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:6
 msgid ""
-"Estonia is a small country on the south shore of the eastern Baltic Sea.  "
-"Its people and language are closely related to those of Finland."
+"Estonia is a small country on the south shore of the eastern Baltic Sea.  Its "
+"people and language are closely related to those of Finland."
 msgstr ""
 
 #: data/nation/ethiopian.ruleset:3
@@ -22708,13 +22658,13 @@ msgstr ""
 #: data/nation/gallic.ruleset:6
 msgid ""
 "The Gauls were a Celtic people occupying what is now France and Belgium.  "
-"They lived in chiefdom-level societies that grew increasingly centralized "
-"and stratified under the influence of the Greek and Roman merchants and "
-"soldiers who came to Gaul.  Julius Caesar launched his eight year invasion "
-"of Gaul in 59 BCE.  He claimed to have killed one million people and "
-"enslaved another million out of an original population of three million.  "
-"The Gauls united and rallied under Vercingetorix, who defeated Caesar at the "
-"battle of Gergovia, but was later crushed by him at the battle of Alesia."
+"They lived in chiefdom-level societies that grew increasingly centralized and "
+"stratified under the influence of the Greek and Roman merchants and soldiers "
+"who came to Gaul.  Julius Caesar launched his eight year invasion of Gaul in "
+"59 BCE.  He claimed to have killed one million people and enslaved another "
+"million out of an original population of three million.  The Gauls united and "
+"rallied under Vercingetorix, who defeated Caesar at the battle of Gergovia, "
+"but was later crushed by him at the battle of Alesia."
 msgstr ""
 
 #: data/nation/gallic.ruleset:30
@@ -22735,8 +22685,8 @@ msgstr ""
 
 #: data/nation/georgian.ruleset:6
 msgid ""
-"The Georgians were one of the first peoples in history to adopt "
-"Christianity, in the 300s AD."
+"The Georgians were one of the first peoples in history to adopt Christianity, "
+"in the 300s AD."
 msgstr ""
 
 #: data/nation/german.ruleset:3
@@ -22749,10 +22699,10 @@ msgstr ""
 
 #: data/nation/german.ruleset:7
 msgid ""
-"Germany was united in 1871 by the Prussian military force.  After World War "
-"I it became a republic, but fell into Nazism 1933 and started World War II.  "
-"After the war it was split into two states, which reunited in 1990 at the "
-"end of the Cold War."
+"Germany was united in 1871 by the Prussian military force.  After World War I "
+"it became a republic, but fell into Nazism 1933 and started World War II.  "
+"After the war it was split into two states, which reunited in 1990 at the end "
+"of the Cold War."
 msgstr ""
 
 #: data/nation/german.ruleset:34
@@ -22870,11 +22820,11 @@ msgstr ""
 #: data/nation/himyarite.ruleset:7
 msgid ""
 "The Himyar were originally a mountain tribe in what is now Yemen that "
-"conquered the other South Arabian kingdoms, including Sabaea in 115BCE, "
-"which were rich from the incense trade. The Himyar were castle-builders, "
-"finding it necessary to erect citadels to protect against Bedouin raids. The "
-"Axumite kingdom from Ethiopia ruled Sabaea from 340 to 378 CE, but the area "
-"was reconquered by Himyar forces in 525. The fall of the nation was a slow "
+"conquered the other South Arabian kingdoms, including Sabaea in 115BCE, which "
+"were rich from the incense trade. The Himyar were castle-builders, finding it "
+"necessary to erect citadels to protect against Bedouin raids. The Axumite "
+"kingdom from Ethiopia ruled Sabaea from 340 to 378 CE, but the area was "
+"reconquered by Himyar forces in 525. The fall of the nation was a slow "
 "process involving the Christian states of Axum and the Byzantine Empire on "
 "one side, the Mandean Sassanid Empire of Persia on the other, and various "
 "South Arabian factions split between. The country switched from Axumite rule "
@@ -22893,10 +22843,9 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:6
 msgid ""
-"The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were "
-"the first civilisation to discover iron working. At its height, they "
-"controlled central Anatolia, north-western Syria and Mesopotamia down to "
-"Babylon."
+"The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the "
+"first civilisation to discover iron working. At its height, they controlled "
+"central Anatolia, north-western Syria and Mesopotamia down to Babylon."
 msgstr ""
 
 #: data/nation/hopi.ruleset:3
@@ -22957,10 +22906,10 @@ msgstr ""
 #: data/nation/illyrian.ruleset:6
 msgid ""
 "Illyrians were Indo-European tribes who appeared in the western part of the "
-"Balkan Peninsula before 1000 BC, including Corcyra island and Ambracia bay "
-"in prehistoric Epirus to the south. They mixed with Thracians in Dardania to "
-"the east, and settled Messapia across the Adriatic Sea. Illyrian kingdoms "
-"were independent for centuries, until conquered by the Roman Republic."
+"Balkan Peninsula before 1000 BC, including Corcyra island and Ambracia bay in "
+"prehistoric Epirus to the south. They mixed with Thracians in Dardania to the "
+"east, and settled Messapia across the Adriatic Sea. Illyrian kingdoms were "
+"independent for centuries, until conquered by the Roman Republic."
 msgstr ""
 
 #: data/nation/inca.ruleset:3
@@ -22973,19 +22922,18 @@ msgstr ""
 
 #: data/nation/inca.ruleset:7
 msgid ""
-"The Inca were an Amerind people of the Northern Andes who conquered an "
-"empire stretching along the west coast of South America from what is now "
-"southern Chile nearly to the Equator. They had the bad timing to do it just "
-"a few decades before the Spanish conquistadors arrived in their part of the "
-"world in the 1530s CE. In that short time frame, the Inca were able to build "
-"over 15,000km of roads throughout their realm. Their state was the largest "
-"in the Americas prior to the Spanish conquest and was maintained through a "
-"complex, hierarchical and pragmatic administrative system. They were, "
-"however, wracked as many kingdoms have been by crises of succession. When "
-"the Spanish arrived, the Inca were in the middle of one such crisis-- the "
-"war between Atawallpa and Waskhar. They were the sons of the late ruler "
-"Wayna Qhapaq, who had died from disease - likely smallpox - that was "
-"sweeping through the land."
+"The Inca were an Amerind people of the Northern Andes who conquered an empire "
+"stretching along the west coast of South America from what is now southern "
+"Chile nearly to the Equator. They had the bad timing to do it just a few "
+"decades before the Spanish conquistadors arrived in their part of the world "
+"in the 1530s CE. In that short time frame, the Inca were able to build over "
+"15,000km of roads throughout their realm. Their state was the largest in the "
+"Americas prior to the Spanish conquest and was maintained through a complex, "
+"hierarchical and pragmatic administrative system. They were, however, wracked "
+"as many kingdoms have been by crises of succession. When the Spanish arrived, "
+"the Inca were in the middle of one such crisis-- the war between Atawallpa "
+"and Waskhar. They were the sons of the late ruler Wayna Qhapaq, who had died "
+"from disease - likely smallpox - that was sweeping through the land."
 msgstr ""
 
 #: data/nation/inca.ruleset:35
@@ -23048,9 +22996,9 @@ msgstr ""
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
-"Indonesia is a large country on the Malay Archipelago with central "
-"government on the island of Java. The country has a Muslim majority and is "
-"one of the most populous in the world."
+"Indonesia is a large country on the Malay Archipelago with central government "
+"on the island of Java. The country has a Muslim majority and is one of the "
+"most populous in the world."
 msgstr ""
 
 #: data/nation/inuit.ruleset:3
@@ -23065,8 +23013,8 @@ msgstr ""
 msgid ""
 "The Inuit people inhabit northern Canada and Greenland. Legend says that the "
 "Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west "
-"coast of Greenland in the 10th century. All Inuit of today are descendents "
-"of the Thule culture."
+"coast of Greenland in the 10th century. All Inuit of today are descendents of "
+"the Thule culture."
 msgstr ""
 
 #: data/nation/inuit.ruleset:20
@@ -23119,9 +23067,9 @@ msgstr ""
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
-"Iraq was founded after the fall of the Ottoman empire. It is encompassing "
-"the ancient region of Mesopotamia at the confluence of the Tigris and "
-"Euphrates rivers."
+"Iraq was founded after the fall of the Ottoman empire. It is encompassing the "
+"ancient region of Mesopotamia at the confluence of the Tigris and Euphrates "
+"rivers."
 msgstr ""
 
 #: data/nation/iraqi.ruleset:21
@@ -23140,9 +23088,9 @@ msgstr ""
 msgid ""
 "Ireland held out against the Romans and Vikings but was conquered by the "
 "Normans in 1171.  It was ruled by the English until 1922 when most of the "
-"country was granted limited autonomy, becoming a republic in 1949.  The "
-"North of Ireland was settled in the 17th century by Scottish and English "
-"planters and is now part of the United Kingdom."
+"country was granted limited autonomy, becoming a republic in 1949.  The North "
+"of Ireland was settled in the 17th century by Scottish and English planters "
+"and is now part of the United Kingdom."
 msgstr ""
 
 #: data/nation/irish.ruleset:45
@@ -23176,9 +23124,9 @@ msgstr ""
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
-"The Iroquois Confederacy - known as Haudenosaunee in their own language - "
-"was a North American group of nations with common language and culture. They "
-"were based in what is now upstate New York and consisted originally of five "
+"The Iroquois Confederacy - known as Haudenosaunee in their own language - was "
+"a North American group of nations with common language and culture. They were "
+"based in what is now upstate New York and consisted originally of five "
 "nations: Seneca, Cayuga, Onondaga, Oneida and Mohawk. The confederacy had a "
 "written constitution and a currency system making them the most advanced "
 "state in North America upon the arrival of the Europeans."
@@ -23194,9 +23142,9 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:6
 msgid ""
-"The nation of Israel was founded in 1948 as a scattered collection of "
-"cantons in British Palestine, and has gradually expanded through winning a "
-"series of wars launched against it in 1948, 1967 and 1973."
+"The nation of Israel was founded in 1948 as a scattered collection of cantons "
+"in British Palestine, and has gradually expanded through winning a series of "
+"wars launched against it in 1948, 1967 and 1973."
 msgstr ""
 
 #: data/nation/italian.ruleset:3
@@ -23263,8 +23211,8 @@ msgstr ""
 msgid ""
 "Kazakhs are descendants of Turkic and Mongolian nomadic tribes. Conquered by "
 "Russia in the 18th century, Kazahstan became independent in 1991 with the "
-"dissolution of the Soviet Union. It is one of ten largest states in the "
-"world by area."
+"dissolution of the Soviet Union. It is one of ten largest states in the world "
+"by area."
 msgstr ""
 
 #: data/nation/kenyan.ruleset:3
@@ -23293,14 +23241,14 @@ msgstr ""
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
-"Known by the Greeks as Chorasmia, Khwarezm was an urbanized, centralized, "
-"and militarized state south of the Aral sea in Central Asia, controlling "
-"portions of the Silk Road. It was loosely controlled as a satrapy under the "
-"Achaemenid and Sassanid Persian dynasties and was mythic homeland of "
-"Zarathustra, the founder of Zoroastrianism. Following the introduction of "
-"Islam, Khwarezm tended to be devided into two seperate kingdoms, but was "
-"united under the Turkic Anushtegihidy dynasty, which lasted from 1097 until "
-"Chinggis Khan conquered it in 1231."
+"Known by the Greeks as Chorasmia, Khwarezm was an urbanized, centralized, and "
+"militarized state south of the Aral sea in Central Asia, controlling portions "
+"of the Silk Road. It was loosely controlled as a satrapy under the Achaemenid "
+"and Sassanid Persian dynasties and was mythic homeland of Zarathustra, the "
+"founder of Zoroastrianism. Following the introduction of Islam, Khwarezm "
+"tended to be devided into two seperate kingdoms, but was united under the "
+"Turkic Anushtegihidy dynasty, which lasted from 1097 until Chinggis Khan "
+"conquered it in 1231."
 msgstr ""
 
 #: data/nation/khwarezmian.ruleset:26
@@ -23318,10 +23266,9 @@ msgstr ""
 #: data/nation/kongo.ruleset:7
 msgid ""
 "This Kingdom, lasting from roughly 1400 CE until the late 19th century, "
-"existed in the present-day countries of Angola and the Democratic Republic "
-"of the Congo. Soon after its formation, Portuguese explorers, missionaries "
-"and slavers began to arrive and exerted considerable influence in the "
-"Kingdom."
+"existed in the present-day countries of Angola and the Democratic Republic of "
+"the Congo. Soon after its formation, Portuguese explorers, missionaries and "
+"slavers began to arrive and exerted considerable influence in the Kingdom."
 msgstr ""
 
 #: data/nation/kongo.ruleset:28
@@ -23364,14 +23311,14 @@ msgstr ""
 #: data/nation/kurd.ruleset:6
 msgid ""
 "The Kurds are a distinct ethno-linguistic group speaking an Indo-Aryan "
-"language. Their traditional homeland Kurdistan is situated in northern "
-"Middle East and partitioned between Iraq, Turkey, Syria, and Iran. The "
-"medieval era saw the rise of several principalities ruled by Kurdish "
-"dynasties, including Shaddadid, Rawadid, Hasanwayhid, Annazid, and Marwanid. "
-"Subsequently subdued by the Ottomans, the Kurds' struggle for self-rule and "
-"independence took off again after the fall of the Ottoman Empire and the end "
-"of the colonial era. Today, Iraq's Kurdistan Autonomous Region is the only "
-"Kurd-dominated politial entity in the world."
+"language. Their traditional homeland Kurdistan is situated in northern Middle "
+"East and partitioned between Iraq, Turkey, Syria, and Iran. The medieval era "
+"saw the rise of several principalities ruled by Kurdish dynasties, including "
+"Shaddadid, Rawadid, Hasanwayhid, Annazid, and Marwanid. Subsequently subdued "
+"by the Ottomans, the Kurds' struggle for self-rule and independence took off "
+"again after the fall of the Ottoman Empire and the end of the colonial era. "
+"Today, Iraq's Kurdistan Autonomous Region is the only Kurd-dominated politial "
+"entity in the world."
 msgstr ""
 
 #: data/nation/kyrgyz.ruleset:3
@@ -23466,8 +23413,8 @@ msgstr ""
 #: data/nation/latvian.ruleset:7
 msgid ""
 "In the aftermath of WWI Latvia proclaimed its independence from Russia. In "
-"1940, Latvia was forcibly occupied by the Soviet Union. After the collapse "
-"of Soviet Union in 1991 Latvia restored its independence."
+"1940, Latvia was forcibly occupied by the Soviet Union. After the collapse of "
+"Soviet Union in 1991 Latvia restored its independence."
 msgstr ""
 
 #: data/nation/libyan.ruleset:3
@@ -23480,9 +23427,9 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:6
 msgid ""
-"The region that is now Libya was a Roman colony until it was conquered by "
-"the Arab civilization in the 7th century. In 1912 it came under the control "
-"of Italy and after the Second World War Libya was granted independence as a "
+"The region that is now Libya was a Roman colony until it was conquered by the "
+"Arab civilization in the 7th century. In 1912 it came under the control of "
+"Italy and after the Second World War Libya was granted independence as a "
 "condition of the Allied peace treaty with Italy."
 msgstr ""
 
@@ -23548,9 +23495,9 @@ msgid ""
 "expelling them. The Majapahit, centered in eastern Java, was heavily "
 "influenced by Buddhism and Hinduism and was a major regional power in the "
 "insular Southeast Asian world, a position which allowed them to control much "
-"of the trade between China, India and the Middle East. They lasted until "
-"1500 when they were eclipsed by the Sultanate of Malacca and the rise of "
-"Islam in the Indonesian world."
+"of the trade between China, India and the Middle East. They lasted until 1500 "
+"when they were eclipsed by the Sultanate of Malacca and the rise of Islam in "
+"the Indonesian world."
 msgstr ""
 
 #: data/nation/majapahit.ruleset:27
@@ -23821,11 +23768,11 @@ msgstr ""
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
-"The Muskogee was a confederacy of North American tribes, including the "
-"Creek, Seminole, Choctaw, and Chickasaw. They were based in the area now "
-"encompassed by the U.S. states of Georgia and Alabama. Creek and Seminole "
-"tribes briefly formed a sovereign state known as the \"State of Muskogee\" "
-"during the early 1800s."
+"The Muskogee was a confederacy of North American tribes, including the Creek, "
+"Seminole, Choctaw, and Chickasaw. They were based in the area now encompassed "
+"by the U.S. states of Georgia and Alabama. Creek and Seminole tribes briefly "
+"formed a sovereign state known as the \"State of Muskogee\" during the early "
+"1800s."
 msgstr ""
 
 #: data/nation/newzealand.ruleset:3
@@ -23839,8 +23786,8 @@ msgstr ""
 #: data/nation/newzealand.ruleset:6
 msgid ""
 "The island group of New Zealand was annexed by Britain in 1840. Following a "
-"royal proclamation in 1907, the country became an independent dominion "
-"within the Commonwealth of Nations."
+"royal proclamation in 1907, the country became an independent dominion within "
+"the Commonwealth of Nations."
 msgstr ""
 
 #: data/nation/nigerian.ruleset:3
@@ -23865,8 +23812,8 @@ msgstr ""
 
 #: data/nation/norman.ruleset:6
 msgid ""
-"After several devastating Viking raids on what is today northern France and "
-"a siege of Paris, the Frankish king Charles the Simple granted the Viking "
+"After several devastating Viking raids on what is today northern France and a "
+"siege of Paris, the Frankish king Charles the Simple granted the Viking "
 "leader Rollo a fiefdom in the area. This fief evolved into the Duchy of "
 "Normandy, of which the most famous duke is William II \"the Conqueror\" who "
 "invaded England in 1066."
@@ -23891,8 +23838,8 @@ msgstr ""
 #: data/nation/northkorean.ruleset:6
 msgid ""
 "In 1945 Korea was split by the Soviet Union and the United States into two "
-"states along 38th parallel forming North Korea and South Korea. Even 60 "
-"years since then, North Korea remains a communist state of Stalinist type."
+"states along 38th parallel forming North Korea and South Korea. Even 60 years "
+"since then, North Korea remains a communist state of Stalinist type."
 msgstr ""
 
 #. TRANS: translates as the Great leader
@@ -23910,9 +23857,9 @@ msgstr ""
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
-"After centuries of Danish rule, the Norwegians made their own constitution "
-"in Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their "
-"independence after a union with Sweden."
+"After centuries of Danish rule, the Norwegians made their own constitution in "
+"Eidsvoll, 1814AD. Finally, in 1905AD the Norwegians got their independence "
+"after a union with Sweden."
 msgstr ""
 
 #: data/nation/nubian.ruleset:3
@@ -23925,19 +23872,18 @@ msgstr ""
 
 #: data/nation/nubian.ruleset:6
 msgid ""
-"A succession of kingdoms stretching roughly from the 1st to the 6th "
-"cataracts of Nile river in modern Sudan and Egypt, Nubia was ancient Egypt's "
-"perennial neighbor, competitor, trading partner, enemy, and source of gold, "
-"slaves and soldiers to the south. The border between the two nations "
-"fluctated time and time again. Lower Nubia was at times ruled by Egypt. The "
-"25th Dynasty of Egypt, however, was a Nubian dynasty, and one that saw "
-"conflict with Assyria, which eventually wrested Egypt from Nubia. Brief "
-"conflict occurred with Rome in 24 BCE when Nubian armies routed the Roman "
-"garrison with it's famed archers. Nubia was a nation shaped by its position "
-"between the Mediterranean world and the African interior. Large Nubian "
-"states centered on Napata and later Meroe broke into smaller Christian "
-"kingdoms which persisted into medieval times before being conquered by "
-"Muslim Arabs."
+"A succession of kingdoms stretching roughly from the 1st to the 6th cataracts "
+"of Nile river in modern Sudan and Egypt, Nubia was ancient Egypt's perennial "
+"neighbor, competitor, trading partner, enemy, and source of gold, slaves and "
+"soldiers to the south. The border between the two nations fluctated time and "
+"time again. Lower Nubia was at times ruled by Egypt. The 25th Dynasty of "
+"Egypt, however, was a Nubian dynasty, and one that saw conflict with Assyria, "
+"which eventually wrested Egypt from Nubia. Brief conflict occurred with Rome "
+"in 24 BCE when Nubian armies routed the Roman garrison with it's famed "
+"archers. Nubia was a nation shaped by its position between the Mediterranean "
+"world and the African interior. Large Nubian states centered on Napata and "
+"later Meroe broke into smaller Christian kingdoms which persisted into "
+"medieval times before being conquered by Muslim Arabs."
 msgstr ""
 
 #: data/nation/numidian.ruleset:3
@@ -23998,12 +23944,12 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
-"In the beginning of the 14th century Osman, a leader of a minor Turkish "
-"tribe in western Anatolia, conquered all his neighboring tribes. A century "
-"later the Byzantine capital fell to Turkish rule which gave the Ottoman "
-"empire access to Europe. The Ottomans subsequently conquered large parts of "
-"south-eastern Europe, the Islamic Arab world as well as Egypt and much of "
-"North Africa, making it a regional superpower until its dissolution in the "
+"In the beginning of the 14th century Osman, a leader of a minor Turkish tribe "
+"in western Anatolia, conquered all his neighboring tribes. A century later "
+"the Byzantine capital fell to Turkish rule which gave the Ottoman empire "
+"access to Europe. The Ottomans subsequently conquered large parts of south-"
+"eastern Europe, the Islamic Arab world as well as Egypt and much of North "
+"Africa, making it a regional superpower until its dissolution in the "
 "aftermath of WWI."
 msgstr ""
 
@@ -24101,8 +24047,8 @@ msgid ""
 "Greek alphabet, and from there evolved into the Etruscan and Latin alphabets "
 "as well.  The Greeks and Romans new them for their manufacture of purple dye "
 "from the myrex shell, which gave them their Greek and Latin names.  They "
-"refered to themselves a Kan'ani and thier Punic (Carthaginian) descendents "
-"in St. Augustine's day called themselves Chanani."
+"refered to themselves a Kan'ani and thier Punic (Carthaginian) descendents in "
+"St. Augustine's day called themselves Chanani."
 msgstr ""
 
 #: data/nation/phoenician.ruleset:28
@@ -24214,9 +24160,9 @@ msgid ""
 "century were conquered by the German Teutonic Knight order. The knights "
 "established an independent state in this land, and in 1561 Grand Master "
 "Albrecht I proclaimed himself hereditary Duke of Prussia. Evolving into a "
-"regional military powerhouse, Prussia played an important role in uniting "
-"the German nation in 1871 and solidified its power during the Franco-"
-"Prussian war of the same year."
+"regional military powerhouse, Prussia played an important role in uniting the "
+"German nation in 1871 and solidified its power during the Franco-Prussian war "
+"of the same year."
 msgstr ""
 
 #: data/nation/prussian.ruleset:25 data/nation/templar.ruleset:42
@@ -24240,18 +24186,17 @@ msgstr ""
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
-"The P'urhepecha are a people native to the modern Mexican state of "
-"Michoacan, the heart of a former empire known to them as Irechecua "
-"Tzintzuntzani, meaning the \"lands of Tzintzuntzan,\" their capital city. "
-"Their kings were the perennial enemy of the Aztec empire, who attempted an "
-"unsuccessful invasion of the P'urhepecha lands. When the Spanish arrived "
-"began their conquest of Mexico in 1519, the Aztecs sent an embassy seeking "
-"the support of the P'urhepecha, but was refused. The conquistadores' "
-"reputation preceded them and the P'urhepecha offered to become a subject "
-"state of the King of Spain rather than meet the same fate as their former "
-"enemies, the Aztecs. Nevertheless, the transition to Spanish rule was not "
-"smooth and devolved into violence. The empire, founded around 1450 CE, "
-"collapsed in 1521."
+"The P'urhepecha are a people native to the modern Mexican state of Michoacan, "
+"the heart of a former empire known to them as Irechecua Tzintzuntzani, "
+"meaning the \"lands of Tzintzuntzan,\" their capital city. Their kings were "
+"the perennial enemy of the Aztec empire, who attempted an unsuccessful "
+"invasion of the P'urhepecha lands. When the Spanish arrived began their "
+"conquest of Mexico in 1519, the Aztecs sent an embassy seeking the support of "
+"the P'urhepecha, but was refused. The conquistadores' reputation preceded "
+"them and the P'urhepecha offered to become a subject state of the King of "
+"Spain rather than meet the same fate as their former enemies, the Aztecs. "
+"Nevertheless, the transition to Spanish rule was not smooth and devolved into "
+"violence. The empire, founded around 1450 CE, collapsed in 1521."
 msgstr ""
 
 #. TRANS: Caconzi = King
@@ -24283,8 +24228,8 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:6
 msgid ""
-"Romania as a nation was formed at the beginning of the 20th century, when "
-"the states of Transylvania, Wallachia, and Moldavia merged. It is a country "
+"Romania as a nation was formed at the beginning of the 20th century, when the "
+"states of Transylvania, Wallachia, and Moldavia merged. It is a country "
 "inhabited by people speaking a language reminiscent from the time of ancient "
 "Rome. Its history is convoluted as it was always at the borders of great "
 "empires: Roman, Ottoman, Austro-Hungarian, and Russian."
@@ -24323,16 +24268,15 @@ msgstr ""
 
 #: data/nation/russian.ruleset:6
 msgid ""
-"According to legend, Slavic and Finnic tribes of Novgorod invited in the "
-"year 862 the Varangian (Viking) king Rurik to bring order to their land. "
-"Rurik established Kievan Rus in this realm, the first Russian state. By the "
-"11th century, Kievan Rus had disintegrated into lesser princedoms, which "
-"were once again united into one state by Ivan III in the 15th century. After "
-"decisive victory over Sweden and large territorial gains, Peter I pronounced "
-"the Russian Empire in 1721. The Russian Empire lasted until 1917 when a "
-"socialist revolution dethroned the last Russian emperor. After USSR "
-"dissolution in 1991 Russia appeared on world map again, now as a federative "
-"republic."
+"According to legend, Slavic and Finnic tribes of Novgorod invited in the year "
+"862 the Varangian (Viking) king Rurik to bring order to their land. Rurik "
+"established Kievan Rus in this realm, the first Russian state. By the 11th "
+"century, Kievan Rus had disintegrated into lesser princedoms, which were once "
+"again united into one state by Ivan III in the 15th century. After decisive "
+"victory over Sweden and large territorial gains, Peter I pronounced the "
+"Russian Empire in 1721. The Russian Empire lasted until 1917 when a socialist "
+"revolution dethroned the last Russian emperor. After USSR dissolution in 1991 "
+"Russia appeared on world map again, now as a federative republic."
 msgstr ""
 
 #: data/nation/russian.ruleset:48
@@ -24367,8 +24311,8 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
-"The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful "
-"maritime trading nation eventually invaded, occupied, and annexed by Japan."
+"The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a peaceful maritime "
+"trading nation eventually invaded, occupied, and annexed by Japan."
 msgstr ""
 
 #. TRANS: Koku-o/Jo-o = King/Queen
@@ -24427,8 +24371,8 @@ msgstr ""
 
 #: data/nation/saxon.ruleset:6
 msgid ""
-"The Electorate of Saxony was an independent hereditary electorate of the "
-"Holy Roman Empire from 1356-1806."
+"The Electorate of Saxony was an independent hereditary electorate of the Holy "
+"Roman Empire from 1356-1806."
 msgstr ""
 
 #: data/nation/scottish.ruleset:3
@@ -24465,8 +24409,8 @@ msgstr ""
 #: data/nation/serbian.ruleset:6
 msgid ""
 "Serbia is part of the region of the Southern Slavs that was conquered by the "
-"Ottomans after the collapse of the Byzantine Empire.  During most of the "
-"20th century it was part of the Yugoslav Federation."
+"Ottomans after the collapse of the Byzantine Empire.  During most of the 20th "
+"century it was part of the Yugoslav Federation."
 msgstr ""
 
 #: data/nation/silesian.ruleset:3
@@ -24672,9 +24616,9 @@ msgstr ""
 msgid ""
 "Sri Vijaya was an empire centered on Palembang in eastern Sumatra and "
 "extended its control through much of the coastal regions of Sumatra, Java, "
-"Borneo and the Malay peninsula. It was founded sometime in the 3rd century "
-"CE and lasted until roughly 1400, falling first to Jambi, then to Singhasari "
-"and other regional powers, including the South Indian Chola dynasty."
+"Borneo and the Malay peninsula. It was founded sometime in the 3rd century CE "
+"and lasted until roughly 1400, falling first to Jambi, then to Singhasari and "
+"other regional powers, including the South Indian Chola dynasty."
 msgstr ""
 
 #: data/nation/srivijaya.ruleset:21
@@ -24705,9 +24649,9 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
-"Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets "
-"of Sumerian writing some 5500 years old have been found, pre-dating every "
-"other writing in history."
+"Sumer controlled southern Mesopotamia until the rise of Babylonia. Tablets of "
+"Sumerian writing some 5500 years old have been found, pre-dating every other "
+"writing in history."
 msgstr ""
 
 #: data/nation/sumerian.ruleset:27
@@ -24759,10 +24703,9 @@ msgid ""
 "The Kingdom of Sweden was christianized and consolidated as a political "
 "entity by the 12th century AD. The country rose to prominence as one of the "
 "great powers of Europe in the 17th century, following substantial military "
-"conquests by the so called Warrior Kings. However, due to a worsening "
-"economy and several disastrous defeats to Russia, Sweden soon lost most of "
-"its gained territory. The country has not been involved in an armed conflict "
-"since 1814."
+"conquests by the so called Warrior Kings. However, due to a worsening economy "
+"and several disastrous defeats to Russia, Sweden soon lost most of its gained "
+"territory. The country has not been involved in an armed conflict since 1814."
 msgstr ""
 
 #: data/nation/swiss.ruleset:3
@@ -24829,15 +24772,15 @@ msgstr ""
 msgid ""
 "Native inhabitants of the Bahamas, Cuba, Hispaniola, Puerto Rico, Jamaica, "
 "and other Caribbean islands who gave us the root words for hurricane, "
-"tobacco, potato, canoe, barbeque, hammock, and yucca. They were a "
-"matrilineal people, and the first that Columbus came into contact with in "
-"1492. Though numbering the hundreds of thousands, if not millions, "
-"throughout the Caribbean, the Taino fell victim to slavery and disease, and "
-"their population declined rapidly as a result. Spanish accounts paint them "
-"as a peaceful people compared to their Carib neighbors to the south. Their "
-"dugout canoes, which were often nearly as long as Columbus' ships, ferried "
-"traders between islands. Recent genetic studies show that roughly half of "
-"Puerto Ricans have Taino maternal descent."
+"tobacco, potato, canoe, barbeque, hammock, and yucca. They were a matrilineal "
+"people, and the first that Columbus came into contact with in 1492. Though "
+"numbering the hundreds of thousands, if not millions, throughout the "
+"Caribbean, the Taino fell victim to slavery and disease, and their population "
+"declined rapidly as a result. Spanish accounts paint them as a peaceful "
+"people compared to their Carib neighbors to the south. Their dugout canoes, "
+"which were often nearly as long as Columbus' ships, ferried traders between "
+"islands. Recent genetic studies show that roughly half of Puerto Ricans have "
+"Taino maternal descent."
 msgstr ""
 
 #. TRANS: Cacike = Chief
@@ -24919,9 +24862,9 @@ msgstr ""
 #: data/nation/templar.ruleset:6
 msgid ""
 "The Knights Templar were formed after the first Crusade in order to protect "
-"Pilgrims on their journeys in the Holy Land. The organization grew to "
-"immense power and wealth in the next 200 years, and were the innovators of "
-"many modern concepts such as Banking."
+"Pilgrims on their journeys in the Holy Land. The organization grew to immense "
+"power and wealth in the next 200 years, and were the innovators of many "
+"modern concepts such as Banking."
 msgstr ""
 
 #: data/nation/templar.ruleset:42 data/nation/templar.ruleset:43
@@ -24940,8 +24883,8 @@ msgstr ""
 
 #: data/nation/texan.ruleset:6
 msgid ""
-"Texas is second largest and second most populous state of the USA, famous "
-"for its \"larger than life\" cowboy mentality."
+"Texas is second largest and second most populous state of the USA, famous for "
+"its \"larger than life\" cowboy mentality."
 msgstr ""
 
 #: data/nation/thai.ruleset:3
@@ -25027,9 +24970,9 @@ msgid ""
 "During the decline of the latter dynasty, the Turkic Uighur tribe moved into "
 "the Tarim basin, settling in and expanding their khanate through the "
 "Tocharian lands. The Uighur intermarried with the Tocharians and supplanted "
-"their language for all but liturgical purposes. Even this use fell when "
-"Islam spread and took the place of Buddhism as the predominant religion in "
-"the region."
+"their language for all but liturgical purposes. Even this use fell when Islam "
+"spread and took the place of Buddhism as the predominant religion in the "
+"region."
 msgstr ""
 
 #: data/nation/tocharian.ruleset:33
@@ -25055,14 +24998,14 @@ msgstr ""
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
-"The Phoenicians founded Carthage in the area where Tunisia is today. "
-"Carthage later became a major power in the Mediterranean region until it was "
-"defeated by the Romans in 146 BC. Later the Arab Muslim conquest in the 7th "
-"century led to migration from the Arab and Ottoman countries. But there "
-"where also a lot of Jews and Spanish Moors who moved there at the end of the "
-"16th century. Tunisia became mostly autonomous from the Ottoman empire in "
-"1861. But in 1881 Tunisia was invaded by the French and was made a French "
-"protectorate. The country became independent in 1956."
+"The Phoenicians founded Carthage in the area where Tunisia is today. Carthage "
+"later became a major power in the Mediterranean region until it was defeated "
+"by the Romans in 146 BC. Later the Arab Muslim conquest in the 7th century "
+"led to migration from the Arab and Ottoman countries. But there where also a "
+"lot of Jews and Spanish Moors who moved there at the end of the 16th century. "
+"Tunisia became mostly autonomous from the Ottoman empire in 1861. But in 1881 "
+"Tunisia was invaded by the French and was made a French protectorate. The "
+"country became independent in 1956."
 msgstr ""
 
 #: data/nation/tupi.ruleset:3
@@ -25203,8 +25146,8 @@ msgid ""
 "controlled most of Central and North Asia. After clashing with the Chinese "
 "for several centuries, they were finally subdued by the Qing dynasty in the "
 "1700s. Today, descendants of the Uyghur form the populations of the Central "
-"Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the "
-"main minority of the Xinjiang province of China."
+"Asian states of Uzbekistan, Kazakhstan and Kyrgyzstan. They are also the main "
+"minority of the Xinjiang province of China."
 msgstr ""
 
 #: data/nation/uzbek.ruleset:3
@@ -25261,8 +25204,8 @@ msgstr ""
 
 #: data/nation/vietnamese.ruleset:6
 msgid ""
-"The Vietnamese nation was founded in the first century AD by twin sisters "
-"who became the war leaders of a revolt against a Chinese military governor."
+"The Vietnamese nation was founded in the first century AD by twin sisters who "
+"became the war leaders of a revolt against a Chinese military governor."
 msgstr ""
 
 #: data/nation/viking.ruleset:3
