@@ -28,7 +28,7 @@ msgstr "Sciath"
 #: common/city.c:60 data/Freeciv.in:3067 data/default/techs.ruleset:724
 #: data/civ2/techs.ruleset:721 data/civ1/techs.ruleset:555
 msgid "Trade"
-msgstr "Trácht"
+msgstr "Trádáil"
 
 #: common/city.c:61 client/gui-gtk-2.0/editprop.c:3818
 #: client/gui-gtk-2.0/repodlgs.c:962 data/default/terrain.ruleset:682
@@ -39,7 +39,7 @@ msgstr "Ór"
 #: common/city.c:62 server/plrhand.c:207 client/gui-gtk-2.0/gamedlgs.c:263
 #: client/gui-win32/ratesdlg.c:317
 msgid "Luxury"
-msgstr "Galántacht"
+msgstr "Só"
 
 #: common/city.c:63 server/plrhand.c:209 client/gui-gtk-2.0/gamedlgs.c:283
 #: client/gui-win32/ratesdlg.c:323
@@ -48,24 +48,24 @@ msgstr "Eolaíocht"
 
 #: common/city.c:295
 msgid "?built:B"
-msgstr ""
+msgstr "?built:T"
 
 #: common/city.c:297
 msgid "?wonder:w"
-msgstr ""
+msgstr "?wonder:i"
 
 #: common/city.c:304
 msgid "?obsolete:O"
-msgstr ""
+msgstr "?obsolete:L"
 
 #: common/city.c:307
 msgid "?redundant:*"
-msgstr ""
+msgstr "?redundant:*"
 
 #: common/connection.c:517
 #, c-format
 msgid "%s from %s"
-msgstr ""
+msgstr "%s ó %s"
 
 #: common/connection.c:523
 msgid " (connection incomplete)"
@@ -108,7 +108,7 @@ msgstr ""
 #: common/events.c:53
 #, c-format
 msgid "Global: %s"
-msgstr ""
+msgstr "Domhanda: %s"
 
 #: common/events.c:54
 #, c-format
@@ -351,7 +351,7 @@ msgstr ""
 #: common/events.c:136 common/terrain.c:547 common/unit.c:521
 #: server/report.c:138 client/cityrepdata.c:511 client/gui-sdl/optiondlg.c:1854
 msgid "Pollution"
-msgstr ""
+msgstr "Truailliú"
 
 #: common/events.c:137
 msgid "Revolt Ended"
@@ -554,81 +554,81 @@ msgstr ""
 
 #: common/player.c:773
 msgid "?attitude:Genocidal"
-msgstr ""
+msgstr "?attitude:Cinedhíothach"
 
 #: common/player.c:775
 msgid "?attitude:Belligerent"
-msgstr ""
+msgstr "?attitude:Trodach"
 
 #: common/player.c:777
 msgid "?attitude:Hostile"
-msgstr ""
+msgstr "?attitude:Naimhdeach"
 
 #: common/player.c:779
 msgid "?attitude:Uncooperative"
-msgstr ""
+msgstr "?attitude:Neamh-chomhoibritheach"
 
 #: common/player.c:781
 msgid "?attitude:Uneasy"
-msgstr ""
+msgstr "?attitude:Corrach"
 
 #: common/player.c:783
 msgid "?attitude:Neutral"
-msgstr ""
+msgstr "?attitude:Neodrach"
 
 #: common/player.c:785
 msgid "?attitude:Respectful"
-msgstr ""
+msgstr "?attitude:Measúil"
 
 #: common/player.c:787
 msgid "?attitude:Helpful"
-msgstr ""
+msgstr "?attitude:Cuidiúil"
 
 #: common/player.c:789
 msgid "?attitude:Enthusiastic"
-msgstr ""
+msgstr "?attitude:Fonnmhar"
 
 #: common/player.c:791
 msgid "?attitude:Admiring"
-msgstr ""
+msgstr "?attitude:Taitneamhach"
 
 #: common/player.c:794
 msgid "?attitude:Worshipful"
-msgstr ""
+msgstr "?attitude:Urramach"
 
 #: common/player.c:805
 msgid "?diplomatic_state:Armistice"
-msgstr ""
+msgstr "?diplomatic_state:Sos Cogaidh"
 
 #: common/player.c:806
 msgid "?diplomatic_state:War"
-msgstr ""
+msgstr "?diplomatic_state:Cogadh"
 
 #: common/player.c:807 client/gui-gtk-2.0/diplodlg.c:360
 #: client/gui-sdl/diplodlg.c:461 client/gui-win32/diplodlg.c:308
 #: client/gui-xaw/diplodlg.c:527
 msgid "?diplomatic_state:Cease-fire"
-msgstr ""
+msgstr "?diplomatic_state:Sos Lámhaigh"
 
 #: common/player.c:808 client/gui-gtk-2.0/diplodlg.c:365
 #: client/gui-sdl/diplodlg.c:475 client/gui-win32/diplodlg.c:309
 #: client/gui-xaw/diplodlg.c:531
 msgid "?diplomatic_state:Peace"
-msgstr ""
+msgstr "?diplomatic_state:Síocháin"
 
 #: common/player.c:809 client/gui-gtk-2.0/diplodlg.c:370
 #: client/gui-sdl/diplodlg.c:490 client/gui-win32/diplodlg.c:310
 #: client/gui-xaw/diplodlg.c:535
 msgid "?diplomatic_state:Alliance"
-msgstr ""
+msgstr "?diplomatic_state:Comhaontas"
 
 #: common/player.c:810
 msgid "?diplomatic_state:Never met"
-msgstr ""
+msgstr "?diplomatic_state:Níor casadh riamh"
 
 #: common/player.c:811
 msgid "?diplomatic_state:Team"
-msgstr ""
+msgstr "?diplomatic_state:Foireann"
 
 #. TRANS: Obscure ruleset error.
 #: common/requirements.c:585 common/requirements.c:600
@@ -889,38 +889,38 @@ msgstr ""
 #. *        last two elements
 #: common/unittype.c:454 client/helpdata.c:1445
 msgid " and "
-msgstr ""
+msgstr " agus "
 
 #: common/unittype.c:460 client/helpdata.c:1431
 msgid "?and:, "
-msgstr ""
+msgstr "?and:, "
 
 #: common/version.c:38
 #, c-format
 msgid "Freeciv version %s %s"
-msgstr ""
+msgstr "Freeciv leagan %s %s"
 
 #: common/version.c:39
 msgid "(beta version)"
-msgstr ""
+msgstr "(leagan béite)"
 
 #: common/version.c:41
 #, c-format
 msgid "Freeciv version %s (%s)"
-msgstr ""
+msgstr "Freeciv leagan %s (%s)"
 
 #: common/version.c:44
 #, c-format
 msgid "Freeciv version %s"
-msgstr ""
+msgstr "Freeciv leagan %s"
 
 #: common/version.c:57
 msgid "betatest version "
-msgstr ""
+msgstr "leagan béite "
 
 #: common/version.c:59
 msgid "version "
-msgstr ""
+msgstr "leagan "
 
 #: common/version.c:87
 msgid "January"
@@ -2042,7 +2042,7 @@ msgstr ""
 #: server/cityturn.c:1908
 #, c-format
 msgid "Pollution near %s."
-msgstr ""
+msgstr "Truailliú i ngar do %s."
 
 #: server/cityturn.c:2059
 #, c-format
@@ -2497,11 +2497,11 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:180
 msgid "rulesetdir <directory>"
-msgstr ""
+msgstr "rulesetdir <comhadlann>"
 
 #: server/commands.c:181
 msgid "Choose new ruleset directory or modpack."
-msgstr ""
+msgstr "Roghnaigh comhadlann nua rialacha nó pacáiste modhnaithe."
 
 #: server/commands.c:182
 msgid ""
@@ -2512,7 +2512,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:189
 msgid "metainfo <meta-line>"
-msgstr ""
+msgstr "metainfo <meitilíne>"
 
 #: server/commands.c:190
 msgid "Set metaserver info line."
@@ -3212,7 +3212,7 @@ msgstr ""
 #: server/diplomats.c:369
 #, c-format
 msgid "Your %s was sabotaged by the %s!"
-msgstr ""
+msgstr "Rinne na %s sabaitéireacht ar do %s!"
 
 #: server/diplomats.c:418
 msgid "You can't bribe a unit from this nation."
@@ -3238,7 +3238,7 @@ msgstr ""
 #: server/diplomats.c:471
 #, c-format
 msgid "Your %s was bribed by the %s."
-msgstr ""
+msgstr "Thug na %s crúibín cam do do %s."
 
 #: server/diplomats.c:615
 #, c-format
@@ -3955,13 +3955,13 @@ msgstr ""
 #: server/plrhand.c:1788
 #, c-format
 msgid "%s is the rebellious leader of the %s."
-msgstr ""
+msgstr "Is é %s an duine ceannairceach atá i gceannas ar na %s."
 
 #. TRANS: <city> ... the Poles.
 #: server/plrhand.c:1810
 #, c-format
 msgid "%s declares allegiance to the %s."
-msgstr ""
+msgstr "Fógraíonn %s go bhfuil sé faoi ghéillsine ag na %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
 #: server/plrhand.c:1825
@@ -4004,46 +4004,46 @@ msgstr ""
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
 msgid "Herodotus"
-msgstr ""
+msgstr "Heireadótas"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
 msgid "Thucydides"
-msgstr ""
+msgstr "Túicídidéas"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:75
 msgid "Pliny the Elder"
-msgstr ""
+msgstr "Plinias Mór"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:77
 msgid "Livy"
-msgstr ""
+msgstr "Livy"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:79
 msgid "Toynbee"
-msgstr ""
+msgstr "Toynbee"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:81
 msgid "Gibbon"
-msgstr ""
+msgstr "Gibbon"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:83
 msgid "Ssu-ma Ch'ien"
-msgstr ""
+msgstr "Ssu-ma Ch'ien"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:85
 msgid "Pan Ku"
-msgstr ""
+msgstr "Pan Ku"
 
 #: server/report.c:130
 msgid "Population"
-msgstr ""
+msgstr "Daonra"
 
 #: server/report.c:131
 msgid "Land Area"
@@ -4055,116 +4055,116 @@ msgstr ""
 
 #: server/report.c:133
 msgid "Research Speed"
-msgstr ""
+msgstr "Luas Taighde"
 
 #: server/report.c:134 data/default/techs.ruleset:383
 #: data/civ2/techs.ruleset:380 data/civ1/techs.ruleset:306
 msgid "Literacy"
-msgstr ""
+msgstr "Litearthacht"
 
 #: server/report.c:135 client/cityrepdata.c:516 client/cityrepdata.c:518
 #: client/gui-sdl/cityrep.c:177
 msgid "Production"
-msgstr ""
+msgstr "Táirgeadh"
 
 #: server/report.c:136 data/default/techs.ruleset:222
 #: data/civ2/techs.ruleset:211
 msgid "Economics"
-msgstr ""
+msgstr "Eacnamaíocht"
 
 #: server/report.c:137
 msgid "Military Service"
-msgstr ""
+msgstr "Seirbhís Mhíleata"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:156
 #, c-format
 msgid "%2d: The Supreme %s"
-msgstr ""
+msgstr "%2d: Na %s Ardcheannasacha"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:158
 #, c-format
 msgid "%2d: The Magnificent %s"
-msgstr ""
+msgstr "%2d: Na %s Iontacha"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:160
 #, c-format
 msgid "%2d: The Great %s"
-msgstr ""
+msgstr "%2d: Na %s Thar Barr"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:162
 #, c-format
 msgid "%2d: The Glorious %s"
-msgstr ""
+msgstr "%2d: Na %s Glórmhara"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:164
 #, c-format
 msgid "%2d: The Excellent %s"
-msgstr ""
+msgstr "%2d: Na %s Sármhaithe"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:166
 #, c-format
 msgid "%2d: The Eminent %s"
-msgstr ""
+msgstr "%2d: Na %s Ardchéimiúla"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:168
 #, c-format
 msgid "%2d: The Distinguished %s"
-msgstr ""
+msgstr "%2d: Na %s Oirirce"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:170
 #, c-format
 msgid "%2d: The Average %s"
-msgstr ""
+msgstr "%2d: Na %s Measartha Maith"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:172
 #, c-format
 msgid "%2d: The Mediocre %s"
-msgstr ""
+msgstr "%2d: Na %s Lagmheasartha"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:174
 #, c-format
 msgid "%2d: The Ordinary %s"
-msgstr ""
+msgstr "%2d: Na %s Coitianta"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:176
 #, c-format
 msgid "%2d: The Pathetic %s"
-msgstr ""
+msgstr "%2d: Na %s Truamhéalacha"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:178
 #, c-format
 msgid "%2d: The Useless %s"
-msgstr ""
+msgstr "%2d: Na %s Beagmhaitheasacha"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:180
 #, c-format
 msgid "%2d: The Valueless %s"
-msgstr ""
+msgstr "%2d: Na %s Gan Mhaith"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:182
 #, c-format
 msgid "%2d: The Worthless %s"
-msgstr ""
+msgstr "%2d: Na %s Beag is Fiú"
 
 #. TRANS: <#>: The <ranking> Poles
 #: server/report.c:184
 #, c-format
 msgid "%2d: The Wretched %s"
-msgstr ""
+msgstr "%2d: Na %s Suaracha"
 
 #: server/report.c:253
 msgid "Historian Publishes!"
@@ -4177,7 +4177,7 @@ msgstr ""
 
 #: server/report.c:322
 msgid "with no wonders\n"
-msgstr ""
+msgstr "gan iontas ar bith\n"
 
 #: server/report.c:325
 #, c-format
@@ -4197,7 +4197,7 @@ msgstr ""
 #: server/report.c:347
 #, c-format
 msgid "%s in %s (%s)\n"
-msgstr ""
+msgstr "%s i %s (%s)\n"
 
 #: server/report.c:352
 #, c-format
@@ -4211,11 +4211,11 @@ msgstr ""
 
 #: server/report.c:376 client/gui-xaw/menu.c:230 data/helpdata.txt:904
 msgid "Wonders of the World"
-msgstr ""
+msgstr "Iontais an Domhain"
 
 #: server/report.c:598
 msgid " sq. mi."
-msgstr ""
+msgstr " míle cearn."
 
 #: server/report.c:608
 msgid " M tons"
@@ -4274,17 +4274,17 @@ msgstr ""
 #: server/report.c:801
 #, c-format
 msgid "%s %s (%s)"
-msgstr ""
+msgstr "%s %s (%s)"
 
 #. TRANS: message about an installation error.
 #: server/ruleset.c:191
 #, c-format
 msgid "Could not find a readable \"%s.%s\" ruleset file."
-msgstr ""
+msgstr "Níorbh fhéidir comhad inléite rialacha \"%s.%s\" a aimsiú."
 
 #: server/ruleset.c:3665
 msgid "Loading rulesets"
-msgstr ""
+msgstr "Rialacha á luchtú"
 
 #: server/ruleset.c:3736
 msgid "Reducing aifill because there are not enough playable nations."
@@ -4320,7 +4320,7 @@ msgstr ""
 #: server/savegame.c:4690
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "Bhí náisiún neamhbhailí ag %s; is é na %s anois."
 
 #: server/settings.c:33
 msgid "Geological"
@@ -5631,12 +5631,12 @@ msgstr ""
 #: server/srv_main.c:1926
 #, c-format
 msgid "Player %d"
-msgstr ""
+msgstr "Imreoir %d"
 
 #: server/srv_main.c:1937 server/srv_main.c:1943
 #, c-format
 msgid "%s rules the %s."
-msgstr ""
+msgstr "Tá %s i gceannas ar na %s."
 
 #: server/srv_main.c:2068
 msgid ""
@@ -5664,7 +5664,7 @@ msgstr ""
 #. TRANS: ambiguous command
 #: server/stdinhand.c:287
 msgid "(ambiguous)"
-msgstr ""
+msgstr "(débhríoch)"
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
@@ -5673,7 +5673,7 @@ msgstr ""
 #: client/gui-sdl/inteldlg.c:309 client/gui-win32/inteldlg.c:148
 #: client/gui-xaw/inteldlg.c:266
 msgid "(unknown)"
-msgstr ""
+msgstr "(anaithnid)"
 
 #: server/stdinhand.c:380
 msgid "Name is empty, so cannot be a player."
@@ -6551,26 +6551,26 @@ msgstr ""
 #: server/stdinhand.c:3588
 #, c-format
 msgid "Current ruleset directory is \"%s\""
-msgstr ""
+msgstr "Is é \"%s\" an chomhadlann rialacha faoi láthair"
 
 #: server/stdinhand.c:3608
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
-msgstr ""
+msgstr "Comhadlann rialacha \"%s\" gan aimsiú"
 
 #: server/stdinhand.c:3614
 #, c-format
 msgid "Ruleset directory is already \"%s\""
-msgstr ""
+msgstr "Is é \"%s\" an chomhadlann rialacha cheana"
 
 #: server/stdinhand.c:3618
 #, c-format
 msgid "Ruleset directory set to \"%s\""
-msgstr ""
+msgstr "Is é \"%s\" an chomhadlann rialacha anois"
 
 #: server/stdinhand.c:3666
 msgid "Goodbye."
-msgstr ""
+msgstr "Slán."
 
 #: server/stdinhand.c:3707
 msgid "Sorry, you are not allowed to use server commands."
@@ -7498,7 +7498,7 @@ msgstr ""
 #. TRANS: Use longer of "XXX turns" and "never"
 #: client/citydlg_common.c:220
 msgid "?filler:XXX/XXX XXX turns"
-msgstr ""
+msgstr "?filler:XXX babhta"
 
 #: client/citydlg_common.c:226
 #, c-format
@@ -7518,17 +7518,17 @@ msgstr[1] ""
 #: client/gui-sdl/cityrep.c:1062 client/gui-sdl/wldlg.c:1362
 #: client/gui-sdl/wldlg.c:1367 client/gui-win32/citydlg.c:463
 msgid "never"
-msgstr ""
+msgstr "riamh"
 
 #: client/citydlg_common.c:247
 #, c-format
 msgid "%3d/%3d:%s"
-msgstr ""
+msgstr "%3d/%3d:%s"
 
 #: client/citydlg_common.c:249
 #, c-format
 msgid "%3d/%3d %s"
-msgstr ""
+msgstr "%3d/%3d %s"
 
 #: client/citydlg_common.c:279 client/citydlg_common.c:370
 #, c-format
@@ -7551,11 +7551,11 @@ msgstr ""
 
 #: client/citydlg_common.c:341
 msgid "Great Wonder"
-msgstr ""
+msgstr "Iontas Mór"
 
 #: client/citydlg_common.c:349
 msgid "Small Wonder"
-msgstr ""
+msgstr "Iontas Beag"
 
 #: client/citydlg_common.c:401
 #, c-format
@@ -7637,40 +7637,40 @@ msgstr ""
 
 #: client/cityrepdata.c:74
 msgid "?city_state:Rapture"
-msgstr ""
+msgstr "?city_state:Sceitimíní"
 
 #: client/cityrepdata.c:75
 msgid "?city_state:Disorder"
-msgstr ""
+msgstr "?city_state:Ainriail"
 
 #: client/cityrepdata.c:76
 msgid "?city_state:Peace"
-msgstr ""
+msgstr "?city_state:Síocháin"
 
 #: client/cityrepdata.c:359
 msgid "(worklist)"
-msgstr ""
+msgstr "(liosta oibre)"
 
 #: client/cityrepdata.c:438
 msgid "?city:Name"
-msgstr ""
+msgstr "?city:Ainm"
 
 #: client/cityrepdata.c:438 client/gui-sdl/cityrep.c:172
 msgid "City Name"
-msgstr ""
+msgstr "Ainm na Cathrach"
 
 #: client/cityrepdata.c:440
 msgid "?size [short]:Sz"
-msgstr ""
+msgstr "?size [short]:Md"
 
 #: client/cityrepdata.c:440 client/gui-gtk-2.0/editprop.c:3799
 msgid "Size"
-msgstr ""
+msgstr "Méid"
 
 #: client/cityrepdata.c:442 client/plrdlg_common.c:266
 #: client/gui-win32/plrdlg.c:334
 msgid "State"
-msgstr ""
+msgstr "Stát"
 
 #: client/cityrepdata.c:442
 msgid "Rapture/Peace/Disorder"
@@ -7682,63 +7682,63 @@ msgstr ""
 
 #: client/cityrepdata.c:448
 msgid "Special"
-msgstr ""
+msgstr "Speisialta"
 
 #: client/cityrepdata.c:449
 msgid "?entertainers/scientists/taxmen:E/S/T"
-msgstr ""
+msgstr "?entertainers/scientists/taxmen:S/E/C"
 
 #: client/cityrepdata.c:450
 msgid "Entertainers, Scientists, Taxmen"
-msgstr ""
+msgstr "Siamsóirí, Eolaithe, Lucht Cánach"
 
 #: client/cityrepdata.c:453
 msgid "?Happy workers:H"
-msgstr ""
+msgstr "?Happy workers:n"
 
 #: client/cityrepdata.c:453
 msgid "Workers: Happy"
-msgstr ""
+msgstr "Oibrithe: Sona Sásta"
 
 #: client/cityrepdata.c:455
 msgid "?Content workers:C"
-msgstr ""
+msgstr "?Content workers:S"
 
 #: client/cityrepdata.c:455
 msgid "Workers: Content"
-msgstr ""
+msgstr "Oibrithe: Sásta"
 
 #: client/cityrepdata.c:457
 msgid "?Unhappy workers:U"
-msgstr ""
+msgstr "?Unhappy workers:M"
 
 #: client/cityrepdata.c:457
 msgid "Workers: Unhappy"
-msgstr ""
+msgstr "Oibrithe: Míshásta"
 
 #: client/cityrepdata.c:459
 msgid "?Angry workers:A"
-msgstr ""
+msgstr "?Angry workers:F"
 
 #: client/cityrepdata.c:459
 msgid "Workers: Angry"
-msgstr ""
+msgstr "Oibrithe: Feargach"
 
 #: client/cityrepdata.c:461 client/gui-xaw/citydlg.c:2393
 msgid "?city:Workers"
-msgstr ""
+msgstr "?city:Oibrithe"
 
 #: client/cityrepdata.c:462
 msgid "?happy/content/unhappy/angry:H/C/U/A"
-msgstr ""
+msgstr "?happy/content/unhappy/angry:n/S/M/F"
 
 #: client/cityrepdata.c:463
 msgid "Workers: Happy, Content, Unhappy, Angry"
-msgstr ""
+msgstr "Oibrithe: Sona Sásta, Sásta, Míshásta, Feargach"
 
 #: client/cityrepdata.c:466 client/cityrepdata.c:468
 msgid "Best"
-msgstr ""
+msgstr "Is Fearr"
 
 #: client/cityrepdata.c:466
 msgid "attack"
@@ -7774,7 +7774,7 @@ msgstr ""
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:472
 msgid "?Present (units):Here"
-msgstr ""
+msgstr "?Present (units):Anseo"
 
 #: client/cityrepdata.c:473
 msgid "Number of units present"
@@ -7783,7 +7783,7 @@ msgstr ""
 #. TRANS: Header "Number of units supported by given city"
 #: client/cityrepdata.c:476
 msgid "?Supported (units):Owned"
-msgstr ""
+msgstr "?Supported (units):I Seilbh"
 
 #: client/cityrepdata.c:477
 msgid "Number of units supported"
@@ -7792,11 +7792,11 @@ msgstr ""
 #. TRANS: Header "It will take this many turns before city grows"
 #: client/cityrepdata.c:480
 msgid "?food (population):Grow"
-msgstr ""
+msgstr "?food (population):Fás"
 
 #: client/cityrepdata.c:481 client/cityrepdata.c:521
 msgid "?Stock/Target:(Have/Need)"
-msgstr ""
+msgstr "?Stock/Target:(Agat/De Dhíth)"
 
 #: client/cityrepdata.c:482
 msgid "Turns until growth/famine"
@@ -7808,7 +7808,7 @@ msgstr ""
 
 #: client/cityrepdata.c:485
 msgid "?food/production/trade:F/P/T"
-msgstr ""
+msgstr "?food/production/trade:B/T/R"
 
 #: client/cityrepdata.c:486
 msgid "Surplus: Food, Production, Trade"
@@ -7816,23 +7816,23 @@ msgstr ""
 
 #: client/cityrepdata.c:488
 msgid "?Food surplus [short]:+F"
-msgstr ""
+msgstr "?Food surplus [short]:+B"
 
 #: client/cityrepdata.c:488
 msgid "Surplus: Food"
-msgstr ""
+msgstr "Barrachas: Bia"
 
 #: client/cityrepdata.c:490
 msgid "?Production surplus [short]:+P"
-msgstr ""
+msgstr "?Production surplus [short]:+T"
 
 #: client/cityrepdata.c:491
 msgid "Surplus: Production"
-msgstr ""
+msgstr "Barrachas: Táirgeadh"
 
 #: client/cityrepdata.c:492
 msgid "?Production loss (waste) [short]:-P"
-msgstr ""
+msgstr "?Production loss (waste) [short]:-T"
 
 #: client/cityrepdata.c:493
 msgid "Waste"
@@ -7840,78 +7840,78 @@ msgstr ""
 
 #: client/cityrepdata.c:494
 msgid "?Trade surplus [short]:+T"
-msgstr ""
+msgstr "?Trade surplus [short]:+R"
 
 #: client/cityrepdata.c:494
 msgid "Surplus: Trade"
-msgstr ""
+msgstr "Barrachas: Trádáil"
 
 #: client/cityrepdata.c:496
 msgid "?Trade loss (corruption) [short]:-T"
-msgstr ""
+msgstr "?Trade loss (corruption) [short]:-R"
 
 #: client/cityrepdata.c:497
 msgid "Corruption"
-msgstr ""
+msgstr "Éilliú"
 
 #: client/cityrepdata.c:499 client/gui-gtk-2.0/repodlgs.c:663
 #: client/gui-sdl/mapctrl.c:1399 client/gui-win32/repodlgs.c:334
 #: client/gui-xaw/menu.c:226 client/gui-xaw/repodlgs.c:671
 #: client/gui-xaw/repodlgs.c:800 data/Freeciv.in:1819
 msgid "Economy"
-msgstr ""
+msgstr "Eacnamaíocht"
 
 #: client/cityrepdata.c:499
 msgid "?gold/luxury/science:G/L/S"
-msgstr ""
+msgstr "?gold/luxury/science:R/S/E"
 
 #: client/cityrepdata.c:500
 msgid "Economy: Gold, Luxuries, Science"
-msgstr ""
+msgstr "Eacnamaíocht: Ór, Só, Eolaíocht"
 
 #: client/cityrepdata.c:502
 msgid "?Gold:G"
-msgstr ""
+msgstr "?Gold:R"
 
 #: client/cityrepdata.c:502
 msgid "Economy: Gold"
-msgstr ""
+msgstr "Eacnamaíocht: Ór"
 
 #: client/cityrepdata.c:504
 msgid "?Luxury:L"
-msgstr ""
+msgstr "?Luxury:S"
 
 #: client/cityrepdata.c:504
 msgid "Economy: Luxury"
-msgstr ""
+msgstr "Eacnamaíocht: Só"
 
 #: client/cityrepdata.c:506
 msgid "?Science:S"
-msgstr ""
+msgstr "?Science:E"
 
 #: client/cityrepdata.c:506
 msgid "Economy: Science"
-msgstr ""
+msgstr "Eacnamaíocht: Eolaíocht"
 
 #: client/cityrepdata.c:508
 msgid "?number_trade_routes:n"
-msgstr ""
+msgstr "?number_trade_routes:n"
 
 #: client/cityrepdata.c:508
 msgid "?number_trade_routes:R"
-msgstr ""
+msgstr "?number_trade_routes:R"
 
 #: client/cityrepdata.c:509
 msgid "Number of Trade Routes"
-msgstr ""
+msgstr "Líon na mBealaí Trádála"
 
 #: client/cityrepdata.c:511
 msgid "?pollution [short]:Pol"
-msgstr ""
+msgstr "?pollution [short]:Tru"
 
 #: client/cityrepdata.c:513
 msgid "?cma:Governor"
-msgstr ""
+msgstr "?cma:Gobharnóir"
 
 #: client/cityrepdata.c:513 client/gui-gtk-2.0/cityrep.c:1770
 #: client/gui-sdl/citydlg.c:3806 client/gui-sdl/cma_fe.c:861
@@ -7929,12 +7929,12 @@ msgstr ""
 
 #: client/cityrepdata.c:567
 msgid "?specialist:S"
-msgstr ""
+msgstr "?specialist:S"
 
 #: client/cityrepdata.c:570
 #, c-format
 msgid "Specialists: %s"
-msgstr ""
+msgstr "Saineolaithe: %s"
 
 #: client/client_main.c:253
 msgid ""
@@ -8039,35 +8039,35 @@ msgstr ""
 
 #: client/climisc.c:202
 msgid "?embassy:Both"
-msgstr ""
+msgstr "?embassy:Araon"
 
 #: client/climisc.c:204
 msgid "?embassy:Yes"
-msgstr ""
+msgstr "?embassy:Tá"
 
 #: client/climisc.c:207
 msgid "?embassy:With Us"
-msgstr ""
+msgstr "?embassy:Linn"
 
 #: client/climisc.c:210
 msgid "?embassy:Contact"
-msgstr ""
+msgstr "?embassy:Teagmháil"
 
 #: client/climisc.c:212
 msgid "?embassy:No Contact"
-msgstr ""
+msgstr "?embassy:Gan Teagmháil"
 
 #: client/climisc.c:224
 msgid "?vision:Both"
-msgstr ""
+msgstr "?vision:Araon"
 
 #: client/climisc.c:226
 msgid "?vision:To Them"
-msgstr ""
+msgstr "?vision:Dóibh"
 
 #: client/climisc.c:229
 msgid "?vision:To Us"
-msgstr ""
+msgstr "?vision:Dúinn"
 
 #: client/climisc.c:245 client/climisc.c:252
 #, c-format
@@ -8854,11 +8854,11 @@ msgstr ""
 #. *        last two elements
 #: client/helpdata.c:1128 client/helpdata.c:1441
 msgid " or "
-msgstr ""
+msgstr " nó "
 
 #: client/helpdata.c:1130 client/helpdata.c:1429
 msgid "?or:, "
-msgstr ""
+msgstr "?or:, "
 
 #: client/helpdata.c:1141
 #, c-format
@@ -8941,7 +8941,7 @@ msgstr ""
 #. TRANS: Empty output type list, should never happen.
 #: client/helpdata.c:1452 client/helpdata.c:1453
 msgid "?outputlist: Nothing "
-msgstr ""
+msgstr "?outputlist: Faic "
 
 #: client/helpdata.c:1460
 #, c-format
@@ -9087,7 +9087,7 @@ msgstr ""
 
 #: client/helpdata.c:1603
 msgid "* Has no unhappy citizens.\n"
-msgstr ""
+msgstr "* Níl aon saoránaigh míshásta ann.\n"
 
 #: client/helpdata.c:1613 client/helpdata.c:1617 client/helpdata.c:1621
 #, c-format
@@ -9171,7 +9171,7 @@ msgstr ""
 #: client/helpdata.c:1736
 #, c-format
 msgid "%s%d %s"
-msgstr ""
+msgstr "%s%d %s"
 
 #: client/helpdata.c:1737 client/helpdata.c:1745 client/gui-sdl/mapview.c:621
 #: client/gui-sdl/mapview.c:627 client/gui-sdl/mapview.c:633
@@ -9182,7 +9182,7 @@ msgstr "?blistmore:, "
 #: client/helpdata.c:1744
 #, c-format
 msgid "%s%d unhappy"
-msgstr ""
+msgstr "%s%d míshásta"
 
 #: client/mapctrl_common.c:397
 #, c-format
@@ -9200,31 +9200,31 @@ msgstr ""
 
 #: client/options.c:104
 msgid "Graphics"
-msgstr ""
+msgstr "Grafaicí"
 
 #: client/options.c:105
 msgid "Overview"
-msgstr ""
+msgstr "Foramharc"
 
 #: client/options.c:106
 msgid "Sound"
-msgstr ""
+msgstr "Fuaim"
 
 #: client/options.c:107
 msgid "Interface"
-msgstr ""
+msgstr "Comhéadan"
 
 #: client/options.c:108
 msgid "Network"
-msgstr ""
+msgstr "Líonra"
 
 #: client/options.c:109
 msgid "Font"
-msgstr ""
+msgstr "Cló"
 
 #: client/options.c:114
 msgid "Login name"
-msgstr ""
+msgstr "Ainm logála isteach"
 
 #: client/options.c:115
 msgid ""
@@ -9234,7 +9234,7 @@ msgstr ""
 
 #: client/options.c:120
 msgid "Server"
-msgstr ""
+msgstr "Freastalaí"
 
 #: client/options.c:121
 msgid ""
@@ -9244,7 +9244,7 @@ msgstr ""
 
 #: client/options.c:126
 msgid "Server port"
-msgstr ""
+msgstr "Port"
 
 #: client/options.c:127
 msgid ""
@@ -9254,7 +9254,7 @@ msgstr ""
 
 #: client/options.c:132 client/gui-win32/connectdlg.c:906 data/Freeciv.in:107
 msgid "Metaserver"
-msgstr ""
+msgstr "Meitifhreastalaí"
 
 #: client/options.c:133
 msgid ""
@@ -9275,7 +9275,7 @@ msgstr ""
 
 #: client/options.c:145
 msgid "Sound plugin"
-msgstr ""
+msgstr "Breiseán fuaime"
 
 #: client/options.c:146
 msgid ""
@@ -9286,7 +9286,7 @@ msgstr ""
 
 #: client/options.c:151 client/gui-sdl/gui_main.c:164
 msgid "Theme"
-msgstr ""
+msgstr "Téama"
 
 #: client/options.c:152
 msgid "By changing this option you change the active theme."
@@ -9684,17 +9684,17 @@ msgstr ""
 
 #: client/plrdlg_common.c:254
 msgid "?Player:Name"
-msgstr ""
+msgstr "?Player:Ainm"
 
 #: client/plrdlg_common.c:255
 msgid "Username"
-msgstr ""
+msgstr "Ainm úsáideora"
 
 #: client/plrdlg_common.c:256 client/gui-gtk-2.0/dialogs.c:725
 #: client/gui-gtk-2.0/editprop.c:3232 client/gui-gtk-2.0/pages.c:1616
 #: client/gui-gtk-2.0/pages.c:2155
 msgid "Flag"
-msgstr ""
+msgstr "Bratach"
 
 #: client/plrdlg_common.c:257 client/gui-gtk-2.0/dialogs.c:729
 #: client/gui-gtk-2.0/editprop.c:3202 client/gui-gtk-2.0/editprop.c:3814
@@ -9703,19 +9703,19 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:983 client/gui-win32/dialogs.c:556
 #: client/gui-win32/plrdlg.c:332
 msgid "Nation"
-msgstr ""
+msgstr "Náisiún"
 
 #: client/plrdlg_common.c:258
 msgid "Border"
-msgstr ""
+msgstr "Teorainn"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/repodlgs.c:1348
 msgid "Score"
-msgstr ""
+msgstr "Scór"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/pages.c:1620
 msgid "Team"
-msgstr ""
+msgstr "Foireann"
 
 #: client/plrdlg_common.c:262
 msgid "Attitude"
@@ -9727,11 +9727,11 @@ msgstr ""
 
 #: client/plrdlg_common.c:267
 msgid "?Player_dlg:Host"
-msgstr ""
+msgstr "?Player_dlg:Óstach"
 
 #: client/plrdlg_common.c:268
 msgid "?Player_dlg:Idle"
-msgstr ""
+msgstr "?Player_dlg:Díomhaoin"
 
 #: client/plrdlg_common.c:269
 msgid "Ping"
@@ -9798,51 +9798,51 @@ msgstr ""
 #: client/text.c:138 client/text.c:139 client/text.c:144
 #: client/gui-sdl/mapview.c:563
 msgid "?nation:Neutral"
-msgstr ""
+msgstr "?nation:Neodrach"
 
 #: client/text.c:138 client/gui-sdl/mapview.c:563
 msgid "?nation:Hostile"
-msgstr ""
+msgstr "?nation:Naimhdeach"
 
 #: client/text.c:140 client/gui-sdl/mapview.c:565
 msgid "?nation:Peaceful"
-msgstr ""
+msgstr "?nation:Síochánta"
 
 #: client/text.c:140 client/gui-sdl/mapview.c:565
 msgid "?nation:Friendly"
-msgstr ""
+msgstr "?nation:Cairdiúil"
 
 #: client/text.c:141 client/gui-sdl/mapview.c:566
 msgid "?nation:Mysterious"
-msgstr ""
+msgstr "?nation:Rúndiamhair"
 
 #: client/text.c:141
 msgid "?nation:Friendly(team)"
-msgstr ""
+msgstr "?nation:Cairdiúil(foireann)"
 
 #: client/text.c:143 client/gui-sdl/mapview.c:596
 msgid "?city:Neutral"
-msgstr ""
+msgstr "?city:Neodrach"
 
 #: client/text.c:143 client/gui-sdl/mapview.c:596
 msgid "?city:Hostile"
-msgstr ""
+msgstr "?city:Naimhdeach"
 
 #: client/text.c:145 client/gui-sdl/mapview.c:597
 msgid "?city:Peaceful"
-msgstr ""
+msgstr "?city:Síochánta"
 
 #: client/text.c:145 client/gui-sdl/mapview.c:598
 msgid "?city:Friendly"
-msgstr ""
+msgstr "?city:Cairdiúil"
 
 #: client/text.c:145 client/gui-sdl/mapview.c:598
 msgid "?city:Mysterious"
-msgstr ""
+msgstr "?city:Rúndiamhair"
 
 #: client/text.c:146
 msgid "?city:Friendly(team)"
-msgstr ""
+msgstr "?city:Cairdiúil(foireann)"
 
 #: client/text.c:154
 #, c-format
@@ -9928,13 +9928,13 @@ msgstr "?clistbegin: le %s"
 #: client/text.c:260
 #, c-format
 msgid "?clistlast:, and %s"
-msgstr ""
+msgstr "?clistlast:, agus %s"
 
 #. TRANS: This appears with only one previous entry in the list
 #: client/text.c:264
 #, c-format
 msgid "?clistlast: and %s"
-msgstr ""
+msgstr "?clistlast: agus %s"
 
 #: client/text.c:267 client/text.c:1295 client/text.c:1333
 msgid "?clistend:."
@@ -10174,7 +10174,7 @@ msgstr[1] ""
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:819
 msgid "?goto:Unreachable"
-msgstr ""
+msgstr "?goto:Doshroichte"
 
 #: client/text.c:821
 #, c-format
@@ -10328,43 +10328,43 @@ msgstr ""
 
 #: client/text.c:1145
 msgid "?timeout:off"
-msgstr ""
+msgstr "?timeout:as"
 
 #: client/text.c:1169
 #, c-format
 msgid "?seconds:%02ds"
-msgstr ""
+msgstr "?seconds:%02ds"
 
 #: client/text.c:1171
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
-msgstr ""
+msgstr "?mins/secs:%02dn %02ds"
 
 #: client/text.c:1173
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
-msgstr ""
+msgstr "?hrs/mns:%02du %02dn"
 
 #: client/text.c:1175
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
-msgstr ""
+msgstr "?dys/hrs:%02dl %02du"
 
 #: client/text.c:1178
 msgid "?duration:overflow"
-msgstr ""
+msgstr "?duration:thar maoil"
 
 #: client/text.c:1201
 #, c-format
 msgid "%6d.%02d ms"
-msgstr ""
+msgstr "%6d.%02d ms"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
 #: client/text.c:1249
 #, c-format
 msgid "?nationgovernment:%s %s"
-msgstr ""
+msgstr "?nationgovernment:%2$s %1$s"
 
 #. TRANS: "Observer: 1985"
 #: client/text.c:1259
@@ -10378,11 +10378,11 @@ msgstr ""
 
 #: client/text.c:1293 client/text.c:1331
 msgid "None. "
-msgstr ""
+msgstr "Faic. "
 
 #: client/text.c:1313
 msgid "Wonders: "
-msgstr ""
+msgstr "Iontais: "
 
 #: client/text.c:1366
 #, c-format
@@ -10484,15 +10484,15 @@ msgstr ""
 #: client/agents/cma_fec.c:219 client/gui-gtk-2.0/cityrep.c:600
 #: client/gui-gtk-2.0/cityrep.c:626 client/gui-sdl/citydlg.c:2009
 msgid "none"
-msgstr ""
+msgstr "faic"
 
 #: client/agents/cma_fec.c:235 client/gui-gtk-2.0/cityrep.c:647
 msgid "custom"
-msgstr ""
+msgstr "saincheaptha"
 
 #: client/agents/cma_fec.c:337
 msgid " happy"
-msgstr ""
+msgstr " sona sásta"
 
 #: client/agents/cma_fec.c:348
 #, c-format
@@ -10509,23 +10509,23 @@ msgstr ""
 
 #: client/agents/cma_fec.c:413
 msgid "?cma:Very happy"
-msgstr ""
+msgstr "?cma:An-Sásta"
 
 #: client/agents/cma_fec.c:414
 msgid "?cma:Max food"
-msgstr ""
+msgstr "?cma:Uasmhéid bia"
 
 #: client/agents/cma_fec.c:415
 msgid "?cma:Max production"
-msgstr ""
+msgstr "?cma:Uasráta táirgthe"
 
 #: client/agents/cma_fec.c:416
 msgid "?cma:Max gold"
-msgstr ""
+msgstr "?cma:Uasmhéid óir"
 
 #: client/agents/cma_fec.c:417
 msgid "?cma:Max science"
-msgstr ""
+msgstr "?cma:Uasmhéid eolaíochta"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:87 client/gui-win32/dialogs.c:1373
 msgid "Ooops..."
@@ -10823,7 +10823,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:595 client/gui-win32/citydlg.c:680
 msgid "Pollution:"
-msgstr ""
+msgstr "Truailliú:"
 
 #: client/gui-gtk-2.0/citydlg.c:596
 msgid "Plague Risk:"
@@ -10831,13 +10831,13 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:650 client/gui-gtk-2.0/inteldlg.c:192
 msgid "_Overview"
-msgstr ""
+msgstr "F_oramharc"
 
 #: client/gui-gtk-2.0/citydlg.c:679 client/gui-gtk-2.0/wldlg.c:1010
 #: client/gui-win32/citydlg.c:1090 client/gui-win32/wldlg.c:802
 #: client/gui-win32/wldlg.c:808
 msgid "Info"
-msgstr ""
+msgstr "Eolas"
 
 #: client/gui-gtk-2.0/citydlg.c:687 client/gui-sdl/citydlg.c:2522
 #: client/gui-win32/citydlg.c:790
@@ -10850,7 +10850,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:799 client/gui-gtk-2.0/citydlg.c:920
 msgid "Production:"
-msgstr ""
+msgstr "Táirgeadh:"
 
 #: client/gui-gtk-2.0/citydlg.c:836 client/gui-gtk-2.0/citydlg.c:930
 #, c-format
@@ -10860,15 +10860,15 @@ msgstr ""
 #: client/gui-gtk-2.0/citydlg.c:839 client/gui-gtk-2.0/citydlg.c:937
 #: client/gui-gtk-2.0/cityrep.c:1027
 msgid "_Buy"
-msgstr ""
+msgstr "_Ceannaigh"
 
 #: client/gui-gtk-2.0/citydlg.c:849
 msgid "I_mprovements:"
-msgstr ""
+msgstr "_Feabhsúcháin:"
 
 #: client/gui-gtk-2.0/citydlg.c:908
 msgid "P_roduction"
-msgstr ""
+msgstr "Tái_rgeadh"
 
 #: client/gui-gtk-2.0/citydlg.c:959
 msgid "Happ_iness"
@@ -10876,25 +10876,25 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1012
 msgid "_Governor"
-msgstr ""
+msgstr "_Gobharnóir"
 
 #: client/gui-gtk-2.0/citydlg.c:1035
 msgid "_Settings"
-msgstr ""
+msgstr "_Socruithe"
 
 #: client/gui-gtk-2.0/citydlg.c:1038
 msgid "Entertainers"
-msgstr ""
+msgstr "Siamsóirí"
 
 #: client/gui-gtk-2.0/citydlg.c:1039 client/gui-win32/citydlg.c:1957
 #: client/gui-xaw/citydlg.c:2394
 msgid "Scientists"
-msgstr ""
+msgstr "Eolaithe"
 
 #: client/gui-gtk-2.0/citydlg.c:1040 client/gui-win32/citydlg.c:1959
 #: client/gui-xaw/citydlg.c:2395
 msgid "Taxmen"
-msgstr ""
+msgstr "Lucht Cánach"
 
 #: client/gui-gtk-2.0/citydlg.c:1043 client/gui-win32/citydlg.c:1962
 msgid "Disband if build settler at size 1"
@@ -10902,11 +10902,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1046
 msgid "Overview page"
-msgstr ""
+msgstr "Leathanach Foramhairc"
 
 #: client/gui-gtk-2.0/citydlg.c:1047
 msgid "Production page"
-msgstr ""
+msgstr "Leathanach Táirgthe"
 
 #: client/gui-gtk-2.0/citydlg.c:1048
 msgid "Happiness page"
@@ -10964,7 +10964,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:1340 client/gui-sdl/citydlg.c:3609
 msgid " - happy"
-msgstr ""
+msgstr " - sona sásta"
 
 #: client/gui-gtk-2.0/citydlg.c:1436 client/gui-sdl/citydlg.c:3298
 #: client/gui-win32/citydlg.c:461
@@ -10983,7 +10983,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/citydlg.c:2006 client/gui-gtk-2.0/cityrep.c:1019
 msgid "Cen_ter"
-msgstr ""
+msgstr "_Lár"
 
 #: client/gui-gtk-2.0/citydlg.c:2012 client/gui-gtk-2.0/citydlg.c:2066
 #: client/gui-win32/citydlg.c:1449 client/gui-win32/citydlg.c:1479
@@ -11554,11 +11554,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:614
 msgid "Player"
-msgstr ""
+msgstr "Imreoir"
 
 #: client/gui-gtk-2.0/editprop.c:618
 msgid "?play:Game"
-msgstr ""
+msgstr "?play:Cluiche"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -11571,7 +11571,7 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:868
 #, c-format
 msgid "%d known"
-msgstr ""
+msgstr "%d ar eolas"
 
 #. TRANS: "The number of terrain specials (e.g. road,
 #. * rail, hut, etc.) present on a tile."
@@ -11590,12 +11590,12 @@ msgstr[1] ""
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:918
 msgid "(never)"
-msgstr ""
+msgstr "(riamh)"
 
 #. TRANS: Improvement was destroyed.
 #: client/gui-gtk-2.0/editprop.c:921
 msgid "(destroyed)"
-msgstr ""
+msgstr "(scriosta)"
 
 #: client/gui-gtk-2.0/editprop.c:3098 client/gui-gtk-2.0/gui_main.c:1421
 #: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:870
@@ -11614,12 +11614,12 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:921 client/gui-gtk-2.0/menu.c:923
 #: client/gui-gtk-2.0/menu.c:925 data/Freeciv.in:2028
 msgid "View"
-msgstr ""
+msgstr "Amharc"
 
 #: client/gui-gtk-2.0/editprop.c:3100 client/gui-win32/wldlg.c:433
 #: data/Freeciv.in:1995
 msgid "Edit"
-msgstr ""
+msgstr "Eagar"
 
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
@@ -11632,12 +11632,12 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:3242 client/gui-gtk-2.0/editprop.c:3769
 #: client/gui-gtk-2.0/editprop.c:3795
 msgid "ID"
-msgstr ""
+msgstr "Aitheantas"
 
 #. TRANS: As in "this invention is known".
 #: client/gui-gtk-2.0/editprop.c:3206 client/gui-gtk-2.0/editprop.c:3240
 msgid "Known"
-msgstr ""
+msgstr "Ar Eolas"
 
 #: client/gui-gtk-2.0/editprop.c:3222
 msgid "Turn Built"
@@ -11651,23 +11651,23 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:3728 client/gui-gtk-2.0/editprop.c:3763
 #: client/gui-gtk-2.0/editprop.c:3789
 msgid "Image"
-msgstr ""
+msgstr "Íomhá"
 
 #: client/gui-gtk-2.0/editprop.c:3732
 msgid "Resource"
-msgstr ""
+msgstr "Acmhainn"
 
 #: client/gui-gtk-2.0/editprop.c:3734
 msgid "Index"
-msgstr ""
+msgstr "Innéacs"
 
 #: client/gui-gtk-2.0/editprop.c:3736
 msgid "?coordinate:X"
-msgstr ""
+msgstr "?coordinate:X"
 
 #: client/gui-gtk-2.0/editprop.c:3738
 msgid "?coordinate:Y"
-msgstr ""
+msgstr "?coordinate:Y"
 
 #. TRANS: The coordinate X in native coordinates.
 #. * The freeciv coordinate system is described in doc/HACKING.
@@ -11683,12 +11683,12 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:3748
 msgid "Continent"
-msgstr ""
+msgstr "Mór-Roinn"
 
 #: client/gui-gtk-2.0/editprop.c:3750 client/gui-gtk-2.0/editprop.c:3771
 #: client/gui-gtk-2.0/editprop.c:3797
 msgid "?coordinates:X,Y"
-msgstr ""
+msgstr "?coordinates:X,Y"
 
 #: client/gui-gtk-2.0/editprop.c:3752 client/gui-gtk-2.0/menu.c:907
 #: client/gui-win32/menu.c:352 client/gui-xaw/menu.c:158
@@ -11702,7 +11702,7 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:3756 client/gui-gtk-2.0/editprop.c:3765
 #: client/gui-gtk-2.0/editprop.c:3793 client/gui-gtk-2.0/editprop.c:3812
 msgid "Address"
-msgstr ""
+msgstr "Seoladh"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:3767 client/gui-gtk-2.0/pages.c:947
@@ -11711,7 +11711,7 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:993 client/gui-win32/wldlg.c:801
 #: client/gui-win32/wldlg.c:807
 msgid "Type"
-msgstr ""
+msgstr "Cineál"
 
 #: client/gui-gtk-2.0/editprop.c:3773
 msgid "Moves Left"
@@ -11719,7 +11719,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:3775
 msgid "Fuel"
-msgstr ""
+msgstr "Breosla"
 
 #: client/gui-gtk-2.0/editprop.c:3777
 msgid "Moved"
@@ -11759,7 +11759,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:3823
 msgid "Year"
-msgstr ""
+msgstr "Bliain"
 
 #: client/gui-gtk-2.0/editprop.c:3825
 msgid "Scenario"
@@ -11779,7 +11779,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:4109
 msgid "Destroy"
-msgstr ""
+msgstr "Scrios"
 
 #: client/gui-gtk-2.0/editprop.c:4114
 msgid ""
@@ -11806,7 +11806,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:4217
 msgid "Filter:"
-msgstr ""
+msgstr "Scagaire:"
 
 #: client/gui-gtk-2.0/editprop.c:4222
 msgid ""
@@ -12333,13 +12333,13 @@ msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:1002 client/gui-gtk-2.0/helpdlg.c:1019
 msgid "?techhelp:"
-msgstr ""
+msgstr "?techhelp:"
 
 #: client/gui-gtk-2.0/helpdlg.c:1067 client/gui-win32/helpdlg.c:602
 #: client/gui-xaw/helpdlg.c:1004
 #, c-format
 msgid "+%d Trade / %d"
-msgstr ""
+msgstr "+%d Trádáil / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1071 client/gui-win32/helpdlg.c:606
 #: client/gui-xaw/helpdlg.c:1008
@@ -12360,7 +12360,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:1017
 #, c-format
 msgid "+%d Food / %d"
-msgstr ""
+msgstr "+%d Bia / %d"
 
 #: client/gui-gtk-2.0/helpdlg.c:1095 client/gui-win32/helpdlg.c:630
 #: client/gui-xaw/helpdlg.c:1031
@@ -12370,31 +12370,31 @@ msgstr ""
 
 #: client/gui-gtk-2.0/inteldlg.c:42
 msgid "Ruler:"
-msgstr ""
+msgstr "Rialtóir:"
 
 #: client/gui-gtk-2.0/inteldlg.c:43
 msgid "Government:"
-msgstr ""
+msgstr "Rialtas:"
 
 #: client/gui-gtk-2.0/inteldlg.c:44
 msgid "Capital:"
-msgstr ""
+msgstr "Príomhchathair:"
 
 #: client/gui-gtk-2.0/inteldlg.c:47
 msgid "Tax:"
-msgstr ""
+msgstr "Cáin:"
 
 #: client/gui-gtk-2.0/inteldlg.c:51
 msgid "Researching:"
-msgstr ""
+msgstr "Taighde:"
 
 #: client/gui-gtk-2.0/inteldlg.c:240
 msgid "_Diplomacy"
-msgstr ""
+msgstr "Tai_dhleoireacht"
 
 #: client/gui-gtk-2.0/inteldlg.c:275
 msgid "_Techs"
-msgstr ""
+msgstr "_Teic"
 
 #: client/gui-gtk-2.0/inteldlg.c:300
 #, c-format
@@ -12426,7 +12426,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:791 client/gui-win32/menu.c:307
 msgid "_Game"
-msgstr ""
+msgstr "_Cluiche"
 
 #: client/gui-gtk-2.0/menu.c:793 client/gui-gtk-2.0/menu.c:795
 #: client/gui-gtk-2.0/menu.c:797 client/gui-gtk-2.0/menu.c:799
@@ -12440,12 +12440,12 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:833 client/gui-gtk-2.0/menu.c:835
 #: client/gui-gtk-2.0/menu.c:837 data/Freeciv.in:2026
 msgid "Game"
-msgstr ""
+msgstr "Cluiche"
 
 #: client/gui-gtk-2.0/menu.c:795 client/gui-gtk-2.0/menu.c:797
 #: client/gui-gtk-2.0/menu.c:799
 msgid "_Chat"
-msgstr ""
+msgstr "Comh_rá"
 
 #: client/gui-gtk-2.0/menu.c:797 client/gui-win32/menu.c:318
 msgid "_Clear Log"
@@ -12468,13 +12468,13 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:805
 msgid "_Revolution..."
-msgstr ""
+msgstr "_Réabhlóid"
 
 #: client/gui-gtk-2.0/menu.c:809 client/gui-gtk-2.0/menu.c:811
 #: client/gui-gtk-2.0/menu.c:813 client/gui-gtk-2.0/menu.c:815
 #: client/gui-gtk-2.0/menu.c:817 client/gui-gtk-2.0/menu.c:819
 msgid "_Options"
-msgstr ""
+msgstr "R_oghanna"
 
 #: client/gui-gtk-2.0/menu.c:811
 msgid "_Local Client"
@@ -12482,15 +12482,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:813
 msgid "_Message"
-msgstr ""
+msgstr "_Teachtaireacht"
 
 #: client/gui-gtk-2.0/menu.c:815
 msgid "_Remote Server"
-msgstr ""
+msgstr "Cianfh_reastalaí"
 
 #: client/gui-gtk-2.0/menu.c:817
 msgid "Save Options _Now"
-msgstr ""
+msgstr "Sábháil Roghanna A_nois"
 
 #: client/gui-gtk-2.0/menu.c:819
 msgid "Save Options on _Exit"
@@ -12502,19 +12502,19 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:827 client/gui-win32/menu.c:314
 msgid "_Save Game"
-msgstr ""
+msgstr "_Sábháil an Cluiche"
 
 #: client/gui-gtk-2.0/menu.c:830 client/gui-win32/menu.c:315
 msgid "Save Game _As..."
-msgstr ""
+msgstr "Sábháil an Cluiche M_ar..."
 
 #: client/gui-gtk-2.0/menu.c:835
 msgid "_Leave"
-msgstr ""
+msgstr "_Fág"
 
 #: client/gui-gtk-2.0/menu.c:837 client/gui-win32/menu.c:321
 msgid "_Quit"
-msgstr ""
+msgstr "_Scoir"
 
 #: client/gui-gtk-2.0/menu.c:842 client/gui-gtk-2.0/menu.c:844
 #: client/gui-gtk-2.0/menu.c:846 client/gui-gtk-2.0/menu.c:848
@@ -12523,7 +12523,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:859 client/gui-gtk-2.0/menu.c:861
 #: client/gui-win32/menu.c:325
 msgid "_Edit"
-msgstr ""
+msgstr "_Eagar"
 
 #: client/gui-gtk-2.0/menu.c:846 client/gui-win32/menu.c:328
 msgid "_Find City"
@@ -12531,11 +12531,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:848 client/gui-win32/menu.c:329
 msgid "_Worklists"
-msgstr ""
+msgstr "_Liostaí Oibre"
 
 #: client/gui-gtk-2.0/menu.c:853
 msgid "Editing _Mode"
-msgstr ""
+msgstr "_Mód Eagarthóireachta"
 
 #: client/gui-gtk-2.0/menu.c:855
 msgid "Recalculate _Borders"
@@ -12556,7 +12556,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1027
 #: client/gui-win32/menu.c:338
 msgid "_View"
-msgstr ""
+msgstr "_Amharc"
 
 #: client/gui-gtk-2.0/menu.c:870
 msgid "City Outlines"
@@ -12915,11 +12915,11 @@ msgstr ""
 #: client/gui-win32/wldlg.c:847 data/Freeciv.in:1466 data/Freeciv.in:2032
 #: data/Freeciv.in:2108 data/Freeciv.in:2195 data/Freeciv.in:2201
 msgid "Help"
-msgstr ""
+msgstr "Cabhair"
 
 #: client/gui-gtk-2.0/menu.c:1057 client/gui-win32/menu.c:420
 msgid "Language_s"
-msgstr ""
+msgstr "_Teangacha"
 
 #: client/gui-gtk-2.0/menu.c:1059 client/gui-win32/menu.c:421
 msgid "Co_nnecting"
@@ -12927,7 +12927,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1061 client/gui-win32/menu.c:422
 msgid "C_ontrols"
-msgstr ""
+msgstr "_Rialtaín"
 
 #: client/gui-gtk-2.0/menu.c:1063 client/gui-win32/menu.c:423
 msgid "C_hatline"
@@ -12947,7 +12947,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1073
 msgid "About Ruleset"
-msgstr ""
+msgstr "Maidir leis na rialacha"
 
 #: client/gui-gtk-2.0/menu.c:1076 client/gui-win32/menu.c:428
 msgid "City _Improvements"
@@ -12955,7 +12955,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1080 client/gui-win32/menu.c:430
 msgid "Com_bat"
-msgstr ""
+msgstr "_Comhrac"
 
 #: client/gui-gtk-2.0/menu.c:1082 client/gui-win32/menu.c:431
 msgid "_ZOC"
@@ -12963,15 +12963,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1084 client/gui-win32/menu.c:432
 msgid "Techno_logy"
-msgstr ""
+msgstr "Teicneo_laíocht"
 
 #: client/gui-gtk-2.0/menu.c:1086 client/gui-win32/menu.c:433
 msgid "_Terrain"
-msgstr ""
+msgstr "_Tír-Raon"
 
 #: client/gui-gtk-2.0/menu.c:1088 client/gui-win32/menu.c:434
 msgid "Won_ders"
-msgstr ""
+msgstr "_Iontais"
 
 #: client/gui-gtk-2.0/menu.c:1092 client/gui-win32/menu.c:436
 msgid "Happin_ess"
@@ -12983,21 +12983,21 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1098 client/gui-win32/menu.c:439
 msgid "_Copying"
-msgstr ""
+msgstr "_Cóipeáil"
 
 #: client/gui-gtk-2.0/menu.c:1100 client/gui-win32/menu.c:440
 msgid "_About"
-msgstr ""
+msgstr "M_aidir Leis"
 
 #: client/gui-gtk-2.0/menu.c:1453
 #, c-format
 msgid "%s..."
-msgstr ""
+msgstr "%s..."
 
 #: client/gui-gtk-2.0/menu.c:1494
 #, c-format
 msgid "%s"
-msgstr ""
+msgstr "%s"
 
 #: client/gui-gtk-2.0/menu.c:1601
 #, c-format
@@ -13093,7 +13093,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/plrdlg.c:387
 msgid "?show:Dead Players"
-msgstr ""
+msgstr "?show:Imreoirí Marbha"
 
 #. TRANS: Nations report title
 #. TRANS: Nations report action
@@ -13103,27 +13103,27 @@ msgstr ""
 #: client/gui-sdl/plrdlg.c:606 client/gui-win32/plrdlg.c:341
 #: client/gui-xaw/menu.c:225 data/Freeciv.in:3199 data/Freeciv.in:3200
 msgid "Nations"
-msgstr ""
+msgstr "Náisiúin"
 
 #: client/gui-gtk-2.0/plrdlg.c:513
 msgid "Di_plomacy"
-msgstr ""
+msgstr "_Taidhleoireacht"
 
 #: client/gui-gtk-2.0/plrdlg.c:518
 msgid "_Intelligence"
-msgstr ""
+msgstr "_Intleacht"
 
 #: client/gui-gtk-2.0/plrdlg.c:528
 msgid "_AI"
-msgstr ""
+msgstr "_AI"
 
 #: client/gui-gtk-2.0/plrdlg.c:534
 msgid "_Toggle AI Mode"
-msgstr ""
+msgstr "_Scoránaigh Mód AI"
 
 #: client/gui-gtk-2.0/pages.c:217
 msgid "Start _New Game"
-msgstr ""
+msgstr "Tosaigh Cluiche _Nua"
 
 #: client/gui-gtk-2.0/pages.c:223
 msgid "Start _Scenario Game"
@@ -13131,11 +13131,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "_Load Saved Game"
-msgstr ""
+msgstr "_Luchtaigh Cluiche Sábháilte"
 
 #: client/gui-gtk-2.0/pages.c:235
 msgid "C_onnect to Network Game"
-msgstr ""
+msgstr "Ceangail le Cluiche Lí_onra"
 
 #: client/gui-gtk-2.0/pages.c:243
 msgid "Connect to Gaming _Zone"
@@ -13149,35 +13149,35 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:775 client/gui-gtk-2.0/pages.c:816
 #: client/gui-win32/connectdlg.c:908
 msgid "Server Name"
-msgstr ""
+msgstr "Ainm an Fhreastalaí"
 
 #: client/gui-gtk-2.0/pages.c:776 client/gui-gtk-2.0/pages.c:817
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:908
 #: data/Freeciv.in:96
 msgid "Port"
-msgstr ""
+msgstr "Port"
 
 #: client/gui-gtk-2.0/pages.c:777 client/gui-gtk-2.0/pages.c:818
 #: client/gui-win32/connectdlg.c:909
 msgid "Version"
-msgstr ""
+msgstr "Leagan"
 
 #: client/gui-gtk-2.0/pages.c:778 client/gui-gtk-2.0/pages.c:819
 #: client/gui-gtk-2.0/pages.c:2159 client/gui-win32/connectdlg.c:909
 #: client/gui-win32/connectdlg.c:988
 msgid "Status"
-msgstr ""
+msgstr "Stádas"
 
 #: client/gui-gtk-2.0/pages.c:779 client/gui-gtk-2.0/pages.c:820
 #: client/gui-sdl/connectdlg.c:318 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:909
 msgid "Players"
-msgstr ""
+msgstr "Imreoirí"
 
 #: client/gui-gtk-2.0/pages.c:780 client/gui-gtk-2.0/pages.c:821
 #: client/gui-win32/connectdlg.c:910
 msgid "Comment"
-msgstr ""
+msgstr "Nóta"
 
 #: client/gui-gtk-2.0/pages.c:782
 msgid "Local _Area Network"
@@ -13189,19 +13189,19 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:860
 msgid "_Host:"
-msgstr ""
+msgstr "Óstríom_haire:"
 
 #: client/gui-gtk-2.0/pages.c:877
 msgid "_Port:"
-msgstr ""
+msgstr "_Port:"
 
 #: client/gui-gtk-2.0/pages.c:894
 msgid "_Login:"
-msgstr ""
+msgstr "_Logáil Isteach:"
 
 #: client/gui-gtk-2.0/pages.c:912
 msgid "Pass_word:"
-msgstr ""
+msgstr "_Focal Faire:"
 
 #: client/gui-gtk-2.0/pages.c:930
 msgid "Conf_irm Password:"
@@ -13210,26 +13210,26 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:948 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
-msgstr ""
+msgstr "Óstríomhaire"
 
 #: client/gui-gtk-2.0/pages.c:977
 msgid "C_onnect"
-msgstr ""
+msgstr "C_eangail"
 
 #: client/gui-gtk-2.0/pages.c:1198
 #, c-format
 msgid "Connection name: %s"
-msgstr ""
+msgstr "Ainm an cheangail: %s"
 
 #: client/gui-gtk-2.0/pages.c:1201
 #, c-format
 msgid "Player name: %s"
-msgstr ""
+msgstr "Ainm an imreora: %s"
 
 #: client/gui-gtk-2.0/pages.c:1206
 #, c-format
 msgid "Host: %s"
-msgstr ""
+msgstr "Óstríomhaire: %s"
 
 #: client/gui-gtk-2.0/pages.c:1214
 msgid "Player/conn info"
@@ -13246,7 +13246,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1260
 msgid "Pick nation"
-msgstr ""
+msgstr "Roghnaigh náisiún"
 
 #: client/gui-gtk-2.0/pages.c:1270
 msgid "Observe this player"
@@ -13280,23 +13280,23 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1398
 #, c-format
 msgid "Put on %s"
-msgstr ""
+msgstr "Cuir ar %s é"
 
 #: client/gui-gtk-2.0/pages.c:1534
 msgid "Number of _Players (including AI):"
-msgstr ""
+msgstr "_Líon na nImreoirí (AI san áireamh):"
 
 #: client/gui-gtk-2.0/pages.c:1561
 msgid "AI Skill _Level:"
-msgstr ""
+msgstr "_Leibhéal an AI:"
 
 #: client/gui-gtk-2.0/pages.c:1578
 msgid "Ruleset _Version:"
-msgstr ""
+msgstr "_Leagan na Rialacha:"
 
 #: client/gui-gtk-2.0/pages.c:1586 client/gui-gtk-2.0/pages.c:2191
 msgid "_More Game Options..."
-msgstr ""
+msgstr "_Tuilleadh Roghanna..."
 
 #: client/gui-gtk-2.0/pages.c:1608
 msgid "Record"
@@ -13304,15 +13304,15 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:1610
 msgid "Rating"
-msgstr ""
+msgstr "Rátáil"
 
 #: client/gui-gtk-2.0/pages.c:1612
 msgid "Ready"
-msgstr ""
+msgstr "Réidh"
 
 #: client/gui-gtk-2.0/pages.c:1614
 msgid "?player:Leader"
-msgstr ""
+msgstr "?player:Ceannaire"
 
 #: client/gui-gtk-2.0/pages.c:1736 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
@@ -13325,7 +13325,7 @@ msgstr ""
 #: client/gui-gtk-2.0/pages.c:1846 client/gui-gtk-2.0/pages.c:2035
 #: client/gui-gtk-2.0/pages.c:2455
 msgid "_Browse..."
-msgstr ""
+msgstr "_Brabhsáil..."
 
 #: client/gui-gtk-2.0/pages.c:1910
 msgid "Choose a Scenario"
@@ -13345,11 +13345,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/pages.c:2452 client/gui-sdl/optiondlg.c:2356
 msgid "Save Game"
-msgstr ""
+msgstr "Sábháil an Cluiche"
 
 #: client/gui-gtk-2.0/pages.c:2493
 msgid "Saved _Games:"
-msgstr ""
+msgstr "_Cluichí Sábháilte:"
 
 #: client/gui-gtk-2.0/pages.c:2520
 msgid "Save _Filename:"
@@ -13367,7 +13367,7 @@ msgstr ""
 #: client/gui-xaw/menu.c:228 client/gui-xaw/repodlgs.c:279
 #: client/gui-xaw/repodlgs.c:503 data/Freeciv.in:1366
 msgid "Research"
-msgstr ""
+msgstr "Taighde"
 
 #: client/gui-gtk-2.0/repodlgs.c:303 client/gui-win32/repodlgs.c:283
 msgid "Researching"
@@ -13376,11 +13376,11 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:324 client/gui-win32/repodlgs.c:293
 #: data/Freeciv.in:1429
 msgid "Goal"
-msgstr ""
+msgstr "Aidhm"
 
 #: client/gui-gtk-2.0/repodlgs.c:643
 msgid "?Building:Name"
-msgstr ""
+msgstr "?Building:Ainm"
 
 #: client/gui-gtk-2.0/repodlgs.c:644 client/gui-win32/repodlgs.c:462
 msgid "Count"
@@ -13391,7 +13391,7 @@ msgstr ""
 #: client/gui-win32/wldlg.c:803 client/gui-win32/wldlg.c:809
 #: manual/civmanual.c:299
 msgid "Cost"
-msgstr ""
+msgstr "Costas"
 
 #. TRANS: Upkeep total, count*cost
 #: client/gui-gtk-2.0/repodlgs.c:647 client/gui-sdl/repodlgs.c:2028
@@ -13401,7 +13401,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:717
 msgid "Total Cost:"
-msgstr ""
+msgstr "Costas Iomlán:"
 
 #: client/gui-gtk-2.0/repodlgs.c:723
 msgid "Sell _Obsolete"
@@ -13435,7 +13435,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:957 client/gui-win32/repodlgs.c:705
 msgid "?Upgradable unit [short]:U"
-msgstr ""
+msgstr "?Upgradable unit [short]:U"
 
 #: client/gui-gtk-2.0/repodlgs.c:958 client/gui-win32/repodlgs.c:706
 msgid "In-Prog"
@@ -13451,7 +13451,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1037
 msgid "_Upgrade"
-msgstr ""
+msgstr "_Uasghrádaigh"
 
 #: client/gui-gtk-2.0/repodlgs.c:1180 client/gui-sdl/repodlgs.c:180
 #: client/gui-win32/repodlgs.c:568 client/gui-xaw/repodlgs.c:1029
@@ -13463,19 +13463,19 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1289
 msgid "Totals:"
-msgstr ""
+msgstr "Iomláin:"
 
 #: client/gui-gtk-2.0/repodlgs.c:1312
 msgid "Player\n"
-msgstr ""
+msgstr "Imreoir\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1313
 msgid "Score\n"
-msgstr ""
+msgstr "Scór\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1314
 msgid "Population\n"
-msgstr ""
+msgstr "Daonra\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1315
 msgid ""
@@ -13505,7 +13505,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1320
 msgid "Wonders\n"
-msgstr ""
+msgstr "Iontais\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1321
 msgid ""
@@ -13537,31 +13537,31 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:1507 data/Freeciv.in:3397 data/Freeciv.in:3406
 msgid "Game Settings"
-msgstr ""
+msgstr "Socruithe an Chluiche"
 
 #: client/gui-gtk-2.0/repodlgs.c:1612 client/gui-xaw/repodlgs.c:1438
 msgid "true"
-msgstr ""
+msgstr "fíor"
 
 #: client/gui-gtk-2.0/repodlgs.c:1612 client/gui-xaw/repodlgs.c:1438
 msgid "false"
-msgstr ""
+msgstr "bréagach"
 
 #: client/gui-gtk-2.0/repodlgs.c:1622 client/gui-xaw/repodlgs.c:1448
 msgid "(hidden)"
-msgstr ""
+msgstr "(i bhfolach)"
 
 #: client/gui-gtk-2.0/spaceshipdlg.c:223
 msgid "_Launch"
-msgstr ""
+msgstr "_Lainseáil"
 
 #: client/gui-gtk-2.0/theme_dlg.c:57
 msgid "Theme suggested"
-msgstr ""
+msgstr "Téama molta"
 
 #: client/gui-gtk-2.0/theme_dlg.c:60
 msgid "Load theme"
-msgstr ""
+msgstr "Luchtaigh téama"
 
 #: client/gui-gtk-2.0/theme_dlg.c:62
 msgid "Keep current theme"
@@ -13596,7 +13596,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/wldlg.c:162
 msgid "new"
-msgstr ""
+msgstr "nua"
 
 #: client/gui-gtk-2.0/wldlg.c:225 client/gui-win32/wldlg.c:419
 msgid "Edit worklists"
@@ -13864,7 +13864,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2603
 #, c-format
 msgid "?food:Surplus: %d"
-msgstr ""
+msgstr "?food:Barrachas: %d"
 
 #: client/gui-sdl/citydlg.c:2651
 #, c-format
@@ -13874,7 +13874,7 @@ msgstr ""
 #: client/gui-sdl/citydlg.c:2697
 #, c-format
 msgid "?production:Support: %d"
-msgstr ""
+msgstr "?production:Tacaíocht: %d"
 
 #: client/gui-sdl/citydlg.c:2735
 #, c-format
@@ -14678,12 +14678,12 @@ msgstr "?blistbegin: le "
 #: client/gui-sdl/mapview.c:619 data/default/buildings.ruleset:113
 #: data/civ2/buildings.ruleset:96 data/civ1/buildings.ruleset:69
 msgid "Barracks"
-msgstr ""
+msgstr "Beairic"
 
 #: client/gui-sdl/mapview.c:631 data/default/buildings.ruleset:45
 #: data/civ2/buildings.ruleset:28
 msgid "Airport"
-msgstr ""
+msgstr "Aerfort"
 
 #: client/gui-sdl/mapview.c:637 data/default/buildings.ruleset:212
 #: data/civ2/buildings.ruleset:192 data/civ1/buildings.ruleset:161
@@ -14701,6 +14701,8 @@ msgid ""
 "\n"
 "(%s,%s)"
 msgstr ""
+"\n"
+"(%s,%s)"
 
 #: client/gui-sdl/mapview.c:657
 #, c-format
@@ -14708,6 +14710,8 @@ msgid ""
 "\n"
 "Food/Prod/Trade: %s"
 msgstr ""
+"\n"
+"Bia/Táirgeadh/Trádáil: %s"
 
 #: client/gui-sdl/mapview.c:893
 msgid "End of Turn"
@@ -14715,7 +14719,7 @@ msgstr ""
 
 #: client/gui-sdl/mapview.c:893
 msgid "Press"
-msgstr ""
+msgstr "Brúigh"
 
 #. TRANS: keyboard
 #: client/gui-sdl/menu.c:374
@@ -14724,11 +14728,11 @@ msgstr ""
 
 #: client/gui-sdl/menu.c:374
 msgid "Space"
-msgstr ""
+msgstr "Spás"
 
 #: client/gui-sdl/menu.c:388 client/gui-xaw/menu.c:216
 msgid "Wait"
-msgstr ""
+msgstr "Fan"
 
 #: client/gui-sdl/menu.c:413
 msgid "Diplomat|Spy Actions"
@@ -15662,35 +15666,35 @@ msgstr ""
 
 #: client/gui-win32/helpdlg.c:849 client/gui-win32/helpdlg.c:862
 msgid " (with "
-msgstr ""
+msgstr " (le "
 
 #: client/gui-win32/helpdlg.c:852 client/gui-win32/helpdlg.c:865
 msgid "?techhelp:)."
-msgstr ""
+msgstr "?techhelp:)."
 
 #: client/gui-win32/inteldlg.c:100 client/gui-xaw/inteldlg.c:192
 #: client/gui-xaw/inteldlg.c:435
 #, c-format
 msgid "Ruler: %s %s"
-msgstr ""
+msgstr "Rialtóir: %s %s"
 
 #: client/gui-win32/inteldlg.c:115 client/gui-xaw/inteldlg.c:217
 #: client/gui-xaw/ratesdlg.c:311
 #, c-format
 msgid "Tax: %d%%"
-msgstr ""
+msgstr "Cáin: %d%%"
 
 #: client/gui-win32/inteldlg.c:118 client/gui-xaw/inteldlg.c:225
 #: client/gui-xaw/ratesdlg.c:327
 #, c-format
 msgid "Science: %d%%"
-msgstr ""
+msgstr "Eolaíocht: %d%%"
 
 #: client/gui-win32/inteldlg.c:121 client/gui-xaw/inteldlg.c:233
 #: client/gui-xaw/ratesdlg.c:319
 #, c-format
 msgid "Luxury: %d%%"
-msgstr ""
+msgstr "Só: %d%%"
 
 #: client/gui-win32/inteldlg.c:130 client/gui-xaw/inteldlg.c:243
 msgid "Researching: (Unknown)"
@@ -15709,7 +15713,7 @@ msgstr ""
 #: client/gui-win32/inteldlg.c:146 client/gui-xaw/inteldlg.c:264
 #, c-format
 msgid "Capital: %s"
-msgstr ""
+msgstr "Príomhchathair: %s"
 
 #: client/gui-win32/mapview.c:177
 #, c-format
@@ -15722,7 +15726,7 @@ msgstr ""
 
 #: client/gui-win32/menu.c:308
 msgid "Local _Options"
-msgstr ""
+msgstr "R_oghanna Logánta"
 
 #: client/gui-win32/menu.c:309
 msgid "_Message Options"
@@ -15730,19 +15734,19 @@ msgstr ""
 
 #: client/gui-win32/menu.c:310
 msgid "Sa_ve Settings"
-msgstr ""
+msgstr "Sá_bháil na Socruithe"
 
 #: client/gui-win32/menu.c:312
 msgid "Server O_ptions"
-msgstr ""
+msgstr "_Roghanna Freastalaí"
 
 #: client/gui-win32/menu.c:320
 msgid "_Disconnect"
-msgstr ""
+msgstr "_Dícheangail"
 
 #: client/gui-win32/menu.c:332
 msgid "_Revolution"
-msgstr ""
+msgstr "_Réabhlóid"
 
 #: client/gui-win32/menu.c:359 client/gui-xaw/menu.c:165
 msgid "Center View"
@@ -17604,13 +17608,15 @@ msgstr ""
 
 #: data/helpdata.txt:1084
 msgid " Modifying Combat Rules"
-msgstr ""
+msgstr " Rialacha Comhraic a Athrú"
 
 #: data/helpdata.txt:1085
 msgid ""
 "Modifying Combat Rules\n"
 "----------------------"
 msgstr ""
+"Rialacha Comhraic a Athrú\n"
+"-------------------------"
 
 #: data/helpdata.txt:1086
 msgid ""
@@ -18157,7 +18163,7 @@ msgstr ""
 #: data/default/buildings.ruleset:71 data/civ2/buildings.ruleset:54
 #: data/civ1/buildings.ruleset:28
 msgid "Aqueduct"
-msgstr ""
+msgstr "Uiscerian"
 
 #: data/default/buildings.ruleset:85 data/civ2/buildings.ruleset:68
 msgid ""
@@ -18168,7 +18174,7 @@ msgstr ""
 #: data/default/buildings.ruleset:91 data/civ2/buildings.ruleset:74
 #: data/civ1/buildings.ruleset:47
 msgid "Bank"
-msgstr ""
+msgstr "Banc"
 
 #: data/default/buildings.ruleset:107 data/civ2/buildings.ruleset:90
 #: data/civ1/buildings.ruleset:63
@@ -18192,17 +18198,17 @@ msgstr ""
 #: data/default/buildings.ruleset:138 data/civ2/buildings.ruleset:120
 #: data/civ1/buildings.ruleset:93
 msgid "Barracks II"
-msgstr ""
+msgstr "Beairic II"
 
 #: data/default/buildings.ruleset:163 data/civ2/buildings.ruleset:144
 #: data/civ1/buildings.ruleset:117
 msgid "Barracks III"
-msgstr ""
+msgstr "Beairic III"
 
 #: data/default/buildings.ruleset:187 data/civ2/buildings.ruleset:168
 #: data/civ1/buildings.ruleset:141
 msgid "Cathedral"
-msgstr ""
+msgstr "Ard-Eaglais"
 
 #: data/default/buildings.ruleset:202 data/civ2/buildings.ruleset:182
 msgid ""
@@ -18246,7 +18252,7 @@ msgstr ""
 #: data/default/buildings.ruleset:279 data/civ2/buildings.ruleset:257
 #: data/civ1/buildings.ruleset:204
 msgid "Courthouse"
-msgstr ""
+msgstr "Teach Cúirte"
 
 #: data/default/buildings.ruleset:294
 #, no-c-format
@@ -18259,7 +18265,7 @@ msgstr ""
 #: data/default/buildings.ruleset:301 data/civ2/buildings.ruleset:280
 #: data/civ1/buildings.ruleset:227
 msgid "Factory"
-msgstr ""
+msgstr "Monarcha"
 
 #: data/default/buildings.ruleset:316 data/civ2/buildings.ruleset:295
 #: data/civ1/buildings.ruleset:242
@@ -18279,7 +18285,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:346 data/civ2/buildings.ruleset:325
 msgid "Harbour"
-msgstr ""
+msgstr "Calafort"
 
 #: data/default/buildings.ruleset:361 data/civ2/buildings.ruleset:340
 msgid ""
@@ -18307,7 +18313,7 @@ msgstr ""
 #: data/default/buildings.ruleset:400 data/civ2/buildings.ruleset:377
 #: data/civ1/buildings.ruleset:303
 msgid "Library"
-msgstr ""
+msgstr "Leabharlann"
 
 #: data/default/buildings.ruleset:415
 #, no-c-format
@@ -18317,7 +18323,7 @@ msgstr ""
 #: data/default/buildings.ruleset:420 data/civ2/buildings.ruleset:397
 #: data/civ1/buildings.ruleset:323
 msgid "Marketplace"
-msgstr ""
+msgstr "Margadh"
 
 #: data/default/buildings.ruleset:435 data/civ2/buildings.ruleset:412
 #: data/civ1/buildings.ruleset:338
@@ -18328,7 +18334,7 @@ msgstr ""
 #: data/default/buildings.ruleset:440 data/civ2/buildings.ruleset:417
 #: data/civ1/buildings.ruleset:343
 msgid "Mass Transit"
-msgstr ""
+msgstr "Olliompar"
 
 #: data/default/buildings.ruleset:454 data/civ2/buildings.ruleset:431
 #: data/civ1/buildings.ruleset:357
@@ -18353,7 +18359,7 @@ msgstr ""
 #: data/default/buildings.ruleset:483 data/civ2/buildings.ruleset:460
 #: data/civ1/buildings.ruleset:386
 msgid "Nuclear Plant"
-msgstr ""
+msgstr "Gléasra Núicléach"
 
 #: data/default/buildings.ruleset:499
 #, no-c-format
@@ -18380,7 +18386,7 @@ msgstr ""
 #: data/default/buildings.ruleset:538 data/civ2/buildings.ruleset:513
 #: data/civ1/buildings.ruleset:418
 msgid "Palace"
-msgstr ""
+msgstr "Pálás"
 
 #: data/default/buildings.ruleset:554
 #, no-c-format
@@ -18401,7 +18407,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:571 data/civ2/buildings.ruleset:542
 msgid "Police Station"
-msgstr ""
+msgstr "Stáisiún Gardaí"
 
 #: data/default/buildings.ruleset:585 data/civ2/buildings.ruleset:556
 msgid ""
@@ -18423,7 +18429,7 @@ msgstr ""
 #: data/default/buildings.ruleset:617 data/civ2/buildings.ruleset:585
 #: data/civ1/buildings.ruleset:447
 msgid "Power Plant"
-msgstr ""
+msgstr "Stáisiún Cumhachta"
 
 #: data/default/buildings.ruleset:633
 #, no-c-format
@@ -18452,7 +18458,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:669 data/civ2/buildings.ruleset:634
 msgid "Research Lab"
-msgstr ""
+msgstr "Saotharlann Taighde"
 
 #: data/default/buildings.ruleset:685
 #, no-c-format
@@ -18513,7 +18519,7 @@ msgstr ""
 #: data/default/buildings.ruleset:785 data/civ2/buildings.ruleset:750
 #: data/civ1/buildings.ruleset:519
 msgid "Space Component"
-msgstr ""
+msgstr "Comhpháirt Spáis"
 
 #: data/default/buildings.ruleset:800 data/civ2/buildings.ruleset:764
 #: data/civ1/buildings.ruleset:533
@@ -18529,7 +18535,7 @@ msgstr ""
 #: data/default/buildings.ruleset:810 data/civ2/buildings.ruleset:774
 #: data/civ1/buildings.ruleset:543
 msgid "Space Module"
-msgstr ""
+msgstr "Modúl Spáis"
 
 #: data/default/buildings.ruleset:825 data/civ2/buildings.ruleset:788
 #: data/civ1/buildings.ruleset:557
@@ -18590,7 +18596,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:916 data/civ2/buildings.ruleset:874
 msgid "Supermarket"
-msgstr ""
+msgstr "Ollmhargadh"
 
 #: data/default/buildings.ruleset:931 data/civ2/buildings.ruleset:889
 #, no-c-format
@@ -18603,7 +18609,7 @@ msgstr ""
 #: data/default/buildings.ruleset:938 data/civ2/buildings.ruleset:896
 #: data/civ1/buildings.ruleset:600
 msgid "Temple"
-msgstr ""
+msgstr "Teampall"
 
 #: data/default/buildings.ruleset:952 data/civ2/buildings.ruleset:910
 #: data/civ1/buildings.ruleset:614
@@ -18617,7 +18623,7 @@ msgstr ""
 #: data/civ1/buildings.ruleset:621 data/default/techs.ruleset:732
 #: data/civ2/techs.ruleset:729 data/civ1/techs.ruleset:563
 msgid "University"
-msgstr ""
+msgstr "Ollscoil"
 
 #: data/default/buildings.ruleset:975
 #, no-c-format
@@ -18629,7 +18635,7 @@ msgstr ""
 #: data/default/buildings.ruleset:981 data/civ2/buildings.ruleset:939
 #: data/civ1/buildings.ruleset:643
 msgid "Apollo Program"
-msgstr ""
+msgstr "Clár Program"
 
 #: data/default/buildings.ruleset:995 data/civ2/buildings.ruleset:953
 msgid ""
@@ -18651,7 +18657,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1022 data/civ2/buildings.ruleset:980
 #: data/civ1/buildings.ruleset:662
 msgid "Colossus"
-msgstr ""
+msgstr "Olldealbh"
 
 #: data/default/buildings.ruleset:1036 data/civ2/buildings.ruleset:994
 #: data/civ1/buildings.ruleset:676
@@ -18663,7 +18669,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1042 data/civ2/buildings.ruleset:1000
 #: data/civ1/buildings.ruleset:682
 msgid "Copernicus' Observatory"
-msgstr ""
+msgstr "Réadlann Chopernicus"
 
 #: data/default/buildings.ruleset:1057 data/civ2/buildings.ruleset:1181
 #: data/civ1/buildings.ruleset:844
@@ -18697,7 +18703,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1105 data/civ2/buildings.ruleset:1061
 msgid "Eiffel Tower"
-msgstr ""
+msgstr "Túr Eiffel"
 
 #: data/default/buildings.ruleset:1120
 #, no-c-format
@@ -18708,7 +18714,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1126 data/civ2/buildings.ruleset:1082
 #: data/civ1/buildings.ruleset:743
 msgid "Great Library"
-msgstr ""
+msgstr "Leabharlann Mhór"
 
 #: data/default/buildings.ruleset:1140 data/civ2/buildings.ruleset:1096
 #: data/civ1/buildings.ruleset:757
@@ -18720,7 +18726,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1146 data/civ2/buildings.ruleset:1102
 #: data/civ1/buildings.ruleset:763
 msgid "Great Wall"
-msgstr ""
+msgstr "Mór-Mhúr"
 
 #: data/default/buildings.ruleset:1160
 msgid "Works as a City Wall in all your cities."
@@ -18744,7 +18750,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1191 data/civ2/buildings.ruleset:1146
 #: data/civ1/buildings.ruleset:807
 msgid "Hoover Dam"
-msgstr ""
+msgstr "Damba Hoover"
 
 #: data/default/buildings.ruleset:1206 data/civ2/buildings.ruleset:1160
 msgid ""
@@ -18755,7 +18761,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1212 data/civ2/buildings.ruleset:1166
 #: data/civ1/buildings.ruleset:829
 msgid "Isaac Newton's College"
-msgstr ""
+msgstr "Coláiste Isaac Newton"
 
 #: data/default/buildings.ruleset:1227
 #, no-c-format
@@ -18785,7 +18791,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1272 data/civ2/buildings.ruleset:1225
 msgid "Leonardo's Workshop"
-msgstr ""
+msgstr "Ceardlann Leonardo"
 
 #: data/default/buildings.ruleset:1286 data/civ2/buildings.ruleset:1239
 msgid "Upgrades one obsolete unit per game turn."
@@ -18794,7 +18800,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1291 data/civ2/buildings.ruleset:1244
 #: data/civ1/buildings.ruleset:869
 msgid "Lighthouse"
-msgstr ""
+msgstr "Teach Solais"
 
 #: data/default/buildings.ruleset:1306
 msgid ""
@@ -18814,11 +18820,11 @@ msgstr ""
 #: data/default/buildings.ruleset:1332 data/civ2/buildings.ruleset:1283
 #: data/civ1/buildings.ruleset:910
 msgid "Manhattan Project"
-msgstr ""
+msgstr "Tionscadal Manhattan"
 
 #: data/default/buildings.ruleset:1350 data/civ2/buildings.ruleset:1301
 msgid "Marco Polo's Embassy"
-msgstr ""
+msgstr "Ambasáid Mharco Polo"
 
 #: data/default/buildings.ruleset:1364 data/civ2/buildings.ruleset:1315
 msgid "The player who owns it gets an embassy with all players."
@@ -18841,7 +18847,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1393 data/civ2/buildings.ruleset:1344
 #: data/civ1/buildings.ruleset:947
 msgid "Oracle"
-msgstr ""
+msgstr "Oracal"
 
 #: data/default/buildings.ruleset:1407
 msgid "Makes two of your unhappy citizens content in every city with a temple."
@@ -18850,7 +18856,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1412 data/civ2/buildings.ruleset:1363
 #: data/civ1/buildings.ruleset:966
 msgid "Pyramids"
-msgstr ""
+msgstr "Pirimidí"
 
 #: data/default/buildings.ruleset:1427
 #, no-c-format
@@ -18863,7 +18869,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1434 data/civ2/buildings.ruleset:1382
 #: data/civ1/buildings.ruleset:987
 msgid "SETI Program"
-msgstr ""
+msgstr "Clár SETI"
 
 #: data/default/buildings.ruleset:1449
 #, no-c-format
@@ -18873,7 +18879,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1454 data/civ2/buildings.ruleset:1403
 #: data/civ1/buildings.ruleset:1007
 msgid "Shakespeare's Theatre"
-msgstr ""
+msgstr "Amharclann Shakespeare"
 
 #: data/default/buildings.ruleset:1468 data/civ2/buildings.ruleset:1417
 #: data/civ1/buildings.ruleset:1021
@@ -18904,7 +18910,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1515 data/civ2/buildings.ruleset:1465
 #: data/civ1/buildings.ruleset:1026
 msgid "United Nations"
-msgstr ""
+msgstr "Náisiúin Aontaithe"
 
 #: data/default/buildings.ruleset:1529
 msgid "All your units regain two extra hitpoints per turn."
@@ -18913,7 +18919,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1542 data/civ2/buildings.ruleset:1492
 #: data/civ1/buildings.ruleset:1052
 msgid "Women's Suffrage"
-msgstr ""
+msgstr "Ceart Vótála do Mhná"
 
 #: data/default/buildings.ruleset:1556 data/civ2/buildings.ruleset:1506
 msgid ""
@@ -18924,7 +18930,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1567
 msgid "Coinage"
-msgstr ""
+msgstr "Monaíocht"
 
 #: data/default/buildings.ruleset:1588
 msgid ""
@@ -18935,39 +18941,39 @@ msgstr ""
 
 #: data/default/nations.ruleset:20
 msgid "?nationgroup:Ancient"
-msgstr ""
+msgstr "?nationgroup:Ársa"
 
 #: data/default/nations.ruleset:23
 msgid "?nationgroup:Medieval"
-msgstr ""
+msgstr "?nationgroup:Meánaoiseach"
 
 #: data/default/nations.ruleset:26
 msgid "?nationgroup:Modern"
-msgstr ""
+msgstr "?nationgroup:Nua-Aimseartha"
 
 #: data/default/nations.ruleset:29
 msgid "?nationgroup:African"
-msgstr ""
+msgstr "?nationgroup:Afracach"
 
 #: data/default/nations.ruleset:32
 msgid "?nationgroup:American"
-msgstr ""
+msgstr "?nationgroup:Meiriceánach"
 
 #: data/default/nations.ruleset:35
 msgid "?nationgroup:Asian"
-msgstr ""
+msgstr "?nationgroup:Áiseach"
 
 #: data/default/nations.ruleset:38
 msgid "?nationgroup:European"
-msgstr ""
+msgstr "?nationgroup:Eorpach"
 
 #: data/default/nations.ruleset:41
 msgid "?nationgroup:Oceanian"
-msgstr ""
+msgstr "?nationgroup:Aigéineach"
 
 #: data/default/nations.ruleset:44
 msgid "?nationgroup:Fictional"
-msgstr ""
+msgstr "?nationgroup:Ficseanach"
 
 #: data/civ2/buildings.ruleset:251
 msgid ""
@@ -19264,82 +19270,82 @@ msgstr ""
 
 #: data/default/cities.ruleset:29 data/civ2/cities.ruleset:29
 msgid "elvis"
-msgstr ""
+msgstr "elvis"
 
 #: data/default/cities.ruleset:30 data/civ2/cities.ruleset:30
 msgid "?Elvis:E"
-msgstr ""
+msgstr "?Elvis:E"
 
 #: data/default/cities.ruleset:37 data/civ2/cities.ruleset:37
 msgid "scientist"
-msgstr ""
+msgstr "eolaí"
 
 #: data/default/cities.ruleset:38 data/civ2/cities.ruleset:38
 msgid "?Scientist:S"
-msgstr ""
+msgstr "?Scientist:E"
 
 #: data/default/cities.ruleset:45 data/civ2/cities.ruleset:45
 msgid "taxman"
-msgstr ""
+msgstr "fear cánach"
 
 #: data/default/cities.ruleset:46 data/civ2/cities.ruleset:46
 msgid "?Taxman:T"
-msgstr ""
+msgstr "?Taxman:C"
 
 #: data/default/cities.ruleset:75 data/civ2/cities.ruleset:74
 msgid "?citystyle:European"
-msgstr ""
+msgstr "?citystyle:Eorpach"
 
 #: data/default/cities.ruleset:84 data/civ2/cities.ruleset:83
 msgid "?citystyle:Classical"
-msgstr ""
+msgstr "?citystyle:Clasaiceach"
 
 #: data/default/cities.ruleset:93 data/civ2/cities.ruleset:92
 msgid "?citystyle:Tropical"
-msgstr ""
+msgstr "?citystyle:Teochreasach"
 
 #: data/default/cities.ruleset:102 data/civ2/cities.ruleset:101
 msgid "?citystyle:Asian"
-msgstr ""
+msgstr "?citystyle:Áiseach"
 
 #: data/default/cities.ruleset:111 data/civ2/cities.ruleset:110
 msgid "?citystyle:Babylonian"
-msgstr ""
+msgstr "?citystyle:Bablónach"
 
 #: data/default/cities.ruleset:120 data/civ2/cities.ruleset:119
 msgid "?citystyle:Celtic"
-msgstr ""
+msgstr "?citystyle:Ceilteach"
 
 #: data/default/cities.ruleset:129 data/civ2/cities.ruleset:139
 msgid "?citystyle:Industrial"
-msgstr ""
+msgstr "?citystyle:Tionsclaíoch"
 
 #: data/default/cities.ruleset:140 data/civ2/cities.ruleset:150
 msgid "?citystyle:Modern"
-msgstr ""
+msgstr "?citystyle:Nua-Aimseartha"
 
 #: data/default/cities.ruleset:151 data/civ2/cities.ruleset:161
 msgid "?citystyle:PostModern"
-msgstr ""
+msgstr "?citystyle:Iar-Nua-Aoiseach"
 
 #: data/civ2/cities.ruleset:128
 msgid "?citystyle:Renaissance"
-msgstr ""
+msgstr "?citystyle:Athbheochan"
 
 #: data/default/governments.ruleset:51 data/civ2/governments.ruleset:48
 #: data/civ1/governments.ruleset:50
 msgid "Anarchy"
-msgstr ""
+msgstr "Ainrialachas"
 
 #: data/default/governments.ruleset:56 data/civ2/governments.ruleset:53
 #: data/civ1/governments.ruleset:55
 msgid "Usurper"
-msgstr ""
+msgstr "Forghabhálaí"
 
 #: data/default/governments.ruleset:57 data/civ2/governments.ruleset:54
 #: data/civ1/governments.ruleset:56
 msgid "?female:Usurper"
-msgstr ""
+msgstr "?female:Forghabhálaí"
 
 #: data/default/governments.ruleset:59 data/civ1/governments.ruleset:58
 msgid ""
@@ -19354,7 +19360,7 @@ msgstr ""
 #: data/default/governments.ruleset:72 data/civ2/governments.ruleset:69
 #: data/civ1/governments.ruleset:71
 msgid "Despotism"
-msgstr ""
+msgstr "Forlámhas"
 
 #: data/default/governments.ruleset:78 data/civ2/governments.ruleset:75
 #: data/civ1/governments.ruleset:77 data/nation/cherokee.ruleset:22
@@ -19365,7 +19371,7 @@ msgstr ""
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
 msgid "Chief"
-msgstr ""
+msgstr "Taoiseach"
 
 #: data/default/governments.ruleset:79 data/civ2/governments.ruleset:76
 #: data/civ1/governments.ruleset:78 data/nation/cherokee.ruleset:22
@@ -19374,7 +19380,7 @@ msgstr ""
 #: data/nation/southafrican.ruleset:25 data/nation/swazi.ruleset:22
 #: data/nation/zulu.ruleset:38
 msgid "?female:Chief"
-msgstr ""
+msgstr "?female:Taoiseach"
 
 #: data/default/governments.ruleset:81 data/civ1/governments.ruleset:80
 msgid ""
@@ -19418,12 +19424,12 @@ msgstr ""
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:118
 #: data/civ1/governments.ruleset:120 data/nation/soviet.ruleset:27
 msgid "Comrade"
-msgstr ""
+msgstr "Comrádaí"
 
 #: data/default/governments.ruleset:122 data/civ2/governments.ruleset:119
 #: data/civ1/governments.ruleset:121 data/nation/soviet.ruleset:27
 msgid "?female:Comrade"
-msgstr ""
+msgstr "?female:Comrádaí"
 
 #: data/default/governments.ruleset:124 data/civ1/governments.ruleset:123
 msgid ""
@@ -19438,17 +19444,17 @@ msgstr ""
 #: data/default/governments.ruleset:138 data/civ2/governments.ruleset:163
 #: data/civ1/governments.ruleset:137
 msgid "Republic"
-msgstr ""
+msgstr "Poblacht"
 
 #: data/default/governments.ruleset:145 data/civ2/governments.ruleset:170
 #: data/civ1/governments.ruleset:144
 msgid "Consul"
-msgstr ""
+msgstr "Consal"
 
 #: data/default/governments.ruleset:146 data/civ2/governments.ruleset:171
 #: data/civ1/governments.ruleset:145
 msgid "?female:Consul"
-msgstr ""
+msgstr "?female:Consal"
 
 #: data/default/governments.ruleset:148 data/civ2/governments.ruleset:173
 #: data/civ1/governments.ruleset:147
@@ -19464,7 +19470,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:159 data/default/techs.ruleset:214
 #: data/civ2/techs.ruleset:203 data/civ1/techs.ruleset:186
 msgid "Democracy"
-msgstr ""
+msgstr "Daonlathas"
 
 #: data/default/governments.ruleset:167 data/civ2/governments.ruleset:192
 #: data/civ1/governments.ruleset:166 data/nation/bosnia.ruleset:28
@@ -19474,7 +19480,7 @@ msgstr ""
 #: data/nation/serbian.ruleset:37 data/nation/singaporean.ruleset:35
 #: data/nation/slovakian.ruleset:27 data/nation/slovenian.ruleset:19
 msgid "President"
-msgstr ""
+msgstr "Uachtarán"
 
 #: data/default/governments.ruleset:168 data/civ2/governments.ruleset:193
 #: data/civ1/governments.ruleset:167 data/nation/bosnia.ruleset:28
@@ -19484,7 +19490,7 @@ msgstr ""
 #: data/nation/serbian.ruleset:37 data/nation/singaporean.ruleset:35
 #: data/nation/slovakian.ruleset:27 data/nation/slovenian.ruleset:19
 msgid "?female:President"
-msgstr ""
+msgstr "?female:Uachtarán"
 
 #: data/default/governments.ruleset:170
 msgid ""
@@ -20882,7 +20888,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1973
 msgid "?unit:Leader"
-msgstr ""
+msgstr "?unit:Ceannaire"
 
 #: data/default/units.ruleset:2001
 msgid "This is you. If you lose this unit, you lose the game. So don't."
@@ -21158,11 +21164,11 @@ msgstr "?female:Príomh-Aire"
 
 #: data/nation/ainu.ruleset:3
 msgid "Ainu"
-msgstr "Ainu"
+msgstr "Aghaidhniú"
 
 #: data/nation/ainu.ruleset:4
 msgid "?plural:Ainu"
-msgstr "?plural:Lucht Ainu"
+msgstr "?plural:hAghaidhnithe"
 
 #: data/nation/ainu.ruleset:7
 msgid ""
@@ -21178,15 +21184,15 @@ msgstr "Nipa"
 #. TRANS: Nipsa = Master
 #: data/nation/ainu.ruleset:22
 msgid "Nipsa"
-msgstr ""
+msgstr "Nipsa"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
 msgstr "Akwe"
 
 #: data/nation/akwe.ruleset:4
-msgid "?plural:Akwe"
-msgstr "?plura:Lucht Akwe"
+msgid "?plural:Achaivé"
+msgstr "?plura:hAchaivéithe"
 
 #: data/nation/akwe.ruleset:7
 msgid ""
@@ -21213,7 +21219,7 @@ msgstr "Ailgéarach"
 
 #: data/nation/algerian.ruleset:4
 msgid "?plural:Algerians"
-msgstr "?plural:Ailgéaraigh"
+msgstr "?plural:hAilgéaraigh"
 
 #: data/nation/algerian.ruleset:6
 msgid ""
@@ -21257,7 +21263,7 @@ msgstr "Antartach"
 
 #: data/nation/antarctican.ruleset:4
 msgid "?plural:Antarcticans"
-msgstr "?plural:Antartaigh"
+msgstr "?plural:hAntartaigh"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
@@ -21269,7 +21275,7 @@ msgstr "Arabach"
 
 #: data/nation/arab.ruleset:4
 msgid "?plural:Arabs"
-msgstr "?plural:Arabaigh"
+msgstr "?plural:hArabaigh"
 
 #: data/nation/arab.ruleset:6
 msgid "The Arab/Islamic civilization of 622AD-1495AD."
@@ -21285,7 +21291,7 @@ msgstr "Aramach"
 
 #: data/nation/aramean.ruleset:4
 msgid "?plural:Arameans"
-msgstr "?plural:Aramaigh"
+msgstr "?plural:hAramaigh"
 
 #: data/nation/aramean.ruleset:6
 msgid ""
@@ -21299,7 +21305,7 @@ msgstr "Airgintíneach"
 
 #: data/nation/argentine.ruleset:4
 msgid "?plural:Argentines"
-msgstr "?plural:Airgintínigh"
+msgstr "?plural:hAirgintínigh"
 
 #. TRANS: The fourth letter in "Peron" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -21318,7 +21324,7 @@ msgstr "Airméanach"
 
 #: data/nation/armenian.ruleset:4
 msgid "?plural:Armenians"
-msgstr "?plural:Airméanaigh"
+msgstr "?plural:hAirméanaigh"
 
 #: data/nation/armenian.ruleset:6
 msgid ""
@@ -21333,7 +21339,7 @@ msgstr "Aisiriach"
 
 #: data/nation/assyrian.ruleset:4
 msgid "?plural:Assyrians"
-msgstr "?plural:Aisiriaigh"
+msgstr "?plural:hAisiriaigh"
 
 #: data/nation/assyrian.ruleset:6
 msgid ""
@@ -21354,7 +21360,7 @@ msgstr "Astrálach"
 
 #: data/nation/australian.ruleset:4
 msgid "?plural:Australians"
-msgstr "?plural:Astrálaigh"
+msgstr "?plural:hAstrálaigh"
 
 #: data/nation/australian.ruleset:6
 msgid ""
@@ -21370,7 +21376,7 @@ msgstr "Ostarach"
 
 #: data/nation/austrian.ruleset:4
 msgid "?plural:Austrians"
-msgstr "?plural:Ostaraigh"
+msgstr "?plural:hOstaraigh"
 
 #: data/nation/austrian.ruleset:6
 msgid ""
@@ -21384,7 +21390,7 @@ msgstr "Adhmarach"
 
 #: data/nation/aymara.ruleset:4
 msgid "?plural:Aymaras"
-msgstr "?plural:Adhmaraigh"
+msgstr "?plural:hAdhmaraigh"
 
 #: data/nation/aymara.ruleset:6
 msgid ""
@@ -21428,7 +21434,7 @@ msgstr "Asarbaiseánach"
 
 #: data/nation/azeri.ruleset:4
 msgid "?plural:Azeris"
-msgstr "?plural:Asarbaiseánaigh"
+msgstr "?plural:hAsarbaiseánaigh"
 
 #: data/nation/azeri.ruleset:6
 msgid ""
@@ -21469,7 +21475,7 @@ msgstr "Aisticeach"
 
 #: data/nation/aztec.ruleset:4
 msgid "?plural:Aztecs"
-msgstr "?plural:Aisticigh"
+msgstr "?plural:hAisticigh"
 
 #: data/nation/aztec.ruleset:6
 msgid ""
@@ -21645,11 +21651,11 @@ msgstr "?female:Nabob"
 
 #: data/nation/bengali.ruleset:26
 msgid "Major"
-msgstr ""
+msgstr "Maor"
 
 #: data/nation/bengali.ruleset:26
 msgid "?female:Major"
-msgstr ""
+msgstr "?female:Maor"
 
 #: data/nation/boer.ruleset:3
 msgid "Boer"
@@ -21731,11 +21737,11 @@ msgstr "Cathaoirleach"
 
 #: data/nation/brazilian.ruleset:27 data/nation/romanian.ruleset:39
 msgid "Director-President"
-msgstr ""
+msgstr "Stiúrthóir-Uachtarán"
 
 #: data/nation/brazilian.ruleset:27
 msgid "?female:Director-President"
-msgstr ""
+msgstr "?female:Stiúrthóir-Uachtarán"
 
 #: data/nation/breton.ruleset:3
 msgid "Breton"
@@ -21880,19 +21886,19 @@ msgstr ""
 
 #: data/nation/burmese.ruleset:21
 msgid "Bohmugyi"
-msgstr ""
+msgstr "Bohmugyi"
 
 #: data/nation/burmese.ruleset:21
 msgid "?female:Bohmugyi"
-msgstr ""
+msgstr "?female:Bohmugyi"
 
 #: data/nation/burmese.ruleset:22
 msgid "Saya"
-msgstr ""
+msgstr "Saya"
 
 #: data/nation/burmese.ruleset:22
 msgid "Sayama"
-msgstr ""
+msgstr "Sayama"
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundi"
@@ -21946,11 +21952,11 @@ msgstr ""
 #. TRANS: Basileus = Monarch
 #: data/nation/byzantium.ruleset:28
 msgid "Basileus"
-msgstr ""
+msgstr "Basileus"
 
 #: data/nation/byzantium.ruleset:28
 msgid "?female:Basileus"
-msgstr ""
+msgstr "?female:Basileus"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
@@ -22080,12 +22086,12 @@ msgstr ""
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/muskogee.ruleset:32 data/nation/sioux.ruleset:29
 msgid "Great Chief"
-msgstr ""
+msgstr "Flaith Mór"
 
 #: data/nation/cherokee.ruleset:23 data/nation/iroquois.ruleset:27
 #: data/nation/sioux.ruleset:29
 msgid "?female:Great Chief"
-msgstr ""
+msgstr "?female:Flaith Mór"
 
 #: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
 #: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
@@ -22101,11 +22107,11 @@ msgstr ""
 
 #: data/nation/cherokee.ruleset:25
 msgid "Principal Chief"
-msgstr ""
+msgstr "Príomhdhuine"
 
 #: data/nation/cherokee.ruleset:25
 msgid "?female:Principal Chief"
-msgstr ""
+msgstr "?female:Príomhdhuine"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
@@ -22195,25 +22201,26 @@ msgid ""
 "north coast around 1500. In 1819 the Republic of Colombia gained independence."
 msgstr ""
 
+# person I think
 #: data/nation/colombian.ruleset:21 data/nation/swiss.ruleset:19
 msgid "General"
-msgstr ""
+msgstr "Ginearál"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governador"
-msgstr ""
+msgstr "Gobharnóir"
 
 #: data/nation/colombian.ruleset:22 data/nation/venezuelan.ruleset:27
 msgid "Governadora"
-msgstr ""
+msgstr "Gobharnóir"
 
 #: data/nation/confederate.ruleset:3
 msgid "Confederate"
-msgstr ""
+msgstr "Cónaidhmeach"
 
 #: data/nation/confederate.ruleset:4
 msgid "?plural:Confederates"
-msgstr ""
+msgstr "?plural:Cónaidhmigh"
 
 #: data/nation/confederate.ruleset:6
 msgid ""
@@ -22241,13 +22248,13 @@ msgstr ""
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "Chieftain"
-msgstr ""
+msgstr "Taoiseach"
 
 #: data/nation/cornish.ruleset:20 data/nation/french.ruleset:26
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
 #: data/nation/scottish.ruleset:24 data/nation/welsh.ruleset:25
 msgid "?female:Chieftain"
-msgstr ""
+msgstr "?female:Taoiseach"
 
 #: data/nation/cree.ruleset:3
 msgid "Cree"
@@ -22405,19 +22412,19 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:26 data/nation/nubian.ruleset:33
 msgid "Pharaoh"
-msgstr ""
+msgstr "Faró"
 
 #: data/nation/egyptian.ruleset:26 data/nation/nubian.ruleset:33
 msgid "?female:Pharaoh"
-msgstr ""
+msgstr "?female:Faró"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 msgid "Great Pharaoh"
-msgstr ""
+msgstr "Faró Mór"
 
 #: data/nation/egyptian.ruleset:27 data/nation/nubian.ruleset:34
 msgid "?female:Great Pharaoh"
-msgstr ""
+msgstr "?female:Faró Mór"
 
 #: data/nation/emirati.ruleset:3
 msgid "Emirati"
@@ -22584,15 +22591,15 @@ msgstr ""
 
 #: data/nation/french.ruleset:27
 msgid "Premier"
-msgstr ""
+msgstr "Príomhaire"
 
 #: data/nation/french.ruleset:27
 msgid "?female:Premier"
-msgstr ""
+msgstr "?female:Príomhaire"
 
 #: data/nation/french.ruleset:28 data/nation/german.ruleset:35
 msgid "?female:Archbishop"
-msgstr ""
+msgstr "?female:Ard-Easpag"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
@@ -22669,11 +22676,11 @@ msgstr ""
 
 #: data/nation/gallic.ruleset:30
 msgid "Druid"
-msgstr ""
+msgstr "Draoi"
 
 #: data/nation/gallic.ruleset:30
 msgid "?female:Druid"
-msgstr ""
+msgstr "?female:Draoi"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
@@ -22707,11 +22714,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:34
 msgid "Chancellor"
-msgstr ""
+msgstr "Seansailéir"
 
 #: data/nation/german.ruleset:34
 msgid "?female:Chancellor"
-msgstr ""
+msgstr "?female:Seansailéir"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
@@ -22735,19 +22742,19 @@ msgstr ""
 
 #: data/nation/greek.ruleset:19
 msgid "Despot"
-msgstr ""
+msgstr "Forlámhaí"
 
 #: data/nation/greek.ruleset:19
 msgid "?female:Despot"
-msgstr ""
+msgstr "?female:Forlámhaí"
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
-msgstr ""
+msgstr "Guptach"
 
 #: data/nation/gupta.ruleset:4
 msgid "?plural:Gupta"
-msgstr ""
+msgstr "?plural:Guptaí"
 
 #: data/nation/gupta.ruleset:7
 msgid ""
@@ -22758,27 +22765,27 @@ msgstr ""
 #. TRANS: Maharajadhiraja = Great King of Kings
 #: data/nation/gupta.ruleset:21
 msgid "Maharajadhiraja"
-msgstr ""
+msgstr "Maharajadhiraja"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
-msgstr ""
+msgstr "Ríomhéigseach"
 
 #: data/nation/hacker.ruleset:4
 msgid "?plural:Hackers"
-msgstr ""
+msgstr "?plural:Ríomhéigsí"
 
 #: data/nation/hacker.ruleset:6
 msgid "h4xx0r r0xx0rz!"
-msgstr ""
+msgstr "h4xx0r r0xx0rz!"
 
 #: data/nation/hacker.ruleset:39
 msgid "?title:Hacker"
-msgstr ""
+msgstr "?title:Ríomhéigse"
 
 #: data/nation/hacker.ruleset:39
 msgid "?female:Hacker"
-msgstr ""
+msgstr "?female:Ríomhéigse"
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
@@ -22964,27 +22971,27 @@ msgstr ""
 
 #: data/nation/indian.ruleset:19 data/nation/majapahit.ruleset:26
 msgid "Raja"
-msgstr ""
+msgstr "Tiarna"
 
 #: data/nation/indian.ruleset:19
 msgid "?female:Raja"
-msgstr ""
+msgstr "?female:Tiarna"
 
 #: data/nation/indian.ruleset:20
 msgid "Maharaja"
-msgstr ""
+msgstr "Maharaja"
 
 #: data/nation/indian.ruleset:20
 msgid "?female:Maharaja"
-msgstr ""
+msgstr "?female:Maharaja"
 
 #: data/nation/indian.ruleset:21
 msgid "Mahatma"
-msgstr ""
+msgstr "Mahatma"
 
 #: data/nation/indian.ruleset:21
 msgid "?female:Mahatma"
-msgstr ""
+msgstr "?female:Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
@@ -23019,19 +23026,19 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:20
 msgid "Shaman"
-msgstr ""
+msgstr "Seaman"
 
 #: data/nation/inuit.ruleset:20
 msgid "?female:Shaman"
-msgstr ""
+msgstr "?female:Seaman"
 
 #: data/nation/inuit.ruleset:21
 msgid "Great Shaman"
-msgstr ""
+msgstr "Seaman Mór"
 
 #: data/nation/inuit.ruleset:21
 msgid "?female:Great Shaman"
-msgstr ""
+msgstr "?female:Seaman Mór"
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
@@ -23051,11 +23058,11 @@ msgstr ""
 #. TRANS: Raiis Jomhoor = President
 #: data/nation/iranian.ruleset:45
 msgid "Raiis Jomhoor"
-msgstr ""
+msgstr "Raiis Jomhoor"
 
 #: data/nation/iranian.ruleset:46 data/nation/persian.ruleset:22
 msgid "Ayatollah"
-msgstr ""
+msgstr "Ayatollah"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
@@ -23074,7 +23081,7 @@ msgstr ""
 
 #: data/nation/iraqi.ruleset:21
 msgid "Dictatress"
-msgstr ""
+msgstr "Bandeachtóir"
 
 #: data/nation/irish.ruleset:3
 msgid "Irish"
@@ -23369,20 +23376,20 @@ msgstr ""
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "Governor"
-msgstr ""
+msgstr "Gobharnóir"
 
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "?female:Governor"
-msgstr ""
+msgstr "?female:Gobharnóir"
 
 #: data/nation/lankese.ruleset:22
 msgid "Supreme Commander"
-msgstr ""
+msgstr "Ardcheannasaí"
 
 #: data/nation/lankese.ruleset:22
 msgid "?female:Supreme Commander"
-msgstr ""
+msgstr "?female:Ardcheannasaí"
 
 #: data/nation/laotian.ruleset:3
 msgid "Laotian"
@@ -23520,11 +23527,11 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:22
 msgid "High Commissioner"
-msgstr ""
+msgstr "Ardchoimisinéir"
 
 #: data/nation/malagasy.ruleset:22
 msgid "?female:High Commissioner"
-msgstr ""
+msgstr "?female:Ardchoimisinéir"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
@@ -23664,20 +23671,20 @@ msgstr ""
 #. TRANS: Ajaw = Lord
 #: data/nation/mayan.ruleset:20
 msgid "Ajaw"
-msgstr ""
+msgstr "Ajaw"
 
 #: data/nation/mayan.ruleset:20
 msgid "?female:Ajaw"
-msgstr ""
+msgstr "?female:Ajaw"
 
 #. TRANS: Ah kin = Priest
 #: data/nation/mayan.ruleset:22
 msgid "Ah kin"
-msgstr ""
+msgstr "Ah kin"
 
 #: data/nation/mayan.ruleset:22
 msgid "?female:Ah kin"
-msgstr ""
+msgstr "?female:Ah kin"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
@@ -23752,11 +23759,11 @@ msgstr ""
 
 #: data/nation/mongol.ruleset:29 data/nation/uyghur.ruleset:29
 msgid "?female:Khan"
-msgstr ""
+msgstr "?female:Cán"
 
 #: data/nation/mongol.ruleset:31 data/nation/uyghur.ruleset:30
 msgid "?female:Khagan"
-msgstr ""
+msgstr "?female:Khagan"
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -23821,11 +23828,11 @@ msgstr ""
 
 #: data/nation/norman.ruleset:22
 msgid "Jarl"
-msgstr ""
+msgstr "Jarl"
 
 #: data/nation/norman.ruleset:22
 msgid "?female:Jarl"
-msgstr ""
+msgstr "?female:Jarl"
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
@@ -24094,29 +24101,29 @@ msgstr ""
 #. TRANS: Dyktator/Dyktatorka = Dictator
 #: data/nation/polish.ruleset:27
 msgid "Dyktator"
-msgstr ""
+msgstr "Deachtóir"
 
 #: data/nation/polish.ruleset:27
 msgid "Dyktatorka"
-msgstr ""
+msgstr "Deachtóir"
 
 #. TRANS: Prymas = Bishop
 #: data/nation/polish.ruleset:29
 msgid "Prymas"
-msgstr ""
+msgstr "Prymas"
 
 #: data/nation/polish.ruleset:29
 msgid "?female:Prymas"
-msgstr ""
+msgstr "?female:Prymas"
 
 #. TRANS: Pierwszy Sekretarz = First Secretary
 #: data/nation/polish.ruleset:31
 msgid "Pierwszy Sekretarz"
-msgstr ""
+msgstr "Pierwszy Sekretarz"
 
 #: data/nation/polish.ruleset:31
 msgid "?female:Pierwszy Sekretarz"
-msgstr ""
+msgstr "?female:Pierwszy Sekretarz"
 
 #: data/nation/polynesian.ruleset:3
 msgid "Polynesian"
@@ -24341,11 +24348,11 @@ msgstr ""
 #. TRANS: Noaydde = Shaman
 #: data/nation/sami.ruleset:22
 msgid "Noaydde"
-msgstr ""
+msgstr "Noaydde"
 
 #: data/nation/sami.ruleset:22
 msgid "?female:Noaydde"
-msgstr ""
+msgstr "?female:Noaydde"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
@@ -24392,11 +24399,11 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:26
 msgid "First Minister"
-msgstr ""
+msgstr "Príomh-Aire"
 
 #: data/nation/scottish.ruleset:26
 msgid "?female:First Minister"
-msgstr ""
+msgstr "?female:Príomh-Aire"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
@@ -24444,11 +24451,11 @@ msgstr ""
 #. TRANS: Encik = Sir
 #: data/nation/singaporean.ruleset:34
 msgid "Encik"
-msgstr ""
+msgstr "Encik"
 
 #: data/nation/singaporean.ruleset:34
 msgid "?female:Encik"
-msgstr ""
+msgstr "?female:Encik"
 
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
@@ -24481,19 +24488,19 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:26
 msgid "?male:Leader"
-msgstr ""
+msgstr "?male:Ceannaire"
 
 #: data/nation/slovakian.ruleset:26
 msgid "?female:Leader"
-msgstr ""
+msgstr "?female:Ceannaire"
 
 #: data/nation/slovakian.ruleset:29
 msgid "Priestess"
-msgstr ""
+msgstr "Bansagart"
 
 #: data/nation/slovakian.ruleset:30 data/nation/soviet.ruleset:28
 msgid "?female:General Secretary"
-msgstr ""
+msgstr "?female:Ard-Rúnaí"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
@@ -24566,11 +24573,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:29
 msgid "Great Leader"
-msgstr ""
+msgstr "Ceannaire Mór"
 
 #: data/nation/soviet.ruleset:29
 msgid "?female:Great Leader"
-msgstr ""
+msgstr "?female:Ceannaire Mór"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
@@ -24590,11 +24597,11 @@ msgstr ""
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudillo"
-msgstr ""
+msgstr "Caudillo"
 
 #: data/nation/spanish.ruleset:28
 msgid "Caudilla"
-msgstr ""
+msgstr "Caudilla"
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
@@ -24606,11 +24613,11 @@ msgstr ""
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
-msgstr ""
+msgstr "Sri Vijaya"
 
 #: data/nation/srivijaya.ruleset:4
 msgid "?plural:Sri Vijaya"
-msgstr ""
+msgstr "?plural:Sri Vijaya"
 
 #: data/nation/srivijaya.ruleset:7
 msgid ""
@@ -24724,15 +24731,15 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:19
 msgid "?female:General"
-msgstr ""
+msgstr "?female:Ginearál"
 
 #: data/nation/swiss.ruleset:20
 msgid "Bailiff"
-msgstr ""
+msgstr "Báille"
 
 #: data/nation/swiss.ruleset:20
 msgid "?female:Bailiff"
-msgstr ""
+msgstr "?female:Báille"
 
 #: data/nation/swiss.ruleset:21 data/nation/swiss.ruleset:22
 msgid "President of the Confederation"
@@ -25254,11 +25261,11 @@ msgstr ""
 
 #: data/nation/zulu.ruleset:3
 msgid "Zulu"
-msgstr ""
+msgstr "Súlú"
 
 #: data/nation/zulu.ruleset:4
 msgid "?plural:Zulus"
-msgstr ""
+msgstr "?plural:Súluithe"
 
 #: data/nation/zulu.ruleset:6
 msgid ""
@@ -25269,7 +25276,7 @@ msgstr ""
 
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr ""
+msgstr "An Bhreatain Mhór agus Éire (meán/clasaiceach)"
 
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
@@ -25277,7 +25284,7 @@ msgstr ""
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
-msgstr ""
+msgstr "An Domhan (clasaiceach, mór)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
@@ -25285,7 +25292,7 @@ msgstr ""
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
-msgstr ""
+msgstr "An Domhan (clasaiceach, beag)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
@@ -25293,7 +25300,7 @@ msgstr ""
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
-msgstr ""
+msgstr "An Eoraip (ollmhór/clasaiceach)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
@@ -25301,7 +25308,7 @@ msgstr ""
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
-msgstr ""
+msgstr "An Domhan (clasaiceach, meán)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
@@ -25644,7 +25651,7 @@ msgstr ""
 
 #: data/civ1/game.ruleset:19
 msgid "Civ1 ruleset"
-msgstr ""
+msgstr "Rialacha Civ1"
 
 #: data/civ1/game.ruleset:21
 msgid ""
@@ -25818,21 +25825,21 @@ msgstr "Foireann 31"
 
 #: data/civ2/game.ruleset:19
 msgid "Civ2 ruleset"
-msgstr ""
+msgstr "Rialacha Civ2"
 
 #: data/civ2/game.ruleset:21
 msgid ""
 "You are playing with civ2 style rules.These are quite close to Freeciv "
 "default rules, but with some additions."
-msgstr ""
+msgstr "Tá tú ag imirt de réir rialacha civ2. Is cosúil leis na rialacha réamhshocraithe Freeciv iad seo, ach le cúpla riail breise."
 
 #: data/default/game.ruleset:19
 msgid "Default ruleset"
-msgstr ""
+msgstr "Rialacha réamhshocraithe"
 
 #: data/default/game.ruleset:21
 msgid "You are playing Freeciv with default rules."
-msgstr ""
+msgstr "Tá tú ag imirt Freeciv de réir na rialacha réamhshocraithe."
 
 #: data/default/game.ruleset:176
 msgid "AD"
