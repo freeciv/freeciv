@@ -113,7 +113,8 @@ static int script_report(lua_State *L, int status, const char *code)
 }
 
 /**************************************************************************
-  Call a Lua function.
+  Evaluate a Lua function call or loaded script on the stack.
+  Return nonzero if an error occured.
 
   If available pass the source code string as code, else NULL.
   Will handle Lua errors by printing error description and traceback.
@@ -122,6 +123,7 @@ static int script_call(lua_State *L, int narg, int nret, const char *code)
 {
   int status;
   int base = lua_gettop(L) - narg;  /* Function index */
+
   /* stack the debug.traceback function */
   lua_getglobal(L, "debug");
   lua_getfield(L, -1, "traceback");
@@ -145,12 +147,29 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
 
   status = luaL_loadbuffer(L, str, strlen(str), name);
   if (status) {
-    script_report(state, status, str);
+    script_report(L, status, str);
   } else {
     status = script_call(L, 0, LUA_MULTRET, str);
   }
   return status;
 }
+
+/**************************************************************************
+  Parse and execute the script at filename.
+**************************************************************************/
+bool script_do_file(const char *filename)
+{
+  int status;
+
+  status = luaL_loadfile(state, filename);
+  if (status) {
+    script_report(state, status, NULL);
+  } else {
+    status = script_call(state, 0, LUA_MULTRET, NULL);
+  }
+  return (status == 0);
+}
+
 
 /**************************************************************************
   Internal api error function.
@@ -298,14 +317,14 @@ static void script_vars_save(struct section_file *file)
 {
   if (state) {
     lua_getglobal(state, "_freeciv_state_dump");
-    if (lua_pcall(state, 0, 1, 0) == 0) {
+    if (script_call(state, 0, 1, NULL) == 0) {
       const char *vars;
 
       vars = lua_tostring(state, -1);
       lua_pop(state, 1);
 
       if (vars) {
-	secfile_insert_str_noescape(file, vars, "script.vars");
+        secfile_insert_str_noescape(file, vars, "script.vars");
       }
     } else {
       /* _freeciv_state_dump in api.pkg is busted */
@@ -399,19 +418,6 @@ void script_free(void)
     lua_close(state);
     state = NULL;
   }
-}
-
-/**************************************************************************
-  Parse and execute the script at filename.
-**************************************************************************/
-bool script_do_file(const char *filename)
-{
-  int status = luaL_dofile(state, filename);
-
-  if (status) {
-    status = script_report(state, status, NULL);
-  }
-  return (status == 0);
 }
 
 /**************************************************************************
