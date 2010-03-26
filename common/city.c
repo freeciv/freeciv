@@ -155,22 +155,68 @@ int city_map_tiles(int city_radius_sq)
 bool is_valid_city_coords(const int city_radius_sq, const int city_map_x,
                           const int city_map_y)
 {
-  /* The city's valid positions are in a circle of radius CITY_MAP_RADIUS
-   * around the city center.  Depending on the value of CITY_MAP_RADIUS
-   * this circle will be:
+  /* The city's valid positions are in a circle around the city center.
+   * Depending on the value for the squared city radius the circle will be:
    *
-   *   333
-   *  32223
-   * 3211123
-   * 3210123
-   * 3211123
-   *  32223
-   *   333
+   *  - rectangular (max radius = 5; max squared radius = 26)
    *
-   * So CITY_MAP_RADIUS==2 corresponds to the "traditional" city map.
+   *        0    1    2    3    4    5    6    7    8    9   10
    *
-   * This diagram is for rectangular topologies only.  But this is taken
-   * care of inside map_vector_to_sq_distance so it works for all topologies.
+   *  0                        26   25   26                       -5
+   *  1              25   20   17   16   17   20   25             -4
+   *  2         25   18   13   10    9   10   13   18   25        -3
+   *  3         20   13    8    5    4    5    8   13   20        -2
+   *  4    26   17   10    5    2    1    2    5   10   17   26   -1
+   *  5    25   16    9    4    1    0    1    4    9   16   25   +0
+   *  6    26   17   10    5    2    1    2    5   10   17   26   +1
+   *  7         20   13    8    5    4    5    8   13   20        +2
+   *  8         25   18   13   10    9   10   13   18   25        +3
+   *  9              25   20   17   16   17   20   25             +4
+   * 10                        26   25   26                       +5
+   *
+   *       -5   -4   -3   -2   -1   +0   +1   +2   +3   +4   +5
+   *
+   * - hexagonal (max radius = 5; max squared radius = 26)
+   *
+   *        0    1    2    3    4    5    6    7    8    9   10
+   *
+   *  0                             25   25   25   25   25   25   -5
+   *  1                        25   16   16   16   16   16   25   -4
+   *  2                   25   16    9    9    9    9   16   25   -3
+   *  3              25   16    9    4    4    4    9   16   25   -2
+   *  4         25   16    9    4    1    1    4    9   16   25   -1
+   *  5    25   16    9    4    1    0    1    4    9   16   25   +0
+   *  6    25   16    9    4    1    1    4    9   16   25        +1
+   *  7    25   16    9    4    4    4    9   16   25             +2
+   *  8    25   16    9    9    9    9   16   25                  +3
+   *  9    25   16   16   16   16   16   25                       +4
+   * 10    25   25   25   25   25   25                            +5
+   *
+   *       -5   -4   -3   -2   -1   +0   +1   +2   +3   +4   +5
+   *
+   * The following tabes show the tiles per city radii / squared city radii.
+   * '-' indicates no change compared to the previous value
+   *
+   * radius            |  0 |  1 |    |    |  2 |    |    |    |    |  3
+   * radius_sq         |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10
+   * ------------------+----+----+----+----+----+----+----+----+----+----
+   * tiles rectangular |  5 |  9 |  - | 13 | 21 |  - |  - | 25 | 29 | 37
+   * tiles hexagonal   |  7 |  - |  - | 19 |  - |  - |  - |  - | 37 |  -
+   *
+   * radius            |    |    |    |    |    |    |  4 |    |    |
+   * radius_sq         | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20
+   * ------------------+----+----+----+----+----+----+----+----+----+----
+   * tiles rectangular |  - |  - | 45 |  - |  - |  - | 49 | 57 | 61 | 69
+   * tiles hexagonal   |  - |  - |  - |  - |  - | 61 |  - |  - |  - |  -
+   *
+   * radius            |    |    |    |    |    |  5
+   * radius_sq         | 21 | 22 | 23 | 24 | 25 | 26
+   * ------------------+----+----+----+----+----+----
+   * tiles rectangular |  - |  - |  - |  - | 81 | 89
+   * tiles hexagonal   |  - |  - |  - |  - | 91 |  -
+   *
+   * So radius_sq == 5 (radius == 2) corresponds to the "traditional"
+   * used city map.
    */
   int dist = map_vector_to_sq_distance(CITY_ABS2REL(city_map_x),
                                        CITY_ABS2REL(city_map_y));
