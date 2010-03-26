@@ -98,12 +98,12 @@ msgstr "Cathair: %s"
 #: common/events.c:51
 #, c-format
 msgid "Diplomat Action: %s"
-msgstr ""
+msgstr "Gníomh Taidhleoireachta: %s"
 
 #: common/events.c:52
 #, c-format
 msgid "Enemy Diplomat: %s"
-msgstr ""
+msgstr "Taidhleoir ón Namhaid: %s"
 
 #: common/events.c:53
 #, c-format
@@ -137,49 +137,49 @@ msgstr "Iontas: %s"
 
 #: common/events.c:77
 msgid "Learned From Great Library"
-msgstr ""
+msgstr "Foghlamtha Ón Leabharlann Mhór"
 
 #: common/events.c:78
 msgid "Learned New Tech"
-msgstr ""
+msgstr "Teicneolaíocht Nua Foghlamtha"
 
 #: common/events.c:79
 msgid "Selected New Goal"
-msgstr ""
+msgstr "Roghnaíodh Sprioc Nua"
 
 #: common/events.c:80 common/events.c:148
 msgid "Bought"
-msgstr ""
+msgstr "Ceannaithe"
 
 #: common/events.c:81 common/events.c:149 client/citydlg_common.c:339
 #: client/citydlg_common.c:347 client/gui-sdl/repodlgs.c:2028
 #: client/gui-sdl/wldlg.c:1342
 msgid "Built"
-msgstr ""
+msgstr "Tógtha"
 
 #: common/events.c:82
 msgid "Forced to Sell"
-msgstr ""
+msgstr "B'éigean Díol"
 
 #: common/events.c:83
 msgid "New Improvement Selected"
-msgstr ""
+msgstr "Roghnaíodh Feabhsúchán Nua"
 
 #: common/events.c:84
 msgid "Sold"
-msgstr ""
+msgstr "Díolta"
 
 #: common/events.c:85
 msgid "Building Unavailable Item"
-msgstr ""
+msgstr "Rud Dofhaighte á Thógáil"
 
 #: common/events.c:86
 msgid "Captured/Destroyed"
-msgstr ""
+msgstr "Gafa/Scriosta"
 
 #: common/events.c:87
 msgid "Celebrating"
-msgstr ""
+msgstr "Ceiliúradh"
 
 #: common/events.c:88
 msgid "Civil Disorder"
@@ -191,7 +191,7 @@ msgstr "Gorta"
 
 #: common/events.c:90
 msgid "Famine Feared"
-msgstr ""
+msgstr "Faitíos Roimh Ghorta"
 
 #: common/events.c:91
 msgid "Growth"
@@ -203,7 +203,7 @@ msgstr ""
 
 #: common/events.c:93
 msgid "Needs Aqueduct"
-msgstr ""
+msgstr "Uiscerian De Dhíth"
 
 #: common/events.c:94
 msgid "Needs Aqueduct Being Built"
@@ -211,11 +211,11 @@ msgstr ""
 
 #: common/events.c:95 common/player.c:42
 msgid "Normal"
-msgstr ""
+msgstr "Gnáth"
 
 #: common/events.c:96
 msgid "Nuked"
-msgstr ""
+msgstr "Núiclithe"
 
 #: common/events.c:97
 msgid "Released from citizen governor"
@@ -227,15 +227,15 @@ msgstr ""
 
 #: common/events.c:99
 msgid "Transfer"
-msgstr ""
+msgstr "Aistriú"
 
 #: common/events.c:100
 msgid "Was Built"
-msgstr ""
+msgstr "Tógtha"
 
 #: common/events.c:101
 msgid "Has Plague"
-msgstr ""
+msgstr "Plá Air"
 
 #: common/events.c:102
 msgid "Worklist Events"
@@ -247,54 +247,54 @@ msgstr ""
 
 #: common/events.c:104 common/events.c:113
 msgid "Bribe"
-msgstr ""
+msgstr "Crúibín Cam"
 
 #: common/events.c:105
 msgid "Caused Incident"
-msgstr ""
+msgstr "Ba é cúis le heachtra"
 
 #: common/events.c:106
 msgid "Escape"
-msgstr ""
+msgstr "Éalú"
 
 #: common/events.c:107 common/events.c:114 common/events.c:143
 #: client/plrdlg_common.c:263 client/gui-win32/diplodlg.c:614
 #: client/gui-win32/diplodlg.c:666 client/gui-win32/plrdlg.c:333
 msgid "Embassy"
-msgstr ""
+msgstr "Ambasáid"
 
 #: common/events.c:108 common/events.c:115
 msgid "Failed"
-msgstr ""
+msgstr "Teipthe"
 
 #: common/events.c:109 common/events.c:116
 msgid "Incite"
-msgstr ""
+msgstr "Gríosaigh"
 
 #: common/events.c:110 common/events.c:117
 msgid "Poison"
-msgstr ""
+msgstr "Nimh"
 
 #: common/events.c:111 common/events.c:118 client/gui-win32/dialogs.c:1502
 #: data/Freeciv.in:2415
 msgid "Sabotage"
-msgstr ""
+msgstr "Sabaitéireacht"
 
 #: common/events.c:112 common/events.c:119
 msgid "Theft"
-msgstr ""
+msgstr "Goid"
 
 #: common/events.c:120
 msgid "Eco-Disaster"
-msgstr ""
+msgstr "Éiceathubaiste"
 
 #: common/events.c:121
 msgid "Nuke Detonated"
-msgstr ""
+msgstr "Pléascadh Buama Núicléach"
 
 #: common/events.c:122
 msgid "Barbarians in a Hut Roused"
-msgstr ""
+msgstr "Dúisíodh Barbaraigh i mBothán"
 
 #: common/events.c:123
 msgid "City Founded from Hut"
@@ -302,39 +302,39 @@ msgstr ""
 
 #: common/events.c:124
 msgid "Gold Found in Hut"
-msgstr ""
+msgstr "Aimsíodh Ór i mBothán"
 
 #: common/events.c:125
 msgid "Killed by Barbarians in a Hut"
-msgstr ""
+msgstr "Maraithe ag Barbaraigh i mBothán"
 
 #: common/events.c:126
 msgid "Mercenaries Found in Hut"
-msgstr ""
+msgstr "Aimsíodh Amhais i mBothán"
 
 #: common/events.c:127
 msgid "Settler Found in Hut"
-msgstr ""
+msgstr "Aimsíodh Lonnaitheoir i mBothán"
 
 #: common/events.c:128
 msgid "Tech Found in Hut"
-msgstr ""
+msgstr "Aimsíodh Teicneolaíocht i mBothán"
 
 #: common/events.c:129
 msgid "Unit Spared by Barbarians"
-msgstr ""
+msgstr "Lig Barbaraigh Aonad leo"
 
 #: common/events.c:130
 msgid "Barbarian Uprising"
-msgstr ""
+msgstr "Éirí Amach Barbarach"
 
 #: common/events.c:131
 msgid "Civil War"
-msgstr ""
+msgstr "Cogadh Cathartha"
 
 #: common/events.c:132
 msgid "Collapse to Anarchy"
-msgstr ""
+msgstr "Titim go hAinrialtacht"
 
 #: common/events.c:133
 msgid "First Contact"
@@ -342,7 +342,7 @@ msgstr ""
 
 #: common/events.c:134
 msgid "Learned New Government"
-msgstr ""
+msgstr "Rialtas Nua Foghlamtha"
 
 #: common/events.c:135
 msgid "Low Funds"
@@ -355,11 +355,11 @@ msgstr "Truailliú"
 
 #: common/events.c:137
 msgid "Revolt Ended"
-msgstr ""
+msgstr "Tháinig Éirí Amach chun Deiridh"
 
 #: common/events.c:138
 msgid "Revolt Started"
-msgstr ""
+msgstr "Tosaíodh Éirí Amach"
 
 #: common/events.c:139
 msgid "Spaceship Events"
@@ -367,39 +367,39 @@ msgstr ""
 
 #: common/events.c:140
 msgid "Alliance"
-msgstr ""
+msgstr "Comhaontas"
 
 #: common/events.c:141
 msgid "Broken"
-msgstr ""
+msgstr "Briste"
 
 #: common/events.c:142
 msgid "Cease-fire"
-msgstr ""
+msgstr "Sos Lámhaigh"
 
 #: common/events.c:144
 msgid "Peace"
-msgstr ""
+msgstr "Síocháin"
 
 #: common/events.c:145
 msgid "Shared Vision"
-msgstr ""
+msgstr "Fís Aontaithe"
 
 #: common/events.c:146
 msgid "Attack Failed"
-msgstr ""
+msgstr "Theip ar Ionsaí"
 
 #: common/events.c:147
 msgid "Attack Succeeded"
-msgstr ""
+msgstr "D'éirigh le hIonsaí"
 
 #: common/events.c:150
 msgid "Defender Destroyed"
-msgstr ""
+msgstr "Scriosadh Cosantóir"
 
 #: common/events.c:151
 msgid "Defender Survived"
-msgstr ""
+msgstr "Tháinig Cosantóir Slán"
 
 #: common/events.c:152
 msgid "Promoted to Veteran"
@@ -415,7 +415,7 @@ msgstr ""
 
 #: common/events.c:155
 msgid "Relocated"
-msgstr ""
+msgstr "Athshuite"
 
 #: common/events.c:156
 msgid "Orders / goto events"
@@ -423,19 +423,19 @@ msgstr ""
 
 #: common/events.c:157
 msgid "Finished"
-msgstr ""
+msgstr "Críochnaithe"
 
 #: common/events.c:158
 msgid "Made Obsolete"
-msgstr ""
+msgstr "Curtha i Léig"
 
 #: common/events.c:159
 msgid "Started"
-msgstr ""
+msgstr "Tosaithe"
 
 #: common/events.c:160
 msgid "Stopped"
-msgstr ""
+msgstr "Stoptha"
 
 #: common/events.c:161
 msgid "Will Finish Next Turn"
@@ -443,7 +443,7 @@ msgstr ""
 
 #: common/events.c:162
 msgid "AI Debug messages"
-msgstr ""
+msgstr "Teachtaireachtaí dífhabhtaithe AI"
 
 #: common/events.c:163
 msgid "Broadcast Report"
@@ -451,7 +451,7 @@ msgstr ""
 
 #: common/events.c:164
 msgid "Caravan actions"
-msgstr ""
+msgstr "Gníomhartha carbháin"
 
 #: common/events.c:165
 msgid "Chat error messages"
@@ -459,15 +459,15 @@ msgstr ""
 
 #: common/events.c:166
 msgid "Chat messages"
-msgstr ""
+msgstr "Teachtaireachtaí comhrá"
 
 #: common/events.c:167
 msgid "Connect/disconnect messages"
-msgstr ""
+msgstr "Teachtaireachtaí ceangail/dícheangail"
 
 #: common/events.c:168
 msgid "Diplomatic Message"
-msgstr ""
+msgstr "Teachtaireacht Taidhleoireachta"
 
 #: common/events.c:169
 msgid "Error message from bad command"
@@ -483,23 +483,23 @@ msgstr ""
 
 #: common/events.c:172
 msgid "Nation Selected"
-msgstr ""
+msgstr "Roghnaíodh Náisiún"
 
 #: common/events.c:173
 msgid "Player Destroyed"
-msgstr ""
+msgstr "Scriosadh Imreoir"
 
 #: common/events.c:174
 msgid "Report"
-msgstr ""
+msgstr "Tuairisc"
 
 #: common/events.c:175
 msgid "Server Aborting"
-msgstr ""
+msgstr "Freastalaí Á Thobscor"
 
 #: common/events.c:176
 msgid "Server Problems"
-msgstr ""
+msgstr "Fadhbanna leis an bhFreastalaí"
 
 #: common/events.c:177
 msgid "Message from server operator"
@@ -507,7 +507,7 @@ msgstr ""
 
 #: common/events.c:178
 msgid "Server settings changed"
-msgstr ""
+msgstr "Athraíodh socruithe an fhreastalaí"
 
 #: common/events.c:179
 msgid "Turn Bell"
@@ -526,31 +526,31 @@ msgstr ""
 #: common/game.c:711 common/game.c:715 client/gui-sdl/wldlg.c:1399
 #, c-format
 msgid "%d %s"
-msgstr ""
+msgstr "%d %s"
 
 #: common/player.c:42
 msgid "Away"
-msgstr ""
+msgstr "Amuigh"
 
 #: common/player.c:42
 msgid "Novice"
-msgstr ""
+msgstr "Núíosach"
 
 #: common/player.c:42
 msgid "Easy"
-msgstr ""
+msgstr "Éasca"
 
 #: common/player.c:43
 msgid "Hard"
-msgstr ""
+msgstr "Crua"
 
 #: common/player.c:43
 msgid "Cheating"
-msgstr ""
+msgstr "Caimiléireacht"
 
 #: common/player.c:43
 msgid "Experimental"
-msgstr ""
+msgstr "Turgnamhach"
 
 #: common/player.c:773
 msgid "?attitude:Genocidal"
@@ -660,12 +660,12 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:999
 #, c-format
 msgid "(none)"
-msgstr ""
+msgstr "(faic)"
 
 #: common/requirements.c:1350 common/requirements.c:1423
 #, c-format
 msgid "Size %d"
-msgstr ""
+msgstr "Méid %d"
 
 #: common/requirements.c:1403 common/requirements.c:1412
 #, c-format
@@ -681,7 +681,7 @@ msgstr ""
 #: common/requirements.c:1428
 #, c-format
 msgid "%s AI"
-msgstr ""
+msgstr "AI %s"
 
 #. TRANS: "Land terrain"
 #: common/requirements.c:1433
@@ -698,13 +698,13 @@ msgstr ""
 #: common/requirements.c:1442
 #, c-format
 msgid "After %s"
-msgstr ""
+msgstr "Tar éis %s"
 
 #. TRANS: "Irrigation possible"
 #: common/requirements.c:1447
 #, c-format
 msgid "%s possible"
-msgstr ""
+msgstr "%s indéanta"
 
 #: common/requirements.c:1451
 msgid "City center tile"
@@ -726,7 +726,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:860
 #: client/gui-xaw/helpdlg.c:879 manual/civmanual.c:324 manual/civmanual.c:330
 msgid "None"
-msgstr ""
+msgstr "Faic"
 
 #: common/tech.c:898
 msgid "Future Tech."
@@ -735,7 +735,7 @@ msgstr ""
 #. TRANS: "Unknown" advance/technology
 #: common/tech.c:903 client/gui-gtk-2.0/inteldlg.c:388
 msgid "(Unknown)"
-msgstr ""
+msgstr "(Anaithnid)"
 
 #: common/terrain.c:45 data/default/units.ruleset:91 data/civ2/units.ruleset:86
 #: data/civ1/units.ruleset:78
@@ -767,86 +767,86 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:901 client/gui-sdl/optiondlg.c:1961
 #: client/gui-win32/menu.c:348 client/gui-xaw/menu.c:155 manual/civmanual.c:216
 msgid "Irrigation"
-msgstr ""
+msgstr "Uisciú"
 
 #: common/terrain.c:545 common/terrain.c:729 common/unit.c:537
 #: data/default/techs.ruleset:571 data/civ2/techs.ruleset:568
 #: data/civ1/techs.ruleset:443
 msgid "Railroad"
-msgstr ""
+msgstr "Iarnród"
 
 #: common/terrain.c:546 common/terrain.c:742 common/unit.c:525
 msgid "Mine"
-msgstr ""
+msgstr "Mianach"
 
 #: common/terrain.c:548
 msgid "Hut"
-msgstr ""
+msgstr "Bothán"
 
 #: common/terrain.c:549 common/unit.c:533 data/default/terrain.ruleset:887
 #: data/civ2/terrain.ruleset:779 data/civ1/terrain.ruleset:667
 msgid "Fortress"
-msgstr ""
+msgstr "Daingean"
 
 #: common/terrain.c:550
 msgid "River"
-msgstr ""
+msgstr "Abhainn"
 
 #: common/terrain.c:551 common/terrain.c:736
 msgid "Farmland"
-msgstr ""
+msgstr "Feirm"
 
 #: common/terrain.c:552 common/unit.c:547 data/default/terrain.ruleset:905
 #: data/civ2/terrain.ruleset:796
 msgid "Airbase"
-msgstr ""
+msgstr "Aerionad"
 
 #: common/terrain.c:553 common/unit.c:549
 msgid "Fallout"
-msgstr ""
+msgstr "Radachur"
 
 #: common/unit.c:519 client/gui-win32/plrdlg.c:334
 msgid "Idle"
-msgstr ""
+msgstr "Díomhaoin"
 
 #: common/unit.c:529
 msgid "Fortifying"
-msgstr ""
+msgstr "Treisiú"
 
 #: common/unit.c:531
 msgid "Fortified"
-msgstr ""
+msgstr "Treisithe"
 
 #: common/unit.c:535 client/gui-sdl/menu.c:662 client/gui-xaw/menu.c:188
 msgid "Sentry"
-msgstr ""
+msgstr "Fairtheoir"
 
 #: common/unit.c:539 client/gui-gtk-2.0/menu.c:954 client/gui-sdl/menu.c:649
 #: client/gui-win32/menu.c:374 client/gui-xaw/menu.c:189
 msgid "Pillage"
-msgstr ""
+msgstr "Creachadh"
 
 #: common/unit.c:541 client/gui-win32/gotodlg.c:166 data/Freeciv.in:1123
 msgid "Goto"
-msgstr ""
+msgstr "Téigh go"
 
 #: common/unit.c:543
 msgid "Explore"
-msgstr ""
+msgstr "Taiscéal"
 
 #: common/unit.c:545 manual/civmanual.c:216
 msgid "Transform"
-msgstr ""
+msgstr "Trasfhoirmigh"
 
 #: common/unit.c:551
 msgid "Base"
-msgstr ""
+msgstr "Bunáit"
 
 #: common/unit.c:559 client/text.c:160 client/gui-gtk-2.0/editprop.c:5741
 #: client/gui-sdl/citydlg.c:1972 client/gui-win32/citydlg.c:1216
 #: client/gui-xaw/citydlg.c:1461
 msgid "Unknown"
-msgstr ""
+msgstr "Anaithnid"
 
 #: common/unit.c:1080 common/unit.c:1085 common/unit.c:1090 common/unit.c:1097
 #: common/unit.c:1101 common/unit.c:1105
@@ -855,7 +855,7 @@ msgstr ""
 
 #: common/unit.c:1169
 msgid "Food/Shield/Gold:"
-msgstr ""
+msgstr "Bia/Sciath/Ór:"
 
 #: common/unit.c:1574
 #, c-format
@@ -924,51 +924,51 @@ msgstr "leagan "
 
 #: common/version.c:87
 msgid "January"
-msgstr ""
+msgstr "Eanáir"
 
 #: common/version.c:88
 msgid "February"
-msgstr ""
+msgstr "Feabhra"
 
 #: common/version.c:89
 msgid "March"
-msgstr ""
+msgstr "Márta"
 
 #: common/version.c:90
 msgid "April"
-msgstr ""
+msgstr "Aibreán"
 
 #: common/version.c:91
 msgid "May"
-msgstr ""
+msgstr "Bealtaine"
 
 #: common/version.c:92
 msgid "June"
-msgstr ""
+msgstr "Meitheamh"
 
 #: common/version.c:93
 msgid "July"
-msgstr ""
+msgstr "Iúil"
 
 #: common/version.c:94
 msgid "August"
-msgstr ""
+msgstr "Lúnasa"
 
 #: common/version.c:95
 msgid "September"
-msgstr ""
+msgstr "Meán Fómhair"
 
 #: common/version.c:96
 msgid "October"
-msgstr ""
+msgstr "Deireadh Fómhair"
 
 #: common/version.c:97
 msgid "November"
-msgstr ""
+msgstr "Samhain"
 
 #: common/version.c:98
 msgid "December"
-msgstr ""
+msgstr "Nollaig"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: common/version.c:102
@@ -977,10 +977,12 @@ msgid ""
 "THIS IS A BETA VERSION\n"
 "Freeciv %s will be released in %s, at %s"
 msgstr ""
+"LEAGAN BÉITE É SEO\n"
+"Cuirfear Freeciv %s ar fáil i %s, ag %s"
 
 #: common/version.c:121
 msgid "'Cause civilization should be free!"
-msgstr ""
+msgstr "Toisc gur ceart go bhfuil sibhialtacht saor!"
 
 #: utility/fciconv.c:146
 #, c-format
@@ -1003,7 +1005,7 @@ msgstr ""
 #: client/gui-win32/dialogs.c:607 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:988
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: utility/ioz.c:506
 msgid "Run ok"
@@ -1023,54 +1025,54 @@ msgstr ""
 
 #: utility/ioz.c:518
 msgid "Config error"
-msgstr ""
+msgstr "Earráid cumraíochta"
 
 #: utility/ioz.c:521
 msgid "Sequence error"
-msgstr ""
+msgstr "Earráid seichimh"
 
 #: utility/ioz.c:524
 msgid "Parameter error"
-msgstr ""
+msgstr "Earráid pharaiméadair"
 
 #: utility/ioz.c:527
 msgid "Mem error"
-msgstr ""
+msgstr "Earráid chuimhne"
 
 #: utility/ioz.c:530
 msgid "Data error"
-msgstr ""
+msgstr "Earráid sonraí"
 
 #: utility/ioz.c:533
 msgid "Not bzip2 file"
-msgstr ""
+msgstr "Ní comhad bzip2 é"
 
 #: utility/ioz.c:536
 msgid "IO error"
-msgstr ""
+msgstr "Earráid I/A"
 
 #: utility/ioz.c:539
 msgid "Unexpected EOF"
-msgstr ""
+msgstr "Comhadchríoch gan choinne"
 
 #: utility/ioz.c:542
 msgid "Output buffer full"
-msgstr ""
+msgstr "Tá an maolán aschuir lán"
 
 #: utility/ioz.c:549
 #, c-format
 msgid "Bz2: \"%s\" (%d)"
-msgstr ""
+msgstr "Bz2: \"%s\" (%d)"
 
 #: utility/ioz.c:552
 #, c-format
 msgid "Bz2 error %d"
-msgstr ""
+msgstr "Earráid bz2 %d"
 
 #: utility/log.c:84
 #, c-format
 msgid "Bad log level \"%s\".\n"
-msgstr ""
+msgstr "Drochleibhéal logála \"%s\".\n"
 
 #: utility/log.c:90
 #, c-format
@@ -1090,7 +1092,7 @@ msgstr ""
 #: utility/log.c:138 utility/log.c:143
 #, c-format
 msgid "Not an integer: '%s'\n"
-msgstr ""
+msgstr "Ní slánuimhir é: '%s'\n"
 
 #: utility/log.c:150
 #, c-format
@@ -1108,6 +1110,9 @@ msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: utility/log.c:299 utility/log.c:318
 #, c-format
@@ -1115,6 +1120,9 @@ msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:84 utility/registry.c:848 server/console.c:63
@@ -1122,7 +1130,7 @@ msgstr[1] ""
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
-msgstr ""
+msgstr "Déan tuairisc ar an teachtaireacht seo ag %s"
 
 #: utility/shared.c:182
 #, c-format
@@ -1139,12 +1147,14 @@ msgstr ""
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
+"Tá \"%s\" socraithe ach tá sé folamh; bainfear úsáid as an réamhshocrú \"%s\" "
+"ina ionad."
 
 #. TRANS: "...: <externally translated error string>."
 #: utility/shared.c:1035
 #, c-format
 msgid "Could not read data directory %s: %s."
-msgstr ""
+msgstr "Níorbh fhéidir comhadlann sonraí %s a léamh: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:1288
@@ -1331,6 +1341,9 @@ msgid_plural ""
 "the spaceship launch."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1237
 #, c-format
@@ -1351,6 +1364,9 @@ msgid_plural ""
 "and do likewise!"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1256
 #, c-format
@@ -1362,6 +1378,9 @@ msgid_plural ""
 "declare war in %d turns."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1264
 #, c-format
@@ -1379,6 +1398,9 @@ msgid_plural ""
 "apart. We declare war in %d turns."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1279
 #, c-format
@@ -1395,6 +1417,9 @@ msgid_plural ""
 "Hold on - we are coming!"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1294
 #, c-format
@@ -1406,6 +1431,9 @@ msgid_plural ""
 "turns.  We expect you to do likewise."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: ai/advdiplomacy.c:1362
 #, c-format
@@ -1496,17 +1524,17 @@ msgstr ""
 #. TRANS: auth option originates from internal default
 #: server/auth.c:186
 msgid " (default)"
-msgstr ""
+msgstr " (réamhshocrú)"
 
 #. TRANS: auth option originates from config file
 #: server/auth.c:191
 msgid " (config)"
-msgstr ""
+msgstr " (cumraíocht)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:195
 msgid " (set)"
-msgstr ""
+msgstr " (socraithe)"
 
 #: server/auth.c:234
 #, c-format
@@ -1712,7 +1740,7 @@ msgstr ""
 #: server/citytools.c:590
 #, c-format
 msgid "%s %s lost in transfer to %s %s"
-msgstr ""
+msgstr "%2$s %1$s caillte le linn aistrithe go %4$s %3$s"
 
 #: server/citytools.c:680
 #, c-format
@@ -1723,7 +1751,7 @@ msgstr ""
 #: server/citytools.c:811
 #, c-format
 msgid "A replacement %s was built in %s."
-msgstr ""
+msgstr "Tógáladh %s nua i %s."
 
 #: server/citytools.c:893
 #, c-format
@@ -1769,6 +1797,9 @@ msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/citytools.c:1390
 #, c-format
@@ -1776,16 +1807,19 @@ msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/citytools.c:1399
 #, c-format
 msgid "You conquer %s"
-msgstr ""
+msgstr "Faigheann tú bua ar %s"
 
 #: server/citytools.c:1402
 #, c-format
 msgid "%s conquered %s."
-msgstr ""
+msgstr "Fuair %s bua ar %s."
 
 #: server/citytools.c:1409
 #, c-format
@@ -1793,6 +1827,9 @@ msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/citytools.c:1416
 #, c-format
@@ -1800,6 +1837,9 @@ msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/citytools.c:1425
 #, c-format
@@ -2007,6 +2047,9 @@ msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/cityturn.c:1512 server/techtools.c:175
 #, c-format
@@ -2190,7 +2233,7 @@ msgstr ""
 #: server/civserver.c:230
 #, c-format
 msgid "You can learn a lot about Freeciv at %s"
-msgstr ""
+msgstr "Tá go leor eolais faoi Freeciv ar fáil ó %s"
 
 #: server/civserver.c:235 client/client_main.c:251 manual/civmanual.c:380
 #, c-format
@@ -2324,6 +2367,11 @@ msgid ""
 "help <command-name>\n"
 "help <option-name>"
 msgstr ""
+"help\n"
+"help commands\n"
+"help options\n"
+"help <ordú>\n"
+"help <rogha>"
 
 #: server/commands.c:60
 msgid "Show help about server commands and server options."
@@ -2357,7 +2405,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:92
 msgid "cut <connection-name>"
-msgstr ""
+msgstr "cut <ainm-an-cheangail>"
 
 #: server/commands.c:93
 msgid "Cut a client's connection to server."
@@ -2377,6 +2425,8 @@ msgid ""
 "explain\n"
 "explain <option-name>"
 msgstr ""
+"explain\n"
+"explain <rogha>"
 
 #: server/commands.c:104
 msgid "Explain server options."
@@ -2397,6 +2447,9 @@ msgid ""
 "show <option-name>\n"
 "show <option-prefix>"
 msgstr ""
+"show\n"
+"show <rogha>\n"
+"show <réimír>"
 
 #: server/commands.c:116
 msgid "Show server options."
@@ -2412,7 +2465,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:123
 msgid "wall <message>"
-msgstr ""
+msgstr "wall <teachtaireacht>"
 
 #: server/commands.c:124
 msgid "Send message to all connections."
@@ -2425,7 +2478,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:131
 msgid "connectmsg <message>"
-msgstr ""
+msgstr "connectmsg <teachtaireacht>"
 
 #: server/commands.c:132
 msgid "Set message to show to connecting players."
@@ -2440,7 +2493,7 @@ msgstr ""
 #. TRANS: translate text between [] only
 #: server/commands.c:138
 msgid "vote yes|no|abstain [vote number]"
-msgstr ""
+msgstr "vote yes|no|abstain [uimhir an vóta]"
 
 #: server/commands.c:139
 msgid "Cast a vote."
@@ -2471,7 +2524,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:163
 msgid "set <option-name> <value>"
-msgstr ""
+msgstr "set <rogha> <luach>"
 
 #: server/commands.c:164
 msgid "Set server option."
@@ -2480,7 +2533,7 @@ msgstr ""
 #. TRANS: translate text between <> and [] only
 #: server/commands.c:169
 msgid "team <player> [team]"
-msgstr ""
+msgstr "team <imreoir> [foireann]"
 
 #: server/commands.c:170
 msgid "Change, add or remove a player's team affiliation."
@@ -2529,7 +2582,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:199
 msgid "metapatch <meta-line>"
-msgstr ""
+msgstr "metapatch <meitilíne>"
 
 #: server/commands.c:200
 msgid "Set metaserver patches line."
@@ -2549,7 +2602,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:216
 msgid "metaserver <address>"
-msgstr ""
+msgstr "metaserver <seoladh>"
 
 #: server/commands.c:217
 msgid "Set address (URL) for metaserver to report to."
@@ -2558,7 +2611,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:222
 msgid "aitoggle <player-name>"
-msgstr ""
+msgstr "aitoggle <ainm-imreora>"
 
 #: server/commands.c:223
 msgid "Toggle AI status of player."
@@ -2567,7 +2620,7 @@ msgstr ""
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:228
 msgid "take [connection-name] <player-name>"
-msgstr ""
+msgstr "take [ainm-an-cheangail] <ainm-imreora>"
 
 #: server/commands.c:229
 msgid "Take over a player's place in the game."
@@ -2585,7 +2638,7 @@ msgstr ""
 #. TRANS: translate text between [] only
 #: server/commands.c:239
 msgid "observe [connection-name] [player-name]"
-msgstr ""
+msgstr "observe [ainm-an-cheangail] [ainm-imreora]"
 
 #: server/commands.c:240
 msgid "Observe a player or the whole game."
@@ -2603,7 +2656,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:250
 msgid "detach <connection-name>"
-msgstr ""
+msgstr "detach <ainm-an-cheangail>"
 
 #: server/commands.c:251
 msgid "detach from a player."
@@ -2618,7 +2671,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:258
 msgid "create <player-name>"
-msgstr ""
+msgstr "create <ainm-imreora>"
 
 #: server/commands.c:259
 msgid "Create an AI player with a given name."
@@ -2642,6 +2695,8 @@ msgid ""
 "novice\n"
 "novice <player-name>"
 msgstr ""
+"novice\n"
+"novice <ainm-imreora>"
 
 #: server/commands.c:275
 msgid "Set one or all AI players to 'novice'."
@@ -2660,6 +2715,8 @@ msgid ""
 "easy\n"
 "easy <player-name>"
 msgstr ""
+"easy\n"
+"easy <ainm-imreora>"
 
 #: server/commands.c:285
 msgid "Set one or all AI players to 'easy'."
@@ -2678,6 +2735,8 @@ msgid ""
 "normal\n"
 "normal <player-name>"
 msgstr ""
+"normal\n"
+"normal <ainm-imreora>"
 
 #: server/commands.c:295
 msgid "Set one or all AI players to 'normal'."
@@ -2696,6 +2755,8 @@ msgid ""
 "hard\n"
 "hard <player-name>"
 msgstr ""
+"hard\n"
+"hard <ainm-imreora>"
 
 #: server/commands.c:305
 msgid "Set one or all AI players to 'hard'."
@@ -2714,6 +2775,8 @@ msgid ""
 "cheating\n"
 "cheating <player-name>"
 msgstr ""
+"cheating\n"
+"cheating <ainm-imreora>"
 
 #: server/commands.c:315
 msgid "Set one or all AI players to 'cheating'."
@@ -2732,6 +2795,8 @@ msgid ""
 "experimental\n"
 "experimental <player-name>"
 msgstr ""
+"experimental\n"
+"experimental <ainm-imreora>"
 
 #: server/commands.c:325
 msgid "Set one or all AI players to 'experimental'."
@@ -2754,6 +2819,11 @@ msgid ""
 "cmdlevel <level> first\n"
 "cmdlevel <level> <connection-name>"
 msgstr ""
+"cmdlevel\n"
+"cmdlevel <leibhéal>\n"
+"cmdlevel <leibhéal> new\n"
+"cmdlevel <leibhéal> first\n"
+"cmdlevel <leibhéal> <ainm-an-cheangail>"
 
 #: server/commands.c:340
 msgid "Query or set command access level access."
@@ -2820,7 +2890,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:395
 msgid "remove <player-name>"
-msgstr ""
+msgstr "remove <ainm-imreora>"
 
 #: server/commands.c:396
 msgid "Fully remove player from game."
@@ -2838,6 +2908,8 @@ msgid ""
 "save\n"
 "save <file-name>"
 msgstr ""
+"save\n"
+"save <ainm-comhaid>"
 
 #: server/commands.c:405
 msgid "Save game to file."
@@ -2859,6 +2931,8 @@ msgid ""
 "load\n"
 "load <file-name>"
 msgstr ""
+"load\n"
+"load <ainm-comhaid>"
 
 #: server/commands.c:418
 msgid "Load game from file."
@@ -2873,7 +2947,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:425
 msgid "read <file-name>"
-msgstr ""
+msgstr "read <ainm-comhaid>"
 
 #: server/commands.c:426
 msgid "Process server commands from file."
@@ -2882,7 +2956,7 @@ msgstr ""
 #. TRANS: translate text between <> only
 #: server/commands.c:431
 msgid "write <file-name>"
-msgstr ""
+msgstr "write <ainm-comhaid>"
 
 #: server/commands.c:432
 msgid "Write current settings as server commands to file."
@@ -3059,6 +3133,9 @@ msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/diplhand.c:306 server/diplhand.c:310
 #, c-format
@@ -3104,13 +3181,13 @@ msgstr ""
 #: server/diplhand.c:435
 #, c-format
 msgid "You receive the %s worldmap."
-msgstr ""
+msgstr "Fuair tú mapa %s an Domhain."
 
 #. TRANS: ... Polish seamap.
 #: server/diplhand.c:444
 #, c-format
 msgid "You receive the %s seamap."
-msgstr ""
+msgstr "Fuair tú mapa %s na farraige."
 
 #: server/diplhand.c:461
 #, c-format
@@ -3138,6 +3215,9 @@ msgid_plural ""
 "treaty. Move your units out of %s territory."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/diplhand.c:537 server/diplhand.c:540
 #, c-format
@@ -3232,7 +3312,7 @@ msgstr ""
 #: server/diplomats.c:463
 #, c-format
 msgid "Your %s succeeded in bribing the %s."
-msgstr ""
+msgstr "D'éirigh le do %s crúibín cam a thabhairt don %s."
 
 #. TRANS: <unit> ... <Poles>
 #: server/diplomats.c:471
@@ -3842,6 +3922,9 @@ msgid_plural ""
 "government is %s."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/plrhand.c:350
 msgid "Revolution: returning to anarchy."
@@ -3970,6 +4053,9 @@ msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: year <name> reports ...
 #: server/report.c:58
@@ -4185,6 +4271,9 @@ msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/report.c:328 server/report.c:375
 msgid "Traveler's Report:"
@@ -4234,12 +4323,18 @@ msgid " month"
 msgid_plural " months"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/report.c:628
 msgid " ton"
 msgid_plural " tons"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/report.c:642
 msgid "st"
@@ -5397,22 +5492,22 @@ msgstr ""
 #. TRANS: Game state for local server
 #: server/sernet.c:1319 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
-msgstr ""
+msgstr "Réamhchluiche"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1323
 msgid "Running"
-msgstr ""
+msgstr "Ar Siúl"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1327
 msgid "Game over"
-msgstr ""
+msgstr "Críochnaithe"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1331
 msgid "Waiting"
-msgstr ""
+msgstr "Ar Feitheamh"
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
@@ -5985,30 +6080,30 @@ msgstr ""
 #: server/stdinhand.c:1491
 #, c-format
 msgid "Option: %s  -  %s"
-msgstr ""
+msgstr "Rogha: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:1497
 #, c-format
 msgid "Option: %s"
-msgstr ""
+msgstr "Rogha: %s"
 
 #: server/stdinhand.c:1504 server/stdinhand.c:4181
 msgid "Description:"
-msgstr ""
+msgstr "Cur Síos:"
 
 #: server/stdinhand.c:1509
 #, c-format
 msgid "Status: %s"
-msgstr ""
+msgstr "Stádas: %s"
 
 #: server/stdinhand.c:1510
 msgid "changeable"
-msgstr ""
+msgstr "inathraithe"
 
 #: server/stdinhand.c:1510
 msgid "fixed"
-msgstr ""
+msgstr "socraithe"
 
 #: server/stdinhand.c:1516
 #, c-format
@@ -6210,6 +6305,9 @@ msgid "other vote running"
 msgid_plural "other votes running"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/stdinhand.c:2261 server/stdinhand.c:2570 server/stdinhand.c:2611
 msgid "Value must be an integer."
@@ -6374,6 +6472,9 @@ msgid_plural ""
 "been reached (maxplayers setting)."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/stdinhand.c:2760
 msgid "You cannot take a new player because there are no free player slots."
@@ -6690,13 +6791,13 @@ msgstr ""
 #: server/stdinhand.c:4157
 #, c-format
 msgid "Command: %s  -  %s"
-msgstr ""
+msgstr "Ordú: %s  -  %s"
 
 #. TRANS: <untranslated name>
 #: server/stdinhand.c:4163
 #, c-format
 msgid "Command: %s"
-msgstr ""
+msgstr "Ordú: %s"
 
 #: server/stdinhand.c:4168
 msgid "Synopsis: "
@@ -6705,7 +6806,7 @@ msgstr ""
 #: server/stdinhand.c:4177
 #, c-format
 msgid "Level: %s"
-msgstr ""
+msgstr "Leibhéal: %s"
 
 #: server/stdinhand.c:4198
 msgid "The following server commands are available:"
@@ -6775,6 +6876,9 @@ msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/stdinhand.c:4491
 #, c-format
@@ -6796,6 +6900,9 @@ msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/stdinhand.c:4543
 #, c-format
@@ -6988,17 +7095,19 @@ msgstr ""
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr ""
 
+# from the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "Your Cannon ... the Polish Destroyer."
 #: server/unithand.c:1042
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
-msgstr ""
+msgstr "Tháinig do %1$s slán as an ionsaí lag ó %3$s %2$s."
 
+# against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unithand.c:1051
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
-msgstr ""
+msgstr "Theip ar do %1$s agus fogha a thabhairt faoi %3$s %2$s!"
 
 #: server/unithand.c:1131
 #, c-format
@@ -7140,7 +7249,7 @@ msgstr ""
 #: server/unittools.c:1117
 #, c-format
 msgid "Moved your %s."
-msgstr ""
+msgstr "Bogadh do %s."
 
 #: server/unittools.c:1128
 #, c-format
@@ -7172,18 +7281,21 @@ msgstr ""
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr ""
 
+# against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer."
 #: server/unittools.c:1668
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
-msgstr ""
+msgstr "D'éirigh le do %1$s agus fogha a thabhairt faoi %3$s %2$s!"
 
+# against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "Cannon ... the Polish Destroyer."
 #: server/unittools.c:1677 server/unittools.c:1735
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr ""
 
+# against the... could be plural as well, leave out "an/na"? Compare fr.po
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1711
 #, c-format
@@ -7192,13 +7304,16 @@ msgid_plural ""
 "Your attacking %s succeeded against the %s %s (and %d other units)!"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #: server/unittools.c:1744
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
-msgstr ""
+msgstr "Cailleadh %1$s nuair a d'ionsaigh an %3$s %2$s an %5$s %4$s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
@@ -7216,6 +7331,9 @@ msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
@@ -7226,6 +7344,9 @@ msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: server/unittools.c:2053
 #, c-format
@@ -7234,7 +7355,7 @@ msgstr ""
 
 #: server/unittools.c:2056 server/unittools.c:2074
 msgid "yourself"
-msgstr ""
+msgstr "tusa féin"
 
 #: server/unittools.c:2060
 #, c-format
@@ -7511,6 +7632,9 @@ msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/citydlg_common.c:243 client/citydlg_common.c:378 client/text.c:662
 #: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
@@ -7543,6 +7667,9 @@ msgid "%d turn"
 msgid_plural "%d turns"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/citydlg_common.c:337 client/citydlg_common.c:345
 #: client/gui-sdl/wldlg.c:1338
@@ -7604,7 +7731,7 @@ msgstr ""
 #: client/citydlg_common.c:489
 #, c-format
 msgid "%4d : Total surplus"
-msgstr ""
+msgstr "%4d : Barrachas iomlán"
 
 #: client/citydlg_common.c:506
 msgid "Illness deactivated in ruleset\n"
@@ -7804,7 +7931,7 @@ msgstr ""
 
 #: client/cityrepdata.c:485
 msgid "Surplus"
-msgstr ""
+msgstr "Barrachas"
 
 #: client/cityrepdata.c:485
 msgid "?food/production/trade:F/P/T"
@@ -7812,7 +7939,7 @@ msgstr "?food/production/trade:B/T/R"
 
 #: client/cityrepdata.c:486
 msgid "Surplus: Food, Production, Trade"
-msgstr ""
+msgstr "Barrachas: Bia, Táirgeadh, Trádáil"
 
 #: client/cityrepdata.c:488
 msgid "?Food surplus [short]:+F"
@@ -7836,7 +7963,7 @@ msgstr "?Production loss (waste) [short]:-T"
 
 #: client/cityrepdata.c:493
 msgid "Waste"
-msgstr ""
+msgstr "Diomailt"
 
 #: client/cityrepdata.c:494
 msgid "?Trade surplus [short]:+T"
@@ -8390,6 +8517,9 @@ msgid "%d tile copied."
 msgid_plural "%d tiles copied."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:130
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -8626,6 +8756,9 @@ msgid "* Can carry and refuel %d unit from classes:\n"
 msgid_plural "* Can carry and refuel up to %d units from classes:\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:881
 #, c-format
@@ -8866,6 +8999,9 @@ msgid "* Unit has to be in a city, or a base after %d turn.\n"
 msgid_plural "* Unit has to be in a city, or a base after %d turns.\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:1149
 #, c-format
@@ -8873,6 +9009,9 @@ msgid "* Unit has to be in a city, a base, or on a %s after %d turn.\n"
 msgid_plural "* Unit has to be in a city, a base, or on a %s after %d turns.\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:1194
 #, c-format
@@ -8953,6 +9092,9 @@ msgid_plural ""
 "become unhappy.\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:1470
 #, c-format
@@ -9037,6 +9179,9 @@ msgid_plural ""
 "force %d unhappy citizens to become content.\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/helpdata.c:1560
 #, c-format
@@ -9044,6 +9189,9 @@ msgid "* A maximum of %d unit in each city can enforce martial law.\n"
 msgid_plural "* A maximum of %d units in each city can enforce martial law.\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: %d should always be greater than 2.
 #: client/helpdata.c:1571
@@ -9884,6 +10032,9 @@ msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
@@ -9910,6 +10061,9 @@ msgid "City: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
@@ -9979,6 +10133,9 @@ msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: "Chance to win: A:95% D:46%"
 #: client/text.c:362
@@ -10037,6 +10194,9 @@ msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:570
 #, c-format
@@ -10044,6 +10204,9 @@ msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:575
 #, c-format
@@ -10051,6 +10214,9 @@ msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:602
 #, c-format
@@ -10063,6 +10229,9 @@ msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:617
 #, c-format
@@ -10075,6 +10244,9 @@ msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:656
 #, c-format
@@ -10082,6 +10254,9 @@ msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:682
 #, c-format
@@ -10170,6 +10345,9 @@ msgid "%d unit"
 msgid_plural "%d units"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:819
@@ -10192,6 +10370,9 @@ msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:834
 msgid "No units selected."
@@ -10230,6 +10411,9 @@ msgid_plural ""
 "Treasury contains %d gold."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:1003
 msgid "Shows your progress in researching the current technology."
@@ -10302,6 +10486,9 @@ msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1113
@@ -10396,6 +10583,9 @@ msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: 0-21 unhappy citizen(s).
 #: client/text.c:1376
@@ -10404,6 +10594,9 @@ msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:1397
 msgid "Unlimited martial law in effect."
@@ -10415,6 +10608,9 @@ msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:1403
 #, c-format
@@ -10422,6 +10618,9 @@ msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/text.c:1410
 msgid "Military units in the field may cause unhappiness. "
@@ -11527,7 +11726,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editgui.c:1234
 msgid "Mode"
-msgstr ""
+msgstr "Mód"
 
 #: client/gui-gtk-2.0/editgui.c:1250
 msgid ""
@@ -11550,7 +11749,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:602
 msgid "Tile"
-msgstr ""
+msgstr "Tíl"
 
 #: client/gui-gtk-2.0/editprop.c:614
 msgid "Player"
@@ -11565,7 +11764,7 @@ msgstr "?play:Cluiche"
 #: client/gui-gtk-2.0/editprop.c:856
 #, c-format
 msgid "%db %ds %dW"
-msgstr ""
+msgstr "%df %db %dM"
 
 #. TRANS: "Number of technologies known".
 #: client/gui-gtk-2.0/editprop.c:868
@@ -11578,7 +11777,7 @@ msgstr "%d ar eolas"
 #: client/gui-gtk-2.0/editprop.c:879 client/gui-gtk-2.0/editprop.c:888
 #, c-format
 msgid "%d present"
-msgstr ""
+msgstr "%d rud ann"
 
 #: client/gui-gtk-2.0/editprop.c:894
 #, c-format
@@ -11586,6 +11785,9 @@ msgid "%d byte"
 msgid_plural "%d bytes"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #. TRANS: Improvement never built.
 #: client/gui-gtk-2.0/editprop.c:918
@@ -12601,7 +12803,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:899 client/gui-win32/menu.c:347
 msgid "Roads & Rails"
-msgstr ""
+msgstr "Bóithre & Iarnróid"
 
 #: client/gui-gtk-2.0/menu.c:903 client/gui-sdl/optiondlg.c:1988
 #: client/gui-win32/menu.c:349 client/gui-xaw/menu.c:156
@@ -13028,11 +13230,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1711
 msgid "Build _Railroad"
-msgstr ""
+msgstr "Tógáil _Iarnród"
 
 #: client/gui-gtk-2.0/menu.c:1734
 msgid "Bu_ild Farmland"
-msgstr ""
+msgstr "Tógá_il Feirm"
 
 #: client/gui-gtk-2.0/menu.c:1754
 msgid "_Fortify"
@@ -13935,6 +14137,9 @@ msgid "turn"
 msgid_plural "turns"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/citydlg.c:2980
 #, c-format
@@ -14471,24 +14676,36 @@ msgid "shield"
 msgid_plural "shields"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/helpdlg.c:742 client/gui-sdl/helpdlg.c:765
 msgid "citizen"
 msgid_plural "citizens"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/helpdlg.c:755
 msgid "food"
 msgid_plural "foods"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/helpdlg.c:760
 msgid "gold"
 msgid_plural "golds"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/helpdlg.c:1003
 msgid "( with "
@@ -14650,6 +14867,9 @@ msgid_plural ""
 "%s territory (%d turn ceasefire)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/mapview.c:578
 #, c-format
@@ -14767,11 +14987,11 @@ msgstr ""
 
 #: client/gui-sdl/menu.c:527
 msgid "Connect road"
-msgstr ""
+msgstr "Ceangail bóthar"
 
 #: client/gui-sdl/menu.c:540
 msgid "Connect railroad"
-msgstr ""
+msgstr "Ceangail iarnród"
 
 #: client/gui-sdl/menu.c:553
 msgid "Auto-Explore"
@@ -14854,7 +15074,7 @@ msgstr ""
 #: client/gui-sdl/menu.c:802 client/gui-sdl/menu.c:1044
 #: client/gui-win32/menu.c:1230 client/gui-xaw/menu.c:173
 msgid "Build Railroad"
-msgstr ""
+msgstr "Tógáil Iarnród"
 
 #: client/gui-sdl/menu.c:806 client/gui-sdl/menu.c:1050
 #: client/gui-win32/menu.c:1233 client/gui-win32/menu.c:1239
@@ -14975,7 +15195,7 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:1935 client/gui-xaw/menu.c:154
 msgid "Roads and Rails"
-msgstr ""
+msgstr "Bóithre agus Iarnróid"
 
 #: client/gui-sdl/optiondlg.c:2014 client/gui-xaw/menu.c:157
 msgid "Fortress and Airbase"
@@ -15132,6 +15352,9 @@ msgid "step"
 msgid_plural "steps"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/repodlgs.c:3378 client/gui-win32/repodlgs.c:773
 #: client/gui-xaw/repodlgs.c:1192
@@ -15140,6 +15363,9 @@ msgid "%2d: The %s ruler %s scored %d point\n"
 msgid_plural "%2d: The %s ruler %s scored %d points\n"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-sdl/repodlgs.c:3386 client/gui-win32/repodlgs.c:781
 #: client/gui-xaw/repodlgs.c:1200
@@ -15839,6 +16065,9 @@ msgid "(idle %d turn)"
 msgid_plural "(idle %d turns)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-win32/plrdlg.c:352 data/Freeciv.in:3237
 msgid "Intelligence"
@@ -15858,6 +16087,9 @@ msgid "(%d step)"
 msgid_plural "(%d steps)"
 msgstr[0] ""
 msgstr[1] ""
+msgstr[2] ""
+msgstr[3] ""
+msgstr[4] ""
 
 #: client/gui-win32/repodlgs.c:356 client/gui-xaw/repodlgs.c:826
 #, c-format
@@ -16119,11 +16351,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:201
 msgid "Connect/Road"
-msgstr ""
+msgstr "Ceangail/Bóthar"
 
 #: client/gui-xaw/menu.c:202
 msgid "Connect/Rail"
-msgstr ""
+msgstr "Ceangail/Iarnród"
 
 #: client/gui-xaw/menu.c:203
 msgid "Connect/Irrigation"
@@ -16362,7 +16594,7 @@ msgstr ""
 
 #: manual/civmanual.c:218
 msgid "Rail"
-msgstr ""
+msgstr "Iarnród"
 
 #: manual/civmanual.c:219
 msgid "Clean pollution"
@@ -18635,7 +18867,7 @@ msgstr ""
 #: data/default/buildings.ruleset:981 data/civ2/buildings.ruleset:939
 #: data/civ1/buildings.ruleset:643
 msgid "Apollo Program"
-msgstr "Clár Program"
+msgstr "Clár Apollo"
 
 #: data/default/buildings.ruleset:995 data/civ2/buildings.ruleset:953
 msgid ""
@@ -20236,7 +20468,7 @@ msgstr "Baoi"
 
 #: data/civ1/terrain.ruleset:208
 msgid "Arctic"
-msgstr "An tArtach"
+msgstr "Artach"
 
 #: data/civ1/terrain.ruleset:235
 msgid ""
@@ -21103,7 +21335,7 @@ msgstr "Afganastánach"
 
 #: data/nation/afghani.ruleset:4
 msgid "?plural:Afghanis"
-msgstr "?plural:Afganastánaigh"
+msgstr "?plural:hAfganastánaigh"
 
 #: data/nation/afghani.ruleset:6
 msgid ""
@@ -21188,10 +21420,10 @@ msgstr "Nipsa"
 
 #: data/nation/akwe.ruleset:3
 msgid "Akwe"
-msgstr "Akwe"
+msgstr "Achaivé"
 
 #: data/nation/akwe.ruleset:4
-msgid "?plural:Achaivé"
+msgid "?plural:Akwe"
 msgstr "?plura:hAchaivéithe"
 
 #: data/nation/akwe.ruleset:7
@@ -21689,7 +21921,7 @@ msgstr ""
 #. TRANS: Ban = Duke
 #: data/nation/bosnia.ruleset:27
 msgid "Ban"
-msgstr ""
+msgstr "Diúc"
 
 #: data/nation/brazilian.ruleset:3
 msgid "Brazilian"
@@ -21827,19 +22059,19 @@ msgstr ""
 #: data/nation/bulgarian.ruleset:34 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
 msgid "Patriarch"
-msgstr ""
+msgstr "Patrarc"
 
 #: data/nation/bulgarian.ruleset:34
 msgid "Sveta Maika"
-msgstr ""
+msgstr "Sveta Maika"
 
 #: data/nation/burgundian.ruleset:3
 msgid "Burgundian"
-msgstr ""
+msgstr "Burgúnach"
 
 #: data/nation/burgundian.ruleset:4
 msgid "?plural:Burgundians"
-msgstr ""
+msgstr "?plural:Burgúnaigh"
 
 #: data/nation/burgundian.ruleset:6
 msgid ""
@@ -21852,7 +22084,7 @@ msgstr ""
 
 #: data/nation/burgundian.ruleset:31
 msgid "Margrave"
-msgstr ""
+msgstr "Margraf"
 
 #: data/nation/burgundian.ruleset:31
 msgid "Margravine"
@@ -21862,21 +22094,21 @@ msgstr ""
 #: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
 msgid "Duke"
-msgstr ""
+msgstr "Diúc"
 
 #: data/nation/burgundian.ruleset:32 data/nation/norman.ruleset:23
 #: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
 #: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
 msgid "Duchess"
-msgstr ""
+msgstr "Bandiúc"
 
 #: data/nation/burmese.ruleset:3
 msgid "Burmese"
-msgstr ""
+msgstr "Burmach"
 
 #: data/nation/burmese.ruleset:4
 msgid "?plural:Burmese"
-msgstr ""
+msgstr "?plural:Burmaigh"
 
 #: data/nation/burmese.ruleset:6
 msgid ""
@@ -21902,11 +22134,11 @@ msgstr "Sayama"
 
 #: data/nation/burundi.ruleset:3
 msgid "Burundi"
-msgstr ""
+msgstr "Burúnach"
 
 #: data/nation/burundi.ruleset:4
 msgid "?plural:Burundi"
-msgstr ""
+msgstr "?plural:Burúnaigh"
 
 #: data/nation/burundi.ruleset:7
 msgid ""
@@ -21921,19 +22153,19 @@ msgstr ""
 #. TRANS: Mwami = King
 #: data/nation/burundi.ruleset:28 data/nation/rwandan.ruleset:23
 msgid "Mwami"
-msgstr ""
+msgstr "Mwami"
 
 #: data/nation/burundi.ruleset:28
 msgid "Mwamikazi"
-msgstr ""
+msgstr "Mwamikazi"
 
 #: data/nation/byzantium.ruleset:3
 msgid "Byzantine"
-msgstr ""
+msgstr "Biosántach"
 
 #: data/nation/byzantium.ruleset:4
 msgid "?plural:Byzantines"
-msgstr ""
+msgstr "?plural:Biosántaigh"
 
 #: data/nation/byzantium.ruleset:6
 msgid ""
@@ -21947,7 +22179,7 @@ msgstr ""
 
 #: data/nation/byzantium.ruleset:26 data/nation/russian.ruleset:49
 msgid "Matriarch"
-msgstr ""
+msgstr "Matrarc"
 
 #. TRANS: Basileus = Monarch
 #: data/nation/byzantium.ruleset:28
@@ -21960,11 +22192,11 @@ msgstr "?female:Basileus"
 
 #: data/nation/cambodian.ruleset:3
 msgid "Cambodian"
-msgstr ""
+msgstr "Cambódach"
 
 #: data/nation/cambodian.ruleset:4
 msgid "?plural:Cambodians"
-msgstr ""
+msgstr "?plural:Cambódaigh"
 
 #: data/nation/cambodian.ruleset:6
 msgid ""
@@ -21975,23 +22207,23 @@ msgstr ""
 
 #: data/nation/cambodian.ruleset:21 data/nation/manchu.ruleset:20
 msgid "Warlord"
-msgstr ""
+msgstr "Taoiseach Cogaidh"
 
 #: data/nation/cambodian.ruleset:22
 msgid "Brother"
-msgstr ""
+msgstr "Deartháir"
 
 #: data/nation/cambodian.ruleset:22
 msgid "Sister"
-msgstr ""
+msgstr "Deirfiúr"
 
 #: data/nation/canadian.ruleset:3
 msgid "Canadian"
-msgstr ""
+msgstr "Ceanadach"
 
 #: data/nation/canadian.ruleset:4
 msgid "?plural:Canadians"
-msgstr ""
+msgstr "?plural:Ceanadaigh"
 
 #: data/nation/canadian.ruleset:7
 msgid ""
@@ -22001,11 +22233,11 @@ msgstr ""
 
 #: data/nation/carthaginian.ruleset:3
 msgid "Carthaginian"
-msgstr ""
+msgstr "Cartagach"
 
 #: data/nation/carthaginian.ruleset:4
 msgid "?plural:Carthaginians"
-msgstr ""
+msgstr "?plural:Cartagaigh"
 
 #: data/nation/carthaginian.ruleset:8
 msgid ""
@@ -22016,11 +22248,11 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
-msgstr ""
+msgstr "Catalónach"
 
 #: data/nation/catalan.ruleset:4
 msgid "?plural:Catalans"
-msgstr ""
+msgstr "?plural:Catalónaigh"
 
 #: data/nation/catalan.ruleset:6
 msgid ""
@@ -22037,45 +22269,45 @@ msgstr ""
 
 #: data/nation/catalan.ruleset:31
 msgid "Primer Ministre"
-msgstr ""
+msgstr "Príomh-Aire"
 
 #: data/nation/catalan.ruleset:31
 msgid "Primera Ministre"
-msgstr ""
+msgstr "Príomh-Aire"
 
 #: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:30
 msgid "Dictador"
-msgstr ""
+msgstr "Deachtóir"
 
 #: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:30
 msgid "Dictadora"
-msgstr ""
+msgstr "Deachtóir"
 
 #. TRANS: Rei/Reina = King/Queen
 #: data/nation/catalan.ruleset:34 data/nation/galician.ruleset:26
 msgid "Rei"
-msgstr ""
+msgstr "Rei"
 
 #: data/nation/catalan.ruleset:34
 msgid "Reina"
-msgstr ""
+msgstr "Reina"
 
 #. TRANS: Arquebisbe = Archbishop
 #: data/nation/catalan.ruleset:37
 msgid "Arquebisbe"
-msgstr ""
+msgstr "Arquebisbe"
 
 #: data/nation/catalan.ruleset:37
 msgid "Gran Bruixa"
-msgstr ""
+msgstr "Gran Bruixa"
 
 #: data/nation/cherokee.ruleset:3
 msgid "Cherokee"
-msgstr ""
+msgstr "Seiricíoch"
 
 #: data/nation/cherokee.ruleset:4
 msgid "?plural:Cherokees"
-msgstr ""
+msgstr "?plural:Seiricígh"
 
 #: data/nation/cherokee.ruleset:6
 msgid ""
@@ -22097,13 +22329,13 @@ msgstr "?female:Flaith Mór"
 #: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokesman"
-msgstr ""
+msgstr "Urlabhraí"
 
 #: data/nation/cherokee.ruleset:24 data/nation/iroquois.ruleset:28
 #: data/nation/muskogee.ruleset:33 data/nation/sami.ruleset:23
 #: data/nation/sioux.ruleset:30 data/nation/zulu.ruleset:39
 msgid "Spokeswoman"
-msgstr ""
+msgstr "Urlabhraí"
 
 #: data/nation/cherokee.ruleset:25
 msgid "Principal Chief"
@@ -22115,11 +22347,11 @@ msgstr "?female:Príomhdhuine"
 
 #: data/nation/chilean.ruleset:3
 msgid "Chilean"
-msgstr ""
+msgstr "Sileach"
 
 #: data/nation/chilean.ruleset:4
 msgid "?plural:Chileans"
-msgstr ""
+msgstr "?plural:Siligh"
 
 #: data/nation/chilean.ruleset:6
 msgid "Chile is located on the south-western coast of South America."
@@ -22127,24 +22359,24 @@ msgstr ""
 
 #: data/nation/chilean.ruleset:24
 msgid "Captain General"
-msgstr ""
+msgstr "Captaen-Ghinearál"
 
 #: data/nation/chilean.ruleset:25 data/nation/french.ruleset:28
 #: data/nation/german.ruleset:35 data/nation/irish.ruleset:46
 msgid "Archbishop"
-msgstr ""
+msgstr "Ard-Easpag"
 
 #: data/nation/chilean.ruleset:26
 msgid "Supreme Director"
-msgstr ""
+msgstr "Ard-Stiúrthóir"
 
 #: data/nation/chinese.ruleset:3
 msgid "Chinese"
-msgstr ""
+msgstr "Síneach"
 
 #: data/nation/chinese.ruleset:4
 msgid "?plural:Chinese"
-msgstr ""
+msgstr "?plural:Sínigh"
 
 #: data/nation/chinese.ruleset:6
 msgid ""
@@ -22161,19 +22393,19 @@ msgstr ""
 #: data/nation/japanese.ruleset:20 data/nation/manchu.ruleset:21
 #: data/nation/vietnamese.ruleset:23
 msgid "Emperor"
-msgstr ""
+msgstr "Impire"
 
 #: data/nation/chinese.ruleset:31
 msgid "Dowager"
-msgstr ""
+msgstr "Baintreach"
 
 #: data/nation/chola.ruleset:3
 msgid "Chola"
-msgstr ""
+msgstr "Chola"
 
 #: data/nation/chola.ruleset:4
 msgid "?plural:Cholas"
-msgstr ""
+msgstr "?plural:Cholaí"
 
 #: data/nation/chola.ruleset:7
 msgid ""
@@ -22188,11 +22420,11 @@ msgstr ""
 
 #: data/nation/colombian.ruleset:3
 msgid "Colombian"
-msgstr ""
+msgstr "Colómach"
 
 #: data/nation/colombian.ruleset:4
 msgid "?plural:Colombians"
-msgstr ""
+msgstr "?plural:Colómaigh"
 
 #: data/nation/colombian.ruleset:6
 msgid ""
@@ -22232,11 +22464,11 @@ msgstr ""
 
 #: data/nation/cornish.ruleset:3
 msgid "Cornish"
-msgstr ""
+msgstr "Cornach"
 
 #: data/nation/cornish.ruleset:4
 msgid "?plural:Cornish"
-msgstr ""
+msgstr "?plural:Cornaigh"
 
 #: data/nation/cornish.ruleset:6
 msgid ""
@@ -22258,11 +22490,11 @@ msgstr "?female:Taoiseach"
 
 #: data/nation/cree.ruleset:3
 msgid "Cree"
-msgstr ""
+msgstr "Craíoch"
 
 #: data/nation/cree.ruleset:4
 msgid "?plural:Cree"
-msgstr ""
+msgstr "?plural:Craígh"
 
 #: data/nation/cree.ruleset:7
 msgid ""
@@ -22276,29 +22508,29 @@ msgstr ""
 #. TRANS: Uchimaahkaaniskweu = Chief's wife
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaan"
-msgstr ""
+msgstr "Uchimaahkaan"
 
 #: data/nation/cree.ruleset:21
 msgid "Uchimaahkaaniskweu"
-msgstr ""
+msgstr "Uchimaahkaaniskweu"
 
 #. TRANS: Chihchiuchimaau = King
 #. TRANS: Chihchiuchimaaskweu = Queen
 #: data/nation/cree.ruleset:24
 msgid "Chihchiuchimaau"
-msgstr ""
+msgstr "Chihchiuchimaau"
 
 #: data/nation/cree.ruleset:24
 msgid "Chihchiuchimaaskweu"
-msgstr ""
+msgstr "Chihchiuchimaaskweu"
 
 #: data/nation/croatian.ruleset:3
 msgid "Croatian"
-msgstr ""
+msgstr "Crótach"
 
 #: data/nation/croatian.ruleset:4
 msgid "?plural:Croatians"
-msgstr ""
+msgstr "?plural:Crótaigh"
 
 #: data/nation/croatian.ruleset:6
 msgid ""
@@ -22310,11 +22542,11 @@ msgstr ""
 
 #: data/nation/cuban.ruleset:3
 msgid "Cuban"
-msgstr ""
+msgstr "Cúbach"
 
 #: data/nation/cuban.ruleset:4
 msgid "?plural:Cubans"
-msgstr ""
+msgstr "?plural:Cúbaigh"
 
 #: data/nation/cuban.ruleset:6
 msgid ""
@@ -22325,11 +22557,11 @@ msgstr ""
 
 #: data/nation/czech.ruleset:3
 msgid "Czech"
-msgstr ""
+msgstr "Seiceach"
 
 #: data/nation/czech.ruleset:4
 msgid "?plural:Czechs"
-msgstr ""
+msgstr "?plural:Seicigh"
 
 #: data/nation/czech.ruleset:6
 msgid ""
@@ -22339,19 +22571,19 @@ msgstr ""
 
 #: data/nation/czech.ruleset:36
 msgid "Thane"
-msgstr ""
+msgstr "Taen"
 
 #: data/nation/czech.ruleset:36
 msgid "Prophetess"
-msgstr ""
+msgstr "Banfháidh"
 
 #: data/nation/danish.ruleset:3
 msgid "Danish"
-msgstr ""
+msgstr "Danmhargach"
 
 #: data/nation/danish.ruleset:4
 msgid "?plural:Danes"
-msgstr ""
+msgstr "?plural:Danmhargaigh"
 
 #. TRANS: The third letter in "Blatand" should be
 #. TRANS: A+00E5 LATIN SMALL LETTER A WITH RING if available in
@@ -22364,11 +22596,11 @@ msgstr ""
 
 #: data/nation/dominican.ruleset:3
 msgid "Dominican"
-msgstr ""
+msgstr "Doiminiceach"
 
 #: data/nation/dominican.ruleset:4
 msgid "?plural:Dominicans"
-msgstr ""
+msgstr "?plural:Doiminiceach"
 
 #: data/nation/dominican.ruleset:6
 msgid ""
@@ -22381,11 +22613,11 @@ msgstr ""
 
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
-msgstr ""
+msgstr "Ollannach"
 
 #: data/nation/dutch.ruleset:4
 msgid "?plural:Dutch"
-msgstr ""
+msgstr "?plural:hOllannaigh"
 
 #: data/nation/dutch.ruleset:6
 msgid ""
@@ -22397,11 +22629,11 @@ msgstr ""
 
 #: data/nation/egyptian.ruleset:3
 msgid "Egyptian"
-msgstr ""
+msgstr "Éigipteach"
 
 #: data/nation/egyptian.ruleset:4
 msgid "?plural:Egyptians"
-msgstr ""
+msgstr "?plural:hÉigiptigh"
 
 #: data/nation/egyptian.ruleset:6
 msgid ""
@@ -22428,11 +22660,11 @@ msgstr "?female:Faró Mór"
 
 #: data/nation/emirati.ruleset:3
 msgid "Emirati"
-msgstr ""
+msgstr "Éimíríoch"
 
 #: data/nation/emirati.ruleset:4
 msgid "?plural:Emiratis"
-msgstr ""
+msgstr "?plural:hÉimírígh"
 
 #: data/nation/emirati.ruleset:6
 msgid ""
@@ -22444,19 +22676,19 @@ msgstr ""
 
 #: data/nation/emirati.ruleset:26 data/nation/kurd.ruleset:26
 msgid "Sheikh"
-msgstr ""
+msgstr "Síc"
 
 #: data/nation/emirati.ruleset:26
 msgid "Sheikhah"
-msgstr ""
+msgstr "Síceá"
 
 #: data/nation/english.ruleset:3
 msgid "English"
-msgstr ""
+msgstr "Sasanach"
 
 #: data/nation/english.ruleset:4
 msgid "?plural:English"
-msgstr ""
+msgstr "?plural:Sasanaigh"
 
 #: data/nation/english.ruleset:6
 msgid ""
@@ -22467,19 +22699,19 @@ msgstr ""
 
 #: data/nation/english.ruleset:26
 msgid "Lord Protector"
-msgstr ""
+msgstr "Tiarna Cosantóra"
 
 #: data/nation/english.ruleset:26
 msgid "Lady Protector"
-msgstr ""
+msgstr "Bean Chosantóra"
 
 #: data/nation/esperant.ruleset:3
 msgid "Esperant"
-msgstr ""
+msgstr "Dóchasach"
 
 #: data/nation/esperant.ruleset:4
 msgid "?plural:Esperants"
-msgstr ""
+msgstr "?plural:Dóchasaigh"
 
 #: data/nation/esperant.ruleset:6
 msgid "The Esperants are a world community united by the Esperanto language."
@@ -22487,11 +22719,11 @@ msgstr ""
 
 #: data/nation/estonian.ruleset:3
 msgid "Estonian"
-msgstr ""
+msgstr "Eastónach"
 
 #: data/nation/estonian.ruleset:4
 msgid "?plural:Estonians"
-msgstr ""
+msgstr "?plural:hEastónaigh"
 
 #: data/nation/estonian.ruleset:6
 msgid ""
@@ -22501,11 +22733,11 @@ msgstr ""
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
-msgstr ""
+msgstr "Aetópach"
 
 #: data/nation/ethiopian.ruleset:4
 msgid "?plural:Ethiopians"
-msgstr ""
+msgstr "?plural:hAetópaigh"
 
 #: data/nation/ethiopian.ruleset:6
 msgid ""
@@ -22516,15 +22748,15 @@ msgstr ""
 #: data/nation/ethiopian.ruleset:24 data/nation/japanese.ruleset:20
 #: data/nation/manchu.ruleset:21 data/nation/vietnamese.ruleset:23
 msgid "Empress"
-msgstr ""
+msgstr "Banimpire"
 
 #: data/nation/european.ruleset:3
 msgid "European"
-msgstr ""
+msgstr "Eorpach"
 
 #: data/nation/european.ruleset:4
 msgid "?plural:Europeans"
-msgstr ""
+msgstr "?plural:hEorpaigh"
 
 #: data/nation/european.ruleset:6
 msgid ""
@@ -22536,23 +22768,23 @@ msgstr ""
 
 #: data/nation/european.ruleset:22 data/nation/slovakian.ruleset:29
 msgid "Pope"
-msgstr ""
+msgstr "Pápa"
 
 #: data/nation/european.ruleset:22
 msgid "Popess"
-msgstr ""
+msgstr "Banphápa"
 
 #: data/nation/european.ruleset:23 data/nation/european.ruleset:24
 msgid "President of the Commission"
-msgstr ""
+msgstr "Uachtarán an Choimisiúin"
 
 #: data/nation/filipino.ruleset:3
 msgid "Filipino"
-msgstr ""
+msgstr "Filipíneach"
 
 #: data/nation/filipino.ruleset:4
 msgid "?plural:Filipinos"
-msgstr ""
+msgstr "?plural:Filipínigh"
 
 #: data/nation/filipino.ruleset:7
 msgid ""
@@ -22562,11 +22794,11 @@ msgstr ""
 
 #: data/nation/finnish.ruleset:3
 msgid "Finnish"
-msgstr ""
+msgstr "Fionlannach"
 
 #: data/nation/finnish.ruleset:4
 msgid "?plural:Finns"
-msgstr ""
+msgstr "?plural:Fionlannaigh"
 
 #: data/nation/finnish.ruleset:6
 msgid ""
@@ -22576,11 +22808,11 @@ msgstr ""
 
 #: data/nation/french.ruleset:3
 msgid "French"
-msgstr ""
+msgstr "Francach"
 
 #: data/nation/french.ruleset:4
 msgid "?plural:French"
-msgstr ""
+msgstr "?plural:Francaigh"
 
 #: data/nation/french.ruleset:6
 msgid ""
@@ -22603,11 +22835,11 @@ msgstr "?female:Ard-Easpag"
 
 #: data/nation/galician.ruleset:3
 msgid "Galician"
-msgstr ""
+msgstr "Gailíseach"
 
 #: data/nation/galician.ruleset:4
 msgid "?plural:Galicians"
-msgstr ""
+msgstr "?plural:Gailísigh"
 
 #: data/nation/galician.ruleset:6
 msgid "Galicia is a region in the northwest of Spain, just above Portugal."
@@ -22615,21 +22847,21 @@ msgstr ""
 
 #: data/nation/galician.ruleset:22
 msgid "Primeiro Ministro"
-msgstr ""
+msgstr "Primeiro Ministro"
 
 #: data/nation/galician.ruleset:22
 msgid "Primeira Ministra"
-msgstr ""
+msgstr "Primeira Ministra"
 
 #. TRANS: The third letter in "Dona" should be U+00F1 LATIN SMALL LETTER
 #. TRANS: N WITH TILDE
 #: data/nation/galician.ruleset:25
 msgid "Don"
-msgstr ""
+msgstr "Uasal"
 
 #: data/nation/galician.ruleset:25
 msgid "Dona"
-msgstr ""
+msgstr "Banuasal"
 
 #: data/nation/galician.ruleset:26
 msgid "Raina"
@@ -22639,28 +22871,28 @@ msgstr ""
 #: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
 #: data/nation/venezuelan.ruleset:33
 msgid "Presidente"
-msgstr ""
+msgstr "Uachtarán"
 
 #: data/nation/galician.ruleset:27 data/nation/venezuelan.ruleset:31
 #: data/nation/venezuelan.ruleset:32 data/nation/venezuelan.ruleset:33
 msgid "Presidenta"
-msgstr ""
+msgstr "Uachtarán"
 
 #: data/nation/galician.ruleset:28
 msgid "Gran Bardo"
-msgstr ""
+msgstr "Gran Bardo"
 
 #: data/nation/galician.ruleset:28
 msgid "Grande Bardesa"
-msgstr ""
+msgstr "Grande Bardesa"
 
 #: data/nation/gallic.ruleset:3
 msgid "Gallic"
-msgstr ""
+msgstr "Gallach"
 
 #: data/nation/gallic.ruleset:4
 msgid "?plural:Gauls"
-msgstr ""
+msgstr "?plural:Gallaigh"
 
 #: data/nation/gallic.ruleset:6
 msgid ""
@@ -22684,11 +22916,11 @@ msgstr "?female:Draoi"
 
 #: data/nation/georgian.ruleset:3
 msgid "Georgian"
-msgstr ""
+msgstr "Seoirseach"
 
 #: data/nation/georgian.ruleset:4
 msgid "?plural:Georgians"
-msgstr ""
+msgstr "?plural:Seoirsigh"
 
 #: data/nation/georgian.ruleset:6
 msgid ""
@@ -22698,11 +22930,11 @@ msgstr ""
 
 #: data/nation/german.ruleset:3
 msgid "German"
-msgstr ""
+msgstr "Gearmánach"
 
 #: data/nation/german.ruleset:4
 msgid "?plural:Germans"
-msgstr ""
+msgstr "?plural:Gearmánaigh"
 
 #: data/nation/german.ruleset:7
 msgid ""
@@ -22722,19 +22954,19 @@ msgstr "?female:Seansailéir"
 
 #: data/nation/german.ruleset:36
 msgid "First Secretary"
-msgstr ""
+msgstr "Céad-Rúnaí"
 
 #: data/nation/german.ruleset:36
 msgid "?female:First Secretary"
-msgstr ""
+msgstr "?female:Céad-Rúnaí"
 
 #: data/nation/greek.ruleset:3
 msgid "Greek"
-msgstr ""
+msgstr "Gréagach"
 
 #: data/nation/greek.ruleset:4
 msgid "?plural:Greeks"
-msgstr ""
+msgstr "?plural:Gréagaigh"
 
 #: data/nation/greek.ruleset:6
 msgid "The ancient Greeks, between Mycenae and the Roman conquest."
@@ -22789,11 +23021,11 @@ msgstr "?female:Ríomhéigse"
 
 #: data/nation/hawaiian.ruleset:3
 msgid "Hawaiian"
-msgstr ""
+msgstr "Haváíoch"
 
 #: data/nation/hawaiian.ruleset:4
 msgid "?plural:Hawaiians"
-msgstr ""
+msgstr "?plural:Haváígh"
 
 #: data/nation/hawaiian.ruleset:7
 msgid ""
@@ -22804,11 +23036,11 @@ msgstr ""
 
 #: data/nation/hellenic.ruleset:3
 msgid "Hellenic"
-msgstr ""
+msgstr "Heilléanach"
 
 #: data/nation/hellenic.ruleset:4
 msgid "?plural:Hellenes"
-msgstr ""
+msgstr "?plural:Heilléanaigh"
 
 #: data/nation/hellenic.ruleset:6
 msgid ""
@@ -22842,11 +23074,11 @@ msgstr ""
 
 #: data/nation/hittite.ruleset:3
 msgid "Hittite"
-msgstr ""
+msgstr "Hiteach"
 
 #: data/nation/hittite.ruleset:4
 msgid "?plural:Hittites"
-msgstr ""
+msgstr "?plural:Hitigh"
 
 #: data/nation/hittite.ruleset:6
 msgid ""
@@ -22857,11 +23089,11 @@ msgstr ""
 
 #: data/nation/hopi.ruleset:3
 msgid "Hopi"
-msgstr ""
+msgstr "Hóipíoch"
 
 #: data/nation/hopi.ruleset:4
 msgid "?plural:Hopis"
-msgstr ""
+msgstr "?plural:Hóipígh"
 
 #: data/nation/hopi.ruleset:7
 msgid ""
@@ -22872,15 +23104,15 @@ msgstr ""
 
 #: data/nation/hopi.ruleset:28
 msgid "Kikmongwi"
-msgstr ""
+msgstr "Kikmongwi"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
-msgstr ""
+msgstr "Ungárach"
 
 #: data/nation/hungarian.ruleset:4
 msgid "?plural:Hungarians"
-msgstr ""
+msgstr "?plural:hUngáraigh"
 
 #: data/nation/hungarian.ruleset:6
 msgid "Legend says that Hungary was founded by Arpad in the 9th century."
@@ -22888,11 +23120,11 @@ msgstr ""
 
 #: data/nation/icelandic.ruleset:3
 msgid "Icelandic"
-msgstr ""
+msgstr "Íoslannach"
 
 #: data/nation/icelandic.ruleset:4
 msgid "?plural:Icelanders"
-msgstr ""
+msgstr "?plural:hÍoslannaigh"
 
 #: data/nation/icelandic.ruleset:6
 msgid ""
@@ -22921,11 +23153,11 @@ msgstr ""
 
 #: data/nation/inca.ruleset:3
 msgid "Inca"
-msgstr ""
+msgstr "Inceach"
 
 #: data/nation/inca.ruleset:4
 msgid "?plural:Incas"
-msgstr ""
+msgstr "?plural:hIncigh"
 
 #: data/nation/inca.ruleset:7
 msgid ""
@@ -22949,19 +23181,19 @@ msgstr ""
 
 #: data/nation/inca.ruleset:36
 msgid "Sapa Inka"
-msgstr ""
+msgstr "Sapa Inka"
 
 #: data/nation/inca.ruleset:37
 msgid "Willaq Umu"
-msgstr ""
+msgstr "Willaq Umu"
 
 #: data/nation/indian.ruleset:3
 msgid "Indian"
-msgstr ""
+msgstr "Indiach"
 
 #: data/nation/indian.ruleset:4
 msgid "?plural:Indians"
-msgstr ""
+msgstr "?plural:hIndiaigh"
 
 #: data/nation/indian.ruleset:6
 msgid ""
@@ -22995,11 +23227,11 @@ msgstr "?female:Mahatma"
 
 #: data/nation/indonesian.ruleset:3
 msgid "Indonesian"
-msgstr ""
+msgstr "Indinéiseach"
 
 #: data/nation/indonesian.ruleset:4
 msgid "?plural:Indonesians"
-msgstr ""
+msgstr "?plural:hIndinéisigh"
 
 #: data/nation/indonesian.ruleset:6
 msgid ""
@@ -23010,11 +23242,11 @@ msgstr ""
 
 #: data/nation/inuit.ruleset:3
 msgid "Inuit"
-msgstr ""
+msgstr "Ionúiteach"
 
 #: data/nation/inuit.ruleset:4
 msgid "?plural:Inuits"
-msgstr ""
+msgstr "?plural:hIonúitigh"
 
 #: data/nation/inuit.ruleset:6
 msgid ""
@@ -23042,11 +23274,11 @@ msgstr "?female:Seaman Mór"
 
 #: data/nation/iranian.ruleset:3
 msgid "Iranian"
-msgstr ""
+msgstr "Iaránach"
 
 #: data/nation/iranian.ruleset:4
 msgid "?plural:Iranians"
-msgstr ""
+msgstr "?plural:hIaránaigh"
 
 #: data/nation/iranian.ruleset:6
 msgid ""
@@ -23066,11 +23298,11 @@ msgstr "Ayatollah"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
-msgstr ""
+msgstr "Iarácach"
 
 #: data/nation/iraqi.ruleset:4
 msgid "?plural:Iraqis"
-msgstr ""
+msgstr "?plural:hIarácaigh"
 
 #: data/nation/iraqi.ruleset:6
 msgid ""
@@ -23089,7 +23321,7 @@ msgstr "Éireannach"
 
 #: data/nation/irish.ruleset:4
 msgid "?plural:Irish"
-msgstr "?plural:Éireannaigh"
+msgstr "?plural:hÉireannaigh"
 
 #: data/nation/irish.ruleset:6
 msgid ""
@@ -23123,11 +23355,11 @@ msgstr "?female:Taoiseach"
 
 #: data/nation/iroquois.ruleset:3
 msgid "Iroquois"
-msgstr ""
+msgstr "Iroquois"
 
 #: data/nation/iroquois.ruleset:4
 msgid "?plural:Iroquois"
-msgstr ""
+msgstr "?plural:hIroquois"
 
 #: data/nation/iroquois.ruleset:6
 msgid ""
@@ -23141,11 +23373,11 @@ msgstr ""
 
 #: data/nation/israeli.ruleset:3
 msgid "Israeli"
-msgstr ""
+msgstr "Iosraelach"
 
 #: data/nation/israeli.ruleset:4
 msgid "?plural:Israelis"
-msgstr ""
+msgstr "?plural:hIosraelaigh"
 
 #: data/nation/israeli.ruleset:6
 msgid ""
@@ -23156,11 +23388,11 @@ msgstr ""
 
 #: data/nation/italian.ruleset:3
 msgid "Italian"
-msgstr ""
+msgstr "Iodálach"
 
 #: data/nation/italian.ruleset:4
 msgid "?plural:Italians"
-msgstr ""
+msgstr "?plural:hIodálaigh"
 
 #: data/nation/italian.ruleset:6
 msgid ""
@@ -23186,15 +23418,15 @@ msgstr ""
 
 #: data/nation/japanese.ruleset:21
 msgid "Shogun"
-msgstr ""
+msgstr "Seogain"
 
 #: data/nation/kanem-bornu.ruleset:3
 msgid "Kanem-Bornu"
-msgstr ""
+msgstr "Kanem-Bornu"
 
 #: data/nation/kanem-bornu.ruleset:4
 msgid "?plural:Kanem-Bornu"
-msgstr ""
+msgstr "?plural:Kanem-Bornuithe"
 
 #: data/nation/kanem-bornu.ruleset:7
 msgid ""
@@ -23204,15 +23436,15 @@ msgstr ""
 
 #: data/nation/kanem-bornu.ruleset:23
 msgid "Mai"
-msgstr ""
+msgstr "Mai"
 
 #: data/nation/kazakh.ruleset:3
 msgid "Kazakh"
-msgstr ""
+msgstr "Casaiceach"
 
 #: data/nation/kazakh.ruleset:4
 msgid "?plural:Kazakhs"
-msgstr ""
+msgstr "?plural:Casaicigh"
 
 #: data/nation/kazakh.ruleset:6
 msgid ""
@@ -23224,11 +23456,11 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:3
 msgid "Kenyan"
-msgstr ""
+msgstr "Céiniach"
 
 #: data/nation/kenyan.ruleset:4
 msgid "?plural:Kenyans"
-msgstr ""
+msgstr "?plural:Céiniaigh"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
@@ -23236,15 +23468,15 @@ msgstr ""
 
 #: data/nation/kenyan.ruleset:18
 msgid "Nabongo"
-msgstr ""
+msgstr "Nabongo"
 
 #: data/nation/khwarezmian.ruleset:3
 msgid "Khwarezmian"
-msgstr ""
+msgstr "Khwarezmiach"
 
 #: data/nation/khwarezmian.ruleset:4
 msgid "?plural:Khwarezmians"
-msgstr ""
+msgstr "?plural:Khwarezmiaigh"
 
 #: data/nation/khwarezmian.ruleset:7
 msgid ""
@@ -23260,15 +23492,15 @@ msgstr ""
 
 #: data/nation/khwarezmian.ruleset:26
 msgid "Khorezmshah"
-msgstr ""
+msgstr "Khorezmshah"
 
 #: data/nation/kongo.ruleset:3
 msgid "Kongo"
-msgstr ""
+msgstr "Congóch"
 
 #: data/nation/kongo.ruleset:4
 msgid "?plural:Kongo"
-msgstr ""
+msgstr "?plural:Congóigh"
 
 #: data/nation/kongo.ruleset:7
 msgid ""
@@ -23280,15 +23512,15 @@ msgstr ""
 
 #: data/nation/kongo.ruleset:28
 msgid "Manikongo"
-msgstr ""
+msgstr "Manikongo"
 
 #: data/nation/korean.ruleset:3
 msgid "Korean"
-msgstr ""
+msgstr "Cóiréach"
 
 #: data/nation/korean.ruleset:4
 msgid "?plural:Koreans"
-msgstr ""
+msgstr "?plural:Cóiréigh"
 
 #: data/nation/korean.ruleset:6
 msgid ""
@@ -23301,19 +23533,19 @@ msgstr ""
 
 #: data/nation/kurd.ruleset:3
 msgid "Kurdish"
-msgstr ""
+msgstr "Coirdíneach"
 
 #: data/nation/kurd.ruleset:4
 msgid "?plural:Kurds"
-msgstr ""
+msgstr "?plural:Coirdínigh"
 
 #: data/nation/kurd.ruleset:5
 msgid "Asian"
-msgstr ""
+msgstr "Áiseach"
 
 #: data/nation/kurd.ruleset:5
 msgid "Medieval"
-msgstr ""
+msgstr "Meánaoiseach"
 
 #: data/nation/kurd.ruleset:6
 msgid ""
@@ -23330,11 +23562,11 @@ msgstr ""
 
 #: data/nation/kyrgyz.ruleset:3
 msgid "Kyrgyz"
-msgstr ""
+msgstr "Cirgeasach"
 
 #: data/nation/kyrgyz.ruleset:4
 msgid "?plural:Kyrgyzs"
-msgstr ""
+msgstr "?plural:Cirgeasaigh"
 
 #: data/nation/kyrgyz.ruleset:6
 msgid ""
@@ -23346,7 +23578,7 @@ msgstr ""
 #: data/nation/kyrgyz.ruleset:26 data/nation/mongol.ruleset:31
 #: data/nation/uyghur.ruleset:30
 msgid "Khagan"
-msgstr ""
+msgstr "Khagan"
 
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
@@ -23366,12 +23598,12 @@ msgstr ""
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Prince"
-msgstr ""
+msgstr "Prionsa"
 
 #: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
 #: data/nation/welsh.ruleset:26
 msgid "Princess"
-msgstr ""
+msgstr "Banphrionsa"
 
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
@@ -23393,11 +23625,11 @@ msgstr "?female:Ardcheannasaí"
 
 #: data/nation/laotian.ruleset:3
 msgid "Laotian"
-msgstr ""
+msgstr "Laosach"
 
 #: data/nation/laotian.ruleset:4
 msgid "?plural:Laotians"
-msgstr ""
+msgstr "?plural:Laosaigh"
 
 #: data/nation/laotian.ruleset:6
 msgid ""
@@ -23411,11 +23643,11 @@ msgstr ""
 
 #: data/nation/latvian.ruleset:3
 msgid "Latvian"
-msgstr ""
+msgstr "Laitviach"
 
 #: data/nation/latvian.ruleset:4
 msgid "?plural:Latvians"
-msgstr ""
+msgstr "?plural:Laitviaigh"
 
 #: data/nation/latvian.ruleset:7
 msgid ""
@@ -23426,11 +23658,11 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:3
 msgid "Libyan"
-msgstr ""
+msgstr "Libiach"
 
 #: data/nation/libyan.ruleset:4
 msgid "?plural:Libyans"
-msgstr ""
+msgstr "?plural:Libiaigh"
 
 #: data/nation/libyan.ruleset:6
 msgid ""
@@ -23446,15 +23678,15 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
-msgstr ""
+msgstr "Coirnéal"
 
 #: data/nation/lithuanian.ruleset:3
 msgid "Lithuanian"
-msgstr ""
+msgstr "Liotuánach"
 
 #: data/nation/lithuanian.ruleset:4
 msgid "?plural:Lithuanians"
-msgstr ""
+msgstr "?plural:Liotuánaigh"
 
 #: data/nation/lithuanian.ruleset:6
 msgid ""
@@ -23465,11 +23697,11 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duke"
-msgstr ""
+msgstr "Ard-Diúc"
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duchess"
-msgstr ""
+msgstr "Ard-Bhandiúc"
 
 #: data/nation/lojbanistani.ruleset:3
 msgid "Lojbanistani"
@@ -23513,11 +23745,11 @@ msgstr ""
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
-msgstr ""
+msgstr "Malagásach"
 
 #: data/nation/malagasy.ruleset:4
 msgid "?plural:Malagasies"
-msgstr ""
+msgstr "?plural:Malagásaigh"
 
 #: data/nation/malagasy.ruleset:6
 msgid ""
@@ -23535,11 +23767,11 @@ msgstr "?female:Ardchoimisinéir"
 
 #: data/nation/malaysian.ruleset:3
 msgid "Malaysian"
-msgstr ""
+msgstr "Malaeisiach"
 
 #: data/nation/malaysian.ruleset:4
 msgid "?plural:Malaysians"
-msgstr ""
+msgstr "?plural:Malaeisiaigh"
 
 #: data/nation/malaysian.ruleset:6
 msgid ""
@@ -23550,12 +23782,12 @@ msgstr ""
 #: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/turk.ruleset:23
 msgid "Sultan"
-msgstr ""
+msgstr "Sabhdán"
 
 #: data/nation/malaysian.ruleset:22 data/nation/singaporean.ruleset:32
 #: data/nation/turk.ruleset:23
 msgid "Sultana"
-msgstr ""
+msgstr "Bansabhdán"
 
 #: data/nation/malaysian.ruleset:23
 msgid "Tun"
@@ -23563,11 +23795,11 @@ msgstr ""
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
-msgstr ""
+msgstr "Mailíoch"
 
 #: data/nation/malian.ruleset:4
 msgid "?plural:Malians"
-msgstr ""
+msgstr "?plural:Mailígh"
 
 #: data/nation/malian.ruleset:6
 msgid ""
@@ -23582,15 +23814,15 @@ msgstr ""
 #. TRANS: Mansa = King of kings
 #: data/nation/malian.ruleset:28
 msgid "Mansa"
-msgstr ""
+msgstr "Mansa"
 
 #: data/nation/manchu.ruleset:3
 msgid "Manchu"
-msgstr ""
+msgstr "Manchúireach"
 
 #: data/nation/manchu.ruleset:4
 msgid "?plural:Manchus"
-msgstr ""
+msgstr "?plural:Manchúirigh"
 
 #: data/nation/manchu.ruleset:6
 msgid ""
@@ -23601,11 +23833,11 @@ msgstr ""
 
 #: data/nation/maori.ruleset:3
 msgid "Maori"
-msgstr ""
+msgstr "Maorach"
 
 #: data/nation/maori.ruleset:4
 msgid "?plural:Maori"
-msgstr ""
+msgstr "?plural:Maoraigh"
 
 #: data/nation/maori.ruleset:6
 msgid ""
@@ -23616,11 +23848,11 @@ msgstr ""
 
 #: data/nation/mapuche.ruleset:3
 msgid "Mapuche"
-msgstr ""
+msgstr "Mapúitseach"
 
 #: data/nation/mapuche.ruleset:4
 msgid "?plural:Mapuche"
-msgstr ""
+msgstr "?plural:Mapúitsigh"
 
 #: data/nation/mapuche.ruleset:7
 msgid ""
@@ -23632,11 +23864,11 @@ msgstr ""
 
 #: data/nation/mapuche.ruleset:19
 msgid "Toqui"
-msgstr ""
+msgstr "Toqui"
 
 #: data/nation/mapuche.ruleset:20
 msgid "Lonko"
-msgstr ""
+msgstr "Lonko"
 
 #: data/nation/mapuche.ruleset:21
 msgid "Machi"
@@ -23644,11 +23876,11 @@ msgstr ""
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
-msgstr ""
+msgstr "Marsach"
 
 #: data/nation/martian.ruleset:4
 msgid "?plural:Martians"
-msgstr ""
+msgstr "?plural:Marsaigh"
 
 #: data/nation/martian.ruleset:6
 msgid "Marsmen landed on Earth in 4000 BC!"
@@ -23656,11 +23888,11 @@ msgstr ""
 
 #: data/nation/mayan.ruleset:3
 msgid "Mayan"
-msgstr ""
+msgstr "Máigeach"
 
 #: data/nation/mayan.ruleset:4
 msgid "?plural:Mayas"
-msgstr ""
+msgstr "?plural:Máigigh"
 
 #: data/nation/mayan.ruleset:6
 msgid ""
@@ -23688,11 +23920,11 @@ msgstr "?female:Ah kin"
 
 #: data/nation/mexican.ruleset:3
 msgid "Mexican"
-msgstr ""
+msgstr "Meicsiceach"
 
 #: data/nation/mexican.ruleset:4
 msgid "?plural:Mexicans"
-msgstr ""
+msgstr "?plural:Meicsicigh"
 
 #: data/nation/mexican.ruleset:6
 msgid ""
@@ -23701,11 +23933,11 @@ msgstr ""
 
 #: data/nation/moldovan.ruleset:3
 msgid "Moldovan"
-msgstr ""
+msgstr "Moldóiveach"
 
 #: data/nation/moldovan.ruleset:4
 msgid "?plural:Moldovans"
-msgstr ""
+msgstr "?plural:Moldóivigh"
 
 #: data/nation/moldovan.ruleset:6
 msgid ""
@@ -23718,36 +23950,36 @@ msgstr ""
 #. TRANS: Voievod/Doamna = Prince/Lady
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:34
 msgid "Voievod"
-msgstr ""
+msgstr "Voievod"
 
 #: data/nation/moldovan.ruleset:23 data/nation/romanian.ruleset:34
 msgid "Doamna"
-msgstr ""
+msgstr "Doamna"
 
 #: data/nation/moldovan.ruleset:24
 msgid "Gospodar"
-msgstr ""
+msgstr "Gospodar"
 
 #: data/nation/moldovan.ruleset:24
 msgid "Gospodarynya"
-msgstr ""
+msgstr "Gospodarynya"
 
 #. TRANS: Tovaras/Tovarasa = Comrade
 #: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:38
 msgid "Tovaras"
-msgstr ""
+msgstr "Tovaras"
 
 #: data/nation/moldovan.ruleset:26 data/nation/romanian.ruleset:38
 msgid "Tovarasa"
-msgstr ""
+msgstr "Tovarasa"
 
 #: data/nation/mongol.ruleset:3
 msgid "Mongol"
-msgstr ""
+msgstr "Mongólach"
 
 #: data/nation/mongol.ruleset:4
 msgid "?plural:Mongols"
-msgstr ""
+msgstr "?plural:Mongólaigh"
 
 #: data/nation/mongol.ruleset:6
 msgid ""
@@ -23767,11 +23999,11 @@ msgstr "?female:Khagan"
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
-msgstr ""
+msgstr "Muscóigeach"
 
 #: data/nation/muskogee.ruleset:4
 msgid "?plural:Muskogee"
-msgstr ""
+msgstr "?plural:Muscóigigh"
 
 #: data/nation/muskogee.ruleset:6
 msgid ""
@@ -23784,11 +24016,11 @@ msgstr ""
 
 #: data/nation/newzealand.ruleset:3
 msgid "New Zealand"
-msgstr ""
+msgstr "Nua-Shéalannach"
 
 #: data/nation/newzealand.ruleset:4
 msgid "?plural:New Zealanders"
-msgstr ""
+msgstr "?plural:Nua-Shéalannaigh"
 
 #: data/nation/newzealand.ruleset:6
 msgid ""
@@ -23799,11 +24031,11 @@ msgstr ""
 
 #: data/nation/nigerian.ruleset:3
 msgid "Nigerian"
-msgstr ""
+msgstr "Nigéarach"
 
 #: data/nation/nigerian.ruleset:4
 msgid "?plural:Nigerians"
-msgstr ""
+msgstr "?plural:Nigéaraigh"
 
 #: data/nation/nigerian.ruleset:6
 msgid "Nigeria won full independence from British rule in 1960."
@@ -23811,11 +24043,11 @@ msgstr ""
 
 #: data/nation/norman.ruleset:3
 msgid "Norman"
-msgstr ""
+msgstr "Normannach"
 
 #: data/nation/norman.ruleset:4
 msgid "?plural:Normans"
-msgstr ""
+msgstr "?plural:Normannaigh"
 
 #: data/nation/norman.ruleset:6
 msgid ""
@@ -23836,11 +24068,11 @@ msgstr "?female:Jarl"
 
 #: data/nation/northkorean.ruleset:3
 msgid "North Korean"
-msgstr ""
+msgstr "Cóiréach Thuaidh"
 
 #: data/nation/northkorean.ruleset:4
 msgid "?plural:North Koreans"
-msgstr ""
+msgstr "?plural:Cóiréigh Thuaigh"
 
 #: data/nation/northkorean.ruleset:6
 msgid ""
@@ -23852,15 +24084,15 @@ msgstr ""
 #. TRANS: translates as the Great leader
 #: data/nation/northkorean.ruleset:22
 msgid "Widaehan suryong"
-msgstr ""
+msgstr "Widaehan suryong"
 
 #: data/nation/norwegian.ruleset:3
 msgid "Norwegian"
-msgstr ""
+msgstr "Ioruach"
 
 #: data/nation/norwegian.ruleset:4
 msgid "?plural:Norwegians"
-msgstr ""
+msgstr "?plural:hIoruaigh"
 
 #: data/nation/norwegian.ruleset:6
 msgid ""
@@ -23871,11 +24103,11 @@ msgstr ""
 
 #: data/nation/nubian.ruleset:3
 msgid "Nubian"
-msgstr ""
+msgstr "Núibiach"
 
 #: data/nation/nubian.ruleset:4
 msgid "?plural:Nubians"
-msgstr ""
+msgstr "?plural:Núibiaigh"
 
 #: data/nation/nubian.ruleset:6
 msgid ""
@@ -23916,11 +24148,11 @@ msgstr ""
 
 #: data/nation/nuu-chah-nulth.ruleset:3
 msgid "Nuu-chah-nulth"
-msgstr ""
+msgstr "Nuu-chah-nulth"
 
 #: data/nation/nuu-chah-nulth.ruleset:4
 msgid "?plural:Nuu-chah-nulth"
-msgstr ""
+msgstr "?plural:Nuu-chah-nulth"
 
 #: data/nation/nuu-chah-nulth.ruleset:7
 msgid ""
@@ -23934,20 +24166,20 @@ msgstr ""
 #. TRANS: Chaabat = Chief
 #: data/nation/nuu-chah-nulth.ruleset:25
 msgid "Chaabat"
-msgstr ""
+msgstr "Chaabat"
 
 #. TRANS: Ha'wiih = Hereditary Chief
 #: data/nation/nuu-chah-nulth.ruleset:27
 msgid "Ha'wiih"
-msgstr ""
+msgstr "Ha'wiih"
 
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
-msgstr ""
+msgstr "Otamánach"
 
 #: data/nation/ottoman.ruleset:4
 msgid "?plural:Ottomans"
-msgstr ""
+msgstr "?plural:hOtamánaigh"
 
 #: data/nation/ottoman.ruleset:6
 msgid ""
@@ -23962,27 +24194,27 @@ msgstr ""
 
 #: data/nation/ottoman.ruleset:27 data/nation/tunisian.ruleset:28
 msgid "Bey"
-msgstr ""
+msgstr "Bey"
 
 #: data/nation/ottoman.ruleset:28
 msgid "Hakan"
-msgstr ""
+msgstr "Hakan"
 
 #: data/nation/ottoman.ruleset:29
 msgid "Padisah"
-msgstr ""
+msgstr "Padisah"
 
 #: data/nation/ottoman.ruleset:30
 msgid "Imparator"
-msgstr ""
+msgstr "Imparator"
 
 #: data/nation/pakistani.ruleset:3
 msgid "Pakistani"
-msgstr ""
+msgstr "Pacastánach"
 
 #: data/nation/pakistani.ruleset:4
 msgid "?plural:Pakistanis"
-msgstr ""
+msgstr "?plural:Pacastánaigh"
 
 #: data/nation/pakistani.ruleset:6
 msgid ""
@@ -23992,11 +24224,11 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:3
 msgid "Papuan"
-msgstr ""
+msgstr "Papuach"
 
 #: data/nation/papuan.ruleset:4
 msgid "?plural:Papuans"
-msgstr ""
+msgstr "?plural:Papuaigh"
 
 #: data/nation/papuan.ruleset:6
 msgid "The Papuans are a Melanesian people on the island of New Guinea."
@@ -24004,15 +24236,15 @@ msgstr ""
 
 #: data/nation/papuan.ruleset:16
 msgid "Governor-General"
-msgstr ""
+msgstr "Gobharnóir-Ghinearál"
 
 #: data/nation/persian.ruleset:3
 msgid "Persian"
-msgstr ""
+msgstr "Peirseach"
 
 #: data/nation/persian.ruleset:4
 msgid "?plural:Persians"
-msgstr ""
+msgstr "?plural:Peirsigh"
 
 #: data/nation/persian.ruleset:6
 msgid ""
@@ -24022,11 +24254,11 @@ msgstr ""
 
 #: data/nation/peruvian.ruleset:3
 msgid "Peruvian"
-msgstr ""
+msgstr "Peiriúch"
 
 #: data/nation/peruvian.ruleset:4
 msgid "?plural:Peruvians"
-msgstr ""
+msgstr "?plural:Peiriúigh"
 
 #: data/nation/peruvian.ruleset:6
 msgid ""
@@ -24036,15 +24268,15 @@ msgstr ""
 
 #: data/nation/peruvian.ruleset:25
 msgid "Protector"
-msgstr ""
+msgstr "Cosantóir"
 
 #: data/nation/phoenician.ruleset:3
 msgid "Phoenician"
-msgstr ""
+msgstr "Féiníceach"
 
 #: data/nation/phoenician.ruleset:4
 msgid "?plural:Phoenicians"
-msgstr ""
+msgstr "?plural:Féinícigh"
 
 #: data/nation/phoenician.ruleset:6
 msgid ""
@@ -24060,23 +24292,23 @@ msgstr ""
 
 #: data/nation/phoenician.ruleset:28
 msgid "Milk"
-msgstr ""
+msgstr "Milk"
 
 #: data/nation/phoenician.ruleset:28
 msgid "Milkot"
-msgstr ""
+msgstr "Milkot"
 
 #: data/nation/phoenician.ruleset:29
 msgid "Suffet"
-msgstr ""
+msgstr "Suffet"
 
 #: data/nation/pirate.ruleset:3
 msgid "Pirate"
-msgstr ""
+msgstr "Foghlaí Mara"
 
 #: data/nation/pirate.ruleset:4
 msgid "?plural:Pirates"
-msgstr ""
+msgstr "?plural:Foghlaithe Mara"
 
 #: data/nation/pirate.ruleset:5
 msgid ""
@@ -24086,11 +24318,11 @@ msgstr ""
 
 #: data/nation/polish.ruleset:3
 msgid "Polish"
-msgstr ""
+msgstr "Polannach"
 
 #: data/nation/polish.ruleset:4
 msgid "?plural:Poles"
-msgstr ""
+msgstr "?plural:Polannaigh"
 
 #: data/nation/polish.ruleset:6
 msgid ""
@@ -24127,11 +24359,11 @@ msgstr "?female:Pierwszy Sekretarz"
 
 #: data/nation/polynesian.ruleset:3
 msgid "Polynesian"
-msgstr ""
+msgstr "Polainéiseach"
 
 #: data/nation/polynesian.ruleset:4
 msgid "?plural:Polynesian"
-msgstr ""
+msgstr "?plural:Polainéisigh"
 
 #: data/nation/polynesian.ruleset:6
 msgid ""
@@ -24141,11 +24373,11 @@ msgstr ""
 
 #: data/nation/portuguese.ruleset:3
 msgid "Portuguese"
-msgstr ""
+msgstr "Portaingéalach"
 
 #: data/nation/portuguese.ruleset:4
 msgid "?plural:Portuguese"
-msgstr ""
+msgstr "?plural:Portaingéalaigh"
 
 #: data/nation/portuguese.ruleset:6
 msgid ""
@@ -24155,11 +24387,11 @@ msgstr ""
 
 #: data/nation/prussian.ruleset:3
 msgid "Prussian"
-msgstr ""
+msgstr "Prúiseach"
 
 #: data/nation/prussian.ruleset:4
 msgid "?plural:Prussians"
-msgstr ""
+msgstr "?plural:Prúisigh"
 
 #: data/nation/prussian.ruleset:7
 msgid ""
@@ -24181,15 +24413,15 @@ msgstr ""
 
 #: data/nation/prussian.ruleset:27
 msgid "Elector"
-msgstr ""
+msgstr "Toghthóir"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr ""
+msgstr "P'urhepecha"
 
 #: data/nation/purhepecha.ruleset:4
 msgid "?plural:P'urhepecha"
-msgstr ""
+msgstr "?plural:P'urhepecha"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -24209,15 +24441,15 @@ msgstr ""
 #. TRANS: Caconzi = King
 #: data/nation/purhepecha.ruleset:32
 msgid "Caconzi"
-msgstr ""
+msgstr "Caconzi"
 
 #: data/nation/quebecois.ruleset:3
 msgid "Quebecois"
-msgstr ""
+msgstr "Québecois"
 
 #: data/nation/quebecois.ruleset:4
 msgid "?plural:Quebecois"
-msgstr ""
+msgstr "?plural:Québecois"
 
 #: data/nation/quebecois.ruleset:6
 msgid ""
@@ -24227,11 +24459,11 @@ msgstr ""
 
 #: data/nation/romanian.ruleset:3
 msgid "Romanian"
-msgstr ""
+msgstr "Rómánach"
 
 #: data/nation/romanian.ruleset:4
 msgid "?plural:Romanians"
-msgstr ""
+msgstr "?plural:Rómánaigh"
 
 #: data/nation/romanian.ruleset:6
 msgid ""
@@ -24245,19 +24477,19 @@ msgstr ""
 #. TRANS: Rege/Regina = King/Queen
 #: data/nation/romanian.ruleset:36
 msgid "Rege"
-msgstr ""
+msgstr "Rege"
 
 #: data/nation/romanian.ruleset:36
 msgid "Regina"
-msgstr ""
+msgstr "Regina"
 
 #: data/nation/roman.ruleset:3
 msgid "Roman"
-msgstr ""
+msgstr "Rómhánach"
 
 #: data/nation/roman.ruleset:4
 msgid "?plural:Romans"
-msgstr ""
+msgstr "?plural:Rómhánaigh"
 
 #: data/nation/roman.ruleset:6
 msgid ""
@@ -24267,11 +24499,11 @@ msgstr ""
 
 #: data/nation/russian.ruleset:3
 msgid "Russian"
-msgstr ""
+msgstr "Rúiseach"
 
 #: data/nation/russian.ruleset:4
 msgid "?plural:Russians"
-msgstr ""
+msgstr "?plural:Rúisigh"
 
 #: data/nation/russian.ruleset:6
 msgid ""
@@ -24288,19 +24520,19 @@ msgstr ""
 
 #: data/nation/russian.ruleset:48
 msgid "Tsar"
-msgstr ""
+msgstr "Sár"
 
 #: data/nation/russian.ruleset:48
 msgid "Tsaritsa"
-msgstr ""
+msgstr "Ban-Sár"
 
 #: data/nation/rwandan.ruleset:3
 msgid "Rwandan"
-msgstr ""
+msgstr "Ruandach"
 
 #: data/nation/rwandan.ruleset:4
 msgid "?plural:Rwandans"
-msgstr ""
+msgstr "?plural:Ruandaigh"
 
 #: data/nation/rwandan.ruleset:6
 msgid ""
@@ -24325,19 +24557,19 @@ msgstr ""
 #. TRANS: Koku-o/Jo-o = King/Queen
 #: data/nation/ryukyuan.ruleset:22
 msgid "Koku-o"
-msgstr ""
+msgstr "Koku-o"
 
 #: data/nation/ryukyuan.ruleset:22
 msgid "Jo-o"
-msgstr ""
+msgstr "Jo-o"
 
 #: data/nation/sami.ruleset:3
 msgid "Sami"
-msgstr ""
+msgstr "Sáimeach"
 
 #: data/nation/sami.ruleset:4
 msgid "?plural:Sami"
-msgstr ""
+msgstr "?plural:Sáimigh"
 
 #: data/nation/sami.ruleset:6
 msgid ""
@@ -24370,11 +24602,11 @@ msgstr ""
 
 #: data/nation/saxon.ruleset:3
 msgid "Saxon"
-msgstr ""
+msgstr "Sacsanach"
 
 #: data/nation/saxon.ruleset:4
 msgid "?plural:Saxons"
-msgstr ""
+msgstr "?plural:Sacsanaigh"
 
 #: data/nation/saxon.ruleset:6
 msgid ""
@@ -24384,11 +24616,11 @@ msgstr ""
 
 #: data/nation/scottish.ruleset:3
 msgid "Scottish"
-msgstr ""
+msgstr "Albanach"
 
 #: data/nation/scottish.ruleset:4
 msgid "?plural:Scots"
-msgstr ""
+msgstr "?plural:hAlbanaigh"
 
 #: data/nation/scottish.ruleset:6
 msgid ""
@@ -24407,11 +24639,11 @@ msgstr "?female:Príomh-Aire"
 
 #: data/nation/serbian.ruleset:3
 msgid "Serbian"
-msgstr ""
+msgstr "Seirbiach"
 
 #: data/nation/serbian.ruleset:4
 msgid "?plural:Serbians"
-msgstr ""
+msgstr "?plural:Seirbiaigh"
 
 #: data/nation/serbian.ruleset:6
 msgid ""
@@ -24422,11 +24654,11 @@ msgstr ""
 
 #: data/nation/silesian.ruleset:3
 msgid "Silesian"
-msgstr ""
+msgstr "Siléiseach"
 
 #: data/nation/silesian.ruleset:4
 msgid "?plural:Silesians"
-msgstr ""
+msgstr "?plural:Siléisigh"
 
 #: data/nation/silesian.ruleset:6
 msgid ""
@@ -24436,11 +24668,11 @@ msgstr ""
 
 #: data/nation/singaporean.ruleset:15
 msgid "Singaporean"
-msgstr ""
+msgstr "Singeapórach"
 
 #: data/nation/singaporean.ruleset:16
 msgid "?plural:Singaporeans"
-msgstr ""
+msgstr "?plural:Singeapóraigh"
 
 #: data/nation/singaporean.ruleset:18
 msgid ""
@@ -24474,11 +24706,11 @@ msgstr ""
 
 #: data/nation/slovakian.ruleset:3
 msgid "Slovakian"
-msgstr ""
+msgstr "Slóvacach"
 
 #: data/nation/slovakian.ruleset:4
 msgid "?plural:Slovakians"
-msgstr ""
+msgstr "?plural:Slóvacaigh"
 
 #: data/nation/slovakian.ruleset:6
 msgid ""
@@ -24504,11 +24736,11 @@ msgstr "?female:Ard-Rúnaí"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr ""
+msgstr "Slóivéanach"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr ""
+msgstr "?plural:Slóivéinigh"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
@@ -24518,11 +24750,11 @@ msgstr ""
 
 #: data/nation/southafrican.ruleset:3
 msgid "South African"
-msgstr ""
+msgstr "Afracach Theas"
 
 #: data/nation/southafrican.ruleset:4
 msgid "?plural:South Africans"
-msgstr ""
+msgstr "?plural:hAfracaigh Theas"
 
 #: data/nation/southafrican.ruleset:6
 msgid ""
@@ -24538,11 +24770,11 @@ msgstr ""
 
 #: data/nation/southkorean.ruleset:3
 msgid "South Korean"
-msgstr ""
+msgstr "Cóiréach Theas"
 
 #: data/nation/southkorean.ruleset:4
 msgid "?plural:South Koreans"
-msgstr ""
+msgstr "?plural:Cóiréigh Theas"
 
 #: data/nation/southkorean.ruleset:6
 msgid ""
@@ -24555,11 +24787,11 @@ msgstr ""
 
 #: data/nation/soviet.ruleset:3
 msgid "Soviet"
-msgstr ""
+msgstr "Sóivéadach"
 
 #: data/nation/soviet.ruleset:4
 msgid "?plural:Soviets"
-msgstr ""
+msgstr "?plural:Sóivéidigh"
 
 #: data/nation/soviet.ruleset:6
 msgid ""
@@ -24581,11 +24813,11 @@ msgstr "?female:Ceannaire Mór"
 
 #: data/nation/spanish.ruleset:3
 msgid "Spanish"
-msgstr ""
+msgstr "Spáinneach"
 
 #: data/nation/spanish.ruleset:4
 msgid "?plural:Spanish"
-msgstr ""
+msgstr "?plural:Spáinnigh"
 
 #: data/nation/spanish.ruleset:6
 msgid ""
@@ -24605,11 +24837,11 @@ msgstr "Caudilla"
 
 #: data/nation/spanish.ruleset:29
 msgid "Cardinal"
-msgstr ""
+msgstr "Cairdinéal"
 
 #: data/nation/spanish.ruleset:29
 msgid "?female:Cardinal"
-msgstr ""
+msgstr "?female:Cairdinéal"
 
 #: data/nation/srivijaya.ruleset:3
 msgid "Sri Vijaya"
@@ -24630,15 +24862,15 @@ msgstr ""
 
 #: data/nation/srivijaya.ruleset:21
 msgid "Datu"
-msgstr ""
+msgstr "Datu"
 
 #: data/nation/sudanese.ruleset:3
 msgid "Sudanese"
-msgstr ""
+msgstr "Súdánach"
 
 #: data/nation/sudanese.ruleset:4
 msgid "?plural:Sudanese"
-msgstr ""
+msgstr "?plural:Súdánaigh"
 
 #: data/nation/sudanese.ruleset:6
 msgid ""
@@ -24648,11 +24880,11 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:3
 msgid "Sumerian"
-msgstr ""
+msgstr "Suiméarach"
 
 #: data/nation/sumerian.ruleset:4
 msgid "?plural:Sumerians"
-msgstr ""
+msgstr "?plural:Suiméaraigh"
 
 #: data/nation/sumerian.ruleset:6
 msgid ""
@@ -24663,23 +24895,23 @@ msgstr ""
 
 #: data/nation/sumerian.ruleset:27
 msgid "Nin"
-msgstr ""
+msgstr "Nin"
 
 #: data/nation/sumerian.ruleset:29
 msgid "Ensi"
-msgstr ""
+msgstr "Ensi"
 
 #: data/nation/sumerian.ruleset:30
 msgid "Sanga"
-msgstr ""
+msgstr "Sanga"
 
 #: data/nation/swazi.ruleset:3
 msgid "Swazi"
-msgstr ""
+msgstr "Suasalannach"
 
 #: data/nation/swazi.ruleset:4
 msgid "?plural:Swazis"
-msgstr ""
+msgstr "?plural:Suasalannaigh"
 
 #: data/nation/swazi.ruleset:6
 msgid ""
@@ -24691,19 +24923,19 @@ msgstr ""
 #. TRANS: Ngwenyama/Indovuzaki = Lion/Elephant cow
 #: data/nation/swazi.ruleset:24
 msgid "Ngwenyama"
-msgstr ""
+msgstr "Ngwenyama"
 
 #: data/nation/swazi.ruleset:24
 msgid "Indovuzaki"
-msgstr ""
+msgstr "Indovuzaki"
 
 #: data/nation/swedish.ruleset:3
 msgid "Swedish"
-msgstr ""
+msgstr "Sualannach"
 
 #: data/nation/swedish.ruleset:4
 msgid "?plural:Swedes"
-msgstr ""
+msgstr "?plural:Sualannaigh"
 
 #: data/nation/swedish.ruleset:6
 msgid ""
@@ -24717,11 +24949,11 @@ msgstr ""
 
 #: data/nation/swiss.ruleset:3
 msgid "Swiss"
-msgstr ""
+msgstr "Eilvéiseach"
 
 #: data/nation/swiss.ruleset:4
 msgid "?plural:Swiss"
-msgstr ""
+msgstr "?plural:hEilvéisigh"
 
 #: data/nation/swiss.ruleset:6
 msgid ""
@@ -24743,23 +24975,23 @@ msgstr "?female:Báille"
 
 #: data/nation/swiss.ruleset:21 data/nation/swiss.ruleset:22
 msgid "President of the Confederation"
-msgstr ""
+msgstr "Uachtarán na Conaidhme"
 
 #: data/nation/swiss.ruleset:23
 msgid "Federal Chancellor"
-msgstr ""
+msgstr "Seansailéir Cónaidhme"
 
 #: data/nation/swiss.ruleset:23
 msgid "?female:Federal Chancellor"
-msgstr ""
+msgstr "?female:Seansailéir Cónaidhme"
 
 #: data/nation/syrian.ruleset:3
 msgid "Syrian"
-msgstr ""
+msgstr "Siriach"
 
 #: data/nation/syrian.ruleset:4
 msgid "?plural:Syrians"
-msgstr ""
+msgstr "?plural:Siriaigh"
 
 #: data/nation/syrian.ruleset:6
 msgid ""
@@ -24769,7 +25001,7 @@ msgstr ""
 
 #: data/nation/taino.ruleset:3
 msgid "Taino"
-msgstr ""
+msgstr "Taino"
 
 #: data/nation/taino.ruleset:4
 msgid "?plural:Taino"
@@ -24793,16 +25025,16 @@ msgstr ""
 #. TRANS: Cacike = Chief
 #: data/nation/taino.ruleset:31
 msgid "Cacike"
-msgstr ""
+msgstr "Cacike"
 
 #. TRANS: Bohike = Priest
 #: data/nation/taino.ruleset:33
 msgid "Bohike"
-msgstr ""
+msgstr "Bohike"
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
-msgstr ""
+msgstr "Tairona"
 
 #: data/nation/tairona.ruleset:4
 msgid "?plural:Tairona"
@@ -24822,20 +25054,20 @@ msgstr ""
 #. TRANS: Hankwa = Chief
 #: data/nation/tairona.ruleset:26
 msgid "Hankwa"
-msgstr ""
+msgstr "Hankwa"
 
 #. TRANS: Guacanaoma = Paramount Chief
 #: data/nation/tairona.ruleset:28
 msgid "Guacanaoma"
-msgstr ""
+msgstr "Guacanaoma"
 
 #: data/nation/taiwanese.ruleset:3
 msgid "Taiwanese"
-msgstr ""
+msgstr "Téavánach"
 
 #: data/nation/taiwanese.ruleset:4
 msgid "?plural:Taiwanese"
-msgstr ""
+msgstr "?plural:Téavánaigh"
 
 #: data/nation/taiwanese.ruleset:6
 msgid ""
@@ -24846,11 +25078,11 @@ msgstr ""
 
 #: data/nation/tajik.ruleset:3
 msgid "Tajik"
-msgstr ""
+msgstr "Táidsíceastánach"
 
 #: data/nation/tajik.ruleset:4
 msgid "?plural:Tajiks"
-msgstr ""
+msgstr "?plural:Táidsíceastánaigh"
 
 #: data/nation/tajik.ruleset:6
 msgid ""
@@ -24860,11 +25092,11 @@ msgstr ""
 
 #: data/nation/templar.ruleset:3
 msgid "Knights Templar"
-msgstr ""
+msgstr "Teamplóirí"
 
 #: data/nation/templar.ruleset:4
 msgid "?plural:Templars"
-msgstr ""
+msgstr "?plural:Teamplóirí"
 
 #: data/nation/templar.ruleset:6
 msgid ""
@@ -24882,11 +25114,11 @@ msgstr ""
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
-msgstr ""
+msgstr "Texach"
 
 #: data/nation/texan.ruleset:4
 msgid "?plural:Texans"
-msgstr ""
+msgstr "?plural:Texaigh"
 
 #: data/nation/texan.ruleset:6
 msgid ""
@@ -24896,11 +25128,11 @@ msgstr ""
 
 #: data/nation/thai.ruleset:3
 msgid "Thai"
-msgstr ""
+msgstr "Téalannach"
 
 #: data/nation/thai.ruleset:4
 msgid "?plural:Thai"
-msgstr ""
+msgstr "?plural:Téalannaigh"
 
 #: data/nation/thai.ruleset:6
 msgid ""
@@ -24910,11 +25142,11 @@ msgstr ""
 
 #: data/nation/thracian.ruleset:3
 msgid "Thracian"
-msgstr ""
+msgstr "Tráiciach"
 
 #: data/nation/thracian.ruleset:4
 msgid "?plural:Thracians"
-msgstr ""
+msgstr "?plural:Tráiciaigh"
 
 #: data/nation/thracian.ruleset:7
 msgid "The second most numerous people in the ancient western world."
@@ -24922,15 +25154,15 @@ msgstr ""
 
 #: data/nation/thracian.ruleset:19
 msgid "Rhesos"
-msgstr ""
+msgstr "Rhesos"
 
 #: data/nation/tibetan.ruleset:3
 msgid "Tibetan"
-msgstr ""
+msgstr "Tibéadach"
 
 #: data/nation/tibetan.ruleset:4
 msgid "?plural:Tibetans"
-msgstr ""
+msgstr "?plural:Tibéadaigh"
 
 #: data/nation/tibetan.ruleset:6
 msgid ""
@@ -24946,23 +25178,23 @@ msgstr ""
 
 #: data/nation/tibetan.ruleset:27
 msgid "Lama"
-msgstr ""
+msgstr "Láma"
 
 #: data/nation/tibetan.ruleset:28
 msgid "Dharma King"
-msgstr ""
+msgstr "Rí Dharma"
 
 #: data/nation/tibetan.ruleset:29
 msgid "Dalai Lama"
-msgstr ""
+msgstr "Dalaí Láma"
 
 #: data/nation/tocharian.ruleset:3
 msgid "Tocharian"
-msgstr ""
+msgstr "Tocárach"
 
 #: data/nation/tocharian.ruleset:4
 msgid "?plural:Tocharians"
-msgstr ""
+msgstr "?plural:Tocáraigh"
 
 #: data/nation/tocharian.ruleset:7
 msgid ""
@@ -24984,24 +25216,24 @@ msgstr ""
 
 #: data/nation/tocharian.ruleset:33
 msgid "Kakmartik"
-msgstr ""
+msgstr "Kakmartik"
 
 #. TRANS: Lant/Lantsa = King/Queen
 #: data/nation/tocharian.ruleset:35
 msgid "Lant"
-msgstr ""
+msgstr "Lant"
 
 #: data/nation/tocharian.ruleset:35
 msgid "Lantsa"
-msgstr ""
+msgstr "Lantsa"
 
 #: data/nation/tunisian.ruleset:3
 msgid "Tunisian"
-msgstr ""
+msgstr "Túinéiseach"
 
 #: data/nation/tunisian.ruleset:4
 msgid "?plural:Tunisians"
-msgstr ""
+msgstr "?plural:Túinéisigh"
 
 #: data/nation/tunisian.ruleset:6
 msgid ""
@@ -25017,7 +25249,7 @@ msgstr ""
 
 #: data/nation/tupi.ruleset:3
 msgid "Tupi"
-msgstr ""
+msgstr "Tupi"
 
 #: data/nation/tupi.ruleset:4
 msgid "?plural:Tupi"
@@ -25036,20 +25268,20 @@ msgstr ""
 #. TRANS: Morubixaba = Chief
 #: data/nation/tupi.ruleset:24
 msgid "Morubixaba"
-msgstr ""
+msgstr "Morubixaba"
 
 #. TRANS: Paje = Shaman
 #: data/nation/tupi.ruleset:26
 msgid "Paje"
-msgstr ""
+msgstr "Paje"
 
 #: data/nation/turkmen.ruleset:3
 msgid "Turkmen"
-msgstr ""
+msgstr "Tuircméanach"
 
 #: data/nation/turkmen.ruleset:4
 msgid "?plural:Turkmens"
-msgstr ""
+msgstr "?plural:Tuircméanaigh"
 
 #: data/nation/turkmen.ruleset:6
 msgid ""
@@ -25059,11 +25291,11 @@ msgstr ""
 
 #: data/nation/turk.ruleset:3
 msgid "Turkish"
-msgstr ""
+msgstr "Turcach"
 
 #: data/nation/turk.ruleset:4
 msgid "?plural:Turks"
-msgstr ""
+msgstr "?plural:Turcaigh"
 
 #: data/nation/turk.ruleset:6
 msgid ""
@@ -25075,11 +25307,11 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:3
 msgid "Ukrainian"
-msgstr ""
+msgstr "Úcránach"
 
 #: data/nation/ukrainian.ruleset:4
 msgid "?plural:Ukrainians"
-msgstr ""
+msgstr "?plural:hÚcránaigh"
 
 #: data/nation/ukrainian.ruleset:6
 msgid ""
@@ -25089,15 +25321,15 @@ msgstr ""
 
 #: data/nation/ukrainian.ruleset:18
 msgid "Hetman"
-msgstr ""
+msgstr "Hetman"
 
 #: data/nation/un.ruleset:3
 msgid "UN"
-msgstr ""
+msgstr "NA"
 
 #: data/nation/un.ruleset:4
 msgid "?plural:UN"
-msgstr ""
+msgstr "?plural:NA"
 
 #: data/nation/un.ruleset:6
 msgid ""
@@ -25106,31 +25338,31 @@ msgstr ""
 
 #: data/nation/un.ruleset:23
 msgid "?female:Chairperson"
-msgstr ""
+msgstr "?female:Cathaoirleach"
 
 #: data/nation/un.ruleset:24
 msgid "Secretary-General"
-msgstr ""
+msgstr "Ard-Rúnaí"
 
 #: data/nation/un.ruleset:24
 msgid "?female:Secretary-General"
-msgstr ""
+msgstr "?female:Ard-Rúnaí"
 
 #: data/nation/un.ruleset:25
 msgid "Representative"
-msgstr ""
+msgstr "Ionadaí"
 
 #: data/nation/un.ruleset:25
 msgid "?female:Representative"
-msgstr ""
+msgstr "?female:Ionadaí"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
-msgstr ""
+msgstr "Uraguach"
 
 #: data/nation/uruguayan.ruleset:4
 msgid "?plural:Uruguayans"
-msgstr ""
+msgstr "?plural:hUraguaigh"
 
 #: data/nation/uruguayan.ruleset:6
 msgid ""
@@ -25141,11 +25373,11 @@ msgstr ""
 
 #: data/nation/uyghur.ruleset:3
 msgid "Uyghur"
-msgstr ""
+msgstr "Úígiúrach"
 
 #: data/nation/uyghur.ruleset:4
 msgid "?plural:Uyghurs"
-msgstr ""
+msgstr "?plural:hÚígiúraigh"
 
 #: data/nation/uyghur.ruleset:6
 msgid ""
@@ -25159,11 +25391,11 @@ msgstr ""
 
 #: data/nation/uzbek.ruleset:3
 msgid "Uzbek"
-msgstr ""
+msgstr "Úisbéiceastánach"
 
 #: data/nation/uzbek.ruleset:4
 msgid "?plural:Uzbeks"
-msgstr ""
+msgstr "?plural:hÚisbéiceastánaigh"
 
 #: data/nation/uzbek.ruleset:6
 msgid ""
@@ -25175,11 +25407,11 @@ msgstr ""
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
-msgstr ""
+msgstr "Veiniséalach"
 
 #: data/nation/venezuelan.ruleset:4
 msgid "?plural:Venezuelans"
-msgstr ""
+msgstr "?plural:Veiniséalaigh"
 
 #. TRANS: The fourth letter in "Simon" should be
 #. TRANS: U+00F3 LATIN SMALL LETTER O WITH ACUTE if available in
@@ -25195,19 +25427,19 @@ msgstr ""
 #. TRANS: Terrateniente = Junker
 #: data/nation/venezuelan.ruleset:29
 msgid "Terrateniente"
-msgstr ""
+msgstr "Terrateniente"
 
 #: data/nation/venezuelan.ruleset:29
 msgid "Terratenienta"
-msgstr ""
+msgstr "Terratenienta"
 
 #: data/nation/vietnamese.ruleset:3
 msgid "Vietnamese"
-msgstr ""
+msgstr "Vítneamach"
 
 #: data/nation/vietnamese.ruleset:4
 msgid "?plural:Vietnamese"
-msgstr ""
+msgstr "?plural:Vítneamaigh"
 
 #: data/nation/vietnamese.ruleset:6
 msgid ""
@@ -25217,11 +25449,11 @@ msgstr ""
 
 #: data/nation/viking.ruleset:3
 msgid "Viking"
-msgstr ""
+msgstr "Uigingeach"
 
 #: data/nation/viking.ruleset:4
 msgid "?plural:Vikings"
-msgstr ""
+msgstr "?plural:hUigingigh"
 
 #: data/nation/viking.ruleset:6
 msgid ""
@@ -25232,11 +25464,11 @@ msgstr ""
 
 #: data/nation/welsh.ruleset:3
 msgid "Welsh"
-msgstr ""
+msgstr "Breatnach"
 
 #: data/nation/welsh.ruleset:4
 msgid "?plural:Welsh"
-msgstr ""
+msgstr "?plural:Breatnaigh"
 
 #: data/nation/welsh.ruleset:6
 msgid ""
@@ -25246,11 +25478,11 @@ msgstr ""
 
 #: data/nation/westphalian.ruleset:3
 msgid "Westphalian"
-msgstr ""
+msgstr "Viostfálach"
 
 #: data/nation/westphalian.ruleset:4
 msgid "?plural:Westphalians"
-msgstr ""
+msgstr "?plural:Viostfálaigh"
 
 #: data/nation/westphalian.ruleset:6
 msgid ""
@@ -25831,7 +26063,9 @@ msgstr "Rialacha Civ2"
 msgid ""
 "You are playing with civ2 style rules.These are quite close to Freeciv "
 "default rules, but with some additions."
-msgstr "Tá tú ag imirt de réir rialacha civ2. Is cosúil leis na rialacha réamhshocraithe Freeciv iad seo, ach le cúpla riail breise."
+msgstr ""
+"Tá tú ag imirt de réir rialacha civ2. Is cosúil leis na rialacha "
+"réamhshocraithe Freeciv iad seo, ach le cúpla riail breise."
 
 #: data/default/game.ruleset:19
 msgid "Default ruleset"
