@@ -44,6 +44,16 @@ static char *script_code;
 
 
 /**************************************************************************
+  Unsafe Lua builtin symbols that we to remove access to.
+**************************************************************************/
+static const char *script_unsafe_symbols[] = {
+  "dofile",
+  "loadfile",
+  "require",
+  NULL
+};
+
+/**************************************************************************
   Report a lua error.
 **************************************************************************/
 static int script_report(lua_State *L, int status, const char *code)
@@ -361,6 +371,19 @@ static void script_code_save(struct section_file *file)
 }
 
 /**************************************************************************
+  Remove global symbols from lua state L
+**************************************************************************/
+static void script_blacklist(lua_State *L, const char *lsymbols[])
+{
+  int i;
+
+  for (i = 0; lsymbols[i] != NULL; i++) {
+    lua_pushnil(L);
+    lua_setglobal(L, lsymbols[i]);
+  }
+}
+
+/**************************************************************************
   Initialize the scripting state.
 **************************************************************************/
 bool script_init(void)
@@ -371,11 +394,13 @@ bool script_init(void)
       return FALSE;
     }
 
+    /* Open default libraries, excluding io */
     luaopen_base(state);
     luaopen_string(state);
-    luaopen_io(state);
     luaopen_debug(state);
     luaopen_table(state);
+
+    script_blacklist(state, script_unsafe_symbols);
 
     tolua_api_open(state);
 
