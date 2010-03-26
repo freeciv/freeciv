@@ -288,9 +288,12 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_MGR_FOODNEEDED   TRUE
 
-#define GAME_DEFAULT_MGR_DISTANCE     3
-#define GAME_MIN_MGR_DISTANCE         1
-#define GAME_MAX_MGR_DISTANCE         7
+/* definition of the migration distance in relation to the current city
+ * radius; 0 means that migration is possible if the second city is within
+ * the city radius */
+#define GAME_DEFAULT_MGR_DISTANCE     0
+#define GAME_MIN_MGR_DISTANCE         (0 - CITY_MAP_MAX_RADIUS)
+#define GAME_MAX_MGR_DISTANCE         (1 + CITY_MAP_MAX_RADIUS)
 
 #define GAME_DEFAULT_MGR_NATIONCHANCE 50
 #define GAME_MIN_MGR_NATIONCHANCE     0

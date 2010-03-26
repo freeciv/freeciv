@@ -2438,6 +2438,10 @@ static bool do_city_migration(struct city *pcity_from,
       return FALSE;
     }
   } else {
+    /* the migrants take half of the food box with them (this prevents
+     * migration -> grow -> migration -> ... cycles) */
+    pcity_from->food_stock /= 2;
+
     city_reduce_size(pcity_from, 1, pplayer_from);
     city_refresh_vision(pcity_from);
     city_refresh(pcity_from);
@@ -2515,7 +2519,12 @@ void check_city_migrations(void)
 }
 
 /**************************************************************************
-  Check for migration for each city of one player
+  Check for migration for each city of one player.
+
+  For each city of the player do:
+  * check each tile within GAME_MAX_MGR_DISTANCE for a city
+  * if a city is found check the distance
+  * compare the migration score
 **************************************************************************/
 static void check_city_migrations_player(const struct player *pplayer)
 {
@@ -2523,7 +2532,7 @@ static void check_city_migrations_player(const struct player *pplayer)
   float best_city_player_score, best_city_world_score;
   struct city *best_city_player, *best_city_world, *acity;
   float score_from, score_tmp, weight;
-  int dist;
+  int dist, mgr_dist;
 
   /* check for each city
    * city_list_iterate_safe_end must be used because we could
@@ -2556,8 +2565,10 @@ static void check_city_migrations_player(const struct player *pplayer)
               game.info.turn, city_name(pcity), score_from,
               player_name(pplayer));
 
-    /* consider all cities within the set distance */
-    iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
+    /* consider all cities within the maximal possible distance
+     * (= CITY_MAP_MAX_RADIUS + GAME_MAX_MGR_DISTANCE) */
+    iterate_outward(city_tile(pcity), CITY_MAP_MAX_RADIUS
+                                      + GAME_MAX_MGR_DISTANCE, ptile) {
       acity = tile_city(ptile);
 
       if (!acity || acity == pcity) {
@@ -2565,17 +2576,28 @@ static void check_city_migrations_player(const struct player *pplayer)
         continue;
       }
 
+      /* Calculate the migration distance. The value of
+       * game.info.mgr_distance is added to the current city radius. If the
+       * distance between both cities is lower or equal than this value,
+       * migration is possible. */
+      mgr_dist = (int)sqrt((double)MAX(city_map_radius_sq_get(acity),0))
+                 + game.info.mgr_distance;
+
       /* distance between the two cities */
       dist = real_map_distance(city_tile(pcity), city_tile(acity));
 
+      if (dist > mgr_dist) {
+        /* to far away */
+        continue;
+      }
+
       /* score of the second city, weighted by the distance */
-      weight = ((float) (GAME_MAX_MGR_DISTANCE + 1 - dist)
-                / (float) (GAME_MAX_MGR_DISTANCE + 1));
+      weight = ((float) (mgr_dist + 1 - dist) / (float) (mgr_dist + 1));
       score_tmp = city_migration_score(acity) * weight;
 
-      log_debug("[M] T%d - compare city: %s (%s) dist: %d "
+      log_debug("[M] T%d - compare city: %s (%s) dist: %d mgr_dist: %d "
                 "score: %6.3f", game.info.turn, city_name(acity),
-                player_name(city_owner(acity)), dist, score_tmp);
+                player_name(city_owner(acity)), dist, mgr_dist, score_tmp);
 
       if (game.info.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
         /* migration between cities of the same owner */

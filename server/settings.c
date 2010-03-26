@@ -1213,11 +1213,12 @@ static struct setting settings[] = {
           N_("Maximum distance citizens may migrate"),
           N_("This setting controls how far citizens may look for a "
              "suitable migration destination when deciding which city "
-             "to migrate to. For example, with a value of 3, there can "
-             "be at most a 2 tile distance between cities undergoing "
-             "migration. This setting has no effect unless migration "
-             "is activated by the 'migration' setting."), NULL, NULL,
-          GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
+             "to migrate to. The value is added to the current city radius "
+             "and compared to the distance between the two cities. If "
+             "the distance is lower or equal, migration is possible. This "
+             "setting has no effect unless migration is activated by the "
+             "'migration' setting."),
+          NULL, NULL, GAME_MIN_MGR_DISTANCE, GAME_MAX_MGR_DISTANCE,
           GAME_DEFAULT_MGR_DISTANCE)
 
   GEN_INT("mgr_nationchance", game.info.mgr_nationchance,

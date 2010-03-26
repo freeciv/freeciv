@@ -436,7 +436,7 @@ PACKET_GAME_INFO=15; sc
   BOOL migration;
   UINT8 mgr_turninterval;
   BOOL mgr_foodneeded;
-  UINT8 mgr_distance;
+  SINT8 mgr_distance;
   UINT8 mgr_nationchance;
   UINT8 mgr_worldchance;
   BOOL turnblock;

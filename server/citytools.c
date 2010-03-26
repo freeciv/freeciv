@@ -2537,7 +2537,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
                                             city_radius_sq_old, city_x,
                                             city_y);
 
-      if (pcity == tile_worked(ptile)) {
+      if (ptile && pcity == tile_worked(ptile)) {
         city_map_update_empty(pcity, ptile, city_x, city_y);
         workers++;
       }
