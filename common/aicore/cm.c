@@ -2142,44 +2142,30 @@ void cm_print_city(const struct city *pcity)
 ****************************************************************************/
 void cm_print_result(const struct cm_result *result)
 {
-  int y;
-  int workers = cm_result_workers(result);
+  int *city_map_data = fc_calloc(city_map_tiles(result->city_radius_sq),
+                                 sizeof(*city_map_data));
 
   log_test("cm_print_result(result=%p)", (void *) result);
   log_test("  found_a_valid=%d disorder=%d happy=%d",
            result->found_a_valid, result->disorder, result->happy);
 
-  log_test("  workers at:");
   city_map_iterate(result->city_radius_sq, index, x, y) {
-    if (result->worker_positions_used[x][y]) {
-      log_test("    {%2d,%2d}", x, y);
+    if (is_free_worked_cxy(x, y)) {
+      city_map_data[index] = 2;
+    } else if (result->worker_positions_used[x][y]) {
+      city_map_data[index] = 1;
+    } else {
+      city_map_data[index] = 0;
     }
   } city_map_iterate_end;
+  log_test("workers map (2: free worked; 1: worker; 0: not used):");
+  citylog_map_data(LOG_TEST, result->city_radius_sq, city_map_data);
+  FC_FREE(city_map_data);
 
-  for (y = 0; y < CITY_MAP_MAX_SIZE; y++) {
-    char line[CITY_MAP_MAX_SIZE + 1];
-    int x;
-
-    line[CITY_MAP_MAX_SIZE] = 0;
-
-    for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
-      if (!is_valid_city_coords(result->city_radius_sq, x, y)) {
-        line[x] = '-';
-      } else if (is_free_worked_cxy(x, y)) {
-        line[x] = '+';
-      } else if (result->worker_positions_used[x][y]) {
-        line[x] = 'w';
-      } else {
-        line[x] = '.';
-      }
-    }
-    log_test("  %s", line);
-  }
-  log_test("  (workers/specialists) %d/%s", workers,
+  log_test("  (workers/specialists) %d/%s", cm_result_workers(result),
            specialists_string(result->specialists));
 
   output_type_iterate(i) {
-    log_test("  %10s surplus=%d",
-             get_output_name(i), result->surplus[i]);
+    log_test("  %10s surplus=%d", get_output_name(i), result->surplus[i]);
   } output_type_iterate_end;
 }
