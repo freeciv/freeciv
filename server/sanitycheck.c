@@ -440,6 +440,10 @@ static void check_city_size(struct city *pcity, const char *file,
             citizens,
             city_name(pcity), pcity->size);
 
+    citylog_map_workers(LOG_DEBUG, pcity);
+    log_debug("[%s (%d)] specialists: %d", city_name(pcity), pcity->id,
+              city_specialists(pcity));
+
     city_repair_size(pcity, delta);
     city_refresh_from_main_map(pcity, TRUE);
   }

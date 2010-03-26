@@ -45,6 +45,10 @@
 /* Define this to add in extra (very slow) assertions for the city code. */
 #undef CITY_DEBUGGING
 
+static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data);
+static void citylog_map_index(enum log_level level);
+static void citylog_map_radius_sq(enum log_level level);
+
 /* Get city tile informations using the city tile index. */
 static struct iter_index *city_map_index = NULL;
 /* Get city tile informations using the city tile coordinates. This is an
@@ -88,6 +92,21 @@ bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
   *city_map_y = CITY_REL2ABS(city_map_index[city_tile_index].dy);
 
   return TRUE;
+}
+
+/**************************************************************************
+  Returns the index for the given city tile coordinates taking into account
+  the squared city radius.
+**************************************************************************/
+int city_tile_xy_to_index(int city_map_x, int city_map_y,
+                          int city_radius_sq)
+{
+  fc_assert_ret_val(city_radius_sq >= CITY_MAP_MIN_RADIUS_SQ, 0);
+  fc_assert_ret_val(city_radius_sq <= CITY_MAP_MAX_RADIUS_SQ, 0);
+  fc_assert_ret_val(is_valid_city_coords(city_radius_sq, city_map_x,
+                                         city_map_y), 0);
+
+  return city_map_xy[city_map_x][city_map_y];
 }
 
 /**************************************************************************
@@ -248,6 +267,164 @@ int compare_iter_index(const void *a, const void *b)
   return value;
 }
 
+/****************************************************************************
+  Return one line (y coordinate) of a city map. *city_map_data is a pointer
+  to an array containing the data which should be printed. Its size is
+  defined by city_map_tiles(city_radius_sq).
+*****************************************************************************/
+#define CITYLOG_MAX_VAL 9999 /* maximal value displayed in the citylog */
+static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data)
+{
+  int x, index;
+  static char citylog[128], tmp[8];
+
+  fc_assert_ret_val(city_map_data != NULL, NULL);
+
+  /* print y coordinates (absolut) */
+  fc_snprintf(citylog, sizeof(citylog), "%2d ", y);
+
+  /* print values */
+  for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+    if (is_valid_city_coords(city_radius_sq, x, y)) {
+      index = city_tile_xy_to_index(x, y, city_radius_sq);
+      /* show values between -10000 and +10000 */
+      if (city_map_data[index] >= -CITYLOG_MAX_VAL
+          && city_map_data[index] <= CITYLOG_MAX_VAL) {
+        fc_snprintf(tmp, sizeof(tmp), "%5d", city_map_data[index]);
+        sz_strlcat(citylog, tmp);
+      } else {
+        fc_snprintf(tmp, sizeof(tmp), " ####");
+        sz_strlcat(citylog, tmp);
+      }
+    } else {
+      fc_snprintf(tmp, sizeof(tmp), "     ");
+      sz_strlcat(citylog, tmp);
+    }
+  }
+
+  /* print y coordinates (relativ) */
+  fc_snprintf(tmp, sizeof(tmp), " %+4d", CITY_ABS2REL(y));
+  sz_strlcat(citylog, tmp);
+
+  return citylog;
+}
+#undef CITYLOG_MAX_VAL
+
+/****************************************************************************
+  Display 'map_data' on a city map with the given radius 'radius_sq' for the
+  requested log level. The size of 'map_data' is defined by
+  city_map_tiles(radius_sq).
+*****************************************************************************/
+void citylog_map_data(enum log_level level, int radius_sq, int *map_data)
+{
+  int x, y;
+  char line[128], tmp[8];
+
+  if (!log_do_output_for_level(level)) {
+    return;
+  }
+
+  log_base(level, "(max squared city radius = %d)", CITY_MAP_MAX_RADIUS_SQ);
+
+  /* print x coordinates (absolut) */
+  fc_snprintf(line, sizeof(line), "   ");
+  for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+    fc_snprintf(tmp, sizeof(tmp), "%+5d", x);
+    sz_strlcat(line, tmp);
+  }
+  log_base(level, "%s", line);
+
+  for (y = 0; y < CITY_MAP_MAX_SIZE; y++) {
+    log_base(level, "%s", citylog_map_line(y, radius_sq, map_data));
+  }
+
+  /* print x coordinates (relativ) */
+  fc_snprintf(line, sizeof(line), "   ");
+  for (x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+    fc_snprintf(tmp, sizeof(tmp), "%+5d", CITY_ABS2REL(x));
+    sz_strlcat(line, tmp);
+  }
+  log_base(level, "%s", line);
+}
+
+/****************************************************************************
+  Display the location of the workers within the city map of pcity.
+*****************************************************************************/
+void citylog_map_workers(enum log_level level, struct city *pcity)
+{
+  int *city_map_data = NULL;
+
+  fc_assert_ret(pcity != NULL);
+
+  if (!log_do_output_for_level(level)) {
+    return;
+  }
+
+  city_map_data = fc_calloc(city_map_tiles(city_map_radius_sq_get(pcity)),
+                            sizeof(*city_map_data));
+
+  city_map_iterate(city_map_radius_sq_get(pcity), index, x, y) {
+    struct tile *ptile = city_map_to_tile(city_tile(pcity),
+                                          city_map_radius_sq_get(pcity),
+                                          x, y);
+    city_map_data[index] = (ptile && tile_worked(ptile) == pcity)
+                           ? (is_free_worked_cxy(x, y) ? 2 : 1) : 0;
+  } city_map_iterate_end;
+
+  log_base(level, "[%s (%d)] workers map:", city_name(pcity), pcity->id);
+  citylog_map_data(level, city_map_radius_sq_get(pcity), city_map_data);
+  FC_FREE(city_map_data);
+}
+
+#ifdef DEBUG
+/****************************************************************************
+  Log the index of all tiles of the city map.
+*****************************************************************************/
+static void citylog_map_index(enum log_level level)
+{
+  int *city_map_data = NULL;
+
+  if (!log_do_output_for_level(level)) {
+    return;
+  }
+
+  city_map_data = fc_calloc(city_map_tiles(CITY_MAP_MAX_RADIUS_SQ),
+                            sizeof(*city_map_data));
+
+  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, index, x, y) {
+    city_map_data[index] = index;
+  } city_map_iterate_end;
+
+  log_debug("city map index:");
+  citylog_map_data(level, CITY_MAP_MAX_RADIUS_SQ, city_map_data);
+  FC_FREE(city_map_data);
+}
+
+/****************************************************************************
+  Log the radius of all tiles of the city map.
+*****************************************************************************/
+static void citylog_map_radius_sq(enum log_level level)
+{
+  int *city_map_data = NULL;
+
+  if (!log_do_output_for_level(level)) {
+    return;
+  }
+
+  city_map_data = fc_calloc(city_map_tiles(CITY_MAP_MAX_RADIUS_SQ),
+                            sizeof(*city_map_data));
+
+  city_map_iterate(CITY_MAP_MAX_RADIUS_SQ, index, x, y) {
+    city_map_data[index] = map_vector_to_sq_distance(CITY_ABS2REL(x),
+                                                     CITY_ABS2REL(y));
+  } city_map_iterate_end;
+
+  log_debug("city map squared radius:");
+  citylog_map_data(level, CITY_MAP_MAX_RADIUS_SQ, city_map_data);
+  FC_FREE(city_map_data);
+}
+#endif /* DEBUG */
+
 /**************************************************************************
   Fill the arrays city_map_index, city_map_xy and city_map_numtiles. This
   may depend on topology and ruleset settings.
@@ -311,6 +488,9 @@ void generate_city_map_indices(void)
   }
 
 #ifdef DEBUG
+  citylog_map_radius_sq(LOG_DEBUG);
+  citylog_map_index(LOG_DEBUG);
+
   for (i = CITY_MAP_MIN_RADIUS_SQ; i <= CITY_MAP_MAX_RADIUS_SQ; i++) {
     log_debug("radius_sq = %2d, tiles = %2d", i, city_map_tiles(i));
   }

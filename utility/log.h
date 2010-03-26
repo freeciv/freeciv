@@ -88,6 +88,7 @@ void do_log(const char *file, const char *function, int line,
 /* Used by game debug command */
 #define log_test log_normal
 #define log_packet log_verbose
+#define LOG_TEST LOG_NORMAL /* needed by citylog_*() functions */
 
 
 /* Assertions. */

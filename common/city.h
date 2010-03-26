@@ -13,6 +13,9 @@
 #ifndef FC__CITY_H
 #define FC__CITY_H
 
+/* utility */
+#include "log.h"
+
 /* common */
 #include "fc_types.h"
 #include "name_translation.h"
@@ -91,9 +94,17 @@ struct iter_index {
 
 bool city_tile_index_to_xy(int *city_map_x, int *city_map_y,
                            int city_tile_index, int city_radius_sq);
+int city_tile_xy_to_index(int city_map_x, int city_map_y,
+                          int city_radius_sq);
+
 int city_map_radius_sq_get(const struct city *pcity);
 void city_map_radius_sq_set(struct city *pcity, int radius_sq);
 int city_map_tiles(int city_radius_sq);
+#define city_map_tiles_from_city(_pcity)                                    \
+  city_map_tiles(city_map_radius_sq_get(_pcity))
+
+void citylog_map_data(enum log_level level, int radius_sq, int *map_data);
+void citylog_map_workers(enum log_level level, struct city *pcity);
 
 /* Iterate over the tiles of a city map. Starting at a given city radius
  * (the city center is _radius_sq_min = 0) outward to the tiles of

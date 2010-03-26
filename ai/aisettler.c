@@ -344,47 +344,55 @@ static int naval_bonus(struct cityresult *result, struct ai_data *ai)
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai)
 {
-  if (CITY_MAP_MAX_RADIUS != CITY_MAP_MIN_RADIUS
-      && CITY_MAP_MIN_RADIUS != 2) {
-    /* this function is only valid for radius = 2 */
-    return;
-  }
+  int *city_map_data;
 
-  log_test("Result=(%d, %d)\nReservations:\n"
-           "     %4d %4d %4d   \n"
-           "%4d %4d %4d %4d %4d\n"
-           "%4d %4d %4d %4d %4d\n"
-           "%4d %4d %4d %4d %4d\n"
-           "     %4d %4d %4d", cr->tile->x, cr->tile->y,
-           cr->citymap[1][0].reserved, cr->citymap[2][0].reserved, 
-           cr->citymap[3][0].reserved, cr->citymap[0][1].reserved,
-           cr->citymap[1][1].reserved, cr->citymap[2][1].reserved,
-           cr->citymap[3][1].reserved, cr->citymap[4][1].reserved,
-           cr->citymap[0][3].reserved, cr->citymap[1][1].reserved,
-           cr->citymap[2][3].reserved, cr->citymap[3][1].reserved,
-           cr->citymap[4][3].reserved, cr->citymap[0][3].reserved,
-           cr->citymap[1][3].reserved, cr->citymap[2][3].reserved,
-           cr->citymap[3][3].reserved, cr->citymap[4][3].reserved,
-           cr->citymap[1][4].reserved, cr->citymap[2][4].reserved,
-           cr->citymap[3][4].reserved);
-#define M(a,b) cr->citymap[a][b].food, cr->citymap[a][b].shield, cr->citymap[a][b].trade
-  log_test("Tiles (food/shield/trade):\n"
-           "      %d-%d-%d %d-%d-%d %d-%d-%d\n"
-           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-           "%d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d %d-%d-%d\n"
-           "      %d-%d-%d %d-%d-%d %d-%d-%d",
-           M(1,0), M(2,0), M(3,0), M(0,1), M(1,1), M(2,1), M(3,1), M(4,1),
-           M(0,2), M(1,2), M(2,2), M(3,2), M(4,2), M(0,3), M(1,3), M(2,3),
-           M(3,3), M(4,3), M(1,4), M(2,4), M(3,4));
-#undef M
-  log_test("city center %d + best other(%d, %d) %d - corr %d "
-           "- waste %d\n"
-           "+ remaining %d + defense bonus %d + naval bonus %d = %d (%d)", 
-           cr->city_center, cr->other_tile->x, cr->other_tile->y,
-           cr->best_other,
-           cr->corruption, cr->waste, cr->remaining, defense_bonus(cr, ai), 
-           naval_bonus(cr, ai), cr->total, cr->result);
+  city_map_data = fc_calloc(city_map_tiles(cr->city_radius_sq),
+                            sizeof(*city_map_data));
+
+  /* print reservations */
+  city_map_iterate(cr->city_radius_sq, index, x, y) {
+    city_map_data[index] = cr->citymap[x][y].reserved;
+  } city_map_iterate_end;
+  log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Reservations:",
+           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+  citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
+
+  /* print food */
+  city_map_iterate(cr->city_radius_sq, index, x, y) {
+    city_map_data[index] = cr->citymap[x][y].food;
+  } city_map_iterate_end;
+  log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Food:",
+           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+  citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
+
+  /* print shield */
+  city_map_iterate(cr->city_radius_sq, index, x, y) {
+    city_map_data[index] = cr->citymap[x][y].shield;
+  } city_map_iterate_end;
+  log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Shield:",
+           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+  citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
+
+  /* print trade */
+  city_map_iterate(cr->city_radius_sq, index, x, y) {
+    city_map_data[index] = cr->citymap[x][y].trade;
+  } city_map_iterate_end;
+  log_test("cityresult for (x,y,radius_sq) = (%d, %d, %d) - Trade:",
+           cr->tile->x, cr->tile->y, cr->city_radius_sq);
+  citylog_map_data(LOG_TEST, cr->city_radius_sq, city_map_data);
+
+  FC_FREE(city_map_data);
+
+  log_test("city center (%d, %d) %d + best other (abs: %d, %d)"
+           " (rel: %d,%d) %d", cr->tile->x, cr->tile->y, cr->city_center,
+           cr->other_tile->x, cr->other_tile->y, cr->o_x, cr->o_y,
+           cr->best_other);
+  log_test("- corr %d - waste %d + remaining %d"
+           " + defense bonus %d + naval bonus %d", cr->corruption,
+           cr->waste, cr->remaining, defense_bonus(cr, ai),
+           naval_bonus(cr, ai));
+  log_test("= %d (%d)", cr->total, cr->result);
+
   if (food_starvation(cr)) {
     log_test(" ** FOOD STARVATION **");
   }
