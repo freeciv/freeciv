@@ -2479,6 +2479,115 @@ void city_refresh_vision(struct city *pcity)
 **************************************************************************/
 bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
 {
-  /* dummy function */
-  return FALSE;
+
+  fc_assert_ret_val(pcity != NULL, FALSE);
+
+  int city_tiles_old, city_tiles_new;
+  int city_radius_sq_old = city_map_radius_sq_get(pcity);
+  int city_radius_sq_new = game.info.init_city_radius_sq
+                           + get_city_bonus(pcity, EFT_CITY_RADIUS_SQ);
+
+  /* check minimum / maximum allowed city radii */
+  city_radius_sq_new = CLIP(CITY_MAP_MIN_RADIUS_SQ, city_radius_sq_new,
+                            CITY_MAP_MAX_RADIUS_SQ);
+
+  if (city_radius_sq_new == city_radius_sq_old) {
+    /* no change */
+    return FALSE;
+  }
+
+  /* get number of city tiles for each radii */
+  city_tiles_old = city_map_tiles(city_radius_sq_old);
+  city_tiles_new = city_map_tiles(city_radius_sq_new);
+
+  if (city_tiles_old == city_tiles_new) {
+    /* a change of the squared city radius but no change of the number of
+     * city tiles */
+    return FALSE;;
+  }
+
+  log_debug("[%s (%d)] city_map_radius_sq: %d => %d", city_name(pcity),
+            pcity->id, city_radius_sq_old, city_radius_sq_new);
+
+  /* workers map before */
+  log_debug("[%s (%d)] city size: %d; specialists: %d (before change)",
+            city_name(pcity), pcity->id, pcity->size,
+            city_specialists(pcity));
+  citylog_map_workers(LOG_DEBUG, pcity);
+
+  city_map_radius_sq_set(pcity, city_radius_sq_new);
+
+  if (city_tiles_old < city_tiles_new) {
+    /* increased number of city tiles */
+    city_refresh_vision(pcity);
+    if (arrange_workers) {
+      auto_arrange_workers(pcity);
+    }
+
+    /* sync city */
+    send_city_info(city_owner(pcity), pcity);
+  } else {
+    /* reduced number of city tiles */
+    int workers = 0;
+
+    /* remove workers from the tiles removed rom the city map */
+    city_map_iterate_radius_sq(city_radius_sq_new, city_radius_sq_old,
+                               city_x, city_y) {
+      struct tile *ptile = city_map_to_tile(city_tile(pcity),
+                                            city_radius_sq_old, city_x,
+                                            city_y);
+
+      if (pcity == tile_worked(ptile)) {
+        city_map_update_empty(pcity, ptile, city_x, city_y);
+        workers++;
+      }
+    } city_map_iterate_radius_sq_end;
+
+    /* add workers to free city tiles */
+    if (workers > 0) {
+      int radius_sq = city_map_radius_sq_get(pcity);
+      city_map_iterate(radius_sq, city_index, city_x, city_y) {
+        struct tile *ptile = city_map_to_tile(city_tile(pcity), radius_sq,
+                                              city_x, city_y);
+
+        if (ptile && !is_free_worked(pcity, ptile)
+            && tile_worked(ptile) != pcity
+            && city_can_work_tile(pcity, ptile)) {
+          city_map_update_worker(pcity, ptile, city_x, city_y);
+          workers--;
+        }
+
+        if (workers <= 0) {
+          break;
+        }
+      } city_map_iterate_end;
+    }
+
+    /* if there are still workers they will be updated to specialists */
+    if (workers > 0) {
+      pcity->specialists[DEFAULT_SPECIALIST] += workers;
+    }
+
+    city_refresh_vision(pcity);
+    if (arrange_workers) {
+      auto_arrange_workers(pcity);
+    }
+
+    /* sync all cities */
+    sync_cities();
+  }
+
+  notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
+                ftc_server, _("The size of the city map of %s is %s."),
+                city_name(pcity),
+                city_tiles_old < city_tiles_new ? _("increased")
+                                                : _("reduced"));
+
+  /* workers map after */
+  log_debug("[%s (%d)] city size: %d; specialists: %d (after change)",
+            city_name(pcity), pcity->id, pcity->size,
+            city_specialists(pcity));
+  citylog_map_workers(LOG_DEBUG, pcity);
+
+  return TRUE;
 }

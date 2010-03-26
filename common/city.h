@@ -53,9 +53,9 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
 
 /* Changing the max radius requires updating network capabilities and results
  * in incompatible savefiles. */
-#define CITY_MAP_MIN_RADIUS       2 /* 0 */
-#define CITY_MAP_DEFAULT_RADIUS   2 /* 2 */
-#define CITY_MAP_MAX_RADIUS       2 /* 5 */
+#define CITY_MAP_MIN_RADIUS       0
+#define CITY_MAP_DEFAULT_RADIUS   2
+#define CITY_MAP_MAX_RADIUS       5
 
 /* The city includes all tiles dx^2 + dy^2 <= CITY_MAP_*_RADIUS_SQ */
 #define CITY_MAP_DEFAULT_RADIUS_SQ \

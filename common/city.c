@@ -1153,8 +1153,13 @@ bool base_city_can_work_tile(const struct player *restriction,
                              const struct tile *ptile)
 {
   struct player *powner = city_owner(pcity);
+  int city_map_x, city_map_y;
 
   if (NULL == ptile) {
+    return FALSE;
+  }
+
+  if (!city_base_to_city_map(&city_map_x, &city_map_y, pcity, ptile)) {
     return FALSE;
   }
 

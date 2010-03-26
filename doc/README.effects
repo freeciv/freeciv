@@ -322,3 +322,6 @@ Tile_Workable
 Migration_Pct
     Increase the calculated migration score for the a city by amount in
     percent.
+
+City_Radius_Sq
+    Increase the squared city radius by amount.

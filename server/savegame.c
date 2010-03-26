@@ -2610,7 +2610,7 @@ static void player_load_cities(struct player *plr, int plrno,
     int citizens = 0;
     int nat_x, nat_y;
     struct tile *pcenter;
-    int y;
+    int y, radius_sq, radius;
 
     if (!secfile_lookup_int(file, &nat_x, "player%d.c%d.x", plrno, i)
         || !secfile_lookup_int(file, &nat_y, "player%d.c%d.y", plrno, i)) {
@@ -2844,14 +2844,6 @@ static void player_load_cities(struct player *plr, int plrno,
 
     pcity->server.synced = FALSE; /* must re-sync with clients */
 
-    /* Fix for old buggy savegames. */
-    if (!has_capability("known32fix", savefile_options)
-        && plrno >= 16) {
-      city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, tile1) {
-        map_set_known(tile1, plr);
-      } city_tile_iterate_end;
-    }
-
     pcity->units_supported = unit_list_new();
 
     /* Update pcity->city_map[][] and ptile->worked directly.
@@ -2862,27 +2854,59 @@ static void player_load_cities(struct player *plr, int plrno,
      */
     city_freeze_workers(pcity);
 
+    radius_sq
+      = secfile_lookup_int_default(file, -1, "player%d.c%d.radius_sq",
+                                   plrno, i);
+
+    if (radius_sq == -1) {
+      /* no variable city radius saved; default value radius = 2
+       * (radius_sq = 5) is used */
+      radius_sq =  5;
+    }
+
+    radius_sq = CLIP(CITY_MAP_MIN_RADIUS_SQ, radius_sq,
+                     CITY_MAP_MAX_RADIUS_SQ);
+    radius = sqrt(radius_sq);
+    city_map_radius_sq_set(pcity, radius_sq);
+
+    /* Fix for old buggy savegames. */
+    if (!has_capability("known32fix", savefile_options)
+        && plrno >= 16) {
+      city_tile_iterate(city_map_radius_sq_get(pcity), pcenter, tile1) {
+        map_set_known(tile1, plr);
+      } city_tile_iterate_end;
+    }
+
     p = secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
 
-    if (strlen(p) != CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE) {
+    if (!p || strlen(p) != (radius * 2 + 1) * (radius * 2 + 1)) {
       /* FIXME: somehow need to rearrange */
       log_error("player%d.c%d.workers length %lu not equal city map size "
                 "%lu, needs rearranging!",
                 plrno, i, (unsigned long) strlen(p),
-                (unsigned long) (CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE));
+                (unsigned long) (radius * 2 + 1) * (radius * 2 + 1));
     }
 
     for(y = 0; y < CITY_MAP_MAX_SIZE; y++) {
       struct city *pwork = NULL;
       int x;
 
+      if (!p) {
+        /* no worker map found */
+        break;
+      }
+
       for(x = 0; x < CITY_MAP_MAX_SIZE; x++) {
-        struct tile *ptile = is_valid_city_coords(CITY_MAP_DEFAULT_RADIUS_SQ,
-                                                  x, y)
-                             ? city_map_to_tile(pcenter,
-                                                CITY_MAP_DEFAULT_RADIUS_SQ,
-                                                x, y)
-                             : NULL;
+        if (abs(x - CITY_MAP_MAX_RADIUS) > radius
+            || abs(y - CITY_MAP_MAX_RADIUS) > radius) {
+          /* tile is not within the city radius defined by radius_sq */
+          continue;
+        }
+
+        struct tile *ptile
+          = is_valid_city_coords(city_map_radius_sq_get(pcity), x, y)
+            ? city_map_to_tile(pcenter, city_map_radius_sq_get(pcity), x, y)
+            : NULL;
 
         switch (*p) {
         case '\0':
@@ -2944,7 +2968,7 @@ static void player_load_cities(struct player *plr, int plrno,
           break;
 
         case S_TILE_UNKNOWN:
-            if (NULL == ptile) {
+          if (NULL == ptile) {
             /* already set C_TILE_UNUSABLE */
           } else {
             log_worker("player%d.c%d.workers {%d, %d} '%c' not valid at "
@@ -3866,18 +3890,25 @@ static void player_save_cities(struct player *plr, int plrno,
 		       "player%d.c%d.last_turns_shield_surplus", plrno, i);
 
     /* The saved city_map[][] uses a specific ordering.  The defined
-       iterators index outward from the center, and cannot be used here.
-       After 2.2.0, use the (more reliable) main map itself for saving.
-     */
-    j=0;
-    for(y=0; y<CITY_MAP_MAX_SIZE; y++) {
-      for(x=0; x<CITY_MAP_MAX_SIZE; x++) {
-        struct tile *ptile = is_valid_city_coords(CITY_MAP_DEFAULT_RADIUS_SQ,
-                                                  x, y)
-                             ? city_map_to_tile(pcenter,
-                                                CITY_MAP_DEFAULT_RADIUS_SQ,
-                                                x, y)
-                             : NULL;
+     * iterators index outward from the center, and cannot be used here.
+     * After 2.2.0, use the (more reliable) main map itself for saving. */
+    secfile_insert_int(file, city_map_radius_sq_get(pcity),
+                       "player%d.c%d.radius_sq", plrno, i);
+
+    j = 0;
+    for(y = 0; y < CITY_MAP_MAX_SIZE; y++) {
+      for(x = 0; x < CITY_MAP_MAX_SIZE; x++) {
+        int radius = sqrt(city_map_radius_sq_get(pcity));
+        if (abs(x - CITY_MAP_MAX_RADIUS) > radius
+            || abs(y - CITY_MAP_MAX_RADIUS) > radius) {
+          /* tile is not within the city radius defined by radius_sq */
+          continue;
+        }
+
+        struct tile *ptile
+          = is_valid_city_coords(city_map_radius_sq_get(pcity), x, y)
+            ? city_map_to_tile(pcenter, city_map_radius_sq_get(pcity), x, y)
+            : NULL;
 
         if (NULL == ptile) {
           citymap_buf[j++] = S_TILE_UNKNOWN;

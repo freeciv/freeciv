@@ -736,6 +736,9 @@ static int improvement_effect_value(struct player *pplayer,
   case EFT_TECH_COST_FACTOR:
     v -= amount * 50;
     break;
+  case EFT_CITY_RADIUS_SQ:
+    v += amount * 10; /* AI wants bigger city radii */
+    break;
   case EFT_MIGRATION_PCT:
     /* consider all foreign cities within the set distance */
     iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
