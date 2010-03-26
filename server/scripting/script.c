@@ -44,6 +44,48 @@ static char *script_code;
 
 
 /**************************************************************************
+  Unsafe Lua builtin symbols that we to remove access to.
+
+  If Freeciv's Lua version changes, you have to check how the set of
+  unsafe functions and modules changes in the new version. Update the list of
+  loaded libraries in script_lualibs, then update the unsafe symbols blacklist
+  in script_unsafe_symbols.
+
+  Once the variables are updated for the new version, update the value of
+  SCRIPT_SECURE_LUA_VERSION
+
+  In general, unsafe is all functionality that gives access to:
+  * Reading files and running processes
+  * Loading lua files or libraries
+**************************************************************************/
+#define SCRIPT_SECURE_LUA_VERSION 501
+
+static const char *script_unsafe_symbols[] = {
+  "dofile",
+  "loadfile",
+  NULL
+};
+
+#if LUA_VERSION_NUM != SCRIPT_SECURE_LUA_VERSION
+#warning "The script runtime's unsafe symbols information is not up to date."
+#warning "This can be a big security hole!"
+#endif
+
+/**************************************************************************
+  Lua libraries to load (all default libraries, excluding operating system
+  and library loading modules). See linit.c in Lua 5.1 for the default list.
+**************************************************************************/
+static luaL_Reg script_lualibs[] = {
+  /* Using default libraries excluding: package, io and os */
+  {"", luaopen_base},
+  {LUA_TABLIBNAME, luaopen_table},
+  {LUA_STRLIBNAME, luaopen_string},
+  {LUA_MATHLIBNAME, luaopen_math},
+  {LUA_DBLIBNAME, luaopen_debug},
+  {NULL, NULL}
+};
+
+/**************************************************************************
   Report a lua error.
 **************************************************************************/
 static int script_report(lua_State *L, int status, const char *code)
@@ -378,6 +420,31 @@ static void script_code_save(struct section_file *file)
 }
 
 /**************************************************************************
+  Open lua libraries in the array of library definitions in llib.
+**************************************************************************/
+static void script_openlibs(lua_State *L, const luaL_Reg *llib)
+{
+  for (; llib->func; llib++) {
+    lua_pushcfunction(L, llib->func);
+    lua_pushstring(L, llib->name);
+    lua_call(L, 1, 0);
+  }
+}
+
+/**************************************************************************
+  Remove global symbols from lua state L
+**************************************************************************/
+static void script_blacklist(lua_State *L, const char *lsymbols[])
+{
+  int i;
+
+  for (i = 0; lsymbols[i] != NULL; i++) {
+    lua_pushnil(L);
+    lua_setglobal(L, lsymbols[i]);
+  }
+}
+
+/**************************************************************************
   Initialize the scripting state.
 **************************************************************************/
 bool script_init(void)
@@ -388,7 +455,8 @@ bool script_init(void)
       return FALSE;
     }
 
-    luaL_openlibs(state);
+    script_openlibs(state, script_lualibs);
+    script_blacklist(state, script_unsafe_symbols);
 
     tolua_api_open(state);
 
