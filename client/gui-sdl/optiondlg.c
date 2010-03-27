@@ -23,6 +23,7 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
 #include <stdlib.h>
 
 #include "SDL.h"
@@ -62,2045 +63,1054 @@
 
 #include "optiondlg.h"
 
-static struct OPT_DLG {
-  struct widget *pBeginOptionsWidgetList;
-  struct widget *pEndOptionsWidgetList;
-  struct widget *pBeginCoreOptionsWidgetList;
-  struct widget *pBeginMainOptionsWidgetList;
-  struct ADVANCED_DLG *pADlg;
-} *pOption_Dlg = NULL;
+enum option_dialog_mode {
+  ODM_MAIN,
+  ODM_OPTSET,
+  ODM_WORKLIST
+};
 
+struct option_dialog_optset {
+  const struct option_set *poptset;
+  struct widget *widget_list;
+  int category;
+};
+
+struct option_dialog_worklist {
+  struct widget *edited_name;
+};
+
+struct option_dialog {
+  struct widget *end_widget_list;
+  struct widget *core_widget_list;
+  struct widget *main_widget_list;
+  struct widget *begin_widget_list;
+  struct ADVANCED_DLG *advanced;
+  enum option_dialog_mode mode;
+  union {
+    struct option_dialog_optset optset;
+    struct option_dialog_worklist worklist;
+  };
+};
+
+
+static struct option_dialog *option_dialog = NULL;
 struct widget *pOptions_Button = NULL;
-static struct widget *pEdited_WorkList_Name = NULL;
-extern bool do_cursor_animation;
-extern bool use_color_cursors;
-
 static bool restore_meswin_dialog = FALSE;
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static void center_optiondlg(void)
+
+static struct widget *option_widget_new(struct option *poption,
+                                        struct widget *window,
+                                        bool hide);
+static void option_widget_update(struct option *poption);
+static void option_widget_apply(struct option *poption);
+
+static struct option_dialog *option_dialog_new(void);
+static void option_dialog_destroy(struct option_dialog *pdialog);
+
+static void option_dialog_optset(struct option_dialog *pdialog,
+                                 const struct option_set *poptset);
+static void option_dialog_optset_category(struct option_dialog *pdialog,
+                                          int category);
+
+static void option_dialog_worklist(struct option_dialog *pdialog);
+
+/****************************************************************************
+  Arrange the widgets. NB: end argument is excluded. End the argument
+  list with the icons on the top, terminated by NULL.
+****************************************************************************/
+static void arrange_widgets(struct widget *window, int widgets_per_row,
+                            int rows_shown, struct widget *begin,
+                            struct widget *end, ...)
 {
-  widget_set_position(pOption_Dlg->pEndOptionsWidgetList,
-    (Main.screen->w - pOption_Dlg->pEndOptionsWidgetList->size.w) / 2,
-    (Main.screen->h - pOption_Dlg->pEndOptionsWidgetList->size.h) / 2);
+  struct widget *widget;
+  SDL_Surface *logo;
+  SDL_Rect area;
+  int longest[widgets_per_row], xpos[widgets_per_row];
+  int w, h, i, j;
+  va_list args;
+
+  fc_assert_ret(NULL != window);
+  fc_assert_ret(NULL != begin);
+  fc_assert_ret(NULL != end);
+  fc_assert_ret(0 < widgets_per_row);
+
+  /* Get window dimensions. */
+  memset(longest, 0, sizeof(longest));
+  for (widget = begin, i = 0; widget != end; widget = widget->next, i++) {
+    j = i % widgets_per_row;
+    longest[j] = MAX(longest[j], widget->size.w);
+  }
+
+  fc_assert(0 == i % widgets_per_row);
+
+  if (-1 == rows_shown) {
+    h = 30 * (i / widgets_per_row);
+  } else {
+    h = 30 * MIN((i / widgets_per_row), rows_shown);
+  }
+
+  w = (1 - widgets_per_row) * adj_size(20);
+  for (j = 0; j < widgets_per_row; j++) {
+    w += longest[j];
+  }
+  if (-1 != rows_shown) {
+    w += adj_size(20);
+  }
+
+  /* Clear former area. */
+  area = window->area;
+  area.w += window->size.x;
+  area.h += window->size.y;
+  sdl_dirty_rect(area);
+
+  /* Resize window. */
+  logo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
+  if (resize_window(window, logo, NULL,
+                    adj_size(w + 80), adj_size(h + 80))) {
+    FREESURFACE(logo);
+  }
+
+  /* Set window position. */
+  widget_set_position(window, (Main.screen->w - window->size.w) / 2,
+                      (Main.screen->h - window->size.h) / 2);
+
+  area = window->area;
+
+  /* Set icons position. */
+  va_start(args, end);
+  w = 0;
+  while ((widget = va_arg(args, struct widget *))) {
+    w += widget->size.w;
+    widget_set_position(widget, area.x + area.w - w - 1,
+                        window->size.y + adj_size(2));
+  }
+  va_end(args);
+
+  if (1 < widgets_per_row) {
+    xpos[widgets_per_row - 1] = area.x + adj_size(20);
+    for (j = widgets_per_row - 2; j >= 0; j--) {
+      xpos[j] = xpos[j + 1] + adj_size(20) + longest[j + 1];
+    }
+  }
+
+  /* Set button position. */
+  h = 30 * (i / widgets_per_row + 1);
+  for (widget = begin, i = 0; widget != end; widget = widget->next, i++) {
+
+    j = i % widgets_per_row;
+    if (0 == j) {
+      h -= 30;
+    }
+    widget_resize(widget, longest[j], widget->size.h);
+    if (1 == widgets_per_row) {
+      widget_set_position(widget, area.x + (area.w - widget->size.w) / 2,
+                          area.y + adj_size(h));
+    } else {
+      widget_set_position(widget, xpos[j], area.y + adj_size(h));
+    }
+  }
+
+  redraw_group(begin, window, 0);
+  widget_mark_dirty(window);
+  flush_all();
 }
 
-/**************************************************************************
+/****************************************************************************
   ...
-**************************************************************************/
+****************************************************************************/
 static int main_optiondlg_callback(struct widget *pWindow)
 {
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    move_window_group(pOption_Dlg->pBeginOptionsWidgetList, pWindow);
+  if (NULL != option_dialog && Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(option_dialog->begin_widget_list,
+                      option_dialog->end_widget_list);
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int sound_callback(struct widget *pWidget)
+/****************************************************************************
+  Back requested.
+****************************************************************************/
+static int back_callback(struct widget *pWidget)
 {
-  return -1;
-}
-
-/**************************************************************************
-			Global WorkLists Handler
-**************************************************************************/
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int edit_worklist_callback(struct widget *pWidget)
-{
-  struct global_worklist *pGWL = global_worklist_by_id(MAX_ID - pWidget->ID);
-
-  if (!pGWL) {
+  if (NULL == option_dialog || Main.event.button.button != SDL_BUTTON_LEFT) {
     return -1;
   }
 
-  switch (Main.event.button.button) {
-    case SDL_BUTTON_LEFT:
-      if (!(pGWL = global_worklist_by_id(MAX_ID - pWidget->ID))) {
-        break;
-      }
+  if (ODM_MAIN == option_dialog->mode) {
+    popdown_optiondlg();
 
-      pEdited_WorkList_Name = pWidget;
-      popup_worklist_editor(NULL, pGWL);
-    break;
-    case SDL_BUTTON_MIDDLE:
-      /* nothing */
-    break;
-    case SDL_BUTTON_RIGHT:
-    {
-      /* Delete. */
-      bool scroll = (pOption_Dlg->pADlg->pActiveWidgetList != NULL);
-
-      global_worklist_destroy(pGWL);
-      del_widget_from_vertical_scroll_widget_list(pOption_Dlg->pADlg, pWidget);
-
-      /* find if there was scrollbar hide */
-      if (scroll && pOption_Dlg->pADlg->pActiveWidgetList == NULL) {
-        int len = pOption_Dlg->pADlg->pScroll->pUp_Left_Button->size.w;
-        pWidget = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
-        do {
-          pWidget = pWidget->prev;
-          pWidget->size.w += len;
-          FREESURFACE(pWidget->gfx);
-        } while(pWidget != pOption_Dlg->pADlg->pBeginActiveWidgetList);
-      }   
-
-      redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                   pOption_Dlg->pEndOptionsWidgetList, 0);
-      widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
+    if (client.conn.established) {
+      /* Back to game. */
+      enable_options_button();
+      widget_redraw(pOptions_Button);
+      widget_mark_dirty(pOptions_Button);
       flush_dirty();
-    }
-    break;
-    default:
-    	abort();
-    break;
-  }
-  return -1;  
-}
-
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int add_new_worklist_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct widget *pNew_WorkList_Widget = NULL;
-    struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-    struct global_worklist *pGWL = global_worklist_new(_("empty worklist"));
-    bool scroll = pOption_Dlg->pADlg->pActiveWidgetList == NULL;
-    bool redraw_all = FALSE;
-
-    set_wstate(pWidget, FC_WS_NORMAL);
-    pSellected_Widget = NULL;
-
-    /* create list element */
-    pNew_WorkList_Widget =
-      create_iconlabel_from_chars(NULL, pWidget->dst, 
-                                  global_worklist_name(pGWL),
-                                  adj_font(12), WF_RESTORE_BACKGROUND);
-    pNew_WorkList_Widget->ID = MAX_ID - global_worklist_id(pGWL);
-    pNew_WorkList_Widget->string16->style |= SF_CENTER;
-    set_wstate(pNew_WorkList_Widget, FC_WS_NORMAL);
-    pNew_WorkList_Widget->size.w = pWidget->size.w;
-    pNew_WorkList_Widget->action = edit_worklist_callback;
-    
-    /* add to widget list */
-    redraw_all = add_widget_to_vertical_scroll_widget_list(pOption_Dlg->pADlg,
-                   pNew_WorkList_Widget,
-                   pWidget, TRUE,
-                   pWindow->area.x + adj_size(17),
-                   pWindow->area.y + adj_size(17));
-  
-    /* find if there was scrollbar shown */
-    if(scroll && pOption_Dlg->pADlg->pActiveWidgetList != NULL) {
-      int len = pOption_Dlg->pADlg->pScroll->pUp_Left_Button->size.w;
-      pWindow = pOption_Dlg->pADlg->pEndActiveWidgetList->next;
-      do {
-        pWindow = pWindow->prev;
-        pWindow->size.w -= len;
-        pWindow->area.w -= len;
-        FREESURFACE(pWindow->gfx);
-      } while(pWindow != pOption_Dlg->pADlg->pBeginActiveWidgetList);
-    }
-    
-    if(redraw_all) {
-      redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                                  pOption_Dlg->pEndOptionsWidgetList, 0);
-      widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
     } else {
-      /* redraw only new widget and dock widget */
-      if (!pWidget->gfx && (get_wflags(pWidget) & WF_RESTORE_BACKGROUND)) {
-        refresh_widget_background(pWidget);
+      /* Back to main page. */
+      set_client_page(PAGE_MAIN);
+    }
+    return -1;
+  }
+
+  if (ODM_OPTSET == option_dialog->mode
+      && -1 != option_dialog->optset.category) {
+    /* Back to option set category menu. */
+    options_iterate(option_dialog->optset.poptset, poption) {
+      if (option_dialog->optset.category == option_category(poption)) {
+        option_set_gui_data(poption, NULL);
       }
-      widget_redraw(pWidget);
-      widget_mark_dirty(pWidget);
-      
-      if (!pNew_WorkList_Widget->gfx &&
-          (get_wflags(pNew_WorkList_Widget) & WF_RESTORE_BACKGROUND)) {
-        refresh_widget_background(pNew_WorkList_Widget);
-      }
-      widget_redraw(pNew_WorkList_Widget);
-      widget_mark_dirty(pNew_WorkList_Widget);
-    }
-    flush_dirty();
+    } options_iterate_end;
+    option_dialog->optset.category = -1;
+    FC_FREE(option_dialog->advanced->pScroll);
+    FC_FREE(option_dialog->advanced);
+
+    del_group_of_widgets_from_gui_list(option_dialog->begin_widget_list,
+        option_dialog->optset.widget_list->prev);
+
+    option_dialog->begin_widget_list = option_dialog->optset.widget_list;
+
+    show_group(option_dialog->begin_widget_list,
+               option_dialog->main_widget_list->prev);
+
+    arrange_widgets(option_dialog->end_widget_list, 1, -1,
+                    option_dialog->begin_widget_list,
+                    option_dialog->main_widget_list,
+                    option_dialog->core_widget_list, NULL);
+    return -1;
   }
-  return -1;
-}
 
-
-/**************************************************************************
- * The Worklist Report part of Options dialog shows all the global
- * worklists that the player has defined.
-**************************************************************************/
-static int work_lists_callback(struct widget *pWidget)
-{
-  SDL_Color bg_color = {255, 255, 255, 128};
-
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    struct widget *pBuf = NULL;
-    struct widget *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-    int count = 0, scrollbar_width = 0;
-    SDL_Rect area = {pWindow->area.x + adj_size(12),
-                     pWindow->area.y + adj_size(12),
-                     pWindow->area.w - adj_size(12) - adj_size(12),
-                     pWindow->area.h - adj_size(12) - adj_size(12)};
-    
-    /* clear flag */
-    SDL_Client_Flags &= ~CF_OPTION_MAIN;
-  
-    /* hide main widget group */
-    hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
-               pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-    /* ----------------------------- */
-    /* create white background */		
-    pBuf = create_iconlabel(create_surf_alpha(area.w, area.h - adj_size(30), SDL_SWSURFACE),
-                          pWindow->dst, NULL, WF_FREE_THEME);
-    widget_set_area(pBuf, area);
-    widget_set_position(pBuf, area.x, area.y);
-                     
-    SDL_FillRect(pBuf->theme, NULL, map_rgba(pBuf->theme->format, bg_color));
-    putframe(pBuf->theme, 0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1,
-      map_rgba(pBuf->theme->format, *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME)));
-    add_to_gui_list(ID_LABEL, pBuf);
-    
-    /* ----------------------------- */
-    global_worklists_iterate(pGWL) {
-      pBuf = create_iconlabel_from_chars(NULL, pWindow->dst,
-                                         global_worklist_name(pGWL),
-                                         adj_font(12),
-                                         WF_RESTORE_BACKGROUND);
-      set_wstate(pBuf, FC_WS_NORMAL);
-      add_to_gui_list(MAX_ID - global_worklist_id(pGWL), pBuf);
-      pBuf->action = edit_worklist_callback;
-      pBuf->string16->style |= SF_CENTER;
-      count++;
-
-      if (count > 13) {
-        set_wflag(pBuf, WF_HIDDEN);
-      }
-    } global_worklists_iterate_end;
-
-    pBuf = create_iconlabel_from_chars(NULL, pWindow->dst, 
-                _("Add new worklist"), adj_font(12), WF_RESTORE_BACKGROUND);
-    set_wstate(pBuf, FC_WS_NORMAL);
-    add_to_gui_list(ID_ADD_NEW_WORKLIST, pBuf);
-    pBuf->action = add_new_worklist_callback;
-    pBuf->string16->style |= SF_CENTER;
-    count++;
-    
-    if (count > 13) {
-      set_wflag(pBuf, WF_HIDDEN);
-    }
-    /* ----------------------------- */
-    
-    pOption_Dlg->pADlg = fc_calloc(1, sizeof(struct ADVANCED_DLG));
-    
-    pOption_Dlg->pADlg->pEndWidgetList = pOption_Dlg->pEndOptionsWidgetList;   
-    
-    pOption_Dlg->pADlg->pEndActiveWidgetList =
-                    pOption_Dlg->pBeginMainOptionsWidgetList->prev->prev;
-
-    pOption_Dlg->pADlg->pBeginWidgetList = pBuf;    
-    pOption_Dlg->pADlg->pBeginActiveWidgetList = pOption_Dlg->pADlg->pBeginWidgetList;
-    
-    scrollbar_width = create_vertical_scrollbar(pOption_Dlg->pADlg,
-                                                1, 13, TRUE, TRUE);
-    setup_vertical_scrollbar_area(pOption_Dlg->pADlg->pScroll,
-          area.x + area.w - 1, area.y + 1, area.h - adj_size(32), TRUE);
-    
-    if(count>13) {
-      pOption_Dlg->pADlg->pActiveWidgetList = pOption_Dlg->pADlg->pEndActiveWidgetList;
-    } else {
-      hide_scrollbar(pOption_Dlg->pADlg->pScroll);
-      scrollbar_width = 0;
-    }
-    /* ----------------------------- */
-    
-    setup_vertical_widgets_position(1,
-          area.x + adj_size(5),
-          area.y + adj_size(5),
-          area.w - adj_size(10) - scrollbar_width, 0,
-          pOption_Dlg->pADlg->pBeginActiveWidgetList,
-          pOption_Dlg->pADlg->pEndActiveWidgetList);
-   
-    pOption_Dlg->pBeginOptionsWidgetList = pOption_Dlg->pADlg->pBeginWidgetList;
-    /* ----------------------------- */
-    
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                                  pOption_Dlg->pEndOptionsWidgetList, 0);
-    widget_flush(pWindow);
+  if (ODM_WORKLIST == option_dialog->mode
+      && NULL != option_dialog->advanced) {
+    FC_FREE(option_dialog->advanced->pScroll);
+    FC_FREE(option_dialog->advanced);
+    option_dialog->worklist.edited_name = NULL;
   }
+
+  /* Back to main options menu. */
+  del_group_of_widgets_from_gui_list(option_dialog->begin_widget_list,
+                                     option_dialog->main_widget_list->prev);
+
+  option_dialog->begin_widget_list = option_dialog->main_widget_list;
+
+  show_group(option_dialog->begin_widget_list,
+             option_dialog->core_widget_list->prev);
+  option_dialog->mode = ODM_MAIN;
+  arrange_widgets(option_dialog->end_widget_list, 1, -1,
+                  option_dialog->begin_widget_list,
+                  option_dialog->core_widget_list,
+                  option_dialog->core_widget_list, NULL);
+
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int change_mode_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
-    char cBuf[50] = "";
-    int mode;
-    Uint32 tmp_flags = Main.screen->flags;
-    struct widget *pTmpWidget =
-        pOption_Dlg->pBeginMainOptionsWidgetList->prev->prev->prev->prev;
-
-    /* don't free this */
-    SDL_Rect **pModes_Rect =
-        SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
-  
-    mode = 0;
-    while (pTmpWidget) {
-  
-      if (get_wstate(pTmpWidget) == FC_WS_DISABLED) {
-        if (pModes_Rect[mode]) {
-          set_wstate(pTmpWidget, FC_WS_NORMAL);
-        }
-        break;
-      }
-      mode++;
-      pTmpWidget = pTmpWidget->prev;
-    }
-  
-    set_wstate(pWidget, FC_WS_DISABLED);
-  
-    if (gui_sdl_fullscreen != BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN)) {
-      tmp_flags ^= SDL_FULLSCREEN;
-    }
-  
-    mode = MAX_ID - pWidget->ID;
-    
-    if (pModes_Rect[mode])
-    {
-      set_video_mode(pModes_Rect[mode]->w, pModes_Rect[mode]->h, tmp_flags);
-    } else {
-      set_video_mode(640, 480, tmp_flags);
-    }
-  
-    gui_sdl_screen_width = Main.screen->w;
-    gui_sdl_screen_height = Main.screen->h;
-    
-    /* change setting label */
-    if (Main.screen->flags & SDL_FULLSCREEN) {
-      fc_snprintf(cBuf, sizeof(cBuf), _("Current Setup\nFullscreen %dx%d"),
-              Main.screen->w, Main.screen->h);
-    } else {
-      fc_snprintf(cBuf, sizeof(cBuf), _("Current Setup\n%dx%d"),
-              Main.screen->w, Main.screen->h);
-    }
-    copy_chars_to_string16(
-          pOption_Dlg->pBeginMainOptionsWidgetList->prev->string16, cBuf);
-
-    center_optiondlg();
-
-    if (C_S_RUNNING == client_state()) {
-      /* move units window to botton-right corrner */
-      set_new_unitinfo_window_pos();
-      /* move minimap window to botton-left corrner */
-      set_new_minimap_window_pos();
-
-      /* move cooling/warming icons to botton-right corrner */
-      pTmpWidget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
-      widget_set_position(pTmpWidget, (Main.screen->w - adj_size(10) - (pTmpWidget->size.w * 2)), pTmpWidget->size.y);
-    
-      /* ID_COOLING_ICON */
-      pTmpWidget = pTmpWidget->next;
-      widget_set_position(pTmpWidget, (Main.screen->w - adj_size(10) - pTmpWidget->size.w), pTmpWidget->size.y);
-      
-      map_canvas_resized(Main.screen->w, Main.screen->h); 
-    }      
-  
-    /* Options Dlg Window */
-    pTmpWidget = pOption_Dlg->pEndOptionsWidgetList;
-    
-    if (C_S_RUNNING != client_state()) {
-      draw_intro_gfx();
-      if (get_wflags(pWidget) & WF_RESTORE_BACKGROUND) {
-        refresh_widget_background(pTmpWidget);
-      }
-      redraw_group(pOption_Dlg->pBeginOptionsWidgetList, 
-                                  pOption_Dlg->pEndOptionsWidgetList, 0);
-    } else {
-      
-      update_info_label();
-      update_unit_info_label(get_units_in_focus());
-      center_on_something();/* with redrawing full map */
-      update_order_widgets();
-      redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                              pOption_Dlg->pEndOptionsWidgetList, 0);
-  
-    }
-    
-    flush_all();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-#if defined UNDER_CE && defined SMALL_SCREEN
-
-/* under Windows CE with 320x240 resolution there's no need to switch resolutions,
-   but to switch between window mode and full screen mode, because in full screen
-   mode you can't access the software keyboard, but in window mode you have a
-   disturbing title bar, so you would switch to window mode if you need the
-   keyboard and go back to full screen if you've finished typing
-*/
-
-static int toggle_fullscreen_callback(struct widget *pWidget)
-{ 
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
-    gui_sdl_fullscreen = !gui_sdl_fullscreen;
-    
-    if (gui_sdl_fullscreen) {
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
-    } else {
-      set_video_mode(320, 240, SDL_SWSURFACE | SDL_ANYFORMAT);
-    }
-  
-    flush_all();
-  }
-  return -1;
-}
-#else
-static int toggle_fullscreen_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
-    int i = 0;
-    struct widget *pTmp = NULL;
-
-    /* don't free this */
-    SDL_Rect **pModes_Rect =
-        SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
-  
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-  
-    gui_sdl_fullscreen = !gui_sdl_fullscreen;
-  
-    while (pModes_Rect[i] && pModes_Rect[i]->w != Main.screen->w) {
-      i++;
-    }
-  
-    if (pModes_Rect[i])
-    {
-      pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
-  
-      if (get_wstate(pTmp) == FC_WS_DISABLED) {
-        set_wstate(pTmp, FC_WS_NORMAL);
-      } else {
-        set_wstate(pTmp, FC_WS_DISABLED);
-      }
-  
-      widget_redraw(pTmp);
-      
-      if (!pModes_Rect[i+1] && pTmp->prev)
-      {
-        widget_mark_dirty(pTmp);
-        if (get_checkbox_state(pWidget)) {
-          set_wstate(pTmp->prev, FC_WS_DISABLED);
-        } else {
-          set_wstate(pTmp->prev, FC_WS_NORMAL);
-        }
-        widget_redraw(pTmp->prev);
-        widget_mark_dirty(pTmp->prev);
-        flush_dirty();
-      } else {
-        widget_flush(pTmp);
-      }
-    } else {
-      
-      pTmp = get_widget_pointer_form_main_list(MAX_ID - i);
-  
-      if (get_checkbox_state(pWidget)||(Main.screen->w == 640)) {
-        set_wstate(pTmp, FC_WS_DISABLED);
-      } else {
-        set_wstate(pTmp, FC_WS_NORMAL);
-      }
-  
-      widget_redraw(pTmp);
-      widget_flush(pTmp);
-    }
-  }  
-  return -1;
-}
-#endif
-/**************************************************************************
-  ...
-**************************************************************************/
-static int video_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
-    int i = 0;
-    char cBuf[64] = "";
-    Uint16 len = 0, count = 0;
-    Sint16 xxx;	/* tmp */
-    SDL_String16 *pStr;
-    struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-    
-#if !defined UNDER_CE || !defined SMALL_SCREEN
-    /* don't free this */
-    SDL_Rect **pModes_Rect = 
-                  SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);  
-      
-    /* Check is there are any modes available */
-    if (!pModes_Rect) {
-      log_debug(_("No modes available!"));
-      return 0;
-    }
-    
-    /* Check if or resolution is restricted */
-    if (pModes_Rect == (SDL_Rect **) - 1) {
-      log_debug(_("All resolutions available."));
-      return 0;
-      /* fix ME */
-    }
-#endif
-    
-    /* clear flag */
-    SDL_Client_Flags &= ~CF_OPTION_MAIN;
-  
-    /* hide main widget group */
-    hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
-               pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-  
-    /* create setting label */
-    if (Main.screen->flags & SDL_FULLSCREEN) {
-      fc_snprintf(cBuf, sizeof(cBuf),_("Current Setup\nFullscreen %dx%d"),
-              Main.screen->w, Main.screen->h);
-    } else {
-      fc_snprintf(cBuf, sizeof(cBuf),_("Current Setup\n%dx%d"), Main.screen->w,
-              Main.screen->h);
-    }
-  
-    pTmpGui = create_iconlabel(NULL, pWindow->dst,
-                          create_str16_from_char(cBuf, adj_font(10)), 0);
-    pTmpGui->string16->style |= (TTF_STYLE_BOLD|SF_CENTER);
-    pTmpGui->string16->fgcol = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
-  
-    /* set window width to 'pTmpGui' for center string */
-    pTmpGui->size.w = pWindow->area.w;
-  
-    widget_set_position(pTmpGui,
-                        pWindow->area.x,
-                        pWindow->area.y + adj_size(2));
-  
-    add_to_gui_list(ID_OPTIONS_RESOLUTION_LABEL, pTmpGui);
-  
-    pStr = create_str16_from_char(_("Fullscreen Mode"), adj_font(10));
-    pStr->style |= (TTF_STYLE_BOLD|SF_CENTER_RIGHT);
-    
-    /* gui_sdl_fullscreen mode label */
-    pTmpGui = create_themelabel(create_filled_surface(adj_size(150), adj_size(30),
-                SDL_SWSURFACE, NULL, TRUE),
-                pWindow->dst, pStr, adj_size(150), adj_size(30), 0);
-                          
-    xxx = pTmpGui->size.x = pWindow->area.x +
-        ((pWindow->area.w - pTmpGui->size.w) / 2);
-    pTmpGui->size.y = pWindow->area.y + adj_size(36);
-  
-    add_to_gui_list(ID_OPTIONS_FULLSCREEN_LABEL, pTmpGui);
-  
-    /* gui_sdl_fullscreen check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                              (Main.screen->flags & SDL_FULLSCREEN),
-                              WF_RESTORE_BACKGROUND);
-    
-    pTmpGui->action = toggle_fullscreen_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = xxx + adj_size(5);
-    pTmpGui->size.y = pWindow->area.y + adj_size(41);
-  
-    add_to_gui_list(ID_OPTIONS_TOGGLE_FULLSCREEN_CHECKBOX, pTmpGui);
-    /* ------------------------- */
-    
-#if !defined UNDER_CE || !defined SMALL_SCREEN
-  
-    /* create modes buttons */
-    for (i = 0; pModes_Rect[i]; i++) {
-      if (i && ((pModes_Rect[i]->w == pModes_Rect[i - 1]->w)
-        || ((pModes_Rect[i]->w < 640 && pModes_Rect[i]->h < 480)))) {
-        continue;
-      }
-    
-      fc_snprintf(cBuf, sizeof(cBuf), "%dx%d",
-                                  pModes_Rect[i]->w, pModes_Rect[i]->h);
-      pTmpGui = create_icon_button_from_chars(NULL, pWindow->dst, cBuf, adj_font(14), 0);
-    
-      if (len) {
-        pTmpGui->size.w = len;
-      } else {
-        pTmpGui->size.w += adj_size(6);
-        len = pTmpGui->size.w;
-      }
-  
-      if (pModes_Rect[i]->w != Main.screen->w) {
-        set_wstate(pTmpGui, FC_WS_NORMAL);
-      }
-      
-      count++;
-      pTmpGui->action = change_mode_callback;
-  
-      /* ugly hack */
-      add_to_gui_list((MAX_ID - i), pTmpGui);
-    } /* for */
-  
-    /* when only one resolution is avilable (bigger that 640x480)
-       then this allow secound (640x480) window mode */
-    if ((i == 1) && (pModes_Rect[0]->w > 640))
-    {
-      pTmpGui = create_icon_button_from_chars(NULL,
-                                          pWindow->dst, "640x480", adj_font(14), 0);
-      
-      if (len) {
-        pTmpGui->size.w = len;
-      } else {
-        pTmpGui->size.w += 6;
-        len = pTmpGui->size.w;
-      }
-      
-      if(!(Main.screen->flags & SDL_FULLSCREEN)&&(Main.screen->w != 640))
-      {
-        set_wstate(pTmpGui, FC_WS_NORMAL);
-      }
-      
-      count++;
-      pTmpGui->action = change_mode_callback;
-  
-      /* ugly hack */
-      add_to_gui_list((MAX_ID - 1), pTmpGui);
-    }
-#endif
-    
-    /* ------------------------- */
-    pOption_Dlg->pBeginOptionsWidgetList = pTmpGui;
-#if !defined UNDER_CE || !defined SMALL_SCREEN
-    if(count % 5) {
-      count /= 5;
-      count++;
-    } else {
-      count /= 5;
-    }
-    
-    /* set start positions */
-    pTmpGui = pOption_Dlg->pBeginMainOptionsWidgetList->prev->prev->prev->prev;
-    
-    pTmpGui->size.x =
-        pWindow->size.x +
-            (pWindow->size.w - count * (pTmpGui->size.w + adj_size(10)) - adj_size(10)) / 2;
-    pTmpGui->size.y = pWindow->size.y + adj_size(110);
-    
-    count = 0;
-    for (pTmpGui = pTmpGui->prev; pTmpGui; pTmpGui = pTmpGui->prev) {
-      if(count < 4) {
-        pTmpGui->size.x = pTmpGui->next->size.x;
-        pTmpGui->size.y = pTmpGui->next->size.y + pTmpGui->next->size.h + adj_size(10);
-        count++;
-      } else {
-        pTmpGui->size.x = pTmpGui->next->size.x + pTmpGui->size.w + adj_size(10);
-        pTmpGui->size.y = pWindow->size.y + adj_size(110);
-        count = 0;
-      }
-    }
-#endif
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                            pOption_Dlg->pEndOptionsWidgetList, 0);
-    widget_flush(pWindow);
-  }
-  return -1;
-}
-
-/* ===================================================================== */
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int sound_bell_at_new_turn_callback(struct widget *pWidget)
+/****************************************************************************
+  Create the client options dialog.
+****************************************************************************/
+static int client_options_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    sound_bell_at_new_turn ^= 1;
+    option_dialog_popup(_("Local Options"), client_optset);
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int smooth_move_unit_msec_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {  
-    char *tmp = convert_to_chars(pWidget->string16->text);
-    sscanf(tmp, "%d", &smooth_move_unit_msec);
-    FC_FREE(tmp);
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int do_combat_animation_callback(struct widget *pWidget)
+/****************************************************************************
+  Create the server options dialog.
+****************************************************************************/
+static int server_options_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    do_combat_animation ^= 1;
+    option_dialog_popup(_("Server options"), server_optset);
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int do_focus_animation_callback(struct widget *pWidget)
+/****************************************************************************
+  Create the worklist editor.
+****************************************************************************/
+static int work_lists_callback(struct widget *widget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    do_focus_animation ^= 1;
+    option_dialog_worklist(option_dialog);
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int do_cursor_animation_callback(struct widget *pWidget)
+/****************************************************************************
+  Option set category selected.
+****************************************************************************/
+static int save_client_options_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    do_cursor_animation ^= 1;
+    options_save();
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int use_color_cursors_callback(struct widget *pWidget)
+/****************************************************************************
+  Save game callback.
+****************************************************************************/
+static int save_game_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    use_color_cursors ^= 1;
+    send_save_game(NULL);
+    back_callback(NULL);
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int auto_center_on_unit_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    auto_center_on_unit ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int auto_center_on_combat_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    auto_center_on_combat ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int wakeup_focus_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    wakeup_focus ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int popup_new_cities_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    popup_new_cities ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int ask_city_names_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    ask_city_name ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int auto_turn_done_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    auto_turn_done ^= 1;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  popup local settings.
-**************************************************************************/
-static int local_setting_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
-    SDL_String16 *pStr = NULL;
-    struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-    char cBuf[3];
-    
-    /* clear flag */
-    SDL_Client_Flags &= ~CF_OPTION_MAIN;
-  
-    /* hide main widget group */
-    hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
-               pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-  
-    /* 'sound befor new turn' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, sound_bell_at_new_turn,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = sound_bell_at_new_turn_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->area.x + adj_size(12);
-    pTmpGui->size.y = pWindow->area.y + adj_size(2);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_SOUND_CHECKBOX, pTmpGui);
-  
-    /* 'sound befor new turn' label */
-    pStr = create_str16_from_char(_("Sound bell at new turn"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_SOUND_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-  
-    /* 'smooth unit move msec' */
-  
-    /* edit */
-    fc_snprintf(cBuf, sizeof(cBuf), "%d", smooth_move_unit_msec);
-    pTmpGui = create_edit_from_chars(NULL, pWindow->dst, cBuf, adj_font(11), adj_size(25),
-                                            WF_RESTORE_BACKGROUND);
-    pTmpGui->action = smooth_move_unit_msec_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(12);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_MOVE_STEP_EDIT, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Smooth unit move steps"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_MOVE_STEP_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'show combat anim' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          do_combat_animation, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = do_combat_animation_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_COMBAT_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Show combat animation"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_COMBAT_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'show focus anim' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          do_focus_animation, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = do_focus_animation_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Show focus animation"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'show cursors anim' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          do_cursor_animation, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = do_cursor_animation_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Show cursors animation"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'use color cursors' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          use_color_cursors, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = use_color_cursors_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Use color cursors"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'auto center on units' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                  auto_center_on_unit, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = auto_center_on_unit_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_ACENTER_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Auto Center on Units"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_ACENTER_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-  
-    /* 'auto center on combat' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, auto_center_on_combat,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = auto_center_on_combat_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_COMBAT_CENTER_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Auto Center on Combat"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_COMBAT_CENTER_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'wakeup focus' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                  wakeup_focus, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = wakeup_focus_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_ACTIVE_UNITS_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Focus on Awakened Units"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_ACTIVE_UNITS_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'popup new city window' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, popup_new_cities,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = popup_new_cities_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_CITY_CENTER_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Pop up city dialog for new cities"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_CITY_CENTER_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'popup new city window' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, ask_city_name,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = ask_city_names_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_CITY_CENTER_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Prompt for city names"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_CITY_CENTER_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-    /* 'auto turn done' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                  auto_turn_done, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = auto_turn_done_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_END_TURN_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("End Turn when done moving"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_LOCAL_END_TURN_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-    /* ------------------------- */
-  
-    pOption_Dlg->pBeginOptionsWidgetList = pTmpGui;
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                                    pOption_Dlg->pEndOptionsWidgetList, 0);
-    widget_flush(pWindow);
-  }
-  return -1;
-}
-
-/* ===================================================================== */
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_names_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_city_names ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_productions_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_city_productions ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_output_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_city_output ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_trade_routes_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_city_trade_routes ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int borders_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_borders ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_terrain_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
-    draw_terrain ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int map_grid_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
-    draw_map_grid ^= 1;
-    
-    if (draw_map_grid) {
-      set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
-    } else {
-      set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
-    }
-    widget_redraw(pWidget->prev->prev);
-    widget_mark_dirty(pWidget->prev->prev);
-    
-    if (draw_map_grid
-        && (SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-      set_wstate(pWidget->prev->prev->prev->prev, FC_WS_NORMAL);
-    } else {
-      set_wstate(pWidget->prev->prev->prev->prev, FC_WS_DISABLED);
-    }
-    widget_redraw(pWidget->prev->prev->prev->prev);
-    widget_mark_dirty(pWidget->prev->prev->prev->prev);
-    
-    flush_dirty();
-    update_map_canvas_visible();
-  }  
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_map_grid_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_mark_dirty(pWidget);
-    SDL_Client_Flags ^= CF_DRAW_CITY_GRID;
-    if((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-      set_wstate(pWidget->prev->prev, FC_WS_NORMAL);
-    } else {
-      set_wstate(pWidget->prev->prev, FC_WS_DISABLED);
-    }
-    widget_redraw(pWidget->prev->prev);
-    widget_mark_dirty(pWidget->prev->prev);
-    
-    flush_dirty();
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_city_worker_map_grid_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    SDL_Client_Flags ^= CF_DRAW_CITY_WORKER_GRID;
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_specials_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_specials ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_pollution_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_pollution ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_cities_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_cities ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_units_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_units ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_fog_of_war_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_fog_of_war ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_roads_rails_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_roads_rails ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_irrigation_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_irrigation ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_mines_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_mines ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int draw_fortress_airbase_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    widget_redraw(pWidget);
-    widget_flush(pWidget);
-    draw_fortress_airbase ^= 1;
-    update_map_canvas_visible();
-  }
-  return -1;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static int map_setting_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    SDL_Color text_color = *get_game_colorRGB(COLOR_THEME_CHECKBOX_LABEL_TEXT);
-    SDL_String16 *pStr = NULL;
-    struct widget *pTmpGui = NULL, *pWindow = pOption_Dlg->pEndOptionsWidgetList;
-  
-    /* clear flag */
-    SDL_Client_Flags &= ~CF_OPTION_MAIN;
-  
-    /* hide main widget group */
-    hide_group(pOption_Dlg->pBeginMainOptionsWidgetList,
-               pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-   
-    /* 'draw city names' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                    draw_city_names, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_names_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->area.x + adj_size(12);
-    pTmpGui->size.y = pWindow->area.y + adj_size(2);
-    
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_CHECKBOX, pTmpGui);
-    
-    /* label */
-    pStr = create_str16_from_char(_("City Names"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_NAMES_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-  
-    /* 'draw city prod.' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, draw_city_productions,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_productions_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_PROD_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("City Production"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_PROD_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-  
-    /* 'draw city worker output on map' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, draw_city_output,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_output_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_OUTPUT_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("City Output"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_OUTPUT_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-
-    
-    /* 'show city trade routes' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, draw_city_trade_routes,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_trade_routes_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_TRADE_ROUTES_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("City Trade Routes"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_TRADE_ROUTES_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-
-    
-    /* 'draw borders' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, draw_borders,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = borders_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_BORDERS_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("National Borders"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_BORDERS_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-  
-    /* 'draw terrain' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          draw_terrain, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_terrain_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_PROD_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Terrain"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-        
-    /* 'draw map gird' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                    draw_map_grid, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = map_grid_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-    
-    add_to_gui_list(ID_OPTIONS_MAP_GRID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-    
-    /* 'sound befor new turn' label */
-    pStr = create_str16_from_char(_("Map Grid"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_GRID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        ((pTmpGui->next->size.h - pTmpGui->size.h) / 2);
-    
-    /* Draw City Grids */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-          ((SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID),
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_map_grid_callback;
-    if (draw_map_grid) {
-      set_wstate(pTmpGui, FC_WS_NORMAL);
-    }
-    pTmpGui->size.x = pWindow->size.x + adj_size(35);
-  
-    add_to_gui_list(ID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Draw city map grid"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(75);
-  
-    add_to_gui_list(ID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-        
-    /* Draw City Workers Grids */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-          ((SDL_Client_Flags & CF_DRAW_CITY_WORKER_GRID) == CF_DRAW_CITY_WORKER_GRID),
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_city_worker_map_grid_callback;
-    if(draw_map_grid
-      && (SDL_Client_Flags & CF_DRAW_CITY_GRID) == CF_DRAW_CITY_GRID) {
-      set_wstate(pTmpGui, FC_WS_NORMAL);
-    }
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(35);
-  
-    add_to_gui_list(ID_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Draw city worker map grid"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(75);
-  
-    add_to_gui_list(ID_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-    
-    /* 'draw specials' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          draw_specials, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_specials_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_SPEC_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Special Resources"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_SPEC_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw pollutions' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                            draw_pollution, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_pollution_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_POLL_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Pollution"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_POLL_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw cities' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, 
-                                  draw_cities, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_cities_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_CITY_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Cities"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_CITY_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw units' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          draw_units, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_units_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(15);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_UNITS_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(3);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Units"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(55);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_UNITS_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-    
-    
-    /* 'draw road / rails' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          draw_roads_rails, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_roads_rails_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->area.x + adj_size(167);
-    pTmpGui->size.y = pWindow->area.y + adj_size(2);
-    
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_RR_CHECKBOX, pTmpGui);
-    
-    /* label */
-    pStr = create_str16_from_char(_("Roads and Rails"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_RR_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw irrigations' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, 
-                          draw_irrigation, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_irrigation_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_IR_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Irrigation"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_IR_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw mines' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                          draw_mines, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_mines_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_M_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Mines"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_M_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  
-    /* 'draw fortress / air bases' */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst, draw_fortress_airbase,
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_fortress_airbase_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_FA_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Fortress and Airbase"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_FA_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-    
-    /* 'draw fog of war' */
-  
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst,
-                              draw_fog_of_war, WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_fog_of_war_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_FOG_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Fog of War"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_TERRAIN_FOG_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-
-  
-  #if 0
-    /* Civ3 / Classic CITY Text Style */
-    /* check box */
-    pTmpGui = create_checkbox(pWindow->dst->surface,
-          ((SDL_Client_Flags & CF_CIV3_CITY_TEXT_STYLE) == CF_CIV3_CITY_TEXT_STYLE),
-                              WF_RESTORE_BACKGROUND);
-  
-    pTmpGui->action = draw_civ3_city_text_style_callback;
-    set_wstate(pTmpGui, FC_WS_NORMAL);
-  
-    pTmpGui->size.x = pWindow->size.x + adj_size(170);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_CIV3_TEXT_STYLE_CHECKBOX, pTmpGui);
-    pTmpGui->size.y = pTmpGui->next->next->size.y + pTmpGui->size.h + adj_size(4);
-  
-    /* label */
-    pStr = create_str16_from_char(_("Civ3 city text style"), adj_font(10));
-    pStr->style |= TTF_STYLE_BOLD;
-    pStr->fgcol = text_color;
-    pTmpGui = create_iconlabel(NULL, pWindow->dst->surface, pStr, 0);
-    
-    pTmpGui->size.x = pWindow->size.x + adj_size(210);
-  
-    add_to_gui_list(ID_OPTIONS_MAP_CITY_CIV3_TEXT_STYLE_LABEL, pTmpGui);
-  
-    pTmpGui->size.y = pTmpGui->next->size.y +
-        (pTmpGui->next->size.h - pTmpGui->size.h) / 2;
-  #endif      
-    /* ================================================== */
-    
-    pOption_Dlg->pBeginOptionsWidgetList = pTmpGui;
-  
-    /* redraw window group */
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                            pOption_Dlg->pEndOptionsWidgetList, 0);
-    widget_flush(pWindow);
-  }
-  return -1;
-}
-
-/* ===================================================================== */
-
-/**************************************************************************
-  ...
-**************************************************************************/
+/****************************************************************************
+  Client disconnect from server callback.
+****************************************************************************/
 static int disconnect_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    option_dialog_popdown(client_optset);
+    popdown_optiondlg();
     enable_options_button();
     disconnect_from_server();
   }
   return -1;
 }
 
-/**************************************************************************
-  ...
-**************************************************************************/
-static int back_callback(struct widget *pWidget)
+/****************************************************************************
+  Exit callback.
+****************************************************************************/
+static int exit_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    if(pOption_Dlg->pADlg) {
-      FC_FREE(pOption_Dlg->pADlg->pScroll);
-      FC_FREE(pOption_Dlg->pADlg);
-    }
-    
-    if (SDL_Client_Flags & CF_OPTION_MAIN) {
-      option_dialog_popdown(client_optset);
-      if (client.conn.established) {
-        enable_options_button();
-        widget_redraw(pOptions_Button);
-        widget_mark_dirty(pOptions_Button);
-        flush_dirty();
-      } else {
-        set_client_page(PAGE_MAIN);
-      }
-      return -1;
-    }
-  
-    del_group_of_widgets_from_gui_list(pOption_Dlg->pBeginOptionsWidgetList,
-                          pOption_Dlg->pBeginMainOptionsWidgetList->prev);
-  
-    pOption_Dlg->pBeginOptionsWidgetList =
-                            pOption_Dlg->pBeginMainOptionsWidgetList;
-  
-    show_group(pOption_Dlg->pBeginOptionsWidgetList,
-                            pOption_Dlg->pBeginCoreOptionsWidgetList->prev);
-  
-    SDL_Client_Flags |= CF_OPTION_MAIN;
-    
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                            pOption_Dlg->pEndOptionsWidgetList, 0);
-  
-    widget_flush(pOption_Dlg->pEndOptionsWidgetList);
+    popdown_optiondlg();
+    force_exit_from_event_loop();
+  }
+  return 0;
+}
+
+/****************************************************************************
+  Option set category selected.
+****************************************************************************/
+static int option_category_callback(struct widget *widget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    option_dialog_optset_category(option_dialog, MAX_ID - widget->ID);
   }
   return -1;
+}
+
+/****************************************************************************
+  Apply the changes for the option category.
+****************************************************************************/
+static int apply_callback(struct widget *widget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT
+      && NULL != option_dialog
+      && ODM_OPTSET == option_dialog->mode
+      && -1 != option_dialog->optset.category) {
+    options_iterate(option_dialog->optset.poptset, poption) {
+      if (option_dialog->optset.category == option_category(poption)) {
+        option_widget_apply(poption);
+      }
+    } options_iterate_end;
+  }
+  return back_callback(widget);
+}
+
+/****************************************************************************
+  Dummy callback. Disable exit().
+****************************************************************************/
+static int none_callback(struct widget *widget)
+{
+  return -1;
+}
+
+/****************************************************************************
+  Create a widget for the option.
+****************************************************************************/
+static struct widget *option_widget_new(struct option *poption,
+                                        struct widget *window,
+                                        bool hide)
+{
+  struct widget *widget;
+  char *help_text;
+  Uint32 flags = (hide ? WF_HIDDEN | WF_RESTORE_BACKGROUND
+                  : WF_RESTORE_BACKGROUND);
+
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(NULL != window, NULL);
+
+  help_text = fc_strdup(option_help_text(poption));
+  fc_break_lines(help_text, 50);
+
+  widget = create_iconlabel_from_chars(NULL, window->dst,
+                                       option_description(poption),
+                                       adj_font(12),
+                                       flags | WF_WIDGET_HAS_INFO_LABEL);
+  widget->string16->style |= TTF_STYLE_BOLD;
+  widget->info_label = create_str16_from_char(help_text, adj_font(12));
+  widget->action = none_callback;
+  set_wstate(widget, FC_WS_NORMAL);
+  remake_label_size(widget);
+  add_to_gui_list(MAX_ID - option_number(poption), widget);
+
+  widget = NULL;
+  switch (option_type(poption)) {
+  case OT_BOOLEAN:
+    widget = create_checkbox(window->dst, option_bool_get(poption),
+                             flags | WF_WIDGET_HAS_INFO_LABEL);
+    break;
+
+  case OT_INTEGER:
+    {
+      char buf[64];
+
+      fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+      widget = create_edit_from_chars(NULL, window->dst, buf, adj_font(12),
+                                      adj_size(25),
+                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+    }
+    break;
+
+  case OT_STRING:
+    widget = create_edit_from_chars(NULL, window->dst,
+                                    option_str_get(poption),
+                                    adj_font(12), adj_size(25),
+                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+    break;
+
+  case OT_FONT:
+    /* FIXME */
+    break;
+  }
+
+  if (NULL == widget) {
+    /* Not implemented. */
+    widget = create_iconlabel_from_chars(NULL, window->dst, "",
+                                         adj_font(12), flags);
+  } else {
+    widget->info_label = create_str16_from_char(help_text, adj_font(12));
+    widget->action = none_callback;
+    if (option_is_changeable(poption)) {
+      set_wstate(widget, FC_WS_NORMAL);
+    }
+  }
+
+  add_to_gui_list(MAX_ID - option_number(poption), widget);
+  option_set_gui_data(poption, widget);
+
+  free(help_text);
+
+  return widget;
+}
+
+/****************************************************************************
+  Update the widget of the option.
+****************************************************************************/
+static void option_widget_update(struct option *poption)
+{
+  struct widget *widget;
+
+  fc_assert_ret(NULL != poption);
+  widget = (struct widget *) option_get_gui_data(poption);
+  fc_assert_ret(NULL != widget);
+
+  set_wstate(widget, option_is_changeable(poption)
+             ? FC_WS_NORMAL : FC_WS_DISABLED);
+
+  switch (option_type(poption)) {
+  case OT_BOOLEAN:
+    if (option_bool_get(poption) != get_checkbox_state(widget)) {
+      togle_checkbox(widget);
+    }
+    break;
+
+  case OT_INTEGER:
+    {
+      char buf[64];
+
+      fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
+      copy_chars_to_string16(widget->string16, buf);
+    }
+    break;
+
+  case OT_STRING:
+    copy_chars_to_string16(widget->string16, option_str_get(poption));
+    break;
+
+  case OT_FONT:
+    /* FIXME */
+    break;
+  }
+
+  widget_redraw(widget);
+  widget_mark_dirty(widget);
+}
+
+/****************************************************************************
+  Apply the changes for the option.
+****************************************************************************/
+static void option_widget_apply(struct option *poption)
+{
+  struct widget *widget;
+
+  fc_assert_ret(NULL != poption);
+  widget = (struct widget *) option_get_gui_data(poption);
+  fc_assert_ret(NULL != widget);
+
+  switch (option_type(poption)) {
+  case OT_BOOLEAN:
+    (void) option_bool_set(poption, get_checkbox_state(widget));
+    break;
+
+  case OT_INTEGER:
+    {
+      char *str = convert_to_chars(widget->string16->text);
+      int value;
+
+      if (1 == sscanf(str, "%d", &value)) {
+        (void) option_int_set(poption, value);
+      }
+      free(str);
+    }
+    break;
+
+  case OT_STRING:
+    {
+      char *str = convert_to_chars(widget->string16->text);
+
+      (void) option_str_set(poption, str);
+      free(str);
+    }
+    break;
+
+  case OT_FONT:
+    /* FIXME */
+    break;
+  }
+}
+
+/****************************************************************************
+  Return a new option dialog.
+****************************************************************************/
+static struct option_dialog *option_dialog_new(void)
+{
+  struct option_dialog *pdialog = fc_calloc(1, sizeof(*pdialog));
+  struct widget *window, *close_button, *widget;
+  SDL_String16 *str;
+
+  pdialog->mode = ODM_MAIN;
+
+  /* Create window widget. */
+  str = create_str16_from_char(_("Options"), adj_font(12));
+  str->style |= TTF_STYLE_BOLD;
+
+  window = create_window_skeleton(NULL, str, 0);
+  window->action = main_optiondlg_callback;
+
+  set_wstate(window, FC_WS_NORMAL);
+  add_to_gui_list(ID_OPTIONS_WINDOW, window);
+  pdialog->end_widget_list = window;
+
+  /* Create close button widget. */
+  close_button = create_themeicon(pTheme->Small_CANCEL_Icon, window->dst,
+                                  WF_WIDGET_HAS_INFO_LABEL
+                                  | WF_RESTORE_BACKGROUND);
+  close_button->string16 = create_str16_from_char(_("Close Dialog (Esc)"),
+                                                  adj_font(12));
+  close_button->action = back_callback;
+  set_wstate(close_button, FC_WS_NORMAL);
+  close_button->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, close_button);
+  pdialog->core_widget_list = close_button;
+
+  /* Create client options button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Local options"),
+                                         adj_font(12), 0);
+  widget->action = client_options_callback;
+  set_wstate(widget, FC_WS_NORMAL);
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_CLIENT_BUTTON, widget);
+
+  /* Create server options button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Server options"),
+                                         adj_font(12), 0);
+  widget->action = server_options_callback;
+  if (client.conn.established) {
+    set_wstate(widget, FC_WS_NORMAL);
+  }
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_SERVER_BUTTON, widget);
+
+  /* Create global worklists button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Worklists"), adj_font(12), 0);
+  widget->action = work_lists_callback;
+  if (C_S_RUNNING == client_state()) {
+    set_wstate(widget, FC_WS_NORMAL);
+  }
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_WORKLIST_BUTTON, widget);
+
+  /* Create save game button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Save Local Options"),
+                                         adj_font(12), 0);
+  widget->action = save_client_options_callback;
+  set_wstate(widget, FC_WS_NORMAL);
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_SAVE_BUTTON, widget);
+
+  /* Create save game button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Save Game"), adj_font(12), 0);
+  widget->action = save_game_callback;
+  if (C_S_RUNNING == client_state()) {
+    set_wstate(widget, FC_WS_NORMAL);
+  }
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_SAVE_GAME_BUTTON, widget);
+
+  /* Create leave game button widget. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Leave Game"), adj_font(12), 0);
+  widget->action = disconnect_callback;
+  widget->key = SDLK_q;
+  if (client.conn.established) {
+    set_wstate(widget, FC_WS_NORMAL);
+  }
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_DISC_BUTTON, widget);
+
+  /* Create quit widget button. */
+  widget = create_icon_button_from_chars(NULL, window->dst,
+                                         _("Quit"), adj_font(12), 0);
+  widget->action = exit_callback;
+  widget->key = SDLK_q;
+  set_wstate(widget, FC_WS_NORMAL);
+  widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, widget);
+
+  pdialog->begin_widget_list = widget;
+  pdialog->main_widget_list = widget;
+
+  arrange_widgets(window, 1, -1, widget, pdialog->core_widget_list,
+                  pdialog->core_widget_list, NULL);
+
+  return pdialog;
+}
+
+/****************************************************************************
+  Destroys an option dialog.
+****************************************************************************/
+static void option_dialog_destroy(struct option_dialog *pdialog)
+{
+  fc_assert_ret(NULL != pdialog);
+
+  if (ODM_OPTSET == pdialog->mode && -1 != pdialog->optset.category) {
+    options_iterate(pdialog->optset.poptset, poption) {
+      if (pdialog->optset.category == option_category(poption)) {
+        option_set_gui_data(poption, NULL);
+      }
+    } options_iterate_end;
+  }
+
+  if (NULL != pdialog->advanced) {
+    free(pdialog->advanced->pScroll);
+    free(pdialog->advanced);
+  }
+
+  popdown_window_group_dialog(pdialog->begin_widget_list,
+                              pdialog->end_widget_list);
+
+  free(pdialog);
+}
+
+/****************************************************************************
+  Return the number of options of the category.
+****************************************************************************/
+static int optset_category_option_count(const struct option_set *poptset,
+                                        int category)
+{
+  int count = 0;
+
+  options_iterate(poptset, poption) {
+    if (category == option_category(poption)) {
+      count++;
+    }
+  } options_iterate_end;
+  return count;
+}
+
+/****************************************************************************
+  Initialize a option set page.
+****************************************************************************/
+static void option_dialog_optset(struct option_dialog *pdialog,
+                                 const struct option_set *poptset)
+{
+  struct option_dialog_optset *poptset_dialog;
+  struct widget *window, *widget;
+  int i,  category_num;
+
+  fc_assert_ret(NULL != pdialog);
+  fc_assert_ret(NULL != poptset);
+  category_num = optset_category_number(poptset);
+  fc_assert_ret(0 < category_num);
+
+  poptset_dialog = &pdialog->optset;
+  pdialog->mode = ODM_OPTSET;
+  poptset_dialog->poptset = poptset;
+  poptset_dialog->category = -1;
+
+  window = pdialog->end_widget_list;
+
+  /* Hide ODM_MAIN widget group. */
+  hide_group(pdialog->main_widget_list, pdialog->core_widget_list->prev);
+
+  /* Make the category buttons. */
+  for (i = 0; i < category_num; i++) {
+    if (0 == optset_category_option_count(poptset, i)) {
+      continue;
+    }
+
+    widget = create_icon_button_from_chars(NULL, window->dst,
+                                           optset_category_name(poptset, i),
+                                           adj_font(12), 0);
+    widget->action = option_category_callback;
+    set_wstate(widget, FC_WS_NORMAL);
+    widget_resize(widget, widget->size.w, widget->size.h + adj_size(4));
+    add_to_gui_list(MAX_ID - i, widget);
+  }
+
+  poptset_dialog->widget_list = widget;
+  pdialog->begin_widget_list = widget;
+
+  arrange_widgets(window, 1, -1, widget, pdialog->main_widget_list,
+                  pdialog->core_widget_list, NULL);
+}
+
+/****************************************************************************
+  Initialize a option set category page.
+****************************************************************************/
+static void option_dialog_optset_category(struct option_dialog *pdialog,
+                                          int category)
+{
+  struct option_dialog_optset *poptset_dialog;
+  const struct option_set *poptset;
+  struct widget *window, *widget = NULL, *apply_button;
+  const int MAX_SHOWN = 10;
+  SDL_Rect area;
+  int scrollbar_width, i;
+
+  fc_assert_ret(NULL != pdialog);
+  fc_assert_ret(ODM_OPTSET == pdialog->mode);
+  fc_assert_ret(NULL == pdialog->advanced);
+  poptset_dialog = &pdialog->optset;
+  poptset = poptset_dialog->poptset;
+  fc_assert_ret(0 < optset_category_option_count(poptset, category));
+
+  /* Hide ODM_OPTSET widget group. */
+  hide_group(poptset_dialog->widget_list, pdialog->main_widget_list->prev);
+
+  poptset_dialog->category = category;
+  window = pdialog->end_widget_list;
+
+  /* Create the apply button. */
+  apply_button = create_themeicon(pTheme->Small_OK_Icon, window->dst,
+                                  WF_WIDGET_HAS_INFO_LABEL
+                                  | WF_RESTORE_BACKGROUND);
+  apply_button->string16 = create_str16_from_char(_("Apply changes"),
+                                                  adj_font(12));
+  apply_button->action = apply_callback;
+  set_wstate(apply_button, FC_WS_NORMAL);
+  add_to_gui_list(ID_OPTIONS_APPLY_BUTTON, apply_button);
+
+  /* Create the option widgets. */
+  i = 0;
+  options_iterate(poptset, poption) {
+    if (category != option_category(poption)) {
+      continue;
+    }
+
+    widget = option_widget_new(poption, window, i >= MAX_SHOWN);
+    i++;
+  } options_iterate_end;
+
+  /* Scrollbar. */
+  pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
+  pdialog->advanced->pEndWidgetList = pdialog->end_widget_list;
+  pdialog->advanced->pEndActiveWidgetList = apply_button->prev;
+  pdialog->advanced->pBeginWidgetList = widget;
+  pdialog->advanced->pBeginActiveWidgetList = widget;
+
+  scrollbar_width = create_vertical_scrollbar(pdialog->advanced,
+                                              2, MAX_SHOWN, TRUE, TRUE);
+
+  if (i >= MAX_SHOWN) {
+    pdialog->advanced->pActiveWidgetList =
+        pdialog->advanced->pEndActiveWidgetList;
+  } else {
+    hide_scrollbar(pdialog->advanced->pScroll);
+    scrollbar_width = 0;
+  }
+
+  pdialog->begin_widget_list = pdialog->advanced->pBeginWidgetList;
+
+  arrange_widgets(window, 2, MAX_SHOWN,
+                  pdialog->advanced->pBeginActiveWidgetList,
+                  apply_button, pdialog->core_widget_list,
+                  apply_button, NULL);
+
+  area = window->area;
+  setup_vertical_scrollbar_area(pdialog->advanced->pScroll,
+                                area.x + area.w - 1, area.y + 1,
+                                area.h - adj_size(32), TRUE);
+
+  redraw_group(pdialog->begin_widget_list,
+               pdialog->advanced->pActiveWidgetList, 0);
+  widget_flush(window);
+}
+
+
+/****************************************************************************
+  Clicked on a global worklist name.
+****************************************************************************/
+static int edit_worklist_callback(struct widget *widget)
+{
+  struct global_worklist *pgwl = global_worklist_by_id(MAX_ID - widget->ID);
+
+  if (NULL == option_dialog
+      || ODM_WORKLIST != option_dialog->mode
+      || NULL == pgwl) {
+    return -1;
+  }
+
+  switch (Main.event.button.button) {
+  case SDL_BUTTON_LEFT:
+    /* Edit. */
+    option_dialog->worklist.edited_name = widget;
+    popup_worklist_editor(NULL, pgwl);
+    break;
+
+  case SDL_BUTTON_RIGHT:
+    {
+      /* Delete. */
+      struct ADVANCED_DLG *advanced = option_dialog->advanced;
+      bool scroll = (NULL != advanced->pActiveWidgetList);
+
+      global_worklist_destroy(pgwl);
+      del_widget_from_vertical_scroll_widget_list(advanced, widget);
+
+      /* Find if there was scrollbar hide. */
+      if (scroll && advanced->pActiveWidgetList == NULL) {
+        int len = advanced->pScroll->pUp_Left_Button->size.w;
+
+        widget = advanced->pEndActiveWidgetList->next;
+        do {
+          widget = widget->prev;
+          widget->size.w += len;
+          FREESURFACE(widget->gfx);
+        } while(widget != advanced->pBeginActiveWidgetList);
+      }
+
+      redraw_group(option_dialog->begin_widget_list,
+                   option_dialog->end_widget_list, 0);
+      widget_mark_dirty(option_dialog->end_widget_list);
+      flush_dirty();
+    }
+    break;
+  }
+  return -1;
+}
+
+
+/****************************************************************************
+  Callback to append a global worklist.
+****************************************************************************/
+static int add_new_worklist_callback(struct widget *widget)
+{
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    struct widget *new_worklist_widget = NULL;
+    struct widget *window = option_dialog->end_widget_list;
+    struct global_worklist *pgwl = global_worklist_new(_("empty worklist"));
+    struct ADVANCED_DLG *advanced = option_dialog->advanced;
+    bool scroll = advanced->pActiveWidgetList == NULL;
+    bool redraw_all = FALSE;
+
+    set_wstate(widget, FC_WS_NORMAL);
+    pSellected_Widget = NULL;
+
+    /* Create list element. */
+    new_worklist_widget =
+      create_iconlabel_from_chars(NULL, widget->dst,
+                                  global_worklist_name(pgwl),
+                                  adj_font(12), WF_RESTORE_BACKGROUND);
+    new_worklist_widget->ID = MAX_ID - global_worklist_id(pgwl);
+    new_worklist_widget->string16->style |= SF_CENTER;
+    set_wstate(new_worklist_widget, FC_WS_NORMAL);
+    new_worklist_widget->size.w = widget->size.w;
+    new_worklist_widget->action = edit_worklist_callback;
+
+    /* Add to widget list. */
+    redraw_all = add_widget_to_vertical_scroll_widget_list(advanced,
+                     new_worklist_widget, widget, TRUE,
+                     window->area.x + adj_size(17),
+                     window->area.y + adj_size(17));
+
+    /* Find if there was scrollbar shown. */
+    if (scroll && advanced->pActiveWidgetList != NULL) {
+      int len = advanced->pScroll->pUp_Left_Button->size.w;
+
+      window = advanced->pEndActiveWidgetList->next;
+      do {
+        window = window->prev;
+        window->size.w -= len;
+        window->area.w -= len;
+        FREESURFACE(window->gfx);
+      } while(window != advanced->pBeginActiveWidgetList);
+    }
+
+    if (redraw_all) {
+      redraw_group(option_dialog->begin_widget_list,
+                   option_dialog->end_widget_list, 0);
+      widget_mark_dirty(option_dialog->end_widget_list);
+    } else {
+      /* Redraw only new widget and dock widget. */
+      if (!widget->gfx && (get_wflags(widget) & WF_RESTORE_BACKGROUND)) {
+        refresh_widget_background(widget);
+      }
+      widget_redraw(widget);
+      widget_mark_dirty(widget);
+
+      if (!new_worklist_widget->gfx &&
+          (get_wflags(new_worklist_widget) & WF_RESTORE_BACKGROUND)) {
+        refresh_widget_background(new_worklist_widget);
+      }
+      widget_redraw(new_worklist_widget);
+      widget_mark_dirty(new_worklist_widget);
+    }
+    flush_dirty();
+  }
+  return -1;
+}
+
+/****************************************************************************
+  The Worklist Report part of Options dialog shows all the global worklists
+  that the player has defined.
+****************************************************************************/
+static void option_dialog_worklist(struct option_dialog *pdialog)
+{
+  SDL_Color bg_color = {255, 255, 255, 128};
+  struct widget *widget, *window, *background;
+  int count = 0, scrollbar_width = 0, longest = 0;
+  SDL_Rect area;
+
+  pdialog->mode = ODM_WORKLIST;
+  pdialog->worklist.edited_name = NULL;
+  window = pdialog->end_widget_list;
+
+  /* Hide main widget group. */
+  hide_group(pdialog->main_widget_list, pdialog->core_widget_list->prev);
+
+  /* Create white background. */
+  background = create_iconlabel(NULL, window->dst, NULL, WF_FREE_THEME);
+  add_to_gui_list(ID_LABEL, background);
+
+  /* Build the global worklists list. */
+  global_worklists_iterate(pgwl) {
+    widget = create_iconlabel_from_chars(NULL, window->dst,
+                                         global_worklist_name(pgwl),
+                                         adj_font(12),
+                                         WF_RESTORE_BACKGROUND);
+    set_wstate(widget, FC_WS_NORMAL);
+    add_to_gui_list(MAX_ID - global_worklist_id(pgwl), widget);
+    widget->action = edit_worklist_callback;
+    widget->string16->style |= SF_CENTER;
+    longest = MAX(longest, widget->size.w);
+    count++;
+
+    if (count > 13) {
+      set_wflag(widget, WF_HIDDEN);
+    }
+  } global_worklists_iterate_end;
+
+  /* Create the adding item. */
+  widget = create_iconlabel_from_chars(NULL, window->dst,
+                                       _("Add new worklist"), adj_font(12),
+                                       WF_RESTORE_BACKGROUND);
+  set_wstate(widget, FC_WS_NORMAL);
+  add_to_gui_list(ID_ADD_NEW_WORKLIST, widget);
+  widget->action = add_new_worklist_callback;
+  widget->string16->style |= SF_CENTER;
+  longest = MAX(longest, widget->size.w);
+  count++;
+
+  if (count > 13) {
+    set_wflag(widget, WF_HIDDEN);
+  }
+
+  /* Advanced dialog. */
+  pdialog->advanced = fc_calloc(1, sizeof(*pdialog->advanced));
+  pdialog->advanced->pEndWidgetList = pdialog->end_widget_list;
+  pdialog->advanced->pEndActiveWidgetList =
+      pdialog->main_widget_list->prev->prev;
+  pdialog->advanced->pBeginWidgetList = widget;
+  pdialog->advanced->pBeginActiveWidgetList = widget;
+
+  /* Clear former area. */
+  area = window->area;
+  area.w += window->size.x;
+  area.h += window->size.y;
+  sdl_dirty_rect(area);
+
+  /* Resize window. */
+  resize_window(window, NULL, NULL,
+                adj_size(longest + 40), window->size.h);
+  area = window->area;
+
+  /* Move close button. */
+  widget = pdialog->core_widget_list;
+  widget_set_position(widget, area.x + area.w - widget->size.w - 1,
+                      window->size.y + adj_size(2));
+
+  /* Resize white background. */
+  area.x += adj_size(12);
+  area.y += adj_size(12);
+  area.w -= adj_size(12) + adj_size(12);
+  area.h -= adj_size(12) + adj_size(12);
+  background->theme = create_surf_alpha(area.w, area.h, SDL_SWSURFACE);
+  widget_set_area(background, area);
+  widget_set_position(background, area.x, area.y);
+  SDL_FillRect(background->theme, NULL,
+               map_rgba(background->theme->format, bg_color));
+  putframe(background->theme, 0, 0, background->theme->w - 1,
+           background->theme->h - 1, map_rgba(background->theme->format,
+           *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME)));
+
+  /* Create the Scrollbar. */
+  scrollbar_width = create_vertical_scrollbar(pdialog->advanced,
+                                              1, 13, TRUE, TRUE);
+  setup_vertical_scrollbar_area(pdialog->advanced->pScroll,
+                                area.x + area.w - 1, area.y + 1,
+                                area.h - adj_size(32), TRUE);
+
+  if (count > 13) {
+    pdialog->advanced->pActiveWidgetList =
+        pdialog->advanced->pEndActiveWidgetList;
+  } else {
+    hide_scrollbar(pdialog->advanced->pScroll);
+    scrollbar_width = 0;
+  }
+
+  /* Draw! */
+  setup_vertical_widgets_position(1, area.x + adj_size(5),
+                                  area.y + adj_size(5),
+                                  area.w - adj_size(10) - scrollbar_width, 0,
+                                  pdialog->advanced->pBeginActiveWidgetList,
+                                  pdialog->advanced->pEndActiveWidgetList);
+
+  pdialog->begin_widget_list = pdialog->advanced->pBeginWidgetList;
+
+  redraw_group(pdialog->begin_widget_list, pdialog->end_widget_list, 0);
+  widget_flush(window);
 }
 
 /**************************************************************************
@@ -2117,7 +1127,7 @@ int optiondlg_callback(struct widget *pButton)
     widget_redraw(pButton);
     widget_flush(pButton);
 
-    option_dialog_popup(_("Options"), client_optset);
+    popup_optiondlg();
   }
   return -1;
 }
@@ -2157,246 +1167,6 @@ void init_options_button(void)
   enable_options_button();
 }
 
-static int save_game_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    send_save_game(NULL);
-    back_callback(NULL);
-  }
-  return -1;
-}
-
-static int exit_callback(struct widget *pWidget)
-{
-  if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    option_dialog_popdown(client_optset);
-    force_exit_from_event_loop();
-  }
-  return 0;
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void popup_optiondlg(const char *name)
-{
-  struct widget *pTmp_GUI, *pWindow;
-  struct widget *pCloseButton;
-  SDL_String16 *pStr;
-  SDL_Surface *pLogo;
-  int longest = 0;
-  SDL_Rect area;
-  
-  if(pOption_Dlg) {
-    return;
-  }
-  
-  restore_meswin_dialog = is_meswin_open();
-  popdown_all_game_dialogs();
-  flush_dirty();
-  
-  pOption_Dlg = fc_calloc(1, sizeof(struct OPT_DLG));
-  pOption_Dlg->pADlg = NULL;
-  pLogo = theme_get_background(theme, BACKGROUND_OPTIONDLG);
-  
-  /* create window widget */
-  pStr = create_str16_from_char(name, adj_font(12));
-  pStr->style |= TTF_STYLE_BOLD;
-  
-  pWindow = create_window_skeleton(NULL, pStr, 0);
-  pWindow->action = main_optiondlg_callback;
-  
-  set_wstate(pWindow, FC_WS_NORMAL);
-  add_to_gui_list(ID_OPTIONS_WINDOW, pWindow);
-  pOption_Dlg->pEndOptionsWidgetList = pWindow;
-
-  area = pWindow->area;
-
-  /* close button */
-  pCloseButton = create_themeicon(pTheme->Small_CANCEL_Icon, pWindow->dst,
-                                  WF_WIDGET_HAS_INFO_LABEL
-                                  | WF_RESTORE_BACKGROUND);
-  pCloseButton->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
-                                                    adj_font(12));
-  pCloseButton->action = back_callback;
-  set_wstate(pCloseButton, FC_WS_NORMAL);
-  pCloseButton->key = SDLK_ESCAPE;
-  
-  add_to_gui_list(ID_OPTIONS_BACK_BUTTON, pCloseButton);
-
-  pOption_Dlg->pBeginCoreOptionsWidgetList = pCloseButton;
-  /* ------------------------------------------------------ */
-  
-  area.w = MAX(area.w, (adj_size(360) - (pWindow->size.w - pWindow->area.w)));
-  area.h = adj_size(350) - (pWindow->size.h - pWindow->area.h);
-
-  group_set_area(pOption_Dlg->pBeginOptionsWidgetList, pWindow->prev, area);
-
-  if (resize_window(pWindow, pLogo, NULL,
-      (pWindow->size.w - pWindow->area.w) + area.w,
-      (pWindow->size.h - pWindow->area.h) + area.h)) {
-    FREESURFACE(pLogo);
-  }
-
-  area = pWindow->area;
-  
-  widget_set_position(pWindow,
-    (Main.screen->w - pWindow->size.w) / 2,
-    (Main.screen->h - pWindow->size.h) / 2);
-
-  widget_set_position(pCloseButton,
-                      area.x + area.w - pCloseButton->size.w - 1,
-                      pWindow->size.y + adj_size(2));
-        
-  /* ============================================================= */
-
-  /* create video button widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL,
-			pWindow->dst, _("Video options"), adj_font(12), 0);
-  pTmp_GUI->action = video_callback;
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(30));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_VIDEO_BUTTON, pTmp_GUI);
-
-  /* create sound button widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL,
-				pWindow->dst, _("Sound options"), adj_font(12), 0);
-  pTmp_GUI->action = sound_callback;
-  /* set_wstate( pTmp_GUI, FC_WS_NORMAL ); */
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(60));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_SOUND_BUTTON, pTmp_GUI);
-
-
-  /* create local button widget */
-  pTmp_GUI =
-      create_icon_button_from_chars(NULL, pWindow->dst,
-				      _("Game options"), adj_font(12), 0);
-  pTmp_GUI->action = local_setting_callback;
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(90));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_LOCAL_BUTTON, pTmp_GUI);
-
-  /* create map button widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL,
-				  pWindow->dst, _("Map options"), adj_font(12), 0);
-  pTmp_GUI->action = map_setting_callback;
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(120));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_MAP_BUTTON, pTmp_GUI);
-
-
-  /* create work lists widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, 
-  				pWindow->dst, _("Worklists"), adj_font(12), 0);
-  pTmp_GUI->action = work_lists_callback;
-  
-  if (C_S_RUNNING == client_state()) {
-    set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  }
-
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(150));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_WORKLIST_BUTTON, pTmp_GUI);
-
-  /* create save game widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, 
-                                pWindow->dst, _("Save Game"), adj_font(12), 0);
-  pTmp_GUI->action = save_game_callback;
-  
-  if (C_S_RUNNING == client_state()) {
-    set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  }
-
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(200));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_SAVE_GAME_BUTTON, pTmp_GUI);
-
-  /* create leave game widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, 
-                                pWindow->dst, _("Leave Game"), adj_font(12), 0);
-  pTmp_GUI->action = disconnect_callback;
-  pTmp_GUI->key = SDLK_q;
-    
-  if (client.conn.established) {
-    set_wstate(pTmp_GUI, FC_WS_NORMAL);
-  }
-
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(230));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_DISC_BUTTON, pTmp_GUI);
-
-  /* create quit widget */
-  pTmp_GUI = create_icon_button_from_chars(NULL, 
-                                pWindow->dst, _("Quit"), adj_font(12), 0);
-  pTmp_GUI->action = exit_callback;
-  pTmp_GUI->key = SDLK_q;
-    
-  set_wstate(pTmp_GUI, FC_WS_NORMAL);
-
-  widget_set_position(pTmp_GUI, pTmp_GUI->size.x, area.y + adj_size(260));
-  longest = MAX(longest, pTmp_GUI->size.w);
-
-  add_to_gui_list(ID_OPTIONS_EXIT_BUTTON, pTmp_GUI);
-
-  pOption_Dlg->pBeginOptionsWidgetList = pTmp_GUI;
-  pOption_Dlg->pBeginMainOptionsWidgetList = pTmp_GUI;
-
-  /* seting witdth and stat x */
-  do {
-    widget_resize(pTmp_GUI, longest, pTmp_GUI->size.h + adj_size(4));
-    widget_set_position(pTmp_GUI, area.x + (area.w - pTmp_GUI->size.w) / 2, pTmp_GUI->size.y);
-
-    pTmp_GUI = pTmp_GUI->next;
-  } while (pTmp_GUI != pOption_Dlg->pBeginCoreOptionsWidgetList);
-
-  /* draw window group */
-  redraw_group(pOption_Dlg->pBeginOptionsWidgetList, pWindow, 0);
-
-  widget_mark_dirty(pWindow);
-
-  SDL_Client_Flags |= (CF_OPTION_MAIN | CF_OPTION_OPEN);
-  
-  gui_sdl_fullscreen = BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN);
-  
-  disable_main_widgets();
-  
-  flush_dirty();
-}
-
-/**************************************************************************
-  ...
-**************************************************************************/
-static void popdown_optiondlg(void)
-{
-  if (pOption_Dlg) {
-    popdown_window_group_dialog(pOption_Dlg->pBeginOptionsWidgetList,
-				pOption_Dlg->pEndOptionsWidgetList);
-				
-    SDL_Client_Flags &= ~(CF_OPTION_MAIN | CF_OPTION_OPEN);
-			  
-    gui_sdl_fullscreen = BOOL_VAL(Main.screen->flags & SDL_FULLSCREEN);
-    
-    FC_FREE(pOption_Dlg);
-    enable_main_widgets();
-    
-    if (restore_meswin_dialog) {
-      popup_meswin_dialog(TRUE);
-    }
-  }
-}
-
-
 /**************************************************************************
   If the Options Dlg is open, force Worklist List contents to be updated.
   This function is call by exiting worklist editor to update changed
@@ -2404,75 +1174,130 @@ static void popdown_optiondlg(void)
 **************************************************************************/
 void update_worklist_report_dialog(void)
 {
-  struct global_worklist *pGWL;
+  struct global_worklist *pgwl;
 
-  if (pOption_Dlg) {
-    
-    /* this is no NULL when inside worklist editors */
-    if (pEdited_WorkList_Name
-        && (pGWL = global_worklist_by_id(MAX_ID - pEdited_WorkList_Name->ID))) {
-      copy_chars_to_string16(pEdited_WorkList_Name->string16,
-                             global_worklist_name(pGWL));
-      pEdited_WorkList_Name = NULL;
+  if (NULL != option_dialog && ODM_WORKLIST == option_dialog->mode) {
+    pgwl = global_worklist_by_id(MAX_ID
+                                 - option_dialog->worklist.edited_name->ID);
+
+    if (NULL != pgwl) {
+      copy_chars_to_string16(option_dialog->worklist.edited_name->string16,
+                             global_worklist_name(pgwl));
+      option_dialog->worklist.edited_name = NULL;
     }
-  
-    redraw_group(pOption_Dlg->pBeginOptionsWidgetList,
-                 pOption_Dlg->pEndOptionsWidgetList, 0);
-    widget_mark_dirty(pOption_Dlg->pEndOptionsWidgetList);
+
+    redraw_group(option_dialog->begin_widget_list,
+                 option_dialog->end_widget_list, 0);
+    widget_mark_dirty(option_dialog->end_widget_list);
+  }
+}
+
+/****************************************************************************
+  Popup the main option menu dialog.
+****************************************************************************/
+void popup_optiondlg(void)
+{
+  if (NULL != option_dialog) {
+    return;
+  }
+
+  restore_meswin_dialog = is_meswin_open();
+  popdown_all_game_dialogs();
+  flush_dirty();
+
+  option_dialog = option_dialog_new();
+
+  disable_main_widgets();
+  flush_dirty();
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void popdown_optiondlg(void)
+{
+  if (NULL == option_dialog) {
+    return;
+  }
+
+  option_dialog_destroy(option_dialog);
+  option_dialog = NULL;
+  enable_main_widgets();
+
+  if (restore_meswin_dialog) {
+    popup_meswin_dialog(TRUE);
   }
 }
 
 /****************************************************************************
   Popup the option dialog for the option set.
-  FIXME/PORTME
 ****************************************************************************/
 void option_dialog_popup(const char *name, const struct option_set *poptset)
 {
-  if (poptset == client_optset) {
-    /* FIXME: this is a big hack! */
-    popup_optiondlg(name);
+  if (NULL == option_dialog) {
+    popup_optiondlg();
+  } else if (ODM_OPTSET == option_dialog->mode
+             && poptset == option_dialog->optset.poptset) {
+    /* Already in use. */
+    return;
   } else {
-    log_error("%s(): PORTME!", __FUNCTION__);
+    while (ODM_MAIN != option_dialog->mode) {
+      back_callback(NULL);
+    }
   }
+
+  option_dialog_optset(option_dialog, poptset);
 }
 
 /****************************************************************************
   Popdown the option dialog for the option set.
-  FIXME/PORTME
 ****************************************************************************/
 void option_dialog_popdown(const struct option_set *poptset)
 {
-  if (poptset == client_optset) {
-    /* FIXME: this is a big hack! */
-    popdown_optiondlg();
-  } else {
-    log_error("%s(): PORTME!", __FUNCTION__);
+  while (NULL != option_dialog
+         && ODM_OPTSET == option_dialog->mode
+         && poptset == option_dialog->optset.poptset) {
+    back_callback(NULL);
   }
 }
 
 /****************************************************************************
   Update the GUI for the option.
-  FIXME/PORTME
 ****************************************************************************/
 void option_gui_update(struct option *poption)
 {
-  log_error("%s(): PORTME!", __FUNCTION__);
+  if (NULL != option_dialog
+      && ODM_OPTSET == option_dialog->mode
+      && option_optset(poption) == option_dialog->optset.poptset
+      && option_category(poption) == option_dialog->optset.category) {
+    option_widget_update(poption);
+  }
 }
 
 /****************************************************************************
   Add the GUI for the option.
-  FIXME/PORTME
 ****************************************************************************/
 void option_gui_add(struct option *poption)
 {
-  log_error("%s(): PORTME!", __FUNCTION__);
+  if (NULL != option_dialog
+      && ODM_OPTSET == option_dialog->mode
+      && option_optset(poption) == option_dialog->optset.poptset
+      && option_category(poption) == option_dialog->optset.category) {
+    back_callback(NULL);
+    option_dialog_optset_category(option_dialog, option_category(poption));
+  }
 }
 
 /****************************************************************************
   Remove the GUI for the option.
-  FIXME/PORTME
 ****************************************************************************/
 void option_gui_remove(struct option *poption)
 {
-  log_error("%s(): PORTME!", __FUNCTION__);
+  if (NULL != option_dialog
+      && ODM_OPTSET == option_dialog->mode
+      && option_optset(poption) == option_dialog->optset.poptset
+      && option_category(poption) == option_dialog->optset.category) {
+    back_callback(NULL);
+    option_dialog_optset_category(option_dialog, option_category(poption));
+  }
 }

@@ -171,6 +171,8 @@ char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
 bool gui_sdl_fullscreen = FALSE;
 int gui_sdl_screen_width = 640;
 int gui_sdl_screen_height = 480;
+bool gui_sdl_do_cursor_animation = TRUE;
+bool gui_sdl_use_color_cursors = TRUE;
 
 /* gui-win32 client specific options. */
 bool gui_win32_better_fog = TRUE;
@@ -1581,18 +1583,26 @@ static struct client_option client_options[] = {
                   "Serif 10", NULL),
 
   /* gui-sdl client specific options. */
-  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"), 
+  GEN_BOOL_OPTION(gui_sdl_fullscreen, N_("Full Screen"),
                   N_("If this option is set the client will use the "
-                     "whole screen area for drawing"),
+                     "whole screen area for drawing."),
                   COC_INTERFACE, GUI_SDL, FALSE, NULL),
   GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
                  N_("This option saves the width of the selected screen "
-                    "resolution"),
+                    "resolution."),
                  COC_INTERFACE, GUI_SDL, 640, 320, 3200, NULL),
   GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
                  N_("This option saves the height of the selected screen "
-                    "resolution"),
+                    "resolution."),
                  COC_INTERFACE, GUI_SDL, 480, 240, 2400, NULL),
+  GEN_BOOL_OPTION(gui_sdl_do_cursor_animation, N_("Do cursor animation"),
+                  N_("If this option is disabled, the cursor will be "
+                     "always displayed as static."),
+                  COC_INTERFACE, GUI_SDL, TRUE, NULL),
+  GEN_BOOL_OPTION(gui_sdl_use_color_cursors, N_("Use color cursors"),
+                  N_("If this option is disabled, the cursor will be "
+                     "always displayed in black and white."),
+                  COC_INTERFACE, GUI_SDL, TRUE, NULL),
 
   /* gui-win32 client specific options. */
   GEN_BOOL_OPTION(gui_win32_better_fog,

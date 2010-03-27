@@ -108,7 +108,7 @@ static int options_callback(struct widget *pWidget)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     queue_flush();
     popdown_start_menu();
-    option_dialog_popup(_("Options"), client_optset);
+    popup_optiondlg();
   }
   return -1;
 }

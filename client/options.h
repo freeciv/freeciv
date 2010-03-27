@@ -127,6 +127,8 @@ extern char gui_sdl_default_theme_name[512];
 extern bool gui_sdl_fullscreen;
 extern int gui_sdl_screen_width;
 extern int gui_sdl_screen_height;
+extern bool gui_sdl_do_cursor_animation;
+extern bool gui_sdl_use_color_cursors;
 
 /* gui-win32 client specific options. */
 extern bool gui_win32_better_fog;

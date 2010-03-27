@@ -50,11 +50,13 @@
 
 /* client */
 #include "client_main.h"
+#include "climisc.h"
 #include "clinet.h"
 #include "editgui_g.h"
 #include "ggzclient.h"
 #include "ggz_g.h"
 #include "tilespec.h"
+#include "update_queue.h"
 
 /* gui-sdl */
 #include "chatline.h"
@@ -102,7 +104,6 @@ bool RSHIFT;
 bool LCTRL;
 bool RCTRL;
 bool LALT;
-bool do_focus_animation = TRUE;
 int city_names_font_size = 12;
 int city_productions_font_size = 12;
 
@@ -837,11 +838,77 @@ void ui_init(void)
 }
 
 /****************************************************************************
-  Extra initializers for client options.
+  Really resize the main window.
+****************************************************************************/
+static void real_resize_window_callback(void *data)
+{
+  struct widget *widget;
+  Uint32 flags = Main.screen->flags;
+
+  if (gui_sdl_fullscreen) {
+    flags |= SDL_FULLSCREEN;
+  } else {
+    flags &= ~SDL_FULLSCREEN;
+  }
+  set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height, flags);
+
+  if (C_S_RUNNING == client_state()) {
+    /* Move units window to botton-right corner. */
+    set_new_unitinfo_window_pos();
+    /* Move minimap window to botton-left corner. */
+    set_new_minimap_window_pos();
+
+    /* Move cooling/warming icons to botton-right corner. */
+    widget = get_widget_pointer_form_main_list(ID_WARMING_ICON);
+    widget_set_position(widget, (Main.screen->w - adj_size(10)
+                                 - (widget->size.w * 2)), widget->size.y);
+
+    widget = get_widget_pointer_form_main_list(ID_COOLING_ICON);
+    widget_set_position(widget, (Main.screen->w - adj_size(10)
+                                 - widget->size.w), widget->size.y);
+
+    map_canvas_resized(Main.screen->w, Main.screen->h);
+    update_info_label();
+    update_unit_info_label(get_units_in_focus());
+    center_on_something();      /* With redrawing full map. */
+    update_order_widgets();
+  } else {
+    draw_intro_gfx();
+    dirty_all();
+  }
+  flush_all();
+}
+
+/****************************************************************************
+  Resize the main window.
+****************************************************************************/
+static void resize_window_callback(struct option *poption)
+{
+  update_queue_add(real_resize_window_callback, NULL);
+}
+
+/****************************************************************************
+  Extra initializers for client options. Here we make set the callback
+  for the specific gui-sdl options.
 ****************************************************************************/
 void gui_options_extra_init(void)
 {
-  /* Nothing to do. */
+  struct option *poption;
+
+#define option_var_set_callback(var, callback)                              \
+  if ((poption = optset_option_by_name(client_optset, #var))) {             \
+    option_set_changed_callback(poption, callback);                         \
+  } else {                                                                  \
+    log_error("Didn't find option %s!", #var);                              \
+  }
+
+  option_var_set_callback(gui_sdl_fullscreen,
+                          resize_window_callback);
+  option_var_set_callback(gui_sdl_screen_width,
+                          resize_window_callback);
+  option_var_set_callback(gui_sdl_screen_height,
+                          resize_window_callback);
+#undef option_var_set_callback
 }
 
 /**************************************************************************

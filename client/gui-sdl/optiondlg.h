@@ -26,6 +26,9 @@
 
 struct widget *pOptions_Button;
 
+void popup_optiondlg(void);
+void popdown_optiondlg(void);
+
 void init_options_button(void);
 void enable_options_button(void);
 void disable_options_button(void);

@@ -38,9 +38,6 @@ struct color_cursor {
 
 SDL_Cursor *fc_cursors[CURSOR_LAST][NUM_CURSOR_FRAMES];
 
-bool do_cursor_animation = TRUE;
-bool use_color_cursors = TRUE;
-
 enum cursor_type mouse_cursor_type = CURSOR_DEFAULT;
 bool mouse_cursor_changed = FALSE;
 
@@ -98,9 +95,8 @@ void draw_mouse_cursor() {
   int cursor_x = 0;
   int cursor_y = 0;
   static SDL_Rect area = {0, 0, 0, 0};
-  
-  if (use_color_cursors) {
-    
+
+  if (gui_sdl_use_color_cursors) {
     /* restore background */
     if (area.w != 0) {
       flush_rect(area, TRUE);
@@ -185,11 +181,12 @@ void animate_mouse_cursor(void)
   }
 
   if (mouse_cursor_type != CURSOR_DEFAULT) {
-    if (!do_cursor_animation || (cursor_frame == NUM_CURSOR_FRAMES)) {
+    if (!gui_sdl_do_cursor_animation
+        || (cursor_frame == NUM_CURSOR_FRAMES)) {
       cursor_frame = 0;
     }
-    
-    if (use_color_cursors) {
+
+    if (gui_sdl_use_color_cursors) {
       current_color_cursor.cursor = GET_SURF(get_cursor_sprite(tileset,
                                     mouse_cursor_type,
                                     &current_color_cursor.hot_x,
@@ -215,12 +212,12 @@ void update_mouse_cursor(enum cursor_type new_cursor_type)
   
   if (mouse_cursor_type == CURSOR_DEFAULT) {
     SDL_SetCursor(pStd_Cursor);
-    if (use_color_cursors) {
+    if (gui_sdl_use_color_cursors) {
       current_color_cursor.cursor = NULL;
     }
     mouse_cursor_changed = FALSE;    
   } else {
-    if (use_color_cursors) {
+    if (gui_sdl_use_color_cursors) {
       SDL_SetCursor(pDisabledCursor);
     }
     mouse_cursor_changed = TRUE;

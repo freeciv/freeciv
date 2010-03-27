@@ -461,7 +461,7 @@ void redraw_widget_info_label(SDL_Rect *rect)
 
   struct widget *pWidget = pSellected_Widget;
 
-  if (!pWidget) {
+  if (!pWidget || !pWidget->info_label) {
     return;
   }
 
