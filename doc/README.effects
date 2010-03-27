@@ -325,3 +325,7 @@ Migration_Pct
 
 City_Radius_Sq
     Increase the squared city radius by amount.
+
+City_Build_Slots
+    Increase the number of units with no population cost a city can build in
+    a turn if there are enough shields.

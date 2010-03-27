@@ -198,6 +198,40 @@ void city_dialog_redraw_map(struct city *pcity,
 }
 
 /**************************************************************************
+  Return a string describing the the cost for the production of the city
+  considerung several build slots for units.
+**************************************************************************/
+char *city_production_cost_str(const struct city *pcity)
+{
+  static char cost_str[50];
+  int cost = city_production_build_shield_cost(pcity);
+  int build_slots = get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
+  int num_units;
+
+  if (build_slots > 1
+      && city_production_build_units(pcity, TRUE, &num_units)) {
+    /* the city could build more than one unit of the selected type */
+    if (num_units == 0) {
+      /* no unit will be finished this turn but one is build */
+      num_units++;
+    }
+
+    if (build_slots > num_units) {
+      /* some build slots for units will be unused */
+      fc_snprintf(cost_str, sizeof(cost_str), "{%d*%d}", num_units, cost);
+    } else {
+      /* maximal number of units will be build */
+      fc_snprintf(cost_str, sizeof(cost_str), "[%d*%d]", num_units, cost);
+    }
+  } else {
+    /* nothing special */
+    fc_snprintf(cost_str, sizeof(cost_str), "%3d", cost);
+  }
+
+  return cost_str;
+}
+
+/**************************************************************************
   Find the city dialog city production text for the given city, and
   place it into the buffer.  This will check the
   concise_city_production option.  pcity may be NULL; in this case a
@@ -206,11 +240,11 @@ void city_dialog_redraw_map(struct city *pcity,
 void get_city_dialog_production(struct city *pcity,
 				char *buffer, size_t buffer_len)
 {
-  char time[50];
-  int turns, cost, stock;
+  char time_str[50], *cost_str;
+  int turns, stock;
 
   if (pcity == NULL) {
-    /* 
+    /*
      * Some GUIs use this to build a "filler string" so that they can
      * properly size the widget to hold the string.  This has some
      * obvious problems; the big one is that we have two forms of time
@@ -229,26 +263,29 @@ void get_city_dialog_production(struct city *pcity,
                 MAX(0, pcity->surplus[O_SHIELD]));
     return;
   }
+
   turns = city_production_turns_to_build(pcity, TRUE);
   stock = pcity->shield_stock;
-  cost = city_production_build_shield_cost(pcity);
+  cost_str = city_production_cost_str(pcity);
 
   if (turns < FC_INFINITY) {
     if (concise_city_production) {
-      fc_snprintf(time, sizeof(time), "%3d", turns);
+      fc_snprintf(time_str, sizeof(time_str), "%3d", turns);
     } else {
-      fc_snprintf(time, sizeof(time),
+      fc_snprintf(time_str, sizeof(time_str),
                   PL_("%3d turn", "%3d turns", turns), turns);
     }
   } else {
-    fc_snprintf(time, sizeof(time), "%s",
+    fc_snprintf(time_str, sizeof(time_str), "%s",
                 concise_city_production ? "-" : _("never"));
   }
 
   if (concise_city_production) {
-    fc_snprintf(buffer, buffer_len, _("%3d/%3d:%s"), stock, cost, time);
+    fc_snprintf(buffer, buffer_len, _("%3d/%s:%s"), stock, cost_str,
+                time_str);
   } else {
-    fc_snprintf(buffer, buffer_len, _("%3d/%3d %s"), stock, cost, time);
+    fc_snprintf(buffer, buffer_len, _("%3d/%s %s"), stock, cost_str,
+                time_str);
   }
 }
 

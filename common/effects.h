@@ -107,6 +107,7 @@ enum effect_type {
   EFT_OUTPUT_INC_TILE_CELEBRATE,
   EFT_CITY_UNHAPPY_SIZE, /* all citizens after this are unhappy */
   EFT_CITY_RADIUS_SQ, /* add to default squared city radius */
+  EFT_CITY_BUILD_SLOTS, /* slots to build units */
   EFT_UPGRADE_PRICE_PCT,
   EFT_VISIBLE_WALLS,     /* City should use walls gfx */
   EFT_TECH_COST_FACTOR,

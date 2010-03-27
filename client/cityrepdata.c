@@ -36,6 +36,7 @@
 #include "cma_fec.h"
 
 /* client */
+#include "citydlg_common.h" /* city_production_cost_str() */
 #include "options.h"
 
 #include "cityrepdata.h"
@@ -367,10 +368,10 @@ static const char *cr_entry_building(const struct city *pcity,
                 city_production_name_translation(pcity),
                 MAX(0, pcity->surplus[O_SHIELD]), from_worklist);
   } else {
-    fc_snprintf(buf, sizeof(buf), "%s (%d/%d)%s",
+    fc_snprintf(buf, sizeof(buf), "%s (%d/%s)%s",
                 city_production_name_translation(pcity),
                 pcity->shield_stock,
-                city_production_build_shield_cost(pcity),
+                city_production_cost_str(pcity),
                 from_worklist);
   }
 

@@ -1549,14 +1549,21 @@ static bool city_build_building(struct player *pplayer, struct city *pcity)
 }
 
 /**************************************************************************
-...
+  Build city units. Several units can be build in one turn if the effect
+  City_Build_Slots is used.
 **************************************************************************/
 static bool city_build_unit(struct player *pplayer, struct city *pcity)
 {
   struct unit_type *utype;
+  struct worklist *pwl = &pcity->worklist;;
+  int unit_shield_cost, num_units, i;
+
+  fc_assert_ret_val(pcity->production.kind == VUT_UTYPE, FALSE);
+
+  utype = pcity->production.value.utype;
+  unit_shield_cost = utype_build_shield_cost(utype);
 
   upgrade_unit_prod(pcity);
-  utype = pcity->production.value.utype;
 
   /* We must make a special case for barbarians here, because they are
      so dumb. Really. They don't know the prerequisite techs for units
@@ -1577,7 +1584,8 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
 		       API_TYPE_STRING, "unavailable");
     return TRUE;
   }
-  if (pcity->shield_stock >= utype_build_shield_cost(utype)) {
+
+  if (pcity->shield_stock >= unit_shield_cost) {
     int pop_cost = utype_pop_value(utype);
     struct unit *punit;
     int saved_city_id = pcity->id;
@@ -1604,35 +1612,52 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
     /* don't update turn_last_built if we returned above */
     pcity->turn_last_built = game.info.turn;
 
-    punit = create_unit(pplayer, pcity->tile, utype,
-			do_make_unit_veteran(pcity, utype),
-			pcity->id, 0);
+    /* check if we can build more than one unit (effect City_Build_Slots) */
+    (void) city_production_build_units(pcity, FALSE, &num_units);
 
-    /* After we created the unit remove the citizen. This will also
-       rearrange the worker to take into account the extra resources
-       (food) needed. */
-    if (pop_cost > 0) {
-      city_reduce_size(pcity, pop_cost, NULL);
+    for (i = 0; i < num_units; i++) {
+      punit = create_unit(pplayer, pcity->tile, utype,
+                          do_make_unit_veteran(pcity, utype),
+                          pcity->id, 0);
+
+      /* After we created the unit remove the citizen. This will also
+       * rearrange the worker to take into account the extra resources
+       * (food) needed. */
+      if (pop_cost > 0) {
+        city_reduce_size(pcity, pop_cost, NULL);
+      }
+
+      /* to eliminate micromanagement, we only subtract the unit's cost */
+      pcity->before_change_shields -= unit_shield_cost;
+      pcity->shield_stock -= unit_shield_cost;
+
+      notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT, ftc_server,
+                    /* TRANS: <city> is finished building <unit/building>. */
+                    _("%s is finished building %s."),
+                    city_link(pcity), utype_name_translation(utype));
+
+      script_signal_emit("unit_built", 2, API_TYPE_UNIT, punit,
+                         API_TYPE_CITY, pcity);
+
+      /* check if the city still exists */
+      if (!city_exist(saved_city_id)) {
+        break;
+      }
+
+      if (i != 0 && worklist_length(pwl) > 0) {
+        /* remove the build unit from the worklist; it has to be one less
+         * than units build to preserve the next build target from the
+         * worklist */
+        worklist_remove(pwl, 0);
+      }
     }
-
-    /* to eliminate micromanagement, we only subtract the unit's
-       cost */
-    pcity->before_change_shields -= utype_build_shield_cost(utype);
-    pcity->shield_stock -= utype_build_shield_cost(utype);
-
-    notify_player(pplayer, city_tile(pcity), E_UNIT_BUILT, ftc_server,
-                  /* TRANS: <city> is finished building <unit/building>. */
-                  _("%s is finished building %s."),
-                  city_link(pcity), utype_name_translation(utype));
-
-    script_signal_emit("unit_built",
-		       2, API_TYPE_UNIT, punit, API_TYPE_CITY, pcity);
 
     if (city_exist(saved_city_id)) {
       /* Done building this unit; time to move on to the next. */
       choose_build_target(pplayer, pcity);
     }
   }
+
   return TRUE;
 }
 

@@ -35,6 +35,7 @@ bool canvas_to_city_pos(int *city_x, int *city_y, int city_radius_sq,
 void city_dialog_redraw_map(struct city *pcity,
                             struct canvas *pcanvas);
 
+char *city_production_cost_str(const struct city *pcity);
 void get_city_dialog_production(struct city *pcity,
                                 char *buffer, size_t buffer_len);
 void get_city_dialog_production_full(char *buffer, size_t buffer_len,

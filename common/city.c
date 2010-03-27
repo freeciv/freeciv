@@ -682,6 +682,65 @@ int city_production_build_shield_cost(const struct city *pcity)
 }
 
 /**************************************************************************
+  Return TRUE if the city could use the additional build slots provided by
+  the effect City_Build_Slots. Within 'num_units' the total number of units
+  the city can build considering the current shield stock is returned.
+**************************************************************************/
+bool city_production_build_units(const struct city *pcity,
+                                 bool add_production, int *num_units)
+{
+  struct unit_type *utype;
+  struct universal target;
+  int build_slots = get_city_bonus(pcity, EFT_CITY_BUILD_SLOTS);
+  int shields_left = pcity->shield_stock;
+  int unit_shield_cost, i;
+
+  fc_assert_ret_val(num_units != NULL, FALSE);
+  (*num_units) = 0;
+
+  if (pcity->production.kind != VUT_UTYPE) {
+    /* not a unit as the current production */
+    return FALSE;
+  }
+
+  utype = pcity->production.value.utype;
+  if (utype_pop_value(utype) != 0 || utype_has_flag(utype, F_UNIQUE)) {
+    /* unit with population cost or unique unit means that only one unit can
+     * be build */
+    (*num_units)++;
+    return FALSE;
+  }
+
+  if (add_production) {
+    shields_left += pcity->prod[O_SHIELD];
+  }
+
+  unit_shield_cost = utype_build_shield_cost(utype);
+
+  for (i = 0; i < build_slots; i++) {
+    if (shields_left < unit_shield_cost) {
+      /* not enough shields */
+      break;
+    }
+
+    (*num_units)++;
+    shields_left -= unit_shield_cost;
+
+    if (worklist_length(&pcity->worklist) > i) {
+      (void) worklist_peek_ith(&pcity->worklist, &target, i);
+      if (target.kind != VUT_UTYPE
+          || utype_index(target.value.utype) != utype_index(utype)) {
+        /* stop if there is a build target in the worklist not equal to the
+         * unit we build */
+        break;
+      }
+    }
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
   Return the cost (gold) to buy the current city production.
 **************************************************************************/
 int city_production_buy_gold_cost(const struct city *pcity)

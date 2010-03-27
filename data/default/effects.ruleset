@@ -2124,3 +2124,8 @@ value   = 1
 [effect_tile_workable]
 name    = "Tile_Workable"
 value   = 1
+
+; each city has at least one slot to build units
+[effect_city_build_slots_basic]
+name    = "City_Build_Slots"
+value   = 1

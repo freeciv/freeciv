@@ -1639,18 +1639,21 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   } else {
     pct = 1.0;
   }
-  
-  fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+
+  fc_snprintf(buf2, sizeof(buf2), "%s%s\n%s", descr,
               worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), buf2);
+  gtk_progress_bar_set_fraction(
+    GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
+
+  fc_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
+              worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->production.production_bar), buf2);
   gtk_progress_bar_set_fraction(
-    GTK_PROGRESS_BAR(pdialog->overview.production_bar), pct);
-  gtk_progress_bar_set_fraction(
     GTK_PROGRESS_BAR(pdialog->production.production_bar), pct);
-    
+
   store = pdialog->overview.change_production_store;  
   gtk_combo_box_set_active(GTK_COMBO_BOX(pdialog->overview.production_combo),
                            -1);
