@@ -215,7 +215,7 @@ msgstr "Gnáth"
 
 #: common/events.c:96
 msgid "Nuked"
-msgstr "Núiclithe"
+msgstr "Núicphléasctha"
 
 #: common/events.c:97
 msgid "Released from citizen governor"
@@ -239,11 +239,11 @@ msgstr "Plá Air"
 
 #: common/events.c:102
 msgid "Worklist Events"
-msgstr ""
+msgstr "Imeachtaí Liosta Oibre"
 
 #: common/events.c:103
 msgid "Production changed"
-msgstr ""
+msgstr "Athraíodh táirgeadh"
 
 #: common/events.c:104 common/events.c:113
 msgid "Bribe"
@@ -338,7 +338,7 @@ msgstr "Titim go hAinrialtacht"
 
 #: common/events.c:133
 msgid "First Contact"
-msgstr ""
+msgstr "An Chéad Teagmháil"
 
 #: common/events.c:134
 msgid "Learned New Government"
@@ -346,7 +346,7 @@ msgstr "Rialtas Nua Foghlamtha"
 
 #: common/events.c:135
 msgid "Low Funds"
-msgstr ""
+msgstr "Airgead Gann"
 
 #: common/events.c:136 common/terrain.c:547 common/unit.c:521
 #: server/report.c:138 client/cityrepdata.c:511 client/gui-sdl/optiondlg.c:1854
@@ -475,11 +475,11 @@ msgstr ""
 
 #: common/events.c:170
 msgid "Game Ended"
-msgstr ""
+msgstr "Cluiche Críochnaithe"
 
 #: common/events.c:171
 msgid "Game Started"
-msgstr ""
+msgstr "Cluiche Tosaithe"
 
 #: common/events.c:172
 msgid "Nation Selected"
@@ -740,7 +740,7 @@ msgstr "(Anaithnid)"
 #: common/terrain.c:45 data/default/units.ruleset:91 data/civ2/units.ruleset:86
 #: data/civ1/units.ruleset:78
 msgid "Land"
-msgstr ""
+msgstr "Talamh"
 
 #: common/terrain.c:46
 msgid "Oceanic"
@@ -761,7 +761,7 @@ msgstr ""
 #: common/terrain.c:543 common/terrain.c:731 common/unit.c:523
 #: manual/civmanual.c:216
 msgid "Road"
-msgstr ""
+msgstr "Bóthar"
 
 #: common/terrain.c:544 common/terrain.c:738 common/unit.c:527
 #: client/gui-gtk-2.0/menu.c:901 client/gui-sdl/optiondlg.c:1961
@@ -851,7 +851,7 @@ msgstr "Anaithnid"
 #: common/unit.c:1080 common/unit.c:1085 common/unit.c:1090 common/unit.c:1097
 #: common/unit.c:1101 common/unit.c:1105
 msgid "Moves"
-msgstr ""
+msgstr "Bearta"
 
 #: common/unit.c:1169
 msgid "Food/Shield/Gold:"
@@ -1108,21 +1108,21 @@ msgstr ""
 #, c-format
 msgid "last message repeated %d time"
 msgid_plural "last message repeated %d times"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "an teachtaireacht chéanna uair amháin"
+msgstr[1] "an teachtaireacht chéanna %d uair"
+msgstr[2] "an teachtaireacht chéanna %d huaire"
+msgstr[3] "an teachtaireacht chéanna %d n-uaire"
+msgstr[4] "an teachtaireacht chéanna %d uair"
 
 #: utility/log.c:299 utility/log.c:318
 #, c-format
 msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] " (%d uair ina iomláine)"
+msgstr[1] " (%d uair ina iomláine)"
+msgstr[2] " (%d huaire ina iomláine)"
+msgstr[3] " (%d n-uaire ina iomláine)"
+msgstr[4] " (%d uair ina iomláine)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:84 utility/registry.c:848 server/console.c:63
@@ -1195,7 +1195,7 @@ msgstr ""
 
 #: utility/shared.c:1504
 msgid "empty"
-msgstr ""
+msgstr "folamh"
 
 #: utility/shared.c:1505
 msgid "too long"
@@ -1339,11 +1339,11 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
+msgstr[1] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
+msgstr[2] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
+msgstr[3] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
+msgstr[4] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
 
 #: ai/advdiplomacy.c:1237
 #, c-format
@@ -3131,11 +3131,11 @@ msgstr ""
 #, c-format
 msgid "A treaty containing %d clause was agreed upon."
 msgid_plural "A treaty containing %d clauses was agreed upon."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Socraíodh conradh ina bhfuil %d chlásal."
+msgstr[1] "Socraíodh conradh ina bhfuil %d chlásal."
+msgstr[2] "Socraíodh conradh ina bhfuil %d chlásal."
+msgstr[3] "Socraíodh conradh ina bhfuil %d gclásal."
+msgstr[4] "Socraíodh conradh ina bhfuil %d clásal."
 
 #: server/diplhand.c:306 server/diplhand.c:310
 #, c-format
@@ -3145,7 +3145,7 @@ msgstr ""
 #: server/diplhand.c:317 server/diplhand.c:322
 #, c-format
 msgid "The %s no longer control %s! Treaty canceled!"
-msgstr ""
+msgstr "Níl na %s i gceannas ar %s níos mó! Cealaíodh an conradh!"
 
 #: server/diplhand.c:360 server/diplhand.c:364
 #, c-format
@@ -3227,12 +3227,12 @@ msgstr ""
 #: server/diplhand.c:548
 #, c-format
 msgid "You give shared vision to %s."
-msgstr ""
+msgstr "Tugann tú fís aontaithe do %s."
 
 #: server/diplhand.c:551
 #, c-format
 msgid "%s gives you shared vision."
-msgstr ""
+msgstr "Tugann %s fís aontaithe duit."
 
 #: server/diplhand.c:691
 #, c-format
@@ -4431,15 +4431,15 @@ msgstr ""
 
 #: server/settings.c:36
 msgid "Military"
-msgstr ""
+msgstr "Míleata"
 
 #: server/settings.c:37
 msgid "Scientific"
-msgstr ""
+msgstr "Eolaíoch"
 
 #: server/settings.c:38
 msgid "Internal"
-msgstr ""
+msgstr "Inmheánach"
 
 #: server/settings.c:39
 msgid "Networking"
@@ -4448,7 +4448,7 @@ msgstr ""
 #: server/settings.c:43 client/gui-gtk-2.0/dialogs.c:805
 #: client/gui-win32/dialogs.c:546
 msgid "All"
-msgstr ""
+msgstr "Uile"
 
 #: server/settings.c:44
 msgid "Vital"
@@ -4460,11 +4460,11 @@ msgstr ""
 
 #: server/settings.c:46
 msgid "Rare"
-msgstr ""
+msgstr "Annamh"
 
 #: server/settings.c:47
 msgid "Changed"
-msgstr ""
+msgstr "Athraithe"
 
 #: server/settings.c:84
 msgid ""
@@ -6220,11 +6220,11 @@ msgstr ""
 
 #: server/stdinhand.c:1973
 msgid "Option"
-msgstr ""
+msgstr "Rogha"
 
 #: server/stdinhand.c:1977
 msgid "description"
-msgstr ""
+msgstr "cur síos"
 
 #: server/stdinhand.c:2046
 msgid ""
@@ -6581,19 +6581,19 @@ msgstr ""
 #: server/stdinhand.c:3192 server/stdinhand.c:4452
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
-msgstr ""
+msgstr "Barbarach"
 
 #: server/stdinhand.c:3194 server/stdinhand.c:4454 client/plrdlg_common.c:261
 #: client/gui-gtk-2.0/pages.c:2100 client/gui-sdl/plrdlg.c:641
 #: client/gui-win32/connectdlg.c:202 client/gui-win32/plrdlg.c:332
 msgid "AI"
-msgstr ""
+msgstr "AI"
 
 #: server/stdinhand.c:3195 server/stdinhand.c:4456
 #: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-2.0/pages.c:2123
 #: client/gui-win32/connectdlg.c:202 client/gui-win32/connectdlg.c:214
 msgid "Human"
-msgstr ""
+msgstr "Duine"
 
 #: server/stdinhand.c:3197 client/gui-gtk-2.0/pages.c:2099
 #: client/gui-gtk-2.0/pages.c:2122 client/gui-win32/connectdlg.c:201
@@ -7351,7 +7351,7 @@ msgstr[4] ""
 #: server/unittools.c:2053
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr ""
+msgstr "Bhí do %s núicphléasctha ag %s."
 
 #: server/unittools.c:2056 server/unittools.c:2074
 msgid "yourself"
@@ -7360,22 +7360,22 @@ msgstr "tusa féin"
 #: server/unittools.c:2060
 #, c-format
 msgid "The %s %s was nuked."
-msgstr ""
+msgstr "Bhí %2$s %1$s núicphléasctha."
 
 #: server/unittools.c:2071
 #, c-format
 msgid "%s was nuked by %s."
-msgstr ""
+msgstr "Bhí %s núicphléasctha ag %s."
 
 #: server/unittools.c:2079
 #, c-format
 msgid "You nuked %s."
-msgstr ""
+msgstr "Núicphléasc tú %s."
 
 #: server/unittools.c:2116
 #, c-format
 msgid "The %s detonated a nuke!"
-msgstr ""
+msgstr "Phléasc na %s buama núicléach!"
 
 #: server/unittools.c:2140
 #, c-format
@@ -7674,7 +7674,7 @@ msgstr[4] ""
 #: client/citydlg_common.c:337 client/citydlg_common.c:345
 #: client/gui-sdl/wldlg.c:1338
 msgid "Obsolete"
-msgstr ""
+msgstr "I Léig"
 
 #: client/citydlg_common.c:341
 msgid "Great Wonder"
@@ -7896,7 +7896,7 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:908 client/gui-xaw/repodlgs.c:1099
 #: data/Freeciv.in:1895 data/helpdata.txt:915
 msgid "Units"
-msgstr ""
+msgstr "Aonaid"
 
 #. TRANS: Header "Number of units inside city"
 #: client/cityrepdata.c:472
@@ -8236,16 +8236,16 @@ msgstr ""
 #: client/climisc.c:283
 #, c-format
 msgid "The %s give shared vision"
-msgstr ""
+msgstr "Tugann na %s fís aontaithe"
 
 #: client/climisc.c:287
 #, c-format
 msgid "The %s give an embassy"
-msgstr ""
+msgstr "Tugann na %s ambasáid"
 
 #: client/climisc.c:892
 msgid "Popup Request"
-msgstr ""
+msgstr "Preabiarratas"
 
 #: client/climisc.c:946
 msgid "Exporting output window to civgame.log ..."
@@ -8253,7 +8253,7 @@ msgstr ""
 
 #: client/climisc.c:950
 msgid "Export complete."
-msgstr ""
+msgstr "Tá an easpórtáil críochnaithe."
 
 #: client/climisc.c:952
 msgid "Export failed, couldn't write to file."
@@ -8372,7 +8372,7 @@ msgstr ""
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:152
 #: client/gui-xaw/menu.c:256 manual/civmanual.c:212 data/helpdata.txt:1226
 msgid "Terrain"
-msgstr ""
+msgstr "Tír-raon"
 
 #: client/editor.c:142
 msgid ""
@@ -8417,7 +8417,7 @@ msgstr ""
 #: client/editor.c:156 client/gui-gtk-2.0/dialogs.c:572
 #: client/gui-gtk-2.0/editprop.c:606
 msgid "Unit"
-msgstr ""
+msgstr "Aonad"
 
 #: client/editor.c:158
 msgid ""
@@ -8429,7 +8429,7 @@ msgstr ""
 #: client/editor.c:160 client/gui-gtk-2.0/citydlg.c:1119
 #: client/gui-gtk-2.0/editprop.c:610
 msgid "City"
-msgstr ""
+msgstr "Cathair"
 
 #: client/editor.c:161
 msgid ""
@@ -8471,7 +8471,7 @@ msgstr ""
 
 #: client/editor.c:1651
 msgid "Paint"
-msgstr ""
+msgstr "Péinteáil"
 
 #: client/editor.c:1655
 msgid "Erase Value"
@@ -8479,15 +8479,15 @@ msgstr ""
 
 #: client/editor.c:1657
 msgid "Erase"
-msgstr ""
+msgstr "Bánaigh"
 
 #: client/editor.c:1661
 msgid "Copy"
-msgstr ""
+msgstr "Cóipeáil"
 
 #: client/editor.c:1664
 msgid "Paste"
-msgstr ""
+msgstr "Greamaigh"
 
 #: client/editor.c:1683
 msgid ""
@@ -9344,7 +9344,7 @@ msgstr ""
 
 #: client/mapctrl_common.c:421
 msgid "Clipboard is empty."
-msgstr ""
+msgstr "Tá an ghearrthaisce folamh."
 
 #: client/options.c:104
 msgid "Graphics"
@@ -9803,7 +9803,7 @@ msgstr ""
 
 #: client/packhand.c:1144
 msgid "Welcome"
-msgstr ""
+msgstr "Fáilte"
 
 #: client/packhand.c:1864
 msgid "AI mode is now ON."
@@ -9824,7 +9824,7 @@ msgstr ""
 
 #: client/plrdlg_common.c:209 client/gui-sdl/plrdlg.c:645
 msgid "done"
-msgstr ""
+msgstr "críochnaithe"
 
 #: client/plrdlg_common.c:211 client/gui-sdl/plrdlg.c:647
 msgid "moving"
@@ -10178,7 +10178,7 @@ msgstr ""
 #: client/text.c:494
 #, c-format
 msgid "from %s"
-msgstr ""
+msgstr "ó %s"
 
 #: client/text.c:555
 msgid "Progress: no research"
@@ -10728,7 +10728,7 @@ msgstr "?cma:Uasmhéid eolaíochta"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:87 client/gui-win32/dialogs.c:1373
 msgid "Ooops..."
-msgstr ""
+msgstr "Úps..."
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:88 client/gui-win32/dialogs.c:1374
 #: client/gui-xaw/diplomat_dialog.c:114
@@ -10771,11 +10771,11 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:652 client/gui-win32/dialogs.c:1288
 #: data/Freeciv.in:2292 data/Freeciv.in:2325 data/Freeciv.in:2342
 msgid "Steal Technology"
-msgstr ""
+msgstr "Goid Teicneolaíocht"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:240
 msgid "_Steal"
-msgstr ""
+msgstr "_Goid"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:249
 #: client/gui-sdl/diplomat_dialog.c:251 client/gui-win32/dialogs.c:1298
@@ -10798,21 +10798,21 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:379 client/gui-win32/dialogs.c:1488
 #: data/Freeciv.in:2384
 msgid "Sabotage Improvements"
-msgstr ""
+msgstr "Déan Sabaitéireacht ar Fheabhsúcháin"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:384
 msgid "_Sabotage"
-msgstr ""
+msgstr "_Sabaitéireacht"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:393
 #: client/gui-sdl/diplomat_dialog.c:848 client/gui-win32/dialogs.c:1498
 #: data/Freeciv.in:2399
 msgid "Select Improvement to Sabotage"
-msgstr ""
+msgstr "Roghnaigh an feabhsúchán le sabaitéireacht a dhéanamh air"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:413
 msgid "_Improvements:"
-msgstr ""
+msgstr "_Feabhsúcháin:"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:432
 #: client/gui-sdl/diplomat_dialog.c:876 client/gui-sdl/optiondlg.c:1610
@@ -10845,7 +10845,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:1138 client/gui-win32/dialogs.c:1567
 #: data/Freeciv.in:2450
 msgid "Incite a Revolt!"
-msgstr ""
+msgstr "Gríosaigh Éirí Amach!"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:562
 #: client/gui-sdl/diplomat_dialog.c:1238 client/gui-win32/dialogs.c:1572
@@ -10874,29 +10874,29 @@ msgstr ""
 #: client/gui-gtk-2.0/diplomat_dialog.c:656 client/gui-win32/dialogs.c:1618
 #: client/gui-win32/dialogs.c:1639
 msgid "Establish _Embassy"
-msgstr ""
+msgstr "Bunaigh _Ambasáid"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:633
 #: client/gui-gtk-2.0/diplomat_dialog.c:657 client/gui-win32/dialogs.c:1619
 #: client/gui-win32/dialogs.c:1640
 msgid "_Investigate City"
-msgstr ""
+msgstr "F_iosraigh Cathair"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:634 client/gui-win32/dialogs.c:1620
 msgid "_Sabotage City"
-msgstr ""
+msgstr "Déan _Sabaitéireacht ar Chathair"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:635
 #: client/gui-gtk-2.0/diplomat_dialog.c:660 client/gui-win32/dialogs.c:1621
 #: client/gui-win32/dialogs.c:1643
 msgid "Steal _Technology"
-msgstr ""
+msgstr "Goid _Teicneolaíocht"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:636
 #: client/gui-gtk-2.0/diplomat_dialog.c:661 client/gui-win32/dialogs.c:1622
 #: client/gui-win32/dialogs.c:1644
 msgid "Incite a _Revolt"
-msgstr ""
+msgstr "Gríosaigh Éi_rí Amach"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:637
 #: client/gui-gtk-2.0/diplomat_dialog.c:662
@@ -10912,17 +10912,17 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:658 client/gui-win32/dialogs.c:1641
 msgid "_Poison City"
-msgstr ""
+msgstr "_Nimhigh Cathair"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:659 client/gui-win32/dialogs.c:1642
 msgid "Industrial _Sabotage"
-msgstr ""
+msgstr "_Sabaitéireacht Thionsclaíoch"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:696
 #: client/gui-sdl/diplomat_dialog.c:563 client/gui-win32/dialogs.c:1669
 #: data/Freeciv.in:2437
 msgid "Subvert Enemy Unit"
-msgstr ""
+msgstr "Treascair Aonad Naimhdeach"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:698 client/gui-win32/dialogs.c:1671
 #: client/gui-xaw/diplomat_dialog.c:782
@@ -10936,11 +10936,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:700 client/gui-win32/dialogs.c:1673
 msgid "_Bribe Enemy Unit"
-msgstr ""
+msgstr "Ta_bhair Crúibín Cam d'Aonad Naimhdeach"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:701 client/gui-win32/dialogs.c:1674
 msgid "_Sabotage Enemy Unit"
-msgstr ""
+msgstr "Déan _Sabaitéireacht ar Aonad Naimhdeach"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:82
 #, c-format
@@ -11325,11 +11325,11 @@ msgstr ""
 #: client/gui-xaw/menu.c:222 data/Freeciv.in:410 data/Freeciv.in:419
 #: data/Freeciv.in:1561
 msgid "Cities"
-msgstr ""
+msgstr "Cathracha"
 
 #: client/gui-gtk-2.0/cityrep.c:1023
 msgid "_Inspect"
-msgstr ""
+msgstr "_Scrúdaigh"
 
 #: client/gui-gtk-2.0/cityrep.c:1443 client/gui-gtk-2.0/cityrep.c:1462
 #: client/gui-gtk-2.0/cityrep.c:1481 client/gui-gtk-2.0/cityrep.c:1500
@@ -11339,58 +11339,58 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:905 client/gui-sdl/helpdlg.c:299
 #: client/gui-win32/menu.c:346 client/gui-xaw/menu.c:251
 msgid "Improvements"
-msgstr ""
+msgstr "Feabhsúcháin"
 
 #: client/gui-gtk-2.0/cityrep.c:1445 client/gui-gtk-2.0/cityrep.c:1464
 #: client/gui-gtk-2.0/cityrep.c:1483 client/gui-gtk-2.0/cityrep.c:1502
 #: client/gui-gtk-2.0/cityrep.c:1526 client/gui-xaw/menu.c:257
 msgid "Wonders"
-msgstr ""
+msgstr "Iontais"
 
 #: client/gui-gtk-2.0/cityrep.c:1666 client/gui-win32/cityrep.c:442
 #: client/gui-win32/gotodlg.c:170 data/Freeciv.in:1138
 msgid "All Cities"
-msgstr ""
+msgstr "Gach Cathair"
 
 #: client/gui-gtk-2.0/cityrep.c:1671 client/gui-win32/cityrep.c:443
 msgid "No Cities"
-msgstr ""
+msgstr "Cathair Ar Bith"
 
 #: client/gui-gtk-2.0/cityrep.c:1676 client/gui-win32/cityrep.c:444
 msgid "Invert Selection"
-msgstr ""
+msgstr "Inbhéartaigh an Rogha"
 
 #: client/gui-gtk-2.0/cityrep.c:1686
 msgid "Building Units"
-msgstr ""
+msgstr "Aonaid á dTógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1692
 msgid "Building Improvements"
-msgstr ""
+msgstr "Feabhsúcháin á dTógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1698
 msgid "Building Wonders"
-msgstr ""
+msgstr "Iontais á dTógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1710
 msgid "Building Unit"
-msgstr ""
+msgstr "Aonad á Thógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1714
 msgid "Building Improvement"
-msgstr ""
+msgstr "Feabhsúchán á Thógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1718
 msgid "Building Wonder"
-msgstr ""
+msgstr "Iontas á Thógáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1726 client/gui-win32/cityrep.c:446
 msgid "Coastal Cities"
-msgstr ""
+msgstr "Cathracha Cois Fharraige"
 
 #: client/gui-gtk-2.0/cityrep.c:1731 client/gui-win32/cityrep.c:447
 msgid "Same Island"
-msgstr ""
+msgstr "An tOileán Céanna"
 
 #: client/gui-gtk-2.0/cityrep.c:1741 client/gui-win32/cityrep.c:450
 msgid "Supported Units"
@@ -11402,23 +11402,23 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cityrep.c:1748 client/gui-win32/cityrep.c:472
 msgid "Improvements in City"
-msgstr ""
+msgstr "Feabhsúcháin i gCathair"
 
 #: client/gui-gtk-2.0/cityrep.c:1752
 msgid "Wonders in City"
-msgstr ""
+msgstr "Iontais i gCathair"
 
 #: client/gui-gtk-2.0/cityrep.c:1761
 msgid "Available Units"
-msgstr ""
+msgstr "Aonaid Ar Fáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1764
 msgid "Available Improvements"
-msgstr ""
+msgstr "Feabhsúcháin Ar Fáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1767
 msgid "Available Wonders"
-msgstr ""
+msgstr "Iontais Ar Fáil"
 
 #: client/gui-gtk-2.0/cityrep.c:1884
 #, c-format
@@ -11435,51 +11435,51 @@ msgstr ""
 
 #: client/gui-gtk-2.0/cma_fe.c:271
 msgid "Prese_ts:"
-msgstr ""
+msgstr "_Réamhshocruithe:"
 
 #: client/gui-gtk-2.0/cma_fe.c:287
 msgid "Ne_w"
-msgstr ""
+msgstr "N_ua"
 
 #: client/gui-gtk-2.0/cma_fe.c:307 client/gui-win32/cma_fe.c:484
 #: client/gui-win32/repodlgs.c:380 client/gui-xaw/repodlgs.c:782
 msgid "Results"
-msgstr ""
+msgstr "Torthaí"
 
 #: client/gui-gtk-2.0/cma_fe.c:321 client/gui-sdl/cma_fe.c:890
 #: client/gui-win32/cma_fe.c:217
 msgid "Minimal Surplus"
-msgstr ""
+msgstr "Barrachas Íosta"
 
 #: client/gui-gtk-2.0/cma_fe.c:324 client/gui-sdl/cma_fe.c:893
 #: client/gui-win32/cma_fe.c:218
 msgid "Factor"
-msgstr ""
+msgstr "Fachtóir"
 
 #: client/gui-gtk-2.0/cma_fe.c:359 client/gui-sdl/cma_fe.c:940
 #: client/gui-win32/cma_fe.c:222 client/gui-xaw/cma_fe.c:181
 #: client/gui-xaw/cma_fe.c:223
 msgid "Celebrate"
-msgstr ""
+msgstr "Ceiliúir"
 
 #: client/gui-gtk-2.0/cma_fe.c:468
 msgid "Governor Enabl_ed"
-msgstr ""
+msgstr "Gobharnóir _Cumasaithe"
 
 #: client/gui-gtk-2.0/cma_fe.c:473
 msgid "Governor Disabl_ed"
-msgstr ""
+msgstr "Gobharnóir _Díchumasaithe"
 
 #: client/gui-gtk-2.0/cma_fe.c:541 client/gui-sdl/cma_fe.c:239
 #: client/gui-sdl/cma_fe.c:311 client/gui-win32/cma_fe.c:387
 #: client/gui-xaw/cma_fe.c:434
 msgid "new preset"
-msgstr ""
+msgstr "réamhshocrú nua"
 
 #: client/gui-gtk-2.0/cma_fe.c:545 client/gui-sdl/cma_fe.c:284
 #: client/gui-win32/cma_fe.c:385
 msgid "Name new preset"
-msgstr ""
+msgstr "Cuir ainm ar an réamhshocrú nua"
 
 #: client/gui-gtk-2.0/cma_fe.c:546 client/gui-sdl/cma_fe.c:300
 #: client/gui-win32/cma_fe.c:386
@@ -11496,17 +11496,17 @@ msgstr ""
 
 #: client/gui-gtk-2.0/dialogs.c:212 client/gui-gtk-2.0/messagewin.c:225
 msgid "Inspect _City"
-msgstr ""
+msgstr "Scrúdaigh _Cathair"
 
 #: client/gui-gtk-2.0/dialogs.c:297 client/gui-sdl/dialogs.c:2099
 #: client/gui-win32/dialogs.c:987 client/gui-xaw/dialogs.c:524
 msgid "You say you wanna revolution?"
-msgstr ""
+msgstr "An bhfuil tú ag iarraidh réabhlóid?"
 
 #: client/gui-gtk-2.0/dialogs.c:298 client/gui-sdl/dialogs.c:2118
 #: client/gui-win32/dialogs.c:986 data/Freeciv.in:2469
 msgid "Revolution!"
-msgstr ""
+msgstr "Réabhlóid!"
 
 #: client/gui-gtk-2.0/dialogs.c:351 client/gui-sdl/dialogs.c:1752
 #: client/gui-win32/dialogs.c:1759 data/Freeciv.in:2507
@@ -11527,7 +11527,7 @@ msgstr ""
 #: client/gui-win32/connectdlg.c:978 client/gui-win32/plrdlg.c:332
 #: manual/civmanual.c:299 data/Freeciv.in:80
 msgid "Name"
-msgstr ""
+msgstr "Ainm"
 
 #: client/gui-gtk-2.0/dialogs.c:585 client/gui-sdl/dialogs.c:635
 msgid "Unit selection"
@@ -11622,16 +11622,16 @@ msgstr ""
 #: client/gui-gtk-2.0/diplodlg.c:231 client/gui-win32/diplodlg.c:152
 #: client/gui-xaw/diplodlg.c:386 client/gui-xaw/diplodlg.c:404
 msgid "World-map"
-msgstr ""
+msgstr "Mapa an Domhain"
 
 #: client/gui-gtk-2.0/diplodlg.c:237 client/gui-win32/diplodlg.c:147
 #: client/gui-xaw/diplodlg.c:390 client/gui-xaw/diplodlg.c:408
 msgid "Sea-map"
-msgstr ""
+msgstr "Mapa na farraige"
 
 #: client/gui-gtk-2.0/diplodlg.c:243
 msgid "_Maps"
-msgstr ""
+msgstr "_Mapaí"
 
 #: client/gui-gtk-2.0/diplodlg.c:273
 msgid "_Advances"
@@ -11640,44 +11640,44 @@ msgstr ""
 #: client/gui-gtk-2.0/diplodlg.c:323 client/gui-gtk-2.0/menu.c:1033
 #: client/gui-win32/menu.c:403
 msgid "_Cities"
-msgstr ""
+msgstr "_Cathracha"
 
 #: client/gui-gtk-2.0/diplodlg.c:332
 msgid "_Give shared vision"
-msgstr ""
+msgstr "_Tabhair fís aontaithe"
 
 #: client/gui-gtk-2.0/diplodlg.c:345
 msgid "Give _embassy"
-msgstr ""
+msgstr "Tabhair _ambasáid"
 
 #: client/gui-gtk-2.0/diplodlg.c:375
 msgid "_Pacts"
-msgstr ""
+msgstr "_Comhaontuithe"
 
 #: client/gui-gtk-2.0/diplodlg.c:465
 #, c-format
 msgid "Diplomacy: %s"
-msgstr ""
+msgstr "Taidhleoireacht: %s"
 
 #: client/gui-gtk-2.0/diplodlg.c:472
 msgid "_Cancel meeting"
-msgstr ""
+msgstr "_Cealaigh cruinniú"
 
 #: client/gui-gtk-2.0/diplodlg.c:474
 msgid "Accept _treaty"
-msgstr ""
+msgstr "Glac le _conradh"
 
 #: client/gui-gtk-2.0/diplodlg.c:502
 msgid "C_lauses:"
-msgstr ""
+msgstr "C_lásail:"
 
 #: client/gui-gtk-2.0/diplodlg.c:567 client/gui-gtk-2.0/diplodlg.c:641
 msgid "_Gold:"
-msgstr ""
+msgstr "Ó_r:"
 
 #: client/gui-gtk-2.0/diplodlg.c:579 client/gui-gtk-2.0/diplodlg.c:653
 msgid "_Add Clause..."
-msgstr ""
+msgstr "_Cuir Clásal Leis..."
 
 #: client/gui-gtk-2.0/diplodlg.c:698
 msgid "--- This treaty is blank. Please add some clauses. ---"
@@ -11827,7 +11827,7 @@ msgstr "Eagar"
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-2.0/editprop.c:3191 client/gui-gtk-2.0/editprop.c:3216
 msgid "Present"
-msgstr ""
+msgstr "I Láthair"
 
 #: client/gui-gtk-2.0/editprop.c:3193 client/gui-gtk-2.0/editprop.c:3200
 #: client/gui-gtk-2.0/editprop.c:3218 client/gui-gtk-2.0/editprop.c:3230
@@ -11848,7 +11848,7 @@ msgstr ""
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-2.0/editprop.c:3228
 msgid "Set"
-msgstr ""
+msgstr "Socraithe"
 
 #: client/gui-gtk-2.0/editprop.c:3728 client/gui-gtk-2.0/editprop.c:3763
 #: client/gui-gtk-2.0/editprop.c:3789
@@ -11895,7 +11895,7 @@ msgstr "?coordinates:X,Y"
 #: client/gui-gtk-2.0/editprop.c:3752 client/gui-gtk-2.0/menu.c:907
 #: client/gui-win32/menu.c:352 client/gui-xaw/menu.c:158
 msgid "Specials"
-msgstr ""
+msgstr "Speisialta"
 
 #: client/gui-gtk-2.0/editprop.c:3754
 msgid "Bases"
@@ -11965,19 +11965,19 @@ msgstr "Bliain"
 
 #: client/gui-gtk-2.0/editprop.c:3825
 msgid "Scenario"
-msgstr ""
+msgstr "Cnámhscéal"
 
 #: client/gui-gtk-2.0/editprop.c:3827
 msgid "Scenario Name"
-msgstr ""
+msgstr "Ainm an Chnámhscéil"
 
 #: client/gui-gtk-2.0/editprop.c:3829
 msgid "Scenario Description"
-msgstr ""
+msgstr "Cur Síos ar an gCnámhscéal"
 
 #: client/gui-gtk-2.0/editprop.c:3832
 msgid "Save Players"
-msgstr ""
+msgstr "Sábháil Imreoirí"
 
 #: client/gui-gtk-2.0/editprop.c:4109
 msgid "Destroy"
@@ -12033,7 +12033,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/editprop.c:5363
 msgid "Property Editor"
-msgstr ""
+msgstr "Eagarthóir na nAiríonna"
 
 #. TRANS: Vision layer name. Feel free to leave untranslated.
 #: client/gui-gtk-2.0/editprop.c:5729
@@ -12065,7 +12065,7 @@ msgstr ""
 #: client/gui-win32/ratesdlg.c:320 client/gui-win32/ratesdlg.c:326
 #: data/Freeciv.in:1311 data/Freeciv.in:1329 data/Freeciv.in:1348
 msgid "Lock"
-msgstr ""
+msgstr "Cuir Faoi Ghlas"
 
 #: client/gui-gtk-2.0/gamedlgs.c:353 client/gui-win32/ratesdlg.c:333
 #: client/gui-xaw/ratesdlg.c:98
@@ -12319,7 +12319,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_main.c:1518
 msgid "Chat"
-msgstr ""
+msgstr "Comhrá"
 
 #: client/gui-gtk-2.0/gui_main.c:1548
 msgid "Allies Only"
@@ -12363,7 +12363,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:1941 client/gui-win32/dialogs.c:608
 #: client/gui-xaw/pages.c:220
 msgid "Random"
-msgstr ""
+msgstr "Randamach"
 
 #: client/gui-gtk-2.0/gui_main.c:2001 client/gui-gtk-2.0/gui_main.c:2015
 msgid "Observer"
@@ -12386,7 +12386,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/gui_stuff.c:577
 msgid "Ctrl+W"
-msgstr ""
+msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:112 client/gui-sdl/citydlg.c:2042
 #: client/gui-sdl/citydlg.c:3718 client/gui-win32/citydlg.c:734
@@ -12401,7 +12401,7 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:88
 #: data/Freeciv.in:636 data/Freeciv.in:778
 msgid "Cost:"
-msgstr ""
+msgstr "Costas:"
 
 #: client/gui-gtk-2.0/helpdlg.c:90 client/gui-sdl/helpdlg.c:353
 #: client/gui-sdl/helpdlg.c:745 client/gui-win32/helpdlg.c:81
@@ -12437,7 +12437,7 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:771
 #: client/gui-win32/helpdlg.c:89 data/Freeciv.in:831
 msgid "Move:"
-msgstr ""
+msgstr "Bog:"
 
 #: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:773
 #: client/gui-win32/helpdlg.c:90
@@ -12500,11 +12500,11 @@ msgstr ""
 #: client/gui-gtk-2.0/helpdlg.c:130 client/gui-xaw/helpdlg.c:125
 #: client/gui-xaw/menu.c:263 data/helpdata.txt:37
 msgid "About"
-msgstr ""
+msgstr "Eolas"
 
 #: client/gui-gtk-2.0/helpdlg.c:198 client/gui-xaw/helpdlg.c:272
 msgid "Removed"
-msgstr ""
+msgstr "Bainte"
 
 #: client/gui-gtk-2.0/helpdlg.c:428 client/gui-win32/helpdlg.c:426
 #: data/Freeciv.in:576
@@ -12513,11 +12513,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:656
 msgid "Expand All"
-msgstr ""
+msgstr "Leathnaigh Uile"
 
 #: client/gui-gtk-2.0/helpdlg.c:657
 msgid "Collapse All"
-msgstr ""
+msgstr "Laghdaigh Uile"
 
 #: client/gui-gtk-2.0/helpdlg.c:943 client/gui-gtk-2.0/helpdlg.c:973
 #: client/gui-gtk-2.0/helpdlg.c:985 client/gui-gtk-2.0/helpdlg.c:993
@@ -12531,7 +12531,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:997 client/gui-gtk-2.0/helpdlg.c:1014
 msgid "with"
-msgstr ""
+msgstr "le"
 
 #: client/gui-gtk-2.0/helpdlg.c:1002 client/gui-gtk-2.0/helpdlg.c:1019
 msgid "?techhelp:"
@@ -12556,7 +12556,7 @@ msgstr ""
 #: client/gui-xaw/helpdlg.c:1014 client/gui-xaw/helpdlg.c:1028
 #: client/gui-xaw/helpdlg.c:1047
 msgid "n/a"
-msgstr ""
+msgstr "n/a/f"
 
 #: client/gui-gtk-2.0/helpdlg.c:1081 client/gui-win32/helpdlg.c:616
 #: client/gui-xaw/helpdlg.c:1017
@@ -12749,11 +12749,11 @@ msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:859
 msgid "Game\\/Scenario Properties"
-msgstr ""
+msgstr "Airíonna an Chluiche/Chnámhscéil"
 
 #: client/gui-gtk-2.0/menu.c:861 client/gui-gtk-2.0/pages.c:2452
 msgid "Save Scenario"
-msgstr ""
+msgstr "Sábháil an Cnámhscéal"
 
 #: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1027
 #: client/gui-win32/menu.c:338
@@ -13008,11 +13008,11 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1010 client/gui-gtk-2.0/menu.c:1012
 #: client/gui-gtk-2.0/menu.c:1014 client/gui-win32/cityrep.c:885
 msgid "Select"
-msgstr ""
+msgstr "Roghnaigh"
 
 #: client/gui-gtk-2.0/menu.c:1006
 msgid "Single"
-msgstr ""
+msgstr "Singil"
 
 #: client/gui-gtk-2.0/menu.c:1008
 msgid "Same Type On Tile"
@@ -13037,7 +13037,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1018 client/gui-win32/menu.c:398
 #: client/gui-xaw/menu.c:217
 msgid "Done"
-msgstr ""
+msgstr "Críochnaithe"
 
 #: client/gui-gtk-2.0/menu.c:1020
 msgid "Build Base"
@@ -13055,7 +13055,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1045 client/gui-gtk-2.0/menu.c:1047
 #: client/gui-gtk-2.0/menu.c:1049 data/Freeciv.in:2030
 msgid "Reports"
-msgstr ""
+msgstr "Tuairiscí"
 
 #: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk-2.0/menu.c:1078
 #: client/gui-win32/menu.c:404 client/gui-win32/menu.c:429
@@ -13257,25 +13257,25 @@ msgstr ""
 
 #: client/gui-gtk-2.0/messagedlg.c:117
 msgid "Event"
-msgstr ""
+msgstr "Imeacht"
 
 #: client/gui-gtk-2.0/messagedlg.c:127
 msgid "Out"
-msgstr ""
+msgstr "Aschur"
 
 #: client/gui-gtk-2.0/messagedlg.c:134
 msgid "Mes"
-msgstr ""
+msgstr "Tchtaí"
 
 #: client/gui-gtk-2.0/messagedlg.c:141
 msgid "Pop"
-msgstr ""
+msgstr "Preab"
 
 #: client/gui-gtk-2.0/messagewin.c:185 client/gui-sdl/messagewin.c:247
 #: client/gui-win32/messagewin.c:131 client/gui-xaw/menu.c:232
 #: data/Freeciv.in:3280 data/Freeciv.in:3281 data/Freeciv.in:3290
 msgid "Messages"
-msgstr ""
+msgstr "Teachtaireachtaí"
 
 #: client/gui-gtk-2.0/plrdlg.c:318
 msgid "_Meet"
@@ -13329,7 +13329,7 @@ msgstr "Tosaigh Cluiche _Nua"
 
 #: client/gui-gtk-2.0/pages.c:223
 msgid "Start _Scenario Game"
-msgstr ""
+msgstr "To_saigh Cluiche Cnámhscéil"
 
 #: client/gui-gtk-2.0/pages.c:229
 msgid "_Load Saved Game"
@@ -13502,7 +13502,7 @@ msgstr "_Tuilleadh Roghanna..."
 
 #: client/gui-gtk-2.0/pages.c:1608
 msgid "Record"
-msgstr ""
+msgstr "Taifead"
 
 #: client/gui-gtk-2.0/pages.c:1610
 msgid "Rating"
@@ -13531,15 +13531,15 @@ msgstr "_Brabhsáil..."
 
 #: client/gui-gtk-2.0/pages.c:1910
 msgid "Choose a Scenario"
-msgstr ""
+msgstr "Roghnaigh Cnámhscéal"
 
 #: client/gui-gtk-2.0/pages.c:1996
 msgid "Choose a _Scenario:"
-msgstr ""
+msgstr "Roghnaigh Cnámh_scéal:"
 
 #: client/gui-gtk-2.0/pages.c:2171
 msgid "Choose a _nation to play:"
-msgstr ""
+msgstr "Roghnaigh _náisiún:"
 
 #: client/gui-gtk-2.0/pages.c:2361 client/gui-win32/menu.c:585
 msgid "Select Location to Save"
@@ -13578,7 +13578,7 @@ msgstr ""
 #: client/gui-gtk-2.0/repodlgs.c:324 client/gui-win32/repodlgs.c:293
 #: data/Freeciv.in:1429
 msgid "Goal"
-msgstr "Aidhm"
+msgstr "Sprioc"
 
 #: client/gui-gtk-2.0/repodlgs.c:643
 msgid "?Building:Name"
@@ -13586,7 +13586,7 @@ msgstr "?Building:Ainm"
 
 #: client/gui-gtk-2.0/repodlgs.c:644 client/gui-win32/repodlgs.c:462
 msgid "Count"
-msgstr ""
+msgstr "Líon"
 
 #: client/gui-gtk-2.0/repodlgs.c:645 client/gui-gtk-2.0/wldlg.c:1010
 #: client/gui-win32/citydlg.c:1094 client/gui-win32/repodlgs.c:466
@@ -13645,7 +13645,7 @@ msgstr ""
 
 #: client/gui-gtk-2.0/repodlgs.c:959 client/gui-win32/repodlgs.c:707
 msgid "Active"
-msgstr ""
+msgstr "Gníomhach"
 
 #: client/gui-gtk-2.0/repodlgs.c:1032
 msgid "Find _Nearest"
@@ -13886,20 +13886,20 @@ msgstr ""
 
 #: client/gui-sdl/chatline.c:816 client/gui-win32/connectdlg.c:1094
 msgid "Back"
-msgstr ""
+msgstr "Siar"
 
 #: client/gui-sdl/chatline.c:827 data/Freeciv.in:3386
 msgid "Start"
-msgstr ""
+msgstr "Tosaigh"
 
 #: client/gui-sdl/chatline.c:848 client/gui-sdl/pages.c:179
 #: client/gui-win32/connectdlg.c:775
 msgid "Load Game"
-msgstr ""
+msgstr "Luchtaigh Cluiche"
 
 #: client/gui-sdl/chatline.c:860
 msgid "Server Settings"
-msgstr ""
+msgstr "Socruithe an Fhreastalaí"
 
 #: client/gui-sdl/citydlg.c:425
 msgid "Unit commands"
@@ -13948,7 +13948,7 @@ msgstr ""
 #: data/Freeciv.in:2512 data/Freeciv.in:2522 data/Freeciv.in:3371
 #: data/Freeciv.in:3429
 msgid "Cancel"
-msgstr ""
+msgstr "Cealaigh"
 
 #: client/gui-sdl/citydlg.c:726 client/gui-sdl/mapview.c:770
 msgid ""
@@ -13988,7 +13988,7 @@ msgstr ""
 #: data/Freeciv.in:2250 data/Freeciv.in:2430 data/Freeciv.in:2454
 #: data/Freeciv.in:2473 data/Freeciv.in:2484
 msgid "No"
-msgstr ""
+msgstr "Níl"
 
 #: client/gui-sdl/citydlg.c:1215 client/gui-sdl/cma_fe.c:321
 #: client/gui-sdl/diplodlg.c:1342 client/gui-sdl/diplomat_dialog.c:1202
@@ -14003,7 +14003,7 @@ msgstr ""
 #: data/Freeciv.in:2229 data/Freeciv.in:2248 data/Freeciv.in:2428
 #: data/Freeciv.in:2452 data/Freeciv.in:2471 data/Freeciv.in:2482
 msgid "Yes"
-msgstr ""
+msgstr "Tá"
 
 #: client/gui-sdl/citydlg.c:1393
 msgid "Sell it?"
@@ -14011,7 +14011,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:1426 client/gui-win32/citydlg.c:795
 msgid "Sell"
-msgstr ""
+msgstr "Díol"
 
 #: client/gui-sdl/citydlg.c:1734 client/gui-sdl/citydlg.c:3763
 msgid "City options"
@@ -14148,7 +14148,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:3019 client/gui-sdl/citydlg.c:3131
 msgid "Stock"
-msgstr ""
+msgstr "Stoc"
 
 #: client/gui-sdl/citydlg.c:3030 data/default/buildings.ruleset:322
 #: data/civ2/buildings.ruleset:301 data/civ1/buildings.ruleset:248
@@ -14157,7 +14157,7 @@ msgstr ""
 
 #: client/gui-sdl/citydlg.c:3305
 msgid "finished"
-msgstr ""
+msgstr "críochnaithe"
 
 #: client/gui-sdl/citydlg.c:3598
 #, c-format
@@ -14194,7 +14194,7 @@ msgstr ""
 
 #: client/gui-sdl/cityrep.c:163
 msgid "size"
-msgstr ""
+msgstr "méid"
 
 #: client/gui-sdl/cityrep.c:168
 msgid ""
@@ -14238,7 +14238,7 @@ msgstr ""
 
 #: client/gui-sdl/cma_fe.c:455 client/gui-win32/cma_fe.c:460
 msgid "Presets"
-msgstr ""
+msgstr "Réamhshocruithe"
 
 #: client/gui-sdl/cma_fe.c:858
 #, c-format
@@ -14297,17 +14297,17 @@ msgstr ""
 #: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1096
 #: client/gui-win32/menu.c:383 data/Freeciv.in:104 data/Freeciv.in:2517
 msgid "Connect"
-msgstr ""
+msgstr "Ceangail"
 
 #: client/gui-sdl/connectdlg.c:795 client/gui-sdl/connectdlg.c:978
 #: client/gui-xaw/connectdlg.c:146
 msgid "Next"
-msgstr ""
+msgstr "Ar Aghaidh"
 
 #: client/gui-sdl/dialogs.c:471 client/gui-sdl/menu.c:438
 #: client/gui-win32/repodlgs.c:733 data/Freeciv.in:1951
 msgid "Upgrade"
-msgstr ""
+msgstr "Uasghrádú"
 
 #: client/gui-sdl/dialogs.c:668
 #, c-format
@@ -14398,12 +14398,12 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:2246 client/gui-sdl/dialogs.c:2634
 #: client/gui-win32/dialogs.c:581 data/Freeciv.in:3166
 msgid "Female"
-msgstr ""
+msgstr "Baineannach"
 
 #: client/gui-sdl/dialogs.c:2248 client/gui-sdl/dialogs.c:2632
 #: client/gui-sdl/dialogs.c:2844 client/gui-win32/dialogs.c:579
 msgid "Male"
-msgstr ""
+msgstr "Fireannach"
 
 #: client/gui-sdl/dialogs.c:2699 client/gui-win32/dialogs.c:519
 msgid "What nation will you be?"
@@ -14417,31 +14417,31 @@ msgstr ""
 #: client/gui-sdl/diplodlg.c:510 client/gui-win32/diplodlg.c:620
 #: client/gui-win32/diplodlg.c:672
 msgid "Give shared vision"
-msgstr ""
+msgstr "Tabhair fís aontaithe"
 
 #: client/gui-sdl/diplodlg.c:524 client/gui-win32/diplodlg.c:611
 #: client/gui-win32/diplodlg.c:663 data/Freeciv.in:374 data/Freeciv.in:383
 msgid "Maps"
-msgstr ""
+msgstr "Mapaí"
 
 #: client/gui-sdl/diplodlg.c:532
 msgid "World map"
-msgstr ""
+msgstr "Mapa an Domhain"
 
 #: client/gui-sdl/diplodlg.c:546
 msgid "Sea map"
-msgstr ""
+msgstr "Mapa na farraige"
 
 #: client/gui-sdl/diplodlg.c:562
 msgid "Give embassy"
-msgstr ""
+msgstr "Tabhair ambasáid"
 
 #: client/gui-sdl/diplodlg.c:578 client/gui-win32/diplodlg.c:616
 #: client/gui-win32/diplodlg.c:668 client/gui-xaw/diplodlg.c:481
 #: client/gui-xaw/diplodlg.c:488
 #, c-format
 msgid "Gold(max %d)"
-msgstr ""
+msgstr "Ór (uas %d)"
 
 #: client/gui-sdl/diplodlg.c:611 client/gui-sdl/helpdlg.c:1970
 #: client/gui-win32/diplodlg.c:612 client/gui-win32/diplodlg.c:664
@@ -14452,17 +14452,17 @@ msgstr ""
 #: client/gui-sdl/diplodlg.c:828 client/gui-win32/diplodlg.c:600
 #: data/Freeciv.in:269
 msgid "Diplomacy meeting"
-msgstr ""
+msgstr "Cruinniú taidhleoireachta"
 
 #: client/gui-sdl/diplodlg.c:880 client/gui-win32/diplodlg.c:682
 #: data/Freeciv.in:510
 msgid "Cancel meeting"
-msgstr ""
+msgstr "Cealaigh cruinniú"
 
 #: client/gui-sdl/diplodlg.c:892 client/gui-win32/diplodlg.c:681
 #: data/Freeciv.in:501
 msgid "Accept treaty"
-msgstr ""
+msgstr "Glac le conradh"
 
 #. TRANS: "Polish incident !" FIXME!!!
 #: client/gui-sdl/diplodlg.c:1301
@@ -14509,7 +14509,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:592 data/Freeciv.in:2285
 #: data/Freeciv.in:2311
 msgid "Establish Embassy"
-msgstr ""
+msgstr "Bunaigh Ambasáid"
 
 #: client/gui-sdl/diplomat_dialog.c:607 data/Freeciv.in:2287
 msgid "Investigate City"
@@ -14526,7 +14526,7 @@ msgstr ""
 #: client/gui-sdl/diplomat_dialog.c:667 data/Freeciv.in:2295
 #: data/Freeciv.in:2328
 msgid "Incite a Revolt"
-msgstr ""
+msgstr "Gríosaigh Éirí Amach"
 
 #: client/gui-sdl/diplomat_dialog.c:718 data/Freeciv.in:2441
 msgid "Sabotage Enemy Unit"
@@ -14588,7 +14588,7 @@ msgstr ""
 
 #: client/gui-sdl/gui_main.c:152
 msgid "Full Screen"
-msgstr ""
+msgstr "Lánscáileán"
 
 #: client/gui-sdl/gui_main.c:153
 msgid ""
@@ -14660,7 +14660,7 @@ msgstr ""
 
 #: client/gui-sdl/helpdlg.c:404
 msgid "Never"
-msgstr ""
+msgstr "Riamh"
 
 #: client/gui-sdl/helpdlg.c:602
 msgid "Help : Units"
@@ -14795,7 +14795,7 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:732 client/gui-sdl/mapctrl.c:1076
 msgid "Exit"
-msgstr ""
+msgstr "Scoir"
 
 #: client/gui-sdl/mapctrl.c:1030
 msgid "Scale Unit Info"
@@ -14803,11 +14803,11 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1040
 msgid "Width"
-msgstr ""
+msgstr "Leithead"
 
 #: client/gui-sdl/mapctrl.c:1044
 msgid "Height"
-msgstr ""
+msgstr "Airde"
 
 #: client/gui-sdl/mapctrl.c:1424 client/gui-sdl/mapview.c:316
 #: client/gui-sdl/mapview.c:319 client/gui-xaw/menu.c:135
@@ -14816,7 +14816,7 @@ msgstr ""
 
 #: client/gui-sdl/mapctrl.c:1590
 msgid "or"
-msgstr ""
+msgstr "nó"
 
 #: client/gui-sdl/mapctrl.c:1614
 msgid "Hide Messages"
@@ -14830,7 +14830,7 @@ msgstr ""
 #: client/gui-sdl/optiondlg.c:2249 client/gui-sdl/pages.c:235
 #: data/Freeciv.in:1217
 msgid "Options"
-msgstr ""
+msgstr "Roghanna"
 
 #: client/gui-sdl/mapview.c:156
 msgid "The SDL event buffer is full; you may see drawing errors as a result."
@@ -15015,11 +15015,11 @@ msgstr ""
 
 #: client/gui-sdl/menu.c:613 client/gui-xaw/menu.c:194
 msgid "Load"
-msgstr ""
+msgstr "Luchtaigh"
 
 #: client/gui-sdl/menu.c:625 client/gui-xaw/menu.c:195
 msgid "Unload"
-msgstr ""
+msgstr "Díluchtaigh"
 
 #: client/gui-sdl/menu.c:637
 msgid "Find Homecity"
@@ -15228,21 +15228,21 @@ msgstr ""
 
 #: client/gui-sdl/optiondlg.c:2370
 msgid "Leave Game"
-msgstr ""
+msgstr "Tréig an Cluiche"
 
 #: client/gui-sdl/optiondlg.c:2385 client/gui-sdl/pages.c:249
 #: client/gui-win32/connectdlg.c:1098 client/gui-xaw/menu.c:125
 #: data/Freeciv.in:115 data/Freeciv.in:3187
 msgid "Quit"
-msgstr ""
+msgstr "Scoir"
 
 #: client/gui-sdl/pages.c:164 client/gui-win32/connectdlg.c:958
 msgid "Start New Game"
-msgstr ""
+msgstr "Tosaigh Cluiche Nua"
 
 #: client/gui-sdl/pages.c:193
 msgid "Join Game"
-msgstr ""
+msgstr "Téigh i gCluiche"
 
 #: client/gui-sdl/pages.c:207
 msgid "Join Pubserver"
@@ -15258,11 +15258,11 @@ msgstr ""
 
 #: client/gui-sdl/plrdlg.c:650
 msgid "disconnected"
-msgstr ""
+msgstr "dícheangailte"
 
 #: client/gui-sdl/repodlgs.c:334
 msgid "active"
-msgstr ""
+msgstr "gníomhach"
 
 #: client/gui-sdl/repodlgs.c:339
 msgid ""
@@ -15278,7 +15278,7 @@ msgstr ""
 
 #: client/gui-sdl/repodlgs.c:347
 msgid "Total"
-msgstr ""
+msgstr "Iomlán"
 
 #: client/gui-sdl/repodlgs.c:358
 msgid "Units Report"
@@ -15333,7 +15333,7 @@ msgstr ""
 #: client/gui-sdl/repodlgs.c:1977 client/gui-win32/connectdlg.c:1081
 #: client/gui-win32/connectdlg.c:1089 data/Freeciv.in:155
 msgid "Update"
-msgstr ""
+msgstr "Nuashonraigh"
 
 #: client/gui-sdl/repodlgs.c:2062 client/gui-sdl/wldlg.c:1344
 msgid "Wonder"
@@ -15385,7 +15385,7 @@ msgstr ""
 #: client/gui-sdl/spaceshipdlg.c:172 client/gui-win32/spaceshipdlg.c:243
 #: data/Freeciv.in:1709
 msgid "Launch"
-msgstr ""
+msgstr "Tosaigh"
 
 #: client/gui-sdl/sprite.c:60
 #, c-format
@@ -15550,7 +15550,7 @@ msgstr ""
 #: data/Freeciv.in:1387 data/Freeciv.in:1637 data/Freeciv.in:1793
 #: data/Freeciv.in:2096
 msgid "Change"
-msgstr ""
+msgstr "Athraigh"
 
 #: client/gui-win32/citydlg.c:821
 msgid "Units present"
@@ -15573,12 +15573,12 @@ msgstr ""
 #: data/Freeciv.in:2409 data/Freeciv.in:3060 data/Freeciv.in:3230
 #: data/Freeciv.in:3314
 msgid "Close"
-msgstr ""
+msgstr "Dún"
 
 #: client/gui-win32/citydlg.c:829 client/gui-win32/wldlg.c:434
 #: data/Freeciv.in:2001
 msgid "Rename"
-msgstr ""
+msgstr "Athainmnigh"
 
 #: client/gui-win32/citydlg.c:833 data/Freeciv.in:3069
 msgid "Activate Units"
@@ -15600,13 +15600,13 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1421 client/gui-win32/dialogs.c:988
 #: client/gui-win32/dialogs.c:1382 client/gui-win32/dialogs.c:1568
 msgid "_Yes"
-msgstr ""
+msgstr "_Tá"
 
 #: client/gui-win32/citydlg.c:912 client/gui-win32/citydlg.c:967
 #: client/gui-win32/citydlg.c:1423 client/gui-win32/dialogs.c:989
 #: client/gui-win32/dialogs.c:1383 client/gui-win32/dialogs.c:1569
 msgid "_No"
-msgstr ""
+msgstr "_Ní"
 
 #: client/gui-win32/citydlg.c:920 client/gui-win32/citydlg.c:1428
 #: client/gui-win32/dialogs.c:1390 client/gui-win32/dialogs.c:1561
@@ -15690,11 +15690,11 @@ msgstr ""
 
 #: client/gui-win32/cityrep.c:744 data/Freeciv.in:1745
 msgid "From:"
-msgstr ""
+msgstr "Ó:"
 
 #: client/gui-win32/cityrep.c:752 data/Freeciv.in:1755
 msgid "To:"
-msgstr ""
+msgstr "Chuig:"
 
 #: client/gui-win32/cityrep.c:879 client/gui-win32/finddlg.c:126
 #: data/Freeciv.in:1085 data/Freeciv.in:1613
@@ -15703,7 +15703,7 @@ msgstr "Lár"
 
 #: client/gui-win32/cityrep.c:880 data/Freeciv.in:1621
 msgid "Popup"
-msgstr ""
+msgstr "Preabfhuinneog"
 
 #: client/gui-win32/cityrep.c:883
 msgid "Change All"
@@ -15712,11 +15712,11 @@ msgstr ""
 #: client/gui-win32/cityrep.c:884 client/gui-win32/repodlgs.c:735
 #: data/Freeciv.in:1653 data/Freeciv.in:1800 data/Freeciv.in:1959
 msgid "Refresh"
-msgstr ""
+msgstr "Athnuaigh"
 
 #: client/gui-win32/cityrep.c:886
 msgid "Configure"
-msgstr ""
+msgstr "Cumraigh"
 
 #: client/gui-win32/cityrep.c:888 client/gui-win32/cityrep.c:1154
 msgid "City Advisor"
@@ -15744,16 +15744,16 @@ msgstr ""
 
 #: client/gui-win32/cma_fe.c:469
 msgid "New"
-msgstr ""
+msgstr "Nua"
 
 #: client/gui-win32/cma_fe.c:472 client/gui-win32/wldlg.c:436
 #: data/Freeciv.in:2016 data/Freeciv.in:2165
 msgid "Delete"
-msgstr ""
+msgstr "Scrios"
 
 #: client/gui-win32/connectdlg.c:148
 msgid "Password:"
-msgstr ""
+msgstr "Focal Faire:"
 
 #: client/gui-win32/connectdlg.c:170
 msgid "Couldn't load the savegame"
@@ -15797,47 +15797,47 @@ msgstr ""
 
 #: client/gui-win32/connectdlg.c:1034 client/gui-win32/repodlgs.c:931
 msgid "Game Options"
-msgstr ""
+msgstr "Roghanna Cluiche"
 
 #: client/gui-win32/connectdlg.c:1038
 msgid "Start Game"
-msgstr ""
+msgstr "Tosaigh Cluiche"
 
 #: client/gui-win32/connectdlg.c:1057
 msgid "Login:"
-msgstr ""
+msgstr "Logáil Isteach:"
 
 #: client/gui-win32/connectdlg.c:1059
 msgid "Host:"
-msgstr ""
+msgstr "Óstríomhaire:"
 
 #: client/gui-win32/connectdlg.c:1060
 msgid "Port:"
-msgstr ""
+msgstr "Port:"
 
 #: client/gui-win32/dialogs.c:192 data/Freeciv.in:549
 msgid "Goto and Close"
-msgstr ""
+msgstr "Téigh agus Dún"
 
 #: client/gui-win32/dialogs.c:569
 msgid "Leader:"
-msgstr ""
+msgstr "Ceannaire:"
 
 #: client/gui-win32/dialogs.c:589
 msgid "City Style:"
-msgstr ""
+msgstr "Stíl na Cathrach:"
 
 #: client/gui-win32/dialogs.c:793
 msgid "Unit Selection"
-msgstr ""
+msgstr "Roghnú Aonad"
 
 #: client/gui-win32/dialogs.c:1208 client/gui-xaw/diplomat_dialog.c:399
 msgid "NONE"
-msgstr ""
+msgstr "FAIC"
 
 #: client/gui-win32/dialogs.c:1302 data/Freeciv.in:2373
 msgid "Steal"
-msgstr ""
+msgstr "Goid"
 
 #: client/gui-win32/diplodlg.c:608 client/gui-win32/diplodlg.c:660
 #: client/gui-xaw/diplodlg.c:359 client/gui-xaw/diplodlg.c:367
@@ -15859,7 +15859,7 @@ msgstr ""
 #: client/gui-xaw/diplodlg.c:581 client/gui-xaw/diplodlg.c:593
 #, c-format
 msgid "%s view:"
-msgstr ""
+msgstr "Amharc %s:"
 
 #: client/gui-win32/diplodlg.c:674
 msgid "Erase Clause"
@@ -15867,7 +15867,7 @@ msgstr ""
 
 #: client/gui-win32/finddlg.c:122 data/Freeciv.in:1067
 msgid "Select a city:"
-msgstr ""
+msgstr "Roghnaigh cathair:"
 
 #: client/gui-win32/gui_main.c:126
 msgid "Enable alpha blending"
@@ -15884,11 +15884,11 @@ msgstr ""
 #: client/gui-win32/helpdlg.c:840 client/gui-win32/helpdlg.c:846
 #: client/gui-win32/helpdlg.c:859
 msgid "Allows "
-msgstr ""
+msgstr "Ceadaíonn "
 
 #: client/gui-win32/helpdlg.c:812
 msgid "Obsoletes "
-msgstr ""
+msgstr "Cuireann i léig "
 
 #: client/gui-win32/helpdlg.c:849 client/gui-win32/helpdlg.c:862
 msgid " (with "
@@ -15924,17 +15924,17 @@ msgstr "Só: %d%%"
 
 #: client/gui-win32/inteldlg.c:130 client/gui-xaw/inteldlg.c:243
 msgid "Researching: (Unknown)"
-msgstr ""
+msgstr "Taighde: (Anaithnid)"
 
 #: client/gui-win32/inteldlg.c:133 client/gui-xaw/inteldlg.c:246
 #, c-format
 msgid "Researching: Unknown(%d/-)"
-msgstr ""
+msgstr "Taighde: Anaithnid(%d/-)"
 
 #: client/gui-win32/inteldlg.c:137 client/gui-xaw/inteldlg.c:250
 #, c-format
 msgid "Researching: %s(%d/%d)"
-msgstr ""
+msgstr "Taighde: %s(%d/%d)"
 
 #: client/gui-win32/inteldlg.c:146 client/gui-xaw/inteldlg.c:264
 #, c-format
@@ -15949,6 +15949,10 @@ msgid ""
 "Gold: %d\n"
 "Tax: %d Lux: %d Sci: %d"
 msgstr ""
+"Daonra: %s\n"
+"Bliain: %s\n"
+"Ór: %d\n"
+"Cáin: %d Só: %d Eol: %d"
 
 #: client/gui-win32/menu.c:308
 msgid "Local _Options"
@@ -15956,7 +15960,7 @@ msgstr "R_oghanna Logánta"
 
 #: client/gui-win32/menu.c:309
 msgid "_Message Options"
-msgstr ""
+msgstr "Roghanna _Teachtaireachta"
 
 #: client/gui-win32/menu.c:310
 msgid "Sa_ve Settings"
@@ -16049,7 +16053,7 @@ msgstr ""
 #: data/Freeciv.in:1245 data/Freeciv.in:1278 data/Freeciv.in:1355
 #: data/Freeciv.in:1550 data/Freeciv.in:3426
 msgid "Ok"
-msgstr ""
+msgstr "OK"
 
 #: client/gui-win32/messagewin.c:150 data/Freeciv.in:3329
 msgid "Popup City"
@@ -16118,7 +16122,7 @@ msgstr ""
 
 #: client/gui-win32/repodlgs.c:675
 msgid "Totals"
-msgstr ""
+msgstr "Iomláin"
 
 #: client/gui-win32/wldlg.c:368
 msgid "Rename Worklist"
@@ -16134,7 +16138,7 @@ msgstr ""
 
 #: client/gui-win32/wldlg.c:435 data/Freeciv.in:2010 data/Freeciv.in:2159
 msgid "Insert"
-msgstr ""
+msgstr "Ionsáigh"
 
 #: client/gui-win32/wldlg.c:827 data/Freeciv.in:2120
 msgid "Current worklist"
@@ -16142,15 +16146,15 @@ msgstr ""
 
 #: client/gui-win32/wldlg.c:833 data/Freeciv.in:2171
 msgid "Up"
-msgstr ""
+msgstr "Suas"
 
 #: client/gui-win32/wldlg.c:834 data/Freeciv.in:2177
 msgid "Down"
-msgstr ""
+msgstr "Síos"
 
 #: client/gui-win32/wldlg.c:835
 msgid "Remove"
-msgstr ""
+msgstr "Bain"
 
 #: client/gui-win32/wldlg.c:839
 msgid "Available items"
@@ -16162,7 +16166,7 @@ msgstr ""
 
 #: client/gui-win32/wldlg.c:853
 msgid "Undo"
-msgstr ""
+msgstr "Cealaigh"
 
 #: client/gui-xaw/citydlg.c:207
 #, c-format
@@ -16307,11 +16311,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:115
 msgid "Local Options"
-msgstr ""
+msgstr "Roghanna Logánta"
 
 #: client/gui-xaw/menu.c:117
 msgid "Save Settings"
-msgstr ""
+msgstr "Sábháil na Socruithe"
 
 #: client/gui-xaw/menu.c:119
 msgid "Server Options"
@@ -16323,11 +16327,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:122
 msgid "Clear Log"
-msgstr ""
+msgstr "Bánaigh Logchomhad"
 
 #: client/gui-xaw/menu.c:124 data/Freeciv.in:3185
 msgid "Disconnect"
-msgstr ""
+msgstr "Dícheangail"
 
 #: client/gui-xaw/menu.c:130
 msgid "Tax Rates"
@@ -16363,7 +16367,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:205
 msgid "Go to"
-msgstr ""
+msgstr "Téigh go"
 
 #: client/gui-xaw/menu.c:215
 msgid "Select Same Type"
@@ -16375,7 +16379,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:233
 msgid "Demographics"
-msgstr ""
+msgstr "Déimeagrafaic"
 
 #: client/gui-xaw/menu.c:239
 msgid "Editing Mode"
@@ -16383,11 +16387,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:240
 msgid "Tools"
-msgstr ""
+msgstr "Uirlisí"
 
 #: client/gui-xaw/menu.c:245 data/helpdata.txt:378
 msgid "Languages"
-msgstr ""
+msgstr "Teangacha"
 
 #: client/gui-xaw/menu.c:246 data/helpdata.txt:401
 msgid "Connecting"
@@ -16395,7 +16399,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:247 data/helpdata.txt:428
 msgid "Controls"
-msgstr ""
+msgstr "Rialtáin"
 
 #: client/gui-xaw/menu.c:248 data/helpdata.txt:546
 msgid "Chatline"
@@ -16407,7 +16411,7 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:253 data/helpdata.txt:992
 msgid "Combat"
-msgstr ""
+msgstr "Comhrac"
 
 #: client/gui-xaw/menu.c:254
 msgid "ZOC"
@@ -16415,11 +16419,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:255 data/helpdata.txt:893
 msgid "Technology"
-msgstr ""
+msgstr "Teicneolaíocht"
 
 #: client/gui-xaw/menu.c:258 data/Freeciv.in:2027 data/helpdata.txt:1326
 msgid "Government"
-msgstr ""
+msgstr "Rialtas"
 
 #: client/gui-xaw/menu.c:260 data/helpdata.txt:1470
 msgid "Space Race"
@@ -16427,11 +16431,11 @@ msgstr ""
 
 #: client/gui-xaw/menu.c:262 data/helpdata.txt:76
 msgid "Copying"
-msgstr ""
+msgstr "Cóipeáil"
 
 #: client/gui-xaw/pages.c:214
 msgid "<AI>"
-msgstr ""
+msgstr "<AI>"
 
 #: client/gui-xaw/repodlgs.c:232 client/gui-xaw/repodlgs.c:509
 #, c-format
@@ -16440,7 +16444,7 @@ msgstr ""
 
 #: client/gui-xaw/repodlgs.c:235 client/gui-xaw/repodlgs.c:512
 msgid "unknown"
-msgstr ""
+msgstr "anaithnid"
 
 #: client/gui-xaw/repodlgs.c:238 client/gui-xaw/repodlgs.c:515
 #, c-format
@@ -16451,16 +16455,16 @@ msgstr ""
 #: client/gui-xaw/repodlgs.c:525 client/gui-xaw/repodlgs.c:530
 #, c-format
 msgid "Goal: %s (%d steps)"
-msgstr ""
+msgstr "Sprioc: %s (%d céim)"
 
 #: client/gui-xaw/repodlgs.c:931
 msgid "Totals: ..."
-msgstr ""
+msgstr "Iomláin: ..."
 
 #: client/gui-xaw/repodlgs.c:1162
 #, c-format
 msgid "Totals:                     %9d%9d%9d%9d"
-msgstr ""
+msgstr "Iomláin:                    %9d%9d%9d%9d"
 
 #: manual/civmanual.c:120
 #, c-format
@@ -16477,12 +16481,12 @@ msgstr ""
 #: manual/civmanual.c:140
 #, c-format
 msgid "Level: %s.<br>"
-msgstr ""
+msgstr "Leibhéal: %s.<br>"
 
 #: manual/civmanual.c:141
 #, c-format
 msgid "Category: %s.<br>"
-msgstr ""
+msgstr "Catagóir: %s.<br>"
 
 #: manual/civmanual.c:144
 #, c-format
@@ -16574,7 +16578,7 @@ msgstr ""
 #: manual/civmanual.c:213 data/default/terrain.ruleset:799
 #: data/civ2/terrain.ruleset:685 data/civ1/terrain.ruleset:624
 msgid "Resources"
-msgstr ""
+msgstr "Acmhainní"
 
 #: manual/civmanual.c:214
 msgid "Move cost"
@@ -16606,7 +16610,7 @@ msgstr ""
 
 #: manual/civmanual.c:254 manual/civmanual.c:264
 msgid "impossible"
-msgstr ""
+msgstr "dodhéanta"
 
 #: manual/civmanual.c:292
 #, c-format
@@ -16648,11 +16652,11 @@ msgstr ""
 
 #: data/Freeciv.in:68
 msgid "Connect to Freeciv Server"
-msgstr ""
+msgstr "Ceangail le Freastalaí Freeciv"
 
 #: data/Freeciv.in:111
 msgid "LAN Servers"
-msgstr ""
+msgstr "Freastalaithe Logánta"
 
 #: data/Freeciv.in:129
 msgid "Freeciv Server List"
@@ -16665,7 +16669,7 @@ msgstr ""
 
 #: data/Freeciv.in:215
 msgid "Diplomacy"
-msgstr ""
+msgstr "Taidhleoireacht"
 
 #: data/Freeciv.in:310
 msgid "The following clauses have been agreed upon:"
@@ -16677,11 +16681,11 @@ msgstr ""
 
 #: data/Freeciv.in:474 data/Freeciv.in:483
 msgid "Shared vision"
-msgstr ""
+msgstr "Fís aontaithe"
 
 #: data/Freeciv.in:558
 msgid "Select Unit(s)"
-msgstr ""
+msgstr "Roghnaigh Aona(i)d"
 
 #: data/Freeciv.in:672 data/Freeciv.in:751
 msgid "Variant:"
@@ -16693,11 +16697,11 @@ msgstr ""
 
 #: data/Freeciv.in:932
 msgid "Movement/Defense:"
-msgstr ""
+msgstr "Gluaiseacht/Cosaint:"
 
 #: data/Freeciv.in:951
 msgid "Food/Resources/Trade:"
-msgstr ""
+msgstr "Bia/Acmhainní/Trádáil:"
 
 #: data/Freeciv.in:980
 msgid "Road Result/Time:"
@@ -16735,7 +16739,7 @@ msgstr ""
 
 #: data/Freeciv.in:1287
 msgid "Rates"
-msgstr ""
+msgstr "Rátaí"
 
 #: data/Freeciv.in:1289
 msgid "Select tax, luxury and science rates:"
@@ -16743,7 +16747,7 @@ msgstr ""
 
 #: data/Freeciv.in:1397
 msgid "Help:"
-msgstr ""
+msgstr "Cabhair:"
 
 #: data/Freeciv.in:1465
 msgid "Citizen governor..."
@@ -16751,7 +16755,7 @@ msgstr ""
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
-msgstr ""
+msgstr "Cuir Réamhshocrú Leis"
 
 #: data/Freeciv.in:1469
 msgid "Remove Preset"
@@ -16771,7 +16775,7 @@ msgstr ""
 
 #: data/Freeciv.in:1476
 msgid "Factor:"
-msgstr ""
+msgstr "Fachtóir:"
 
 #: data/Freeciv.in:1491
 msgid "Remove preset?"
@@ -16807,11 +16811,11 @@ msgstr ""
 
 #: data/Freeciv.in:1645
 msgid "Change All..."
-msgstr ""
+msgstr "Athraigh Uile..."
 
 #: data/Freeciv.in:1661
 msgid "Configure..."
-msgstr ""
+msgstr "Cumraigh..."
 
 #: data/Freeciv.in:1720
 msgid "Configure Cities Report"
@@ -16827,11 +16831,11 @@ msgstr ""
 
 #: data/Freeciv.in:2006
 msgid "Rename worklist"
-msgstr ""
+msgstr "Athainmnigh liosta oibre"
 
 #: data/Freeciv.in:2031
 msgid "Editor"
-msgstr ""
+msgstr "Eagarthóir"
 
 #: data/Freeciv.in:2082
 msgid "Select new production"
@@ -16847,11 +16851,11 @@ msgstr ""
 
 #: data/Freeciv.in:2153
 msgid "Prepend"
-msgstr ""
+msgstr "Réamhcheangail"
 
 #: data/Freeciv.in:2189
 msgid "  Ok  "
-msgstr ""
+msgstr "  OK  "
 
 #: data/Freeciv.in:2207
 msgid "Show future targets:"
@@ -16871,11 +16875,11 @@ msgstr ""
 
 #: data/Freeciv.in:2499
 msgid "Your New Government"
-msgstr ""
+msgstr "Do Rialtas Nua"
 
 #: data/Freeciv.in:2501
 msgid "Select government type:"
-msgstr ""
+msgstr "Roghnaigh cineál an rialtais:"
 
 #: data/Freeciv.in:2519
 msgid "Choose unit activity:"
@@ -16890,15 +16894,15 @@ msgstr ""
 
 #: data/Freeciv.in:3058
 msgid " Sell "
-msgstr ""
+msgstr " Díol "
 
 #: data/Freeciv.in:3065
 msgid "Rename..."
-msgstr ""
+msgstr "Athainmnigh..."
 
 #: data/Freeciv.in:3071
 msgid "Unit List..."
-msgstr ""
+msgstr "Liosta Aonad..."
 
 #: data/Freeciv.in:3073
 msgid "City Options..."
@@ -16906,15 +16910,15 @@ msgstr ""
 
 #: data/Freeciv.in:3075
 msgid " Buy "
-msgstr ""
+msgstr " Ceannaigh "
 
 #: data/Freeciv.in:3077
 msgid "Change..."
-msgstr ""
+msgstr "Athraigh..."
 
 #: data/Freeciv.in:3079
 msgid "Worklist..."
-msgstr ""
+msgstr "Liosta Oibre..."
 
 #: data/Freeciv.in:3081
 msgid "Supported units:"
@@ -16930,7 +16934,7 @@ msgstr ""
 
 #: data/Freeciv.in:3157
 msgid "Pick Name"
-msgstr ""
+msgstr "Roghnaigh Ainm"
 
 #: data/Freeciv.in:3161
 msgid "Select your sex:"
@@ -16946,7 +16950,7 @@ msgstr ""
 
 #: data/Freeciv.in:3183
 msgid " Ok "
-msgstr ""
+msgstr " OK "
 
 #: data/Freeciv.in:3216
 msgid ""
@@ -19376,7 +19380,7 @@ msgstr ""
 
 #: data/civ2/buildings.ruleset:1514
 msgid "Capitalization"
-msgstr ""
+msgstr "Ceannlitriú"
 
 #: data/civ2/buildings.ruleset:1527
 msgid ""
@@ -25558,7 +25562,7 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
-msgstr ""
+msgstr "Cúrsa Teagaisc"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
