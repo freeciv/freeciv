@@ -341,6 +341,7 @@ module find {
   City *api_find_city @ city (Player *pplayer, int city_id);
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
+  Tile *api_find_tile_by_index @ tile (int index);
 
   Government *api_find_government
 		@ government (int government_id);

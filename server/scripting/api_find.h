@@ -21,6 +21,7 @@ Player *api_find_player(int player_id);
 City *api_find_city(Player *pplayer, int city_id);
 Unit *api_find_unit(Player *pplayer, int unit_id);
 Tile *api_find_tile(int nat_x, int nat_y);
+Tile *api_find_tile_by_index(int index);
 
 Government *api_find_government(int government_id);
 Government *api_find_government_by_name(const char *name_orig);

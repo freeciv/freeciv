@@ -81,6 +81,14 @@ Tile *api_find_tile(int nat_x, int nat_y)
 }
 
 /**************************************************************************
+  Return the tile at the given index.
+**************************************************************************/
+Tile *api_find_tile_by_index(int index)
+{
+  return index_to_tile(index);
+}
+
+/**************************************************************************
   Return the government with the given government_id index.
 **************************************************************************/
 Government *api_find_government(int government_id)
