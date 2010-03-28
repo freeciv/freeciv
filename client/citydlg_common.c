@@ -320,14 +320,17 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
     } else {
+      int upkeep = pcity ? improvement_upkeep(pcity, target.value)
+                         : improvement_by_number(target.value)->upkeep;
+
       mystrlcpy(buf[0], improvement_name_translation(target.value),
 		column_size);
 
       /* from city.c get_impr_name_ex() */
       if (pcity && is_building_replaced(pcity, target.value, RPT_CERTAIN)) {
-	my_snprintf(buf[1], column_size, "*");
+	my_snprintf(buf[1], column_size, "%d*", upkeep);
       } else {
-	const char *state = "";
+	const char *state = NULL;
 
 	if (is_great_wonder(target.value)) {
           if (improvement_obsolete(pplayer, target.value)) {
@@ -347,7 +350,11 @@ void get_city_dialog_production_row(char *buf[], size_t column_size,
 	    state = _("Obsolete");
 	  }
 	}
-	my_snprintf(buf[1], column_size, "%s", state);
+        if (state) {
+          my_snprintf(buf[1], column_size, "%s", state);
+        } else {
+          my_snprintf(buf[1], column_size, "%d", upkeep);
+        }
       }
 
       my_snprintf(buf[2], column_size, "%d",
