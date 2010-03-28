@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-03-25 18:01+0300\n"
+"PO-Revision-Date: 2010-03-28 22:16+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -24969,9 +24969,8 @@ msgid "?plural:Gupta"
 msgstr "Гупта"
 
 #: data/nation/gupta.ruleset:7
-#, fuzzy
 msgid "The Gupta Empire was one of the great classical empires. It ruled northern India from around 240 to 550 AD."
-msgstr "Імперія Гупта була однією із найбільших класичних імперій. Вона займала територію північної Індії приблизно від 240 до 550 н.е."
+msgstr "Імперія Ґупта була однією із найбільших класичних імперій. Вона займала територію північної Індії приблизно від 240 до 550 н.е."
 
 #. TRANS: Maharajadhiraja = Great King of Kings
 #: data/nation/gupta.ruleset:23
@@ -24979,9 +24978,8 @@ msgid "Maharajadhiraja"
 msgstr "Маґараяджирая"
 
 #: data/nation/gupta.ruleset:23
-#, fuzzy
 msgid "Maharanidhirani"
-msgstr "Маґараяджирая"
+msgstr "Махаранідхірані"
 
 #: data/nation/hacker.ruleset:3
 msgid "Hacker"
@@ -25025,14 +25023,12 @@ msgid "The Kingdom of Hawaii was established in 1810 by King Kamehameha the Grea
 msgstr ""
 
 #: data/nation/hellenic.ruleset:3
-#, fuzzy
 msgid "Hellenic"
-msgstr "Розвідка"
+msgstr "Елліни"
 
 #: data/nation/hellenic.ruleset:4
-#, fuzzy
 msgid "?plural:Hellenes"
-msgstr "Інки"
+msgstr "Елліни"
 
 #: data/nation/hellenic.ruleset:6
 msgid "The Hellenic Republic - also known as Greece - was created when the Hellenic people gained independence from the Ottoman Empire in 1832."
@@ -25051,14 +25047,12 @@ msgid "The Himyar were originally a mountain tribe in what is now Yemen that con
 msgstr ""
 
 #: data/nation/hittite.ruleset:3
-#, fuzzy
 msgid "Hittite"
-msgstr "Активізувати"
+msgstr "Хетти"
 
 #: data/nation/hittite.ruleset:4
-#, fuzzy
 msgid "?plural:Hittites"
-msgstr "Шотландці"
+msgstr "Хетти"
 
 #: data/nation/hittite.ruleset:6
 msgid "The Hittite kingdom lasted from about 1680 BC to about 1180 BC. They were the first civilisation to discover iron working. At its height, they controlled central Anatolia, north-western Syria and Mesopotamia down to Babylon."
@@ -25081,9 +25075,8 @@ msgid "Kikmongwi"
 msgstr "Кікмонгві"
 
 #: data/nation/hopi.ruleset:28
-#, fuzzy
 msgid "?female:Kikmongwi"
-msgstr "Майор"
+msgstr "Кікмонгві"
 
 #: data/nation/hungarian.ruleset:3
 msgid "Hungarian"
@@ -25102,9 +25095,8 @@ msgid "Icelandic"
 msgstr "Ісландці"
 
 #: data/nation/icelandic.ruleset:4
-#, fuzzy
 msgid "?plural:Icelanders"
-msgstr "Інки"
+msgstr "Ісландці"
 
 #: data/nation/icelandic.ruleset:6
 msgid "Iceland was long one of the largest uninhabited islands in the world, until it was settled by Norwegian Vikings in the late 9th century. The island was kept initially under the Norwegian and later the Danish crown until independence from Denmark in 1944."
@@ -25176,14 +25168,12 @@ msgid "Indonesia is a large country on the Malay Archipelago with central govern
 msgstr "Індонезія - це велика країна в Малайському архіпелазі, уряд якої знаходиться на острові Ява. Населення країни є одним з найбільших у світі, і його більшість становлять мусульмани."
 
 #: data/nation/inuit.ruleset:3
-#, fuzzy
 msgid "Inuit"
-msgstr "Вийти"
+msgstr "Ескімоси"
 
 #: data/nation/inuit.ruleset:4
-#, fuzzy
 msgid "?plural:Inuits"
-msgstr "Індуси"
+msgstr "Ескімоси"
 
 #: data/nation/inuit.ruleset:6
 msgid "The Inuit people inhabit northern Canada and Greenland. Legend says that the Great Shaman Qitdlarssuaq lead his people to Thule (Qaanaaq) on the west coast of Greenland in the 10th century. All Inuit of today are descendents of the Thule culture."
@@ -25234,9 +25224,8 @@ msgstr "Аятола"
 
 #: data/nation/iranian.ruleset:46
 #: data/nation/persian.ruleset:22
-#, fuzzy
 msgid "?female:Ayatollah"
-msgstr "Таоісіч"
+msgstr "Аятола"
 
 #: data/nation/iraqi.ruleset:3
 msgid "Iraqi"
