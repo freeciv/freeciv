@@ -4232,6 +4232,8 @@ void game_load(struct section_file *file)
   bool was_send_tile_suppressed = send_tile_suppression(TRUE);
 
   game_load_internal(file);
+  /* load script state last so we have access to all game data */
+  script_state_load(file);
 
   send_tile_suppression(was_send_tile_suppressed);
   send_city_suppression(was_send_city_suppressed);
@@ -4723,8 +4725,6 @@ static void game_load_internal(struct section_file *file)
     player_slot_set_used(pplayer, FALSE);
     server_player_init(pplayer, FALSE, FALSE);
   } player_slots_iterate_end;
-
-  script_state_load(file);
 
   {
     {
