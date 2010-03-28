@@ -1,6 +1,10 @@
 /Makefile
 /Makefile.in
 /civclient
+/freeciv-xaw
+/freeciv-gtk2
+/freeciv-sdl
+/freeciv-stub
 /.deps
 /freeciv.desktop
 /packhand_gen.c
