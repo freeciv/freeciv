@@ -1093,7 +1093,7 @@ AC_MSG_NOTICE([
     Stub:    $gui_stub
 
   Not maintained client frontends:
-  (no guaranty that they even compile)
+  (no guarantee that they even compile)
     Win32:   $gui_win32
     FTWL:    $gui_ftwl
 
