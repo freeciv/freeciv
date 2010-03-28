@@ -343,10 +343,13 @@ module find {
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
   Tile *api_find_tile_by_index @ tile (int index);
 
-  Government *api_find_government
-		@ government (int government_id);
+  /* NOTE: For overloading to work correctly, the string function
+     must be before the integer function for each case below
+   */
   Government *api_find_government_by_name
 		@ government (const char *name_orig);
+  Government *api_find_government
+		@ government (int government_id);
   Nation_Type *api_find_nation_type_by_name
 		@ nation_type (const char *name_orig);
   Nation_Type *api_find_nation_type
