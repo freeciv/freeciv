@@ -215,7 +215,7 @@ msgstr "Gnáth"
 
 #: common/events.c:96
 msgid "Nuked"
-msgstr "Núicphléasctha"
+msgstr "Díothaithe ag buama núicléach"
 
 #: common/events.c:97
 msgid "Released from citizen governor"
@@ -471,7 +471,7 @@ msgstr "Teachtaireacht Taidhleoireachta"
 
 #: common/events.c:169
 msgid "Error message from bad command"
-msgstr ""
+msgstr "Teachtaireacht earráide ó dhrochordú"
 
 #: common/events.c:170
 msgid "Game Ended"
@@ -998,7 +998,7 @@ msgstr ""
 #: utility/fciconv.c:219
 #, c-format
 msgid "Could not convert text from %s to %s: %s"
-msgstr ""
+msgstr "Níorbh fhéidir téacs a thiontú ó %s go %s: %s"
 
 #: utility/ioz.c:503 client/gui-sdl/dialogs.c:2492
 #: client/gui-sdl/dialogs.c:2916 client/gui-sdl/mapctrl.c:2584
@@ -1339,11 +1339,21 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
-msgstr[0] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
-msgstr[1] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
-msgstr[2] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
-msgstr[3] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
-msgstr[4] "*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse na spásloinge a bhacadh."
+msgstr[0] ""
+"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"na spásloinge a bhacadh."
+msgstr[1] ""
+"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"na spásloinge a bhacadh."
+msgstr[2] ""
+"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"na spásloinge a bhacadh."
+msgstr[3] ""
+"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"na spásloinge a bhacadh."
+msgstr[4] ""
+"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"na spásloinge a bhacadh."
 
 #: ai/advdiplomacy.c:1237
 #, c-format
@@ -1553,12 +1563,12 @@ msgstr ""
 
 #: server/auth.c:398
 msgid "Guests are not allowed on this server. Sorry."
-msgstr ""
+msgstr "Níl cead ag aíonna bheith ar an bhfreastalaí seo. Tá brón orm."
 
 #: server/auth.c:400
 #, c-format
 msgid "%s was rejected: Guests not allowed."
-msgstr ""
+msgstr "Diúltaíodh %s: Níl cead ag aíonna."
 
 #: server/auth.c:419
 #, c-format
@@ -1566,39 +1576,46 @@ msgid ""
 "There was an error reading the user database, logging in as guest connection "
 "'%s'."
 msgstr ""
+"Tharla earráid agus bunachar sonraí na n-úsáideoirí á léamh, do do logáil "
+"isteach mar aoi '%s'."
 
 #: server/auth.c:424
 msgid ""
 "There was an error reading the user database and guest logins are not "
 "allowed. Sorry"
 msgstr ""
+"Tharla earráid agus bunachar sonraí na n-úsáideoirí á léamh - níl cead ag "
+"aíonna logáil isteach.  Tá brón orm."
 
 #: server/auth.c:428
 #, c-format
 msgid "%s was rejected: Database error and guests not allowed."
 msgstr ""
+"Diúltaíodh %s: Earráid bhunachair sonraí agus níl cead ag aíonna logáil "
+"isteach."
 
 #: server/auth.c:435
 #, c-format
 msgid "Enter password for %s:"
-msgstr ""
+msgstr "Iontráil focal faire do %s:"
 
 #: server/auth.c:444
 msgid "Enter a new password (and remember it)."
-msgstr ""
+msgstr "Iontráil focal faire nua (agus meabhraigh é)."
 
 #: server/auth.c:449
 msgid "This server allows only preregistered users. Sorry."
 msgstr ""
+"Ceadaíonn an freastalaí seo úsáideoirí réamhchláraithe amháin.  Tá brón orm."
 
 #: server/auth.c:452
 #, c-format
 msgid "%s was rejected: Only preregistered users allowed."
-msgstr ""
+msgstr "Diúltaíodh %s: Úsáideoirí réamhchláraithe amháin."
 
 #: server/auth.c:480 server/auth.c:538
 msgid "Sorry, too many wrong tries..."
-msgstr ""
+msgstr "Tá brón orm, an iomarca iarrachtaí míchearta..."
 
 #: server/auth.c:481
 #, c-format
@@ -1610,24 +1627,26 @@ msgid ""
 "Warning: There was an error in saving to the database. Continuing, but your "
 "stats will not be saved."
 msgstr ""
+"Rabhadh: Tharla earráid le linn sábhála sa bhunachar sonraí. Ag dul ar "
+"aghaidh, ach ní shábhálfar do chuid staitisticí."
 
 #: server/auth.c:540
 #, c-format
 msgid "%s was rejected: Too many wrong password tries."
-msgstr ""
+msgstr "Diúltaíodh %s: An iomarca iarrachtaí focal faire a chur isteach."
 
 #: server/auth.c:549
 msgid "Your password is incorrect. Try again."
-msgstr ""
+msgstr "Focal faire mícheart. Bain triail eile as."
 
 #: server/auth.c:559
 msgid "Sorry, your connection timed out..."
-msgstr ""
+msgstr "Ceangal imithe thar am..."
 
 #: server/auth.c:561
 #, c-format
 msgid "%s was rejected: Connection timeout waiting for password."
-msgstr ""
+msgstr "Diúltaíodh %s: Ceangal imithe thar am fanacht leis an bhfocal faire."
 
 #: server/auth.c:626
 #, c-format
@@ -1660,10 +1679,11 @@ msgstr ""
 msgid "You have already sold something here this turn."
 msgstr ""
 
+# improvement... city... number
 #: server/cityhand.c:245
 #, c-format
 msgid "You sell %s in %s for %d gold."
-msgstr ""
+msgstr "Díolann tú %s i %s ar %d píosa óir."
 
 #: server/cityhand.c:285
 msgid "Cannot buy in city created this turn."
@@ -1676,7 +1696,7 @@ msgstr ""
 #: server/cityhand.c:297
 #, c-format
 msgid "You don't buy %s!"
-msgstr ""
+msgstr "Ní cheannaíonn tú %s!"
 
 #: server/cityhand.c:304
 msgid "Can't buy units when city is in disorder."
@@ -1685,7 +1705,7 @@ msgstr ""
 #: server/cityhand.c:317
 #, c-format
 msgid "%d gold required.  You only have %d gold."
-msgstr ""
+msgstr "%d ór de dhíth.  Níl ach %d ór agat."
 
 #: server/cityhand.c:429
 msgid "You have bought this turn, can't change."
@@ -1694,32 +1714,34 @@ msgstr ""
 #: server/citytools.c:312
 #, c-format
 msgid "You already have a city called %s."
-msgstr ""
+msgstr "Tá cathair darb ainm %s agat cheana."
 
 #: server/citytools.c:324
 #, c-format
 msgid "A city called %s already exists."
-msgstr ""
+msgstr "Tá cathair darb ainm %s ann cheana."
 
 #: server/citytools.c:351
 #, c-format
 msgid "Can't use %s as a city name. It is reserved for %s."
-msgstr ""
+msgstr "Ní féidir %s a úsáid mar ainm na cathrach.  Tá sé in áirithe do %s."
 
 #: server/citytools.c:371
 #, c-format
 msgid ""
 "%s is not a valid name. Only ASCII or ruleset names are allowed for cities."
 msgstr ""
+"Is ainm neamhbhailí é %s.  Ní cheadaítear ach ainmneacha ASCII nó ainmneacha "
+"rialach ar chathracha."
 
 #: server/citytools.c:491
 #, c-format
 msgid "City no. %d"
-msgstr ""
+msgstr "Cathair uimhir a %d"
 
 #: server/citytools.c:499
 msgid "A poorly-named city"
-msgstr ""
+msgstr "Cathair a bhfuil drochainm uirthi"
 
 #: server/citytools.c:550
 #, c-format
@@ -1729,12 +1751,12 @@ msgstr ""
 #: server/citytools.c:564
 #, c-format
 msgid "Transfered %s in %s from %s to %s."
-msgstr ""
+msgstr "%s i %s aistrithe ó %s go %s."
 
 #: server/citytools.c:577
 #, c-format
 msgid "Transfered %s from %s to %s."
-msgstr ""
+msgstr "%s aistrithe ó %s go %s."
 
 #. TRANS: Polish Destroyer ... German <city>
 #: server/citytools.c:590
@@ -1745,7 +1767,7 @@ msgstr "%2$s %1$s caillte le linn aistrithe go %4$s %3$s"
 #: server/citytools.c:680
 #, c-format
 msgid "%s lost along with control of %s."
-msgstr ""
+msgstr "Cailleadh %s, chomh maith le smacht ar %s."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:811
@@ -1757,6 +1779,7 @@ msgstr "Tógáladh %s nua i %s."
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
+"Bhí cathair darb ainm %s agat cheana.  Cuireadh ainm nua %s ar an gcathair."
 
 #: server/citytools.c:982
 #, c-format
@@ -1768,7 +1791,7 @@ msgstr ""
 #: server/citytools.c:1134
 #, c-format
 msgid "You have founded %s."
-msgstr ""
+msgstr "Bhunaigh tú %s."
 
 #: server/citytools.c:1207
 #, c-format
@@ -1784,12 +1807,12 @@ msgstr ""
 #: server/citytools.c:1353
 #, c-format
 msgid "You destroy %s completely."
-msgstr ""
+msgstr "Díothaíonn tú %s."
 
 #: server/citytools.c:1356
 #, c-format
 msgid "%s has been destroyed by %s."
-msgstr ""
+msgstr "Bhí %s díothaithe ag %s."
 
 #: server/citytools.c:1383
 #, c-format
@@ -1805,11 +1828,11 @@ msgstr[4] ""
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Fuair %s bua ar %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[1] "Fuair %s bua ar %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[2] "Fuair %s bua ar %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[3] "Fuair %s bua ar %s agus ghoid sé %d bpíosa óir ón chathair."
+msgstr[4] "Fuair %s bua ar %s agus ghoid sé %d píosa óir ón chathair."
 
 #: server/citytools.c:1399
 #, c-format
@@ -1835,31 +1858,32 @@ msgstr[4] ""
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "D'fhuascail %s %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[1] "D'fhuascail %s %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[2] "D'fhuascail %s %s agus ghoid sé %d phíosa óir ón chathair."
+msgstr[3] "D'fhuascail %s %s agus ghoid sé %d bpíosa óir ón chathair."
+msgstr[4] "D'fhuascail %s %s agus ghoid sé %d píosa óir ón chathair."
 
 #: server/citytools.c:1425
 #, c-format
 msgid "You have liberated %s!"
-msgstr ""
+msgstr "Bhí %s fuascailte agat!"
 
 #: server/citytools.c:1428
 #, c-format
 msgid "%s liberated %s."
-msgstr ""
+msgstr "D'fhuascail %s %s."
 
 #: server/citytools.c:2146
 msgid " from the worklist"
-msgstr ""
+msgstr " ón liosta oibre"
 
 #. TRANS: "<city> is building <production><source>."
+# source = " from the worklist" always?
 #: server/citytools.c:2158
 #, c-format
 msgid "%s is building %s%s."
-msgstr ""
+msgstr "Tá %s ag tógáil %s%s."
 
 #: server/citytools.c:2347
 #, c-format
@@ -1874,7 +1898,7 @@ msgstr ""
 #: server/cityturn.c:373
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
-msgstr ""
+msgstr "Fógra: Beidh iontas (%s) i %s críochnaithe sa chéad bhabhta eile."
 
 #: server/cityturn.c:409
 #, c-format
@@ -1890,12 +1914,13 @@ msgstr ""
 #: server/cityturn.c:430
 #, c-format
 msgid "Warning: Famine feared in %s."
-msgstr ""
+msgstr "Rabhadh: Faitíos roimh ghorta i %s."
 
 #: server/cityturn.c:502
 msgid "WARNING, we're LOW on FUNDS sire."
 msgstr ""
 
+# city ... improvement
 #: server/cityturn.c:685
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
@@ -1911,10 +1936,11 @@ msgstr ""
 msgid "%s grows to size %d."
 msgstr ""
 
+# city name ... unit name
 #: server/cityturn.c:808
 #, c-format
 msgid "Famine feared in %s, %s lost!"
-msgstr ""
+msgstr "Faitíos roimh ghorta i %s, cailleadh %s!"
 
 #: server/cityturn.c:823
 #, c-format
@@ -1924,14 +1950,16 @@ msgstr ""
 #: server/cityturn.c:827
 #, c-format
 msgid "Famine destroys %s entirely."
-msgstr ""
+msgstr "Bhí %s díothaithe go hiomlán ag gorta."
 
+# city name... improvement
 #: server/cityturn.c:927
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 
+# city name... improvement
 #: server/cityturn.c:943 server/cityturn.c:983
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
@@ -1943,18 +1971,22 @@ msgstr ""
 msgid "Production of %s is upgraded to %s in %s."
 msgstr ""
 
+# city name... improvement ...   "advance" 
 #: server/cityturn.c:1015
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  Postponing..."
 msgstr ""
 
+# city name... improvement ...   "advance" 
 #: server/cityturn.c:1028
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
 
+# city name... improvement ....  government (Monarchy, Republic, Communism,
+# Anarchy, Depotism)
 #: server/cityturn.c:1041
 #, c-format
 msgid ""
@@ -2054,7 +2086,7 @@ msgstr[4] ""
 #: server/cityturn.c:1512 server/techtools.c:175
 #, c-format
 msgid "The %s have acquired %s from %s."
-msgstr ""
+msgstr "Fuair na %s %s ó %s."
 
 #: server/cityturn.c:1520
 #, c-format
@@ -2064,7 +2096,7 @@ msgstr ""
 #: server/cityturn.c:1582
 #, c-format
 msgid "%s can't build %s yet."
-msgstr ""
+msgstr "Níl %s in ann %s a thógáil fós."
 
 #. TRANS: <city> is finished building <unit/building>.
 #: server/cityturn.c:1615
@@ -7351,7 +7383,7 @@ msgstr[4] ""
 #: server/unittools.c:2053
 #, c-format
 msgid "Your %s was nuked by %s."
-msgstr "Bhí do %s núicphléasctha ag %s."
+msgstr "Dhíothaigh %2$s do %1$s le buama núicléach."
 
 #: server/unittools.c:2056 server/unittools.c:2074
 msgid "yourself"
@@ -7360,17 +7392,17 @@ msgstr "tusa féin"
 #: server/unittools.c:2060
 #, c-format
 msgid "The %s %s was nuked."
-msgstr "Bhí %2$s %1$s núicphléasctha."
+msgstr "Díothaíodh %2$s %1$s le buama núicléach."
 
 #: server/unittools.c:2071
 #, c-format
 msgid "%s was nuked by %s."
-msgstr "Bhí %s núicphléasctha ag %s."
+msgstr "Dhíothaigh %2$s %1$s le buama núicléach."
 
 #: server/unittools.c:2079
 #, c-format
 msgid "You nuked %s."
-msgstr "Núicphléasc tú %s."
+msgstr "Dhíothaigh tú %s le buama núicléach."
 
 #: server/unittools.c:2116
 #, c-format
@@ -8720,6 +8752,7 @@ msgstr ""
 msgid "* Can only be built if there is %s in the city.\n"
 msgstr ""
 
+# %s = Monarchy, Republic, Communism, Anarchy, Depotism
 #: client/helpdata.c:847
 #, c-format
 msgid "* Can only be built with %s as government.\n"
@@ -10337,17 +10370,17 @@ msgstr ""
 #: client/gui-xaw/inteldlg.c:201
 #, c-format
 msgid "Government: %s"
-msgstr ""
+msgstr "Rialtas: %s"
 
 #: client/text.c:783
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "%d aonad"
+msgstr[1] "%d aonad"
+msgstr[2] "%d aonad"
+msgstr[3] "%d n-aonad"
+msgstr[4] "%d aonad"
 
 #. TRANS: Impossible to reach goto target tile
 #: client/text.c:819
@@ -10459,25 +10492,25 @@ msgstr ""
 
 #: client/text.c:1070
 msgid "Shows your current government:"
-msgstr ""
+msgstr "Taispeáin an rialtas atá agat faoi láthair:"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1096
 #, c-format
 msgid "Population:      %5d"
-msgstr ""
+msgstr "Daonra:          %5d"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1099
 #, c-format
 msgid "Support:         %5d %%"
-msgstr ""
+msgstr "Tacaíocht:       %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1103
 #, c-format
 msgid "Energy:          %5d %%"
-msgstr ""
+msgstr "Cumhacht:        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1107
@@ -12662,7 +12695,7 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1090 client/gui-win32/menu.c:331
 #: client/gui-win32/menu.c:435
 msgid "_Government"
-msgstr ""
+msgstr "_Rialtas"
 
 #: client/gui-gtk-2.0/menu.c:803 client/gui-win32/menu.c:326
 msgid "_Tax Rates"
@@ -14389,11 +14422,11 @@ msgstr ""
 
 #: client/gui-sdl/dialogs.c:1984
 msgid "Choose Your New Government"
-msgstr ""
+msgstr "Roghnaigh Do Rialtas Nua"
 
 #: client/gui-sdl/dialogs.c:2087
 msgid "REVOLUTION!"
-msgstr ""
+msgstr "RÉABHLÓID!"
 
 #: client/gui-sdl/dialogs.c:2246 client/gui-sdl/dialogs.c:2634
 #: client/gui-win32/dialogs.c:581 data/Freeciv.in:3166
@@ -19630,18 +19663,18 @@ msgstr ""
 #: data/civ1/governments.ruleset:91 data/default/techs.ruleset:471
 #: data/civ2/techs.ruleset:468 data/civ1/techs.ruleset:370
 msgid "Monarchy"
-msgstr ""
+msgstr "Monarcacht"
 
 #: data/default/governments.ruleset:100 data/civ2/governments.ruleset:97
 #: data/civ1/governments.ruleset:99 data/nation/spanish.ruleset:30
 msgid "King"
-msgstr ""
+msgstr "Rí"
 
 #: data/default/governments.ruleset:101 data/civ2/governments.ruleset:98
 #: data/civ1/governments.ruleset:100 data/nation/spanish.ruleset:30
 #: data/nation/tibetan.ruleset:28
 msgid "Queen"
-msgstr ""
+msgstr "Banríon"
 
 #: data/default/governments.ruleset:103 data/civ1/governments.ruleset:102
 msgid ""
@@ -19655,7 +19688,7 @@ msgstr ""
 #: data/civ1/governments.ruleset:113 data/default/techs.ruleset:173
 #: data/civ2/techs.ruleset:162 data/civ1/techs.ruleset:146
 msgid "Communism"
-msgstr ""
+msgstr "Cumannachas"
 
 #: data/default/governments.ruleset:121 data/civ2/governments.ruleset:118
 #: data/civ1/governments.ruleset:120 data/nation/soviet.ruleset:27
