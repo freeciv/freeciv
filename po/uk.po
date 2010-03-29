@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-02-14 18:34+0100\n"
-"PO-Revision-Date: 2010-03-28 22:16+0300\n"
+"PO-Revision-Date: 2010-03-29 22:36+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -18989,33 +18989,28 @@ msgid "Roads can be built on any land tile, even if there are other improvements
 msgstr "Шляхи та Залізниці можуть бути збудовані на будь яких клітинах за виключеням океану. (Аби будувати шляхи та залізниці на Річках Ви повинні знати про Будівництво Мостів.) Шляхи та Залізниці дозволяють підрозділам рухатися швидше, та збільшують ресурси що виробляються містом."
 
 #: data/helpdata.txt:361
-#, fuzzy
 msgid " - Units use only one third of a movement point when going from one tile to an adjacent tile, if both tiles have a road."
-msgstr " - Підрозділ використовує лише третину ходу при русі з однієї клітинки на сусідню за умови наявності на них доріг."
+msgstr " - Підрозділ використовує лише третину ходу при русі з однієї клітинки на сусідню, за умови наявності шляхів на обох."
 
 #: data/helpdata.txt:364
-#, fuzzy
 msgid " - Units expend no movement points when moving along a railroad. You may ride a railroad indefinitely. (As may your enemies!)"
-msgstr " - Загони не втрачають руху при русі по залізниці. Ви можете їздити залізницею скількі завгодно."
+msgstr " - Загони не витрачають ходів при русі по залізниці. Ви можете їздити залізницею скільки завгодно. (Втім, Ваші вороги теж можуть!)"
 
 #: data/helpdata.txt:367
-#, fuzzy
 msgid " - A road may increase the trade resources produced by some types of terrain. This effect is retained when a road is upgraded to a railroad."
-msgstr " - Шляхи можуть збільшувати прибуток від торгівлі на деяких типах територій."
+msgstr " - Шляхи можуть збільшувати прибуток від торгівлі на деяких типах територій. Цей ефект зостається, якщо шлях модернізувати до залізниці."
 
 #: data/helpdata.txt:371
-#, fuzzy
 msgid " - A railroad additionally increases the shield resources produced by a tile by 50%. (Depending on server options, railroads may also increase food and trade resources, or may increase shield resources by an amount other than 50%.)"
-msgstr " - Залізниці збільшують виробництво клітини на 50%. (В залежності від опцій сервера, залізниці також можуть збільшувати ресурси їжі та торгівлі, або збільшувати виробництво не на 50%.)"
+msgstr " - Залізниці збільшують виробництво клітинки на 50%. (В залежності від опцій сервера, залізниці також можуть збільшувати ресурси їжі чи торгівлі, або збільшувати виробництво не на 50%.)"
 
 #: data/helpdata.txt:376
 msgid "Technology advances allow other kinds of structures to be built:"
 msgstr "Технологічний прогрес дозволяє будувати інші типи споруд:"
 
 #: data/helpdata.txt:378
-#, fuzzy
 msgid " - Fortresses improve defense. Units inside a fortress defend at twice their normal strength; also, units inside a fortress must be destroyed one at a time. See the Combat help section for further details. Occupied fortresses also extend your borders (see the section on National Borders)."
-msgstr "Колоністи та Інженери також можуть будувати укріплення. Загони у них захищаються з удвічі більшою силою; також, загони у укріпленні знищуються не разом, а по черзі. Дивись Допомогу по Боях для додаткової інформації."
+msgstr "- Укріплення покращують захист. Підрозділи в них захищаються з подвоєною силою; крім того, загони в укріпленні знищуються не всі разом, а по одному. Дивись Допомогу по Боях для додаткової інформації. Зайняті укріплення ще й розширюють кордони (дивись розділ Національні Кордони)."
 
 #: data/helpdata.txt:384
 msgid " - Airbases allow your air units to land and refuel. Air units in an airbase may be attacked by land units, but are killed one by one, as in a fortress."
@@ -19291,9 +19286,8 @@ msgid "The Happiness tab on the city dialog will give detailed insight into the 
 msgstr "Вкладка Щастя у вікні міста надає детальну інформацію про настрій громадян та фактори, що на нього впливають."
 
 #: data/helpdata.txt:785
-#, fuzzy
 msgid " Pollution"
-msgstr "Забруднення"
+msgstr " Забруднення"
 
 #: data/helpdata.txt:786
 msgid "Pollution can plague large cities, especially as your civilization becomes more industrialized. The chance of pollution appearing around a city depends on the sum of its population, aggravated by several technology advances, and its production point output. When this sum exceeds 20, the excess is the percent chance of pollution appearing each turn; this percentage is shown in the city dialog."
@@ -19381,18 +19375,16 @@ msgid "First, the attacker's strength is modified."
 msgstr "Спершу, сила атакуючуго змінюється."
 
 #: data/helpdata.txt:934
-#, fuzzy
 msgid " - If the attacker is a veteran, its strength is multiplied by the bonus associated with its veteran level."
-msgstr " - Якщо атакуючій є ветераном, його сила збільшується у півтори рази."
+msgstr " - Якщо нападник є ветераном, його сила збільшується відповідно до його рівня досвіду."
 
 #: data/helpdata.txt:937
 msgid "Next, the defender's strength is modified."
 msgstr "Наступно, сила захисника змінюється."
 
 #: data/helpdata.txt:939
-#, fuzzy
 msgid " - If the defender is a veteran, then its strength is multiplied by the bonus associated with its veteran level."
-msgstr " - Якщо захисник є ветераном, його сила збільшується у півтори рази."
+msgstr " - Якщо захисник є ветераном, його сила збільшується відповідно до його рівня досвіду."
 
 #: data/helpdata.txt:942
 msgid " - Then the defender's strength is multiplied by the defense factor of the terrain it occupies."
@@ -19407,12 +19399,10 @@ msgid " - If the defender is an AEGIS Cruiser defending against airborne units (
 msgstr " - Якщо захисник це Протиракетний Крейсер що захищається проти авіазагонів (включаючи ракети та Гелікоптери), сила захисту множиться на 4."
 
 #: data/helpdata.txt:952
-#, fuzzy
 msgid " - The defender's strength is doubled again if it is in a city with a SAM Battery and the attacker is an air unit (other than a Helicopter or a missile)."
-msgstr " - Сила захисту подвоюється якщо у місті є Протиракетна оборона та атакуючий це авіапідрозділ (але не Гелікоптер) або ракета."
+msgstr " - Сила захисту знову подвоюється, якщо у місті є Протиповітряна оборона, а нападник - авіапідрозділ (але не Гелікоптер або ракета)."
 
 #: data/helpdata.txt:956
-#, fuzzy
 msgid " - An SDI Defense doubles the defender's strength against missile attacks."
 msgstr " - СОІ захист подвоює силу захисту проти ракетних атак."
 
@@ -19429,14 +19419,12 @@ msgid " - If the defender is in a fortress (and not a city), its strength is dou
 msgstr " - Якщо захисник в укріпленні (не у місті), його сила подвоюється."
 
 #: data/helpdata.txt:969
-#, fuzzy
 msgid " - If the defender is a land unit, and is either fortified or inside a city, its strength is multiplied by 1.5."
-msgstr " - Нарешті, якщо захисник це сухопутний підрозділ, та він фортифікований або у місті, його сила збільшується у півтори рази."
+msgstr " - Якщо захисник - сухопутний підрозділ, і він укріплений або у місті, його сила збільшується у півтора рази."
 
 #: data/helpdata.txt:972
-#, fuzzy
 msgid " - Finally, if the attacker is a fighter and the defender is a helicopter, the defender's strength is halved."
-msgstr " - Якщо атакує корабель та захисник у місті з Прибережною оборону, сила захисту подвоюється."
+msgstr " - Врешті, якщо атакує винищувач, а захисник - гелікоптер, сила захисту зменшується наполовину."
 
 #: data/helpdata.txt:975
 msgid "If, after these modifications, the attacker has a strength of 0, it automatically loses.  Otherwise, if the defender has a strength of 0, the defender loses."
@@ -19451,12 +19439,10 @@ msgid " - If the defender is a ship and is inside a city the firepower of the at
 msgstr " - Якщо захистник це корабель та він у місті сила вогню атакуючого подвоюється та сила вогню кораблю встановлюється у 1."
 
 #: data/helpdata.txt:984
-#, fuzzy
 msgid " - If a fighter is attacking a helicopter the firepower of the helicopter is set to 1."
 msgstr " - Якщо винищувач атакує Гелікоптер, сила вогню Гелікоптера встановлюється у 1. "
 
 #: data/helpdata.txt:987
-#, fuzzy
 msgid " - If a ship is attacking a land unit on land the firepower of both is set to 1."
 msgstr " - Якщо корабель атакує наземний підрозділ, сила вогню обох встановлюється у 1."
 
@@ -19666,9 +19652,8 @@ msgid "Players remain in the civil war state for just one turn, after which the 
 msgstr "Гравці перебувають у стані громадянської війни один хід, після цього імперія підпадає під анархію."
 
 #: data/helpdata.txt:1205
-#, fuzzy
 msgid "The capture of your capital does not always lead to civil war.  If you have treated your people with kindness, you are more likely to retain their loyalty.  Each city that is celebrating reduces the chance of civil war, while each city in disorder increases the likelihood."
-msgstr "Захоплення Вашої столиці не завжди призводить до громадянської війни. Якщо Ви тримаєте Ваш нарід у щасті, то Вони більш за все збережуть свою лояльність. Кожне місто що святкує зменшує шанси громадянської війни, тоді як кожне повстале місто збільшує шанси."
+msgstr "Захоплення Вашої столиці не завжди призводить до громадянської війни. Якщо Ви тримаєте Ваш нарід у щасті, то Вони більш ймовірно що збережуть свою лояльність. Кожне місто, що святкує, зменшує ймовірність громадянської війни, тоді як кожне місто з безладом збільшує цю ймовірність."
 
 #: data/helpdata.txt:1211
 msgid "In addition, the form of government directly contributes to the chance of civil war.  Governments with universal franchise are far less likely to revolt than those more despotic in nature."
@@ -20016,9 +20001,8 @@ msgid "  - Messages starting with 'John:' are private messages to 'John'. Names 
 msgstr ""
 
 #: data/helpdata.txt:1561
-#, fuzzy
 msgid "  - Messages starting with 'John::' are private messages as above, but will match only users (not players) named 'John'.  'Johnathan' will still match."
-msgstr " - Повідомлення, що розпочинаються з 'foo:' є приватними повідомленнями гравцю 'foo'; ім'я гравця може бути скороченням."
+msgstr " - Повідомлення, що розпочинаються з 'foo::' є приватними повідомленнями, але для користувачів (не гравців), імена яких починаються з 'foo'; наприклад, 'fool' або 'foobar' отримає таке повідомлення."
 
 #: data/helpdata.txt:1565
 msgid "  - Messages starting with '.' will be sent only to all your allies."
@@ -20437,7 +20421,7 @@ msgstr "Відділ міліції"
 #: data/civ2/buildings.ruleset:559
 #, fuzzy
 msgid "Reduces the unhappiness caused by aggressively deployed military units owned by the city by 2 under Democracy and 1 under Republic -- in other words, it neutralises the unhappiness caused by a single military unit. This improvement has no effect under other governments."
-msgstr "Зменшує кількість несчасних з причини відсутності військових підрозділів у місті на 2 при Демократії та на 1 при Республіці. При інших формах керування не має ефективності."
+msgstr "Зменшує кількість нещасних з причини відсутності військових підрозділів у місті на 2 при Демократії та на 1 при Республіці. При інших формах керування не має ефективності."
 
 #: data/default/buildings.ruleset:605
 #: data/civ2/buildings.ruleset:567
@@ -20673,9 +20657,8 @@ msgstr "Програма Аполо"
 
 #: data/default/buildings.ruleset:1014
 #: data/civ2/buildings.ruleset:962
-#, fuzzy
 msgid "The entire map becomes permanently visible to the player who owns it -- the player always has up-to-date knowledge of all terrain and cities (but not units) despite fog-of-war. It allows all players to start building spaceship parts (assuming they have researched the necessary technologies)."
-msgstr "Усі міста на мапі стають видимими для гравця який цим володіє. Дозволяє усім гравцям розпочати будівництво частин космічного корабля (за умови дослідження ними необхідних технологій)."
+msgstr "Уся мапа стає постійно видимою гравцю, який цим володіє -- гравець завжди має поточні дані про всі землі та міста (але не підрозділи), незважаючи на мару війни. Дозволяє всім гравцям розпочати будівництво частин космічного корабля (якщо вони знають необхідні технології)."
 
 #: data/default/buildings.ruleset:1023
 #: data/civ2/buildings.ruleset:971
@@ -22473,9 +22456,8 @@ msgid ""
 msgstr ""
 
 #: data/default/units.ruleset:320
-#, fuzzy
 msgid "?unit:Workers"
-msgstr "Працівники"
+msgstr "Робітники"
 
 #: data/default/units.ruleset:346
 msgid "Workers are similar to Settlers in that they can improve terrain -- see the Terrain Alterations section of the help for more details of the available improvements. However, Workers cannot build new cities."
@@ -22967,7 +22949,6 @@ msgid "Nuclear"
 msgstr "Атомна бомба"
 
 #: data/default/units.ruleset:1744
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -22979,13 +22960,15 @@ msgid ""
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers, Workers, and/or Engineers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенській Проект.\n"
+"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенський Проект.\n"
 "\n"
-"Взрив знищує будь які підрозділи на площадці 3x3, включаючі дружні підрозділи. При попаданні у місто  - розмір міста зкорочується вдвічі, та прилеглі території піддаються радіаційному забрудненню.\n"
+"Вибух знищує всі підрозділи на віддалі до 3 клітинок від епіцентру (3x3 клітинки для прямокутних сіток), включно з дружніми підрозділами. Будь-яке місто в межах цієї зони втрачає половину населення, а території у зоні вибуху заражаються радіацією.\n"
 "\n"
-"Порада 1: Взрив у океані не викличе забруднень, та це є найбільш ефективний (але коштовний!!) засіб боротьби з ворожими кораблями.\n"
+"Подібно до забруднення та глобального потепління, ризик ядерної зими зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи, Робітники або Інженери можуть ліквідовувати радіаційне зараження.\n"
 "\n"
-"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть Колоністів неподалік від міста аби вони були готові ліквідувати забруднення того ж ходу коли воно виникне! Це зменшує вірогідність ядерної зими. Екологічно дружній взрив!"
+"Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш ефективний (хоча й дорогий!!) засіб боротьби з ворожими кораблями.\n"
+"\n"
+"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть гурт Колоністів, Робітників або Інженерів неподалік від міста, аби вони були готові ліквідувати зараження того ж ходу коли воно виникне! Це зменшує ризик ядерної зими. Екологічно безпечний вибух!"
 
 #: data/default/units.ruleset:1771
 #: data/civ2/units.ruleset:1728
@@ -23177,7 +23160,6 @@ msgid "The Caravel replaces the Trireme and is much more reliable on the open se
 msgstr "Каравела замінює Трирему - вона значно надійніша у відкритому морі."
 
 #: data/civ2/units.ruleset:1701
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -23189,13 +23171,15 @@ msgid ""
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers and/or Engineers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенській Проект.\n"
+"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенський Проект.\n"
 "\n"
-"Взрив знищує будь які підрозділи на площадці 3x3, включаючі дружні підрозділи. При попаданні у місто  - розмір міста зкорочується вдвічі, та прилеглі території піддаються радіаційному забрудненню.\n"
+"Вибух знищує всі підрозділи на віддалі до 3 клітинок від епіцентру (3x3 клітинки для прямокутних сіток), включно з дружніми підрозділами. Будь-яке місто в межах цієї зони втрачає половину населення, а території у зоні вибуху заражаються радіацією.\n"
 "\n"
-"Порада 1: Взрив у океані не викличе забруднень, та це є найбільш ефективний (але коштовний!!) засіб боротьби з ворожими кораблями.\n"
+"Подібно до забруднення та глобального потепління, ризик ядерної зими зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи та Інженери можуть ліквідовувати радіаційне зараження.\n"
 "\n"
-"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть Колоністів неподалік від міста аби вони були готові ліквідувати забруднення того ж ходу коли воно виникне! Це зменшує вірогідність ядерної зими. Екологічно дружній взрив!"
+"Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш ефективний (хоча й дорогий!!) засіб боротьби з ворожими кораблями.\n"
+"\n"
+"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть гурт Колоністів або Інженерів неподалік від міста, аби вони були готові ліквідувати зараження того ж ходу коли воно виникне! Це зменшує ризик ядерної зими. Екологічно безпечний вибух!"
 
 #: data/civ1/units.ruleset:206
 msgid "Militia"
@@ -23230,7 +23214,6 @@ msgid "The Sail replaces the Trireme and is much more reliable on the open seas.
 msgstr "Вітрильник замінює Трирему; він значно надійніший у відкритому морі."
 
 #: data/civ1/units.ruleset:1020
-#, fuzzy
 msgid ""
 "You can build Nuclear units when you have the required advance, and the Manhattan Project wonder has been built by any player.\n"
 "\n"
@@ -23242,13 +23225,15 @@ msgid ""
 "\n"
 "TIP 2:  You may be involved in a situation where you've invaded an enemy country en masse, but the enemy cities are too strong. Before using a Nuclear unit, assemble a gang of Settlers next to the city and have them ready to fix the fallout on the same turn it occurs!  This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
-"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенській Проект.\n"
+"Ви можете будувати Атомні бомби якщо вже відкрили необхідні технології, та будь якій з гравців побудував Диво Манхетенський Проект.\n"
 "\n"
-"Взрив знищує будь які підрозділи на площі 3x3, включаючі дружні підрозділи. При попаданні у місто  - розмір міста зкорочується вдвічі, та прилеглі території піддаються радіаційному забрудненню.\n"
+"Вибух знищує всі підрозділи на віддалі до 3 клітинок від епіцентру (3x3 клітинки для прямокутних сіток), включно з дружніми підрозділами. Будь-яке місто в межах цієї зони втрачає половину населення, а території у зоні вибуху заражаються радіацією.\n"
 "\n"
-"Порада 1: Взрив у океані не визиває забруднень, та це є найбільш ефективний (але коштовний!!) засіб боротьби з ворожими кораблями.\n"
+"Подібно до забруднення та глобального потепління, ризик ядерної зими зростає з радіаційним зараженням. Якщо настане ядерна зима, землі цілого світу перетворюватимуться на пустелі, тундру та льодовики. Колоністи можуть ліквідовувати радіаційне зараження.\n"
 "\n"
-"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть Колоністів неподалік від міста аби вони були готові ліквідувати зараження тогож ходу коли воно виникне! Це зменшує вірогідність ядерної зими. Екологічно дружній взрив!"
+"Порада 1: Вибух у океані не викликає забруднень, тож це є найбільш ефективний (хоча й дорогий!!) засіб боротьби з ворожими кораблями.\n"
+"\n"
+"Порада 2: Ви можете опинитись у ситуації коли Ви практично захопили ворожу країну, але деякі ворожі міста надто міцні. Перед використанням атомної бомби, зберіть гурт Колоністів неподалік від міста, аби вони були готові ліквідувати зараження того ж ходу коли воно виникне! Це зменшує ризик ядерної зими. Екологічно безпечний вибух!"
 
 #: data/civ1/units.ruleset:1202
 msgid ""
