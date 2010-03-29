@@ -78,7 +78,8 @@
 #include "stdinhand.h"
 #include "voting.h"
 
-
+/* server/scripting */
+#include "script.h"
 
 #define TOKEN_DELIMITERS " \t\n,"
 
@@ -112,6 +113,7 @@ static bool read_init_script_real(struct connection *caller,
                                   bool check, int read_recursion);
 static bool reset_command(struct connection *caller, char *arg, bool check,
                           int read_recursion);
+static bool lua_command(struct connection *caller, char *arg, bool check);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
 
@@ -3747,6 +3749,8 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return write_command(caller, arg, check);
   case CMD_RESET:
     return reset_command(caller, arg, check, read_recursion);
+  case CMD_LUA:
+    return lua_command(caller, arg, check);
   case CMD_RFCSTYLE:	/* see console.h for an explanation */
     if (!check) {
       con_set_style(!con_get_style());
@@ -3941,6 +3945,19 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   show_changed(caller, check, read_recursion);
   return TRUE;
 }
+
+/**************************************************************************
+  Evaluate a line of lua script
+**************************************************************************/
+static bool lua_command(struct connection *caller, char *arg, bool check)
+{
+  if (check) {
+    return TRUE;
+  }
+
+  return script_do_string(arg);
+}
+
 
 /**************************************************************************
  Send start command related message

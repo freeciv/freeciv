@@ -38,6 +38,7 @@ bool script_callback_invoke(const char *callback_name,
 /* script functions. */
 bool script_init(void);
 void script_free(void);
+bool script_do_string(const char *str);
 bool script_do_file(const char *filename);
 
 /* script state i/o. */

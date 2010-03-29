@@ -479,6 +479,12 @@ static struct command commands[] = {
       "  default  - using default values\n"),
    VCF_NONE, 50
   },
+  {"lua", ALLOW_ADMIN,
+   /* TRANS: translate text between <> only */
+   N_("lua <script>"),
+   N_("Evaluate a line of freeciv script in the current game."), NULL,
+   VCF_NONE, 0
+  },
   {"rfcstyle",	ALLOW_HACK,
    /* no translatable parameters */
    SYN_ORIG_("rfcstyle"),

@@ -212,6 +212,15 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
 }
 
 /**************************************************************************
+  Parse and execute the script in str
+**************************************************************************/
+bool script_do_string(const char *str)
+{
+  int status = script_dostring(state, str, "cmd");
+  return (status == 0);
+}
+
+/**************************************************************************
   Parse and execute the script at filename.
 **************************************************************************/
 bool script_do_file(const char *filename)
