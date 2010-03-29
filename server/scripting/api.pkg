@@ -299,7 +299,7 @@ end
 
 --   Deprecated. New one is Tile:city_exists_within_max_city_map().
 function Tile:city_exists_within_city_radius(center)
-  return self.city_exists_within_max_city_map(center)
+  return self:city_exists_within_max_city_map(center)
 end
 
 
