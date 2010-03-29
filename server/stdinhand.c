@@ -1520,10 +1520,10 @@ static void show_help_option_list(struct connection *caller,
     } settings_iterate_end
   } else {
     char buf[MAX_LEN_CONSOLE_LINE];
+    int j = 0;
     buf[0] = '\0';
 
     settings_iterate(pset) {
-      int j = 0;
       if (setting_is_visible(pset, caller)) {
         cat_snprintf(buf, sizeof(buf), "%-19s", setting_name(pset));
         if ((++j % 4) == 0) {
