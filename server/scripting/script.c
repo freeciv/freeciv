@@ -193,7 +193,7 @@ static int script_dostring(lua_State *L, const char *str, const char *name)
   if (status) {
     script_report(L, status, str);
   } else {
-    status = script_call(L, 0, LUA_MULTRET, str);
+    status = script_call(L, 0, 0, str);
   }
   return status;
 }
@@ -209,7 +209,7 @@ bool script_do_file(const char *filename)
   if (status) {
     script_report(state, status, NULL);
   } else {
-    status = script_call(state, 0, LUA_MULTRET, NULL);
+    status = script_call(state, 0, 0, NULL);
   }
   return (status == 0);
 }
@@ -295,7 +295,6 @@ static void script_callback_push_args(int nargs, va_list args)
 bool script_callback_invoke(const char *callback_name,
 			    int nargs, va_list args)
 {
-  int nres;
   bool stop_emission = FALSE;
 
   /* The function name */
@@ -314,16 +313,12 @@ bool script_callback_invoke(const char *callback_name,
     return FALSE;
   }
 
-  nres = lua_gettop(state);
-
   /* Shall we stop the emission of this signal? */
-  if (nres == 1) {
-    if (lua_isboolean(state, -1)) {
-      stop_emission = lua_toboolean(state, -1);
-    }
+  if (lua_isboolean(state, -1)) {
+    stop_emission = lua_toboolean(state, -1);
   }
+  lua_pop(state, 1);   /* pop return value */
 
-  lua_pop(state, nres);
   return stop_emission;
 }
 
