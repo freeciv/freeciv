@@ -616,10 +616,9 @@ A city is created when Settlers are given the \"build city\" command \
 on suitable terrain, removing the unit from play to provide the city \
 with its first citizen. A city may grow to include dozens of citizens, \
 some working within the city while others are dispatched as new \
-settlers. Famine, war, and plague kill citizens and reduce population; \
-with the loss of its last citizen a city disappears (in the default \
-ruleset, this can leave ruins, although these have no effect on \
-gameplay).\
+settlers. Famine and war kill citizens and reduce population; with the \
+loss of its last citizen a city disappears (in the default ruleset, \
+this can leave ruins, although these have no effect on gameplay).\
 "), _("\
 Each city may work terrain within a fixed radius (approximately three \
 tiles). To extract resources from a tile you must have a citizen \
