@@ -145,6 +145,27 @@ const char *specialist_abbreviation_translation(const struct specialist *sp)
 }
 
 /****************************************************************************
+  Return a string containing all the specialist abbreviations, for instance
+  "E/S/T".
+  You don't have to free the return pointer.
+****************************************************************************/
+const char *specialists_abbreviation_string(void)
+{
+  static char buf[5 * SP_MAX];
+
+  buf[0] = '\0';
+
+  specialist_type_iterate(sp) {
+    char *separator = (buf[0] == '\0') ? "" : "/";
+
+    cat_snprintf(buf, sizeof(buf), "%s%s", separator,
+                 specialist_abbreviation_translation(specialist_by_number(sp)));
+  } specialist_type_iterate_end;
+
+  return buf;
+}
+
+/****************************************************************************
   Return a string showing the number of specialists in the array.
 
   For instance with a city with (0,3,1) specialists call

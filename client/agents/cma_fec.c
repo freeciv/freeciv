@@ -326,7 +326,13 @@ const char *cmafec_get_result_descr(struct city *pcity,
 {
   int j;
   char buf[RESULT_COLUMNS][BUFFER_SIZE];
+  char citizens[BUFFER_SIZE];
   static char buffer[600];
+
+  /* TRANS: "W" is worker citizens, as opposed to specialists;
+   * %s will represent the specialist types, for instance "E/S/T" */
+  fc_snprintf(citizens, BUFFER_SIZE, _("People (W/%s)"),
+              specialists_abbreviation_string());
 
   if (!result->found_a_valid) {
     for (j = 0; j < RESULT_COLUMNS; j++)
@@ -355,11 +361,11 @@ const char *cmafec_get_result_descr(struct city *pcity,
                 "Production: %10s Luxury:  %10s\n"
                 "Trade:      %10s Science: %10s\n"
                 "\n"
-                "    People (W/E/S/T): %s\n"
+                "%20s: %s\n"
                 "          City grows: %s\n"
                 "Production completed: %s"),
               buf[9], buf[O_FOOD], buf[O_GOLD], buf[O_SHIELD], buf[O_LUXURY],
-              buf[O_TRADE], buf[O_SCIENCE], buf[6], buf[7], buf[8]);
+              buf[O_TRADE], buf[O_SCIENCE], citizens, buf[6], buf[7], buf[8]);
 
   log_debug("\n%s", buffer);
   return buffer;

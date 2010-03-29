@@ -462,12 +462,6 @@ static const struct city_report_spec base_city_report_specs[] = {
   { FALSE,  1, 1, NULL,  NULL,          N_("Concise *=Celebrating, X=Disorder"),
     NULL, FUNC_TAG(hstate_concise) },
 
-  /* Specialists grouped with init_city_report_game_data specialists */ 
-  { FALSE,  7, 1, N_("Special"),
-    N_("?entertainers/scientists/taxmen:E/S/T"),
-    N_("Entertainers, Scientists, Taxmen"),
-    NULL, FUNC_TAG(specialists) },
-
   { FALSE, 2, 1, NULL, N_("?Happy workers:H"), N_("Workers: Happy"),
     NULL, FUNC_TAG(happy) },
   { FALSE, 2, 1, NULL, N_("?Content workers:C"), N_("Workers: Content"),
@@ -563,22 +557,26 @@ const char *city_report_spec_tagname(int i)
 }
 
 /******************************************************************
-  Initialize city report data.  Currently all this does is
-  pre-translate the fields (to make things easier on the GUI
-  writers).  Should be called before the GUI starts up.
+  Initialize city report data.  This deals with ruleset-depedent
+  columns and pre-translates the fields (to make things easier on
+  the GUI writers).  Should be called before the GUI starts up.
 ******************************************************************/
 void init_city_report_game_data(void)
 {
-  static char explanation[SP_MAX][128];
+  static char sp_explanation[SP_MAX][128];
+  static char sp_explanations[SP_MAX*128];
   struct city_report_spec *p;
   int i;
 
-  num_creport_cols = ARRAY_SIZE(base_city_report_specs) + specialist_count();
+  num_creport_cols = ARRAY_SIZE(base_city_report_specs)
+                   + specialist_count() + 1;
   city_report_specs
     = fc_realloc(city_report_specs,
 		 num_creport_cols * sizeof(*city_report_specs));
   p = &city_report_specs[0];
 
+  fc_snprintf(sp_explanations, sizeof(sp_explanations),
+              "%s", _("Specialists: "));
   specialist_type_iterate(i) {
     struct specialist *s = specialist_by_number(i);
     p->show = FALSE;
@@ -586,14 +584,34 @@ void init_city_report_game_data(void)
     p->space = 1;
     p->title1 = Q_("?specialist:S");
     p->title2 = specialist_abbreviation_translation(s);
-    fc_snprintf(explanation[i], sizeof(explanation[i]),
+    fc_snprintf(sp_explanation[i], sizeof(sp_explanation[i]),
                 _("Specialists: %s"), specialist_name_translation(s));
-    p->explanation = explanation[i];
+    cat_snprintf(sp_explanations, sizeof(sp_explanations),
+                 "%s%s", (i == 0) ? "" : ", ",
+                 specialist_name_translation(s));
+    p->explanation = sp_explanation[i];
     p->data = s;
     p->func = cr_entry_specialist;
     p->tagname = specialist_rule_name(s);
     p++;
   } specialist_type_iterate_end;
+  
+  /* Summary column for all specialists. */
+  {
+    static char sp_summary[128];
+    p->show = FALSE;
+    p->width = MAX(7, specialist_count()*2-1);
+    p->space = 1;
+    p->title1 = _("Special");
+    fc_snprintf(sp_summary, sizeof(sp_summary),
+                "%s", specialists_abbreviation_string());
+    p->title2 = sp_summary;
+    p->explanation = sp_explanations;
+    p->data = NULL;
+    p->func = cr_entry_specialists;
+    p->tagname = "specialists";
+    p++;
+  }
 
   memcpy(p, base_city_report_specs,
 	 sizeof(base_city_report_specs));
@@ -610,7 +628,7 @@ void init_city_report_game_data(void)
   }
 
   fc_assert(NUM_CREPORT_COLS == ARRAY_SIZE(base_city_report_specs)
-            + specialist_count());
+            + specialist_count() + 1);
 }
 
 /**********************************************************************

@@ -48,6 +48,7 @@ const char *specialist_name_translation(const struct specialist *sp);
 const char *specialist_abbreviation_translation(const struct specialist *sp);
 
 /* Ancillary routines */
+const char *specialists_abbreviation_string(void);
 const char *specialists_string(const int *specialists);
 
 int get_specialist_output(const struct city *pcity,
