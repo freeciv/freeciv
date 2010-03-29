@@ -159,24 +159,39 @@ static int script_report(lua_State *L, int status, const char *code)
   Return nonzero if an error occured.
 
   If available pass the source code string as code, else NULL.
-  Will handle Lua errors by printing error description and traceback.
+
+  Will pop function and arguments (1 + narg values) from the stack.
+  Will push nret return values to the stack.
+
+  On error, print an error message with traceback. Nothing is pushed to
+  the stack.
 **************************************************************************/
 static int script_call(lua_State *L, int narg, int nret, const char *code)
 {
   int status;
-  int base = lua_gettop(L) - narg;  /* Function index */
+  int base = lua_gettop(L) - narg;  /* Index of function to call */
+  int traceback = 0;                /* Index of debug.traceback  */
 
-  /* stack the debug.traceback function */
+  /* Find the debug.traceback function, if available */
   lua_getglobal(L, "debug");
-  lua_getfield(L, -1, "traceback");
-  lua_insert(L, base);
-  lua_pop(L, 1); /* Pop debug table */
-
-  status = lua_pcall(L, narg, nret, base);
-  if (status) {
-    script_report(state, status, code);
+  if (lua_istable(L, -1)) {
+    lua_getfield(L, -1, "traceback");
+    if (lua_isfunction(L, -1)) {
+      lua_insert(L, base);  /* insert debug.traceback before function */
+      traceback = base;
+    } else {
+      lua_pop(L, 1);   /* pop non-function debug.traceback */
+    }
   }
-  lua_remove(L, base);  /* Remove traceback function */
+  lua_pop(L, 1);       /* pop debug */
+
+  status = lua_pcall(L, narg, nret, traceback);
+  if (status) {
+    script_report(L, status, code);
+  }
+  if (traceback) {
+    lua_remove(L, traceback);
+  }
   return status;
 }
 
