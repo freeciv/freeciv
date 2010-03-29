@@ -632,7 +632,7 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
     } else {
       /* fc_assert(connect_activity == ACTIVITY_RAILROAD) */
       if (total_cost > *dest_cost 
-	  || (total_cost == *dest_cost && total_cost >= *dest_cost)) {
+	  || (total_cost == *dest_cost && total_extra >= *dest_extra)) {
 	return -1;
       }
     }
