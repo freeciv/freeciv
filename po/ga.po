@@ -1878,8 +1878,8 @@ msgstr "D'fhuascail %s %s."
 msgid " from the worklist"
 msgstr " ón liosta oibre"
 
-#. TRANS: "<city> is building <production><source>."
 # source = " from the worklist" always?
+#. TRANS: "<city> is building <production><source>."
 #: server/citytools.c:2158
 #, c-format
 msgid "%s is building %s%s."
@@ -2159,7 +2159,9 @@ msgstr ""
 #: server/cityturn.c:2178
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr "Ní féidir le %s %s a thógáil fós, agus nílimid in ann an chathair amháin atá againn a thréigeadh."
+msgstr ""
+"Ní féidir le %s %s a thógáil fós, agus nílimid in ann an chathair amháin atá "
+"againn a thréigeadh."
 
 #. TRANS: "<city> is disbanded into Settler."
 #: server/cityturn.c:2207
@@ -2173,25 +2175,28 @@ msgstr ""
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
-"Ní féidir le himircigh ó %s dul go %s toisc nach bhfuil a ndóthain bia ar fáil!"
+"Ní féidir le himircigh ó %s dul go %s toisc nach bhfuil a ndóthain bia ar "
+"fáil!"
 
+# city ... city (nation adj.)
 #: server/cityturn.c:2359
 #, c-format
-#  city ... city (nation adj.)
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
 "available!"
 msgstr ""
-"Ní féidir le himircigh ó %s dul go %s (%s) toisc nach bhfuil a ndóthain bia ar fáil!"
+"Ní féidir le himircigh ó %s dul go %s (%s) toisc nach bhfuil a ndóthain bia "
+"ar fáil!"
 
+# city (nation adj.) ... city
 #: server/cityturn.c:2364
 #, c-format
-# city (nation adj.) ... city
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
 "available!"
 msgstr ""
-"Ní féidir le himircigh ó %s (%s) dul go %s toisc nach bhfuil a ndóthain bia ar fáil!"
+"Ní féidir le himircigh ó %s (%s) dul go %s toisc nach bhfuil a ndóthain bia "
+"ar fáil!"
 
 #: server/cityturn.c:2378
 #, c-format
@@ -2233,13 +2238,17 @@ msgstr "Chuaigh imircigh ó %s (%s) go %s ar thóir saoil níos fearr."
 #: server/cityturn.c:2600
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
-msgstr "Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s ar thóir saoil níos fearr."
+msgstr ""
+"Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s ar thóir saoil níos "
+"fearr."
 
 #: server/cityturn.c:2619
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
-msgstr "Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s (%s) ar thóir saoil níos fearr."
+msgstr ""
+"Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s (%s) ar thóir saoil "
+"níos fearr."
 
 #: server/civserver.c:79
 msgid "Setting timeout to 0. Autogame will stop.\n"
@@ -3831,7 +3840,8 @@ msgstr ""
 #: server/ggzserver.c:131
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr "Níorbh fhéidir dul isteach i gcomhadlann shealadach an fhreastalaí %s.\n"
+msgstr ""
+"Níorbh fhéidir dul isteach i gcomhadlann shealadach an fhreastalaí %s.\n"
 
 #: server/ggzserver.c:266 client/ggzclient.c:98
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
@@ -4025,7 +4035,8 @@ msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
-" Chuir %s an comhaontú taidhleoireachta ar ceal!  Seo é an staid taidhleoireachta idir na %s agus na %s anois: %s."
+" Chuir %s an comhaontú taidhleoireachta ar ceal!  Seo é an staid "
+"taidhleoireachta idir na %s agus na %s anois: %s."
 
 #: server/plrhand.c:625
 #, c-format
@@ -4038,7 +4049,8 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
-"D'fhógair do chéile imeartha %s cogadh ar %s. Tá iallach ort do chomhaontas le %s a chur ar ceal."
+"D'fhógair do chéile imeartha %s cogadh ar %s. Tá iallach ort do chomhaontas "
+"le %s a chur ar ceal."
 
 #: server/plrhand.c:1214
 #, c-format
@@ -9983,19 +9995,19 @@ msgstr ""
 
 #: client/servers.c:421
 msgid "Failed looking up metaserver's host"
-msgstr ""
+msgstr "Theip ar óstainm an mheitifhreastalaí a lorg"
 
 #. TRANS: "AI <player name>"
 #: client/text.c:97
 #, c-format
 msgid "AI %s"
-msgstr ""
+msgstr "AI %s"
 
 #. TRANS: "<nation adjective>, team <team name>"
 #: client/text.c:121
 #, c-format
 msgid "%s, team %s"
-msgstr ""
+msgstr "%s, foireann %s"
 
 #: client/text.c:138 client/text.c:139 client/text.c:144
 #: client/gui-sdl/mapview.c:563
@@ -10049,36 +10061,36 @@ msgstr "?city:Cairdiúil(foireann)"
 #: client/text.c:154
 #, c-format
 msgid "Location: (%d, %d) [%d]"
-msgstr ""
+msgstr "Suíomh: (%d, %d) [%d]"
 
 #: client/text.c:156
 #, c-format
 msgid "Native coordinates: (%d, %d)"
-msgstr ""
+msgstr "Comhordanáidí dúchasacha: (%d, %d)"
 
 #: client/text.c:163
 #, c-format
 msgid "Terrain: %s"
-msgstr ""
+msgstr "Tír-raon: %s"
 
 #: client/text.c:164
 #, c-format
 msgid "Food/Prod/Trade: %s"
-msgstr ""
+msgstr "Bia/Táirg./Trádáil: %s"
 
 #: client/text.c:167
 msgid "Minor Tribe Village"
-msgstr ""
+msgstr "Baile Beag Treibheach"
 
 #: client/text.c:176
 msgid "Our territory"
-msgstr ""
+msgstr "Ár gceantar féin"
 
 #. TRANS: "Territory of <username> (<nation + team>)"
 #: client/text.c:179
 #, c-format
 msgid "Territory of %s (%s)"
-msgstr ""
+msgstr "Críoch %s (%s)"
 
 #: client/text.c:189
 #, c-format
@@ -10095,17 +10107,17 @@ msgstr[4] ""
 #: client/text.c:198
 #, c-format
 msgid "Territory of %s (%s | %s)"
-msgstr ""
+msgstr "Críoch %s (%s | %s)"
 
 #: client/text.c:203
 msgid "Unclaimed territory"
-msgstr ""
+msgstr "Críoch nár éilíodh"
 
 #. TRANS: "City: <city name> | <username> (<nation + team>)"
 #: client/text.c:218
 #, c-format
 msgid "City: %s | %s (%s)"
-msgstr ""
+msgstr "Cathair: %s | %s (%s)"
 
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn cease-fire)"
@@ -10124,7 +10136,7 @@ msgstr[4] ""
 #: client/text.c:235
 #, c-format
 msgid "City: %s | %s (%s, %s)"
-msgstr ""
+msgstr "Cathair: %s | %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:250
@@ -10152,17 +10164,17 @@ msgstr "?clistend:."
 #: client/text.c:277
 #, c-format
 msgid "Trade from %s: %d"
-msgstr ""
+msgstr "Trádáil ó %s: %d"
 
 #: client/text.c:293
 #, c-format
 msgid "Infrastructure: %s"
-msgstr ""
+msgstr "Bonneagar: %s"
 
 #: client/text.c:298
 #, c-format
 msgid "Activity: %s"
-msgstr ""
+msgstr "Gníomhaíocht: %s"
 
 #. TRANS: "Unit: <unit type> | <username>
 #. * (<nation + team>, <homecity>)"
@@ -10171,13 +10183,13 @@ msgstr ""
 #: client/text.c:313 client/text.c:337
 #, c-format
 msgid "Unit: %s | %s (%s, %s)"
-msgstr ""
+msgstr "Aonad: %s | %s (%s, %s)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
 #: client/text.c:318
 #, c-format
 msgid "Unit: %s | %s (%s)"
-msgstr ""
+msgstr "Aonad: %s | %s (%s)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
@@ -10208,25 +10220,25 @@ msgstr ""
 #: client/text.c:378
 #, c-format
 msgid "  (%d more)"
-msgstr ""
+msgstr "  (%d ceann eile)"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:447
 #, c-format
 msgid "far from %s"
-msgstr ""
+msgstr "i bhfad ó %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:450
 #, c-format
 msgid "near %s"
-msgstr ""
+msgstr "i ngar do %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:453
 #, c-format
 msgid "in %s"
-msgstr ""
+msgstr "i %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
 #: client/text.c:494
@@ -10236,11 +10248,11 @@ msgstr "ó %s"
 
 #: client/text.c:555
 msgid "Progress: no research"
-msgstr ""
+msgstr "Dul chun cinn: gan taighde"
 
 #: client/text.c:560
 msgid "Progress: no research target"
-msgstr ""
+msgstr "Dul chun cinn: gan sprioc taighde"
 
 #: client/text.c:565
 #, c-format
@@ -10275,7 +10287,7 @@ msgstr[4] ""
 #: client/text.c:602
 #, c-format
 msgid "%d/- (never)"
-msgstr ""
+msgstr "%d/- (riamh)"
 
 #: client/text.c:614
 #, c-format
@@ -10290,7 +10302,7 @@ msgstr[4] ""
 #: client/text.c:617
 #, c-format
 msgid "%d/%d (never)"
-msgstr ""
+msgstr "%d/%d (riamh)"
 
 #: client/text.c:654
 #, c-format
@@ -10315,77 +10327,77 @@ msgstr[4] ""
 #: client/text.c:682
 #, c-format
 msgid "Population: %s"
-msgstr ""
+msgstr "Daonra: %s"
 
 #: client/text.c:685
 #, c-format
 msgid "Year: %s (T%d)"
-msgstr ""
+msgstr "Bliain: %s (T%d)"
 
 #: client/text.c:689
 #, c-format
 msgid "Gold: %d (%+d)"
-msgstr ""
+msgstr "Ór: %d (%+d)"
 
 #: client/text.c:692
 #, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
-msgstr ""
+msgstr "Cáin: %d Só: %d Eol: %d"
 
 #: client/text.c:699 client/text.c:706
 msgid "Moving: Nobody"
-msgstr ""
+msgstr "Bogadh: Duine Ar Bith"
 
 #: client/text.c:701 client/text.c:708
 #, c-format
 msgid "Moving: %s"
-msgstr ""
+msgstr "Bogadh: %s"
 
 #: client/text.c:712
 msgid "(Click for more info)"
-msgstr ""
+msgstr "(Cliceáil le tuilleadh eolais a fháil)"
 
 #: client/text.c:728
 #, c-format
 msgid "%s People"
-msgstr ""
+msgstr "%s Duine"
 
 #: client/text.c:732
 #, c-format
 msgid "Turn: %d"
-msgstr ""
+msgstr "Babhta: %d"
 
 #: client/text.c:735 client/gui-win32/inteldlg.c:112
 #: client/gui-xaw/inteldlg.c:209
 #, c-format
 msgid "Gold: %d"
-msgstr ""
+msgstr "Ór: %d"
 
 #: client/text.c:737
 #, c-format
 msgid "Net Income: %d"
-msgstr ""
+msgstr "Glanioncam: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
 #: client/text.c:740
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
-msgstr ""
+msgstr "Rátaí cánach: Ór:%d%% Só:%d%% Eolaíocht:%d%%"
 
 #: client/text.c:744
 #, c-format
 msgid "Researching %s: %s"
-msgstr ""
+msgstr "Taighde ar %s: %s"
 
 #: client/text.c:751
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Seans go dtarlóidh téamh domhanda: %d%% (%+d%%/babhta)"
 
 #: client/text.c:754
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
-msgstr ""
+msgstr "Seans go dtarlóidh geimhreadh núicléach: %d%% (%+d%%/babhta)"
 
 #: client/text.c:759 client/gui-win32/inteldlg.c:105
 #: client/gui-xaw/inteldlg.c:201
@@ -10430,30 +10442,30 @@ msgstr[4] ""
 
 #: client/text.c:834
 msgid "No units selected."
-msgstr ""
+msgstr "Níor roghnaíodh aon aonaid."
 
 #: client/text.c:916
 #, c-format
 msgid "Others: %d civil; %d military"
-msgstr ""
+msgstr "Eile: %d sibhialta; %d míleata"
 
 #: client/text.c:918
 #, c-format
 msgid "Others: %d civilian"
-msgstr ""
+msgstr "Eile: %d sibhialtach"
 
 #: client/text.c:920
 #, c-format
 msgid "Others: %d military"
-msgstr ""
+msgstr "Eile: %d míleata"
 
 #: client/text.c:951
 msgid "No units to upgrade!"
-msgstr ""
+msgstr "Faic le huasghrádú!"
 
 #: client/text.c:976
 msgid "None of these units may be upgraded."
-msgstr ""
+msgstr "Ní féidir na haonaid seo a uasghrádú."
 
 #: client/text.c:982
 #, c-format
@@ -10472,44 +10484,45 @@ msgstr[4] ""
 #: client/text.c:1003
 msgid "Shows your progress in researching the current technology."
 msgstr ""
+"Taispeáin dul chun cinn agus taighde á déanamh ar an teicneolaíocht reatha."
 
 #: client/text.c:1010
 msgid "no research target."
-msgstr ""
+msgstr "gan sprioc taighde."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
 #: client/text.c:1013
 #, c-format
 msgid "%s: %d/%d."
-msgstr ""
+msgstr "%s: %d/%d."
 
 #: client/text.c:1033
 msgid "Shows the progress of global warming:"
-msgstr ""
+msgstr "Dul chun cinn téamh domhanda:"
 
 #: client/text.c:1034
 #, c-format
 msgid "Pollution rate: %d%%"
-msgstr ""
+msgstr "Ráta truaillithe: %d%%"
 
 #: client/text.c:1036
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
-msgstr ""
+msgstr "Seans go dtarlóidh téamh tubaisteach gach babhta: %d%%"
 
 #: client/text.c:1052
 msgid "Shows the progress of nuclear winter:"
-msgstr ""
+msgstr "Dul chun cinn geimhridh núicléigh:"
 
 #: client/text.c:1053
 #, c-format
 msgid "Fallout rate: %d%%"
-msgstr ""
+msgstr "Ráta radachuir: %d%%"
 
 #: client/text.c:1055
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
-msgstr ""
+msgstr "Seans go dtarlóidh geimhreadh tubaisteach gach babhta: %d%%"
 
 #: client/text.c:1070
 msgid "Shows your current government:"
@@ -10548,12 +10561,12 @@ msgstr[4] ""
 #: client/text.c:1113
 #, c-format
 msgid "Travel time:     %5.1f years"
-msgstr ""
+msgstr "Am taistil:     %5.1f bliain"
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1117
 msgid "Travel time:        N/A     "
-msgstr ""
+msgstr "Am taistil:        N/A     "
 
 #. TRANS: spaceship text; should have constant width.
 #: client/text.c:1121
@@ -10565,7 +10578,7 @@ msgstr ""
 #: client/text.c:1125
 #, c-format
 msgid "Year of arrival: %8s"
-msgstr ""
+msgstr "Bliain teachta: %8s"
 
 #: client/text.c:1145
 msgid "?timeout:off"
@@ -10611,11 +10624,11 @@ msgstr "?nationgovernment:%2$s %1$s"
 #: client/text.c:1259
 #, c-format
 msgid "Observer: %s"
-msgstr ""
+msgstr "Breathnóir: %s"
 
 #: client/text.c:1277
 msgid "Buildings: "
-msgstr ""
+msgstr "Foirgnimh: "
 
 #: client/text.c:1293 client/text.c:1331
 msgid "None. "
@@ -10654,7 +10667,7 @@ msgstr[4] ""
 
 #: client/text.c:1397
 msgid "Unlimited martial law in effect."
-msgstr ""
+msgstr "Dlí míleata gan teorainn i bhfeidhm."
 
 #: client/text.c:1399
 #, c-format
@@ -10687,7 +10700,7 @@ msgstr ""
 #: client/text.c:1428
 #, c-format
 msgid "Luxury: %d total."
-msgstr ""
+msgstr "Só: %d iomlán."
 
 #: client/tilespec.c:900
 msgid "No usable default tileset found, aborting!"
@@ -10696,17 +10709,17 @@ msgstr ""
 #: client/tilespec.c:932
 #, c-format
 msgid "Loading tileset \"%s\"."
-msgstr ""
+msgstr "Tacar tíleanna \"%s\" á luchtú."
 
 #: client/tilespec.c:1081 client/tilespec.c:1115 client/gui-sdl/themespec.c:485
 #: client/gui-sdl/themespec.c:519
 #, c-format
 msgid "Could not open \"%s\"."
-msgstr ""
+msgstr "Níorbh fhéidir \"%s\" a oscailt."
 
 #: client/tilespec.c:1360
 msgid "Client does not support isometric tilesets."
-msgstr ""
+msgstr "Ní thacaíonn an cliaint le tacair tíleanna isiméadracha."
 
 #: client/tilespec.c:1361 client/tilespec.c:1370
 msgid "Using default tileset instead."
@@ -21210,7 +21223,9 @@ msgstr "?unit:Ceannaire"
 
 #: data/default/units.ruleset:2001
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr "Tusa.  Má chailleann tú an t-aonad seo, caillfidh tú an cluiche. Mar sin, ná caill."
+msgstr ""
+"Tusa.  Má chailleann tú an t-aonad seo, caillfidh tú an cluiche. Mar sin, ná "
+"caill."
 
 #: data/default/units.ruleset:2006 data/civ2/units.ruleset:1920
 #: data/civ1/units.ruleset:1138
@@ -25648,7 +25663,8 @@ msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
-"Mapa mór clasaiceach de Leithinis na hIbéire (An Spáinn agus An Phortaingéil san lá atá ann inniu)."
+"Mapa mór clasaiceach de Leithinis na hIbéire (An Spáinn agus An Phortaingéil "
+"san lá atá ann inniu)."
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
@@ -25988,10 +26004,13 @@ msgid ""
 " * There is less technologies, buildings and units\n"
 " * Units have no hitpoints. If they win battle, they remain in full health\n"
 msgstr ""
-"Tá tú ag imirt de réir rialacha civ1. Tá na rialacha seo i bhfad níos simplí ná na rialacha réamhshocraithe Freeciv. Má tá tú cleachta leis na rialacha réamhshocraithe, caith roinnt ama chun na difríochtaí a thuiscint.\n"
+"Tá tú ag imirt de réir rialacha civ1. Tá na rialacha seo i bhfad níos simplí "
+"ná na rialacha réamhshocraithe Freeciv. Má tá tú cleachta leis na rialacha "
+"réamhshocraithe, caith roinnt ama chun na difríochtaí a thuiscint.\n"
 "\n"
 " * Is lú na teicneolaíochtaí, foirgnimh agus aonaid atá ann\n"
-" * Níl pointí tréine ag aonaid. Tar éis cath a bhuachan, beidh an tsláinte iomlán ag aonad\n"
+" * Níl pointí tréine ag aonaid. Tar éis cath a bhuachan, beidh an tsláinte "
+"iomlán ag aonad\n"
 
 #: data/civ1/game.ruleset:155 data/civ2/game.ruleset:149
 #: data/default/game.ruleset:181
