@@ -393,6 +393,7 @@ const char *concat_tile_activity_text(struct tile *ptile)
   int base_total[MAX_BASE_TYPES];
   int base_units[MAX_BASE_TYPES];
   int num_activities = 0;
+  int pillaging = 0;
   int remains, turns, i;
   static struct astring str = ASTRING_INIT;
 
@@ -404,7 +405,9 @@ const char *concat_tile_activity_text(struct tile *ptile)
   memset(base_units, 0, sizeof(base_units));
 
   unit_list_iterate(ptile->units, punit) {
-    if (punit->activity == ACTIVITY_BASE) {
+    if (punit->activity == ACTIVITY_PILLAGE) {
+      pillaging = 1;
+    } else if (punit->activity == ACTIVITY_BASE) {
       base_total[punit->activity_base] += punit->activity_count;
       base_total[punit->activity_base] += get_activity_rate_this_turn(punit);
       base_units[punit->activity_base] += get_activity_rate(punit);
@@ -414,6 +417,19 @@ const char *concat_tile_activity_text(struct tile *ptile)
       activity_units[punit->activity] += get_activity_rate(punit);
     }
   } unit_list_iterate_end;
+
+  if (pillaging) {
+    bv_special pillage_targets = get_unit_tile_pillage_set(ptile);
+    bv_bases pillage_bases = get_unit_tile_pillage_base_set(ptile);
+    if (BV_ISSET_ANY(pillage_targets) || BV_ISSET_ANY(pillage_bases)) {
+      astr_add(&str, "%s(%s)", _("Pillage"),
+               get_infrastructure_text(pillage_targets, pillage_bases));
+    } else {
+      /* Untargeted pillaging is happening. */
+      astr_add(&str, "%s", _("Pillage"));
+    }
+    num_activities++;
+  }
 
   for (i = 0; i < ACTIVITY_LAST; i++) {
     if (i == ACTIVITY_BASE) {

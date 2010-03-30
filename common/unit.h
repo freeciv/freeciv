@@ -273,6 +273,7 @@ bool can_unit_do_autosettlers(const struct unit *punit);
 bool is_unit_activity_on_tile(enum unit_activity activity,
 			      const struct tile *ptile);
 bv_special get_unit_tile_pillage_set(const struct tile *ptile);
+bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile);
 bool is_attack_unit(const struct unit *punit);
 bool is_military_unit(const struct unit *punit);           /* !set !dip !cara */
 bool is_diplomat_unit(const struct unit *punit);

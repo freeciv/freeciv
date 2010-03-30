@@ -1107,6 +1107,27 @@ bv_special get_unit_tile_pillage_set(const struct tile *ptile)
   return tgt_ret;
 }
 
+/****************************************************************************
+  Return a mask of the bases which are actively (currently) being
+  pillaged on the given tile.
+****************************************************************************/
+bv_bases get_unit_tile_pillage_base_set(const struct tile *ptile)
+{
+  bv_bases tgt_ret;
+
+  BV_CLR_ALL(tgt_ret);
+  unit_list_iterate(ptile->units, punit) {
+    if (punit->activity == ACTIVITY_PILLAGE
+        && punit->activity_target == S_LAST
+        && punit->activity_base != BASE_NONE) {
+      fc_assert(punit->activity_base < base_count());
+      BV_SET(tgt_ret, punit->activity_base);
+    }
+  } unit_list_iterate_end;
+
+  return tgt_ret;
+}
+
 /**************************************************************************
   Return text describing the unit's current activity as a static string.
 
