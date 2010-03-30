@@ -1760,6 +1760,23 @@ char *interpret_tilde_alloc(const char* filename)
 }
 
 /**************************************************************************
+  Return a pointer to the start of the file basename in filepath.
+  If the string contains no dir separator, it is returned itself.
+**************************************************************************/
+char *skip_to_basename(char *filepath)
+{
+  int j;
+  fc_assert_ret_val(NULL != filepath, NULL);
+
+  for (j = strlen(filepath); j >= 0; j--) {
+    if (filepath[j] == '/') {
+      return &filepath[j+1];
+    }
+  }
+  return filepath;
+}
+
+/**************************************************************************
   If the directory "pathname" does not exist, recursively create all
   directories until it does.
 **************************************************************************/

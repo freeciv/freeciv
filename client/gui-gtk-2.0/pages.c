@@ -65,6 +65,7 @@ static GtkWidget *start_options_table;
 GtkWidget *take_button, *ready_button, *nation_button;
 
 static GtkWidget *scenario_description;
+static GtkWidget *scenario_filename;
 
 static GtkListStore *load_store, *scenario_store, *meta_store, *lan_store; 
 
@@ -1856,16 +1857,22 @@ static void scenario_list_callback(void)
   GtkTreeIter it;
   GtkTextBuffer *buffer;
   char *description;
+  char *filename;
 
   if (gtk_tree_selection_get_selected(scenario_selection, NULL, &it)) {
     gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
 		       2, &description, -1);
+    gtk_tree_model_get(GTK_TREE_MODEL(scenario_store), &it,
+		       1, &filename, -1);
+    filename = skip_to_basename(filename);
   } else {
     description = "";
+    filename = "";
   }
 
   buffer = gtk_text_view_get_buffer(GTK_TEXT_VIEW(scenario_description));
   gtk_text_buffer_set_text(buffer, description, -1);
+  gtk_label_set_text(GTK_LABEL(scenario_filename), filename);
 }
 
 /**************************************************************************
@@ -1919,7 +1926,7 @@ static void update_scenario_page(void)
       sdescription = secfile_lookup_str_default(sf, NULL,
                                                 "scenario.description");
       gtk_list_store_set(scenario_store, &it,
-			 0, sname ? Q_(sname) : pfile->name,
+			 0, sname && strlen(sname) ? Q_(sname) : pfile->name,
 			 1, pfile->fullname,
 			 2, sdescription ? Q_(sdescription) : "",
 			-1);
@@ -1942,7 +1949,7 @@ static void update_scenario_page(void)
 **************************************************************************/
 GtkWidget *create_scenario_page(void)
 {
-  GtkWidget *vbox, *hbox, *sbox, *bbox;
+  GtkWidget *vbox, *hbox, *sbox, *bbox, *filenamebox, *descbox;
 
   GtkWidget *align, *button, *label, *view, *sw, *text;
   GtkCellRenderer *rend;
@@ -2008,7 +2015,21 @@ GtkWidget *create_scenario_page(void)
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw), GTK_POLICY_AUTOMATIC,
   				 GTK_POLICY_AUTOMATIC);
   gtk_container_add(GTK_CONTAINER(sw), text);
-  gtk_container_add(GTK_CONTAINER(align), sw);
+
+  text = gtk_label_new(_("Filename:"));
+  scenario_filename = gtk_label_new("");
+  gtk_misc_set_alignment(GTK_MISC(scenario_filename), 0.0, 0.5);
+  gtk_label_set_selectable(GTK_LABEL(scenario_filename), TRUE);
+
+  filenamebox = gtk_hbox_new(FALSE, 12);
+
+  gtk_box_pack_start(GTK_BOX(filenamebox), text, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(filenamebox), scenario_filename, FALSE, TRUE, 0);
+
+  descbox = gtk_vbox_new(FALSE, 6);
+  gtk_box_pack_start(GTK_BOX(descbox), sw, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(descbox), filenamebox, FALSE, FALSE, 5);
+  gtk_container_add(GTK_CONTAINER(align), descbox);
 
   bbox = gtk_hbutton_box_new();
   gtk_button_box_set_layout(GTK_BUTTON_BOX(bbox), GTK_BUTTONBOX_END);
