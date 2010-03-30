@@ -323,16 +323,17 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 }
 
 /**************************************************************************
-...
+  Update on canvas widget size change
 **************************************************************************/
 static bool map_center = TRUE;
-static bool map_configure = FALSE;
+static bool map_center_once = FALSE;
 
 gboolean map_canvas_configure(GtkWidget * w, GdkEventConfigure * ev,
 			      gpointer data)
 {
-  if (map_canvas_resized(ev->width, ev->height)) {
-    map_configure = TRUE;
+  if (map_canvas_resized(ev->width, ev->height) && !map_center_once) {
+    center_on_something();
+    map_center_once = TRUE;
   }
 
   return TRUE;
@@ -376,8 +377,6 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
       map_center = FALSE;
     }
   }
-
-  map_configure = FALSE;
 
   return TRUE;
 }
