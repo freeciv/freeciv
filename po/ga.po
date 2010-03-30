@@ -744,19 +744,19 @@ msgstr "Talamh"
 
 #: common/terrain.c:46
 msgid "Oceanic"
-msgstr ""
+msgstr "Aigéanach"
 
 #: common/terrain.c:50
 msgid "CanIrrigate"
-msgstr ""
+msgstr "Inuiscithe"
 
 #: common/terrain.c:51
 msgid "CanMine"
-msgstr ""
+msgstr "Intochailte"
 
 #: common/terrain.c:52
 msgid "CanRoad"
-msgstr ""
+msgstr "Intiomáinte"
 
 #: common/terrain.c:543 common/terrain.c:731 common/unit.c:523
 #: manual/civmanual.c:216
@@ -2046,22 +2046,24 @@ msgstr ""
 #: server/cityturn.c:1218
 #, c-format
 msgid "The %s worklist is now empty."
-msgstr ""
+msgstr "Tá an liosta oibre atá ag %s folamh anois."
 
+# city... unit 
 #: server/cityturn.c:1363
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
-msgstr ""
+msgstr "Níl %s in ann %s a chothú; díscaoileadh an t-aonad."
 
 #: server/cityturn.c:1383
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 
+# city... improvement
 #: server/cityturn.c:1429 server/cityturn.c:1554
 #, c-format
 msgid "%s is building %s, which is no longer available."
-msgstr ""
+msgstr "Tá %s ag tógáil %s, rud nach bhfuil ar fáil níos mó."
 
 #: server/cityturn.c:1471
 #, c-format
@@ -2107,12 +2109,12 @@ msgstr ""
 #: server/cityturn.c:1682
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
-msgstr ""
+msgstr "Ní féidir %s a chothú i %s; díoladh an foirgneamh!"
 
 #: server/cityturn.c:1726
 #, c-format
 msgid "Not enough gold. %s disbanded"
-msgstr ""
+msgstr "Níl go leor óir ann. Díscaoileadh %s"
 
 #: server/cityturn.c:1908
 #, c-format
@@ -2122,17 +2124,17 @@ msgstr "Truailliú i ngar do %s."
 #: server/cityturn.c:2059
 #, c-format
 msgid "Celebrations in your honour in %s."
-msgstr ""
+msgstr "Ceiliúradh in ómós duit i %s."
 
 #: server/cityturn.c:2065
 #, c-format
 msgid "Celebrations canceled in %s."
-msgstr ""
+msgstr "Cuireadh ceiliúradh ar ceal i %s."
 
 #: server/cityturn.c:2077
 #, c-format
 msgid "%s had been struck by a plague! Population lost!"
-msgstr ""
+msgstr "Tá %s faoi aicíd! Cailleadh daoine!"
 
 #: server/cityturn.c:2119
 #, c-format
@@ -2157,7 +2159,7 @@ msgstr ""
 #: server/cityturn.c:2178
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
-msgstr ""
+msgstr "Ní féidir le %s %s a thógáil fós, agus nílimid in ann an chathair amháin atá againn a thréigeadh."
 
 #. TRANS: "<city> is disbanded into Settler."
 #: server/cityturn.c:2207
@@ -2165,25 +2167,31 @@ msgstr ""
 msgid "%s is disbanded into %s."
 msgstr ""
 
+# city ... city
 #: server/cityturn.c:2352
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
+"Ní féidir le himircigh ó %s dul go %s toisc nach bhfuil a ndóthain bia ar fáil!"
 
 #: server/cityturn.c:2359
 #, c-format
+#  city ... city (nation adj.)
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
 "available!"
 msgstr ""
+"Ní féidir le himircigh ó %s dul go %s (%s) toisc nach bhfuil a ndóthain bia ar fáil!"
 
 #: server/cityturn.c:2364
 #, c-format
+# city (nation adj.) ... city
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
 "available!"
 msgstr ""
+"Ní féidir le himircigh ó %s (%s) dul go %s toisc nach bhfuil a ndóthain bia ar fáil!"
 
 #: server/cityturn.c:2378
 #, c-format
@@ -2205,33 +2213,33 @@ msgstr ""
 #: server/cityturn.c:2421
 #, c-format
 msgid "%s was disbanded by its citizens."
-msgstr ""
+msgstr "Bhí %s tréigthe ag a saoránaigh."
 
 #: server/cityturn.c:2441
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
-msgstr ""
+msgstr "Chuaigh imircigh ó %s go %s ar thóir saoil níos fearr."
 
 #: server/cityturn.c:2447
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
-msgstr ""
+msgstr "Chuaigh imircigh ó %s go %s (%s) ar thóir saoil níos fearr."
 
 #: server/cityturn.c:2452
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
-msgstr ""
+msgstr "Chuaigh imircigh ó %s (%s) go %s ar thóir saoil níos fearr."
 
 #: server/cityturn.c:2600
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
-msgstr ""
+msgstr "Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s ar thóir saoil níos fearr."
 
 #: server/cityturn.c:2619
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
-msgstr ""
+msgstr "Tá saoránaigh ó %s ag smaoineamh ar dul ar imirce go %s (%s) ar thóir saoil níos fearr."
 
 #: server/civserver.c:79
 msgid "Setting timeout to 0. Autogame will stop.\n"
@@ -2254,12 +2262,12 @@ msgstr ""
 #: server/civserver.c:217
 #, c-format
 msgid "Error: unknown option '%s'\n"
-msgstr ""
+msgstr "Earráid: rogha anaithnid '%s'\n"
 
 #: server/civserver.c:228
 #, c-format
 msgid "This is the server for %s"
-msgstr ""
+msgstr "Seo é an freastalaí le haghaidh %s"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: server/civserver.c:230
@@ -3806,7 +3814,7 @@ msgstr ""
 #: server/gamehand.c:336 client/text.c:731
 #, c-format
 msgid "Year: %s"
-msgstr ""
+msgstr "Bliain: %s"
 
 #: server/gamehand.c:420
 msgid "The turn timeout has exceeded its maximum value, fixing at its maximum"
@@ -3823,7 +3831,7 @@ msgstr ""
 #: server/ggzserver.c:131
 #, c-format
 msgid "Unable to change into temporary server directory %s.\n"
-msgstr ""
+msgstr "Níorbh fhéidir dul isteach i gcomhadlann shealadach an fhreastalaí %s.\n"
 
 #: server/ggzserver.c:266 client/ggzclient.c:98
 msgid "Only the GGZ client must call civclient in ggz mode!\n"
@@ -3846,31 +3854,31 @@ msgstr ""
 
 #: server/handchat.c:187
 msgid "You are not attached to a player."
-msgstr ""
+msgstr "Níl tú ceangailte le himreoir."
 
 #: server/handchat.c:195
 #, c-format
 msgid "%s to allies: %s"
-msgstr ""
+msgstr "%s le comhghuaillithe: %s"
 
 #: server/handchat.c:289
 #, c-format
 msgid "%s is not connected."
-msgstr ""
+msgstr "Níl %s ceangailte."
 
 #: server/handchat.c:302
 #, c-format
 msgid "There is no connection by the name %s."
-msgstr ""
+msgstr "Níl ceangal darb ainm %s ann."
 
 #: server/handchat.c:305
 #, c-format
 msgid "There is no player nor connection by the name %s."
-msgstr ""
+msgstr "Níl imreoir ná ceangal darb ainm %s ann."
 
 #: server/maphand.c:115
 msgid "Global warming has occurred!"
-msgstr ""
+msgstr "Tharla téamh domhanda!"
 
 #: server/maphand.c:117
 msgid ""
@@ -3879,7 +3887,7 @@ msgstr ""
 
 #: server/maphand.c:159
 msgid "Nuclear winter has occurred!"
-msgstr ""
+msgstr "Tharla geimhreadh núicléach!"
 
 #: server/maphand.c:161
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
@@ -3916,12 +3924,12 @@ msgstr ""
 #: server/meta.c:436
 #, c-format
 msgid "Metaserver: bad address: <%s %d>."
-msgstr ""
+msgstr "Meitifhreastalaí: drochsheoladh: <%s %d>."
 
 #: server/plrhand.c:133
 #, c-format
 msgid "The %s are no more!"
-msgstr ""
+msgstr "Tá na %s imithe!"
 
 #: server/plrhand.c:189
 msgid "Cannot change rates before game start."
@@ -3930,17 +3938,18 @@ msgstr ""
 #: server/plrhand.c:205 client/gui-gtk-2.0/gamedlgs.c:243
 #: client/gui-win32/ratesdlg.c:311
 msgid "Tax"
-msgstr ""
+msgstr "Cáin"
 
 #: server/plrhand.c:213
 #, c-format
 msgid "%s rate exceeds the max rate for %s."
 msgstr ""
 
+# player... plural nation... government (Republic, Communism)
 #: server/plrhand.c:257
 #, c-format
 msgid "%s now governs the %s as a %s."
-msgstr ""
+msgstr "Tá %s i gceannas ar na %s anois mar %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
@@ -3964,7 +3973,7 @@ msgstr ""
 
 #: server/plrhand.c:411
 msgid "You should choose a new government from the government menu."
-msgstr ""
+msgstr "Ba chóir duit rialtas nua a roghnú ó roghchlár na rialtas."
 
 #: server/plrhand.c:437
 msgid "Tax rate exceeded the max rate; adjusted."
@@ -4003,17 +4012,20 @@ msgid ""
 "finding a new senate."
 msgstr ""
 
+# nationplural... nationplural...  diplomatic_state (Cogadh, Sos Cogaidh...)
 #: server/plrhand.c:601
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
-msgstr ""
+msgstr "Seo é an staid taidhleoireachta idir na %s agus na %s anois: %s."
 
+# player name... nationplural... nationplural...  diplomatic_state (Cogadh, Sos Cogaidh...)
 #: server/plrhand.c:607
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
 "and the %s is now %s."
 msgstr ""
+" Chuir %s an comhaontú taidhleoireachta ar ceal!  Seo é an staid taidhleoireachta idir na %s agus na %s anois: %s."
 
 #: server/plrhand.c:625
 #, c-format
@@ -4026,11 +4038,12 @@ msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
 "with %s."
 msgstr ""
+"D'fhógair do chéile imeartha %s cogadh ar %s. Tá iallach ort do chomhaontas le %s a chur ar ceal."
 
 #: server/plrhand.c:1214
 #, c-format
 msgid "Removing player %s."
-msgstr ""
+msgstr "Imreoir %s á bhaint."
 
 #: server/plrhand.c:1217
 msgid "You've been removed from the game!"
@@ -4044,7 +4057,7 @@ msgstr ""
 #: server/plrhand.c:1272 server/plrhand.c:1277
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
-msgstr ""
+msgstr "Chuaigh tú i dteagmháil leis na %s, faoi riail %s."
 
 #: server/plrhand.c:1297
 #, c-format
@@ -4093,31 +4106,31 @@ msgstr[4] ""
 #: server/report.c:58
 #, c-format
 msgid "%s %s reports on the RICHEST Civilizations in the World."
-msgstr ""
+msgstr "%s Tugann %s cuntas ar na sibhialtachtaí IS SAIBHRE ar Domhan."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:60
 #, c-format
 msgid "%s %s reports on the most ADVANCED Civilizations in the World."
-msgstr ""
+msgstr "%s Tugann %s cuntas ar na sibhialtachtaí IS FORBARTHA ar Domhan."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:62
 #, c-format
 msgid "%s %s reports on the most MILITARIZED Civilizations in the World."
-msgstr ""
+msgstr "%s Tugann %s cuntas ar na sibhialtachtaí IS MÍLEATA ar Domhan."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:64
 #, c-format
 msgid "%s %s reports on the HAPPIEST Civilizations in the World."
-msgstr ""
+msgstr "%s Tugann %s cuntas ar na sibhialtachtaí IS SÁSTA ar Domhan."
 
 #. TRANS: year <name> reports ...
 #: server/report.c:66
 #, c-format
 msgid "%s %s reports on the LARGEST Civilizations in the World."
-msgstr ""
+msgstr "%s Tugann %s cuntas ar na sibhialtachtaí IS MÓ ar Domhan."
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
@@ -4301,11 +4314,11 @@ msgstr "gan iontas ar bith\n"
 #, c-format
 msgid "with %d wonder\n"
 msgid_plural "with %d wonders\n"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "a bhfuil %d iontas inti\n"
+msgstr[1] "a bhfuil %d iontas inti\n"
+msgstr[2] "a bhfuil %d iontas inti\n"
+msgstr[3] "a bhfuil %d n-iontas inti\n"
+msgstr[4] "a bhfuil %d iontas inti\n"
 
 #: server/report.c:328 server/report.c:375
 msgid "Traveler's Report:"
@@ -4313,7 +4326,7 @@ msgstr ""
 
 #: server/report.c:329
 msgid "The Five Greatest Cities in the World!"
-msgstr ""
+msgstr "Na Cúig Chathair Is Fearr Ar Domhan!"
 
 #: server/report.c:347
 #, c-format
@@ -4323,7 +4336,7 @@ msgstr "%s i %s (%s)\n"
 #: server/report.c:352
 #, c-format
 msgid "%s has been DESTROYED\n"
-msgstr ""
+msgstr "DÍOTHAÍODH %s\n"
 
 #: server/report.c:365
 #, c-format
@@ -4353,20 +4366,20 @@ msgstr ""
 #: server/report.c:623
 msgid " month"
 msgid_plural " months"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] " mhí"
+msgstr[1] " mhí"
+msgstr[2] " mhí"
+msgstr[3] " mí"
+msgstr[4] " mí"
 
 #: server/report.c:628
 msgid " ton"
 msgid_plural " tons"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] " tonna"
+msgstr[1] " thonna"
+msgstr[2] " thonna"
+msgstr[3] " tonna"
+msgstr[4] " tonna"
 
 #: server/report.c:642
 msgid "st"
@@ -4451,15 +4464,15 @@ msgstr "Bhí náisiún neamhbhailí ag %s; is é na %s anois."
 
 #: server/settings.c:33
 msgid "Geological"
-msgstr ""
+msgstr "Geolaíoch"
 
 #: server/settings.c:34
 msgid "Sociological"
-msgstr ""
+msgstr "Socheolaíoch"
 
 #: server/settings.c:35
 msgid "Economic"
-msgstr ""
+msgstr "Eacnamaíoch"
 
 #: server/settings.c:36
 msgid "Military"
@@ -4475,7 +4488,7 @@ msgstr "Inmheánach"
 
 #: server/settings.c:39
 msgid "Networking"
-msgstr ""
+msgstr "Líonrú"
 
 #: server/settings.c:43 client/gui-gtk-2.0/dialogs.c:805
 #: client/gui-win32/dialogs.c:546
@@ -4484,11 +4497,11 @@ msgstr "Uile"
 
 #: server/settings.c:44
 msgid "Vital"
-msgstr ""
+msgstr "Barrthábhachtach"
 
 #: server/settings.c:45
 msgid "Situational"
-msgstr ""
+msgstr "De réir na hócáide"
 
 #: server/settings.c:46
 msgid "Rare"
@@ -5543,15 +5556,15 @@ msgstr "Ar Feitheamh"
 
 #: server/spacerace.c:165
 msgid "You need to have a capital in order to launch your spaceship."
-msgstr ""
+msgstr "Tá príomhchathair de dhíth ort chun do spáslong a lainseáil."
 
 #: server/spacerace.c:171
 msgid "Your spaceship is already launched!"
-msgstr ""
+msgstr "Bhí do spáslong lainseáilte cheana!"
 
 #: server/spacerace.c:177
 msgid "Your spaceship can't be launched yet!"
-msgstr ""
+msgstr "Ní féidir do spáslong a lainseáil fós!"
 
 #: server/spacerace.c:186
 #, c-format
@@ -5559,14 +5572,15 @@ msgid ""
 "The %s have launched a spaceship!  It is estimated to arrive on Alpha "
 "Centauri in %s."
 msgstr ""
+"Lainseáil na %s spáslong!  Meastar go sroichfidh sé Alpha Centauri i %s."
 
 #: server/spacerace.c:204
 msgid "Spaceship action received, but you don't have a spaceship!"
-msgstr ""
+msgstr "Fuair tú gníomh spásloinge, ach níl spáslong agat!"
 
 #: server/spacerace.c:210
 msgid "You can't modify your spaceship after launch!"
-msgstr ""
+msgstr "Ní féidir spáslong a athrú tar éis duit é a lainseáil"
 
 #: server/spacerace.c:219
 msgid "You don't have any unplaced Space Structurals!"
@@ -5621,7 +5635,7 @@ msgstr ""
 #: server/srv_main.c:310
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
-msgstr ""
+msgstr "Shroich spáslong na %s Alpha Centauri."
 
 #: server/srv_main.c:328 server/srv_main.c:363
 #, c-format
@@ -5668,16 +5682,16 @@ msgstr ""
 #: server/srv_main.c:1099
 #, c-format
 msgid "Failed saving game as %s"
-msgstr ""
+msgstr "Theip ar an cluiche a shábháil mar %s"
 
 #: server/srv_main.c:1101
 #, c-format
 msgid "Game saved as %s"
-msgstr ""
+msgstr "Sábháladh an cluiche mar %s"
 
 #: server/srv_main.c:1132
 msgid "The game is already running."
-msgstr ""
+msgstr "Tá an cluiche ag rith cheana."
 
 #: server/srv_main.c:1140
 #, c-format
@@ -5686,12 +5700,12 @@ msgstr ""
 
 #: server/srv_main.c:1147
 msgid "Starting game."
-msgstr ""
+msgstr "Cluiche á thosú."
 
 #: server/srv_main.c:1218
 #, c-format
 msgid "request for unknown report (type %d)"
-msgstr ""
+msgstr "iarratas ar thuairisc anaithnid (cineál %d)"
 
 #: server/srv_main.c:1297
 #, c-format
@@ -5706,7 +5720,7 @@ msgstr ""
 
 #: server/srv_main.c:1361
 msgid "You are not allowed to edit."
-msgstr ""
+msgstr "Níl cead agat aon rud a chur in eagar."
 
 #: server/srv_main.c:1403
 #, c-format
@@ -5719,7 +5733,7 @@ msgstr ""
 
 #: server/srv_main.c:1519
 msgid "That nation is already in use."
-msgstr ""
+msgstr "Tá an náisiún sin in úsáid cheana."
 
 #: server/srv_main.c:1535
 #, c-format
@@ -5728,22 +5742,23 @@ msgstr ""
 
 #: server/srv_main.c:1556
 msgid "Please choose a name containing only ASCII characters."
-msgstr ""
+msgstr "Roghnaigh ainm nach bhfuil ach carachtair ASCII ann."
 
 #: server/srv_main.c:1653
 #, c-format
 msgid "%s nation is not available in this scenario."
-msgstr ""
+msgstr "Níl an náisiún %s ar fáil sa chnámhscéal seo."
 
 #: server/srv_main.c:1659
 #, c-format
 msgid "%s nation is already in use."
-msgstr ""
+msgstr "Tá an náisiún %s in úsáid cheana."
 
+# username, adjective nation, playername
 #: server/srv_main.c:1677
 #, c-format
 msgid "%s is the %s ruler %s."
-msgstr ""
+msgstr "Is é %s an rialtóir %s %s."
 
 #: server/srv_main.c:1733
 #, c-format
@@ -5774,7 +5789,7 @@ msgstr ""
 #: server/srv_main.c:2128
 #, c-format
 msgid "Sending info to metaserver <%s>"
-msgstr ""
+msgstr "Faisnéis á seoladh go dtí meitifhreastalaí <%s>"
 
 #: server/srv_main.c:2133
 msgid "Not starting without explicitly requested metaserver connection."
@@ -5846,28 +5861,28 @@ msgstr ""
 #: server/stdinhand.c:447
 #, c-format
 msgid "Open metaserver connection to [%s]."
-msgstr ""
+msgstr "Oscail ceangal meitifhreastalaí le [%s]."
 
 #: server/stdinhand.c:460
 #, c-format
 msgid "Close metaserver connection to [%s]."
-msgstr ""
+msgstr "Dún ceangal meitifhreastalaí le [%s]."
 
 #: server/stdinhand.c:475
 msgid "Metaserver connection is open."
-msgstr ""
+msgstr "Ceangal meitifhreastalaí oscailte."
 
 #: server/stdinhand.c:478
 msgid "Metaserver connection is closed."
-msgstr ""
+msgstr "Ceangal meitifhreastalaí dúnta."
 
 #: server/stdinhand.c:488
 msgid "Metaserver connection is already open."
-msgstr ""
+msgstr "Ceangal meitifhreastalaí oscailte cheana."
 
 #: server/stdinhand.c:499
 msgid "Metaserver connection is already closed."
-msgstr ""
+msgstr "Ceangal meitifhreastalaí dúnta cheana."
 
 #: server/stdinhand.c:504
 msgid "Argument must be 'u', 'up', 'd', 'down', or '?'."
@@ -7689,7 +7704,7 @@ msgstr "%3d/%3d %s"
 #: client/citydlg_common.c:279 client/citydlg_common.c:370
 #, c-format
 msgid "%d/turn"
-msgstr ""
+msgstr "%d/babhta"
 
 #: client/citydlg_common.c:292 client/text.c:660 client/agents/cma_fec.c:270
 #: client/agents/cma_fec.c:308 client/gui-gtk-2.0/citydlg.c:1443
@@ -8241,17 +8256,17 @@ msgstr ""
 #: client/climisc.c:261
 #, c-format
 msgid "The %s give %d gold"
-msgstr ""
+msgstr "Tugann na %s %d píosa óir"
 
 #: client/climisc.c:266
 #, c-format
 msgid "The %s give their worldmap"
-msgstr ""
+msgstr "Tugann na %s a mapa den domhan"
 
 #: client/climisc.c:270
 #, c-format
 msgid "The %s give their seamap"
-msgstr ""
+msgstr "Tugann na %s a mapa den fharraige"
 
 #: client/climisc.c:274
 msgid "The parties agree on a cease-fire"
@@ -8289,12 +8304,12 @@ msgstr "Tá an easpórtáil críochnaithe."
 
 #: client/climisc.c:952
 msgid "Export failed, couldn't write to file."
-msgstr ""
+msgstr "Theip ar easpórtáil; níorbh fhéidir scríobh i gcomhad."
 
 #: client/climisc.c:1051
 #, c-format
 msgid "You don't buy %s in %s!"
-msgstr ""
+msgstr "Ní cheannaíonn tú %s i %s!"
 
 #: client/climisc.c:1062
 #, c-format
@@ -8303,7 +8318,7 @@ msgstr ""
 
 #: client/clinet.c:148
 msgid "Lost connection to server!"
-msgstr ""
+msgstr "Cailleadh an ceangal leis an bhfreastalaí!"
 
 #: client/clinet.c:173
 msgid "Failed looking up host."
@@ -8311,11 +8326,11 @@ msgstr ""
 
 #: client/clinet.c:197
 msgid "Connection in progress."
-msgstr ""
+msgstr "Ceangal ar siúl."
 
 #: client/clinet.c:290
 msgid "Disconnected from server."
-msgstr ""
+msgstr "Dícheangailte ón bhfreastalaí."
 
 #: client/clinet.c:475
 #, c-format
@@ -8342,23 +8357,23 @@ msgstr ""
 
 #: client/connectdlg_common.c:208
 msgid "Starting server..."
-msgstr ""
+msgstr "Freastalaí á thosú..."
 
 #: client/connectdlg_common.c:329
 msgid "Couldn't start the server."
-msgstr ""
+msgstr "Níorbh fhéidir an freastalaí a thosú."
 
 #: client/connectdlg_common.c:330 client/connectdlg_common.c:363
 msgid "You'll have to start one manually. Sorry..."
-msgstr ""
+msgstr "Beidh sé ort freastalaí a thosú de láimh. Tá brón orm..."
 
 #: client/connectdlg_common.c:361
 msgid "Couldn't connect to the server."
-msgstr ""
+msgstr "Níorbh fhéidir dul i dteagmháil leis an bhfreastalaí."
 
 #: client/connectdlg_common.c:362
 msgid "We probably couldn't start it from here."
-msgstr ""
+msgstr "Ní dócha go mbeimid in ann é a thosú ón áit seo."
 
 #: client/connectdlg_common.c:481
 msgid ""
@@ -8415,7 +8430,7 @@ msgstr ""
 
 #: client/editor.c:144
 msgid "Terrain Resource"
-msgstr ""
+msgstr "Acmhainn Tír-Raoin"
 
 #: client/editor.c:146
 msgid ""
@@ -8437,7 +8452,7 @@ msgstr ""
 
 #: client/editor.c:152
 msgid "Military Base"
-msgstr ""
+msgstr "Bunáit Mhíleata"
 
 #: client/editor.c:154
 msgid ""
@@ -8472,7 +8487,7 @@ msgstr ""
 #: client/editor.c:162 client/plrdlg_common.c:265
 #: client/gui-gtk-2.0/editprop.c:3758 client/gui-win32/plrdlg.c:333
 msgid "Vision"
-msgstr ""
+msgstr "Fís"
 
 #: client/editor.c:163
 msgid ""
@@ -8482,7 +8497,7 @@ msgstr ""
 
 #: client/editor.c:164
 msgid "Start Position"
-msgstr ""
+msgstr "Ionad Tosaigh"
 
 #: client/editor.c:165
 msgid ""
@@ -8492,7 +8507,7 @@ msgstr ""
 
 #: client/editor.c:167
 msgid "Copy/Paste"
-msgstr ""
+msgstr "Cóipeáil/Greamaigh"
 
 #: client/editor.c:168
 msgid ""
@@ -8507,7 +8522,7 @@ msgstr "Péinteáil"
 
 #: client/editor.c:1655
 msgid "Erase Value"
-msgstr ""
+msgstr "Bánaigh an Luach"
 
 #: client/editor.c:1657
 msgid "Erase"
@@ -8526,32 +8541,38 @@ msgid ""
 "Toggle erase mode.\n"
 "Shortcut: shift-d"
 msgstr ""
+"Scoránaigh mód bánaithe.\n"
+"Aicearra: shift-d"
 
 #: client/editor.c:1686
 msgid ""
 "Toggle copy mode.\n"
 "Shortcut: shift-c"
 msgstr ""
+"Scoránaigh mód cóipeála.\n"
+"Aicearra: shift-c"
 
 #: client/editor.c:1689
 msgid ""
 "Toggle paste mode.\n"
 "Shortcut: shift-v"
 msgstr ""
+"Scoránaigh mód greamaithe.\n"
+"Aicearra: shift-v"
 
 #: client/editor.c:1744
 msgid "Buffer empty."
-msgstr ""
+msgstr "Maolán folamh."
 
 #: client/editor.c:1751
 #, c-format
 msgid "%d tile copied."
 msgid_plural "%d tiles copied."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "Cóipeáladh %d tíl."
+msgstr[1] "Cóipeáladh %d thíl."
+msgstr[2] "Cóipeáladh %d thíl."
+msgstr[3] "Cóipeáladh %d dtíl."
+msgstr[4] "Cóipeáladh %d tíl."
 
 #: client/helpdata.c:130
 msgid "Terrain     Road   Irrigation     Mining         Transform\n"
@@ -12282,7 +12303,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:320 client/gui-gtk-2.0/gui_main.c:325
 #: client/gui-gtk-2.0/gui_main.c:330 client/gui-gtk-2.0/gui_main.c:335
 msgid "FIXME"
-msgstr ""
+msgstr "DEISIGH"
 
 #: client/gui-gtk-2.0/gui_main.c:284
 msgid "Notify Label"
@@ -13093,33 +13114,33 @@ msgstr "Tuairiscí"
 #: client/gui-gtk-2.0/menu.c:1029 client/gui-gtk-2.0/menu.c:1078
 #: client/gui-win32/menu.c:404 client/gui-win32/menu.c:429
 msgid "_Units"
-msgstr ""
+msgstr "_Aonaid"
 
 #. TRANS: Nations report action
 #: client/gui-gtk-2.0/menu.c:1031 client/gui-win32/menu.c:406
 msgid "_Nations"
-msgstr ""
+msgstr "_Náisiúin"
 
 #: client/gui-gtk-2.0/menu.c:1035 client/gui-win32/menu.c:407
 msgid "_Economy"
-msgstr ""
+msgstr "_Eacnamaíocht"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:1037 client/gui-win32/menu.c:409
 msgid "_Research"
-msgstr ""
+msgstr "_Taighde"
 
 #: client/gui-gtk-2.0/menu.c:1041 client/gui-win32/menu.c:411
 msgid "_Wonders of the World"
-msgstr ""
+msgstr "_Iontais an Domhain"
 
 #: client/gui-gtk-2.0/menu.c:1043 client/gui-win32/menu.c:412
 msgid "_Top Five Cities"
-msgstr ""
+msgstr "Na _Cúig Chathair Is Fearr"
 
 #: client/gui-gtk-2.0/menu.c:1045 client/gui-win32/menu.c:413
 msgid "_Messages"
-msgstr ""
+msgstr "Te_achtaireachtaí"
 
 #: client/gui-gtk-2.0/menu.c:1047 client/gui-win32/menu.c:414
 msgid "_Demographics"
@@ -13128,11 +13149,11 @@ msgstr ""
 #: client/gui-gtk-2.0/menu.c:1049 client/gui-gtk-2.0/plrdlg.c:355
 #: client/gui-win32/menu.c:415
 msgid "_Spaceship"
-msgstr ""
+msgstr "_Spáslong"
 
 #: client/gui-gtk-2.0/menu.c:1053 client/gui-win32/menu.c:419
 msgid "_Help"
-msgstr ""
+msgstr "Cab_hair"
 
 #: client/gui-gtk-2.0/menu.c:1055 client/gui-gtk-2.0/menu.c:1057
 #: client/gui-gtk-2.0/menu.c:1059 client/gui-gtk-2.0/menu.c:1061
@@ -14317,15 +14338,15 @@ msgstr ""
 
 #: client/gui-sdl/connectdlg.c:556
 msgid "Player Name :"
-msgstr ""
+msgstr "Ainm Imreora:"
 
 #: client/gui-sdl/connectdlg.c:572
 msgid "Freeciv Server :"
-msgstr ""
+msgstr "Freastalaí Freeciv:"
 
 #: client/gui-sdl/connectdlg.c:589
 msgid "Port :"
-msgstr ""
+msgstr "Port:"
 
 #: client/gui-sdl/connectdlg.c:609 client/gui-win32/connectdlg.c:1096
 #: client/gui-win32/menu.c:383 data/Freeciv.in:104 data/Freeciv.in:2517
@@ -14399,7 +14420,7 @@ msgstr ""
 #: client/gui-sdl/dialogs.c:1404 client/gui-sdl/dialogs.c:1520
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
-msgstr ""
+msgstr "Gníomhachtaigh %s (%d / %d) %s (%d,%d,%d) %s"
 
 #: client/gui-sdl/dialogs.c:1422 client/gui-sdl/dialogs.c:1547
 #, c-format
@@ -14699,6 +14720,7 @@ msgstr "Riamh"
 msgid "Help : Units"
 msgstr ""
 
+# preceded by number
 #: client/gui-sdl/helpdlg.c:737 client/gui-sdl/helpdlg.c:750
 #: client/gui-sdl/wldlg.c:1360 client/gui-sdl/wldlg.c:1366
 #: client/gui-sdl/wldlg.c:1374 client/gui-sdl/wldlg.c:1380
@@ -14707,46 +14729,46 @@ msgstr ""
 #: client/gui-sdl/wldlg.c:1504
 msgid "shield"
 msgid_plural "shields"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "sciath"
+msgstr[1] "sciath"
+msgstr[2] "sciath"
+msgstr[3] "sciath"
+msgstr[4] "sciath"
 
 #: client/gui-sdl/helpdlg.c:742 client/gui-sdl/helpdlg.c:765
 msgid "citizen"
 msgid_plural "citizens"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "saoránach"
+msgstr[1] "shaoránach"
+msgstr[2] "shaoránach"
+msgstr[3] "saoránach"
+msgstr[4] "saoránach"
 
 #: client/gui-sdl/helpdlg.c:755
 msgid "food"
 msgid_plural "foods"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "bhia"
+msgstr[1] "bhia"
+msgstr[2] "bhia"
+msgstr[3] "mbia"
+msgstr[4] "bia"
 
 #: client/gui-sdl/helpdlg.c:760
 msgid "gold"
 msgid_plural "golds"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "phíosa óir"
+msgstr[1] "phíosa óir"
+msgstr[2] "phíosa óir"
+msgstr[3] "bpíosa óir"
+msgstr[4] "píosa óir"
 
 #: client/gui-sdl/helpdlg.c:1003
 msgid "( with "
-msgstr ""
+msgstr "( le "
 
 #: client/gui-sdl/helpdlg.c:1006
 msgid " )"
-msgstr ""
+msgstr " )"
 
 #: client/gui-sdl/helpdlg.c:1904
 msgid "Help : Advances Tree"
@@ -15370,7 +15392,7 @@ msgstr "Nuashonraigh"
 
 #: client/gui-sdl/repodlgs.c:2062 client/gui-sdl/wldlg.c:1344
 msgid "Wonder"
-msgstr ""
+msgstr "Iontas"
 
 #: client/gui-sdl/repodlgs.c:2844
 msgid "What should we focus on now?"
@@ -15378,16 +15400,17 @@ msgstr ""
 
 #: client/gui-sdl/repodlgs.c:3031
 msgid "Select target :"
-msgstr ""
+msgstr "Roghnaigh sprioc:"
 
+# preceded by number on screen
 #: client/gui-sdl/repodlgs.c:3099
 msgid "step"
 msgid_plural "steps"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "chéim"
+msgstr[1] "chéim"
+msgstr[2] "chéim"
+msgstr[3] "gcéim"
+msgstr[4] "céim"
 
 #: client/gui-sdl/repodlgs.c:3378 client/gui-win32/repodlgs.c:773
 #: client/gui-xaw/repodlgs.c:1192
@@ -15462,6 +15485,8 @@ msgid ""
 "%s\n"
 "%d %s"
 msgstr ""
+"%s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:912 client/gui-sdl/wldlg.c:1088
 #, c-format
@@ -15469,11 +15494,13 @@ msgid ""
 "%s\n"
 "finished!"
 msgstr ""
+"%s\n"
+"críochnaithe!"
 
 #: client/gui-sdl/wldlg.c:952 client/gui-sdl/wldlg.c:1058
 #, c-format
 msgid "( %d entries )"
-msgstr ""
+msgstr "( %d iontráil )"
 
 #: client/gui-sdl/wldlg.c:1045
 #, c-format
@@ -15481,6 +15508,8 @@ msgid ""
 "Worklist of\n"
 "%s"
 msgstr ""
+"Liosta oibre do\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1357
 #, c-format
@@ -15489,6 +15518,9 @@ msgid ""
 "%d/%d %s\n"
 "%s"
 msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1364
 #, c-format
@@ -15496,6 +15528,8 @@ msgid ""
 "%d/%d %s\n"
 "%s"
 msgstr ""
+"%d/%d %s\n"
+"%s"
 
 #: client/gui-sdl/wldlg.c:1371
 #, c-format
@@ -15504,6 +15538,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%s)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1378
 #, c-format
@@ -15511,11 +15548,13 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1387
 #, c-format
 msgid "%d gold per turn"
-msgstr ""
+msgstr "%d píosa óir gach babhta"
 
 #: client/gui-sdl/wldlg.c:1394
 #, c-format
@@ -15523,6 +15562,8 @@ msgid ""
 "(%s)\n"
 "%d %s"
 msgstr ""
+"(%s)\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1405
 msgid "shields into gold"
@@ -15535,6 +15576,9 @@ msgid ""
 "%d/%d %s\n"
 "never"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"riamh"
 
 #: client/gui-sdl/wldlg.c:1491
 #, c-format
@@ -15543,6 +15587,9 @@ msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d/%d %s\n"
+"%d %s"
 
 #: client/gui-sdl/wldlg.c:1500
 #, c-format
@@ -15550,20 +15597,22 @@ msgid ""
 "(%d/%d/%d)\n"
 "%d %s"
 msgstr ""
+"(%d/%d/%d)\n"
+"%d %s"
 
 #: client/gui-win32/citydlg.c:290
 #, c-format
 msgid "Upkeep (Total: %d)"
-msgstr ""
+msgstr "Cothú (Iomlán: %d)"
 
 #: client/gui-win32/citydlg.c:733
 msgid "City Overview"
-msgstr ""
+msgstr "Cathair: Achoimre"
 
 #: client/gui-win32/citydlg.c:733 client/gui-win32/wldlg.c:1082
 #: client/gui-win32/wldlg.c:1131
 msgid "Worklist"
-msgstr ""
+msgstr "Liosta Oibre"
 
 #: client/gui-win32/citydlg.c:735 data/Freeciv.in:2238
 msgid "Trade Routes"
@@ -15571,12 +15620,12 @@ msgstr ""
 
 #: client/gui-win32/citydlg.c:736
 msgid "Misc. Settings"
-msgstr ""
+msgstr "Socruithe Éagsúla"
 
 #: client/gui-win32/citydlg.c:800 client/gui-win32/cityrep.c:881
 #: data/Freeciv.in:1629
 msgid "Buy"
-msgstr ""
+msgstr "Ceannaigh"
 
 #: client/gui-win32/citydlg.c:802 client/gui-win32/citydlg.c:1077
 #: client/gui-win32/cityrep.c:748 client/gui-win32/cityrep.c:882
@@ -15587,7 +15636,7 @@ msgstr "Athraigh"
 
 #: client/gui-win32/citydlg.c:821
 msgid "Units present"
-msgstr ""
+msgstr "Aonaid atá ann"
 
 #: client/gui-win32/citydlg.c:827 client/gui-win32/cityrep.c:135
 #: client/gui-win32/cityrep.c:878 client/gui-win32/dialogs.c:191
@@ -15623,11 +15672,11 @@ msgstr ""
 
 #: client/gui-win32/citydlg.c:854
 msgid "Improvement"
-msgstr ""
+msgstr "Feabhsúchán"
 
 #: client/gui-win32/citydlg.c:857 manual/civmanual.c:299
 msgid "Upkeep"
-msgstr ""
+msgstr "Cothú"
 
 #: client/gui-win32/citydlg.c:911 client/gui-win32/citydlg.c:966
 #: client/gui-win32/citydlg.c:1421 client/gui-win32/dialogs.c:988
@@ -15646,7 +15695,7 @@ msgstr "_Ní"
 #: client/gui-win32/dialogs.c:1576 data/Freeciv.in:2259 data/Freeciv.in:2463
 #: data/Freeciv.in:2493
 msgid "Darn"
-msgstr ""
+msgstr "A Dhiach"
 
 #: client/gui-win32/citydlg.c:1218
 #, c-format
@@ -15665,17 +15714,17 @@ msgstr ""
 #: client/gui-win32/citydlg.c:1447 client/gui-win32/citydlg.c:1477
 #: data/Freeciv.in:1160 data/Freeciv.in:1196
 msgid "Unit Commands"
-msgstr ""
+msgstr "Orduithe Aonaid"
 
 #: client/gui-win32/citydlg.c:1455 client/gui-win32/citydlg.c:1493
 #: client/gui-win32/dialogs.c:1623 client/gui-win32/dialogs.c:1645
 #: client/gui-win32/dialogs.c:1675
 msgid "_Cancel"
-msgstr ""
+msgstr "_Cealaigh"
 
 #: client/gui-win32/citydlg.c:1491
 msgid "_Upgrade unit"
-msgstr ""
+msgstr "_Uasghrádaigh aonad"
 
 #: client/gui-win32/citydlg.c:1955
 msgid "Elvises"
@@ -18499,7 +18548,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:236 data/civ2/buildings.ruleset:216
 msgid "Coastal Defense"
-msgstr ""
+msgstr "Daingean Cósta"
 
 #: data/default/buildings.ruleset:251 data/civ2/buildings.ruleset:231
 msgid ""
@@ -18510,7 +18559,7 @@ msgstr ""
 #: data/default/buildings.ruleset:257 data/civ2/buildings.ruleset:237
 #: data/civ1/buildings.ruleset:185
 msgid "Colosseum"
-msgstr ""
+msgstr "Colasaem"
 
 #: data/default/buildings.ruleset:271
 msgid ""
@@ -18565,7 +18614,7 @@ msgstr ""
 #: data/default/buildings.ruleset:367 data/civ2/buildings.ruleset:346
 #: data/civ1/buildings.ruleset:272
 msgid "Hydro Plant"
-msgstr ""
+msgstr "Monarcha Hidrileictreach"
 
 #: data/default/buildings.ruleset:384
 #, no-c-format
@@ -18615,7 +18664,7 @@ msgstr ""
 #: data/default/buildings.ruleset:461 data/civ2/buildings.ruleset:438
 #: data/civ1/buildings.ruleset:364
 msgid "Mfg. Plant"
-msgstr ""
+msgstr "Monarcha Dhéantúsaíochta"
 
 #: data/default/buildings.ruleset:477 data/civ2/buildings.ruleset:454
 #: data/civ1/buildings.ruleset:380
@@ -18644,7 +18693,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:517 data/civ2/buildings.ruleset:492
 msgid "Offshore Platform"
-msgstr ""
+msgstr "Ardán Amach Ón gCósta"
 
 #: data/default/buildings.ruleset:532 data/civ2/buildings.ruleset:507
 msgid ""
@@ -18687,7 +18736,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:595 data/civ2/buildings.ruleset:563
 msgid "Port Facility"
-msgstr ""
+msgstr "Saoráidí Calafoirt"
 
 #: data/default/buildings.ruleset:610 data/civ2/buildings.ruleset:578
 msgid ""
@@ -18739,7 +18788,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:693 data/civ2/buildings.ruleset:658
 msgid "SAM Battery"
-msgstr ""
+msgstr "Bataire Aerchosanta"
 
 #: data/default/buildings.ruleset:707 data/civ2/buildings.ruleset:672
 msgid ""
@@ -18750,7 +18799,7 @@ msgstr ""
 #: data/default/buildings.ruleset:713 data/civ2/buildings.ruleset:678
 #: data/civ1/buildings.ruleset:496
 msgid "SDI Defense"
-msgstr ""
+msgstr "Cosaint SDI"
 
 #: data/default/buildings.ruleset:727 data/civ2/buildings.ruleset:692
 #: data/civ1/buildings.ruleset:510
@@ -18761,7 +18810,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:736 data/civ2/buildings.ruleset:701
 msgid "Sewer System"
-msgstr ""
+msgstr "Córas Séarachais"
 
 #: data/default/buildings.ruleset:751 data/civ2/buildings.ruleset:716
 msgid ""
@@ -18771,7 +18820,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:757 data/civ2/buildings.ruleset:722
 msgid "Solar Plant"
-msgstr ""
+msgstr "Córas Grianfhuinnimh"
 
 #: data/default/buildings.ruleset:773
 #, no-c-format
@@ -18829,7 +18878,7 @@ msgstr ""
 #: data/default/buildings.ruleset:844 data/civ2/buildings.ruleset:807
 #: data/civ1/buildings.ruleset:576
 msgid "Space Structural"
-msgstr ""
+msgstr "Déanmhas Spáis"
 
 #: data/default/buildings.ruleset:859 data/civ2/buildings.ruleset:821
 #: data/civ1/buildings.ruleset:590
@@ -18844,7 +18893,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:869 data/civ2/buildings.ruleset:831
 msgid "Stock Exchange"
-msgstr ""
+msgstr "Stocmhargadh"
 
 #: data/default/buildings.ruleset:885
 #, no-c-format
@@ -18856,7 +18905,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:893 data/civ2/buildings.ruleset:853
 msgid "Super Highways"
-msgstr ""
+msgstr "Ollbhealaí"
 
 #: data/default/buildings.ruleset:908 data/civ2/buildings.ruleset:868
 #, no-c-format
@@ -18915,7 +18964,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1002 data/civ2/buildings.ruleset:960
 msgid "A.Smith's Trading Co."
-msgstr ""
+msgstr "Comhlacht Trádála Thadhg Ó Ródaí"
 
 #: data/default/buildings.ruleset:1016
 msgid ""
@@ -18949,7 +18998,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1062 data/civ2/buildings.ruleset:1020
 #: data/civ1/buildings.ruleset:702
 msgid "Cure For Cancer"
-msgstr ""
+msgstr "Leigheas ar Ailse"
 
 #: data/default/buildings.ruleset:1076
 msgid ""
@@ -18960,7 +19009,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1084 data/civ2/buildings.ruleset:1040
 #: data/civ1/buildings.ruleset:722
 msgid "Darwin's Voyage"
-msgstr ""
+msgstr "Aistear Dharwin"
 
 #: data/default/buildings.ruleset:1098 data/civ2/buildings.ruleset:1054
 #: data/civ1/buildings.ruleset:736
@@ -19004,7 +19053,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1168 data/civ2/buildings.ruleset:1123
 #: data/civ1/buildings.ruleset:784
 msgid "Hanging Gardens"
-msgstr ""
+msgstr "Garraithe Crochta"
 
 #: data/default/buildings.ruleset:1182 data/civ2/buildings.ruleset:1137
 #: data/civ1/buildings.ruleset:798
@@ -19042,7 +19091,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1233 data/civ2/buildings.ruleset:1186
 #: data/civ1/buildings.ruleset:849
 msgid "J.S. Bach's Cathedral"
-msgstr ""
+msgstr "Ardeaglais J. S. Bach"
 
 #: data/default/buildings.ruleset:1247 data/civ2/buildings.ruleset:1200
 msgid "Makes two unhappy citizens content in every city."
@@ -19050,7 +19099,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1252 data/civ2/buildings.ruleset:1205
 msgid "King Richard's Crusade"
-msgstr ""
+msgstr "Crosáid Risteard an Rí"
 
 #: data/default/buildings.ruleset:1266 data/civ2/buildings.ruleset:1219
 msgid ""
@@ -19080,7 +19129,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1312 data/civ2/buildings.ruleset:1264
 #: data/civ1/buildings.ruleset:891
 msgid "Magellan's Expedition"
-msgstr ""
+msgstr "Eachtra Mhagellan"
 
 #: data/default/buildings.ruleset:1327
 msgid "Gives all your sea units 2 additional movement points."
@@ -19102,7 +19151,7 @@ msgstr ""
 #: data/default/buildings.ruleset:1369 data/civ2/buildings.ruleset:1320
 #: data/civ1/buildings.ruleset:928
 msgid "Michelangelo's Chapel"
-msgstr ""
+msgstr "Séipéal Mhichelangelo"
 
 #: data/default/buildings.ruleset:1383 data/civ2/buildings.ruleset:1334
 msgid ""
@@ -19157,7 +19206,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1473 data/civ2/buildings.ruleset:1422
 msgid "Statue of Liberty"
-msgstr ""
+msgstr "Dealbh na Saoirse"
 
 #: data/default/buildings.ruleset:1487 data/civ2/buildings.ruleset:1436
 #: data/civ1/buildings.ruleset:980 data/civ1/buildings.ruleset:1040
@@ -19168,7 +19217,7 @@ msgstr ""
 
 #: data/default/buildings.ruleset:1494 data/civ2/buildings.ruleset:1443
 msgid "Sun Tzu's War Academy"
-msgstr ""
+msgstr "Acadamh Cogaidh Sun Tzu"
 
 #: data/default/buildings.ruleset:1508
 msgid ""
@@ -19810,7 +19859,7 @@ msgstr ""
 
 #: data/civ2/governments.ruleset:135 data/civ2/techs.ruleset:284
 msgid "Fundamentalism"
-msgstr ""
+msgstr "Bunchreidmheachas"
 
 #: data/civ2/governments.ruleset:142
 msgid "High Priest"
@@ -19926,7 +19975,7 @@ msgstr "Córas Dlíthe"
 
 #: data/default/techs.ruleset:157 data/civ2/techs.ruleset:146
 msgid "Combined Arms"
-msgstr ""
+msgstr "Comhairm"
 
 #: data/default/techs.ruleset:165 data/civ2/techs.ruleset:154
 #: data/civ1/techs.ruleset:138
@@ -20255,7 +20304,7 @@ msgstr "Teoiric na Domhantarraingthe"
 
 #: data/default/techs.ruleset:740 data/civ2/techs.ruleset:737
 msgid "Warrior Code"
-msgstr ""
+msgstr "Cód na nGaiscíoch"
 
 #: data/default/techs.ruleset:748 data/civ2/techs.ruleset:745
 #: data/civ1/techs.ruleset:571
@@ -20740,7 +20789,7 @@ msgstr ""
 #: data/default/units.ruleset:770 data/civ2/units.ruleset:653
 #: data/civ1/units.ruleset:373
 msgid "Mech. Inf."
-msgstr ""
+msgstr "Cos-Slua Meicnithe"
 
 #: data/default/units.ruleset:796 data/civ2/units.ruleset:679
 msgid ""
@@ -20889,7 +20938,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1228 data/civ2/units.ruleset:1175
 msgid "Stealth Fighter"
-msgstr ""
+msgstr "Trodaí Fáilí"
 
 #: data/default/units.ruleset:1255 data/civ2/units.ruleset:1202
 msgid "An improved Fighter, with improved attack and a higher movement radius."
@@ -20897,7 +20946,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1261 data/civ2/units.ruleset:1208
 msgid "Stealth Bomber"
-msgstr ""
+msgstr "Buamadóir Fáilí"
 
 #: data/default/units.ruleset:1287 data/civ2/units.ruleset:1234
 msgid "An improved Bomber, with improved attack and a higher movement radius."
@@ -20942,7 +20991,7 @@ msgstr ""
 #: data/default/units.ruleset:1428 data/civ2/units.ruleset:1375
 #: data/civ1/units.ruleset:802
 msgid "Ironclad"
-msgstr ""
+msgstr "Long Iarnaithe"
 
 #: data/default/units.ruleset:1454 data/civ2/units.ruleset:1401
 #: data/civ1/units.ruleset:828
@@ -20975,7 +21024,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1526 data/civ2/units.ruleset:1473
 msgid "AEGIS Cruiser"
-msgstr ""
+msgstr "Cúrsóir AEGIS"
 
 #: data/default/units.ruleset:1552 data/civ2/units.ruleset:1499
 msgid "The AEGIS Cruiser is equipped with an advanced defensive missile system."
@@ -21033,7 +21082,7 @@ msgstr ""
 
 #: data/default/units.ruleset:1695 data/civ2/units.ruleset:1642
 msgid "Cruise Missile"
-msgstr ""
+msgstr "Diúracán Treoraithe"
 
 #: data/default/units.ruleset:1721 data/civ2/units.ruleset:1668
 msgid ""
@@ -21161,12 +21210,12 @@ msgstr "?unit:Ceannaire"
 
 #: data/default/units.ruleset:2001
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr ""
+msgstr "Tusa.  Má chailleann tú an t-aonad seo, caillfidh tú an cluiche. Mar sin, ná caill."
 
 #: data/default/units.ruleset:2006 data/civ2/units.ruleset:1920
 #: data/civ1/units.ruleset:1138
 msgid "Barbarian Leader"
-msgstr ""
+msgstr "Ceannaire Barbarach"
 
 #: data/default/units.ruleset:2033
 msgid ""
@@ -21536,7 +21585,7 @@ msgstr "?plural:hAntartaigh"
 
 #: data/nation/antarctican.ruleset:6
 msgid "Independent South Pole, land of penguins."
-msgstr ""
+msgstr "An Mol Theas Neamhspleách, tír na bpiongainí."
 
 #: data/nation/arab.ruleset:3
 msgid "Arab"
@@ -21983,17 +22032,17 @@ msgstr "Deachtóir"
 
 #: data/nation/brazilian.ruleset:24 data/nation/roman.ruleset:39
 msgid "Dictatrix"
-msgstr ""
+msgstr "Bandeachtóir"
 
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperator"
-msgstr ""
+msgstr "Impire"
 
 #: data/nation/brazilian.ruleset:25 data/nation/byzantium.ruleset:25
 #: data/nation/roman.ruleset:40
 msgid "Imperatrix"
-msgstr ""
+msgstr "Banimpire"
 
 #: data/nation/brazilian.ruleset:26 data/nation/chinese.ruleset:32
 msgid "Chairman"
@@ -22033,7 +22082,7 @@ msgstr ""
 
 #: data/nation/breton.ruleset:35
 msgid "Dug"
-msgstr ""
+msgstr "Dug"
 
 #: data/nation/breton.ruleset:35
 msgid "Dugez"
@@ -22079,19 +22128,19 @@ msgstr ""
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzar"
-msgstr ""
+msgstr "Sár"
 
 #: data/nation/bulgarian.ruleset:31
 msgid "Tzaritza"
-msgstr ""
+msgstr "Bansár"
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Drugariat"
-msgstr ""
+msgstr "Drugariat"
 
 #: data/nation/bulgarian.ruleset:33
 msgid "Drugarkata"
-msgstr ""
+msgstr "Drugarkata"
 
 #: data/nation/bulgarian.ruleset:34 data/nation/byzantium.ruleset:26
 #: data/nation/russian.ruleset:49
@@ -22125,7 +22174,7 @@ msgstr "Margraf"
 
 #: data/nation/burgundian.ruleset:31
 msgid "Margravine"
-msgstr ""
+msgstr "Banmhargraf"
 
 #: data/nation/burgundian.ruleset:32 data/nation/norman.ruleset:23
 #: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
@@ -22902,7 +22951,7 @@ msgstr "Banuasal"
 
 #: data/nation/galician.ruleset:26
 msgid "Raina"
-msgstr ""
+msgstr "Raina"
 
 #: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
 #: data/nation/venezuelan.ruleset:31 data/nation/venezuelan.ruleset:32
@@ -23087,11 +23136,11 @@ msgstr ""
 
 #: data/nation/himyarite.ruleset:3
 msgid "Himyarite"
-msgstr ""
+msgstr "Himiarach"
 
 #: data/nation/himyarite.ruleset:4
 msgid "?plural:Himyar"
-msgstr ""
+msgstr "?plural:Himiaraigh"
 
 #: data/nation/himyarite.ruleset:7
 msgid ""
@@ -23171,13 +23220,14 @@ msgid ""
 "independence from Denmark in 1944."
 msgstr ""
 
+# Illyricum = Illireacam
 #: data/nation/illyrian.ruleset:3
 msgid "Illyrian"
-msgstr ""
+msgstr "Illireach"
 
 #: data/nation/illyrian.ruleset:4
 msgid "?plural:Illyrians"
-msgstr ""
+msgstr "?plural:Illirigh"
 
 #: data/nation/illyrian.ruleset:6
 msgid ""
@@ -23214,7 +23264,7 @@ msgstr ""
 
 #: data/nation/inca.ruleset:35
 msgid "Inka"
-msgstr ""
+msgstr "Inka"
 
 #: data/nation/inca.ruleset:36
 msgid "Sapa Inka"
@@ -23377,9 +23427,10 @@ msgstr "Ard-Rí"
 msgid "High Queen"
 msgstr "Ard-Bhanríon"
 
+# de Bhaldraithe
 #: data/nation/irish.ruleset:46
 msgid "Mother Superior"
-msgstr ""
+msgstr "An Mháthair-Uachtarán"
 
 #. TRANS: Taoiseach = Prime Minister
 #: data/nation/irish.ruleset:48
@@ -23617,13 +23668,14 @@ msgstr ""
 msgid "Khagan"
 msgstr "Khagan"
 
+# Srí Lanca => Lancach
 #: data/nation/lankese.ruleset:3
 msgid "Lankese"
-msgstr ""
+msgstr "Lancach"
 
 #: data/nation/lankese.ruleset:4
 msgid "?plural:Lankese"
-msgstr ""
+msgstr "?plural:Lancaigh"
 
 #: data/nation/lankese.ruleset:6
 msgid ""
@@ -23711,7 +23763,7 @@ msgstr ""
 
 #: data/nation/libyan.ruleset:23
 msgid "Dey"
-msgstr ""
+msgstr "Dey"
 
 #: data/nation/libyan.ruleset:24
 msgid "Colonel"
@@ -23742,11 +23794,11 @@ msgstr "Ard-Bhandiúc"
 
 #: data/nation/lojbanistani.ruleset:3
 msgid "Lojbanistani"
-msgstr ""
+msgstr "Lojbánastánach"
 
 #: data/nation/lojbanistani.ruleset:4
 msgid "?plural:Lojbanistanis"
-msgstr ""
+msgstr "?plural:Lojbánastánaigh"
 
 #: data/nation/lojbanistani.ruleset:6
 msgid ""
@@ -23758,11 +23810,11 @@ msgstr ""
 
 #: data/nation/majapahit.ruleset:3
 msgid "Majapahit"
-msgstr ""
+msgstr "Majapahit"
 
 #: data/nation/majapahit.ruleset:4
 msgid "?plural:Majapahit"
-msgstr ""
+msgstr "?plural:Majapahit"
 
 #: data/nation/majapahit.ruleset:7
 msgid ""
@@ -23778,7 +23830,7 @@ msgstr ""
 
 #: data/nation/majapahit.ruleset:27
 msgid "Mahapatih"
-msgstr ""
+msgstr "Mahapatih"
 
 #: data/nation/malagasy.ruleset:3
 msgid "Malagasy"
@@ -23828,7 +23880,7 @@ msgstr "Bansabhdán"
 
 #: data/nation/malaysian.ruleset:23
 msgid "Tun"
-msgstr ""
+msgstr "Tun"
 
 #: data/nation/malian.ruleset:3
 msgid "Malian"
@@ -23909,7 +23961,7 @@ msgstr "Lonko"
 
 #: data/nation/mapuche.ruleset:21
 msgid "Machi"
-msgstr ""
+msgstr "Machi"
 
 #: data/nation/martian.ruleset:3
 msgid "Martian"
@@ -24164,11 +24216,11 @@ msgstr ""
 
 #: data/nation/numidian.ruleset:3
 msgid "Numidian"
-msgstr ""
+msgstr "Núimideach"
 
 #: data/nation/numidian.ruleset:4
 msgid "?plural:Numidians"
-msgstr ""
+msgstr "?plural:Núimidigh"
 
 #: data/nation/numidian.ruleset:7
 msgid ""
@@ -24446,7 +24498,7 @@ msgstr ""
 #: data/nation/templar.ruleset:45 data/nation/templar.ruleset:46
 #: data/nation/templar.ruleset:47
 msgid "Grand Master"
-msgstr ""
+msgstr "Ard-Mháistir"
 
 #: data/nation/prussian.ruleset:27
 msgid "Elector"
@@ -24579,11 +24631,11 @@ msgstr ""
 
 #: data/nation/ryukyuan.ruleset:3
 msgid "Ryukyuan"
-msgstr ""
+msgstr "Ríúcuach"
 
 #: data/nation/ryukyuan.ruleset:4
 msgid "?plural:Ryukyuans"
-msgstr ""
+msgstr "?plural:Ríúcuaigh"
 
 #: data/nation/ryukyuan.ruleset:6
 msgid ""
@@ -24625,11 +24677,11 @@ msgstr "?female:Noaydde"
 
 #: data/nation/samogitian.ruleset:3
 msgid "Samogitian"
-msgstr ""
+msgstr "Sámóigíseach"
 
 #: data/nation/samogitian.ruleset:4
 msgid "?plural:Samogitians"
-msgstr ""
+msgstr "?plural:Sámóigísigh"
 
 #: data/nation/samogitian.ruleset:6
 msgid ""
@@ -24726,13 +24778,15 @@ msgstr "Encik"
 msgid "?female:Encik"
 msgstr "?female:Encik"
 
+# written this way in "Néall Dearg" m.sh.
 #: data/nation/sioux.ruleset:3
 msgid "Sioux"
-msgstr ""
+msgstr "Sioux"
 
+# written this way in "Néall Dearg" m.sh.
 #: data/nation/sioux.ruleset:4
 msgid "?plural:Sioux"
-msgstr ""
+msgstr "?plural:Sioux"
 
 #: data/nation/sioux.ruleset:6
 msgid ""
@@ -25038,11 +25092,11 @@ msgstr ""
 
 #: data/nation/taino.ruleset:3
 msgid "Taino"
-msgstr "Taino"
+msgstr "Tadhnóch"
 
 #: data/nation/taino.ruleset:4
 msgid "?plural:Taino"
-msgstr ""
+msgstr "?plural:Tadhnóigh"
 
 #: data/nation/taino.ruleset:7
 msgid ""
@@ -25071,11 +25125,11 @@ msgstr "Bohike"
 
 #: data/nation/tairona.ruleset:3
 msgid "Tairona"
-msgstr "Tairona"
+msgstr "Tadhrónach"
 
 #: data/nation/tairona.ruleset:4
 msgid "?plural:Tairona"
-msgstr ""
+msgstr "?plural:Tadhrónaigh"
 
 #: data/nation/tairona.ruleset:7
 msgid ""
@@ -25147,7 +25201,7 @@ msgstr ""
 #: data/nation/templar.ruleset:44 data/nation/templar.ruleset:45
 #: data/nation/templar.ruleset:46 data/nation/templar.ruleset:47
 msgid "Grand Mistress"
-msgstr ""
+msgstr "Ard-Mháistreás"
 
 #: data/nation/texan.ruleset:3
 msgid "Texan"
@@ -25286,11 +25340,11 @@ msgstr ""
 
 #: data/nation/tupi.ruleset:3
 msgid "Tupi"
-msgstr "Tupi"
+msgstr "Túpíoch"
 
 #: data/nation/tupi.ruleset:4
 msgid "?plural:Tupi"
-msgstr ""
+msgstr "?plural:Túpígh"
 
 #: data/nation/tupi.ruleset:7
 msgid ""
@@ -25543,13 +25597,15 @@ msgid ""
 "Khoisan peoples and clashing with European settlers."
 msgstr ""
 
+# hmph.
 #: data/scenario/british-isles-85x80-v2.80.sav:3
 msgid "British Isles (medium/classic)"
-msgstr "An Bhreatain Mhór agus Éire (meán/clasaiceach)"
+msgstr "Éire agus An Bhreatain Mhór (meán/clasaiceach)"
 
+# hmph.
 #: data/scenario/british-isles-85x80-v2.80.sav:4
 msgid "Classic-style 85x80 map of the British Isles."
-msgstr ""
+msgstr "Mapa clasaiceach 85x80 d'Éire agus den Bhreatain Mhór."
 
 #: data/scenario/earth-160x90-v2.sav:3
 msgid "Earth (classic, large)"
@@ -25557,7 +25613,7 @@ msgstr "An Domhan (clasaiceach, mór)"
 
 #: data/scenario/earth-160x90-v2.sav:4
 msgid "Classic-style 160x90 Earth scenario."
-msgstr ""
+msgstr "Cnámhscéal clasaiceach 160x90: An Domhan."
 
 #: data/scenario/earth-80x50-v2.sav:3
 msgid "Earth (classic, small)"
@@ -25565,7 +25621,7 @@ msgstr "An Domhan (clasaiceach, beag)"
 
 #: data/scenario/earth-80x50-v2.sav:4
 msgid "Classic-style 80x50 Earth scenario."
-msgstr ""
+msgstr "Cnámhscéal clasaiceach 80x50: An Domhan."
 
 #: data/scenario/europe-200x100-v2.sav:3
 msgid "Europe (giant/classic)"
@@ -25573,7 +25629,7 @@ msgstr "An Eoraip (ollmhór/clasaiceach)"
 
 #: data/scenario/europe-200x100-v2.sav:4
 msgid "Very large classic-style map of Europe."
-msgstr ""
+msgstr "Mapa an-mhór clasaiceach den Eoraip."
 
 #: data/scenario/hagworld-120x60-v1.2.sav:5
 msgid "Earth (classic, medium)"
@@ -25581,17 +25637,18 @@ msgstr "An Domhan (clasaiceach, meán)"
 
 #: data/scenario/hagworld-120x60-v1.2.sav:6
 msgid "Classic-style 120x60 Earth scenario."
-msgstr ""
+msgstr "Cnámhscéal clasaiceach 120x60: An Domhan."
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:3
 msgid "Iberian Peninsula (classic/large)"
-msgstr ""
+msgstr "Leithinis na hIbéire (clasaiceach/mór)"
 
 #: data/scenario/iberian-peninsula-136x100-v1.0.sav:4
 msgid ""
 "Large classic-style map of the Iberian Peninsula (modern-day Spain and "
 "Portugal)."
 msgstr ""
+"Mapa mór clasaiceach de Leithinis na hIbéire (An Spáinn agus An Phortaingéil san lá atá ann inniu)."
 
 #: data/scenario/tutorial.sav:3
 msgid "Tutorial"
@@ -25599,7 +25656,7 @@ msgstr "Cúrsa Teagaisc"
 
 #: data/scenario/tutorial.sav:4
 msgid "Tutorial Scenario."
-msgstr ""
+msgstr "Cnámhscéal Cúrsa Teagaisc."
 
 #: data/scenario/tutorial.sav:18
 msgid ""
@@ -25916,7 +25973,7 @@ msgstr ""
 
 #: data/scenario/tutorial.sav:380
 msgid "Loading tutorial events."
-msgstr ""
+msgstr "Imeachtaí an chúrsa teagaisc á luchtú."
 
 #: data/civ1/game.ruleset:19
 msgid "Civ1 ruleset"
@@ -25931,6 +25988,10 @@ msgid ""
 " * There is less technologies, buildings and units\n"
 " * Units have no hitpoints. If they win battle, they remain in full health\n"
 msgstr ""
+"Tá tú ag imirt de réir rialacha civ1. Tá na rialacha seo i bhfad níos simplí ná na rialacha réamhshocraithe Freeciv. Má tá tú cleachta leis na rialacha réamhshocraithe, caith roinnt ama chun na difríochtaí a thuiscint.\n"
+"\n"
+" * Is lú na teicneolaíochtaí, foirgnimh agus aonaid atá ann\n"
+" * Níl pointí tréine ag aonaid. Tar éis cath a bhuachan, beidh an tsláinte iomlán ag aonad\n"
 
 #: data/civ1/game.ruleset:155 data/civ2/game.ruleset:149
 #: data/default/game.ruleset:181
