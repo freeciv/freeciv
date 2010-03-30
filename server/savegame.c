@@ -4850,10 +4850,9 @@ static void game_load_internal(struct section_file *file)
   } players_iterate_end;
 
   {
-    int nplayers = MAX(game.info.aifill,
-                       secfile_lookup_int_default(file, 0, "game.nplayers"));
+    int nplayers = secfile_lookup_int_default(file, 0, "game.nplayers");
 
-    aifill(nplayers);
+    aifill(MAX(game.info.aifill, nplayers));
     set_player_count(nplayers);
   }
 
