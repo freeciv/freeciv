@@ -2341,7 +2341,7 @@ static float city_migration_score(struct city *pcity)
   }
 
   /* take into account effects */
-  score *= (1.0 + get_city_bonus(pcity, EFT_MIGRATION_PCT) / 100);
+  score *= (1.0 + get_city_bonus(pcity, EFT_MIGRATION_PCT) / 100.0);
 
   log_debug("[M] %s score: %.3f", city_name(pcity), score);
 
