@@ -752,7 +752,9 @@ void handle_vote_submit(struct connection *pconn, int vote_no, int value)
 
   pvote = get_vote_by_no(vote_no);
   if (pvote == NULL) {
-    freelog(LOG_ERROR, "Submit request for unknown vote_no %d "
+    /* The client is out of synchronization: this vote is probably just
+     * resolved or cancelled. Not an error, let's just ignore the packet. */
+    freelog(LOG_VERBOSE, "Submit request for unknown vote_no %d "
             "from %s ignored.",
             vote_no, conn_description(pconn));
     return;
