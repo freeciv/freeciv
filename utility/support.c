@@ -465,7 +465,7 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
   fc_assert_ret_val_msg(fc_strrep(str, (*len), search, replace), NULL,
                         "Can't replace '%s' by '%s' in '%s'. To small "
                         "size after reallocation: %lu.", search, replace,
-                        str, *len);
+                        str, (long unsigned int)*len);
 
   return str;
 }
