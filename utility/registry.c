@@ -200,8 +200,7 @@ static void secfile_log(const struct section_file *secfile,
 static inline bool entry_used(const struct entry *pentry);
 static inline void entry_use(struct entry *pentry);
 
-static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
-                          char *buf, size_t buf_len);
+static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
 static void entry_from_token(struct section *psection,
                              const char *name, const char *tok);
 
@@ -236,17 +235,17 @@ static void secfile_log(const struct section_file *secfile,
               psection != NULL ? section_name(psection) : "NULL", message);
 }
 
-/***************************************************************
+/****************************************************************************
   Copies a string. Backslash followed by a genuine newline always
   removes the newline.
   If full_escapes is TRUE:
     - '\n' -> newline translation.
     - Other '\c' sequences (any character 'c') are just passed
-      through with the '\' removed (eg, includes '\\', '\"')
-  Returns buf.
-***************************************************************/
-static const char *minstrdup(const char *str, bool full_escapes,
-                             char *buf, size_t buf_len)
+      through with the '\' removed (eg, includes '\\', '\"').
+  See also make_escapes().
+****************************************************************************/
+static void remove_escapes(const char *str, bool full_escapes,
+                           char *buf, size_t buf_len)
 {
   char *dest = buf;
   const char *const max = buf + buf_len - 1;
@@ -266,38 +265,39 @@ static const char *minstrdup(const char *str, bool full_escapes,
     }
   }
   *dest = '\0';
-  return buf;
 }
 
-/***************************************************************
-  Adds appropriate delimiters: "" if escaped, $$ unescaped.
-  Returns buf.
-***************************************************************/
-static const char *moutstr(const char *str, bool full_escapes,
-                           char *buf, size_t buf_len)
+/****************************************************************************
+  Copies a string and convert the following characters:
+  - '\n' to "\\n".
+  - '\\' to "\\\\".
+  - '\"' to "\\\"".
+  See also remove_escapes().
+****************************************************************************/
+static void make_escapes(const char *str, char *buf, size_t buf_len)
 {
   char *dest = buf;
+  /* Sometimes we insert 2 characters at once ('\n' -> "\\n"), so keep
+   * place for '\0' and an extra character. */
   const char *const max = buf + buf_len - 2;
 
-  *dest++ = (full_escapes ? '\"' : '$');
   while (*str != '\0' && dest < max) {
-    if (full_escapes && (*str == '\n' || *str == '\\' || *str == '\"')) {
-      if (dest < max - 1) {
-        *dest++ = '\\';
-        if (*str == '\n') {
-          *dest++ = 'n';
-          str++;
-        } else {
-          *dest++ = *str++;
-        }
-      }
-    } else {
+    switch (*str) {
+    case '\n':
+      *dest++ = '\\';
+      *dest++ = 'n';
+      str++;
+      break;
+    case '\\':
+    case '\"':
+      *dest++ = '\\';
+      /* Fallthrough. */
+    default:
       *dest++ = *str++;
+      break;
     }
   }
-  *dest++ = (full_escapes ? '\"' : '$');
-  *dest = '\0';
-  return buf;
+  *dest = 0;
 }
 
 /***************************************************************************
@@ -753,7 +753,6 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
                   int compression_level, enum fz_method compression_method)
 {
   char real_filename[1024];
-  char buf[8192];
   char pentry_name[128];
   const char *col_entry_name;
   fz_FILE *fs;
@@ -899,7 +898,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           if (icol > 0) {
             fz_fprintf(fs, ", ");
           }
-          entry_to_file(pentry, fs, buf, sizeof(buf));
+          entry_to_file(pentry, fs);
 
           ent_iter = genlist_link_next(ent_iter);
           col_iter = genlist_link_next(col_iter);
@@ -923,13 +922,13 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
       /* Classic entry. */
       col_entry_name = entry_name(pentry);
       fz_fprintf(fs, "%s = ", col_entry_name);
-      entry_to_file(pentry, fs, buf, sizeof(buf));
+      entry_to_file(pentry, fs);
 
       /* Check for vector. */
       for (i = 1; (col_pentry = section_entry_lookup(psection, "%s,%d",
                    col_entry_name, i)); i++) {
         fz_fprintf(fs, ", ");
-        entry_to_file(col_pentry, fs, buf, sizeof(buf));
+        entry_to_file(col_pentry, fs);
         entry_list_append(skip, col_pentry); /* Ignore this one next time. */
       }
 
@@ -2417,9 +2416,10 @@ bool entry_str_set_escaped(struct entry *pentry, bool escaped)
 /**************************************************************************
   Push an entry into a file stream.
 **************************************************************************/
-static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
-                          char *buf, size_t buf_len)
+static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
 {
+  static char buf[8192];
+
   switch (pentry->type) {
   case ENTRY_BOOL:
     fz_fprintf(fs, "%s", pentry->boolean.value ? "TRUE" : "FALSE");
@@ -2428,9 +2428,12 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs,
     fz_fprintf(fs, "%d", pentry->integer.value);
     break;
   case ENTRY_STR:
-    fz_fprintf(fs, "%s",
-               moutstr(pentry->string.value, pentry->string.escaped,
-                       buf, buf_len));
+    if (pentry->string.escaped) {
+      make_escapes(pentry->string.value, buf, sizeof(buf));
+      fz_fprintf(fs, "\"%s\"", buf);
+    } else {
+      fz_fprintf(fs, "$%s$", pentry->string.value);
+    }
     break;
   }
 }
@@ -2444,10 +2447,10 @@ static void entry_from_token(struct section *psection,
   if ('$' == tok[0] || '"' == tok[0]) {
     char buf[strlen(tok) + 1];
     bool escaped = ('"' == tok[0]);
-    const char *value = minstrdup(tok + 1, escaped, buf, sizeof(buf));
 
-    (void) section_entry_str_new(psection, name, value, escaped);
-    DEBUG_ENTRIES("entry %s '%s'", name, value);
+    remove_escapes(tok + 1, escaped, buf, sizeof(buf));
+    (void) section_entry_str_new(psection, name, buf, escaped);
+    DEBUG_ENTRIES("entry %s '%s'", name, buf);
     return;
   }
 
