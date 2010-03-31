@@ -443,7 +443,7 @@ msgstr ""
 
 #: common/events.c:162
 msgid "AI Debug messages"
-msgstr "Teachtaireachtaí dífhabhtaithe AI"
+msgstr "Teachtaireachtaí dífhabhtaithe IS"
 
 #: common/events.c:163
 msgid "Broadcast Report"
@@ -681,7 +681,7 @@ msgstr ""
 #: common/requirements.c:1428
 #, c-format
 msgid "%s AI"
-msgstr "AI %s"
+msgstr "IS %s"
 
 #. TRANS: "Land terrain"
 #: common/requirements.c:1433
@@ -1233,17 +1233,17 @@ msgstr ""
 #: ai/advdiplomacy.c:291
 #, c-format
 msgid "*%s (AI)* In away mode AI can't sign such a treaty."
-msgstr ""
+msgstr "*%s (IS)* Ní cheadaítear don IS a leithéid de chonradh a shíniú agus mód as baile i bhfeidhm"
 
 #: ai/advdiplomacy.c:301
 #, c-format
 msgid "*%s (AI)* First break alliance with %s, %s."
-msgstr ""
+msgstr "*%s (IS)* Cuir deireadh leis an aontas le %s i dtús báire, a %s."
 
 #: ai/advdiplomacy.c:314
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr ""
+msgstr "*%s (IS)* Cuirfimid deireadh leis an troid i dtús báire, %s."
 
 #: ai/advdiplomacy.c:319
 #, c-format
@@ -1251,46 +1251,47 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
+"*%s (IS)* Táim ag iarraidh i dtús báire, go gcomhlíonfaidh tú an sos-comhraic seo níos faide, a %s."
 
 #: ai/advdiplomacy.c:342
 #, c-format
 msgid "*%s (AI)* I simply do not trust you with an alliance yet, %s."
-msgstr ""
+msgstr "*%s (IS)* Níl muinín agam as aontas leat go fóill, a %s."
 
 #: ai/advdiplomacy.c:436
 #, c-format
 msgid "*%s (AI)* I do not know the city you mention."
-msgstr ""
+msgstr "*%s (IS)* Níl cur amach ar bith agam ar an gcathair sin."
 
 #: ai/advdiplomacy.c:466
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr ""
+msgstr "*%s (IS)* Mo leithscéal, níl muinín agam asat mo mhapa a roinnt leat."
 
 #: ai/advdiplomacy.c:572
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr ""
+msgstr "*%s (IS)* Ní raibh aon mhaith sa réiteach seo dúinn, a %s!"
 
 #: ai/advdiplomacy.c:594
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr ""
+msgstr "*%s (IS)* Tá fáilte romhaibh san aontas, a %s!"
 
 #: ai/advdiplomacy.c:598
 #, c-format
 msgid "*%s (AI)* Yes, may we forever stand united, %s."
-msgstr ""
+msgstr "*%s (IS)* Go mara ár n-aontas go deo, a %s."
 
 #: ai/advdiplomacy.c:605
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr ""
+msgstr "*%s (IS)* Go raibh suíochán lenár linn!"
 
 #: ai/advdiplomacy.c:610
 #, c-format
 msgid "*%s (AI)* Agreed. No more hostilities, %s."
-msgstr ""
+msgstr "*%s (IS)* Cinnte. Cuirfear stop leis an bhforéigean, a %s."
 
 #: ai/advdiplomacy.c:832
 #, c-format
@@ -1298,6 +1299,7 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
+"*%s (IS)* Dia dhaoibh a %s! Do thuairim ar sos-comhraic go gcuirfimid aithne níor fearr ar chéile?"
 
 #: ai/advdiplomacy.c:1114
 #, c-format
@@ -1340,19 +1342,19 @@ msgid_plural ""
 "*%s (AI)* We will be launching an all-out war against %s in %d turns to stop "
 "the spaceship launch."
 msgstr[0] ""
-"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[1] ""
-"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[2] ""
-"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[3] ""
-"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[4] ""
-"*%s (AI)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 
 #: ai/advdiplomacy.c:1237
@@ -6646,7 +6648,7 @@ msgstr "Barbarach"
 #: client/gui-gtk-2.0/pages.c:2100 client/gui-sdl/plrdlg.c:641
 #: client/gui-win32/connectdlg.c:202 client/gui-win32/plrdlg.c:332
 msgid "AI"
-msgstr "AI"
+msgstr "IS"
 
 #: server/stdinhand.c:3195 server/stdinhand.c:4456
 #: client/gui-gtk-2.0/pages.c:2100 client/gui-gtk-2.0/pages.c:2123
@@ -10001,7 +10003,7 @@ msgstr "Theip ar óstainm an mheitifhreastalaí a lorg"
 #: client/text.c:97
 #, c-format
 msgid "AI %s"
-msgstr "AI %s"
+msgstr "IS %s"
 
 #. TRANS: "<nation adjective>, team <team name>"
 #: client/text.c:121
@@ -12425,7 +12427,7 @@ msgstr ""
 #: client/gui-gtk-2.0/gui_main.c:1929
 #, c-format
 msgid "<%s AI>"
-msgstr ""
+msgstr "<IS %s>"
 
 #: client/gui-gtk-2.0/gui_main.c:1941 client/gui-win32/dialogs.c:608
 #: client/gui-xaw/pages.c:220
@@ -13384,11 +13386,11 @@ msgstr "_Intleacht"
 
 #: client/gui-gtk-2.0/plrdlg.c:528
 msgid "_AI"
-msgstr "_AI"
+msgstr "_IS"
 
 #: client/gui-gtk-2.0/plrdlg.c:534
 msgid "_Toggle AI Mode"
-msgstr "_Scoránaigh Mód AI"
+msgstr "_Scoránaigh Mód IS"
 
 #: client/gui-gtk-2.0/pages.c:217
 msgid "Start _New Game"
@@ -13553,11 +13555,11 @@ msgstr "Cuir ar %s é"
 
 #: client/gui-gtk-2.0/pages.c:1534
 msgid "Number of _Players (including AI):"
-msgstr "_Líon na nImreoirí (AI san áireamh):"
+msgstr "_Líon na nImreoirí (IS san áireamh):"
 
 #: client/gui-gtk-2.0/pages.c:1561
 msgid "AI Skill _Level:"
-msgstr "_Leibhéal an AI:"
+msgstr "_Leibhéal an IS:"
 
 #: client/gui-gtk-2.0/pages.c:1578
 msgid "Ruleset _Version:"
@@ -15884,11 +15886,11 @@ msgstr ""
 
 #: client/gui-win32/connectdlg.c:1007
 msgid "Number of players (Including AI):"
-msgstr ""
+msgstr "Líon na n-imreoirí (IS san áireamh):"
 
 #: client/gui-win32/connectdlg.c:1015
 msgid "AI skill level:"
-msgstr ""
+msgstr "Leibhéal na hIS:"
 
 #: client/gui-win32/connectdlg.c:1034 client/gui-win32/repodlgs.c:931
 msgid "Game Options"
@@ -16530,12 +16532,12 @@ msgstr "Cóipeáil"
 
 #: client/gui-xaw/pages.c:214
 msgid "<AI>"
-msgstr "<AI>"
+msgstr "<IS>"
 
 #: client/gui-xaw/repodlgs.c:232 client/gui-xaw/repodlgs.c:509
 #, c-format
 msgid "Researching %s: %d/%s"
-msgstr ""
+msgstr "Taighde ar %s: %d/%s"
 
 #: client/gui-xaw/repodlgs.c:235 client/gui-xaw/repodlgs.c:512
 msgid "unknown"
@@ -16544,7 +16546,7 @@ msgstr "anaithnid"
 #: client/gui-xaw/repodlgs.c:238 client/gui-xaw/repodlgs.c:515
 #, c-format
 msgid "Researching %s: %d/%d"
-msgstr ""
+msgstr "Taighde ar %s: %d/%d"
 
 #: client/gui-xaw/repodlgs.c:246 client/gui-xaw/repodlgs.c:251
 #: client/gui-xaw/repodlgs.c:525 client/gui-xaw/repodlgs.c:530
