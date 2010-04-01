@@ -810,15 +810,6 @@ static void xaw_msg_close_science_report(Widget w, XEvent *event, String *argv, 
   sciencereport_msg_close(w);
 }
 
-/****************************************************************************
-  Action for msg-close-settable-options
-****************************************************************************/
-static void xaw_msg_close_settable_options(Widget w, XEvent *event,
-					   String *argv, Cardinal *argc)
-{
-  settable_options_msg_close(w);
-}
-
 static void xaw_msg_close_spaceship(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
   spaceshipdlg_msg_close(w);
@@ -946,7 +937,6 @@ static XtActionsRec Actions[] = {
   { "msg-close-intel", xaw_msg_close_intel },
   { "msg-close-intel-diplo", xaw_msg_close_intel_diplo },
   { "msg-close-science-report", xaw_msg_close_science_report },
-  { "msg-close-settable-options", xaw_msg_close_settable_options },
   { "msg-close-spaceship", xaw_msg_close_spaceship },
   { "msg-close-units-report", xaw_msg_close_units_report },
   { "msg-close-start-page", xaw_msg_close_start_page },
