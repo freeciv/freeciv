@@ -703,7 +703,7 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
 
   /* middle: city map, improvements */
   middle = gtk_hbox_new(FALSE, 6);
-  gtk_box_pack_start(GTK_BOX(page), middle, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(page), middle, TRUE, TRUE, 0);
 
   /* city map */
   frame = gtk_frame_new(_("City map"));
