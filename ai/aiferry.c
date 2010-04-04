@@ -412,7 +412,6 @@ int aiferry_find_boat(struct unit *punit, int cap, struct pf_path **path)
   }
 
   pft_fill_unit_parameter(&param, punit);
-  param.turn_mode = TM_WORST_TIME;
   param.get_TB = no_fights_or_unknown;
   param.get_EC = sea_move;
   param.get_MC = combined_land_sea_move;
@@ -847,9 +846,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
   /* We are looking for our own cities, no need to look into the unknown */
   parameter.get_TB = no_fights_or_unknown;
   parameter.omniscience = FALSE;
-  
   pfm = pf_map_new(&parameter);
-  parameter.turn_mode = TM_WORST_TIME;
 
   pf_map_iterate_positions(pfm, pos, TRUE) {
     struct city *pcity;

@@ -181,37 +181,30 @@ static inline int get_total_CC(const struct pf_parameter *param,
 static inline void finalize_position(const struct pf_parameter *param,
                                      struct pf_position *pos)
 {
-  int move_rate;
+  int move_rate = param->move_rate;
 
-  if (param->turn_mode == TM_BEST_TIME
-      || param->turn_mode == TM_WORST_TIME) {
-    pos->turn *= param->fuel;
-    move_rate = param->move_rate;
-    if (move_rate > 0) {
-      pos->turn += ((move_rate - pos->moves_left) / move_rate);
+  pos->turn *= param->fuel;
+  if (move_rate > 0) {
+    pos->turn += ((move_rate - pos->moves_left) / move_rate);
 
-      /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
-       * ranges from [1,ut->fuel] not from [0,ut->fuel) as one may think. */
-      pos->fuel_left = pos->moves_left / move_rate + 1;
+    /* We add 1 because a fuel of 1 means "no" fuel left; e.g. fuel
+     * ranges from [1,ut->fuel] not from [0,ut->fuel) as one may think. */
+    pos->fuel_left = pos->moves_left / move_rate + 1;
 
-      pos->moves_left %= move_rate;
-    } else {
-      /* This unit cannot move by itself. */
-      pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
-      pos->fuel_left = 0;
-    }
+    pos->moves_left %= move_rate;
+  } else {
+    /* This unit cannot move by itself. */
+    pos->turn = same_pos(pos->tile, param->start_tile) ? 0 : FC_INFINITY;
+    pos->fuel_left = 0;
   }
 }
-
 
 
 /* ============ Specific pf_normal_* mode structures ============= */
 
 /* Some comments on implementation:
- * 1. cost (aka total_MC) is sum of MCs altered to fit to the turn_mode
- *    see adjust_cost
- * 2. dir_to_here is for backtracking along the tree of shortest paths
- * 3. node_known_type, behavior, zoc_number and extra_tile are all cached
+ * 1. dir_to_here is for backtracking along the tree of shortest paths
+ * 2. node_known_type, behavior, zoc_number and extra_tile are all cached
  *    values.
  * It is possible to shove them into a separate array which is allocated
  * only if a corresponding option in the parameter is set.  A less drastic
@@ -352,22 +345,10 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
   pos->total_EC = node->extra_cost;
   pos->total_MC = (node->cost - get_move_rate(params)
                    + get_moves_left_initially(params));
-  if (params->turn_mode == TM_BEST_TIME
-      || params->turn_mode == TM_WORST_TIME) {
-    pos->turn = get_turn(params, node->cost);
-    pos->moves_left = get_moves_left(params, node->cost);
-  } else if (params->turn_mode == TM_NONE
-             || params->turn_mode == TM_CAPPED) {
-    pos->turn = -1;
-    pos->moves_left = -1;
-    pos->fuel_left = -1;
-  } else {
-    die("unknown TC");
-  }
-
+  pos->turn = get_turn(params, node->cost);
+  pos->moves_left = get_moves_left(params, node->cost);
   pos->dir_to_here = node->dir_to_here;
-  /* This field does not apply */
-  pos->dir_to_next_pos = -1;
+  pos->dir_to_next_pos = -1;    /* This field does not apply. */
 
   finalize_position(params, pos);
 }
@@ -436,7 +417,7 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
 }
 
 /*********************************************************************
-  Adjust MC to reflect the turn mode and the move_rate.
+  Adjust MC to reflect the move_rate.
 *********************************************************************/
 static int pf_normal_map_adjust_cost(const struct pf_normal_map *pfnm,
                                      int cost)
@@ -449,29 +430,9 @@ static int pf_normal_map_adjust_cost(const struct pf_normal_map *pfnm,
 
   params = pf_map_get_parameter(PF_MAP(pfnm));
   node = &pfnm->lattice[tile_index(PF_MAP(pfnm)->tile)];
-
-  switch (params->turn_mode) {
-  case TM_NONE:
-    break;
-  case TM_CAPPED:
-    cost = MIN(cost, get_move_rate(params));
-    break;
-  case TM_WORST_TIME:
-    cost = MIN(cost, get_move_rate(params));
-    moves_left = get_moves_left(params, node->cost);
-    if (cost > moves_left) {
-      cost += moves_left;
-    }
-    break;
-  case TM_BEST_TIME:
-    moves_left = get_moves_left(params, node->cost);
-    if (cost > moves_left) {
-      cost = moves_left;
-    }
-    break;
-  default:
-    die("unknown TM");
-    break;
+  moves_left = get_moves_left(params, node->cost);
+  if (cost > moves_left) {
+    cost = moves_left;
   }
   return cost;
 }
@@ -794,10 +755,8 @@ static struct pf_map *pf_normal_map_new(const struct pf_parameter *parameter)
 /* ============ Specific pf_danger_* mode structures ============= */
 
 /* Some comments on implementation:
- * 1. cost (aka total_MC) is sum of MCs altered to fit to the turn_mode
- * see adjust_cost
- * 2. dir_to_here is for backtracking along the tree of shortest paths
- * 3. node_known_type, behavior, zoc_number, extra_tile and waited
+ * 1. dir_to_here is for backtracking along the tree of shortest paths
+ * 2. node_known_type, behavior, zoc_number, extra_tile and waited
  * are all cached values.
  * It is possible to shove them into a separate array which is allocated
  * only if a corresponding option in the parameter is set.  A less drastic
@@ -953,22 +912,10 @@ static void pf_danger_map_fill_position(const struct pf_danger_map *pfdm,
   pos->total_EC = node->extra_cost;
   pos->total_MC = (node->cost - get_move_rate(params)
                    + get_moves_left_initially(params));
-  if (params->turn_mode == TM_BEST_TIME
-      || params->turn_mode == TM_WORST_TIME) {
-    pos->turn = get_turn(params, node->cost);
-    pos->moves_left = get_moves_left(params, node->cost);
-  } else if (params->turn_mode == TM_NONE
-             || params->turn_mode == TM_CAPPED) {
-    pos->turn = -1;
-    pos->moves_left = -1;
-    pos->fuel_left = -1;
-  } else {
-    die("unknown TC");
-  }
-
+  pos->turn = get_turn(params, node->cost);
+  pos->moves_left = get_moves_left(params, node->cost);
   pos->dir_to_here = node->dir_to_here;
-  /* This field does not apply */
-  pos->dir_to_next_pos = -1;
+  pos->dir_to_next_pos = -1;    /* This field does not apply. */
 
   finalize_position(params, pos);
 }
@@ -1009,12 +956,6 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pfdm));
   struct pf_position *pos;
   int i;
-
-  if (params->turn_mode != TM_BEST_TIME
-      && params->turn_mode != TM_WORST_TIME) {
-    die("illegal TM in path-finding with danger");
-    return NULL;
-  }
 
   /* First iterate to find path length */
   while (!same_pos(iter_tile, params->start_tile)) {
@@ -1194,23 +1135,12 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
 
   cost = MIN(cost, get_move_rate(params));
 
-  if (params->turn_mode == TM_BEST_TIME) {
-    if (to_danger && cost >= moves_left) {
-      /* We would have to end the turn on a dangerous tile! */
-      return PF_IMPOSSIBLE_MC;
-    }
+  if (to_danger && cost >= moves_left) {
+    /* We would have to end the turn on a dangerous tile! */
+    return PF_IMPOSSIBLE_MC;
   } else {
-    /* Default is TM_WORST_TIME.  
-     * It should be specified explicitly though! */
-    if (cost > moves_left
-        || (to_danger && cost == moves_left)) {
-      /* This move is impossible (at least without waiting) 
-       * or we would end our turn on a dangerous tile */
-      return PF_IMPOSSIBLE_MC;
-    }
+    return cost;
   }
-
-  return cost;
 }
 
 /*****************************************************************************
@@ -1230,12 +1160,7 @@ pf_danger_map_adjust_cost(const struct pf_parameter *params,
   problems.
   3. For some purposes, NS_WAITING is just another flavour of NS_PROCESSED,
   since the path to a NS_WAITING tile has already been found.
-  4. The code is arranged so that if the turn-mode is TM_WORST_TIME, a 
-  cavalry with non-full MP will get to a safe mountain tile only after 
-  waiting.  This waiting, although realised through NS_WAITING, is 
-  different from waiting before going into the danger area, so it will not 
-  be marked as "waiting" on the resulting paths.
-  5. This algorithm cannot guarantee the best safe segments across 
+  4. This algorithm cannot guarantee the best safe segments across 
   dangerous region.  However it will find a safe segment if there 
   is one.  To gurantee the best (in terms of total_CC) safe segments 
   across danger, supply get_EC which returns small extra on 
@@ -1575,10 +1500,8 @@ static struct pf_map *pf_danger_map_new(const struct pf_parameter *parameter)
 /* ================ Specific pf_fuel_* mode structures ================= */
 
 /* Some comments on implementation:
- * 1. cost (aka total_MC) is sum of MCs altered to fit to the turn_mode
- *    see adjust_cost.
- * 2. dir_to_here is for backtracking along the tree of shortest paths.
- * 3. node_known_type, behavior, zoc_number, extra_tile, is_enemy_tile,
+ * 1. dir_to_here is for backtracking along the tree of shortest paths.
+ * 2. node_known_type, behavior, zoc_number, extra_tile, is_enemy_tile,
  *    moves_left_req and waited are all cached values.
  * It is possible to shove them into a separate array which is allocated
  * only if a corresponding option in the parameter is set. A less drastic
@@ -1802,21 +1725,9 @@ static void pf_fuel_map_fill_position(const struct pf_fuel_map *pffm,
   pos->total_EC = head->extra_cost;
   pos->total_MC = (head->cost - get_move_rate(params)
                    + get_moves_left_initially(params));
-  if (params->turn_mode == TM_BEST_TIME
-      || params->turn_mode == TM_WORST_TIME) {
-    pf_fuel_finalize_position(pos, params, node, head);
-  } else if (params->turn_mode == TM_NONE
-             || params->turn_mode == TM_CAPPED) {
-    pos->turn = -1;
-    pos->moves_left = -1;
-    pos->fuel_left = -1;
-  } else {
-    die("unknown TC");
-  }
-
   pos->dir_to_here = head->dir;
-  /* This field does not apply */
-  pos->dir_to_next_pos = -1;
+  pos->dir_to_next_pos = -1;    /* This field does not apply. */
+  pf_fuel_finalize_position(pos, params, node, head);
 }
 
 /*****************************************************************************
@@ -1850,12 +1761,6 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pffm));
   struct pf_position *pos;
   int i;
-
-  if (params->turn_mode != TM_BEST_TIME
-      && params->turn_mode != TM_WORST_TIME) {
-    die("illegal TM in path-finding with danger");
-    return NULL;
-  }
 
   /* First iterate to find path length */
   /* Note: the start point could be reached in the middle of a segment. */
@@ -2098,13 +2003,7 @@ pf_fuel_map_attack_is_possible(const struct pf_parameter *param,
   3. For some purposes, NS_WAITING is just another flavour of NS_PROCESSED,
   since the path to a NS_WAITING tile has already been found.
 
-  4. The code is arranged so that if the turn-mode is TM_WORST_TIME, a
-  cavalry with non-full MP will get to a safe mountain tile only after
-  waiting.  This waiting, although realised through NS_WAITING, is different
-  from waiting before going into the danger area, so it will not be marked
-  as "waiting" on the resulting paths.
-
-  5. This algorithm cannot guarantee the best safe segments across dangerous
+  4. This algorithm cannot guarantee the best safe segments across dangerous
   region.  However it will find a safe segment if there is one.  To gurantee
   the best (in terms of total_CC) safe segments across danger, supply get_EC
   which returns small extra on dangerous tiles.

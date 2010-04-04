@@ -644,7 +644,6 @@ void ai_avoid_risks(struct pf_parameter *parameter,
 
   parameter->data = risk_cost;
   parameter->get_EC = prefer_short_stacks;
-  parameter->turn_mode = TM_WORST_TIME;
   risk_cost->base_value = unit_build_shield_cost(punit);
   risk_cost->fearfulness = fearfulness * linger_fraction;
 
@@ -811,8 +810,6 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   }
 
   if (is_ferry) {
-    /* Must use TM_WORST_TIME, so triremes move safely */
-    parameter->turn_mode = TM_WORST_TIME;
     /* Show the destination in the client when watching an AI: */
     punit->goto_tile = ptile;
   }

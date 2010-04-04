@@ -37,11 +37,7 @@
  *   randomness, we use different "turn modes" to get an estimate of
  *   this number
  *
- *   moves left: move points left upon reaching a tile.  Also depends
- *   on "turn mode".
- *
- *   turn mode (TM): method of emulating the randomness of movement
- *   (see enum turn_mode below)
+ *   moves left: move points left upon reaching a tile.
  *
  *   path: a list of steps which leads from the start to the end
  *
@@ -61,8 +57,7 @@
  *   tells us whether we can enter and leave tile as normal (see enum
  *   tile_behavior).
  *
- *   total_MC: (effective) move cost of the whole path.  Calculated
- *   depending on the turn mode (see FORMULAE below).
+ *   total_MC: (effective) move cost of the whole path.
  *
  *   total_EC: extra cost of the whole path (just sum of ECs of all
  *   tiles).
@@ -154,9 +149,7 @@
  *  
  * FORMULAE:
  *   For calculating total_MC (given particular tile_behaviour)
- *     - TM_NONE: total_MC = sum of MC
- *     - TM_CAPPED: total_MC = sum of MIN(MC, move_rate)
- *     - TM_*_TIME: total_MC = ((turn + 1) * move_rate - moves_left)
+ *     total_MC = ((turn + 1) * move_rate - moves_left)
  *  
  *   For calculating total_CC:
  *     total_CC = PF_TURN_FACTOR * total_MC + move_rate * total_EC
@@ -282,27 +275,6 @@ enum tile_behavior {
   TB_NORMAL			/* Well, normal */
 };
 
-/* Specifies how total_MC, turn and moves_left fields in the positions
- * (struct pf_position) are computed. */
-enum turn_mode {
-  /* No turn numbers or moves_left are used at all. The fields "turn"
-   * and "moves_left" of struct pf_position will always be set to -1 in 
-   * this mode. */
-  TM_NONE,
-
-  /* Similar to TM_NONE. The MC, however, is capped at the
-   * move_rate. The fields "turn" and "moves_left" will always be -1. */
-  TM_CAPPED,
-
-  /* Assumes that the unit is always lucky in the random rulings and
-   * so yields the best travel time. */
-  TM_BEST_TIME,
-
-  /* Assumes that the unit is never lucky in the random rulings and so
-   * yields the worst travel time. */
-  TM_WORST_TIME
-};
-
 /* Full specification of a position and time to reach it. */
 struct pf_position {
   struct tile *tile;
@@ -343,8 +315,6 @@ struct pf_parameter {
 
   bv_flags unit_flags;          /* Like F_MARINE and F_TRIREME */
   bool omniscience;		/* Do we care if the tile is visible? */
-
-  enum turn_mode turn_mode;	/* See definitions. */
 
   /* Callback to get MC of a move from (from_x, from_y) to (to_x,
    * to_y) and in the direction dir. Note that the callback can

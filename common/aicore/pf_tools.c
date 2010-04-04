@@ -670,7 +670,6 @@ static void pft_fill_default_parameter(struct pf_parameter *parameter,
 {
   struct unit_class *punitclass = utype_class(punittype);
 
-  parameter->turn_mode = TM_CAPPED;
   parameter->unknown_MC = SINGLE_MOVE;
 
   if (uclass_has_flag(punitclass, UCF_TERRAIN_SPEED)) {
@@ -801,7 +800,6 @@ static void pft_fill_parameter(struct pf_parameter *parameter,
   if (!parameter->get_moves_left_req && utype_fuel(punittype)) {
     /* Unit needs fuel */
     parameter->get_moves_left_req = get_fuel_moves_left_req;
-    parameter->turn_mode = TM_WORST_TIME;
   }
 
   if (!unit_type_really_ignores_zoc(punittype)) {
@@ -974,8 +972,6 @@ void pft_fill_amphibious_parameter(struct pft_amphibious *parameter)
   parameter->sea_scale = move_rate / parameter->sea.move_rate;
   parameter->combined.moves_left_initially *= parameter->sea_scale;
   parameter->combined.move_rate = move_rate;
-  /* To ensure triremes behave correctly: FIXME: Probably incorrect now */
-  parameter->combined.turn_mode = TM_WORST_TIME;
   parameter->combined.get_MC = amphibious_move;
   parameter->combined.get_TB = amphibious_behaviour;
   parameter->combined.get_EC = amphibious_extra_cost;
