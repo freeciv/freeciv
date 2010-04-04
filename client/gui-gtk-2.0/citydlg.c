@@ -1451,25 +1451,27 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   }
   gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->overview.citizen_pixmap));
 
-  /* happyness page page */
-  gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
-  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
+  /* happiness page page */
+  if (!client_has_player() || client_player() == city_owner(pcity)) {
+    gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
+    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
 
-  i = 0;
-  if (can_conn_edit(&client.conn)) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                       get_arrow_sprite(tileset, ARROW_PLUS),
-                       i++ * width, 0);
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                       get_arrow_sprite(tileset, ARROW_MINUS),
-                       i++ * width, 0);
+    i = 0;
+    if (can_conn_edit(&client.conn)) {
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
+                         get_arrow_sprite(tileset, ARROW_PLUS),
+                         i++ * width, 0);
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
+                         get_arrow_sprite(tileset, ARROW_MINUS),
+                         i++ * width, 0);
+    }
+    for (j = 0; j < num_citizens; i++, j++) {
+      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
+                         get_citizen_sprite(tileset, citizens[j], j, pcity),
+                         i * width, 0);
+    }
+    gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
   }
-  for (j = 0; j < num_citizens; i++, j++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                       get_citizen_sprite(tileset, citizens[j], j, pcity),
-                       i * width, 0);
-  }
-  gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
 
 /*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
 /*                           !cma_is_city_under_agent(pcity, NULL));*/
