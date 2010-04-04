@@ -118,7 +118,10 @@ void widget_free(struct widget **pWidget)
   if ((get_wflags(pGUI) & WF_FREE_PRIVATE_DATA) == WF_FREE_PRIVATE_DATA) {
     FC_FREE(pGUI->private_data.ptr);
   }
-  
+  if (NULL != pGUI->destroy) {
+    pGUI->destroy(pGUI);
+  }
+
   FC_FREE(*pWidget);
 }
 

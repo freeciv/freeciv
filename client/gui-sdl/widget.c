@@ -306,7 +306,7 @@ Uint16 widget_pressed_action(struct widget * pWidget)
     FC_FREE(pInfo_Area);
     FREESURFACE(pInfo_Label);
   }
-  
+
   switch (get_wtype(pWidget)) {
     case WT_TI_BUTTON:
     case WT_I_BUTTON:    
@@ -387,6 +387,14 @@ Uint16 widget_pressed_action(struct widget * pWidget)
         }
       }
       break;
+    case WT_COMBO:
+      if (Main.event.button.button == SDL_BUTTON_LEFT) {
+        set_wstate(pWidget, FC_WS_PRESSED);
+        combo_popup(pWidget);
+      } else {
+        combo_popdown(pWidget);
+      }
+      break;
     default:
       ID = pWidget->ID;
       if (pWidget->action) {
@@ -442,9 +450,9 @@ void widget_sellected_action(struct widget *pWidget)
   set_wstate(pWidget, FC_WS_SELLECTED);  
   
   pWidget->select(pWidget);
-  
-  pSellected_Widget = pWidget;
-  
+    
+  pSellected_Widget = pWidget  ;
+
   if (get_wflags(pWidget) & WF_WIDGET_HAS_INFO_LABEL) {
     widget_info_counter = 1;
   }

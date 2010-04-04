@@ -469,10 +469,21 @@ static struct widget *option_widget_new(struct option *poption,
     break;
 
   case OT_STRING:
-    widget = create_edit_from_chars(NULL, window->dst,
-                                    option_str_get(poption),
-                                    adj_font(12), adj_size(25),
-                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+    {
+      const struct strvec *values = option_str_values(poption);
+
+      if (NULL != values) {
+        widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
+                                      option_str_get(poption), values,
+                                      adj_size(25),
+                                      flags | WF_WIDGET_HAS_INFO_LABEL);
+      } else {
+        widget = create_edit_from_chars(NULL, window->dst,
+                                        option_str_get(poption),
+                                        adj_font(12), adj_size(25),
+                                        flags | WF_WIDGET_HAS_INFO_LABEL);
+      }
+    }
     break;
 
   case OT_FONT:

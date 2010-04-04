@@ -58,7 +58,8 @@ enum widget_type {			/* allow 64 widgets type */
   WT_CHECKBOX	= 48,		/* checkbox. */
   WT_TCHECKBOX	= 52,		/* text label with checkbox. */
   WT_ICON2	= 56,		/* flat Button from 1 - state icon */
-  WT_T2_LABEL	= 60
+  WT_T2_LABEL   = 60,
+  WT_COMBO      = 64
 };
 
 /* Widget FLAGS -> allowed 20 flags */
@@ -122,10 +123,12 @@ struct widget {
 
   /* data/information/transport pointers */
   union {
+    const struct strvec *vector;
     struct CONTAINER *cont;
     struct city *city;
     struct unit *unit;
     struct player *player;
+    struct widget *widget;
     void *ptr;
   } data;
   
@@ -160,6 +163,7 @@ struct widget {
   void (*select) (struct widget *pwidget);
   void (*unselect) (struct widget *pwidget);
   void (*press) (struct widget *pwidget);
+  void (*destroy) (struct widget *pwidget);
 };
 
 /* Struct of basic window group dialog ( without scrollbar ) */
@@ -401,6 +405,7 @@ void draw_frame(SDL_Surface *pDest, Sint16 start_x, Sint16 start_y,
 
 #include "widget_button.h"
 #include "widget_checkbox.h"
+#include "widget_combo.h"
 #include "widget_edit.h"
 #include "widget_icon.h"
 #include "widget_label.h"
