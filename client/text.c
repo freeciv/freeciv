@@ -234,6 +234,22 @@ const char *popup_info_text(struct tile *ptile)
                       diplo_city_adjectives[ds[player_index(owner)].type]);
       }
     }
+    if (can_player_see_units_in_city(client_player(), pcity)) {
+      int count = unit_list_size(ptile->units);
+
+      if (count > 0) {
+        astr_add(&str, PL_(" | Occupied with %d unit.",
+                                " | Occupied with %d units.", count), count);
+      } else {
+        astr_add(&str, _(" | Not occupied."));
+      }
+    } else {
+      if (pcity->client.occupied) {
+        astr_add(&str, _(" | Occupied."));
+      } else {
+        astr_add(&str, _(" | Not occupied."));
+      }
+    }
     improvement_iterate(pimprove) {
       if (is_improvement_visible(pimprove)
           && city_has_building(pcity, pimprove)) {
