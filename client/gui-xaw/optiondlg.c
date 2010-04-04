@@ -277,7 +277,9 @@ option_dialog_new(const char *name, const struct option_set *poptset)
       }
       break;
     case OT_FONT:
-      /* FIXME */
+      log_error("Option type %s (%d) not supported yet.",
+                option_type_name(option_type(poption)),
+                option_type(poption));
       break;
     }
   } options_iterate_end;
@@ -359,7 +361,9 @@ static void option_dialog_option_refresh(struct option *poption)
                   : XtNstring, option_str_get(poption), NULL);
     break;
   case OT_FONT:
-    /* FIXME */
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 
@@ -404,7 +408,9 @@ static void option_dialog_option_apply(struct option *poption)
       }
       break;
     case OT_FONT:
-      /* FIXME */
+      log_error("Option type %s (%d) not supported yet.",
+                option_type_name(option_type(poption)),
+                option_type(poption));
       break;
     }
   }

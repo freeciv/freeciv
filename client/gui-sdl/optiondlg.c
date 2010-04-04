@@ -476,7 +476,9 @@ static struct widget *option_widget_new(struct option *poption,
     break;
 
   case OT_FONT:
-    /* FIXME */
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 
@@ -535,7 +537,9 @@ static void option_widget_update(struct option *poption)
     break;
 
   case OT_FONT:
-    /* FIXME */
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 
@@ -581,7 +585,9 @@ static void option_widget_apply(struct option *poption)
     break;
 
   case OT_FONT:
-    /* FIXME */
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 }

@@ -135,12 +135,13 @@ extern bool gui_win32_better_fog;
 extern bool gui_win32_enable_alpha;
 
 
-enum option_type {
-  OT_BOOLEAN,
-  OT_INTEGER,
-  OT_STRING,
-  OT_FONT
-};
+#define SPECENUM_NAME option_type
+#define SPECENUM_VALUE0 OT_BOOLEAN
+#define SPECENUM_VALUE1 OT_INTEGER
+#define SPECENUM_VALUE2 OT_STRING
+#define SPECENUM_VALUE3 OT_FONT
+#include "specenum_gen.h"
+
 
 struct option;                  /* Opaque type. */
 struct option_set;              /* Opaque type. */
