@@ -2441,31 +2441,26 @@ static struct pf_map *pf_fuel_map_create(const struct pf_parameter *parameter)
 
 /* ====================== pf_map public functions ======================= */
 
-/***************************************************************************
+/****************************************************************************
   Factory function to create a new map according to the parameter.
   Does not do any iterations.
-***************************************************************************/
+****************************************************************************/
 struct pf_map *pf_create_map(const struct pf_parameter *parameter)
 {
-  if (parameter->is_pos_dangerous) {
-    if (parameter->get_moves_left_req) {
-      freelog(LOG_ERROR, "path finding code cannot deal with dangers "
-              "and fuel together.");
-    }
-    if (parameter->get_costs) {
-      freelog(LOG_ERROR, "jumbo callbacks for danger maps are not yet "
-              "implemented.");
-    }
-    return pf_danger_map_create(parameter);
-  } else if (parameter->get_moves_left_req) {
-    if (parameter->get_costs) {
-      freelog(LOG_ERROR, "jumbo callbacks for fuel maps are not yet "
-              "implemented.");
+  if (NULL != parameter->get_costs) {
+    /* FIXME: not taking account fuel or dangers. */
+    return pf_normal_map_create(parameter);
+  } else if (NULL != parameter->get_moves_left_req) {
+    if (NULL != parameter->is_pos_dangerous) {
+      freelog(LOG_ERROR, "path finding code cannot deal currently "
+              "with dangers and fuel together.");
     }
     return pf_fuel_map_create(parameter);
+  } else if (NULL != parameter->is_pos_dangerous) {
+    return pf_danger_map_create(parameter);
+  } else {
+    return pf_normal_map_create(parameter);
   }
-
-  return pf_normal_map_create(parameter);
 }
 
 /*********************************************************************
