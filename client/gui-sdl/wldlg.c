@@ -1279,8 +1279,7 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
       if(count > 6) {
         pEditor->pGlobal->pActiveWidgetList = pEditor->pGlobal->pEndActiveWidgetList;
 
-        create_vertical_scrollbar(pEditor->pGlobal, 1,
-                             pEditor->pGlobal->pScroll->active, FALSE, TRUE);
+        create_vertical_scrollbar(pEditor->pGlobal, 1, 4, FALSE, TRUE);
 	pEditor->pGlobal->pScroll->pUp_Left_Button->size.w = adj_size(122);
 	pEditor->pGlobal->pScroll->pDown_Right_Button->size.w = adj_size(122);
       } else {
