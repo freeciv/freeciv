@@ -425,7 +425,7 @@ void player_restore_units(struct player *pplayer)
 /****************************************************************************
   add hitpoints to the unit, hp_gain_coord returns the amount to add
   united nations will speed up the process by 2 hp's / turn, means helicopters
-  will actually not loose hp's every turn if player have that wonder.
+  will actually not lose hp's every turn if player have that wonder.
   Units which have moved don't gain hp, except the United Nations and
   helicopter effects still occur.
 *****************************************************************************/
