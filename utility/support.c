@@ -910,73 +910,102 @@ int fc_break_lines(char *str, size_t desired_len)
   return num_lines;
 }
 
-/**********************************************************************
+/****************************************************************************
   Character function wrappers
 
-  Some OS's (win32, Solaris) require a non-negative value as input
-  for these functions.
-***********************************************************************/
+  These functions are wrappers for the libc character class functions,
+  without any locale-dependent behavior. The character functions work as
+  documented for ASCII. Bytes outside of the ASCII set will not be reported
+  to belong to any character class, and will be left unchanged by
+  transformations. This behavior is safe but not strictly correct
+  forsingle-byte 8-bit- or UTF-8 encoded text; in UTF-8, any byte that is
+  part of a multibyte sequence is non-ASCII.
+****************************************************************************/
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isalnum(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isalnum((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isalpha(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isalpha((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isdigit(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isdigit((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isprint(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isprint((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isspace(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isspace((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 bool fc_isupper(char c)
 {
+  if (c < 0 || c >= 128) {
+    return FALSE;
+  }
   return isupper((int)((unsigned char)c)) != 0;
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 char fc_toupper(char c)
 {
+  if (c < 0 || c >= 128) {
+    return c;
+  }
   return (char) toupper((int)((unsigned char)c));
 }
 
-/**********************************************************************
-  Wrapper function to work around broken libc implementations.
-***********************************************************************/
+/****************************************************************************
+  Wrapper function to work around broken libc implementations. See above.
+****************************************************************************/
 char fc_tolower(char c)
 {
+  if (c < 0 || c >= 128) {
+    return c;
+  }
   return (char) tolower((int)((unsigned char)c));
 }
