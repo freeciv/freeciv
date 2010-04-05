@@ -1224,16 +1224,16 @@ static void print_mapgen_map(void)
   } whole_map_iterate_end;
 
   log_verbose("map settings:");
-  log_verbose("  %-20s :    %5d%%", "mountain_pct", mountain_pct);
-  log_verbose("  %-20s :    %5d%%", "desert_pct", desert_pct);
-  log_verbose("  %-20s :    %5d%%", "forest_pct", forest_pct);
-  log_verbose("  %-20s :    %5d%%", "jungle_pct", jungle_pct);
-  log_verbose("  %-20s :    %5d%%", "swamp_pct", swamp_pct);
+  log_verbose("  %-20s :      %5d%%", "mountain_pct", mountain_pct);
+  log_verbose("  %-20s :      %5d%%", "desert_pct", desert_pct);
+  log_verbose("  %-20s :      %5d%%", "forest_pct", forest_pct);
+  log_verbose("  %-20s :      %5d%%", "jungle_pct", jungle_pct);
+  log_verbose("  %-20s :      %5d%%", "swamp_pct", swamp_pct);
 
   log_verbose("map statistics:");
   terrain_type_iterate(pterrain) {
     if (is_ocean(pterrain)) {
-      log_verbose("  %-20s : %4d %5.1f%% (ocean: %5.1f%%)",
+      log_verbose("  %-20s : %6d %5.1f%% (ocean: %5.1f%%)",
                   terrain_rule_name(pterrain),
                   terrain_counts[terrain_index(pterrain)],
                   (float) terrain_counts[terrain_index(pterrain)] * 100
@@ -1241,7 +1241,7 @@ static void print_mapgen_map(void)
                   (float) terrain_counts[terrain_index(pterrain)] * 100
                   / ocean);
     } else {
-      log_verbose("  %-20s : %4d %5.1f%% (land:  %5.1f%%)",
+      log_verbose("  %-20s : %6d %5.1f%% (land:  %5.1f%%)",
                   terrain_rule_name(pterrain),
                   terrain_counts[terrain_index(pterrain)],
                   (float) terrain_counts[terrain_index(pterrain)] * 100
