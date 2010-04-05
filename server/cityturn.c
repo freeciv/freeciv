@@ -2246,6 +2246,11 @@ static bool disband_city(struct city *pcity)
                 _("%s is disbanded into %s."), 
                 city_tile_link(pcity), utype_name_translation(utype));
 
+  script_signal_emit("city_destroyed", 3,
+                     API_TYPE_CITY, pcity,
+                     API_TYPE_PLAYER, pcity->owner,
+                     API_TYPE_PLAYER, NULL);
+
   remove_city(pcity);
   return TRUE;
 }
@@ -2453,6 +2458,12 @@ static bool do_city_migration(struct city *pcity_from,
                           pcity_from->units_supported, rcity, pcity_from,
                           -1, TRUE);
       sz_strlcpy(name_from, city_tile_link(pcity_from));
+
+      script_signal_emit("city_destroyed", 3,
+                         API_TYPE_CITY, pcity_from,
+                         API_TYPE_PLAYER, pcity_from->owner,
+                         API_TYPE_PLAYER, NULL);
+
       remove_city(pcity_from);
 
       notify_player(pplayer_from, ptile_from, E_CITY_LOST, ftc_server,
