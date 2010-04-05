@@ -3400,6 +3400,20 @@ static void load_ruleset_game(void)
                                          RS_MAX_BORDER_SIZE_EFFECT,
                                          "borders.size_effect");
 
+  /* section: research */
+  game.info.tech_upkeep_style
+    = secfile_lookup_int_default_min_max(file,
+                                         RS_DEFAULT_TECH_UPKEEP_STYLE,
+                                         RS_MIN_TECH_UPKEEP_STYLE,
+                                         RS_MAX_TECH_UPKEEP_STYLE,
+                                         "research.tech_upkeep_style");
+  game.info.tech_upkeep_divider
+    = secfile_lookup_int_default_min_max(file,
+                                         RS_DEFAULT_TECH_UPKEEP_DIVIDER,
+                                         RS_MIN_TECH_UPKEEP_DIVIDER,
+                                         RS_MAX_TECH_UPKEEP_DIVIDER,
+                                         "research.tech_upkeep_divider");
+
   /* section: calendar */
   game.info.calendar_skip_0
     = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,

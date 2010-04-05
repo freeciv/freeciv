@@ -41,6 +41,8 @@
 #include "goto.h"
 #include "text.h"
 
+static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs);
+
 /****************************************************************************
   Return a (static) string with a tile's food/prod/trade
 ****************************************************************************/
@@ -567,9 +569,10 @@ const char *unit_description(struct unit *punit)
 /****************************************************************************
   Return total expected bulbs.
 ****************************************************************************/
-static int get_bulbs_per_turn(int *pours, int *ptheirs)
+static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 {
   int ours = 0, theirs = 0;
+  bool team = FALSE;
 
   if (NULL == client.conn.playing) {
     return 0;
@@ -583,13 +586,25 @@ static int get_bulbs_per_turn(int *pours, int *ptheirs)
       city_list_iterate(pplayer->cities, pcity) {
         ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
+
+      if (game.info.tech_upkeep_style == 1) {
+        ours -= get_player_research(pplayer)->tech_upkeep;
+      }
     } else if (ds == DS_TEAM) {
+      team = TRUE;
       theirs += pplayer->bulbs_last_turn;
+
+      if (game.info.tech_upkeep_style == 1) {
+        theirs -= get_player_research(pplayer)->tech_upkeep;
+      }
     }
   } players_iterate_end;
 
   if (pours) {
     *pours = ours;
+  }
+  if (team) {
+    *pteam = team;
   }
   if (ptheirs) {
     *ptheirs = theirs;
@@ -602,32 +617,48 @@ static int get_bulbs_per_turn(int *pours, int *ptheirs)
 ****************************************************************************/
 const char *science_dialog_text(void)
 {
-  int ours, theirs;
+  bool team;
+  int ours, theirs, done, perturn, total;
   static struct astring str = ASTRING_INIT;
   char ourbuf[1024] = "", theirbuf[1024] = "";
+  struct player_research *research;
 
   astr_clear(&str);
 
-  get_bulbs_per_turn(&ours, &theirs);
+  perturn = get_bulbs_per_turn(&ours, &team, &theirs);
 
   if (NULL == client.conn.playing || (ours == 0 && theirs == 0)) {
     return _("Progress: no research");
   }
-  fc_assert(ours >= 0 && theirs >= 0);
 
-  if (A_UNSET == get_player_research(client.conn.playing)->researching) {
-    astr_add(&str, _("Progress: no research target"));
+  research = get_player_research(client.conn.playing);
+  done = research->bulbs_researched;
+  total = total_bulbs_required(client.conn.playing);
+
+  if (A_UNSET == research->researching) {
+    astr_add(&str, _("Progress: no research"));
   } else {
-    int turns_to_advance = ((total_bulbs_required(client.conn.playing) + ours + theirs - 1)
-			    / (ours + theirs));
+    if (perturn > 0) {
+      int turns = ceil( (double)(total - done) / perturn );
 
-    astr_add(&str, PL_("Progress: %d turn/advance",
-		       "Progress: %d turns/advance",
-		       turns_to_advance), turns_to_advance);
+      astr_add(&str, PL_("Progress: %d turn/advance",
+                         "Progress: %d turns/advance",
+                         turns), turns);
+    } else if (perturn < 0 ) {
+      /* negative number of bulbs per turn due to tech upkeep */
+      int turns = ceil( (double)done / -perturn );
+
+      astr_add(&str, PL_("Progress: %d turn/advance loss",
+                         "Progress: %d turns/advance loss",
+                         turns), turns);
+    } else {
+      /* no research */
+      astr_add(&str, _("%d/%d (never)"), done, total);
+    }
   }
   fc_snprintf(ourbuf, sizeof(ourbuf),
               PL_("%d bulb/turn", "%d bulbs/turn", ours), ours);
-  if (theirs > 0) {
+  if (team) {
     /* Techpool version */
     fc_snprintf(theirbuf, sizeof(theirbuf),
                 /* TRANS: This is appended to "%d bulb/turn" text */
@@ -635,6 +666,15 @@ const char *science_dialog_text(void)
                     ", %d bulbs/turn from team", theirs), theirs);
   }
   astr_add(&str, " (%s%s)", ourbuf, theirbuf);
+
+  if (game.info.tech_upkeep_style == 1) {
+    int upkeep = research->tech_upkeep;
+
+    /* perturn is defined as: (bulbs produced) - upkeep */
+    astr_add_line(&str, "Bulbs produced per turn: %d", perturn + upkeep);
+    astr_add(&str, " (needed for technology upkeep: %d)", upkeep);
+  }
+
   return astr_str(&str);
 }
 
@@ -649,7 +689,8 @@ const char *science_dialog_text(void)
 ****************************************************************************/
 const char *get_science_target_text(double *percent)
 {
-  struct player_research *research = get_player_research(client.conn.playing);
+  struct player_research *research
+    = get_player_research(client.conn.playing);
   static struct astring str = ASTRING_INIT;
 
   if (!research) {
@@ -665,14 +706,21 @@ const char *get_science_target_text(double *percent)
   } else {
     int total = total_bulbs_required(client.conn.playing);
     int done = research->bulbs_researched;
-    int perturn = get_bulbs_per_turn(NULL, NULL);
+    int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
 
     if (perturn > 0) {
-      int turns = (total - done + perturn - 1) / perturn;
+      int turns = ceil( (double)(total - done) / perturn );
 
       astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
-	       done, total, turns);
+               done, total, turns);
+    } else if (perturn < 0 ) {
+      /* negative number of bulbs per turn due to tech upkeep */
+      int turns = ceil( (double)done / -perturn );
+
+      astr_add(&str, PL_("%d/%d (%d turn)", "%d/%d (%d turns)", turns),
+               done, perturn, turns);
     } else {
+      /* no research */
       astr_add(&str, _("%d/%d (never)"), done, total);
     }
     if (percent) {
@@ -692,7 +740,7 @@ const char *get_science_goal_text(Tech_type_id goal)
   int steps = num_unknown_techs_for_goal(client.conn.playing, goal);
   int bulbs = total_bulbs_required_for_goal(client.conn.playing, goal);
   int bulbs_needed = bulbs, turns;
-  int perturn = get_bulbs_per_turn(NULL, NULL);
+  int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
   struct player_research* research = get_player_research(client.conn.playing);
   static struct astring str = ASTRING_INIT;
@@ -746,12 +794,12 @@ const char *get_info_label_text(void)
 
   if (NULL != client.conn.playing) {
     astr_add_line(&str, _("Gold: %d (%+d)"),
-		  client.conn.playing->economic.gold,
-		  player_get_expected_income(client.conn.playing));
+                  client.conn.playing->economic.gold,
+                  player_get_expected_income(client.conn.playing));
     astr_add_line(&str, _("Tax: %d Lux: %d Sci: %d"),
-		  client.conn.playing->economic.tax,
-		  client.conn.playing->economic.luxury,
-		  client.conn.playing->economic.science);
+                  client.conn.playing->economic.tax,
+                  client.conn.playing->economic.luxury,
+                  client.conn.playing->economic.science);
   }
   if (game.info.phase_mode == PMT_PLAYERS_ALTERNATE) {
     if (game.info.phase < 0 || game.info.phase >= player_count()) {
@@ -803,6 +851,14 @@ const char *get_info_label_text_popup(void)
     astr_add_line(&str, _("Researching %s: %s"),
 		  advance_name_researching(client.conn.playing),
 		  get_science_target_text(NULL));
+    if (game.info.tech_upkeep_style == 1) {
+      int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
+      int upkeep = get_player_research(client.conn.playing)->tech_upkeep;
+
+      /* perturn is defined as: (bulbs produced) - upkeep */
+      astr_add_line(&str, _("Bulbs produced per turn: %d"), perturn + upkeep);
+      astr_add_line(&str, _("Technology upkeep per turn: %+d"), upkeep);
+    }
   }
 
   /* See also get_global_warming_tooltip and get_nuclear_winter_tooltip. */

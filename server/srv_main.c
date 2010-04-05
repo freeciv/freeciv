@@ -855,7 +855,9 @@ static void end_phase(void)
       if (choose_goal_tech(pplayer) == A_UNSET) {
         choose_random_tech(pplayer);
       }
-      update_tech(pplayer, 0);
+      /* add the researched bulbs to the pool; do *NOT* checvk for finished
+       * research */
+      update_bulbs(pplayer, 0, FALSE);
     }
   } phase_players_iterate_end;
 
@@ -884,12 +886,15 @@ static void end_phase(void)
   phase_players_iterate(pplayer) {
     get_player_research(pplayer)->got_tech = FALSE;
   } phase_players_iterate_end;
-  
+
   phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
     get_player_research(pplayer)->researching_saved = A_UNKNOWN;
+    /* reduce the number of bulbs by the amount needed for tech upkeep and
+     * check for finished research */
+    update_bulbs(pplayer, -get_player_research(pplayer)->tech_upkeep, TRUE);
     flush_packets();
   } phase_players_iterate_end;
 

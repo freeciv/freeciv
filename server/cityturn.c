@@ -2132,7 +2132,7 @@ static void update_city_activity(struct city *pcity)
     pcity->did_sell = FALSE;
     pcity->did_buy = FALSE;
     pcity->airlift = get_city_bonus(pcity, EFT_AIRLIFT);
-    update_tech(pplayer, pcity->prod[O_SCIENCE]);
+    update_bulbs(pplayer, pcity->prod[O_SCIENCE], FALSE);
 
     /* Update the treasury. */
     pplayer->economic.gold += pcity->prod[O_GOLD];

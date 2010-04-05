@@ -176,6 +176,16 @@ radius_sq_city = 17
 ; Border radius square increased by this amount / point of city size
 size_effect    = 1
 
+[research]
+; Method of paying tech upkeep
+; 0 - no upkeep
+; 1 - upkeep is calculated as:
+;     <Cost of technology> / tech_upkeep_divider + tech_upkeep_free
+tech_upkeep_style = 0
+
+; upkeep cost is divided by this value
+tech_upkeep_divider = 500
+
 [calendar]
 ; Year in the beginning of the game
 start_year = -4000

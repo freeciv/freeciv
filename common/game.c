@@ -328,6 +328,9 @@ void game_init(void)
   game.info.government_during_revolution_id = G_MAGIC;   /* flag */
   game.info.airlifting_style = GAME_DEFAULT_AIRLIFTINGSTYLE;
 
+  game.info.tech_upkeep_style   = RS_DEFAULT_TECH_UPKEEP_STYLE;
+  game.info.tech_upkeep_divider = RS_DEFAULT_TECH_UPKEEP_DIVIDER;
+
   game.info.calendar_skip_0 = FALSE;
 
   game.info.is_new_game  = TRUE;

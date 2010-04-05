@@ -86,6 +86,7 @@ static const char *effect_type_names[EFT_LAST] = {
   "Unit_Recover",
   "Upgrade_Unit",
   "Upkeep_Free",
+  "Tech_Upkeep_Free",
   "No_Unhappy",
   "Veteran_Build",
   "Veteran_Combat",

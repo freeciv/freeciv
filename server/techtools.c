@@ -44,6 +44,7 @@
 
 #include "techtools.h"
 
+static Tech_type_id pick_random_tech_researched(struct player* plr);
 static Tech_type_id pick_random_tech(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
 
@@ -449,32 +450,98 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 }
 
 /****************************************************************************
-  Adds the given number of  bulbs into the player's tech and 
-  (if necessary) completes the research.
+  Adds the given number of bulbs into the player's tech and (if necessary and
+  'check_tech' is TRUE) completes the research. If the total number of bulbs
+  is negative due to tech upkeep, one (randomly chosen) tech is lost.
+
   The caller is responsible for sending updated player information.
-  This is called from each city every turn and from caravan revenue
+
+  This is called from each city every turn, from caravan revenue, and at the
+  end of the phase.
 ****************************************************************************/
-void update_tech(struct player *plr, int bulbs)
+bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
 {
-  int excessive_bulbs;
   struct player_research *research = get_player_research(plr);
 
   /* count our research contribution this turn */
   plr->bulbs_last_turn += bulbs;
-
   research->bulbs_researched += bulbs;
 
-  if (research->researching != A_UNSET) {  
-    excessive_bulbs =
-      (research->bulbs_researched - total_bulbs_required(plr));
+  /* if we have a negative number of bulbs we do
+   * - try to reduce the number of future techs
+   * - or lose one random tech
+   * after that the number of bulbs available is set to zero */
+  if (research->bulbs_researched < 0
+      && (research->techs_researched > 0 || research->future_tech > 0)) {
+    if (research->future_tech > 0) {
+      notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
+                    _("To low science output. We lost Future Tech. %d."),
+                    research->future_tech);
+      research->future_tech--;
+    } else {
+      Tech_type_id tech = pick_random_tech_researched(plr);
+      if (tech != A_NONE) {
+        notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
+                      _("To low science output. We lost %s."),
+                      advance_name_for_player(plr, tech));
+        player_tech_lost(plr, tech);
+      }
+    }
+    player_research_update(plr);
 
-    if (excessive_bulbs >= 0) {
+    research->bulbs_researched = 0;
+  }
+
+  /* now we should have a positive balance */
+  fc_assert_ret_val(research->bulbs_researched >= 0, FALSE);
+
+  if (check_tech && research->researching != A_UNSET) {
+    /* check for finished research */
+    if (research->bulbs_researched - total_bulbs_required(plr) >= 0) {
       tech_researched(plr);
+
       if (research->researching != A_UNSET) {
-        update_tech(plr, 0);
+        /* check research again */
+        update_bulbs(plr, 0, TRUE);
+        return TRUE;
       }
     }
   }
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns a random researched tech.
+****************************************************************************/
+static Tech_type_id pick_random_tech_researched(struct player* plr)
+{
+  int chosen, researched = 0;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr, i) == TECH_KNOWN) {
+      researched++;
+    }
+  } advance_index_iterate_end;
+
+  if (researched == 0) {
+    /* no technology at all */
+    return A_NONE;
+  }
+
+  chosen = fc_rand(researched) + 1;
+
+  advance_index_iterate(A_FIRST, i) {
+    if (player_invention_state(plr, i) == TECH_KNOWN) {
+      chosen--;
+      if (chosen == 0) {
+        return i;
+      }
+    }
+  } advance_index_iterate_end;
+
+  /* should never be reached */
+  return A_NONE;
 }
 
 /****************************************************************************

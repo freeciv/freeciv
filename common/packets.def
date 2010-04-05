@@ -477,6 +477,8 @@ PACKET_GAME_INFO=15; sc
   UINT8 illness_pollution_factor;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;
+  UINT8 tech_upkeep_style;
+  UINT16 tech_upkeep_divider;
   BOOL killstack;
   BOOL tired_attack;
   UINT8 border_city_radius_sq;

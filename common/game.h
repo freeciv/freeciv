@@ -568,6 +568,14 @@ extern struct civ_game game;
 #define RS_MIN_UPGRADE_VETERAN_LOSS              0
 #define RS_MAX_UPGRADE_VETERAN_LOSS              MAX_VET_LEVELS
 
+#define RS_DEFAULT_TECH_UPKEEP_STYLE     0
+#define RS_MIN_TECH_UPKEEP_STYLE         0
+#define RS_MAX_TECH_UPKEEP_STYLE         1
+
+#define RS_DEFAULT_TECH_UPKEEP_DIVIDER   500
+#define RS_MIN_TECH_UPKEEP_DIVIDER       1
+#define RS_MAX_TECH_UPKEEP_DIVIDER       1000
+
 #define RS_DEFAULT_BASE_TECH_COST                20
 #define RS_MIN_BASE_TECH_COST                    0
 #define RS_MAX_BASE_TECH_COST                    200

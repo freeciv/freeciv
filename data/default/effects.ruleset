@@ -81,6 +81,10 @@ reqs    =
       "Tech", "Invention", "player"
     }
 
+; basic free tech upkeep
+[effect_upkeep_tech_free]
+name    = "Tech_Upkeep_Free"
+value   = 100
 
 ; Fortress HP regen
 [effect_fortress_hp_regen]
@@ -112,6 +116,14 @@ reqs	=
 name	= "Upkeep_Free"
 value	= 99
 reqs	=
+    { "type", "name", "range"
+      "Gov", "Anarchy", "Player"
+    }
+
+[effect_anarchy_upkeep_tech_free]
+name    = "Tech_Upkeep_Free"
+value   = 9999
+reqs    =
     { "type", "name", "range"
       "Gov", "Anarchy", "Player"
     }

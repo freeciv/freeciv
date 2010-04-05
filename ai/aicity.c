@@ -414,6 +414,7 @@ static int improvement_effect_value(struct player *pplayer,
   /* These (Wonder) effects have already been evaluated in base_want() */
   case EFT_CAPITAL_CITY:
   case EFT_UPKEEP_FREE:
+  case EFT_TECH_UPKEEP_FREE:
   case EFT_POLLU_POP_PCT:
   case EFT_POLLU_PROD_PCT:
   case EFT_OUTPUT_BONUS:

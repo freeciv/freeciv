@@ -1579,7 +1579,8 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
                 revenue);
   wipe_unit(punit);
   pplayer->economic.gold += revenue;
-  update_tech(pplayer, revenue);
+  /* add bulbs and check for finished research */
+  update_bulbs(pplayer, revenue, TRUE);
 
   /* Inform everyone about tech changes */
   send_player_info(pplayer, NULL);

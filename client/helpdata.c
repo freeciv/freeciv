@@ -1612,12 +1612,20 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 		 units_str);
     free((void *) units_str);
   }
+
+  if (game.info.tech_upkeep_style == 1) {
+    CATLSTR(buf, bufsz,
+            _("* To preserve this technology for our nation some bulbs "
+              "are needed each turn.\n"));
+  }
+
   if (vap->helptext && vap->helptext[0] != '\0') {
     if (strlen(buf) > 0) {
       CATLSTR(buf, bufsz, "\n");
     }
     cat_snprintf(buf, bufsz, "%s\n", _(vap->helptext));
   }
+
 }
 
 /****************************************************************

@@ -181,6 +181,9 @@ Upkeep_Free
     Improvements with amount or less upkeep cost become free to upkeep (others 
 are unaffected).
 
+Tech_Upkeep_Free
+    If this value is greater than 0, the tech upkeep is reduced by this value.
+
 No_Unhappy
     No citizens in the city are ever unhappy.
 
