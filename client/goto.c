@@ -50,7 +50,7 @@ struct part {
   int start_moves_left, start_fuel_left;
   struct tile *start_tile, *end_tile;
   int end_moves_left, end_fuel_left;
-  int time;
+  int mp; /* scaled by SINGLE_MOVE */
   struct pf_path *path;
   struct pf_map *map;
 };
@@ -59,8 +59,8 @@ struct goto_map {
   struct unit *focus;
   struct part *parts;
   int num_parts;
-  int connect_initial;
-  int connect_speed;
+  int initial_mp;     /* scaled by SINGLE_MOVE */
+  int connect_speed;  /* scaled by ACTIVITY_FACTOR */
   struct pf_parameter template;
 };
 
@@ -103,7 +103,7 @@ static struct goto_map *goto_map_new(void)
   goto_map->focus = NULL;
   goto_map->parts = NULL;
   goto_map->num_parts = 0;
-  goto_map->connect_initial = 0;
+  goto_map->initial_mp = 0;
   goto_map->connect_speed = 0;
 
   return goto_map;
@@ -259,19 +259,13 @@ static bool update_last_part(struct goto_map *goto_map,
   p->end_moves_left = pf_path_get_last_position(p->path)->moves_left;
   p->end_fuel_left = pf_path_get_last_position(p->path)->fuel_left;
 
-  if (hover_state == HOVER_CONNECT) {
-    int move_rate = goto_map->template.move_rate;
-    int moves = pf_path_get_last_position(p->path)->total_MC;
-
-    p->time = moves / move_rate;
-    if (goto_map->connect_initial > 0) {
-      p->time += goto_map->connect_initial;
-    }
-    log_goto_path("To (%d,%d) MC: %d, connect_initial: %d",
-                  TILE_XY(ptile), moves, goto_map->connect_initial);
-  } else {
-    p->time = pf_path_get_last_position(p->path)->turn;
+  p->mp = pf_path_get_last_position(p->path)->total_MC;
+  if (goto_map->num_parts == 1) {
+    p->mp += goto_map->initial_mp;
   }
+  log_goto_path("To (%d,%d) part %d: total_MC: %d, mp: %d",
+                TILE_XY(ptile), goto_map->num_parts,
+                pf_path_get_last_position(p->path)->total_MC, p->mp);
 
   /* Refresh tiles so turn information is shown. */
   refresh_tile_mapcanvas(old_tile, FALSE, FALSE);
@@ -330,7 +324,7 @@ static void add_part(struct goto_map *goto_map)
   }
   p->path = NULL;
   p->end_tile = p->start_tile;
-  p->time = 0;
+  p->mp = 0;
   parameter.start_tile = p->start_tile;
   p->map = pf_map_new(&parameter);
 }
@@ -550,8 +544,7 @@ static bool is_non_allied_city_adjacent(struct player *pplayer,
   (2) (the tie-breaker) time to build the path (travel plus activity time).
   In rail-connect the priorities are reversed.
 
-  param->data should contain the result of
-  get_activity_rate(punit) / ACTIVITY_FACTOR.
+  param->data should contain the result of get_activity_rate(punit).
 ****************************************************************************/
 static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
                             const struct tile *dest_tile,
@@ -610,8 +603,8 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
     int speed = *(int *)param->data;
-    
-    activity_time /= speed;
+    activity_time = ((activity_time * ACTIVITY_FACTOR)
+                     + (speed - 1)) / speed;
     activity_time--;
     total_cost += moves_left;
   }
@@ -701,8 +694,8 @@ static int get_connect_irrig(const struct tile *src_tile,
   moves_left = param->move_rate - (total_cost % param->move_rate);
   if (activity_time > 0) {
     int speed = *(int *)param->data;
-    
-    activity_time /= speed;
+    activity_time = ((activity_time * ACTIVITY_FACTOR)
+                     + (speed - 1)) / speed;
     activity_time--;
     total_cost += moves_left;
   }
@@ -739,10 +732,12 @@ no_fights_or_unknown_goto(const struct tile *ptile,
 
 /********************************************************************** 
   Fill the PF parameter with the correct client-goto values.
+  The storage behind "connect_speed" must remain valid for the lifetime
+  of the pf_map.
 ***********************************************************************/
 static void fill_client_goto_parameter(struct unit *punit,
 				       struct pf_parameter *parameter,
-				       int *connect_initial,
+				       int *initial_mp,
 				       int *connect_speed)
 {
   pft_fill_unit_parameter(parameter, punit);
@@ -760,27 +755,34 @@ static void fill_client_goto_parameter(struct unit *punit,
     }
     parameter->get_moves_left_req = NULL;
 
-    *connect_speed = get_activity_rate(punit) / ACTIVITY_FACTOR;
+    *connect_speed = get_activity_rate(punit);
     parameter->data = connect_speed;
 
     /* Take into account the activity time at the origin */
-    *connect_initial = get_activity_time(punit->tile, unit_owner(punit))
-                     / *connect_speed;
-    if (*connect_initial > 0) {
-      parameter->moves_left_initially = 0;
-      if (punit->moves_left == 0) {
-	*connect_initial += 1;
+    {
+      int activity_initial = get_activity_time(punit->tile, unit_owner(punit));
+      if (activity_initial > 0) {
+        /* First action is activity */
+        parameter->moves_left_initially = 0;
+        /* Number of turns, rounding up */
+        *initial_mp = ((activity_initial * ACTIVITY_FACTOR)
+                       + (*connect_speed - 1)) / *connect_speed;
+        if (punit->moves_left == 0) {
+          *initial_mp += 1;
+        }
+        *initial_mp *= parameter->move_rate;
+      } else {
+        /* First action is a move */
+        /* moves_left_initially = punit->moves_left (default) */
+        *initial_mp = parameter->move_rate - parameter->moves_left_initially;
       }
-    } else {
-      /* otherwise moves_left_initially = punit->moves_left (default) */
-      *connect_initial = 0;
     }
     break;
   case HOVER_NUKE:
     parameter->get_moves_left_req = NULL; /* nuclear safety? pwah! */
     /* FALLTHRU */
   default:
-    *connect_initial = 0;
+    *initial_mp = parameter->move_rate - parameter->moves_left_initially;
     break;
   };
 
@@ -818,7 +820,7 @@ void enter_goto_state(struct unit_list *punits)
     goto_map->focus = punit;
 
     fill_client_goto_parameter(punit, &goto_map->template,
-                               &goto_map->connect_initial,
+                               &goto_map->initial_mp,
                                &goto_map->connect_speed);
 
     add_part(goto_map);
@@ -896,19 +898,25 @@ bool goto_get_turns(int *min, int *max)
   }
 
   goto_map_list_iterate(goto_maps, goto_map) {
-    int i, time = 0;
+    int i, mp = 0, turns;
 
     for (i = 0; i < goto_map->num_parts; i++) {
-      time += goto_map->parts[i].time;
+      mp += goto_map->parts[i].mp;
     }
 
+    mp = MAX(0, mp);
+    /* Round down -- if we can get there this turn with MP left, report 0,
+     * if we get there with 0 MP, report 1 */
+    turns = mp / goto_map->template.move_rate;
+
     if (min) {
-      *min = MIN(*min, time);
+      *min = MIN(*min, turns);
     }
     if (max) {
-      *max = MAX(*max, time);
+      *max = MAX(*max, turns);
     }
   } goto_map_list_iterate_end;
+
   return TRUE;
 }
 
