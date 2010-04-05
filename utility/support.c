@@ -746,7 +746,7 @@ int cat_snprintf(char *str, size_t n, const char *format, ...)
   va_start(ap, format);
   ret = fc_vsnprintf(str+len, n-len, format, ap);
   va_end(ap);
-  return (int) (ret + len);
+  return (-1 == ret ? -1 : ret + len);
 }
 
 /**********************************************************************
