@@ -208,7 +208,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
   hbox = gtk_hbox_new(TRUE, 0);
 
-  table = gtk_table_new(NUM_HAPPINESS_MODIFIERS, 2, FALSE);
+  table = gtk_table_new(NUM_HAPPINESS_MODIFIERS + 1, 2, FALSE);
   gtk_table_set_col_spacing(GTK_TABLE(table), 0, 5);
   gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 4);
 
@@ -219,9 +219,7 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
     /* set spacing between lines of citizens*/
-    if (i + 1 < NUM_HAPPINESS_MODIFIERS) {
-      gtk_table_set_row_spacing(GTK_TABLE(table), i, 10);
-    }
+    gtk_table_set_row_spacing(GTK_TABLE(table), i, 10);
 
     /* happiness labels */
     label = gtk_label_new(happiness_label_str[i]);
@@ -249,6 +247,14 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
     gtk_table_attach(GTK_TABLE(table), ebox, 1, 2, i, i + 1, GTK_FILL, 0,
                      0, 0);
   }
+
+  label = gtk_label_new(_("Additional information about each happiness "
+                          "level are available via left click on the "
+                          "citzens."));
+  gtk_widget_set_name(label, "city_label");
+  gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+  gtk_table_attach(GTK_TABLE(table), label, 0, 2, NUM_HAPPINESS_MODIFIERS,
+                   NUM_HAPPINESS_MODIFIERS + 1, GTK_FILL, 0, 0, 0);
 
   gtk_widget_show_all(pdialog->shell);
   dialog_list_prepend(dialog_list, pdialog);
