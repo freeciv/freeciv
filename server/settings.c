@@ -967,7 +967,7 @@ static struct setting settings[] = {
           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
           N_("Slowly kill unhomecitied units (eg. startunits)"),
           N_("If greater than 0, then every unit without a homecity will "
-             "loose hitpoints each turn. The number of hitpoints lost is "
+             "lose hitpoints each turn. The number of hitpoints lost is "
              "given by 'killunhomed' percent of the hitpoints of the unit "
              "type. At least one hitpoint is lost every turn until the "
              "death of the unit."),

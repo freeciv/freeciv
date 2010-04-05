@@ -949,8 +949,8 @@ already made all necessary checks.
 **************************************************************************/
 static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
 {
-  char looser_link[MAX_LEN_LINK], winner_link[MAX_LEN_LINK];
-  struct unit *plooser, *pwinner;
+  char loser_link[MAX_LEN_LINK], winner_link[MAX_LEN_LINK];
+  struct unit *ploser, *pwinner;
   struct city *pcity;
   int moves_used, def_moves_used; 
   int old_unit_vet, old_defender_vet, vet;
@@ -1035,7 +1035,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     punit->moves_left = 0;
   pwinner = (punit->hp > 0) ? punit : pdefender;
   winner_id = pwinner->id;
-  plooser = (pdefender->hp > 0) ? punit : pdefender;
+  ploser = (pdefender->hp > 0) ? punit : pdefender;
 
   vet = (pwinner->veteran == ((punit->hp > 0) ? old_unit_vet :
 	old_defender_vet)) ? 0 : 1;
@@ -1043,11 +1043,11 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
   send_combat(punit, pdefender, vet, 0);
 
   /* N.B.: unit_link always returns the same pointer. */
-  sz_strlcpy(looser_link, unit_tile_link(plooser));
+  sz_strlcpy(loser_link, unit_tile_link(ploser));
   sz_strlcpy(winner_link, uclass_has_flag(unit_class(pwinner), UCF_MISSILE)
              ? unit_tile_link(pwinner) : unit_link(pwinner));
 
-  if (punit == plooser) {
+  if (punit == ploser) {
     /* The attacker lost */
     log_debug("Attacker lost: %s %s against %s %s.",
               nation_rule_name(nation_of_player(pplayer)),
@@ -1060,19 +1060,19 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   /* TRANS: "Your Cannon ... the Polish Destroyer." */
                   _("Your %s survived the pathetic attack from the %s %s."),
                   winner_link,
-                  nation_adjective_for_player(unit_owner(plooser)),
-                  looser_link);
+                  nation_adjective_for_player(unit_owner(ploser)),
+                  loser_link);
     if (vet) {
       notify_unit_experience(pwinner);
     }
-    notify_player(unit_owner(plooser), def_tile,
+    notify_player(unit_owner(ploser), def_tile,
                   E_UNIT_LOST_ATT, ftc_server,
                   /* TRANS: "... Cannon ... the Polish Destroyer." */
                   _("Your attacking %s failed against the %s %s!"),
-                  looser_link,
+                  loser_link,
                   nation_adjective_for_player(unit_owner(pwinner)),
                   winner_link);
-    wipe_unit(plooser);
+    wipe_unit(ploser);
   } else {
     /* The defender lost, the attacker punit lives! */
     int winner_id = pwinner->id;
@@ -1084,7 +1084,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
               unit_rule_name(pdefender));
 
     punit->moved = TRUE;	/* We moved */
-    kill_unit(pwinner, plooser,
+    kill_unit(pwinner, ploser,
               vet && !uclass_has_flag(unit_class(punit), UCF_MISSILE));
     if (unit_alive(winner_id)) {
       if (uclass_has_flag(unit_class(pwinner), UCF_MISSILE)) {
