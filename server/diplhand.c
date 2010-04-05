@@ -413,20 +413,22 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
                       _("You are taught the knowledge of %s."),
                       advance_name_for_player(pdest, pclause->value));
 
-        notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN, ftc_server,
-                         _("The %s have acquired %s from the %s."),
-                         nation_plural_for_player(pdest),
-                         advance_name_for_player(pdest, pclause->value),
-                         nation_plural_for_player(pgiver));
+        if (tech_transfer(pdest, pgiver, pclause->value)) {
+          notify_embassies(pdest, pgiver, NULL, E_TECH_GAIN, ftc_server,
+                           _("The %s have acquired %s from the %s."),
+                           nation_plural_for_player(pdest),
+                           advance_name_for_player(pdest, pclause->value),
+                           nation_plural_for_player(pgiver));
 
-	script_signal_emit("tech_researched", 3,
-			   API_TYPE_TECH_TYPE, advance_by_number(pclause->value),
-			   API_TYPE_PLAYER, pdest,
-			   API_TYPE_STRING, "traded");
-	do_dipl_cost(pdest, pclause->value);
-
-	found_new_tech(pdest, pclause->value, FALSE, TRUE);
-	break;
+          script_signal_emit("tech_researched", 3,
+                             API_TYPE_TECH_TYPE,
+                             advance_by_number(pclause->value),
+                             API_TYPE_PLAYER, pdest,
+                             API_TYPE_STRING, "traded");
+          do_dipl_cost(pdest, pclause->value);
+          found_new_tech(pdest, pclause->value, FALSE, TRUE);
+        }
+        break;
       case CLAUSE_GOLD:
           notify_player(pdest, NULL, E_DIPLOMACY, ftc_server,
                         _("You get %d gold."), pclause->value);

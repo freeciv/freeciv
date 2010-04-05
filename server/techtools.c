@@ -47,6 +47,7 @@
 static Tech_type_id pick_random_tech_researched(struct player* plr);
 static Tech_type_id pick_random_tech(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
+static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech);
 
 /**************************************************************************
 ...
@@ -291,7 +292,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
                     != TECH_KNOWN));
 
   /* got_tech allows us to change research without applying techpenalty
-   * (without loosing bulbs) */
+   * (without losing bulbs) */
   if (tech_found == research->researching) {
     research->got_tech = TRUE;
   }
@@ -919,16 +920,18 @@ Tech_type_id steal_a_tech(struct player *pplayer, struct player *victim,
                    advance_name_for_player(pplayer, stolen_tech),
                    nation_plural_for_player(victim));
 
-  do_conquer_cost(pplayer, stolen_tech);
-  found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
+  if (tech_transfer(pplayer, victim, stolen_tech)) {
+    do_conquer_cost(pplayer, stolen_tech);
+    found_new_tech(pplayer, stolen_tech, FALSE, TRUE);
 
-  script_signal_emit("tech_researched", 3,
-		     API_TYPE_TECH_TYPE,
-		     advance_by_number(stolen_tech),
-		     API_TYPE_PLAYER, pplayer,
-		     API_TYPE_STRING, "stolen");
+    script_signal_emit("tech_researched", 3, API_TYPE_TECH_TYPE,
+                       advance_by_number(stolen_tech),
+                       API_TYPE_PLAYER, pplayer, API_TYPE_STRING, "stolen");
 
-  return stolen_tech;
+    return stolen_tech;
+  };
+
+  return A_NONE;
 }
 
 /****************************************************************************
@@ -1028,4 +1031,36 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
   do_free_cost(pplayer, tech);
   found_new_tech(pplayer, tech, FALSE, TRUE);
   return tech;
+}
+
+/****************************************************************************
+  Let the player forget one tech.
+****************************************************************************/
+static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
+{
+  notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
+                _("Oops. You have bad luck. A mistake was made while "
+                  "transferring %s. Your scientists did forget it."),
+                advance_name_for_player(pplayer, tech));
+  player_tech_lost(pplayer, tech);
+  player_research_update(pplayer);
+}
+
+/****************************************************************************
+  Check if the tech is lost by the donor or receiver. Returns if the
+  receiver gets a new tech.
+****************************************************************************/
+bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
+                   Tech_type_id tech)
+{
+  if (fc_rand(100) < game.info.techlost_donor) {
+    forget_tech_transfered(plr_donor, tech);
+  }
+
+  if (fc_rand(100) < game.info.techlost_recv) {
+    forget_tech_transfered(plr_recv, tech);
+    return FALSE;
+  }
+
+  return TRUE;
 }

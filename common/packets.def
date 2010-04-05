@@ -406,6 +406,8 @@ PACKET_GAME_INFO=15; sc
   UINT8 diplcost, freecost, conquercost;
   UINT8 angrycitizen;
   UINT8 techpenalty;
+  UINT8 techlost_recv;
+  UINT8 techlost_donor;
   UINT32 foodbox;
   UINT32 shieldbox;
   UINT32 sciencebox;

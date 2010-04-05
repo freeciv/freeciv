@@ -249,6 +249,8 @@ void game_init(void)
   game.info.coolinglevel  = 0; /* set later */
   game.info.gold          = GAME_DEFAULT_GOLD;
   game.info.tech          = GAME_DEFAULT_TECHLEVEL;
+  game.info.techlost_recv  = GAME_DEFAULT_TECHLOST_RECV;
+  game.info.techlost_donor = GAME_DEFAULT_TECHLOST_DONOR;
   game.info.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
   game.info.timeout       = GAME_DEFAULT_TIMEOUT;
   game.info.tcptimeout    = GAME_DEFAULT_TCPTIMEOUT;

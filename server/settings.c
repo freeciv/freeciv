@@ -783,6 +783,24 @@ static struct setting settings[] = {
 	  GAME_MIN_TECHPENALTY, GAME_MAX_TECHPENALTY,
 	  GAME_DEFAULT_TECHPENALTY)
 
+  GEN_INT("techlost_recv", game.info.techlost_recv,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
+          N_("Chance to lose an invention while receiving it"),
+          N_("If you receive an invention via an treaty this setting "
+             "defines the chance that the invention is lost during the "
+             "transfer."),
+          NULL, NULL, GAME_MIN_TECHLOST_RECV, GAME_MAX_TECHLOST_RECV,
+          GAME_DEFAULT_TECHLOST_RECV)
+
+  GEN_INT("techlost_donor",game.info.techlost_donor,
+          SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
+          N_("Chance to lose an invention while giving it"),
+          N_("If you give an invention via an treaty this setting "
+             "defines the chance that the invention is lost for your "
+             "civilisation during the transfer."),
+          NULL, NULL, GAME_MIN_TECHLOST_DONOR, GAME_MAX_TECHLOST_DONOR,
+          GAME_DEFAULT_TECHLOST_DONOR)
+
   GEN_INT("diplcost", game.info.diplcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting tech or gold from treaty"),

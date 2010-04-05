@@ -4790,6 +4790,13 @@ static void game_load_internal(struct section_file *file)
       secfile_lookup_int_default(file, game.info.mgr_worldchance,
                                  "game.mgr_worldchance");
 
+    game.info.techlost_donor =
+      secfile_lookup_int_default(file, game.info.techlost_donor,
+                                 "game.techlost_donor");
+    game.info.techlost_recv =
+      secfile_lookup_int_default(file, game.info.techlost_recv,
+                                 "game.techlost_recv");
+
     sz_strlcpy(game.server.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
 					  "game.demography"));
@@ -5411,9 +5418,11 @@ void game_save(struct section_file *file, const char *save_reason,
   }
   secfile_insert_str(file, meta_addr_port(), "game.metaserver");
   secfile_insert_str(file, srvarg.serverid, "game.serverid");
-  
+
   secfile_insert_int(file, game.info.gold, "game.gold");
   secfile_insert_int(file, game.info.tech, "game.tech");
+  secfile_insert_int(file, game.info.techlost_recv, "game.techlost_recv");
+  secfile_insert_int(file, game.info.techlost_donor, "game.techlost_donor");
   secfile_insert_int(file, game.info.skill_level, "game.skill_level");
   secfile_insert_int(file, game.info.timeout, "game.timeout");
   secfile_insert_int(file, game.server.timeoutint, "game.timeoutint");

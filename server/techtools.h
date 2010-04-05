@@ -1,4 +1,4 @@
-/********************************************************************** 
+/**********************************************************************
  Freeciv - Copyright (C) 2005 The Freeciv Team
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -37,5 +37,8 @@ Tech_type_id give_immediate_free_tech(struct player *pplayer);
 void give_global_initial_techs(struct player *pplayer);
 void give_nation_initial_techs(struct player *pplayer);
 Tech_type_id give_random_initial_tech(struct player *pplayer);
+
+bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
+                   Tech_type_id tech);
 
 #endif
