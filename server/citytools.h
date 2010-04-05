@@ -91,12 +91,8 @@ void city_freeze_workers_queue(struct city *pcity);
 void city_thaw_workers_queue(void);
 
 /* city map functions */
-enum city_tile_type city_map_status(const struct city *pcity, int city_x,
-				    int city_y);
-void city_map_update_empty(struct city *pcity, struct tile *ptile,
-			   int city_x, int city_y);
-void city_map_update_worker(struct city *pcity, struct tile *ptile,
-			    int city_x, int city_y);
+void city_map_update_empty(struct city *pcity, struct tile *ptile);
+void city_map_update_worker(struct city *pcity, struct tile *ptile);
 
 bool city_map_update_tile_frozen(struct tile *ptile);
 bool city_map_update_tile_now(struct tile *ptile);

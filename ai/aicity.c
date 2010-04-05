@@ -1898,20 +1898,19 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     struct city *acity = tile_worked(atile);
 
     if (acity && acity != pcity && city_owner(acity) == city_owner(pcity))  {
-      int ax, ay;
-      bool is_valid = city_base_to_city_map(&ax, &ay, acity, atile);
-
       log_base(LOG_EMERGENCY, "%s taking over %s square in (%d, %d)",
                city_name(pcity), city_name(acity), TILE_XY(atile));
 
-      fc_assert_action(is_valid, continue);
+      int ax, ay;
+      fc_assert_action(city_base_to_city_map(&ax, &ay, acity, atile),
+                       continue);
 
       if (is_free_worked(acity, atile)) {
-	/* Can't remove a worker here. */
+        /* Can't remove a worker here. */
         continue;
       }
 
-      city_map_update_empty(acity, atile, ax, ay);
+      city_map_update_empty(acity, atile);
       acity->specialists[DEFAULT_SPECIALIST]++;
       city_freeze_workers_queue(acity);
     }

@@ -31,13 +31,6 @@ enum production_class_type {
   PCT_LAST
 };
 
-enum city_tile_type {
-  C_TILE_UNUSABLE = 0,		/* memset(), calloc(), and debugging */
-  C_TILE_UNAVAILABLE,
-  C_TILE_EMPTY,
-  C_TILE_WORKER,
-};
-
 /* Various city options.  These are stored by the server and can be
  * toggled by the user.  Each one defaults to off.  Adding new ones
  * will break network compatibility.  Reordering them will break savegame
@@ -161,6 +154,19 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
     }									\
   } city_map_iterate_end						\
 }
+
+/* Same as above but using the city map index. */
+#define city_tile_iterate_index(_radius_sq, _city_tile, _tile,		\
+                                _index) {				\
+  city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
+                                      _radius_sq, _index, _x, _y)	\
+    struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
+                                          _x, _y);			\
+    if (NULL != _tile) {
+
+#define city_tile_iterate_index_end					\
+    }									\
+  } city_map_iterate_outwards_radius_sq_end
 
 /* simple extension to skip is_free_worked() tiles. */
 #define city_tile_iterate_skip_free_cxy(_radius_sq, _city_tile, _tile,	\
@@ -408,14 +414,6 @@ struct city {
   struct worklist worklist;
 
   bv_city_options city_options;
-
-  /* The vestigial city_map[] is only temporary, while loading saved
-     games or evaluating worker output for possible tile arrangements.
-     Otherwise, the derived city_map[] is no longer updated and
-     propagated to the clients. Instead, tile_worked() points directly
-     to the affected city.
-   */
-  enum city_tile_type city_map[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
 
   struct {
     /* Only used at the client (the server is omniscient). */
@@ -696,7 +694,7 @@ void city_remove_improvement(struct city *pcity,
 			     const struct impr_type *pimprove);
 
 /* city update functions */
-void city_refresh_from_main_map(struct city *pcity, bool full_refresh);
+void city_refresh_from_main_map(struct city *pcity, bool *workers_map);
 
 int city_waste(const struct city *pcity, Output_type_id otype, int total);
 int city_specialists(const struct city *pcity);                 /* elv+tax+scie */

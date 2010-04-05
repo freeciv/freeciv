@@ -2271,38 +2271,14 @@ void change_build_target(struct player *pplayer, struct city *pcity,
 }
 
 /**************************************************************************
-  Return the tile status of the city_map for the given coordinates.
-
-   * This is usually for sanity_check().
-
-   * The vestigial city_map[] is only temporary, while loading saved
-     games or evaluating worker output for possible tile arrangements.
-     Otherwise, the derived city_map[] is no longer updated and
-     propagated to the clients. Instead, tile_worked() points directly
-     to the affected city.
-**************************************************************************/
-enum city_tile_type city_map_status(const struct city *pcity,
-                                    int city_x, int city_y)
-{
-  if (!is_valid_city_coords(city_map_radius_sq_get(pcity), city_x,
-                            city_y)) {
-    return C_TILE_UNUSABLE;
-  }
-
-  return pcity->city_map[city_x][city_y];
-}
-
-/**************************************************************************
   Change from worked to empty.
   city_x, city_y are city map coordinates.
   Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
-void city_map_update_empty(struct city *pcity, struct tile *ptile,
-			   int city_x, int city_y)
+void city_map_update_empty(struct city *pcity, struct tile *ptile)
 {
   tile_set_worked(ptile, NULL);
   send_tile_info(NULL, ptile, FALSE);
-  pcity->city_map[city_x][city_y] = C_TILE_EMPTY;
   pcity->server.synced = FALSE;
 }
 
@@ -2311,12 +2287,10 @@ void city_map_update_empty(struct city *pcity, struct tile *ptile,
   city_x, city_y are city map coordinates.
   Call sync_cities() to send the affected cities to the clients.
 **************************************************************************/
-void city_map_update_worker(struct city *pcity, struct tile *ptile,
-			    int city_x, int city_y)
+void city_map_update_worker(struct city *pcity, struct tile *ptile)
 {
   tile_set_worked(ptile, pcity);
   send_tile_info(NULL, ptile, FALSE);
-  pcity->city_map[city_x][city_y] = C_TILE_WORKER;
   pcity->server.synced = FALSE;
 }
 
@@ -2538,7 +2512,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
                                             city_y);
 
       if (ptile && pcity == tile_worked(ptile)) {
-        city_map_update_empty(pcity, ptile, city_x, city_y);
+        city_map_update_empty(pcity, ptile);
         workers++;
       }
     } city_map_iterate_radius_sq_end;
@@ -2553,7 +2527,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
         if (ptile && !is_free_worked(pcity, ptile)
             && tile_worked(ptile) != pcity
             && city_can_work_tile(pcity, ptile)) {
-          city_map_update_worker(pcity, ptile, city_x, city_y);
+          city_map_update_worker(pcity, ptile);
           workers--;
         }
 

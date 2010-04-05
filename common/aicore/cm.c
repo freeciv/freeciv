@@ -124,7 +124,7 @@ struct cm_tile;
  */
 struct cm_tile {
   const struct cm_tile_type *type;
-  int x, y; /* valid only if !is_specialist */
+  int index; /* city map index; only valid if !is_specialist */
 };
 
 /* define the tile_vector as array<cm_tile> */
@@ -218,11 +218,13 @@ struct cm_state {
   /*
    * Where we are in the search.  When we add a worker to the current
    * partial solution, we also push the tile type index on the stack.
- */
+   */
   struct {
     int *stack;
     int size;
   } choice;
+
+  bool *workers_map; /* placement of the workers within the city map */
 };
 
 
@@ -268,7 +270,7 @@ static void real_print_partial_solution(enum log_level level,
 #endif /* CM_DEBUG */
 
 static void cm_result_copy(struct cm_result *result,
-                           const struct city *pcity, bool main_map);
+                           const struct city *pcity, bool *workers_map);
 
 /****************************************************************************
   Initialize the CM data at the start of each game.  Note the citymap
@@ -616,11 +618,7 @@ static void copy_partial_solution(struct partial_solution *dst,
 **************************************************************************/
 
 /****************************************************************************
-  Apply the solution to the city_map[].
-
-  Note: this function writes directly into the city_map[], unlike most
-  other code that uses accessor functions.  The city_map[] is merely a
-  scratch pad, and not applied here to the main map tiles.
+  Apply the solution to state->workers_map.
 ****************************************************************************/
 static void apply_solution(struct cm_state *state,
                            const struct partial_solution *soln)
@@ -640,11 +638,9 @@ static void apply_solution(struct cm_state *state,
 
   city_map_iterate(city_radius_sq, index, x, y) {
     if (is_free_worked_cxy(x, y)) {
-      continue;
-    }
-
-    if (C_TILE_WORKER == pcity->city_map[x][y]) {
-      pcity->city_map[x][y] = C_TILE_EMPTY;
+      state->workers_map[index] = TRUE;
+    } else {
+      state->workers_map[index] = FALSE;
     }
   } city_map_iterate_end;
 
@@ -673,13 +669,13 @@ static void apply_solution(struct cm_state *state,
       for (j = 0; j < nworkers; j++) {
         const struct cm_tile *tile = tile_get(type, j);
 
-        pcity->city_map[tile->x][tile->y] = C_TILE_WORKER;
+        state->workers_map[tile->index] = TRUE;
       }
     }
   }
 
   /* Finally we must refresh the city to reset all the precomputed fields. */
-  city_refresh_from_main_map(pcity, FALSE); /* from city_map[] instead */
+  city_refresh_from_main_map(pcity, state->workers_map);
   fc_assert_ret(citizens == pcity->size);
 }
 
@@ -742,13 +738,13 @@ static void convert_solution_to_result(struct cm_state *state,
   /* make a backup, apply and evaluate the solution, and restore */
   memcpy(&backup, state->pcity, sizeof(backup));
   apply_solution(state, soln);
-  cm_result_copy(result, state->pcity, FALSE);
+  cm_result_copy(result, state->pcity, state->workers_map);
   memcpy(state->pcity, &backup, sizeof(backup));
 
   /* result->found_a_valid should be only true if it matches the
-     parameter ; figure out if it does */
+   *  parameter; figure out if it does */
   fitness = compute_fitness(result->surplus, result->disorder,
-			    result->happy, &state->parameter);
+                            result->happy, &state->parameter);
   result->found_a_valid = fitness.sufficient;
 }
 
@@ -869,8 +865,8 @@ static void compute_tile_production(const struct city *pcity,
   The lattice_depth is not set.
 ****************************************************************************/
 static void tile_type_lattice_add(struct tile_type_vector *lattice,
-				  const struct cm_tile_type *newtype,
-				  int x, int y)
+                                  const struct cm_tile_type *newtype,
+                                  int index)
 {
   struct cm_tile_type *type;
   int i;
@@ -904,8 +900,8 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
     struct cm_tile tile;
 
     tile.type = type;
-    tile.x = x;
-    tile.y = y;
+    tile.index = index;
+
     tile_vector_append(&type->tiles, &tile);
   }
 }
@@ -935,7 +931,7 @@ static void init_specialist_lattice_nodes(struct tile_type_vector *lattice,
 	type.production[output] = get_specialist_output(pcity, i, output);
       } output_type_iterate_end;
 
-      tile_type_lattice_add(lattice, &type, 0, 0);
+      tile_type_lattice_add(lattice, &type, 0);
     }
   } specialist_type_iterate_end;
 }
@@ -1125,14 +1121,10 @@ static void sort_lattice_by_fitness(const struct cm_state *state,
 }
 
 /****************************************************************************
-  Create the lattice and update related city_map[].
-
-  Note: this function writes directly into the city_map[], unlike most
-  other code that uses accessor functions.  The city_map[] is merely a
-  scratch pad, and not assumed to accurately reflect main map tiles.
+  Create the lattice.
 ****************************************************************************/
 static void init_tile_lattice(struct city *pcity,
-			      struct tile_type_vector *lattice)
+                              struct tile_type_vector *lattice)
 {
   struct cm_tile_type type;
   struct tile *pcenter = city_tile(pcity);
@@ -1140,24 +1132,15 @@ static void init_tile_lattice(struct city *pcity,
   /* add all the fields into the lattice */
   tile_type_init(&type); /* init just once */
 
-  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
-                        x, y) {
+  city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+                          index) {
     if (is_free_worked(pcity, ptile)) {
-      pcity->city_map[x][y] = C_TILE_WORKER;
       continue;
-    } else if (tile_worked(ptile) == pcity) {
-      /* is currently worked, but actually may be unavailable */
-      pcity->city_map[x][y] = C_TILE_WORKER;
     } else if (city_can_work_tile(pcity, ptile)) {
-      pcity->city_map[x][y] = C_TILE_EMPTY;
-    } else {
-      pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-      continue;
+      compute_tile_production(pcity, ptile, &type); /* clobbers type */
+      tile_type_lattice_add(lattice, &type, index); /* copy type if needed */
     }
-
-    compute_tile_production(pcity, ptile, &type); /* clobbers type */
-    tile_type_lattice_add(lattice, &type, x, y); /* copy type if needed */
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_index_end;
 
   /* Add all the specialists into the lattice.  */
   init_specialist_lattice_nodes(lattice, pcity);
@@ -1685,7 +1668,7 @@ static bool bb_next(struct cm_state *state)
 /****************************************************************************
   Initialize the state for the branch-and-bound algorithm.
 ****************************************************************************/
-static struct cm_state *cm_init_state(struct city *pcity)
+static struct cm_state *cm_state_init(struct city *pcity)
 {
   int numtypes;
   struct cm_state *state = fc_malloc(sizeof(*state));
@@ -1720,6 +1703,10 @@ static struct cm_state *cm_init_state(struct city *pcity)
   state->choice.stack = fc_malloc(pcity->size
 				  * sizeof(*state->choice.stack));
   state->choice.size = 0;
+
+  /* Initialize workers map */
+  state->workers_map = fc_calloc(city_map_tiles_from_city(state->pcity),
+                                 sizeof(state->workers_map));
 
   return state;
 }
@@ -1770,7 +1757,7 @@ static void end_search(struct cm_state *state)
 /****************************************************************************
   Release all the memory allocated by the state.
 ****************************************************************************/
-static void cm_free_state(struct cm_state *state)
+static void cm_state_free(struct cm_state *state)
 {
   tile_type_vector_free_all(&state->lattice);
   output_type_iterate(stat) {
@@ -1778,8 +1765,10 @@ static void cm_free_state(struct cm_state *state)
   } output_type_iterate_end;
   destroy_partial_solution(&state->best);
   destroy_partial_solution(&state->current);
-  free(state->choice.stack);
-  free(state);
+
+  FC_FREE(state->choice.stack);
+  FC_FREE(state->workers_map);
+  FC_FREE(state);
 }
 
 
@@ -1815,15 +1804,15 @@ void cm_query_result(struct city *pcity,
 		     const struct cm_parameter *param,
 		     struct cm_result *result)
 {
-  struct cm_state *state = cm_init_state(pcity);
+  struct cm_state *state = cm_state_init(pcity);
 
   /* Refresh the city.  Otherwise the CM can give wrong results or just be
    * slower than necessary.  Note that cities are often passed in in an
    * unrefreshed state (which should probably be fixed). */
-  city_refresh_from_main_map(pcity, TRUE);
+  city_refresh_from_main_map(pcity, NULL);
 
   cm_find_best_solution(state, param, result);
-  cm_free_state(state);
+  cm_state_free(state);
 }
 
 /**************************************************************************
@@ -1941,19 +1930,22 @@ int cm_result_citizens(const struct cm_result *result)
 }
 
 /****************************************************************************
-  Copy the city's current setup into the cm result structure.
+  Copy the city's current setup into the cm result structure. Wrapper for
+  cm_result_main().
 ****************************************************************************/
 void cm_result_from_main_map(struct cm_result *result,
                              const struct city *pcity)
 {
-  cm_result_copy(result, pcity, TRUE);
+  cm_result_copy(result, pcity, NULL);
 }
 
 /****************************************************************************
-  Copy the city's current setup into the cm result structure.
+  Copy the city's current setup into the cm result structure. 'workers_map'
+  is a bool array with the size city_map_tiles_from_city(pcity). It is TRUE
+  for tiles worked by the city.
 ****************************************************************************/
 static void cm_result_copy(struct cm_result *result,
-                           const struct city *pcity, bool main_map)
+                           const struct city *pcity, bool *workers_map)
 {
   struct tile *pcenter = city_tile(pcity);
 
@@ -1964,14 +1956,15 @@ static void cm_result_copy(struct cm_result *result,
   result->city_radius_sq = city_map_radius_sq_get(pcity);
 
   city_tile_iterate_cxy(result->city_radius_sq, pcenter, ptile, x, y) {
-    if (main_map) {
+    if (workers_map == NULL) {
+      /* use the main map */
       struct city *pwork = tile_worked(ptile);
 
-      result->worker_positions_used[x][y] =
-        (NULL != pwork && pwork == pcity);
+      result->worker_positions_used[x][y] = (NULL != pwork
+                                             && pwork == pcity);
     } else {
-      result->worker_positions_used[x][y] =
-        (C_TILE_WORKER == pcity->city_map[x][y]);
+      int index = city_tile_xy_to_index(x, y, result->city_radius_sq);
+      result->worker_positions_used[x][y] = workers_map[index];
     }
   } city_tile_iterate_cxy_end;
 
@@ -2128,10 +2121,6 @@ void cm_print_city(const struct city *pcity)
 
     if (NULL != pwork && pwork == pcity) {
       log_test("    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
-    }
-
-    if (C_TILE_WORKER == pcity->city_map[x][y]) {
-      log_test("    {%2d,%2d}", x, y);
     }
   } city_tile_iterate_cxy_end;
 

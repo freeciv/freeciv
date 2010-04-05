@@ -234,7 +234,7 @@ static void ai_manage_taxes(struct player *pplayer)
           cm_query_result(pcity, &cmp, &cmr);
           if (cmr.found_a_valid) {
             apply_cmresult_to_city(pcity, &cmr);
-            city_refresh_from_main_map(pcity, TRUE);
+            city_refresh_from_main_map(pcity, NULL);
             if (!city_happy(pcity)) {
               CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
             }
@@ -248,7 +248,7 @@ static void ai_manage_taxes(struct player *pplayer)
         /* KLUDGE: Must refresh to restore the original values which
          * were clobbered in cm_query_result(), after the tax rates
          * were changed. */
-        city_refresh_from_main_map(pcity, TRUE);
+        city_refresh_from_main_map(pcity, NULL);
       } city_list_iterate_end;
     }
   }

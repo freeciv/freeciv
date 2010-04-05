@@ -76,14 +76,7 @@
 
 #define log_worker      log_verbose
 
-/* enum city_tile_type string constants for savegame */
-#define S_TILE_EMPTY		'0'
-#define S_TILE_WORKER		'1'
-#define S_TILE_UNAVAILABLE	'2'
-#define S_TILE_UNKNOWN		'?'
-
-
-/* 
+/*
  * This loops over the entire map to save data. It collects all the data of
  * a line using GET_XY_CHAR and then executes the macro SECFILE_INSERT_LINE.
  * Internal variables map_x, map_y, nat_x, nat_y, and line are allocated
@@ -225,6 +218,7 @@ static const char savefile_options_default[] =
 	" known32fix"
 	" map_editor"		/* unused */
         " new_owner_map"
+        " tile_worked"
 	" orders"
 	" resources"
 	" rulesetdir"
@@ -1441,6 +1435,29 @@ static void map_save(struct section_file *file, bool save_players)
       }
       secfile_insert_str(file, line, "map.source%03d", y);
     }
+
+    /* additionally save the tiles worked by the cities */
+    for (y = 0; y < map.ysize; y++) {
+      char line[map.xsize * TOKEN_SIZE];
+
+      line[0] = '\0';
+      for (x = 0; x < map.xsize; x++) {
+        char token[TOKEN_SIZE];
+        struct tile *ptile = native_pos_to_tile(x, y);
+        struct city *pcity = tile_worked(ptile);
+
+        if (pcity == NULL) {
+          strcpy(token, "-");
+        } else {
+          fc_snprintf(token, sizeof(token), "%d", pcity->id);
+        }
+        strcat(line, token);
+        if (x + 1 < map.xsize) {
+          strcat(line, ",");
+        }
+      }
+      secfile_insert_str(file, line, "map.worked%03d", y);
+    }
   }
 
   if (!save_players) {
@@ -2578,13 +2595,161 @@ static void player_load_main(struct player *plr, int plrno,
 }
 
 /****************************************************************************
-...
+  Load one tile of the city map. Returns FALSE if the end of the string is
+  reached.
+
+  TODO: Compatibility function for savegame of version 2.2.x. Remove if
+        backwards compatibility is removed.
+****************************************************************************/
+/* enum city_tile_type string constants for savegame */
+#define S_TILE_EMPTY		'0'
+#define S_TILE_WORKER		'1'
+#define S_TILE_UNAVAILABLE	'2'
+#define S_TILE_UNKNOWN		'?'
+static bool player_load_city_tile_S22(int plrno, int i, struct city *pcity,
+                                      int x, int y, char tile_status,
+                                      int *citizens)
+{
+  int radius_sq = city_map_radius_sq_get(pcity);
+  struct city *pwork = NULL;
+  struct tile *ptile = is_valid_city_coords(radius_sq, x, y)
+                       ? city_map_to_tile(city_tile(pcity), radius_sq, x, y)
+                       : NULL;
+
+  switch (tile_status) {
+  case '\0':
+    /* too short, will yield very odd results! */
+    return FALSE;
+    break;
+
+  case S_TILE_EMPTY:
+    if (NULL == ptile) {
+      log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+                 "(%d, %d) \"%s\"[%d], ignoring",
+                 plrno, i, x, y, tile_status,
+                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+    } else if (NULL != (pwork = tile_worked(ptile))) {
+      log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
+                 "(%d, %d) for (%d ,%d) \"%s\"[%d] with (%d, %d) "
+                 "\"%s\"[%d], converting to unavailable",
+                 plrno, i, x, y, tile_status, TILE_XY(ptile),
+                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size,
+                 TILE_XY(city_tile(pwork)), city_name(pwork),
+                 pwork->size);
+    }
+    break;
+
+  case S_TILE_WORKER:
+    if (NULL == ptile) {
+      log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+                 "(%d, %d) \"%s\"[%d], ignoring",
+                 plrno, i, x, y, tile_status,
+                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+    } else if (NULL != (pwork = tile_worked(ptile))) {
+      log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
+                 "(%d, %d) for (%d, %d) \"%s\"[%d] with (%d, %d) "
+                 "\"%s\"[%d], converting to default specialist",
+                 plrno, i, x, y, tile_status, TILE_XY(ptile),
+                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size,
+                 TILE_XY(city_tile(pwork)), city_name(pwork),
+                 pwork->size);
+
+      pcity->specialists[DEFAULT_SPECIALIST]++;
+      auto_arrange_workers(pcity);
+      (*citizens)++;
+    } else {
+      tile_set_worked(ptile, pcity);
+      (*citizens)++;
+    }
+    break;
+
+  case S_TILE_UNAVAILABLE:
+    /* nothing */
+    break;
+
+  case S_TILE_UNKNOWN:
+    if (NULL == ptile) {
+      /* already set C_TILE_UNUSABLE */
+    } else {
+      log_worker("player%d.c%d.workers {%d, %d} '%c' not valid at "
+                 "(%d, %d) for (%d, %d) \"%s\"[%d], converting to "
+                 "unavailable", plrno, i, x, y, tile_status, TILE_XY(ptile),
+                 TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+    }
+    break;
+
+  default:
+    log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
+               "(%d, %d) \"%s\"[%d], ignoring", plrno, i, x, y, tile_status,
+               TILE_XY(city_tile(pcity)), city_name(pcity), pcity->size);
+    break;
+  };
+
+  return TRUE;
+}
+#undef S_TILE_EMPTY
+#undef S_TILE_WORKER
+#undef S_TILE_UNAVAILABLE
+#undef S_TILE_UNKNOWN
+
+/****************************************************************************
+  Load map of tiles worked by cities. The return pointer has to be freed by
+  the caller.
+****************************************************************************/
+static int *player_load_cities_worked_map(struct section_file *file,
+                                          const char *savefile_options)
+{
+  int *worked_tiles = NULL;
+  int x, y;
+
+  if (!has_capability("tile_worked", savefile_options)) {
+    return NULL;
+  }
+
+  worked_tiles = fc_malloc(MAP_INDEX_SIZE * sizeof(*worked_tiles));
+
+  for (y = 0; y < map.ysize; y++) {
+    const char *buffer = secfile_lookup_str(file, "map.worked%03d", y);
+    const char *ptr = buffer;
+
+    if (buffer == NULL) {
+      die("Savegame corrupt - map line %d not found.", y);
+    }
+    for (x = 0; x < map.xsize; x++) {
+      char token[TOKEN_SIZE];
+      int number;
+      struct tile *ptile = native_pos_to_tile(x, y);
+
+      scanin(&ptr, ",", token, sizeof(token));
+      if (token[0] == '\0') {
+        die("Savegame corrupt - map size not correct.");
+      }
+      if (strcmp(token, "-") == 0) {
+        number = -1;
+      } else {
+        if (!sscanf(token, "%d", &number) || number < 0) {
+          /* no city id or negative city id */
+          die("Savegame corrupt - got tile worked by city id=%s in "
+              "(%d, %d).", token, x, y);
+        }
+      }
+
+      worked_tiles[ptile->index] = number;
+    }
+  }
+
+  return worked_tiles;
+}
+
+/****************************************************************************
+  Load the cities of a player.
 ****************************************************************************/
 static void player_load_cities(struct player *plr, int plrno,
                                struct section_file *file,
                                const char *savefile_options,
                                const char **improvement_order,
-                               size_t improvement_order_size)
+                               size_t improvement_order_size,
+                               int *worked_tiles)
 {
   char named[MAX_LEN_NAME];
   struct player *past;
@@ -2607,10 +2772,9 @@ static void player_load_cities(struct player *plr, int plrno,
   }
 
   for (i = 0; i < ncities; i++) { /* read the cities */
-    int citizens = 0;
+    int specialists = 0, workers = 0;
     int nat_x, nat_y;
     struct tile *pcenter;
-    int y, radius_sq, radius;
 
     if (!secfile_lookup_int(file, &nat_x, "player%d.c%d.x", plrno, i)
         || !secfile_lookup_int(file, &nat_y, "player%d.c%d.y", plrno, i)) {
@@ -2665,7 +2829,7 @@ static void player_load_cities(struct player *plr, int plrno,
                               (specialist_by_number(sp)))) {
         die("%s", secfile_error());
       }
-      citizens += pcity->specialists[sp];
+      specialists += pcity->specialists[sp];
     } specialist_type_iterate_end;
 
     for (j = 0; j < NUM_TRADE_ROUTES; j++) {
@@ -2844,31 +3008,6 @@ static void player_load_cities(struct player *plr, int plrno,
 
     pcity->server.synced = FALSE; /* must re-sync with clients */
 
-    pcity->units_supported = unit_list_new();
-
-    /* Update pcity->city_map[][] and ptile->worked directly.
-       Initialized to C_TILE_UNUSABLE (0) by create_city_virtual().
-       Ensure ptile->worked (possibly already set from neighbouring
-       city) does not get unset by conflicting values.  Principally for
-       repair_city_worker() below.
-     */
-    city_freeze_workers(pcity);
-
-    radius_sq
-      = secfile_lookup_int_default(file, -1, "player%d.c%d.radius_sq",
-                                   plrno, i);
-
-    if (radius_sq == -1) {
-      /* no variable city radius saved; default value radius = 2
-       * (radius_sq = 5) is used */
-      radius_sq =  5;
-    }
-
-    radius_sq = CLIP(CITY_MAP_MIN_RADIUS_SQ, radius_sq,
-                     CITY_MAP_MAX_RADIUS_SQ);
-    radius = sqrt(radius_sq);
-    city_map_radius_sq_set(pcity, radius_sq);
-
     /* Fix for old buggy savegames. */
     if (!has_capability("known32fix", savefile_options)
         && plrno >= 16) {
@@ -2877,155 +3016,108 @@ static void player_load_cities(struct player *plr, int plrno,
       } city_tile_iterate_end;
     }
 
-    p = secfile_lookup_str(file, "player%d.c%d.workers", plrno, i);
+    pcity->units_supported = unit_list_new();
 
-    if (!p || strlen(p) != (radius * 2 + 1) * (radius * 2 + 1)) {
-      /* FIXME: somehow need to rearrange */
-      log_error("player%d.c%d.workers length %lu not equal city map size "
-                "%lu, needs rearranging!",
-                plrno, i, (unsigned long) strlen(p),
-                (unsigned long) (radius * 2 + 1) * (radius * 2 + 1));
-    }
+    city_freeze_workers(pcity);
 
-    for(y = 0; y < CITY_MAP_MAX_SIZE; y++) {
-      struct city *pwork = NULL;
-      int x;
+    if (worked_tiles == NULL) {
+      /* 2.2.x savegame */
+#define CITY_MAP_OLD_RADIUS 2
+#define CITY_MAP_OLD_SIZE (CITY_MAP_OLD_RADIUS * 2 + 1)
+      city_map_radius_sq_set(pcity, CITY_MAP_OLD_RADIUS
+                                    * CITY_MAP_OLD_RADIUS + 1);
+      p = secfile_lookup_str_default(file, "", "player%d.c%d.workers",
+                                     plrno, i);
 
-      if (!p) {
-        /* no worker map found */
-        break;
+      if (strlen(p) != CITY_MAP_OLD_SIZE * CITY_MAP_OLD_SIZE) {
+        /* FIXME: somehow need to rearrange */
+        log_worker("player%d.c%d.workers length %lu not equal city"
+                   " map size %lu, needs rearranging!", plrno, i,
+                   (unsigned long)strlen(p),
+                   (unsigned long)(CITY_MAP_OLD_SIZE * CITY_MAP_OLD_SIZE));
       }
 
-      for(x = 0; x < CITY_MAP_MAX_SIZE; x++) {
-        if (abs(x - CITY_MAP_MAX_RADIUS) > radius
-            || abs(y - CITY_MAP_MAX_RADIUS) > radius) {
-          /* tile is not within the city radius defined by radius_sq */
-          continue;
+      bool ok = TRUE;
+      /* start the loop at offset xy_min compared to the new max
+       * city radius and end at xy_max */
+      int xy_min = CITY_MAP_MAX_RADIUS - CITY_MAP_OLD_RADIUS;
+      int xy_max = CITY_MAP_MAX_RADIUS + CITY_MAP_OLD_RADIUS + 1;
+      int x, y;
+      for(y = xy_min; y < xy_max; y++) {
+        if (!ok) {
+          break;
         }
 
-        struct tile *ptile
-          = is_valid_city_coords(city_map_radius_sq_get(pcity), x, y)
-            ? city_map_to_tile(pcenter, city_map_radius_sq_get(pcity), x, y)
-            : NULL;
-
-        switch (*p) {
-        case '\0':
-          /* too short, will yield very odd results! */
-          continue;
-
-        case S_TILE_EMPTY:
-          if (NULL == ptile) {
-            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
-                       "(%d, %d) \"%s\"[%d], ignoring",
-                       plrno, i, x, y, *p,
-                       TILE_XY(pcenter), city_name(pcity), pcity->size);
-          } else if (NULL != (pwork = tile_worked(ptile))) {
-            log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
-                       "(%d, %d) for (%d ,%d) \"%s\"[%d] with (%d, %d) "
-                       "\"%s\"[%d], converting to unavailable",
-                       plrno, i, x, y, *p, TILE_XY(ptile),
-                       TILE_XY(pcenter), city_name(pcity), pcity->size,
-                       TILE_XY(city_tile(pwork)), city_name(pwork),
-                       pwork->size);
-            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-          } else {
-            pcity->city_map[x][y] = C_TILE_EMPTY;
+        for(x = xy_min; x < xy_max; x++) {
+          if (ok) {
+            ok = player_load_city_tile_S22(plrno, i, pcity, x, y, *p,
+                                           &workers);
+            p++;
           }
-          break;
-
-        case S_TILE_WORKER:
-          if (NULL == ptile) {
-            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
-                       "(%d, %d) \"%s\"[%d], ignoring",
-                       plrno, i, x, y, *p,
-                       TILE_XY(pcenter), city_name(pcity), pcity->size);
-          } else if (NULL != (pwork = tile_worked(ptile))) {
-            log_worker("player%d.c%d.workers {%d, %d} '%c' conflict at "
-                       "(%d, %d) for (%d, %d) \"%s\"[%d] with (%d, %d) "
-                       "\"%s\"[%d], converting to default specialist",
-                       plrno, i, x, y, *p, TILE_XY(ptile),
-                       TILE_XY(pcenter), city_name(pcity), pcity->size,
-                       TILE_XY(city_tile(pwork)), city_name(pwork),
-                       pwork->size);
-
-            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-            pcity->specialists[DEFAULT_SPECIALIST]++;
-            auto_arrange_workers(pcity);
-            citizens++;
-          } else {
-            pcity->city_map[x][y] = C_TILE_WORKER;
-            tile_set_worked(ptile, pcity);
-            citizens++;
-          }
-          break;
-
-        case S_TILE_UNAVAILABLE:
-          if (NULL == ptile) {
-            /* before 2.2.0 same as C_TILE_UNUSABLE */
-          } else {
-            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-          }
-          break;
-
-        case S_TILE_UNKNOWN:
-          if (NULL == ptile) {
-            /* already set C_TILE_UNUSABLE */
-          } else {
-            log_worker("player%d.c%d.workers {%d, %d} '%c' not valid at "
-                       "(%d, %d) for (%d, %d) \"%s\"[%d], converting to "
-                       "unavailable", plrno, i, x, y, *p, TILE_XY(ptile),
-                       TILE_XY(pcenter), city_name(pcity), pcity->size);
-            pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-          }
-          break;
-
-        default:
-          log_worker("player%d.c%d.workers {%d, %d} '%c' not valid for "
-                     "(%d, %d) \"%s\"[%d], ignoring", plrno, i, x, y, *p,
-                     TILE_XY(pcenter), city_name(pcity), pcity->size);
-          break;
-        };
-        p++;
+        }
       }
+#undef CITY_MAP_OLD_SIZE
+#undef CITY_MAP_OLD_RADIUS
+    } else {
+      /* load new savegame with variable (squared) city radius and
+       * worked tiles map */
+
+      /* FIXME: Dummy to mark this value as used. It is needed to prevent
+       *        old servers from crashing if a new savegame is loaded. */
+      (void) secfile_lookup_str_default(file, "", "player%d.c%d.workers",
+                                        plrno, i);
+
+      int radius_sq
+        = secfile_lookup_int_default(file, -1, "player%d.c%d.city_radius_sq",
+                                     plrno, i);
+      city_map_radius_sq_set(pcity, radius_sq);
+
+      city_tile_iterate_index(radius_sq, city_tile(pcity), ptile, index) {
+        if (worked_tiles[ptile->index] == pcity->id) {
+          tile_set_worked(ptile, pcity);
+          workers++;
+
+#ifdef DEBUG
+          /* set this tile to unused; a check for not resetted tiles is
+           * included in game_load_internal() */
+          worked_tiles[ptile->index] = -1;
+#endif /* DEBUG */
+        }
+      } city_tile_iterate_index_end;
     }
 
     if (tile_worked(pcenter) != pcity) {
       struct city *pwork = tile_worked(pcenter);
 
       if (NULL != pwork) {
-        int city_x, city_y;
+        log_error("[player%d.c%d] city center of '%s' (%d,%d) [%d] is "
+                  "worked by '%s' (%d,%d) [%d]; repairing ", plrno, i,
+                  city_name(pcity), TILE_XY(pcenter), pcity->size,
+                  city_name(pwork), TILE_XY(city_tile(pwork)), pwork->size);
 
-        log_error("player%d.c%d.workers city center is worked by (%d,%d) "
-                  "\"%s\"[%d], repairing (%d,%d) \"%s\"[%d]",
-                  plrno, i, TILE_XY(city_tile(pwork)), city_name(pwork),
-                  pwork->size, TILE_XY(pcenter), city_name(pcity),
-                  pcity->size);
-
-        city_tile_to_city_map(&city_x, &city_y,
-                              city_map_radius_sq_get(pcity), city_tile(pwork),
-                              pcenter);
-        pwork->city_map[city_x][city_y] = C_TILE_UNAVAILABLE;
+        tile_set_worked(pcenter, NULL); /* remove tile from pwork */
         pwork->specialists[DEFAULT_SPECIALIST]++;
         auto_arrange_workers(pwork);
       } else {
-        log_error("player%d.c%d.workers city center is empty, "
-                  "repairing (%d,%d) \"%s\"[%d]",
-                  plrno, i, TILE_XY(pcenter), city_name(pcity), pcity->size);
+        log_error("[player%d.c%d] city center of '%s' (%d,%d) [%d] is "
+                  "empty; repairing ", plrno, i, city_name(pcity),
+                  TILE_XY(pcenter), pcity->size);
       }
 
-      pcity->city_map[CITY_MAP_MAX_SIZE/2][CITY_MAP_MAX_SIZE/2] = C_TILE_WORKER;
-      tile_set_worked(pcenter, pcity); /* repair */
-
+      /* repair pcity */
+      tile_set_worked(pcenter, pcity);
       city_repair_size(pcity, -1);
     }
 
-    k = pcity->size + FREE_WORKED_TILES - citizens;
+    k = pcity->size - specialists - (workers - FREE_WORKED_TILES);
     if (0 != k) {
-      log_error("player%d.c%d.workers %d citizens not equal %d + [size], "
-                "repairing (%d,%d) \"%s\"[%d]",
-                plrno, i, citizens, FREE_WORKED_TILES,
-                TILE_XY(pcenter), city_name(pcity), pcity->size);
+      log_error("[player%d.c%d] size missmatch for '%s' (%d,%d): "
+                "size [%d] != (workers [%d] - free worked tiles [%d]) + "
+                "specialists [%d]",
+                plrno, i, city_name(pcity), TILE_XY(pcenter), pcity->size,
+                workers, FREE_WORKED_TILES, specialists);
 
+      /* repair pcity */
       city_repair_size(pcity, k);
     }
 
@@ -3811,8 +3903,7 @@ static void player_save_cities(struct player *plr, int plrno,
   } city_list_iterate_end;
 
   city_list_iterate(plr->cities, pcity) {
-    int j, x, y;
-    char citymap_buf[CITY_MAP_MAX_SIZE * CITY_MAP_MAX_SIZE + 1];
+    int j;
     char impr_buf[MAX_NUM_ITEMS + 1];
     struct tile *pcenter = city_tile(pcity);
 
@@ -3889,46 +3980,15 @@ static void player_save_cities(struct player *plr, int plrno,
     secfile_insert_int(file, pcity->last_turns_shield_surplus,
 		       "player%d.c%d.last_turns_shield_surplus", plrno, i);
 
-    /* The saved city_map[][] uses a specific ordering.  The defined
-     * iterators index outward from the center, and cannot be used here.
-     * After 2.2.0, use the (more reliable) main map itself for saving. */
-    secfile_insert_int(file, city_map_radius_sq_get(pcity),
-                       "player%d.c%d.radius_sq", plrno, i);
-
-    j = 0;
-    for(y = 0; y < CITY_MAP_MAX_SIZE; y++) {
-      for(x = 0; x < CITY_MAP_MAX_SIZE; x++) {
-        int radius = sqrt(city_map_radius_sq_get(pcity));
-        if (abs(x - CITY_MAP_MAX_RADIUS) > radius
-            || abs(y - CITY_MAP_MAX_RADIUS) > radius) {
-          /* tile is not within the city radius defined by radius_sq */
-          continue;
-        }
-
-        struct tile *ptile
-          = is_valid_city_coords(city_map_radius_sq_get(pcity), x, y)
-            ? city_map_to_tile(pcenter, city_map_radius_sq_get(pcity), x, y)
-            : NULL;
-
-        if (NULL == ptile) {
-          citymap_buf[j++] = S_TILE_UNKNOWN;
-        } else if (tile_worked(ptile) == pcity) {
-          /* is currently worked, but actually may be unavailable */
-          citymap_buf[j++] = S_TILE_WORKER;
-        } else if (city_can_work_tile(pcity, ptile)) {
-          citymap_buf[j++] = S_TILE_EMPTY;
-        } else {
-          citymap_buf[j++] = S_TILE_UNAVAILABLE;
-        }
-      }
-    }
-    citymap_buf[j]='\0';
-    fc_assert(j < ARRAY_SIZE(citymap_buf));
-    secfile_insert_str(file, citymap_buf, "player%d.c%d.workers", plrno, i);
+    /* Save the squared city radius and all tiles within the corresponing
+     * city map. */
+    secfile_insert_int(file, pcity->city_radius_sq,
+                       "player%d.c%d.city_radius_sq", plrno, i);
+    /* The tiles worked by the city are saved using the main map.
+     * See also map_save(). */
 
     /* Save improvement list as bytevector. Note that improvement order
-     * is saved in savefile.improvement_order.
-     */
+     * is saved in savefile.improvement_order. */
     improvement_iterate(pimprove) {
       impr_buf[improvement_index(pimprove)] =
         (pcity->built[improvement_index(pimprove)].turn <= I_NEVER)
@@ -4209,81 +4269,6 @@ static void apply_unit_ordering(void)
   whole_map_iterate(ptile) {
     unit_list_sort_ord_map(ptile->units);
   } whole_map_iterate_end;
-}
-
-/***************************************************************
-  Revised algorithms or savegame defects may cause changes.
-  Update pcity->city_map[][] and ptile->worked directly.
-***************************************************************/
-static void repair_city_worker(struct city *pcity)
-{
-  struct tile *pcenter = city_tile(pcity);
-  int radius_sq = city_map_radius_sq_get(pcity);
-
-  city_tile_iterate_cxy(radius_sq, pcenter, ptile, x, y) {
-    bool res = city_can_work_tile(pcity, ptile);
-
-    /* bypass city_map_status() checks is_valid_city_coords() */
-    switch (pcity->city_map[x][y]) {
-    case C_TILE_EMPTY:
-      if (!res) {
-        pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-
-        log_worker("repair_city_worker() {%d, %d} empty tile (%d, %d) "
-                   "should be unavailable for (%d, %d) \"%s\"[%d]",
-                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
-                   pcity->size);
-      }
-      break;
-
-    case C_TILE_WORKER:
-      if (!res) {
-        pcity->city_map[x][y] = C_TILE_UNAVAILABLE;
-        if (tile_worked(ptile) == pcity) {
-          /* duplicates map_claim_ownership() city_map_update_tile_frozen() */
-          tile_set_worked(ptile, NULL);
-          pcity->specialists[DEFAULT_SPECIALIST]++;
-          auto_arrange_workers(pcity);
-        }
-
-        log_worker("repair_city_worker() {%d, %d} worked tile (%d, %d) "
-                   "should be unavailable for (%d, %d) \"%s\"[%d]",
-                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
-                   pcity->size);
-
-        city_tile_iterate(radius_sq, ptile, tile2) {
-          struct city *pcity2 = tile_city(tile2);
-
-          if (pcity2 && pcity2 != pcity) {
-            log_worker("repair_city_worker() checking nearby \"%s\"",
-                       city_name(pcity2));
-            repair_city_worker(pcity2);
-            log_worker("repair_city_worker() continuing with \"%s\"",
-                       city_name(pcity));
-          }
-        } city_tile_iterate_end;
-      }
-      break;
-
-    case C_TILE_UNAVAILABLE:
-      if (res) {
-        pcity->city_map[x][y] = C_TILE_EMPTY;
-
-        log_worker("repair_city_worker() {%d, %d} unavailable tile (%d, %d) "
-                   "should be empty for (%d, %d) \"%s\"[%d]",
-                   x, y, TILE_XY(ptile), TILE_XY(pcenter), city_name(pcity),
-                   pcity->size);
-      }
-      break;
-
-    default:
-      log_error("repair_city_worker() {%d,%d} bad city tile (%d,%d) "
-                "value %d for (%d,%d) \"%s\"[%d]",
-                x, y, TILE_XY(ptile), pcity->city_map[x][y],
-                TILE_XY(pcenter), city_name(pcity), pcity->size);
-      break;
-    };
-  } city_tile_iterate_cxy_end;
 }
 
 /***************************************************************
@@ -5016,6 +5001,7 @@ static void game_load_internal(struct section_file *file)
     /* override previous load */
     set_player_count(0);
   } else {
+    int *worked_tiles = NULL; /* temporary map for worked tiles */
     int loaded_players = 0;
 
     /* destroyed wonders: */
@@ -5059,6 +5045,9 @@ static void game_load_internal(struct section_file *file)
      * map loading and before we seek nations for players */
     init_available_nations();
 
+    /* Load worked tiles map */
+    worked_tiles = player_load_cities_worked_map(file, savefile_options);
+
     /* Now, load the players. */
     player_slots_iterate(pplayer) {
       int plrno = player_number(pplayer);
@@ -5070,12 +5059,27 @@ static void game_load_internal(struct section_file *file)
       player_load_main(pplayer, plrno, file, savefile_options,
                        technology_order, technology_order_size);
       player_load_cities(pplayer, plrno, file, savefile_options,
-                         improvement_order, improvement_order_size);
+                         improvement_order, improvement_order_size,
+                         worked_tiles);
       player_load_units(pplayer, plrno, file, savefile_options,
                         base_order, num_base_types);
       player_load_attributes(pplayer, plrno, file);
       loaded_players++;
     } player_slots_iterate_end;
+
+    /* Free worked tiles map */
+    if (worked_tiles != NULL) {
+#ifdef DEBUG
+      /* check the entire map for unused worked tiles */
+      whole_map_iterate(ptile) {
+        if (worked_tiles[ptile->index] != -1) {
+          log_error("[city id: %d] Unused worked tile at (%d, %d).",
+                    worked_tiles[ptile->index], TILE_XY(ptile));
+        }
+      } whole_map_iterate_end;
+#endif /* DEBUG */
+      FC_FREE(worked_tiles);
+    }
 
     /* Check that the number of players loaded matches the
      * number of players set in the save file. */
@@ -5129,7 +5133,7 @@ static void game_load_internal(struct section_file *file)
      * loaded (in player_load) but before player (dumb) cities are loaded
      * in player_load_vision(). */
     cities_iterate(pcity) {
-      city_refresh_from_main_map(pcity, TRUE);
+      city_refresh_from_main_map(pcity, NULL);
     } cities_iterate_end;
 
     /* Since the cities must be placed on the map to put them on the
@@ -5198,10 +5202,6 @@ static void game_load_internal(struct section_file *file)
           punit->activity = ACTIVITY_IDLE;
         }
       } unit_list_iterate_end;
-
-      city_list_iterate(pplayer->cities, pcity) {
-	repair_city_worker(pcity);
-      } city_list_iterate_end;
     } players_iterate_end;
 
     cities_iterate(pcity) {

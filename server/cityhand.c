@@ -164,7 +164,7 @@ void handle_city_make_specialist(struct player *pplayer, int city_id,
   }
 
   if (tile_worked(ptile) == pcity) {
-    city_map_update_empty(pcity, ptile, worker_x, worker_y);
+    city_map_update_empty(pcity, ptile);
     pcity->specialists[DEFAULT_SPECIALIST]++;
     city_refresh(pcity);
     sync_cities();
@@ -231,7 +231,7 @@ void handle_city_make_worker(struct player *pplayer, int city_id,
     return;
   }
 
-  city_map_update_worker(pcity, ptile, worker_x, worker_y);
+  city_map_update_worker(pcity, ptile);
 
   specialist_type_iterate(i) {
     if (pcity->specialists[i] > 0) {

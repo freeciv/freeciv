@@ -293,126 +293,6 @@ static bool check_city_good(struct city *pcity, const char *file,
 }
 
 /**************************************************************************
-  Verify that the city_map has sane values.
-**************************************************************************/
-static void check_city_map(struct city *pcity, const char *file,
-                           const char *function, int line)
-{
-  struct player *pplayer = city_owner(pcity);
-  struct tile *pcenter = city_tile(pcity);
-  int city_radius_sq = city_map_radius_sq_get(pcity);
-
-  /* not using city_tile_iterate_cxy() as that skips out of range values */
-  city_map_iterate(city_radius_sq, index, x, y) {
-    struct tile *ptile = city_map_to_tile(pcenter, city_radius_sq, x, y);
-
-    if (NULL == ptile) {
-      SANITY_CITY(pcity, city_map_status(pcity, x, y) == C_TILE_UNUSABLE);
-    } else {
-      struct player *owner = tile_owner(ptile);
-      struct city *pwork = tile_worked(ptile);
-
-      /* bypass city_map_status() check is_valid_city_coords() */
-      switch (pcity->city_map[x][y]) {
-      case C_TILE_EMPTY:
-	if (NULL != pwork) {
-	  SANITY_("(%4d,%4d) marked as empty, "
-		  "but worked by \"%s\"[%d]! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pwork), pwork->size,
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	if (unit_occupies_tile(ptile, pplayer)) {
-	  SANITY_("(%4d,%4d) marked as empty, "
-		  "but occupied by an enemy unit! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
-	  SANITY_("(%4d,%4d) marked as empty, "
-		  "but in enemy territory! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	if (!city_can_work_tile(pcity, ptile)) {
-	  /* Complete check. */
-	  SANITY_("(%4d,%4d) marked as empty, "
-		  "but is unavailable! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	break;
-
-      case C_TILE_WORKER:
-	if (pwork != pcity) {
-	  SANITY_("(%4d,%4d) marked as worked, "
-		  "but main map disagrees! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	if (unit_occupies_tile(ptile, pplayer)) {
-	  SANITY_("(%4d,%4d) marked as worked, "
-		  "but occupied by an enemy unit! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-        if (game.info.borders > 0 && owner && owner != city_owner(pcity)) {
-	  SANITY_("(%4d,%4d) marked as worked, "
-		  "but in enemy territory! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	if (!city_can_work_tile(pcity, ptile)) {
-	  /* Complete check. */
-	  SANITY_("(%4d,%4d) marked as worked, "
-		  "but is unavailable! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	break;
-
-      case C_TILE_UNAVAILABLE:
-	if (city_can_work_tile(pcity, ptile)) {
-	  SANITY_("(%4d,%4d) marked as unavailable, "
-		  "but seems to be available! "
-		  "\"%s\"[%d]%s",
-		  TILE_XY(ptile),
-		  city_name(pcity), pcity->size,
-		  is_city_center(pcity, ptile) ? "{city center}" : "");
-	}
-	break;
-
-      case C_TILE_UNUSABLE:
-      default:
-	SANITY_("(%4d,%4d) marked as unusable (%d)? "
-		"\"%s\"[%d]%s",
-		pcity->city_map[x][y],
-		TILE_XY(ptile),
-		city_name(pcity), pcity->size,
-		is_city_center(pcity, ptile) ? "{city center}" : "");
-        break;
-      };
-    }
-  } city_map_iterate_end;
-}
-
-/**************************************************************************
   Sanity check city size versus worker and specialist counts.
 **************************************************************************/
 static void check_city_size(struct city *pcity, const char *file,
@@ -445,7 +325,7 @@ static void check_city_size(struct city *pcity, const char *file,
               city_specialists(pcity));
 
     city_repair_size(pcity, delta);
-    city_refresh_from_main_map(pcity, TRUE);
+    city_refresh_from_main_map(pcity, NULL);
   }
 }
 
@@ -479,7 +359,6 @@ void real_sanity_check_city_all(struct city *pcity, const char *file,
                                 const char *function, int line)
 {
   if (check_city_good(pcity, file, function, line)) {
-    check_city_map(pcity, file, function, line);
     check_city_size(pcity, file, function, line);
     /* TODO: check_feelings. Currently fails far too often to be included. */
   }
@@ -508,30 +387,6 @@ static void check_cities(const char *file, const char *function, int line)
       real_sanity_check_city(pcity, file, function, line);
     } city_list_iterate_end;
   } players_iterate_end;
-
-#ifdef DOUBLE_CHECK_TILE_WORKER
-  whole_map_iterate(ptile) {
-    struct city *pwork = tile_worked(ptile);
-
-    if (NULL != pwork) {
-      int city_x, city_y;
-      bool is_valid = city_base_to_city_map(&city_x, &city_y, pwork, ptile);
-
-      SANITY_TILE(ptile, is_valid);
-
-      if (pwork->city_map[city_x][city_y] != C_TILE_WORKER) {
-	SANITY_("(%4d,%4d) marked as worked, "
-		"but its {%d,%d} has status %d in "
-		"\"%s\"[%d]%s",
-		TILE_XY(ptile),
-		city_x, city_y,
-		pwork->city_map[city_x][city_y],
-		city_name(pwork), pwork->size,
-		is_city_center(pwork, ptile) ? "{city center}" : "");
-      }
-    }
-  } whole_map_iterate_end;
-#endif
 }
 
 /**************************************************************************

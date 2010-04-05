@@ -125,7 +125,7 @@ void city_refresh(struct city *pcity)
 {
   pcity->server.needs_refresh = FALSE;
   city_units_upkeep(pcity); /* update unit upkeep */
-  city_refresh_from_main_map(pcity, TRUE);
+  city_refresh_from_main_map(pcity, NULL);
 
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
@@ -237,13 +237,13 @@ void apply_cmresult_to_city(struct city *pcity,
 
     if (cmr->worker_positions_used[x][y]) {
       if (NULL == pwork) {
-        city_map_update_worker(pcity, ptile, x, y);
+        city_map_update_worker(pcity, ptile);
       } else {
         fc_assert(pwork == pcity);
       }
     } else {
       if (pwork == pcity) {
-        city_map_update_empty(pcity, ptile, x, y);
+        city_map_update_empty(pcity, ptile);
       }
     }
   } city_tile_iterate_skip_free_cxy_end;
@@ -545,9 +545,8 @@ static int city_reduce_workers(struct city *pcity, int change)
 
   city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
                                   ptile, city_x, city_y) {
-    if (0 < want
-     && tile_worked(ptile) == pcity) {
-      city_map_update_empty(pcity, ptile, city_x, city_y);
+    if (0 < want && tile_worked(ptile) == pcity) {
+      city_map_update_empty(pcity, ptile);
       want--;
     }
   } city_tile_iterate_skip_free_cxy_end;
