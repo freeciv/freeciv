@@ -365,7 +365,7 @@ void game_init(void)
     game.server.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
     game.server.timeoutinc = GAME_DEFAULT_TIMEOUTINC;
     game.server.timeoutincmult = GAME_DEFAULT_TIMEOUTINCMULT;
-    game.server.timeoutcounter = 1;
+    game.server.timeoutcounter = GAME_DEFAULT_TIMEOUTCOUNTER;
     game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
     game.server.unitwaittime = GAME_DEFAULT_UNITWAITTIME;
 
