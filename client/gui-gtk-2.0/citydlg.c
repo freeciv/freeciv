@@ -1772,7 +1772,6 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
     for (i = m; i < n; i++) {
       GtkWidget *cmd, *pix;
       struct unit_node node;
-
       int unit_height = tileset_tile_height(tileset) * 3 / 2;
 
       cmd = gtk_button_new();
@@ -1782,11 +1781,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(CITYMAP_SCALE * tileset_full_tile_width(tileset),
-			    CITYMAP_SCALE * unit_height);
-      if (CITYMAP_WIDTH != canvas_width) {
-	gtk_pixcomm_set_scale(GTK_PIXCOMM(pix), CITYMAP_SCALE);
-      }
+      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset), unit_height);
       node.pix = pix;
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
@@ -1902,11 +1897,8 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       gtk_widget_add_events(cmd,
 	  GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK);
 
-      pix = gtk_pixcomm_new(CITYMAP_SCALE * tileset_full_tile_width(tileset),
-			    CITYMAP_SCALE * tileset_full_tile_height(tileset));
-      if (CITYMAP_WIDTH != canvas_width) {
-	gtk_pixcomm_set_scale(GTK_PIXCOMM(pix), CITYMAP_SCALE);
-      }
+      pix = gtk_pixcomm_new(tileset_full_tile_width(tileset),
+                            tileset_full_tile_height(tileset));
       node.pix = pix;
 
       gtk_container_add(GTK_CONTAINER(cmd), pix);
