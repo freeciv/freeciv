@@ -2387,30 +2387,57 @@ static bool do_city_migration(struct city *pcity_from,
   ptile_from = city_tile(pcity_from);
   ptile_to = city_tile(pcity_to);
 
-  if (game.info.mgr_foodneeded && pcity_to->surplus[O_FOOD] < 0) {
-    /* insufficiency food in receiver city; no additional citizens */
-    if (pplayer_from == pplayer_to) {
-      /* migration between one nation */
-      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER, ftc_server,
-                    /* TRANS: From <city1> to <city2>. */
-                    _("Migrants from %s can't go to %s because there is "
-                      "not enough food available!"),
-                    name_from, name_to);
+  /* check food supply in the receiver city */
+  if (game.info.mgr_foodneeded) {
+    bool migration = FALSE;
+
+    if (pcity_to->surplus[O_FOOD] >= game.info.food_cost) {
+      migration = TRUE;
     } else {
-      /* migration between different nations */
-      notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER, ftc_server,
-                    /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
-                    _("Migrants from %s can't go to %s (%s) because there "
-                      "is not enough food available!"),
-                    name_from, name_to, nation_to);
-      notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER, ftc_server,
-                    /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
-                    _("Migrants from %s (%s) can't go to %s because there "
-                      "is not enough food available!"),
-                    name_from, nation_from, name_to);
+      /* check if there is a free tile for the new citizen which, when worked,
+       * leads to zero or positive food surplus for the enlarged city */
+      int max_food_tile = -1;  /* no free tile */
+      city_tile_iterate(city_map_radius_sq_get(pcity_to),
+                        city_tile(pcity_to), ptile) {
+        if (city_can_work_tile(pcity_to, ptile)
+            && tile_worked(ptile) != pcity_to) {
+          /* Safest assumption is that city won't be celebrating once an
+           * additional citizen is added */
+          max_food_tile = MAX(max_food_tile,
+                              city_tile_output(pcity_to, ptile, FALSE, O_FOOD));
+        }
+      } city_tile_iterate_end;
+      if (max_food_tile >= 0
+          && pcity_to->surplus[O_FOOD] + max_food_tile >= game.info.food_cost) {
+        migration = TRUE;
+      }
     }
 
-    return FALSE;
+    if (!migration) {
+      /* insufficiency food in receiver city; no additional citizens */
+      if (pplayer_from == pplayer_to) {
+        /* migration between one nation */
+        notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER, ftc_server,
+                      /* TRANS: From <city1> to <city2>. */
+                      _("Migrants from %s can't go to %s because there is "
+                        "not enough food available!"),
+                      name_from, name_to);
+      } else {
+        /* migration between different nations */
+        notify_player(pplayer_from, ptile_to, E_CITY_TRANSFER, ftc_server,
+                      /* TRANS: From <city1> to <city2> (<city2 nation adjective>). */
+                      _("Migrants from %s can't go to %s (%s) because there "
+                        "is not enough food available!"),
+                      name_from, name_to, nation_to);
+        notify_player(pplayer_to, ptile_to, E_CITY_TRANSFER, ftc_server,
+                      /* TRANS: From <city1> (<city1 nation adjective>) to <city2>. */
+                      _("Migrants from %s (%s) can't go to %s because there "
+                        "is not enough food available!"),
+                      name_from, nation_from, name_to);
+      }
+
+      return FALSE;
+    }
   }
 
   if (!city_can_grow_to(pcity_to, pcity_to->size + 1)) {
