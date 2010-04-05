@@ -164,10 +164,9 @@ void create_tmap(bool real)
     }
   }
 
-  if (real) {
-    log_debug("temperature map ({f}rozen, {c}old, {m}edium, {t}ropical):");
-    for (i = 0; i < map.ysize; i++) {
-      log_debug("%2d: %s", i, tmap_y2str(i));
-    }
+  log_debug("%stemperature map ({f}rozen, {c}old, {m}edium, {t}ropical):",
+            real ? "real " : "");
+  for (i = 0; i < map.ysize; i++) {
+    log_debug("%2d: %s", i, tmap_y2str(i));
   }
 }
