@@ -593,10 +593,10 @@ static int get_connect_road(const struct tile *src_tile, enum direction8 dir,
   total_cost = src_cost;
   moves_left = param->move_rate - (src_cost % param->move_rate);
   if (moves_left < move_cost) {
-    /* Emulating TM_WORST_TIME */
     total_cost += moves_left;
+  } else {
+    total_cost += move_cost;
   }
-  total_cost += move_cost;
 
   /* Now need to include the activity cost.  If we have moves left, they
    * will count as a full turn towards the activity time */
@@ -684,10 +684,10 @@ static int get_connect_irrig(const struct tile *src_tile,
   total_cost = src_cost;
   moves_left = param->move_rate - (src_cost % param->move_rate);
   if (moves_left < move_cost) {
-    /* Emulating TM_WORST_TIME */
     total_cost += moves_left;
+  } else {
+    total_cost += move_cost;
   }
-  total_cost += move_cost;
 
   /* Now need to include the activity cost.  If we have moves left, they
    * will count as a full turn towards the activity time */
