@@ -689,10 +689,10 @@ void update_city_cma_dialog(void)
     
   /* redraw window background and exit button */
   redraw_group(pBuf->prev, pBuf, 0);
-  		  
+
   /* fill in result label */
-  cm_result_from_main_map(&result, pCma->pCity, TRUE);
-  
+  cm_result_from_main_map(&result, pCma->pCity);
+
   if(result.found_a_valid) {
     /* redraw resources */
     pCma->pResult = &result;

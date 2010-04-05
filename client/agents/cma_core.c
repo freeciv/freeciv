@@ -171,7 +171,7 @@ static bool apply_result_on_server(struct city *pcity,
   struct tile *pcenter = city_tile(pcity);
 
   fc_assert_ret_val(result->found_a_valid, FALSE);
-  cm_result_from_main_map(&current_state, pcity, TRUE);
+  cm_result_from_main_map(&current_state, pcity);
 
   if (my_results_are_equal(&current_state, result)
       && !ALWAYS_APPLY_AT_SERVER) {
@@ -292,7 +292,7 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Return. */
-  cm_result_from_main_map(&current_state, pcity, TRUE);
+  cm_result_from_main_map(&current_state, pcity);
 
   success = my_results_are_equal(&current_state, result);
   if (!success) {

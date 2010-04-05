@@ -88,5 +88,6 @@ int cm_result_specialists(const struct cm_result *result);
 int cm_result_workers(const struct cm_result *result);
 
 void cm_result_from_main_map(struct cm_result *result,
-                             const struct city *pcity, bool main_map);
-#endif
+                             const struct city *pcity);
+
+#endif /* FC__CM_H */

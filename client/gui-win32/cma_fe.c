@@ -261,7 +261,7 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   if (!pdialog)
     return;
   /* fill in result label */
-  cm_result_from_main_map(&result, pcity, TRUE);
+  cm_result_from_main_map(&result, pcity);
   SetWindowText(pdialog->result_label,
 		(char *) cmafec_get_result_descr(pcity, &result, &param));
   /* if called from a hscale, we _don't_ want to do this */

@@ -267,6 +267,8 @@ static void real_print_partial_solution(enum log_level level,
 #define print_partial_solution(loglevel, soln, state)
 #endif /* CM_DEBUG */
 
+static void cm_result_copy(struct cm_result *result,
+                           const struct city *pcity, bool main_map);
 
 /****************************************************************************
   Initialize the CM data at the start of each game.  Note the citymap
@@ -740,7 +742,7 @@ static void convert_solution_to_result(struct cm_state *state,
   /* make a backup, apply and evaluate the solution, and restore */
   memcpy(&backup, state->pcity, sizeof(backup));
   apply_solution(state, soln);
-  cm_result_from_main_map(result, state->pcity, FALSE);
+  cm_result_copy(result, state->pcity, FALSE);
   memcpy(state->pcity, &backup, sizeof(backup));
 
   /* result->found_a_valid should be only true if it matches the
@@ -1942,7 +1944,16 @@ int cm_result_citizens(const struct cm_result *result)
   Copy the city's current setup into the cm result structure.
 ****************************************************************************/
 void cm_result_from_main_map(struct cm_result *result,
-                             const struct city *pcity, bool main_map)
+                             const struct city *pcity)
+{
+  cm_result_copy(result, pcity, TRUE);
+}
+
+/****************************************************************************
+  Copy the city's current setup into the cm result structure.
+****************************************************************************/
+static void cm_result_copy(struct cm_result *result,
+                           const struct city *pcity, bool main_map)
 {
   struct tile *pcenter = city_tile(pcity);
 
