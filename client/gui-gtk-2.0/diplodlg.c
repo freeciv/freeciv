@@ -198,6 +198,18 @@ static void popup_diplomacy_dialog(int other_player_id, int initiated_from)
   }
 }
 
+/****************************************************************************
+  Utility for g_list_sort(). See below.
+****************************************************************************/
+static gint sort_advance_names(gconstpointer a, gconstpointer b)
+{
+  const struct advance *padvance1 = (const struct advance *) a;
+  const struct advance *padvance2 = (const struct advance *) b;
+
+  return base_compare_strings(advance_name_translation(padvance1),
+                              advance_name_translation(padvance2));
+}
+
 /****************************************************************
 ...
 *****************************************************************/
@@ -240,33 +252,66 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
   /* Advances. */
   {
-    bool flag = FALSE;
+    GtkWidget *advance_item;
+    GList *sorting_list = NULL;
 
-    menu = gtk_menu_new();
+    advance_item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(parent), advance_item);
 
-    advance_index_iterate(A_FIRST, i) {
+    advance_iterate(A_FIRST, padvance) {
+      Tech_type_id i = advance_number(padvance);
+
       if (player_invention_state(pgiver, i) == TECH_KNOWN
           && player_invention_reachable(pother, i)
-	  && (player_invention_state(pother, i) == TECH_UNKNOWN
-	      || player_invention_state(pother, i) == TECH_PREREQS_KNOWN)) {
-	item =
-	  gtk_menu_item_new_with_label(advance_name_for_player(client.conn.playing, i));
-
-	gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
-	g_signal_connect(item, "activate",
-			 G_CALLBACK(diplomacy_dialog_tech_callback),
-			 GINT_TO_POINTER((player_number(pgiver) << 24) |
-					 (player_number(pother) << 16) |
-					 i));
-	flag = TRUE;
+          && (player_invention_state(pother, i) == TECH_UNKNOWN
+              || player_invention_state(pother, i) == TECH_PREREQS_KNOWN)) {
+        sorting_list = g_list_prepend(sorting_list, padvance);
       }
-    } advance_index_iterate_end;
+    } advance_iterate_end;
 
-    item = gtk_menu_item_new_with_mnemonic(_("_Advances"));
-    gtk_widget_set_sensitive(item, flag);
-    gtk_menu_item_set_submenu(GTK_MENU_ITEM(item), menu);
-    gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
-    gtk_widget_show_all(item);
+    if (NULL == sorting_list) {
+      /* No advance. */
+      gtk_widget_set_sensitive(advance_item, FALSE);
+    } else {
+      GList *list_item;
+      const struct advance *padvance;
+
+      sorting_list = g_list_sort(sorting_list, sort_advance_names);
+      menu = gtk_menu_new();
+
+      /* TRANS: All technologies menu item in the diplomatic dialog. */
+      item = gtk_menu_item_new_with_label(_("All advances"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_object_set_data(G_OBJECT(item), "player_from",
+                        GINT_TO_POINTER(player_number(pgiver)));
+      g_object_set_data(G_OBJECT(item), "player_to",
+                        GINT_TO_POINTER(player_number(pother)));
+      g_signal_connect(item, "activate",
+                       G_CALLBACK(diplomacy_dialog_tech_callback),
+                       GINT_TO_POINTER(A_LAST));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu),
+                            gtk_separator_menu_item_new());
+
+      for (list_item = sorting_list; NULL != list_item;
+           list_item = g_list_next(list_item)) {
+        padvance = (const struct advance *) list_item->data;
+        item =
+            gtk_menu_item_new_with_label(advance_name_translation(padvance));
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        g_object_set_data(G_OBJECT(item), "player_from",
+                          GINT_TO_POINTER(player_number(pgiver)));
+        g_object_set_data(G_OBJECT(item), "player_to",
+                          GINT_TO_POINTER(player_number(pother)));
+        g_signal_connect(item, "activate",
+                         G_CALLBACK(diplomacy_dialog_tech_callback),
+                         GINT_TO_POINTER(advance_number(padvance)));
+      }
+
+      gtk_menu_item_set_submenu(GTK_MENU_ITEM(advance_item), menu);
+      g_list_free(sorting_list);
+    }
+
+    gtk_widget_show_all(advance_item);
   }
 
 
@@ -693,23 +738,46 @@ static void update_diplomacy_dialog(struct Diplomacy_dialog *pdialog)
 			    get_thumb_pixbuf(pdialog->treaty.accept1));
 }
 
-/****************************************************************
-...
-*****************************************************************/
+/****************************************************************************
+  Callback for the diplomatic dialog: give tech.
+****************************************************************************/
 static void diplomacy_dialog_tech_callback(GtkWidget *w, gpointer data)
 {
-  size_t choice = GPOINTER_TO_UINT(data);
-  int giver = (choice >> 24) & 0xff, dest = (choice >> 16) & 0xff, other;
-  int tech = choice & 0xffff;
+  int giver, dest, other, tech;
 
-  if (player_by_number(giver) == client.conn.playing) {
+  giver = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "player_from"));
+  dest = GPOINTER_TO_INT(g_object_get_data(G_OBJECT(w), "player_to"));
+  tech = GPOINTER_TO_INT(data);
+  if (player_by_number(giver) == client_player()) {
     other = dest;
   } else {
     other = giver;
   }
 
-  dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
-					   CLAUSE_ADVANCE, tech);
+  if (A_LAST == tech) {
+    /* All techs. */
+    struct player *pgiver = player_by_number(giver);
+    struct player *pdest = player_by_number(dest);
+
+    fc_assert_ret(NULL != pgiver);
+    fc_assert_ret(NULL != pdest);
+
+    advance_iterate(A_FIRST, padvance) {
+      Tech_type_id i = advance_number(padvance);
+
+      if (player_invention_state(pgiver, i) == TECH_KNOWN
+          && player_invention_reachable(pdest, i)
+          && (player_invention_state(pdest, i) == TECH_UNKNOWN
+              || player_invention_state(pdest, i) == TECH_PREREQS_KNOWN)) {
+        dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
+                                                 CLAUSE_ADVANCE, i);
+      }
+    } advance_iterate_end;
+  } else {
+    /* Only one tech. */
+    dsend_packet_diplomacy_create_clause_req(&client.conn, other, giver,
+                                             CLAUSE_ADVANCE, tech);
+  }
 }
 
 /****************************************************************
