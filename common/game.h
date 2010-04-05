@@ -322,6 +322,7 @@ bool setting_class_is_changeable(enum sset_class class);
 #define GAME_DEFAULT_TIMEOUTINC      0
 #define GAME_DEFAULT_TIMEOUTINCMULT  1
 #define GAME_DEFAULT_TIMEOUTADDEMOVE 0
+#define GAME_DEFAULT_TIMEOUTCOUNTER  1
 
 #define GAME_MIN_TIMEOUT             -1
 #define GAME_MAX_TIMEOUT             8639999
