@@ -411,7 +411,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
   a_str = advance_name_for_player(game.player_ptr, a);
   b_str = advance_name_for_player(game.player_ptr, b);
 
-  return strcmp(a_str,b_str);
+  return compare_strings(a_str, b_str);
 }
 
 /****************************************************************
