@@ -2289,6 +2289,11 @@ static bool disband_city(struct city *pcity)
   [build shield cost], [city surplus trade], [city surplus luxury] and
   [city surplus science] _must_ be >= 0!
 
+  The food furplus is considered by an additional factor
+
+    * the food surplus of the city
+      f = (1 + [city surplus food]/10)
+
   * if the city has at least one wonder a factor of 1.25 is added
   * for the capital an additional factor of 1.25 is used
   * the score is also modified by the effect EFT_MIGRATION_PCT
@@ -2334,6 +2339,9 @@ static float city_migration_score(struct city *pcity)
   /* take science into account; normalized by 100 */
   score *= (1 + (1 - exp(- (float) MAX(0, pcity->surplus[O_SCIENCE]) / 100))
                 / 5);
+  /* take food into account; the values is clipped to values between -10 and
+   * 20 and normalize by 10 */
+  score *= (1 + (float) CLIP(-10, pcity->surplus[O_FOOD], 20) / 10 );
 
   if (has_wonder) {
     /* people like wonders */
