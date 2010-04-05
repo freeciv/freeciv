@@ -45,6 +45,7 @@
 #include "techtools.h"
 
 static Tech_type_id pick_random_tech(struct player* plr);
+static void player_tech_lost(struct player* plr, Tech_type_id tech);
 
 /**************************************************************************
 ...
@@ -474,6 +475,125 @@ void update_tech(struct player *plr, int bulbs)
       }
     }
   }
+}
+
+/****************************************************************************
+  Remove one tech from the player.
+****************************************************************************/
+static void player_tech_lost(struct player* plr, Tech_type_id tech)
+{
+  bool old_gov[government_count()];
+
+  fc_assert_ret(valid_advance_by_number(tech));
+
+  /* old available governments */
+  fill_can_switch_to_government_array(plr, old_gov);
+
+  /* remove technology */
+  player_invention_set(plr, tech, TECH_UNKNOWN);
+  log_debug("%s lost tech id %d", player_name(plr), tech);
+
+  /* check governments */
+  government_iterate(gov) {
+    if (government_of_player(plr) == gov
+        && old_gov[government_index(gov)]
+        && !can_change_to_government(plr, gov)) {
+      /* Lost the technology for the government; switch to first
+       * available government */
+      bool new_gov_found = FALSE;
+      government_iterate(gov_new) {
+        if (can_change_to_government(plr, gov_new)) {
+          notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
+                        _("The required technology for our government '%s' "
+                          "was lost. The citizens have started a "
+                          "revolution into '%s'."),
+                        government_name_translation(gov),
+                        government_name_translation(gov_new));
+          handle_player_change_government(plr, government_number(gov_new));
+          new_gov_found = TRUE;
+          break;
+        }
+      } government_iterate_end;
+
+      /* Do we have a government? */
+      fc_assert_ret(new_gov_found);
+      break;
+    } else if (plr->target_government
+               && plr->target_government == gov
+               && !can_change_to_government(plr, gov)) {
+      /* lost the technology for the target government; use the first
+       * available government as new target government */
+      bool new_gov_found = FALSE;
+      government_iterate(gov_new) {
+        if (can_change_to_government(plr, gov_new)) {
+          notify_player(plr, NULL, E_NEW_GOVERNMENT, ftc_server,
+                        _("The required technology for our new government "
+                          "'%s' was lost. The citizens chose '%s' as new "
+                          "target government."),
+                        government_name_translation(gov),
+                        government_name_translation(gov_new));
+          plr->target_government = gov_new;
+          new_gov_found = TRUE;
+          break;
+        }
+      } government_iterate_end;
+
+      /* Do we have a new traget government? */
+      fc_assert_ret(new_gov_found);
+      break;
+    }
+  } government_iterate_end;
+
+  /* check all settlers for valid activities */
+  if (advance_has_flag(tech, TF_BRIDGE)
+      || advance_has_flag(tech, TF_RAILROAD)
+      || advance_has_flag(tech, TF_FARMLAND)) {
+    unit_list_iterate(plr->units, punit) {
+      if (!can_unit_continue_current_activity(punit)) {
+        log_debug("lost technology for activity of unit %s of %s (%d, %d)",
+                  unit_name_translation(punit), player_name(plr),
+                  TILE_XY(punit->tile));
+        set_unit_activity(punit, ACTIVITY_IDLE);
+      }
+    } unit_list_iterate_end;
+  }
+
+  /* check city production */
+  city_list_iterate(plr->cities, pcity) {
+    bool update = FALSE;
+
+    if (pcity->production.kind == VUT_UTYPE
+        && !can_city_build_unit_now(pcity, pcity->production.value.utype)) {
+      notify_player(plr, pcity->tile, E_CITY_CANTBUILD, ftc_server,
+                    _("%s can't build %s. The required technology was lost."),
+                    city_name(pcity),
+                    utype_name_translation(pcity->production.value.utype));
+      choose_build_target(plr, pcity);
+
+      update = TRUE;
+    }
+
+    if (pcity->production.kind == VUT_IMPROVEMENT
+        && !can_city_build_improvement_now(pcity,
+                                           pcity->production.value.building)) {
+      notify_player(plr, pcity->tile, E_CITY_CANTBUILD, ftc_server,
+                    _("%s can't build %s. The required technology was lost."),
+                    city_name(pcity),
+                    improvement_name_translation(pcity->production.value.building));
+      choose_build_target(plr, pcity);
+
+      update = TRUE;
+    }
+
+    if (advance_has_flag(tech, TF_POPULATION_POLLUTION_INC)) {
+      update = TRUE;
+    }
+
+    if (update) {
+      city_refresh(pcity);
+      send_city_info(plr, pcity);
+    }
+  } city_list_iterate_end;
 }
 
 /****************************************************************************

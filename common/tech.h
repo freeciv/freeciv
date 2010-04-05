@@ -63,6 +63,7 @@ typedef int Tech_type_id;
 */
 
 /* Changing these breaks network compatibility. */
+/* If a new flag is added techtools.c:player_tech_lost() should be checked */
 enum tech_flag_id {
   TF_BONUS_TECH, /* player gets extra tech if rearched first */
   TF_BRIDGE,    /* "Settler" unit types can build bridges over rivers */

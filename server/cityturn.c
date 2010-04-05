@@ -1243,8 +1243,7 @@ static bool worklist_change_build_target(struct player *pplayer,
   build.  The policy is: use the worklist if we can; if not, try not
   changing; if we must change, get desparate and use the AI advisor.
 **************************************************************************/
-static void choose_build_target(struct player *pplayer,
-				struct city *pcity)
+void choose_build_target(struct player *pplayer, struct city *pcity)
 {
   /* Pick the next thing off the worklist. */
   if (worklist_change_build_target(pplayer, pcity)) {
@@ -1255,8 +1254,9 @@ static void choose_build_target(struct player *pplayer,
    * call to change_build_target, so just return. */
   switch (pcity->production.kind) {
   case VUT_UTYPE:
-    /* We can build a unit again unless it's unique. */
-    if (!utype_has_flag(pcity->production.value.utype, F_UNIQUE)) {
+    /* We can build a unit again unless it's unique or we have lost the tech. */
+    if (!utype_has_flag(pcity->production.value.utype, F_UNIQUE)
+        && can_city_build_unit_now(pcity, pcity->production.value.utype)) {
       return;
     }
     break;
