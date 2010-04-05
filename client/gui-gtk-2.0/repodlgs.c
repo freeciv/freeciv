@@ -448,7 +448,7 @@ static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
   a_str = advance_name_for_player(client.conn.playing, a);
   b_str = advance_name_for_player(client.conn.playing, b);
 
-  return strcmp(a_str,b_str);
+  return compare_strings(a_str, b_str);
 }
 
 /****************************************************************
