@@ -18,7 +18,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-28 22:48+0200\n"
+"POT-Creation-Date: 2010-04-06 12:33-0400\n"
 "PO-Revision-Date: 2002-10-24 18:28\n"
 "Last-Translator: Andreas Røsdal <andrearo@stud.ntnu.no>\n"
 "Language-Team: Norwegian\n"
@@ -296,6 +296,7 @@ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Fatal feil: du forsøker å kjøre meg som superbruker!\n"
 
 #: common/shared.c:1129
+#, c-format
 msgid "Use a non-privileged account instead.\n"
 msgstr "Bruk en ikke-priviligert konto istedet.\n"
 
@@ -995,57 +996,70 @@ msgstr ""
 "Gyldige alternativ er:\n"
 
 #: server/civserver.c:131 client/civclient.c:132
+#, c-format
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NUM\tSett debuggings-loggnivå (0-4, eller 4:fil1,min,max:...)\n"
 
 #: server/civserver.c:134 client/civclient.c:135
+#, c-format
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tSett debug-loggnivå (0-3)\n"
 
 #: server/civserver.c:136
+#, c-format
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\tLast inn lagret spill FILE\n"
 
 #: server/civserver.c:137
+#, c-format
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tBruk FILE som loggfil for spillet\n"
 
 #: server/civserver.c:138 client/civclient.c:137
+#, c-format
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tSkriv ut sammendrag av alternativene\n"
 
 #: server/civserver.c:139
+#, c-format
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tYtterligere informasjon for metaserveren\n"
 
 #: server/civserver.c:140 client/civclient.c:138
+#, c-format
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\tBruk FILE som loggfil.\n"
 
 #: server/civserver.c:141
+#, c-format
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tInformer metaserveren og send serverens info\n"
 
 #: server/civserver.c:142
+#, c-format
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADDR Sett adressen for Metaserveren.\n"
 
 #: server/civserver.c:144
+#, c-format
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tKoble til PORT.\n"
 
 #: server/civserver.c:145
+#, c-format
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr ""
 "  -q, --quitidle TIME   Avslutt hvis ingen spillere innen TIME sekunder\n"
 
 #: server/civserver.c:146
+#, c-format
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tLes oppstartsmanus i FILE\n"
 
 #: server/civserver.c:147 client/civclient.c:149
+#, c-format
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tSkriv ut versjonsnummeret\n"
 
@@ -1333,7 +1347,7 @@ msgstr "Spill: Din %s stjal %s fra %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Spill: %ss %s stjal %s fra %s."
 
-#: server/diplomats.c:665 server/plrhand.c:614
+#: server/diplomats.c:665 server/plrhand.c:617
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Spill: Din %s stjal %s fra %s."
@@ -1556,19 +1570,19 @@ msgstr "Spill: Der er ingen spiller eller tilkobling med navn %s."
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Kartgenerator: Ikke nok startposisjoner, fikser."
 
-#: server/mapgen.c:1723
+#: server/mapgen.c:1757
 msgid "High landmass - this may take a few seconds."
 msgstr "Mye landmasse - dette kan ta noen sekunder."
 
-#: server/mapgen.c:1939
+#: server/mapgen.c:1973
 msgid "Falling back to generator 2."
 msgstr "Faller tilbake på generator 2."
 
-#: server/mapgen.c:1954
+#: server/mapgen.c:1988
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 plasserte ikke alle de store øyene."
 
-#: server/mapgen.c:1980
+#: server/mapgen.c:2014
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 forlot %li landmasse uplassert."
@@ -1759,37 +1773,37 @@ msgid "Game: Technology goal is %s."
 msgstr "Spill: Teknologimålet er %s."
 
 # problem
-#: server/plrhand.c:599
+#: server/plrhand.c:602
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "%s stjeler %s fra %s"
 
-#: server/plrhand.c:605
+#: server/plrhand.c:608
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Game: Du stjeler %s fra %s."
 
-#: server/plrhand.c:609
+#: server/plrhand.c:612
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Spill: %s stjal %s fra deg!"
 
-#: server/plrhand.c:634
+#: server/plrhand.c:637
 msgid "Game: Cannot change rates before game start."
 msgstr "Spill: Kan ikke endre prioritering/nivå før spillstart."
 
-#: server/plrhand.c:647 client/gui-gtk-2.0/gamedlgs.c:252
+#: server/plrhand.c:650 client/gui-gtk-2.0/gamedlgs.c:252
 #: client/gui-gtk/gamedlgs.c:243 client/gui-win32/ratesdlg.c:315
 msgid "Tax"
 msgstr "Skatt"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2021
+#: server/plrhand.c:652 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luksus"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2023
+#: server/plrhand.c:654 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -1799,76 +1813,76 @@ msgstr "Luksus"
 msgid "Science"
 msgstr "Forskning"
 
-#: server/plrhand.c:652
+#: server/plrhand.c:655
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Spill: %s nivået er større enn maks-nivået for %s."
 
-#: server/plrhand.c:658 server/plrhand.c:785
+#: server/plrhand.c:661 server/plrhand.c:788
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "SKATT ENDRET: %s %i %i %i"
 
-#: server/plrhand.c:704
+#: server/plrhand.c:707
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Spill: %s styrer nå %s med styresettet %s."
 
 # problem
-#: server/plrhand.c:708
+#: server/plrhand.c:711
 #, c-format
 msgid "%s form a %s"
 msgstr "%s fra en %s"
 
-#: server/plrhand.c:741
+#: server/plrhand.c:744
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Spill: %s har satt i gang en revolusjon!"
 
-#: server/plrhand.c:743
+#: server/plrhand.c:746
 #, c-format
 msgid "The %s revolt!"
 msgstr "%s gjør opprør!"
 
-#: server/plrhand.c:768
+#: server/plrhand.c:771
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Skattenivået er høyere enn max nivå for %s; justert."
 
-#: server/plrhand.c:774
+#: server/plrhand.c:777
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Forskningsnivået er høyere enn maksnivået for %s; justert."
 
-#: server/plrhand.c:780
+#: server/plrhand.c:783
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Spill: Luksusnivået er høyere enn maksnivået for %s; justert."
 
-#: server/plrhand.c:847
+#: server/plrhand.c:850
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr ""
 "Senatet vedtar lovforslaget ditt pga de konstante provokasjonene fra %s."
 
-#: server/plrhand.c:857
+#: server/plrhand.c:860
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Spill: Ditt rykte er nå %s."
 
-#: server/plrhand.c:861
+#: server/plrhand.c:864
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
 msgstr "Spill: Senatet oppløser seg selv framfor å støtte dine handlinger."
 
-#: server/plrhand.c:922
+#: server/plrhand.c:925
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Spill: Den diplomatiske status mellom %s og %s er nå %s."
 
-#: server/plrhand.c:928
+#: server/plrhand.c:931
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1877,31 +1891,31 @@ msgstr ""
 "Spill: %s avbrøt den diplomatiske avtalen! Det diplomatiske forholdet mellom "
 "%s og %s er nå %s."
 
-#: server/plrhand.c:1343
+#: server/plrhand.c:1345
 #, c-format
 msgid "Removing player %s."
 msgstr "Fjernet spiller %s."
 
-#: server/plrhand.c:1344
+#: server/plrhand.c:1346
 msgid "Game: You've been removed from the game!"
 msgstr "Spill: Du har blitt fjernet fra spillet!"
 
-#: server/plrhand.c:1354
+#: server/plrhand.c:1356
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Spill: %s har blitt fjernet fra spillet."
 
-#: server/plrhand.c:1385 server/plrhand.c:1389
+#: server/plrhand.c:1387 server/plrhand.c:1391
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Spill: Du har oppnådd kontakt med %s, styrt av %s."
 
-#: server/plrhand.c:1733
+#: server/plrhand.c:1735
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
-#: server/plrhand.c:1755
+#: server/plrhand.c:1757
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1910,12 +1924,12 @@ msgstr ""
 "Spill: Din nasjon er splittet i en borgerkrig.\n"
 "       %s er proklamert leder for de opprørske fylkene."
 
-#: server/plrhand.c:1775
+#: server/plrhand.c:1777
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Spill: %s proklamerer allianse med %s."
 
-#: server/plrhand.c:1801
+#: server/plrhand.c:1803
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2107,7 +2121,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr "(bygger %s i %s (%s))\n"
 
 #: server/report.c:321 client/gui-mui/gui_main.c:277 client/gui-xaw/menu.c:202
-#: data/helpdata.txt:797
+#: data/helpdata.txt:794
 msgid "Wonders of the World"
 msgstr "Verdens underverk"
 
@@ -5721,18 +5735,22 @@ msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Oppsamlet,Mål,Runder,Kjøpekostnad)"
 
 #: client/civclient.c:130
+#, c-format
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tHopper over Koble til dialogen\n"
 
 #: client/civclient.c:139
+#, c-format
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tKoble til metaserveren på HOST\n"
 
 #: client/civclient.c:141
+#, c-format
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAVN\tBruk NAVN som navn\n"
 
 #: client/civclient.c:142
+#, c-format
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tKoble til PORT.\n"
 
@@ -5742,14 +5760,17 @@ msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tBenytter PLUGIN for lydstøtte %s\n"
 
 #: client/civclient.c:145
+#, c-format
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server S\tKoble til serveren S\n"
 
 #: client/civclient.c:146
+#, c-format
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -s, --sound FIL\tLes lyd-informasjon fra FIL\n"
 
 #: client/civclient.c:147
+#, c-format
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FIL\tBruk datafile FIL.tilespec for feltgrafikk\n"
 
@@ -6071,45 +6092,55 @@ msgstr[0] "* Kan transportere %d landenhet over vann.\n"
 msgstr[1] "* Kan transportere %d landenheter over vann.\n"
 
 #: client/helpdata.c:611
+#, c-format
 msgid "* Can establish trade routes.\n"
 msgstr "* Kan etablere handelsruter.\n"
 
 #: client/helpdata.c:614
+#, c-format
 msgid "* Can help build wonders.\n"
 msgstr "* Kan hjelpe til å bygge underverk.\n"
 
 #: client/helpdata.c:617
+#, c-format
 msgid "* Can build new cities.\n"
 msgstr "* Kan bygge nye byer.\n"
 
 #: client/helpdata.c:620
+#, c-format
 msgid "* Can perform settler actions.\n"
 msgstr "* Kan utføre nybygger-egenskaper.\n"
 
 #: client/helpdata.c:624
+#, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "* Kan utføre diplomatiske forhandlinger, samt spesielle spion-egenskaper.\n"
 
 #: client/helpdata.c:627
+#, c-format
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Kan utføre diplomatiske forhandlinger.\n"
 
 #: client/helpdata.c:630
+#, c-format
 msgid "* Can attack enemy air units.\n"
 msgstr "* Kan angripe fiendtlige luftenheter.\n"
 
 #: client/helpdata.c:633
+#, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* Er usynlig unntatt når den er ved siden av en fremmed enhet eller by.\n"
 
 #: client/helpdata.c:637
+#, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Kan kunne angripe enheter på havet (ingen angrep mot land).\n"
 
 # dumbo translation
 #: client/helpdata.c:641
+#, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
@@ -6122,51 +6153,63 @@ msgid "* Can be paradropped from a friendly city (Range: %d)."
 msgstr "* Kan gjøre fallskjermhopp fra vennlig by (Rekkevidde: %d)."
 
 #: client/helpdata.c:649
+#, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Får dobbelt forsvar mot enheter som er 'til hest'.\n"
 
 #: client/helpdata.c:654
+#, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Teller som 'til hest' mot enkelte forsvarere.\n"
 
 #: client/helpdata.c:658
+#, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* En rakettenhet: blir brukt opp idet den angriper.\n"
 
 #: client/helpdata.c:660
+#, c-format
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Et angrep avslutter denne enhetens runde.\n"
 
 #: client/helpdata.c:664
+#, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Denne enhetens angrep skaper en atomeksplosjon!\n"
 
 #: client/helpdata.c:667
+#, c-format
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Bryr seg ikke om bymurer.\n"
 
 #: client/helpdata.c:671
+#, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* Får femdoblet forsvar mot raketter og fly.\n"
 
 #: client/helpdata.c:675
+#, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* Bryr seg ikke om terreng (alle felt tilsvarer veier).\n"
 
 #: client/helpdata.c:679
+#, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr ""
 "* Angriper med full styrke selv om det er mindre enn ett flytt igjen.\n"
 
 #: client/helpdata.c:682
+#, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* Bryr seg ikke om kontrollsoner.\n"
 
 #: client/helpdata.c:685
+#, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* En ikke-militær enhet (kan ikke angripe; ingen unntakstilstand).\n"
 
 #: client/helpdata.c:689
+#, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "* En kampenhet: medfører 1 ulykkelig selv når den er ikke-aggressiv. \n"
@@ -6210,6 +6253,7 @@ msgstr ""
 "prosjektet krever %d forskningspoeng for å fullføres."
 
 #: client/helpdata.c:798
+#, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr "Nummeret kan variere i forhold til hva andre spillere forsker på. \n"
 
@@ -6225,26 +6269,32 @@ msgstr ""
 "Den første spilleren som forsker på %s får et umiddelbart fremskritt.\n"
 
 #: client/helpdata.c:818
+#, c-format
 msgid "Gives sea units one extra move.\n"
 msgstr "Gir sjøenheter et ekstra flytt.\n"
 
 #: client/helpdata.c:820
+#, c-format
 msgid "Increases the pollution generated by the population.\n"
 msgstr "Øker forurensningen skapt av befolkningen.\n"
 
 #: client/helpdata.c:822
+#, c-format
 msgid "Improves the effect of Cathedrals.\n"
 msgstr "Øker effekten av katedraler.\n"
 
 #: client/helpdata.c:824
+#, c-format
 msgid "Reduces the effect of Cathedrals.\n"
 msgstr "Reduserer effekten av katedraler.\n"
 
 #: client/helpdata.c:826
+#, c-format
 msgid "Improves the effect of Colosseums.\n"
 msgstr "Øker effekten av kolosseum.\n"
 
 #: client/helpdata.c:828
+#, c-format
 msgid "Improves the effect of Temples.\n"
 msgstr "Øker effekten av templer.\n"
 
@@ -7426,7 +7476,7 @@ msgstr "Spill: %s koster %d gull og du har kun %d gull."
 #: client/gui-win32/repodlgs.c:706 client/gui-win32/repodlgs.c:715
 #: client/gui-xaw/menu.c:142 client/gui-xaw/menu.c:197
 #: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:866
-#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:808
+#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:805
 msgid "Units"
 msgstr "Enheter"
 
@@ -7534,7 +7584,7 @@ msgid "Presets"
 msgstr "Forhåndsvalg"
 
 #: client/gui-gtk-2.0/cma_fe.c:144 client/gui-gtk/cma_fe.c:154
-#: data/helpdata.txt:719
+#: data/helpdata.txt:716
 msgid "Citizen Management Agent"
 msgstr "Byforvaltning"
 
@@ -8280,7 +8330,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:104 client/gui-gtk/happiness.c:101
 #: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
 #: client/gui-win32/citydlg.c:810 client/gui-win32/happiness.c:90
-#: client/gui-xaw/menu.c:225 data/helpdata.txt:1273
+#: client/gui-xaw/menu.c:225 data/helpdata.txt:1270
 msgid "Happiness"
 msgstr "Lykke"
 
@@ -8973,7 +9023,7 @@ msgstr "By_produksjon"
 
 #: client/gui-gtk-2.0/menu.c:604 client/gui-gtk/menu.c:605
 #: client/gui-mui/gui_main.c:218 client/gui-win32/menu.c:302
-#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1116
+#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1113
 msgid "Terrain"
 msgstr "Terreng"
 
@@ -10527,7 +10577,7 @@ msgstr "By resultat"
 msgid "Citymap"
 msgstr "Bykart"
 
-#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:769
+#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:766
 msgid "City Improvements"
 msgstr "Byforbedringer"
 
@@ -10635,7 +10685,7 @@ msgid "_Goto and Close"
 msgstr "_Gå til og lukk"
 
 #: client/gui-mui/dialogs.c:312 client/gui-xaw/menu.c:221
-#: data/helpdata.txt:786
+#: data/helpdata.txt:783
 msgid "Technology"
 msgstr "Teknologi"
 
@@ -11041,6 +11091,7 @@ msgid "Build Railroad"
 msgstr "Bygg jernbane"
 
 #: client/gui-mui/gui_main.c:1424
+#, c-format
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -11815,19 +11866,19 @@ msgstr "Veier og togskinner"
 msgid "Fortress and Airbase"
 msgstr "Festning og Flybase"
 
-#: client/gui-xaw/menu.c:211 data/helpdata.txt:381
+#: client/gui-xaw/menu.c:211 data/helpdata.txt:378
 msgid "Languages"
 msgstr "Språk"
 
-#: client/gui-xaw/menu.c:212 data/helpdata.txt:402
+#: client/gui-xaw/menu.c:212 data/helpdata.txt:399
 msgid "Connecting"
 msgstr "Kobler til"
 
-#: client/gui-xaw/menu.c:213 data/helpdata.txt:430
+#: client/gui-xaw/menu.c:213 data/helpdata.txt:427
 msgid "Controls"
 msgstr "Kontroll"
 
-#: client/gui-xaw/menu.c:214 data/helpdata.txt:497
+#: client/gui-xaw/menu.c:214 data/helpdata.txt:494
 msgid "Chatline"
 msgstr "Snakkekanal"
 
@@ -11835,7 +11886,7 @@ msgstr "Snakkekanal"
 msgid "Playing"
 msgstr "Spiller"
 
-#: client/gui-xaw/menu.c:219 data/helpdata.txt:885
+#: client/gui-xaw/menu.c:219 data/helpdata.txt:882
 msgid "Combat"
 msgstr "Kamp"
 
@@ -11843,15 +11894,15 @@ msgstr "Kamp"
 msgid "ZOC"
 msgstr "Kontrollsone"
 
-#: client/gui-xaw/menu.c:224 data/helpdata.txt:1209
+#: client/gui-xaw/menu.c:224 data/helpdata.txt:1206
 msgid "Government"
 msgstr "Styreform"
 
-#: client/gui-xaw/menu.c:226 data/helpdata.txt:1346
+#: client/gui-xaw/menu.c:226 data/helpdata.txt:1343
 msgid "Space Race"
 msgstr "Romkappløp"
 
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:79
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:76
 msgid "Copying"
 msgstr "Kopiering"
 
@@ -12176,14 +12227,13 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Nåværende administratorer: "
 
-#: data/helpdata.txt:56
+#: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
-"\n"
-"or by sending email to:  bugs@cvs.freeciv.org"
+"  https://gna.org/projects/freeciv/"
 msgstr ""
 "Hvis du finner noen feil ved spillet, vennligst send oss en rapport. Dette "
 "gjøres mest hensiktsmessig ved å besøke Freeciv Bug Tracking System, på:\n"
@@ -12192,7 +12242,7 @@ msgstr ""
 "\n"
 "eller ved å sende epost til:  bugs@cvs.freeciv.org"
 
-#: data/helpdata.txt:63
+#: data/helpdata.txt:60
 msgid ""
 "For more information about submitting bug reports see the file BUGS in the "
 "Freeciv distribution.  For more information in general, visit the Freeciv "
@@ -12201,11 +12251,11 @@ msgstr ""
 "For mer info om å gi tilbakemelding om feil/svakheter/'bugs' se i filen BUGS "
 "i Freeciv distribusjonen. For mer info generelt, besøk Freeciv websiden på:"
 
-#: data/helpdata.txt:80
+#: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv er dekket av GPL, som er inkludert her:"
 
-#: data/helpdata.txt:382
+#: data/helpdata.txt:379
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -12234,7 +12284,7 @@ msgstr ""
 "Du kan også sende inn spørsmål til mailinglisten \n"
 "Freeciv International:  freeciv-i18n@freeciv.org"
 
-#: data/helpdata.txt:403
+#: data/helpdata.txt:400
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
@@ -12244,7 +12294,7 @@ msgstr ""
 "angi sitt hostname og port (5555 standard). Hvis serveren startes med -m "
 "flagget, vil den rapportere seg til metaserveren."
 
-#: data/helpdata.txt:410
+#: data/helpdata.txt:407
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check if your WWW browser "
@@ -12262,7 +12312,7 @@ msgstr ""
 "http://proxyhost:proxyportnummer/\n"
 "før du starter civclient."
 
-#: data/helpdata.txt:419
+#: data/helpdata.txt:416
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -12279,7 +12329,7 @@ msgstr ""
 "kallenavn! Hvis serveren rapporterer til metaserveren kan navnet på "
 "spillerne bli funnet der."
 
-#: data/helpdata.txt:431
+#: data/helpdata.txt:428
 msgid ""
 "Mouse:\n"
 "======\n"
@@ -12299,7 +12349,7 @@ msgstr ""
 "  Høyrerklikk:   Sentrere ruten i fokus\n"
 "  Shift-klikk:   Justere byens arbeidere fra kartvinduet"
 
-#: data/helpdata.txt:440
+#: data/helpdata.txt:437
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -12407,7 +12457,7 @@ msgstr ""
 "         tab: fokusere på neste enhet   Control-p: by produksjon av/påreturn/"
 "Enter: avslutte runde"
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:495
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -12415,7 +12465,7 @@ msgstr ""
 "Klienten har et primitivt snakke grensesnitt. Linjene du skriver blir sendt "
 "til alle spillerne, unntatt:"
 
-#: data/helpdata.txt:501
+#: data/helpdata.txt:498
 msgid ""
 "  - Messages starting with 'foo:' are private messages to the player named "
 "'foo'; player names can be abbreviated."
@@ -12423,7 +12473,7 @@ msgstr ""
 "  - Meldinger starter med 'foo:' er private meldinger til spilleren med "
 "navnet 'foo'; spiller navn kan forkortes."
 
-#: data/helpdata.txt:504
+#: data/helpdata.txt:501
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands (if the "
 "server is recent enough; regular 1.8.0 servers are not) and executed, if you "
@@ -12433,11 +12483,11 @@ msgstr ""
 "serveren er nyere enn 1.8.0) og vil bli utført, hvis du har rettigheter til "
 "det."
 
-#: data/helpdata.txt:511
+#: data/helpdata.txt:508
 msgid "Worklist Editor"
 msgstr "Arbeidsliste"
 
-#: data/helpdata.txt:512
+#: data/helpdata.txt:509
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor You can create lists "
@@ -12447,7 +12497,7 @@ msgstr ""
 "globalt. Med denne editoren kan man lage lister over hva som skal bygges i "
 "kommende omganger."
 
-#: data/helpdata.txt:516
+#: data/helpdata.txt:513
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -12458,7 +12508,7 @@ msgstr ""
 "hjelpknappen for å få hjelp om det valgte objektet. Dersom man trykker på "
 "hjelpknappen uten at et objekt er valgt vises denne hjelpen."
 
-#: data/helpdata.txt:520
+#: data/helpdata.txt:517
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -12467,7 +12517,7 @@ msgstr ""
 "skal tas bort. Bruk knappene nedenfor arbeidslisten for å flytte objektet "
 "opp eller ned i listen."
 
-#: data/helpdata.txt:523
+#: data/helpdata.txt:520
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -12485,11 +12535,11 @@ msgstr ""
 "arbeidslisten\n"
 "Delete, ta bort det valgte objektet fra arbeidslisten."
 
-#: data/helpdata.txt:532
+#: data/helpdata.txt:529
 msgid "Strategy and tactics"
 msgstr "Strategi og taktikk"
 
-#: data/helpdata.txt:533
+#: data/helpdata.txt:530
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -12497,7 +12547,7 @@ msgstr ""
 "Selv om alle spill er forskjellige så er det en grunnleggende strategi som "
 "de fleste spillere følger, spesielt i begynnelsen av spillet."
 
-#: data/helpdata.txt:536
+#: data/helpdata.txt:533
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -12505,7 +12555,7 @@ msgstr ""
 "Disse stegene kan variere i forhold til serverens innstillinger, men "
 "generelt er stegene:"
 
-#: data/helpdata.txt:539
+#: data/helpdata.txt:536
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -12531,7 +12581,7 @@ msgstr ""
 " 9. Lage sin egen strategi for spillet.\n"
 "10. Kommunisere med andre spillere (Diplomatvirksomhet)\n"
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:548
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -12552,7 +12602,7 @@ msgstr ""
 "balansere kvaliteten av stedet du finner mot å få etablert den første byen "
 "så tidlig som mulig."
 
-#: data/helpdata.txt:562
+#: data/helpdata.txt:559
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -12572,7 +12622,7 @@ msgstr ""
 "utforske med. Dersom du startet spillet med en utforsker enhet kan du "
 "selvfølgelig bruke den til å utforske med!"
 
-#: data/helpdata.txt:571
+#: data/helpdata.txt:568
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -12591,7 +12641,7 @@ msgstr ""
 "brukt til forsvar (sortert etter styrke): kriger, Falanks, Spydbærere, "
 "Musketerer og Riflemenn."
 
-#: data/helpdata.txt:581
+#: data/helpdata.txt:578
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -12606,7 +12656,7 @@ msgstr ""
 "ny by blir bygget, begynner byen å alltid å bygge den beste tilgjengelige "
 "forsvarsenheten fra listen over."
 
-#: data/helpdata.txt:588
+#: data/helpdata.txt:585
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -12627,7 +12677,7 @@ msgstr ""
 "nybyggeren til jordbruksforbedringer. Husk at en stor befolkning øker "
 "produktiviteten og sivilisasjonens forskningsfart."
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:596
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -12643,7 +12693,7 @@ msgstr ""
 "til å forbedre landskapet. Landet kan forbedres med veier, irrigasjon, "
 "gruver og annet."
 
-#: data/helpdata.txt:607
+#: data/helpdata.txt:604
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -12663,7 +12713,7 @@ msgstr ""
 "motstandere vil har vanskeligere for å finne byene dine dersom du ikke "
 "bygger de i nærheten av havet."
 
-#: data/helpdata.txt:616
+#: data/helpdata.txt:613
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -12683,7 +12733,7 @@ msgstr ""
 "starten av spillet er det viktig at innbyggerne jobber slik at de øker "
 "veksten, handelen og produksjonen."
 
-#: data/helpdata.txt:626
+#: data/helpdata.txt:623
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -12693,7 +12743,7 @@ msgstr ""
 "ved å klikke på den okkuperte ruten. Denne borgeren kan deretter bli "
 "overført til en av de andre oppgavene som nevnt tidligere."
 
-#: data/helpdata.txt:631
+#: data/helpdata.txt:628
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -12703,7 +12753,7 @@ msgstr ""
 "sentrum av jordbruks landet, så vil borgerne bli flyttet rundt for å "
 "maksimere matproduksjonen."
 
-#: data/helpdata.txt:637
+#: data/helpdata.txt:634
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -12715,7 +12765,7 @@ msgstr ""
 "forsiktig og la ikke det skje i noen av dine byer, for ulykkelige innbyggere "
 "produserer ingen ting og vil raskt gjøre opprør."
 
-#: data/helpdata.txt:643
+#: data/helpdata.txt:640
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -12736,7 +12786,7 @@ msgstr ""
 "fremskrittene dere har gjordt. Diplomat enheter er nyttige her, og VIL lønne "
 "seg senere."
 
-#: data/helpdata.txt:653
+#: data/helpdata.txt:650
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -12758,7 +12808,7 @@ msgstr ""
 "\n"
 "  - Noen underverk blir foreldet ved oppdagelsen av enkelte fremskritt."
 
-#: data/helpdata.txt:664
+#: data/helpdata.txt:661
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -12780,7 +12830,7 @@ msgstr ""
 "Der finner du flere tips for å spille, og dessuten detaljer for hvordan du "
 "kontakter andre spillere."
 
-#: data/helpdata.txt:675
+#: data/helpdata.txt:672
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -12794,7 +12844,7 @@ msgstr ""
 "er diplomatiet som du kan ha med andre mennesker - og det er ikke bare snakk "
 "om å bruke spioner og diplomater til å infiltrere og stjele."
 
-#: data/helpdata.txt:682
+#: data/helpdata.txt:679
 msgid ""
 "    If you have established an embassy with another human player, then you "
 "can arrange a diplomatic meeting. This is done by going to the `Game' menu, "
@@ -12808,7 +12858,7 @@ msgstr ""
 "Dersom du virkelig har en ambassade (merket med en X) og den andre spilleren "
 "er tilkoblet så vil en diplomati meny vises."
 
-#: data/helpdata.txt:689
+#: data/helpdata.txt:686
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -12830,7 +12880,7 @@ msgstr ""
 "\n"
 "   - og gi gull."
 
-#: data/helpdata.txt:699
+#: data/helpdata.txt:696
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
@@ -12838,7 +12888,7 @@ msgstr ""
 "    Man behøver ikke bytte likt mot likt, man kan for eksempel handle et "
 "fremskritt eller en by mot gull - man kan betrakte det som kjøp og salg."
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:700
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -12852,7 +12902,7 @@ msgstr ""
 "\n"
 "   - Om man ikke kan se en by på sitt kart, kan man ikke få den."
 
-#: data/helpdata.txt:709
+#: data/helpdata.txt:706
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -12866,7 +12916,7 @@ msgstr ""
 "man bør sjekke at den andre spilleren ikke får en bedre avtale enn man hadde "
 "tenkt seg."
 
-#: data/helpdata.txt:720
+#: data/helpdata.txt:717
 msgid ""
 "The Citizen Management Agent (CMA) helps you manage your cities. It deploys "
 "the available workers on the free tiles around the city to achieve maximal "
@@ -12946,7 +12996,7 @@ msgstr ""
 "med å håndtere byer som ligger i nærheten som styres manuelt. Det beste er å "
 "styre alle byer enten med byforvaltning eller manuelt. Se også README.cma\n"
 
-#: data/helpdata.txt:770
+#: data/helpdata.txt:767
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -12958,7 +13008,7 @@ msgstr ""
 "omgang. Dersom man ikke har råd til vedlikehold for en bygning vil den "
 "selges!"
 
-#: data/helpdata.txt:787
+#: data/helpdata.txt:784
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -12966,7 +13016,7 @@ msgstr ""
 "Forskning er en nødvendighet for å forbedre en sivilisasjons evne til å "
 "bygge nye militære enheter og byforbedringer."
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:795
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -12974,7 +13024,7 @@ msgstr ""
 "Hvert underverk har spesielle fordeler for din sivilisasjon. Det er unikt og "
 "plassert i byen som det ble bygget."
 
-#: data/helpdata.txt:809
+#: data/helpdata.txt:806
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -12984,14 +13034,14 @@ msgstr ""
 "utforskning.  Hvor nyttig en enhet er for disse rollene kommer ann på dens "
 "styrker innen angrep, forsvar og flytt."
 
-#: data/helpdata.txt:814
+#: data/helpdata.txt:811
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
 "easiest to think of them as a separate unit type.)"
 msgstr "Det er fire generelle typer enheter: Land, Sjø, Luft og Helikopter."
 
-#: data/helpdata.txt:819
+#: data/helpdata.txt:816
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -13018,7 +13068,7 @@ msgstr ""
 "angrepsstyrke 0 er ikke-militære enheter: de krever ingen utgifter, har "
 "ingen effekt på lykken i byen, og kan ikke angripe fiender eller byer."
 
-#: data/helpdata.txt:832
+#: data/helpdata.txt:829
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -13033,7 +13083,7 @@ msgstr ""
 "Atomkraft. De fleste sjø enheter kan angripe enheter på kysen og i kystbyer, "
 "men de kan ikke overta en fiendtlig by, selv ikke om den er uforsvart."
 
-#: data/helpdata.txt:839
+#: data/helpdata.txt:836
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -13057,7 +13107,7 @@ msgstr ""
 "å utforske hytter, men dersom serveren er innstilt for det, kan hytter som "
 "blir overflydd bli ødelagt."
 
-#: data/helpdata.txt:851
+#: data/helpdata.txt:848
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -13073,7 +13123,7 @@ msgstr ""
 "eller flybase, med mindre du har De Forente Nasjoner underverket. Helikopter "
 "kan overta fiendtlige byer."
 
-#: data/helpdata.txt:858
+#: data/helpdata.txt:855
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -13106,7 +13156,7 @@ msgstr ""
 "by. Skadede enheter i som holder stand vill våkne opp når de har fått "
 "tilbake alle sine treffpoeng."
 
-#: data/helpdata.txt:875
+#: data/helpdata.txt:872
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -13115,7 +13165,7 @@ msgstr ""
 "Avhengig av serveralternativene kan alle enheter redusere byens "
 "innbyggertall i en by uten bymurer med 1 ved et vellykket angrep."
 
-#: data/helpdata.txt:886
+#: data/helpdata.txt:883
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -13125,15 +13175,15 @@ msgstr ""
 "så blir forsvareren ødelagt -- aldri begge to (unntatt hvis angriperen var "
 "en missil). Utfallet avhenger av forskjellige faktorer, inkludert flaks."
 
-#: data/helpdata.txt:891
+#: data/helpdata.txt:888
 msgid "First, the attacker's strength is modified."
 msgstr "Først blir angriperens styrke kalkulert."
 
-#: data/helpdata.txt:893
+#: data/helpdata.txt:890
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - Hvis angriperen er veteran blir dens styrke multiplisert med 1,5."
 
-#: data/helpdata.txt:895
+#: data/helpdata.txt:892
 msgid ""
 " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 movement "
 "point left, its strength is divided by 3; if it has 2/3 movement point, its "
@@ -13145,17 +13195,17 @@ msgstr ""
 "flyttpoeng igjen blir styrken multiplisert med 2/3. Dersom angriperen har 1 "
 "eller flere flyttpoeng igjen skjer det ingen endringer."
 
-#: data/helpdata.txt:901
+#: data/helpdata.txt:898
 msgid "Next, the defender's strength is modified."
 msgstr "Deretter blir forsvarerens styrke kalkulert."
 
-#: data/helpdata.txt:903
+#: data/helpdata.txt:900
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr ""
 " - Dersom forsvareren er veteran, vil dens styrke multipliseres med 1.5."
 
-#: data/helpdata.txt:906
+#: data/helpdata.txt:903
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
@@ -13163,7 +13213,7 @@ msgstr ""
 " - Så vil forsvarerens styrke bli multiplisert med forsvarsfaktoren til "
 "terrenget den okkuperer."
 
-#: data/helpdata.txt:909
+#: data/helpdata.txt:906
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -13171,7 +13221,7 @@ msgstr ""
 " - Deretter dobles forsvarerens styrke dersom det er en Pikeman enhet som "
 "forsvarer mot en ridende enhet."
 
-#: data/helpdata.txt:912
+#: data/helpdata.txt:909
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -13179,7 +13229,7 @@ msgstr ""
 " - Dersom forsvareren er en AEGIS Cruiser som forsvarer mot en flygende "
 "enhet (inkludert missiler og helikopter) femdobles forsvaret."
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:913
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -13188,14 +13238,14 @@ msgstr ""
 " - Forsvarerens styrke blir doblet igjen dersom den er i en by med et SAM "
 "batteri og angriperen er en flyenhet (unntatt helikopter) eller en missil."
 
-#: data/helpdata.txt:920
+#: data/helpdata.txt:917
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
 msgstr ""
 " - SDI Forsvar dobler forsvarerens styrke enda en gang mot missile angrep."
 
-#: data/helpdata.txt:923
+#: data/helpdata.txt:920
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -13203,7 +13253,7 @@ msgstr ""
 " - Dersom angriperen er et skip og forsvareren er i en by med Kystforsvar så "
 "vil forsvarerens styrke dobles."
 
-#: data/helpdata.txt:926
+#: data/helpdata.txt:923
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -13211,14 +13261,14 @@ msgstr ""
 " - Forsvaret tredobles for forsvarende enheter i en by med bymurer mot "
 "landenheter (utenom Howitzer) og helikopter."
 
-#: data/helpdata.txt:930
+#: data/helpdata.txt:927
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr ""
 " - Dersom forsvareren er i et fort (og ikke i en by) blir dens styrke doblet."
 
-#: data/helpdata.txt:933
+#: data/helpdata.txt:930
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -13226,7 +13276,7 @@ msgstr ""
 " - Til slutt, hvis forsvareren er en landenhet og den er befestet eller i en "
 "by, så vil dens styrke multipliseres med 1.5."
 
-#: data/helpdata.txt:936
+#: data/helpdata.txt:933
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -13235,11 +13285,11 @@ msgstr ""
 "Etter disse modifikasjonene, hvis angriperen har en styrke på 0, så taper "
 "den automatisk. Eller hvis forsvareren har en styrke på 0, så taper den."
 
-#: data/helpdata.txt:940
+#: data/helpdata.txt:937
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Ildkraften til angreperen og forsvareren er også modifisert."
 
-#: data/helpdata.txt:942
+#: data/helpdata.txt:939
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -13247,14 +13297,14 @@ msgstr ""
 " - Dersom forsvareren er et skip som er inne i en by vil ildkraften til "
 "angreperen dobles og ildkraften til skipet settes til 1."
 
-#: data/helpdata.txt:945
+#: data/helpdata.txt:942
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
 msgstr ""
 " - Dersom en jager angriper et helikopter blir ildkraften til helikopteret 1."
 
-#: data/helpdata.txt:948
+#: data/helpdata.txt:945
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -13262,7 +13312,7 @@ msgstr ""
 " - Dersom et skip angriper en landenhet på land blir ildkraften til begge "
 "enhetene 1."
 
-#: data/helpdata.txt:951
+#: data/helpdata.txt:948
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -13281,7 +13331,7 @@ msgstr ""
 "forsvarerens ildkraft.Den første enheten som får 0 treffpoeng (eller "
 "negative treffpoeng) taper."
 
-#: data/helpdata.txt:966
+#: data/helpdata.txt:963
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -13294,7 +13344,7 @@ msgstr ""
 "Krigsakademi (og det ikke er foreldet), blir enheten alltid veteran. Ellers "
 "er sjansen for å bli veteran 50%."
 
-#: data/helpdata.txt:972
+#: data/helpdata.txt:969
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -13302,7 +13352,7 @@ msgstr ""
 "Dersom angriperen er en land enhet og den vinner, og forsvareren er i en by "
 "uten bymurer, så blir byens størrelse redusert med 1."
 
-#: data/helpdata.txt:975
+#: data/helpdata.txt:972
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -13310,11 +13360,11 @@ msgstr ""
 "Dersom forsvareren taper, og den ikke er i en by eller er befestet, så blir "
 "alle andre enheter på forsvarerens posisjon ødelagt også."
 
-#: data/helpdata.txt:982
+#: data/helpdata.txt:979
 msgid " Combat example 1"
 msgstr " Kampeksempel 1"
 
-#: data/helpdata.txt:983
+#: data/helpdata.txt:980
 msgid ""
 "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
@@ -13324,7 +13374,7 @@ msgstr ""
 "angriper en ikke-veteran Musketer (A:3, F:3, TP:20, F:1) inne i en by (med "
 "bymur) på en skogsrute."
 
-#: data/helpdata.txt:987
+#: data/helpdata.txt:984
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
@@ -13332,7 +13382,7 @@ msgstr ""
 "Angriperens grunnstyrke er 8. Veteran statusen gjør dette til 12, men fordi "
 "den bare har 2/3 flytt igjen blir den endelige styrken 8."
 
-#: data/helpdata.txt:990
+#: data/helpdata.txt:987
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -13343,7 +13393,7 @@ msgstr ""
 "4.5. Den er bak en bymur, så styrken tredobles til 13.5. Det er en landenhet "
 "inne i en by, så styrken økes til 20.25."
 
-#: data/helpdata.txt:995
+#: data/helpdata.txt:992
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -13353,11 +13403,11 @@ msgstr ""
 "blir droppet, slik at angriperens styrke er 80, og forsvarerens styrke er "
 "202."
 
-#: data/helpdata.txt:999
+#: data/helpdata.txt:996
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Begge enheter beholder ildkraften 1 uendret."
 
-#: data/helpdata.txt:1002
+#: data/helpdata.txt:999
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -13368,7 +13418,7 @@ msgstr ""
 "tallet er større enn 202 (omtrent 28% sjanse), så taper forsvareren 1 "
 "treffpoeng. Ellers (omtrent 72% sjanse), så mister angriperen 1 treffpoeng."
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1010
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -13384,11 +13434,11 @@ msgstr ""
 "forsvareren kan komme unna uskadd, eller tape de fleste av sine treffpoeng, "
 "eller til og med tape kampen."
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1020
 msgid " Combat example 2"
 msgstr " Kampeksempel 2"
 
-#: data/helpdata.txt:1024
+#: data/helpdata.txt:1021
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -13398,11 +13448,11 @@ msgstr ""
 "angriper veterane Gurkha tropper (A:5, F:5, TP:20, F:1) inne i en by som er "
 "bygget på en gresskledd rute, med bymurer og kystforsvar."
 
-#: data/helpdata.txt:1029
+#: data/helpdata.txt:1026
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "Angriperens styrke er 12, øket til 18 grunnet veteran status."
 
-#: data/helpdata.txt:1032
+#: data/helpdata.txt:1029
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -13415,7 +13465,7 @@ msgstr ""
 "styrke til 15. (Bymurer har ingen effekt mot sjøenheter.) Forsvareren er en "
 "landenhet inne i en by, så dens totale styrke blir 22.5"
 
-#: data/helpdata.txt:1038
+#: data/helpdata.txt:1035
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -13423,11 +13473,11 @@ msgstr ""
 "Internt brukes verdiene 108 og 205 henholdsvis for angriperens og forsvarers "
 "styrke."
 
-#: data/helpdata.txt:1041
+#: data/helpdata.txt:1038
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Ildkraften til slagskipet reduseres fra 2 til 1."
 
-#: data/helpdata.txt:1044
+#: data/helpdata.txt:1041
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -13438,7 +13488,7 @@ msgstr ""
 "større enn 225 (ca 44% sjanse) så taper forsvareren 1 treffkapasitet. Hvis "
 "ikke taper angriper 1 av sin treffkapasitet."
 
-#: data/helpdata.txt:1055
+#: data/helpdata.txt:1052
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -13452,11 +13502,11 @@ msgstr ""
 "mange treffpoeng.Slagskipet burde forvente å miste omtrent 60% av sine "
 "treffpoeng i løpet av kampen, og ikke ha noen flyttpoeng igjen."
 
-#: data/helpdata.txt:1064
+#: data/helpdata.txt:1061
 msgid "Zones of Control"
 msgstr "Kontrollsoner"
 
-#: data/helpdata.txt:1065
+#: data/helpdata.txt:1062
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -13465,7 +13515,7 @@ msgstr ""
 "bevege deg fritt i soner som er kontrollert (eller delvis kontrollert) av "
 "fiendtlige styrker."
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1066
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -13478,7 +13528,7 @@ msgstr ""
 "også grenser til en rute med en fiendtlig enhet på. Hver rute har 8 "
 "grensende ruter."
 
-#: data/helpdata.txt:1075
+#: data/helpdata.txt:1072
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -13493,7 +13543,7 @@ msgstr ""
 "- En enhet type som eksplisitt ignorerer kontrollsoner, f.eks diplomater og "
 "spioner."
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1078
 msgid ""
 "Notes:\n"
 "\n"
@@ -13534,7 +13584,7 @@ msgstr ""
 "en sjørute (til en båt) er også tillatt, i det spesielle tilfellet når en "
 "flytter ombord en vennlig enhet (båten)."
 
-#: data/helpdata.txt:1101
+#: data/helpdata.txt:1098
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -13548,7 +13598,7 @@ msgstr ""
 "eventuelt sette igjen enheter for å okkupere rutene), så kan du lage en vei "
 "gjennom fiendens territorium."
 
-#: data/helpdata.txt:1108
+#: data/helpdata.txt:1105
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -13560,7 +13610,7 @@ msgstr ""
 "- Fiendtlige byer uten enheter forårsaker ikke lenger kontrollsoner.\n"
 "- Spesialtilfellet for landenheter som flytter fra land er nytt."
 
-#: data/helpdata.txt:1117
+#: data/helpdata.txt:1114
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -13570,7 +13620,7 @@ msgstr ""
 "plassering for en ny by, så bør du forsikre deg om at det er nok "
 "matproduserende ruter i nærheten til å forsørge den voksende befolkningen."
 
-#: data/helpdata.txt:1122
+#: data/helpdata.txt:1119
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -13578,18 +13628,18 @@ msgstr ""
 "Nettofortjenesten fra en rute avhenger på styresett, byforbedringer og "
 "underverk."
 
-#: data/helpdata.txt:1131
+#: data/helpdata.txt:1128
 msgid " Terrain Alterations"
 msgstr " Terreng forbedringer"
 
-#: data/helpdata.txt:1132
+#: data/helpdata.txt:1129
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr ""
 "Nybyggere og Ingeniører har enven til å endre terrenget på ulike måter."
 
-#: data/helpdata.txt:1135
+#: data/helpdata.txt:1132
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -13604,7 +13654,7 @@ msgstr ""
 "ekstra mat hver runde. Dessuten, med nødvendig teknologi, kan du irrigere "
 "ruten enda en gang, og gjøre den om til enda mer produktivt dyrket land."
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1140
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -13612,7 +13662,7 @@ msgstr ""
 "Enkelte terrengtyper kan ha gruvedrift, som øker antallet ressurser (skjold) "
 "som blir produsert på den ruten."
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1143
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -13624,7 +13674,7 @@ msgstr ""
 "jernbaner lar dine enheter flytte raskere og de øker produksjonen av "
 "ressurser i byer."
 
-#: data/helpdata.txt:1151
+#: data/helpdata.txt:1148
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -13632,7 +13682,7 @@ msgstr ""
 " - Enheter bruker bare en tredjedel av et bevegelsespoeng når den går fra en "
 "rute til en motstående rute dersom begge rutene har vei."
 
-#: data/helpdata.txt:1154
+#: data/helpdata.txt:1151
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -13640,14 +13690,14 @@ msgstr ""
 " - Enheter forbruker ingen bevegelsespoeng dersom de beveger seg langs en "
 "jernbane. Du kan bevege deg på en jernbane uendelig."
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1154
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr ""
 " - En vei kan øke handelsressursene som blir produsert av enkelte "
 "terrengtyper."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1157
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -13657,7 +13707,7 @@ msgstr ""
 "av serveralternativene, kan jernbanen også øke mat og handel ressurser, "
 "eller kan øke skjoldressursene med en mengde forskjellig fra 50%.)"
 
-#: data/helpdata.txt:1165
+#: data/helpdata.txt:1162
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -13667,13 +13717,13 @@ msgstr ""
 "forsvarer seg dobbelt så bra som normalt; dessuten må enheter i en festning "
 "ødelegges en om gangen. Se på hjelpavsnittet om kamp for mer informasjon."
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1167
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Du kan også bygge flybaser, hvor luftenheter kan lande og fylle drivstoff."
 
-#: data/helpdata.txt:1173
+#: data/helpdata.txt:1170
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -13685,11 +13735,11 @@ msgstr ""
 "opp) for ingeniører, og de kan reduseres ytterligere ved å bruke flere "
 "nybyggere/ingeniører som samarbeider."
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1180
 msgid "  Pillaging"
 msgstr "  Plyndring"
 
-#: data/helpdata.txt:1184
+#: data/helpdata.txt:1181
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -13702,7 +13752,7 @@ msgstr ""
 "forbedring du ønsker å ødelegge, ellers blir de ødelagt i følgende "
 "rekkefølge:"
 
-#: data/helpdata.txt:1190
+#: data/helpdata.txt:1187
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -13720,7 +13770,7 @@ msgstr ""
 " - en jernbane\n"
 " - en vei"
 
-#: data/helpdata.txt:1198
+#: data/helpdata.txt:1195
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -13736,7 +13786,7 @@ msgstr ""
 "slette så kan ikke plyndring forvandle landskapet tilbake til skog. For å "
 "gjør det må man forvandle tilbake med nybygger eller ingeniør."
 
-#: data/helpdata.txt:1210
+#: data/helpdata.txt:1207
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -13744,7 +13794,7 @@ msgstr ""
 "Ditt styresett har innvirkning på dine byers produktivitet og handel, dine "
 "innbyggeres lykkelighet og mange andre faktorer i spillet."
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1210
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -13759,7 +13809,7 @@ msgstr ""
 "(regjeringsløshet); når denne perioden er over kan du velge ditt nye "
 "styresett."
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1217
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -13772,7 +13822,7 @@ msgstr ""
 "hovedstaden man kommer. (Dersom man ikke har noen hovedstad, rammes man av "
 "ekstrem korrupsjon.) En rettssal minsker korrupsjonen i en by."
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1224
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -13784,7 +13834,7 @@ msgstr ""
 "Når du erobrer andre sivilisasjoner kan det være nyttig å bytte til en av de "
 "mer militante styresettene."
 
-#: data/helpdata.txt:1233
+#: data/helpdata.txt:1230
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13796,11 +13846,11 @@ msgstr ""
 "republikk så tidlig som mulig, for det er viktig å skaffe seg teknologi så "
 "tidlig som mulig for å få et forsprang."
 
-#: data/helpdata.txt:1242
+#: data/helpdata.txt:1239
 msgid " Civil War"
 msgstr " borgerkrig"
 
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1240
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13812,7 +13862,7 @@ msgstr ""
 "inngå allianse med en ny (AI) leder, som vil røve halvparten av pengene dine "
 "og ta alle de vitenskapelige fremskrittene."
 
-#: data/helpdata.txt:1249
+#: data/helpdata.txt:1246
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -13820,7 +13870,7 @@ msgstr ""
 "Spillere forblir i borgerkrig kun i en runde; etterpå faller riket i anarki "
 "(regjeringsløst)."
 
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1249
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13832,7 +13882,7 @@ msgstr ""
 "mot deg. Hver by som feirer reduserer sjansene for borgerkrig, mens hver by "
 "med opprør øker sjansene."
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1255
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13842,7 +13892,7 @@ msgstr ""
 "Styresett med allmenn stemmerett har minste sjanse for å gjøre opprør enn de "
 "styresettene med enevelde."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1259
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13853,7 +13903,7 @@ msgstr ""
 "10. Dvs riker med mindre enn 10 byer er immune mot borgerkrig. Dette er et "
 "serveralternativ, og kan variere oppover fra minimum 6."
 
-#: data/helpdata.txt:1274
+#: data/helpdata.txt:1271
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13867,7 +13917,7 @@ msgstr ""
 "forstyrrer produksjonen); men når dine borgere er lykkelige, vil dine byer "
 "feire, og produksjonen øker vesentlig."
 
-#: data/helpdata.txt:1281
+#: data/helpdata.txt:1278
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13880,7 +13930,7 @@ msgstr ""
 "og det er lettere for fiendtlige diplomater og spioner å starte opprør. "
 "Lange opprør under demokrati kan føre til revolusjon og regjeringen styrtes."
 
-#: data/helpdata.txt:1288
+#: data/helpdata.txt:1285
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13893,7 +13943,7 @@ msgstr ""
 "da feirer byen. Dette begrepet kannles \"Feiring\" i byrapporten. Effektene "
 "av feiring kan variere i forhold til styresettet:"
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1292
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13902,7 +13952,7 @@ msgstr ""
 " - Under Anarki eller Despotisme, lider man ikke av de vanlige "
 "produksjonsreduksjonene for ruter som gir > 2 enheter av noe slags tilgang."
 
-#: data/helpdata.txt:1299
+#: data/helpdata.txt:1296
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13912,7 +13962,7 @@ msgstr ""
 "republikk/demokrati: 1 handelsbonus i hver rute som allerede gir minst 1 "
 "handel."
 
-#: data/helpdata.txt:1303
+#: data/helpdata.txt:1300
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -13922,7 +13972,7 @@ msgstr ""
 "inntil det ikke lenger er matoverskudd eller at antallet lykkelige borgere "
 "ikke lenger er tilstrekkelig for feiring."
 
-#: data/helpdata.txt:1308
+#: data/helpdata.txt:1305
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -13937,7 +13987,7 @@ msgstr ""
 "ulykkelig i stedet for fornøyd. Dersom man har mange byer (avhenger av "
 "styresettet og servermuligheten \"cityfactor\"), minskes grensen til 3."
 
-#: data/helpdata.txt:1318
+#: data/helpdata.txt:1315
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -13957,7 +14007,7 @@ msgstr ""
 "innvirkning på borgernes lykkelighet (se på hjelpsiden for underverker og "
 "andre relevante seksjoner for mer info.)"
 
-#: data/helpdata.txt:1328
+#: data/helpdata.txt:1325
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -13984,7 +14034,7 @@ msgstr ""
 "katedralens virkning, avhengig av regeloppsettet), eller sette av en del "
 "handel til luksus."
 
-#: data/helpdata.txt:1347
+#: data/helpdata.txt:1344
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -13996,7 +14046,7 @@ msgstr ""
 "først er spillet over, og du har vunnet. (Men det er mulig å slå av denne "
 "muligheten som et serveralternativ.)"
 
-#: data/helpdata.txt:1353
+#: data/helpdata.txt:1350
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -14011,7 +14061,7 @@ msgstr ""
 "Rom-moduler under Byforbedringer.Dersom det ikke finnes hjelpetekster for "
 "disse objektene betyr det at servermuligheten \"spacerace\" er slått av.)"
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1358
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -14021,7 +14071,7 @@ msgstr ""
 "\"Romskip\" i menyen for \"Rapporter\". For å se andre spilleres romskip, "
 "velg en annen spiller i spillerdialogen og klikk på \"Romskip\"."
 
-#: data/helpdata.txt:1366
+#: data/helpdata.txt:1363
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -14031,7 +14081,7 @@ msgstr ""
 "brøkdel av befolkningen ombord ikke overlever reisen. Dette minsker poengsum-"
 "bonusen fra romskipet, men det teller fortsatt som en seier."
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1367
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -14039,7 +14089,7 @@ msgstr ""
 "Dersom hovedstaden i en sivilisasjon blir erobret, blir eventuelle romskip "
 "som er sendt opp tapt; så forsvar hovedstaden godt!"
 
-#: data/helpdata.txt:1373
+#: data/helpdata.txt:1370
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "

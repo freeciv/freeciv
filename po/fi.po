@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-28 22:48+0200\n"
+"POT-Creation-Date: 2010-04-06 12:33-0400\n"
 "PO-Revision-Date: 2003-11-12 19:55+0200\n"
 "Last-Translator: Sini Ruohomaa <sini.ruohomaa@iki.fi>\n"
 "Language-Team: \n"
@@ -291,6 +291,7 @@ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Vakava virhe: root-käyttäjän ei sovi ajaa minua!\n"
 
 #: common/shared.c:1129
+#, c-format
 msgid "Use a non-privileged account instead.\n"
 msgstr "Käytä mieluummin tavallista käyttäjätiliä.\n"
 
@@ -1007,6 +1008,7 @@ msgstr ""
 "Sallitut valinnat:\n"
 
 #: server/civserver.c:131 client/civclient.c:132
+#, c-format
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
@@ -1014,51 +1016,63 @@ msgstr ""
 "max:...)\n"
 
 #: server/civserver.c:134 client/civclient.c:135
+#, c-format
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d --debug NUM\tAseta debug-lokitarkkuus (0 - 3)\n"
 
 #: server/civserver.c:136
+#, c-format
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\tLataa tallennettu peli tiedostosta FILE\n"
 
 #: server/civserver.c:137
+#, c-format
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tKäytä tiedostoa FILE pelilokia varten.\n"
 
 #: server/civserver.c:138 client/civclient.c:137
+#, c-format
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tNäytä valintojen yhteenveto\n"
 
 #: server/civserver.c:139
+#, c-format
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tLisätietoja metapalvelimelle\n"
 
 #: server/civserver.c:140 client/civclient.c:138
+#, c-format
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\tKäytä tiedostoa FILE lokia varten.\n"
 
 #: server/civserver.c:141
+#, c-format
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tIlmoittaudu ja lähetä tietoa metapalvelimelle\n"
 
 #: server/civserver.c:142
+#, c-format
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, -Metaserver ADDR\tAseta ADDR metapalvelimen osoitteeksi\n"
 
 # *** "Expect client-connections to port.." ***
 #: server/civserver.c:144
+#, c-format
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tOdota client-yhteydenottoja porttiin PORT\n"
 
 #: server/civserver.c:145
+#, c-format
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TIME\tLopeta jos ei pelaajia TIME sekuntiin\n"
 
 #: server/civserver.c:146
+#, c-format
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\tLue käynnistysskripti tiedostosta FILE\n"
 
 #: server/civserver.c:147 client/civclient.c:149
+#, c-format
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tNäytä versionumero.\n"
 
@@ -1357,7 +1371,7 @@ msgstr "Peli: Lähettämäsi %s varasti teknologian %s kaupungista %s."
 msgid "Game: %s's %s stole %s from %s."
 msgstr "Peli: %s %s varastivat teknologian %s kaupungista %s."
 
-#: server/diplomats.c:665 server/plrhand.c:614
+#: server/diplomats.c:665 server/plrhand.c:617
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Peli: %s varastivat edistysaskeleen %s; %s raivoissaan."
@@ -1583,19 +1597,19 @@ msgstr "Peli: En löydä sennimistä (%s) pelaajaa enkä yhteyttä."
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Karttakehitin: liian vähän aloituspaikkoja, korjaan tilanteen."
 
-#: server/mapgen.c:1723
+#: server/mapgen.c:1757
 msgid "High landmass - this may take a few seconds."
 msgstr "Paljon maa-alaa - tässä voi mennä jonkin aikaa."
 
-#: server/mapgen.c:1939
+#: server/mapgen.c:1973
 msgid "Falling back to generator 2."
 msgstr "Palaan generaattoriin 2."
 
-#: server/mapgen.c:1954
+#: server/mapgen.c:1988
 msgid "Generator 3 didn't place all big islands."
 msgstr "3-generaattori ei asettanut kaikkia suuria saaria paikalleen."
 
-#: server/mapgen.c:1980
+#: server/mapgen.c:2014
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generaattori 3 jätti %li maa-alasta sijoittamatta."
@@ -1782,37 +1796,37 @@ msgstr "%s on löytänyt Tulevaisuuden teknologian %d."
 msgid "Game: Technology goal is %s."
 msgstr "Peli: Tutkijoiden tavoitteena on %s."
 
-#: server/plrhand.c:599
+#: server/plrhand.c:602
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "%s varkaissa - %s kateissa, %s tolaltaan"
 
-#: server/plrhand.c:605
+#: server/plrhand.c:608
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Peli: Varastit teknologian %s, %s kihisevät kiukusta."
 
-#: server/plrhand.c:609
+#: server/plrhand.c:612
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Peli: %s varastivat sinulta teknologian %s!"
 
-#: server/plrhand.c:634
+#: server/plrhand.c:637
 msgid "Game: Cannot change rates before game start."
 msgstr "Peli: Et voi muuttaa rahoitussuhteita ennen kuin peli on alkanut."
 
-#: server/plrhand.c:647 client/gui-gtk-2.0/gamedlgs.c:252
+#: server/plrhand.c:650 client/gui-gtk-2.0/gamedlgs.c:252
 #: client/gui-gtk/gamedlgs.c:243 client/gui-win32/ratesdlg.c:315
 msgid "Tax"
 msgstr "Vero"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2021
+#: server/plrhand.c:652 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "Luksus"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2023
+#: server/plrhand.c:654 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -1822,66 +1836,66 @@ msgstr "Luksus"
 msgid "Science"
 msgstr "Tiede"
 
-#: server/plrhand.c:652
+#: server/plrhand.c:655
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Peli: %s-taso on liian korkea tälle valtiomuodolle (%s)."
 
-#: server/plrhand.c:658 server/plrhand.c:785
+#: server/plrhand.c:661 server/plrhand.c:788
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "TASON VAIHDOS: %s %i %i %i"
 
-#: server/plrhand.c:704
+#: server/plrhand.c:707
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Peli: %s johtaa nyt kansaansa (%s) hallitusmuodolla %s."
 
 # Hallitusmuoto.
-#: server/plrhand.c:708
+#: server/plrhand.c:711
 #, c-format
 msgid "%s form a %s"
 msgstr "%s ovat nyt %s"
 
-#: server/plrhand.c:741
+#: server/plrhand.c:744
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Peli: %s ovat aloittaneet vallankumouksen!"
 
-#: server/plrhand.c:743
+#: server/plrhand.c:746
 #, c-format
 msgid "The %s revolt!"
 msgstr "%s aloittavat vallankumouksen!"
 
-#: server/plrhand.c:768
+#: server/plrhand.c:771
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Peli: Veron osuus on liian korkea tälle valtiomuodolle (%s); korjattu."
 
-#: server/plrhand.c:774
+#: server/plrhand.c:777
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Peli: Tutkimuksen osuus on liian korkea tälle valtiomuodolle (%s); korjattu."
 
-#: server/plrhand.c:780
+#: server/plrhand.c:783
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr ""
 "Peli: Luksuksen osuus on liian korkea tälle valtiomuodolle (%s); korjattu."
 
-#: server/plrhand.c:847
+#: server/plrhand.c:850
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "Senaatti hyväksyy esityksesi - %s ovat provosoineet jo tarpeeksi."
 
-#: server/plrhand.c:857
+#: server/plrhand.c:860
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Peli: Maineesi on nyt '%s'."
 
-#: server/plrhand.c:861
+#: server/plrhand.c:864
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1889,12 +1903,12 @@ msgstr ""
 "Peli: Senaatti päättää mieluummin hajaantua kuin tukea toimiasi yhtään "
 "enempää."
 
-#: server/plrhand.c:922
+#: server/plrhand.c:925
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Peli: %s ja %s ovat puhuneet; valtioiden välillä on nyt %s."
 
-#: server/plrhand.c:928
+#: server/plrhand.c:931
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1903,31 +1917,31 @@ msgstr ""
 "Peli: %s peruutti diplomaattisen sopimuksen - %s ja %s toteavat, että "
 "kansojen välillä on nyt %s."
 
-#: server/plrhand.c:1343
+#: server/plrhand.c:1345
 #, c-format
 msgid "Removing player %s."
 msgstr "Pelaaja %s on poistettu pelistä."
 
-#: server/plrhand.c:1344
+#: server/plrhand.c:1346
 msgid "Game: You've been removed from the game!"
 msgstr "Peli: Sinut on poistettu pelistä!"
 
-#: server/plrhand.c:1354
+#: server/plrhand.c:1356
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Peli: %s on poistettu pelistä."
 
-#: server/plrhand.c:1385 server/plrhand.c:1389
+#: server/plrhand.c:1387 server/plrhand.c:1391
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Peli: Kohdattu %s ja hallitsijansa %s."
 
-#: server/plrhand.c:1733
+#: server/plrhand.c:1735
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
-#: server/plrhand.c:1755
+#: server/plrhand.c:1757
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1935,12 +1949,12 @@ msgid ""
 msgstr ""
 "Peli: Sisällissota syttyy, %s nimitetään kapinallisten valtioiden johtajaksi."
 
-#: server/plrhand.c:1775
+#: server/plrhand.c:1777
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Peli: %s julistaa, että %s on sen liittolainen."
 
-#: server/plrhand.c:1801
+#: server/plrhand.c:1803
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2134,7 +2148,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr "(rakenteilla %s kaupungissa %s (%s))\n"
 
 #: server/report.c:321 client/gui-mui/gui_main.c:277 client/gui-xaw/menu.c:202
-#: data/helpdata.txt:797
+#: data/helpdata.txt:794
 msgid "Wonders of the World"
 msgstr "Maailman ihmeet"
 
@@ -5754,18 +5768,22 @@ msgid "(Stock,Target,Turns,Buy)"
 msgstr "(Valmiina, Tavoite, Pelivuoroa, Ostohinta)"
 
 #: client/civclient.c:130
+#, c-format
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "   -a, --autoconnect\tOhita liittymisikkuna\n"
 
 #: client/civclient.c:139
+#, c-format
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tYhdistä välipalvelimeen osoitteessa HOST\n"
 
 #: client/civclient.c:141
+#, c-format
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\tkäytä nimeä NAME\n"
 
 #: client/civclient.c:142
+#, c-format
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tYhdistä palvelimen porttiin PORT\n"
 
@@ -5775,14 +5793,17 @@ msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin LIITÄNNÄINEN   Käytä LIITÄNNÄISTÄ äänentoistoon %s\n"
 
 #: client/civclient.c:145
+#, c-format
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tYhdistä palvelimeen osoitteessa HOST\n"
 
 #: client/civclient.c:146
+#, c-format
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound TIED\tLue äänitiedot tiedostosta TIED\n"
 
 #: client/civclient.c:147
+#, c-format
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles TIED\tKäytä tiedostoa TIED.tilespec kuvitustyylinä\n"
 
@@ -6107,44 +6128,54 @@ msgstr[0] "* Voi kuljettaa %d maayksikön veden yli.\n"
 msgstr[1] "* Voi kuljettaa %d maayksikköä veden yli.\n"
 
 #: client/helpdata.c:611
+#, c-format
 msgid "* Can establish trade routes.\n"
 msgstr "* Voi luoda kauppareittejä.\n"
 
 #: client/helpdata.c:614
+#, c-format
 msgid "* Can help build wonders.\n"
 msgstr "* Voi auttaa ihmeen valmistelussa.\n"
 
 #: client/helpdata.c:617
+#, c-format
 msgid "* Can build new cities.\n"
 msgstr "* Voi perustaa uusia kaupunkeja.\n"
 
 #: client/helpdata.c:620
+#, c-format
 msgid "* Can perform settler actions.\n"
 msgstr "* Voi tehdä uudisraivaajan töitä.\n"
 
 #: client/helpdata.c:624
+#, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr ""
 "* Pystyy normaalien diplomaattitoimien lisäksi erityisiin vakoilutehtäviin.\n"
 
 #: client/helpdata.c:627
+#, c-format
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* Voi hoitaa diplomaattisia tehtäviä.\n"
 
 #: client/helpdata.c:630
+#, c-format
 msgid "* Can attack enemy air units.\n"
 msgstr "* Voi hyökätä vihollisen ilmavoimia vastaan.\n"
 
 #: client/helpdata.c:633
+#, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr ""
 "* On näkymätön paitsi aivan vihollisen yksikön tai kaupungin vieressä.\n"
 
 #: client/helpdata.c:637
+#, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* Voi hyökätä vain vesillä olevia yksiköitä vastaan (ei rannikolle).\n"
 
 #: client/helpdata.c:641
+#, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
@@ -6158,51 +6189,63 @@ msgstr ""
 "kaupungista."
 
 #: client/helpdata.c:649
+#, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* Kaksinkertaistaa puolustusvoimansa ratsastavia yksiköitä vastaan.\n"
 
 #: client/helpdata.c:654
+#, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* Lasketaan ratsastavaksi yksiköksi tiettyjä puolustajia vastaan.\n"
 
 #: client/helpdata.c:658
+#, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* Ohjusyksikkö: tuhoutuu hyökkäyksessä.\n"
 
 #: client/helpdata.c:660
+#, c-format
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* Hyökkäys päättää tämän yksikön vuoron.\n"
 
 #: client/helpdata.c:664
+#, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* Tällä yksiköllä hyökkääminen aiheuttaa ydinräjähdyksen!\n"
 
 #: client/helpdata.c:667
+#, c-format
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* Ei piittaa kaupunginmuureista.\n"
 
 #: client/helpdata.c:671
+#, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* Saa viisinkertaisen puolustustehon kaikkea lentävää vastaan.\n"
 
 #: client/helpdata.c:675
+#, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* On kotonaan maastossa kuin maastossa (kulkee kuten tiellä).\n"
 
 #: client/helpdata.c:679
+#, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr ""
 "* Hyökkää täydellä teholla vaikka täyttä liikepistettä ei olisi jäljellä.\n"
 
 #: client/helpdata.c:682
+#, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* Ei piittaa valvonta-alueista.\n"
 
 #: client/helpdata.c:685
+#, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* Siviiliyksikkö (ei voi hyökätä; ei 'sotalakeja').\n"
 
 #: client/helpdata.c:689
+#, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr ""
 "* Hyökkäysase: aiheuttaa tyytymättömyyttä vaikkei olisikaan aggressiivinen.\n"
@@ -6248,6 +6291,7 @@ msgstr ""
 "projekti vaatii %d lamppua."
 
 #: client/helpdata.c:798
+#, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr " Määrä voi vaihdella riippuen siitä mitä muut pelaajat tutkivat.\n"
 
@@ -6264,26 +6308,32 @@ msgstr ""
 "edistysaskeleen.\n"
 
 #: client/helpdata.c:818
+#, c-format
 msgid "Gives sea units one extra move.\n"
 msgstr "Merivoimien yksiköt saavat ylimääräisen liikepisteen.\n"
 
 #: client/helpdata.c:820
+#, c-format
 msgid "Increases the pollution generated by the population.\n"
 msgstr "Lisää väestön aiheuttamaa saastumista.\n"
 
 #: client/helpdata.c:822
+#, c-format
 msgid "Improves the effect of Cathedrals.\n"
 msgstr "Lisää tuomiokirkkojen vaikutusta.\n"
 
 #: client/helpdata.c:824
+#, c-format
 msgid "Reduces the effect of Cathedrals.\n"
 msgstr "Vähentää tuomiokirkkojen vaikutusta.\n"
 
 #: client/helpdata.c:826
+#, c-format
 msgid "Improves the effect of Colosseums.\n"
 msgstr "Lisää areenojen vaikutusta.\n"
 
 #: client/helpdata.c:828
+#, c-format
 msgid "Improves the effect of Temples.\n"
 msgstr "Lisää temppelien vaikutusta.\n"
 
@@ -7467,7 +7517,7 @@ msgstr "Peli: %s maksaa %d ja sinulla on vain %d ."
 #: client/gui-win32/repodlgs.c:706 client/gui-win32/repodlgs.c:715
 #: client/gui-xaw/menu.c:142 client/gui-xaw/menu.c:197
 #: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:866
-#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:808
+#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:805
 msgid "Units"
 msgstr "Yksiköt"
 
@@ -7575,7 +7625,7 @@ msgid "Presets"
 msgstr "Toimintamallit"
 
 #: client/gui-gtk-2.0/cma_fe.c:144 client/gui-gtk/cma_fe.c:154
-#: data/helpdata.txt:719
+#: data/helpdata.txt:716
 msgid "Citizen Management Agent"
 msgstr "Kaupunkiapuri"
 
@@ -8325,7 +8375,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:104 client/gui-gtk/happiness.c:101
 #: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
 #: client/gui-win32/citydlg.c:810 client/gui-win32/happiness.c:90
-#: client/gui-xaw/menu.c:225 data/helpdata.txt:1273
+#: client/gui-xaw/menu.c:225 data/helpdata.txt:1270
 msgid "Happiness"
 msgstr "Onnellisuus"
 
@@ -9019,7 +9069,7 @@ msgstr "Kaupunkien tuotanto"
 
 #: client/gui-gtk-2.0/menu.c:604 client/gui-gtk/menu.c:605
 #: client/gui-mui/gui_main.c:218 client/gui-win32/menu.c:302
-#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1116
+#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1113
 msgid "Terrain"
 msgstr "Maasto"
 
@@ -10574,7 +10624,7 @@ msgstr "Kaupungin tuotanto"
 msgid "Citymap"
 msgstr "Kaupungin kartta"
 
-#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:769
+#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:766
 msgid "City Improvements"
 msgstr "Rakennushankkeet"
 
@@ -10684,7 +10734,7 @@ msgid "_Goto and Close"
 msgstr "Siirry ja sulje"
 
 #: client/gui-mui/dialogs.c:312 client/gui-xaw/menu.c:221
-#: data/helpdata.txt:786
+#: data/helpdata.txt:783
 msgid "Technology"
 msgstr "Teknologia"
 
@@ -11090,6 +11140,7 @@ msgid "Build Railroad"
 msgstr "Rakenna rautatie"
 
 #: client/gui-mui/gui_main.c:1424
+#, c-format
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -11866,19 +11917,19 @@ msgstr "Tiet ja rautatiet"
 msgid "Fortress and Airbase"
 msgstr "Linnoitus ja lentotukikohta"
 
-#: client/gui-xaw/menu.c:211 data/helpdata.txt:381
+#: client/gui-xaw/menu.c:211 data/helpdata.txt:378
 msgid "Languages"
 msgstr "Kielet"
 
-#: client/gui-xaw/menu.c:212 data/helpdata.txt:402
+#: client/gui-xaw/menu.c:212 data/helpdata.txt:399
 msgid "Connecting"
 msgstr "Yhdistetään..."
 
-#: client/gui-xaw/menu.c:213 data/helpdata.txt:430
+#: client/gui-xaw/menu.c:213 data/helpdata.txt:427
 msgid "Controls"
 msgstr "Ohjauskomennot"
 
-#: client/gui-xaw/menu.c:214 data/helpdata.txt:497
+#: client/gui-xaw/menu.c:214 data/helpdata.txt:494
 msgid "Chatline"
 msgstr "Keskustelulinja"
 
@@ -11886,7 +11937,7 @@ msgstr "Keskustelulinja"
 msgid "Playing"
 msgstr "Pelaaminen"
 
-#: client/gui-xaw/menu.c:219 data/helpdata.txt:885
+#: client/gui-xaw/menu.c:219 data/helpdata.txt:882
 msgid "Combat"
 msgstr "Taistelu"
 
@@ -11894,15 +11945,15 @@ msgstr "Taistelu"
 msgid "ZOC"
 msgstr "Valvonta-alue"
 
-#: client/gui-xaw/menu.c:224 data/helpdata.txt:1209
+#: client/gui-xaw/menu.c:224 data/helpdata.txt:1206
 msgid "Government"
 msgstr "Hallintomuoto"
 
-#: client/gui-xaw/menu.c:226 data/helpdata.txt:1346
+#: client/gui-xaw/menu.c:226 data/helpdata.txt:1343
 msgid "Space Race"
 msgstr "Avaruuden kilpajuoksu"
 
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:79
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:76
 msgid "Copying"
 msgstr "Kopiointi"
 
@@ -12230,14 +12281,13 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  Nykyiset vastuuhenkilöt: "
 
-#: data/helpdata.txt:56
+#: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
-"\n"
-"or by sending email to:  bugs@cvs.freeciv.org"
+"  https://gna.org/projects/freeciv/"
 msgstr ""
 "Löytäessäsi ohjelmointivirheen ole ystävällinen ja raportoi meillekin. "
 "Parhaiten tämä onnistuu Freecivin palautesivuilla osoitteessa \n"
@@ -12246,7 +12296,7 @@ msgstr ""
 "\n"
 "tai lähettämällä sähköpostia osoitteeseen  bugs@cvs.freeciv.org"
 
-#: data/helpdata.txt:63
+#: data/helpdata.txt:60
 msgid ""
 "For more information about submitting bug reports see the file BUGS in the "
 "Freeciv distribution.  For more information in general, visit the Freeciv "
@@ -12255,11 +12305,11 @@ msgstr ""
 "Lisäohjeita virheraportin lähettämiseen tiedostossa BUGS jonka pitäisi tulla "
 "Freecivin mukana. Yleisiä lisätietoja Freecivistä web-sivuilla osoitteessa"
 
-#: data/helpdata.txt:80
+#: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv on GPL:n alainen ohjelma, lisenssi mukana: "
 
-#: data/helpdata.txt:382
+#: data/helpdata.txt:379
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -12290,7 +12340,7 @@ msgstr ""
 "\n"
 "  freeciv-dev@freeciv.org"
 
-#: data/helpdata.txt:403
+#: data/helpdata.txt:400
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
@@ -12300,7 +12350,7 @@ msgstr ""
 "ilmoittamalla sen nimen ja portin numeron (oletus on 5555). Jos palvelin "
 "käynnistetään -m -komennolla, se raportoi välipalvelimelle,"
 
-#: data/helpdata.txt:410
+#: data/helpdata.txt:407
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check if your WWW browser "
@@ -12320,7 +12370,7 @@ msgstr ""
 "\n"
 "ennen kuin käynnistät asiakasohjelman."
 
-#: data/helpdata.txt:419
+#: data/helpdata.txt:416
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -12337,7 +12387,7 @@ msgstr ""
 "omaa lempinimeäsi! Jos palvelin raportoi välipalvelimelle, pelaajien nimet "
 "löytyvät sieltä."
 
-#: data/helpdata.txt:431
+#: data/helpdata.txt:428
 msgid ""
 "Mouse:\n"
 "======\n"
@@ -12357,7 +12407,7 @@ msgstr ""
 "  Oikea nappi:              Keskitä ruutu näyttöön\n"
 "  SHIFT-vasen nappi:        Siirrä kaupungin työläisiä pääkartalta"
 
-#: data/helpdata.txt:440
+#: data/helpdata.txt:437
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -12467,7 +12517,7 @@ msgstr ""
 "    tabulaattori: keskity seuraavaan Ctrl-P:   \"   tuotanto\n"
 "     rivinvaihto: vuoro valmis"
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:495
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -12475,7 +12525,7 @@ msgstr ""
 "Ohjelmassa on yksinkertainen keskustelukanava. Rivit, jotka kirjoitat, "
 "lähetetään kaikille pelaajille, paitsi:"
 
-#: data/helpdata.txt:501
+#: data/helpdata.txt:498
 msgid ""
 "  - Messages starting with 'foo:' are private messages to the player named "
 "'foo'; player names can be abbreviated."
@@ -12483,7 +12533,7 @@ msgstr ""
 " - Rivit, jotka alkavat esim. 'erkki:' ovat yksityisiä viestejä pelaajalle "
 "nimeltä 'erkki'; pelaajien nimiä voi lyhentää."
 
-#: data/helpdata.txt:504
+#: data/helpdata.txt:501
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands (if the "
 "server is recent enough; regular 1.8.0 servers are not) and executed, if you "
@@ -12493,11 +12543,11 @@ msgstr ""
 "versio on tarpeeksi uusi; normaali 1.8.0-palvelin ei ole) ja suoritetaan, "
 "mikäli sinulla on riittävän korkea komentotaso."
 
-#: data/helpdata.txt:511
+#: data/helpdata.txt:508
 msgid "Worklist Editor"
 msgstr "Työlistan hallinta"
 
-#: data/helpdata.txt:512
+#: data/helpdata.txt:509
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor You can create lists "
@@ -12507,7 +12557,7 @@ msgstr ""
 "hallintoikkunasta) että maanlaajuisten työlistojen muunteluun. Käyttämällä "
 "tätä voit luoda listoja joissa määrätään tulevat rakennusprojektit."
 
-#: data/helpdata.txt:516
+#: data/helpdata.txt:513
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -12518,7 +12568,7 @@ msgstr ""
 "projektista. Jos painat Apua-nappia valitsematta ensin projektia, näet tämän "
 "sivun."
 
-#: data/helpdata.txt:520
+#: data/helpdata.txt:517
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -12526,7 +12576,7 @@ msgstr ""
 "Poistaaksesi projektin työlistalta kaksoisklikkaa sitä. Käytä nappeja listan "
 "alla siirtääksesi projektia ylös ja/tai alas listalla."
 
-#: data/helpdata.txt:523
+#: data/helpdata.txt:520
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -12540,11 +12590,11 @@ msgstr ""
 "Insert - liitä projekti saatavien listalta työlistalle ja Delete - poista "
 "projekti työlistalta."
 
-#: data/helpdata.txt:532
+#: data/helpdata.txt:529
 msgid "Strategy and tactics"
 msgstr "Strategia ja taktiikka"
 
-#: data/helpdata.txt:533
+#: data/helpdata.txt:530
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -12552,7 +12602,7 @@ msgstr ""
 "Vaikka jokainen peli on erilainen, useimmat pelaajat noudattavat tiettyä "
 "perusstrategiaa etenkin pelin alussa."
 
-#: data/helpdata.txt:536
+#: data/helpdata.txt:533
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
@@ -12560,7 +12610,7 @@ msgstr ""
 "Nämä vaiheet saattavat vaihdella riippuen palvelimen asetuksista, mutta "
 "yleensä ne ovat seuraavat: "
 
-#: data/helpdata.txt:539
+#: data/helpdata.txt:536
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -12586,7 +12636,7 @@ msgstr ""
 " 9. Oman pelistrategian kehittäminen.\n"
 "10. Muiden pelaajien kanssa asioiminen (diplomatia).\n"
 
-#: data/helpdata.txt:551
+#: data/helpdata.txt:548
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -12608,7 +12658,7 @@ msgstr ""
 "tasapainoilemaan sijainnin laadun ja paikan etsimiseen hukkautuvan ajan "
 "välillä."
 
-#: data/helpdata.txt:562
+#: data/helpdata.txt:559
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -12627,7 +12677,7 @@ msgstr ""
 "ensimmäinen yksikkö kaupungissa ja käyttää seuraavaa tutkimuksiin. Jos "
 "aloitit pelin tutkimusmatkailijayksikön kanssa, käytä luonnollisesti sitä!"
 
-#: data/helpdata.txt:571
+#: data/helpdata.txt:568
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -12646,7 +12696,7 @@ msgstr ""
 "käytetyt yksiköt ovat (voimakkuusjärjestyksessä): taistelija, falangi, "
 "keihäsmies, musketööri, kiväärimies."
 
-#: data/helpdata.txt:581
+#: data/helpdata.txt:578
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -12662,7 +12712,7 @@ msgstr ""
 "perustetaan, se alkaa tuottaa parasta tarjolla olevaa puolustusyksikköä "
 "ylläolevasta listasta."
 
-#: data/helpdata.txt:588
+#: data/helpdata.txt:585
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -12684,7 +12734,7 @@ msgstr ""
 "Muista, että suuri asukasluku nostaa sekä tuotannon määrää että "
 "sivilisaatiosi tieteen tasoa."
 
-#: data/helpdata.txt:599
+#: data/helpdata.txt:596
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -12700,7 +12750,7 @@ msgstr ""
 "lisätä käyttämällä uudisraivaajia parantamaan viljelysmaata. Maata voidaan "
 "parantaa teillä, kastelujärjestelmillä, kaivoksilla ja muilla."
 
-#: data/helpdata.txt:607
+#: data/helpdata.txt:604
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -12720,7 +12770,7 @@ msgstr ""
 "rannikolle, että sisämaahan, mutta muista että vastustajien on vaikeampi "
 "löytää kaupunkisi ellet rakenna sitä rannikolle."
 
-#: data/helpdata.txt:616
+#: data/helpdata.txt:613
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -12740,7 +12790,7 @@ msgstr ""
 "alussa on pidettävä huolta, että kaikki asukkaat ovat työllistettyjä, niin "
 "että he maksimoivat kasvun, kaupankäynnin ja tuotannon."
 
-#: data/helpdata.txt:626
+#: data/helpdata.txt:623
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -12751,7 +12801,7 @@ msgstr ""
 "mainittuihin muihin tehtäviin."
 
 # Moving citizens seems to be unnecessary.
-#: data/helpdata.txt:631
+#: data/helpdata.txt:628
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -12760,7 +12810,7 @@ msgstr ""
 "    Jos klikkaat oikealla napilla keskimmäistä ruutua, asukkaat järjestetään "
 "ruuantuotannon maksimoimiseksi."
 
-#: data/helpdata.txt:637
+#: data/helpdata.txt:634
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -12772,7 +12822,7 @@ msgstr ""
 "merkitään salamalla. Älä anna tämän tapahtua yhdellekään kaupungillesi, "
 "koska tyytymättömät kaupungit eivät tuota mitään, ja ennen pitkää kapinoivat."
 
-#: data/helpdata.txt:643
+#: data/helpdata.txt:640
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -12793,7 +12843,7 @@ msgstr ""
 "kehitysaskeleet. Diplomaatit ovat erittäin käytännöllisiä näissä asioissa, "
 "ja maksavat itsensä takaisin myöhemmin."
 
-#: data/helpdata.txt:653
+#: data/helpdata.txt:650
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -12816,7 +12866,7 @@ msgstr ""
 " - Joidenkin ihmeiden vaikutus voidaan kumota tiettyjen kehitysaskelien "
 "kehittämisellä."
 
-#: data/helpdata.txt:664
+#: data/helpdata.txt:661
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -12839,7 +12889,7 @@ msgstr ""
 "Löydät sieltä lisää pelivinkkejä ja ohjeita yhteyden ottamiseen muiden "
 "pelaajien kanssa."
 
-#: data/helpdata.txt:675
+#: data/helpdata.txt:672
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -12854,7 +12904,7 @@ msgstr ""
 "emmekä me tarkoita vakoojien ja diplomaattien käyttöä varastamiseen ja "
 "yllyttämiseen."
 
-#: data/helpdata.txt:682
+#: data/helpdata.txt:679
 msgid ""
 "    If you have established an embassy with another human player, then you "
 "can arrange a diplomatic meeting. This is done by going to the `Game' menu, "
@@ -12868,7 +12918,7 @@ msgstr ""
 "on lähetystö (jonka merkkinä on 'X') ja toinen pelaaja on yhdistetty "
 "palvelimeen, neuvotteluvalikko avautuu."
 
-#: data/helpdata.txt:689
+#: data/helpdata.txt:686
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -12890,7 +12940,7 @@ msgstr ""
 "\n"
 "   - Antaa rahaa."
 
-#: data/helpdata.txt:699
+#: data/helpdata.txt:696
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
@@ -12899,7 +12949,7 @@ msgstr ""
 "edistysaskelta tai kaupunkia rahaan - voit pitää tätä ostamisena ja "
 "myymisenä."
 
-#: data/helpdata.txt:703
+#: data/helpdata.txt:700
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -12913,7 +12963,7 @@ msgstr ""
 "\n"
 "   - Jos jokin kaupunki ei näy kartallasi, et voi vaatia sitä."
 
-#: data/helpdata.txt:709
+#: data/helpdata.txt:706
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -12928,7 +12978,7 @@ msgstr ""
 "kaupungeissa). Muista varmistaa, että toinen pelaaja ei saa parempaa "
 "sopimusta kuin kuvittelet."
 
-#: data/helpdata.txt:720
+#: data/helpdata.txt:717
 msgid ""
 "The Citizen Management Agent (CMA) helps you manage your cities. It deploys "
 "the available workers on the free tiles around the city to achieve maximal "
@@ -13008,7 +13058,7 @@ msgstr ""
 "kaikkia saman saaren kaupunkeja. Lisää vihjeitä, taustatietoa ja esimerkkejä "
 "on Freecivin mukana tulevassa tiedostossa README.cma.\n"
 
-#: data/helpdata.txt:770
+#: data/helpdata.txt:767
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -13020,7 +13070,7 @@ msgstr ""
 "maksettava joka kierroksella. Jos sinulla ei ole varaa ylläpitää jotain "
 "rakennusta, se myydään automaattisesti."
 
-#: data/helpdata.txt:787
+#: data/helpdata.txt:784
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -13028,7 +13078,7 @@ msgstr ""
 "Uusien teknologioiden kehittäminen on välttämätöntä, jotta sivilisaatiosi "
 "voisi kehittää uusia sotilasyksiköitä ja rakennushankkeita."
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:795
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -13036,7 +13086,7 @@ msgstr ""
 "Kaikista ihmeistä on etuja sivilisaatiollesi. Jokainen ihme on erilainen ja "
 "se sijoitetaan siihen kaupunkiin, joka sen valmisti."
 
-#: data/helpdata.txt:809
+#: data/helpdata.txt:806
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -13046,7 +13096,7 @@ msgstr ""
 "Eri yksiköt sopivat eri tavalla näihin tarkoituksiin riippuen niiden "
 "puolustus- ja hyökkäyskyvystä sekä liikkumiskyvystä."
 
-#: data/helpdata.txt:814
+#: data/helpdata.txt:811
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -13056,7 +13106,7 @@ msgstr ""
 "(Helikopterit poikkeavat niin merkittävästi muista ilmayksiköistä, että on "
 "helpointa ajatella ne aivan omaksi yksikkötyypikseen)."
 
-#: data/helpdata.txt:819
+#: data/helpdata.txt:816
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -13085,7 +13135,7 @@ msgstr ""
 "tyytyväisyyteen, eivätkä ne voi hyökätä vihollisen kimppuun tai valloittaa "
 "vihollisen kaupunkeja."
 
-#: data/helpdata.txt:832
+#: data/helpdata.txt:829
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -13101,7 +13151,7 @@ msgstr ""
 "rannikolle ja rannikon kaupunkiin, mutta ne eivät voi valloittaa vihollisen "
 "kaupunkia, vaikka kaupungissa ei olisi puolustavia yksiköitä."
 
-#: data/helpdata.txt:839
+#: data/helpdata.txt:836
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -13125,7 +13175,7 @@ msgstr ""
 "hävittäjälentokoneet. Ilma-aluksia ei voi käyttää kylien tutkimiseen; "
 "palvelinasetuksista riippuen ylilennetty kylä saattaa kadota."
 
-#: data/helpdata.txt:851
+#: data/helpdata.txt:848
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -13142,7 +13192,7 @@ msgstr ""
 "Yhdistyneitä Kansakuntia. Toisista ilma-aluksista poiketen helikopterit "
 "voivat vallata viholliskaupunkeja."
 
-#: data/helpdata.txt:858
+#: data/helpdata.txt:855
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -13176,7 +13226,7 @@ msgstr ""
 "leiriytyneet yksiköt aktivoituvat kun ne ovat saaneet kaikki voimapisteensä "
 "takaisin."
 
-#: data/helpdata.txt:875
+#: data/helpdata.txt:872
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -13186,7 +13236,7 @@ msgstr ""
 "hyökätessään vähentää kaupungin asukkaita yhdellä, ellei kaupungissa ole "
 "muuria."
 
-#: data/helpdata.txt:886
+#: data/helpdata.txt:883
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -13196,15 +13246,15 @@ msgstr ""
 "(paitsi jos hyökkääjä on ohjus, jolloin molemmat tuhoutuvat). Lopputulos "
 "riippuu useista eri tekijöistä, myös sattumasta."
 
-#: data/helpdata.txt:891
+#: data/helpdata.txt:888
 msgid "First, the attacker's strength is modified."
 msgstr "Ensin lasketaan hyökkääjän voimat."
 
-#: data/helpdata.txt:893
+#: data/helpdata.txt:890
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - Jos hyökkääjä on konkari, sen voimakkuus kerrotaan 1,5:llä."
 
-#: data/helpdata.txt:895
+#: data/helpdata.txt:892
 msgid ""
 " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 movement "
 "point left, its strength is divided by 3; if it has 2/3 movement point, its "
@@ -13216,23 +13266,23 @@ msgstr ""
 "liikepisteistä, sen voimat kerrotaan 2/3:lla. Jos hyökkääjällä on vähintään "
 "1 liikepiste jäljellä, ei enempää muutoksia tehdä."
 
-#: data/helpdata.txt:901
+#: data/helpdata.txt:898
 msgid "Next, the defender's strength is modified."
 msgstr "Sitten lasketaan puolustajan voimat."
 
-#: data/helpdata.txt:903
+#: data/helpdata.txt:900
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - Jos puolustaja on konkari, sen voimakkuus kerrotaan 1,5:llä."
 
-#: data/helpdata.txt:906
+#: data/helpdata.txt:903
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr ""
 " - Sitten puolustajan voimakkuus kerrotaan maaston puolustuskertoimella."
 
-#: data/helpdata.txt:909
+#: data/helpdata.txt:906
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
@@ -13240,7 +13290,7 @@ msgstr ""
 " - Seuraavaksi puolustajan voimat kaksinkertaistetaan, jos kyseessä on "
 "keihäsmies-yksikkö puolustautumassa hevosilla hyökkäävää vihollista vastaan."
 
-#: data/helpdata.txt:912
+#: data/helpdata.txt:909
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -13248,7 +13298,7 @@ msgstr ""
 " - Jos kyseessä on ohjusristeilijä puolustautumassa ilma-aluksia "
 "(mukaanlukien ohjukset ja helikopterit), puolustuskyky viisinkertaistetaan."
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:913
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -13258,7 +13308,7 @@ msgstr ""
 "on rakennettu ohjuspatteri ja hyökkääjä on ilma-alus (paitsi helikopteri) "
 "tai ohjus."
 
-#: data/helpdata.txt:920
+#: data/helpdata.txt:917
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
@@ -13266,7 +13316,7 @@ msgstr ""
 " - Tähtien sota -puolustus (SDI) kaksinkertaistaa vielä kerran puolustajan "
 "voimat ohjusiskuja vastaan."
 
-#: data/helpdata.txt:923
+#: data/helpdata.txt:920
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -13274,7 +13324,7 @@ msgstr ""
 " - Jos hyökkääjä on laiva ja puolustaja on kaupungissa, johon on rakennettu "
 "rannikkopuolustus, puolustajan voimat kaksinkertaistetaan."
 
-#: data/helpdata.txt:926
+#: data/helpdata.txt:923
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -13283,7 +13333,7 @@ msgstr ""
 "muurien suojaamassa kaupungissa puolustautuvat yksiköt kolminkertaistavat "
 "voimansa."
 
-#: data/helpdata.txt:930
+#: data/helpdata.txt:927
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
@@ -13291,7 +13341,7 @@ msgstr ""
 " - Jos puolustaja on linnakkeessa (eikä kaupungissa), sen voimat "
 "kaksinkertaistetaan."
 
-#: data/helpdata.txt:933
+#: data/helpdata.txt:930
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -13299,7 +13349,7 @@ msgstr ""
 " - Lopuksi, jos puolustaja on maavoimien yksikkö ja se on joko "
 "linnoittautunut tai kaupungissa, sen voimakkuus kerrotaan 1.5:llä."
 
-#: data/helpdata.txt:936
+#: data/helpdata.txt:933
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -13308,11 +13358,11 @@ msgstr ""
 "Jos näiden laskentojen jälkeen hyökkääjän voimakkuus on 0, se häviää "
 "automaattisesti. Muuten, jos puolustajan voimakkuus on 0, puolustaja häviää."
 
-#: data/helpdata.txt:940
+#: data/helpdata.txt:937
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "Myös hyökkääjän ja pulustajan tulivoimia muunnetaan."
 
-#: data/helpdata.txt:942
+#: data/helpdata.txt:939
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -13320,7 +13370,7 @@ msgstr ""
 "- Jos puolustaja on laiva ja kaupungin sisällä, hyökkääjän tulivoima "
 "kaksinkertaistuu ja laivan tulivoimaksi tulee 1."
 
-#: data/helpdata.txt:945
+#: data/helpdata.txt:942
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -13328,7 +13378,7 @@ msgstr ""
 "- Jos hävittäjälentokone hyökkää helikopterin kimppuun, helikopterin "
 "tulivoimaksi tulee 1."
 
-#: data/helpdata.txt:948
+#: data/helpdata.txt:945
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -13336,7 +13386,7 @@ msgstr ""
 "- Jos laiva hyökkää maalla olevan maayksikön kimppuun, molempien "
 "tulivoimaksi tulee 1."
 
-#: data/helpdata.txt:951
+#: data/helpdata.txt:948
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -13354,7 +13404,7 @@ msgstr ""
 "tapauksessa hyökkääjä menettää voimapisteitä puolustajan tulivoiman mukaan. "
 "Ensimmäinen yksikkö, jonka voimapisteet loppuvat, häviää. "
 
-#: data/helpdata.txt:966
+#: data/helpdata.txt:963
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -13367,7 +13417,7 @@ msgstr ""
 "se ole vanhentunut), yksiköstä tulee aina konkari. Muussa tapauksessa, "
 "todennäköisyys tulla konkariksi on 50%."
 
-#: data/helpdata.txt:972
+#: data/helpdata.txt:969
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -13375,7 +13425,7 @@ msgstr ""
 "Jos voittava hyökkääjä on maavoimien yksikkö ja häviävä puolustaja on "
 "kaupungissa, jonka suojana ei ole muureja, kaupungin koko pienenee yhdellä."
 
-#: data/helpdata.txt:975
+#: data/helpdata.txt:972
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -13383,11 +13433,11 @@ msgstr ""
 "Jos puolustaja häviää eikä se ole kaupungissa tai linnakkeessa, kaikki muut "
 "yksiköt samassa ruudussa tuhoutuvat samalla kertaa."
 
-#: data/helpdata.txt:982
+#: data/helpdata.txt:979
 msgid " Combat example 1"
 msgstr " Taisteluesimerkki 1"
 
-#: data/helpdata.txt:983
+#: data/helpdata.txt:980
 msgid ""
 "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
@@ -13397,7 +13447,7 @@ msgstr ""
 "liikepisteistä 2/3 on jäljellä, hyökkää musketöörin (H:3, P:3, VP:20, TV:1), "
 "joka on muurein suojatussa, metsäruudulle rakennetussa kaupungissa, kimppuun."
 
-#: data/helpdata.txt:987
+#: data/helpdata.txt:984
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
@@ -13405,7 +13455,7 @@ msgstr ""
 "Hyökkääjän perusvoimakkuus on 8. konkarilla se on 12, mutta koska sillä on "
 "vain 2/3 liikepisteistä jäljellä sen lopullinen voimakkuus on 8."
 
-#: data/helpdata.txt:990
+#: data/helpdata.txt:987
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -13417,7 +13467,7 @@ msgstr ""
 "kolminkertaistuu 13,5:ksi. Se on maavoimien yksikkö kaupungin sisällä, joten "
 "sen voimakkuus on lopulta 20,25."
 
-#: data/helpdata.txt:995
+#: data/helpdata.txt:992
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -13427,11 +13477,11 @@ msgstr ""
 "desimaalit typistetään, eli hyökkääjän voimakkuus on 80 ja puolustajan "
 "voimakkuus on 202."
 
-#: data/helpdata.txt:999
+#: data/helpdata.txt:996
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "Kummankin yksikön tulivoima (1) pysyy samana."
 
-#: data/helpdata.txt:1002
+#: data/helpdata.txt:999
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -13443,7 +13493,7 @@ msgstr ""
 "menettää 1 voimapisteen. Muussa tapauksessa (noin 72% todennäköisyys) "
 "hyökkääjä menettää 1 pisteen."
 
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1010
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -13459,11 +13509,11 @@ msgstr ""
 "koskemattomana tai menettää valtaosan voimapisteistään, tai jopa hävitä "
 "taistelun."
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1020
 msgid " Combat example 2"
 msgstr " Taisteluesimerkki 2"
 
-#: data/helpdata.txt:1024
+#: data/helpdata.txt:1021
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -13474,11 +13524,11 @@ msgstr ""
 "joka on ruohomaalle rakennetussa, muurein ja rannikkopuolustuksella "
 "suojatussa kaupungissa, kimppuun."
 
-#: data/helpdata.txt:1029
+#: data/helpdata.txt:1026
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "Hyökkääjän perusvoima on 12, konkarilla se on kuitenkin 18."
 
-#: data/helpdata.txt:1032
+#: data/helpdata.txt:1029
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -13492,7 +13542,7 @@ msgstr ""
 "hyökkäystä vastaan. Puolustaja on maavoimien yksikkö kaupungissa, joten sen "
 "kokonaisvoima on 22,5."
 
-#: data/helpdata.txt:1038
+#: data/helpdata.txt:1035
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
@@ -13500,11 +13550,11 @@ msgstr ""
 "Sisäisessä laskennassa käytetyt arvot hyökkääjän ja puolustajan voimalle "
 "ovat 180 ja 225."
 
-#: data/helpdata.txt:1041
+#: data/helpdata.txt:1038
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "Taistelulaivan tulivoima muutetaan kahdesta yhdeksi."
 
-#: data/helpdata.txt:1044
+#: data/helpdata.txt:1041
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -13515,7 +13565,7 @@ msgstr ""
 "kuin 225 (noin 44% mahdollisuus), puolustaja menettää yhden voimapisteen. "
 "Muussa tapauksessa hyökkääjä menettää yhden voimapisteen."
 
-#: data/helpdata.txt:1055
+#: data/helpdata.txt:1052
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -13530,11 +13580,11 @@ msgstr ""
 "voisi olettaa menettävän noin 60% voimapisteistään taistelun aikana, eikä "
 "sillä pitäisi jälkeenpäin olla liikepisteitä jäljellä."
 
-#: data/helpdata.txt:1064
+#: data/helpdata.txt:1061
 msgid "Zones of Control"
 msgstr "Valvonta-alueet"
 
-#: data/helpdata.txt:1065
+#: data/helpdata.txt:1062
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -13543,7 +13593,7 @@ msgstr ""
 "vapaasti liikkumasta alueilla, jotka ovat kokonaan tai osittain vihollisen "
 "joukkojen valvomia."
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1066
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -13556,7 +13606,7 @@ msgstr ""
 "vihollisyksikön vieressä. Vierekkäiseksi lasketaan kaikki kahdeksan yksikköä "
 "ympäröivää ruutua."
 
-#: data/helpdata.txt:1075
+#: data/helpdata.txt:1072
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -13570,7 +13620,7 @@ msgstr ""
 "- Yksikkö on juuri nousemassa maihin laivasta.\n"
 "- Yksikkö ei lainkaan välitä valvonta-alueista, esimerkiksi diplomaatti."
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1078
 msgid ""
 "Notes:\n"
 "\n"
@@ -13609,7 +13659,7 @@ msgstr ""
 "sallittua ystävällismielistä yksikköä (eli laivaa) koskevan säännön "
 "perusteella."
 
-#: data/helpdata.txt:1101
+#: data/helpdata.txt:1098
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -13623,7 +13673,7 @@ msgstr ""
 "mahdollisesti jättämällä joitain yksikköjä jälkeen pitääksesi ruudut "
 "miehitettyinä) voit tehdä kulkuväyliä vihollisen alueen läpi."
 
-#: data/helpdata.txt:1108
+#: data/helpdata.txt:1105
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -13635,7 +13685,7 @@ msgstr ""
 "- Tyhjät viholliskaupungit eivät enää luo valvottuja alueita.\n"
 "- Maihinnousua koskeva erikoistapaus on uusi."
 
-#: data/helpdata.txt:1117
+#: data/helpdata.txt:1114
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -13646,7 +13696,7 @@ msgstr ""
 "on riittävästi elintarviketuotantoon soveltuvia alueita väestön "
 "kasvattamiseksi."
 
-#: data/helpdata.txt:1122
+#: data/helpdata.txt:1119
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
@@ -13654,11 +13704,11 @@ msgstr ""
 "Jonkin ruudun nettohyöty kaupungillesi riippuu niin hallitusmuodostasi kuin "
 "kaupungissa toteutetuista rakennushankkeista ja ihmeistäkin."
 
-#: data/helpdata.txt:1131
+#: data/helpdata.txt:1128
 msgid " Terrain Alterations"
 msgstr " Maastotyypin muutokset"
 
-#: data/helpdata.txt:1132
+#: data/helpdata.txt:1129
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
@@ -13666,7 +13716,7 @@ msgstr ""
 "Uudisraivaajat ja teknikot pystyvät muuttamaan peliruutujen maastotyyppiä "
 "monin tavoin."
 
-#: data/helpdata.txt:1135
+#: data/helpdata.txt:1132
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -13682,7 +13732,7 @@ msgstr ""
 "teknologisen tason saavutettuasi voit muokata viljelymaasi vielä uudelleen, "
 "jolloin se muuttuu vielä tuottavammaksi peltomaaksi."
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1140
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -13690,7 +13740,7 @@ msgstr ""
 "Joihinkin maastotyyppeihin voi rakentaa kaivoksen, mikä lisää raaka-aineiden "
 "tuotantoa ruudulla."
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1143
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -13702,7 +13752,7 @@ msgstr ""
 "sillanrakennustaito). Tiet ja rautatiet sallivat yksiköillesi nopeamman "
 "liikkumisen, ja ne lisäävät kaupunkien tuotantoa."
 
-#: data/helpdata.txt:1151
+#: data/helpdata.txt:1148
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -13710,7 +13760,7 @@ msgstr ""
 " - Yksiköt käyttävät vain 1/3 liikepistettä siirtyäkseen tietä pitkin "
 "ruudulta toiselle."
 
-#: data/helpdata.txt:1154
+#: data/helpdata.txt:1151
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -13718,12 +13768,12 @@ msgstr ""
 " - Rautatietä pitkin kulkevat yksiköt eivät kuluta liikepisteitä lainkaan. "
 "Voit ajella junalla loputtomiin."
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1154
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr " - Tie saattaa lisätä joidenkin maastotyyppien kaupankäyntiä."
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1157
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -13733,7 +13783,7 @@ msgstr ""
 "riippuen rautatie voi lisätä myös ruuan ja kauppatavaroiden tuotantoa, tai "
 "raaka-ainetuotannon muutos voi olla jotain muuta kuin 50%)."
 
-#: data/helpdata.txt:1165
+#: data/helpdata.txt:1162
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -13744,14 +13794,14 @@ msgstr ""
 "verrattuna; ne on myös tuhottava yksi kerrallaan. Katso taistelun ohjetta "
 "saadaksesi lisätietoja."
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1167
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr ""
 "Voit rakentaa myös lentokenttiä, joille ilma-aluksesi voivat laskeutua "
 "tankkaamista varten."
 
-#: data/helpdata.txt:1173
+#: data/helpdata.txt:1170
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -13763,11 +13813,11 @@ msgstr ""
 "(pyöristetään ylöspäin), ja aikaa voidaan vielä lyhentää käyttämällä "
 "tehtävään useampia yksiköitä yhtä aikaa."
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1180
 msgid "  Pillaging"
 msgstr "  Turmeleminen"
 
-#: data/helpdata.txt:1184
+#: data/helpdata.txt:1181
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -13780,7 +13830,7 @@ msgstr ""
 "muutos milloinkin tuhotaan, tai sitten ne turmellaan seuraavassa "
 "järjestyksessä:"
 
-#: data/helpdata.txt:1190
+#: data/helpdata.txt:1187
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -13798,7 +13848,7 @@ msgstr ""
 " - rautatie\n"
 " - tie"
 
-#: data/helpdata.txt:1198
+#: data/helpdata.txt:1195
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -13812,7 +13862,7 @@ msgstr ""
 "muutettu metsämaa ei palaa metsäksi turmelemalla, vaan tehtävään tarvitaan "
 "uudisraivaaja tai teknikko, joka istuttaa metsän takaisin."
 
-#: data/helpdata.txt:1210
+#: data/helpdata.txt:1207
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -13821,7 +13871,7 @@ msgstr ""
 "kansalaistesi tyytyväisyyteen ja moniin muihin pelin kulkuun vaikuttaviin "
 "seikkoihin."
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1210
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -13834,7 +13884,7 @@ msgstr ""
 "on tehtävä vallankumous. Tämä johtaa sivilisaatiosi anarkiaan, jota kestää 1-"
 "5 pelivuoroa. Tämän jakson lopulla voit valita uuden hallitusmuotosi."
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1217
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -13848,7 +13898,7 @@ msgstr ""
 "pääkaupunkia, lahjonta paisuu todelliseksi ongelmaksi kaikissa "
 "kaupungeissasi. Käräjätalo vähentää lahjonnan määrää kaupungissa."
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1224
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -13861,7 +13911,7 @@ msgstr ""
 "sivilisaatioita saattaa olla edullista vaihtaa vähän sotilaallisempaan "
 "hallitusmuotoon."
 
-#: data/helpdata.txt:1233
+#: data/helpdata.txt:1230
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13874,11 +13924,11 @@ msgstr ""
 "edistyksellisen teknologian saavuttaminen varhaisessa pelin vaiheessa antaa "
 "sinulle etulyöntiaseman."
 
-#: data/helpdata.txt:1242
+#: data/helpdata.txt:1239
 msgid " Civil War"
 msgstr " Sisällissota"
 
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1240
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13890,7 +13940,7 @@ msgstr ""
 "kapinoi ja liittoutuu uuden AI-johtajan kanssa. Hän saa puolet "
 "käteisvaroistasi ja kaiken teknologisen tietämyksesi."
 
-#: data/helpdata.txt:1249
+#: data/helpdata.txt:1246
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
@@ -13898,7 +13948,7 @@ msgstr ""
 "Sisällissota kestää vain yhden pelivuoron ajan, jonka jälkeen valtakuntasi "
 "on anarkiassa."
 
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1249
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13910,7 +13960,7 @@ msgstr ""
 "Jokainen juhliva kaupunki vähentää sisällissodan todennäköisyyttä ja "
 "jokainen kapinoiva kaupunki vastaavasti lisää sitä."
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1255
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13920,7 +13970,7 @@ msgstr ""
 "Mitä yksinvaltaisempi hallitusmuotosi on, sitä suurempi on todennäköisyys, "
 "että kansa alkaa kapinoimaan."
 
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1259
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13931,7 +13981,7 @@ msgstr ""
 "sisällissodalta. Tämä palvelinkohtainen asetus saattaa kuitenkin vaihdella. "
 "Sen pienin sallittu arvo on 6."
 
-#: data/helpdata.txt:1274
+#: data/helpdata.txt:1271
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13945,7 +13995,7 @@ msgstr ""
 "syntyy sekasortoa, joka estää kaiken tuotannon; onnelliset asukkaat taas "
 "järjestävät suuria juhlia ja tuottavuus kaupungissa kasvaa hurjasti."
 
-#: data/helpdata.txt:1281
+#: data/helpdata.txt:1278
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13959,7 +14009,7 @@ msgstr ""
 "epäjärjestys saattaa johtaa kapinaan ja spontaaniin vallankumoukseen, mikäli "
 "hallitusmuotosi on demokratia."
 
-#: data/helpdata.txt:1288
+#: data/helpdata.txt:1285
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13972,7 +14022,7 @@ msgstr ""
 "kolme, kaupunki alkaa juhlia. Juhlinnan vaikutukset riippuvat "
 "hallintomuodostasi:"
 
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1292
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13982,7 +14032,7 @@ msgstr ""
 "niillä ruuduilla, jotka tuottavat yli kaksi yksikköä mitä tahansa "
 "tuotantopanosta (ruokaa, raaka-aineita tai kauppatavaroita)."
 
-#: data/helpdata.txt:1299
+#: data/helpdata.txt:1296
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13993,7 +14043,7 @@ msgstr ""
 "ruuduille, jotka ennestään tuottavat vähintään yhden yksikön verran "
 "kauppatavaroita."
 
-#: data/helpdata.txt:1303
+#: data/helpdata.txt:1300
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -14003,7 +14053,7 @@ msgstr ""
 "pelivuorolla, kunnes ruuasta ei ole enää riittävästi tuotantoa tai "
 "onnellisten asukkaiden määrä ei enää riitä juhlimiseen."
 
-#: data/helpdata.txt:1308
+#: data/helpdata.txt:1305
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -14018,7 +14068,7 @@ msgstr ""
 "tyytymätön. Jos sinulla on paljon kaupunkeja (riippuen taas "
 "hallitusmuodostasi ja palvelimen asetuksista) tämä raja-arvo laskee kolmeen."
 
-#: data/helpdata.txt:1318
+#: data/helpdata.txt:1315
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -14038,7 +14088,7 @@ msgstr ""
 "rauhallisiksi ja/tai onnellisiksi. Jotkin ihmeet vaikuttavat myöskin "
 "asukkaiden tyytyväisyyteen (katso lisätietoja kyseisestä kohdasta)."
 
-#: data/helpdata.txt:1328
+#: data/helpdata.txt:1325
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -14066,7 +14116,7 @@ msgstr ""
 "tuomiokirkkojen vaikutuksen, riippuen palvelimen asetuksista), tai "
 "muuttamalla kauppaa luksukseksi."
 
-#: data/helpdata.txt:1347
+#: data/helpdata.txt:1344
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -14079,7 +14129,7 @@ msgstr ""
 "mahdollisuus saattaa kuitenkin olla pois päältä, riippuen taas palvelimen "
 "asetuksista."
 
-#: data/helpdata.txt:1353
+#: data/helpdata.txt:1350
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -14093,7 +14143,7 @@ msgstr ""
 "osille: katso avaruusaluksen osien ohjetekstejä. Ellei ohjetekstejä löydy, "
 "on mahdollisuus voittaa peli tällä tavalla ilmeisesti kytketty pois päältä."
 
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1358
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -14104,7 +14154,7 @@ msgstr ""
 "avaruusalukset, valitse pelaaja valikosta Peli/Pelaajat ja klikkaa kohtaa "
 "\"Avaruusalus\"."
 
-#: data/helpdata.txt:1366
+#: data/helpdata.txt:1363
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -14114,7 +14164,7 @@ msgstr ""
 "menehtyä matkan aikana. Tämä vähentää avaruusaluksesta saamiasi "
 "bonuspisteitä, mutta voitat pelin silti."
 
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1367
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -14122,7 +14172,7 @@ msgstr ""
 "Jos sivilisaation pääkaupunki vallataan, laukaistu avaruusalus menetetään, "
 "eli puolusta pääkaupunkiasi hyvin!"
 
-#: data/helpdata.txt:1373
+#: data/helpdata.txt:1370
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "

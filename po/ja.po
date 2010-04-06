@@ -30,7 +30,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.3-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2004-08-28 22:48+0200\n"
+"POT-Creation-Date: 2010-04-06 12:33-0400\n"
 "PO-Revision-Date: 2003-11-23 15:20+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -308,6 +308,7 @@ msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: 致命的エラー: スーパーユーザで起動しようとしています!\n"
 
 #: common/shared.c:1129
+#, c-format
 msgid "Use a non-privileged account instead.\n"
 msgstr "特権のないアカウントをかわりに使って下さい。\n"
 
@@ -1026,6 +1027,7 @@ msgstr ""
 "有効なオプション:\n"
 
 #: server/civserver.c:131 client/civclient.c:132
+#, c-format
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
@@ -1033,50 +1035,62 @@ msgstr ""
 "イル1,最小,最大:...)\n"
 
 #: server/civserver.c:134 client/civclient.c:135
+#, c-format
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NUM\tデバックログレベルをセットする(0 から 3)\n"
 
 #: server/civserver.c:136
+#, c-format
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FILE\t保存されたゲーム FILE をロードする\n"
 
 #: server/civserver.c:137
+#, c-format
 msgid "  -g, --gamelog FILE\tUse FILE as game logfile\n"
 msgstr "  -g, --gamelog FILE\tゲームの記録ファイルとして FILE を使う\n"
 
 #: server/civserver.c:138 client/civclient.c:137
+#, c-format
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tオプションの一覧を表示\n"
 
 #: server/civserver.c:139
+#, c-format
 msgid "  -i, --info INFO\tExtra info for the metaserver\n"
 msgstr "  -i, --info INFO\tメタサーバへの追加情報\n"
 
 #: server/civserver.c:140 client/civclient.c:138
+#, c-format
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log FILE\t記録ファイルとして FILE を使う\n"
 
 #: server/civserver.c:141
+#, c-format
 msgid "  -m, --meta\t\tnotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tメタサーバへ通知しサーバの情報を送る\n"
 
 #: server/civserver.c:142
+#, c-format
 msgid "  -M, --Metaserver ADDR\tSet ADDR as metaserver address\n"
 msgstr "  -M, --Metaserver ADDR\tメタサーバの所在として ADDR をセットする\n"
 
 #: server/civserver.c:144
+#, c-format
 msgid "  -p, --port PORT\tListen for clients on port PORT\n"
 msgstr "  -p, --port PORT\tポート PORT でクライアントを待つ\n"
 
 #: server/civserver.c:145
+#, c-format
 msgid "  -q, --quitidle TIME\tQuit if no players for TIME seconds\n"
 msgstr "  -q, --quitidle TIME\tTIME 秒プレイヤーが存在しなれれば終了する\n"
 
 #: server/civserver.c:146
+#, c-format
 msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read FILE\t起動スクリプト FILE を読む\n"
 
 #: server/civserver.c:147 client/civclient.c:149
+#, c-format
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tバージョン番号を表示する\n"
 
@@ -1399,7 +1413,7 @@ msgid "Game: %s's %s stole %s from %s."
 msgstr "Game: %1$sの%2$sは%4$sから%3$sを盗みました。"
 
 # yasu, ama
-#: server/diplomats.c:665 server/plrhand.c:614
+#: server/diplomats.c:665 server/plrhand.c:617
 #, c-format
 msgid "Game: The %s have stolen %s from the %s."
 msgstr "Game: %1$sは%3$sから%2$sを盗みました。"
@@ -1625,19 +1639,19 @@ msgstr "Game: %s という名前のプレイヤーもしくは接続はありません。"
 msgid "Map generator: not enough start positions, fixing."
 msgstr "Map generator: 十分なスタート地点がありません。修正中。"
 
-#: server/mapgen.c:1723
+#: server/mapgen.c:1757
 msgid "High landmass - this may take a few seconds."
 msgstr "多大陸 - 少し時間がかかるかもしれません。"
 
-#: server/mapgen.c:1939
+#: server/mapgen.c:1973
 msgid "Falling back to generator 2."
 msgstr "Generator 2 を試みます。"
 
-#: server/mapgen.c:1954
+#: server/mapgen.c:1988
 msgid "Generator 3 didn't place all big islands."
 msgstr "Generator 3 は大きな島のいくつかを配置できません。"
 
-#: server/mapgen.c:1980
+#: server/mapgen.c:2014
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "Generator 3 は配置しなかった%liの島を残しました。"
@@ -1830,38 +1844,38 @@ msgstr "%sは先端技術%d を発見しました。"
 msgid "Game: Technology goal is %s."
 msgstr "Game: 科学の目標は%sです。"
 
-#: server/plrhand.c:599
+#: server/plrhand.c:602
 #, c-format
 msgid "%s steal %s from %s"
 msgstr "%1$sは%3$sから%2$sを盗みます"
 
-#: server/plrhand.c:605
+#: server/plrhand.c:608
 #, c-format
 msgid "Game: You steal %s from the %s."
 msgstr "Game: %2$sから%1$sを盗みます。"
 
-#: server/plrhand.c:609
+#: server/plrhand.c:612
 #, c-format
 msgid "Game: The %s stole %s from you!"
 msgstr "Game: %sはあなたから%sを盗みました!"
 
 # yasu
-#: server/plrhand.c:634
+#: server/plrhand.c:637
 msgid "Game: Cannot change rates before game start."
 msgstr "Game: ゲーム開始前に比率は変えられません。"
 
-#: server/plrhand.c:647 client/gui-gtk-2.0/gamedlgs.c:252
+#: server/plrhand.c:650 client/gui-gtk-2.0/gamedlgs.c:252
 #: client/gui-gtk/gamedlgs.c:243 client/gui-win32/ratesdlg.c:315
 msgid "Tax"
 msgstr "税"
 
-#: server/plrhand.c:649 client/agents/cma_core.c:2021
+#: server/plrhand.c:652 client/agents/cma_core.c:2021
 #: client/gui-gtk-2.0/gamedlgs.c:272 client/gui-gtk/gamedlgs.c:263
 #: client/gui-mui/citydlg.c:1691 client/gui-win32/ratesdlg.c:321
 msgid "Luxury"
 msgstr "贅沢"
 
-#: server/plrhand.c:651 client/agents/cma_core.c:2023
+#: server/plrhand.c:654 client/agents/cma_core.c:2023
 #: client/gui-gtk-2.0/gamedlgs.c:292 client/gui-gtk-2.0/repodlgs.c:128
 #: client/gui-gtk/gamedlgs.c:283 client/gui-gtk/repodlgs.c:139
 #: client/gui-mui/citydlg.c:1695 client/gui-mui/repodlgs.c:280
@@ -1871,68 +1885,68 @@ msgstr "贅沢"
 msgid "Science"
 msgstr "科学"
 
-#: server/plrhand.c:652
+#: server/plrhand.c:655
 #, c-format
 msgid "Game: %s rate exceeds the max rate for %s."
 msgstr "Game: %sの割合が%sの最大を越えています。"
 
-#: server/plrhand.c:658 server/plrhand.c:785
+#: server/plrhand.c:661 server/plrhand.c:788
 #, c-format
 msgid "RATE CHANGE: %s %i %i %i"
 msgstr "割合変更: %s %i %i %i"
 
-#: server/plrhand.c:704
+#: server/plrhand.c:707
 #, c-format
 msgid "Game: %s now governs the %s as a %s."
 msgstr "Game: %sは%sを%sで治めるようになりました。"
 
-#: server/plrhand.c:708
+#: server/plrhand.c:711
 #, c-format
 msgid "%s form a %s"
 msgstr "%sは%sを形成します"
 
-#: server/plrhand.c:741
+#: server/plrhand.c:744
 #, c-format
 msgid "Game: The %s have incited a revolt!"
 msgstr "Game: %sは革命を促されました。"
 
-#: server/plrhand.c:743
+#: server/plrhand.c:746
 #, c-format
 msgid "The %s revolt!"
 msgstr "%sは革命を起こしています!"
 
 # yasu
-#: server/plrhand.c:768
+#: server/plrhand.c:771
 #, c-format
 msgid "Game: Tax rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 税金の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:774
+#: server/plrhand.c:777
 #, c-format
 msgid "Game: Science rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 科学の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:780
+#: server/plrhand.c:783
 #, c-format
 msgid "Game: Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Game: 贅沢の割合が %s の最大値を超えました。修正しました。"
 
 # yasu
-#: server/plrhand.c:847
+#: server/plrhand.c:850
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
 msgstr "%s の絶え間ない挑発のため、上院はあなたの予算を通過させました。"
 
-#: server/plrhand.c:857
+#: server/plrhand.c:860
 #, c-format
 msgid "Game: Your reputation is now %s."
 msgstr "Game: あなたの評判は%sになりました。"
 
 # yasu
-#: server/plrhand.c:861
+#: server/plrhand.c:864
 msgid ""
 "Game: The senate decides to dissolve rather than support your actions any "
 "longer."
@@ -1940,13 +1954,13 @@ msgstr ""
 "Game:上院はあなたの行動をこれ以上支援するのをやめて、解散することにしました。"
 
 # yasu
-#: server/plrhand.c:922
+#: server/plrhand.c:925
 #, c-format
 msgid "Game: The diplomatic state between the %s and the %s is now %s."
 msgstr "Game: %sと%sの外交状態はいま%sです。"
 
 # yasu, ama
-#: server/plrhand.c:928
+#: server/plrhand.c:931
 #, c-format
 msgid ""
 "Game:  %s cancelled the diplomatic agreement! The diplomatic state between "
@@ -1954,34 +1968,34 @@ msgid ""
 msgstr "Game: %sは外交条約を破棄しました! %sと%sの外交状態はいま%sです。"
 
 # yasu
-#: server/plrhand.c:1343
+#: server/plrhand.c:1345
 #, c-format
 msgid "Removing player %s."
 msgstr "プレイヤー %s を中止させます。"
 
 # yasu
-#: server/plrhand.c:1344
+#: server/plrhand.c:1346
 msgid "Game: You've been removed from the game!"
 msgstr "Game: あなたはゲームを中止させられました。"
 
 # yasu
-#: server/plrhand.c:1354
+#: server/plrhand.c:1356
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Game: %sはゲームを中止させられました。"
 
-#: server/plrhand.c:1385 server/plrhand.c:1389
+#: server/plrhand.c:1387 server/plrhand.c:1391
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
-#: server/plrhand.c:1733
+#: server/plrhand.c:1735
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
 # yasu
-#: server/plrhand.c:1755
+#: server/plrhand.c:1757
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -1989,13 +2003,13 @@ msgid ""
 msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
 # yasu
-#: server/plrhand.c:1775
+#: server/plrhand.c:1777
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
 # clefs
-#: server/plrhand.c:1801
+#: server/plrhand.c:1803
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -2186,7 +2200,7 @@ msgid "(building %s in %s (%s))\n"
 msgstr "(%2$s(%3$s)で%1$sを建築中)\n"
 
 #: server/report.c:321 client/gui-mui/gui_main.c:277 client/gui-xaw/menu.c:202
-#: data/helpdata.txt:797
+#: data/helpdata.txt:794
 msgid "Wonders of the World"
 msgstr "世界の不思議"
 
@@ -5786,18 +5800,22 @@ msgid "(Stock,Target,Turns,Buy)"
 msgstr "(進行,目標,必要ターン,購入金額)"
 
 #: client/civclient.c:130
+#, c-format
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\t接続ダイアログをスキップする\n"
 
 #: client/civclient.c:139
+#, c-format
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -m, --meta HOST\tHOST にあるメタサーバに接続する\n"
 
 #: client/civclient.c:141
+#, c-format
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NAME\t名前として NAME を使います\n"
 
 #: client/civclient.c:142
+#, c-format
 msgid "  -p, --port PORT\tConnect to server port PORT\n"
 msgstr "  -p, --port PORT\tサーバのポート PORT に接続します\n"
 
@@ -5807,14 +5825,17 @@ msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tPLUGIN をサウンド出力に使う %s\n"
 
 #: client/civclient.c:145
+#, c-format
 msgid "  -s, --server HOST\tConnect to the server at HOST\n"
 msgstr "  -s, --server HOST\tHOST にあるサーバに接続します\n"
 
 #: client/civclient.c:146
+#, c-format
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FILE\tFILE から音楽タグを読む\n"
 
 #: client/civclient.c:147
+#, c-format
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FILE\tタイルとしてデータファイル FILE.tilespec を使う\n"
 
@@ -6130,43 +6151,53 @@ msgid_plural "* Can carry %d ground units across water.\n"
 msgstr[0] "* 海を渡って%d地上部隊を輸送できます。\n"
 
 #: client/helpdata.c:611
+#, c-format
 msgid "* Can establish trade routes.\n"
 msgstr "* 交易路の確立が行なえます。\n"
 
 #: client/helpdata.c:614
+#, c-format
 msgid "* Can help build wonders.\n"
 msgstr "* 不思議建築を手伝うことができます。\n"
 
 #: client/helpdata.c:617
+#, c-format
 msgid "* Can build new cities.\n"
 msgstr "* 新しい都市を作ることができます。\n"
 
 #: client/helpdata.c:620
+#, c-format
 msgid "* Can perform settler actions.\n"
 msgstr "* 開拓行為を行なえます。\n"
 
 #: client/helpdata.c:624
+#, c-format
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
 msgstr "* 外交行為を行なえ、さらに特別なスパイ能力を持ちます。\n"
 
 #: client/helpdata.c:627
+#, c-format
 msgid "* Can perform diplomatic actions.\n"
 msgstr "* 外交行為を行なえます。\n"
 
 #: client/helpdata.c:630
+#, c-format
 msgid "* Can attack enemy air units.\n"
 msgstr "* 敵の飛行部隊に攻撃できます。\n"
 
 #: client/helpdata.c:633
+#, c-format
 msgid "* Is invisible except when next to an enemy unit or city.\n"
 msgstr "* 隣りに敵部隊や都市がない限り不可視。\n"
 
 #: client/helpdata.c:637
+#, c-format
 msgid "* Can only attack units on ocean squares (no land attacks).\n"
 msgstr "* 海上にいる部隊にのみ攻撃できます。(地上攻撃不可)\n"
 
 # ama, yasu
 #: client/helpdata.c:641
+#, c-format
 msgid ""
 "* Can attack from aboard sea units: against enemy cities and onto land "
 "squares."
@@ -6179,53 +6210,65 @@ msgid "* Can be paradropped from a friendly city (Range: %d)."
 msgstr "* 友好都市から落下傘降下できます。(範囲: %d)"
 
 #: client/helpdata.c:649
+#, c-format
 msgid "* Gets double defense against units specified as 'mounted'.\n"
 msgstr "* 「乗馬している」部隊に対して二倍の防御力があります。\n"
 
 #: client/helpdata.c:654
+#, c-format
 msgid "* Counts as 'mounted' against certain defenders.\n"
 msgstr "* 「乗馬している」と扱われます。\n"
 
 # yasu, ama
 #: client/helpdata.c:658
+#, c-format
 msgid "* A missile unit: gets used up in making an attack.\n"
 msgstr "* ミサイル: 攻撃開始時に使い切ります。\n"
 
 # ama, clefs
 # (修正前)msgstr "* ターンの終わりに攻撃します。\n"
 #: client/helpdata.c:660
+#, c-format
 msgid "* Making an attack ends this unit's turn.\n"
 msgstr "* 攻撃するとそのターンはそれ以上行動できません。\n"
 
 #: client/helpdata.c:664
+#, c-format
 msgid "* This unit's attack causes a nuclear explosion!\n"
 msgstr "* この部隊の攻撃は核爆発を引き起こします!\n"
 
 #: client/helpdata.c:667
+#, c-format
 msgid "* Ignores the effects of city walls.\n"
 msgstr "* 城壁の効果を無視します。\n"
 
 #: client/helpdata.c:671
+#, c-format
 msgid "* Gets quintuple defence against missiles and aircraft.\n"
 msgstr "* ミサイルと飛行機に対して5倍の防御力を発揮します。\n"
 
 #: client/helpdata.c:675
+#, c-format
 msgid "* Ignores terrain effects (treats all squares as roads).\n"
 msgstr "* 地形効果を無視します(全ての土地を道路とみなします)。\n"
 
 #: client/helpdata.c:679
+#, c-format
 msgid "* Attacks with full strength even if less than one movement left.\n"
 msgstr "* 1移動量より少なくても、完全な力で攻撃します。\n"
 
 #: client/helpdata.c:682
+#, c-format
 msgid "* Ignores zones of control.\n"
 msgstr "* ゾーンコントロールを無視します。\n"
 
 #: client/helpdata.c:685
+#, c-format
 msgid "* A non-military unit (cannot attack; no martial law).\n"
 msgstr "* 非戦闘部隊です。(攻撃できません。戦時法は適用されません。)\n"
 
 #: client/helpdata.c:689
+#, c-format
 msgid "* A field unit: one unhappiness applies even when non-aggressive.\n"
 msgstr "* 戦闘部隊です。積極的に戦闘しなくても不幸市民が1生まれます。\n"
 
@@ -6267,6 +6310,7 @@ msgstr ""
 "らせるには、%d単位必要です。"
 
 #: client/helpdata.c:798
+#, c-format
 msgid " This number may vary depending on what other players will research.\n"
 msgstr ""
 " この数は他のプレイヤーが研究している物によっては異なることがあります。\n"
@@ -6282,26 +6326,32 @@ msgid "The first player to research %s gets an immediate advance.\n"
 msgstr "最初に%sを発見したプレイヤーは、隣接した研究を得ます。\n"
 
 #: client/helpdata.c:818
+#, c-format
 msgid "Gives sea units one extra move.\n"
 msgstr "海上部隊がさらに 1 多く移動できます。\n"
 
 #: client/helpdata.c:820
+#, c-format
 msgid "Increases the pollution generated by the population.\n"
 msgstr "人口によって引き起こされる公害を増やします。\n"
 
 #: client/helpdata.c:822
+#, c-format
 msgid "Improves the effect of Cathedrals.\n"
 msgstr "大聖堂の効果を増やします。\n"
 
 #: client/helpdata.c:824
+#, c-format
 msgid "Reduces the effect of Cathedrals.\n"
 msgstr "大聖堂の効果を減らします。\n"
 
 #: client/helpdata.c:826
+#, c-format
 msgid "Improves the effect of Colosseums.\n"
 msgstr "コロセウムの効果を増やします。\n"
 
 #: client/helpdata.c:828
+#, c-format
 msgid "Improves the effect of Temples.\n"
 msgstr "寺院の効果を増やします。\n"
 
@@ -7490,7 +7540,7 @@ msgstr "Game: %sには金%dかかりますが、金%dしか持っていません。"
 #: client/gui-win32/repodlgs.c:706 client/gui-win32/repodlgs.c:715
 #: client/gui-xaw/menu.c:142 client/gui-xaw/menu.c:197
 #: client/gui-xaw/menu.c:218 client/gui-xaw/repodlgs.c:866
-#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:808
+#: client/gui-xaw/repodlgs.c:1058 data/Freeciv:1840 data/helpdata.txt:805
 msgid "Units"
 msgstr "部隊"
 
@@ -7601,7 +7651,7 @@ msgid "Presets"
 msgstr "プリセット"
 
 #: client/gui-gtk-2.0/cma_fe.c:144 client/gui-gtk/cma_fe.c:154
-#: data/helpdata.txt:719
+#: data/helpdata.txt:716
 msgid "Citizen Management Agent"
 msgstr "市民管理エージェント(CMA)"
 
@@ -8351,7 +8401,7 @@ msgstr ""
 #: client/gui-gtk-2.0/happiness.c:104 client/gui-gtk/happiness.c:101
 #: client/gui-mui/citydlg.c:1452 client/gui-mui/citydlg.c:1589
 #: client/gui-win32/citydlg.c:810 client/gui-win32/happiness.c:90
-#: client/gui-xaw/menu.c:225 data/helpdata.txt:1273
+#: client/gui-xaw/menu.c:225 data/helpdata.txt:1270
 msgid "Happiness"
 msgstr "幸福"
 
@@ -9038,7 +9088,7 @@ msgstr "都市の生産物(_P)"
 
 #: client/gui-gtk-2.0/menu.c:604 client/gui-gtk/menu.c:605
 #: client/gui-mui/gui_main.c:218 client/gui-win32/menu.c:302
-#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1116
+#: client/gui-xaw/menu.c:133 client/gui-xaw/menu.c:222 data/helpdata.txt:1113
 msgid "Terrain"
 msgstr "地形"
 
@@ -10589,7 +10639,7 @@ msgstr "都市オプション"
 msgid "Citymap"
 msgstr "都市地図"
 
-#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:769
+#: client/gui-mui/citydlg.c:1548 data/helpdata.txt:766
 msgid "City Improvements"
 msgstr "都市建造物"
 
@@ -10697,7 +10747,7 @@ msgid "_Goto and Close"
 msgstr "移動して閉じる(_G)"
 
 #: client/gui-mui/dialogs.c:312 client/gui-xaw/menu.c:221
-#: data/helpdata.txt:786
+#: data/helpdata.txt:783
 msgid "Technology"
 msgstr "科学"
 
@@ -11105,6 +11155,7 @@ msgstr "鉄道を作る"
 
 # clefs
 #: client/gui-mui/gui_main.c:1424
+#, c-format
 msgid ""
 "Couldn't open the main window (Gfx memory problem or screensize too small)\n"
 msgstr ""
@@ -11868,19 +11919,19 @@ msgstr "道路と鉄道"
 msgid "Fortress and Airbase"
 msgstr "要塞と飛行場"
 
-#: client/gui-xaw/menu.c:211 data/helpdata.txt:381
+#: client/gui-xaw/menu.c:211 data/helpdata.txt:378
 msgid "Languages"
 msgstr "言語"
 
-#: client/gui-xaw/menu.c:212 data/helpdata.txt:402
+#: client/gui-xaw/menu.c:212 data/helpdata.txt:399
 msgid "Connecting"
 msgstr "接続"
 
-#: client/gui-xaw/menu.c:213 data/helpdata.txt:430
+#: client/gui-xaw/menu.c:213 data/helpdata.txt:427
 msgid "Controls"
 msgstr "操作"
 
-#: client/gui-xaw/menu.c:214 data/helpdata.txt:497
+#: client/gui-xaw/menu.c:214 data/helpdata.txt:494
 msgid "Chatline"
 msgstr "チャット行"
 
@@ -11888,7 +11939,7 @@ msgstr "チャット行"
 msgid "Playing"
 msgstr "遊び方"
 
-#: client/gui-xaw/menu.c:219 data/helpdata.txt:885
+#: client/gui-xaw/menu.c:219 data/helpdata.txt:882
 msgid "Combat"
 msgstr "戦闘"
 
@@ -11896,15 +11947,15 @@ msgstr "戦闘"
 msgid "ZOC"
 msgstr "ZOC"
 
-#: client/gui-xaw/menu.c:224 data/helpdata.txt:1209
+#: client/gui-xaw/menu.c:224 data/helpdata.txt:1206
 msgid "Government"
 msgstr "政治体制"
 
-#: client/gui-xaw/menu.c:226 data/helpdata.txt:1346
+#: client/gui-xaw/menu.c:226 data/helpdata.txt:1343
 msgid "Space Race"
 msgstr "宇宙開発競争"
 
-#: client/gui-xaw/menu.c:228 data/helpdata.txt:79
+#: client/gui-xaw/menu.c:228 data/helpdata.txt:76
 msgid "Copying"
 msgstr "著作権"
 
@@ -12227,14 +12278,13 @@ msgstr ""
 msgid "  Present administrators: "
 msgstr "  現在の管理者: "
 
-#: data/helpdata.txt:56
+#: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://www.freeciv.org/cgi-bin/bugs\n"
-"\n"
-"or by sending email to:  bugs@cvs.freeciv.org"
+"  https://gna.org/projects/freeciv/"
 msgstr ""
 "バグを見つけたら、バグレポートを送って下さい。最良の方法は Freeciv バグ追跡シ"
 "ステムを使うことです。\n"
@@ -12243,7 +12293,7 @@ msgstr ""
 "\n"
 "もしくは bugs@cvs.freeciv.org へメールを送って下さい。"
 
-#: data/helpdata.txt:63
+#: data/helpdata.txt:60
 msgid ""
 "For more information about submitting bug reports see the file BUGS in the "
 "Freeciv distribution.  For more information in general, visit the Freeciv "
@@ -12252,11 +12302,11 @@ msgstr ""
 "バグレポートの提出に関する詳細は、 Freeciv 配布に含まれる BUGS ファイルを見て"
 "下さい。さらなる一般的な情報は、 Freeciv ウェブサイトを見て下さい。"
 
-#: data/helpdata.txt:80
+#: data/helpdata.txt:77
 msgid "Freeciv is covered by the GPL, which is included here: "
 msgstr "Freeciv は GPL によって保護されています。ここに引用します。"
 
-#: data/helpdata.txt:382
+#: data/helpdata.txt:379
 msgid ""
 "Freeciv supports several local languages.  See the Native Language Support "
 "section of the README file for instructions on how to use one of these "
@@ -12288,7 +12338,7 @@ msgstr ""
 "\n"
 "  freeciv-dev@freeciv.org"
 
-#: data/helpdata.txt:403
+#: data/helpdata.txt:400
 msgid ""
 "Before a game is started, anyone can connect to the server by supplying its "
 "hostname and port number (5555 by default). If the server is started with "
@@ -12298,7 +12348,7 @@ msgstr ""
 "もサーバへ接続できます。サーバが -m 付きで実行されていたら、メタサーバへ報告"
 "します。"
 
-#: data/helpdata.txt:410
+#: data/helpdata.txt:407
 msgid ""
 "The client can fetch this page, too: use the Metaserver button in the "
 "connection dialog.  If it never shows any results, check if your WWW browser "
@@ -12318,7 +12368,7 @@ msgstr ""
 "\n"
 "に設定します。"
 
-#: data/helpdata.txt:419
+#: data/helpdata.txt:416
 msgid ""
 "When the game has started, everyone can connect as any player who isn't "
 "already connected, including AI players.  Merely connecting to an AI player "
@@ -12333,7 +12383,7 @@ msgstr ""
 "失って再接続をするなら、オリジナルのニックネームではなく支配者の名前を使いま"
 "す。サーバがメタサーバへ報告しているなら、プレイヤー名はそこに表れます。"
 
-#: data/helpdata.txt:431
+#: data/helpdata.txt:428
 msgid ""
 "Mouse:\n"
 "======\n"
@@ -12354,7 +12404,7 @@ msgstr ""
 "  Shift + 左クリック:      メインマップから都市労働者を調整する"
 
 # ama, clefs(fuzzy)
-#: data/helpdata.txt:440
+#: data/helpdata.txt:437
 msgid ""
 "Keyboard:\n"
 "=========\n"
@@ -12464,7 +12514,7 @@ msgstr ""
 "     tab: 次の部隊へ            Control-p: 都市生産物の表示/非表示\n"
 "  return: ターン終了"
 
-#: data/helpdata.txt:498
+#: data/helpdata.txt:495
 msgid ""
 "The client has a primitive chat interface.  The lines you type are sent to "
 "all players, except:"
@@ -12472,7 +12522,7 @@ msgstr ""
 "クライアントは原始的なチャットインターフェースを持ちます。あなたが打った行は"
 "全てのプレイヤーに送られます。例外は:"
 
-#: data/helpdata.txt:501
+#: data/helpdata.txt:498
 msgid ""
 "  - Messages starting with 'foo:' are private messages to the player named "
 "'foo'; player names can be abbreviated."
@@ -12480,7 +12530,7 @@ msgstr ""
 "  - 'foo:' で始まるメッセージは 'foo' という名前のプレイヤーへのプライベート"
 "メッセージです。プレイヤー名は一部省略できます。"
 
-#: data/helpdata.txt:504
+#: data/helpdata.txt:501
 msgid ""
 "  - Messages starting with '/' are interpreted as server commands (if the "
 "server is recent enough; regular 1.8.0 servers are not) and executed, if you "
@@ -12490,11 +12540,11 @@ msgstr ""
 "の 1.8.0 サーバは無理)され、要求されるアクセス権限を持っているなら実行されま"
 "す。"
 
-#: data/helpdata.txt:511
+#: data/helpdata.txt:508
 msgid "Worklist Editor"
 msgstr "作業リストエディタ"
 
-#: data/helpdata.txt:512
+#: data/helpdata.txt:509
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
 "city dialog) and global worklists. Using this editor You can create lists "
@@ -12504,7 +12554,7 @@ msgstr ""
 "ために使用します。このエディタを利用して、将来のターンに何を作成するかのリス"
 "トを作成できます。"
 
-#: data/helpdata.txt:516
+#: data/helpdata.txt:513
 msgid ""
 "To add an item to the worklist, double-click the desired item in the list of "
 "available items. You can also press the Help button to get help on the "
@@ -12514,7 +12564,7 @@ msgstr ""
 "リックします。アイテムを選択してヘルプボタンを押すと、ヘルプを見ることができ"
 "ます。アイテムを選択せずにヘルプを押すと、このページが表示されます。"
 
-#: data/helpdata.txt:520
+#: data/helpdata.txt:517
 msgid ""
 "To remove an item from the worklist simply double-click the item to remove. "
 "Use the buttons below the worklist to move items up and/or down in the list."
@@ -12523,7 +12573,7 @@ msgstr ""
 "します。アイテムを作業リスト内で上下するには、リストの下のボタンを使います。"
 
 # ama, clefs(" = "→"＝")
-#: data/helpdata.txt:523
+#: data/helpdata.txt:520
 msgid ""
 "Keyboard shortcuts: Home to focus the worklist, End to focus the available "
 "list, Up/Down arrows to select previous/next item in worklist or available "
@@ -12538,12 +12588,12 @@ msgstr ""
 "除する"
 
 # yasu
-#: data/helpdata.txt:532
+#: data/helpdata.txt:529
 msgid "Strategy and tactics"
 msgstr "戦略と戦術"
 
 # yasu
-#: data/helpdata.txt:533
+#: data/helpdata.txt:530
 msgid ""
 "While every game is different, there's a basic strategy which most players "
 "follow, especially at the start of the game."
@@ -12552,14 +12602,14 @@ msgstr ""
 "(特にゲーム初期)"
 
 # yasu
-#: data/helpdata.txt:536
+#: data/helpdata.txt:533
 msgid ""
 "These steps may vary depending upon the server options, but in general, the "
 "steps are: "
 msgstr "これらのステップはサーバーオプションにより違いますが、一般に: "
 
 # yasu
-#: data/helpdata.txt:539
+#: data/helpdata.txt:536
 msgid ""
 " 0. Choosing the first city site.\n"
 " 1. Mapping the countryside.\n"
@@ -12586,7 +12636,7 @@ msgstr ""
 "10. 他の人間との交渉(外交)\n"
 
 # yasu
-#: data/helpdata.txt:551
+#: data/helpdata.txt:548
 msgid ""
 " 0. Choosing the first city site.\n"
 "\n"
@@ -12607,7 +12657,7 @@ msgstr ""
 "早く作ることのバランスを取ることが大事です。"
 
 # yasu
-#: data/helpdata.txt:562
+#: data/helpdata.txt:559
 msgid ""
 " 1. Mapping the countryside.\n"
 "\n"
@@ -12626,7 +12676,7 @@ msgstr ""
 "がある場合は探索者に探索させるのがいいでしょう。"
 
 # yasu, clefs
-#: data/helpdata.txt:571
+#: data/helpdata.txt:568
 msgid ""
 " 2. Defending the cities.\n"
 "\n"
@@ -12645,7 +12695,7 @@ msgstr ""
 "銃兵。"
 
 # yasu
-#: data/helpdata.txt:581
+#: data/helpdata.txt:578
 #, no-c-format
 msgid ""
 "    Keep in mind that with some types of government, military units inside "
@@ -12660,7 +12710,7 @@ msgstr ""
 "作成可能なもので最上の防御用部隊を作成し始めます。"
 
 # yasu
-#: data/helpdata.txt:588
+#: data/helpdata.txt:585
 msgid ""
 " 3. Deciding which units to build first.\n"
 "\n"
@@ -12681,7 +12731,7 @@ msgstr ""
 "がり、かつ、研究のスピードも上がるということを覚えておいてください。"
 
 # yasu
-#: data/helpdata.txt:599
+#: data/helpdata.txt:596
 msgid ""
 " 4. Building agriculture improvements.\n"
 "\n"
@@ -12697,7 +12747,7 @@ msgstr ""
 "は道路や灌漑や資源化などで改良されます。"
 
 # yasu
-#: data/helpdata.txt:607
+#: data/helpdata.txt:604
 msgid ""
 " 5. Deciding where to build cities.\n"
 "\n"
@@ -12717,7 +12767,7 @@ msgstr ""
 "おいて下さい。"
 
 # yasu, ama, clefs
-#: data/helpdata.txt:616
+#: data/helpdata.txt:613
 msgid ""
 " 6. Taking care of the cities.\n"
 "\n"
@@ -12737,7 +12787,7 @@ msgstr ""
 "てください。"
 
 # yasu, clefs
-#: data/helpdata.txt:626
+#: data/helpdata.txt:623
 msgid ""
 "    If too much food is being generated, a citizen can be taken off the "
 "farmland by clicking on the occupied farmland square.  This citizen can then "
@@ -12748,7 +12798,7 @@ msgstr ""
 "ることができます。"
 
 # yasu
-#: data/helpdata.txt:631
+#: data/helpdata.txt:628
 msgid ""
 "    If you move all of your citizens into the city and right-click on the "
 "central tile of the farmland, the citizens will be rearranged to maximise "
@@ -12758,7 +12808,7 @@ msgstr ""
 "に作るように再配置されます。"
 
 # yasu
-#: data/helpdata.txt:637
+#: data/helpdata.txt:634
 msgid ""
 "    The golden rule of taking care of a city is that there should be at "
 "least as many happy citizens as unhappy citizens.  A city where this is not "
@@ -12771,7 +12821,7 @@ msgstr ""
 "やがて反乱を起こします。"
 
 # yasu
-#: data/helpdata.txt:643
+#: data/helpdata.txt:640
 msgid ""
 " 7. Exploring the world.\n"
 "\n"
@@ -12791,7 +12841,7 @@ msgstr ""
 "ような場合、外交官は非常に有用で、後に十分に報われるでしょう。"
 
 # yasu
-#: data/helpdata.txt:653
+#: data/helpdata.txt:650
 msgid ""
 " 8. Things to keep in mind.\n"
 "\n"
@@ -12814,7 +12864,7 @@ msgstr ""
 "  - いくつかの不思議は、ある科学の発展により古くなる"
 
 # yasu, clefs
-#: data/helpdata.txt:664
+#: data/helpdata.txt:661
 msgid ""
 " 9. Making your own strategy for the game.\n"
 "\n"
@@ -12836,7 +12886,7 @@ msgstr ""
 "ここより詳しいヒントや、他のプレイヤーとの交流の詳しい方法があります。"
 
 # yasu, clefs
-#: data/helpdata.txt:675
+#: data/helpdata.txt:672
 msgid ""
 " 10. Interacting with other players (Diplomacy).\n"
 "\n"
@@ -12851,7 +12901,7 @@ msgstr ""
 "ではありません。"
 
 # yasu
-#: data/helpdata.txt:682
+#: data/helpdata.txt:679
 msgid ""
 "    If you have established an embassy with another human player, then you "
 "can arrange a diplomatic meeting. This is done by going to the `Game' menu, "
@@ -12865,7 +12915,7 @@ msgstr ""
 "ます。"
 
 # yasu
-#: data/helpdata.txt:689
+#: data/helpdata.txt:686
 msgid ""
 "    In this menu you can choose to:\n"
 "\n"
@@ -12888,7 +12938,7 @@ msgstr ""
 "   - 金銭の贈与"
 
 # clefs
-#: data/helpdata.txt:699
+#: data/helpdata.txt:696
 msgid ""
 "    There is no need to trade like for like, by trading say, an advance or "
 "city for gold - you can can consider this buying and selling."
@@ -12897,7 +12947,7 @@ msgstr ""
 "を金銭と交換してもよいのです。売買だと思えばよいでしょう。"
 
 # yasu
-#: data/helpdata.txt:703
+#: data/helpdata.txt:700
 msgid ""
 "    A couple of notes:\n"
 "\n"
@@ -12912,7 +12962,7 @@ msgstr ""
 "   - 自分の地図で見えない都市を要求することはできません"
 
 # yasu
-#: data/helpdata.txt:709
+#: data/helpdata.txt:706
 msgid ""
 "     Of course, the owner of that city can still give it to you, in which "
 "case the area around the city is shown on your map.  One important thing to "
@@ -12928,7 +12978,7 @@ msgstr ""
 
 # ama, clefs
 # README.cma.jaの切り貼りです。忠実な訳ではありません(clefs)
-#: data/helpdata.txt:720
+#: data/helpdata.txt:717
 msgid ""
 "The Citizen Management Agent (CMA) helps you manage your cities. It deploys "
 "the available workers on the free tiles around the city to achieve maximal "
@@ -13007,7 +13057,7 @@ msgstr ""
 "統一するのが一番でしょう。より詳しい情報や設定例は、附属のREADME.cma.jaを参照"
 "してください。\n"
 
-#: data/helpdata.txt:770
+#: data/helpdata.txt:767
 msgid ""
 "City improvements are built in each of your cities to improve trade revenue, "
 "science production, etc.  Most improvements require you to pay an upkeep "
@@ -13019,7 +13069,7 @@ msgstr ""
 "されます。"
 
 # ama, clefs
-#: data/helpdata.txt:787
+#: data/helpdata.txt:784
 msgid ""
 "Research into technology is a necessity for improving the ability of your "
 "civilization to develop new military units and city improvements."
@@ -13027,7 +13077,7 @@ msgstr ""
 "科学の研究は、新しい軍事部隊や都市建造物を開発し、あなたの文明を向上させるの"
 "に必要です。"
 
-#: data/helpdata.txt:798
+#: data/helpdata.txt:795
 msgid ""
 "Each wonder has specific benefits for your civilization. Each wonder is "
 "unique and is placed in the city which constructed it."
@@ -13035,7 +13085,7 @@ msgstr ""
 "不思議はそれぞれ文明の役に立つ効果を持っています。不思議は唯一のもので、それ"
 "を建てた都市に置かれます。"
 
-#: data/helpdata.txt:809
+#: data/helpdata.txt:806
 msgid ""
 "Units can be used for three purposes: attack, defense, and reconnaissance.  "
 "How useful a particular unit is for each of these roles depends on the "
@@ -13044,7 +13094,7 @@ msgstr ""
 "部隊は攻撃、防御、偵察の三つの目的で使われます。各々の部隊がどの役にふさわし"
 "いかは、その部隊の攻撃力、防御力、移動力によって決まります。"
 
-#: data/helpdata.txt:814
+#: data/helpdata.txt:811
 msgid ""
 "There are four general types of unit: Land, Sea, Air, and Helicopter.  "
 "(Helicopters are sufficiently different from other air units that it is "
@@ -13053,7 +13103,7 @@ msgstr ""
 "部隊は大まかに四つの種類があります。地上、海、空中、ヘリコプターです。(ヘリコ"
 "プターは他の空中部隊とかなり違うので、部隊の種類を分けて考えます。)"
 
-#: data/helpdata.txt:819
+#: data/helpdata.txt:816
 #, no-c-format
 msgid ""
 "Land units move on land, and suffer the movement effects of terrain, but "
@@ -13078,7 +13128,7 @@ msgstr ""
 "1減ります。攻撃力が 0の地上部隊は非戦闘部隊です。非戦闘部隊には維持費がかから"
 "ず、不幸への影響を持たず、敵部隊や敵都市へ攻撃できません。"
 
-#: data/helpdata.txt:832
+#: data/helpdata.txt:829
 msgid ""
 "Sea units move on Ocean squares and into cities next to Ocean squares.  They "
 "can only be built by such cities.  The movement rate of sea units is "
@@ -13093,7 +13143,7 @@ msgstr ""
 "の部隊や都市を攻撃できますが、都市を占領するためにその中へ入ることはできませ"
 "ん。たとえ都市が防御されていなかったとしてもです。"
 
-#: data/helpdata.txt:839
+#: data/helpdata.txt:836
 msgid ""
 "Air units can move on any square not occupied by an enemy unit or enemy "
 "city.  The movement rate of air units is not affected by loss of hitpoints.  "
@@ -13115,7 +13165,7 @@ msgstr ""
 "機(もしくはステルス戦闘機)からのみ攻撃を受けます。空中部隊は村を調査すること"
 "はできません。サーバの設定によっては、村の上空を飛ぶと解散します。"
 
-#: data/helpdata.txt:851
+#: data/helpdata.txt:848
 msgid ""
 "Like air units, Helicopters can move on any square not occupied by an enemy "
 "unit or enemy city, and their movement rate is not affected by loss of "
@@ -13130,7 +13180,7 @@ msgstr ""
 "の土地でターンを過ごすと少し体力を失います。空中部隊と違い、ヘリコプターは敵"
 "の都市を占領できます。"
 
-#: data/helpdata.txt:858
+#: data/helpdata.txt:855
 msgid ""
 "Units which have been damaged in combat will regain hit points each turn in "
 "which they are not moved.  Normally, a unit which has not moved will regain "
@@ -13159,7 +13209,7 @@ msgstr ""
 "されます。"
 
 # ama, clefs
-#: data/helpdata.txt:875
+#: data/helpdata.txt:872
 msgid ""
 "Depending upon server options, any set of unit types may reduce the "
 "population of a City without City Walls by one point upon a successful "
@@ -13168,7 +13218,7 @@ msgstr ""
 "攻撃の成功によって、城壁なしの都市の人口を1減らすことができる部隊の種類は、"
 "サーバのオプションによって決まります。"
 
-#: data/helpdata.txt:886
+#: data/helpdata.txt:883
 msgid ""
 "When one unit attacks another unit, either the attacker will be destroyed, "
 "or the defender will be destroyed -- never both (unless the attacker was a "
@@ -13178,15 +13228,15 @@ msgstr ""
 "かで、両方全滅することはありません(攻撃側がミサイルの場合を除く)。結果は運を"
 "含むさまざまな要素によって決まります。"
 
-#: data/helpdata.txt:891
+#: data/helpdata.txt:888
 msgid "First, the attacker's strength is modified."
 msgstr "最初に攻撃側の強さが修正されます。"
 
-#: data/helpdata.txt:893
+#: data/helpdata.txt:890
 msgid " - If the attacker is a veteran, its strength is multiplied by 1.5."
 msgstr " - 攻撃側がベテランなら、強さが 1.5倍になります。"
 
-#: data/helpdata.txt:895
+#: data/helpdata.txt:892
 msgid ""
 " - \"Exhausted\" attackers are weaker: if the attacker has only 1/3 movement "
 "point left, its strength is divided by 3; if it has 2/3 movement point, its "
@@ -13197,29 +13247,29 @@ msgstr ""
 "いないなら、強さは 1/3 になります。 2/3 残っているなら、 2/3 になります。1 か"
 "それ以上残っているなら、修正は行なわれません。"
 
-#: data/helpdata.txt:901
+#: data/helpdata.txt:898
 msgid "Next, the defender's strength is modified."
 msgstr "次に防御側の強さが修正されます。"
 
-#: data/helpdata.txt:903
+#: data/helpdata.txt:900
 msgid ""
 " - If the defender is a veteran, then its strength is multiplied by 1.5."
 msgstr " - 防御側がベテランなら、強さが 1.5倍になります。"
 
-#: data/helpdata.txt:906
+#: data/helpdata.txt:903
 msgid ""
 " - Then the defender's strength is multiplied by the defense factor of the "
 "terrain it occupies."
 msgstr " - それから防御側の地形に応じた係数を強さに掛けます。"
 
-#: data/helpdata.txt:909
+#: data/helpdata.txt:906
 msgid ""
 " - Next, the defender's strength is doubled if it is a Pikeman unit "
 "defending against a mounted unit."
 msgstr ""
 " - 乗馬している部隊が槍隊に攻撃していたら、防御側の強さを二倍にします。"
 
-#: data/helpdata.txt:912
+#: data/helpdata.txt:909
 msgid ""
 " - If the defender is an AEGIS Cruiser defending against airborne units "
 "(including missiles and Helicopters), the defense is quintupled."
@@ -13227,7 +13277,7 @@ msgstr ""
 " - 航空部隊(ミサイル、ヘリコプターを含む)がイージス巡洋艦を攻撃していたら、防"
 "御側の強さを五倍にします。"
 
-#: data/helpdata.txt:916
+#: data/helpdata.txt:913
 msgid ""
 " - The defender's strength is doubled again if it is in a city with a SAM "
 "Battery and the attacker is an air unit (other than an Helicopter) or a "
@@ -13236,7 +13286,7 @@ msgstr ""
 " - ヘリコプター以外の航空部隊かミサイルが、対空ミサイル陣地を備えた都市の部隊"
 "を攻撃していたら、防御側の強さを二倍にします。"
 
-#: data/helpdata.txt:920
+#: data/helpdata.txt:917
 msgid ""
 " - An SDI Defense doubles the defender's strength yet again against missile "
 "attacks."
@@ -13244,7 +13294,7 @@ msgstr ""
 " - 攻撃側がミサイルで防御側の都市が SDI防衛システムを備えていたら、さらに防御"
 "側の強さを二倍にします。"
 
-#: data/helpdata.txt:923
+#: data/helpdata.txt:920
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
 "Defense, the defender's strength is doubled."
@@ -13252,7 +13302,7 @@ msgstr ""
 " - 沿岸防衛を備えた都市にいる防御側を船で攻撃していたら、防御側の強さを二倍に"
 "します。"
 
-#: data/helpdata.txt:926
+#: data/helpdata.txt:923
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
 "units in a city with City Walls have their strength tripled."
@@ -13260,14 +13310,14 @@ msgstr ""
 " - 城壁を備えた都市にいる防御側部隊を榴弾砲以外の地上部隊かヘリコプターで攻撃"
 "したら、防御側の強さを三倍にします。"
 
-#: data/helpdata.txt:930
+#: data/helpdata.txt:927
 msgid ""
 " - If the defender is in a fortress (and not a city), its strength is "
 "doubled."
 msgstr "- 防御側が要塞にいたら、その部隊の強さを二倍にします。"
 
 # yasu
-#: data/helpdata.txt:933
+#: data/helpdata.txt:930
 msgid ""
 " - Finally, if the defender is a ground unit, and is either fortified or "
 "inside a city, its strength is multiplied by 1.5."
@@ -13275,7 +13325,7 @@ msgstr ""
 " - 最後に、防御側が陸上部隊で防御姿勢をとっているか都市にいる場合、強さが 1.5"
 "倍になります。"
 
-#: data/helpdata.txt:936
+#: data/helpdata.txt:933
 msgid ""
 "If, after these modifications, the attacker has a strength of 0, it "
 "automatically loses.  Otherwise, if the defender has a strength of 0, the "
@@ -13285,12 +13335,12 @@ msgstr ""
 "す。そうでない場合で防御側の強さが 0の時、防御側は消滅します。"
 
 # clefs
-#: data/helpdata.txt:940
+#: data/helpdata.txt:937
 msgid "The firepower of the attacker and defender are also modified."
 msgstr "攻撃側・防御側共に、火力も修正されます。"
 
 # clefs
-#: data/helpdata.txt:942
+#: data/helpdata.txt:939
 msgid ""
 " - If the defender is a ship and is inside a city the firepower of the "
 "attacker is doubled and the firepower of the ship is set to 1."
@@ -13300,7 +13350,7 @@ msgstr ""
 
 # clefs
 # (原文の問題)ステルス戦闘機の場合は？
-#: data/helpdata.txt:945
+#: data/helpdata.txt:942
 msgid ""
 " - If a Fighter is attacking an Helicopter the firepower of the Helicopter "
 "is set to 1."
@@ -13308,7 +13358,7 @@ msgstr ""
 " - 戦闘機がヘリコプターを攻撃する場合、ヘリコプターの火力は1になります。"
 
 # clefs
-#: data/helpdata.txt:948
+#: data/helpdata.txt:945
 msgid ""
 " - If a ship is attacking a ground unit on land the firepower of both is set "
 "to 1."
@@ -13316,7 +13366,7 @@ msgstr ""
 " - 艦船が陸上にある陸ユニットを攻撃する場合、双方とも火力は1になります。"
 
 # was fuzzy
-#: data/helpdata.txt:951
+#: data/helpdata.txt:948
 msgid ""
 "After these preliminaries, combat occurs, as long as both units are still "
 "alive (i.e., hit points are greater than 0).  Each round, a random number "
@@ -13336,7 +13386,7 @@ msgstr ""
 "を失います)。最初に体力 0 か負になった部隊が消滅します。"
 
 # yasu, ama
-#: data/helpdata.txt:966
+#: data/helpdata.txt:963
 #, no-c-format
 msgid ""
 "Whichever unit survives the fight has a chance of becoming a veteran, if it "
@@ -13349,7 +13399,7 @@ msgstr ""
 "なってない)場合、部隊は常にベテランになります。その他の場合には、ベテランにな"
 "る確率は 50% です。"
 
-#: data/helpdata.txt:972
+#: data/helpdata.txt:969
 msgid ""
 "If the attacker is a ground unit and wins, and the defender is in a city "
 "without City Walls, the city is reduced in size by 1."
@@ -13357,7 +13407,7 @@ msgstr ""
 "攻撃側の地上部隊が勝利し、防御側が城壁なしの都市にいた場合、都市の大きさは 1"
 "小さくなります。"
 
-#: data/helpdata.txt:975
+#: data/helpdata.txt:972
 msgid ""
 "If the defender loses, and is not inside a city or fortress, all other units "
 "at the defender's location are destroyed along with the defender."
@@ -13365,12 +13415,12 @@ msgstr ""
 "防御側部隊が都市か要塞以外で負けた場合、その部隊の場所にいた全て部隊が消滅し"
 "ます。"
 
-#: data/helpdata.txt:982
+#: data/helpdata.txt:979
 msgid " Combat example 1"
 msgstr " 戦闘例1"
 
 # yasu, ama
-#: data/helpdata.txt:983
+#: data/helpdata.txt:980
 msgid ""
 "Suppose a veteran Cannon (A:8, D:1, HP:20, F:1) with 2/3 movement points "
 "left attacks a non-veteran Musketeer (A:3, D:3, HP:20, F:1) inside a city "
@@ -13380,7 +13430,7 @@ msgstr ""
 "られた城壁付き都市の中にいる非ベテランのマスケット銃士(攻:3 防:3 体:20 火:1)"
 "を攻撃するとします。"
 
-#: data/helpdata.txt:987
+#: data/helpdata.txt:984
 msgid ""
 "The attacker's base strength is 8.  Veteran status makes this 12, but "
 "because it only has 2/3 movement points its final strength is 8."
@@ -13388,7 +13438,7 @@ msgstr ""
 "攻撃側の基礎攻撃力は 8です。ベテラン状態なので 12になりますが、残り移動ポイン"
 "トが 2/3しかないので最終的な攻撃力は 8です。"
 
-#: data/helpdata.txt:990
+#: data/helpdata.txt:987
 msgid ""
 "The defender's base strength is 3.  Because it is on a Forest tile, its "
 "strength becomes 4.5.  It is behind City Walls, so its strength is tripled, "
@@ -13398,7 +13448,7 @@ msgstr ""
 "防御側の防御力は 3です。森にいるので強さは 4.5になります。城壁で守られている"
 "ので 3倍になり 13.5 です。都市内にいる地上部隊なので、20.25になります。"
 
-#: data/helpdata.txt:995
+#: data/helpdata.txt:992
 msgid ""
 "Strength values inside the game are actually multiplied by 10, with "
 "fractions dropped, so the attacker's strength is 80, and the defender's "
@@ -13408,11 +13458,11 @@ msgstr ""
 "攻撃側の強さは 80, 防御側の強さは 202です。"
 
 # clefs
-#: data/helpdata.txt:999
+#: data/helpdata.txt:996
 msgid "Both units keep their firepower of 1 unchanged."
 msgstr "双方とも、火力は 1のままで変更はありません。"
 
-#: data/helpdata.txt:1002
+#: data/helpdata.txt:999
 #, no-c-format
 msgid ""
 "Each round of combat, a random number between 1 and 282 is generated.  If "
@@ -13424,7 +13474,7 @@ msgstr ""
 "確率)、攻撃側は体力 1を失います。"
 
 # ama, yasu
-#: data/helpdata.txt:1013
+#: data/helpdata.txt:1010
 #, no-c-format
 msgid ""
 "Since both units have 20 hit points, the odds favor a victory for the "
@@ -13438,12 +13488,12 @@ msgstr ""
 "ん。防御側は無傷かもしれないし、ほとんどの体力を失うかもしれないし、負けるこ"
 "とさえあります。"
 
-#: data/helpdata.txt:1023
+#: data/helpdata.txt:1020
 msgid " Combat example 2"
 msgstr " 戦闘例2"
 
 # yasu, ama
-#: data/helpdata.txt:1024
+#: data/helpdata.txt:1021
 msgid ""
 "Suppose a veteran Battleship (A:12, D:12, HP:40, F:2) with 3 movement points "
 "attacks a veteran Alpine Troops (A:5, D:5, HP:20, F:1) inside a city built "
@@ -13453,11 +13503,11 @@ msgstr ""
 "城壁と沿岸防衛付き都市の中にいるベテラン高山部隊(攻:5 防:5 HP:20 火:1)を攻撃"
 "するとします。"
 
-#: data/helpdata.txt:1029
+#: data/helpdata.txt:1026
 msgid "The attacker's strength is 12, raised to 18 because of veteran status."
 msgstr "攻撃側の攻撃力は 12で、ベテラン状態なので 18に上昇します。"
 
-#: data/helpdata.txt:1032
+#: data/helpdata.txt:1029
 msgid ""
 "The defender's strength is 5, raised to 7.5 due to veteran status. The "
 "terrain's defense factor is 1 (no effect).  The Coastal Defense doubles the "
@@ -13470,20 +13520,20 @@ msgstr ""
 "対しては効果ありません。)防御側は都市にいる地上部隊なので、合計の防御力は "
 "22.5になります。"
 
-#: data/helpdata.txt:1038
+#: data/helpdata.txt:1035
 msgid ""
 "Internally, the values used for attacker and defender strength are 180 and "
 "225, respectively."
 msgstr "内部では、攻撃側と防御側で使われる値はそれぞれ 180 と 225 です。"
 
 # clefs
-#: data/helpdata.txt:1041
+#: data/helpdata.txt:1038
 msgid "The firepower of the Battleship is set from 2 to 1."
 msgstr "戦艦の火力は 2から 1に修正されます。"
 
 # ama, clefs
 # was fuzzy
-#: data/helpdata.txt:1044
+#: data/helpdata.txt:1041
 #, no-c-format
 msgid ""
 "Each round, a random number from 1 to 405 is generated.  If it is greater "
@@ -13496,7 +13546,7 @@ msgstr ""
 
 # yasu, clefs
 # was fuzzy
-#: data/helpdata.txt:1055
+#: data/helpdata.txt:1052
 #, no-c-format
 msgid ""
 "In this case, the odds greatly favor the attacker winning.  The Battleship "
@@ -13509,11 +13559,11 @@ msgstr ""
 "すが、戦艦は 2倍のヒットポイントを持っています。戦艦は約 60% のヒットポイント"
 "を失うと推測されます。戦闘後、移動力はおそらく残らないでしょう。"
 
-#: data/helpdata.txt:1064
+#: data/helpdata.txt:1061
 msgid "Zones of Control"
 msgstr "ゾーンコントロール"
 
-#: data/helpdata.txt:1065
+#: data/helpdata.txt:1062
 msgid ""
 "Zones of Control, abbreviated as ZOC, is a game concept which prevents you "
 "moving freely in zones controlled (or partially controlled) by enemy forces."
@@ -13521,7 +13571,7 @@ msgstr ""
 "ゾーンコントロール(Zones of Control 略して ZOC)とは、敵の(部分的に)支配してい"
 "る領域での移動を制限するゲームの概念です。"
 
-#: data/helpdata.txt:1069
+#: data/helpdata.txt:1066
 msgid ""
 "The general rule is that a land unit which is adjacent to an enemy occupied "
 "square cannot move directly to another square which is also adjacent to an "
@@ -13534,7 +13584,7 @@ msgstr ""
 "いる土地」とは地上の敵部隊のいる土地のことで、「隣接」とは部隊を囲う8方の土地"
 "のことです。"
 
-#: data/helpdata.txt:1075
+#: data/helpdata.txt:1072
 msgid ""
 "In the following special cases ZOC does not apply:\n"
 "- A unit moving directly into or out of a city.\n"
@@ -13548,7 +13598,7 @@ msgstr ""
 "- 海上からの部隊移動(ボートからの上陸)\n"
 "- 部隊タイプが ZOC 無視(例:外交官やスパイ)"
 
-#: data/helpdata.txt:1081
+#: data/helpdata.txt:1078
 msgid ""
 "Notes:\n"
 "\n"
@@ -13586,7 +13636,7 @@ msgstr ""
 "- 海上からの移動は特別な場合です。海上への移動(ボートへ戻る)も、友好的な(ボー"
 "ト)部隊への移動の場合は許可されます。"
 
-#: data/helpdata.txt:1101
+#: data/helpdata.txt:1098
 msgid ""
 "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some "
 "other unit which ignores ZOC), and then moving regular units onto the square "
@@ -13599,7 +13649,7 @@ msgstr ""
 "占領した土地を守るための部隊を残しておくことを繰り返し行なうことで、敵の領域"
 "を通る道を作れます。"
 
-#: data/helpdata.txt:1108
+#: data/helpdata.txt:1105
 msgid ""
 "These rules differ slightly from previous versions of Freeciv (release 1.8.0 "
 "and before) in the following ways:\n"
@@ -13611,7 +13661,7 @@ msgstr ""
 "- 部隊のいない敵都市はもう ZOC を課さない。\n"
 "- 今では地上部隊の上陸という特別な場合を認める"
 
-#: data/helpdata.txt:1117
+#: data/helpdata.txt:1114
 msgid ""
 "The different types of terrain each have different strengths and drawbacks.  "
 "When choosing a place for a new city, make sure there are enough food-"
@@ -13620,23 +13670,23 @@ msgstr ""
 "地形は長所と欠点を生みます。新しい都市を建てる土地を選ぶ時には、人口増加を支"
 "えるのに十分な食料生産が近くで行なえるか確認する必要があります。"
 
-#: data/helpdata.txt:1122
+#: data/helpdata.txt:1119
 msgid ""
 "The net benefit of a square for your city depends on your government type as "
 "well as city improvements and wonders."
 msgstr "都市からの純益は、都市建造物や不思議だけでなく政治体制にもよります。"
 
-#: data/helpdata.txt:1131
+#: data/helpdata.txt:1128
 msgid " Terrain Alterations"
 msgstr "地形の変更"
 
-#: data/helpdata.txt:1132
+#: data/helpdata.txt:1129
 msgid ""
 "Settlers and Engineers have the ability to alter terrain squares in several "
 "ways."
 msgstr "開拓者とエンジニアは、幾通りかの方法で地形を変えることができます。"
 
-#: data/helpdata.txt:1135
+#: data/helpdata.txt:1132
 msgid ""
 "Suitable types of terrain can be irrigated.  This requires a nearby source "
 "of water: an Ocean or River square, or another square which is irrigated, "
@@ -13650,7 +13700,7 @@ msgstr ""
 "で直接接していなければなりません。灌漑された土地は、各ターンでさらに食料を生"
 "みます。また、技術が進むと二度灌漑を行なえ、より生産力のある農地にできます。"
 
-#: data/helpdata.txt:1143
+#: data/helpdata.txt:1140
 msgid ""
 "Some types of terrain can be mined, which increases the number of resources "
 "(shields) produced by that square."
@@ -13658,7 +13708,7 @@ msgstr ""
 "一部の地形は資源化を行なえます。資源化は、その土地で生産される資源(シールド)"
 "の量を増やします。"
 
-#: data/helpdata.txt:1146
+#: data/helpdata.txt:1143
 msgid ""
 "Roads and railroads can be built on any square except Ocean.  (To build a "
 "road or railroad on a River square, though, you must know Bridge Building.)  "
@@ -13669,7 +13719,7 @@ msgstr ""
 "なければなりません)。道路と鉄道は部隊の移動を素早くし、都市の資源を増やしま"
 "す。"
 
-#: data/helpdata.txt:1151
+#: data/helpdata.txt:1148
 msgid ""
 " - Units use only one third of a movement point when going from one square "
 "to an adjacent square, if both squares have a road."
@@ -13677,7 +13727,7 @@ msgstr ""
 " - 現在の土地と移動先の土地の両方に道路が通っているなら、部隊移動に要するポイ"
 "ントは通常の 1/3 になります。"
 
-#: data/helpdata.txt:1154
+#: data/helpdata.txt:1151
 msgid ""
 " - Units expend no movement points when moving along a railroad. You may "
 "ride a railroad indefinitely."
@@ -13685,12 +13735,12 @@ msgstr ""
 " - 鉄道だけを使って移動する時は、移動ポイントは消費しません。鉄道に乗って無限"
 "に移動できます。"
 
-#: data/helpdata.txt:1157
+#: data/helpdata.txt:1154
 msgid ""
 " - A road may increase the trade resources produced by some types of terrain."
 msgstr " - 地形によっては、道路を作ることで交易資源が増えます。"
 
-#: data/helpdata.txt:1160
+#: data/helpdata.txt:1157
 msgid ""
 " - A railroad increases the shield resources produced by a square by 50%.  "
 "(Depending on server options, railroads may also increase food and trade "
@@ -13700,7 +13750,7 @@ msgstr ""
 "は、食料や交易資源も増やすかもしれません。また増えるシールド資源は 50%でない"
 "かもしれません。)"
 
-#: data/helpdata.txt:1165
+#: data/helpdata.txt:1162
 msgid ""
 "Settlers and Engineers may also build a fortress.  Units inside a fortress "
 "defend at twice their normal strength; also, units inside a fortress must be "
@@ -13710,12 +13760,12 @@ msgstr ""
 "倍の強さで防御できます。また、要塞の中にいる部隊は一度に一部隊しか滅ぼされま"
 "せん。詳しくは「戦闘」の説明を見て下さい。"
 
-#: data/helpdata.txt:1170
+#: data/helpdata.txt:1167
 msgid ""
 "You may also build Airbases, at which your air units may land and refuel."
 msgstr "飛行場を作ることもできます。航空部隊の着陸や燃料補給が行なえます。"
 
-#: data/helpdata.txt:1173
+#: data/helpdata.txt:1170
 msgid ""
 "The following table shows the number of turns required for one unit of "
 "Settlers to complete an activity. These numbers are reduced to half (rounded "
@@ -13726,11 +13776,11 @@ msgstr ""
 "ンジニアは半分の時間(切り上げ)で終わります。開拓者やエンジニアを集合させるこ"
 "とでさらに時間を減らせます。"
 
-#: data/helpdata.txt:1183
+#: data/helpdata.txt:1180
 msgid "  Pillaging"
 msgstr "  略奪"
 
-#: data/helpdata.txt:1184
+#: data/helpdata.txt:1181
 msgid ""
 "All ground units have the ability to destroy terrain alterations, by "
 "pillaging.  Pillaging removes 1 terrain alteration per turn per unit.  "
@@ -13742,7 +13792,7 @@ msgstr ""
 "奪する具体的な種類を選択できます。選択できないなら、以下の順で略奪を行ないま"
 "す:"
 
-#: data/helpdata.txt:1190
+#: data/helpdata.txt:1187
 msgid ""
 " - farmland\n"
 " - irrigation\n"
@@ -13760,7 +13810,7 @@ msgstr ""
 " - 鉄道\n"
 " - 道路"
 
-#: data/helpdata.txt:1198
+#: data/helpdata.txt:1195
 msgid ""
 "Tiles that do not have terrain alterations (farmland, irrigation, mining, "
 "fortress, airbase, railroad or road) cannot be pillaged. In addition, "
@@ -13774,7 +13824,7 @@ msgstr ""
 "漑して平野に変えてしまったら、略奪によって森へ戻すことはできません。もし戻し"
 "たければ、開拓者やエンジニアでまた変更しなければなりません。"
 
-#: data/helpdata.txt:1210
+#: data/helpdata.txt:1207
 msgid ""
 "Your government type influences your cities' productivity and commerce, your "
 "citizens' happiness, and many other game factors."
@@ -13782,7 +13832,7 @@ msgstr ""
 "政治体制は、都市の生産性や交易、人民の幸福など多くのゲームの要素に影響しま"
 "す。"
 
-#: data/helpdata.txt:1213
+#: data/helpdata.txt:1210
 msgid ""
 "Your civilization starts out under a Despotism.  As your technology "
 "improves, you can select other forms of government (listed below). In order "
@@ -13795,7 +13845,7 @@ msgstr ""
 "ばなりません。革命がおこると、文明は無政府状態の期間(1-5ターン)を経験します。"
 "この期間を経た後、新しい政治体制を選択できます。"
 
-#: data/helpdata.txt:1220
+#: data/helpdata.txt:1217
 msgid ""
 "Corruption is the loss of trade due to inefficiency and greed. Under most "
 "forms of government, the farther away from the capital a city is, the more "
@@ -13808,7 +13858,7 @@ msgstr ""
 "都がなければ、全ての都市にひどい汚職がはびこるでしょう。) 裁判所は都市の汚職"
 "を減らします。"
 
-#: data/helpdata.txt:1227
+#: data/helpdata.txt:1224
 msgid ""
 "TIP 1:  Offensive military campaigns are difficult under Republican and "
 "Democratic governments unless you give your citizens lots of luxuries to "
@@ -13819,7 +13869,7 @@ msgstr ""
 "んの余暇を与えない限り難しいです。他の文明を征服するつもりなら、他の好戦的な"
 "政治体制にしたほうがいいかもしれません。"
 
-#: data/helpdata.txt:1233
+#: data/helpdata.txt:1230
 msgid ""
 "TIP 2:  Scientific advancement requires high levels of trade, which are much "
 "easier to achieve under Republican and Democratic governments.  Consider "
@@ -13830,12 +13880,12 @@ msgstr ""
 "やしやすいです。できるだけ早く共和制に切り変えることを考えて下さい。ゲームの"
 "早い段階で進んだ科学を得ると、それだけ有利になるのです。"
 
-#: data/helpdata.txt:1242
+#: data/helpdata.txt:1239
 msgid " Civil War"
 msgstr " 内戦"
 
 # ama, clefs
-#: data/helpdata.txt:1243
+#: data/helpdata.txt:1240
 msgid ""
 "Civil war is devastating to any empire, and is triggered by the loss of your "
 "capital (palace).  Up to half of your cities will rebel and declare "
@@ -13847,14 +13897,14 @@ msgstr ""
 "導者は国庫の半分を略奪し、全ての科学の発展をそのまま保持します。"
 
 # clefs
-#: data/helpdata.txt:1249
+#: data/helpdata.txt:1246
 msgid ""
 "Players remain in the civil war state for just one turn, after which the "
 "empire enters a state of anarchy."
 msgstr "内戦は1ターンのみで、その後は無政府状態になります。"
 
 # ama, clefs
-#: data/helpdata.txt:1252
+#: data/helpdata.txt:1249
 msgid ""
 "The capture of your capital does not always lead to civil war.  If you have "
 "treated your people with kindness, you are more likely to retain their "
@@ -13865,7 +13915,7 @@ msgstr ""
 "かっていたら、おそらく誠実なままです。祝典を行なっている都市は内戦を起こりづ"
 "らく、逆に混乱状態の都市は内戦を起こりやすくします。"
 
-#: data/helpdata.txt:1258
+#: data/helpdata.txt:1255
 msgid ""
 "In addition, the form of government directly contributes to the chance of "
 "civil war.  Governments with universal franchise are far less likely to "
@@ -13875,7 +13925,7 @@ msgstr ""
 "は、専制的なものに比べ暴動の起こる可能性がはるかに少なくなります。"
 
 # ama, clefs
-#: data/helpdata.txt:1262
+#: data/helpdata.txt:1259
 msgid ""
 "The number of cities an empire needs before it can erupt into civil war is "
 "by default 10.  That is, empires with fewer than 10 cities are immune from "
@@ -13887,7 +13937,7 @@ msgstr ""
 "バ・オプションで、 6 以上の数に変更されているかもしれません。"
 
 # yasu
-#: data/helpdata.txt:1274
+#: data/helpdata.txt:1271
 msgid ""
 "Citizens may be either happy, content or unhappy.  Keeping your citizens "
 "happy (or at least content) is one of the most important objectives in "
@@ -13901,7 +13951,7 @@ msgstr ""
 "に増えます。"
 
 # yasu
-#: data/helpdata.txt:1281
+#: data/helpdata.txt:1278
 msgid ""
 "If the number of unhappy citizens in a city exceeds the number of happy "
 "citizens, the city falls into disorder.  When a city falls into disorder, it "
@@ -13915,7 +13965,7 @@ msgstr ""
 "起きます。"
 
 # yasu
-#: data/helpdata.txt:1288
+#: data/helpdata.txt:1285
 msgid ""
 "However, if the number of happy citizens in a city is at least as great as "
 "the number of content citizens, and you have no unhappy citizens in that "
@@ -13928,7 +13978,7 @@ msgstr ""
 "ます。祝典の効果は政治体制によって様々です。"
 
 # yasu
-#: data/helpdata.txt:1295
+#: data/helpdata.txt:1292
 msgid ""
 " - Under Anarchy or Despotism, you will not suffer the normal production "
 "penalty for squares which produce more than 2 units of any resource (food, "
@@ -13938,7 +13988,7 @@ msgstr ""
 "産している土地の通常の生産制限を受けません。"
 
 # yasu
-#: data/helpdata.txt:1299
+#: data/helpdata.txt:1296
 msgid ""
 " - Under Monarchy or Communism, your city will gain the trade bonus of "
 "Republican/Democratic governments: 1 bonus trade in any square which already "
@@ -13949,7 +13999,7 @@ msgstr ""
 "ることができます。"
 
 # yasu
-#: data/helpdata.txt:1303
+#: data/helpdata.txt:1300
 msgid ""
 " - Under a Republic or a Democracy, your city's population will increase by "
 "1 each turn until there is no excess food or until the number of happy "
@@ -13959,7 +14009,7 @@ msgstr ""
 "を満たさなくなるまで、各ターン毎に人口が1増えます。"
 
 # yasu
-#: data/helpdata.txt:1308
+#: data/helpdata.txt:1305
 msgid ""
 "The normal state of a citizen is contentment.  However, as your cities grow "
 "larger, crowding causes citizens to become unhappy. Each citizen in a city "
@@ -13976,7 +14026,7 @@ msgstr ""
 "ことがあります。"
 
 # yasu
-#: data/helpdata.txt:1318
+#: data/helpdata.txt:1315
 msgid ""
 "In order to offset unhappiness, you may build city improvements that make "
 "unhappy citizens content  (such as, a Temple, a Colosseum, or a Cathedral - "
@@ -13995,7 +14045,7 @@ msgstr ""
 "もあります(適切な章に詳細があります)。"
 
 # yasu
-#: data/helpdata.txt:1328
+#: data/helpdata.txt:1325
 msgid ""
 "Under many forms of government, the presence of military units in a city can "
 "create contentment by imposing martial law.  Under a Republic or a "
@@ -14020,7 +14070,7 @@ msgstr ""
 "す。)の建設、または交易をより贅沢に使うことにより解消されます。"
 
 # yasu
-#: data/helpdata.txt:1347
+#: data/helpdata.txt:1344
 msgid ""
 "The Space Race is a second option to win the game, besides eliminating all "
 "other civilizations.  If your spaceship arrives first at Alpha Centauri, the "
@@ -14032,7 +14082,7 @@ msgstr ""
 "し、サーバ・オションとしてこのオプションが無効になっている可能性もあります。)"
 
 # yasu, clefs
-#: data/helpdata.txt:1353
+#: data/helpdata.txt:1350
 msgid ""
 "Before you can build spaceship parts, the Apollo Program wonder must have "
 "been built by any player.  You also need specific technologies to build the "
@@ -14048,7 +14098,7 @@ msgstr ""
 "が無効になっているということでしょう。)"
 
 # yasu
-#: data/helpdata.txt:1361
+#: data/helpdata.txt:1358
 msgid ""
 "When you have started building your spaceship, you can see it with the "
 "\"Spaceship\" command in the Report menu.  To see spaceships of other "
@@ -14059,7 +14109,7 @@ msgstr ""
 "リックしてください。"
 
 # yasu
-#: data/helpdata.txt:1366
+#: data/helpdata.txt:1363
 msgid ""
 "If the success probability is below 100%, some fraction of the people on "
 "board may not survive the journey.  This reduces the score bonus from the "
@@ -14070,7 +14120,7 @@ msgstr ""
 "ます。"
 
 # yasu, clefs
-#: data/helpdata.txt:1370
+#: data/helpdata.txt:1367
 msgid ""
 "If the capital of a civilization is captured, a spaceship that has been "
 "launched will be lost, so defend your capital well!"
@@ -14079,7 +14129,7 @@ msgstr ""
 "ることが大事です。"
 
 # yasu
-#: data/helpdata.txt:1373
+#: data/helpdata.txt:1370
 msgid ""
 "TIP:  If an enemy civilization has launched a spaceship, try to quickly "
 "build a light spaceship with many propulsion units that will arrive "
