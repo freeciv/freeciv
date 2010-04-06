@@ -592,7 +592,7 @@ are from different civilizations. This last condition means the net \
 benefit to your civilization of a trade route is the same regardless \
 of whether you own both cities or only one of them; if you only own \
 one city, trade in each city is doubled, but you only get the benefit \
-from one end of the route route.\
+from one end of the route.\
 "), _("\
 (If a trade route already exists between two cities, the origin \
 civilization can still gain initial revenue by entering the \
