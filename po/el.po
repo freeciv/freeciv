@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-23 16:02+0100\n"
+"POT-Creation-Date: 2010-04-06 12:09-0400\n"
 "PO-Revision-Date: 2008-05-23 17:41+0200\n"
 "Last-Translator: Prekates Alexandros <aprekates@yahoo.gr>\n"
 "Language-Team: Greek translation team <gr@li.org>\n"
@@ -688,29 +688,29 @@ msgstr "Μελλοντική τεχνολογία"
 msgid "(Unknown)"
 msgstr "(Άγνωστη)"
 
-#: common/terrain.c:392 common/terrain.c:574 common/unit.c:553
+#: common/terrain.c:392 common/terrain.c:574 common/unit.c:566
 #: manual/civmanual.c:224
 msgid "Road"
 msgstr "Δρόμος"
 
-#: common/terrain.c:393 common/terrain.c:581 common/unit.c:557
+#: common/terrain.c:393 common/terrain.c:581 common/unit.c:570
 #: client/gui-gtk-2.0/menu.c:829 client/gui-sdl/optiondlg.c:1906
 #: client/gui-win32/menu.c:344 client/gui-xaw/menu.c:151
 #: manual/civmanual.c:224
 msgid "Irrigation"
 msgstr "Ύδρευση"
 
-#: common/terrain.c:394 common/terrain.c:572 common/unit.c:567
+#: common/terrain.c:394 common/terrain.c:572 common/unit.c:580
 #: data/default/techs.ruleset:581 data/civ2/techs.ruleset:566
 #: data/civ1/techs.ruleset:563
 msgid "Railroad"
 msgstr "Σιδηρόδρομος"
 
-#: common/terrain.c:395 common/terrain.c:585 common/unit.c:555
+#: common/terrain.c:395 common/terrain.c:585 common/unit.c:568
 msgid "Mine"
 msgstr "Ορυχείο"
 
-#: common/terrain.c:396 common/unit.c:551 server/report.c:124
+#: common/terrain.c:396 common/unit.c:564 server/report.c:124
 #: client/cityrepdata.c:519 client/gui-sdl/optiondlg.c:1773
 msgid "Pollution"
 msgstr "Μόλυνση"
@@ -719,7 +719,7 @@ msgstr "Μόλυνση"
 msgid "Hut"
 msgstr "Καλύβα"
 
-#: common/terrain.c:398 common/terrain.c:589 common/unit.c:563
+#: common/terrain.c:398 common/terrain.c:589 common/unit.c:576
 #: manual/civmanual.c:226
 msgid "Fortress"
 msgstr "Φρούριο"
@@ -732,59 +732,59 @@ msgstr "Ποταμός"
 msgid "Farmland"
 msgstr "Αγρόκτημα"
 
-#: common/terrain.c:401 common/terrain.c:593 common/unit.c:577
+#: common/terrain.c:401 common/terrain.c:593 common/unit.c:590
 #: manual/civmanual.c:226
 msgid "Airbase"
 msgstr "Αεροπορική βάση"
 
-#: common/terrain.c:402 common/unit.c:579
+#: common/terrain.c:402 common/unit.c:592
 #, fuzzy
 msgid "Fallout"
 msgstr "Ραδιενεργά κατάλοιπα"
 
-#: common/unit.c:549 client/gui-win32/plrdlg.c:337
+#: common/unit.c:562 client/gui-win32/plrdlg.c:337
 msgid "Idle"
 msgstr "Αδρανής"
 
-#: common/unit.c:559
+#: common/unit.c:572
 msgid "Fortifying"
 msgstr "Οχυρώνεται"
 
-#: common/unit.c:561
+#: common/unit.c:574
 msgid "Fortified"
 msgstr "Οχυρομένο"
 
-#: common/unit.c:565 client/gui-sdl/menu.c:661 client/gui-xaw/menu.c:184
+#: common/unit.c:578 client/gui-sdl/menu.c:661 client/gui-xaw/menu.c:184
 msgid "Sentry"
 msgstr "Φρουρός"
 
-#: common/unit.c:569 client/gui-gtk-2.0/menu.c:882 client/gui-sdl/menu.c:648
+#: common/unit.c:582 client/gui-gtk-2.0/menu.c:882 client/gui-sdl/menu.c:648
 #: client/gui-win32/menu.c:370 client/gui-xaw/menu.c:185
 msgid "Pillage"
 msgstr "Λεηλάτησε"
 
-#: common/unit.c:571 client/gui-win32/gotodlg.c:165 data/Freeciv.in:1123
+#: common/unit.c:584 client/gui-win32/gotodlg.c:165 data/Freeciv.in:1123
 msgid "Goto"
 msgstr "Πήγαινε"
 
-#: common/unit.c:573
+#: common/unit.c:586
 msgid "Explore"
 msgstr "Εξερεύνησε"
 
-#: common/unit.c:575 manual/civmanual.c:224
+#: common/unit.c:588 manual/civmanual.c:224
 msgid "Transform"
 msgstr "Μετασχημάτισε"
 
-#: common/unit.c:587 client/text.c:157 client/gui-sdl/citydlg.c:1973
+#: common/unit.c:600 client/text.c:157 client/gui-sdl/citydlg.c:1973
 #: client/gui-win32/citydlg.c:1257 client/gui-xaw/citydlg.c:1423
 msgid "Unknown"
 msgstr "Άγνωστο"
 
-#: common/unit.c:1025
+#: common/unit.c:1038
 msgid "Moves"
 msgstr "Κινήσεις"
 
-#: common/unit.c:1574
+#: common/unit.c:1587
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -793,12 +793,12 @@ msgstr ""
 "Αναβάθμισε %s σε %s για %d χρυσά νομίσματα?\n"
 "Το θησαυροφυλάκιο περιέχει %d χρυσά νομίσματα."
 
-#: common/unit.c:1582
+#: common/unit.c:1595
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Συγνώμη, αλλά δεν μπορώ να αναβαθμίσω %s (ακόμα)."
 
-#: common/unit.c:1588
+#: common/unit.c:1601
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -807,11 +807,11 @@ msgstr ""
 "Αναβάθμιση %s σε %s κοστίζει %d χρυσά.\n"
 "Το θησαυροφυλάκιο περιέχει %d χρυσά."
 
-#: common/unit.c:1597
+#: common/unit.c:1610
 msgid "You can only upgrade units in your cities."
 msgstr "Μπορείς να αναβαθμίσεις μόνο μονάδες που είναι μέσα στις πόλεις σου"
 
-#: common/unit.c:1601
+#: common/unit.c:1614
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr "Αναβάθμιση του %s θα αποβίβαζε τις μονάδες που μεταφέρει. "
@@ -1597,43 +1597,43 @@ msgstr "Αναταραχές ιθαγενών κοντα σε  %s καθοδηγούμενη από %s "
 msgid "Sea raiders seen near %s!"
 msgstr "Εντοπίστηκαν θαλάσσιοι εισβολείς κοντά στο %s!"
 
-#: server/cityhand.c:117
+#: server/cityhand.c:146
 #, fuzzy
 msgid "You don't have a worker here."
 msgstr "Δεν έχεις εργάτη εδώ."
 
-#: server/cityhand.c:174
+#: server/cityhand.c:203
 msgid "You have already sold something here this turn."
 msgstr "Έχεις ήδη πουλήσεις κάτι εδώ σε αυτόν τον γύρο."
 
-#: server/cityhand.c:183
+#: server/cityhand.c:212
 #, c-format
 msgid "You sell %s in %s for %d gold."
 msgstr "Πούλησες %s σε  %s για %d χρυσό."
 
-#: server/cityhand.c:223
+#: server/cityhand.c:252
 msgid "Cannot buy in city created this turn."
 msgstr "Δεν μπορείς να αγοράσεις σε πόλη που δημιουργήθηκε αυτόν τον γύρο."
 
-#: server/cityhand.c:229
+#: server/cityhand.c:258
 msgid "You have already bought this turn."
 msgstr "Έχεις ήδη αγοράσει αυτόν τον γύρο."
 
-#: server/cityhand.c:236
+#: server/cityhand.c:265
 #, c-format
 msgid "You don't buy %s!"
 msgstr "Δεν αγοράζεις %s!"
 
-#: server/cityhand.c:243
+#: server/cityhand.c:272
 msgid "Can't buy units when city is in disorder."
 msgstr "Δεν μπορείς να αγοράσεις μονάδες όταν η πόλη είναι σε αναταραχή."
 
-#: server/cityhand.c:262
+#: server/cityhand.c:291
 #, c-format
 msgid "%d gold required.  You only have %d gold."
 msgstr "%d χρυσός απαιτείται. Έχεις μόνο %d χρυσό."
 
-#: server/cityhand.c:363
+#: server/cityhand.c:392
 msgid "You have bought this turn, can't change."
 msgstr "Έχεις αγοράσει αυτόν τον γύρο, δεν αλλάζει."
 
@@ -2095,7 +2095,7 @@ msgstr "Αυτός είναι ο εξυπηρετητής για %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Μπορείς να μάθεις πολλά για το Freeciv στο %s"
 
-#: server/civserver.c:210 client/civclient.c:239 manual/civmanual.c:380
+#: server/civserver.c:210 client/civclient.c:233 manual/civmanual.c:380
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2127,14 +2127,14 @@ msgstr ""
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "-b  --bind ΔΙΕΥΘ\tΆκουσε για πελάτες στην διεύθυνση ΔΙΕΥΘ\n"
 
-#: server/civserver.c:221 client/civclient.c:243
+#: server/civserver.c:221 client/civclient.c:237
 msgid ""
 "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug ΑΡΙΘΜ\tΘέσε επίπεδο αποσφαλμάτωσης ημερολογίου (0 εώς 4, ή 4:"
 "αρχείο1,ελάχιστο,μέγιστο:...)\n"
 
-#: server/civserver.c:225 client/civclient.c:247
+#: server/civserver.c:225 client/civclient.c:241
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "-d, --debug ΑΡΙΘΜ\tΘέσε επίπεδο αποσφαλμάτωσης ημερολίου (0 εώς 3)\n"
 
@@ -2142,7 +2142,7 @@ msgstr "-d, --debug ΑΡΙΘΜ\tΘέσε επίπεδο αποσφαλμάτωσης ημερολίου (0 εώς 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "-f, --file ΑΡΧΕΙΟ\tΦόρτωσε σωσμένο παιχνίδι ΑΡΧΕΙΟ\n"
 
-#: server/civserver.c:229 client/civclient.c:250 manual/civmanual.c:382
+#: server/civserver.c:229 client/civclient.c:244 manual/civmanual.c:382
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "-h, --help\t\tΤύπωσε μια σύνοψη των επιλογών\n"
 
@@ -2206,7 +2206,7 @@ msgstr ""
 "  -R, --Ranklog ΑΡΧΕΙΟ\tΧρησιμοποίησε ΑΡΧΕΙΟ σαν αρχείο ημερολογίο "
 "κατάταξης\n"
 
-#: server/civserver.c:252 client/civclient.c:269 manual/civmanual.c:383
+#: server/civserver.c:252 client/civclient.c:263 manual/civmanual.c:383
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tΤύπωσε τον αριθμό έκδοσης\n"
 
@@ -3557,44 +3557,44 @@ msgstr ""
 msgid "There is no player nor connection by the name %s."
 msgstr ""
 
-#: server/maphand.c:252
+#: server/maphand.c:260
 msgid "Global warming has occurred!"
 msgstr ""
 
-#: server/maphand.c:254
+#: server/maphand.c:262
 msgid ""
 "Coastlines have been flooded and vast ranges of grassland have become "
 "deserts."
 msgstr ""
 
-#: server/maphand.c:296
+#: server/maphand.c:312
 msgid "Nuclear winter has occurred!"
 msgstr ""
 
-#: server/maphand.c:298
+#: server/maphand.c:314
 msgid "Wetlands have dried up and vast ranges of grassland have become tundra."
 msgstr ""
 
-#: server/maphand.c:319
+#: server/maphand.c:335
 msgid ""
 "New hope sweeps like fire through the country as the discovery of railroad "
 "is announced.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 
-#: server/maphand.c:325
+#: server/maphand.c:341
 msgid ""
 "The people are pleased to hear that your scientists finally know about "
 "railroads.\n"
 "      Workers spontaneously gather and upgrade all cities with railroads."
 msgstr ""
 
-#: server/maphand.c:1425
+#: server/maphand.c:1441
 #, c-format
 msgid "Moved your %s due to changing terrain."
 msgstr ""
 
-#: server/maphand.c:1443
+#: server/maphand.c:1459
 #, c-format
 msgid "Disbanded your %s due to changing terrain."
 msgstr ""
@@ -3634,7 +3634,7 @@ msgstr "ο %s κυβερνάει τώρα τους %s σαν %s."
 
 #. TRANS: this is a message event so don't make it
 #. * too long.
-#: server/plrhand.c:324
+#: server/plrhand.c:327
 #, fuzzy, c-format
 msgid ""
 "The %s have incited a revolt! %d turn of anarchy will ensue! Target "
@@ -3649,35 +3649,35 @@ msgstr[1] ""
 "Ο %s έχει παρακινήσει ανταρσία! %d γύροι αναρχίας θα επακολουθήσουν! "
 "Πολίτευμα στόχος είναι %s."
 
-#: server/plrhand.c:337
+#: server/plrhand.c:340
 msgid "Revolution: returning to anarchy."
 msgstr "Επανάσταση: επιστροφή στην αναρχία."
 
-#: server/plrhand.c:398
+#: server/plrhand.c:401
 msgid "You should choose a new government from the government menu."
 msgstr "Πρέπει να επιλέξεις μια νέα κυβέρνηση από το μενού των πολιτευμάτων."
 
-#: server/plrhand.c:424
+#: server/plrhand.c:427
 #, c-format
 msgid "Tax rate exceeded the max rate for %s; adjusted."
 msgstr ""
 
-#: server/plrhand.c:429
+#: server/plrhand.c:432
 #, c-format
 msgid "Science rate exceeded the max rate for %s; adjusted."
 msgstr "Το ποσοστό επιστήμης που υπερβαίνε το μέγιστο όριο για %s ρυθμίστηκε."
 
-#: server/plrhand.c:434
+#: server/plrhand.c:437
 #, c-format
 msgid "Luxury rate exceeded the max rate for %s; adjusted."
 msgstr "Το ποσοστό ανέσεων που υπερβαίνε το μέγιστο όριο για %s ρυθμίστηκε."
 
-#: server/plrhand.c:489
+#: server/plrhand.c:492
 #, c-format
 msgid "%s no longer gives us shared vision!"
 msgstr "%s δεν σου δίνει πλέον κοινή ορατότητα!"
 
-#: server/plrhand.c:500
+#: server/plrhand.c:503
 #, c-format
 msgid ""
 "The senate will not allow you to break treaty with the %s.  You must either "
@@ -3686,7 +3686,7 @@ msgstr ""
 "Η γερουσία δεν θα σου επιτρέψει να ακυρώσεις τη συνθήκη  με τον %s. Πρέπει "
 "είτε να διαλύσεις τη γερουσία είτε να περιμένεις μια ποιό κατάλληλη στιγμή."
 
-#: server/plrhand.c:553
+#: server/plrhand.c:556
 #, c-format
 msgid ""
 "The senate passes your bill because of the constant provocations of the %s."
@@ -3694,7 +3694,7 @@ msgstr ""
 "Η γερουσία θα ψηφίσει την προτασή σου εξαιτίας των συνεχών προκλήσεων του %"
 "s. "
 
-#: server/plrhand.c:558
+#: server/plrhand.c:561
 #, c-format
 msgid ""
 "The senate refuses to break treaty with the %s, but you have no trouble "
@@ -3703,12 +3703,12 @@ msgstr ""
 "Η γερουσία αρνείται να ακυρώσει τη συνθήκη με τον %s, αλλά εσυ δεν έχεις "
 "πρόβλημα "
 
-#: server/plrhand.c:590
+#: server/plrhand.c:593
 #, c-format
 msgid "The diplomatic state between the %s and the %s is now %s."
 msgstr "Η διπλωματική κατάσταση ανάμεσα σε %s και σε %s είναι τώρα %s."
 
-#: server/plrhand.c:596
+#: server/plrhand.c:599
 #, c-format
 msgid ""
 " %s canceled the diplomatic agreement! The diplomatic state between the %s "
@@ -3717,7 +3717,7 @@ msgstr ""
 " %s ακύρωσε τη διπλωματική συμφωνία! Πλέον η διπλωματική κατάσταση ανάμεσα "
 "στο %s και στον %s είναι τώρα  %s."
 
-#: server/plrhand.c:614
+#: server/plrhand.c:617
 #, c-format
 msgid ""
 "%s has attacked your ally %s! You cancel your alliance to the aggressor."
@@ -3725,7 +3725,7 @@ msgstr ""
 "%s επιτέθηκε στον σύμμαχό σου %s! Ακυρώνεις τη συμμαχία σου με τον "
 "επιτιθέμενο."
 
-#: server/plrhand.c:626
+#: server/plrhand.c:629
 #, c-format
 msgid ""
 "Your team mate %s declared war on %s. You are obligated to cancel alliance "
@@ -3734,36 +3734,36 @@ msgstr ""
 "Ο φίλος %s της ομάδας σου κήρυξε πόλεμο στον %s. Υποχρεώνεσαι να ακυρώσεις "
 "συμμαχία με τον %s."
 
-#: server/plrhand.c:1115
+#: server/plrhand.c:1118
 #, c-format
 msgid "Removing player %s."
 msgstr "Απομακρύνεται ο παίχτης %s."
 
-#: server/plrhand.c:1117
+#: server/plrhand.c:1120
 msgid "You've been removed from the game!"
 msgstr "Απομακρύνθηκες από το παιχνίδι!"
 
-#: server/plrhand.c:1120
+#: server/plrhand.c:1123
 #, c-format
 msgid "%s has been removed from the game."
 msgstr "%s απομακρύνθηκε από το παιχνίδι."
 
-#: server/plrhand.c:1193 server/plrhand.c:1198
+#: server/plrhand.c:1196 server/plrhand.c:1201
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Έκανες επαφή με τους %s που κυβερνώνται από τον %s  "
 
-#: server/plrhand.c:1678
+#: server/plrhand.c:1681
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "Δεν μπορώ να προκαλέσω εμφύλιο πόλεμο στον %s - πολύ παίχτες"
 
-#: server/plrhand.c:1685
+#: server/plrhand.c:1688
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "Δεν μπορώ να προκαλέσω εμφύλιο πόλεμο στον %s - πολύ παίχτες"
 
-#: server/plrhand.c:1708
+#: server/plrhand.c:1711
 #, fuzzy, c-format
 msgid ""
 "Your nation is thrust into civil war! %s is declared the leader of the rebel "
@@ -3772,12 +3772,12 @@ msgstr ""
 "Στο έθνος σου ξέσπασε εμφύλιος πόλεμος, o %s ανακυρηρίχτηκε ηγέτης των "
 "επαναστατημένων κρατών."
 
-#: server/plrhand.c:1729
+#: server/plrhand.c:1732
 #, fuzzy, c-format
 msgid "%s declares allegiance to %s."
 msgstr "Ο %s δηλώνει πίστη στον  %s"
 
-#: server/plrhand.c:1744
+#: server/plrhand.c:1747
 #, fuzzy, c-format
 msgid ""
 "Capture of the %s capital and destruction of the empire's administrative\n"
@@ -4073,12 +4073,12 @@ msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:3817
+#: server/savegame.c:3825
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 
-#: server/savegame.c:3826
+#: server/savegame.c:3834
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4086,7 +4086,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4055
+#: server/savegame.c:4063
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
@@ -5449,46 +5449,46 @@ msgstr ""
 msgid "Without guidance from the capital, the %s spaceship is lost!"
 msgstr ""
 
-#: server/srv_main.c:242
+#: server/srv_main.c:243
 msgid "Game ended in a draw as end year exceeded"
 msgstr ""
 
-#: server/srv_main.c:276
+#: server/srv_main.c:277
 #, c-format
 msgid "The %s spaceship has arrived at Alpha Centauri."
 msgstr ""
 
-#: server/srv_main.c:289 server/srv_main.c:324
+#: server/srv_main.c:290 server/srv_main.c:330
 #, c-format
 msgid "Team victory to %s"
 msgstr ""
 
-#: server/srv_main.c:299 server/srv_main.c:340
+#: server/srv_main.c:300 server/srv_main.c:346
 #, c-format
 msgid "Game ended in victory for %s"
 msgstr ""
 
-#: server/srv_main.c:347
+#: server/srv_main.c:353
 msgid "Game ended in a draw"
 msgstr ""
 
-#: server/srv_main.c:465 server/srv_main.c:476
+#: server/srv_main.c:471 server/srv_main.c:482
 #, c-format
 msgid "Your %s was disbanded in accordance with your peace treaty with the %s."
 msgstr ""
 
-#: server/srv_main.c:516
+#: server/srv_main.c:522
 #, c-format
 msgid ""
 "Concerned citizens point out that the cease-fire with %s will run out soon."
 msgstr ""
 
-#: server/srv_main.c:525 server/srv_main.c:529
+#: server/srv_main.c:531 server/srv_main.c:535
 #, c-format
 msgid "The cease-fire with %s has run out. You are now at war with the %s."
 msgstr ""
 
-#: server/srv_main.c:546
+#: server/srv_main.c:552
 #, fuzzy, c-format
 msgid ""
 "Ceasefire between %s and %s has run out. They are at war. You cancel your "
@@ -5497,116 +5497,116 @@ msgstr ""
 "Η κατάπαυση πυρός μεταξύ %s και %s έχει λήξει. Είναι σε πόλεμο. Ακυρώνεις "
 "συμμαχία με %s. "
 
-#: server/srv_main.c:997
+#: server/srv_main.c:1003
 #, c-format
 msgid "Failed saving game as %s"
 msgstr "Αποτυχία αποθήκευσης παιχνιδίου σαν %s"
 
-#: server/srv_main.c:999
+#: server/srv_main.c:1005
 #, c-format
 msgid "Game saved as %s"
 msgstr "Το παιχνίδι σώθηκε σαν %s"
 
-#: server/srv_main.c:1030
+#: server/srv_main.c:1036
 msgid "The game is already running."
 msgstr "Το παιχνίδι τρέχει ήδη."
 
-#: server/srv_main.c:1038
+#: server/srv_main.c:1044
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%s έχασε έλεγχο cmdlevel κατά την εκκίνηση του παιχνιδίου. Χρησιμοποίησε "
 "ψηφοφορία από δώ και πέρα."
 
-#: server/srv_main.c:1045
+#: server/srv_main.c:1051
 msgid "Starting game."
 msgstr "Αρχίζει το παιχνίδι. "
 
-#: server/srv_main.c:1112
+#: server/srv_main.c:1118
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "αίτηση για αγνώστη αναφορά (τύπου %d)"
 
-#: server/srv_main.c:1177
+#: server/srv_main.c:1183
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Προειδοποίηση: απορρίπτεται ο παλιός πελάτης %s"
 
-#: server/srv_main.c:1279
+#: server/srv_main.c:1285
 #, c-format
 msgid "Got a packet of type %d from a dead or observer player"
 msgstr "Έλαβα πακέτο τύπου  %d από νεκρό ή παρακολουθητέο παίχτη"
 
-#: server/srv_main.c:1381
+#: server/srv_main.c:1387
 msgid "Please choose a non-blank name."
 msgstr "[αρακαλώ επιλέξτε ένα μη κενό όνομα"
 
-#: server/srv_main.c:1397
+#: server/srv_main.c:1403
 msgid "That nation is already in use."
 msgstr "Αυτό το έθνος χρησιμοποιείται ήδη."
 
-#: server/srv_main.c:1413
+#: server/srv_main.c:1419
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Άλλος παίχτης έχει το όνομα '%s'.Παρακαλώ επιλέξτε άλλο όνομα."
 
-#: server/srv_main.c:1434
+#: server/srv_main.c:1440
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Παρακαλώ επιλέξτε ένα όνομα που να περιέχει μόνο ASCII χαρακτήρες."
 
-#: server/srv_main.c:1533
+#: server/srv_main.c:1545
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "το %s έθνος δεν είναι διαθέσιμο σε αυτό το σενάριο."
 
-#: server/srv_main.c:1539
+#: server/srv_main.c:1551
 #, c-format
 msgid "%s nation is already in use."
 msgstr "το %s έθνος χρησιμοποιείται ήδη."
 
-#: server/srv_main.c:1557
+#: server/srv_main.c:1569
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s είναι ο %s ηγέτης %s"
 
-#: server/srv_main.c:1613
+#: server/srv_main.c:1625
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr ""
 "Περιμένοντας να αρχίσει το παιχνίδι: %d από τους %d παίχτες είναι έτοιμοι να "
 "αρχίσουν. "
 
-#: server/srv_main.c:1657 server/srv_main.c:1661
+#: server/srv_main.c:1669 server/srv_main.c:1673
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s προστέθηκε σαν  %s επιπέδου παίχτης ελεγχόμενος από ΤΝ."
 
-#: server/srv_main.c:1803
+#: server/srv_main.c:1815
 #, c-format
 msgid "Player %d"
 msgstr "Παίχτης %d"
 
-#: server/srv_main.c:1814 server/srv_main.c:1820
+#: server/srv_main.c:1826 server/srv_main.c:1832
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s κυβερνάει τους %s."
 
-#: server/srv_main.c:1985
+#: server/srv_main.c:1997
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2037
+#: server/srv_main.c:2049
 #, c-format
 msgid "Sending info to metaserver [%s]"
 msgstr ""
 
-#: server/srv_main.c:2069
+#: server/srv_main.c:2081
 msgid "The game is over..."
 msgstr "Το παιχνίδι τελείωσε..."
 
-#: server/srv_main.c:2286
+#: server/srv_main.c:2298
 msgid "Now accepting new client connections."
 msgstr "Τώρα αποδέχομαι συνδέσεις πελάτη."
 
@@ -5617,7 +5617,7 @@ msgstr ""
 
 #. TRANS: unrecognized command
 #. TRANS: "unknown" location
-#: server/stdinhand.c:287 client/citydlg_common.c:419
+#: server/stdinhand.c:287 client/citydlg_common.c:426
 #: client/gui-gtk-2.0/inteldlg.c:367 client/gui-sdl/inteldlg.c:295
 #: client/gui-sdl/inteldlg.c:307 client/gui-win32/inteldlg.c:147
 #: client/gui-xaw/inteldlg.c:265
@@ -5791,7 +5791,7 @@ msgstr ""
 msgid "Removed player %s from the game."
 msgstr ""
 
-#: server/stdinhand.c:935 server/stdinhand.c:3372 server/stdinhand.c:3507
+#: server/stdinhand.c:935 server/stdinhand.c:3372 server/stdinhand.c:3508
 #, c-format
 msgid "Name \"%s\" disallowed for security reasons."
 msgstr ""
@@ -5916,7 +5916,7 @@ msgstr ""
 msgid "Option:"
 msgstr "Επιλογές"
 
-#: server/stdinhand.c:1455 server/stdinhand.c:4079
+#: server/stdinhand.c:1455 server/stdinhand.c:4080
 msgid "Description:"
 msgstr ""
 
@@ -6110,7 +6110,7 @@ msgstr ""
 msgid "Invalid arguments. Usage: vote yes|no|abstain [vote number]."
 msgstr "vote yes|no [ψήφος αριθμός]"
 
-#: server/stdinhand.c:2095 server/stdinhand.c:2213 server/stdinhand.c:3714
+#: server/stdinhand.c:2095 server/stdinhand.c:2213 server/stdinhand.c:3715
 msgid "You are not allowed to use this command."
 msgstr ""
 
@@ -6274,7 +6274,7 @@ msgstr ""
 msgid "You are not allowed to set this option."
 msgstr ""
 
-#: server/stdinhand.c:2478 server/stdinhand.c:3501
+#: server/stdinhand.c:2478 server/stdinhand.c:3502
 msgid "This setting can't be modified after the game has started."
 msgstr ""
 
@@ -6453,30 +6453,30 @@ msgstr "%s αποκτήθηκε από %s!"
 msgid "%s now controls %s (%s, %s)."
 msgstr "ο %s κυβερνάει τώρα τους %s σαν %s."
 
-#: server/stdinhand.c:3150 server/stdinhand.c:4308
+#: server/stdinhand.c:3150 server/stdinhand.c:4309
 #: data/nation/barbarian.ruleset:3
 msgid "Barbarian"
 msgstr ""
 
-#: server/stdinhand.c:3152 server/stdinhand.c:4310 client/plrdlg_common.c:256
-#: client/gui-gtk-2.0/pages.c:2104 client/gui-sdl/plrdlg.c:645
+#: server/stdinhand.c:3152 server/stdinhand.c:4311 client/plrdlg_common.c:256
+#: client/gui-gtk-2.0/pages.c:2103 client/gui-sdl/plrdlg.c:645
 #: client/gui-win32/connectdlg.c:203 client/gui-win32/plrdlg.c:335
 msgid "AI"
 msgstr ""
 
-#: server/stdinhand.c:3153 server/stdinhand.c:4312
-#: client/gui-gtk-2.0/pages.c:2104 client/gui-gtk-2.0/pages.c:2127
+#: server/stdinhand.c:3153 server/stdinhand.c:4313
+#: client/gui-gtk-2.0/pages.c:2103 client/gui-gtk-2.0/pages.c:2126
 #: client/gui-win32/connectdlg.c:203 client/gui-win32/connectdlg.c:215
 msgid "Human"
 msgstr ""
 
-#: server/stdinhand.c:3155 client/gui-gtk-2.0/pages.c:2103
-#: client/gui-gtk-2.0/pages.c:2126 client/gui-win32/connectdlg.c:202
+#: server/stdinhand.c:3155 client/gui-gtk-2.0/pages.c:2102
+#: client/gui-gtk-2.0/pages.c:2125 client/gui-win32/connectdlg.c:202
 #: client/gui-win32/connectdlg.c:214
 msgid "Alive"
 msgstr ""
 
-#: server/stdinhand.c:3156 client/gui-gtk-2.0/pages.c:2103
+#: server/stdinhand.c:3156 client/gui-gtk-2.0/pages.c:2102
 #: client/gui-win32/connectdlg.c:202
 msgid "Dead"
 msgstr ""
@@ -6538,119 +6538,119 @@ msgstr ""
 msgid "Current ruleset directory is \"%s\""
 msgstr ""
 
-#: server/stdinhand.c:3516
+#: server/stdinhand.c:3517
 #, c-format
 msgid "Ruleset directory \"%s\" not found"
 msgstr ""
 
-#: server/stdinhand.c:3522
+#: server/stdinhand.c:3523
 #, c-format
 msgid "Ruleset directory is already \"%s\""
 msgstr ""
 
-#: server/stdinhand.c:3526
+#: server/stdinhand.c:3527
 #, c-format
 msgid "Ruleset directory set to \"%s\""
 msgstr ""
 
-#: server/stdinhand.c:3574
+#: server/stdinhand.c:3575
 msgid "Goodbye."
 msgstr ""
 
-#: server/stdinhand.c:3606
+#: server/stdinhand.c:3607
 msgid "Sorry, you are not allowed to use server commands."
 msgstr ""
 
-#: server/stdinhand.c:3656
+#: server/stdinhand.c:3657
 #, c-format
 msgid "Warning: '%s' interpreted as '%s', but it is ambiguous.  Try '%shelp'."
 msgstr ""
 
-#: server/stdinhand.c:3661
+#: server/stdinhand.c:3662
 #, c-format
 msgid "Unknown command.  Try '%shelp'."
 msgstr ""
 
-#: server/stdinhand.c:3675
+#: server/stdinhand.c:3676
 msgid "Your new vote cancelled your previous vote."
 msgstr ""
 
-#: server/stdinhand.c:3688
+#: server/stdinhand.c:3689
 msgid "New teamvote"
 msgstr ""
 
-#: server/stdinhand.c:3691
+#: server/stdinhand.c:3692
 #, fuzzy
 msgid "New vote"
 msgstr "Νοέμβριος"
 
-#: server/stdinhand.c:3695
+#: server/stdinhand.c:3696
 #, c-format
 msgid "%s (number %d) by %s: %s"
 msgstr ""
 
-#: server/stdinhand.c:3704
+#: server/stdinhand.c:3705
 #, c-format
 msgid "Your new vote (\"%s\") was not legal or was not recognized."
 msgstr ""
 
-#: server/stdinhand.c:3726
+#: server/stdinhand.c:3727
 msgid "(server prompt)"
 msgstr ""
 
-#: server/stdinhand.c:3835
+#: server/stdinhand.c:3836
 msgid "Game ended in a draw."
 msgstr ""
 
-#: server/stdinhand.c:3839
+#: server/stdinhand.c:3840
 msgid ""
 "Ending the game. The server will restart once all clients have disconnected."
 msgstr ""
 
-#: server/stdinhand.c:3844
+#: server/stdinhand.c:3845
 msgid "Cannot end the game: no game running."
 msgstr ""
 
-#: server/stdinhand.c:3860
+#: server/stdinhand.c:3861
 #, c-format
 msgid "%s has conceded the game and can no longer win."
 msgstr ""
 
-#: server/stdinhand.c:3865
+#: server/stdinhand.c:3866
 msgid "You cannot surrender now."
 msgstr ""
 
-#: server/stdinhand.c:3931
+#: server/stdinhand.c:3932
 msgid "Not enough human players, game will not start."
 msgstr ""
 
-#: server/stdinhand.c:3936
+#: server/stdinhand.c:3937
 msgid "No players, game will not start."
 msgstr ""
 
-#: server/stdinhand.c:3940
+#: server/stdinhand.c:3941
 msgid "Not enough nations for all players, game will not start."
 msgstr ""
 
-#: server/stdinhand.c:3949
+#: server/stdinhand.c:3950
 msgid "All players are ready; starting game."
 msgstr "Όλοι οι παίχτες είναι έτοιμοι, αρχίζει το παιχνίδι."
 
-#: server/stdinhand.c:3963
+#: server/stdinhand.c:3964
 msgid ""
 "Cannot start the game: the game is waiting for all clients to disconnect."
 msgstr ""
 
-#: server/stdinhand.c:3970
+#: server/stdinhand.c:3971
 msgid "Cannot start the game: it is already running."
 msgstr ""
 
-#: server/stdinhand.c:4001
+#: server/stdinhand.c:4002
 #, c-format
 msgid "Cutting connection %s."
 msgstr ""
 
-#: server/stdinhand.c:4020
+#: server/stdinhand.c:4021
 msgid ""
 "Welcome - this is the introductory help text for the Freeciv server.\n"
 "\n"
@@ -6689,124 +6689,124 @@ msgstr ""
 "  save   - για να σώσει το τρέχων παιχνίδι\n"
 "  quit    -  για έξοδο"
 
-#: server/stdinhand.c:4055 server/stdinhand.c:4058
+#: server/stdinhand.c:4056 server/stdinhand.c:4059
 #, fuzzy
 msgid "Command:"
 msgstr "Κομμουνισμός"
 
-#: server/stdinhand.c:4062
+#: server/stdinhand.c:4063
 msgid "Synopsis: "
 msgstr ""
 
-#: server/stdinhand.c:4071
+#: server/stdinhand.c:4072
 #, c-format
 msgid "Level: %s"
 msgstr ""
 
-#: server/stdinhand.c:4096
+#: server/stdinhand.c:4097
 msgid "The following server commands are available:"
 msgstr ""
 
-#: server/stdinhand.c:4171
+#: server/stdinhand.c:4172
 #, c-format
 msgid "Help argument '%s' is ambiguous."
 msgstr ""
 
-#: server/stdinhand.c:4176
+#: server/stdinhand.c:4177
 #, c-format
 msgid "No match for help argument '%s'."
 msgstr ""
 
-#: server/stdinhand.c:4242
+#: server/stdinhand.c:4243
 #, c-format
 msgid "Bad list argument: '%s'.  Try '%shelp list'."
 msgstr ""
 
-#: server/stdinhand.c:4282
+#: server/stdinhand.c:4283
 msgid "List of players:"
 msgstr ""
 
-#: server/stdinhand.c:4287
+#: server/stdinhand.c:4288
 msgid "<no players>"
 msgstr ""
 
-#: server/stdinhand.c:4304
+#: server/stdinhand.c:4305
 #, c-format
 msgid "user %s, "
 msgstr ""
 
-#: server/stdinhand.c:4315
+#: server/stdinhand.c:4316
 msgid ", Dead"
 msgstr ""
 
-#: server/stdinhand.c:4318
+#: server/stdinhand.c:4319
 #, c-format
 msgid ", difficulty level %s"
 msgstr ""
 
 #. TRANS: continue list, in case comma is not the separator of choice.
-#: server/stdinhand.c:4323 server/stdinhand.c:4327 client/helpdata.c:257
-#: client/helpdata.c:752 client/text.c:241 client/text.c:1230
-#: client/text.c:1268
+#: server/stdinhand.c:4324 server/stdinhand.c:4328 client/helpdata.c:257
+#: client/helpdata.c:752 client/text.c:241 client/text.c:1232
+#: client/text.c:1270
 #, fuzzy, c-format
 msgid "?clistmore:, %s"
 msgstr "Ειδικοί πόροι"
 
-#: server/stdinhand.c:4331
+#: server/stdinhand.c:4332
 msgid ", ready"
 msgstr ""
 
-#: server/stdinhand.c:4333
+#: server/stdinhand.c:4334
 msgid ", not ready"
 msgstr ""
 
-#: server/stdinhand.c:4341
+#: server/stdinhand.c:4342
 #, c-format
 msgid " %d connection:"
 msgid_plural " %d connections:"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/stdinhand.c:4347
+#: server/stdinhand.c:4348
 #, c-format
 msgid "  %s from %s (command access level %s), bufsize=%dkb"
 msgstr ""
 
-#: server/stdinhand.c:4352
+#: server/stdinhand.c:4353
 msgid " (observer mode)"
 msgstr ""
 
-#: server/stdinhand.c:4370
+#: server/stdinhand.c:4371
 msgid "List of teams:"
 msgstr ""
 
 #. TRANS: There will always be at least 2 players here.
-#: server/stdinhand.c:4380
+#: server/stdinhand.c:4381
 #, c-format
 msgid "%2d : '%s' : %d player"
 msgid_plural "%2d : '%s' : %d players"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/stdinhand.c:4400
+#: server/stdinhand.c:4401
 #, c-format
 msgid "%2d : '%s' : 1 player : %s"
 msgstr ""
 
-#: server/stdinhand.c:4408
+#: server/stdinhand.c:4409
 #, c-format
 msgid "Empty team: %s"
 msgstr ""
 
-#: server/stdinhand.c:4419
+#: server/stdinhand.c:4420
 msgid "List of connections to server:"
 msgstr ""
 
-#: server/stdinhand.c:4423
+#: server/stdinhand.c:4424
 msgid "<no connections>"
 msgstr ""
 
-#: server/stdinhand.c:4447
+#: server/stdinhand.c:4448
 msgid "List of scenarios available:"
 msgstr ""
 
@@ -6890,202 +6890,202 @@ msgstr ""
 msgid "The %s have stolen %s from the %s."
 msgstr ""
 
-#: server/unithand.c:100
+#: server/unithand.c:97
 #, c-format
 msgid "Illegal packet, can't upgrade %s (yet)."
 msgstr ""
 
-#: server/unithand.c:128
+#: server/unithand.c:125
 #, c-format
 msgid "%d %s upgraded to %s for %d gold."
 msgstr ""
 
-#: server/unithand.c:136
+#: server/unithand.c:133
 msgid "No units could be upgraded."
 msgstr ""
 
-#: server/unithand.c:160
+#: server/unithand.c:157
 #, c-format
 msgid "%s upgraded to %s for %d gold."
 msgstr ""
 
-#: server/unithand.c:402
+#: server/unithand.c:399
 #, c-format
 msgid "%s refuses to disband!"
 msgstr ""
 
-#: server/unithand.c:455
+#: server/unithand.c:451
 msgid "Can't place city here."
 msgstr ""
 
-#: server/unithand.c:462
+#: server/unithand.c:458
 #, c-format
 msgid "Only %s can build a city."
 msgstr ""
 
-#: server/unithand.c:467
+#: server/unithand.c:463
 msgid "Can't build a city."
 msgstr ""
 
-#: server/unithand.c:476
+#: server/unithand.c:472
 #, c-format
 msgid "Only %s can add to a city."
 msgstr ""
 
-#: server/unithand.c:481
+#: server/unithand.c:477
 msgid "Can't add to a city."
 msgstr ""
 
-#: server/unithand.c:487
+#: server/unithand.c:483
 #, c-format
 msgid "%s unit has no moves left to add to %s."
 msgstr ""
 
-#: server/unithand.c:493
+#: server/unithand.c:489
 #, c-format
 msgid "%s unit has no moves left to build city."
 msgstr ""
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
-#: server/unithand.c:499
+#: server/unithand.c:495
 #, c-format
 msgid "%s is owned by %s, cannot add %s."
 msgstr ""
 
-#: server/unithand.c:506
+#: server/unithand.c:502
 #, c-format
 msgid "%s is too big to add %s."
 msgstr ""
 
-#: server/unithand.c:512
+#: server/unithand.c:508
 #, c-format
 msgid "%s needs an improvement to grow, so you cannot add %s."
 msgstr ""
 
-#: server/unithand.c:523
+#: server/unithand.c:519
 #, c-format
 msgid "Can't add %s to %s."
 msgstr ""
 
-#: server/unithand.c:545
+#: server/unithand.c:541
 #, c-format
 msgid "%s added to aid %s in growing."
 msgstr ""
 
-#: server/unithand.c:842
+#: server/unithand.c:844
 msgid "Your Nuclear missile was shot down by SDI defences, what a waste."
 msgstr ""
 
-#: server/unithand.c:845
+#: server/unithand.c:847
 #, c-format
 msgid "The nuclear attack on %s was avoided by your SDI defense."
 msgstr ""
 
 #. TRANS: "Your Cannon ... the Polish Destroyer."
-#: server/unithand.c:915
+#: server/unithand.c:917
 #, c-format
 msgid "Your %s survived the pathetic attack from the %s %s."
 msgstr ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unithand.c:924
+#: server/unithand.c:926
 #, c-format
 msgid "Your attacking %s failed against the %s %s!"
 msgstr ""
 
-#: server/unithand.c:997
+#: server/unithand.c:999
 #, c-format
 msgid "Only %s can attack from sea."
 msgstr ""
 
-#: server/unithand.c:1002
+#: server/unithand.c:1004
 msgid "Cannot attack from sea."
 msgstr ""
 
-#: server/unithand.c:1010 server/unittools.c:2154
+#: server/unithand.c:1012 server/unittools.c:2156
 msgid "Cannot attack unless you declare war first."
 msgstr ""
 
-#: server/unithand.c:1015
+#: server/unithand.c:1017
 #, c-format
 msgid "%s can only move into your own zone of control."
 msgstr ""
 
-#: server/unithand.c:1021
+#: server/unithand.c:1024 server/unittools.c:2162
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
 
-#: server/unithand.c:1066
+#: server/unithand.c:1070
 msgid "This unit has no moves left."
 msgstr ""
 
-#: server/unithand.c:1121
+#: server/unithand.c:1125
 msgid "Unit must be on land to perform diplomatic action."
 msgstr ""
 
-#: server/unithand.c:1123
+#: server/unithand.c:1127
 msgid "No diplomat action possible."
 msgstr ""
 
-#: server/unithand.c:1139
+#: server/unithand.c:1143
 #, c-format
 msgid "You must declare war on %s first.  Try using players dialog (F3)."
 msgstr ""
 
-#: server/unithand.c:1157
+#: server/unithand.c:1161
 msgid "This unit is being transported, and so cannot bombard."
 msgstr ""
 
-#: server/unithand.c:1172
+#: server/unithand.c:1176
 msgid "You can't attack there."
 msgstr ""
 
-#: server/unithand.c:1194
+#: server/unithand.c:1198
 msgid "This type of troops cannot take over a city."
 msgstr ""
 
-#: server/unithand.c:1212
+#: server/unithand.c:1216
 msgid "A transported unit is not allied to all units or city on target tile."
 msgstr ""
 
-#: server/unithand.c:1254
+#: server/unithand.c:1258
 #, c-format
 msgid "Your %s helps build the %s in %s (%d remaining)."
 msgstr ""
 
-#: server/unithand.c:1256
+#: server/unithand.c:1260
 #, c-format
 msgid "Your %s helps build the %s in %s (%d surplus)."
 msgstr ""
 
-#: server/unithand.c:1300
+#: server/unithand.c:1304
 #, c-format
 msgid ""
 "Sorry, your %s cannot establish a trade route because it has no home city"
 msgstr ""
 
-#: server/unithand.c:1310
+#: server/unithand.c:1314
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route between %s and %s"
 msgstr ""
 
-#: server/unithand.c:1339 server/unithand.c:1358
+#: server/unithand.c:1343 server/unithand.c:1362
 #, c-format
 msgid "Sorry, your %s cannot establish a trade route here!"
 msgstr ""
 
-#: server/unithand.c:1343 server/unithand.c:1362
+#: server/unithand.c:1347 server/unithand.c:1366
 #, c-format
 msgid "      The city of %s already has %d better trade routes!"
 msgstr ""
 
-#: server/unithand.c:1375 server/unithand.c:1387
+#: server/unithand.c:1379 server/unithand.c:1391
 #, c-format
 msgid "Sorry, %s has canceled the trade route from %s to your city %s."
 msgstr ""
 
-#: server/unithand.c:1420
+#: server/unithand.c:1424
 #, c-format
 msgid ""
 "Your %s from %s has arrived in %s, and revenues amount to %d in gold and "
@@ -7138,61 +7138,61 @@ msgstr ""
 msgid "Your %s became more experienced!"
 msgstr ""
 
-#: server/unittools.c:1009
+#: server/unittools.c:1011
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr ""
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1070
+#: server/unittools.c:1072
 #, c-format
 msgid "Moved your %s."
 msgstr ""
 
-#: server/unittools.c:1081
+#: server/unittools.c:1083
 #, c-format
 msgid "Disbanded your %s."
 msgstr ""
 
-#: server/unittools.c:1409
+#: server/unittools.c:1411
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr ""
 
-#: server/unittools.c:1413
+#: server/unittools.c:1415
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 
-#: server/unittools.c:1520
+#: server/unittools.c:1522
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr ""
 
-#: server/unittools.c:1529
+#: server/unittools.c:1531
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr ""
 
-#: server/unittools.c:1578
+#: server/unittools.c:1580
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1596
+#: server/unittools.c:1598
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr ""
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1605 server/unittools.c:1663
+#: server/unittools.c:1607 server/unittools.c:1665
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1639
+#: server/unittools.c:1641
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -7202,14 +7202,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1672
+#: server/unittools.c:1674
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "ο %s κυβερνάει τώρα τους %s σαν %s."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1687
+#: server/unittools.c:1689
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s από %s χάθηκαν στην μεταφορά προς του %s την  %s"
@@ -7217,7 +7217,7 @@ msgstr "%s από %s χάθηκαν στην μεταφορά προς του %s την  %s"
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1697
+#: server/unittools.c:1699
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -7227,174 +7227,174 @@ msgstr[1] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1711
+#: server/unittools.c:1713
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/unittools.c:1979
+#: server/unittools.c:1981
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:1982 server/unittools.c:1998
+#: server/unittools.c:1984 server/unittools.c:2000
 msgid "yourself"
 msgstr ""
 
-#: server/unittools.c:1986
+#: server/unittools.c:1988
 #, c-format
 msgid "The %s %s was nuked."
 msgstr ""
 
-#: server/unittools.c:1995
+#: server/unittools.c:1997
 #, c-format
 msgid "%s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:2003
+#: server/unittools.c:2005
 #, c-format
 msgid "You nuked %s."
 msgstr ""
 
-#: server/unittools.c:2044
+#: server/unittools.c:2046
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr ""
 
-#: server/unittools.c:2068
+#: server/unittools.c:2070
 #, c-format
 msgid "%s transported successfully."
 msgstr ""
 
-#: server/unittools.c:2120
+#: server/unittools.c:2122
 msgid "This unit type can not be paradropped."
 msgstr ""
 
-#: server/unittools.c:2130
+#: server/unittools.c:2132
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 
-#: server/unittools.c:2136
+#: server/unittools.c:2138
 msgid "The destination location is not known."
 msgstr ""
 
-#: server/unittools.c:2143
+#: server/unittools.c:2145
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr ""
 
-#: server/unittools.c:2163
+#: server/unittools.c:2173
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 
-#: server/unittools.c:2174
+#: server/unittools.c:2184
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr ""
 
-#: server/unittools.c:2187
+#: server/unittools.c:2197
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 
-#: server/unittools.c:2209
+#: server/unittools.c:2219
 #, c-format
 msgid "You found %d gold."
 msgstr ""
 
-#: server/unittools.c:2226
+#: server/unittools.c:2236
 #, c-format
 msgid "You found %s in ancient scrolls of wisdom."
 msgstr ""
 
-#: server/unittools.c:2233
+#: server/unittools.c:2243
 #, fuzzy, c-format
 msgid "The %s have acquired %s from ancient scrolls of wisdom."
 msgstr "Οι  %s απέκτησαν %s από %s."
 
-#: server/unittools.c:2247
+#: server/unittools.c:2257
 msgid "A band of friendly mercenaries joins your cause."
 msgstr ""
 
-#: server/unittools.c:2265
+#: server/unittools.c:2275
 msgid "An abandoned village is here."
 msgstr ""
 
-#: server/unittools.c:2275
+#: server/unittools.c:2285
 msgid "You have unleashed a horde of barbarians!"
 msgstr ""
 
-#: server/unittools.c:2278
+#: server/unittools.c:2288
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr ""
 
-#: server/unittools.c:2294
+#: server/unittools.c:2304
 msgid "You found a friendly city."
 msgstr ""
 
-#: server/unittools.c:2308
+#: server/unittools.c:2318
 msgid "Friendly nomads are impressed by you, and join you."
 msgstr ""
 
-#: server/unittools.c:2333
+#: server/unittools.c:2343
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 
-#: server/unittools.c:2591
+#: server/unittools.c:2601
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
-#: server/unittools.c:3040
+#: server/unittools.c:3050
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
-#: server/unittools.c:3092
+#: server/unittools.c:3102
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 
-#: server/unittools.c:3105
+#: server/unittools.c:3115
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
-#: server/unittools.c:3119
+#: server/unittools.c:3129
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:3129
+#: server/unittools.c:3139
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
-#: server/unittools.c:3155
+#: server/unittools.c:3165
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
-#: server/unittools.c:3196
+#: server/unittools.c:3206
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 
-#: server/unittools.c:3207
+#: server/unittools.c:3217
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr ""
 
-#: server/unittools.c:3219
+#: server/unittools.c:3229
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr ""
 
-#: server/unittools.c:3228
+#: server/unittools.c:3238
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
@@ -7441,20 +7441,20 @@ msgstr ""
 msgid "%s (needs %0.0f%% in favor)."
 msgstr ""
 
-#: server/generator/mapgen.c:1771
+#: server/generator/mapgen.c:1780
 msgid "High landmass - this may take a few seconds."
 msgstr ""
 
-#: server/generator/mapgen.c:1969 server/generator/mapgen.c:2039
+#: server/generator/mapgen.c:1977 server/generator/mapgen.c:2047
 #, c-format
 msgid "Falling back to generator %d."
 msgstr ""
 
-#: server/generator/mapgen.c:2059
+#: server/generator/mapgen.c:2067
 msgid "Generator 3 didn't place all big islands."
 msgstr ""
 
-#: server/generator/mapgen.c:2088
+#: server/generator/mapgen.c:2096
 #, c-format
 msgid "Generator 3 left %li landmass unplaced."
 msgstr ""
@@ -7557,11 +7557,11 @@ msgid_plural "%3d turns"
 msgstr[0] "%3d γύρος"
 msgstr[1] "%3d γύροι"
 
-#: client/citydlg_common.c:245 client/citydlg_common.c:369 client/text.c:632
+#: client/citydlg_common.c:245 client/citydlg_common.c:376 client/text.c:632
 #: client/agents/cma_fec.c:249 client/agents/cma_fec.c:283
 #: client/gui-gtk-2.0/citydlg.c:1416 client/gui-sdl/cityrep.c:533
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1352
-#: client/gui-sdl/wldlg.c:1357 client/gui-win32/citydlg.c:455
+#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1351
+#: client/gui-sdl/wldlg.c:1356 client/gui-win32/citydlg.c:455
 msgid "never"
 msgstr "ποτέ"
 
@@ -7587,74 +7587,74 @@ msgid_plural "%s (%d) %d turns"
 msgstr[0] "%d/%d %d γύροι"
 msgstr[1] "%d/%d %d γύροι"
 
-#: client/citydlg_common.c:334 client/citydlg_common.c:347
-#: client/gui-sdl/wldlg.c:1328
+#: client/citydlg_common.c:337 client/citydlg_common.c:350
+#: client/gui-sdl/wldlg.c:1327
 msgid "Obsolete"
 msgstr "Απαρχαιωμένο"
 
-#: client/citydlg_common.c:336 client/citydlg_common.c:344
-#: client/gui-sdl/repodlgs.c:2031 client/gui-sdl/wldlg.c:1332
+#: client/citydlg_common.c:339 client/citydlg_common.c:347
+#: client/gui-sdl/repodlgs.c:2032 client/gui-sdl/wldlg.c:1331
 msgid "Built"
 msgstr "Χτίζω"
 
-#: client/citydlg_common.c:338
+#: client/citydlg_common.c:341
 msgid "Great Wonder"
 msgstr "Μεγάλο Θαύμα"
 
-#: client/citydlg_common.c:342
+#: client/citydlg_common.c:345
 msgid "Small Wonder"
 msgstr "Μικρό Θαύμα"
 
-#: client/citydlg_common.c:361
+#: client/citydlg_common.c:368
 #, c-format
 msgid "%d/turn"
 msgstr "%d/γύρο"
 
-#: client/citydlg_common.c:392
+#: client/citydlg_common.c:399
 #, c-format
 msgid "%+4d : Citizens\n"
 msgstr "%+4d : Πολίτες\n"
 
-#: client/citydlg_common.c:399
+#: client/citydlg_common.c:406
 #, c-format
 msgid "%+4d : Taxed from trade\n"
 msgstr "%+4d : φόροι από εμπόριο\n"
 
-#: client/citydlg_common.c:421
+#: client/citydlg_common.c:428
 #, c-format
 msgid "%+4d : Trade route with %s\n"
 msgstr "%+4d : Εμπορική διαδρομή με  %s\n"
 
-#: client/citydlg_common.c:430
+#: client/citydlg_common.c:437
 #, c-format
 msgid "%+4d : Building tithes\n"
 msgstr "%+4d : Χτίζεται  δεκάτη\n"
 
-#: client/citydlg_common.c:453
+#: client/citydlg_common.c:460
 #, c-format
 msgid "%+4d : Bonus from %s (%+d%%)\n"
 msgstr ""
 
-#: client/citydlg_common.c:465
+#: client/citydlg_common.c:472
 #, c-format
 msgid "%+4d : Waste\n"
 msgstr ""
 
-#: client/citydlg_common.c:471
+#: client/citydlg_common.c:478
 #, c-format
 msgid "%+4d : Disorder\n"
 msgstr ""
 
-#: client/citydlg_common.c:477
+#: client/citydlg_common.c:484
 #, c-format
 msgid "%+4d : Used\n"
 msgstr ""
 
-#: client/citydlg_common.c:482
+#: client/citydlg_common.c:489
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:484
+#: client/citydlg_common.c:491
 #, c-format
 msgid "%4d : Total surplus"
 msgstr ""
@@ -7782,12 +7782,12 @@ msgid "Best defending units"
 msgstr "Καλύτερες αμυντικές μονάδες"
 
 #: client/cityrepdata.c:478 client/cityrepdata.c:482
-#: client/gui-gtk-2.0/cityrep.c:1437 client/gui-gtk-2.0/cityrep.c:1456
-#: client/gui-gtk-2.0/cityrep.c:1475 client/gui-gtk-2.0/cityrep.c:1494
-#: client/gui-gtk-2.0/cityrep.c:1514 client/gui-gtk-2.0/menu.c:841
+#: client/gui-gtk-2.0/cityrep.c:1456 client/gui-gtk-2.0/cityrep.c:1475
+#: client/gui-gtk-2.0/cityrep.c:1494 client/gui-gtk-2.0/cityrep.c:1513
+#: client/gui-gtk-2.0/cityrep.c:1533 client/gui-gtk-2.0/menu.c:841
 #: client/gui-gtk-2.0/repodlgs.c:960 client/gui-sdl/helpdlg.c:688
 #: client/gui-sdl/mapctrl.c:1605 client/gui-sdl/optiondlg.c:1827
-#: client/gui-sdl/repodlgs.c:356 client/gui-win32/menu.c:351
+#: client/gui-sdl/repodlgs.c:357 client/gui-win32/menu.c:351
 #: client/gui-win32/repodlgs.c:616 client/gui-win32/repodlgs.c:707
 #: client/gui-win32/repodlgs.c:716 client/gui-xaw/menu.c:157
 #: client/gui-xaw/menu.c:219 client/gui-xaw/menu.c:242
@@ -7946,7 +7946,7 @@ msgstr "?pollution [short]:Μλν"
 msgid "?cma:Governor"
 msgstr "?cma:Κυβερνήτης"
 
-#: client/cityrepdata.c:521 client/gui-gtk-2.0/cityrep.c:1766
+#: client/cityrepdata.c:521 client/gui-gtk-2.0/cityrep.c:1785
 #: client/gui-sdl/citydlg.c:3810 client/gui-sdl/cma_fe.c:858
 #: client/gui-win32/citydlg.c:726 data/Freeciv.in:1459 data/helpdata.txt:820
 msgid "Citizen Governor"
@@ -7970,48 +7970,48 @@ msgstr "?ειδικός:Ε"
 msgid "Specialists"
 msgstr "Ειδικοί πόροι"
 
-#: client/civclient.c:241
+#: client/civclient.c:235
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr ""
 
-#: client/civclient.c:251
+#: client/civclient.c:245
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 
-#: client/civclient.c:253
+#: client/civclient.c:247
 msgid "  -m, --meta HOST\tConnect to the metaserver at HOST\n"
 msgstr ""
 
-#: client/civclient.c:255
+#: client/civclient.c:249
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr ""
 
-#: client/civclient.c:257
+#: client/civclient.c:251
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr ""
 
-#: client/civclient.c:259
+#: client/civclient.c:253
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr ""
 
-#: client/civclient.c:261
+#: client/civclient.c:255
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 
-#: client/civclient.c:264
+#: client/civclient.c:258
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr ""
 
-#: client/civclient.c:266
+#: client/civclient.c:260
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr ""
 
-#: client/civclient.c:267
+#: client/civclient.c:261
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr ""
 
-#: client/civclient.c:270
+#: client/civclient.c:264
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -8019,45 +8019,45 @@ msgid ""
 msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: client/civclient.c:275
+#: client/civclient.c:269
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
 msgstr "Ανέφερε λάθη σε <%s>.\n"
 
-#: client/civclient.c:299
+#: client/civclient.c:293
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr ""
 
-#: client/civclient.c:301 client/civclient.c:316
+#: client/civclient.c:295 client/civclient.c:310
 msgid "Try using --help.\n"
 msgstr ""
 
-#: client/civclient.c:314
+#: client/civclient.c:308
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr ""
 
-#: client/civclient.c:327
+#: client/civclient.c:321
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr ""
 
-#: client/civclient.c:393
+#: client/civclient.c:387
 #, fuzzy, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "metaserver <διεύθυνση>"
 
-#: client/civclient.c:396
+#: client/civclient.c:390
 #, c-format
 msgid "Default metaserver has been set to \"%s\"."
 msgstr ""
 
-#: client/civclient.c:540
+#: client/civclient.c:533
 msgid "Game started."
 msgstr ""
 
-#: client/civclient.c:606
+#: client/civclient.c:599
 msgid "There was an error while auto connecting; aborting."
 msgstr ""
 
@@ -8147,28 +8147,28 @@ msgstr "_Δώσε κοινή ορατότητα"
 msgid "The %s give an embassy"
 msgstr "_Δώσε κοινή ορατότητα"
 
-#: client/climisc.c:906
+#: client/climisc.c:930
 msgid "Popup Request"
 msgstr ""
 
-#: client/climisc.c:936
+#: client/climisc.c:960
 msgid "Exporting output window to civgame.log ..."
 msgstr ""
 
-#: client/climisc.c:940
+#: client/climisc.c:964
 msgid "Export complete."
 msgstr ""
 
-#: client/climisc.c:942
+#: client/climisc.c:966
 msgid "Export failed, couldn't write to file."
 msgstr ""
 
-#: client/climisc.c:1042
+#: client/climisc.c:1066
 #, c-format
 msgid "You don't buy %s in %s!"
 msgstr ""
 
-#: client/climisc.c:1060
+#: client/climisc.c:1084
 #, c-format
 msgid "%s costs %d gold and you only have %d gold."
 msgstr ""
@@ -8270,7 +8270,7 @@ msgid ""
 "The server will now be shutdown."
 msgstr ""
 
-#: client/control.c:1125
+#: client/control.c:1123
 msgid "Only transporter units can be unloaded."
 msgstr "Μόνο μονάδες μεταφορικές μπορούν να ξεφορτωθούν."
 
@@ -8286,15 +8286,15 @@ msgstr "Μόνο πυρηνικές μονάδες μπορούν να το κάνουν αυτό."
 msgid "Only paratrooper units can do this."
 msgstr "Μόνο μονάδες αλεξιπτωτιστών μπορούν να το κάνουν αυτό."
 
-#: client/control.c:2017
+#: client/control.c:2027
 msgid "Too far for this unit."
 msgstr "Πολύ μακρία για αυτή τη μονάδα"
 
-#: client/control.c:2227 client/control.c:2257 client/control.c:2273
+#: client/control.c:2237 client/control.c:2267 client/control.c:2283
 msgid "Didn't find a route to the destination!"
 msgstr "Δεν βρήκα διαδρομή για προορισμό!"
 
-#: client/control.c:2317
+#: client/control.c:2331
 msgid "Oh my! You seem to have no capital!"
 msgstr "Α! Φαίνεται ότι δεν έχεις πρωτεύουσα!"
 
@@ -9070,17 +9070,17 @@ msgstr ""
 msgid "%s%d unhappy"
 msgstr "%s%d δυστυχισμένοι"
 
-#: client/mapctrl_common.c:399
+#: client/mapctrl_common.c:396
 #, c-format
 msgid "You don't know how to build %s!"
 msgstr "Δεν ξέρεις πως να χτίσεις το %s!"
 
-#: client/mapctrl_common.c:409
+#: client/mapctrl_common.c:406
 #, c-format
 msgid "Copy %s to clipboard."
 msgstr "Αντιγραφή %s στο πρόχειρο"
 
-#: client/mapctrl_common.c:425
+#: client/mapctrl_common.c:422
 msgid "Clipboard is empty."
 msgstr "Το πρόχειρο είναι άδειο."
 
@@ -9407,79 +9407,80 @@ msgstr ""
 
 #: client/options.c:273
 msgid ""
-"Enabling this option will cause unit orders to be cleared whenever one or "
-"more units are selected. If this option is disabled, selecting units will "
-"not cause them to stop their current activity. Instead, their orders will be "
-"cleared only when new orders are given or if you press <space>."
+"Enabling this option will cause unit orders to be cleared as soon as one or "
+"more units are selected. If this option is disabled, busy units will not "
+"stop their current activity when selected. Giving them new orders will clear "
+"their current ones; pressing <space> once will clear their orders and leave "
+"them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:282
+#: client/options.c:284
 msgid "Background layer"
 msgstr ""
 
-#: client/options.c:283
+#: client/options.c:285
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:286
+#: client/options.c:288
 msgid "Terrain relief map layer"
 msgstr ""
 
-#: client/options.c:287
+#: client/options.c:289
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:290
+#: client/options.c:292
 msgid "Borders layer"
 msgstr ""
 
-#: client/options.c:291
+#: client/options.c:293
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:295
+#: client/options.c:297
 msgid "Units layer"
 msgstr ""
 
-#: client/options.c:296
+#: client/options.c:298
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:299
+#: client/options.c:301
 msgid "Cities layer"
 msgstr "Στρώμα πόλεων"
 
-#: client/options.c:300
+#: client/options.c:302
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:303
+#: client/options.c:305
 msgid "Overview fog of war"
 msgstr ""
 
-#: client/options.c:304
+#: client/options.c:306
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:526
+#: client/options.c:528
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:554
+#: client/options.c:556
 msgid "Cannot find your home directory"
 msgstr "δεν μπορώ να βρω προσωπικό κατάλογο"
 
-#: client/options.c:703 client/options.c:834
+#: client/options.c:705 client/options.c:836
 msgid "Save failed, cannot find a filename."
 msgstr "Απέτυχε η αποθήκευση, δεν μπορώ να βρω όνομα αρχείου"
 
-#: client/options.c:716 client/options.c:897
+#: client/options.c:718 client/options.c:899
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Απέτυχε η αποθήκευση, δεν μπορώ να γράψω στο αρχείο %s"
 
-#: client/options.c:718 client/options.c:900
+#: client/options.c:720 client/options.c:902
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "Αποθηκεύτηκαν οι ρυθμίσεις στο αρχείο %s"
@@ -9504,16 +9505,16 @@ msgstr "Αλφαρηθμητικό δυνατοτήτων εξυπηρετητή: %s"
 msgid "Start of turn %d"
 msgstr "Αρχή %d γύρου"
 
-#: client/packhand.c:1621
+#: client/packhand.c:1620
 #, c-format
 msgid "AI Mode is now %s."
 msgstr "ΤΝ είναι τώρα %s."
 
-#: client/packhand.c:1622
+#: client/packhand.c:1621
 msgid "ON"
 msgstr "Ανοιχτό"
 
-#: client/packhand.c:1622
+#: client/packhand.c:1621
 msgid "OFF"
 msgstr "Κλειστό"
 
@@ -9546,13 +9547,13 @@ msgid "Username"
 msgstr "Όνομα χρήστη"
 
 #: client/plrdlg_common.c:251 client/gui-gtk-2.0/dialogs.c:653
-#: client/gui-gtk-2.0/pages.c:1604 client/gui-gtk-2.0/pages.c:2159
+#: client/gui-gtk-2.0/pages.c:1603 client/gui-gtk-2.0/pages.c:2158
 msgid "Flag"
 msgstr "Σημαία"
 
 #: client/plrdlg_common.c:252 client/gui-gtk-2.0/dialogs.c:657
-#: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1609
-#: client/gui-gtk-2.0/pages.c:2161 client/gui-sdl/repodlgs.c:2063
+#: client/gui-gtk-2.0/pages.c:953 client/gui-gtk-2.0/pages.c:1608
+#: client/gui-gtk-2.0/pages.c:2160 client/gui-sdl/repodlgs.c:2064
 #: client/gui-win32/connectdlg.c:992 client/gui-win32/dialogs.c:542
 #: client/gui-win32/plrdlg.c:335
 msgid "Nation"
@@ -9566,7 +9567,7 @@ msgstr "Σύνορα"
 msgid "Score"
 msgstr "Βαθμολογία"
 
-#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1614
+#: client/plrdlg_common.c:255 client/gui-gtk-2.0/pages.c:1613
 msgid "Team"
 msgstr "Ομάδα"
 
@@ -9633,16 +9634,21 @@ msgstr "Απολύθηκε %d %s."
 msgid "No %s could be disbanded."
 msgstr "Κανένα %s δεν εγκαταλείφθηκε."
 
-#: client/servers.c:345
+#: client/servers.c:344
 msgid "Could not open temp file."
 msgstr "Δεν μπόρεσα να ανοίξω το προσωρινό αρχείο"
 
-#: client/servers.c:410
+#: client/servers.c:385
+#, c-format
+msgid "Failed to parse the metaserver data from http://%s."
+msgstr ""
+
+#: client/servers.c:416
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr ""
 "Άκυρος $http_proxy ή τιμή μετάΕξυπηρετητή, πρέπει να αρχίζει με'http://' "
 
-#: client/servers.c:416
+#: client/servers.c:422
 msgid "Failed looking up metaserver's host"
 msgstr "Απορυχία εύρεσης υπολογιστή μετάΕξυπηρετητή  "
 
@@ -10005,23 +10011,23 @@ msgstr "Tax rates: Χρυσός:%d%% Ανέσεις:%d%% Επιστήμη:%d%%"
 msgid "Researching %s: %s"
 msgstr "Ερευνάται %s: %s"
 
-#: client/text.c:710
+#: client/text.c:712
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Πιθανότητα παγκόσμιας υπερθέρμανσης: %d%% (%+d%%/γύρο)"
 
-#: client/text.c:713
+#: client/text.c:715
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "Πιθανότητα πυρηνικού χειμώνα: %d%% (%+d%%/γύρο)"
 
-#: client/text.c:718 client/gui-win32/inteldlg.c:104
+#: client/text.c:720 client/gui-win32/inteldlg.c:104
 #: client/gui-xaw/inteldlg.c:200
 #, c-format
 msgid "Government: %s"
 msgstr "Πολίτευμα: %s"
 
-#: client/text.c:742
+#: client/text.c:744
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
@@ -10029,55 +10035,55 @@ msgstr[0] "%d μονάδα"
 msgstr[1] "%d μονάδες"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:775 client/gui-sdl/mapview.c:566
+#: client/text.c:777 client/gui-sdl/mapview.c:566
 msgid "?goto:Unreachable"
 msgstr ""
 
-#: client/text.c:777 client/gui-sdl/mapview.c:568
+#: client/text.c:779 client/gui-sdl/mapview.c:568
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Γύροι για στόχο: %d"
 
-#: client/text.c:779 client/gui-sdl/mapview.c:570
+#: client/text.c:781 client/gui-sdl/mapview.c:570
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Γύροι για στόχο: %d μέχρι %d"
 
-#: client/text.c:785 client/gui-sdl/mapview.c:576
+#: client/text.c:787 client/gui-sdl/mapview.c:576
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d μονάδα επιλεγμένη"
 msgstr[1] "%d μονάδες επιλεγμένες"
 
-#: client/text.c:790 client/gui-sdl/mapview.c:581
+#: client/text.c:792 client/gui-sdl/mapview.c:581
 msgid "No units selected."
 msgstr "Καμία μονάδα επιλεγμένη."
 
-#: client/text.c:864 client/gui-sdl/mapview.c:654
+#: client/text.c:866 client/gui-sdl/mapview.c:654
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Άλλοι: %d πολίτες,%d στρατιωτικοί"
 
-#: client/text.c:866 client/gui-sdl/mapview.c:656
+#: client/text.c:868 client/gui-sdl/mapview.c:656
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Άλλοι: %d πολίτες"
 
-#: client/text.c:868 client/gui-sdl/mapview.c:658
+#: client/text.c:870 client/gui-sdl/mapview.c:658
 #, c-format
 msgid "Others: %d military"
 msgstr "Άλλοι: %d στρατιωτικοί"
 
-#: client/text.c:899
+#: client/text.c:901
 msgid "No units to upgrade!"
 msgstr "Καμία μονάδα για αναβάθμιση!"
 
-#: client/text.c:924
+#: client/text.c:926
 msgid "None of these units may be upgraded."
 msgstr "Καμία απο αυτές τις μονάδες δεν αναβαθμίζεται."
 
-#: client/text.c:930
+#: client/text.c:932
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -10092,72 +10098,72 @@ msgstr[1] ""
 "Αναβάθμιση  %d μονάδων για %d χρυσά;\n"
 "Το θησαυροφυλάκιο περιέχει %d χρυσά."
 
-#: client/text.c:951
+#: client/text.c:953
 msgid "Shows your progress in researching the current technology."
 msgstr "Δείχνει την προοδό σου στην αναζήτηση της τρέχουσας τεχνολογίας"
 
-#: client/text.c:957
+#: client/text.c:959
 msgid "no research target."
 msgstr "κανένας στόχος έρευνας"
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:960
+#: client/text.c:962
 #, c-format
 msgid "%s: %d/%d."
 msgstr ""
 
-#: client/text.c:980
+#: client/text.c:983
 msgid "Shows the progress of global warming:"
 msgstr ""
 
-#: client/text.c:981
+#: client/text.c:984
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Ποσοστό μόλυνσης: %d%%"
 
-#: client/text.c:983
+#: client/text.c:985
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Πιθανότητα καταστροφικής θέρμανσης κάθε γύρο: %d%%"
 
-#: client/text.c:999
+#: client/text.c:1002
 msgid "Shows the progress of nuclear winter:"
 msgstr "Δείχνει την πρόοδο του πυρηνικού χειμώνα:"
 
-#: client/text.c:1000
+#: client/text.c:1003
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Ποσοστό πυρην.καταλ:%d%%"
 
-#: client/text.c:1002
+#: client/text.c:1004
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Πιθανότητα καταστροφικού χειμώνα κάθε γύρου: %d%%"
 
-#: client/text.c:1017
+#: client/text.c:1019
 msgid "Shows your current government:"
 msgstr "Δείχνει την τωρινή σου κυβέρνηση:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1041
+#: client/text.c:1043
 #, c-format
 msgid "Population:      %5d"
 msgstr "Πληθυσμός:       %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1044
+#: client/text.c:1046
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Συντήρηση: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1048
+#: client/text.c:1050
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Ενέργεια:        %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1052
+#: client/text.c:1054
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -10165,97 +10171,97 @@ msgstr[0] "Μάζα:\t\t%5d τόνος"
 msgstr[1] "Μάζα:\t\t%5d τόνοι"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1058
+#: client/text.c:1060
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Χρόνος ταξιδίου: %5.1f χρόνια"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1062
+#: client/text.c:1064
 msgid "Travel time:        N/A     "
 msgstr "Χρόνος ταξιδίου:    ;   "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1066
+#: client/text.c:1068
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Πιθανότητα επιτ.:%5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1070
+#: client/text.c:1072
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Χρόνος άφιξης: %8s"
 
-#: client/text.c:1090
+#: client/text.c:1092
 msgid "?timeout:off"
 msgstr "?timeout:κλειστό"
 
-#: client/text.c:1114
+#: client/text.c:1116
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02dδ"
 
-#: client/text.c:1116
+#: client/text.c:1118
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dλ %02dδ"
 
-#: client/text.c:1118
+#: client/text.c:1120
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?ώρες/λεπτά:%02dω %02dλ"
 
-#: client/text.c:1120
+#: client/text.c:1122
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr ""
 
-#: client/text.c:1123
+#: client/text.c:1125
 msgid "?duration:overflow"
 msgstr ""
 
-#: client/text.c:1146
+#: client/text.c:1148
 #, c-format
 msgid "%6d.%02d ms"
 msgstr ""
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1194
+#: client/text.c:1196
 #, fuzzy, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "Πολίτευμα: %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1204
+#: client/text.c:1206
 #, c-format
 msgid "Observer: %s"
 msgstr "Παρατηρητής: %s"
 
-#: client/text.c:1222
+#: client/text.c:1224
 msgid "Buildings: "
 msgstr "Κτήρια: "
 
-#: client/text.c:1239 client/text.c:1278
+#: client/text.c:1241 client/text.c:1280
 msgid "None. "
 msgstr "Κανένα. "
 
-#: client/text.c:1241 client/text.c:1280
+#: client/text.c:1243 client/text.c:1282
 msgid "?clistend:."
 msgstr ""
 
-#: client/text.c:1259
+#: client/text.c:1261
 msgid "Wonders: "
 msgstr "Θαύματα: "
 
-#: client/text.c:1314
+#: client/text.c:1316
 #, fuzzy, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "Πόλεις: %d σύνολο, %d πάνω από όριο από  %d πόλεις.\n"
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1318
+#: client/text.c:1320
 #, fuzzy, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
@@ -10263,41 +10269,41 @@ msgstr[0] "%d ικανοποιημένοι πρίν από ποινή από "
 msgstr[1] "%d ικανοποιημένοι πρίν από ποινή από "
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1324
+#: client/text.c:1326
 #, fuzzy, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d επιπρόσθετοι δυστυχισμένοι πολίτες."
 msgstr[1] "%d επιπρόσθετοι δυστυχισμένοι πολίτες."
 
-#: client/text.c:1345
+#: client/text.c:1347
 #, fuzzy
 msgid "Unlimited martial law in effect."
 msgstr "Στρατιωτικός νόμος σε ισχύ ("
 
-#: client/text.c:1347
+#: client/text.c:1349
 #, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/text.c:1351
+#: client/text.c:1353
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/text.c:1358
+#: client/text.c:1360
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Στρατιωτικές μονάδες στο πεδίο ίσως προκαλέσουν δυστυχία"
 
-#: client/text.c:1361
+#: client/text.c:1363
 msgid "Military units have no happiness effect. "
 msgstr "Στρατιωτικές μονάδες δεν έχουν επίδραση στην ευτυχία"
 
-#: client/text.c:1376
+#: client/text.c:1378
 #, c-format
 msgid "Luxury: %d total."
 msgstr "Ανέσεις: %d σύνολο"
@@ -10738,7 +10744,7 @@ msgid "%d/%d %d turns"
 msgstr "%d/%d %d γύροι"
 
 #: client/gui-gtk-2.0/citydlg.c:830 client/gui-gtk-2.0/citydlg.c:927
-#: client/gui-gtk-2.0/cityrep.c:1027
+#: client/gui-gtk-2.0/cityrep.c:1036
 msgid "_Buy"
 msgstr "_Αγόρασε"
 
@@ -10862,7 +10868,7 @@ msgstr "Υποστηριγμένες %d"
 msgid "Present units %d"
 msgstr "Παρόντες %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:1019
+#: client/gui-gtk-2.0/citydlg.c:1981 client/gui-gtk-2.0/cityrep.c:1028
 msgid "Cen_ter"
 msgstr "_Κέντράρισε"
 
@@ -11006,7 +11012,7 @@ msgstr "Επέλε_ξε"
 msgid "_Display"
 msgstr "_Διπλωματία"
 
-#: client/gui-gtk-2.0/cityrep.c:1006 client/gui-gtk-2.0/menu.c:839
+#: client/gui-gtk-2.0/cityrep.c:1015 client/gui-gtk-2.0/menu.c:839
 #: client/gui-sdl/diplodlg.c:692 client/gui-sdl/optiondlg.c:1800
 #: client/gui-win32/diplodlg.c:611 client/gui-win32/diplodlg.c:663
 #: client/gui-win32/menu.c:350 client/gui-xaw/cityrep.c:228
@@ -11016,14 +11022,14 @@ msgstr "_Διπλωματία"
 msgid "Cities"
 msgstr "Πόλεις"
 
-#: client/gui-gtk-2.0/cityrep.c:1023
+#: client/gui-gtk-2.0/cityrep.c:1032
 #, fuzzy
 msgid "_Inspect"
 msgstr "_Σύνδεσε"
 
-#: client/gui-gtk-2.0/cityrep.c:1439 client/gui-gtk-2.0/cityrep.c:1458
-#: client/gui-gtk-2.0/cityrep.c:1477 client/gui-gtk-2.0/cityrep.c:1496
-#: client/gui-gtk-2.0/cityrep.c:1518 client/gui-gtk-2.0/menu.c:823
+#: client/gui-gtk-2.0/cityrep.c:1458 client/gui-gtk-2.0/cityrep.c:1477
+#: client/gui-gtk-2.0/cityrep.c:1496 client/gui-gtk-2.0/cityrep.c:1515
+#: client/gui-gtk-2.0/cityrep.c:1537 client/gui-gtk-2.0/menu.c:823
 #: client/gui-gtk-2.0/menu.c:825 client/gui-gtk-2.0/menu.c:827
 #: client/gui-gtk-2.0/menu.c:829 client/gui-gtk-2.0/menu.c:831
 #: client/gui-gtk-2.0/menu.c:833 client/gui-sdl/helpdlg.c:297
@@ -11031,87 +11037,87 @@ msgstr "_Σύνδεσε"
 msgid "Improvements"
 msgstr "Υποδομές"
 
-#: client/gui-gtk-2.0/cityrep.c:1441 client/gui-gtk-2.0/cityrep.c:1460
-#: client/gui-gtk-2.0/cityrep.c:1479 client/gui-gtk-2.0/cityrep.c:1498
-#: client/gui-gtk-2.0/cityrep.c:1522 client/gui-xaw/menu.c:247
+#: client/gui-gtk-2.0/cityrep.c:1460 client/gui-gtk-2.0/cityrep.c:1479
+#: client/gui-gtk-2.0/cityrep.c:1498 client/gui-gtk-2.0/cityrep.c:1517
+#: client/gui-gtk-2.0/cityrep.c:1541 client/gui-xaw/menu.c:247
 msgid "Wonders"
 msgstr "Θαύματα"
 
-#: client/gui-gtk-2.0/cityrep.c:1662 client/gui-win32/cityrep.c:439
+#: client/gui-gtk-2.0/cityrep.c:1681 client/gui-win32/cityrep.c:439
 #: client/gui-win32/gotodlg.c:169 data/Freeciv.in:1138
 msgid "All Cities"
 msgstr "Όλες οι πόλεις"
 
-#: client/gui-gtk-2.0/cityrep.c:1667 client/gui-win32/cityrep.c:440
+#: client/gui-gtk-2.0/cityrep.c:1686 client/gui-win32/cityrep.c:440
 msgid "No Cities"
 msgstr "Καμία πόλη"
 
-#: client/gui-gtk-2.0/cityrep.c:1672 client/gui-win32/cityrep.c:441
+#: client/gui-gtk-2.0/cityrep.c:1691 client/gui-win32/cityrep.c:441
 msgid "Invert Selection"
 msgstr "Αντέστρεψε επιλογή"
 
-#: client/gui-gtk-2.0/cityrep.c:1682
+#: client/gui-gtk-2.0/cityrep.c:1701
 msgid "Building Units"
 msgstr "Μονάδες υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1688
+#: client/gui-gtk-2.0/cityrep.c:1707
 msgid "Building Improvements"
 msgstr "Υποδομών υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1694
+#: client/gui-gtk-2.0/cityrep.c:1713
 msgid "Building Wonders"
 msgstr "Θαύματα υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1706
+#: client/gui-gtk-2.0/cityrep.c:1725
 msgid "Building Unit"
 msgstr "Μονάδα υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1710
+#: client/gui-gtk-2.0/cityrep.c:1729
 msgid "Building Improvement"
 msgstr "Υποδομή υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1714
+#: client/gui-gtk-2.0/cityrep.c:1733
 msgid "Building Wonder"
 msgstr "Θαύμα υπό παραγωγή"
 
-#: client/gui-gtk-2.0/cityrep.c:1722 client/gui-win32/cityrep.c:443
+#: client/gui-gtk-2.0/cityrep.c:1741 client/gui-win32/cityrep.c:443
 msgid "Coastal Cities"
 msgstr "Παραλιακές πόλεις"
 
-#: client/gui-gtk-2.0/cityrep.c:1727 client/gui-win32/cityrep.c:444
+#: client/gui-gtk-2.0/cityrep.c:1746 client/gui-win32/cityrep.c:444
 #, fuzzy
 msgid "Same Island"
 msgstr "Ίδιο Νησί"
 
-#: client/gui-gtk-2.0/cityrep.c:1737 client/gui-win32/cityrep.c:447
+#: client/gui-gtk-2.0/cityrep.c:1756 client/gui-win32/cityrep.c:447
 msgid "Supported Units"
 msgstr "Συντηρούμενες"
 
-#: client/gui-gtk-2.0/cityrep.c:1740 client/gui-win32/cityrep.c:454
+#: client/gui-gtk-2.0/cityrep.c:1759 client/gui-win32/cityrep.c:454
 msgid "Units Present"
 msgstr "Παρόντες"
 
-#: client/gui-gtk-2.0/cityrep.c:1744 client/gui-win32/cityrep.c:469
+#: client/gui-gtk-2.0/cityrep.c:1763 client/gui-win32/cityrep.c:469
 msgid "Improvements in City"
 msgstr "Υποδομές στην πόλη"
 
-#: client/gui-gtk-2.0/cityrep.c:1748
+#: client/gui-gtk-2.0/cityrep.c:1767
 msgid "Wonders in City"
 msgstr "Θαύματα στην πόλη"
 
-#: client/gui-gtk-2.0/cityrep.c:1757
+#: client/gui-gtk-2.0/cityrep.c:1776
 msgid "Available Units"
 msgstr "Διαθέσιμες μονάδες"
 
-#: client/gui-gtk-2.0/cityrep.c:1760
+#: client/gui-gtk-2.0/cityrep.c:1779
 msgid "Available Improvements"
 msgstr "Διαθέσιμες υποδομές"
 
-#: client/gui-gtk-2.0/cityrep.c:1763
+#: client/gui-gtk-2.0/cityrep.c:1782
 msgid "Available Wonders"
 msgstr "Διαθέσιμα θαύματα"
 
-#: client/gui-gtk-2.0/cityrep.c:1882
+#: client/gui-gtk-2.0/cityrep.c:1901
 #, fuzzy, c-format
 msgid "Total Buy Cost: %d"
 msgstr "Συνολικό κόστος: "
@@ -11216,7 +11222,7 @@ msgid "Unit"
 msgstr "Μονάδα"
 
 #: client/gui-gtk-2.0/dialogs.c:508 client/gui-gtk-2.0/pages.c:950
-#: client/gui-gtk-2.0/pages.c:1579 client/gui-gtk-2.0/pages.c:2157
+#: client/gui-gtk-2.0/pages.c:1578 client/gui-gtk-2.0/pages.c:2156
 #: client/gui-gtk-2.0/wldlg.c:1035 client/gui-win32/connectdlg.c:987
 #: client/gui-win32/plrdlg.c:335 manual/civmanual.c:302 data/Freeciv.in:80
 msgid "Name"
@@ -11302,7 +11308,7 @@ msgid "Upgrade Unit!"
 msgstr "Αναβάθμισε μονάδα!"
 
 #: client/gui-gtk-2.0/dialogs.c:1327 client/gui-gtk-2.0/repodlgs.c:1164
-#: client/gui-sdl/dialogs.c:423 client/gui-sdl/repodlgs.c:192
+#: client/gui-sdl/dialogs.c:423 client/gui-sdl/repodlgs.c:193
 #: client/gui-win32/citydlg.c:1447 client/gui-win32/repodlgs.c:577
 #: data/Freeciv.in:2473
 msgid "Upgrade Obsolete Units"
@@ -11392,8 +11398,8 @@ msgid "Select tax, luxury and science rates"
 msgstr "Επέλεξε ποσοστα φόρων , ανέσεων , επιστήμης"
 
 #: client/gui-gtk-2.0/gamedlgs.c:259 client/gui-gtk-2.0/gamedlgs.c:279
-#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1894
-#: client/gui-sdl/repodlgs.c:1940 client/gui-win32/ratesdlg.c:312
+#: client/gui-gtk-2.0/gamedlgs.c:299 client/gui-sdl/repodlgs.c:1895
+#: client/gui-sdl/repodlgs.c:1941 client/gui-win32/ratesdlg.c:312
 #: client/gui-win32/ratesdlg.c:318 client/gui-win32/ratesdlg.c:324
 #: data/Freeciv.in:1311 data/Freeciv.in:1329 data/Freeciv.in:1348
 msgid "Lock"
@@ -11593,7 +11599,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:847 client/gui-gtk-2.0/gui_main.c:1542
+#: client/gui-gtk-2.0/gui_main.c:847 client/gui-gtk-2.0/gui_main.c:1549
 msgid "Freeciv"
 msgstr ""
 
@@ -11608,7 +11614,7 @@ msgstr "Τέλος γύρου"
 msgid "Shift+Return"
 msgstr "Shift+Έντερ"
 
-#: client/gui-gtk-2.0/gui_main.c:1299 client/gui-gtk-2.0/menu.c:797
+#: client/gui-gtk-2.0/gui_main.c:1306 client/gui-gtk-2.0/menu.c:797
 #: client/gui-gtk-2.0/menu.c:799 client/gui-gtk-2.0/menu.c:801
 #: client/gui-gtk-2.0/menu.c:803 client/gui-gtk-2.0/menu.c:805
 #: client/gui-gtk-2.0/menu.c:807 client/gui-gtk-2.0/menu.c:809
@@ -11627,12 +11633,12 @@ msgstr "Shift+Έντερ"
 msgid "View"
 msgstr "Προβολή"
 
-#: client/gui-gtk-2.0/gui_main.c:1393
+#: client/gui-gtk-2.0/gui_main.c:1400
 #, fuzzy
 msgid "Chat"
 msgstr "_Κουβεντούλα"
 
-#: client/gui-gtk-2.0/gui_main.c:1411 client/gui-win32/gui_main.c:538
+#: client/gui-gtk-2.0/gui_main.c:1418 client/gui-win32/gui_main.c:538
 #: data/Freeciv.in:2809
 msgid ""
 "Freeciv is free software and you are welcome to distribute copies of it\n"
@@ -11643,76 +11649,76 @@ msgstr ""
 "αντιγραφά του κάτω από ορισμένες προυποθέσεις. Δες και την καταχώσηση\n"
 " \"Αντιγραφή\" στο μενού Βοήθεια. Tώρα... ώρα για αγώνα! "
 
-#: client/gui-gtk-2.0/gui_main.c:1426
+#: client/gui-gtk-2.0/gui_main.c:1433
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1691
+#: client/gui-gtk-2.0/gui_main.c:1698
 msgid "Not _ready"
 msgstr "Όχι έ_τοιμος"
 
-#: client/gui-gtk-2.0/gui_main.c:1702 client/gui-gtk-2.0/pages.c:1679
+#: client/gui-gtk-2.0/gui_main.c:1709 client/gui-gtk-2.0/pages.c:1678
 msgid "_Ready"
 msgstr "_Έτοιμος"
 
-#: client/gui-gtk-2.0/gui_main.c:1706 client/gui-gtk-2.0/gui_main.c:1712
-#: client/gui-gtk-2.0/pages.c:2206
+#: client/gui-gtk-2.0/gui_main.c:1713 client/gui-gtk-2.0/gui_main.c:1719
+#: client/gui-gtk-2.0/pages.c:2205
 msgid "_Start"
 msgstr "_Εκκίνηση"
 
-#: client/gui-gtk-2.0/gui_main.c:1720
+#: client/gui-gtk-2.0/gui_main.c:1727
 #, fuzzy
 msgid "_Take Player"
 msgstr "Επέλεξε αυτόν τον παίχτη"
 
-#: client/gui-gtk-2.0/gui_main.c:1723 client/gui-gtk-2.0/pages.c:1669
+#: client/gui-gtk-2.0/gui_main.c:1730 client/gui-gtk-2.0/pages.c:1668
 msgid "Pick _Nation"
 msgstr "Διάλεξε _Εθνος"
 
-#: client/gui-gtk-2.0/gui_main.c:1730 client/gui-gtk-2.0/pages.c:1674
+#: client/gui-gtk-2.0/gui_main.c:1737 client/gui-gtk-2.0/pages.c:1673
 msgid "_Observe"
 msgstr "_Παρακολoύθησε"
 
-#: client/gui-gtk-2.0/gui_main.c:1732
+#: client/gui-gtk-2.0/gui_main.c:1739
 #, fuzzy
 msgid "Do not _observe"
 msgstr "_Μην παρακολουθείς"
 
-#: client/gui-gtk-2.0/gui_main.c:1755 client/gui-xaw/pages.c:211
+#: client/gui-gtk-2.0/gui_main.c:1762 client/gui-xaw/pages.c:211
 msgid "<AI>"
 msgstr "<ΤΝ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1758
+#: client/gui-gtk-2.0/gui_main.c:1765
 msgid "<Novice AI>"
 msgstr "<Αρχάρια ΤΝ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1761
+#: client/gui-gtk-2.0/gui_main.c:1768
 #, fuzzy
 msgid "<Easy AI>"
 msgstr "<Εύκολη ΤΝ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1764
+#: client/gui-gtk-2.0/gui_main.c:1771
 msgid "<Normal AI>"
 msgstr "<Δύσκολη ΤΝ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1767
+#: client/gui-gtk-2.0/gui_main.c:1774
 msgid "<Hard AI>"
 msgstr "<Σκληρή ΤΝ>"
 
-#: client/gui-gtk-2.0/gui_main.c:1777 client/gui-win32/dialogs.c:594
+#: client/gui-gtk-2.0/gui_main.c:1784 client/gui-win32/dialogs.c:594
 #: client/gui-xaw/pages.c:217
 msgid "Random"
 msgstr "Τυχαίο"
 
-#: client/gui-gtk-2.0/gui_main.c:1844 client/gui-gtk-2.0/gui_main.c:1858
+#: client/gui-gtk-2.0/gui_main.c:1851 client/gui-gtk-2.0/gui_main.c:1865
 msgid "Observer"
 msgstr "Παρακολούθησε"
 
-#: client/gui-gtk-2.0/gui_main.c:1858
+#: client/gui-gtk-2.0/gui_main.c:1865
 msgid "Detached"
 msgstr "Αποκομμένο"
 
-#: client/gui-gtk-2.0/gui_main.c:2117
+#: client/gui-gtk-2.0/gui_main.c:2124
 msgid "Are you sure you want to quit?"
 msgstr "Είσαι σίγουρος ότι θέλεις να τερματίσεις;"
 
@@ -11956,12 +11962,12 @@ msgstr "Χτίσε νεά πόλη"
 msgid "What should we call our new city?"
 msgstr "Πώς θα ονομάσουμε τη νέα μας πόλη;"
 
-#: client/gui-gtk-2.0/mapview.c:158
+#: client/gui-gtk-2.0/mapview.c:168
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
 "Δείχνει τα τρέχοντα ποσοστά ανέσεις/επιστήμη/φόροι-κλίκ για να τα αλλάξεις."
 
-#: client/gui-gtk-2.0/mapview.c:702 client/gui-win32/canvas.c:275
+#: client/gui-gtk-2.0/mapview.c:712 client/gui-win32/canvas.c:275
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 "Καλύτερη ομίχλη θα δουλεύει μόνο σε πραγματικό χρώμα. Απενεργοποιείται."
@@ -12207,31 +12213,31 @@ msgstr "_Διαταγές"
 msgid "Orders"
 msgstr "Διαταγές"
 
-#: client/gui-gtk-2.0/menu.c:860 client/gui-gtk-2.0/menu.c:1489
+#: client/gui-gtk-2.0/menu.c:860 client/gui-gtk-2.0/menu.c:1504
 #: client/gui-win32/menu.c:359
 msgid "_Build City"
 msgstr "_Χτίσε Πόλη"
 
-#: client/gui-gtk-2.0/menu.c:862 client/gui-gtk-2.0/menu.c:1511
-#: client/gui-gtk-2.0/menu.c:1517 client/gui-win32/menu.c:360
+#: client/gui-gtk-2.0/menu.c:862 client/gui-gtk-2.0/menu.c:1526
+#: client/gui-gtk-2.0/menu.c:1532 client/gui-win32/menu.c:360
 msgid "Build _Road"
 msgstr "Χτίσε _Δρόμο"
 
-#: client/gui-gtk-2.0/menu.c:864 client/gui-gtk-2.0/menu.c:1405
+#: client/gui-gtk-2.0/menu.c:864 client/gui-gtk-2.0/menu.c:1420
 #: client/gui-win32/menu.c:361
 msgid "Build _Irrigation"
 msgstr "Χτίσε _Ύδρευση"
 
-#: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1406
+#: client/gui-gtk-2.0/menu.c:866 client/gui-gtk-2.0/menu.c:1421
 #: client/gui-win32/menu.c:362
 msgid "Build _Mine"
 msgstr "Χτίσε _Ορυχείο"
 
-#: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:1407
+#: client/gui-gtk-2.0/menu.c:868 client/gui-gtk-2.0/menu.c:1422
 msgid "Transf_orm Terrain"
 msgstr "_Μετασχημάτισε Εδάφος"
 
-#: client/gui-gtk-2.0/menu.c:870 client/gui-gtk-2.0/menu.c:1553
+#: client/gui-gtk-2.0/menu.c:870 client/gui-gtk-2.0/menu.c:1568
 #: client/gui-win32/menu.c:364
 msgid "Build _Fortress"
 msgstr "Χτίσε _Φρούριο"
@@ -12240,7 +12246,7 @@ msgstr "Χτίσε _Φρούριο"
 msgid "Build Airbas_e"
 msgstr "Χτίσε _Αερ.Βάση"
 
-#: client/gui-gtk-2.0/menu.c:874 client/gui-gtk-2.0/menu.c:1559
+#: client/gui-gtk-2.0/menu.c:874 client/gui-gtk-2.0/menu.c:1574
 #: client/gui-win32/menu.c:366
 msgid "Clean _Pollution"
 msgstr "Καθάρισε Μό_λυνση"
@@ -12546,31 +12552,31 @@ msgstr ""
 msgid "Transf_orm to %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1472
+#: client/gui-gtk-2.0/menu.c:1487
 msgid "Help _Build Wonder"
 msgstr "Βοήθησε να _χτιστεί Θαύμα"
 
-#: client/gui-gtk-2.0/menu.c:1486
+#: client/gui-gtk-2.0/menu.c:1501
 msgid "Add to City (_B)"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1494
+#: client/gui-gtk-2.0/menu.c:1509
 msgid "Make Trade _Route"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1508
+#: client/gui-gtk-2.0/menu.c:1523
 msgid "Build _Railroad"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1531
+#: client/gui-gtk-2.0/menu.c:1546
 msgid "Bu_ild Farmland"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1551
+#: client/gui-gtk-2.0/menu.c:1566
 msgid "_Fortify"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1557
+#: client/gui-gtk-2.0/menu.c:1572
 msgid "_Paradrop"
 msgstr ""
 
@@ -12700,7 +12706,7 @@ msgid "Version"
 msgstr "Έκδοση"
 
 #: client/gui-gtk-2.0/pages.c:782 client/gui-gtk-2.0/pages.c:823
-#: client/gui-gtk-2.0/pages.c:2163 client/gui-win32/connectdlg.c:919
+#: client/gui-gtk-2.0/pages.c:2162 client/gui-win32/connectdlg.c:919
 #: client/gui-win32/connectdlg.c:997
 msgid "Status"
 msgstr "Κατάσταση"
@@ -12744,7 +12750,7 @@ msgstr "Συν_θηματικό"
 msgid "Conf_irm Password:"
 msgstr "Επι_βεβαίωσε συνθηματικό"
 
-#: client/gui-gtk-2.0/pages.c:951 client/gui-gtk-2.0/pages.c:2165
+#: client/gui-gtk-2.0/pages.c:951 client/gui-gtk-2.0/pages.c:2164
 #: client/gui-gtk-2.0/repodlgs.c:634 client/gui-gtk-2.0/wldlg.c:1035
 #: client/gui-win32/citydlg.c:1083 client/gui-win32/connectdlg.c:1002
 #: client/gui-win32/wldlg.c:800 client/gui-win32/wldlg.c:806
@@ -12827,82 +12833,82 @@ msgstr "Δώσε πρόσβαση ελέγχου"
 msgid "Put on %s"
 msgstr "Βάλε σε %s"
 
-#: client/gui-gtk-2.0/pages.c:1511
+#: client/gui-gtk-2.0/pages.c:1510
 #, fuzzy
 msgid "Number of _Players (including AI):"
 msgstr "_Αριθμός παιχτών (συμπεριλαμβανομένων ΤΝ):"
 
-#: client/gui-gtk-2.0/pages.c:1534
+#: client/gui-gtk-2.0/pages.c:1533
 #, fuzzy
 msgid "AI Skill _Level:"
 msgstr "Επίπεδο επιδεξιότητας _ΤΝ"
 
-#: client/gui-gtk-2.0/pages.c:1550
+#: client/gui-gtk-2.0/pages.c:1549
 #, fuzzy
 msgid "Ruleset _Version:"
 msgstr "_ΣύνολοΚανόνων"
 
-#: client/gui-gtk-2.0/pages.c:1558 client/gui-gtk-2.0/pages.c:2195
+#: client/gui-gtk-2.0/pages.c:1557 client/gui-gtk-2.0/pages.c:2194
 #, fuzzy
 msgid "_More Game Options..."
 msgstr "Περισσότερες επι_λογές παιχνιδίου..."
 
-#: client/gui-gtk-2.0/pages.c:1583
+#: client/gui-gtk-2.0/pages.c:1582
 #, fuzzy
 msgid "Record"
 msgstr "Καταγραφή"
 
-#: client/gui-gtk-2.0/pages.c:1588
+#: client/gui-gtk-2.0/pages.c:1587
 msgid "Rating"
 msgstr "Βαθμολογία"
 
-#: client/gui-gtk-2.0/pages.c:1594
+#: client/gui-gtk-2.0/pages.c:1593
 msgid "Ready"
 msgstr "Έτοιμος"
 
-#: client/gui-gtk-2.0/pages.c:1600
+#: client/gui-gtk-2.0/pages.c:1599
 #, fuzzy
 msgid "?player:Leader"
 msgstr "?Player:Όνομα"
 
-#: client/gui-gtk-2.0/pages.c:1734 client/gui-sdl/chatline.c:185
+#: client/gui-gtk-2.0/pages.c:1733 client/gui-sdl/chatline.c:185
 msgid "Choose Saved Game to Load"
 msgstr "Διάλεξε αποθηκευμένο παιχνίδι για φόρτωμα"
 
-#: client/gui-gtk-2.0/pages.c:1826
+#: client/gui-gtk-2.0/pages.c:1825
 msgid "Choose Saved Game to _Load:"
 msgstr "Διάλεξε αποθηκευμένο παιχνίδι για _φόρτωμα"
 
-#: client/gui-gtk-2.0/pages.c:1846 client/gui-gtk-2.0/pages.c:2039
-#: client/gui-gtk-2.0/pages.c:2455
+#: client/gui-gtk-2.0/pages.c:1845 client/gui-gtk-2.0/pages.c:2038
+#: client/gui-gtk-2.0/pages.c:2454
 msgid "_Browse..."
 msgstr "_Περιηγήσου"
 
-#: client/gui-gtk-2.0/pages.c:1913
+#: client/gui-gtk-2.0/pages.c:1912
 msgid "Choose a Scenario"
 msgstr "Επέλεξε ένα σενάριο"
 
-#: client/gui-gtk-2.0/pages.c:2000
+#: client/gui-gtk-2.0/pages.c:1999
 msgid "Choose a _Scenario:"
 msgstr "Επέλεξε _σενάριο"
 
-#: client/gui-gtk-2.0/pages.c:2175
+#: client/gui-gtk-2.0/pages.c:2174
 msgid "Choose a _nation to play:"
 msgstr "Επέλεξε το _έθνος σου:"
 
-#: client/gui-gtk-2.0/pages.c:2367 client/gui-win32/menu.c:581
+#: client/gui-gtk-2.0/pages.c:2366 client/gui-win32/menu.c:581
 msgid "Select Location to Save"
 msgstr "Επέλεξε κατάλογο αποθήκευσης"
 
-#: client/gui-gtk-2.0/pages.c:2452 client/gui-sdl/optiondlg.c:2273
+#: client/gui-gtk-2.0/pages.c:2451 client/gui-sdl/optiondlg.c:2273
 msgid "Save Game"
 msgstr "Αποθήκευση παιχνίδι"
 
-#: client/gui-gtk-2.0/pages.c:2493
+#: client/gui-gtk-2.0/pages.c:2492
 msgid "Saved _Games:"
 msgstr "Αποθηκευμένα _Παιχνίδια"
 
-#: client/gui-gtk-2.0/pages.c:2520
+#: client/gui-gtk-2.0/pages.c:2519
 msgid "Save _Filename:"
 msgstr "Αποθήκευση _ΌνομαΑρχείου"
 
@@ -12913,7 +12919,7 @@ msgstr "Αποθήκευση _ΌνομαΑρχείου"
 #. TRANS: Research report title
 #: client/gui-gtk-2.0/repodlgs.c:283 client/gui-sdl/mapctrl.c:1413
 #: client/gui-sdl/mapview.c:333 client/gui-sdl/mapview.c:337
-#: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3260
+#: client/gui-sdl/mapview.c:343 client/gui-sdl/repodlgs.c:3261
 #: client/gui-win32/repodlgs.c:93 client/gui-win32/repodlgs.c:273
 #: client/gui-xaw/menu.c:224 client/gui-xaw/repodlgs.c:274
 #: client/gui-xaw/repodlgs.c:485 data/Freeciv.in:1366
@@ -12945,7 +12951,7 @@ msgstr "Μέτρημα"
 msgid "Cost"
 msgstr "Κόστος"
 
-#: client/gui-gtk-2.0/repodlgs.c:638 client/gui-sdl/repodlgs.c:2031
+#: client/gui-gtk-2.0/repodlgs.c:638 client/gui-sdl/repodlgs.c:2032
 #: client/gui-win32/repodlgs.c:468
 msgid "U Total"
 msgstr "U Συνολικό"
@@ -13005,7 +13011,7 @@ msgstr "Βρές _κοντινότερο"
 msgid "_Upgrade"
 msgstr "_Αναβάθμιση"
 
-#: client/gui-gtk-2.0/repodlgs.c:1156 client/gui-sdl/repodlgs.c:185
+#: client/gui-gtk-2.0/repodlgs.c:1156 client/gui-sdl/repodlgs.c:186
 #: client/gui-win32/repodlgs.c:568 client/gui-xaw/repodlgs.c:1005
 #, c-format
 msgid ""
@@ -13247,9 +13253,9 @@ msgstr "Συνέχισε να μετακινήσε"
 #: client/gui-sdl/helpdlg.c:229 client/gui-sdl/helpdlg.c:619
 #: client/gui-sdl/helpdlg.c:1910 client/gui-sdl/inteldlg.c:237
 #: client/gui-sdl/optiondlg.c:2181 client/gui-sdl/plrdlg.c:344
-#: client/gui-sdl/plrdlg.c:625 client/gui-sdl/repodlgs.c:380
-#: client/gui-sdl/repodlgs.c:1991 client/gui-sdl/repodlgs.c:2867
-#: client/gui-sdl/repodlgs.c:3056 client/gui-sdl/repodlgs.c:3321
+#: client/gui-sdl/plrdlg.c:625 client/gui-sdl/repodlgs.c:381
+#: client/gui-sdl/repodlgs.c:1992 client/gui-sdl/repodlgs.c:2868
+#: client/gui-sdl/repodlgs.c:3057 client/gui-sdl/repodlgs.c:3322
 #: client/gui-sdl/spaceshipdlg.c:162
 msgid "Close Dialog (Esc)"
 msgstr "Κλείσε διαλόγο (Esc)"
@@ -13358,9 +13364,9 @@ msgid "Buy it?"
 msgstr "Αγορασέ το!"
 
 #: client/gui-sdl/citydlg.c:1205 client/gui-sdl/cma_fe.c:327
-#: client/gui-sdl/diplodlg.c:1336 client/gui-sdl/diplomat_dialog.c:1211
+#: client/gui-sdl/diplodlg.c:1339 client/gui-sdl/diplomat_dialog.c:1211
 #: client/gui-sdl/diplomat_dialog.c:1417 client/gui-sdl/plrdlg.c:222
-#: client/gui-sdl/repodlgs.c:221 client/gui-sdl/repodlgs.c:1559
+#: client/gui-sdl/repodlgs.c:222 client/gui-sdl/repodlgs.c:1560
 #: client/gui-win32/repodlgs.c:580 client/gui-xaw/citydlg.c:2431
 #: client/gui-xaw/cityrep.c:666 client/gui-xaw/cma_fe.c:327
 #: client/gui-xaw/cma_fe.c:511 client/gui-xaw/cma_fe.c:765
@@ -13374,9 +13380,9 @@ msgid "No"
 msgstr "Όχι"
 
 #: client/gui-sdl/citydlg.c:1216 client/gui-sdl/cma_fe.c:318
-#: client/gui-sdl/diplodlg.c:1346 client/gui-sdl/diplomat_dialog.c:1200
+#: client/gui-sdl/diplodlg.c:1349 client/gui-sdl/diplomat_dialog.c:1200
 #: client/gui-sdl/diplomat_dialog.c:1407 client/gui-sdl/plrdlg.c:222
-#: client/gui-sdl/repodlgs.c:232 client/gui-win32/repodlgs.c:578
+#: client/gui-sdl/repodlgs.c:233 client/gui-win32/repodlgs.c:578
 #: client/gui-xaw/citydlg.c:2431 client/gui-xaw/cityrep.c:666
 #: client/gui-xaw/cma_fe.c:327 client/gui-xaw/cma_fe.c:511
 #: client/gui-xaw/cma_fe.c:765 client/gui-xaw/messagedlg.c:72
@@ -13513,10 +13519,10 @@ msgstr "Συρρίκνωση πόλης: %d %s"
 #: client/gui-sdl/menu.c:1096 client/gui-sdl/menu.c:1102
 #: client/gui-sdl/menu.c:1120 client/gui-sdl/menu.c:1129
 #: client/gui-sdl/menu.c:1136 client/gui-sdl/menu.c:1152
-#: client/gui-sdl/plrdlg.c:662 client/gui-sdl/repodlgs.c:552
-#: client/gui-sdl/repodlgs.c:928 client/gui-sdl/wldlg.c:903
-#: client/gui-sdl/wldlg.c:1078 client/gui-sdl/wldlg.c:1366
-#: client/gui-sdl/wldlg.c:1372 client/gui-sdl/wldlg.c:1486
+#: client/gui-sdl/plrdlg.c:662 client/gui-sdl/repodlgs.c:553
+#: client/gui-sdl/repodlgs.c:929 client/gui-sdl/wldlg.c:903
+#: client/gui-sdl/wldlg.c:1078 client/gui-sdl/wldlg.c:1365
+#: client/gui-sdl/wldlg.c:1371 client/gui-sdl/wldlg.c:1485
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "γύρος"
@@ -13862,20 +13868,20 @@ msgid "Accept treaty"
 msgstr "Απωδέξου συμφωνία"
 
 #. TRANS: "Polish incident !" FIXME!!!
-#: client/gui-sdl/diplodlg.c:1305
+#: client/gui-sdl/diplodlg.c:1308
 #, c-format
 msgid "%s incident !"
 msgstr "%s  συμβάν !"
 
-#: client/gui-sdl/diplodlg.c:1323
+#: client/gui-sdl/diplodlg.c:1326
 msgid "Shall we declare WAR on them?"
 msgstr "Να τους κηρύξουμε ΠΟΛΕΜΟ;"
 
-#: client/gui-sdl/diplodlg.c:1434
+#: client/gui-sdl/diplodlg.c:1437
 msgid "Foreign Minister"
 msgstr "Υπουργός εξωτερικών"
 
-#: client/gui-sdl/diplodlg.c:1450
+#: client/gui-sdl/diplodlg.c:1453
 #, c-format
 msgid ""
 "Sir!, the %s ambassador has arrived\n"
@@ -13884,24 +13890,24 @@ msgstr ""
 "Κύριε!, ο %s πρέσβης έχει φτάσει\n"
 "Ποιές είναι οι επιθυμίες σας?"
 
-#: client/gui-sdl/diplodlg.c:1466
+#: client/gui-sdl/diplodlg.c:1469
 msgid "Declare WAR"
 msgstr "Κήρυξε ΠΟΛΕΜΟ"
 
-#: client/gui-sdl/diplodlg.c:1468 client/gui-win32/plrdlg.c:357
+#: client/gui-sdl/diplodlg.c:1471 client/gui-win32/plrdlg.c:357
 msgid "Cancel Treaty"
 msgstr "Ακύρωσε Συμφωνία"
 
-#: client/gui-sdl/diplodlg.c:1491 client/gui-win32/plrdlg.c:358
+#: client/gui-sdl/diplodlg.c:1494 client/gui-win32/plrdlg.c:358
 #: data/Freeciv.in:3254
 msgid "Withdraw vision"
 msgstr "Απέσυρε όραση "
 
-#: client/gui-sdl/diplodlg.c:1508
+#: client/gui-sdl/diplodlg.c:1511
 msgid "Call Diplomatic Meeting"
 msgstr "Κάλεσε διπλωματική συνάντηση "
 
-#: client/gui-sdl/diplodlg.c:1522
+#: client/gui-sdl/diplodlg.c:1525
 msgid "Send him back"
 msgstr "Στείλε τον πίσω"
 
@@ -14070,11 +14076,11 @@ msgid "Help : Units"
 msgstr "Βοήθεια : Μονάδες"
 
 #: client/gui-sdl/helpdlg.c:736 client/gui-sdl/helpdlg.c:749
-#: client/gui-sdl/wldlg.c:1350 client/gui-sdl/wldlg.c:1356
-#: client/gui-sdl/wldlg.c:1364 client/gui-sdl/wldlg.c:1370
-#: client/gui-sdl/wldlg.c:1386 client/gui-sdl/wldlg.c:1391
-#: client/gui-sdl/wldlg.c:1478 client/gui-sdl/wldlg.c:1485
-#: client/gui-sdl/wldlg.c:1494
+#: client/gui-sdl/wldlg.c:1349 client/gui-sdl/wldlg.c:1355
+#: client/gui-sdl/wldlg.c:1363 client/gui-sdl/wldlg.c:1369
+#: client/gui-sdl/wldlg.c:1385 client/gui-sdl/wldlg.c:1390
+#: client/gui-sdl/wldlg.c:1477 client/gui-sdl/wldlg.c:1484
+#: client/gui-sdl/wldlg.c:1493
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "ασπίδα"
@@ -14692,11 +14698,11 @@ msgstr "Τώρα ... Δώς  τους να καταλάβουν!"
 msgid "disconnected"
 msgstr "Αποσυνδεδεμένος"
 
-#: client/gui-sdl/repodlgs.c:339
+#: client/gui-sdl/repodlgs.c:340
 msgid "active"
 msgstr "ενεργός"
 
-#: client/gui-sdl/repodlgs.c:344
+#: client/gui-sdl/repodlgs.c:345
 msgid ""
 "under\n"
 "construction"
@@ -14704,7 +14710,7 @@ msgstr ""
 "υπό\n"
 "κατασκευή"
 
-#: client/gui-sdl/repodlgs.c:348
+#: client/gui-sdl/repodlgs.c:349
 msgid ""
 "soonest\n"
 "completion"
@@ -14712,15 +14718,15 @@ msgstr ""
 "το συντομότερο\n"
 "ολοκλήρωση"
 
-#: client/gui-sdl/repodlgs.c:352
+#: client/gui-sdl/repodlgs.c:353
 msgid "Total"
 msgstr "Σύνολο"
 
-#: client/gui-sdl/repodlgs.c:363
+#: client/gui-sdl/repodlgs.c:364
 msgid "Units Report"
 msgstr "Αναφορά μονάδων"
 
-#: client/gui-sdl/repodlgs.c:1518
+#: client/gui-sdl/repodlgs.c:1519
 #, fuzzy, c-format
 msgid ""
 "We have %d of %s\n"
@@ -14731,63 +14737,63 @@ msgstr ""
 "(συνολική αξία είναι : %d)\n"
 "Μπορούμε να πουλήσουμε %d από αυτά για %d χρυσό"
 
-#: client/gui-sdl/repodlgs.c:1525
+#: client/gui-sdl/repodlgs.c:1526
 #, fuzzy, c-format
 msgid "We can't sell any %s in this turn."
 msgstr "Δεν μπορούμε να πουλήσουμε %s αυτόν τον γύρο "
 
-#: client/gui-sdl/repodlgs.c:1530
+#: client/gui-sdl/repodlgs.c:1531
 msgid "Sell It?"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:1761
+#: client/gui-sdl/repodlgs.c:1762
 msgid "Economy Report"
 msgstr "Οικονομική αναφορά"
 
-#: client/gui-sdl/repodlgs.c:1776
+#: client/gui-sdl/repodlgs.c:1777
 msgid "Treasury: "
 msgstr "Θησαυροφυλάκιο: "
 
-#: client/gui-sdl/repodlgs.c:1798
+#: client/gui-sdl/repodlgs.c:1799
 msgid "Tax Rate: "
 msgstr "Ποσοστό φόρων: "
 
-#: client/gui-sdl/repodlgs.c:1819
+#: client/gui-sdl/repodlgs.c:1820
 msgid "Total Income: "
 msgstr "Συνολικό Εισόδημα: "
 
-#: client/gui-sdl/repodlgs.c:1839
+#: client/gui-sdl/repodlgs.c:1840
 msgid "Total Cost: "
 msgstr "Συνολικό κόστος: "
 
-#: client/gui-sdl/repodlgs.c:1858
+#: client/gui-sdl/repodlgs.c:1859
 msgid "Net Income: "
 msgstr "Καθαρό Εισόδημα: "
 
-#: client/gui-sdl/repodlgs.c:1882
+#: client/gui-sdl/repodlgs.c:1883
 #, c-format
 msgid "%s max rate : %d%%"
 msgstr "%s μέγιστο ποσοστό : %d%%"
 
-#: client/gui-sdl/repodlgs.c:1981 client/gui-win32/connectdlg.c:1085
+#: client/gui-sdl/repodlgs.c:1982 client/gui-win32/connectdlg.c:1085
 #: client/gui-win32/connectdlg.c:1093 data/Freeciv.in:155
 msgid "Update"
 msgstr "Ανανέωση"
 
-#: client/gui-sdl/repodlgs.c:2065 client/gui-sdl/wldlg.c:1334
+#: client/gui-sdl/repodlgs.c:2066 client/gui-sdl/wldlg.c:1333
 msgid "Wonder"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:2851
+#: client/gui-sdl/repodlgs.c:2852
 msgid "What should we focus on now?"
 msgstr ""
 
-#: client/gui-sdl/repodlgs.c:3040
+#: client/gui-sdl/repodlgs.c:3041
 #, fuzzy
 msgid "Select target :"
 msgstr "Επέλεξε ίδιο τύπο"
 
-#: client/gui-sdl/repodlgs.c:3107
+#: client/gui-sdl/repodlgs.c:3108
 msgid "step"
 msgid_plural "steps"
 msgstr[0] ""
@@ -14927,7 +14933,7 @@ msgid ""
 "%s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1347
+#: client/gui-sdl/wldlg.c:1346
 #, c-format
 msgid ""
 "(%s)\n"
@@ -14935,14 +14941,14 @@ msgid ""
 "%s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1354
+#: client/gui-sdl/wldlg.c:1353
 #, c-format
 msgid ""
 "%d/%d %s\n"
 "%s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1361
+#: client/gui-sdl/wldlg.c:1360
 #, c-format
 msgid ""
 "(%s)\n"
@@ -14950,35 +14956,35 @@ msgid ""
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1368
+#: client/gui-sdl/wldlg.c:1367
 #, c-format
 msgid ""
 "%d/%d %s\n"
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1377
+#: client/gui-sdl/wldlg.c:1376
 #, c-format
 msgid "%d gold per turn"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1384
+#: client/gui-sdl/wldlg.c:1383
 #, c-format
 msgid ""
 "(%s)\n"
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1389
+#: client/gui-sdl/wldlg.c:1388
 #, c-format
 msgid "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1395
+#: client/gui-sdl/wldlg.c:1394
 msgid "shields into gold"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1474
+#: client/gui-sdl/wldlg.c:1473
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14986,7 +14992,7 @@ msgid ""
 "never"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1481
+#: client/gui-sdl/wldlg.c:1480
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -14994,7 +15000,7 @@ msgid ""
 "%d %s"
 msgstr ""
 
-#: client/gui-sdl/wldlg.c:1490
+#: client/gui-sdl/wldlg.c:1489
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
