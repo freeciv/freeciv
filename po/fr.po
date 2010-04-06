@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-03 22:42+0200\n"
+"POT-Creation-Date: 2010-04-06 12:07-0400\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
 "Last-Translator: Pepeto <pepeto69 gmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -173,7 +173,7 @@ msgstr "achetée"
 
 #: common/events.c:84 common/events.c:152 client/citydlg_common.c:341
 #: client/citydlg_common.c:351 client/gui-sdl/repodlgs.c:2029
-#: client/gui-sdl/wldlg.c:1365 client/gui-sdl/wldlg.c:1373
+#: client/gui-sdl/wldlg.c:1364 client/gui-sdl/wldlg.c:1372
 msgid "Built"
 msgstr "Construit"
 
@@ -561,7 +561,7 @@ msgstr "Changement d'année"
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: common/game.c:771 common/game.c:775 client/gui-sdl/wldlg.c:1430
+#: common/game.c:771 common/game.c:775 client/gui-sdl/wldlg.c:1429
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
@@ -642,19 +642,19 @@ msgstr "Armistice"
 msgid "?diplomatic_state:War"
 msgstr "Guerre"
 
-#: common/player.c:845 client/gui-gtk-2.0/diplodlg.c:353
+#: common/player.c:845 client/gui-gtk-2.0/diplodlg.c:398
 #: client/gui-sdl/diplodlg.c:462 client/gui-win32/diplodlg.c:312
 #: client/gui-xaw/diplodlg.c:532
 msgid "?diplomatic_state:Cease-fire"
 msgstr "Cessez-le-feu"
 
-#: common/player.c:846 client/gui-gtk-2.0/diplodlg.c:358
+#: common/player.c:846 client/gui-gtk-2.0/diplodlg.c:403
 #: client/gui-sdl/diplodlg.c:476 client/gui-win32/diplodlg.c:313
 #: client/gui-xaw/diplodlg.c:536
 msgid "?diplomatic_state:Peace"
 msgstr "Paix"
 
-#: common/player.c:847 client/gui-gtk-2.0/diplodlg.c:363
+#: common/player.c:847 client/gui-gtk-2.0/diplodlg.c:408
 #: client/gui-sdl/diplodlg.c:491 client/gui-win32/diplodlg.c:314
 #: client/gui-xaw/diplodlg.c:540
 msgid "?diplomatic_state:Alliance"
@@ -2295,7 +2295,7 @@ msgid "%s is disbanded into %s."
 msgstr "%s est congédié dans %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2360
+#: server/cityturn.c:2397
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -2304,7 +2304,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2367
+#: server/cityturn.c:2404
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2314,7 +2314,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2372
+#: server/cityturn.c:2409
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2324,7 +2324,7 @@ msgstr ""
 "nourriture disponible !"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2386
+#: server/cityturn.c:2424
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -2333,7 +2333,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2393
+#: server/cityturn.c:2431
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -2342,7 +2342,7 @@ msgstr ""
 "nécessaire pour que la ville puisse se développer !"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2398
+#: server/cityturn.c:2436
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -2350,39 +2350,39 @@ msgstr ""
 "Les émigrants de %s (%s) ne peuvent aller à %s car une construction y est "
 "nécessaire pour que la ville puisse se développer !"
 
-#: server/cityturn.c:2428
+#: server/cityturn.c:2472
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s a été démantelé par ces habitants."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2448
+#: server/cityturn.c:2492
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Des émigrants de %s sont partis en quête d'une vie meilleure à %s."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2454
+#: server/cityturn.c:2498
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 "Des émigrants de %s sont partis en quête d'une vie meilleure à %s (%s)."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2459
+#: server/cityturn.c:2503
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 "Des émigrants de %s (%s) sont partis en quête d'une vie meilleure à %s."
 
-#: server/cityturn.c:2610
+#: server/cityturn.c:2654
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 "Des citoyens de %s envisagent d'émigrer vers %s en quête d'une vie meilleure."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2631
+#: server/cityturn.c:2675
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -6490,8 +6490,8 @@ msgid ""
 "overwrite old ones. If non of the formats are used '-T%04T-Y%+04Y%S-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
-"À l'intérieur de cette chaîne de caractères, les formats suivants sont "
-"pris en compte:\n"
+"À l'intérieur de cette chaîne de caractères, les formats suivants sont pris "
+"en compte:\n"
 "  %R = <raison>\n"
 "  %S = <suffixe>\n"
 "  %T = <tour de la partie>\n"
@@ -6500,8 +6500,8 @@ msgstr ""
 "Exemple: 'civgame-T%04T-A%+04Y%S-%R' => 'civgame-T0302-A+1716AD-manual'\n"
 "\n"
 "Prenez garde d'utiliser au moins un fois %T ou %Y, sinon les nouvelles "
-"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé "
-"'-T%04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
+"sauvegardes écraseront les anciennes. Si aucun des formats n'est utilisé '-T%"
+"04T-Y%+04Y%S-%R' est ajouté à la valeur de cette option."
 
 #: server/settings.c:1171
 msgid "Whether to log player statistics"
@@ -8898,8 +8898,8 @@ msgstr[1] "%3d tours"
 #: client/citydlg_common.c:243 client/citydlg_common.c:386 client/text.c:707
 #: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
 #: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1393
-#: client/gui-sdl/wldlg.c:1398 client/gui-win32/citydlg.c:468
+#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1392
+#: client/gui-sdl/wldlg.c:1397 client/gui-win32/citydlg.c:468
 msgid "never"
 msgstr "jamais"
 
@@ -8928,20 +8928,20 @@ msgstr[0] "%d tour"
 msgstr[1] "%d tours"
 
 #: client/citydlg_common.c:339 client/citydlg_common.c:349
-#: client/gui-sdl/wldlg.c:1362
+#: client/gui-sdl/wldlg.c:1361
 msgid "Obsolete"
 msgstr "Obsolète"
 
 # AR j'ai rien trouve de mieux
-#: client/citydlg_common.c:343 client/gui-sdl/wldlg.c:1367
+#: client/citydlg_common.c:343 client/gui-sdl/wldlg.c:1366
 msgid "Destroyed"
 msgstr "Détruit"
 
-#: client/citydlg_common.c:345 client/gui-sdl/wldlg.c:1369
+#: client/citydlg_common.c:345 client/gui-sdl/wldlg.c:1368
 msgid "Great Wonder"
 msgstr "Grande Merveille"
 
-#: client/citydlg_common.c:353 client/gui-sdl/wldlg.c:1375
+#: client/citydlg_common.c:353 client/gui-sdl/wldlg.c:1374
 msgid "Small Wonder"
 msgstr "Petite Merveille"
 
@@ -13960,71 +13960,77 @@ msgstr "Mettre à jour l'unité !"
 msgid "Upgrade Obsolete Units"
 msgstr "Mettre à jour les unités obsolètes"
 
-#: client/gui-gtk-2.0/diplodlg.c:223 client/gui-win32/diplodlg.c:155
+#: client/gui-gtk-2.0/diplodlg.c:235 client/gui-win32/diplodlg.c:155
 #: client/gui-xaw/diplodlg.c:391 client/gui-xaw/diplodlg.c:409
 msgid "World-map"
 msgstr "La carte du monde"
 
-#: client/gui-gtk-2.0/diplodlg.c:229 client/gui-win32/diplodlg.c:150
+#: client/gui-gtk-2.0/diplodlg.c:241 client/gui-win32/diplodlg.c:150
 #: client/gui-xaw/diplodlg.c:395 client/gui-xaw/diplodlg.c:413
 msgid "Sea-map"
 msgstr "La carte des mers"
 
-#: client/gui-gtk-2.0/diplodlg.c:235
+#: client/gui-gtk-2.0/diplodlg.c:247
 msgid "_Maps"
 msgstr "_Cartes"
 
-#: client/gui-gtk-2.0/diplodlg.c:265
+#: client/gui-gtk-2.0/diplodlg.c:258
 msgid "_Advances"
 msgstr "_Découvertes"
 
-#: client/gui-gtk-2.0/diplodlg.c:315 client/gui-gtk-2.0/menu.c:1599
+#. TRANS: All technologies menu item in the diplomatic dialog.
+#: client/gui-gtk-2.0/diplodlg.c:283
+#, fuzzy
+msgid "All advances"
+msgstr "Des découvertes"
+
+#: client/gui-gtk-2.0/diplodlg.c:360 client/gui-gtk-2.0/menu.c:1599
 #: client/gui-win32/menu.c:410
 msgid "_Cities"
 msgstr "_Villes"
 
-#: client/gui-gtk-2.0/diplodlg.c:324
+#: client/gui-gtk-2.0/diplodlg.c:369
 msgid "_Give shared vision"
 msgstr "_Donne la vue partagée"
 
-#: client/gui-gtk-2.0/diplodlg.c:337
+#: client/gui-gtk-2.0/diplodlg.c:382
 msgid "Give _embassy"
 msgstr "Donn_e une ambassade"
 
-#: client/gui-gtk-2.0/diplodlg.c:368
+#: client/gui-gtk-2.0/diplodlg.c:413
 msgid "_Pacts"
 msgstr "_Pactes"
 
-#: client/gui-gtk-2.0/diplodlg.c:458
+#: client/gui-gtk-2.0/diplodlg.c:503
 #, c-format
 msgid "Diplomacy: %s"
 msgstr "Diplomatie : %s"
 
-#: client/gui-gtk-2.0/diplodlg.c:465
+#: client/gui-gtk-2.0/diplodlg.c:510
 msgid "_Cancel meeting"
 msgstr "Annuler la ren_contre"
 
-#: client/gui-gtk-2.0/diplodlg.c:467
+#: client/gui-gtk-2.0/diplodlg.c:512
 msgid "Accept _treaty"
 msgstr "Accepter le _traité"
 
-#: client/gui-gtk-2.0/diplodlg.c:495
+#: client/gui-gtk-2.0/diplodlg.c:540
 msgid "C_lauses:"
 msgstr "C_lauses :"
 
-#: client/gui-gtk-2.0/diplodlg.c:560 client/gui-gtk-2.0/diplodlg.c:634
+#: client/gui-gtk-2.0/diplodlg.c:605 client/gui-gtk-2.0/diplodlg.c:679
 msgid "_Gold:"
 msgstr "_Or :"
 
-#: client/gui-gtk-2.0/diplodlg.c:572 client/gui-gtk-2.0/diplodlg.c:646
+#: client/gui-gtk-2.0/diplodlg.c:617 client/gui-gtk-2.0/diplodlg.c:691
 msgid "_Add Clause..."
 msgstr "_Ajouter une Clause ..."
 
-#: client/gui-gtk-2.0/diplodlg.c:691
+#: client/gui-gtk-2.0/diplodlg.c:736
 msgid "--- This treaty is blank. Please add some clauses. ---"
 msgstr "--- Ce traité est vide. Veuillez ajouter des clauses. ---"
 
-#: client/gui-gtk-2.0/diplodlg.c:898 client/gui-sdl/diplodlg.c:375
+#: client/gui-gtk-2.0/diplodlg.c:966 client/gui-sdl/diplodlg.c:375
 #: client/gui-win32/diplodlg.c:268 client/gui-xaw/diplodlg.c:958
 msgid "Invalid amount of gold specified."
 msgstr "Quantité d'or non valide."
@@ -16331,8 +16337,8 @@ msgstr "Réduction de la ville : %d %s"
 #: client/gui-sdl/menu.c:1139 client/gui-sdl/menu.c:1155
 #: client/gui-sdl/plrdlg.c:658 client/gui-sdl/repodlgs.c:549
 #: client/gui-sdl/repodlgs.c:925 client/gui-sdl/wldlg.c:927
-#: client/gui-sdl/wldlg.c:1109 client/gui-sdl/wldlg.c:1407
-#: client/gui-sdl/wldlg.c:1413 client/gui-sdl/wldlg.c:1527
+#: client/gui-sdl/wldlg.c:1109 client/gui-sdl/wldlg.c:1406
+#: client/gui-sdl/wldlg.c:1412 client/gui-sdl/wldlg.c:1526
 msgid "turn"
 msgid_plural "turns"
 msgstr[0] "tour"
@@ -16486,6 +16492,7 @@ msgstr "Aucun serveur public trouvé"
 #. TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
 #. * [server message]"
 #: client/gui-sdl/connectdlg.c:318
+#, c-format
 msgid ""
 "%s Port %d Ver: %s %s %s %d\n"
 "%s"
@@ -16872,11 +16879,11 @@ msgid "Help : Units"
 msgstr "Aide : unités"
 
 #: client/gui-sdl/helpdlg.c:737 client/gui-sdl/helpdlg.c:750
-#: client/gui-sdl/wldlg.c:1391 client/gui-sdl/wldlg.c:1397
-#: client/gui-sdl/wldlg.c:1405 client/gui-sdl/wldlg.c:1411
-#: client/gui-sdl/wldlg.c:1427 client/gui-sdl/wldlg.c:1432
-#: client/gui-sdl/wldlg.c:1519 client/gui-sdl/wldlg.c:1526
-#: client/gui-sdl/wldlg.c:1535
+#: client/gui-sdl/wldlg.c:1390 client/gui-sdl/wldlg.c:1396
+#: client/gui-sdl/wldlg.c:1404 client/gui-sdl/wldlg.c:1410
+#: client/gui-sdl/wldlg.c:1426 client/gui-sdl/wldlg.c:1431
+#: client/gui-sdl/wldlg.c:1518 client/gui-sdl/wldlg.c:1525
+#: client/gui-sdl/wldlg.c:1534
 msgid "shield"
 msgid_plural "shields"
 msgstr[0] "Production"
@@ -17717,7 +17724,7 @@ msgstr ""
 "Liste de travail de\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1388
+#: client/gui-sdl/wldlg.c:1387
 #, c-format
 msgid ""
 "(%s)\n"
@@ -17728,7 +17735,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1395
+#: client/gui-sdl/wldlg.c:1394
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -17737,7 +17744,7 @@ msgstr ""
 "%d/%d %s\n"
 "%s"
 
-#: client/gui-sdl/wldlg.c:1402
+#: client/gui-sdl/wldlg.c:1401
 #, c-format
 msgid ""
 "(%s)\n"
@@ -17748,7 +17755,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1409
+#: client/gui-sdl/wldlg.c:1408
 #, c-format
 msgid ""
 "%d/%d %s\n"
@@ -17757,12 +17764,12 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1418
+#: client/gui-sdl/wldlg.c:1417
 #, c-format
 msgid "%d gold per turn"
 msgstr "%d or par tour"
 
-#: client/gui-sdl/wldlg.c:1425
+#: client/gui-sdl/wldlg.c:1424
 #, c-format
 msgid ""
 "(%s)\n"
@@ -17771,11 +17778,11 @@ msgstr ""
 "(%s)\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1436
+#: client/gui-sdl/wldlg.c:1435
 msgid "shields into gold"
 msgstr "production en or"
 
-#: client/gui-sdl/wldlg.c:1515
+#: client/gui-sdl/wldlg.c:1514
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -17786,7 +17793,7 @@ msgstr ""
 "%d/%d %s\n"
 "jamais"
 
-#: client/gui-sdl/wldlg.c:1522
+#: client/gui-sdl/wldlg.c:1521
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
@@ -17797,7 +17804,7 @@ msgstr ""
 "%d/%d %s\n"
 "%d %s"
 
-#: client/gui-sdl/wldlg.c:1531
+#: client/gui-sdl/wldlg.c:1530
 #, c-format
 msgid ""
 "(%d/%d/%d)\n"
