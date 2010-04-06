@@ -41,7 +41,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.7\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-06-30 09:10+0900\n"
+"POT-Creation-Date: 2010-04-06 12:09-0400\n"
 "PO-Revision-Date: 2004-09-23 11:47+0900\n"
 "Last-Translator: TAKAHASHI Naoki <taka_radio_wave@yahoo.co.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -499,39 +499,39 @@ msgstr ""
 msgid "'Cause civilization should be free!"
 msgstr "自由な Civilization を求めて"
 
-#: common/aicore/cm.c:1854 client/cityrepdata.c:471
+#: common/aicore/cm.c:1863 client/cityrepdata.c:471
 #: client/gui-gtk-2.0/repodlgs.c:940 client/gui-gtk/repodlgs.c:843
 #: client/gui-mui/citydlg.c:1597 client/gui-mui/repodlgs.c:668
 #: client/gui-win32/repodlgs.c:686
 msgid "Food"
 msgstr "食料"
 
-#: common/aicore/cm.c:1856 client/gui-gtk-2.0/repodlgs.c:939
+#: common/aicore/cm.c:1865 client/gui-gtk-2.0/repodlgs.c:939
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1601
 #: client/gui-mui/repodlgs.c:667 client/gui-win32/repodlgs.c:686
 msgid "Shield"
 msgstr "シールド"
 
-#: common/aicore/cm.c:1858 client/gui-mui/citydlg.c:1605 data/Freeciv.in:3071
+#: common/aicore/cm.c:1867 client/gui-mui/citydlg.c:1605 data/Freeciv.in:3071
 #: data/default/techs.ruleset:733 data/civ2/techs.ruleset:546
 #: data/civ1/techs.ruleset:546 data/history/techs.ruleset:548
 msgid "Trade"
 msgstr "交易"
 
-#: common/aicore/cm.c:1860 client/gui-gtk-2.0/repodlgs.c:941
+#: common/aicore/cm.c:1869 client/gui-gtk-2.0/repodlgs.c:941
 #: client/gui-gtk/repodlgs.c:843 client/gui-mui/citydlg.c:1609
 #: data/default/terrain.ruleset:475 data/civ2/terrain.ruleset:437
 #: data/civ1/terrain.ruleset:427 data/history/terrain.ruleset:467
 msgid "Gold"
 msgstr "金"
 
-#: common/aicore/cm.c:1862 server/plrhand.c:889
+#: common/aicore/cm.c:1871 server/plrhand.c:889
 #: client/gui-gtk-2.0/gamedlgs.c:262 client/gui-gtk/gamedlgs.c:261
 #: client/gui-mui/citydlg.c:1613 client/gui-win32/ratesdlg.c:315
 msgid "Luxury"
 msgstr "贅沢"
 
-#: common/aicore/cm.c:1864 server/plrhand.c:891
+#: common/aicore/cm.c:1873 server/plrhand.c:891
 #: client/gui-gtk-2.0/gamedlgs.c:282 client/gui-gtk-2.0/repodlgs.c:183
 #: client/gui-gtk/gamedlgs.c:281 client/gui-gtk/repodlgs.c:174
 #: client/gui-mui/citydlg.c:1617 client/gui-mui/repodlgs.c:264
@@ -595,81 +595,81 @@ msgid " (total %d repeat)"
 msgid_plural " (total %d repeats)"
 msgstr[0] " (合計 %d回)"
 
-#: utility/shared.c:165
+#: utility/shared.c:166
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "\"%s\"への引数が空です。\n"
 
-#: utility/shared.c:169
+#: utility/shared.c:170
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "\"%s\"への引数がみつかりません。\n"
 
-#: utility/shared.c:422
+#: utility/shared.c:423
 #, c-format
 msgid "%d BC"
 msgstr "%d BC"
 
-#: utility/shared.c:424
+#: utility/shared.c:425
 #, c-format
 msgid "%d AD"
 msgstr "%d AD"
 
-#: utility/shared.c:828
+#: utility/shared.c:853
 msgid "FREECIV_PATH is set but empty; using default path instead."
 msgstr ""
 "FREECIV_PATH がセットされていますが空です。かわりにディフォルトパスを使いま"
 "す。"
 
-#: utility/shared.c:932
+#: utility/shared.c:957
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "データディレクトリ %s を読むことができません: %s。"
 
-#: utility/shared.c:1184
+#: utility/shared.c:1209
 msgid "The data path may be set via the environment variable FREECIV_PATH."
 msgstr "データパスは環境変数 FREECIV_PATH で設定できます。"
 
-#: utility/shared.c:1186
+#: utility/shared.c:1211
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "現在のデータパスは: \"%s\""
 
-#: utility/shared.c:1188
+#: utility/shared.c:1213
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "\"%s\" ファイルが必要です ... 中止しています!"
 
-#: utility/shared.c:1312
+#: utility/shared.c:1337
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: 致命的エラー: スーパーユーザで起動しようとしています!\n"
 
-#: utility/shared.c:1314
+#: utility/shared.c:1339
 msgid "Use a non-privileged account instead.\n"
 msgstr "特権のないアカウントをかわりに使って下さい。\n"
 
-#: utility/shared.c:1330
+#: utility/shared.c:1355
 msgid "exact match"
 msgstr "完全一致"
 
-#: utility/shared.c:1331
+#: utility/shared.c:1356
 msgid "only match"
 msgstr "唯一の一致"
 
-#: utility/shared.c:1332
+#: utility/shared.c:1357
 msgid "ambiguous"
 msgstr "あいまい"
 
-#: utility/shared.c:1333
+#: utility/shared.c:1358
 msgid "empty"
 msgstr "空"
 
-#: utility/shared.c:1334
+#: utility/shared.c:1359
 msgid "too long"
 msgstr "長すぎる"
 
-#: utility/shared.c:1335
+#: utility/shared.c:1360
 msgid "non-match"
 msgstr "不一致"
 
@@ -3140,34 +3140,34 @@ msgid ""
 msgstr "Game: %s との同盟に合意しました。"
 
 # yasu
-#: server/plrhand.c:1815
+#: server/plrhand.c:1820
 #, c-format
 msgid "Removing player %s."
 msgstr "プレイヤー %s を中止させます。"
 
 # yasu
-#: server/plrhand.c:1816
+#: server/plrhand.c:1821
 msgid "Game: You've been removed from the game!"
 msgstr "Game: あなたはゲームを中止させられました。"
 
 # yasu
-#: server/plrhand.c:1819
+#: server/plrhand.c:1824
 #, c-format
 msgid "Game: %s has been removed from the game."
 msgstr "Game: %sはゲームを中止させられました。"
 
-#: server/plrhand.c:1862 server/plrhand.c:1866
+#: server/plrhand.c:1867 server/plrhand.c:1871
 #, c-format
 msgid "Game: You have made contact with the %s, ruled by %s."
 msgstr "Game: あなたは %2$s によって統治された %1$s と接触しました。"
 
-#: server/plrhand.c:2259
+#: server/plrhand.c:2264
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 
 # yasu
-#: server/plrhand.c:2281
+#: server/plrhand.c:2286
 #, c-format
 msgid ""
 "Game: Your nation is thrust into civil war,  %s is declared the leader of "
@@ -3175,13 +3175,13 @@ msgid ""
 msgstr "Game: あなたの国は内戦になりました。%sが反乱者のリーダー宣言しました。"
 
 # yasu
-#: server/plrhand.c:2301
+#: server/plrhand.c:2306
 #, c-format
 msgid "Game: %s declares allegiance to %s."
 msgstr "Game: %sは%sに対する忠誠を宣言しました。"
 
 # clefs
-#: server/plrhand.c:2315
+#: server/plrhand.c:2320
 #, c-format
 msgid ""
 "Game: The capture of %s's capital and the destruction of the empire's "
@@ -7580,35 +7580,35 @@ msgstr "難しい"
 msgid "experimental"
 msgstr "実験的"
 
-#: client/connectdlg_common.c:211
+#: client/connectdlg_common.c:212
 #, fuzzy
 msgid "Starting server..."
 msgstr "ゲームを開始しています。"
 
-#: client/connectdlg_common.c:328
+#: client/connectdlg_common.c:331
 #, fuzzy
 msgid "Couldn't start the server."
 msgstr "セーブファイルをロードできません"
 
-#: client/connectdlg_common.c:329 client/connectdlg_common.c:362
+#: client/connectdlg_common.c:332 client/connectdlg_common.c:365
 msgid "You'll have to start one manually. Sorry..."
 msgstr ""
 
-#: client/connectdlg_common.c:360
+#: client/connectdlg_common.c:363
 #, fuzzy
 msgid "Couldn't connect to the server."
 msgstr "クライアントの接続を切ります。"
 
-#: client/connectdlg_common.c:361
+#: client/connectdlg_common.c:364
 msgid "We probably couldn't start it from here."
 msgstr ""
 
-#: client/connectdlg_common.c:482
+#: client/connectdlg_common.c:485
 #, fuzzy
 msgid "We have control of the server (command access level hack)"
 msgstr "コマンド利用権レベルを問い合わせ、または設定する。"
 
-#: client/connectdlg_common.c:487
+#: client/connectdlg_common.c:490
 msgid "We can't take control of server, attempting to kill it."
 msgstr ""
 
@@ -15295,11 +15295,12 @@ msgstr "  現在の管理者: "
 
 # Daniel
 #: data/helpdata.txt:55
+#, fuzzy
 msgid ""
 "If you find any bugs, then please send us a bug report.  This is best done "
 "by visiting the Freeciv Bug Tracking System, at:\n"
 "\n"
-"  http://bugs.freeciv.org/"
+"  https://gna.org/projects/freeciv/"
 msgstr ""
 "バグを見つけたら、バグレポートを送って下さい。最良の方法は Freeciv バグ追跡シ"
 "ステムを使うことです。\n"
