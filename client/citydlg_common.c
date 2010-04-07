@@ -330,7 +330,7 @@ void get_city_dialog_production_full(char *buffer, size_t buffer_len,
 		 PL_("%d turn", "%d turns", turns),
 		 turns);
   } else {
-    cat_snprintf(buffer, buffer_len, "never");
+    cat_snprintf(buffer, buffer_len, _("never"));
   }
 }
 
@@ -606,15 +606,15 @@ void get_city_dialog_pollution_text(const struct city *pcity,
   buf[0] = '\0';
 
   cat_snprintf(buf, bufsz,
-	       "%+4d : Pollution from shields\n", prod);
+	       _("%+4d : Pollution from shields\n"), prod);
   cat_snprintf(buf, bufsz,
-	       "%+4d : Pollution from citizens\n", pop);
+	       _("%+4d : Pollution from citizens\n"), pop);
   cat_snprintf(buf, bufsz,
-	       "%+4d : Pollution modifier\n", mod);
+	       _("%+4d : Pollution modifier\n"), mod);
   cat_snprintf(buf, bufsz,
-	       "==== : Adds up to\n");
+	       _("==== : Adds up to\n"));
   cat_snprintf(buf, bufsz,
-	       "%4d : Total surplus", pollu);
+	       _("%4d : Total surplus"), pollu);
 }
 
 /**************************************************************************
