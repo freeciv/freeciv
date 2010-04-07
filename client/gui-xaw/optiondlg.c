@@ -277,6 +277,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
       }
       break;
     case OT_FONT:
+    case OT_VIDEO_MODE:
       log_error("Option type %s (%d) not supported yet.",
                 option_type_name(option_type(poption)),
                 option_type(poption));
@@ -361,6 +362,7 @@ static void option_dialog_option_refresh(struct option *poption)
                   : XtNstring, option_str_get(poption), NULL);
     break;
   case OT_FONT:
+  case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
               option_type(poption));
@@ -408,6 +410,7 @@ static void option_dialog_option_apply(struct option *poption)
       }
       break;
     case OT_FONT:
+    case OT_VIDEO_MODE:
       log_error("Option type %s (%d) not supported yet.",
                 option_type_name(option_type(poption)),
                 option_type(poption));

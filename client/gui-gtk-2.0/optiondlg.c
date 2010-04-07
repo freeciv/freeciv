@@ -449,6 +449,12 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     w = gtk_font_button_new();
     g_object_set(G_OBJECT(w), "use-font", TRUE, NULL);
     break;
+
+  case OT_VIDEO_MODE:
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
+    break;
   }
 
   option_set_gui_data(poption, w);
@@ -551,6 +557,11 @@ static void option_dialog_option_refresh(struct option *poption)
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_get(poption));
     break;
+  case OT_VIDEO_MODE:
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
+    break;
   }
 
   gtk_widget_set_sensitive(option_get_gui_data(poption),
@@ -574,6 +585,11 @@ static void option_dialog_option_reset(struct option *poption)
     break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_def(poption));
+    break;
+  case OT_VIDEO_MODE:
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 }
@@ -608,6 +624,12 @@ static void option_dialog_option_apply(struct option *poption)
   case OT_FONT:
     (void) option_font_set(poption, gtk_font_button_get_font_name
                            (GTK_FONT_BUTTON(w)));
+    break;
+
+  case OT_VIDEO_MODE:
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(option_type(poption)),
+              option_type(poption));
     break;
   }
 }

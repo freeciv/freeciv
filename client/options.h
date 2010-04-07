@@ -20,6 +20,23 @@
 #include "events.h"
 #include "fc_types.h"           /* enum gui_type */
 
+
+struct video_mode {
+  int width;
+  int height;
+};
+#define VIDEO_MODE(ARG_width, ARG_height) \
+    { .width = ARG_width, .height = ARG_height }
+/****************************************************************************
+  Constructor.
+****************************************************************************/
+static inline struct video_mode video_mode(int width, int height)
+{
+  struct video_mode mode = VIDEO_MODE(width, height);
+  return mode;
+}
+
+
 extern char default_user_name[512];
 extern char default_server_host[512];
 extern int default_server_port; 
@@ -125,8 +142,7 @@ extern char gui_gtk2_font_reqtree_text[512];
 #define FC_SDL_DEFAULT_THEME_NAME "human"
 extern char gui_sdl_default_theme_name[512];
 extern bool gui_sdl_fullscreen;
-extern int gui_sdl_screen_width;
-extern int gui_sdl_screen_height;
+extern struct video_mode gui_sdl_screen;
 extern bool gui_sdl_do_cursor_animation;
 extern bool gui_sdl_use_color_cursors;
 
@@ -140,6 +156,7 @@ extern bool gui_win32_enable_alpha;
 #define SPECENUM_VALUE1 OT_INTEGER
 #define SPECENUM_VALUE2 OT_STRING
 #define SPECENUM_VALUE3 OT_FONT
+#define SPECENUM_VALUE4 OT_VIDEO_MODE
 #include "specenum_gen.h"
 
 
@@ -194,29 +211,35 @@ void option_changed(struct option *poption);
 void option_set_gui_data(struct option *poption, void *data);
 void *option_get_gui_data(const struct option *poption);
 
-/* Option type COT_BOOLEAN functions. */
+/* Option type OT_BOOLEAN functions. */
 bool option_bool_get(const struct option *poption);
 bool option_bool_def(const struct option *poption);
 bool option_bool_set(struct option *poption, bool val);
 
-/* Option type COT_INTEGER functions. */
+/* Option type OT_INTEGER functions. */
 int option_int_get(const struct option *poption);
 int option_int_def(const struct option *poption);
 int option_int_min(const struct option *poption);
 int option_int_max(const struct option *poption);
 bool option_int_set(struct option *poption, int val);
 
-/* Option type COT_STRING functions. */
+/* Option type OT_STRING functions. */
 const char *option_str_get(const struct option *poption);
 const char *option_str_def(const struct option *poption);
 const struct strvec *option_str_values(const struct option *poption);
 bool option_str_set(struct option *poption, const char *str);
 
-/* Option type COT_FONT functions. */
+/* Option type OT_FONT functions. */
 const char *option_font_get(const struct option *poption);
 const char *option_font_def(const struct option *poption);
 const char *option_font_target(const struct option *poption);
 bool option_font_set(struct option *poption, const char *font);
+
+/* Option type OT_VIDEO_MODE functions. */
+struct video_mode option_video_mode_get(const struct option *poption);
+struct video_mode option_video_mode_def(const struct option *poption);
+bool option_video_mode_set(struct option *poption, struct video_mode mode);
+
 
 #define options_iterate(poptset, poption)                                   \
 {                                                                           \

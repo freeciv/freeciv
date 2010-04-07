@@ -31,6 +31,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "string_vector.h"
 
 /* common */
 #include "fc_types.h"
@@ -422,6 +423,53 @@ static int none_callback(struct widget *widget)
 }
 
 /****************************************************************************
+  Convert a video mode to string. Returns TRUE on success.
+****************************************************************************/
+static inline bool video_mode_to_string(char *buf, size_t buf_len,
+                                        struct video_mode mode)
+{
+  return (2 < fc_snprintf(buf, buf_len, "%dx%d", mode.width, mode.height));
+}
+
+/****************************************************************************
+  Convert a string to video mode. Returns TRUE on success.
+****************************************************************************/
+static inline bool string_to_video_mode(const char *buf,
+                                        struct video_mode *mode)
+{
+  return (2 == sscanf(buf, "%dx%d", &mode->width, &mode->height));
+}
+
+/****************************************************************************
+  Return a string vector containing all video modes.
+****************************************************************************/
+static struct strvec *video_mode_list(void)
+{
+  struct strvec *video_modes = strvec_new();
+  /* Don't free this. */
+  SDL_Rect **mode = SDL_ListModes(NULL, SDL_FULLSCREEN | Main.screen->flags);
+  char buf[64];
+
+  for (; NULL != *mode; mode++) {
+    if (video_mode_to_string(buf, sizeof(buf),
+                             video_mode((*mode)->w, (*mode)->h))) {
+      strvec_append(video_modes, buf);
+    }
+  }
+
+  return video_modes;
+}
+
+/****************************************************************************
+  Free correctly the memory assigned to the video_mode_widget.
+****************************************************************************/
+static void video_mode_widget_destroy(struct widget *widget)
+{
+  combo_popdown(widget);
+  strvec_destroy((struct strvec *) widget->data.vector);
+}
+
+/****************************************************************************
   Create a widget for the option.
 ****************************************************************************/
 static struct widget *option_widget_new(struct option *poption,
@@ -486,6 +534,24 @@ static struct widget *option_widget_new(struct option *poption,
     }
     break;
 
+  case OT_VIDEO_MODE:
+    {
+      char buf[64];
+
+      if (!video_mode_to_string(buf, sizeof(buf),
+                                option_video_mode_get(poption))) {
+        /* Always fails. */
+        fc_assert(video_mode_to_string(buf, sizeof(buf),
+                                       option_video_mode_get(poption)));
+      }
+
+      widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
+                                    buf, video_mode_list(), adj_size(25),
+                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget->destroy = video_mode_widget_destroy;
+    }
+    break;
+
   case OT_FONT:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -547,6 +613,21 @@ static void option_widget_update(struct option *poption)
     copy_chars_to_string16(widget->string16, option_str_get(poption));
     break;
 
+  case OT_VIDEO_MODE:
+    {
+      char buf[64];
+
+      if (video_mode_to_string(buf, sizeof(buf),
+                               option_video_mode_get(poption))) {
+        copy_chars_to_string16(widget->string16, buf);
+      } else {
+        /* Always fails. */
+        fc_assert(video_mode_to_string(buf, sizeof(buf),
+                                       option_video_mode_get(poption)));
+      }
+    }
+    break;
+
   case OT_FONT:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -591,6 +672,21 @@ static void option_widget_apply(struct option *poption)
       char *str = convert_to_chars(widget->string16->text);
 
       (void) option_str_set(poption, str);
+      free(str);
+    }
+    break;
+
+  case OT_VIDEO_MODE:
+    {
+      char *str = convert_to_chars(widget->string16->text);
+      struct video_mode mode;
+
+      if (string_to_video_mode(str, &mode)) {
+        option_video_mode_set(poption, mode);
+      } else {
+        /* Always fails. */
+        fc_assert(string_to_video_mode(str, &mode));
+      }
       free(str);
     }
     break;

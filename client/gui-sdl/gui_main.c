@@ -850,7 +850,7 @@ static void real_resize_window_callback(void *data)
   } else {
     flags &= ~SDL_FULLSCREEN;
   }
-  set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height, flags);
+  set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height, flags);
 
   if (C_S_RUNNING == client_state()) {
     /* Move units window to botton-right corner. */
@@ -902,12 +902,8 @@ void gui_options_extra_init(void)
     log_error("Didn't find option %s!", #var);                              \
   }
 
-  option_var_set_callback(gui_sdl_fullscreen,
-                          resize_window_callback);
-  option_var_set_callback(gui_sdl_screen_width,
-                          resize_window_callback);
-  option_var_set_callback(gui_sdl_screen_height,
-                          resize_window_callback);
+  option_var_set_callback(gui_sdl_fullscreen, resize_window_callback);
+  option_var_set_callback(gui_sdl_screen, resize_window_callback);
 #undef option_var_set_callback
 }
 
@@ -1014,15 +1010,15 @@ void ui_main(int argc, char *argv[])
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE
         /* set 320x240 fullscreen */
-        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+        set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
       #else
         /* small screen on desktop -> don't set 320x240 fullscreen mode */
-        set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+        set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                        SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif
     #else
-      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT | SDL_FULLSCREEN);
     #endif
     
@@ -1030,14 +1026,14 @@ void ui_main(int argc, char *argv[])
     
     #ifdef SMALL_SCREEN
       #ifdef UNDER_CE    
-      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #else
-      set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+      set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
                      SDL_SWSURFACE | SDL_ANYFORMAT);
       #endif
     #else
-    set_video_mode(gui_sdl_screen_width, gui_sdl_screen_height,
+    set_video_mode(gui_sdl_screen.width, gui_sdl_screen.height,
       SDL_SWSURFACE | SDL_ANYFORMAT);
     #endif
     

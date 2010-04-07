@@ -169,8 +169,7 @@ char gui_gtk2_font_reqtree_text[512] = "Serif 10";
 /* gui-sdl client specific options. */
 char gui_sdl_default_theme_name[512] = FC_SDL_DEFAULT_THEME_NAME;
 bool gui_sdl_fullscreen = FALSE;
-int gui_sdl_screen_width = 640;
-int gui_sdl_screen_height = 480;
+struct video_mode gui_sdl_screen = VIDEO_MODE(640, 480);
 bool gui_sdl_do_cursor_animation = TRUE;
 bool gui_sdl_use_color_cursors = TRUE;
 
@@ -302,6 +301,12 @@ struct option {
       const char * (*target) (const struct option *);
       bool (*set) (struct option *, const char *);
     } *font_vtable;
+    /* Specific font accessors. */
+    const struct option_video_mode_vtable {
+      struct video_mode (*get) (const struct option *);
+      struct video_mode (*def) (const struct option *);
+      bool (*set) (struct option *, struct video_mode);
+    } *video_mode_vtable;
   };
 
   /* Called after the value changed. */
@@ -336,6 +341,10 @@ struct option {
 #define OPTION_FONT_INIT(optset, common_table, font_table, changed_cb)      \
   OPTION_INIT(optset, OT_FONT, font_vtable, common_table, font_table,       \
               changed_cb)
+#define OPTION_VIDEO_MODE_INIT(optset, common_table, video_mode_table,      \
+                               changed_cb)                                  \
+  OPTION_INIT(optset, OT_VIDEO_MODE, video_mode_vtable, common_table,       \
+              video_mode_table, changed_cb)
 
 
 /****************************************************************************
@@ -455,6 +464,8 @@ bool option_reset(struct option *poption)
     return option_str_set(poption, option_str_def(poption));
   case OT_FONT:
     return option_font_set(poption, option_font_def(poption));
+  case OT_VIDEO_MODE:
+    return option_video_mode_set(poption, option_video_mode_def(poption));
   }
   return FALSE;
 }
@@ -703,6 +714,44 @@ bool option_font_set(struct option *poption, const char *font)
   return FALSE;
 }
 
+/****************************************************************************
+  Returns the current value of this video mode option.
+****************************************************************************/
+struct video_mode option_video_mode_get(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, video_mode(-1, -1));
+  fc_assert_ret_val(OT_VIDEO_MODE == poption->type, video_mode(-1, -1));
+
+  return poption->video_mode_vtable->get(poption);
+}
+
+/****************************************************************************
+  Returns the default value of this video mode option.
+****************************************************************************/
+struct video_mode option_video_mode_def(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, video_mode(-1, -1));
+  fc_assert_ret_val(OT_VIDEO_MODE == poption->type, video_mode(-1, -1));
+
+  return poption->video_mode_vtable->def(poption);
+}
+
+/****************************************************************************
+  Sets the value of this video mode option. Returns TRUE if the value
+  changed.
+****************************************************************************/
+bool option_video_mode_set(struct option *poption, struct video_mode mode)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(OT_VIDEO_MODE == poption->type, FALSE);
+
+  if (poption->video_mode_vtable->set(poption, mode)) {
+    option_changed(poption);
+    return TRUE;
+  }
+  return FALSE;
+}
+
 
 /****************************************************************************
   Client option set.
@@ -791,6 +840,19 @@ static const struct option_font_vtable client_option_font_vtable = {
   .set = client_option_font_set
 };
 
+static struct video_mode
+client_option_video_mode_get(const struct option *poption);
+static struct video_mode
+client_option_video_mode_def(const struct option *poption);
+static bool client_option_video_mode_set(struct option *poption,
+                                         struct video_mode mode);
+
+static const struct option_video_mode_vtable client_option_video_mode_vtable = {
+  .get = client_option_video_mode_get,
+  .def = client_option_video_mode_def,
+  .set = client_option_video_mode_set
+};
+
 enum client_option_category {
   COC_GRAPHICS,
   COC_OVERVIEW,
@@ -842,6 +904,11 @@ struct client_option {
       const char *const def;
       const char *const target;
     } font;
+    /* OT_VIDEO_MODE type option. */
+    struct {
+      struct video_mode *const pvalue;
+      const struct video_mode def;
+    } video_mode;
   };
 };
 
@@ -1033,6 +1100,44 @@ struct client_option {
       .size = sizeof(oname),                                                \
       .def = odef,                                                          \
       .target = otgt,                                                       \
+    }                                                                       \
+  },                                                                        \
+}
+
+/*
+ * Generate a client option of type OT_VIDEO_MODE.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ *        Be sure to pass the array variable and not a pointer to it because
+ *        the size is calculated with sizeof().
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef_width, odef_height:  The default values for this client option.
+ * ocb:   A callback function of type void (*)(struct option *) called when
+ *        the option changed.
+ */
+#define GEN_VIDEO_OPTION(oname, odesc, ohelp, ocat, ospec, odef_width,      \
+                         odef_height, ocb)                                  \
+{                                                                           \
+  .base_option = OPTION_VIDEO_MODE_INIT(&client_optset_static,              \
+                                        client_option_common_vtable,        \
+                                        client_option_video_mode_vtable,    \
+                                        ocb),                               \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  {                                                                         \
+    .video_mode = {                                                         \
+      .pvalue = &oname,                                                     \
+      .def = VIDEO_MODE(odef_width, odef_height)                            \
     }                                                                       \
   },                                                                        \
 }
@@ -1587,14 +1692,10 @@ static struct client_option client_options[] = {
                   N_("If this option is set the client will use the "
                      "whole screen area for drawing."),
                   COC_INTERFACE, GUI_SDL, FALSE, NULL),
-  GEN_INT_OPTION(gui_sdl_screen_width, N_("Screen width"),
-                 N_("This option saves the width of the selected screen "
-                    "resolution."),
-                 COC_INTERFACE, GUI_SDL, 640, 320, 3200, NULL),
-  GEN_INT_OPTION(gui_sdl_screen_height, N_("Screen height"),
-                 N_("This option saves the height of the selected screen "
-                    "resolution."),
-                 COC_INTERFACE, GUI_SDL, 480, 240, 2400, NULL),
+  GEN_VIDEO_OPTION(gui_sdl_screen, N_("Screen resolution"),
+                   N_("This option controls the resolution of the "
+                      "selected screen."),
+                   COC_INTERFACE, GUI_SDL, 640, 480, NULL),
   GEN_BOOL_OPTION(gui_sdl_do_cursor_animation, N_("Do cursor animation"),
                   N_("If this option is disabled, the cursor will be "
                      "always displayed as static."),
@@ -1933,6 +2034,42 @@ static bool client_option_font_set(struct option *poption, const char *font)
 }
 
 /****************************************************************************
+  Returns the value of this client option of type OT_VIDEO_MODE.
+****************************************************************************/
+static struct video_mode
+client_option_video_mode_get(const struct option *poption)
+{
+  return *CLIENT_OPTION(poption)->video_mode.pvalue;
+}
+
+/****************************************************************************
+  Returns the default value of this client option of type OT_VIDEO_MODE.
+****************************************************************************/
+static struct video_mode
+client_option_video_mode_def(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->video_mode.def;
+}
+
+/****************************************************************************
+  Set the value of this client option of type OT_VIDEO_MODE.  Returns TRUE
+  if the value changed.
+****************************************************************************/
+static bool client_option_video_mode_set(struct option *poption,
+                                         struct video_mode mode)
+{
+  struct client_option *pcoption = CLIENT_OPTION(poption);
+
+  if (0 == memcmp(&mode, pcoption->video_mode.pvalue,
+                  sizeof(struct video_mode))) {
+    return FALSE;
+  }
+
+  *pcoption->video_mode.pvalue = mode;
+  return TRUE;
+}
+
+/****************************************************************************
   Load the option from a file.  Returns TRUE if the option changed.
 ****************************************************************************/
 static bool client_option_load(struct option *poption,
@@ -1973,6 +2110,16 @@ static bool client_option_load(struct option *poption,
       return ((string = secfile_lookup_str(sf, "client.%s",
                                            option_name(poption)))
               && option_font_set(poption, string));
+    }
+  case OT_VIDEO_MODE:
+    {
+      struct video_mode mode;
+
+      return (secfile_lookup_int(sf, &mode.width, "client.%s_width",
+                                 option_name(poption))
+              && secfile_lookup_int(sf, &mode.height, "client.%s_height",
+                                    option_name(poption))
+              && option_video_mode_set(poption, mode));
     }
   }
   return FALSE;
@@ -2260,8 +2407,14 @@ void handle_server_setting(struct packet_server_setting *packet)
       poption->str_vtable = &server_option_str_vtable;
       break;
     case OT_FONT:
-      log_error("Option type %d not supported yet.", poption->type);
+      log_error("Option type %s (%d) not supported yet.",
+                option_type_name(poption->type), poption->type);
       poption->font_vtable = NULL;
+      break;
+    case OT_VIDEO_MODE:
+      log_error("Option type %s (%d) not supported yet.",
+                option_type_name(poption->type), poption->type);
+      poption->video_mode_vtable = NULL;
       break;
     }
   }
@@ -2307,7 +2460,9 @@ void handle_server_setting(struct packet_server_setting *packet)
     server_option_set_string(psoption->string.def, packet->default_strval);
     break;
   case OT_FONT:
-    log_error("Option type %d not supported yet.", poption->type);
+  case OT_VIDEO_MODE:
+    log_error("Option type %s (%d) not supported yet.",
+              option_type_name(poption->type), poption->type);
     break;
   }
 
@@ -3022,12 +3177,14 @@ void desired_settable_options_update(void)
       def_val = option_str_def(poption);
       break;
     case OT_FONT:
+    case OT_VIDEO_MODE:
       break;
     }
 
     if (NULL == value || NULL == def_val) {
-      log_error("Option type %d not supported for '%s'.",
-                option_type(poption), option_name(poption));
+      log_error("Option type %s (%d) not supported for '%s'.",
+                option_type_name(option_type(poption)), option_type(poption),
+                option_name(poption));
       continue;
     }
 
@@ -3078,24 +3235,26 @@ static void desired_settable_option_send(struct option *poption)
 
   value = NULL;
   switch (option_type(poption)) {
-  case SSET_BOOL:
+  case OT_BOOLEAN:
     fc_snprintf(buf, sizeof(buf), "%d", option_bool_get(poption));
     value = buf;
     break;
-  case SSET_INT:
+  case OT_INTEGER:
     fc_snprintf(buf, sizeof(buf), "%d", option_int_get(poption));
     value = buf;
     break;
-  case SSET_STRING:
+  case OT_STRING:
     value = option_str_get(poption);
     break;
   case OT_FONT:
+  case OT_VIDEO_MODE:
     break;
   }
 
   if (NULL == value) {
-    log_error("Option type %d not supported for '%s'.",
-              option_type(poption), option_name(poption));
+    log_error("Option type %s (%d) not supported for '%s'.",
+              option_type_name(option_type(poption)), option_type(poption),
+              option_name(poption));
   } else if (0 != strcmp(value, desired)) {
     send_chat_printf("/set %s %s", option_name(poption), desired);
   }
@@ -3324,6 +3483,16 @@ void options_save(void)
       secfile_insert_str(sf, option_font_get(poption),
                          "client.%s", option_name(poption));
       break;
+    case OT_VIDEO_MODE:
+      {
+        struct video_mode mode = option_video_mode_get(poption);
+
+        secfile_insert_int(sf, mode.width, "client.%s_width",
+                           option_name(poption));
+        secfile_insert_int(sf, mode.height, "client.%s_height",
+                           option_name(poption));
+      }
+      break;
     }
   } client_options_iterate_all_end;
 
@@ -3404,6 +3573,7 @@ void options_init(void)
       break;
 
     case OT_FONT:
+    case OT_VIDEO_MODE:
       break;
     }
 
