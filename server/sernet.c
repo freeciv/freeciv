@@ -413,7 +413,7 @@ int sniff_packets(void)
 	      save_game_auto();
 	    }
 	    set_meta_message_string("restarting for lack of players");
-	    freelog(LOG_NORMAL, get_meta_message_string());
+	    freelog(LOG_NORMAL, "%s", get_meta_message_string());
 	    (void) send_server_info_to_metaserver(META_INFO);
 
             server_state = GAME_OVER_STATE;
@@ -436,7 +436,7 @@ int sniff_packets(void)
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
           set_meta_message_string((const char *)buf);
-	  freelog(LOG_NORMAL, get_meta_message_string());
+	  freelog(LOG_NORMAL, "%s", get_meta_message_string());
 	  (void) send_server_info_to_metaserver(META_INFO);
 	}
       } else {

@@ -3464,7 +3464,7 @@ void game_load(struct section_file *file)
     for(i=0;i<8;i++) {
       char name[20];
       my_snprintf(name, sizeof(name), "random.table%d",i);
-      string=secfile_lookup_str(file,name);
+      string = secfile_lookup_str(file, "%s", name);
       sscanf(string,"%8x %8x %8x %8x %8x %8x %8x", &rstate.v[7*i],
 	     &rstate.v[7*i+1], &rstate.v[7*i+2], &rstate.v[7*i+3],
 	     &rstate.v[7*i+4], &rstate.v[7*i+5], &rstate.v[7*i+6]);
@@ -3846,7 +3846,7 @@ void game_save(struct section_file *file)
 		  rstate.v[7 * i + 1], rstate.v[7 * i + 2],
 		  rstate.v[7 * i + 3], rstate.v[7 * i + 4],
 		  rstate.v[7 * i + 5], rstate.v[7 * i + 6]);
-      secfile_insert_str(file, vec, name);
+      secfile_insert_str(file, vec, "%s", name);
     }
   } else {
     secfile_insert_int(file, 0, "game.save_random");

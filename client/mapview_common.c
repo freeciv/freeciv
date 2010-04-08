@@ -2221,7 +2221,7 @@ void get_city_mapview_name_and_growth(struct city *pcity,
     return;
   }
 
-  my_snprintf(name_buffer, name_buffer_len, pcity->name);
+  my_snprintf(name_buffer, name_buffer_len, "%s", pcity->name);
 
   if (draw_city_growth && pcity->owner == game.player_idx) {
     int turns = city_turns_to_grow(pcity);

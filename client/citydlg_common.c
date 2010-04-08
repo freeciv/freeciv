@@ -224,7 +224,7 @@ void get_city_dialog_production(struct city *pcity,
      * be extended to return the longer of the two; in the meantime
      * translators can fudge it by changing this "filler" string. 
      */
-    my_snprintf(buffer, buffer_len, Q_("?filler:XXX/XXX XXX turns"));
+    my_snprintf(buffer, buffer_len, "%s", Q_("?filler:XXX/XXX XXX turns"));
     return;
   }
 
@@ -316,7 +316,7 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   if (is_unit) {
     struct unit_type *ptype = get_unit_type(id);
 
-    my_snprintf(buf[0], column_size, unit_name(id));
+    my_snprintf(buf[0], column_size, "%s", unit_name(id));
 
     /* from unit.h get_unit_name() */
     if (ptype->fuel > 0) {
@@ -332,11 +332,11 @@ void get_city_dialog_production_row(char *buf[], size_t column_size, int id,
   } else {
     /* Total & turns left meaningless on capitalization */
     if (building_has_effect(id, EFT_PROD_TO_GOLD)) {
-      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      my_snprintf(buf[0], column_size, "%s", get_improvement_type(id)->name);
       buf[1][0] = '\0';
       my_snprintf(buf[2], column_size, "---");
     } else {
-      my_snprintf(buf[0], column_size, get_improvement_type(id)->name);
+      my_snprintf(buf[0], column_size, "%s", get_improvement_type(id)->name);
 
       /* from city.c get_impr_name_ex() */
       if (pcity && is_building_replaced(pcity, id)) {

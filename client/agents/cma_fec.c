@@ -291,7 +291,7 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
     cost = unit_build_shield_cost(pcity->currently_building);
   } else {
     if (get_current_construction_bonus(pcity, EFT_PROD_TO_GOLD) > 0) {
-      my_snprintf(buffer, sizeof(buffer),
+      my_snprintf(buffer, sizeof(buffer), "%s",
 		  get_improvement_type(pcity->currently_building)->name);
       return buffer;
     }
