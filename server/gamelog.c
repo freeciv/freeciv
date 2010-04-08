@@ -184,7 +184,7 @@ void gamelog_save(void){
 		 get_nation_name_plural(game.players[size[i].idx].nation),
 		 size[i].value);
   }
-  gamelog(GAMELOG_EOT,buffer);
+  gamelog(GAMELOG_EOT, "%s", buffer);
   free(size);
   qsort(rank, count, sizeof(struct player_score_entry), secompare1);
   buffer[0] = 0;
@@ -194,7 +194,7 @@ void gamelog_save(void){
 		 game.players[rank[i].idx].name,
 		 rank[i].value);
   }
-  gamelog(GAMELOG_RANK,buffer);
+  gamelog(GAMELOG_RANK, "%s", buffer);
   buffer[0] = 0;
   for (i = 0; i < count; i++) {
     cat_snprintf(buffer, sizeof(buffer),    
@@ -204,7 +204,7 @@ void gamelog_save(void){
          game.players[rank[i].idx].is_connected,
          rank[i].value);
   }
-  gamelog(GAMELOG_STATUS, buffer);
+  gamelog(GAMELOG_STATUS, "%s", buffer);
 
   free(rank);
 }

@@ -549,7 +549,7 @@ void format_duration(char *buffer, int buffer_size, int duration)
     my_snprintf(buffer, buffer_size, Q_("?dys/hrs:%02dd %02dh"),
 		duration/86400, (duration/3600)%24);
   else
-    my_snprintf(buffer, buffer_size, Q_("?duration:overflow"));
+    my_snprintf(buffer, buffer_size, "%s", Q_("?duration:overflow"));
 }
 
 /**************************************************************************

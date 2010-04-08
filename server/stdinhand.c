@@ -2348,13 +2348,13 @@ static void show_help_option_list(struct connection *caller,
       if (may_view_option(caller, i)) {
 	cat_snprintf(buf, sizeof(buf), "%-19s", settings[i].name);
 	if ((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
 	  buf[0] = '\0';
 	}
       }
     }
     if (buf[0] != '\0')
-      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }
@@ -2568,7 +2568,7 @@ static void show_command(struct connection *caller, char *str)
    cmd = -1;  /* to indicate that no comannd was specified */
   }
 
-#define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, string)
+#define cmd_reply_show(string)  cmd_reply(CMD_SHOW, caller, C_COMMENT, "%s", string)
 
 #define OPTION_NAME_SPACE 13
   /* under SSET_MAX_LEN, so it fits into 80 cols more easily - rp */
@@ -2796,7 +2796,7 @@ static void set_command(struct connection *caller, char *str)
 
       if (settings[cmd].bool_validate
 	  && !settings[cmd].bool_validate(b_val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
       } else {
 	*(op->bool_value) = b_val;
 	my_snprintf(buffer, sizeof(buffer),
@@ -2818,7 +2818,7 @@ static void set_command(struct connection *caller, char *str)
 
       if (settings[cmd].int_validate
 	  && !settings[cmd].int_validate(val, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
       } else {
 	*(op->int_value) = val;
 	my_snprintf(buffer, sizeof(buffer),
@@ -2838,7 +2838,7 @@ static void set_command(struct connection *caller, char *str)
 
       if (settings[cmd].string_validate
 	  && !settings[cmd].string_validate(arg, &reject_message)) {
-	cmd_reply(CMD_SET, caller, C_SYNTAX, reject_message);
+	cmd_reply(CMD_SET, caller, C_SYNTAX, "%s", reject_message);
       } else {
 	strcpy(op->string_value, arg);
 	my_snprintf(buffer, sizeof(buffer),
@@ -3388,7 +3388,7 @@ static void show_help_intro(struct connection *caller, enum command_id help_cmd)
   astr_minsize(&abuf, strlen(help)+1);
   strcpy(abuf.str, help);
   wordwrap_string(abuf.str, 78);
-  cmd_reply(help_cmd, caller, C_COMMENT, abuf.str);
+  cmd_reply(help_cmd, caller, C_COMMENT, "%s", abuf.str);
 }
 
 /**************************************************************************
@@ -3459,13 +3459,13 @@ static void show_help_command_list(struct connection *caller,
       if (may_use(caller, i)) {
 	cat_snprintf(buf, sizeof(buf), "%-19s", commands[i].name);
 	if((++j % 4) == 0) {
-	  cmd_reply(help_cmd, caller, C_COMMENT, buf);
+	  cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
 	  buf[0] = '\0';
 	}
       }
     }
     if (buf[0] != '\0')
-      cmd_reply(help_cmd, caller, C_COMMENT, buf);
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s", buf);
   }
   cmd_reply(help_cmd, caller, C_COMMENT, horiz_line);
 }

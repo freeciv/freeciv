@@ -291,21 +291,21 @@ static void happiness_dialog_update_buildings(struct happiness_dialog
 
   if (city_got_building(pcity, B_TEMPLE)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_TEMPLE));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_TEMPLE));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
   }
   if (city_got_building(pcity, B_COURTHOUSE) && g->corruption_level == 0) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_COURTHOUSE));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_COURTHOUSE));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
   }
   if (city_got_building(pcity, B_COLOSSEUM)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_COLOSSEUM));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_COLOSSEUM));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
@@ -318,12 +318,12 @@ static void happiness_dialog_update_buildings(struct happiness_dialog
   }
   if (city_got_effect(pcity, B_CATHEDRAL)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_CATHEDRAL));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_CATHEDRAL));
     bptr = end_of_strn(bptr, &nleft);
     if (!city_got_building(pcity, B_CATHEDRAL)) {
       my_snprintf(bptr, nleft, _("("));
       bptr = end_of_strn(bptr, &nleft);
-      my_snprintf(bptr, nleft, get_improvement_name(B_MICHELANGELO));
+      my_snprintf(bptr, nleft, "%s", get_improvement_name(B_MICHELANGELO));
       bptr = end_of_strn(bptr, &nleft);
       my_snprintf(bptr, nleft, _(")"));
       bptr = end_of_strn(bptr, &nleft);
@@ -397,14 +397,14 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
 
   if (city_affected_by_wonder(pcity, B_HANGING)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_HANGING));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_HANGING));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
   }
   if (city_affected_by_wonder(pcity, B_BACH)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_BACH));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_BACH));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
@@ -417,14 +417,14 @@ static void happiness_dialog_update_wonders(struct happiness_dialog
   }
   if (city_affected_by_wonder(pcity, B_SHAKESPEARE)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_SHAKESPEARE));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_SHAKESPEARE));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);
   }
   if (city_affected_by_wonder(pcity, B_CURE)) {
     faces++;
-    my_snprintf(bptr, nleft, get_improvement_name(B_CURE));
+    my_snprintf(bptr, nleft, "%s", get_improvement_name(B_CURE));
     bptr = end_of_strn(bptr, &nleft);
     my_snprintf(bptr, nleft, _(". "));
     bptr = end_of_strn(bptr, &nleft);

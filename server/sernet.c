@@ -371,7 +371,7 @@ int sniff_packets(void)
 	  if (time(NULL)>last_noplayers + srvarg.quitidle) {
 	    sz_strlcpy(srvarg.metaserver_info_line,
 		       "restarting for lack of players");
-	    freelog(LOG_NORMAL, srvarg.metaserver_info_line);
+	    freelog(LOG_NORMAL, "%s", srvarg.metaserver_info_line);
 	    (void) send_server_info_to_metaserver(TRUE, FALSE);
 
 	    close_connections_and_socket();
@@ -384,7 +384,7 @@ int sniff_packets(void)
 		      sizeof(srvarg.metaserver_info_line),
 		      "restarting in %d seconds for lack of players",
 		      srvarg.quitidle);
-	  freelog(LOG_NORMAL, srvarg.metaserver_info_line);
+	  freelog(LOG_NORMAL, "%s", srvarg.metaserver_info_line);
 	  (void) send_server_info_to_metaserver(TRUE, FALSE);
 	}
       } else {

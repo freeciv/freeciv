@@ -307,7 +307,7 @@ static const char *get_prod_complete_string(struct city *pcity,
   } else {
     if (pcity->currently_building == B_CAPITAL) {
       my_snprintf(buffer, sizeof(buffer),
-		  get_improvement_type(pcity->currently_building)->name);
+		  "%s", get_improvement_type(pcity->currently_building)->name);
       return buffer;
     }
     cost = get_improvement_type(pcity->currently_building)->build_cost;

@@ -53,8 +53,7 @@ void CITY_LOG(int level, struct city *pcity, const char *msg, ...)
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s%s", buffer, buffer2);
 }
 
 /**************************************************************************
@@ -82,8 +81,7 @@ void UNIT_LOG(int level, struct unit *punit, const char *msg, ...)
   my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
   va_end(ap);
 
-  cat_snprintf(buffer, sizeof(buffer), buffer2);
-  freelog(minlevel, buffer);
+  freelog(minlevel, "%s%s", buffer, buffer2);
 }
 
 /**************************************************************************
@@ -111,8 +109,7 @@ void GOTO_LOG(int level, struct unit *punit, enum goto_result result,
     my_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
     va_end(ap);
 
-    cat_snprintf(buffer, sizeof(buffer), buffer2);
-    freelog(minlevel, buffer);
+    freelog(minlevel, "%s%s", buffer, buffer2);
   }
 }
 
@@ -151,6 +148,6 @@ void BODYGUARD_LOG(int level, struct unit *punit, const char *msg)
               "%s's bodyguard %s[%d] (%d,%d){%s:%d@%d,%d} ",
               unit_owner(punit)->name, unit_type(punit)->name,
               punit->id, punit->x, punit->y, s, id, x, y);
-  cat_snprintf(buffer, sizeof(buffer), msg);
-  freelog(minlevel, buffer);
+
+  freelog(minlevel, "%s%s", buffer, msg);
 }
