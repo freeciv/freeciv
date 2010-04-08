@@ -32,6 +32,11 @@ $#include "api_notify.h"
 $#include "api_utilities.h"
 $#include "script.h"
 
+/* fix a bug in toluaxx, define to expand empty */
+$#ifndef tolua_outside
+$#define tolua_outside
+$#endif
+
 /* Classes. */
 struct Player_ai {
    bool control;
@@ -42,6 +47,17 @@ struct Player {
   Nation_Type *nation;
 
   Player_ai ai_data;
+
+  tolua_outside int api_methods_player_num_cities
+    @ num_cities ();
+  tolua_outside int api_methods_player_num_units
+    @ num_units ();
+  tolua_outside bool api_methods_player_has_wonder
+    @ has_wonder (Building_Type *building);
+  tolua_outside void api_methods_player_victory
+    @ victory ();
+  tolua_outside int api_methods_player_number
+    @ number ();
 };
 
 struct City {
@@ -52,6 +68,11 @@ struct City {
   int size;
 
   const int id;
+
+  tolua_outside bool api_methods_city_has_building
+    @ has_building(Building_Type *building);
+  tolua_outside int api_methods_city_map_sq_radius
+    @ map_sq_radius();
 };
 
 struct Unit {
@@ -63,6 +84,9 @@ struct Unit {
   Tile *tile;
 
   const int id;
+
+  tolua_outside bool api_methods_unit_city_can_be_built_here
+    @ is_on_possible_city_tile ();
 };
 
 struct Tile {
@@ -72,267 +96,113 @@ struct Tile {
   Terrain *terrain;
 
   const int index @ id;
+
+  tolua_outside bool api_methods_tile_city_exists_within_max_city_map
+    @ city_exists_within_max_city_map (bool center);
 };
 
 struct Government {
   const int item_number @ id;
+
+  tolua_outside const char *api_methods_government_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_government_name_translation
+    @ name_translation ();
 };
 
 struct Nation_Type {
   const int item_number @ id;
+
+  tolua_outside const char *api_methods_nation_type_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_nation_type_name_translation
+    @ name_translation ();
+  tolua_outside const char *api_methods_nation_type_plural_translation
+    @ plural_translation ();
 };
 
 struct Building_Type {
   int build_cost;
 
   const int item_number @ id;
+
+  tolua_outside bool api_methods_building_type_is_wonder
+    @ is_wonder ();
+  tolua_outside bool api_methods_building_type_is_great_wonder
+    @ is_great_wonder ();
+  tolua_outside bool api_methods_building_type_is_small_wonder
+    @ is_small_wonder ();
+  tolua_outside bool api_methods_building_type_is_improvement
+    @ is_improvement ();
+  tolua_outside const char *api_methods_building_type_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_building_type_name_translation
+    @ name_translation ();
 };
 
 struct Unit_Type {
   int build_cost;
 
   const int item_number @ id;
+
+  tolua_outside bool api_methods_unit_type_has_flag
+    @ has_flag (const char *flag);
+  tolua_outside bool api_methods_unit_type_has_role
+    @ has_role (const char *role);
+  tolua_outside const char *api_methods_unit_type_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_unit_type_name_translation
+    @ name_translation ();
 };
 
 struct Tech_Type {
   const int item_number @ id;
+
+  tolua_outside const char *api_methods_tech_type_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_tech_type_name_translation
+    @ name_translation ();
 };
 
 struct Terrain {
   const int item_number @ id;
+
+  tolua_outside const char *api_methods_terrain_rule_name
+    @ rule_name ();
+  tolua_outside const char *api_methods_terrain_name_translation
+    @ name_translation ();
 };
 
 
-/* Class methods. */
-
-/* Player */
-int api_methods_player_num_cities
-	@ methods_player_num_cities (Player *pplayer);
-int api_methods_player_num_units
-	@ methods_player_num_units (Player *pplayer);
-bool api_methods_player_has_wonder
-        @ methods_player_has_wonder (Player *pplayer, Building_Type *building);
-void api_methods_player_victory
-        @ methods_player_victory (Player *pplayer);
-int api_methods_player_number
-        @ methods_player_number (Player *pplayer);
-
-/* Unit */
-bool api_methods_unit_city_can_be_built_here
-	@ methods_unit_city_can_be_built_here (Unit *punit);
-
-/* Tile */
-bool api_methods_tile_city_exists_within_max_city_map
-        @ methods_tile_city_exists_within_max_city_map (Tile *ptile, bool center);
-
-/* Government */
-const char *api_methods_government_rule_name
-	@ methods_government_rule_name (Government *pgovernment);
-const char *api_methods_government_name_translation
-	@ methods_government_name_translation (Government *pgovernment);
-
-/* Nation_Type */
-const char *api_methods_nation_type_rule_name
-	@ methods_nation_type_rule_name (Nation_Type *pnation);
-const char *api_methods_nation_type_name_translation
-	@ methods_nation_type_name_translation (Nation_Type *pnation);
-const char *api_methods_nation_type_plural_translation
-	@ methods_nation_type_plural_translation (Nation_Type *pnation);
-
-/* Building_Type */
-bool api_methods_building_type_is_wonder
-	@ methods_building_type_is_wonder (Building_Type *pbuilding);
-bool api_methods_building_type_is_great_wonder
-	@ methods_building_type_is_great_wonder (Building_Type *pbuilding);
-bool api_methods_building_type_is_small_wonder
-	@ methods_building_type_is_small_wonder (Building_Type *pbuilding);
-bool api_methods_building_type_is_improvement
-	@ methods_building_type_is_improvement (Building_Type *pbuilding);
-const char *api_methods_building_type_rule_name
-	@ methods_building_type_rule_name (Building_Type *pbuilding);
-const char *api_methods_building_type_name_translation
-	@ methods_building_type_name_translation (Building_Type *pbuilding);
-
-/* Unit_Type */
-bool api_methods_unit_type_has_flag
-	@ methods_unit_type_has_flag (Unit_Type *punit_type, const char *flag);
-bool api_methods_unit_type_has_role
-	@ methods_unit_type_has_role (Unit_Type *punit_type, const char *role);
-const char *api_methods_unit_type_rule_name
-	@ methods_unit_type_rule_name (Unit_Type *punit_type);
-const char *api_methods_unit_type_name_translation
-	@ methods_unit_type_name_translation (Unit_Type *punit_type);
-
-/* Tech_Type */
-const char *api_methods_tech_type_rule_name
-	@ methods_tech_type_rule_name (Tech_Type *ptech);
-const char *api_methods_tech_type_name_translation
-	@ methods_tech_type_name_translation (Tech_Type *ptech);
-
-/* Terrain */
-const char *api_methods_terrain_rule_name
-	@ methods_terrain_rule_name (Terrain *pterrain);
-const char *api_methods_terrain_name_translation
-	@ methods_terrain_name_translation (Terrain *pterrain);
-
-/* City */
-bool api_methods_city_has_building
-        @ methods_city_has_building(City *pcity, Building_Type *building);
-int api_methods_city_map_sq_radius
-        @ methods_city_map_sq_radius(City *pcity);
-
 $[
+-- Extra or convenience API methods
+
 -- Building_Type methods.
 function Building_Type:build_shield_cost()
   return self.build_cost
 end
 
-function Building_Type:is_wonder()
-  return methods_building_type_is_wonder(self)
-end
-
-function Building_Type:is_great_wonder()
-  return methods_building_type_is_great_wonder(self)
-end
-
-function Building_Type:is_small_wonder()
-  return methods_building_type_is_small_wonder(self)
-end
-
-function Building_Type:is_improvement()
-  return methods_building_type_is_improvement(self)
-end
-
-function Building_Type:rule_name()
-  return methods_building_type_rule_name(self)
-end
-
-function Building_Type:name_translation()
-  return methods_building_type_name_translation(self)
-end
-
-
--- City methods
-function City:has_building(building)
-  return methods_city_has_building(self, building)
-end
-
-function City:map_sq_radius()
-  return methods_city_map_sq_radius(self)
-end
-
-
--- Government methods
-function Government:rule_name()
-  return methods_government_rule_name(self)
-end
-
-function Government:name_translation()
-  return methods_government_name_translation(self)
-end
-
-
--- Nation_Type methods
-function Nation_Type:rule_name()
-  return methods_nation_type_rule_name(self)
-end
-
-function Nation_Type:name_translation()
-  return methods_nation_type_name_translation(self)
-end
-
-function Nation_Type:plural_translation()
-  return methods_nation_type_plural_translation(self)
-end
-
-
--- Player methods.
-function Player:has_wonder(building)
-  return methods_player_has_wonder(self, building)
-end
-
+-- Player methods
 function Player:is_human()
   return not self.ai_data.control
 end
 
-function Player:number()
-  return methods_player_number(self)
-end
-
-function Player:num_cities()
-  return methods_player_num_cities(self)
-end
-
-function Player:num_units()
-  return methods_player_num_units(self)
-end
-
-function Player:victory()
-  methods_player_victory(self)
-end
-
-
--- Tech_Type methods
-function Tech_Type:rule_name()
-  return methods_tech_type_rule_name(self)
-end
-
-function Tech_Type:name_translation()
-  return methods_tech_type_name_translation(self)
-end
-
-
--- Terrain methods
-function Terrain:rule_name()
-  return methods_terrain_rule_name(self)
-end
-
-function Terrain:name_translation()
-  return methods_terrain_name_translation(self)
-end
-
-
 -- Tile methods
-function Tile:city_exists_within_max_city_map(center)
-  return methods_tile_city_exists_within_max_city_map(self, center)
-end
-
 --   Deprecated. New one is Tile:city_exists_within_max_city_map().
 function Tile:city_exists_within_city_radius(center)
   return self:city_exists_within_max_city_map(center)
 end
-
 
 -- Unit methods.
 function Unit:get_homecity()
   return find.city(self.owner, self.homecity)
 end
 
-function Unit:is_on_possible_city_tile()
-  return methods_unit_city_can_be_built_here(self)
-end
-
-
 -- Unit_Type methods.
 function Unit_Type:build_shield_cost()
   return self.build_cost
 end
 
-function Unit_Type:has_flag(flag)
-  return methods_unit_type_has_flag(self, flag)
-end
-
-function Unit_Type:has_role(role)
-  return methods_unit_type_has_role(self, role)
-end
-
-function Unit_Type:rule_name()
-  return methods_unit_type_rule_name(self)
-end
-
-function Unit_Type:name_translation()
-  return methods_unit_type_name_translation(self)
-end
 $]
 
 /* Object find module. */
