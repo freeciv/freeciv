@@ -50,7 +50,6 @@
 
 /* ai */
 #include "advmilitary.h"
-#include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
 #include "aiguard.h"

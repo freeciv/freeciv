@@ -13,10 +13,15 @@
 #ifndef FC__AITOOLS_H
 #define FC__AITOOLS_H
 
+/* utility */
 #include "shared.h"		/* bool type */
 
+/* common */
 #include "fc_types.h"
 #include "unit.h"		/* enum ai_unit_task */
+
+/* ai */
+#include "aicity.h"
 
 struct pf_path;
 struct pf_parameter;

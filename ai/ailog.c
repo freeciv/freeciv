@@ -35,6 +35,7 @@
 #include "srv_main.h"
 
 /* ai */
+#include "aicity.h"
 #include "aidata.h"
 
 #include "ailog.h"

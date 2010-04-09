@@ -37,6 +37,7 @@
 #include "utilities.h"
 
 /* ai */
+#include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aiunit.h"

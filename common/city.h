@@ -206,102 +206,6 @@ struct output_type {
   enum output_unhappy_penalty unhappy_penalty;
 };
 
-enum choice_type {
-  CT_NONE = 0,
-  CT_BUILDING = 1,
-  CT_CIVILIAN,
-  CT_ATTACKER,
-  CT_DEFENDER,
-  CT_LAST
-};
-
-#ifdef NDEBUG
-#define ASSERT_CHOICE(c) /* Do nothing. */
-#else
-#define ASSERT_CHOICE(c)                                                 \
-  do {                                                                   \
-    if ((c).want > 0) {                                                  \
-      fc_assert((c).type > CT_NONE && (c).type < CT_LAST);               \
-      if ((c).type == CT_BUILDING) {                                     \
-        int _iindex = improvement_index((c).value.building);             \
-        fc_assert(_iindex >= 0 && _iindex < improvement_count());        \
-      } else {                                                           \
-        int _uindex = utype_index((c).value.utype);                      \
-        fc_assert(_uindex >= 0 && _uindex < utype_count());              \
-      }                                                                  \
-    }                                                                    \
-  } while(0);
-#endif /* NDEBUG */
-
-struct ai_choice {
-  enum choice_type type;
-  universals_u value; /* what the advisor wants */
-  int want;              /* how much it wants it (0-100) */
-  bool need_boat;        /* unit being built wants a boat */
-};
-
-struct activity_cache {
-  int act[ACTIVITY_LAST];
-};
-
-/* Who's coming to kill us, for attack co-ordination */
-struct ai_invasion {
-  int attack;         /* Units capable of attacking city */
-  int occupy;         /* Units capable of occupying city */
-};
-
-struct ai_city {
-  int building_turn;            /* only recalculate every Nth turn */
-  int building_wait;            /* for weighting values */
-#define BUILDING_WAIT_MINIMUM (1)
-
-  /* building desirabilities - easiest to handle them here -- Syela */
-  /* The units of building_want are output
-   * (shields/gold/luxuries) multiplied by a priority
-   * (SHIELD_WEIGHTING, etc or ai->shields_priority, etc)
-   */
-  int building_want[B_LAST];
-
-  struct ai_choice choice;      /* to spend gold in the right place only */
-
-  int worth; /* Cache city worth here, sum of all weighted incomes */
-
-  struct ai_invasion invasion;
-  int attack, bcost; /* This is also for invasion - total power and value of
-                      * all units coming to kill us. */
-
-  unsigned int danger;          /* danger to be compared to assess_defense */
-  unsigned int grave_danger;    /* danger, should show positive feedback */
-  unsigned int urgency;         /* how close the danger is; if zero, 
-                                   bodyguards can leave */
-  int wallvalue;                /* how much it helps for defenders to be 
-                                   ground units */
-
-  int downtown;                 /* distance from neighbours, for locating 
-                                   wonders wisely */
-  int distance_to_wonder_city;  /* wondercity will set this for us, 
-                                   avoiding paradox */
-
-  bool celebrate;               /* try to celebrate in this city */
-  bool diplomat_threat;         /* enemy diplomat or spy is near the city */
-  bool has_diplomat;            /* this city has diplomat or spy defender */
-
-  /* so we can contemplate with warmap fresh and decide later */
-  /* These values are for builder (F_SETTLERS) and founder (F_CITIES) units.
-   * Negative values indicate that the city needs a boat first;
-   * -value is the degree of want in that case. */
-  bool founder_boat;            /* city founder will need a boat */
-  int founder_turn;             /* only recalculate every Nth turn */
-  int founder_want;
-  int settler_want;
-  int trade_want;               /* saves a zillion calculations */
-
-  /* Used for caching change in value from a worker performing
-   * a particular activity on a particular tile. */
-  struct activity_cache *act_cache;
-  int act_cache_radius_sq;
-};
-
 enum citizen_category {
   CITIZEN_HAPPY,
   CITIZEN_CONTENT,
@@ -333,6 +237,8 @@ enum city_updates {
 };
 
 struct tile_cache; /* defined and only used within city.c */
+
+struct ai_city; /* defined in ./ai/aicity.h */
 
 struct city {
   char name[MAX_LEN_NAME];

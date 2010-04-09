@@ -47,6 +47,7 @@
 #include "settlers.h"  /* amortize */
 
 /* ai */
+#include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aiunit.h"

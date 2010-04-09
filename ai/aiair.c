@@ -35,6 +35,7 @@
 #include "unittools.h"
 
 /* ai */
+#include "aicity.h"
 #include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"

@@ -78,6 +78,11 @@
 #define LOG_EMERGENCY LOG_VERBOSE
 #define LOG_WANT LOG_VERBOSE
 
+/* cache activities within the city map */
+struct ai_activity_cache {
+  int act[ACTIVITY_LAST];
+};
+
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
 #define city_range_iterate(city_here, list, range, city)		\
@@ -98,6 +103,24 @@
 #define CITY_EMERGENCY(pcity)						\
  (pcity->surplus[O_SHIELD] < 0 || city_unhappy(pcity)			\
   || pcity->food_stock + pcity->surplus[O_FOOD] < 0)
+
+#ifdef NDEBUG
+#define ASSERT_CHOICE(c) /* Do nothing. */
+#else
+#define ASSERT_CHOICE(c)                                                 \
+  do {                                                                   \
+    if ((c).want > 0) {                                                  \
+      fc_assert((c).type > CT_NONE && (c).type < CT_LAST);               \
+      if ((c).type == CT_BUILDING) {                                     \
+        int _iindex = improvement_index((c).value.building);             \
+        fc_assert(_iindex >= 0 && _iindex < improvement_count());        \
+      } else {                                                           \
+        int _uindex = utype_index((c).value.utype);                      \
+        fc_assert(_uindex >= 0 && _uindex < utype_count());              \
+      }                                                                  \
+    }                                                                    \
+  } while(0);
+#endif /* NDEBUG */
 
 static void ai_sell_obsolete_buildings(struct city *pcity);
 static void resolve_city_emergency(struct player *pplayer, struct city *pcity);
@@ -2019,7 +2042,7 @@ void ai_city_close(struct city *pcity)
 }
 
 /**************************************************************************
-  Return the value for activity 'doing' on tile 'city_tile_index' of
+  Set the value for activity 'doing' on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
 void ai_city_worker_act_set(struct city *pcity, int city_tile_index,
