@@ -361,15 +361,15 @@ static bool send_to_metaserver(enum meta_flag flag)
     s = end_of_strn(s, &rest);
 
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("endturn"), game.info.end_turn);
+                fc_url_encode("endturn"), game.server.end_turn);
     s = end_of_strn(s, &rest);
 
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("minplayers"), game.info.min_players);
+                fc_url_encode("minplayers"), game.server.min_players);
     s = end_of_strn(s, &rest);
 
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%d&",
-                fc_url_encode("maxplayers"), game.info.max_players);
+                fc_url_encode("maxplayers"), game.server.max_players);
     s = end_of_strn(s, &rest);
 
     fc_snprintf(s, rest, "vn[]=%s&vv[]=%s&",

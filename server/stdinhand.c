@@ -780,7 +780,7 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
 
   if (NULL == pplayer) {
     /* Check that we are not going over max players setting */
-    if (player_count() >= game.info.max_players) {
+    if (player_count() >= game.server.max_players) {
       cmd_reply(CMD_CREATE, caller, C_FAIL,
 	        _("Can't add more players, server is full."));
       return FALSE;
@@ -2707,7 +2707,7 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
       return FALSE;
     }
 
-    if (player_count() >= game.info.max_players) {
+    if (player_count() >= game.server.max_players) {
       fc_snprintf(msg, msg_len,
                   /* TRANS: Do not translate "maxplayers". */
                   PL_("You cannot take a new player because "
@@ -2716,8 +2716,8 @@ static bool is_allowed_to_take(struct player *pplayer, bool will_obs,
                       "You cannot take a new player because "
                       "the maximum of %d players has already "
                       "been reached (maxplayers setting).",
-                      game.info.max_players),
-                  game.info.max_players);
+                      game.server.max_players),
+                  game.server.max_players);
       return FALSE;
     }
 
@@ -3047,7 +3047,7 @@ static bool take_command(struct connection *caller, char *str, bool check)
    * detached connections only. Others can reuse the slot
    * they first release. */
   if (!pplayer && !pconn->playing
-      && (player_count() >= game.info.max_players
+      && (player_count() >= game.server.max_players
           || player_count() - server.nbarbarians >= server.playable_nations)) {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("There is no free player slot for %s."),
@@ -3992,18 +3992,18 @@ bool start_command(struct connection *caller, bool check, bool notify)
     /* Sanity check scenario */
     if (game.info.is_new_game && !check) {
       if (map.server.num_start_positions > 0
-          && game.info.max_players > map.server.num_start_positions) {
+          && game.server.max_players > map.server.num_start_positions) {
         /* If we load a pre-generated map (i.e., a scenario) it is possible
          * to increase the number of players beyond the number supported by
          * the scenario. The solution is a hack: cut the extra players
          * when the game starts. */
         log_verbose("Reduced maxplayers from %i to %i to fit "
                     "to the number of start positions.",
-                    game.info.max_players, map.server.num_start_positions);
-        game.info.max_players = map.server.num_start_positions;
+                    game.server.max_players, map.server.num_start_positions);
+        game.server.max_players = map.server.num_start_positions;
       }
 
-      if (player_count() > game.info.max_players) {
+      if (player_count() > game.server.max_players) {
         int i;
         struct player *pplayer;
         for (i = player_slot_count() - 1; i >= 0; i--) {
@@ -4012,7 +4012,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
             server_remove_player(pplayer);
             send_player_slot_info_c(pplayer, NULL);
           }
-          if (player_count() <= game.info.max_players) {
+          if (player_count() <= game.server.max_players) {
             break;
           }
         }
@@ -4032,7 +4032,7 @@ bool start_command(struct connection *caller, bool check, bool notify)
     } players_iterate_end;
 
     /* check min_players */
-    if (human_players < game.info.min_players) {
+    if (human_players < game.server.min_players) {
       start_cmd_reply(caller, notify,
                       _("Not enough human players, game will not start."));
       return FALSE;

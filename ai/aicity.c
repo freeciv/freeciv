@@ -514,7 +514,7 @@ static int improvement_effect_value(struct player *pplayer,
        */
       value = bulbs * (1.0 - pow(1.0 - (1.0 / MORT), turns)) * MORT;
 	  
-      value = value  * (100 - game.info.freecost)	  
+      value = value  * (100 - game.server.freecost)	  
 	* (nplayers - amount) / (nplayers * amount * 100);
 	  
       /* WAG */
@@ -688,10 +688,10 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_NO_INCITE:
     if (get_city_bonus(pcity, EFT_NO_INCITE) <= 0) {
-      v += MAX((game.info.diplchance * 2 
-		- game.info.incite_total_factor) / 2
-	       - game.info.incite_improvement_factor * 5
-	       - game.info.incite_unit_factor * 5, 0);
+      v += MAX((game.server.diplchance * 2
+                - game.server.incite_total_factor) / 2
+               - game.server.incite_improvement_factor * 5
+               - game.server.incite_unit_factor * 5, 0);
     }
     break;
   case EFT_GAIN_AI_LOVE:
@@ -748,7 +748,7 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_MIGRATION_PCT:
     /* consider all foreign cities within the set distance */
-    iterate_outward(city_tile(pcity), game.info.mgr_distance + 1, ptile) {
+    iterate_outward(city_tile(pcity), game.server.mgr_distance + 1, ptile) {
       struct city *acity = tile_city(ptile);
 
       if (!acity || acity == pcity || city_owner(acity) == pplayer) {

@@ -192,7 +192,7 @@ static int evaluate_city_name_priority(struct tile *ptile,
    * it elewhere because this localizes everything to this
    * function, even though it's a bit inefficient.
    */
-  if (!game.info.natural_city_names) {
+  if (!game.server.natural_city_names) {
     return default_priority;
   }
 
@@ -313,7 +313,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   struct connection *pconn = find_conn_by_user(pplayer->username);
 
   /* Mode 1: A city name has to be unique for each player. */
-  if (game.info.allowed_city_names == 1 &&
+  if (game.server.allowed_city_names == 1 &&
       city_list_find_name(pplayer->cities, cityname)) {
     if (error_buf) {
       fc_snprintf(error_buf, bufsz, _("You already have a city called %s."),
@@ -323,8 +323,8 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
   }
 
   /* Modes 2,3: A city name has to be globally unique. */
-  if ((game.info.allowed_city_names == 2 
-       || game.info.allowed_city_names == 3)
+  if ((game.server.allowed_city_names == 2 
+       || game.server.allowed_city_names == 3)
       && game_find_city_by_name(cityname)) {
     if (error_buf) {
       fc_snprintf(error_buf, bufsz,
@@ -343,7 +343,7 @@ bool is_allowed_city_name(struct player *pplayer, const char *cityname,
    * player's default city names.  Note the name will already have been
    * allowed if it is in this player's default city names list.
    */
-  if (game.info.allowed_city_names == 3) {
+  if (game.server.allowed_city_names == 3) {
     struct player *pother = NULL;
 
     players_iterate(player2) {
@@ -734,12 +734,12 @@ struct city *find_closest_owned_city(const struct player *pplayer,
 
 /**************************************************************************
   called when a player conquers a city, remove buildings (not wonders and 
-  always palace) with game.info.razechance% chance, barbarians destroy more
+  always palace) with game.server.razechance% chance, barbarians destroy more
   set the city's shield stock to 0
 **************************************************************************/
 static void raze_city(struct city *pcity)
 {
-  int razechance = game.info.razechance;
+  int razechance = game.server.razechance;
 
   /* land barbarians are more likely to destroy city improvements */
   if (is_land_barbarian(city_owner(pcity)))
@@ -911,7 +911,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   old_vision = pcity->server.vision;
   new_vision = vision_new(ptaker, pcenter);
   pcity->server.vision = new_vision;
-  vision_reveal_tiles(new_vision, game.info.vision_reveal_tiles);
+  vision_reveal_tiles(new_vision, game.server.vision_reveal_tiles);
   vision_layer_iterate(v) {
     vision_change_sight(new_vision, v,
 			vision_get_sight(old_vision, v));
@@ -920,7 +920,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   ASSERT_VISION(new_vision);
 
   sz_strlcpy(old_city_name, city_name(pcity));
-  if (game.info.allowed_city_names == 1
+  if (game.server.allowed_city_names == 1
       && city_list_find_name(ptaker->cities, city_name(pcity))) {
     sz_strlcpy(pcity->name,
 	       city_name_suggestion(ptaker, pcenter));
@@ -1001,7 +1001,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
     /* Build a new palace for free if the player lost her capital and
        savepalace is on. */
-    if (game.info.savepalace) {
+    if (game.server.savepalace) {
       build_free_small_wonders(pgiver, &had_small_wonders);
     }
 
@@ -1169,7 +1169,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   /* Before arranging workers to show unknown land */
   pcity->server.vision = vision_new(pplayer, ptile);
-  vision_reveal_tiles(pcity->server.vision, game.info.vision_reveal_tiles);
+  vision_reveal_tiles(pcity->server.vision, game.server.vision_reveal_tiles);
   city_refresh_vision(pcity);
   city_list_prepend(pplayer->cities, pcity);
 
@@ -1367,7 +1367,7 @@ void remove_city(struct city *pcity)
 
   /* Build a new palace for free if the player lost her capital and
      savepalace is on. */
-  if (game.info.savepalace) {
+  if (game.server.savepalace) {
     build_free_small_wonders(powner, &had_small_wonders);
   }
 
@@ -1429,8 +1429,8 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   }
   
   if (is_capital(pcity)
-      && city_list_size(cplayer->cities) >= game.info.civilwarsize
-      && game.info.civilwarsize < GAME_MAX_CIVILWARSIZE
+      && city_list_size(cplayer->cities) >= game.server.civilwarsize
+      && game.server.civilwarsize < GAME_MAX_CIVILWARSIZE
       && normal_player_count() < MAX_NUM_PLAYERS
       && civil_war_triggered(cplayer)) {
     try_civil_war = TRUE;

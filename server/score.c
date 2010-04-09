@@ -474,7 +474,7 @@ void rank_users(void)
   struct player *spacerace_winner = NULL;
 
   /* game ending via endturn results in a draw. We don't rank. */
-  if (game.info.turn > game.info.end_turn) {
+  if (game.info.turn > game.server.end_turn) {
     return;
   }
 

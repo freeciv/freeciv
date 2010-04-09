@@ -694,8 +694,8 @@ static bool city_increase_size(struct city *pcity)
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size)
-		* (100 * 100 - game.info.aqueductloss * (100 - savings_pct))
-		/ (100 * 100));
+                * (100 * 100 - game.server.aqueductloss * (100 - savings_pct))
+                / (100 * 100));
     pcity->food_stock = MIN(pcity->food_stock, new_food);
     return FALSE;
   }
@@ -1963,16 +1963,17 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
   }
 
   /* Gold factor */
-  cost = city_owner(pcity)->economic.gold + game.info.base_incite_cost;
+  cost = city_owner(pcity)->economic.gold + game.server.base_incite_cost;
 
   unit_list_iterate(pcity->tile->units, punit) {
     cost += (unit_build_shield_cost(punit)
-	     * game.info.incite_unit_factor);
+	     * game.server.incite_unit_factor);
   } unit_list_iterate_end;
 
   /* Buildings */
   city_built_iterate(pcity, pimprove) {
-    cost += impr_build_shield_cost(pimprove) * game.info.incite_improvement_factor;
+    cost += impr_build_shield_cost(pimprove)
+            * game.server.incite_improvement_factor;
   } city_built_iterate_end;
 
   /* Stability bonuses */
@@ -2012,7 +2013,7 @@ int city_incite_cost(struct player *pplayer, struct city *pcity)
                 - pcity->feel[CITIZEN_UNHAPPY][FEELING_FINAL]
                 - pcity->feel[CITIZEN_ANGRY][FEELING_FINAL] * 3);
   cost *= size;
-  cost *= game.info.incite_total_factor;
+  cost *= game.server.incite_total_factor;
   cost = cost / (dist + 3);
   
   cost += (cost * get_city_bonus(pcity, EFT_INCITE_COST_PCT)) / 100;
@@ -2395,7 +2396,7 @@ static bool do_city_migration(struct city *pcity_from,
   ptile_to = city_tile(pcity_to);
 
   /* check food supply in the receiver city */
-  if (game.info.mgr_foodneeded) {
+  if (game.server.mgr_foodneeded) {
     bool migration = FALSE;
 
     if (pcity_to->surplus[O_FOOD] >= game.info.food_cost) {
@@ -2554,27 +2555,27 @@ static bool do_city_migration(struct city *pcity_from,
 
   The following setting are used:
 
-  'game.info.mgr_turninterval' controls the number of turns between
+  'game.server.mgr_turninterval' controls the number of turns between
   migration checks for one city (counted from the founding). If this
   setting is zero, or it is the first turn (T0), migration does no occur.
 
-  'game.info.mgr_distance' is the maximal distance for migration.
+  'game.server.mgr_distance' is the maximal distance for migration.
 
-  'game.info.mgr_nationchance' gives the chance for migration within one
+  'game.server.mgr_nationchance' gives the chance for migration within one
   nation.
 
-  'game.info.mgr_worldchance' gives the chance for migration between all
+  'game.server.mgr_worldchance' gives the chance for migration between all
   nations.
 **************************************************************************/
 void check_city_migrations(void)
 {
-  if (!game.info.migration) {
+  if (!game.server.migration) {
     return;
   }
 
-  if (game.info.mgr_turninterval <= 0
-      || (game.info.mgr_worldchance <= 0
-          && game.info.mgr_nationchance <= 0)) {
+  if (game.server.mgr_turninterval <= 0
+      || (game.server.mgr_worldchance <= 0
+          && game.server.mgr_nationchance <= 0)) {
     return;
   }
 
@@ -2613,12 +2614,12 @@ static void check_city_migrations_player(const struct player *pplayer)
       continue;
     }
 
-    /* check only each (game.info.mgr_turninterval) turn
+    /* check only each (game.server.mgr_turninterval) turn
      * (counted from the funding turn) and do not migrate
      * the same turn a city is founded */
     if (game.info.turn == pcity->turn_founded
         || ((game.info.turn - pcity->turn_founded)
-            % game.info.mgr_turninterval) != 0) {
+            % game.server.mgr_turninterval) != 0) {
       continue;
     }
 
@@ -2647,11 +2648,11 @@ static void check_city_migrations_player(const struct player *pplayer)
       }
 
       /* Calculate the migration distance. The value of
-       * game.info.mgr_distance is added to the current city radius. If the
+       * game.server.mgr_distance is added to the current city radius. If the
        * distance between both cities is lower or equal than this value,
        * migration is possible. */
       mgr_dist = (int)sqrt((double)MAX(city_map_radius_sq_get(acity),0))
-                 + game.info.mgr_distance;
+                 + game.server.mgr_distance;
 
       /* distance between the two cities */
       dist = real_map_distance(city_tile(pcity), city_tile(acity));
@@ -2669,7 +2670,7 @@ static void check_city_migrations_player(const struct player *pplayer)
                 "score: %6.3f", game.info.turn, city_name(acity),
                 player_name(city_owner(acity)), dist, mgr_dist, score_tmp);
 
-      if (game.info.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
+      if (game.server.mgr_nationchance > 0 && city_owner(acity) == pplayer) {
         /* migration between cities of the same owner */
         if (score_tmp > score_from && score_tmp > best_city_player_score) {
           /* select the best! */
@@ -2681,7 +2682,7 @@ static void check_city_migrations_player(const struct player *pplayer)
                     city_name(best_city_player), player_name(pplayer),
                     best_city_player_score, score_from);
         }
-      } else if (game.info.mgr_worldchance > 0
+      } else if (game.server.mgr_worldchance > 0
                  && city_owner(acity) != pplayer) {
         /* migration between cities of different owners */
         if (score_tmp > score_from && score_tmp > best_city_world_score) {
@@ -2700,7 +2701,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
     if (best_city_player_score > 0) {
       /* first, do the migration within one nation */
-      if (fc_rand(100) >= game.info.mgr_nationchance) {
+      if (fc_rand(100) >= game.server.mgr_nationchance) {
         /* no migration */
         /* N.B.: city_link always returns the same pointer. */
         sz_strlcpy(city_link_text, city_link(pcity));
@@ -2718,7 +2719,7 @@ static void check_city_migrations_player(const struct player *pplayer)
 
     if (best_city_world_score > 0) {
       /* second, do the migration between all nations */
-      if (fc_rand(100) >= game.info.mgr_worldchance) {
+      if (fc_rand(100) >= game.server.mgr_worldchance) {
         const char *nname;
         nname = nation_adjective_for_player(city_owner(best_city_world));
         /* no migration */

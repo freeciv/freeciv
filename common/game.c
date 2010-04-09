@@ -236,176 +236,171 @@ void game_remove_city(struct city *pcity)
   destroy_city_virtual(pcity);
 }
 
-/***************************************************************
-...
-***************************************************************/
+/****************************************************************************
+  Initialise all game settings.
+
+  The variables are listed in alphabetical order.
+****************************************************************************/
 void game_init(void)
 {
   int i;
 
-  game.info.globalwarming = 0;
-  game.info.warminglevel  = 0; /* set later */
-  game.info.nuclearwinter = 0;
-  game.info.coolinglevel  = 0; /* set later */
-  game.info.gold          = GAME_DEFAULT_GOLD;
-  game.info.tech          = GAME_DEFAULT_TECHLEVEL;
-  game.info.techlost_recv  = GAME_DEFAULT_TECHLOST_RECV;
-  game.info.techlost_donor = GAME_DEFAULT_TECHLOST_DONOR;
-  game.info.skill_level   = GAME_DEFAULT_SKILL_LEVEL;
-  game.info.timeout       = GAME_DEFAULT_TIMEOUT;
-  game.info.tcptimeout    = GAME_DEFAULT_TCPTIMEOUT;
-  game.info.netwait       = GAME_DEFAULT_NETWAIT;
-  game.info.start_year    = GAME_START_YEAR;
-  game.info.end_turn      = GAME_DEFAULT_END_TURN;
-  game.info.year          = GAME_START_YEAR;
-  game.info.year_0_hack   = FALSE;
-  game.info.turn          = 0;
-  game.info.positive_year_label[0] = '\0';
-  game.info.negative_year_label[0] = '\0';
-  game.info.min_players   = GAME_DEFAULT_MIN_PLAYERS;
-  game.info.max_players   = GAME_DEFAULT_MAX_PLAYERS;
-  game.info.pingtimeout   = GAME_DEFAULT_PINGTIMEOUT;
-  game.info.pingtime      = GAME_DEFAULT_PINGTIME;
-  game.info.diplomacy     = GAME_DEFAULT_DIPLOMACY;
-  game.info.diplcost      = GAME_DEFAULT_DIPLCOST;
-  game.info.diplchance    = GAME_DEFAULT_DIPLCHANCE;
-  game.info.freecost      = GAME_DEFAULT_FREECOST;
-  game.info.conquercost   = GAME_DEFAULT_CONQUERCOST;
-  game.info.dispersion    = GAME_DEFAULT_DISPERSION;
-  game.info.citymindist   = GAME_DEFAULT_CITYMINDIST;
-  game.info.civilwarsize  = GAME_DEFAULT_CIVILWARSIZE;
-  game.info.restrictinfra = GAME_DEFAULT_RESTRICTINFRA;
-  game.info.contactturns  = GAME_DEFAULT_CONTACTTURNS;
-  game.info.rapturedelay  = GAME_DEFAULT_RAPTUREDELAY;
-  game.info.celebratesize = GAME_DEFAULT_CELEBRATESIZE;
-  game.info.savepalace    = GAME_DEFAULT_SAVEPALACE;
-  game.info.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
-  game.info.migration        = GAME_DEFAULT_MIGRATION;
-  game.info.mgr_turninterval = GAME_DEFAULT_MGR_TURNINTERVAL;
-  game.info.mgr_foodneeded   = GAME_DEFAULT_MGR_FOODNEEDED;
-  game.info.mgr_distance     = GAME_DEFAULT_MGR_DISTANCE;
-  game.info.mgr_worldchance  = GAME_DEFAULT_MGR_WORLDCHANCE;
-  game.info.mgr_nationchance = GAME_DEFAULT_MGR_NATIONCHANCE;
-  game.info.angrycitizen  = GAME_DEFAULT_ANGRYCITIZEN;
-  game.info.foodbox       = GAME_DEFAULT_FOODBOX;
-  game.info.shieldbox = GAME_DEFAULT_SHIELDBOX;
-  game.info.sciencebox = GAME_DEFAULT_SCIENCEBOX;
-  game.info.aqueductloss  = GAME_DEFAULT_AQUEDUCTLOSS;
-  game.info.killcitizen   = GAME_DEFAULT_KILLCITIZEN;
-  game.info.techpenalty   = GAME_DEFAULT_TECHPENALTY;
-  game.info.razechance    = GAME_DEFAULT_RAZECHANCE;
-  game.info.spacerace     = GAME_DEFAULT_SPACERACE;
-  game.info.endspaceship  = GAME_DEFAULT_END_SPACESHIP;
-  game.info.turnblock     = GAME_DEFAULT_TURNBLOCK;
-  game.info.fogofwar      = GAME_DEFAULT_FOGOFWAR;
-  game.info.borders       = GAME_DEFAULT_BORDERS;
-  game.info.happyborders  = GAME_DEFAULT_HAPPYBORDERS;
-  game.info.slow_invasions= RS_DEFAULT_SLOW_INVASIONS;
-  game.info.auto_ai_toggle= GAME_DEFAULT_AUTO_AI_TOGGLE;
-  game.info.notradesize   = GAME_DEFAULT_NOTRADESIZE;
-  game.info.fulltradesize = GAME_DEFAULT_FULLTRADESIZE;
-  game.info.barbarianrate = GAME_DEFAULT_BARBARIANRATE;
-  game.info.onsetbarbarian= GAME_DEFAULT_ONSETBARBARIAN;
-  game.info.trading_tech  = GAME_DEFAULT_TRADING_TECH;
-  game.info.trading_gold  = GAME_DEFAULT_TRADING_GOLD;
-  game.info.trading_city  = GAME_DEFAULT_TRADING_CITY;
-  game.info.trademindist  = GAME_DEFAULT_TRADEMINDIST;
-  game.info.occupychance  = GAME_DEFAULT_OCCUPYCHANCE;
-  game.info.autoattack    = GAME_DEFAULT_AUTOATTACK;
-  game.info.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
-  game.info.global_warming = GAME_DEFAULT_GLOBAL_WARMING;
-  game.info.heating       = 0;
-  game.info.nuclear_winter = GAME_DEFAULT_NUCLEAR_WINTER;
-  game.info.cooling       = 0;
-  game.info.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
-  game.info.save_nturns   = GAME_DEFAULT_SAVETURNS;
-  game.info.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
-#ifdef HAVE_LIBBZ2
-  game.info.save_compress_type = FZ_BZIP2;
-#elif defined (HAVE_LIBZ)
-  game.info.save_compress_type = FZ_ZLIB;
-#else
-  game.info.save_compress_type = FZ_PLAIN;
-#endif
-  game.info.government_during_revolution_id = G_MAGIC;   /* flag */
+  /* The control packet. */
+  game.control.government_count        = 0;
+  game.control.nation_count            = 0;
+  game.control.num_base_types          = 0;
+  game.control.num_impr_types          = 0;
+  game.control.num_specialist_types    = 0;
+  game.control.num_tech_types          = 0;
+  game.control.num_unit_classes        = 0;
+  game.control.num_unit_types          = 0;
+  game.control.prefered_tileset[0]     = '\0';
+  game.control.resource_count          = 0;
+  game.control.styles_count            = 0;
+  game.control.terrain_count           = 0;
+
+  /* The info packet. */
+  game.info.aifill           = GAME_DEFAULT_AIFILL;
   game.info.airlifting_style = GAME_DEFAULT_AIRLIFTINGSTYLE;
+  game.info.angrycitizen     = GAME_DEFAULT_ANGRYCITIZEN;
+  game.info.borders          = GAME_DEFAULT_BORDERS;
+  game.info.calendar_skip_0  = FALSE;
+  game.info.celebratesize    = GAME_DEFAULT_CELEBRATESIZE;
+  game.info.citymindist      = GAME_DEFAULT_CITYMINDIST;
+  game.info.cooling          = 0;
+  game.info.coolinglevel     = 0; /* set later */
+  game.info.diplomacy        = GAME_DEFAULT_DIPLOMACY;
+  game.info.fogofwar         = GAME_DEFAULT_FOGOFWAR;
+  game.info.foodbox          = GAME_DEFAULT_FOODBOX;
+  game.info.fulltradesize    = GAME_DEFAULT_FULLTRADESIZE;
+  for (i = 0; i < A_LAST; i++) {
+    /* game.num_tech_types = 0 here */
+    game.info.global_advances[i] = FALSE;
+  }
+  for (i = 0; i < B_LAST; i++) {
+    /* game.num_impr_types = 0 here */
+    game.info.great_wonder_owners[i] = WONDER_NOT_OWNED;
+  }
+  game.info.globalwarming    = 0;
+  game.info.global_warming   = GAME_DEFAULT_GLOBAL_WARMING;
+  game.info.gold             = GAME_DEFAULT_GOLD;
+  game.info.government_during_revolution_id = G_MAGIC; /* flag */
+  game.info.happyborders     = GAME_DEFAULT_HAPPYBORDERS;
+  game.info.heating          = 0;
+  game.info.is_edit_mode     = FALSE;
+  game.info.is_new_game      = TRUE;
+  game.info.killcitizen      = GAME_DEFAULT_KILLCITIZEN;
+  game.info.negative_year_label[0] = '\0';
+  game.info.notradesize      = GAME_DEFAULT_NOTRADESIZE;
+  game.info.nuclearwinter    = 0;
+  game.info.nuclear_winter   = GAME_DEFAULT_NUCLEAR_WINTER;
+  game.info.positive_year_label[0] = '\0';
+  game.info.rapturedelay     = GAME_DEFAULT_RAPTUREDELAY;
+  game.info.restrictinfra    = GAME_DEFAULT_RESTRICTINFRA;
+  game.info.sciencebox       = GAME_DEFAULT_SCIENCEBOX;
+  game.info.shieldbox        = GAME_DEFAULT_SHIELDBOX;
+  game.info.skill_level      = GAME_DEFAULT_SKILL_LEVEL;
+  game.info.slow_invasions   = RS_DEFAULT_SLOW_INVASIONS;
+  game.info.spacerace        = GAME_DEFAULT_SPACERACE;
+  game.info.tech             = GAME_DEFAULT_TECHLEVEL;
+  game.info.timeout          = GAME_DEFAULT_TIMEOUT;
+  game.info.trademindist     = GAME_DEFAULT_TRADEMINDIST;
+  game.info.trading_city     = GAME_DEFAULT_TRADING_CITY;
+  game.info.trading_gold     = GAME_DEFAULT_TRADING_GOLD;
+  game.info.trading_tech     = GAME_DEFAULT_TRADING_TECH;
+  game.info.turn             = 0;
+  game.info.warminglevel     = 0; /* set later */
+  game.info.year_0_hack      = FALSE;
+  game.info.year             = GAME_START_YEAR;
 
-  game.info.tech_upkeep_style   = RS_DEFAULT_TECH_UPKEEP_STYLE;
-  game.info.tech_upkeep_divider = RS_DEFAULT_TECH_UPKEEP_DIVIDER;
-
-  game.info.calendar_skip_0 = FALSE;
-
-  game.info.is_new_game  = TRUE;
-  game.info.is_edit_mode = FALSE;
-
-  game.info.aifill       = GAME_DEFAULT_AIFILL;
-  sz_strlcpy(game.info.start_units, GAME_DEFAULT_START_UNITS);
-
-  game.control.num_unit_classes = 0;
-  game.control.num_unit_types = 0;
-  game.control.num_impr_types = 0;
-  game.control.num_tech_types = 0;
-  game.control.num_base_types = 0;
-  
-  game.control.government_count = 0;
-  game.control.nation_count = 0;
-  game.control.styles_count = 0;
-  game.control.terrain_count = 0;
-  game.control.resource_count = 0;
-
-  game.control.num_specialist_types = 0;
-
-  game.control.prefered_tileset[0] = '\0';
-
+  /* The scenario packet. */
+  game.scenario.description[0] = '\0';
   game.scenario.is_scenario = FALSE;
   game.scenario.name[0] = '\0';
-  game.scenario.description[0] = '\0';
   game.scenario.players = TRUE;
 
   if (is_server()) {
-    game.server.fogofwar_old = game.info.fogofwar;
-    game.server.foggedborders = GAME_DEFAULT_FOGGEDBORDERS;
-    game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
-    game.server.timeoutint = GAME_DEFAULT_TIMEOUTINT;
-    game.server.timeoutintinc = GAME_DEFAULT_TIMEOUTINTINC;
-    game.server.timeoutinc = GAME_DEFAULT_TIMEOUTINC;
-    game.server.timeoutincmult = GAME_DEFAULT_TIMEOUTINCMULT;
-    game.server.timeoutcounter = GAME_DEFAULT_TIMEOUTCOUNTER;
-    game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
-    game.server.unitwaittime = GAME_DEFAULT_UNITWAITTIME;
-
-    game.server.last_ping = 0;
-    game.server.scorelog = GAME_DEFAULT_SCORELOG;
-    game.server.scoreturn = GAME_DEFAULT_SCORETURN;
-    game.server.seed = GAME_DEFAULT_SEED;
-
-    game.server.killunhomed = GAME_DEFAULT_KILLUNHOMED;
-
-    sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
-    sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
-
-    sz_strlcpy(game.server.demography, GAME_DEFAULT_DEMOGRAPHY);
+    /* All settings only used by the server (./server/ and ./ai/ */
     sz_strlcpy(game.server.allow_take, GAME_DEFAULT_ALLOW_TAKE);
-
-    game.server.save_options.save_random = TRUE;
-    game.server.save_options.save_known = TRUE;
-    game.server.save_options.save_starts = TRUE;
-    game.server.save_options.save_private_map = TRUE;
-
+    game.server.allowed_city_names = GAME_DEFAULT_ALLOWED_CITY_NAMES;
+    game.server.aqueductloss      = GAME_DEFAULT_AQUEDUCTLOSS;
+    game.server.auto_ai_toggle    = GAME_DEFAULT_AUTO_AI_TOGGLE;
+    game.server.autoattack        = GAME_DEFAULT_AUTOATTACK;
+    game.server.barbarianrate     = GAME_DEFAULT_BARBARIANRATE;
+    game.server.civilwarsize      = GAME_DEFAULT_CIVILWARSIZE;
+    game.server.connectmsg[0]     = '\0';
+    game.server.conquercost       = GAME_DEFAULT_CONQUERCOST;
+    game.server.contactturns      = GAME_DEFAULT_CONTACTTURNS;
     for (i = 0; i < DEBUG_LAST; i++) {
       game.server.debug[i] = FALSE;
     }
-
-    game.server.meta_info.user_message_set = FALSE;
-    game.server.meta_info.user_message[0] = '\0';
-    game.server.connectmsg[0] = '\0';
-
-    game.server.settings_gamestart_valid = FALSE;
-
-    game.server.event_cache.turns = GAME_DEFAULT_EVENT_CACHE_TURNS;
+    sz_strlcpy(game.server.demography, GAME_DEFAULT_DEMOGRAPHY);
+    game.server.diplchance        = GAME_DEFAULT_DIPLCHANCE;
+    game.server.diplcost          = GAME_DEFAULT_DIPLCOST;
+    game.server.dispersion        = GAME_DEFAULT_DISPERSION;
+    game.server.endspaceship      = GAME_DEFAULT_END_SPACESHIP;
+    game.server.end_turn          = GAME_DEFAULT_END_TURN;
+    game.server.event_cache.chat  = GAME_DEFAULT_EVENT_CACHE_CHAT;
+    game.server.event_cache.info  = GAME_DEFAULT_EVENT_CACHE_INFO;
     game.server.event_cache.max_size = GAME_DEFAULT_EVENT_CACHE_MAX_SIZE;
-    game.server.event_cache.chat = GAME_DEFAULT_EVENT_CACHE_CHAT;
-    game.server.event_cache.info = GAME_DEFAULT_EVENT_CACHE_INFO;
+    game.server.event_cache.turns = GAME_DEFAULT_EVENT_CACHE_TURNS;
+    game.server.foggedborders     = GAME_DEFAULT_FOGGEDBORDERS;
+    game.server.fogofwar_old      = game.info.fogofwar;
+    game.server.freecost          = GAME_DEFAULT_FREECOST;
+    game.server.killunhomed       = GAME_DEFAULT_KILLUNHOMED;
+    game.server.last_ping         = 0;
+    game.server.max_players       = GAME_DEFAULT_MAX_PLAYERS;
+    game.server.meta_info.user_message[0] = '\0';
+    game.server.meta_info.user_message_set = FALSE;
+    game.server.mgr_distance      = GAME_DEFAULT_MGR_DISTANCE;
+    game.server.mgr_foodneeded    = GAME_DEFAULT_MGR_FOODNEEDED;
+    game.server.mgr_nationchance  = GAME_DEFAULT_MGR_NATIONCHANCE;
+    game.server.mgr_turninterval  = GAME_DEFAULT_MGR_TURNINTERVAL;
+    game.server.mgr_worldchance   = GAME_DEFAULT_MGR_WORLDCHANCE;
+    game.server.migration         = GAME_DEFAULT_MIGRATION;
+    game.server.min_players       = GAME_DEFAULT_MIN_PLAYERS;
+    game.server.natural_city_names = GAME_DEFAULT_NATURALCITYNAMES;
+    game.server.netwait           = GAME_DEFAULT_NETWAIT;
+    game.server.occupychance      = GAME_DEFAULT_OCCUPYCHANCE;
+    game.server.onsetbarbarian    = GAME_DEFAULT_ONSETBARBARIAN;
+    game.server.phase_mode_stored = GAME_DEFAULT_PHASE_MODE;
+    game.server.pingtime          = GAME_DEFAULT_PINGTIME;
+    game.server.pingtimeout       = GAME_DEFAULT_PINGTIMEOUT;
+    game.server.razechance        = GAME_DEFAULT_RAZECHANCE;
+    game.server.revolution_length = GAME_DEFAULT_REVOLUTION_LENGTH;
+    sz_strlcpy(game.server.rulesetdir, GAME_DEFAULT_RULESETDIR);
+    game.server.save_compress_level = GAME_DEFAULT_COMPRESS_LEVEL;
+#ifdef HAVE_LIBBZ2
+    game.server.save_compress_type = FZ_BZIP2;
+#elif defined (HAVE_LIBZ)
+    game.server.save_compress_type = FZ_ZLIB;
+#else
+    game.server.save_compress_type = FZ_PLAIN;
+#endif
+    sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
+    game.server.save_nturns       = GAME_DEFAULT_SAVETURNS;
+    game.server.save_options.save_known = TRUE;
+    game.server.save_options.save_private_map = TRUE;
+    game.server.save_options.save_random = TRUE;
+    game.server.save_options.save_starts = TRUE;
+    game.server.savepalace        = GAME_DEFAULT_SAVEPALACE;
+    game.server.scorelog          = GAME_DEFAULT_SCORELOG;
+    game.server.scoreturn         = GAME_DEFAULT_SCORETURN;
+    game.server.seed              = GAME_DEFAULT_SEED;
+    sz_strlcpy(game.server.start_units, GAME_DEFAULT_START_UNITS);
+    game.server.start_year        = GAME_START_YEAR;
+    game.server.tcptimeout        = GAME_DEFAULT_TCPTIMEOUT;
+    game.server.techlost_donor    = GAME_DEFAULT_TECHLOST_DONOR;
+    game.server.techlost_recv     = GAME_DEFAULT_TECHLOST_RECV;
+    game.server.techpenalty       = GAME_DEFAULT_TECHPENALTY;
+    game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE;
+    game.server.timeoutcounter    = GAME_DEFAULT_TIMEOUTCOUNTER;
+    game.server.timeoutinc        = GAME_DEFAULT_TIMEOUTINC;
+    game.server.timeoutincmult    = GAME_DEFAULT_TIMEOUTINCMULT;
+    game.server.timeoutint        = GAME_DEFAULT_TIMEOUTINT;
+    game.server.timeoutintinc     = GAME_DEFAULT_TIMEOUTINTINC;
+    game.server.turnblock         = GAME_DEFAULT_TURNBLOCK;
+    game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
   }
 
   map_init();
@@ -420,13 +415,6 @@ void game_init(void)
     player_init(pslot);
   } player_slots_iterate_end;
   set_player_count(0);
-
-  for (i = 0; i < A_LAST; i++) {        /* game.num_tech_types = 0 here */
-    game.info.global_advances[i] = FALSE;
-  }
-  for (i = 0; i < B_LAST; i++) {        /* game.num_impr_types = 0 here */
-    game.info.great_wonder_owners[i] = WONDER_NOT_OWNED;
-  }
 
   terrain_control.river_help_text[0] = '\0';
 }

@@ -286,7 +286,7 @@ bool check_for_game_over(void)
   }
 
   /* quit if we are past the turn limit */
-  if (game.info.turn > game.info.end_turn) {
+  if (game.info.turn > game.server.end_turn) {
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("Game ended in a draw as end turn exceeded"));
     ggz_report_victory();
@@ -324,7 +324,7 @@ bool check_for_game_over(void)
                   _("The %s spaceship has arrived at Alpha Centauri."),
                   nation_adjective_for_player(victor));
 
-    if (!game.info.endspaceship) {
+    if (!game.server.endspaceship) {
       /* games does not end on spaceship arrival */
       return FALSE;
     }
@@ -687,18 +687,18 @@ static void begin_turn(bool is_new_turn)
   /* NB: Phase logic must match is_player_phase(). */
   switch (game.info.phase_mode) {
   case PMT_CONCURRENT:
-    game.info.num_phases = 1;
+    game.server.num_phases = 1;
     break;
   case PMT_PLAYERS_ALTERNATE:
-    game.info.num_phases = player_count();
+    game.server.num_phases = player_count();
     break;
   case PMT_TEAMS_ALTERNATE:
-    game.info.num_phases = team_count();
+    game.server.num_phases = team_count();
     break;
   default:
     log_error("Unrecognized phase mode %d in begin_turn().",
               game.info.phase_mode);
-    game.info.num_phases = 1;
+    game.server.num_phases = 1;
     break;
   }
   send_game_info(NULL);
@@ -822,7 +822,7 @@ static void begin_phase(bool is_new_phase)
                                               TIMER_USER, TIMER_ACTIVE);
   send_game_info(NULL);
 
-  if (game.info.num_phases == 1) {
+  if (game.server.num_phases == 1) {
     /* All players in the same phase.
      * This means that AI has been handled above, and server
      * will be responsive again */
@@ -967,7 +967,7 @@ static void end_turn(void)
   summon_barbarians(); /* wild guess really, no idea where to put it, but
                         * I want to give them chance to move their units */
 
-  if (game.info.migration) {
+  if (game.server.migration) {
     log_debug("Season of migrations");
     check_city_migrations();
   }
@@ -1011,7 +1011,7 @@ static void end_turn(void)
 Unconditionally save the game, with specified filename.
 Always prints a message: either save ok, or failed.
 
-Note that if !HAVE_LIBZ, then game.info.save_compress_level should never
+Note that if !HAVE_LIBZ, then game.server.save_compress_level should never
 become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
 void save_game(char *orig_filename, const char *save_reason, bool scenario)
@@ -1061,8 +1061,8 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
   /* Append ".sav" to filename. */
   sz_strlcat(filepath, ".sav");
 
-  if (game.info.save_compress_level > 0) {
-    switch (game.info.save_compress_type) {
+  if (game.server.save_compress_level > 0) {
+    switch (game.server.save_compress_type) {
 #ifdef HAVE_LIBZ
     case FZ_ZLIB:
       /* Append ".gz" to filename. */
@@ -1079,10 +1079,10 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
       break;
     default:
       log_error(_("Unsupported compression type %d"),
-                game.info.save_compress_type);
+                game.server.save_compress_type);
       notify_conn(NULL, NULL, E_SETTING, ftc_warning,
                   _("Unsupported compression type %d"),
-                  game.info.save_compress_type);
+                  game.server.save_compress_type);
       break;
     }
   }
@@ -1109,8 +1109,8 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
     sz_strlcpy(filepath, tmpname);
   }
 
-  if (!secfile_save(file, filepath, game.info.save_compress_level,
-                    game.info.save_compress_type)) {
+  if (!secfile_save(file, filepath, game.server.save_compress_level,
+                    game.server.save_compress_type)) {
     con_write(C_FAIL, _("Failed saving game as %s"), filepath);
   } else {
     con_write(C_OK, _("Game saved as %s"), filepath);
@@ -1454,7 +1454,7 @@ void check_for_full_turn_done(void)
   }
 
   /* fixedlength is only applicable if we have a timeout set */
-  if (game.info.fixedlength && game.info.timeout != 0) {
+  if (game.server.fixedlength && game.info.timeout != 0) {
     return;
   }
 
@@ -1475,7 +1475,7 @@ void check_for_full_turn_done(void)
   }
 
   phase_players_iterate(pplayer) {
-    if (game.info.turnblock && !pplayer->ai_data.control && pplayer->is_alive
+    if (game.server.turnblock && !pplayer->ai_data.control && pplayer->is_alive
 	&& !pplayer->phase_done) {
       /* If turnblock is enabled check for human players, connected
        * or not. */
@@ -1772,7 +1772,7 @@ void handle_player_ready(struct player *requestor,
 ****************************************************************************/
 void aifill(int amount)
 {
-  int limit = MIN(amount, game.info.max_players);
+  int limit = MIN(amount, game.server.max_players);
 
   /* Limit to nations provided by ruleset */
   limit = MIN(limit, server.playable_nations);
@@ -2018,7 +2018,7 @@ static void srv_running(void)
      * movement and AI diplomacy). */
     begin_turn(is_new_turn);
 
-    if (game.info.num_phases != 1) {
+    if (game.server.num_phases != 1) {
       /* We allow everyone to begin adjusting cities and such
        * from the beginning of the turn.
        * With simultaneous movement we send begin_turn packet in
@@ -2026,9 +2026,9 @@ static void srv_running(void)
       lsend_packet_begin_turn(game.est_connections);
     }
 
-    for (; game.info.phase < game.info.num_phases; game.info.phase++) {
+    for (; game.info.phase < game.server.num_phases; game.info.phase++) {
       log_debug("Starting phase %d/%d.", game.info.phase,
-                game.info.num_phases);
+                game.server.num_phases);
       begin_phase(is_new_turn);
       if (need_send_pending_events) {
         /* When loading a savegame, we need to send loaded events, after
@@ -2058,7 +2058,7 @@ static void srv_running(void)
        * Post-increment so we don't count the first loop.
        */
       if (game.info.phase == 0) {
-	if (save_counter >= game.info.save_nturns && game.info.save_nturns > 0) {
+	if (save_counter >= game.server.save_nturns && game.server.save_nturns > 0) {
 	  save_counter = 0;
 	  save_game_auto("Autosave", NULL);
 	}
@@ -2216,7 +2216,7 @@ static void srv_scores(void)
                 _("The game is over..."));
   send_server_info_to_metaserver(META_INFO);
 
-  if (game.info.save_nturns > 0
+  if (game.server.save_nturns > 0
       && conn_list_size(game.est_connections) > 0) {
     /* Save game on game_over, but not when the gameover was caused by
      * the -q parameter. */
@@ -2251,7 +2251,7 @@ static void srv_ready(void)
 {
   (void) send_server_info_to_metaserver(META_INFO);
 
-  if (game.info.auto_ai_toggle) {
+  if (game.server.auto_ai_toggle) {
     players_iterate(pplayer) {
       if (!pplayer->is_connected && !pplayer->ai_data.control) {
 	toggle_ai_player_direct(NULL, pplayer);
@@ -2269,7 +2269,7 @@ static void srv_ready(void)
 #endif
 
   if (game.info.is_new_game) {
-    game.info.year = game.info.start_year;
+    game.info.year = game.server.start_year;
     generate_players();
     final_ruleset_adjustments();
   }
@@ -2279,7 +2279,7 @@ static void srv_ready(void)
    * numbers. */
   if (map_is_empty()
       || (map.server.generator == 0 && game.info.is_new_game)) {
-    struct unit_type *utype = crole_to_unit_type(game.info.start_units[0], NULL);
+    struct unit_type *utype = crole_to_unit_type(game.server.start_units[0], NULL);
 
     map_fractal_generate(TRUE, utype);
     game_map_init();
@@ -2292,7 +2292,7 @@ static void srv_ready(void)
   if (game.info.is_new_game) {
     /* If we're starting a new game, reset the max_players to be at
      * least the number of players currently in the game. */
-    game.info.max_players = MAX(player_count(), game.info.max_players);
+    game.server.max_players = MAX(player_count(), game.server.max_players);
 
     /* Before the player map is allocated (and initialized)! */
     game.server.fogofwar_old = game.info.fogofwar;

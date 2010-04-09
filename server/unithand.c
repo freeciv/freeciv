@@ -1101,7 +1101,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
    * multiple defenders and unstacked combat). Note that this could mean 
    * capturing (or destroying) a city. */
 
-  if (pwinner == punit && fc_rand(100) < game.info.occupychance &&
+  if (pwinner == punit && fc_rand(100) < game.server.occupychance &&
       !is_non_allied_unit_tile(def_tile, pplayer)) {
 
     /* Hack: make sure the unit has enough moves_left for the move to succeed,

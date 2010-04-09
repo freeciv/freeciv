@@ -1493,16 +1493,16 @@ if (_count > MAX_VET_LEVELS) {						\
   if(num_role_units(L_FIRSTBUILD)==0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=firstbuild units?", filename);
   }
-  if (num_role_units(L_BARBARIAN) == 0 && game.info.barbarianrate > 0) {
+  if (num_role_units(L_BARBARIAN) == 0 && game.server.barbarianrate > 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_LEADER) == 0 && game.info.barbarianrate > 0) {
+  if (num_role_units(L_BARBARIAN_LEADER) == 0 && game.server.barbarianrate > 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian leader units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_BUILD) == 0 && game.info.barbarianrate > 0) {
+  if (num_role_units(L_BARBARIAN_BUILD) == 0 && game.server.barbarianrate > 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian build units?", filename);
   }
-  if (num_role_units(L_BARBARIAN_BOAT) == 0 && game.info.barbarianrate > 0) {
+  if (num_role_units(L_BARBARIAN_BOAT) == 0 && game.server.barbarianrate > 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=barbarian ship units?", filename);
   } else if (num_role_units(L_BARBARIAN_BOAT) > 0) {
     u = get_role_unit(L_BARBARIAN_BOAT,0);
@@ -1513,7 +1513,7 @@ if (_count > MAX_VET_LEVELS) {						\
                     utype_rule_name(u));
     }
   }
-  if (num_role_units(L_BARBARIAN_SEA) == 0 && game.info.barbarianrate > 0) {
+  if (num_role_units(L_BARBARIAN_SEA) == 0 && game.server.barbarianrate > 0) {
     ruleset_error(LOG_FATAL, "\"%s\": No role=sea raider barbarian units?",
                   filename);
   }
@@ -2960,7 +2960,7 @@ static void load_ruleset_cities(struct section_file *file)
   }
 
   /* civ1 & 2 didn't reveal tiles */
-  game.info.vision_reveal_tiles =
+  game.server.vision_reveal_tiles =
     secfile_lookup_bool_default(file, FALSE, "parameters.vision_reveal_tiles");
 
   /* City Styles ... */
@@ -3171,14 +3171,14 @@ static void load_ruleset_game(void)
                                          RS_MAX_FOOD_COST,
                                          "civstyle.food_cost");
   /* TODO: move to global_unit_options */
-  game.info.base_bribe_cost
+  game.server.base_bribe_cost
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_BASE_BRIBE_COST,
                                          RS_MIN_BASE_BRIBE_COST,
                                          RS_MAX_BASE_BRIBE_COST,
                                          "civstyle.base_bribe_cost");
   /* TODO: move to global_unit_options */
-  game.info.ransom_gold
+  game.server.ransom_gold
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_RANSOM_GOLD,
                                          RS_MIN_RANSOM_GOLD,
@@ -3189,14 +3189,14 @@ static void load_ruleset_game(void)
     = secfile_lookup_bool_default(file, RS_DEFAULT_PILLAGE_SELECT,
                                   "civstyle.pillage_select");
   /* TODO: move to global_unit_options */
-  game.info.upgrade_veteran_loss
+  game.server.upgrade_veteran_loss
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_UPGRADE_VETERAN_LOSS,
                                          RS_MIN_UPGRADE_VETERAN_LOSS,
                                          RS_MAX_UPGRADE_VETERAN_LOSS,
                                          "civstyle.upgrade_veteran_loss");
   /* TODO: move to global_unit_options */
-  game.info.autoupgrade_veteran_loss
+  game.server.autoupgrade_veteran_loss
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_UPGRADE_VETERAN_LOSS,
                                          RS_MIN_UPGRADE_VETERAN_LOSS,
@@ -3261,13 +3261,13 @@ static void load_ruleset_game(void)
 
   sval = secfile_lookup_str(file, "civstyle.nuke_contamination" );
   if (fc_strcasecmp(sval, "Pollution") == 0) {
-    game.info.nuke_contamination = CONTAMINATION_POLLUTION;
+    game.server.nuke_contamination = CONTAMINATION_POLLUTION;
   } else if (fc_strcasecmp(sval, "Fallout") == 0) {
-    game.info.nuke_contamination = CONTAMINATION_FALLOUT;
+    game.server.nuke_contamination = CONTAMINATION_FALLOUT;
   } else {
     log_error("Bad value %s for nuke_contamination. Using "
               "\"Pollution\".", sval);
-    game.info.nuke_contamination = CONTAMINATION_POLLUTION;
+    game.server.nuke_contamination = CONTAMINATION_POLLUTION;
   }
 
   /* This only takes effect if citymindist is set to 0. */
@@ -3277,7 +3277,7 @@ static void load_ruleset_game(void)
                                          RS_MIN_CITIES_MIN_DIST,
                                          RS_MAX_CITIES_MIN_DIST,
                                          "civstyle.min_dist_bw_cities");
-  game.info.init_vis_radius_sq
+  game.server.init_vis_radius_sq
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_VIS_RADIUS_SQ,
                                          RS_MIN_VIS_RADIUS_SQ,
@@ -3348,25 +3348,25 @@ static void load_ruleset_game(void)
                                          "illness.illness_pollution_factor");
 
   /* section: incite_cost */
-  game.info.base_incite_cost
+  game.server.base_incite_cost
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_INCITE_BASE_COST,
                                          RS_MIN_INCITE_BASE_COST,
                                          RS_MAX_INCITE_BASE_COST,
                                          "incite_cost.base_incite_cost");
-  game.info.incite_improvement_factor
+  game.server.incite_improvement_factor
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_INCITE_IMPROVEMENT_FCT,
                                          RS_MIN_INCITE_IMPROVEMENT_FCT,
                                          RS_MAX_INCITE_IMPROVEMENT_FCT,
                                          "incite_cost.improvement_factor");
-  game.info.incite_unit_factor
+  game.server.incite_unit_factor
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_INCITE_UNIT_FCT,
                                          RS_MIN_INCITE_UNIT_FCT,
                                          RS_MAX_INCITE_UNIT_FCT,
                                          "incite_cost.unit_factor");
-  game.info.incite_total_factor
+  game.server.incite_total_factor
     = secfile_lookup_int_default_min_max(file,
                                          RS_DEFAULT_INCITE_TOTAL_FCT,
                                          RS_MIN_INCITE_TOTAL_FCT,
@@ -3418,7 +3418,7 @@ static void load_ruleset_game(void)
   game.info.calendar_skip_0
     = secfile_lookup_bool_default(file, RS_DEFAULT_CALENDAR_SKIP_0,
                                   "calendar.skip_year_0");
-  game.info.start_year
+  game.server.start_year
     = secfile_lookup_int_default(file, GAME_START_YEAR,
                                  "calendar.start_year");
   sz_strlcpy(game.info.positive_year_label,

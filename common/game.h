@@ -48,26 +48,95 @@ enum phase_mode_types {
 #define TURNS_NEEDED_TO_RANK 10
 
 struct civ_game {
-  struct packet_game_info info;
-  struct government *government_during_revolution;
-
   struct packet_ruleset_control control;
   struct packet_scenario_info scenario;
+  struct packet_game_info info;
+
+  struct government *government_during_revolution;
 
   struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
   int nplayers;
-  struct conn_list *all_connections;        /* including not yet established */
-  struct conn_list *est_connections;        /* all established client conns */
+
+  struct conn_list *all_connections;   /* including not yet established */
+  struct conn_list *est_connections;   /* all established client conns */
 
   int work_veteran_chance[MAX_VET_LEVELS];
   int veteran_chance[MAX_VET_LEVELS];
 
   union {
     struct {
+      /* Only used at the client (./client/). */
+
       /* Nothing yet. */
     } client;
 
     struct {
+      /* Only used in the server (./ai/ and ./server/). */
+
+      /* Defined in the ruleset. */
+
+      /* Game settings. */
+      bool foggedborders;
+      int killunhomed;    /* slowly killing unhomed units */
+      int unitwaittime;   /* minimal time between two movements of a unit */
+
+      /* Other game data. */
+
+      int allowed_city_names;
+      int aqueductloss;
+      bool auto_ai_toggle;
+      bool autoattack;
+      int autoupgrade_veteran_loss;
+      int barbarianrate;
+      int base_bribe_cost;
+      int base_incite_cost;
+      int civilwarsize;
+      int conquercost;
+      int contactturns;
+      int diplchance;
+      int diplcost;
+      int dispersion;
+      int end_turn;
+      bool endspaceship;
+      bool fixedlength;
+      int freecost;
+      int incite_improvement_factor;
+      int incite_total_factor;
+      int incite_unit_factor;
+      int init_vis_radius_sq;
+      int max_players;
+      int mgr_distance;
+      bool mgr_foodneeded;
+      int mgr_nationchance;
+      int mgr_turninterval;
+      int mgr_worldchance;
+      bool migration;
+      int min_players;
+      bool natural_city_names;
+      int netwait;
+      int nuke_contamination;
+      int num_phases;
+      int occupychance;
+      int onsetbarbarian;
+      int pingtime;
+      int pingtimeout;
+      int ransom_gold;
+      int razechance;
+      int revolution_length;
+      int save_compress_level;
+      int save_compress_type;
+      int save_nturns;
+      bool savepalace;
+      char start_units[MAX_LEN_STARTUNIT];
+      int start_year;
+      int techlost_donor;
+      int techlost_recv;
+      int tcptimeout;
+      int techpenalty;
+      bool turnblock;
+      int upgrade_veteran_loss;
+      bool vision_reveal_tiles;
+
       bool debug[DEBUG_LAST];
       int timeoutint;     /* increase timeout every N turns... */
       int timeoutinc;     /* ... by this amount ... */
@@ -75,12 +144,11 @@ struct civ_game {
       int timeoutintinc;  /* ... and increase timeoutint by this amount */
       int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
       int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
-      int unitwaittime;   /* minimal time between two movements of a unit */
 
       time_t last_ping;
       struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
-      /* The .info.phase_mode value indicates the phase mode currently in
-       * use.  The "stored" value is a value the player can change; it won't
+      /* The game.info.phase_mode value indicates the phase mode currently in
+       * use. The "stored" value is a value the player can change; it won't
        * take effect until the next turn. */
       int phase_mode_stored;
       char connectmsg[MAX_LEN_MSG];
@@ -94,8 +162,6 @@ struct civ_game {
 
       bool fogofwar_old; /* as the fog_of_war bit get changed by setting
                           * the server we need to remember the old setting */
-      bool foggedborders;
-      int killunhomed;   /* slowly killing unhomed units */
       char rulesetdir[MAX_LEN_NAME];
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
@@ -111,7 +177,7 @@ struct civ_game {
 
       /* values from game.info.t */
       struct {
-        /* Items given to all players at game start.  Server only. */
+        /* Items given to all players at game start. Server only. */
         int global_init_techs[MAX_NUM_TECH_LIST];
         int global_init_buildings[MAX_NUM_BUILDING_LIST];
       } rgame;
@@ -119,7 +185,7 @@ struct civ_game {
       /* used by the map editor to control game_save. */
       struct {
         bool save_random;
-  
+
         bool save_known; /* loading will just reveal the squares around
                           * cities and units */
         bool save_starts; /* start positions will be auto generated */

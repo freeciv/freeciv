@@ -57,7 +57,7 @@ void do_dipl_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = get_player_research(pplayer);
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.info.diplcost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.server.diplcost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -69,7 +69,7 @@ void do_free_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = get_player_research(pplayer);
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.info.freecost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.server.freecost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -81,7 +81,7 @@ void do_conquer_cost(struct player *pplayer, Tech_type_id tech)
   struct player_research * research = get_player_research(pplayer);  
 
   research->bulbs_researched
-    -= (base_total_bulbs_required(pplayer, tech) * game.info.conquercost) / 100;
+    -= (base_total_bulbs_required(pplayer, tech) * game.server.conquercost) / 100;
   research->researching_saved = A_UNKNOWN;
 }
 
@@ -736,7 +736,7 @@ void choose_tech(struct player *plr, Tech_type_id tech)
     /* subtract a penalty because we changed subject */
     if (research->bulbs_researched > 0) {
       research->bulbs_researched
-        -= ((research->bulbs_researched * game.info.techpenalty) / 100);
+        -= ((research->bulbs_researched * game.server.techpenalty) / 100);
       fc_assert(research->bulbs_researched >= 0);
     }
   } else if (tech == research->researching_saved) {
@@ -1053,11 +1053,11 @@ static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech)
 {
-  if (fc_rand(100) < game.info.techlost_donor) {
+  if (fc_rand(100) < game.server.techlost_donor) {
     forget_tech_transfered(plr_donor, tech);
   }
 
-  if (fc_rand(100) < game.info.techlost_recv) {
+  if (fc_rand(100) < game.server.techlost_recv) {
     forget_tech_transfered(plr_recv, tech);
     return FALSE;
   }

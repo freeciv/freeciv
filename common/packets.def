@@ -374,145 +374,94 @@ end
 # This packet used to have is_info set but that doesn't work with the
 # seconds_to_phasedone field: sending the same value a second time after a
 # while has passed means a completely reset timeout.
+#
+# The variables in the packet are listed in alphabetical order.
 PACKET_GAME_INFO=15; sc
-  GOLD gold;
-  UINT32 tech;
-  UINT32 skill_level;
-
-  UINT8 aifill;
-
-  BOOL is_new_game;   # TRUE only in pregame for "new" (not loaded) games
-  BOOL is_edit_mode;  # If set, editing is allowed
-  FLOAT seconds_to_phasedone;
-  UINT32 timeout;
-  TURN turn;
-  PHASE phase;
-  YEAR year, start_year;
-  BOOL year_0_hack;
-  UINT32 end_turn;
-  STRING positive_year_label[MAX_LEN_NAME];
-  STRING negative_year_label[MAX_LEN_NAME];
-
-  UINT8 phase_mode;
-  UINT32 num_phases;
-
-  PLAYER min_players;
-  PLAYER max_players;
-
-  UINT32 globalwarming, heating, warminglevel;
-  UINT32 nuclearwinter, cooling, coolinglevel;
-
-  UINT8 diplcost, freecost, conquercost;
-  UINT8 angrycitizen;
-  UINT8 techpenalty;
-  UINT8 techlost_recv;
-  UINT8 techlost_donor;
-  UINT32 foodbox;
-  UINT32 shieldbox;
-  UINT32 sciencebox;
-  UINT8 diplomacy;
-  UINT8 dispersion;
-  UINT16 tcptimeout;
-  UINT16 netwait;
-  UINT16 pingtimeout;
-  UINT16 pingtime;
-  UINT8 diplchance;
-  UINT8 citymindist;
-  UINT8 civilwarsize;
-  BOOL restrictinfra;
-  UINT8 contactturns;
-  UINT8 rapturedelay;
-  UINT8 celebratesize; /* size limit for cities before they can celebrate */
-  UINT8 barbarianrate;
-  UINT32 onsetbarbarian;
-  UINT8 occupychance;
-  BOOL autoattack;
-  BOOL spacerace;
-  BOOL endspaceship;
-  UINT8 aqueductloss;
-  UINT8 killcitizen;
-  UINT8 razechance;
-  BOOL savepalace;
-  BOOL natural_city_names;
-  BOOL migration;
-  UINT8 mgr_turninterval;
-  BOOL mgr_foodneeded;
-  SINT8 mgr_distance;
-  UINT8 mgr_nationchance;
-  UINT8 mgr_worldchance;
-  BOOL turnblock;
-  BOOL fixedlength;
-  BOOL auto_ai_toggle;
-  BOOL fogofwar;
-  BOOL global_warming;
-  BOOL nuclear_winter;
-  UINT8 borders;
-  BOOL happyborders;
-  BOOL slow_invasions;
   UINT8 add_to_size_limit;
-  UINT8 notradesize, fulltradesize;
-  BOOL trading_tech, trading_gold, trading_city;
-  UINT8 trademindist;
-  UINT8 allowed_city_names;
-  IMPROVEMENT palace_building;
-  IMPROVEMENT land_defend_building;
-  BOOL changable_tax;
-  UINT8 forced_science;
-  UINT8 forced_luxury;
-  UINT8 forced_gold;
-  BOOL vision_reveal_tiles;
-  UINT8 min_city_center_output[O_LAST];
-  UINT8 min_dist_bw_cities;
-  UINT8 init_city_radius_sq;
-  UINT8 init_vis_radius_sq;
-  BOOL pillage_select;
-  UINT8 nuke_contamination;
-  UINT8 gold_upkeep_style;
-  UINT8 granary_food_ini[MAX_GRANARY_INIS];
-  UINT8 granary_num_inis;
-  UINT8 granary_food_inc;
-  BOOL illness_on;
-  UINT8 illness_min_size;
-  UINT8 illness_base_factor;
-  UINT8 illness_trade_infection;
-  UINT8 illness_pollution_factor;
-  UINT8 tech_cost_style;
-  UINT8 tech_leakage;
-  UINT8 tech_upkeep_style;
-  UINT16 tech_upkeep_divider;
-  BOOL killstack;
-  BOOL tired_attack;
+  UINT8 aifill;
+  AIRLIFTING_STYLE airlifting_style;
+  UINT8 angrycitizen;
+  SINT16 base_pollution;
+  UINT8 base_tech_cost;
   UINT8 border_city_radius_sq;
   UINT8 border_size_effect;
+  UINT8 borders;
   BOOL calendar_skip_0;
-  UINT8 upgrade_veteran_loss;
-  UINT8 autoupgrade_veteran_loss;
-  UINT16 incite_improvement_factor;
-  UINT16 incite_unit_factor;
-  UINT16 incite_total_factor;
-  GOVERNMENT government_during_revolution_id;
-  UINT8 revolution_length;
-  SINT16 base_pollution;
-  UINT8 happy_cost;
+  /* size limit for cities before they can celebrate */
+  UINT8 celebratesize;
+  BOOL changable_tax;
+  UINT8 citymindist;
+  UINT32 cooling;
+  UINT32 coolinglevel;
+  UINT8 diplomacy;
+  BOOL fogofwar;
   UINT8 food_cost;
-  UINT16 base_bribe_cost;
-  UINT16 base_incite_cost;
-  UINT8 base_tech_cost;
-  UINT16 ransom_gold;
-  AIRLIFTING_STYLE airlifting_style;
-
-  UINT8 save_nturns;
-  UINT8 save_compress_level;
-  UINT8 save_compress_type;
-
-  STRING start_units[MAX_LEN_STARTUNIT];
-
-  UINT8 num_teams;
-  STRING team_names_orig[MAX_NUM_TEAMS:num_teams][MAX_LEN_NAME];
-  
+  UINT32 foodbox;
+  UINT8 forced_gold;
+  UINT8 forced_luxury;
+  UINT8 forced_science;
+  UINT8 fulltradesize;
   /* True if at least one civilization has researched a tech */
   BOOL global_advances[A_LAST]; diff
+  BOOL global_warming;
+  UINT32 globalwarming;
+  GOLD gold;
+  UINT8 gold_upkeep_style;
+  GOVERNMENT government_during_revolution_id;
+  UINT8 granary_food_inc;
+  UINT8 granary_food_ini[MAX_GRANARY_INIS];
+  UINT8 granary_num_inis;
   PLAYER great_wonder_owners[B_LAST]; diff
+  UINT8 happy_cost;
+  BOOL happyborders;
+  UINT32 heating;
+  UINT8 illness_base_factor;
+  UINT8 illness_min_size;
+  BOOL illness_on;
+  UINT8 illness_pollution_factor;
+  UINT8 illness_trade_infection;
+  UINT8 init_city_radius_sq;
+  /* If set, editing is allowed */
+  BOOL is_edit_mode;
+  /* TRUE only in pregame for "new" (not loaded) games */
+  BOOL is_new_game;
+  UINT8 killcitizen;
+  BOOL killstack;
+  UINT8 min_city_center_output[O_LAST];
+  UINT8 min_dist_bw_cities;
+  STRING negative_year_label[MAX_LEN_NAME];
+  UINT8 notradesize;
+  BOOL nuclear_winter;
+  UINT32 nuclearwinter;
+  UINT8 num_teams;
+  PHASE phase;
+  UINT8 phase_mode;
+  BOOL pillage_select;
+  STRING positive_year_label[MAX_LEN_NAME];
+  UINT8 rapturedelay;
+  BOOL restrictinfra;
+  UINT32 sciencebox;
+  FLOAT seconds_to_phasedone;
+  UINT32 shieldbox;
+  UINT32 skill_level;
+  BOOL slow_invasions;
+  BOOL spacerace;
+  STRING team_names_orig[MAX_NUM_TEAMS:num_teams][MAX_LEN_NAME];
+  UINT32 tech;
+  UINT8 tech_cost_style;
+  UINT8 tech_leakage;
+  UINT16 tech_upkeep_divider;
+  UINT8 tech_upkeep_style;
+  UINT32 timeout;
+  BOOL tired_attack;
+  UINT8 trademindist;
+  BOOL trading_city;
+  BOOL trading_gold;
+  BOOL trading_tech;
+  TURN turn;
+  UINT32 warminglevel;
+  YEAR year;
+  BOOL year_0_hack;
 end
 
 PACKET_MAP_INFO=16; sc,lsend

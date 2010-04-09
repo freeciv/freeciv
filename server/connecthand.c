@@ -220,7 +220,7 @@ void establish_new_connection(struct connection *pconn)
   }
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
-  if (S_S_RUNNING == server_state() && game.info.turnblock) {
+  if (S_S_RUNNING == server_state() && game.server.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
           && !cplayer->ai_data.control
@@ -497,7 +497,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
 
       if (NULL == pplayer) {
         /* no uncontrolled player found */
-        if (player_count() >= game.info.max_players
+        if (player_count() >= game.server.max_players
             || player_count() - server.nbarbarians >= server.playable_nations) {
           return FALSE;
         }
@@ -525,7 +525,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
       aifill(game.info.aifill);
     }
 
-    if (game.info.auto_ai_toggle && pplayer->ai_data.control) {
+    if (game.server.auto_ai_toggle && pplayer->ai_data.control) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -632,7 +632,7 @@ void connection_detach(struct connection *pconn)
         reset_all_start_commands();
       } else {
         /* Aitoggle the player if no longer connected. */
-        if (game.info.auto_ai_toggle && !pplayer->ai_data.control) {
+        if (game.server.auto_ai_toggle && !pplayer->ai_data.control) {
           toggle_ai_player_direct(NULL, pplayer);
           /* send_player_info() was formerly updated by
            * toggle_ai_player_direct(), so it must be safe to send here now?

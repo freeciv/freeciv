@@ -140,8 +140,8 @@ void kill_player(struct player *pplayer)
 
   /* Transfer back all cities not originally owned by player to their
      rightful owners, if they are still around */
-  palace = game.info.savepalace;
-  game.info.savepalace = FALSE; /* moving it around is dumb */
+  palace = game.server.savepalace;
+  game.server.savepalace = FALSE; /* moving it around is dumb */
   city_list_iterate(pplayer->cities, pcity) {
     if (pcity->original != pplayer && pcity->original->is_alive) {
       /* Transfer city to original owner, kill all its units outside of
@@ -160,7 +160,7 @@ void kill_player(struct player *pplayer)
   city_list_iterate(pplayer->cities, pcity) {
     remove_city(pcity);
   } city_list_iterate_end;
-  game.info.savepalace = palace;
+  game.server.savepalace = palace;
 
   /* Remove ownership of tiles */
   whole_map_iterate(ptile) {
@@ -317,10 +317,10 @@ void handle_player_change_government(struct player *pplayer, int government)
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
-  } else if (game.info.revolution_length == 0) {
+  } else if (game.server.revolution_length == 0) {
     turns = fc_rand(5) + 1;
   } else {
-    turns = game.info.revolution_length;
+    turns = game.server.revolution_length;
   }
 
   pplayer->government = game.government_during_revolution;
@@ -1112,8 +1112,8 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
   }
   if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) == 0
       && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) == 0) {
-    pplayer1->diplstates[player2].contact_turns_left = game.info.contactturns;
-    pplayer2->diplstates[player1].contact_turns_left = game.info.contactturns;
+    pplayer1->diplstates[player2].contact_turns_left = game.server.contactturns;
+    pplayer2->diplstates[player1].contact_turns_left = game.server.contactturns;
   }
   if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
     enum diplstate_type new_state = get_default_diplstate(pplayer1,

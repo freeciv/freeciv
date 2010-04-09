@@ -123,7 +123,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   pick_random_player_name(nation, barbarians->name);
 
   server.nbarbarians++;
-  game.info.max_players = MAX(player_count(), game.info.max_players);
+  game.server.max_players = MAX(player_count(), game.server.max_players);
 
   sz_strlcpy(barbarians->username, ANON_USER_NAME);
   barbarians->is_connected = FALSE;
@@ -248,8 +248,8 @@ bool unleash_barbarians(struct tile *ptile)
    *        but L_BARBARIAN_TECH is already available,
    *        we should unleash those.
    *        Doesn't affect any ruleset I'm aware of. */
-  if (game.info.barbarianrate == 0
-      || game.info.turn < game.info.onsetbarbarian
+  if (game.server.barbarianrate == 0
+      || game.info.turn < game.server.onsetbarbarian
       || num_role_units(L_BARBARIAN) == 0) {
     unit_list_iterate_safe((ptile)->units, punit) {
       wipe_unit(punit);
@@ -506,7 +506,7 @@ static void try_summon_barbarians(void)
   /* do not harass small civs - in practice: do not uprise at the beginning */
   if ((int)fc_rand(UPRISE_CIV_MORE) >
            (int)city_list_size(victim->cities) -
-                UPRISE_CIV_SIZE/(game.info.barbarianrate-1)
+                UPRISE_CIV_SIZE/(game.server.barbarianrate-1)
       || fc_rand(100) > get_player_bonus(victim, EFT_CIVIL_WAR_CHANCE)) {
     return;
   }
@@ -518,7 +518,7 @@ static void try_summon_barbarians(void)
     update_tile_knowledge(utile);
   }
 
-  barb_count = fc_rand(3) + uprise * game.info.barbarianrate;
+  barb_count = fc_rand(3) + uprise * game.server.barbarianrate;
   leader_type = get_role_unit(L_BARBARIAN_LEADER, 0);
 
   if (!is_ocean_tile(utile)) {
@@ -627,11 +627,11 @@ void summon_barbarians(void)
 {
   int i, n;
 
-  if (game.info.barbarianrate == 0) {
+  if (game.server.barbarianrate == 0) {
     return;
   }
 
-  if (game.info.turn < game.info.onsetbarbarian) {
+  if (game.info.turn < game.server.onsetbarbarian) {
     return;
   }
 
@@ -641,7 +641,7 @@ void summon_barbarians(void)
     n = 1;
   }
 
-  for (i = 0; i < n * (game.info.barbarianrate - 1); i++) {
+  for (i = 0; i < n * (game.server.barbarianrate - 1); i++) {
     try_summon_barbarians();
   }
 }

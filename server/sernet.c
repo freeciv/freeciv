@@ -278,11 +278,11 @@ static void close_socket_callback(struct connection *pc)
 ****************************************************************************/
 static void cut_lagging_connection(struct connection *pconn)
 {
-  if (game.info.tcptimeout != 0
+  if (game.server.tcptimeout != 0
       && pconn->last_write
       && conn_list_size(game.all_connections) > 1
       && pconn->access_level != ALLOW_HACK
-      && read_timer_seconds(pconn->last_write) > game.info.tcptimeout) {
+      && read_timer_seconds(pconn->last_write) > game.server.tcptimeout) {
     /* Cut the connections to players who lag too much.  This
      * usually happens because client animation slows the client
      * too much and it can't keep up with the server.  We don't
@@ -311,7 +311,7 @@ void flush_packets(void)
   (void) time(&start);
 
   for(;;) {
-    tv.tv_sec = (game.info.netwait - (time(NULL) - start));
+    tv.tv_sec = (game.server.netwait - (time(NULL) - start));
     tv.tv_usec=0;
 
     if (tv.tv_sec < 0)
@@ -532,15 +532,15 @@ enum server_events server_sniff_all_input(void)
     }
 
     /* Pinging around for statistics */
-    if (time(NULL) > (game.server.last_ping + game.info.pingtime)) {
+    if (time(NULL) > (game.server.last_ping + game.server.pingtime)) {
       /* send data about the previous run */
       send_ping_times_to_all();
 
       conn_list_iterate(game.all_connections, pconn) {
 	if ((timer_list_size(pconn->server.ping_timers) > 0
 	     && read_timer_seconds(timer_list_get(pconn->server.ping_timers, 0))
-	        > game.info.pingtimeout) 
-            || pconn->ping_time > game.info.pingtimeout) {
+	        > game.server.pingtimeout) 
+            || pconn->ping_time > game.server.pingtimeout) {
           /* cut mute players, except for hack-level ones */
           if (pconn->access_level == ALLOW_HACK) {
             log_error("connection (%s) [hack-level] ping timeout ignored",

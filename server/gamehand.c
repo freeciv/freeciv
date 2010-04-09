@@ -146,7 +146,7 @@ static struct tile *place_starting_unit(struct tile *starttile,
   }
 
   /* Expose visible area. */
-  map_show_circle(pplayer, ptile, game.info.init_vis_radius_sq);
+  map_show_circle(pplayer, ptile, game.server.init_vis_radius_sq);
 
   if (utype != NULL) {
     /* We cannot currently handle sea units as start units.
@@ -179,10 +179,10 @@ static struct tile *find_dispersed_position(struct player *pplayer,
   int x, y;
 
   do {
-    x = p->tile->x + fc_rand(2 * game.info.dispersion + 1) 
-        - game.info.dispersion;
-    y = p->tile->y + fc_rand(2 * game.info.dispersion + 1)
-        - game.info.dispersion;
+    x = p->tile->x + fc_rand(2 * game.server.dispersion + 1) 
+        - game.server.dispersion;
+    y = p->tile->y + fc_rand(2 * game.server.dispersion + 1)
+        - game.server.dispersion;
   } while (!((ptile = map_pos_to_tile(x, y))
              && tile_continent(p->tile) == tile_continent(ptile)
              && !is_ocean_tile(ptile)
@@ -269,7 +269,7 @@ void init_new_game(void)
 
     /* Place the first unit. */
     if (place_starting_unit(pos.tile, pplayer,
-                            game.info.start_units[0]) != NULL) {
+                            game.server.start_units[0]) != NULL) {
       placed_units[player_index(pplayer)] = 1;
     } else {
       placed_units[player_index(pplayer)] = 0;
@@ -285,12 +285,12 @@ void init_new_game(void)
       = map.server.start_positions[start_pos[player_index(pplayer)]];
 
     /* Place global start units */
-    for (i = 1; i < strlen(game.info.start_units); i++) {
+    for (i = 1; i < strlen(game.server.start_units); i++) {
       ptile = find_dispersed_position(pplayer, &p);
 
       /* Create the unit of an appropriate type. */
       if (place_starting_unit(ptile, pplayer,
-                              game.info.start_units[i]) != NULL) {
+                              game.server.start_units[i]) != NULL) {
         placed_units[player_index(pplayer)]++;
       }
     }

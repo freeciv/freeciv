@@ -640,12 +640,12 @@ static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
     if (pbase->vision_main_sq >= 0 && owner) {
     /* Base provides vision, but no borders. */
       map_refog_circle(owner, ptile, pbase->vision_main_sq, -1,
-                       game.info.vision_reveal_tiles, V_MAIN);
+                       game.server.vision_reveal_tiles, V_MAIN);
     }
     if (pbase->vision_invis_sq >= 0 && owner) {
     /* Base provides vision, but no borders. */
       map_refog_circle(owner, ptile, pbase->vision_invis_sq, -1,
-                       game.info.vision_reveal_tiles, V_INVIS);
+                       game.server.vision_reveal_tiles, V_INVIS);
     }
   }
   tile_remove_base(ptile, pbase);
@@ -1307,10 +1307,10 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
     punit->veteran = 0;
   } else if (is_free) {
     punit->veteran = MAX(punit->veteran
-                         - game.info.autoupgrade_veteran_loss, 0);
+                         - game.server.autoupgrade_veteran_loss, 0);
   } else {
     punit->veteran = MAX(punit->veteran
-                         - game.info.upgrade_veteran_loss, 0);
+                         - game.server.upgrade_veteran_loss, 0);
   }
 
   /* update unit upkeep */
@@ -1660,8 +1660,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       && (unit_list_size(punit->tile->units) == 1)
       && uclass_has_flag(unit_class(pkiller), UCF_COLLECT_RANSOM)) {
     /* Occupying units can collect ransom if leader is alone in the tile */
-    ransom = (pvictim->economic.gold >= game.info.ransom_gold) 
-             ? game.info.ransom_gold : pvictim->economic.gold;
+    ransom = (pvictim->economic.gold >= game.server.ransom_gold) 
+             ? game.server.ransom_gold : pvictim->economic.gold;
     notify_player(pvictor, unit_tile(pkiller), E_UNIT_WIN_ATT, ftc_server,
                   _("Barbarian leader captured, %d gold ransom paid."),
                   ransom);
@@ -2097,7 +2097,7 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
   }
 
   if (!is_ocean_tile(ptile) && fc_rand(2) == 1) {
-    if (game.info.nuke_contamination == CONTAMINATION_POLLUTION) {
+    if (game.server.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);
 	update_tile_knowledge(ptile);
@@ -2463,7 +2463,7 @@ static bool unit_survive_autoattack(struct unit *punit)
       enum diplstate_type ds = 
             pplayer_get_diplstate(unit_owner(punit), enemyplayer)->type;
 
-      if (game.info.autoattack
+      if (game.server.autoattack
           && penemy->moves_left > 0
           && ds == DS_WAR
           && can_unit_attack_unit_at_tile(penemy, punit, punit->tile)) {

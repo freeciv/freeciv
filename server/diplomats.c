@@ -620,7 +620,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     log_debug("steal-tech: difficulty: %d", count);
     /* Determine success or failure. */
     while (count > 0) {
-      if (fc_rand (100) >= game.info.diplchance) {
+      if (fc_rand (100) >= game.server.diplchance) {
         break;
       }
       count--;
@@ -744,7 +744,7 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   log_debug("incite: infiltrated");
 
   /* Check if the Diplomat/Spy succeeds with his/her task. */
-  if (fc_rand (100) >= game.info.diplchance) {
+  if (fc_rand (100) >= game.server.diplchance) {
     notify_player(pplayer, city_tile(pcity),
                   E_MY_DIPLOMAT_FAILED, ftc_server,
                   _("Your %s was caught in the attempt"
@@ -832,8 +832,8 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct impr_type *ptarget;
   int count, which;
   /* Twice as difficult if target is specified. */
-  int success_prob = (improvement >= B_LAST ? game.info.diplchance 
-                      : game.info.diplchance / 2); 
+  int success_prob = (improvement >= B_LAST ? game.server.diplchance 
+                      : game.server.diplchance / 2); 
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -1212,7 +1212,7 @@ static bool diplomat_infiltrate_tile(struct player *pplayer,
   This determines if a diplomat/spy survives and escapes.
   If "pcity" is NULL, assume action was in the field.
 
-  Spies have a game.info.diplchance specified chance of survival (better 
+  Spies have a game.server.diplchance specified chance of survival (better 
   if veteran):
     - Diplomats always die.
     - Escapes to home city.
@@ -1225,7 +1225,7 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   int escapechance;
   struct city *spyhome;
 
-  escapechance = game.info.diplchance + pdiplomat->veteran * 5;
+  escapechance = game.server.diplchance + pdiplomat->veteran * 5;
   
   if (pcity) {
     ptile = pcity->tile;
@@ -1371,7 +1371,7 @@ int unit_bribe_cost(struct unit *punit)
   int dist;
   int default_hp = unit_type(punit)->hp;
 
-  cost = unit_owner(punit)->economic.gold + game.info.base_bribe_cost;
+  cost = unit_owner(punit)->economic.gold + game.server.base_bribe_cost;
   capital = find_palace(unit_owner(punit));
   if (capital) {
     int tmp = map_distance(capital->tile, punit->tile);

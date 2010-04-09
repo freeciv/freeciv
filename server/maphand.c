@@ -1607,22 +1607,22 @@ static void map_claim_ownership_full(struct tile *ptile,
           /* Transfer base provided vision to new owner */
           if (powner) {
             map_refog_circle(powner, ptile, -1, pbase->vision_main_sq,
-                             game.info.vision_reveal_tiles, V_MAIN);
+                             game.server.vision_reveal_tiles, V_MAIN);
           }
           if (ploser && pbase != ignore_loss) {
             map_refog_circle(ploser, ptile, pbase->vision_main_sq, -1,
-                             game.info.vision_reveal_tiles, V_MAIN);
+                             game.server.vision_reveal_tiles, V_MAIN);
           }
         }
         if (pbase->vision_invis_sq >= 0) {
           /* Transfer base provided vision to new owner */
           if (powner) {
             map_refog_circle(powner, ptile, -1, pbase->vision_invis_sq,
-                             game.info.vision_reveal_tiles, V_INVIS);
+                             game.server.vision_reveal_tiles, V_INVIS);
           }
           if (ploser && pbase != ignore_loss) {
             map_refog_circle(ploser, ptile, pbase->vision_invis_sq, -1,
-                             game.info.vision_reveal_tiles, V_INVIS);
+                             game.server.vision_reveal_tiles, V_INVIS);
           }
         }
       }
@@ -1797,11 +1797,11 @@ void create_base(struct tile *ptile, struct base_type *pbase,
         if (old_base->vision_main_sq >= 0 && owner) {
           /* Base provides vision, but no borders. */
           map_refog_circle(owner, ptile, old_base->vision_main_sq, -1,
-                           game.info.vision_reveal_tiles, V_MAIN);
+                           game.server.vision_reveal_tiles, V_MAIN);
         }
         if (old_base->vision_invis_sq >= 0 && owner) {
           map_refog_circle(owner, ptile, old_base->vision_invis_sq, -1,
-                           game.info.vision_reveal_tiles, V_INVIS);
+                           game.server.vision_reveal_tiles, V_INVIS);
         }
       }
       tile_remove_base(ptile, old_base);
@@ -1825,11 +1825,11 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 
     if (pbase->vision_main_sq > 0 && owner) {
       map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
-                       game.info.vision_reveal_tiles, V_MAIN);
+                       game.server.vision_reveal_tiles, V_MAIN);
     }
     if (pbase->vision_invis_sq > 0 && owner) {
       map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
-                       game.info.vision_reveal_tiles, V_INVIS);
+                       game.server.vision_reveal_tiles, V_INVIS);
     }
   }
 }
