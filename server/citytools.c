@@ -1139,7 +1139,7 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   tile_set_owner(ptile, pplayer, ptile); /* temporarily */
   city_choose_build_default(pcity);
-  pcity->ai->trade_want = TRADE_WEIGHTING;
+  pcity->server.ai->trade_want = TRADE_WEIGHTING;
   pcity->id = identity_number();
   idex_register_city(pcity);
 
@@ -2092,10 +2092,10 @@ void establish_trade_route(struct city *pc1, struct city *pc2)
 
   /* recalculate illness due to trade */
   if (game.info.illness_on) {
-    pc1->illness = city_illness_calc(pc1, NULL, NULL, &(pc1->illness_trade),
-                                     NULL);
-    pc2->illness = city_illness_calc(pc2, NULL, NULL, &(pc2->illness_trade),
-                                     NULL);
+    pc1->server.illness = city_illness_calc(pc1, NULL, NULL,
+                                            &(pc1->illness_trade), NULL);
+    pc2->server.illness = city_illness_calc(pc2, NULL, NULL,
+                                            &(pc2->illness_trade), NULL);
   }
 }
 

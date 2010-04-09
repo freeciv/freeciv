@@ -1254,9 +1254,9 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
     if (!plr->ai_data.control && is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (pcity->ai->building_want[improvement_index(pimprove)] > want
+    if (pcity->server.ai->building_want[improvement_index(pimprove)] > want
         && can_city_build_improvement_now(pcity, pimprove)) {
-      want = pcity->ai->building_want[improvement_index(pimprove)];
+      want = pcity->server.ai->building_want[improvement_index(pimprove)];
       chosen = pimprove;
     }
   } improvement_iterate_end;

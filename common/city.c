@@ -2976,143 +2976,57 @@ void city_styles_free(void)
   Always tile_set_owner(ptile, pplayer) sometime after this!
 **************************************************************************/
 struct city *create_city_virtual(struct player *pplayer,
-		                 struct tile *ptile, const char *name)
+                                 struct tile *ptile, const char *name)
 {
   int i;
 
-  /* Make sure that contents of city structure are correctly
-   * initialized, if you ever allocate it by some other mean than fc_calloc() */
+  /* Make sure that contents of city structure are correctly initialized,
+   * if you ever allocate it by some other mean than fc_calloc() */
   struct city *pcity = fc_calloc(1, sizeof(*pcity));
 
-  fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned cities! */
-  pcity->original = pplayer;
-  pcity->owner = pplayer;
-
-  pcity->tile = ptile;
-
-  fc_assert_ret_val(NULL != name, NULL);
+  fc_assert_ret_val(NULL != name, NULL);        /* No unnamed cities! */
   sz_strlcpy(pcity->name, name);
 
-  /* City structure was allocated with fc_calloc(), so
-   * contents are initially zero. No need to initialize second time. */
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  /* This does not register the city, so the identity defaults to 0. */
-  pcity->id = IDENTITY_NUMBER_ZERO;
+  pcity->tile = ptile;
+  fc_assert_ret_val(NULL != pplayer, NULL);     /* No unowned cities! */
+  pcity->owner = pplayer;
+  pcity->original = pplayer;
 
-  memset(pcity->feel, 0, sizeof(pcity->feel));
-  memset(pcity->specialists, 0, sizeof(pcity->specialists));
-#endif
+  /* City structure was allocated with fc_calloc(), so contents are initially
+   * zero. There is no need to initialize it a second time. */
 
-  /* assume some non-working population: */
-  pcity->specialists[DEFAULT_SPECIALIST] =
+  /* Now set some usefull default values. */
   pcity->size = 1;
-
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-    pcity->trade_value[i] = pcity->trade[i] = 0;
-  }
-  memset(pcity->tile_output, 0, sizeof(pcity->tile_output));
-
-  memset(pcity->surplus, 0, O_LAST * sizeof(*pcity->surplus));
-  memset(pcity->waste, 0, O_LAST * sizeof(*pcity->waste));
-  memset(pcity->unhappy_penalty, 0,
-	 O_LAST * sizeof(*pcity->unhappy_penalty));
-  memset(pcity->prod, 0, O_LAST * sizeof(*pcity->prod));
-  memset(pcity->citizen_base, 0, O_LAST * sizeof(*pcity->citizen_base));
-  memset(pcity->usage, 0, O_LAST * sizeof(*pcity->usage));
-#endif
+  pcity->specialists[DEFAULT_SPECIALIST] = 1;
 
   output_type_iterate(o) {
     pcity->bonus[o] = 100;
   } output_type_iterate_end;
 
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  pcity->martial_law = 0;
-  pcity->unit_happy_upkeep = 0;
-
-  pcity->food_stock = 0;
-  pcity->shield_stock = 0;
-  pcity->pollution = 0;
-
-  pcity->airlift = 0;
-  pcity->debug = FALSE;
-#endif
-  pcity->did_buy = TRUE; /* You cannot buy production same turn city is
-                          * founded. */
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  pcity->did_sell = FALSE;
-  pcity->is_updated = FALSE;
-  pcity->was_happy = FALSE;
-
-  pcity->anarchy = 0;
-  pcity->rapture = 0;
-  pcity->steal = 0;
-#endif
-
-  pcity->illness = 0;
-  pcity->illness_trade = 0;
   pcity->turn_plague = -1; /* -1 = never */
-
+  pcity->did_buy = TRUE;   /* You cannot buy production same turn city is
+                            * founded. */
   pcity->city_radius_sq = game.info.init_city_radius_sq;
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
-
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  pcity->before_change_shields = 0;
-  pcity->caravan_shields = 0;
-  pcity->disbanded_shields = 0;
-  pcity->last_turns_shield_surplus = 0;
-#endif
 
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
     pcity->built[i].turn = I_NEVER;
   }
 
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  /* just setting the entry to zero: */
-  pcity->production.kind = VUT_NONE;
-  /* all the union pointers should be in the same place: */ 
-  pcity->production.value.building = NULL;
-  pcity->changed_from = pcity->production;
-#endif
-
   /* Set up the worklist */
   worklist_init(&pcity->worklist);
 
-#ifdef ZERO_VARIABLES_FOR_SEARCHING
-  BV_CLR_ALL(pcity->city_options);
-
-  /* city_map; placeholder for searching */
-
-  pcity->client.occupied = FALSE;
-  pcity->client.walls = FALSE;
-  pcity->client.happy = FALSE;
-  pcity->client.unhappy = FALSE;
-  pcity->client.colored = FALSE;
-  pcity->client.color_index = FALSE;
-  pcity->client.need_updates = CU_NO_UPDATE;
-
-  pcity->server.migration_score = 0.0; /* Updated by check_city_migrations. */
-  pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
-
-  pcity->server.workers_frozen = 0;
-  pcity->server.needs_arrange = FALSE;
-  pcity->server.needs_refresh = FALSE;
-  pcity->server.synced = FALSE;
-  pcity->server.vision = NULL; /* No vision. */
-
-#endif
-
-  if (pplayer->ai->funcs.init_city) {
-    pplayer->ai->funcs.init_city(pcity);
-  }
-
-  /* pcity->ai.act_value; placeholder for searching */
-  /* info_units_present; placeholder for searching */
-  /* info_units_supported; placeholder for searching */
-
   pcity->units_supported = unit_list_new();
+
+  if (is_server()) {
+    pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
+
+    if (pplayer->ai->funcs.init_city) {
+      pplayer->ai->funcs.init_city(pcity);
+    }
+  }
 
   return pcity;
 }

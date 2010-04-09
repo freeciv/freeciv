@@ -1693,7 +1693,7 @@ void city_dialog_update_supported_units(struct city_dialog *pdialog,
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
-    plist = pdialog->pcity->info_units_supported;
+    plist = pdialog->pcity->client.info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
   }
@@ -1756,7 +1756,7 @@ void city_dialog_update_present_units(struct city_dialog *pdialog, int unitid)
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
-    plist = pdialog->pcity->info_units_present;
+    plist = pdialog->pcity->client.info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
   }
@@ -2322,14 +2322,14 @@ void close_city_dialog(struct city_dialog *pdialog)
   free(pdialog->support_unit_pixcomms);
   free(pdialog->present_unit_pixcomms);
 
-  unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
+  unit_list_iterate(pdialog->pcity->client.info_units_supported, psunit) {
     free(psunit);
   } unit_list_iterate_end;
-  unit_list_clear(pdialog->pcity->info_units_supported);
-  unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
+  unit_list_clear(pdialog->pcity->client.info_units_supported);
+  unit_list_iterate(pdialog->pcity->client.info_units_present, psunit) {
     free(psunit);
   } unit_list_iterate_end;
-  unit_list_clear(pdialog->pcity->info_units_present);
+  unit_list_clear(pdialog->pcity->client.info_units_present);
 
 /*
   if(pdialog->is_modal)

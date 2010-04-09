@@ -131,8 +131,8 @@ void real_city_log(const char *file, const char *function, int line,
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
-              pcity->ai->danger, pcity->ai->urgency,
-              pcity->ai->grave_danger);
+              pcity->server.ai->danger, pcity->server.ai->urgency,
+              pcity->server.ai->grave_danger);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

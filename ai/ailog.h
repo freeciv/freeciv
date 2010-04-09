@@ -114,7 +114,7 @@ void real_city_log(const char *file, const char *function, int line,
                    fc__attribute((__format__ (__printf__, 7, 8)));
 #define CITY_LOG(loglevel, pcity, msg, ...)                                 \
 {                                                                           \
-  bool notify = pcity->debug;                                               \
+  bool notify = pcity->server.debug;                                        \
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_CITY));                  \
   if (log_do_output_for_level(level)) {                                     \
@@ -132,7 +132,7 @@ void real_unit_log(const char *file, const char *function, int line,
   bool notify = punit->debug;                                               \
   enum log_level level;                                                     \
   if (!notify && tile_city(unit_tile(punit))                                \
-      && tile_city(unit_tile(punit))->debug) {                              \
+      && tile_city(unit_tile(punit))->server.debug) {                       \
     level = LOG_AI_TEST;                                                    \
     notify = TRUE;                                                          \
   } else {                                                                  \

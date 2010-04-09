@@ -820,7 +820,7 @@ static bool aiferry_findcargo(struct unit *pferry)
 
 /****************************************************************************
   A helper for ai_manage_ferryboat.  Finds a city that wants a ferry.  It
-  might signal for the ferry using pcity->ai.choice.need_boat field or
+  might signal for the ferry using pcity->server.ai.choice.need_boat field or
   it might simply be building a ferry of it's own.
 
   The city found will be set as the goto destination.
@@ -859,7 +859,7 @@ static bool aiferry_find_interested_city(struct unit *pferry)
     pcity = tile_city(pos.tile);
     
     if (pcity && city_owner(pcity) == unit_owner(pferry)
-        && (pcity->ai->choice.need_boat 
+        && (pcity->server.ai->choice.need_boat 
             || (VUT_UTYPE == pcity->production.kind
 		&& utype_has_role(pcity->production.value.utype,
 				  L_FERRYBOAT)))) {

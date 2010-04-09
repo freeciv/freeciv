@@ -217,10 +217,10 @@ static void ai_manage_taxes(struct player *pplayer)
           && pcity->surplus[O_FOOD] > 0
           && pcity->size >= game.info.celebratesize
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
-        pcity->ai->celebrate = TRUE;
+        pcity->server.ai->celebrate = TRUE;
         can_celebrate++;
       } else {
-        pcity->ai->celebrate = FALSE;
+        pcity->server.ai->celebrate = FALSE;
       }
     } city_list_iterate_end;
     /* If more than half our cities can celebrate, go for it! */
@@ -228,7 +228,7 @@ static void ai_manage_taxes(struct player *pplayer)
     if (celebrate) {
       log_base(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", player_name(pplayer));
       city_list_iterate(pplayer->cities, pcity) {
-        if (pcity->ai->celebrate == TRUE) {
+        if (pcity->server.ai->celebrate == TRUE) {
           log_base(LOGLEVEL_TAX, "setting %s to celebrate",
                    city_name(pcity));
           cm_query_result(pcity, &cmp, &cmr);

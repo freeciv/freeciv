@@ -462,7 +462,6 @@ void handle_city_info(struct packet_city_info *packet)
       ptile = pcenter;
       pcity->owner = powner;
       pcity->original = powner;
-
     } else if (city_owner(pcity) != powner) {
       /* Remember what were the worked tiles.  The server won't
        * send to us again. */
@@ -715,8 +714,8 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
   if (is_new) {
     pcity->units_supported = unit_list_new();
-    pcity->info_units_supported = unit_list_new();
-    pcity->info_units_present = unit_list_new();
+    pcity->client.info_units_supported = unit_list_new();
+    pcity->client.info_units_present = unit_list_new();
 
     tile_set_worked(pcenter, pcity); /* is_free_worked() */
     city_list_prepend(powner->cities, pcity);
@@ -1504,23 +1503,23 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     /* New serial number -- clear (free) everything */
     if (last_serial_num != packet->serial_num) {
       last_serial_num = packet->serial_num;
-      unit_list_iterate(pcity->info_units_supported, psunit) {
+      unit_list_iterate(pcity->client.info_units_supported, psunit) {
 	destroy_unit_virtual(psunit);
       } unit_list_iterate_end;
-      unit_list_clear(pcity->info_units_supported);
-      unit_list_iterate(pcity->info_units_present, ppunit) {
+      unit_list_clear(pcity->client.info_units_supported);
+      unit_list_iterate(pcity->client.info_units_present, ppunit) {
 	destroy_unit_virtual(ppunit);
       } unit_list_iterate_end;
-      unit_list_clear(pcity->info_units_present);
+      unit_list_clear(pcity->client.info_units_present);
     }
 
     /* Okay, append a unit struct to the proper list. */
     punit = unpackage_short_unit(packet);
     if (packet->packet_use == UNIT_INFO_CITY_SUPPORTED) {
-      unit_list_prepend(pcity->info_units_supported, punit);
+      unit_list_prepend(pcity->client.info_units_supported, punit);
     } else {
       fc_assert(packet->packet_use == UNIT_INFO_CITY_PRESENT);
-      unit_list_prepend(pcity->info_units_present, punit);
+      unit_list_prepend(pcity->client.info_units_present, punit);
     }
 
     /* Done with special case. */
@@ -2352,7 +2351,7 @@ void handle_tile_info(struct packet_tile_info *packet)
         /* old unseen city, or before city_info */
         if (NULL != powner && city_owner(pwork) != powner) {
           /* update placeholder with current owner */
-          pwork->owner =
+          pwork->owner = powner;
           pwork->original = powner;
         }
       }

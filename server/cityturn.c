@@ -129,7 +129,7 @@ void city_refresh(struct city *pcity)
 
    /* AI would calculate this 1000 times otherwise; better to do it
       once -- Syela */
-   pcity->ai->trade_want
+   pcity->server.ai->trade_want
      = TRADE_WEIGHTING - city_waste(pcity, O_TRADE, TRADE_WEIGHTING);
 }
 
@@ -2104,8 +2104,8 @@ static void update_city_activity(struct city *pcity)
       /* recalculate city illness; illness due to trade has to be saved
        * within the city struct as the client has not all data to
        * calculate it */
-      pcity->illness = city_illness_calc(pcity, NULL, NULL,
-                                         &(pcity->illness_trade), NULL);
+      pcity->server.illness
+        = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
 
       if (city_illness_check(pcity)) {
         notify_player(pplayer, city_tile(pcity), E_CITY_PLAGUE, ftc_server,
@@ -2115,8 +2115,9 @@ static void update_city_activity(struct city *pcity)
         pcity->turn_plague = game.info.turn;
 
         /* recalculate illness */
-        pcity->illness = city_illness_calc(pcity, NULL, NULL,
-                                           &(pcity->illness_trade), NULL);
+        pcity->server.illness
+          = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade),
+                              NULL);
       }
     }
 
@@ -2127,7 +2128,6 @@ static void update_city_activity(struct city *pcity)
       return;
     }
 
-    pcity->is_updated = TRUE;
     pcity->did_sell = FALSE;
     pcity->did_buy = FALSE;
     pcity->airlift = get_city_bonus(pcity, EFT_AIRLIFT);
@@ -2190,7 +2190,7 @@ static void update_city_activity(struct city *pcity)
  ****************************************************************************/
 static bool city_illness_check(const struct city * pcity)
 {
-  if (fc_rand(1000) < pcity->illness) {
+  if (fc_rand(1000) < pcity->server.illness) {
     return TRUE;
   }
 

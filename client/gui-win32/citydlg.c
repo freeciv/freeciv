@@ -315,7 +315,7 @@ void city_dialog_update_present_units(HDC hdc,struct city_dialog *pdialog)
   store.tmp = NULL;
  
   if (city_owner(pdialog->pcity) != client.conn.playing) {
-    plist = pdialog->pcity->info_units_present;
+    plist = pdialog->pcity->client.info_units_present;
   } else {
     plist = pdialog->pcity->tile->units;
   }
@@ -365,7 +365,7 @@ void city_dialog_update_supported_units(HDC hdc, struct city_dialog *pdialog)
   free_unhappy = get_city_bonus(pdialog->pcity, EFT_MAKE_CONTENT_MIL);
 
   if (city_owner(pdialog->pcity) != client.conn.playing) {
-    plist = pdialog->pcity->info_units_supported;
+    plist = pdialog->pcity->client.info_units_supported;
   } else {
     plist = pdialog->pcity->units_supported;
   }

@@ -2405,12 +2405,12 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("No city at this coordinate."));
       goto cleanup;
     }
-    if (pcity->debug) {
-      pcity->debug = FALSE;
+    if (pcity->server.debug) {
+      pcity->server.debug = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s no longer debugged"),
                 city_name(pcity));
     } else {
-      pcity->debug = TRUE;
+      pcity->server.debug = TRUE;
       CITY_LOG(LOG_NORMAL, pcity, "debugged");
     }
   } else if (ntokens > 0 && strcmp(arg[0], "units") == 0) {

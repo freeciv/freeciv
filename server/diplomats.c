@@ -606,7 +606,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   /* Check if the Diplomat/Spy succeeds with his/her task. */
   /* (Twice as difficult if target is specified.) */
   /* (If already stolen from, impossible for Diplomats and harder for Spies.) */
-  if (pcity->steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
+  if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
     /* Already stolen from: Diplomat always fails! */
     count = 1;
     log_debug("steal-tech: difficulty: impossible");
@@ -616,7 +616,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
     if (technology != A_UNSET) {
       count++;
     }
-    count += pcity->steal;
+    count += pcity->server.steal;
     log_debug("steal-tech: difficulty: %d", count);
     /* Determine success or failure. */
     while (count > 0) {
@@ -628,7 +628,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
   
   if (count > 0) {
-    if (pcity->steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
+    if (pcity->server.steal > 0 && !unit_has_type_flag(pdiplomat, F_SPY)) {
       notify_player(pplayer, city_tile(pcity),
                     E_MY_DIPLOMAT_FAILED, ftc_server,
                     _("%s was expecting your attempt to steal technology "
@@ -671,7 +671,7 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   send_player_info(pplayer, NULL);
  
   /* Record the theft. */
-  (pcity->steal)++;
+  (pcity->server.steal)++;
 
   /* this may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_STEAL, pplayer, NULL, pcity);

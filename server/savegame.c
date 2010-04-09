@@ -2858,8 +2858,8 @@ static void player_load_cities(struct player *plr, int plrno,
                                  plrno,i);
     if (game.info.illness_on) {
       /* recalculate city illness */
-      pcity->illness = city_illness_calc(pcity, NULL, NULL,
-                                         &(pcity->illness_trade), NULL);
+      pcity->server.illness
+        = city_illness_calc(pcity, NULL, NULL, &(pcity->illness_trade), NULL);
     }
 
     if (!secfile_lookup_int(file, &pcity->anarchy,
@@ -2869,7 +2869,7 @@ static void player_load_cities(struct player *plr, int plrno,
     pcity->rapture =
       secfile_lookup_int_default(file, 0, "player%d.c%d.rapture",
                                  plrno,i);
-    pcity->steal =
+    pcity->server.steal =
       secfile_lookup_int_default(file, 0, "player%d.c%d.steal",
                                  plrno,i);
 
@@ -3177,28 +3177,28 @@ static void player_load_cities(struct player *plr, int plrno,
     }
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    pcity->ai->urgency =
+    pcity->server.ai->urgency =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.urgency",
                                  plrno, i);
 
     /* avoid fc_rand recalculations on subsequent reload. */
-    pcity->ai->building_turn =
+    pcity->server.ai->building_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.building_turn",
                                  plrno, i);
-    pcity->ai->building_wait =
+    pcity->server.ai->building_wait =
       secfile_lookup_int_default(file, BUILDING_WAIT_MINIMUM,
                                  "player%d.c%d.ai.building_wait",
                                  plrno, i);
 
     /* avoid fc_rand and expensive recalculations on subsequent reload. */
-    pcity->ai->founder_turn =
+    pcity->server.ai->founder_turn =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_turn",
                                  plrno, i);
-    pcity->ai->founder_want =
+    pcity->server.ai->founder_want =
       secfile_lookup_int_default(file, 0, "player%d.c%d.ai.founder_want",
                                  plrno, i);
-    pcity->ai->founder_boat =
-      secfile_lookup_bool_default(file, (pcity->ai->founder_want < 0),
+    pcity->server.ai->founder_boat =
+      secfile_lookup_bool_default(file, (pcity->server.ai->founder_want < 0),
                                   "player%d.c%d.ai.founder_boat",
                                   plrno, i);
 
@@ -3942,7 +3942,7 @@ static void player_save_cities(struct player *plr, int plrno,
 
     secfile_insert_int(file, pcity->anarchy, "player%d.c%d.anarchy", plrno,i);
     secfile_insert_int(file, pcity->rapture, "player%d.c%d.rapture", plrno,i);
-    secfile_insert_int(file, pcity->steal, "player%d.c%d.steal", plrno, i);
+    secfile_insert_int(file, pcity->server.steal, "player%d.c%d.steal", plrno, i);
 
     secfile_insert_int(file, pcity->turn_founded,
 		       "player%d.c%d.turn_founded", plrno, i);
@@ -4010,21 +4010,21 @@ static void player_save_cities(struct player *plr, int plrno,
     }
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    secfile_insert_int(file, pcity->ai->urgency,
+    secfile_insert_int(file, pcity->server.ai->urgency,
 		       "player%d.c%d.ai.urgency", plrno, i);
 
     /* avoid fc_rand recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai->building_turn,
+    secfile_insert_int(file, pcity->server.ai->building_turn,
 		       "player%d.c%d.ai.building_turn", plrno, i);
-    secfile_insert_int(file, pcity->ai->building_wait,
+    secfile_insert_int(file, pcity->server.ai->building_wait,
 		       "player%d.c%d.ai.building_wait", plrno, i);
 
     /* avoid fc_rand and expensive recalculations on subsequent reload. */
-    secfile_insert_int(file, pcity->ai->founder_turn,
+    secfile_insert_int(file, pcity->server.ai->founder_turn,
 		       "player%d.c%d.ai.founder_turn", plrno, i);
-    secfile_insert_int(file, pcity->ai->founder_want,
+    secfile_insert_int(file, pcity->server.ai->founder_want,
 		       "player%d.c%d.ai.founder_want", plrno, i);
-    secfile_insert_bool(file, pcity->ai->founder_boat,
+    secfile_insert_bool(file, pcity->server.ai->founder_boat,
 		       "player%d.c%d.ai.founder_boat", plrno, i);
   } city_list_iterate_end;
 }

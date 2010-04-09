@@ -1775,7 +1775,7 @@ static void redraw_supported_units_city_dialog(struct widget *pCityWindow,
   int size;
 
   if (city_owner(pCityDlg->pCity) != client.conn.playing) {
-    pList = (pCityDlg->pCity->info_units_supported);
+    pList = (pCityDlg->pCity->client.info_units_supported);
   } else {
     pList = (pCityDlg->pCity->units_supported);
   }
@@ -1833,7 +1833,7 @@ static void redraw_army_city_dialog(struct widget *pCityWindow,
   int size;
 
   if (city_owner(pCityDlg->pCity) != client.conn.playing) {
-    pList = pCityDlg->pCity->info_units_present;
+    pList = pCityDlg->pCity->client.info_units_present;
   } else {
     pList = pCityDlg->pCity->tile->units;
   }

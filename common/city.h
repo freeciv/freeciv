@@ -347,7 +347,6 @@ struct city {
 
   /* the people */
   int size;
-
   int feel[CITIZEN_LAST][FEELING_LAST];
 
   /* Specialists */
@@ -377,7 +376,6 @@ struct city {
   int food_stock;
   int shield_stock;
   int pollution;                /* not saved */
-  int illness;                  /* not saved */
   int illness_trade;            /* not saved; illness due to trade; it is
                                    calculated within the server and send to
                                    the clients as the clients do not have all
@@ -387,15 +385,12 @@ struct city {
 
   /* turn states */
   int airlift;
-  bool debug;                   /* not saved */
   bool did_buy;
   bool did_sell;
-  bool is_updated;              /* not saved */
   bool was_happy;
 
   int anarchy;                  /* anarchy rounds count */ 
   int rapture;                  /* rapture rounds count */ 
-  int steal;                    /* diplomats steal once; for spies, gets harder */
   int turn_founded;
   int turn_last_built;
 
@@ -415,51 +410,59 @@ struct city {
 
   bv_city_options city_options;
 
-  struct {
-    /* Only used at the client (the server is omniscient). */
-    bool occupied;
-    bool walls;
-    bool happy;
-    bool unhappy;
-
-    /* The color is an index into the city_colors array in mapview_common */
-    bool colored;
-    int color_index;
-
-    /* Updates needed for the city. */
-    enum city_updates need_updates;
-  } client;
-
-  struct {
-    float migration_score;   /* updated by city_migration_score. */
-    int mgr_score_calc_turn; /* turn the migration score was calculated */
-
-    /* If > 0, workers will not be rearranged until they are unfrozen. */
-    int workers_frozen;
-
-    /* If set, workers need to be arranged when the city is unfrozen.
-     * Set inside auto_arrange_workers() and city_freeze_workers_queue().
-     */
-    bool needs_arrange;
-
-    /* If set, city needs to be refreshed at a later time.
-     * Set inside city_refresh() and city_refresh_queue_add().
-     */
-    bool needs_refresh;
-
-    /* the city map is synced with the client. */
-    bool synced;
-
-    struct vision *vision;
-  } server;
-
-  struct ai_city *ai;
-
-  /* info for dipl/spy investigation -- used only in client */
-  struct unit_list *info_units_supported;
-  struct unit_list *info_units_present;
-
   struct unit_list *units_supported;
+
+  union {
+    struct {
+      /* Only used in the server (./ai/ and ./server/). */
+
+      float migration_score;   /* updated by city_migration_score. */
+      int mgr_score_calc_turn; /* turn the migration score was calculated */
+
+      int illness;
+
+      int steal; /* diplomats steal once; for spies, gets harder */
+
+      /* If > 0, workers will not be rearranged until they are unfrozen. */
+      int workers_frozen;
+
+      /* If set, workers need to be arranged when the city is unfrozen.
+       * Set inside auto_arrange_workers() and city_freeze_workers_queue(). */
+      bool needs_arrange;
+
+      /* If set, city needs to be refreshed at a later time.
+       * Set inside city_refresh() and city_refresh_queue_add(). */
+      bool needs_refresh;
+
+      /* the city map is synced with the client. */
+      bool synced;
+
+      bool debug;                   /* not saved */
+
+      struct ai_city *ai;
+
+      struct vision *vision;
+    } server;
+
+    struct {
+      /* Only used at the client (the server is omniscient; ./client/). */
+      bool occupied;
+      bool walls;
+      bool happy;
+      bool unhappy;
+
+      /* The color is an index into the city_colors array in mapview_common */
+      bool colored;
+      int color_index;
+
+      /* info for dipl/spy investigation */
+      struct unit_list *info_units_supported;
+      struct unit_list *info_units_present;
+
+      /* Updates needed for the city. */
+      enum city_updates need_updates;
+    } client;
+  };
 };
 
 struct citystyle {

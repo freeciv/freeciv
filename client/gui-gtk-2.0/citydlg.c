@@ -1746,7 +1746,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
-    units = pdialog->pcity->info_units_supported;
+    units = pdialog->pcity->client.info_units_supported;
   } else {
     units = pdialog->pcity->units_supported;
   }
@@ -1863,7 +1863,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
 
   if (NULL != client.conn.playing
       && city_owner(pdialog->pcity) != client.conn.playing) {
-    units = pdialog->pcity->info_units_present;
+    units = pdialog->pcity->client.info_units_present;
   } else {
     units = pdialog->pcity->tile->units;
   }
@@ -2875,19 +2875,19 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
     g_object_unref(pdialog->map_pixbuf_unscaled);
   }
 
-  unit_list_iterate(pdialog->pcity->info_units_supported, psunit) {
+  unit_list_iterate(pdialog->pcity->client.info_units_supported, psunit) {
     free(psunit);
   }
   unit_list_iterate_end;
 
-  unit_list_clear(pdialog->pcity->info_units_supported);
+  unit_list_clear(pdialog->pcity->client.info_units_supported);
 
-  unit_list_iterate(pdialog->pcity->info_units_present, psunit) {
+  unit_list_iterate(pdialog->pcity->client.info_units_present, psunit) {
     free(psunit);
   }
   unit_list_iterate_end;
 
-  unit_list_clear(pdialog->pcity->info_units_present);
+  unit_list_clear(pdialog->pcity->client.info_units_present);
 
   free(pdialog);
 

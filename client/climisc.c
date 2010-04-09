@@ -860,7 +860,7 @@ int num_supported_units_in_city(struct city *pcity)
 
   if (can_player_see_city_internals(client.conn.playing, pcity)) {
     /* Other players don't see inside the city (but observers do). */
-    plist = pcity->info_units_supported;
+    plist = pcity->client.info_units_supported;
   } else {
     plist = pcity->units_supported;
   }
@@ -877,7 +877,7 @@ int num_present_units_in_city(struct city *pcity)
 
   if (can_player_see_units_in_city(client.conn.playing, pcity)) {
     /* Other players don't see inside the city (but observers do). */
-    plist = pcity->info_units_present;
+    plist = pcity->client.info_units_present;
   } else {
     plist = pcity->tile->units;
   }
