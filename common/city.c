@@ -3104,11 +3104,9 @@ struct city *create_city_virtual(struct player *pplayer,
 
 #endif
 
-  ai_type_iterate(ai) {
-    if (ai->funcs.init_city) {
-      ai->funcs.init_city(pcity);
-    }
-  } ai_type_iterate_end;
+  if (pplayer->ai->funcs.init_city) {
+    pplayer->ai->funcs.init_city(pcity);
+  }
 
   /* pcity->ai.act_value; placeholder for searching */
   /* info_units_present; placeholder for searching */
@@ -3125,11 +3123,9 @@ struct city *create_city_virtual(struct player *pplayer,
 **************************************************************************/
 void destroy_city_virtual(struct city *pcity)
 {
-  ai_type_iterate(ai) {
-    if (ai->funcs.close_city) {
-      ai->funcs.close_city(pcity);
-    }
-  } ai_type_iterate_end;
+  if (pcity->owner->ai->funcs.close_city) {
+    pcity->owner->ai->funcs.close_city(pcity);
+  }
 
   unit_list_destroy(pcity->units_supported);
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */

@@ -866,6 +866,15 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
   fc_assert_ret(pgiver != ptaker);
 
+  /* Remove AI control of the old owner. */
+  if (pcity->owner->ai->funcs.close_city) {
+    pcity->owner->ai->funcs.close_city(pcity);
+  }
+  /* Activate AI control of the new owner. */
+  if (ptaker->ai->funcs.init_city) {
+    ptaker->ai->funcs.init_city(pcity);
+  }
+
   city_freeze_workers(pcity);
 
   unit_list_iterate(pcity->units_supported, punit) {
