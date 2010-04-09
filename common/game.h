@@ -165,6 +165,9 @@ const char *gui_name(enum gui_type);
 
 const char *textyear(int year);
 
+int generate_save_name(const char *format, char *buf, int buflen,
+                       const char *reason);
+
 extern struct civ_game game;
 
 bool setting_class_is_changeable(enum sset_class class);
