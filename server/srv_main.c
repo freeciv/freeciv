@@ -1048,8 +1048,8 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
   /* If orig_filename is NULL or empty, use a generated default name. */
   if (filename[0] == '\0'){
     /* manual save */
-    generate_save_name(filename, sizeof(filepath) + filepath - filename,
-                       "manual");
+    generate_save_name(game.server.save_name, filename,
+                       sizeof(filepath) + filepath - filename, "manual");
   }
 
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
@@ -1135,7 +1135,8 @@ void save_game_auto(const char *save_reason, const char *reason_filename)
 
   fc_assert(256 > strlen(game.server.save_name));
 
-  generate_save_name(filename, sizeof(filename), reason_filename);
+  generate_save_name(game.server.save_name, filename, sizeof(filename),
+                     reason_filename);
   save_game(filename, save_reason, FALSE);
   save_ppm();
 }

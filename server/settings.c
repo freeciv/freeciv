@@ -1482,12 +1482,12 @@ static struct setting settings[] = {
                 "  %T = <game.info.turn>\n"
                 "  %Y = <game.info.year>\n"
                 "\n"
-                "Example: 'civgame-T%04T-Y%+04Y%S-%R' => "
-                "'civgame-T0302-Y+1716AD-manual'\n"
+                "Example: 'civgame-T%04T-Y%+05Y-%R' => "
+                "'civgame-T0100-Y00001-manual'\n"
                 "\n"
                 "Be carefull to use at least one of %T and %Y, else newer "
                 "savegames will overwrite old ones. If non of the formats "
-                "are used '-T%04T-Y%+04Y%S-%R' is appended to the value of "
+                "are used '-T%04T-Y%05Y-%R' is appended to the value of "
                 "'savename'."),
              NULL, NULL, GAME_DEFAULT_SAVE_NAME)
 
