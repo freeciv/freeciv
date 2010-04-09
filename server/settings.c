@@ -1695,8 +1695,9 @@ bool setting_bool_set(struct setting *pset, bool val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len)
 {
-  if (!setting_bool_validate(pset, val, caller, reject_msg,
-                             reject_msg_len)) {
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_bool_validate(pset, val, caller, reject_msg,
+                                reject_msg_len)) {
     return FALSE;
   }
 
@@ -1720,10 +1721,9 @@ bool setting_bool_validate(const struct setting *pset, bool val,
     return FALSE;
   }
 
-  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-          && (!pset->boolean.validate
-              || pset->boolean.validate(val, caller, reject_msg,
-                                        reject_msg_len)));
+  return (!pset->boolean.validate
+          || pset->boolean.validate(val, caller, reject_msg,
+                                    reject_msg_len));
 }
 
 /****************************************************************************
@@ -1770,8 +1770,9 @@ bool setting_int_set(struct setting *pset, int val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len)
 {
-  if (!setting_int_validate(pset, val, caller, reject_msg,
-                            reject_msg_len)) {
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_int_validate(pset, val, caller, reject_msg,
+                               reject_msg_len)) {
     return FALSE;
   }
 
@@ -1802,10 +1803,9 @@ bool setting_int_validate(const struct setting *pset, int val,
     return FALSE;
   }
 
-  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-          && (!pset->integer.validate
-              || pset->integer.validate(val, caller, reject_msg,
-                                        reject_msg_len)));
+  return (!pset->integer.validate
+          || pset->integer.validate(val, caller, reject_msg,
+                                    reject_msg_len));
 }
 
 /****************************************************************************
@@ -1834,8 +1834,9 @@ bool setting_str_set(struct setting *pset, const char *val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len)
 {
-  if (!setting_str_validate(pset, val, caller, reject_msg,
-                            reject_msg_len)) {
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_str_validate(pset, val, caller, reject_msg,
+                               reject_msg_len)) {
     return FALSE;
   }
 
@@ -1866,10 +1867,9 @@ bool setting_str_validate(const struct setting *pset, const char *val,
     return FALSE;
   }
 
-  return (setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-          && (!pset->string.validate
-              || pset->string.validate(val, caller, reject_msg,
-                                       reject_msg_len)));
+  return (!pset->string.validate
+          || pset->string.validate(val, caller, reject_msg,
+                                   reject_msg_len));
 }
 
 /********************************************************************

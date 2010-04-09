@@ -2564,8 +2564,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
       goto cleanup;
     } else {
       if (check) {
-        if (!setting_bool_validate(pset, val != 0, caller, reject_msg,
-                                   sizeof(reject_msg))) {
+        if (!setting_is_changeable(pset, caller, reject_msg,
+                                   sizeof(reject_msg))
+            || !setting_bool_validate(pset, val != 0, caller, reject_msg,
+                                      sizeof(reject_msg))) {
           cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
           goto cleanup;
         }
@@ -2603,8 +2605,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
       }
     }
     if (check) {
-      if (!setting_int_validate(pset, val, caller, reject_msg,
-                                sizeof(reject_msg))) {
+      if (!setting_is_changeable(pset, caller, reject_msg,
+                                 sizeof(reject_msg))
+          || !setting_int_validate(pset, val, caller, reject_msg,
+                                   sizeof(reject_msg))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
@@ -2624,8 +2628,10 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   case SSET_STRING:
     if (check) {
-      if (!setting_str_validate(pset, args[1], caller, reject_msg,
-                                sizeof(reject_msg))) {
+      if (!setting_is_changeable(pset, caller, reject_msg,
+                                 sizeof(reject_msg))
+          || !setting_str_validate(pset, args[1], caller, reject_msg,
+                                   sizeof(reject_msg))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
