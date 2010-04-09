@@ -38,8 +38,7 @@
 void cma_init(void);
 
 /* Change the actual city setting. */
-bool cma_apply_result(struct city *pcity,
-		      const struct cm_result *const result);
+bool cma_apply_result(struct city *pcity, const struct cm_result *result);
 
 /* Till a call of cma_release_city the city will be managed by the agent. */
 void cma_put_city_under_agent(struct city *pcity,

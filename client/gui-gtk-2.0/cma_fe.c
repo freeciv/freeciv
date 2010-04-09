@@ -433,7 +433,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 **************************************************************************/
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 {
-  struct cm_result result;
+  struct cm_result *result = cm_result_new(pcity);
   struct cm_parameter param;
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
   int controlled = cma_is_city_under_agent(pcity, NULL);
@@ -441,9 +441,9 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   cmafec_get_fe_parameter(pcity, &param);
 
   /* fill in result label */
-  cm_result_from_main_map(&result, pcity);
+  cm_result_from_main_map(result, pcity);
   gtk_label_set_text(GTK_LABEL(pdialog->result_label),
-		     cmafec_get_result_descr(pcity, &result, &param));
+                     cmafec_get_result_descr(pcity, result, &param));
 
   /* if called from a hscale, we _don't_ want to do this */
   if (refresh != DONT_REFRESH_HSCALES) {
@@ -474,6 +474,8 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 	_("Governor Disabl_ed"));
   }
   gtk_widget_set_sensitive(pdialog->result_label, controlled);
+
+  cm_result_destroy(result);
 }
 
 /**************************************************************************

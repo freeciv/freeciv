@@ -319,10 +319,9 @@ static const char *get_prod_complete_string(struct city *pcity, int surplus)
 ...
 **************************************************************************/
 const char *cmafec_get_result_descr(struct city *pcity,
-				    const struct cm_result *const
-				    result,
-				    const struct cm_parameter *const
-				    parameter)
+                                    const struct cm_result *result,
+                                    const struct cm_parameter *const
+                                    parameter)
 {
   int j;
   char buf[RESULT_COLUMNS][BUFFER_SIZE];

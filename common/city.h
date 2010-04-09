@@ -169,6 +169,21 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
   } city_map_iterate_outwards_radius_sq_end
 
 /* simple extension to skip is_free_worked() tiles. */
+#define city_tile_iterate_skip_free_worked(_radius_sq, _city_tile,	\
+                                           _tile, _index, _x, _y) {	\
+  city_map_iterate(_radius_sq, _index, _x, _y) {			\
+    if (!is_free_worked_cxy(_x, _y)) {					\
+      struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
+                                            _x, _y);			\
+      if (NULL != _tile) {
+
+#define city_tile_iterate_skip_free_worked_end				\
+      }									\
+    }									\
+  } city_map_iterate_end;						\
+}
+
+/* simple extension to skip is_free_worked() tiles. */
 #define city_tile_iterate_skip_free_cxy(_radius_sq, _city_tile, _tile,	\
                                          _x, _y) {			\
   city_map_iterate(_radius_sq, _index, _x, _y) {			\

@@ -93,8 +93,8 @@ static struct {
  Returns TRUE iff the two results are equal. Both results have to be
  results for the given city.
 *****************************************************************************/
-static bool my_results_are_equal(const struct cm_result *const result1,
-                                 const struct cm_result *const result2)
+static bool my_results_are_equal(const struct cm_result *result1,
+                                 const struct cm_result *result2)
 {
 #define T(x) if (result1->x != result2->x) { \
   log_results_are_equal(#x); \
@@ -118,9 +118,9 @@ static bool my_results_are_equal(const struct cm_result *const result1,
       continue;
     }
 
-    if (result1->worker_positions_used[x][y]
-        != result2->worker_positions_used[x][y]) {
-      log_results_are_equal("worker_positions_used");
+    if (result1->worker_positions[index]
+        != result2->worker_positions[index]) {
+      log_results_are_equal("worker_positions");
       return FALSE;
     }
   } city_map_iterate_end;
@@ -162,18 +162,18 @@ static bool check_city(int city_id, struct cm_parameter *parameter)
  the actual data matches the calculated one.
 *****************************************************************************/
 static bool apply_result_on_server(struct city *pcity,
-				   const struct cm_result *const result)
+                                   const struct cm_result *result)
 {
   int first_request_id = 0, last_request_id = 0, i;
   int city_radius_sq = city_map_radius_sq_get(pcity);
-  struct cm_result current_state;
+  struct cm_result *current_state = cm_result_new(pcity);;
   bool success;
   struct tile *pcenter = city_tile(pcity);
 
   fc_assert_ret_val(result->found_a_valid, FALSE);
-  cm_result_from_main_map(&current_state, pcity);
+  cm_result_from_main_map(current_state, pcity);
 
-  if (my_results_are_equal(&current_state, result)
+  if (my_results_are_equal(current_state, result)
       && !ALWAYS_APPLY_AT_SERVER) {
     stats.apply_result_ignored++;
     return TRUE;
@@ -196,18 +196,19 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Remove all surplus workers */
-  city_tile_iterate_skip_free_cxy(city_radius_sq, pcenter, ptile, x, y) {
+  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, index,
+                                     x, y) {
     if (tile_worked(ptile) == pcity
-     && !result->worker_positions_used[x][y]) {
+        && !result->worker_positions[index]) {
       log_apply_result("Removing worker at {%d,%d}.", x, y);
 
       last_request_id =
         dsend_packet_city_make_specialist(&client.conn, pcity->id, x, y);
       if (first_request_id == 0) {
-	first_request_id = last_request_id;
+        first_request_id = last_request_id;
       }
     }
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 
   /* Change the excess non-default specialists to default. */
   specialist_type_iterate(sp) {
@@ -231,9 +232,10 @@ static bool apply_result_on_server(struct city *pcity,
   /* Set workers */
   /* FIXME: This code assumes that any toggled worker will turn into a
    * DEFAULT_SPECIALIST! */
-  city_tile_iterate_skip_free_cxy(city_radius_sq, pcenter, ptile, x, y) {
+  city_tile_iterate_skip_free_worked(city_radius_sq, pcenter, ptile, index,
+                                     x, y) {
     if (NULL == tile_worked(ptile)
-     && result->worker_positions_used[x][y]) {
+     && result->worker_positions[index]) {
       log_apply_result("Putting worker at {%d,%d}.", x, y);
       fc_assert_action(city_can_work_tile(pcity, ptile), break);
 
@@ -243,7 +245,7 @@ static bool apply_result_on_server(struct city *pcity,
 	first_request_id = last_request_id;
       }
     }
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 
   /* Set all specialists except DEFAULT_SPECIALIST (all the unchanged
    * ones remain as DEFAULT_SPECIALIST). */
@@ -292,9 +294,9 @@ static bool apply_result_on_server(struct city *pcity,
   }
 
   /* Return. */
-  cm_result_from_main_map(&current_state, pcity);
+  cm_result_from_main_map(current_state, pcity);
 
-  success = my_results_are_equal(&current_state, result);
+  success = my_results_are_equal(current_state, result);
   if (!success) {
     cm_clear_cache(pcity);
 
@@ -305,13 +307,15 @@ static bool apply_result_on_server(struct city *pcity,
       log_test("apply_result_on_server(city %d=\"%s\") have:",
                pcity->id, city_name(pcity));
       cm_print_city(pcity);
-      cm_print_result(&current_state);
+      cm_print_result(current_state);
 
       log_test("apply_result_on_server(city %d=\"%s\") want:",
                pcity->id, city_name(pcity));
       cm_print_result(result);
 #endif /* SHOW_APPLY_RESULT_ON_SERVER_ERRORS */
   }
+
+  cm_result_destroy(current_state);
 
   log_apply_result("apply_result_on_server() return %d.", (int) success);
   return success;
@@ -355,7 +359,7 @@ static void release_city(int city_id)
 *****************************************************************************/
 static void handle_city(struct city *pcity)
 {
-  struct cm_result result;
+  struct cm_result *result = cm_result_new(pcity);
   bool handled;
   int i, city_id = pcity->id;
 
@@ -379,8 +383,8 @@ static void handle_city(struct city *pcity)
 
     pcity = game_find_city_by_number(city_id);
 
-    cm_query_result(pcity, &parameter, &result);
-    if (!result.found_a_valid) {
+    cm_query_result(pcity, &parameter, result);
+    if (!result->found_a_valid) {
       log_handle_city2("  no valid found result");
 
       cma_release_city(pcity);
@@ -391,7 +395,7 @@ static void handle_city(struct city *pcity)
       handled = TRUE;
       break;
     } else {
-      if (!apply_result_on_server(pcity, &result)) {
+      if (!apply_result_on_server(pcity, result)) {
         log_handle_city2("  doesn't cleanly apply");
         if (check_city(city_id, NULL) && i == 0) {
           create_event(city_tile(pcity), E_CITY_CMA_RELEASE, ftc_client,
@@ -407,6 +411,8 @@ static void handle_city(struct city *pcity)
       }
     }
   }
+
+  cm_result_destroy(result);
 
   pcity = game_find_city_by_number(city_id);
 
@@ -494,8 +500,7 @@ void cma_init(void)
 /****************************************************************************
 ...
 *****************************************************************************/
-bool cma_apply_result(struct city *pcity,
-		     const struct cm_result *const result)
+bool cma_apply_result(struct city *pcity, const struct cm_result *result)
 {
   fc_assert(!cma_is_city_under_agent(pcity, NULL));
   if (result->found_a_valid) {

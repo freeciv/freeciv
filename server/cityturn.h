@@ -28,8 +28,7 @@ void city_refresh_queue_add(struct city *pcity);
 void city_refresh_queue_processing(void);
 
 void auto_arrange_workers(struct city *pcity); /* will arrange the workers */
-void apply_cmresult_to_city(struct city *pcity,
-			    const struct cm_result *const cmr);
+void apply_cmresult_to_city(struct city *pcity, const struct cm_result *cmr);
 
 bool city_change_size(struct city *pcity, int new_size);
 bool city_reduce_size(struct city *pcity, int pop_loss,

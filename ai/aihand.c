@@ -192,7 +192,6 @@ static void ai_manage_taxes(struct player *pplayer)
     int luxrate = pplayer->economic.luxury;
     int scirate = pplayer->economic.science;
     struct cm_parameter cmp;
-    struct cm_result cmr;
 
     while (pplayer->economic.luxury < maxrate
            && pplayer->economic.science > 0) {
@@ -208,12 +207,14 @@ static void ai_manage_taxes(struct player *pplayer)
     cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
 
     city_list_iterate(pplayer->cities, pcity) {
+      struct cm_result *cmr = cm_result_new(pcity);
+
       cm_clear_cache(pcity);
-      cm_query_result(pcity, &cmp, &cmr); /* burn some CPU */
+      cm_query_result(pcity, &cmp, cmr); /* burn some CPU */
 
       total_cities++;
 
-      if (cmr.found_a_valid
+      if (cmr->found_a_valid
           && pcity->surplus[O_FOOD] > 0
           && pcity->size >= game.info.celebratesize
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
@@ -222,24 +223,28 @@ static void ai_manage_taxes(struct player *pplayer)
       } else {
         pcity->server.ai->celebrate = FALSE;
       }
+      cm_result_destroy(cmr);
     } city_list_iterate_end;
     /* If more than half our cities can celebrate, go for it! */
     celebrate = (can_celebrate * 2 > total_cities);
     if (celebrate) {
       log_base(LOGLEVEL_TAX, "*** %s CELEBRATES! ***", player_name(pplayer));
       city_list_iterate(pplayer->cities, pcity) {
+        struct cm_result *cmr = cm_result_new(pcity);
+
         if (pcity->server.ai->celebrate == TRUE) {
           log_base(LOGLEVEL_TAX, "setting %s to celebrate",
                    city_name(pcity));
-          cm_query_result(pcity, &cmp, &cmr);
-          if (cmr.found_a_valid) {
-            apply_cmresult_to_city(pcity, &cmr);
+          cm_query_result(pcity, &cmp, cmr);
+          if (cmr->found_a_valid) {
+            apply_cmresult_to_city(pcity, cmr);
             city_refresh_from_main_map(pcity, NULL);
             if (!city_happy(pcity)) {
               CITY_LOG(LOG_ERROR, pcity, "is NOT happy when it should be!");
             }
           }
         }
+        cm_result_destroy(cmr);
       } city_list_iterate_end;
     } else {
       pplayer->economic.luxury = luxrate;

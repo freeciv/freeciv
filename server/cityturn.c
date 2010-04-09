@@ -226,16 +226,16 @@ void remove_obsolete_buildings(struct player *pplayer)
   sure that the result is valid.
 **************************************************************************/
 void apply_cmresult_to_city(struct city *pcity,
-			    const struct cm_result *const cmr)
+                            const struct cm_result *cmr)
 {
   struct tile *pcenter = city_tile(pcity);
 
   /* Now apply results */
-  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
-                                  ptile, x, y) {
+  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+                                     ptile, index, x, y) {
     struct city *pwork = tile_worked(ptile);
 
-    if (cmr->worker_positions_used[x][y]) {
+    if (cmr->worker_positions[index]) {
       if (NULL == pwork) {
         city_map_update_worker(pcity, ptile);
       } else {
@@ -246,7 +246,7 @@ void apply_cmresult_to_city(struct city *pcity,
         city_map_update_empty(pcity, ptile);
       }
     }
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 
   specialist_type_iterate(sp) {
     pcity->specialists[sp] = cmr->specialists[sp];
@@ -259,7 +259,7 @@ void apply_cmresult_to_city(struct city *pcity,
 void auto_arrange_workers(struct city *pcity)
 {
   struct cm_parameter cmp;
-  struct cm_result cmr;
+  struct cm_result *cmr = cm_result_new(pcity);
 
   /* See comment in freeze_workers(): we can't rearrange while
    * workers are frozen (i.e. multiple updates need to be done). */
@@ -317,16 +317,16 @@ void auto_arrange_workers(struct city *pcity)
   cmp.minimal_surplus[O_LUXURY] = 0;
   cmp.minimal_surplus[O_SCIENCE] = 0;
 
-  cm_query_result(pcity, &cmp, &cmr);
+  cm_query_result(pcity, &cmp, cmr);
 
-  if (!cmr.found_a_valid) {
+  if (!cmr->found_a_valid) {
     /* Drop surpluses and try again. */
     cmp.minimal_surplus[O_FOOD] = 0;
     cmp.minimal_surplus[O_SHIELD] = 0;
     cmp.minimal_surplus[O_GOLD] = -FC_INFINITY;
-    cm_query_result(pcity, &cmp, &cmr);
+    cm_query_result(pcity, &cmp, cmr);
   }
-  if (!cmr.found_a_valid) {
+  if (!cmr->found_a_valid) {
     /* Emergency management.  Get _some_ result.  This doesn't use
      * cm_init_emergency_parameter so we can keep the factors from
      * above. */
@@ -336,21 +336,23 @@ void auto_arrange_workers(struct city *pcity)
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
     cmp.allow_disorder = city_owner(pcity)->ai_data.control ? FALSE : TRUE;
-    cm_query_result(pcity, &cmp, &cmr);
+    cm_query_result(pcity, &cmp, cmr);
   }
-  if (!cmr.found_a_valid) {
+  if (!cmr->found_a_valid) {
     /* Should never happen. */
     CITY_LOG(LOG_DEBUG, pcity, "emergency management");
     cm_init_emergency_parameter(&cmp);
-    cm_query_result(pcity, &cmp, &cmr);
+    cm_query_result(pcity, &cmp, cmr);
   }
-  fc_assert_ret(cmr.found_a_valid);
+  fc_assert_ret(cmr->found_a_valid);
 
-  apply_cmresult_to_city(pcity, &cmr);
+  apply_cmresult_to_city(pcity, cmr);
 
   sanity_check_city_all(pcity);
 
   city_refresh(pcity);
+
+  cm_result_destroy(cmr);
   TIMING_LOG(AIT_CITIZEN_ARRANGE, TIMER_STOP);
 }
 

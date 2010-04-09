@@ -324,6 +324,41 @@ void cm_free(void)
 #endif
 }
 
+/****************************************************************************
+  Create a new cm_result.
+****************************************************************************/
+struct cm_result *cm_result_new(struct city *pcity)
+{
+  struct cm_result *result;
+
+  /* initialise all values */
+  result = fc_calloc(1, sizeof(*result));
+  result->city_radius_sq = pcity ? city_map_radius_sq_get(pcity)
+                                 : CITY_MAP_MAX_RADIUS_SQ;
+  result->worker_positions
+    = fc_calloc(city_map_tiles(result->city_radius_sq),
+                sizeof(*result->worker_positions));
+
+  /* test if the city pointer is valid; the cm_result struct can be
+   * returned as it uses the maximal possible value for the size of
+   * 'worker_positions' (= city_map_tiles(CITY_MAP_MAX_RADIUS_SQ))*/
+  fc_assert_ret_val(pcity != NULL, result);
+
+  return result;
+}
+
+/****************************************************************************
+  Destroy a cm_result.
+****************************************************************************/
+void cm_result_destroy(struct cm_result *result)
+{
+  if (result != NULL) {
+    if (result->worker_positions != NULL) {
+      FC_FREE(result->worker_positions);
+    }
+    FC_FREE(result);
+  }
+}
 
 /***************************************************************************
   Functions of tile-types.
@@ -667,9 +702,9 @@ static void apply_solution(struct cm_state *state,
 
       /* Place citizen workers onto the citymap tiles. */
       for (j = 0; j < nworkers; j++) {
-        const struct cm_tile *tile = tile_get(type, j);
+        const struct cm_tile *cmtile = tile_get(type, j);
 
-        state->workers_map[tile->index] = TRUE;
+        state->workers_map[cmtile->index] = TRUE;
       }
     }
   }
@@ -1899,7 +1934,7 @@ int cm_result_workers(const struct cm_result *result)
       continue;
     }
 
-    if (result->worker_positions_used[x][y]) {
+    if (result->worker_positions[index]) {
       count++;
     }
   } city_map_iterate_end;
@@ -1949,24 +1984,19 @@ static void cm_result_copy(struct cm_result *result,
 {
   struct tile *pcenter = city_tile(pcity);
 
-  memset(result->worker_positions_used, 0,
-         sizeof(result->worker_positions_used));
+  /* clear worker positions */
+  memset(result->worker_positions, 0, sizeof(result->worker_positions));
 
-  /* set squared city radius */
-  result->city_radius_sq = city_map_radius_sq_get(pcity);
-
-  city_tile_iterate_cxy(result->city_radius_sq, pcenter, ptile, x, y) {
+  city_tile_iterate_index(result->city_radius_sq, pcenter, ptile, index) {
     if (workers_map == NULL) {
       /* use the main map */
       struct city *pwork = tile_worked(ptile);
 
-      result->worker_positions_used[x][y] = (NULL != pwork
-                                             && pwork == pcity);
+      result->worker_positions[index] = (NULL != pwork && pwork == pcity);
     } else {
-      int index = city_tile_xy_to_index(x, y, result->city_radius_sq);
-      result->worker_positions_used[x][y] = workers_map[index];
+      result->worker_positions[index] = workers_map[index];
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_index_end;
 
   /* copy the specialist counts */
   specialist_type_iterate(spec) {
@@ -2152,7 +2182,7 @@ void cm_print_result(const struct cm_result *result)
   city_map_iterate(result->city_radius_sq, index, x, y) {
     if (is_free_worked_cxy(x, y)) {
       city_map_data[index] = 2;
-    } else if (result->worker_positions_used[x][y]) {
+    } else if (result->worker_positions[index]) {
       city_map_data[index] = 1;
     } else {
       city_map_data[index] = 0;

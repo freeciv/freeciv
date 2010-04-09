@@ -45,17 +45,19 @@ struct cm_result {
   bool found_a_valid, disorder, happy;
 
   int surplus[O_LAST];
-  int city_radius_sq;
 
-  bool worker_positions_used[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+  int city_radius_sq;
+  bool *worker_positions;
   int specialists[SP_MAX];
 };
 
-
 void cm_init(void);
 void cm_init_citymap(void);
-
+void cm_clear_cache(struct city *pcity);
 void cm_free(void);
+
+struct cm_result *cm_result_new(struct city *pcity);
+void cm_result_destroy(struct cm_result *result);
 
 /*
  * Will try to meet the requirements and fill out the result. Caller

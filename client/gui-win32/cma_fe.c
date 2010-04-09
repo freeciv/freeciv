@@ -251,7 +251,7 @@ static void set_hscales(const struct cm_parameter *const parameter,
 **************************************************************************/
 void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
 {
-  struct cm_result result;
+  struct cm_result *result = cm_result_new(pcity);
   struct cm_parameter param;
   struct cma_dialog *pdialog = get_cma_dialog(pcity);
  
@@ -261,9 +261,9 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   if (!pdialog)
     return;
   /* fill in result label */
-  cm_result_from_main_map(&result, pcity);
+  cm_result_from_main_map(result, pcity);
   SetWindowText(pdialog->result_label,
-		(char *) cmafec_get_result_descr(pcity, &result, &param));
+		(char *) cmafec_get_result_descr(pcity, result, &param));
   /* if called from a hscale, we _don't_ want to do this */
   if (refresh != DONT_REFRESH_HSCALES) {
     set_hscales(&param, pdialog);
@@ -291,6 +291,8 @@ void refresh_cma_dialog(struct city *pcity, enum cma_refresh refresh)
   EnableWindow(pdialog->release,
 	       can_client_issue_orders() &&
 	       controlled);
+
+  cm_result_destroy(result);
 }
 
 /**************************************************************************
@@ -416,12 +418,14 @@ static void cma_del_preset_callback(struct cma_dialog *pdialog)
 **************************************************************************/
 static void cma_change_to_callback(struct cma_dialog *pdialog)
 {
-  struct cm_result result;
+  struct cm_result *result = cm_result_new(pdialog->pcity);
   struct cm_parameter param;
 
   cmafec_get_fe_parameter(pdialog->pcity, &param);
-  cm_query_result(pdialog->pcity, &param, &result);
-  cma_apply_result(pdialog->pcity, &result);
+  cm_query_result(pdialog->pcity, &param, result);
+  cma_apply_result(pdialog->pcity, result);
+
+  cm_result_destroy(result);
 }
 
 

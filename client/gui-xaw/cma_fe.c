@@ -127,7 +127,7 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   Widget form, preset_viewport, close_button;
   Widget surplus_header, factor_header, prev;
   struct cm_parameter parameter;
-  struct cm_result result;
+  struct cm_result *result = cm_result_new(pcity);
   int i;
 
   current_city = pcity;
@@ -358,15 +358,17 @@ void show_cma_dialog(struct city *pcity, Widget citydlg)
   XtRealizeWidget(cma_dialog);
 
   update_stat_labels(True);
-  cm_result_from_main_map(&result, pcity);
+  cm_result_from_main_map(result, pcity);
   xaw_set_label(result_label, 
-       (char *) cmafec_get_result_descr(current_city, &result, &parameter));
+       (char *) cmafec_get_result_descr(current_city, result, &parameter));
 
   XSetWMProtocols(display, XtWindow(cma_dialog),
                   &wm_delete_window, 1);
   XtVaSetValues(preset_viewport, XtNforceBars, True, NULL);
   xaw_set_relative_position(citydlg, cma_dialog, 5, 5);
   XtPopup(cma_dialog, XtGrabNone);
+
+  cm_result_destroy(result);
 }
 
 /**************************************************************************
@@ -487,8 +489,12 @@ static void select_preset(Widget w, XtPointer list,
   XawListReturnStruct *ret;
   const struct cm_parameter *param;
   struct cm_parameter parameter;
-  struct cm_result result;
+  struct cm_result *result;
 
+  /* check gloabl variable current_city */
+  log_assert_ret(current_city != NULL);
+
+  result = cm_result_new(current_city);
   ret = XawListShowCurrent(list);
 
   if (ret->list_index != XAW_LIST_NONE && cmafec_preset_num()) {
@@ -501,9 +507,9 @@ static void select_preset(Widget w, XtPointer list,
     }
 
     cmafec_get_fe_parameter(current_city, &parameter);
-    cm_result_from_main_map(&result, current_city);
+    cm_result_from_main_map(result, current_city);
     xaw_set_label(result_label,
-        (char *) cmafec_get_result_descr(current_city, &result, &parameter));
+        (char *) cmafec_get_result_descr(current_city, result, &parameter));
 
     output_type_iterate(i) {
       minimal_surplus[i] = param->minimal_surplus[i];
@@ -520,7 +526,8 @@ static void select_preset(Widget w, XtPointer list,
     } output_type_iterate_end;
   }
 
-  update_stat_labels(result.found_a_valid);
+  update_stat_labels(result->found_a_valid);
+  cm_result_destroy(result);
 }
 
 /****************************************************************
@@ -558,8 +565,13 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
 {
   int pos = XTPOINTER_TO_INT(position_val);
   struct cm_parameter parameter;
-  struct cm_result result;
+  struct cm_result *result;
   int i, preset_index;
+
+  /* check gloabl variable current_city */
+  log_assert_ret(current_city != NULL);
+
+  result = cm_result_new(current_city);
 
   output_type_iterate(i) {
     if (w == surplus_slider[i]) {
@@ -611,11 +623,11 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_result_from_main_map(&result, current_city);
+  cm_result_from_main_map(result, current_city);
   xaw_set_label(result_label,
-        (char *) cmafec_get_result_descr(current_city, &result, &parameter));
+        (char *) cmafec_get_result_descr(current_city, result, &parameter));
 
-  update_stat_labels(result.found_a_valid);
+  update_stat_labels(result->found_a_valid);
   update_cma_preset_list();
 
   /* highlight preset if parameter matches */
@@ -623,6 +635,8 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   if (preset_index != -1) {
     XawListHighlight(preset_list, preset_index);
   }
+
+  cm_result_destroy();
 }
 
 /**************************************************************************
@@ -633,8 +647,13 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
 {
   float percent=*(float*)percent_ptr;
   struct cm_parameter parameter;
-  struct cm_result result;
+  struct cm_result *result;
   int i, preset_index;
+
+  /* check gloabl variable current_city */
+  log_assert_ret(current_city != NULL);
+
+  result = cm_result_new(current_city);
 
   output_type_iterate(i) {
     if (w == surplus_slider[i]) {
@@ -668,18 +687,20 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_result_from_main_map(&result, current_city);
+  cm_result_from_main_map(result, current_city);
   xaw_set_label(result_label,
-        (char *) cmafec_get_result_descr(current_city, &result, &parameter));
+        (char *) cmafec_get_result_descr(current_city, result, &parameter));
 
   update_cma_preset_list();
-  update_stat_labels(result.found_a_valid);
+  update_stat_labels(result->found_a_valid);
 
   /* highlight preset if parameter matches */
   preset_index = cmafec_preset_get_index_of_parameter(&parameter);
   if (preset_index != -1) {
     XawListHighlight(preset_list, preset_index);
   }
+
+  cm_result_destroy(result);
 }
 
 /**************************************************************************
@@ -760,7 +781,10 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
 {
   Boolean celebrate;
   struct cm_parameter parameter;
-  struct cm_result result;
+  struct cm_result *result;
+
+  /* check gloabl variable current_city */
+  log_assert_ret(current_city != NULL);
 
   /* Change label on celebrate toggle. */
   XtVaGetValues(w, XtNstate, &celebrate, NULL);
@@ -784,12 +808,14 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
   }
 
   cmafec_get_fe_parameter(current_city, &parameter);
-  cm_result_from_main_map(&result, current_city);
+  cm_result_from_main_map(result, current_city);
   xaw_set_label(result_label,
-        (char *) cmafec_get_result_descr(current_city, &result, &parameter));
+        (char *) cmafec_get_result_descr(current_city, result, &parameter));
 
-  update_stat_labels(result.found_a_valid);
+  update_stat_labels(result->found_a_valid);
   update_cma_preset_list();
+
+  cm_result_destroy(result);
 }
 
 /**************************************************************************
@@ -819,12 +845,16 @@ static void close_callback(Widget w, XtPointer client_data,
 static void change_callback(Widget w, XtPointer client_data,
                             XtPointer call_data)
 {
-  struct cm_result result;
+  struct cm_result *result;
   struct cm_parameter param;
 
-  cmafec_get_fe_parameter(current_city, &param);
-  cm_query_result(current_city, &param, &result);
-  cma_apply_result(current_city, &result);
-  refresh_city_dialog(current_city);
-}
+  /* check gloabl variable current_city */
+  log_assert_ret(current_city != NULL);
 
+  cmafec_get_fe_parameter(current_city, &param);
+  cm_query_result(current_city, &param, result);
+  cma_apply_result(current_city, result);
+  refresh_city_dialog(current_city);
+
+  cm_result_destroy(result);
+}
