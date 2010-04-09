@@ -59,6 +59,16 @@ static int city_map_xy[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
 /* number of tiles of a city; depends on the squared city radius */
 static int city_map_numtiles[CITY_MAP_MAX_RADIUS_SQ + 1];
 
+/* definitions and functions for the tile_cache */
+struct tile_cache {
+  int output[O_LAST];
+};
+
+static inline void city_tile_cache_update(struct city *pcity);
+static inline int city_tile_cache_get_output(const struct city *pcity,
+                                             int city_tile_index,
+                                             enum output_type_id o);
+
 struct citystyle *city_styles = NULL;
 
 /* One day these values may be read in from the ruleset.  In the meantime
@@ -2113,7 +2123,6 @@ static inline void get_worked_tile_output(const struct city *pcity,
   bool is_celebrating = base_city_celebrating(pcity);
 #endif
   struct tile *pcenter = city_tile(pcity);
-  int city_map_x, city_map_y;
 
   memset(output, 0, O_LAST * sizeof(*output));
 
@@ -2129,15 +2138,13 @@ static inline void get_worked_tile_output(const struct city *pcity,
 
     if (is_worked) {
       output_type_iterate(o) {
-        city_tile_index_to_xy(&city_map_x, &city_map_y,
-                              city_tile_index, city_map_radius_sq_get(pcity));
 #ifdef CITY_DEBUGGING
         /* This assertion never fails, but it's so slow that we disable
          * it by default. */
-        fc_assert(pcity->tile_output[city_map_x][city_map_y][o]
+        fc_assert(city_tile_cache_get_output(pcity, city_tile_index, o)
                   == city_tile_output(pcity, ptile, is_celebrating, o));
 #endif
-        output[o] += pcity->tile_output[city_map_x][city_map_y][o];
+        output[o] += city_tile_cache_get_output(pcity, city_tile_index, o);
       } output_type_iterate_end;
     }
   } city_tile_iterate_index_end;
@@ -2176,26 +2183,52 @@ static inline void set_city_bonuses(struct city *pcity)
 }
 
 /****************************************************************************
-  This function sets all the values in the pcity->tile_output[] array.
-  Called near the beginning of city_refresh_from_main_map().
+  This function sets the cache for the tile outputs, the pcity->tile_cache[]
+  array. It is called near the beginning of city_refresh_from_main_map().
 
   It doesn't depend on anything else in the refresh and doesn't change
   as workers are moved around, but does change when buildings are built,
   etc.
+
+  TODO: use the cached values elsethere in the code!
 ****************************************************************************/
-static inline void set_city_tile_output(struct city *pcity)
+static inline void city_tile_cache_update(struct city *pcity)
 {
   bool is_celebrating = base_city_celebrating(pcity);
+  int radius_sq = city_map_radius_sq_get(pcity);
+
+  /* initialize tile_cache if needed */
+  if (pcity->tile_cache == NULL || pcity->tile_cache_radius_sq == -1
+      || pcity->tile_cache_radius_sq != radius_sq) {
+    pcity->tile_cache = fc_realloc(pcity->tile_cache,
+                                   city_map_tiles(radius_sq)
+                                   * sizeof(*(pcity->tile_cache)));
+    pcity->tile_cache_radius_sq = radius_sq;
+  }
 
   /* Any unreal tiles are skipped - these values should have been memset
    * to 0 when the city was created. */
-  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcity->tile, ptile,
-                        city_map_x, city_map_y) {
+  city_tile_iterate_index(radius_sq, pcity->tile, ptile, city_tile_index) {
     output_type_iterate(o) {
-      pcity->tile_output[city_map_x][city_map_y][o] =
-        city_tile_output(pcity, ptile, is_celebrating, o);
+      (pcity->tile_cache[city_tile_index]).output[o]
+        = city_tile_output(pcity, ptile, is_celebrating, o);
     } output_type_iterate_end;
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_index_end;
+}
+
+/****************************************************************************
+  This function returns the output of 'o' for the city tile 'city_tile_index'
+  of 'pcity'.
+****************************************************************************/
+static inline int city_tile_cache_get_output(const struct city *pcity,
+                                             int city_tile_index,
+                                             enum output_type_id o)
+{
+  fc_assert_ret_val(pcity->tile_cache_radius_sq
+                    == city_map_radius_sq_get(pcity), 0);
+  fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
+
+  return (pcity->tile_cache[city_tile_index]).output[o];
 }
 
 /**************************************************************************
@@ -2763,7 +2796,7 @@ static inline void city_support(struct city *pcity)
 /**************************************************************************
   Refreshes the internal cached data in the city structure.
 
-  !full_refresh will not update tile_output[] or bonus[].  These two
+  !full_refresh will not update tile_cache[] or bonus[].  These two
   values do not need to be recalculated for AI CMA testing.
 
   'workers_map' is an boolean array which defines the placement of the
@@ -2775,12 +2808,17 @@ static inline void city_support(struct city *pcity)
 void city_refresh_from_main_map(struct city *pcity, bool *workers_map)
 {
   if (workers_map == NULL) {
-    set_city_bonuses(pcity);	/* Calculate the bonus[] array values. */
-    set_city_tile_output(pcity); /* Calculate the tile_output[] values. */
-    city_support(pcity); /* manage settlers, and units */
+    /* do a full refresh */
+
+    /* Calculate the bonus[] array values. */
+    set_city_bonuses(pcity);
+    /* Calculate the tile_cache[] values. */
+    city_tile_cache_update(pcity);
+    /* manage settlers, and units */
+    city_support(pcity);
   }
 
-  /* Calculate output from citizens. */
+  /* Calculate output from citizens (uses city_tile_cache_get_output()). */
   get_worked_tile_output(pcity, pcity->citizen_base, workers_map);
   add_specialist_output(pcity, pcity->citizen_base);
 
@@ -3010,6 +3048,8 @@ struct city *create_city_virtual(struct player *pplayer,
   pcity->turn_founded = game.info.turn;
   pcity->turn_last_built = game.info.turn;
 
+  pcity->tile_cache_radius_sq = -1; /* -1 = tile_cache must be initialised */
+
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
     pcity->built[i].turn = I_NEVER;
@@ -3042,6 +3082,9 @@ void destroy_city_virtual(struct city *pcity)
   }
 
   unit_list_destroy(pcity->units_supported);
+  if (pcity->tile_cache != NULL) {
+    FC_FREE(pcity->tile_cache);
+  }
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
 }

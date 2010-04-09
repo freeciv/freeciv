@@ -338,6 +338,8 @@ enum city_updates {
   CU_POPUP_DIALOG       = 1 << 2
 };
 
+struct tile_cache; /* defined and only used within city.c */
+
 struct city {
   char name[MAX_LEN_NAME];
   struct tile *tile; /* May be NULL, should check! */
@@ -355,8 +357,13 @@ struct city {
   /* trade routes */
   int trade[NUM_TRADE_ROUTES], trade_value[NUM_TRADE_ROUTES];
 
-  /* Tile output, regardless of if the tile is actually worked. */
-  unsigned char tile_output[CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE][O_LAST];
+  /* Tile output, regardless of if the tile is actually worked. It is used
+   * as cache for the output of the tiles within the city map.
+   * (see city_tile_cache_update() and city_tile_cache_get_output()) */
+  struct tile_cache *tile_cache;
+  /* The memory allocated for tile_cache is valid for this squared city
+   * radius. */
+  int tile_cache_radius_sq;
 
   /* the productions */
   int surplus[O_LAST]; /* Final surplus in each category. */
