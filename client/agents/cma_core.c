@@ -113,13 +113,13 @@ static bool my_results_are_equal(const struct cm_result *result1,
 
   fc_assert_ret_val(result1->city_radius_sq == result2->city_radius_sq,
                     FALSE);
-  city_map_iterate(result1->city_radius_sq, index, x, y) {
-    if (is_free_worked_cxy(x, y)) {
+  city_map_iterate(result1->city_radius_sq, cindex, x, y) {
+    if (is_free_worked_index(cindex)) {
       continue;
     }
 
-    if (result1->worker_positions[index]
-        != result2->worker_positions[index]) {
+    if (result1->worker_positions[cindex]
+        != result2->worker_positions[cindex]) {
       log_results_are_equal("worker_positions");
       return FALSE;
     }

@@ -149,7 +149,11 @@ void cityresult_fill(struct player *pplayer,
 
   result->city_radius_sq = city_map_radius_sq_get(pcity);
 
-  city_tile_iterate_cxy(result->city_radius_sq, result->tile, ptile, i, j) {
+  city_tile_iterate_index(result->city_radius_sq, result->tile, ptile,
+                          cindex) {
+    int i, j;
+    city_tile_index_to_xy(&i, &j, cindex, result->city_radius_sq);
+
     int reserved = citymap_read(ptile);
     bool city_center = (result->tile == ptile); /*is_city_center()*/
 
@@ -224,7 +228,7 @@ void cityresult_fill(struct player *pplayer,
        * of the area and the emphasis placed on space for growth. */
       result->remaining += sum / GROWTH_POTENTIAL_DEEMPHASIS;
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_index_end;
 
   if (virtual_city) {
     /* Baseline is a size one city (city center + best extra tile). */

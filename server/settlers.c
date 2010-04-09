@@ -818,8 +818,8 @@ static int evaluate_improvements(struct unit *punit,
     struct tile *pcenter = city_tile(pcity);
 
     /* try to work near the city */
-    city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
-                          cx, cy) {
+    city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+                            cindex) {
       bool consider = TRUE;
       bool in_use = (tile_worked(ptile) == pcity);
 
@@ -875,6 +875,11 @@ static int evaluate_improvements(struct unit *punit,
 
           /* Now, consider various activities... */
           activity_type_iterate(act) {
+            int cx, cy;
+
+            fc_assert_ret_val(
+                city_tile_index_to_xy(&cx, &cy, cindex,
+                                      city_map_radius_sq_get(pcity)), 0);
             if (pcity->server.ai->act_value[act][cx][cy] >= 0
                 /* This needs separate implementation. */
                 && act != ACTIVITY_BASE
@@ -923,7 +928,7 @@ static int evaluate_improvements(struct unit *punit,
           } activity_type_iterate_end;
         } /* endif: can we finish sooner than current worker, if any? */
       } /* endif: are we travelling to a legal destination? */
-    } city_tile_iterate_cxy_end;
+    } city_tile_iterate_index_end;
   } city_list_iterate_end;
 
   best_newv /= WORKER_FACTOR;
@@ -1236,11 +1241,15 @@ void initialize_infrastructure_cache(struct player *pplayer)
       } activity_type_iterate_end;
     } city_map_iterate_end;
 
-    city_tile_iterate_cxy(radius_sq, pcenter, ptile, city_x, city_y) {
+    city_tile_iterate_index(radius_sq, pcenter, ptile, cindex) {
+      int city_x, city_y;
 #ifndef NDEBUG
       struct terrain *old_terrain = tile_terrain(ptile);
       bv_special old_special = ptile->special;
 #endif
+
+      fc_assert_ret(city_tile_index_to_xy(&city_x, &city_y, cindex,
+                                          city_map_radius_sq_get(pcity)));
 
       pcity->server.ai->act_value[ACTIVITY_POLLUTION][city_x][city_y] 
         = ai_calc_pollution(pcity, city_x, city_y, best, ptile);
@@ -1265,7 +1274,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
       fc_assert(old_terrain == tile_terrain(ptile)
                 && memcmp(&ptile->special, &old_special,
                           sizeof(old_special)) == 0);
-    } city_tile_iterate_cxy_end;
+    } city_tile_iterate_index_end;
   } city_list_iterate_end;
 }
 

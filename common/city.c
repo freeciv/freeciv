@@ -419,12 +419,12 @@ void citylog_map_workers(enum log_level level, struct city *pcity)
   city_map_data = fc_calloc(city_map_tiles(city_map_radius_sq_get(pcity)),
                             sizeof(*city_map_data));
 
-  city_map_iterate(city_map_radius_sq_get(pcity), index, x, y) {
+  city_map_iterate(city_map_radius_sq_get(pcity), cindex, x, y) {
     struct tile *ptile = city_map_to_tile(city_tile(pcity),
                                           city_map_radius_sq_get(pcity),
                                           x, y);
-    city_map_data[index] = (ptile && tile_worked(ptile) == pcity)
-                           ? (is_free_worked_cxy(x, y) ? 2 : 1) : 0;
+    city_map_data[cindex] = (ptile && tile_worked(ptile) == pcity)
+                            ? (is_free_worked_index(cindex) ? 2 : 1) : 0;
   } city_map_iterate_end;
 
   log_base(level, "[%s (%d)] workers map:", city_name(pcity), pcity->id);

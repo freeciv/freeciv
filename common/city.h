@@ -59,6 +59,8 @@ BV_DEFINE(bv_city_options, CITYO_LAST);
   (CITY_MAP_MAX_RADIUS * CITY_MAP_MAX_RADIUS + 1)
 /* the id for the city center */
 #define CITY_MAP_CENTER_RADIUS_SQ      -1
+/* the tile index of the city center */
+#define CITY_MAP_CENTER_TILE_INDEX      0
 
 /* Maximum diameter of the workable city area. */
 #define CITY_MAP_MAX_SIZE (CITY_MAP_MAX_RADIUS * 2 + 1)
@@ -142,20 +144,8 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
 /* Iterate a city map in checked real map coordinates.
  * _radius_sq is the squared city radius.
  * _city_tile is the center of the (possible) city.
- * (_x, _y) will be the valid elements of [0, CITY_MAP_MAX_SIZE] taking
- * into account the (squared) city radius. */
-#define city_tile_iterate_cxy(_radius_sq, _city_tile, _tile, _x, _y) {	\
-  city_map_iterate(_radius_sq, _index, _x, _y) {			\
-    struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
-                                          _x, _y);			\
-    if (NULL != _tile) {
-
-#define city_tile_iterate_cxy_end					\
-    }									\
-  } city_map_iterate_end						\
-}
-
-/* Same as above but using the city map index. */
+ * (_index) will be the city tile index in the intervall
+ * [0, city_map_tiles(_radius_sq)] */
 #define city_tile_iterate_index(_radius_sq, _city_tile, _tile,		\
                                 _index) {				\
   city_map_iterate_outwards_radius_sq(CITY_MAP_CENTER_RADIUS_SQ,	\
@@ -166,13 +156,13 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
 
 #define city_tile_iterate_index_end					\
     }									\
-  } city_map_iterate_outwards_radius_sq_end
+  } city_map_iterate_outwards_radius_sq_end;
 
 /* simple extension to skip is_free_worked() tiles. */
 #define city_tile_iterate_skip_free_worked(_radius_sq, _city_tile,	\
                                            _tile, _index, _x, _y) {	\
   city_map_iterate(_radius_sq, _index, _x, _y) {			\
-    if (!is_free_worked_cxy(_x, _y)) {					\
+    if (!is_free_worked_index(_index)) {				\
       struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
                                             _x, _y);			\
       if (NULL != _tile) {
@@ -183,29 +173,13 @@ void citylog_map_workers(enum log_level level, struct city *pcity);
   } city_map_iterate_end;						\
 }
 
-/* simple extension to skip is_free_worked() tiles. */
-#define city_tile_iterate_skip_free_cxy(_radius_sq, _city_tile, _tile,	\
-                                         _x, _y) {			\
-  city_map_iterate(_radius_sq, _index, _x, _y) {			\
-    if (!is_free_worked_cxy(_x, _y)) {					\
-      struct tile *_tile = city_map_to_tile(_city_tile, _radius_sq,	\
-                                            _x, _y);			\
-      if (NULL != _tile) {
-
-#define city_tile_iterate_skip_free_cxy_end				\
-      }									\
-    }									\
-  } city_map_iterate_end;						\
-}
-
-/* Does the same thing as city_tile_iterate_cxy, but keeps the city
+/* Does the same thing as city_tile_iterate_index, but keeps the city
  * coordinates hidden. */
 #define city_tile_iterate(_radius_sq, _city_tile, _tile)		\
-  city_tile_iterate_cxy(_radius_sq, _city_tile, _tile, _tile##_x,	\
-                        _tile##_y)
+  city_tile_iterate_index(_radius_sq, _city_tile, _tile, _index) {
 
 #define city_tile_iterate_end						\
-  city_tile_iterate_cxy_end;						\
+  } city_tile_iterate_index_end;
 
 /* Improvement status (for cities' lists of improvements)
  * (replaced Impr_Status) */
@@ -779,8 +753,8 @@ bool city_exist(int id);
 
 #define is_city_center(_city, _tile) (_city->tile == _tile)
 #define is_free_worked(_city, _tile) (_city->tile == _tile)
-#define is_free_worked_cxy(city_x, city_y) \
-  (CITY_MAP_MAX_RADIUS == city_x && CITY_MAP_MAX_RADIUS == city_y)
+#define is_free_worked_index(city_tile_index) \
+  (CITY_MAP_CENTER_TILE_INDEX == city_tile_index)
 #define FREE_WORKED_TILES (1)
 
 enum citytile_type find_citytile_by_rule_name(const char *name);

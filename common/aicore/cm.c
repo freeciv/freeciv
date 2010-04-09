@@ -671,11 +671,11 @@ static void apply_solution(struct cm_state *state,
    * the city center). */
   memset(&pcity->specialists, 0, sizeof(pcity->specialists));
 
-  city_map_iterate(city_radius_sq, index, x, y) {
-    if (is_free_worked_cxy(x, y)) {
-      state->workers_map[index] = TRUE;
+  city_map_iterate(city_radius_sq, cindex, x, y) {
+    if (is_free_worked_index(cindex)) {
+      state->workers_map[cindex] = TRUE;
     } else {
-      state->workers_map[index] = FALSE;
+      state->workers_map[cindex] = FALSE;
     }
   } city_map_iterate_end;
 
@@ -1929,12 +1929,12 @@ int cm_result_workers(const struct cm_result *result)
 {
   int count = 0;
 
-  city_map_iterate(result->city_radius_sq, index, x, y) {
-    if (is_free_worked_cxy(x, y)) {
+  city_map_iterate(result->city_radius_sq, cindex, x, y) {
+    if (is_free_worked_index(cindex)) {
       continue;
     }
 
-    if (result->worker_positions[index]) {
+    if (result->worker_positions[cindex]) {
       count++;
     }
   } city_map_iterate_end;
@@ -2145,14 +2145,17 @@ void cm_print_city(const struct city *pcity)
            pcity->size, specialists_string(pcity->specialists));
 
   log_test("  workers at:");
-  city_tile_iterate_cxy(city_map_radius_sq_get(pcity), pcenter, ptile,
-                        x, y) {
+  city_tile_iterate_index(city_map_radius_sq_get(pcity), pcenter, ptile,
+                          cindex) {
     struct city *pwork = tile_worked(ptile);
 
     if (NULL != pwork && pwork == pcity) {
-      log_test("    {%2d,%2d} (%4d,%4d)", x, y, TILE_XY(ptile));
+      int cx, cy;
+      city_tile_index_to_xy(&cx, &cy, cindex,
+                            city_map_radius_sq_get(pcity));
+      log_test("    {%2d,%2d} (%4d,%4d)", cx, cy, TILE_XY(ptile));
     }
-  } city_tile_iterate_cxy_end;
+  } city_tile_iterate_index_end;
 
   log_test("  food    = %3d (%+3d)",
            pcity->prod[O_FOOD], pcity->surplus[O_FOOD]);
@@ -2166,7 +2169,6 @@ void cm_print_city(const struct city *pcity)
   log_test("  science = %3d", pcity->prod[O_SCIENCE]);
 }
 
-
 /****************************************************************************
   Print debugging information about a full CM result.
 ****************************************************************************/
@@ -2179,13 +2181,13 @@ void cm_print_result(const struct cm_result *result)
   log_test("  found_a_valid=%d disorder=%d happy=%d",
            result->found_a_valid, result->disorder, result->happy);
 
-  city_map_iterate(result->city_radius_sq, index, x, y) {
-    if (is_free_worked_cxy(x, y)) {
-      city_map_data[index] = 2;
-    } else if (result->worker_positions[index]) {
-      city_map_data[index] = 1;
+  city_map_iterate(result->city_radius_sq, cindex, x, y) {
+    if (is_free_worked_index(cindex)) {
+      city_map_data[cindex] = 2;
+    } else if (result->worker_positions[cindex]) {
+      city_map_data[cindex] = 1;
     } else {
-      city_map_data[index] = 0;
+      city_map_data[cindex] = 0;
     }
   } city_map_iterate_end;
   log_test("workers map (2: free worked; 1: worker; 0: not used):");

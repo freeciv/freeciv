@@ -545,13 +545,13 @@ static int city_reduce_workers(struct city *pcity, int change)
 
   fc_assert_ret_val(0 < change, 0);
 
-  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
-                                  ptile, city_x, city_y) {
+  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+                                     ptile, _index, _x, _y) {
     if (0 < want && tile_worked(ptile) == pcity) {
       city_map_update_empty(pcity, ptile);
       want--;
     }
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 
   return change - want;
 }
@@ -716,13 +716,13 @@ static bool city_increase_size(struct city *pcity)
    * make new citizens into scientists or taxmen -- Massimo */
 
   /* Ignore food if no square can be worked */
-  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
-                                  ptile, cx, cy) {
+  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+                                     ptile, _index, _x, _y) {
     if (tile_worked(ptile) != pcity /* quick test */
      && city_can_work_tile(pcity, ptile)) {
       have_square = TRUE;
     }
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 
   if ((pcity->surplus[O_FOOD] >= 2 || !have_square)
       && is_city_option_set(pcity, CITYO_NEW_EINSTEIN)) {

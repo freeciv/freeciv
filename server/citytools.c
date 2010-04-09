@@ -2378,11 +2378,11 @@ void city_map_update_all(struct city *pcity)
 {
   struct tile *pcenter = city_tile(pcity);
 
-  city_tile_iterate_skip_free_cxy(city_map_radius_sq_get(pcity), pcenter,
-                                  ptile, cx, cy) {
+  city_tile_iterate_skip_free_worked(city_map_radius_sq_get(pcity), pcenter,
+                                     ptile, _index, _x, _y) {
     /* bypass city_map_update_tile_now() for efficiency */
     city_map_update_tile_direct(ptile, FALSE);
-  } city_tile_iterate_skip_free_cxy_end;
+  } city_tile_iterate_skip_free_worked_end;
 }
 
 /**************************************************************************
