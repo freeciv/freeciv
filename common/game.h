@@ -100,6 +100,8 @@ struct civ_game {
       char demography[MAX_LEN_DEMOGRAPHY];
       char allow_take[MAX_LEN_ALLOW_TAKE];
 
+      bool settings_gamestart_valid; /* Valid settings from the game start. */
+
       struct {
         int turns;
         int max_size;

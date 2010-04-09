@@ -3904,12 +3904,16 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   switch (ind) {
   case RESET_GAME:
     if (!game.info.is_new_game) {
-      cmd_reply(CMD_RESET, caller, C_OK,
-                _("Reset all settings to the values at the game start."));
-      settings_game_reset();
+      if (settings_game_reset()) {
+        cmd_reply(CMD_RESET, caller, C_OK,
+                  _("Reset all settings to the values at the game start."));
+      } else {
+        cmd_reply(CMD_RESET, caller, C_FAIL,
+                  _("No saved settings from the game start available."));
+        return FALSE;
+      }
     } else {
-      cmd_reply(CMD_RESET, caller, C_FAIL,
-                _("No Game started ..."));
+      cmd_reply(CMD_RESET, caller, C_FAIL, _("No Game started ..."));
       return FALSE;
     }
     break;

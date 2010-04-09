@@ -2106,19 +2106,22 @@ static void setting_game_restore(struct setting *pset)
   }
 
   if (!res) {
-    log_error("Error restoring game setting '%s': %s", setting_name(pset),
-              reject_msg);
+    log_error("Error restoring setting '%s' to the value from game start: "
+              "%s", setting_name(pset), reject_msg);
   }
 }
 
 /**************************************************************************
-  Initialize stuff related to this code module.
+  Save setting values at the start of  the game.
 **************************************************************************/
 void settings_game_start(void)
 {
   settings_iterate(pset) {
     setting_game_set(pset, FALSE);
   } settings_iterate_end;
+
+  /* Settings from the start of the game are saved. */
+  game.server.settings_gamestart_valid = TRUE;
 }
 
 /********************************************************************
@@ -2126,22 +2129,41 @@ void settings_game_start(void)
 *********************************************************************/
 void settings_game_save(struct section_file *file, const char *section)
 {
+  int set_count = 0;
+
   settings_iterate(pset) {
     switch (setting_type(pset)) {
     case SSET_BOOL:
+      secfile_insert_str(file, setting_name(pset),
+                         "%s.set%d.name", section, set_count);
+      secfile_insert_bool(file, setting_bool_get(pset),
+                          "%s.set%d.value", section, set_count);
       secfile_insert_bool(file, pset->boolean.game_value,
-                          "%s.%s", section, setting_name(pset));
+                          "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_INT:
+      secfile_insert_str(file, setting_name(pset),
+                         "%s.set%d.name", section, set_count);
+      secfile_insert_int(file, setting_int_get(pset),
+                          "%s.set%d.value", section, set_count);
       secfile_insert_int(file, pset->integer.game_value,
-                         "%s.%s", section, setting_name(pset));
+                          "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_STRING:
+      secfile_insert_str(file, setting_name(pset),
+                         "%s.set%d.name", section, set_count);
+      secfile_insert_str(file, setting_str_get(pset),
+                          "%s.set%d.value", section, set_count);
       secfile_insert_str(file, pset->string.game_value,
-                         "%s.%s", section, setting_name(pset));
+                          "%s.set%d.gamestart", section, set_count);
       break;
     }
+    set_count++;
   } settings_iterate_end;
+
+  secfile_insert_int(file, set_count, "%s.set_count", section);
+  secfile_insert_bool(file, game.server.settings_gamestart_valid,
+                      "%s.gamestart_valid", section);
 }
 
 /********************************************************************
@@ -2151,47 +2173,105 @@ void settings_game_load(struct section_file *file, const char *section)
 {
   bool bval;
   int ival;
-  const char *sval = NULL;
+  const char *sval = NULL, *name = NULL;
+  char buf[258] = "";
+  int i, set_count;
 
-  if (NULL == secfile_section_by_name(file, section)) {
-    log_verbose("No initial game settings to read.");
+  if (!secfile_lookup_int(file, &set_count, "%s.set_count", section)) {
+    log_error("Can't read the number of settings in the save file.");
     return;
   }
 
+  /* Check if the saved settings are valid settings from game start. */
+  game.server.settings_gamestart_valid
+    = secfile_lookup_bool_default(file, FALSE, "%s.gamestart_valid",
+                                  section);
+
+  for (i = 0; i < set_count; i++) {
+    name = secfile_lookup_str(file, "%s.set%d.name", section, i);
+
+    settings_iterate(pset) {
+      if (fc_strcasecmp(setting_name(pset), name) != 0) {
+        continue;
+      }
+
+      /* Load the current value of the setting. */
+      switch (pset->stype) {
+      case SSET_BOOL:
+        bval = secfile_lookup_bool_default(file, pset->boolean.default_value,
+                                           "%s.set%d.value", section, i);
+        if (!setting_bool_set(pset, bval, NULL, buf, sizeof(buf))) {
+          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        }
+        break;
+
+      case SSET_INT:
+        ival = secfile_lookup_int_default(file, pset->integer.default_value,
+                                          "%s.set%d.value", section, i);
+        if (!setting_int_set(pset, ival, NULL, buf, sizeof(buf))) {
+          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        }
+        break;
+
+      case SSET_STRING:
+        sval = secfile_lookup_str_default(file, pset->string.default_value,
+                                          "%s.set%d.value", section, i);
+        if (!setting_str_set(pset, sval, NULL, buf, sizeof(buf))) {
+          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        }
+        break;
+      }
+
+      if (game.server.settings_gamestart_valid) {
+        /* Load the value of the setting at the start of the game. */
+        switch (pset->stype) {
+        case SSET_BOOL:
+          bval = secfile_lookup_bool_default(file, setting_bool_get(pset),
+                                             "%s.set%d.gamestart", section,
+                                             i);
+          pset->boolean.game_value = bval;
+          break;
+
+        case SSET_INT:
+          ival = secfile_lookup_int_default(file, setting_int_get(pset),
+                                            "%s.set%d.gamestart", section,
+                                            i);
+          pset->integer.game_value = ival;
+          break;
+
+        case SSET_STRING:
+          sval = secfile_lookup_str_default(file, setting_str_get(pset),
+                                            "%s.set%d.gamestart", section,
+                                            i);
+          fc_strlcpy(pset->string.game_value, sval, pset->string.value_size);
+          break;
+        }
+      }
+    } settings_iterate_end;
+  }
+
   settings_iterate(pset) {
-    switch (pset->stype) {
-    case SSET_BOOL:
-      if (secfile_lookup_bool(file, &bval, "%s.%s", section,
-                              setting_name(pset))) {
-        pset->boolean.game_value = bval;
-      }
-      break;
-
-    case SSET_INT:
-      if (secfile_lookup_int(file, &ival, "%s.%s",
-                             section, setting_name(pset))) {
-        pset->integer.game_value = ival;
-      }
-      break;
-
-    case SSET_STRING:
-      if ((sval = secfile_lookup_str(file, "%s.%s",
-                                     section, setting_name(pset)))) {
-        fc_strlcpy(pset->string.game_value, sval, pset->string.value_size);
-      }
-      break;
-    }
+    /* Have to do this at the end due to dependencies ('aifill' and
+     * 'maxplayer'). */
+    setting_action(pset);
   } settings_iterate_end;
 }
 
-/********************************************************************
+/**************************************************************************
   Reset all settings to the values at game start.
-*********************************************************************/
-void settings_game_reset(void)
+**************************************************************************/
+bool settings_game_reset(void)
 {
+  if (!game.server.settings_gamestart_valid) {
+    log_debug("No saved settings from the game start available.");
+    return FALSE;
+  }
+
   settings_iterate(pset) {
     setting_game_restore(pset);
   } settings_iterate_end;
+
+  return TRUE;
 }
 
 /**************************************************************************

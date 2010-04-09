@@ -60,7 +60,6 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "ruleset.h"
-#include "savegame.h"
 #include "score.h"
 #include "settings.h"
 #include "spacerace.h"
@@ -71,6 +70,8 @@
 
 /* generator */
 #include "utilities.h"
+
+#include "savegame.h"
 
 #define TOKEN_SIZE 10
 
@@ -4362,6 +4363,9 @@ static void game_load_internal(struct section_file *file)
     game.scenario.is_scenario = FALSE;
   }
 
+  /* [settings] */
+  settings_game_load(file, "settings");
+
   /* [rulesets] */
   civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
   string = (civstyle == 1) ? "civ1" : "default";
@@ -5278,9 +5282,6 @@ static void game_load_internal(struct section_file *file)
 
   /* load event cache */
   event_cache_load(file, "event_cache");
-
-  /* load settings from game start */
-  settings_game_load(file, "start_settings");
 }
 
 /***************************************************************
@@ -5653,8 +5654,8 @@ void game_save(struct section_file *file, const char *save_reason,
 
     /* save event cache */
     event_cache_save(file, "event_cache");
-
-    /* save settings from game start */
-    settings_game_save(file, "start_settings");
   }
+
+  /* save game settings */
+  settings_game_save(file, "settings");
 }

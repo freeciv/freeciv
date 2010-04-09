@@ -124,7 +124,7 @@ void setting_lock_set(struct setting *pset, bool lock);
 void settings_game_start(void);
 void settings_game_save(struct section_file *file, const char *section);
 void settings_game_load(struct section_file *file, const char *section);
-void settings_game_reset(void);
+bool settings_game_reset(void);
 
 void settings_init(void);
 void settings_reset(void);
