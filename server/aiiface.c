@@ -39,8 +39,9 @@ void ai_init(void)
 
   init_ai(ai);
 
-  ai->funcs.init_city = ai_init_city;
-  ai->funcs.close_city = ai_close_city;
+  ai->funcs.city_init = ai_city_init;
+  ai->funcs.city_update = ai_city_update;
+  ai->funcs.city_close = ai_city_close;
   ai->funcs.auto_settlers = auto_settlers_player;
   ai->funcs.building_advisor_init = ai_manage_buildings;
   ai->funcs.building_advisor = ai_advisor_choose_building;

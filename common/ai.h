@@ -29,8 +29,9 @@ enum incident_type {
 struct ai_type
 {
   struct {
-    void (*init_city)(struct city *pcity);
-    void (*close_city)(struct city *pcity);
+    void (*city_init)(struct city *pcity);
+    void (*city_update)(struct city *pcity);
+    void (*city_close)(struct city *pcity);
     void (*auto_settlers)(struct player *pplayer);
     void (*building_advisor_init)(struct player *pplayer);
     void (*building_advisor)(struct city *pcity, struct ai_choice *choice);

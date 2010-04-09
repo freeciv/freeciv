@@ -3050,6 +3050,8 @@ struct city *create_city_virtual(struct player *pplayer,
 
   pcity->tile_cache_radius_sq = -1; /* -1 = tile_cache must be initialised */
 
+  /* pcity->ai.act_cache: worker activities on the city map */
+
   /* Initialise improvements list */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
     pcity->built[i].turn = I_NEVER;
@@ -3063,8 +3065,8 @@ struct city *create_city_virtual(struct player *pplayer,
   if (is_server()) {
     pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
 
-    if (pplayer->ai->funcs.init_city) {
-      pplayer->ai->funcs.init_city(pcity);
+    if (pplayer->ai->funcs.city_init) {
+      pplayer->ai->funcs.city_init(pcity);
     }
   }
 
@@ -3077,8 +3079,8 @@ struct city *create_city_virtual(struct player *pplayer,
 **************************************************************************/
 void destroy_city_virtual(struct city *pcity)
 {
-  if (pcity->owner->ai->funcs.close_city) {
-    pcity->owner->ai->funcs.close_city(pcity);
+  if (pcity->owner->ai->funcs.city_close) {
+    pcity->owner->ai->funcs.city_close(pcity);
   }
 
   unit_list_destroy(pcity->units_supported);

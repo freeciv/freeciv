@@ -1964,21 +1964,99 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
 /**************************************************************************
   Initialize city for use with default AI.
 **************************************************************************/
-void ai_init_city(struct city *pcity)
+void ai_city_init(struct city *pcity)
 {
   pcity->server.ai = fc_calloc(1, sizeof(*pcity->server.ai));
+
+  pcity->server.ai->act_cache = NULL;
+  pcity->server.ai->act_cache_radius_sq = -1;
+  /* allocate memory for pcity->ai->act_cache */
+  ai_city_update(pcity);
 
   pcity->server.ai->building_wait = BUILDING_WAIT_MINIMUM;
   pcity->server.ai->trade_want = 1; /* we always want some TRADE_WEIGHTING */
 }
 
 /**************************************************************************
+  Update the memory allocated for AI city handling.
+**************************************************************************/
+void ai_city_update(struct city *pcity)
+{
+  int radius_sq = city_map_radius_sq_get(pcity);
+
+  fc_assert_ret(NULL != pcity);
+  fc_assert_ret(NULL != pcity->server.ai);
+
+  /* initialize act_cache if needed */
+  if (pcity->server.ai->act_cache == NULL
+      || pcity->server.ai->act_cache_radius_sq == -1
+      || pcity->server.ai->act_cache_radius_sq != radius_sq) {
+    pcity->server.ai->act_cache
+      = fc_realloc(pcity->server.ai->act_cache,
+                   city_map_tiles(radius_sq)
+                   * sizeof(*(pcity->server.ai->act_cache)));
+    /* initialize with 0 */
+    memset(pcity->server.ai->act_cache, 0,
+           city_map_tiles(radius_sq)
+           * sizeof(*(pcity->server.ai->act_cache)));
+    pcity->server.ai->act_cache_radius_sq = radius_sq;
+  }
+}
+
+/**************************************************************************
   Free city from use with default AI.
 **************************************************************************/
-void ai_close_city(struct city *pcity)
+void ai_city_close(struct city *pcity)
 {
+  fc_assert_ret(NULL != pcity);
+
   if (pcity->server.ai) {
-    free(pcity->server.ai);
-    pcity->server.ai = NULL;
+    if (pcity->server.ai->act_cache) {
+      FC_FREE(pcity->server.ai->act_cache);
+    }
+    FC_FREE(pcity->server.ai);
   }
+}
+
+/**************************************************************************
+  Return the value for activity 'doing' on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+void ai_city_worker_act_set(struct city *pcity, int city_tile_index,
+                            enum unit_activity act_id, int value)
+{
+  if (pcity->server.ai->act_cache_radius_sq
+      != city_map_radius_sq_get(pcity)) {
+    log_debug("update activity cache for %s: radius_sq changed from "
+              "%d to %d", city_name(pcity),
+              pcity->server.ai->act_cache_radius_sq,
+              city_map_radius_sq_get(pcity));
+    ai_city_update(pcity);
+  }
+
+  fc_assert_ret(NULL != pcity);
+  fc_assert_ret(NULL != pcity->server.ai);
+  fc_assert_ret(NULL != pcity->server.ai->act_cache);
+  fc_assert_ret(pcity->server.ai->act_cache_radius_sq
+                == city_map_radius_sq_get(pcity));
+  fc_assert_ret(city_tile_index < city_map_tiles_from_city(pcity));
+
+  (pcity->server.ai->act_cache[city_tile_index]).act[act_id] = value;
+}
+
+/**************************************************************************
+  Return the value for activity 'doing' on tile 'city_tile_index' of
+  city 'pcity'.
+**************************************************************************/
+int ai_city_worker_act_get(const struct city *pcity, int city_tile_index,
+                           enum unit_activity act_id)
+{
+  fc_assert_ret_val(NULL != pcity, 0);
+  fc_assert_ret_val(NULL != pcity->server.ai, 0);
+  fc_assert_ret_val(NULL != pcity->server.ai->act_cache, 0);
+  fc_assert_ret_val(pcity->server.ai->act_cache_radius_sq
+                     == city_map_radius_sq_get(pcity), 0);
+  fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
+
+  return (pcity->server.ai->act_cache[city_tile_index]).act[act_id];
 }

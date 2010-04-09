@@ -240,6 +240,10 @@ struct ai_choice {
   bool need_boat;        /* unit being built wants a boat */
 };
 
+struct activity_cache {
+  int act[ACTIVITY_LAST];
+};
+
 /* Who's coming to kill us, for attack co-ordination */
 struct ai_invasion {
   int attack;         /* Units capable of attacking city */
@@ -294,7 +298,8 @@ struct ai_city {
 
   /* Used for caching change in value from a worker performing
    * a particular activity on a particular tile. */
-  int act_value[ACTIVITY_LAST][CITY_MAP_MAX_SIZE][CITY_MAP_MAX_SIZE];
+  struct activity_cache *act_cache;
+  int act_cache_radius_sq;
 };
 
 enum citizen_category {
