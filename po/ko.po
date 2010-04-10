@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 21:13+0100\n"
+"POT-Creation-Date: 2010-04-10 12:35+0100\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -1309,12 +1309,12 @@ msgstr "에러 %ld(포멧메세지 실패)"
 msgid "error %d (compiled without strerror)"
 msgstr "에러 %d(sterror이 없는 컴파일)"
 
-#: ai/aicity.c:1494 server/citytools.c:2248
+#: ai/aicity.c:1494 server/citytools.c:2257
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s(은)는 %s의 건설을 %s에서 중단했습니다."
 
-#: ai/aicity.c:1504 server/citytools.c:2286
+#: ai/aicity.c:1504 server/citytools.c:2295
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s(은)는 %s의 건설을 %s에서 시작했습니다."
@@ -1851,105 +1851,105 @@ msgstr ""
 msgid "A replacement %s was built in %s."
 msgstr "새로운  %s 는  %s 에 지어졌습니다"
 
-#: server/citytools.c:926
+#: server/citytools.c:935
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr ""
 "당신은 이미  %s 라 불리우는 도시를 갖고 있습니다. 그 도시는  %s 로 다시 이름"
 "지어졌습니다"
 
-#: server/citytools.c:991
+#: server/citytools.c:1000
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 
-#: server/citytools.c:1211
+#: server/citytools.c:1220
 #, c-format
 msgid "You have founded %s."
 msgstr "당신은  %s 을(를) 발견하였습니다"
 
-#: server/citytools.c:1288
+#: server/citytools.c:1297
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 
-#: server/citytools.c:1301
+#: server/citytools.c:1310
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1445
+#: server/citytools.c:1454
 #, c-format
 msgid "You destroy %s completely."
 msgstr "당신은 %s를 완전히 파괴시켰습니다"
 
-#: server/citytools.c:1448
+#: server/citytools.c:1457
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s는 %s에 의해 파괴되었습니다."
 
-#: server/citytools.c:1474
+#: server/citytools.c:1483
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1481
+#: server/citytools.c:1490
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1490
+#: server/citytools.c:1499
 #, c-format
 msgid "You conquer %s"
 msgstr "당신은  %s를 정복했습니다"
 
-#: server/citytools.c:1493
+#: server/citytools.c:1502
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s 가 %s를 정복했습니다"
 
-#: server/citytools.c:1500
+#: server/citytools.c:1509
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1507
+#: server/citytools.c:1516
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1516
+#: server/citytools.c:1525
 #, c-format
 msgid "You have liberated %s!"
 msgstr "당신은 %s를 약탈했습니다!"
 
-#: server/citytools.c:1519
+#: server/citytools.c:1528
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s는 %s를 약탈했습니다"
 
-#: server/citytools.c:2265
+#: server/citytools.c:2274
 msgid " from the worklist"
 msgstr "작업리스트로 부터"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2277
+#: server/citytools.c:2286
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s는 %s%s를 건설하고 있습니다"
 
-#: server/citytools.c:2466
+#: server/citytools.c:2475
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr ""
@@ -5707,10 +5707,10 @@ msgid ""
 "  %T = <game.info.turn>\n"
 "  %Y = <game.info.year>\n"
 "\n"
-"Example: 'civgame-T%04T-Y%+04Y%S-%R' => 'civgame-T0302-Y+1716AD-manual'\n"
+"Example: 'civgame-T%04T-Y%+05Y-%R' => 'civgame-T0100-Y00001-manual'\n"
 "\n"
 "Be carefull to use at least one of %T and %Y, else newer savegames will "
-"overwrite old ones. If non of the formats are used '-T%04T-Y%+04Y%S-%R' is "
+"overwrite old ones. If non of the formats are used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
 
@@ -5947,112 +5947,112 @@ msgstr "%s 로 게임저장 실패"
 msgid "Game saved as %s"
 msgstr ""
 
-#: server/srv_main.c:1129
+#: server/srv_main.c:1130
 msgid "The game is already running."
 msgstr "게임은 이미 진행중입니다."
 
-#: server/srv_main.c:1137
+#: server/srv_main.c:1138
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1144
+#: server/srv_main.c:1145
 msgid "Starting game."
 msgstr "게임 시작"
 
-#: server/srv_main.c:1214
+#: server/srv_main.c:1215
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr ""
 
-#: server/srv_main.c:1293
+#: server/srv_main.c:1294
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "경고 : 오래된 클라이언트 %s 가(이) 거부됨"
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1303
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1362
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "당신은 이 옵션을 설정하도록 허용되지 않았습니다"
 
-#: server/srv_main.c:1509
+#: server/srv_main.c:1510
 msgid "Please choose a non-blank name."
 msgstr ""
 
-#: server/srv_main.c:1525
+#: server/srv_main.c:1526
 msgid "That nation is already in use."
 msgstr "그 국가는 이미 사용되고 있습니다."
 
-#: server/srv_main.c:1541
+#: server/srv_main.c:1542
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "또다른 플레이어가 이미 %s 이름을 갖고 있습니다. 다른 이름을 사용하세요"
 
-#: server/srv_main.c:1562
+#: server/srv_main.c:1563
 msgid "Please choose a name containing only ASCII characters."
 msgstr ""
 
-#: server/srv_main.c:1665
+#: server/srv_main.c:1666
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "%s 이름의 나라는 이 시나리오에서 가능하지 않습니다"
 
-#: server/srv_main.c:1671
+#: server/srv_main.c:1672
 #, c-format
 msgid "%s nation is already in use."
 msgstr ""
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1690
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s(은)는 %s의 통치자 %s입니다."
 
-#: server/srv_main.c:1745
+#: server/srv_main.c:1746
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "게임시작을 기다립니다: (%d 명 총 %d 명중) 이 이미 시작하였습니다"
 
-#: server/srv_main.c:1812 server/srv_main.c:1816
+#: server/srv_main.c:1813 server/srv_main.c:1817
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr ""
 
-#: server/srv_main.c:1955
+#: server/srv_main.c:1956
 #, c-format
 msgid "Player %d"
 msgstr "사용자 %d"
 
-#: server/srv_main.c:1965 server/srv_main.c:1969
+#: server/srv_main.c:1966 server/srv_main.c:1970
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s(은)는 %s(을)를 통치합니다."
 
-#: server/srv_main.c:2106
+#: server/srv_main.c:2107
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2168
+#: server/srv_main.c:2169
 #, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr ""
 
-#: server/srv_main.c:2173
+#: server/srv_main.c:2174
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2204
+#: server/srv_main.c:2205
 msgid "The game is over..."
 msgstr "게임이 끝났습니다..."
 
-#: server/srv_main.c:2427
+#: server/srv_main.c:2428
 msgid "Now accepting new client connections."
 msgstr ""
 
@@ -7996,11 +7996,12 @@ msgid_plural "%3d turns"
 msgstr[0] "%3d 턴"
 msgstr[1] "%3d 턴"
 
-#: client/citydlg_common.c:243 client/citydlg_common.c:386 client/text.c:707
-#: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
-#: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1392
-#: client/gui-sdl/wldlg.c:1397 client/gui-win32/citydlg.c:468
+#: client/citydlg_common.c:243 client/citydlg_common.c:295
+#: client/citydlg_common.c:386 client/text.c:707 client/agents/cma_fec.c:250
+#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
+#: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
+#: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
+#: client/gui-win32/citydlg.c:468
 msgid "never"
 msgstr "없음"
 
@@ -8092,10 +8093,11 @@ msgid "%+4d : Used\n"
 msgstr ""
 
 #: client/citydlg_common.c:507 client/citydlg_common.c:553
+#: client/citydlg_common.c:577
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:509
+#: client/citydlg_common.c:509 client/citydlg_common.c:579
 #, c-format
 msgid "%4d : Total surplus"
 msgstr ""
@@ -8128,6 +8130,21 @@ msgstr "%2$s에서 오시는 %1$s"
 #, c-format
 msgid "%2.1f : Total chance for a plague"
 msgstr ""
+
+#: client/citydlg_common.c:571
+#, c-format
+msgid "%+4d : Pollution from shields\n"
+msgstr ""
+
+#: client/citydlg_common.c:573
+#, c-format
+msgid "%+4d : Pollution from citizens\n"
+msgstr ""
+
+#: client/citydlg_common.c:575
+#, fuzzy, c-format
+msgid "%+4d : Pollution modifier\n"
+msgstr "부패"
 
 #: client/cityrepdata.c:82
 #, fuzzy

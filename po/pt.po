@@ -12,7 +12,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 21:13+0100\n"
+"POT-Creation-Date: 2010-04-10 12:35+0100\n"
 "PO-Revision-Date: 2007-09-01 22:56+0300\n"
 "Last-Translator: Duarte Loreto <happyguy_pt@hotmail.com>\n"
 "Language-Team: \n"
@@ -1364,12 +1364,12 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr "erro %d (compilado sem strerror)"
 
-#: ai/aicity.c:1494 server/citytools.c:2248
+#: ai/aicity.c:1494 server/citytools.c:2257
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Os %s pararam de construir %s em %s."
 
-#: ai/aicity.c:1504 server/citytools.c:2286
+#: ai/aicity.c:1504 server/citytools.c:2295
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Os %s iniciaram a construção de %s em %s."
@@ -1894,12 +1894,12 @@ msgstr "%s controla agora %s"
 msgid "A replacement %s was built in %s."
 msgstr "Foi construido um novo %s em %s."
 
-#: server/citytools.c:926
+#: server/citytools.c:935
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "Já possui uma cidade denominada %s. A cidade foi renomeada para %s."
 
-#: server/citytools.c:991
+#: server/citytools.c:1000
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -1909,93 +1909,93 @@ msgstr ""
 "      Trabalhadores juntam-se espontaneamente e equipam a cidade com "
 "caminhos de ferro."
 
-#: server/citytools.c:1211
+#: server/citytools.c:1220
 #, fuzzy, c-format
 msgid "You have founded %s."
 msgstr "Você fundou %s"
 
-#: server/citytools.c:1288
+#: server/citytools.c:1297
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "Jogo: Movido %s para fora da cidade dispersa %s para evitar ficar preso."
 
-#: server/citytools.c:1301
+#: server/citytools.c:1310
 #, fuzzy, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 " Quando %s foi dispersa a sua %s não conseguiu sair, pelo que ficou presa."
 
-#: server/citytools.c:1445
+#: server/citytools.c:1454
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Você destruiu completamente %s."
 
-#: server/citytools.c:1448
+#: server/citytools.c:1457
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s foi destruido por %s."
 
-#: server/citytools.c:1474
+#: server/citytools.c:1483
 #, fuzzy, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Você conquistou %s, a pilhagem acumulou %d moedas!"
 msgstr[1] "Você conquistou %s, a pilhagem acumulou %d moedas!"
 
-#: server/citytools.c:1481
+#: server/citytools.c:1490
 #, fuzzy, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s conquistou %s e pilhou %d moedas da cidade."
 msgstr[1] "%s conquistou %s e pilhou %d moedas da cidade."
 
-#: server/citytools.c:1490
+#: server/citytools.c:1499
 #, fuzzy, c-format
 msgid "You conquer %s"
 msgstr "Você atacou os %s com armas nucleares."
 
-#: server/citytools.c:1493
+#: server/citytools.c:1502
 #, fuzzy, c-format
 msgid "%s conquered %s."
 msgstr "%s descobrem %s"
 
-#: server/citytools.c:1500
+#: server/citytools.c:1509
 #, fuzzy, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Você libertou %s! A pilhagem acumulou %d moedas."
 msgstr[1] "Você libertou %s! A pilhagem acumulou %d moedas."
 
-#: server/citytools.c:1507
+#: server/citytools.c:1516
 #, fuzzy, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s libertou %s e pilhou %d moedas da cidade."
 msgstr[1] "%s libertou %s e pilhou %d moedas da cidade."
 
-#: server/citytools.c:1516
+#: server/citytools.c:1525
 #, fuzzy, c-format
 msgid "You have liberated %s!"
 msgstr "Você fundou %s"
 
-#: server/citytools.c:1519
+#: server/citytools.c:1528
 #, fuzzy, c-format
 msgid "%s liberated %s."
 msgstr "%s governa os %s."
 
-#: server/citytools.c:2265
+#: server/citytools.c:2274
 msgid " from the worklist"
 msgstr " da lista de tarefas"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2277
+#: server/citytools.c:2286
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s está a construir %s%s."
 
-#: server/citytools.c:2466
+#: server/citytools.c:2475
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Você vende %s em %s (agora isolado) por %d moedas."
@@ -6186,10 +6186,10 @@ msgid ""
 "  %T = <game.info.turn>\n"
 "  %Y = <game.info.year>\n"
 "\n"
-"Example: 'civgame-T%04T-Y%+04Y%S-%R' => 'civgame-T0302-Y+1716AD-manual'\n"
+"Example: 'civgame-T%04T-Y%+05Y-%R' => 'civgame-T0100-Y00001-manual'\n"
 "\n"
 "Be carefull to use at least one of %T and %Y, else newer savegames will "
-"overwrite old ones. If non of the formats are used '-T%04T-Y%+04Y%S-%R' is "
+"overwrite old ones. If non of the formats are used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
 
@@ -6436,114 +6436,114 @@ msgstr "Falha ao gravar o jogo como %s"
 msgid "Game saved as %s"
 msgstr "Jogo gravado como %s"
 
-#: server/srv_main.c:1129
+#: server/srv_main.c:1130
 msgid "The game is already running."
 msgstr "O jogo já foi iniciado."
 
-#: server/srv_main.c:1137
+#: server/srv_main.c:1138
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 
-#: server/srv_main.c:1144
+#: server/srv_main.c:1145
 msgid "Starting game."
 msgstr "A iniciar o jogo."
 
-#: server/srv_main.c:1214
+#: server/srv_main.c:1215
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "pedido de relatório desconhecido (tipo %d)"
 
-#: server/srv_main.c:1293
+#: server/srv_main.c:1294
 #, fuzzy, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "Aviso: Receia-se fome em %s."
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1303
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
 msgstr ""
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1362
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "Você não está autorizado a definir esta opção."
 
-#: server/srv_main.c:1509
+#: server/srv_main.c:1510
 msgid "Please choose a non-blank name."
 msgstr "Seleccione um nome não-vazio."
 
-#: server/srv_main.c:1525
+#: server/srv_main.c:1526
 #, fuzzy
 msgid "That nation is already in use."
 msgstr "O jogo já foi iniciado."
 
-#: server/srv_main.c:1541
+#: server/srv_main.c:1542
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "Já existe outro jogador de nome '%s'.  Seleccione outro nome."
 
-#: server/srv_main.c:1562
+#: server/srv_main.c:1563
 #, fuzzy
 msgid "Please choose a name containing only ASCII characters."
 msgstr "Seleccione um nome não-vazio."
 
-#: server/srv_main.c:1665
+#: server/srv_main.c:1666
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr ""
 
-#: server/srv_main.c:1671
+#: server/srv_main.c:1672
 #, fuzzy, c-format
 msgid "%s nation is already in use."
 msgstr "O jogo já foi iniciado."
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1690
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s é o governante %s %s."
 
-#: server/srv_main.c:1745
+#: server/srv_main.c:1746
 #, fuzzy, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "Incapaz de iniciar o jogo: este já foi iniciado."
 
-#: server/srv_main.c:1812 server/srv_main.c:1816
+#: server/srv_main.c:1813 server/srv_main.c:1817
 #, fuzzy, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s foi acrescentado como um jogador controlado por IA."
 
-#: server/srv_main.c:1955
+#: server/srv_main.c:1956
 #, c-format
 msgid "Player %d"
 msgstr "Jogador %d"
 
-#: server/srv_main.c:1965 server/srv_main.c:1969
+#: server/srv_main.c:1966 server/srv_main.c:1970
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s governa os %s."
 
-#: server/srv_main.c:2106
+#: server/srv_main.c:2107
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2168
+#: server/srv_main.c:2169
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "A enviar informação para o metaservidor [%s]"
 
-#: server/srv_main.c:2173
+#: server/srv_main.c:2174
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2204
+#: server/srv_main.c:2205
 msgid "The game is over..."
 msgstr "O jogo terminou..."
 
-#: server/srv_main.c:2427
+#: server/srv_main.c:2428
 msgid "Now accepting new client connections."
 msgstr "A aceitar novas ligações de clientes."
 
@@ -8575,11 +8575,12 @@ msgid_plural "%3d turns"
 msgstr[0] "%3d turno"
 msgstr[1] "%3d turnos"
 
-#: client/citydlg_common.c:243 client/citydlg_common.c:386 client/text.c:707
-#: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
-#: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1392
-#: client/gui-sdl/wldlg.c:1397 client/gui-win32/citydlg.c:468
+#: client/citydlg_common.c:243 client/citydlg_common.c:295
+#: client/citydlg_common.c:386 client/text.c:707 client/agents/cma_fec.c:250
+#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
+#: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
+#: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
+#: client/gui-win32/citydlg.c:468
 msgid "never"
 msgstr "nunca"
 
@@ -8673,10 +8674,11 @@ msgid "%+4d : Used\n"
 msgstr ""
 
 #: client/citydlg_common.c:507 client/citydlg_common.c:553
+#: client/citydlg_common.c:577
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:509
+#: client/citydlg_common.c:509 client/citydlg_common.c:579
 #, c-format
 msgid "%4d : Total surplus"
 msgstr ""
@@ -8709,6 +8711,21 @@ msgstr "%s de %s"
 #, c-format
 msgid "%2.1f : Total chance for a plague"
 msgstr ""
+
+#: client/citydlg_common.c:571
+#, c-format
+msgid "%+4d : Pollution from shields\n"
+msgstr ""
+
+#: client/citydlg_common.c:573
+#, fuzzy, c-format
+msgid "%+4d : Pollution from citizens\n"
+msgstr "%s - %s cidadãos"
+
+#: client/citydlg_common.c:575
+#, fuzzy, c-format
+msgid "%+4d : Pollution modifier\n"
+msgstr "Corrupção"
 
 #: client/cityrepdata.c:82
 #, fuzzy

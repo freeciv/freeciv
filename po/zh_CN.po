@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 21:13+0100\n"
+"POT-Creation-Date: 2010-04-10 12:35+0100\n"
 "PO-Revision-Date: 2006-03-26 14:53+0800\n"
 "Last-Translator: Hongjia Cao <hjcao@yahoo.com>\n"
 "Language-Team: zh_CN <i18n-translation@linux.net.cn>\n"
@@ -1355,12 +1355,12 @@ msgstr "错误 %ld （格式化消息失败）"
 msgid "error %d (compiled without strerror)"
 msgstr "错误 %d （编译时未引入 strerror）"
 
-#: ai/aicity.c:1494 server/citytools.c:2248
+#: ai/aicity.c:1494 server/citytools.c:2257
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%1$s 停止在 %3$s 中建造 %2$s。"
 
-#: ai/aicity.c:1504 server/citytools.c:2286
+#: ai/aicity.c:1504 server/citytools.c:2295
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr " %1$s 开始在 %3$s 中建造 %2$s。"
@@ -1890,12 +1890,12 @@ msgstr "失去对 %2$s 控制的同时损失了 %1$s。"
 msgid "A replacement %s was built in %s."
 msgstr "。正在 %2$s 中建造新的 %1$s。"
 
-#: server/citytools.c:926
+#: server/citytools.c:935
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "您已经有一个城市名叫 %s了。 城市被改名为 %s 。"
 
-#: server/citytools.c:991
+#: server/citytools.c:1000
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -1904,87 +1904,87 @@ msgstr ""
 "%s 中的人民被您对科技的洞察力所震惊！\n"
 "       工人们自发地召集起来用铁路升级了城市。"
 
-#: server/citytools.c:1211
+#: server/citytools.c:1220
 #, fuzzy, c-format
 msgid "You have founded %s."
 msgstr "您建立了 %s"
 
-#: server/citytools.c:1288
+#: server/citytools.c:1297
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "游戏： 将 %s 移出了解散的城市 %s 以避免被陆地包围。"
 
-#: server/citytools.c:1301
+#: server/citytools.c:1310
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "当 %s 被解散时您的 %s 没能出来，因而损失了。"
 
-#: server/citytools.c:1445
+#: server/citytools.c:1454
 #, c-format
 msgid "You destroy %s completely."
 msgstr "您彻底毁灭了 %s。"
 
-#: server/citytools.c:1448
+#: server/citytools.c:1457
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s 被 %s 毁灭了。"
 
-#: server/citytools.c:1474
+#: server/citytools.c:1483
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "您征服了 %s ，您的战利品总计为 %d 黄金！"
 
-#: server/citytools.c:1481
+#: server/citytools.c:1490
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s 征服了 %s 并从该城市掠夺了 %d 黄金。"
 
-#: server/citytools.c:1490
+#: server/citytools.c:1499
 #, c-format
 msgid "You conquer %s"
 msgstr "您征服了 %s "
 
-#: server/citytools.c:1493
+#: server/citytools.c:1502
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s 征服了 %s。"
 
-#: server/citytools.c:1500
+#: server/citytools.c:1509
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "您解放了 %s ！战利品总计为 %d 黄金。"
 
-#: server/citytools.c:1507
+#: server/citytools.c:1516
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s 解放了 %s 并从该城市中掠夺了 %d 黄金。"
 
-#: server/citytools.c:1516
+#: server/citytools.c:1525
 #, c-format
 msgid "You have liberated %s!"
 msgstr "您解放了 %s！"
 
-#: server/citytools.c:1519
+#: server/citytools.c:1528
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s 解放了 %s。"
 
-#: server/citytools.c:2265
+#: server/citytools.c:2274
 msgid " from the worklist"
 msgstr " 从工作列表"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2277
+#: server/citytools.c:2286
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s 正在建造 %s%s。"
 
-#: server/citytools.c:2466
+#: server/citytools.c:2475
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "您以 %3$d 黄金的价格卖出 %2$s 中的 %1$s （目前被陆地包围）。"
@@ -6072,10 +6072,10 @@ msgid ""
 "  %T = <game.info.turn>\n"
 "  %Y = <game.info.year>\n"
 "\n"
-"Example: 'civgame-T%04T-Y%+04Y%S-%R' => 'civgame-T0302-Y+1716AD-manual'\n"
+"Example: 'civgame-T%04T-Y%+05Y-%R' => 'civgame-T0100-Y00001-manual'\n"
 "\n"
 "Be carefull to use at least one of %T and %Y, else newer savegames will "
-"overwrite old ones. If non of the formats are used '-T%04T-Y%+04Y%S-%R' is "
+"overwrite old ones. If non of the formats are used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
 
@@ -6315,30 +6315,30 @@ msgstr "将游戏保存为 %s 失败"
 msgid "Game saved as %s"
 msgstr "游戏已存为 %s"
 
-#: server/srv_main.c:1129
+#: server/srv_main.c:1130
 msgid "The game is already running."
 msgstr "游戏已经运行。"
 
-#: server/srv_main.c:1137
+#: server/srv_main.c:1138
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr "游戏开始时 %s 失去了控制命令级别。从现在开始使用投票。"
 
-#: server/srv_main.c:1144
+#: server/srv_main.c:1145
 msgid "Starting game."
 msgstr "正在启动游戏。"
 
-#: server/srv_main.c:1214
+#: server/srv_main.c:1215
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "未知的报告请求（类型 %d）"
 
-#: server/srv_main.c:1293
+#: server/srv_main.c:1294
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告： 拒绝旧的客户端 %s "
 
-#: server/srv_main.c:1302
+#: server/srv_main.c:1303
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
 "Freeciv 2.2 or later."
@@ -6346,83 +6346,83 @@ msgstr ""
 "您的客户端太旧了。要使用此服务器请升级您的客户端为晚于2003-11-28的CVS版本或 "
 "Freeciv 2.2 或更高。"
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1362
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "不允许您设置此选项。"
 
-#: server/srv_main.c:1509
+#: server/srv_main.c:1510
 msgid "Please choose a non-blank name."
 msgstr "请选择一个非空的名字。"
 
-#: server/srv_main.c:1525
+#: server/srv_main.c:1526
 msgid "That nation is already in use."
 msgstr "该民族已经被使用了。"
 
-#: server/srv_main.c:1541
+#: server/srv_main.c:1542
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr "其它的玩家已经使用了名字“%s”。请选择另一个名字。"
 
-#: server/srv_main.c:1562
+#: server/srv_main.c:1563
 msgid "Please choose a name containing only ASCII characters."
 msgstr "请选择一个仅包含 ASCII 字符的名字。"
 
-#: server/srv_main.c:1665
+#: server/srv_main.c:1666
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "民族 %s 在这个情景中不能使用。"
 
-#: server/srv_main.c:1671
+#: server/srv_main.c:1672
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%s 民族已经被使用了。"
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1690
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%s 成为 %s 的统治者 %s 。"
 
-#: server/srv_main.c:1745
+#: server/srv_main.c:1746
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "等待游戏开始：%2$d 个玩家中的 %1$d 个已经准备就绪。"
 
-#: server/srv_main.c:1812 server/srv_main.c:1816
+#: server/srv_main.c:1813 server/srv_main.c:1817
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s 已经作为 %s 级别的 AI 玩家加入。"
 
-#: server/srv_main.c:1955
+#: server/srv_main.c:1956
 #, c-format
 msgid "Player %d"
 msgstr "玩家 %d"
 
-#: server/srv_main.c:1965 server/srv_main.c:1969
+#: server/srv_main.c:1966 server/srv_main.c:1970
 #, c-format
 msgid "%s rules the %s."
 msgstr "%s 统治 %s。"
 
-#: server/srv_main.c:2106
+#: server/srv_main.c:2107
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2168
+#: server/srv_main.c:2169
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "将信息发送到元服务器 [%s]"
 
-#: server/srv_main.c:2173
+#: server/srv_main.c:2174
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2204
+#: server/srv_main.c:2205
 msgid "The game is over..."
 msgstr "游戏结束..."
 
-#: server/srv_main.c:2427
+#: server/srv_main.c:2428
 msgid "Now accepting new client connections."
 msgstr "现在接受新客户端的连接。"
 
@@ -8396,11 +8396,12 @@ msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d 回合"
 
-#: client/citydlg_common.c:243 client/citydlg_common.c:386 client/text.c:707
-#: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
-#: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1392
-#: client/gui-sdl/wldlg.c:1397 client/gui-win32/citydlg.c:468
+#: client/citydlg_common.c:243 client/citydlg_common.c:295
+#: client/citydlg_common.c:386 client/text.c:707 client/agents/cma_fec.c:250
+#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
+#: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
+#: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
+#: client/gui-win32/citydlg.c:468
 msgid "never"
 msgstr "从不"
 
@@ -8491,10 +8492,11 @@ msgid "%+4d : Used\n"
 msgstr ""
 
 #: client/citydlg_common.c:507 client/citydlg_common.c:553
+#: client/citydlg_common.c:577
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:509
+#: client/citydlg_common.c:509 client/citydlg_common.c:579
 #, c-format
 msgid "%4d : Total surplus"
 msgstr ""
@@ -8527,6 +8529,21 @@ msgstr "%s 来自 %s"
 #, c-format
 msgid "%2.1f : Total chance for a plague"
 msgstr ""
+
+#: client/citydlg_common.c:571
+#, fuzzy, c-format
+msgid "%+4d : Pollution from shields\n"
+msgstr "* 能够从方格上清除污染。\n"
+
+#: client/citydlg_common.c:573
+#, fuzzy, c-format
+msgid "%+4d : Pollution from citizens\n"
+msgstr "* 能够从方格上清除污染。\n"
+
+#: client/citydlg_common.c:575
+#, fuzzy, c-format
+msgid "%+4d : Pollution modifier\n"
+msgstr "腐败"
 
 #: client/cityrepdata.c:82
 #, fuzzy

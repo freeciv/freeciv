@@ -144,7 +144,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.0.99-devel\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 21:13+0100\n"
+"POT-Creation-Date: 2010-04-10 12:35+0100\n"
 "PO-Revision-Date: 2007-08-12 15:56+0300\n"
 "Last-Translator: MITA Yuusuke <clefs@mail.goo.ne.jp>\n"
 "Language-Team: SAWADA Katsuya <ama@petmail.net>\n"
@@ -1533,12 +1533,12 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr "エラー %d (strerror 無しでコンパイルされました)"
 
-#: ai/aicity.c:1494 server/citytools.c:2248
+#: ai/aicity.c:1494 server/citytools.c:2257
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%sは%sを%sに建てるのを中断しました。"
 
-#: ai/aicity.c:1504 server/citytools.c:2286
+#: ai/aicity.c:1504 server/citytools.c:2295
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%sは%sを%sに建て始めました。"
@@ -2178,12 +2178,12 @@ msgstr "%2$sの支配権を失うと共に%1$sを失いました。"
 msgid "A replacement %s was built in %s."
 msgstr "を失いました。新しい%sが %s に建てられました。"
 
-#: server/citytools.c:926
+#: server/citytools.c:935
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "既に%sと呼ばれる都市があります。都市は%sと改名されました。"
 
-#: server/citytools.c:991
+#: server/citytools.c:1000
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
@@ -2192,89 +2192,89 @@ msgstr ""
 "%s の市民は，あなたの技術を垣間見，驚愕しました。\n"
 "      労働者は自発的に集まり，都市に鉄道を引きました。"
 
-#: server/citytools.c:1211
+#: server/citytools.c:1220
 #, c-format
 msgid "You have founded %s."
 msgstr "%sを作りました。"
 
-#: server/citytools.c:1288
+#: server/citytools.c:1297
 #, fuzzy, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 "陸地で動けなくなることを避けるために，解散した都市%2$sの外に%1$sを移動しまし"
 "た。"
 
-#: server/citytools.c:1301
+#: server/citytools.c:1310
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr "%sが解散した時，%sは外に出ることができなかったため座礁しました。"
 
-#: server/citytools.c:1445
+#: server/citytools.c:1454
 #, c-format
 msgid "You destroy %s completely."
 msgstr "%sを完全に破壊しました。"
 
-#: server/citytools.c:1448
+#: server/citytools.c:1457
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s は %s によって破壊されました。"
 
-#: server/citytools.c:1474
+#: server/citytools.c:1483
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "%s を制圧し，金 %d を略奪しました!"
 
-#: server/citytools.c:1481
+#: server/citytools.c:1490
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s は %s を制圧し，金 %d を略奪しました。"
 
-#: server/citytools.c:1490
+#: server/citytools.c:1499
 #, c-format
 msgid "You conquer %s"
 msgstr "%sを制圧しました"
 
-#: server/citytools.c:1493
+#: server/citytools.c:1502
 #, c-format
 msgid "%s conquered %s."
 msgstr "%sは%sを制圧しました。"
 
-#: server/citytools.c:1500
+#: server/citytools.c:1509
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "%sを解放しました。金 %d を略奪しました。"
 
-#: server/citytools.c:1507
+#: server/citytools.c:1516
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s は %s を解放し，金 %d が都市から略奪されました。"
 
-#: server/citytools.c:1516
+#: server/citytools.c:1525
 #, c-format
 msgid "You have liberated %s!"
 msgstr "%sを解放しました！"
 
-#: server/citytools.c:1519
+#: server/citytools.c:1528
 #, c-format
 msgid "%s liberated %s."
 msgstr "%sは%sを解放しました。"
 
-#: server/citytools.c:2265
+#: server/citytools.c:2274
 msgid " from the worklist"
 msgstr "作業リストから"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2277
+#: server/citytools.c:2286
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%sで%sを%s作り始めました。"
 
-#: server/citytools.c:2466
+#: server/citytools.c:2475
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "(今は陸地で囲まれている)%2$sの%1$sを%3$dで売ります。"
@@ -6716,10 +6716,10 @@ msgid ""
 "  %T = <game.info.turn>\n"
 "  %Y = <game.info.year>\n"
 "\n"
-"Example: 'civgame-T%04T-Y%+04Y%S-%R' => 'civgame-T0302-Y+1716AD-manual'\n"
+"Example: 'civgame-T%04T-Y%+05Y-%R' => 'civgame-T0100-Y00001-manual'\n"
 "\n"
 "Be carefull to use at least one of %T and %Y, else newer savegames will "
-"overwrite old ones. If non of the formats are used '-T%04T-Y%+04Y%S-%R' is "
+"overwrite old ones. If non of the formats are used '-T%04T-Y%05Y-%R' is "
 "appended to the value of 'savename'."
 msgstr ""
 
@@ -6983,36 +6983,36 @@ msgstr "%s という名前でゲームを保存失敗しました。"
 msgid "Game saved as %s"
 msgstr "%s という名前でゲームをセーブしました。"
 
-#: server/srv_main.c:1129
+#: server/srv_main.c:1130
 msgid "The game is already running."
 msgstr "ゲームは既に始まっています。"
 
 # clefs
-#: server/srv_main.c:1137
+#: server/srv_main.c:1138
 #, c-format
 msgid "%s lost control cmdlevel on game start.  Use voting from now on."
 msgstr ""
 "%sはゲーム開始と同時にcontrolコマンドレベルを失いました。以後は投票システムを"
 "使用してください。"
 
-#: server/srv_main.c:1144
+#: server/srv_main.c:1145
 msgid "Starting game."
 msgstr "ゲームを開始しています。"
 
 # clefs
-#: server/srv_main.c:1214
+#: server/srv_main.c:1215
 #, c-format
 msgid "request for unknown report (type %d)"
 msgstr "不明な報告の要求です (タイプ %d)"
 
 # clefs
-#: server/srv_main.c:1293
+#: server/srv_main.c:1294
 #, c-format
 msgid "Warning: rejecting old client %s"
 msgstr "警告: 旧型のクライアント%sを拒否しました"
 
 # clefs
-#: server/srv_main.c:1302
+#: server/srv_main.c:1303
 #, fuzzy
 msgid ""
 "Your client is too old. To use this server, please upgrade your client to a "
@@ -7022,91 +7022,91 @@ msgstr ""
 "のCVS版，またはFreeciv 2.2以降のクライアントにアップグレードしてください。ク"
 "ライアントのアップグレードには 1 クライアントあたり 0 円が必要です。"
 
-#: server/srv_main.c:1361
+#: server/srv_main.c:1362
 #, fuzzy
 msgid "You are not allowed to edit."
 msgstr "このオプションの設定を許可されていません。"
 
 # yasu
-#: server/srv_main.c:1509
+#: server/srv_main.c:1510
 msgid "Please choose a non-blank name."
 msgstr "空白ではない名前を選んで下さい。"
 
 # clefs
-#: server/srv_main.c:1525
+#: server/srv_main.c:1526
 msgid "That nation is already in use."
 msgstr "その民族は既に使われています。"
 
 # yasu, ama
-#: server/srv_main.c:1541
+#: server/srv_main.c:1542
 #, c-format
 msgid "Another player already has the name '%s'.  Please choose another name."
 msgstr ""
 "他のプレイヤーが既に'%s'という名前を選んでいます。他の名前を選んでください。"
 
 # yasu, clefs
-#: server/srv_main.c:1562
+#: server/srv_main.c:1563
 msgid "Please choose a name containing only ASCII characters."
 msgstr "ASCII文字だけで綴られた名前にしてください。"
 
 # clefs
-#: server/srv_main.c:1665
+#: server/srv_main.c:1666
 #, c-format
 msgid "%s nation is not available in this scenario."
 msgstr "このシナリオでは%sは選択できません。"
 
-#: server/srv_main.c:1671
+#: server/srv_main.c:1672
 #, c-format
 msgid "%s nation is already in use."
 msgstr "%sはもう他の誰かが選択しています。"
 
-#: server/srv_main.c:1689
+#: server/srv_main.c:1690
 #, c-format
 msgid "%s is the %s ruler %s."
 msgstr "%sは%sの支配者%sです。"
 
 # clefs
-#: server/srv_main.c:1745
+#: server/srv_main.c:1746
 #, c-format
 msgid "Waiting to start game: %d out of %d players are ready to start."
 msgstr "ゲームの開始待ち中――%2$d人のうち%1$d人は準備を完了しています。"
 
-#: server/srv_main.c:1812 server/srv_main.c:1816
+#: server/srv_main.c:1813 server/srv_main.c:1817
 #, c-format
 msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s は%sレベルのAIプレイヤーとして加わりました。"
 
-#: server/srv_main.c:1955
+#: server/srv_main.c:1956
 #, c-format
 msgid "Player %d"
 msgstr "プレイヤー %d"
 
 # clefs
-#: server/srv_main.c:1965 server/srv_main.c:1969
+#: server/srv_main.c:1966 server/srv_main.c:1970
 #, c-format
 msgid "%s rules the %s."
 msgstr "%sは%sを統治します。"
 
-#: server/srv_main.c:2106
+#: server/srv_main.c:2107
 msgid ""
 "This civserver program has player authentication support, but it's currently "
 "not in use."
 msgstr ""
 
-#: server/srv_main.c:2168
+#: server/srv_main.c:2169
 #, fuzzy, c-format
 msgid "Sending info to metaserver <%s>"
 msgstr "メタサーバに情報を送っています [%s]"
 
-#: server/srv_main.c:2173
+#: server/srv_main.c:2174
 msgid "Not starting without explicitly requested metaserver connection."
 msgstr ""
 
-#: server/srv_main.c:2204
+#: server/srv_main.c:2205
 msgid "The game is over..."
 msgstr "ゲームオーバーです!"
 
-#: server/srv_main.c:2427
+#: server/srv_main.c:2428
 msgid "Now accepting new client connections."
 msgstr "新しいクライアント接続を受け付けています。"
 
@@ -9221,11 +9221,12 @@ msgid "%3d turn"
 msgid_plural "%3d turns"
 msgstr[0] "%3d ターン"
 
-#: client/citydlg_common.c:243 client/citydlg_common.c:386 client/text.c:707
-#: client/agents/cma_fec.c:250 client/agents/cma_fec.c:284
-#: client/gui-gtk-2.0/citydlg.c:1438 client/gui-sdl/cityrep.c:534
-#: client/gui-sdl/cityrep.c:1058 client/gui-sdl/wldlg.c:1392
-#: client/gui-sdl/wldlg.c:1397 client/gui-win32/citydlg.c:468
+#: client/citydlg_common.c:243 client/citydlg_common.c:295
+#: client/citydlg_common.c:386 client/text.c:707 client/agents/cma_fec.c:250
+#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
+#: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
+#: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
+#: client/gui-win32/citydlg.c:468
 msgid "never"
 msgstr "なし"
 
@@ -9325,10 +9326,11 @@ msgstr "%+4d : 消費\n"
 
 # 下に`total'とあるからこの部分は日本語では意味がない (clefs)
 #: client/citydlg_common.c:507 client/citydlg_common.c:553
+#: client/citydlg_common.c:577
 msgid "==== : Adds up to\n"
 msgstr ""
 
-#: client/citydlg_common.c:509
+#: client/citydlg_common.c:509 client/citydlg_common.c:579
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : 剰余総計"
@@ -9363,6 +9365,21 @@ msgstr "%+4d : %s からのボーナス (%+d%%)\n"
 #, c-format
 msgid "%2.1f : Total chance for a plague"
 msgstr ""
+
+#: client/citydlg_common.c:571
+#, fuzzy, c-format
+msgid "%+4d : Pollution from shields\n"
+msgstr "* タイル上の汚染を除去することができます。\n"
+
+#: client/citydlg_common.c:573
+#, fuzzy, c-format
+msgid "%+4d : Pollution from citizens\n"
+msgstr "* タイル上の汚染を除去することができます。\n"
+
+#: client/citydlg_common.c:575
+#, fuzzy, c-format
+msgid "%+4d : Pollution modifier\n"
+msgstr "汚職"
 
 #: client/cityrepdata.c:82
 #, fuzzy
