@@ -602,6 +602,9 @@ The number of trade routes per city is limited to four. If you attempt \
 to establish more routes, the trade route with the smallest ongoing \
 revenue is canceled if it would be less than the new route.\
 "), _("\
+Beware: in rulesets where plague is enabled, it can travel \
+along trade routes. See the section on Plague for more details.\
+"), _("\
 To view the current trade routes of a city, click and hold over the \
 Trade: line in the Overview tab in the city view.\
 ")
@@ -616,9 +619,10 @@ A city is created when Settlers are given the \"build city\" command \
 on suitable terrain, removing the unit from play to provide the city \
 with its first citizen. A city may grow to include dozens of citizens, \
 some working within the city while others are dispatched as new \
-settlers. Famine and war kill citizens and reduce population; with the \
-loss of its last citizen a city disappears (in the default ruleset, \
-this can leave ruins, although these have no effect on gameplay).\
+settlers. Famine, war, and plague kill citizens and reduce population; \
+with the loss of its last citizen a city disappears (in the default \
+ruleset, this can leave ruins, although these have no effect on \
+gameplay).\
 "), _("\
 Each city may work terrain within a fixed radius (approximately three \
 tiles). To extract resources from a tile you must have a citizen \
@@ -687,7 +691,9 @@ Keeping your citizens happy (or at least content) is one of the most \
 important objectives in Freeciv. When your citizens become unhappy, \
 your cities will fall into disorder, which disrupts production; but \
 when your citizens are happy, your cities will celebrate, and your \
-production will increase greatly.\
+production will increase greatly. (If migration is enabled, happiness \
+also affects the relative desirability of cities; see the section on \
+Migration for details.)\
 "), _("\
 Each citizen working the land is either happy, content, unhappy, or \
 angry. The normal state of a working citizen is contentment. However, \
@@ -794,7 +800,9 @@ becomes more industrialized. The chance of pollution appearing around \
 a city depends on the sum of its population, aggravated by several \
 technology advances, and its production point output. When this sum \
 exceeds 20, the excess is the percent chance of pollution appearing \
-each turn; this percentage is shown in the city dialog.\
+each turn; this percentage is shown in the city dialog. (This chance \
+of pollution also affects the risk of plague, if enabled in the \
+ruleset; see the section on Plague.)\
 "), _("\
 Pollution appears as gunk covering of the terrain tiles around the \
 city. A polluted tile generates only half its usual food, production, \
@@ -814,6 +822,92 @@ are left uncleaned, the higher the risk becomes, and the risk can \
 linger for some time even after all pollution has been cleaned. If a \
 long time passes with an elevated risk of warming, its effects will be \
 all the more severe when it does occur.\
+")
+
+[help_plague]
+name = _(" Plague")
+text = _("\
+Plague is a ruleset option, and is not enabled in the default \
+ruleset.\
+"), _("\
+When plague strikes a city, its population is reduced by one. Unless \
+action is taken to reduce the risk of plague, this tends to act as a \
+natural limit on city size. Rulesets which enable plague will \
+typically have city improvements or other means to reduce the risk of \
+plague.\
+"), _("\
+The risk of plague depends on city size (overcrowding leads to \
+insanitary conditions) and on the pollution generated in a city. Also, \
+plague can spread via trade routes (without regard for nationality); \
+after a city has been struck by plague, it will remain infectious to \
+its trade partners for several turns, increasing the risk of plague in \
+those cities by a factor depending on the size of both cities.\
+")
+
+[help_migration]
+name = _(" Migration")
+text = _("\
+Migration is the movement of citizens from one city to another based \
+on the relative attractions of living in each city. Whether migration \
+is enabled is controlled by the server option `migration'; it is \
+disabled by default.\
+"), _("\
+When migration is enabled, every few turns, a citizen of each city in \
+the game may migrate to a nearby, more attractive city, either within \
+the same nation or even across national borders (to a lesser extent, \
+by default).\
+"), _("\
+You cannot directly prevent or direct the migration of citizens. \
+However, you can influence the attractiveness of your cities. The \
+following factors affect the perceived desirability of each city, in \
+approximately decreasing order of importance. (Each factor counts for \
+much more in the citizen's current city, as they prefer not to move \
+without a compelling reason.)\
+"), _("\
+ - City size.\
+"), _("\
+ - The number of happy citizens. (To a lesser extent, unhappy and \
+angry citizens reduce the desirability of a city.)\
+"), _("\
+ - The presence of any wonder in a city will greatly increase its \
+desirability (further wonders do not contribute except by the lesser \
+effect of their build cost).\
+"), _("\
+ - Capital cities are more attractive than other cities, all other \
+factors being equal; in addition, citizens will never migrate out of a \
+capital city.\
+"), _("\
+ - Food surplus. (A food deficit reduces the desirability of a city.)\
+"), _("\
+ - Cities that are further away are less desirable. The absolute \
+maximum distance that a citizen is prepared to migrate is controlled \
+by the server option `mgr_dist'.\
+"), _("\
+ - Trade surplus.\
+"), _("\
+ - Luxury and science output.\
+"),_("\
+ - The quantity of city improvements (and wonders), measured by build \
+cost.\
+"), _("\
+ - Depending on the ruleset, a number of other factors such as \
+government type and city improvements may increase or decrease the \
+desirability of cities; these are noted in other sections of the help. \
+(The default ruleset contains no such effects.)\
+"), _("\
+Citizens will not migrate to cities which cannot increase in size to \
+support them, for instance due to lack of a city improvement such as \
+an Aqueduct. If the server option `mgr_foodneeded' is set, they will \
+not migrate to cities which would not have enough food to support them.\
+"), _("\
+Migration can even cause cities to be completely abandoned (ownership \
+of any units being transferred to your nearest remaining city). \
+However, cities with wonders will never be disbanded (so the wonder \
+will not be destroyed), and the last citizen from your only remaining \
+city will never migrate to another nation.\
+"), _("\
+Several of the details of migration can be changed with the `mgr_*' \
+server options.\
 ")
 
 [help_city_improvements]
