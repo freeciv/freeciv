@@ -17,6 +17,7 @@
 
 #include <stdarg.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "lua.h"
 #include "lualib.h"
@@ -31,6 +32,13 @@
 #include "script_signal.h"
 
 #include "script.h"
+
+/**************************************************************************
+  Configuration for script execution time limits. Checkinterval is the
+  number of executed lua instructions between checking. Disabled if 0.
+**************************************************************************/
+#define SCRIPT_MAX_EXECUTION_TIME_SEC 5.0
+#define SCRIPT_CHECKINTERVAL 10000
 
 /**************************************************************************
   Lua virtual machine state.
@@ -155,6 +163,45 @@ static int script_report(lua_State *L, int status, const char *code)
 }
 
 /**************************************************************************
+  Check currently excecuting lua function for execution time limit
+**************************************************************************/
+static void script_exec_check(lua_State *L, lua_Debug *ar)
+{
+  lua_Number exec_clock;
+
+  lua_getfield(L, LUA_REGISTRYINDEX, "freeciv_exec_clock");
+  exec_clock = lua_tonumber(L, -1);
+  lua_pop(L, 1);
+  if ((float)(clock() - exec_clock)/CLOCKS_PER_SEC
+      > SCRIPT_MAX_EXECUTION_TIME_SEC) {
+    luaL_error(L, "Execution time limit exceeded in script");
+  }
+}
+
+/**************************************************************************
+  Setup function execution guard
+**************************************************************************/
+static void script_hook_start(lua_State *L)
+{
+#if SCRIPT_CHECKINTERVAL
+  /* Store clock timestamp in the registry */
+  lua_pushnumber(L, clock());
+  lua_setfield(L, LUA_REGISTRYINDEX, "freeciv_exec_clock");
+  lua_sethook(L, script_exec_check, LUA_MASKCOUNT, SCRIPT_CHECKINTERVAL);
+#endif
+}
+
+/**************************************************************************
+  Clear function execution guard
+**************************************************************************/
+static void script_hook_end(lua_State *L)
+{
+#if SCRIPT_CHECKINTERVAL
+  lua_sethook(L, script_exec_check, 0, 0);
+#endif
+}
+
+/**************************************************************************
   Evaluate a Lua function call or loaded script on the stack.
   Return nonzero if an error occured.
 
@@ -185,7 +232,9 @@ static int script_call(lua_State *L, int narg, int nret, const char *code)
   }
   lua_pop(L, 1);       /* pop debug */
 
+  script_hook_start(L);
   status = lua_pcall(L, narg, nret, traceback);
+  script_hook_end(L);
   if (status) {
     script_report(L, status, code);
   }
