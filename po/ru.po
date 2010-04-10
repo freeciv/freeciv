@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 13:41+0100\n"
+"POT-Creation-Date: 2010-04-10 14:11+0100\n"
 "PO-Revision-Date: 2008-01-21 21:55+3400\n"
 "Last-Translator: Egor Vyscrebentsov <evyscr@murom.net>\n"
 "Language-Team: Russian <ru@li.org>\n"
@@ -2415,7 +2415,7 @@ msgstr "Празднование дня любви к %s прекращено в
 
 #: server/cityturn.c:2115
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #: server/cityturn.c:2161
@@ -9281,7 +9281,7 @@ msgstr ""
 
 #: client/citydlg_common.c:569
 #, fuzzy, c-format
-msgid "%+5.1f : Risk from over crowdness\n"
+msgid "%+5.1f : Risk from overcrowding\n"
 msgstr "%+4d : Налоги от торговли\n"
 
 #: client/citydlg_common.c:571
@@ -10688,7 +10688,7 @@ msgstr "* Может стать ветераном в процессе обуч�
 
 #: client/helpdata.c:1453
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -11326,8 +11326,8 @@ msgstr "Рисовать полоску города"
 
 #: client/options.c:1248
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:1252
@@ -11357,7 +11357,8 @@ msgid "Draw the coast line"
 msgstr "Рисовать полоску города"
 
 #: client/options.c:1262
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
 #: client/options.c:1266
@@ -11367,19 +11368,19 @@ msgstr "* Может строить дороги и железные дорог�
 
 #: client/options.c:1267
 #, fuzzy
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "Если эта настройка выключена, анимация битвы между соединениями будет "
 "отключена."
 
 #: client/options.c:1271
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Соединить орошением"
 
 #: client/options.c:1272
 #, fuzzy
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 "Если эта настройка выключена, анимация битвы между соединениями будет "
 "отключена."
@@ -11416,15 +11417,13 @@ msgstr "Выключите эту настройку, чтобы спрятат�
 
 #: client/options.c:1289
 #, fuzzy
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 "<th>Очистка загрязнения</th><th>Очистка радиоактивного загрязнения</th>\n"
 
 #: client/options.c:1290
 #, fuzzy
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Если эта настройка выключена, анимация битвы между соединениями будет "
 "отключена."
@@ -12035,7 +12034,7 @@ msgstr ""
 
 #: client/options.c:1598
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13949,7 +13948,7 @@ msgstr "Как переименовать город?"
 
 #: client/gui-gtk-2.0/cityrep.c:540
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Вы действительно хотите выйти?"
 
 #: client/gui-gtk-2.0/cityrep.c:888

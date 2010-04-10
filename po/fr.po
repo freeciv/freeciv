@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 13:41+0100\n"
+"POT-Creation-Date: 2010-04-10 14:11+0100\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
 "Last-Translator: Pepeto <pepeto69 gmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
@@ -2335,7 +2335,7 @@ msgstr "Les célébrations se sont achevées dans %s."
 
 #: server/cityturn.c:2115
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s a été frappé par une épidémie ! Des citoyens ont été perdu !"
 
 #: server/cityturn.c:2161
@@ -9396,7 +9396,7 @@ msgstr "Fatigue désactivée dans les règles du jeu."
 
 #: client/citydlg_common.c:569
 #, fuzzy, c-format
-msgid "%+5.1f : Risk from over crowdness\n"
+msgid "%+5.1f : Risk from overcrowding\n"
 msgstr "%+2.1f : Risque dû à la surpopulation\n"
 
 #: client/citydlg_common.c:571
@@ -10830,7 +10830,7 @@ msgstr "* Peut naître vétéran par voie d'entraînement.\n"
 
 #: client/helpdata.c:1453
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 "* Sous certaines conditions l'entretien en production de cette unité peut "
@@ -11453,8 +11453,8 @@ msgstr "Dessiner le prix de la production des villes"
 
 #: client/options.c:1248
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 "Activer cette option dessinera combien d'or sera nécessaire afin acheter la "
 "production de la ville."
@@ -11484,7 +11484,8 @@ msgid "Draw the coast line"
 msgstr "Dessiner la ligne côtière"
 
 #: client/options.c:1262
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Activer cette option dessinera une ligne pour séparer terres et océans."
 
@@ -11493,16 +11494,16 @@ msgid "Draw the roads and the railroads"
 msgstr "Dessiner les routes et les chemins de fer"
 
 #: client/options.c:1267
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "Activer cette option dessinera les routes et les chemins de fer sur la carte."
 
 #: client/options.c:1271
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Dessiner les irrigations"
 
 #: client/options.c:1272
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Activer cette option dessinera les irrigations sur la carte."
 
 #: client/options.c:1276
@@ -11530,13 +11531,11 @@ msgid "Setting this option will draw the specials on the map."
 msgstr "Activer cette option dessinera les ressources spéciales sur la carte."
 
 #: client/options.c:1289
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr "Dessiner la pollution/retombées nucléaires"
 
 #: client/options.c:1290
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Activer cette option dessinera la pollution et les retombées nucléaires sur "
 "la carte."
@@ -12196,7 +12195,7 @@ msgstr "Arrange les fenêtres pour les petites résolutions"
 
 #: client/options.c:1598
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -14079,7 +14078,7 @@ msgstr "Quel nom doit porter cette ville ?"
 
 #: client/gui-gtk-2.0/cityrep.c:540
 #, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Voulez-vous vraiment vendre ces %s ?"
 
 #: client/gui-gtk-2.0/cityrep.c:888

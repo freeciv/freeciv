@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 13:41+0100\n"
+"POT-Creation-Date: 2010-04-10 14:11+0100\n"
 "PO-Revision-Date: 2007-08-11 02:17+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -2264,7 +2264,7 @@ msgstr "دیدار با %s لغو شد."
 
 #: server/cityturn.c:2115
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #: server/cityturn.c:2161
@@ -8427,7 +8427,7 @@ msgstr ""
 
 #: client/citydlg_common.c:569
 #, c-format
-msgid "%+5.1f : Risk from over crowdness\n"
+msgid "%+5.1f : Risk from overcrowding\n"
 msgstr ""
 
 #: client/citydlg_common.c:571
@@ -9800,7 +9800,7 @@ msgstr "* ممکن است در تمرین یا جنگ کارآزموده شود.
 
 #: client/helpdata.c:1453
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -10361,8 +10361,8 @@ msgstr "کشیدن "
 
 #: client/options.c:1248
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:1252
@@ -10391,7 +10391,8 @@ msgid "Draw the coast line"
 msgstr "کشیدن "
 
 #: client/options.c:1262
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
 #: client/options.c:1266
@@ -10400,16 +10401,16 @@ msgid "Draw the roads and the railroads"
 msgstr "* می‌تواند جاده و خط‌آهن بسازد.\n"
 
 #: client/options.c:1267
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 
 #: client/options.c:1271
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "اتصال/آبیاری"
 
 #: client/options.c:1272
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 
 #: client/options.c:1276
@@ -10440,13 +10441,11 @@ msgid "Setting this option will draw the specials on the map."
 msgstr ""
 
 #: client/options.c:1289
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
 #: client/options.c:1290
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
 #: client/options.c:1294
@@ -10989,7 +10988,7 @@ msgstr ""
 
 #: client/options.c:1598
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -12834,7 +12833,7 @@ msgstr "نام شهر را به چه تغییر دهیم؟"
 
 #: client/gui-gtk-2.0/cityrep.c:540
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "آیا مطمئنید که می‌خواهید خارج شود؟"
 
 #: client/gui-gtk-2.0/cityrep.c:888

@@ -61,7 +61,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 13:41+0100\n"
+"POT-Creation-Date: 2010-04-10 14:11+0100\n"
 "PO-Revision-Date: 2008-04-05 00:14+0100\n"
 "Last-Translator: Susanna Björverud <susanna.bjorverud@telia.com>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -2370,7 +2370,7 @@ msgstr "Folket i %s har slutat fira."
 
 #: server/cityturn.c:2115
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 # DM> utvecklade prosan
@@ -9174,7 +9174,7 @@ msgstr ""
 # ?
 #: client/citydlg_common.c:569
 #, fuzzy, c-format
-msgid "%+5.1f : Risk from over crowdness\n"
+msgid "%+5.1f : Risk from overcrowding\n"
 msgstr "%+4d : Beskattad handel\n"
 
 # ?
@@ -10586,7 +10586,7 @@ msgstr "* Kan bli mer erfarna genom träning eller strid.\n"
 
 #: client/helpdata.c:1453
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -11201,8 +11201,8 @@ msgstr "Visa stadsfältet"
 
 #: client/options.c:1248
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:1252
@@ -11233,7 +11233,8 @@ msgstr "Visa stadsfältet"
 
 #: client/options.c:1262
 #, fuzzy
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Är detta påslaget visas sköldikoner vid varje trupp istället för flaggor. Om "
 "ej påslaget, så visas kompletta flaggor."
@@ -11245,19 +11246,19 @@ msgstr "* Kan bygga vägar och järnvägar.\n"
 
 #: client/options.c:1267
 #, fuzzy
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "Är detta påslaget visas sköldikoner vid varje trupp istället för flaggor. Om "
 "ej påslaget, så visas kompletta flaggor."
 
 #: client/options.c:1271
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Anslut bevattning"
 
 #: client/options.c:1272
 #, fuzzy
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Detta avgör om strid mellan trupper på kartan är animerad eller inte."
 
 #: client/options.c:1276
@@ -11291,14 +11292,12 @@ msgid "Setting this option will draw the specials on the map."
 msgstr "Avaktivera detta val för att gömma kartans rullningslister."
 
 #: client/options.c:1289
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
 #: client/options.c:1290
 #, fuzzy
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Är detta påslaget visas sköldikoner vid varje trupp istället för flaggor. Om "
 "ej påslaget, så visas kompletta flaggor."
@@ -11893,7 +11892,7 @@ msgstr ""
 
 #: client/options.c:1598
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13776,7 +13775,7 @@ msgstr "Vad ska vi kalla staden?"
 
 #: client/gui-gtk-2.0/cityrep.c:540
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Vill du verkligen avsluta?"
 
 #: client/gui-gtk-2.0/cityrep.c:888

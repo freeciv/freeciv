@@ -39,7 +39,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 13:41+0100\n"
+"POT-Creation-Date: 2010-04-10 14:11+0100\n"
 "PO-Revision-Date: 2009-03-24 22:03+0100\n"
 "Last-Translator: Christian Knoke <chrisk@cknoke.de>\n"
 "Language-Team: German Freeciv Translators <freeciv.de@freelists.org>\n"
@@ -2359,7 +2359,7 @@ msgstr "Die Feiern in %s wurden abgesagt."
 
 #: server/cityturn.c:2115
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #: server/cityturn.c:2161
@@ -9224,7 +9224,7 @@ msgstr ""
 
 #: client/citydlg_common.c:569
 #, fuzzy, c-format
-msgid "%+5.1f : Risk from over crowdness\n"
+msgid "%+5.1f : Risk from overcrowding\n"
 msgstr "%+4d : Handelssteuern\n"
 
 #: client/citydlg_common.c:571
@@ -10634,7 +10634,7 @@ msgstr "* Kann durch Training oder Kampf zum Veteran werden.\n"
 
 #: client/helpdata.c:1453
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -11254,8 +11254,8 @@ msgstr "Größere Stadtanzeige"
 
 #: client/options.c:1248
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:1252
@@ -11286,7 +11286,8 @@ msgstr "Größere Stadtanzeige"
 
 #: client/options.c:1262
 #, fuzzy
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Mit dieser Option wird eine spezielle Schild-Graphik für die Flagge "
 "verwendet. Ohne die Option wird die ganze Flagge gezeichnet."
@@ -11298,19 +11299,19 @@ msgstr "* Kann Straßen und Eisenbahnen bauen.\n"
 
 #: client/options.c:1267
 #, fuzzy
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "Mit dieser Option wird eine spezielle Schild-Graphik für die Flagge "
 "verwendet. Ohne die Option wird die ganze Flagge gezeichnet."
 
 #: client/options.c:1271
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Verbinden/Bewässerung"
 
 #: client/options.c:1272
 #, fuzzy
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Hiermit können Sie die Kampfanimation von Einheiten einschalten."
 
 #: client/options.c:1276
@@ -11344,14 +11345,12 @@ msgid "Setting this option will draw the specials on the map."
 msgstr "Ein/Ausschalten der Rollbalken für die Karte."
 
 #: client/options.c:1289
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
 #: client/options.c:1290
 #, fuzzy
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Mit dieser Option wird eine spezielle Schild-Graphik für die Flagge "
 "verwendet. Ohne die Option wird die ganze Flagge gezeichnet."
@@ -11976,7 +11975,7 @@ msgstr ""
 
 #: client/options.c:1598
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13847,7 +13846,7 @@ msgstr "Wie soll die Stadt heißen?"
 
 #: client/gui-gtk-2.0/cityrep.c:540
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Wollen Sie das Programm wirklich beenden?"
 
 #: client/gui-gtk-2.0/cityrep.c:888
