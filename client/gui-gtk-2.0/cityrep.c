@@ -537,7 +537,7 @@ static void select_impr_or_unit_callback(GtkWidget *w, gpointer data)
 
         /* Ask confirmation */
         fc_snprintf(buf, sizeof(buf),
-                    _("Are you sure to sell those %s?"), imprname);
+                    _("Are you sure you want to sell those %s?"), imprname);
         w = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL,
                                    GTK_MESSAGE_QUESTION,
                                    GTK_BUTTONS_YES_NO, "%s", buf);
