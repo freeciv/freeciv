@@ -566,7 +566,7 @@ void get_city_dialog_illness_text(const struct city *pcity,
   illness = city_illness_calc(pcity, &ill_base, &ill_size, &ill_trade,
                               &ill_pollution);
 
-  cat_snprintf(buf, bufsz, _("%+5.1f : Risk from over crowdness\n"),
+  cat_snprintf(buf, bufsz, _("%+5.1f : Risk from overcrowding\n"),
                ((float)(ill_size) / 10.0));
   cat_snprintf(buf, bufsz, _("%+5.1f : Risk from trade\n"),
                ((float)(ill_trade) / 10.0));

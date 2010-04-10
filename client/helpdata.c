@@ -1451,7 +1451,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
      *        possible sources? */
     CATLSTR(buf, bufsz,
             _("* Under certain conditions the shield upkeep of this unit can "
-              " be converted to gold upkeep.\n"));
+              "be converted to gold upkeep.\n"));
   }
 
   unit_class_iterate(pclass) {

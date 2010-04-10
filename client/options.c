@@ -1245,7 +1245,7 @@ static struct client_option client_options[] = {
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_city_buycost, N_("Draw the city buy costs"),
-                  N_("Setting this option will draw how many golds are "
+                  N_("Setting this option will draw how much gold is "
                      "needed to buy the production of the cities."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
@@ -1260,16 +1260,16 @@ static struct client_option client_options[] = {
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_coastline, N_("Draw the coast line"),
                   N_("Setting this option will draw a line to separate the "
-                     "land of the ocean."),
+                     "land from the ocean."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_roads_rails, N_("Draw the roads and the railroads"),
                   N_("Setting this option will draw the roads and the "
-                     "railroads on  the map."),
+                     "railroads on the map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_irrigation, N_("Draw the irrigations"),
-                  N_("Setting this option will draw the irrigations "
+  GEN_BOOL_OPTION(draw_irrigation, N_("Draw the irrigation"),
+                  N_("Setting this option will draw the irrigation systems "
                      "on the map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
@@ -1286,9 +1286,9 @@ static struct client_option client_options[] = {
                      "map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
-  GEN_BOOL_OPTION(draw_pollution, N_("Draw the pollution/nuclear fallouts"),
-                  N_("Setting this option will draw the pollution and the "
-                     "nuclear fallouts on the map."),
+  GEN_BOOL_OPTION(draw_pollution, N_("Draw the pollution/nuclear fallout"),
+                  N_("Setting this option will draw pollution and "
+                     "nuclear fallout on the map."),
                   COC_GRAPHICS, GUI_LAST, TRUE,
                   view_option_changed_callback),
   GEN_BOOL_OPTION(draw_cities, N_("Draw the cities"),
@@ -1596,7 +1596,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
                   N_("If this option is enabled, widgets in the main "
-                     "window will be arrange so that they take up the "
+                     "window will be arranged so that they take up the "
                      "least amount of total screen space. Specifically, "
                      "the left panel containing the overview, player "
                      "status, and the unit information box will be "
