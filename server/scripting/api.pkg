@@ -79,7 +79,7 @@ struct Unit {
   Unit_Type *utype;
   Player *owner;
 
-  /* This used to be @ homecity_id, but it doesn't work with toluaxx. */
+  /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
   Tile *tile;
 
@@ -201,6 +201,59 @@ end
 -- Unit_Type methods.
 function Unit_Type:build_shield_cost()
   return self.build_cost
+end
+
+$]
+
+$[
+
+-- API Types Convenience (Special Methods)
+do
+  local api_types = {
+    "Player",
+    "Unit",
+    "City",
+    "Tile",
+    "Government",
+    "Nation_Type",
+    "Building_Type",
+    "Unit_Type",
+    "Tech_Type",
+    "Terrain",
+  }
+
+  -- define equality comparators
+  local function number_eq (o1, o2)
+    return o1:number() == o2:number()
+  end
+
+  local function id_eq (o1, o2)
+    return o1.id == o2.id
+  end
+
+  -- define string representation when printed
+  local function string_rep(self)
+    local id = self.id or self:number()
+    local name = self.rule_name and self:rule_name() or self.name
+    if name then
+      return string.format('<%s #%d %s>', tolua.type(self), id, name)
+    else
+      return string.format('<%s #%d>', tolua.type(self), id)
+    end
+  end
+
+  for index, typename in ipairs(api_types) do
+    local api_type = _G[typename]
+
+    if api_type.number then
+      api_type[".eq"] = number_eq
+    else
+      api_type[".eq"] = id_eq
+    end
+
+    api_type["__tostring"] = string_rep
+  end
+-- end do-block (API Types Convenience)
 end
 
 $]
