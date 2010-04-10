@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 12:35+0100\n"
+"POT-Creation-Date: 2010-04-10 12:47+0100\n"
 "PO-Revision-Date: 2010-03-23 00:12+0100\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
@@ -2229,7 +2229,7 @@ msgstr "Celebracions cancel·lades a %s."
 
 #: server/cityturn.c:2082
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s ha estat afectada per una epidèmia! Es perd població!"
 
 #: server/cityturn.c:2128
@@ -8869,7 +8869,7 @@ msgstr "Malaltia desactivada al joc de regles."
 
 #: client/citydlg_common.c:531
 #, c-format
-msgid "%+2.1f : Risk from over crowdness\n"
+msgid "%+2.1f : Risk from overcrowding\n"
 msgstr "%+2.1f : Risc per superpoblació\n"
 
 #: client/citydlg_common.c:533
@@ -10303,7 +10303,7 @@ msgstr "* Es pot construir com a veterà mitjançant formació.\n"
 
 #: client/helpdata.c:1450
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 "* En certes condicions, el manteniment en escuts d'aquesta unitat es pot "
@@ -10925,8 +10925,8 @@ msgstr "Escriure els costos de compra de les ciutats"
 
 #: client/options.c:530
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 "Seleccionar aquesta opció farà escriure quant or cal per comprar la "
 "producció de les ciutats."
@@ -10956,7 +10956,8 @@ msgid "Draw the coast line"
 msgstr "Dibuixar la línia de costa"
 
 #: client/options.c:544
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Seleccionar aquesta opció farà dibuixar una línia que separi la terra de "
 "l'oceà."
@@ -10966,16 +10967,16 @@ msgid "Draw the roads and the railroads"
 msgstr "Dibuixar els camins i els ferrocarrils"
 
 #: client/options.c:549
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 "Seleccionar aquesta opció dibuixarà els camins i els ferrocarrils al mapa."
 
 #: client/options.c:553
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Dibuixar els regadius"
 
 #: client/options.c:554
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Seleccionar aquesta opció farà dibuixar els regadius al mapa."
 
 #: client/options.c:558
@@ -11004,13 +11005,11 @@ msgstr ""
 "Seleccionar aquesta opció farà dibuixar els recursos especials al mapa."
 
 #: client/options.c:571
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr "Dibuixar la contaminació normal/nuclear"
 
 #: client/options.c:572
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Seleccionar aquesta opció farà dibuixar la contaminació i la radioactivitat "
 "al mapa."
@@ -11665,7 +11664,7 @@ msgstr "Adaptar icones per pantalles petites"
 
 #: client/options.c:880
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13465,7 +13464,7 @@ msgstr "Com s'ha de dir la ciutat ?"
 
 #: client/gui-gtk-2.0/cityrep.c:541
 #, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Segur que vols vendre aquests %s?"
 
 #: client/gui-gtk-2.0/cityrep.c:889

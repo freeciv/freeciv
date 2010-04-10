@@ -20,7 +20,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: da\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 12:35+0100\n"
+"POT-Creation-Date: 2010-04-10 12:47+0100\n"
 "PO-Revision-Date: 2010-02-12 18:43+0300\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
@@ -2226,7 +2226,7 @@ msgstr "Festlighederne i %s er aflyst."
 
 #: server/cityturn.c:2082
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s er ramt af pest! Befolkning er gået til!"
 
 #: server/cityturn.c:2128
@@ -8797,7 +8797,7 @@ msgstr "Sygdom slået fra i regelsæt."
 
 #: client/citydlg_common.c:531
 #, c-format
-msgid "%+2.1f : Risk from over crowdness\n"
+msgid "%+2.1f : Risk from overcrowding\n"
 msgstr "%+2.1f : Risiko fra overbefolkning\n"
 
 #: client/citydlg_common.c:533
@@ -10217,7 +10217,7 @@ msgstr "* Kan bygges som veteran via træning.\n"
 
 #: client/helpdata.c:1450
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 "* Under visse betingelser kan skjoldvedligeholdelsen på denne enhed "
@@ -10821,8 +10821,8 @@ msgstr "Tegn købsomkostningen for byen"
 
 #: client/options.c:530
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 "Angivelse af dette tilvalg vil tegne det antal guldstykker som skal bruges "
 "for at købe byens aktuelle produktion."
@@ -10852,7 +10852,8 @@ msgid "Draw the coast line"
 msgstr "Tegn kystlinjen"
 
 #: client/options.c:544
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 "Angivelse af dette tilvalg vil tegne en linje der adskiller land og hav."
 
@@ -10861,15 +10862,15 @@ msgid "Draw the roads and the railroads"
 msgstr "Tegn veje og jernbaner"
 
 #: client/options.c:549
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr "Angivelse af dette tilvalg vil tegne veje og jernbanerne på kortet."
 
 #: client/options.c:553
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Tegn overrislingerne"
 
 #: client/options.c:554
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Angivelse af dette tilvalg vil tegne overrislingerne på kortet."
 
 #: client/options.c:558
@@ -10897,13 +10898,11 @@ msgid "Setting this option will draw the specials on the map."
 msgstr "Angivelse af dette tilvalg vil tegne de specielle terræn på kortet."
 
 #: client/options.c:571
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr "Tegn forureningen/radioaktiv stråling"
 
 #: client/options.c:572
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 "Angivelse af dette tilvalg vil tegne forurening og radioaktiv stråling på "
 "kortet."
@@ -11551,7 +11550,7 @@ msgstr "Arranger kontroller for små skærme"
 
 #: client/options.c:880
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13337,7 +13336,7 @@ msgstr "Hvad skal vi omdøbe byen til?"
 
 #: client/gui-gtk-2.0/cityrep.c:541
 #, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Er du sikker på, at du vil sælge %s?"
 
 #: client/gui-gtk-2.0/cityrep.c:889

@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 12:35+0100\n"
+"POT-Creation-Date: 2010-04-10 12:47+0100\n"
 "PO-Revision-Date: 2007-12-16 11:12+0300\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
@@ -2282,7 +2282,7 @@ msgstr "Šventimas atšauktas %s."
 
 #: server/cityturn.c:2082
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #: server/cityturn.c:2128
@@ -8304,7 +8304,7 @@ msgstr ""
 
 #: client/citydlg_common.c:531
 #, c-format
-msgid "%+2.1f : Risk from over crowdness\n"
+msgid "%+2.1f : Risk from overcrowding\n"
 msgstr ""
 
 #: client/citydlg_common.c:533
@@ -9698,7 +9698,7 @@ msgstr "* Kovodamas arba treniruodamasis gali tapti veteranu.\n"
 
 #: client/helpdata.c:1450
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -10270,8 +10270,8 @@ msgstr ""
 
 #: client/options.c:530
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:534
@@ -10299,7 +10299,8 @@ msgid "Draw the coast line"
 msgstr ""
 
 #: client/options.c:544
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
 #: client/options.c:548
@@ -10308,16 +10309,16 @@ msgid "Draw the roads and the railroads"
 msgstr "* Gali tiesti kelius ir geležinkelius.\n"
 
 #: client/options.c:549
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 
 #: client/options.c:553
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Prijungti dėkinimą"
 
 #: client/options.c:554
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 
 #: client/options.c:558
@@ -10345,13 +10346,11 @@ msgid "Setting this option will draw the specials on the map."
 msgstr ""
 
 #: client/options.c:571
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
 #: client/options.c:572
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
 #: client/options.c:576
@@ -10896,7 +10895,7 @@ msgstr ""
 
 #: client/options.c:880
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -12694,7 +12693,7 @@ msgstr "Kaip mes turėtume pervadinti miestą?"
 
 #: client/gui-gtk-2.0/cityrep.c:541
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Ar tikrai norite išeiti?"
 
 #: client/gui-gtk-2.0/cityrep.c:889

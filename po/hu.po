@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 12:35+0100\n"
+"POT-Creation-Date: 2010-04-10 12:47+0100\n"
 "PO-Revision-Date: 2007-08-12 15:37+0300\n"
 "Last-Translator: Gábor Takács <tg330@hszk.bme.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -2246,7 +2246,7 @@ msgstr "Játék: Az Éljen a(z) %s napot megszüntették %s városában."
 
 #: server/cityturn.c:2082
 #, c-format
-msgid "%s had been struck by a plague! Population lost!"
+msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
 #: server/cityturn.c:2128
@@ -8775,7 +8775,7 @@ msgstr ""
 
 #: client/citydlg_common.c:531
 #, c-format
-msgid "%+2.1f : Risk from over crowdness\n"
+msgid "%+2.1f : Risk from overcrowding\n"
 msgstr ""
 
 #: client/citydlg_common.c:533
@@ -10293,7 +10293,7 @@ msgstr "* Kiképzés vagy csata útján tapasztalt lehet.\n"
 
 #: client/helpdata.c:1450
 msgid ""
-"* Under certain conditions the shield upkeep of this unit can  be converted "
+"* Under certain conditions the shield upkeep of this unit can be converted "
 "to gold upkeep.\n"
 msgstr ""
 
@@ -10907,8 +10907,8 @@ msgstr "Várossáv mutatása"
 
 #: client/options.c:530
 msgid ""
-"Setting this option will draw how many golds are needed to buy the "
-"production of the cities."
+"Setting this option will draw how much gold is needed to buy the production "
+"of the cities."
 msgstr ""
 
 #: client/options.c:534
@@ -10940,7 +10940,8 @@ msgid "Draw the coast line"
 msgstr "Várossáv mutatása"
 
 #: client/options.c:544
-msgid "Setting this option will draw a line to separate the land of the ocean."
+msgid ""
+"Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
 #: client/options.c:548
@@ -10950,17 +10951,17 @@ msgstr "* Segíthet világcsodát építeni.\n"
 
 #: client/options.c:549
 #, fuzzy
-msgid "Setting this option will draw the roads and the railroads on  the map."
+msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr "Ne engedélyezd a beállítást, ha nem szeretnél körgetõsávot a térképen."
 
 #: client/options.c:553
 #, fuzzy
-msgid "Draw the irrigations"
+msgid "Draw the irrigation"
 msgstr "Öntözés"
 
 #: client/options.c:554
 #, fuzzy
-msgid "Setting this option will draw the irrigations on the map."
+msgid "Setting this option will draw the irrigation systems on the map."
 msgstr "Ne engedélyezd a beállítást, ha nem szeretnél körgetõsávot a térképen."
 
 #: client/options.c:558
@@ -10996,13 +10997,11 @@ msgid "Setting this option will draw the specials on the map."
 msgstr "Ne engedélyezd a beállítást, ha nem szeretnél körgetõsávot a térképen."
 
 #: client/options.c:571
-msgid "Draw the pollution/nuclear fallouts"
+msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
 #: client/options.c:572
-msgid ""
-"Setting this option will draw the pollution and the nuclear fallouts on the "
-"map."
+msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
 #: client/options.c:576
@@ -11575,7 +11574,7 @@ msgstr ""
 
 #: client/options.c:880
 msgid ""
-"If this option is enabled, widgets in the main window will be arrange so "
+"If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
 "left panel containing the overview, player status, and the unit information "
 "box will be extended over the entire left side of the window. This option "
@@ -13408,7 +13407,7 @@ msgstr "Mi legyen a város új neve?"
 
 #: client/gui-gtk-2.0/cityrep.c:541
 #, fuzzy, c-format
-msgid "Are you sure to sell those %s?"
+msgid "Are you sure you want to sell those %s?"
 msgstr "Biztosan ki szeretnél lépni?"
 
 #: client/gui-gtk-2.0/cityrep.c:889
