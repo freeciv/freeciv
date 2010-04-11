@@ -394,7 +394,7 @@ static int tech_upkeep_calc(const struct player *pplayer)
   switch (tech_cost_style) {
   case 0:
     /* sum_1^t x = t * (t + 1) / 2 */
-    tech_bulb_sum += t * (t + 1) / 2 * game.info.base_tech_cost;
+    tech_bulb_sum += (double)t * (t + 1) / 2 * game.info.base_tech_cost;
     break;
   case 1:
     advance_index_iterate(A_NONE, i) {
@@ -422,8 +422,8 @@ static int tech_upkeep_calc(const struct player *pplayer)
 
   /* upkeep cost for future techs (f) are calculated using style 0:
    * sum_t^(t+f) x = (f * (2 * t + f + 1) + 2 * t) / 2 */
-  tech_bulb_sum += (f * (2 * t + f + 1) + 2 * t) / 2
-                   * game.info.base_tech_cost;
+  tech_bulb_sum += (double)(f * (2 * t + f + 1) + 2 * t) / 2
+                           * game.info.base_tech_cost;
 
   tech_bulb_sum *= get_player_bonus(pplayer, EFT_TECH_COST_FACTOR);
   tech_bulb_sum *= (double)game.info.sciencebox / 100.0;

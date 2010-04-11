@@ -44,6 +44,9 @@
 
 #include "techtools.h"
 
+/* Define this to add information about tech upkeep. */
+#undef TECH_UPKEEP_DEBUGGING
+
 static Tech_type_id pick_random_tech_researched(struct player* plr);
 static Tech_type_id pick_random_tech(struct player* plr);
 static void player_tech_lost(struct player* plr, Tech_type_id tech);
@@ -772,13 +775,47 @@ void choose_tech_goal(struct player *plr, Tech_type_id tech)
 ****************************************************************************/
 void init_tech(struct player *plr, bool update)
 {
+  struct player_research *research = get_player_research(plr);
+
   player_invention_set(plr, A_NONE, TECH_KNOWN);
 
   advance_index_iterate(A_FIRST, i) {
     player_invention_set(plr, i, TECH_UNKNOWN);
   } advance_index_iterate_end;
 
-  get_player_research(plr)->techs_researched = 1;
+#ifdef TECH_UPKEEP_DEBUGGING
+  /* Print a list of the needed upkeep if 'i' techs are researched. */
+  {
+    bool global_state[A_LAST];
+
+    /* Save the game research state. */
+    advance_index_iterate(A_FIRST, i) {
+      global_state[i] = game.info.global_advances[i];
+    } advance_index_iterate_end;
+
+    research->techs_researched = 1;
+
+    /* Update step for step each tech as known and print the upkeep. */
+    advance_index_iterate(A_FIRST, i) {
+      research->inventions[i].state = TECH_KNOWN;
+      research->techs_researched++;
+
+      /* This will change the game state! */
+      player_research_update(plr);
+
+      log_debug("[player %d] techs: %3d upkeep: %4d", player_number(plr),
+                research->techs_researched, research->tech_upkeep);
+    } advance_index_iterate_end;
+
+    /* Reset the changes done. */
+    advance_index_iterate(A_FIRST, i) {
+      player_invention_set(plr, i, TECH_UNKNOWN);
+      game.info.global_advances[i] = global_state[i];
+    } advance_index_iterate_end;
+  }
+#endif
+
+  research->techs_researched = 1;
 
   if (update) {
     /* Mark the reachable techs */
