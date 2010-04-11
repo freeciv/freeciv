@@ -154,9 +154,6 @@ void game_remove_unit(struct unit *punit)
 {
   struct city *pcity;
 
-  /* Opaque server-only variable: the server must free this earlier. */
-  fc_assert(punit->server.vision == NULL);
-
   pcity = player_find_city_by_id(unit_owner(punit), punit->homecity);
   if (pcity) {
     unit_list_remove(pcity->units_supported, punit);
@@ -228,9 +225,6 @@ void game_remove_city(struct city *pcity)
       }
     } city_tile_iterate_end;
   }
-
-  /* Opaque server-only variable: the server must free this earlier. */
-  fc_assert(pcity->server.vision == NULL);
 
   idex_unregister_city(pcity);
   destroy_city_virtual(pcity);
