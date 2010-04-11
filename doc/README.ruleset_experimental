@@ -1,0 +1,80 @@
+----------------------------------------------------------------------
+                   Experimental Freeciv Rulesets
+----------------------------------------------------------------------
+
+This ruleset tries to use the new features available in freeciv 2.2 and
+the development version 2.2.99 (this will be 2.3 in the future). It is
+based on the default ruleset. The changes can be extracted by
+
+#> diff -ur data/default data/experimental/
+
+If the changes in this ruleset result in a working game (especially with
+regard to the AI) they could be included in the default ruleset for next
+major release.
+
+If you change the experimental ruleset, please include a short comment in
+this file.
+
+
+
+1. Changes compared to the default ruleset
+   ---------------------------------------
+
+- Plagues are activated. An Aqueduct or a Sewer System reduce the
+  possibility of an illness in the city. It is further reduced by an
+  Hospital or a Genetic Laboratory. Building the wonder 'Cure for Cancer'
+  further reduces the possibility of an illness.
+
+- The Genetic Laboratory increases the food output by 25% if the city
+  size exceeds 20.
+
+- Migration is activated and locked by the ruleset. Migration effects for
+  the different governments are defined.
+
+- After The Corporation is researched the upkeep for most modern military
+  units is changed from shield to gold.
+
+- An new unit class Big Land is introduced. Units of this type can not
+  move into mountains, ...
+
+- Units of class trireme can move on rivers.
+
+- Activate variable city radii:
+    radius 1 (radis_sq =  2): start
+    radius 2 (radis_sq =  5): city size 3
+    radius 3 (radis_sq = 10): city size 10 + Railroad
+    radius 4 (radis_sq = 17): city size 30 + Railroad + Mass Transit + Super Highway
+  The vision range of the city is adapted accordingly.
+
+- The number of build slots for units is increased at radius 3 and 4.
+
+- (Add and) Activate tech upkeep.
+
+- Activate foggedborders; borders are not updated if they are not seen.
+
+- Activated techloosing for tech exchange / diplomat actions.
+
+
+
+2. Use the new ruleset
+   -------------------
+
+To play a game with the experimental rules, start the server with:
+       ./ser -r data/experimental.serv
+or a single player game with
+       ./freeciv-gtk2 -r data/experimental.serv
+(and any other command-line arguments you normally use; depending on
+how you have Freeciv installed you may have to give the installed
+data directory path instead of "data")
+
+Start the client normally.  The client must be network-compatible
+(usually meaning the same or similar version) but otherwise nothing
+special is needed.  (However some third-party rulesets may
+potentially require special graphics to work properly, in which case
+the client should have those graphics available and be started with
+an appropriate '--tiles' argument.)
+
+Note that the Freeciv AI might not play as well with rules other
+than standard Freeciv.  The AI is supposed to understand and
+utilize all sane rules variations, so please report any AI
+failures so that they can be fixed.

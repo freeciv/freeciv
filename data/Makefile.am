@@ -25,7 +25,8 @@ if SERVER
 SERVER_FILES = \
 	civ1.serv \
 	civ2.serv \
-	default.serv
+	default.serv \
+	experimental.serv
 else
 SERVER_FILES =
 endif
@@ -51,7 +52,8 @@ EXTRA_DIST = \
 	helpdata.txt	\
 	civ1.serv	\
 	civ2.serv	\
-	default.serv
+	default.serv	\
+	experimental.serv
 
 if CLIENT
 CLIENTDATADIRS = amplio misc flags buildings isotrident trident isophex \
@@ -61,7 +63,7 @@ CLIENTDATADIRS =
 endif
 
 if SERVER
-SERVERDATADIRS = default civ1 civ2 scenario nation
+SERVERDATADIRS = default civ1 civ2 experimental scenario nation
 else
 SERVERDATADIRS = 
 endif
