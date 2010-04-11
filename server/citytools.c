@@ -702,34 +702,84 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
 #endif /* DEBUG */
 }
 
-/**********************************************************************
-dist_nearest_city (in ai.c) does not seem to do what I want or expect
-this function finds the closest friendly city to pos x,y.  I'm sure 
-there must be a similar function somewhere, I just can't find it.
+/****************************************************************************
+  Find the city closest to 'ptile'. Some restrictions can be applied:
 
-                               - Kris Bubendorfer 
+  'pexclcity'       not this city
+  'pplayer'         player to be used by 'only_known', 'only_player' and
+                    'only_enemy'.
+  'only_ocean'      if set the city must be adjacent to ocean.
+  'only_continent'  if set only cities on the same continent as 'ptile' are
+                    valid.
+  'only_known'      if set only cities known to 'pplayer' are considered.
+  'only_player'     if set and 'pplayer' is not NULL only cities of this
+                    player are returned.
+  'only_enemy'      if set and 'pplayer' is not NULL only cities of players
+                    which are at war with 'pplayer' are returned.
 
-If sea_required, returned city must be adjacent to ocean.
-If pexclcity, do not return it as the closest city.
-Returns NULL if no satisfactory city can be found.
-***********************************************************************/
-struct city *find_closest_owned_city(const struct player *pplayer,
-                                     const struct tile *ptile,
-                                     bool sea_required,
-                                     const struct city *pexclcity)
+  If no city is found NULL is returned.
+****************************************************************************/
+struct city *find_closest_city(const struct tile *ptile,
+                               const struct city *pexclcity,
+                               const struct player *pplayer,
+                               bool only_ocean, bool only_continent,
+                               bool only_known, bool only_player,
+                               bool only_enemy)
 {
-  int dist = -1;
-  struct city *rcity = NULL;
-  city_list_iterate(pplayer->cities, pcity)
-    if ((real_map_distance(ptile, pcity->tile) < dist || dist == -1) &&
-        (!sea_required || is_ocean_near_tile(pcity->tile)) &&
-        (!pexclcity || (pexclcity != pcity))) {
-      dist = real_map_distance(ptile, pcity->tile);
-      rcity = pcity;
-    }
-  city_list_iterate_end;
+  Continent_id con;
+  struct city *best_city = NULL;
+  int best_dist = -1;
 
-  return rcity;
+  fc_assert_ret_val(ptile != NULL, NULL);
+
+  if (pplayer != NULL && only_player && only_enemy) {
+    log_error("Non of my own cities will be at war with me!");
+    return NULL;
+  }
+
+  con = tile_continent(ptile);
+
+  players_iterate(aplayer) {
+    if (pplayer != NULL && only_player && pplayer != aplayer) {
+      /* only cities of player 'pplayer' */
+      continue;
+    }
+
+    if (pplayer != NULL && only_enemy
+        && !pplayers_at_war(pplayer, aplayer)) {
+      /* only cities of players at war with player 'pplayer' */
+      continue;
+    }
+
+    city_list_iterate(aplayer->cities, pcity) {
+      int city_dist;
+
+      if (pexclcity && pexclcity == pcity) {
+        /* not this city */
+        continue;
+      }
+
+      city_dist = real_map_distance(ptile, city_tile(pcity));
+
+      /* Find the closest city matching the requirements.
+       * - closer than the current best city
+       * - (if required) on the same continent; con = 0 means unknown
+       * - (if required) adjacent to ocean
+       * - (if required) only cities known by the player */
+      if ((best_dist == -1 || city_dist < best_dist)
+          && (only_continent || con == 0
+              || con == tile_continent(pcity->tile))
+          && (only_ocean && is_ocean_near_tile(city_tile(pcity)))
+          && (only_known && map_is_known(city_tile(pcity), pplayer)
+              && map_get_player_site(city_tile(pcity), pplayer)->identity
+                 > IDENTITY_NUMBER_ZERO)) {
+        best_dist = city_dist;
+        best_city = pcity;
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  return best_city;
 }
 
 /**************************************************************************

@@ -45,9 +45,9 @@
 
 /* ai */
 #include "aidata.h"
-#include "aitools.h"
 
 /* server */
+#include "citytools.h"
 #include "gamehand.h"
 #include "maphand.h"
 #include "notify.h"
@@ -480,8 +480,8 @@ static void try_summon_barbarians(void)
     return;
   }
 
-
-  if (!(pc = dist_nearest_city(NULL, ptile, TRUE, FALSE))) {
+  if (!(pc = find_closest_city(ptile, NULL, NULL, FALSE, TRUE, FALSE, FALSE,
+                               FALSE))) {
     /* any city */
     return;
   }

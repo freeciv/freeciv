@@ -662,12 +662,14 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       aiguard_request_guard(punit);
       UNIT_LOG(LOG_DIPLOMAT, punit, "going on attack");
     } else if ((ctarget = ai_diplomat_defend(pplayer, punit,
-                                             unit_type(punit), pfm)) != NULL) {
+                                             unit_type(punit), pfm))
+               != NULL) {
       task = AIUNIT_DEFEND_HOME;
       UNIT_LOG(LOG_DIPLOMAT, punit, "going to defend %s",
                city_name(ctarget));
-    } else if ((ctarget = find_closest_owned_city(pplayer, punit->tile, 
-						  TRUE, NULL)) != NULL) {
+    } else if ((ctarget = find_closest_city(punit->tile, NULL, pplayer, TRUE,
+                                            FALSE, FALSE, TRUE, FALSE))
+               != NULL) {
       /* This should only happen if the entire continent was suddenly
        * conquered. So we head for closest coastal city and wait for someone
        * to code ferrying for diplomats, or hostile attacks from the sea. */

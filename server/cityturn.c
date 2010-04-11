@@ -2212,7 +2212,8 @@ static bool disband_city(struct city *pcity)
   int saved_id = pcity->id;
 
   /* find closest city other than pcity */
-  rcity = find_closest_owned_city(pplayer, ptile, FALSE, pcity);
+  rcity = find_closest_city(ptile, pcity, pplayer, FALSE, FALSE, FALSE, TRUE,
+                            FALSE);
 
   if (!rcity) {
     /* What should we do when we try to disband our only city? */
@@ -2486,8 +2487,8 @@ static bool do_city_migration(struct city *pcity_from,
     } city_built_iterate_end;
 
     /* find closest city other of the same player than pcity_from */
-    rcity = find_closest_owned_city(pplayer_from, ptile_from,
-                                    FALSE, pcity_from);
+    rcity = find_closest_city(ptile_from, pcity_from, pplayer_from, FALSE,
+                              FALSE, FALSE, TRUE, FALSE);
 
     if (rcity) {
       /* transfer all units to the closest city */

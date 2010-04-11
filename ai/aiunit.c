@@ -40,17 +40,6 @@
 #include "caravan.h"
 #include "pf_tools.h"
 
-/* server */
-#include "barbarian.h"
-#include "citytools.h"
-#include "cityturn.h"
-#include "diplomats.h"
-#include "gotohand.h"
-#include "maphand.h"
-#include "settlers.h"
-#include "unithand.h"
-#include "unittools.h"
-
 /* ai */
 #include "advmilitary.h"
 #include "aiair.h"
@@ -65,6 +54,18 @@
 #include "ailog.h"
 #include "aiparatrooper.h"
 #include "aitools.h"
+
+/* server */
+#include "barbarian.h"
+#include "citytools.h"
+#include "cityturn.h"
+#include "diplomats.h"
+#include "gotohand.h"
+#include "maphand.h"
+#include "settlers.h"
+#include "unithand.h"
+#include "unittools.h"
+
 
 #include "aiunit.h"
 
@@ -1039,7 +1040,8 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
     /* Try to find a place to rest. Sitting duck out in the wilderness
      * is generally a bad idea, since we protect no cities that way, and
      * it looks silly. */
-    pcity = find_closest_owned_city(pplayer, punit->tile, FALSE, NULL);
+    pcity = find_closest_city(punit->tile, NULL, pplayer, FALSE, FALSE,
+                              FALSE, TRUE, FALSE);
   }
 
   if (!pcity) {
@@ -1689,7 +1691,8 @@ static void ai_military_attack_barbarian(struct player *pplayer,
     any_continent = TRUE;
   }
 
-  if ((pc = dist_nearest_city(pplayer, punit->tile, any_continent, TRUE))) {
+  if ((pc = find_closest_city(punit->tile, NULL, pplayer, FALSE,
+                              any_continent, FALSE, FALSE, TRUE))) {
     if (can_unit_exist_at_tile(punit, punit->tile)) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
                city_name(pc));

@@ -1083,46 +1083,6 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
 }
 
 /**************************************************************************
-This looks for the nearest city:
-If (x,y) is the land, it looks for cities only on the same continent
-unless (everywhere != 0)
-If (enemy != 0) it looks only for enemy cities
-If (pplayer != NULL) it looks for cities known to pplayer
-**************************************************************************/
-struct city *dist_nearest_city(struct player *pplayer, struct tile *ptile,
-                               bool everywhere, bool enemy)
-{ 
-  struct city *pc=NULL;
-  int best_dist = -1;
-  Continent_id con = tile_continent(ptile);
-
-  players_iterate(pplay) {
-    /* If "enemy" is set, only consider cities whose owner we're at
-     * war with. */
-    if (enemy && pplayer && !pplayers_at_war(pplayer, pplay)) {
-      continue;
-    }
-
-    city_list_iterate(pplay->cities, pcity) {
-      int city_dist = real_map_distance(ptile, pcity->tile);
-
-      /* Find the closest city known to the player with a matching
-       * continent. */
-      if ((best_dist == -1 || city_dist < best_dist)
-	  && (everywhere || con == 0
-	      || con == tile_continent(pcity->tile))
-	  && (!pplayer || map_is_known(pcity->tile, pplayer))) {
-	best_dist = city_dist;
-        pc = pcity;
-      }
-    } city_list_iterate_end;
-  } players_iterate_end;
-
-  return(pc);
-}
-
-
-/**************************************************************************
   Calculate the value of the target unit including the other units which
   will die in a successful attack
 **************************************************************************/

@@ -1592,10 +1592,10 @@ void wipe_unit(struct unit *punit)
           put_unit_onto_transporter(pcargo, ptransport);
           send_unit_info(NULL, pcargo);
         } else {
-	  if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
-	    pcity = find_closest_owned_city(unit_owner(pcargo),
-					    pcargo->tile, TRUE, NULL);
-	    if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
+          if (unit_has_type_flag(pcargo, F_UNDISBANDABLE)) {
+            pcity = find_closest_city(pcargo->tile, NULL, unit_owner(pcargo),
+                                      TRUE, FALSE, FALSE, TRUE, FALSE);
+            if (pcity && teleport_unit_to_city(pcargo, pcity, 0, FALSE)) {
               notify_player(pplayer, ptile, E_UNIT_RELOCATED, ftc_server,
                             _("%s escaped the destruction of %s, and "
                               "fled to %s."),

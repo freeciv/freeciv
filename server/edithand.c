@@ -542,7 +542,8 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   /* FIXME: Make this more general? */
   coastal = is_sailing_unittype(punittype);
 
-  homecity = find_closest_owned_city(pplayer, ptile, coastal, NULL);
+  homecity = find_closest_city(ptile, NULL, pplayer, coastal, FALSE, FALSE,
+                               TRUE, FALSE);
   id = homecity ? homecity->id : 0;
 
   conn_list_do_buffer(game.est_connections);

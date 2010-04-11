@@ -1234,7 +1234,8 @@ static void diplomat_escape(struct player *pplayer, struct unit *pdiplomat,
   }
   
   /* find closest city for escape target */
-  spyhome = find_closest_owned_city(unit_owner(pdiplomat), ptile, FALSE, NULL);
+  spyhome = find_closest_city(ptile, NULL, unit_owner(pdiplomat), FALSE,
+                              FALSE, FALSE, TRUE, FALSE);
 
   if (spyhome
       && unit_has_type_flag(pdiplomat, F_SPY)
