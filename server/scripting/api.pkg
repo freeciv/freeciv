@@ -334,6 +334,39 @@ function _freeciv_state_dump()
 end
 $]
 
+$[
+----------------------------------------------------------------------
+-- Iteration constructs for game-global objects
+----------------------------------------------------------------------
+do
+  -- iterate over the values returned by lookup
+  -- until nil is returned:
+  -- lookup(0), lookup(1), lookup(2), etc
+  local function index_iterate(lookup)
+    local index = -1
+    local function iterator()
+      index = index + 1
+      return lookup(index)
+    end
+    return iterator
+  end
+
+  -- Iterate over all players of the game
+  function players_iterate()
+    return index_iterate(find.player)
+  end
+
+  -- Iterate over all tiles of the game
+  function whole_map_iterate()
+    return index_iterate(find.tile)
+  end
+
+  -- NOTE: Identical further definitions can be made for
+  -- governments, tech_types, building_types etc
+end
+
+$]
+
 /* Signal module. */
 module signal {
   void script_signal_connect @ connect(const char *signal_name,
