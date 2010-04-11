@@ -36,17 +36,20 @@
 #include "pixcomm.h"
 #include "canvas.h"
 
-/* common & utility */
-#include "city.h"
+/* utility */
 #include "fcintl.h"
-#include "game.h"
 #include "genlist.h"
-#include "map.h"
+#include "log.h"
 #include "mem.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
+
+/* common */
+#include "city.h"
+#include "game.h"
+#include "map.h"
+#include "packets.h"
+#include "player.h"
 
 /* client */
 #include "client_main.h"
@@ -492,7 +495,7 @@ static void select_preset(Widget w, XtPointer list,
   struct cm_result *result;
 
   /* check gloabl variable current_city */
-  log_assert_ret(current_city != NULL);
+  fc_assert_ret(current_city != NULL);
 
   result = cm_result_new(current_city);
   ret = XawListShowCurrent(list);
@@ -569,7 +572,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
   int i, preset_index;
 
   /* check gloabl variable current_city */
-  log_assert_ret(current_city != NULL);
+  fc_assert_ret(current_city != NULL);
 
   result = cm_result_new(current_city);
 
@@ -636,7 +639,7 @@ static void sliders_scroll_callback(Widget w, XtPointer client_data,
     XawListHighlight(preset_list, preset_index);
   }
 
-  cm_result_destroy();
+  cm_result_destroy(result);
 }
 
 /**************************************************************************
@@ -651,7 +654,7 @@ void sliders_jump_callback(Widget w, XtPointer client_data,
   int i, preset_index;
 
   /* check gloabl variable current_city */
-  log_assert_ret(current_city != NULL);
+  fc_assert_ret(current_city != NULL);
 
   result = cm_result_new(current_city);
 
@@ -784,7 +787,7 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
   struct cm_result *result;
 
   /* check gloabl variable current_city */
-  log_assert_ret(current_city != NULL);
+  fc_assert_ret(current_city != NULL);
 
   /* Change label on celebrate toggle. */
   XtVaGetValues(w, XtNstate, &celebrate, NULL);
@@ -807,6 +810,7 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
     cma_put_city_under_agent(current_city, &parameter);
   }
 
+  result = cm_result_new(current_city);
   cmafec_get_fe_parameter(current_city, &parameter);
   cm_result_from_main_map(result, current_city);
   xaw_set_label(result_label,
@@ -849,8 +853,9 @@ static void change_callback(Widget w, XtPointer client_data,
   struct cm_parameter param;
 
   /* check gloabl variable current_city */
-  log_assert_ret(current_city != NULL);
+  fc_assert_ret(current_city != NULL);
 
+  result = cm_result_new(current_city);
   cmafec_get_fe_parameter(current_city, &param);
   cm_query_result(current_city, &param, result);
   cma_apply_result(current_city, result);
