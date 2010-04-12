@@ -861,14 +861,14 @@ AC_SUBST([LUA_LIBS])
 AC_SUBST([LUA_AS_DEPENDENCY])
 
 
-TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/toluaxx/include"
-TOLUA_LIBS="\$(top_builddir)/dependencies/toluaxx/src/lib/libtolua.a"
+TOLUA_CFLAGS="-I\$(top_srcdir)/dependencies/tolua-5.1/include"
+TOLUA_LIBS="\$(top_builddir)/dependencies/tolua-5.1/src/lib/libtolua.a"
 TOLUA_AS_DEPENDENCY="$TOLUA_LIBS"
 AC_SUBST([TOLUA_CFLAGS])
 AC_SUBST([TOLUA_LIBS])
 AC_SUBST([TOLUA_AS_DEPENDENCY])
 
-TOLUA="\$(top_builddir)/dependencies/toluaxx/src/bin/tolua$EXEEXT"
+TOLUA="\$(top_builddir)/dependencies/tolua-5.1/src/bin/tolua$EXEEXT"
 AC_SUBST([TOLUA])
 
 dnl Freeciv uses a non-standard macro, Q_(), to handle cases of qualified
@@ -1007,10 +1007,10 @@ AC_CONFIG_FILES([Makefile
 	  dependencies/Makefile
 	  dependencies/lua-5.1/Makefile
           dependencies/lua-5.1/src/Makefile
-	  dependencies/toluaxx/Makefile
-	  dependencies/toluaxx/src/Makefile
-	  dependencies/toluaxx/src/lib/Makefile
-          dependencies/toluaxx/src/bin/Makefile
+	  dependencies/tolua-5.1/Makefile
+	  dependencies/tolua-5.1/src/Makefile
+	  dependencies/tolua-5.1/src/lib/Makefile
+          dependencies/tolua-5.1/src/bin/Makefile
 	  common/Makefile
 	  common/aicore/Makefile
 	  ai/Makefile
