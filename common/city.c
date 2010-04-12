@@ -2716,7 +2716,7 @@ struct city *create_city_virtual(struct player *pplayer,
 
 #endif
 
-  if (pplayer->ai->funcs.init_city) {
+  if (pplayer->ai && pplayer->ai->funcs.init_city) {
     pplayer->ai->funcs.init_city(pcity);
   }
 
@@ -2735,7 +2735,7 @@ struct city *create_city_virtual(struct player *pplayer,
 **************************************************************************/
 void destroy_city_virtual(struct city *pcity)
 {
-  if (pcity->owner->ai->funcs.close_city) {
+  if (pcity->owner->ai && pcity->owner->ai->funcs.close_city) {
     pcity->owner->ai->funcs.close_city(pcity);
   }
 

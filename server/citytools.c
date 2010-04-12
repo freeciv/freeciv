@@ -874,11 +874,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   assert(pgiver != ptaker);
 
   /* Remove AI control of the old owner. */
-  if (pcity->owner->ai->funcs.close_city) {
+  if (pcity->owner->ai && pcity->owner->ai->funcs.close_city) {
     pcity->owner->ai->funcs.close_city(pcity);
   }
   /* Activate AI control of the new owner. */
-  if (ptaker->ai->funcs.init_city) {
+  if (ptaker->ai && ptaker->ai->funcs.init_city) {
     ptaker->ai->funcs.init_city(pcity);
   }
 
