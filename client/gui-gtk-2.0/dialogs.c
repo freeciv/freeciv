@@ -368,7 +368,7 @@ void popup_pillage_dialog(struct unit *punit,
       BV_CLR_ALL(what_base);
 
       if (what > S_LAST) {
-        BV_SET(what_base, what - S_LAST - 1);
+        BV_SET(what_base, what % (S_LAST + 1));
       } else {
         BV_SET(what_bv, what);
       }
@@ -377,7 +377,7 @@ void popup_pillage_dialog(struct unit *punit,
                         G_CALLBACK(pillage_callback), GINT_TO_POINTER(what));
 
       if (what > S_LAST) {
-        BV_CLR(bases, what - S_LAST - 1);
+        BV_CLR(bases, what % (S_LAST + 1));
       } else {
         clear_special(&may_pillage, what);
         prereq = get_infrastructure_prereq(what);
