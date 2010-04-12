@@ -21,7 +21,7 @@
 
 #include "lua.h"
 #include "lualib.h"
-#include "toluaxx.h"
+#include "tolua.h"
 
 #include "astring.h"
 #include "log.h"
