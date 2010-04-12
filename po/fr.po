@@ -14,14 +14,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 1.15\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 14:31+0100\n"
+"POT-Creation-Date: 2010-04-12 12:18+0200\n"
 "PO-Revision-Date: 2007-08-12 15:06+0300\n"
 "Last-Translator: Pepeto <pepeto69 gmail.com>\n"
 "Language-Team: <freeciv-l10n-fr@yahoogroupes.fr>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-15\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: KBabel 1.11.2\n"
 
 #: common/city.c:58 client/gui-gtk-2.0/repodlgs.c:990
@@ -6477,7 +6477,6 @@ msgid "Definition of the save file name"
 msgstr "Définition du nom du fichier de sauvegarde"
 
 #: server/settings.c:1153
-#, fuzzy
 msgid ""
 "Within the string the following custom formats are allowed:\n"
 "  %R = <reason>\n"
@@ -9032,19 +9031,19 @@ msgid "%2.1f : Total chance for a plague"
 msgstr "%+2.1f : Risque épidémique total"
 
 #: client/citydlg_common.c:571
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution from shields\n"
-msgstr "* Peut nettoyer la pollution des cases.\n"
+msgstr "%+4d : Pollution due à la production\n"
 
 #: client/citydlg_common.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution from citizens\n"
-msgstr "* Peut nettoyer la pollution des cases.\n"
+msgstr "%+4d : Pollution due aux citoyens\n"
 
 #: client/citydlg_common.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution modifier\n"
-msgstr "%+4d : Corruption\n"
+msgstr "%+4d : Modificateur de pollution\n"
 
 #: client/cityrepdata.c:82
 msgid "?city_state:Celebrating"
@@ -11109,11 +11108,11 @@ msgstr ""
 
 #: client/options.c:553
 msgid "Draw the irrigation"
-msgstr "Dessiner les irrigations"
+msgstr "Dessiner l'irrigation"
 
 #: client/options.c:554
 msgid "Setting this option will draw the irrigation systems on the map."
-msgstr "Activer cette option dessinera les irrigations sur la carte."
+msgstr "Activer cette option dessinera les systèmes d'irrigations sur la carte."
 
 #: client/options.c:558
 msgid "Draw the mines"
@@ -11141,7 +11140,7 @@ msgstr "Activer cette option dessinera les ressources spéciales sur la carte."
 
 #: client/options.c:571
 msgid "Draw the pollution/nuclear fallout"
-msgstr "Dessiner la pollution/retombées nucléaires"
+msgstr "Dessiner la pollution/les retombées nucléaires"
 
 #: client/options.c:572
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
@@ -13613,7 +13612,7 @@ msgstr "Quel nom doit porter cette ville ?"
 #: client/gui-gtk-2.0/cityrep.c:541
 #, c-format
 msgid "Are you sure you want to sell those %s?"
-msgstr "Voulez-vous vraiment vendre ces %s ?"
+msgstr "Êtes-vous sûr de vraiment vouloir vendre ces %s ?"
 
 #: client/gui-gtk-2.0/cityrep.c:889
 msgid "(no worklists defined)"
@@ -13997,9 +13996,8 @@ msgstr "_Découvertes"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:283
-#, fuzzy
 msgid "All advances"
-msgstr "Des découvertes"
+msgstr "Toutes les découvertes"
 
 #: client/gui-gtk-2.0/diplodlg.c:360 client/gui-gtk-2.0/menu.c:1599
 #: client/gui-win32/menu.c:410
@@ -20530,6 +20528,9 @@ msgid ""
 "Beware: in rulesets where plague is enabled, it can travel along trade "
 "routes. See the section on Plague for more details."
 msgstr ""
+"Attention : dans les règles du jeu où les épidémies sont activées, ces "
+"dernières peuvent se répandre le long des routes commerciales. Voir la "
+"section sur l'Épidémie pour plus de détails."
 
 #: data/helpdata.txt:607
 msgid ""
@@ -20550,7 +20551,6 @@ msgstr ""
 "guerre."
 
 #: data/helpdata.txt:617
-#, fuzzy
 msgid ""
 "A city is created when Settlers are given the \"build city\" command on "
 "suitable terrain, removing the unit from play to provide the city with its "
@@ -20564,10 +20564,10 @@ msgstr ""
 "sur un terrain propice, ce qui retire l'unité du jeu pour donner à la ville "
 "son premier citoyen. Une ville peut croître et compter de très nombreux "
 "habitants, certains travaillant à l'intérieur de la ville et d'autre envoyés "
-"comme nouveaux colons. La famine et la guerre tuent les citoyens et réduit "
-"la population ; avec la perte du dernier habitant la ville disparaît (dans "
-"les règles du jeu standard, des ruines sont laissées, bien que ça n'ait pas "
-"d'effet sur la partie)."
+"comme nouveaux colons. La famine, la guerre et les épidémies tuent les "
+"citoyens et réduit la population ; avec la perte du dernier habitant la "
+"ville disparaît (dans les règles du jeu standard, des ruines sont laissées, "
+"bien que ça n'ait pas d'effet sur la partie)."
 
 #: data/helpdata.txt:626
 msgid ""
@@ -20704,7 +20704,6 @@ msgid " Happiness"
 msgstr " Bonheur"
 
 #: data/helpdata.txt:689
-#, fuzzy
 msgid ""
 "Keeping your citizens happy (or at least content) is one of the most "
 "important objectives in Freeciv. When your citizens become unhappy, your "
@@ -20717,7 +20716,10 @@ msgstr ""
 "objectifs les plus important dans Freeciv. Quand vos citoyens deviennent "
 "mécontents, vos cités sombrent dans le désordre, ce qui trouble la "
 "production. À l'inverse, quand vos citoyens sont heureux, vos villes vont "
-"fêter, et vos productions vont augmenter de manière significative."
+"fêter, et vos productions vont augmenter de manière significative. (Si "
+"l'émigration des citoyens est activée, le bonheur affectera aussi "
+"l'attractivité des villes ; voir la section sur l'Émigration pour les "
+"détails.)"
 
 #: data/helpdata.txt:697
 msgid ""
@@ -20936,7 +20938,6 @@ msgid " Pollution"
 msgstr "Pollution"
 
 #: data/helpdata.txt:797
-#, fuzzy
 msgid ""
 "Pollution can plague large cities, especially as your civilization becomes "
 "more industrialized. The chance of pollution appearing around a city depends "
@@ -20952,7 +20953,8 @@ msgstr ""
 "la découverte de plusieurs avancées technologiques, et sa production. "
 "Lorsque cette somme excède 20, elle devient le risque en pourcentage "
 "d'apparition de pollution chaque tour ; Ce pourcentage est montré dans la "
-"fenêtre de ville."
+"fenêtre de ville. (Cette chance de pollution affecte aussi le risque "
+"d'épidémie, si activé dans les règles du jeu ; voir section sur l'Épidémie.)"
 
 #: data/helpdata.txt:806
 msgid ""
@@ -20998,13 +21000,14 @@ msgstr ""
 "réchauffement en sera d'autant plus sévère quand il se produira."
 
 #: data/helpdata.txt:828
-#, fuzzy
 msgid " Plague"
-msgstr "frappée d'épidémie"
+msgstr " Épidémie"
 
 #: data/helpdata.txt:829
 msgid "Plague is a ruleset option, and is not enabled in the default ruleset."
 msgstr ""
+"L'épidémie est une option des règles du jeu et elle n'est pas activée dans "
+"les règles standard."
 
 #: data/helpdata.txt:832
 msgid ""
@@ -21013,6 +21016,11 @@ msgid ""
 "on city size. Rulesets which enable plague will typically have city "
 "improvements or other means to reduce the risk of plague."
 msgstr ""
+"Lorsqu'une épidémie frappe une ville, sa population est réduite d'un. À moins "
+"qu'une action soit prise pour réduire le risque épidémique, ceci tend à agir "
+"comme une limite naturelle de la taille de la ville. Les règles qui ont "
+"l'épidémie activée, ont typiquement des bâtiments ou d'autres moyen de "
+"réduire le risque épidémique."
 
 #: data/helpdata.txt:838
 msgid ""
@@ -21023,11 +21031,17 @@ msgid ""
 "several turns, increasing the risk of plague in those cities by a factor "
 "depending on the size of both cities."
 msgstr ""
+"Le risque épidémique dépend de la taille de la ville (le surpeuplement tend "
+"à d'insalubres conditions) et de la pollution générée par la ville. Aussi, "
+"l'épidémie peut se répandre via les routes commerciales (sans distinction "
+"envers les nationalités) ; après qu'une cité ait été frappée par une "
+"épidémie, elle restera infectieuses à ses partenaires commerciaux pendant "
+"plusieurs tours, augmentant le risque épidémique dans ces villes d'un "
+"facteur dépendant de la tailles des deux villes."
 
 #: data/helpdata.txt:848
-#, fuzzy
 msgid " Migration"
-msgstr "Irrigation"
+msgstr " Émigration"
 
 #: data/helpdata.txt:849
 msgid ""
@@ -21035,6 +21049,10 @@ msgid ""
 "relative attractions of living in each city. Whether migration is enabled is "
 "controlled by the server option `migration'; it is disabled by default."
 msgstr ""
+"La migration est le mouvement des citoyens d'une ville à une autre basé sur "
+"l'attractivité de vivre dans chaque ville. L'activation de l'émigration est "
+"contrôlée par l'option du serveur 'migration' ; cette dernière est "
+"désactivée par défaut."
 
 #: data/helpdata.txt:854
 msgid ""
@@ -21042,6 +21060,10 @@ msgid ""
 "game may migrate to a nearby, more attractive city, either within the same "
 "nation or even across national borders (to a lesser extent, by default)."
 msgstr ""
+"Quand l'émigration est activée, après quelques tours, un citoyen de chaque "
+"ville de la partie migrera peut-être pour une ville proche et plus "
+"attractive d'une même nation, ou même en traversant les frontière nationales "
+"(dans une moindre mesure, par défaut)."
 
 #: data/helpdata.txt:859
 msgid ""
@@ -21051,17 +21073,24 @@ msgid ""
 "order of importance. (Each factor counts for much more in the citizen's "
 "current city, as they prefer not to move without a compelling reason.)"
 msgstr ""
+"Vous de pouvez pas directement prevenir ou diriger la migration des "
+"citoyens. Cependant, vous pouvez influencer l'attractivité de vos villes. "
+"Les facteurs suivants affectent la comment chaque ville est perçue comme "
+"désirable, dans un ordre d'importance approximativement décroissant. "
+"(Chaque facteur compte pour beaucoup plus d'un citoyen dans la ville "
+"courante, et donc, ils ne préfèrent pas se déplacer sans raison valable.)"
 
 #: data/helpdata.txt:866
-#, fuzzy
 msgid " - City size."
-msgstr "Ville : %s"
+msgstr " - Taille de la ville."
 
 #: data/helpdata.txt:868
 msgid ""
 " - The number of happy citizens. (To a lesser extent, unhappy and angry "
 "citizens reduce the desirability of a city.)"
 msgstr ""
+" - Le nombre de citoyens heureux.  (Et dans une moindre mesure, les citoyens "
+"mécontents et révoltés réduisent l'attractivité de la ville.)"
 
 #: data/helpdata.txt:871
 msgid ""
@@ -21069,16 +21098,23 @@ msgid ""
 "desirability (further wonders do not contribute except by the lesser effect "
 "of their build cost)."
 msgstr ""
+" - La présence d'une merveille dans une ville augmente considérablement son "
+"attractivité (les merveilles supplémentaires n'y contribuent pas sauf le "
+"moindre effet de leur coût de construction)."
 
 #: data/helpdata.txt:875
 msgid ""
 " - Capital cities are more attractive than other cities, all other factors "
 "being equal; in addition, citizens will never migrate out of a capital city."
 msgstr ""
+" - Les capitales sont plus attractives que les autres villes, tous les "
+"autres facteurs sont égaux ; en plus, les citoyens n'émigreront jamais d'une "
+"capitale."
 
 #: data/helpdata.txt:879
 msgid " - Food surplus. (A food deficit reduces the desirability of a city.)"
-msgstr ""
+msgstr " - Surplus de nourriture. (Un déficit de nourriture réduit "
+"l'attractivité d'une ville.)"
 
 #: data/helpdata.txt:881
 msgid ""
@@ -21086,21 +21122,24 @@ msgid ""
 "distance that a citizen is prepared to migrate is controlled by the server "
 "option `mgr_dist'."
 msgstr ""
+" - L'éloignement des villes les rendent moins désirables. La distance "
+"maximale absolue pour qu'un citoyen se prépare à migrer est contrôlée par "
+"l'option du serveur 'mgr_dist'."
 
 #: data/helpdata.txt:885
-#, fuzzy
 msgid " - Trade surplus."
-msgstr "%4d : Surplus total"
+msgstr " - Surplus de commerce."
 
 #: data/helpdata.txt:887
-#, fuzzy
 msgid " - Luxury and science output."
-msgstr "Choisissez les taux d'impôts, de luxe et de science"
+msgstr " - Rendement en luxe et en science."
 
 #: data/helpdata.txt:889
 msgid ""
 " - The quantity of city improvements (and wonders), measured by build cost."
 msgstr ""
+" - La quantité de bâtiments (et de merveilles), mesurée en coût de "
+"construction."
 
 #: data/helpdata.txt:892
 msgid ""
@@ -21109,6 +21148,10 @@ msgid ""
 "cities; these are noted in other sections of the help. (The default ruleset "
 "contains no such effects.)"
 msgstr ""
+" - En fonction des règles du jeu, un certain nombre d'autres facteurs comme "
+"le type de gouvernement et les bâtiments peuvent augmenter ou réduire "
+"l'attractivité des villes ; Ils sont annotés dans d'autres section de "
+"l'aide. (Il n'y a pas de tels effets dans les règles standard.)"
 
 #: data/helpdata.txt:897
 msgid ""
@@ -21117,6 +21160,11 @@ msgid ""
 "the server option `mgr_foodneeded' is set, they will not migrate to cities "
 "which would not have enough food to support them."
 msgstr ""
+"Les citoyens n'émigreront pas pour des villes qui ne peuvent pas augmenter "
+"de taille pour les accueillir, par exemple par manque de bâtiment tel que "
+"l'Aqueduc. Si l'option du serveur 'mgr_foodneeded' est de mise, ils "
+"n'émigreront pas vers les villes qui n'ont pas assez de nourriture pour les "
+"accueillir."
 
 #: data/helpdata.txt:902
 msgid ""
@@ -21126,12 +21174,19 @@ msgid ""
 "and the last citizen from your only remaining city will never migrate to "
 "another nation."
 msgstr ""
+"L'émigration peut entraîner l'abandon complet d'une ville (la propriété des "
+"unités seront transférées à votre ville la plus proche). Toutefois, les "
+"villes de merveilles ne seront jamais dissoutes (de sorte que la merveille "
+"ne soit pas détruite), et le dernier citoyen de votre dernière ville "
+"restante n'émigrer jamais vers une autre nation."
 
 #: data/helpdata.txt:908
 msgid ""
 "Several of the details of migration can be changed with the `mgr_*' server "
 "options."
 msgstr ""
+"Plusieurs des réglages concertant l'émigration peuvent être modifiés avec "
+"les options du serveur 'mgr_*'."
 
 #: data/helpdata.txt:915
 msgid ""
