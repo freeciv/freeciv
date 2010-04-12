@@ -32,11 +32,6 @@ $#include "api_notify.h"
 $#include "api_utilities.h"
 $#include "script.h"
 
-/* fix a bug in toluaxx, define to expand empty */
-$#ifndef tolua_outside
-$#define tolua_outside
-$#endif
-
 /* Classes. */
 struct Player_ai {
    bool control;
@@ -47,18 +42,20 @@ struct Player {
   Nation_Type *nation;
 
   Player_ai ai_data;
-
-  tolua_outside int api_methods_player_num_cities
-    @ num_cities ();
-  tolua_outside int api_methods_player_num_units
-    @ num_units ();
-  tolua_outside bool api_methods_player_has_wonder
-    @ has_wonder (Building_Type *building);
-  tolua_outside void api_methods_player_victory
-    @ victory ();
-  tolua_outside int api_methods_player_number
-    @ number ();
 };
+
+module Player {
+  int api_methods_player_num_cities
+    @ num_cities (Player *self);
+  int api_methods_player_num_units
+    @ num_units (Player *self);
+  bool api_methods_player_has_wonder
+    @ has_wonder (Player *self, Building_Type *building);
+  void api_methods_player_victory
+    @ victory (Player *self);
+  int api_methods_player_number
+    @ number (Player *self);
+}
 
 struct City {
   const char *name;
@@ -68,12 +65,15 @@ struct City {
   int size;
 
   const int id;
-
-  tolua_outside bool api_methods_city_has_building
-    @ has_building(Building_Type *building);
-  tolua_outside int api_methods_city_map_sq_radius
-    @ map_sq_radius();
 };
+
+module City {
+  bool api_methods_city_has_building
+    @ has_building(City *self, Building_Type *building);
+  int api_methods_city_map_sq_radius
+    @ map_sq_radius(City *self);
+}
+
 
 struct Unit {
   Unit_Type *utype;
@@ -84,10 +84,12 @@ struct Unit {
   Tile *tile;
 
   const int id;
-
-  tolua_outside bool api_methods_unit_city_can_be_built_here
-    @ is_on_possible_city_tile ();
 };
+
+module Unit {
+  bool api_methods_unit_city_can_be_built_here
+    @ is_on_possible_city_tile (Unit *self);
+}
 
 struct Tile {
   const int nat_x;
@@ -96,86 +98,98 @@ struct Tile {
   Terrain *terrain;
 
   const int index @ id;
-
-  tolua_outside bool api_methods_tile_city_exists_within_max_city_map
-    @ city_exists_within_max_city_map (bool center);
 };
+
+module Tile {
+  bool api_methods_tile_city_exists_within_max_city_map
+    @ city_exists_within_max_city_map (Tile *self, bool center);
+}
 
 struct Government {
   const int item_number @ id;
-
-  tolua_outside const char *api_methods_government_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_government_name_translation
-    @ name_translation ();
 };
+
+module Government {
+  const char *api_methods_government_rule_name
+    @ rule_name (Government *self);
+  const char *api_methods_government_name_translation
+    @ name_translation (Government *self);
+}
 
 struct Nation_Type {
   const int item_number @ id;
-
-  tolua_outside const char *api_methods_nation_type_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_nation_type_name_translation
-    @ name_translation ();
-  tolua_outside const char *api_methods_nation_type_plural_translation
-    @ plural_translation ();
 };
+
+module Nation_Type {
+  const char *api_methods_nation_type_rule_name
+    @ rule_name (Nation_Type *self);
+  const char *api_methods_nation_type_name_translation
+    @ name_translation (Nation_Type *self);
+  const char *api_methods_nation_type_plural_translation
+    @ plural_translation (Nation_Type *self);
+}
 
 struct Building_Type {
   int build_cost;
 
   const int item_number @ id;
-
-  tolua_outside bool api_methods_building_type_is_wonder
-    @ is_wonder ();
-  tolua_outside bool api_methods_building_type_is_great_wonder
-    @ is_great_wonder ();
-  tolua_outside bool api_methods_building_type_is_small_wonder
-    @ is_small_wonder ();
-  tolua_outside bool api_methods_building_type_is_improvement
-    @ is_improvement ();
-  tolua_outside const char *api_methods_building_type_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_building_type_name_translation
-    @ name_translation ();
 };
+
+module Building_Type {
+  bool api_methods_building_type_is_wonder
+    @ is_wonder (Building_Type *self);
+  bool api_methods_building_type_is_great_wonder
+    @ is_great_wonder (Building_Type *self);
+  bool api_methods_building_type_is_small_wonder
+    @ is_small_wonder (Building_Type *self);
+  bool api_methods_building_type_is_improvement
+    @ is_improvement (Building_Type *self);
+  const char *api_methods_building_type_rule_name
+    @ rule_name (Building_Type *self);
+  const char *api_methods_building_type_name_translation
+    @ name_translation (Building_Type *self);
+}
 
 struct Unit_Type {
   int build_cost;
 
   const int item_number @ id;
-
-  tolua_outside bool api_methods_unit_type_has_flag
-    @ has_flag (const char *flag);
-  tolua_outside bool api_methods_unit_type_has_role
-    @ has_role (const char *role);
-  tolua_outside const char *api_methods_unit_type_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_unit_type_name_translation
-    @ name_translation ();
 };
+
+module Unit_Type {
+  bool api_methods_unit_type_has_flag
+    @ has_flag (Unit_Type *self, const char *flag);
+  bool api_methods_unit_type_has_role
+    @ has_role (Unit_Type *self, const char *role);
+  const char *api_methods_unit_type_rule_name
+    @ rule_name (Unit_Type *self);
+  const char *api_methods_unit_type_name_translation
+    @ name_translation (Unit_Type *self);
+}
 
 struct Tech_Type {
   const int item_number @ id;
-
-  tolua_outside const char *api_methods_tech_type_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_tech_type_name_translation
-    @ name_translation ();
 };
+
+module Tech_Type {
+  const char *api_methods_tech_type_rule_name
+    @ rule_name (Tech_Type *self);
+  const char *api_methods_tech_type_name_translation
+    @ name_translation (Tech_Type *self);
+}
 
 struct Terrain {
   const int item_number @ id;
-
-  tolua_outside const char *api_methods_terrain_rule_name
-    @ rule_name ();
-  tolua_outside const char *api_methods_terrain_name_translation
-    @ name_translation ();
 };
 
+module Terrain {
+  const char *api_methods_terrain_rule_name
+    @ rule_name (Terrain *self);
+  const char *api_methods_terrain_name_translation
+    @ name_translation (Terrain *self);
+}
 
 $[
--- Extra or convenience API methods
 
 -- Building_Type methods.
 function Building_Type:build_shield_cost()
