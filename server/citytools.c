@@ -917,11 +917,11 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   fc_assert_ret(pgiver != ptaker);
 
   /* Remove AI control of the old owner. */
-  if (pcity->owner->ai->funcs.city_close) {
+  if (pcity->owner->ai && pcity->owner->ai->funcs.city_close) {
     pcity->owner->ai->funcs.city_close(pcity);
   }
   /* Activate AI control of the new owner. */
-  if (ptaker->ai->funcs.city_init) {
+  if (ptaker->ai && ptaker->ai->funcs.city_init) {
     ptaker->ai->funcs.city_init(pcity);
   }
 
@@ -2611,11 +2611,9 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
   }
 
   /* if city is under AI control update it */
-  ai_type_iterate(ai) {
-    if (ai->funcs.city_update) {
-      ai->funcs.city_update(pcity);
-    }
-  } ai_type_iterate_end;
+  if (pcity->owner->ai && pcity->owner->ai->funcs.city_update) {
+    pcity->owner->ai->funcs.city_update(pcity);
+  }
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),
