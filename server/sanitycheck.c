@@ -42,58 +42,30 @@
 
 #ifdef SANITY_CHECKING
 
-#ifdef DEBUG
-#  define SANITY_(_s, ...)                                                  \
-  if (log_do_output_for_level(LOG_ERROR)                                    \
-      || log_do_output_for_level_at_location(LOG_ERROR, file, line)) {      \
-    do_log(file, function, line, TRUE, LOG_ERROR, "Failed at [%s::%d]:" _s, \
-           __FILE__, __LINE__, ## __VA_ARGS__);                             \
-  }
-#else
-#  define SANITY_(_s, ...)                                                  \
-  if (log_do_output_for_level(LOG_ERROR)) {                                 \
-    do_log(file, function, line, TRUE, LOG_ERROR, "Failed at [%s::%d]:" _s, \
-           __FILE__, __LINE__, ## __VA_ARGS__);                             \
-  }
-#endif /* DEBUG */
+#define SANITY_(format, ...) \
+  fc_assert_fail(file, function, line, NULL, format, ## __VA_ARGS__)
 
-#define SANITY_CHECK(check)						\
-  do {									\
-    if (!(check)) {							\
-      SANITY_("!(%s)",							\
-      #check);								\
-    }									\
-  } while(0)
+#define SANITY_CHECK(check) \
+  fc_assert_full(file, function, line, check, , NULL)
 
-#define SANITY_CITY(_city, check)					\
-  do {									\
-    if (!(check)) {							\
-      SANITY_("(%4d,%4d) !(%s) in \"%s\"[%d]",				\
-	      TILE_XY((_city)->tile),					\
-	      #check,							\
-	      city_name(_city),						\
-	      (_city)->size);						\
-    }									\
-  } while(0)
+#define SANITY_CITY(_city, check)                                           \
+  fc_assert_full(file, function, line, check, ,                             \
+                 "(%4d, %4d) in \"%s\"[%d]", TILE_XY((_city)->tile),        \
+                 city_name(_city), (_city)->size)
 
-#define SANITY_TERRAIN(_tile, check)					\
-  do {									\
-    if (!(check)) {							\
-      SANITY_("(%4d,%4d) !(%s) at \"%s\"",				\
-	      TILE_XY(_tile),						\
-	      #check,							\
-	      terrain_rule_name(tile_terrain(_tile)));			\
-    }									\
-  } while(0)
+#define SANITY_TERRAIN(_tile, check)                                        \
+  fc_assert_full(file, function, line, check, ,                             \
+                 "(%4d, %4d) at \"%s\"", TILE_XY(_tile),                    \
+                 terrain_rule_name(tile_terrain(_tile)))
 
-#define SANITY_TILE(_tile, check)					\
-  do {									\
-    struct city *_tile##_city = tile_city(_tile);			\
-    if (NULL != _tile##_city) {						\
-      SANITY_CITY(_tile##_city, check);					\
-    } else {								\
-      SANITY_TERRAIN(_tile, check);					\
-    }									\
+#define SANITY_TILE(_tile, check)                                           \
+  do {                                                                      \
+    struct city *_tile##_city = tile_city(_tile);                           \
+    if (NULL != _tile##_city) {                                             \
+      SANITY_CITY(_tile##_city, check);                                     \
+    } else {                                                                \
+      SANITY_TERRAIN(_tile, check);                                         \
+    }                                                                       \
   } while(0)
 
 

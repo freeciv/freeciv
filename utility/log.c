@@ -429,8 +429,10 @@ void fc_assert_fail(const char *file, const char *function, int line,
 {
   enum log_level level = (0 <= fc_fatal_assertions ? LOG_FATAL : LOG_ERROR);
 
-  do_log(file, function, line, TRUE, level,
-         "assertion '%s' failed.", assertion);
+  if (NULL != assertion) {
+    do_log(file, function, line, TRUE, level,
+           "assertion '%s' failed.", assertion);
+  }
 
   if (NULL != message) {
     /* Additional message. */
