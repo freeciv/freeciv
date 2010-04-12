@@ -18,6 +18,7 @@
 /* common */
 #include "government.h"
 #include "improvement.h"
+#include "map.h"
 #include "nation.h"
 #include "tech.h"
 #include "terrain.h"
@@ -267,6 +268,72 @@ bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
 {
   SCRIPT_ASSERT(NULL != ptile, FALSE);
   return city_exists_within_max_city_map(ptile, may_be_on_center);
+}
+
+
+/**************************************************************************
+  Return nth tile iteration index (for internal use)
+  Will return the next index, or an index < 0 when done
+**************************************************************************/
+int api_methods_private_tile_next_outward_index(Tile *pstart,
+                                                int index,
+                                                int max_dist)
+{
+  int dx, dy;
+  int newx, newy;
+  SCRIPT_ASSERT(NULL != pstart, 0);
+
+  if (index < 0) {
+    return 0;
+  }
+
+  index++;
+  while (index < map.num_iterate_outwards_indices) {
+    if (map.iterate_outwards_indices[index].dist > max_dist) {
+      return -1;
+    }
+    dx = map.iterate_outwards_indices[index].dx;
+    dy = map.iterate_outwards_indices[index].dy;
+    newx = dx + pstart->x;
+    newy = dy + pstart->y;
+    if (!normalize_map_pos(&newx, &newy)) {
+      index++;
+      continue;
+    }
+    return index;
+  }
+  return -1;
+}
+
+/**************************************************************************
+  Return tile for nth iteration index (for internal use)
+**************************************************************************/
+Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
+{
+  int dx, dy;
+  int newx, newy;
+  SCRIPT_ASSERT(NULL != pstart, NULL);
+  SCRIPT_ASSERT(index >= 0
+                && index < map.num_iterate_outwards_indices, NULL);
+
+  dx = map.iterate_outwards_indices[index].dx;
+  dy = map.iterate_outwards_indices[index].dy;
+  newx = dx + pstart->x;
+  newy = dy + pstart->y;
+  if (!normalize_map_pos(&newx, &newy)) {
+    return NULL;
+  }
+  return map_pos_to_tile(newx, newy);
+}
+
+/**************************************************************************
+  Return squared distance between tiles 1 and 2
+**************************************************************************/
+int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2)
+{
+  SCRIPT_ASSERT(NULL != ptile1, 0);
+  SCRIPT_ASSERT(NULL != ptile2, 0);
+  return sq_map_distance(ptile1, ptile2);
 }
 
 

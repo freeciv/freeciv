@@ -107,6 +107,17 @@ struct Tile {
 module Tile {
   bool api_methods_tile_city_exists_within_max_city_map
     @ city_exists_within_max_city_map (Tile *self, bool center);
+  int api_methods_tile_sq_distance
+    @ sq_distance (Tile *self, Tile *other);
+}
+
+module methods_private {
+  module Tile {
+    int api_methods_private_tile_next_outward_index
+      @ next_outward_index (Tile *pcenter, int index, int max_dist);
+    Tile *api_methods_private_tile_for_outward_index
+      @ tile_for_outward_index (Tile *pcenter, int index);
+  }
 }
 
 struct Government {
@@ -205,11 +216,49 @@ function Player:is_human()
   return not self.ai_data.control
 end
 
--- Tile methods
---   Deprecated. New one is Tile:city_exists_within_max_city_map().
+----------------------------------------------------------------------
+--  Tile
+--  Deprecated. New one is Tile:city_exists_within_max_city_map().
+----------------------------------------------------------------------
 function Tile:city_exists_within_city_radius(center)
   return self:city_exists_within_max_city_map(center)
 end
+
+----------------------------------------------------------------------
+--  Tile: square_iterate, circle_iterate
+----------------------------------------------------------------------
+do
+  local next_outward_index = methods_private.Tile.next_outward_index
+  local tile_for_outward_index = methods_private.Tile.tile_for_outward_index
+
+  -- iterate over tiles at distance 'radius'
+  function Tile:square_iterate(radius)
+    local index = -1
+    local function iterator()
+      index = next_outward_index(self, index, radius)
+      if index < 0 then
+        return nil
+      else
+        return tile_for_outward_index(self, index)
+      end
+    end
+    return iterator
+  end
+
+  -- iterate over tiles at squared distance 'sq_radius'
+  function Tile:circle_iterate(sq_radius)
+    local cr_radius = math.floor(math.sqrt(sq_radius))
+    local sq_iter = self:square_iterate(cr_radius)
+    local function iterator()
+      local tile = nil
+      repeat
+        tile = sq_iter()
+      until not tile or self:sq_distance(tile) <= sq_radius
+      return tile
+    end
+    return iterator
+  end
+end  -- end do-block (Tile methods)
 
 -- Unit methods.
 function Unit:get_homecity()
@@ -221,6 +270,8 @@ function Unit_Type:build_shield_cost()
   return self.build_cost
 end
 
+-- Hide all private methods
+methods_private = nil
 $]
 
 $[
