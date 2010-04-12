@@ -57,8 +57,10 @@ const char *api_methods_terrain_rule_name(Terrain *pterrain);
 const char *api_methods_terrain_name_translation(Terrain *pterrain);
 
 /* Tile */
+City *api_methods_tile_city(Tile *ptile);
 bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
                                                       bool may_be_on_center);
+int api_methods_tile_num_units(Tile *ptile);
 int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2);
 int api_methods_private_tile_next_outward_index(Tile *pstart, int index,
                                                 int max_dist);

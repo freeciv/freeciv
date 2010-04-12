@@ -22,6 +22,7 @@
 #include "nation.h"
 #include "tech.h"
 #include "terrain.h"
+#include "tile.h"
 #include "unitlist.h"
 #include "unittype.h"
 
@@ -261,6 +262,15 @@ const char *api_methods_terrain_name_translation(Terrain *pterrain)
 
 
 /**************************************************************************
+  Return City on ptile, else NULL
+**************************************************************************/
+City *api_methods_tile_city(Tile *ptile)
+{
+  SCRIPT_ASSERT(NULL != ptile, NULL);
+  return tile_city(ptile);
+}
+
+/**************************************************************************
   Return TRUE if there is a city inside the maximum city radius from ptile.
 **************************************************************************/
 bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
@@ -270,6 +280,14 @@ bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
   return city_exists_within_max_city_map(ptile, may_be_on_center);
 }
 
+/**************************************************************************
+  Return number of units on tile
+**************************************************************************/
+int api_methods_tile_num_units(Tile *ptile)
+{
+  SCRIPT_ASSERT(NULL != ptile, 0);
+  return unit_list_size(ptile->units);
+}
 
 /**************************************************************************
   Return nth tile iteration index (for internal use)

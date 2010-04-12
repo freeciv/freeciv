@@ -105,8 +105,12 @@ struct Tile {
 };
 
 module Tile {
+  City *api_methods_tile_city
+    @ city (Tile *self);
   bool api_methods_tile_city_exists_within_max_city_map
     @ city_exists_within_max_city_map (Tile *self, bool center);
+  int api_methods_tile_num_units
+    @ num_units (Tile *self);
   int api_methods_tile_sq_distance
     @ sq_distance (Tile *self, Tile *other);
 }
