@@ -45,6 +45,8 @@ int api_methods_player_number(Player *pplayer);
 int api_methods_player_num_cities(Player *pplayer);
 int api_methods_player_num_units(Player *pplayer);
 void api_methods_player_victory(Player *pplayer);
+int api_methods_player_civilization_score(Player *pplayer);
+int api_methods_player_gold(Player *pplayer);
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(Tech_Type *ptech);

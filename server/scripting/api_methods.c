@@ -24,6 +24,9 @@
 #include "unitlist.h"
 #include "unittype.h"
 
+/* server */
+#include "score.h"
+
 /* server/scripting */
 #include "script.h"
 
@@ -197,6 +200,24 @@ void api_methods_player_victory(Player *pplayer)
 {
   SCRIPT_ASSERT(NULL != pplayer);
   player_set_winner(pplayer);
+}
+
+/**************************************************************************
+  Return the civilization score (total) for player
+**************************************************************************/
+int api_methods_player_civilization_score(Player *pplayer)
+{
+  SCRIPT_ASSERT(NULL != pplayer, 0);
+  return get_civ_score(pplayer);
+}
+
+/**************************************************************************
+  Return gold for Player
+**************************************************************************/
+int api_methods_player_gold(Player *pplayer)
+{
+  SCRIPT_ASSERT(NULL != pplayer, 0);
+  return pplayer->economic.gold;
 }
 
 

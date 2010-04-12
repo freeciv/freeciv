@@ -55,6 +55,10 @@ module Player {
     @ victory (Player *self);
   int api_methods_player_number
     @ number (Player *self);
+  int api_methods_player_civilization_score
+    @ civilization_score (Player *self);
+  int api_methods_player_gold
+    @ gold (Player *self);
 }
 
 struct City {

@@ -33,7 +33,6 @@
 #include "score.h"
 #include "srv_main.h"
 
-static int get_civ_score(const struct player *pplayer);
 static int get_spaceship_score(const struct player *pplayer);
 
 /**************************************************************************
@@ -317,7 +316,7 @@ void calc_civ_score(struct player *pplayer)
 /**************************************************************************
   Return the civilization score (a numerical value) for the player.
 **************************************************************************/
-static int get_civ_score(const struct player *pplayer)
+int get_civ_score(const struct player *pplayer)
 {
   /* We used to count pplayer->score.happy here too, but this is too easily
    * manipulated by players at the endrturn. */
