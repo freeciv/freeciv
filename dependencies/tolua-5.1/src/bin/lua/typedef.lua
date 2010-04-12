@@ -54,11 +54,15 @@ function Typedef (s)
   tolua_error("#invalid typedef: pointers (and references) are not supported")
  end
  local t = split(gsub(s,"%s%s*"," ")," ")
+	if not isbasic(t[t.n]) then
  return _Typedef {
   utype = t[t.n],
   type = t[t.n-1],
   mod = concat(t,1,t.n-2),
  }
+	else
+	 return nil
+	end
 end
 
 

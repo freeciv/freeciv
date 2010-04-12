@@ -53,7 +53,7 @@ function classVariable:cfuncname (prefix)
  elseif self.ptr == "&" then ptr = "_ref"
  end
 
- local name =  prefix .. parent .. unsigned .. "_" .. gsub(self.name,".*::","") .. ptr 
+ local name =  prefix .. parent .. unsigned .. "_" .. gsub(self.name,".*::","")  .. ptr 
 
  return name
 
@@ -93,10 +93,12 @@ function classVariable:supcode ()
  -- get function ------------------------------------------------
  if class then
   output("/* get function:",self.name," of class ",class," */")
+  self.cgetname = self:cfuncname("tolua_get_"..class)
  else
   output("/* get function:",self.name," */")
+  self.cgetname = self:cfuncname("tolua_get")
  end
- self.cgetname = self:cfuncname("tolua_get")
+ 
  output("static int",self.cgetname,"(lua_State* tolua_S)") 
  output("{")
 
@@ -119,7 +121,11 @@ function classVariable:supcode ()
  end
 
  -- return value
- local t,ct = isbasic(self.type)
+	local type = self.type
+	if gsub(type,'const ','')=='char' and self.dim~='' then
+	 type = 'char*'
+	end
+ local t,ct = isbasic(type)
  if t then
   output('  tolua_push'..t..'(tolua_S,(',ct,')'..self:getvalue(class,static)..');')
  else
@@ -138,10 +144,11 @@ function classVariable:supcode ()
  if not strfind(self.type,'const') then
   if class then
    output("/* set function:",self.name," of class ",class," */")
+   self.csetname = self:cfuncname("tolua_set_"..class)
   else
    output("/* set function:",self.name," */")
+   self.csetname = self:cfuncname("tolua_set")
   end
-  self.csetname = self:cfuncname("tolua_set")
   output("static int",self.csetname,"(lua_State* tolua_S)")
   output("{")
 
@@ -162,14 +169,14 @@ function classVariable:supcode ()
   end
 
   -- check variable type
-  output('  if (!'..self:outchecktype(2)..')')
+  output('  if (!'..self:outchecktype(2,true)..')')
   output('   tolua_error(tolua_S,"#vinvalid type in variable assignment.",&tolua_err);')
 		output('#endif\n')
  
   -- assign value
 		local def = 0
 		if self.def ~= '' then def = self.def end
-		if self.type == 'char*' and self.dim ~= '' then -- is string
+		if self.type == 'char' and self.dim ~= '' then -- is string
 		 output(' strncpy(')
 			if class and static then
 				output(class..'::'..self.name)
@@ -199,6 +206,10 @@ function classVariable:supcode ()
 			end
 			output(') ')
 			if t then
+			 if isenum(self.type) then
+				 output('(int) ')
+				end
+				if t=='function' then t='value' end 
 				output('tolua_to'..t,'(tolua_S,2,',def,'));')
 			else
 				output('tolua_tousertype(tolua_S,2,',def,'));')

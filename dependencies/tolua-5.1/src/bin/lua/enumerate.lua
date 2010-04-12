@@ -73,8 +73,10 @@ function Enumerate (n,b)
   e.lnames[i] = t[2] or t[1]
   i = i+1
  end 
-	e.name = n
- Typedef("int "..n)
+ e.name = n
+ if n~="" then
+ 	Typedef("int "..n)
+ end
  return _Enumerate(e)
 end
 

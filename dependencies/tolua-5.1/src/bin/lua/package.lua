@@ -71,6 +71,7 @@ function classPackage:preprocess ()
  self.code = gsub(self.code,"([^%w_])void%s*%*","%1_userdata ") -- substitute 'void*'
  self.code = gsub(self.code,"([^%w_])void%s*%*","%1_userdata ") -- substitute 'void*'
  self.code = gsub(self.code,"([^%w_])char%s*%*","%1_cstring ")  -- substitute 'char*'
+ self.code = gsub(self.code,"([^%w_])lua_State%s*%*","%1_lstate ")  -- substitute 'lua_State*'
 
  -- restore embedded code
  self.code = gsub(self.code,"%#%[(%d+)%]%#",function (n)
@@ -93,11 +94,16 @@ function classPackage:preamble ()
  output('** Generated automatically by '..TOLUA_VERSION..' on '..date()..'.\n')
  output('*/\n\n')
 
-	output('#ifndef __cplusplus\n')
-	output('#include "stdlib.h"\n')
-	output('#endif\n')
-	output('#include "string.h"\n\n')
  output('#include "tolua.h"\n\n')
+	output('#ifndef __cplusplus\n')
+	output('#include <stdlib.h>\n')
+	output('#endif\n')
+	output('#ifdef __cplusplus\n')
+ output('extern "C" int tolua_bnd_takeownership (lua_State* L); // from tolua_map.c\n')
+	output('#else\n')
+ output('int tolua_bnd_takeownership (lua_State* L); /* from tolua_map.c */\n')
+	output('#endif\n')
+	output('#include <string.h>\n\n')
 
  if not flags.h then
   output('/* Exported function */')
@@ -116,22 +122,17 @@ function classPackage:preamble ()
 
 	if self:requirecollection(_collect) then
 		output('\n')
-		output('/* function to release collected object */')
+		output('/* function to release collected object via destructor */')
 		output('#ifdef __cplusplus\n')
 		for i,v in pairs(_collect) do
-		 output('static int tolua_collect_'..v..' (lua_State* tolua_S)')
+		 output('\nstatic int '..v..' (lua_State* tolua_S)')
 			output('{')
 			output(' '..i..'* self = ('..i..'*) tolua_tousertype(tolua_S,1,0);')
+			output(' tolua_release(tolua_S,self);')
 			output('	delete self;')
 			output('	return 0;')
-			output('}\n')
+			output('}')
 		end
-		output('#else\nstatic int tolua_collect (lua_State* tolua_S)')
-		output('{')
-		output('	void* self = tolua_tousertype(tolua_S,1,0);')
-		output('	free(self);')
-		output('	return 0;')
-		output('}')
 		output('#endif\n\n')
 	end
 
@@ -241,7 +242,7 @@ function Package (name,fn)
  end
 
  -- deal with renaming directive
-	code = gsub(code,'\n%s*%$renaming%s*(.-)%s*\n', function (r) appendrenaming(r) return "\n" end)
+ code = gsub(code,'%s*%$renaming%s*(.-)%s*\n', function (r) appendrenaming(r) return "\n" end)
 
  -- deal with include directive
  local nsubst

@@ -63,7 +63,7 @@ static void error (char* o)
 int main (int argc, char* argv[])
 {
  lua_State* L = lua_open();
-  luaL_openlibs(L);
+ luaL_openlibs(L);
 
  lua_pushstring(L,TOLUA_VERSION); lua_setglobal(L,"TOLUA_VERSION");
 
@@ -104,7 +104,7 @@ int main (int argc, char* argv[])
   lua_pop(L,1);
  }
 
-#if 1
+#ifndef LUA_SOURCE
  {
   int tolua_tolua_open (lua_State* L);
   tolua_tolua_open(L);

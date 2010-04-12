@@ -62,7 +62,6 @@ function classDeclaration:checkname ()
   self.dim = d
  end
 
-
  if self.type ~= '' and self.type ~= 'void' and self.name == '' then
   self.name = create_varname()
  elseif self.kind=='var' then
@@ -77,9 +76,9 @@ function classDeclaration:checkname ()
  end
 
  -- adjust type of string
- if self.type == 'char' and self.dim ~= '' then
-	 self.type = 'char*'
-	end
+-- if self.type == 'char' and self.dim ~= '' then
+--	 self.type = 'char*'
+--	end
 end
 
 -- Check declaration type
@@ -100,6 +99,7 @@ function classDeclaration:checktype ()
  -- restore 'void*' and 'string*'
  if self.type == '_userdata' then self.type = 'void*'
  elseif self.type == '_cstring' then self.type = 'char*'
+ elseif self.type == '_lstate' then self.type = 'lua_State*'
  end
 
 --
@@ -131,7 +131,7 @@ function classDeclaration:requirecollection (t)
 				 not isbasic(self.type) and
 				 self.ptr == '' then
 		local type = gsub(self.type,"%s*const%s*","")
-		t[type] = gsub(type,"::","_")
+		t[type] = "tolua_collect_" .. gsub(type,"::","_")
 		return true
 	end
 	return false
@@ -148,7 +148,7 @@ end
 
 
 -- output type checking
-function classDeclaration:outchecktype (narg)
+function classDeclaration:outchecktype (narg,var)
  local def
  local t = isbasic(self.type)
  if self.def~='' then
@@ -157,7 +157,7 @@ function classDeclaration:outchecktype (narg)
   def = 0
  end
  if self.dim ~= '' then 
-	 if t=='string' then
+	 if var and self.type=='char' then
    return 'tolua_isstring(tolua_S,'..narg..','..def..',&tolua_err)'
 		else
    return 'tolua_istable(tolua_S,'..narg..',0,&tolua_err)'
@@ -202,21 +202,31 @@ function classDeclaration:builddeclaration (narg, cplusplus)
  else
   local t = isbasic(type)
   line = concatparam(line,' = ')
+		if t == 'state' then
+		 line = concatparam(line, 'tolua_S;')
+		else
   if not t and ptr=='' then line = concatparam(line,'*') end
-  line = concatparam(line,'((',self.mod,type)
+			local ct = type
+			if t == 'value' or t == 'function' then
+				ct = 'int'
+			end
+			line = concatparam(line,'((',self.mod,ct)
   if not t then
    line = concatparam(line,'*')
   end
   line = concatparam(line,') ')
 		if isenum(type) then
+			--if not t and isenum(type) then
 		 line = concatparam(line,'(int) ')
 		end
   local def = 0
   if self.def ~= '' then def = self.def end
   if t then
+		  if t=='function' then t='value' end
    line = concatparam(line,'tolua_to'..t,'(tolua_S,',narg,',',def,'));')
   else
    line = concatparam(line,'tolua_tousertype(tolua_S,',narg,',',def,'));')
+			end
   end
  end
 	return line
@@ -224,7 +234,7 @@ end
 
 -- Declare variable
 function classDeclaration:declare (narg)
- if self.dim ~= '' and tonumber(self.dim)==nil then
+ if self.dim ~= '' and self.type~='char' and tonumber(self.dim)==nil then
 	 output('#ifdef __cplusplus\n')
 		output(self:builddeclaration(narg,true))
 		output('#else\n')
@@ -267,6 +277,7 @@ function classDeclaration:getarray (narg)
   local def = 0
   if self.def ~= '' then def = self.def end
   if t then
+		 if t=='function' then t='value' end
    output('tolua_tofield'..t..'(tolua_S,',narg,',i+1,',def,'));')
   else 
    output('tolua_tofieldusertype(tolua_S,',narg,',i+1,',def,'));')
@@ -285,16 +296,17 @@ function classDeclaration:setarray (narg)
   output('   for(i=0; i<'..self.dim..';i++)')
   local t,ct = isbasic(type)
   if t then
+		 if t=='function' then t='value' end
    output('    tolua_pushfield'..t..'(tolua_S,',narg,',i+1,(',ct,')',self.name,'[i]);')
   else
    if self.ptr == '' then
      output('   {')
      output('#ifdef __cplusplus\n')
      output('    void* tolua_obj = new',type,'(',self.name,'[i]);')
-     output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,tolua_collect_'.._collect[type]..'),"',type,'");')
+					output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,'.. (_collect[type] or 'NULL') ..'),"',type,'");')
      output('#else\n')
      output('    void* tolua_obj = tolua_copy(tolua_S,(void*)&',self.name,'[i],sizeof(',type,'));')
-     output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,tolua_collect),"',type,'");')
+					output('    tolua_pushfieldusertype(tolua_S,',narg,',i+1,tolua_clone(tolua_S,tolua_obj,NULL),"',type,'");')
      output('#endif\n')
      output('   }')
    else
@@ -322,6 +334,8 @@ function classDeclaration:passpar ()
   output('*'..self.name)
  elseif self.ret=='*' then
   output('&'..self.name)
+ elseif self.type=="tolua_index" then
+  output("("..self.name.."-1)")
  else
   output(self.name)
  end
@@ -332,6 +346,7 @@ function classDeclaration:retvalue ()
  if self.ret ~= '' then
   local t,ct = isbasic(self.type)
   if t then
+		 if t=='function' then t='value' end
    output('   tolua_push'..t..'(tolua_S,(',ct,')'..self.name..');')
   else
    output('   tolua_pushusertype(tolua_S,(void*)'..self.name..',"',self.type,'");')
@@ -412,7 +427,7 @@ function Declaration (s,kind)
  end
   
  -- check the form: mod type* name
- local s1 = gsub(s,"(%b\[\])",function (n) return gsub(n,'%*','\1') end)
+ local s1 = gsub(s,"(%b%[%])",function (n) return gsub(n,'%*','\1') end)
  t = split(s1,'%*')
  if t.n == 2 then
   t[2] = gsub(t[2],'\1','%*') -- restore * in dimension expression
@@ -457,6 +472,4 @@ function Declaration (s,kind)
  end
 
 end
-
-
 

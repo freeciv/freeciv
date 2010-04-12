@@ -63,6 +63,16 @@ TOLUA_API double tolua_tofieldnumber (lua_State* L, int lo, int index, double de
  return v;
 }
 
+TOLUA_API int tolua_tofieldboolean (lua_State* L, int lo, int index, int def)
+{
+  int v;
+  lua_pushnumber(L,index);
+  lua_gettable(L,lo);
+  v = lua_isnil(L,-1) ? def : lua_toboolean(L,-1);
+  lua_pop(L,1);
+  return v;
+}
+
 TOLUA_API const char* tolua_tofieldstring 
 (lua_State* L, int lo, int index, const char* def)
 {

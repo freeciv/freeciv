@@ -90,10 +90,12 @@ function classFeature:cfuncname (n)
   n = self.parent:cfuncname(n)
  end
 
--- if self.lname then
---  return n..'_'..self.lname
--- else
+ if self.lname and 
+	   strsub(self.lname,1,1)~="."  -- operator are named as ".add"
+	then
+  return n..'_'..self.lname
+ else
   return n..'_'..self.name
--- end
+ end
 end
 

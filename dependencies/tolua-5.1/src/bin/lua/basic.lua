@@ -17,6 +17,9 @@
 _basic = {
  ['void'] = '',
  ['char'] = 'number',
+ ['tolua_index'] = 'number',
+ ['tolua_byte'] = 'number',
+ ['tolua_ubyte'] = 'number',
  ['int'] = 'number',
  ['short'] = 'number',
  ['long'] = 'number',
@@ -28,15 +31,19 @@ _basic = {
  ['char*'] = 'string',
  ['void*'] = 'userdata',
  ['bool'] = 'boolean',
+ ['lua_State*'] = 'state',
+ ['_lstate'] = 'state',
  ['lua_Object'] = 'value',
+ ['lua_Function'] = 'function',
  ['LUA_VALUE'] = 'value',    -- for compatibility with tolua 4.0
 }
 
 _basic_ctype = {
- number = "double",
+ number = "lua_Number",
  string = "const char*",
  userdata = "void*",
  boolean = "bool",
+ value = "int",
 }
 
 -- List of user defined types
@@ -78,10 +85,11 @@ function tolua_error (s,f)
    if s==nil then s = _curr_code end
    s = gsub(s,"_userdata","void*") -- return with 'void*'
    s = gsub(s,"_cstring","char*")  -- return with 'char*'
+   s = gsub(s,"_lstate","lua_State*")  -- return with 'lua_State*'
    write("Code being processed:\n"..s.."\n")
   end
  else
-  print("\n** tolua internal error: "..f..s..".\n\n")
+  print(debug.traceback("\n** tolua internal error: "..f..s..".\n\n"))
   return
  end
  _OUTPUT = out
@@ -107,7 +115,7 @@ end
 
 -- return type name: returns full type
 function typevar(type)
- if type == '' or type == 'void' then
+ if type == '' or type == 'void' or type == "..." then
   return type
  else
 		local ft = findtype(type)
