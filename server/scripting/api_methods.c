@@ -32,6 +32,9 @@
 /* server/scripting */
 #include "script.h"
 
+/* utility */
+#include "genlist.h"
+
 #include "api_methods.h"
 
 
@@ -222,6 +225,23 @@ int api_methods_player_gold(Player *pplayer)
   return pplayer->economic.gold;
 }
 
+/**************************************************************************
+  Return list head for unit list for Player
+**************************************************************************/
+Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
+{
+  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  return genlist_head(unit_list_base(pplayer->units));
+}
+
+/**************************************************************************
+  Return list head for city list for Player
+**************************************************************************/
+City_List_Link *api_methods_private_player_city_list_head(Player *pplayer)
+{
+  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  return genlist_head(city_list_base(pplayer->cities));
+}
 
 /**************************************************************************
   Return rule name for Tech_Type
@@ -287,6 +307,15 @@ int api_methods_tile_num_units(Tile *ptile)
 {
   SCRIPT_ASSERT(NULL != ptile, 0);
   return unit_list_size(ptile->units);
+}
+
+/**************************************************************************
+  Return list head for unit list for Tile
+**************************************************************************/
+Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile)
+{
+  SCRIPT_ASSERT(NULL != ptile, NULL);
+  return genlist_head(unit_list_base(ptile->units));
 }
 
 /**************************************************************************
@@ -413,4 +442,37 @@ const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
 {
   SCRIPT_ASSERT(NULL != punit_type, NULL);
   return utype_name_translation(punit_type);
+}
+
+
+/**************************************************************************
+  Return Unit for list link
+**************************************************************************/
+Unit *api_methods_unit_list_link_data(Unit_List_Link *link)
+{
+  return (Unit *)genlist_link_data(link);
+}
+
+/**************************************************************************
+  Return next list link or NULL when link is the last link
+**************************************************************************/
+Unit_List_Link *api_methods_unit_list_next_link(Unit_List_Link *link)
+{
+  return genlist_link_next(link);
+}
+
+/**************************************************************************
+  Return City for list link
+**************************************************************************/
+City *api_methods_city_list_link_data(City_List_Link *link)
+{
+  return (City *)genlist_link_data(link);
+}
+
+/**************************************************************************
+  Return next list link or NULL when link is the last link
+**************************************************************************/
+City_List_Link *api_methods_city_list_next_link(City_List_Link *link)
+{
+  return genlist_link_next(link);
 }

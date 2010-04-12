@@ -28,6 +28,9 @@
 
 #include "events.h"
 
+/* utility */
+#include "genlist.h"
+
 /* Classes. */
 typedef struct player Player;
 typedef struct player_ai Player_ai;
@@ -40,6 +43,10 @@ typedef struct impr_type Building_Type;
 typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
 typedef struct terrain Terrain;
+
+/* separate types makes use from lua type safe */
+typedef const struct genlist_link Unit_List_Link;
+typedef const struct genlist_link City_List_Link;
 
 #endif
 

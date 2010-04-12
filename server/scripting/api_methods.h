@@ -47,6 +47,8 @@ int api_methods_player_num_units(Player *pplayer);
 void api_methods_player_victory(Player *pplayer);
 int api_methods_player_civilization_score(Player *pplayer);
 int api_methods_player_gold(Player *pplayer);
+Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer);
+City_List_Link *api_methods_private_player_city_list_head(Player *pplayer);
 
 /* Tech Type */
 const char *api_methods_tech_type_rule_name(Tech_Type *ptech);
@@ -65,6 +67,7 @@ int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2);
 int api_methods_private_tile_next_outward_index(Tile *pstart, int index,
                                                 int max_dist);
 Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index);
+Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile);
 
 /* Unit */
 bool api_methods_unit_city_can_be_built_here(Unit *punit);
@@ -74,5 +77,14 @@ bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
 const char *api_methods_unit_type_rule_name(Unit_Type *punit_type);
 const char *api_methods_unit_type_name_translation(Unit_Type *punit_type);
+
+/* Unit_List_Link Type */
+Unit *api_methods_unit_list_link_data(Unit_List_Link *link);
+Unit_List_Link *api_methods_unit_list_next_link(Unit_List_Link *link);
+
+/* City_List_Link Type */
+City *api_methods_city_list_link_data(City_List_Link *link);
+City_List_Link *api_methods_city_list_next_link(City_List_Link *link);
+
 
 #endif /* FC__API_METHODS_H */

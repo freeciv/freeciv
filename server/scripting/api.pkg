@@ -61,6 +61,15 @@ module Player {
     @ gold (Player *self);
 }
 
+module methods_private {
+  module Player {
+    Unit_List_Link *api_methods_private_player_unit_list_head
+      @ unit_list_head (Player *self);
+    City_List_Link *api_methods_private_player_city_list_head
+      @ city_list_head (Player *self);
+  }
+}
+
 struct City {
   const char *name;
   Player *owner;
@@ -121,6 +130,8 @@ module methods_private {
       @ next_outward_index (Tile *pcenter, int index, int max_dist);
     Tile *api_methods_private_tile_for_outward_index
       @ tile_for_outward_index (Tile *pcenter, int index);
+    Unit_List_Link *api_methods_private_tile_unit_list_head
+      @ unit_list_head (Tile *self);
   }
 }
 
@@ -208,6 +219,26 @@ module Terrain {
     @ name_translation (Terrain *self);
 }
 
+struct Unit_List_Link {
+};
+
+module Unit_List_Link {
+  Unit *api_methods_unit_list_link_data
+    @ data (Unit_List_Link *self);
+  Unit_List_Link *api_methods_unit_list_next_link
+    @ next (Unit_List_Link *self);
+}
+
+struct City_List_Link {
+};
+
+module City_List_Link {
+  City *api_methods_city_list_link_data
+    @ data (City_List_Link *self);
+  City_List_Link *api_methods_city_list_next_link
+    @ next (City_List_Link *self);
+}
+
 $[
 
 -- Building_Type methods.
@@ -218,6 +249,49 @@ end
 -- Player methods
 function Player:is_human()
   return not self.ai_data.control
+end
+
+----------------------------------------------------------------------
+--  Player and Tile: cities_iterate and units_iterate methods
+----------------------------------------------------------------------
+do
+  local private = methods_private
+
+  -- Iterate over the values of 'array' in order:
+  -- array[1], array[2], array[3], etc.
+  local function value_iterator(array)
+    local i = 0
+    local function iterator()
+      i = i + 1
+      return array[i]
+    end
+    return iterator
+  end
+
+  -- use a copy of the list for safe iteration
+  local function safe_iterate_list(link)
+    local objs = {}
+    while link do
+      objs[#objs + 1] = link:data()
+      link = link:next()
+    end
+    return value_iterator(objs)
+  end
+
+  -- Safe iteration over all units that belong to Player
+  function Player:units_iterate()
+    return safe_iterate_list(private.Player.unit_list_head(self))
+  end
+
+  -- Safe iteration over all cities that belong to Player
+  function Player:cities_iterate()
+    return safe_iterate_list(private.Player.city_list_head(self))
+  end
+
+  -- Safe iteration over the units on Tile
+  function Tile:units_iterate()
+    return safe_iterate_list(private.Tile.unit_list_head(self))
+  end
 end
 
 ----------------------------------------------------------------------
