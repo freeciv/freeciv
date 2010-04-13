@@ -307,11 +307,10 @@ void script_signal_create(const char *signal_name, int nargs, ...)
 **************************************************************************/
 void script_signal_connect(const char *signal_name, const char *callback_name)
 {
-  if (!signal_name) {
-    script_error("nil string argument 'signal_name'.");
-  } else if (!callback_name) {
-    script_error("nil string argument 'callback_name'.");
-  } else {
+  SCRIPT_CHECK_ARG_NIL(signal_name, 1, string);
+  SCRIPT_CHECK_ARG_NIL(callback_name, 2, string);
+
+  {
     struct signal *signal;
     bool duplicate = FALSE;
 

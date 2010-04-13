@@ -29,6 +29,8 @@
 int api_effects_world_bonus(const char *effect_type)
 {
   enum effect_type etype = EFT_LAST;
+  SCRIPT_CHECK_ARG_NIL(effect_type, 1, string, 0);
+
   etype = effect_type_from_str(effect_type);
   if (etype == EFT_LAST) {
     return 0;
@@ -43,7 +45,8 @@ int api_effects_player_bonus(Player *pplayer, const char *effect_type)
 {
   enum effect_type etype = EFT_LAST;
 
-  SCRIPT_ASSERT(NULL != pplayer, 0);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, 0);
+  SCRIPT_CHECK_ARG_NIL(effect_type, 2, string, 0);
 
   etype = effect_type_from_str(effect_type);
   if (etype == EFT_LAST) {
@@ -59,7 +62,8 @@ int api_effects_city_bonus(City *pcity, const char *effect_type)
 {
   enum effect_type etype = EFT_LAST;
 
-  SCRIPT_ASSERT(NULL != pcity, 0);
+  SCRIPT_CHECK_ARG_NIL(pcity, 1, City, 0);
+  SCRIPT_CHECK_ARG_NIL(effect_type, 2, string, 0);
 
   etype = effect_type_from_str(effect_type);
   if (etype == EFT_LAST) {

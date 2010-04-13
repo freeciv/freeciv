@@ -18,6 +18,7 @@
 #include "idex.h"
 
 #include "api_find.h"
+#include "script.h"
 
 
 /**************************************************************************
@@ -57,7 +58,10 @@ Unit *api_find_unit(Player *pplayer, int unit_id)
 **************************************************************************/
 Unit_Type *api_find_role_unit_type(const char *role_name, Player *pplayer)
 {
-  enum unit_role_id role = find_unit_role_by_rule_name(role_name);
+  enum unit_role_id role;
+  SCRIPT_CHECK_ARG_NIL(role_name, 1, string, NULL);
+
+  role = find_unit_role_by_rule_name(role_name);
 
   if (role == L_LAST) {
     return NULL;
@@ -101,6 +105,7 @@ Government *api_find_government(int government_id)
 **************************************************************************/
 Government *api_find_government_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_government_by_rule_name(name_orig);
 }
 
@@ -117,6 +122,7 @@ Nation_Type *api_find_nation_type(int nation_type_id)
 **************************************************************************/
 Nation_Type *api_find_nation_type_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_nation_by_rule_name(name_orig);
 }
 
@@ -133,6 +139,7 @@ Building_Type *api_find_building_type(int building_type_id)
 **************************************************************************/
 Building_Type *api_find_building_type_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_improvement_by_rule_name(name_orig);
 }
 
@@ -149,6 +156,7 @@ Unit_Type *api_find_unit_type(int unit_type_id)
 **************************************************************************/
 Unit_Type *api_find_unit_type_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_unit_type_by_rule_name(name_orig);
 }
 
@@ -165,6 +173,7 @@ Tech_Type *api_find_tech_type(int tech_type_id)
 **************************************************************************/
 Tech_Type *api_find_tech_type_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_advance_by_rule_name(name_orig);
 }
 
@@ -181,6 +190,7 @@ Terrain *api_find_terrain(int terrain_id)
 **************************************************************************/
 Terrain *api_find_terrain_by_name(const char *name_orig)
 {
+  SCRIPT_CHECK_ARG_NIL(name_orig, 1, string, NULL);
   return find_terrain_by_rule_name(name_orig);
 }
 

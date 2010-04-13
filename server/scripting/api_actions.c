@@ -39,7 +39,7 @@
 **************************************************************************/
 bool api_actions_unleash_barbarians(Tile *ptile)
 {
-  SCRIPT_ASSERT(NULL != ptile, FALSE);
+  SCRIPT_CHECK_ARG_NIL(ptile, 1, Tile, FALSE);
   return unleash_barbarians(ptile);
 }
 
@@ -49,10 +49,10 @@ bool api_actions_unleash_barbarians(Tile *ptile)
 void api_actions_place_partisans(Tile *ptile, Player *pplayer,
                                  int count, int sq_radius)
 {
-  SCRIPT_ASSERT(NULL != ptile);
-  SCRIPT_ASSERT(NULL != pplayer);
-  SCRIPT_ASSERT(0 < num_role_units(L_PARTISAN));
-  SCRIPT_ASSERT(0 <= sq_radius);
+  SCRIPT_CHECK_ARG_NIL(ptile, 1, Tile);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 2, Player);
+  SCRIPT_CHECK_ARG(0 <= sq_radius, 4, "radius must be positive");
+  SCRIPT_CHECK(0 < num_role_units(L_PARTISAN), "no partisans in ruleset");
   return place_partisans(ptile, pplayer, count, sq_radius);
 }
 
@@ -63,8 +63,8 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 		  	      int veteran_level, City *homecity,
 			      int moves_left)
 {
-  SCRIPT_ASSERT(NULL != pplayer, NULL);
-  SCRIPT_ASSERT(NULL != ptile, NULL);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, NULL);
+  SCRIPT_CHECK_ARG_NIL(ptile, 2, Tile, NULL);
 
   if (ptype == NULL
       || ptype < unit_type_array_first() || ptype > unit_type_array_last()) {
@@ -80,8 +80,8 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
 **************************************************************************/
 void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
 {
-  SCRIPT_ASSERT(NULL != pplayer);
-  SCRIPT_ASSERT(NULL != ptile);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player);
+  SCRIPT_CHECK_ARG_NIL(ptile, 2, Tile);
 
   if (!name || name[0] == '\0') {
     name = city_name_suggestion(pplayer, ptile);
@@ -94,7 +94,7 @@ void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
 **************************************************************************/
 void api_actions_change_gold(Player *pplayer, int amount)
 {
-  SCRIPT_ASSERT(NULL != pplayer);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player);
 
   pplayer->economic.gold = MAX(0, pplayer->economic.gold + amount);
 }
@@ -111,7 +111,7 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
   Tech_type_id id;
   Tech_Type *result;
 
-  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, NULL);
 
   if (ptech) {
     id = advance_number(ptech);
@@ -143,7 +143,7 @@ void api_actions_create_base(Tile *ptile, const char *name, Player *pplayer)
 {
   struct base_type *pbase;
 
-  SCRIPT_ASSERT(NULL != ptile);
+  SCRIPT_CHECK_ARG_NIL(ptile, 1, Tile);
 
   if (!name) {
     return;

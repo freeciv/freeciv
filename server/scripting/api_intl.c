@@ -18,20 +18,26 @@
 #include "fcintl.h"
 
 #include "api_intl.h"
+#include "script.h"
 
 const char *api_intl__(const char *untranslated) {
+  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
   return _(untranslated);
 }
 
 const char *api_intl_N_(const char *untranslated) {
+  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
   return N_(untranslated);
 }
 
 const char *api_intl_Q_(const char *untranslated) {
+  SCRIPT_CHECK_ARG_NIL(untranslated, 1, string, "");
   return Q_(untranslated);
 }
 
 const char *api_intl_PL_(const char *singular, const char *plural, int n) {
+  SCRIPT_CHECK_ARG_NIL(singular, 1, string, "");
+  SCRIPT_CHECK_ARG_NIL(plural, 2, string, "");
   return PL_(singular, plural, n);
 }
 

@@ -305,6 +305,15 @@ int script_error(const char *fmt, ...)
 }
 
 /**************************************************************************
+  Like script_error, but using a prefix identifying the called lua function:
+    bad argument #narg to '<func>': msg
+**************************************************************************/
+int script_arg_error(int narg, const char *msg)
+{
+  return luaL_argerror(state, narg, msg);
+}
+
+/**************************************************************************
   Push callback arguments into the Lua stack.
 **************************************************************************/
 static void script_callback_push_args(int nargs, va_list args)

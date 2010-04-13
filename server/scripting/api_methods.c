@@ -43,7 +43,7 @@
 **************************************************************************/
 bool api_methods_building_type_is_wonder(Building_Type *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, FALSE);
+  SCRIPT_CHECK_SELF(pbuilding, FALSE);
   return is_wonder(pbuilding);
 }
 
@@ -52,7 +52,7 @@ bool api_methods_building_type_is_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, FALSE);
+  SCRIPT_CHECK_SELF(pbuilding, FALSE);
   return is_great_wonder(pbuilding);
 }
 
@@ -61,7 +61,7 @@ bool api_methods_building_type_is_great_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, FALSE);
+  SCRIPT_CHECK_SELF(pbuilding, FALSE);
   return is_small_wonder(pbuilding);
 }
 
@@ -70,7 +70,7 @@ bool api_methods_building_type_is_small_wonder(Building_Type *pbuilding)
 **************************************************************************/
 bool api_methods_building_type_is_improvement(Building_Type *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, FALSE);
+  SCRIPT_CHECK_SELF(pbuilding, FALSE);
   return is_improvement(pbuilding);
 }
 
@@ -79,7 +79,7 @@ bool api_methods_building_type_is_improvement(Building_Type *pbuilding)
 **************************************************************************/
 const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, NULL);
+  SCRIPT_CHECK_SELF(pbuilding, NULL);
   return improvement_rule_name(pbuilding);
 }
 
@@ -89,7 +89,7 @@ const char *api_methods_building_type_rule_name(Building_Type *pbuilding)
 const char *api_methods_building_type_name_translation(Building_Type 
                                                        *pbuilding)
 {
-  SCRIPT_ASSERT(NULL != pbuilding, NULL);
+  SCRIPT_CHECK_SELF(pbuilding, NULL);
   return improvement_name_translation(pbuilding);
 }
 
@@ -99,8 +99,8 @@ const char *api_methods_building_type_name_translation(Building_Type
 **************************************************************************/
 bool api_methods_city_has_building(City *pcity, Building_Type *building)
 {
-  SCRIPT_ASSERT(NULL != pcity, FALSE);
-  SCRIPT_ASSERT(NULL != building, FALSE);
+  SCRIPT_CHECK_SELF(pcity, FALSE);
+  SCRIPT_CHECK_ARG_NIL(building, 2, Building_Type, FALSE);
   return city_has_building(pcity, building);
 }
 
@@ -109,7 +109,7 @@ bool api_methods_city_has_building(City *pcity, Building_Type *building)
 **************************************************************************/
 int api_methods_city_map_sq_radius(City *pcity)
 {
-  SCRIPT_ASSERT(NULL != pcity, 0);
+  SCRIPT_CHECK_SELF(pcity, 0);
   return city_map_radius_sq_get(pcity);
 }
 
@@ -119,7 +119,7 @@ int api_methods_city_map_sq_radius(City *pcity)
 **************************************************************************/
 const char *api_methods_government_rule_name(Government *pgovernment)
 {
-  SCRIPT_ASSERT(NULL != pgovernment, NULL);
+  SCRIPT_CHECK_SELF(pgovernment, NULL);
   return government_rule_name(pgovernment);
 }
 
@@ -128,7 +128,7 @@ const char *api_methods_government_rule_name(Government *pgovernment)
 **************************************************************************/
 const char *api_methods_government_name_translation(Government *pgovernment)
 {
-  SCRIPT_ASSERT(NULL != pgovernment, NULL);
+  SCRIPT_CHECK_SELF(pgovernment, NULL);
   return government_name_translation(pgovernment);
 }
 
@@ -138,7 +138,7 @@ const char *api_methods_government_name_translation(Government *pgovernment)
 **************************************************************************/
 const char *api_methods_nation_type_rule_name(Nation_Type *pnation)
 {
-  SCRIPT_ASSERT(NULL != pnation, NULL);
+  SCRIPT_CHECK_SELF(pnation, NULL);
   return nation_rule_name(pnation);
 }
 
@@ -147,7 +147,7 @@ const char *api_methods_nation_type_rule_name(Nation_Type *pnation)
 **************************************************************************/
 const char *api_methods_nation_type_name_translation(Nation_Type *pnation)
 {
-  SCRIPT_ASSERT(NULL != pnation, NULL);
+  SCRIPT_CHECK_SELF(pnation, NULL);
   return nation_adjective_translation(pnation);
 }
 
@@ -156,7 +156,7 @@ const char *api_methods_nation_type_name_translation(Nation_Type *pnation)
 **************************************************************************/
 const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
 {
-  SCRIPT_ASSERT(NULL != pnation, NULL);
+  SCRIPT_CHECK_SELF(pnation, NULL);
   return nation_plural_translation(pnation);
 }
 
@@ -166,8 +166,8 @@ const char *api_methods_nation_type_plural_translation(Nation_Type *pnation)
 **************************************************************************/
 bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
 {
-  SCRIPT_ASSERT(NULL != pplayer, FALSE);
-  SCRIPT_ASSERT(NULL != building, FALSE);
+  SCRIPT_CHECK_SELF(pplayer, FALSE);
+  SCRIPT_CHECK_ARG_NIL(building, 2, Building_Type, FALSE);
   return wonder_is_built(pplayer, building);
 }
 
@@ -176,7 +176,7 @@ bool api_methods_player_has_wonder(Player *pplayer, Building_Type *building)
 **************************************************************************/
 int api_methods_player_number(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, -1);
+  SCRIPT_CHECK_SELF(pplayer, -1);
   return player_number(pplayer);
 }
 
@@ -185,7 +185,7 @@ int api_methods_player_number(Player *pplayer)
 **************************************************************************/
 int api_methods_player_num_cities(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, 0);
+  SCRIPT_CHECK_SELF(pplayer, 0);
   return city_list_size(pplayer->cities);
 }
 
@@ -194,7 +194,7 @@ int api_methods_player_num_cities(Player *pplayer)
 **************************************************************************/
 int api_methods_player_num_units(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, 0);
+  SCRIPT_CHECK_SELF(pplayer, 0);
   return unit_list_size(pplayer->units);
 }
 
@@ -203,7 +203,7 @@ int api_methods_player_num_units(Player *pplayer)
 **************************************************************************/
 void api_methods_player_victory(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer);
+  SCRIPT_CHECK_SELF(pplayer);
   player_set_winner(pplayer);
 }
 
@@ -212,7 +212,7 @@ void api_methods_player_victory(Player *pplayer)
 **************************************************************************/
 int api_methods_player_civilization_score(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, 0);
+  SCRIPT_CHECK_SELF(pplayer, 0);
   return get_civ_score(pplayer);
 }
 
@@ -221,7 +221,7 @@ int api_methods_player_civilization_score(Player *pplayer)
 **************************************************************************/
 int api_methods_player_gold(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, 0);
+  SCRIPT_CHECK_SELF(pplayer, 0);
   return pplayer->economic.gold;
 }
 
@@ -230,7 +230,7 @@ int api_methods_player_gold(Player *pplayer)
 **************************************************************************/
 Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  SCRIPT_CHECK_SELF(pplayer, NULL);
   return genlist_head(unit_list_base(pplayer->units));
 }
 
@@ -239,7 +239,7 @@ Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
 **************************************************************************/
 City_List_Link *api_methods_private_player_city_list_head(Player *pplayer)
 {
-  SCRIPT_ASSERT(NULL != pplayer, NULL);
+  SCRIPT_CHECK_SELF(pplayer, NULL);
   return genlist_head(city_list_base(pplayer->cities));
 }
 
@@ -248,7 +248,7 @@ City_List_Link *api_methods_private_player_city_list_head(Player *pplayer)
 **************************************************************************/
 const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
 {
-  SCRIPT_ASSERT(NULL != ptech, NULL);
+  SCRIPT_CHECK_SELF(ptech, NULL);
   return advance_rule_name(ptech);
 }
 
@@ -257,7 +257,7 @@ const char *api_methods_tech_type_rule_name(Tech_Type *ptech)
 **************************************************************************/
 const char *api_methods_tech_type_name_translation(Tech_Type *ptech)
 {
-  SCRIPT_ASSERT(NULL != ptech, NULL);
+  SCRIPT_CHECK_SELF(ptech, NULL);
   return advance_name_translation(ptech);
 }
 
@@ -267,7 +267,7 @@ const char *api_methods_tech_type_name_translation(Tech_Type *ptech)
 **************************************************************************/
 const char *api_methods_terrain_rule_name(Terrain *pterrain)
 {
-  SCRIPT_ASSERT(NULL != pterrain, NULL);
+  SCRIPT_CHECK_SELF(pterrain, NULL);
   return terrain_rule_name(pterrain);
 }
 
@@ -276,7 +276,7 @@ const char *api_methods_terrain_rule_name(Terrain *pterrain)
 **************************************************************************/
 const char *api_methods_terrain_name_translation(Terrain *pterrain)
 {
-  SCRIPT_ASSERT(NULL != pterrain, NULL);
+  SCRIPT_CHECK_SELF(pterrain, NULL);
   return terrain_name_translation(pterrain);
 }
 
@@ -286,7 +286,7 @@ const char *api_methods_terrain_name_translation(Terrain *pterrain)
 **************************************************************************/
 City *api_methods_tile_city(Tile *ptile)
 {
-  SCRIPT_ASSERT(NULL != ptile, NULL);
+  SCRIPT_CHECK_SELF(ptile, NULL);
   return tile_city(ptile);
 }
 
@@ -296,7 +296,7 @@ City *api_methods_tile_city(Tile *ptile)
 bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
                                                       bool may_be_on_center)
 {
-  SCRIPT_ASSERT(NULL != ptile, FALSE);
+  SCRIPT_CHECK_SELF(ptile, FALSE);
   return city_exists_within_max_city_map(ptile, may_be_on_center);
 }
 
@@ -305,7 +305,7 @@ bool api_methods_tile_city_exists_within_max_city_map(Tile *ptile,
 **************************************************************************/
 int api_methods_tile_num_units(Tile *ptile)
 {
-  SCRIPT_ASSERT(NULL != ptile, 0);
+  SCRIPT_CHECK_SELF(ptile, 0);
   return unit_list_size(ptile->units);
 }
 
@@ -314,7 +314,7 @@ int api_methods_tile_num_units(Tile *ptile)
 **************************************************************************/
 Unit_List_Link *api_methods_private_tile_unit_list_head(Tile *ptile)
 {
-  SCRIPT_ASSERT(NULL != ptile, NULL);
+  SCRIPT_CHECK_SELF(ptile, NULL);
   return genlist_head(unit_list_base(ptile->units));
 }
 
@@ -328,7 +328,7 @@ int api_methods_private_tile_next_outward_index(Tile *pstart,
 {
   int dx, dy;
   int newx, newy;
-  SCRIPT_ASSERT(NULL != pstart, 0);
+  SCRIPT_CHECK_SELF(pstart, 0);
 
   if (index < 0) {
     return 0;
@@ -359,9 +359,9 @@ Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
 {
   int dx, dy;
   int newx, newy;
-  SCRIPT_ASSERT(NULL != pstart, NULL);
-  SCRIPT_ASSERT(index >= 0
-                && index < map.num_iterate_outwards_indices, NULL);
+  SCRIPT_CHECK_SELF(pstart, NULL);
+  SCRIPT_CHECK_ARG(index >= 0 && index < map.num_iterate_outwards_indices,
+                   2, "index out of bounds", NULL);
 
   dx = map.iterate_outwards_indices[index].dx;
   dy = map.iterate_outwards_indices[index].dy;
@@ -378,8 +378,8 @@ Tile *api_methods_private_tile_for_outward_index(Tile *pstart, int index)
 **************************************************************************/
 int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2)
 {
-  SCRIPT_ASSERT(NULL != ptile1, 0);
-  SCRIPT_ASSERT(NULL != ptile2, 0);
+  SCRIPT_CHECK_SELF(ptile1, 0);
+  SCRIPT_CHECK_ARG_NIL(ptile2, 2, Tile, 0);
   return sq_map_distance(ptile1, ptile2);
 }
 
@@ -389,7 +389,7 @@ int api_methods_tile_sq_distance(Tile *ptile1, Tile *ptile2)
 **************************************************************************/
 bool api_methods_unit_city_can_be_built_here(Unit *punit)
 {
-  SCRIPT_ASSERT(NULL != punit, FALSE);
+  SCRIPT_CHECK_SELF(punit, FALSE);
   return city_can_be_built_here(punit->tile, punit);
 }
 
@@ -399,9 +399,11 @@ bool api_methods_unit_city_can_be_built_here(Unit *punit)
 **************************************************************************/
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
 {
-  enum unit_flag_id id = find_unit_flag_by_rule_name(flag);
+  enum unit_flag_id id;
+  SCRIPT_CHECK_SELF(punit_type, FALSE);
+  SCRIPT_CHECK_ARG_NIL(flag, 2, string, FALSE);
 
-  SCRIPT_ASSERT(NULL != punit_type, FALSE);
+  id = find_unit_flag_by_rule_name(flag);
   if (id != F_LAST) {
     return utype_has_flag(punit_type, id);
   } else {
@@ -415,9 +417,11 @@ bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag)
 **************************************************************************/
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
 {
-  enum unit_role_id id = find_unit_role_by_rule_name(role);
+  enum unit_role_id id;
+  SCRIPT_CHECK_SELF(punit_type, FALSE);
+  SCRIPT_CHECK_ARG_NIL(role, 2, string, FALSE);
 
-  SCRIPT_ASSERT(NULL != punit_type, FALSE);
+  id = find_unit_role_by_rule_name(role);
   if (id != L_LAST) {
     return utype_has_role(punit_type, id);
   } else {
@@ -431,7 +435,7 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
 **************************************************************************/
 const char *api_methods_unit_type_rule_name(Unit_Type *punit_type)
 {
-  SCRIPT_ASSERT(NULL != punit_type, NULL);
+  SCRIPT_CHECK_SELF(punit_type, NULL);
   return utype_rule_name(punit_type);
 }
 
@@ -440,7 +444,7 @@ const char *api_methods_unit_type_rule_name(Unit_Type *punit_type)
 **************************************************************************/
 const char *api_methods_unit_type_name_translation(Unit_Type *punit_type)
 {
-  SCRIPT_ASSERT(NULL != punit_type, NULL);
+  SCRIPT_CHECK_SELF(punit_type, NULL);
   return utype_name_translation(punit_type);
 }
 
