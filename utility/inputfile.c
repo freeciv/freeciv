@@ -357,7 +357,7 @@ static bool check_include(struct inputfile *inf)
     len = strlen(include_prefix);
   }
   fc_assert_ret_val(inf_sanity_check(inf), FALSE);
-  if (inf->at_eof || inf->in_string || astr_len(&inf->cur_line) <= len
+  if (inf->in_string || astr_len(&inf->cur_line) <= len
       || inf->cur_line_pos > 0) {
     return FALSE;
   }
@@ -477,26 +477,11 @@ static bool read_a_line(struct inputfile *inf)
     if (!ret) {
       /* fgets failed */
       inf->at_eof = TRUE;
-      if (pos != 0) {
-        inf_warn(inf, "missing newline at EOF, or failed read");
-        /* treat as simple EOF, ignoring last line: */
-        pos = 0;
-      }
-      astr_clear(line);
       if (inf->in_string) {
         /* Note: Don't allow multi-line strings to cross "include"
          * boundaries */
         inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
         return FALSE;
-      }
-      if (inf->included_from) {
-        /* Pop the include, and get next line from file above instead. */
-        struct inputfile *inc = inf->included_from;
-        inf_close_partial(inf);
-        *inf = *inc;    /* so the user pointer in still valid
-                         * (and inf pointers in calling functions) */
-        free(inc);
-        return read_a_line(inf);
       }
       break;
     }
@@ -507,7 +492,7 @@ static bool read_a_line(struct inputfile *inf)
       *((char *) astr_str(line) + pos - 1) = '\0';
       break;
     }
-    astr_reserve(line, astr_len(line) * 2);
+    astr_reserve(line, pos * 2);
   }
   inf->line_num++;
   inf->cur_line_pos = 0;
@@ -515,7 +500,22 @@ static bool read_a_line(struct inputfile *inf)
   if (check_include(inf)) {
     return read_a_line(inf);
   }
-  return (!inf->at_eof);
+
+  if (inf->at_eof) {
+    astr_clear(line);
+    if (inf->included_from) {
+      /* Pop the include, and get next line from file above instead. */
+      struct inputfile *inc = inf->included_from;
+      inf_close_partial(inf);
+      *inf = *inc;    /* so the user pointer in still valid
+                       * (and inf pointers in calling functions) */
+      free(inc);
+      return read_a_line(inf);
+    }
+    return FALSE;
+  } else {
+    return TRUE;
+  }
 }
 
 /**********************************************************************
