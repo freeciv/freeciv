@@ -14,7 +14,11 @@
 #ifndef FC__SCRIPT_H
 #define FC__SCRIPT_H
 
+/* server/scripting */
 #include "script_signal.h"
+
+/* utility */
+#include "support.h"            /* fc__attribute() */
 
 struct section_file;
 
