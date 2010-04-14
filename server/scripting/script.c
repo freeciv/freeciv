@@ -69,6 +69,7 @@ static char *script_code;
 #define SCRIPT_SECURE_LUA_VERSION 501
 
 static const char *script_unsafe_symbols[] = {
+  "debug",
   "dofile",
   "loadfile",
   NULL
@@ -163,6 +164,28 @@ static int script_report(lua_State *L, int status, const char *code)
 }
 
 /**************************************************************************
+  Find the debug.traceback function and store in the registry
+**************************************************************************/
+static void script_traceback_func_save(lua_State *L)
+{
+  /* Find the debug.traceback function, if available */
+  lua_getglobal(L, "debug");
+  if (lua_istable(L, -1)) {
+    lua_getfield(L, -1, "traceback");
+    lua_setfield(L, LUA_REGISTRYINDEX, "freeciv_traceback");
+  }
+  lua_pop(L, 1);       /* pop debug */
+}
+
+/**************************************************************************
+  Push the traceback function to the stack
+**************************************************************************/
+static void script_traceback_func_push(lua_State *L)
+{
+  lua_getfield(L, LUA_REGISTRYINDEX, "freeciv_traceback");
+}
+
+/**************************************************************************
   Check currently excecuting lua function for execution time limit
 **************************************************************************/
 static void script_exec_check(lua_State *L, lua_Debug *ar)
@@ -217,20 +240,16 @@ static int script_call(lua_State *L, int narg, int nret, const char *code)
 {
   int status;
   int base = lua_gettop(L) - narg;  /* Index of function to call */
-  int traceback = 0;                /* Index of debug.traceback  */
+  int traceback = 0;                /* Index of traceback function  */
 
-  /* Find the debug.traceback function, if available */
-  lua_getglobal(L, "debug");
-  if (lua_istable(L, -1)) {
-    lua_getfield(L, -1, "traceback");
-    if (lua_isfunction(L, -1)) {
-      lua_insert(L, base);  /* insert debug.traceback before function */
-      traceback = base;
-    } else {
-      lua_pop(L, 1);   /* pop non-function debug.traceback */
-    }
+  /* Find the traceback function, if available */
+  script_traceback_func_push(L);
+  if (lua_isfunction(L, -1)) {
+    lua_insert(L, base);  /* insert traceback before function */
+    traceback = base;
+  } else {
+    lua_pop(L, 1);   /* pop non-function traceback */
   }
-  lua_pop(L, 1);       /* pop debug */
 
   script_hook_start(L);
   status = lua_pcall(L, narg, nret, traceback);
@@ -533,6 +552,7 @@ bool script_init(void)
     }
 
     script_openlibs(state, script_lualibs);
+    script_traceback_func_save(state);
     script_blacklist(state, script_unsafe_symbols);
 
     tolua_api_open(state);
