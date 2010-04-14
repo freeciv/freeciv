@@ -358,8 +358,7 @@ static bool check_include(struct inputfile *inf)
     len = strlen(include_prefix);
   }
   assert_sanity(inf);
-  if (inf->at_eof || inf->in_string || inf->cur_line.n <= len
-      || inf->cur_line_pos > 0) {
+  if (inf->in_string || inf->cur_line.n <= len || inf->cur_line_pos > 0) {
     return FALSE;
   }
   if (strncmp(inf->cur_line.str, include_prefix, len)!=0) {
@@ -469,27 +468,11 @@ static bool read_a_line(struct inputfile *inf)
     if (!ret) {
       /* fgets failed */
       inf->at_eof = TRUE;
-      if (pos != 0) {
-	inf_warn(inf, "missing newline at EOF, or failed read");
-	/* treat as simple EOF, ignoring last line: */
-	pos = 0;
-      }
-      line->str[0] = '\0';
-      line->n = 0;
       if (inf->in_string) {
-	/* Note: Don't allow multi-line strings to cross "include"
-	   boundaries */
-	inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
+        /* Note: Don't allow multi-line strings to cross "include"
+         * boundaries */
+        inf_log(inf, LOG_ERROR, "Multi-line string went to end-of-file");
         return FALSE;
-      }
-      if (inf->included_from) {
-	/* Pop the include, and get next line from file above instead. */
-	struct inputfile *inc = inf->included_from;
-	inf_close_partial(inf);
-	*inf = *inc;		/* so the user pointer in still valid
-				   (and inf pointers in calling functions) */
-	free(inc);
-	return read_a_line(inf);
       }
       break;
     }
@@ -516,7 +499,23 @@ static bool read_a_line(struct inputfile *inf)
   if (check_include(inf)) {
     return read_a_line(inf);
   }
-  return (!inf->at_eof);
+
+  if (inf->at_eof) {
+    line->str[0] = '\0';
+    line->n = 0;
+    if (inf->included_from) {
+      /* Pop the include, and get next line from file above instead. */
+      struct inputfile *inc = inf->included_from;
+      inf_close_partial(inf);
+      *inf = *inc;    /* so the user pointer in still valid
+                       * (and inf pointers in calling functions) */
+      free(inc);
+      return read_a_line(inf);
+    }
+    return FALSE;
+  } else {
+    return TRUE;
+  }
 }
 
 /********************************************************************** 
