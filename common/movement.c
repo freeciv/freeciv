@@ -542,7 +542,7 @@ enum unit_move_type move_type_from_str(const char *s)
 struct unit *find_transport_from_tile(struct unit *punit, struct tile *ptile)
 {
   unit_list_iterate(ptile->units, ptransport) {
-    if (could_unit_load(ptransport, punit)) {
+    if (could_unit_load(punit, ptransport)) {
       return ptransport;
     }
   } unit_list_iterate_end;
