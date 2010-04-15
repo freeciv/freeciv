@@ -13,15 +13,17 @@
 ; than minor changes.
 
 [datafile]
-description="Default game rules for Freeciv"
+description="Experimental game rules for Freeciv"
 options="1.11.1"
 
 [about]
 ; Ruleset name
-name = _("Default ruleset")
+name = _("Experimental ruleset")
 
 ; Description of the ruleset
-description = _("You are playing Freeciv with default rules.")
+description = _("You are playing with the experimental ruleset.\
+ This showcases new or unusual features available in Freeciv without\
+ regard for strict game balancing or playability.")
 
 [options]
 global_init_techs=""
