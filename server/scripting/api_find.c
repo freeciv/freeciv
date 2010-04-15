@@ -194,3 +194,11 @@ Terrain *api_find_terrain_by_name(const char *name_orig)
   return find_terrain_by_rule_name(name_orig);
 }
 
+/**************************************************************************
+  Return a dummy pointer.
+**************************************************************************/
+Nonexistent *api_find_nonexistent()
+{
+  static char *p = "";
+  return p;
+}

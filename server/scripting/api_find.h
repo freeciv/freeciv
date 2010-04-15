@@ -37,5 +37,7 @@ Tech_Type *api_find_tech_type_by_name(const char *name_orig);
 Terrain *api_find_terrain(int terrain_id);
 Terrain *api_find_terrain_by_name(const char *name_orig);
 
+Nonexistent *api_find_nonexistent(void);
+
 #endif
 

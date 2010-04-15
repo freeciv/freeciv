@@ -419,6 +419,42 @@ bool script_callback_invoke(const char *callback_name,
 }
 
 /**************************************************************************
+  Mark any, if exported, full userdata representing 'object' in
+  the current script state as 'Nonexistent'.
+  This changes the type of the lua variable.
+**************************************************************************/
+void script_remove_exported_object(void *object)
+{
+  if (state) {
+    lua_State *L = state;
+    fc_assert_ret(object != NULL);
+
+    /* The following is similar to
+     * tolua_release(..) in src/lib/tolua_map.c
+     */
+    /* Find the userdata representing 'object' */
+    lua_pushstring(L,"tolua_ubox");
+    lua_rawget(L, LUA_REGISTRYINDEX);        /* stack: ubox */
+    lua_pushlightuserdata(L, object);        /* stack: ubox u */
+    lua_rawget(L, -2);                       /* stack: ubox ubox[u] */
+
+    if (!lua_isnil(L, -1)) {
+      fc_assert(object == tolua_tousertype(L, -1, NULL));
+      /* Change API type to 'Nonexistent' */
+      tolua_getmetatable(L, "Nonexistent");  /* stack: ubox ubox[u] mt */
+      lua_setmetatable(L, -2);
+      /* Set the userdata payload to NULL */
+      *((void **)lua_touserdata(L, -1)) = NULL;
+      /* Remove from ubox */
+      lua_pushlightuserdata(L, object);      /* stack: ubox ubox[u] u */
+      lua_pushnil(L);                        /* stack: ubox ubox[u] u nil */
+      lua_rawset(L, -4);
+    }
+    lua_pop(L, 2);
+  }
+}
+
+/**************************************************************************
   Initialize the game script variables.
 **************************************************************************/
 static void script_vars_init(void)

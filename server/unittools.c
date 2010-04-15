@@ -72,6 +72,9 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/scripting */
+#include "script.h"
+
 /* We need this global variable for our sort algorithm */
 static struct tile *autoattack_target;
 
@@ -1482,6 +1485,7 @@ static void server_remove_unit(struct unit *punit)
     unit_owner(punit)->is_dying = TRUE;
   }
 
+  script_remove_exported_object(punit);
   game_remove_unit(punit);
   punit = NULL;
 

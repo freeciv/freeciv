@@ -32,6 +32,8 @@ int script_arg_error(int narg, const char *msg);
 bool script_callback_invoke(const char *callback_name,
 			    int nargs, va_list args);
 
+void script_remove_exported_object(void *object);
+
 /* script functions. */
 bool script_init(void);
 void script_free(void);

@@ -1395,6 +1395,7 @@ void remove_city(struct city *pcity)
 
   old_vision = pcity->server.vision;
   pcity->server.vision = NULL;
+  script_remove_exported_object(pcity);
   game_remove_city(pcity);
 
   players_iterate(other_player) {

@@ -239,6 +239,9 @@ module City_List_Link {
     @ next (City_List_Link *self);
 }
 
+struct Nonexistent {
+};
+
 $[
 
 -- Building_Type methods.
@@ -338,7 +341,16 @@ do
   end
 end  -- end do-block (Tile methods)
 
+-- City methods.
+function City:exists()
+  return true
+end
+
 -- Unit methods.
+function Unit:exists()
+  return true
+end
+
 function Unit:get_homecity()
   return find.city(self.owner, self.homecity)
 end
@@ -346,6 +358,11 @@ end
 -- Unit_Type methods.
 function Unit_Type:build_shield_cost()
   return self.build_cost
+end
+
+-- Nonexistent methods.
+function Nonexistent:exists()
+  return false
 end
 
 -- Hide all private methods
@@ -367,6 +384,7 @@ do
     "Unit_Type",
     "Tech_Type",
     "Terrain",
+    "Nonexistent",
   }
 
   -- define equality comparators
@@ -375,17 +393,21 @@ do
   end
 
   local function id_eq (o1, o2)
-    return o1.id == o2.id
+    -- NOTE: in Lua, the number 0 is true in boolean context.
+    -- Here we make sure that id are equal and not both nil
+    return o1.id == o2.id and o1.id
   end
 
   -- define string representation when printed
   local function string_rep(self)
-    local id = self.id or self:number()
+    local id = self.number and self:number() or self.id
     local name = self.rule_name and self:rule_name() or self.name
-    if name then
+    if name and id then
       return string.format('<%s #%d %s>', tolua.type(self), id, name)
-    else
+    elseif id then
       return string.format('<%s #%d>', tolua.type(self), id)
+    else
+      return string.format('<%s>', tolua.type(self))
     end
   end
 
@@ -442,6 +464,8 @@ module find {
     @ terrain (const char *name_orig);
   Terrain *api_find_terrain
     @ terrain (int terrain_id);
+  Nonexistent *api_find_nonexistent
+    @ nonexistent ();
 }
 
 $[
@@ -462,17 +486,17 @@ function _freeciv_state_dump()
 
       res = res .. k .. '=' .. rvalue .. '\n'
     elseif type(v) == 'userdata' then
+      local id = v.number and v:number() or v.id
       local method = string.lower(tolua.type(v))
 
       res = res .. k .. '=find.' .. method
       if method == 'city' or method == 'unit' then
-         res = res .. '(nil,' .. v.id .. ')'
-      elseif method == 'player' then
-         res = res .. '(' .. v:number() .. ')'
+        res = res .. '(nil,' .. id .. ')'
+      elseif id then
+        res = res .. '(' .. id .. ')'
       else
-         res = res .. '(' .. v.id .. ')'
+        res = res .. '()'
       end
-
       res = res .. '\n'
     end
   end
