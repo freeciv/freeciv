@@ -725,8 +725,8 @@ static struct option_dialog *option_dialog_new(void)
   close_button = create_themeicon(pTheme->Small_CANCEL_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  close_button->string16 = create_str16_from_char(_("Close Dialog (Esc)"),
-                                                  adj_font(12));
+  close_button->info_label = create_str16_from_char(_("Close Dialog (Esc)"),
+                                                    adj_font(12));
   close_button->action = back_callback;
   set_wstate(close_button, FC_WS_NORMAL);
   close_button->key = SDLK_ESCAPE;
@@ -930,8 +930,8 @@ static void option_dialog_optset_category(struct option_dialog *pdialog,
   apply_button = create_themeicon(pTheme->Small_OK_Icon, window->dst,
                                   WF_WIDGET_HAS_INFO_LABEL
                                   | WF_RESTORE_BACKGROUND);
-  apply_button->string16 = create_str16_from_char(_("Apply changes"),
-                                                  adj_font(12));
+  apply_button->info_label = create_str16_from_char(_("Apply changes"),
+                                                    adj_font(12));
   apply_button->action = apply_callback;
   set_wstate(apply_button, FC_WS_NORMAL);
   add_to_gui_list(ID_OPTIONS_APPLY_BUTTON, apply_button);
