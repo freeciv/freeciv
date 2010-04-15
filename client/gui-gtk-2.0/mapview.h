@@ -52,4 +52,8 @@ void pixmap_put_overlay_tile_draw(GdkDrawable *pixmap,
 				  struct sprite *ssprite,
 				  bool fog);
 
+void mapview_freeze(void);
+void mapview_thaw(void);
+bool mapview_is_frozen(void);
+
 #endif  /* FC__MAPVIEW_H */

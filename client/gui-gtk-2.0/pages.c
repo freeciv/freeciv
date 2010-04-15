@@ -41,17 +41,19 @@
 /* client */
 #include "client_main.h"
 #include "clinet.h"
+#include "climisc.h"
 #include "connectdlg_common.h"
 #include "packhand.h"
 #include "servers.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "chatline.h"
 #include "connectdlg.h"
 #include "dialogs.h"
 #include "graphics.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
+#include "mapview.h"
 #include "plrdlg.h"             /* get_flag() */
 #include "repodlgs.h"
 #include "voteinfo_bar.h"
@@ -2154,6 +2156,7 @@ static gboolean set_client_page_callback(gpointer data)
     enable_menus(TRUE);
     gtk_window_maximize(GTK_WINDOW(toplevel));
     voteinfo_gui_update();
+    mapview_freeze();
     break;
   case PAGE_LOAD:
     update_load_page();
@@ -2199,6 +2202,8 @@ static gboolean set_client_page_callback(gpointer data)
   case PAGE_GAME:
     chatline_scroll_to_bottom(FALSE);
     refresh_chat_buttons();
+    center_on_something();
+    mapview_thaw();
     break;
   case PAGE_NETWORK:
     update_network_lists();
