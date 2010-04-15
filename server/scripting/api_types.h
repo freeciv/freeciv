@@ -41,5 +41,7 @@ typedef struct unit_type Unit_Type;
 typedef struct advance Tech_Type;
 typedef struct terrain Terrain;
 
+typedef void Nonexistent;
+
 #endif
 

@@ -1083,6 +1083,7 @@ void server_remove_player(struct player *pplayer)
     connection_detach(pconn);
   } conn_list_iterate_end;
 
+  script_remove_exported_object(pplayer);
   team_remove_player(pplayer);
   game_remove_player(pplayer);
   player_init(pplayer);
