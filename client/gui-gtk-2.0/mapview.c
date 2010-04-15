@@ -62,6 +62,7 @@
 
 static GtkObject *map_hadj, *map_vadj;
 static int cursor_timer_id = 0, cursor_type = -1, cursor_frame = 0;
+static int mapview_frozen_level = 0;
 
 /**************************************************************************
   If do_restore is FALSE it will invert the turn done button style. If
@@ -321,20 +322,43 @@ gboolean overview_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
   return TRUE;
 }
 
+/****************************************************************************
+  Freeze the drawing of the map.
+****************************************************************************/
+void mapview_freeze(void)
+{
+  mapview_frozen_level++;
+}
+
+/****************************************************************************
+  Thaw the drawing of the map.
+****************************************************************************/
+void mapview_thaw(void)
+{
+  if (1 < mapview_frozen_level) {
+    mapview_frozen_level--;
+  } else {
+    fc_assert(0 < mapview_frozen_level);
+    mapview_frozen_level = 0;
+    dirty_all();
+  }
+}
+
+/****************************************************************************
+  Return whether the map should be drawn or not.
+****************************************************************************/
+bool mapview_is_frozen(void)
+{
+  return (0 < mapview_frozen_level);
+}
+
 /**************************************************************************
   Update on canvas widget size change
 **************************************************************************/
-static bool map_center = TRUE;
-static bool map_center_once = FALSE;
-
-gboolean map_canvas_configure(GtkWidget * w, GdkEventConfigure * ev,
-			      gpointer data)
+gboolean map_canvas_configure(GtkWidget *w, GdkEventConfigure *ev,
+                              gpointer data)
 {
-  if (map_canvas_resized(ev->width, ev->height) && !map_center_once) {
-    center_on_something();
-    map_center_once = TRUE;
-  }
-
+  map_canvas_resized(ev->width, ev->height);
   return TRUE;
 }
 
@@ -343,40 +367,16 @@ gboolean map_canvas_configure(GtkWidget * w, GdkEventConfigure * ev,
 **************************************************************************/
 gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 {
-  static bool cleared = FALSE;
-
-  if (!can_client_change_view()) {
-    if (!cleared) {
-      gtk_widget_queue_draw(w);
-      cleared = TRUE;
-    }
-    map_center = TRUE;
+  if (can_client_change_view() && map_exists() && !mapview_is_frozen()) {
+    /* First we mark the area to be updated as dirty.  Then we unqueue
+     * any pending updates, to make sure only the most up-to-date data
+     * is written (otherwise drawing bugs happen when old data is copied
+     * to screen).  Then we draw all changed areas to the screen. */
+    unqueue_mapview_updates(FALSE);
+    gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
+                      ev->area.x, ev->area.y, ev->area.x, ev->area.y,
+                      ev->area.width, ev->area.height);
   }
-  else
-  {
-    if (map_exists()) { /* do we have a map at all */
-      /* First we mark the area to be updated as dirty.  Then we unqueue
-       * any pending updates, to make sure only the most up-to-date data
-       * is written (otherwise drawing bugs happen when old data is copied
-       * to screen).  Then we draw all changed areas to the screen. */
-      unqueue_mapview_updates(FALSE);
-      gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
-			ev->area.x, ev->area.y, ev->area.x, ev->area.y,
-			ev->area.width, ev->area.height);
-      cleared = FALSE;
-    } else {
-      if (!cleared) {
-        gtk_widget_queue_draw(w);
-	cleared = TRUE;
-      }
-    }
-
-    if (!map_center) {
-      center_on_something();
-      map_center = FALSE;
-    }
-  }
-
   return TRUE;
 }
 
@@ -387,7 +387,7 @@ gboolean map_canvas_expose(GtkWidget *w, GdkEventExpose *ev, gpointer data)
 void flush_mapcanvas(int canvas_x, int canvas_y,
                      int pixel_width, int pixel_height)
 {
-  if (NULL != map_canvas->window) {
+  if (NULL != map_canvas->window && !mapview_is_frozen()) {
     gdk_draw_drawable(map_canvas->window, civ_gc, mapview.store->v.pixmap,
                       canvas_x, canvas_y, canvas_x, canvas_y,
                       pixel_width, pixel_height);
@@ -428,8 +428,11 @@ static void queue_flush(void)
   later.
 **************************************************************************/
 void dirty_rect(int canvas_x, int canvas_y,
-		int pixel_width, int pixel_height)
+                int pixel_width, int pixel_height)
 {
+  if (mapview_is_frozen()) {
+    return;
+  }
   if (num_dirty_rects < MAX_DIRTY_RECTS) {
     dirty_rects[num_dirty_rects].x = canvas_x;
     dirty_rects[num_dirty_rects].y = canvas_y;
@@ -445,6 +448,9 @@ void dirty_rect(int canvas_x, int canvas_y,
 **************************************************************************/
 void dirty_all(void)
 {
+  if (mapview_is_frozen()) {
+    return;
+  }
   num_dirty_rects = MAX_DIRTY_RECTS;
   queue_flush();
 }
@@ -456,6 +462,9 @@ void dirty_all(void)
 **************************************************************************/
 void flush_dirty(void)
 {
+  if (mapview_is_frozen()) {
+    return;
+  }
   if (num_dirty_rects == MAX_DIRTY_RECTS) {
     flush_mapcanvas(0, 0, map_canvas->allocation.width,
 		    map_canvas->allocation.height);
