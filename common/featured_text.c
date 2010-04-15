@@ -69,7 +69,6 @@ enum sequence_type {
 };
 
 /* Predefined colors. */
-#define FT_COLOR(fg, bg) { .foreground = fg, .background = bg }
 const struct ft_color ftc_any           = FT_COLOR(NULL,        NULL);
 
 const struct ft_color ftc_warning       = FT_COLOR("#FF0000",   NULL);

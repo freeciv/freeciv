@@ -100,7 +100,7 @@ bool keyboardless_goto = TRUE;
 bool enable_cursor_changes = TRUE;
 bool separate_unit_selection = FALSE;
 bool unit_selection_clears_orders = TRUE;
-char highlight_our_names[128] = "yellow";
+struct ft_color highlight_our_names = FT_COLOR("#000000", "#FFFF00");
 
 bool voteinfo_bar_use = TRUE;
 bool voteinfo_bar_always_show = FALSE;
@@ -273,13 +273,13 @@ struct option {
   } *common_vtable;
   /* Specific typed accessors. */
   union {
-    /* Specific boolean accessors. */
+    /* Specific boolean accessors (OT_BOOLEAN == type). */
     const struct option_bool_vtable {
       bool (*get) (const struct option *);
       bool (*def) (const struct option *);
       bool (*set) (struct option *, bool);
     } *bool_vtable;
-    /* Specific integer accessors. */
+    /* Specific integer accessors (OT_INTEGER == type). */
     const struct option_int_vtable {
       int (*get) (const struct option *);
       int (*def) (const struct option *);
@@ -287,21 +287,27 @@ struct option {
       int (*max) (const struct option *);
       bool (*set) (struct option *, int);
     } *int_vtable;
-    /* Specific string accessors. */
+    /* Specific string accessors (OT_STRING == type). */
     const struct option_str_vtable {
       const char * (*get) (const struct option *);
       const char * (*def) (const struct option *);
       const struct strvec * (*values) (const struct option *);
       bool (*set) (struct option *, const char *);
     } *str_vtable;
-    /* Specific font accessors. */
+    /* Specific font accessors (OT_FONT == type). */
     const struct option_font_vtable {
       const char * (*get) (const struct option *);
       const char * (*def) (const struct option *);
       const char * (*target) (const struct option *);
       bool (*set) (struct option *, const char *);
     } *font_vtable;
-    /* Specific font accessors. */
+    /* Specific color accessors (OT_COLOR == type). */
+    const struct option_color_vtable {
+      struct ft_color (*get) (const struct option *);
+      struct ft_color (*def) (const struct option *);
+      bool (*set) (struct option *, struct ft_color);
+    } *color_vtable;
+    /* Specific video mode accessors (OT_VIDEO_MODE == type). */
     const struct option_video_mode_vtable {
       struct video_mode (*get) (const struct option *);
       struct video_mode (*def) (const struct option *);
@@ -340,6 +346,9 @@ struct option {
               changed_cb)
 #define OPTION_FONT_INIT(optset, common_table, font_table, changed_cb)      \
   OPTION_INIT(optset, OT_FONT, font_vtable, common_table, font_table,       \
+              changed_cb)
+#define OPTION_COLOR_INIT(optset, common_table, color_table, changed_cb)    \
+  OPTION_INIT(optset, OT_COLOR, color_vtable, common_table, color_table,    \
               changed_cb)
 #define OPTION_VIDEO_MODE_INIT(optset, common_table, video_mode_table,      \
                                changed_cb)                                  \
@@ -464,6 +473,8 @@ bool option_reset(struct option *poption)
     return option_str_set(poption, option_str_def(poption));
   case OT_FONT:
     return option_font_set(poption, option_font_def(poption));
+  case OT_COLOR:
+    return option_color_set(poption, option_color_def(poption));
   case OT_VIDEO_MODE:
     return option_video_mode_set(poption, option_video_mode_def(poption));
   }
@@ -666,7 +677,7 @@ bool option_str_set(struct option *poption, const char *str)
 }
 
 /****************************************************************************
-  Returns the current value of this string option.
+  Returns the current value of this font option.
 ****************************************************************************/
 const char *option_font_get(const struct option *poption)
 {
@@ -677,7 +688,7 @@ const char *option_font_get(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the default value of this string option.
+  Returns the default value of this font option.
 ****************************************************************************/
 const char *option_font_def(const struct option *poption)
 {
@@ -688,7 +699,7 @@ const char *option_font_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the target style name of this font.
+  Returns the target style name of this font option.
 ****************************************************************************/
 const char *option_font_target(const struct option *poption)
 {
@@ -699,7 +710,7 @@ const char *option_font_target(const struct option *poption)
 }
 
 /****************************************************************************
-  Sets the value of this string option. Returns TRUE if the value changed.
+  Sets the value of this font option. Returns TRUE if the value changed.
 ****************************************************************************/
 bool option_font_set(struct option *poption, const char *font)
 {
@@ -708,6 +719,44 @@ bool option_font_set(struct option *poption, const char *font)
   fc_assert_ret_val(NULL != font, FALSE);
 
   if (poption->font_vtable->set(poption, font)) {
+    option_changed(poption);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns the current value of this color option.
+****************************************************************************/
+struct ft_color option_color_get(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, ft_color(NULL, NULL));
+  fc_assert_ret_val(OT_COLOR == poption->type, ft_color(NULL, NULL));
+
+  return poption->color_vtable->get(poption);
+}
+
+/****************************************************************************
+  Returns the default value of this color option.
+****************************************************************************/
+struct ft_color option_color_def(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, ft_color(NULL, NULL));
+  fc_assert_ret_val(OT_COLOR == poption->type, ft_color(NULL, NULL));
+
+  return poption->color_vtable->def(poption);
+}
+
+/****************************************************************************
+  Sets the value of this color option. Returns TRUE if the value
+  changed.
+****************************************************************************/
+bool option_color_set(struct option *poption, struct ft_color color)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(OT_COLOR == poption->type, FALSE);
+
+  if (poption->color_vtable->set(poption, color)) {
     option_changed(poption);
     return TRUE;
   }
@@ -840,6 +889,17 @@ static const struct option_font_vtable client_option_font_vtable = {
   .set = client_option_font_set
 };
 
+static struct ft_color client_option_color_get(const struct option *poption);
+static struct ft_color client_option_color_def(const struct option *poption);
+static bool client_option_color_set(struct option *poption,
+                                    struct ft_color color);
+
+static const struct option_color_vtable client_option_color_vtable = {
+  .get = client_option_color_get,
+  .def = client_option_color_def,
+  .set = client_option_color_set
+};
+
 static struct video_mode
 client_option_video_mode_get(const struct option *poption);
 static struct video_mode
@@ -904,6 +964,11 @@ struct client_option {
       const char *const def;
       const char *const target;
     } font;
+    /* OT_COLOR type option. */
+    struct {
+      struct ft_color *const pvalue;
+      const struct ft_color def;
+    } color;
     /* OT_VIDEO_MODE type option. */
     struct {
       struct video_mode *const pvalue;
@@ -1100,6 +1165,43 @@ struct client_option {
       .size = sizeof(oname),                                                \
       .def = odef,                                                          \
       .target = otgt,                                                       \
+    }                                                                       \
+  },                                                                        \
+}
+
+/*
+ * Generate a client option of type OT_COLOR.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ *        Be sure to pass the array variable and not a pointer to it because
+ *        the size is calculated with sizeof().
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef_fg, odef_bg:  The default values for this client option.
+ * ocb:   A callback function of type void (*)(struct option *) called when
+ *        the option changed.
+ */
+#define GEN_COLOR_OPTION(oname, odesc, ohelp, ocat, ospec, odef_fg,         \
+                         odef_bg, ocb)                                      \
+{                                                                           \
+  .base_option = OPTION_COLOR_INIT(&client_optset_static,                   \
+                                   client_option_common_vtable,             \
+                                   client_option_color_vtable, ocb),        \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  {                                                                         \
+    .color = {                                                              \
+      .pvalue = &oname,                                                     \
+      .def = FT_COLOR(odef_fg, odef_bg)                                     \
     }                                                                       \
   },                                                                        \
 }
@@ -1369,13 +1471,13 @@ static struct client_option client_options[] = {
                      "the lines to be drawn straight."),
                   COC_GRAPHICS, GUI_LAST, FALSE,
                   reqtree_show_icons_callback),
-   GEN_STR_OPTION(highlight_our_names,
-                  N_("Color to highlight your player/user name"),
-                  N_("If set, your player and user name in the new chat "
-                     "messages will be highlighted using this color as "
-                     "background.  If not set, it will just not highlight "
-                     "anything."),
-                  COC_GRAPHICS, GUI_LAST, "yellow", NULL),
+   GEN_COLOR_OPTION(highlight_our_names,
+                    N_("Color to highlight your player/user name"),
+                    N_("If set, your player and user name in the new chat "
+                       "messages will be highlighted using this color as "
+                       "background.  If not set, it will just not highlight "
+                       "anything."),
+                    COC_GRAPHICS, GUI_LAST, "#000000", "#FFFF00", NULL),
   GEN_BOOL_OPTION(ai_manual_turn_done, N_("Manual Turn Done in AI Mode"),
                   N_("Disable this option if you do not want to "
                      "press the Turn Done button manually when watching "
@@ -2034,6 +2136,57 @@ static bool client_option_font_set(struct option *poption, const char *font)
 }
 
 /****************************************************************************
+  Returns the value of this client option of type OT_COLOR.
+****************************************************************************/
+static struct ft_color client_option_color_get(const struct option *poption)
+{
+  return *CLIENT_OPTION(poption)->color.pvalue;
+}
+
+/****************************************************************************
+  Returns the default value of this client option of type OT_COLOR.
+****************************************************************************/
+static struct ft_color client_option_color_def(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->color.def;
+}
+
+/****************************************************************************
+  Set the value of this client option of type OT_COLOR.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool client_option_color_set(struct option *poption,
+                                    struct ft_color color)
+{
+  struct ft_color *pcolor = CLIENT_OPTION(poption)->color.pvalue;
+  bool changed = FALSE;
+
+#define color_set(color_tgt, color)                                         \
+  if (NULL == color_tgt) {                                                  \
+    if (NULL != color) {                                                    \
+      color_tgt = fc_strdup(color);                                         \
+      changed = TRUE;                                                       \
+    }                                                                       \
+  } else {                                                                  \
+    if (NULL == color) {                                                    \
+      free((void *) color_tgt);                                             \
+      changed = TRUE;                                                       \
+    } else if (0 != strcmp(color_tgt, color)) {                             \
+      free((void *) color_tgt);                                             \
+      color_tgt = fc_strdup(color);                                         \
+      changed = TRUE;                                                       \
+    }                                                                       \
+  }
+
+  color_set(pcolor->foreground, color.foreground);
+  color_set(pcolor->background, color.background);
+
+#undef color_set
+
+  return changed;
+}
+
+/****************************************************************************
   Returns the value of this client option of type OT_VIDEO_MODE.
 ****************************************************************************/
 static struct video_mode
@@ -2111,18 +2264,79 @@ static bool client_option_load(struct option *poption,
                                            option_name(poption)))
               && option_font_set(poption, string));
     }
+  case OT_COLOR:
+    {
+      struct ft_color color;
+
+      return ((color.foreground =
+                   secfile_lookup_str(sf, "client.%s.foreground",
+                                      option_name(poption)))
+              && (color.background =
+                      secfile_lookup_str(sf, "client.%s.background",
+                                         option_name(poption)))
+              && option_color_set(poption, color));
+    }
   case OT_VIDEO_MODE:
     {
       struct video_mode mode;
 
-      return (secfile_lookup_int(sf, &mode.width, "client.%s_width",
+      return (secfile_lookup_int(sf, &mode.width, "client.%s.width",
                                  option_name(poption))
-              && secfile_lookup_int(sf, &mode.height, "client.%s_height",
+              && secfile_lookup_int(sf, &mode.height, "client.%s.height",
                                     option_name(poption))
               && option_video_mode_set(poption, mode));
     }
   }
   return FALSE;
+}
+
+/****************************************************************************
+  Save the option to a file.
+****************************************************************************/
+static void client_option_save(struct option *poption,
+                               struct section_file *sf)
+{
+  fc_assert_ret(NULL != poption);
+  fc_assert_ret(NULL != sf);
+
+  switch (option_type(poption)) {
+  case OT_BOOLEAN:
+    secfile_insert_bool(sf, option_bool_get(poption),
+                        "client.%s", option_name(poption));
+    break;
+  case OT_INTEGER:
+    secfile_insert_int(sf, option_int_get(poption),
+                       "client.%s", option_name(poption));
+    break;
+  case OT_STRING:
+    secfile_insert_str(sf, option_str_get(poption),
+                       "client.%s", option_name(poption));
+    break;
+  case OT_FONT:
+    secfile_insert_str(sf, option_font_get(poption),
+                       "client.%s", option_name(poption));
+    break;
+  case OT_COLOR:
+    {
+      struct ft_color color = option_color_get(poption);
+
+      secfile_insert_str(sf, color.foreground, "client.%s.foreground",
+                         option_name(poption));
+      secfile_insert_str(sf, color.background, "client.%s.background",
+                         option_name(poption));
+    }
+    break;
+  case OT_VIDEO_MODE:
+    {
+      struct video_mode mode = option_video_mode_get(poption);
+
+      secfile_insert_int(sf, mode.width, "client.%s.width",
+                         option_name(poption));
+      secfile_insert_int(sf, mode.height, "client.%s.height",
+                         option_name(poption));
+    }
+    break;
+  }
 }
 
 
@@ -2407,14 +2621,10 @@ void handle_server_setting(struct packet_server_setting *packet)
       poption->str_vtable = &server_option_str_vtable;
       break;
     case OT_FONT:
-      log_error("Option type %s (%d) not supported yet.",
-                option_type_name(poption->type), poption->type);
-      poption->font_vtable = NULL;
-      break;
+    case OT_COLOR:
     case OT_VIDEO_MODE:
       log_error("Option type %s (%d) not supported yet.",
                 option_type_name(poption->type), poption->type);
-      poption->video_mode_vtable = NULL;
       break;
     }
   }
@@ -2460,6 +2670,7 @@ void handle_server_setting(struct packet_server_setting *packet)
     server_option_set_string(psoption->string.def, packet->default_strval);
     break;
   case OT_FONT:
+  case OT_COLOR:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(poption->type), poption->type);
@@ -3177,6 +3388,7 @@ void desired_settable_options_update(void)
       def_val = option_str_def(poption);
       break;
     case OT_FONT:
+    case OT_COLOR:
     case OT_VIDEO_MODE:
       break;
     }
@@ -3247,6 +3459,7 @@ static void desired_settable_option_send(struct option *poption)
     value = option_str_get(poption);
     break;
   case OT_FONT:
+  case OT_COLOR:
   case OT_VIDEO_MODE:
     break;
   }
@@ -3466,34 +3679,7 @@ void options_save(void)
   secfile_insert_bool(sf, fullscreen_mode, "client.fullscreen_mode");
 
   client_options_iterate_all(poption) {
-    switch (option_type(poption)) {
-    case OT_BOOLEAN:
-      secfile_insert_bool(sf, option_bool_get(poption),
-                          "client.%s", option_name(poption));
-      break;
-    case OT_INTEGER:
-      secfile_insert_int(sf, option_int_get(poption),
-                         "client.%s", option_name(poption));
-      break;
-    case OT_STRING:
-      secfile_insert_str(sf, option_str_get(poption),
-                         "client.%s", option_name(poption));
-      break;
-    case OT_FONT:
-      secfile_insert_str(sf, option_font_get(poption),
-                         "client.%s", option_name(poption));
-      break;
-    case OT_VIDEO_MODE:
-      {
-        struct video_mode mode = option_video_mode_get(poption);
-
-        secfile_insert_int(sf, mode.width, "client.%s_width",
-                           option_name(poption));
-        secfile_insert_int(sf, mode.height, "client.%s_height",
-                           option_name(poption));
-      }
-      break;
-    }
+    client_option_save(poption, sf);
   } client_options_iterate_all_end;
 
   message_options_save(sf, "client");
@@ -3571,6 +3757,19 @@ void options_init(void)
         }
       }
       break;
+
+    case OT_COLOR:
+      {
+        /* Duplicate the string pointers. */
+        struct ft_color *pcolor = CLIENT_OPTION(poption)->color.pvalue;
+
+        if (NULL != pcolor->foreground) {
+          pcolor->foreground = fc_strdup(pcolor->foreground);
+        }
+        if (NULL != pcolor->background) {
+          pcolor->background = fc_strdup(pcolor->background);
+        }
+      }
 
     case OT_FONT:
     case OT_VIDEO_MODE:

@@ -19,6 +19,7 @@
 /* common */
 #include "events.h"
 #include "fc_types.h"           /* enum gui_type */
+#include "featured_text.h"      /* struct ft_color */
 
 
 struct video_mode {
@@ -73,7 +74,7 @@ extern bool keyboardless_goto;
 extern bool enable_cursor_changes;
 extern bool separate_unit_selection;
 extern bool unit_selection_clears_orders;
-extern char highlight_our_names[128];
+extern struct ft_color highlight_our_names;
 
 extern bool voteinfo_bar_use;
 extern bool voteinfo_bar_always_show;
@@ -156,7 +157,8 @@ extern bool gui_win32_enable_alpha;
 #define SPECENUM_VALUE1 OT_INTEGER
 #define SPECENUM_VALUE2 OT_STRING
 #define SPECENUM_VALUE3 OT_FONT
-#define SPECENUM_VALUE4 OT_VIDEO_MODE
+#define SPECENUM_VALUE4 OT_COLOR
+#define SPECENUM_VALUE5 OT_VIDEO_MODE
 #include "specenum_gen.h"
 
 
@@ -234,6 +236,11 @@ const char *option_font_get(const struct option *poption);
 const char *option_font_def(const struct option *poption);
 const char *option_font_target(const struct option *poption);
 bool option_font_set(struct option *poption, const char *font);
+
+/* Option type OT_COLOR functions. */
+struct ft_color option_color_get(const struct option *poption);
+struct ft_color option_color_def(const struct option *poption);
+bool option_color_set(struct option *poption, struct ft_color color);
 
 /* Option type OT_VIDEO_MODE functions. */
 struct video_mode option_video_mode_get(const struct option *poption);

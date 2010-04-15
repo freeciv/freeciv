@@ -27,6 +27,7 @@
 #include "options.h"
 
 /* client/gui-gtk-2.0 */
+#include "colors.h"
 #include "gui_main.h"
 #include "gui_stuff.h"
 
@@ -232,6 +233,118 @@ option_dialog_get(const struct option_set *poptset)
   }
   return NULL;
 }
+
+/****************************************************************************
+  GDestroyNotify callback.
+****************************************************************************/
+static void option_color_destroy_notify(gpointer data)
+{
+  GdkColor *color = (GdkColor *) data;
+
+  if (NULL != color) {
+    gdk_colormap_free_colors(gdk_colormap_get_system(), color, 1);
+    gdk_color_free(color);
+  }
+}
+
+/****************************************************************************
+  Set the color of a button.
+****************************************************************************/
+static void option_color_set_button_color(GtkButton *button,
+                                          const GdkColor *new_color)
+{
+  GdkColormap *colormap = gdk_colormap_get_system();
+  GdkColor *current_color = g_object_get_data(G_OBJECT(button), "color");
+  GtkWidget *child;
+
+  if (NULL == new_color) {
+    if (NULL != current_color) {
+      g_object_set_data(G_OBJECT(button), "color", NULL);
+      if ((child = gtk_bin_get_child(GTK_BIN(button)))) {
+        gtk_widget_destroy(child);
+      }
+    }
+  } else {
+    GdkPixmap *pixmap;
+
+    /* Apply the new color. */
+    if (NULL != current_color) {
+      /* We already have a GdkColor pointer. */
+      gdk_colormap_free_colors(colormap, current_color, 1);
+      *current_color = *new_color;
+    } else {
+      /* We need to make a GdkColor pointer. */
+      current_color = gdk_color_copy(new_color);
+      g_object_set_data_full(G_OBJECT(button), "color", current_color,
+                             option_color_destroy_notify);
+    }
+    gdk_colormap_alloc_color(colormap, current_color, TRUE, TRUE);
+    if ((child = gtk_bin_get_child(GTK_BIN(button)))) {
+      gtk_widget_destroy(child);
+    }
+
+    /* Update the button. */
+    pixmap = gdk_pixmap_new(root_window, 16, 16, -1);
+    gdk_gc_set_foreground(fill_bg_gc, current_color);
+    gdk_draw_rectangle(pixmap, fill_bg_gc, TRUE, 0, 0, 16, 16);
+    child = gtk_pixmap_new(pixmap, NULL);
+    gtk_container_add(GTK_CONTAINER(button), child);
+    gtk_widget_show(child);
+    g_object_unref(G_OBJECT(pixmap));
+  }
+}
+
+/****************************************************************************
+  "response" signal callback.
+****************************************************************************/
+static void color_selector_response_callback(GtkDialog *dialog,
+                                             gint res, gpointer data)
+{
+  if (res == GTK_RESPONSE_REJECT) {
+    /* Clears the current color. */
+    option_color_set_button_color(GTK_BUTTON(data), NULL);
+  } else if (res == GTK_RESPONSE_OK) {
+    /* Apply the new color. */
+    GtkColorSelection *selection =
+      GTK_COLOR_SELECTION(g_object_get_data(G_OBJECT(dialog), "selection"));
+    GdkColor new_color;
+
+    gtk_color_selection_get_current_color(selection, &new_color);
+    option_color_set_button_color(GTK_BUTTON(data), &new_color);
+  }
+
+  gtk_widget_destroy(GTK_WIDGET(dialog));
+}
+
+/****************************************************************************
+  Called when the user press a color button.
+****************************************************************************/
+static void option_color_select_callback(GtkButton *button, gpointer data)
+{
+  GtkWidget *dialog, *selection;
+  GdkColor *current_color = g_object_get_data(G_OBJECT(button), "color");
+
+  dialog = gtk_dialog_new_with_buttons(_("Select a color"), NULL,
+                                       GTK_DIALOG_MODAL,
+                                       GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL,
+                                       GTK_STOCK_CLEAR, GTK_RESPONSE_REJECT,
+                                       GTK_STOCK_OK, GTK_RESPONSE_OK, NULL);
+  setup_dialog(dialog, toplevel);
+  g_signal_connect(dialog, "response",
+                   G_CALLBACK(color_selector_response_callback), button);
+
+  selection = gtk_color_selection_new();
+  g_object_set_data(G_OBJECT(dialog), "selection", selection);
+  gtk_box_pack_start(GTK_BOX(GTK_DIALOG(dialog)->vbox), selection,
+                     FALSE, FALSE, 0);
+  if (current_color) {
+    gtk_color_selection_set_current_color(GTK_COLOR_SELECTION(selection),
+                                          current_color);
+  }
+
+  gtk_widget_show_all(dialog);
+}
+
 
 /****************************************************************************
   Creates a new option dialog.
@@ -450,6 +563,32 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     g_object_set(G_OBJECT(w), "use-font", TRUE, NULL);
     break;
 
+  case OT_COLOR:
+    {
+      GtkWidget *button;
+
+      w = gtk_hbox_new(TRUE, 4);
+
+      /* Foreground color selector button. */
+      button = gtk_button_new();
+      gtk_box_pack_start(GTK_BOX(w), button, FALSE, TRUE, 0);
+      gtk_tooltips_set_tip(pdialog->tips, GTK_WIDGET(button),
+                           _("Select the text color"), NULL);
+      g_object_set_data(G_OBJECT(w), "fg_button", button);
+      g_signal_connect(button, "clicked",
+                       G_CALLBACK(option_color_select_callback), NULL);
+
+      /* Background color selector button. */
+      button = gtk_button_new();
+      gtk_box_pack_start(GTK_BOX(w), button, FALSE, TRUE, 0);
+      gtk_tooltips_set_tip(pdialog->tips, GTK_WIDGET(button),
+                           _("Select the background color"), NULL);
+      g_object_set_data(G_OBJECT(w), "bg_button", button);
+      g_signal_connect(button, "clicked",
+                       G_CALLBACK(option_color_select_callback), NULL);
+    }
+    break;
+
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -540,6 +679,40 @@ static inline void option_dialog_option_font_set(struct option *poption,
 }
 
 /****************************************************************************
+  Set the font value of the option.
+****************************************************************************/
+static inline void option_dialog_option_color_set(struct option *poption,
+                                                  struct ft_color color)
+{
+  GtkWidget *w = option_get_gui_data(poption);
+  GdkColor gdk_color;
+
+  /* Update the foreground button. */
+  if (NULL != color.foreground
+      && '\0' != color.foreground[0]
+      && gdk_color_parse(color.foreground, &gdk_color)) {
+    option_color_set_button_color(g_object_get_data(G_OBJECT(w),
+                                                    "fg_button"),
+                                  &gdk_color);
+  } else {
+    option_color_set_button_color(g_object_get_data(G_OBJECT(w),
+                                                    "fg_button"), NULL);
+  }
+
+  /* Update the background button. */
+  if (NULL != color.background
+      && '\0' != color.background[0]
+      && gdk_color_parse(color.background, &gdk_color)) {
+    option_color_set_button_color(g_object_get_data(G_OBJECT(w),
+                                                    "bg_button"),
+                                  &gdk_color);
+  } else {
+    option_color_set_button_color(g_object_get_data(G_OBJECT(w),
+                                                    "bg_button"), NULL);
+  }
+}
+
+/****************************************************************************
   Update an option in the option dialog.
 ****************************************************************************/
 static void option_dialog_option_refresh(struct option *poption)
@@ -556,6 +729,9 @@ static void option_dialog_option_refresh(struct option *poption)
     break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_get(poption));
+    break;
+  case OT_COLOR:
+    option_dialog_option_color_set(poption, option_color_get(poption));
     break;
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
@@ -585,6 +761,9 @@ static void option_dialog_option_reset(struct option *poption)
     break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_def(poption));
+    break;
+  case OT_COLOR:
+    option_dialog_option_color_set(poption, option_color_def(poption));
     break;
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
@@ -624,6 +803,27 @@ static void option_dialog_option_apply(struct option *poption)
   case OT_FONT:
     (void) option_font_set(poption, gtk_font_button_get_font_name
                            (GTK_FONT_BUTTON(w)));
+    break;
+
+  case OT_COLOR:
+    {
+      char fg_color_text[32], bg_color_text[32];
+      GObject *button;
+      GdkColor *color;
+
+      /* Get foreground color. */
+      button = g_object_get_data(G_OBJECT(w), "fg_button");
+      color = g_object_get_data(button, "color");
+      color_to_string(color, fg_color_text, sizeof(fg_color_text));
+
+      /* Get background color. */
+      button = g_object_get_data(G_OBJECT(w), "bg_button");
+      color = g_object_get_data(button, "color");
+      color_to_string(color, bg_color_text, sizeof(bg_color_text));
+
+      (void) option_color_set(poption,
+                              ft_color(fg_color_text, bg_color_text));
+    }
     break;
 
   case OT_VIDEO_MODE:

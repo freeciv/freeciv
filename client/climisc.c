@@ -920,8 +920,9 @@ void handle_event(const char *featured_text, struct tile *ptile,
 
   /* Maybe highlight our player and user names if someone is talking
    * about us. */
-  if (highlight_our_names[0] != '\0'
-      && conn_id != -1 && conn_id != client.conn.id) {
+  if (-1 != conn_id
+      && client.conn.id != conn_id
+      && ft_color_requested(highlight_our_names)) {
     const char *username = client.conn.username;
     size_t userlen = strlen(username);
     const char *playername = ((client_player() && !client_is_observer())
@@ -938,18 +939,18 @@ void handle_event(const char *featured_text, struct tile *ptile,
     }
 
     for (p = plain_text; *p != '\0'; p++) {
-      if (username
+      if (NULL != username
           && 0 == fc_strncasecmp(p, username, userlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                             p - plain_text + userlen,
-                             ft_color(NULL, highlight_our_names)));
-      } else if (playername
+                                                p - plain_text + userlen,
+                                                highlight_our_names));
+      } else if (NULL != playername
                  && 0 == fc_strncasecmp(p, playername, playerlen)) {
         /* Appends to be sure it will be applied at last. */
         text_tag_list_append(tags, text_tag_new(TTT_COLOR, p - plain_text,
-                             p - plain_text + playerlen,
-                             ft_color(NULL, highlight_our_names)));
+                                                p - plain_text + playerlen,
+                                                highlight_our_names));
       }
     }
   }

@@ -136,18 +136,14 @@ struct ft_color {
   const char *foreground;
   const char *background;
 };
-
+#define FT_COLOR(fg, bg) { .foreground = fg, .background = bg }
 /**************************************************************************
-  Builds a featured text color.
+  Constructor.
 **************************************************************************/
 static inline struct ft_color ft_color(const char *foreground,
                                        const char *background)
 {
-  struct ft_color color = {
-    .foreground = foreground,
-    .background = background
-  };
-
+  struct ft_color color = FT_COLOR(foreground, background);
   return color;
 }
 
