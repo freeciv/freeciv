@@ -264,9 +264,9 @@ bool genlist_remove(struct genlist *pgenlist, void *punlink)
       } else {
         plink->next->prev = plink->prev;
       }
+      pgenlist->nelements--;
       pgenlist->free_data_func(plink->dataptr);
       free(plink);
-      pgenlist->nelements--;
       return TRUE;
     }
   }
