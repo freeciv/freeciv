@@ -1043,7 +1043,7 @@ static struct widget * real_city_report_dialog_update_city(struct widget *pWidge
     
   
   pWidget = pWidget->prev;
-  copy_chars_to_string16(pWidget->string16, cBuf);
+  copy_chars_to_string16(pWidget->info_label, cBuf);
   FREESURFACE(pWidget->theme);
   pWidget->theme = pLogo;
   
