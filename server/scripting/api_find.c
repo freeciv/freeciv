@@ -15,8 +15,11 @@
 #include <config.h>
 #endif
 
+/* common */
 #include "idex.h"
+#include "movement.h"
 
+/* server/scripting */
 #include "api_find.h"
 #include "script.h"
 
@@ -50,6 +53,27 @@ Unit *api_find_unit(Player *pplayer, int unit_id)
     return player_find_unit_by_id(pplayer, unit_id);
   } else {
     return idex_lookup_unit(unit_id);
+  }
+}
+
+/**************************************************************************
+  Return a unit that can transport ptype at a given ptile.
+**************************************************************************/
+Unit *api_find_transport_unit(Player *pplayer, Unit_Type *ptype,
+                              Tile *ptile)
+{
+  SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, NULL);
+  SCRIPT_CHECK_ARG_NIL(ptype, 2, Unit_Type, NULL);
+  SCRIPT_CHECK_ARG_NIL(ptile, 3, Tile, NULL);
+
+  {
+    struct unit *ptransport;
+    struct unit *pvirt = create_unit_virtual(pplayer, NULL, ptype, 0);
+    pvirt->tile = ptile;
+    pvirt->homecity = 0;
+    ptransport = find_transport_from_tile(pvirt, ptile);
+    destroy_unit_virtual(pvirt);
+    return ptransport;
   }
 }
 

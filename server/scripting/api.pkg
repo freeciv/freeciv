@@ -447,6 +447,8 @@ module find {
   Player *api_find_player @ player (int player_id);
   City *api_find_city @ city (Player *pplayer, int city_id);
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
+  Unit *api_find_transport_unit
+    @ transport_unit (Player *pplayer, Unit_Type *ptype, Tile *ptile);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
   Tile *api_find_tile_by_index @ tile (int index);
 

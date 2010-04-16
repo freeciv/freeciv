@@ -20,6 +20,8 @@
 Player *api_find_player(int player_id);
 City *api_find_city(Player *pplayer, int city_id);
 Unit *api_find_unit(Player *pplayer, int unit_id);
+Unit *api_find_transport_unit(Player *pplayer, Unit_Type *ptype,
+                              Tile *ptile);
 Tile *api_find_tile(int nat_x, int nat_y);
 Tile *api_find_tile_by_index(int index);
 
