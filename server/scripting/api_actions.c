@@ -22,6 +22,7 @@
 #include "barbarian.h"
 #include "citytools.h"
 #include "maphand.h"
+#include "movement.h"
 #include "plrhand.h"
 #include "techtools.h"
 #include "unittools.h"
@@ -60,8 +61,21 @@ void api_actions_place_partisans(Tile *ptile, Player *pplayer,
   Create a new unit.
 **************************************************************************/
 Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
-		  	      int veteran_level, City *homecity,
-			      int moves_left)
+                              int veteran_level, City *homecity,
+                              int moves_left)
+{
+  return api_actions_create_unit_full(pplayer, ptile, ptype, veteran_level,
+                                      homecity, moves_left, -1, NULL);
+}
+
+/**************************************************************************
+  Create a new unit.
+**************************************************************************/
+Unit *api_actions_create_unit_full(Player *pplayer, Tile *ptile,
+                                   Unit_Type *ptype,
+                                   int veteran_level, City *homecity,
+                                   int moves_left, int hp_left,
+                                   Unit *ptransport)
 {
   SCRIPT_CHECK_ARG_NIL(pplayer, 1, Player, NULL);
   SCRIPT_CHECK_ARG_NIL(ptile, 2, Tile, NULL);
@@ -71,8 +85,30 @@ Unit *api_actions_create_unit(Player *pplayer, Tile *ptile, Unit_Type *ptype,
     return NULL;
   }
 
-  return create_unit(pplayer, ptile, ptype, veteran_level,
-		     homecity ? homecity->id : 0, moves_left);
+  if (ptransport) {
+    /* Extensive check to see if transport and unit are compatible */
+    int ret;
+    struct unit *pvirt = create_unit_virtual(pplayer, NULL, ptype,
+                                             veteran_level);
+    pvirt->tile = ptile;
+    pvirt->homecity = homecity ? homecity->id : 0;
+    ret = can_unit_load(pvirt, ptransport);
+    destroy_unit_virtual(pvirt);
+    if (!ret) {
+      log_error("create_unit_full: '%s' cannot transport '%s' here",
+                utype_rule_name(unit_type(ptransport)),
+                utype_rule_name(ptype));
+      return NULL;
+    }
+  } else if (!can_exist_at_tile(ptype, ptile)) {
+    log_error("create_unit_full: '%s' cannot exist at tile",
+              utype_rule_name(ptype));
+    return NULL;
+  }
+
+  return create_unit_full(pplayer, ptile, ptype, veteran_level,
+                          homecity ? homecity->id : 0, moves_left,
+                          hp_left, ptransport);
 }
 
 /**************************************************************************

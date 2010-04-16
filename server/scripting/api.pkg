@@ -734,6 +734,14 @@ Unit *api_actions_create_unit @ create_unit (Player *pplayer, Tile *ptile,
                                              Unit_Type *ptype,
                                              int veteran_level,
                                              City *homecity, int moves_left);
+Unit *api_actions_create_unit_full @ create_unit_full (Player *pplayer,
+                                                       Tile *ptile,
+                                                       Unit_Type *ptype,
+                                                       int veteran_level,
+                                                       City *homecity,
+                                                       int moves_left,
+                                                       int hp_left,
+                                                       Unit *ptransport);
 void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
                                             const char *name);
 void api_actions_create_base @ create_base (Tile *ptile, const char *name,
