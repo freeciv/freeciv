@@ -47,6 +47,7 @@ int api_methods_player_num_units(Player *pplayer);
 void api_methods_player_victory(Player *pplayer);
 int api_methods_player_civilization_score(Player *pplayer);
 int api_methods_player_gold(Player *pplayer);
+bool api_methods_player_knows_tech(Player *pplayer, Tech_Type *ptech);
 Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer);
 City_List_Link *api_methods_private_player_city_list_head(Player *pplayer);
 
@@ -75,6 +76,8 @@ bool api_methods_unit_city_can_be_built_here(Unit *punit);
 /* Unit Type */
 bool api_methods_unit_type_has_flag(Unit_Type *punit_type, const char *flag);
 bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role);
+bool api_methods_unit_type_can_exist_at_tile(Unit_Type *punit_type,
+                                             Tile *ptile);
 const char *api_methods_unit_type_rule_name(Unit_Type *punit_type);
 const char *api_methods_unit_type_name_translation(Unit_Type *punit_type);
 

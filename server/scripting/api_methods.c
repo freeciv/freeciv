@@ -19,6 +19,7 @@
 #include "government.h"
 #include "improvement.h"
 #include "map.h"
+#include "movement.h"
 #include "nation.h"
 #include "tech.h"
 #include "terrain.h"
@@ -226,6 +227,17 @@ int api_methods_player_gold(Player *pplayer)
 }
 
 /**************************************************************************
+  Return TRUE if Player knows advance ptech.
+**************************************************************************/
+bool api_methods_player_knows_tech(Player *pplayer, Tech_Type *ptech)
+{
+  SCRIPT_CHECK_SELF(pplayer, FALSE);
+  SCRIPT_CHECK_ARG_NIL(ptech, 2, Tech_Type, FALSE);
+
+  return player_invention_state(pplayer, advance_number(ptech)) == TECH_KNOWN;
+}
+
+/**************************************************************************
   Return list head for unit list for Player
 **************************************************************************/
 Unit_List_Link *api_methods_private_player_unit_list_head(Player *pplayer)
@@ -428,6 +440,15 @@ bool api_methods_unit_type_has_role(Unit_Type *punit_type, const char *role)
     script_error("Unit role \"%s\" does not exist", role);
     return FALSE;
   }
+}
+
+bool api_methods_unit_type_can_exist_at_tile(Unit_Type *punit_type,
+                                             Tile *ptile)
+{
+  SCRIPT_CHECK_SELF(punit_type, FALSE);
+  SCRIPT_CHECK_ARG_NIL(ptile, 2, Tile, FALSE);
+
+  return can_exist_at_tile(punit_type, ptile);
 }
 
 /**************************************************************************
