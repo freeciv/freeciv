@@ -2563,34 +2563,75 @@ void handle_server_setting_control(struct packet_server_setting_control *packet)
 }
 
 /****************************************************************************
-  Returns the client option type equivalent to the server setting type.
-****************************************************************************/
-static enum option_type sset_type_to_option_type(enum sset_type type)
-{
-  switch (type) {
-  case SSET_BOOL:
-    return OT_BOOLEAN;
-  case SSET_INT:
-    return OT_INTEGER;
-  case SSET_STRING:
-    return OT_STRING;
-  }
-
-  log_error("Unsupported server setting type: %d.", type);
-  return -1;
-}
-
-/****************************************************************************
   Receive a server setting info packet.
 ****************************************************************************/
-void handle_server_setting(struct packet_server_setting *packet)
+void handle_server_setting_const(struct packet_server_setting_const *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
-  bool need_type_initialization = FALSE;
-  bool need_gui_remove = FALSE;
-  bool need_gui_add = FALSE;
-  const char *string;
+
+  fc_assert_ret(NULL != poption);
+
+  fc_assert(NULL == psoption->name);
+  psoption->name = fc_strdup(packet->name);
+  fc_assert(NULL == psoption->description);
+  /* NB: Translate now. */
+  psoption->description = fc_strdup(_(packet->short_help));
+  fc_assert(NULL == psoption->help_text);
+  /* NB: Translate now. */
+  psoption->help_text = fc_strdup(_(packet->extra_help));
+  psoption->category = packet->category;
+}
+
+/****************************************************************************
+  Common part of handle_server_setting_*() functions. See below.
+****************************************************************************/
+#define handle_server_setting_common(psoption, packet)                      \
+{                                                                           \
+  bool need_gui_remove = FALSE;                                             \
+  bool need_gui_add = FALSE;                                                \
+                                                                            \
+  psoption->is_changeable = packet->is_changeable;                          \
+  if (psoption->is_visible != packet->is_visible) {                         \
+    if (psoption->is_visible) {                                             \
+      need_gui_remove = TRUE;                                               \
+    } else if (packet->is_visible) {                                        \
+      need_gui_add = TRUE;                                                  \
+    }                                                                       \
+    psoption->is_visible = packet->is_visible;                              \
+  }                                                                         \
+                                                                            \
+  if (!psoption->desired_sent                                               \
+      && psoption->is_visible                                               \
+      && psoption->is_changeable                                            \
+      && is_server_running()                                                \
+      && packet->initial_setting) {                                         \
+    /* Only send our private settings if we are running                     \
+     * on a forked local server, i.e. started by the                        \
+     * client with the "Start New Game" button.                             \
+     * Do now override settings that are already saved to savegame          \
+     * and now loaded. */                                                   \
+    desired_settable_option_send(OPTION(poption));                          \
+    psoption->desired_sent = TRUE;                                          \
+  }                                                                         \
+                                                                            \
+  /* Update the GUI. */                                                     \
+  if (need_gui_remove) {                                                    \
+    option_gui_remove(poption);                                             \
+  } else if (need_gui_add) {                                                \
+    option_gui_add(poption);                                                \
+  } else {                                                                  \
+    option_gui_update(poption);                                             \
+  }                                                                         \
+}
+
+/****************************************************************************
+  Receive a boolean server setting info packet.
+****************************************************************************/
+void handle_server_setting_bool(struct packet_server_setting_bool *packet)
+{
+  struct option *poption = server_optset_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
 
   fc_assert_ret(NULL != poption);
 
@@ -2598,110 +2639,98 @@ void handle_server_setting(struct packet_server_setting *packet)
     /* Not initialized yet. */
     poption->poptset = server_optset;
     poption->common_vtable = &server_option_common_vtable;
-    need_type_initialization = TRUE;
-  } else if (poption->type != sset_type_to_option_type(packet->stype)) {
-    log_error("The server setting %d has changed type?", packet->id);
-    /* Let's try to reset this setting. */
-    server_option_free(psoption);
-    memset(psoption, 0, sizeof(*psoption));
-    need_type_initialization = TRUE;
-    need_gui_remove = psoption->is_visible;
+    poption->type = OT_BOOLEAN;
+    poption->bool_vtable = &server_option_bool_vtable;
+  }
+  fc_assert_ret_msg(OT_BOOLEAN == poption->type,
+                    "Server setting \"%s\" (nb %d) has type %s (%d), "
+                    "expected %s (%d)",
+                    option_name(poption), option_number(poption),
+                    option_type_name(poption->type), poption->type,
+                    option_type_name(OT_BOOLEAN), OT_BOOLEAN);
+
+  if (packet->is_visible) {
+    psoption->boolean.value = packet->val;
+    psoption->boolean.def = packet->default_val;
   }
 
-  if (need_type_initialization) {
-    poption->type = sset_type_to_option_type(packet->stype);
-    switch (poption->type) {
-    case OT_BOOLEAN:
-      poption->bool_vtable = &server_option_bool_vtable;
-      break;
-    case OT_INTEGER:
-      poption->int_vtable = &server_option_int_vtable;
-      break;
-    case OT_STRING:
-      poption->str_vtable = &server_option_str_vtable;
-      break;
-    case OT_FONT:
-    case OT_COLOR:
-    case OT_VIDEO_MODE:
-      log_error("Option type %s (%d) not supported yet.",
-                option_type_name(poption->type), poption->type);
-      break;
-    }
+  handle_server_setting_common(psoption, packet);
+}
+
+/****************************************************************************
+  Receive a integer server setting info packet.
+****************************************************************************/
+void handle_server_setting_int(struct packet_server_setting_int *packet)
+{
+  struct option *poption = server_optset_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
+
+  fc_assert_ret(NULL != poption);
+
+  if (NULL == poption->common_vtable) {
+    /* Not initialized yet. */
+    poption->poptset = server_optset;
+    poption->common_vtable = &server_option_common_vtable;
+    poption->type = OT_INTEGER;
+    poption->int_vtable = &server_option_int_vtable;
   }
+  fc_assert_ret_msg(OT_INTEGER == poption->type,
+                    "Server setting \"%s\" (nb %d) has type %s (%d), "
+                    "expected %s (%d)",
+                    option_name(poption), option_number(poption),
+                    option_type_name(poption->type), poption->type,
+                    option_type_name(OT_INTEGER), OT_INTEGER);
 
-#define server_option_set_string(target, string)                            \
-  if (NULL == target) {                                                     \
-    target = fc_strdup(string);                                             \
-  } else if (0 != strcmp(target, string)) {                                 \
-    free(target);                                                           \
-    target = fc_strdup(string);                                             \
-  }
-
-  server_option_set_string(psoption->name, packet->name);
-  string = _(packet->short_help);       /* NB: Translate now. */
-  server_option_set_string(psoption->description, string);
-  string = _(packet->extra_help);       /* NB: Translate now. */
-  server_option_set_string(psoption->help_text, string);
-
-  psoption->category = packet->scategory;
-  psoption->is_changeable = packet->is_changeable;
-  if (psoption->is_visible != packet->is_visible) {
-    if (psoption->is_visible) {
-      need_gui_remove = TRUE;
-    } else if (packet->is_visible) {
-      need_gui_add = TRUE;
-    }
-    psoption->is_visible = packet->is_visible;
-  }
-
-  switch (poption->type) {
-  case OT_BOOLEAN:
-    psoption->boolean.value = (packet->val != 0);
-    psoption->boolean.def = (packet->default_val != 0);
-    break;
-  case OT_INTEGER:
+  if (packet->is_visible) {
     psoption->integer.value = packet->val;
     psoption->integer.def = packet->default_val;
-    psoption->integer.min = packet->min;
-    psoption->integer.max = packet->max;
-    break;
-  case OT_STRING:
-    server_option_set_string(psoption->string.value, packet->strval);
-    server_option_set_string(psoption->string.def, packet->default_strval);
-    break;
-  case OT_FONT:
-  case OT_COLOR:
-  case OT_VIDEO_MODE:
-    log_error("Option type %s (%d) not supported yet.",
-              option_type_name(poption->type), poption->type);
-    break;
+    psoption->integer.min = packet->min_val;
+    psoption->integer.max = packet->max_val;
   }
 
-#undef server_option_set_string
+  handle_server_setting_common(psoption, packet);
+}
 
-  if (!psoption->desired_sent
-      && psoption->is_visible
-      && psoption->is_changeable
-      && is_server_running()
-      && packet->initial_setting) {
-    /* Only send our private settings if we are running
-     * on a forked local server, i.e. started by the
-     * client with the "Start New Game" button.
-     * Do now override settings that are already saved to savegame
-     * and now loaded. */
-    desired_settable_option_send(poption);
-    psoption->desired_sent = TRUE;
+/****************************************************************************
+  Receive a string server setting info packet.
+****************************************************************************/
+void handle_server_setting_str(struct packet_server_setting_str *packet)
+{
+  struct option *poption = server_optset_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
+
+  fc_assert_ret(NULL != poption);
+
+  if (NULL == poption->common_vtable) {
+    /* Not initialized yet. */
+    poption->poptset = server_optset;
+    poption->common_vtable = &server_option_common_vtable;
+    poption->type = OT_STRING;
+    poption->str_vtable = &server_option_str_vtable;
+  }
+  fc_assert_ret_msg(OT_STRING == poption->type,
+                    "Server setting \"%s\" (nb %d) has type %s (%d), "
+                    "expected %s (%d)",
+                    option_name(poption), option_number(poption),
+                    option_type_name(poption->type), poption->type,
+                    option_type_name(OT_STRING), OT_STRING);
+
+  if (packet->is_visible) {
+    if (NULL == psoption->string.value) {
+      psoption->string.value = fc_strdup(packet->val);
+    } else if (0 != strcmp(packet->val, psoption->string.value)) {
+      free(psoption->string.value);
+      psoption->string.value = fc_strdup(packet->val);
+    }
+    if (NULL == psoption->string.def) {
+      psoption->string.def = fc_strdup(packet->default_val);
+    } else if (0 != strcmp(packet->default_val, psoption->string.def)) {
+      free(psoption->string.def);
+      psoption->string.def = fc_strdup(packet->default_val);
+    }
   }
 
-  /* Update the GUI. */
-  if (need_gui_remove) {
-    option_gui_remove(poption);
-  }
-  if (need_gui_add) {
-    option_gui_add(poption);
-  } else if (!need_gui_remove) {
-    option_gui_update(poption);
-  }
+  handle_server_setting_common(psoption, packet);
 }
 
 /****************************************************************************

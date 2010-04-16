@@ -2323,50 +2323,65 @@ void settings_free(void)
 ****************************************************************************/
 void send_server_setting(struct conn_list *dest, const struct setting *pset)
 {
-  struct packet_server_setting packet;
-
   if (!dest) {
     dest = game.est_connections;
   }
 
-  conn_list_iterate(dest, pconn) {
-    memset(&packet, 0, sizeof(packet));
+#define PACKET_COMMON_INIT(packet, pset, pconn)                             \
+  memset(&packet, 0, sizeof(packet));                                       \
+  packet.id = setting_number(pset);                                         \
+  packet.is_visible = setting_is_visible(pset, pconn);                      \
+  packet.is_changeable = setting_is_changeable(pset, pconn, NULL, 0);       \
+  packet.initial_setting = game.info.is_new_game;
 
-    packet.id = setting_number(pset);
-    sz_strlcpy(packet.name, setting_name(pset));
-    sz_strlcpy(packet.short_help, setting_short_help(pset));
-    sz_strlcpy(packet.extra_help, setting_extra_help(pset));
+  switch (setting_type(pset)) {
+  case SSET_BOOL:
+    {
+      struct packet_server_setting_bool packet;
 
-    packet.stype = setting_type(pset);
-    packet.scategory = pset->scategory;
-    packet.is_changeable = setting_is_changeable(pset, pconn, NULL, 0);
-    packet.is_visible = setting_is_visible(pset, pconn);
-
-    if (packet.is_visible) {
-      switch (packet.stype) {
-      case SSET_BOOL:
-        packet.min = FALSE;
-        packet.max = TRUE;
-        packet.val = setting_bool_get(pset);
-        packet.default_val = setting_bool_def(pset);
-        break;
-      case SSET_INT:
-        packet.min = setting_int_min(pset);
-        packet.max = setting_int_max(pset);
-        packet.val = setting_int_get(pset);
-        packet.default_val = setting_int_def(pset);
-        break;
-      case SSET_STRING:
-        sz_strlcpy(packet.strval, setting_str_get(pset));
-        sz_strlcpy(packet.default_strval, setting_str_def(pset));
-        break;
-      };
+      conn_list_iterate(dest, pconn) {
+        PACKET_COMMON_INIT(packet, pset, pconn);
+        if (packet.is_visible) {
+          packet.val = setting_bool_get(pset);
+          packet.default_val = setting_bool_def(pset);
+        }
+        send_packet_server_setting_bool(pconn, &packet);
+      } conn_list_iterate_end;
     }
+    break;
+  case SSET_INT:
+    {
+      struct packet_server_setting_int packet;
 
-    packet.initial_setting = game.info.is_new_game;
+      conn_list_iterate(dest, pconn) {
+        PACKET_COMMON_INIT(packet, pset, pconn);
+        if (packet.is_visible) {
+          packet.val = setting_int_get(pset);
+          packet.default_val = setting_int_def(pset);
+          packet.min_val = setting_int_min(pset);
+          packet.max_val = setting_int_max(pset);
+        }
+        send_packet_server_setting_int(pconn, &packet);
+      } conn_list_iterate_end;
+    }
+    break;
+  case SSET_STRING:
+    {
+      struct packet_server_setting_str packet;
 
-    send_packet_server_setting(pconn, &packet);
-  } conn_list_iterate_end;
+      conn_list_iterate(dest, pconn) {
+        PACKET_COMMON_INIT(packet, pset, pconn);
+        if (packet.is_visible) {
+          sz_strlcpy(packet.val, setting_str_get(pset));
+          sz_strlcpy(packet.default_val, setting_str_def(pset));
+        }
+        send_packet_server_setting_str(pconn, &packet);
+      } conn_list_iterate_end;
+    }
+    break;
+  }
+
+#undef PACKET_INIT
 }
 
 /****************************************************************************
@@ -2398,17 +2413,29 @@ void send_server_hack_level_settings(struct conn_list *dest)
 void send_server_setting_control(struct connection *pconn)
 {
   struct packet_server_setting_control control;
+  struct packet_server_setting_const setting;
   int i;
 
-  /* count the number of settings */
   control.settings_num = SETTINGS_NUM;
 
-  /* fill in the category strings */
+  /* Fill in the category strings. */
+  fc_assert(SSET_NUM_CATEGORIES <= ARRAY_SIZE(control.category_names));
   control.categories_num = SSET_NUM_CATEGORIES;
   for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
-    strcpy(control.category_names[i], sset_category_names[i]);
+    sz_strlcpy(control.category_names[i], sset_category_names[i]);
   }
 
-  /* send off the control packet */
+  /* Send off the control packet. */
   send_packet_server_setting_control(pconn, &control);
+
+  /* Send the constant and common part of the settings. */
+  settings_iterate(pset) {
+    setting.id = setting_number(pset);
+    sz_strlcpy(setting.name, setting_name(pset));
+    sz_strlcpy(setting.short_help, setting_short_help(pset));
+    sz_strlcpy(setting.extra_help, setting_extra_help(pset));
+    setting.category = pset->scategory;
+
+    send_packet_server_setting_const(pconn, &setting);
+  } settings_iterate_end;
 }

@@ -54,6 +54,13 @@ enum sset_level {
 extern const char *sset_level_names[];
 extern const int OLEVELS_NUM;
 
+/* Server setting types. */
+enum sset_type {
+  SSET_BOOL,
+  SSET_INT,
+  SSET_STRING
+};
+
 /* forward declaration */
 struct setting;
 

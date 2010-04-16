@@ -50,11 +50,6 @@
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 
-/* Server setting types.  Changing these will break network compatability. */
-enum sset_type {
-  SSET_BOOL, SSET_INT, SSET_STRING
-};
-
 /* Changing this breaks network compatibility. */
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST
