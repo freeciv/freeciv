@@ -247,11 +247,7 @@ int resize_window(struct widget *pWindow,
 		  SDL_Surface * pBcgd,
 		  SDL_Color * pColor, Uint16 new_w, Uint16 new_h)
 {
-  struct gui_layer *gui_layer;  
-  struct widget *pWidget;
-
   /* window */
-
   if ((new_w != pWindow->size.w) || (new_h != pWindow->size.h)) {
     pWindow->size.w = new_w;
     pWindow->size.h = new_h;
@@ -261,18 +257,11 @@ int resize_window(struct widget *pWindow,
     if (get_wflags(pWindow) & WF_RESTORE_BACKGROUND) {
       refresh_widget_background(pWindow);
     }
-  
-    gui_layer = get_gui_layer(pWindow->dst->surface);
-    FREESURFACE(gui_layer->surface);
-    gui_layer->surface = create_surf_alpha(/*Main.screen->w*/pWindow->size.w,
-                                           /*Main.screen->h*/pWindow->size.h,
-                                                               SDL_SWSURFACE);
-    /* assign new buffer to all widgets on this window */
-    pWidget = pWindow;
-    while(pWidget) {
-      pWidget->dst->surface = gui_layer->surface;
-      pWidget = pWidget->prev;
-    }
+
+    FREESURFACE(pWindow->dst->surface);
+    pWindow->dst->surface = create_surf_alpha(pWindow->size.w,
+                                              pWindow->size.h,
+                                              SDL_SWSURFACE);
   }
   
   if (pBcgd != pWindow->theme) {
