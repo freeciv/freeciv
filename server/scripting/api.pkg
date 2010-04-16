@@ -45,6 +45,11 @@ struct Player {
 };
 
 module Player {
+  module properties {
+    int api_methods_player_number
+      @ id (Player *self);
+  }
+
   int api_methods_player_num_cities
     @ num_cities (Player *self);
   int api_methods_player_num_units
@@ -53,8 +58,6 @@ module Player {
     @ has_wonder (Player *self, Building_Type *building);
   void api_methods_player_victory
     @ victory (Player *self);
-  int api_methods_player_number
-    @ number (Player *self);
   int api_methods_player_civilization_score
     @ civilization_score (Player *self);
   int api_methods_player_gold
@@ -370,8 +373,9 @@ methods_private = nil
 $]
 
 $[
-
--- API Types Convenience (Special Methods)
+----------------------------------------------------------------------
+--  API Types Special Methods
+----------------------------------------------------------------------
 do
   local api_types = {
     "Player",
@@ -387,20 +391,13 @@ do
     "Nonexistent",
   }
 
-  -- define equality comparators
-  local function number_eq (o1, o2)
-    return o1:number() == o2:number()
-  end
-
   local function id_eq (o1, o2)
-    -- NOTE: in Lua, the number 0 is true in boolean context.
-    -- Here we make sure that id are equal and not both nil
-    return o1.id == o2.id and o1.id
+    return o1.id == o2.id and (o1.id ~= nil)
   end
 
   -- define string representation when printed
   local function string_rep(self)
-    local id = self.number and self:number() or self.id
+    local id = self.id
     local name = self.rule_name and self:rule_name() or self.name
     if name and id then
       return string.format('<%s #%d %s>', tolua.type(self), id, name)
@@ -414,22 +411,36 @@ do
   for index, typename in ipairs(api_types) do
     local api_type = _G[typename]
 
-    if api_type.number then
-      api_type[".eq"] = number_eq
-    else
-      api_type[".eq"] = id_eq
-    end
+    api_type[".eq"] = id_eq
+    api_type.__tostring = string_rep
 
-    api_type["__tostring"] = string_rep
+    -- Properties are fields that call an accessor to get their value
+    -- A property named 'id' defined by 'function' is accessed like:
+    --  local id = player.id
+    -- but what happens is:
+    --  local id = function(player)
+    if api_type.properties then
+      local api_type_index = api_type.__index
+      local properties = api_type.properties
+      local function property_getter(self, field)
+        local getter = properties[field]
+        if getter then
+          return getter(self)
+        else
+          return api_type_index(self, field)
+        end
+      end
+      api_type.__index = property_getter
+    end
   end
--- end do-block (API Types Convenience)
+-- End (API Types Special Methods)
 end
 
 $]
 
 /* Object find module. */
 module find {
-  Player *api_find_player @ player (int player_number);
+  Player *api_find_player @ player (int player_id);
   City *api_find_city @ city (Player *pplayer, int city_id);
   Unit *api_find_unit @ unit (Player *pplayer, int unit_id);
   Tile *api_find_tile @ tile (int nat_x, int nat_y);
@@ -486,14 +497,13 @@ function _freeciv_state_dump()
 
       res = res .. k .. '=' .. rvalue .. '\n'
     elseif type(v) == 'userdata' then
-      local id = v.number and v:number() or v.id
       local method = string.lower(tolua.type(v))
 
       res = res .. k .. '=find.' .. method
       if method == 'city' or method == 'unit' then
-        res = res .. '(nil,' .. id .. ')'
-      elseif id then
-        res = res .. '(' .. id .. ')'
+        res = res .. '(nil,' .. v.id .. ')'
+      elseif v.id then
+        res = res .. '(' .. v.id .. ')'
       else
         res = res .. '()'
       end
