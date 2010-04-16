@@ -618,7 +618,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 const char *science_dialog_text(void)
 {
   bool team;
-  int ours, theirs, done, perturn, total;
+  int ours, theirs, perturn;
   static struct astring str = ASTRING_INIT;
   char ourbuf[1024] = "", theirbuf[1024] = "";
   struct player_research *research;
@@ -631,22 +631,22 @@ const char *science_dialog_text(void)
     return _("Progress: no research");
   }
 
-  research = get_player_research(client.conn.playing);
-  done = research->bulbs_researched;
-  total = total_bulbs_required(client.conn.playing);
-
+  research = get_player_research(client_player());
   if (A_UNSET == research->researching) {
     astr_add(&str, _("Progress: no research"));
   } else {
+    int done = research->bulbs_researched;
+    int total = total_bulbs_required(client_player());
+
     if (perturn > 0) {
-      int turns = ceil( (double)(total - done) / perturn );
+      int turns = ceil((double) (total - done) / perturn);
 
       astr_add(&str, PL_("Progress: %d turn/advance",
                          "Progress: %d turns/advance",
                          turns), turns);
     } else if (perturn < 0 ) {
       /* negative number of bulbs per turn due to tech upkeep */
-      int turns = ceil( (double)done / -perturn );
+      int turns = ceil((double) done / -perturn);
 
       astr_add(&str, PL_("Progress: %d turn/advance loss",
                          "Progress: %d turns/advance loss",
