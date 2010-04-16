@@ -168,7 +168,8 @@ void popdown_all_game_dialogs(void)
   popdown_goto_airlift_dialog();
   popdown_unit_upgrade_dlg();
   popdown_help_dialog();
-  
+  popdown_notify_goto_dialog();
+
   /* clear gui buffer */
   if (C_S_PREPARING == client_state()) {
     clear_surface(Main.gui->surface, NULL);
@@ -199,6 +200,230 @@ static bool sdl_get_chance_to_win(int *att_chance, int *def_chance,
   return TRUE;
 }
 
+
+/**************************************************************************
+  Notify goto dialog.
+**************************************************************************/
+struct notify_goto_data {
+  char *headline;
+  char *lines;
+  struct tile *ptile;
+};
+
+#define SPECLIST_TAG notify_goto
+#define SPECLIST_TYPE struct notify_goto_data
+#include "speclist.h"
+
+struct notify_goto_dialog {
+  struct widget *window;
+  struct widget *close_button;
+  struct widget *label;
+  struct notify_goto_list *datas;
+};
+
+static struct notify_goto_dialog *notify_goto_dialog = NULL;
+
+static void notify_goto_dialog_advance(struct notify_goto_dialog *pdialog);
+
+/**************************************************************************
+  Create a notify goto data.
+**************************************************************************/
+static struct notify_goto_data *notify_goto_data_new(const char *headline,
+                                                     const char *lines,
+                                                     struct tile *ptile)
+{
+  struct notify_goto_data *pdata = fc_malloc(sizeof(*pdata));
+
+  pdata->headline = fc_strdup(headline);
+  pdata->lines = fc_strdup(lines);
+  pdata->ptile = ptile;
+  return pdata;
+}
+
+/**************************************************************************
+  Destroy a notify goto data.
+**************************************************************************/
+static void notify_goto_data_destroy(struct notify_goto_data *pdata)
+{
+  free(pdata->headline);
+  free(pdata->lines);
+}
+
+
+/**************************************************************************
+  Move the notify dialog.
+**************************************************************************/
+static int notify_goto_dialog_callback(struct widget *widget)
+{
+  struct notify_goto_dialog *pdialog =
+      (struct notify_goto_dialog *) widget->data.ptr;
+
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    move_window_group(pdialog->label, pdialog->window);
+  }
+  return -1;
+}
+
+/**************************************************************************
+  Close the notify dialog.
+**************************************************************************/
+static int notify_goto_dialog_close_callback(struct widget *widget)
+{
+  struct notify_goto_dialog *pdialog =
+      (struct notify_goto_dialog *) widget->data.ptr;
+
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    notify_goto_dialog_advance(pdialog);
+  }
+  return -1;
+}
+
+/**************************************************************************
+  Goto callback.
+**************************************************************************/
+static int notify_goto_dialog_goto_callback(struct widget *widget)
+{
+  struct notify_goto_dialog *pdialog =
+      (struct notify_goto_dialog *) widget->data.ptr;
+  const struct notify_goto_data *pdata = notify_goto_list_get(pdialog->datas,
+                                                              0);
+
+  if (Main.event.button.button == SDL_BUTTON_LEFT) {
+    if (NULL != pdata->ptile) {
+      center_tile_mapcanvas(pdata->ptile);
+    }
+  } else if (Main.event.button.button == SDL_BUTTON_RIGHT) {
+     struct city *pcity;
+
+     if (NULL != pdata->ptile && (pcity = tile_city(pdata->ptile))) {
+      popup_city_dialog(pcity);
+    }
+  }
+
+  return -1;
+}
+
+
+/**************************************************************************
+  Create a notify dialog.
+**************************************************************************/
+static struct notify_goto_dialog *notify_goto_dialog_new(void)
+{
+  struct notify_goto_dialog *pdialog = fc_malloc(sizeof(*pdialog));
+  SDL_String16 *str;
+
+  /* Window. */
+  str = create_str16_from_char("", adj_font(12));
+  str->style |= TTF_STYLE_BOLD;
+
+  pdialog->window = create_window_skeleton(NULL, str, 0);
+  pdialog->window->action = notify_goto_dialog_callback;
+  pdialog->window->data.ptr = pdialog;
+  set_wstate(pdialog->window, FC_WS_NORMAL);
+  add_to_gui_list(ID_WINDOW, pdialog->window);
+
+  /* Close button. */
+  pdialog->close_button = create_themeicon(pTheme->Small_CANCEL_Icon,
+                                           pdialog->window->dst,
+                                           WF_WIDGET_HAS_INFO_LABEL
+                                           | WF_RESTORE_BACKGROUND);
+  pdialog->close_button->info_label =
+      create_str16_from_char(_("Close Dialog (Esc)"), adj_font(12));
+  pdialog->close_button->action = notify_goto_dialog_close_callback;
+  pdialog->close_button->data.ptr = pdialog;
+  set_wstate(pdialog->close_button, FC_WS_NORMAL);
+  pdialog->close_button->key = SDLK_ESCAPE;
+  add_to_gui_list(ID_BUTTON, pdialog->close_button);
+
+  pdialog->label = NULL;
+
+  /* Data list. */
+  pdialog->datas = notify_goto_list_new_full(notify_goto_data_destroy);
+
+  return pdialog;
+}
+
+/**************************************************************************
+  Destroy a notify dialog.
+**************************************************************************/
+static void notify_goto_dialog_destroy(struct notify_goto_dialog *pdialog)
+{
+  widget_undraw(pdialog->window);
+  widget_mark_dirty(pdialog->window);
+  remove_gui_layer(pdialog->window->dst);
+
+  del_widget_pointer_from_gui_list(pdialog->window);
+  del_widget_pointer_from_gui_list(pdialog->close_button);
+  if (NULL != pdialog->label) {
+    del_widget_pointer_from_gui_list(pdialog->label);
+  }
+
+  notify_goto_list_destroy(pdialog->datas);
+  free(pdialog);
+}
+
+/**************************************************************************
+  Update a notify dialog.
+**************************************************************************/
+static void notify_goto_dialog_update(struct notify_goto_dialog *pdialog)
+{
+  const struct notify_goto_data *pdata = notify_goto_list_get(pdialog->datas,
+                                                              0);
+
+  if (NULL == pdata) {
+    return;
+  }
+
+  widget_undraw(pdialog->window);
+  widget_mark_dirty(pdialog->window);
+
+  copy_chars_to_string16(pdialog->window->string16, pdata->headline);
+  if (NULL != pdialog->label) {
+    del_widget_pointer_from_gui_list(pdialog->label);
+  }
+  pdialog->label = create_iconlabel_from_chars(NULL, pdialog->window->dst,
+                                               pdata->lines, adj_font(12),
+                                               WF_RESTORE_BACKGROUND);
+  pdialog->label->action = notify_goto_dialog_goto_callback;
+  pdialog->label->data.ptr = pdialog;
+  set_wstate(pdialog->label, FC_WS_NORMAL);
+  add_to_gui_list(ID_LABEL, pdialog->label);
+
+  resize_window(pdialog->window, NULL, NULL,
+                adj_size(pdialog->label->size.w + 40),
+                adj_size(pdialog->label->size.h + 60));
+  widget_set_position(pdialog->window,
+                      (Main.screen->w - pdialog->window->size.w) / 2,
+                      (Main.screen->h - pdialog->window->size.h) / 2);
+  widget_set_position(pdialog->close_button, pdialog->window->size.w
+                      - pdialog->close_button->size.w - 1,
+                      pdialog->window->size.y + adj_size(2));
+  widget_set_position(pdialog->label, adj_size(20), adj_size(40));
+
+  widget_redraw(pdialog->window);
+  widget_redraw(pdialog->close_button);
+  widget_redraw(pdialog->label);
+  widget_mark_dirty(pdialog->window);
+  flush_all();
+}
+
+/**************************************************************************
+  Update a notify dialog.
+**************************************************************************/
+static void notify_goto_dialog_advance(struct notify_goto_dialog *pdialog)
+{
+  if (1 < notify_goto_list_size(pdialog->datas)) {
+    notify_goto_list_remove(pdialog->datas,
+                            notify_goto_list_get(pdialog->datas, 0));
+    notify_goto_dialog_update(pdialog);
+  } else {
+    notify_goto_dialog_destroy(pdialog);
+    if (pdialog == notify_goto_dialog) {
+      notify_goto_dialog = NULL;
+    }
+  }
+}
+
 /**************************************************************************
   Popup a dialog to display information about an event that has a
   specific location.  The user should be given the option to goto that
@@ -208,8 +433,25 @@ void popup_notify_goto_dialog(const char *headline, const char *lines,
                               const struct text_tag_list *tags,
                               struct tile *ptile)
 {
-  log_error("popup_notify_goto_dialog() PORT ME\na: %s\nb: %s",
-            headline, lines);
+  if (NULL == notify_goto_dialog) {
+    notify_goto_dialog = notify_goto_dialog_new();
+  }
+  fc_assert(NULL != notify_goto_dialog);
+
+  notify_goto_list_prepend(notify_goto_dialog->datas,
+                           notify_goto_data_new(headline, lines, ptile));
+  notify_goto_dialog_update(notify_goto_dialog);
+}
+
+/**************************************************************************
+  Popdown the notify goto dialog.
+**************************************************************************/
+void popdown_notify_goto_dialog(void)
+{
+  if (NULL != notify_goto_dialog) {
+    notify_goto_dialog_destroy(notify_goto_dialog);
+    notify_goto_dialog = NULL;
+  }
 }
 
 /**************************************************************************
