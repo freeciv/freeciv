@@ -156,9 +156,10 @@ extern bool gui_win32_enable_alpha;
 #define SPECENUM_VALUE0 OT_BOOLEAN
 #define SPECENUM_VALUE1 OT_INTEGER
 #define SPECENUM_VALUE2 OT_STRING
-#define SPECENUM_VALUE3 OT_FONT
-#define SPECENUM_VALUE4 OT_COLOR
-#define SPECENUM_VALUE5 OT_VIDEO_MODE
+#define SPECENUM_VALUE3 OT_ENUM
+#define SPECENUM_VALUE4 OT_FONT
+#define SPECENUM_VALUE5 OT_COLOR
+#define SPECENUM_VALUE6 OT_VIDEO_MODE
 #include "specenum_gen.h"
 
 
@@ -230,6 +231,17 @@ const char *option_str_get(const struct option *poption);
 const char *option_str_def(const struct option *poption);
 const struct strvec *option_str_values(const struct option *poption);
 bool option_str_set(struct option *poption, const char *str);
+
+/* Option type OT_ENUM functions. */
+int option_enum_str_to_int(const struct option *poption, const char *str);
+const char *option_enum_int_to_str(const struct option *poption, int val);
+int option_enum_get_int(const struct option *poption);
+const char *option_enum_get_str(const struct option *poption);
+int option_enum_def_int(const struct option *poption);
+const char *option_enum_def_str(const struct option *poption);
+const struct strvec *option_enum_values(const struct option *poption);
+bool option_enum_set_int(struct option *poption, int val);
+bool option_enum_set_str(struct option *poption, const char *str);
 
 /* Option type OT_FONT functions. */
 const char *option_font_get(const struct option *poption);

@@ -276,6 +276,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
                                          NULL);
       }
       break;
+    case OT_ENUM:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -362,6 +363,7 @@ static void option_dialog_option_refresh(struct option *poption)
     XtVaSetValues(widget, option_str_values(poption) ? "label"
                   : XtNstring, option_str_get(poption), NULL);
     break;
+  case OT_ENUM:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -411,6 +413,7 @@ static void option_dialog_option_apply(struct option *poption)
         option_str_set(poption, dp);
       }
       break;
+    case OT_ENUM:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:

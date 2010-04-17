@@ -589,6 +589,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
     break;
 
+  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -733,6 +734,7 @@ static void option_dialog_option_refresh(struct option *poption)
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_get(poption));
     break;
+  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -765,6 +767,7 @@ static void option_dialog_option_reset(struct option *poption)
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_def(poption));
     break;
+  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -826,6 +829,7 @@ static void option_dialog_option_apply(struct option *poption)
     }
     break;
 
+  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),

@@ -294,6 +294,14 @@ struct option {
       const struct strvec * (*values) (const struct option *);
       bool (*set) (struct option *, const char *);
     } *str_vtable;
+    /* Specific enum accessors (OT_ENUM == type). */
+    const struct option_enum_vtable {
+      int (*get) (const struct option *);
+      int (*def) (const struct option *);
+      const struct strvec * (*values) (const struct option *);
+      bool (*set) (struct option *, int);
+      int (*cmp) (const char *, const char *);
+    } *enum_vtable;
     /* Specific font accessors (OT_FONT == type). */
     const struct option_font_vtable {
       const char * (*get) (const struct option *);
@@ -343,6 +351,9 @@ struct option {
               changed_cb)
 #define OPTION_STR_INIT(optset, common_table, str_table, changed_cb)        \
   OPTION_INIT(optset, OT_STRING, str_vtable, common_table, str_table,       \
+              changed_cb)
+#define OPTION_ENUM_INIT(optset, common_table, enum_table, changed_cb)      \
+  OPTION_INIT(optset, OT_STRING, enum_vtable, common_table, enum_table,     \
               changed_cb)
 #define OPTION_FONT_INIT(optset, common_table, font_table, changed_cb)      \
   OPTION_INIT(optset, OT_FONT, font_vtable, common_table, font_table,       \
@@ -471,6 +482,8 @@ bool option_reset(struct option *poption)
     return option_int_set(poption, option_int_def(poption));
   case OT_STRING:
     return option_str_set(poption, option_str_def(poption));
+  case OT_ENUM:
+    return option_enum_set_int(poption, option_enum_def_int(poption));
   case OT_FONT:
     return option_font_set(poption, option_font_def(poption));
   case OT_COLOR:
@@ -670,6 +683,131 @@ bool option_str_set(struct option *poption, const char *str)
   fc_assert_ret_val(NULL != str, FALSE);
 
   if (poption->str_vtable->set(poption, str)) {
+    option_changed(poption);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/****************************************************************************
+  Returns the value corresponding to the string. Returns -1 if not matched.
+****************************************************************************/
+int option_enum_str_to_int(const struct option *poption, const char *str)
+{
+  const struct strvec *values;
+  int val;
+
+  fc_assert_ret_val(NULL != poption, -1);
+  fc_assert_ret_val(OT_ENUM == poption->type, -1);
+  values = poption->enum_vtable->values(poption);
+  fc_assert_ret_val(NULL != values, -1);
+
+  for (val = 0; val < strvec_size(values); val++) {
+    if (0 == poption->enum_vtable->cmp(strvec_get(values, val), str)) {
+      return val;
+    }
+  }
+  return -1;
+}
+
+/****************************************************************************
+  Returns the string corresponding to the value. Returns NULL on error.
+****************************************************************************/
+const char *option_enum_int_to_str(const struct option *poption, int val)
+{
+  const struct strvec *values;
+
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(OT_ENUM == poption->type, NULL);
+  values = poption->enum_vtable->values(poption);
+  fc_assert_ret_val(NULL != values, NULL);
+
+  return strvec_get(values, val);
+}
+
+/****************************************************************************
+  Returns the current value of this enum option (as an integer).
+****************************************************************************/
+int option_enum_get_int(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, -1);
+  fc_assert_ret_val(OT_ENUM == poption->type, -1);
+
+  return poption->enum_vtable->get(poption);
+}
+
+/****************************************************************************
+  Returns the current value of this enum option (as a string).
+****************************************************************************/
+const char *option_enum_get_str(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(OT_ENUM == poption->type, NULL);
+
+  return strvec_get(poption->enum_vtable->values(poption),
+                    poption->enum_vtable->get(poption));
+}
+
+/****************************************************************************
+  Returns the default value of this enum option (as an integer).
+****************************************************************************/
+int option_enum_def_int(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, -1);
+  fc_assert_ret_val(OT_ENUM == poption->type, -1);
+
+  return poption->enum_vtable->def(poption);
+}
+
+/****************************************************************************
+  Returns the default value of this enum option (as a string).
+****************************************************************************/
+const char *option_enum_def_str(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(OT_ENUM == poption->type, NULL);
+
+  return strvec_get(poption->enum_vtable->values(poption),
+                    poption->enum_vtable->def(poption));
+}
+
+/****************************************************************************
+  Returns the possible string values of this enum option.
+****************************************************************************/
+const struct strvec *option_enum_values(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(OT_ENUM == poption->type, NULL);
+
+  return poption->enum_vtable->values(poption);
+}
+
+/****************************************************************************
+  Sets the value of this enum option. Returns TRUE if the value changed.
+****************************************************************************/
+bool option_enum_set_int(struct option *poption, int val)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(OT_ENUM == poption->type, FALSE);
+
+  if (poption->enum_vtable->set(poption, val)) {
+    option_changed(poption);
+    return TRUE;
+  }
+  return FALSE;
+}
+
+/****************************************************************************
+  Sets the value of this enum option. Returns TRUE if the value changed.
+****************************************************************************/
+bool option_enum_set_str(struct option *poption, const char *str)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(OT_ENUM == poption->type, FALSE);
+  fc_assert_ret_val(NULL != str, FALSE);
+
+  if (poption->enum_vtable->set(poption,
+                                option_enum_str_to_int(poption, str))) {
     option_changed(poption);
     return TRUE;
   }
@@ -877,6 +1015,20 @@ static const struct option_str_vtable client_option_str_vtable = {
   .set = client_option_str_set
 };
 
+static int client_option_enum_get(const struct option *poption);
+static int client_option_enum_def(const struct option *poption);
+static const struct strvec *
+    client_option_enum_values(const struct option *poption);
+static bool client_option_enum_set(struct option *poption, int val);
+
+static const struct option_enum_vtable client_option_enum_vtable = {
+  .get = client_option_enum_get,
+  .def = client_option_enum_def,
+  .values = client_option_enum_values,
+  .set = client_option_enum_set,
+  .cmp = fc_strcasecmp
+};
+
 static const char *client_option_font_get(const struct option *poption);
 static const char *client_option_font_def(const struct option *poption);
 static const char *client_option_font_target(const struct option *poption);
@@ -957,6 +1109,13 @@ struct client_option {
        */
       const struct strvec *(*const val_accessor) (void);
     } string;
+    /* OT_ENUM type option. */
+    struct {
+      int *const pvalue;
+      const int def;
+      struct strvec *values;
+      struct strvec * (*const val_accessor) (void);
+    } enumerator;
     /* OT_FONT type option. */
     struct {
       char *const pvalue;
@@ -1106,7 +1265,7 @@ struct client_option {
  *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default string for this client option.
  * oacc:  The string accessor where to find the allowed values of type
- *        const char **(*)(void) (returns a NULL-termined list of strings).
+ *        'const struct strvec * (*) (void)'.
  * ocb:   A callback function of type void (*)(struct option *) called when
  *        the option changed.
  */
@@ -1125,6 +1284,43 @@ struct client_option {
       .pvalue = oname,                                                      \
       .size = sizeof(oname),                                                \
       .def = odef,                                                          \
+      .val_accessor = oacc                                                  \
+    }                                                                       \
+  },                                                                        \
+}
+
+/*
+ * Generate a client option of type OT_ENUM.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default string for this client option.
+ * oacc:  The string accessor of type 'struct strvec * (*) (void)'.
+ * ocb:   A callback function of type void (*) (struct option *) called when
+ *        the option changed.
+ */
+#define GEN_ENUM_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc, ocb)  \
+{                                                                           \
+  .base_option = OPTION_ENUM_INIT(&client_optset_static,                    \
+                                  client_option_common_vtable,              \
+                                  client_option_enum_vtable, ocb),          \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  {                                                                         \
+    .enumerator = {                                                         \
+      .pvalue = (int *) &oname,                                             \
+      .def = odef,                                                          \
+      .values = NULL, /* Set in options_init(). */                          \
       .val_accessor = oacc                                                  \
     }                                                                       \
   },                                                                        \
@@ -1174,8 +1370,6 @@ struct client_option {
  *
  * oname: The option data.  Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- *        Be sure to pass the array variable and not a pointer to it because
- *        the size is calculated with sizeof().
  * odesc: A short description of the client option.  Should be used with the
  *        N_() macro.
  * ohelp: The help text for the client option.  Should be used with the N_()
@@ -1211,8 +1405,6 @@ struct client_option {
  *
  * oname: The option data.  Note it is used as name to be loaded or saved.
  *        So, you shouldn't change the name of this variable in any case.
- *        Be sure to pass the array variable and not a pointer to it because
- *        the size is calculated with sizeof().
  * odesc: A short description of the client option.  Should be used with the
  *        N_() macro.
  * ohelp: The help text for the client option.  Should be used with the N_()
@@ -2095,6 +2287,49 @@ static bool client_option_str_set(struct option *poption, const char *str)
 }
 
 /****************************************************************************
+  Returns the current value of this client option of type OT_ENUM.
+****************************************************************************/
+static int client_option_enum_get(const struct option *poption)
+{
+  return *(CLIENT_OPTION(poption)->enumerator.pvalue);
+}
+
+/****************************************************************************
+  Returns the default value of this client option of type OT_ENUM.
+****************************************************************************/
+static int client_option_enum_def(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->enumerator.def;
+}
+
+/****************************************************************************
+  Returns the possible values of this client option of type OT_ENUM.
+****************************************************************************/
+static const struct strvec *
+    client_option_enum_values(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->enumerator.values;
+}
+
+/****************************************************************************
+  Set the value of this client option of type OT_ENUM.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool client_option_enum_set(struct option *poption, int val)
+{
+  struct client_option *pcoption = CLIENT_OPTION(poption);
+
+  if (*pcoption->enumerator.pvalue == val
+      || 0 > val
+      || val >= strvec_size(pcoption->enumerator.values)) {
+    return FALSE;
+  }
+
+  *pcoption->enumerator.pvalue = val;
+  return TRUE;
+}
+
+/****************************************************************************
   Returns the value of this client option of type OT_FONT.
 ****************************************************************************/
 static const char *client_option_font_get(const struct option *poption)
@@ -2256,6 +2491,14 @@ static bool client_option_load(struct option *poption,
                                            option_name(poption)))
               && option_str_set(poption, string));
     }
+  case OT_ENUM:
+    {
+      const char *string;
+
+      return ((string = secfile_lookup_str(sf, "client.%s",
+                                           option_name(poption)))
+              && option_enum_set_str(poption, string));
+    }
   case OT_FONT:
     {
       const char *string;
@@ -2310,6 +2553,10 @@ static void client_option_save(struct option *poption,
     break;
   case OT_STRING:
     secfile_insert_str(sf, option_str_get(poption),
+                       "client.%s", option_name(poption));
+    break;
+  case OT_ENUM:
+    secfile_insert_str(sf, option_enum_get_str(poption),
                        "client.%s", option_name(poption));
     break;
   case OT_FONT:
@@ -3416,6 +3663,7 @@ void desired_settable_options_update(void)
       value = option_str_get(poption);
       def_val = option_str_def(poption);
       break;
+    case OT_ENUM:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -3487,6 +3735,7 @@ static void desired_settable_option_send(struct option *poption)
   case OT_STRING:
     value = option_str_get(poption);
     break;
+  case OT_ENUM:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -3747,10 +3996,9 @@ void options_init(void)
                                       free, NULL);
 
   client_options_iterate_all(poption) {
-    switch (option_type(poption)) {
-    case OT_BOOLEAN:
-      break;
+    struct client_option *pcoption = CLIENT_OPTION(poption);
 
+    switch (option_type(poption)) {
     case OT_INTEGER:
       if (option_int_def(poption) < option_int_min(poption)
           || option_int_def(poption) > option_int_max(poption)) {
@@ -3763,14 +4011,14 @@ void options_init(void)
                   option_name(poption), option_int_def(poption),
                   option_int_min(poption), option_int_max(poption),
                   new_default);
-        *((int *) &(CLIENT_OPTION(poption)->integer.def)) = new_default;
+        *((int *) &(pcoption->integer.def)) = new_default;
       }
       break;
 
     case OT_STRING:
       if (default_user_name == option_str_get(poption)) {
         /* Hack to get a default value. */
-        *((const char **) &(CLIENT_OPTION(poption)->string.def)) =
+        *((const char **) &(pcoption->string.def)) =
             fc_strdup(default_user_name);
       }
 
@@ -3781,16 +4029,23 @@ void options_init(void)
           log_error("Invalid NULL default string for option %s.",
                     option_name(poption));
         } else {
-          *((const char **) &(CLIENT_OPTION(poption)->string.def)) =
+          *((const char **) &(pcoption->string.def)) =
               strvec_get(values, 0);
         }
       }
       break;
 
+    case OT_ENUM:
+      fc_assert(NULL == pcoption->enumerator.values);
+      fc_assert_action(NULL != pcoption->enumerator.val_accessor, break);
+      pcoption->enumerator.values = pcoption->enumerator.val_accessor();
+      fc_assert(NULL != pcoption->enumerator.values);
+      break;
+
     case OT_COLOR:
       {
         /* Duplicate the string pointers. */
-        struct ft_color *pcolor = CLIENT_OPTION(poption)->color.pvalue;
+        struct ft_color *pcolor = pcoption->color.pvalue;
 
         if (NULL != pcolor->foreground) {
           pcolor->foreground = fc_strdup(pcolor->foreground);
@@ -3800,6 +4055,7 @@ void options_init(void)
         }
       }
 
+    case OT_BOOLEAN:
     case OT_FONT:
     case OT_VIDEO_MODE:
       break;
@@ -3815,6 +4071,26 @@ void options_init(void)
 **************************************************************************/
 void options_free(void)
 {
+  client_options_iterate_all(poption) {
+    struct client_option *pcoption = CLIENT_OPTION(poption);
+
+    switch (option_type(poption)) {
+    case OT_ENUM:
+      fc_assert_action(NULL != pcoption->enumerator.values, break);
+      strvec_destroy(pcoption->enumerator.values);
+      pcoption->enumerator.values = NULL;
+      break;
+
+    case OT_BOOLEAN:
+    case OT_INTEGER:
+    case OT_STRING:
+    case OT_FONT:
+    case OT_COLOR:
+    case OT_VIDEO_MODE:
+      break;
+    }
+  } client_options_iterate_all_end;
+
   if (NULL != settable_options_hash) {
     hash_free(settable_options_hash);
     settable_options_hash = NULL;
