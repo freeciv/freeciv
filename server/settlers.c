@@ -305,8 +305,10 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
                             struct tile *ptile)
 {
   int goodness;
+  /* FIXME: Isn't an other way to know the goodness of the transformation? */
   struct terrain *old_terrain = tile_terrain(ptile);
   bv_special old_special = ptile->special;
+  bv_bases old_bases = ptile->bases;
   struct terrain *new_terrain = old_terrain->irrigation_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
@@ -320,6 +322,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     goodness = city_tile_value(pcity, ptile, 0, 0);
     tile_set_terrain(ptile, old_terrain);
     ptile->special = old_special;
+    ptile->bases = old_bases;
     return goodness;
   } else if (old_terrain == new_terrain
 	     && !tile_has_special(ptile, S_IRRIGATION)
@@ -331,6 +334,7 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
     tile_set_special(ptile, S_IRRIGATION);
     goodness = city_tile_value(pcity, ptile, 0, 0);
     ptile->special = old_special;
+    ptile->bases = old_bases;
     fc_assert(tile_terrain(ptile) == old_terrain);
     return goodness;
   } else if (old_terrain == new_terrain
@@ -367,8 +371,10 @@ static int ai_calc_irrigate(struct city *pcity, struct player *pplayer,
 static int ai_calc_mine(struct city *pcity, struct tile *ptile)
 {
   int goodness;
+  /* FIXME: Isn't an other way to know the goodness of the transformation? */
   struct terrain *old_terrain = tile_terrain(ptile);
   bv_special old_special = ptile->special;
+  bv_bases old_bases = ptile->bases;
   struct terrain *new_terrain = old_terrain->mining_result;
 
   if (old_terrain != new_terrain && new_terrain != T_NONE) {
@@ -383,6 +389,7 @@ static int ai_calc_mine(struct city *pcity, struct tile *ptile)
     goodness = city_tile_value(pcity, ptile, 0, 0);
     tile_set_terrain(ptile, old_terrain);
     ptile->special = old_special;
+    ptile->bases = old_bases;
     return goodness;
   } else if (old_terrain == new_terrain
 	     && !tile_has_special(ptile, S_MINE)) {
@@ -394,6 +401,7 @@ static int ai_calc_mine(struct city *pcity, struct tile *ptile)
     tile_set_special(ptile, S_MINE);
     goodness = city_tile_value(pcity, ptile, 0, 0);
     ptile->special = old_special;
+    ptile->bases = old_bases;
     fc_assert(tile_terrain(ptile) == old_terrain);
     return goodness;
   } else {
