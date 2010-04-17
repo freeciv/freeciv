@@ -187,7 +187,9 @@ static bool edit_tile_terrain_handling(struct tile *ptile,
 {
   struct terrain *old_terrain = tile_terrain(ptile);
 
-  if (old_terrain == pterrain) {
+  if (old_terrain == pterrain
+      || (terrain_has_flag(pterrain, TER_NO_CITIES)
+          && NULL != tile_city(ptile))) {
     return FALSE;
   }
 

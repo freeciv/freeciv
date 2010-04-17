@@ -875,7 +875,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		&& (is_ocean(pterrain)
 		    || !is_ocean(pterrain->mining_result)
 		    || can_channel_land(ptile))
-		&& (!is_ocean(pterrain->mining_result)
+                && (!terrain_has_flag(pterrain->mining_result, TER_NO_CITIES)
 		    || !tile_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_IRRIGATE) {
@@ -905,7 +905,7 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 		&& (is_ocean(pterrain)
 		    || !is_ocean(pterrain->irrigation_result)
 		    || can_channel_land(ptile))
-		&& (!is_ocean(pterrain->irrigation_result)
+                && (!terrain_has_flag(pterrain->irrigation_result, TER_NO_CITIES)
 		    || !tile_city(ptile))))) {
       unit_list_iterate(ptile->units, tunit) {
 	if (tunit->activity == ACTIVITY_MINE) {
