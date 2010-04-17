@@ -2178,7 +2178,8 @@ void settings_game_load(struct section_file *file, const char *section)
   int i, set_count;
 
   if (!secfile_lookup_int(file, &set_count, "%s.set_count", section)) {
-    log_error("Can't read the number of settings in the save file.");
+    /* Old savegames and scenarios doesn't contain this, not an error. */
+    log_verbose("Can't read the number of settings in the save file.");
     return;
   }
 
