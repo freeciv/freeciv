@@ -489,7 +489,7 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
 {
   struct city *pcity;
 
-  log_debug("really unfogging %d,%d\n", TILE_XY(ptile));
+  log_debug("really unfogging tile (%d, %d)", TILE_XY(ptile));
 
   map_set_known(ptile, pplayer);
 
@@ -848,7 +848,7 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
   } else {
     BV_CLR(ptile->tile_seen[vlayer], player_index(pplayer));
   }
-  log_debug("%d,%d, p: %d, change %d, result %d\n", TILE_XY(ptile),
+  log_debug("%d,%d, p: %d, change %d, result %d", TILE_XY(ptile),
             player_number(pplayer), change, plrtile->seen_count[vlayer]);
 }
 
@@ -1253,7 +1253,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 
   pfrom->gives_shared_vision |= 1<<player_index(pto);
   create_vision_dependencies();
-  log_debug("giving shared vision from %s to %s\n",
+  log_debug("giving shared vision from %s to %s",
             player_name(pfrom), player_name(pto));
 
   players_iterate(pplayer) {
@@ -1262,7 +1262,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
       if (really_gives_vision(pplayer, pplayer2)
           && !TEST_BIT(save_vision[player_index(pplayer)],
                        player_index(pplayer2))) {
-        log_debug("really giving shared vision from %s to %s\n",
+        log_debug("really giving shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {
@@ -1314,7 +1314,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
     save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
   } players_iterate_end;
 
-  log_debug("removing shared vision from %s to %s\n",
+  log_debug("removing shared vision from %s to %s",
             player_name(pfrom), player_name(pto));
 
   pfrom->gives_shared_vision &= ~(1<<player_index(pto));
@@ -1326,7 +1326,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
       if (!really_gives_vision(pplayer, pplayer2)
           && TEST_BIT(save_vision[player_index(pplayer)], 
                       player_index(pplayer2))) {
-        log_debug("really removing shared vision from %s to %s\n",
+        log_debug("really removing shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
 	whole_map_iterate(ptile) {
 	  vision_layer_iterate(v) {

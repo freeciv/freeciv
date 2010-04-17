@@ -407,7 +407,7 @@ void save_ppm(void)
   fp = fc_fopen(filename, "w");
 
   if (!fp) {
-    log_error("couldn't open file ppm save: %s\n", filename);
+    log_error("couldn't open ppm file: %s", filename);
     return;
   }
 

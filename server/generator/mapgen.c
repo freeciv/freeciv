@@ -873,7 +873,7 @@ static bool make_river(struct tile *ptile)
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
 	    && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) { 
 
-      log_debug("The river ended at (%d, %d).\n", TILE_XY(ptile));
+      log_debug("The river ended at (%d, %d).", TILE_XY(ptile));
       return TRUE;
     }
 
