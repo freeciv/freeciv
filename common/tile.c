@@ -114,6 +114,16 @@ struct terrain *tile_terrain(const struct tile *ptile)
 ****************************************************************************/
 void tile_set_terrain(struct tile *ptile, struct terrain *pterrain)
 {
+  if (NULL != pterrain
+      && terrain_has_flag(pterrain, TER_NO_CITIES)
+      && NULL != tile_city(ptile)) {
+    freelog(LOG_ERROR, "At (%d, %d), the terrain \"%s\" (nb %d) doesn't "
+            "support cities, whereas \"%s\" (nb %d) is built there.",
+            TILE_XY(ptile), terrain_rule_name(pterrain),
+            terrain_number(pterrain), city_name(tile_city(ptile)),
+            tile_city(ptile)->id);
+  }
+
   ptile->terrain = pterrain;
   if (NULL != pterrain
    && NULL != ptile->resource
