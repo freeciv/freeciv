@@ -22,7 +22,6 @@ timeoutcounter=1
 end_year=2006
 year=-4000
 techlevel=0
-turn=-2
 box_science=80
 min_players=1
 max_players=26
