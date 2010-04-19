@@ -461,6 +461,14 @@ static struct strvec *video_mode_list(void)
 }
 
 /****************************************************************************
+  Free correctly the memory assigned to the enum_widget.
+****************************************************************************/
+static void enum_widget_destroy(struct widget *widget)
+{
+  strvec_destroy((struct strvec *) widget->data.vector);
+}
+
+/****************************************************************************
   Free correctly the memory assigned to the video_mode_widget.
 ****************************************************************************/
 static void video_mode_widget_destroy(struct widget *widget)
@@ -534,6 +542,25 @@ static struct widget *option_widget_new(struct option *poption,
     }
     break;
 
+  case OT_ENUM:
+    {
+      const struct strvec *values = option_enum_values(poption);
+      struct strvec *translated_values = strvec_new();
+      int i;
+
+      strvec_reserve(translated_values, strvec_size(values));
+      for (i = 0; i < strvec_size(values); i++) {
+        strvec_set(translated_values, i, _(strvec_get(values, i)));
+      }
+
+      widget = combo_new_from_chars(NULL, window->dst, adj_font(12),
+                                    _(option_enum_get_str(poption)),
+                                    translated_values, adj_size(25),
+                                    flags | WF_WIDGET_HAS_INFO_LABEL);
+      widget->destroy = enum_widget_destroy;
+    }
+    break;
+
   case OT_VIDEO_MODE:
     {
       char buf[64];
@@ -552,7 +579,6 @@ static struct widget *option_widget_new(struct option *poption,
     }
     break;
 
-  case OT_ENUM:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
@@ -615,6 +641,11 @@ static void option_widget_update(struct option *poption)
     copy_chars_to_string16(widget->string16, option_str_get(poption));
     break;
 
+  case OT_ENUM:
+    copy_chars_to_string16(widget->string16,
+                           _(option_enum_get_str(poption)));
+    break;
+
   case OT_VIDEO_MODE:
     {
       char buf[64];
@@ -630,7 +661,6 @@ static void option_widget_update(struct option *poption)
     }
     break;
 
-  case OT_ENUM:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
@@ -680,6 +710,23 @@ static void option_widget_apply(struct option *poption)
     }
     break;
 
+  case OT_ENUM:
+    {
+      char *str = convert_to_chars(widget->string16->text);
+      int i;
+
+      /* 'str' is translated, so we cannot use directly
+       * option_enum_set_str(). */
+      for (i = 0; i < strvec_size(widget->data.vector); i++) {
+        if (0 == strcmp(strvec_get(widget->data.vector, i), str)) {
+          (void) option_enum_set_int(poption, i);
+          break;
+        }
+      }
+      free(str);
+    }
+    break;
+
   case OT_VIDEO_MODE:
     {
       char *str = convert_to_chars(widget->string16->text);
@@ -695,7 +742,6 @@ static void option_widget_apply(struct option *poption)
     }
     break;
 
-  case OT_ENUM:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
