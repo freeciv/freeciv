@@ -558,6 +558,30 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
     break;
 
+  case OT_ENUM:
+    {
+      int i;
+      const char *str;
+      GtkListStore *model;
+      GtkCellRenderer *renderer;
+      GtkTreeIter iter;
+
+      /* 0: enum index, 1: translated enum name. */
+      model = gtk_list_store_new(2, G_TYPE_INT, G_TYPE_STRING);
+      w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(model));
+      g_object_unref(model);
+
+      renderer = gtk_cell_renderer_text_new();
+      gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, FALSE);
+      gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer,
+                                     "text", 1, NULL);
+      for (i = 0; (str = option_enum_int_to_str(poption, i)); i++) {
+        gtk_list_store_append(model, &iter);
+        gtk_list_store_set(model, &iter, 0, i, 1, _(str), -1);
+      }
+    }
+    break;
+
   case OT_FONT:
     w = gtk_font_button_new();
     g_object_set(G_OBJECT(w), "use-font", TRUE, NULL);
@@ -589,7 +613,6 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
     break;
 
-  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -670,6 +693,31 @@ static inline void option_dialog_option_str_set(struct option *poption,
 }
 
 /****************************************************************************
+  Set the enum value of the option.
+****************************************************************************/
+static inline void option_dialog_option_enum_set(struct option *poption,
+                                                 int value)
+{
+  GtkComboBox *combo = GTK_COMBO_BOX(option_get_gui_data(poption));
+  GtkTreeModel *model = gtk_combo_box_get_model(combo);
+  GtkTreeIter iter;
+  int i;
+
+  if (gtk_tree_model_get_iter_first(model, &iter)) {
+    do {
+      gtk_tree_model_get(model, &iter, 0, &i, -1);
+      if (i == value) {
+        gtk_combo_box_set_active_iter(combo, &iter);
+        return;
+      }
+    } while (gtk_tree_model_iter_next(model, &iter));
+  }
+
+  log_error("Didn't find the value %d for option \"%s\" (nb %d).",
+            value, option_name(poption), option_number(poption));
+}
+
+/****************************************************************************
   Set the font value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_font_set(struct option *poption,
@@ -728,13 +776,15 @@ static void option_dialog_option_refresh(struct option *poption)
   case OT_STRING:
     option_dialog_option_str_set(poption, option_str_get(poption));
     break;
+  case OT_ENUM:
+    option_dialog_option_enum_set(poption, option_enum_get_int(poption));
+    break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_get(poption));
     break;
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_get(poption));
     break;
-  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -761,13 +811,15 @@ static void option_dialog_option_reset(struct option *poption)
   case OT_STRING:
     option_dialog_option_str_set(poption, option_str_def(poption));
     break;
+  case OT_ENUM:
+    option_dialog_option_enum_set(poption, option_enum_def_int(poption));
+    break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_def(poption));
     break;
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_def(poption));
     break;
-  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -803,6 +855,22 @@ static void option_dialog_option_apply(struct option *poption)
     }
     break;
 
+  case OT_ENUM:
+    {
+      GtkTreeIter iter;
+      int value;
+
+      if (!gtk_combo_box_get_active_iter(GTK_COMBO_BOX(w), &iter)) {
+        break;
+      }
+
+      gtk_tree_model_get(gtk_combo_box_get_model(GTK_COMBO_BOX(w)),
+                         &iter, 0, &value, -1);
+      (void) option_enum_set_int(poption, value);
+    }
+    break;
+
+
   case OT_FONT:
     (void) option_font_set(poption, gtk_font_button_get_font_name
                            (GTK_FONT_BUTTON(w)));
@@ -829,7 +897,6 @@ static void option_dialog_option_apply(struct option *poption)
     }
     break;
 
-  case OT_ENUM:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
