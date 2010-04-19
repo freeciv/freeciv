@@ -4555,6 +4555,13 @@ static void game_load_internal(struct section_file *file)
 
     if (has_capability("turn", savefile_options)) {
       game.info.turn = secfile_lookup_int_default(file, 0, "game.turn");
+      if (0 > game.info.turn) {
+        /* Some old scenarios claims the game starts at turn -2 for unknown
+         * reasons. However, since the values -1 (I_NEVER) and -2
+         * (I_DESTROYED) are used at turn number for the city improvements,
+         * we cannot use that strange hack anymore. */
+        game.info.turn = 0;
+      }
     } else {
       game.info.turn = 0;
     }
