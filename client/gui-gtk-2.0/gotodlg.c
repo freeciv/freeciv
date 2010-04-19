@@ -171,6 +171,8 @@ static void create_goto_dialog(void)
   g_object_unref(store);
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
+  gtk_tree_view_set_search_column(GTK_TREE_VIEW(view), GD_COL_CITY_NAME);
+  gtk_tree_view_set_enable_search(GTK_TREE_VIEW(view), TRUE);
 
 #ifdef DEBUG
   rend = gtk_cell_renderer_text_new();
