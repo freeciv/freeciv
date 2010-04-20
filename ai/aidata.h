@@ -49,15 +49,15 @@ struct ai_dip_intel {
   struct player *at_war_with_ally;
   struct player *is_allied_with_ally;
 
-  char spam;      /* timer to avoid spamming a player with chat */
+  signed char spam;      /* timer to avoid spamming a player with chat */
   int distance;   /* average distance to that player's cities */
   int countdown;  /* we're on a countdown to war declaration */
   enum war_reason war_reason; /* why we declare war */
-  char ally_patience; /* we EXPECT our allies to help us! */
-  char asked_about_peace;     /* don't ask again */
-  char asked_about_alliance;  /* don't nag! */
-  char asked_about_ceasefire; /* don't ... you get the point */
-  char warned_about_space;
+  signed char ally_patience; /* we EXPECT our allies to help us! */
+  signed char asked_about_peace;     /* don't ask again */
+  signed char asked_about_alliance;  /* don't nag! */
+  signed char asked_about_ceasefire; /* don't ... you get the point */
+  signed char warned_about_space;
 };
 
 BV_DEFINE(bv_id, MAX_NUM_ID);
