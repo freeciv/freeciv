@@ -382,6 +382,7 @@ $[
 ----------------------------------------------------------------------
 do
   local api_types = {
+    "Player_ai",
     "Player",
     "Unit",
     "City",
@@ -392,6 +393,8 @@ do
     "Unit_Type",
     "Tech_Type",
     "Terrain",
+    "Unit_List_Link",
+    "City_List_Link",
     "Nonexistent",
   }
 
@@ -399,7 +402,7 @@ do
     return o1.id == o2.id and (o1.id ~= nil)
   end
 
-  -- define string representation when printed
+  -- define string representation for tostring
   local function string_rep(self)
     local id = self.id
     local name = self.rule_name and self:rule_name() or self.name
@@ -418,27 +421,52 @@ do
     api_type[".eq"] = id_eq
     api_type.__tostring = string_rep
 
-    -- Properties are fields that call an accessor to get their value
-    -- A property named 'id' defined by 'function' is accessed like:
-    --  local id = player.id
-    -- but what happens is:
-    --  local id = function(player)
-    if api_type.properties then
-      local api_type_index = api_type.__index
-      local properties = api_type.properties
-      local function property_getter(self, field)
-        local getter = properties[field]
-        if getter then
-          return getter(self)
+    -- Object field resolution
+    -- 1) Check properties defined in our API
+    --    (Properties are fields that call an accessor to get their value)
+    -- 2) Delegate to tolua's __index if name is without _ or . prefix
+    --    (metamethods and tolua fields give access to unprotected C
+    --     functions in a pointer-unsafe way).
+    -- otherwise, return nil
+    local api_type_index = api_type.__index
+    local properties = api_type.properties
+    -- Prevent tampering with the notion of equality
+    local rawequal = rawequal
+    local string_sub = string.sub
+
+    local function field_getter(self, field)
+      local getter = properties and properties[field]
+      if getter then
+        return getter(self)
+      else
+        local pfx = string_sub(field, 1, 1)
+        if rawequal(pfx, '.') or rawequal(pfx, '_') then
+          return nil
         else
           return api_type_index(self, field)
         end
       end
-      api_type.__index = property_getter
     end
+    api_type.__index = field_getter
+
+    -- Delete '.set' table to disallow direct writing of struct fields
+    api_type[".set"] = nil
+    -- Hide the metatable and hide the class from global namespace
+    api_type.__metatable = false
+    _G[typename] = nil
   end
--- End (API Types Special Methods)
+  -- End (API Types Special Methods)
 end
+
+
+----------------------------------------------------------------------
+--  API Lockdown
+----------------------------------------------------------------------
+
+-- Override global 'tolua' module with a reduced version
+tolua = {
+  type=tolua.type,
+}
 
 $]
 
