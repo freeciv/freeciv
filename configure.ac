@@ -62,6 +62,10 @@ AC_SUBST([DATASUBDIR])
 dnl Initialize automake stuff
 AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
 
+dnl Use Automake 1.11 silent rules by default if available
+dnl verbose build using  make V=1
+ifdef([AM_SILENT_RULES],[AM_SILENT_RULES([yes])])
+
 dnl checks for mysql, sets AUTH_LIBS, AUTH_CFLAGS
 FC_CHECK_AUTH
 
