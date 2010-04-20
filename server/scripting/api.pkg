@@ -48,7 +48,7 @@ struct Unit {
   Unit_Type *utype;
   Player *owner;
 
-  /* This used to be @ homecity_id, but it doesn't work with toluaxx. */
+  /* This used to be @ homecity_id, but it does not work with toluaxx. */
   int homecity;
   Tile *tile;
 
@@ -174,21 +174,9 @@ bool api_methods_city_has_building
 
 $[
 -- Player properties.
-do
-  local properties = {
-    id=methods_player_number,
-  }
-  local player_index = Player.__index
-  local function property_getter(self, field)
-    local getter = properties[field]
-    if getter then
-      return getter(self)
-    else
-      return player_index(self, field)
-    end
-  end
-  Player.__index = property_getter
-end
+Player.properties = {
+  id = methods_player_number,
+}
 
 -- Player methods.
 function Player:is_human()
@@ -332,6 +320,94 @@ end
 function Nonexistent:exists()
   return false
 end
+
+----------------------------------------------------------------------
+--  API Types Special Methods
+----------------------------------------------------------------------
+do
+  local api_types = {
+    "Player_ai",
+    "Player",
+    "Unit",
+    "City",
+    "Tile",
+    "Government",
+    "Nation_Type",
+    "Building_Type",
+    "Unit_Type",
+    "Tech_Type",
+    "Terrain",
+    "Nonexistent",
+  }
+
+  local function id_eq (o1, o2)
+    return o1.id == o2.id and (o1.id ~= nil)
+  end
+
+  -- define string representation for tostring
+  local function string_rep(self)
+    local id = self.id
+    local name = self.rule_name and self:rule_name() or self.name
+    if name and id then
+      return string.format('<%s #%d %s>', tolua.type(self), id, name)
+    elseif id then
+      return string.format('<%s #%d>', tolua.type(self), id)
+    else
+      return string.format('<%s>', tolua.type(self))
+    end
+  end
+
+  for index, typename in ipairs(api_types) do
+    local api_type = _G[typename]
+
+    api_type[".eq"] = id_eq
+    api_type.__tostring = string_rep
+
+    -- Object field resolution
+    -- 1) Check properties defined in our API
+    --    (Properties are fields that call an accessor to get their value)
+    -- 2) Delegate to tolua's __index if name is without _ or . prefix
+    --    (metamethods and tolua fields give access to unprotected C
+    --     functions in a pointer-unsafe way).
+    -- otherwise, return nil
+    local api_type_index = api_type.__index
+    local properties = api_type.properties
+    -- Prevent tampering with the notion of equality
+    local rawequal = rawequal
+    local string_sub = string.sub
+
+    local function field_getter(self, field)
+      local getter = properties and properties[field]
+      if getter then
+        return getter(self)
+      else
+        local pfx = string_sub(field, 1, 1)
+        if rawequal(pfx, '.') or rawequal(pfx, '_') then
+          return nil
+        else
+          return api_type_index(self, field)
+        end
+      end
+    end
+    api_type.__index = field_getter
+
+    -- Delete '.set' table to disallow direct writing of struct fields
+    api_type[".set"] = nil
+    -- Hide the metatable and hide the class from global namespace
+    api_type.__metatable = false
+    _G[typename] = nil
+  end
+  -- End (API Types Special Methods)
+end
+
+----------------------------------------------------------------------
+--  API Lockdown
+----------------------------------------------------------------------
+
+-- Override global 'tolua' module with a reduced version
+tolua = {
+  type=tolua.type,
+}
 
 $]
 
