@@ -9,10 +9,12 @@ libcivutility_la_SOURCES = \
 		astring.h       \
 		capability.c	\
 		capability.h	\
-		fciconv.c	\
-		fciconv.h	\
 		distribute.c	\
 		distribute.h	\
+		fc_utf8.c	\
+		fc_utf8.h	\
+		fciconv.c	\
+		fciconv.h	\
 		fcintl.c	\
 		fcintl.h	\
 		generate_specenum.py	\

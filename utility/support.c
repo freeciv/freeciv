@@ -510,34 +510,35 @@ bool fc_strrep(char *str, size_t len, const char *search,
   return TRUE;
 }
 
-/**********************************************************************
- fc_strlcpy() and fc_strlcat() provide (non-standard) functions
- strlcpy() and strlcat(), with semantics following OpenBSD (and
- maybe others).  They are intended as more user-friendly
- versions of strncpy and strncat, in particular easier to
- use safely and correctly, and ensuring nul-terminated results
- while being able to detect truncation.
+/****************************************************************************
+  fc_strlcpy() and fc_strlcat() provide (non-standard) functions
+  strlcpy() and strlcat(), with semantics following OpenBSD (and
+  maybe others).  They are intended as more user-friendly
+  versions of strncpy and strncat, in particular easier to
+  use safely and correctly, and ensuring nul-terminated results
+  while being able to detect truncation.
 
- n is the full size of the destination buffer, including
- space for trailing nul, and including the pre-existing
- string for fc_strlcat().  Thus can eg use sizeof(buffer),
- or exact size malloc-ed.
+  n is the full size of the destination buffer, including
+  space for trailing nul, and including the pre-existing
+  string for fc_strlcat().  Thus can eg use sizeof(buffer),
+  or exact size malloc-ed.
 
- Result is always nul-terminated, whether or not truncation occurs,
- and the return value is the strlen the destination would have had
- without truncation.  I.e., a return value >= input n indicates
- truncation occurred.
+  Result is always nul-terminated, whether or not truncation occurs,
+  and the return value is the strlen the destination would have had
+  without truncation.  I.e., a return value >= input n indicates
+  truncation occurred.
 
- Will assume that if configure found strlcpy/strlcat they are ok.
- For replacement implementations, will keep it simple rather
- than try for super-efficiency.
+  Will assume that if configure found strlcpy/strlcat they are ok.
+  For replacement implementations, will keep it simple rather
+  than try for super-efficiency.
 
- Not sure about the asserts below, but they are easier than
- trying to ensure correct behaviour on strange inputs.
- In particular note that n==0 is prohibited (eg, since there
- must at least be room for a nul); could consider other options.
+  Not sure about the asserts below, but they are easier than
+  trying to ensure correct behaviour on strange inputs.
+  In particular note that n == 0 is prohibited (e.g., since there
+  must at least be room for a nul); could consider other options.
 
-***********************************************************************/
+  See also fc_utf8_strlcpy_trunc(), fc_utf8_strlcpy_rep().
+****************************************************************************/
 size_t fc_strlcpy(char *dest, const char *src, size_t n)
 {
   fc_assert_ret_val(NULL != dest, -1);
@@ -557,9 +558,9 @@ size_t fc_strlcpy(char *dest, const char *src, size_t n)
 #endif
 }
 
-/**********************************************************************
- ...
-***********************************************************************/
+/****************************************************************************
+  See also fc_utf8_strlcat_trunc(), fc_utf8_strlcat_rep().
+****************************************************************************/
 size_t fc_strlcat(char *dest, const char *src, size_t n)
 {
   fc_assert_ret_val(NULL != dest, -1);
@@ -592,55 +593,56 @@ size_t fc_strlcat(char *dest, const char *src, size_t n)
 #endif
 }
 
-/**********************************************************************
- vsnprintf() replacement using a big malloc()ed internal buffer,
- originally by David Pfitzner <dwp@mso.anu.edu.au>
+/****************************************************************************
+  vsnprintf() replacement using a big malloc()ed internal buffer,
+  originally by David Pfitzner <dwp@mso.anu.edu.au>
 
- Parameter n specifies the maximum number of characters to produce.
- This includes the trailing null, so n should be the actual number
- of characters allocated (or sizeof for char array).  If truncation
- occurs, the result will still be null-terminated.  (I'm not sure
- whether all native vsnprintf() functions null-terminate on
- truncation; this does so even if calls native function.)
+  Parameter n specifies the maximum number of characters to produce.
+  This includes the trailing null, so n should be the actual number
+  of characters allocated (or sizeof for char array).  If truncation
+  occurs, the result will still be null-terminated.  (I'm not sure
+  whether all native vsnprintf() functions null-terminate on
+  truncation; this does so even if calls native function.)
 
- Return value: if there is no truncation, returns the number of
- characters printed, not including the trailing null.  If truncation
- does occur, returns the number of characters which would have been
- produced without truncation.
- (Linux man page says returns -1 on truncation, but glibc seems to
- do as above nevertheless; check_native_vsnprintf() above tests this.)
+  Return value: if there is no truncation, returns the number of
+  characters printed, not including the trailing null.  If truncation
+  does occur, returns the number of characters which would have been
+  produced without truncation.
+  (Linux man page says returns -1 on truncation, but glibc seems to
+  do as above nevertheless; check_native_vsnprintf() above tests this.)
 
- [glibc is correct.  Viz.
+  [glibc is correct.  Viz.
 
- PRINTF(3)           Linux Programmer's Manual           PRINTF(3)
- 
- (Thus until glibc 2.0.6.  Since glibc 2.1 these functions follow the
- C99 standard and return the number of characters (excluding the
- trailing '\0') which would have been written to the final string if
- enough space had been available.)]
- 
- The method is simply to malloc (first time called) a big internal
- buffer, longer than any result is likely to be (for non-malicious
- usage), then vsprintf to that buffer, and copy the appropriate
- number of characters to the destination.  Thus, this is not 100%
- safe.  But somewhat safe, and at least safer than using raw snprintf!
- :-) (And of course if you have the native version it is safe.)
+  PRINTF(3)           Linux Programmer's Manual           PRINTF(3)
 
- Before rushing to provide a 100% safe replacement version, consider
- the following advantages of this method:
- 
- - It is very simple, so not likely to have many bugs (other than
- arguably the core design bug regarding absolute safety), nor need
- maintenance.
+  (Thus until glibc 2.0.6.  Since glibc 2.1 these functions follow the
+  C99 standard and return the number of characters (excluding the
+  trailing '\0') which would have been written to the final string if
+  enough space had been available.)]
 
- - It uses native vsprintf() (which is required), thus exactly
- duplicates the native format-string parsing/conversions.
+  The method is simply to malloc (first time called) a big internal
+  buffer, longer than any result is likely to be (for non-malicious
+  usage), then vsprintf to that buffer, and copy the appropriate
+  number of characters to the destination.  Thus, this is not 100%
+  safe.  But somewhat safe, and at least safer than using raw snprintf!
+  :-) (And of course if you have the native version it is safe.)
 
- - It is *very* portable.  Eg, it does not require mprotect(), nor
- does it do any of its own parsing of the format string, nor use
- any tricks to go through the va_list twice.
+  Before rushing to provide a 100% safe replacement version, consider
+  the following advantages of this method:
 
-***********************************************************************/
+  - It is very simple, so not likely to have many bugs (other than
+  arguably the core design bug regarding absolute safety), nor need
+  maintenance.
+
+  - It uses native vsprintf() (which is required), thus exactly
+  duplicates the native format-string parsing/conversions.
+
+  - It is *very* portable.  Eg, it does not require mprotect(), nor
+  does it do any of its own parsing of the format string, nor use
+  any tricks to go through the va_list twice.
+
+  See also fc_utf8_vsnprintf_trunc(), fc_utf8_vsnprintf_rep().
+****************************************************************************/
 
 /* "64k should be big enough for anyone" ;-) */
 #define VSNP_BUF_SIZE (64*1024)
@@ -706,6 +708,9 @@ int fc_vsnprintf(char *str, size_t n, const char *format, va_list ap)
 #endif  
 }
 
+/****************************************************************************
+  See also fc_utf8_snprintf_trunc(), fc_utf8_snprintf_rep().
+****************************************************************************/
 int fc_snprintf(char *str, size_t n, const char *format, ...)
 {
   int ret;
@@ -719,17 +724,20 @@ int fc_snprintf(char *str, size_t n, const char *format, ...)
   return ret;
 }
 
-/**********************************************************************
- cat_snprintf is like a combination of fc_snprintf and fc_strlcat;
- it does snprintf to the end of an existing string.
+/****************************************************************************
+  cat_snprintf is like a combination of fc_snprintf and fc_strlcat;
+  it does snprintf to the end of an existing string.
 
- Like fc_strlcat, n is the total length available for str, including
- existing contents and trailing nul.  If there is no extra room
- available in str, does not change the string.
+  Like fc_strlcat, n is the total length available for str, including
+  existing contents and trailing nul.  If there is no extra room
+  available in str, does not change the string.
 
- Also like fc_strlcat, returns the final length that str would have
- had without truncation.  I.e., if return is >= n, truncation occurred.
-**********************************************************************/
+  Also like fc_strlcat, returns the final length that str would have
+  had without truncation, or -1 if the end of the buffer is reached.
+  I.e., if return is >= n, truncation occurred.
+
+  See also cat_utf8_snprintf(), cat_utf8_snprintf_rep().
+****************************************************************************/
 int cat_snprintf(char *str, size_t n, const char *format, ...)
 {
   size_t len;
