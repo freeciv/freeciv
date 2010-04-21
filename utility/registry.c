@@ -832,7 +832,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         first[offset - 2] = '\0';
         sz_strlcpy(base, first);
         first[offset - 2] = '0';
-        fz_fprintf(fs, "%s = {", base);
+        fz_fprintf(fs, "%s={", base);
 
         /* Save an iterator at this first entry, which we can later use
          * to repeatedly iterate over column names:
@@ -848,7 +848,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           if (strncmp(col_entry_name, first, offset) != 0) {
             break;
           }
-          fz_fprintf(fs, "%c \"%s\"", (ncol == 0 ? ' ' : ','),
+          fz_fprintf(fs, "%s\"%s\"", (ncol == 0 ? "" : ","),
                      col_entry_name + offset);
           ncol++;
         }
@@ -896,7 +896,7 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
           }
 
           if (icol > 0) {
-            fz_fprintf(fs, ", ");
+            fz_fprintf(fs, ",");
           }
           entry_to_file(pentry, fs);
 
@@ -921,19 +921,19 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
 
       /* Classic entry. */
       col_entry_name = entry_name(pentry);
-      fz_fprintf(fs, "%s = ", col_entry_name);
+      fz_fprintf(fs, "%s=", col_entry_name);
       entry_to_file(pentry, fs);
 
       /* Check for vector. */
       for (i = 1; (col_pentry = section_entry_lookup(psection, "%s,%d",
                    col_entry_name, i)); i++) {
-        fz_fprintf(fs, ", ");
+        fz_fprintf(fs, ",");
         entry_to_file(col_pentry, fs);
         entry_list_append(skip, col_pentry); /* Ignore this one next time. */
       }
 
       if (entry_comment(pentry)) {
-        fz_fprintf(fs, "  # %s\n", entry_comment(pentry));
+        fz_fprintf(fs, "#%s\n", entry_comment(pentry));
       } else {
         fz_fprintf(fs, "\n");
       }
