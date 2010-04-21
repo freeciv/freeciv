@@ -135,12 +135,12 @@ struct unit_type *find_a_unit_type(enum unit_role_id role,
       which[num++] = get_role_unit(role, i);
     }
   }
-  if(num==0) {
-    /* Ruleset code should ensure there is at least one unit for each
-     * possibly-required role, or check before calling this function.
-     */
-    die("No unit types in find_a_unit_type(%d,%d)!", role, role_tech);
-  }
+
+  /* Ruleset code should ensure there is at least one unit for each
+   * possibly-required role, or check before calling this function. */
+  fc_assert_exit_msg(0 < num, "No unit types in find_a_unit_type(%d, %d)!",
+                     role, role_tech);
+
   return which[fc_rand(num)];
 }
 

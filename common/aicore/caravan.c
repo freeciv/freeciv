@@ -309,9 +309,11 @@ static double trade_benefit(const struct player *caravan_owner,
 
     return one_city_trade_benefit(src, caravan_owner, countloser, newtrade)
          + one_city_trade_benefit(dest, caravan_owner, countloser, newtrade);
-  }
-  else {
-    die("unimplemented functionality: using CM to calculate trade");
+  } else {
+    /* Always fails. */
+    fc_assert_msg(FALSE == param->convert_trade,
+                  "Unimplemented functionality: "
+                  "using CM to calculate trade.");
     return 0;
   }
 }

@@ -306,10 +306,8 @@ void init_new_game(void)
   } players_iterate_end;
 
   players_iterate(pplayer) {
-    if (placed_units[player_index(pplayer)] == 0) {
-      /* No units at all for some player! */
-      die(_("No units placed for %s!"), player_name(pplayer));
-    }
+    fc_assert_msg(0 < placed_units[player_index(pplayer)],
+                  _("No units placed for %s!"), player_name(pplayer));
   } players_iterate_end;
 
   shuffle_players();

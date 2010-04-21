@@ -645,8 +645,8 @@ int base_total_bulbs_required(const struct player *pplayer,
     base_cost = advances[tech].preset_cost;
     break;
   default:
-    die("Invalid tech_cost_style %d %d", game.info.tech_cost_style,
-	tech_cost_style);
+    log_error("Invalid tech_cost_style %d %d", game.info.tech_cost_style,
+              tech_cost_style);
     base_cost = 0.0;
   }
 
@@ -710,7 +710,7 @@ int base_total_bulbs_required(const struct player *pplayer,
     break;
 
   default:
-    die("Invalid tech_leakage %d", game.info.tech_leakage);
+    log_error("Invalid tech_leakage %d", game.info.tech_leakage);
   }
 
   /* Assign a science penalty to the AI at easier skill levels.  This code

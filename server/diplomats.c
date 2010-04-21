@@ -1293,7 +1293,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     victim_tile = victim_unit->tile;
     victim_player = unit_owner(victim_unit);
   } else {
-    die("No victim in call to maybe_cause_incident()");
+    /* Always fails. */
+    fc_assert_ret(NULL != victim_city || NULL != victim_unit);
   }
 
   if (!pplayers_at_war(offender, victim_player)) {
@@ -1345,8 +1346,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     case SPY_SABOTAGE_UNIT:
     case DIPLOMAT_SABOTAGE:
       /* You can only do these when you are at war, so we should never
- 	 get inside this "if" */
-      die("Bug in maybe_cause_incident()");
+       * get inside this "if" */
+      fc_assert_ret(FALSE);
     }
     victim_player->diplstates[player_index(offender)].has_reason_to_cancel = 2;
     call_incident(INCIDENT_DIPLOMAT, offender, victim_player);

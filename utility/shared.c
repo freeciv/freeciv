@@ -695,24 +695,6 @@ size_t loud_strlcpy(char *buffer, const char *str, size_t len,
 }
 
 /***************************************************************************
-  Exit because of a fatal error after printing a message about it.  This
-  should only be called for code errors - user errors (like not being able
-  to find a tileset) should just exit rather than dumping core.
-***************************************************************************/
-void real_die(const char *file, const char *function, int line,
-              const char *format, ...)
-{
-  va_list args;
-
-  do_log(file, function, line, TRUE, LOG_FATAL, "Detected fatal error");
-  va_start(args, format);
-  vdo_log(file, function, line, FALSE, LOG_FATAL, format, args);
-  va_end(args);
-
-  fc_assert_exit(FALSE);
-}
-
-/***************************************************************************
   Returns string which gives users home dir, as specified by $HOME.
   Gets value once, and then caches result.
   If $HOME is not set, give a log message and returns NULL.

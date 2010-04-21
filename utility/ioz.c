@@ -239,7 +239,7 @@ fz_FILE *fz_from_file(const char *filename, const char *in_mode,
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_fromFile method: %d", fp->method);
+    log_error("Internal error: Bad fz_fromFile method: %d", fp->method);
   }
   return fp;
 }
@@ -302,7 +302,7 @@ int fz_fclose(fz_FILE *fp)
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_fclose method: %d", fp->method);
+    log_error("Internal error: Bad fz_fclose method: %d", fp->method);
   }
   free(fp);
   return retval;
@@ -369,7 +369,7 @@ char *fz_fgets(char *buffer, int size, fz_FILE *fp)
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_fgets method: %d", fp->method);
+    log_error("Internal error: Bad fz_fgets method: %d", fp->method);
   }
   return retval;
 }
@@ -431,7 +431,7 @@ int fz_fprintf(fz_FILE *fp, const char *format, ...)
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_fprintf method: %d", fp->method);
+    log_error("Internal error: Bad fz_fprintf method: %d", fp->method);
   }
   va_end(ap);
   return retval;
@@ -469,7 +469,7 @@ int fz_ferror(fz_FILE *fp)
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_ferror method: %d", fp->method);
+    log_error("Internal error: Bad fz_ferror method: %d", fp->method);
   }
   return retval;
 }
@@ -573,7 +573,7 @@ const char *fz_strerror(fz_FILE *fp)
     break;
   default:
     /* Should never happen */
-    die("Internal error: Bad fz_strerror method: %d", fp->method);
+    log_error("Internal error: Bad fz_strerror method: %d", fp->method);
   }
   return retval;
 }

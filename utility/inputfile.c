@@ -364,7 +364,7 @@ static bool check_include(struct inputfile *inf)
   if (strncmp(astr_str(&inf->cur_line), include_prefix, len) != 0) {
     return FALSE;
   }
-  /* from here, the include-line must be well formed or we die */
+  /* from here, the include-line must be well formed */
   /* keep inf->cur_line_pos accurate just so error messages are useful */
 
   /* skip any whitespace: */

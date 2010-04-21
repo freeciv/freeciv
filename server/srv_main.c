@@ -1268,7 +1268,9 @@ int identity_number(void)
   while (identity_number_is_used(++server.identity_number)) {
     /* try again */
     if (++retries >= IDENTITY_NUMBER_SIZE) {
-      die("exhausted city and unit numbers!");
+      /* Always fails. */
+      fc_assert_exit_msg(IDENTITY_NUMBER_SIZE > retries,
+                         "Exhausted city and unit numbers!");
     }
   }
   identity_number_reserve(server.identity_number);

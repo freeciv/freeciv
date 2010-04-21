@@ -959,7 +959,9 @@ void tilespec_reread(const char *new_tileset_name)
    */
   if (!(tileset = tileset_read_toplevel(tileset_name, FALSE))) {
     if (!(tileset = tileset_read_toplevel(old_name, FALSE))) {
-      die("Failed to re-read the currently loaded tileset.");
+      /* Always fails. */
+      fc_assert_exit_msg(NULL != tileset,
+                         "Failed to re-read the currently loaded tileset.");
     }
   }
   sz_strlcpy(default_tileset_name, tileset->name);
@@ -1775,7 +1777,7 @@ static const char *citizen_rule_name(enum citizen_category citizen)
   default:
     break;
   }
-  die("unknown citizen type %d", (int) citizen);
+  log_error("Unknown citizen type: %d.", (int) citizen);
   return NULL;
 }
 
@@ -1932,9 +1934,8 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
 #define SET_SPRITE(field, tag)					  \
   do {								  \
     t->sprites.field = load_sprite(t, tag);			  \
-    if (!t->sprites.field) {					  \
-      die("Sprite tag '%s' missing.", tag);			  \
-    }								  \
+    fc_assert_exit_msg(NULL != t->sprites.field,                  \
+                       "Sprite tag '%s' missing.", tag);          \
   } while(FALSE)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
@@ -1944,9 +1945,9 @@ static bool sprite_exists(const struct tileset *t, const char *tag_name)
     if (!t->sprites.field) {						    \
       t->sprites.field = load_sprite(t, alt);				    \
     }									    \
-    if (!t->sprites.field) {						    \
-      die("Sprite tag '%s' and alternate '%s' are both missing.", tag, alt);\
-    }									    \
+    fc_assert_exit_msg(NULL != t->sprites.field,                            \
+                       "Sprite tag '%s' and alternate '%s' are "            \
+                       "both missing.", tag, alt)                           \
   } while(FALSE)
 
 /* Sets sprites.field to tag, or NULL if not available */
@@ -2683,9 +2684,9 @@ struct sprite *tiles_lookup_sprite_tag_alt(struct tileset *t,
   struct sprite *sp;
 
   /* (should get sprite_hash before connection) */
-  if (!t->sprite_hash) {
-    die("attempt to lookup for %s \"%s\" before sprite_hash setup", what, name);
-  }
+  fc_assert_ret_val_msg(NULL != t->sprite_hash, NULL,
+                        "attempt to lookup for %s \"%s\" before "
+                        "sprite_hash setup", what, name);
 
   sp = load_sprite(t, tag);
   if (sp) return sp;

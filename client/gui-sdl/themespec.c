@@ -381,7 +381,9 @@ void themespec_reread(const char *new_theme_name)
    */
   if (!(theme = theme_read_toplevel(theme_name))) {
     if (!(theme = theme_read_toplevel(old_name))) {
-      die("Failed to re-read the currently loaded theme.");
+      /* Always fails. */
+      fc_assert_exit_msg(NULL != theme,
+                         "Failed to re-read the currently loaded theme.");
     }
   }
 /*  sz_strlcpy(gui_sdl_default_theme_name, theme->name);*/
@@ -876,9 +878,8 @@ static void unload_sprite(struct theme *t, const char *tag_name)
 #define SET_SPRITE(field, tag)					  \
   do {								  \
     t->sprites.field = load_sprite(t, tag);			  \
-    if (!t->sprites.field) {					  \
-      die("Sprite tag '%s' missing.", tag);			  \
-    }								  \
+    fc_assert_exit_msg(NULL != t->sprites.field,                  \
+                       "Sprite tag '%s' missing.", tag);          \
   } while(FALSE)
 
 /* Sets sprites.field to tag or (if tag isn't available) to alt */
@@ -888,9 +889,9 @@ static void unload_sprite(struct theme *t, const char *tag_name)
     if (!t->sprites.field) {						    \
       t->sprites.field = load_sprite(t, alt);				    \
     }									    \
-    if (!t->sprites.field) {						    \
-      die("Sprite tag '%s' and alternate '%s' are both missing.", tag, alt);\
-    }									    \
+    fc_assert_exit_msg(NULL != t->sprites.field,                            \
+                       "Sprite tag '%s' and alternate '%s' are "            \
+                       "both missing.", tag, alt);                          \
   } while(FALSE)
 
 /* Sets sprites.field to tag, or NULL if not available */
@@ -957,9 +958,9 @@ struct sprite *theme_lookup_sprite_tag_alt(struct theme *t,
   struct sprite *sp;
   
   /* (should get sprite_hash before connection) */
-  if (!t->sprite_hash) {
-    die("attempt to lookup for %s \"%s\" before sprite_hash setup", what, name);
-  }
+  fc_assert_ret_val_msg(NULL != t->sprite_hash, NULL,
+                        "attempt to lookup for %s \"%s\" before "
+                        "sprite_hash setup", what, name);
 
   sp = load_sprite(t, tag);
   if (sp) return sp;

@@ -901,15 +901,18 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   unit_list_iterate_safe(ptile->units, pdefender) {
 
     /* Sanity checks */
-    if (pplayers_non_attack(unit_owner(punit), unit_owner(pdefender))) {
-      die("Trying to attack a unit with which you have peace "
-	  "or cease-fire at %i, %i", TILE_XY(pdefender->tile));
-    }
-    if (pplayers_allied(unit_owner(punit), unit_owner(pdefender))
-	&& !(unit_has_type_flag(punit, F_NUCLEAR) && punit == pdefender)) {
-      die("Trying to attack a unit with which you have alliance at %i, %i",
-	  TILE_XY(pdefender->tile));
-    }
+    fc_assert_ret_val_msg(!pplayers_non_attack(unit_owner(punit),
+                                               unit_owner(pdefender)), TRUE,
+                          "Trying to attack a unit with which you have "
+                          "peace or cease-fire at (%d, %d).",
+                          TILE_XY(unit_tile(pdefender)));
+    fc_assert_ret_val_msg(!pplayers_allied(unit_owner(punit),
+                                           unit_owner(pdefender))
+                          || (unit_has_type_flag(punit, F_NUCLEAR)
+                              && punit == pdefender), TRUE,
+                          "Trying to attack a unit with which you have "
+                          "alliance at (%d, %d).",
+                          TILE_XY(unit_tile(pdefender)));
 
     if (is_unit_reachable_by_unit(pdefender, punit)
 	|| pcity || tile_has_native_base(ptile, unit_type(pdefender))) {
@@ -965,15 +968,14 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
             unit_rule_name(pdefender));
 
   /* Sanity checks */
-  if (pplayers_non_attack(pplayer, unit_owner(pdefender))) {
-    die("Trying to attack a unit with which you have peace "
-	"or cease-fire at %i, %i", TILE_XY(def_tile));
-  }
-  if (pplayers_allied(pplayer, unit_owner(pdefender))
-      && !(unit_has_type_flag(punit, F_NUCLEAR) && punit == pdefender)) {
-    die("Trying to attack a unit with which you have alliance at %i, %i",
-	TILE_XY(def_tile));
-  }
+  fc_assert_ret_msg(!pplayers_non_attack(pplayer, unit_owner(pdefender)),
+                    "Trying to attack a unit with which you have peace "
+                    "or cease-fire at (%d, %d).", TILE_XY(def_tile));
+  fc_assert_ret_msg(!pplayers_allied(pplayer, unit_owner(pdefender))
+                    || (unit_has_type_flag(punit, F_NUCLEAR)
+                        && punit == pdefender),
+                    "Trying to attack a unit with which you have alliance "
+                    "at (%d, %d).", TILE_XY(def_tile));
 
   if (unit_has_type_flag(punit, F_NUCLEAR)) {
     if ((pcity = sdi_try_defend(pplayer, def_tile))) {
@@ -1274,7 +1276,8 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         } else if (target) {
           target_id = target->id;
         } else {
-          die("Bug in unithand.c: no diplomat target.");
+          log_error("Bug in %s(): no diplomat target.", __FUNCTION__);
+          return FALSE;
         }
 	dlsend_packet_unit_diplomat_answer(player_reply_dest(pplayer),
 					   punit->id, target_id,

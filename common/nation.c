@@ -45,30 +45,36 @@ struct nation_iter {
 static int num_nation_groups;
 static struct nation_group nation_groups[MAX_NUM_NATION_GROUPS];
 
-/***************************************************************
-  Returns 1 if nid is a valid nation id, else 0.
-  If returning 0, prints log message with given loglevel
-  quoting given func name, explaining problem.
-***************************************************************/
-#define bounds_check_nation(pnation, loglevel)                              \
-    real_bounds_check_nation(pnation, loglevel,                             \
-                             log_do_output_for_level(loglevel), __FILE__,   \
-                             __FUNCTION__, __LINE__)
-static bool real_bounds_check_nation(const struct nation_type *pnation,
-                                     enum log_level level, bool do_output,
-                                     const char *file, const char *function,
-                                     int line)
+/****************************************************************************
+  Runs action if the nation is not valid.
+****************************************************************************/
+#ifdef DEBUG
+#define NATION_CHECK(pnation, action)                                       \
+    fc_assert_action(nation_check(pnation,                                  \
+                                  log_do_output_for_level(LOG_ERROR),       \
+                                  __FILE__, __FUNCTION__, __LINE__), action)
+#else
+#define NATION_CHECK(pnation, action) /* Do Nothing. */
+#endif /* DEBUG */
+
+/****************************************************************************
+  Returns TRUE if the nation is valid, else, print an error message and
+  returns FALSE.
+****************************************************************************/
+static inline bool nation_check(const struct nation_type *pnation,
+                                bool do_output, const char *file,
+                                const char *function, int line)
 {
   if (0 == nation_count()) {
     if (do_output) {
-      do_log(file, function, line, TRUE, level,
+      do_log(file, function, line, TRUE, LOG_ERROR,
              "Function called before nations setup.");
     }
     return FALSE;
   }
   if (NULL == pnation) {
     if (do_output) {
-      do_log(file, function, line, TRUE, level,
+      do_log(file, function, line, TRUE, LOG_ERROR,
              "This function has NULL nation argument.");
     }
     return FALSE;
@@ -77,7 +83,7 @@ static bool real_bounds_check_nation(const struct nation_type *pnation,
       || pnation->item_number >= nation_count()
       || &nations[nation_index(pnation)] != pnation) {
     if (do_output) {
-      do_log(file, function, line, TRUE, level,
+      do_log(file, function, line, TRUE, LOG_ERROR,
              "This function has bad nation number %d (count %d).",
              pnation->item_number, nation_count());
     }
@@ -124,9 +130,7 @@ struct nation_type *find_nation_by_rule_name(const char *name)
 ****************************************************************************/
 const char *nation_rule_name(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR)) {
-    return "";
-  }
+  NATION_CHECK(pnation, return "");
   return rule_name(&pnation->adjective);
 }
 
@@ -136,9 +140,7 @@ const char *nation_rule_name(const struct nation_type *pnation)
 ****************************************************************************/
 const char *nation_adjective_translation(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR)) {
-    return "";
-  }
+  NATION_CHECK(pnation, return "");
   return name_translation(&pnation->adjective);
 }
 
@@ -148,9 +150,7 @@ const char *nation_adjective_translation(const struct nation_type *pnation)
 ****************************************************************************/
 const char *nation_plural_translation(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_ERROR)) {
-    return "";
-  }
+  NATION_CHECK(pnation, return "");
   return name_translation(&pnation->noun_plural);
 }
 
@@ -180,9 +180,7 @@ const char *nation_plural_for_player(const struct player *pplayer)
 ****************************************************************************/
 bool is_nation_playable(const struct nation_type *nation)
 {
-  if (!bounds_check_nation(nation, LOG_FATAL)) {
-    die("bad nation");
-  }
+  NATION_CHECK(nation, return FALSE);
   return nation->is_playable;
 }
 
@@ -193,9 +191,7 @@ bool is_nation_playable(const struct nation_type *nation)
 ****************************************************************************/
 enum barbarian_type nation_barbarian_type(const struct nation_type *nation)
 {
-  if (!bounds_check_nation(nation, LOG_FATAL)) {
-    die("bad nation");
-  }
+  NATION_CHECK(nation, return NOT_A_BARBARIAN);
   return nation->barb_type;
 }
 
@@ -205,9 +201,7 @@ sets dim to number of leaders.
 ***************************************************************/
 struct nation_leader *get_nation_leaders(const struct nation_type *nation, int *dim)
 {
-  if (!bounds_check_nation(nation, LOG_FATAL)) {
-    die("bad nation");
-  }
+  NATION_CHECK(nation, *dim = 0; return NULL);
   *dim = nation->leader_count;
   return nation->leaders;
 }
@@ -228,10 +222,8 @@ return 1 (meaning male).
 bool get_nation_leader_sex(const struct nation_type *nation, const char *name)
 {
   int i;
-  
-  if (!bounds_check_nation(nation, LOG_ERROR)) {
-    return FALSE;
-  }
+
+  NATION_CHECK(nation, return FALSE);
   for (i = 0; i < nation->leader_count; i++) {
     if (strcmp(nation->leaders[i].name, name) == 0) {
       return nation->leaders[i].is_male;
@@ -247,10 +239,8 @@ bool check_nation_leader_name(const struct nation_type *pnation,
 			      const char *name)
 {
   int i;
-  
-  if (!bounds_check_nation(pnation, LOG_ERROR)) {
-    return TRUE;			/* ? */
-  }
+
+  NATION_CHECK(pnation, return TRUE /* ? */);
   for (i = 0; i < pnation->leader_count; i++) {
     if (strcmp(name, pnation->leaders[i].name) == 0) {
       return TRUE;
@@ -265,14 +255,7 @@ bool check_nation_leader_name(const struct nation_type *pnation,
 struct nation_type *nation_of_player(const struct player *pplayer)
 {
   fc_assert_ret_val(NULL != pplayer, NULL);
-  if (!bounds_check_nation(pplayer->nation, LOG_FATAL)) {
-#if defined(__APPLE__)
-    /* force trace log */
-    return ((struct nation_type **)pplayer)[0];
-#else
-    die("bad nation");
-#endif
-  }
+  NATION_CHECK(pplayer->nation, return NULL);
   return pplayer->nation;
 }
 
@@ -488,9 +471,7 @@ Returns nation's city style
 ***************************************************************/
 int city_style_of_nation(const struct nation_type *pnation)
 {
-  if (!bounds_check_nation(pnation, LOG_FATAL)) {
-    die("bad nation");
-  }
+  NATION_CHECK(pnation, return 0);
   return pnation->city_style;
 }
 

@@ -238,13 +238,12 @@ struct pf_normal_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_normal_map *
-pf_normal_map_check(struct pf_map *pfm, const char *function,
-                    const char *file, int line)
+pf_normal_map_check(struct pf_map *pfm, const char *file, 
+                    const char *function, int line)
 {
-  if (!pfm || pfm->mode != PF_NORMAL) {
-    real_die(file, function, line,
-             "Wrong pf_map to pf_normal_map conversion");
-  }
+  fc_assert_full(file, function, line,
+                 NULL != pfm && pfm->mode == PF_NORMAL,
+                 return NULL, "Wrong pf_map to pf_normal_map conversion.");
   return (struct pf_normal_map *) pfm;
 }
 #define PF_NORMAL_MAP(pfm) \
@@ -334,11 +333,9 @@ static void pf_normal_map_fill_position(const struct pf_normal_map *pfnm,
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pfnm));
 
 #ifdef PF_DEBUG
-  if (node->status != NS_PROCESSED
-      && !same_pos(ptile, PF_MAP(pfnm)->tile)) {
-    die("pf_normal_map_fill_position to an unreached destination");
-    return;
-  }
+  fc_assert_ret_msg(NS_PROCESSED == node->status
+                    || same_pos(ptile, PF_MAP(pfnm)->tile),
+                    "Unreached destination (%d, %d).", TILE_XY(ptile));
 #endif /* PF_DEBUG */
 
   pos->tile = ptile;
@@ -369,11 +366,10 @@ pf_normal_map_construct_path(const struct pf_normal_map *pfnm,
   int i;
 
 #ifdef PF_DEBUG
-  if (node->status != NS_PROCESSED
-      && !same_pos(dest_tile, PF_MAP(pfnm)->tile)) {
-    die("construct_path to an unreached destination");
-    return NULL;
-  }
+  fc_assert_ret_val_msg(NS_PROCESSED == node->status
+                        || same_pos(dest_tile, PF_MAP(pfnm)->tile), NULL,
+                        "Unreached destination (%d, %d).",
+                        TILE_XY(dest_tile));
 #endif /* PF_DEBUG */
 
   ptile = dest_tile;
@@ -801,13 +797,12 @@ struct pf_danger_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_danger_map *
-pf_danger_map_check(struct pf_map *pfm, const char *function,
-                    const char *file, int line)
+pf_danger_map_check(struct pf_map *pfm, const char *file,
+                    const char *function, int line)
 {
-  if (!pfm || pfm->mode != PF_DANGER) {
-    real_die(file, function, line,
-             "Wrong pf_map to pf_danger_map conversion");
-  }
+  fc_assert_full(file, function, line,
+                 NULL != pfm && pfm->mode == PF_DANGER,
+                 return NULL, "Wrong pf_map to pf_danger_map conversion.");
   return (struct pf_danger_map *) pfm;
 }
 #define PF_DANGER_MAP(pfm) \
@@ -901,11 +896,9 @@ static void pf_danger_map_fill_position(const struct pf_danger_map *pfdm,
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pfdm));
 
 #ifdef PF_DEBUG
-  if (node->status != NS_PROCESSED
-      && !same_pos(ptile, PF_MAP(pfdm)->tile)) {
-    die("pf_normal_map_fill_position to an unreached destination");
-    return;
-  }
+  fc_assert_ret_msg(NS_PROCESSED == node->status
+                    || same_pos(ptile, PF_MAP(pfdm)->tile),
+                    "Unreached destination (%d, %d).", TILE_XY(ptile));
 #endif /* PF_DEBUG */
 
   pos->tile = ptile;
@@ -1067,7 +1060,7 @@ pf_danger_map_construct_path(const struct pf_danger_map *pfdm,
     node = &pfdm->lattice[tile_index(iter_tile)];
   }
 
-  die("pf_danger_map_construct_path: cannot get to the starting point!");
+  fc_assert_msg(FALSE, "Cannot get to the starting point!");
   return NULL;
 }
 
@@ -1549,13 +1542,12 @@ struct pf_fuel_map {
 /* Up-cast macro. */
 #ifdef PF_DEBUG
 static inline struct pf_fuel_map *
-pf_fuel_map_check(struct pf_map *pfm, const char *function,
-                  const char *file, int line)
+pf_fuel_map_check(struct pf_map *pfm, const char *file,
+                  const char *function, int line)
 {
-  if (!pfm || pfm->mode != PF_FUEL) {
-    real_die(file, function, line,
-             "Wrong pf_map to pf_fuel_map conversion");
-  }
+  fc_assert_full(file, function, line,
+                 NULL != pfm && pfm->mode == PF_FUEL,
+                 return NULL, "Wrong pf_map to pf_fuel_map conversion.");
   return (struct pf_fuel_map *) pfm;
 }
 #define PF_FUEL_MAP(pfm) \
@@ -1714,11 +1706,9 @@ static void pf_fuel_map_fill_position(const struct pf_fuel_map *pffm,
   const struct pf_parameter *params = pf_map_get_parameter(PF_MAP(pffm));
 
 #ifdef PF_DEBUG
-  if ((node->status != NS_PROCESSED
-       && !same_pos(ptile, PF_MAP(pffm)->tile)) || !head) {
-    die("pf_normal_map_fill_position to an unreached destination");
-    return;
-  }
+  fc_assert_ret_msg(NS_PROCESSED == node->status
+                    || same_pos(ptile, PF_MAP(pffm)->tile),
+                    "Unreached destination (%d, %d).", TILE_XY(ptile));
 #endif /* PF_DEBUG */
 
   pos->tile = ptile;
@@ -1889,7 +1879,7 @@ pf_fuel_map_construct_path(const struct pf_fuel_map *pffm,
     node = &pffm->lattice[tile_index(iter_tile)];
   }
 
-  die("pf_fuel_map_construct_path: cannot get to the starting point!");
+  fc_assert_msg(FALSE, "Cannot get to the starting point!");
   return NULL;
 }
 

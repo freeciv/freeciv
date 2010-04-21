@@ -1798,7 +1798,8 @@ static bool player_balance_treasury_buildings(struct player *pplayer)
   if (!sell_random_buildings(pplayer, &imprs)) {
     /* If we get here it means the player has
      * negative gold. This should never happen. */
-    die("Player cannot have negative gold.");
+    fc_assert_msg(FALSE, "Player %s (nb %d) cannot have negative gold!",
+                  player_name(pplayer), player_number(pplayer));
   }
 
   cityimpr_vector_free(&imprs);
@@ -1830,7 +1831,8 @@ static bool player_balance_treasury_units(struct player *pplayer)
   if (!sell_random_units(pplayer, punitlist)) {
     /* If we get here it means the player has
      * negative gold. This should never happen. */
-    die("Player cannot have negative gold.");
+    fc_assert_msg(FALSE, "Player %s (nb %d) cannot have negative gold!",
+                  player_name(pplayer), player_number(pplayer));
   }
 
   unit_list_destroy(punitlist);

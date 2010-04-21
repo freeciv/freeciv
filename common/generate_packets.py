@@ -1121,7 +1121,8 @@ class Packet:
         else:
             log=""
         result=result+'''  } else {
-    die("unknown variant");
+    log_error("Unknown %(type)s variant for connection %%s", conn_description(pc));
+    variant = -2;       /* Keep something invalid. */
   }
 %(log)s  pc->phs.variant[%(type)s] = variant;
 }
@@ -1158,13 +1159,20 @@ class Packet:
   fc_assert_ret_val(NULL != pc->phs.variant, NULL);
 %(restrict)s  ensure_valid_variant_%(name)s(pc);
 
-  switch(pc->phs.variant[%(type)s]) {
-'''%self.get_dict(vars())
+  switch(pc->phs.variant[%(type)s]) {'''%self.get_dict(vars())
         for v in self.variants:
             name2=v.name
             no=v.no
-            result=result+'    case %(no)s: return receive_%(name2)s(pc, type);\n'%self.get_dict(vars())
-        result=result+'    default: die("unknown variant"); return NULL;\n  }\n}\n\n'
+            result=result+'''
+  case %(no)s:
+    return receive_%(name2)s(pc, type);'''%self.get_dict(vars())
+        result=result+'''
+  default:
+    log_debug("Unknown %(type)s variant for connection %%s", conn_description(pc));
+    return NULL;
+  }
+}
+'''%self.get_dict(vars())
         return result
 
     def get_send(self):
@@ -1202,8 +1210,19 @@ class Packet:
         for v in self.variants:
             name2=v.name
             no=v.no
-            result=result+'    case %(no)s: return send_%(name2)s(%(args)s);\n'%self.get_dict(vars())
-        result=result+'    default: die("unknown variant"); return -1;\n  }\n}\n\n'
+
+
+
+            result=result+'''
+  case %(no)s:
+    return send_%(name2)s(%(args)s);'''%self.get_dict(vars())
+        result=result+'''
+  default:
+    log_debug("Unknown %(type)s variant for connection %%s", conn_description(pc));
+    return -1;
+  }
+}
+'''%self.get_dict(vars())
         return result
 
     def get_variants(self):

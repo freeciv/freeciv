@@ -731,7 +731,8 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
     } else if (economic.luxury < maxrate) {
       economic.luxury += 10;
     } else {
-      die("byebye");
+      fc_assert_msg(FALSE, "Failed to distribute the surplus. "
+                    "maxrate = %d.", maxrate);
     }
     surplus -= 10;
   }
@@ -849,11 +850,9 @@ const char *diplstate_text(const enum diplstate_type type)
     N_("?diplomatic_state:Team")
   };
 
-  if (type < DS_LAST) {
-    return Q_(ds_names[type]);
-  }
-  die("Bad diplstate_type in diplstate_text: %d", type);
-  return NULL;
+  fc_assert_ret_val_msg(0 <= type && type < DS_LAST, NULL,
+                        "Bad diplstate_type: %d.", type);
+  return Q_(ds_names[type]);
 }
 
 /***************************************************************

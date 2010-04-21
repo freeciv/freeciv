@@ -1263,7 +1263,7 @@ static int nations_match(struct nation_type* n1, struct nation_type* n2,
 /****************************************************************************
   This function return one of the nations available from the
   NO_NATION_SELECTED-terminated choices list. If no available nations in this
-  file were found, return a random nation. If no nations are available, die.
+  file were found, return a random nation.
 
   choices may be NULL; if so it's ignored.
   If only_available is set choose only nations that have is_available bit set.

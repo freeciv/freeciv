@@ -1190,7 +1190,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
                       punit->moves_left / SINGLE_MOVE);
       }
     }
-    break;
+    return;
   case ACTIVITY_POLLUTION:
   case ACTIVITY_FALLOUT:
   case ACTIVITY_ROAD:
@@ -1206,7 +1206,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
   case ACTIVITY_GOTO:
   case ACTIVITY_EXPLORE:
     astr_add_line(astr, "%s", get_activity_text(punit->activity));
-    break;
+    return;
   case ACTIVITY_PILLAGE:
     if (punit->activity_target == S_LAST) {
       astr_add_line(astr, "%s", get_activity_text(punit->activity));
@@ -1223,7 +1223,7 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     get_infrastructure_text(pset, bases));
     }
-    break;
+    return;
   case ACTIVITY_BASE:
     {
       struct base_type *pbase;
@@ -1231,11 +1231,15 @@ void unit_activity_astr(const struct unit *punit, struct astring *astr)
       astr_add_line(astr, "%s: %s", get_activity_text(punit->activity),
                     base_name_translation(pbase));
     }
+    return;
+  case ACTIVITY_UNKNOWN:
+  case ACTIVITY_PATROL_UNUSED:
+  case ACTIVITY_LAST:
     break;
-  default:
-    die("Unknown unit activity %d in unit_activity_text()",
-        punit->activity);
   }
+
+  log_error("Unknown unit activity %d for %s (nb %d) in %s()",
+            punit->activity, unit_rule_name(punit), punit->id, __FUNCTION__);
 }
 
 /**************************************************************************

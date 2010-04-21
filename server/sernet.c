@@ -977,7 +977,7 @@ int server_open_socket(void)
 #endif /* EAFNOSUPPORT */
 #endif /* IPv6 support */
     {
-      die("socket failed: %s", fc_strerror(error));
+      fc_assert_exit_msg(FALSE, "socket failed: %s", fc_strerror(error));
     }
   }
 

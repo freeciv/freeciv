@@ -395,7 +395,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 #ifdef HAVE_FDOPEN
   fp = fdopen(sock, "r+b");
   if (fwrite(buf, 1, size, fp) != size) {
-    die("socket %d: write error", sock);
+    log_error("socket %d: write error", sock);
   }
   fflush(fp);
 
@@ -431,7 +431,7 @@ fz_FILE *fc_querysocket(int sock, void *buf, size_t size)
 
     while ((n = fc_readsocket(sock, tmp, sizeof(tmp))) > 0) {
       if (fwrite(tmp, 1, n, fp) != n) {
-	die("socket %d: write error", sock);
+        log_error("socket %d: write error", sock);
       }
     }
     fflush(fp);

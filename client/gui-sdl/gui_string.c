@@ -125,7 +125,7 @@ SDL_Rect str16size(SDL_String16 *pString16)
 	    FC_FREE(UniTexts[count]);
             count++;
 	  } while(UniTexts[count]);
-	  die("TTF_SizeUNICODE return ERROR !");
+          log_error("TTF_SizeUNICODE return ERROR !");
         }
         w = MAX(w, ww);
         h += hh;
@@ -134,7 +134,7 @@ SDL_Rect str16size(SDL_String16 *pString16)
       }
     } else {  
       if (TTF_SizeUNICODE(pString16->font, pString16->text, &w, &h) < 0) {
-	die("TTF_SizeUNICODE return ERROR !");
+        log_error("TTF_SizeUNICODE return ERROR !");
       }
     }
    

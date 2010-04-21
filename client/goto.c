@@ -515,7 +515,7 @@ static int get_activity_time(const struct tile *ptile,
     /* No break */
     break;
   default:
-    die("Invalid connect activity.");
+    log_error("Invalid connect activity: %d.", connect_activity);
   }
 
   return activity_mc;
@@ -1167,8 +1167,8 @@ void send_connect_route(enum unit_activity activity)
 	}
 	break;
       default:
-	die("Invalid connect activity.");
-	break;
+        log_error("Invalid connect activity: %d.", activity);
+        break;
       }
 
       if (i != path->length - 1) {

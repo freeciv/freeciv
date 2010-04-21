@@ -35,10 +35,11 @@
  At the moment this just prints a log message and calls exit(EXIT_FAILURE)
 **********************************************************************/ 
 static void handle_alloc_failure(size_t size, const char *called_as,
-				 int line, const char *file)
+                                 int line, const char *file)
 {
-  die("Out of memory trying to %s %lu bytes at line %d of %s.", called_as,
-      (unsigned long) size, line, file);
+  log_fatal("Out of memory trying to %s %lu bytes at line %d of %s.",
+            called_as, (unsigned long) size, line, file);
+  exit(EXIT_FAILURE);
 }
 
 /****************************************************************************

@@ -626,7 +626,7 @@ void set_client_state(enum client_states newstate)
 
   switch (newstate) {
   case C_S_INITIAL:
-    die("%d is not a valid client state to set", C_S_INITIAL);
+    log_error("%d is not a valid client state to set.", C_S_INITIAL);
     break;
 
   case C_S_DISCONNECTED:

@@ -816,7 +816,7 @@ void boot_help_texts(struct player *pplayer)
             help_list_append(help_nodes, pitem);
             break;
           default:
-            die("Bad current_type %d", current_type);
+            log_error("Bad current_type: %d.", current_type);
             break;
           }
           help_list_sort(category_nodes, help_item_compar);

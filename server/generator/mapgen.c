@@ -299,9 +299,6 @@ static struct terrain *pick_terrain_by_flag(enum terrain_flag_id flag)
       count--;
     }
   } terrain_type_iterate_end;
-#if 0
-  die("Reached end of pick_terrain_by_flag!");
-#endif
   return T_UNKNOWN;
 }
 
@@ -1404,8 +1401,9 @@ void map_fractal_generate(bool autosize, struct unit_type *initial_unit)
 	case MT_ALL:
 	  mode = MT_VARIABLE;
 	  break;
-	default:
-	  die("The server couldn't allocate starting positions.");
+        default:
+          fc_assert_exit_msg(FALSE, "The server couldn't allocate "
+                             "starting positions.");
       }
     }
   }

@@ -1683,7 +1683,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_ARMISTICE:
       break;
     default:
-      die("Unknown pact type");
+      fc_assert_msg(FALSE, "Unknown pact type %d.", ds);
       break;
     }
   } players_iterate_end;

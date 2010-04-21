@@ -142,7 +142,7 @@ static bool manual_command(void)
 
     if (!is_reg_file_for_access(filename, TRUE)
         || !(doc = fc_fopen(filename, "w"))) {
-      die(_("Could not write manual file %s."), filename);
+      log_error(_("Could not write manual file %s."), filename);
       return FALSE;
     }
 
