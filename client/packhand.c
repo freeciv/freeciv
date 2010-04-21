@@ -3225,14 +3225,6 @@ void set_reports_thaw_request(int request_id)
 }
 
 /**************************************************************************
-  We have received PACKET_FREEZE_HINT. It is packet internal to network code
-**************************************************************************/
-void handle_freeze_hint(void)
-{
-  log_debug("handle_freeze_hint");
-}
-
-/**************************************************************************
   We have received PACKET_FREEZE_CLIENT.
 **************************************************************************/
 void handle_freeze_client(void)
@@ -3242,14 +3234,6 @@ void handle_freeze_client(void)
   reports_freeze();
 
   agents_freeze_hint();
-}
-
-/**************************************************************************
-  We have received PACKET_THAW_HINT. It is packet internal to network code
-**************************************************************************/
-void handle_thaw_hint(void)
-{
-  log_debug("handle_thaw_hint");
 }
 
 /**************************************************************************

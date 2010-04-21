@@ -2368,9 +2368,9 @@ static void srv_ready(void)
     } players_iterate_end;
   }
 
-  lsend_packet_freeze_hint(game.est_connections);
+  conn_list_compression_freeze(game.est_connections);
   send_all_info(game.est_connections);
-  lsend_packet_thaw_hint(game.est_connections);
+  conn_list_compression_thaw(game.est_connections);
 
   if (game.info.is_new_game) {
     init_new_game();

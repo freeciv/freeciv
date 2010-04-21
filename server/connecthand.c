@@ -168,6 +168,7 @@ void establish_new_connection(struct connection *pconn)
     }
   } conn_list_iterate_end;
 
+  conn_compression_freeze(pconn);
   send_rulesets(dest);
   send_server_setting_control(pconn);
   send_server_settings(dest);
@@ -247,6 +248,7 @@ void establish_new_connection(struct connection *pconn)
     reset_all_start_commands();
     (void) send_server_info_to_metaserver(META_INFO);
   }
+  conn_compression_thaw(pconn);
 }
 
 /**************************************************************************
@@ -560,9 +562,9 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     break;
 
   case S_S_RUNNING:
-    send_packet_freeze_hint(pconn);
+    conn_compression_freeze(pconn);
     send_all_info(pconn->self);
-    send_packet_thaw_hint(pconn);
+    conn_compression_thaw(pconn);
     /* Enter C_S_RUNNING client state. */
     dsend_packet_start_phase(pconn, game.info.phase);
     /* Must be after C_S_RUNNING client state to be effective. */
@@ -571,9 +573,9 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     break;
 
   case S_S_OVER:
-    send_packet_freeze_hint(pconn);
+    conn_compression_freeze(pconn);
     send_all_info(pconn->self);
-    send_packet_thaw_hint(pconn);
+    conn_compression_thaw(pconn);
     report_final_scores(pconn->self);
     send_pending_events(pconn, FALSE);
     break;

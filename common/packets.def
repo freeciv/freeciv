@@ -276,12 +276,6 @@ end
 PACKET_PROCESSING_FINISHED = 1; sc
 end
 
-PACKET_FREEZE_HINT = 2; sc, lsend
-end
-
-PACKET_THAW_HINT = 3; sc, lsend
-end
-
 /************** Login/pregame/endgame packets **********************/
 
 # This packet is the first real (freeciv specific) packet send by the

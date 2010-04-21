@@ -697,6 +697,58 @@ void conn_reset_delta_state(struct connection *pc)
   }
 }
 
+/****************************************************************************
+  Freeze the connection. Then the packets sent to it won't be sent
+  immediatly, but later, using a compression method. See futher details in
+  common/packets.[ch].
+****************************************************************************/
+void conn_compression_freeze(struct connection *pconn)
+{
+#ifdef USE_COMPRESSION
+  if (0 == pconn->compression.frozen_level) {
+    byte_vector_reserve(&pconn->compression.queue, 0);
+  }
+  pconn->compression.frozen_level++;
+#endif /* USE_COMPRESSION */
+}
+
+/****************************************************************************
+  Returns TRUE if the connection is frozen. See also
+  conn_compression_freeze().
+****************************************************************************/
+bool conn_compression_frozen(const struct connection *pconn)
+{
+#ifdef USE_COMPRESSION
+  return 0 < pconn->compression.frozen_level;
+#else
+  return FALSE;
+#endif /* USE_COMPRESSION */
+}
+
+/****************************************************************************
+  Freeze a connection list.
+****************************************************************************/
+void conn_list_compression_freeze(const struct conn_list *pconn_list)
+{
+#ifdef USE_COMPRESSION
+  conn_list_iterate(pconn_list, pconn) {
+    conn_compression_freeze(pconn);
+  } conn_list_iterate_end;
+#endif /* USE_COMPRESSION */
+}
+
+/****************************************************************************
+  Thaw a connection list.
+****************************************************************************/
+void conn_list_compression_thaw(const struct conn_list *pconn_list)
+{
+#ifdef USE_COMPRESSION
+  conn_list_iterate(pconn_list, pconn) {
+    conn_compression_thaw(pconn);
+  } conn_list_iterate_end;
+#endif /* USE_COMPRESSION */
+}
+
 /**************************************************************************
   Returns TRUE if the given connection is attached to a player which it
   also controls (i.e. not a player observer).

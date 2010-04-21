@@ -4051,8 +4051,7 @@ void reload_rulesets_settings(void)
 **************************************************************************/
 void send_rulesets(struct conn_list *dest)
 {
-  conn_list_do_buffer(dest);
-  lsend_packet_freeze_hint(dest);
+  conn_list_compression_freeze(dest);
 
   send_ruleset_control(dest);
   send_ruleset_game(dest);
@@ -4072,8 +4071,7 @@ void send_rulesets(struct conn_list *dest)
   /* changed game settings will be send in
    * connecthand.c:establish_new_connection() */
 
-  lsend_packet_thaw_hint(dest);
-  conn_list_do_unbuffer(dest);
+  conn_list_compression_thaw(dest);
 }
 
 /**************************************************************************

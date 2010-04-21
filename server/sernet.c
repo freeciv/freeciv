@@ -1117,6 +1117,7 @@ static void start_processing_request(struct connection *pconn,
   fc_assert_ret(pconn->server.currently_processed_request_id == 0);
   log_debug("start processing packet %d from connection %d",
             request_id, pconn->id);
+  conn_compression_freeze(pconn);
   send_packet_processing_started(pconn);
   pconn->server.currently_processed_request_id = request_id;
 }
@@ -1134,6 +1135,7 @@ static void finish_processing_request(struct connection *pconn)
             pconn->server.currently_processed_request_id, pconn->id);
   send_packet_processing_finished(pconn);
   pconn->server.currently_processed_request_id = 0;
+  conn_compression_thaw(pconn);
 }
 
 /**************************************************************************

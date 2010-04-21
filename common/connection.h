@@ -274,6 +274,12 @@ void connection_common_close(struct connection *pconn);
 void free_compression_queue(struct connection *pconn);
 void conn_reset_delta_state(struct connection *pconn);
 
+void conn_compression_freeze(struct connection *pconn);
+bool conn_compression_thaw(struct connection *pconn);
+bool conn_compression_frozen(const struct connection *pconn);
+void conn_list_compression_freeze(const struct conn_list *pconn_list);
+void conn_list_compression_thaw(const struct conn_list *pconn_list);
+
 const char *conn_description(const struct connection *pconn);
 bool conn_controls_player(const struct connection *pconn);
 bool conn_is_global_observer(const struct connection *pconn);

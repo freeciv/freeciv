@@ -3365,10 +3365,12 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   sanity_check();
 
   log_verbose("load_command() does send_rulesets()");
+  conn_list_compression_freeze(game.est_connections);
   send_rulesets(game.est_connections);
   send_server_settings(game.est_connections);
   send_scenario_info(game.est_connections);
   send_game_info(game.est_connections);
+  conn_list_compression_thaw(game.est_connections);
 
   /* Send information about the new players. */
   send_player_info_c(NULL, NULL);
