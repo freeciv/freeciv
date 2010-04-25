@@ -376,7 +376,7 @@ struct cma_dialog *create_cma_dialog(struct city *pcity)
 		   G_CALLBACK(hscale_changed), pdialog);
 
   pdialog->factor[O_LAST] =
-      GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 50, 1, 0, 0));
+      GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 50, 1, 1, 0));
 
   hscale = gtk_hscale_new(GTK_ADJUSTMENT(pdialog->factor[O_LAST]));
   gtk_table_attach_defaults(GTK_TABLE(table), hscale, 2, 3,
