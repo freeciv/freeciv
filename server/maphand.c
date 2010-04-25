@@ -974,6 +974,9 @@ void player_map_free(struct player *pplayer)
     if (NULL != psite) {
       free_vision_site(psite);
     }
+
+    /* clear players knowledge */
+    map_clear_known(ptile, pplayer);
   } whole_map_iterate_end;
 
   free(pplayer->private_map);

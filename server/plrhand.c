@@ -73,6 +73,9 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
+static int nations_match(struct nation_type* n1, struct nation_type* n2,
+                         bool ignore_conflicts);
+
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
@@ -1063,6 +1066,14 @@ void server_remove_player(struct player *pplayer)
 
   script_remove_exported_object(pplayer);
   team_remove_player(pplayer);
+  /* Clear data saved in the other player structs. */
+  players_iterate(aplayer) {
+    player_diplstate_init(&aplayer->diplstates[player_index(pplayer)]);
+    BV_CLR(aplayer->real_embassy, player_index(pplayer));
+    if (gives_shared_vision(aplayer, pplayer)) {
+      remove_shared_vision(aplayer, pplayer);
+    }
+  } players_iterate_end;
   game_remove_player(pplayer);
   player_init(pplayer);
   player_map_free(pplayer);

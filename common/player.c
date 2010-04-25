@@ -203,6 +203,19 @@ bool player_can_invade_tile(const struct player *pplayer,
           || !players_non_invade(pplayer, ptile_owner));
 }
 
+/****************************************************************************
+  ...
+****************************************************************************/
+void player_diplstate_init(struct player_diplstate *diplstate)
+{
+  diplstate->type = DS_NO_CONTACT;
+  diplstate->max_state = DS_NO_CONTACT;
+  diplstate->first_contact_turn = 0;
+  diplstate->turns_left = 0;
+  diplstate->has_reason_to_cancel = 0;
+  diplstate->contact_turns_left = 0;
+}
+
 /***************************************************************
   In the server you must use server_player_init.  Note that
   this function is matched by game_remove_player() in game.c,
@@ -225,7 +238,7 @@ void player_init(struct player *plr)
 
   plr->revolution_finishes = -1;
   plr->capital = FALSE;
-  plr->city_style=0;            /* should be first basic style */
+  plr->city_style = 0;            /* should be first basic style */
   plr->cities = city_list_new();
   plr->units = unit_list_new();
 
@@ -234,15 +247,14 @@ void player_init(struct player *plr)
   plr->is_connected = FALSE;
 
   plr->was_created = FALSE;
+  plr->nturns_idle = 0;
   plr->is_alive=TRUE;
   plr->is_dying = FALSE;
   plr->is_winner = FALSE;
   plr->surrendered = FALSE;
   BV_CLR_ALL(plr->real_embassy);
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    plr->diplstates[i].type = DS_NO_CONTACT;
-    plr->diplstates[i].has_reason_to_cancel = 0;
-    plr->diplstates[i].contact_turns_left = 0;
+    player_diplstate_init(&plr->diplstates[i]);
   }
   plr->ai = NULL;
   plr->ai_data.control=FALSE;
@@ -251,9 +263,11 @@ void player_init(struct player *plr)
   plr->ai_data.fuzzy = 0;
   plr->ai_data.expand = 100;
   plr->ai_data.barbarian_type = NOT_A_BARBARIAN;
-  plr->economic.tax=PLAYER_DEFAULT_TAX_RATE;
-  plr->economic.science=PLAYER_DEFAULT_SCIENCE_RATE;
-  plr->economic.luxury=PLAYER_DEFAULT_LUXURY_RATE;
+
+  plr->economic.gold = 0;
+  plr->economic.tax = PLAYER_DEFAULT_TAX_RATE;
+  plr->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
+  plr->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
 
   plr->economic = player_limit_to_max_rates(plr);
   spaceship_init(&plr->spaceship);

@@ -75,6 +75,7 @@
 #include "sernet.h"
 #include "settings.h"
 #include "srv_main.h"
+#include "techtools.h"
 #include "voting.h"
 
 /* server/scripting */
@@ -105,6 +106,12 @@ static bool show_command(struct connection *caller, char *str, bool check);
 static void show_changed(struct connection *caller, bool check,
                          int read_recursion);
 
+static bool create_command(struct connection *caller, const char *arg,
+                           bool check);
+static enum rfc_status create_command_newcomer(const char *name, bool check,
+                                               char *buf, size_t buflen);
+static enum rfc_status create_command_pregame(const char *name, bool check,
+                                              char *buf, size_t buflen);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 static bool handle_stdin_input_real(struct connection *caller, const char *str,
@@ -755,25 +762,184 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 }
 
 /**************************************************************************
- Creates named AI player
+  Creates a named AI player. The function can be called befor the start
+  of the game (see creat_command_pregame()) and for a running game
+  (see creat_command_newcomer(). In the later case, first free player slots
+  are used before the slots of dead players are (re)used.
 **************************************************************************/
-static bool create_ai_player(struct connection *caller, char *arg, bool check)
+static bool create_command(struct connection *caller, const char *arg,
+                           bool check)
 {
-  struct player *pplayer = NULL;
+  enum rfc_status status;
   char buf[128];
 
-  if (S_S_INITIAL != server_state()) {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-              _("Can't add AI players once the game has begun."));
+  if (game_was_started()) {
+    status = create_command_newcomer(arg, check, buf, sizeof(buf));
+  } else {
+    status = create_command_pregame(arg, check, buf, sizeof(buf));
+  }
+
+  if (status != C_OK) {
+    /* No player created. */
+    cmd_reply(CMD_CREATE, caller, status, "%s", buf);
     return FALSE;
   }
 
-  if (!player_name_check(arg, buf, sizeof(buf))) {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX, "%s", buf);
-    return FALSE;
+  if (strlen(buf) > 0) {
+    /* Send a notification. */
+    notify_conn(NULL, NULL, E_SETTING, ftc_server, "%s", buf);
   }
 
-  /* search for first uncontrolled player */
+  return TRUE;
+}
+
+/**************************************************************************
+  Try to add a player to a running game in the following order:
+
+  1. Try to reuse the slot of a dead player with the username 'name'.
+  2. Try to use an empty player slot.
+  3. Try to reuse the slot of a dead player.
+**************************************************************************/
+static enum rfc_status create_command_newcomer(const char *name, bool check,
+                                               char *buf, size_t buflen)
+{
+  struct nation_type *pnation = NULL;
+  struct player *pplayer = NULL;
+
+  /* Check player name. */
+  if (!player_name_check(name, buf, buflen)) {
+    return C_SYNTAX;
+  }
+
+  /* Check first if we can replace a player with
+   * [1a] - the same username. */
+  pplayer = find_player_by_user(name);
+  if (pplayer && pplayer->is_alive) {
+    fc_snprintf(buf, buflen,
+                _("An living user already exists by that name."));
+    return C_BOUNCE;
+  }
+
+  /* [1b] - the same player name. */
+  pplayer = find_player_by_name(name);
+  if (pplayer && pplayer->is_alive) {
+    fc_snprintf(buf, buflen,
+                _("An living player already exists by that name."));
+    return C_BOUNCE;
+  }
+
+  /* Try to find a nation. */
+  pnation = pick_a_nation(NULL, FALSE, TRUE, NOT_A_BARBARIAN);
+  if (pnation == NO_NATION_SELECTED) {
+    fc_snprintf(buf, buflen,
+                _("Can't create players, no nations available."));
+    return C_FAIL;
+  }
+
+  if (check) {
+    /* All code below will change the game state. */
+
+    /* Return an empty string. */
+    buf[0] = '\0';
+    return C_OK;
+  }
+
+  /* [1] Replace player. */
+  if (pplayer) {
+    /* 'pplayer' was set above. */
+    fc_snprintf(buf, buflen,
+                _("%s is replacing dead player %s as an AI-controlled "
+                  "player."), name, player_name(pplayer));
+    server_remove_player(pplayer);
+    send_player_slot_info_c(pplayer, NULL);
+  }
+
+  /* [2] Check if there is an unused player slot. */
+  if (!pplayer) {
+    player_slots_iterate(pslot) {
+      if (!player_slot_is_used(pslot)) {
+        pplayer = pslot;
+        fc_snprintf(buf, buflen,
+                    _("%s has been added as an AI-controlled player."),
+                    name);
+        break;
+      }
+    } player_slots_iterate_end;
+  }
+
+  /* [3] All player slots are used; try to remove a dead player. */
+  if (!pplayer) {
+    players_iterate(aplayer) {
+      if (!aplayer->is_alive) {
+        fc_snprintf(buf, buflen,
+                    _("%s is replacing dead player %s as an AI-controlled "
+                      "player."), name, player_name(aplayer));
+        server_remove_player(aplayer);
+        send_player_slot_info_c(aplayer, NULL);
+        pplayer = aplayer;
+      }
+    } players_iterate_end;
+  }
+
+  if (!pplayer) {
+    fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
+    return C_FAIL;
+  }
+
+  /* We have a player; now initialise all needed data. */
+  player_slot_set_used(pplayer, TRUE);
+  set_player_count(player_count() + 1);
+  aifill(game.info.aifill);
+
+  /* Initialise player. */
+  player_init(pplayer);
+  server_player_init(pplayer, TRUE, TRUE);
+
+  player_set_nation(pplayer, pnation);
+  pplayer->government = pplayer->nation->init_government;
+  pplayer->target_government = pplayer->nation->init_government;
+
+  init_tech(pplayer, TRUE);
+  give_global_initial_techs(pplayer);
+  give_nation_initial_techs(pplayer);
+
+  sz_strlcpy(pplayer->name, name);
+  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+
+  pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
+  pplayer->ai_data.control = TRUE;
+  set_ai_level_directer(pplayer, game.info.skill_level);
+
+  send_player_info_c(pplayer, NULL);
+  (void) send_server_info_to_metaserver(META_INFO);
+
+  return C_OK;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static enum rfc_status create_command_pregame(const char *name, bool check,
+                                              char *buf, size_t buflen)
+{
+  struct player *pplayer = NULL;
+
+  if (!player_name_check(name, buf, buflen)) {
+    return C_SYNTAX;
+  }
+
+  if (NULL != find_player_by_name(name)) {
+    fc_snprintf(buf, buflen,
+                _("A player already exists by that name."));
+    return C_BOUNCE;
+  }
+  if (NULL != find_player_by_user(name)) {
+    fc_snprintf(buf, buflen,
+                _("A user already exists by that name."));
+    return C_BOUNCE;
+  }
+
+  /* Search for first uncontrolled player */
   players_iterate(played) {
     if (!played->is_connected && !played->was_created) {
       pplayer = played;
@@ -784,59 +950,46 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   if (NULL == pplayer) {
     /* Check that we are not going over max players setting */
     if (player_count() >= game.server.max_players) {
-      cmd_reply(CMD_CREATE, caller, C_FAIL,
-	        _("Can't add more players, server is full."));
-      return FALSE;
+      fc_snprintf(buf, buflen,
+                  _("Can't add more players, server is full."));
+      return C_FAIL;
     }
     /* Check that we have nations available */
     if (player_count() - server.nbarbarians >= server.playable_nations) {
-      cmd_reply(CMD_CREATE, caller, C_FAIL,
-	        _("Can't add more players, not enough nations."));
-      return FALSE;
+      fc_snprintf(buf, buflen,
+                  _("Can't add more players, not enough nations."));
+      return C_FAIL;
     }
   }
 
-
-  if (NULL != find_player_by_name(arg)) {
-    cmd_reply(CMD_CREATE, caller, C_BOUNCE,
-	      _("A player already exists by that name."));
-    return FALSE;
-  }
-
-  if (NULL != find_player_by_user(arg)) {
-    cmd_reply(CMD_CREATE, caller, C_BOUNCE,
-              _("A user already exists by that name."));
-    return FALSE;
-  }
-
   if (check) {
-    return TRUE;
+    buf[0] = '\0';
+    return C_OK;
   }
 
   if (NULL == pplayer) {
     /* add new player */
     pplayer = server_create_player();
     if (!pplayer) {
-      cmd_reply(CMD_CREATE, caller, C_GENFAIL,
-                _("Failed to create new player %s."), arg);
-      return FALSE;
+      fc_snprintf(buf, buflen,
+                  _("Failed to create new player %s."), name);
+      return C_GENFAIL;
     }
 
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+    fc_snprintf(buf, buflen,
                 _("%s has been added as an AI-controlled player."),
-                arg);
+                name);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
+    fc_snprintf(buf, buflen,
                 /* TRANS: <name> replacing <name> ... */
                 _("%s replacing %s as an AI-controlled player."),
-                arg,
-                player_name(pplayer));
+                name, player_name(pplayer));
   }
 
   team_remove_player(pplayer);
   server_player_init(pplayer, FALSE, TRUE);
 
-  sz_strlcpy(pplayer->name, arg);
+  sz_strlcpy(pplayer->name, name);
   sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
   pplayer->was_created = TRUE; /* must use /remove explicitly to remove */
@@ -847,9 +1000,9 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
   aifill(game.info.aifill);
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
-  return TRUE;
-}
 
+  return C_OK;
+}
 
 /**************************************************************************
 ...
@@ -3704,7 +3857,7 @@ static bool handle_stdin_input_real(struct connection *caller,
   case CMD_DETACH:
     return detach_command(caller, arg, check);
   case CMD_CREATE:
-    return create_ai_player(caller, arg, check);
+    return create_command(caller, arg, check);
   case CMD_AWAY:
     return set_away(caller, arg, check);
   case CMD_NOVICE:

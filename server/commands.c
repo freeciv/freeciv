@@ -279,8 +279,11 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("create <player-name>"),
    N_("Create an AI player with a given name."),
-   N_("The 'create' command is only available before the game has "
-      "been started."),
+   N_("With the 'create' command a new player with the given name is "
+      "created.\n"
+      "If the game was started, the command checks for free player slots "
+      "and, if no free slots are available, it tries to reuse the slots of "
+      "dead players. The new player has no units or cities."),
    VCF_NONE, 50
   },
   {"away",	ALLOW_BASIC,

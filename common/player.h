@@ -311,6 +311,7 @@ struct player_research *get_player_research(const struct player *p1);
 void player_set_winner(struct player *plr);
 
 /* Initialization and iteration */
+void player_diplstate_init(struct player_diplstate *diplstate);
 void player_init(struct player *plr);
 
 #define player_slots_iterate(NAME_pslot)\
