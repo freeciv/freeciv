@@ -40,6 +40,7 @@
 
 /* common */
 #include "diptreaty.h"
+#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "packets.h"
@@ -252,7 +253,12 @@ static int fill_diplomacy_tech_menu(Widget popupmenu,
 				    struct player *plr0, struct player *plr1)
 {
   int flag = 0;
-  
+
+  if (!game.info.trading_tech) {
+    /* Trading advances deactivated. */
+    return 0;
+  }
+
   advance_index_iterate(A_FIRST, i) {
     if (player_invention_state(plr0, i) == TECH_KNOWN
         && player_invention_reachable(plr1, i)
@@ -284,6 +290,12 @@ static int fill_diplomacy_city_menu(Widget popupmenu,
 				    struct player *plr0, struct player *plr1)
 {
   int i = 0, j = 0, n = city_list_size(plr0->cities);
+
+  if (game.info.trading_city) {
+    /* Trading cities deactivated. */
+    return 0;
+  }
+
   struct city **city_list_ptrs;
   if (n>0) {
     city_list_ptrs = fc_malloc(sizeof(struct city*)*n);
@@ -471,31 +483,33 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
 		 fill_diplomacy_city_menu(popupmenu, plr1, plr0));  
   
   /* End of trade city code */
-  
-  pdialog->dip_gold_input0=XtVaCreateManagedWidget("dipgoldinput0", 
-						   asciiTextWidgetClass,
-						   pdialog->dip_form0,
-						   NULL);
 
-  pdialog->dip_gold_input1=XtVaCreateManagedWidget("dipgoldinput1", 
-						   asciiTextWidgetClass,
-						   pdialog->dip_form1,
-						   NULL);
-  
-  fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
-  pdialog->dip_gold_label0=XtVaCreateManagedWidget("dipgoldlabel0", 
-						   labelWidgetClass,
-						   pdialog->dip_form0,
-						   XtNlabel, buf,
-						   NULL);
+  /* Trading gold */
+  if (game.info.trading_gold) {
+    pdialog->dip_gold_input0 = XtVaCreateManagedWidget("dipgoldinput0",
+                                                       asciiTextWidgetClass,
+                                                       pdialog->dip_form0, NULL);
+    fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr0->economic.gold);
+    pdialog->dip_gold_label0 = XtVaCreateManagedWidget("dipgoldlabel0",
+                                                       labelWidgetClass,
+                                                       pdialog->dip_form0,
+                                                       XtNlabel, buf, NULL);
 
-  fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
-  pdialog->dip_gold_label1=XtVaCreateManagedWidget("dipgoldlabel1", 
-						   labelWidgetClass,
-						   pdialog->dip_form1,
-						   XtNlabel, buf,
-						   NULL);
 
+    pdialog->dip_gold_input1 = XtVaCreateManagedWidget("dipgoldinput1",
+                                                       asciiTextWidgetClass,
+                                                       pdialog->dip_form1, NULL);
+    fc_snprintf(buf, sizeof(buf), _("Gold(max %d)"), plr1->economic.gold);
+    pdialog->dip_gold_label1 = XtVaCreateManagedWidget("dipgoldlabel1",
+                                                       labelWidgetClass,
+                                                       pdialog->dip_form1,
+                                                       XtNlabel, buf, NULL);
+  } else {
+    pdialog->dip_gold_input0 = NULL;
+    pdialog->dip_gold_input1 = NULL;
+    pdialog->dip_gold_label0 = NULL;
+    pdialog->dip_gold_label1 = NULL;
+  }
 
   pdialog->dip_vision_button0 =
     I_L(XtVaCreateManagedWidget("dipvisionbutton0",
@@ -640,13 +654,17 @@ struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   XtVaGetValues(pdialog->dip_tech_menubutton0, XtNwidth, &width, NULL);
   XtVaGetValues(pdialog->dip_city_menubutton0, XtNwidth, &width, NULL);
   maxwidth=MAX(width, maxwidth);
-  XtVaGetValues(pdialog->dip_gold_input0, XtNwidth, &width, NULL);
+  if (pdialog->dip_gold_input0) {
+    XtVaGetValues(pdialog->dip_gold_input0, XtNwidth, &width, NULL);
+  }
   maxwidth=MAX(width, maxwidth);
   XtVaSetValues(pdialog->dip_map_menubutton0, XtNwidth, maxwidth, NULL);
   XtVaSetValues(pdialog->dip_tech_menubutton0, XtNwidth, maxwidth, NULL);
   XtVaSetValues(pdialog->dip_city_menubutton0, XtNwidth, maxwidth, NULL);
-  XtVaSetValues(pdialog->dip_gold_input0,  XtNwidth, maxwidth, NULL);
-  
+  if (pdialog->dip_gold_input0) {
+    XtVaSetValues(pdialog->dip_gold_input0,  XtNwidth, maxwidth, NULL);
+  }
+
   XtVaGetValues(pdialog->dip_formm, XtNheight, &height, NULL);
   XtVaSetValues(pdialog->dip_form0, XtNheight, height, NULL); 
   XtVaSetValues(pdialog->dip_form1, XtNheight, height, NULL); 

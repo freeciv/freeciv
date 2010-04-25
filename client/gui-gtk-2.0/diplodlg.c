@@ -29,6 +29,7 @@
 /* common */
 #include "diptreaty.h"
 #include "fcintl.h"
+#include "game.h"
 #include "government.h"
 #include "map.h"
 #include "packets.h"
@@ -249,9 +250,8 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   gtk_menu_shell_append(GTK_MENU_SHELL(parent), item);
   gtk_widget_show_all(item);
 
-
-  /* Advances. */
-  {
+  /* Trading: advances */
+  if (game.info.trading_tech) {
     GtkWidget *advance_item;
     GList *sorting_list = NULL;
 
@@ -315,7 +315,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
   }
 
 
-  /* Cities. */
+  /* Trading: cities. */
 
   /****************************************************************
   Creates a sorted list of plr0's cities, excluding the capital and
@@ -324,7 +324,7 @@ static void popup_add_menu(GtkMenuShell *parent, gpointer data)
 
 			      - Kris Bubendorfer
   *****************************************************************/
-  {
+  if (game.info.trading_city) {
     int i = 0, j = 0, n = city_list_size(pgiver->cities);
     struct city **city_list_ptrs;
 
@@ -589,21 +589,21 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_set_row_spacings(GTK_TABLE(table), 6);
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
-  spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1, 1.0);
-  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-  gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
-  g_object_set_data(G_OBJECT(spin), "plr", plr0);
-  g_signal_connect_after(spin, "value-changed",
-			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
+  /* Trading gold: we */
+  if (game.info.trading_gold) {
+    spin = gtk_spin_button_new_with_range(0.0, plr0->economic.gold + 0.1,
+                                          1.0);
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
+    gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
+    g_object_set_data(G_OBJECT(spin), "plr", plr0);
+    g_signal_connect_after(spin, "value-changed",
+                           G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
-  label = g_object_new(GTK_TYPE_LABEL,
-    "use-underline", TRUE,
-    "mnemonic-widget", spin,
-    "label", _("_Gold:"),
-    "xalign", 0.0,
-    "yalign", 0.5,
-    NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+    label = g_object_new(GTK_TYPE_LABEL, "use-underline", TRUE,
+                         "mnemonic-widget", spin, "label", _("_Gold:"),
+                         "xalign", 0.0, "yalign", 0.5, NULL);
+    gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  }
 
   menubar = gtk_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);
@@ -661,21 +661,20 @@ static struct Diplomacy_dialog *create_diplomacy_dialog(struct player *plr0,
   gtk_table_set_row_spacings(GTK_TABLE(table), 6);
   gtk_box_pack_start(GTK_BOX(vbox), table, TRUE, TRUE, 0);
 
-  spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1, 1.0);
-  gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
-  gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
-  g_object_set_data(G_OBJECT(spin), "plr", plr1);
-  g_signal_connect_after(spin, "value-changed",
-			 G_CALLBACK(diplo_dialog_returnkey), pdialog);
+  /* Trading gold: they */
+  if (game.info.trading_gold) {
+    spin = gtk_spin_button_new_with_range(0.0, plr1->economic.gold + 0.1, 1.0);
+    gtk_spin_button_set_digits(GTK_SPIN_BUTTON(spin), 0);
+    gtk_table_attach_defaults(GTK_TABLE(table), spin, 1, 2, 0, 1);
+    g_object_set_data(G_OBJECT(spin), "plr", plr1);
+    g_signal_connect_after(spin, "value-changed",
+                           G_CALLBACK(diplo_dialog_returnkey), pdialog);
 
-  label = g_object_new(GTK_TYPE_LABEL,
-    "use-underline", TRUE,
-    "mnemonic-widget", spin,
-    "label", _("_Gold:"),
-    "xalign", 0.0,
-    "yalign", 0.5,
-    NULL);
-  gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+    label = g_object_new(GTK_TYPE_LABEL, "use-underline", TRUE,
+                         "mnemonic-widget", spin, "label", _("_Gold:"),
+                         "xalign", 0.0, "yalign", 0.5, NULL);
+    gtk_table_attach_defaults(GTK_TABLE(table), label, 0, 1, 0, 1);
+  }
 
   menubar = gtk_menu_bar_new();
   gtk_table_attach_defaults(GTK_TABLE(table), menubar, 1, 2, 1, 2);

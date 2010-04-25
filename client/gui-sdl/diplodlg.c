@@ -23,6 +23,7 @@
 
 /* common */
 #include "diptreaty.h"
+#include "game.h"
 
 /* client */
 #include "client_main.h"
@@ -574,7 +575,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   }
     
   /* ---------------------------- */
-  if(pPlayer0->economic.gold > 0) {
+  if(game.info.trading_gold && pPlayer0->economic.gold > 0) {
     pCont->value = pPlayer0->economic.gold;
     
     fc_snprintf(cBuf, sizeof(cBuf), _("Gold(max %d)"), pPlayer0->economic.gold);
@@ -599,8 +600,8 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   }
   /* ---------------------------- */
   
-  /* Advances */
-  {
+  /* Trading: advances */
+  if (game.info.trading_tech) {
     int flag = A_NONE;
     
     advance_index_iterate(A_FIRST, i) {
@@ -659,7 +660,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
     
   }  /* Advances */
   
-  /* Cities */
+  /* Trading: cities */
   /****************************************************************
   Creates a sorted list of pPlayer0's cities, excluding the capital and
   any cities not visible to pPlayer1.  This means that you can only trade 
@@ -667,7 +668,7 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
 
 			      - Kris Bubendorfer
   *****************************************************************/
-  {
+  if (game.info.trading_city) {
     int i = 0, j = 0, n = city_list_size(pPlayer0->cities);
     struct city **city_list_ptrs;
 
