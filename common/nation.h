@@ -183,6 +183,9 @@ void nations_alloc(int num);
 void nations_free(void);
 void nation_city_names_free(struct nation_city *city_names);
 
+int nations_match(struct nation_type* n1, struct nation_type* n2,
+                  bool ignore_conflicts);
+
 #include "iterator.h"
 struct nation_iter;
 size_t nation_iter_sizeof(void);

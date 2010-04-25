@@ -73,9 +73,6 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
-static int nations_match(struct nation_type* n1, struct nation_type* n2,
-                         bool ignore_conflicts);
-
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
@@ -1235,40 +1232,6 @@ struct player *shuffled_player(int i)
   log_debug("shuffled_player(%d) = %d (%p %s)",
             i, shuffled_order[i], pplayer, player_name(pplayer));
   return pplayer;
-}
-
-/**************************************************************************
-  Returns how much two nations looks good in the same game.
-  Negative return value means that we really really don't want these
-  nations together.
-**************************************************************************/
-static int nations_match(struct nation_type* n1, struct nation_type* n2,
-                         bool ignore_conflicts)
-{
-  int i, sum = 0;
-  
-  /* Scottish is a good civil war nation for British */
-  if (!ignore_conflicts) {
-    struct nation_type **p;
-
-    for (p = n1->conflicts_with; *p != NO_NATION_SELECTED; p++) {
-      if (*p == n2) {
-        return -1;
-      }
-    }
-
-    for (p = n2->conflicts_with; *p != NO_NATION_SELECTED; p++) {
-      if (*p == n1) {
-        return -1;
-      }
-    }
-  }
-  for (i = 0; i < n1->num_groups; i++) {
-    if (is_nation_in_group(n2, n1->groups[i])) {
-      sum += n1->groups[i]->match;
-    }
-  }
-  return sum;
 }
 
 /****************************************************************************

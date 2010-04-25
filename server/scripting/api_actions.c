@@ -21,9 +21,12 @@
 /* server */
 #include "barbarian.h"
 #include "citytools.h"
+#include "console.h" /* enum rfc_status */
 #include "maphand.h"
 #include "movement.h"
 #include "plrhand.h"
+#include "srv_main.h" /* game_was_started() */
+#include "stdinhand.h"
 #include "techtools.h"
 #include "unittools.h"
 
@@ -123,6 +126,33 @@ void api_actions_create_city(Player *pplayer, Tile *ptile, const char *name)
     name = city_name_suggestion(pplayer, ptile);
   }
   create_city(pplayer, ptile, name);
+}
+
+/**************************************************************************
+  Create a new player.
+**************************************************************************/
+Player *api_actions_create_player(const char *username,
+                                  Nation_Type *pnation)
+{
+  struct player *pplayer = NULL;
+  enum rfc_status status;
+  char buf[128];
+
+  SCRIPT_CHECK_ARG_NIL(username, 1, string, NULL);
+
+  if (game_was_started()) {
+    status = create_command_newcomer(username, FALSE, pnation, &pplayer,
+                                     buf, sizeof(buf));
+  } else {
+    status = create_command_pregame(username, FALSE, &pplayer,
+                                    buf, sizeof(buf));
+  }
+
+  if (strlen(buf) > 0) {
+    log_normal("%s", buf);
+  }
+
+  return pplayer;
 }
 
 /**************************************************************************

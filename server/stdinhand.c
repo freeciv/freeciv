@@ -108,10 +108,6 @@ static void show_changed(struct connection *caller, bool check,
 
 static bool create_command(struct connection *caller, const char *arg,
                            bool check);
-static enum rfc_status create_command_newcomer(const char *name, bool check,
-                                               char *buf, size_t buflen);
-static enum rfc_status create_command_pregame(const char *name, bool check,
-                                              char *buf, size_t buflen);
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
 static bool handle_stdin_input_real(struct connection *caller, const char *str,
@@ -774,9 +770,10 @@ static bool create_command(struct connection *caller, const char *arg,
   char buf[128];
 
   if (game_was_started()) {
-    status = create_command_newcomer(arg, check, buf, sizeof(buf));
+    status = create_command_newcomer(arg, check, NULL, NULL, buf,
+                                     sizeof(buf));
   } else {
-    status = create_command_pregame(arg, check, buf, sizeof(buf));
+    status = create_command_pregame(arg, check, NULL, buf, sizeof(buf));
   }
 
   if (status != C_OK) {
@@ -799,11 +796,14 @@ static bool create_command(struct connection *caller, const char *arg,
   1. Try to reuse the slot of a dead player with the username 'name'.
   2. Try to use an empty player slot.
   3. Try to reuse the slot of a dead player.
+
+  If 'pnation' is defined this nation is used for the new player.
 **************************************************************************/
-static enum rfc_status create_command_newcomer(const char *name, bool check,
-                                               char *buf, size_t buflen)
+enum rfc_status create_command_newcomer(const char *name, bool check,
+                                        struct nation_type *pnation,
+                                        struct player **newplayer,
+                                        char *buf, size_t buflen)
 {
-  struct nation_type *pnation = NULL;
   struct player *pplayer = NULL;
 
   /* Check player name. */
@@ -828,12 +828,24 @@ static enum rfc_status create_command_newcomer(const char *name, bool check,
     return C_BOUNCE;
   }
 
-  /* Try to find a nation. */
-  pnation = pick_a_nation(NULL, FALSE, TRUE, NOT_A_BARBARIAN);
-  if (pnation == NO_NATION_SELECTED) {
-    fc_snprintf(buf, buflen,
-                _("Can't create players, no nations available."));
-    return C_FAIL;
+  if (pnation) {
+    players_iterate(aplayer) {
+      if (0 > nations_match(pnation, nation_of_player(aplayer), FALSE)) {
+        fc_snprintf(buf, buflen,
+                    _("Can't create players, nation %s conflicts with %s."),
+                    nation_plural_for_player(aplayer),
+                    nation_plural_for_player(pplayer));
+        return C_FAIL;
+      }
+    } players_iterate_end;
+  } else {
+    /* Try to find a nation. */
+    pnation = pick_a_nation(NULL, FALSE, TRUE, NOT_A_BARBARIAN);
+    if (pnation == NO_NATION_SELECTED) {
+      fc_snprintf(buf, buflen,
+                  _("Can't create players, no nations available."));
+      return C_FAIL;
+    }
   }
 
   if (check) {
@@ -913,14 +925,18 @@ static enum rfc_status create_command_newcomer(const char *name, bool check,
   send_player_info_c(pplayer, NULL);
   (void) send_server_info_to_metaserver(META_INFO);
 
+  if (newplayer != NULL) {
+    *newplayer = pplayer;
+  }
   return C_OK;
 }
 
 /**************************************************************************
   ...
 **************************************************************************/
-static enum rfc_status create_command_pregame(const char *name, bool check,
-                                              char *buf, size_t buflen)
+enum rfc_status create_command_pregame(const char *name, bool check,
+                                       struct player **newplayer,
+                                       char *buf, size_t buflen)
 {
   struct player *pplayer = NULL;
 
@@ -1001,6 +1017,9 @@ static enum rfc_status create_command_pregame(const char *name, bool check,
   reset_all_start_commands();
   (void) send_server_info_to_metaserver(META_INFO);
 
+  if (newplayer != NULL) {
+    *newplayer = pplayer;
+  }
   return C_OK;
 }
 

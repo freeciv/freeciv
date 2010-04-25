@@ -626,3 +626,39 @@ bool can_conn_edit_players_nation(const struct connection *pconn,
 	      && ((!pconn->observer && pconn->playing == pplayer)
 	           || pconn->access_level >= ALLOW_CTRL)));
 }
+
+/**************************************************************************
+  Returns how much two nations looks good in the same game.
+  Negative return value means that we really really don't want these
+  nations together.
+**************************************************************************/
+int nations_match(struct nation_type* n1, struct nation_type* n2,
+                  bool ignore_conflicts)
+{
+  int i, sum = 0;
+
+  /* Scottish is a good civil war nation for British */
+  if (!ignore_conflicts) {
+    struct nation_type **p;
+
+    for (p = n1->conflicts_with; *p != NO_NATION_SELECTED; p++) {
+      if (*p == n2) {
+        return -1;
+      }
+    }
+
+    for (p = n2->conflicts_with; *p != NO_NATION_SELECTED; p++) {
+      if (*p == n1) {
+        return -1;
+      }
+    }
+  }
+
+  for (i = 0; i < n1->num_groups; i++) {
+    if (is_nation_in_group(n2, n1->groups[i])) {
+      sum += n1->groups[i]->match;
+    }
+  }
+
+  return sum;
+}

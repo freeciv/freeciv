@@ -774,6 +774,8 @@ void api_actions_create_city @ create_city (Player *pplayer, Tile *ptile,
                                             const char *name);
 void api_actions_create_base @ create_base (Tile *ptile, const char *name,
                                             Player *pplayer);
+Player *api_actions_create_player @ create_player(const char *username,
+                                                  Nation_Type *nation);
 void api_actions_change_gold @ change_gold (Player *pplayer, int amount);
 Tech_Type *api_actions_give_technology @ give_technology (Player *pplayer,
                                                           Tech_Type *ptech,
