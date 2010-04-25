@@ -117,6 +117,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
 static bool lua_command(struct connection *caller, char *arg, bool check);
 static char setting_status(struct connection *caller,
                            const struct setting *pset);
+static bool player_name_check(const char* name, char *buf, size_t buflen);
 
 static const char horiz_line[] =
 "------------------------------------------------------------------------------";
@@ -130,32 +131,29 @@ static bool is_restricted(struct connection *caller)
   return (caller && caller->access_level != ALLOW_HACK);
 }
 
-typedef enum {
-    PNameOk,
-    PNameEmpty,
-    PNameTooLong,
-    PNameIllegal
-} PlayerNameStatus;
-
 /**************************************************************************
-...
+  Check the player name. Returns TRUE if the player name is valid else
+  an error message is saved in 'buf'.
 **************************************************************************/
-static PlayerNameStatus test_player_name(char* name)
+static bool player_name_check(const char* name, char *buf, size_t buflen)
 {
   size_t len = strlen(name);
 
   if (len == 0) {
-      return PNameEmpty;
+    fc_snprintf(buf, buflen, _("Can't use an empty name."));
+    return FALSE;
   } else if (len > MAX_LEN_NAME-1) {
-      return PNameTooLong;
-  } else if (fc_strcasecmp(name, ANON_PLAYER_NAME) == 0) {
-      return PNameIllegal;
-  } else if (fc_strcasecmp(name, "Observer") == 0) {
+    fc_snprintf(buf, buflen, _("That name exceeds the maximum of %d chars."),
+               MAX_LEN_NAME-1);
+    return FALSE;
+  } else if (fc_strcasecmp(name, ANON_PLAYER_NAME) == 0
+             || fc_strcasecmp(name, "Observer") == 0) {
+    fc_snprintf(buf, buflen, _("That name is not allowed."));
     /* "Observer" used to be illegal and we keep it that way for now. */
-      return PNameIllegal;
+    return FALSE;
   }
 
-  return PNameOk;
+  return TRUE;
 }
 
 /**************************************************************************
@@ -761,13 +759,17 @@ static bool toggle_ai_command(struct connection *caller, char *arg, bool check)
 **************************************************************************/
 static bool create_ai_player(struct connection *caller, char *arg, bool check)
 {
-  PlayerNameStatus PNameStatus;
   struct player *pplayer = NULL;
+  char buf[128];
 
-  if (S_S_INITIAL != server_state())
-  {
+  if (S_S_INITIAL != server_state()) {
     cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-	      _("Can't add AI players once the game has begun."));
+              _("Can't add AI players once the game has begun."));
+    return FALSE;
+  }
+
+  if (!player_name_check(arg, buf, sizeof(buf))) {
+    cmd_reply(CMD_CREATE, caller, C_SYNTAX, "%s", buf);
     return FALSE;
   }
 
@@ -794,24 +796,6 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
     }
   }
 
-  if ((PNameStatus = test_player_name(arg)) == PNameEmpty)
-  {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX, _("Can't use an empty name."));
-    return FALSE;
-  }
-
-  if (PNameStatus == PNameTooLong)
-  {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX,
-	      _("That name exceeds the maximum of %d chars."), MAX_LEN_NAME-1);
-    return FALSE;
-  }
-
-  if (PNameStatus == PNameIllegal)
-  {
-    cmd_reply(CMD_CREATE, caller, C_SYNTAX, _("That name is not allowed."));
-    return FALSE;
-  }       
 
   if (NULL != find_player_by_name(arg)) {
     cmd_reply(CMD_CREATE, caller, C_BOUNCE,
