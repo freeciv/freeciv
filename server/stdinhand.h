@@ -23,7 +23,8 @@ void stdinhand_init(void);
 void stdinhand_turn(void);
 void stdinhand_free(void);
 
-bool handle_stdin_input(struct connection *caller, char *str, bool check);
+bool handle_stdin_input(struct connection *caller, const char *str,
+                        bool check);
 void set_ai_level_direct(struct player *pplayer, enum ai_level level);
 void set_ai_level_directer(struct player *pplayer, enum ai_level level);
 bool read_init_script(struct connection *caller, char *script_filename,

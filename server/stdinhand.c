@@ -75,11 +75,12 @@
 #include "sernet.h"
 #include "settings.h"
 #include "srv_main.h"
-#include "stdinhand.h"
 #include "voting.h"
 
 /* server/scripting */
 #include "script.h"
+
+#include "stdinhand.h"
 
 #define TOKEN_DELIMITERS " \t\n,"
 
@@ -106,7 +107,7 @@ static void show_changed(struct connection *caller, bool check,
 
 static bool end_command(struct connection *caller, char *str, bool check);
 static bool surrender_command(struct connection *caller, char *str, bool check);
-static bool handle_stdin_input_real(struct connection *caller, char *str,
+static bool handle_stdin_input_real(struct connection *caller, const char *str,
                                     bool check, int read_recursion);
 static bool read_init_script_real(struct connection *caller,
                                   char *script_filename, bool from_cmdline,
@@ -3517,7 +3518,8 @@ static bool quit_game(struct connection *caller, bool check)
 /**************************************************************************
   Main entry point for "command input".
 **************************************************************************/
-bool handle_stdin_input(struct connection *caller, char *str, bool check)
+bool handle_stdin_input(struct connection *caller, const char *str,
+                        bool check)
 {
   return handle_stdin_input_real(caller, str, check, 0);
 }
@@ -3530,8 +3532,9 @@ bool handle_stdin_input(struct connection *caller, char *str, bool check)
 
   If check is TRUE, then do nothing, just check syntax.
 **************************************************************************/
-static bool handle_stdin_input_real(struct connection *caller, char *str,
-                                    bool check, int read_recursion)
+static bool handle_stdin_input_real(struct connection *caller,
+                                    const char *str, bool check,
+                                    int read_recursion)
 {
   char command[MAX_LEN_CONSOLE_LINE], arg[MAX_LEN_CONSOLE_LINE],
       allargs[MAX_LEN_CONSOLE_LINE], full_command[MAX_LEN_CONSOLE_LINE],
@@ -3554,7 +3557,7 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
 
   /* Is it a comment or a blank line? */
   /* line is comment if the first non-whitespace character is '#': */
-  cptr_s = skip_leading_spaces(str);
+  cptr_s = skip_leading_spaces((char *)str);
   if (*cptr_s == '\0' || *cptr_s == '#') {
     return FALSE;
   }
@@ -3969,7 +3972,6 @@ static bool lua_command(struct connection *caller, char *arg, bool check)
 
   return script_do_string(arg);
 }
-
 
 /**************************************************************************
  Send start command related message
