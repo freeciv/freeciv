@@ -1842,6 +1842,7 @@ static void player_load_units(struct player *plr, int plrno,
     int nat_x, nat_y;
     const char* type_name;
     struct unit_type *type;
+    enum tile_special_type target;
     struct base_type *pbase = NULL;
     int base;
 
@@ -1907,7 +1908,28 @@ static void player_load_units(struct player *plr, int plrno,
     activity = secfile_lookup_int(file, "player%d.u%d.activity", plrno, i);
     base = secfile_lookup_int_default(file, -1,
                                       "player%d.u%d.activity_base", plrno, i);
+    if (base >= 0 && base < num_base_types) {
+      pbase = base_order[base];
+    }
 
+    target
+      = secfile_lookup_int_default(file, S_LAST,
+                                   "player%d.u%d.activity_target", plrno, i);
+    if (target == S_OLD_FORTRESS) {
+      target = S_LAST;
+      pbase = find_base_type_by_rule_name("Fortress");
+    } else if (target == S_OLD_AIRBASE) {
+      target = S_LAST;
+      pbase = find_base_type_by_rule_name("Airbase");
+    }
+
+    /* need to do this to assign/deassign settlers correctly -- Syela
+     *
+     * was punit->activity=secfile_lookup_int(file,
+     *                             "player%d.u%d.activity",plrno, i); */
+    punit->activity_count = secfile_lookup_int(file, 
+                                               "player%d.u%d.activity_count",
+                                               plrno, i);
     if (activity == ACTIVITY_PATROL_UNUSED) {
       /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
        * client-side goto.  Now client-side goto is handled by setting
@@ -1920,52 +1942,32 @@ static void player_load_units(struct player *plr, int plrno,
     }
 
     if (activity == ACTIVITY_FORTRESS) {
+      activity = ACTIVITY_BASE;
       pbase = get_base_by_gui_type(BASE_GUI_FORTRESS, punit, punit->tile);
     } else if (activity == ACTIVITY_AIRBASE) {
+      activity = ACTIVITY_BASE;
       pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
-    } else if (activity == ACTIVITY_BASE) {
-      if (base >= 0 && base < num_base_types) {
-        pbase = base_order[base];
+    }
+
+    if (activity == ACTIVITY_BASE) {
+      if (pbase) {
+        set_unit_activity_base(punit, base_number(pbase));
       } else {
         freelog(LOG_ERROR, "Cannot find base %d for %s to build",
                 base, unit_rule_name(punit));
         set_unit_activity(punit, ACTIVITY_IDLE);
       }
+    } else if (activity == ACTIVITY_PILLAGE) {
+      if (target != S_LAST) {
+        pbase = NULL;
+      }
+      /* An out-of-range base number is seen with old savegames. We take
+       * it as indicating undirected pillaging. We will assign pillage
+       * targets before play starts. */
+      set_unit_activity_targeted(punit, activity, target,
+                                 pbase ? base_index(pbase) : BASE_NONE);
     } else {
       set_unit_activity(punit, activity);
-    }
-
-    if (pbase) {
-      set_unit_activity_base(punit, base_number(pbase));
-    }
-
-    /* need to do this to assign/deassign settlers correctly -- Syela
-     *
-     * was punit->activity=secfile_lookup_int(file,
-     *                             "player%d.u%d.activity",plrno, i); */
-    punit->activity_count = secfile_lookup_int(file, 
-					       "player%d.u%d.activity_count",
-					       plrno, i);
-    punit->activity_target
-      = secfile_lookup_int_default(file, S_LAST,
-				   "player%d.u%d.activity_target", plrno, i);
-
-    if (activity == ACTIVITY_PILLAGE) {
-      struct base_type *pbase = NULL;
-
-      if (punit->activity_target == S_OLD_FORTRESS) {
-        punit->activity_target = S_LAST;
-        pbase = find_base_type_by_rule_name("Fortress");
-      } else if (punit->activity_target == S_OLD_AIRBASE) {
-        punit->activity_target = S_LAST;
-        pbase = find_base_type_by_rule_name("Airbase");
-      }
-
-      if (pbase != NULL) {
-        punit->activity_base = base_index(pbase);
-      } else {
-        punit->activity_base = -1;
-      }
     }
 
     punit->done_moving = secfile_lookup_bool_default(file,
@@ -3591,7 +3593,6 @@ static void player_save_units(struct player *plr, int plrno,
 
   unit_list_iterate(plr->units, punit) {
     int activity = punit->activity;
-    char basenum = -1;
 
     i++;
 
@@ -3607,9 +3608,6 @@ static void player_save_units(struct player *plr, int plrno,
 		       "player%d.u%d.type_by_name",
 		       plrno, i);
 
-    if (activity == ACTIVITY_BASE) {
-      basenum = punit->activity_base;
-    }
     secfile_insert_int(file, activity, "player%d.u%d.activity",
                        plrno, i);
     secfile_insert_int(file, punit->activity_count, 
@@ -3618,7 +3616,9 @@ static void player_save_units(struct player *plr, int plrno,
     secfile_insert_int(file, punit->activity_target, 
 				"player%d.u%d.activity_target",
 				plrno, i);
-    secfile_insert_int(file, basenum, "player%d.u%d.activity_base", plrno, i);
+    secfile_insert_int(file, punit->activity_base,
+                                "player%d.u%d.activity_base",
+                                plrno, i);
     secfile_insert_bool(file, punit->done_moving,
 			"player%d.u%d.done_moving", plrno, i);
     secfile_insert_int(file, punit->moves_left, "player%d.u%d.moves",
@@ -4931,6 +4931,17 @@ static void game_load_internal(struct section_file *file)
       player_load_attributes(pplayer, plrno, file);
       loaded_players++;
     } player_slots_iterate_end;
+
+    /* Backward compatibility: if we had any open-ended orders (pillage)
+     * in the savegame, assign specific targets now */
+    players_iterate(pplayer) {
+      unit_list_iterate(pplayer->units, punit) {
+        unit_activity_assign_target(punit,
+                                    &punit->activity,
+                                    &punit->activity_target,
+                                    &punit->activity_base);
+      } unit_list_iterate_end;
+    } players_iterate_end;
 
     /* Check that the number of players loaded matches the
      * number of players set in the save file. */

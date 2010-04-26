@@ -351,7 +351,6 @@ void popup_pillage_dialog(struct unit *punit,
 {
   GtkWidget *shl;
   int what;
-  enum tile_special_type prereq;
 
   if (!is_showing_pillage_dialog) {
     is_showing_pillage_dialog = TRUE;
@@ -381,10 +380,6 @@ void popup_pillage_dialog(struct unit *punit,
         BV_CLR(bases, what - S_LAST - 1);
       } else {
         clear_special(&may_pillage, what);
-        prereq = get_infrastructure_prereq(what);
-        if (prereq != S_LAST) {
-          clear_special(&may_pillage, prereq);
-        }
       }
     }
 
