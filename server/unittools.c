@@ -557,12 +557,15 @@ static int total_activity(struct tile *ptile, enum unit_activity act)
   for a given task and target.
 **************************************************************************/
 static int total_activity_targeted(struct tile *ptile, enum unit_activity act,
-				   enum tile_special_type tgt)
+                                   enum tile_special_type tgt,
+                                   Base_type_id base)
 {
   int total = 0;
 
+  fc_assert(!(tgt == S_LAST && base == BASE_NONE));
   unit_list_iterate (ptile->units, punit)
-    if ((punit->activity == act) && (punit->activity_target == tgt))
+    if ((punit->activity == act) && (punit->activity_target == tgt)
+        && (tgt != S_LAST || punit->activity_base == base))
       total += punit->activity_count;
   unit_list_iterate_end;
   return total;
@@ -726,56 +729,30 @@ static void update_unit_activity(struct unit *punit)
     return;
 
   case ACTIVITY_PILLAGE:
-    if (punit->activity_target == S_LAST
-        && punit->activity_base == BASE_NONE) { /* case for old save files */
-      if (punit->activity_count >= 1) {
-        enum tile_special_type what;
-        bv_bases bases;
-
-        BV_CLR_ALL(bases);
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)) {
-            if (pbase->pillageable) {
-              BV_SET(bases, base_index(pbase));
-            }
-          }
-        } base_type_iterate_end;
-
-        what = get_preferred_pillage(get_tile_infrastructure_set(ptile, NULL),
-                                     bases);
-
-	if (what != S_LAST) {
-          if (what > S_LAST) {
-            unit_pillage_base(ptile, base_by_number(what - S_LAST - 1));
-          } else {
-            tile_clear_special(ptile, what);
-          }
-	  update_tile_knowledge(ptile);
-	  set_unit_activity(punit, ACTIVITY_IDLE);
-	  check_adjacent_units = TRUE;
-	}
-
-	/* Change vision if effects have changed. */
-	unit_list_refresh_vision(ptile->units);
-      }
-    }
-    else if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
-                                     punit->activity_target) >= 1) {
+    if (total_activity_targeted(ptile, ACTIVITY_PILLAGE, 
+                                punit->activity_target,
+                                punit->activity_base) >= 1) {
       enum tile_special_type what_pillaged = punit->activity_target;
 
-      if (what_pillaged == S_LAST && punit->activity_base != BASE_NONE) {
+      if (what_pillaged == S_LAST) {
+        fc_assert(punit->activity_base != BASE_NONE);
         unit_pillage_base(ptile, base_by_number(punit->activity_base));
       } else {
         tile_clear_special(ptile, what_pillaged);
       }
       unit_list_iterate (ptile->units, punit2) {
-        if ((punit2->activity == ACTIVITY_PILLAGE) &&
-	    (punit2->activity_target == what_pillaged)) {
+        if ((punit2->activity == ACTIVITY_PILLAGE)
+            && (punit2->activity_target == what_pillaged)
+            && (what_pillaged != S_LAST
+                || punit2->activity_base == punit->activity_base)) {
 	  set_unit_activity(punit2, ACTIVITY_IDLE);
 	  send_unit_info(NULL, punit2);
 	}
       } unit_list_iterate_end;
       update_tile_knowledge(ptile);
+      /* Deliberately don't set unit_activity_done -- we already dealt with
+       * other units working on the same thing above */
+      check_adjacent_units = TRUE;
 
       call_incident(INCIDENT_PILLAGE, unit_owner(punit), tile_owner(ptile));
 
@@ -892,6 +869,45 @@ static void update_unit_activity(struct unit *punit)
       unit_activity_handling(punit2, ACTIVITY_IDLE);
     }
   } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  For some activities (currently only pillaging), the precise target can
+  be assigned by the server rather than explicitly requested.
+  This function assigns a specific activity/target/base if the current
+  settings are open-ended (otherwise leaves them unchanged).
+**************************************************************************/
+void unit_activity_assign_target(struct unit *punit,
+                                 enum unit_activity *activity,
+                                 enum tile_special_type *target,
+                                 Base_type_id *base)
+{
+  if (*activity == ACTIVITY_PILLAGE
+      && *target == S_LAST && *base == BASE_NONE) {
+    struct tile *ptile = unit_tile(punit);
+    bv_special specials = tile_specials(ptile);
+    bv_bases bases = tile_bases(ptile);
+    enum tile_special_type new_target;
+    while ((new_target = get_preferred_pillage(specials, bases)) != S_LAST) {
+      Base_type_id new_base;
+      if (new_target > S_LAST) {
+        new_base = new_target - S_LAST - 1;
+        new_target = S_LAST;
+        BV_CLR(bases, new_base);
+      } else {
+        new_base = BASE_NONE;
+        clear_special(&specials, new_target);
+      }
+      if (can_unit_do_activity_targeted(punit, *activity,
+                                        new_target, new_base)) {
+        *target = new_target;
+        *base = new_base;
+        return;
+      }
+    }
+    /* Nothing we can pillage here. */
+    *activity = ACTIVITY_IDLE;
+  }
 }
 
 /**************************************************************************

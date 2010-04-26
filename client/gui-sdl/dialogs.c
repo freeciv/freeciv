@@ -1995,7 +1995,6 @@ void popup_pillage_dialog(struct unit *pUnit,
   struct widget *pWindow = NULL, *pBuf = NULL;
   SDL_String16 *pStr;
   int what;
-  enum tile_special_type prereq;
   SDL_Rect area;
 
   if (pPillage_Dlg) {
@@ -2036,19 +2035,12 @@ void popup_pillage_dialog(struct unit *pUnit,
   /* ---------- */
   
   while ((what = get_preferred_pillage(may_pillage, bases)) != S_LAST) {
-    bv_special what_bv;
-    bv_bases what_base;
     const char *name;
-
-    BV_CLR_ALL(what_bv);
-    BV_CLR_ALL(what_base);
 
     if (what > S_LAST) {
       struct base_type *pbase = base_by_number(what - S_LAST - 1);
-      BV_SET(what_base, what - S_LAST - 1);
       name = base_name_translation(pbase);
     } else {
-      BV_SET(what_bv, what);
       name = special_name_translation(what);
     }
 
@@ -2059,10 +2051,6 @@ void popup_pillage_dialog(struct unit *pUnit,
       BV_CLR(bases, what - S_LAST - 1);
     } else {
       clear_special(&may_pillage, what);
-      prereq = get_infrastructure_prereq(what);
-      if (prereq != S_LAST) {
-        clear_special(&may_pillage, prereq);
-      }
     }
 
     pBuf->data.unit = pUnit;

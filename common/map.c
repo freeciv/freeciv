@@ -90,6 +90,29 @@ bv_special get_tile_infrastructure_set(const struct tile *ptile,
   return pspresent;
 }
 
+/****************************************************************************
+  Return a bitfield of the pillageable bases on the tile.
+****************************************************************************/
+bv_bases get_tile_pillageable_base_set(const struct tile *ptile, int *pcount)
+{
+  bv_bases bspresent;
+  int count = 0;
+
+  BV_CLR_ALL(bspresent);
+  base_type_iterate(pbase) {
+    if (tile_has_base(ptile, pbase)) {
+      if (pbase->pillageable) {
+        BV_SET(bspresent, base_index(pbase));
+        count++;
+      }
+    }
+  } base_type_iterate_end;
+  if (pcount) {
+    *pcount = count;
+  }
+  return bspresent;
+}
+
 /***************************************************************
   Returns 1 if we are at a stage of the game where the map
   has not yet been generated/loaded.

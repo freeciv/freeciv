@@ -1860,11 +1860,12 @@ static void unit_activity_handling_targeted(struct unit *punit,
                                             Base_type_id base)
 {
   if (can_unit_do_activity_targeted(punit, new_activity, new_target,
-                                    BASE_NONE)) {
+                                    base)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
     free_unit_orders(punit);
+    unit_activity_assign_target(punit, &new_activity, &new_target, &base);
     set_unit_activity_targeted(punit, new_activity, new_target, base);
     send_unit_info(NULL, punit);    
     unit_activity_dependencies(punit, old_activity, old_target);

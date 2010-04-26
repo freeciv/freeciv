@@ -278,6 +278,7 @@ bool is_safe_ocean(const struct tile *ptile);
 bool is_cardinally_adj_to_ocean(const struct tile *ptile);
 bv_special get_tile_infrastructure_set(const struct tile *ptile,
 					  int *count);
+bv_bases get_tile_pillageable_base_set(const struct tile *ptile, int *pcount);
 
 bool can_channel_land(const struct tile *ptile);
 bool can_reclaim_ocean(const struct tile *ptile);

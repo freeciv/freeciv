@@ -143,8 +143,6 @@ const char *popup_info_text(struct tile *ptile)
      Q_("?nation:Neutral"),
      Q_("?city:Peaceful"), Q_("?city:Friendly"), Q_("?city:Mysterious"),
      Q_("?city:Friendly(team)")};
-  int infracount;
-  bv_special infra;
   static struct astring str = ASTRING_INIT;
   char username[MAX_LEN_NAME + 32];
   char nation[2 * MAX_LEN_NAME + 32];
@@ -295,18 +293,12 @@ const char *popup_info_text(struct tile *ptile)
       }
     } unit_list_iterate_end;
   }
-  infra = get_tile_infrastructure_set(ptile, &infracount);
-  if (infracount == 0) {
-    base_type_iterate(pbase) {
-      if (BV_ISSET(ptile->bases, base_index(pbase))) {
-        infracount = 1;
-        break;
-      }
-    } base_type_iterate_end;
-  }
-  if (infracount > 0) {
-    astr_add_line(&str, _("Infrastructure: %s"),
-		  get_infrastructure_text(ptile->special, ptile->bases));
+  {
+    const char *infratext = get_infrastructure_text(ptile->special,
+                                                    ptile->bases);
+    if (*infratext != '\0') {
+      astr_add_line(&str, _("Infrastructure: %s"), infratext);
+    }
   }
   activity_text = concat_tile_activity_text(ptile);
   if (strlen(activity_text) > 0) {
@@ -965,23 +957,16 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
     struct unit *punit = unit_list_get(punits, 0);
     struct city *pcity =
 	player_find_city_by_id(unit_owner(punit), punit->homecity);
-    int infracount;
-    bv_special infrastructure =
-      get_tile_infrastructure_set(punit->tile, &infracount);
 
     astr_add_line(&str, "%s", tile_get_info_text(punit->tile, linebreaks));
-    if (infracount == 0) {
-      base_type_iterate(pbase) {
-        if (BV_ISSET(punit->tile->bases, base_index(pbase))) {
-          infracount = 1;
-          break;
-        }
-      } base_type_iterate_end;
-    }
-    if (infracount > 0) {
-      astr_add_line(&str, "%s", get_infrastructure_text(infrastructure, punit->tile->bases));
-    } else {
-      astr_add_line(&str, " ");
+    {
+      const char *infratext = get_infrastructure_text(punit->tile->special,
+                                                      punit->tile->bases);
+      if (*infratext != '\0') {
+        astr_add_line(&str, "%s", infratext);
+      } else {
+        astr_add_line(&str, " ");
+      }
     }
     if (pcity) {
       astr_add_line(&str, "%s", city_name(pcity));

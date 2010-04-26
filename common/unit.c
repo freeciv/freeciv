@@ -947,59 +947,80 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 
   case ACTIVITY_PILLAGE:
     {
-      int numpresent;
-      bv_special pspresent = get_tile_infrastructure_set(ptile, &numpresent);
-      bv_bases bases;
+      if (uclass_has_flag(pclass, UCF_CAN_PILLAGE)) {
+        bv_special pspresent = get_tile_infrastructure_set(ptile, NULL);
+        bv_bases bspresent = get_tile_pillageable_base_set(ptile, NULL);
+        bv_special psworking = get_unit_tile_pillage_set(ptile);
+        bv_bases bsworking = get_unit_tile_pillage_base_set(ptile);
+        bv_special pspossible;
+        bv_bases bspossible;
 
-      if ((numpresent > 0 || tile_has_any_bases(ptile))
-          && uclass_has_flag(unit_class(punit), UCF_CAN_PILLAGE)) {
-	bv_special psworking;
-	int i;
+        BV_CLR_ALL(pspossible);
+        tile_special_type_iterate(spe) {
+          /* Only one unit can pillage a given improvement at a time */
+          if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
+            BV_SET(pspossible, spe);
+          }
+        } tile_special_type_iterate_end;
+        tile_special_type_iterate(spe) {
+          enum tile_special_type prereq = get_infrastructure_prereq(spe);
+          /* If an improvement is present, we can't pillage its prerequisite */
+          /* (FIXME: Could in principle allow simultaneous pillaging of
+           * an improvement and its prerequisite, but this would require care
+           * to ensure that the unit pillaging the topmost improvement
+           * finished first.) */
+          if (prereq != S_LAST && BV_ISSET(pspresent, spe)) {
+            BV_CLR(pspossible, prereq);
+          }
+        } tile_special_type_iterate_end;
+        if (tile_city(ptile)) {
+          /* Can't pillage roads on city tiles */
+          BV_CLR(pspossible, S_ROAD);
+          BV_CLR(pspossible, S_RAILROAD);
+        }
 
-	if (tile_city(ptile) && (target == S_ROAD || target == S_RAILROAD)) {
-	  return FALSE;
-	}
-	psworking = get_unit_tile_pillage_set(ptile);
-
-        BV_CLR_ALL(bases);
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)) {
-            if (pbase->pillageable) {
-              BV_SET(bases, base_index(pbase));
-              numpresent++;
-            }
+        BV_CLR_ALL(bspossible);
+        base_type_iterate(pb) {
+          Base_type_id b = base_index(pb);
+          if (BV_ISSET(bspresent, b) && !BV_ISSET(bsworking, b)) {
+            BV_SET(bspossible, b);
           }
         } base_type_iterate_end;
 
-        if (numpresent == 0) {
+        if (!BV_ISSET_ANY(pspossible) && !BV_ISSET_ANY(bspossible)) {
+          /* Nothing available to pillage */
           return FALSE;
         }
 
-	if (target == S_LAST && base == BASE_NONE) {
-	  for (i = 0; infrastructure_specials[i] != S_LAST; i++) {
-	    enum tile_special_type spe = infrastructure_specials[i];
-
-	    if (tile_city(ptile) && (spe == S_ROAD || spe == S_RAILROAD)) {
-	      /* Can't pillage this. */
-	      continue;
-	    }
-	    if (BV_ISSET(pspresent, spe) && !BV_ISSET(psworking, spe)) {
-	      /* Can pillage this! */
-	      return TRUE;
-	    }
-	  }
-	} else if (!game.info.pillage_select
-		   && target != get_preferred_pillage(pspresent, bases)) {
-	  return FALSE;
-	} else {
-          if (target == S_LAST && base != BASE_NONE) {
-            return BV_ISSET(bases, base);
-          } else {
-            return BV_ISSET(pspresent, target) && !BV_ISSET(psworking, target);
+        if (target == S_LAST && base == BASE_NONE) {
+          /* Undirected pillaging. If we've got this far, then there's
+           * *something* we can pillage; work out what when we come to it */
+          return TRUE;
+        } else {
+          if (!game.info.pillage_select) {
+            /* Hobson's choice (this case mostly exists for old clients) */
+            /* Needs to match what unit_activity_assign_target chooses */
+            int pre_target = get_preferred_pillage(pspossible, bspossible);
+            Base_type_id pre_base = BASE_NONE;
+            fc_assert_ret_val(pre_target != S_LAST, FALSE);
+            if (pre_target > S_LAST) {
+              pre_base = pre_target - S_LAST - 1;
+              pre_target = S_LAST;
+            }
+            if (target != pre_target || base != pre_base) {
+              /* Only one target allowed, which wasn't the requested one */
+              return FALSE;
+            }
           }
-	}
+          if (target != S_LAST) {
+            return BV_ISSET(pspossible, target);
+          } else {
+            return BV_ISSET(bspossible, base);
+          }
+        }
       } else {
-	return FALSE;
+        /* Unit is not a type that can pillage at all */
+        return FALSE;
       }
     }
 
