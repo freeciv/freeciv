@@ -827,22 +827,35 @@ static void precalc_one(int i,
   }
 }
 
-/**************************************************************************
-Initialize; it is safe to call this multiple times (eg, if units have
-changed due to rulesets in client).
-**************************************************************************/
+/****************************************************************************
+  Free memory allocated by role_unit_precalcs().
+****************************************************************************/
+void role_unit_precalcs_free(void)
+{
+  int i;
+
+  for (i = 0; i < L_LAST; i++) {
+    free(with_role[i]);
+    with_role[i] = NULL;
+    n_with_role[i] = 0;
+  }
+}
+
+/****************************************************************************
+  Initialize; it is safe to call this multiple times (e.g., if units have
+  changed due to rulesets in client).
+****************************************************************************/
 void role_unit_precalcs(void)
 {
   int i;
-  
-  if(!first_init) {
-    for(i=0; i<L_LAST; i++) {
-      free(with_role[i]);
+
+  if (first_init) {
+    for (i = 0; i < L_LAST; i++) {
+      with_role[i] = NULL;
+      n_with_role[i] = 0;
     }
-  }
-  for(i=0; i<L_LAST; i++) {
-    with_role[i] = NULL;
-    n_with_role[i] = 0;
+  } else {
+    role_unit_precalcs_free();
   }
 
   for(i=0; i<F_LAST; i++) {

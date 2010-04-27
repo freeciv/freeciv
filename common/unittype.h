@@ -271,6 +271,7 @@ const char *unit_role_rule_name(enum unit_role_id id);
 
 /* Functions to operate on various flag and roles. */
 void role_unit_precalcs(void);
+void role_unit_precalcs_free(void);
 int num_role_units(int role);
 struct unit_type *get_role_unit(int role, int index);
 struct unit_type *best_role_unit(const struct city *pcity, int role);
