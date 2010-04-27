@@ -899,7 +899,7 @@ bool base_city_can_work_tile(const struct player *restriction,
     return FALSE;
   }
 
-  if ((NULL == restriction || powner == restriction)
+  if (powner == restriction
       && TILE_KNOWN_SEEN != tile_get_known(ptile, powner)) {
     return FALSE;
   }
@@ -924,7 +924,7 @@ bool base_city_can_work_tile(const struct player *restriction,
 **************************************************************************/
 bool city_can_work_tile(const struct city *pcity, const struct tile *ptile)
 {
-  return base_city_can_work_tile(NULL, pcity, ptile);
+  return base_city_can_work_tile(city_owner(pcity), pcity, ptile);
 }
 
 /**************************************************************************
