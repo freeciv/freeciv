@@ -118,6 +118,7 @@ void establish_new_connection(struct connection *pconn)
   struct conn_list *dest = pconn->self;
   struct player *pplayer;
   struct packet_server_join_reply packet;
+  struct packet_chat_msg connect_info;
   char hostname[512];
 
   /* zero out the password */
@@ -158,15 +159,8 @@ void establish_new_connection(struct connection *pconn)
   /* FIXME: this (getting messages about others logging on) should be a 
    * message option for the client with event */
 
-  /* notify the console and other established connections that you're here */
+  /* Notify the console that you're here. */
   log_normal(_("%s has connected from %s."), pconn->username, pconn->addr);
-  conn_list_iterate(game.est_connections, aconn) {
-    if (aconn != pconn) {
-      notify_conn(aconn->self, NULL, E_CONNECTION, ftc_server,
-                  _("%s has connected from %s."),
-                  pconn->username, pconn->addr);
-    }
-  } conn_list_iterate_end;
 
   conn_compression_freeze(pconn);
   send_rulesets(dest);
@@ -219,6 +213,27 @@ void establish_new_connection(struct connection *pconn)
                 pconn->username,
                 player_name(pconn->playing));
   }
+
+  /* Notify the *other* established connections that you are connected, and
+   * add the info for all in event cache. Note we must to do it after we
+   * sent the pending events to pconn (from this function and also
+   * connection_attach()), otherwise pconn will receive it too. */
+  if (conn_controls_player(pconn)) {
+    package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                  _("%s has connected from %s (player %s)."),
+                  pconn->username, pconn->addr,
+                  player_name(conn_get_player(pconn)));
+  } else {
+    package_event(&connect_info, NULL, E_CONNECTION, ftc_server,
+                  _("%s has connected from %s."),
+                  pconn->username, pconn->addr);
+  }
+  conn_list_iterate(game.est_connections, aconn) {
+    if (aconn != pconn) {
+      send_packet_chat_msg(aconn, &connect_info);
+    }
+  } conn_list_iterate_end;
+  event_cache_add_for_all(&connect_info);
 
   /* if need be, tell who we're waiting on to end the game.info.turn */
   if (S_S_RUNNING == server_state() && game.server.turnblock) {

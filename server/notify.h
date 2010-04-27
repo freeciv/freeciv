@@ -37,6 +37,12 @@ void vpackage_chat_msg(struct packet_chat_msg *packet,
                        const struct ft_color color,
                        const char *format,
                        va_list vargs);
+void package_event(struct packet_chat_msg *packet,
+                   const struct tile *ptile,
+                   enum event_type event,
+                   const struct ft_color color,
+                   const char *format, ...)
+                   fc__attribute((__format__ (__printf__, 5, 6)));
 void vpackage_event(struct packet_chat_msg *packet,
                     const struct tile *ptile,
                     enum event_type event,

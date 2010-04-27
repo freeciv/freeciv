@@ -139,6 +139,31 @@ void vpackage_event(struct packet_chat_msg *packet,
   package_event_full(packet, ptile, event, NULL, color, format, vargs);
 }
 
+/**************************************************************************
+  Fill a packet_chat_msg structure for common server event.
+
+  packet: A pointer to the packet.
+  ptile: A pointer to a tile the event is occuring.
+  event: The event type.
+  color: The requested color or ftc_any if not requested.  Some colors are
+    predefined in common/featured_text.h.  You can pass a custom one using
+    ft_color().
+  format: The format of the message.
+  ...: The extra arguments to build the message.
+**************************************************************************/
+void package_event(struct packet_chat_msg *packet,
+                   const struct tile *ptile,
+                   enum event_type event,
+                   const struct ft_color color,
+                   const char *format, ...)
+{
+  va_list args;
+
+  va_start(args, format);
+  vpackage_event(packet, ptile, event, color, format, args);
+  va_end(args);
+}
+
 
 /**************************************************************************
   This is the basis for following notify_* functions. It uses the struct
