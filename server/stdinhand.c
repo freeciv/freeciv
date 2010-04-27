@@ -1220,6 +1220,10 @@ static void write_init_script(char *script_filename)
         fprintf(script_file, "set %s %s\n", setting_name(pset),
                 setting_str_get(pset));
         break;
+      case SSET_ENUM:
+        fprintf(script_file, "set %s %s\n", setting_name(pset),
+                setting_enum_get_str(pset));
+        break;
       }
     } settings_iterate_end;
 
@@ -1655,6 +1659,24 @@ static void show_help_option(struct connection *caller,
                 _("Value:"), setting_str_get(pset),
                 _("Default:"), setting_str_def(pset));
       break;
+    case SSET_ENUM:
+      {
+        int i;
+        const char *value;
+
+        cmd_reply(help_cmd, caller, C_COMMENT, _("Possible values:"));
+        for (i = 0; (value = setting_enum_int_to_str(pset, i)); i++) {
+          cmd_reply(help_cmd, caller, C_COMMENT, "- %d: \"%s\"",
+                    i, _(value));
+        }
+        cmd_reply(help_cmd, caller, C_COMMENT,
+                  "%s \"%s\" (%d), %s \"%s\" (%d)",
+                  _("Value:"), _(setting_enum_get_str(pset)),
+                  setting_enum_get_int(pset),
+                  _("Default:"), _(setting_enum_def_str(pset)),
+                  setting_enum_def_int(pset));
+      }
+      break;
     }
   }
 }
@@ -2075,6 +2097,21 @@ static bool show_command(struct connection *caller, char *str, bool check)
           is_changed = strcmp(setting_str_get(pset), setting_str_def(pset));
           len = fc_snprintf(value, sizeof(value), "\"%s\"",
                             setting_str_get(pset));
+          if (is_changed) {
+            /* Emphasizes the changed option. */
+            feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
+                                                  TTT_COLOR, 0,
+                                                  FT_OFFSET_UNSET,
+                                                  ftc_changed) - len;
+            sz_strlcpy(value, buf);
+          }
+          break;
+        case SSET_ENUM:
+          is_changed = (setting_enum_get_int(pset)
+                        != setting_enum_def_int(pset));
+          len = fc_snprintf(value, sizeof(value), "\"%s\" (%d)",
+                            _(setting_enum_get_str(pset)),
+                            setting_enum_get_int(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
@@ -2653,6 +2690,21 @@ static bool debug_command(struct connection *caller, char *str,
   return TRUE;
 }
 
+/****************************************************************************
+  Returns TRUE if the string contains only digits.
+****************************************************************************/
+static inline bool string_contains_only_digits(const char *str)
+{
+  if ('-' == *str || '+' == *str) {
+    /* Ignore the sign. */
+    str++;
+  }
+  while (fc_isdigit(*str)) {
+    str++;
+  }
+  return ('\0' == *str);
+}
+
 /******************************************************************
   ...
 ******************************************************************/
@@ -2703,7 +2755,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       goto cleanup;
     }
-    /* make sure the input string only contains digits */
+    /* Make sure the input string only contains digits 0 or 1. */
     for (i = 0;; i++) {
       if (args[1][i] == '\0' ) {
         break;
@@ -2748,18 +2800,12 @@ static bool set_command(struct connection *caller, char *str, bool check)
       cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
       goto cleanup;
     }
-    /* make sure the input string only contains digits */
-    for (i = 0;; i++) {
-      if (args[1][i] == '\0' ) {
-        break;
-      }
-      if ((args[1][i] < '0' || args[1][i] > '9')
-          && (i != 0 || (args[1][i] != '-' && args[1][i] != '+'))) {
-        cmd_reply(CMD_SET, caller, C_SYNTAX,
-                  _("The parameter %s should only contain +- and 0-9."),
-                  setting_name(pset));
-        goto cleanup;
-      }
+    /* Make sure the input string only contains digits. */
+    if (!string_contains_only_digits(args[1])) {
+      cmd_reply(CMD_SET, caller, C_SYNTAX,
+                _("The parameter %s should only contain +- and 0-9."),
+                setting_name(pset));
+      goto cleanup;
     }
     if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
@@ -2803,6 +2849,51 @@ static bool set_command(struct connection *caller, char *str, bool check)
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
+    }
+    break;
+
+  case SSET_ENUM:
+    if (1 == sscanf(args[1], "%d", &val)
+        && string_contains_only_digits(args[1])) {
+      /* Enumerator as an integer. */
+      if (check) {
+        if (!setting_is_changeable(pset, caller, reject_msg,
+                                   sizeof(reject_msg))
+            || !setting_enum_validate_int(pset, val, caller, reject_msg,
+                                          sizeof(reject_msg))) {
+          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+          goto cleanup;
+        }
+      } else if (setting_enum_set_int(pset, val, caller, reject_msg,
+                                      sizeof(reject_msg))) {
+        fc_snprintf(buffer, sizeof(buffer),
+                    _("Option: %s has been set to \"%s\" (%d)."),
+                    setting_name(pset), _(setting_enum_get_str(pset)),
+                    setting_enum_get_int(pset));
+        do_update = TRUE;
+      } else {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
+      }
+    } else if (check) {
+      /* Enumerator as a string. */
+      if (!setting_is_changeable(pset, caller, reject_msg,
+                                 sizeof(reject_msg))
+          || !setting_enum_validate_str(pset, args[1], caller, reject_msg,
+                                        sizeof(reject_msg))) {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
+      }
+    } else if (setting_enum_set_str(pset, args[1], caller, reject_msg,
+                                    sizeof(reject_msg))) {
+        fc_snprintf(buffer, sizeof(buffer),
+                    _("Option: %s has been set to \"%s\" (%d)."),
+                    setting_name(pset), _(setting_enum_get_str(pset)),
+                    setting_enum_get_int(pset));
+      do_update = TRUE;
+    } else {
+      cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+      goto cleanup;
     }
     break;
   }

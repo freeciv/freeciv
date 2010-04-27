@@ -2117,6 +2117,7 @@ void real_set_client_page(enum client_pages new_page)
       gtk_widget_hide(start_options_table);
     }
     voteinfo_gui_update();
+    overview_size_changed();
     break;
   case PAGE_GAME:
     reset_unit_table();

@@ -492,8 +492,6 @@ extern const int DIR_DY[8];
 
 #define MAP_ORIGINAL_TOPO        TF_WRAPX
 #define MAP_DEFAULT_TOPO         TF_WRAPX
-#define MAP_MIN_TOPO             0
-#define MAP_MAX_TOPO             15
 
 #define MAP_DEFAULT_SEED         0
 #define MAP_MIN_SEED             0
@@ -516,12 +514,8 @@ extern const int DIR_DY[8];
 #define MAP_MAX_WETNESS          100
 
 #define MAP_DEFAULT_GENERATOR    1
-#define MAP_MIN_GENERATOR        1
-#define MAP_MAX_GENERATOR        3
 
 #define MAP_DEFAULT_STARTPOS     0
-#define MAP_MIN_STARTPOS         0
-#define MAP_MAX_STARTPOS         4
 
 #define MAP_DEFAULT_TINYISLES    FALSE
 #define MAP_MIN_TINYISLES        FALSE

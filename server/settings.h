@@ -58,7 +58,8 @@ extern const int OLEVELS_NUM;
 enum sset_type {
   SSET_BOOL,
   SSET_INT,
-  SSET_STRING
+  SSET_STRING,
+  SSET_ENUM
 };
 
 /* forward declaration */
@@ -84,6 +85,7 @@ bool setting_is_changeable(const struct setting *pset,
 bool setting_is_visible(const struct setting *pset,
                         struct connection *caller);
 
+/* Type SSET_BOOL setting functions. */
 bool setting_bool_get(const struct setting *pset);
 bool setting_bool_def(const struct setting *pset);
 bool setting_bool_set(struct setting *pset, bool val,
@@ -93,6 +95,7 @@ bool setting_bool_validate(const struct setting *pset, bool val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
 
+/* Type SSET_INT setting functions. */
 int setting_int_get(const struct setting *pset);
 int setting_int_def(const struct setting *pset);
 int setting_int_min(const struct setting *pset);
@@ -104,6 +107,7 @@ bool setting_int_validate(const struct setting *pset, int val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
 
+/* Type SSET_STRING setting functions. */
 const char *setting_str_get(const struct setting *pset);
 const char *setting_str_def(const struct setting *pset);
 bool setting_str_set(struct setting *pset, const char *val,
@@ -112,6 +116,27 @@ bool setting_str_set(struct setting *pset, const char *val,
 bool setting_str_validate(const struct setting *pset, const char *val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
+
+/* Type SSET_ENUM setting functions. */
+int setting_enum_str_to_int(const struct setting *pset, const char *str);
+const char *setting_enum_int_to_str(const struct setting *pset, int val);
+int setting_enum_get_int(const struct setting *pset);
+const char *setting_enum_get_str(const struct setting *pset);
+int setting_enum_def_int(const struct setting *pset);
+const char *setting_enum_def_str(const struct setting *pset);
+bool setting_enum_set_int(struct setting *pset, int val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len);
+bool setting_enum_set_str(struct setting *pset, const char *val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len);
+bool setting_enum_validate_int(const struct setting *pset, int val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len);
+bool setting_enum_validate_str(const struct setting *pset, const char *val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len);
+
 void setting_action(const struct setting *pset);
 
 bool setting_locked(const struct setting *pset);

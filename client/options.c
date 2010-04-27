@@ -2672,6 +2672,20 @@ static const struct option_str_vtable server_option_str_vtable = {
   .set = server_option_str_set
 };
 
+static int server_option_enum_get(const struct option *poption);
+static int server_option_enum_def(const struct option *poption);
+static const struct strvec *
+server_option_enum_values(const struct option *poption);
+static bool server_option_enum_set(struct option *poption, int val);
+
+static const struct option_enum_vtable server_option_enum_vtable = {
+  .get = server_option_enum_get,
+  .def = server_option_enum_def,
+  .values = server_option_enum_values,
+  .set = server_option_enum_set,
+  .cmp = strcmp
+};
+
 /****************************************************************************
   Derived class server option, inherinting of base class option.
 ****************************************************************************/
@@ -2702,6 +2716,12 @@ struct server_option {
       char *value;
       char *def;
     } string;
+    /* OT_ENUM type option. */
+    struct {
+      int value;
+      int def;
+      struct strvec *values;
+    } enumerator;
   };
 };
 
@@ -2726,14 +2746,31 @@ void server_options_init(void)
 ****************************************************************************/
 static void server_option_free(struct server_option *poption)
 {
-  if (OT_STRING == option_type(OPTION(poption))) {
+  switch (poption->base_option.type) {
+  case OT_STRING:
     if (NULL != poption->string.value) {
       FC_FREE(poption->string.value);
     }
     if (NULL != poption->string.def) {
       FC_FREE(poption->string.def);
     }
+    break;
+
+  case OT_ENUM:
+    if (NULL != poption->enumerator.values) {
+      strvec_destroy(poption->enumerator.values);
+      poption->enumerator.values = NULL;
+    }
+    break;
+
+  case OT_BOOLEAN:
+  case OT_INTEGER:
+  case OT_FONT:
+  case OT_COLOR:
+  case OT_VIDEO_MODE:
+    break;
   }
+
   if (NULL != poption->name) {
     FC_FREE(poption->name);
   }
@@ -2834,10 +2871,6 @@ void handle_server_setting_const(struct packet_server_setting_const *packet)
   Common part of handle_server_setting_*() functions. See below.
 ****************************************************************************/
 #define handle_server_setting_common(psoption, packet)                      \
-{                                                                           \
-  bool need_gui_remove = FALSE;                                             \
-  bool need_gui_add = FALSE;                                                \
-                                                                            \
   psoption->is_changeable = packet->is_changeable;                          \
   if (psoption->is_visible != packet->is_visible) {                         \
     if (psoption->is_visible) {                                             \
@@ -2869,8 +2902,7 @@ void handle_server_setting_const(struct packet_server_setting_const *packet)
     option_gui_add(poption);                                                \
   } else {                                                                  \
     option_gui_update(poption);                                             \
-  }                                                                         \
-}
+  }
 
 /****************************************************************************
   Receive a boolean server setting info packet.
@@ -2879,6 +2911,8 @@ void handle_server_setting_bool(struct packet_server_setting_bool *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_gui_remove = FALSE;
+  bool need_gui_add = FALSE;
 
   fc_assert_ret(NULL != poption);
 
@@ -2911,6 +2945,8 @@ void handle_server_setting_int(struct packet_server_setting_int *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_gui_remove = FALSE;
+  bool need_gui_add = FALSE;
 
   fc_assert_ret(NULL != poption);
 
@@ -2945,6 +2981,8 @@ void handle_server_setting_str(struct packet_server_setting_str *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_gui_remove = FALSE;
+  bool need_gui_add = FALSE;
 
   fc_assert_ret(NULL != poption);
 
@@ -2974,6 +3012,74 @@ void handle_server_setting_str(struct packet_server_setting_str *packet)
     } else if (0 != strcmp(packet->default_val, psoption->string.def)) {
       free(psoption->string.def);
       psoption->string.def = fc_strdup(packet->default_val);
+    }
+  }
+
+  handle_server_setting_common(psoption, packet);
+}
+
+/****************************************************************************
+  Receive a string server setting info packet.
+****************************************************************************/
+void handle_server_setting_enum(struct packet_server_setting_enum *packet)
+{
+  struct option *poption = server_optset_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_gui_remove = FALSE;
+  bool need_gui_add = FALSE;
+
+  fc_assert_ret(NULL != poption);
+
+  if (NULL == poption->common_vtable) {
+    /* Not initialized yet. */
+    poption->poptset = server_optset;
+    poption->common_vtable = &server_option_common_vtable;
+    poption->type = OT_ENUM;
+    poption->enum_vtable = &server_option_enum_vtable;
+  }
+  fc_assert_ret_msg(OT_ENUM == poption->type,
+                    "Server setting \"%s\" (nb %d) has type %s (%d), "
+                    "expected %s (%d)",
+                    option_name(poption), option_number(poption),
+                    option_type_name(poption->type), poption->type,
+                    option_type_name(OT_ENUM), OT_ENUM);
+
+  if (packet->is_visible) {
+    int i;
+
+    psoption->enumerator.value = packet->val;
+    psoption->enumerator.def = packet->default_val;
+
+    if (NULL == psoption->enumerator.values) {
+      /* First time we get this packet. */
+      psoption->enumerator.values = strvec_new();
+      strvec_reserve(psoption->enumerator.values, packet->values_num);
+      for (i = 0; i < packet->values_num; i++) {
+        strvec_set(psoption->enumerator.values, i, packet->values[i]);
+      }
+    } else if (strvec_size(psoption->enumerator.values)
+               != packet->values_num) {
+      /* The number of values have changed, we need to reset the list
+       * of possible values. */
+      strvec_reserve(psoption->enumerator.values, packet->values_num);
+      for (i = 0; i < packet->values_num; i++) {
+        strvec_set(psoption->enumerator.values, i, packet->values[i]);
+      }
+      need_gui_remove = TRUE;
+      need_gui_add = TRUE;
+    } else {
+      /* Check if a value changed, then we need to reset the list
+       * of possible values. */
+      const char *str;
+
+      for (i = 0; i < packet->values_num; i++) {
+        str = strvec_get(psoption->enumerator.values, i);
+        if (NULL == str || 0 != strcmp(str, packet->values[i])) {
+          strvec_set(psoption->enumerator.values, i, packet->values[i]);
+          need_gui_remove = TRUE;
+          need_gui_add = TRUE;
+        }
+      }
     }
   }
 
@@ -3212,6 +3318,50 @@ static bool server_option_str_set(struct option *poption, const char *str)
   }
 
   send_chat_printf("/set %s %s", psoption->name, str);
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns the current value of this server option of type OT_ENUM.
+****************************************************************************/
+static int server_option_enum_get(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->enumerator.value;
+}
+
+/****************************************************************************
+  Returns the default value of this server option of type OT_ENUM.
+****************************************************************************/
+static int server_option_enum_def(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->enumerator.def;
+}
+
+/****************************************************************************
+  Returns the possible string values of this server option of type
+  OT_ENUM.
+****************************************************************************/
+static const struct strvec *
+server_option_enum_values(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->enumerator.values;
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_ENUM.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_enum_set(struct option *poption, int val)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+  const char *name;
+
+  if (val == psoption->enumerator.value
+      || !(name = strvec_get(psoption->enumerator.values, val))) {
+    return FALSE;
+  }
+
+  send_chat_printf("/set %s \"%s\"", psoption->name, name);
   return TRUE;
 }
 
@@ -3664,6 +3814,9 @@ void desired_settable_options_update(void)
       def_val = option_str_def(poption);
       break;
     case OT_ENUM:
+      value = option_enum_get_str(poption);
+      def_val = option_enum_def_str(poption);
+      break;
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -3736,6 +3889,8 @@ static void desired_settable_option_send(struct option *poption)
     value = option_str_get(poption);
     break;
   case OT_ENUM:
+    value = option_enum_get_str(poption);
+    break;
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:

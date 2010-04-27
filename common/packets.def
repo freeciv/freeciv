@@ -1410,6 +1410,18 @@ PACKET_SERVER_SETTING_STR = 168; sc, handle-via-packet, is-info
   STRING default_val[MAX_LEN_PACKET];
 end
 
+PACKET_SERVER_SETTING_ENUM = 169; sc, handle-via-packet, is-info
+  UINT16 id; key
+  BOOL is_visible;
+  BOOL is_changeable;
+  BOOL initial_setting;
+
+  SINT8 val;
+  SINT8 default_val;
+  SINT8 values_num;
+  STRING values[64:values_num][MAX_LEN_ENUM];
+end
+
 /************** Effects hash packets **********************/
 
 PACKET_RULESET_EFFECT = 175; sc, lsend

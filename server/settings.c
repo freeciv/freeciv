@@ -64,9 +64,12 @@ typedef bool (*string_validate_func_t)(const char * value,
                                        struct connection *pconn,
                                        char *reject_msg,
                                        size_t reject_msg_len);
+typedef bool (*enum_validate_func_t) (int value, struct connection *pconn,
+                                      char *reject_msg,
+                                      size_t reject_msg_len);
 
-struct setting;
 typedef void (*action_callback_func_t)(const struct setting *pset);
+typedef const char * (*enum_name_func_t) (int value);
 
 struct setting {
   const char *name;
@@ -121,6 +124,14 @@ struct setting {
       const string_validate_func_t validate;
       char *game_value;
     } string;
+    /*** enumerator part ***/
+    struct {
+      int *const pvalue;
+      const int default_value;
+      const enum_validate_func_t validate;
+      const enum_name_func_t name;
+      int game_value;
+    } enumerator;
   };
 
   /* action function */
@@ -161,6 +172,153 @@ static void setting_game_restore(struct setting *pset);
     fc_snprintf(_buf, _buf_len, format, ## __VA_ARGS__);                    \
   }
 
+/****************************************************************************
+  Enumerator name accessors.
+****************************************************************************/
+
+/****************************************************************************
+  Topology setting names accessor.
+****************************************************************************/
+static const char *topology_name(int topology)
+{
+  static const char *names[] = {
+    N_("Flat Earth (unwrapped)"),
+    N_("Earth (wraps E-W)"),
+    N_("Uranus (wraps N-S)"),
+    N_("Donut World (wraps N-S, E-W)"),
+    N_("Flat Earth (isometric)"),
+    N_("Earth (isometric)"),
+    N_("Uranus (isometric)"),
+    N_("Donut World (isometric)"),
+    N_("Flat Earth (hexagonal)"),
+    N_("Earth (hexagonal)"),
+    N_("Uranus (hexagonal)"),
+    N_("Donut World (hexagonal)"),
+    N_("Flat Earth (iso-hex)"),
+    N_("Earth (iso-hex)"),
+    N_("Uranus (iso-hex)"),
+    N_("Donut World (iso-hex)")
+  };
+
+  return (0 <= topology && topology < ARRAY_SIZE(names)
+          ? names[topology] : NULL);
+}
+
+/****************************************************************************
+  Generator setting names accessor.
+****************************************************************************/
+static const char *generator_name(int generator)
+{
+  static const char *names[] = {
+    N_("Scenario map"),
+    N_("Fully random height"),
+    N_("Pseudo-fractal height"),
+    N_("Island-based")
+  };
+
+  return (0 <= generator && generator < ARRAY_SIZE(names)
+          ? names[generator] : NULL);
+}
+
+/****************************************************************************
+  Start position setting names accessor.
+****************************************************************************/
+static const char *startpos_name(int startpos)
+{
+  static const char *names[] = {
+    N_("Generator's choice"),
+    N_("One player per continent"),
+    N_("Two players per continent"),
+    N_("All players on a single continent"),
+    N_("Depending on size of continents")
+  };
+
+  return (0 <= startpos && startpos < ARRAY_SIZE(names)
+          ? names[startpos] : NULL);
+}
+
+/****************************************************************************
+  Borders setting names accessor.
+****************************************************************************/
+static const char *borders_name(int borders)
+{
+ static const char *names[] = {
+    N_("Disabled"),
+    N_("Enabled"),
+    N_("See everything inside borders"),
+    N_("Borders expand to unknown, revealing tiles")
+  };
+
+  return (0 <= borders && borders < ARRAY_SIZE(names)
+          ? names[borders] : NULL);
+}
+
+/****************************************************************************
+  Diplomacy setting names accessor.
+****************************************************************************/
+static const char *diplomacy_name(int diplomacy)
+{
+ static const char *names[] = {
+    N_("Enabled for everyone"),
+    N_("Only allowed between human players"),
+    N_("Only allowed between AI players"),
+    N_("Restricted to teams"),
+    N_("Disabled for everyone")
+  };
+
+  return (0 <= diplomacy && diplomacy < ARRAY_SIZE(names)
+          ? names[diplomacy] : NULL);
+}
+
+/****************************************************************************
+  City name setting names accessor.
+****************************************************************************/
+static const char *cityname_name(int cityname)
+{
+ static const char *names[] = {
+    N_("No restrictions"),
+    N_("Unique to a player"),
+    N_("Globally unique"),
+    N_("No city name stealing")
+  };
+
+  return (0 <= cityname && cityname < ARRAY_SIZE(names)
+          ? names[cityname] : NULL);
+}
+
+/****************************************************************************
+  Barbarian setting names accessor.
+****************************************************************************/
+static const char *barbarians_name(int barbarians)
+{
+ static const char *names[] = {
+    N_("No barbarians"),
+    N_("Only in huts"),
+    N_("Normal rate of appearance"),
+    N_("Frequent barbarian uprising"),
+    N_("Raging hordes")
+  };
+
+  return (0 <= barbarians && barbarians < ARRAY_SIZE(names)
+          ? names[barbarians] : NULL);
+}
+
+/****************************************************************************
+  Phase mode names accessor.
+****************************************************************************/
+static const char *phasemode_name(int phasemode)
+{
+ static const char *names[] = {
+    N_("All players move concurrently"),
+    N_("All players alternate movement"),
+    N_("Team alternate movement")
+  };
+
+  return (0 <= phasemode && phasemode < ARRAY_SIZE(names)
+          ? names[phasemode] : NULL);
+}
+
+
 /*************************************************************************
   Action callback functions. 'caller' and 'message' are not used and
   should be set to NULL by the calling function.
@@ -192,6 +350,30 @@ static void autotoggle_action(const struct setting *pset)
 /*************************************************************************
   Validation callback functions.
 *************************************************************************/
+
+/****************************************************************************
+  Verify the value of the generator option (notably the 0 case).
+****************************************************************************/
+static bool generator_validate(int value, struct connection *caller,
+                               char *reject_msg, size_t reject_msg_len)
+{
+  if (map_is_empty()) {
+    if (0 == value) {
+      settings_snprintf(reject_msg, reject_msg_len,
+                        _("You cannot disable the map generator."));
+      return FALSE;
+    }
+    return TRUE;
+  } else {
+    if (0 != value) {
+      settings_snprintf(reject_msg, reject_msg_len,
+                        _("You cannot require a map generator "
+                          "when a map is loaded."));
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
 
 /*************************************************************************
   Verify that a given demography string is valid. See
@@ -452,6 +634,14 @@ static bool phasemode_callback(int value, struct connection *caller,
       {.string = {value, _default, sizeof(value), func_validate, ""}},  \
       func_action, FALSE},
 
+#define GEN_ENUM(name, value, sclass, scateg, slevel, to_client,            \
+                 short_help, extra_help, func_validate, func_action,        \
+                 func_name, _default)                                       \
+  { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
+    scateg, slevel,                                                         \
+     { .enumerator = { (int *) &value, _default, func_validate,             \
+       (enum_name_func_t) func_name, 0 }}, func_action, FALSE},
+
 #define GEN_END                                                         \
   {NULL, SSET_LAST, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,             \
       SSET_NUM_CATEGORIES, SSET_NONE,                                   \
@@ -470,77 +660,54 @@ static struct setting settings[] = {
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
              "  size = 20 is a huge map of 20,000 tiles"), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
-  GEN_INT("topology", map.topology_id, SSET_MAP_SIZE,
-	  SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Map topology index"),
-	  /* TRANS: do not edit the ugly ASCII art */
-	  N_("Freeciv maps are always two-dimensional. They may wrap at "
-	     "the north-south and east-west directions to form a flat map, "
-	     "a cylinder, or a torus (donut). Individual tiles may be "
-	     "rectangular or hexagonal, with either a classic or isometric "
-	     "alignment - this should be set based on the tileset being "
-	     "used.\n"
-             "   0 Flat Earth (unwrapped)\n"
-             "   1 Earth (wraps E-W)\n"
-             "   2 Uranus (wraps N-S)\n"
-             "   3 Donut World (wraps N-S, E-W)\n"
-	     "   4 Flat Earth (isometric)\n"
-	     "   5 Earth (isometric)\n"
-	     "   6 Uranus (isometric)\n"
-	     "   7 Donut World (isometric)\n"
-	     "   8 Flat Earth (hexagonal)\n"
-	     "   9 Earth (hexagonal)\n"
-	     "  10 Uranus (hexagonal)\n"
-	     "  11 Donut World (hexagonal)\n"
-	     "  12 Flat Earth (iso-hex)\n"
-	     "  13 Earth (iso-hex)\n"
-	     "  14 Uranus (iso-hex)\n"
-	     "  15 Donut World (iso-hex)\n"
-	     "Classic rectangular:       Isometric rectangular:\n"
-	     "      _________               /\\/\\/\\/\\/\\ \n"
-	     "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
-	     "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
-	     "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
-	     "                             \\/\\/\\/\\/\\/  \n"
-	     "Hex tiles:                 Iso-hex:\n"
-	     "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _       \n"
-	     "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\      \n"
-	     "  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
-	     "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\      \n"
-	     "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/    \n"
-          ), NULL, NULL,
-	  MAP_MIN_TOPO, MAP_MAX_TOPO, MAP_DEFAULT_TOPO)
+  GEN_ENUM("topology", map.topology_id, SSET_MAP_SIZE,
+           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Map topology index"),
+           /* TRANS: do not edit the ugly ASCII art */
+           N_("Freeciv maps are always two-dimensional. They may wrap at "
+              "the north-south and east-west directions to form a flat map, "
+              "a cylinder, or a torus (donut). Individual tiles may be "
+              "rectangular or hexagonal, with either a classic or isometric "
+              "alignment - this should be set based on the tileset being "
+              "used.\n"
+              "Classic rectangular:       Isometric rectangular:\n"
+              "      _________               /\\/\\/\\/\\/\\\n"
+              "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+              "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
+              "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+              "                             \\/\\/\\/\\/\\/\n"
+              "Hex tiles:                 Iso-hex:\n"
+              "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
+              "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
+              "  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/\n"
+              "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
+              "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
+          ), NULL, NULL, topology_name, MAP_DEFAULT_TOPO)
 
   /* Map generation parameters: once we have a map these are of historical
    * interest only, and cannot be changed.
    */
-  GEN_INT("generator", map.server.generator,
-          SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
-          N_("Method used to generate map"),
-          N_("0 = Scenario map - no generator\n"
-             "1 = Fully random height generator              [4]\n"
-             "2 = Pseudo-fractal height generator            [3]\n"
-             "3 = Island-based generator (fairer but boring) [1]\n"
-             "\n"
-             "Numbers in [] give the default values for placement of "
-             "starting positions.  If the default value of startpos is "
-             "used then a startpos setting will be chosen based on the "
-             "generator.  See the \"startpos\" setting."), NULL, NULL,
-          MAP_MIN_GENERATOR, MAP_MAX_GENERATOR, MAP_DEFAULT_GENERATOR)
+  GEN_ENUM("generator", map.server.generator,
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
+           N_("Method used to generate map"),
+           /* TRANS: Don't translate "startpos". */
+           N_("If the default value of startpos is used then a startpos "
+              "setting will be chosen based on the generator:\n"
+              "- \"Fully random height\": depending on continent size\n"
+              "- \"Pseudo-fractal height\": all on a single continent\n"
+              "- \"Island-based\": one player per continent\n"
+              "See the \"startpos\" setting."),
+           generator_validate, NULL, generator_name, MAP_DEFAULT_GENERATOR)
 
-  GEN_INT("startpos", map.server.startpos,
-	  SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL,  SSET_TO_CLIENT,
-	  N_("Method used to choose start positions"),
-	  N_("0 = Generator's choice.  Selecting this setting means\n"
-	     "    the default value will be picked based on the generator\n"
-	     "    chosen.  See the \"generator\" setting.\n"
-	     "1 = Try to place one player per continent.\n"
-	     "2 = Try to place two players per continent.\n"
-	     "3 = Try to place all players on a single continent.\n"
-	     "4 = Place players depending on size of continents.\n"
-	     "Note: generators try to create the right number of continents "
-	     "for the choice of start pos and to the number of players"),
-          NULL, NULL, MAP_MIN_STARTPOS, MAP_MAX_STARTPOS, MAP_DEFAULT_STARTPOS)
+  GEN_ENUM("startpos", map.server.startpos,
+           SSET_MAP_GEN, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Method used to choose start positions"),
+           N_("Selecting \"Generator's choice\" means the default value "
+              "will be picked based on the generator chosen. See the "
+              "\"generator\" setting.\n"
+              "Note: generators try to create the right number of "
+              "continents for the choice of start pos and to the number "
+              "of players"), NULL, NULL, startpos_name, MAP_DEFAULT_STARTPOS)
 
   GEN_BOOL("tinyisles", map.server.tinyisles,
 	   SSET_MAP_GEN, SSET_GEOLOGY, SSET_RARE, SSET_TO_CLIENT,
@@ -992,17 +1159,12 @@ static struct setting settings[] = {
           NULL, NULL, GAME_MIN_KILLUNHOMED, GAME_MAX_KILLUNHOMED,
           GAME_DEFAULT_KILLUNHOMED)
 
-  GEN_INT("borders", game.info.borders,
-	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("National borders"),
-	  N_("If this is set to greater than 0, then any land tiles "
-	     "around a fortress or city will be owned by that nation.\n"
-             "  0 = Disabled\n"
-             "  1 = Enabled\n"
-             "  2 = See everything inside borders\n"
-             "  3 = Borders expand to unknown, revealing tiles"),
-          NULL, NULL,
-	  GAME_MIN_BORDERS, GAME_MAX_BORDERS, GAME_DEFAULT_BORDERS)
+  GEN_ENUM("borders", game.info.borders,
+           SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("National borders"),
+           N_("If this is not disabled, then any land tiles around a "
+              "fortress or city will be owned by that nation."),
+           NULL, NULL, borders_name, GAME_DEFAULT_BORDERS)
 
   GEN_BOOL("happyborders", game.info.happyborders,
 	   SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL,
@@ -1012,31 +1174,26 @@ static struct setting settings[] = {
               "inside your own borders."), NULL, NULL,
 	   GAME_DEFAULT_HAPPYBORDERS)
 
-  GEN_INT("diplomacy", game.info.diplomacy,
-	  SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
-	  N_("Ability to do diplomacy with other players"),
-	  N_("0 = default; diplomacy is enabled for everyone.\n"
-	     "1 = diplomacy is only allowed between human players.\n"
-	     "2 = diplomacy is only allowed between AI players.\n"
-             "3 = diplomacy is restricted to teams.\n"
-             "4 = diplomacy is disabled for everyone."), NULL, NULL,
-	  GAME_MIN_DIPLOMACY, GAME_MAX_DIPLOMACY, GAME_DEFAULT_DIPLOMACY)
+  GEN_ENUM("diplomacy", game.info.diplomacy,
+           SSET_RULES, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Ability to do diplomacy with other players"),
+           N_("This setting controls the ability to do diplomacy with "
+              "other players."),
+           NULL, NULL, diplomacy_name, GAME_DEFAULT_DIPLOMACY)
 
-  GEN_INT("citynames", game.server.allowed_city_names,
-          SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
-          N_("Allowed city names"),
-          N_("0 = There are no restrictions: players can have "
-             "multiple cities with the same names.\n"
-             "1 = City names have to be unique to a player: "
-             "one player can't have multiple cities with the same name.\n"
-             "2 = City names have to be globally unique: "
-             "all cities in a game have to have different names.\n"
-             "3 = Like setting 2, but a player isn't allowed to use a "
-             "default city name of another nations unless it is a default "
-             "for their nation also."),
-          NULL, NULL,
-          GAME_MIN_ALLOWED_CITY_NAMES, GAME_MAX_ALLOWED_CITY_NAMES,
-          GAME_DEFAULT_ALLOWED_CITY_NAMES)
+  GEN_ENUM("citynames", game.server.allowed_city_names,
+           SSET_RULES, SSET_SOCIOLOGY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Allowed city names"),
+           N_("- \"No restrictions\": players can have multiple cities with "
+              "the same names.\n"
+              "- \"Unique to a player\": one player can't have multiple "
+              "cities with the same name.\n"
+              "- \"Globally unique\": all cities in a game have to have "
+              "different names.\n"
+              "- \"No city name stealing\": like \"Globally unique\", but a "
+              "player isn't allowed to use a default city name of another "
+              "nations unless it is a default for their nation also."),
+           NULL, NULL, cityname_name, GAME_DEFAULT_ALLOWED_CITY_NAMES)
 
   /* Flexible rules: these can be changed after the game has started.
    *
@@ -1051,16 +1208,12 @@ static struct setting settings[] = {
    *      packet_game_info) should probably not be flexible, or at
    *      least need extra care to be flexible.
    */
-  GEN_INT("barbarians", game.server.barbarianrate,
-	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
-	  N_("Barbarian appearance frequency"),
-	  N_("0 = no barbarians \n"
-	     "1 = barbarians only in huts \n"
-	     "2 = normal rate of barbarian appearance \n"
-	     "3 = frequent barbarian uprising \n"
-             "4 = raging hordes, lots of barbarians"), NULL, NULL,
-	  GAME_MIN_BARBARIANRATE, GAME_MAX_BARBARIANRATE, 
-	  GAME_DEFAULT_BARBARIANRATE)
+  GEN_ENUM("barbarians", game.server.barbarianrate,
+           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Barbarian appearance frequency"),
+           N_("This setting controls how frequently the barbarians appears "
+              "in the game. See also the \"onsetbarbs\" setting."),
+           NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
 
   GEN_INT("onsetbarbs", game.server.onsetbarbarian,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
@@ -1357,18 +1510,12 @@ static struct setting settings[] = {
   /* This setting points to the "stored" value; changing it won't have
    * an effect until the next synchronization point (i.e., the start of
    * the next turn). */
-  GEN_INT("phasemode", game.server.phase_mode_stored,
-	  SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
-          N_("Control of simultaneous player/team phases."),
-          /* NB: The values must match enum phase_mode_types
-           * defined in common/game.h */
-	  N_("This setting controls whether players may make "
-             "moves at the same time during a turn.\n"
-             "  0 = All players move concurrently.\n"
-             "  1 = All players alternate movement.\n"
-             "  2 = Only players on the same team move concurrently."),
-          phasemode_callback, NULL, GAME_MIN_PHASE_MODE,
-          GAME_MAX_PHASE_MODE, GAME_DEFAULT_PHASE_MODE)
+  GEN_ENUM("phasemode", game.server.phase_mode_stored,
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_TO_CLIENT,
+           N_("Control of simultaneous player/team phases."),
+           N_("This setting controls whether players may make "
+              "moves at the same time during a turn."),
+           phasemode_callback, NULL, phasemode_name, GAME_DEFAULT_PHASE_MODE)
 
   GEN_INT("nettimeout", game.server.tcptimeout,
 	  SSET_META, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
@@ -1505,6 +1652,7 @@ static struct setting settings[] = {
 #undef GEN_BOOL
 #undef GEN_INT
 #undef GEN_STRING
+#undef GEN_ENUM
 #undef GEN_END
 
 /* The number of settings, not including the END. */
@@ -1872,6 +2020,169 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                                    reject_msg_len));
 }
 
+/****************************************************************************
+  Convert the string to the integer representation of an enumerator.
+  Return -1 if 'str' doesn't match any enumerator name.
+****************************************************************************/
+int setting_enum_str_to_int(const struct setting *pset, const char *str)
+{
+  const char *name;
+  int val;
+
+  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
+
+  for (val = 0; (name = pset->enumerator.name(val)); val++) {
+    if (0 == fc_strcasecmp(str, name)) {
+      return val;
+    }
+  }
+  return -1;
+}
+
+/****************************************************************************
+  Convert the integer to the string representation of an enumerator.
+  Return NULL if 'val' is not a valid enumerator.
+****************************************************************************/
+const char *setting_enum_int_to_str(const struct setting *pset, int val)
+{
+  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
+  return pset->enumerator.name(val);
+}
+
+/****************************************************************************
+  Returns the current enumerator value (as an integer).
+****************************************************************************/
+int setting_enum_get_int(const struct setting *pset)
+{
+  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
+  return *pset->enumerator.pvalue;
+}
+
+/****************************************************************************
+  Returns the current enumerator value (as a string).
+****************************************************************************/
+const char *setting_enum_get_str(const struct setting *pset)
+{
+  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
+  return setting_enum_int_to_str(pset, *pset->enumerator.pvalue);
+}
+
+/****************************************************************************
+  Returns the default enumerator value (as an integer).
+****************************************************************************/
+int setting_enum_def_int(const struct setting *pset)
+{
+  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
+  return pset->enumerator.default_value;
+}
+
+/****************************************************************************
+  Returns the default enumerator value (as a string).
+****************************************************************************/
+const char *setting_enum_def_str(const struct setting *pset)
+{
+  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
+  return setting_enum_int_to_str(pset, pset->enumerator.default_value);
+}
+
+/****************************************************************************
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_enum_set_int(struct setting *pset, int val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len)
+{
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_enum_validate_int(pset, val, caller, reject_msg,
+                                    reject_msg_len)) {
+    return FALSE;
+  }
+
+  *pset->enumerator.pvalue = val;
+  return TRUE;
+}
+
+/****************************************************************************
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_enum_set_str(struct setting *pset, const char *val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len)
+{
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_enum_validate_str(pset, val, caller, reject_msg,
+                                    reject_msg_len)) {
+    return FALSE;
+  }
+
+  *pset->enumerator.pvalue = setting_enum_str_to_int(pset, val);
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_enum_validate_int(const struct setting *pset, int val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len)
+{
+  if (SSET_ENUM != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a enumerator."));
+    return FALSE;
+  }
+
+  if (NULL == setting_enum_int_to_str(pset, val)) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("%d is not a right value for this setting."), val);
+    return FALSE;
+  }
+
+  return (NULL == pset->enumerator.validate
+          || pset->enumerator.validate(val, caller, reject_msg,
+                                       reject_msg_len));
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_enum_validate_str(const struct setting *pset, const char *val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len)
+{
+  int int_value;
+
+  if (SSET_ENUM != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a enumerator."));
+    return FALSE;
+  }
+
+  int_value = setting_enum_str_to_int(pset, val);
+  if (-1 == int_value) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("\"%s\" is not an allowed value for this setting."),
+                      val);
+    return FALSE;
+  }
+
+  return (NULL == pset->enumerator.validate
+          || pset->enumerator.validate(int_value, caller, reject_msg,
+                                       reject_msg_len));
+}
+
 /********************************************************************
   Update the setting to the default value
 *********************************************************************/
@@ -1886,7 +2197,10 @@ static void setting_set_to_default(struct setting *pset)
     break;
   case SSET_STRING:
     fc_strlcpy(pset->string.value, pset->string.default_value,
-              pset->string.value_size);
+               pset->string.value_size);
+    break;
+  case SSET_ENUM:
+    (*pset->enumerator.pvalue) = pset->enumerator.default_value;
     break;
   }
 
@@ -2007,6 +2321,22 @@ static bool setting_ruleset_one(struct section_file *file,
       }
     }
     break;
+
+  case SSET_ENUM:
+    if (!(sval = secfile_lookup_str(file, "%s.value", path))) {
+      log_error("Can't read value for setting '%s': %s",
+                name, secfile_error());
+    } else if (0 != fc_strcasecmp(sval, setting_enum_get_str(pset))) {
+      if (setting_enum_set_str(pset, sval, NULL, reject_msg,
+                               sizeof(reject_msg))) {
+        log_normal(_("Option: %s has been set to \"%s\" (%d)."),
+                   setting_name(pset), _(setting_enum_get_str(pset)),
+                   setting_enum_get_int(pset));
+      } else {
+        log_error("%s", reject_msg);
+      }
+    }
+    break;
   }
 
   if (!secfile_lookup_bool(file, &lock, "%s.lock", path)) {
@@ -2061,6 +2391,10 @@ static void setting_game_set(struct setting *pset, bool init)
     fc_strlcpy(pset->string.game_value, setting_str_get(pset),
               pset->string.value_size);
     break;
+
+  case SSET_ENUM:
+    pset->enumerator.game_value = setting_enum_get_int(pset);
+    break;
   }
 }
 
@@ -2102,6 +2436,11 @@ static void setting_game_restore(struct setting *pset)
   case SSET_STRING:
     res = setting_str_set(pset, pset->string.game_value, NULL, reject_msg,
                           sizeof(reject_msg));
+    break;
+
+  case SSET_ENUM:
+    res = setting_enum_set_int(pset, pset->enumerator.game_value,
+                               NULL, reject_msg, sizeof(reject_msg));
     break;
   }
 
@@ -2156,6 +2495,15 @@ void settings_game_save(struct section_file *file, const char *section)
                           "%s.set%d.value", section, set_count);
       secfile_insert_str(file, pset->string.game_value,
                           "%s.set%d.gamestart", section, set_count);
+      break;
+    case SSET_ENUM:
+      secfile_insert_str(file, setting_name(pset),
+                         "%s.set%d.name", section, set_count);
+      secfile_insert_str(file, setting_enum_get_str(pset),
+                         "%s.set%d.value", section, set_count);
+      secfile_insert_str(file, setting_enum_int_to_str(pset,
+                         pset->enumerator.game_value),
+                         "%s.set%d.gamestart", section, set_count);
       break;
     }
     set_count++;
@@ -2221,6 +2569,14 @@ void settings_game_load(struct section_file *file, const char *section)
           log_error("Error restoring '%s': %s", setting_name(pset), buf);
         }
         break;
+
+      case SSET_ENUM:
+        sval = secfile_lookup_str_default(file, setting_enum_def_str(pset),
+                                          "%s.set%d.value", section, i);
+        if (!setting_enum_set_str(pset, sval, NULL, buf, sizeof(buf))) {
+          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        }
+        break;
       }
 
       if (game.server.settings_gamestart_valid) {
@@ -2245,6 +2601,16 @@ void settings_game_load(struct section_file *file, const char *section)
                                             "%s.set%d.gamestart", section,
                                             i);
           fc_strlcpy(pset->string.game_value, sval, pset->string.value_size);
+          break;
+
+        case SSET_ENUM:
+          sval = secfile_lookup_str_default(file, setting_enum_get_str(pset),
+                                            "%s.set%d.gamestart", section,
+                                            i);
+          ival = setting_enum_str_to_int(pset, sval);
+          if (-1 != ival) {
+            pset->enumerator.game_value = ival;
+          }
           break;
         }
       }
@@ -2377,6 +2743,27 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
           sz_strlcpy(packet.default_val, setting_str_def(pset));
         }
         send_packet_server_setting_str(pconn, &packet);
+      } conn_list_iterate_end;
+    }
+    break;
+  case SSET_ENUM:
+    {
+      struct packet_server_setting_enum packet;
+      const char *value;
+      int i;
+
+      conn_list_iterate(dest, pconn) {
+        PACKET_COMMON_INIT(packet, pset, pconn);
+        if (packet.is_visible) {
+          packet.val = setting_enum_get_int(pset);
+          packet.default_val = setting_enum_def_int(pset);
+          for (i = 0; (value = setting_enum_int_to_str(pset, i)); i++) {
+            sz_strlcpy(packet.values[i], value);
+          }
+          packet.values_num = i;
+          fc_assert(i <= ARRAY_SIZE(packet.values));
+        }
+        send_packet_server_setting_enum(pconn, &packet);
       } conn_list_iterate_end;
     }
     break;

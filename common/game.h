@@ -306,14 +306,11 @@ extern struct civ_game game;
 
 /* 0 means no national borders. */
 #define GAME_DEFAULT_BORDERS         1
-#define GAME_MIN_BORDERS             0
 #define GAME_MAX_BORDERS             3
 
 #define GAME_DEFAULT_HAPPYBORDERS    TRUE
 
 #define GAME_DEFAULT_DIPLOMACY       0
-#define GAME_MIN_DIPLOMACY           0
-#define GAME_MAX_DIPLOMACY           4
 
 #define GAME_DEFAULT_DIPLCHANCE      80
 #define GAME_MIN_DIPLCHANCE          40
@@ -428,8 +425,6 @@ extern struct civ_game game;
 #define GAME_DEFAULT_UNITWAITTIME    0
 
 #define GAME_DEFAULT_PHASE_MODE 0
-#define GAME_MIN_PHASE_MODE 0
-#define GAME_MAX_PHASE_MODE 2
 
 #define GAME_DEFAULT_TCPTIMEOUT      10
 #define GAME_MIN_TCPTIMEOUT          0
@@ -464,8 +459,6 @@ extern struct civ_game game;
 #define GAME_MAX_TRADEMINDIST        999
 
 #define GAME_DEFAULT_BARBARIANRATE   2
-#define GAME_MIN_BARBARIANRATE       0
-#define GAME_MAX_BARBARIANRATE       4
 
 #define GAME_DEFAULT_ONSETBARBARIAN  60
 #define GAME_MIN_ONSETBARBARIAN      0
@@ -521,8 +514,6 @@ extern struct civ_game game;
 #endif
 
 #define GAME_DEFAULT_ALLOWED_CITY_NAMES 1
-#define GAME_MIN_ALLOWED_CITY_NAMES 0
-#define GAME_MAX_ALLOWED_CITY_NAMES 3
 
 #define GAME_DEFAULT_REVOLUTION_LENGTH 0
 #define GAME_MIN_REVOLUTION_LENGTH 0

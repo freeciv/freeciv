@@ -205,6 +205,27 @@ static bool manual_command(void)
                     setting_str_get(pset));
           }
           break;
+        case SSET_ENUM:
+          {
+            const char *value;
+
+            fprintf(doc, "<p class=\"bounds\">%s</p>\n",
+                    _("Possible values:"));
+            for (i = 0; (value = setting_enum_int_to_str(pset, i)); i++) {
+              fprintf(doc, "<p class=\"bounds\"><li/> %d: \"%s\"</p>\n",
+                      i, _(value));
+            }
+            fprintf(doc, "<p class=\"bounds\">%s \"%s\" (%d)</p>\n\n",
+                    _("Default:"), _(setting_enum_def_str(pset)),
+                    setting_enum_def_int(pset));
+            if (setting_enum_get_int(pset) != setting_enum_def_int(pset)) {
+              fprintf(doc,
+                      _("<p class=\"changed\">Value set to %s (%d)</p>\n\n"),
+                      _(setting_enum_get_str(pset)),
+                      setting_enum_get_int(pset));
+            }
+          }
+          break;
         }
       } settings_iterate_end;
       break;
