@@ -151,7 +151,7 @@ void fc_assert_fail(const char *file, const char *function, int line,
   fc_assert_action_msg(condition, return val, message, ## __VA_ARGS__)
 /* Exit on failure with extra message. */
 #define fc_assert_exit_msg(condition, message, ...)                         \
-  fc_assert_action_msg(condition, exit(EXIT_FAILURE),                       \
-                       message, ## __VA_ARGS__)
+  fc_assert_action(condition,                                               \
+                   log_fatal(message, ## __VA_ARGS__); exit(EXIT_FAILURE));
 
 #endif  /* FC__LOG_H */
