@@ -34,8 +34,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflics_with = "mexican"
-civilwar_nations = "mayan", "purhepecha"
+conflicts_with = "Mexican"
+civilwar_nations = "Mayan", "P'urhepecha"
 
 cities =
  "Mexihco Tenochtitlan (swamp, mountains, lake)",
