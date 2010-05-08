@@ -507,20 +507,33 @@ else
   AC_DEFINE_UNQUOTED(LOCALEDIR, "./share/locale", [Locale directory (windows)])
 fi  
 
-dnl Check for zlib (needed for libpng)
-AC_CHECK_LIB(z, gzgets, , 
-  AC_MSG_ERROR([Could not find zlib library.]), )
+COMMON_LIBS=-lm
+UTILITY_LIBS=
+
+dnl Check for zlib
+AC_CHECK_LIB(z, gzgets,
+  [AC_DEFINE(HAVE_LIBZ, 1, [zlib is available])
+UTILITY_LIBS="$UTILITY_LIBS -lz"
+COMMON_LIBS="$COMMON_LIBS -lz"], 
+  AC_MSG_ERROR([Could not find zlib library.]))
+
 AC_CHECK_HEADER(zlib.h, , 
-  AC_MSG_ERROR([zlib found but not zlib.h.  
+  AC_MSG_ERROR([zlib found but not zlib.h.
 You may need to install a zlib devel package.]))
+
 AC_PATH_PROG(GZIP, gzip, "no")
 if test "$GZIP" = "no"; then
   AC_MSG_ERROR([You need the gzip program for compilation.])
 fi
 
 dnl Check for libbzip2
-AC_CHECK_LIB(bz2, BZ2_bzReadOpen)
+AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
+  [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
+UTILITY_LIBS="$UTILITY_LIBS -lbz2"])
 AC_CHECK_HEADERS(bzlib.h)
+
+AC_SUBST([UTILITY_LIBS])
+AC_SUBST([COMMON_LIBS])
 
 dnl Check and compile ftwl
 if test "$ftwl" = x11 ; then

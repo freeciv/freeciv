@@ -56,6 +56,8 @@ libcivutility_la_SOURCES = \
 		md5.c		\
 		md5.h
 
+libcivutility_la_LIBADD = $(UTILITY_LIBS)
+
 BUILT_SOURCES = specenum_gen.h
 
 # specenum.h must be generated before it can be included.

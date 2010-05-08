@@ -88,7 +88,8 @@ libfreeciv_la_DEPENDENCIES = \
 
 libfreeciv_la_LIBADD = \
  $(top_builddir)/utility/libcivutility.la \
- $(top_builddir)/common/aicore/libaicore.la
+ $(top_builddir)/common/aicore/libaicore.la \
+ $(COMMON_LIBS)
 
 BUILT_SOURCES = packets_gen.c packets_gen.h
 

@@ -16,6 +16,7 @@
 #endif
 
 #include <string.h>
+#include <math.h> /* ceil */
 
 /* utility */
 #include "astring.h"
