@@ -811,7 +811,7 @@ void fc_init_console(void)
   if (!initialized) {
     initialized = 1;
 #ifdef HAVE_FILENO
-    my_nonblock(fileno(stdin));
+    fc_nonblock(fileno(stdin));
 #endif
   }
 #endif
@@ -837,7 +837,7 @@ char *fc_read_console(void)
   if (!feof(stdin)) {    /* input from server operator */
     static char *bufptr = mybuf;
     /* fetch chars until \n, or run out of space in buffer */
-    /* blocks if my_nonblock() in fc_init_console() failed */
+    /* blocks if fc_nonblock() in fc_init_console() failed */
     while ((*bufptr = fgetc(stdin)) != EOF) {
       if (*bufptr == '\n') *bufptr = '\0';
       if (*bufptr == '\0') {
