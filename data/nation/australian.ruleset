@@ -32,7 +32,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="aborigines", "british"
+civilwar_nations="Australian Aboriginal", "British"
 
 cities =
  "Canberra (river, hills, forest, !desert, !ocean)",
