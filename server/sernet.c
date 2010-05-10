@@ -127,7 +127,6 @@ static int server_accept_connection(int sockfd);
 static void start_processing_request(struct connection *pconn,
 				     int request_id);
 static void finish_processing_request(struct connection *pconn);
-static void ping_connection(struct connection *pconn);
 static void send_ping_times_to_all(void);
 
 static void get_lanserver_announcement(void);
@@ -550,9 +549,9 @@ enum server_events server_sniff_all_input(void)
                       conn_description(pconn));
             close_socket_callback(pconn);
 	  }
-	} else {
-	  ping_connection(pconn);
-	}
+        } else {
+          connection_ping(pconn);
+        }
       } conn_list_iterate_end;
       game.server.last_ping = time(NULL);
     }
@@ -914,7 +913,6 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 
       log_verbose("connection (%s) from %s (%s)", 
                   pconn->username, pconn->addr, pconn->server.ipaddr);
-      ping_connection(pconn);
       return 0;
     }
   }
@@ -1138,16 +1136,15 @@ static void finish_processing_request(struct connection *pconn)
   conn_compression_thaw(pconn);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-static void ping_connection(struct connection *pconn)
+/****************************************************************************
+  Ping a connection.
+****************************************************************************/
+void connection_ping(struct connection *pconn)
 {
-  log_debug("sending ping to %s (open=%d)",
-            conn_description(pconn),
+  log_debug("sending ping to %s (open=%d)", conn_description(pconn),
             timer_list_size(pconn->server.ping_timers));
   timer_list_append(pconn->server.ping_timers,
-			 new_timer_start(TIMER_USER, TIMER_ACTIVE));
+                    new_timer_start(TIMER_USER, TIMER_ACTIVE));
   send_packet_conn_ping(pconn);
 }
 
