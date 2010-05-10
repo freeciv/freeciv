@@ -595,7 +595,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
   if (pours) {
     *pours = ours;
   }
-  if (team) {
+  if (pteam) {
     *pteam = team;
   }
   if (ptheirs) {
