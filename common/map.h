@@ -14,7 +14,7 @@
 #define FC__MAP_H
 
 #include <assert.h>
-#include <math.h>
+#include <math.h> /* sqrt */
 
 #include "fc_types.h"
 

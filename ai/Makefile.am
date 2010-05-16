@@ -43,3 +43,6 @@ libcivai_la_SOURCES = \
 		aiunit.h	\
 		aidiplomat.c	\
 		aidiplomat.h
+
+libcivai_la_LIBADD = -lm
+

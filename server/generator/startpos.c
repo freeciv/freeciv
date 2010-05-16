@@ -14,6 +14,8 @@
 #include <config.h>
 #endif
 
+#include <math.h> /* sqrt, HUGE_VAL */
+
 #include "log.h"
 #include "fcintl.h"
 #include "movement.h"

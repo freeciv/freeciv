@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h> /* sqrt */
 
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>

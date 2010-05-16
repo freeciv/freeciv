@@ -16,3 +16,6 @@ libgenerator_la_SOURCES = \
 	startpos.h \
 	temperature_map.c \
 	temperature_map.h
+
+libgenerator_la_LIBADD = -lm
+

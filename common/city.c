@@ -18,6 +18,7 @@
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h> /* pow, sqrt, exp */
 
 /* utility */
 #include "distribute.h"

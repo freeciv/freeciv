@@ -17,6 +17,7 @@ Freeciv.h: $(top_builddir)/data/Freeciv
 	$(srcdir)/ad2c $(top_builddir)/data/Freeciv >> Freeciv.h
 
 libgui_xaw_la_DEPENDENCIES = ad2c
+libgui_xaw_la_LIBADD = -lm
 
 libgui_xaw_la_SOURCES = \
 	ad2c		\

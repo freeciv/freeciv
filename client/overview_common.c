@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <math.h> /* floor */
+
 /* utility */
 #include "log.h"
 
