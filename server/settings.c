@@ -1160,9 +1160,9 @@ struct setting settings[] = {
                 "Example: 'civgame-T%04T-Y%+05Y-%R' => "
                 "'civgame-T0100-Y00001-manual'\n"
                 "\n"
-                "Be carefull to use at least one of %T and %Y, else newer "
-                "savegames will overwrite old ones. If non of the formats "
-                "are used '-T%04T-Y%05Y-%R' is appended to the value of "
+                "Be careful to use at least one of %T and %Y, else newer "
+                "savegames will overwrite old ones. If none of the formats "
+                "is used '-T%04T-Y%05Y-%R' is appended to the value of "
                 "'savename'."),
              NULL, GAME_DEFAULT_SAVE_NAME)
 
