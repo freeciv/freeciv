@@ -101,3 +101,6 @@ libgui_gtk2_la_SOURCES = \
 	voteinfo_bar.h	\
 	wldlg.c		\
 	wldlg.h	
+
+libgui_gtk2_la_LIBADD = -lm
+

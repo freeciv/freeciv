@@ -13,7 +13,7 @@
 #ifndef FC__MAP_H
 #define FC__MAP_H
 
-#include <math.h>
+#include <math.h> /* sqrt */
 
 /* utility */
 #include "log.h"                /* fc_assert */

@@ -724,21 +724,23 @@ AM_CONDITIONAL(FTWL_SDL, test "$ftwl" = "sdl")
 AM_CONDITIONAL(FTWL_OPENGL, test "$ftwl" = "opengl")
 AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
+dnl Additional client libraires:
+if test "x$client" = "xyes"; then
+    CLIENT_LIBS= -lm
+    AC_SUBST(CLIENT_LIBS)
+fi
+
 dnl Checks for additional server libraries:
 if test "x$server" = "xyes"; then
+    SERVER_LIBS= -lm
+
     dnl Some systems (e.g., BeOS) need this lib
     AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")
 
     dnl Readline library and header files.
     FC_HAS_READLINE()
-
-    AC_CHECK_FUNC(pow)
-    if test $ac_cv_func_pow = no; then
-        AC_CHECK_LIB(m, pow, SERVER_LIBS="$SERVER_LIBS -lm",
-		 AC_MSG_ERROR(Did not find math lib!))
-    fi
+    AC_SUBST(SERVER_LIBS)
 fi
-AC_SUBST(SERVER_LIBS)
 
 AC_CHECK_LIB(nls,main)
 

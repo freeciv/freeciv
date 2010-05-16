@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <math.h> /* log */
+
 #include "log.h"
 #include "movement.h"
 #include "player.h"

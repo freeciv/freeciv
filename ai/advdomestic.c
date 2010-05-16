@@ -16,6 +16,7 @@
 #endif
 
 #include <string.h>
+#include <math.h> /* pow */
 
 #include "city.h"
 #include "game.h"

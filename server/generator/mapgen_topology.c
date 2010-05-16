@@ -14,6 +14,8 @@
 #include <config.h>
 #endif
 
+#include <math.h> /* sqrt */
+
 #include "map.h"
 #include "log.h"
 
