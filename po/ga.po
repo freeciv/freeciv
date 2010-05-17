@@ -1246,7 +1246,7 @@ msgstr "*%s (IS)* Cuir deireadh leis an aontas le %s i dtús báire, a %s."
 #: ai/advdiplomacy.c:314
 #, c-format
 msgid "*%s (AI)* Let us first cease hostilies, %s."
-msgstr "*%s (IS)* Cuirfimid deireadh leis an troid i dtús báire, %s."
+msgstr "*%s (IS)* Cuirfimid deireadh leis an troid i dtús báire, a %s."
 
 #: ai/advdiplomacy.c:319
 #, c-format
@@ -1254,8 +1254,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (IS)* Táim ag iarraidh i dtús báire, go gcomhlíonfaidh tú an sos-comhraic "
-"seo níos faide, a %s."
+"*%s (IS)* Táim ag iarraidh, go mairfidh an sos-comhraic "
+"seo níos faide i dtús báire, a %s."
 
 #: ai/advdiplomacy.c:342
 #, c-format
@@ -1270,17 +1270,17 @@ msgstr "*%s (IS)* Níl cur amach ar bith agam ar an gcathair sin."
 #: ai/advdiplomacy.c:466
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is not safe."
-msgstr "*%s (IS)* Mo leithscéal, níl muinín agam asat mo mhapa a roinnt leat."
+msgstr "*%s (IS)* Mo leithscéal, níl muinín agam as mapaí a roinnt leat."
 
 #: ai/advdiplomacy.c:572
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (IS)* Ní raibh aon mhaith sa réiteach seo dúinn, a %s!"
+msgstr "*%s (IS)* Ní raibh aon mhaitheas sa réiteach seo dúinn, a %s!"
 
 #: ai/advdiplomacy.c:594
 #, c-format
 msgid "*%s (AI)* Welcome into our alliance %s!"
-msgstr "*%s (IS)* Tá fáilte romhaibh san aontas, a %s!"
+msgstr "*%s (IS)* Fáilte chuig ár n-aontas, a %s!"
 
 #: ai/advdiplomacy.c:598
 #, c-format
@@ -1290,7 +1290,7 @@ msgstr "*%s (IS)* Go mara ár n-aontas go deo, a %s."
 #: ai/advdiplomacy.c:605
 #, c-format
 msgid "*%s (AI)* Yes, peace in our time!"
-msgstr "*%s (IS)* Go raibh suíochán lenár linn!"
+msgstr "*%s (IS)* Go raibh síocháin lenár linn!"
 
 #: ai/advdiplomacy.c:610
 #, c-format
@@ -1303,8 +1303,8 @@ msgid ""
 "*%s (AI)* Greetings %s! May we suggest a ceasefire while we get to know each "
 "other better?"
 msgstr ""
-"*%s (IS)* Dia dhaoibh a %s! Do thuairim ar sos-comhraic go gcuirfimid aithne "
-"níor fearr ar chéile?"
+"*%s (IS)* Dia dhaoibh a %s! Do thuairim ar shos-comhraic go gcuirfimid aithne "
+"níor fearr ar a chéile?"
 
 #: ai/advdiplomacy.c:1114
 #, c-format
@@ -4829,23 +4829,23 @@ msgstr ""
 
 #: server/settings.c:481
 msgid "Area where initial units are located"
-msgstr ""
+msgstr "An t-ionad ina bhfuil na haonaid lonnaithe"
 
 #: server/settings.c:482
 msgid "This is the radius within which the initial units are dispersed."
-msgstr ""
+msgstr "Is é seo an limistéar ina bhfuil na chéad aonaid scaipthe."
 
 #: server/settings.c:488
 msgid "Starting gold per player"
-msgstr ""
+msgstr "Líon an óir lena thosaíonn na himreoirí"
 
 #: server/settings.c:489
 msgid "At the beginning of the game, each player is given this much gold."
-msgstr ""
+msgstr "Ag tús an chluiche, tugtar an mhéid óir seo do gach imreoir."
 
 #: server/settings.c:495
 msgid "Number of initial techs per player"
-msgstr ""
+msgstr "Líon na dteicneolaíochtaí ag gach imreoir ag tús an chluiche"
 
 #: server/settings.c:496
 msgid ""
@@ -4854,10 +4854,11 @@ msgid ""
 "tech_cost_style in the ruleset, a big value for techlevel can make the next "
 "techs really expensive."
 msgstr ""
+"Ag tús an chluiche tugtar an líon teicneolaíochtaí seo do gach imreoir.  Roghnaítear teicneolaíochtaí imreora gan aird. Ag brath ar chostas an tech_cost_style sna rialacha, is féidir luach ard an teicleibhéil praghas ard a chur ar thaighde teicneolaíochtaí eile."
 
 #: server/settings.c:505
 msgid "Technology cost multiplier percentage"
-msgstr ""
+msgstr "Céatadán iolraitheoir an chostais teicneolaíochta"
 
 #: server/settings.c:506
 msgid ""
@@ -4865,10 +4866,11 @@ msgid ""
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
 msgstr ""
+"Bíonn éifeacht aige seo ar a sciobtha agus is féidir le himreoirí taighde a dhéanamh ar theicneolaíochtaí nua. Méadaítear gach costas teic faoin méid seo (mar chéatadán). Ríomhtar costais teic leis na rialacha nó socruithe cluiche eile."
 
 #: server/settings.c:515
 msgid "Percentage penalty when changing tech"
-msgstr ""
+msgstr "Gearrfar pionós céatadáin agus teicneolaíochtaí á n-athrú"
 
 #: server/settings.c:516
 msgid ""
@@ -4876,10 +4878,11 @@ msgid ""
 "research points, you lose this percentage of those research points. This does "
 "not apply when you have just gained a technology this turn."
 msgstr ""
+"Má athraíonn tú do theicneolaíocht taighde, agus pointí taighde agat, caillfidh tú an céatadán seo de na pointí taighde. Ní thógtar é seo san áireamh agus teicneolaíocht gnóthaithe agat ar an mbabhta seo."
 
 #: server/settings.c:525
 msgid "Penalty when getting tech or gold from treaty"
-msgstr ""
+msgstr "Gearrfar pionós agus teicneolaíochtaí nó ór a fháil ó chonarthaí"
 
 #: server/settings.c:526
 msgid ""
@@ -4888,10 +4891,11 @@ msgid ""
 "this is non-zero, you can end up with negative research points. Also applies "
 "to gold transfers in diplomatic treaties."
 msgstr ""
+"Caillfear pointí taighde gurb ionann iad agus céatadán chostas taighde na teicneolaíochta as gach teicneolaíocht a ghnóthaítear ó chonradh dioplómaitiúil. Murar náid é seo, d'fhéadfaí pointí taighde diúltacha bheith fágtha agat. Bheadh sé seo i gceist le hidirbheartaíochtaí óir ó chonarthaí dioplómaitiúla chomh maith."
 
 #: server/settings.c:536
 msgid "Penalty when getting tech from conquering"
-msgstr ""
+msgstr "Gearrfar pionós agus teicneolaíochtaí á fháil ó ghabháil"
 
 #: server/settings.c:537
 msgid ""
@@ -4899,10 +4903,11 @@ msgid ""
 "points equal to this percentage of the cost to research a new technology. If "
 "this is non-zero, you can end up with negative research points."
 msgstr ""
+"Caillfear pointí taighde gurb ionann iad agus an céatadán chostas taighde na teicneolaíochta nua a ghnóthaítear as gabháil cathrach naimhde. Murar náid é seo, d'fhéadfaí pointí taighde diúltacha bheith fágtha agat."
 
 #: server/settings.c:547
 msgid "Penalty when getting a free tech"
-msgstr ""
+msgstr "Gearrfar pionós agus teicneolaíochtaí saor in aisce á fháil"
 
 #: server/settings.c:548
 msgid ""
@@ -4914,7 +4919,7 @@ msgstr ""
 
 #: server/settings.c:559
 msgid "Food required for a city to grow"
-msgstr ""
+msgstr "Méid bia atá de dhíth le cathair a mhéadú"
 
 #: server/settings.c:560
 msgid ""
@@ -4922,31 +4927,32 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
+"Is é seo an bhunmhéid bia ar ghá é le cathair a mhéadú. Iolraítear an luach seo faoi fhachtóir eile a thagann ó na rialacha agus a bhraitheann ar mhéid na cathrach."
 
 #: server/settings.c:568
 msgid "Percentage food lost when building needed"
-msgstr ""
+msgstr "Caillfear céatadán bia agus gá le foirgnimh sa bhreis"
 
 #: server/settings.c:569
 msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when it "
 "has a Granary)."
-msgstr ""
+msgstr "Má mhéadaíonn cathair, agus munar ann d'uiscerian (nó córas séarachais) caillfear an céatadán seo den bhosca bia. (Nó leath an mhéid sin agus ann do ghráinseach)."
 
 #: server/settings.c:578
 msgid "Multiplier percentage for production costs"
-msgstr ""
+msgstr "Céatadán iolraitheora ar chostaisí táirgthe"
 
 #: server/settings.c:579
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base costs "
 "are multiplied by this value (as a percentage)."
-msgstr ""
+msgstr "Bíonn éifeacht aige seo ar a sciobtha agus a dtáirgtear aonaid agus foirgnimh. Iolraítear na bunmhéideanna faoin luach seo (mar chéatadán)."
 
 #: server/settings.c:593
 msgid "Minimum city size to get full trade"
-msgstr ""
+msgstr "An chathair is lú gur féidir leis gach cineál trádála a dhéanamh"
 
 #: server/settings.c:594
 msgid ""
