@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-10 14:31+0100\n"
-"PO-Revision-Date: 2010-04-15 20:52+0300\n"
+"PO-Revision-Date: 2010-05-20 21:13+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -563,18 +563,16 @@ msgid "Server Aborting"
 msgstr "(сервер)"
 
 #: common/events.c:185
-#, fuzzy
 msgid "Server Problems"
-msgstr "Показує опції сервера."
+msgstr "Проблеми сервера"
 
 #: common/events.c:186
 msgid "Message from server operator"
 msgstr "Повідомлення від оператора сервера"
 
 #: common/events.c:187
-#, fuzzy
 msgid "Server settings changed"
-msgstr "Зберегти установки"
+msgstr "Налаштування сервера змінено"
 
 #: common/events.c:188
 msgid "Turn Bell"
@@ -848,9 +846,8 @@ msgid "Oceanic"
 msgstr "Океан"
 
 #: common/terrain.c:50
-#, fuzzy
 msgid "CanIrrigate"
-msgstr "Фрігат"
+msgstr ""
 
 #: common/terrain.c:51
 #, fuzzy
@@ -1840,9 +1837,9 @@ msgid "%s %s lost in transfer to %s %s"
 msgstr "%s %s втрачено у атаці від %s %s."
 
 #: server/citytools.c:696
-#, fuzzy, c-format
+#, c-format
 msgid "%s lost along with control of %s."
-msgstr "%s тепер контролюється %s."
+msgstr "%s втрачено разом з контролем над %s."
 
 #. TRANS: <building> ... <city>
 #: server/citytools.c:842
@@ -1875,9 +1872,9 @@ msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr "Переміщено %s з розпущеного міста %s тому що він не може залишатися на %s."
 
 #: server/citytools.c:1310
-#, fuzzy, c-format
+#, c-format
 msgid "When %s was disbanded your %s could not get out, and it was therefore lost."
-msgstr "Коли %s біло розпущено, підрозділ %s не зміг вибратися та зник."
+msgstr "Коли %s було розпущено, ваш %s не зміг вибратися та був втрачений."
 
 #: server/citytools.c:1454
 #, c-format
@@ -2250,9 +2247,9 @@ msgid "Migrants from %s (%s) can't go to %s because it needs an improvement to g
 msgstr "Емігранти з %s (%s) не можуть переселитися до %s, бо там для зростання потрібна певна будівля!"
 
 #: server/cityturn.c:2472
-#, fuzzy, c-format
+#, c-format
 msgid "%s was disbanded by its citizens."
-msgstr "%s розпущено на %s."
+msgstr "%s розібрано своїми городянами."
 
 #. TRANS: From <city1> to <city2>.
 #: server/cityturn.c:2492
@@ -2578,9 +2575,8 @@ msgid "connectmsg <message>"
 msgstr "connectmsg <повідомлення>"
 
 #: server/commands.c:145
-#, fuzzy
 msgid "Set message to show to connecting players."
-msgstr "Відіслати повідомлення всім гравцям."
+msgstr "Встановити повідомлення для гравців, що під'єднуються."
 
 #: server/commands.c:146
 msgid ""
@@ -2626,9 +2622,8 @@ msgstr "Встановити опції сервера."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:183
-#, fuzzy
 msgid "team <player> <team>"
-msgstr "team <ім'я-гравця> [ім'я команди]"
+msgstr "team <гравець> <команда>"
 
 #: server/commands.c:184
 #, fuzzy
@@ -3207,9 +3202,9 @@ msgid "For introductory help, type 'help'."
 msgstr "Для початкової допомоги введіть 'help'."
 
 #: server/diplhand.c:194
-#, fuzzy, c-format
+#, c-format
 msgid "The %s can't accept %s."
-msgstr "%s вивчили %s."
+msgstr "%s не можуть прийняти %s."
 
 #: server/diplhand.c:206
 #, c-format
@@ -3251,9 +3246,9 @@ msgstr[2] "Угода містить %d пунктів, що було узгод
 
 #: server/diplhand.c:313
 #: server/diplhand.c:317
-#, fuzzy, c-format
+#, c-format
 msgid "One of the cities the %s are giving away is destroyed! Treaty canceled!"
-msgstr "Одне з переданих міст %s знищено! Угода недійсна!"
+msgstr "Одне з міст, які %s віддає, знищено! Угода недійсна!"
 
 #: server/diplhand.c:324
 #: server/diplhand.c:329
@@ -4413,7 +4408,6 @@ msgstr "Дива світу"
 
 #. TRANS: abbreviation of "square miles"
 #: server/report.c:599
-#, fuzzy
 msgid " sq. mi."
 msgid_plural " sq. mi."
 msgstr[0] " кв. км."
@@ -4422,7 +4416,6 @@ msgstr[2] " кв. км."
 
 #. TRANS: "M tons" = million tons, so always plural
 #: server/report.c:611
-#, fuzzy
 msgid " M tons"
 msgid_plural " M tons"
 msgstr[0] " М тон"
@@ -4431,7 +4424,6 @@ msgstr[2] " М тон"
 
 #. TRANS: "M goods" = million goods, so always plural
 #: server/report.c:617
-#, fuzzy
 msgid " M goods"
 msgid_plural " M goods"
 msgstr[0] " М виробів"
@@ -8031,9 +8023,9 @@ msgid "%+2.1f : Risk from overcrowding\n"
 msgstr "%+2.1f : Ризик від перенаселення\n"
 
 #: client/citydlg_common.c:533
-#, fuzzy, c-format
+#, c-format
 msgid "%+2.1f : Risk from trade\n"
-msgstr "%+4d : Податків від торгівлі\n"
+msgstr "%+2.1f : Ризик від торгівлі\n"
 
 #: client/citydlg_common.c:535
 #, c-format
@@ -8051,24 +8043,23 @@ msgid "%2.1f : Total chance for a plague"
 msgstr "%2.1f : Загальна ймовірність пошесті"
 
 #: client/citydlg_common.c:571
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution from shields\n"
-msgstr "* Може очищати місцевість від забруднення.\n"
+msgstr "%+4d : Забруднення від промисловості\n"
 
 #: client/citydlg_common.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution from citizens\n"
-msgstr "* Може очищати місцевість від забруднення.\n"
+msgstr "%+4d : Забруднення від громадян\n"
 
 #: client/citydlg_common.c:575
-#, fuzzy, c-format
+#, c-format
 msgid "%+4d : Pollution modifier\n"
-msgstr "%+4d : Корумпованість\n"
+msgstr "%+4d : Модифікатор забруднення\n"
 
 #: client/cityrepdata.c:82
-#, fuzzy
 msgid "?city_state:Celebrating"
-msgstr "Місто: Свято"
+msgstr "Святкування"
 
 #: client/cityrepdata.c:83
 msgid "?city_state:Disorder"
@@ -8092,9 +8083,8 @@ msgid "City Name"
 msgstr "Назва міста"
 
 #: client/cityrepdata.c:461
-#, fuzzy
 msgid "?size [short]:Sz"
-msgstr "?розмір:Роз"
+msgstr "Роз"
 
 #: client/cityrepdata.c:461
 #: client/gui-gtk-2.0/editgui.c:1259
@@ -8163,7 +8153,6 @@ msgstr "Працівники: Злі"
 
 #: client/cityrepdata.c:482
 #: client/gui-xaw/citydlg.c:2394
-#, fuzzy
 msgid "?city:Workers"
 msgstr "Працівники"
 
@@ -8254,9 +8243,8 @@ msgstr "Зріст"
 
 #: client/cityrepdata.c:502
 #: client/cityrepdata.c:544
-#, fuzzy
 msgid "?Stock/Target:(Have/Need)"
-msgstr "(Запас/Ціль)"
+msgstr "(Запас/Потрібно)"
 
 #: client/cityrepdata.c:503
 msgid "Turns until growth/famine"
@@ -8275,25 +8263,22 @@ msgid "Surplus: Food, Production, Trade"
 msgstr "Надлишок: Їжа, Виробництво, Торгівля"
 
 #: client/cityrepdata.c:509
-#, fuzzy
 msgid "?Food surplus [short]:+F"
-msgstr "?Надлишок їжі:+Ї"
+msgstr "+Ї"
 
 #: client/cityrepdata.c:509
 msgid "Surplus: Food"
 msgstr "Надлишок: Їжа"
 
 #: client/cityrepdata.c:511
-#, fuzzy
 msgid "?Production surplus [short]:+P"
-msgstr "?Надлишок виробництва:+В"
+msgstr "+В"
 
 #: client/cityrepdata.c:512
 msgid "Surplus: Production"
 msgstr "Надлишок: Виробництво"
 
 #: client/cityrepdata.c:513
-#, fuzzy
 msgid "?Production loss (waste) [short]:-P"
 msgstr "-В"
 
@@ -8302,16 +8287,14 @@ msgid "Waste"
 msgstr "Втрати"
 
 #: client/cityrepdata.c:515
-#, fuzzy
 msgid "?Trade surplus [short]:+T"
-msgstr "?Надлишок торгівля:+Т"
+msgstr "+Т"
 
 #: client/cityrepdata.c:515
 msgid "Surplus: Trade"
 msgstr "Надлишок: Торгівля"
 
 #: client/cityrepdata.c:517
-#, fuzzy
 msgid "?Trade loss (corruption) [short]:-T"
 msgstr "-Т"
 
@@ -8382,14 +8365,12 @@ msgid "Number of Trade Routes"
 msgstr "Кількість торгових шляхів"
 
 #: client/cityrepdata.c:532
-#, fuzzy
 msgid "?pollution [short]:Pol"
-msgstr "?забруднення:Бруд"
+msgstr "Бруд"
 
 #: client/cityrepdata.c:534
-#, fuzzy
 msgid "?plague risk [short]:Pla"
-msgstr "?забруднення:Бруд"
+msgstr "Пош"
 
 #: client/cityrepdata.c:534
 msgid "(%)"
@@ -8432,9 +8413,9 @@ msgid "?specialist:S"
 msgstr "С"
 
 #: client/cityrepdata.c:593
-#, fuzzy, c-format
+#, c-format
 msgid "Specialists: %s"
-msgstr "Спеціалісти"
+msgstr "Спеціалісти: %s"
 
 #: client/client_main.c:287
 msgid "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/none)\n"
@@ -9321,9 +9302,8 @@ msgid "* Can clean nuclear fallout from tiles.\n"
 msgstr "* Можуть ліквідувати радіацію з клітинок.\n"
 
 #: client/helpdata.c:1290
-#, fuzzy
 msgid "* Can transform tiles.\n"
-msgstr "* Можуть виконувати дії колоністів.\n"
+msgstr "* Можуть перетворювати клітинки.\n"
 
 #: client/helpdata.c:1294
 msgid "* Can perform diplomatic actions, plus special spy abilities.\n"
@@ -9358,9 +9338,9 @@ msgid "* Can attack from aboard sea units: against enemy cities and onto land ti
 msgstr "* Можуть атакувати з борту морських підрозділів ворожі міста або підрозділи на сухопутних територіях.\n"
 
 #: client/helpdata.c:1325
-#, fuzzy, c-format
+#, c-format
 msgid "* Can be paradropped from a friendly city or airbase (range: %d tiles).\n"
-msgstr "* Можуть бути парашутованими з дружнього міста (відстань: %d)."
+msgstr "* Можуть бути парашутованими з дружнього міста чи авіабази (відстань: %d клітинок).\n"
 
 #: client/helpdata.c:1331
 msgid "* Gets double defense against units specified as 'mounted'.\n"
@@ -10768,9 +10748,8 @@ msgid "moving"
 msgstr "рухається"
 
 #: client/plrdlg_common.c:257
-#, fuzzy
 msgid "?Player:Name"
-msgstr "?місто:Назва"
+msgstr "Ім'я"
 
 #: client/plrdlg_common.c:258
 msgid "Username"
@@ -11392,9 +11371,9 @@ msgid "Shows the progress of global warming:"
 msgstr "Демонструє розвиток глобального потепління:"
 
 #: client/text.c:1082
-#, fuzzy, c-format
+#, c-format
 msgid "Pollution rate: %d%%"
-msgstr "Забруднення:   %3d"
+msgstr "Рівень забруднення: %d%%"
 
 #: client/text.c:1083
 #, c-format
@@ -14482,14 +14461,12 @@ msgstr "Змінити на %s"
 
 #: client/gui-gtk-2.0/menu.c:2224
 #: client/gui-win32/citydlg.c:1500
-#, fuzzy
 msgid "_Fortify Unit"
-msgstr "Укріпити"
+msgstr "Укріпити підрозділ"
 
 #: client/gui-gtk-2.0/menu.c:2230
-#, fuzzy
 msgid "Drop _Paratrooper"
-msgstr "Парашутисти"
+msgstr "Висадити Парашутистів"
 
 #: client/gui-gtk-2.0/messagedlg.c:62
 #: client/gui-win32/messagedlg.c:174
@@ -14769,14 +14746,12 @@ msgid "AI Skill _Level:"
 msgstr "Рівень ШІ:"
 
 #: client/gui-gtk-2.0/pages.c:1589
-#, fuzzy
 msgid "Ruleset _Version:"
-msgstr "Предустановки:"
+msgstr "Версія набору правил:"
 
 #: client/gui-gtk-2.0/pages.c:1597
-#, fuzzy
 msgid "_More Game Options..."
-msgstr "Опції повідомлень..."
+msgstr "Додаткові опції гри..."
 
 #: client/gui-gtk-2.0/pages.c:1619
 #, fuzzy
@@ -14819,9 +14794,8 @@ msgid "Choose a _Scenario:"
 msgstr "Оберіть _сценарій:"
 
 #: client/gui-gtk-2.0/pages.c:2048
-#, fuzzy
 msgid "Filename:"
-msgstr "Ім'я _файла збереження:"
+msgstr "Ім'я файла:"
 
 #: client/gui-gtk-2.0/pages.c:2265
 #: client/gui-win32/menu.c:593
@@ -15149,9 +15123,8 @@ msgid "_Worklists:"
 msgstr "План будівництва:"
 
 #: client/gui-gtk-2.0/wldlg.c:510
-#, fuzzy
 msgid "Edit Global _Worklists"
-msgstr "Додати глобальний план будівництва"
+msgstr "Редагувати глобальні плани будівництва"
 
 #: client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1111
@@ -15176,9 +15149,8 @@ msgid "_Add Global Worklist"
 msgstr "Додати глобальний план будівництва"
 
 #: client/gui-gtk-2.0/wldlg.c:1241
-#, fuzzy
 msgid "Change Prod_uction"
-msgstr "Змінити будівництво"
+msgstr "Змінити виробництво"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:129
 msgid "_YES"
@@ -19505,7 +19477,7 @@ msgstr ""
 
 #: data/helpdata.txt:866
 msgid " - City size."
-msgstr ""
+msgstr " - Розмір міста."
 
 #: data/helpdata.txt:868
 msgid " - The number of happy citizens. (To a lesser extent, unhappy and angry citizens reduce the desirability of a city.)"
@@ -19602,9 +19574,8 @@ msgid "Units' attributes can be further boosted by being veteran. Units may be b
 msgstr ""
 
 #: data/helpdata.txt:1001
-#, fuzzy
 msgid "Units which have been damaged in combat will regain hit points each turn in which they are not moved. Normally, a unit which has not moved will regain one hit point per turn. Units which are fortified gain an extra hit point. A unit which spends a turn in a city regains one third of its base hit points, and city improvements appropriate to the unit type can improve this further. In the default ruleset, units which stay in a fortress for a whole turn regain a quarter of their hit points. Wonders can also boost recovery (such as the United Nations in the default ruleset). Damaged units in Sentry mode will wake up when they have regained all of their hit points."
-msgstr "Загони що були поранені у боях відновлюють здоров'я кожного ходу коли вони не рухаються. Звичайно, підрозділ що не рухається відновлює одне здоров'я за хід. Сухопутний підрозділ у місті з Казармами, або морський підрозділ у місті з Портом, або авіазагін у місті з летовищем відновлює усе втраченне здоров'я за повний хід без руху у місті.Інакше, підрозділ що залишився у місті відновлює одну третину усього свого здоров'я. Підрозділ що залишився в укріпленні відновлює чверть свого здоров'я за хід. Укріплений загін відновлює одне додаткове здоров'я. Якщо гравець володіє дивом Об'єднані Нації, його загін відновлює два здоров'я за хід, навіть у русі. На додаток до усіх інших ефектів Гелікоптери втрачають 2 здоров'я (або отримують на два здоров'я менше ніж можливо) кожного ходу що не завершився у місті. Приспані поранені загони активізуються коли здоров'я повністю відновлено."
+msgstr "Загони що були поранені у боях відновлюють здоров'я кожного ходу коли вони не рухаються. Звичайно, підрозділ що не рухається відновлює одне здоров'я за хід. Сухопутний підрозділ у місті з Казармами, або морський підрозділ у місті з Портом, або авіазагін у місті з летовищем відновлює усе втрачене здоров'я за повний хід без руху у місті.Інакше, підрозділ що залишився у місті відновлює одну третину усього свого здоров'я. Підрозділ що залишився в укріпленні відновлює чверть свого здоров'я за хід. Укріплений загін відновлює одне додаткове здоров'я. Якщо гравець володіє дивом Об'єднані Нації, його загін відновлює два здоров'я за хід, навіть у русі. На додаток до усіх інших ефектів Гелікоптери втрачають 2 здоров'я (або отримують на два здоров'я менше ніж можливо) кожного ходу що не завершився у місті. Приспані поранені загони активізуються коли здоров'я повністю відновлено."
 
 #: data/helpdata.txt:1020
 msgid ""
