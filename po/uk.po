@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-04-10 14:31+0100\n"
-"PO-Revision-Date: 2010-05-20 21:13+0300\n"
+"PO-Revision-Date: 2010-05-21 16:58+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5116,6 +5116,11 @@ msgid ""
 "3 = diplomacy is restricted to teams.\n"
 "4 = diplomacy is disabled for everyone."
 msgstr ""
+"0 = типово; дипломатія доступна всім.\n"
+"1 = дипломатія дозволена лише поміж гравцями-людьми.\n"
+"2 = дипломатію дозволено лише гравцям ШІ.\n"
+"3 = дипломатію обмежено командами.\n"
+"4 = дипломатію відключено для всіх."
 
 #: server/settings.c:742
 msgid "Allowed city names"
@@ -10433,11 +10438,11 @@ msgstr "Якщо цю опцію увімкнено, всі повідомлен
 
 #: client/options.c:837
 msgid "Split bottom notebook area"
-msgstr ""
+msgstr "Розділити нижню зону повідомлень"
 
 #: client/options.c:838
 msgid "Enabling this option will split the bottom notebook into a left and right notebook so that two tabs may be viewed at once."
-msgstr ""
+msgstr "Якщо увімкнути цю опцію, нижня зона повідомлень поділиться направу і ліву частини, щоб можна було одночасно переглядати дві вкладки."
 
 #: client/options.c:843
 msgid "New message events go to top of list"
@@ -11153,9 +11158,9 @@ msgstr[2] "%d ходів"
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] ", %d лампа/хід від команди"
+msgstr[1] ", %d лампи/хід від команди"
+msgstr[2] ", %d ламп/хід від команди"
 
 #: client/text.c:647
 #, c-format
@@ -11187,9 +11192,9 @@ msgstr[2] "(%d шагів)"
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%d лампа"
+msgstr[1] "%d лампи"
+msgstr[2] "%d ламп"
 
 #: client/text.c:727
 #, c-format
@@ -14210,11 +14215,11 @@ msgstr "Зберегти гру у файл."
 
 #: client/gui-gtk-2.0/menu.c:1457
 msgid "Same Type on _Continent"
-msgstr ""
+msgstr "Того ж типу на Континенті"
 
 #: client/gui-gtk-2.0/menu.c:1459
 msgid "Same Type _Everywhere"
-msgstr ""
+msgstr "Того ж типу всюди"
 
 #: client/gui-gtk-2.0/menu.c:1462
 #: client/gui-win32/menu.c:401
@@ -14232,12 +14237,10 @@ msgstr "Йти (_G)"
 
 #: client/gui-gtk-2.0/menu.c:1470
 #: client/gui-win32/menu.c:394
-#, fuzzy
 msgid "Go _to/Airlift to City..."
-msgstr "Йти/Летіти у місто"
+msgstr "Йти/Летіти до міста..."
 
 #: client/gui-gtk-2.0/menu.c:1472
-#, fuzzy
 msgid "_Return to Nearest City"
 msgstr "Повернутися до найближчого міста"
 
@@ -14247,7 +14250,6 @@ msgid "Auto E_xplore"
 msgstr "Автодосліджувати"
 
 #: client/gui-gtk-2.0/menu.c:1476
-#, fuzzy
 msgid "_Patrol"
 msgstr "Патрулювати"
 
@@ -14264,9 +14266,8 @@ msgstr "Приспати бездіяльні підрозділи"
 
 #: client/gui-gtk-2.0/menu.c:1484
 #: client/gui-win32/menu.c:381
-#, fuzzy
 msgid "_Load"
-msgstr "Вивантажити"
+msgstr "Завантажити"
 
 #: client/gui-gtk-2.0/menu.c:1486
 #: client/gui-win32/menu.c:382
@@ -14323,19 +14324,16 @@ msgid "Build _Mine"
 msgstr "Будувати шахту"
 
 #: client/gui-gtk-2.0/menu.c:1513
-#, fuzzy
 msgid "Connect With Roa_d"
-msgstr "Приє'днатись"
+msgstr "Сполучити шляхом"
 
 #: client/gui-gtk-2.0/menu.c:1515
-#, fuzzy
 msgid "Connect With Rai_l"
-msgstr "Приє'днатись"
+msgstr "Сполучити залізницею"
 
 #: client/gui-gtk-2.0/menu.c:1517
-#, fuzzy
 msgid "Connect With Irri_gation"
-msgstr "Зрошення"
+msgstr "Сполучити зрошенням"
 
 #: client/gui-gtk-2.0/menu.c:1520
 #: client/gui-gtk-2.0/menu.c:2211
@@ -14386,7 +14384,6 @@ msgstr "Керівництво"
 
 #: client/gui-gtk-2.0/menu.c:1567
 #: client/gui-win32/menu.c:330
-#, fuzzy
 msgid "_Tax Rates..."
 msgstr "Податки..."
 
@@ -14402,9 +14399,8 @@ msgstr "Економіка"
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:1603
 #: client/gui-win32/menu.c:413
-#, fuzzy
 msgid "_Research"
-msgstr "_Дослідження"
+msgstr "Дослідження"
 
 #: client/gui-gtk-2.0/menu.c:1606
 #: client/gui-gtk-2.0/plrdlg.c:355
@@ -14414,9 +14410,8 @@ msgstr "Космічний корабель"
 
 #: client/gui-gtk-2.0/menu.c:1939
 #: client/gui-win32/menu.c:336
-#, fuzzy
 msgid "_Revolution..."
-msgstr "Революція"
+msgstr "Революція..."
 
 #: client/gui-gtk-2.0/menu.c:1951
 #, c-format
@@ -14432,7 +14427,6 @@ msgid "Add to City (_B)"
 msgstr "Додати до міста (_B)"
 
 #: client/gui-gtk-2.0/menu.c:2158
-#, fuzzy
 msgid "Establish Trade _Route"
 msgstr "Встановити торговий маршрут"
 
@@ -14524,9 +14518,8 @@ msgid "_Withdraw Vision"
 msgstr "Забрати бачення"
 
 #: client/gui-gtk-2.0/plrdlg.c:349
-#, fuzzy
 msgid "_Report"
-msgstr "Звіти"
+msgstr "Звіт"
 
 #: client/gui-gtk-2.0/plrdlg.c:387
 msgid "?show:Dead Players"
@@ -15914,9 +15907,8 @@ msgid "Male"
 msgstr "Чоловік"
 
 #: client/gui-sdl/dialogs.c:2501
-#, fuzzy
 msgid "Nation's Legend"
-msgstr "Націю обрано"
+msgstr "Легенда нації"
 
 #: client/gui-sdl/dialogs.c:2532
 msgid "SORRY... NO INFO"
@@ -16151,9 +16143,8 @@ msgstr "Використовую Відео Вихід: %s"
 
 #: client/gui-sdl/gui_main.c:793
 #: client/gui-sdl/gui_main.c:808
-#, fuzzy
 msgid "SDL Client for Freeciv"
-msgstr "Клієнт для Freeciv"
+msgstr "SDL Клієнт для Freeciv"
 
 #: client/gui-sdl/gui_main.c:820
 msgid "Initializing Client"
@@ -16370,13 +16361,8 @@ msgid "Build City"
 msgstr "Заснувати місто"
 
 #: client/gui-sdl/mapview.c:156
-#, fuzzy
 msgid "The SDL event buffer is full; you may see drawing errors as a result."
-msgstr ""
-"Буфер подій SDL переповнився; ви можете бачити\n"
-" помилки у відображенні як наслідок.  Якщо ви бачите\n"
-"це повідомлення часто, будь ласка, повідомьте\n"
-"%s."
+msgstr "Буфер подій SDL повний; внаслідок цього можуть бути помилки малювання. "
 
 #: client/gui-sdl/mapview.c:415
 #, c-format
@@ -16548,9 +16534,8 @@ msgstr "Летіти до міста"
 
 #: client/gui-sdl/menu.c:488
 #: client/gui-xaw/menu.c:206
-#, fuzzy
 msgid "Go to Tile"
-msgstr "Йти"
+msgstr "Йти до клітинки"
 
 #: client/gui-sdl/menu.c:500
 #: client/gui-win32/menu.c:392
@@ -17746,24 +17731,20 @@ msgstr ""
 "Под: %d Роз: %d Наука: %d"
 
 #: client/gui-win32/menu.c:312
-#, fuzzy
 msgid "Local _Options"
-msgstr "Локальні опції"
+msgstr "Локальні опції (_O)"
 
 #: client/gui-win32/menu.c:313
-#, fuzzy
 msgid "_Message Options"
-msgstr "Опції повідомлень"
+msgstr "Опції повідомлень (_M)"
 
 #: client/gui-win32/menu.c:314
-#, fuzzy
 msgid "Sa_ve Settings"
-msgstr "Зберегти установки"
+msgstr "Зберегти налаштування (_v)"
 
 #: client/gui-win32/menu.c:316
-#, fuzzy
 msgid "Server O_ptions"
-msgstr "Показує опції сервера."
+msgstr "Опції сервера (_p)"
 
 #: client/gui-win32/menu.c:321
 #, fuzzy
@@ -17821,19 +17802,16 @@ msgid "Connect With"
 msgstr "З'єднатися з"
 
 #: client/gui-win32/menu.c:388
-#, fuzzy
 msgid "_Road"
-msgstr "Шлях"
+msgstr "Шлях (_R)"
 
 #: client/gui-win32/menu.c:389
-#, fuzzy
 msgid "Rai_l"
-msgstr "Парусник"
+msgstr "Залізниця (_l)"
 
 #: client/gui-win32/menu.c:390
-#, fuzzy
 msgid "_Irrigate"
-msgstr "Фрігат"
+msgstr "Зрошення (_I)"
 
 #: client/gui-win32/menu.c:393
 #, fuzzy
