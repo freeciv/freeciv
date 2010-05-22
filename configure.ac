@@ -726,13 +726,13 @@ AM_CONDITIONAL(MINGW32, test x"$MINGW32" = "xyes")
 
 dnl Additional client libraires:
 if test "x$client" = "xyes"; then
-    CLIENT_LIBS= -lm
+    CLIENT_LIBS=" -lm "
     AC_SUBST(CLIENT_LIBS)
 fi
 
 dnl Checks for additional server libraries:
 if test "x$server" = "xyes"; then
-    SERVER_LIBS= -lm
+    SERVER_LIBS=" -lm "
 
     dnl Some systems (e.g., BeOS) need this lib
     AC_CHECK_LIB(bind, gethostbyaddr, SERVER_LIBS="-lbind $SERVER_LIBS")
