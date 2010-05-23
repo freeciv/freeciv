@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: it\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 14:31+0100\n"
+"POT-Creation-Date: 2010-05-23 13:59-0700\n"
 "PO-Revision-Date: 2008-07-10 17:52+0200\n"
 "Last-Translator: Antonio Codazzi <f_sophia@libero.it>\n"
 "Language-Team: Esperanto <eo@li.org>\n"
@@ -25,57 +25,57 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Generator: KBabel 1.0.2\n"
 
-#: common/city.c:58 client/gui-gtk-2.0/repodlgs.c:990
+#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:990
 #: client/gui-win32/repodlgs.c:712
 msgid "Food"
 msgstr "Nutraĵo"
 
-#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:989
+#: common/city.c:60 client/gui-gtk-2.0/repodlgs.c:989
 #: client/gui-win32/repodlgs.c:711
 msgid "Shield"
 msgstr "Produktado"
 
-#: common/city.c:60 data/Freeciv.in:3067 data/default/techs.ruleset:729
+#: common/city.c:61 data/Freeciv.in:3067 data/default/techs.ruleset:729
 #: data/civ2/techs.ruleset:725 data/civ1/techs.ruleset:558
 msgid "Trade"
 msgstr "Komerco"
 
-#: common/city.c:61 client/gui-gtk-2.0/editprop.c:3814
+#: common/city.c:62 client/gui-gtk-2.0/editprop.c:3814
 #: client/gui-gtk-2.0/repodlgs.c:991 data/default/terrain.ruleset:684
 #: data/civ2/terrain.ruleset:577 data/civ1/terrain.ruleset:563
 msgid "Gold"
 msgstr "Oro"
 
-#: common/city.c:62 server/plrhand.c:212 client/gui-gtk-2.0/gamedlgs.c:267
+#: common/city.c:63 server/plrhand.c:212 client/gui-gtk-2.0/gamedlgs.c:267
 #: client/gui-win32/ratesdlg.c:317
 #, fuzzy
 msgid "Luxury"
 msgstr "Lukso"
 
-#: common/city.c:63 server/plrhand.c:214 client/gui-gtk-2.0/gamedlgs.c:287
+#: common/city.c:64 server/plrhand.c:214 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-win32/ratesdlg.c:323
 msgid "Science"
 msgstr "Scienco"
 
-#: common/city.c:303
+#: common/city.c:304
 #, fuzzy
 msgid "?wonder:W"
 msgstr "?wonder:m"
 
-#: common/city.c:305
+#: common/city.c:306
 #, fuzzy
 msgid "?destroyed:D"
 msgstr "Destrojeroj"
 
-#: common/city.c:307
+#: common/city.c:308
 msgid "?built:B"
 msgstr "?built:K"
 
-#: common/city.c:314
+#: common/city.c:315
 msgid "?obsolete:O"
 msgstr "?obsolete:A"
 
-#: common/city.c:317
+#: common/city.c:318
 msgid "?redundant:*"
 msgstr "?redundant:*"
 
@@ -566,7 +566,7 @@ msgstr "Jaro"
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: common/game.c:771 common/game.c:775 client/gui-sdl/wldlg.c:1429
+#: common/game.c:772 common/game.c:776 client/gui-sdl/wldlg.c:1429
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
@@ -699,8 +699,8 @@ msgstr ""
 #. TRANS: "Resources: (none)"
 #. TRANS: "Resources: (none)".
 #: common/requirements.c:1313 common/requirements.c:1368 common/team.c:175
-#: client/gui-gtk-2.0/helpdlg.c:1076 client/gui-gtk-2.0/inteldlg.c:397
-#: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:999
+#: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-gtk-2.0/inteldlg.c:397
+#: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "(none)"
 msgstr "(nenio)"
@@ -761,15 +761,15 @@ msgstr "Estonta teĥnologio %d"
 
 #. TRANS: "None" tech
 #: common/tech.c:890 common/tech.c:894 server/settings.c:42
-#: client/gui-gtk-2.0/helpdlg.c:112 client/gui-sdl/citydlg.c:729
+#: client/gui-gtk-2.0/helpdlg.c:113 client/gui-sdl/citydlg.c:729
 #: client/gui-sdl/gui_tilespec.c:482 client/gui-sdl/helpdlg.c:372
 #: client/gui-sdl/helpdlg.c:794 client/gui-sdl/helpdlg.c:820
 #: client/gui-sdl/mapview.c:320 client/gui-sdl/mapview.c:337
 #: client/gui-sdl/mapview.c:773 client/gui-win32/helpdlg.c:167
 #: client/gui-win32/helpdlg.c:546 client/gui-win32/helpdlg.c:555
 #: client/gui-win32/helpdlg.c:741 client/gui-win32/helpdlg.c:762
-#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:860
-#: client/gui-xaw/helpdlg.c:879 manual/civmanual.c:352 manual/civmanual.c:358
+#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:861
+#: client/gui-xaw/helpdlg.c:880 manual/civmanual.c:352 manual/civmanual.c:358
 msgid "None"
 msgstr "Neniu"
 
@@ -869,7 +869,7 @@ msgstr "Fortigita"
 msgid "Sentry"
 msgstr "Gardosoldato"
 
-#: common/unit.c:551 client/text.c:427 client/text.c:431
+#: common/unit.c:551 client/text.c:419 client/text.c:423
 #: client/gui-sdl/menu.c:647 client/gui-win32/menu.c:378
 #: client/gui-xaw/menu.c:190
 msgid "Pillage"
@@ -891,22 +891,22 @@ msgstr "Transformu"
 msgid "Base"
 msgstr "Bazo"
 
-#: common/unit.c:571 client/text.c:160 client/gui-gtk-2.0/editprop.c:5737
+#: common/unit.c:571 client/text.c:158 client/gui-gtk-2.0/editprop.c:5737
 #: client/gui-sdl/citydlg.c:1973 client/gui-win32/citydlg.c:1231
 #: client/gui-xaw/citydlg.c:1462
 msgid "Unknown"
 msgstr "Nekonata"
 
-#: common/unit.c:1115 common/unit.c:1120 common/unit.c:1125 common/unit.c:1132
-#: common/unit.c:1136 common/unit.c:1140
+#: common/unit.c:1136 common/unit.c:1141 common/unit.c:1146 common/unit.c:1153
+#: common/unit.c:1157 common/unit.c:1161
 msgid "Moves"
 msgstr "Movoj"
 
-#: common/unit.c:1204
+#: common/unit.c:1225
 msgid "Food/Shield/Gold:"
 msgstr ""
 
-#: common/unit.c:1610
+#: common/unit.c:1631
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -915,12 +915,12 @@ msgstr ""
 "Ĉu vi dezira ĝisdatigi %s al %s per %d oraj moneroj?\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: common/unit.c:1618
+#: common/unit.c:1639
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "Bedaŭrinde, estas neeble ĝisdatigi %s (ankoraŭ)."
 
-#: common/unit.c:1624
+#: common/unit.c:1645
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -929,22 +929,22 @@ msgstr ""
 "Ĝisdatigo de %s al %s necesigas %d orajn monerojn.\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: common/unit.c:1633
+#: common/unit.c:1654
 msgid "You can only upgrade units in your cities."
 msgstr "Vi povas ĝisdatigi nur unuojn en viaj urboj."
 
-#: common/unit.c:1637
+#: common/unit.c:1658
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:459 client/helpdata.c:1824
+#: common/unittype.c:460 client/helpdata.c:1824
 msgid " and "
 msgstr " kaj "
 
-#: common/unittype.c:465 client/helpdata.c:1810
+#: common/unittype.c:466 client/helpdata.c:1810
 msgid "?and:, "
 msgstr "?and:, "
 
@@ -1058,8 +1058,8 @@ msgstr ""
 msgid "Could not convert text from %s to %s: %s"
 msgstr "Estas neeble konverti tekston el %s en %s: %s"
 
-#: utility/ioz.c:503 client/gui-sdl/dialogs.c:2513
-#: client/gui-sdl/dialogs.c:2937 client/gui-sdl/mapctrl.c:2586
+#: utility/ioz.c:503 client/gui-sdl/dialogs.c:2752
+#: client/gui-sdl/dialogs.c:3176 client/gui-sdl/mapctrl.c:2586
 #: client/gui-win32/dialogs.c:608 client/gui-win32/inputdlg.c:145
 #: client/gui-win32/repodlgs.c:991
 msgid "OK"
@@ -1178,7 +1178,7 @@ msgstr[1] " (sume %d ripetoj)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:84 utility/registry.c:869 server/console.c:67
-#: server/generator/startpos.c:391 client/tilespec.c:4242
+#: server/generator/startpos.c:393 client/tilespec.c:4242
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
@@ -1274,17 +1274,17 @@ msgstr "eraro %ld (FormatMessage malsukcesis)"
 msgid "error %d (compiled without strerror)"
 msgstr "eraro %d (kompilumita sen strerror)"
 
-#: ai/aicity.c:1494 server/citytools.c:2257
+#: ai/aicity.c:1495 server/citytools.c:2258
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "La %s ĉesis la preparadon de la %s en %s."
 
-#: ai/aicity.c:1504 server/citytools.c:2295
+#: ai/aicity.c:1505 server/citytools.c:2296
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "La %s komencis la preparadon de la %s en %s."
 
-#: ai/aicity.c:1849
+#: ai/aicity.c:1850
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr "%s plenumas la vendon de %s (ne plu necesa) por %d oraj moneroj."
@@ -1895,141 +1895,141 @@ msgid ""
 msgstr ""
 "Kiam %s estis forlasita, viaj %s ne povis foriri kaj do ĝi estis perdita."
 
-#: server/citytools.c:1454
+#: server/citytools.c:1455
 #, c-format
 msgid "You destroy %s completely."
 msgstr "Vi tute detruis %sn."
 
-#: server/citytools.c:1457
+#: server/citytools.c:1458
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s estis detruita de %s."
 
-#: server/citytools.c:1483
+#: server/citytools.c:1484
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "Vi konkeris %s-n; vi kaptis %d oran moneron!"
 msgstr[1] "Vi konkeris %s-n; vi kaptis %d orajn monerojn!"
 
-#: server/citytools.c:1490
+#: server/citytools.c:1491
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s konkeris %s-n kaj kaptis %d oran moneron el la urbo."
 msgstr[1] "%s konkeris %s-n kaj kaptis %d orajn monerojn el la urbo."
 
-#: server/citytools.c:1499
+#: server/citytools.c:1500
 #, c-format
 msgid "You conquer %s"
 msgstr "Vi konkeris %s-n"
 
-#: server/citytools.c:1502
+#: server/citytools.c:1503
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s konkeris %s-n."
 
-#: server/citytools.c:1509
+#: server/citytools.c:1510
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] "Vi liberigis %s-n! Disrabado sumas je %d ora monero."
 msgstr[1] "Vi liberigis %s-n! Disrabado sumas je %d oraj moneroj."
 
-#: server/citytools.c:1516
+#: server/citytools.c:1517
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] "%s liberigis %s-n kaj rabegis %d oran moneron el la urbo."
 msgstr[1] "%s liberigis %s-n kaj rabegis %d orajn monerojn el la urbo."
 
-#: server/citytools.c:1525
+#: server/citytools.c:1526
 #, c-format
 msgid "You have liberated %s!"
 msgstr "Vi liberigis %s-n!"
 
-#: server/citytools.c:1528
+#: server/citytools.c:1529
 #, c-format
 msgid "%s liberated %s."
 msgstr "%s liberigis %s-n."
 
-#: server/citytools.c:2274
+#: server/citytools.c:2275
 msgid " from the worklist"
 msgstr " el la laborlisto"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2286
+#: server/citytools.c:2287
 #, c-format
 msgid "%s is building %s%s."
 msgstr "%s estas konstruanta %s%s-n."
 
-#: server/citytools.c:2475
+#: server/citytools.c:2476
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Vi vendis %sn en %s (nun landinterna) per %d oraj moneroj."
 
-#: server/cityturn.c:200
+#: server/cityturn.c:201
 #, c-format
 msgid "%s is selling %s (obsolete) for %d."
 msgstr "%s vendas %sn (arkaikaĵo) por %d oraj moneroj."
 
-#: server/cityturn.c:378
+#: server/cityturn.c:379
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Mirindaĵo %s en %s estos finita sekvan turnon."
 
-#: server/cityturn.c:413
+#: server/cityturn.c:414
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
 msgstr "Oni konsilas kreskoreguladon en %s por pli bone uzi %sn (preparotan)."
 
-#: server/cityturn.c:424
+#: server/cityturn.c:425
 #, c-format
 msgid "%s may soon grow to size %i."
 msgstr "%s povus baldaŭ pligrandiĝi je %ia grando."
 
-#: server/cityturn.c:431
+#: server/cityturn.c:432
 #, c-format
 msgid "Warning: Famine feared in %s."
 msgstr "ATENTU: timo pri malsatmizero en %s."
 
-#: server/cityturn.c:503
+#: server/cityturn.c:504
 #, fuzzy, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATENTU; ni havas malmulton da mono, via moŝto."
 
-#: server/cityturn.c:687
+#: server/cityturn.c:688
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
 msgstr "%s bezonas %sn (preparotan) por plue pligrandiĝi."
 
-#: server/cityturn.c:692
+#: server/cityturn.c:693
 #, c-format
 msgid "%s needs an improvement to grow any further."
 msgstr "%s bezonas plibonigon por plue pligrandiĝi."
 
-#: server/cityturn.c:747
+#: server/cityturn.c:748
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s pligrandiĝis je %da grando."
 
-#: server/cityturn.c:809
+#: server/cityturn.c:810
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Malsatmizero estas en %s, %s estas perditaj!"
 
-#: server/cityturn.c:824
+#: server/cityturn.c:825
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Malsatmizero kaŭzas malpliigon de loĝantaro en %s."
 
-#: server/cityturn.c:829
+#: server/cityturn.c:830
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Malsatmizero tute detruis %sn."
 
-#: server/cityturn.c:930
+#: server/cityturn.c:931
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -2037,18 +2037,18 @@ msgstr ""
 "%s ne povas konstrui %sn el la laborlisto; teĥnologio ne ankoraŭ disponebla. "
 "Ĝi estas prokrastita..."
 
-#: server/cityturn.c:946 server/cityturn.c:986
+#: server/cityturn.c:947 server/cityturn.c:987
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "%s ne povas konstrui %sn el la laborlisto.  Ĝi estas forigita..."
 
-#: server/cityturn.c:967 server/cityturn.c:1199 server/cityturn.c:1311
-#: server/cityturn.c:1357
+#: server/cityturn.c:968 server/cityturn.c:1200 server/cityturn.c:1312
+#: server/cityturn.c:1358
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Produktado de %s altiĝis ĝis %s en %s."
 
-#: server/cityturn.c:1018
+#: server/cityturn.c:1019
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -2057,7 +2057,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; teĥnologio pri %s ne estas ankoraŭ "
 "disponebla. Ĝi estas prokrastita..."
 
-#: server/cityturn.c:1032
+#: server/cityturn.c:1033
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -2065,7 +2065,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; unue necesas %s. Ĝi estas "
 "prokrastita..."
 
-#: server/cityturn.c:1046
+#: server/cityturn.c:1047
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -2073,14 +2073,14 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; necesas %s kiel regado. Ĝi estas "
 "prokrastita..."
 
-#: server/cityturn.c:1059
+#: server/cityturn.c:1060
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
 "%s ne povas prepari %sn de la laborlisto; necesas %s. Ĝi estas prokrastita..."
 
-#: server/cityturn.c:1072
+#: server/cityturn.c:1073
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -2088,7 +2088,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; necesas %s areo. Ĝi estas "
 "prokrastita..."
 
-#: server/cityturn.c:1087
+#: server/cityturn.c:1088
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -2096,7 +2096,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; nur %s povas konstrui tion. Ĝi "
 "estas prokrastita..."
 
-#: server/cityturn.c:1100
+#: server/cityturn.c:1101
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -2104,7 +2104,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; la urbo devas havi grandecon je %"
 "d. Ĝi estas prokrastita..."
 
-#: server/cityturn.c:1115
+#: server/cityturn.c:1116
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
@@ -2113,7 +2113,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; Nur AI je nivelo %s povas konstrui "
 "tion. Ĝi estas prokrastita..."
 
-#: server/cityturn.c:1129
+#: server/cityturn.c:1130
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
@@ -2122,7 +2122,7 @@ msgstr ""
 "%s ne povas prepari %sn de la laborlisto; %s grundo estas necesa. Ĝi estas "
 "prokrastita..."
 
-#: server/cityturn.c:1156
+#: server/cityturn.c:1157
 #, fuzzy, c-format
 msgid ""
 "%s can't build %s from the worklist; Only available from %s.  Postponing..."
@@ -2130,7 +2130,7 @@ msgstr ""
 "%s ne povas konstrui %sn el la laborlisto; teĥnologio ne ankoraŭ disponebla. "
 "Ĝi estas prokrastita..."
 
-#: server/cityturn.c:1191
+#: server/cityturn.c:1192
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
@@ -2138,137 +2138,137 @@ msgstr ""
 "prokrastita..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1231
+#: server/cityturn.c:1232
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "La laborlisto de %s estas malplena nun."
 
-#: server/cityturn.c:1379
+#: server/cityturn.c:1380
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s ne povas teni %sn, do la unuo estis dissolvita."
 
-#: server/cityturn.c:1399
+#: server/cityturn.c:1400
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "La civitanoj en %s mortas ĉar ili malsukcesis teni %sn!"
 
-#: server/cityturn.c:1444 server/cityturn.c:1560
+#: server/cityturn.c:1445 server/cityturn.c:1561
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s estas preparanta %sn, kiu ne estas plu disponebla."
 
-#: server/cityturn.c:1483
+#: server/cityturn.c:1484
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "La %s plenumis la preparadon de %s en %s."
 
-#: server/cityturn.c:1490
+#: server/cityturn.c:1491
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s plenumis la preparadon de %s."
 
-#: server/cityturn.c:1510
+#: server/cityturn.c:1511
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "%s plirapidigas la studadon; vi gajnas %d tujan avanaĵon."
 msgstr[1] "%s plirapidigas la studadon; vi gajnas %d tujajn avanaĵojn."
 
-#: server/cityturn.c:1519 server/techtools.c:180
+#: server/cityturn.c:1520 server/techtools.c:180
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "La %s aĉetis %sn el %s."
 
-#: server/cityturn.c:1527
+#: server/cityturn.c:1528
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "La %s komencis konstrui kosmoŝipon!"
 
-#: server/cityturn.c:1586
+#: server/cityturn.c:1587
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s ne povas ankoraŭ konstrui %sn."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1618
+#: server/cityturn.c:1619
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s plenumis preparadon de %s."
 
-#: server/cityturn.c:1684
+#: server/cityturn.c:1685
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "Viaj enspezoj ne permesas al vi bontenadon de %s en %s, do la konstruaĵo "
 "estis vendita!"
 
-#: server/cityturn.c:1727
+#: server/cityturn.c:1728
 #, c-format
 msgid "Not enough gold. %s disbanded"
 msgstr "Oro estas nesufiĉa. %s estas dissolvitaj"
 
-#: server/cityturn.c:1909
+#: server/cityturn.c:1910
 #, c-format
 msgid "Pollution near %s."
 msgstr "Poluado ĉe %s."
 
-#: server/cityturn.c:2059
+#: server/cityturn.c:2060
 #, c-format
 msgid "Celebrations in your honour in %s."
 msgstr "Celebrado por vi en %s."
 
-#: server/cityturn.c:2065
+#: server/cityturn.c:2066
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "La celebrado en %s estas nuligita."
 
-#: server/cityturn.c:2082
+#: server/cityturn.c:2083
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
-#: server/cityturn.c:2128
+#: server/cityturn.c:2129
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Civitana ribelo en %s."
 
-#: server/cityturn.c:2132
+#: server/cityturn.c:2133
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "CIVITANA RIBELO PLUDAŬRAS en %s."
 
-#: server/cityturn.c:2138
+#: server/cityturn.c:2139
 #, c-format
 msgid "Order restored in %s."
 msgstr "Publika ordo estis restarigita en %s."
 
-#: server/cityturn.c:2149
+#: server/cityturn.c:2150
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "La popolo eksigis vian %s, la nacio ekribelas."
 
-#: server/cityturn.c:2187
+#: server/cityturn.c:2188
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "%s ne povas ankoraŭ konstrui %sn kaj ni ne povas forlasi nian nuran urbon."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2215
+#: server/cityturn.c:2216
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s estis forlasita en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2397
+#: server/cityturn.c:2398
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2404
+#: server/cityturn.c:2405
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2276,7 +2276,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2409
+#: server/cityturn.c:2410
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2284,56 +2284,56 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2424
+#: server/cityturn.c:2425
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2431
+#: server/cityturn.c:2432
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2436
+#: server/cityturn.c:2437
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2472
+#: server/cityturn.c:2473
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s estis forlasita en %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2492
+#: server/cityturn.c:2493
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2498
+#: server/cityturn.c:2499
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2503
+#: server/cityturn.c:2504
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
-#: server/cityturn.c:2654
+#: server/cityturn.c:2655
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2675
+#: server/cityturn.c:2676
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -3186,114 +3186,114 @@ msgstr "Interŝanĝu eligon inter 'RFC-stilo' kaj normala stilo."
 msgid "Simply returns the id of the server."
 msgstr "Vidigu la ID-on de la servilo."
 
-#: server/connecthand.c:129
+#: server/connecthand.c:130
 #, c-format
 msgid "%s Welcome"
 msgstr "%s Bonvenon"
 
-#: server/connecthand.c:150
+#: server/connecthand.c:151
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
 msgstr "Bonvenon al servilo %s plenumanta ĉe %s - pordo %d."
 
-#: server/connecthand.c:154
+#: server/connecthand.c:155
 #, c-format
 msgid "Welcome to the %s Server at port %d."
 msgstr "Bonvenon al servilo %s ĉe pordo %d."
 
-#: server/connecthand.c:162 server/connecthand.c:167
-#, c-format
-msgid "%s has connected from %s."
-msgstr "%s estas konektita el %s."
-
-#: server/connecthand.c:191
+#: server/connecthand.c:183
 msgid "Couldn't attach your connection to new player."
 msgstr "Estas neeble konekti vian konekton kun novan ludanto."
 
-#: server/connecthand.c:209
+#: server/connecthand.c:201
 #, c-format
 msgid "You are logged in as '%s' connected to no player."
 msgstr "Vi estas konektita kiel '%s' konektita kun neniu ludanto."
 
-#: server/connecthand.c:213
+#: server/connecthand.c:205
 #, c-format
 msgid "You are logged in as '%s' connected to an anonymous player."
 msgstr "Vi estas konektita kiel '%s' konektita kun anonima ludanto."
 
-#: server/connecthand.c:218
+#: server/connecthand.c:210
 #, c-format
 msgid "You are logged in as '%s' connected to %s."
 msgstr "Vi estas konektita kiel '%s' konektita kun %s."
 
-#: server/connecthand.c:231
+#: server/connecthand.c:220
+#, c-format
+msgid "%s has connected from %s."
+msgstr "%s estas konektita el %s."
+
+#: server/connecthand.c:237
 #, c-format
 msgid "Turn-blocking game play: waiting on %s to finish turn..."
 msgstr "Laŭvica ludo: bonvolu atendi en %s ke la turnoj estas finitaj..."
 
-#: server/connecthand.c:240
+#: server/connecthand.c:246
 msgid " *** Server is in edit mode. *** "
 msgstr ""
 
-#: server/connecthand.c:269
+#: server/connecthand.c:275
 #, c-format
 msgid "Client rejected: %s."
 msgstr "Rifuzita kliento: %s."
 
-#: server/connecthand.c:282
+#: server/connecthand.c:288
 #, c-format
 msgid "Connection request from %s from %s"
 msgstr "Konektopeto de %s el %s"
 
-#: server/connecthand.c:286
+#: server/connecthand.c:292
 #, c-format
 msgid "%s has client version %d.%d.%d%s"
 msgstr "%s havas version de kliento %d.%d.%d%s"
 
-#: server/connecthand.c:296
+#: server/connecthand.c:302
 #, c-format
 msgid ""
 "The client is missing a capability that this server needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
 
-#: server/connecthand.c:303 server/connecthand.c:318
+#: server/connecthand.c:309 server/connecthand.c:324
 #, c-format
 msgid "%s was rejected: Mismatched capabilities."
 msgstr "%s  estis rifuzita: nekongruaj mandatoj."
 
-#: server/connecthand.c:311
+#: server/connecthand.c:317
 #, c-format
 msgid ""
 "The server is missing a capability that the client needs.\n"
 "Server version: %d.%d.%d%s Client version: %d.%d.%d%s.  Upgrading may help!"
 msgstr ""
 
-#: server/connecthand.c:327
+#: server/connecthand.c:333
 #, c-format
 msgid "Invalid username '%s'"
 msgstr "Nevalida uzantonomo '%s'"
 
-#: server/connecthand.c:329
+#: server/connecthand.c:335
 #, c-format
 msgid "%s was rejected: Invalid name [%s]."
 msgstr "%s estis rifuzita: nevalida nomo [%s]."
 
-#: server/connecthand.c:337
+#: server/connecthand.c:343
 #, c-format
 msgid "'%s' already connected."
 msgstr "'%s' estas jam konektita."
 
-#: server/connecthand.c:340
+#: server/connecthand.c:346
 #, c-format
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr "%s estis rifuzita: duplikita nomo [%s]."
 
-#: server/connecthand.c:372 server/connecthand.c:383
+#: server/connecthand.c:380 server/connecthand.c:391
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Konekto estis perdita: %s."
 
-#: server/connecthand.c:625
+#: server/connecthand.c:633
 #, c-format
 msgid "detaching from %s."
 msgstr "malkonektado el %s."
@@ -3737,21 +3737,21 @@ msgstr ""
 msgid " *** Edit mode cancelled by %s. *** "
 msgstr ""
 
-#: server/edithand.c:309 server/edithand.c:343 server/edithand.c:370
-#: server/edithand.c:403
+#: server/edithand.c:311 server/edithand.c:345 server/edithand.c:372
+#: server/edithand.c:405
 #, c-format
 msgid "Cannot edit the tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:318
+#: server/edithand.c:320
 #, c-format
 msgid ""
 "Cannot modify terrain for the tile %s because %d is not a valid terrain id."
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:378
+#: server/edithand.c:380
 #, c-format
 msgid ""
 "Cannot modify specials for the tile %s because %d is not a valid terrain "
@@ -3759,31 +3759,31 @@ msgid ""
 msgstr ""
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
-#: server/edithand.c:413
+#: server/edithand.c:415
 #, c-format
 msgid ""
 "Cannot modify base for the tile %s because %d is not a valid base type id."
 msgstr ""
 
-#: server/edithand.c:441
+#: server/edithand.c:443
 #, fuzzy, c-format
 msgid "No such tile (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:500
+#: server/edithand.c:502
 #, c-format
 msgid "Cannot create units at tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:509
+#: server/edithand.c:511
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit at %s because the given unit type id %d is invalid."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>"...
-#: server/edithand.c:519
+#: server/edithand.c:521
 #, fuzzy, c-format
 msgid ""
 "Cannot create a unit of type %s at %s because the given owner's player id %d "
@@ -3792,25 +3792,25 @@ msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
 #. TRANS: ..." type <unit-type> on enemy tile
 #. * <tile-coordinates>"...
-#: server/edithand.c:532
+#: server/edithand.c:534
 #, fuzzy, c-format
 msgid "Cannot create unit of type %s on enemy tile %s."
 msgstr "Vi ne povas krei unuon en malamika areo."
 
 #. TRANS: ..." type <unit-type> on the terrain at
 #. * <tile-coordinates>"...
-#: server/edithand.c:542
+#: server/edithand.c:544
 #, fuzzy, c-format
 msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "Vi ne povas krei %s unuon en tiu ĉi areo."
 
-#: server/edithand.c:587
+#: server/edithand.c:589
 #, c-format
 msgid "Cannot remove units at tile (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:596
+#: server/edithand.c:598
 #, c-format
 msgid ""
 "Cannot remove a unit at %s because the given unit type id %d is invalid."
@@ -3818,182 +3818,182 @@ msgstr ""
 
 #. TRANS: ..." type <unit-type> at <tile-coordinates>
 #. * because"...
-#: server/edithand.c:607
+#: server/edithand.c:609
 #, c-format
 msgid ""
 "Cannot remove a unit of type %s at %s because the given owner's player id %d "
 "is invalid."
 msgstr ""
 
-#: server/edithand.c:638 server/edithand.c:663
+#: server/edithand.c:640 server/edithand.c:665
 #, fuzzy, c-format
 msgid "No such unit (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:704
+#: server/edithand.c:706
 #, c-format
 msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr ""
 
-#: server/edithand.c:735
+#: server/edithand.c:737
 #, c-format
 msgid "Cannot create a city at (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:744
+#: server/edithand.c:746
 #, c-format
 msgid ""
 "Cannot create a city at %s because the given owner's player id %d is invalid"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates>."
-#: server/edithand.c:756
+#: server/edithand.c:758
 #, c-format
 msgid "A city may not be built at %s."
 msgstr ""
 
-#: server/edithand.c:803
+#: server/edithand.c:805
 #, fuzzy, c-format
 msgid "Cannot edit city with invalid city ID %d."
 msgstr "Vi ne povas formovi scion pri via urbo."
 
-#: server/edithand.c:816
+#: server/edithand.c:818
 #, fuzzy, c-format
 msgid "Cannot edit city name: %s"
 msgstr "Nomo de la konekto: %s"
 
-#: server/edithand.c:827
+#: server/edithand.c:829
 #, c-format
 msgid "Invalid city size %d for city %s."
 msgstr ""
 
-#: server/edithand.c:844
+#: server/edithand.c:846
 #, c-format
 msgid "It is impossible for a city to have %s!"
 msgstr ""
 
-#: server/edithand.c:893
+#: server/edithand.c:895
 #, c-format
 msgid ""
 "Invalid city food stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:907
+#: server/edithand.c:909
 #, c-format
 msgid ""
 "Invalid city shield stock amount %d for city %s (allowed range is %d to %d)."
 msgstr ""
 
-#: server/edithand.c:954
+#: server/edithand.c:956
 #, c-format
 msgid ""
 "No more players can be added because the maximum number of players (%d) has "
 "been reached."
 msgstr ""
 
-#: server/edithand.c:962
+#: server/edithand.c:964
 #, c-format
 msgid ""
 "No more players can be added because there are no available nations (%d "
 "used)."
 msgstr ""
 
-#: server/edithand.c:971
+#: server/edithand.c:973
 #, fuzzy
 msgid "Player cannot be created because random nation selection failed."
 msgstr "Estas neeble formovi ludantoj post la komenco de la ludo."
 
-#: server/edithand.c:980
+#: server/edithand.c:982
 #, fuzzy
 msgid "Player creation failed."
 msgstr "La ludanto estas detruito"
 
-#: server/edithand.c:1016
+#: server/edithand.c:1018
 #, fuzzy, c-format
 msgid "No such player (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:1049
+#: server/edithand.c:1051
 #, fuzzy, c-format
 msgid "Cannot edit player with invalid player ID %d."
 msgstr "Estas neeble mastrumi barbaran ludanton."
 
-#: server/edithand.c:1061
+#: server/edithand.c:1063
 #, c-format
 msgid "Cannot set empty name for player (%d) '%s'."
 msgstr ""
 
-#: server/edithand.c:1074
+#: server/edithand.c:1076
 #, c-format
 msgid ""
 "Cannot change name of player (%d) '%s' to '%s': another player (%d) already "
 "has that name."
 msgstr ""
 
-#: server/edithand.c:1094
+#: server/edithand.c:1096
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) because the given nation ID %d is "
 "invalid."
 msgstr ""
 
-#: server/edithand.c:1100
+#: server/edithand.c:1102
 #, c-format
 msgid ""
 "Cannot change nation for player %d (%s) to nation %d (%s) because that "
 "nation is already assigned to player %d (%s)."
 msgstr ""
 
-#: server/edithand.c:1136
+#: server/edithand.c:1138
 #, c-format
 msgid ""
 "Cannot set gold for player %d (%s) because the value %d is outside the "
 "allowed range."
 msgstr ""
 
-#: server/edithand.c:1195
+#: server/edithand.c:1197
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at (%d, %d) because it is not on the map!"
 msgstr ""
 
 #. TRANS: ..." at <tile-coordinates> because"...
-#: server/edithand.c:1204
+#: server/edithand.c:1206
 #, c-format
 msgid ""
 "Cannot edit vision for the tile at %s because given player id %d is invalid."
 msgstr ""
 
-#: server/edithand.c:1277
+#: server/edithand.c:1279
 #, fuzzy, c-format
 msgid "No such city (ID %d)."
 msgstr "Neniu voĉdono (%d)."
 
-#: server/edithand.c:1303
+#: server/edithand.c:1305
 msgid "Cannot toggle fog-of-war when it is already disabled."
 msgstr ""
 
-#: server/edithand.c:1311
+#: server/edithand.c:1313
 #, fuzzy, c-format
 msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "Estas neeble mastrumi barbaran ludanton."
 
-#: server/edithand.c:1340
+#: server/edithand.c:1342
 #, c-format
 msgid "Cannot place a start position at (%d, %d) because it is not on the map!"
 msgstr ""
 
-#: server/edithand.c:1381
+#: server/edithand.c:1383
 #, c-format
 msgid "Cannot set invalid game year %d. Valid year range is from %d to %d."
 msgstr ""
 
-#: server/edithand.c:1424
+#: server/edithand.c:1426
 msgid "No permissions to remotely save scenario."
 msgstr ""
 
-#: server/edithand.c:1431
+#: server/edithand.c:1433
 msgid "Scenario information not set. Cannot save scenario."
 msgstr ""
 
@@ -4007,7 +4007,7 @@ msgstr "Marmovado por unuoj ne estas ankoraŭ disponebla. Neniu havas %sn."
 msgid "No units placed for %s!"
 msgstr "Neniu unuo estas disponita por %s!"
 
-#: server/gamehand.c:339 client/text.c:776
+#: server/gamehand.c:339 client/text.c:768
 #, c-format
 msgid "Year: %s"
 msgstr "Jaro: %s"
@@ -4275,41 +4275,41 @@ msgstr "Vi estis formovita de la ludo!"
 msgid "%s has been removed from the game."
 msgstr "%s estis formovita de la ludo."
 
-#: server/plrhand.c:1149 server/plrhand.c:1153
+#: server/plrhand.c:1150 server/plrhand.c:1154
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Vi kontaktiĝis kun la %s, estritaj de %s."
 
-#: server/plrhand.c:1616
+#: server/plrhand.c:1617
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:1623
+#: server/plrhand.c:1624
 #, fuzzy, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr ""
 "Estas neeble ĵeti %sn en intercivitana milito - ĉar ĉeestas tro ludantoj"
 
-#: server/plrhand.c:1643
+#: server/plrhand.c:1644
 msgid "Your nation is thrust into civil war."
 msgstr "Via nacio falis en intercivitana milito."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:1647
+#: server/plrhand.c:1648
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s estas la estro de la ribelo de la %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:1669
+#: server/plrhand.c:1670
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s subskribis aliancon kun la %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:1687
+#: server/plrhand.c:1688
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -4671,14 +4671,14 @@ msgstr ""
 "La konservitan ludon estas tro malnova, necesas almenaŭ la versio 1.9.0."
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4631
+#: server/savegame.c:4638
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 "La konservitan ludon uzas la \"klasikajn\" grund-regulojn, kaj ili ne estas "
 "plu subtenitaj."
 
-#: server/savegame.c:4640
+#: server/savegame.c:4647
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4688,7 +4688,7 @@ msgstr ""
 "subtenitaj. Uzu '%s'."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4953
+#: server/savegame.c:4971
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr "%s havas nevalidan nacion; ŝanĝante al %s."
@@ -4721,7 +4721,7 @@ msgstr "Interna"
 msgid "Networking"
 msgstr "Reta"
 
-#: server/settings.c:43 client/gui-gtk-2.0/dialogs.c:815
+#: server/settings.c:43 client/gui-gtk-2.0/dialogs.c:810
 #: client/gui-win32/dialogs.c:547
 msgid "All"
 msgstr "Ĉio"
@@ -5957,55 +5957,55 @@ msgstr ""
 "La ĉeno estas tro longa.  Uzo:\n"
 "%s"
 
-#: server/sernet.c:152
+#: server/sernet.c:151
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 
-#: server/sernet.c:503
+#: server/sernet.c:502
 msgid "restarting for lack of players"
 msgstr ""
 
-#: server/sernet.c:526
+#: server/sernet.c:525
 #, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr ""
 
-#: server/sernet.c:529
+#: server/sernet.c:528
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "Unua kvanto da oro por ludanto"
 
-#: server/sernet.c:949
+#: server/sernet.c:947
 #, fuzzy, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Metaservilo: erara adreso: [%s:%d]."
 
-#: server/sernet.c:964
+#: server/sernet.c:962
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:967
+#: server/sernet.c:965
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Antaŭludo"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1320
+#: server/sernet.c:1318
 msgid "Running"
 msgstr "Plenumanta"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1324
+#: server/sernet.c:1322
 msgid "Game over"
 msgstr "Ludfino"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1328
+#: server/sernet.c:1326
 msgid "Waiting"
 msgstr "Atendante"
 
@@ -7436,8 +7436,8 @@ msgstr ", ludonivelo %s"
 
 #. TRANS: continue list, in case comma is not the separator of choice.
 #: server/stdinhand.c:4344 server/stdinhand.c:4348 client/helpdata.c:601
-#: client/helpdata.c:1109 client/text.c:245 client/text.c:1332
-#: client/text.c:1369
+#: client/helpdata.c:1109 client/text.c:243 client/text.c:1317
+#: client/text.c:1354
 #, c-format
 msgid "?clistmore:, %s"
 msgstr "?clistmore:, %s"
@@ -7696,7 +7696,7 @@ msgstr "Nur la %s kapablas ataki de la maro."
 msgid "Cannot attack from sea."
 msgstr "Estas neeble ataki de la maro."
 
-#: server/unithand.c:1141 server/unittools.c:2267
+#: server/unithand.c:1141 server/unittools.c:2287
 msgid "Cannot attack unless you declare war first."
 msgstr "Vi ne povas ataki sen militdeklari antaŭe."
 
@@ -7710,7 +7710,7 @@ msgstr "%s povas nur movi en via influa areo."
 msgid "%s cannot move that far from the coast line."
 msgstr "%s ne povas movi tiom malproksime de la marbordo."
 
-#: server/unithand.c:1159 server/unittools.c:2273
+#: server/unithand.c:1159 server/unittools.c:2293
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr "Vi ne povas invadi sen nuligi la pacon kun %s antaŭe."
@@ -7813,70 +7813,70 @@ msgstr ""
 msgid "Sorry, the %s canceled the trade route from %s to your city %s."
 msgstr "Bedaŭrinde, %s forigis la komercan kurson de %s ĝis via urbo %s."
 
-#: server/unittools.c:266
+#: server/unittools.c:269
 #, c-format
 msgid "%s was upgraded for free to %s."
 msgstr "%s estas senpage ĝisdatigitaj al %s."
 
-#: server/unittools.c:307
+#: server/unittools.c:310
 #, c-format
 msgid "Your %s has run out of hit points."
 msgstr "Viaj %s finis la vivo-poentojn."
 
-#: server/unittools.c:382
+#: server/unittools.c:385
 #, c-format
 msgid "Your %s has returned to refuel."
 msgstr "Viaj %s revenis por sin provizi."
 
-#: server/unittools.c:413
+#: server/unittools.c:416
 #, c-format
 msgid "Your %s has run out of fuel."
 msgstr "Viaj %s elĉerpis la fuelon."
 
 #. TRANS: Your <unit> became ...
-#: server/unittools.c:605
+#: server/unittools.c:611
 #, c-format
 msgid "Your %s became more experienced!"
 msgstr "Viaj %s iĝis pli spertaj!"
 
-#: server/unittools.c:1063
+#: server/unittools.c:1082
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr "Viaj %s estis teletransportitaj al %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1126
+#: server/unittools.c:1145
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "Viaj %s estis dissolvita."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1137
+#: server/unittools.c:1156
 #, c-format
 msgid "Disbanded your %s."
 msgstr "Viaj %s estis dissolvita."
 
-#: server/unittools.c:1484
+#: server/unittools.c:1503
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr "Oni malkapablas defendi %sn, %s malvenkis la ludon."
 
-#: server/unittools.c:1488
+#: server/unittools.c:1507
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr "Perdi %sn signifas malvenki! Estu pli zorgema venont-foje!"
 
-#: server/unittools.c:1530
+#: server/unittools.c:1550
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr "%s malvenkis pro la perdo de %s."
 
-#: server/unittools.c:1609
+#: server/unittools.c:1629
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr "%s forkuris de la detruo de %s, kaj rifuĝis en %s."
 
-#: server/unittools.c:1675
+#: server/unittools.c:1695
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr ""
@@ -7884,19 +7884,19 @@ msgstr ""
 "pagita."
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1693
+#: server/unittools.c:1713
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "Viaj atakantaj %s sukcesis kontraŭ la %sj %s!"
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1702 server/unittools.c:1761
+#: server/unittools.c:1722 server/unittools.c:1781
 #, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s pereis pro atako de la %sj %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1736
+#: server/unittools.c:1756
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -7906,14 +7906,14 @@ msgstr[1] "Viaj atakantaj %s sukcesis kontraŭ la %sj %s (kaj %d aliaj unuoj)!"
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1771
+#: server/unittools.c:1791
 #, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s pereis kiam la %sj %s atakis la %sjn %sn."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1787
+#: server/unittools.c:1807
 #, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
@@ -7921,7 +7921,7 @@ msgstr "%s (kaj %s) pereis pro atako de la %sj %s."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1798
+#: server/unittools.c:1818
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -7931,151 +7931,151 @@ msgstr[1] "%s kaj %d aliaj unuoj pereis pro atako de la %sj %s."
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1813
+#: server/unittools.c:1833
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] "%d unuo pereis kiam la %sj %s atakis la %sj %s."
 msgstr[1] "%d unuoj pereis kiam la %sj %s atakis la %sj %s."
 
-#: server/unittools.c:2083
+#: server/unittools.c:2103
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr "Via %s estis atombombita fare de %s."
 
-#: server/unittools.c:2086 server/unittools.c:2104
+#: server/unittools.c:2106 server/unittools.c:2124
 msgid "yourself"
 msgstr "vi mem"
 
-#: server/unittools.c:2090
+#: server/unittools.c:2110
 #, c-format
 msgid "The %s %s was nuked."
 msgstr "La %sj %s estis atombombitaj"
 
-#: server/unittools.c:2101
+#: server/unittools.c:2121
 #, c-format
 msgid "%s was nuked by %s."
 msgstr "%s estis atombombita fare de %s."
 
-#: server/unittools.c:2109
+#: server/unittools.c:2129
 #, c-format
 msgid "You nuked %s."
 msgstr "Vi atombombis %sn."
 
-#: server/unittools.c:2146
+#: server/unittools.c:2166
 #, c-format
 msgid "The %s detonated a nuke!"
 msgstr "La %s eksplodigis atombombon!"
 
-#: server/unittools.c:2171
+#: server/unittools.c:2191
 #, c-format
 msgid "%s transported successfully."
 msgstr "%s estis transportitaj sukcese."
 
-#: server/unittools.c:2230
+#: server/unittools.c:2250
 msgid "This unit type can not be paradropped."
 msgstr "Ĉi tiu speco de unuo ne estas paraŝutebla."
 
-#: server/unittools.c:2240
+#: server/unittools.c:2260
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr "Vi ne povas paraŝutigi unuon kiu transportas alian unuon."
 
-#: server/unittools.c:2246
+#: server/unittools.c:2266
 msgid "The destination location is not known."
 msgstr "La alvenpunkto estas nekonata."
 
-#: server/unittools.c:2256
+#: server/unittools.c:2276
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr "Ĉi tiu unuo ne povas paraŝuti en %sn."
 
-#: server/unittools.c:2284
+#: server/unittools.c:2304
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr "La distanco de la celo (%i) superas la aŭtonomion de la unuo (%i)."
 
-#: server/unittools.c:2295
+#: server/unittools.c:2315
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr "Viaj %s paraŝutis en la %s kaj estis perdita."
 
-#: server/unittools.c:2308
+#: server/unittools.c:2328
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 "Viaj %s estis mortigita fare de malamikaj unuoj ĉe la paraŝuta alvenpunkto."
 
-#: server/unittools.c:2337 data/default/default.lua:22
+#: server/unittools.c:2357 data/default/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "Vi trovis %d oraj monerojn."
 
-#: server/unittools.c:2343 data/default/default.lua:92
+#: server/unittools.c:2363 data/default/default.lua:92
 msgid "An abandoned village is here."
 msgstr "Ĉi tie estas forlasita vilaĝo."
 
-#: server/unittools.c:2346 data/default/default.lua:102
+#: server/unittools.c:2366 data/default/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "Viaj %s estis mortigita de la barbaroj!"
 
-#: server/unittools.c:2374
+#: server/unittools.c:2394
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr "Via superflugo teruris la tribon; ili forkuris terruroplenaj."
 
-#: server/unittools.c:2625
+#: server/unittools.c:2645
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 "La ordonoj por %s estis nuligitaj post la ĉesigo de la movoj de la malamiko."
 
-#: server/unittools.c:3150
+#: server/unittools.c:3170
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas proksimaj unuoj."
 
-#: server/unittools.c:3201
+#: server/unittools.c:3221
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 "La ordonoj por %s estis nuligitaj ĉar la konstruado de urbo malsukcesis."
 
-#: server/unittools.c:3217
+#: server/unittools.c:3237
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr "La ordonoj por %s estis nuligitaj ĝis ili estos nevalidaj agoj."
 
-#: server/unittools.c:3236
+#: server/unittools.c:3256
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr "La ordonoj por %s estis nuligitaj ĉar ili havas nevalidan lokiĝon."
 
-#: server/unittools.c:3246
+#: server/unittools.c:3266
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr "La ordonoj por %s estis nuligitaj ĉar estas unuoj en la vojo."
 
-#: server/unittools.c:3272
+#: server/unittools.c:3292
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr "La ordonoj por %s estis nuligitaj pro malsukcesa movo."
 
-#: server/unittools.c:3312
+#: server/unittools.c:3332
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr "Anstataŭigo de nuna hejmurbo per %s malsukcesis."
 
-#: server/unittools.c:3323
+#: server/unittools.c:3343
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr "Malsukcesis provo por starigi komercan kurson por %s."
 
-#: server/unittools.c:3335
+#: server/unittools.c:3355
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr "Malsukcesis provo por konstrui mirindaĵon por %s."
 
-#: server/unittools.c:3344
+#: server/unittools.c:3364
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr "Viaj %s havas nevalidajn ordonojn."
@@ -8142,7 +8142,7 @@ msgstr "La generatoro 3 ne lokis ĉiujn grandajn insulojn."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "La generatoro 3 lasis ne-lokita %li da lando."
 
-#: server/generator/startpos.c:386
+#: server/generator/startpos.c:388
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -8243,7 +8243,7 @@ msgstr[0] "%3d vico"
 msgstr[1] "%3d vicoj"
 
 #: client/citydlg_common.c:243 client/citydlg_common.c:295
-#: client/citydlg_common.c:386 client/text.c:707 client/agents/cma_fec.c:250
+#: client/citydlg_common.c:386 client/text.c:699 client/agents/cma_fec.c:250
 #: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
 #: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
 #: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
@@ -8266,7 +8266,7 @@ msgstr "%3d/%3d %s"
 msgid "%d/turn"
 msgstr "%d/vico"
 
-#: client/citydlg_common.c:292 client/text.c:705 client/agents/cma_fec.c:270
+#: client/citydlg_common.c:292 client/text.c:697 client/agents/cma_fec.c:270
 #: client/agents/cma_fec.c:308 client/gui-gtk-2.0/citydlg.c:1443
 #: client/gui-win32/citydlg.c:473
 #, c-format
@@ -9010,15 +9010,15 @@ msgstr "Nur la atomaj unuoj povas fari tion."
 msgid "Only paratrooper units can do this."
 msgstr "Nur la paraŝutistoj povas fari tion."
 
-#: client/control.c:2150
+#: client/control.c:2156
 msgid "Too far for this unit."
 msgstr "Tro malproksima por ĉi tiu unuo."
 
-#: client/control.c:2362 client/control.c:2392 client/control.c:2408
+#: client/control.c:2368 client/control.c:2398 client/control.c:2414
 msgid "Didn't find a route to the destination!"
 msgstr "Estas neeble trovi irvojon por la alvenpunkto!"
 
-#: client/control.c:2456
+#: client/control.c:2462
 msgid "Oh my! You seem to have no capital!"
 msgstr "Oh ve! Ŝajnas ke via nacio ne havas ĉefurbon!"
 
@@ -9073,7 +9073,7 @@ msgid ""
 "Select base type: shift+m or right-click here."
 msgstr ""
 
-#: client/editor.c:156 client/gui-gtk-2.0/dialogs.c:582
+#: client/editor.c:156 client/gui-gtk-2.0/dialogs.c:577
 #: client/gui-gtk-2.0/editprop.c:605
 msgid "Unit"
 msgstr "Unuo"
@@ -11249,14 +11249,14 @@ msgstr "?Player:Nomo"
 msgid "Username"
 msgstr "Uzantonomo"
 
-#: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:735
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1627
+#: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
 msgid "Flag"
 msgstr "Flago"
 
-#: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:739
+#: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:957 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -11270,7 +11270,7 @@ msgstr "Landlimo"
 msgid "Score"
 msgstr "Poentaro"
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1631
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
 msgid "Team"
 msgstr "Grupo"
 
@@ -11406,36 +11406,36 @@ msgstr "?city:Mistera"
 msgid "?city:Friendly(team)"
 msgstr "?city:Amika(grupo)"
 
-#: client/text.c:154
+#: client/text.c:152
 #, c-format
 msgid "Location: (%d, %d) [%d]"
 msgstr "Lokiĝo: (%d, %d) [%d]"
 
-#: client/text.c:156
+#: client/text.c:154
 #, c-format
 msgid "Native coordinates: (%d, %d)"
 msgstr ""
 
-#: client/text.c:163
+#: client/text.c:161
 #, c-format
 msgid "Terrain: %s"
 msgstr "Grundo: %s"
 
-#: client/text.c:164
+#: client/text.c:162
 #, c-format
 msgid "Food/Prod/Trade: %s"
 msgstr "Nutraĵo/Prod/Komerco: %s"
 
-#: client/text.c:167
+#: client/text.c:165
 msgid "Minor Tribe Village"
 msgstr "Vilaĝo de eta tribo"
 
-#: client/text.c:176
+#: client/text.c:174
 msgid "Our territory"
 msgstr "Nia teritorio"
 
 #. TRANS: "Territory of <username> (<nation + team>)"
-#: client/text.c:179
+#: client/text.c:177
 #, fuzzy, c-format
 msgid "Territory of %s (%s)"
 msgstr ""
@@ -11444,7 +11444,7 @@ msgstr ""
 
 #. TRANS: "Territory of <username> (<nation + team>)
 #. * (<number> turn cease-fire)"
-#: client/text.c:189
+#: client/text.c:187
 #, fuzzy, c-format
 msgid "Territory of %s (%s) (%d turn cease-fire)"
 msgid_plural "Territory of %s (%s) (%d turn cease-fire)"
@@ -11453,26 +11453,26 @@ msgstr[1] "Urbo: %s (%s, %d vicoj de pafĉesigo)"
 
 #. TRANS: "Territory of <username>
 #. * (<nation + team> | <diplomatic state>)"
-#: client/text.c:198
+#: client/text.c:196
 #, fuzzy, c-format
 msgid "Territory of %s (%s | %s)"
 msgstr ""
 "\n"
 "Teritorio de la %s %s"
 
-#: client/text.c:203
+#: client/text.c:201
 msgid "Unclaimed territory"
 msgstr "Nenies teritorio"
 
 #. TRANS: "City: <city name> | <username> (<nation + team>)"
-#: client/text.c:218
+#: client/text.c:216
 #, fuzzy, c-format
 msgid "City: %s | %s (%s)"
 msgstr "Urbo: %s (%s, %s)"
 
 #. TRANS:  "City: <city name> | <username>
 #. * (<nation + team>, <number> turn cease-fire)"
-#: client/text.c:228
+#: client/text.c:226
 #, fuzzy, c-format
 msgid "City: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "City: %s | %s (%s, %d turn cease-fire)"
@@ -11481,45 +11481,45 @@ msgstr[1] "Urbo: %s (%s, %d vicoj de pafĉesigo)"
 
 #. TRANS: "City: <city name> | <username>
 #. * (<nation + team>, <diplomatic state>)"
-#: client/text.c:235
+#: client/text.c:233
 #, fuzzy, c-format
 msgid "City: %s | %s (%s, %s)"
 msgstr "Urbo: %s (%s, %s)"
 
 #. TRANS: previous lines gave other information about the city.
-#: client/text.c:250
+#: client/text.c:248
 #, c-format
 msgid "?clistbegin: with %s"
 msgstr "?clistbegin: kun %s"
 
 #. TRANS: This appears with two or more previous entries in the list
-#: client/text.c:260
+#: client/text.c:258
 #, c-format
 msgid "?clistlast:, and %s"
 msgstr "?clistlast:, kaj %s"
 
 #. TRANS: This appears with only one previous entry in the list
-#: client/text.c:264
+#: client/text.c:262
 #, c-format
 msgid "?clistlast: and %s"
 msgstr "?clistlast: kaj %s"
 
-#: client/text.c:267 client/text.c:1342 client/text.c:1380
+#: client/text.c:265 client/text.c:1327 client/text.c:1365
 msgid "?clistend:."
 msgstr "?clistend:."
 
 #. TRANS: "Trade from Warsaw: 5"
-#: client/text.c:277
+#: client/text.c:275
 #, c-format
 msgid "Trade from %s: %d"
 msgstr "Komercado el %s: %d"
 
-#: client/text.c:293
+#: client/text.c:285
 #, c-format
 msgid "Infrastructure: %s"
 msgstr "Instalaĵo: %s"
 
-#: client/text.c:298
+#: client/text.c:290
 #, c-format
 msgid "Activity: %s"
 msgstr "Ago: %s"
@@ -11528,20 +11528,20 @@ msgstr "Ago: %s"
 #. * (<nation + team>, <homecity>)"
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>,
 #. * <diplomatic state>)"
-#: client/text.c:313 client/text.c:337
+#: client/text.c:305 client/text.c:329
 #, fuzzy, c-format
 msgid "Unit: %s | %s (%s, %s)"
 msgstr "Unuo: %s (%s, %s)"
 
 #. TRANS: "Unit: <unit type> | <username> (<nation + team>)"
-#: client/text.c:318
+#: client/text.c:310
 #, fuzzy, c-format
 msgid "Unit: %s | %s (%s)"
 msgstr "Unuo: %s (%s, %s)"
 
 #. TRANS:  "Unit: <unit type> | <username> (<nation + team>,
 #. * <number> turn cease-fire)"
-#: client/text.c:329
+#: client/text.c:321
 #, fuzzy, c-format
 msgid "Unit: %s | %s (%s, %d turn cease-fire)"
 msgid_plural "Unit: %s | %s (%s, %d turn cease-fire)"
@@ -11549,64 +11549,64 @@ msgstr[0] "Unuo: %s (%s, %d vico de pafĉesigo)"
 msgstr[1] "Unuo: %s (%s, %d vicoj de pafĉesigo)"
 
 #. TRANS: "Chance to win: A:95% D:46%"
-#: client/text.c:362
+#: client/text.c:354
 #, c-format
 msgid "Chance to win: A:%d%% D:%d%%"
 msgstr "Ŝancoj pri venko: A:%d%% D:%d%%"
 
 #. TRANS: A is attack power, D is defense power, FP is firepower,
 #. * HP is hitpoints (current and max).
-#: client/text.c:369
+#: client/text.c:361
 #, c-format
 msgid "A:%d D:%d FP:%d HP:%d/%d (%s)"
 msgstr "A:%d D:%d FP:%d ĈP:%d/%d (%s)"
 
 #. TRANS: "5 more" units on this tile
-#: client/text.c:378
+#: client/text.c:370
 #, c-format
 msgid "  (%d more)"
 msgstr "  (%d plue)"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:492
+#: client/text.c:484
 #, c-format
 msgid "far from %s"
 msgstr "fore de %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:495
+#: client/text.c:487
 #, c-format
 msgid "near %s"
 msgstr "apud %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:498
+#: client/text.c:490
 #, c-format
 msgid "in %s"
 msgstr "en %s"
 
 #. TRANS: on own line immediately following \n, ... <city>
-#: client/text.c:539
+#: client/text.c:531
 #, c-format
 msgid "from %s"
 msgstr "de %s"
 
-#: client/text.c:600
+#: client/text.c:592
 msgid "Progress: no research"
 msgstr "Progreso: neniu studado"
 
-#: client/text.c:605
+#: client/text.c:597
 msgid "Progress: no research target"
 msgstr "Progreso: neniu celo por la studado"
 
-#: client/text.c:610
+#: client/text.c:602
 #, c-format
 msgid "Progress: %d turn/advance"
 msgid_plural "Progress: %d turns/advance"
 msgstr[0] "Progreso: %d vico/eltrovo"
 msgstr[1] "Progreso: %d vicoj/eltrovo"
 
-#: client/text.c:615
+#: client/text.c:607
 #, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
@@ -11614,127 +11614,127 @@ msgstr[0] "%d ampolo/vico"
 msgstr[1] "%d ampoloj/vico"
 
 #. TRANS: This is appended to "%d bulb/turn" text
-#: client/text.c:620
+#: client/text.c:612
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
 msgstr[0] ", %d ampolo/vico por grupo"
 msgstr[1] ", %d ampoloj/vico por grupo"
 
-#: client/text.c:647
+#: client/text.c:639
 #, c-format
 msgid "%d/- (never)"
 msgstr "%d/- (neniam)"
 
-#: client/text.c:659
+#: client/text.c:651
 #, c-format
 msgid "%d/%d (%d turn)"
 msgid_plural "%d/%d (%d turns)"
 msgstr[0] "%d/%d (%d vico)"
 msgstr[1] "%d/%d (%d vicoj)"
 
-#: client/text.c:662
+#: client/text.c:654
 #, c-format
 msgid "%d/%d (never)"
 msgstr "%d/%d (neniam)"
 
-#: client/text.c:699
+#: client/text.c:691
 #, c-format
 msgid "%d step"
 msgid_plural "%d steps"
 msgstr[0] "%d paŝo"
 msgstr[1] "%d paŝoj"
 
-#: client/text.c:701
+#: client/text.c:693
 #, c-format
 msgid "%d bulb"
 msgid_plural "%d bulbs"
 msgstr[0] "%d ampolo"
 msgstr[1] "%d ampoloj"
 
-#: client/text.c:727
+#: client/text.c:719
 #, c-format
 msgid "Population: %s"
 msgstr "Populacio: %s"
 
-#: client/text.c:730
+#: client/text.c:722
 #, c-format
 msgid "Year: %s (T%d)"
 msgstr "Jaro: %s (T%d)"
 
-#: client/text.c:734
+#: client/text.c:726
 #, c-format
 msgid "Gold: %d (%+d)"
 msgstr "Oro: %d (%+d)"
 
-#: client/text.c:737
+#: client/text.c:729
 #, fuzzy, c-format
 msgid "Tax: %d Lux: %d Sci: %d"
 msgstr "Imp: %d Lukso: %d Sci:%d"
 
-#: client/text.c:744 client/text.c:751
+#: client/text.c:736 client/text.c:743
 #, fuzzy
 msgid "Moving: Nobody"
 msgstr "Moviĝanta: %s"
 
-#: client/text.c:746 client/text.c:753
+#: client/text.c:738 client/text.c:745
 #, c-format
 msgid "Moving: %s"
 msgstr "Moviĝanta: %s"
 
-#: client/text.c:757
+#: client/text.c:749
 msgid "(Click for more info)"
 msgstr "(Alklaku por havi pli informojn)"
 
-#: client/text.c:773
+#: client/text.c:765
 #, c-format
 msgid "%s People"
 msgstr "%s Popolo"
 
-#: client/text.c:777
+#: client/text.c:769
 #, c-format
 msgid "Turn: %d"
 msgstr "Vico: %d"
 
-#: client/text.c:780 client/gui-win32/inteldlg.c:112
+#: client/text.c:772 client/gui-win32/inteldlg.c:112
 #: client/gui-xaw/inteldlg.c:214
 #, c-format
 msgid "Gold: %d"
 msgstr "Oro: %d"
 
-#: client/text.c:782
+#: client/text.c:774
 #, c-format
 msgid "Net Income: %d"
 msgstr ""
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:785
+#: client/text.c:777
 #, fuzzy, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "Procento: Oro:%d%%  Lukso:%d%%  Scienco:%d%%"
 
-#: client/text.c:789
+#: client/text.c:781
 #, c-format
 msgid "Researching %s: %s"
 msgstr "Studante %sn: %s"
 
-#: client/text.c:798
+#: client/text.c:790
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Probablo pri ĝenerala varmiĝo: %d%% (%+d%%/vico)"
 
-#: client/text.c:801
+#: client/text.c:793
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "Probablo pri atomvintro: %d%% (%+d%%/vico)"
 
-#: client/text.c:806 client/gui-win32/inteldlg.c:105
+#: client/text.c:798 client/gui-win32/inteldlg.c:105
 #: client/gui-xaw/inteldlg.c:206
 #, c-format
 msgid "Government: %s"
 msgstr "Regsistemo: %s"
 
-#: client/text.c:830
+#: client/text.c:822
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
@@ -11742,55 +11742,55 @@ msgstr[0] "%d unuo"
 msgstr[1] "%d unuoj"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:866
+#: client/text.c:858
 msgid "?goto:Unreachable"
 msgstr "?goto:Neatingebla"
 
-#: client/text.c:868
+#: client/text.c:860
 #, c-format
 msgid "Turns to target: %d"
 msgstr "Vicoj al la celo: %d"
 
-#: client/text.c:870
+#: client/text.c:862
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "Vicoj al la celo: de %d ĝis %d"
 
-#: client/text.c:876
+#: client/text.c:868
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d elektita unuo"
 msgstr[1] "%d elektitaj unuoj"
 
-#: client/text.c:881
+#: client/text.c:873
 msgid "No units selected."
 msgstr "Neniu unuo estas elektita."
 
-#: client/text.c:963
+#: client/text.c:948
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr "Aliuloj: %d civiloj; %d militistoj"
 
-#: client/text.c:965
+#: client/text.c:950
 #, c-format
 msgid "Others: %d civilian"
 msgstr "Aliuloj: %d civiloj"
 
-#: client/text.c:967
+#: client/text.c:952
 #, c-format
 msgid "Others: %d military"
 msgstr "Aliuloj: %d militistoj"
 
-#: client/text.c:998
+#: client/text.c:983
 msgid "No units to upgrade!"
 msgstr "Neniu ĝisdatigenda unuo."
 
-#: client/text.c:1023
+#: client/text.c:1008
 msgid "None of these units may be upgraded."
 msgstr "Neniu el ĉi tiuj unuoj estas ĝisdatigebla."
 
-#: client/text.c:1029
+#: client/text.c:1014
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -11805,72 +11805,72 @@ msgstr[1] ""
 "Ĉu vi deziras modernigi %d unuojn per %d oraj moneroj?\n"
 "La ŝtata kaso entenas %d orajn monerojn."
 
-#: client/text.c:1050
+#: client/text.c:1035
 msgid "Shows your progress in researching the current technology."
 msgstr "Vidigu la evoluon de la studado pri la nuna teĥnologio."
 
-#: client/text.c:1057
+#: client/text.c:1042
 msgid "no research target."
 msgstr "Neniu celo pri studado."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:1060
+#: client/text.c:1045
 #, c-format
 msgid "%s: %d/%d."
 msgstr "%s: %d/%d."
 
-#: client/text.c:1081
+#: client/text.c:1066
 msgid "Shows the progress of global warming:"
 msgstr "Vidigu la evoluon de la ĝenerala varmiĝo:"
 
-#: client/text.c:1082
+#: client/text.c:1067
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "Procento de poluado: %d%%"
 
-#: client/text.c:1083
+#: client/text.c:1068
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr "Probablo pri katastrofa varmiĝo en ciu turno: %d%%"
 
-#: client/text.c:1100
+#: client/text.c:1085
 msgid "Shows the progress of nuclear winter:"
 msgstr "Vidigu la evoluon de la atomvintro:"
 
-#: client/text.c:1101
+#: client/text.c:1086
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "Radioaktiveco: %d%%"
 
-#: client/text.c:1102
+#: client/text.c:1087
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr "Probablo pri katastrofa vintro en ciu turno: %d%%"
 
-#: client/text.c:1117
+#: client/text.c:1102
 msgid "Shows your current government:"
 msgstr "Vidigu vian nunan regsistemon:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1143
+#: client/text.c:1128
 #, c-format
 msgid "Population:      %5d"
 msgstr "Populacio:       %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1146
+#: client/text.c:1131
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "Bazo:            %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1150
+#: client/text.c:1135
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "Energio:         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1154
+#: client/text.c:1139
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -11878,93 +11878,93 @@ msgstr[0] "Maso:           %5d tuno"
 msgstr[1] "Maso:           %5d tunoj"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1160
+#: client/text.c:1145
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "Vojaĝodaŭro:  %5.1f jaroj"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1164
+#: client/text.c:1149
 msgid "Travel time:        N/A     "
 msgstr "Vojaĝodaŭro:     -     "
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1168
+#: client/text.c:1153
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr "Sukcesprobablo: %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1172
+#: client/text.c:1157
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "Alvenjaro:  %8s"
 
-#: client/text.c:1192
+#: client/text.c:1177
 msgid "?timeout:off"
 msgstr "?timeout:-"
 
-#: client/text.c:1216
+#: client/text.c:1201
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "?seconds:%02ds"
 
-#: client/text.c:1218
+#: client/text.c:1203
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "?mins/secs:%02dm %02ds"
 
-#: client/text.c:1220
+#: client/text.c:1205
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "?hrs/mns:%02dh %02dm"
 
-#: client/text.c:1222
+#: client/text.c:1207
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dg %02dh"
 
-#: client/text.c:1225
+#: client/text.c:1210
 msgid "?duration:overflow"
 msgstr "?duration:troo"
 
-#: client/text.c:1248
+#: client/text.c:1233
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d ms"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1296
+#: client/text.c:1281
 #, fuzzy, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "Regsistemo: %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1306
+#: client/text.c:1291
 #, c-format
 msgid "Observer: %s"
 msgstr "Observanto: %s"
 
-#: client/text.c:1324
+#: client/text.c:1309
 msgid "Buildings: "
 msgstr "Konstruaĵoj: "
 
-#: client/text.c:1340 client/text.c:1378
+#: client/text.c:1325 client/text.c:1363
 msgid "None. "
 msgstr "Neniu. "
 
-#: client/text.c:1360
+#: client/text.c:1345
 msgid "Wonders: "
 msgstr "Mirindaĵoj: "
 
-#: client/text.c:1413
+#: client/text.c:1398
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "Urboj: %d sume, %d trans la sojlo de %d urboj."
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1417
+#: client/text.c:1402
 #, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
@@ -11972,26 +11972,26 @@ msgstr[0] "%d kontenta civitano antaŭ la puno"
 msgstr[1] "%d kontentaj civitanoj antaŭ la puno"
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1423
+#: client/text.c:1408
 #, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d aldona malkontenta civitano."
 msgstr[1] "%d aldonaj malkontentaj civitanoj."
 
-#: client/text.c:1444
+#: client/text.c:1429
 #, fuzzy
 msgid "Unlimited martial law in effect."
 msgstr "Milita leĝo plenumanta ("
 
-#: client/text.c:1446
+#: client/text.c:1431
 #, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/text.c:1450
+#: client/text.c:1435
 #, fuzzy, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
@@ -12002,15 +12002,15 @@ msgstr[1] ""
 "Ĝi amuzas la civitanoj de unu urbo kaj igas kontentaj tri malkontentaj "
 "civitanoj."
 
-#: client/text.c:1457
+#: client/text.c:1442
 msgid "Military units in the field may cause unhappiness. "
 msgstr "Armeaj unuoj en la areo povus kaŭzi malkontenton. "
 
-#: client/text.c:1460
+#: client/text.c:1445
 msgid "Military units have no happiness effect. "
 msgstr "Armeaj unuoj ne havas feliĉigantan efikon. "
 
-#: client/text.c:1475
+#: client/text.c:1460
 #, fuzzy, c-format
 msgid "Luxury: %d total."
 msgstr "Lukso: %d sume."
@@ -13003,121 +13003,121 @@ msgstr "Iru al _loko"
 msgid "Inspect _City"
 msgstr "_Enketi la urbon"
 
-#: client/gui-gtk-2.0/dialogs.c:298 client/gui-sdl/dialogs.c:2120
+#: client/gui-gtk-2.0/dialogs.c:298 client/gui-sdl/dialogs.c:2359
 #: client/gui-win32/dialogs.c:988 client/gui-xaw/dialogs.c:525
 msgid "You say you wanna revolution?"
 msgstr "Ĉu vi deziras la revolucion?"
 
-#: client/gui-gtk-2.0/dialogs.c:299 client/gui-sdl/dialogs.c:2139
+#: client/gui-gtk-2.0/dialogs.c:299 client/gui-sdl/dialogs.c:2378
 #: client/gui-win32/dialogs.c:987 data/Freeciv.in:2469
 msgid "Revolution!"
 msgstr "Revolucio!"
 
-#: client/gui-gtk-2.0/dialogs.c:361 client/gui-sdl/dialogs.c:1764
-#: client/gui-win32/dialogs.c:1769 data/Freeciv.in:2507
+#: client/gui-gtk-2.0/dialogs.c:360 client/gui-sdl/dialogs.c:2014
+#: client/gui-win32/dialogs.c:1768 data/Freeciv.in:2507
 msgid "What To Pillage"
 msgstr "Kio estas disrabenda"
 
-#: client/gui-gtk-2.0/dialogs.c:362 client/gui-win32/dialogs.c:1776
+#: client/gui-gtk-2.0/dialogs.c:361 client/gui-win32/dialogs.c:1775
 #: data/Freeciv.in:2509
 msgid "Select what to pillage:"
 msgstr "Kio estas disrabenda:"
 
-#: client/gui-gtk-2.0/dialogs.c:583 client/gui-gtk-2.0/editprop.c:3191
+#: client/gui-gtk-2.0/dialogs.c:578 client/gui-gtk-2.0/editprop.c:3191
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:954 client/gui-gtk-2.0/pages.c:1617
+#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
 msgstr "Nomo"
 
-#: client/gui-gtk-2.0/dialogs.c:595 client/gui-sdl/dialogs.c:636
+#: client/gui-gtk-2.0/dialogs.c:590 client/gui-sdl/dialogs.c:887
 msgid "Unit selection"
 msgstr "Elekto de unuo"
 
-#: client/gui-gtk-2.0/dialogs.c:658
+#: client/gui-gtk-2.0/dialogs.c:653
 msgid "_Ready all"
 msgstr "_Vekigu ĉiujn"
 
-#: client/gui-gtk-2.0/dialogs.c:666
+#: client/gui-gtk-2.0/dialogs.c:661
 msgid "_Sentry idle"
 msgstr "Paŭzigu la gardo_soldaton"
 
-#: client/gui-gtk-2.0/dialogs.c:674
+#: client/gui-gtk-2.0/dialogs.c:669
 msgid "Select _all"
 msgstr "_Elektu ĉion"
 
-#: client/gui-gtk-2.0/dialogs.c:802
+#: client/gui-gtk-2.0/dialogs.c:797
 msgid "Nation _Groups:"
 msgstr "Naciaj _grupoj:"
 
-#: client/gui-gtk-2.0/dialogs.c:847
+#: client/gui-gtk-2.0/dialogs.c:842
 msgid "Edit Nation"
 msgstr "Redaktu nacion"
 
-#: client/gui-gtk-2.0/dialogs.c:849 data/Freeciv.in:3135
+#: client/gui-gtk-2.0/dialogs.c:844 data/Freeciv.in:3135
 msgid "What Nation Will You Be?"
 msgstr "Kiu nacio vi deziras esti?"
 
-#: client/gui-gtk-2.0/dialogs.c:851 client/gui-sdl/chatline.c:839
+#: client/gui-gtk-2.0/dialogs.c:846 client/gui-sdl/chatline.c:839
 #: client/gui-win32/connectdlg.c:1038 data/Freeciv.in:3387
 msgid "Pick Nation"
 msgstr "Elektu nacion"
 
-#: client/gui-gtk-2.0/dialogs.c:859
+#: client/gui-gtk-2.0/dialogs.c:854
 msgid "_Random Nation"
 msgstr "_Hazarda nacio"
 
-#: client/gui-gtk-2.0/dialogs.c:871 client/gui-win32/dialogs.c:532
+#: client/gui-gtk-2.0/dialogs.c:866 client/gui-win32/dialogs.c:532
 msgid "Select a nation"
 msgstr "Elektu nacion"
 
-#: client/gui-gtk-2.0/dialogs.c:889
+#: client/gui-gtk-2.0/dialogs.c:884
 msgid "_Properties"
 msgstr "_Ecoj"
 
-#: client/gui-gtk-2.0/dialogs.c:909
+#: client/gui-gtk-2.0/dialogs.c:904
 msgid "_Leader:"
 msgstr "_Estro:"
 
-#: client/gui-gtk-2.0/dialogs.c:916
+#: client/gui-gtk-2.0/dialogs.c:911
 msgid "_Female"
 msgstr "_Ina"
 
-#: client/gui-gtk-2.0/dialogs.c:921
+#: client/gui-gtk-2.0/dialogs.c:916
 msgid "_Male"
 msgstr "_Malina"
 
-#: client/gui-gtk-2.0/dialogs.c:948
+#: client/gui-gtk-2.0/dialogs.c:943
 msgid "City _Styles:"
 msgstr "Urbaj _stiloj:"
 
-#: client/gui-gtk-2.0/dialogs.c:987
+#: client/gui-gtk-2.0/dialogs.c:982
 msgid "_Description"
 msgstr "_Priskribo"
 
-#: client/gui-gtk-2.0/dialogs.c:1330 client/gui-xaw/dialogs.c:1513
+#: client/gui-gtk-2.0/dialogs.c:1325 client/gui-xaw/dialogs.c:1508
 msgid "You must select your sex."
 msgstr "Vi devas elekti vian sekson."
 
-#: client/gui-gtk-2.0/dialogs.c:1335 client/gui-xaw/dialogs.c:1518
+#: client/gui-gtk-2.0/dialogs.c:1330 client/gui-xaw/dialogs.c:1513
 msgid "You must select your city style."
 msgstr "Vi devas elekti vian urban stilon"
 
-#: client/gui-gtk-2.0/dialogs.c:1344 client/gui-sdl/dialogs.c:2238
-#: client/gui-win32/dialogs.c:373 client/gui-xaw/dialogs.c:1526
+#: client/gui-gtk-2.0/dialogs.c:1339 client/gui-sdl/dialogs.c:2477
+#: client/gui-win32/dialogs.c:373 client/gui-xaw/dialogs.c:1521
 msgid "You must type a legal name."
 msgstr "Vi devas tajpi validan nomon."
 
-#: client/gui-gtk-2.0/dialogs.c:1386 client/gui-win32/citydlg.c:1442
+#: client/gui-gtk-2.0/dialogs.c:1381 client/gui-win32/citydlg.c:1442
 #: data/Freeciv.in:2491
 msgid "Upgrade Unit!"
 msgstr "Ĝisdatigu unuojn!"
 
-#: client/gui-gtk-2.0/dialogs.c:1395 client/gui-gtk-2.0/repodlgs.c:1217
-#: client/gui-sdl/dialogs.c:432 client/gui-sdl/repodlgs.c:188
+#: client/gui-gtk-2.0/dialogs.c:1390 client/gui-gtk-2.0/repodlgs.c:1217
+#: client/gui-sdl/dialogs.c:683 client/gui-sdl/repodlgs.c:188
 #: client/gui-win32/citydlg.c:1435 client/gui-win32/repodlgs.c:580
 #: data/Freeciv.in:2480
 msgid "Upgrade Obsolete Units"
@@ -13426,7 +13426,7 @@ msgid "Address"
 msgstr "Aldonu apriorajn elektaĵojn"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:955
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
 #: client/gui-gtk-2.0/repodlgs.c:671 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -13458,10 +13458,10 @@ msgstr "Prilaborado de bronzo"
 msgid "HP"
 msgstr ""
 
-#: client/gui-gtk-2.0/editprop.c:3780 client/gui-sdl/dialogs.c:670
-#: client/gui-sdl/dialogs.c:682 client/gui-sdl/dialogs.c:1407
-#: client/gui-sdl/dialogs.c:1426 client/gui-sdl/dialogs.c:1524
-#: client/gui-sdl/dialogs.c:1552
+#: client/gui-gtk-2.0/editprop.c:3780 client/gui-sdl/dialogs.c:921
+#: client/gui-sdl/dialogs.c:933 client/gui-sdl/dialogs.c:1658
+#: client/gui-sdl/dialogs.c:1677 client/gui-sdl/dialogs.c:1775
+#: client/gui-sdl/dialogs.c:1803
 msgid "Veteran"
 msgstr "Veterana"
 
@@ -13675,7 +13675,7 @@ msgstr "Celo de la _Laborlisto:"
 msgid "Not _ready"
 msgstr "Ne preta"
 
-#: client/gui-gtk-2.0/gui_main.c:1625 client/gui-gtk-2.0/pages.c:1690
+#: client/gui-gtk-2.0/gui_main.c:1625 client/gui-gtk-2.0/pages.c:1692
 msgid "_Ready"
 msgstr "_Preta"
 
@@ -13688,11 +13688,11 @@ msgstr "_Startigu"
 msgid "_Take Player"
 msgstr "Prenu tiun ĉi ludanton"
 
-#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/pages.c:1680
+#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/pages.c:1682
 msgid "Pick _Nation"
 msgstr "Elektu _nacion"
 
-#: client/gui-gtk-2.0/gui_main.c:1655 client/gui-gtk-2.0/pages.c:1685
+#: client/gui-gtk-2.0/gui_main.c:1655 client/gui-gtk-2.0/pages.c:1687
 msgid "_Observe"
 msgstr "_Observi"
 
@@ -13742,176 +13742,176 @@ msgstr "Strkl+W"
 msgid "Happiness"
 msgstr "Kontenteco"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-gtk-2.0/helpdlg.c:93
-#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:345
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:94
+#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:345
 #: client/gui-sdl/helpdlg.c:736 client/gui-win32/helpdlg.c:81
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:88
 #: data/Freeciv.in:636 data/Freeciv.in:778
 msgid "Cost:"
 msgstr "Kosto:"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-sdl/helpdlg.c:353
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-sdl/helpdlg.c:353
 #: client/gui-sdl/helpdlg.c:745 client/gui-win32/helpdlg.c:81
 #: data/Freeciv.in:653
 msgid "Upkeep:"
 msgstr "Tenado:"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-gtk-2.0/helpdlg.c:93
-#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-sdl/helpdlg.c:364
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:94
+#: client/gui-gtk-2.0/helpdlg.c:102 client/gui-sdl/helpdlg.c:364
 #: client/gui-sdl/helpdlg.c:785 client/gui-win32/helpdlg.c:81
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:694
 msgid "Requirement:"
 msgstr "Necesaĵoj:"
 
-#: client/gui-gtk-2.0/helpdlg.c:93 client/gui-gtk-2.0/helpdlg.c:101
+#: client/gui-gtk-2.0/helpdlg.c:94 client/gui-gtk-2.0/helpdlg.c:102
 #: client/gui-sdl/helpdlg.c:396 client/gui-sdl/helpdlg.c:812
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
 msgstr "Arkaika kun:"
 
-#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:769
+#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:769
 #: client/gui-win32/helpdlg.c:88 data/Freeciv.in:795
 msgid "Attack:"
 msgstr "Atako:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:770
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:770
 #: client/gui-win32/helpdlg.c:89 data/Freeciv.in:813
 msgid "Defense:"
 msgstr "Defendo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:771
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:771
 #: client/gui-win32/helpdlg.c:89 data/Freeciv.in:831
 msgid "Move:"
 msgstr "Movo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:773
+#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:773
 #: client/gui-win32/helpdlg.c:90
 msgid "FirePower:"
 msgstr "Pafpovo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:774
+#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:774
 #: client/gui-win32/helpdlg.c:90 data/Freeciv.in:876
 msgid "Hitpoints:"
 msgstr "Pafceloj:"
 
-#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-win32/helpdlg.c:91
+#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-win32/helpdlg.c:91
 #: data/Freeciv.in:912
 msgid "Basic Upkeep:"
 msgstr "Baza tenado:"
 
-#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:772
+#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-sdl/helpdlg.c:772
 #: client/gui-win32/helpdlg.c:91 data/Freeciv.in:894
 msgid "Vision:"
 msgstr "Vido:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:97
 msgid "Move/Defense:"
 msgstr "Movo/defendo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:97
 msgid "Food/Res/Trade:"
 msgstr "Nutraĵo/Prod/Kom:"
 
-#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:98
+#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:98
 #: data/Freeciv.in:972
 msgid "Resources:"
 msgstr "Risurcoj:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:99
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:99
 msgid "Road Rslt/Time:"
 msgstr "Vojo Rez/Tempo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:99
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:99
 msgid "Irrig. Rslt/Time:"
 msgstr "Irig. Rez/Tempo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:100
+#: client/gui-gtk-2.0/helpdlg.c:110 client/gui-win32/helpdlg.c:100
 msgid "Mine Rslt/Time:"
 msgstr "Minejo Rez/Tempo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:100
+#: client/gui-gtk-2.0/helpdlg.c:110 client/gui-win32/helpdlg.c:100
 msgid "Trans. Rslt/Time:"
 msgstr "Trans. Rez/Tempo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:113 client/gui-win32/helpdlg.c:167
+#: client/gui-gtk-2.0/helpdlg.c:114 client/gui-win32/helpdlg.c:167
 #: client/gui-win32/helpdlg.c:504 client/gui-win32/helpdlg.c:554
 #: client/gui-win32/helpdlg.c:733 client/gui-win32/helpdlg.c:760
-#: client/gui-xaw/helpdlg.c:762 client/gui-xaw/helpdlg.c:806
-#: client/gui-xaw/helpdlg.c:814 client/gui-xaw/helpdlg.c:852
-#: client/gui-xaw/helpdlg.c:877
+#: client/gui-xaw/helpdlg.c:763 client/gui-xaw/helpdlg.c:807
+#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:853
+#: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
 msgstr "(Neniam)"
 
-#: client/gui-gtk-2.0/helpdlg.c:130 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:131 client/gui-xaw/helpdlg.c:126
 msgid "About"
 msgstr "Pri"
 
-#: client/gui-gtk-2.0/helpdlg.c:198 client/gui-xaw/helpdlg.c:272
+#: client/gui-gtk-2.0/helpdlg.c:199 client/gui-xaw/helpdlg.c:273
 msgid "Removed"
 msgstr "Formovita"
 
-#: client/gui-gtk-2.0/helpdlg.c:428 client/gui-win32/helpdlg.c:426
+#: client/gui-gtk-2.0/helpdlg.c:429 client/gui-win32/helpdlg.c:426
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
 msgstr "Helpilo pri Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:665
+#: client/gui-gtk-2.0/helpdlg.c:666
 msgid "Expand All"
 msgstr "Etendu ĉion"
 
-#: client/gui-gtk-2.0/helpdlg.c:666
+#: client/gui-gtk-2.0/helpdlg.c:667
 msgid "Collapse All"
 msgstr "Maletendu ĉion"
 
-#: client/gui-gtk-2.0/helpdlg.c:952 client/gui-gtk-2.0/helpdlg.c:982
-#: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1002
-#: client/gui-gtk-2.0/helpdlg.c:1019 client/gui-sdl/helpdlg.c:981
+#: client/gui-gtk-2.0/helpdlg.c:953 client/gui-gtk-2.0/helpdlg.c:983
+#: client/gui-gtk-2.0/helpdlg.c:995 client/gui-gtk-2.0/helpdlg.c:1003
+#: client/gui-gtk-2.0/helpdlg.c:1020 client/gui-sdl/helpdlg.c:981
 msgid "Allows"
 msgstr "Ebligas"
 
-#: client/gui-gtk-2.0/helpdlg.c:965
+#: client/gui-gtk-2.0/helpdlg.c:966
 msgid "Obsoletes"
 msgstr "Igas arkaika"
 
-#: client/gui-gtk-2.0/helpdlg.c:1006 client/gui-gtk-2.0/helpdlg.c:1023
+#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-gtk-2.0/helpdlg.c:1024
 msgid "with"
 msgstr "kun"
 
-#: client/gui-gtk-2.0/helpdlg.c:1011 client/gui-gtk-2.0/helpdlg.c:1028
+#: client/gui-gtk-2.0/helpdlg.c:1012 client/gui-gtk-2.0/helpdlg.c:1029
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1081 client/gui-win32/helpdlg.c:602
-#: client/gui-xaw/helpdlg.c:1004
+#: client/gui-gtk-2.0/helpdlg.c:1082 client/gui-win32/helpdlg.c:602
+#: client/gui-xaw/helpdlg.c:1005
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Komerco / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:606
-#: client/gui-xaw/helpdlg.c:1008
+#: client/gui-gtk-2.0/helpdlg.c:1086 client/gui-win32/helpdlg.c:606
+#: client/gui-xaw/helpdlg.c:1009
 #, c-format
 msgid "no extra / %d"
 msgstr "neniu pluso / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-gtk-2.0/helpdlg.c:1092
-#: client/gui-gtk-2.0/helpdlg.c:1106 client/gui-win32/helpdlg.c:609
+#: client/gui-gtk-2.0/helpdlg.c:1089 client/gui-gtk-2.0/helpdlg.c:1093
+#: client/gui-gtk-2.0/helpdlg.c:1107 client/gui-win32/helpdlg.c:609
 #: client/gui-win32/helpdlg.c:613 client/gui-win32/helpdlg.c:627
-#: client/gui-win32/helpdlg.c:646 client/gui-xaw/helpdlg.c:1010
-#: client/gui-xaw/helpdlg.c:1014 client/gui-xaw/helpdlg.c:1028
-#: client/gui-xaw/helpdlg.c:1047
+#: client/gui-win32/helpdlg.c:646 client/gui-xaw/helpdlg.c:1011
+#: client/gui-xaw/helpdlg.c:1015 client/gui-xaw/helpdlg.c:1029
+#: client/gui-xaw/helpdlg.c:1048
 msgid "n/a"
 msgstr "-"
 
-#: client/gui-gtk-2.0/helpdlg.c:1095 client/gui-win32/helpdlg.c:616
-#: client/gui-xaw/helpdlg.c:1017
+#: client/gui-gtk-2.0/helpdlg.c:1096 client/gui-win32/helpdlg.c:616
+#: client/gui-xaw/helpdlg.c:1018
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Nutraĵo / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1109 client/gui-win32/helpdlg.c:630
-#: client/gui-xaw/helpdlg.c:1031
+#: client/gui-gtk-2.0/helpdlg.c:1110 client/gui-win32/helpdlg.c:630
+#: client/gui-xaw/helpdlg.c:1032
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Prod. / %d"
@@ -13958,14 +13958,14 @@ msgstr "Konstruu novan urbon"
 msgid "What should we call our new city?"
 msgstr "Kiel ni devas nomi nian novan urbon?"
 
-#: client/gui-gtk-2.0/mapview.c:175
+#: client/gui-gtk-2.0/mapview.c:176
 #, fuzzy
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr ""
 "Vidigu la nunan kvanto pri lukso/scienco/imposto; alklaku ĉi tie por "
 "mastrumi ilin."
 
-#: client/gui-gtk-2.0/mapview.c:670 client/gui-win32/canvas.c:280
+#: client/gui-gtk-2.0/mapview.c:679 client/gui-win32/canvas.c:280
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr "Nebulo plenumas bone nur en verkolora moduso.  Malebligu ĝin"
 
@@ -14322,7 +14322,7 @@ msgstr "Milit-nebulo"
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2358
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
 #, fuzzy
 msgid "Save Scenario"
 msgstr "Startigu scenejon"
@@ -14683,238 +14683,238 @@ msgstr "_AI"
 msgid "_Toggle AI Mode"
 msgstr "_Mastrumu AI-moduson"
 
-#: client/gui-gtk-2.0/pages.c:225
+#: client/gui-gtk-2.0/pages.c:227
 msgid "Start _New Game"
 msgstr "Startigu _novan ludon"
 
-#: client/gui-gtk-2.0/pages.c:231
+#: client/gui-gtk-2.0/pages.c:233
 msgid "Start _Scenario Game"
 msgstr "Startigu scenejon"
 
-#: client/gui-gtk-2.0/pages.c:237
+#: client/gui-gtk-2.0/pages.c:239
 msgid "_Load Saved Game"
 msgstr "Ŝargu konservitan _ludon"
 
-#: client/gui-gtk-2.0/pages.c:243
+#: client/gui-gtk-2.0/pages.c:245
 msgid "C_onnect to Network Game"
 msgstr "K_onekto al retan ludon"
 
-#: client/gui-gtk-2.0/pages.c:251
+#: client/gui-gtk-2.0/pages.c:253
 msgid "Connect to Gaming _Zone"
 msgstr "Konekto al _areon de ludo"
 
-#: client/gui-gtk-2.0/pages.c:628 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr "Ne kongruas pasvorto, reen enigu pasvorton."
 
-#: client/gui-gtk-2.0/pages.c:783 client/gui-gtk-2.0/pages.c:824
+#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "Servilnomo"
 
-#: client/gui-gtk-2.0/pages.c:784 client/gui-gtk-2.0/pages.c:825
+#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Pordo"
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "Versio"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "Stato"
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "Ludantoj"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "Komento"
 
-#: client/gui-gtk-2.0/pages.c:790
+#: client/gui-gtk-2.0/pages.c:792
 msgid "Local _Area Network"
 msgstr "Loka _Reto"
 
-#: client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:833
 msgid "Internet _Metaserver"
 msgstr "Interreta _Metaservilo"
 
-#: client/gui-gtk-2.0/pages.c:868
+#: client/gui-gtk-2.0/pages.c:870
 msgid "_Host:"
 msgstr "_Gast.komp:"
 
-#: client/gui-gtk-2.0/pages.c:885
+#: client/gui-gtk-2.0/pages.c:887
 msgid "_Port:"
 msgstr "_Pordo:"
 
-#: client/gui-gtk-2.0/pages.c:902
+#: client/gui-gtk-2.0/pages.c:904
 msgid "_Login:"
 msgstr "_Nomo:"
 
-#: client/gui-gtk-2.0/pages.c:920
+#: client/gui-gtk-2.0/pages.c:922
 msgid "Pass_word:"
 msgstr "Pas_vorto:"
 
-#: client/gui-gtk-2.0/pages.c:938
+#: client/gui-gtk-2.0/pages.c:940
 msgid "Conf_irm Password:"
 msgstr "Konf_irmu pasvorton:"
 
-#: client/gui-gtk-2.0/pages.c:956 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Gast. komputilo"
 
-#: client/gui-gtk-2.0/pages.c:985
+#: client/gui-gtk-2.0/pages.c:987
 msgid "C_onnect"
 msgstr "K_onektu"
 
-#: client/gui-gtk-2.0/pages.c:1209
+#: client/gui-gtk-2.0/pages.c:1211
 #, c-format
 msgid "Connection name: %s"
 msgstr "Nomo de la konekto: %s"
 
-#: client/gui-gtk-2.0/pages.c:1212
+#: client/gui-gtk-2.0/pages.c:1214
 #, c-format
 msgid "Player name: %s"
 msgstr "Nomo de la ludanto: %s"
 
-#: client/gui-gtk-2.0/pages.c:1217
+#: client/gui-gtk-2.0/pages.c:1219
 #, c-format
 msgid "Host: %s"
 msgstr "Gast.komp: %s"
 
-#: client/gui-gtk-2.0/pages.c:1225
+#: client/gui-gtk-2.0/pages.c:1227
 msgid "Player/conn info"
 msgstr "Pri ludanto/konekto"
 
-#: client/gui-gtk-2.0/pages.c:1252
+#: client/gui-gtk-2.0/pages.c:1254
 #, c-format
 msgid "%s info"
 msgstr "Pri %s"
 
-#: client/gui-gtk-2.0/pages.c:1263
+#: client/gui-gtk-2.0/pages.c:1265
 msgid "Toggle player ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1271
+#: client/gui-gtk-2.0/pages.c:1273
 msgid "Pick nation"
 msgstr "Elektu nacion"
 
-#: client/gui-gtk-2.0/pages.c:1281
+#: client/gui-gtk-2.0/pages.c:1283
 msgid "Observe this player"
 msgstr "Observu tiun ĉi ludanton"
 
-#: client/gui-gtk-2.0/pages.c:1288
+#: client/gui-gtk-2.0/pages.c:1290
 msgid "Take this player"
 msgstr "Prenu tiun ĉi ludanton"
 
-#: client/gui-gtk-2.0/pages.c:1305
+#: client/gui-gtk-2.0/pages.c:1307
 msgid "Cut connection"
 msgstr "Fermu konekton"
 
-#: client/gui-gtk-2.0/pages.c:1315
+#: client/gui-gtk-2.0/pages.c:1317
 msgid "Aitoggle player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1324
+#: client/gui-gtk-2.0/pages.c:1326
 msgid "Remove player"
 msgstr "Formovu ludanton"
 
-#: client/gui-gtk-2.0/pages.c:1335
+#: client/gui-gtk-2.0/pages.c:1337
 msgid "Give info access"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1343
+#: client/gui-gtk-2.0/pages.c:1345
 msgid "Give ctrl access"
 msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1409
+#: client/gui-gtk-2.0/pages.c:1411
 #, c-format
 msgid "Put on %s"
 msgstr "Enigu en %s"
 
-#: client/gui-gtk-2.0/pages.c:1545
+#: client/gui-gtk-2.0/pages.c:1547
 msgid "Number of _Players (including AI):"
 msgstr "Nombro de _ludantoj (inkluziva de la AI):"
 
-#: client/gui-gtk-2.0/pages.c:1572
+#: client/gui-gtk-2.0/pages.c:1574
 msgid "AI Skill _Level:"
 msgstr "Lerteco de _AI:"
 
-#: client/gui-gtk-2.0/pages.c:1589
+#: client/gui-gtk-2.0/pages.c:1591
 msgid "Ruleset _Version:"
 msgstr "_Versio de la reguloj:"
 
-#: client/gui-gtk-2.0/pages.c:1597
+#: client/gui-gtk-2.0/pages.c:1599
 msgid "_More Game Options..."
 msgstr "Pluaj opcioj de la ludo..."
 
-#: client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:1621
 msgid "Record"
 msgstr "Raporto"
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1623
 msgid "Rating"
 msgstr "Skribado"
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1625
 msgid "Ready"
 msgstr "Preta"
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1627
 #, fuzzy
 msgid "?player:Leader"
 msgstr "?female:Estrino"
 
-#: client/gui-gtk-2.0/pages.c:1739 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr "Elektu konservitan ludon"
 
-#: client/gui-gtk-2.0/pages.c:1829
+#: client/gui-gtk-2.0/pages.c:1831
 msgid "Choose Saved Game to _Load:"
 msgstr "Elektu ŝargendan konvervitan _ludon:"
 
-#: client/gui-gtk-2.0/pages.c:1849 client/gui-gtk-2.0/pages.c:2067
-#: client/gui-gtk-2.0/pages.c:2361
+#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
+#: client/gui-gtk-2.0/pages.c:2366
 msgid "_Browse..."
 msgstr "_Foliumu..."
 
-#: client/gui-gtk-2.0/pages.c:1919
+#: client/gui-gtk-2.0/pages.c:1921
 msgid "Choose a Scenario"
 msgstr "Elektu scenejon"
 
-#: client/gui-gtk-2.0/pages.c:2015
+#: client/gui-gtk-2.0/pages.c:2017
 msgid "Choose a _Scenario:"
 msgstr "Elektu _scenejon:"
 
-#: client/gui-gtk-2.0/pages.c:2048
+#: client/gui-gtk-2.0/pages.c:2050
 #, fuzzy
 msgid "Filename:"
 msgstr "Konservu dosiernomon:"
 
-#: client/gui-gtk-2.0/pages.c:2265 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
 msgid "Select Location to Save"
 msgstr "Elektu lokon por konservi"
 
-#: client/gui-gtk-2.0/pages.c:2358 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "Konservu ludon"
 
-#: client/gui-gtk-2.0/pages.c:2399
+#: client/gui-gtk-2.0/pages.c:2404
 msgid "Saved _Games:"
 msgstr "Konservitaj _ludoj:"
 
-#: client/gui-gtk-2.0/pages.c:2426
+#: client/gui-gtk-2.0/pages.c:2431
 msgid "Save _Filename:"
 msgstr "Konservu dosiernomon:"
 
@@ -15290,19 +15290,19 @@ msgstr "Daŭrigu moviĝi"
 
 #: client/gui-sdl/chatline.c:198 client/gui-sdl/citydlg.c:3682
 #: client/gui-sdl/cma_fe.c:472 client/gui-sdl/cma_fe.c:879
-#: client/gui-sdl/dialogs.c:289 client/gui-sdl/dialogs.c:654
-#: client/gui-sdl/dialogs.c:888 client/gui-sdl/dialogs.c:1218
-#: client/gui-sdl/dialogs.c:1783 client/gui-sdl/diplomat_dialog.c:269
-#: client/gui-sdl/diplomat_dialog.c:866 client/gui-sdl/diplomat_dialog.c:1159
-#: client/gui-sdl/diplomat_dialog.c:1227 client/gui-sdl/diplomat_dialog.c:1433
-#: client/gui-sdl/finddlg.c:148 client/gui-sdl/gotodlg.c:251
-#: client/gui-sdl/helpdlg.c:231 client/gui-sdl/helpdlg.c:620
-#: client/gui-sdl/helpdlg.c:1923 client/gui-sdl/inteldlg.c:240
-#: client/gui-sdl/optiondlg.c:2218 client/gui-sdl/plrdlg.c:345
-#: client/gui-sdl/plrdlg.c:623 client/gui-sdl/repodlgs.c:376
-#: client/gui-sdl/repodlgs.c:1988 client/gui-sdl/repodlgs.c:2861
-#: client/gui-sdl/repodlgs.c:3048 client/gui-sdl/repodlgs.c:3313
-#: client/gui-sdl/spaceshipdlg.c:163
+#: client/gui-sdl/dialogs.c:331 client/gui-sdl/dialogs.c:540
+#: client/gui-sdl/dialogs.c:905 client/gui-sdl/dialogs.c:1139
+#: client/gui-sdl/dialogs.c:1469 client/gui-sdl/dialogs.c:2033
+#: client/gui-sdl/diplomat_dialog.c:269 client/gui-sdl/diplomat_dialog.c:866
+#: client/gui-sdl/diplomat_dialog.c:1159 client/gui-sdl/diplomat_dialog.c:1227
+#: client/gui-sdl/diplomat_dialog.c:1433 client/gui-sdl/finddlg.c:148
+#: client/gui-sdl/gotodlg.c:251 client/gui-sdl/helpdlg.c:231
+#: client/gui-sdl/helpdlg.c:620 client/gui-sdl/helpdlg.c:1923
+#: client/gui-sdl/inteldlg.c:240 client/gui-sdl/optiondlg.c:2218
+#: client/gui-sdl/plrdlg.c:345 client/gui-sdl/plrdlg.c:623
+#: client/gui-sdl/repodlgs.c:376 client/gui-sdl/repodlgs.c:1988
+#: client/gui-sdl/repodlgs.c:2861 client/gui-sdl/repodlgs.c:3048
+#: client/gui-sdl/repodlgs.c:3313 client/gui-sdl/spaceshipdlg.c:163
 msgid "Close Dialog (Esc)"
 msgstr "Fermu fenestron (ESC)"
 
@@ -15364,11 +15364,11 @@ msgstr "Ĝisdatigu unuon"
 #: client/gui-sdl/citydlg.c:546 client/gui-sdl/citydlg.c:1419
 #: client/gui-sdl/connectdlg.c:308 client/gui-sdl/connectdlg.c:619
 #: client/gui-sdl/connectdlg.c:805 client/gui-sdl/connectdlg.c:987
-#: client/gui-sdl/dialogs.c:461 client/gui-sdl/dialogs.c:2130
-#: client/gui-sdl/dialogs.c:2928 client/gui-sdl/diplomat_dialog.c:733
+#: client/gui-sdl/dialogs.c:712 client/gui-sdl/dialogs.c:2369
+#: client/gui-sdl/dialogs.c:3167 client/gui-sdl/diplomat_dialog.c:733
 #: client/gui-sdl/mapctrl.c:2596 client/gui-win32/citydlg.c:1094
 #: client/gui-win32/cityrep.c:761 client/gui-win32/connectdlg.c:1041
-#: client/gui-win32/dialogs.c:1804 client/gui-win32/finddlg.c:132
+#: client/gui-win32/dialogs.c:1799 client/gui-win32/finddlg.c:132
 #: client/gui-win32/gotodlg.c:175 client/gui-win32/inputdlg.c:146
 #: client/gui-win32/messagedlg.c:215 client/gui-win32/ratesdlg.c:330
 #: client/gui-win32/repodlgs.c:992 client/gui-win32/wldlg.c:836
@@ -15614,7 +15614,7 @@ msgstr "Subtenitaj unuoj"
 msgid "Change production"
 msgstr "Ŝanĝu produktadon"
 
-#: client/gui-sdl/citydlg.c:3792 client/gui-sdl/dialogs.c:1281
+#: client/gui-sdl/citydlg.c:3792 client/gui-sdl/dialogs.c:1532
 msgid "Hurry production"
 msgstr "Akcelu produktadon"
 
@@ -15751,123 +15751,123 @@ msgstr "Konektu"
 msgid "Next"
 msgstr "Sekva"
 
-#: client/gui-sdl/dialogs.c:472 client/gui-win32/repodlgs.c:736
+#: client/gui-sdl/dialogs.c:723 client/gui-win32/repodlgs.c:736
 #: data/Freeciv.in:1951
 msgid "Upgrade"
 msgstr "Ĝisdatigu"
 
-#: client/gui-sdl/dialogs.c:669
+#: client/gui-sdl/dialogs.c:920
 #, c-format
 msgid "Contact %s (%d / %d) %s(%d,%d,%d) %s"
 msgstr "Kontaktu %sn (%d / %d) %sn (%d,%d,%d) %sn"
 
-#: client/gui-sdl/dialogs.c:680
+#: client/gui-sdl/dialogs.c:931
 #, c-format
 msgid "%s %s %s(A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%sj %sj %s(A:%d D:%d M:%d FP:%d) ĈP:%d%%"
 
 #. TRANS: "CtW" = "Chance to Win"
-#: client/gui-sdl/dialogs.c:693 client/gui-sdl/dialogs.c:1437
-#: client/gui-sdl/dialogs.c:1562
+#: client/gui-sdl/dialogs.c:944 client/gui-sdl/dialogs.c:1688
+#: client/gui-sdl/dialogs.c:1813
 #, c-format
 msgid " CtW: Att:%d%% Def:%d%%"
 msgstr "Ŝancoj pri venko: A:%d%% D:%d%%"
 
-#: client/gui-sdl/dialogs.c:821
+#: client/gui-sdl/dialogs.c:1072
 #, c-format
 msgid "Terrain Defense Bonus: +%d%% "
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:846 client/gui-sdl/dialogs.c:1227
+#: client/gui-sdl/dialogs.c:1097 client/gui-sdl/dialogs.c:1478
 msgid "Terrain Info"
 msgstr "Pri areo"
 
-#: client/gui-sdl/dialogs.c:1201
+#: client/gui-sdl/dialogs.c:1452
 msgid "Advanced Menu"
 msgstr "Menuo pri avanaĵoj"
 
-#: client/gui-sdl/dialogs.c:1255
+#: client/gui-sdl/dialogs.c:1506
 #, c-format
 msgid "Zoom to : %s"
 msgstr "Zomu je : %s"
 
-#: client/gui-sdl/dialogs.c:1269 client/gui-win32/citydlg.c:1077
+#: client/gui-sdl/dialogs.c:1520 client/gui-win32/citydlg.c:1077
 #: data/Freeciv.in:2080
 msgid "Change Production"
 msgstr "Ŝanĝu produktadon"
 
-#: client/gui-sdl/dialogs.c:1293
+#: client/gui-sdl/dialogs.c:1544
 msgid "Change City Governor settings"
 msgstr "Ŝanĝu agordojn pri urba regado"
 
-#: client/gui-sdl/dialogs.c:1314
+#: client/gui-sdl/dialogs.c:1565
 msgid "Goto here"
 msgstr "Iru ĉi tien"
 
-#: client/gui-sdl/dialogs.c:1325
+#: client/gui-sdl/dialogs.c:1576
 msgid "Patrol here"
 msgstr "Patrolu ĉi tie"
 
-#: client/gui-sdl/dialogs.c:1338
+#: client/gui-sdl/dialogs.c:1589
 msgid "Connect here"
 msgstr "Kunligu ĉi tie"
 
-#: client/gui-sdl/dialogs.c:1359
+#: client/gui-sdl/dialogs.c:1610
 msgid "Paradrop here"
 msgstr "Paraŝutu ĉi tie"
 
-#: client/gui-sdl/dialogs.c:1406 client/gui-sdl/dialogs.c:1523
+#: client/gui-sdl/dialogs.c:1657 client/gui-sdl/dialogs.c:1774
 #, c-format
 msgid "Activate %s (%d / %d) %s (%d,%d,%d) %s"
 msgstr "Aktivigo de %s (%d / %d) %s (%d,%d,%d) %s"
 
-#: client/gui-sdl/dialogs.c:1424 client/gui-sdl/dialogs.c:1550
+#: client/gui-sdl/dialogs.c:1675 client/gui-sdl/dialogs.c:1801
 #, c-format
 msgid "%s %s %s (A:%d D:%d M:%d FP:%d) HP:%d%%"
 msgstr "%sj %sj %s (A:%d D:%d M:%d FP:%d) ĈP:%d%%"
 
-#: client/gui-sdl/dialogs.c:1486 client/gui-win32/dialogs.c:776
+#: client/gui-sdl/dialogs.c:1737 client/gui-win32/dialogs.c:776
 #: data/Freeciv.in:561
 msgid "Ready all"
 msgstr "Ĉiuj pretaj"
 
-#: client/gui-sdl/dialogs.c:1495
+#: client/gui-sdl/dialogs.c:1746
 msgid "Sentry idle"
 msgstr "Paŭzigu gardosoldaton"
 
-#: client/gui-sdl/dialogs.c:1581
+#: client/gui-sdl/dialogs.c:1832
 #, c-format
 msgid "View Civiliopedia entry for %s"
 msgstr "Legu Civiliopedia-n sub kapvorto %s"
 
-#: client/gui-sdl/dialogs.c:2005
+#: client/gui-sdl/dialogs.c:2244
 msgid "Choose Your New Government"
 msgstr "Elektu vian novan regsistemo"
 
-#: client/gui-sdl/dialogs.c:2108
+#: client/gui-sdl/dialogs.c:2347
 msgid "REVOLUTION!"
 msgstr "REVOLUCIO!"
 
-#: client/gui-sdl/dialogs.c:2267 client/gui-sdl/dialogs.c:2655
+#: client/gui-sdl/dialogs.c:2506 client/gui-sdl/dialogs.c:2894
 #: client/gui-win32/dialogs.c:582 data/Freeciv.in:3166
 msgid "Female"
 msgstr "Ina"
 
-#: client/gui-sdl/dialogs.c:2269 client/gui-sdl/dialogs.c:2653
-#: client/gui-sdl/dialogs.c:2865 client/gui-win32/dialogs.c:580
+#: client/gui-sdl/dialogs.c:2508 client/gui-sdl/dialogs.c:2892
+#: client/gui-sdl/dialogs.c:3104 client/gui-win32/dialogs.c:580
 msgid "Male"
 msgstr "Malina"
 
-#: client/gui-sdl/dialogs.c:2501
+#: client/gui-sdl/dialogs.c:2740
 #, fuzzy
 msgid "Nation's Legend"
 msgstr "La nacio estas elektita"
 
-#: client/gui-sdl/dialogs.c:2532
+#: client/gui-sdl/dialogs.c:2771
 msgid "SORRY... NO INFO"
 msgstr ""
 
-#: client/gui-sdl/dialogs.c:2720 client/gui-win32/dialogs.c:520
+#: client/gui-sdl/dialogs.c:2959 client/gui-win32/dialogs.c:520
 msgid "What nation will you be?"
 msgstr "Kiu nacio vi deziras esti?"
 
@@ -17849,7 +17849,7 @@ msgstr "Ĉu vi deziras formovi %sn?"
 msgid "Pass"
 msgstr "Transen"
 
-#: client/gui-xaw/dialogs.c:1508
+#: client/gui-xaw/dialogs.c:1503
 msgid "You must select a nation."
 msgstr "Vi devas elekti nacion."
 
@@ -17900,18 +17900,18 @@ msgstr "Tajpu 'xset fp rehash' ; tio eble solvis la problemon pormomente."
 msgid "Font for charset %s is lacking"
 msgstr "Mankas tiparo por %s"
 
-#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:914 client/gui-xaw/helpdlg.c:927
+#: client/gui-xaw/helpdlg.c:934
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Ebligas %s.\n"
 
-#: client/gui-xaw/helpdlg.c:918
+#: client/gui-xaw/helpdlg.c:919
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Igas arkaika %s.\n"
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:937 client/gui-xaw/helpdlg.c:942
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Ebligas %s (kun %s).\n"

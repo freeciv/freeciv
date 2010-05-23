@@ -16,7 +16,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-02 17:31+0100\n"
+"POT-Creation-Date: 2010-05-23 13:59-0700\n"
 "PO-Revision-Date: 2010-05-04 18:08+0200\n"
 "Last-Translator: Freeciv <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: Spanish\n"
@@ -26,54 +26,54 @@ msgstr ""
 "Plural-Forms:  nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
-#: common/city.c:58 client/gui-gtk-2.0/repodlgs.c:990
+#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:990
 #: client/gui-win32/repodlgs.c:712
 msgid "Food"
 msgstr "Alimento"
 
-#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:989
+#: common/city.c:60 client/gui-gtk-2.0/repodlgs.c:989
 #: client/gui-win32/repodlgs.c:711
 msgid "Shield"
 msgstr "Producción"
 
-#: common/city.c:60 data/Freeciv.in:3067 data/default/techs.ruleset:729
+#: common/city.c:61 data/Freeciv.in:3067 data/default/techs.ruleset:729
 #: data/civ2/techs.ruleset:725 data/civ1/techs.ruleset:558
 msgid "Trade"
 msgstr "Comercio"
 
-#: common/city.c:61 client/gui-gtk-2.0/editprop.c:3814
+#: common/city.c:62 client/gui-gtk-2.0/editprop.c:3814
 #: client/gui-gtk-2.0/repodlgs.c:991 data/default/terrain.ruleset:684
 #: data/civ2/terrain.ruleset:577 data/civ1/terrain.ruleset:563
 msgid "Gold"
 msgstr "Oro"
 
-#: common/city.c:62 server/plrhand.c:212 client/gui-gtk-2.0/gamedlgs.c:267
+#: common/city.c:63 server/plrhand.c:212 client/gui-gtk-2.0/gamedlgs.c:267
 #: client/gui-win32/ratesdlg.c:317
 msgid "Luxury"
 msgstr "Lujo"
 
-#: common/city.c:63 server/plrhand.c:214 client/gui-gtk-2.0/gamedlgs.c:287
+#: common/city.c:64 server/plrhand.c:214 client/gui-gtk-2.0/gamedlgs.c:287
 #: client/gui-win32/ratesdlg.c:323
 msgid "Science"
 msgstr "Ciencia"
 
-#: common/city.c:303
+#: common/city.c:304
 msgid "?wonder:W"
 msgstr "M"
 
-#: common/city.c:305
+#: common/city.c:306
 msgid "?destroyed:D"
 msgstr "D"
 
-#: common/city.c:307
+#: common/city.c:308
 msgid "?built:B"
 msgstr "C"
 
-#: common/city.c:314
+#: common/city.c:315
 msgid "?obsolete:O"
 msgstr "O"
 
-#: common/city.c:317
+#: common/city.c:318
 msgid "?redundant:*"
 msgstr "?redundante:*"
 
@@ -697,8 +697,8 @@ msgstr ""
 #. TRANS: "Resources: (none)"
 #. TRANS: "Resources: (none)".
 #: common/requirements.c:1313 common/requirements.c:1368 common/team.c:175
-#: client/gui-gtk-2.0/helpdlg.c:1076 client/gui-gtk-2.0/inteldlg.c:397
-#: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:999
+#: client/gui-gtk-2.0/helpdlg.c:1077 client/gui-gtk-2.0/inteldlg.c:397
+#: client/gui-win32/helpdlg.c:597 client/gui-xaw/helpdlg.c:1000
 #, c-format
 msgid "(none)"
 msgstr "(ninguno)"
@@ -758,15 +758,15 @@ msgstr "Siguiente Tecno. %d"
 
 #. TRANS: "None" tech
 #: common/tech.c:890 common/tech.c:894 server/settings.c:42
-#: client/gui-gtk-2.0/helpdlg.c:112 client/gui-sdl/citydlg.c:729
+#: client/gui-gtk-2.0/helpdlg.c:113 client/gui-sdl/citydlg.c:729
 #: client/gui-sdl/gui_tilespec.c:482 client/gui-sdl/helpdlg.c:372
 #: client/gui-sdl/helpdlg.c:794 client/gui-sdl/helpdlg.c:820
 #: client/gui-sdl/mapview.c:320 client/gui-sdl/mapview.c:337
 #: client/gui-sdl/mapview.c:773 client/gui-win32/helpdlg.c:167
 #: client/gui-win32/helpdlg.c:546 client/gui-win32/helpdlg.c:555
 #: client/gui-win32/helpdlg.c:741 client/gui-win32/helpdlg.c:762
-#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:860
-#: client/gui-xaw/helpdlg.c:879 manual/civmanual.c:352 manual/civmanual.c:358
+#: client/gui-xaw/helpdlg.c:816 client/gui-xaw/helpdlg.c:861
+#: client/gui-xaw/helpdlg.c:880 manual/civmanual.c:352 manual/civmanual.c:358
 msgid "None"
 msgstr "Ninguna"
 
@@ -934,11 +934,11 @@ msgstr "Mejorar este %s producirá la pérdida de las unidades que transporta."
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
-#: common/unittype.c:459 client/helpdata.c:1824
+#: common/unittype.c:460 client/helpdata.c:1824
 msgid " and "
 msgstr " y "
 
-#: common/unittype.c:465 client/helpdata.c:1810
+#: common/unittype.c:466 client/helpdata.c:1810
 msgid "?and:, "
 msgstr ", "
 
@@ -1173,7 +1173,7 @@ msgstr[1] " (en total %d veces)"
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: utility/netintf.c:84 utility/registry.c:869 server/console.c:67
-#: server/generator/startpos.c:391 client/tilespec.c:4242
+#: server/generator/startpos.c:393 client/tilespec.c:4242
 #: client/agents/cma_core.c:438 client/gui-sdl/mapview.c:160
 #, c-format
 msgid "Please report this message at %s"
@@ -1270,17 +1270,17 @@ msgstr "error %ld (falló FormatMessage)"
 msgid "error %d (compiled without strerror)"
 msgstr "error %d (se ha compilado sin strerror)"
 
-#: ai/aicity.c:1494 server/citytools.c:2258
+#: ai/aicity.c:1495 server/citytools.c:2258
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "Los %s han dejado de construir %s en %s."
 
-#: ai/aicity.c:1504 server/citytools.c:2296
+#: ai/aicity.c:1505 server/citytools.c:2296
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "Los %s han empezado a construir %s en %s."
 
-#: ai/aicity.c:1849
+#: ai/aicity.c:1850
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
 msgstr "%s ha vendido %s (no se necesitaba) por %d."
@@ -1989,17 +1989,17 @@ msgstr "%s está produciendo %s%s."
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Vendes %s en %s (ahora en tierra) por %d monedas de oro."
 
-#: server/cityturn.c:200
+#: server/cityturn.c:201
 #, c-format
 msgid "%s is selling %s (obsolete) for %d."
 msgstr "%s ha vendido %s (obsoleto) por %d monedas de oro."
 
-#: server/cityturn.c:378
+#: server/cityturn.c:379
 #, c-format
 msgid "Notice: Wonder %s in %s will be finished next turn."
 msgstr "Nota: La maravilla %s de %s se va a terminar el próximo turno."
 
-#: server/cityturn.c:413
+#: server/cityturn.c:414
 #, c-format
 msgid ""
 "Suggest throttling growth in %s to use %s (being built) more effectively."
@@ -2007,52 +2007,52 @@ msgstr ""
 "Sería bueno que %s no creciera tan rápido para usar %s (en construcción) de "
 "una forma más efectiva."
 
-#: server/cityturn.c:424
+#: server/cityturn.c:425
 #, c-format
 msgid "%s may soon grow to size %i."
 msgstr "%s podría crecer a tamaño %i dentro de poco."
 
-#: server/cityturn.c:431
+#: server/cityturn.c:432
 #, c-format
 msgid "Warning: Famine feared in %s."
 msgstr "Atención: Puede haber hambruna en %s."
 
-#: server/cityturn.c:503
+#: server/cityturn.c:504
 #, c-format
 msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATENCIÓN, nos estamos quedando SIN FONDOS %s."
 
-#: server/cityturn.c:687
+#: server/cityturn.c:688
 #, c-format
 msgid "%s needs %s (being built) to grow any further."
 msgstr "%s necesita %s (en construcción) para crecer más."
 
-#: server/cityturn.c:692
+#: server/cityturn.c:693
 #, c-format
 msgid "%s needs an improvement to grow any further."
 msgstr "%s necesita una mejora para crecer más."
 
-#: server/cityturn.c:747
+#: server/cityturn.c:748
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s crece a tamaño %d."
 
-#: server/cityturn.c:809
+#: server/cityturn.c:810
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "¡Hambruna en %s, se ha perdido %s!"
 
-#: server/cityturn.c:824
+#: server/cityturn.c:825
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "La hambruna ha reducido la población de %s."
 
-#: server/cityturn.c:829
+#: server/cityturn.c:830
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "El hambre destruye %s por completo."
 
-#: server/cityturn.c:930
+#: server/cityturn.c:931
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -2060,18 +2060,18 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas, porque todavía no se dispone "
 "de esa tecnología. Posponiendo..."
 
-#: server/cityturn.c:946 server/cityturn.c:986
+#: server/cityturn.c:947 server/cityturn.c:987
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "%s no puede producir %s de la lista de tareas. Eliminando..."
 
-#: server/cityturn.c:967 server/cityturn.c:1199 server/cityturn.c:1311
-#: server/cityturn.c:1357
+#: server/cityturn.c:968 server/cityturn.c:1200 server/cityturn.c:1312
+#: server/cityturn.c:1358
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "La producción de %s se ha actualizado a %s en %s."
 
-#: server/cityturn.c:1018
+#: server/cityturn.c:1019
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -2080,7 +2080,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; la tecnología %s todavía no "
 "está disponible. Posponiendo..."
 
-#: server/cityturn.c:1032
+#: server/cityturn.c:1033
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -2088,7 +2088,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita %s. "
 "Posponiendo..."
 
-#: server/cityturn.c:1046
+#: server/cityturn.c:1047
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -2096,7 +2096,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se necesita la forma "
 "de gobierno %s. Posponiendo..."
 
-#: server/cityturn.c:1059
+#: server/cityturn.c:1060
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
@@ -2104,7 +2104,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; primero se requiere el %s "
 "especial. Posponiendo..."
 
-#: server/cityturn.c:1072
+#: server/cityturn.c:1073
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -2112,7 +2112,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; se necesita el terreno %s. "
 "Posponiendo..."
 
-#: server/cityturn.c:1087
+#: server/cityturn.c:1088
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -2120,7 +2120,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; sólo %s puede producir esto.  "
 "Posponiendo..."
 
-#: server/cityturn.c:1100
+#: server/cityturn.c:1101
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -2128,7 +2128,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; la ciudad tiene que ser del "
 "tamaño %d. Posponiendo..."
 
-#: server/cityturn.c:1115
+#: server/cityturn.c:1116
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
@@ -2137,7 +2137,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; sólo ordenadores de nivel %s "
 "puede producir esto.  Posponiendo..."
 
-#: server/cityturn.c:1129
+#: server/cityturn.c:1130
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
@@ -2146,7 +2146,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; se necesita la clase de "
 "terreno %s.  Posponiendo..."
 
-#: server/cityturn.c:1156
+#: server/cityturn.c:1157
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; Only available from %s.  Postponing..."
@@ -2154,7 +2154,7 @@ msgstr ""
 "%s no puede producir %s de la lista de tareas; Sólo disponible para %s.  "
 "Posponiendo..."
 
-#: server/cityturn.c:1191
+#: server/cityturn.c:1192
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
@@ -2162,37 +2162,37 @@ msgstr ""
 "Posponiendo..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1231
+#: server/cityturn.c:1232
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "La lista de tareas de %s está vacía."
 
-#: server/cityturn.c:1379
+#: server/cityturn.c:1380
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s no puede pagar el sustento de %s, unidad disuelta."
 
-#: server/cityturn.c:1399
+#: server/cityturn.c:1400
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "¡Los ciudadanos de %s perecen por su fracaso para mantener %s!"
 
-#: server/cityturn.c:1444 server/cityturn.c:1560
+#: server/cityturn.c:1445 server/cityturn.c:1561
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s está produciendo %s, lo cual ya no está disponible."
 
-#: server/cityturn.c:1483
+#: server/cityturn.c:1484
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "Los %s han terminado de producir %s en %s."
 
-#: server/cityturn.c:1490
+#: server/cityturn.c:1491
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s ha terminado de producir %s."
 
-#: server/cityturn.c:1510
+#: server/cityturn.c:1511
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
@@ -2201,92 +2201,92 @@ msgstr[0] ""
 msgstr[1] ""
 "%s impulsa la investigación; consigues %d descubrimientos inmediatamente."
 
-#: server/cityturn.c:1519 server/techtools.c:180
+#: server/cityturn.c:1520 server/techtools.c:180
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "Los %s reciben %s de los %s."
 
-#: server/cityturn.c:1527
+#: server/cityturn.c:1528
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "¡Los %s han empezado a construir una nave espacial!"
 
-#: server/cityturn.c:1586
+#: server/cityturn.c:1587
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s no puede producir aún %s."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1618
+#: server/cityturn.c:1619
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s ha terminado de producir %s."
 
-#: server/cityturn.c:1684
+#: server/cityturn.c:1685
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 "¡No hay suficiente dinero para mantener %s en %s, se vende el edificio!"
 
-#: server/cityturn.c:1727
+#: server/cityturn.c:1728
 #, c-format
 msgid "Not enough gold. %s disbanded"
 msgstr "No hay suficiente oro.  Se desarticula %s"
 
-#: server/cityturn.c:1909
+#: server/cityturn.c:1910
 #, c-format
 msgid "Pollution near %s."
 msgstr "Contaminación cerca de %s."
 
-#: server/cityturn.c:2059
+#: server/cityturn.c:2060
 #, c-format
 msgid "Celebrations in your honour in %s."
 msgstr "Celebraciones a lo grande en tu honor en %s."
 
-#: server/cityturn.c:2065
+#: server/cityturn.c:2066
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Celebraciones canceladas en %s."
 
-#: server/cityturn.c:2082
+#: server/cityturn.c:2083
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s ha sido alcanzado por una plaga! Se ha perdido población!"
 
-#: server/cityturn.c:2128
+#: server/cityturn.c:2129
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Disturbios en %s."
 
-#: server/cityturn.c:2132
+#: server/cityturn.c:2133
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "SIGUE HABIENDO DISTURBIOS en %s."
 
-#: server/cityturn.c:2138
+#: server/cityturn.c:2139
 #, c-format
 msgid "Order restored in %s."
 msgstr "Se ha restablecido el orden público en %s."
 
-#: server/cityturn.c:2149
+#: server/cityturn.c:2150
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "El pueblo ha derrocado a tu %s, tu nación está sumida en revueltas."
 
-#: server/cityturn.c:2187
+#: server/cityturn.c:2188
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 "%s no puede producir %s todavía, y no podemos abandonar nuestra única ciudad."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2215
+#: server/cityturn.c:2216
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "Se abandona %s; sus habitantes ahora son %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2397
+#: server/cityturn.c:2398
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
@@ -2295,7 +2295,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2404
+#: server/cityturn.c:2405
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2305,7 +2305,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2409
+#: server/cityturn.c:2410
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2315,7 +2315,7 @@ msgstr ""
 "disponible!"
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2424
+#: server/cityturn.c:2425
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
@@ -2324,7 +2324,7 @@ msgstr ""
 "crecer!"
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2431
+#: server/cityturn.c:2432
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
@@ -2333,7 +2333,7 @@ msgstr ""
 "crecer!"
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2436
+#: server/cityturn.c:2437
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
@@ -2341,37 +2341,37 @@ msgstr ""
 "Migrantes de %s (%s) no puede ir a %s, porque necesita una instalación para "
 "crecer!"
 
-#: server/cityturn.c:2472
+#: server/cityturn.c:2473
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "Los habitantes de %s abandonan su ciudad."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2492
+#: server/cityturn.c:2493
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr "Migrantes de %s se trasladan a %s en busca de una vida mejor."
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2498
+#: server/cityturn.c:2499
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr "Migrantes de %s se trasladan a %s (%s) en busca de una vida mejor."
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2503
+#: server/cityturn.c:2504
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr "Migrantes de %s (%s) se trasladan a %s en busca de una vida mejor."
 
-#: server/cityturn.c:2654
+#: server/cityturn.c:2655
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 "Ciudadanos de %s están pensando en emigrar a %s para tener una vida mejor."
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2675
+#: server/cityturn.c:2676
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -3504,12 +3504,12 @@ msgstr "'%s' ya está conectado."
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr "Rechazado %s: Nombre de usuario duplicado [%s]."
 
-#: server/connecthand.c:378 server/connecthand.c:389
+#: server/connecthand.c:380 server/connecthand.c:391
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Se ha cortado la conexión: %s."
 
-#: server/connecthand.c:631
+#: server/connecthand.c:633
 #, c-format
 msgid "detaching from %s."
 msgstr "desconectado de %s."
@@ -6509,56 +6509,56 @@ msgstr "El valor está fuera del rango."
 msgid "String value too long."
 msgstr "Cadena demasiado larga."
 
-#: server/sernet.c:152
+#: server/sernet.c:151
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 "No se permite que el servidor lea la entrada estándar, así que lo que se "
 "introduzca será descartado."
 
-#: server/sernet.c:503
+#: server/sernet.c:502
 msgid "restarting for lack of players"
 msgstr "reiniciando por falta de jugadores"
 
-#: server/sernet.c:526
+#: server/sernet.c:525
 #, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr "reiniciando en %d segundos por falta de jugadores"
 
-#: server/sernet.c:529
+#: server/sernet.c:528
 msgid "restarting soon for lack of players"
 msgstr "reiniciando en poco tiempo por falta de jugadores"
 
-#: server/sernet.c:949
+#: server/sernet.c:947
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Servidor: dirección incorrecta: <%s:%d>."
 
-#: server/sernet.c:964
+#: server/sernet.c:962
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr "No se puede abrir el socket IPv6, probando con IPv4"
 
-#: server/sernet.c:967
+#: server/sernet.c:965
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr "Servicio de búsqueda de IPv4 falló <%d>."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Prepartida"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1320
+#: server/sernet.c:1318
 msgid "Running"
 msgstr "En marcha"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1324
+#: server/sernet.c:1322
 msgid "Game over"
 msgstr "Fin de la partida"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1328
+#: server/sernet.c:1326
 msgid "Waiting"
 msgstr "Esperando"
 
@@ -8768,7 +8768,7 @@ msgstr "El generador 3 no ha podido colocar todas las islas grandes."
 msgid "Generator 3 left %li landmass unplaced."
 msgstr "El generador 3 ha dejado %li masas terrestres sin colocar."
 
-#: server/generator/startpos.c:386
+#: server/generator/startpos.c:388
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -14554,176 +14554,176 @@ msgstr "Ctrl+W"
 msgid "Happiness"
 msgstr "Felicidad"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-gtk-2.0/helpdlg.c:93
-#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:345
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:94
+#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:345
 #: client/gui-sdl/helpdlg.c:736 client/gui-win32/helpdlg.c:81
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:88
 #: data/Freeciv.in:636 data/Freeciv.in:778
 msgid "Cost:"
 msgstr "Coste:"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-sdl/helpdlg.c:353
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-sdl/helpdlg.c:353
 #: client/gui-sdl/helpdlg.c:745 client/gui-win32/helpdlg.c:81
 #: data/Freeciv.in:653
 msgid "Upkeep:"
 msgstr "Mantenimiento:"
 
-#: client/gui-gtk-2.0/helpdlg.c:90 client/gui-gtk-2.0/helpdlg.c:93
-#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-sdl/helpdlg.c:364
+#: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:94
+#: client/gui-gtk-2.0/helpdlg.c:102 client/gui-sdl/helpdlg.c:364
 #: client/gui-sdl/helpdlg.c:785 client/gui-win32/helpdlg.c:81
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:694
 msgid "Requirement:"
 msgstr "Se requiere:"
 
-#: client/gui-gtk-2.0/helpdlg.c:93 client/gui-gtk-2.0/helpdlg.c:101
+#: client/gui-gtk-2.0/helpdlg.c:94 client/gui-gtk-2.0/helpdlg.c:102
 #: client/gui-sdl/helpdlg.c:396 client/gui-sdl/helpdlg.c:812
 #: client/gui-win32/helpdlg.c:84 client/gui-win32/helpdlg.c:92
 #: data/Freeciv.in:732
 msgid "Obsolete by:"
 msgstr "Obsoleto con:"
 
-#: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:769
+#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:769
 #: client/gui-win32/helpdlg.c:88 data/Freeciv.in:795
 msgid "Attack:"
 msgstr "Ataque:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:770
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:770
 #: client/gui-win32/helpdlg.c:89 data/Freeciv.in:813
 msgid "Defense:"
 msgstr "Defensa:"
 
-#: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:771
+#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:771
 #: client/gui-win32/helpdlg.c:89 data/Freeciv.in:831
 msgid "Move:"
 msgstr "Movimientos:"
 
-#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:773
+#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:773
 #: client/gui-win32/helpdlg.c:90
 msgid "FirePower:"
 msgstr "Potencia de fuego:"
 
-#: client/gui-gtk-2.0/helpdlg.c:99 client/gui-sdl/helpdlg.c:774
+#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:774
 #: client/gui-win32/helpdlg.c:90 data/Freeciv.in:876
 msgid "Hitpoints:"
 msgstr "Puntos de vida:"
 
-#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-win32/helpdlg.c:91
+#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-win32/helpdlg.c:91
 #: data/Freeciv.in:912
 msgid "Basic Upkeep:"
 msgstr "Sustento básico:"
 
-#: client/gui-gtk-2.0/helpdlg.c:100 client/gui-sdl/helpdlg.c:772
+#: client/gui-gtk-2.0/helpdlg.c:101 client/gui-sdl/helpdlg.c:772
 #: client/gui-win32/helpdlg.c:91 data/Freeciv.in:894
 msgid "Vision:"
 msgstr "Visión:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:97
 msgid "Move/Defense:"
 msgstr "Movimiento/Defensa:"
 
-#: client/gui-gtk-2.0/helpdlg.c:106 client/gui-win32/helpdlg.c:97
+#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:97
 msgid "Food/Res/Trade:"
 msgstr "Alimento/Producción/Comercio:"
 
-#: client/gui-gtk-2.0/helpdlg.c:107 client/gui-win32/helpdlg.c:98
+#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:98
 #: data/Freeciv.in:972
 msgid "Resources:"
 msgstr "Recursos:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:99
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:99
 msgid "Road Rslt/Time:"
 msgstr "Camino Res/Tmpo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:108 client/gui-win32/helpdlg.c:99
+#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:99
 msgid "Irrig. Rslt/Time:"
 msgstr "Regadío Res/Tmpo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:100
+#: client/gui-gtk-2.0/helpdlg.c:110 client/gui-win32/helpdlg.c:100
 msgid "Mine Rslt/Time:"
 msgstr "Mina Res/Tmpo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:109 client/gui-win32/helpdlg.c:100
+#: client/gui-gtk-2.0/helpdlg.c:110 client/gui-win32/helpdlg.c:100
 msgid "Trans. Rslt/Time:"
 msgstr "Trans. Res/Tmpo:"
 
-#: client/gui-gtk-2.0/helpdlg.c:113 client/gui-win32/helpdlg.c:167
+#: client/gui-gtk-2.0/helpdlg.c:114 client/gui-win32/helpdlg.c:167
 #: client/gui-win32/helpdlg.c:504 client/gui-win32/helpdlg.c:554
 #: client/gui-win32/helpdlg.c:733 client/gui-win32/helpdlg.c:760
-#: client/gui-xaw/helpdlg.c:762 client/gui-xaw/helpdlg.c:806
-#: client/gui-xaw/helpdlg.c:814 client/gui-xaw/helpdlg.c:852
-#: client/gui-xaw/helpdlg.c:877
+#: client/gui-xaw/helpdlg.c:763 client/gui-xaw/helpdlg.c:807
+#: client/gui-xaw/helpdlg.c:815 client/gui-xaw/helpdlg.c:853
+#: client/gui-xaw/helpdlg.c:878
 msgid "(Never)"
 msgstr "(Nunca)"
 
-#: client/gui-gtk-2.0/helpdlg.c:130 client/gui-xaw/helpdlg.c:125
+#: client/gui-gtk-2.0/helpdlg.c:131 client/gui-xaw/helpdlg.c:126
 msgid "About"
 msgstr "Créditos"
 
-#: client/gui-gtk-2.0/helpdlg.c:198 client/gui-xaw/helpdlg.c:272
+#: client/gui-gtk-2.0/helpdlg.c:199 client/gui-xaw/helpdlg.c:273
 msgid "Removed"
 msgstr "Eliminado"
 
-#: client/gui-gtk-2.0/helpdlg.c:428 client/gui-win32/helpdlg.c:426
+#: client/gui-gtk-2.0/helpdlg.c:429 client/gui-win32/helpdlg.c:426
 #: data/Freeciv.in:576
 msgid "Freeciv Help Browser"
 msgstr "Visor de Ayuda de Freeciv"
 
-#: client/gui-gtk-2.0/helpdlg.c:665
+#: client/gui-gtk-2.0/helpdlg.c:666
 msgid "Expand All"
 msgstr "Expandir Todo"
 
-#: client/gui-gtk-2.0/helpdlg.c:666
+#: client/gui-gtk-2.0/helpdlg.c:667
 msgid "Collapse All"
 msgstr "Colapsar Todo"
 
-#: client/gui-gtk-2.0/helpdlg.c:952 client/gui-gtk-2.0/helpdlg.c:982
-#: client/gui-gtk-2.0/helpdlg.c:994 client/gui-gtk-2.0/helpdlg.c:1002
-#: client/gui-gtk-2.0/helpdlg.c:1019 client/gui-sdl/helpdlg.c:981
+#: client/gui-gtk-2.0/helpdlg.c:953 client/gui-gtk-2.0/helpdlg.c:983
+#: client/gui-gtk-2.0/helpdlg.c:995 client/gui-gtk-2.0/helpdlg.c:1003
+#: client/gui-gtk-2.0/helpdlg.c:1020 client/gui-sdl/helpdlg.c:981
 msgid "Allows"
 msgstr "Permite"
 
-#: client/gui-gtk-2.0/helpdlg.c:965
+#: client/gui-gtk-2.0/helpdlg.c:966
 msgid "Obsoletes"
 msgstr "Deja obsoleto"
 
-#: client/gui-gtk-2.0/helpdlg.c:1006 client/gui-gtk-2.0/helpdlg.c:1023
+#: client/gui-gtk-2.0/helpdlg.c:1007 client/gui-gtk-2.0/helpdlg.c:1024
 msgid "with"
 msgstr "con"
 
-#: client/gui-gtk-2.0/helpdlg.c:1011 client/gui-gtk-2.0/helpdlg.c:1028
+#: client/gui-gtk-2.0/helpdlg.c:1012 client/gui-gtk-2.0/helpdlg.c:1029
 msgid "?techhelp:"
 msgstr "?techhelp:"
 
-#: client/gui-gtk-2.0/helpdlg.c:1081 client/gui-win32/helpdlg.c:602
-#: client/gui-xaw/helpdlg.c:1004
+#: client/gui-gtk-2.0/helpdlg.c:1082 client/gui-win32/helpdlg.c:602
+#: client/gui-xaw/helpdlg.c:1005
 #, c-format
 msgid "+%d Trade / %d"
 msgstr "+%d Comercio / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1085 client/gui-win32/helpdlg.c:606
-#: client/gui-xaw/helpdlg.c:1008
+#: client/gui-gtk-2.0/helpdlg.c:1086 client/gui-win32/helpdlg.c:606
+#: client/gui-xaw/helpdlg.c:1009
 #, c-format
 msgid "no extra / %d"
 msgstr "nada / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1088 client/gui-gtk-2.0/helpdlg.c:1092
-#: client/gui-gtk-2.0/helpdlg.c:1106 client/gui-win32/helpdlg.c:609
+#: client/gui-gtk-2.0/helpdlg.c:1089 client/gui-gtk-2.0/helpdlg.c:1093
+#: client/gui-gtk-2.0/helpdlg.c:1107 client/gui-win32/helpdlg.c:609
 #: client/gui-win32/helpdlg.c:613 client/gui-win32/helpdlg.c:627
-#: client/gui-win32/helpdlg.c:646 client/gui-xaw/helpdlg.c:1010
-#: client/gui-xaw/helpdlg.c:1014 client/gui-xaw/helpdlg.c:1028
-#: client/gui-xaw/helpdlg.c:1047
+#: client/gui-win32/helpdlg.c:646 client/gui-xaw/helpdlg.c:1011
+#: client/gui-xaw/helpdlg.c:1015 client/gui-xaw/helpdlg.c:1029
+#: client/gui-xaw/helpdlg.c:1048
 msgid "n/a"
 msgstr "---"
 
-#: client/gui-gtk-2.0/helpdlg.c:1095 client/gui-win32/helpdlg.c:616
-#: client/gui-xaw/helpdlg.c:1017
+#: client/gui-gtk-2.0/helpdlg.c:1096 client/gui-win32/helpdlg.c:616
+#: client/gui-xaw/helpdlg.c:1018
 #, c-format
 msgid "+%d Food / %d"
 msgstr "+%d Alimento / %d"
 
-#: client/gui-gtk-2.0/helpdlg.c:1109 client/gui-win32/helpdlg.c:630
-#: client/gui-xaw/helpdlg.c:1031
+#: client/gui-gtk-2.0/helpdlg.c:1110 client/gui-win32/helpdlg.c:630
+#: client/gui-xaw/helpdlg.c:1032
 #, c-format
 msgid "+%d Res. / %d"
 msgstr "+%d Prod. / %d"
@@ -18623,18 +18623,18 @@ msgstr "Usando 'xset fp rehash' se puede resolver el problema temporalmente."
 msgid "Font for charset %s is lacking"
 msgstr "Falta la fuente para el conjunto de caracteres %s"
 
-#: client/gui-xaw/helpdlg.c:913 client/gui-xaw/helpdlg.c:926
-#: client/gui-xaw/helpdlg.c:933
+#: client/gui-xaw/helpdlg.c:914 client/gui-xaw/helpdlg.c:927
+#: client/gui-xaw/helpdlg.c:934
 #, c-format
 msgid "Allows %s.\n"
 msgstr "Permite %s.\n"
 
-#: client/gui-xaw/helpdlg.c:918
+#: client/gui-xaw/helpdlg.c:919
 #, c-format
 msgid "Obsoletes %s.\n"
 msgstr "Deja obsoleto %s.\n"
 
-#: client/gui-xaw/helpdlg.c:936 client/gui-xaw/helpdlg.c:941
+#: client/gui-xaw/helpdlg.c:937 client/gui-xaw/helpdlg.c:942
 #, c-format
 msgid "Allows %s (with %s).\n"
 msgstr "Permite %s (con %s).\n"
