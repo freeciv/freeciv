@@ -5128,7 +5128,7 @@ msgstr ""
 #: server/stdinhand.c:973
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "스크립트 파일  '%s' 을 읽읈 ㅜ없습니다"
+msgstr "스크립트 파일  '%s' 을 읽을 수 없습니다"
 
 #: server/stdinhand.c:1065
 #, c-format
@@ -11231,7 +11231,7 @@ msgstr "정부를 바꾸기(_C)"
 
 #: client/gui-gtk-2.0/menu.c:788
 msgid "_Revolution..."
-msgstr "형명...(_R)"
+msgstr "혁명...(_R)"
 
 #: client/gui-gtk-2.0/menu.c:791 client/gui-gtk-2.0/menu.c:1013
 #: client/gui-win32/menu.c:431
@@ -19407,7 +19407,7 @@ msgstr ""
 #: data/default/units.ruleset:1073 data/civ2/units.ruleset:1024
 #: data/civ1/units.ruleset:596
 msgid "Bomber"
-msgstr "폭력기"
+msgstr "폭격기"
 
 #: data/default/units.ruleset:1099 data/civ2/units.ruleset:1050
 #: data/civ1/units.ruleset:622
@@ -19437,7 +19437,7 @@ msgstr "향상된 전투기, 향상된 공격력과 높은 이동반경."
 
 #: data/default/units.ruleset:1172 data/civ2/units.ruleset:1123
 msgid "Stealth Bomber"
-msgstr "스텔스 폭력기"
+msgstr "스텔스 폭격기"
 
 #: data/default/units.ruleset:1198 data/civ2/units.ruleset:1149
 msgid "An improved Bomber, with improved attack and a higher movement radius."
