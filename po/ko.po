@@ -6546,7 +6546,7 @@ msgstr ""
 #: server/stdinhand.c:1004
 #, c-format
 msgid "Could not read script file '%s'."
-msgstr "스크립트 파일  '%s' 을 읽읈 ㅜ없습니다"
+msgstr "스크립트 파일  '%s' 을 읽을 수 없습니다"
 
 #: server/stdinhand.c:1075
 #, c-format
@@ -14686,7 +14686,7 @@ msgstr "낙하산병"
 
 #: client/gui-gtk-2.0/menu.c:2194 client/gui-win32/menu.c:336
 msgid "_Revolution..."
-msgstr "형명...(_R)"
+msgstr "혁명...(_R)"
 
 #: client/gui-gtk-2.0/menu.c:2207
 #, c-format
@@ -23425,7 +23425,7 @@ msgstr ""
 #: data/default/units.ruleset:1150 data/civ2/units.ruleset:1107
 #: data/civ1/units.ruleset:663
 msgid "Bomber"
-msgstr "폭력기"
+msgstr "폭격기"
 
 #: data/default/units.ruleset:1176 data/civ2/units.ruleset:1133
 #: data/civ1/units.ruleset:689
@@ -23457,7 +23457,7 @@ msgstr "향상된 전투기, 향상된 공격력과 높은 이동반경."
 
 #: data/default/units.ruleset:1251 data/civ2/units.ruleset:1208
 msgid "Stealth Bomber"
-msgstr "스텔스 폭력기"
+msgstr "스텔스 폭격기"
 
 #: data/default/units.ruleset:1277 data/civ2/units.ruleset:1234
 msgid "An improved Bomber, with improved attack and a higher movement radius."
@@ -25588,7 +25588,7 @@ msgstr ""
 #: data/nation/dutch.ruleset:39 data/nation/frisian.ruleset:31
 #, fuzzy
 msgid "Stadtholder"
-msgstr "스텔스 폭력기"
+msgstr "스텔스 폭격기"
 
 #: data/nation/dutch.ruleset:39 data/nation/frisian.ruleset:31
 #, fuzzy
