@@ -21,10 +21,10 @@ flag_alt = "-"
 city_style = "Babylonian"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),	_("Shaykhah")
+                 "Despotism",       _("Sheikh"),	_("Shaykha")
                  "Monarchy",        _("Emir"),		_("Emira")
                  "Republic",        _("Sultan"),	_("Sultana")
-                 "Communism",       _("Caliph"),	_("?female:Caliph")
+                 "Communism",       _("Caliph"),	_("Calipha")
                }
 
 init_techs=""

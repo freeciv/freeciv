@@ -27,13 +27,14 @@ city_style = "Classical"
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Monarchy",        _("Bey"),          _("?female:Bey")
                  "Republic",        _("Dey"),          _("?female:Dey")
+                 "Communism",       _("Caliph"),       _("Calipha")
                }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "algerian", "libyan"
+civilwar_nations = "Algerian", "Libyan", "Amazigh"
 
 cities =
   "Tunis",

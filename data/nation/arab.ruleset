@@ -17,10 +17,10 @@ flag_alt = "-"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),	_("Shaykhah")
-                 "Monarchy",        _("Malik"),		_("Malikah")
+                 "Despotism",       _("Sheikh"),	_("Shaykha")
+                 "Monarchy",        _("Malik"),		_("Malika")
                  "Republic",        _("Sultan"),	_("Sultana")
-                 "Communism",       _("Caliph"),	_("?female:Caliph")
+                 "Communism",       _("Caliph"),	_("Calipha")
                }
 
 init_techs=""

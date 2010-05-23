@@ -18,6 +18,7 @@ artists = "
    Akwe			Dan Cottrell and Daniel Markstedt
    Algeria 		Lauris Kaplinski
    Almohad		Ch1902 (Wikimedia user)
+   Amazigh		Mysid
    Amazon		Ann Barcomb
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
@@ -227,6 +228,7 @@ sprites =
 		"f.akwe", "flags/akwe"
 		"f.algeria", "flags/algeria"
 		"f.almohad", "flags/almohad"
+		"f.amazigh", "flags/amazigh"
 		"f.amazon", "flags/amazon"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"

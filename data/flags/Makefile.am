@@ -10,6 +10,7 @@ flag_files =				\
 		akwe.png		\
 		algeria.png		\
 		almohad.png		\
+		amazigh.png		\
 		amazon.png		\
 		antarctica.png		\
 		arab.png		\
@@ -216,10 +217,11 @@ shield_files =					\
 		akwe-shield.png			\
 		algeria-shield.png		\
 		almohad-shield.png		\
+		amazigh-shield.png		\
 		amazon-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
-		aragon-shield.png			\
+		aragon-shield.png		\
 		aram-shield.png			\
 		argentina-shield.png		\
 		armenia-shield.png		\
@@ -422,6 +424,7 @@ svg_files = 				\
 		akwe.svg		\
 		algeria.svg		\
 		almohad.svg		\
+		amazigh.svg		\
 		amazon.svg		\
 		antarctica.svg		\
 		arab.svg		\
