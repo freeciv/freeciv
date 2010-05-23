@@ -35,8 +35,8 @@ leader=
 "Juba II",
 ; son of Juba II, Vassal King of Mauritania, the Roman Numidia, married
 ; Cleopatra Selene II (40BC6AC), daughter of Cleopatra, reigned 52BC-23BC.
-"Tiqfarin",
-; Latin: Tacfarinas
+"Tacfarinas",
+; Berber: Tiqfarin
 ; Amazigh General in the Roman Army, after Roman empire weakens, he unified
 ; the amazigh tribes and conquerred a part of Numidia between 17Ac-24AC.
 "Ptolemaeus",
@@ -61,7 +61,7 @@ flag_alt = "morocco"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Despotism",       _("Sheikh"),       _("Shaykhah")
+                 "Despotism",       _("Sheikh"),       _("Shaykha")
                  "Communism",       _("Caliph"),       _("Calipha")
                  "Monarchy",        _("Malik"),        _("Malika")
                  "Republic",        _("Sultan"),       _("Sultana")
