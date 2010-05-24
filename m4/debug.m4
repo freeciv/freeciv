@@ -26,7 +26,7 @@ if test "x$enable_debug" = "xyes" -o "x$enable_debug" = "xchecks"; then
                [EXTRA_DEBUG_CFLAGS])
     FC_C_FLAGS([-Wmissing-prototypes -Wmissing-declarations], [],
                [EXTRA_DEBUG_CFLAGS])
-    FC_C_FLAGS([-Wstrict-prototypes -Wnested-externs], [],
+    FC_C_FLAGS([-Wstrict-prototypes -Wnested-externs -Wl,--no-add-needed], [],
                [EXTRA_DEBUG_CFLAGS])
     FC_CXX_FLAGS([-Werror -Wall -Wpointer-arith -Wcast-align ], [],
                  [EXTRA_DEBUG_CXXFLAGS])
