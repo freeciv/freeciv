@@ -1,0 +1,68 @@
+[nation_vampire]
+
+; To avoid any trademark complaints, no modern fictional works are used.
+name=_("Vampire")
+plural=_("?plural:Vampires")
+groups="Fictional"
+legend=_("Bloodsucking creatures of legend.")
+leader=
+; Historical people associated with vampirism 
+ "Vlad Ţepeş",
+ "Erzsébet Báthory",
+; from legend
+ "Lilith",
+; from 'Carmilla' by Joseph Sheridan Le Fanu (1872)
+ "Mircalla Karnstein",
+; from 'Varney the Vampire' by James Malcolm Rymer (1845-47)
+ "Francis Varney",
+; from 'The Vampyre' by John William Polidori (1819)
+ "Ruthven",
+; from 'Vampire City' by Paul Féval (1867)
+ "Otto Goetzi",
+; from 'Knightshade' by Paul Féval (1807)
+ "Jean Ténèbr",
+ "Ange Ténèbr",
+; from 'The Vampire Countess' by Paul Féval (1856)
+ "Addhema",
+ "Szandor",
+; from 'Thalaba the Destroyer' by Robert Southey (1797)
+ "Oneiza",
+; from 'Dracula' by Bram Stoker (1897)
+ "Lucy Westenra",
+; from 'La Morte Amoureuse' by Théophile Gautier (1836)
+ "Clarimond"
+leader_sex="Male", "Female", "Female", "Female", "Male", "Male",
+ "Male", "Male", "Male", "Female", "Male", "Female", "Female", "Female"
+flag="vampire"
+flag_alt = "-"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="Romanian"
+
+; Cities associated with vampires in fiction or legend
+cities =
+ "Selene",              	; from "Vampire City" 
+ "Târgovişte",		; associated with Vlad Dracul
+ "Trencsén",			 ; associated with Elizabeth Bathory
+ "Karnstein",			; from 'Carmilla' 
+ "Bannerworth",			; from 'Varney the Vampire' 
+ "Staffa",			; from 'The Vampire' James Planché (1820)
+ "Sighişoara",		; associated with Vlad Dracul
+ "Nyírbátor",			  ; associated with Elizabeth Baory
+ "Kronstadt",			; associated with Vlad Dracul
+ "Sárvár",			  ; associated with Elizabeth Bathory
+ "Poienari Castle",		; associated with Vlad Dracul
+ "Sibiu",			; associated with Vlad Dracul
+ "Braşov",			; associated with Vlad Dracul
+ "Cetatea Lui Negru Vodă",	; from 'Dracula' 
+ "Mount Snowdon",		; from 'The Vampire' Dion Boucicault (1852)
+ "Marsden Castle",              ; from 'Der Vampyr' Heinrich Marschner (1828)
+ "Palace Concini", 		; from 'La Morte Amoureuse' 
+ "Babylon",			; associated with Lilith
+ "London",			; from 'The Vampyre'
+ "Corinth"                      ; from 'The Bride of Corinth' Goethe (1797)

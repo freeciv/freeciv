@@ -241,6 +241,7 @@ match=2
 *include "nation/uruguayan.ruleset"
 *include "nation/uyghur.ruleset"
 *include "nation/uzbek.ruleset"
+*include "nation/vampire.ruleset"
 *include "nation/venezuelan.ruleset"
 *include "nation/vietnamese.ruleset"
 *include "nation/viking.ruleset"

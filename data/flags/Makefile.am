@@ -203,6 +203,7 @@ flag_files =				\
 		usa.png			\
 		uyghur.png		\
 		uzbekistan.png		\
+		vampire.png		\
 		venezuela.png		\
 		vietnam.png		\
 		viking.png		\
@@ -410,6 +411,7 @@ shield_files =					\
 		usa-shield.png			\
 		uyghur-shield.png		\
 		uzbekistan-shield.png		\
+		vampire-shield.png		\
 		venezuela-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
@@ -617,6 +619,7 @@ svg_files = 				\
 		usa.svg			\
 		uyghur.svg		\
 		uzbekistan.svg		\
+		vampire.svg		\
 		venezuela.svg		\
 		vietnam.svg		\
 		viking.svg		\
