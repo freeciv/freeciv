@@ -26227,7 +26227,7 @@ msgid ""
 "home of the legendary King Arthur."
 msgstr ""
 "Kornvalis yra pačiuose Anglijos pietvakariuose. Jis laikomas legendinio "
-"karaliaus Arturo gimtine."
+"karaliaus Artūro gimtine."
 
 #: data/nation/cornish.ruleset:20 data/nation/french.ruleset:26
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
