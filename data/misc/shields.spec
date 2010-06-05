@@ -148,6 +148,7 @@ sprites =
 		"f.shield.numidia", "flags/numidia-shield"
 		"f.shield.nuu-chah-nulth", "flags/nuu-chah-nulth-shield"
 		"f.shield.ottoman", "flags/ottoman-shield"
+		"f.shield.oz", "flags/oz-shield"
 		"f.shield.pakistan", "flags/pakistan-shield"
 		"f.shield.palmyra", "flags/palmyra-shield"
 		"f.shield.papua_newguinea", "flags/papua_newguinea-shield"

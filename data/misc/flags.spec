@@ -146,6 +146,7 @@ artists = "
    Numidia		Lexicon and Dan Cottrell
    Nuu-chah-nulth	Daniel Markstedt
    Ottoman		Daniel Markstedt
+   Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
    Palmyra		JB Grout
    Papua New Guinea	Tobias Jakobs
@@ -359,6 +360,7 @@ sprites =
 		"f.numidia", "flags/numidia"
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
 		"f.ottoman", "flags/ottoman"
+		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
 		"f.palmyra", "flags/palmyra"
 		"f.papua_newguinea", "flags/papua_newguinea"

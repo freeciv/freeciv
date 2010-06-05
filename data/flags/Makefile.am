@@ -138,6 +138,7 @@ flag_files =				\
 		numidia.png		\
 		nuu-chah-nulth.png	\
 		ottoman.png		\
+		oz.png			\
 		pakistan.png		\
 		palmyra.png		\
 		papua_newguinea.png	\
@@ -346,6 +347,7 @@ shield_files =					\
 		numidia-shield.png		\
 		nuu-chah-nulth-shield.png	\
 		ottoman-shield.png		\
+		oz-shield.png			\
 		pakistan-shield.png		\
 		palmyra-shield.png		\
 		papua_newguinea-shield.png	\
@@ -554,6 +556,7 @@ svg_files = 				\
 		numidia.svg		\
 		nuu-chah-nulth.svg	\
 		ottoman.svg		\
+		oz.svg			\
 		pakistan.svg		\
 		palmyra.svg		\
 		papua_newguinea.svg	\

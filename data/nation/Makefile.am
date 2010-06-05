@@ -137,6 +137,7 @@ pkgdata_DATA = \
 		numidian.ruleset \
 		nuu-chah-nulth.ruleset \
 		ottoman.ruleset \
+		ozite.ruleset \
 		pakistani.ruleset \
 		papuan.ruleset \
 		persian.ruleset \
