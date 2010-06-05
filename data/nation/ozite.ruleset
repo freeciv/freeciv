@@ -1,0 +1,78 @@
+[nation_ozite]
+
+name=_("Ozite")
+plural=_("?plural:Ozites")
+groups="Fictional"
+; Baum’s books were published before 1923 and are therefore out of
+; copyright.
+legend=_("The land of Oz was created by L. Frank Baum in 1900 in 'The\
+ Wonderful Wizard of Oz' and was subsequently embellished in a number\
+ of other books. The country consists of four main territories: Winkie\
+ Country, Quadling Country, Munchkin Country, and Gillikin Country. Oz\
+ is surrounded by an impassable desert.")
+leader=
+ "Ozma", 			; a.k.a. Tip
+ "Pastoria",			; Ozma’s father
+ "Lurline",			; the fairy queen
+ "O. Z. Diggs",			; a.k.a. The wonderful wizard
+ "Scarecrow",			; successor to the wizard
+ "Dorothy Gale"			; not a ruler, but a popular character
+leader_sex="Female", "Male", "Female", "Male", "Male", "Female"
+flag="oz"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Despotism",      _("Wizard"),          _("Witch")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Emerald City",
+ "Munchkin",
+ "Winkie",
+ "Gillikin",
+ "Quadling",
+ "Shiz",
+ "Bunbury",
+ "Bunnybury",
+ "Center Munch",
+ "Ovvels",
+ "Qhoyre",
+ "Bright Lettins",
+ "Old Pastoria",
+ "Three Dead Trees",
+ "Broad Slope Town",
+ "Stonespar End",
+ "Colwen Grounds",
+ "Dragon Cupboard",
+ "Upper Applerue",
+ "Far Applerue",
+ "Neverdale",
+ "Rigmarole",
+ "Utensia",
+ "Bengda",
+ "Rush Margins",
+ "Center Bounty",
+ "Colwen Grounds",
+ "Brox Hall",
+ "Tenniken",
+ "Traum",
+ "Frottica",
+ "Wittica",
+ "Settica",
+ "Wiccasand Turning",
+ "Welcome Arms",
+ "Fanarra",
+ "Upper Fanarra",
+ "Red Windmill",
+ "Horners",
+ "Hoppers",
+ "Flutterbudget",
+ "Tottenhots",
+ "Mn Yoop",
+ "Fuddlecumjig",
+ "Hammerheads"
