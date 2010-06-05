@@ -197,6 +197,7 @@ match=2
 *include "nation/prussian.ruleset"
 *include "nation/purhepecha.ruleset"
 *include "nation/quebecois.ruleset"
+*include "nation/riffian.ruleset"
 *include "nation/romanian.ruleset"
 *include "nation/roman.ruleset"
 *include "nation/russian.ruleset"

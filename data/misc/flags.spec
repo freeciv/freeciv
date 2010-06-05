@@ -162,6 +162,7 @@ artists = "
    Purhepecha		Daniel Markstedt
    Qing			Caleb Moore
    Quebec		Patrick Guimond
+   Rif			Mysid (Wikipedia)
    Romania		Daniel McRae
    Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
    Russia		Oleg Krivosheev
@@ -377,6 +378,7 @@ sprites =
 		"f.purhepecha", "flags/purhepecha"
 		"f.qing", "flags/qing"			; Manchu empire flag
 		"f.quebec", "flags/quebec"
+		"f.rif", "flags/rif"
 		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"

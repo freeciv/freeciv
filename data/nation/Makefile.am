@@ -151,6 +151,7 @@ pkgdata_DATA = \
 		prussian.ruleset \
 		purhepecha.ruleset \
 		quebecois.ruleset \
+		riffian.ruleset \
 		romanian.ruleset \
 		roman.ruleset \
 		russian.ruleset \

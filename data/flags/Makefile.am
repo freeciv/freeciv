@@ -154,6 +154,7 @@ flag_files =				\
 		purhepecha.png		\
 		qing.png		\
 		quebec.png		\
+		rif.png			\
 		romania.png		\
 		rome.png		\
 		russia.png		\
@@ -364,6 +365,7 @@ shield_files =					\
 		purhepecha-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
+		rif-shield.png			\
 		romania-shield.png		\
 		rome-shield.png			\
 		russia-shield.png		\
@@ -574,6 +576,7 @@ svg_files = 				\
 		purhepecha.svg		\
 		qing.svg		\
 		quebec.svg		\
+		rif.svg			\
 		romania.svg		\
 		rome.svg		\
 		russia.svg		\
