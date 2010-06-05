@@ -60,6 +60,7 @@ flag_files =				\
 		england.png		\
 		esperanto.png		\
 		estonia.png		\
+		eritrea.png		\
 		ethiopia.png		\
 		europe.png		\
 		euskadi.png		\
@@ -269,6 +270,7 @@ shield_files =					\
 		england-shield.png		\
 		esperanto-shield.png		\
 		estonia-shield.png		\
+		eritrea-shield.png		\
 		ethiopia-shield.png		\
 		europe-shield.png		\
 		euskadi-shield.png		\
@@ -478,6 +480,7 @@ svg_files = 				\
 		england.svg		\
 		esperanto.svg		\
 		estonia.svg		\
+		eritrea.svg		\
 		ethiopia.svg		\
 		europe.svg		\
 		euskadi.svg		\

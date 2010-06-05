@@ -68,6 +68,7 @@ artists = "
    England		Thom Sanders
    Esperanto		Gabriel Ehrnst Grundin
    Estonia		Daniel Markstedt
+   Eritrea		Andrew Duhan
    Ethiopia		Lauris Kaplinski and Christian Schaller
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
@@ -281,6 +282,7 @@ sprites =
 		"f.england", "flags/england"
 		"f.esperanto", "flags/esperanto"
 		"f.estonia", "flags/estonia"
+		"f.eritrea", "flags/eritrea"
 		"f.ethiopia", "flags/ethiopia"
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"

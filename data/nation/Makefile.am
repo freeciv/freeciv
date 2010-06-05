@@ -67,6 +67,7 @@ pkgdata_DATA = \
 		english.ruleset \
 		esperant.ruleset \
 		estonian.ruleset \
+		eritrean.ruleset \
 		ethiopian.ruleset \
 		european.ruleset \
 		filipino.ruleset \
