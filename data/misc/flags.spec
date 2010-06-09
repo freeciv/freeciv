@@ -52,6 +52,7 @@ artists = "
    Canada		James Leigh
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
+   Chananea		Daniel Markstedt
    Cheyenne		Arturo Espinosa-Aldama
    Chile		Mario Fuentes
    China		Stephen Silver
@@ -268,6 +269,7 @@ sprites =
 		"f.canada", "flags/canada"
 		"f.cartago", "flags/cartago"
 		"f.catalan", "flags/catalan"
+		"f.chananea", "flags/chananea"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
 		"f.chile", "flags/chile"
 		"f.china", "flags/china"

@@ -95,6 +95,7 @@ match=2
 *include "nation/canadian.ruleset"
 *include "nation/carthaginian.ruleset"
 *include "nation/catalan.ruleset"
+*include "nation/chananean.ruleset"
 *include "nation/cherokee.ruleset"
 *include "nation/chilean.ruleset"
 *include "nation/chinese.ruleset"

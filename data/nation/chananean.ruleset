@@ -1,0 +1,70 @@
+[nation_chananean]
+
+name=_("Chananean")
+plural=_("?plural:Chananeans")
+groups="Fictional"
+legend=_("Reports of chynocephaly (having the head of a dog or jackal)\
+ can be traced to Greek Antiquity. The physician Ctesias and the traveller\
+ Megasthenes placed them in India. In the middle ages, Giovanni da Pian\
+ and Marco Polo made reference to them, while the theologian Ratramnus\
+ debated whether they should be considered human or not. Various stories\
+ have placed them in Scotland, Canaan, Cyrenaica, and the Andaman Islands.\
+ The country 'Chananea' comes from the German poet Walter of Speyer. In\
+ the account by Sir John Mandeville, the people were known as the\
+ Nacumerians.")
+leader=
+ "Garwlwyd",	; Arthurian legend
+ "Christopher", ; St. Christopher is sometimes portrayed as a chynocephali
+ "Reprebus",    ; A chynocephali captured in the time of Diocletian
+ "Laika",       ; The first dog in space (not a chynocephali, but famous)
+ "Anubis",
+ "Anput",
+ "Hermanubis",
+ "Cerberus"
+
+leader_sex="Male", "Male", "Male", "Female", "Male", "Female", "Male", "Male"
+
+flag="chananea"
+flag_alt = "-"
+city_style = "Babylonian"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Alpha"),        _("?female:Alpha")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+cities =
+ "Cynopolis",      ; 'City of Dogs' in Greek
+
+ ; Constellations/stars
+ "Canis Major",
+ "Sirius",
+
+ ; Classification 
+ "Canidae",
+ "Carnivora",
+
+ ; Varieties
+ "Akita Inu",
+ "Malamute",
+ "Hound", 
+ "Basenji", 
+ "Chow Chow", 
+ "Wolfhound", 
+ "Lhasa Apso", 
+ "Pekingese", 
+ "Saluki", 
+ "Samoyed", 
+ "Shar Pei", 
+ "Shiba Inu", 
+ "Shih Tzu", 
+ "Husky", 
+ "Terrier", 
+ "Mastiff",
+ "Jackal",
+ "Jindo Gae",
+ "Bloodhound"

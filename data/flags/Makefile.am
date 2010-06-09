@@ -44,6 +44,7 @@ flag_files =				\
 		canada.png		\
 		cartago.png		\
 		catalan.png		\
+		chananea.png		\
 		cheyenne.png		\
 		chile.png		\
 		china.png		\
@@ -257,6 +258,7 @@ shield_files =					\
 		canada-shield.png		\
 		cartago-shield.png		\
 		catalan-shield.png		\
+		chananea-shield.png		\
 		cheyenne-shield.png		\
 		chile-shield.png		\
 		china-shield.png		\
@@ -470,6 +472,7 @@ svg_files = 				\
 		canada.svg		\
 		cartago.svg		\
 		catalan.svg		\
+		chananea.svg		\
 		cheyenne.svg		\
 		chile.svg		\
 		china.svg		\
