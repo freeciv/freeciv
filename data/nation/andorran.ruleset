@@ -1,0 +1,82 @@
+[nation_andorran]
+
+name=_("Andorran")
+plural=_("?plural:Andorrans")
+groups="Modern", "Medieval", "European"
+legend=_("Andorra is a small country in the eastern Pyrenees. In 1278,\
+ a dispute between the bishop of Urgell and the Count of Foix ended with\
+ an agreement to share the sovereignty of Andorra. This arrangement is\
+ still in effect and their successors - the current bishop of Urgell and\
+ the President of the French Republic - bear the (mostly honorific) title\
+ of co-prince of Andorra.")
+leader="Borís I", "Pere d'Urtx", "Roger Bernat III", "Carlemany"
+leader_sex="Male", "Male", "Male", "Male"
+flag="andorra"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",          "female_title"
+		; /* TRANS: Cap de Govern = Government Head */
+                 "Democracy",  _("Cap de Govern"), _("?female:Cap de Govern")
+                 "Despotism",       _("Dictador"),         _("Dictadora")
+		; /* TRANS: Rei, Reina = King, Queen */
+                 "Monarchy",        _("Prince"),           _("Princess")
+                 "Republic",        _("President"),        _("Presidenta")
+		; /* TRANS: Bisbe = Bishop ; Gran Bruixa = Great Witch */
+                 "Fundamentalism",  _("Bisbe"),            _("Gran Bruixa")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "Catalan", "French"
+
+cities =
+ "Andorra la Vella",
+ "Encamp",
+ "Sant Julià de Lòria",
+ "Escaldes",
+ "La Massana",
+ "Engordany",
+ "Santa Coloma",
+ "Pas de la Casa",
+ "Meritxell",
+ "Ordino",
+ "Canillo",
+ "Arinsal",
+ "Les Bons",
+ "El Tarter",
+ "Sispony",
+ "Vila",
+ "Engolasters",
+ "Soldeu",
+ "Aixirivall",
+ "Aldosa",
+ "Anyós",
+ "El Ferrer",
+ "Incles",
+ "La Cortinada",
+ "Erts",
+ "Escàs",
+ "Pal",
+ "Arans",
+ "Aldosa",
+ "Auvinyà",
+ "Juverri",
+ "Ransol",
+ "Sornàs",
+ "Llorts",
+ "Aixovall",
+ "Fontaneda",
+ "El Serrat",
+ "Certés",
+ "Els Plans",
+ "Nagol",
+ "Segudet",
+ "Ansalonga",
+ "El Forn",
+ "Prats",
+ "Bixessarri",
+ "El Vilar",
+ "Llumeneres"

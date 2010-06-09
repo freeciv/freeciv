@@ -20,6 +20,7 @@ artists = "
    Almohad		Ch1902 (Wikimedia user)
    Amazigh		Mysid
    Amazon		Ann Barcomb
+   Andorra		Patricia Fidi
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -146,6 +147,7 @@ artists = "
    Nubia		Daniel Markstedt
    Numidia		Lexicon and Dan Cottrell
    Nuu-chah-nulth	Daniel Markstedt
+   Occitania		Mysid
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
@@ -234,6 +236,7 @@ sprites =
 		"f.almohad", "flags/almohad"
 		"f.amazigh", "flags/amazigh"
 		"f.amazon", "flags/amazon"
+		"f.andorra", "flags/andorra"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"
@@ -362,6 +365,7 @@ sprites =
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
+		"f.occitania", "flags/occitania"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"

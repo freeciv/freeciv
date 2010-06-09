@@ -12,6 +12,7 @@ flag_files =				\
 		almohad.png		\
 		amazigh.png		\
 		amazon.png		\
+		andorra.png		\
 		antarctica.png		\
 		arab.png		\
 		aragon.png		\
@@ -138,6 +139,7 @@ flag_files =				\
 		nubia.png		\
 		numidia.png		\
 		nuu-chah-nulth.png	\
+		occitania.png		\
 		ottoman.png		\
 		oz.png			\
 		pakistan.png		\
@@ -223,6 +225,7 @@ shield_files =					\
 		almohad-shield.png		\
 		amazigh-shield.png		\
 		amazon-shield.png		\
+		andorra-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png		\
@@ -349,6 +352,7 @@ shield_files =					\
 		nubia-shield.png		\
 		numidia-shield.png		\
 		nuu-chah-nulth-shield.png	\
+		occitania-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
 		pakistan-shield.png		\
@@ -434,6 +438,7 @@ svg_files = 				\
 		almohad.svg		\
 		amazigh.svg		\
 		amazon.svg		\
+		andorra.svg		\
 		antarctica.svg		\
 		arab.svg		\
 		aragon.svg		\
@@ -560,6 +565,7 @@ svg_files = 				\
 		nubia.svg		\
 		numidia.svg		\
 		nuu-chah-nulth.svg	\
+		occitania.svg		\
 		ottoman.svg		\
 		oz.svg			\
 		pakistan.svg		\

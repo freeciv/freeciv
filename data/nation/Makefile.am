@@ -14,6 +14,7 @@ pkgdata_DATA = \
 		amazigh.ruleset \
 		amazonian.ruleset \
 		american.ruleset \
+		andorran.ruleset \
 		antarctican.ruleset \
 		arab.ruleset \
 		aragonese.ruleset \
@@ -137,6 +138,7 @@ pkgdata_DATA = \
 		nubian.ruleset \
 		numidian.ruleset \
 		nuu-chah-nulth.ruleset \
+		occitan.ruleset \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \
