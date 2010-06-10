@@ -128,6 +128,7 @@ match=2
 *include "nation/georgian.ruleset"
 *include "nation/german.ruleset"
 *include "nation/greek.ruleset"
+*include "nation/grenadian.ruleset"
 *include "nation/gupta.ruleset"
 *include "nation/hacker.ruleset"
 *include "nation/hawaiian.ruleset"

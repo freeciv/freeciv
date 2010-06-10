@@ -86,6 +86,7 @@ artists = "
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia user)
    Greece		Daniel McRae
    Greenland		Daniel McRae
+   Grenada		SKopp (Wikipedia)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
    Hawaii		Rob Adams
@@ -305,6 +306,7 @@ sprites =
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
+		"f.grenada", "flags/grenada"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
 		"f.hawaii", "flags/hawaii"
