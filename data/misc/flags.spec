@@ -65,6 +65,7 @@ artists = "
    Czech		Lauris Kaplinski
    Denmark		Jens Bech Madsen
    Dominica		Caleb Moore and Christian Schaller
+   Dryad		Ivan Alvarado
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    England		Thom Sanders
@@ -283,6 +284,7 @@ sprites =
 		"f.czech", "flags/czech"
 		"f.denmark", "flags/denmark"
 		"f.dominica", "flags/dominica"
+		"f.dryad", "flags/dryad"
 		"f.egypt_ancient", "flags/egypt_ancient"
 		"f.egypt", "flags/egypt"
 		"f.england", "flags/england"

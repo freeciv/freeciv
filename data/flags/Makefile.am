@@ -57,6 +57,7 @@ flag_files =				\
 		czech.png		\
 		denmark.png		\
 		dominica.png		\
+		dryad.png		\
 		egypt_ancient.png	\
 		egypt.png		\
 		england.png		\
@@ -271,6 +272,7 @@ shield_files =					\
 		czech-shield.png		\
 		denmark-shield.png		\
 		dominica-shield.png		\
+		dryad-shield.png		\
 		egypt_ancient-shield.png	\
 		egypt-shield.png		\
 		england-shield.png		\
@@ -485,6 +487,7 @@ svg_files = 				\
 		czech.svg		\
 		denmark.svg		\
 		dominica.svg		\
+		dryad.svg		\
 		egypt_ancient.svg	\
 		egypt.svg		\
 		england.svg		\
