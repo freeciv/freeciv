@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-06-08 19:18+0200\n"
-"PO-Revision-Date: 2010-06-08 20:14+0200\n"
+"POT-Creation-Date: 2010-06-10 20:00+0200\n"
+"PO-Revision-Date: 2010-06-12 19:22+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1274,32 +1274,28 @@ msgid "non-match"
 msgstr "no hi ha coincidència"
 
 #: utility/shared.c:1901
-#, fuzzy
 msgid "day"
 msgid_plural "days"
-msgstr[0] "Maig"
-msgstr[1] "Maig"
+msgstr[0] "dia"
+msgstr[1] "dies"
 
 #: utility/shared.c:1906
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "o"
-msgstr[1] "o"
+msgstr[0] "hora"
+msgstr[1] "hores"
 
 #: utility/shared.c:1912
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "Fam"
-msgstr[1] "Fam"
+msgstr[0] "minut"
+msgstr[1] "minuts"
 
 #: utility/shared.c:1918
-#, fuzzy
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "Registrar"
-msgstr[1] "Registrar"
+msgstr[0] "segon"
+msgstr[1] "segons"
 
 #: utility/shared.c:2184
 msgid "TRUE"
@@ -1691,11 +1687,13 @@ msgid "Illegal value for auth port: \"%s\""
 msgstr "Valor il·legal per al port d'autenticació: \"%s\""
 
 #: server/auth.c:288
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Cannot load auth config file '%s':\n"
 "%s"
-msgstr "No s'ha pogut carregar el fitxer de configuració d'autenticació \"%s\"!"
+msgstr ""
+"No s'ha pogut carregar el fitxer de configuració d'autenticació '%s':\n"
+"%s"
 
 #: server/auth.c:400
 #, c-format
@@ -2024,18 +2022,17 @@ msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "Vens %s a %s (encallat) per %d peces d'or."
 
 #: server/citytools.c:2620
-#, fuzzy, c-format
+#, c-format
 msgid "The size of the city map of %s is %s."
-msgstr "Canviada la ciutat origen de %s a %s."
+msgstr "La mida del mapa de la ciutat de %s és %s."
 
 #: server/citytools.c:2622
-#, fuzzy
 msgid "increased"
-msgstr "Base aèria"
+msgstr "augmentat"
 
 #: server/citytools.c:2623
 msgid "reduced"
-msgstr ""
+msgstr "reduït"
 
 #: server/cityturn.c:200
 #, c-format
@@ -2403,14 +2400,12 @@ msgstr ""
 "qualitat de vida."
 
 #: server/civserver.c:93
-#, fuzzy
 msgid "Setting timeout to 0. Autogame will stop."
-msgstr "Fixant el temporitzador a 0. El joc automàtic s'aturarà.\n"
+msgstr "Fixant el temporitzador a 0. El joc automàtic s'aturarà."
 
 #: server/civserver.c:97
-#, fuzzy
 msgid "You must interrupt Freeciv twice within one second to make it exit."
-msgstr "Has d'interrompre Freeciv dos cops en un segon per fer-lo sortir.\n"
+msgstr "Has d'interrompre Freeciv dos cops en un segon per fer-lo sortir."
 
 #: server/civserver.c:156
 #, c-format
@@ -2433,9 +2428,9 @@ msgid "Failed to ignore SIGPIPE: %s\n"
 msgstr "No s'ha pogut ignorar SIGPIPE: %s\n"
 
 #: server/civserver.c:216 client/client_main.c:344
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid signal number \"%s\".\n"
-msgstr "Protocol d'anunci no vàlid \"%s\".\n"
+msgstr "Número de senyal de sistema no vàlid \"%s\".\n"
 
 #: server/civserver.c:225
 #, c-format
@@ -2501,16 +2496,16 @@ msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADDR\tEscolta els clients a ADDR\n"
 
 #: server/civserver.c:327 client/client_main.c:293
-#, fuzzy, c-format
+#, c-format
 msgid "  -d, --debug NUM\tSet debug log level (%d to %d, or %d:file1,min,max:...)\n"
 msgstr ""
-"  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 4, ó 4:fitx1,"
+"  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d, o %d:fitx1,"
 "mín,màx:...)\n"
 
 #: server/civserver.c:331 client/client_main.c:297
-#, fuzzy, c-format
+#, c-format
 msgid "  -d, --debug NUM\tSet debug log level (%d to %d)\n"
-msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 3)\n"
+msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d)\n"
 
 #: server/civserver.c:335 client/client_main.c:301
 msgid "  -F, --Fatal [SIGNAL]\tRaise a signal on failed assertion\n"
@@ -2591,7 +2586,6 @@ msgid "Start the game, or restart after loading a savegame."
 msgstr "Iniciar el joc, o reiniciar després de carregar una partida desada."
 
 #: server/commands.c:46
-#, fuzzy
 msgid ""
 "This command starts the game. When starting a new game, it should be used "
 "after all human players have connected, and AI players have been created (if "
@@ -2602,12 +2596,12 @@ msgid ""
 "is no longer available, since it would have no effect."
 msgstr ""
 "Aquesta comanda inicia el joc. Quan s'inicia una partida nova, s'ha "
-"d'utilitzar després que tots els jugadors humans s'hagin connectat, que "
-"s'hagin creat tots els jugadors d'IA (si n'hi ha), i que s'hagin fet els "
-"canvis desitjats a les opcions de joc inicials. Després de 'start' cadascun "
-"dels jugadors humans podrà triar la nació, i llavors el joc començarà. "
+"de donar després que tots els jugadors humans s'hagin connectat, que "
+"s'hagin creat tots els jugadors d'IA (si en calen), i que s'hagin fet els "
+"canvis desitjats a les opcions de servidor inicials. Després de 'start' cadascun "
+"dels jugadors humans podrà triar la nació, i llavors començarà la partida. "
 "Aquesta comanda també fa falta després de carregar una partida desada perquè "
-"el joc pugui tornar a començar. Un cop la partida ja ha començat aquesta "
+"el joc pugui tornar a començar. Un cop la partida està en marxa, aquesta "
 "comanda ja no està disponible perquè no tindria cap efecte."
 
 #. TRANS: translate text between <> only
@@ -2630,7 +2624,6 @@ msgid "Show help about server commands and server options."
 msgstr "Mostrar ajuda sobre les opcions i comandes del servidor."
 
 #: server/commands.c:66
-#, fuzzy
 msgid ""
 "With no arguments gives some introductory help. With argument \"commands\" "
 "or \"options\" gives respectively a list of all commands or all options. "
@@ -2651,7 +2644,6 @@ msgid "Show a list of players, teams, connections, or scenarios."
 msgstr "Mostrar una llista de jugadors, equips, connexions o escenaris."
 
 #: server/commands.c:84
-#, fuzzy
 msgid ""
 "Show a list of players in the game, teams of players, connections to the "
 "server, or available scenarios. The argument may be abbreviated, and "
@@ -2675,7 +2667,6 @@ msgid "Cut a client's connection to server."
 msgstr "Talla una connexió del client al servidor."
 
 #: server/commands.c:99
-#, fuzzy
 msgid ""
 "Cut specified client's connection to the server, removing that client from "
 "the game. If the game has not yet started that client's player is removed "
@@ -2683,9 +2674,9 @@ msgid ""
 "command now takes connection names, not player names."
 msgstr ""
 "Talla la connexió del client especificat al servidor, traient a aquest "
-"client de la partida. Si la partida encara no ha començat el client del "
+"client de la partida. Si la partida encara no ha començat, el client del "
 "jugador se suprimeix de la partida, si no es així no hi ha cap efecte sobre "
-"el jugador. Tingueu en compte que ara aquesta comanda accepta el nom de les "
+"el jugador. Tingueu en compte que ara aquesta comanda necessita el nom de les "
 "connexions, no el nom dels jugadors."
 
 #. TRANS: translate text between <> only
@@ -2702,14 +2693,13 @@ msgid "Explain server options."
 msgstr "Explica les opcions del servidor."
 
 #: server/commands.c:110
-#, fuzzy
 msgid ""
 "The 'explain' command gives a subset of the functionality of 'help', and is "
 "included for backward compatibility. With no arguments it gives a list of "
 "options (like 'help options'), and with an argument it gives help for a "
 "particular option (like 'help <option-name>')."
 msgstr ""
-"La comanda 'explain' (explicar) dóna com a resultat un subconjunt de 'help', "
+"La comanda 'explain' (explicar) dóna un subconjunt de les funcions de 'help', "
 "i s'inclou per compatibilitat amb versions anteriors. Sense arguments dóna "
 "una llista d'opcions (com 'help options'), i amb un argument dóna l'ajuda "
 "per una opció en particular (com 'help <nom-opció>)."
@@ -2727,6 +2717,15 @@ msgid ""
 "show changed\n"
 "show locked"
 msgstr ""
+"show\n"
+"show <nom-d'opció>\n"
+"show <prefix-d'opció>\n"
+"show all\n"
+"show vital\n"
+"show situational\n"
+"show rare\n"
+"show changed\n"
+"show locked"
 
 #: server/commands.c:127
 msgid "Show server options."
@@ -2783,7 +2782,7 @@ msgid "Cast a vote."
 msgstr "Emetre un vot."
 
 #: server/commands.c:157
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "A player with basic level access issuing a control level command starts a "
 "new vote for the command. The /vote command followed by \"yes\", \"no\", or "
@@ -2793,7 +2792,7 @@ msgid ""
 "of the voters who have not abstained vote for it, or fail immediately if at "
 "least half of the voters who have not abstained vote against it."
 msgstr ""
-"Un jugador amb nivell d'accés info que emeti una comanda de nivell de "
+"Un jugador amb nivell d'accés bàsic que emeti una comanda de nivell de "
 "control engega una nova votació per la comanda. La comanda '/vote' seguida "
 "per \"yes\" , \"no\" o \"abstain\", i opcionalment un número de votació, "
 "emet el vot. Si no afegeixes un número de votació, el vot se suposa que és "
@@ -2856,13 +2855,10 @@ msgid "Choose new ruleset directory or modpack."
 msgstr "Escollir un nou directori de jocs de regles o modificacions (modpack)."
 
 #: server/commands.c:204
-#, fuzzy
 msgid ""
 "Choose new ruleset directory or modpack. Calling this without any arguments "
 "will show you the currently selected ruleset."
-msgstr ""
-"Escull un nou directori de conjunts de regles o modificacions. Si es crida\n"
-"sense cap argument mostra el conjunt de regles seleccionat actualment."
+msgstr "Escull un nou directori de conjunts de regles o modificacions. Si es crida sense cap argument mostra el conjunt de regles seleccionat actualment."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:211
@@ -2874,17 +2870,12 @@ msgid "Set metaserver info line."
 msgstr "Estableix la línia d'informació al metaservidor."
 
 #: server/commands.c:213
-#, fuzzy
 msgid ""
 "Set user defined metaserver info line. If parameter is omitted, previously "
 "set metamessage will be removed. For most of the time user defined "
 "metamessage will be used instead of automatically generated messages, if it "
 "is available."
-msgstr ""
-"Fixar la línia d'informació per al metaservidor definida per l'usuari. Si\n"
-"s'omet el paràmetre, es traurà el metamissatge anterior. La major\n"
-"part del temps s'utilitzarà el metamissatge definit per l'usuari en comptes\n"
-"de missatges generats automàticament, si és que està disponible."
+msgstr "Fixar la línia d'informació per al metaservidor definida per l'usuari. Si s'omet el paràmetre, es traurà el metamissatge anterior. La major part del temps s'utilitzarà el metamissatge definit per l'usuari en comptes de missatges generats automàticament, si és que està disponible."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:221
@@ -2900,14 +2891,13 @@ msgid "Control metaserver connection."
 msgstr "Controla la connexió amb el metaservidor."
 
 #: server/commands.c:231
-#, fuzzy
 msgid ""
 "'metaconnection ?' reports on the status of the connection to metaserver. "
 "'metaconnection down' or 'metac d' brings the metaserver connection down. "
 "'metaconnection up' or 'metac u' brings the metaserver connection up."
 msgstr ""
-"'metaconnection ?' informa de l'estat de la connexió amb el metaservidor.\n"
-"'metaconnection down' o 'metac d' talla la connexió amb el metaservidor.\n"
+"'metaconnection ?' informa de l'estat de la connexió amb el metaservidor."
+"'metaconnection down' o 'metac d' talla la connexió amb el metaservidor."
 "'metaconnection up' o 'metac u' aixeca la connexió amb el metaservidor."
 
 #. TRANS: translate text between <> only
@@ -2938,7 +2928,6 @@ msgid "Take over a player's place in the game."
 msgstr "Prendre el lloc d'un jugador a la partida."
 
 #: server/commands.c:252
-#, fuzzy
 msgid ""
 "Only the console and connections with cmdlevel 'hack' can force other "
 "connections to take over a player. If you're not one of these, only the "
@@ -3276,15 +3265,14 @@ msgstr "Cancel·lar una votació en curs.\n"
 
 #. TRANS: "vote" as a process
 #: server/commands.c:411
-#, fuzzy
 msgid ""
 "With no arguments this command removes your own vote. If you have an admin "
 "access level, you can cancel any vote by vote number, or all votes with the "
 "'all' argument."
 msgstr ""
-"Sense arguments, aquesta comanda anul·la el propi vot. Si tens nivell "
-"d'accés admin, pots cancel·lar qualsevol vot donant-ne el número, o tots els "
-"vots amb l'argument 'all'."
+"Sense arguments, aquesta comanda anul·la la pròpia votació. Si tens nivell "
+"d'accés admin, pots cancel·lar qualsevol votació donant-ne el número, o totes les "
+"votacions amb l'argument 'all'."
 
 #: server/commands.c:419
 msgid "End the game immediately in a draw."
@@ -3313,12 +3301,11 @@ msgid "Fully remove player from game."
 msgstr "Elimina completament el jugador de la partida."
 
 #: server/commands.c:435
-#, fuzzy
 msgid ""
 "This *completely* removes a player from the game, including all cities and "
 "units etc. Use with care!"
 msgstr ""
-"Elimina *completament* un jugador de la partida, incloent les ciutats, "
+"Elimina *completament* un jugador de la partida, incloent totes les ciutats i "
 "unitats, etc.  Usa amb compte!"
 
 #. TRANS: translate text between <> only
@@ -3335,7 +3322,6 @@ msgid "Save game to file."
 msgstr "Desa la partida en un fitxer."
 
 #: server/commands.c:444
-#, fuzzy
 msgid ""
 "Save the current game to file <file-name>. If no file-name argument is given "
 "saves to \"<auto-save name prefix><year>m.sav[.gz]\". To reload a savegame "
@@ -3345,10 +3331,9 @@ msgid ""
 msgstr ""
 "Desar la partida actual al fitxer <nom-fitxer>. Si no s'especifica cap nom "
 "de fitxer es desa a \"<Prefix dels noms de desar automàtic><any>m.sav[.gz]"
-"\".\n"
-"Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
+"\". Per a tornar a carregar una partida desada amb 'save', s'ha d'iniciar el "
 "servidor amb l'argument de la línia de comanda: \n"
-"    --file <nomfitxer>\n"
+"    '--file <nomfitxer>' o '-f <nomfitxer>'\n"
 "i usar la comanda 'start' un cop els jugadors s'hagin reconnectat."
 
 #. TRANS: translate text between <> only
@@ -3365,13 +3350,12 @@ msgid "Load game from file."
 msgstr "Carrega la partida d'un fitxer."
 
 #: server/commands.c:457
-#, fuzzy
 msgid ""
 "Load a game from <file-name>. Any current data including players, rulesets "
 "and server options are lost."
 msgstr ""
 "Carregar una partida de <nom-fitxer>. Es perd qualsevol dada actual incloent "
-"jugadors, conjunts de regles i opcions de servidor.\n"
+"jugadors, conjunts de regles i opcions de servidor."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:463
@@ -3461,9 +3445,9 @@ msgid "You are logged in as '%s' connected to %s."
 msgstr "Has accedit com a '%s' connectat a %s."
 
 #: server/connecthand.c:223
-#, fuzzy, c-format
+#, c-format
 msgid "%s has connected from %s (player %s)."
-msgstr "%s s'ha connectat des de %s."
+msgstr "%s s'ha connectat des de %s (jugador %s)."
 
 #: server/connecthand.c:246
 #, c-format
@@ -3978,9 +3962,9 @@ msgstr " *** Mode d'edició cancel·lat per %s. ***"
 
 #: server/edithand.c:310 server/edithand.c:344 server/edithand.c:371
 #: server/edithand.c:404 server/edithand.c:439
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit the tile because %d is not a valid tile index on this map!"
-msgstr "No es pot editar la casella (%d, %d) perquè no és al mapa!"
+msgstr "No es pot editar la casella perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #. TRANS: ..." the tile <tile-coordinates> because"...
 #: server/edithand.c:319
@@ -4009,9 +3993,9 @@ msgstr ""
 "identificador vàlid de tipus de base."
 
 #: server/edithand.c:491
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create units because %d is not a valid tile index on this map!"
-msgstr "No es poden crear unitats a la casella (%d, %d) perquè no és al mapa!"
+msgstr "No es poden crear unitats perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:500
@@ -4046,9 +4030,9 @@ msgid "Cannot create a unit of type %s on the terrain at %s."
 msgstr "No es pot crear una unitat de tipus %s sobre el terreny de %s."
 
 #: server/edithand.c:579
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot remove units because %d is not a valid tile index on this map!"
-msgstr "No es poden treure unitats de la casella (%d, %d) perquè no es al mapa!"
+msgstr "No es poden treure unitats perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:588
@@ -4080,9 +4064,9 @@ msgid "Invalid veteran level %d for unit %d (%s)."
 msgstr "Nivell %d de veterania no vàlid per unitat %d (%s)."
 
 #: server/edithand.c:727
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot create a city because %d is not a valid tile index on this map!"
-msgstr "No es pot crear una ciutat a (%d, %d) perquè no és al mapa!"
+msgstr "No es pot crear una ciutat perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:736
@@ -4210,11 +4194,9 @@ msgstr ""
 "rang permès."
 
 #: server/edithand.c:1187
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot edit vision because %d is not a valid tile index on this map!"
-msgstr ""
-"No es pot modificar el terreny per la casella %s perquè %d no és un "
-"identificador de terreny vàlid."
+msgstr "No es pot editar la visió perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:1196
@@ -4239,9 +4221,9 @@ msgid "Cannot toggle fog-of-war for invalid player ID %d."
 msgstr "No es pot commutar la penombra de guerra per jugador no vàlid ID %d."
 
 #: server/edithand.c:1332
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot place a start position %d is not a valid tile index on this map!"
-msgstr "No es pot col·locar una posició d'inici a (%d, %d) perquè no és al mapa!"
+msgstr "No es pot col·locar una posició d'inici perquè %d no és un índex de casella vàlid en aquest mapa!"
 
 #: server/edithand.c:1373
 #, c-format
@@ -4911,7 +4893,6 @@ msgstr "S'ha reduït el nombre d'IA perquè no hi ha prou nacions jugables."
 
 #. TRANS: Minor error message.
 #: server/savegame.c:181
-#, fuzzy
 msgid ""
 "Saved game contains incomplete map data. This can happen with old saved "
 "games, or it may indicate an invalid saved game file. Proceed at your own "
@@ -4998,74 +4979,72 @@ msgid "Changed"
 msgstr "Canviat"
 
 #: server/settings.c:160
-#, fuzzy
 msgid "Locked"
-msgstr "Bloquejar"
+msgstr "Bloquejat"
 
 #: server/settings.c:185
 msgid "Flat Earth (unwrapped)"
-msgstr ""
+msgstr "Terra Plana (desplegada)"
 
 #: server/settings.c:186
 msgid "Earth (wraps E-W)"
-msgstr ""
+msgstr "Terra (es plega Est-Oest)"
 
 #: server/settings.c:187
 msgid "Uranus (wraps N-S)"
-msgstr ""
+msgstr "Urà (es plega Nord-Sud)"
 
 #: server/settings.c:188
 msgid "Donut World (wraps N-S, E-W)"
-msgstr ""
+msgstr "Món Donut (es plega N-S, E-O)"
 
 #: server/settings.c:189
 msgid "Flat Earth (isometric)"
-msgstr ""
+msgstr "Terra Plana (isomètrica)"
 
 #: server/settings.c:190
-#, fuzzy
 msgid "Earth (isometric)"
-msgstr "Terra (clàssic/mitjà)"
+msgstr "Terra (isomètrica)"
 
 #: server/settings.c:191
 msgid "Uranus (isometric)"
-msgstr ""
+msgstr "Urà (isomètrica)"
 
 #: server/settings.c:192
 msgid "Donut World (isometric)"
-msgstr ""
+msgstr "Món Donut (isomètrica)"
 
 #: server/settings.c:193
 msgid "Flat Earth (hexagonal)"
-msgstr ""
+msgstr "Terra Plana (hexagonal)"
 
 #: server/settings.c:194
 msgid "Earth (hexagonal)"
-msgstr ""
+msgstr "Terra (hexagonal)"
 
 #: server/settings.c:195
 msgid "Uranus (hexagonal)"
-msgstr ""
+msgstr "Urà (hexagonal)"
 
 #: server/settings.c:196
 msgid "Donut World (hexagonal)"
-msgstr ""
+msgstr "Món Donut (hexagonal)"
 
 #: server/settings.c:197
 msgid "Flat Earth (iso-hex)"
-msgstr ""
+msgstr "Terra Plana (iso-hex)"
 
 #: server/settings.c:198
 msgid "Earth (iso-hex)"
-msgstr ""
+msgstr "Terra (iso-hex)"
 
 #: server/settings.c:199
 msgid "Uranus (iso-hex)"
-msgstr ""
+msgstr "Urà (iso-hex)"
 
 #: server/settings.c:200
 msgid "Donut World (iso-hex)"
-msgstr ""
+msgstr "Món Donut (iso-hex)"
 
 #: server/settings.c:213
 #, fuzzy
@@ -5090,34 +5069,31 @@ msgstr ""
 
 #: server/settings.c:230
 msgid "One player per continent"
-msgstr ""
+msgstr "Un jugador per continent"
 
 #: server/settings.c:231
 msgid "Two players per continent"
-msgstr ""
+msgstr "Dos jugadors per continent"
 
 #: server/settings.c:232
-#, fuzzy
 msgid "All players on a single continent"
-msgstr "Tots els jugadors estan a punt; començant la partida"
+msgstr "Tots els jugadors en un sol continent"
 
 #: server/settings.c:233
 msgid "Depending on size of continents"
-msgstr ""
+msgstr "Segons la mida dels continents"
 
 #: server/settings.c:246
-#, fuzzy
 msgid "Disabled"
-msgstr "_Desmantellar"
+msgstr "Desactivat"
 
 #: server/settings.c:247
-#, fuzzy
 msgid "Enabled"
-msgstr "Fallat"
+msgstr "Activat"
 
 #: server/settings.c:248
 msgid "See everything inside borders"
-msgstr ""
+msgstr "Veure-ho tot dins de les fronteres"
 
 #: server/settings.c:249
 #, fuzzy
@@ -5126,96 +5102,86 @@ msgstr "Capa de fronteres sobre caselles oceàniques"
 
 #: server/settings.c:262
 msgid "Enabled for everyone"
-msgstr ""
+msgstr "Activat per tothom"
 
 #: server/settings.c:263
 msgid "Only allowed between human players"
-msgstr ""
+msgstr "Permès només entre jugadors humans"
 
 #: server/settings.c:264
 msgid "Only allowed between AI players"
-msgstr ""
+msgstr "Permès només entre jugadors IA"
 
 #: server/settings.c:265
-#, fuzzy
 msgid "Restricted to teams"
-msgstr "Llista d'equips:"
+msgstr "Restringit als equips"
 
 #: server/settings.c:266
 msgid "Disabled for everyone"
-msgstr ""
+msgstr "Desactivat per tothom"
 
 #: server/settings.c:279
-#, fuzzy
 msgid "No restrictions"
-msgstr "Construcció"
+msgstr "Sense restriccions"
 
 #: server/settings.c:280
-#, fuzzy
 msgid "Unique to a player"
-msgstr "Capa d'unitats"
+msgstr "Únic per un jugador"
 
 #: server/settings.c:281
 msgid "Globally unique"
-msgstr ""
+msgstr "Únic globalment"
 
 #: server/settings.c:282
-#, fuzzy
 msgid "No city name stealing"
-msgstr "Noms de ciutat permesos"
+msgstr "No es poden prendre noms de ciutat"
 
 #: server/settings.c:295
-#, fuzzy
 msgid "No barbarians"
-msgstr "Bàrbar"
+msgstr "Sense bàrbars"
 
 #: server/settings.c:296
 msgid "Only in huts"
-msgstr ""
+msgstr "Només en cabanes"
 
 #: server/settings.c:297
 msgid "Normal rate of appearance"
-msgstr ""
+msgstr "Aparició amb freqüència normal"
 
 #: server/settings.c:298
-#, fuzzy
 msgid "Frequent barbarian uprising"
-msgstr "Rebel·lió de bàrbars"
+msgstr "Rebel·lió de bàrbars freqüent"
 
 #: server/settings.c:299
-#, fuzzy
 msgid "Raging hordes"
-msgstr "Jardins Penjants"
+msgstr "Hordes rabioses"
 
 #: server/settings.c:312
 msgid "All players move concurrently"
-msgstr ""
+msgstr "Tots els jugadors mouen alhora"
 
 #: server/settings.c:313
 msgid "All players alternate movement"
-msgstr ""
+msgstr "Tots els jugadors alternen els moviments"
 
 #: server/settings.c:314
 msgid "Team alternate movement"
-msgstr ""
+msgstr "Els equips alternen moviments"
 
 #: server/settings.c:363
-#, fuzzy
 msgid "You cannot disable the map generator."
-msgstr "No pots desmantellar unitats."
+msgstr "No pots desactivar el generador de mapes."
 
 #: server/settings.c:370
 msgid "You cannot require a map generator when a map is loaded."
-msgstr ""
+msgstr "No pots demanar un generador de mapes quan hi ha un mapa carregat."
 
 #: server/settings.c:393
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Demography string validation failed at character: '%c'. Try \"help demography"
 "\"."
-msgstr ""
-"La cadena de demografia conté caràcters invàlids. Intenta \"help demography"
-"\"."
+msgstr "La validació de la cadena de demografia ha fallat al caràcter: '%c'. Prova \"help demography\"."
 
 #: server/settings.c:435
 #, fuzzy, c-format
@@ -8560,7 +8526,7 @@ msgstr "Els %s han robat %s dels %s."
 msgid ""
 "Oops. You have bad luck. A mistake was made while transferring %s. Your "
 "scientists did forget it."
-msgstr ""
+msgstr "Uix. Quina mala sort. Hi ha hagut un error quan es transferia %s. Els teus científics ho han oblidat."
 
 #: server/unithand.c:116
 #, c-format
@@ -8582,9 +8548,9 @@ msgid "%s upgraded to %s for %d gold."
 msgstr "%s millorat a %s per %d d'or."
 
 #: server/unithand.c:208
-#, fuzzy, c-format
+#, c-format
 msgid "%s transformed to %s."
-msgstr "Transformar a %s"
+msgstr "%s transformat en %s."
 
 #: server/unithand.c:480
 #, c-format
@@ -9130,7 +9096,6 @@ msgid "Generator 3 left %li landmass unplaced."
 msgstr "El generador 3 ha deixat massa de terra %li sense situar."
 
 #: server/generator/startpos.c:390
-#, fuzzy
 msgid ""
 "The server appears to have gotten into an infinite loop in the allocation of "
 "starting positions.\n"
@@ -9138,10 +9103,9 @@ msgid ""
 msgstr ""
 "El servidor sembla que ha entrat en un bucle infinit mentre situava les "
 "posicions inicials.\n"
-"Potser hi ha massa jugadors per aquest mapa."
+" Potser hi ha massa jugadors per aquest mapa."
 
 #: client/attribute.c:348
-#, fuzzy
 msgid "There has been a CMA error. Your citizen governor settings may be broken."
 msgstr ""
 "Hi ha hagut un error d'AGC. La teva configuració de gestor de ciutadans pot "
@@ -9178,11 +9142,13 @@ msgid "Get sound sets from <%s>."
 msgstr "Pots obtenir conjunts de sons a <%s>."
 
 #: client/audio.c:221
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not load sound spec-file '%s':\n"
 "%s"
-msgstr "No s'ha pogut carregar el fitxer spec de so: %s"
+msgstr ""
+"No s'ha pogut carregar el fitxer d'especificacions de so: '%s':\n"
+"%s"
 
 #: client/audio.c:261
 msgid "No real audio subsystem managed to initialize!"
@@ -9247,14 +9213,14 @@ msgid "never"
 msgstr "mai"
 
 #: client/citydlg_common.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s:%s"
-msgstr "%3d/%3d:%s"
+msgstr "%3d/%s:%s"
 
 #: client/citydlg_common.c:287
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s %s"
-msgstr "%3d/%3d %s"
+msgstr "%3d/%s %s"
 
 #: client/citydlg_common.c:317 client/citydlg_common.c:416
 #, c-format
@@ -9347,29 +9313,29 @@ msgid "Illness deactivated in ruleset."
 msgstr "Malaltia desactivada al joc de regles."
 
 #: client/citydlg_common.c:569
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from overcrowding\n"
-msgstr "%+2.1f : Risc per superpoblació\n"
+msgstr "%+5.1f : Risc per superpoblació\n"
 
 #: client/citydlg_common.c:571
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from trade\n"
-msgstr "%+2.1f : Risc per comerç\n"
+msgstr "%+5.1f : Risc per comerç\n"
 
 #: client/citydlg_common.c:573
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Risk from pollution\n"
-msgstr "%+2.1f : Risc per contaminació\n"
+msgstr "%+5.1f : Risc per contaminació\n"
 
 #: client/citydlg_common.c:586
-#, fuzzy, c-format
+#, c-format
 msgid "%+5.1f : Bonus from %s\n"
-msgstr "%+2.1f : Bonificació per %s\n"
+msgstr "%+5.1f : Bonificació per %s\n"
 
 #: client/citydlg_common.c:592
-#, fuzzy, c-format
+#, c-format
 msgid "%5.1f : Total chance for a plague"
-msgstr "%2.1f : Probabilitat total d'epidèmia"
+msgstr "%5.1f : Probabilitat total d'epidèmia"
 
 #: client/citydlg_common.c:609
 #, c-format
@@ -9684,9 +9650,8 @@ msgid "Currently Building"
 msgstr "Construcció actual"
 
 #: client/cityrepdata.c:579
-#, fuzzy
 msgid "Specialists: "
-msgstr "Especialistes: %s"
+msgstr "Especialistes: "
 
 #: client/cityrepdata.c:585
 msgid "?specialist:S"
@@ -10864,7 +10829,7 @@ msgstr "* Permet als %s millorar el regadiu a horta.\n"
 msgid ""
 "* To preserve this technology for our nation some bulbs are needed each "
 "turn.\n"
-msgstr ""
+msgstr "* Per conservar aquesta tecnologia per la nostra nació calen algunes bombetes a cada torn.\n"
 
 #: client/helpdata.c:1653
 msgid "* Pollution cannot be generated on this terrain."
@@ -12283,46 +12248,36 @@ msgid "Full Screen"
 msgstr "Pantalla completa"
 
 #: client/options.c:1986
-#, fuzzy
 msgid "If this option is set the client will use the whole screen area for drawing."
 msgstr ""
-"Si se selecciona aquesta opció, el client farà servir tota la pantalla per "
-"dibuixar"
+"Si se selecciona aquesta opció, el client farà servir tota l'àrea de pantalla per "
+"dibuixar."
 
 #: client/options.c:1989
-#, fuzzy
 msgid "Screen resolution"
-msgstr "Seleccionar nova producció"
+msgstr "Resolució de pantalla"
 
 #: client/options.c:1990
-#, fuzzy
 msgid "This option controls the resolution of the selected screen."
-msgstr "Aquesta opció guarda l'alçada de la resolució de pantalla seleccionada"
+msgstr "Aquesta opció controla la resolució de la pantalla seleccionada."
 
 #: client/options.c:1993
-#, fuzzy
 msgid "Do cursor animation"
-msgstr "Mostrar animació cursors"
+msgstr "Fer animació de cursor"
 
 #: client/options.c:1994
-#, fuzzy
 msgid "If this option is disabled, the cursor will be always displayed as static."
-msgstr ""
-"Si es permet aquesta opció, la barra de votacions mostrarà informació sobre "
-"les votacions."
+msgstr "Si es desactiva aquesta opció, el cursor sempre es mostrarà estàtic."
 
 #: client/options.c:1997
 msgid "Use color cursors"
 msgstr "Utilitzar cursors de colors"
 
 #: client/options.c:1998
-#, fuzzy
 msgid ""
 "If this option is disabled, the cursor will be always displayed in black and "
 "white."
-msgstr ""
-"Si es permet aquesta opció, la barra de votacions mostrarà informació sobre "
-"les votacions."
+msgstr "Si es desactiva aquesta opció, el cursor sempre es mostrarà en blanc i negre."
 
 #: client/options.c:2010
 msgid "Enable alpha blending"
@@ -12539,7 +12494,7 @@ msgstr "No s'ha pogut obrir l'arxiu temporal."
 #: client/servers.c:366
 #, c-format
 msgid "Failed to read the metaserver data from http://%s."
-msgstr ""
+msgstr "No s'han pogut llegir les dades de metaservidor de http://%s."
 
 #: client/servers.c:389
 #, c-format
@@ -12547,6 +12502,8 @@ msgid ""
 "Failed to parse the metaserver data from http://%s:\n"
 "%s."
 msgstr ""
+"No s'han pogut processar les dades de metaservidor de http://%s:\n"
+"%s."
 
 #: client/servers.c:421
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -12697,16 +12654,16 @@ msgstr "Ciutat: %s | %s (%s, %s)"
 #, c-format
 msgid " | Occupied with %d unit."
 msgid_plural " | Occupied with %d units."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] " | Ocupat amb %d unitat."
+msgstr[1] " | Ocupat amb %d unitats."
 
 #: client/text.c:245 client/text.c:251
 msgid " | Not occupied."
-msgstr ""
+msgstr " | No ocupat."
 
 #: client/text.c:249
 msgid " | Occupied."
-msgstr ""
+msgstr " | Ocupat."
 
 #. TRANS: previous lines gave other information about the city.
 #: client/text.c:264
@@ -12945,7 +12902,7 @@ msgstr "Investigant %s: %s"
 #: client/text.c:852
 #, c-format
 msgid "Bulbs produced per turn: %d"
-msgstr ""
+msgstr "Bombetes produïdes per torn: %d"
 
 #: client/text.c:853
 #, c-format
@@ -12958,9 +12915,8 @@ msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "Probabilitat d'escalfament global: %d%% (%+d%%/torn)"
 
 #: client/text.c:865 client/text.c:1146
-#, fuzzy
 msgid "Global Warming deactivated."
-msgstr "Ha ocorregut l'escalfament global!"
+msgstr "Escalfament Global desactivat."
 
 #: client/text.c:871
 #, c-format
@@ -12968,9 +12924,8 @@ msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "Probabilitat d'hivern nuclear: %d%% (%+d%%/torn)"
 
 #: client/text.c:874 client/text.c:1170
-#, fuzzy
 msgid "Nuclear winter deactivated."
-msgstr "Ha ocorregut l'hivern nuclear!"
+msgstr "Hivern nuclear desactivat."
 
 #: client/text.c:878 client/gui-win32/inteldlg.c:105
 #: client/gui-xaw/inteldlg.c:206
@@ -13265,11 +13220,13 @@ msgstr "S'està carregant el joc de caselles \"%s\"."
 
 #: client/tilespec.c:1094 client/tilespec.c:1128
 #: client/gui-sdl/themespec.c:472 client/gui-sdl/themespec.c:506
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Could not open '%s':\n"
 "%s"
-msgstr "No s'ha pogut obrir \"%s\"."
+msgstr ""
+"No s'ha pogut obrir '%s':\n"
+"%s"
 
 #: client/tilespec.c:1397
 msgid "Client does not support isometric tilesets."
@@ -13324,7 +13281,7 @@ msgid " happy"
 msgstr " feliç"
 
 #: client/agents/cma_fec.c:358
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Food:       %10s Gold:    %10s\n"
@@ -13340,7 +13297,7 @@ msgstr ""
 "Producció:  %10s Luxe:    %10s\n"
 "Comerç:     %10s Ciència: %10s\n"
 "\n"
-"   Gent (Tr/Ar/Ci/Re): %s\n"
+"%20s: %s\n"
 "          Ciutat creix: %s\n"
 "Producció completada: %s"
 
@@ -14843,9 +14800,8 @@ msgid "Select destination"
 msgstr "Escull destí"
 
 #: client/gui-gtk-2.0/gotodlg.c:179
-#, fuzzy
 msgid "Id"
-msgstr "Inactiu"
+msgstr "Id"
 
 #: client/gui-gtk-2.0/gotodlg.c:219
 msgid "Show _All Cities"
@@ -14952,29 +14908,24 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:192
-#, fuzzy
 msgid "Cities:"
-msgstr "Ciu_tats:"
+msgstr "Ciutats:"
 
 #: client/gui-gtk-2.0/happiness.c:193
-#, fuzzy
 msgid "Luxuries:"
 msgstr "Luxes:"
 
 #: client/gui-gtk-2.0/happiness.c:194
-#, fuzzy
 msgid "Buildings:"
-msgstr "Edificis: "
+msgstr "Edificis:"
 
 #: client/gui-gtk-2.0/happiness.c:195
-#, fuzzy
 msgid "Units:"
-msgstr "Unitats"
+msgstr "Unitats:"
 
 #: client/gui-gtk-2.0/happiness.c:196
-#, fuzzy
 msgid "Wonders:"
-msgstr "Meravelles: "
+msgstr "Meravelles:"
 
 #: client/gui-gtk-2.0/happiness.c:205 client/gui-sdl/citydlg.c:2048
 #: client/gui-sdl/citydlg.c:3723 client/gui-win32/citydlg.c:749
@@ -15211,9 +15162,8 @@ msgstr ""
 "los."
 
 #: client/gui-gtk-2.0/mapview.c:677 client/gui-win32/canvas.c:279
-#, fuzzy
 msgid "Better fog will only work in truecolor. Disabling it"
-msgstr "La boira millorada només funciona en \"true color\". Inhabilitant-la"
+msgstr "La boira millorada només funciona en \"true color\". Desactivant-la"
 
 #: client/gui-gtk-2.0/menu.c:112 client/gui-win32/optiondlg.c:109
 #: data/Freeciv.in:1228
@@ -15642,9 +15592,8 @@ msgid "Upgr_ade"
 msgstr "Millor_ar"
 
 #: client/gui-gtk-2.0/menu.c:1503
-#, fuzzy
 msgid "Trans_form"
-msgstr "Transformar"
+msgstr "Trans_formar"
 
 #: client/gui-gtk-2.0/menu.c:1505
 msgid "_Disband"
@@ -17777,14 +17726,12 @@ msgid "Local Options"
 msgstr "Opcions Locals"
 
 #: client/gui-sdl/optiondlg.c:324 client/gui-sdl/optiondlg.c:799
-#, fuzzy
 msgid "Server options"
-msgstr "Opcions de Servidor"
+msgstr "Opcions de servidor"
 
 #: client/gui-sdl/optiondlg.c:790
-#, fuzzy
 msgid "Local options"
-msgstr "Opcions Locals"
+msgstr "Opcions locals"
 
 #: client/gui-sdl/optiondlg.c:810 client/gui-xaw/menu.c:134
 #: data/Freeciv.in:1971
@@ -17792,9 +17739,8 @@ msgid "Worklists"
 msgstr "Llistes treball"
 
 #: client/gui-sdl/optiondlg.c:820
-#, fuzzy
 msgid "Save Local Options"
-msgstr "Opcions Locals"
+msgstr "Desar Opcions Locals"
 
 #: client/gui-sdl/optiondlg.c:839
 msgid "Leave Game"
@@ -17807,9 +17753,8 @@ msgid "Quit"
 msgstr "Sortir"
 
 #: client/gui-sdl/optiondlg.c:985
-#, fuzzy
 msgid "Apply changes"
-msgstr "Aplicar un cop"
+msgstr "Aplicar els canvis"
 
 #: client/gui-sdl/optiondlg.c:1098 client/gui-win32/wldlg.c:303
 #: client/gui-xaw/wldlg.c:659
@@ -19132,10 +19077,10 @@ msgstr "Categoria: %s.<br>"
 #: manual/civmanual.c:174
 #, c-format
 msgid "Is locked by the ruleset."
-msgstr ""
+msgstr "Està bloquejat el joc de regles."
 
 #: manual/civmanual.c:176
-#, fuzzy, c-format
+#, c-format
 msgid "Can only be used in server console."
 msgstr "Només es pot utilitzar a la consola del servidor."
 
@@ -19158,12 +19103,12 @@ msgstr ""
 "\n"
 
 #: manual/civmanual.c:223
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "<p class=\"changed\">Value set to %s (%d)</p>\n"
 "\n"
 msgstr ""
-"<p class=\"changed\">Valor fixat a %d</p>\n"
+"<p class=\"changed\">Valor fixat a %s (%d)</p>\n"
 "\n"
 
 #: manual/civmanual.c:234
@@ -20455,7 +20400,7 @@ msgid ""
 "technology, a military unit (occasionally a settler; and sometimes a unit "
 "that the player cannot yet create), or even a new city."
 msgstr ""
-"Els pobles (també anomenats \"barraques\") són comunitats primitives "
+"Els pobles (també anomenats \"cabanes\") són comunitats primitives "
 "escampades per tot el món al principi de la partida. Qualsevol unitat "
 "terrestre pot entrar en un poble, fent que desaparegui i proporcioni una "
 "resposta a l'atzar. Si el poble resulta hostil, pot produir bàrbars o "
@@ -23289,7 +23234,10 @@ msgid ""
 "Allows a city to grow larger than size 8 and reduces the chance of plague "
 "within the city. A Sewer System is required for a city to grow larger than "
 "size 12."
-msgstr "Permet que una ciutat creixi més enllà de 8 i redueix la probabilitat d'epidèmia a la ciutat. Cal un sistema de Clavegueram perquè una ciutat creixi a més de mida 12."
+msgstr ""
+"Permet que una ciutat creixi més enllà de 8 i redueix la probabilitat "
+"d'epidèmia a la ciutat. Cal un sistema de Clavegueram perquè una ciutat "
+"creixi a més de mida 12."
 
 #: data/default/buildings.ruleset:93 data/civ2/buildings.ruleset:74
 #: data/civ1/buildings.ruleset:47
@@ -23736,14 +23684,14 @@ msgid "Sewer System"
 msgstr "Clavegueram"
 
 #: data/default/buildings.ruleset:767
-#, fuzzy
 msgid ""
 "Allows a city to grow larger than size 12. Pre-requirement is an Aqueduct "
 "for a city to grow larger than size 8. The Sewer System further reduces the "
 "chance of a plague."
 msgstr ""
-"Permet que la ciutat creixi més enllà de 12. Un Aqüeducte és necessari abans "
-"per poder passar de 8."
+"Permet que una ciutat creixi més enllà de 12. Un pre-requisit és un "
+"Aqüeducte perquè la ciutat pugui créixer a més de 8. El Clavegueram redueix "
+"encara més la probabilitat d'epidèmia."
 
 #: data/default/buildings.ruleset:775 data/civ2/buildings.ruleset:728
 msgid "Solar Plant"
@@ -23994,14 +23942,15 @@ msgid "Cure For Cancer"
 msgstr "Cura del càncer"
 
 #: data/default/buildings.ruleset:1101
-#, fuzzy
 msgid ""
 "This stunning technological achievement makes one unhappy citizen content in "
 "each of your cities (including citizens unhappy about military activity). It "
 "further reduces the possibility for an illness in the city."
 msgstr ""
 "Aquesta fantàstica fita tecnològica converteix un ciutadà descontent a "
-"content en totes les teves ciutats."
+"content en totes les teves ciutats (incloses els ciutadans descontents per "
+"activitats militars). Redueix encara més la possibilitat de malaltia dins de "
+"la ciutat."
 
 #: data/default/buildings.ruleset:1111 data/civ2/buildings.ruleset:1052
 #: data/civ1/buildings.ruleset:727
@@ -25049,7 +24998,8 @@ msgid "Democracy"
 msgstr "Democràcia"
 
 #: data/default/governments.ruleset:167 data/civ2/governments.ruleset:192
-#: data/civ1/governments.ruleset:166 data/nation/aragonese.ruleset:30
+#: data/civ1/governments.ruleset:166 data/nation/andorran.ruleset:23
+#: data/nation/aragonese.ruleset:30
 msgid "President"
 msgstr "President"
 
@@ -27268,15 +27218,15 @@ msgstr "Mullah"
 #: data/nation/danish.ruleset:37 data/nation/dominican.ruleset:24
 #: data/nation/dutch.ruleset:40 data/nation/english.ruleset:25
 #: data/nation/finnish.ruleset:19 data/nation/galician.ruleset:22
-#: data/nation/greek.ruleset:20 data/nation/hellenic.ruleset:20
-#: data/nation/israeli.ruleset:22 data/nation/japanese.ruleset:22
-#: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:24
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:22
-#: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:21
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:35
-#: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
-#: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
-#: data/nation/welsh.ruleset:27
+#: data/nation/greek.ruleset:20 data/nation/grenadian.ruleset:23
+#: data/nation/hellenic.ruleset:20 data/nation/israeli.ruleset:22
+#: data/nation/japanese.ruleset:22 data/nation/malagasy.ruleset:23
+#: data/nation/malaysian.ruleset:24 data/nation/newzealand.ruleset:20
+#: data/nation/norwegian.ruleset:22 data/nation/portuguese.ruleset:28
+#: data/nation/ryukyuan.ruleset:21 data/nation/silesian.ruleset:22
+#: data/nation/singaporean.ruleset:35 data/nation/slovakian.ruleset:27
+#: data/nation/spanish.ruleset:30 data/nation/swedish.ruleset:33
+#: data/nation/tibetan.ruleset:29 data/nation/welsh.ruleset:27
 msgid "Prime Minister"
 msgstr "Primer ministre"
 
@@ -27287,15 +27237,15 @@ msgstr "Primer ministre"
 #: data/nation/danish.ruleset:37 data/nation/dominican.ruleset:24
 #: data/nation/dutch.ruleset:40 data/nation/english.ruleset:25
 #: data/nation/finnish.ruleset:19 data/nation/galician.ruleset:22
-#: data/nation/greek.ruleset:20 data/nation/hellenic.ruleset:20
-#: data/nation/israeli.ruleset:22 data/nation/japanese.ruleset:22
-#: data/nation/malagasy.ruleset:23 data/nation/malaysian.ruleset:24
-#: data/nation/newzealand.ruleset:20 data/nation/norwegian.ruleset:22
-#: data/nation/portuguese.ruleset:27 data/nation/ryukyuan.ruleset:21
-#: data/nation/silesian.ruleset:22 data/nation/singaporean.ruleset:35
-#: data/nation/slovakian.ruleset:27 data/nation/spanish.ruleset:30
-#: data/nation/swedish.ruleset:33 data/nation/tibetan.ruleset:29
-#: data/nation/welsh.ruleset:27
+#: data/nation/greek.ruleset:20 data/nation/grenadian.ruleset:23
+#: data/nation/hellenic.ruleset:20 data/nation/israeli.ruleset:22
+#: data/nation/japanese.ruleset:22 data/nation/malagasy.ruleset:23
+#: data/nation/malaysian.ruleset:24 data/nation/newzealand.ruleset:20
+#: data/nation/norwegian.ruleset:22 data/nation/portuguese.ruleset:28
+#: data/nation/ryukyuan.ruleset:21 data/nation/silesian.ruleset:22
+#: data/nation/singaporean.ruleset:35 data/nation/slovakian.ruleset:27
+#: data/nation/spanish.ruleset:30 data/nation/swedish.ruleset:33
+#: data/nation/tibetan.ruleset:29 data/nation/welsh.ruleset:27
 msgid "?female:Prime Minister"
 msgstr "Primera ministra"
 
@@ -27370,12 +27320,11 @@ msgstr "He'a"
 
 #: data/nation/alandalus.ruleset:3
 msgid "Al-Andalus"
-msgstr "Al-Andalus"
+msgstr "Andalusí"
 
 #: data/nation/alandalus.ruleset:4
-#, fuzzy
 msgid "?plural:Al-Andalus"
-msgstr "Ainus"
+msgstr "Andalusins"
 
 #: data/nation/alandalus.ruleset:6
 msgid ""
@@ -27384,7 +27333,12 @@ msgid ""
 "splendid architectural heritage. During the Reconquista the Christian "
 "kingdoms gradually pushed back the Islamic states of Al-Andalus. Their last "
 "city on the Iberian peninsula, Granada, fell in 1492."
-msgstr "Al-Andalus era la part de la península Ibèrica que era sota control musulmà durant l'Edat Mitjana. Els andalusís musulmans són reconeguts per la seva esplèndida herència arquitectònica. Durant la Reconquesta, els regnes cristians van anar conquerint els estats islàmics d'Al-Andalus. La seva última ciutat a la península Ibèrica, Granada, va caure el 1492."
+msgstr ""
+"Al-Andalus era la part de la península Ibèrica que era sota control musulmà "
+"durant l'Edat Mitjana. Els andalusís musulmans són reconeguts per la seva "
+"esplèndida herència arquitectònica. Durant la Reconquesta, els regnes "
+"cristians van anar conquerint els estats islàmics d'Al-Andalus. La seva "
+"última ciutat a la península Ibèrica, Granada, va caure el 1492."
 
 #: data/nation/alandalus.ruleset:35 data/nation/amazigh.ruleset:64
 #: data/nation/arab.ruleset:20 data/nation/emirati.ruleset:24
@@ -27397,7 +27351,6 @@ msgstr "Sheikh"
 #: data/nation/amazigh.ruleset:64 data/nation/arab.ruleset:20
 #: data/nation/emirati.ruleset:24 data/nation/himyarite.ruleset:30
 #: data/nation/kurd.ruleset:25 data/nation/moroccan.ruleset:31
-#, fuzzy
 msgid "Shaykha"
 msgstr "Xaikha"
 
@@ -27412,7 +27365,6 @@ msgstr "Califa"
 #: data/nation/amazigh.ruleset:65 data/nation/arab.ruleset:23
 #: data/nation/emirati.ruleset:27 data/nation/himyarite.ruleset:33
 #: data/nation/moroccan.ruleset:34 data/nation/tunisian.ruleset:30
-#, fuzzy
 msgid "Calipha"
 msgstr "Califa"
 
@@ -27471,9 +27423,8 @@ msgstr "Malik"
 #: data/nation/algerian.ruleset:22 data/nation/amazigh.ruleset:66
 #: data/nation/arab.ruleset:21 data/nation/himyarite.ruleset:31
 #: data/nation/moroccan.ruleset:32
-#, fuzzy
 msgid "Malika"
-msgstr "Malikah"
+msgstr "Malika"
 
 #: data/nation/algerian.ruleset:23 data/nation/libyan.ruleset:23
 #: data/nation/tunisian.ruleset:29
@@ -27503,7 +27454,16 @@ msgid ""
 "Algeria, and Tunisia. The Imazighen speak old languages such as Tamazirt, "
 "Tachelhit or Tarifit, collectively known as Berber languages, using an age-"
 "old writing system called Tifinagh."
-msgstr "La civilització amaziga és una de les més antigues de la conca mediterrània, ja que va coexistir amb l'antic Egipte. El poble amazic, que significa \"els homes lliures\", són robustos i forts però animats i generosos amb una gran consideració per la família i la tribu. Cada tribu té les seves tradicions i cultura pròpies, i aquest és el motiu de la immensa diversitat de tradicions al Marroc, Algèria i Tunísia moderns. Els amazics parlen llengües antigues com el tamazight, taxelhit o el tarifit, coneguts col·lectivament com a llengües berbers, i utilitzen un sistema d'escriptura molt antic anomenat Tifinagh."
+msgstr ""
+"La civilització amaziga és una de les més antigues de la conca mediterrània, "
+"ja que va coexistir amb l'antic Egipte. El poble amazic, que significa \"els "
+"homes lliures\", són robustos i forts però animats i generosos amb una gran "
+"consideració per la família i la tribu. Cada tribu té les seves tradicions i "
+"cultura pròpies, i aquest és el motiu de la immensa diversitat de tradicions "
+"al Marroc, Algèria i Tunísia moderns. Els amazics parlen llengües antigues "
+"com el tamazight, taxelhit o el tarifit, coneguts col·lectivament com a "
+"llengües berbers, i utilitzen un sistema d'escriptura molt antic anomenat "
+"Tifinagh."
 
 #: data/nation/amazonian.ruleset:3
 msgid "Amazonian"
@@ -27519,7 +27479,11 @@ msgid ""
 "Classical Greek writing and art. Authors have located them in the Ukraine, "
 "Asia Minor, or Libya. The Amazons were reported to remove their right "
 "breasts in order to better use the bow and other weapons."
-msgstr "Les amazones són una nació fictícia de dones guerreres que apareixen en la literatura i l'art grecs clàssics. Els autors les han ubicades a Ucraïna, l'Àsia Menor, o Líbia. Es deia que les amazones s'extirpaven els seus pits drets per poder utilitzar millor l'arc i d'altres armes."
+msgstr ""
+"Les amazones són una nació fictícia de dones guerreres que apareixen en la "
+"literatura i l'art grecs clàssics. Els autors les han ubicades a Ucraïna, "
+"l'Àsia Menor, o Líbia. Es deia que les amazones s'extirpaven els seus pits "
+"drets per poder utilitzar millor l'arc i d'altres armes."
 
 #: data/nation/american.ruleset:3 data/nation/muskogee.ruleset:5
 msgid "American"
@@ -27556,6 +27520,68 @@ msgstr "Reverend"
 #: data/nation/texan.ruleset:20
 msgid "?female:Reverend"
 msgstr "Reverenda"
+
+#: data/nation/andorran.ruleset:3
+msgid "Andorran"
+msgstr "Andorrà"
+
+#: data/nation/andorran.ruleset:4
+msgid "?plural:Andorrans"
+msgstr "Andorrans"
+
+#: data/nation/andorran.ruleset:6
+msgid ""
+"Andorra is a small country in the eastern Pyrenees. In 1278, a dispute "
+"between the bishop of Urgell and the Count of Foix ended with an agreement "
+"to share the sovereignty of Andorra. This arrangement is still in effect and "
+"their successors - the current bishop of Urgell and the President of the "
+"French Republic - bear the (mostly honorific) title of co-prince of Andorra."
+msgstr "Andorra és un país petit als Pirineus Orientals. El 1278, una disputa entre el bisbe d'Urgell i el Comte de Foix va acabar amb un acord per compartir la sobirania d'Andorra. Aquest acord continua vigent i els seus successors - el bisbe d'Urgell actual i el president de la República Francesa - ostenten el títol (bàsicament honorífic) de copríncep d'Andorra."
+
+#. TRANS: Cap de Govern = Government Head
+#: data/nation/andorran.ruleset:19
+msgid "Cap de Govern"
+msgstr "Cap de Govern"
+
+#: data/nation/andorran.ruleset:19
+msgid "?female:Cap de Govern"
+msgstr "Cap de Govern"
+
+#: data/nation/andorran.ruleset:20 data/nation/catalan.ruleset:32
+#: data/nation/venezuelan.ruleset:28
+msgid "Dictador"
+msgstr "Dictador"
+
+#: data/nation/andorran.ruleset:20 data/nation/catalan.ruleset:32
+#: data/nation/venezuelan.ruleset:28
+msgid "Dictadora"
+msgstr "Dictadora"
+
+#. TRANS: Rei, Reina = King, Queen
+#: data/nation/andorran.ruleset:22 data/nation/lankese.ruleset:20
+#: data/nation/silesian.ruleset:21 data/nation/welsh.ruleset:26
+msgid "Prince"
+msgstr "Príncep"
+
+#: data/nation/andorran.ruleset:22 data/nation/lankese.ruleset:20
+#: data/nation/silesian.ruleset:21 data/nation/welsh.ruleset:26
+msgid "Princess"
+msgstr "Princesa"
+
+#: data/nation/andorran.ruleset:23 data/nation/argentine.ruleset:29
+#: data/nation/cuban.ruleset:22 data/nation/galician.ruleset:27
+#: data/nation/moldovan.ruleset:25 data/nation/venezuelan.ruleset:29
+msgid "Presidenta"
+msgstr "Presidenta"
+
+#. TRANS: Bisbe = Bishop ; Gran Bruixa = Great Witch
+#: data/nation/andorran.ruleset:25
+msgid "Bisbe"
+msgstr "Bisbe"
+
+#: data/nation/andorran.ruleset:25 data/nation/catalan.ruleset:36
+msgid "Gran Bruixa"
+msgstr "Gran Bruixa"
 
 #: data/nation/antarctican.ruleset:3
 msgid "Antarctican"
@@ -27597,7 +27623,13 @@ msgid ""
 "1469 king Fernando II married Isabella of Castile, a union that would form "
 "the base of the Spanish unification. The kingdom was legally dissolved in "
 "1707 but today Aragon continues to exist as an autonomous community of Spain."
-msgstr "L'Aragó es va formar com un comtat franc i va ser considerat regne al segle XI. Va expandir el seu territori cap al sud durant la Reconquesta i va arribar a controlar una part important de la Mediterrània. El 1469, el rei Ferran II va casar-se amb Isabel de Castella, unió que va formar la base de la unificació espanyola. El regne es va dissoldre legalment el 1707 però avui en dia l'Aragó continua existint com a comunitat autònoma d'Espanya."
+msgstr ""
+"L'Aragó es va formar com un comtat franc i va ser considerat regne al segle "
+"XI. Va expandir el seu territori cap al sud durant la Reconquesta i va "
+"arribar a controlar una part important de la Mediterrània. El 1469, el rei "
+"Ferran II va casar-se amb Isabel de Castella, unió que va formar la base de "
+"la unificació espanyola. El regne es va dissoldre legalment el 1707 però "
+"avui en dia l'Aragó continua existint com a comunitat autònoma d'Espanya."
 
 #: data/nation/aragonese.ruleset:31 data/nation/frisian.ruleset:30
 msgid "Countess"
@@ -27659,12 +27691,6 @@ msgstr "Caudilla"
 #: data/nation/venezuelan.ruleset:29
 msgid "Presidente"
 msgstr "President"
-
-#: data/nation/argentine.ruleset:29 data/nation/cuban.ruleset:22
-#: data/nation/galician.ruleset:27 data/nation/moldovan.ruleset:25
-#: data/nation/venezuelan.ruleset:29
-msgid "Presidenta"
-msgstr "Presidenta"
 
 #: data/nation/argentine.ruleset:30 data/nation/cuban.ruleset:23
 #: data/nation/spanish.ruleset:29
@@ -27734,7 +27760,15 @@ msgid ""
 "establishing the Asturian Kingdom, which lasted until year 910 when the "
 "capital town was moved from Uvieu to Leon. Now, Asturias is an autonomous "
 "community of Spain"
-msgstr "Els asturians eren un poble cèltic que ocupava la major part de la costa septentrional d'Espanya. Van batallar contra l'Imperi Romà fins la seva derrota per les legions de Cèsar August entre els anys 29 i 19 a.C. Sota el regne visigòtic de Toledo, les relacions entre visigots i asturians no van ser gaire bones. L'any 722, el rei Pelayo va derrotar les tropes musulmanes Umayyatd a Cuadonga, establint el Regne d'Astúries, que va durar fins l'any 910 quan la capital es va moure d'Uvieu a Lleó. Ara, Astúries és una comunitat autònoma d'Espanya."
+msgstr ""
+"Els asturians eren un poble cèltic que ocupava la major part de la costa "
+"septentrional d'Espanya. Van batallar contra l'Imperi Romà fins la seva "
+"derrota per les legions de Cèsar August entre els anys 29 i 19 a.C. Sota el "
+"regne visigòtic de Toledo, les relacions entre visigots i asturians no van "
+"ser gaire bones. L'any 722, el rei Pelayo va derrotar les tropes musulmanes "
+"Umayyatd a Cuadonga, establint el Regne d'Astúries, que va durar fins l'any "
+"910 quan la capital es va moure d'Uvieu a Lleó. Ara, Astúries és una "
+"comunitat autònoma d'Espanya."
 
 #: data/nation/asturian.ruleset:29
 msgid "Cabezaleru"
@@ -28004,16 +28038,16 @@ msgstr ""
 "obtenir la independència el 1991 amb la dissolució de la Unió Soviètica."
 
 #: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
-#: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
-#: data/nation/russian.ruleset:47 data/nation/samogitian.ruleset:20
-#: data/nation/serbian.ruleset:36
+#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
+#: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
+#: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
 msgid "Duke"
 msgstr "Duc"
 
 #: data/nation/belarusian.ruleset:21 data/nation/burgundian.ruleset:32
-#: data/nation/norman.ruleset:23 data/nation/prussian.ruleset:26
-#: data/nation/russian.ruleset:47 data/nation/samogitian.ruleset:20
-#: data/nation/serbian.ruleset:36
+#: data/nation/norman.ruleset:23 data/nation/occitan.ruleset:27
+#: data/nation/prussian.ruleset:26 data/nation/russian.ruleset:47
+#: data/nation/samogitian.ruleset:20 data/nation/serbian.ruleset:36
 msgid "Duchess"
 msgstr "Duquessa"
 
@@ -28501,22 +28535,38 @@ msgstr ""
 "abandonar l'aliança, i els catalans van ser derrotats finalment el 1714, "
 "perdent els seus drets nacionals."
 
-#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:28
-msgid "Dictador"
-msgstr "Dictador"
-
-#: data/nation/catalan.ruleset:32 data/nation/venezuelan.ruleset:28
-msgid "Dictadora"
-msgstr "Dictadora"
-
 #. TRANS: Arquebisbe = Archbishop
 #: data/nation/catalan.ruleset:36
 msgid "Arquebisbe"
 msgstr "Arquebisbe"
 
-#: data/nation/catalan.ruleset:36
-msgid "Gran Bruixa"
-msgstr "Gran Bruixa"
+#: data/nation/chananean.ruleset:3
+msgid "Chananean"
+msgstr "Cananeu"
+
+#: data/nation/chananean.ruleset:4
+msgid "?plural:Chananeans"
+msgstr "Cananeus"
+
+#: data/nation/chananean.ruleset:6
+msgid ""
+"Reports of chynocephaly (having the head of a dog or jackal) can be traced "
+"to Greek Antiquity. The physician Ctesias and the traveller Megasthenes "
+"placed them in India. In the middle ages, Giovanni da Pian and Marco Polo "
+"made reference to them, while the theologian Ratramnus debated whether they "
+"should be considered human or not. Various stories have placed them in "
+"Scotland, Canaan, Cyrenaica, and the Andaman Islands. The country 'Chananea' "
+"comes from the German poet Walter of Speyer. In the account by Sir John "
+"Mandeville, the people were known as the Nacumerians."
+msgstr "Les històries sobre quinocefàlia (tenir el cap de gos o de xacal) es remunten a la Grècia Antiga. El metge Ctèsies i el viatger Megastenes els ubicaven a l'Índia. A l'edat mitjana, Giovanni da Pian i Marco Polo els van esmentar, mentre que el teòleg Ratramnus debatia si s'havien de considerar humans o no. Històries diverses els han ubicat a Escòcia, Canaan, Cirenaica i les Illes Andavan. El país 'Cananea' ve del poeta alemany Walter von Speyer. Al relat de Sir John Mandeville, el poble era conegut com a Nacumerians."
+
+#: data/nation/chananean.ruleset:32
+msgid "Alpha"
+msgstr "Alpha"
+
+#: data/nation/chananean.ruleset:32
+msgid "?female:Alpha"
+msgstr "Alpha"
 
 #: data/nation/cherokee.ruleset:3
 msgid "Cherokee"
@@ -28920,6 +28970,21 @@ msgstr ""
 "oficialment \"Commonwealth of Dominica\" i cal no confondre-la amb la "
 "República Dominicana, una altra nació caribenya."
 
+#: data/nation/dryad.ruleset:3
+msgid "Dryad"
+msgstr "Dríada"
+
+#: data/nation/dryad.ruleset:4
+msgid "?plural:Dryads"
+msgstr "Dríades"
+
+#: data/nation/dryad.ruleset:6
+msgid ""
+"Dryads are creatures of Greek myth; they are a type of nymph associated with "
+"trees. Dryads were generally considered to be shy and long-lived. They are "
+"usually female and are often depicted as beautiful young women."
+msgstr "Les dríades són criatures de la mitologia grega; són un tipus de nimfes associades amb els arbres. Se les considerava generalment tímides i longeves. Solen ser femelles i sovint es representen com a dones joves i boniques."
+
 #: data/nation/dutch.ruleset:3
 msgid "Dutch"
 msgstr "Holandès"
@@ -29072,7 +29137,12 @@ msgid ""
 "In 1951 it was federated with Ethiopia, which led to the development of an "
 "independence movement in the 1960s. In 1991 the 31-year war ended with "
 "Eritrea gaining independence."
-msgstr "Eritreu és un país de l'Àfrica Oriental que te frontera amb el Sudan, Etiòpia i Djibuti. Havia estat el Regne de D'mt i va ser conquerit per Itàlia. El 1951 es va federar amb Etiòpia, cosa que va portar al desenvolupament d'un moviment independentista la dècada dels 1960. El 1991 la guerra de 31 anys va acabar quan Eritreu va obtenir la independència."
+msgstr ""
+"Eritreu és un país de l'Àfrica Oriental que te frontera amb el Sudan, "
+"Etiòpia i Djibuti. Havia estat el Regne de D'mt i va ser conquerit per "
+"Itàlia. El 1951 es va federar amb Etiòpia, cosa que va portar al "
+"desenvolupament d'un moviment independentista la dècada dels 1960. El 1991 "
+"la guerra de 31 anys va acabar quan Eritreu va obtenir la independència."
 
 #: data/nation/ethiopian.ruleset:3
 msgid "Ethiopian"
@@ -29202,7 +29272,9 @@ msgstr "Frisons"
 msgid ""
 "An ancient Germanic nation, the Frisians today form an ethnic minority in "
 "the northern parts of the Netherlands and Germany."
-msgstr "Antiga nació germànica, els frisons formen avui una minoria ètnica a les regions septentrionals dels Països Baixos i Alemanya."
+msgstr ""
+"Antiga nació germànica, els frisons formen avui una minoria ètnica a les "
+"regions septentrionals dels Països Baixos i Alemanya."
 
 #: data/nation/frisian.ruleset:32
 msgid "Potestate"
@@ -29351,6 +29423,21 @@ msgstr "Dèspota"
 #: data/nation/greek.ruleset:19 data/nation/hellenic.ruleset:19
 msgid "?female:Despot"
 msgstr "Dèspota"
+
+#: data/nation/grenadian.ruleset:3
+msgid "Grenadian"
+msgstr "Grenadí"
+
+#: data/nation/grenadian.ruleset:4
+msgid "?plural:Grenadians"
+msgstr "Grenadins"
+
+#: data/nation/grenadian.ruleset:6
+msgid ""
+"Grenada is an island nation in the Caribbean. It gained independence from "
+"the United Kingdom in 1974. The main island was known as Camahogne by the "
+"indigenous Caribs."
+msgstr "Grenada és una nació insular del Carib. Va obtenir la independència del Regne Unit el 1974. L'illa principal era coneguda com a Camahogne pels indígenes caribs."
 
 #: data/nation/gupta.ruleset:3
 msgid "Gupta"
@@ -30099,16 +30186,6 @@ msgstr ""
 "l'Índia, durant el segle VI a.C. i hi va fundar el regne singalès. Durant el "
 "colonialisme britànic, el país era conegut com a Ceilan."
 
-#: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
-#: data/nation/welsh.ruleset:26
-msgid "Prince"
-msgstr "Príncep"
-
-#: data/nation/lankese.ruleset:20 data/nation/silesian.ruleset:21
-#: data/nation/welsh.ruleset:26
-msgid "Princess"
-msgstr "Princesa"
-
 #: data/nation/lankese.ruleset:21 data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
 msgid "Governor"
@@ -30563,7 +30640,10 @@ msgid ""
 "The Republic of Botswana is a country in Southern Africa. It gained "
 "independence from the UK in 1966. Botswana is considered the least corrupt "
 "country in Africa and it has a rapidly developing economy."
-msgstr "La República de Botswana és un país de l'Àfrica meridional. Va obtenir la independència del Regne Unit el 1966. Botswana es considera el país menys corrupte d'Àfrica i té una economia que es desenvolupa ràpidament."
+msgstr ""
+"La República de Botswana és un país de l'Àfrica meridional. Va obtenir la "
+"independència del Regne Unit el 1966. Botswana es considera el país menys "
+"corrupte d'Àfrica i té una economia que es desenvolupa ràpidament."
 
 #. TRANS: kgosi = chief/king
 #: data/nation/motswana.ruleset:31
@@ -30587,7 +30667,10 @@ msgid ""
 "Modern Morocco gained independence in 1956.  However, the area has been "
 "inhabited since at least 8000 BC.  In classical times the region was known "
 "as Mauretania."
-msgstr "El Marroc modern va obtenir la independència el 1956. No obstant, la zona ha estat habitada com a mínim des del 8000 a.C. En l'època clàssica la regió es coneixa com a a Mauretània."
+msgstr ""
+"El Marroc modern va obtenir la independència el 1956. No obstant, la zona ha "
+"estat habitada com a mínim des del 8000 a.C. En l'època clàssica la regió es "
+"coneixa com a a Mauretània."
 
 #: data/nation/muskogee.ruleset:3
 msgid "Muskogee"
@@ -30814,6 +30897,40 @@ msgstr "Chaabat"
 msgid "?female:Chaabat"
 msgstr "Chaabat"
 
+#: data/nation/occitan.ruleset:3
+msgid "Occitan"
+msgstr "Occità"
+
+#: data/nation/occitan.ruleset:4
+msgid "?plural:Occitans"
+msgstr "Occitans"
+
+#: data/nation/occitan.ruleset:6
+msgid ""
+"Although Occitania never had a real political unity (it consisted of several "
+"counties and duchies in today's southern France), its culture enjoyed great "
+"prestige all over Europe during the 11th, 12th and 13th centuries, Occitan "
+"being the language of troubadours. Its religous freedom allowed the "
+"flourishing of Catharism, which was declared heretic by the Pope, and the "
+"French kings took advantage of the subsequent crusade to annex its territory."
+msgstr "Encara que Occitània no va tenir mai unitat política real (consistia en diversos comtats i ducats al que avui és el sud de França), la seva cultura va gaudir d'un gran prestigi per tota Europa durant els segles XI, XII i XIII, ja que l'occità era la llengua dels trobadors. La seva llibertat religiosa va permetre el desenvolupament del catarisme, que va ser declarat heretgia pel Papa, i els reis francesos van aprofitar-se de la croada que va convocar per annexionar-se'n el territori."
+
+#: data/nation/occitan.ruleset:26 data/nation/portuguese.ruleset:27
+msgid "Viscount"
+msgstr "Vescomte"
+
+#: data/nation/occitan.ruleset:26 data/nation/portuguese.ruleset:27
+msgid "Viscountess"
+msgstr "Vescomtessa"
+
+#: data/nation/occitan.ruleset:28
+msgid "Perfect"
+msgstr "Perfecte"
+
+#: data/nation/occitan.ruleset:28
+msgid "Perfecta"
+msgstr "Perfecta"
+
 #: data/nation/ottoman.ruleset:3
 msgid "Ottoman"
 msgstr "Otomà"
@@ -30871,7 +30988,11 @@ msgid ""
 "country consists of four main territories: Winkie Country, Quadling Country, "
 "Munchkin Country, and Gillikin Country. Oz is surrounded by an impassable "
 "desert."
-msgstr "La terra d'Oz va ser creada per L. Frank Baum el 1900 a 'El Meravellós Màgic d'Oz' i es va desenvolupar en una colla d'altres llibres. El país consisteix en quatre territoris principals: Winkie Country, Quadling Country, Munchkin Country i Gillikin Country. Oz està rodejat d'un desert impenetrable."
+msgstr ""
+"La terra d'Oz va ser creada per L. Frank Baum el 1900 a 'El Meravellós Màgic "
+"d'Oz' i es va desenvolupar en una colla d'altres llibres. El país consisteix "
+"en quatre territoris principals: Winkie Country, Quadling Country, Munchkin "
+"Country i Gillikin Country. Oz està rodejat d'un desert impenetrable."
 
 #: data/nation/ozite.ruleset:25
 msgid "Wizard"
@@ -31181,7 +31302,11 @@ msgid ""
 "founded in September 1921 when Riffians revolted against the Spanish and "
 "Moroccans. The country was conquered by the Spanish and French in 1926. The "
 "area is now part of Morocco."
-msgstr "La República Confederal de les Tribus del Rif va ser una nació efímera que es va fundar el setembre de 1921 quan els rifenys es van revoltar contra els espanyols i els marroquins. El país va ser conquerit pels espanyols i els francesos el 1926. L'àrea és avui en dia part del Marroc."
+msgstr ""
+"La República Confederal de les Tribus del Rif va ser una nació efímera que "
+"es va fundar el setembre de 1921 quan els rifenys es van revoltar contra els "
+"espanyols i els marroquins. El país va ser conquerit pels espanyols i els "
+"francesos el 1926. L'àrea és avui en dia part del Marroc."
 
 #: data/nation/riffian.ruleset:24
 msgid "Basha"
@@ -32183,11 +32308,14 @@ msgid ""
 "southern part of the country was part of the Buganda kingdom. Modern Uganda "
 "gained independence in 1962."
 msgstr ""
+"La República d'Uganda està situada a l'Àfrica oriental. El país conté una "
+"part del Llac Victòria, que també té parts a Kenya i Tanzània. En el passat, "
+"la part sud del país era part del regne Buganda. L'Uganda moderna va obtenir "
+"la independència el 1962."
 
 #: data/nation/ugandan.ruleset:28
-#, fuzzy
 msgid "?female:Dictator"
-msgstr "?female:Major"
+msgstr "Dictadora"
 
 #. TRANS: There are two titles for king, kabaka and
 #. ;    mujaguzo. Kabaka is the material king, while
@@ -32196,14 +32324,12 @@ msgstr "?female:Major"
 #. ;    ancient kingdom which occupied much of present-day
 #. ;    Uganda.
 #: data/nation/ugandan.ruleset:36
-#, fuzzy
 msgid "Kabaka"
-msgstr "Kazakh"
+msgstr "Kabaka"
 
 #: data/nation/ugandan.ruleset:36
-#, fuzzy
 msgid "?female:Kabaka"
-msgstr "?female:Khagan"
+msgstr "Kabaka"
 
 #: data/nation/un.ruleset:3
 msgid "UN"
@@ -32293,18 +32419,16 @@ msgstr ""
 "independència de la Unió Soviètica el 1991."
 
 #: data/nation/vampire.ruleset:4
-#, fuzzy
 msgid "Vampire"
-msgstr "Fam"
+msgstr "Vampir"
 
 #: data/nation/vampire.ruleset:5
-#, fuzzy
 msgid "?plural:Vampires"
-msgstr "Samis"
+msgstr "Vampirs"
 
 #: data/nation/vampire.ruleset:7
 msgid "Bloodsucking creatures of legend."
-msgstr ""
+msgstr "Criatures xuclasang de llegenda."
 
 #: data/nation/venezuelan.ruleset:3
 msgid "Venezuelan"
