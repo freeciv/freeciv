@@ -3987,7 +3987,7 @@ msgstr "No es pot crear una unitat de tipus %s sobre el terreny de %s."
 #, c-format
 msgid "Cannot remove units at tile (%d, %d) because it is not on the map!"
 msgstr ""
-"No es poden treure unitats de la casella (%d, %d) perquè no es al mapa!"
+"No es poden treure unitats de la casella (%d, %d) perquè no és al mapa!"
 
 #. TRANS: ..." at <tile-coordinates> because"...
 #: server/edithand.c:598
