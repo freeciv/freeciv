@@ -1222,7 +1222,7 @@ static GtkActionGroup *get_safe_group(void)
       {"MENU_HELP", NULL, _("_Help"), NULL, NULL, NULL},
 
       /* A special case to make empty menu. */
-      {"NULL", NULL, NULL, NULL, NULL, NULL}
+      {"NULL", NULL, "NULL", NULL, NULL, NULL}
     };
 
     const GtkActionEntry action_entries[] = {
