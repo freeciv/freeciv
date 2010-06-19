@@ -369,6 +369,9 @@ void player_research_update(struct player *pplayer)
   if (game.info.tech_upkeep_style == 1) {
     /* upkeep activated in the ruleset */
     research->tech_upkeep = tech_upkeep_calc(pplayer);
+
+    log_debug("[%s (%d)] tech upkeep: %d", player_name(pplayer),
+              player_index(pplayer), research->tech_upkeep);
   } else {
     /* upkeep deactivated in the ruleset */
     research->tech_upkeep = 0;

@@ -611,7 +611,7 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 const char *science_dialog_text(void)
 {
   bool team;
-  int ours, theirs, perturn;
+  int ours, theirs, perturn, upkeep;
   static struct astring str = ASTRING_INIT;
   char ourbuf[1024] = "", theirbuf[1024] = "";
   struct player_research *research;
@@ -620,11 +620,14 @@ const char *science_dialog_text(void)
 
   perturn = get_bulbs_per_turn(&ours, &team, &theirs);
 
-  if (NULL == client.conn.playing || (ours == 0 && theirs == 0)) {
+  research = get_player_research(client_player());
+  upkeep = research->tech_upkeep;
+
+  if (NULL == client.conn.playing || (ours == 0 && theirs == 0
+                                      && upkeep == 0)) {
     return _("Progress: no research");
   }
 
-  research = get_player_research(client_player());
   if (A_UNSET == research->researching) {
     astr_add(&str, _("Progress: no research"));
   } else {
@@ -646,7 +649,7 @@ const char *science_dialog_text(void)
                          turns), turns);
     } else {
       /* no research */
-      astr_add(&str, _("%d/%d (never)"), done, total);
+      astr_add(&str, _("Progress: none"));
     }
   }
   fc_snprintf(ourbuf, sizeof(ourbuf),
@@ -661,8 +664,6 @@ const char *science_dialog_text(void)
   astr_add(&str, " (%s%s)", ourbuf, theirbuf);
 
   if (game.info.tech_upkeep_style == 1) {
-    int upkeep = research->tech_upkeep;
-
     /* perturn is defined as: (bulbs produced) - upkeep */
     astr_add_line(&str, "Bulbs produced per turn: %d", perturn + upkeep);
     astr_add(&str, " (needed for technology upkeep: %d)", upkeep);
@@ -849,8 +850,8 @@ const char *get_info_label_text_popup(void)
       int upkeep = get_player_research(client.conn.playing)->tech_upkeep;
 
       /* perturn is defined as: (bulbs produced) - upkeep */
-      astr_add_line(&str, _("Bulbs produced per turn: %d"), perturn + upkeep);
-      astr_add_line(&str, _("Technology upkeep per turn: %+d"), upkeep);
+      astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
+                    upkeep, perturn);
     }
   }
 

@@ -284,6 +284,7 @@ static void finish_revolution(struct player *pplayer)
 
   check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
+  player_research_update(pplayer);
   send_player_info(pplayer, pplayer);
 }
 
