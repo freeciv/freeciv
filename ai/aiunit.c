@@ -1040,8 +1040,9 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
     /* Try to find a place to rest. Sitting duck out in the wilderness
      * is generally a bad idea, since we protect no cities that way, and
      * it looks silly. */
-    pcity = find_closest_city(punit->tile, NULL, pplayer, FALSE, FALSE,
-                              FALSE, TRUE, FALSE);
+    pcity = find_closest_city(punit->tile, NULL, pplayer,
+                              is_ground_unit(punit), FALSE, FALSE, TRUE,
+                              FALSE);
   }
 
   if (!pcity) {
@@ -1683,16 +1684,16 @@ static void ai_military_attack_barbarian(struct player *pplayer,
 					 struct unit *punit)
 {
   struct city *pc;
-  bool any_continent = FALSE;
+  bool only_continent = TRUE;
 
   if (punit->transported_by != -1) {
     /* If we are in transport, we can go to any continent.
      * Actually, we are not currently in a continent where to stay. */
-    any_continent = TRUE;
+    only_continent = FALSE;
   }
 
   if ((pc = find_closest_city(punit->tile, NULL, pplayer, FALSE,
-                              any_continent, FALSE, FALSE, TRUE))) {
+                              only_continent, FALSE, FALSE, TRUE))) {
     if (can_unit_exist_at_tile(punit, punit->tile)) {
       UNIT_LOG(LOG_DEBUG, punit, "Barbarian heading to conquer %s",
                city_name(pc));

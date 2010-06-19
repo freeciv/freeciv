@@ -763,16 +763,16 @@ struct city *find_closest_city(const struct tile *ptile,
 
       /* Find the closest city matching the requirements.
        * - closer than the current best city
-       * - (if required) on the same continent; con = 0 means unknown
+       * - (if required) on the same continent
        * - (if required) adjacent to ocean
        * - (if required) only cities known by the player */
       if ((best_dist == -1 || city_dist < best_dist)
-          && (only_continent || con == 0
-              || con == tile_continent(pcity->tile))
-          && (only_ocean && is_ocean_near_tile(city_tile(pcity)))
-          && (only_known && map_is_known(city_tile(pcity), pplayer)
-              && map_get_player_site(city_tile(pcity), pplayer)->identity
-                 > IDENTITY_NUMBER_ZERO)) {
+          && (!only_continent || con == tile_continent(pcity->tile))
+          && (!only_ocean || is_ocean_near_tile(city_tile(pcity)))
+          && (!only_known
+              || (map_is_known(city_tile(pcity), pplayer)
+                  && map_get_player_site(city_tile(pcity), pplayer)->identity
+                     > IDENTITY_NUMBER_ZERO))) {
         best_dist = city_dist;
         best_city = pcity;
       }

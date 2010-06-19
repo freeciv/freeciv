@@ -482,7 +482,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   struct player *pplayer;
   struct city *homecity;
   struct unit *punit;
-  bool coastal;
+  bool only_ocean;
   int id, i;
 
   ptile = index_to_tile(tile);
@@ -542,9 +542,9 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
   }
 
   /* FIXME: Make this more general? */
-  coastal = is_sailing_unittype(punittype);
+  only_ocean = is_sailing_unittype(punittype);
 
-  homecity = find_closest_city(ptile, NULL, pplayer, coastal, FALSE, FALSE,
+  homecity = find_closest_city(ptile, NULL, pplayer, only_ocean, FALSE, FALSE,
                                TRUE, FALSE);
   id = homecity ? homecity->id : 0;
 
