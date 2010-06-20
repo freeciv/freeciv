@@ -168,7 +168,7 @@ void update_info_label(void)
 {
   int d = 0;
 
-  xaw_set_label(info_command, get_info_label_text());
+  xaw_set_label(info_command, get_info_label_text(TRUE));
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),

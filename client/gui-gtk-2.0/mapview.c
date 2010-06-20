@@ -135,7 +135,8 @@ void update_info_label(void)
     gtk_label_set_text(GTK_LABEL(label), "-");
   }
 
-  gtk_label_set_text(GTK_LABEL(main_label_info), get_info_label_text());
+  gtk_label_set_text(GTK_LABEL(main_label_info),
+                     get_info_label_text(!gui_gtk2_small_display_layout));
 
   set_indicator_icons(client_research_sprite(),
 		      client_warming_sprite(),

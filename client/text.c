@@ -773,7 +773,7 @@ const char *get_science_goal_text(Tech_type_id goal)
 
   Clicking on this text should bring up the get_info_label_text_popup text.
 ****************************************************************************/
-const char *get_info_label_text(void)
+const char *get_info_label_text(bool moreinfo)
 {
   static struct astring str = ASTRING_INIT;
 
@@ -810,7 +810,11 @@ const char *get_info_label_text(void)
                     team_name_translation(team_by_number(game.info.phase)));
     }
   }
-  astr_add_line(&str, _("(Click for more info)"));
+
+  if (moreinfo) {
+    astr_add_line(&str, _("(Click for more info)"));
+  }
+
   return astr_str(&str);
 }
 
