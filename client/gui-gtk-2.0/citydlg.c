@@ -100,6 +100,10 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
                                  * (+1) if you change this, you must add an
                                  * entry to misc_whichtab_label[] */
 
+/* minimal size for the city map scrolling windows*/
+#define CITY_MAP_MIN_SIZE_X  200
+#define CITY_MAP_MIN_SIZE_Y  150
+
 static int citydialog_width, citydialog_height;
 
 struct city_dialog {
@@ -118,6 +122,7 @@ struct city_dialog {
   struct {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
+    GtkWidget *map_canvas_scrolled_window;
     GtkWidget *production_bar;
     GtkWidget *production_combo;
     GtkWidget *buy_command;
@@ -147,6 +152,7 @@ struct city_dialog {
   struct {
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
+    GtkWidget *map_canvas_scrolled_window;
     GtkWidget *widget;
     GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
@@ -186,6 +192,7 @@ static int last_page = OVERVIEW_PAGE;
 /****************************************/
 
 static void initialize_city_dialogs(void);
+static void citydlg_map_recenter(GtkWidget *map_canvas_scrolled_window);
 
 static struct city_dialog *get_city_dialog(struct city *pcity);
 static gboolean keyboard_handler(GtkWidget * widget, GdkEventKey * event,
@@ -353,6 +360,30 @@ static struct city_dialog *get_city_dialog(struct city *pcity)
 /****************************************************************
 ...
 *****************************************************************/
+static void citydlg_map_recenter(GtkWidget *map_canvas_scrolled_window) {
+  GtkAdjustment *adjust = NULL;
+  gdouble value;
+
+  adjust = gtk_scrolled_window_get_hadjustment(
+    GTK_SCROLLED_WINDOW(map_canvas_scrolled_window));
+  value = (gtk_adjustment_get_lower(GTK_ADJUSTMENT(adjust)) +
+           gtk_adjustment_get_upper(GTK_ADJUSTMENT(adjust)) -
+           gtk_adjustment_get_page_size(GTK_ADJUSTMENT(adjust))) / 2;
+  gtk_adjustment_set_value(adjust, value);
+  gtk_adjustment_value_changed(adjust);
+
+  adjust = gtk_scrolled_window_get_vadjustment(
+    GTK_SCROLLED_WINDOW(map_canvas_scrolled_window));
+  value = (gtk_adjustment_get_lower(GTK_ADJUSTMENT(adjust)) +
+           gtk_adjustment_get_upper(GTK_ADJUSTMENT(adjust)) -
+           gtk_adjustment_get_page_size(GTK_ADJUSTMENT(adjust))) / 2;
+  gtk_adjustment_set_value(adjust, value);
+  gtk_adjustment_value_changed(adjust);
+}
+
+/****************************************************************
+...
+*****************************************************************/
 void refresh_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog = get_city_dialog(pcity);
@@ -426,6 +457,13 @@ void popup_city_dialog(struct city *pcity)
   }
 
   gtk_window_present(GTK_WINDOW(pdialog->shell));
+
+  /* center the city map(s); this must be *after* the city dialog was drawn
+   * else the size information is missing! */
+  citydlg_map_recenter(pdialog->overview.map_canvas_scrolled_window);
+  if (pdialog->happiness.map_canvas_scrolled_window) {
+    citydlg_map_recenter(pdialog->happiness.map_canvas_scrolled_window);
+  }
 }
 
 /****************************************************************
@@ -670,15 +708,25 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
   /* middle: city map, improvements */
-  middle = gtk_hbox_new(FALSE, 6);
-  gtk_box_pack_start(GTK_BOX(page), middle, FALSE, TRUE, 0);
+  middle = gtk_hbox_new(TRUE, 6);
+  gtk_box_pack_start(GTK_BOX(page), middle, TRUE, TRUE, 0);
 
   /* city map */
   frame = gtk_frame_new(_("City map"));
+  gtk_widget_set_size_request(frame, CITY_MAP_MIN_SIZE_X, CITY_MAP_MIN_SIZE_Y);
   gtk_box_pack_start(GTK_BOX(middle), frame, FALSE, TRUE, 0);
 
-  align = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_container_add(GTK_CONTAINER(frame), align);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  pdialog->overview.map_canvas_scrolled_window = sw;
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_NONE);
+  gtk_container_add(GTK_CONTAINER(frame), sw);
+
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
 
   pdialog->overview.map_canvas = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(align), pdialog->overview.map_canvas);
@@ -960,7 +1008,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 *****************************************************************/
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *label, *table, *align, *middle, *frame;
+  GtkWidget *page, *label, *table, *align, *middle, *frame, *sw;
   const char *tab_title = _("Happ_iness");
 
   /* main page */
@@ -971,11 +1019,11 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 
   /* middle: info, city map */
   middle = gtk_hbox_new(FALSE, 6);
-  gtk_box_pack_start(GTK_BOX(page), middle, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(page), middle, FALSE, TRUE, 0);
 
   /* Info */
   frame = gtk_frame_new(_("Info"));
-  gtk_box_pack_start(GTK_BOX(middle), frame, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(middle), frame, FALSE, TRUE, 0);
 
   align = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_container_add(GTK_CONTAINER(frame), align);
@@ -987,10 +1035,20 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 
   /* city map */
   frame = gtk_frame_new(_("City map"));
+  gtk_widget_set_size_request(frame, CITY_MAP_MIN_SIZE_X, CITY_MAP_MIN_SIZE_Y);
   gtk_box_pack_start(GTK_BOX(middle), frame, TRUE, TRUE, 0);
 
-  align = gtk_alignment_new(0.5, 0.5, 0, 0);
-  gtk_container_add(GTK_CONTAINER(frame), align);
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  pdialog->happiness.map_canvas_scrolled_window = sw;
+
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_NONE);
+  gtk_container_add(GTK_CONTAINER(frame), sw);
+
+  align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
 
   pdialog->happiness.map_canvas = gtk_event_box_new();
   gtk_container_add(GTK_CONTAINER(align), pdialog->happiness.map_canvas);
@@ -1198,6 +1256,7 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->rename_shell = NULL;
   pdialog->happiness.map_canvas = NULL;         /* make sure NULL if spy */
   pdialog->happiness.map_canvas_pixmap = NULL;  /* ditto */
+  pdialog->happiness.map_canvas_scrolled_window = NULL; /* ditto */
   pdialog->map_canvas_store = gdk_pixbuf_new(GDK_COLORSPACE_RGB, TRUE, 8,
 					     CITYMAP_WIDTH, CITYMAP_HEIGHT);
   pdialog->map_pixbuf_unscaled = NULL;
@@ -2941,4 +3000,10 @@ static void switch_city_callback(GtkWidget *w, gpointer data)
   set_cityopt_values(pdialog);	/* need not be in refresh_city_dialog */
 
   refresh_city_dialog(pdialog->pcity);
+
+  /* recenter the city map(s) */
+  citydlg_map_recenter(pdialog->overview.map_canvas_scrolled_window);
+  if (pdialog->happiness.map_canvas_scrolled_window) {
+    citydlg_map_recenter(pdialog->happiness.map_canvas_scrolled_window);
+  }
 }
