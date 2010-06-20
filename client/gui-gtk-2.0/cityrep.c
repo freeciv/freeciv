@@ -1136,8 +1136,10 @@ static void create_city_report_dialog(bool make_modal)
   city_buy_command = w;
 
   city_total_buy_cost_label = gtk_label_new(NULL);
+  gtk_label_set_ellipsize(GTK_LABEL(city_total_buy_cost_label),
+                          PANGO_ELLIPSIZE_START);
   gtk_box_pack_end(GTK_BOX(city_dialog_shell->action_area),
-                   city_total_buy_cost_label, FALSE, FALSE, 0);
+                   city_total_buy_cost_label, TRUE, TRUE, 0);
 
   gui_dialog_add_button(city_dialog_shell,
 			GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);

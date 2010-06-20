@@ -542,8 +542,8 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   gtk_widget_show(action_area);
 
   gtk_container_set_border_width(GTK_CONTAINER(vbox), 2);
-  gtk_box_set_spacing(GTK_BOX(action_area), 10);
-  gtk_container_set_border_width(GTK_CONTAINER(action_area), 5);
+  gtk_box_set_spacing(GTK_BOX(action_area), 4);
+  gtk_container_set_border_width(GTK_CONTAINER(action_area), 2);
 
   switch (dlg->type) {
   case GUI_DIALOG_WINDOW:
