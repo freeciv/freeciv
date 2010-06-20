@@ -1007,36 +1007,30 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
   gtk_widget_show_all(page);
 }
 
-/****************************************************************
+/***************************************************************************
                      **** Happiness Page ****
- +- GtkWidget *page ------------------------------------------+
- | +- GtkWidget *middle-------------+-----------------------+ |
- | | Info                           | City map              | |
- | +--------------------------------+-----------------------+ |
- +------------------------------------------------------------+
- | +- GtkWidget pdialog->happiness.widget ------------------+ |
- | | Happiness                                              | |
- | +--------------------------------------------------------+ |
- +------------------------------------------------------------+
-*****************************************************************/
+ +- GtkWidget *page -----+-------------------------------------------+
+ | +- GtkWidget *left -+ | +- GtkWidget *right --------------------+ |
+ | | Info              | | | City map                              | |
+ | |                   | | +- GtkWidget pdialog->happiness.widget -+ |
+ | |                   | | | Happiness                             | |
+ | +-------------------+ | +---------------------------------------+ |
+ +--------+--------------+-------------------------------------------+
+****************************************************************************/
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *label, *table, *align, *middle, *frame, *sw;
+  GtkWidget *page, *label, *table, *align, *right, *frame, *sw;
   const char *tab_title = _("Happ_iness");
 
   /* main page */
-  page = gtk_vbox_new(FALSE, 0);
+  page = gtk_hbox_new(FALSE, 6);
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
 
-  /* middle: info, city map */
-  middle = gtk_hbox_new(FALSE, 6);
-  gtk_box_pack_start(GTK_BOX(page), middle, FALSE, TRUE, 0);
-
-  /* Info */
+  /* left: info */
   frame = gtk_frame_new(_("Info"));
-  gtk_box_pack_start(GTK_BOX(middle), frame, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(page), frame, FALSE, TRUE, 0);
 
   align = gtk_alignment_new(0.5, 0.5, 0, 0);
   gtk_container_add(GTK_CONTAINER(frame), align);
@@ -1046,10 +1040,14 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
                                  pdialog->happiness.info_label);
   gtk_container_add(GTK_CONTAINER(align), table);
 
-  /* city map */
+  /* right: city map, happiness */
+  right = gtk_vbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(page), right, TRUE, TRUE, 0);
+
+  /* upper right: city map */
   frame = gtk_frame_new(_("City map"));
   gtk_widget_set_size_request(frame, CITY_MAP_MIN_SIZE_X, CITY_MAP_MIN_SIZE_Y);
-  gtk_box_pack_start(GTK_BOX(middle), frame, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(right), frame, TRUE, TRUE, 0);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   pdialog->happiness.map_canvas_scrolled_window = sw;
@@ -1075,9 +1073,9 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
                    "button_press_event",
                    G_CALLBACK(button_down_citymap), pdialog);
 
-  /* (bottom:) Happiness */
+  /* lower right: happiness */
   pdialog->happiness.widget = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), pdialog->happiness.widget, FALSE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(right), pdialog->happiness.widget, FALSE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
                      get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
 
