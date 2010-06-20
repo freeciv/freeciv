@@ -529,7 +529,7 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   }
   dlg->gui_button = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  if (gui_gtk2_enable_tabs && notebook == GTK_NOTEBOOK(bottom_notebook)) {
+  if (gui_gtk2_enable_tabs && notebook != GTK_NOTEBOOK(top_notebook)) {
     vbox = gtk_hbox_new(FALSE, 0);
     action_area = gtk_vbox_new(FALSE, 2);
   } else {
