@@ -101,7 +101,7 @@ enum { OVERVIEW_PAGE, WORKLIST_PAGE,
 
 enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 
-#define NUM_CITIZENS_SHOWN 50
+#define NUM_CITIZENS_SHOWN 30
 #define NUM_INFO_FIELDS 12      /* number of fields in city_info */
 #define NUM_PAGES 6             /* the number of pages in city dialog notebook 
                                  * (+1) if you change this, you must add an
@@ -120,10 +120,9 @@ struct city_dialog {
 
   GtkTooltips *tips;
   GtkWidget *popup_menu;
+  GtkWidget *citizen_pixmap;
 
   struct {
-    GtkWidget *citizen_pixmap;
-
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *production_bar;
@@ -142,19 +141,17 @@ struct city_dialog {
 
     GtkWidget *info_ebox[NUM_INFO_FIELDS];
     GtkWidget *info_label[NUM_INFO_FIELDS];
-    
+
     GtkListStore* change_production_store;
   } overview;
- 
-  struct { 
+
+  struct {
     GtkWidget *production_bar;
     GtkWidget *buy_command;
     GtkWidget *worklist;
   } production;
 
   struct {
-    GtkWidget *citizen_pixmap;
-
     GtkWidget *map_canvas;
     GtkWidget *map_canvas_pixmap;
     GtkWidget *widget;
@@ -653,8 +650,6 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 /****************************************************************
                   **** Overview page ****
  +- GtkWidget *page ------------------------------------------+
- | GtkWidget *top: Citizens                                   |
- +------------------------------------------------------------+
  | +- GtkWidget *middle -----------+------------------------+ |
  | | City map                      |  Production            | |
  | +-------------------------------+------------------------+ |
@@ -670,8 +665,8 @@ static GtkWidget *create_city_info_table(struct city_dialog *pdialog,
 *****************************************************************/
 static void create_and_append_overview_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *top, *middle, *bottom;
-  GtkWidget *hbox, *ebox, *right, *vbox, *align, *frame, *table;
+  GtkWidget *page, *middle, *bottom;
+  GtkWidget *hbox, *right, *vbox, *align, *frame, *table;
   GtkWidget *label, *sw, *view, *bar, *production_combo;
   GtkCellRenderer *rend;
   GtkListStore *store;
@@ -684,22 +679,6 @@ static void create_and_append_overview_page(struct city_dialog *pdialog)
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
-
-  /* top: citizens bar */
-  top = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), top, FALSE, TRUE, 0);
-
-  ebox = gtk_event_box_new();
-  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
-  gtk_box_pack_start(GTK_BOX(top), ebox, FALSE, FALSE, 0);
-  pdialog->overview.citizen_pixmap =
-    gtk_pixcomm_new(tileset_small_sprite_width(tileset)
-                    * (NUM_CITIZENS_SHOWN + 2),
-                    tileset_small_sprite_height(tileset));
-  gtk_misc_set_padding(GTK_MISC(pdialog->overview.citizen_pixmap), 2, 2);
-  gtk_container_add(GTK_CONTAINER(ebox), pdialog->overview.citizen_pixmap);
-  g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
-                   GTK_SIGNAL_FUNC(citizens_callback), pdialog);
 
   /* middle: city map, improvements */
   middle = gtk_hbox_new(FALSE, 6);
@@ -981,8 +960,6 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 /****************************************************************
                      **** Happiness Page ****
  +- GtkWidget *page ------------------------------------------+
- | GtkWidget *top: Citizens                                   |
- +------------------------------------------------------------+
  | +- GtkWidget *middle-------------+-----------------------+ |
  | | Info                           | City map              | |
  | +--------------------------------+-----------------------+ |
@@ -994,7 +971,7 @@ static void create_and_append_worklist_page(struct city_dialog *pdialog)
 *****************************************************************/
 static void create_and_append_happiness_page(struct city_dialog *pdialog)
 {
-  GtkWidget *page, *label, *table, *align, *top, *middle, *frame, *ebox;
+  GtkWidget *page, *label, *table, *align, *middle, *frame;
   const char *tab_title = _("Happ_iness");
 
   /* main page */
@@ -1002,21 +979,6 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   gtk_container_set_border_width(GTK_CONTAINER(page), 8);
   label = gtk_label_new_with_mnemonic(tab_title);
   gtk_notebook_append_page(GTK_NOTEBOOK(pdialog->notebook), page, label);
-
-  /* top: citizens bar */
-  top = gtk_hbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), top, FALSE, TRUE, 0);
-  ebox = gtk_event_box_new();
-  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
-  gtk_box_pack_start(GTK_BOX(top), ebox, FALSE, FALSE, 0);
-  pdialog->happiness.citizen_pixmap =
-    gtk_pixcomm_new(tileset_small_sprite_width(tileset)
-                    * (NUM_CITIZENS_SHOWN + 2),
-                    tileset_small_sprite_height(tileset));
-  gtk_misc_set_padding(GTK_MISC(pdialog->happiness.citizen_pixmap), 2, 2);
-  gtk_container_add(GTK_CONTAINER(ebox), pdialog->happiness.citizen_pixmap);
-  g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
-                   GTK_SIGNAL_FUNC(citizens_callback), pdialog);
 
   /* middle: info, city map */
   middle = gtk_hbox_new(FALSE, 6);
@@ -1221,17 +1183,23 @@ static void create_and_append_settings_page(struct city_dialog *pdialog)
 
 
 /****************************************************************
-...
+                     **** Main City Dialog ****
+ +----------------------------+-------------------------------+
+ | GtkWidget *top: Citizens   | city name                     |
+ +----------------------------+-------------------------------+
+ | <notebook tab>                                             |
+ +------------------------------------------------------------+
 *****************************************************************/
 static struct city_dialog *create_city_dialog(struct city *pcity)
 {
   struct city_dialog *pdialog;
 
   GtkWidget *close_command;
-  GtkWidget *vbox;
+  GtkWidget *vbox, *hbox, *cbox, *ebox;
 
-  if (!city_dialogs_have_been_initialised)
+  if (!city_dialogs_have_been_initialised) {
     initialize_city_dialogs();
+  }
 
   pdialog = fc_malloc(sizeof(struct city_dialog));
   pdialog->pcity = pcity;
@@ -1246,8 +1214,6 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   pdialog->map_pixbuf_unscaled = NULL;
   pdialog->map_canvas_store_unscaled
     = gdk_pixmap_new(root_window, canvas_width, canvas_height, -1);
-
-
 
   pdialog->shell = gtk_dialog_new_with_buttons(city_name(pcity),
 	NULL,
@@ -1281,11 +1247,31 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   pdialog->popup_menu = gtk_menu_new();
 
-
   vbox = GTK_DIALOG(pdialog->shell)->vbox;
+  hbox = gtk_hbox_new(TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
 
+  /**** Citizens bar here ****/
+  cbox = gtk_hbox_new(FALSE, 0);
+  gtk_box_pack_start(GTK_BOX(hbox), cbox, TRUE, TRUE, 0);
+
+  ebox = gtk_event_box_new();
+  gtk_widget_add_events(ebox, GDK_BUTTON_PRESS_MASK);
+  gtk_box_pack_start(GTK_BOX(cbox), ebox, FALSE, FALSE, 0);
+  pdialog->citizen_pixmap =
+      gtk_pixcomm_new(tileset_small_sprite_width(tileset)
+                      * NUM_CITIZENS_SHOWN,
+                      tileset_small_sprite_height(tileset));
+  gtk_misc_set_padding(GTK_MISC(pdialog->citizen_pixmap), 2, 2);
+  gtk_misc_set_alignment(GTK_MISC(pdialog->citizen_pixmap), 0.0f, 0.5f);
+  gtk_container_add(GTK_CONTAINER(ebox), pdialog->citizen_pixmap);
+  g_signal_connect(GTK_OBJECT(ebox), "button_press_event",
+                   GTK_SIGNAL_FUNC(citizens_callback), pdialog);
+
+  /**** City name label here ****/
   pdialog->name_label = gtk_label_new(NULL);
-  gtk_box_pack_start(GTK_BOX(vbox), pdialog->name_label, FALSE, FALSE, 2);
+  gtk_misc_set_alignment(GTK_MISC(pdialog->name_label), 0.0f, 0.5f);
+  gtk_box_pack_start(GTK_BOX(hbox), pdialog->name_label, TRUE, TRUE, 0);
 
   /**** -Start of Notebook- ****/
 
@@ -1413,9 +1399,12 @@ static void city_dialog_update_title(struct city_dialog *pdialog)
 static void city_dialog_update_citizens(struct city_dialog *pdialog)
 {
   enum citizen_category citizens[MAX_CITY_SIZE];
-  int i, j, width;
+  int i, j, width, size;
   struct city *pcity = pdialog->pcity;
   int num_citizens = get_city_citizen_types(pcity, FEELING_FINAL, citizens);
+  if (can_conn_edit(&client.conn)) {
+    num_citizens += 2;
+  }
 
   /* If there is not enough space we stack the icons. We draw from left to */
   /* right. width is how far we go to the right for each drawn pixmap. The */
@@ -1432,46 +1421,28 @@ static void city_dialog_update_citizens(struct city_dialog *pdialog)
   pdialog->cwidth = width;
 
   /* overview page */
-  gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->overview.citizen_pixmap));
-  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->overview.citizen_pixmap));
+  gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->citizen_pixmap));
+  gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->citizen_pixmap));
+
+  size = (num_citizens - 1) * width + tileset_small_sprite_width(tileset) +
+         2 * GTK_MISC(pdialog->citizen_pixmap)->xpad;
+  gtk_widget_set_size_request(GTK_WIDGET(pdialog->citizen_pixmap), size, -1);
 
   i = 0;
   if (can_conn_edit(&client.conn)) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->overview.citizen_pixmap),
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
                        get_arrow_sprite(tileset, ARROW_PLUS),
                        i++ * width, 0);
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->overview.citizen_pixmap),
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
                        get_arrow_sprite(tileset, ARROW_MINUS),
                        i++ * width, 0);
   }
-  for (j = 0; j < num_citizens; i++, j++) {
-    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->overview.citizen_pixmap),
+  for (j = 0; i < num_citizens; i++, j++) {
+    gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->citizen_pixmap),
                        get_citizen_sprite(tileset, citizens[j], j, pcity),
                        i * width, 0);
   }
-  gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->overview.citizen_pixmap));
-
-  /* happiness page page */
-  if (!client_has_player() || client_player() == city_owner(pcity)) {
-    gtk_pixcomm_freeze(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
-    gtk_pixcomm_clear(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
-
-    i = 0;
-    if (can_conn_edit(&client.conn)) {
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                         get_arrow_sprite(tileset, ARROW_PLUS),
-                         i++ * width, 0);
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                         get_arrow_sprite(tileset, ARROW_MINUS),
-                         i++ * width, 0);
-    }
-    for (j = 0; j < num_citizens; i++, j++) {
-      gtk_pixcomm_copyto(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap),
-                         get_citizen_sprite(tileset, citizens[j], j, pcity),
-                         i * width, 0);
-    }
-    gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->happiness.citizen_pixmap));
-  }
+  gtk_pixcomm_thaw(GTK_PIXCOMM(pdialog->citizen_pixmap));
 
 /*  gtk_widget_set_sensitive(pdialog->citizen_pixmap,*/
 /*                           !cma_is_city_under_agent(pcity, NULL));*/
