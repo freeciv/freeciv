@@ -40,7 +40,7 @@
 #include "mapview.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
-#define HAPPINESS_PIX_WIDTH 23
+#define HAPPINESS_PIX_WIDTH 50
 
 #define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
 #define	PIXCOMM_HEIGHT	(tileset_small_sprite_height(tileset))
@@ -54,7 +54,8 @@ struct happiness_dialog {
   GtkWidget *shell;
   GtkWidget *cityname_label;
   GtkWidget *hpixmaps[NUM_HAPPINESS_MODIFIERS];
-  GtkWidget *hlabels[NUM_HAPPINESS_MODIFIERS];
+  GtkWidget *happiness_ebox[NUM_HAPPINESS_MODIFIERS];
+  GtkWidget *happiness_label[NUM_HAPPINESS_MODIFIERS];
   GtkWidget *close;
 };
 
@@ -68,8 +69,13 @@ struct happiness_dialog {
 
 static struct dialog_list *dialog_list;
 static struct happiness_dialog *get_happiness_dialog(struct city *pcity);
-static struct happiness_dialog *create_happiness_dialog(struct city
-							*pcity);
+static struct happiness_dialog *create_happiness_dialog(struct city *pcity);
+static gboolean show_happiness_popup(GtkWidget *w,
+                                     GdkEventButton *ev,
+                                     gpointer data);
+static gboolean show_happiness_button_release(GtkWidget *w,
+                                              GdkEventButton *ev,
+                                              gpointer data);
 
 /****************************************************************
 ...
@@ -101,14 +107,95 @@ static struct happiness_dialog *get_happiness_dialog(struct city *pcity)
   return NULL;
 }
 
+/****************************************************************
+  Popup for the happiness display.
+*****************************************************************/
+static gboolean show_happiness_popup(GtkWidget *w,
+                                     GdkEventButton *ev,
+                                     gpointer data)
+{
+  struct happiness_dialog *pdialog = g_object_get_data(G_OBJECT(w),
+                                                        "pdialog");
+
+  if (ev->button == 1) {
+    GtkWidget *p, *label, *frame;
+    char buf[1024];
+
+    switch (GPOINTER_TO_UINT(data)) {
+    case CITIES:
+      sz_strlcpy(buf, text_happiness_cities(pdialog->pcity));
+      break;
+    case LUXURIES:
+      sz_strlcpy(buf, text_happiness_luxuries(pdialog->pcity));
+      break;
+    case BUILDINGS:
+      sz_strlcpy(buf, text_happiness_buildings(pdialog->pcity));
+      break;
+    case UNITS:
+      sz_strlcpy(buf, text_happiness_units(pdialog->pcity));
+      break;
+    case WONDERS:
+      sz_strlcpy(buf, text_happiness_wonders(pdialog->pcity));
+      break;
+    default:
+      return TRUE;
+    }
+
+    p = gtk_window_new(GTK_WINDOW_POPUP);
+    gtk_widget_set_name(p, "Freeciv");
+    gtk_container_set_border_width(GTK_CONTAINER(p), 2);
+    gtk_window_set_position(GTK_WINDOW(p), GTK_WIN_POS_MOUSE);
+
+    frame = gtk_frame_new(NULL);
+    gtk_container_add(GTK_CONTAINER(p), frame);
+
+    label = gtk_label_new(buf);
+    gtk_widget_set_name(label, "city_happiness_label");
+    gtk_misc_set_padding(GTK_MISC(label), 4, 4);
+    gtk_container_add(GTK_CONTAINER(frame), label);
+    gtk_widget_show_all(p);
+
+    gdk_pointer_grab(p->window, TRUE, GDK_BUTTON_RELEASE_MASK,
+                     NULL, NULL, ev->time);
+    gtk_grab_add(p);
+
+    g_signal_connect_after(p, "button_release_event",
+                           G_CALLBACK(show_happiness_button_release), NULL);
+  }
+
+  return TRUE;
+}
+
 /**************************************************************************
-...
+  Clear the happiness popup.
+**************************************************************************/
+static gboolean show_happiness_button_release(GtkWidget *w,
+                                              GdkEventButton *ev,
+                                              gpointer data)
+{
+  gtk_grab_remove(w);
+  gdk_pointer_ungrab(GDK_CURRENT_TIME);
+  gtk_widget_destroy(w);
+  return FALSE;
+}
+
+/**************************************************************************
+  Create the happiness notebook page.
 **************************************************************************/
 static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 {
   int i;
   struct happiness_dialog *pdialog;
-  GtkWidget *vbox;
+  GtkWidget *hbox, *ebox, *cbox, *label, *table;
+
+  static const char *happiness_label_str[NUM_HAPPINESS_MODIFIERS] = {
+    N_("Cities:"),
+    N_("Luxuries:"),
+    N_("Buildings:"),
+    N_("Units:"),
+    N_("Wonders:"),
+  };
+  static bool happiness_label_str_done;
 
   pdialog = fc_malloc(sizeof(struct happiness_dialog));
   pdialog->pcity = pcity;
@@ -117,33 +204,54 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
 
   pdialog->cityname_label = gtk_frame_new(_("Happiness"));
   gtk_box_pack_start(GTK_BOX(pdialog->shell),
-		     pdialog->cityname_label, TRUE, TRUE, 0);
+                     pdialog->cityname_label, TRUE, TRUE, 0);
 
-  vbox = gtk_vbox_new(FALSE, 18);
-  gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), vbox);
+  hbox = gtk_hbox_new(TRUE, 0);
+
+  table = gtk_table_new(NUM_HAPPINESS_MODIFIERS, 2, FALSE);
+  gtk_table_set_col_spacing(GTK_TABLE(table), 0, 5);
+  gtk_box_pack_start(GTK_BOX(hbox), table, FALSE, FALSE, 4);
+
+  intl_slist(ARRAY_SIZE(happiness_label_str), happiness_label_str,
+             &happiness_label_str_done);
+
+  gtk_container_add(GTK_CONTAINER(pdialog->cityname_label), hbox);
 
   for (i = 0; i < NUM_HAPPINESS_MODIFIERS; i++) {
-    GtkWidget *box;
-    
-    box = gtk_vbox_new(FALSE, 2);
-    gtk_box_pack_start(GTK_BOX(vbox), box, FALSE, FALSE, 0);
-    
+    /* set spacing between lines of citizens*/
+    if (i + 1 < NUM_HAPPINESS_MODIFIERS) {
+      gtk_table_set_row_spacing(GTK_TABLE(table), i, 10);
+    }
+
+    /* happiness labels */
+    label = gtk_label_new(happiness_label_str[i]);
+    pdialog->happiness_label[i] = label;
+    gtk_widget_set_name(label, "city_label");
+    gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
+
+    gtk_table_attach(GTK_TABLE(table), label, 0, 1, i, i + 1, GTK_FILL, 0,
+                     0, 0);
+
+    /* list of citizens */
+    ebox = gtk_event_box_new();
+    g_object_set_data(G_OBJECT(ebox), "pdialog", pdialog);
+    g_signal_connect(ebox, "button_press_event",
+                     G_CALLBACK(show_happiness_popup), GUINT_TO_POINTER(i));
+    pdialog->happiness_ebox[i] = ebox;
+
+    cbox = gtk_vbox_new(FALSE, 2);
     pdialog->hpixmaps[i] = gtk_pixcomm_new(PIXCOMM_WIDTH, PIXCOMM_HEIGHT);
-    gtk_box_pack_start(GTK_BOX(box), pdialog->hpixmaps[i], FALSE, FALSE, 0);
-
-    pdialog->hlabels[i] = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(box), pdialog->hlabels[i], TRUE, FALSE, 0);
-
+    gtk_box_pack_start(GTK_BOX(cbox), pdialog->hpixmaps[i], FALSE, FALSE, 0);
     gtk_misc_set_alignment(GTK_MISC(pdialog->hpixmaps[i]), 0, 0);
-    gtk_misc_set_alignment(GTK_MISC(pdialog->hlabels[i]), 0, 0);
-    gtk_label_set_justify(GTK_LABEL(pdialog->hlabels[i]), GTK_JUSTIFY_LEFT);
-    gtk_label_set_line_wrap(GTK_LABEL(pdialog->hlabels[i]), TRUE);
+
+    gtk_container_add(GTK_CONTAINER(ebox), cbox);
+
+    gtk_table_attach(GTK_TABLE(table), ebox, 1, 2, i, i + 1, GTK_FILL, 0,
+                     0, 0);
   }
 
   gtk_widget_show_all(pdialog->shell);
-
   dialog_list_prepend(dialog_list, pdialog);
-
   refresh_happiness_dialog(pcity);
 
   return pdialog;
@@ -182,17 +290,6 @@ void refresh_happiness_dialog(struct city *pcity)
   for (i = 0; i < FEELING_LAST; i++) {
     refresh_pixcomm(GTK_PIXCOMM(pdialog->hpixmaps[i]), pdialog->pcity, i);
   }
-
-  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[CITIES]),
-		     text_happiness_cities(pdialog->pcity));
-  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[LUXURIES]),
-		     text_happiness_luxuries(pdialog->pcity));
-  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[BUILDINGS]),
-		     text_happiness_buildings(pdialog->pcity));
-  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[UNITS]),
-		     text_happiness_units(pdialog->pcity));
-  gtk_label_set_text(GTK_LABEL(pdialog->hlabels[WONDERS]),
-		     text_happiness_wonders(pdialog->pcity));
 }
 
 /**************************************************************************
