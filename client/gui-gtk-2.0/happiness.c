@@ -40,7 +40,7 @@
 #include "mapview.h"
 
 /* semi-arbitrary number that controls the width of the happiness widget */
-#define HAPPINESS_PIX_WIDTH 50
+#define HAPPINESS_PIX_WIDTH 30
 
 #define	PIXCOMM_WIDTH	(HAPPINESS_PIX_WIDTH * tileset_small_sprite_width(tileset))
 #define	PIXCOMM_HEIGHT	(tileset_small_sprite_height(tileset))
