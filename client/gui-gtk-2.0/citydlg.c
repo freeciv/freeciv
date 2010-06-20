@@ -1017,7 +1017,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
 
   /* (bottom:) Happiness */
   pdialog->happiness.widget = gtk_vbox_new(FALSE, 0);
-  gtk_box_pack_start(GTK_BOX(page), pdialog->happiness.widget, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(page), pdialog->happiness.widget, FALSE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(pdialog->happiness.widget),
                      get_top_happiness_display(pdialog->pcity), TRUE, TRUE, 0);
 
