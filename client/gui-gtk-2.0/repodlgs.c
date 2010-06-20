@@ -280,7 +280,7 @@ static GtkWidget *create_reqtree_diagram(void)
 *****************************************************************/
 void create_science_dialog(bool make_modal)
 {
-  GtkWidget *frame, *hbox, *w;
+  GtkWidget *frame, *table, *w;
   GtkWidget *science_diagram;
 
   gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
@@ -301,46 +301,52 @@ void create_science_dialog(bool make_modal)
   gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
         frame, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new(TRUE, 4);
-  gtk_container_add(GTK_CONTAINER(frame), hbox);
+  table = gtk_table_new(1, 6, TRUE);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  gtk_container_add(GTK_CONTAINER(frame), table);
 
   science_change_menu_button = gtk_option_menu_new();
-  gtk_box_pack_start(GTK_BOX(hbox), science_change_menu_button,
-      TRUE, TRUE, 0);
+  gtk_table_attach_defaults(GTK_TABLE(table), science_change_menu_button, 0,
+                            2, 0, 1);
 
   popupmenu = gtk_menu_new();
   gtk_widget_show_all(popupmenu);
 
   science_current_label=gtk_progress_bar_new();
-  gtk_box_pack_start(GTK_BOX(hbox), science_current_label, TRUE, TRUE, 0);
+  gtk_table_attach_defaults(GTK_TABLE(table), science_current_label,
+                            2, 5, 0, 1);
   gtk_widget_set_size_request(science_current_label, -1, 25);
-  
+
   science_help_toggle = gtk_check_button_new_with_label (_("Help"));
-  gtk_box_pack_start(GTK_BOX(hbox), science_help_toggle, TRUE, FALSE, 0);
+  gtk_table_attach(GTK_TABLE(table), science_help_toggle,
+                   5, 6, 0, 1, 0, 0, 0, 0);
 
   frame = gtk_frame_new( _("Goal"));
   gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
         frame, FALSE, FALSE, 0);
 
-  hbox = gtk_hbox_new(TRUE, 4);
-  gtk_container_add(GTK_CONTAINER(frame),hbox);
+  table = gtk_table_new(1, 6, TRUE);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  gtk_container_add(GTK_CONTAINER(frame),table);
 
   science_goal_menu_button = gtk_option_menu_new();
-  gtk_box_pack_start(GTK_BOX(hbox), science_goal_menu_button,
-      TRUE, TRUE, 0);
+  gtk_table_attach_defaults(GTK_TABLE(table), science_goal_menu_button,
+                            0, 2, 0, 1);
 
   goalmenu = gtk_menu_new();
   gtk_widget_show_all(goalmenu);
 
   science_goal_label = gtk_label_new("");
-  gtk_box_pack_start(GTK_BOX(hbox), science_goal_label, TRUE, TRUE, 0);
+  gtk_table_attach_defaults(GTK_TABLE(table), science_goal_label,
+                            2, 5, 0, 1);
   gtk_widget_set_size_request(science_goal_label, -1, 25);
 
   w = gtk_label_new("");
-  gtk_box_pack_start(GTK_BOX(hbox), w, TRUE, FALSE, 0);
-  
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 5, 6, 0, 1);
+
   science_diagram = create_reqtree_diagram();
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), science_diagram, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), science_diagram,
+                     TRUE, TRUE, 0);
 
   gui_dialog_show_all(science_dialog_shell);
 
