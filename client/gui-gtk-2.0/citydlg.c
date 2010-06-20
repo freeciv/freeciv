@@ -1601,10 +1601,9 @@ static void city_dialog_update_building(struct city_dialog *pdialog)
   } else {
     pct = 1.0;
   }
-  
-  my_snprintf(buf2, sizeof(buf2), "%s%s: %s", descr,
-	      worklist_is_empty(&pcity->worklist) ? "" : " (+)",
-	      buf);
+
+  my_snprintf(buf2, sizeof(buf2), "%s%s\n%s", descr,
+              worklist_is_empty(&pcity->worklist) ? "" : " (+)", buf);
   gtk_progress_bar_set_text(
     GTK_PROGRESS_BAR(pdialog->overview.production_bar), buf2);
   gtk_progress_bar_set_text(
