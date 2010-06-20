@@ -1010,7 +1010,7 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       }
     } unit_type_iterate_end;
 
-    for (i = 0; i < 3; i++) {
+    for (i = 0; i < 2; i++) {
       if (top[i] && types_count[utype_index(top[i])] > 0) {
 	if (utype_has_flag(top[i], F_CIVILIAN)) {
 	  nonmil -= types_count[utype_index(top[i])];
@@ -1025,7 +1025,11 @@ const char *get_unit_info_label_text2(struct unit_list *punits, int linebreaks)
       }
     }
 
-    if (nonmil > 0 && mil > 0) {
+    if (top[2] && types_count[utype_index(top[2])] > 0
+        && types_count[utype_index(top[2])] == nonmil + mil) {
+      astr_add_line(&str, "%d: %s", types_count[utype_index(top[2])],
+                    utype_name_translation(top[2]));
+    } else if (nonmil > 0 && mil > 0) {
       astr_add_line(&str, _("Others: %d civil; %d military"), nonmil, mil);
     } else if (nonmil > 0) {
       astr_add_line(&str, _("Others: %d civilian"), nonmil);
