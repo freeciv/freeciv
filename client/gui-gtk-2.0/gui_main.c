@@ -602,7 +602,11 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * latest text from other players; MUST NOT make spurious text windows
      * at the bottom of other dialogs.
      */
-    gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+    if (gui_gtk2_small_display_layout) {
+      gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
+    } else {
+      gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
+    }
     inputline_grab_focus();
     return TRUE;
 
@@ -963,11 +967,11 @@ static void setup_widgets(void)
 
   top_vbox = gtk_vbox_new(FALSE, 5);
   hbox = gtk_hbox_new(FALSE, 0);
-  paned = gtk_vpaned_new();
 
   if (gui_gtk2_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
+    paned = gtk_hpaned_new();
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
                                           top_vbox);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
@@ -975,6 +979,7 @@ static void setup_widgets(void)
   } else {
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
+    paned = gtk_vpaned_new();
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page), paned);
     gtk_paned_pack1(GTK_PANED(paned), top_vbox, TRUE, FALSE);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
@@ -1258,25 +1263,30 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  sbox = detached_widget_new();
-  gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
-  avbox = detached_widget_fill(sbox);
+  if (gui_gtk2_small_display_layout) {
+    bottom_hpaned = hpaned = paned;
+    bottom_notebook = top_notebook;
+  } else {
+    sbox = detached_widget_new();
+    gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
+    avbox = detached_widget_fill(sbox);
 
-  vbox = gtk_vbox_new(FALSE, 0);
-  if (ingame_votebar == NULL) {
-    ingame_votebar = voteinfo_bar_new();
+    vbox = gtk_vbox_new(FALSE, 0);
+    if (ingame_votebar == NULL) {
+      ingame_votebar = voteinfo_bar_new();
+    }
+    gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
+    gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
+
+    hpaned = gtk_hpaned_new();
+    gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
+    bottom_hpaned = hpaned;
+
+    bottom_notebook = gtk_notebook_new();
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
+    gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
+    gtk_paned_pack1(GTK_PANED(hpaned), bottom_notebook, TRUE, TRUE);
   }
-  gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
-  gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
-
-  hpaned = gtk_hpaned_new();
-  gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
-  bottom_hpaned = hpaned;
-
-  bottom_notebook = gtk_notebook_new();
-  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
-  gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
-  gtk_paned_pack1(GTK_PANED(hpaned), bottom_notebook, TRUE, TRUE);
 
   right_notebook = gtk_notebook_new();
   g_object_ref(right_notebook);
