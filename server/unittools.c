@@ -781,8 +781,17 @@ static void update_unit_activity(struct unit *punit)
       struct base_type *new_base = base_by_number(punit->activity_base);
 
       create_base(ptile, new_base, unit_owner(punit));
+      update_tile_knowledge(ptile);
 
-      unit_activity_done = TRUE;
+      unit_list_iterate (ptile->units, punit2) {
+        if ((punit2->activity == ACTIVITY_BASE)
+            && (punit2->activity_base == punit->activity_base)) {
+	  set_unit_activity(punit2, ACTIVITY_IDLE);
+	  send_unit_info(NULL, punit2);
+	}
+      } unit_list_iterate_end;
+      /* Deliberately don't set unit_activity_done -- we already dealt with
+       * other units working on the same thing above */
     }
     break;
 
