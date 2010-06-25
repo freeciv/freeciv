@@ -1058,6 +1058,9 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 **************************************************************************/
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
+  fc_assert_ret(new_activity != ACTIVITY_FORTRESS
+                && new_activity != ACTIVITY_AIRBASE);
+
   punit->activity=new_activity;
   punit->activity_count=0;
   punit->activity_target = S_LAST;
@@ -1076,8 +1079,8 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum tile_special_type new_target,
                                 Base_type_id base)
 {
-  fc_assert_ret(new_target != ACTIVITY_FORTRESS
-                && new_target != ACTIVITY_AIRBASE);
+  fc_assert_ret(new_target != S_OLD_FORTRESS
+                && new_target != S_OLD_AIRBASE);
 
   set_unit_activity(punit, new_activity);
   punit->activity_target = new_target;
