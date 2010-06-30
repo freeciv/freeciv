@@ -413,17 +413,13 @@ static void city_dialog_map_recenter(GtkWidget *map_canvas_sw) {
 
   adjust = gtk_scrolled_window_get_hadjustment(
     GTK_SCROLLED_WINDOW(map_canvas_sw));
-  value = (gtk_adjustment_get_lower(GTK_ADJUSTMENT(adjust)) +
-           gtk_adjustment_get_upper(GTK_ADJUSTMENT(adjust)) -
-           gtk_adjustment_get_page_size(GTK_ADJUSTMENT(adjust))) / 2;
+  value = (adjust->lower + adjust->upper - adjust->page_size) / 2;
   gtk_adjustment_set_value(adjust, value);
   gtk_adjustment_value_changed(adjust);
 
   adjust = gtk_scrolled_window_get_vadjustment(
     GTK_SCROLLED_WINDOW(map_canvas_sw));
-  value = (gtk_adjustment_get_lower(GTK_ADJUSTMENT(adjust)) +
-           gtk_adjustment_get_upper(GTK_ADJUSTMENT(adjust)) -
-           gtk_adjustment_get_page_size(GTK_ADJUSTMENT(adjust))) / 2;
+  value = (adjust->lower + adjust->upper - adjust->page_size) / 2;
   gtk_adjustment_set_value(adjust, value);
   gtk_adjustment_value_changed(adjust);
 }
