@@ -630,7 +630,7 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "%s.wl_is_unit%d",
 						 path_str, i);
-      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+      kind = universals_n_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     /* We lookup the production value by name.  An invalid entry isn't a
@@ -638,7 +638,7 @@ static void worklist_load(struct section_file *file, struct worklist *pwl,
     name = secfile_lookup_str_default(file, "-", "%s.wl_value%d",
 				      path_str, i);
     pwl->entries[i] = universal_by_rule_name(kind, name);
-    if (VUT_LAST == pwl->entries[i].kind) {
+    if (pwl->entries[i].kind == universals_n_invalid()) {
       log_error("%s.wl_value%d: unknown \"%s\" \"%s\".",
                 path_str, i, kind, name);
       pwl->length = i;
@@ -2907,7 +2907,7 @@ static void player_load_cities(struct player *plr, int plrno,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "player%d.c%d.is_building_unit",
 						 plrno, i);
-      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+      kind = universals_n_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     name = secfile_lookup_str(file, "player%d.c%d.currently_building_name",
@@ -2941,7 +2941,7 @@ static void player_load_cities(struct player *plr, int plrno,
       };
     }
     pcity->production = universal_by_rule_name(kind, name);
-    if (VUT_LAST == pcity->production.kind) {
+    if (pcity->production.kind == universals_n_invalid()) {
       log_fatal("player%d.c%d.currently_building: unknown \"%s\" \"%s\".",
                 plrno, i, kind, name);
       exit(EXIT_FAILURE);
@@ -2954,7 +2954,7 @@ static void player_load_cities(struct player *plr, int plrno,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
 						 "player%d.c%d.changed_from_is_unit",
 						 plrno, i);
-      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+      kind = universals_n_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     name = secfile_lookup_str(file, "player%d.c%d.changed_from_name",
@@ -2988,7 +2988,7 @@ static void player_load_cities(struct player *plr, int plrno,
       };
     }
     pcity->changed_from = universal_by_rule_name(kind, name);
-    if (VUT_LAST == pcity->changed_from.kind) {
+    if (pcity->changed_from.kind == universals_n_invalid()) {
       log_fatal("player%d.c%d.changed_from: unknown \"%s\" \"%s\".",
                 plrno, i, kind, name);
       exit(EXIT_FAILURE);

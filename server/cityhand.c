@@ -415,14 +415,14 @@ void handle_city_change(struct player *pplayer, int city_id,
   struct universal prod;
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
 
-  if (production_kind < VUT_NONE || production_kind >= VUT_LAST) {
+  if (universals_n_is_valid(production_kind)) {
     log_error("handle_city_change() bad production_kind %d.",
               production_kind);
     prod.kind = VUT_NONE;
     return;
   } else {
     prod = universal_by_number(production_kind, production_value);
-    if (prod.kind < VUT_NONE || prod.kind >= VUT_LAST) {
+    if (universals_n_is_valid(prod.kind)) {
       log_error("handle_city_change() production_kind %d with bad "
                 "production_value %d.", production_kind, production_value);
       prod.kind = VUT_NONE;

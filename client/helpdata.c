@@ -546,7 +546,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
      cat_snprintf(buf, bufsz, _("Applies only to city centers.\n"));
     return TRUE;
 
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
 

@@ -110,7 +110,7 @@ void global_worklists_build(void)
 
         puni_name = pgwl->unbuilt.entries + i;
         source = universal_by_rule_name(puni_name->kind, puni_name->name);
-        if (source.kind == VUT_LAST) {
+        if (source.kind == universals_n_invalid()) {
           /* This worklist is not valid on this ruleset.
            * N.B.: Don't remove it to resave it in client rc file. */
           break;
@@ -365,7 +365,7 @@ static bool global_worklist_load(struct section_file *file,
       bool is_unit = secfile_lookup_bool_default(file, FALSE,
                                                  "%s.wl_is_unit%d",
                                                  path_str, i);
-      kind = universal_kind_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
+      kind = universals_n_name(is_unit ? VUT_UTYPE : VUT_IMPROVEMENT);
     }
 
     name = secfile_lookup_str_default(file, NULL, "%s.wl_value%d",

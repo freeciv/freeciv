@@ -343,7 +343,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
 	"%s.%s%d.negated", sec, sub, j);
 
     req = req_from_str(type, range, survives, negated, name);
-    if (VUT_LAST == req.source.kind) {
+    if (req.source.kind == universals_n_invalid()) {
       /* Error.  Log it, clear the req and continue. */
       log_error("\"%s\" [%s] has unknown req: \"%s\" \"%s\".",
                 filename, sec, type, name);
@@ -4108,8 +4108,7 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
 {
   int rc;
 
-  fc_assert_ret_val(preq->source.kind >= 0 && preq->source.kind < VUT_LAST,
-                    FALSE);
+  fc_assert_ret_val(universals_n_is_valid(preq->source.kind), FALSE);
 
   /* Add to counter */
   reqs_of_type[preq->source.kind]++;
@@ -4159,7 +4158,7 @@ static bool sanity_check_req_set(int reqs_of_type[], struct requirement *preq,
      case VUT_UCFLAG:
        /* Can have multiple requirements of these types */
        break;
-     case VUT_LAST:
+     case VUT_COUNT:
        /* Should never be in requirement vector */
        fc_assert(FALSE);
        return FALSE;
@@ -4190,7 +4189,7 @@ static bool sanity_check_req_list(const struct requirement_list *preqs,
                                   int max_tiles,
                                   const char *list_for)
 {
-  int reqs_of_type[VUT_LAST];
+  int reqs_of_type[VUT_COUNT];
 
   /* Initialize requirement counters */
   memset(reqs_of_type, 0, sizeof(reqs_of_type));
@@ -4212,7 +4211,7 @@ static bool sanity_check_req_vec(const struct requirement_vector *preqs,
                                  int max_tiles,
                                  const char *list_for)
 {
-  int reqs_of_type[VUT_LAST];
+  int reqs_of_type[VUT_COUNT];
 
   /* Initialize requirement counters */
   memset(reqs_of_type, 0, sizeof(reqs_of_type));

@@ -1169,14 +1169,17 @@ static bool worklist_change_build_target(struct player *pplayer,
                                  API_TYPE_CITY, pcity,
                                  API_TYPE_STRING, "need_minyear");
               break;
-	    case VUT_NONE:
-	    case VUT_LAST:
-	    default:
+            case VUT_BASE:
+            case VUT_NONE:
+            case VUT_COUNT:
               fc_assert_ret_val_msg(FALSE, TRUE,
                                     "worklist_change_build_target() "
                                     "called with invalid preq");
-	      break;
-	    };
+            break;
+            /* No default handling here, as we want compiler warning
+             * if new requirement type is added to enum and it's not handled
+             * here. */
+            };
 	    break;
 	  }
 

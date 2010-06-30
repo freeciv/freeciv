@@ -435,14 +435,14 @@ void handle_city_info(struct packet_city_info *packet)
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
 
-  if (packet->production_kind < VUT_NONE || packet->production_kind >= VUT_LAST) {
+  if (!universals_n_is_valid(packet->production_kind)) {
     log_error("handle_city_info() bad production_kind %d.",
               packet->production_kind);
     product.kind = VUT_NONE;
   } else {
     product = universal_by_number(packet->production_kind,
                                   packet->production_value);
-    if (product.kind < VUT_NONE || product.kind >= VUT_LAST) {
+    if (!universals_n_is_valid(product.kind)) {
       log_error("handle_city_info() "
                 "production_kind %d with bad production_value %d.",
                 packet->production_kind, packet->production_value);
@@ -598,15 +598,15 @@ void handle_city_info(struct packet_city_info *packet)
 
   pcity->turn_founded = packet->turn_founded;
   pcity->turn_last_built = packet->turn_last_built;
-  
-  if (packet->changed_from_kind < VUT_NONE || packet->changed_from_kind >= VUT_LAST) {
+
+  if (!universals_n_is_valid(packet->changed_from_kind)) {
     log_error("handle_city_info() bad changed_from_kind %d.",
               packet->changed_from_kind);
     product.kind = VUT_NONE;
   } else {
     product = universal_by_number(packet->changed_from_kind,
                                      packet->changed_from_value);
-    if (product.kind < VUT_NONE ||  product.kind >= VUT_LAST) {
+    if (!universals_n_is_valid(product.kind)) {
       log_error("handle_city_info() bad changed_from_value %d.",
                 packet->changed_from_value);
       product.kind = VUT_NONE;

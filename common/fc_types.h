@@ -223,32 +223,56 @@ typedef union {
   int unitflag;				/* enum unit_flag_id */
 } universals_u;
 
-/* The kind of universals_u (value_union_type was req_source_type).
- * Note: order must correspond to universal_names[] in requirements.c.
- */
-enum universals_n {
-  VUT_NONE,
-  VUT_ADVANCE,
-  VUT_GOVERNMENT,
-  VUT_IMPROVEMENT,
-  VUT_SPECIAL,
-  VUT_TERRAIN,
-  VUT_NATION,
-  VUT_UTYPE,
-  VUT_UTFLAG,
-  VUT_UCLASS,
-  VUT_UCFLAG,
-  VUT_OTYPE,
-  VUT_SPECIALIST,
-  VUT_MINSIZE,		/* Minimum size: at city range means city size */
-  VUT_AI_LEVEL,		/* AI level of the player */
-  VUT_TERRAINCLASS,	/* More generic terrain type, currently "Land" or "Ocean" */
-  VUT_BASE,
-  VUT_MINYEAR,
-  VUT_TERRAINALTER,     /* Terrain alterations that are possible */
-  VUT_CITYTILE,         /* Target tile is used by city */
-  VUT_LAST
-};
+/* The kind of universals_u (value_union_type was req_source_type). */
+#define SPECENUM_NAME universals_n
+#define SPECENUM_VALUE0 VUT_NONE
+#define SPECENUM_VALUE0NAME "None"
+#define SPECENUM_VALUE1 VUT_ADVANCE
+#define SPECENUM_VALUE1NAME "Tech"
+#define SPECENUM_VALUE2 VUT_GOVERNMENT
+#define SPECENUM_VALUE2NAME "Gov"
+#define SPECENUM_VALUE3 VUT_IMPROVEMENT
+#define SPECENUM_VALUE3NAME "Building"
+#define SPECENUM_VALUE4 VUT_SPECIAL
+#define SPECENUM_VALUE4NAME "Special"
+#define SPECENUM_VALUE5 VUT_TERRAIN
+#define SPECENUM_VALUE5NAME "Terrain"
+#define SPECENUM_VALUE6 VUT_NATION
+#define SPECENUM_VALUE6NAME "Nation"
+#define SPECENUM_VALUE7 VUT_UTYPE
+#define SPECENUM_VALUE7NAME "UnitType"
+#define SPECENUM_VALUE8 VUT_UTFLAG
+#define SPECENUM_VALUE8NAME "UnitFlag"
+#define SPECENUM_VALUE9 VUT_UCLASS
+#define SPECENUM_VALUE9NAME "UnitClass"
+#define SPECENUM_VALUE10 VUT_UCFLAG
+#define SPECENUM_VALUE10NAME "UnitClassFlag"
+#define SPECENUM_VALUE11 VUT_OTYPE
+#define SPECENUM_VALUE11NAME "OutputType"
+#define SPECENUM_VALUE12 VUT_SPECIALIST
+#define SPECENUM_VALUE12NAME "Specialist"
+/* Minimum size: at city range means city size */
+#define SPECENUM_VALUE13 VUT_MINSIZE
+#define SPECENUM_VALUE13NAME "MinSize"
+/* AI level of the player */
+#define SPECENUM_VALUE14 VUT_AI_LEVEL
+#define SPECENUM_VALUE14NAME "AI"
+/* More generic terrain type currently "Land" or "Ocean" */
+#define SPECENUM_VALUE15 VUT_TERRAINCLASS
+#define SPECENUM_VALUE15NAME "TerrainClass"
+#define SPECENUM_VALUE16 VUT_BASE
+#define SPECENUM_VALUE16NAME "Base"
+#define SPECENUM_VALUE17 VUT_MINYEAR
+#define SPECENUM_VALUE17NAME "MinYear"
+/* Terrain alterations that are possible */
+#define SPECENUM_VALUE18 VUT_TERRAINALTER
+#define SPECENUM_VALUE18NAME "TerrainAlter"
+/* Target tile is used by city. */
+#define SPECENUM_VALUE19 VUT_CITYTILE
+#define SPECENUM_VALUE19NAME "CityTile"
+/* Keep this last. */
+#define SPECENUM_COUNT VUT_COUNT
+#include "specenum_gen.h"
 
 struct universal {
   universals_u value;

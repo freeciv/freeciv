@@ -28,31 +28,6 @@
 
 #include "requirements.h"
 
-/* Names of source types.  These must correspond to enum universals_n in
- * fc_types.h.  Do not change these unless you know what you're doing! */
-static const char *universal_names[] = {
-  "None",
-  "Tech",
-  "Gov",
-  "Building",
-  "Special",
-  "Terrain",
-  "Nation",
-  "UnitType",
-  "UnitFlag",
-  "UnitClass",
-  "UnitClassFlag",
-  "OutputType",
-  "Specialist",
-  "MinSize",
-  "AI",
-  "TerrainClass",
-  "Base",
-  "MinYear",
-  "TerrainAlter",
-  "CityTile"
-};
-
 /**************************************************************************
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).
@@ -63,19 +38,10 @@ static const char *universal_names[] = {
 struct universal universal_by_rule_name(const char *kind,
 					const char *value)
 {
-  struct universal source = { .kind = VUT_LAST };
+  struct universal source;
 
-  fc_assert_ret_val(ARRAY_SIZE(universal_names) == VUT_LAST, source);
-
-  if (kind) {
-    for (source.kind = 0;
-         source.kind < ARRAY_SIZE(universal_names);
-         source.kind++) {
-      if (0 == fc_strcasecmp(universal_names[source.kind], kind)) {
-        break;
-      }
-    }
-  } else {
+  source.kind = universals_n_by_name(kind, strcmp);
+  if (!universals_n_is_valid(source.kind)) {
     source.kind = VUT_NONE;
   }
 
@@ -196,12 +162,12 @@ struct universal universal_by_rule_name(const char *kind,
       return source;
     }
     break;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
 
   /* If we reach here there's been an error. */
-  source.kind = VUT_LAST;
+  source.kind = universals_n_invalid();
   return source;
 }
 
@@ -298,12 +264,12 @@ struct universal universal_by_number(const enum universals_n kind,
   case VUT_CITYTILE:
     source.value.citytile = value;
     return source;
-  case VUT_LAST:
-    return source;
+  case VUT_COUNT:
+    break;
   }
 
   /* If we reach here there's been an error. */
-  source.kind = VUT_LAST;
+  source.kind = universals_n_invalid();
   return source;
 }
 
@@ -364,7 +330,7 @@ int universal_number(const struct universal *source)
     return source->value.terrainalter;
   case VUT_CITYTILE:
     return source->value.citytile;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
 
@@ -376,8 +342,8 @@ int universal_number(const struct universal *source)
 
 /****************************************************************************
   Parse a requirement type and value string into a requrement structure.
-  Returns VUT_LAST on error.  Passing in a NULL type is considered VUT_NONE
-  (not an error).
+  Returns the invalid element for enum universal_n on error. Passing in a
+  NULL type is considered VUT_NONE (not an error).
 
   Pass this some values like "Building", "Factory".
 ****************************************************************************/
@@ -396,7 +362,7 @@ struct requirement req_from_str(const char *type, const char *range,
   if (!req_range_is_valid(req.range)) {
     switch (req.source.kind) {
     case VUT_NONE:
-    case VUT_LAST:
+    case VUT_COUNT:
       break;
     case VUT_IMPROVEMENT:
     case VUT_SPECIAL:
@@ -477,14 +443,15 @@ struct requirement req_from_str(const char *type, const char *range,
   case VUT_NONE:
     invalid = FALSE;
     break;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
+
   if (invalid) {
     log_error("Invalid requirement %s | %s | %s | %s | %s",
               type, range, survives ? "survives" : "",
               negated ? "negated" : "", value);
-    req.source.kind = VUT_LAST;
+    req.source.kind = universals_n_invalid();
   }
 
   return req;
@@ -1096,7 +1063,7 @@ bool is_req_active(const struct player *target_player,
       eval = FALSE;
     }
     break;
-  case VUT_LAST:
+  case VUT_COUNT:
     log_error("is_req_active(): invalid source kind %d.", req->source.kind);
     return FALSE;
   }
@@ -1184,7 +1151,7 @@ bool is_req_unchanging(const struct requirement *req)
   case VUT_MINYEAR:
     /* Once year is reached, it does not change again */
     return req->source.value.minyear > game.info.year;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
   fc_assert_msg(FALSE, "Invalid source kind %d.", req->source.kind);
@@ -1242,21 +1209,12 @@ bool are_universals_equal(const struct universal *psource1,
     return psource1->value.terrainalter == psource2->value.terrainalter;
   case VUT_CITYTILE:
     return psource1->value.citytile == psource2->value.citytile;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
+
   fc_assert_msg(FALSE, "Invalid source kind %d.", psource1->kind);
   return FALSE;
-}
-
-/****************************************************************************
-  Return the (untranslated) rule name of the kind of universal.
-  You don't have to free the return pointer.
-*****************************************************************************/
-const char *universal_kind_name(const enum universals_n kind)
-{
-  fc_assert_ret_val(kind >= 0 && kind < ARRAY_SIZE(universal_names), NULL);
-  return universal_names[kind];
 }
 
 /****************************************************************************
@@ -1305,7 +1263,7 @@ const char *universal_rule_name(const struct universal *psource)
     return base_rule_name(psource->value.base);
   case VUT_TERRAINALTER:
     return terrain_alteration_rule_name(psource->value.terrainalter);
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
 
@@ -1402,9 +1360,10 @@ const char *universal_name_translation(const struct universal *psource,
   case VUT_CITYTILE:
     fc_strlcat(buf, _("City center tile"), bufsz);
     return buf;
-  case VUT_LAST:
+  case VUT_COUNT:
     break;
   }
+
   fc_assert_msg(FALSE, "Invalid source kind %d.", psource->kind);
   return buf;
 }
@@ -1414,7 +1373,7 @@ const char *universal_name_translation(const struct universal *psource,
 *****************************************************************************/
 const char *universal_type_rule_name(const struct universal *psource)
 {
-  return universal_kind_name(psource->kind);
+  return universals_n_name(psource->kind);
 }
 
 /**************************************************************************

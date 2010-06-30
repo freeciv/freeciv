@@ -1565,7 +1565,7 @@ static void ai_city_choose_build(struct player *pplayer, struct city *pcity)
       pcity->production.kind = VUT_NONE;
       break;
     case CT_LAST:
-      pcity->production.kind = VUT_LAST;
+      pcity->production.kind = universals_n_invalid();
       break;
     };
   }
