@@ -268,36 +268,6 @@ const char *terrain_rule_name(const struct terrain *pterrain)
 }
 
 /****************************************************************************
-  Return the terrain flag matching the given string, or TER_LAST if there's
-  no match.
-****************************************************************************/
-enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s)
-{
-  enum terrain_flag_id flag;
-  const char *flag_names[] = {
-    /* Must match terrain flags in terrain.h. */
-    "NoBarbs",
-    "NoPollution",
-    "NoCities",
-    "Starter",
-    "CanHaveRiver",
-    "UnsafeCoast",
-    "Oceanic",
-    "Freshwater"
-  };
-
-  fc_assert_ret_val(ARRAY_SIZE(flag_names) == TER_COUNT, TER_LAST);
-
-  for (flag = TER_FIRST; flag < TER_LAST; flag++) {
-    if (fc_strcasecmp(flag_names[flag], s) == 0) {
-      return flag;
-    }
-  }
-
-  return TER_LAST;
-}
-
-/****************************************************************************
   Check for resource in terrain resources list.
 ****************************************************************************/
 bool terrain_has_resource(const struct terrain *pterrain,

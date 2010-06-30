@@ -1966,9 +1966,9 @@ static void load_ruleset_terrain(struct section_file *file)
     BV_CLR_ALL(pterrain->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
-      enum terrain_flag_id flag = find_terrain_flag_by_rule_name(sval);
+      enum terrain_flag_id flag = terrain_flag_id_by_name(sval, strcmp);
 
-      if (flag == TER_LAST) {
+      if (!terrain_flag_id_is_valid(flag)) {
         ruleset_error(LOG_FATAL, "\"%s\" [%s] has unknown flag \"%s\".",
                       filename, tsection, sval);
       } else {

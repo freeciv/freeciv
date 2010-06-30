@@ -102,20 +102,33 @@ enum terrain_class {
   TC_LAST
 };
 
-/* Must match with find_terrain_flag_by_rule_name in terrain.c. */
-enum terrain_flag_id {
-  TER_NO_BARBS, /* No barbarians summoned on this terrain. */
-  TER_NO_POLLUTION, /* This terrain cannot be polluted. */
-  TER_NO_CITIES, /* No cities on this terrain. */
-  TER_STARTER, /* Players will start on this terrain type. */
-  TER_CAN_HAVE_RIVER, /* Terrains with this type can have S_RIVER on them. */
-  TER_UNSAFE_COAST,/*this tile is not safe as coast, (all ocean / ice) */ 
-  TER_OCEANIC,     /* This is an water terrain. */
-  TER_FRESHWATER,  /* Fresh water terrain */
-  TER_LAST
-};
-#define TER_FIRST (TER_NO_BARBS)
-#define TER_COUNT (TER_LAST)
+#define SPECENUM_NAME terrain_flag_id
+/* No barbarians summoned on this terrain. */
+#define SPECENUM_VALUE0 TER_NO_BARBS
+#define SPECENUM_VALUE0NAME "NoBarbs"
+/* This terrain cannot be polluted. */
+#define SPECENUM_VALUE1 TER_NO_POLLUTION
+#define SPECENUM_VALUE1NAME "NoPollution"
+/* No cities on this terrain. */
+#define SPECENUM_VALUE2 TER_NO_CITIES
+#define SPECENUM_VALUE2NAME "NoCities"
+/* Players will start on this terrain type. */
+#define SPECENUM_VALUE3 TER_STARTER
+#define SPECENUM_VALUE3NAME "Starter"
+/* Terrains with this type can have S_RIVER on them. */
+#define SPECENUM_VALUE4 TER_CAN_HAVE_RIVER
+#define SPECENUM_VALUE4NAME "CanHaveRiver"
+/*this tile is not safe as coast, (all ocean / ice) */
+#define SPECENUM_VALUE5 TER_UNSAFE_COAST
+#define SPECENUM_VALUE5NAME "UnsafeCoast"
+/* This is an water terrain. */
+#define SPECENUM_VALUE6 TER_OCEANIC
+#define SPECENUM_VALUE6NAME "Oceanic"
+/* Fresh water terrain */
+#define SPECENUM_VALUE7 TER_FRESHWATER
+#define SPECENUM_VALUE7NAME "FreshWater"
+#include "specenum_gen.h"
+
 #define TER_MAX 64 /* Changing this breaks network compatability. */
 
 BV_DEFINE(bv_terrain_flags, TER_MAX);
@@ -224,7 +237,6 @@ const char *terrain_rule_name(const struct terrain *pterrain);
 const char *terrain_name_translation(const struct terrain *pterrain);
 
 /* Functions to operate on a terrain flag. */
-enum terrain_flag_id find_terrain_flag_by_rule_name(const char *s);
 #define terrain_has_flag(terr, flag) BV_ISSET((terr)->flags, flag)
 
 int terrains_by_flag(enum terrain_flag_id flag, struct terrain **buffer, int bufsize);
