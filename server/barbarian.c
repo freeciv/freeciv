@@ -284,7 +284,7 @@ bool unleash_barbarians(struct tile *ptile)
   for (dir = 0; dir < 8; dir++) {
     dir_tiles[dir] = mapstep(ptile, dir);
     if (dir_tiles[dir] == NULL) {
-      terrainc[dir] = TC_LAST;
+      terrainc[dir] = terrain_class_invalid();
     } else if (is_free_land(dir_tiles[dir], barbarians)) {
       terrainc[dir] = TC_LAND;
       land_tiles++;
@@ -292,7 +292,7 @@ bool unleash_barbarians(struct tile *ptile)
       terrainc[dir] = TC_OCEAN;
       ocean_tiles++;
     } else {
-      terrainc[dir] = TC_LAST;
+      terrainc[dir] = terrain_class_invalid();
     }
   }
 

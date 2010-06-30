@@ -133,8 +133,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_TERRAINCLASS:
-    source.value.terrainclass = find_terrain_class_by_rule_name(value);
-    if (source.value.terrainclass != TC_LAST) {
+    source.value.terrainclass = terrain_class_by_name(value, strcmp);
+    if (terrain_class_is_valid(source.value.terrainclass)) {
       return source;
     }
     break;
@@ -151,8 +151,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_TERRAINALTER:
-    source.value.terrainalter = find_terrain_alteration_by_rule_name(value);
-    if (source.value.terrainalter != TA_LAST) {
+    source.value.terrainalter = terrain_alteration_by_name(value, strcmp);
+    if (terrain_alteration_is_valid(source.value.terrainalter)) {
       return source;
     }
     break;
@@ -1258,11 +1258,11 @@ const char *universal_rule_name(const struct universal *psource)
   case VUT_AI_LEVEL:
     return ai_level_name(psource->value.ai_level);
   case VUT_TERRAINCLASS:
-    return terrain_class_rule_name(psource->value.terrainclass);
+    return terrain_class_name(psource->value.terrainclass);
   case VUT_BASE:
     return base_rule_name(psource->value.base);
   case VUT_TERRAINALTER:
-    return terrain_alteration_rule_name(psource->value.terrainalter);
+    return terrain_alteration_name(psource->value.terrainalter);
   case VUT_COUNT:
     break;
   }

@@ -96,11 +96,27 @@ struct resource {
 /* Reflect reality; but theoretically could be larger than terrains! */
 #define MAX_NUM_RESOURCES (MAX_NUM_TERRAINS/2)
 
-enum terrain_class {
-  TC_LAND,
-  TC_OCEAN,
-  TC_LAST
-};
+#define SPECENUM_NAME terrain_class
+#define SPECENUM_VALUE0 TC_LAND
+#define SPECENUM_VALUE0NAME N_("Land")
+#define SPECENUM_VALUE1 TC_OCEAN
+#define SPECENUM_VALUE1NAME N_("Oceanic")
+#include "specenum_gen.h"
+
+/* Types of alterations available to terrain.
+ * This enum is only used in the effects system; the relevant information
+ * is encoded in other members of the terrain structure. */
+#define SPECENUM_NAME terrain_alteration
+/* Can build irrigation without changing terrain */
+#define SPECENUM_VALUE0 TA_CAN_IRRIGATE
+#define SPECENUM_VALUE0NAME N_("CanIrrigate")
+/* Can build mine without changing terrain */
+#define SPECENUM_VALUE1 TA_CAN_MINE
+#define SPECENUM_VALUE1NAME N_("CanMine")
+/* Can build roads and/or railroads */
+#define SPECENUM_VALUE2 TA_CAN_ROAD
+#define SPECENUM_VALUE2NAME N_("CanRoad")
+#include "specenum_gen.h"
 
 #define SPECENUM_NAME terrain_flag_id
 /* No barbarians summoned on this terrain. */
@@ -146,16 +162,6 @@ BV_DEFINE(bv_terrain_flags, TER_MAX);
 #define SPECENUM_VALUE9   MG_OCEAN_DEPTH
 #define SPECENUM_VALUE10  MG_LAST
 #include "specenum_gen.h"
-
-/* Types of alterations available to terrain.
- * This enum is only used in the effects system; the relevant information
- * is encoded in other members of the terrain structure. */
-enum terrain_alteration {
-  TA_CAN_IRRIGATE,	/* Can build irrigation without changing terrain */
-  TA_CAN_MINE,		/* Can build mine without changing terrain */
-  TA_CAN_ROAD,		/* Can build roads and/or railroads */
-  TA_LAST
-};
 
 /*
  * This struct gives data about each terrain type.  There are many ways
@@ -315,8 +321,6 @@ int count_special_near_tile(const struct tile *ptile,
 			    enum tile_special_type spe);
 
 /* Functions to operate on a terrain class. */
-enum terrain_class find_terrain_class_by_rule_name(const char *name);
-const char *terrain_class_rule_name(enum terrain_class tclass);
 const char *terrain_class_name_translation(enum terrain_class tclass);
 
 bool terrain_belongs_to_class(const struct terrain *pterrain,
@@ -324,8 +328,6 @@ bool terrain_belongs_to_class(const struct terrain *pterrain,
 bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class tclass);
 
 /* Functions to deal with possible terrain alterations. */
-enum terrain_alteration find_terrain_alteration_by_rule_name(const char *name);
-const char *terrain_alteration_rule_name(enum terrain_alteration talter);
 const char *terrain_alteration_name_translation(enum terrain_alteration talter);
 bool terrain_can_support_alteration(const struct terrain *pterrain,
                                     enum terrain_alteration talter);

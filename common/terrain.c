@@ -43,17 +43,6 @@ enum tile_special_type infrastructure_specials[] = {
   S_LAST
 };
 
-static const char *terrain_class_names[] = {
-  N_("Land"),
-  N_("Oceanic")
-};
-
-static const char *terrain_alteration_names[] = {
-  N_("CanIrrigate"),
-  N_("CanMine"),
-  N_("CanRoad")
-};
-
 /****************************************************************************
   Initialize terrain and resource structures.
 ****************************************************************************/
@@ -813,8 +802,6 @@ bool terrain_belongs_to_class(const struct terrain *pterrain,
      return !is_ocean(pterrain);
    case TC_OCEAN:
      return is_ocean(pterrain);
-   case TC_LAST:
-     return FALSE;
   }
 
   fc_assert(FALSE);
@@ -838,42 +825,10 @@ bool is_terrain_class_near_tile(const struct tile *ptile, enum terrain_class cla
      return FALSE;
    case TC_OCEAN:
      return is_ocean_near_tile(ptile);
-   case TC_LAST:
-     return FALSE;
   }
 
   fc_assert(FALSE);
   return FALSE;
-}
-
-
-/****************************************************************************
-  Return the terrain class value matching name, or TC_LAST if none matches.
-****************************************************************************/
-enum terrain_class find_terrain_class_by_rule_name(const char *name)
-{
-  int i;
-
-  for (i = 0; i < TC_LAST; i++) {
-    if (0 == strcmp(terrain_class_names[i], name)) {
-      return i;
-    }
-  }
-
-  return TC_LAST;
-}
-
-/****************************************************************************
-  Return the (untranslated) rule name of the given terrain class.
-  You don't have to free the return pointer.
-****************************************************************************/
-const char *terrain_class_rule_name(enum terrain_class tclass)
-{
-  if (tclass < 0 || tclass >= TC_LAST) {
-    return NULL;
-  }
-
-  return terrain_class_names[tclass];
 }
 
 /****************************************************************************
@@ -882,11 +837,11 @@ const char *terrain_class_rule_name(enum terrain_class tclass)
 ****************************************************************************/
 const char *terrain_class_name_translation(enum terrain_class tclass)
 {
-  if (tclass < 0 || tclass >= TC_LAST) {
+  if (!terrain_class_is_valid(tclass)) {
     return NULL;
   }
 
-  return _(terrain_class_names[tclass]);
+  return _(terrain_class_name(tclass));
 }
 
 /****************************************************************************
@@ -904,43 +859,12 @@ bool terrain_can_support_alteration(const struct terrain *pterrain,
           && (pterrain == pterrain->mining_result));
    case TA_CAN_ROAD:
      return (terrain_control.may_road && (pterrain->road_time > 0));
-   case TA_LAST:
    default:
      break;
   }
 
   fc_assert(FALSE);
   return FALSE;
-}
-
-/****************************************************************************
-  Return the terrain alteration possibility value matching name, or TA_LAST
-  if none matches.
-****************************************************************************/
-enum terrain_alteration find_terrain_alteration_by_rule_name(const char *name)
-{
-  int i;
-
-  for (i = 0; i < TA_LAST; i++) {
-    if (0 == strcmp(terrain_alteration_names[i], name)) {
-      return i;
-    }
-  }
-
-  return TA_LAST;
-}
-
-/****************************************************************************
-  Return the (untranslated) rule name of the given terrain alteration.
-  You don't have to free the return pointer.
-****************************************************************************/
-const char *terrain_alteration_rule_name(enum terrain_alteration talter)
-{
-  if (talter < 0 || talter >= TA_LAST) {
-    return NULL;
-  }
-
-  return terrain_alteration_names[talter];
 }
 
 /****************************************************************************
@@ -956,7 +880,6 @@ const char *terrain_alteration_name_translation(enum terrain_alteration talter)
      return special_name_translation(S_MINE);
    case TA_CAN_ROAD:
      return special_name_translation(S_ROAD);
-   case TA_LAST:
    default:
      return NULL;
   }
