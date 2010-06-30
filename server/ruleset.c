@@ -1198,8 +1198,8 @@ if (_count > MAX_VET_LEVELS) {						\
       if(strcmp(sval,"") == 0) {
         continue;
       }
-      ival = find_unit_class_flag_by_rule_name(sval);
-      if (ival == UCF_LAST) {
+      ival = unit_class_flag_id_by_name(sval, strcmp);
+      if (!unit_class_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
                   filename, uclass_rule_name(ut), sval);
         ival = find_unit_flag_by_rule_name(sval);
@@ -1414,8 +1414,8 @@ if (_count > MAX_VET_LEVELS) {						\
       if (F_LAST == ival) {
         log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                   filename, utype_rule_name(u),  sval);
-        ival = find_unit_class_flag_by_rule_name(sval);
-        if (ival != UCF_LAST) {
+        ival = unit_class_flag_id_by_name(sval, strcmp);
+        if (unit_class_flag_id_is_valid(ival)) {
           log_error("\"%s\" unit_type \"%s\": unit_class flag!",
                     filename, utype_rule_name(u));
         }

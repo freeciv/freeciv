@@ -441,7 +441,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_LOCAL:
       cat_snprintf(buf, bufsz, _("Only applies to \"%s\" units.\n"),
                    /* flag names are never translated */
-                   unit_class_flag_rule_name
+                   unit_class_flag_id_name
                    (preq->source.value.unitclassflag));
       return TRUE;
     case REQ_RANGE_ADJACENT:

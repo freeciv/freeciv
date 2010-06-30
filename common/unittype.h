@@ -28,26 +28,48 @@
   to hold full number of unit types.
 */
 
-enum unit_class_flag_id {
-  UCF_TERRAIN_SPEED = 0,
-  UCF_TERRAIN_DEFENSE,
-  UCF_DAMAGE_SLOWS,
-  UCF_CAN_OCCUPY_CITY,    /* Can occupy enemy cities */
-  UCF_MISSILE,
-  UCF_ROAD_NATIVE,        /* Considers any road tile native terrain */
-  UCF_RIVER_NATIVE,       /* Considers any river tile native terrain */
-  UCF_BUILD_ANYWHERE,
-  UCF_UNREACHABLE,
-  UCF_COLLECT_RANSOM,     /* Can collect ransom from barbarian leader */
-  UCF_ZOC,                /* Is subject to ZOC */
-  UCF_CAN_FORTIFY,        /* Can fortify on land squares */
-  UCF_CAN_PILLAGE,
-  UCF_DOESNT_OCCUPY_TILE, /* Cities can still work tile when enemy unit on it */
-  UCF_LAST
-};
+#define SPECENUM_NAME unit_class_flag_id
+#define SPECENUM_VALUE0 UCF_TERRAIN_SPEED
+#define SPECENUM_VALUE0NAME "TerrainSpeed"
+#define SPECENUM_VALUE1 UCF_TERRAIN_DEFENSE
+#define SPECENUM_VALUE1NAME "TerrainDefense"
+#define SPECENUM_VALUE2 UCF_DAMAGE_SLOWS
+#define SPECENUM_VALUE2NAME "DamageSlows"
+/* Can occupy enemy cities */
+#define SPECENUM_VALUE3 UCF_CAN_OCCUPY_CITY
+#define SPECENUM_VALUE3NAME "CanOccupyCity"
+#define SPECENUM_VALUE4 UCF_MISSILE
+#define SPECENUM_VALUE4NAME "Missile"
+/* Considers any road tile native terrain */
+#define SPECENUM_VALUE5 UCF_ROAD_NATIVE
+#define SPECENUM_VALUE5NAME "RoadNative"
+/* Considers any river tile native terrain */
+#define SPECENUM_VALUE6 UCF_RIVER_NATIVE
+#define SPECENUM_VALUE6NAME "RiverNative"
+#define SPECENUM_VALUE7 UCF_BUILD_ANYWHERE
+#define SPECENUM_VALUE7NAME "BuildAnywhere"
+#define SPECENUM_VALUE8 UCF_UNREACHABLE
+#define SPECENUM_VALUE8NAME "Unreachable"
+/* Can collect ransom from barbarian leader */
+#define SPECENUM_VALUE9 UCF_COLLECT_RANSOM
+#define SPECENUM_VALUE9NAME "CollectRansom"
+/* Is subject to ZOC */
+#define SPECENUM_VALUE10 UCF_ZOC
+#define SPECENUM_VALUE10NAME "ZOC"
+/* Can fortify on land squares */
+#define SPECENUM_VALUE11 UCF_CAN_FORTIFY
+#define SPECENUM_VALUE11NAME "CanFortify"
+#define SPECENUM_VALUE12 UCF_CAN_PILLAGE
+#define SPECENUM_VALUE12NAME "CanPillage"
+/* Cities can still work tile when enemy unit on it */
+#define SPECENUM_VALUE13 UCF_DOESNT_OCCUPY_TILE
+#define SPECENUM_VALUE13NAME "DoesntOccupyTile"
+/* keep this last */
+#define SPECENUM_COUNT UCF_COUNT
+#include "specenum_gen.h"
 
 BV_DEFINE(bv_unit_classes, UCL_LAST);
-BV_DEFINE(bv_unit_class_flags, UCF_LAST);
+BV_DEFINE(bv_unit_class_flags, UCF_COUNT);
 
 enum hut_behavior { HUT_NORMAL, HUT_NOTHING, HUT_FRIGHTEN };
 
@@ -296,9 +318,7 @@ const char *uclass_rule_name(const struct unit_class *pclass);
 const char *uclass_name_translation(const struct unit_class *pclass);
 
 bool uclass_has_flag(const struct unit_class *punitclass,
-		     enum unit_class_flag_id flag);
-enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s);
-const char *unit_class_flag_rule_name(enum unit_class_flag_id id);
+                     enum unit_class_flag_id flag);
 
 /* Ancillary routines */
 int unit_build_shield_cost(const struct unit *punit);

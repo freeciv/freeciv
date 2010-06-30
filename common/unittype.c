@@ -43,11 +43,6 @@ static struct unit_class unit_classes[UCL_LAST];
    client/packhand.c (for the client)
 */
 
-static const char *unit_class_flag_names[] = {
-  "TerrainSpeed", "TerrainDefense", "DamageSlows", "CanOccupyCity", "Missile",
-  "RoadNative", "RiverNative", "BuildAnywhere", "Unreachable",
-  "CollectRansom", "ZOC", "CanFortify", "CanPillage", "DoesntOccupyTile"
-};
 static const char *flag_names[] = {
   "TradeRoute", "HelpWonder", "IgZOC", "NonMil", "IgTer", 
   "OneAttack", "Pikemen", "Horse", "IgWall", "FieldUnit", 
@@ -59,7 +54,8 @@ static const char *flag_names[] = {
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
   "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold"
 };
-static char *user_flag_names[MAX_NUM_USER_UNIT_FLAGS] = { NULL, NULL, NULL, NULL };
+static char *user_flag_names[MAX_NUM_USER_UNIT_FLAGS]
+  = { NULL, NULL, NULL, NULL };
 static const char *role_names[] = {
   "FirstBuild", "Explorer", "Hut", "HutTech", "Partisan",
   "DefendOk", "DefendGood", "AttackFast", "AttackStrong",
@@ -199,7 +195,7 @@ int utype_happy_cost(const struct unit_type *ut,
 bool uclass_has_flag(const struct unit_class *punitclass,
                      enum unit_class_flag_id flag)
 {
-  fc_assert_ret_val(flag >= 0 && flag < UCF_LAST, FALSE);
+  fc_assert_ret_val(unit_class_flag_id_is_valid(flag), FALSE);
   return BV_ISSET(punitclass->flags, flag);
 }
 
@@ -535,34 +531,6 @@ struct unit_class *find_unit_class_by_rule_name(const char *s)
     }
   } unit_class_iterate_end;
   return NULL;
-}
-
-/**************************************************************************
-  Convert unit class flag names to enum; case insensitive;
-  returns UCF_LAST if can't match.
-**************************************************************************/
-enum unit_class_flag_id find_unit_class_flag_by_rule_name(const char *s)
-{
-  enum unit_class_flag_id i;
-
-  fc_assert_ret_val(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST, UCF_LAST);
-
-  for(i = 0; i < UCF_LAST; i++) {
-    if (fc_strcasecmp(unit_class_flag_names[i], s)==0) {
-      return i;
-    }
-  }
-  return UCF_LAST;
-}
-
-/**************************************************************************
-  Return the (untranslated) rule name of the unit class flag.
-**************************************************************************/
-const char *unit_class_flag_rule_name(enum unit_class_flag_id id)
-{
-  fc_assert_ret_val(ARRAY_SIZE(unit_class_flag_names) == UCF_LAST, NULL);
-  fc_assert_ret_val(id >= 0 && id < UCF_LAST, NULL);
-  return unit_class_flag_names[id];
 }
 
 /**************************************************************************
