@@ -1271,7 +1271,7 @@ sound		= "w_lighthouse"
 sound_alt	= "w_generic"
 helptext	= _("\
 Gives all your sea units 1 additional movement point. Makes all your\
- new sea units veterans (for all cities).\
+ new military sea units veterans (for all cities).\
 ")
 
 [building_magellans_expedition]
@@ -1474,7 +1474,7 @@ sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
-All your new land units become veterans (for all cities). \
+All your new military land units become veterans (for all cities). \
  The chance of a land unit becoming a veteran after a battle increases\
  from 50% to 100%.\
 ")

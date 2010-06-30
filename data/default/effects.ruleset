@@ -686,6 +686,11 @@ reqs	=
       "Building", "Airport", "City"
       "UnitClass", "Air", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
 
 [effect_airport_0a]
 name	= "Veteran_Build"
@@ -695,6 +700,11 @@ reqs	=
       "Building", "Airport", "City"
       "UnitClass", "Helicopter", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
 
 [effect_airport_0b]
 name	= "Veteran_Build"
@@ -703,6 +713,11 @@ reqs	=
     { "type", "name", "range"
       "Building", "Airport", "City"
       "UnitClass", "Missile", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_airport_1]
@@ -782,7 +797,8 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "UnitFlag", "Diplomat", "Local"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_barracks_1]
@@ -804,7 +820,8 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "UnitFlag", "Diplomat", "Local"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_barracks_ii_1]
@@ -826,7 +843,8 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "UnitFlag", "Diplomat", "Local"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_barracks_iii_1]
@@ -1296,6 +1314,11 @@ reqs	=
       "Building", "Port Facility", "City"
       "UnitClass", "Sea", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
 
 [effect_port_facility_1]
 name	= "HP_Regen"
@@ -1313,6 +1336,11 @@ reqs	=
     { "type", "name", "range"
       "Building", "Port Facility", "City"
       "UnitClass", "Trireme", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_port_facility_trireme_1]
@@ -1872,6 +1900,11 @@ reqs	=
       "Building", "Lighthouse", "Player"
       "UnitClass", "Sea", "Local"
     }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
 
 [effect_lighthouse_trireme_move]
 name	= "Move_Bonus"
@@ -1889,6 +1922,11 @@ reqs	=
     { "type", "name", "range"
       "Building", "Lighthouse", "Player"
       "UnitClass", "Trireme", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_magellans_expedition]
@@ -2012,7 +2050,8 @@ reqs	=
     }
 nreqs   =
     { "type", "name", "range"
-      "UnitFlag", "Diplomat", "Local"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
     }
 
 [effect_sun_tzus_war_academy_1]

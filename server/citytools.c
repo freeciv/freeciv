@@ -519,21 +519,14 @@ int build_points_left(struct city *pcity)
   Will unit of this type be created as veteran?
 **************************************************************************/
 int do_make_unit_veteran(struct city *pcity,
-			 const struct unit_type *punittype)
+                         const struct unit_type *punittype)
 {
-  /* we current don't have any wonder or building that have influence on 
-     settler/worker units */
-  if (utype_has_flag(punittype, F_SETTLERS)
-      || utype_has_flag(punittype, F_CITIES)) {
-    return 0;
+  if (get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
+                         EFT_VETERAN_BUILD) > 0) {
+    return TRUE;
   }
 
-  if (get_unittype_bonus(city_owner(pcity), pcity->tile, punittype,
-			 EFT_VETERAN_BUILD) > 0) {
-    return 1;
-  }
-  
-  return 0;
+  return FALSE;
 }
 
 /*********************************************************************

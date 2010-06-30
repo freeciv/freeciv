@@ -1334,7 +1334,7 @@ sound		= "w_lighthouse"
 sound_alt	= "w_generic"
 helptext	= _("\
 Gives all your sea units 1 additional movement point. Makes all your\
- new sea units veterans (for all your cities).\
+ new military sea units veterans (for all your cities).\
 ")
 
 [building_magellans_expedition]
@@ -1539,7 +1539,7 @@ sabotage	= 0
 sound		= "w_sun_tzus_war_academy"
 sound_alt	= "w_generic"
 helptext	= _("\
-All your new land units start at the first veteran level. The\
+All your new military land units start at the first veteran level. The\
  chance of a land unit getting the next veteran level after a battle\
  increases by half.\
 ")
