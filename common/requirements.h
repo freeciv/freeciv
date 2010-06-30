@@ -20,17 +20,22 @@
 #include "terrain.h"
 #include "unittype.h"
 
-/* Range of requirements.  This must correspond to req_range_names[]
- * in requirements.c. */
-enum req_range {
-  REQ_RANGE_LOCAL,
-  REQ_RANGE_ADJACENT,
-  REQ_RANGE_CITY,
-  REQ_RANGE_CONTINENT,
-  REQ_RANGE_PLAYER,
-  REQ_RANGE_WORLD,
-  REQ_RANGE_LAST   /* keep this last */
-};
+/* Range of requirements. */
+#define SPECENUM_NAME req_range
+#define SPECENUM_VALUE0 REQ_RANGE_LOCAL
+#define SPECENUM_VALUE0NAME "Local"
+#define SPECENUM_VALUE1 REQ_RANGE_ADJACENT
+#define SPECENUM_VALUE1NAME "Adjacent"
+#define SPECENUM_VALUE2 REQ_RANGE_CITY
+#define SPECENUM_VALUE2NAME "City"
+#define SPECENUM_VALUE3 REQ_RANGE_CONTINENT
+#define SPECENUM_VALUE3NAME "Continent"
+#define SPECENUM_VALUE4 REQ_RANGE_PLAYER
+#define SPECENUM_VALUE4NAME "Player"
+#define SPECENUM_VALUE5 REQ_RANGE_WORLD
+#define SPECENUM_VALUE5NAME "World"
+#define SPECENUM_COUNT REQ_RANGE_COUNT /* keep this last */
+#include "specenum_gen.h"
 
 /* A requirement. This requirement is basically a conditional; it may or
  * may not be active on a target.  If it is active then something happens.
@@ -59,7 +64,6 @@ struct requirement {
 #define requirement_vector_iterate_end VECTOR_ITERATE_END
 
 /* General requirement functions. */
-enum req_range req_range_from_str(const char *str);
 struct requirement req_from_str(const char *type, const char *range,
 				bool survives, bool negated,
 				const char *value);

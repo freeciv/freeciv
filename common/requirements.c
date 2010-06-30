@@ -53,39 +53,6 @@ static const char *universal_names[] = {
   "CityTile"
 };
 
-/* Names of requirement ranges. These must correspond to enum req_range in
- * requirements.h.  Do not change these unless you know what you're doing! */
-static const char *req_range_names[REQ_RANGE_LAST] = {
-  "Local",
-  "Adjacent",
-  "City",
-  "Continent",
-  "Player",
-  "World"
-};
-
-/**************************************************************************
-  Convert a range name to an enumerated value.
-
-  The check is case insensitive and returns REQ_RANGE_LAST if no match
-  is found.
-**************************************************************************/
-enum req_range req_range_from_str(const char *str)
-{
-  enum req_range range;
-
-  fc_assert_ret_val(ARRAY_SIZE(req_range_names) == REQ_RANGE_LAST,
-                    REQ_RANGE_LAST);
-
-  for (range = 0; range < REQ_RANGE_LAST; range++) {
-    if (0 == fc_strcasecmp(req_range_names[range], str)) {
-      return range;
-    }
-  }
-
-  return REQ_RANGE_LAST;
-}
-
 /**************************************************************************
   Parse requirement type (kind) and value strings into a universal
   structure.  Passing in a NULL type is considered VUT_NONE (not an error).
@@ -425,8 +392,8 @@ struct requirement req_from_str(const char *type, const char *range,
 
   /* Scan the range string to find the range.  If no range is given a
    * default fallback is used rather than giving an error. */
-  req.range = req_range_from_str(range);
-  if (req.range == REQ_RANGE_LAST) {
+  req.range = req_range_by_name(range, strcmp);
+  if (!req_range_is_valid(req.range)) {
     switch (req.source.kind) {
     case VUT_NONE:
     case VUT_LAST:
@@ -713,7 +680,7 @@ static int count_buildings_in_range(const struct player *target_player,
     }
   case REQ_RANGE_ADJACENT:
     return 0;
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -744,7 +711,7 @@ static bool is_tech_in_range(const struct player *target_player,
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -769,7 +736,7 @@ static bool is_special_in_range(const struct tile *target_tile,
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -798,7 +765,7 @@ static bool is_terrain_in_range(const struct tile *target_tile,
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -827,7 +794,7 @@ static bool is_terrain_class_in_range(const struct tile *target_tile,
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -856,7 +823,7 @@ static bool is_base_type_in_range(const struct tile *target_tile,
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -885,7 +852,7 @@ static bool is_terrain_alter_possible_in_range(const struct tile *target_tile,
   case REQ_RANGE_CONTINENT:
   case REQ_RANGE_PLAYER:
   case REQ_RANGE_WORLD:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 
@@ -915,7 +882,7 @@ static bool is_nation_in_range(const struct player *target_player,
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
   case REQ_RANGE_CONTINENT:
-  case REQ_RANGE_LAST:
+  case REQ_RANGE_COUNT:
     break;
   }
 

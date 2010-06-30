@@ -260,7 +260,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -314,7 +314,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
                    (preq->source.value.building));
       return TRUE;
     case REQ_RANGE_ADJACENT:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -337,7 +337,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -358,7 +358,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -378,7 +378,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_ADJACENT:
     case REQ_RANGE_CITY:
     case REQ_RANGE_CONTINENT:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -395,7 +395,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -413,7 +413,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -430,7 +430,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -449,7 +449,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -492,7 +492,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -512,7 +512,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }
@@ -536,7 +536,7 @@ static bool insert_requirement(char *buf, size_t bufsz,
     case REQ_RANGE_CONTINENT:
     case REQ_RANGE_PLAYER:
     case REQ_RANGE_WORLD:
-    case REQ_RANGE_LAST:
+    case REQ_RANGE_COUNT:
       /* Not supported. */
       break;
     }

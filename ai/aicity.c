@@ -912,7 +912,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
                                                 const bool already)
 {
   int v = 0;
-  int cities[REQ_RANGE_LAST];
+  int cities[REQ_RANGE_COUNT];
   int nplayers = normal_player_count();
   struct ai_data *ai = ai_data_get(pplayer);
   bool capital = is_capital(pcity);
