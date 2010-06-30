@@ -1977,17 +1977,15 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     free(slist);
 
-    for (j = 0; j < MG_LAST; j++) {
-      const char *mg_names[] = {
-	"mountainous", "green", "foliage",
-	"tropical", "temperate", "cold", "frozen",
-	"wet", "dry", "ocean_depth"
-      };
-      fc_assert(ARRAY_SIZE(mg_names) == MG_LAST);
-
-      pterrain->property[j] = secfile_lookup_int_default(file, 0,
-							 "%s.property_%s",
-							 tsection, mg_names[j]);
+    {
+      enum mapgen_terrain_property mtp;
+      for (mtp = mapgen_terrain_property_begin();
+           mtp != mapgen_terrain_property_end();
+           mtp = mapgen_terrain_property_next(mtp)) {
+        pterrain->property[mtp]
+          = secfile_lookup_int_default(file, 0, "%s.property_%s", tsection,
+                                       mapgen_terrain_property_name(mtp));
+      }
     }
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.native_to", tsection);

@@ -40,6 +40,7 @@
 
 #include "mapgen.h"
 
+#define MG_UNUSED mapgen_terrain_property_invalid()
 
 /* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
 #define rmap(ptile) (river_map[tile_index(ptile)])
@@ -326,14 +327,14 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 
   /* Find the total weight. */
   terrain_type_iterate(pterrain) {
-    if (avoid != MG_LAST && pterrain->property[avoid] > 0) {
+    if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
       continue;
     }
-    if (prefer != MG_LAST && pterrain->property[prefer] == 0) {
+    if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
       continue;
     }
 
-    if (target != MG_LAST) {
+    if (target != MG_UNUSED) {
       sum += pterrain->property[target];
     } else {
       sum++;
@@ -347,14 +348,14 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
   terrain_type_iterate(pterrain) {
     int property;
 
-    if (avoid != MG_LAST && pterrain->property[avoid] > 0) {
+    if (avoid != MG_UNUSED && pterrain->property[avoid] > 0) {
       continue;
     }
-    if (prefer != MG_LAST && pterrain->property[prefer] == 0) {
+    if (prefer != MG_UNUSED && pterrain->property[prefer] == 0) {
       continue;
     }
 
-    if (target != MG_LAST) {
+    if (target != MG_UNUSED) {
       property = pterrain->property[target];
     } else {
       property = 1;
@@ -367,24 +368,24 @@ static struct terrain *pick_terrain(enum mapgen_terrain_property target,
 
   /* This can happen with sufficient quantities of preferred and avoided
    * characteristics.  Drop a requirement and try again. */
-  if (prefer != MG_LAST) {
+  if (prefer != MG_UNUSED) {
     log_debug("pick_terrain(target: %s, [dropping prefer: %s], avoid: %s)",
               mapgen_terrain_property_name(target),
               mapgen_terrain_property_name(prefer),
               mapgen_terrain_property_name(avoid));
-    return pick_terrain(target, MG_LAST, avoid);
-  } else if (avoid != MG_LAST) {
+    return pick_terrain(target, MG_UNUSED, avoid);
+  } else if (avoid != MG_UNUSED) {
     log_debug("pick_terrain(target: %s, prefer: %s, [dropping avoid: %s])",
               mapgen_terrain_property_name(target),
               mapgen_terrain_property_name(prefer),
               mapgen_terrain_property_name(avoid));
-    return pick_terrain(target, prefer, MG_LAST);
+    return pick_terrain(target, prefer, MG_UNUSED);
   } else {
     log_debug("pick_terrain([dropping target: %s], prefer: %s, avoid: %s)",
               mapgen_terrain_property_name(target),
               mapgen_terrain_property_name(prefer),
               mapgen_terrain_property_name(avoid));
-    return pick_terrain(MG_LAST, prefer, avoid);
+    return pick_terrain(MG_UNUSED, prefer, avoid);
   }
 }
 
@@ -413,12 +414,12 @@ static void make_relief(void)
         /* Prefer hills to mountains in hot regions. */
         tile_set_terrain(ptile,
                          pick_terrain(MG_MOUNTAINOUS, fc_rand(10) < 4
-                                      ? MG_LAST : MG_GREEN, MG_LAST));
+                                      ? MG_UNUSED : MG_GREEN, MG_UNUSED));
       } else {
         /* Prefer mountains hills to in cold regions. */
         tile_set_terrain(ptile,
-                         pick_terrain(MG_MOUNTAINOUS, MG_LAST,
-                                      fc_rand(10) < 8 ? MG_GREEN : MG_LAST));
+                         pick_terrain(MG_MOUNTAINOUS, MG_UNUSED,
+                                      fc_rand(10) < 8 ? MG_GREEN : MG_UNUSED));
       }
       map_set_placed(ptile);
     }
@@ -437,7 +438,7 @@ static void make_polar(void)
         || (tmap_is(ptile, TT_COLD)
             && (fc_rand(10) > 7)
             && is_temperature_type_near(ptile, TT_FROZEN))) { 
-      tile_set_terrain(ptile, pick_terrain(MG_FROZEN, MG_LAST, MG_TROPICAL));
+      tile_set_terrain(ptile, pick_terrain(MG_FROZEN, MG_UNUSED, MG_TROPICAL));
     }
   } whole_map_iterate_end;
 }
@@ -518,10 +519,10 @@ static void make_plain(struct tile *ptile, int *to_be_placed )
   /* in cold place we get tundra instead */
   if (tmap_is(ptile, TT_FROZEN)) {
     tile_set_terrain(ptile,
-		     pick_terrain(MG_FROZEN, MG_LAST, MG_MOUNTAINOUS));
+		     pick_terrain(MG_FROZEN, MG_UNUSED, MG_MOUNTAINOUS));
   } else if (tmap_is(ptile, TT_COLD)) {
     tile_set_terrain(ptile,
-		     pick_terrain(MG_COLD, MG_LAST, MG_MOUNTAINOUS)); 
+		     pick_terrain(MG_COLD, MG_UNUSED, MG_MOUNTAINOUS)); 
   } else {
     tile_set_terrain(ptile,
 		     pick_terrain(MG_TEMPERATE, MG_GREEN, MG_MOUNTAINOUS));
@@ -604,7 +605,7 @@ static void make_terrains(void)
                    pick_terrain(MG_FOLIAGE, MG_TROPICAL, MG_COLD),
                    WC_ALL, TT_TROPICAL, MC_NONE, 50);
     PLACE_ONE_TYPE(swamps_count, forests_count,
-                   pick_terrain(MG_WET, MG_LAST, MG_FOLIAGE),
+                   pick_terrain(MG_WET, MG_UNUSED, MG_FOLIAGE),
                    WC_NDRY, TT_HOT, MC_LOW, 50);
     PLACE_ONE_TYPE(deserts_count, alt_deserts_count,
                    pick_terrain(MG_DRY, MG_TROPICAL, MG_COLD),
@@ -1926,13 +1927,13 @@ static void island_terrain_init(void)
   ptersel = tersel_new(1, MG_FOLIAGE, MG_TROPICAL, MG_DRY,
                        TT_TROPICAL, WC_ALL);
   terrain_select_list_append(island_terrain.forest, ptersel);
-  ptersel = tersel_new(3, MG_FOLIAGE, MG_TEMPERATE, MG_LAST,
+  ptersel = tersel_new(3, MG_FOLIAGE, MG_TEMPERATE, MG_UNUSED,
                        TT_ALL, WC_ALL);
   terrain_select_list_append(island_terrain.forest, ptersel);
   ptersel = tersel_new(1, MG_FOLIAGE, MG_WET, MG_FROZEN,
                        TT_TROPICAL, WC_NDRY);
   terrain_select_list_append(island_terrain.forest, ptersel);
-  ptersel = tersel_new(1, MG_FOLIAGE, MG_COLD, MG_LAST,
+  ptersel = tersel_new(1, MG_FOLIAGE, MG_COLD, MG_UNUSED,
                        TT_NFROZEN, WC_ALL);
   terrain_select_list_append(island_terrain.forest, ptersel);
 
@@ -1947,16 +1948,16 @@ static void island_terrain_init(void)
   ptersel = tersel_new(1, MG_COLD, MG_DRY, MG_TROPICAL,
                        TT_NHOT, WC_DRY);
   terrain_select_list_append(island_terrain.desert, ptersel);
-  ptersel = tersel_new(1, MG_FROZEN, MG_DRY, MG_LAST,
+  ptersel = tersel_new(1, MG_FROZEN, MG_DRY, MG_UNUSED,
                        TT_FROZEN, WC_DRY);
   terrain_select_list_append(island_terrain.desert, ptersel);
 
   /* mountain */
   island_terrain.mountain = terrain_select_list_new();
-  ptersel = tersel_new(2, MG_MOUNTAINOUS, MG_GREEN, MG_LAST,
+  ptersel = tersel_new(2, MG_MOUNTAINOUS, MG_GREEN, MG_UNUSED,
                        TT_ALL, WC_ALL);
   terrain_select_list_append(island_terrain.mountain, ptersel);
-  ptersel = tersel_new(1, MG_MOUNTAINOUS, MG_LAST, MG_GREEN,
+  ptersel = tersel_new(1, MG_MOUNTAINOUS, MG_UNUSED, MG_GREEN,
                        TT_ALL, WC_ALL);
   terrain_select_list_append(island_terrain.mountain, ptersel);
 

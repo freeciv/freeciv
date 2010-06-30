@@ -150,17 +150,27 @@ struct resource {
 BV_DEFINE(bv_terrain_flags, TER_MAX);
 
 #define SPECENUM_NAME mapgen_terrain_property
-#define SPECENUM_VALUE0   MG_MOUNTAINOUS
-#define SPECENUM_VALUE1   MG_GREEN
-#define SPECENUM_VALUE2   MG_FOLIAGE
-#define SPECENUM_VALUE3   MG_TROPICAL
-#define SPECENUM_VALUE4   MG_TEMPERATE
-#define SPECENUM_VALUE5   MG_COLD
-#define SPECENUM_VALUE6   MG_FROZEN
-#define SPECENUM_VALUE7   MG_WET
-#define SPECENUM_VALUE8   MG_DRY
-#define SPECENUM_VALUE9   MG_OCEAN_DEPTH
-#define SPECENUM_VALUE10  MG_LAST
+#define SPECENUM_VALUE0 MG_MOUNTAINOUS
+#define SPECENUM_VALUE0NAME "mountainous"
+#define SPECENUM_VALUE1 MG_GREEN
+#define SPECENUM_VALUE1NAME "green"
+#define SPECENUM_VALUE2 MG_FOLIAGE
+#define SPECENUM_VALUE2NAME "foliage"
+#define SPECENUM_VALUE3 MG_TROPICAL
+#define SPECENUM_VALUE3NAME "tropical"
+#define SPECENUM_VALUE4 MG_TEMPERATE
+#define SPECENUM_VALUE4NAME "temperate"
+#define SPECENUM_VALUE5 MG_COLD
+#define SPECENUM_VALUE5NAME "cold"
+#define SPECENUM_VALUE6 MG_FROZEN
+#define SPECENUM_VALUE6NAME "frozen"
+#define SPECENUM_VALUE7 MG_WET
+#define SPECENUM_VALUE7NAME "wet"
+#define SPECENUM_VALUE8 MG_DRY
+#define SPECENUM_VALUE8NAME "dry"
+#define SPECENUM_VALUE9 MG_OCEAN_DEPTH
+#define SPECENUM_VALUE9NAME "ocean_depth"
+#define SPECENUM_COUNT MG_COUNT
 #include "specenum_gen.h"
 
 /*
@@ -215,7 +225,7 @@ struct terrain {
    * Ocean_depth is different.  Instead of a percentage, the depth of the
    * tile in the range 0 (never chosen) to 100 (deepest) is used.
    */
-  int property[MG_LAST];
+  int property[MG_COUNT];
 #define TERRAIN_OCEAN_DEPTH_MINIMUM (1)
 #define TERRAIN_OCEAN_DEPTH_MAXIMUM (100)
 
