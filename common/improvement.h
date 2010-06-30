@@ -34,22 +34,29 @@
 
 #define B_NEVER (NULL)
 
-
 /* Changing these breaks network compatibility. */
-enum impr_flag_id {
-  IF_VISIBLE_BY_OTHERS,  /* improvement should be visible to others without spying */
-  IF_SAVE_SMALL_WONDER,  /* this small wonder is moved to another city if game.savepalace is on. */
-  IF_GOLD,		 /* when built, gives gold */
-  IF_LAST
-};
+#define SPECENUM_NAME impr_flag_id
+/* improvement should be visible to others without spying */
+#define SPECENUM_VALUE0 IF_VISIBLE_BY_OTHERS
+#define SPECENUM_VALUE0NAME "VisibleByOthers"
+/* this small wonder is moved to another city if game.savepalace is on. */
+#define SPECENUM_VALUE1 IF_SAVE_SMALL_WONDER
+#define SPECENUM_VALUE1NAME "SaveSmallWonder"
+/* when built, gives gold */
+#define SPECENUM_VALUE2 IF_GOLD
+#define SPECENUM_VALUE2NAME "Gold"
+#include "specenum_gen.h"
 
-enum impr_genus_id {
-  IG_GREAT_WONDER,
-  IG_SMALL_WONDER,
-  IG_IMPROVEMENT,
-  IG_SPECIAL,
-  IG_LAST
-};
+#define SPECENUM_NAME impr_genus_id
+#define SPECENUM_VALUE0 IG_GREAT_WONDER
+#define SPECENUM_VALUE0NAME "GreatWonder"
+#define SPECENUM_VALUE1 IG_SMALL_WONDER
+#define SPECENUM_VALUE1NAME "SmallWonder"
+#define SPECENUM_VALUE2 IG_IMPROVEMENT
+#define SPECENUM_VALUE2NAME "Improvement"
+#define SPECENUM_VALUE3 IG_SPECIAL
+#define SPECENUM_VALUE3NAME "Special"
+#include "specenum_gen.h"
 
 BV_DEFINE(bv_imprs, B_LAST);
 
@@ -93,8 +100,7 @@ const char *improvement_name_translation(const struct impr_type *pimprove);
 
 /* General improvement flag accessor routines */
 bool improvement_has_flag(const struct impr_type *pimprove,
-			  enum impr_flag_id flag);
-enum impr_flag_id find_improvement_flag_by_rule_name(const char *s);
+                          enum impr_flag_id flag);
 
 /* Ancillary routines */
 int impr_build_shield_cost(const struct impr_type *pimprove);
@@ -154,9 +160,6 @@ bool can_player_build_improvement_later(const struct player *p,
 					struct impr_type *pimprove);
 bool can_player_build_improvement_now(const struct player *p,
 				      struct impr_type *pimprove);
-
-/* General genus accessor routines */
-enum impr_genus_id find_genus_by_rule_name(const char *s);
 
 /* Initialization and iteration */
 void improvements_init(void);

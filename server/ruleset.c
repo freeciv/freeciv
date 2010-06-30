@@ -1588,13 +1588,11 @@ static void load_ruleset_buildings(struct section_file *file)
     size_t nflags;
 
     item = secfile_lookup_str(file, "%s.genus", sec_name);
-    b->genus = find_genus_by_rule_name(item);
-    if (b->genus == IG_LAST) {
-      ruleset_error(LOG_FATAL,
-                    "\"%s\" improvement \"%s\": couldn't match genus \"%s\".",
-                    filename,
-                    improvement_rule_name(b),
-                    item);
+    b->genus = impr_genus_id_by_name(item, strcmp);
+    if (!impr_genus_id_is_valid(b->genus)) {
+      ruleset_error(LOG_FATAL, "\"%s\" improvement \"%s\": couldn't match "
+                               "genus \"%s\".", filename,
+                    improvement_rule_name(b), item);
     }
 
     slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec_name);
@@ -1605,8 +1603,8 @@ static void load_ruleset_buildings(struct section_file *file)
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = find_improvement_flag_by_rule_name(sval);
-      if (ival==IF_LAST) {
+      ival = impr_flag_id_by_name(sval, strcmp);
+      if (!impr_flag_id_is_valid(ival)) {
         log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
                   filename, improvement_rule_name(b), sval);
       } else {

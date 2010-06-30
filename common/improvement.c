@@ -29,16 +29,6 @@
 
 #include "improvement.h"
 
-static const char *genus_names[IG_LAST] = {
-  "GreatWonder", "SmallWonder", "Improvement", "Special"
-};
-
-static const char *flag_names[] = {
-  "VisibleByOthers", "SaveSmallWonder", "Gold"
-};
-/* Note that these strings must correspond with the enums in impr_flag_id,
-   in common/improvement.h */
-
 /**************************************************************************
 All the city improvements:
 Use improvement_by_number(id) to access the array.
@@ -47,22 +37,6 @@ The improvement_types array is now setup in:
    client/packhand.c (for the client)
 **************************************************************************/
 static struct impr_type improvement_types[B_LAST];
-
-/**************************************************************************
-  Convert impr genus names to enum; case insensitive;
-  returns IG_LAST if can't match.
-**************************************************************************/
-enum impr_genus_id find_genus_by_rule_name(const char *s)
-{
-  enum impr_genus_id i;
-
-  for(i = 0; i < ARRAY_SIZE(genus_names); i++) {
-    if (fc_strcasecmp(genus_names[i], s) == 0) {
-      break;
-    }
-  }
-  return i;
-}
 
 /****************************************************************************
   Initialize building structures.
@@ -310,26 +284,8 @@ struct impr_type *find_improvement_by_rule_name(const char *name)
 bool improvement_has_flag(const struct impr_type *pimprove,
 			  enum impr_flag_id flag)
 {
-  fc_assert_ret_val(flag >= 0 && flag < IF_LAST, FALSE);
+  fc_assert_ret_val(impr_flag_id_is_valid(flag), FALSE);
   return TEST_BIT(pimprove->flags, flag);
-}
-
-/**************************************************************************
- Convert flag names to enum; case insensitive;
- returns IF_LAST if can't match.
-**************************************************************************/
-enum impr_flag_id find_improvement_flag_by_rule_name(const char *s)
-{
-  enum impr_flag_id i;
-
-  fc_assert_ret_val(ARRAY_SIZE(flag_names) == IF_LAST, IF_LAST);
-  
-  for(i = 0; i < IF_LAST; i++) {
-    if (fc_strcasecmp(flag_names[i], s) == 0) {
-      return i;
-    }
-  }
-  return IF_LAST;
 }
 
 /**************************************************************************
