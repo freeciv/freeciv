@@ -43,17 +43,6 @@ struct advance advances[A_LAST];
  * the sciencebox multiplier. */
 static double techcoststyle1[A_LAST];
 
-/* Note that these strings must correspond with the enums in tech_flag_id,
-   in common/tech.h */
-static const char *flag_names[] = {
-  "Bonus_Tech",
-  "Bridge",
-  "Railroad",
-  "Population_Pollution_Inc", 
-  "Farmland",
-  "Build_Airborne"
-};
-
 static int tech_upkeep_calc(const struct player *pplayer);
 
 /**************************************************************************
@@ -354,7 +343,8 @@ void player_research_update(struct player *pplayer)
     player_invention_set(pplayer, A_FUTURE, TECH_PREREQS_KNOWN);
   }
 
-  for (flag = 0; flag < TF_LAST; flag++) {
+  for (flag = 0; flag <= tech_flag_id_max(); flag++) {
+    /* iterate over all possible tech flags (0..max) */
     research->num_known_tech_with_flag[flag] = 0;
 
     advance_index_iterate(A_NONE, i) {
@@ -533,26 +523,8 @@ struct advance *find_advance_by_rule_name(const char *name)
 **************************************************************************/
 bool advance_has_flag(Tech_type_id tech, enum tech_flag_id flag)
 {
-  fc_assert_ret_val(flag >= 0 && flag < TF_LAST, FALSE);
+  fc_assert_ret_val(tech_flag_id_is_valid(flag), FALSE);
   return TEST_BIT(advance_by_number(tech)->flags, flag);
-}
-
-/**************************************************************************
- Convert flag names to enum; case insensitive;
- returns TF_LAST if can't match.
-**************************************************************************/
-enum tech_flag_id find_advance_flag_by_rule_name(const char *s)
-{
-  enum tech_flag_id i;
-
-  fc_assert_ret_val(ARRAY_SIZE(flag_names) == TF_LAST, TF_LAST);
-
-  for (i = 0; i < TF_LAST; i++) {
-    if (fc_strcasecmp(flag_names[i], s) == 0) {
-      return i;
-    }
-  }
-  return TF_LAST;
 }
 
 /**************************************************************************

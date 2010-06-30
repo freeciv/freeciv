@@ -631,7 +631,7 @@ bool player_in_city_map(const struct player *pplayer,
 
 /**************************************************************************
  Returns the number of techs the player has researched which has this
- flag. Needs to be optimized later (e.g. int tech_flags[TF_LAST] in
+ flag. Needs to be optimized later (e.g. int tech_flags[TF_COUNT] in
  struct player)
 **************************************************************************/
 int num_known_tech_with_flag(const struct player *pplayer,

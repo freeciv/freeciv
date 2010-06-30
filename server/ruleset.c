@@ -843,8 +843,8 @@ static void load_ruleset_techs(struct section_file *file)
       if(strcmp(sval,"")==0) {
         continue;
       }
-      ival = find_advance_flag_by_rule_name(sval);
-      if (ival==TF_LAST) {
+      ival = tech_flag_id_by_name(sval, strcmp);
+      if (!tech_flag_id_is_valid(ival)) {
         log_error("\"%s\" [%s] \"%s\": bad flag name \"%s\".",
                   filename, sec_name, rule_name(&a->name), sval);
       } else {
