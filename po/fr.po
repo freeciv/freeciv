@@ -30999,11 +30999,11 @@ msgstr "Grande Prêtresse"
 
 #: data/nation/slovenian.ruleset:3
 msgid "Slovenian"
-msgstr "Slovaques"
+msgstr "Slovène"
 
 #: data/nation/slovenian.ruleset:4
 msgid "?plural:Slovenians"
-msgstr "Slovaques"
+msgstr "Slovènes"
 
 #: data/nation/slovenian.ruleset:6
 msgid ""
