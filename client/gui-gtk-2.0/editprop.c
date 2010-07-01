@@ -5380,8 +5380,6 @@ static struct property_editor *property_editor_new(void)
     property_editor_add_page(pe, objtype);
   }
 
-  gtk_widget_show_all(pe->widget);
-
   return pe;
 }
 
@@ -5434,6 +5432,8 @@ void property_editor_popup(struct property_editor *pe, int objtype)
   if (!pe || !pe->widget) {
     return;
   }
+
+  gtk_widget_show_all(pe->widget);
 
   gtk_window_present(GTK_WINDOW(pe->widget));
   if (0 <= objtype && objtype < NUM_OBJTYPES) {
