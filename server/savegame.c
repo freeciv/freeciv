@@ -1923,13 +1923,6 @@ static void player_load_units(struct player *plr, int plrno,
       pbase = find_base_type_by_rule_name("Airbase");
     }
 
-    /* need to do this to assign/deassign settlers correctly -- Syela
-     *
-     * was punit->activity=secfile_lookup_int(file,
-     *                             "player%d.u%d.activity",plrno, i); */
-    punit->activity_count = secfile_lookup_int(file, 
-                                               "player%d.u%d.activity_count",
-                                               plrno, i);
     if (activity == ACTIVITY_PATROL_UNUSED) {
       /* Previously ACTIVITY_PATROL and ACTIVITY_GOTO were used for
        * client-side goto.  Now client-side goto is handled by setting
@@ -1969,6 +1962,14 @@ static void player_load_units(struct player *plr, int plrno,
     } else {
       set_unit_activity(punit, activity);
     }
+
+    /* need to do this to assign/deassign settlers correctly -- Syela
+     *
+     * was punit->activity=secfile_lookup_int(file,
+     *                             "player%d.u%d.activity",plrno, i); */
+    punit->activity_count = secfile_lookup_int(file, 
+                                               "player%d.u%d.activity_count",
+                                               plrno, i);
 
     punit->done_moving = secfile_lookup_bool_default(file,
 	(punit->moves_left == 0), "player%d.u%d.done_moving", plrno, i);
