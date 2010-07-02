@@ -249,8 +249,8 @@ static struct happiness_dialog *create_happiness_dialog(struct city *pcity)
   }
 
   /* TRANS: the width of this text defines the width of the city dialog. */
-  label = gtk_label_new(_("Additional information are available via left "
-                          "click on the citzens."));
+  label = gtk_label_new(_("Additional information is available via left "
+                          "click on the citizens."));
   gtk_widget_set_name(label, "city_label");
   gtk_misc_set_alignment(GTK_MISC(label), 0, 0.5);
   gtk_table_attach(GTK_TABLE(table), label, 0, 2, NUM_HAPPINESS_MODIFIERS,
