@@ -472,8 +472,8 @@ char *fc_strrep_resize(char *str, size_t *len, const char *search,
 
 /**************************************************************************
   Replace 'search' by 'replace' within 'str'. sizeof(str) should be large
-  enough for the modified value of 'str'. Returns if the replacement was
-  succesfull. If now try again with a larger size of 'str'.
+  enough for the modified value of 'str'. Returns TRUE if the replacement
+  was successful.
 **************************************************************************/
 bool fc_strrep(char *str, size_t len, const char *search,
                const char *replace)
