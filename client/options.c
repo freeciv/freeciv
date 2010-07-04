@@ -151,6 +151,7 @@ bool gui_gtk2_show_message_window_buttons = TRUE;
 bool gui_gtk2_metaserver_tab_first = FALSE;
 bool gui_gtk2_allied_chat_only = FALSE;
 bool gui_gtk2_small_display_layout = FALSE;
+bool gui_gtk2_merge_notebooks = FALSE;
 bool gui_gtk2_mouse_over_map_focus = FALSE;
 int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
 int gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
@@ -1897,6 +1898,13 @@ static struct client_option client_options[] = {
                      "the left panel containing the overview, player "
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
+                     "This option requires a restart in order to take "
+                     "effect."), COC_INTERFACE, GUI_GTK2, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk2_merge_notebooks,
+                  N_("Merge the message notebook and the map notebook"),
+                  N_("If this option is enabled, the message notebook "
+                     "will be merge into the world map notebook. Thus, "
+                     "the size needed for the main window will be reduced. "
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus,

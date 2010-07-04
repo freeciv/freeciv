@@ -602,7 +602,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * latest text from other players; MUST NOT make spurious text windows
      * at the bottom of other dialogs.
      */
-    if (gui_gtk2_small_display_layout) {
+    if (gui_gtk2_merge_notebooks) {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
     } else {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
@@ -1263,7 +1263,7 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  if (gui_gtk2_small_display_layout) {
+  if (gui_gtk2_merge_notebooks) {
     bottom_hpaned = hpaned = paned;
     bottom_notebook = top_notebook;
   } else {

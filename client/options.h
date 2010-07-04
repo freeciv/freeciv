@@ -124,6 +124,7 @@ extern bool gui_gtk2_show_message_window_buttons;
 extern bool gui_gtk2_metaserver_tab_first;
 extern bool gui_gtk2_allied_chat_only;
 extern bool gui_gtk2_small_display_layout;
+extern bool gui_gtk2_merge_notebooks;
 extern bool gui_gtk2_mouse_over_map_focus;
 extern int gui_gtk2_citydlg_xsize;
 extern int gui_gtk2_citydlg_ysize;
