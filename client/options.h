@@ -292,4 +292,6 @@ void options_dialogs_set(void);
 
 extern int messages_where[];	/* OR-ed MW_ values [E_LAST] */
 
+#define GUI_GTK_OVERVIEW_MIN_XSIZE      160
+#define GUI_GTK_OVERVIEW_MIN_YSIZE      100
 #endif  /* FC__OPTIONS_H */

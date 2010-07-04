@@ -426,8 +426,7 @@ void calculate_overview_dimensions(void)
   recursion++;
 
   get_overview_area_dimensions(&w, &h);
-
-  log_debug("Map size %d,%d - area size %d,%d", map.xsize, map.ysize, w, h);
+  get_overview_area_dimensions(&w, &h);
 
   /* Set the scale of the overview map.  This attempts to limit the
    * overview to the size of the area available.
@@ -435,8 +434,11 @@ void calculate_overview_dimensions(void)
    * It rounds up since this gives good results with the default settings.
    * It may need tweaking if the panel resizes itself. */
   OVERVIEW_TILE_SIZE = MIN((w - 1) / (map.xsize * xfact) + 1,
-			   (h - 1) / map.ysize + 1);
+                           (h - 1) / map.ysize + 1);
   OVERVIEW_TILE_SIZE = MAX(OVERVIEW_TILE_SIZE, 1);
+
+  log_debug("Map size %d,%d - area size %d,%d - scale: %d", map.xsize,
+            map.ysize, w, h, OVERVIEW_TILE_SIZE);
 
   overview.width
     = OVERVIEW_TILE_WIDTH * map.xsize + shift * OVERVIEW_TILE_SIZE; 

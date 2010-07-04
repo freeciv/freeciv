@@ -274,12 +274,15 @@ void set_indicator_icons(struct sprite *bulb, struct sprite *sol,
 }
 
 /****************************************************************************
-  Return the dimensions of the area (container widget; maximum size) for
-  the overview.
+  Return the maximum dimensions of the area (container widget) for the
+  overview. Due to the fact that the scaling factor is at least 1, the real
+  size could be larger. The calculation in calculate_overview_dimensions()
+  limit it to the smallest possible size.
 ****************************************************************************/
 void get_overview_area_dimensions(int *width, int *height)
 {
-  gdk_drawable_get_size(overview_canvas->window, width, height);
+  *width = GUI_GTK_OVERVIEW_MIN_XSIZE;
+  *height = GUI_GTK_OVERVIEW_MIN_YSIZE;
 }
 
 /**************************************************************************
