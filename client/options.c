@@ -152,6 +152,8 @@ bool gui_gtk2_metaserver_tab_first = FALSE;
 bool gui_gtk2_allied_chat_only = FALSE;
 bool gui_gtk2_small_display_layout = FALSE;
 bool gui_gtk2_mouse_over_map_focus = FALSE;
+int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
+int gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
 char gui_gtk2_font_city_label[512] = "Monospace 8";
 char gui_gtk2_font_notify_label[512] = "Monospace Bold 9";
 char gui_gtk2_font_spaceship_label[512] = "Monospace 8";
@@ -1902,6 +1904,20 @@ static struct client_option client_options[] = {
                   N_("If this option is enabled, then the map will be "
                      "focused when the mouse will be floating over it."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
+  GEN_INT_OPTION(gui_gtk2_citydlg_xsize,
+                 N_("Width of the city dialog"),
+                 N_("This value is only used if the width of the city "
+                    "dialog is saved."),
+                 COC_INTERFACE, GUI_GTK2, GUI_GTK2_CITYDLG_DEFAULT_XSIZE,
+                 GUI_GTK2_CITYDLG_MIN_XSIZE, GUI_GTK2_CITYDLG_MAX_XSIZE,
+                 NULL),
+  GEN_INT_OPTION(gui_gtk2_citydlg_ysize,
+                 N_("Height of the city dialog"),
+                 N_("This value is only used if the height of the city "
+                    "dialog is saved."),
+                 COC_INTERFACE, GUI_GTK2, GUI_GTK2_CITYDLG_DEFAULT_YSIZE,
+                 GUI_GTK2_CITYDLG_MIN_YSIZE, GUI_GTK2_CITYDLG_MAX_YSIZE,
+                 NULL),
   GEN_FONT_OPTION(gui_gtk2_font_city_label, "city_label",
                   N_("City Label"),
                   N_("This font is used to display the city labels on city "

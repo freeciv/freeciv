@@ -125,6 +125,8 @@ extern bool gui_gtk2_metaserver_tab_first;
 extern bool gui_gtk2_allied_chat_only;
 extern bool gui_gtk2_small_display_layout;
 extern bool gui_gtk2_mouse_over_map_focus;
+extern int gui_gtk2_citydlg_xsize;
+extern int gui_gtk2_citydlg_ysize;
 extern char gui_gtk2_font_city_label[512];
 extern char gui_gtk2_font_notify_label[512];
 extern char gui_gtk2_font_spaceship_label[512];
@@ -291,6 +293,19 @@ void options_dialogs_set(void);
 #define MW_POPUP     4		/* popup an individual window */
 
 extern int messages_where[];	/* OR-ed MW_ values [E_LAST] */
+
+
+/** Client specific min/max/default option values **/
+
+/* gui-gtk2: [xy]size of the city dialog */
+#define GUI_GTK2_CITYDLG_DEFAULT_XSIZE  770
+#define GUI_GTK2_CITYDLG_MIN_XSIZE      256
+#define GUI_GTK2_CITYDLG_MAX_XSIZE      4096
+
+#define GUI_GTK2_CITYDLG_DEFAULT_YSIZE  512
+#define GUI_GTK2_CITYDLG_MIN_YSIZE      128
+#define GUI_GTK2_CITYDLG_MAX_YSIZE      4096
+
 
 #define GUI_GTK_OVERVIEW_MIN_XSIZE      160
 #define GUI_GTK_OVERVIEW_MIN_YSIZE      100

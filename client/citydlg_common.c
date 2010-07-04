@@ -38,14 +38,14 @@
 #include "options.h"		/* for concise_city_production */
 #include "tilespec.h"		/* for tileset_is_isometric(tileset) */
 
-static int citydlg_width, citydlg_height;
+static int citydlg_map_width, citydlg_map_height;
 
 /**************************************************************************
   Return the width of the city dialog canvas.
 **************************************************************************/
 int get_citydlg_canvas_width(void)
 {
-  return citydlg_width;
+  return citydlg_map_width;
 }
 
 /**************************************************************************
@@ -53,7 +53,7 @@ int get_citydlg_canvas_width(void)
 **************************************************************************/
 int get_citydlg_canvas_height(void)
 {
-  return citydlg_height;
+  return citydlg_map_height;
 }
 
 /**************************************************************************
@@ -76,8 +76,8 @@ void generate_citydlg_dimensions(void)
     max_y = MAX(canvas_y, max_y);
   } city_map_iterate_end;
 
-  citydlg_width = max_x - min_x + tileset_tile_width(tileset);
-  citydlg_height = max_y - min_y + tileset_tile_height(tileset);
+  citydlg_map_width = max_x - min_x + tileset_tile_width(tileset);
+  citydlg_map_height = max_y - min_y + tileset_tile_height(tileset);
 }
 
 /**************************************************************************

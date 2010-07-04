@@ -111,8 +111,6 @@ enum info_style { NORMAL, ORANGE, RED, NUM_INFO_STYLES };
 #define CITY_MAP_MIN_SIZE_X  200
 #define CITY_MAP_MIN_SIZE_Y  150
 
-static int citydialog_width, citydialog_height;
-
 struct city_map_canvas {
   GtkWidget *sw;
   GtkWidget *ebox;
@@ -1288,11 +1286,10 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 		sprite_get_pixbuf(get_icon_sprite(tileset, ICON_CITYDLG)));
 #endif
 
-  /* Set old size. The size isn't saved in any way. */
-  if (citydialog_width && citydialog_height) {
-    gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
-				citydialog_width, citydialog_height);
-  }
+  /* Restore size of the city dialog. */
+  gtk_window_set_default_size(GTK_WINDOW(pdialog->shell),
+                              gui_gtk2_citydlg_xsize,
+                              gui_gtk2_citydlg_ysize);
 
   pdialog->tips = gtk_tooltips_new();
   g_object_ref(pdialog->tips);
@@ -2865,8 +2862,13 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
   close_happiness_dialog(pdialog->pcity);
   close_cma_dialog(pdialog->pcity);
 
-  citydialog_height = pdialog->shell->allocation.height;
-  citydialog_width = pdialog->shell->allocation.width;
+  /* Save size of the city dialog. */
+  gui_gtk2_citydlg_xsize = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
+                                pdialog->shell->allocation.width,
+                                GUI_GTK2_CITYDLG_MAX_XSIZE);
+  gui_gtk2_citydlg_ysize = CLIP(GUI_GTK2_CITYDLG_MIN_XSIZE,
+                                pdialog->shell->allocation.height,
+                                GUI_GTK2_CITYDLG_MAX_XSIZE);
 
   last_page =
       gtk_notebook_get_current_page(GTK_NOTEBOOK(pdialog->notebook));
