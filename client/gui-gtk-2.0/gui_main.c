@@ -170,6 +170,7 @@ static GtkWidget *unit_pixmap_button;
 static GtkWidget *unit_below_pixmap[MAX_NUM_UNITS_BELOW];
 static GtkWidget *unit_below_pixmap_button[MAX_NUM_UNITS_BELOW];
 static GtkWidget *more_arrow_pixmap;
+static GtkWidget *more_arrow_pixmap_button;
 
 static int unit_id_top;
 static int unit_ids[MAX_NUM_UNITS_BELOW];  /* ids of the units icons in 
@@ -202,8 +203,10 @@ static void tearoff_callback(GtkWidget *b, gpointer data);
 static GtkWidget *detached_widget_new(void);
 static GtkWidget *detached_widget_fill(GtkWidget *ahbox);
 
-static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev, 
-					    gpointer data);
+static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
+                                            gpointer data);
+static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
+                                                  gpointer data);
 static gboolean quit_dialog_callback(void);
 
 static void allied_chat_button_toggled(GtkToggleButton *button,
@@ -817,11 +820,18 @@ static void populate_unit_pixmap_table(void)
     gtk_pixcomm_clear(GTK_PIXCOMM(unit_below_pixmap[i]));
   }
 
-  more_arrow_pixmap
-    = gtk_image_new_from_pixbuf(sprite_get_pixbuf(get_arrow_sprite(tileset,
-						   ARROW_RIGHT)));
+  more_arrow_pixmap = gtk_image_new_from_pixbuf(
+          sprite_get_pixbuf(get_arrow_sprite(tileset, ARROW_RIGHT)));
   gtk_widget_ref(more_arrow_pixmap);
-  gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap, 4, 5, 1, 2);
+  more_arrow_pixmap_button = gtk_event_box_new();
+  gtk_widget_ref(more_arrow_pixmap_button);
+  gtk_container_add(GTK_CONTAINER(more_arrow_pixmap_button),
+                    more_arrow_pixmap);
+  g_signal_connect(more_arrow_pixmap_button,
+                   "button_press_event",
+                   G_CALLBACK(select_more_arrow_pixmap_callback), NULL);
+  gtk_table_attach_defaults(GTK_TABLE(table), more_arrow_pixmap_button,
+                            4, 5, 1, 2);
 
   gtk_widget_show_all(table);
 }
@@ -849,8 +859,9 @@ void reset_unit_table(void)
       gtk_widget_unref(unit_below_pixmap_button[i]);
     }
     gtk_container_remove(GTK_CONTAINER(unit_pixmap_table),
-                         more_arrow_pixmap);
+                         more_arrow_pixmap_button);
     gtk_widget_unref(more_arrow_pixmap);
+    gtk_widget_unref(more_arrow_pixmap_button);
   }
 
   populate_unit_pixmap_table();
@@ -861,7 +872,7 @@ void reset_unit_table(void)
    * arrow to go away, both by expicitly hiding it and telling it to
    * do so (this will be reset immediately afterwards if necessary,
    * but we have to make the *internal* state consistent). */
-  gtk_widget_hide(more_arrow_pixmap);
+  gtk_widget_hide(more_arrow_pixmap_button);
   set_unit_icons_more_arrow(FALSE);
   if (get_num_units_in_focus() == 1) {
     set_unit_icon(-1, head_of_units_in_focus());
@@ -1864,16 +1875,16 @@ void set_unit_icons_more_arrow(bool onoff)
 {
   static bool showing = FALSE;
 
-  if (!more_arrow_pixmap) {
+  if (!more_arrow_pixmap_button) {
     return;
   }
 
   if (onoff && !showing) {
-    gtk_widget_show(more_arrow_pixmap);
+    gtk_widget_show(more_arrow_pixmap_button);
     showing = TRUE;
   }
   else if(!onoff && showing) {
-    gtk_widget_hide(more_arrow_pixmap);
+    gtk_widget_hide(more_arrow_pixmap_button);
     showing = FALSE;
   }
 }
@@ -1904,6 +1915,22 @@ static gboolean select_unit_pixmap_callback(GtkWidget *w, GdkEvent *ev,
   if (NULL != punit && unit_owner(punit) == client.conn.playing) {
     /* Unit shouldn't be NULL but may be owned by an ally. */
     set_unit_focus(punit);
+  }
+
+  return TRUE;
+}
+
+/**************************************************************************
+ callback for clicking a unit icon underneath unit info box.
+ these are the units on the same tile as the focus unit.
+**************************************************************************/
+static gboolean select_more_arrow_pixmap_callback(GtkWidget *w, GdkEvent *ev,
+                                                  gpointer data)
+{
+  struct unit *punit = game_find_unit_by_number(unit_id_top);
+
+  if (punit) {
+    popup_unit_select_dialog(punit->tile);
   }
 
   return TRUE;
