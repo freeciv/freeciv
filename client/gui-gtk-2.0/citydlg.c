@@ -1044,7 +1044,7 @@ static void create_and_append_happiness_page(struct city_dialog *pdialog)
   frame = gtk_frame_new(_("Info"));
   gtk_box_pack_start(GTK_BOX(page), frame, FALSE, TRUE, 0);
 
-  align = gtk_alignment_new(0.5, 0.5, 0, 0);
+  align = gtk_alignment_new(0.5, 0, 0, 0);
   gtk_container_add(GTK_CONTAINER(frame), align);
 
   table = create_city_info_table(pdialog,
