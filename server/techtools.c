@@ -1076,9 +1076,8 @@ Tech_type_id give_immediate_free_tech(struct player* pplayer)
 static void forget_tech_transfered(struct player *pplayer, Tech_type_id tech)
 {
   notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
-                _("Oops. You have bad luck. A mistake was made while "
-                  "transferring %s. Your scientists did forget it."),
-                advance_name_for_player(pplayer, tech));
+                _("Too bad! You made a mistake transferring the tech %s and "
+                  "lost it."), advance_name_for_player(pplayer, tech));
   player_tech_lost(pplayer, tech);
   player_research_update(pplayer);
 }
