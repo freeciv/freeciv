@@ -1820,6 +1820,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
       "UnitClass", "Land", "Local"
+      "CityTile", "Center", "Local"
     }
 
 [effect_great_wall_0]
@@ -1829,6 +1830,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
       "UnitClass", "Helicopter", "Local"
+      "CityTile", "Center", "Local"
     }
 
 [effect_great_wall_1]

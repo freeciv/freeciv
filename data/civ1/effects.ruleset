@@ -1015,6 +1015,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
       "UnitClass", "Land", "Local"
+      "CityTile", "Center", "Local"
     }
 
 [effect_great_wall_1]
@@ -1024,6 +1025,7 @@ reqs	=
     { "type", "name", "range"
       "Building", "Great Wall", "Player"
       "UnitClass", "Sea", "Local"
+      "CityTile", "Center", "Local"
     }
 
 [effect_great_wall_visible]
