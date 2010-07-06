@@ -687,13 +687,14 @@ static bool city_increase_size(struct city *pcity)
     if (get_current_construction_bonus(pcity, EFT_SIZE_ADJ, RPT_CERTAIN) > 0
         || get_current_construction_bonus(pcity, EFT_SIZE_UNLIMIT, RPT_CERTAIN) > 0) {
       notify_player(powner, city_tile(pcity), E_CITY_AQ_BUILDING, ftc_server,
-                    _("%s needs %s (being built) to grow any further."),
+                    _("%s needs %s (being built) to grow beyond size %d."),
                     city_link(pcity),
-                    improvement_name_translation(pimprove));
+                    improvement_name_translation(pimprove),
+                    pcity->size);
     } else {
       notify_player(powner, city_tile(pcity), E_CITY_AQUEDUCT, ftc_server,
-                    _("%s needs an improvement to grow any further."),
-                    city_link(pcity));
+                    _("%s needs an improvement to grow beyond size %d."),
+                    city_link(pcity), pcity->size);
     }
     /* Granary can only hold so much */
     new_food = (city_granary_size(pcity->size)
