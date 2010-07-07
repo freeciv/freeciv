@@ -1930,7 +1930,7 @@ static void player_load_units(struct player *plr, int plrno,
       pbase = base_order[base];
     }
 
-    punit->activity_target
+    target
       = secfile_lookup_int_default(file, S_LAST,
                                    "player%d.u%d.activity_target", plrno, i);
     if (target == S_OLD_FORTRESS) {
