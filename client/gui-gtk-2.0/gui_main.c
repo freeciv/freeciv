@@ -780,11 +780,15 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 **************************************************************************/
 static void populate_unit_pixmap_table(void)
 {
-  int i;
+  int i, width, height;
   GtkWidget *table = unit_pixmap_table;
- 
-  /* 135 below is rough value (could be more intelligent) --dwp */
-  num_units_below = 135 / (int) tileset_tile_width(tileset);
+
+  /* get width of the overview window */
+  gdk_drawable_get_size(overview_canvas->window, &width, &height);
+  width = (width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? width
+                                               : GUI_GTK_OVERVIEW_MIN_XSIZE;
+
+  num_units_below = width / (int) tileset_tile_width(tileset);
   num_units_below = CLIP(1, num_units_below, MAX_NUM_UNITS_BELOW);
 
   gtk_table_resize(GTK_TABLE(table), 2, num_units_below);
