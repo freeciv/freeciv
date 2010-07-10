@@ -26,13 +26,10 @@
   - when can additional capability checks be set to mandatory (version)
   - which compatibility checks are needed and till when (version)
 
-  what                                 | date       | version    | till
-  -------------------------------------+------------+------------+----------
-  2.2.99t1 - test version              | 2010/07/05 | 2.2.99/  1 |
-  2.2.99t2 - test version              | 2010/07/05 | 2.2.99/  2 |
-  2.2.99t3 - test version              | 2010/07/05 | 2.2.99/  3 |
-  2.2.99t4 - test version              | 2010/07/05 | 2.2.99/  4 |
-  2.2.99     (svn 16977)               | 2010/07/05 | 2.2.99/  5 |
+  freeciv       | svn   | what                             | date       | id
+  --------------+ ------+----------------------------------+------------+----
+  2.2.99        | 17538 | first release                    | 2010/07/05 |  1
+  2.3.0         |       |                                  | 2010/--/-- |  5
 
   Structure of this file:
 
@@ -74,17 +71,6 @@
     They can be handled within the struct loaddata *loading which is used as
     first argument for all sg_load_*() function. Please indicate the
     dependencies within the definition of this struct.
-
-  ToDo:
-
-  - check tile->spec_sprite
-  - check game.server.phase_mode_stored
-  - check _all_ variables (if there could be errors)
-  - check map.server.have_rivers_overlay (not working due to error in
-    map_load_rivers_overlay())
-  - for each(?) subsystem save if it should be executed
-  - still worklist in the savegame?
-  - renaming sz_strlcpy => fc_strlcpy?
 
 */
 
@@ -5171,89 +5157,23 @@ typedef void (*save_version_func_t) (struct savedata *saving);
 /****************************************************************************
   ...
 ****************************************************************************/
-static void compat_load_020299t1(struct loaddata *loading)
+static void compat_load_020299(struct loaddata *loading)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
+  log_verbose("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
 }
 
 /****************************************************************************
   ...
 ****************************************************************************/
-static void compat_save_020299t1(struct savedata *saving)
+static void compat_save_020299(struct savedata *saving)
 {
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_load_020299t2(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_save_020299t2(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_load_020299t3(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_save_020299t3(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_load_020299t4(struct loaddata *loading)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void compat_save_020299t4(struct savedata *saving)
-{
-  /* Check status and return if not OK (sg_success != TRUE). */
-  sg_check_ret();
-
-  log_error("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
+  log_verbose("[%s:%d:%s]", __FILE__, __LINE__, __FUNCTION__);
 }
 
 struct compatibility {
@@ -5266,16 +5186,10 @@ struct compatibility {
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
   { "current version", NULL, NULL},
-  /* freeciv 2.2.99 test 1 */
-  { N_("freeciv 2.2.99t1"), compat_load_020299t1, compat_save_020299t1},
-  /* freeciv 2.2.99 test 2 */
-  { N_("freeciv 2.2.99t2"), compat_load_020299t2, compat_save_020299t2},
-  /* freeciv 2.2.99 test 3 */
-  { N_("freeciv 2.2.99t3"), compat_load_020299t3, compat_save_020299t3},
-  /* freeciv 2.2.99 test 4 */
-  { N_("freeciv 2.2.99t4"), compat_load_020299t4, compat_save_020299t4},
+  /* freeciv 2.2.99 (trunk) */
+  { N_("freeciv 2.2.99"), compat_load_020299, compat_save_020299},
   /* current savefile version as defined by the functions above */
-  { N_("freeciv 2.2.99 (trunk)"), NULL, NULL},
+  { N_("freeciv 2.3.0"), NULL, NULL},
 };
 
 static const int compat_num = ARRAY_SIZE(compat);
