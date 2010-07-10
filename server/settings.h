@@ -25,42 +25,54 @@
 #define SSET_TO_CLIENT TRUE
 #define SSET_SERVER_ONLY FALSE
 
-/* Categories allow options to be usefully organized when presented to the user
- */
-enum sset_category {
-  SSET_GEOLOGY,
-  SSET_SOCIOLOGY,
-  SSET_ECONOMICS,
-  SSET_MILITARY,
-  SSET_SCIENCE,
-  SSET_INTERNAL,
-  SSET_NETWORK,
-  SSET_NUM_CATEGORIES
-};
-
-extern const char *sset_category_names[];
+/* Categories allow options to be usefully organized when presented to the
+ * user */
+#define SPECENUM_NAME sset_category
+#define SPECENUM_VALUE0     SSET_GEOLOGY
+#define SPECENUM_VALUE0NAME N_("Geological")
+#define SPECENUM_VALUE1     SSET_SOCIOLOGY
+#define SPECENUM_VALUE1NAME N_("Sociological")
+#define SPECENUM_VALUE2     SSET_ECONOMICS
+#define SPECENUM_VALUE2NAME N_("Economic")
+#define SPECENUM_VALUE3     SSET_MILITARY
+#define SPECENUM_VALUE3NAME N_("Military")
+#define SPECENUM_VALUE4     SSET_SCIENCE
+#define SPECENUM_VALUE4NAME N_("Scientific")
+#define SPECENUM_VALUE5     SSET_INTERNAL
+#define SPECENUM_VALUE5NAME N_("Internal")
+#define SPECENUM_VALUE6     SSET_NETWORK
+#define SPECENUM_VALUE6NAME N_("Networking")
+/* keep this last */
+#define SPECENUM_COUNT      SSET_NUM_CATEGORIES
+#include "specenum_gen.h"
 
 /* Levels allow options to be subdivided and thus easier to navigate */
-enum sset_level {
-  SSET_NONE,
-  SSET_ALL,
-  SSET_VITAL,
-  SSET_SITUATIONAL,
-  SSET_RARE,
-  SSET_CHANGED,
-  SSET_LOCKED
-};
-
-extern const char *sset_level_names[];
-extern const int OLEVELS_NUM;
+#define SPECENUM_NAME sset_level
+#define SPECENUM_VALUE0     SSET_NONE
+#define SPECENUM_VALUE0NAME N_("None")
+#define SPECENUM_VALUE1     SSET_ALL
+#define SPECENUM_VALUE1NAME N_("All")
+#define SPECENUM_VALUE2     SSET_VITAL
+#define SPECENUM_VALUE2NAME N_("Vital")
+#define SPECENUM_VALUE3     SSET_SITUATIONAL
+#define SPECENUM_VALUE3NAME N_("Situational")
+#define SPECENUM_VALUE4     SSET_RARE
+#define SPECENUM_VALUE4NAME N_("Rare")
+#define SPECENUM_VALUE5     SSET_CHANGED
+#define SPECENUM_VALUE5NAME N_("Changed")
+#define SPECENUM_VALUE6     SSET_LOCKED
+#define SPECENUM_VALUE6NAME N_("Locked")
+/* keep this last */
+#define SPECENUM_COUNT      OLEVELS_NUM
+#include "specenum_gen.h"
 
 /* Server setting types. */
-enum sset_type {
-  SSET_BOOL,
-  SSET_INT,
-  SSET_STRING,
-  SSET_ENUM
-};
+#define SPECENUM_NAME sset_type
+#define SPECENUM_VALUE0     SSET_BOOL
+#define SPECENUM_VALUE1     SSET_INT
+#define SPECENUM_VALUE2     SSET_STRING
+#define SPECENUM_VALUE3     SSET_ENUM
+#include "specenum_gen.h"
 
 /* forward declaration */
 struct setting;
@@ -75,9 +87,6 @@ const char *setting_short_help(const struct setting *pset);
 const char *setting_extra_help(const struct setting *pset);
 enum sset_type setting_type(const struct setting *pset);
 enum sset_level setting_level(const struct setting *pset);
-
-const char *setting_category_name(const struct setting *pset);
-const char *setting_level_name(const struct setting *pset);
 
 bool setting_is_changeable(const struct setting *pset,
                            struct connection *caller, char *reject_msg,

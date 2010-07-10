@@ -1517,7 +1517,7 @@ static const char *olvlname_accessor(int i)
 {
   /* for 0->4, uses option levels, otherwise returns a setting name */
   if (i < OLEVELS_NUM) {
-    return sset_level_names[i];
+    return sset_level_name(i);
   } else {
     return optname_accessor(i-OLEVELS_NUM);
   }
@@ -1576,7 +1576,7 @@ static enum sset_level lookup_option_level(const char *name)
   enum sset_level i;
 
   for (i = SSET_ALL; i < OLEVELS_NUM; i++) {
-    if (0 == fc_strcasecmp(name, sset_level_names[i])) {
+    if (0 == fc_strcasecmp(name, sset_level_name(i))) {
       return i;
     }
   }
@@ -2038,6 +2038,9 @@ static bool show_command(struct connection *caller, char *str, bool check)
       break;
     case SSET_LOCKED:
       cmd_reply_show(_("Options locked by the ruleset"));
+      break;
+    case OLEVELS_NUM:
+      /* nothing */
       break;
   }
   cmd_reply_show(_("! means the option is locked by the ruleset"));

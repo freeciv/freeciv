@@ -42,17 +42,17 @@
  * See the settings[] array and setting_is_changeable() for what
  * these correspond to and explanations.
  */
-enum sset_class {
-  SSET_MAP_SIZE,
-  SSET_MAP_GEN,
-  SSET_MAP_ADD,
-  SSET_PLAYERS,
-  SSET_GAME_INIT,
-  SSET_RULES,
-  SSET_RULES_FLEXIBLE,
-  SSET_META,
-  SSET_LAST
-};
+#define SPECENUM_NAME sset_class
+#define SPECENUM_VALUE0     SSET_MAP_SIZE
+#define SPECENUM_VALUE1     SSET_MAP_GEN
+#define SPECENUM_VALUE2     SSET_MAP_ADD
+#define SPECENUM_VALUE3     SSET_PLAYERS
+#define SPECENUM_VALUE4     SSET_GAME_INIT
+#define SPECENUM_VALUE5     SSET_RULES
+#define SPECENUM_VALUE6     SSET_RULES_FLEXIBLE
+#define SPECENUM_VALUE7     SSET_META
+#define SPECENUM_COUNT      SSET_LAST
+#include "specenum_gen.h"
 
 typedef bool (*bool_validate_func_t)(bool value, struct connection *pconn,
                                      char *reject_msg,
@@ -142,25 +142,6 @@ struct setting {
   /* ruleset lock for game settings */
   bool locked;
 };
-
-/* Category names must match the values in enum sset_category. */
-const char *sset_category_names[] = {N_("Geological"),
-				     N_("Sociological"),
-				     N_("Economic"),
-				     N_("Military"),
-				     N_("Scientific"),
-				     N_("Internal"),
-				     N_("Networking")};
-
-/* Level names must match the values in enum sset_level. */
-const char *sset_level_names[] = {N_("None"),
-				  N_("All"),
-				  N_("Vital"),
-				  N_("Situational"),
-				  N_("Rare"),
-				  N_("Changed"),
-				  N_("Locked")};
-const int OLEVELS_NUM = ARRAY_SIZE(sset_level_names);
 
 static void setting_set_to_default(struct setting *pset);
 static bool setting_ruleset_one(struct section_file *file,
@@ -1844,22 +1825,6 @@ enum sset_level setting_level(const struct setting *pset)
 }
 
 /****************************************************************************
-  Access function for the setting category name.
-****************************************************************************/
-const char *setting_category_name(const struct setting *pset)
-{
-  return sset_category_names[pset->scategory];
-}
-
-/****************************************************************************
-  Access function for the setting level name.
-****************************************************************************/
-const char *setting_level_name(const struct setting *pset)
-{
-  return sset_level_names[pset->slevel];
-}
-
-/****************************************************************************
   Returns whether the specified server setting (option) can currently
   be changed by the caller. If it returns FALSE, the reason of the failure
   is available by the function setting_error().
@@ -3026,7 +2991,7 @@ void send_server_setting_control(struct connection *pconn)
   fc_assert(SSET_NUM_CATEGORIES <= ARRAY_SIZE(control.category_names));
   control.categories_num = SSET_NUM_CATEGORIES;
   for (i = 0; i < SSET_NUM_CATEGORIES; i++) {
-    sz_strlcpy(control.category_names[i], sset_category_names[i]);
+    sz_strlcpy(control.category_names[i], sset_category_name(i));
   }
 
   /* Send off the control packet. */

@@ -165,8 +165,10 @@ static bool manual_command(void)
           FC_FREE(help);
         }
         fprintf(doc, "<p class=\"misc\">");
-        fprintf(doc, _("Level: %s.<br>"), _(setting_level_name(pset)));
-        fprintf(doc, _("Category: %s.<br>"), _(setting_category_name(pset)));
+        fprintf(doc, _("Level: %s.<br>"),
+                _(sset_level_name(setting_number(pset))));
+        fprintf(doc, _("Category: %s.<br>"),
+                _(sset_category_name(setting_number(pset))));
 
         /* first check if the setting is locked because this is include in
          * the function setting_is_changeable() */
