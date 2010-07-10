@@ -4893,8 +4893,14 @@ static void game_load_internal(struct section_file *file)
 
       map.topology_id = secfile_lookup_int_default(file, MAP_ORIGINAL_TOPO,
 					           "map.topology_id");
+      map.server.mapsize
+        = secfile_lookup_int_default(file, MAP_DEFAULT_MAPSIZE,
+                                     "map.mapsize");
       map.server.size = secfile_lookup_int_default(file, MAP_DEFAULT_SIZE,
                                                    "map.size");
+      map.server.tilesperplayer
+        = secfile_lookup_int_default(file, MAP_DEFAULT_TILESPERPLAYER,
+                                     "map.tilesperplayer");
       map.server.startpos = secfile_lookup_int_default(file,
                                                        MAP_DEFAULT_STARTPOS,
                                                        "map.startpos");
@@ -5571,7 +5577,10 @@ void game_save(struct section_file *file, const char *save_reason,
      * when S_S_INITIAL, but I'm standardizing on width,height --dwp
      */
     secfile_insert_int(file, map.topology_id, "map.topology_id");
+    secfile_insert_int(file, map.server.mapsize, "map.mapsize");
     secfile_insert_int(file, map.server.size, "map.size");
+    secfile_insert_int(file, map.server.tilesperplayer,
+                       "map.tilesperplayer");
     secfile_insert_int(file, map.xsize, "map.width");
     secfile_insert_int(file, map.ysize, "map.height");
     secfile_insert_str(file, game.server.start_units, "game.start_units");

@@ -139,11 +139,13 @@ void map_init(void)
   /* The [xy]size values are set in map_init_topology.  It is initialized
    * to a non-zero value because some places erronously use these values
    * before they're initialized. */
-  map.xsize = MAP_MIN_LINEAR_SIZE;  
-  map.ysize = MAP_MIN_LINEAR_SIZE;
+  map.xsize = MAP_DEFAULT_LINEAR_SIZE;
+  map.ysize = MAP_DEFAULT_LINEAR_SIZE;
 
   if (is_server()) {
+    map.server.mapsize = MAP_DEFAULT_MAPSIZE;
     map.server.size = MAP_DEFAULT_SIZE;
+    map.server.tilesperplayer = MAP_DEFAULT_TILESPERPLAYER;
     map.server.seed = MAP_DEFAULT_SEED;
     map.server.riches = MAP_DEFAULT_RICHES;
     map.server.huts = MAP_DEFAULT_HUTS;

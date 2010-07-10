@@ -16,8 +16,12 @@
 
 #include <math.h> /* sqrt */
 
-#include "map.h"
+/* utility */
 #include "log.h"
+
+/* common */
+#include "game.h"
+#include "map.h"
 
 #include "mapgen_topology.h"
 
@@ -224,9 +228,9 @@ static void set_sizes(double size, int Xratio, int Yratio)
     log_error("Requested size of %d is too big for this topology.",
               map.server.size);
   }
-  log_verbose("Creating a map of size %d x %d = %d tiles (%d requested).",
-              map.xsize, map.ysize, map.xsize * map.ysize,
-              map.server.size * 1000);
+  log_normal("Creating a map of size %d x %d = %d tiles (%d requested).",
+             map.xsize, map.ysize, map.xsize * map.ysize,
+             map.server.size * 1000);
 }
 
 /*
@@ -240,16 +244,17 @@ static void set_sizes(double size, int Xratio, int Yratio)
 #define AUTO_RATIO_URANUS         {2, 3} 
 #define AUTO_RATIO_TORUS          {1, 1}
 
-/*************************************************************************** 
+/***************************************************************************
   This function sets sizes in a topology-specific way then calls
-  map_init_topology.
+  map_init_topology. Set 'autosize' to TRUE if the xsize/ysize should be
+  calculated.
 ***************************************************************************/
 void generator_init_topology(bool autosize)
 {
-  int sqsize = get_sqsize();
+  int sqsize, map_size;
 
-  /* The default server behavior is to generate xsize/ysize from the
-   * "size" server option.  Others may want to set xsize/ysize directly. */
+  /* The server behavior to create the map is defined by 'map.server.mapsize'.
+   * Calculate the xsize/ysize if it is not directly defined. */
   if (autosize) {
     /* Changing or reordering the topo_flag enum will break this code. */
     const int default_ratios[4][2] =
@@ -257,11 +262,48 @@ void generator_init_topology(bool autosize)
        AUTO_RATIO_URANUS, AUTO_RATIO_TORUS};
     const int id = 0x3 & map.topology_id;
 
+    /* see map.h for the definitions of TF_WRAP(X|Y) */
     fc_assert(TF_WRAPX == 0x1 && TF_WRAPY == 0x2);
 
-    /* Set map.xsize and map.ysize based on map.size. */
-    set_sizes(map.server.size, default_ratios[id][0], default_ratios[id][1]);
+    switch (map.server.mapsize) {
+    case 2:
+      map.server.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
+      log_normal("Creating a map of size %d x %d = %d tiles (map size: %d).",
+                 map.xsize, map.ysize, map.xsize * map.ysize,
+                 map.server.size);
+      break;
+
+    case 1:
+      map_size = game.nplayers * map.server.tilesperplayer
+                 / map.server.landpercent / 10;
+
+      map.server.size = CLIP(MAP_MIN_SIZE, map_size, MAP_MAX_SIZE);
+
+      if (map_size < MAP_MIN_SIZE) {
+        log_normal("Map size calculated for %d (land) tiles per player and "
+                   " %dplayer(s) to small. Setting map size to the minimal "
+                   "size %d.", map.server.tilesperplayer, game.nplayers,
+                   map.server.size);
+      } else if (map_size > MAP_MAX_SIZE) {
+        log_normal("Map size calculated for %d (land) tiles per player and "
+                   "%d player(s) to large. Setting map size to the maximal "
+                   "size %d.", map.server.tilesperplayer, game.nplayers,
+                   map.server.size);
+      } else {
+        log_normal("Setting map size to %d (approx. %d (land) tiles for "
+                   "each of the %d player(s)).", map.server.size,
+                   map.server.tilesperplayer, game.nplayers);
+      }
+      /* no break */
+
+    case 0:
+      /* Set map.xsize and map.ysize based on map.size. */
+      set_sizes(map.server.size, default_ratios[id][0], default_ratios[id][1]);
+      break;
+    }
   }
+
+  sqsize = get_sqsize();
 
   /* initialize the ICE_BASE_LEVEL */
 

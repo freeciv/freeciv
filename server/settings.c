@@ -179,6 +179,21 @@ static void setting_game_restore(struct setting *pset);
 ****************************************************************************/
 
 /****************************************************************************
+  Map size definition setting names accessor.
+****************************************************************************/
+static const char *mapsize_name(int mapsize)
+{
+  static const char *names[] = {
+    N_("Number of tiles"),
+    N_("Tiles per player"),
+    N_("Width and height")
+  };
+
+  return (0 <= mapsize && mapsize < ARRAY_SIZE(names)
+          ? names[mapsize] : NULL);
+}
+
+/****************************************************************************
   Topology setting names accessor.
 ****************************************************************************/
 static const char *topology_name(int topology)
@@ -335,8 +350,7 @@ static const char *phasemode_name(int phasemode)
 
 
 /*************************************************************************
-  Action callback functions. 'caller' and 'message' are not used and
-  should be set to NULL by the calling function.
+  Action callback functions.
 *************************************************************************/
 
 /*************************************************************************
@@ -624,6 +638,68 @@ static bool phasemode_callback(int value, struct connection *caller,
   return TRUE;
 }
 
+/*************************************************************************
+ ...
+*************************************************************************/
+static bool xsize_callback(int value, struct connection *caller,
+                           char *reject_msg, size_t reject_msg_len)
+{
+  int size = value * map.ysize;
+
+  if (value % 2 != 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map width must be an even value."));
+    return FALSE;
+  }
+
+  if (size < MAP_MIN_SIZE * 1000) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map size (%d * %d = %d) must be larger than "
+                        "%d tiles."), value, map.ysize, size,
+                        MAP_MIN_SIZE * 1000);
+    return FALSE;
+  } else if (size > MAP_MAX_SIZE * 1000) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map size (%d * %d = %d) must be lower than "
+                        "%d tiles."), value, map.ysize, size,
+                        MAP_MAX_SIZE * 1000);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
+/*************************************************************************
+  ...
+*************************************************************************/
+static bool ysize_callback(int value, struct connection *caller,
+                           char *reject_msg, size_t reject_msg_len)
+{
+  int size = map.xsize * value;
+
+  if (value % 2 != 0) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map height must be an even value."));
+    return FALSE;
+  }
+
+  if (size < MAP_MIN_SIZE * 1000) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map size (%d * %d = %d) must be larger than "
+                        "%d tiles."), map.xsize, value, size,
+                        MAP_MIN_SIZE * 1000);
+    return FALSE;
+  } else if (size > MAP_MAX_SIZE * 1000) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("The map size (%d * %d = %d) must be lower than "
+                        "%d tiles."), map.xsize, value, size,
+                        MAP_MAX_SIZE * 1000);
+    return FALSE;
+  }
+
+  return TRUE;
+}
+
 #define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,            \
                  short_help, extra_help, func_validate, func_action,        \
                  _default)                                                  \
@@ -666,15 +742,50 @@ static bool phasemode_callback(int value, struct connection *caller,
 static struct setting settings[] = {
 
   /* These should be grouped by sclass */
-  
-  /* Map size parameters: adjustable if we don't yet have a map */  
+
+  /* Map size parameters: adjustable if we don't yet have a map */
+  GEN_ENUM("mapsize", map.server.mapsize, SSET_MAP_SIZE,
+          SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Map size definition"),
+          N_("The map size is defined by:\n"
+             "  0 = the number of tiles ('size')\n"
+             "  1 = the number of (land) tiles per player "
+             " ('tilesperplayer')\n"
+             "  2 = the map width and height ('xsize' and 'ysize')"),
+          NULL, NULL, mapsize_name, MAP_DEFAULT_MAPSIZE)
+
   GEN_INT("size", map.server.size, SSET_MAP_SIZE,
-	  SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
           N_("Map size (in thousands of tiles)"),
           N_("This value is used to determine the map dimensions.\n"
              "  size = 4 is a normal map of 4,000 tiles (default)\n"
-             "  size = 20 is a huge map of 20,000 tiles"), NULL, NULL,
+             "  size = 20 is a huge map of 20,000 tiles\n"
+             "To use this option, set 'mapsize' to 0."), NULL, NULL,
           MAP_MIN_SIZE, MAP_MAX_SIZE, MAP_DEFAULT_SIZE)
+
+  GEN_INT("tilesperplayer", map.server.tilesperplayer, SSET_MAP_SIZE,
+          SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Number of (land) tiles per player"),
+          N_("This value is used to determine the map dimensions. It "
+             "calculates the map size at game start based on the number "
+             "of players and the value of the setting 'landmass'. "
+             "To use this option, set 'mapsize' to 1."),
+          NULL, NULL, MAP_MIN_TILESPERPLAYER,
+          MAP_MAX_TILESPERPLAYER, MAP_DEFAULT_TILESPERPLAYER)
+
+  GEN_INT("xsize", map.xsize, SSET_MAP_SIZE,
+          SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Map width in squares"),
+          N_("Defines the map width. To use this option, set "
+             "'mapsize' to 2."), xsize_callback, NULL,
+          MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
+  GEN_INT("ysize", map.ysize, SSET_MAP_SIZE,
+          SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+          N_("Map height in squares"),
+          N_("Defines the map height. To use this option, set "
+             "'mapsize' to 2."), ysize_callback, NULL,
+          MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
+
   GEN_ENUM("topology", map.topology_id, SSET_MAP_SIZE,
            SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Map topology index"),
@@ -2311,7 +2422,8 @@ static void setting_set_to_default(struct setting *pset)
 /********************************************************************
   Execute the action callback if needed.
 *********************************************************************/
-void setting_action(const struct setting *pset) {
+void setting_action(const struct setting *pset)
+{
   if (pset->action != NULL) {
     pset->action(pset);
   }

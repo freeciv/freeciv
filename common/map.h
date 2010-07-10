@@ -56,7 +56,9 @@ struct civ_map {
     } client;
 
     struct {
+      int mapsize; /* how the map size is defined */
       int size; /* used to calculate [xy]size */
+      int tilesperplayer; /* tiles per player; used to calculate size */
       int seed;
       int riches;
       int huts;
@@ -475,6 +477,13 @@ extern const int DIR_DY[8];
 #define MAP_MIN_HUTS             0
 #define MAP_MAX_HUTS             500
 
+/* How the map size is defined:
+ * 0: using the number of tiles / 1000
+ * 1: define the number of (land) tiles per player; the setting 'landmass'
+ *    and the number of players are used to calculate the map size
+ * 2: xsize and ysize are defined */
+#define MAP_DEFAULT_MAPSIZE  0
+
 /* Size of the map in thousands of tiles.  Setting the maximal size over
  * than 30 is dangerous, because some parts of the code (e.g. path finding)
  * assume the tile index is of type (signed short int). */
@@ -482,9 +491,14 @@ extern const int DIR_DY[8];
 #define MAP_MIN_SIZE             1
 #define MAP_MAX_SIZE             30
 
+#define MAP_DEFAULT_TILESPERPLAYER      100
+#define MAP_MIN_TILESPERPLAYER            1
+#define MAP_MAX_TILESPERPLAYER         1000
+
 /* This defines the maximum linear size in _map_ coordinates.
  * This must be smaller than 255 because of the way coordinates are sent
  * across the network. */
+#define MAP_DEFAULT_LINEAR_SIZE  64
 #define MAP_MAX_LINEAR_SIZE      254
 #define MAP_MIN_LINEAR_SIZE      8
 #define MAP_MAX_WIDTH            MAP_MAX_LINEAR_SIZE
