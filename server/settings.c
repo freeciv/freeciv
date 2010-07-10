@@ -2549,7 +2549,8 @@ void settings_game_load(struct section_file *file, const char *section)
       case SSET_BOOL:
         bval = secfile_lookup_bool_default(file, pset->boolean.default_value,
                                            "%s.set%d.value", section, i);
-        if (!setting_bool_set(pset, bval, NULL, buf, sizeof(buf))) {
+        if (bval != setting_bool_get(pset)
+            && !setting_bool_set(pset, bval, NULL, buf, sizeof(buf))) {
           log_error("Error restoring '%s': %s", setting_name(pset), buf);
         }
         break;
@@ -2557,7 +2558,8 @@ void settings_game_load(struct section_file *file, const char *section)
       case SSET_INT:
         ival = secfile_lookup_int_default(file, pset->integer.default_value,
                                           "%s.set%d.value", section, i);
-        if (!setting_int_set(pset, ival, NULL, buf, sizeof(buf))) {
+        if (ival != setting_int_get(pset)
+            && !setting_int_set(pset, ival, NULL, buf, sizeof(buf))) {
           log_error("Error restoring '%s': %s", setting_name(pset), buf);
         }
         break;
@@ -2565,7 +2567,8 @@ void settings_game_load(struct section_file *file, const char *section)
       case SSET_STRING:
         sval = secfile_lookup_str_default(file, pset->string.default_value,
                                           "%s.set%d.value", section, i);
-        if (!setting_str_set(pset, sval, NULL, buf, sizeof(buf))) {
+        if (fc_strcasecmp(sval, setting_str_get(pset)) != 0
+            && !setting_str_set(pset, sval, NULL, buf, sizeof(buf))) {
           log_error("Error restoring '%s': %s", setting_name(pset), buf);
         }
         break;
