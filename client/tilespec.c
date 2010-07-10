@@ -2447,9 +2447,33 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   SET_SPRITE(tx.fog,        "tx.fog");
 
   /* Load color sprites. */
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    fc_snprintf(buffer, sizeof(buffer), "colors.player%d", i);
-    SET_SPRITE(colors.player[i], buffer);
+  {
+    /* Loop over all players and load the corresponding colors. If there
+     * are no more colors start again with color 0. */
+    int now, last = -1; /* the current and the last valid player color */
+    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+      if (last == -1) {
+        now = i;
+      } else {
+        now = i % last;
+      }
+
+      fc_snprintf(buffer, sizeof(buffer), "colors.player%d", now);
+      t->sprites.colors.player[i] = load_sprite(t, buffer);
+
+      if (last == -1 && NULL == t->sprites.colors.player[i]) {
+        last = i;
+        /* repeat this loop */
+        i--;
+      }
+
+      if (i == 0 && last == 0) {
+        /* no color defined */
+        fc_assert_exit_msg(NULL != t->sprites.colors.player[i],
+                           "No player colors defined (sprite tag '%s' "
+                           "missing).", buffer);
+      }
+    }
   }
   SET_SPRITE(colors.background, "colors.background");
   sprite_vector_init(&t->sprites.colors.overlays);

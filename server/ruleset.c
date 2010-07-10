@@ -3437,6 +3437,18 @@ static void load_ruleset_game(void)
     sz_strlcpy(game.info.team_names_orig[i], svec[i]);
   }
   free(svec);
+  if (game.info.num_teams < MAX_NUM_TEAMS) {
+    log_normal("Not enough team names defined (have: %d; need: %d). "
+               "Creating missing names ...", game.info.num_teams,
+               MAX_NUM_TEAMS);
+    for (; game.info.num_teams < MAX_NUM_TEAMS; game.info.num_teams++) {
+      fc_snprintf(game.info.team_names_orig[game.info.num_teams],
+                  sizeof(game.info.team_names_orig[game.info.num_teams]),
+                  "Team %d", game.info.num_teams);
+      log_verbose("team %d created as: '%s'", game.info.num_teams,
+                 game.info.team_names_orig[game.info.num_teams]);
+    }
+  }
 
   settings_ruleset(file, "settings");
 

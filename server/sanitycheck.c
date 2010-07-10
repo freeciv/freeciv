@@ -525,7 +525,9 @@ static void check_teams(const char *file, const char *function, int line)
   } players_iterate_end;
 
   for (i = 0; i < MAX_NUM_TEAMS; i++) {
-    SANITY_CHECK(team_by_number(i)->players == count[i]);
+    struct team *t = team_by_number(i);
+    fc_assert_exit(t);
+    SANITY_CHECK(t->players == count[i]);
   }
 }
 
