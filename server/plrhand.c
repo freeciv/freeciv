@@ -999,8 +999,10 @@ void server_player_init(struct player *pplayer,
   player_status_reset(pplayer);
   pplayer->server.capital = FALSE;
   BV_CLR_ALL(pplayer->server.really_gives_vision);
-  pplayer->server.private_map = NULL;
   BV_CLR_ALL(pplayer->server.debug);
+
+  player_map_free(pplayer);
+  pplayer->server.private_map = NULL;
 
   pplayer->ai = get_ai_type(AI_DEFAULT);
 

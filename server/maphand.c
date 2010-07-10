@@ -951,7 +951,8 @@ void show_map_to_all(void)
 void player_map_allocate(struct player *pplayer)
 {
   pplayer->server.private_map
-    = fc_malloc(MAP_INDEX_SIZE * sizeof(*pplayer->server.private_map));
+    = fc_realloc(pplayer->server.private_map,
+                 MAP_INDEX_SIZE * sizeof(*pplayer->server.private_map));
 
   whole_map_iterate(ptile) {
     player_tile_init(ptile, pplayer);
