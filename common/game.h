@@ -125,6 +125,7 @@ struct civ_game {
       int revolution_length;
       int save_compress_level;
       int save_compress_type;
+      int saveversion; /* save game version to use */
       int save_nturns;
       bool savepalace;
       char start_units[MAX_LEN_STARTUNIT];

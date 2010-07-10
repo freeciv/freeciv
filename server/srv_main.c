@@ -106,7 +106,7 @@
 #include "report.h"
 #include "ruleset.h"
 #include "sanitycheck.h"
-#include "savegame.h"
+#include "savegame2.h"
 #include "score.h"
 #include "script_signal.h"
 #include "sernet.h"
@@ -1054,7 +1054,7 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
   file = secfile_new(FALSE);
-  game_save(file, save_reason, scenario);
+  savegame2_save(file, save_reason, scenario);
 
   /* Append ".sav" to filename. */
   sz_strlcat(filepath, ".sav");

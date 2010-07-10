@@ -55,7 +55,6 @@
 #include "plrhand.h"
 #include "report.h"
 #include "ruleset.h"
-#include "savegame.h"
 #include "settings.h"
 #include "sernet.h"
 #include "srv_main.h"

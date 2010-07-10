@@ -29,6 +29,7 @@
 #include "ggzserver.h"
 #include "plrhand.h"
 #include "report.h"
+#include "savegame2.h" /* saveversion_name() */
 #include "settings.h"
 #include "srv_main.h"
 #include "stdinhand.h"
@@ -1725,6 +1726,14 @@ static struct setting settings[] = {
              "Not all servers support all compression methods."), NULL,
           NULL, GAME_MIN_COMPRESS_TYPE, GAME_MAX_COMPRESS_TYPE,
 	  GAME_DEFAULT_COMPRESS_TYPE)
+
+  GEN_ENUM("saveversion", game.server.saveversion,
+           SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
+           N_("Save using the given savegame version."),
+           N_("Create a savegame which can be loaded by the given version "
+              "of freeciv. Some features will not be saved/restored for "
+              "older versions. '0' uses the current format."),
+           NULL, NULL, saveversion_name, GAME_DEFAULT_SAVEVERSION)
 
   GEN_STRING("savename", game.server.save_name,
              SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,

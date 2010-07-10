@@ -372,6 +372,7 @@ void game_init(void)
     game.server.save_compress_type = FZ_PLAIN;
 #endif
     sz_strlcpy(game.server.save_name, GAME_DEFAULT_SAVE_NAME);
+    game.server.saveversion       = GAME_DEFAULT_SAVEVERSION;
     game.server.save_nturns       = GAME_DEFAULT_SAVETURNS;
     game.server.save_options.save_known = TRUE;
     game.server.save_options.save_private_map = TRUE;
