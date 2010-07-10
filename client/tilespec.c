@@ -3326,7 +3326,7 @@ static int fill_unit_sprite_array(const struct tileset *t,
     ADD_SPRITE_FULL(s);
   }
 
-  if (punit->ai.control && punit->activity != ACTIVITY_EXPLORE) {
+  if (punit->ai_controlled && punit->activity != ACTIVITY_EXPLORE) {
     if (is_military_unit(punit)) {
       ADD_SPRITE_FULL(t->sprites.unit.auto_attack);
     } else {

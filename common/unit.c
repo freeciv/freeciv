@@ -23,6 +23,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "base.h"
 #include "city.h"
 #include "game.h"
@@ -1501,12 +1502,14 @@ bool is_build_or_clean_activity(enum unit_activity activity)
 
 /**************************************************************************
   Create a virtual unit skeleton. pcity can be NULL, but then you need
-  to set x, y and homecity yourself.
+  to set tile and homecity yourself.
 **************************************************************************/
 struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
                                  struct unit_type *punittype,
-				 int veteran_level)
+                                 int veteran_level)
 {
+  /* Make sure that contents of unit structure are correctly initialized,
+   * if you ever allocate it by some other mean than fc_calloc() */
   struct unit *punit = fc_calloc(1, sizeof(*punit));
 
   /* It does not register the unit so the id is set to 0. */
@@ -1525,41 +1528,44 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->tile = NULL;
     punit->homecity = IDENTITY_NUMBER_ZERO;
   }
+
   memset(punit->upkeep, 0, O_LAST * sizeof(*punit->upkeep));
   punit->goto_tile = NULL;
   punit->veteran = veteran_level;
   /* A unit new and fresh ... */
-  punit->debug = FALSE;
   punit->fuel = utype_fuel(unit_type(punit));
-  punit->birth_turn = game.info.turn;
   punit->hp = unit_type(punit)->hp;
   punit->moves_left = unit_move_rate(punit);
   punit->moved = FALSE;
+
+  punit->ai_controlled = FALSE;
   punit->paradropped = FALSE;
   punit->done_moving = FALSE;
-  punit->ai.done = FALSE;
-  punit->ai.cur_pos = NULL;
-  punit->ai.prev_pos = NULL;
-  punit->ai.target = 0;
-  punit->ai.hunted = 0;
-  punit->ai.control = FALSE;
-  punit->ai.ai_role = AIUNIT_NONE;
-  punit->ai.ferryboat = 0;
-  punit->ai.passenger = 0;
-  punit->ai.bodyguard = 0;
-  punit->ai.charge = 0;
+
   punit->transported_by = -1;
-  punit->focus_status = FOCUS_AVAIL;
-  punit->ord_map = 0;
-  punit->ord_city = 0;
   set_unit_activity(punit, ACTIVITY_IDLE);
   punit->occupy = 0;
   punit->battlegroup = BATTLEGROUP_NONE;
-  punit->client.colored = FALSE;
-  punit->server.vision = NULL; /* No vision. */
-  punit->server.action_timestamp = 0;
-  punit->server.action_turn = 0;
   punit->has_orders = FALSE;
+
+  if (is_server()) {
+    punit->server.debug = FALSE;
+    punit->server.birth_turn = game.info.turn;
+
+    punit->server.ord_map = 0;
+    punit->server.ord_city = 0;
+
+    punit->server.vision = NULL; /* No vision. */
+    punit->server.action_timestamp = 0;
+    punit->server.action_turn = 0;
+
+    if (pplayer->ai && pplayer->ai->funcs.unit_init) {
+      pplayer->ai->funcs.unit_init(punit);
+    }
+  } else {
+    punit->client.focus_status = FOCUS_AVAIL;
+    punit->client.colored = FALSE;
+  }
 
   return punit;
 }
@@ -1571,8 +1577,11 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
 void destroy_unit_virtual(struct unit *punit)
 {
   free_unit_orders(punit);
-  memset(punit, 0, sizeof(*punit)); /* ensure no pointers remain */
-  free(punit);
+
+  if (punit->owner->ai && punit->owner->ai->funcs.unit_close) {
+    punit->owner->ai->funcs.unit_close(punit);
+  }
+  FC_FREE(punit);
 }
 
 /**************************************************************************

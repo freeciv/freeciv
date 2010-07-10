@@ -368,16 +368,6 @@ bool player_set_nation(struct player *pplayer, struct nation_type *pnation)
 /***************************************************************
 ...
 ***************************************************************/
-void player_set_unit_focus_status(struct player *pplayer)
-{
-  unit_list_iterate(pplayer->units, punit) 
-    punit->focus_status=FOCUS_AVAIL;
-  unit_list_iterate_end;
-}
-
-/***************************************************************
-...
-***************************************************************/
 struct player *find_player_by_name(const char *name)
 {
   players_iterate(pplayer) {

@@ -1267,3 +1267,13 @@ void buy_production_in_selected_cities(void)
 
   connection_do_unbuffer(pconn);
 }
+
+/***************************************************************
+  ...
+***************************************************************/
+void set_unit_focus_status(struct player *pplayer)
+{
+  unit_list_iterate(pplayer->units, punit) {
+    punit->client.focus_status = FOCUS_AVAIL;
+  } unit_list_iterate_end;
+}

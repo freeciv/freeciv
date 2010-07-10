@@ -1470,7 +1470,7 @@ static void server_remove_unit(struct unit *punit)
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
      the settler disappear on the way. */
-  if (punit->ai.ai_role != AIUNIT_NONE) {
+  if (punit->server.ai->ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
@@ -1871,7 +1871,7 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->activity = punit->activity;
   packet->activity_base = punit->activity_base;
   packet->activity_count = punit->activity_count;
-  packet->ai = punit->ai.control;
+  packet->ai = punit->ai_controlled;
   packet->fuel = punit->fuel;
   packet->goto_tile = (NULL != punit->goto_tile
                        ? tile_index(punit->goto_tile) : -1);
@@ -2223,12 +2223,12 @@ void do_explore(struct unit *punit)
         /* FIXME: When the ai_manage_explorer() call changes the activity from
          * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
          * alone.  We reset it here.  See PR#12931. */
-        punit->ai.control = FALSE;
+        punit->ai_controlled = FALSE;
         break;
     };
   } else {
     unit_activity_handling(punit, ACTIVITY_IDLE);
-    punit->ai.control = FALSE;
+    punit->ai_controlled = FALSE;
   }
   send_unit_info(NULL, punit); /* probably duplicate */
 }

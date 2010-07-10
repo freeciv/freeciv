@@ -1311,7 +1311,7 @@ static int adv_unit_sentry_idle_callback(struct widget *pWidget)
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == client.conn.playing
          && ACTIVITY_IDLE == punit->activity
-         && !punit->ai.control
+         && !punit->ai_controlled
          && can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
           request_new_unit_activity(punit, ACTIVITY_SENTRY);
         }

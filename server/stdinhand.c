@@ -2630,13 +2630,13 @@ static bool debug_command(struct connection *caller, char *str,
       goto cleanup;
     }
     unit_list_iterate(ptile->units, punit) {
-      if (punit->debug) {
-        punit->debug = FALSE;
+      if (punit->server.debug) {
+        punit->server.debug = FALSE;
         cmd_reply(CMD_DEBUG, caller, C_OK, _("%s %s no longer debugged."),
                   nation_adjective_for_player(unit_owner(punit)),
                   unit_name_translation(punit));
       } else {
-        punit->debug = TRUE;
+        punit->server.debug = TRUE;
         UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
                  nation_rule_name(nation_of_unit(punit)),
                  unit_name_translation(punit));
@@ -2671,13 +2671,13 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply(CMD_DEBUG, caller, C_SYNTAX, _("Unit %d does not exist."), id);
       goto cleanup;
     }
-    if (punit->debug) {
-      punit->debug = FALSE;
+    if (punit->server.debug) {
+      punit->server.debug = FALSE;
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s %s no longer debugged."),
                 nation_adjective_for_player(unit_owner(punit)),
                 unit_name_translation(punit));
     } else {
-      punit->debug = TRUE;
+      punit->server.debug = TRUE;
       UNIT_LOG(LOG_NORMAL, punit, "%s %s debugged.",
                nation_rule_name(nation_of_unit(punit)),
                unit_name_translation(punit));

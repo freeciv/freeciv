@@ -865,7 +865,7 @@ static void end_phase(void)
   /* AI end of turn activities */
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      punit->ai.hunted = 0;
+      punit->server.ai->hunted = 0;
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {

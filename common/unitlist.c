@@ -39,41 +39,51 @@ struct unit *unit_list_find(const struct unit_list *punitlist, int unit_id)
 }
 
 /****************************************************************************
- Comparison function for unit_list_sort, sorting by ord_map:
- The indirection is a bit gory:
- Read from the right:
-   1. cast arg "a" to "ptr to void*"   (we're sorting a list of "void*"'s)
-   2. dereference to get the "void*"
-   3. cast that "void*" to a "struct unit*"
+  Comparison function for unit_list_sort, sorting by ord_map:
+  The indirection is a bit gory:
+  Read from the right:
+    1. cast arg "a" to "ptr to void*"   (we're sorting a list of "void*"'s)
+    2. dereference to get the "void*"
+    3. cast that "void*" to a "struct unit*"
+
+  Only used in server/savegame.c.
 ****************************************************************************/
 static int compar_unit_ord_map(const struct unit *const *ua,
                                const struct unit *const *ub)
 {
-  return (*ua)->ord_map - (*ub)->ord_map;
+  return (*ua)->server.ord_map - (*ub)->server.ord_map;
 }
 
 /****************************************************************************
- Comparison function for unit_list_sort, sorting by ord_city: see above.
+  Comparison function for unit_list_sort, sorting by ord_city: see above.
+
+  Only used in server/savegame.c.
 ****************************************************************************/
 static int compar_unit_ord_city(const struct unit *const *ua,
                                 const struct unit *const *ub)
 {
-  return (*ua)->ord_city - (*ub)->ord_city;
+  return (*ua)->server.ord_city - (*ub)->server.ord_city;
 }
 
 /****************************************************************************
-  Sorts the unit list by punit->ord_map values.
+  Sorts the unit list by punit->server.ord_map values.
+
+  Only used in server/savegame.c.
 ****************************************************************************/
 void unit_list_sort_ord_map(struct unit_list *punitlist)
 {
+  fc_assert_ret(is_server());
   unit_list_sort(punitlist, compar_unit_ord_map);
 }
 
 /****************************************************************************
-  Sorts the unit list by punit->ord_city values.
+  Sorts the unit list by punit->server.ord_city values.
+
+  Only used in server/savegame.c.
 ****************************************************************************/
 void unit_list_sort_ord_city(struct unit_list *punitlist)
 {
+  fc_assert_ret(is_server());
   unit_list_sort(punitlist, compar_unit_ord_city);
 }
 

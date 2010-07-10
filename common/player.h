@@ -257,7 +257,6 @@ struct player *find_player_by_name_prefix(const char *name,
 struct player *find_player_by_user(const char *name);
 
 bool player_set_nation(struct player *pplayer, struct nation_type *pnation);
-void player_set_unit_focus_status(struct player *pplayer);
 
 bool player_has_embassy(const struct player *pplayer,
                         const struct player *pplayer2);

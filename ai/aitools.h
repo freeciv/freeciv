@@ -107,6 +107,4 @@ bool ai_wants_no_science(struct player *pplayer);
 
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer);
 
-void ai_reinit(struct unit *punit);
-
 #endif  /* FC__AITOOLS_H */

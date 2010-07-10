@@ -385,7 +385,7 @@ static void ai_hunter_juiciness(struct player *pplayer, struct unit *punit,
   We try to keep track of our original target, but also opportunistically
   snatch up closer targts if they are better.
 
-  We set punit->ai.target to target's id.
+  We set punit->server.ai->target to target's id.
 **************************************************************************/
 int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 {
@@ -393,7 +393,8 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
   struct pf_parameter parameter;
   struct pf_map *pfm;
   int limit = unit_move_rate(punit) * 6;
-  struct unit *original_target = game_find_unit_by_number(punit->ai.target);
+  struct unit *original_target
+    = game_find_unit_by_number(punit->server.ai->target);
   int original_threat = 0, original_cost = 0;
 
   fc_assert_ret_val(!is_barbarian(pplayer), 0);
@@ -426,7 +427,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
       if (tile_city(ptile)
           || !can_unit_attack_tile(punit, ptile)
-          || TEST_BIT(target->ai.hunted, player_index(pplayer))) {
+          || TEST_BIT(target->server.ai->hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
         continue;
@@ -439,9 +440,9 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* Figure out whether unit is coming closer */
-      if (target->ai.cur_pos && target->ai.prev_pos) {
-        dist1 = real_map_distance(punit->tile, *target->ai.cur_pos);
-        dist2 = real_map_distance(punit->tile, *target->ai.prev_pos);
+      if (target->server.ai->cur_pos && target->server.ai->prev_pos) {
+        dist1 = real_map_distance(punit->tile, *target->server.ai->cur_pos);
+        dist2 = real_map_distance(punit->tile, *target->server.ai->prev_pos);
       } else {
         dist1 = dist2 = 0;
       }
@@ -455,10 +456,13 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       /* We can't chase if we aren't faster or on intercept vector */
       if (unit_type(punit)->move_rate < unit_type(target)->move_rate
           && dist1 >= dist2) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "giving up racing %s (%d, %d)->(%d, %d)",
+        UNIT_LOG(LOGLEVEL_HUNT, punit,
+                 "giving up racing %s (%d, %d)->(%d, %d)",
                  unit_rule_name(target),
-		 target->ai.prev_pos ? (*target->ai.prev_pos)->x : -1,
-                 target->ai.prev_pos ? (*target->ai.prev_pos)->y : -1,
+                 target->server.ai->prev_pos
+                   ? (*target->server.ai->prev_pos)->x : -1,
+                 target->server.ai->prev_pos
+                   ? (*target->server.ai->prev_pos)->y : -1,
                  TILE_XY(target->tile));
         continue;
       }
@@ -468,7 +472,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       ai_hunter_juiciness(pplayer, punit, target, &stackthreat, &stackcost);
       stackcost *= unit_win_chance(punit, get_defender(punit, target->tile));
       if (stackcost < unit_build_shield_cost(punit)) {
-        UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)", 
+        UNIT_LOG(LOGLEVEL_HUNT, punit, "%d is too expensive (it %d vs us %d)",
                  target->id, stackcost,
 		 unit_build_shield_cost(punit));
         continue; /* Too expensive */
@@ -496,7 +500,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                dist1,
                dist2);
       /* Ok, now we FINALLY have a target worth destroying! */
-      punit->ai.target = target->id;
+      punit->server.ai->target = target->id;
       if (is_virtual) {
         pf_map_destroy(pfm);
         return stackthreat;
@@ -542,7 +546,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       pf_map_destroy(pfm);
-      punit->ai.done = TRUE;
+      punit->server.ai->done = TRUE;
       return stackthreat; /* still have work to do */
     } unit_list_iterate_safe_end;
   } pf_map_iterate_move_costs_end;

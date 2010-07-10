@@ -1005,7 +1005,7 @@ void real_menus_update(void)
     punits = get_units_in_focus();
     pUnit = unit_list_get(punits, 0);
 
-    if (pUnit && !pUnit->ai.control) {
+    if (pUnit && !pUnit->ai_controlled) {
       struct city *pHomecity;
       int time;
       struct tile *pTile = pUnit->tile;

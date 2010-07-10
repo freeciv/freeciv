@@ -390,7 +390,14 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     vision_clear_sight(punit->server.vision);
     vision_free(punit->server.vision);
 
-    ai_reinit(punit);
+    /* Remove AI control of the old owner. */
+    if (punit->owner->ai && punit->owner->ai->funcs.unit_close) {
+      punit->owner->ai->funcs.unit_close(punit);
+    }
+    /* Activate AI control of the new owner. */
+    if (new_owner->ai && new_owner->ai->funcs.unit_init) {
+      new_owner->ai->funcs.unit_init(punit);
+    }
 
     unit_list_remove(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);
@@ -707,7 +714,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
   if (punit->activity == activity
    && punit->activity_target == activity_target
    && punit->activity_base == activity_base
-   && !punit->ai.control) {
+   && !punit->ai_controlled) {
     /* Treat change in ai.control as change in activity, so
      * idle autosettlers behave correctly when selected --dwp
      */
@@ -716,11 +723,11 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   /* Remove city spot reservations for AI settlers on city founding
    * mission, before goto_tile reset. */
-  if (punit->ai.ai_role != AIUNIT_NONE) {
+  if (punit->server.ai->ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
-  punit->ai.control = FALSE;
+  punit->ai_controlled = FALSE;
   punit->goto_tile = NULL;
 
   switch (activity) {
@@ -1786,7 +1793,7 @@ void handle_unit_autosettlers(struct player *pplayer, int unit_id)
   if (!can_unit_do_autosettlers(punit))
     return;
 
-  punit->ai.control = TRUE;
+  punit->ai_controlled = TRUE;
   send_unit_info(pplayer, punit);
 }
 
@@ -1817,14 +1824,14 @@ static void unit_activity_dependencies(struct unit *punit,
       }
     case ACTIVITY_EXPLORE:
       /* Restore unit's control status */
-      punit->ai.control = FALSE;
+      punit->ai_controlled = FALSE;
       break;
     default: 
       ; /* do nothing */
     }
     break;
   case ACTIVITY_EXPLORE:
-    punit->ai.control = TRUE;
+    punit->ai_controlled = TRUE;
     set_unit_activity(punit, ACTIVITY_EXPLORE);
     send_unit_info(NULL, punit);
     break;
@@ -2093,7 +2100,7 @@ void handle_unit_orders(struct player *pplayer,
    * settlers on city founding mission, city spot reservation
    * from goto_tile must be freed, and free_unit_orders() loses
    * goto_tile information */
-  if (punit->ai.ai_role != AIUNIT_NONE) {
+  if (punit->server.ai->ai_role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 

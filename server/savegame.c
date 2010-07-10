@@ -1924,7 +1924,7 @@ static void player_load_units(struct player *plr, int plrno,
       punit->homecity = IDENTITY_NUMBER_ZERO;
     }
 
-    punit->birth_turn = secfile_lookup_int_default(file, game.info.turn,
+    punit->server.birth_turn = secfile_lookup_int_default(file, game.info.turn,
                                                    "player%d.u%d.born", plrno, i);
     base = secfile_lookup_int_default(file, -1,
                                       "player%d.u%d.activity_base", plrno, i);
@@ -2016,25 +2016,25 @@ static void player_load_units(struct player *plr, int plrno,
       punit->goto_tile = NULL;
     }
 
-    punit->ai.passenger
+    punit->server.ai->passenger
       = secfile_lookup_int_default(file, 0, "player%d.u%d.passenger", plrno, i);
-    punit->ai.ferryboat
+    punit->server.ai->ferryboat
       = secfile_lookup_int_default(file, 0, "player%d.u%d.ferryboat", plrno, i);
-    punit->ai.charge
+    punit->server.ai->charge
       = secfile_lookup_int_default(file, 0, "player%d.u%d.charge", plrno, i);
-    punit->ai.bodyguard
+    punit->server.ai->bodyguard
       = secfile_lookup_int_default(file, 0, "player%d.u%d.bodyguard", plrno, i);
-    fc_assert_exit_msg(secfile_lookup_bool(file, &punit->ai.control,
+    fc_assert_exit_msg(secfile_lookup_bool(file, &punit->ai_controlled,
                                            "player%d.u%d.ai", plrno, i),
                        "%s", secfile_error());
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->hp,
                                           "player%d.u%d.hp", plrno, i),
                        "%s", secfile_error());
 
-    punit->ord_map
+    punit->server.ord_map
       = secfile_lookup_int_default(file, 0,
 				   "player%d.u%d.ord_map", plrno, i);
-    punit->ord_city
+    punit->server.ord_city
       = secfile_lookup_int_default(file, 0,
 				   "player%d.u%d.ord_city", plrno, i);
     punit->moved
@@ -3801,7 +3801,7 @@ static void player_save_units(struct player *plr, int plrno,
 		                plrno, i);
     secfile_insert_int(file, punit->fuel, "player%d.u%d.fuel",
 		                plrno, i);
-    secfile_insert_int(file, punit->birth_turn, "player%d.u%d.born",
+    secfile_insert_int(file, punit->server.birth_turn, "player%d.u%d.born",
                        plrno, i);
     secfile_insert_int(file, punit->battlegroup,
 		       "player%d.u%d.battlegroup", plrno, i);
@@ -3819,16 +3819,16 @@ static void player_save_units(struct player *plr, int plrno,
       secfile_insert_int(file, 0, "player%d.u%d.goto_y", plrno, i);
     }
 
-    secfile_insert_bool(file, punit->ai.control, "player%d.u%d.ai", plrno, i);
-    secfile_insert_int(file, punit->ai.passenger, "player%d.u%d.passenger", 
+    secfile_insert_bool(file, punit->ai_controlled, "player%d.u%d.ai", plrno, i);
+    secfile_insert_int(file, punit->server.ai->passenger, "player%d.u%d.passenger", 
                        plrno, i);
-    secfile_insert_int(file, punit->ai.ferryboat, "player%d.u%d.ferryboat", 
+    secfile_insert_int(file, punit->server.ai->ferryboat, "player%d.u%d.ferryboat", 
                        plrno, i);
-    secfile_insert_int(file, punit->ai.charge, "player%d.u%d.charge", plrno, i);
-    secfile_insert_int(file, punit->ai.bodyguard, "player%d.u%d.bodyguard", 
+    secfile_insert_int(file, punit->server.ai->charge, "player%d.u%d.charge", plrno, i);
+    secfile_insert_int(file, punit->server.ai->bodyguard, "player%d.u%d.bodyguard", 
                        plrno, i);
-    secfile_insert_int(file, punit->ord_map, "player%d.u%d.ord_map", plrno, i);
-    secfile_insert_int(file, punit->ord_city, "player%d.u%d.ord_city", plrno, i);
+    secfile_insert_int(file, punit->server.ord_map, "player%d.u%d.ord_map", plrno, i);
+    secfile_insert_int(file, punit->server.ord_city, "player%d.u%d.ord_city", plrno, i);
     secfile_insert_bool(file, punit->moved, "player%d.u%d.moved", plrno, i);
     secfile_insert_bool(file, punit->paradropped, "player%d.u%d.paradropped", plrno, i);
     secfile_insert_int(file, punit->transported_by,
@@ -4251,12 +4251,12 @@ static void calc_unit_ordering(void)
   players_iterate(pplayer) {
     /* to avoid junk values for unsupported units: */
     unit_list_iterate(pplayer->units, punit) {
-      punit->ord_city = 0;
+      punit->server.ord_city = 0;
     } unit_list_iterate_end;
     city_list_iterate(pplayer->cities, pcity) {
       j = 0;
       unit_list_iterate(pcity->units_supported, punit) {
-	punit->ord_city = j++;
+	punit->server.ord_city = j++;
       } unit_list_iterate_end;
     } city_list_iterate_end;
   } players_iterate_end;
@@ -4264,7 +4264,7 @@ static void calc_unit_ordering(void)
   whole_map_iterate(ptile) {
     j = 0;
     unit_list_iterate(ptile->units, punit) {
-      punit->ord_map = j++;
+      punit->server.ord_map = j++;
     } unit_list_iterate_end;
   } whole_map_iterate_end;
 }

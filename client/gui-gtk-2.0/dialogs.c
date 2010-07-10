@@ -507,12 +507,12 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
           pmyunit = punit;
 
           /* Activate this unit. */
-	  punit->focus_status = FOCUS_AVAIL;
+	  punit->client.focus_status = FOCUS_AVAIL;
 	  if (unit_has_orders(punit)) {
 	    request_orders_cleared(punit);
 	  }
-	  if (punit->activity != ACTIVITY_IDLE || punit->ai.control) {
-	    punit->ai.control = FALSE;
+	  if (punit->activity != ACTIVITY_IDLE || punit->ai_controlled) {
+	    punit->ai_controlled = FALSE;
 	    request_new_unit_activity(punit, ACTIVITY_IDLE);
 	  }
         }
@@ -530,7 +530,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == client.conn.playing) {
           if ((punit->activity == ACTIVITY_IDLE) &&
-              !punit->ai.control &&
+              !punit->ai_controlled &&
               can_unit_do_activity(punit, ACTIVITY_SENTRY)) {
             request_new_unit_activity(punit, ACTIVITY_SENTRY);
           }
@@ -544,7 +544,7 @@ static void unit_select_cmd_callback(GtkWidget *w, gint rid, gpointer data)
       unit_list_iterate(ptile->units, punit) {
         if (unit_owner(punit) == client.conn.playing) {
           if (punit->activity == ACTIVITY_IDLE &&
-              !punit->ai.control) {
+              !punit->ai_controlled) {
             /* Give focus to it */
             add_unit_focus(punit);
           }

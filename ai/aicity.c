@@ -1964,7 +1964,7 @@ static void resolve_city_emergency(struct player *pplayer, struct city *pcity)
     if (city_unhappy(pcity)
         && (utype_happy_cost(unit_type(punit), pplayer) > 0
             && (unit_being_aggressive(punit) || is_field_unit(punit)))
-        && punit->ai.passenger == 0) {
+        && punit->server.ai->passenger == 0) {
       UNIT_LOG(LOG_EMERGENCY, punit, "is causing unrest, disbanded");
       handle_unit_disband(pplayer, punit->id);
       city_refresh(pcity);

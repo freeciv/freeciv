@@ -148,7 +148,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
   punit->hp = packet->hp;
   punit->activity = packet->activity;
   punit->activity_count = packet->activity_count;
-  punit->ai.control = packet->ai;
+  punit->ai_controlled = packet->ai;
   punit->fuel = packet->fuel;
   punit->goto_tile = index_to_tile(packet->goto_tile);
   punit->activity_target = packet->activity_target;
@@ -1022,7 +1022,7 @@ void handle_start_phase(int phase)
       user_ended_turn();
     }
 
-    player_set_unit_focus_status(client.conn.playing);
+    set_unit_focus_status(client.conn.playing);
 
     city_list_iterate(client.conn.playing->cities, pcity) {
       pcity->client.colored = FALSE;
@@ -1182,12 +1182,12 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     ret = TRUE;
     punit->activity_count = packet_unit->activity_count;
     unit_change_battlegroup(punit, packet_unit->battlegroup);
-    if (punit->ai.control != packet_unit->ai.control) {
-      punit->ai.control = packet_unit->ai.control;
+    if (punit->ai_controlled != packet_unit->ai_controlled) {
+      punit->ai_controlled = packet_unit->ai_controlled;
       repaint_unit = TRUE;
       /* AI is set:     may change focus */
       /* AI is cleared: keep focus */
-      if (packet_unit->ai.control && unit_is_in_focus(punit)) {
+      if (packet_unit->ai_controlled && unit_is_in_focus(punit)) {
         check_focus = TRUE;
       }
     }
@@ -1787,8 +1787,8 @@ void handle_player_info(struct packet_player_info *pinfo)
           || tile_owner(unit_tile(punit)) != pplayer) {
         continue;
       }
-      if (punit->focus_status == FOCUS_WAIT) {
-        punit->focus_status = FOCUS_AVAIL;
+      if (punit->client.focus_status == FOCUS_WAIT) {
+        punit->client.focus_status = FOCUS_AVAIL;
       }
       if (punit->activity != ACTIVITY_IDLE) {
         request_new_unit_activity(punit, ACTIVITY_IDLE);

@@ -139,10 +139,10 @@ int amortize(int benefit, int delay)
 **************************************************************************/
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
-  punit->ai.control = TRUE;
-  punit->ai.done = TRUE; /* we will manage this unit later... ugh */
+  punit->ai_controlled = TRUE;
+  punit->server.ai->done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
-  if (punit->ai.ai_role == AIUNIT_NONE) {
+  if (punit->server.ai->ai_role == AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);
   }
   return;
@@ -987,7 +987,7 @@ static void auto_settler_findwork(struct player *pplayer,
   /*** If we are on a city mission: Go where we should ***/
 
 BUILD_CITY:
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY) {
+  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY) {
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 
@@ -1058,7 +1058,7 @@ BUILD_CITY:
       } else {
         UNIT_LOG(LOG_SETTLER, punit, "makes city at (%d, %d)", 
                  TILE_XY(result.tile));
-        if (punit->debug) {
+        if (punit->server.debug) {
           print_cityresult(pplayer, &result, ai);
         }
       }
@@ -1092,7 +1092,7 @@ BUILD_CITY:
   }
 
   /* Run the "autosettler" program */
-  if (punit->ai.ai_role == AIUNIT_AUTO_SETTLER) {
+  if (punit->server.ai->ai_role == AIUNIT_AUTO_SETTLER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
 
@@ -1179,7 +1179,7 @@ BUILD_CITY:
 
   /*** Recurse if we want to found a city ***/
 
-  if (punit->ai.ai_role == AIUNIT_BUILD_CITY
+  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY
       && punit->moves_left > 0) {
     auto_settler_findwork(pplayer, punit, state, recursion + 1);
   }
@@ -1312,7 +1312,7 @@ void auto_settlers_player(struct player *pplayer)
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if ((punit->ai.control || pplayer->ai_data.control)
+    if ((punit->ai_controlled || pplayer->ai_data.control)
 	&& (unit_has_type_flag(punit, F_SETTLERS)
 	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)

@@ -176,7 +176,7 @@ void real_unit_log(const char *file, const char *function, int line,
 	      get_activity_text(punit->activity),
 	      TILE_XY(punit->tile),
 	      gx, gy,
-              punit->ai.bodyguard, punit->ai.ferryboat);
+              punit->server.ai->bodyguard, punit->server.ai->ferryboat);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);
@@ -209,8 +209,8 @@ void real_bodyguard_log(const char *file, const char *function, int line,
   const char *type = "guard";
   const char *s = "none";
 
-  pcity = game_find_city_by_number(punit->ai.charge);
-  pcharge = game_find_unit_by_number(punit->ai.charge);
+  pcity = game_find_city_by_number(punit->server.ai->charge);
+  pcharge = game_find_unit_by_number(punit->server.ai->charge);
   if (pcharge) {
     charge_x = pcharge->tile->x;
     charge_y = pcharge->tile->y;

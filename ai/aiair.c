@@ -355,7 +355,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       if (punit->fuel == 1) {
 	UNIT_LOG(LOG_DEBUG, punit, "Oops, fallin outta the sky");
       }
-      punit->ai.done = TRUE; /* Won't help trying again */
+      punit->server.ai->done = TRUE; /* Won't help trying again */
       return;
     }
 
@@ -384,7 +384,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       log_debug("%s will fly to (%i, %i) (%s) to fight there",
                 unit_rule_name(punit), TILE_XY(dst_tile),
                 tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
-      punit->ai.done = TRUE; /* Wait for next turn */
+      punit->server.ai->done = TRUE; /* Wait for next turn */
       if (!ai_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */
@@ -393,7 +393,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
     } else {
       log_debug("%s cannot find anything to kill and is staying put", 
                 unit_rule_name(punit));
-      punit->ai.done = TRUE;
+      punit->server.ai->done = TRUE;
       unit_activity_handling(punit, ACTIVITY_IDLE);
     }
   }

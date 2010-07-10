@@ -32,6 +32,10 @@ struct ai_type
     void (*city_init)(struct city *pcity);
     void (*city_update)(struct city *pcity);
     void (*city_close)(struct city *pcity);
+
+    void (*unit_init)(struct unit *punit);
+    void (*unit_close)(struct unit *punit);
+
     void (*auto_settlers)(struct player *pplayer);
     void (*building_advisor_init)(struct player *pplayer);
     void (*building_advisor)(struct city *pcity, struct ai_choice *choice);

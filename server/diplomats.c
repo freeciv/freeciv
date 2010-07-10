@@ -466,9 +466,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
                                  pvictim->hp, NULL);
 
   /* Copy some more unit fields */
-  gained_unit->fuel        = pvictim->fuel;
+  gained_unit->fuel = pvictim->fuel;
   gained_unit->paradropped = pvictim->paradropped;
-  gained_unit->birth_turn  = pvictim->birth_turn;
+  gained_unit->server.birth_turn = pvictim->server.birth_turn;
 
   /* Inform owner about less than full fuel */
   send_unit_info(pplayer, gained_unit);

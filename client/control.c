@@ -317,7 +317,7 @@ static void current_focus_append(struct unit *punit)
 {
   unit_list_append(current_focus, punit);
 
-  punit->focus_status = FOCUS_AVAIL;
+  punit->client.focus_status = FOCUS_AVAIL;
   refresh_unit_mapcanvas(punit, punit->tile, TRUE, FALSE);
 
   if (unit_selection_clears_orders) {
@@ -334,8 +334,9 @@ void clear_unit_orders(struct unit *punit)
     return;
   }
 
-  if (punit->activity != ACTIVITY_IDLE || punit->ai.control)  {
-    punit->ai.control = FALSE;
+  if (punit->activity != ACTIVITY_IDLE
+      || punit->ai_controlled)  {
+    punit->ai_controlled = FALSE;
     refresh_unit_city_dialogs(punit);
     request_new_unit_activity(punit, ACTIVITY_IDLE);
   } else if (unit_has_orders(punit)) {
@@ -462,12 +463,12 @@ static struct unit *find_best_focus_candidate(bool accept_current)
     unit_list_iterate(ptile2->units, punit) {
       if ((!unit_is_in_focus(punit) || accept_current)
 	  && unit_owner(punit) == client.conn.playing
-	  && punit->focus_status == FOCUS_AVAIL
+	  && punit->client.focus_status == FOCUS_AVAIL
 	  && punit->activity == ACTIVITY_IDLE
 	  && !unit_has_orders(punit)
 	  && punit->moves_left > 0
 	  && !punit->done_moving
-	  && !punit->ai.control) {
+	  && !punit->ai_controlled) {
 	return punit;
       }
     } unit_list_iterate_end;
@@ -502,7 +503,7 @@ void advance_unit_focus(void)
      * Is the unit which just lost focus a non-AI unit? If yes this
      * enables the auto end turn. 
      */
-    if (!punit->ai.control) {
+    if (!punit->ai_controlled) {
       non_ai_unit_focus = TRUE;
       break;
     }
@@ -535,8 +536,8 @@ void advance_unit_focus(void)
     if (!candidate) {
       /* Try for "waiting" units. */
       unit_list_iterate(client.conn.playing->units, punit) {
-        if(punit->focus_status == FOCUS_WAIT) {
-          punit->focus_status = FOCUS_AVAIL;
+        if(punit->client.focus_status == FOCUS_WAIT) {
+          punit->client.focus_status = FOCUS_AVAIL;
         }
       } unit_list_iterate_end;
       candidate = find_best_focus_candidate(FALSE);
@@ -584,7 +585,7 @@ void update_unit_focus(void)
 	 || unit_has_orders(punit))
 	&& punit->moves_left > 0 
 	&& !punit->done_moving
-	&& !punit->ai.control) {
+	&& !punit->ai_controlled) {
       return;
     }
   } unit_list_iterate_end;
@@ -2017,7 +2018,7 @@ void request_center_focus_unit(void)
 void request_units_wait(struct unit_list *punits)
 {
   unit_list_iterate(punits, punit) {
-    punit->focus_status = FOCUS_WAIT;
+    punit->client.focus_status = FOCUS_WAIT;
   } unit_list_iterate_end;
   if (punits == get_units_in_focus()) {
     advance_unit_focus();
@@ -2040,7 +2041,7 @@ void request_unit_move_done(void)
     } unit_list_iterate_end;
     unit_list_iterate(get_units_in_focus(), punit) {
       clear_unit_orders(punit);
-      punit->focus_status = new_status;
+      punit->client.focus_status = new_status;
     } unit_list_iterate_end;
     if (new_status == FOCUS_DONE) {
       advance_unit_focus();
@@ -2621,7 +2622,7 @@ void key_unit_unload_all(void)
        * If there is no unit unloaded (which shouldn't happen, but could if
        * the caller doesn't check if the transporter is loaded), the we
        * don't do anything. */
-      punit->focus_status = FOCUS_WAIT;
+      punit->client.focus_status = FOCUS_WAIT;
     } unit_list_iterate_end;
     set_unit_focus(pnext_focus);
   }

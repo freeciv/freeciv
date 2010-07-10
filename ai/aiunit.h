@@ -98,6 +98,9 @@ void update_simple_ai_types(void);
 /* Call this after rulesets are loaded */
 void unit_class_ai_init(void);
 
+void ai_unit_init(struct unit *punit);
+void ai_unit_close(struct unit *punit);
+
 #define simple_ai_unit_type_iterate(_ut)				\
 {									\
   struct unit_type *_ut;						\

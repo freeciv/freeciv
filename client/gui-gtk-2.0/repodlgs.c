@@ -1141,10 +1141,10 @@ static struct unit *find_nearest_unit(const struct unit_type *type,
 
   unit_list_iterate(client.conn.playing->units, punit) {
     if (unit_type(punit) == type) {
-      if (punit->focus_status==FOCUS_AVAIL
+      if (punit->client.focus_status==FOCUS_AVAIL
 	  && punit->moves_left > 0
 	  && !punit->done_moving
-	  && !punit->ai.control) {
+	  && !punit->ai_controlled) {
 	int d;
 	d=sq_map_distance(punit->tile, ptile);
 	if(d<best_dist) {
