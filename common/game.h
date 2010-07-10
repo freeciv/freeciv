@@ -472,7 +472,7 @@ extern struct civ_game game;
 
 #define GAME_DEFAULT_RULESETDIR      "default"
 
-#define GAME_DEFAULT_SAVE_NAME       "civgame"
+#define GAME_DEFAULT_SAVE_NAME       "freeciv"
 #define GAME_DEFAULT_SAVETURNS       1
 #define GAME_MIN_SAVETURNS           0
 #define GAME_MAX_SAVETURNS           200
