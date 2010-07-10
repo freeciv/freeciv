@@ -2177,7 +2177,6 @@ static void player_load_main(struct player *plr, int plrno,
   int i, k, c_s;
   const char *p;
   const char *name;
-  struct ai_data *ai;
   struct government *gov;
   int id;
   struct team *pteam;
@@ -2195,8 +2194,6 @@ static void player_load_main(struct player *plr, int plrno,
   team_add_player(plr, pteam);
 
   research = get_player_research(plr);
-
-  ai = ai_data_get(plr);
 
   plr->ai_data.barbarian_type = secfile_lookup_int_default(file, 0,
                                                     "player%d.ai.is_barbarian",
@@ -2356,27 +2353,6 @@ static void player_load_main(struct player *plr, int plrno,
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_data.control,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());
-  /* "Old" observer players will still be loaded but are considered dead. */
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
-    plr->ai_data.love[i]
-         = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
-    ai->diplomacy.player_intel[i].spam 
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
-    ai->diplomacy.player_intel[i].countdown
-         = secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown", plrno, i);
-    ai->diplomacy.player_intel[i].war_reason
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason", plrno, i);
-    ai->diplomacy.player_intel[i].ally_patience
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
-    ai->diplomacy.player_intel[i].warned_about_space
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_peace
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_alliance
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_ceasefire
-         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
-  }
 
   /* Backwards-compatibility: the tech goal value is still stored in the
    * "ai" section even though it was moved into the research struct. */
@@ -2520,28 +2496,6 @@ static void player_load_main(struct player *plr, int plrno,
 				   "player%d.revolution_finishes", plrno);
   }
 
-  for (i = 0; i < player_slot_count(); i++) {
-    plr->diplstates[i].type = 
-      secfile_lookup_int_default(file, DS_WAR,
-				 "player%d.diplstate%d.type", plrno, i);
-    plr->diplstates[i].max_state = 
-      secfile_lookup_int_default(file, DS_WAR,
-				 "player%d.diplstate%d.max_state", plrno, i);
-    plr->diplstates[i].first_contact_turn = 
-      secfile_lookup_int_default(file, 0,
-				 "player%d.diplstate%d.first_contact_turn", plrno, i);
-    plr->diplstates[i].turns_left = 
-      secfile_lookup_int_default(file, -2,
-				 "player%d.diplstate%d.turns_left", plrno, i);
-    plr->diplstates[i].has_reason_to_cancel = 
-      secfile_lookup_int_default(file, 0,
-				 "player%d.diplstate%d.has_reason_to_cancel",
-				 plrno, i);
-    plr->diplstates[i].contact_turns_left = 
-      secfile_lookup_int_default(file, 0,
-			   "player%d.diplstate%d.contact_turns_left", plrno, i);
-  }
-
   { /* spacerace */
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
@@ -2598,6 +2552,67 @@ static void player_load_main(struct player *plr, int plrno,
       spaceship_calc_derived(ship);
     }
   }
+}
+
+/****************************************************************************
+  Load all information about player "plrno" into the structure pointed to
+  by "plr".
+
+  For the data loaded here the basic player data (activated slots) must
+  exist.
+****************************************************************************/
+static void player_load_main2(struct player *plr, int plrno,
+                              struct section_file *file,
+                              const char *savefile_options)
+{
+  int i;
+  struct ai_data *ai = ai_data_get(plr);
+
+  /* "Old" observer players will still be loaded but are considered dead. */
+  players_iterate(pplayer) {
+    i = player_index(pplayer);
+
+    /* ai data */
+    plr->ai_data.love[i]
+         = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
+    ai->diplomacy.player_intel[i].spam 
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
+    ai->diplomacy.player_intel[i].countdown
+         = secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown", plrno, i);
+    ai->diplomacy.player_intel[i].war_reason
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason", plrno, i);
+    ai->diplomacy.player_intel[i].ally_patience
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
+    ai->diplomacy.player_intel[i].warned_about_space
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_peace
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_alliance
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance", plrno, i);
+    ai->diplomacy.player_intel[i].asked_about_ceasefire
+         = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
+
+    /* diplomatic state */
+    plr->diplstates[i].type = 
+      secfile_lookup_int_default(file, DS_WAR,
+                                 "player%d.diplstate%d.type", plrno, i);
+    plr->diplstates[i].max_state = 
+      secfile_lookup_int_default(file, DS_WAR,
+                                 "player%d.diplstate%d.max_state", plrno, i);
+    plr->diplstates[i].first_contact_turn = 
+      secfile_lookup_int_default(file, 0,
+                                 "player%d.diplstate%d.first_contact_turn", plrno, i);
+    plr->diplstates[i].turns_left = 
+      secfile_lookup_int_default(file, -2,
+                                 "player%d.diplstate%d.turns_left", plrno, i);
+    plr->diplstates[i].has_reason_to_cancel = 
+      secfile_lookup_int_default(file, 0,
+                                 "player%d.diplstate%d.has_reason_to_cancel",
+                                 plrno, i);
+    plr->diplstates[i].contact_turns_left = 
+      secfile_lookup_int_default(file, 0,
+                           "player%d.diplstate%d.contact_turns_left", plrno, i);
+  } players_iterate_end;
 }
 
 /****************************************************************************
@@ -3594,7 +3609,9 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_bool(file, plr->ai_data.control, "player%d.ai.control", plrno);
 
-  for (i = 0; i < MAX_NUM_PLAYERS; i++) {
+  players_iterate(pplayer) {
+    i = player_index(pplayer);
+
     secfile_insert_int(file, plr->ai_data.love[i],
                        "player%d.ai%d.love", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
@@ -3613,7 +3630,7 @@ static void player_save_main(struct player *plr, int plrno,
                        "player%d.ai%d.ask_alliance", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
                        "player%d.ai%d.ask_ceasefire", plrno, i);
-  }
+  } players_iterate_end;
 
   technology_save(file, "player%d.ai.tech_goal",
                   plrno, get_player_research(plr)->tech_goal);
@@ -3681,7 +3698,9 @@ static void player_save_main(struct player *plr, int plrno,
   invs[game.control.num_tech_types] = '\0';
   secfile_insert_str(file, invs, "player%d.invs_new", plrno);
 
-  for (i = 0; i < MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+  players_iterate(pplayer) {
+    i = player_index(pplayer);
+
     secfile_insert_int(file, plr->diplstates[i].type,
 		       "player%d.diplstate%d.type", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].max_state,
@@ -3694,7 +3713,7 @@ static void player_save_main(struct player *plr, int plrno,
 		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].contact_turns_left,
 		       "player%d.diplstate%d.contact_turns_left", plrno, i);
-  }
+  } players_iterate_end;
 
   {
     char vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS+1];
@@ -5094,6 +5113,13 @@ static void game_load_internal(struct section_file *file)
       player_load_attributes(pplayer, plrno, file);
       loaded_players++;
     } player_slots_iterate_end;
+
+    /* Now, load each players data about other players. Thus must be after
+     * the player slots are activated. */
+    players_iterate(pplayer) {
+      int plrno = player_number(pplayer);
+      player_load_main2(pplayer, plrno, file, savefile_options);
+    } players_iterate_end;
 
     /* Backward compatibility: if we had any open-ended orders (pillage)
      * in the savegame, assign specific targets now */
