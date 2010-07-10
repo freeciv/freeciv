@@ -231,6 +231,7 @@ static const char savefile_options_default[] =
 	" turn_last_built"
 	" watchtower"		/* unused */
         " bases"                /* Since 2.2 */
+        " embassies2"           /* Since 2.3 */
 	;/* savefile_options_default */
 
 static const char hex_chars[] = "0123456789abcdef";
@@ -2306,7 +2307,9 @@ static void player_load_main(struct player *plr, int plrno,
   }
 
   BV_CLR_ALL(plr->real_embassy);
-  if (has_capability("embassies", savefile_options)) {
+  if (has_capability("embassies2", savefile_options)) {
+    /* done while loading diplstates data */
+  } else if (has_capability("embassies", savefile_options)) {
     player_slots_iterate(pother) {
       if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
                                       plrno, player_index(pother))) {
@@ -2612,6 +2615,13 @@ static void player_load_main2(struct player *plr, int plrno,
     plr->diplstates[i].contact_turns_left = 
       secfile_lookup_int_default(file, 0,
                            "player%d.diplstate%d.contact_turns_left", plrno, i);
+
+    if (has_capability("embassies2", savefile_options)
+        && secfile_lookup_bool_default(file, FALSE,
+                                       "player%d.diplstate%d.embassy",
+                                       plrno, i)) {
+      BV_SET(plr->real_embassy, player_index(pplayer));
+    }
   } players_iterate_end;
 }
 
@@ -3589,14 +3599,6 @@ static void player_save_main(struct player *plr, int plrno,
 		       "player%d.target_government_name", plrno);
   }
 
-  players_iterate(pother) {
-    secfile_insert_bool(file, player_has_real_embassy(plr, pother),
-                        "player%d.embassy%d", plrno, player_number(pother));
-  } players_iterate_end;
-
-  /* Required for 2.0 and earlier servers.  Remove eventually. */
-  secfile_insert_int(file, 0, "player%d.embassy", plrno);
-
   /* This field won't be used; it's kept only for forward compatibility. 
    * City styles are specified by name since CVS 12/01-04. */
   secfile_insert_int(file, 0, "player%d.city_style", plrno);
@@ -3713,7 +3715,12 @@ static void player_save_main(struct player *plr, int plrno,
 		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
     secfile_insert_int(file, plr->diplstates[i].contact_turns_left,
 		       "player%d.diplstate%d.contact_turns_left", plrno, i);
+    secfile_insert_bool(file, player_has_real_embassy(plr, pplayer),
+                        "player%d.diplstate%d.embassy", plrno, i);
   } players_iterate_end;
+
+  /* Required for 2.0 and earlier servers.  Remove eventually. */
+  secfile_insert_int(file, 0, "player%d.embassy", plrno);
 
   {
     char vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS+1];
