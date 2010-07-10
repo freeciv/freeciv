@@ -214,7 +214,6 @@ type BV_PLAYER          = bitvector(bv_player)
 type BV_UNIT_CLASSES    = bitvector(bv_unit_classes)
 type BV_BASES           = bitvector(bv_bases)
 type DIPLSTATE		= diplstate(struct player_diplstate)
-type VISION		= uint32(unsigned int)
 
 # typedefs for IDs
 type PLAYER 		= SINT8
@@ -671,7 +670,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL ai;
   UINT8 ai_skill_level;
   UINT8 barbarian_type;
-  VISION gives_shared_vision;
+  BV_PLAYER gives_shared_vision;
   STRING inventions[A_LAST+1];
   SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 

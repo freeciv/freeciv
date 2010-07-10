@@ -207,7 +207,8 @@ struct player {
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */
   struct conn_list *connections;       /* will replace conn */
-  unsigned int gives_shared_vision; /* bitvector those that give you shared vision */
+  bv_player gives_shared_vision;       /* bitvector those that give you
+                                        * shared vision */
   int wonders[B_LAST];              /* contains city id's or WONDER_NOT_BUILT */
   struct attribute_block_s attribute_block;
   struct attribute_block_s attribute_block_buffer;
@@ -221,8 +222,8 @@ struct player {
 
       struct player_tile *private_map;
 
-      unsigned int really_gives_vision; /* takes into account that p3 may see
-                                         * what p1 has via p2 */
+      bv_player really_gives_vision; /* takes into account that p3 may see
+                                      * what p1 has via p2 */
 
       bv_debug debug;
     } server;

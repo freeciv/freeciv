@@ -847,10 +847,10 @@ static void package_player_info(struct player *plr,
     if (receiver && player_has_real_embassy(plr, receiver)) {
       packet->real_embassy[player_index(receiver)] = TRUE;
     }
-    if (!receiver || !gives_shared_vision(plr, receiver)) {
-      packet->gives_shared_vision = 0;
-    } else {
-      packet->gives_shared_vision = 1 << player_index(receiver);
+
+    BV_CLR_ALL(packet->gives_shared_vision);
+    if (receiver && gives_shared_vision(plr, receiver)) {
+      BV_SET(packet->gives_shared_vision, player_index(receiver));
     }
 
     for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
@@ -998,7 +998,7 @@ void server_player_init(struct player *pplayer,
 {
   player_status_reset(pplayer);
   pplayer->server.capital = FALSE;
-  pplayer->server.really_gives_vision = 0;
+  BV_CLR_ALL(pplayer->server.really_gives_vision);
   pplayer->server.private_map = NULL;
   BV_CLR_ALL(pplayer->server.debug);
 

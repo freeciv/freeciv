@@ -268,7 +268,7 @@ void player_init(struct player *plr)
   plr->economic = player_limit_to_max_rates(plr);
   spaceship_init(&plr->spaceship);
 
-  plr->gives_shared_vision = 0;
+  BV_CLR_ALL(plr->gives_shared_vision);
 
   for (i = 0; i < B_LAST; i++) {
     plr->wonders[i] = WONDER_NOT_BUILT;
@@ -974,7 +974,7 @@ bool is_barbarian(const struct player *pplayer)
 **************************************************************************/
 bool gives_shared_vision(const struct player *me, const struct player *them)
 {
-  return TEST_BIT(me->gives_shared_vision, player_index(them));
+  return BV_ISSET(me->gives_shared_vision, player_index(them));
 }
 
 /**************************************************************************

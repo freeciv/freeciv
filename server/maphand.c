@@ -224,7 +224,7 @@ Return TRUE iff the player me really gives shared vision to player them.
 **************************************************************************/
 bool really_gives_vision(struct player *me, struct player *them)
 {
-  return TEST_BIT(me->server.really_gives_vision, player_index(them));
+  return BV_ISSET(me->server.really_gives_vision, player_index(them));
 }
 
 /**************************************************************************
@@ -1226,7 +1226,7 @@ static void create_vision_dependencies(void)
             if (really_gives_vision(pplayer2, pplayer3)
                 && !really_gives_vision(pplayer, pplayer3)
                 && pplayer != pplayer3) {
-              pplayer->server.really_gives_vision |= (1<<player_index(pplayer3));
+              BV_SET(pplayer->server.really_gives_vision, player_index(pplayer3));
               added++;
             }
           } players_iterate_end;
@@ -1241,7 +1241,7 @@ static void create_vision_dependencies(void)
 ***************************************************************/
 void give_shared_vision(struct player *pfrom, struct player *pto)
 {
-  int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
+  bv_player save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
   if (pfrom == pto) return;
   if (gives_shared_vision(pfrom, pto)) {
     log_error("Trying to give shared vision from %s to %s, "
@@ -1254,7 +1254,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
     save_vision[player_index(pplayer)] = pplayer->server.really_gives_vision;
   } players_iterate_end;
 
-  pfrom->gives_shared_vision |= 1<<player_index(pto);
+  BV_SET(pfrom->gives_shared_vision, player_index(pto));
   create_vision_dependencies();
   log_debug("giving shared vision from %s to %s",
             player_name(pfrom), player_name(pto));
@@ -1263,7 +1263,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (really_gives_vision(pplayer, pplayer2)
-          && !TEST_BIT(save_vision[player_index(pplayer)],
+          && !BV_ISSET(save_vision[player_index(pplayer)],
                        player_index(pplayer2))) {
         log_debug("really giving shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
@@ -1303,7 +1303,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 ***************************************************************/
 void remove_shared_vision(struct player *pfrom, struct player *pto)
 {
-  int save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
+  bv_player save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
 
   fc_assert_ret(pfrom != pto);
   if (!gives_shared_vision(pfrom, pto)) {
@@ -1320,14 +1320,14 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   log_debug("removing shared vision from %s to %s",
             player_name(pfrom), player_name(pto));
 
-  pfrom->gives_shared_vision &= ~(1<<player_index(pto));
+  BV_CLR(pfrom->gives_shared_vision, player_index(pto));
   create_vision_dependencies();
 
   players_iterate(pplayer) {
     buffer_shared_vision(pplayer);
     players_iterate(pplayer2) {
       if (!really_gives_vision(pplayer, pplayer2)
-          && TEST_BIT(save_vision[player_index(pplayer)], 
+          && BV_ISSET(save_vision[player_index(pplayer)], 
                       player_index(pplayer2))) {
         log_debug("really removing shared vision from %s to %s",
                   player_name(pplayer), player_name(pplayer2));
