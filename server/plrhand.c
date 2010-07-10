@@ -118,13 +118,16 @@ void kill_player(struct player *pplayer)
 
   pplayer->is_alive = FALSE;
 
+  /* reset player status */
+  player_status_reset(pplayer);
+
   /* Remove shared vision from dead player to friends. */
   players_iterate(aplayer) {
     if (gives_shared_vision(pplayer, aplayer)) {
       remove_shared_vision(pplayer, aplayer);
     }
   } players_iterate_end;
-    
+
   cancel_all_meetings(pplayer);
 
   /* Show entire map for players who are *not* in a team. */
@@ -991,8 +994,14 @@ static void call_first_contact(struct player *pplayer, struct player *aplayer)
   a team.  They will be put on their own newly-created team.
 ****************************************************************************/
 void server_player_init(struct player *pplayer,
-			bool initmap, bool needs_team)
+                        bool initmap, bool needs_team)
 {
+  player_status_reset(pplayer);
+  pplayer->server.capital = FALSE;
+  pplayer->server.really_gives_vision = 0;
+  pplayer->server.private_map = NULL;
+  BV_CLR_ALL(pplayer->server.debug);
+
   pplayer->ai = get_ai_type(AI_DEFAULT);
 
   if (initmap) {
@@ -1377,7 +1386,7 @@ static struct player *split_player(struct player *pplayer)
   cplayer->is_connected = FALSE;
   cplayer->government = nation_of_player(cplayer)->init_government;
   fc_assert(cplayer->revolution_finishes < 0);
-  cplayer->capital = TRUE;
+  cplayer->server.capital = TRUE;
 
   /* cplayer is not yet part of players_iterate which goes only
      to player_count(). */
@@ -1695,4 +1704,29 @@ int barbarian_count(void)
 int normal_player_count(void)
 {
   return player_count() - server.nbarbarians;
+}
+
+/****************************************************************************
+  Add a status flag to a player.
+****************************************************************************/
+void player_status_add(struct player *plr, enum player_status pstatus)
+{
+  BV_SET(plr->server.status, pstatus);
+}
+
+/****************************************************************************
+  Add a status flag to a player.
+****************************************************************************/
+bool player_status_check(struct player *plr, enum player_status pstatus)
+{
+  return BV_ISSET(plr->server.status, pstatus);
+}
+
+/****************************************************************************
+  Reset player status to 'normal'.
+****************************************************************************/
+void player_status_reset(struct player *plr)
+{
+  BV_CLR_ALL(plr->server.status);
+  player_status_add(plr, PSTATUS_NORMAL);
 }

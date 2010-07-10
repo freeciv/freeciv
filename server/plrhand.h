@@ -84,4 +84,8 @@ void update_players_after_alliance_breakup(struct player* pplayer,
 int barbarian_count(void);
 int normal_player_count(void);
 
+void player_status_add(struct player *plr, enum player_status status);
+bool player_status_check(struct player *plr, enum player_status status);
+void player_status_reset(struct player *plr);
+
 #endif  /* FC__PLRHAND_H */

@@ -224,7 +224,7 @@ Return TRUE iff the player me really gives shared vision to player them.
 **************************************************************************/
 bool really_gives_vision(struct player *me, struct player *them)
 {
-  return TEST_BIT(me->really_gives_vision, player_index(them));
+  return TEST_BIT(me->server.really_gives_vision, player_index(them));
 }
 
 /**************************************************************************
@@ -950,8 +950,8 @@ void show_map_to_all(void)
 ****************************************************************/
 void player_map_allocate(struct player *pplayer)
 {
-  pplayer->private_map
-    = fc_malloc(MAP_INDEX_SIZE * sizeof(*pplayer->private_map));
+  pplayer->server.private_map
+    = fc_malloc(MAP_INDEX_SIZE * sizeof(*pplayer->server.private_map));
 
   whole_map_iterate(ptile) {
     player_tile_init(ptile, pplayer);
@@ -963,7 +963,7 @@ void player_map_allocate(struct player *pplayer)
 ***************************************************************/
 void player_map_free(struct player *pplayer)
 {
-  if (!pplayer->private_map) {
+  if (!pplayer->server.private_map) {
     return;
   }
 
@@ -979,8 +979,8 @@ void player_map_free(struct player *pplayer)
     map_clear_known(ptile, pplayer);
   } whole_map_iterate_end;
 
-  free(pplayer->private_map);
-  pplayer->private_map = NULL;
+  free(pplayer->server.private_map);
+  pplayer->server.private_map = NULL;
 }
 
 /***************************************************************
@@ -1046,7 +1046,7 @@ struct vision_site *map_get_player_site(const struct tile *ptile,
 struct player_tile *map_get_player_tile(const struct tile *ptile,
 					const struct player *pplayer)
 {
-  return pplayer->private_map + tile_index(ptile);
+  return pplayer->server.private_map + tile_index(ptile);
 }
 
 /****************************************************************************
@@ -1210,7 +1210,7 @@ static void create_vision_dependencies(void)
   int added;
 
   players_iterate(pplayer) {
-    pplayer->really_gives_vision = pplayer->gives_shared_vision;
+    pplayer->server.really_gives_vision = pplayer->gives_shared_vision;
   } players_iterate_end;
 
   /* In words: This terminates when it has run a round without adding
@@ -1220,17 +1220,17 @@ static void create_vision_dependencies(void)
     added = 0;
     players_iterate(pplayer) {
       players_iterate(pplayer2) {
-	if (really_gives_vision(pplayer, pplayer2)
-	    && pplayer != pplayer2) {
-	  players_iterate(pplayer3) {
-	    if (really_gives_vision(pplayer2, pplayer3)
-		&& !really_gives_vision(pplayer, pplayer3)
-		&& pplayer != pplayer3) {
-	      pplayer->really_gives_vision |= (1<<player_index(pplayer3));
-	      added++;
-	    }
-	  } players_iterate_end;
-	}
+        if (really_gives_vision(pplayer, pplayer2)
+            && pplayer != pplayer2) {
+          players_iterate(pplayer3) {
+            if (really_gives_vision(pplayer2, pplayer3)
+                && !really_gives_vision(pplayer, pplayer3)
+                && pplayer != pplayer3) {
+              pplayer->server.really_gives_vision |= (1<<player_index(pplayer3));
+              added++;
+            }
+          } players_iterate_end;
+        }
       } players_iterate_end;
     } players_iterate_end;
   } while (added > 0);
@@ -1251,7 +1251,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   }
 
   players_iterate(pplayer) {
-    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->server.really_gives_vision;
   } players_iterate_end;
 
   pfrom->gives_shared_vision |= 1<<player_index(pto);
@@ -1314,7 +1314,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   }
 
   players_iterate(pplayer) {
-    save_vision[player_index(pplayer)] = pplayer->really_gives_vision;
+    save_vision[player_index(pplayer)] = pplayer->server.really_gives_vision;
   } players_iterate_end;
 
   log_debug("removing shared vision from %s to %s",

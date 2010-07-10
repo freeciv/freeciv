@@ -29,6 +29,7 @@
 
 /* server */
 #include "score.h"
+#include "plrhand.h"
 
 /* server/scripting */
 #include "script.h"
@@ -205,7 +206,7 @@ int api_methods_player_num_units(Player *pplayer)
 void api_methods_player_victory(Player *pplayer)
 {
   SCRIPT_CHECK_SELF(pplayer);
-  player_set_winner(pplayer);
+  player_status_add(pplayer, PSTATUS_WINNER);
 }
 
 /**************************************************************************

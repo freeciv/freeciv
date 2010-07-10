@@ -1091,7 +1091,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
 
 /****************************************************************************
   Give to a city the free (initial) buildings. Updates the
-  pplayer->capital field.
+  pplayer->server.capital field.
   If need_player_info isn't NULL, it will be stored here a player pointer
   that need to be updated at client sides, using send_player_info().
   If need_game_info isn't NULL, it will be stored here whether the game_info
@@ -1111,7 +1111,7 @@ void city_build_free_buildings(struct city *pcity)
   nation = nation_of_player(pplayer);
   fc_assert_ret(NULL != nation);
 
-  if (pplayer->capital) {
+  if (pplayer->server.capital) {
     /* Already got it. */
     return;
   }
@@ -1154,7 +1154,7 @@ void city_build_free_buildings(struct city *pcity)
     }
   }
 
-  pplayer->capital = TRUE;
+  pplayer->server.capital = TRUE;
 
   /* Update wonder infos. */
   if (has_small_wonders) {
@@ -1186,9 +1186,9 @@ void create_city(struct player *pplayer, struct tile *ptile,
   pcity->id = identity_number();
   idex_register_city(pcity);
 
-  if (!pplayer->capital) {
+  if (!pplayer->server.capital) {
     city_build_free_buildings(pcity);
-    fc_assert(TRUE == pplayer->capital);
+    fc_assert(TRUE == pplayer->server.capital);
   }
 
   /* Place a worker at the is_city_center() is_free_worked().

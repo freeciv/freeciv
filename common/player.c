@@ -237,7 +237,6 @@ void player_init(struct player *plr)
   plr->is_ready = FALSE;
 
   plr->revolution_finishes = -1;
-  plr->capital = FALSE;
   plr->city_style = 0;            /* should be first basic style */
   plr->cities = city_list_new();
   plr->units = unit_list_new();
@@ -249,9 +248,6 @@ void player_init(struct player *plr)
   plr->was_created = FALSE;
   plr->nturns_idle = 0;
   plr->is_alive=TRUE;
-  plr->is_dying = FALSE;
-  plr->is_winner = FALSE;
-  plr->surrendered = FALSE;
   BV_CLR_ALL(plr->real_embassy);
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
     player_diplstate_init(&plr->diplstates[i]);
@@ -273,7 +269,6 @@ void player_init(struct player *plr)
   spaceship_init(&plr->spaceship);
 
   plr->gives_shared_vision = 0;
-  plr->really_gives_vision = 0;
 
   for (i = 0; i < B_LAST; i++) {
     plr->wonders[i] = WONDER_NOT_BUILT;
@@ -283,7 +278,8 @@ void player_init(struct player *plr)
   plr->attribute_block.length = 0;
   plr->attribute_block_buffer.data = NULL;
   plr->attribute_block_buffer.length = 0;
-  BV_CLR_ALL(plr->debug);
+
+  /* plr->server is initialised in server/playerhand.c:server_player_init() */
 }
 
 /**************************************************************************
@@ -1046,14 +1042,6 @@ struct player_research *get_player_research(const struct player *plr)
     return NULL;
   }
   return &(plr->team->research);
-}
-
-/****************************************************************************
-  Marks player as winner.
-****************************************************************************/
-void player_set_winner(struct player *plr)
-{
-  plr->is_winner = TRUE;
 }
 
 /****************************************************************************

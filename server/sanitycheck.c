@@ -500,7 +500,7 @@ static void check_players(const char *file, const char *function, int line)
     }
 
     /* Dying players shouldn't be left around.  But they are. */
-    SANITY_CHECK(!pplayer->is_dying);
+    SANITY_CHECK(!BV_ISSET(pplayer->server.status, PSTATUS_DYING));
   }
 
   nations_iterate(pnation) {

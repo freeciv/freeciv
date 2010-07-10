@@ -97,7 +97,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
       if (!barbarians->is_alive) {
         barbarians->economic.gold = 0;
         barbarians->is_alive = TRUE;
-        barbarians->is_dying = FALSE;
+        player_status_reset(barbarians);
         pick_random_player_name(nation_of_player(barbarians), barbarians->name);
 	sz_strlcpy(barbarians->username, ANON_USER_NAME);
         /* I need to make them to forget the map, I think */
@@ -129,7 +129,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->is_connected = FALSE;
   barbarians->government = nation->init_government;
   fc_assert(barbarians->revolution_finishes < 0);
-  barbarians->capital = FALSE;
+  barbarians->server.capital = FALSE;
   barbarians->economic.gold = 100;
 
   barbarians->phase_done = TRUE;

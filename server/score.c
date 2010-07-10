@@ -18,10 +18,12 @@
 #include <stdio.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
 
+/* common */
 #include "game.h"
 #include "improvement.h"
 #include "map.h"
@@ -30,6 +32,8 @@
 #include "unit.h"
 #include "unitlist.h"
 
+/* server */
+#include "plrhand.h"
 #include "score.h"
 #include "srv_main.h"
 
@@ -509,7 +513,7 @@ void rank_users(void)
   if (spacerace_winner) {
     players_iterate(pplayer) {
       if (pplayer != spacerace_winner) {
-        pplayer->surrendered = TRUE;
+        player_status_add(pplayer, PSTATUS_SURRENDER);
       }
     } players_iterate_end;
   }
@@ -519,7 +523,8 @@ void rank_users(void)
   players_iterate(pplayer) {
     if (is_barbarian(pplayer)) {
       plr_state[player_index(pplayer)] = VS_NONE;
-    } else if (pplayer->is_alive && !pplayer->surrendered) {
+    } else if (pplayer->is_alive
+               && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
       plr_state[player_index(pplayer)] = VS_WINNER;
     } else {
       plr_state[player_index(pplayer)] = VS_LOSER;

@@ -1661,7 +1661,6 @@ PACKET_EDIT_PLAYER = 215; cs, handle-per-conn, lsend
   BOOL phase_done;
   TURN nturns_idle;
   BOOL is_alive;
-  BOOL surrendered;
   TURN revolution_finishes;
 
   BOOL capital;

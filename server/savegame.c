@@ -2471,7 +2471,7 @@ static void player_load_main(struct player *plr, int plrno,
     }
   }
 
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->capital,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->server.capital,
                                          "player%d.capital", plrno),
                      "%s", secfile_error());
 
@@ -3667,7 +3667,7 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_bool(file, get_player_research(plr)->got_tech,
                       "player%d.research_got_tech", plrno);
 
-  secfile_insert_bool(file, plr->capital, "player%d.capital", plrno);
+  secfile_insert_bool(file, plr->server.capital, "player%d.capital", plrno);
 
   secfile_insert_int(file, plr->revolution_finishes,
 		     "player%d.revolution_finishes", plrno);
@@ -5240,7 +5240,7 @@ static void game_load_internal(struct section_file *file)
        would try to unfog (unloaded) player 2's map when player 1's units
        were loaded */
     players_iterate(pplayer) {
-      pplayer->really_gives_vision = 0;
+      pplayer->server.really_gives_vision = 0;
       pplayer->gives_shared_vision = 0;
     } players_iterate_end;
 

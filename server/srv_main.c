@@ -263,7 +263,7 @@ bool check_for_game_over(void)
   astr_clear(&str);
   /* Check for scenario victory */
   players_iterate(pplayer) {
-    if (pplayer->is_winner) {
+    if (player_status_check(pplayer, PSTATUS_WINNER)) {
       if (winners) {
         /* TRANS: Another entry in winners list (", the Tibetans") */
         astr_add(&str, Q_("?winners:, the %s"),
@@ -304,7 +304,7 @@ bool check_for_game_over(void)
   players_iterate(pplayer) {
     if (pplayer->is_alive
         && !is_barbarian(pplayer)
-        && !pplayer->surrendered) {
+        && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
       alive++;
       victor = pplayer;
     }
@@ -371,7 +371,7 @@ bool check_for_game_over(void)
      * team, we have not yet won. */
     players_iterate(pplayer) {
       if (pplayer->is_alive
-          && !pplayer->surrendered
+          && !player_status_check(pplayer, PSTATUS_SURRENDER)
           && pplayer->team != pteam) {
         win = FALSE;
         break;
@@ -382,10 +382,10 @@ bool check_for_game_over(void)
                   _("Team victory to %s"),
                   team_name_translation(pteam));
       players_iterate(pplayer) {
-	if (pplayer->is_alive
-	    && !pplayer->surrendered) {
-	  ggz_report_victor(pplayer);
-	}
+        if (pplayer->is_alive
+            && !player_status_check(pplayer, PSTATUS_SURRENDER)) {
+          ggz_report_victor(pplayer);
+        }
       } players_iterate_end;
       ggz_report_victory();
       return win; /* TRUE */
@@ -624,8 +624,6 @@ static void update_diplomatics(void)
   WARNING: do not call this while doing any handling of players, units,
   etc.  If a player dies, all his units will be wiped and other data will
   be overwritten.
-
-  FIXME: merge is_alive (105) with is_dying (8) and surrendered (7)?
 ****************************************************************************/
 static void kill_dying_players(void)
 {
@@ -636,11 +634,11 @@ static void kill_dying_players(void)
       /* cities or units remain? */
       if (0 == city_list_size(pplayer->cities)
           && 0 == unit_list_size(pplayer->units)) {
-        pplayer->is_dying = TRUE;
+        player_status_add(pplayer, PSTATUS_DYING);
       }
       /* also F_GAMELOSS in unittools server_remove_unit() */
-      if (pplayer->is_dying) {
-        pplayer->is_dying = FALSE; /* Can't get more dead than this. */
+      if (player_status_check(pplayer, PSTATUS_DYING)) {
+        /* Can't get more dead than this. */
         voter_died = voter_died || pplayer->is_connected;
         kill_player(pplayer);
       }

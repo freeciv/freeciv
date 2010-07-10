@@ -2527,12 +2527,12 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
       goto cleanup;
     }
-    if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY)) {
-      BV_CLR(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);
+    if (BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_DIPLOMACY)) {
+      BV_CLR(pplayer->server.debug, PLAYER_DEBUG_DIPLOMACY);
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s diplomacy no longer debugged"), 
                 player_name(pplayer));
     } else {
-      BV_SET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);
+      BV_SET(pplayer->server.debug, PLAYER_DEBUG_DIPLOMACY);
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s diplomacy debugged"), 
                 player_name(pplayer));
       /* TODO: print some info about the player here */
@@ -2552,12 +2552,12 @@ static bool debug_command(struct connection *caller, char *str,
       cmd_reply_no_such_player(CMD_DEBUG, caller, arg[1], match_result);
       goto cleanup;
     }
-    if (BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH)) {
-      BV_CLR(pplayer->debug, PLAYER_DEBUG_TECH);
+    if (BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH)) {
+      BV_CLR(pplayer->server.debug, PLAYER_DEBUG_TECH);
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s tech no longer debugged"), 
                 player_name(pplayer));
     } else {
-      BV_SET(pplayer->debug, PLAYER_DEBUG_TECH);
+      BV_SET(pplayer->server.debug, PLAYER_DEBUG_TECH);
       cmd_reply(CMD_DEBUG, caller, C_OK, _("%s tech debugged"), 
                 player_name(pplayer));
       /* TODO: print some info about the player here */
@@ -4097,7 +4097,7 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
     notify_conn(game.est_connections, NULL, E_GAME_END, ftc_server,
                 _("%s has conceded the game and can no longer win."),
                 player_name(caller->playing));
-    caller->playing->surrendered = TRUE;
+    player_status_add(caller->playing, PSTATUS_SURRENDER);
     return TRUE;
   } else {
     cmd_reply(CMD_SURRENDER, caller, C_FAIL, _("You cannot surrender now."));

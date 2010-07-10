@@ -83,7 +83,7 @@ void real_tech_log(const char *file, const char *function, int line,
                    fc__attribute((__format__ (__printf__, 8, 9)));
 #define TECH_LOG(loglevel, pplayer, padvance, msg, ...)                     \
 {                                                                           \
-  bool notify = BV_ISSET(pplayer->debug, PLAYER_DEBUG_TECH);                \
+  bool notify = BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_TECH);         \
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_TECH));                  \
   if (log_do_output_for_level(level)) {                                     \
@@ -99,7 +99,7 @@ void real_diplo_log(const char *file, const char *function, int line,
                    fc__attribute((__format__ (__printf__, 8, 9)));
 #define DIPLO_LOG(loglevel, pplayer, aplayer, msg, ...)                     \
 {                                                                           \
-  bool notify = BV_ISSET(pplayer->debug, PLAYER_DEBUG_DIPLOMACY);           \
+  bool notify = BV_ISSET(pplayer->server.debug, PLAYER_DEBUG_DIPLOMACY);    \
   enum log_level level = (notify ? LOG_AI_TEST                              \
                           : MIN(loglevel, LOGLEVEL_PLAYER));                \
   if (log_do_output_for_level(level)) {                                     \

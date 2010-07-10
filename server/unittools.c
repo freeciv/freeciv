@@ -1507,7 +1507,7 @@ static void server_remove_unit(struct unit *punit)
                   _("Losing %s meant losing the game! "
                   "Be more careful next time!"),
                   unit_link(punit));
-    unit_owner(punit)->is_dying = TRUE;
+    player_status_add(unit_owner(punit), PSTATUS_DYING);
   }
 
   script_remove_exported_object(punit);
