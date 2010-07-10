@@ -2070,7 +2070,8 @@ static bool show_command(struct connection *caller, char *str, bool check)
         switch (setting_type(pset)) {
         case SSET_BOOL:
           is_changed = (setting_bool_get(pset) != setting_bool_def(pset));
-          len = fc_snprintf(value, sizeof(value), "%-5d (0,1)",
+          len = fc_snprintf(value, sizeof(value), "\"%s\" (%d)",
+                            _(setting_bool_get_str(pset)),
                             (setting_bool_get(pset)) ? 1 : 0);
           if (is_changed) {
             /* Emphasizes the changed option. */
@@ -2751,47 +2752,67 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    if (sscanf(args[1], "%d", &val) != 1) {
-      cmd_reply(CMD_SET, caller, C_SYNTAX, _("Value must be an integer."));
-      goto cleanup;
-    }
-    /* Make sure the input string only contains digits 0 or 1. */
-    for (i = 0;; i++) {
-      if (args[1][i] == '\0' ) {
-        break;
+    if (1 == sscanf(args[1], "%d", &val)
+        && string_contains_only_digits(args[1])) {
+      /* Boolean as digits. Make sure the input string only contains
+       * digits 0 or 1. */
+      for (i = 0;; i++) {
+        if (args[1][i] == '\0' ) {
+          break;
+        }
+        if (args[1][i] < '0' || args[1][i] > '1') {
+          /* not TRUE (1) or FALSE (0); set to an invalid value which will
+           * result in an error below. */
+          val = -1;
+          break;
+        }
       }
-      if (args[1][i] < '0' || args[1][i] > '1') {
+      if (val != 0 && val != 1) {
         cmd_reply(CMD_SET, caller, C_SYNTAX,
-                  _("The parameter %s should only contain digits 0-1."),
-                  setting_name(pset));
+                  _("Not a boolean value (only 0 and 1 allowed)."));
+        goto cleanup;
+      } else {
+        if (check) {
+          if (!setting_is_changeable(pset, caller, reject_msg,
+                                     sizeof(reject_msg))
+              || !setting_bool_validate(pset, val != 0, caller, reject_msg,
+                                        sizeof(reject_msg))) {
+            cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+            goto cleanup;
+          }
+        } else {
+          if (setting_bool_set(pset, val != 0, caller, reject_msg,
+                               sizeof(reject_msg))) {
+            fc_snprintf(buffer, sizeof(buffer),
+                        _("Option: %s has been set to \"%s\" (%d)."),
+                        setting_name(pset), _(setting_bool_get_str(pset)),
+                        setting_bool_get(pset) ? 1 : 0);
+            do_update = TRUE;
+          } else {
+            cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+            goto cleanup;
+          }
+        }
+      }
+    } else if (check) {
+      /* Boolean as a string. */
+      if (!setting_is_changeable(pset, caller, reject_msg,
+                                 sizeof(reject_msg))
+          || !setting_bool_validate_str(pset, args[1], caller, reject_msg,
+                                        sizeof(reject_msg))) {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
-    }
-    if (val != 0 && val != 1) {
-      cmd_reply(CMD_SET, caller, C_SYNTAX,
-                _("Not a boolean value (only 0 and 1 allowed)."));
-      goto cleanup;
+    } else if (setting_bool_set_str(pset, args[1], caller, reject_msg,
+                                    sizeof(reject_msg))) {
+      fc_snprintf(buffer, sizeof(buffer),
+                  _("Option: %s has been set to \"%s\" (%d)."),
+                  setting_name(pset), _(setting_bool_get_str(pset)),
+                  setting_bool_get(pset) ? 1 : 0);
+      do_update = TRUE;
     } else {
-      if (check) {
-        if (!setting_is_changeable(pset, caller, reject_msg,
-                                   sizeof(reject_msg))
-            || !setting_bool_validate(pset, val != 0, caller, reject_msg,
-                                      sizeof(reject_msg))) {
-          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-          goto cleanup;
-        }
-      } else {
-        if (setting_bool_set(pset, val != 0, caller, reject_msg,
-                             sizeof(reject_msg))) {
-          fc_snprintf(buffer, sizeof(buffer),
-                      _("Option: %s has been set to %d."),
-                      setting_name(pset), setting_bool_get(pset) ? 1 : 0);
-          do_update = TRUE;
-        } else {
-          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-          goto cleanup;
-        }
-      }
+      cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+      goto cleanup;
     }
     break;
 

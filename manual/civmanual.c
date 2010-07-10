@@ -179,12 +179,13 @@ static bool manual_command(void)
         fprintf(doc, "</p>\n\n");
         switch (setting_type(pset)) {
         case SSET_BOOL:
-          fprintf(doc, "<p class=\"bounds\">%s 0, %s %d, %s 1</p>\n\n",
-                  _("Minimum:"), _("Default:"),
-                  setting_bool_def(pset) ? 1 : 0, _("Maximum:"));
+          fprintf(doc, "<p class=\"bounds\">%s %s (%d)</p>\n\n",
+                  _("Default:"), _(setting_bool_def_str(pset)),
+                  setting_bool_def(pset) ? 1 : 0);
           if (setting_bool_get(pset) != setting_bool_def(pset)) {
-            fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-                    setting_bool_get(pset) ? 1 : 0);
+            fprintf(doc,
+                    _("<p class=\"changed\">Value set to %s (%d)</p>\n\n"),
+                    _(setting_bool_get_str(pset)), setting_bool_get(pset));
           }
           break;
         case SSET_INT:

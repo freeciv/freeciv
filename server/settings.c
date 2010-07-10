@@ -69,6 +69,7 @@ typedef bool (*enum_validate_func_t) (int value, struct connection *pconn,
                                       size_t reject_msg_len);
 
 typedef void (*action_callback_func_t)(const struct setting *pset);
+typedef const char * (*bool_name_func_t) (bool value);
 typedef const char * (*enum_name_func_t) (int value);
 
 struct setting {
@@ -105,6 +106,7 @@ struct setting {
       bool *const pvalue;
       const bool default_value;
       const bool_validate_func_t validate;
+      const bool_name_func_t name;
       bool game_value;
     } boolean;
     /*** int part ***/
@@ -251,6 +253,19 @@ static const char *borders_name(int borders)
 
   return (0 <= borders && borders < ARRAY_SIZE(names)
           ? names[borders] : NULL);
+}
+
+/****************************************************************************
+  Names accessor for all bool (disable/enable or [0/1]) settings.
+****************************************************************************/
+static const char *bool_name(bool enable)
+{
+ static const char *names[] = {
+    N_("Disabled"),
+    N_("Enabled"),
+  };
+
+  return (enable ? names[1] : names[0]);
 }
 
 /****************************************************************************
@@ -609,13 +624,13 @@ static bool phasemode_callback(int value, struct connection *caller,
   return TRUE;
 }
 
-#define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,        \
-                 short_help, extra_help, func_validate, func_action,    \
-                 _default)                                              \
-  {name, sclass, to_client, short_help, extra_help, SSET_BOOL,          \
-      scateg, slevel,                                                   \
-      {.boolean = {&value, _default, func_validate, FALSE}},            \
-      func_action, FALSE},
+#define GEN_BOOL(name, value, sclass, scateg, slevel, to_client,            \
+                 short_help, extra_help, func_validate, func_action,        \
+                 _default)                                                  \
+  {name, sclass, to_client, short_help, extra_help, SSET_BOOL,              \
+      scateg, slevel,                                                       \
+      {.boolean = {&value, _default, func_validate, bool_name,              \
+                   FALSE}}, func_action, FALSE},
 
 #define GEN_INT(name, value, sclass, scateg, slevel, to_client,         \
                 short_help, extra_help, func_validate, func_action,     \
@@ -1818,6 +1833,23 @@ bool setting_is_visible(const struct setting *pset,
 }
 
 /****************************************************************************
+  Convert a boolean string value to a bool. Returns TRUE if successful.
+****************************************************************************/
+bool setting_bool_str_to_bool(const struct setting *pset, const char *val,
+                              bool *bval)
+{
+  if (0 == fc_strcasecmp(val, pset->enumerator.name(FALSE))) {
+    *bval = FALSE;
+    return TRUE;
+  } else if (0 == fc_strcasecmp(val, pset->enumerator.name(TRUE))) {
+    *bval = TRUE;
+    return TRUE;
+  }
+
+  return FALSE;
+}
+
+/****************************************************************************
   Returns the current boolean value.
 ****************************************************************************/
 bool setting_bool_get(const struct setting *pset)
@@ -1827,12 +1859,30 @@ bool setting_bool_get(const struct setting *pset)
 }
 
 /****************************************************************************
+  Returns the current boolean value as string.
+****************************************************************************/
+const char *setting_bool_get_str(const struct setting *pset)
+{
+  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
+  return bool_name(*pset->boolean.pvalue);
+}
+
+/****************************************************************************
   Returns the default boolean value for this setting.
 ****************************************************************************/
 bool setting_bool_def(const struct setting *pset)
 {
   fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
   return pset->boolean.default_value;
+}
+
+/****************************************************************************
+  Returns the default boolean value for this setting as string.
+****************************************************************************/
+const char *setting_bool_def_str(const struct setting *pset)
+{
+  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
+  return bool_name(pset->boolean.default_value);
 }
 
 /****************************************************************************
@@ -1854,6 +1904,27 @@ bool setting_bool_set(struct setting *pset, bool val,
 }
 
 /****************************************************************************
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available by the function setting_error().
+****************************************************************************/
+bool setting_bool_set_str(struct setting *pset, const char *val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len)
+{
+  bool bval;
+
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_bool_validate_str(pset, val, caller, reject_msg,
+                                    reject_msg_len)) {
+    return FALSE;
+  }
+
+  setting_bool_str_to_bool(pset, val, &bval);
+  *pset->boolean.pvalue = bval;
+  return TRUE;
+}
+
+/****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
   the reason of the failure is available by the function setting_error().
 
@@ -1871,6 +1942,36 @@ bool setting_bool_validate(const struct setting *pset, bool val,
 
   return (!pset->boolean.validate
           || pset->boolean.validate(val, caller, reject_msg,
+                                    reject_msg_len));
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available by the function setting_error().
+
+  FIXME: also check the access level of pconn.
+****************************************************************************/
+bool setting_bool_validate_str(const struct setting *pset, const char *val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len)
+{
+  bool bval;
+
+  if (SSET_BOOL != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a boolean."));
+    return FALSE;
+  }
+
+  if (!setting_bool_str_to_bool(pset, val, &bval)) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("\"%s\" is not an allowed value for this setting."),
+                      val);
+    return FALSE;
+  }
+
+  return (!pset->boolean.validate
+          || pset->boolean.validate(bval, caller, reject_msg,
                                     reject_msg_len));
 }
 

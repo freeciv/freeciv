@@ -86,14 +86,24 @@ bool setting_is_visible(const struct setting *pset,
                         struct connection *caller);
 
 /* Type SSET_BOOL setting functions. */
+bool setting_bool_str_to_bool(const struct setting *pset, const char *val,
+                              bool *bval);
 bool setting_bool_get(const struct setting *pset);
+const char *setting_bool_get_str(const struct setting *pset);
 bool setting_bool_def(const struct setting *pset);
+const char *setting_bool_def_str(const struct setting *pset);
 bool setting_bool_set(struct setting *pset, bool val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len);
+bool setting_bool_set_str(struct setting *pset, const char *val,
+                          struct connection *caller, char *reject_msg,
+                          size_t reject_msg_len);
 bool setting_bool_validate(const struct setting *pset, bool val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
+bool setting_bool_validate_str(const struct setting *pset, const char *val,
+                               struct connection *caller, char *reject_msg,
+                               size_t reject_msg_len);
 
 /* Type SSET_INT setting functions. */
 int setting_int_get(const struct setting *pset);
