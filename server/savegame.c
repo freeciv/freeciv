@@ -4358,9 +4358,6 @@ static void game_load_internal(struct section_file *file)
     game.scenario.is_scenario = FALSE;
   }
 
-  /* [settings] */
-  settings_game_load(file, "settings");
-
   /* [rulesets] */
   civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
   string = (civstyle == 1) ? "civ1" : "default";
@@ -4403,6 +4400,9 @@ static void game_load_internal(struct section_file *file)
 
   /* load rulesets */
   load_rulesets();
+
+  /* [settings]; must be *after* loading the ruleset */
+  settings_game_load(file, "settings");
 
   /* [game] */
   game_version = secfile_lookup_int_default(file, 0, "game.version");
