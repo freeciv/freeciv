@@ -489,7 +489,7 @@ extern const int DIR_DY[8];
  * assume the tile index is of type (signed short int). */
 #define MAP_DEFAULT_SIZE         4
 #define MAP_MIN_SIZE             1
-#define MAP_MAX_SIZE             30
+#define MAP_MAX_SIZE             128
 
 #define MAP_DEFAULT_TILESPERPLAYER      100
 #define MAP_MIN_TILESPERPLAYER            1
@@ -499,7 +499,7 @@ extern const int DIR_DY[8];
  * This must be smaller than 255 because of the way coordinates are sent
  * across the network. */
 #define MAP_DEFAULT_LINEAR_SIZE  64
-#define MAP_MAX_LINEAR_SIZE      254
+#define MAP_MAX_LINEAR_SIZE      512
 #define MAP_MIN_LINEAR_SIZE      8
 #define MAP_MAX_WIDTH            MAP_MAX_LINEAR_SIZE
 #define MAP_MAX_HEIGHT           MAP_MAX_LINEAR_SIZE

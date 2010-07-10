@@ -37,7 +37,7 @@
 
 /* Since speed is quite important to us and alloccation of large arrays is
  * slow, we try to pack info in the smallest types possible */
-typedef short mapindex_t;
+typedef int mapindex_t;
 typedef unsigned char utiny_t;
 
 /* ===================== Internal structures ===================== */

@@ -15,13 +15,13 @@
 
 #include "shared.h"
 
-typedef short pq_data_t;
+typedef int pq_data_t;
 struct pqueue;
 
 struct pqueue *pq_create(int initial_size);
 void pq_destroy(struct pqueue *q);
 void pq_insert(struct pqueue *q, const pq_data_t datum, int datum_priority);
-bool pq_remove(struct pqueue * q, pq_data_t *dest);
-bool pq_peek(struct pqueue * q, pq_data_t*dest);
+bool pq_remove(struct pqueue *q, pq_data_t *dest);
+bool pq_peek(struct pqueue *q, pq_data_t *dest);
 
 #endif
