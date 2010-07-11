@@ -81,6 +81,7 @@ tiles = { "row", "column","tag"
   6, 8, "t.l0.ocean2"
   6, 8, "t.l0.shelf1"
   2, 10, "t.l0.shelf2"
+  2, 11, "t.l0.deep1"
 
 ; Terrain special resources:
 
