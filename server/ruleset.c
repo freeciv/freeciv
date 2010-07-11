@@ -843,7 +843,7 @@ static void load_ruleset_techs(struct section_file *file)
       if(strcmp(sval,"")==0) {
         continue;
       }
-      ival = tech_flag_id_by_name(sval, strcmp);
+      ival = tech_flag_id_by_name(sval, fc_strcasecmp);
       if (!tech_flag_id_is_valid(ival)) {
         log_error("\"%s\" [%s] \"%s\": bad flag name \"%s\".",
                   filename, sec_name, rule_name(&a->name), sval);
@@ -1198,7 +1198,7 @@ if (_count > MAX_VET_LEVELS) {						\
       if(strcmp(sval,"") == 0) {
         continue;
       }
-      ival = unit_class_flag_id_by_name(sval, strcmp);
+      ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
       if (!unit_class_flag_id_is_valid(ival)) {
         log_error("\"%s\" unit_class \"%s\": bad flag name \"%s\".",
                   filename, uclass_rule_name(ut), sval);
@@ -1414,7 +1414,7 @@ if (_count > MAX_VET_LEVELS) {						\
       if (F_LAST == ival) {
         log_error("\"%s\" unit_type \"%s\": bad flag name \"%s\".",
                   filename, utype_rule_name(u),  sval);
-        ival = unit_class_flag_id_by_name(sval, strcmp);
+        ival = unit_class_flag_id_by_name(sval, fc_strcasecmp);
         if (unit_class_flag_id_is_valid(ival)) {
           log_error("\"%s\" unit_type \"%s\": unit_class flag!",
                     filename, utype_rule_name(u));
@@ -1588,7 +1588,7 @@ static void load_ruleset_buildings(struct section_file *file)
     size_t nflags;
 
     item = secfile_lookup_str(file, "%s.genus", sec_name);
-    b->genus = impr_genus_id_by_name(item, strcmp);
+    b->genus = impr_genus_id_by_name(item, fc_strcasecmp);
     if (!impr_genus_id_is_valid(b->genus)) {
       ruleset_error(LOG_FATAL, "\"%s\" improvement \"%s\": couldn't match "
                                "genus \"%s\".", filename,
@@ -1603,7 +1603,7 @@ static void load_ruleset_buildings(struct section_file *file)
       if(strcmp(sval,"")==0) {
 	continue;
       }
-      ival = impr_flag_id_by_name(sval, strcmp);
+      ival = impr_flag_id_by_name(sval, fc_strcasecmp);
       if (!impr_flag_id_is_valid(ival)) {
         log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
                   filename, improvement_rule_name(b), sval);
@@ -1966,7 +1966,8 @@ static void load_ruleset_terrain(struct section_file *file)
     BV_CLR_ALL(pterrain->flags);
     for (j = 0; j < nval; j++) {
       const char *sval = slist[j];
-      enum terrain_flag_id flag = terrain_flag_id_by_name(sval, strcmp);
+      enum terrain_flag_id flag
+        = terrain_flag_id_by_name(sval, fc_strcasecmp);
 
       if (!terrain_flag_id_is_valid(flag)) {
         ruleset_error(LOG_FATAL, "\"%s\" [%s] has unknown flag \"%s\".",

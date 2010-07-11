@@ -40,7 +40,7 @@ struct universal universal_by_rule_name(const char *kind,
 {
   struct universal source;
 
-  source.kind = universals_n_by_name(kind, strcmp);
+  source.kind = universals_n_by_name(kind, fc_strcasecmp);
   if (!universals_n_is_valid(source.kind)) {
     source.kind = VUT_NONE;
   }
@@ -104,7 +104,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_UCFLAG:
-    source.value.unitclassflag = unit_class_flag_id_by_name(value, strcmp);
+    source.value.unitclassflag
+      = unit_class_flag_id_by_name(value, fc_strcasecmp);
     if (unit_class_flag_id_is_valid(source.value.unitclassflag)) {
       return source;
     }
@@ -133,7 +134,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_TERRAINCLASS:
-    source.value.terrainclass = terrain_class_by_name(value, strcmp);
+    source.value.terrainclass
+      = terrain_class_by_name(value, fc_strcasecmp);
     if (terrain_class_is_valid(source.value.terrainclass)) {
       return source;
     }
@@ -151,7 +153,8 @@ struct universal universal_by_rule_name(const char *kind,
     }
     break;
   case VUT_TERRAINALTER:
-    source.value.terrainalter = terrain_alteration_by_name(value, strcmp);
+    source.value.terrainalter
+      = terrain_alteration_by_name(value, fc_strcasecmp);
     if (terrain_alteration_is_valid(source.value.terrainalter)) {
       return source;
     }
@@ -358,7 +361,7 @@ struct requirement req_from_str(const char *type, const char *range,
 
   /* Scan the range string to find the range.  If no range is given a
    * default fallback is used rather than giving an error. */
-  req.range = req_range_by_name(range, strcmp);
+  req.range = req_range_by_name(range, fc_strcasecmp);
   if (!req_range_is_valid(req.range)) {
     switch (req.source.kind) {
     case VUT_NONE:
