@@ -7,7 +7,7 @@
 # Jordi Negrevernis i Font <jorneg@retemail.es>, 2005.
 # Claudio M. Camacho <claudiomkd@gmail.com>, 2006.
 # Jordi Negrevernis i Font <jnegrevernis@jnfprogramari.com>, 2009.
-# Freeciv <jnegrevernis@jnfprogramari.com>, 2009.
+# Freeciv <jnegrevernis@jnfprogramari.com>, 2009, 2010.
 # Nota de M.L.: al igual que el resto de los mensajes, las notas históricas
 # sobre las naciones son traducciones más o menos fieles de la versión inglesa.
 # Para debatir sobre su exactitud es mejor contactar directamente con los
@@ -16,8 +16,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: es\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-06 12:09-0400\n"
-"PO-Revision-Date: 2009-11-23 01:28+0100\n"
+"POT-Creation-Date: 2010-07-14 22:03+0100\n"
+"PO-Revision-Date: 2010-07-14 19:08+0200\n"
 "Last-Translator: Freeciv <jnegrevernis@jnfprogramari.com>\n"
 "Language-Team: Spanish\n"
 "MIME-Version: 1.0\n"
@@ -7658,6 +7658,11 @@ msgid_plural "%s (%d) %d turns"
 msgstr[0] "%s (%d) %d turno"
 msgstr[1] "%s (%d) %d turnos"
 
+#: client/citydlg_common.c:293
+#, c-format
+msgid "%s (%d) never"
+msgstr "%s (%d) nunca"
+
 #: client/citydlg_common.c:337 client/citydlg_common.c:350
 #: client/gui-sdl/wldlg.c:1327
 msgid "Obsolete"
@@ -7721,14 +7726,29 @@ msgstr "%+4d : Disturbios\n"
 msgid "%+4d : Used\n"
 msgstr "%+4d : Usado\n"
 
-#: client/citydlg_common.c:489
+#: client/citydlg_common.c:489 client/citydlg_common.c:513
 msgid "==== : Adds up to\n"
 msgstr "==== : Se agrega a\n"
 
-#: client/citydlg_common.c:491
+#: client/citydlg_common.c:491 client/citydlg_common.c:515
 #, c-format
 msgid "%4d : Total surplus"
 msgstr "%4d : Superprima total"
+
+#: client/citydlg_common.c:507
+#, c-format
+msgid "%+4d : Pollution from shields\n"
+msgstr "%+4d : Contaminación de la producción.\n"
+
+#: client/citydlg_common.c:509
+#, c-format
+msgid "%+4d : Pollution from citizens\n"
+msgstr "%+4d : Contaminación de los ciudadanos.\n"
+
+#: client/citydlg_common.c:511
+#, c-format
+msgid "%+4d : Pollution modifier\n"
+msgstr "%+4d : Multiplicador de la Contaminación\n"
 
 #: client/cityrepdata.c:73
 msgid "?city_state:Rapture"
@@ -9585,7 +9605,6 @@ msgid "Clear unit orders on selection"
 msgstr "Elimina las órdenes de las unidades de la selección"
 
 #: client/options.c:273
-#, fuzzy
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -9595,9 +9614,10 @@ msgid ""
 msgstr ""
 "Al habilitar esta opción hará que las órdenes de las unidades se borren "
 "cuando una o más unidades se seleccionen. Si esta opción está desactivada, "
-"la selección de las unidades no hará cesar su actividad actual. En cambio, "
-"sus órdenes seránborradas solamente cuando se den nuevas órdenes o si se "
-"presiona <espacio>."
+"la selección de las unidades no hará cesar su actividad actual. Sus órdenes "
+"serán borradas solamente cuando se den nuevas órdenes; si se presiona "
+"<espacio> una vez se borrará sus órdenes y se las mantendrá seleccionadas; "
+"si se presiona <espacio> una segunda vez se deseleccionarán las unidades."
 
 #: client/options.c:284
 msgid "Background layer"
@@ -9826,7 +9846,7 @@ msgstr "No se pudo abrir el fichero temporal."
 #: client/servers.c:385
 #, c-format
 msgid "Failed to parse the metaserver data from http://%s."
-msgstr ""
+msgstr "No se ha podido analizar los datos del metaservidor desde http://%s."
 
 #: client/servers.c:416
 msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
@@ -26184,9 +26204,3 @@ msgstr "Equipo 30"
 #: data/default/game.ruleset:160
 msgid "Team 31"
 msgstr "Equipo 31"
-
-#~ msgid ""
-#~ "%s and %s meet and go to instant war. You cancel your alliance with both."
-#~ msgstr ""
-#~ "%s y %s se ha reunido y se han declarado la guerra. Tu cancelas la "
-#~ "alianza con ambos."
