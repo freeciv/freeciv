@@ -15,13 +15,16 @@ leader=
  "John Hunt Morgan",
  "James Longstreet",
  "Alexander Stephens",
- "Jefferson Davis"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Jefferson Davis",
+ "Belle Boyd"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="southern_cross"
 flag_alt="-"
 city_style="European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",        _("General"),      _("?female:General")
+                 "Fundamentalism",        _("Reverend"),      _("?female:Reverend")
                  "Republic",        _("Speaker"),      _("?female:Speaker")
                }
 
@@ -30,45 +33,68 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflicts_with="american", "texan"
+conflicts_with="texan"
 civilwar_nations="american", "texan"
 
 ; Data from http://en.wikipedia.org/wiki/Confederate_States_of_America
 cities =
 ; Capitals and was-to-be capitals
- "Montgomery",
  "Richmond",
+ "Montgomery",
  "Danville",
  "Atlanta",
  "Columbia",
+
 ; Major cities in order of population
  "New Orleans",
  "Charleston",
  "Mobile",
  "Memphis",
  "Savannah",
- "Petersburg",
+ "Petersburg",  
  "Nashville",
  "Norfolk",
- "Wheeling",
- "Alexandria",
  "Augusta",
  "Columbus",
  "Wilmington",
+
 ; A few more cities
+ "Alexandria",
  "Jacksonville",
- "Louisville",
- "St. Louis",
- "Springfield",
  "Little Rock",
  "Vicksburg",
  "Shreveport",
  "Houston",
+ "Baton Rouge",
  "Galveston",
  "Austin",
  "San Antonio",
  "Corpus Christi",
  "El Paso",
+ "Tallahassee",
+ "Jackson",
+ "Raleigh",
+ "Dallas",
+ "Bowling Green",
  "Mesilla",
- "Santa Fe",
- "Tucson"
+ "Charlotte",
+ "Fort Worth",
+ "Selma",
+ "Tucson",
+ "Winchester",
+ "Manassas",
+ "St. Augustine",
+ "Fredericksburg",
+ "Macon",
+ "Miami",
+ "Milledgeville",
+ "Neosho",
+ "Opelousas",
+ "Appomattox",
+ "Donaldsonville",
+ "Washington-on-the-Brazos",
+ "Pensacola",
+ "Biloxi",
+ "Greensboro",
+ "Lafayette"
+
