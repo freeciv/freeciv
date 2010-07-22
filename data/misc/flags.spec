@@ -35,6 +35,7 @@ artists = "
    Azerbaijan		Daniel McRae
    Aztec		Daniel Markstedt
    Babylon		Daniel Markstedt
+   Baden		David Liuzzo (Wikimedia Commons user)
    Bangladesh		Cezary Biele
    Barbarian		Tobias Jakobs
    Bavarian		Jörgen Scheibengruber
@@ -63,6 +64,7 @@ artists = "
    Croatia		Frank Zeko
    Cuba			Lauris Kaplinski
    Czech		Lauris Kaplinski
+   DDR			Jwnabd (Wikimedia Commons user)
    Denmark		Jens Bech Madsen
    Dominica		Caleb Moore and Christian Schaller
    Dryad		Ivan Alvarado
@@ -78,7 +80,7 @@ artists = "
    Finland		Daniel McRae
    France (old)		Patricia Fidi
    France		Tobias Jakobs
-   Frisia		GeeKaa (Wikimedia user)
+   Frisia		GeeKaa (Wikimedia Commons user)
    Galicia		Miguel Rodríguez
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
@@ -89,7 +91,10 @@ artists = "
    Grenada		SKopp (Wikipedia)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
+   Hanover		J.M. Maalderink
+   Hansa		J.M. Maalderink
    Hawaii		Rob Adams
+   Hesse		Madden (Wikimedia Commons user)
    Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
    Hopi			Daniel Markstedt
@@ -225,6 +230,7 @@ artists = "
    Viking		Daniel Markstedt
    Wales		Tobias Jakobs
    Westphalia		Daniel Markstedt and Tobias Jakobs
+   Wuerttemberg		David Liuzzo (Wikimedia Commons user)
    Zulu			Daniel Markstedt and Caleb Moore
 
 "
@@ -254,6 +260,7 @@ sprites =
 		"f.azerbaijan", "flags/azerbaijan"
 		"f.aztec", "flags/aztec"
 		"f.babylon", "flags/babylon"
+		"f.baden", "flags/baden"
 		"f.bangladesh", "flags/bangladesh"
 		"f.barbarian", "flags/barbarian"
 		"f.bavarian", "flags/bavarian"
@@ -283,6 +290,7 @@ sprites =
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
 		"f.czech", "flags/czech"
+		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"
 		"f.dominica", "flags/dominica"
 		"f.dryad", "flags/dryad"
@@ -309,7 +317,10 @@ sprites =
 		"f.grenada", "flags/grenada"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
+		"f.hanover", "flags/hanover"
+		"f.hansa", "flags/hansa"
 		"f.hawaii", "flags/hawaii"
+		"f.hesse", "flags/hesse"
 		"f.himyar", "flags/himyar"
 		"f.hittite", "flags/hittite"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
@@ -446,5 +457,6 @@ sprites =
 		"f.viking", "flags/viking"
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"
+		"f.wuerttemberg", "flags/wuerttemberg"
 		"f.zulu", "flags/zulu"
 	}

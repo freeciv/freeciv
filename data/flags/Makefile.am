@@ -27,6 +27,7 @@ flag_files =				\
 		azerbaijan.png		\
 		aztec.png		\
 		babylon.png		\
+		baden.png		\
 		bangladesh.png		\
 		barbarian.png		\
 		bavarian.png		\
@@ -55,6 +56,7 @@ flag_files =				\
 		croatia.png		\
 		cuba.png		\
 		czech.png		\
+		ddr.png			\
 		denmark.png		\
 		dominica.png		\
 		dryad.png		\
@@ -81,7 +83,10 @@ flag_files =				\
 		grenada.png		\
 		gupta.png		\
 		hacker.png		\
+		hanover.png		\
+		hansa.png		\
 		hawaii.png		\
+		hesse.png		\
 		himyar.png		\
 		hittite.png		\
 		hopi.png		\
@@ -217,6 +222,7 @@ flag_files =				\
 		viking.png		\
 		wales.png		\
 		westphalia.png		\
+		wuerttemberg.png	\
 		zulu.png
 
 shield_files =					\
@@ -243,6 +249,7 @@ shield_files =					\
 		azerbaijan-shield.png		\
 		aztec-shield.png		\
 		babylon-shield.png		\
+		baden-shield.png		\
 		bangladesh-shield.png		\
 		barbarian-shield.png		\
 		bavarian-shield.png		\
@@ -271,6 +278,7 @@ shield_files =					\
 		croatia-shield.png		\
 		cuba-shield.png			\
 		czech-shield.png		\
+		ddr-shield.png			\
 		denmark-shield.png		\
 		dominica-shield.png		\
 		dryad-shield.png		\
@@ -297,7 +305,10 @@ shield_files =					\
 		grenada-shield.png		\
 		gupta-shield.png		\
 		hacker-shield.png		\
+		hanover-shield.png		\
+		hansa-shield.png		\
 		hawaii-shield.png		\
+		hesse-shield.png		\
 		himyar-shield.png		\
 		hittite-shield.png		\
 		hopi-shield.png			\
@@ -433,6 +444,7 @@ shield_files =					\
 		viking-shield.png		\
 		wales-shield.png		\
 		westphalia-shield.png		\
+		wuerttemberg-shield.png		\
 		zulu-shield.png
 
 svg_files = 				\
@@ -459,6 +471,7 @@ svg_files = 				\
 		azerbaijan.svg		\
 		aztec.svg		\
 		babylon.svg		\
+		baden.svg		\
 		bangladesh.svg		\
 		barbarian.svg		\
 		bavarian.svg		\
@@ -487,6 +500,7 @@ svg_files = 				\
 		croatia.svg		\
 		cuba.svg		\
 		czech.svg		\
+		ddr.svg			\
 		denmark.svg		\
 		dominica.svg		\
 		dryad.svg		\
@@ -513,7 +527,10 @@ svg_files = 				\
 		grenada.svg		\
 		gupta.svg		\
 		hacker.svg		\
+		hanover.svg		\
+		hansa.svg		\
 		hawaii.svg		\
+		hesse.svg		\
 		himyar.svg		\
 		hittite.svg		\
 		hopi.svg		\
@@ -649,6 +666,7 @@ svg_files = 				\
 		viking.svg		\
 		wales.svg		\
 		westphalia.svg		\
+		wuerttemberg.svg		\
 		zulu.svg
 
 pkgdata_DATA = $(flag_files) $(shield_files)
