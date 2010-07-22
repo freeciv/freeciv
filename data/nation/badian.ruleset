@@ -1,0 +1,99 @@
+[nation_badian]
+
+name=_("Badian")
+plural=_("?plural:Badians")
+groups="Medieval", "European"
+legend=_("Baden was a country in Swabia, in southwestern Germany. After\
+ World War II it was merged with Württemberg and Hohenzollern to form\
+ the land of Baden-Württemberg.")
+leader =
+ "Berthold I",
+ "Hermann II",
+ "Karl Friedrich",
+ "Friedrich Hecker",
+ "Max von Baden",
+ "Adam Remmele"
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+
+flag="baden"
+flag_alt = "germany"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Monarchy",        _("Grand Duke"),      _("Grand Duchess")
+                 "Republic",        _("Minister-President"),      _("?female:Minister-President")
+}
+
+civilwar_nations = "wuerttembergian", "hessian", "swiss"
+
+cities =
+ "Baden",
+ "Karlsruhe",
+ "Mannheim",
+ "Freiburg",
+ "Konstanz",
+ "Heidelberg",
+ "Pforzheim",
+ "Ettlingen",
+ "Rastatt",
+ "Lörrach",
+ "Durlach",
+ "Donaueschingen",
+ "Kehl",
+ "Yberg",
+ "Gengenbach",
+ "Hochberg",
+ "Neckargemünd",
+ "Dilsberg",
+ "Villingen",
+ "Waldshut",
+ "Offenburg",
+ "Mosbach",
+ "Sinsheim",
+ "Engen",
+ "Meßkirch",
+ "Pfullendorf",
+ "Radolfzell",
+ "Stokach",
+ "Überlingen",
+ "Triberg",
+ "Bonndorf",
+ "Jestetten",
+ "Sankt Blasien",
+ "Säckingen",
+ "Breisach",
+ "Emmendingen",
+ "Ettenheim",
+ "Kenzingen",
+ "Neustadt",
+ "Staufen",
+ "Waldkirch",
+ "Müllheim",
+ "Schönau",
+ "Schopfheim",
+ "Gengenbach",
+ "Lahr",
+ "Oberkirch",
+ "Wolfach",
+ "Achern",
+ "Bühl",
+ "Gernsbach",
+ "Bretten",
+ "Bruchsal",
+ "Ettlingen",
+ "Schwetzingen",
+ "Weinheim",
+ "Eppingen",
+ "Wiesloch",
+ "Adelsheim",
+ "Boxberg",
+ "Buchen",
+ "Eberbach",
+ "Tauberbischofsheim",
+ "Wertheim",
+ "Walldürn"

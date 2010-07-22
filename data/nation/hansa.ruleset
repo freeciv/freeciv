@@ -1,0 +1,101 @@
+[nation_hansa]
+
+name=_("Hanseatic")
+plural=_("?plural:Hanseatic League")
+groups="Medieval", "European"
+legend=_("The Hanseatic League was a powerful alliance of trading cities\
+ existing from the 12th to the 19th century. Hanseatic cities were found\
+ in the North Sea and Baltic region. Members of the league had their own\
+ law system and occasionaly the Hansa went to war with rivalling powers.")
+leader =
+ "Hinrich de Lööw",
+ "Johann Rinck",
+ "Georg Giese",
+ "Paul Beneke",
+ "Albrecht Giese",
+ "Johann Smidt",
+ "Heinrich Sudermann",
+ "Simon vun Utrecht",
+ "Jürgen Wullenwever"
+leader_sex = "Male", "Male", "Male", "Male", "Male",
+             "Male", "Male", "Male", "Male"
+flag="hansa"
+flag_alt = "germany"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Republic",       _("Burgomaster"),     _("?female:Burgomaster") 
+                 "Democracy",      _("Burgomaster"),   _("?female:Burgomaster")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "german", "dutch", "danish", "westphalian", "prussian", "hanoverian", "polish", "latvian", "estonian", "lithuanian", "swedish", "frisian"
+
+cities = ;names in Low German
+ "Lübeck",
+ "Bronswiek", ;Brunswick
+ "Meideborg", ;Magdeburg
+ "Danzig", ;Gdańsk
+ "Riga",
+ "Düörpm", ;Dortmund
+ "Hamborg", ;Hamburg
+ "Kiel",
+ "Wismer", ;Wismar
+ "Hameln",
+ "Derpt", ;Tartu
+ "Bremen",
+ "Rostock",
+ "Hannober", ;Hanover
+ "Revel", ;Tallinn
+ "Ossenbrügge", ;Osnabrück
+ "Deventer",
+ "Bargen", ;Bergen
+ "Stettin", ;Szczecin
+ "Goslär", ;Goslar
+ "Hilmessen", ;Hildesheim
+ "Breslau", ;Wrocław
+ "Grunnen", ;Groningen
+ "Stralsund",
+ "Halle",
+ "Nordhausen",
+ "Königsbarg", ;Kaliningrad
+ "Mönster", ;Münster
+ "Naugard", ;Veliky Novgorod
+ "Kampen",
+ "Elbing", ;Elbląg
+ "Griepswohld", ;Greifswald
+ "Berlin",
+ "Frankfort", ;Frankfurt
+ "Queddelnborg", ;Quedlinburg
+ "Krakau", ;Kraków
+ "Visby",
+ "Windau", ;Ventspils
+ "Lümborg", ;Lüneburg
+ "Aimbeck", ;Einbeck
+ "Helmstidde", ;Helmstedt
+ "Pleskau", ;Pskov
+ "Pernau", ;Pärnu
+ "Wolmar", ;Valmiera
+ "Zwolle",
+ "Duisborg", ;Duisburg
+ "Saust", ;Soest
+ "Nimwaege", ;Nijmegen
+ "Riäkelhausen", ;Recklinghausen
+ "Minden",
+ "Brannenborg", ;Brandenburg
+ "Erfurt",
+ "Mühlhausen",
+ "Thorn", ;Toruń
+ "Köln",
+ "Baukem", ;Bochum
+ "Hamm",
+ "Zutfent", ;Zutphen
+ "Brügge", ;Bruges
+ "Stood", ;Stade
+ "Memel", ;Klaipeda
+ "Chöttingen", ;Göttingen
+ "Falsterbo"

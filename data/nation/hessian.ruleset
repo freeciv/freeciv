@@ -1,0 +1,94 @@
+[nation_hessian]
+
+name=_("Hessian")
+plural=_("?plural:Hessians")
+groups="European", "Medieval"
+legend=_("Hesse became a landgraviate of the Holy Roman Empire in the\
+ 13th century. In the 16th century it splintered into a a number of\
+ smaller territories. Many Hessians fought in the American Revolution as\
+ mercenaries on both sides. Currently Hesse is one of the länder of the\
+ Federal Republic of Germany.")
+leader=
+ "Heinrich das Kind",
+ "Otto das Kind",
+ "Heinrich II der Eiserne",
+ "Ludwig der Friedfertige",
+ "Ulrich von Hutten",
+ "Philipp I der Großmütige",
+ "Wilhelm IV der Weise",
+ "Friedrich von Schweden",
+ "Ludwig X"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", 
+           "Male", "Male", "Male", "Male"
+
+flag="hesse"
+flag_alt = "germany"
+city_style = "european"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Landgrave"),        _("Landgravine")
+		 "Monarchy", 	    _("Elector"),    _("Electress")
+		 "Republic", 	    _("Minister-President"),    _("?female:Minister-President")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="bavarian", "hanoverian", "badian"
+
+cities =
+ "Kassel",
+ "Marburg",
+ "Darmstadt",
+ "Wiesbaden",
+ "Homburg",
+ "Frankfurt",
+ "Nassau",
+ "Offenbach",
+ "Hanau",
+ "Weilburg",
+ "Gießen",
+ "Fulda",
+ "Rüsselsheim",
+ "Wetzlar",
+ "Rodgau",
+ "Oberursel",
+ "Dreieich",
+ "Bensheim",
+ "Hofheim",
+ "Maintal",
+ "Langen",
+ "Neu-Isenburg",
+ "Mörfelden-Walldorf",
+ "Limburg",
+ "Dietzenbach",
+ "Viernheim",
+ "Nauheim",
+ "Vilbel",
+ "Lampertheim",
+ "Hersfeld",
+ "Taunusstein",
+ "Friedberg",
+ "Baunatal",
+ "Kelkheim",
+ "Rödermark",
+ "Griesheim",
+ "Hattersheim",
+ "Heppenheim",
+ "Butzbach",
+ "Pfungstadt",
+ "Korbach",
+ "Friedrichsdorf",
+ "Dillenburg",
+ "Weiterstadt",
+ "Obertshausen",
+ "Groß-Gerau",
+ "Idstein",
+ "Karben",
+ "Stadtallendorf",
+ "Gelnhausen",
+ "Groß-Umstadt",
+ "Rheinfels"

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   width="500"
+   height="300"
+   viewBox="0 0 500 300"
+   id="Flagge"
+   xml:space="preserve"><defs
+   id="defs7" />
+<text
+   transform="translate(5.6978,16.5217)"
+   style="font-size:12px;font-family:Myriad-Roman"
+   id="text3">Flagge erstellt von: David S. Liuzzo 2006</text>
+
+<rect
+   width="500"
+   height="150"
+   x="0"
+   y="150"
+   style="fill:#bd1220"
+   id="Gelb" />
+<rect
+   width="500"
+   height="150"
+   x="0"
+   y="0"
+   style="fill:#1a171b"
+   id="Rot" />
+</svg>

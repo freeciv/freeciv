@@ -1,0 +1,82 @@
+[nation_hanoverian]
+
+name=_("Hanoverian")
+plural=_("?plural:Hanoverians")
+groups="European"
+legend=_("Hanover was a state in Northern Germany, in current Lower\
+ Saxony. From 1714 to 1837 Hanover and the United Kingdom were united\
+ in a personal union. In 1866 it was gobbled up by Prussia.") 
+leader =
+ "Ernst August",
+ "Georg I",
+ "Georg II",
+ "Georg III",
+ "Georg IV",
+ "Rudolf von Bennigsen"
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
+flag="hanover"
+flag_alt = "westphalia"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "frisian", "saxon", "westphalian", "british"
+
+cities =
+ "Hannover",
+ "Osnabrück",
+ "Lüneburg",
+ "Stade",
+ "Aurich",
+ "Hildesheim",
+ "Emden",
+ "Göttingen",
+ "Goslar",
+ "Celle",
+ "Harburg",
+ "Leer",
+ "Diepholz",
+ "Alfeld",
+ "Burgdorf",
+ "Aschendorf/Ems",
+ "Otterndorf",
+ "Verden",
+ "Norden",
+ "Syke",
+ "Duderstadt",
+ "Fallingbostel",
+ "Bersenbrück",
+ "Osterholz-Scharmbeck",
+ "Weener",
+ "Rinteln",
+ "Einbeck",
+ "Gifhorn",
+ "Bentheim",
+ "Rotenburg in Hannover",
+ "Wittmund",
+ "Neustadt am Rübenberge",
+ "Hannoversch Münden",
+ "Isenhagen",
+ "Iburg",
+ "Achim",
+ "Nienburg/Weser",
+ "Northeim",
+ "Lüchow",
+ "Lingen",
+ "Springe",
+ "Osterode am Harz",
+ "Dannenberg",
+ "Melle",
+ "Stolzenau",
+ "Peine",
+ "Soltau",
+ "Meppen",
+ "Sulingen",
+ "Uslar",
+ "Uelzen",
+ "Wittlage",
+ "Bremervörde",
+ "Clausthal-Zellerfeld",
+ "Oldenstadt"

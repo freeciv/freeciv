@@ -1,0 +1,117 @@
+[nation_wuerttembergian]
+
+name=_("Württembergian")
+plural=_("?plural:Württembergians")
+groups="Medieval", "European"
+legend=_("Württemberg was a country in Swabia, in southwestern Germany.\
+ After World War II it was merged with Baden and Hohenzollern to form\
+ the land of Baden-Württemberg.")
+leader =
+ "Konrad I",
+ "Ulrich der Stifter",
+ "Eberhard der Erlauchte",
+ "Eberhard III",
+ "Friedrich Wilhelm Karl",
+ "Eugen Bolz"
+leader_sex = "Male", "Male", "Male", "Male", "Male",
+             "Male"
+flag="wuerttemberg"
+flag_alt = "germany"
+city_style = "European"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Minister-President"),      _("?female:Minister-President")
+}
+
+civilwar_nations = "badian", "bavarian", "swiss"
+
+cities =
+ "Stuttgart",
+ "Ludwigsburg",
+ "Urach",
+ "Neuenstadt",
+ "Winnental",
+ "Mömpelgard",
+ "Heilbronn",
+ "Öhringen",
+ "Calw",
+ "Ulm",
+ "Rottenburg",
+ "Rottweil",
+ "Ehingen",
+ "Altdorf",
+ "Schorndorf",
+ "Ellwangen",
+ "Neckarsulm",
+ "Gmünd",
+ "Tübingen",
+ "Hall",
+ "Böblingen",
+ "Besigheim",
+ "Backnang",
+ "Neuenstein",
+ "Alpirsbach",
+ "Balingen",
+ "Hornberg",
+ "Kirchheim",
+ "Biberach",
+ "Waldsee",
+ "Aalen",
+ "Cannstatt",
+ "Biberach",
+ "Bietigheim",
+ "Beilstein",
+ "Nitzenhausen",
+ "Altensteig",
+ "Herrenberg",
+ "Spaichingen",
+ "Münsingen",
+ "Blaubeuren",
+ "Göppingen",
+ "Gaildorf",
+ "Esslingen",
+ "Köngen",
+ "Leonberg",
+ "Marbach",
+ "Maulbronn",
+ "Vaihingen",
+ "Waiblingen",
+ "Brackenheim",
+ "Güglingen",
+ "Kirchhausen",
+ "Lauffen",
+ "Möckmühl",
+ "Weinsberg",
+ "Schönthal",
+ "Freudenstadt",
+ "Herrenalb",
+ "Nagold",
+ "Neuenbürg",
+ "Weil",
+ "Horb",
+ "Rosenfeld",
+ "Sulz",
+ "Stokach",
+ "Tuttlingen",
+ "Nürtingen",
+ "Reutlingen",
+ "Wiensteig",
+ "Riedlingen",
+ "Saulgau",
+ "Urspring",
+ "Zwiefalten",
+ "Murrhardt",
+ "Schorndorf",
+ "Welzheim",
+ "Winnenden",
+ "Giegen",
+ "Heidenheim",
+ "Hohnhardt",
+ "Nördlingen",
+ "Schmidelfeld",
+ "Vellberg"
