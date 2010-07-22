@@ -29,6 +29,7 @@ pkgdata_DATA = \
 		azeri.ruleset \
 		aztec.ruleset \
 		babylonian.ruleset \
+		badian.ruleset \
 		barbarian.ruleset \
 		basque.ruleset \
 		bavarian.ruleset \
@@ -66,6 +67,7 @@ pkgdata_DATA = \
 		dryad.ruleset \
 		dutch.ruleset \
 		egyptian.ruleset \
+		eastgerman.ruleset \
 		emirati.ruleset \
 		english.ruleset \
 		esperant.ruleset \
@@ -85,8 +87,11 @@ pkgdata_DATA = \
 		grenadian.ruleset \
 		gupta.ruleset \
 		hacker.ruleset \
+		hanoverian.ruleset \
+		hansa.ruleset \
 		hawaiian.ruleset \
 		hellenic.ruleset \
+		hessian.ruleset \
 		himyarite.ruleset \
 		hittite.ruleset \
 		hopi.ruleset \
@@ -209,6 +214,7 @@ pkgdata_DATA = \
 		viking.ruleset \
 		welsh.ruleset \
 		westphalian.ruleset \
+		wuerttembergian.ruleset \
 		zulu.ruleset 
 
 EXTRA_DIST = $(pkgdata_DATA) Makefile.am.sh
