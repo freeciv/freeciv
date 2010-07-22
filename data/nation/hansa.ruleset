@@ -25,7 +25,6 @@ city_style = "European"
 
 ruler_titles = { "government",      "male_title",       "female_title"
                  "Republic",       _("Burgomaster"),     _("?female:Burgomaster") 
-                 "Democracy",      _("Burgomaster"),   _("?female:Burgomaster")
                }
 
 init_techs=""

@@ -14,17 +14,18 @@ leader=
  "Wilhelm Pieck",
  "Willi Stoph",
  "Walter Ulbricht",
- "E. Honecker",
+ "Erich Honecker",
  "Erich Mielke",
- "Sabine Bergmann-Pohl"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
+ "Sabine Bergmann-Pohl",
+ "Lothar de Maizière"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male"
 flag = "ddr"
 flag_alt = "germany"
 city_style = "European"
 
 ruler_titles = { "government",      "male_title",       "female_title"
-                 "Republic",       _("President"),     _("?female:President") 
-                "Communism",_("General Secretary"),_("?female:First Secretary")
+                 "Republic",       _("Prime Minister"),     _("?female:Prime Minister") 
+                "Communism",_("First Secretary"),_("?female:First Secretary")
                }
 
 init_techs=""

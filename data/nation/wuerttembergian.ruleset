@@ -1,7 +1,7 @@
 [nation_wuerttembergian]
 
-name=_("Württembergian")
-plural=_("?plural:Württembergians")
+name=_("Wuerttembergian")
+plural=_("?plural:Wuerttembergians")
 groups="Medieval", "European"
 legend=_("Württemberg was a country in Swabia, in southwestern Germany.\
  After World War II it was merged with Baden and Hohenzollern to form\

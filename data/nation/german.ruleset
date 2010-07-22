@@ -22,9 +22,9 @@ leader =
  "Adolf Hitler", 
  "Konrad Adenauer",
  "Willy Brandt",
- "Erich Honecker"
+ "Angela Merkel"
 leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Male", 
-             "Male", "Male", "Male", "Male", "Male", "Male"
+             "Male", "Male", "Male", "Male", "Male", "Female"
 
 flag         = "germany"
 flag_alt     = "-"
@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="bavarian", "westphalian", "prussian", "saxon", "badian", "hanoverian", "hessian", "wuerttembergian"
-civilwar_nations="bavarian", "westphalian", "prussian", "saxon", "frisian", "badian", "eastgerman", "hanoverian", "hessian", "wuerttembergian"
+civilwar_nations="bavarian", "westphalian", "prussian", "saxon", "frisian", "badian", "east german", "hanoverian", "hessian", "wuerttembergian"
 
 cities =
   "Berlin (grassland, !mountains)", 
