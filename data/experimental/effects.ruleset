@@ -846,6 +846,20 @@ nreqs   =
       "UnitFlag", "NoVeteran", "Local"
     }
 
+[effect_barracks_bl]
+name    = "Veteran_Build"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks", "City"
+      "UnitClass", "Big Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
+
 [effect_barracks_1]
 name	= "HP_Regen"
 value	= 100
@@ -853,6 +867,15 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks", "City"
       "UnitClass", "Land", "Local"
+    }
+
+[effect_barracks_bl_1]
+name    = "HP_Regen"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks", "City"
+      "UnitClass", "Big Land", "Local"
     }
 
 [effect_barracks_ii]
@@ -869,6 +892,20 @@ nreqs   =
       "UnitFlag", "NoVeteran", "Local"
     }
 
+[effect_barracks_ii_bl]
+name    = "Veteran_Build"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "UnitClass", "Big Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
+
 [effect_barracks_ii_1]
 name	= "HP_Regen"
 value	= 100
@@ -876,6 +913,15 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks II", "City"
       "UnitClass", "Land", "Local"
+    }
+
+[effect_barracks_ii_bl_1]
+name    = "HP_Regen"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks II", "City"
+      "UnitClass", "Big Land", "Local"
     }
 
 [effect_barracks_iii]
@@ -892,6 +938,20 @@ nreqs   =
       "UnitFlag", "NoVeteran", "Local"
     }
 
+[effect_barracks_iii_bl]
+name    = "Veteran_Build"
+value   = 1
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
+      "UnitClass", "Big Land", "Local"
+    }
+nreqs   =
+    { "type", "name", "range"
+      "UnitFlag", "NonMil", "Local"
+      "UnitFlag", "NoVeteran", "Local"
+    }
+
 [effect_barracks_iii_1]
 name	= "HP_Regen"
 value	= 100
@@ -899,6 +959,15 @@ reqs	=
     { "type", "name", "range"
       "Building", "Barracks III", "City"
       "UnitClass", "Land", "Local"
+    }
+
+[effect_barracks_iii_bl_1]
+name    = "HP_Regen"
+value   = 100
+reqs    =
+    { "type", "name", "range"
+      "Building", "Barracks III", "City"
+      "UnitClass", "Big Land", "Local"
     }
 
 [effect_cathedral]
