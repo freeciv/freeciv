@@ -133,6 +133,7 @@ match=2
 *include "nation/grenadian.ruleset"
 *include "nation/gupta.ruleset"
 *include "nation/hacker.ruleset"
+*include "nation/haitian.ruleset"
 *include "nation/hanoverian.ruleset"
 *include "nation/hansa.ruleset"
 *include "nation/hawaiian.ruleset"

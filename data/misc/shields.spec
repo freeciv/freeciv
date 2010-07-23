@@ -92,6 +92,7 @@ sprites =
 		"f.shield.grenada", "flags/grenada-shield"
 		"f.shield.gupta", "flags/gupta-shield"
 		"f.shield.hacker", "flags/hacker-shield"
+		"f.shield.haiti", "flags/haiti-shield"
 		"f.shield.hanover", "flags/hanover-shield"
 		"f.shield.hansa", "flags/hansa-shield"
 		"f.shield.hawaii", "flags/hawaii-shield"

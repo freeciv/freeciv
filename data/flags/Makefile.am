@@ -83,6 +83,7 @@ flag_files =				\
 		grenada.png		\
 		gupta.png		\
 		hacker.png		\
+		haiti.png		\
 		hanover.png		\
 		hansa.png		\
 		hawaii.png		\
@@ -305,6 +306,7 @@ shield_files =					\
 		grenada-shield.png		\
 		gupta-shield.png		\
 		hacker-shield.png		\
+		haiti-shield.png		\
 		hanover-shield.png		\
 		hansa-shield.png		\
 		hawaii-shield.png		\
@@ -527,6 +529,7 @@ svg_files = 				\
 		grenada.svg		\
 		gupta.svg		\
 		hacker.svg		\
+		haiti.svg		\
 		hanover.svg		\
 		hansa.svg		\
 		hawaii.svg		\

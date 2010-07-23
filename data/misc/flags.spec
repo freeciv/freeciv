@@ -91,6 +91,7 @@ artists = "
    Grenada		SKopp (Wikipedia)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
+   Haiti		Lokal Profil (Wikimedia user)
    Hanover		J.M. Maalderink
    Hansa		J.M. Maalderink
    Hawaii		Rob Adams
@@ -317,6 +318,7 @@ sprites =
 		"f.grenada", "flags/grenada"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
+		"f.haiti", "flags/haiti"
 		"f.hanover", "flags/hanover"
 		"f.hansa", "flags/hansa"
 		"f.hawaii", "flags/hawaii"

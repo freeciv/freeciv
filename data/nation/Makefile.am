@@ -87,6 +87,7 @@ pkgdata_DATA = \
 		grenadian.ruleset \
 		gupta.ruleset \
 		hacker.ruleset \
+		haitian.ruleset \
 		hanoverian.ruleset \
 		hansa.ruleset \
 		hawaiian.ruleset \
