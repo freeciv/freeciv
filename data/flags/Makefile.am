@@ -44,6 +44,7 @@ flag_files =				\
 		byzantium.png		\
 		canada.png		\
 		cartago.png		\
+		castile.png		\
 		catalan.png		\
 		chananea.png		\
 		cheyenne.png		\
@@ -121,6 +122,7 @@ flag_files =				\
 		kyrgyzstan.png		\
 		laos.png		\
 		latvia.png		\
+		leon.png		\
 		libya.png		\
 		lithuania.png		\
 		macedonia.png		\
@@ -267,6 +269,7 @@ shield_files =					\
 		byzantium-shield.png		\
 		canada-shield.png		\
 		cartago-shield.png		\
+		castile-shield.png		\
 		catalan-shield.png		\
 		chananea-shield.png		\
 		cheyenne-shield.png		\
@@ -344,6 +347,7 @@ shield_files =					\
 		kyrgyzstan-shield.png		\
 		laos-shield.png			\
 		latvia-shield.png		\
+		leon-shield.png			\
 		libya-shield.png		\
 		lithuania-shield.png		\
 		macedonia-shield.png		\
@@ -490,6 +494,7 @@ svg_files = 				\
 		byzantium.svg		\
 		canada.svg		\
 		cartago.svg		\
+		castile.svg		\
 		catalan.svg		\
 		chananea.svg		\
 		cheyenne.svg		\
@@ -567,6 +572,7 @@ svg_files = 				\
 		kyrgyzstan.svg		\
 		laos.svg		\
 		latvia.svg		\
+		leon.svg		\
 		libya.svg		\
 		lithuania.svg		\
 		macedonia.svg		\

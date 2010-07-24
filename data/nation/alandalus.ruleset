@@ -46,8 +46,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="spanish"
-civilwar_nations="aragonese", "catalan", "portuguese"
- ; , "castilian", "asturian", "leonese"
+civilwar_nations="aragonese", "catalan", "portuguese", "castilian", "asturian", "leonese"
 
 cities =
   "Qurtuba (hills, river)",		;Córdoba

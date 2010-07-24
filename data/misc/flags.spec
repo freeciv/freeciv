@@ -129,6 +129,7 @@ artists = "
    Kyrgyzstan		-xfi-
    Laos			Sebastian Koppehel
    Latvia		Lauris Bukšis
+   Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
    Libya		Cezary Biele
    Lithuania		Christian Schaller
    Macedonia		Sigge Kotliar
@@ -278,6 +279,7 @@ sprites =
 		"f.byzantium", "flags/byzantium"
 		"f.canada", "flags/canada"
 		"f.cartago", "flags/cartago"
+		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
 		"f.chananea", "flags/chananea"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
@@ -356,6 +358,7 @@ sprites =
 		"f.kurd", "flags/kurd"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.laos", "flags/laos"
+		"f.leon", "flags/leon"
 		"f.latvia", "flags/latvia"
 		"f.libya", "flags/libya"
 		"f.lithuania", "flags/lithuania"

@@ -49,6 +49,7 @@ pkgdata_DATA = \
 		cambodian.ruleset \
 		canadian.ruleset \
 		carthaginian.ruleset \
+		castilian.ruleset \
 		catalan.ruleset \
 		chananean.ruleset \
 		cherokee.ruleset \
@@ -121,6 +122,7 @@ pkgdata_DATA = \
 		lankese.ruleset \
 		laotian.ruleset \
 		latvian.ruleset \
+		leonese.ruleset \
 		libyan.ruleset \
 		lithuanian.ruleset \
 		lojbanistani.ruleset \
