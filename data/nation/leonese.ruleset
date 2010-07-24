@@ -3,9 +3,9 @@
 name=_("Leonese")
 plural=_("?plural:Leonese")
 groups="European", "Medieval"
-legend=_("León was a medieval kingdom in the northwestern part of the\
- Iberian peninsula. Currently León is part of the Spanish autonomous\
- community of Castile and León.")
+legend=_("Leon was a medieval kingdom in the northwestern part of the\
+ Iberian peninsula. Currently Leon is part of the Spanish autonomous\
+ community of Castile and Leon.")
 leader=
  "García I",
  "Fruela II",
