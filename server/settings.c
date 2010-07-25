@@ -2453,6 +2453,12 @@ bool settings_ruleset(struct section_file *file, const char *section)
     }
   }
 
+  /* Execute all setting actions to consider actions due to the 
+   * default values. */
+  settings_iterate(pset) {
+    setting_action(pset);
+  } settings_iterate_end;
+
   /* send game settings */
   send_server_settings(NULL);
 
