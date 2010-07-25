@@ -45,6 +45,7 @@ extern char default_metaserver[512];
 extern char default_tileset_name[512];
 extern char default_sound_set_name[512];
 extern char default_sound_plugin_name[512];
+extern char default_chat_logfile[512];
 
 extern bool save_options_on_exit;
 extern bool fullscreen_mode;
@@ -296,7 +297,9 @@ void options_dialogs_set(void);
 extern int messages_where[];	/* OR-ed MW_ values [E_LAST] */
 
 
-/** Client specific min/max/default option values **/
+/** Client options **/
+
+#define GUI_DEFAULT_CHAT_LOGFILE        "freeciv-chat.log"
 
 /* gui-gtk2: [xy]size of the city dialog */
 #define GUI_GTK2_CITYDLG_DEFAULT_XSIZE  770

@@ -34,6 +34,7 @@
 /* client */
 #include "chatline_common.h"
 #include "client_main.h"
+#include "options.h"
 
 
 /* Stored up buffer of lines for the chatline */
@@ -241,14 +242,18 @@ void chat_welcome_message(void)
 }
 
 /**************************************************************************
-  Writes the supplied string into the file civgame.log.
+  Writes the supplied string into the file defined by the variable
+  'default_chat_logfile'.
 **************************************************************************/
 void write_chatline_content(const char *txt)
 {
-  FILE *fp = fc_fopen("civgame.log", "w");	/* should allow choice of name? */
+  FILE *fp = fc_fopen(default_chat_logfile, "w");
+  char buf[512];
 
-  output_window_append(ftc_client,
-                       _("Exporting output window to civgame.log ..."));
+  fc_snprintf(buf, sizeof(buf), _("Exporting output window to '%s' ..."),
+              default_chat_logfile);
+  output_window_append(ftc_client, buf);
+
   if (fp) {
     fputs(txt, fp);
     fclose(fp);

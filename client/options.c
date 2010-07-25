@@ -72,6 +72,7 @@ char default_metaserver[512] = META_URL;
 char default_tileset_name[512] = "\0";
 char default_sound_set_name[512] = "stdsounds";
 char default_sound_plugin_name[512] = "\0";
+char default_chat_logfile[512] = GUI_DEFAULT_CHAT_LOGFILE;
 
 bool save_options_on_exit = TRUE;
 bool fullscreen_mode = FALSE;
@@ -1485,6 +1486,10 @@ static struct client_option client_options[] = {
                          "effect until you restart Freeciv.  Changing this "
                          "is the same as using the -P command-line option."),
                       COC_SOUND, GUI_LAST, NULL, get_soundplugin_list, NULL),
+  GEN_STR_OPTION(default_chat_logfile,
+                 N_("The chat log file"),
+                 N_("The name of the chat log file."),
+                 COC_INTERFACE, GUI_LAST, GUI_DEFAULT_CHAT_LOGFILE, NULL),
   /* gui_gtk2_default_theme_name and gui_sdl_default_theme_name are
    * different settings to avoid client crash after loading the
    * style for the other gui.  Keeps 2 different options! */
