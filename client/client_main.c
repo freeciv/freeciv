@@ -196,7 +196,7 @@ static void client_game_init(void)
   link_marks_init();
   voteinfo_queue_init();
   server_options_init();
-  update_queue_init();  
+  update_queue_init();
 }
 
 /**************************************************************************
@@ -215,7 +215,7 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
-  update_queue_init();
+  update_queue_free();
 
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
