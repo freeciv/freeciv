@@ -40,8 +40,10 @@
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
-#include "settlers.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "aicity.h"

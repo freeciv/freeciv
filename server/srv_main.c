@@ -111,13 +111,15 @@
 #include "script_signal.h"
 #include "sernet.h"
 #include "settings.h"
-#include "settlers.h"
 #include "spacerace.h"
 #include "stdinhand.h"
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
 #include "voting.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "srv_main.h"
 

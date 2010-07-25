@@ -44,9 +44,11 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "notify.h"
-#include "settlers.h"
 #include "techtools.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "diplhand.h"
 

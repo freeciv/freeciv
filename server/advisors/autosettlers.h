@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__SETTLERS_H
-#define FC__SETTLERS_H
+#ifndef FC__AUTOSETTLERS_H
+#define FC__AUTOSETTLERS_H
 
 #include "fc_types.h"
 #include "map.h"
@@ -34,4 +34,4 @@ void contemplate_new_city(struct city *pcity);
 extern signed int *minimap;
 #define MINIMAP(_tile) minimap[tile_index(_tile)]
 
-#endif   /* FC__SETTLERS_H */
+#endif   /* FC__AUTOSETTLERS_H */

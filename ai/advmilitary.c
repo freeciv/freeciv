@@ -32,7 +32,9 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "gotohand.h"           /* warmap has been redeployed */
-#include "settlers.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "aiair.h"

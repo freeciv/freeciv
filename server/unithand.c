@@ -52,11 +52,13 @@
 #include "maphand.h"
 #include "notify.h"
 #include "plrhand.h"
-#include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "unithand.h"
 

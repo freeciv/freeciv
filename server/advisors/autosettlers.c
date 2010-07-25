@@ -54,7 +54,8 @@
 #include "unithand.h"
 #include "unittools.h"
 
-#include "settlers.h"
+/* advisors */
+#include "autosettlers.h"
 
 /* This factor is multiplied on when calculating the want.  This is done
  * to avoid rounding errors in comparisons when looking for the best

@@ -19,21 +19,27 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* utility */
 #include "log.h"
 #include "mem.h"
 #include "rand.h"
 
+/* common */
 #include "combat.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
 #include "unitlist.h"
 
+/* server */
 #include "maphand.h"
-#include "settlers.h"
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "autosettlers.h"
+
+/* ai */
 #include "aidata.h"
 #include "aitools.h"
 

@@ -66,11 +66,13 @@
 #include "plrhand.h"
 #include "script_signal.h"
 #include "sernet.h"
-#include "settlers.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* server/scripting */
 #include "script.h"

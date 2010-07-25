@@ -44,9 +44,11 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "score.h"
-#include "settlers.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "advmilitary.h"

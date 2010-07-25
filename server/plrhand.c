@@ -49,7 +49,6 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "sernet.h"
-#include "settlers.h"
 #include "srv_main.h"
 #include "stdinhand.h"
 #include "spaceship.h"
@@ -57,6 +56,9 @@
 #include "techtools.h"
 #include "unittools.h"
 #include "voting.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "advdiplomacy.h"

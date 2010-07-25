@@ -18,20 +18,27 @@
 #include <string.h>
 #include <math.h> /* pow */
 
+/* utility */
+#include "log.h"
+#include "mem.h"
+
+/* common */
 #include "city.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "unittype.h"
 
+/* server */
 #include "citytools.h"
-#include "settlers.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "autosettlers.h"
+
+/* ai */
 #include "advmilitary.h"
 #include "aicity.h"
 #include "aidata.h"

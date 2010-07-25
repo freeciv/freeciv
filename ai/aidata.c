@@ -15,27 +15,35 @@
 #include <config.h>
 #endif
 
-#include "aisupport.h"
+/* utility */
+#include "log.h"
+#include "mem.h"
+
+/* common */
 #include "city.h"
 #include "effects.h"
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "map.h"
-#include "mem.h"
 #include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 
-#include "citytools.h"
-#include "diplhand.h"
-#include "maphand.h"
-#include "settlers.h"
-#include "unittools.h"
-
+/* common/aicore */
+#include "aisupport.h"
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* server */
+#include "citytools.h"
+#include "diplhand.h"
+#include "maphand.h"
+#include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
+
+/* ai */
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"

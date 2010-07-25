@@ -38,9 +38,11 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
-#include "settlers.h" /* amortize */
 #include "spacerace.h"
 #include "unithand.h"
+
+/* server/advisors */
+#include "autosettlers.h" /* amortize */
 
 /* ai */
 #include "advmilitary.h"

@@ -21,7 +21,9 @@
 
 /* server */
 #include "aiiface.h"
-#include "settlers.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "aicity.h"

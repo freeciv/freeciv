@@ -44,7 +44,9 @@
 #include "diplhand.h"
 #include "maphand.h"
 #include "notify.h"
-#include "settlers.h"  /* amortize */
+
+/* server/advisors */
+#include "autosettlers.h"  /* amortize */
 
 /* ai */
 #include "aicity.h"

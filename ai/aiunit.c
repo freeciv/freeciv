@@ -62,10 +62,11 @@
 #include "diplomats.h"
 #include "gotohand.h"
 #include "maphand.h"
-#include "settlers.h"
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "aiunit.h"
 

@@ -50,12 +50,14 @@
 #include "notify.h"
 #include "plrhand.h"
 #include "sanitycheck.h"
-#include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unittools.h"
 #include "unithand.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "cm.h"
 

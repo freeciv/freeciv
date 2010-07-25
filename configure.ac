@@ -1045,6 +1045,7 @@ AC_CONFIG_FILES([Makefile
 	  client/gui-ftwl/Makefile
 	  client/gui-stub/Makefile
 	  server/Makefile
+          server/advisors/Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
 	  manual/Makefile

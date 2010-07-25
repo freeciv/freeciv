@@ -51,10 +51,12 @@
 #include "gotohand.h"
 #include "notify.h"
 #include "plrhand.h"
-#include "settlers.h"
 #include "srv_main.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 /* ai */
 #include "advdomestic.h"

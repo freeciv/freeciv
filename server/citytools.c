@@ -61,12 +61,14 @@
 #include "plrhand.h"
 #include "sanitycheck.h"
 #include "sernet.h"
-#include "settlers.h"
 #include "spacerace.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "autosettlers.h"
 
 #include "citytools.h"
 
