@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: fa\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-23 13:59-0700\n"
+"POT-Creation-Date: 2010-07-25 12:47-0700\n"
 "PO-Revision-Date: 2007-08-11 02:17+0300\n"
 "Last-Translator: Arman Ordookhani <arman_o71@Yahoo.com>\n"
 "Language-Team: Farsi(Persian)\n"
@@ -19,12 +19,12 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural= n != 1;\n"
 "X-Generator: KBabel 1.10.2\n"
 
-#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:990
+#: common/city.c:59 client/gui-gtk-2.0/repodlgs.c:996
 #: client/gui-win32/repodlgs.c:712
 msgid "Food"
 msgstr "غذا"
 
-#: common/city.c:60 client/gui-gtk-2.0/repodlgs.c:989
+#: common/city.c:60 client/gui-gtk-2.0/repodlgs.c:995
 #: client/gui-win32/repodlgs.c:711
 msgid "Shield"
 msgstr "محافظ"
@@ -35,7 +35,7 @@ msgid "Trade"
 msgstr "تجارت"
 
 #: common/city.c:62 client/gui-gtk-2.0/editprop.c:3814
-#: client/gui-gtk-2.0/repodlgs.c:991 data/default/terrain.ruleset:684
+#: client/gui-gtk-2.0/repodlgs.c:997 data/default/terrain.ruleset:684
 #: data/civ2/terrain.ruleset:577 data/civ1/terrain.ruleset:563
 msgid "Gold"
 msgstr "طلا"
@@ -810,7 +810,7 @@ msgstr "غیر ممکن"
 msgid "City center tile"
 msgstr "تمرکز نما"
 
-#: common/tech.c:813 client/gui-gtk-2.0/repodlgs.c:535
+#: common/tech.c:813 client/gui-gtk-2.0/repodlgs.c:541
 #, c-format
 msgid "Future Tech. %d"
 msgstr "تکنولوژی آینده %d"
@@ -956,16 +956,16 @@ msgstr "باسکوعه"
 msgid "Unknown"
 msgstr "ناشناخته"
 
-#: common/unit.c:1136 common/unit.c:1141 common/unit.c:1146 common/unit.c:1153
-#: common/unit.c:1157 common/unit.c:1161
+#: common/unit.c:1139 common/unit.c:1144 common/unit.c:1149 common/unit.c:1156
+#: common/unit.c:1160 common/unit.c:1164
 msgid "Moves"
 msgstr "حرکات"
 
-#: common/unit.c:1225
+#: common/unit.c:1228
 msgid "Food/Shield/Gold:"
 msgstr ""
 
-#: common/unit.c:1631
+#: common/unit.c:1634
 #, c-format
 msgid ""
 "Upgrade %s to %s for %d gold?\n"
@@ -974,12 +974,12 @@ msgstr ""
 "ترفیع %s به %s با %d طلا؟\n"
 "خزانه %d طلا دارد."
 
-#: common/unit.c:1639
+#: common/unit.c:1642
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
 msgstr "شرمنده،(هنوز) نمی‌توان %s را ترفیع کرد."
 
-#: common/unit.c:1645
+#: common/unit.c:1648
 #, c-format
 msgid ""
 "Upgrading %s to %s costs %d gold.\n"
@@ -988,11 +988,11 @@ msgstr ""
 "ترفیع %s به %s %d طلا نیاز دارد.\n"
 "خزانه %d طلا دارد."
 
-#: common/unit.c:1654
+#: common/unit.c:1657
 msgid "You can only upgrade units in your cities."
 msgstr "شما تنها می‌توانید مهره‌های داخل شهر را ترفیع کنید."
 
-#: common/unit.c:1658
+#: common/unit.c:1661
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
 msgstr ""
@@ -1332,12 +1332,12 @@ msgstr ""
 msgid "error %d (compiled without strerror)"
 msgstr ""
 
-#: ai/aicity.c:1495 server/citytools.c:2258
+#: ai/aicity.c:1495 server/citytools.c:2251
 #, c-format
 msgid "The %s have stopped building The %s in %s."
 msgstr "%s ساخت %s در %s را متوقف کردند."
 
-#: ai/aicity.c:1505 server/citytools.c:2296
+#: ai/aicity.c:1505 server/citytools.c:2289
 #, c-format
 msgid "The %s have started building The %s in %s."
 msgstr "%s ساخت %s در %s را شروع کردند."
@@ -1827,135 +1827,135 @@ msgstr "شماره شهر %d"
 msgid "A poorly-named city"
 msgstr ""
 
-#: server/citytools.c:559
+#: server/citytools.c:552
 #, c-format
 msgid "Changed homecity of %s to %s."
 msgstr "شهر خانه %s به %s تغییر کرد."
 
-#: server/citytools.c:574
+#: server/citytools.c:567
 #, c-format
 msgid "Transfered %s in %s from %s to %s."
 msgstr ""
 
-#: server/citytools.c:588
+#: server/citytools.c:581
 #, c-format
 msgid "Transfered %s from %s to %s."
 msgstr "%s را از %s به %s تبدیل کرد."
 
 #. TRANS: Polish Destroyer ... German <city>
-#: server/citytools.c:602
+#: server/citytools.c:595
 #, fuzzy, c-format
 msgid "%s %s lost in transfer to %s %s"
 msgstr "%s از %s بر اثر تبدیل %s %s از بین رفت."
 
-#: server/citytools.c:696
+#: server/citytools.c:689
 #, c-format
 msgid "%s lost along with control of %s."
 msgstr ""
 
 #. TRANS: <building> ... <city>
-#: server/citytools.c:842
+#: server/citytools.c:835
 #, fuzzy, c-format
 msgid "A replacement %s was built in %s."
 msgstr "یک %s جدید در %s ساخته شد."
 
-#: server/citytools.c:935
+#: server/citytools.c:928
 #, c-format
 msgid "You already had a city called %s. The city was renamed to %s."
 msgstr "شما شهری با نام %s دارید.نام شهر به %s تغییر یافت."
 
-#: server/citytools.c:1000
+#: server/citytools.c:993
 #, c-format
 msgid ""
 "The people in %s are stunned by your technological insight!\n"
 "      Workers spontaneously gather and upgrade the city with railroads."
 msgstr ""
 
-#: server/citytools.c:1220
+#: server/citytools.c:1213
 #, c-format
 msgid "You have founded %s."
 msgstr "شما %s را پیدا کردید."
 
-#: server/citytools.c:1297
+#: server/citytools.c:1290
 #, c-format
 msgid "Moved %s out of disbanded city %s since it cannot stay on %s."
 msgstr ""
 
-#: server/citytools.c:1310
+#: server/citytools.c:1303
 #, c-format
 msgid ""
 "When %s was disbanded your %s could not get out, and it was therefore lost."
 msgstr ""
 
-#: server/citytools.c:1455
+#: server/citytools.c:1448
 #, c-format
 msgid "You destroy %s completely."
 msgstr "شما %s را به کلی خراب کردید."
 
-#: server/citytools.c:1458
+#: server/citytools.c:1451
 #, c-format
 msgid "%s has been destroyed by %s."
 msgstr "%s توسط %s خراب شد."
 
-#: server/citytools.c:1484
+#: server/citytools.c:1477
 #, c-format
 msgid "You conquer %s; your lootings accumulate to %d gold!"
 msgid_plural "You conquer %s; your lootings accumulate to %d gold!"
 msgstr[0] "شما %s را فتح کردید و %d طلا از آنجا غارت کردید."
 msgstr[1] "شما %s را فتح کردید و %d طلا از آنجا غارت کردید."
 
-#: server/citytools.c:1491
+#: server/citytools.c:1484
 #, c-format
 msgid "%s conquered %s and looted %d gold from the city."
 msgid_plural "%s conquered %s and looted %d gold from the city."
 msgstr[0] "%s %s را فتح کرد و %d طلا از شهر غارت کرد."
 msgstr[1] "%s %s را فتح کرد و %d طلا از شهر غارت کرد."
 
-#: server/citytools.c:1500
+#: server/citytools.c:1493
 #, c-format
 msgid "You conquer %s"
 msgstr ""
 
-#: server/citytools.c:1503
+#: server/citytools.c:1496
 #, c-format
 msgid "%s conquered %s."
 msgstr "%s %s را فتح کرد."
 
-#: server/citytools.c:1510
+#: server/citytools.c:1503
 #, c-format
 msgid "You have liberated %s! Lootings accumulate to %d gold."
 msgid_plural "You have liberated %s! Lootings accumulate to %d gold."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1517
+#: server/citytools.c:1510
 #, c-format
 msgid "%s liberated %s and looted %d gold from the city."
 msgid_plural "%s liberated %s and looted %d gold from the city."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/citytools.c:1526
+#: server/citytools.c:1519
 #, c-format
 msgid "You have liberated %s!"
 msgstr ""
 
-#: server/citytools.c:1529
+#: server/citytools.c:1522
 #, c-format
 msgid "%s liberated %s."
 msgstr ""
 
-#: server/citytools.c:2275
+#: server/citytools.c:2268
 msgid " from the worklist"
 msgstr " از لیست‌کار"
 
 #. TRANS: "<city> is building <production><source>."
-#: server/citytools.c:2287
+#: server/citytools.c:2280
 #, c-format
 msgid "%s is building %s%s."
 msgstr "شهر %s در حال ساخت %s%s است."
 
-#: server/citytools.c:2476
+#: server/citytools.c:2469
 #, c-format
 msgid "You sell %s in %s (now landlocked) for %d gold."
 msgstr "شما %s را در %s (اکنون در خشکی محاط شده) با %d طلا فروختید."
@@ -1992,249 +1992,249 @@ msgid "WARNING, we're LOW on FUNDS %s."
 msgstr ""
 
 #: server/cityturn.c:688
-#, c-format
-msgid "%s needs %s (being built) to grow any further."
+#, fuzzy, c-format
+msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr "%s به %s (در حال ساخت) نیاز دارد تا رشد کند."
 
-#: server/cityturn.c:693
-#, c-format
-msgid "%s needs an improvement to grow any further."
+#: server/cityturn.c:694
+#, fuzzy, c-format
+msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s نیاز به اصلاحیه‌ای برای رشد نیاز دارد."
 
-#: server/cityturn.c:748
+#: server/cityturn.c:749
 #, c-format
 msgid "%s grows to size %d."
 msgstr "شهر %s به اندازه‌ی %d رشد کرد."
 
-#: server/cityturn.c:810
+#: server/cityturn.c:811
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "قحطی در %s، %s از بین رفت!"
 
-#: server/cityturn.c:825
+#: server/cityturn.c:826
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "قحطی باعث کاهش جمعیت در %s شد."
 
-#: server/cityturn.c:830
+#: server/cityturn.c:831
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr ""
 
-#: server/cityturn.c:931
+#: server/cityturn.c:932
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:947 server/cityturn.c:987
+#: server/cityturn.c:948 server/cityturn.c:988
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr ""
 
-#: server/cityturn.c:968 server/cityturn.c:1200 server/cityturn.c:1312
-#: server/cityturn.c:1358
+#: server/cityturn.c:969 server/cityturn.c:1201 server/cityturn.c:1313
+#: server/cityturn.c:1359
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "تولید %s به %s در %s ترفیع یافت."
 
-#: server/cityturn.c:1019
+#: server/cityturn.c:1020
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
 "Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1033
+#: server/cityturn.c:1034
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1047
+#: server/cityturn.c:1048
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1060
+#: server/cityturn.c:1061
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1073
+#: server/cityturn.c:1074
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1088
+#: server/cityturn.c:1089
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1101
+#: server/cityturn.c:1102
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1116
+#: server/cityturn.c:1117
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
 "Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1130
+#: server/cityturn.c:1131
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
 "Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1157
+#: server/cityturn.c:1158
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; Only available from %s.  Postponing..."
 msgstr ""
 
-#: server/cityturn.c:1192
+#: server/cityturn.c:1193
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1232
+#: server/cityturn.c:1233
 #, fuzzy, c-format
 msgid "The %s worklist is now empty."
 msgstr "لیست کار %s خالی است."
 
-#: server/cityturn.c:1380
+#: server/cityturn.c:1381
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "شهر %s نمی‌تواند از %s نگهداری کند، مهره منحل شد."
 
-#: server/cityturn.c:1400
+#: server/cityturn.c:1401
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr ""
 
-#: server/cityturn.c:1445 server/cityturn.c:1561
+#: server/cityturn.c:1446 server/cityturn.c:1562
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr ""
 
-#: server/cityturn.c:1484
+#: server/cityturn.c:1485
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s ساخت %s را در %s تمام کردند."
 
-#: server/cityturn.c:1491
+#: server/cityturn.c:1492
 #, c-format
 msgid "%s has finished building %s."
 msgstr "شهر %s ساختن %s را تمام کرد."
 
-#: server/cityturn.c:1511
+#: server/cityturn.c:1512
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/cityturn.c:1520 server/techtools.c:180
+#: server/cityturn.c:1521 server/techtools.c:180
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "%s %s را از %s گرفتند."
 
-#: server/cityturn.c:1528
+#: server/cityturn.c:1529
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr ""
 
-#: server/cityturn.c:1587
+#: server/cityturn.c:1588
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "شهر %s نمی‌تواند %s را بسازد."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1619
+#: server/cityturn.c:1620
 #, c-format
 msgid "%s is finished building %s."
 msgstr "شهر%s ساختن %s را تمام کرد."
 
-#: server/cityturn.c:1685
+#: server/cityturn.c:1686
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr ""
 
-#: server/cityturn.c:1728
+#: server/cityturn.c:1729
 #, c-format
 msgid "Not enough gold. %s disbanded"
 msgstr ""
 
-#: server/cityturn.c:1910
+#: server/cityturn.c:1911
 #, c-format
 msgid "Pollution near %s."
 msgstr "آلودگی کنار %s."
 
-#: server/cityturn.c:2060
+#: server/cityturn.c:2061
 #, c-format
 msgid "Celebrations in your honour in %s."
 msgstr ""
 
-#: server/cityturn.c:2066
+#: server/cityturn.c:2067
 #, fuzzy, c-format
 msgid "Celebrations canceled in %s."
 msgstr "دیدار با %s لغو شد."
 
-#: server/cityturn.c:2083
+#: server/cityturn.c:2084
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr ""
 
-#: server/cityturn.c:2129
+#: server/cityturn.c:2130
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "شهر %s مختل شده."
 
-#: server/cityturn.c:2133
+#: server/cityturn.c:2134
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "اختلال‌ل در %s ادامه دارد."
 
-#: server/cityturn.c:2139
+#: server/cityturn.c:2140
 #, c-format
 msgid "Order restored in %s."
 msgstr "شهر %s از اختلال برگشت."
 
-#: server/cityturn.c:2150
+#: server/cityturn.c:2151
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr ""
 
-#: server/cityturn.c:2188
+#: server/cityturn.c:2189
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr ""
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2216
+#: server/cityturn.c:2217
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2398
+#: server/cityturn.c:2399
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2405
+#: server/cityturn.c:2406
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2242,7 +2242,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2410
+#: server/cityturn.c:2411
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2250,56 +2250,56 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2425
+#: server/cityturn.c:2426
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2432
+#: server/cityturn.c:2433
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2437
+#: server/cityturn.c:2438
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2473
+#: server/cityturn.c:2474
 #, fuzzy, c-format
 msgid "%s was disbanded by its citizens."
 msgstr "%s شما توسط %s تطمیع شد."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2493
+#: server/cityturn.c:2494
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2499
+#: server/cityturn.c:2500
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2504
+#: server/cityturn.c:2505
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
-#: server/cityturn.c:2655
+#: server/cityturn.c:2656
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2676
+#: server/cityturn.c:2677
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
@@ -2461,7 +2461,7 @@ msgstr ""
 
 #. TRANS: No full stop after the URL, could cause confusion.
 #: server/civserver.c:348 client/client_main.c:322
-#: client/gui-gtk-2.0/gui_main.c:267 client/gui-sdl/gui_main.c:178
+#: client/gui-gtk-2.0/gui_main.c:270 client/gui-sdl/gui_main.c:178
 #: client/gui-xaw/gui_main.c:252 manual/civmanual.c:416
 #, fuzzy, c-format
 msgid "Report bugs at %s\n"
@@ -3915,7 +3915,7 @@ msgstr ""
 msgid "No units placed for %s!"
 msgstr "هیچ مهره‌ای انتخاب نشده"
 
-#: server/gamehand.c:339 client/text.c:768
+#: server/gamehand.c:339 client/text.c:772
 #, c-format
 msgid "Year: %s"
 msgstr "سال: %s"
@@ -4554,17 +4554,17 @@ msgid ""
 msgstr ""
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4321
+#: server/savegame.c:4322
 msgid "Saved game is too old, at least version 1.9.0 required."
 msgstr ""
 
 #. TRANS: Fatal error message.
-#: server/savegame.c:4638
+#: server/savegame.c:4639
 msgid ""
 "Saved game uses the \"classic\" terrain ruleset, and is no longer supported."
 msgstr ""
 
-#: server/savegame.c:4647
+#: server/savegame.c:4648
 #, c-format
 msgid ""
 "Warning: Different rulesetdirs ('%s' and '%s') are no longer supported. "
@@ -4572,7 +4572,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
-#: server/savegame.c:4971
+#: server/savegame.c:4972
 #, c-format
 msgid "%s had invalid nation; changing to %s."
 msgstr ""
@@ -7168,8 +7168,8 @@ msgstr ""
 
 #. TRANS: continue list, in case comma is not the separator of choice.
 #: server/stdinhand.c:4344 server/stdinhand.c:4348 client/helpdata.c:601
-#: client/helpdata.c:1109 client/text.c:243 client/text.c:1317
-#: client/text.c:1354
+#: client/helpdata.c:1109 client/text.c:243 client/text.c:1325
+#: client/text.c:1362
 #, c-format
 msgid "?clistmore:, %s"
 msgstr ", %s"
@@ -7423,7 +7423,7 @@ msgstr ""
 msgid "Cannot attack from sea."
 msgstr ""
 
-#: server/unithand.c:1141 server/unittools.c:2287
+#: server/unithand.c:1141 server/unittools.c:2296
 msgid "Cannot attack unless you declare war first."
 msgstr ""
 
@@ -7437,7 +7437,7 @@ msgstr "%s فقط می‌تواند داخل محدوده کنترل  شما ب�
 msgid "%s cannot move that far from the coast line."
 msgstr ""
 
-#: server/unithand.c:1159 server/unittools.c:2293
+#: server/unithand.c:1159 server/unittools.c:2302
 #, c-format
 msgid "Cannot invade unless you break peace with %s first."
 msgstr ""
@@ -7560,62 +7560,62 @@ msgstr ""
 msgid "Your %s became more experienced!"
 msgstr ""
 
-#: server/unittools.c:1082
+#: server/unittools.c:1091
 #, c-format
 msgid "Teleported your %s to %s."
 msgstr ""
 
 #. TRANS: A unit is moved to resolve stack conflicts.
-#: server/unittools.c:1145
+#: server/unittools.c:1154
 #, fuzzy, c-format
 msgid "Moved your %s."
 msgstr "قیمت حرکت"
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
-#: server/unittools.c:1156
+#: server/unittools.c:1165
 #, c-format
 msgid "Disbanded your %s."
 msgstr ""
 
-#: server/unittools.c:1503
+#: server/unittools.c:1512
 #, c-format
 msgid "Unable to defend %s, %s has lost the game."
 msgstr ""
 
-#: server/unittools.c:1507
+#: server/unittools.c:1516
 #, c-format
 msgid "Losing %s meant losing the game! Be more careful next time!"
 msgstr ""
 
-#: server/unittools.c:1550
+#: server/unittools.c:1559
 #, c-format
 msgid "%s lost when %s was lost."
 msgstr ""
 
-#: server/unittools.c:1629
+#: server/unittools.c:1638
 #, c-format
 msgid "%s escaped the destruction of %s, and fled to %s."
 msgstr ""
 
-#: server/unittools.c:1695
+#: server/unittools.c:1704
 #, c-format
 msgid "Barbarian leader captured, %d gold ransom paid."
 msgstr ""
 
 #. TRANS: "... Cannon ... the Polish Destroyer."
-#: server/unittools.c:1713
+#: server/unittools.c:1722
 #, fuzzy, c-format
 msgid "Your attacking %s succeeded against the %s %s!"
 msgstr "%s شما موفق شد %s %s را خراب کند."
 
 #. TRANS: "Cannon ... the Polish Destroyer."
-#: server/unittools.c:1722 server/unittools.c:1781
+#: server/unittools.c:1731 server/unittools.c:1790
 #, fuzzy, c-format
 msgid "%s lost to an attack by the %s %s."
 msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
-#: server/unittools.c:1756
+#: server/unittools.c:1765
 #, c-format
 msgid "Your attacking %s succeeded against the %s %s (and %d other unit)!"
 msgid_plural ""
@@ -7625,14 +7625,14 @@ msgstr[1] ""
 
 #. TRANS: "Cannon lost when the Polish Destroyer
 #. * attacked the German Musketeers."
-#: server/unittools.c:1791
+#: server/unittools.c:1800
 #, fuzzy, c-format
 msgid "%s lost when the %s %s attacked the %s %s."
 msgstr "%s بر اثر حمله‌ی %s %s%s از بین رفت."
 
 #. TRANS: "Musketeers (and Cannon) lost to an
 #. * attack from the Polish Destroyer."
-#: server/unittools.c:1807
+#: server/unittools.c:1816
 #, fuzzy, c-format
 msgid "%s (and %s) lost to an attack from the %s %s."
 msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
@@ -7640,7 +7640,7 @@ msgstr "%s بر اثر حمله‌ی %s %s از بین رفت."
 #. TRANS: "Musketeers and 3 other units lost to
 #. * an attack from the Polish Destroyer."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1818
+#: server/unittools.c:1827
 #, c-format
 msgid "%s and %d other unit lost to an attack from the %s %s."
 msgid_plural "%s and %d other units lost to an attack from the %s %s."
@@ -7650,148 +7650,148 @@ msgstr[1] ""
 #. TRANS: "2 units lost when the Polish Destroyer
 #. * attacked the German Musketeers."
 #. * (only happens with at least 2 other units)
-#: server/unittools.c:1833
+#: server/unittools.c:1842
 #, c-format
 msgid "%d unit lost when the %s %s attacked the %s %s."
 msgid_plural "%d units lost when the %s %s attacked the %s %s."
 msgstr[0] ""
 msgstr[1] ""
 
-#: server/unittools.c:2103
+#: server/unittools.c:2112
 #, c-format
 msgid "Your %s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:2106 server/unittools.c:2124
+#: server/unittools.c:2115 server/unittools.c:2133
 msgid "yourself"
 msgstr "شما"
 
-#: server/unittools.c:2110
+#: server/unittools.c:2119
 #, c-format
 msgid "The %s %s was nuked."
 msgstr ""
 
-#: server/unittools.c:2121
+#: server/unittools.c:2130
 #, c-format
 msgid "%s was nuked by %s."
 msgstr ""
 
-#: server/unittools.c:2129
+#: server/unittools.c:2138
 #, c-format
 msgid "You nuked %s."
 msgstr ""
 
-#: server/unittools.c:2166
+#: server/unittools.c:2175
 #, fuzzy, c-format
 msgid "The %s detonated a nuke!"
 msgstr "%s دیگر وجود ندارند!"
 
-#: server/unittools.c:2191
+#: server/unittools.c:2200
 #, c-format
 msgid "%s transported successfully."
 msgstr ""
 
-#: server/unittools.c:2250
+#: server/unittools.c:2259
 msgid "This unit type can not be paradropped."
 msgstr ""
 
-#: server/unittools.c:2260
+#: server/unittools.c:2269
 msgid "You cannot paradrop a unit that is transporting other units."
 msgstr ""
 
-#: server/unittools.c:2266
+#: server/unittools.c:2275
 msgid "The destination location is not known."
 msgstr ""
 
-#: server/unittools.c:2276
+#: server/unittools.c:2285
 #, c-format
 msgid "This unit cannot paradrop into %s."
 msgstr ""
 
-#: server/unittools.c:2304
+#: server/unittools.c:2313
 #, c-format
 msgid "The distance to the target (%i) is greater than the unit's range (%i)."
 msgstr ""
 
-#: server/unittools.c:2315
+#: server/unittools.c:2324
 #, c-format
 msgid "Your %s paradropped into the %s and was lost."
 msgstr ""
 
-#: server/unittools.c:2328
+#: server/unittools.c:2337
 #, c-format
 msgid "Your %s was killed by enemy units at the paradrop destination."
 msgstr ""
 
-#: server/unittools.c:2357 data/default/default.lua:22
+#: server/unittools.c:2366 data/default/default.lua:22
 #, c-format
 msgid "You found %d gold."
 msgstr "شما %d طلا پیدا کردید."
 
-#: server/unittools.c:2363 data/default/default.lua:92
+#: server/unittools.c:2372 data/default/default.lua:92
 msgid "An abandoned village is here."
 msgstr "یک کلبه متروکه اینجاست."
 
-#: server/unittools.c:2366 data/default/default.lua:102
+#: server/unittools.c:2375 data/default/default.lua:102
 #, c-format
 msgid "Your %s has been killed by barbarians!"
 msgstr "%s شما توسط بیگانگان کشته شد!"
 
-#: server/unittools.c:2394
+#: server/unittools.c:2403
 msgid "Your overflight frightens the tribe; they scatter in terror."
 msgstr ""
 
-#: server/unittools.c:2645
+#: server/unittools.c:2654
 #, c-format
 msgid "Orders for %s aborted after enemy movement was spotted."
 msgstr ""
 
-#: server/unittools.c:3170
+#: server/unittools.c:3179
 #, c-format
 msgid "Orders for %s aborted as there are units nearby."
 msgstr ""
 
-#: server/unittools.c:3221
+#: server/unittools.c:3230
 #, c-format
 msgid "Orders for %s aborted because building of city failed."
 msgstr ""
 
-#: server/unittools.c:3237
+#: server/unittools.c:3246
 #, c-format
 msgid "Orders for %s aborted since they give an invalid activity."
 msgstr ""
 
-#: server/unittools.c:3256
+#: server/unittools.c:3265
 #, c-format
 msgid "Orders for %s aborted since they give an invalid location."
 msgstr ""
 
-#: server/unittools.c:3266
+#: server/unittools.c:3275
 #, c-format
 msgid "Orders for %s aborted as there are units in the way."
 msgstr ""
 
-#: server/unittools.c:3292
+#: server/unittools.c:3301
 #, c-format
 msgid "Orders for %s aborted because of failed move."
 msgstr ""
 
-#: server/unittools.c:3332
+#: server/unittools.c:3341
 #, c-format
 msgid "Attempt to change homecity for %s failed."
 msgstr ""
 
-#: server/unittools.c:3343
+#: server/unittools.c:3352
 #, c-format
 msgid "Attempt to establish trade route for %s failed."
 msgstr ""
 
-#: server/unittools.c:3355
+#: server/unittools.c:3364
 #, c-format
 msgid "Attempt to build wonder for %s failed."
 msgstr ""
 
-#: server/unittools.c:3364
+#: server/unittools.c:3373
 #, c-format
 msgid "Your %s has invalid orders."
 msgstr ""
@@ -7962,7 +7962,7 @@ msgstr[1] "%3d نوبت"
 
 #: client/citydlg_common.c:243 client/citydlg_common.c:295
 #: client/citydlg_common.c:386 client/text.c:699 client/agents/cma_fec.c:250
-#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1438
+#: client/agents/cma_fec.c:284 client/gui-gtk-2.0/citydlg.c:1525
 #: client/gui-sdl/cityrep.c:534 client/gui-sdl/cityrep.c:1058
 #: client/gui-sdl/wldlg.c:1392 client/gui-sdl/wldlg.c:1397
 #: client/gui-win32/citydlg.c:468
@@ -7985,7 +7985,7 @@ msgid "%d/turn"
 msgstr "%d/نوبت"
 
 #: client/citydlg_common.c:292 client/text.c:697 client/agents/cma_fec.c:270
-#: client/agents/cma_fec.c:308 client/gui-gtk-2.0/citydlg.c:1443
+#: client/agents/cma_fec.c:308 client/gui-gtk-2.0/citydlg.c:1530
 #: client/gui-win32/citydlg.c:473
 #, c-format
 msgid "%d turn"
@@ -8238,10 +8238,10 @@ msgid "Best defending units"
 msgstr "بهترین مهره برای دفاع"
 
 #: client/cityrepdata.c:491 client/cityrepdata.c:495
-#: client/gui-gtk-2.0/cityrep.c:1560 client/gui-gtk-2.0/cityrep.c:1579
-#: client/gui-gtk-2.0/cityrep.c:1598 client/gui-gtk-2.0/cityrep.c:1617
-#: client/gui-gtk-2.0/cityrep.c:1637 client/gui-gtk-2.0/menu.c:1283
-#: client/gui-gtk-2.0/repodlgs.c:1012 client/gui-sdl/helpdlg.c:689
+#: client/gui-gtk-2.0/cityrep.c:1562 client/gui-gtk-2.0/cityrep.c:1581
+#: client/gui-gtk-2.0/cityrep.c:1600 client/gui-gtk-2.0/cityrep.c:1619
+#: client/gui-gtk-2.0/cityrep.c:1639 client/gui-gtk-2.0/menu.c:1283
+#: client/gui-gtk-2.0/repodlgs.c:1018 client/gui-sdl/helpdlg.c:689
 #: client/gui-sdl/mapctrl.c:1604 client/gui-sdl/optiondlg.c:1862
 #: client/gui-sdl/repodlgs.c:352 client/gui-win32/menu.c:359
 #: client/gui-win32/menu.c:431 client/gui-win32/repodlgs.c:618
@@ -8346,7 +8346,7 @@ msgid "Corruption"
 msgstr "تباهی"
 
 #: client/cityrepdata.c:520 client/gui-gtk-2.0/menu.c:1275
-#: client/gui-gtk-2.0/repodlgs.c:692 client/gui-sdl/mapctrl.c:1399
+#: client/gui-gtk-2.0/repodlgs.c:698 client/gui-sdl/mapctrl.c:1399
 #: client/gui-win32/menu.c:427 client/gui-win32/repodlgs.c:337
 #: client/gui-xaw/menu.c:227 client/gui-xaw/menu.c:249
 #: client/gui-xaw/repodlgs.c:672 client/gui-xaw/repodlgs.c:801
@@ -8422,7 +8422,7 @@ msgstr "بازیکنان"
 msgid "?cma:Governor"
 msgstr "حاکم"
 
-#: client/cityrepdata.c:536 client/gui-gtk-2.0/cityrep.c:1937
+#: client/cityrepdata.c:536 client/gui-gtk-2.0/cityrep.c:1939
 #: client/gui-gtk-2.0/menu.c:1304 client/gui-sdl/citydlg.c:3807
 #: client/gui-sdl/cma_fe.c:861 client/gui-win32/citydlg.c:749
 #: client/gui-win32/menu.c:442 client/gui-xaw/menu.c:264
@@ -8804,7 +8804,7 @@ msgid ""
 "Select unit type: shift+u or right-click here."
 msgstr ""
 
-#: client/editor.c:160 client/gui-gtk-2.0/citydlg.c:1119
+#: client/editor.c:160 client/gui-gtk-2.0/citydlg.c:1178
 #: client/gui-gtk-2.0/editprop.c:609
 msgid "City"
 msgstr "شهر"
@@ -9850,526 +9850,526 @@ msgstr "کپی %s به clipboard."
 msgid "Clipboard is empty."
 msgstr "Clipboard خالی است."
 
-#: client/options.c:436
+#: client/options.c:439
 msgid "Login name"
 msgstr "نام کاربری"
 
-#: client/options.c:437
+#: client/options.c:440
 msgid ""
 "This is the default login username that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:442
+#: client/options.c:445
 msgid "Server"
 msgstr "سرور"
 
-#: client/options.c:443
+#: client/options.c:446
 msgid ""
 "This is the default server hostname that will be used in the connection "
 "dialogs or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:448
+#: client/options.c:451
 msgid "Server port"
 msgstr "پرت سرور"
 
-#: client/options.c:449
+#: client/options.c:452
 msgid ""
 "This is the default server port that will be used in the connection dialogs "
 "or with the -a command-line parameter."
 msgstr ""
 
-#: client/options.c:454 client/gui-win32/connectdlg.c:908 data/Freeciv.in:107
+#: client/options.c:457 client/gui-win32/connectdlg.c:908 data/Freeciv.in:107
 msgid "Metaserver"
 msgstr ""
 
-#: client/options.c:455
+#: client/options.c:458
 msgid ""
 "The metaserver is a host that the client contacts to find out about games on "
 "the internet.  Don't change this from its default value unless you know what "
 "you're doing."
 msgstr ""
 
-#: client/options.c:461
+#: client/options.c:464
 msgid "Soundset"
 msgstr "مجموعه صدا"
 
-#: client/options.c:462
+#: client/options.c:465
 msgid ""
 "This is the soundset that will be used.  Changing this is the same as using "
 "the -S command-line parameter."
 msgstr ""
 
-#: client/options.c:467
+#: client/options.c:470
 msgid "Sound plugin"
 msgstr ""
 
-#: client/options.c:468
+#: client/options.c:471
 msgid ""
 "If you have a problem with sound, try changing the sound plugin.  The new "
 "plugin won't take effect until you restart Freeciv.  Changing this is the "
 "same as using the -P command-line option."
 msgstr ""
 
-#: client/options.c:476 client/options.c:481
+#: client/options.c:479 client/options.c:484
 #, fuzzy
 msgid "Theme"
 msgstr "معبد"
 
-#: client/options.c:477 client/options.c:482
+#: client/options.c:480 client/options.c:485
 msgid "By changing this option you change the active theme."
 msgstr ""
 
-#: client/options.c:486
+#: client/options.c:489
 msgid "Tileset"
 msgstr "مجموعه خانه"
 
-#: client/options.c:487
+#: client/options.c:490
 msgid ""
 "By changing this option you change the active tileset.  This is the same as "
 "using the -t command-line parameter."
 msgstr ""
 
-#: client/options.c:493
+#: client/options.c:496
 #, fuzzy
 msgid "Draw city outlines"
 msgstr "محدوده شهرها"
 
-#: client/options.c:494
+#: client/options.c:497
 msgid "Setting this option will draw a line at the city workable limit."
 msgstr ""
 
-#: client/options.c:498
+#: client/options.c:501
 #, fuzzy
 msgid "Draw city output"
 msgstr "خروجی شهر"
 
-#: client/options.c:499
+#: client/options.c:502
 msgid "Setting this option will draw city output for every citizen."
 msgstr ""
 
-#: client/options.c:503
+#: client/options.c:506
 #, fuzzy
 msgid "Draw the map grid"
 msgstr "کشیدن "
 
-#: client/options.c:504
+#: client/options.c:507
 msgid "Setting this option will draw a grid over the map."
 msgstr ""
 
-#: client/options.c:507
+#: client/options.c:510
 msgid "Draw the citybar"
 msgstr "کشیدن "
 
-#: client/options.c:508
+#: client/options.c:511
 msgid ""
 "Setting this option will display a 'citybar' containing useful information "
 "beneath each city. Disabling this option will display only the city's name "
 "and optionally, production."
 msgstr ""
 
-#: client/options.c:514
+#: client/options.c:517
 #, fuzzy
 msgid "Draw the city names"
 msgstr "کشیدن "
 
-#: client/options.c:515
+#: client/options.c:518
 msgid "Setting this option will draw the names of the cities on the map."
 msgstr ""
 
-#: client/options.c:519
+#: client/options.c:522
 #, fuzzy
 msgid "Draw the city growth"
 msgstr "کشیدن "
 
-#: client/options.c:520
+#: client/options.c:523
 msgid ""
 "Setting this option will draw in how many turns the cities will grow or "
 "shrink."
 msgstr ""
 
-#: client/options.c:524
+#: client/options.c:527
 #, fuzzy
 msgid "Draw the city productions"
 msgstr "کشیدن "
 
-#: client/options.c:525
+#: client/options.c:528
 msgid ""
 "Setting this option will draw what the cities are currently building on the "
 "map."
 msgstr ""
 
-#: client/options.c:529
+#: client/options.c:532
 #, fuzzy
 msgid "Draw the city buy costs"
 msgstr "کشیدن "
 
-#: client/options.c:530
+#: client/options.c:533
 msgid ""
 "Setting this option will draw how much gold is needed to buy the production "
 "of the cities."
 msgstr ""
 
-#: client/options.c:534
+#: client/options.c:537
 #, fuzzy
 msgid "Draw the city trade routes"
 msgstr "کشیدن "
 
-#: client/options.c:535
+#: client/options.c:538
 msgid ""
 "Setting this option will draw trade route lines between cities which have "
 "trade routes."
 msgstr ""
 
-#: client/options.c:539
+#: client/options.c:542
 #, fuzzy
 msgid "Draw the terrain"
 msgstr "کشیدن "
 
-#: client/options.c:540
+#: client/options.c:543
 msgid "Setting this option will draw the terrain."
 msgstr ""
 
-#: client/options.c:543
+#: client/options.c:546
 #, fuzzy
 msgid "Draw the coast line"
 msgstr "کشیدن "
 
-#: client/options.c:544
+#: client/options.c:547
 msgid ""
 "Setting this option will draw a line to separate the land from the ocean."
 msgstr ""
 
-#: client/options.c:548
+#: client/options.c:551
 #, fuzzy
 msgid "Draw the roads and the railroads"
 msgstr "* می‌تواند جاده و خط‌آهن بسازد.\n"
 
-#: client/options.c:549
+#: client/options.c:552
 msgid "Setting this option will draw the roads and the railroads on the map."
 msgstr ""
 
-#: client/options.c:553
+#: client/options.c:556
 #, fuzzy
 msgid "Draw the irrigation"
 msgstr "اتصال/آبیاری"
 
-#: client/options.c:554
+#: client/options.c:557
 msgid "Setting this option will draw the irrigation systems on the map."
 msgstr ""
 
-#: client/options.c:558
+#: client/options.c:561
 #, fuzzy
 msgid "Draw the mines"
 msgstr "کشیدن "
 
-#: client/options.c:559
+#: client/options.c:562
 msgid "Setting this option will draw the mines on the map."
 msgstr ""
 
-#: client/options.c:562
+#: client/options.c:565
 #, fuzzy
 msgid "Draw the bases"
 msgstr "کشیدن "
 
-#: client/options.c:563
+#: client/options.c:566
 msgid "Setting this option will draw the bases on the map."
 msgstr ""
 
-#: client/options.c:566
+#: client/options.c:569
 #, fuzzy
 msgid "Draw the specials"
 msgstr "کشیدن "
 
-#: client/options.c:567
+#: client/options.c:570
 msgid "Setting this option will draw the specials on the map."
 msgstr ""
 
-#: client/options.c:571
+#: client/options.c:574
 msgid "Draw the pollution/nuclear fallout"
 msgstr ""
 
-#: client/options.c:572
+#: client/options.c:575
 msgid "Setting this option will draw pollution and nuclear fallout on the map."
 msgstr ""
 
-#: client/options.c:576
+#: client/options.c:579
 #, fuzzy
 msgid "Draw the cities"
 msgstr "کشیدن "
 
-#: client/options.c:577
+#: client/options.c:580
 msgid "Setting this option will draw the cities on the map."
 msgstr ""
 
-#: client/options.c:580
+#: client/options.c:583
 #, fuzzy
 msgid "Draw the units"
 msgstr "کشیدن "
 
-#: client/options.c:581
+#: client/options.c:584
 msgid "Setting this option will draw the units on the map."
 msgstr ""
 
-#: client/options.c:585
+#: client/options.c:588
 msgid "Solid unit background color"
 msgstr ""
 
-#: client/options.c:586
+#: client/options.c:589
 msgid ""
 "Setting this option will cause units on the map view to be drawn with a "
 "solid background color instead of the flag backdrop."
 msgstr ""
 
-#: client/options.c:591
+#: client/options.c:594
 msgid "Draw shield graphics for units"
 msgstr ""
 
-#: client/options.c:592
+#: client/options.c:595
 msgid ""
 "Setting this option will draw a shield icon as the flags on units.  If "
 "unset, the full flag will be drawn."
 msgstr ""
 
-#: client/options.c:596
+#: client/options.c:599
 msgid "Draw the units in focus"
 msgstr ""
 
-#: client/options.c:597
+#: client/options.c:600
 msgid ""
 "Setting this option will draw the units in focus, including the case the "
 "other units wouldn't be drawn."
 msgstr ""
 
-#: client/options.c:602
+#: client/options.c:605
 #, fuzzy
 msgid "Draw the fog of war"
 msgstr "کشیدن "
 
-#: client/options.c:603
+#: client/options.c:606
 msgid "Setting this option will draw the fog of war."
 msgstr ""
 
-#: client/options.c:606
+#: client/options.c:609
 #, fuzzy
 msgid "Draw the borders"
 msgstr "کشیدن "
 
-#: client/options.c:607
+#: client/options.c:610
 msgid "Setting this option will draw the national borders."
 msgstr ""
 
-#: client/options.c:611
+#: client/options.c:614
 msgid "Show dead players in nation report."
 msgstr ""
 
-#: client/options.c:612
+#: client/options.c:615
 msgid ""
 "Setting this option will draw the players already dead in the nation report "
 "page."
 msgstr ""
 
-#: client/options.c:616 client/gui-sdl/optiondlg.c:913
+#: client/options.c:619 client/gui-sdl/optiondlg.c:913
 msgid "Sound bell at new turn"
 msgstr "زنگ در ابتدای نوبت"
 
-#: client/options.c:617
+#: client/options.c:620
 msgid ""
 "Set this option to have a \"bell\" event be generated at the start of a new "
 "turn.  You can control the behavior of the \"bell\" event by editing the "
 "message options."
 msgstr ""
 
-#: client/options.c:623
+#: client/options.c:626
 msgid "Unit movement animation time (milliseconds)"
 msgstr "سرعت حرکت مهره‌ها (میلی ثانیه)"
 
-#: client/options.c:624
+#: client/options.c:627
 msgid ""
 "This option controls how long unit \"animation\" takes when a unit moves on "
 "the map view.  Set it to 0 to disable animation entirely."
 msgstr ""
 
-#: client/options.c:629
+#: client/options.c:632
 msgid "Mapview recentering time (milliseconds)"
 msgstr ""
 
-#: client/options.c:630
+#: client/options.c:633
 msgid ""
 "When the map view is recentered, it will slide smoothly over the map to its "
 "new position.  This option controls how long this slide lasts.  Set it to 0 "
 "to disable mapview sliding entirely."
 msgstr ""
 
-#: client/options.c:635 client/gui-sdl/optiondlg.c:967
+#: client/options.c:638 client/gui-sdl/optiondlg.c:967
 msgid "Show combat animation"
 msgstr "نشان دادن انیمیشن جنگ"
 
-#: client/options.c:636
+#: client/options.c:639
 msgid ""
 "Disabling this option will turn off combat animation between units on the "
 "mapview."
 msgstr ""
 
-#: client/options.c:640
+#: client/options.c:643
 msgid "Show icons in the technology tree"
 msgstr ""
 
-#: client/options.c:641
+#: client/options.c:644
 msgid ""
 "Setting this option will display icons on the technology tree diagram. "
 "Turning this option off makes the technology tree more compact."
 msgstr ""
 
-#: client/options.c:647
+#: client/options.c:650
 msgid "Use curved lines in the technology tree"
 msgstr ""
 
-#: client/options.c:648
+#: client/options.c:651
 msgid ""
 "Setting this option make the technology tree diagram use curved lines to "
 "show technology relations. Turning this option off causes the lines to be "
 "drawn straight."
 msgstr ""
 
-#: client/options.c:655
+#: client/options.c:658
 msgid "Color to highlight your player/user name"
 msgstr ""
 
-#: client/options.c:656
+#: client/options.c:659
 msgid ""
 "If set, your player and user name in the new chat messages will be "
 "highlighted using this color as background.  If not set, it will just not "
 "highlight anything."
 msgstr ""
 
-#: client/options.c:661
+#: client/options.c:664
 msgid "Manual Turn Done in AI Mode"
 msgstr ""
 
-#: client/options.c:662
+#: client/options.c:665
 msgid ""
 "Disable this option if you do not want to press the Turn Done button "
 "manually when watching an AI player."
 msgstr ""
 
-#: client/options.c:666 client/gui-sdl/optiondlg.c:1074
+#: client/options.c:669 client/gui-sdl/optiondlg.c:1074
 msgid "Auto Center on Units"
 msgstr "تمرکز اتوماتیک روی مهره‌ها"
 
-#: client/options.c:667
+#: client/options.c:670
 msgid ""
 "Set this option to have the active unit centered automatically when the unit "
 "focus changes."
 msgstr ""
 
-#: client/options.c:670 client/gui-sdl/optiondlg.c:1100
+#: client/options.c:673 client/gui-sdl/optiondlg.c:1100
 msgid "Auto Center on Combat"
 msgstr "تمرکز اتوماتیک روی جنگ‌ها"
 
-#: client/options.c:671
+#: client/options.c:674
 msgid ""
 "Set this option to have any combat be centered automatically.  Disabled this "
 "will speed up the time between turns but may cause you to miss combat "
 "entirely."
 msgstr ""
 
-#: client/options.c:676
+#: client/options.c:679
 #, fuzzy
 msgid "Auto Center on New Turn"
 msgstr "تمرکز اتوماتیک روی مهره‌ها"
 
-#: client/options.c:677
+#: client/options.c:680
 msgid ""
 "Set this option to have the client automatically recenter the map on a "
 "suitable location at the start of each turn."
 msgstr ""
 
-#: client/options.c:681 client/gui-sdl/optiondlg.c:1127
+#: client/options.c:684 client/gui-sdl/optiondlg.c:1127
 msgid "Focus on Awakened Units"
 msgstr ""
 
-#: client/options.c:682
+#: client/options.c:685
 msgid "Set this option to have newly awoken units be focused automatically."
 msgstr ""
 
-#: client/options.c:685
+#: client/options.c:688
 msgid "Keyboardless goto"
 msgstr ""
 
-#: client/options.c:686
+#: client/options.c:689
 msgid ""
 "If this option is set then a goto may be initiated by left-clicking and then "
 "holding down the mouse button while dragging the mouse onto a different tile."
 msgstr ""
 
-#: client/options.c:691
+#: client/options.c:694
 msgid "Allow goto into the unknown"
 msgstr ""
 
-#: client/options.c:692
+#: client/options.c:695
 msgid ""
 "Setting this option will make the game consider moving into unknown tiles.  "
 "If not, then goto routes will detour around or be blocked by unknown tiles."
 msgstr ""
 
-#: client/options.c:696
+#: client/options.c:699
 msgid "Center map when Popup city"
 msgstr ""
 
-#: client/options.c:697
+#: client/options.c:700
 msgid ""
 "Setting this option makes the mapview center on a city when its city dialog "
 "is popped up."
 msgstr ""
 
-#: client/options.c:700
+#: client/options.c:703
 msgid "Concise City Production"
 msgstr ""
 
-#: client/options.c:701
+#: client/options.c:704
 msgid ""
 "Set this option to make the city production (as shown in the city dialog) to "
 "be more compact."
 msgstr ""
 
-#: client/options.c:704 client/gui-sdl/optiondlg.c:1205
+#: client/options.c:707 client/gui-sdl/optiondlg.c:1205
 msgid "End Turn when done moving"
 msgstr ""
 
-#: client/options.c:705
+#: client/options.c:708
 msgid ""
 "Setting this option makes your turn end automatically when all your units "
 "are done moving."
 msgstr ""
 
-#: client/options.c:708 client/gui-sdl/optiondlg.c:1179
+#: client/options.c:711 client/gui-sdl/optiondlg.c:1179
 msgid "Prompt for city names"
 msgstr "نام شهر‌ها را بپرس"
 
-#: client/options.c:709
+#: client/options.c:712
 msgid ""
 "Disabling this option will make the names of newly founded cities chosen "
 "automatically by the server."
 msgstr ""
 
-#: client/options.c:712 client/gui-sdl/optiondlg.c:1153
+#: client/options.c:715 client/gui-sdl/optiondlg.c:1153
 msgid "Pop up city dialog for new cities"
 msgstr ""
 
-#: client/options.c:713
+#: client/options.c:716
 msgid ""
 "Setting this option will pop up a newly-founded city's city dialog "
 "automatically."
 msgstr ""
 
-#: client/options.c:716
+#: client/options.c:719
 #, fuzzy
 msgid "Pop up caravan actions"
 msgstr "کارهای کاروان"
 
-#: client/options.c:717
+#: client/options.c:720
 msgid ""
 "If this option is enabled, when caravans arrive at a city where they can "
 "establish a trade route or help build a wonder, a window will popup asking "
@@ -10378,32 +10378,32 @@ msgid ""
 "'b' (for building a wonder) when the caravan is in the city."
 msgstr ""
 
-#: client/options.c:726
+#: client/options.c:729
 msgid "Enable cursor changing"
 msgstr ""
 
-#: client/options.c:727
+#: client/options.c:730
 msgid ""
 "This option controls whether the client should try to change the mouse "
 "cursor depending on what is being pointed at, as well as to indicate changes "
 "in the client or server state."
 msgstr ""
 
-#: client/options.c:732
+#: client/options.c:735
 msgid "Select cities before units"
 msgstr ""
 
-#: client/options.c:733
+#: client/options.c:736
 msgid ""
 "If this option is enabled, when both cities and units are present in the "
 "selection rectangle, only cities will be selected."
 msgstr ""
 
-#: client/options.c:738
+#: client/options.c:741
 msgid "Clear unit orders on selection"
 msgstr ""
 
-#: client/options.c:739
+#: client/options.c:742
 msgid ""
 "Enabling this option will cause unit orders to be cleared as soon as one or "
 "more units are selected. If this option is disabled, busy units will not "
@@ -10412,189 +10412,189 @@ msgid ""
 "them selected, and pressing <space> a second time will dismiss them."
 msgstr ""
 
-#: client/options.c:748
+#: client/options.c:751
 msgid "Enable vote bar"
 msgstr ""
 
-#: client/options.c:749
+#: client/options.c:752
 msgid ""
 "If this option is turned on, the vote bar will be displayed to show vote "
 "information."
 msgstr ""
 
-#: client/options.c:753
+#: client/options.c:756
 msgid "Always display the vote bar"
 msgstr ""
 
-#: client/options.c:754
+#: client/options.c:757
 msgid ""
 "If this option is turned on, the vote bar will never be hidden, notably when "
 "there won't be any running vote."
 msgstr ""
 
-#: client/options.c:759
+#: client/options.c:762
 msgid "Do not show vote bar if not a player"
 msgstr ""
 
-#: client/options.c:760
+#: client/options.c:763
 msgid ""
 "If this option is enabled, the client won't show the vote bar if you are not "
 "a player."
 msgstr ""
 
-#: client/options.c:763
+#: client/options.c:766
 msgid "Set new votes at front"
 msgstr ""
 
-#: client/options.c:764
+#: client/options.c:767
 msgid ""
 "If this option is enabled, then the new votes will go to the front of the "
 "vote list"
 msgstr ""
 
-#: client/options.c:769
+#: client/options.c:772
 msgid "Background layer"
 msgstr ""
 
-#: client/options.c:770
+#: client/options.c:773
 msgid "The background layer of the overview shows just ocean and land."
 msgstr ""
 
-#: client/options.c:774
+#: client/options.c:777
 msgid "Terrain relief map layer"
 msgstr ""
 
-#: client/options.c:775
+#: client/options.c:778
 msgid "The relief layer shows all terrains on the map."
 msgstr ""
 
-#: client/options.c:778
+#: client/options.c:781
 msgid "Borders layer"
 msgstr ""
 
-#: client/options.c:779
+#: client/options.c:782
 msgid ""
 "The borders layer of the overview shows which tiles are owned by each player."
 msgstr ""
 
-#: client/options.c:783
+#: client/options.c:786
 msgid "Borders layer on ocean tiles"
 msgstr ""
 
-#: client/options.c:784
+#: client/options.c:787
 msgid ""
 "The borders layer of the overview are drawn on ocean tiles as well (this may "
 "look ugly with many islands). This option is only of interest if you have "
 "set the option \"Borders layer\" already."
 msgstr ""
 
-#: client/options.c:790
+#: client/options.c:793
 msgid "Units layer"
 msgstr "لایه مهره‌ها"
 
-#: client/options.c:791
+#: client/options.c:794
 msgid "Enabling this will draw units on the overview."
 msgstr ""
 
-#: client/options.c:794
+#: client/options.c:797
 msgid "Cities layer"
 msgstr "لایه شهرها"
 
-#: client/options.c:795
+#: client/options.c:798
 msgid "Enabling this will draw cities on the overview."
 msgstr ""
 
-#: client/options.c:798
+#: client/options.c:801
 msgid "Overview fog of war"
 msgstr ""
 
-#: client/options.c:799
+#: client/options.c:802
 msgid "Enabling this will show fog of war on the overview."
 msgstr ""
 
-#: client/options.c:804
+#: client/options.c:807
 msgid "Show Map Scrollbars"
 msgstr ""
 
-#: client/options.c:805
+#: client/options.c:808
 msgid "Disable this option to hide the scrollbars on the map view."
 msgstr ""
 
-#: client/options.c:808
+#: client/options.c:811
 msgid "Keep dialogs on top"
 msgstr ""
 
-#: client/options.c:809
+#: client/options.c:812
 msgid ""
 "If this option is set then dialog windows will always remain in front of the "
 "main Freeciv window. Disabling this has no effect in fullscreen mode."
 msgstr ""
 
-#: client/options.c:813
+#: client/options.c:816
 msgid "Show worklist task icons"
 msgstr ""
 
-#: client/options.c:814
+#: client/options.c:817
 msgid ""
 "Disabling this will turn off the unit and building icons in the worklist "
 "dialog and the production tab of the city dialog."
 msgstr ""
 
-#: client/options.c:818
+#: client/options.c:821
 msgid "Enable status report tabs"
 msgstr ""
 
-#: client/options.c:819
+#: client/options.c:822
 msgid ""
 "If this option is enabled then report dialogs will be shown as separate tabs "
 "rather than in popup dialogs."
 msgstr ""
 
-#: client/options.c:824 client/options.c:988
+#: client/options.c:827 client/options.c:1012
 msgid "Better fog-of-war drawing"
 msgstr ""
 
-#: client/options.c:825 client/options.c:989
+#: client/options.c:828 client/options.c:1013
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
 msgstr ""
 
-#: client/options.c:831
+#: client/options.c:834
 msgid "Show time for each chat message"
 msgstr ""
 
-#: client/options.c:832
+#: client/options.c:835
 msgid ""
 "If this option is enabled then all chat messages will be prefixed by a time "
 "string of the form [hour:minute:second]."
 msgstr ""
 
-#: client/options.c:837
+#: client/options.c:840
 msgid "Split bottom notebook area"
 msgstr ""
 
-#: client/options.c:838
+#: client/options.c:841
 msgid ""
 "Enabling this option will split the bottom notebook into a left and right "
 "notebook so that two tabs may be viewed at once."
 msgstr ""
 
-#: client/options.c:843
+#: client/options.c:846
 msgid "New message events go to top of list"
 msgstr ""
 
-#: client/options.c:844
+#: client/options.c:847
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
 msgstr ""
 
-#: client/options.c:849
+#: client/options.c:852
 msgid "Show extra message window buttons"
 msgstr ""
 
-#: client/options.c:850
+#: client/options.c:853
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -10604,21 +10604,21 @@ msgid ""
 "closed and reopened."
 msgstr ""
 
-#: client/options.c:860
+#: client/options.c:863
 msgid "Metaserver tab first in network page"
 msgstr ""
 
-#: client/options.c:861
+#: client/options.c:864
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:866
+#: client/options.c:869
 msgid "Plain chat messages are sent to allies only"
 msgstr ""
 
-#: client/options.c:867
+#: client/options.c:870
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -10628,11 +10628,11 @@ msgid ""
 "visible in multiplayer games)."
 msgstr ""
 
-#: client/options.c:879
+#: client/options.c:882
 msgid "Arrange widgets for small displays"
 msgstr ""
 
-#: client/options.c:880
+#: client/options.c:883
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -10641,222 +10641,249 @@ msgid ""
 "requires a restart in order to take effect."
 msgstr ""
 
-#: client/options.c:889
+#: client/options.c:892
+msgid "Merge the message notebook and the map notebook"
+msgstr ""
+
+#: client/options.c:893
+msgid ""
+"If this option is enabled, the message notebook will be merge into the world "
+"map notebook. Thus, the size needed for the main window will be reduced. "
+"This option requires a restart in order to take effect."
+msgstr ""
+
+#: client/options.c:899
 msgid "Mouse over the map widget selects it automatically"
 msgstr ""
 
-#: client/options.c:890
+#: client/options.c:900
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse will "
 "be floating over it."
 msgstr ""
 
-#: client/options.c:894
+#: client/options.c:904
+msgid "Width of the city dialog"
+msgstr ""
+
+#: client/options.c:905
+msgid "This value is only used if the width of the city dialog is saved."
+msgstr ""
+
+#: client/options.c:911
+msgid "Height of the city dialog"
+msgstr ""
+
+#: client/options.c:912
+msgid "This value is only used if the height of the city dialog is saved."
+msgstr ""
+
+#: client/options.c:918
 msgid "City Label"
 msgstr "نام شهر"
 
-#: client/options.c:895
+#: client/options.c:919
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 
-#: client/options.c:900
+#: client/options.c:924
 msgid "Notify Label"
 msgstr ""
 
-#: client/options.c:901
+#: client/options.c:925
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
 msgstr ""
 
-#: client/options.c:906
+#: client/options.c:930
 msgid "Spaceship Label"
 msgstr "برچسب سفینه فضایی"
 
-#: client/options.c:907
+#: client/options.c:931
 msgid "This font is used to display the spaceship widgets."
 msgstr ""
 
-#: client/options.c:911
+#: client/options.c:935
 msgid "Help Label"
 msgstr ""
 
-#: client/options.c:912
+#: client/options.c:936
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 
-#: client/options.c:917
+#: client/options.c:941
 msgid "Help Link"
 msgstr ""
 
-#: client/options.c:918
+#: client/options.c:942
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 
-#: client/options.c:923
+#: client/options.c:947
 msgid "Help Text"
 msgstr "متن راهنما"
 
-#: client/options.c:924
+#: client/options.c:948
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 
-#: client/options.c:929
+#: client/options.c:953
 msgid "Chatline Area"
 msgstr "محدوده خط‌گفتگو"
 
-#: client/options.c:930
+#: client/options.c:954
 msgid "This font is used to display the text in the chatline area."
 msgstr ""
 
-#: client/options.c:935
+#: client/options.c:959
 msgid "Beta Label"
 msgstr ""
 
-#: client/options.c:936
+#: client/options.c:960
 msgid "This font is used to display the beta label."
 msgstr ""
 
-#: client/options.c:940
+#: client/options.c:964
 msgid "Small Font"
 msgstr "قلم کوچک"
 
-#: client/options.c:941
+#: client/options.c:965
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the economic report or the "
 "unit report."
 msgstr ""
 
-#: client/options.c:948
+#: client/options.c:972
 msgid "Comment Label"
 msgstr ""
 
-#: client/options.c:949
+#: client/options.c:973
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
 msgstr ""
 
-#: client/options.c:954 client/gui-sdl/optiondlg.c:1538
+#: client/options.c:978 client/gui-sdl/optiondlg.c:1538
 #: client/gui-xaw/menu.c:148
 msgid "City Names"
 msgstr "نام شهرها"
 
-#: client/options.c:955
+#: client/options.c:979
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 
-#: client/options.c:960
+#: client/options.c:984
 msgid "City Productions"
 msgstr "محصول شهرها"
 
-#: client/options.c:961
+#: client/options.c:985
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 
-#: client/options.c:966
+#: client/options.c:990
 #, fuzzy
 msgid "Requirement Tree"
 msgstr "نیازها"
 
-#: client/options.c:967
+#: client/options.c:991
 msgid ""
 "This font is used to the display the requirement tree in the science report."
 msgstr ""
 
-#: client/options.c:973
+#: client/options.c:997
 #, fuzzy
 msgid "Full Screen"
 msgstr "تمام صفحه"
 
-#: client/options.c:974
+#: client/options.c:998
 msgid ""
 "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 
-#: client/options.c:977
+#: client/options.c:1001
 msgid "Screen width"
 msgstr ""
 
-#: client/options.c:978
+#: client/options.c:1002
 msgid "This option saves the width of the selected screen resolution"
 msgstr ""
 
-#: client/options.c:981
+#: client/options.c:1005
 #, fuzzy
 msgid "Screen height"
 msgstr "فضانوردي"
 
-#: client/options.c:982
+#: client/options.c:1006
 msgid "This option saves the height of the selected screen resolution"
 msgstr ""
 
-#: client/options.c:994
+#: client/options.c:1018
 msgid "Enable alpha blending"
 msgstr ""
 
-#: client/options.c:995
+#: client/options.c:1019
 msgid ""
 "If this is enabled, then alpha blending will be used in rendering, instead "
 "of an ordered dither.  If there is no hardware support for alpha blending, "
 "this is much slower."
 msgstr ""
 
-#: client/options.c:1207
+#: client/options.c:1231
 msgid "Graphics"
 msgstr "گرافیک"
 
-#: client/options.c:1209 client/gui-gtk-2.0/menu.c:1269
+#: client/options.c:1233 client/gui-gtk-2.0/menu.c:1269
 #: client/gui-win32/menu.c:424 client/gui-xaw/menu.c:246
 #: client/include/helpdlg_g.h:25 data/helpdata.txt:37
 msgid "Overview"
 msgstr "نمای‌کلی"
 
-#: client/options.c:1211
+#: client/options.c:1235
 msgid "Sound"
 msgstr "صدا"
 
-#: client/options.c:1213
+#: client/options.c:1237
 msgid "Interface"
 msgstr "صورت"
 
-#: client/options.c:1215
+#: client/options.c:1239
 msgid "Network"
 msgstr "شبکه"
 
-#: client/options.c:1217
+#: client/options.c:1241
 msgid "Font"
 msgstr "قلم"
 
-#: client/options.c:1634
+#: client/options.c:1658
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr ""
 
-#: client/options.c:1678 client/options.c:1714
+#: client/options.c:1702 client/options.c:1738
 msgid "Cannot find your home directory"
 msgstr ""
 
-#: client/options.c:1728 client/options.c:1742
+#: client/options.c:1752 client/options.c:1766
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr ""
 
-#: client/options.c:2036
+#: client/options.c:2060
 msgid "Didn't find the option file."
 msgstr ""
 
-#: client/options.c:2051 client/options.c:2150
+#: client/options.c:2075 client/options.c:2174
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr ""
 
-#: client/options.c:2053 client/options.c:2152
+#: client/options.c:2077 client/options.c:2176
 #, c-format
 msgid "Saved settings to file %s"
 msgstr ""
 
-#: client/options.c:2106
+#: client/options.c:2130
 msgid "Save failed, cannot find a filename."
 msgstr ""
 
@@ -10936,7 +10963,7 @@ msgstr "ملت"
 msgid "Border"
 msgstr "محدوده"
 
-#: client/plrdlg_common.c:262 client/gui-gtk-2.0/repodlgs.c:1377
+#: client/plrdlg_common.c:262 client/gui-gtk-2.0/repodlgs.c:1383
 msgid "Score"
 msgstr "امتیاز"
 
@@ -11175,7 +11202,7 @@ msgstr ""
 msgid "?clistlast: and %s"
 msgstr "لیست ویژه‌ها"
 
-#: client/text.c:265 client/text.c:1327 client/text.c:1365
+#: client/text.c:265 client/text.c:1335 client/text.c:1373
 msgid "?clistend:."
 msgstr "?clistend:."
 
@@ -11353,59 +11380,59 @@ msgstr "متحرک: %s"
 msgid "Moving: %s"
 msgstr "متحرک: %s"
 
-#: client/text.c:749
+#: client/text.c:751
 msgid "(Click for more info)"
 msgstr "(برای اطلاعات بیشتر کلیک کنید)"
 
-#: client/text.c:765
+#: client/text.c:769
 #, c-format
 msgid "%s People"
 msgstr "جمعیت %s"
 
-#: client/text.c:769
+#: client/text.c:773
 #, c-format
 msgid "Turn: %d"
 msgstr "نوبت: %d"
 
-#: client/text.c:772 client/gui-win32/inteldlg.c:112
+#: client/text.c:776 client/gui-win32/inteldlg.c:112
 #: client/gui-xaw/inteldlg.c:214
 #, c-format
 msgid "Gold: %d"
 msgstr "طلا: %d"
 
-#: client/text.c:774
+#: client/text.c:778
 #, c-format
 msgid "Net Income: %d"
 msgstr "درآمد خالص: %d"
 
 #. TRANS: Gold, luxury, and science rates are in percentage values.
-#: client/text.c:777
+#: client/text.c:781
 #, c-format
 msgid "Tax rates: Gold:%d%% Luxury:%d%% Science:%d%%"
 msgstr "درجه‌ها: طلا: %d%% رفاه %d%% علم %d%%"
 
-#: client/text.c:781
+#: client/text.c:785
 #, c-format
 msgid "Researching %s: %s"
 msgstr "پژوهش %s: %s"
 
-#: client/text.c:790
+#: client/text.c:794
 #, c-format
 msgid "Global warming chance: %d%% (%+d%%/turn)"
 msgstr "احتمال گرمای عمومی: %d%% (%+d%%/نوبت)"
 
-#: client/text.c:793
+#: client/text.c:797
 #, c-format
 msgid "Nuclear winter chance: %d%% (%+d%%/turn)"
 msgstr "احتمال زمستان اتمی: %d%% (%+d%%/نوبت)"
 
-#: client/text.c:798 client/gui-win32/inteldlg.c:105
+#: client/text.c:802 client/gui-win32/inteldlg.c:105
 #: client/gui-xaw/inteldlg.c:206
 #, c-format
 msgid "Government: %s"
 msgstr "حکومت: %s"
 
-#: client/text.c:822
+#: client/text.c:826
 #, c-format
 msgid "%d unit"
 msgid_plural "%d units"
@@ -11413,55 +11440,55 @@ msgstr[0] "%d مهره"
 msgstr[1] "%d مهره"
 
 #. TRANS: Impossible to reach goto target tile
-#: client/text.c:858
+#: client/text.c:862
 msgid "?goto:Unreachable"
 msgstr ""
 
-#: client/text.c:860
+#: client/text.c:864
 #, c-format
 msgid "Turns to target: %d"
 msgstr "%d نوبت تا هدف"
 
-#: client/text.c:862
+#: client/text.c:866
 #, c-format
 msgid "Turns to target: %d to %d"
 msgstr "نوبت تا هدف: %d تا %d"
 
-#: client/text.c:868
+#: client/text.c:872
 #, c-format
 msgid "%d unit selected"
 msgid_plural "%d units selected"
 msgstr[0] "%d مهره انتخاب شده"
 msgstr[1] "%d مهره انتخاب شده"
 
-#: client/text.c:873
+#: client/text.c:877
 msgid "No units selected."
 msgstr "هیچ مهره‌ای انتخاب نشده"
 
-#: client/text.c:948
+#: client/text.c:956
 #, c-format
 msgid "Others: %d civil; %d military"
 msgstr ""
 
-#: client/text.c:950
+#: client/text.c:958
 #, c-format
 msgid "Others: %d civilian"
 msgstr ""
 
-#: client/text.c:952
+#: client/text.c:960
 #, c-format
 msgid "Others: %d military"
 msgstr ""
 
-#: client/text.c:983
+#: client/text.c:991
 msgid "No units to upgrade!"
 msgstr ""
 
-#: client/text.c:1008
+#: client/text.c:1016
 msgid "None of these units may be upgraded."
 msgstr ""
 
-#: client/text.c:1014
+#: client/text.c:1022
 #, c-format
 msgid ""
 "Upgrade %d unit for %d gold?\n"
@@ -11476,72 +11503,72 @@ msgstr[1] ""
 "%d مهره با %d طلا ترفیع بشود؟\n"
 "خزانه %d طلا دارد."
 
-#: client/text.c:1035
+#: client/text.c:1043
 msgid "Shows your progress in researching the current technology."
 msgstr "پیشرفت شما را در تکنولوژی حاضر نسان می‌دهد."
 
-#: client/text.c:1042
+#: client/text.c:1050
 msgid "no research target."
 msgstr "بدون هدف پژوهش."
 
 #. TRANS: <tech>: <amount>/<total bulbs>
-#: client/text.c:1045
+#: client/text.c:1053
 #, c-format
 msgid "%s: %d/%d."
 msgstr ""
 
-#: client/text.c:1066
+#: client/text.c:1074
 msgid "Shows the progress of global warming:"
 msgstr "جریان گرمای جهانی را نشان می‌دهد:"
 
-#: client/text.c:1067
+#: client/text.c:1075
 #, c-format
 msgid "Pollution rate: %d%%"
 msgstr "درجه آلودگی: %d%%"
 
-#: client/text.c:1068
+#: client/text.c:1076
 #, c-format
 msgid "Chance of catastrophic warming each turn: %d%%"
 msgstr ""
 
-#: client/text.c:1085
+#: client/text.c:1093
 msgid "Shows the progress of nuclear winter:"
 msgstr "جریان زمستان اتمی را نشان می‌دهد:"
 
-#: client/text.c:1086
+#: client/text.c:1094
 #, c-format
 msgid "Fallout rate: %d%%"
 msgstr "درجه غبار اتمی: %d%%"
 
-#: client/text.c:1087
+#: client/text.c:1095
 #, c-format
 msgid "Chance of catastrophic winter each turn: %d%%"
 msgstr ""
 
-#: client/text.c:1102
+#: client/text.c:1110
 msgid "Shows your current government:"
 msgstr "حکومت فعلی شما را نشان می‌دهد:"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1128
+#: client/text.c:1136
 #, c-format
 msgid "Population:      %5d"
 msgstr "جمعیت:             %5d"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1131
+#: client/text.c:1139
 #, c-format
 msgid "Support:         %5d %%"
 msgstr "پشتیبانی :         %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1135
+#: client/text.c:1143
 #, c-format
 msgid "Energy:          %5d %%"
 msgstr "انرژی :          %5d %%"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1139
+#: client/text.c:1147
 #, c-format
 msgid "Mass:            %5d ton"
 msgid_plural "Mass:            %5d tons"
@@ -11549,93 +11576,93 @@ msgstr[0] "جرم:           %5d تن"
 msgstr[1] "جرم:           %5d تن"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1145
+#: client/text.c:1153
 #, c-format
 msgid "Travel time:     %5.1f years"
 msgstr "زمان مسافرت:     %5.1f سال"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1149
+#: client/text.c:1157
 msgid "Travel time:        N/A     "
 msgstr "زمان مسافر ت:      نامشخص"
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1153
+#: client/text.c:1161
 #, c-format
 msgid "Success prob.:   %5d %%"
 msgstr ""
 
 #. TRANS: spaceship text; should have constant width.
-#: client/text.c:1157
+#: client/text.c:1165
 #, c-format
 msgid "Year of arrival: %8s"
 msgstr "سال رسیدن           : %8s"
 
-#: client/text.c:1177
+#: client/text.c:1185
 msgid "?timeout:off"
 msgstr "خاموش"
 
-#: client/text.c:1201
+#: client/text.c:1209
 #, c-format
 msgid "?seconds:%02ds"
 msgstr "%02d"
 
-#: client/text.c:1203
+#: client/text.c:1211
 #, c-format
 msgid "?mins/secs:%02dm %02ds"
 msgstr "%02dد %02dث"
 
-#: client/text.c:1205
+#: client/text.c:1213
 #, c-format
 msgid "?hrs/mns:%02dh %02dm"
 msgstr "%02dس %02dد"
 
-#: client/text.c:1207
+#: client/text.c:1215
 #, c-format
 msgid "?dys/hrs:%02dd %02dh"
 msgstr "?dys/hrs:%02dر %02dس"
 
-#: client/text.c:1210
+#: client/text.c:1218
 msgid "?duration:overflow"
 msgstr "بالاتر از حد"
 
-#: client/text.c:1233
+#: client/text.c:1241
 #, c-format
 msgid "%6d.%02d ms"
 msgstr "%6d.%02d م‌ث"
 
 #. TRANS: <nation adjective> <government name>.
 #. * E.g. "Polish Republic".
-#: client/text.c:1281
+#: client/text.c:1289
 #, fuzzy, c-format
 msgid "?nationgovernment:%s %s"
 msgstr "حکومت: %s"
 
 #. TRANS: "Observer: 1985"
-#: client/text.c:1291
+#: client/text.c:1299
 #, c-format
 msgid "Observer: %s"
 msgstr "ناظر: %s"
 
-#: client/text.c:1309
+#: client/text.c:1317
 msgid "Buildings: "
 msgstr "ساختمان‌ها: "
 
-#: client/text.c:1325 client/text.c:1363
+#: client/text.c:1333 client/text.c:1371
 msgid "None. "
 msgstr "هیچ. "
 
-#: client/text.c:1345
+#: client/text.c:1353
 msgid "Wonders: "
 msgstr "شگفتی‌ها: "
 
-#: client/text.c:1398
+#: client/text.c:1406
 #, c-format
 msgid "Cities: %d total, %d over threshold of %d cities."
 msgstr "شهرها: مجموع %d، %d شهر بیش از حد %d شهر در آستانه."
 
 #. TRANS: 0-21 content [citizen(s)] ...
-#: client/text.c:1402
+#: client/text.c:1410
 #, fuzzy, c-format
 msgid "%d content before penalty."
 msgid_plural "%d content before penalty."
@@ -11643,40 +11670,40 @@ msgstr[0] "%d قبل از جزا با "
 msgstr[1] "%d قبل از جزا با "
 
 #. TRANS: 0-21 unhappy citizen(s).
-#: client/text.c:1408
+#: client/text.c:1416
 #, fuzzy, c-format
 msgid "%d additional unhappy citizen."
 msgid_plural "%d additional unhappy citizens."
 msgstr[0] "%d شهر ناراضی اضافه."
 msgstr[1] "%d شهر ناراضی اضافه."
 
-#: client/text.c:1429
+#: client/text.c:1437
 msgid "Unlimited martial law in effect."
 msgstr ""
 
-#: client/text.c:1431
+#: client/text.c:1439
 #, fuzzy, c-format
 msgid "%d military unit may impose martial law."
 msgid_plural "Up to %d military units may impose martial law."
 msgstr[0] "* یک مهره غیر نظامی (نمی‌تواند حمله کند; بدون قانون نظامی).\n"
 msgstr[1] "* یک مهره غیر نظامی (نمی‌تواند حمله کند; بدون قانون نظامی).\n"
 
-#: client/text.c:1435
+#: client/text.c:1443
 #, c-format
 msgid "Each military unit makes %d unhappy citizen content."
 msgid_plural "Each military unit makes %d unhappy citizens content."
 msgstr[0] ""
 msgstr[1] ""
 
-#: client/text.c:1442
+#: client/text.c:1450
 msgid "Military units in the field may cause unhappiness. "
 msgstr ""
 
-#: client/text.c:1445
+#: client/text.c:1453
 msgid "Military units have no happiness effect. "
 msgstr ""
 
-#: client/text.c:1460
+#: client/text.c:1468
 #, c-format
 msgid "Luxury: %d total."
 msgstr "رفاه: مجموعا %d."
@@ -12115,259 +12142,259 @@ msgstr "زنگ در ابتدای نوبت"
 msgid "Chat tools"
 msgstr "تغییر به %s"
 
-#: client/gui-gtk-2.0/citydlg.c:585 client/gui-win32/citydlg.c:684
+#: client/gui-gtk-2.0/citydlg.c:655 client/gui-win32/citydlg.c:684
 msgid "Food:"
 msgstr "غذا:"
 
-#: client/gui-gtk-2.0/citydlg.c:586 client/gui-win32/citydlg.c:685
+#: client/gui-gtk-2.0/citydlg.c:656 client/gui-win32/citydlg.c:685
 msgid "Prod:"
 msgstr "محصول:"
 
-#: client/gui-gtk-2.0/citydlg.c:587 client/gui-win32/citydlg.c:686
+#: client/gui-gtk-2.0/citydlg.c:657 client/gui-win32/citydlg.c:686
 msgid "Trade:"
 msgstr "تجارت:"
 
-#: client/gui-gtk-2.0/citydlg.c:588 client/gui-gtk-2.0/inteldlg.c:50
+#: client/gui-gtk-2.0/citydlg.c:658 client/gui-gtk-2.0/inteldlg.c:50
 #: client/gui-win32/citydlg.c:687
 msgid "Gold:"
 msgstr "طلا:"
 
-#: client/gui-gtk-2.0/citydlg.c:589 client/gui-gtk-2.0/inteldlg.c:54
+#: client/gui-gtk-2.0/citydlg.c:659 client/gui-gtk-2.0/inteldlg.c:54
 #: client/gui-win32/citydlg.c:688
 msgid "Luxury:"
 msgstr "رفاه:"
 
-#: client/gui-gtk-2.0/citydlg.c:590 client/gui-gtk-2.0/inteldlg.c:53
+#: client/gui-gtk-2.0/citydlg.c:660 client/gui-gtk-2.0/inteldlg.c:53
 #: client/gui-win32/citydlg.c:689
 msgid "Science:"
 msgstr "علم:"
 
-#: client/gui-gtk-2.0/citydlg.c:591 client/gui-win32/citydlg.c:690
+#: client/gui-gtk-2.0/citydlg.c:661 client/gui-win32/citydlg.c:690
 msgid "Granary:"
 msgstr "انبار غله:"
 
-#: client/gui-gtk-2.0/citydlg.c:592 client/gui-win32/citydlg.c:691
+#: client/gui-gtk-2.0/citydlg.c:662 client/gui-win32/citydlg.c:691
 msgid "Change in:"
 msgstr "تغییر در:"
 
-#: client/gui-gtk-2.0/citydlg.c:593 client/gui-win32/citydlg.c:692
+#: client/gui-gtk-2.0/citydlg.c:663 client/gui-win32/citydlg.c:692
 msgid "Corruption:"
 msgstr "تباهی:"
 
-#: client/gui-gtk-2.0/citydlg.c:594 client/gui-win32/citydlg.c:693
+#: client/gui-gtk-2.0/citydlg.c:664 client/gui-win32/citydlg.c:693
 msgid "Waste:"
 msgstr "اتلاف"
 
-#: client/gui-gtk-2.0/citydlg.c:595 client/gui-win32/citydlg.c:694
+#: client/gui-gtk-2.0/citydlg.c:665 client/gui-win32/citydlg.c:694
 msgid "Pollution:"
 msgstr "آلودگی:"
 
-#: client/gui-gtk-2.0/citydlg.c:596 client/gui-win32/citydlg.c:695
+#: client/gui-gtk-2.0/citydlg.c:666 client/gui-win32/citydlg.c:695
 msgid "Plague Risk:"
 msgstr ""
 
-#: client/gui-gtk-2.0/citydlg.c:650 client/gui-gtk-2.0/inteldlg.c:197
+#: client/gui-gtk-2.0/citydlg.c:733 client/gui-gtk-2.0/inteldlg.c:197
 msgid "_Overview"
 msgstr "نمای‌کلی"
 
-#: client/gui-gtk-2.0/citydlg.c:679 client/gui-gtk-2.0/wldlg.c:1002
-#: client/gui-win32/citydlg.c:1105 client/gui-win32/wldlg.c:782
-#: client/gui-win32/wldlg.c:788
-msgid "Info"
-msgstr "اطلاعات"
-
-#: client/gui-gtk-2.0/citydlg.c:687 client/gui-sdl/citydlg.c:2523
-#: client/gui-win32/citydlg.c:805
+#: client/gui-gtk-2.0/citydlg.c:747 client/gui-gtk-2.0/citydlg.c:1047
+#: client/gui-sdl/citydlg.c:2523 client/gui-win32/citydlg.c:805
 msgid "City map"
 msgstr "نقشه شهر"
 
-#: client/gui-gtk-2.0/citydlg.c:781
+#: client/gui-gtk-2.0/citydlg.c:769
 msgid "Press ENTER or double-click to sell an improvement."
 msgstr "برای فروش دوبار کلیک کنید یا ENTER را بفشارید."
 
-#: client/gui-gtk-2.0/citydlg.c:799 client/gui-gtk-2.0/citydlg.c:920
+#: client/gui-gtk-2.0/citydlg.c:786 client/gui-gtk-2.0/citydlg.c:976
 msgid "Production:"
 msgstr "محصول:"
 
-#: client/gui-gtk-2.0/citydlg.c:836 client/gui-gtk-2.0/citydlg.c:930
+#: client/gui-gtk-2.0/citydlg.c:822 client/gui-gtk-2.0/citydlg.c:986
 #, c-format
 msgid "%d/%d %d turns"
 msgstr "%d/%d %d نوبت"
 
-#: client/gui-gtk-2.0/citydlg.c:839 client/gui-gtk-2.0/citydlg.c:937
+#: client/gui-gtk-2.0/citydlg.c:825 client/gui-gtk-2.0/citydlg.c:993
 #: client/gui-gtk-2.0/cityrep.c:1136
 msgid "_Buy"
 msgstr "خرید"
 
-#: client/gui-gtk-2.0/citydlg.c:849
+#: client/gui-gtk-2.0/citydlg.c:833
 #, fuzzy
 msgid "I_mprovements:"
 msgstr "اصلاحات:"
 
-#: client/gui-gtk-2.0/citydlg.c:908
+#: client/gui-gtk-2.0/citydlg.c:851 client/gui-gtk-2.0/citydlg.c:1031
+#: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/citydlg.c:1105
+#: client/gui-win32/wldlg.c:782 client/gui-win32/wldlg.c:788
+msgid "Info"
+msgstr "اطلاعات"
+
+#: client/gui-gtk-2.0/citydlg.c:964
 #, fuzzy
 msgid "P_roduction"
 msgstr "محصول"
 
-#: client/gui-gtk-2.0/citydlg.c:959
+#: client/gui-gtk-2.0/citydlg.c:1022
 #, fuzzy
 msgid "Happ_iness"
 msgstr "خوشی"
 
-#: client/gui-gtk-2.0/citydlg.c:1012
+#: client/gui-gtk-2.0/citydlg.c:1071
 msgid "_Governor"
 msgstr "حاکم"
 
-#: client/gui-gtk-2.0/citydlg.c:1035
+#: client/gui-gtk-2.0/citydlg.c:1094
 msgid "_Settings"
 msgstr "تنظیمات"
 
-#: client/gui-gtk-2.0/citydlg.c:1038
+#: client/gui-gtk-2.0/citydlg.c:1097
 msgid "Entertainers"
 msgstr "سرگرم‌کننده"
 
-#: client/gui-gtk-2.0/citydlg.c:1039 client/gui-win32/citydlg.c:1972
+#: client/gui-gtk-2.0/citydlg.c:1098 client/gui-win32/citydlg.c:1972
 #: client/gui-xaw/citydlg.c:2395
 msgid "Scientists"
 msgstr "دانشمندان"
 
-#: client/gui-gtk-2.0/citydlg.c:1040 client/gui-win32/citydlg.c:1974
+#: client/gui-gtk-2.0/citydlg.c:1099 client/gui-win32/citydlg.c:1974
 #: client/gui-xaw/citydlg.c:2396
 msgid "Taxmen"
 msgstr "ثروتمندان"
 
-#: client/gui-gtk-2.0/citydlg.c:1043 client/gui-win32/citydlg.c:1977
+#: client/gui-gtk-2.0/citydlg.c:1102 client/gui-win32/citydlg.c:1977
 msgid "Disband if build settler at size 1"
 msgstr "اگر در اندازه ۱ یک سازنده ساخت، منحل شو"
 
-#: client/gui-gtk-2.0/citydlg.c:1046
+#: client/gui-gtk-2.0/citydlg.c:1105
 msgid "Overview page"
 msgstr "صفحه نماي كلي"
 
-#: client/gui-gtk-2.0/citydlg.c:1047
+#: client/gui-gtk-2.0/citydlg.c:1106
 msgid "Production page"
 msgstr "صفحه محصولات"
 
-#: client/gui-gtk-2.0/citydlg.c:1048
+#: client/gui-gtk-2.0/citydlg.c:1107
 msgid "Happiness page"
 msgstr "صفحه خوشحالی"
 
-#: client/gui-gtk-2.0/citydlg.c:1049
+#: client/gui-gtk-2.0/citydlg.c:1108
 msgid "Governor page"
 msgstr "صفحه حاکم"
 
-#: client/gui-gtk-2.0/citydlg.c:1050
+#: client/gui-gtk-2.0/citydlg.c:1109
 msgid "This Settings page"
 msgstr "همین صفحه تنظیمات"
 
-#: client/gui-gtk-2.0/citydlg.c:1051
+#: client/gui-gtk-2.0/citydlg.c:1110
 msgid "Last active page"
 msgstr "آخرین صفحه فعال"
 
-#: client/gui-gtk-2.0/citydlg.c:1077 client/gui-sdl/citydlg.c:975
+#: client/gui-gtk-2.0/citydlg.c:1136 client/gui-sdl/citydlg.c:975
 #: client/gui-win32/citydlg.c:1969
 msgid "New citizens are"
 msgstr "شهروندان جدید هستند"
 
-#: client/gui-gtk-2.0/citydlg.c:1097
+#: client/gui-gtk-2.0/citydlg.c:1156
 msgid "Next time open"
 msgstr "دفعه‌ی بعدی باز شود"
 
-#: client/gui-gtk-2.0/citydlg.c:1126
+#: client/gui-gtk-2.0/citydlg.c:1185
 #, fuzzy
 msgid "R_ename..."
 msgstr "تغییر نام"
 
-#: client/gui-gtk-2.0/citydlg.c:1262
+#: client/gui-gtk-2.0/citydlg.c:1345
 msgid "_List present units..."
 msgstr "لیست مهره‌های حاضر"
 
-#: client/gui-gtk-2.0/citydlg.c:1272
+#: client/gui-gtk-2.0/citydlg.c:1355
 msgid "_Prev city"
 msgstr "شهر قبلی"
 
-#: client/gui-gtk-2.0/citydlg.c:1277
+#: client/gui-gtk-2.0/citydlg.c:1360
 msgid "_Next city"
 msgstr "شهر بعدی"
 
-#: client/gui-gtk-2.0/citydlg.c:1331
+#: client/gui-gtk-2.0/citydlg.c:1414
 #, c-format
 msgid "<b>%s</b> - %s citizens"
 msgstr "<b>%s</b> - %s شهروند"
 
-#: client/gui-gtk-2.0/citydlg.c:1336 client/gui-sdl/citydlg.c:3604
+#: client/gui-gtk-2.0/citydlg.c:1419 client/gui-sdl/citydlg.c:3604
 msgid " - DISORDER"
 msgstr " - مختل شده‌اند"
 
-#: client/gui-gtk-2.0/citydlg.c:1338 client/gui-sdl/citydlg.c:3607
+#: client/gui-gtk-2.0/citydlg.c:1421 client/gui-sdl/citydlg.c:3607
 msgid " - celebrating"
 msgstr " - جشن گرفتند"
 
-#: client/gui-gtk-2.0/citydlg.c:1340 client/gui-sdl/citydlg.c:3610
+#: client/gui-gtk-2.0/citydlg.c:1423 client/gui-sdl/citydlg.c:3610
 msgid " - happy"
 msgstr " - خوشحالند"
 
-#: client/gui-gtk-2.0/citydlg.c:1436 client/gui-sdl/citydlg.c:3299
+#: client/gui-gtk-2.0/citydlg.c:1523 client/gui-sdl/citydlg.c:3299
 #: client/gui-win32/citydlg.c:466
 msgid "blocked"
 msgstr "مسدود شده"
 
-#: client/gui-gtk-2.0/citydlg.c:1774
+#: client/gui-gtk-2.0/citydlg.c:1860
 #, c-format
 msgid "Supported units %d"
 msgstr "پشتیبانی شده %d"
 
-#: client/gui-gtk-2.0/citydlg.c:1889
+#: client/gui-gtk-2.0/citydlg.c:1975
 #, c-format
 msgid "Present units %d"
 msgstr "مهره‌های حاضر %d"
 
-#: client/gui-gtk-2.0/citydlg.c:2013 client/gui-gtk-2.0/cityrep.c:1128
+#: client/gui-gtk-2.0/citydlg.c:2099 client/gui-gtk-2.0/cityrep.c:1128
 msgid "Cen_ter"
 msgstr "تمرکز"
 
-#: client/gui-gtk-2.0/citydlg.c:2019 client/gui-gtk-2.0/citydlg.c:2073
+#: client/gui-gtk-2.0/citydlg.c:2105 client/gui-gtk-2.0/citydlg.c:2159
 #: client/gui-win32/citydlg.c:1464
 msgid "_Activate unit"
 msgstr "فعال کردن مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2025 client/gui-gtk-2.0/citydlg.c:2079
+#: client/gui-gtk-2.0/citydlg.c:2111 client/gui-gtk-2.0/citydlg.c:2165
 #: client/gui-win32/citydlg.c:1466
 msgid "Activate unit, _close dialog"
 msgstr "فعال کردن مهره، بستن پنجره"
 
-#: client/gui-gtk-2.0/citydlg.c:2031 client/gui-gtk-2.0/citydlg.c:2128
+#: client/gui-gtk-2.0/citydlg.c:2117 client/gui-gtk-2.0/citydlg.c:2214
 #: client/gui-win32/citydlg.c:1468
 msgid "_Disband unit"
 msgstr "منحل کردن مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2085
+#: client/gui-gtk-2.0/citydlg.c:2171
 msgid "_Load unit"
 msgstr "سوار کردن مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2095
+#: client/gui-gtk-2.0/citydlg.c:2181
 msgid "_Unload unit"
 msgstr "پیاده کردن مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2106
+#: client/gui-gtk-2.0/citydlg.c:2192
 msgid "_Sentry unit"
 msgstr "نگهبانی مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2117
+#: client/gui-gtk-2.0/citydlg.c:2203
 msgid "_Fortify unit"
 msgstr "تقویت مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2134 client/gui-gtk-2.0/menu.c:1491
+#: client/gui-gtk-2.0/citydlg.c:2220 client/gui-gtk-2.0/menu.c:1491
 #: client/gui-win32/citydlg.c:1504 client/gui-win32/menu.c:380
 #, fuzzy
 msgid "Set _Home City"
 msgstr "تغییر دادن شهر خانه"
 
-#: client/gui-gtk-2.0/citydlg.c:2141
+#: client/gui-gtk-2.0/citydlg.c:2227
 msgid "U_pgrade unit"
 msgstr "ترفیع مهره"
 
-#: client/gui-gtk-2.0/citydlg.c:2480 client/gui-sdl/citydlg.c:1160
+#: client/gui-gtk-2.0/citydlg.c:2566 client/gui-sdl/citydlg.c:1160
 #: client/gui-win32/citydlg.c:922 client/gui-xaw/citydlg.c:1928
 #, c-format
 msgid ""
@@ -12377,13 +12404,13 @@ msgstr ""
 "%s را با %d طلا بخریم؟\n"
 "خزانه  %d طلا دارد."
 
-#: client/gui-gtk-2.0/citydlg.c:2483 client/gui-gtk-2.0/citydlg.c:2495
+#: client/gui-gtk-2.0/citydlg.c:2569 client/gui-gtk-2.0/citydlg.c:2581
 #: client/gui-win32/citydlg.c:925 client/gui-win32/citydlg.c:934
 #: data/Freeciv.in:2227 data/Freeciv.in:2257
 msgid "Buy It!"
 msgstr "آنرا بخر!"
 
-#: client/gui-gtk-2.0/citydlg.c:2492 client/gui-sdl/citydlg.c:1165
+#: client/gui-gtk-2.0/citydlg.c:2578 client/gui-sdl/citydlg.c:1165
 #: client/gui-win32/citydlg.c:931 client/gui-xaw/citydlg.c:1937
 #, c-format
 msgid ""
@@ -12393,22 +12420,22 @@ msgstr ""
 "قیمت %s %d است.\n"
 "خزانه  %d طلا دارد."
 
-#: client/gui-gtk-2.0/citydlg.c:2545 client/gui-sdl/citydlg.c:1407
+#: client/gui-gtk-2.0/citydlg.c:2631 client/gui-sdl/citydlg.c:1407
 #: client/gui-win32/citydlg.c:976 client/gui-xaw/citydlg.c:2293
 #, c-format
 msgid "Sell %s for %d gold?"
 msgstr "قروش %s برای %d طلا؟"
 
-#: client/gui-gtk-2.0/citydlg.c:2551 client/gui-win32/citydlg.c:981
+#: client/gui-gtk-2.0/citydlg.c:2637 client/gui-win32/citydlg.c:981
 #: data/Freeciv.in:2246
 msgid "Sell It!"
 msgstr "آنرا بفروش!"
 
-#: client/gui-gtk-2.0/citydlg.c:2627 client/gui-win32/citydlg.c:1175
+#: client/gui-gtk-2.0/citydlg.c:2713 client/gui-win32/citydlg.c:1175
 msgid "Rename City"
 msgstr "تغییر نام شهر"
 
-#: client/gui-gtk-2.0/citydlg.c:2628 client/gui-win32/citydlg.c:1176
+#: client/gui-gtk-2.0/citydlg.c:2714 client/gui-win32/citydlg.c:1176
 #: client/gui-xaw/citydlg.c:1419
 msgid "What should we rename the city to?"
 msgstr "نام شهر را به چه تغییر دهیم؟"
@@ -12499,93 +12526,93 @@ msgstr "شهرها"
 msgid "_Inspect"
 msgstr "باز کردن"
 
-#: client/gui-gtk-2.0/cityrep.c:1562 client/gui-gtk-2.0/cityrep.c:1581
-#: client/gui-gtk-2.0/cityrep.c:1600 client/gui-gtk-2.0/cityrep.c:1619
-#: client/gui-gtk-2.0/cityrep.c:1641 client/gui-sdl/helpdlg.c:299
+#: client/gui-gtk-2.0/cityrep.c:1564 client/gui-gtk-2.0/cityrep.c:1583
+#: client/gui-gtk-2.0/cityrep.c:1602 client/gui-gtk-2.0/cityrep.c:1621
+#: client/gui-gtk-2.0/cityrep.c:1643 client/gui-sdl/helpdlg.c:299
 #: client/gui-win32/menu.c:350
 msgid "Improvements"
 msgstr "اصلاحات"
 
-#: client/gui-gtk-2.0/cityrep.c:1564 client/gui-gtk-2.0/cityrep.c:1583
-#: client/gui-gtk-2.0/cityrep.c:1602 client/gui-gtk-2.0/cityrep.c:1621
-#: client/gui-gtk-2.0/cityrep.c:1645
+#: client/gui-gtk-2.0/cityrep.c:1566 client/gui-gtk-2.0/cityrep.c:1585
+#: client/gui-gtk-2.0/cityrep.c:1604 client/gui-gtk-2.0/cityrep.c:1623
+#: client/gui-gtk-2.0/cityrep.c:1647
 msgid "Wonders"
 msgstr "شگفتی‌ها"
 
-#: client/gui-gtk-2.0/cityrep.c:1833 client/gui-win32/cityrep.c:445
+#: client/gui-gtk-2.0/cityrep.c:1835 client/gui-win32/cityrep.c:445
 #: client/gui-win32/gotodlg.c:173 data/Freeciv.in:1138
 msgid "All Cities"
 msgstr "همه شهرها"
 
-#: client/gui-gtk-2.0/cityrep.c:1838 client/gui-win32/cityrep.c:446
+#: client/gui-gtk-2.0/cityrep.c:1840 client/gui-win32/cityrep.c:446
 msgid "No Cities"
 msgstr "هیچ شهری"
 
-#: client/gui-gtk-2.0/cityrep.c:1843 client/gui-win32/cityrep.c:447
+#: client/gui-gtk-2.0/cityrep.c:1845 client/gui-win32/cityrep.c:447
 msgid "Invert Selection"
 msgstr "انتخاب معکوس"
 
-#: client/gui-gtk-2.0/cityrep.c:1853
+#: client/gui-gtk-2.0/cityrep.c:1855
 msgid "Building Units"
 msgstr "ساختمان"
 
-#: client/gui-gtk-2.0/cityrep.c:1859
+#: client/gui-gtk-2.0/cityrep.c:1861
 msgid "Building Improvements"
 msgstr "ساخت اصلاحات"
 
-#: client/gui-gtk-2.0/cityrep.c:1865
+#: client/gui-gtk-2.0/cityrep.c:1867
 msgid "Building Wonders"
 msgstr "ساخت شگفتی"
 
-#: client/gui-gtk-2.0/cityrep.c:1877
+#: client/gui-gtk-2.0/cityrep.c:1879
 msgid "Building Unit"
 msgstr "ساخت مهره"
 
-#: client/gui-gtk-2.0/cityrep.c:1881
+#: client/gui-gtk-2.0/cityrep.c:1883
 msgid "Building Improvement"
 msgstr "ساخت اصلاحات"
 
-#: client/gui-gtk-2.0/cityrep.c:1885
+#: client/gui-gtk-2.0/cityrep.c:1887
 msgid "Building Wonder"
 msgstr "ساخت شگفتی"
 
-#: client/gui-gtk-2.0/cityrep.c:1893 client/gui-win32/cityrep.c:449
+#: client/gui-gtk-2.0/cityrep.c:1895 client/gui-win32/cityrep.c:449
 msgid "Coastal Cities"
 msgstr "شهر ساحلی"
 
-#: client/gui-gtk-2.0/cityrep.c:1898 client/gui-win32/cityrep.c:450
+#: client/gui-gtk-2.0/cityrep.c:1900 client/gui-win32/cityrep.c:450
 msgid "Same Island"
 msgstr "جزیره یکسان"
 
-#: client/gui-gtk-2.0/cityrep.c:1908 client/gui-win32/cityrep.c:453
+#: client/gui-gtk-2.0/cityrep.c:1910 client/gui-win32/cityrep.c:453
 msgid "Supported Units"
 msgstr "مهره‌های پشتیبانی شده"
 
-#: client/gui-gtk-2.0/cityrep.c:1911 client/gui-win32/cityrep.c:460
+#: client/gui-gtk-2.0/cityrep.c:1913 client/gui-win32/cityrep.c:460
 msgid "Units Present"
 msgstr "مهره‌های حاضر"
 
-#: client/gui-gtk-2.0/cityrep.c:1915 client/gui-win32/cityrep.c:475
+#: client/gui-gtk-2.0/cityrep.c:1917 client/gui-win32/cityrep.c:475
 msgid "Improvements in City"
 msgstr "اصلاحات در شهر"
 
-#: client/gui-gtk-2.0/cityrep.c:1919
+#: client/gui-gtk-2.0/cityrep.c:1921
 msgid "Wonders in City"
 msgstr "شگفتی‌ها در شهرها"
 
-#: client/gui-gtk-2.0/cityrep.c:1928
+#: client/gui-gtk-2.0/cityrep.c:1930
 msgid "Available Units"
 msgstr "مهره‌های موجود"
 
-#: client/gui-gtk-2.0/cityrep.c:1931
+#: client/gui-gtk-2.0/cityrep.c:1933
 msgid "Available Improvements"
 msgstr "اصلاحات موجود"
 
-#: client/gui-gtk-2.0/cityrep.c:1934
+#: client/gui-gtk-2.0/cityrep.c:1936
 msgid "Available Wonders"
 msgstr "شگفتی‌های موجود"
 
-#: client/gui-gtk-2.0/cityrep.c:2051
+#: client/gui-gtk-2.0/cityrep.c:2053
 #, fuzzy, c-format
 msgid "Total Buy Cost: %d"
 msgstr "قیمت کل: "
@@ -12783,7 +12810,7 @@ msgstr "شما باید یک نام مجاز بنویسید."
 msgid "Upgrade Unit!"
 msgstr "ترفیع مهره!"
 
-#: client/gui-gtk-2.0/dialogs.c:1390 client/gui-gtk-2.0/repodlgs.c:1217
+#: client/gui-gtk-2.0/dialogs.c:1390 client/gui-gtk-2.0/repodlgs.c:1223
 #: client/gui-sdl/dialogs.c:683 client/gui-sdl/repodlgs.c:188
 #: client/gui-win32/citydlg.c:1435 client/gui-win32/repodlgs.c:580
 #: data/Freeciv.in:2480
@@ -12922,7 +12949,7 @@ msgid ""
 "how many units are placed at once with the unit tool."
 msgstr ""
 
-#: client/gui-gtk-2.0/editgui.c:1275 client/gui-gtk-2.0/repodlgs.c:673
+#: client/gui-gtk-2.0/editgui.c:1275 client/gui-gtk-2.0/repodlgs.c:679
 #: client/gui-win32/repodlgs.c:465
 msgid "Count"
 msgstr "تعداد"
@@ -12986,7 +13013,7 @@ msgstr "(هیچ وقت)"
 msgid "(destroyed)"
 msgstr "ناوشكن"
 
-#: client/gui-gtk-2.0/editprop.c:3094 client/gui-gtk-2.0/gui_main.c:1202
+#: client/gui-gtk-2.0/editprop.c:3094 client/gui-gtk-2.0/gui_main.c:1222
 #: data/Freeciv.in:2028
 msgid "View"
 msgstr "نمایش"
@@ -13090,7 +13117,7 @@ msgstr "پرنسس"
 
 #. TRANS: Image header
 #: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
-#: client/gui-gtk-2.0/repodlgs.c:671 client/gui-gtk-2.0/wldlg.c:1002
+#: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
 msgid "Type"
@@ -13298,91 +13325,91 @@ msgstr "انتخاب مقصد"
 msgid "Show _All Cities"
 msgstr "نشان دادن همه شهرها"
 
-#: client/gui-gtk-2.0/gui_main.c:264 client/gui-xaw/gui_main.c:249
+#: client/gui-gtk-2.0/gui_main.c:267 client/gui-xaw/gui_main.c:249
 msgid ""
 "This client has no special command line options\n"
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:726 client/gui-gtk-2.0/gui_main.c:1458
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr "Freeciv"
 
-#: client/gui-gtk-2.0/gui_main.c:1131 client/gui-gtk-2.0/gui_main.c:1138
+#: client/gui-gtk-2.0/gui_main.c:1158 client/gui-gtk-2.0/gui_main.c:1165
 #: client/gui-sdl/mapctrl.c:1565 client/gui-win32/gui_main.c:472
 #: data/Freeciv.in:2625
 msgid "Turn Done"
 msgstr "پایان نوبت"
 
-#: client/gui-gtk-2.0/gui_main.c:1138 client/gui-sdl/mapctrl.c:1565
+#: client/gui-gtk-2.0/gui_main.c:1165 client/gui-sdl/mapctrl.c:1565
 #: client/gui-sdl/mapview.c:893
 msgid "Shift+Return"
 msgstr "شیفت+اینتر"
 
-#: client/gui-gtk-2.0/gui_main.c:1306
+#: client/gui-gtk-2.0/gui_main.c:1331
 msgid "Chat"
 msgstr "گفتگو"
 
-#: client/gui-gtk-2.0/gui_main.c:1330
+#: client/gui-gtk-2.0/gui_main.c:1355
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1339
+#: client/gui-gtk-2.0/gui_main.c:1364
 #, fuzzy
 msgid "Clear links"
 msgstr "لیست کارها:"
 
-#: client/gui-gtk-2.0/gui_main.c:1614
+#: client/gui-gtk-2.0/gui_main.c:1639
 msgid "Not _ready"
 msgstr "نا آماده"
 
-#: client/gui-gtk-2.0/gui_main.c:1625 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
 msgid "_Ready"
 msgstr "آماده"
 
-#: client/gui-gtk-2.0/gui_main.c:1629 client/gui-gtk-2.0/gui_main.c:1635
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
 msgid "_Start"
 msgstr "شروع"
 
-#: client/gui-gtk-2.0/gui_main.c:1643
+#: client/gui-gtk-2.0/gui_main.c:1668
 #, fuzzy
 msgid "_Take Player"
 msgstr "انتخاب این بازیکن"
 
-#: client/gui-gtk-2.0/gui_main.c:1647 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
 msgid "Pick _Nation"
 msgstr "انتخاب ملیت"
 
-#: client/gui-gtk-2.0/gui_main.c:1655 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
 msgid "_Observe"
 msgstr "ناظر"
 
-#: client/gui-gtk-2.0/gui_main.c:1657
+#: client/gui-gtk-2.0/gui_main.c:1682
 #, fuzzy
 msgid "Do not _observe"
 msgstr "نا ناظر"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1712
+#: client/gui-gtk-2.0/gui_main.c:1737
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "<ه‌م آسان>"
 
-#: client/gui-gtk-2.0/gui_main.c:1724 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "تصادفی"
 
-#: client/gui-gtk-2.0/gui_main.c:1784 client/gui-gtk-2.0/gui_main.c:1798
+#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
 msgid "Observer"
 msgstr "ناظر"
 
-#: client/gui-gtk-2.0/gui_main.c:1798
+#: client/gui-gtk-2.0/gui_main.c:1823
 msgid "Detached"
 msgstr "جدا شده"
 
-#: client/gui-gtk-2.0/gui_main.c:2062
+#: client/gui-gtk-2.0/gui_main.c:2103
 msgid "Are you sure you want to quit?"
 msgstr "آیا مطمئنید که می‌خواهید خارج شود؟"
 
@@ -13399,11 +13426,41 @@ msgstr ""
 msgid "Ctrl+W"
 msgstr ""
 
-#: client/gui-gtk-2.0/happiness.c:118 client/gui-sdl/citydlg.c:2043
+#: client/gui-gtk-2.0/happiness.c:192
+#, fuzzy
+msgid "Cities:"
+msgstr "شهرها:"
+
+#: client/gui-gtk-2.0/happiness.c:193
+#, fuzzy
+msgid "Luxuries:"
+msgstr "رفاه:"
+
+#: client/gui-gtk-2.0/happiness.c:194
+#, fuzzy
+msgid "Buildings:"
+msgstr "ساختمان‌ها: "
+
+#: client/gui-gtk-2.0/happiness.c:195
+#, fuzzy
+msgid "Units:"
+msgstr "مهره‌ها: "
+
+#: client/gui-gtk-2.0/happiness.c:196
+#, fuzzy
+msgid "Wonders:"
+msgstr "شگفتی‌ها: "
+
+#: client/gui-gtk-2.0/happiness.c:205 client/gui-sdl/citydlg.c:2043
 #: client/gui-sdl/citydlg.c:3719 client/gui-win32/citydlg.c:749
 #: client/gui-win32/happiness.c:86
 msgid "Happiness"
 msgstr "خوشی"
+
+#. TRANS: the width of this text defines the width of the city dialog.
+#: client/gui-gtk-2.0/happiness.c:252
+msgid "Additional information is available via left click on the citizens."
+msgstr ""
 
 #: client/gui-gtk-2.0/helpdlg.c:91 client/gui-gtk-2.0/helpdlg.c:94
 #: client/gui-gtk-2.0/helpdlg.c:98 client/gui-sdl/helpdlg.c:345
@@ -13621,11 +13678,11 @@ msgstr "ساختن شهر جدید"
 msgid "What should we call our new city?"
 msgstr "شهر جدیدمان را چه باید بنامیم؟"
 
-#: client/gui-gtk-2.0/mapview.c:176
+#: client/gui-gtk-2.0/mapview.c:177
 msgid "Shows your current luxury/science/tax rates;click to toggle them."
 msgstr "درجات مالیات/علم/رفاه شما را نشان می‌دهد؛ برای تغییر کلیک کنید."
 
-#: client/gui-gtk-2.0/mapview.c:679 client/gui-win32/canvas.c:280
+#: client/gui-gtk-2.0/mapview.c:680 client/gui-win32/canvas.c:280
 msgid "Better fog will only work in truecolor.  Disabling it"
 msgstr ""
 
@@ -14599,23 +14656,23 @@ msgstr "پژوهش"
 msgid "Researching"
 msgstr "پژوهش"
 
-#: client/gui-gtk-2.0/repodlgs.c:321 client/gui-win32/citydlg.c:1096
+#: client/gui-gtk-2.0/repodlgs.c:323 client/gui-win32/citydlg.c:1096
 #: client/gui-win32/menu.c:423 client/gui-win32/repodlgs.c:292
 #: client/gui-win32/wldlg.c:827 data/Freeciv.in:1466 data/Freeciv.in:2032
 #: data/Freeciv.in:2108 data/Freeciv.in:2195 data/Freeciv.in:2201
 msgid "Help"
 msgstr "راهنما"
 
-#: client/gui-gtk-2.0/repodlgs.c:324 client/gui-win32/repodlgs.c:296
+#: client/gui-gtk-2.0/repodlgs.c:327 client/gui-win32/repodlgs.c:296
 #: data/Freeciv.in:1429
 msgid "Goal"
 msgstr "هدف"
 
-#: client/gui-gtk-2.0/repodlgs.c:672
+#: client/gui-gtk-2.0/repodlgs.c:678
 msgid "?Building:Name"
 msgstr "نام"
 
-#: client/gui-gtk-2.0/repodlgs.c:674 client/gui-gtk-2.0/wldlg.c:1002
+#: client/gui-gtk-2.0/repodlgs.c:680 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1109 client/gui-win32/repodlgs.c:469
 #: client/gui-win32/wldlg.c:783 client/gui-win32/wldlg.c:789
 #: manual/civmanual.c:327
@@ -14623,67 +14680,67 @@ msgid "Cost"
 msgstr "قیمت"
 
 #. TRANS: Upkeep total, count*cost
-#: client/gui-gtk-2.0/repodlgs.c:676 client/gui-sdl/repodlgs.c:2029
+#: client/gui-gtk-2.0/repodlgs.c:682 client/gui-sdl/repodlgs.c:2029
 #: client/gui-win32/repodlgs.c:471
 msgid "U Total"
 msgstr ""
 
-#: client/gui-gtk-2.0/repodlgs.c:746
+#: client/gui-gtk-2.0/repodlgs.c:752
 msgid "Total Cost:"
 msgstr "قیمت کل:"
 
-#: client/gui-gtk-2.0/repodlgs.c:752
+#: client/gui-gtk-2.0/repodlgs.c:758
 msgid "Sell _Obsolete"
 msgstr "فروختن منسوخ شده‌ها"
 
-#: client/gui-gtk-2.0/repodlgs.c:757
+#: client/gui-gtk-2.0/repodlgs.c:763
 msgid "Sell _All"
 msgstr "فروختن همه"
 
-#: client/gui-gtk-2.0/repodlgs.c:843
+#: client/gui-gtk-2.0/repodlgs.c:849
 #, c-format
 msgid "Do you really wish to sell your %s?\n"
 msgstr "آیا واقعاً می‌خواهید %s خود را بفروشید؟\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:846
+#: client/gui-gtk-2.0/repodlgs.c:852
 msgid "Sell Improvements"
 msgstr "فروختن اصلاح شهر"
 
-#: client/gui-gtk-2.0/repodlgs.c:878
+#: client/gui-gtk-2.0/repodlgs.c:884
 msgid "Sell-Off: Results"
 msgstr ""
 
-#: client/gui-gtk-2.0/repodlgs.c:938
+#: client/gui-gtk-2.0/repodlgs.c:944
 #, c-format
 msgid "Income: %d    Total Costs: %d"
 msgstr "درآمد: %d    قیمت کل: %d"
 
-#: client/gui-gtk-2.0/repodlgs.c:985 client/gui-win32/repodlgs.c:707
+#: client/gui-gtk-2.0/repodlgs.c:991 client/gui-win32/repodlgs.c:707
 msgid "Unit Type"
 msgstr "نوع مهره"
 
-#: client/gui-gtk-2.0/repodlgs.c:986 client/gui-win32/repodlgs.c:708
+#: client/gui-gtk-2.0/repodlgs.c:992 client/gui-win32/repodlgs.c:708
 #, fuzzy
 msgid "?Upgradable unit [short]:U"
 msgstr "ت"
 
-#: client/gui-gtk-2.0/repodlgs.c:987 client/gui-win32/repodlgs.c:709
+#: client/gui-gtk-2.0/repodlgs.c:993 client/gui-win32/repodlgs.c:709
 msgid "In-Prog"
 msgstr "در-برنامه"
 
-#: client/gui-gtk-2.0/repodlgs.c:988 client/gui-win32/repodlgs.c:710
+#: client/gui-gtk-2.0/repodlgs.c:994 client/gui-win32/repodlgs.c:710
 msgid "Active"
 msgstr "فعال"
 
-#: client/gui-gtk-2.0/repodlgs.c:1061
+#: client/gui-gtk-2.0/repodlgs.c:1067
 msgid "Find _Nearest"
 msgstr "پیدا کردن نزدیک ترین"
 
-#: client/gui-gtk-2.0/repodlgs.c:1066
+#: client/gui-gtk-2.0/repodlgs.c:1072
 msgid "_Upgrade"
 msgstr "ترفیع"
 
-#: client/gui-gtk-2.0/repodlgs.c:1209 client/gui-sdl/repodlgs.c:181
+#: client/gui-gtk-2.0/repodlgs.c:1215 client/gui-sdl/repodlgs.c:181
 #: client/gui-win32/repodlgs.c:571 client/gui-xaw/repodlgs.c:1030
 #, c-format
 msgid ""
@@ -14693,24 +14750,24 @@ msgstr ""
 "ترفیع تمام %sها به %s با %d طلا برای هرکدام؟\n"
 "خزانه %d طلا دارد."
 
-#: client/gui-gtk-2.0/repodlgs.c:1314
+#: client/gui-gtk-2.0/repodlgs.c:1320
 msgid "Totals:"
 msgstr "کل:"
 
-#: client/gui-gtk-2.0/repodlgs.c:1337
+#: client/gui-gtk-2.0/repodlgs.c:1343
 msgid "Player\n"
 msgstr "بازیکن\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1338
+#: client/gui-gtk-2.0/repodlgs.c:1344
 msgid "Score\n"
 msgstr "امتیاز\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1339
+#: client/gui-gtk-2.0/repodlgs.c:1345
 msgid "Population\n"
 msgstr "جمعیت\n"
 
 #. TRANS: "M goods" = million goods
-#: client/gui-gtk-2.0/repodlgs.c:1341
+#: client/gui-gtk-2.0/repodlgs.c:1347
 msgid ""
 "Trade\n"
 "(M goods)"
@@ -14719,7 +14776,7 @@ msgstr ""
 "(م کالا)"
 
 #. TRANS: "M tons" = million tons
-#: client/gui-gtk-2.0/repodlgs.c:1343
+#: client/gui-gtk-2.0/repodlgs.c:1349
 msgid ""
 "Production\n"
 "(M tons)"
@@ -14727,15 +14784,15 @@ msgstr ""
 "محصول\n"
 "(م تن)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1344
+#: client/gui-gtk-2.0/repodlgs.c:1350
 msgid "Cities\n"
 msgstr "شهرها\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1345
+#: client/gui-gtk-2.0/repodlgs.c:1351
 msgid "Technologies\n"
 msgstr "تکنولوژیها\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1346
+#: client/gui-gtk-2.0/repodlgs.c:1352
 msgid ""
 "Military Service\n"
 "(months)"
@@ -14743,11 +14800,11 @@ msgstr ""
 "خدمت نظامی\n"
 "(ماه)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1347
+#: client/gui-gtk-2.0/repodlgs.c:1353
 msgid "Wonders\n"
 msgstr "شگفتی‌ها\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1348
+#: client/gui-gtk-2.0/repodlgs.c:1354
 msgid ""
 "Research Speed\n"
 "(%)"
@@ -14756,7 +14813,7 @@ msgstr ""
 "(%)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: client/gui-gtk-2.0/repodlgs.c:1350
+#: client/gui-gtk-2.0/repodlgs.c:1356
 msgid ""
 "Land Area\n"
 "(sq. mi.)"
@@ -14765,7 +14822,7 @@ msgstr ""
 "(مایل مربع)"
 
 #. TRANS: "sq. mi." is abbreviation for "square miles"
-#: client/gui-gtk-2.0/repodlgs.c:1352
+#: client/gui-gtk-2.0/repodlgs.c:1358
 msgid ""
 "Settled Area\n"
 "(sq. mi.)"
@@ -14773,7 +14830,7 @@ msgstr ""
 "مساحت آبادشده\n"
 "(مایل مربع)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1353
+#: client/gui-gtk-2.0/repodlgs.c:1359
 msgid ""
 "Literacy\n"
 "(%)"
@@ -14781,24 +14838,24 @@ msgstr ""
 "سواد\n"
 "(%)"
 
-#: client/gui-gtk-2.0/repodlgs.c:1354
+#: client/gui-gtk-2.0/repodlgs.c:1360
 msgid "Spaceship\n"
 msgstr "سفینه فضایی\n"
 
-#: client/gui-gtk-2.0/repodlgs.c:1531 data/Freeciv.in:3406
+#: client/gui-gtk-2.0/repodlgs.c:1537 data/Freeciv.in:3406
 #: data/Freeciv.in:3415
 msgid "Game Settings"
 msgstr "تنظیمات بازی"
 
-#: client/gui-gtk-2.0/repodlgs.c:1636 client/gui-xaw/repodlgs.c:1439
+#: client/gui-gtk-2.0/repodlgs.c:1642 client/gui-xaw/repodlgs.c:1439
 msgid "true"
 msgstr "درست"
 
-#: client/gui-gtk-2.0/repodlgs.c:1636 client/gui-xaw/repodlgs.c:1439
+#: client/gui-gtk-2.0/repodlgs.c:1642 client/gui-xaw/repodlgs.c:1439
 msgid "false"
 msgstr "غلط"
 
-#: client/gui-gtk-2.0/repodlgs.c:1646 client/gui-xaw/repodlgs.c:1449
+#: client/gui-gtk-2.0/repodlgs.c:1652 client/gui-xaw/repodlgs.c:1449
 msgid "(hidden)"
 msgstr "(مخفی)"
 
@@ -29711,9 +29768,6 @@ msgstr ""
 
 #~ msgid "Select same type"
 #~ msgstr "انتخاب هم نوعان"
-
-#~ msgid "Units: "
-#~ msgstr "مهره‌ها: "
 
 #~ msgid "Your %s succeeded in bribing %s's %s and became more experienced."
 #~ msgstr " %s شما موفق شد %s %sرا تطمیع کند و تجربه‌اش بیشتر شود."

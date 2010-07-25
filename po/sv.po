@@ -56,7 +56,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-05 13:14-0700\n"
+"POT-Creation-Date: 2010-07-25 12:47-0700\n"
 "PO-Revision-Date: 2010-06-20 19:43+0200\n"
 "Last-Translator: Jon Severinsson <jon@severinsson.net>\n"
 "Language-Team: Swedish <freeciv.sv@freelists.org>\n"
@@ -2056,36 +2056,36 @@ msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "SE UPP min %s, vi har ONT om PENGAR."
 
 #: server/cityturn.c:688
-#, c-format
-msgid "%s needs %s (being built) to grow any further."
+#, fuzzy, c-format
+msgid "%s needs %s (being built) to grow beyond size %d."
 msgstr "%s behöver %s (under uppbyggnad) för att växa vidare."
 
-#: server/cityturn.c:693
-#, c-format
-msgid "%s needs an improvement to grow any further."
+#: server/cityturn.c:694
+#, fuzzy, c-format
+msgid "%s needs an improvement to grow beyond size %d."
 msgstr "%s behöver en stadsförbättring för att växa vidare."
 
-#: server/cityturn.c:748
+#: server/cityturn.c:749
 #, c-format
 msgid "%s grows to size %d."
 msgstr "%s växer till storlek %d."
 
-#: server/cityturn.c:810
+#: server/cityturn.c:811
 #, c-format
 msgid "Famine feared in %s, %s lost!"
 msgstr "Hungersnöd fruktas i %s varvid %s har gått förlorad!"
 
-#: server/cityturn.c:825
+#: server/cityturn.c:826
 #, c-format
 msgid "Famine causes population loss in %s."
 msgstr "Hungersnöd orsakade befolkningsminskning i %s."
 
-#: server/cityturn.c:830
+#: server/cityturn.c:831
 #, c-format
 msgid "Famine destroys %s entirely."
 msgstr "Hungersnöd utplånade %s från kartan."
 
-#: server/cityturn.c:931
+#: server/cityturn.c:932
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech not yet available.  Postponing..."
@@ -2093,18 +2093,18 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; en nödvändig teknologi är ännu inte "
 "tillgänglig. Produktionen skjuts upp..."
 
-#: server/cityturn.c:947 server/cityturn.c:987
+#: server/cityturn.c:948 server/cityturn.c:988
 #, c-format
 msgid "%s can't build %s from the worklist.  Purging..."
 msgstr "%s kan inte bygga %s från arbetslistan. Avlägsnas..."
 
-#: server/cityturn.c:968 server/cityturn.c:1200 server/cityturn.c:1312
-#: server/cityturn.c:1358
+#: server/cityturn.c:969 server/cityturn.c:1201 server/cityturn.c:1313
+#: server/cityturn.c:1359
 #, c-format
 msgid "Production of %s is upgraded to %s in %s."
 msgstr "Byggandet av %s ersätts med %s i %s."
 
-#: server/cityturn.c:1019
+#: server/cityturn.c:1020
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; tech %s not yet available.  "
@@ -2113,7 +2113,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; en nödvändig teknologi (%s) är ännu "
 "inte tillgänglig.  Produktionen skjuts upp..."
 
-#: server/cityturn.c:1033
+#: server/cityturn.c:1034
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; need to have %s first.  Postponing..."
@@ -2121,7 +2121,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; behöver %s först.  Produktionen "
 "skjuts upp..."
 
-#: server/cityturn.c:1047
+#: server/cityturn.c:1048
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; it needs %s government.  Postponing..."
@@ -2129,7 +2129,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; behöver statsskicket %s.  "
 "Produktionen skjuts upp..."
 
-#: server/cityturn.c:1060
+#: server/cityturn.c:1061
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s special is required.  Postponing..."
@@ -2137,7 +2137,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; behöver den speciella tillgången %"
 "s.  Produktionen skjuts upp..."
 
-#: server/cityturn.c:1073
+#: server/cityturn.c:1074
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
@@ -2145,7 +2145,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; landskapet %s behövs.  Produktionen "
 "skjuts upp..."
 
-#: server/cityturn.c:1088
+#: server/cityturn.c:1089
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only %s may build this.  Postponing..."
@@ -2153,7 +2153,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; endast %s kan bygga detta.  "
 "Produktionen skjuts upp..."
 
-#: server/cityturn.c:1101
+#: server/cityturn.c:1102
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; city must be of size %d.  Postponing..."
@@ -2161,7 +2161,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; staden måste minst vara av storleken "
 "%d.  Produktionen skjuts upp..."
 
-#: server/cityturn.c:1116
+#: server/cityturn.c:1117
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; only AI of level %s may build this.  "
@@ -2170,7 +2170,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; endast datorspelare av "
 "skicklighetsnivå %s kan bygga detta.  Produktionen skjuts upp..."
 
-#: server/cityturn.c:1130
+#: server/cityturn.c:1131
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; %s terrain class is required.  "
@@ -2179,7 +2179,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; landskapet %s behövs.  Produktionen "
 "skjuts upp..."
 
-#: server/cityturn.c:1157
+#: server/cityturn.c:1158
 #, c-format
 msgid ""
 "%s can't build %s from the worklist; Only available from %s.  Postponing..."
@@ -2187,7 +2187,7 @@ msgstr ""
 "%s kan inte bygga %s från arbetslistan; tillgänglig först från år %s.  "
 "Produktionen skjuts upp..."
 
-#: server/cityturn.c:1192
+#: server/cityturn.c:1193
 #, c-format
 msgid "%s can't build %s from the worklist; Reason unknown!  Postponing..."
 msgstr ""
@@ -2195,134 +2195,134 @@ msgstr ""
 "skjuts upp..."
 
 #. TRANS: The <city> worklist ....
-#: server/cityturn.c:1232
+#: server/cityturn.c:1233
 #, c-format
 msgid "The %s worklist is now empty."
 msgstr "%ss arbetslista tog slut."
 
-#: server/cityturn.c:1380
+#: server/cityturn.c:1381
 #, c-format
 msgid "%s can't upkeep %s, unit disbanded."
 msgstr "%s kan inte underhålla %s - truppen upplöst."
 
-#: server/cityturn.c:1400
+#: server/cityturn.c:1401
 #, c-format
 msgid "Citizens in %s perish for their failure to upkeep %s!"
 msgstr "Medborgare i %s förgås i sitt försök att underhålla %s!"
 
-#: server/cityturn.c:1445 server/cityturn.c:1561
+#: server/cityturn.c:1446 server/cityturn.c:1562
 #, c-format
 msgid "%s is building %s, which is no longer available."
 msgstr "%s bygger %s som inte längre är tillgängligt."
 
-#: server/cityturn.c:1484
+#: server/cityturn.c:1485
 #, c-format
 msgid "The %s have finished building %s in %s."
 msgstr "%s har färdigställt %s i %s."
 
-#: server/cityturn.c:1491
+#: server/cityturn.c:1492
 #, c-format
 msgid "%s has finished building %s."
 msgstr "%s har färdigställt %s."
 
-#: server/cityturn.c:1511
+#: server/cityturn.c:1512
 #, c-format
 msgid "%s boosts research; you gain %d immediate advance."
 msgid_plural "%s boosts research; you gain %d immediate advances."
 msgstr[0] "%s ökar forskningen; vi få genast %d framsteg."
 msgstr[1] "%s ökar forskningen; vi få genast %d framsteg."
 
-#: server/cityturn.c:1520 server/techtools.c:180
+#: server/cityturn.c:1521 server/techtools.c:180
 #, c-format
 msgid "The %s have acquired %s from %s."
 msgstr "%s erhöll %s från %s."
 
-#: server/cityturn.c:1528
+#: server/cityturn.c:1529
 #, c-format
 msgid "The %s have started building a spaceship!"
 msgstr "%s har börjat bygga ett rymdskepp!"
 
-#: server/cityturn.c:1587
+#: server/cityturn.c:1588
 #, c-format
 msgid "%s can't build %s yet."
 msgstr "%s kan inte bygga %s än."
 
 #. TRANS: <city> is finished building <unit/building>.
-#: server/cityturn.c:1619
+#: server/cityturn.c:1620
 #, c-format
 msgid "%s is finished building %s."
 msgstr "%s har färdigställt %s."
 
-#: server/cityturn.c:1685
+#: server/cityturn.c:1686
 #, c-format
 msgid "Can't afford to maintain %s in %s, building sold!"
 msgstr "Vi har inte råd att underhålla %s i %s, byggnaden såld!"
 
-#: server/cityturn.c:1728
+#: server/cityturn.c:1729
 #, c-format
 msgid "Not enough gold. %s disbanded"
 msgstr "Otillräckligt med guld. %s upplöst"
 
-#: server/cityturn.c:1910
+#: server/cityturn.c:1911
 #, c-format
 msgid "Pollution near %s."
 msgstr "Utsläpp i närheten av %s."
 
-#: server/cityturn.c:2060
+#: server/cityturn.c:2061
 #, c-format
 msgid "Celebrations in your honour in %s."
 msgstr "Folket i %s firar i din ära."
 
-#: server/cityturn.c:2066
+#: server/cityturn.c:2067
 #, c-format
 msgid "Celebrations canceled in %s."
 msgstr "Folket i %s har slutat fira."
 
-#: server/cityturn.c:2083
+#: server/cityturn.c:2084
 #, c-format
 msgid "%s has been struck by a plague! Population lost!"
 msgstr "%s har drabbats av pest! Orsakar befolkningsminskning!"
 
-#: server/cityturn.c:2129
+#: server/cityturn.c:2130
 #, c-format
 msgid "Civil disorder in %s."
 msgstr "Upplopp i %s."
 
-#: server/cityturn.c:2133
+#: server/cityturn.c:2134
 #, c-format
 msgid "CIVIL DISORDER CONTINUES in %s."
 msgstr "UPPLOPPEN i %s FORTSÄTTER."
 
-#: server/cityturn.c:2139
+#: server/cityturn.c:2140
 #, c-format
 msgid "Order restored in %s."
 msgstr "Friden i %s är återställd."
 
-#: server/cityturn.c:2150
+#: server/cityturn.c:2151
 #, c-format
 msgid "The people have overthrown your %s, your country is in turmoil."
 msgstr "Folket har störtat vår %s. Riket är i kaos."
 
-#: server/cityturn.c:2188
+#: server/cityturn.c:2189
 #, c-format
 msgid "%s can't build %s yet, and we can't disband our only city."
 msgstr "%s kan inte färdigställa %s än: Vi kan inte överge vår enda stad."
 
 #. TRANS: "<city> is disbanded into Settler."
-#: server/cityturn.c:2216
+#: server/cityturn.c:2217
 #, c-format
 msgid "%s is disbanded into %s."
 msgstr "%s upplöstes till %s."
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2398
+#: server/cityturn.c:2399
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because there is not enough food available!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2405
+#: server/cityturn.c:2406
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because there is not enough food "
@@ -2330,7 +2330,7 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2410
+#: server/cityturn.c:2411
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because there is not enough food "
@@ -2338,56 +2338,56 @@ msgid ""
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2425
+#: server/cityturn.c:2426
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> to <city2> of <city2 nation adjective>.
-#: server/cityturn.c:2432
+#: server/cityturn.c:2433
 #, c-format
 msgid ""
 "Migrants from %s can't go to %s (%s) because it needs an improvement to grow!"
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2437
+#: server/cityturn.c:2438
 #, c-format
 msgid ""
 "Migrants from %s (%s) can't go to %s because it needs an improvement to grow!"
 msgstr ""
 
-#: server/cityturn.c:2473
+#: server/cityturn.c:2474
 #, c-format
 msgid "%s was disbanded by its citizens."
 msgstr ""
 
 #. TRANS: From <city1> to <city2>.
-#: server/cityturn.c:2493
+#: server/cityturn.c:2494
 #, c-format
 msgid "Migrants from %s moved to %s in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2499
+#: server/cityturn.c:2500
 #, c-format
 msgid "Migrants from %s moved to %s (%s) in search of a better life."
 msgstr ""
 
 #. TRANS: From <city1> (<city1 nation adjective>) to <city2>.
-#: server/cityturn.c:2504
+#: server/cityturn.c:2505
 #, c-format
 msgid "Migrants from %s (%s) moved to %s in search of a better life."
 msgstr ""
 
-#: server/cityturn.c:2655
+#: server/cityturn.c:2656
 #, c-format
 msgid "Citizens of %s are thinking about migrating to %s for a better life."
 msgstr ""
 
 #. TRANS: <city1> to <city2> (<city2 nation adjective>).
-#: server/cityturn.c:2676
+#: server/cityturn.c:2677
 #, c-format
 msgid ""
 "Citizens of %s are thinking about migrating to %s (%s) for a better life."
