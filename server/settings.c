@@ -21,6 +21,7 @@
 #include "ioz.h"
 #include "log.h"
 #include "registry.h"
+#include "shared.h"
 
 /* common */
 #include "map.h"
@@ -361,6 +362,26 @@ static void autotoggle_action(const struct setting *pset)
 /*************************************************************************
   Validation callback functions.
 *************************************************************************/
+
+/****************************************************************************
+  Verify the selected savename definition.
+****************************************************************************/
+static bool savename_validate(const char *value, struct connection *caller,
+                              char *reject_msg, size_t reject_msg_len)
+{
+  char buf[MAX_LEN_PATH];
+
+  generate_save_name(value, buf, sizeof(buf), NULL);
+
+  if (!is_safe_filename(buf)) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Invalid save name definition: '%s' "
+                        "(resolves to '%s')."), value, buf);
+    return FALSE;
+  }
+
+  return TRUE;
+}
 
 /****************************************************************************
   Verify the value of the generator option (notably the 0 case).
@@ -1745,14 +1766,14 @@ static struct setting settings[] = {
                 "  %T = <game.info.turn>\n"
                 "  %Y = <game.info.year>\n"
                 "\n"
-                "Example: 'civgame-T%04T-Y%+05Y-%R' => "
-                "'civgame-T0100-Y00001-manual'\n"
+                "Example: 'freeciv-T%04T-Y%+05Y-%R' => "
+                "'freeciv-T0100-Y00001-manual'\n"
                 "\n"
                 "Be careful to use at least one of %T and %Y, else newer "
                 "savegames will overwrite old ones. If none of the formats "
                 "is used '-T%04T-Y%05Y-%R' is appended to the value of "
                 "'savename'."),
-             NULL, NULL, GAME_DEFAULT_SAVE_NAME)
+             savename_validate, NULL, GAME_DEFAULT_SAVE_NAME)
 
   GEN_BOOL("scorelog", game.server.scorelog,
 	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,

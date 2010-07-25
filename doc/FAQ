@@ -719,10 +719,11 @@ set home=C:\freeciv
    If for some reason you can't use the start-screen interface for loading
    a game, you can load one directly through the server command line (see
    Command-line_options). You can start civserver with the -f option, for
-   example
-civserver -f civgame1150.sav
+   example:
 
-   . Or you can use the /load command inside the server before starting
+   #> freeciv-server -f freeciv-T0005-Y-3750-auto.sav.bz2
+
+   Or you can use the /load command inside the server before starting
    the game. Make sure you saved the game manually, because the server
    only autosaves every ten turns per default.
 

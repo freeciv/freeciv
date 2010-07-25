@@ -777,8 +777,8 @@ static char *year_suffix(void)
     %Y = <game.info.year>
 
   Examples:
-    'civgame-T%04T-Y%+04Y-%R' => 'civgame-T0099-Y-0050-manual'
-                              => 'civgame-T0100-Y00001-auto'
+    'freeciv-T%04T-Y%+04Y-%R' => 'freeciv-T0099-Y-0050-manual'
+                              => 'freeciv-T0100-Y00001-auto'
 
   Returns the number of characters written, or the number of characters
   that would have been written if truncation occurs.
