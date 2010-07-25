@@ -21,7 +21,10 @@ struct conn_list;
 void page_conn(struct conn_list *dest, const char *caption, const char *headline,
 	       const char *lines);
 
-void log_civ_score(void);
+void log_civ_score_init(void);
+void log_civ_score_free(void);
+void log_civ_score_now(void);
+
 void make_history_report(void);
 void report_wonders_of_the_world(struct conn_list *dest);
 void report_top_five_cities(struct conn_list *dest);

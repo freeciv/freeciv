@@ -155,6 +155,7 @@ struct civ_game {
       char connectmsg[MAX_LEN_MSG];
       char save_name[MAX_LEN_NAME];
       bool scorelog;
+      char scorefile[MAX_LEN_NAME];
       int scoreturn;    /* next make_history_report() */
       int seed;
 
@@ -401,6 +402,7 @@ extern struct civ_game game;
 #define GAME_MAX_RAZECHANCE          100
 
 #define GAME_DEFAULT_SCORELOG        FALSE
+#define GAME_DEFAULT_SCOREFILE       "freeciv-score.log"
 #define GAME_DEFAULT_SCORETURN       20
 
 #define GAME_DEFAULT_SPACERACE       TRUE

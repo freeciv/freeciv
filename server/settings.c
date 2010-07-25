@@ -337,6 +337,18 @@ static const char *phasemode_name(int phasemode)
 *************************************************************************/
 
 /*************************************************************************
+  (De)initialze the score log.
+*************************************************************************/
+static void scorelog_action(const struct setting *pset)
+{
+  if (*pset->boolean.pvalue) {
+    log_civ_score_init();
+  } else {
+    log_civ_score_free();
+  }
+}
+
+/*************************************************************************
   Create the selected number of AI's.
 *************************************************************************/
 static void aifill_action(const struct setting *pset)
@@ -404,6 +416,21 @@ static bool generator_validate(int value, struct connection *caller,
       return FALSE;
     }
   }
+  return TRUE;
+}
+
+/****************************************************************************
+  Verify the name for the score log file.
+****************************************************************************/
+static bool scorefile_validate(const char *value, struct connection *caller,
+                               char *reject_msg, size_t reject_msg_len)
+{
+  if (!is_safe_filename(value)) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("Invalid score name definition: '%s'."), value);
+    return FALSE;
+  }
+
   return TRUE;
 }
 
@@ -1776,12 +1803,19 @@ static struct setting settings[] = {
              savename_validate, NULL, GAME_DEFAULT_SAVE_NAME)
 
   GEN_BOOL("scorelog", game.server.scorelog,
-	   SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
-	   N_("Whether to log player statistics"),
-	   N_("If this is set to 1, player statistics are appended to "
-	      "the file \"civscore.log\" every turn. These statistics "
-	      "can be used to create power graphs after the game."), NULL,
-           NULL, GAME_DEFAULT_SCORELOG)
+           SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
+           N_("Whether to log player statistics"),
+           N_("If this is set to 1, player statistics are appended to "
+              "the file define by the option 'scorefile' every turn. "
+              "These statistics can be used to create power graphs after "
+              "the game."), NULL, scorelog_action, GAME_DEFAULT_SCORELOG)
+
+  GEN_STRING("scorefile", game.server.scorefile,
+             SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
+             N_("Name for the score log file"),
+             N_("The default name for the score log file is "
+              "'freeciv-score.log'."),
+             scorefile_validate, NULL, GAME_DEFAULT_SCOREFILE)
 
   GEN_END
 };

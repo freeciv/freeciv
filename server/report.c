@@ -39,6 +39,25 @@
 #include "score.h"
 #include "srv_main.h"
 
+/* data needed for logging civ score */
+struct plrdata_slot {
+  char *name;
+};
+
+struct logging_civ_score {
+  FILE *fp;
+  int last_turn;
+  struct plrdata_slot *plrdata;
+};
+
+static struct logging_civ_score *score_log = NULL;
+
+static void plrdata_slot_init(struct plrdata_slot *plrdata,
+                              const char *name);
+static void plrdata_slot_replace(struct plrdata_slot *plrdata,
+                                 const char *name);
+static void plrdata_slot_free(struct plrdata_slot *plrdata);
+
 static void page_conn_etype(struct conn_list *dest, const char *caption,
 			    const char *headline, const char *lines,
 			    enum event_type event);
@@ -822,108 +841,183 @@ void report_demographics(struct connection *pconn)
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+static void plrdata_slot_init(struct plrdata_slot *plrdata,
+                              const char *name)
+{
+  fc_assert_ret(plrdata->name == NULL);
+
+  plrdata->name = fc_calloc(MAX_LEN_NAME, sizeof(plrdata->name));
+  plrdata_slot_replace(plrdata, name);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void plrdata_slot_replace(struct plrdata_slot *plrdata,
+                                 const char *name)
+{
+  fc_assert_ret(plrdata->name != NULL);
+
+  fc_strlcpy(plrdata->name, name, MAX_LEN_NAME);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+static void plrdata_slot_free(struct plrdata_slot *plrdata)
+{
+  if (plrdata->name != NULL) {
+    free(plrdata->name);
+    plrdata->name = NULL;
+  }
+}
+
+/**************************************************************************
   Reads the whole file denoted by fp. Sets last_turn and id to the
   values contained in the file. Returns the player_names indexed by
   player_no at the end of the log file.
 
   Returns TRUE iff the file had read successfully.
 **************************************************************************/
-static bool scan_score_log(FILE * fp, int *last_turn, char *id,
-			   char **player_names)
+static bool scan_score_log(char *id)
 {
-  int line_nr;
-  char line[80];
-  char *ptr;
+  int line_nr, turn, plr_no, spaces;
+  struct plrdata_slot *plrdata;
+  char plr_name[MAX_LEN_NAME], line[80], *ptr;
 
-  *last_turn = -1;
+  fc_assert_ret_val(score_log != NULL, FALSE);
+  fc_assert_ret_val(score_log->fp != NULL, FALSE);
+
+  score_log->last_turn = -1;
   id[0] = '\0';
 
   for (line_nr = 1;; line_nr++) {
-    if (!fgets(line, sizeof(line), fp)) {
-      if (feof(fp) != 0) {
+    if (!fgets(line, sizeof(line), score_log->fp)) {
+      if (feof(score_log->fp) != 0) {
         break;
       }
-      log_error("Can't read scorelog file header!");
+      log_error("[%s:-] Can't read scorelog file header!",
+                game.server.scorefile);
       return FALSE;
     }
 
     ptr = strchr(line, '\n');
     if (!ptr) {
-      log_error("Scorelog file line is too long!");
+      log_error("[%s:%d] Line too long!", game.server.scorefile, line_nr);
       return FALSE;
     }
     *ptr = '\0';
 
     if (line_nr == 1) {
       if (strncmp(line, scorelog_magic, strlen(scorelog_magic)) != 0) {
-        log_error("Bad magic in file line %d!", line_nr);
+        log_error("[%s:%d] Bad file magic!", game.server.scorefile, line_nr);
         return FALSE;
       }
     }
 
     if (strncmp(line, "id ", strlen("id ")) == 0) {
       if (strlen(id) > 0) {
-        log_error("Multiple ID entries!");
+        log_error("[%s:%d] Multiple ID entries!", game.server.scorefile,
+                  line_nr);
         return FALSE;
       }
       fc_strlcpy(id, line + strlen("id "), MAX_LEN_GAME_IDENTIFIER);
       if (strcmp(id, server.game_identifier) != 0) {
-        log_error("IDs don't match! game='%s' scorelog='%s'",
-                  server.game_identifier, id);
+        log_error("[%s:%d] IDs don't match! game='%s' scorelog='%s'",
+                  game.server.scorefile, line_nr, server.game_identifier,
+                  id);
         return FALSE;
       }
     }
 
     if (strncmp(line, "turn ", strlen("turn ")) == 0) {
-      int turn;
-
       if (sscanf(line + strlen("turn "), "%d", &turn) != 1) {
-        log_error("Scorelog file line is bad!");
+        log_error("[%s:%d] Bad line (turn)!", game.server.scorefile,
+                  line_nr);
         return FALSE;
       }
 
-      fc_assert_ret_val(turn > *last_turn, FALSE);
-      *last_turn = turn;
+      fc_assert_ret_val(turn > score_log->last_turn, FALSE);
+      score_log->last_turn = turn;
     }
 
     if (strncmp(line, "addplayer ", strlen("addplayer ")) == 0) {
-      int turn, plr_no;
-      char plr_name[MAX_LEN_NAME];
-
       if (3 != sscanf(line + strlen("addplayer "), "%d %d %s",
                       &turn, &plr_no, plr_name)) {
-        log_error("Scorelog file line is bad!");
+        log_error("[%s:%d] Bad line (addplayer)!",
+                  game.server.scorefile, line_nr);
         return FALSE;
       }
 
-      fc_strlcpy(player_names[plr_no], plr_name, MAX_LEN_NAME);
+      /* Now get the complete player name if there are several parts. */
+      ptr = line + strlen("addplayer ");
+      spaces = 0;
+      while (*ptr != '\0' && spaces < 2) {
+        if (*ptr == ' ') {
+          spaces++;
+        }
+        ptr++;
+      }
+      fc_snprintf(plr_name, sizeof(plr_name), "%s", ptr);
+      log_debug("add player '%s' (from line %d: '%s')", plr_name, line_nr,
+                line);
+
+      if (0 > plr_no || plr_no >= player_slot_count()) {
+        log_error("[%s:%d] Invalid player number: %d!",
+                  game.server.scorefile, line_nr, plr_no);
+        return FALSE;
+      }
+
+      plrdata = score_log->plrdata + plr_no;
+      if (plrdata->name != NULL) {
+        log_error("[%s:%d] Two names for one player (id %d)!",
+                  game.server.scorefile, line_nr, plr_no);
+        return FALSE;
+      }
+
+      plrdata_slot_init(plrdata, plr_name);
     }
 
     if (strncmp(line, "delplayer ", strlen("delplayer ")) == 0) {
-      int turn, plr_no;
-
       if (2 != sscanf(line + strlen("delplayer "), "%d %d",
                       &turn, &plr_no)) {
-        log_error("Scorelog file line is bad!");
+        log_error("[%s:%d] Bad line (delplayer)!",
+                  game.server.scorefile, line_nr);
         return FALSE;
       }
 
-      player_names[plr_no][0] = '\0';
+      if (!(plr_no >= 0 && plr_no < player_slot_count())) {
+        log_error("[%s:%d] Invalid player number: %d!",
+                  game.server.scorefile, line_nr, plr_no);
+        return FALSE;
+      }
+
+      plrdata = score_log->plrdata + plr_no;
+      if (plrdata->name == NULL) {
+        log_error("[%s:%d] Trying to remove undefined player (id %d)!",
+                  game.server.scorefile, line_nr, plr_no);
+        return FALSE;
+      }
+
+      plrdata_slot_free(plrdata);
     }
   }
 
-  if (*last_turn == -1) {
-    log_error("Scorelog contains no turn!");
+  if (score_log->last_turn == -1) {
+    log_error("[%s:-] Scorelog contains no turn!", game.server.scorefile);
     return FALSE;
   }
 
   if (strlen(id) == 0) {
-    log_error("Scorelog contains no ID!");
+    log_error("[%s:-] Scorelog contains no ID!", game.server.scorefile);
     return FALSE;
   }
 
-  if (*last_turn + 1 != game.info.turn) {
-    log_error("Scorelog doesn't match savegame!");
+  if (score_log->last_turn + 1 != game.info.turn) {
+    log_error("[%s:-] Scorelog doesn't match savegame!",
+              game.server.scorefile);
     return FALSE;
   }
 
@@ -931,22 +1025,63 @@ static bool scan_score_log(FILE * fp, int *last_turn, char *id,
 }
 
 /**************************************************************************
+  ...
+**************************************************************************/
+void log_civ_score_init(void)
+{
+  fc_assert_ret(score_log == NULL);
+
+  score_log = fc_calloc(1, sizeof(*score_log));
+  score_log->fp = NULL;
+  score_log->last_turn = -1;
+  score_log->plrdata = fc_calloc(player_slot_count(),
+                                 sizeof(*score_log->plrdata));
+  player_slots_iterate(pslot) {
+    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pslot);
+    plrdata->name = NULL;
+  } player_slots_iterate_end;
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void log_civ_score_free(void)
+{
+  if (!score_log) {
+    /* nothing to do */
+    return;
+  }
+
+  if (score_log->fp) {
+    fclose(score_log->fp);
+    score_log->fp = NULL;
+  }
+
+  if (score_log->plrdata) {
+    player_slots_iterate(pslot) {
+      struct plrdata_slot *plrdata = score_log->plrdata + player_index(pslot);
+      if (plrdata->name != NULL) {
+        free(plrdata->name);
+      }
+    } player_slots_iterate_end;
+    free(score_log->plrdata);
+  }
+
+  free(score_log);
+  score_log = NULL;
+}
+
+/**************************************************************************
   Create a log file of the civilizations so you can see what was happening.
 **************************************************************************/
-void log_civ_score(void)
+void log_civ_score_now(void)
 {
-  static const char logname[] = "civscore.log";
-  static FILE *fp = NULL;
-  static bool disabled = FALSE;
-  static char player_names[MAX_NUM_PLAYERS +
-			   MAX_NUM_BARBARIANS][MAX_LEN_NAME];
-  static char *player_name_ptrs[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  static int last_turn = -1;
+  enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
+  char id[MAX_LEN_GAME_IDENTIFIER];
+  int i = 0;
 
-  /* 
-   * Add new tags only at end of this list. Maintaining the order of
-   * old tags is critical.
-   */
+  /* Add new tags only at end of this list. Maintaining the order of
+   * old tags is critical. */
   static const struct {
     char *name;
     int (*get_value) (struct player *);
@@ -982,136 +1117,124 @@ void log_civ_score(void)
     {"score",           get_total_score} /* New 2.1.10 tag */
   };
 
-  enum { SL_CREATE, SL_APPEND, SL_UNSPEC } oper = SL_UNSPEC;
-  int i;
-  char id[MAX_LEN_GAME_IDENTIFIER];
-
   if (!game.server.scorelog) {
     return;
   }
 
-  if (!player_name_ptrs[0]) {
-    int i;
-
-    for (i = 0; i < ARRAY_SIZE(player_names); i++) {
-      player_name_ptrs[i] = player_names[i];
-      player_names[i][0] = '\0';
-    }
-  }
-
-  if (disabled) {
+  if (!score_log) {
     return;
   }
 
-  if (!fp) {
+  if (!score_log->fp) {
     if (game.info.year == GAME_START_YEAR) {
       oper = SL_CREATE;
     } else {
-      fp = fc_fopen(logname, "r");
-      if (!fp) {
-	oper = SL_CREATE;
+      score_log->fp = fc_fopen(game.server.scorefile, "r");
+      if (!score_log->fp) {
+        oper = SL_CREATE;
       } else {
-	if (!scan_score_log(fp, &last_turn, id, player_name_ptrs)) {
-	  goto log_civ_score_disable;
-	}
-	oper = SL_APPEND;
+        if (!scan_score_log(id)) {
+          goto log_civ_score_disable;
+        }
+        oper = SL_APPEND;
 
-	fclose(fp);
-	fp = NULL;
+        fclose(score_log->fp);
+        score_log->fp = NULL;
       }
     }
 
     switch (oper) {
     case SL_CREATE:
-      fp = fc_fopen(logname, "w");
-      if (!fp) {
-        log_error("Can't open scorelog file for creation!");
+      score_log->fp = fc_fopen(game.server.scorefile, "w");
+      if (!score_log->fp) {
+        log_error("Can't open scorelog file '%s' for creation!",
+                  game.server.scorefile);
         goto log_civ_score_disable;
       }
-      fprintf(fp, "%s%s\n", scorelog_magic, VERSION_STRING);
-      fprintf(fp, 
-	      "\n"
-	      "# For a specification of the format of this see doc/README.scorelog or \n"
-	      "# <http://svn.gna.org/viewcvs/freeciv/trunk/doc/README.scorelog?view=auto>.\n"
-	      "\n");
+      fprintf(score_log->fp, "%s%s\n", scorelog_magic, VERSION_STRING);
+      fprintf(score_log->fp,
+              "\n"
+              "# For a specification of the format of this see doc/README.scorelog or \n"
+              "# <http://svn.gna.org/viewcvs/freeciv/trunk/doc/README.scorelog?view=auto>.\n"
+              "\n");
 
-      fprintf(fp, "id %s\n", server.game_identifier);
-      for (i = 0; i<ARRAY_SIZE(score_tags); i++) {
-	fprintf(fp, "tag %d %s\n", i, score_tags[i].name);
+      fprintf(score_log->fp, "id %s\n", server.game_identifier);
+      for (i = 0; i < ARRAY_SIZE(score_tags); i++) {
+        fprintf(score_log->fp, "tag %d %s\n", i, score_tags[i].name);
       }
       break;
     case SL_APPEND:
-      fp = fc_fopen(logname, "a");
-      if (!fp) {
-        log_error("Can't open scorelog file for appending!");
+      score_log->fp = fc_fopen(game.server.scorefile, "a");
+      if (!score_log->fp) {
+        log_error("Can't open scorelog file '%s' for appending!",
+                  game.server.scorefile);
         goto log_civ_score_disable;
       }
       break;
     default:
-      log_error("log_civ_score: bad operation %d", (int) oper);
+      log_error("[%s] bad operation %d", __FUNCTION__, (int) oper);
       goto log_civ_score_disable;
     }
   }
 
-  if (game.info.turn > last_turn) {
-    fprintf(fp, "turn %d %d %s\n", game.info.turn, game.info.year, 
+  if (game.info.turn > score_log->last_turn) {
+    fprintf(score_log->fp, "turn %d %d %s\n", game.info.turn, game.info.year,
             textyear(game.info.year));
-    last_turn = game.info.turn;
-  }
-
-  for (i = 0; i < ARRAY_SIZE(player_names); i++) {
-    if (strlen(player_names[i]) > 0 && !GOOD_PLAYER(player_by_number(i))) {
-      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, i);
-      player_names[i][0] = '\0';
-    }
+    score_log->last_turn = game.info.turn;
   }
 
   players_iterate(pplayer) {
-    if (GOOD_PLAYER(pplayer)
-	&& strlen(player_names[player_index(pplayer)]) == 0) {
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
-	      player_number(pplayer),
-	      player_name(pplayer));
-      fc_strlcpy(player_name_ptrs[player_index(pplayer)],
-                 player_name(pplayer), MAX_LEN_NAME);
+    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
+    if (plrdata->name != NULL
+        && player_slot_is_used(pplayer)
+        && !GOOD_PLAYER(pplayer)) {
+      fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1, i);
+      plrdata_slot_free(plrdata);
     }
   } players_iterate_end;
 
   players_iterate(pplayer) {
-    if (GOOD_PLAYER(pplayer)
-	&& strcmp(player_names[player_index(pplayer)], player_name(pplayer)) != 0) {
-      fprintf(fp, "delplayer %d %d\n", game.info.turn - 1, player_number(pplayer));
-      fprintf(fp, "addplayer %d %d %s\n", game.info.turn,
-	      player_number(pplayer),
-	      player_name(pplayer));
-      fc_strlcpy(player_names[player_index(pplayer)],
-                 player_name(pplayer), MAX_LEN_NAME);
+    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
+    if (plrdata->name == NULL && GOOD_PLAYER(pplayer)) {
+      fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
+              player_number(pplayer), player_name(pplayer));
+      plrdata_slot_init(plrdata, player_name(pplayer));
     }
   } players_iterate_end;
 
-  for (i = 0; i<ARRAY_SIZE(score_tags); i++) {
+  players_iterate(pplayer) {
+    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
+
+    if (GOOD_PLAYER(pplayer)
+        && strcmp(plrdata->name, player_name(pplayer)) != 0) {
+      log_debug("player names does not match '%s' != '%s'", plrdata->name,
+                player_name(pplayer));
+      fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1,
+              player_number(pplayer));
+      fprintf(score_log->fp, "addplayer %d %d %s\n", game.info.turn,
+              player_number(pplayer), player_name(pplayer));
+      plrdata_slot_replace(plrdata, player_name(pplayer));
+    }
+  } players_iterate_end;
+
+  for (i = 0; i < ARRAY_SIZE(score_tags); i++) {
     players_iterate(pplayer) {
       if (!GOOD_PLAYER(pplayer)) {
-	continue;
+        continue;
       }
 
-      fprintf(fp, "data %d %d %d %d\n", game.info.turn, i,
-	      player_number(pplayer), score_tags[i].get_value(pplayer));
+      fprintf(score_log->fp, "data %d %d %d %d\n", game.info.turn, i,
+              player_number(pplayer), score_tags[i].get_value(pplayer));
     } players_iterate_end;
   }
 
-  fflush(fp);
+  fflush(score_log->fp);
 
   return;
 
 log_civ_score_disable:
 
-  if (fp) {
-    fclose(fp);
-    fp = NULL;
-  }
-
-  disabled = TRUE;
+  log_civ_score_free();
 }
 
 /**************************************************************************
