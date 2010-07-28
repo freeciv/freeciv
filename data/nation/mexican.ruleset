@@ -19,7 +19,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="aztec", "texan"
+civilwar_nations="aztec", "texan", "californian"
 
 cities =
   "Ciudad de México", "Guadalajara", "Monterrey",

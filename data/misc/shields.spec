@@ -50,6 +50,7 @@ sprites =
 		"f.shield.burgundy", "flags/burgundy-shield"
 		"f.shield.burundi", "flags/burundi-shield"
 		"f.shield.byzantium", "flags/byzantium-shield"
+		"f.shield.california", "flags/california-shield"
 		"f.shield.canada", "flags/canada-shield"
 		"f.shield.cartago", "flags/cartago-shield"
 		"f.shield.castile", "flags/castile-shield"

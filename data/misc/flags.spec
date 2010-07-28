@@ -50,6 +50,7 @@ artists = "
    Burgundy		Daniel Markstedt
    Burundi		Sebastian Koppehel
    Byzantium		Dragases
+   California		Devin Cook (Wikimedia Commons user)
    Canada		James Leigh
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
@@ -277,6 +278,7 @@ sprites =
 		"f.burgundy", "flags/burgundy"
 		"f.burundi", "flags/burundi"
 		"f.byzantium", "flags/byzantium"
+		"f.california", "flags/california"
 		"f.canada", "flags/canada"
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"

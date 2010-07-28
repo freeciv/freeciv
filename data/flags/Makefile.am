@@ -42,6 +42,7 @@ flag_files =				\
 		burgundy.png		\
 		burundi.png		\
 		byzantium.png		\
+		california.png		\
 		canada.png		\
 		cartago.png		\
 		castile.png		\
@@ -267,6 +268,7 @@ shield_files =					\
 		burgundy-shield.png		\
 		burundi-shield.png		\
 		byzantium-shield.png		\
+		california-shield.png		\
 		canada-shield.png		\
 		cartago-shield.png		\
 		castile-shield.png		\
@@ -492,6 +494,7 @@ svg_files = 				\
 		burgundy.svg		\
 		burundi.svg		\
 		byzantium.svg		\
+		california.svg		\
 		canada.svg		\
 		cartago.svg		\
 		castile.svg		\
