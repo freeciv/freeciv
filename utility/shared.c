@@ -104,6 +104,9 @@ static char *grouping_sep = NULL;
 static const char base64url[] =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
 
+static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
+                                   const struct fileinfo *const *ppb);
+
 
 /***************************************************************
   Take a string containing multiple lines and create a copy where
@@ -1204,7 +1207,10 @@ static void fileinfo_destroy(struct fileinfo *pfile)
 static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
                                    const struct fileinfo *const *ppb)
 {
-  return ((*ppa)->mtime < (*ppb)->mtime);
+  time_t a = (*ppa)->mtime;
+  time_t b = (*ppb)->mtime;
+
+  return ((a < b) ? 1 : (a > b) ? -1 : 0);
 }
 
 /**************************************************************************
