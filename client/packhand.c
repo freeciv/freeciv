@@ -764,7 +764,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
   if (popup
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_data.control
+      && !client.conn.playing->ai_common.control
       && can_client_issue_orders()) {
     menus_update();
     if (!city_dialog_is_open(pcity)) {
@@ -1036,7 +1036,7 @@ void handle_start_phase(int phase)
 
     update_turn_done_button_state();
 
-    if (client.conn.playing->ai_data.control && !ai_manual_turn_done) {
+    if (client.conn.playing->ai_common.control && !ai_manual_turn_done) {
       user_ended_turn();
     }
 
@@ -1136,7 +1136,7 @@ void handle_page_msg(char *message, enum event_type event)
   }
 
   if (NULL == client.conn.playing
-      || !client.conn.playing->ai_data.control
+      || !client.conn.playing->ai_common.control
       || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
@@ -1236,7 +1236,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Wakeup Focus */
       if (wakeup_focus 
           && NULL != client.conn.playing
-          && !client.conn.playing->ai_data.control
+          && !client.conn.playing->ai_common.control
           && unit_owner(punit) == client.conn.playing
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
@@ -1379,7 +1379,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
         if (popup_caravan_arrival
             && client_has_player() 
-            && !client_player()->ai_data.control
+            && !client_player()->ai_common.control
             && can_client_issue_orders()
             && !unit_has_orders(punit)) {
           if (punit->transported_by == -1
@@ -1476,7 +1476,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   if ((check_focus || get_num_units_in_focus() == 0)
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_data.control
+      && !client.conn.playing->ai_common.control
       && is_player_phase(client.conn.playing, game.info.phase)) {
     update_unit_focus();
   }
@@ -1790,7 +1790,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style = pinfo->city_style;
   for (i = 0; i < player_slot_count(); i++) {
-    pplayer->ai_data.love[i] = pinfo->love[i];
+    pplayer->ai_common.love[i] = pinfo->love[i];
   }
 
   my_id = client_player_number();
@@ -1835,10 +1835,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
 
   /* We need to set ai.control before read_player_info_techs */
-  if (pplayer->ai_data.control != pinfo->ai)  {
-    pplayer->ai_data.control = pinfo->ai;
+  if (pplayer->ai_common.control != pinfo->ai)  {
+    pplayer->ai_common.control = pinfo->ai;
     if (pplayer == my_player)  {
-      if (my_player->ai_data.control) {
+      if (my_player->ai_common.control) {
         output_window_append(ftc_client, _("AI mode is now ON."));
       } else {
         output_window_append(ftc_client, _("AI mode is now OFF."));
@@ -1846,7 +1846,7 @@ void handle_player_info(struct packet_player_info *pinfo)
     }
   }
 
-  pplayer->ai_data.science_cost = pinfo->science_cost;
+  pplayer->ai_common.science_cost = pinfo->science_cost;
 
   /* If the server sends out player information at the wrong time, it is
    * likely to give us inconsistent player tech information, causing a
@@ -1878,15 +1878,15 @@ void handle_player_info(struct packet_player_info *pinfo)
   research->tech_goal = pinfo->tech_goal;
   
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
-                       || pplayer->ai_data.control != pinfo->ai);
+                       || pplayer->ai_common.control != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->is_ready = pinfo->is_ready;
   pplayer->nturns_idle = pinfo->nturns_idle;
   pplayer->is_alive = pinfo->is_alive;
-  pplayer->ai_data.barbarian_type = pinfo->barbarian_type;
+  pplayer->ai_common.barbarian_type = pinfo->barbarian_type;
   pplayer->revolution_finishes = pinfo->revolution_finishes;
-  pplayer->ai_data.skill_level = pinfo->ai_skill_level;
+  pplayer->ai_common.skill_level = pinfo->ai_skill_level;
 
   /* if the server requests that the client reset, then information about
    * connections to this player are lost. If this is the case, insert the
@@ -1912,7 +1912,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       science_dialog_update();
     }
     if (poptechup) {
-      if (client_has_player() && !my_player->ai_data.control) {
+      if (client_has_player() && !my_player->ai_common.control) {
         popup_science_dialog(FALSE);
       }
     }
@@ -3073,7 +3073,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_BRIBE:
     if (punit) {
       if (NULL != client.conn.playing
-          && !client.conn.playing->ai_data.control) {
+          && !client.conn.playing->ai_common.control) {
         popup_bribe_dialog(punit, cost);
       }
     }
@@ -3081,7 +3081,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_INCITE:
     if (pcity) {
       if (NULL != client.conn.playing
-          && !client.conn.playing->ai_data.control) {
+          && !client.conn.playing->ai_common.control) {
         popup_incite_dialog(pcity, cost);
       }
     }

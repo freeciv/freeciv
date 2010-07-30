@@ -201,7 +201,7 @@ struct player {
 
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
-  struct player_ai ai_data;
+  struct player_ai ai_common;
   struct ai_type *ai;
   bool was_created;                    /* if the player was /created */
   bool is_connected;

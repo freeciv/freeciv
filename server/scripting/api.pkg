@@ -41,7 +41,7 @@ struct Player {
   const char *name;
   Nation_Type *nation;
 
-  Player_ai ai_data;
+  Player_ai ai_common;
 };
 
 module Player {
@@ -258,7 +258,7 @@ end
 
 -- Player methods
 function Player:is_human()
-  return not self.ai_data.control
+  return not self.ai_common.control
 end
 
 ----------------------------------------------------------------------

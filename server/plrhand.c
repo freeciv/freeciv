@@ -264,7 +264,7 @@ static void finish_revolution(struct player *pplayer)
                 nation_plural_for_player(pplayer),
                 government_name_translation(government));
 
-  if (!pplayer->ai_data.control) {
+  if (!pplayer->ai_common.control) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
@@ -324,7 +324,7 @@ void handle_player_change_government(struct player *pplayer, int government)
      * or even in the past (if the player is in anarchy and hasn't chosen
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
-  } else if ((pplayer->ai_data.control && !ai_handicap(pplayer, H_REVOLUTION))
+  } else if ((pplayer->ai_common.control && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
@@ -763,12 +763,13 @@ static void package_player_common(struct player *plr,
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
-  packet->ai = plr->ai_data.control;
-  packet->ai_skill_level = plr->ai_data.control ? plr->ai_data.skill_level : 0;
+  packet->ai = plr->ai_common.control;
+  packet->ai_skill_level = plr->ai_common.control
+                           ? plr->ai_common.skill_level : 0;
   for (i = 0; i < player_slot_count(); i++) {
-    packet->love[i] = plr->ai_data.love[i];
+    packet->love[i] = plr->ai_common.love[i];
   }
-  packet->barbarian_type = plr->ai_data.barbarian_type;
+  packet->barbarian_type = plr->ai_common.barbarian_type;
 
   packet->phase_done = plr->phase_done;
   packet->nturns_idle=plr->nturns_idle;
@@ -776,7 +777,7 @@ static void package_player_common(struct player *plr,
   for (i = 0; i < B_LAST/*improvement_count()*/; i++) {
     packet->wonders[i] = plr->wonders[i];
   }
-  packet->science_cost = plr->ai_data.science_cost;
+  packet->science_cost = plr->ai_common.science_cost;
 }
 
 /**************************************************************************
@@ -1168,10 +1169,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer1),
                   player_name(pplayer1));
-    if (pplayer1->ai_data.control) {
+    if (pplayer1->ai_common.control) {
       call_first_contact(pplayer1, pplayer2);
     }
-    if (pplayer2->ai_data.control && !pplayer1->ai_data.control) {
+    if (pplayer2->ai_common.control && !pplayer1->ai_common.control) {
       call_first_contact(pplayer2, pplayer1);
     }
     send_player_info(pplayer1, pplayer2);
@@ -1460,16 +1461,16 @@ static struct player *split_player(struct player *pplayer)
 
   /* Do the ai */
 
-  cplayer->ai_data.control = TRUE;
-  cplayer->ai_data.prev_gold = pplayer->ai_data.prev_gold;
-  cplayer->ai_data.maxbuycost = pplayer->ai_data.maxbuycost;
-  cplayer->ai_data.handicaps = pplayer->ai_data.handicaps;
-  cplayer->ai_data.warmth = pplayer->ai_data.warmth;
-  cplayer->ai_data.frost = pplayer->ai_data.frost;
+  cplayer->ai_common.control = TRUE;
+  cplayer->ai_common.prev_gold = pplayer->ai_common.prev_gold;
+  cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
+  cplayer->ai_common.handicaps = pplayer->ai_common.handicaps;
+  cplayer->ai_common.warmth = pplayer->ai_common.warmth;
+  cplayer->ai_common.frost = pplayer->ai_common.frost;
   set_ai_level_direct(cplayer, game.info.skill_level);
 
   advance_index_iterate(A_NONE, i) {
-    cplayer->ai_data.tech_want[i] = pplayer->ai_data.tech_want[i];
+    cplayer->ai_common.tech_want[i] = pplayer->ai_common.tech_want[i];
   } advance_index_iterate_end;
   
   /* change the original player */
@@ -1501,7 +1502,7 @@ static struct player *split_player(struct player *pplayer)
    * to avoid doing some ai calculations with bogus data. */
   ai_data_phase_init(cplayer, TRUE);
   assess_danger_player(cplayer);
-  if (pplayer->ai_data.control) {
+  if (pplayer->ai_common.control) {
     assess_danger_player(pplayer);
   }
 

@@ -829,7 +829,7 @@ static bool process_defender_want(struct player *pplayer, struct city *pcity,
        * it is written this way, and the results seem strange to me. - Per */
       int desire = tech_desire[utype_index(punittype)] * best_unit_cost / best;
 
-      pplayer->ai_data.tech_want[advance_index(punittype->require_advance)]
+      pplayer->ai_common.tech_want[advance_index(punittype->require_advance)]
         += desire;
       TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
                "+ %d for %s to defend %s",
@@ -1014,7 +1014,7 @@ static void process_attacker_want(struct city *pcity,
       if (want > 0) {
         if (tech_dist > 0) {
           /* This is a future unit, tell the scientist how much we need it */
-          pplayer->ai_data.tech_want[advance_index(punittype->require_advance)]
+          pplayer->ai_common.tech_want[advance_index(punittype->require_advance)]
             += want;
           TECH_LOG(LOG_DEBUG, pplayer, punittype->require_advance,
                    "+ %d for %s vs %s(%d,%d)",

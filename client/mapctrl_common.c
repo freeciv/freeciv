@@ -508,7 +508,7 @@ void maybe_activate_keyboardless_goto(int canvas_x, int canvas_y)
 bool get_turn_done_button_state(void)
 {
   return (can_client_issue_orders()
-          && !client.conn.playing->ai_data.control
+          && !client.conn.playing->ai_common.control
           && !client.conn.playing->phase_done
           && !agents_busy());
 }
@@ -618,7 +618,7 @@ void update_turn_done_button_state(void)
   if (turn_done_state) {
     if (waiting_for_end_turn
         || (NULL != client.conn.playing
-            && client.conn.playing->ai_data.control
+            && client.conn.playing->ai_common.control
             && !ai_manual_turn_done)) {
       send_turn_done();
     } else {

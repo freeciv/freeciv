@@ -382,19 +382,19 @@ void ai_choose_paratrooper(struct player *pplayer, struct city *pcity,
   /* we raise want if the required tech is not known */
   for (i = 0; i < num_requirements; i++) {
     tech_req = requirements[i];
-    pplayer->ai_data.tech_want[tech_req] += 2;
+    pplayer->ai_common.tech_want[tech_req] += 2;
     log_base(LOGLEVEL_PARATROOPER, "Raising tech want in city %s for %s "
              "stimulating %s with %d (%d) and req",
              city_name(pcity),
              player_name(pplayer),
              advance_name_by_player(pplayer, tech_req),
              2,
-             pplayer->ai_data.tech_want[tech_req]);
+             pplayer->ai_common.tech_want[tech_req]);
 
     /* now, we raise want for prerequisites */
     advance_index_iterate(A_FIRST, k) {
       if (is_tech_a_req_for_goal(pplayer, k, tech_req)) {
-        pplayer->ai_data.tech_want[k] += 1;
+        pplayer->ai_common.tech_want[k] += 1;
       }
     } advance_index_iterate_end;
   }

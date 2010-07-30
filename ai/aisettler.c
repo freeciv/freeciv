@@ -593,7 +593,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct unit *ferry = NULL;
   struct unit_class *ferry_class = NULL;
 
-  fc_assert_ret(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_common.control);
   /* Only virtual units may use virtual boats: */
   fc_assert_ret(0 == punit->id || !use_virt_boat);
 
@@ -635,7 +635,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
 
         if (NULL != boattype
          && A_NEVER != boattype->require_advance) {
-          pplayer->ai_data.tech_want[advance_index(boattype->require_advance)]
+          pplayer->ai_common.tech_want[advance_index(boattype->require_advance)]
             += FERRY_TECH_WANT;
           TECH_LOG(LOG_DEBUG, pplayer, boattype->require_advance,
                    "+ %d for %s to ferry settler",

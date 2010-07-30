@@ -2864,10 +2864,10 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
 
     /* print out some informations */
-    if (pplayer->ai_data.control) {
+    if (pplayer->ai_common.control) {
       log_normal(_("%s has been added as %s level AI-controlled player."),
                  player_name(pplayer),
-                 ai_level_name(pplayer->ai_data.skill_level));
+                 ai_level_name(pplayer->ai_common.skill_level));
     } else {
       log_normal(_("%s has been added as human player."),
                  player_name(pplayer));
@@ -3111,7 +3111,7 @@ static void sg_load_player_main(struct loaddata *loading,
 
   /* AI data. */
   ai = ai_data_get(plr);
-  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_data.control,
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_common.control,
                                      "player%d.ai.control", plrno),
                  "%s", secfile_error());
 
@@ -3158,7 +3158,7 @@ static void sg_load_player_main(struct loaddata *loading,
 
     fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno, i);
 
-    plr->ai_data.love[i] = secfile_lookup_int_default(loading->file, 1,
+    plr->ai_common.love[i] = secfile_lookup_int_default(loading->file, 1,
                                                       "%s.love", buf);
     ai->diplomacy.player_intel[i].spam
          = secfile_lookup_int_default(loading->file, 0,
@@ -3190,18 +3190,18 @@ static void sg_load_player_main(struct loaddata *loading,
     = secfile_lookup_int_default(loading->file, game.info.skill_level,
                                  "player%d.ai.skill_level", plrno);
   /* Some sane defaults */
-  BV_CLR_ALL(plr->ai_data.handicaps);
-  plr->ai_data.fuzzy = 0;
-  plr->ai_data.expand = 100;
-  plr->ai_data.science_cost = 100;
-  plr->ai_data.skill_level =
+  BV_CLR_ALL(plr->ai_common.handicaps);
+  plr->ai_common.fuzzy = 0;
+  plr->ai_common.expand = 100;
+  plr->ai_common.science_cost = 100;
+  plr->ai_common.skill_level =
     secfile_lookup_int_default(loading->file, game.info.skill_level,
                                "player%d.ai.skill_level", plrno);
-  if (plr->ai_data.control) {
-    set_ai_level_directer(plr, plr->ai_data.skill_level);
+  if (plr->ai_common.control) {
+    set_ai_level_directer(plr, plr->ai_common.skill_level);
   }
 
-  plr->ai_data.barbarian_type
+  plr->ai_common.barbarian_type
     = secfile_lookup_int_default(loading->file, 0,
                                  "player%d.ai.is_barbarian", plrno);
   if (is_barbarian(plr)) {
@@ -3398,7 +3398,7 @@ static void sg_save_player_main(struct savedata *saving,
                       "player%d.is_male", plrno);
   secfile_insert_bool(saving->file, plr->is_alive,
                       "player%d.is_alive", plrno);
-  secfile_insert_bool(saving->file, plr->ai_data.control,
+  secfile_insert_bool(saving->file, plr->ai_common.control,
                       "player%d.ai.control", plrno);
 
   players_iterate(pplayer) {
@@ -3433,7 +3433,7 @@ static void sg_save_player_main(struct savedata *saving,
 
     i = player_index(pplayer);
     /* load ai data */
-    secfile_insert_int(saving->file, plr->ai_data.love[i],
+    secfile_insert_int(saving->file, plr->ai_common.love[i],
                        "player%d.ai%d.love", plrno, i);
     secfile_insert_int(saving->file, intel[i].spam,
                        "player%d.ai%d.spam", plrno, i);
@@ -3453,9 +3453,9 @@ static void sg_save_player_main(struct savedata *saving,
                        "player%d.ai%d.ask_ceasefire", plrno, i);
   } players_iterate_end;
 
-  secfile_insert_int(saving->file, plr->ai_data.skill_level,
+  secfile_insert_int(saving->file, plr->ai_common.skill_level,
                      "player%d.ai.skill_level", plrno);
-  secfile_insert_int(saving->file, plr->ai_data.barbarian_type,
+  secfile_insert_int(saving->file, plr->ai_common.barbarian_type,
                      "player%d.ai.is_barbarian", plrno);
   secfile_insert_int(saving->file, plr->economic.gold,
                      "player%d.gold", plrno);
@@ -5092,16 +5092,16 @@ static void sg_load_sanitycheck(struct loaddata *loading)
    * This also changes the game state if you save the game directly after
    * loading it and compare the results. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_data.control;
+    bool saved_ai_control = pplayer->ai_common.control;
 
     /* Recalculate for all players. */
-    pplayer->ai_data.control = FALSE;
+    pplayer->ai_common.control = FALSE;
 
     if (pplayer->ai->funcs.building_advisor_init) {
       pplayer->ai->funcs.building_advisor_init(pplayer);
     }
 
-    pplayer->ai_data.control = saved_ai_control;
+    pplayer->ai_common.control = saved_ai_control;
   } players_iterate_end;
 
   /* Check worked tiles map */

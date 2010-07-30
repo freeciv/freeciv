@@ -238,7 +238,7 @@ void update_players_dialog(void)
       }
 
       /* text for name, plus AI marker */       
-      if (pplayer->ai_data.control) {
+      if (pplayer->ai_common.control) {
         fc_snprintf(namebuf, sizeof(namebuf), "*%-15s",player_name(pplayer));
       } else {
         fc_snprintf(namebuf, sizeof(namebuf), "%-16s",player_name(pplayer));

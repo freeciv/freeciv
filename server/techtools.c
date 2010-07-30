@@ -365,7 +365,7 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
                   advance_name_researching(plr),
                   advance_name_for_player(plr, research->tech_goal));
     } else {
-      if (plr->ai_data.control) {
+      if (plr->ai_common.control) {
         choose_random_tech(plr);
       } else if (is_future_tech(tech_found)) {
         /* Continue researching future tech. */

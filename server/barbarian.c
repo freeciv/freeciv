@@ -68,7 +68,7 @@
 **************************************************************************/
 bool is_land_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai_data.barbarian_type == LAND_BARBARIAN);
+  return (pplayer->ai_common.barbarian_type == LAND_BARBARIAN);
 }
 
 /**************************************************************************
@@ -76,7 +76,7 @@ bool is_land_barbarian(struct player *pplayer)
 **************************************************************************/
 bool is_sea_barbarian(struct player *pplayer)
 {
-  return (pplayer->ai_data.barbarian_type == SEA_BARBARIAN);
+  return (pplayer->ai_common.barbarian_type == SEA_BARBARIAN);
 }
 
 /**************************************************************************
@@ -135,8 +135,8 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->phase_done = TRUE;
 
   /* Do the ai */
-  barbarians->ai_data.control = TRUE;
-  barbarians->ai_data.barbarian_type = type;
+  barbarians->ai_common.control = TRUE;
+  barbarians->ai_common.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
   init_tech(barbarians, TRUE);
   give_global_initial_techs(barbarians);

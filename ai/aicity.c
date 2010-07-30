@@ -331,7 +331,7 @@ static void want_tech_for_improvement_effect(struct player *pplayer,
     building_want, tech_want);
 #endif
   if (tech) {
-    pplayer->ai_data.tech_want[advance_index(tech)] += tech_want;
+    pplayer->ai_common.tech_want[advance_index(tech)] += tech_want;
   }
 }
 
@@ -722,7 +722,7 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
-      if (aplayer->ai_data.control) {
+      if (aplayer->ai_common.control) {
 	if (ai_handicap(pplayer, H_DEFENSIVE)) {
 	  v += amount / 10;
 	} else {
@@ -1240,7 +1240,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
    * if improvements have improvements as requirements.
    */
   city_list_iterate(pplayer->cities, pcity) {
-    if (!pplayer->ai_data.control) {
+    if (!pplayer->ai_common.control) {
       /* For a human player, any building is worth building until discarded */
       improvement_iterate(pimprove) {
         pcity->server.ai->building_want[improvement_index(pimprove)] = 1;
@@ -1277,7 +1277,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
                    || is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
           /* Don't consider impossible or redundant buildings */
           pcity->server.ai->building_want[improvement_index(pimprove)] = 0;
-        } else if (pplayer->ai_data.control
+        } else if (pplayer->ai_common.control
                    && pcity->server.ai->building_turn <= game.info.turn) {
           /* Building wants vary relatively slowly, so not worthwhile
            * recalculating them every turn.
@@ -1594,7 +1594,7 @@ static void try_to_sell_stuff(struct player *pplayer, struct city *pcity)
 **************************************************************************/
 static void increase_maxbuycost(struct player *pplayer, int new_value)
 {
-  pplayer->ai_data.maxbuycost = MAX(pplayer->ai_data.maxbuycost, new_value);
+  pplayer->ai_common.maxbuycost = MAX(pplayer->ai_common.maxbuycost, new_value);
 }
 
 /************************************************************************** 
@@ -1624,7 +1624,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 
         /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
         if (unit_has_type_flag(punit, F_TRIREME)) {
-          real_limit = pplayer->ai_data.est_upkeep;
+          real_limit = pplayer->ai_common.est_upkeep;
         }
         if (pplayer->economic.gold - cost > real_limit) {
           CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
@@ -1704,7 +1704,7 @@ static void ai_spend_gold(struct player *pplayer)
         int upgrade_limit = limit;
 
         if (pcity->server.ai->urgency > 1) {
-          upgrade_limit = pplayer->ai_data.est_upkeep;
+          upgrade_limit = pplayer->ai_common.est_upkeep;
         }
         /* Upgrade only military units now */
         ai_upgrade_units(pcity, upgrade_limit, TRUE);
@@ -1761,7 +1761,7 @@ static void ai_spend_gold(struct player *pplayer)
      * pcity was doomed, and we should therefore attempt
      * to sell everything in it of non-military value */
 
-    if (pplayer->economic.gold - pplayer->ai_data.est_upkeep >= buycost
+    if (pplayer->economic.gold - pplayer->ai_common.est_upkeep >= buycost
         && (!expensive 
             || (pcity->server.ai->grave_danger != 0
                 && assess_defense(pcity) == 0)
@@ -1781,7 +1781,7 @@ static void ai_spend_gold(struct player *pplayer)
                pplayer->economic.gold,
                buycost);
       try_to_sell_stuff(pplayer, pcity);
-      if (pplayer->economic.gold - pplayer->ai_data.est_upkeep >= buycost) {
+      if (pplayer->economic.gold - pplayer->ai_common.est_upkeep >= buycost) {
         CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");
         really_handle_city_buy(pplayer, pcity);
       }
@@ -1797,7 +1797,7 @@ static void ai_spend_gold(struct player *pplayer)
   }
 
   log_base(LOG_BUY, "%s wants to keep %d in reserve (tax factor %d)", 
-           player_name(pplayer), cached_limit, pplayer->ai_data.maxbuycost);
+           player_name(pplayer), cached_limit, pplayer->ai_common.maxbuycost);
 }
 
 /**************************************************************************
@@ -1808,7 +1808,7 @@ static void ai_spend_gold(struct player *pplayer)
 **************************************************************************/
 void ai_manage_cities(struct player *pplayer)
 {
-  pplayer->ai_data.maxbuycost = 0;
+  pplayer->ai_common.maxbuycost = 0;
 
   TIMING_LOG(AIT_EMERGENCY, TIMER_START);
   city_list_iterate(pplayer->cities, pcity) {

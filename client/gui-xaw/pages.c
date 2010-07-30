@@ -228,12 +228,12 @@ void update_start_page(void)
     j = 0;
 
     players_iterate(pplayer) {
-      if (pplayer->ai_data.control) {
+      if (pplayer->ai_common.control) {
 	name = _("<AI>");
       } else {
 	name = pplayer->username;
       }
-      is_ready = pplayer->ai_data.control ? TRUE: pplayer->is_ready;
+      is_ready = pplayer->ai_common.control ? TRUE: pplayer->is_ready;
       if (pplayer->nation == NO_NATION_SELECTED) {
 	nation = _("Random");
 	leader = "";

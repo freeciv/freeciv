@@ -64,7 +64,7 @@ void real_tech_log(const char *file, const char *function, int line,
   fc_snprintf(buffer, sizeof(buffer), "%s::%s (want %d, dist %d) ",
               player_name(pplayer),
               advance_name_by_player(pplayer, advance_number(padvance)),
-              pplayer->ai_data.tech_want[advance_index(padvance)],
+              pplayer->ai_common.tech_want[advance_index(padvance)],
               num_unknown_techs_for_goal(pplayer, advance_number(padvance)));
 
   va_start(ap, msg);
@@ -99,7 +99,7 @@ void real_diplo_log(const char *file, const char *function, int line,
   fc_snprintf(buffer, sizeof(buffer), "%s->%s(l%d,c%d,d%d%s): ",
               player_name(pplayer),
               player_name(aplayer),
-              pplayer->ai_data.love[player_index(aplayer)],
+              pplayer->ai_common.love[player_index(aplayer)],
               adip->countdown,
               adip->distance,
               adip->is_allied_with_enemy ? "?" :

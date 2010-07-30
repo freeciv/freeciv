@@ -2204,7 +2204,7 @@ static void player_load_main(struct player *plr, int plrno,
 
   research = get_player_research(plr);
 
-  plr->ai_data.barbarian_type = secfile_lookup_int_default(file, 0,
+  plr->ai_common.barbarian_type = secfile_lookup_int_default(file, 0,
                                                     "player%d.ai.is_barbarian",
                                                     plrno);
   if (is_barbarian(plr)) {
@@ -2361,7 +2361,7 @@ static void player_load_main(struct player *plr, int plrno,
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->is_alive,
                                          "player%d.is_alive", plrno),
                      "%s", secfile_error());
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_data.control,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_common.control,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());
 
@@ -2377,19 +2377,19 @@ static void player_load_main(struct player *plr, int plrno,
     research->tech_goal = A_UNSET;
   }
   /* Some sane defaults */
-  BV_CLR_ALL(plr->ai_data.handicaps); /* set later */
-  plr->ai_data.fuzzy = 0;		 /* set later */
-  plr->ai_data.expand = 100;		 /* set later */
-  plr->ai_data.science_cost = 100;	 /* set later */
-  plr->ai_data.skill_level =
+  BV_CLR_ALL(plr->ai_common.handicaps); /* set later */
+  plr->ai_common.fuzzy = 0;		 /* set later */
+  plr->ai_common.expand = 100;		 /* set later */
+  plr->ai_common.science_cost = 100;	 /* set later */
+  plr->ai_common.skill_level =
     secfile_lookup_int_default(file, game.info.skill_level,
                                "player%d.ai.skill_level", plrno);
-  if (plr->ai_data.control && plr->ai_data.skill_level==0) {
-    plr->ai_data.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
+  if (plr->ai_common.control && plr->ai_common.skill_level==0) {
+    plr->ai_common.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
   }
-  if (plr->ai_data.control) {
+  if (plr->ai_common.control) {
     /* Set AI parameters */
-    set_ai_level_directer(plr, plr->ai_data.skill_level);
+    set_ai_level_directer(plr, plr->ai_common.skill_level);
   }
 
   fc_assert_exit_msg(secfile_lookup_int(file, &plr->economic.gold,
@@ -2585,7 +2585,7 @@ static void player_load_main2(struct player *plr, int plrno,
     i = player_index(pplayer);
 
     /* ai data */
-    plr->ai_data.love[i]
+    plr->ai_common.love[i]
          = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
     ai->diplomacy.player_intel[i].spam 
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
@@ -3620,12 +3620,12 @@ static void player_save_main(struct player *plr, int plrno,
 
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
-  secfile_insert_bool(file, plr->ai_data.control, "player%d.ai.control", plrno);
+  secfile_insert_bool(file, plr->ai_common.control, "player%d.ai.control", plrno);
 
   players_iterate(pplayer) {
     i = player_index(pplayer);
 
-    secfile_insert_int(file, plr->ai_data.love[i],
+    secfile_insert_int(file, plr->ai_common.love[i],
                        "player%d.ai%d.love", plrno, i);
     secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
                        "player%d.ai%d.spam", plrno, i);
@@ -3648,9 +3648,9 @@ static void player_save_main(struct player *plr, int plrno,
   technology_save(file, "player%d.ai.tech_goal",
                   plrno, get_player_research(plr)->tech_goal);
 
-  secfile_insert_int(file, plr->ai_data.skill_level,
+  secfile_insert_int(file, plr->ai_common.skill_level,
 		     "player%d.ai.skill_level", plrno);
-  secfile_insert_int(file, plr->ai_data.barbarian_type,
+  secfile_insert_int(file, plr->ai_common.barbarian_type,
                      "player%d.ai.is_barbarian", plrno);
   secfile_insert_int(file, plr->economic.gold, "player%d.gold", plrno);
   secfile_insert_int(file, plr->economic.tax, "player%d.tax", plrno);
@@ -5127,10 +5127,10 @@ static void game_load_internal(struct section_file *file)
       player_load_attributes(pplayer, plrno, file);
 
       /* print out some informations */
-      if (pplayer->ai_data.control) {
+      if (pplayer->ai_common.control) {
         log_normal(_("%s has been added as %s level AI-controlled player."),
                    player_name(pplayer),
-                   ai_level_name(pplayer->ai_data.skill_level));
+                   ai_level_name(pplayer->ai_common.skill_level));
       } else {
         log_normal(_("%s has been added as human player."),
                    player_name(pplayer));
@@ -5342,16 +5342,16 @@ static void game_load_internal(struct section_file *file)
   /* Recalculate the potential buildings for each city.  
    * Has caused some problems with game random state. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_data.control;
+    bool saved_ai_control = pplayer->ai_common.control;
 
     /* Recalculate for all players. */
-    pplayer->ai_data.control = FALSE;
+    pplayer->ai_common.control = FALSE;
 
     if (pplayer->ai->funcs.building_advisor_init) {
       pplayer->ai->funcs.building_advisor_init(pplayer);
     }
 
-    pplayer->ai_data.control = saved_ai_control;
+    pplayer->ai_common.control = saved_ai_control;
   } players_iterate_end;
   
   /* Restore game random state, just in case various initialization code

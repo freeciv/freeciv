@@ -149,7 +149,7 @@ static int ai_goldequiv_tech(struct player *pplayer, Tech_type_id tech)
     return 0;
   }
   bulbs = total_bulbs_required_for_goal(pplayer, tech) * 3;
-  tech_want = MAX(pplayer->ai_data.tech_want[tech], 0) / MAX(game.info.turn, 1);
+  tech_want = MAX(pplayer->ai_common.tech_want[tech], 0) / MAX(game.info.turn, 1);
   worth = bulbs + tech_want;
   if (TECH_PREREQS_KNOWN == state) {
     worth /= 2;
@@ -191,7 +191,7 @@ static bool ai_players_can_agree_on_ceasefire(struct player* player1,
 {
   struct ai_data *ai = ai_data_get(player1);
 
-  return (player1->ai_data.love[player_index(player2)] > - (MAX_AI_LOVE * 4 / 10)
+  return (player1->ai_common.love[player_index(player2)] > - (MAX_AI_LOVE * 4 / 10)
           && ai->diplomacy.player_intel[player_index(player2)].countdown == -1);
 }
 
@@ -362,21 +362,21 @@ static int ai_goldequiv_clause(struct player *pplayer,
       } else if (adip->countdown >= 0 || adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
       } else {
-        worth = greed(pplayer->ai_data.love[player_index(aplayer)]
+        worth = greed(pplayer->ai_common.love[player_index(aplayer)]
                       - ai->diplomacy.req_love_for_peace);
       }
     } else if (pclause->type == CLAUSE_ALLIANCE) {
       if (!pplayers_in_peace(pplayer, aplayer)) {
-        worth = greed(pplayer->ai_data.love[player_index(aplayer)]
+        worth = greed(pplayer->ai_common.love[player_index(aplayer)]
                       - ai->diplomacy.req_love_for_peace);
       }
       if (adip->countdown >= 0 || adip->countdown < -1) {
         worth = -BIG_NUMBER; /* but say nothing */
       } else {
-        worth += greed(pplayer->ai_data.love[player_index(aplayer)]
+        worth += greed(pplayer->ai_common.love[player_index(aplayer)]
                        - ai->diplomacy.req_love_for_alliance);
       }
-      if (pplayer->ai_data.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
+      if (pplayer->ai_common.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
         notify(aplayer, _("*%s (AI)* I simply do not trust you with an "
                "alliance yet, %s."),
                player_name(pplayer),
@@ -385,7 +385,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
       }
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "ally clause worth %d", worth);
     } else {
-      if (pplayer->ai_data.control && aplayer->ai_data.control &&
+      if (pplayer->ai_common.control && aplayer->ai_common.control &&
          ai_players_can_agree_on_ceasefire(pplayer, aplayer)) {
 	 worth = 0;
       } else {
@@ -396,10 +396,10 @@ static int ai_goldequiv_clause(struct player *pplayer,
           worth = 0; /* show some good faith */
           break;
         } else {
-          worth = greed(pplayer->ai_data.love[player_index(aplayer)]);
+          worth = greed(pplayer->ai_common.love[player_index(aplayer)]);
           DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "ceasefire worth=%d love=%d "
                     "turns=%d", worth,
-                    pplayer->ai_data.love[player_index(aplayer)],
+                    pplayer->ai_common.love[player_index(aplayer)],
                     turns);
         }
       }
@@ -432,7 +432,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
          new areas the more cities he has already. */
       worth -= 15 * city_list_size(aplayer->cities);
       /* Don't like him? Don't give him! */
-      worth = MIN(pplayer->ai_data.love[player_index(aplayer)] * 7, worth);
+      worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 7, worth);
       /* Make maps from novice player cheap */
       if (ai_handicap(pplayer, H_DIPLOMACY)) {
         worth /= 2;
@@ -455,7 +455,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
         worth *= 2;
       }
       /* Don't like him? Don't give him! */
-      worth = MIN(pplayer->ai_data.love[player_index(aplayer)] * 10, worth);
+      worth = MIN(pplayer->ai_common.love[player_index(aplayer)] * 10, worth);
       /* Make maps from novice player cheap */
       if (ai_handicap(pplayer, H_DIPLOMACY)) {
         worth /= 6;
@@ -525,7 +525,7 @@ static int ai_goldequiv_clause(struct player *pplayer,
         worth = -5 * game.info.turn;
       } else {
         worth = MIN(-50 * game.info.turn
-                    + pplayer->ai_data.love[player_index(aplayer)], 
+                    + pplayer->ai_common.love[player_index(aplayer)], 
                     -5 * game.info.turn);
       }
     } else {
@@ -706,7 +706,7 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
     int i = total_balance / ((city_list_size(pplayer->cities) * 10) + 1);
 
     i = MIN(i, ai->diplomacy.love_incr * 150) * 10;
-    pplayer->ai_data.love[player_index(aplayer)] += i;
+    pplayer->ai_common.love[player_index(aplayer)] += i;
     DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "gift increased love by %d", i);
   }
 }
@@ -824,11 +824,11 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
   } players_iterate_end;
 
   /* Modify by love. Increase the divisor to make ai go to war earlier */
-  want -= MAX(0, want * pplayer->ai_data.love[player_index(target)] 
+  want -= MAX(0, want * pplayer->ai_common.love[player_index(target)] 
                  / (2 * MAX_AI_LOVE));
 
   /* Make novice AI more peaceful with human players */
-  if (ai_handicap(pplayer, H_DIPLOMACY) && !target->ai_data.control) {
+  if (ai_handicap(pplayer, H_DIPLOMACY) && !target->ai_common.control) {
     want /= 2;
   }
 
@@ -869,7 +869,7 @@ static void ai_diplomacy_suggest(struct player *pplayer,
 void ai_diplomacy_first_contact(struct player *pplayer,
                                 struct player *aplayer)
 {
-  if (pplayer->ai_data.control && !ai_handicap(pplayer, H_AWAY)) {
+  if (pplayer->ai_common.control && !ai_handicap(pplayer, H_AWAY)) {
     notify(aplayer, _("*%s (AI)* Greetings %s! May we suggest a ceasefire "
            "while we get to know each other better?"),
            player_name(pplayer),
@@ -896,7 +896,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
 
   memset(war_desire, 0, sizeof(war_desire));
 
-  fc_assert_ret(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_common.control);
   if (!pplayer->is_alive) {
     return; /* duh */
   }
@@ -945,29 +945,29 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
           amount += ai->diplomacy.love_incr / 4;
         }
       } players_iterate_end;
-      pplayer->ai_data.love[player_index(aplayer)] += amount;
+      pplayer->ai_common.love[player_index(aplayer)] += amount;
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "Increased love by %d", amount);
     } else if (WAR(pplayer, aplayer)) {
       amount -= ai->diplomacy.love_incr / 2;
-      pplayer->ai_data.love[player_index(aplayer)] += amount;
+      pplayer->ai_common.love[player_index(aplayer)] += amount;
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "%d love lost to war", amount);
     } else if (player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel
                != 0) {
       /* Provoked in time of peace */
-      if (pplayer->ai_data.love[player_index(aplayer)] > 0) {
-        amount -= pplayer->ai_data.love[player_index(aplayer)] / 2;
+      if (pplayer->ai_common.love[player_index(aplayer)] > 0) {
+        amount -= pplayer->ai_common.love[player_index(aplayer)] / 2;
       }
       amount -= ai->diplomacy.love_incr * 6;
-      pplayer->ai_data.love[player_index(aplayer)] += amount;
+      pplayer->ai_common.love[player_index(aplayer)] += amount;
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "Provoked! %d love lost!",
                 amount);
     }
-    if (pplayer->ai_data.love[player_index(aplayer)] > MAX_AI_LOVE * 8 / 10
+    if (pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE * 8 / 10
         && !pplayers_allied(pplayer, aplayer)) {
       int amount = ai->diplomacy.love_incr / 3;
 
       /* Upper levels of AI trust and love is reserved for allies. */
-      pplayer->ai_data.love[player_index(aplayer)] -= amount;
+      pplayer->ai_common.love[player_index(aplayer)] -= amount;
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "%d love lost from excess",
                 amount);
     }
@@ -978,7 +978,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
     amount -= MIN(player_in_territory(pplayer, aplayer) * (MAX_AI_LOVE / 200),
                   ai->diplomacy.love_incr 
                   * ((adip->is_allied_with_enemy != NULL) + 1));
-    pplayer->ai_data.love[player_index(aplayer)] += amount;
+    pplayer->ai_common.love[player_index(aplayer)] += amount;
     if (amount != 0) {
       DIPLO_LOG(LOG_DEBUG, pplayer, aplayer, "%d love lost due to units inside "
                 "our borders", amount);
@@ -987,7 +987,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
     /* Increase the love if aplayer has got a building that makes 
      * us love him more. Typically it's Eiffel Tower */
     if (!NEVER_MET(pplayer, aplayer)) {
-      pplayer->ai_data.love[player_index(aplayer)] +=
+      pplayer->ai_common.love[player_index(aplayer)] +=
         get_player_bonus(aplayer, EFT_GAIN_AI_LOVE) * MAX_AI_LOVE / 1000;
     }
   } players_iterate_end;
@@ -1004,7 +1004,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
   }
 
   players_iterate(aplayer) {
-    int *love = &pplayer->ai_data.love[player_index(aplayer)];
+    int *love = &pplayer->ai_common.love[player_index(aplayer)];
 
     if (aplayer == best_target && best_desire > 0) {
       int reduction = MIN(best_desire, MAX_AI_LOVE / 20);
@@ -1121,7 +1121,7 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   }
   if (gives_vision
       && !gives_shared_vision(aplayer, pplayer)
-      && (!aplayer->ai_data.control
+      && (!aplayer->ai_common.control
           || shared_vision_is_safe(aplayer, pplayer))) {
     ai_diplomacy_suggest(aplayer, pplayer, CLAUSE_VISION, 0);
   }
@@ -1133,7 +1133,7 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
     ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_EMBASSY, 0);
   }
   
-  if (!ai_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai_data.control) {
+  if (!ai_handicap(pplayer, H_DIPLOMACY) || !aplayer->ai_common.control) {
     suggest_tech_exchange(pplayer, aplayer);
   }
 }
@@ -1221,10 +1221,10 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
   }
 
   /* Throw a tantrum */
-  if (pplayer->ai_data.love[player_index(target)] > 0) {
-    pplayer->ai_data.love[player_index(target)] = -1;
+  if (pplayer->ai_common.love[player_index(target)] > 0) {
+    pplayer->ai_common.love[player_index(target)] = -1;
   }
-  pplayer->ai_data.love[player_index(target)] -= MAX_AI_LOVE / 8;
+  pplayer->ai_common.love[player_index(target)] -= MAX_AI_LOVE / 8;
 
   fc_assert(!gives_shared_vision(pplayer, target));
   DIPLO_LOG(LOG_DIPL, pplayer, target, "war declared");
@@ -1365,7 +1365,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   struct player *target = NULL;
   int most_hatred = MAX_AI_LOVE;
 
-  fc_assert_ret(pplayer->ai_data.control);
+  fc_assert_ret(pplayer->ai_common.control);
   if (!pplayer->is_alive) {
     return;
   }
@@ -1373,7 +1373,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** If we are greviously insulted, go to war immediately. ***/
 
   players_iterate(aplayer) {
-    if (pplayer->ai_data.love[player_index(aplayer)] < 0
+    if (pplayer->ai_common.love[player_index(aplayer)] < 0
         && player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel >= 2
         && ai->diplomacy.player_intel[player_index(aplayer)].countdown == -1) {
       DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "Plans war in revenge");
@@ -1411,10 +1411,10 @@ void ai_diplomacy_actions(struct player *pplayer)
           remove_shared_vision(pplayer, aplayer);
         }
         /* Never forgive this */
-        pplayer->ai_data.love[player_index(aplayer)] = -(BIG_NUMBER);
+        pplayer->ai_common.love[player_index(aplayer)] = -(BIG_NUMBER);
       } else if (ship->state == SSHIP_STARTED 
 		 && adip->warned_about_space == 0) {
-        pplayer->ai_data.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
+        pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 10;
         adip->warned_about_space = 10 + fc_rand(6);
         notify(aplayer, _("*%s (AI)* Your attempt to unilaterally "
                "dominate outer space is highly offensive."),
@@ -1426,7 +1426,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       if (aplayer->spaceship.state == SSHIP_LAUNCHED
           && aplayer == ai->diplomacy.spacerace_leader) {
         /* This means war!!! */
-        pplayer->ai_data.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
+        pplayer->ai_common.love[player_index(aplayer)] -= MAX_AI_LOVE / 2;
         DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "plans war due to spaceship");
         war_countdown(pplayer, aplayer, 4 + map.server.size, WAR_REASON_SPACE);
       }
@@ -1447,9 +1447,9 @@ void ai_diplomacy_actions(struct player *pplayer)
         && WAR(pplayer, aplayer)) {
       need_targets = FALSE;
     } else if (aplayer->is_alive
-               && pplayer->ai_data.love[player_index(aplayer)] < most_hatred
+               && pplayer->ai_common.love[player_index(aplayer)] < most_hatred
                && turns > TURNS_BEFORE_TARGET) {
-      most_hatred = pplayer->ai_data.love[player_index(aplayer)];
+      most_hatred = pplayer->ai_common.love[player_index(aplayer)];
       target = aplayer;
     }
   } players_iterate_end;
@@ -1463,7 +1463,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     if (player_diplstate_get(pplayer, target)->has_reason_to_cancel > 0) {
       /* We have good reason */
       war_reason = WAR_REASON_EXCUSE;
-    } if (pplayer->ai_data.love[player_index(target)] < 0) {
+    } if (pplayer->ai_common.love[player_index(target)] < 0) {
       /* We have a reason of sorts from way back, maybe? */
       war_reason = WAR_REASON_HATRED;
     } else {
@@ -1562,7 +1562,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     /* Canvass support from existing friends for our war, and try to
      * make friends with enemies. Then we wait some turns until next time
      * we spam them with our gibbering chatter. */
-    if (!aplayer->ai_data.control) {
+    if (!aplayer->ai_common.control) {
       if (!pplayers_allied(pplayer, aplayer)) {
         adip->spam = fc_rand(4) + 3; /* Bugger allies often. */
       } else {
@@ -1595,7 +1595,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       } players_iterate_end;
 
       if ((players_on_same_team(pplayer, aplayer)
-          || pplayer->ai_data.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
+          || pplayer->ai_common.love[player_index(aplayer)] > MAX_AI_LOVE / 2)) {
         /* Share techs only with team mates and allies we really like. */
         ai_share(pplayer, aplayer);
       }
@@ -1629,8 +1629,8 @@ void ai_diplomacy_actions(struct player *pplayer)
 	  /* to peace */
 	  handle_diplomacy_cancel_pact(pplayer, player_number(aplayer),
 				       CLAUSE_ALLIANCE);
-          pplayer->ai_data.love[player_index(aplayer)] =
-            MIN(pplayer->ai_data.love[player_index(aplayer)], 0);
+          pplayer->ai_common.love[player_index(aplayer)] =
+            MIN(pplayer->ai_common.love[player_index(aplayer)], 0);
           if (gives_shared_vision(pplayer, aplayer)) {
             remove_shared_vision(pplayer, aplayer);
           }
@@ -1642,13 +1642,13 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_PEACE:
       clause.type = CLAUSE_ALLIANCE;
       if (adip->at_war_with_ally
-          || (!aplayer->ai_data.control && adip->asked_about_alliance > 0)
+          || (!aplayer->ai_common.control && adip->asked_about_alliance > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
                                  ai, FALSE, DS_ALLIANCE) < 0) {
         break; 
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
-      adip->asked_about_alliance = !aplayer->ai_data.control ? 13 : 0;
+      adip->asked_about_alliance = !aplayer->ai_common.control ? 13 : 0;
       notify(aplayer, _("*%s (AI)* Greetings friend, may we suggest "
              "making a common cause and join in an alliance?"), 
              player_name(pplayer));
@@ -1657,13 +1657,13 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_CEASEFIRE:
       clause.type = CLAUSE_PEACE;
       if (adip->at_war_with_ally
-          || (!aplayer->ai_data.control && adip->asked_about_peace > 0)
+          || (!aplayer->ai_common.control && adip->asked_about_peace > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
                                  ai, FALSE, DS_PEACE) < 0) {
         break;
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
-      adip->asked_about_peace = !aplayer->ai_data.control ? 12 : 0;
+      adip->asked_about_peace = !aplayer->ai_common.control ? 12 : 0;
       notify(aplayer, _("*%s (AI)* Greetings neighbour, may we suggest "
              "more peaceful relations?"),
              player_name(pplayer));
@@ -1672,13 +1672,13 @@ void ai_diplomacy_actions(struct player *pplayer)
     case DS_NO_CONTACT: /* but we do have embassy! weird. */
     case DS_WAR:
       clause.type = CLAUSE_CEASEFIRE;
-      if ((!aplayer->ai_data.control && adip->asked_about_ceasefire > 0)
+      if ((!aplayer->ai_common.control && adip->asked_about_ceasefire > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
                                  ai, FALSE, DS_CEASEFIRE) < 0) {
         break; /* Fight until the end! */
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
-      adip->asked_about_ceasefire = !aplayer->ai_data.control ? 9 : 0;
+      adip->asked_about_ceasefire = !aplayer->ai_common.control ? 9 : 0;
       notify(aplayer, _("*%s (AI)* We grow weary of this constant "
              "bloodshed. May we suggest a cessation of hostilities?"), 
              player_name(pplayer));
@@ -1745,25 +1745,25 @@ static void ai_incident_nuclear(struct player *violator, struct player *victim)
 {
   if (violator == victim) {
     players_iterate(pplayer) {
-      if (!pplayer->ai_data.control) {
+      if (!pplayer->ai_common.control) {
         continue;
       }
 
       if (pplayer != violator) {
-        pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 20;
+        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
       }
     } players_iterate_end;
     return;
   } else {
     players_iterate(pplayer) {
-      if (!pplayer->ai_data.control) {
+      if (!pplayer->ai_common.control) {
         continue;
       }
 
       if (pplayer != violator) {
-        pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
         if (victim == pplayer) {
-          pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 5;
+          pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 5;
         }
       }
     } players_iterate_end;
@@ -1776,15 +1776,15 @@ static void ai_incident_nuclear(struct player *violator, struct player *victim)
 static void ai_incident_diplomat(struct player *violator, struct player *victim)
 {
   players_iterate(pplayer) {
-    if (!pplayer->ai_data.control) {
+    if (!pplayer->ai_common.control) {
       continue;
     }
 
     if (pplayer != violator) {
       /* Dislike backstabbing bastards */
-      pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 100;
+      pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 100;
       if (victim == pplayer) {
-        pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 7;
+        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 7;
       }
     }
   } players_iterate_end;
@@ -1801,24 +1801,24 @@ static void ai_incident_diplomat(struct player *violator, struct player *victim)
 static void ai_incident_war(struct player *violator, struct player *victim)
 {
   players_iterate(pplayer) {
-    if (!pplayer->ai_data.control) {
+    if (!pplayer->ai_common.control) {
       continue;
     }
 
     if (pplayer != violator) {
       /* Dislike backstabbing bastards */
-      pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 30;
+      pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 30;
       if (player_diplstate_get(violator, victim)->max_state == DS_PEACE) {
         /* Extra penalty if they once had a peace treaty */
-        pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 30;
+        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 30;
       } else if (player_diplstate_get(violator, victim)->max_state
                  == DS_ALLIANCE) {
         /* Extra penalty if they once had an alliance */
-        pplayer->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
       }
       if (victim == pplayer) {
-        pplayer->ai_data.love[player_index(violator)] = 
-          MIN(pplayer->ai_data.love[player_index(violator)] - MAX_AI_LOVE / 3, -1);
+        pplayer->ai_common.love[player_index(violator)] = 
+          MIN(pplayer->ai_common.love[player_index(violator)] - MAX_AI_LOVE / 3, -1);
         /* Scream for help!! */
         players_iterate(ally) {
           if (!pplayers_allied(pplayer, ally) || !ally->is_alive) {
@@ -1846,5 +1846,5 @@ static void ai_incident_pillage(struct player *violator, struct player *victim)
   if (victim == NULL) {
     return;
   }
-  victim->ai_data.love[player_index(violator)] -= MAX_AI_LOVE / 20;
+  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
 }

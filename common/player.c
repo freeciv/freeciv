@@ -443,12 +443,15 @@ static void player_defaults(struct player *pplayer)
 
   spaceship_init(&pplayer->spaceship);
 
-  pplayer->ai_data.control = FALSE;
-  BV_CLR_ALL(pplayer->ai_data.handicaps);
-  pplayer->ai_data.skill_level = 0;
-  pplayer->ai_data.fuzzy = 0;
-  pplayer->ai_data.expand = 100;
-  pplayer->ai_data.barbarian_type = NOT_A_BARBARIAN;
+  pplayer->ai_common.control = FALSE;
+  BV_CLR_ALL(pplayer->ai_common.handicaps);
+  pplayer->ai_common.skill_level = 0;
+  pplayer->ai_common.fuzzy = 0;
+  pplayer->ai_common.expand = 100;
+  pplayer->ai_common.barbarian_type = NOT_A_BARBARIAN;
+  player_slots_iterate(pslot) {
+    pplayer->ai_common.love[player_slot_index(pslot)] = 1;
+  } player_slots_iterate_end;
 
   pplayer->ai = NULL;
   pplayer->was_created = FALSE;
@@ -965,7 +968,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
   struct player_economic economic;
 
   /* ai players allowed to cheat */
-  if (pplayer->ai_data.control) {
+  if (pplayer->ai_common.control) {
     return pplayer->economic;
   }
 
@@ -1033,10 +1036,10 @@ struct city *find_palace(const struct player *pplayer)
 **************************************************************************/
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype)
 {
-  if (!pplayer->ai_data.control) {
+  if (!pplayer->ai_common.control) {
     return TRUE;
   }
-  return BV_ISSET(pplayer->ai_data.handicaps, htype);
+  return BV_ISSET(pplayer->ai_common.handicaps, htype);
 }
 
 /**************************************************************************
@@ -1057,10 +1060,10 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
 **************************************************************************/
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
 {
-  if (!pplayer->ai_data.control || pplayer->ai_data.fuzzy == 0) {
+  if (!pplayer->ai_common.control || pplayer->ai_common.fuzzy == 0) {
     return normal_decision;
   }
-  if (fc_rand(1000) >= pplayer->ai_data.fuzzy) {
+  if (fc_rand(1000) >= pplayer->ai_common.fuzzy) {
     return normal_decision;
   }
   return !normal_decision;
@@ -1222,7 +1225,7 @@ bool players_on_same_team(const struct player *pplayer1,
 
 bool is_barbarian(const struct player *pplayer)
 {
-  return pplayer->ai_data.barbarian_type != NOT_A_BARBARIAN;
+  return pplayer->ai_common.barbarian_type != NOT_A_BARBARIAN;
 }
 
 /**************************************************************************
