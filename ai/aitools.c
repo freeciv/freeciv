@@ -194,7 +194,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 *************************************************************************/
 bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 {
-  const bool is_ai = unit_owner(punit)->ai_common.control;
+  const bool is_ai = unit_owner(punit)->ai_controlled;
   int i;
 
   /* We start with i = 1 for i = 0 is our present position */
@@ -679,7 +679,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
 				      * SINGLE_MOVE
 				      / unit_type(punit)->move_rate);
   const bool barbarian = is_barbarian(unit_owner(punit));
-  const bool is_ai = unit_owner(punit)->ai_common.control;
+  const bool is_ai = unit_owner(punit)->ai_controlled;
   bool is_ferry = FALSE;
 
   if (punit->server.ai->ai_role != AIUNIT_HUNTER
@@ -994,7 +994,7 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   bool alive;
 
   CHECK_UNIT(punit);
-  fc_assert_ret_val(unit_owner(punit)->ai_common.control, TRUE);
+  fc_assert_ret_val(unit_owner(punit)->ai_controlled, TRUE);
   fc_assert_ret_val(is_tiles_adjacent(punit->tile, ptile), TRUE);
 
   unit_activity_handling(punit, ACTIVITY_IDLE);
@@ -1025,7 +1025,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   struct unit *bodyguard;
   int sanity = punit->id;
   struct player *pplayer = unit_owner(punit);
-  const bool is_ai = pplayer->ai_common.control;
+  const bool is_ai = pplayer->ai_controlled;
 
   CHECK_UNIT(punit);
   fc_assert_ret_val_msg(is_tiles_adjacent(unit_tile(punit), ptile), FALSE,
@@ -1210,7 +1210,7 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   struct player *plr = city_owner(pcity);
 
   improvement_iterate(pimprove) {
-    if (!plr->ai_common.control && is_wonder(pimprove)) {
+    if (!plr->ai_controlled && is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
     if (pcity->server.ai->building_want[improvement_index(pimprove)] > want

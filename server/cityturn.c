@@ -338,7 +338,7 @@ void auto_arrange_workers(struct city *pcity)
 				   MIN(pcity->surplus[o], 0));
     } output_type_iterate_end;
     cmp.require_happy = FALSE;
-    cmp.allow_disorder = city_owner(pcity)->ai_common.control ? FALSE : TRUE;
+    cmp.allow_disorder = city_owner(pcity)->ai_controlled ? FALSE : TRUE;
     cm_query_result(pcity, &cmp, cmr);
   }
   if (!cmr->found_a_valid) {

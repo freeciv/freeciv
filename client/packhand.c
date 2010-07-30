@@ -772,7 +772,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 
   if (popup
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_common.control
+      && !client.conn.playing->ai_controlled
       && can_client_issue_orders()) {
     menus_update();
     if (!city_dialog_is_open(pcity)) {
@@ -1044,7 +1044,7 @@ void handle_start_phase(int phase)
 
     update_turn_done_button_state();
 
-    if (client.conn.playing->ai_common.control && !ai_manual_turn_done) {
+    if (client.conn.playing->ai_controlled && !ai_manual_turn_done) {
       user_ended_turn();
     }
 
@@ -1144,7 +1144,7 @@ void handle_page_msg(char *message, enum event_type event)
   }
 
   if (NULL == client.conn.playing
-      || !client.conn.playing->ai_common.control
+      || !client.conn.playing->ai_controlled
       || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);
@@ -1244,7 +1244,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* Wakeup Focus */
       if (wakeup_focus 
           && NULL != client.conn.playing
-          && !client.conn.playing->ai_common.control
+          && !client.conn.playing->ai_controlled
           && unit_owner(punit) == client.conn.playing
           && punit->activity == ACTIVITY_SENTRY
           && packet_unit->activity == ACTIVITY_IDLE
@@ -1387,7 +1387,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
         if (popup_caravan_arrival
             && client_has_player() 
-            && !client_player()->ai_common.control
+            && !client_player()->ai_controlled
             && can_client_issue_orders()
             && !unit_has_orders(punit)) {
           if (punit->transported_by == -1
@@ -1484,7 +1484,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   if ((check_focus || get_num_units_in_focus() == 0)
       && NULL != client.conn.playing
-      && !client.conn.playing->ai_common.control
+      && !client.conn.playing->ai_controlled
       && is_player_phase(client.conn.playing, game.info.phase)) {
     update_unit_focus();
   }
@@ -1842,10 +1842,10 @@ void handle_player_info(struct packet_player_info *pinfo)
   }
 
   /* We need to set ai.control before read_player_info_techs */
-  if (pplayer->ai_common.control != pinfo->ai)  {
-    pplayer->ai_common.control = pinfo->ai;
+  if (pplayer->ai_controlled != pinfo->ai)  {
+    pplayer->ai_controlled = pinfo->ai;
     if (pplayer == my_player)  {
-      if (my_player->ai_common.control) {
+      if (my_player->ai_controlled) {
         output_window_append(ftc_client, _("AI mode is now ON."));
       } else {
         output_window_append(ftc_client, _("AI mode is now OFF."));
@@ -1885,7 +1885,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   research->tech_goal = pinfo->tech_goal;
   
   turn_done_changed = (pplayer->phase_done != pinfo->phase_done
-                       || pplayer->ai_common.control != pinfo->ai);
+                       || pplayer->ai_controlled != pinfo->ai);
   pplayer->phase_done = pinfo->phase_done;
 
   pplayer->is_ready = pinfo->is_ready;
@@ -1919,7 +1919,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       science_dialog_update();
     }
     if (poptechup) {
-      if (client_has_player() && !my_player->ai_common.control) {
+      if (client_has_player() && !my_player->ai_controlled) {
         popup_science_dialog(FALSE);
       }
     }
@@ -3080,7 +3080,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_BRIBE:
     if (punit) {
       if (NULL != client.conn.playing
-          && !client.conn.playing->ai_common.control) {
+          && !client.conn.playing->ai_controlled) {
         popup_bribe_dialog(punit, cost);
       }
     }
@@ -3088,7 +3088,7 @@ void handle_unit_diplomat_answer(int diplomat_id, int target_id, int cost,
   case DIPLOMAT_INCITE:
     if (pcity) {
       if (NULL != client.conn.playing
-          && !client.conn.playing->ai_common.control) {
+          && !client.conn.playing->ai_controlled) {
         popup_incite_dialog(pcity, cost);
       }
     }

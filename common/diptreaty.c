@@ -31,11 +31,11 @@ bool diplomacy_possible(const struct player *pplayer,
 {
   return  (game.info.diplomacy == 0      /* Unlimited diplomacy */
 	   || (game.info.diplomacy == 1  /* Human diplomacy only */
-               && !pplayer->ai_common.control 
-               && !aplayer->ai_common.control)
+               && !pplayer->ai_controlled 
+               && !aplayer->ai_controlled)
 	   || (game.info.diplomacy == 2  /* AI diplomacy only */
-               && pplayer->ai_common.control
-               && aplayer->ai_common.control)
+               && pplayer->ai_controlled
+               && aplayer->ai_controlled)
 	   || (game.info.diplomacy == 3  /* Team diplomacy only */
 	       && players_on_same_team(pplayer, aplayer)));
 }

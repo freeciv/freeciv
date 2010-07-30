@@ -2360,7 +2360,7 @@ static void player_load_main(struct player *plr, int plrno,
   fc_assert_exit_msg(secfile_lookup_bool(file, &plr->is_alive,
                                          "player%d.is_alive", plrno),
                      "%s", secfile_error());
-  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_common.control,
+  fc_assert_exit_msg(secfile_lookup_bool(file, &plr->ai_controlled,
                                          "player%d.ai.control", plrno),
                      "%s", secfile_error());
 
@@ -2383,10 +2383,10 @@ static void player_load_main(struct player *plr, int plrno,
   plr->ai_common.skill_level =
     secfile_lookup_int_default(file, game.info.skill_level,
                                "player%d.ai.skill_level", plrno);
-  if (plr->ai_common.control && plr->ai_common.skill_level==0) {
+  if (plr->ai_controlled && plr->ai_common.skill_level==0) {
     plr->ai_common.skill_level = GAME_OLD_DEFAULT_SKILL_LEVEL;
   }
-  if (plr->ai_common.control) {
+  if (plr->ai_controlled) {
     /* Set AI parameters */
     set_ai_level_directer(plr, plr->ai_common.skill_level);
   }
@@ -3618,7 +3618,7 @@ static void player_save_main(struct player *plr, int plrno,
 
   secfile_insert_bool(file, plr->is_male, "player%d.is_male", plrno);
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
-  secfile_insert_bool(file, plr->ai_common.control, "player%d.ai.control", plrno);
+  secfile_insert_bool(file, plr->ai_controlled, "player%d.ai.control", plrno);
 
   players_iterate(aplayer) {
     struct ai_dip_intel *adip = ai_diplomacy_get(plr, aplayer);
@@ -5126,7 +5126,7 @@ static void game_load_internal(struct section_file *file)
       player_load_attributes(pplayer, plrno, file);
 
       /* print out some informations */
-      if (pplayer->ai_common.control) {
+      if (pplayer->ai_controlled) {
         log_normal(_("%s has been added as %s level AI-controlled player."),
                    player_name(pplayer),
                    ai_level_name(pplayer->ai_common.skill_level));
@@ -5341,16 +5341,16 @@ static void game_load_internal(struct section_file *file)
   /* Recalculate the potential buildings for each city.  
    * Has caused some problems with game random state. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_common.control;
+    bool saved_ai_control = pplayer->ai_controlled;
 
     /* Recalculate for all players. */
-    pplayer->ai_common.control = FALSE;
+    pplayer->ai_controlled = FALSE;
 
     if (pplayer->ai->funcs.building_advisor_init) {
       pplayer->ai->funcs.building_advisor_init(pplayer);
     }
 
-    pplayer->ai_common.control = saved_ai_control;
+    pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
   
   /* Restore game random state, just in case various initialization code

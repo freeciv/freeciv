@@ -139,7 +139,7 @@ static void build_row(const char **row, int player_index, int update)
   }
 
   /* text for name, plus AI marker */
-  aibuf[0] = (pplayer->ai_common.control ? '*' : '\0');
+  aibuf[0] = (pplayer->ai_controlled ? '*' : '\0');
   aibuf[1] = '\0';
 
   /* text for diplstate type and turns -- not applicable if this is me */

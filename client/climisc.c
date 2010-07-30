@@ -960,7 +960,7 @@ void handle_event(const char *featured_text, struct tile *ptile,
     /* Popups are usually not shown if player is under AI control.
      * Server operator messages are shown always. */
     if (NULL == client.conn.playing
-        || !client.conn.playing->ai_common.control
+        || !client.conn.playing->ai_controlled
         || event == E_MESSAGE_WALL) {
       popup_notify_goto_dialog(_("Popup Request"), plain_text, tags, ptile);
       shown = TRUE;

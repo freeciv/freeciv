@@ -658,7 +658,7 @@ static void kill_dying_players(void)
 static void ai_start_phase(void)
 {
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_common.control) {
+    if (pplayer->ai_controlled) {
       if (pplayer->ai->funcs.first_activities) {
         pplayer->ai->funcs.first_activities(pplayer);
         flush_packets(); /* AIs can be such spammers... */
@@ -783,7 +783,7 @@ static void begin_phase(bool is_new_phase)
               player_number(pplayer), player_name(pplayer));
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
-    if (!pplayer->ai_common.control) {
+    if (!pplayer->ai_controlled) {
       if (pplayer->ai->funcs.building_advisor_init) {
         pplayer->ai->funcs.building_advisor_init(pplayer); /* building advisor */
       }
@@ -804,7 +804,7 @@ static void begin_phase(bool is_new_phase)
   if (is_new_phase) {
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
-      if (pplayer->ai_common.control && !is_barbarian(pplayer)) {
+      if (pplayer->ai_controlled && !is_barbarian(pplayer)) {
         if (pplayer->ai->funcs.diplomacy_actions) {
           pplayer->ai->funcs.diplomacy_actions(pplayer);
         }
@@ -871,13 +871,13 @@ static void end_phase(void)
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_common.control && pplayer->ai->funcs.before_auto_settlers) {
+    if (pplayer->ai_controlled && pplayer->ai->funcs.before_auto_settlers) {
       pplayer->ai->funcs.before_auto_settlers(pplayer);
     }
     if (pplayer->ai->funcs.auto_settlers) {
       pplayer->ai->funcs.auto_settlers(pplayer);
     }
-    if (pplayer->ai_common.control && pplayer->ai->funcs.last_activities) {
+    if (pplayer->ai_controlled && pplayer->ai->funcs.last_activities) {
       pplayer->ai->funcs.last_activities(pplayer);
     }
   } phase_players_iterate_end;
@@ -899,7 +899,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_common.control) {
+    if (pplayer->ai_controlled) {
       /* This has to be after new units have been built in case
        * ai_data_get() gets called for new unit leading to memory leak */
       ai_data_phase_done(pplayer);
@@ -943,7 +943,7 @@ static void end_turn(void)
 
   /* Output some AI measurement information */
   players_iterate(pplayer) {
-    if (!pplayer->ai_common.control || is_barbarian(pplayer)) {
+    if (!pplayer->ai_controlled || is_barbarian(pplayer)) {
       continue;
     }
     unit_list_iterate(pplayer->units, punit) {
@@ -1466,7 +1466,7 @@ void check_for_full_turn_done(void)
    * server will run rampant. */
   players_iterate(pplayer) {
     if (pplayer->is_connected
-        && !pplayer->ai_common.control
+        && !pplayer->ai_controlled
         && pplayer->is_alive) {
       connected = TRUE;
       break;
@@ -1477,7 +1477,7 @@ void check_for_full_turn_done(void)
   }
 
   phase_players_iterate(pplayer) {
-    if (game.server.turnblock && !pplayer->ai_common.control && pplayer->is_alive
+    if (game.server.turnblock && !pplayer->ai_controlled && pplayer->is_alive
 	&& !pplayer->phase_done) {
       /* If turnblock is enabled check for human players, connected
        * or not. */
@@ -1826,7 +1826,7 @@ void aifill(int amount)
     sz_strlcpy(pplayer->username, ANON_USER_NAME);
 
     pplayer->ai_common.skill_level = game.info.skill_level;
-    pplayer->ai_common.control = TRUE;
+    pplayer->ai_controlled = TRUE;
     set_ai_level_directer(pplayer, game.info.skill_level);
 
     log_normal(_("%s has been added as %s level AI-controlled player."),
@@ -2260,7 +2260,7 @@ static void srv_ready(void)
 
   if (game.server.auto_ai_toggle) {
     players_iterate(pplayer) {
-      if (!pplayer->is_connected && !pplayer->ai_common.control) {
+      if (!pplayer->is_connected && !pplayer->ai_controlled) {
 	toggle_ai_player_direct(NULL, pplayer);
       }
     } players_iterate_end;
@@ -2363,7 +2363,7 @@ static void srv_ready(void)
 
   if (!game.info.is_new_game) {
     players_iterate(pplayer) {
-      if (pplayer->ai_common.control) {
+      if (pplayer->ai_controlled) {
 	set_ai_level_direct(pplayer, pplayer->ai_common.skill_level);
       }
     } players_iterate_end;

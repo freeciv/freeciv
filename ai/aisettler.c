@@ -593,7 +593,7 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   struct unit *ferry = NULL;
   struct unit_class *ferry_class = NULL;
 
-  fc_assert_ret(pplayer->ai_common.control);
+  fc_assert_ret(pplayer->ai_controlled);
   /* Only virtual units may use virtual boats: */
   fc_assert_ret(0 == punit->id || !use_virt_boat);
 

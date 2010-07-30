@@ -722,7 +722,7 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_GAIN_AI_LOVE:
     players_iterate(aplayer) {
-      if (aplayer->ai_common.control) {
+      if (aplayer->ai_controlled) {
 	if (ai_handicap(pplayer, H_DEFENSIVE)) {
 	  v += amount / 10;
 	} else {
@@ -1240,7 +1240,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
    * if improvements have improvements as requirements.
    */
   city_list_iterate(pplayer->cities, pcity) {
-    if (!pplayer->ai_common.control) {
+    if (!pplayer->ai_controlled) {
       /* For a human player, any building is worth building until discarded */
       improvement_iterate(pimprove) {
         pcity->server.ai->building_want[improvement_index(pimprove)] = 1;
@@ -1277,7 +1277,7 @@ static void adjust_wants_by_effects(struct player *pplayer,
                    || is_building_replaced(pcity, pimprove, RPT_CERTAIN)) {
           /* Don't consider impossible or redundant buildings */
           pcity->server.ai->building_want[improvement_index(pimprove)] = 0;
-        } else if (pplayer->ai_common.control
+        } else if (pplayer->ai_controlled
                    && pcity->server.ai->building_turn <= game.info.turn) {
           /* Building wants vary relatively slowly, so not worthwhile
            * recalculating them every turn.

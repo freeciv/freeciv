@@ -33,15 +33,10 @@ $#include "api_utilities.h"
 $#include "script.h"
 
 /* Classes. */
-struct Player_ai {
-   bool control;
-};
-
 struct Player {
   const char *name;
   Nation_Type *nation;
-
-  Player_ai ai_common;
+  bool ai_controlled;
 };
 
 module Player {
@@ -258,7 +253,7 @@ end
 
 -- Player methods
 function Player:is_human()
-  return not self.ai_common.control
+  return not self.ai_controlled
 end
 
 ----------------------------------------------------------------------
@@ -382,7 +377,6 @@ $[
 ----------------------------------------------------------------------
 do
   local api_types = {
-    "Player_ai",
     "Player",
     "Unit",
     "City",

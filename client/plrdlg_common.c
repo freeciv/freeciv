@@ -109,7 +109,7 @@ static const char *col_team(const struct player *player)
 *******************************************************************/
 static bool col_ai(const struct player *plr)
 {
-  return plr->ai_common.control;
+  return plr->ai_controlled;
 }
 
 /******************************************************************
@@ -150,7 +150,7 @@ static const char *col_diplstate(const struct player *player)
 static const char *col_love(const struct player *player)
 {
   if (NULL == client.conn.playing || player == client.conn.playing
-      || !player->ai_common.control) {
+      || !player->ai_controlled) {
     return "-";
   } else {
     return love_text(player->ai_common.love[player_index(client.conn.playing)]);
@@ -169,13 +169,13 @@ static int cmp_love(const struct player *player1,
     return player_number(player1) - player_number(player2);
   }
 
-  if (player1 == client.conn.playing || !player1->ai_common.control) {
+  if (player1 == client.conn.playing || !player1->ai_controlled) {
     love1 = MAX_AI_LOVE + 999;
   } else {
     love1 = player1->ai_common.love[player_index(client.conn.playing)];
   }
 
-  if (player2 == client.conn.playing || !player2->ai_common.control) {
+  if (player2 == client.conn.playing || !player2->ai_controlled) {
     love2 = MAX_AI_LOVE + 999;
   } else {
     love2 = player2->ai_common.love[player_index(client.conn.playing)];

@@ -99,13 +99,9 @@ struct player_score {
 };
 
 struct player_ai {
-  bool control;
-
-  /* 
-   * Valid values for tech_goal are:
-   *  - any existing tech but not A_NONE or
-   *  - A_UNSET.
-   */
+  /* Valid values for tech_goal are:
+      - any existing tech but not A_NONE or
+      - A_UNSET. */
   int prev_gold;
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
@@ -202,8 +198,11 @@ struct player {
 
   int bulbs_last_turn;    /* # bulbs researched last turn only */
   struct player_spaceship spaceship;
+
+  bool ai_controlled; /* 0: not automated; 1: automated */
   struct player_ai ai_common;
   struct ai_type *ai;
+
   bool was_created;                    /* if the player was /created */
   bool is_connected;
   struct connection *current_conn;     /* non-null while handling packet */

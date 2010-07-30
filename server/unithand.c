@@ -1266,7 +1266,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
 				       pdesttile)) {
 	int target_id = 0;
         
-        if (pplayer->ai_common.control) {
+        if (pplayer->ai_controlled) {
           return FALSE;
         }
         

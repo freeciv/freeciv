@@ -288,7 +288,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   int gold_avail = pplayer->economic.gold - 2 * pplayer->ai_common.est_upkeep;
   int incite_cost;
 
-  fc_assert_ret(pplayer->ai_common.control);
+  fc_assert_ret(pplayer->ai_controlled);
 
   if (punit->moves_left == 0) {
     UNIT_LOG(LOG_ERROR, punit, "no moves left in ai_diplomat_city()!");

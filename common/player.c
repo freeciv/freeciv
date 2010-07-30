@@ -443,7 +443,7 @@ static void player_defaults(struct player *pplayer)
 
   spaceship_init(&pplayer->spaceship);
 
-  pplayer->ai_common.control = FALSE;
+  pplayer->ai_controlled = FALSE;
   BV_CLR_ALL(pplayer->ai_common.handicaps);
   pplayer->ai_common.skill_level = 0;
   pplayer->ai_common.fuzzy = 0;
@@ -953,7 +953,7 @@ struct player_economic player_limit_to_max_rates(struct player *pplayer)
   struct player_economic economic;
 
   /* ai players allowed to cheat */
-  if (pplayer->ai_common.control) {
+  if (pplayer->ai_controlled) {
     return pplayer->economic;
   }
 
@@ -1021,7 +1021,7 @@ struct city *find_palace(const struct player *pplayer)
 **************************************************************************/
 bool ai_handicap(const struct player *pplayer, enum handicap_type htype)
 {
-  if (!pplayer->ai_common.control) {
+  if (!pplayer->ai_controlled) {
     return TRUE;
   }
   return BV_ISSET(pplayer->ai_common.handicaps, htype);
@@ -1045,7 +1045,7 @@ the "ai_fuzzy(pplayer," part, and read the previous example as:
 **************************************************************************/
 bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
 {
-  if (!pplayer->ai_common.control || pplayer->ai_common.fuzzy == 0) {
+  if (!pplayer->ai_controlled || pplayer->ai_common.fuzzy == 0) {
     return normal_decision;
   }
   if (fc_rand(1000) >= pplayer->ai_common.fuzzy) {

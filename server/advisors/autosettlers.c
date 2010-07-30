@@ -232,7 +232,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
   tile_set_special(ptile, S_FALLOUT);
 
   /* FIXME: need a better way to guarantee fallout is cleaned up. */
-  if (!pplayer->ai_common.control) {
+  if (!pplayer->ai_controlled) {
     goodness = (goodness + best + 50) * 2;
   }
 
@@ -250,7 +250,7 @@ static int ai_calc_fallout(struct city *pcity, struct player *pplayer,
 static bool is_wet(struct player *pplayer, struct tile *ptile)
 {
   /* FIXME: this should check a handicap. */
-  if (!pplayer->ai_common.control && !map_is_known(ptile, pplayer)) {
+  if (!pplayer->ai_controlled && !map_is_known(ptile, pplayer)) {
     return FALSE;
   }
 
@@ -994,7 +994,7 @@ BUILD_CITY:
 
     /* Check that the mission is still possible.  If the tile has become
      * unavailable or the player has been autotoggled, call it off. */
-    if (!unit_owner(punit)->ai_common.control
+    if (!unit_owner(punit)->ai_controlled
         || !city_can_be_built_here(ptile, punit)) {
       UNIT_LOG(LOG_SETTLER, punit, "city founding mission failed");
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
@@ -1044,7 +1044,7 @@ BUILD_CITY:
     TIMING_LOG(AIT_WORKERS, TIMER_STOP);
   }
 
-  if (unit_has_type_flag(punit, F_CITIES) && pplayer->ai_common.control) {
+  if (unit_has_type_flag(punit, F_CITIES) && pplayer->ai_controlled) {
     /* may use a boat: */
     TIMING_LOG(AIT_SETTLERS, TIMER_START);
     find_best_city_placement(punit, &result, TRUE, FALSE);
@@ -1279,7 +1279,7 @@ void auto_settlers_player(struct player *pplayer)
   
   t = renew_timer_start(t, TIMER_CPU, TIMER_DEBUG);
 
-  if (pplayer->ai_common.control) {
+  if (pplayer->ai_controlled) {
     /* Set up our city map. */
     citymap_turn_init(pplayer);
   }
@@ -1313,7 +1313,7 @@ void auto_settlers_player(struct player *pplayer)
    * auto-settle with a unit under orders even for an AI player - these come
    * from the human player and take precedence. */
   unit_list_iterate_safe(pplayer->units, punit) {
-    if ((punit->ai_controlled || pplayer->ai_common.control)
+    if ((punit->ai_controlled || pplayer->ai_controlled)
 	&& (unit_has_type_flag(punit, F_SETTLERS)
 	    || unit_has_type_flag(punit, F_CITIES))
 	&& !unit_has_orders(punit)
@@ -1360,9 +1360,9 @@ void contemplate_new_city(struct city *pcity)
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
   virtualunit->tile = pcenter;
 
-  fc_assert_ret(pplayer->ai_common.control);
+  fc_assert_ret(pplayer->ai_controlled);
 
-  if (pplayer->ai_common.control) {
+  if (pplayer->ai_controlled) {
     struct cityresult result;
     bool is_coastal = is_ocean_near_tile(pcenter);
 

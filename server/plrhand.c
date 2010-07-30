@@ -264,7 +264,7 @@ static void finish_revolution(struct player *pplayer)
                 nation_plural_for_player(pplayer),
                 government_name_translation(government));
 
-  if (!pplayer->ai_common.control) {
+  if (!pplayer->ai_controlled) {
     /* Keep luxuries if we have any.  Try to max out science. -GJW */
     int max = get_player_bonus(pplayer, EFT_MAX_RATES);
 
@@ -324,7 +324,7 @@ void handle_player_change_government(struct player *pplayer, int government)
      * or even in the past (if the player is in anarchy and hasn't chosen
      * a government). */
     turns = pplayer->revolution_finishes - game.info.turn;
-  } else if ((pplayer->ai_common.control && !ai_handicap(pplayer, H_REVOLUTION))
+  } else if ((pplayer->ai_controlled && !ai_handicap(pplayer, H_REVOLUTION))
 	     || get_player_bonus(pplayer, EFT_NO_ANARCHY)) {
     /* AI players without the H_REVOLUTION handicap can skip anarchy */
     turns = 0;
@@ -763,8 +763,8 @@ static void package_player_common(struct player *plr,
 
   packet->is_alive=plr->is_alive;
   packet->is_connected=plr->is_connected;
-  packet->ai = plr->ai_common.control;
-  packet->ai_skill_level = plr->ai_common.control
+  packet->ai = plr->ai_controlled;
+  packet->ai_skill_level = plr->ai_controlled
                            ? plr->ai_common.skill_level : 0;
   for (i = 0; i < player_slot_count(); i++) {
     packet->love[i] = plr->ai_common.love[i];
@@ -1185,10 +1185,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer1),
                   player_name(pplayer1));
-    if (pplayer1->ai_common.control) {
+    if (pplayer1->ai_controlled) {
       call_first_contact(pplayer1, pplayer2);
     }
-    if (pplayer2->ai_common.control && !pplayer1->ai_common.control) {
+    if (pplayer2->ai_controlled && !pplayer1->ai_controlled) {
       call_first_contact(pplayer2, pplayer1);
     }
     send_player_info(pplayer1, pplayer2);
@@ -1477,7 +1477,7 @@ static struct player *split_player(struct player *pplayer)
 
   /* Do the ai */
 
-  cplayer->ai_common.control = TRUE;
+  cplayer->ai_controlled = TRUE;
   cplayer->ai_common.prev_gold = pplayer->ai_common.prev_gold;
   cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
   cplayer->ai_common.handicaps = pplayer->ai_common.handicaps;
@@ -1518,7 +1518,7 @@ static struct player *split_player(struct player *pplayer)
    * to avoid doing some ai calculations with bogus data. */
   ai_data_phase_init(cplayer, TRUE);
   assess_danger_player(cplayer);
-  if (pplayer->ai_common.control) {
+  if (pplayer->ai_controlled) {
     assess_danger_player(pplayer);
   }
 

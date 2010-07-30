@@ -201,7 +201,7 @@ void handle_game_load(bool load_successful, char *filename)
     row[0] = (char *) player_name(pplayer);
     row[1] = (char *) nation_name;
     row[2] = (char *) pplayer->is_alive ? _("Alive") : _("Dead");
-    row[3] = (char *) pplayer->ai_common.control ? _("AI") : _("Human");
+    row[3] = (char *) pplayer->ai_controlled ? _("AI") : _("Human");
     fcwin_listview_add_row(players_listview, 0, 4, row);
   } players_iterate_end;
 

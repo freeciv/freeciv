@@ -135,7 +135,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   barbarians->phase_done = TRUE;
 
   /* Do the ai */
-  barbarians->ai_common.control = TRUE;
+  barbarians->ai_controlled = TRUE;
   barbarians->ai_common.barbarian_type = type;
   set_ai_level_directer(barbarians, game.info.skill_level);
   init_tech(barbarians, TRUE);

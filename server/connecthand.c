@@ -239,7 +239,7 @@ void establish_new_connection(struct connection *pconn)
   if (S_S_RUNNING == server_state() && game.server.turnblock) {
     players_iterate(cplayer) {
       if (cplayer->is_alive
-          && !cplayer->ai_common.control
+          && !cplayer->ai_controlled
           && !cplayer->phase_done
           && cplayer != pconn->playing) {  /* skip current player */
         notify_conn(dest, NULL, E_CONNECTION, ftc_any,
@@ -538,7 +538,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
       team_remove_player(pplayer);
       server_player_init(pplayer, FALSE, TRUE);
       /* Make it human! */
-      pplayer->ai_common.control = FALSE;
+      pplayer->ai_controlled = FALSE;
     }
 
     sz_strlcpy(pplayer->username, pconn->username);
@@ -553,7 +553,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
       aifill(game.info.aifill);
     }
 
-    if (game.server.auto_ai_toggle && pplayer->ai_common.control) {
+    if (game.server.auto_ai_toggle && pplayer->ai_controlled) {
       toggle_ai_player_direct(NULL, pplayer);
     }
 
@@ -659,7 +659,7 @@ void connection_detach(struct connection *pconn)
         reset_all_start_commands();
       } else {
         /* Aitoggle the player if no longer connected. */
-        if (game.server.auto_ai_toggle && !pplayer->ai_common.control) {
+        if (game.server.auto_ai_toggle && !pplayer->ai_controlled) {
           toggle_ai_player_direct(NULL, pplayer);
           /* send_player_info() was formerly updated by
            * toggle_ai_player_direct(), so it must be safe to send here now?

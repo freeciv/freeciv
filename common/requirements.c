@@ -1027,7 +1027,7 @@ bool is_req_active(const struct player *target_player,
     break;
   case VUT_AI_LEVEL:
     eval = target_player
-      && target_player->ai_common.control
+      && target_player->ai_controlled
       && target_player->ai_common.skill_level == req->source.value.ai_level;
     break;
   case VUT_TERRAINCLASS:

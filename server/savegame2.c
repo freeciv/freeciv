@@ -2864,7 +2864,7 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
 
     /* print out some informations */
-    if (pplayer->ai_common.control) {
+    if (pplayer->ai_controlled) {
       log_normal(_("%s has been added as %s level AI-controlled player."),
                  player_name(pplayer),
                  ai_level_name(pplayer->ai_common.skill_level));
@@ -3113,7 +3113,7 @@ static void sg_load_player_main(struct loaddata *loading,
 
   /* AI data. */
   ai = ai_data_get(plr);
-  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_common.control,
+  sg_failure_ret(secfile_lookup_bool(loading->file, &plr->ai_controlled,
                                      "player%d.ai.control", plrno),
                  "%s", secfile_error());
 
@@ -3199,7 +3199,7 @@ static void sg_load_player_main(struct loaddata *loading,
   plr->ai_common.skill_level =
     secfile_lookup_int_default(loading->file, game.info.skill_level,
                                "player%d.ai.skill_level", plrno);
-  if (plr->ai_common.control) {
+  if (plr->ai_controlled) {
     set_ai_level_directer(plr, plr->ai_common.skill_level);
   }
 
@@ -3399,7 +3399,7 @@ static void sg_save_player_main(struct savedata *saving,
                       "player%d.is_male", plrno);
   secfile_insert_bool(saving->file, plr->is_alive,
                       "player%d.is_alive", plrno);
-  secfile_insert_bool(saving->file, plr->ai_common.control,
+  secfile_insert_bool(saving->file, plr->ai_controlled,
                       "player%d.ai.control", plrno);
 
   players_iterate(pplayer) {
@@ -5093,16 +5093,16 @@ static void sg_load_sanitycheck(struct loaddata *loading)
    * This also changes the game state if you save the game directly after
    * loading it and compare the results. */
   players_iterate(pplayer) {
-    bool saved_ai_control = pplayer->ai_common.control;
+    bool saved_ai_control = pplayer->ai_controlled;
 
     /* Recalculate for all players. */
-    pplayer->ai_common.control = FALSE;
+    pplayer->ai_controlled = FALSE;
 
     if (pplayer->ai->funcs.building_advisor_init) {
       pplayer->ai->funcs.building_advisor_init(pplayer);
     }
 
-    pplayer->ai_common.control = saved_ai_control;
+    pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
 
   /* Check worked tiles map */
