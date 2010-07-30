@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-30 12:47+0200\n"
-"PO-Revision-Date: 2010-07-30 13:33+0200\n"
+"PO-Revision-Date: 2010-07-30 13:41+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -29087,7 +29087,7 @@ msgid ""
 "home of the legendary King Arthur."
 msgstr ""
 "Cornualla és una regió a l'extrem sudoest d'Anglaterra. Segons la tradició, "
-"allà hi va néixer el legendari Rei Artús."
+"allà hi va néixer el llegendari Rei Artús."
 
 #: data/nation/cornish.ruleset:20 data/nation/french.ruleset:26
 #: data/nation/gallic.ruleset:29 data/nation/irish.ruleset:44
