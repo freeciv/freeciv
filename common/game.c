@@ -410,8 +410,8 @@ void game_init(void)
   game_defaults();
   player_slots_init();
   map_init();
-  game_ruleset_init();
   team_slots_init();
+  game_ruleset_init();
   idex_init();
   cm_init();
 }

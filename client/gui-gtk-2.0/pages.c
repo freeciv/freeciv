@@ -1137,7 +1137,7 @@ static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
   if (pteam != conn_menu_player->team) {
     send_chat_printf("/team \"%s\" \"%s\"",
                      player_name(conn_menu_player),
-                     team_rule_name(pteam));
+                     team_name_get(pteam));
   }
 }
 
@@ -1414,7 +1414,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                   team_name_translation(pteam));
       entry = gtk_menu_item_new_with_label(text);
       g_object_set_data_full(G_OBJECT(menu),
-			     team_rule_name(pteam), entry,
+			     team_name_get(pteam), entry,
 			     (GtkDestroyNotify) gtk_widget_unref);
       gtk_container_add(GTK_CONTAINER(menu), entry);
       g_signal_connect(GTK_OBJECT(entry), "activate",

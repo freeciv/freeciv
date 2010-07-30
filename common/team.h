@@ -43,10 +43,13 @@ int team_index(const struct team *pteam);
 int team_number(const struct team *pteam);
 struct team *team_by_number(const int team_id);
 
-struct team *find_team_by_rule_name(const char *team_name);
+void team_name_set(const struct team **tslot, const char *name);
+void team_name_destroy(const struct team **tslot);
 
-const char *team_rule_name(const struct team *pteam);
-const char *team_name_translation(struct team *pteam);
+const char *team_name_get_defined(const struct team *pteam);
+const char *team_name_get(const struct team *pteam);
+const char *team_name_translation(const struct team *pteam);
+struct team *find_team_by_rule_name(const char *team_name);
 
 /* Ancillary routines */
 void team_add_player(struct player *pplayer, struct team *pteam);

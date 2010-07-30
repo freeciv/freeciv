@@ -29,11 +29,15 @@
 #include "team.h"
 
 static struct {
+  const char **tnames;
   const struct team **tslots;
   int used_slots;
 } team_slots;
 
 static void team_defaults(struct team *pteam);
+
+static void team_name_new(const struct team **tslot,
+                          const char *name);
 
 /***************************************************************
   Initialise all team slots (= pointer to team pointers).
@@ -42,14 +46,19 @@ void team_slots_init(void)
 {
   int i;
 
-  /* Init team slots. */
+  /* Init team slots and names. */
   team_slots.tslots = fc_calloc(team_slot_count(),
                                 sizeof(*team_slots.tslots));
+  team_slots.tnames = fc_calloc(team_slot_count(),
+                                sizeof(*team_slots.tnames));
   /* Can't use the defined functions as the needed data will be
    * defined here. */
   for (i = 0; i < team_slot_count(); i++) {
     const struct team **tslot = team_slots.tslots + i;
     *tslot = NULL;
+
+    const char **tname = team_slots.tnames + i;
+    *tname = NULL;
   }
   team_slots.used_slots = 0;
 }
@@ -59,7 +68,7 @@ void team_slots_init(void)
 ***************************************************************/
 bool team_slots_initialised(void)
 {
-  return (team_slots.tslots != NULL);
+  return (team_slots.tslots != NULL && team_slots.tnames != NULL);
 }
 
 /***************************************************************
@@ -69,9 +78,13 @@ void team_slots_free(void)
 {
   team_slots_iterate(tslot) {
     team_destroy(team_slot_get_team(tslot));
+    team_name_destroy(tslot);
   } team_slots_iterate_end;
   free(team_slots.tslots);
   team_slots.tslots = NULL;
+  free(team_slots.tnames);
+  team_slots.tnames = NULL;
+
   team_slots.used_slots = 0;
 }
 
@@ -191,6 +204,8 @@ struct team *team_new(int team_id)
 ****************************************************************************/
 static void team_defaults(struct team *pteam)
 {
+  fc_assert_ret(team_slots_initialised());
+
   player_research_init(&pteam->research);
   pteam->plrlist = player_list_new();
 }
@@ -201,6 +216,8 @@ static void team_defaults(struct team *pteam)
 void team_destroy(struct team *pteam)
 {
   const struct team **tslot;
+
+  fc_assert_ret(team_slots_initialised());
 
   if (pteam == NULL) {
     return;
@@ -259,9 +276,111 @@ struct team *team_by_number(const int team_id)
   return team_slot_get_team(tslot);
 }
 
+/***************************************************************
+  ...
+***************************************************************/
+static void team_name_new(const struct team **tslot,
+                          const char *name)
+{
+  const char **tname;
+
+  fc_assert_ret(team_slots_initialised());
+
+  tname = team_slots.tnames + team_slot_index(tslot);
+  fc_assert_ret(*tname == NULL);
+
+  *tname = fc_strdup(name);
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+void team_name_set(const struct team **tslot, const char *name)
+{
+  const char **tname;
+
+  fc_assert_ret(team_slots_initialised());
+
+  tname = team_slots.tnames + team_slot_index(tslot);
+  if (*tname != NULL) {
+    team_name_destroy(tslot);
+  }
+
+  team_name_new(tslot, name);
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+void team_name_destroy(const struct team **tslot)
+{
+  const char **tname;
+
+  fc_assert_ret(team_slots_initialised());
+
+  tname = team_slots.tnames + team_slot_index(tslot);
+  if (*tname != NULL) {
+    free((char *) *tname);
+  }
+  *tname = NULL;
+}
+
 /****************************************************************************
- Does a linear search of game.info.team_names_orig[]
- Returns NULL when none match.
+  Return the translated name of the team.
+****************************************************************************/
+const char *team_name_translation(const struct team *pteam)
+{
+  return _(team_name_get(pteam));
+}
+
+/****************************************************************************
+  Return the untranslated name of the team. If it is not defined by the
+  ruleset a default name using the team id is created.
+****************************************************************************/
+const char *team_name_get(const struct team *pteam)
+{
+  const char *name;
+
+  fc_assert_ret_val(team_slots_initialised(), NULL);
+  fc_assert_ret_val(pteam != NULL, NULL);
+
+  name = team_name_get_defined(pteam);
+  if (name == NULL) {
+    char buf[MAX_LEN_NAME];
+
+    /* No name defined for this team; create a default team name! */
+    fc_snprintf(buf, sizeof(buf), "Team %d", team_index(pteam));
+    team_name_set(pteam->tslot, buf);
+    name = team_name_get_defined(pteam);
+    log_verbose("No name defined for team %d! Creating a default name: "
+                "'%s'.", team_index(pteam), name);
+  }
+
+  return name;
+}
+
+/****************************************************************************
+  Return the untranslated ruleset name of the team. Returns NULL if no name
+  is defined.
+****************************************************************************/
+const char *team_name_get_defined(const struct team *pteam)
+{
+  const char **tname;
+
+  fc_assert_ret_val(team_slots_initialised(), NULL);
+  fc_assert_ret_val(pteam != NULL, NULL);
+
+  tname = team_slots.tnames + team_index(pteam);
+  if (*tname != NULL) {
+    return *tname;
+  }
+
+  return NULL;
+}
+
+/****************************************************************************
+  Does a linear search for a (defined) team name.
+  Returns NULL when none match.
 ****************************************************************************/
 struct team *find_team_by_rule_name(const char *team_name)
 {
@@ -272,30 +391,14 @@ struct team *find_team_by_rule_name(const char *team_name)
   /* Can't use team_iterate here since it skips unused teams. */
   for (i = 0; i < team_slot_count(); i++) {
     struct team *pteam = team_by_number(i);
+    const char *tname = team_name_get_defined(pteam);
 
-    if (0 == fc_strcasecmp(team_rule_name(pteam), team_name)) {
+    if (tname && 0 == fc_strcasecmp(tname, team_name)) {
       return pteam;
     }
   }
 
   return NULL;
-}
-
-/****************************************************************************
-  Return the translated name of the team.
-****************************************************************************/
-const char *team_name_translation(struct team *pteam)
-{
-  return _(team_rule_name(pteam));
-}
-
-/****************************************************************************
-  Return the untranslated name of the team.
-****************************************************************************/
-const char *team_rule_name(const struct team *pteam)
-{
-  fc_assert_ret_val(pteam != NULL, NULL);
-  return game.info.team_names_orig[team_index(pteam)];
 }
 
 /****************************************************************************
@@ -318,7 +421,7 @@ void team_add_player(struct player *pplayer, struct team *pteam)
   }
 
   log_debug("Adding player %d/%s to team %s.", player_number(pplayer),
-            pplayer->username, team_rule_name(pteam));
+            pplayer->username, team_name_get(pteam));
 
   /* Remove the player from the old team, if any. */
   team_remove_player(pplayer);
@@ -344,7 +447,7 @@ void team_remove_player(struct player *pplayer)
 
     log_debug("Removing player %d/%s from team %s (%d)",
               player_number(pplayer), player_name(pplayer),
-              team_rule_name(pteam), player_list_size(pteam->plrlist));
+              team_name_get(pteam), player_list_size(pteam->plrlist));
     player_list_remove(pteam->plrlist, pplayer);
 
     if (player_list_size(pteam->plrlist) == 0) {

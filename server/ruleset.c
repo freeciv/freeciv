@@ -123,6 +123,7 @@ static void send_ruleset_bases(struct conn_list *dest);
 static void send_ruleset_governments(struct conn_list *dest);
 static void send_ruleset_cities(struct conn_list *dest);
 static void send_ruleset_game(struct conn_list *dest);
+static void send_ruleset_team_names(struct conn_list *dest);
 
 static bool nation_has_initial_tech(struct nation_type *pnation,
                                     struct advance *tech);
@@ -3431,19 +3432,9 @@ static void load_ruleset_game(void)
   svec = secfile_lookup_str_vec(file, (size_t *) &teams, "teams.names");
   teams = MIN(MAX_NUM_TEAM_SLOTS, teams);
   for (i = 0; i < teams; i++) {
-    sz_strlcpy(game.info.team_names_orig[i], svec[i]);
+    team_name_set(team_slot_by_number(i), svec[i]);
   }
   free(svec);
-  if (teams < MAX_NUM_TEAM_SLOTS) {
-    log_normal("Not enough team names defined (have: %d; need: %d). "
-               "Creating missing names ...", teams, MAX_NUM_TEAM_SLOTS);
-    for (; teams < MAX_NUM_TEAM_SLOTS; teams++) {
-      fc_snprintf(game.info.team_names_orig[teams],
-                  sizeof(game.info.team_names_orig[teams]), "Team %d", teams);
-      log_verbose("Team %d created as: '%s'", teams,
-                  game.info.team_names_orig[teams]);
-    }
-  }
 
   settings_ruleset(file, "settings");
 
@@ -3929,6 +3920,32 @@ static void send_ruleset_game(struct conn_list *dest)
   lsend_packet_ruleset_game(dest, &misc_p);
 }
 
+/**************************************************************************
+  Send all team names defined in the ruleset file(s) to the
+  specified connections.
+**************************************************************************/
+static void send_ruleset_team_names(struct conn_list *dest)
+{
+  struct packet_team_name_info team_name_info_p;
+
+  team_slots_iterate(pslot) {
+    const char *name;
+    struct team *pteam = team_slot_get_team(pslot);
+
+    if (!pteam) {
+      continue;
+    }
+
+    name = team_name_get_defined(pteam);
+    if (name) {
+      team_name_info_p.team_id = team_index(pteam);
+      sz_strlcpy(team_name_info_p.team_name, name);
+
+      lsend_packet_team_name_info(dest, &team_name_info_p);
+    }
+  } team_slots_iterate_end;
+}
+
 /****************************************************************************
   HACK: reset any nations that have been set so far.
 
@@ -4058,6 +4075,7 @@ void send_rulesets(struct conn_list *dest)
 
   send_ruleset_control(dest);
   send_ruleset_game(dest);
+  send_ruleset_team_names(dest);
   send_ruleset_techs(dest);
   send_ruleset_governments(dest);
   send_ruleset_unit_classes(dest);

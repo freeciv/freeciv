@@ -352,6 +352,14 @@ void handle_nuke_tile_info(int tile)
 }
 
 /****************************************************************************
+  The name of team 'team_id'
+****************************************************************************/
+void handle_team_name_info(int team_id, char *team_name)
+{
+  team_name_set(team_slot_by_number(team_id), team_name);
+}
+
+/****************************************************************************
   A combat packet.  The server tells us the attacker and defender as well
   as both of their hitpoints after the combat is over (in most combat, one
   unit always dies and their HP drops to zero).  If make_winner_veteran is
