@@ -875,7 +875,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     struct unit *target = game_find_unit_by_number(punit->server.ai->target);
 
     if (target) {
-      target->server.ai->hunted &= ~(1 << player_index(unit_owner(punit)));
+      BV_CLR(target->server.ai->hunted, player_index(unit_owner(punit)));
       UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new role %d, old %d)",
                task, punit->server.ai->ai_role);
     }
@@ -906,7 +906,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     struct unit *target = game_find_unit_by_number(punit->server.ai->target);
 
     fc_assert_ret(target != NULL);
-    target->server.ai->hunted |= (1 << player_index(unit_owner(punit)));
+    BV_SET(target->server.ai->hunted, player_index(unit_owner(punit)));
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */

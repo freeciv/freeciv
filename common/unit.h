@@ -13,8 +13,9 @@
 #ifndef FC__UNIT_H
 #define FC__UNIT_H
 
-#include "fc_types.h"
+/* common */
 #include "base.h"
+#include "fc_types.h"
 #include "terrain.h"		/* enum tile_special_type */
 #include "unittype.h"
 #include "vision.h"
@@ -122,7 +123,7 @@ struct unit_ai {
   struct tile **prev_pos, **cur_pos;
 
   int target; /* target we hunt */
-  int hunted; /* if a player is hunting us, set by that player */
+  bv_player hunted; /* if a player is hunting us, set by that player */
   bool done;  /* we are done controlling this unit this turn */
 };
 

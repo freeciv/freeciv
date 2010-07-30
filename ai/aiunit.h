@@ -99,6 +99,7 @@ void update_simple_ai_types(void);
 void unit_class_ai_init(void);
 
 void ai_unit_init(struct unit *punit);
+void ai_unit_turn_end(struct unit *punit);
 void ai_unit_close(struct unit *punit);
 
 #define simple_ai_unit_type_iterate(_ut)				\

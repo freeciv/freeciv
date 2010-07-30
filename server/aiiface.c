@@ -52,6 +52,7 @@ void ai_init(void)
   ai->funcs.city_close = ai_city_close;
 
   ai->funcs.unit_init = ai_unit_init;
+  ai->funcs.unit_turn_end = ai_unit_turn_end;
   ai->funcs.unit_close = ai_unit_close;
 
   ai->funcs.auto_settlers = auto_settlers_player;

@@ -51,6 +51,9 @@
 /* symbol to flag missing numbers for better debugging */
 #define IDENTITY_NUMBER_ZERO (0)
 
+/* A bitvector for all player slots. */
+BV_DEFINE(bv_player, MAX_NUM_PLAYER_SLOTS);
+
 /* Changing this breaks network compatibility. */
 enum output_type_id {
   O_FOOD, O_SHIELD, O_TRADE, O_GOLD, O_LUXURY, O_SCIENCE, O_LAST

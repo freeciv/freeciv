@@ -429,7 +429,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
       if (tile_city(ptile)
           || !can_unit_attack_tile(punit, ptile)
-          || TEST_BIT(target->server.ai->hunted, player_index(pplayer))) {
+          || BV_ISSET(target->server.ai->hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
         continue;

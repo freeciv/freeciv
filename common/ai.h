@@ -38,6 +38,7 @@ struct ai_type
     void (*city_close)(struct city *pcity);
 
     void (*unit_init)(struct unit *punit);
+    void (*unit_turn_end)(struct unit *punit);
     void (*unit_close)(struct unit *punit);
 
     void (*auto_settlers)(struct player *pplayer);

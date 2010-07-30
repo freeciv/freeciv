@@ -50,8 +50,6 @@ enum handicap_type {
   H_LAST
 };
 
-BV_DEFINE(bv_player, MAX_NUM_PLAYER_SLOTS);
-
 BV_DEFINE(bv_handicap, H_LAST);
 
 struct player_economic {

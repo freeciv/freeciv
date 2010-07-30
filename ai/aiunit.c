@@ -2658,6 +2658,8 @@ void unit_class_ai_init(void)
 **************************************************************************/
 void ai_unit_init(struct unit *punit)
 {
+  fc_assert_ret(punit->server.ai == NULL);
+
   /* Make sure that contents of unit_ai structure are correctly initialized,
    * if you ever allocate it by some other mean than fc_calloc() */
   punit->server.ai = fc_calloc(1, sizeof(*punit->server.ai));
@@ -2666,7 +2668,7 @@ void ai_unit_init(struct unit *punit)
   punit->server.ai->cur_pos = NULL;
   punit->server.ai->prev_pos = NULL;
   punit->server.ai->target = 0;
-  punit->server.ai->hunted = 0;
+  BV_CLR_ALL(punit->server.ai->hunted);
   punit->server.ai->ai_role = AIUNIT_NONE;
   punit->server.ai->ferryboat = 0;
   punit->server.ai->passenger = 0;
@@ -2677,8 +2679,20 @@ void ai_unit_init(struct unit *punit)
 /**************************************************************************
   Free unit from use with default AI.
 **************************************************************************/
+void ai_unit_turn_end(struct unit *punit)
+{
+  fc_assert_ret(punit->server.ai != NULL);
+
+  BV_CLR_ALL(punit->server.ai->hunted);
+}
+
+/**************************************************************************
+  Free unit from use with default AI.
+**************************************************************************/
 void ai_unit_close(struct unit *punit)
 {
+  fc_assert_ret(punit->server.ai != NULL);
+
   aiguard_clear_charge(punit);
   aiguard_clear_guard(punit);
   aiferry_clear_boat(punit);
