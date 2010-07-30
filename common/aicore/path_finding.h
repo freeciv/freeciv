@@ -313,7 +313,7 @@ struct pf_parameter {
   struct player *owner;
   const struct unit_class *uclass;
 
-  bv_flags unit_flags;          /* Like F_MARINE and F_TRIREME */
+  bv_unit_type_flags unit_flags;     /* Like F_MARINE and F_TRIREME */
   bool omniscience;		/* Do we care if the tile is visible? */
 
   /* Callback to get MC of a move from (from_x, from_y) to (to_x,

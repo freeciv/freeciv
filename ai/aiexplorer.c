@@ -71,7 +71,7 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
 **************************************************************************/
 static bool ai_may_explore(const struct tile *ptile,
                            const struct player *pplayer,
-                           const bv_flags unit_flags)
+                           const bv_unit_type_flags unit_flags)
 {
   /* Don't allow military units to cross borders. */
   if (!BV_ISSET(unit_flags, F_CIVILIAN)

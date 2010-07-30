@@ -45,6 +45,7 @@
 /* when built, gives gold */
 #define SPECENUM_VALUE2 IF_GOLD
 #define SPECENUM_VALUE2NAME "Gold"
+#define SPECENUM_COUNT IF_COUNT
 #include "specenum_gen.h"
 
 #define SPECENUM_NAME impr_genus_id
@@ -59,6 +60,7 @@
 #include "specenum_gen.h"
 
 BV_DEFINE(bv_imprs, B_LAST);
+BV_DEFINE(bv_impr_flags, IF_COUNT);
 
 /* Type of improvement. (Read from buildings.ruleset file.) */
 struct impr_type {
@@ -73,7 +75,7 @@ struct impr_type {
   int upkeep;
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
   enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
-  unsigned int flags;
+  bv_impr_flags flags;
   char *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];

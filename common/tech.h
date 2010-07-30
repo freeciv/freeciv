@@ -87,6 +87,8 @@ typedef int Tech_type_id;
 #define SPECENUM_COUNT TF_COUNT
 #include "specenum_gen.h"
 
+BV_DEFINE(bv_tech_flags, TF_COUNT);
+
 /* TECH_KNOWN is self-explanatory, TECH_PREREQS_KNOWN are those for which all 
  * requirements are fulfilled; all others (including those which can never 
  * be reached) are TECH_UNKNOWN */
@@ -110,7 +112,7 @@ struct advance {
   char graphic_alt[MAX_LEN_NAME];	/* alternate icon name */
 
   struct advance *require[AR_SIZE];
-  unsigned int flags;
+  bv_tech_flags flags;
   char *helptext;
 
   /* 

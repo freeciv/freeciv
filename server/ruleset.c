@@ -806,7 +806,7 @@ static void load_ruleset_techs(struct section_file *file)
   a_none->require[AR_ONE] = a_none;
   a_none->require[AR_TWO] = a_none;
   a_none->require[AR_ROOT] = A_NEVER;
-  a_none->flags = 0;
+  BV_CLR_ALL(a_none->flags);
 
   i = 0;
   advance_iterate(A_FIRST, a) {
@@ -835,7 +835,7 @@ static void load_ruleset_techs(struct section_file *file)
       a->require[AR_TWO] = a_none;
     }
 
-    a->flags = 0;
+    BV_CLR_ALL(a->flags);
 
     slist = secfile_lookup_str_vec(file, &nval, "%s.flags", sec_name);
     for(j=0; j<nval; j++) {
@@ -848,7 +848,7 @@ static void load_ruleset_techs(struct section_file *file)
         log_error("\"%s\" [%s] \"%s\": bad flag name \"%s\".",
                   filename, sec_name, rule_name(&a->name), sval);
       } else {
-        a->flags |= (1<<ival);
+        BV_SET(a->flags, ival);
       }
     }
     free(slist);
@@ -1596,7 +1596,7 @@ static void load_ruleset_buildings(struct section_file *file)
     }
 
     slist = secfile_lookup_str_vec(file, &nflags, "%s.flags", sec_name);
-    b->flags = 0;
+    BV_CLR_ALL(b->flags);
 
     for(j=0; j<nflags; j++) {
       sval = slist[j];
@@ -1608,7 +1608,7 @@ static void load_ruleset_buildings(struct section_file *file)
         log_error("\"%s\" improvement \"%s\": bad flag name \"%s\".",
                   filename, improvement_rule_name(b), sval);
       } else {
-        b->flags |= (1<<ival);
+        BV_SET(b->flags, ival);
       }
     }
     free(slist);

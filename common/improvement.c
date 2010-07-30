@@ -285,7 +285,7 @@ bool improvement_has_flag(const struct impr_type *pimprove,
 			  enum impr_flag_id flag)
 {
   fc_assert_ret_val(impr_flag_id_is_valid(flag), FALSE);
-  return TEST_BIT(pimprove->flags, flag);
+  return BV_ISSET(pimprove->flags, flag);
 }
 
 /**************************************************************************

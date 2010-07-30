@@ -187,8 +187,8 @@ enum unit_role_id {
 };
 #define L_MAX 64
 
-BV_DEFINE(bv_flags, F_MAX);
-BV_DEFINE(bv_roles, L_MAX);
+BV_DEFINE(bv_unit_type_flags, F_MAX);
+BV_DEFINE(bv_unit_type_roles, L_MAX);
 
 struct veteran_type {
     /* client */
@@ -229,8 +229,8 @@ struct unit_type {
   struct unit_type *transformed_to;
   int fuel;
 
-  bv_flags flags;
-  bv_roles roles;
+  bv_unit_type_flags flags;
+  bv_unit_type_roles roles;
 
   int happy_cost;  /* unhappy people in home city */
   int upkeep[O_LAST];

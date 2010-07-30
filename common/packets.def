@@ -202,10 +202,12 @@ type BASE_GUI           = uint8(enum base_gui_type)
 type GUI_TYPE           = uint8(enum gui_type)
 type AIRLIFTING_STYLE   = uint8(enum airlifting_style)
 
-type BV_IMPRS		= bitvector(bv_imprs)
+type BV_IMPRS           = bitvector(bv_imprs)
+type BV_IMPR_FLAGS      = bitvector(bv_impr_flags)
 type BV_UCLASS_FLAGS    = bitvector(bv_unit_class_flags)
-type BV_FLAGS		= bitvector(bv_flags)
-type BV_ROLES		= bitvector(bv_roles)
+type BV_UTYPE_FLAGS     = bitvector(bv_unit_type_flags)
+type BV_UTYPE_ROLES     = bitvector(bv_unit_type_roles)
+type BV_TECH_FLAGS      = bitvector(bv_tech_flags)
 type BV_TERRAIN_FLAGS	= bitvector(bv_terrain_flags)
 type BV_BASE_FLAGS      = bitvector(bv_base_flags)
 type BV_CITY_OPTIONS    = bitvector(bv_city_options)
@@ -1112,8 +1114,8 @@ PACKET_RULESET_UNIT = 140; sc, lsend
 
   STRING helptext[MAX_LEN_PACKET];
 
-  BV_FLAGS flags;
-  BV_ROLES roles;
+  BV_UTYPE_FLAGS flags;
+  BV_UTYPE_ROLES roles;
 end
 
 PACKET_RULESET_GAME = 141; sc, lsend
@@ -1144,7 +1146,8 @@ PACKET_RULESET_TECH = 144; sc, lsend
   TECH id;
   TECH req[2];
   TECH root_req;
-  UINT32 flags, preset_cost, num_reqs;
+  BV_TECH_FLAGS flags;
+  UINT32 preset_cost, num_reqs;
   STRING name[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];
   STRING graphic_str[MAX_LEN_NAME];
@@ -1244,7 +1247,7 @@ PACKET_RULESET_BUILDING = 150; sc, lsend
   IMPROVEMENT replaced_by;
   UINT16 build_cost;
   UINT8 upkeep, sabotage;
-  UINT16 flags;
+  BV_IMPR_FLAGS flags;
   STRING soundtag[MAX_LEN_NAME];
   STRING soundtag_alt[MAX_LEN_NAME];
   STRING helptext[MAX_LEN_PACKET];
