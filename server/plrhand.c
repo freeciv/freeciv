@@ -765,7 +765,7 @@ static void package_player_common(struct player *plr,
   packet->is_connected=plr->is_connected;
   packet->ai = plr->ai_data.control;
   packet->ai_skill_level = plr->ai_data.control ? plr->ai_data.skill_level : 0;
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     packet->love[i] = plr->ai_data.love[i];
   }
   packet->barbarian_type = plr->ai_data.barbarian_type;
@@ -847,7 +847,7 @@ static void package_player_info(struct player *plr,
         player_has_real_embassy(plr, pother);
     } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
-    for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    for(i = 0; i < player_slot_count(); i++) {
       packet->diplstates[i].type       = plr->diplstates[i].type;
       packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
       packet->diplstates[i].contact_turns_left = 
@@ -866,7 +866,7 @@ static void package_player_info(struct player *plr,
       BV_SET(packet->gives_shared_vision, player_index(receiver));
     }
 
-    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < player_slot_count(); i++) {
       packet->diplstates[i].type       = DS_WAR;
       packet->diplstates[i].turns_left = 0;
       packet->diplstates[i].has_reason_to_cancel = 0;

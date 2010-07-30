@@ -473,7 +473,7 @@ void rank_users(void)
   FILE *fp;
   int i;
   enum victory_state { VS_NONE, VS_LOSER, VS_WINNER };
-  enum victory_state plr_state[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  enum victory_state plr_state[player_slot_count()];
   struct player *spacerace_winner = NULL;
 
   /* game ending via endturn results in a draw. We don't rank. */
@@ -496,7 +496,7 @@ void rank_users(void)
   }
 
   /* initialize plr_state */
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     plr_state[i] = VS_NONE;
   }
 

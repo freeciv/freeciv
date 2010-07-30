@@ -335,7 +335,7 @@ static void player_defaults(struct player *pplayer)
   pplayer->revolution_finishes = -1;
 
   BV_CLR_ALL(pplayer->real_embassy);
-  for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for(i = 0; i < player_slot_count(); i++) {
     player_diplstate_init(&pplayer->diplstates[i]);
   }
   pplayer->city_style = 0;            /* should be first basic style */

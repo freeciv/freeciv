@@ -121,7 +121,7 @@ struct color_system *color_system_read(struct section_file *file)
     colors->colors[i].color = NULL;
   }
 
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     if (NULL == secfile_entry_lookup(file, "colors.player%d.r", i)) {
       break;
     }

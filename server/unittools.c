@@ -1729,13 +1729,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
-    int num_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-    struct unit *other_killed[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    int num_killed[player_slot_count()];
+    struct unit *other_killed[player_slot_count()];
 
     fc_assert(unitcount > 1);
 
     /* initialize */
-    for (i = 0; i<MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < player_slot_count(); i++) {
       num_killed[i] = 0;
       other_killed[i] = NULL;
     }
@@ -1773,7 +1773,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
      *
      * Also if a large number of units die you don't find out what type
      * they all are. */
-    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < player_slot_count(); i++) {
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
           fc_assert(other_killed[i] == NULL);

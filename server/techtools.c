@@ -280,10 +280,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
 {
   bool bonus_tech_hack = FALSE;
   bool was_first = FALSE;
-  int had_embassies[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int had_embassies[player_slot_count()];
   struct city *pcity;
-  bool can_switch[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS]
-                 [government_count()];
+  bool can_switch[player_slot_count()][government_count()];
   struct player_research *research = get_player_research(plr);
   struct advance *vap = valid_advance_by_number(tech_found);
 

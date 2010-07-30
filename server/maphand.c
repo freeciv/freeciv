@@ -31,6 +31,7 @@
 #include "movement.h"
 #include "nation.h"
 #include "packets.h"
+#include "player.h"
 #include "unit.h"
 #include "unitlist.h"
 #include "vision.h"
@@ -1242,7 +1243,7 @@ static void create_vision_dependencies(void)
 ***************************************************************/
 void give_shared_vision(struct player *pfrom, struct player *pto)
 {
-  bv_player save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
+  bv_player save_vision[player_slot_count()];
   if (pfrom == pto) return;
   if (gives_shared_vision(pfrom, pto)) {
     log_error("Trying to give shared vision from %s to %s, "
@@ -1304,7 +1305,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
 ***************************************************************/
 void remove_shared_vision(struct player *pfrom, struct player *pto)
 {
-  bv_player save_vision[MAX_NUM_PLAYERS+MAX_NUM_BARBARIANS];
+  bv_player save_vision[player_slot_count()];
 
   fc_assert_ret(pfrom != pto);
   if (!gives_shared_vision(pfrom, pto)) {

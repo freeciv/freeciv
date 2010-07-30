@@ -133,7 +133,7 @@ void team_add_player(struct player *pplayer, struct team *pteam)
   pplayer->team = pteam;
   
   pteam->players++;
-  fc_assert_ret(pteam->players <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  fc_assert_ret(pteam->players <= player_slot_count());
 }
 
 /****************************************************************************

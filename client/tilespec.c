@@ -2451,7 +2451,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     /* Loop over all players and load the corresponding colors. If there
      * are no more colors start again with color 0. */
     int now, last = -1; /* the current and the last valid player color */
-    for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+    for (i = 0; i < player_slot_count(); i++) {
       if (last == -1) {
         now = i;
       } else {
@@ -2516,7 +2516,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
   t->sprites.backgrounds.background
     = crop_sprite(t->sprites.colors.background, 0, 0, W, H,
 		  t->sprites.mask.tile, 0, 0);
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     t->sprites.backgrounds.player[i]
       = crop_sprite(t->sprites.colors.player[i], 0, 0, W, H,
 		    t->sprites.mask.tile, 0, 0);
@@ -2556,7 +2556,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
         fc_snprintf(buffer, sizeof(buffer), "grid.borders.%c", name[i][j]);
         SET_SPRITE(grid.borders[i][j], buffer);
 
-        for (p = 0; p < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; p++) {
+        for (p = 0; p < player_slot_count(); p++) {
           fc_snprintf(buffer, sizeof(buffer), "grid.borders.%c.%d",
                       name[i][j], p);
 	  s = load_sprite(t, buffer);
@@ -4799,7 +4799,7 @@ void tileset_free_tiles(struct tileset *t)
   } sprite_vector_iterate_end;
   sprite_vector_free(&t->sprites.city.unworked_tile_overlay);
 
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
+  for (i = 0; i < player_slot_count(); i++) {
     if (t->sprites.backgrounds.player[i]) {
       free_sprite(t->sprites.backgrounds.player[i]);
       t->sprites.backgrounds.player[i] = NULL;
