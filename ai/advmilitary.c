@@ -1077,7 +1077,6 @@ to carry a land attack unit, instead of the land attack unit itself.
 static void kill_something_with(struct player *pplayer, struct city *pcity, 
 				struct unit *myunit, struct ai_choice *choice)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
   /* Our attack rating (with reinforcements) */
   int attack;
   /* Benefit from fighting the target */
@@ -1143,8 +1142,8 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
       /* See comment in unit_move_turns */
       move_rate *= 3;
     }
-    
-    if (!HOSTILE_PLAYER(pplayer, ai, city_owner(acity))) {
+
+    if (!HOSTILE_PLAYER(pplayer, city_owner(acity))) {
       /* Not a valid target */
       return;
     }

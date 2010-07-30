@@ -42,9 +42,9 @@
 #define IS_ATTACKER(punit) \
   (unit_type(punit)->attack_strength \
         > unit_type(punit)->transport_capacity)
-#define HOSTILE_PLAYER(pplayer, ai, aplayer) \
-  (WAR(pplayer, aplayer)         \
-   || ai->diplomacy.player_intel[player_index(aplayer)].countdown >= 0)
+#define HOSTILE_PLAYER(pplayer, aplayer)                                    \
+  (WAR(pplayer, aplayer)                                                    \
+   || ai_diplomacy_get(pplayer, aplayer)->countdown >= 0)
 #define UNITTYPE_COSTS(ut)						\
   (ut->pop_cost * 3 + ut->happy_cost					\
    + ut->upkeep[O_SHIELD] + ut->upkeep[O_FOOD] + ut->upkeep[O_GOLD])

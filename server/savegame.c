@@ -2577,31 +2577,31 @@ static void player_load_main2(struct player *plr, int plrno,
                               const char *savefile_options)
 {
   int i;
-  struct ai_data *ai = ai_data_get(plr);
 
   /* "Old" observer players will still be loaded but are considered dead. */
-  players_iterate(pplayer) {
-    struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
-    i = player_index(pplayer);
+  players_iterate(aplayer) {
+    struct player_diplstate *ds = player_diplstate_get(plr, aplayer);
+    struct ai_dip_intel *adip = ai_diplomacy_get(plr, aplayer);
+    i = player_index(aplayer);
 
     /* ai data */
     plr->ai_common.love[i]
          = secfile_lookup_int_default(file, 1, "player%d.ai%d.love", plrno, i);
-    ai->diplomacy.player_intel[i].spam 
+    adip->spam
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.spam", plrno, i);
-    ai->diplomacy.player_intel[i].countdown
+    adip->countdown
          = secfile_lookup_int_default(file, -1, "player%d.ai%d.countdown", plrno, i);
-    ai->diplomacy.player_intel[i].war_reason
+    adip->war_reason
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.war_reason", plrno, i);
-    ai->diplomacy.player_intel[i].ally_patience
+    adip->ally_patience
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.patience", plrno, i);
-    ai->diplomacy.player_intel[i].warned_about_space
+    adip->warned_about_space
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.warn_space", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_peace
+    adip->asked_about_peace
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_peace", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_alliance
+    adip->asked_about_alliance
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_alliance", plrno, i);
-    ai->diplomacy.player_intel[i].asked_about_ceasefire
+    adip->asked_about_ceasefire
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
 
     /* diplomatic state */
@@ -2631,7 +2631,7 @@ static void player_load_main2(struct player *plr, int plrno,
         && secfile_lookup_bool_default(file, FALSE,
                                        "player%d.diplstate%d.embassy",
                                        plrno, i)) {
-      BV_SET(plr->real_embassy, player_index(pplayer));
+      BV_SET(plr->real_embassy, player_index(aplayer));
     }
   } players_iterate_end;
 }
@@ -3590,7 +3590,6 @@ static void player_save_main(struct player *plr, int plrno,
   int i;
   char invs[A_LAST+1];
   struct player_spaceship *ship = &plr->spaceship;
-  struct ai_data *ai = ai_data_get(plr);
 
   secfile_insert_str(file, player_name(plr), "player%d.name", plrno);
   secfile_insert_str(file, plr->username, "player%d.username", plrno);
@@ -3622,26 +3621,27 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_bool(file, plr->is_alive, "player%d.is_alive", plrno);
   secfile_insert_bool(file, plr->ai_common.control, "player%d.ai.control", plrno);
 
-  players_iterate(pplayer) {
-    i = player_index(pplayer);
+  players_iterate(aplayer) {
+    struct ai_dip_intel *adip = ai_diplomacy_get(plr, aplayer);
+    i = player_index(aplayer);
 
     secfile_insert_int(file, plr->ai_common.love[i],
                        "player%d.ai%d.love", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].spam, 
+    secfile_insert_int(file, adip->spam,
                        "player%d.ai%d.spam", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].countdown, 
+    secfile_insert_int(file, adip->countdown,
                        "player%d.ai%d.countdown", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].war_reason, 
+    secfile_insert_int(file, adip->war_reason,
                        "player%d.ai%d.war_reason", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].ally_patience, 
+    secfile_insert_int(file, adip->ally_patience,
                        "player%d.ai%d.patience", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].warned_about_space, 
+    secfile_insert_int(file, adip->warned_about_space,
                        "player%d.ai%d.warn_space", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_peace, 
+    secfile_insert_int(file, adip->asked_about_peace,
                        "player%d.ai%d.ask_peace", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_alliance, 
+    secfile_insert_int(file, adip->asked_about_alliance,
                        "player%d.ai%d.ask_alliance", plrno, i);
-    secfile_insert_int(file, ai->diplomacy.player_intel[i].asked_about_ceasefire, 
+    secfile_insert_int(file, adip->asked_about_ceasefire,
                        "player%d.ai%d.ask_ceasefire", plrno, i);
   } players_iterate_end;
 

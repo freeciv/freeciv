@@ -150,7 +150,6 @@ int military_amortize(struct player *pplayer, struct city *pcity,
 bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
 {
   struct ai_dip_intel *adip;
-  struct ai_data *ai;
   enum diplstate_type ds;
 
   if (pplayer == aplayer) {
@@ -165,9 +164,8 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
     return TRUE;
   }
 
-  ai = ai_data_get(pplayer);
-  adip = &(ai->diplomacy.player_intel[player_index(aplayer)]);
-  
+  adip = ai_diplomacy_get(pplayer, aplayer);
+
   if (adip->countdown >= 0 || adip->is_allied_with_enemy) {
     /* Don't trust our war target or someone who will declare war on us soon */
     return TRUE;
@@ -243,7 +241,6 @@ bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
 static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct ai_data *ai = ai_data_get(pplayer);
   unsigned int danger = 0;
   struct city *dcity;
   struct tile *ptile;
@@ -257,12 +254,12 @@ static void ai_gothere_bodyguard(struct unit *punit, struct tile *dest_tile)
 
   /* Estimate enemy attack power. */
   unit_list_iterate(dest_tile->units, aunit) {
-    if (HOSTILE_PLAYER(pplayer, ai, unit_owner(aunit))) {
+    if (HOSTILE_PLAYER(pplayer, unit_owner(aunit))) {
       danger += unit_att_rating(aunit);
     }
   } unit_list_iterate_end;
   dcity = tile_city(dest_tile);
-  if (dcity && HOSTILE_PLAYER(pplayer, ai, city_owner(dcity))) {
+  if (dcity && HOSTILE_PLAYER(pplayer, city_owner(dcity))) {
     /* Assume enemy will build another defender, add it's attack strength */
     struct unit_type *d_type = ai_choose_defender_versus(dcity, punit);
 

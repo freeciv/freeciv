@@ -517,20 +517,12 @@ void player_destroy(struct player *pplayer)
   if (pplayer->attribute_block.data) {
     free(pplayer->attribute_block.data);
   }
-
   if (pplayer->attribute_block_buffer.data) {
     free(pplayer->attribute_block_buffer.data);
   }
 
-  unit_list_iterate(pplayer->units, punit) {
-    game_remove_unit(punit);
-  } unit_list_iterate_end;
   fc_assert_ret(0 == unit_list_size(pplayer->units));
   unit_list_destroy(pplayer->units);
-
-  city_list_iterate(pplayer->cities, pcity) {
-    game_remove_city(pcity);
-  } city_list_iterate_end;
   fc_assert_ret(0 == city_list_size(pplayer->cities));
   city_list_destroy(pplayer->cities);
 
@@ -541,13 +533,6 @@ void player_destroy(struct player *pplayer)
    * client is connected. */
 #endif
   conn_list_destroy(pplayer->connections);
-
-  team_remove_player(pplayer);
-
-  /* This comes last because log calls in the above functions may use it. */
-  if (pplayer->nation != NULL) {
-    player_set_nation(pplayer, NULL);
-  }
 
   players_iterate(aplayer) {
     /* destroy the diplomatics states of this player with others ... */

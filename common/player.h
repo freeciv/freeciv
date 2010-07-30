@@ -171,6 +171,7 @@ struct attribute_block_s {
 };
 
 struct ai_type;
+struct ai_data;
 
 struct player {
   const struct player **pslot;
@@ -226,6 +227,8 @@ struct player {
                                       * what p1 has via p2 */
 
       bv_debug debug;
+
+      struct ai_data *aidata;
     } server;
 
     struct {

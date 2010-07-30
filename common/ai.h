@@ -29,6 +29,10 @@ enum incident_type {
 struct ai_type
 {
   struct {
+    void (*data_init)(struct player *pplayer);
+    void (*data_default)(struct player *pplayer);
+    void (*data_close)(struct player *pplayer);
+
     void (*city_init)(struct city *pcity);
     void (*city_update)(struct city *pcity);
     void (*city_close)(struct city *pcity);

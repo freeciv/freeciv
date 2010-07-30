@@ -55,7 +55,93 @@
 
 #include "aidata.h"
 
-static struct ai_data aidata[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+static void ai_diplomacy_new(const struct player *plr1,
+                             const struct player *plr2);
+static void ai_diplomacy_defaults(const struct player *plr1,
+                                  const struct player *plr2);
+static void ai_diplomacy_destroy(const struct player *plr1,
+                                 const struct player *plr2);
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void ai_diplomacy_new(const struct player *plr1,
+                             const struct player *plr2)
+{
+  struct ai_dip_intel *player_intel;
+
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = plr1->server.aidata->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  fc_assert_ret(*player_intel_slot == NULL);
+
+  player_intel = fc_calloc(1, sizeof(*player_intel));
+  *player_intel_slot = player_intel;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void ai_diplomacy_defaults(const struct player *plr1,
+                                  const struct player *plr2)
+{
+  struct ai_dip_intel *player_intel = ai_diplomacy_get(plr1, plr2);
+
+  fc_assert_ret(player_intel != NULL);
+
+  /* pseudorandom value */
+  player_intel->spam = (player_index(plr1) + player_index(plr2)) % 5;
+  player_intel->countdown = -1;
+  player_intel->war_reason = WAR_REASON_NONE;
+  player_intel->distance = 1;
+  player_intel->ally_patience = 0;
+  player_intel->asked_about_peace = 0;
+  player_intel->asked_about_alliance = 0;
+  player_intel->asked_about_ceasefire = 0;
+  player_intel->warned_about_space = 0;
+}
+
+/***************************************************************
+  Returns diplomatic state type between two players
+***************************************************************/
+struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
+                                      const struct player *plr2)
+{
+  fc_assert_ret_val(plr1 != NULL, NULL);
+  fc_assert_ret_val(plr2 != NULL, NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = plr1->server.aidata->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  fc_assert_ret_val(player_intel_slot != NULL, NULL);
+
+  return (struct ai_dip_intel *) *player_intel_slot;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void ai_diplomacy_destroy(const struct player *plr1,
+                                 const struct player *plr2)
+{
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct ai_dip_intel **player_intel_slot
+    = plr1->server.aidata->diplomacy.player_intel_slots
+      + player_index(plr2);
+
+  if (*player_intel_slot != NULL) {
+    free(ai_diplomacy_get(plr1, plr2));
+  }
+
+  *player_intel_slot = NULL;
+}
 
 /**************************************************************************
   Precalculates some important data about the improvements in the game
@@ -179,7 +265,9 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
 **************************************************************************/
 void ai_data_analyze_rulesets(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[player_index(pplayer)];
+  struct ai_data *ai = pplayer->server.aidata;
+
+  fc_assert_ret(ai != NULL);
 
   ai_data_city_impr_calc(pplayer, ai);
 }
@@ -236,10 +324,12 @@ static void count_my_units(struct player *pplayer)
 **************************************************************************/
 void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 {
-  struct ai_data *ai = &aidata[player_index(pplayer)];
+  struct ai_data *ai = pplayer->server.aidata;
   int i, j, k;
   int nuke_units = num_role_units(F_NUCLEAR);
   bool danger_of_nukes = FALSE;
+
+  fc_assert_ret(ai != NULL);
 
   /*** Threats ***/
 
@@ -449,16 +539,18 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   /*** Diplomacy ***/
 
   if (pplayer->ai_common.control && !is_barbarian(pplayer) && is_new_phase) {
-    ai_diplomacy_begin_new_phase(pplayer, ai);
+    ai_diplomacy_begin_new_phase(pplayer);
   }
 
-  /* Set per-player variables. We must set all players, since players 
-   * can be created during a turn, and we don't want those to have 
+  /* Set per-player variables. We must set all players, since players
+   * can be created during a turn, and we don't want those to have
    * invalid values. */
   players_iterate(aplayer) {
-    ai->diplomacy.player_intel[i].is_allied_with_enemy = NULL;
-    ai->diplomacy.player_intel[i].at_war_with_ally = NULL;
-    ai->diplomacy.player_intel[i].is_allied_with_ally = NULL;
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
+
+    adip->is_allied_with_enemy = NULL;
+    adip->at_war_with_ally = NULL;
+    adip->is_allied_with_ally = NULL;
 
     players_iterate(check_pl) {
       if (check_pl == pplayer
@@ -468,15 +560,15 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       }
       if (pplayers_allied(aplayer, check_pl)
           && player_diplstate_get(pplayer, check_pl)->type == DS_WAR) {
-       ai->diplomacy.player_intel[i].is_allied_with_enemy = check_pl;
+       adip->is_allied_with_enemy = check_pl;
       }
       if (pplayers_allied(pplayer, check_pl)
           && player_diplstate_get(aplayer, check_pl)->type == DS_WAR) {
-        ai->diplomacy.player_intel[i].at_war_with_ally = check_pl;
+        adip->at_war_with_ally = check_pl;
       }
       if (pplayers_allied(aplayer, check_pl)
           && pplayers_allied(pplayer, check_pl)) {
-        ai->diplomacy.player_intel[i].is_allied_with_ally = check_pl;
+        adip->is_allied_with_ally = check_pl;
       }
     } players_iterate_end;
   } players_iterate_end;
@@ -584,7 +676,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
 **************************************************************************/
 void ai_data_phase_done(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[player_index(pplayer)];
+  struct ai_data *ai = pplayer->server.aidata;
+
+  fc_assert_ret(ai != NULL);
 
   free(ai->explore.ocean);
   ai->explore.ocean = NULL;
@@ -616,7 +710,9 @@ void ai_data_phase_done(struct player *pplayer)
 **************************************************************************/
 struct ai_data *ai_data_get(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[player_index(pplayer)];
+  struct ai_data *ai = pplayer->server.aidata;
+
+  fc_assert_ret_val(ai != NULL, NULL);
 
   if (ai->num_continents != map.num_continents
       || ai->num_oceans != map.num_oceans) {
@@ -628,30 +724,53 @@ struct ai_data *ai_data_get(struct player *pplayer)
 }
 
 /**************************************************************************
-  Like ai_data_get, but no side effects.
+  Allocate memory for ai data. Save to call multiple times.
 **************************************************************************/
-const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
-					    const struct player *aplayer)
+void ai_data_init(struct player *pplayer)
 {
-  const struct ai_data *ai = &aidata[player_index(pplayer)];
+  struct ai_data *ai;
 
-  return &ai->diplomacy.player_intel[player_index(aplayer)];
+  if (pplayer->server.aidata == NULL) {
+    pplayer->server.aidata = fc_calloc(1, sizeof(*pplayer->server.aidata));
+  }
+  ai = pplayer->server.aidata;
+
+  ai->diplomacy.player_intel_slots
+    = fc_calloc(player_slot_count(),
+                sizeof(*ai->diplomacy.player_intel_slots));
+  player_slots_iterate(pslot) {
+    const struct ai_dip_intel **player_intel_slot
+      = ai->diplomacy.player_intel_slots + player_slot_index(pslot);
+    *player_intel_slot = NULL;
+  } player_slots_iterate_end;
+
+  players_iterate(aplayer) {
+    /* create ai diplomacy states for all other players */
+    ai_diplomacy_new(pplayer, aplayer);
+    /* create ai diplomacy state of this player */
+    if (aplayer != pplayer) {
+      ai_diplomacy_new(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
+  ai->government_want = fc_calloc(government_count() + 1,
+                                  sizeof(*ai->government_want));
+
+  ai_data_default(pplayer);
 }
 
 /**************************************************************************
   Initialize with sane values.
 **************************************************************************/
-void ai_data_init(struct player *pplayer)
+void ai_data_default(struct player *pplayer)
 {
-  struct ai_data *ai = &aidata[player_index(pplayer)];
-  int i;
+  struct ai_data *ai = pplayer->server.aidata;
+
+  fc_assert_ret(ai != NULL);
 
   ai->govt_reeval = 0;
-  ai->government_want = fc_realloc(ai->government_want,
-				   ((government_count() + 1)
-				    * sizeof(*ai->government_want)));
   memset(ai->government_want, 0,
-	 (government_count() + 1) * sizeof(*ai->government_want));
+         (government_count() + 1) * sizeof(*ai->government_want));
 
   ai->channels = NULL;
   ai->wonder_city = 0;
@@ -662,19 +781,46 @@ void ai_data_init(struct player *pplayer)
   ai->diplomacy.req_love_for_peace = MAX_AI_LOVE / 8;
   ai->diplomacy.req_love_for_alliance = MAX_AI_LOVE / 4;
 
-  for (i = 0; i < player_slot_count(); i++) {
-    ai->diplomacy.player_intel[i].spam = i % 5; /* pseudorandom */
-    ai->diplomacy.player_intel[i].countdown = -1;
-    ai->diplomacy.player_intel[i].war_reason = WAR_REASON_NONE;
-    ai->diplomacy.player_intel[i].distance = 1;
-    ai->diplomacy.player_intel[i].ally_patience = 0;
-    ai->diplomacy.player_intel[i].asked_about_peace = 0;
-    ai->diplomacy.player_intel[i].asked_about_alliance = 0;
-    ai->diplomacy.player_intel[i].asked_about_ceasefire = 0;
-    ai->diplomacy.player_intel[i].warned_about_space = 0;
-  }
+  players_iterate(aplayer) {
+    /* create ai diplomacy states for all other players */
+    ai_diplomacy_defaults(pplayer, aplayer);
+    /* create ai diplomacy state of this player */
+    if (aplayer != pplayer) {
+      ai_diplomacy_defaults(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
   ai->wants_no_science = FALSE;
   ai->max_num_cities = 10000;
+}
+
+/**************************************************************************
+  Free memory for ai data.
+**************************************************************************/
+void ai_data_close(struct player *pplayer)
+{
+  struct ai_data *ai = pplayer->server.aidata;
+
+  if (ai->diplomacy.player_intel_slots != NULL) {
+    players_iterate(aplayer) {
+      /* destroy the ai diplomacy states of this player with others ... */
+      ai_diplomacy_destroy(pplayer, aplayer);
+      /* and of others with this player. */
+      if (aplayer != pplayer) {
+        ai_diplomacy_destroy(aplayer, pplayer);
+      }
+    } players_iterate_end;
+    free(ai->diplomacy.player_intel_slots);
+  }
+
+  if (ai->government_want != NULL) {
+    free(ai->government_want);
+  }
+
+  if (ai != NULL) {
+    free(ai);
+  }
+  pplayer->ai = NULL;
 }
 
 /**************************************************************************

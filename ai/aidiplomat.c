@@ -195,7 +195,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
       return;
     }
     incite_cost = city_incite_cost(pplayer, acity);
-    if (HOSTILE_PLAYER(pplayer, ai, city_owner(acity))
+    if (HOSTILE_PLAYER(pplayer, city_owner(acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
         && (incite_cost < pplayer->economic.gold - pplayer->ai_common.est_upkeep)) {
       /* incite gain (FIXME: we should count wonders too but need to
@@ -472,7 +472,6 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
                                      struct unit *punit, struct pf_map *pfm)
 {
   int gold_avail = pplayer->economic.gold - pplayer->ai_common.est_upkeep;
-  struct ai_data *ai = ai_data_get(pplayer);
 
   pf_map_iterate_positions(pfm, pos, FALSE) {
     struct tile *ptile = pos.tile;
@@ -487,7 +486,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
     }
 
     if (!pvictim
-        || !HOSTILE_PLAYER(pplayer, ai, unit_owner(pvictim))
+        || !HOSTILE_PLAYER(pplayer, unit_owner(pvictim))
         || unit_list_size(ptile->units) > 1
         || (tile_city(ptile)
          && get_city_bonus(tile_city(ptile), EFT_NO_INCITE) > 0)

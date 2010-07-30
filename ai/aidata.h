@@ -71,7 +71,7 @@ struct ai_data {
 
   /* AI diplomacy and opinions on other players */
   struct {
-    struct ai_dip_intel player_intel[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    const struct ai_dip_intel **player_intel_slots;
     enum winning_strategy strategy;
     int timer; /* pursue our goals with some stubbornness, in turns */
     char love_coeff;          /* Reduce love with this % each turn */
@@ -164,14 +164,17 @@ struct ai_data {
 };
 
 void ai_data_init(struct player *pplayer);
+void ai_data_default(struct player *pplayer);
+void ai_data_close(struct player *pplayer);
+
 void ai_data_phase_init(struct player *pplayer, bool is_new_phase);
 void ai_data_phase_done(struct player *pplayer);
 
 void ai_data_analyze_rulesets(struct player *pplayer);
 
 struct ai_data *ai_data_get(struct player *pplayer);
-const struct ai_dip_intel *ai_diplomacy_get(const struct player *pplayer,
-					    const struct player *aplayer);
+struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
+                                      const struct player *plr2);
 
 bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 

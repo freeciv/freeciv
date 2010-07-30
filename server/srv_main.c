@@ -2369,7 +2369,10 @@ static void srv_ready(void)
     } players_iterate_end;
   } else {
     players_iterate(pplayer) {
-      ai_data_init(pplayer); /* Initialize this again to be sure */
+      /* Initialize this again to be sure */
+      if (pplayer->ai && pplayer->ai->funcs.data_default) {
+        pplayer->ai->funcs.data_default(pplayer);
+      }
     } players_iterate_end;
   }
 

@@ -1019,6 +1019,7 @@ void server_player_init(struct player *pplayer,
                         bool initmap, bool needs_team)
 {
   player_status_reset(pplayer);
+
   pplayer->server.capital = FALSE;
   BV_CLR_ALL(pplayer->server.really_gives_vision);
   BV_CLR_ALL(pplayer->server.debug);
@@ -1026,15 +1027,16 @@ void server_player_init(struct player *pplayer,
   player_map_free(pplayer);
   pplayer->server.private_map = NULL;
 
-  pplayer->ai = get_ai_type(AI_DEFAULT);
-
   if (initmap) {
     player_map_allocate(pplayer);
   }
   if (needs_team) {
     team_add_player(pplayer, find_empty_team());
   }
-  ai_data_init(pplayer);
+
+  if (pplayer->ai && pplayer->ai->funcs.data_default) {
+    pplayer->ai->funcs.data_default(pplayer);
+  }
 }
 
 /********************************************************************** 
@@ -1050,6 +1052,12 @@ struct player *server_create_player(int player_id)
 
   if (!pplayer) {
     return NULL;
+  }
+
+  pplayer->ai = get_ai_type(AI_DEFAULT);
+
+  if (pplayer->ai && pplayer->ai->funcs.data_init) {
+    pplayer->ai->funcs.data_init(pplayer);
   }
 
   server_player_init(pplayer, FALSE, FALSE);
@@ -1101,6 +1109,14 @@ void server_remove_player(struct player *pplayer)
     }
   } players_iterate_end;
   player_map_free(pplayer);
+  /* We have to clear all player data before the ai memory is freed because
+   * some function may depend on it. */
+  player_clear(pplayer);
+
+  /* Destroy ai data. */
+  if (pplayer->ai && pplayer->ai->funcs.data_close) {
+    pplayer->ai->funcs.data_close(pplayer);
+  }
   player_destroy(pplayer);
 
   send_updated_vote_totals(NULL);

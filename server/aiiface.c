@@ -27,6 +27,7 @@
 
 /* ai */
 #include "aicity.h"
+#include "aidata.h"
 #include "aiexplorer.h"
 #include "aihand.h"
 #include "aisettler.h"
@@ -41,6 +42,10 @@ void ai_init(void)
   struct ai_type *ai = get_ai_type(AI_DEFAULT);
 
   init_ai(ai);
+
+  ai->funcs.data_init = ai_data_init;
+  ai->funcs.data_default = ai_data_default;
+  ai->funcs.data_close = ai_data_close;
 
   ai->funcs.city_init = ai_city_init;
   ai->funcs.city_update = ai_city_update;

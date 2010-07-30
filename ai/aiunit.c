@@ -1156,7 +1156,6 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 {
   struct tile *ptile;
   struct player *pplayer = unit_owner(punit);
-  struct ai_data *ai = ai_data_get(pplayer);
 
   CHECK_UNIT(punit);
 
@@ -1170,7 +1169,7 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
     struct city *pcity = tile_city(tile1);
 
     if (pcity
-        && HOSTILE_PLAYER(pplayer, ai, city_owner(pcity))
+        && HOSTILE_PLAYER(pplayer, city_owner(pcity))
 	&& (dest || !has_defense(pcity))) {
       int attacks;
 
@@ -1198,7 +1197,6 @@ static void invasion_funct(struct unit *punit, bool dest, int radius,
 int find_something_to_kill(struct player *pplayer, struct unit *punit,
 			   struct tile **dest_tile)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
   /* basic attack */
   int attack_value = unit_att_rating(punit);
   /* Enemy defence rating */
@@ -1266,7 +1264,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
   /* First calculate in nearby units */
   players_iterate(aplayer) {
     /* See comment below in next usage of HOSTILE_PLAYER. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, ai, aplayer))
+    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       continue;
     }
@@ -1382,7 +1380,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
      * which units to build, we want to calculate in danger and which
      * players we want to make war with in the future. We do _not_ want
      * to do this when actually making attacks. */
-    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, ai, aplayer))
+    if ((punit->id == 0 && !HOSTILE_PLAYER(pplayer, aplayer))
         || (punit->id != 0 && !pplayers_at_war(pplayer, aplayer))) {
       /* Not an enemy */
       continue;

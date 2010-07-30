@@ -189,10 +189,8 @@ static bool shared_vision_is_safe(struct player* pplayer,
 static bool ai_players_can_agree_on_ceasefire(struct player* player1,
                                               struct player* player2)
 {
-  struct ai_data *ai = ai_data_get(player1);
-
   return (player1->ai_common.love[player_index(player2)] > - (MAX_AI_LOVE * 4 / 10)
-          && ai->diplomacy.player_intel[player_index(player2)].countdown == -1);
+          && ai_diplomacy_get(player1, player2)->countdown == -1);
 }
 
 /********************************************************************** 
@@ -274,18 +272,18 @@ get_allied_with_enemy_player(const struct player *us,
   ds_after means a pact offered in the same treaty or current diplomatic
   state
 ***********************************************************************/
-static int ai_goldequiv_clause(struct player *pplayer, 
+static int ai_goldequiv_clause(struct player *pplayer,
                                struct player *aplayer,
                                struct Clause *pclause,
-                               struct ai_data *ai,
                                bool verbose,
                                enum diplstate_type ds_after)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int worth = 0; /* worth for pplayer of what aplayer gives */
   bool give = (pplayer == pclause->from);
   struct player *giver;
   const struct player *penemy;
-  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
+  struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
   bool is_dangerous;
 
   fc_assert_ret_val(pplayer != aplayer, 0);
@@ -552,7 +550,6 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
 {
   int total_balance = 0;
   bool only_gifts = TRUE;
-  struct ai_data *ai = ai_data_get(pplayer);
   enum diplstate_type ds_after =
     player_diplstate_get(pplayer, aplayer)->type;
   int given_cities = 0;
@@ -569,8 +566,8 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
     total_balance +=
-      ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE, ds_after);
-    
+      ai_goldequiv_clause(pplayer, aplayer, pclause, TRUE, ds_after);
+
     if (pclause->type != CLAUSE_GOLD && pclause->type != CLAUSE_MAP
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
@@ -627,8 +624,7 @@ static void ai_treaty_react(struct player *pplayer,
                             struct player *aplayer,
                             struct Clause *pclause)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
-  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
+  struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
 
   switch (pclause->type) {
     case CLAUSE_ALLIANCE:
@@ -669,9 +665,9 @@ static void ai_treaty_react(struct player *pplayer,
 void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
                         struct Treaty *ptreaty)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int total_balance = 0;
   bool gift = TRUE;
-  struct ai_data *ai = ai_data_get(pplayer);
   enum diplstate_type ds_after =
     player_diplstate_get(pplayer, aplayer)->type;
 
@@ -686,16 +682,16 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   /* Evaluate clauses */
   clause_list_iterate(ptreaty->clauses, pclause) {
     int balance =
-      ai_goldequiv_clause(pplayer, aplayer, pclause, ai, TRUE, ds_after);
+      ai_goldequiv_clause(pplayer, aplayer, pclause, TRUE, ds_after);
 
     total_balance += balance;
     gift = (gift && (balance >= 0));
     ai_treaty_react(pplayer, aplayer, pclause);
     if (is_pact_clause(pclause->type)
-        && ai->diplomacy.player_intel[player_index(aplayer)].countdown != -1) {
+        && ai_diplomacy_get(pplayer, aplayer)->countdown != -1) {
       /* Cancel a countdown towards war if we just agreed to peace... */
       DIPLO_LOG(LOG_DIPL, pplayer, aplayer, "countdown nullified");
-      ai->diplomacy.player_intel[player_index(aplayer)].countdown = -1;
+      ai_diplomacy_get(pplayer, aplayer)->countdown = -1;
     }
   } clause_list_iterate_end;
 
@@ -718,9 +714,9 @@ void ai_treaty_accepted(struct player *pplayer, struct player *aplayer,
   This function is full of hardcoded constants by necessity.  They are
   not #defines since they are not used anywhere else.
 ***********************************************************************/
-static int ai_war_desire(struct player *pplayer, struct player *target,
-                         struct ai_data *ai)
+static int ai_war_desire(struct player *pplayer, struct player *target)
 {
+  struct ai_data *ai = ai_data_get(pplayer);
   int want = 0, fear = 0, distance = 0, settlers = 0, cities = 0;
   struct player_spaceship *ship = &target->spaceship;
 
@@ -778,7 +774,7 @@ static int ai_war_desire(struct player *pplayer, struct player *target,
 
   /* Calculate average distances to other player's empire. */
   distance = player_distance_to_player(pplayer, target);
-  ai->diplomacy.player_intel[player_index(target)].distance = distance;
+  ai_diplomacy_get(pplayer, target)->distance = distance;
 
   /* Worry a bit if the other player has extreme amounts of wealth
    * that can be used in cities to quickly buy an army. */
@@ -887,10 +883,10 @@ void ai_diplomacy_first_contact(struct player *pplayer,
   a game is loaded.  So everything calculated here should be put into
   the savegame.
 ***********************************************************************/
-void ai_diplomacy_begin_new_phase(struct player *pplayer,
-				  struct ai_data *ai)
+void ai_diplomacy_begin_new_phase(struct player *pplayer)
 {
-  int war_desire[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  struct ai_data *ai = ai_data_get(pplayer);
+  int war_desire[player_slot_count()];
   int best_desire = 0;
   struct player *best_target = NULL;
 
@@ -910,7 +906,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
         || players_on_same_team(pplayer, aplayer)) {
       continue;
     }
-    war_desire[player_index(aplayer)] = ai_war_desire(pplayer, aplayer, ai);
+    war_desire[player_index(aplayer)] = ai_war_desire(pplayer, aplayer);
     if (war_desire[player_index(aplayer)] > best_desire) {
       best_desire = war_desire[player_index(aplayer)];
       best_target = aplayer;
@@ -920,8 +916,7 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer,
   /* Time to make love. If we've been wronged, hold off that love
    * for a while. Also, cool our head each turn with love_coeff. */
   players_iterate(aplayer) {
-    int a = player_number(aplayer);
-    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[a];
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
     int amount = 0;
 
     if (pplayer == aplayer || !aplayer->is_alive) {
@@ -1143,10 +1138,10 @@ static void ai_share(struct player *pplayer, struct player *aplayer)
   some negative value to make us a bit stubborn to avoid immediate
   reversal to ceasefire.
 ***********************************************************************/
-static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
-                         struct player *target, enum war_reason reason)
+static void ai_go_to_war(struct player *pplayer, struct player *target,
+                         enum war_reason reason)
 {
-  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(target)];
+  struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, target);
 
   fc_assert_ret(pplayer != target);
   fc_assert_ret(target->is_alive);
@@ -1245,8 +1240,7 @@ static void ai_go_to_war(struct player *pplayer, struct ai_data *ai,
 void static war_countdown(struct player *pplayer, struct player *target,
                           int countdown, enum war_reason reason)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
-  struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(target)];
+  struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, target);
 
   DIPLO_LOG(LOG_DIPL, pplayer, target, "countdown to war in %d", countdown);
 
@@ -1375,7 +1369,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   players_iterate(aplayer) {
     if (pplayer->ai_common.love[player_index(aplayer)] < 0
         && player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel >= 2
-        && ai->diplomacy.player_intel[player_index(aplayer)].countdown == -1) {
+        && ai_diplomacy_get(pplayer, aplayer)->countdown == -1) {
       DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "Plans war in revenge");
       war_countdown(pplayer, aplayer, map.server.size, WAR_REASON_BEHAVIOUR);
     }
@@ -1385,8 +1379,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 
   if (ai->diplomacy.strategy != WIN_SPACE) {
     players_iterate(aplayer) {
-      struct ai_dip_intel *adip =
-                         &ai->diplomacy.player_intel[player_index(aplayer)];
+      struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
       struct player_spaceship *ship = &aplayer->spaceship;
 
       if (!aplayer->is_alive 
@@ -1454,7 +1447,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     }
   } players_iterate_end;
   if (need_targets && target && most_hatred < WAR_THRESHOLD
-      && ai->diplomacy.player_intel[player_index(target)].countdown == -1) {
+      && ai_diplomacy_get(pplayer, target)->countdown == -1) {
     enum war_reason war_reason;
 
     if (pplayers_allied(pplayer, target)) {
@@ -1477,7 +1470,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** Declare war - against enemies of allies ***/
 
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
 
     if (aplayer->is_alive
         && adip->at_war_with_ally
@@ -1495,8 +1488,7 @@ void ai_diplomacy_actions(struct player *pplayer)
   /*** Actually declare war (when we have moved units into position) ***/
 
   players_iterate(aplayer) {
-    struct ai_dip_intel *adip = 
-                        &ai->diplomacy.player_intel[player_index(aplayer)];
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
 
     if (!aplayer->is_alive) {
       adip->countdown = -1;
@@ -1507,7 +1499,7 @@ void ai_diplomacy_actions(struct player *pplayer)
     } else if (adip->countdown == 0) {
       if (!WAR(pplayer, aplayer)) {
         DIPLO_LOG(LOG_DIPL2, pplayer, aplayer, "Declaring war!");
-        ai_go_to_war(pplayer, ai, aplayer, adip->war_reason);
+        ai_go_to_war(pplayer, aplayer, adip->war_reason);
       }
     } else if (adip->countdown < -1) {
       /* negative countdown less than -1 is war stubbornness */
@@ -1519,7 +1511,7 @@ void ai_diplomacy_actions(struct player *pplayer)
 
   players_iterate(aplayer) {
     enum diplstate_type ds = player_diplstate_get(pplayer, aplayer)->type;
-    struct ai_dip_intel *adip = &ai->diplomacy.player_intel[player_index(aplayer)];
+    struct ai_dip_intel *adip = ai_diplomacy_get(pplayer, aplayer);
     struct Clause clause;
 
     /* Meaningless values, but rather not have them unset. */
@@ -1581,14 +1573,11 @@ void ai_diplomacy_actions(struct player *pplayer)
       }
       target = NULL;
       players_iterate(eplayer) {
-        int e = player_number(eplayer);
-
         /* Read the countdown check below carefully... Note that we check
          * our ally's intentions directly here. */
         if (WAR(pplayer, eplayer)
-            && (ai_data_get(aplayer)->diplomacy.player_intel[e].countdown 
-                == -1)
-                && !pplayers_at_war(aplayer, eplayer)) {
+            && (ai_diplomacy_get(aplayer, eplayer)->countdown == -1)
+            && !pplayers_at_war(aplayer, eplayer)) {
           target = eplayer;
           break;
         }
@@ -1644,8 +1633,8 @@ void ai_diplomacy_actions(struct player *pplayer)
       if (adip->at_war_with_ally
           || (!aplayer->ai_common.control && adip->asked_about_alliance > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
-                                 ai, FALSE, DS_ALLIANCE) < 0) {
-        break; 
+                                 FALSE, DS_ALLIANCE) < 0) {
+        break;
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_ALLIANCE, 0);
       adip->asked_about_alliance = !aplayer->ai_common.control ? 13 : 0;
@@ -1659,7 +1648,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       if (adip->at_war_with_ally
           || (!aplayer->ai_common.control && adip->asked_about_peace > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
-                                 ai, FALSE, DS_PEACE) < 0) {
+                                 FALSE, DS_PEACE) < 0) {
         break;
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_PEACE, 0);
@@ -1674,7 +1663,7 @@ void ai_diplomacy_actions(struct player *pplayer)
       clause.type = CLAUSE_CEASEFIRE;
       if ((!aplayer->ai_common.control && adip->asked_about_ceasefire > 0)
           || ai_goldequiv_clause(pplayer, aplayer, &clause,
-                                 ai, FALSE, DS_CEASEFIRE) < 0) {
+                                 FALSE, DS_CEASEFIRE) < 0) {
         break; /* Fight until the end! */
       }
       ai_diplomacy_suggest(pplayer, aplayer, CLAUSE_CEASEFIRE, 0);
@@ -1699,10 +1688,8 @@ void ai_diplomacy_actions(struct player *pplayer)
 ***********************************************************************/
 bool ai_on_war_footing(struct player *pplayer)
 {
-  struct ai_data *ai = ai_data_get(pplayer);
-
   players_iterate(plr) {
-    if (ai->diplomacy.player_intel[player_index(plr)].countdown >= 0) {
+    if (ai_diplomacy_get(pplayer, plr)->countdown >= 0) {
       return TRUE;
     }
   } players_iterate_end;
