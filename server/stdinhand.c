@@ -909,6 +909,8 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   set_ai_level_directer(pplayer, game.info.skill_level);
 
   send_player_info_c(pplayer, NULL);
+  /* Send updated diplstate information to all players. */
+  send_player_diplstate_c(NULL, NULL);
   (void) send_server_info_to_metaserver(META_INFO);
 
   if (newplayer != NULL) {
@@ -1824,7 +1826,7 @@ static enum command_id cmd_of_level(enum ai_level level)
 void set_ai_level_direct(struct player *pplayer, enum ai_level level)
 {
   set_ai_level_directer(pplayer, level);
-  send_player_info(pplayer, NULL);
+  send_player_info_c(pplayer, NULL);
   cmd_reply(cmd_of_level(level), NULL, C_OK,
 	_("Player '%s' now has AI skill level '%s'."),
 	player_name(pplayer),
@@ -1861,7 +1863,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
         return TRUE;
       }
       set_ai_level_directer(pplayer, level);
-      send_player_info(pplayer, NULL);
+      send_player_info_c(pplayer, NULL);
       cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
 		player_name(pplayer),
@@ -1879,7 +1881,7 @@ static bool set_ai_level(struct connection *caller, const char *name,
     players_iterate(pplayer) {
       if (pplayer->ai_controlled) {
 	set_ai_level_directer(pplayer, level);
-	send_player_info(pplayer, NULL);
+	send_player_info_c(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
                   player_name(pplayer),
@@ -3625,7 +3627,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   conn_list_compression_thaw(game.est_connections);
 
   /* Send information about the new players. */
-  send_player_info_c(NULL, NULL);
+  send_player_info(NULL, NULL);
 
   /* Everything seemed to load ok; spread the good news. */
   dlsend_packet_game_load(game.est_connections, TRUE, srvarg.load_filename);

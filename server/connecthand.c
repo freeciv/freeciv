@@ -456,6 +456,7 @@ static void send_conn_info_arg(struct conn_list *src,
       conn_list_iterate(dest, pdest) {
         if (psrc->id == pdest->id) {
           send_player_info_c(NULL, pdest->self);
+          send_player_diplstate_c(NULL, pdest->self);
         }
       } conn_list_iterate_end;
     }

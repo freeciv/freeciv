@@ -38,6 +38,7 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
+void send_player_diplstate_c(struct player *src, struct conn_list *dest);
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 

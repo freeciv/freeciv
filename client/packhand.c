@@ -1747,7 +1747,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   bool new_tech = FALSE;
   bool poptechup = FALSE;
   bool turn_done_changed = FALSE;
-  int i, my_id;
+  int i;
   struct player_research *research;
   struct player *pplayer, *my_player;
   struct nation_type *pnation;
@@ -1800,41 +1800,8 @@ void handle_player_info(struct packet_player_info *pinfo)
     pplayer->ai_common.love[i] = pinfo->love[i];
   }
 
-  my_id = client_player_number();
   my_player = client_player();
 
-  /* Check if we detect change to armistice with us. If so,
-   * ready all units for movement out of the territory in
-   * question; otherwise they will be disbanded. */
-  if (client_has_player()
-      && DS_ARMISTICE != player_diplstate_get(pplayer, my_player)->type
-      && DS_ARMISTICE == pinfo->diplstates[my_id].type) {
-    unit_list_iterate(my_player->units, punit) {
-      if (!tile_owner(unit_tile(punit))
-          || tile_owner(unit_tile(punit)) != pplayer) {
-        continue;
-      }
-      if (punit->client.focus_status == FOCUS_WAIT) {
-        punit->client.focus_status = FOCUS_AVAIL;
-      }
-      if (punit->activity != ACTIVITY_IDLE) {
-        request_new_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    } unit_list_iterate_end;
-  }
-
-  players_iterate(aplayer) {
-    struct player_diplstate *ds = player_diplstate_get(pplayer, aplayer);
-
-    fc_assert_ret(ds != NULL);
-
-    int apid = player_number(aplayer);
-
-    ds->type = pinfo->diplstates[apid].type;
-    ds->turns_left = pinfo->diplstates[apid].turns_left;
-    ds->contact_turns_left = pinfo->diplstates[apid].contact_turns_left;
-    ds->has_reason_to_cancel = pinfo->diplstates[apid].has_reason_to_cancel;
-  } players_iterate_end;
   pplayer->is_connected = pinfo->is_connected;
 
   for (i = 0; i < B_LAST; i++) {
@@ -1963,6 +1930,45 @@ void handle_player_info(struct packet_player_info *pinfo)
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
                                 FALSE);
+}
+
+/**************************************************************************
+  ...
+**************************************************************************/
+void handle_player_diplstate(struct packet_player_diplstate *packet)
+{
+  struct player *plr1 = player_by_number(packet->plr1);
+  struct player *plr2 = player_by_number(packet->plr2);
+  struct player *my_player = client_player();
+  struct player_diplstate *ds = player_diplstate_get(plr1, plr2);
+
+  fc_assert_ret(ds != NULL);
+
+  /* Check if we detect change to armistice with us. If so,
+   * ready all units for movement out of the territory in
+   * question; otherwise they will be disbanded. */
+  if (client_has_player()
+      && my_player == plr2
+      && DS_ARMISTICE != player_diplstate_get(plr1, my_player)->type
+      && DS_ARMISTICE == packet->type) {
+    unit_list_iterate(my_player->units, punit) {
+      if (!tile_owner(unit_tile(punit))
+          || tile_owner(unit_tile(punit)) != plr1) {
+        continue;
+      }
+      if (punit->client.focus_status == FOCUS_WAIT) {
+        punit->client.focus_status = FOCUS_AVAIL;
+      }
+      if (punit->activity != ACTIVITY_IDLE) {
+        request_new_unit_activity(punit, ACTIVITY_IDLE);
+      }
+    } unit_list_iterate_end;
+  }
+
+  ds->type = packet->type;
+  ds->turns_left = packet->turns_left;
+  ds->has_reason_to_cancel = packet->has_reason_to_cancel;
+  ds->contact_turns_left = packet->contact_turns_left;
 }
 
 /**************************************************************************

@@ -68,6 +68,11 @@
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
 
+static void package_player_diplstate(struct player *plr1,
+                                     struct player *plr2,
+                                     struct packet_player_diplstate *packet_ds,
+                                     struct player *receiver,
+                                     enum plr_info_level min_info_level);
 static void package_player_info(struct player *plr,
                                 struct packet_player_info *packet,
                                 struct player *receiver,
@@ -79,6 +84,8 @@ static void send_player_remove_info_c(const struct player **pslot,
                                       struct conn_list *dest);
 static void send_player_info_c_real(struct player *src,
                                     struct conn_list *dest);
+static void send_player_diplstate_c_real(struct player *src,
+                                         struct conn_list *dest);
 
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYER_SLOTS];
@@ -728,15 +735,78 @@ static void send_player_info_c_real(struct player *src,
 }
 
 /**************************************************************************
+  Identical to send_player_info_c(), but sends the diplstate of the
+  player.
+
+  This function solves one problem of using an extra packet for the
+  diplstate. It can only be send if the player exists at the destination.
+  Thus, this function should be called after the player(s) exists on both
+  sides of the connection.
+**************************************************************************/
+void send_player_diplstate_c(struct player *src, struct conn_list *dest)
+{
+  if (src != NULL) {
+    send_player_diplstate_c_real(src, dest);
+    return;
+  }
+
+  players_iterate(pplayer) {
+    send_player_diplstate_c_real(pplayer, dest);
+  } players_iterate_end;
+}
+
+/**************************************************************************
+  Really send information. If 'dest' is NULL, then it is set to
+  game.est_connections.
+**************************************************************************/
+static void send_player_diplstate_c_real(struct player *plr1,
+                                         struct conn_list *dest)
+{
+  fc_assert_ret(plr1 != NULL);
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  conn_list_iterate(dest, pconn) {
+    players_iterate(plr2) {
+      struct packet_player_diplstate packet_ds;
+
+      if (NULL == pconn->playing && pconn->observer) {
+        /* Global observer. */
+        package_player_diplstate(plr1, plr2, &packet_ds, pconn->playing,
+                                 INFO_FULL);
+      } else if (NULL != pconn->playing) {
+        /* Players (including regular observers) */
+        package_player_diplstate(plr1, plr2, &packet_ds, pconn->playing,
+                                 INFO_MINIMUM);
+      } else {
+        package_player_diplstate(plr1, plr2, &packet_ds, NULL,
+                                 INFO_MINIMUM);
+      }
+      send_packet_player_diplstate(pconn, &packet_ds);
+    } players_iterate_end;
+  } conn_list_iterate_end;
+}
+
+/**************************************************************************
   Convenience form of send_player_info_c.
   Send information about player src, or all players if src is NULL,
   to specified players dest (that is, to dest->connections).
   As convenience to old code, dest may be NULL meaning send to
-  game.est_connections.  
+  game.est_connections.
+
+  This function also sends the diplstate of the player. So take care, that
+  all players are defined in the client and in the server. To create a
+  player without sending the diplstate, use send_player_info_c().
 **************************************************************************/
 void send_player_info(struct player *src, struct player *dest)
 {
-  send_player_info_c(src, (dest ? dest->connections : game.est_connections));
+  struct conn_list *conn_dest = dest ? dest->connections
+                                     : game.est_connections;
+
+  send_player_info_c(src, conn_dest);
+  send_player_diplstate_c(src, conn_dest);
 }
 
 /**************************************************************************
@@ -847,17 +917,6 @@ static void package_player_info(struct player *plr,
         player_has_real_embassy(plr, pother);
     } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
-    players_iterate(pplayer) {
-      struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
-      int pid = player_number(pplayer);
-
-      packet->diplstates[pid].type       = ds->type;
-      packet->diplstates[pid].turns_left = ds->turns_left;
-      packet->diplstates[pid].contact_turns_left
-        = ds->contact_turns_left;
-      packet->diplstates[pid].has_reason_to_cancel
-        = ds->has_reason_to_cancel;
-    } players_iterate_end;
   } else {
     packet->target_government = packet->government;
     memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
@@ -868,29 +927,6 @@ static void package_player_info(struct player *plr,
     BV_CLR_ALL(packet->gives_shared_vision);
     if (receiver && gives_shared_vision(plr, receiver)) {
       BV_SET(packet->gives_shared_vision, player_index(receiver));
-    }
-
-    players_iterate(pplayer) {
-      int pid = player_number(pplayer);
-
-      packet->diplstates[pid].type = DS_WAR;
-      packet->diplstates[pid].turns_left = 0;
-      packet->diplstates[pid].contact_turns_left = 0;
-      packet->diplstates[pid].has_reason_to_cancel = 0;
-    } players_iterate_end;
-
-    /* We always know the player's relation to us */
-    if (receiver) {
-      struct player_diplstate *diplstate
-        = player_diplstate_get(plr, receiver);
-      int pid = player_number(receiver);
-
-      packet->diplstates[pid].type       = diplstate->type;
-      packet->diplstates[pid].turns_left = diplstate->turns_left;
-      packet->diplstates[pid].contact_turns_left =
-        diplstate->contact_turns_left;
-      packet->diplstates[pid].has_reason_to_cancel =
-        diplstate->has_reason_to_cancel;
     }
   }
 
@@ -961,6 +997,55 @@ static void package_player_info(struct player *plr,
   fc_assert(A_UNSET == research->tech_goal
             || (A_NONE != research->tech_goal
                 && valid_advance_by_number(research->tech_goal)));
+}
+
+/**************************************************************************
+  Package player diplstate depending on info_level. We send everything to
+  plr's connections, we send almost everything to players with embassy
+  to plr, we send a little to players we are in contact with and almost
+  nothing to everyone else.
+
+  Receiver may be NULL in which cases dummy values are sent for some
+  fields.
+**************************************************************************/
+static void package_player_diplstate(struct player *plr1,
+                                     struct player *plr2,
+                                     struct packet_player_diplstate *packet_ds,
+                                     struct player *receiver,
+                                     enum plr_info_level min_info_level)
+{
+  enum plr_info_level info_level;
+  struct player_diplstate *ds = player_diplstate_get(plr1, plr2);
+
+  if (receiver) {
+    info_level = player_info_level(plr1, receiver);
+    info_level = MAX(min_info_level, info_level);
+  } else {
+    info_level = min_info_level;
+  }
+
+  packet_ds->plr1 = player_index(plr1);
+  packet_ds->plr2 = player_index(plr2);
+  /* A unique id for each combination is calculated here. */
+  packet_ds->diplstate_id = packet_ds->plr1 * MAX_NUM_PLAYER_SLOTS
+                            + packet_ds->plr2;
+
+  /* Send diplomatic status of the player to everyone they are in
+   * contact with (embassy, remaining contact turns, the receiver). */
+  if (info_level >= INFO_EMBASSY
+      || (receiver
+          && player_diplstate_get(receiver, plr1)->contact_turns_left > 0)
+      || (receiver && receiver == plr2)) {
+    packet_ds->type                 = ds->type;
+    packet_ds->turns_left           = ds->turns_left;
+    packet_ds->has_reason_to_cancel = ds->has_reason_to_cancel;
+    packet_ds->contact_turns_left   = ds->contact_turns_left;
+  } else {
+    packet_ds->type                 = DS_WAR;
+    packet_ds->turns_left           = 0;
+    packet_ds->has_reason_to_cancel = 0;
+    packet_ds->contact_turns_left   = 0;
+  }
 }
 
 /**************************************************************************

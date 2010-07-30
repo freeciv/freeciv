@@ -427,6 +427,7 @@ void send_all_info(struct conn_list *dest)
 
   /* Resend player info because it could have more infos (e.g. embassy). */
   send_player_info_c(NULL, dest);
+  send_player_diplstate_c(NULL, dest);
   send_map_info(dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
@@ -1839,7 +1840,7 @@ void aifill(int amount)
                 player_name(pplayer),
                 ai_level_name(pplayer->ai_common.skill_level));
 
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
   }
 }
 
