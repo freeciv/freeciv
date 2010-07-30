@@ -467,11 +467,11 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
         continue;
       }
       if (pplayers_allied(aplayer, check_pl)
-          && pplayer_get_diplstate(pplayer, check_pl)->type == DS_WAR) {
+          && player_diplstate_get(pplayer, check_pl)->type == DS_WAR) {
        ai->diplomacy.player_intel[i].is_allied_with_enemy = check_pl;
       }
       if (pplayers_allied(pplayer, check_pl)
-          && pplayer_get_diplstate(aplayer, check_pl)->type == DS_WAR) {
+          && player_diplstate_get(aplayer, check_pl)->type == DS_WAR) {
         ai->diplomacy.player_intel[i].at_war_with_ally = check_pl;
       }
       if (pplayers_allied(aplayer, check_pl)

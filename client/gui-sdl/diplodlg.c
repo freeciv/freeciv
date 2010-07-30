@@ -422,10 +422,10 @@ static struct ADVANCED_DLG * popup_diplomatic_objects(struct player *pPlayer0,
   SDL_String16 *pStr;
   int window_x = 0, window_y = 0;
   SDL_Rect area;
-  
-  enum diplstate_type type =
-		  pplayer_get_diplstate(pPlayer0, pPlayer1)->type;
-  
+
+  enum diplstate_type type
+    = player_diplstate_get(pPlayer0, pPlayer1)->type;
+
   pCont->id0 = player_number(pPlayer0);
   pCont->id1 = player_number(pPlayer1);
   
@@ -1406,7 +1406,7 @@ static void popup_war_dialog(struct player *pPlayer)
 void popup_diplomacy_dialog(struct player *pPlayer)
 {
   enum diplstate_type type =
-		  pplayer_get_diplstate(client.conn.playing, pPlayer)->type;
+		  player_diplstate_get(client.conn.playing, pPlayer)->type;
 
   if (!can_meet_with_player(pPlayer)) {
     if (DS_WAR == type || pPlayer == client.conn.playing) {

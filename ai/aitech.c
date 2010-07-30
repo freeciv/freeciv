@@ -198,7 +198,7 @@ void ai_manage_tech(struct player *pplayer)
 
   /* If there are humans in our team, they will choose the techs */
   players_iterate(aplayer) {
-    const struct player_diplstate *ds = pplayer_get_diplstate(pplayer, aplayer);
+    const struct player_diplstate *ds = player_diplstate_get(pplayer, aplayer);
 
     if (ds->type == DS_TEAM) {
       return;

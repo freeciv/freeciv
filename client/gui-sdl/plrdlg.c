@@ -244,8 +244,9 @@ void update_players_dialog(void)
 	     have_diplomat_info_about(pPlayer1->data.player)) {
             dst1.x = pPlayer1->size.x + pPlayer1->size.w / 2;
             dst1.y = pPlayer1->size.y + pPlayer1->size.h / 2;
-               
-            switch (pplayer_get_diplstate(pPlayer, pPlayer1->data.player)->type) {
+
+            switch (player_diplstate_get(pPlayer,
+                                         pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
 	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
@@ -637,7 +638,7 @@ void popup_players_nations_dialog(void)
         continue;
       }
       
-      pDS = pplayer_get_diplstate(client.conn.playing, pPlayer);
+      pDS = player_diplstate_get(client.conn.playing, pPlayer);
             
       if(pPlayer->ai_data.control) {
 	state = _("AI");

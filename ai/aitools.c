@@ -158,7 +158,7 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
     return FALSE;
   }
   
-  ds = pplayer_get_diplstate(pplayer, aplayer)->type;
+  ds = player_diplstate_get(pplayer, aplayer)->type;
   
   if (ds == DS_WAR || ds == DS_CEASEFIRE) {
     /* It's already a war or aplayer can declare it soon */
@@ -172,11 +172,11 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
     /* Don't trust our war target or someone who will declare war on us soon */
     return TRUE;
   }
-  
-  if (pplayer->diplstates[player_index(aplayer)].has_reason_to_cancel > 0) {
+
+  if (player_diplstate_get(pplayer, aplayer)->has_reason_to_cancel > 0) {
     return TRUE;
   }
-  
+
   if (pplayer->ai_data.love[player_index(aplayer)] < MAX_AI_LOVE / 10) {
     /* We don't trust players who we don't like. Note that 
      * aplayer's units inside pplayer's borders decreases AI's love */

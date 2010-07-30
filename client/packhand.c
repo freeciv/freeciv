@@ -1800,7 +1800,7 @@ void handle_player_info(struct packet_player_info *pinfo)
    * ready all units for movement out of the territory in
    * question; otherwise they will be disbanded. */
   if (client_has_player()
-      && DS_ARMISTICE != pplayer->diplstates[my_id].type
+      && DS_ARMISTICE != player_diplstate_get(pplayer, my_player)->type
       && DS_ARMISTICE == pinfo->diplstates[my_id].type) {
     unit_list_iterate(my_player->units, punit) {
       if (!tile_owner(unit_tile(punit))
@@ -1816,14 +1816,18 @@ void handle_player_info(struct packet_player_info *pinfo)
     } unit_list_iterate_end;
   }
 
-  for (i = 0; i < player_slot_count(); i++) {
-    pplayer->diplstates[i].type = pinfo->diplstates[i].type;
-    pplayer->diplstates[i].turns_left = pinfo->diplstates[i].turns_left;
-    pplayer->diplstates[i].contact_turns_left
-      = pinfo->diplstates[i].contact_turns_left;
-    pplayer->diplstates[i].has_reason_to_cancel
-      = pinfo->diplstates[i].has_reason_to_cancel;
-  }
+  players_iterate(aplayer) {
+    struct player_diplstate *ds = player_diplstate_get(pplayer, aplayer);
+
+    fc_assert_ret(ds != NULL);
+
+    int apid = player_number(aplayer);
+
+    ds->type = pinfo->diplstates[apid].type;
+    ds->turns_left = pinfo->diplstates[apid].turns_left;
+    ds->contact_turns_left = pinfo->diplstates[apid].contact_turns_left;
+    ds->has_reason_to_cancel = pinfo->diplstates[apid].has_reason_to_cancel;
+  } players_iterate_end;
   pplayer->is_connected = pinfo->is_connected;
 
   for (i = 0; i < B_LAST; i++) {

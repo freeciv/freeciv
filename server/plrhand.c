@@ -495,12 +495,13 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   enum dipl_reason diplcheck;
   bool repeat = FALSE;
   struct player *pplayer2 = player_by_number(other_player_id);
+  struct player_diplstate *ds_plrplr2, *ds_plr2plr;
 
   if (NULL == pplayer2) {
     return;
   }
 
-  old_type = pplayer->diplstates[other_player_id].type;
+  old_type = player_diplstate_get(pplayer, pplayer2)->type;
 
   if (clause == CLAUSE_VISION) {
     if (!gives_shared_vision(pplayer, pplayer2)) {
@@ -550,13 +551,12 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
     return;
   }
 
+  ds_plrplr2 = player_diplstate_get(pplayer, pplayer2);
+  ds_plr2plr = player_diplstate_get(pplayer2, pplayer);
+
   /* do the change */
-  pplayer->diplstates[player_index(pplayer2)].type =
-    pplayer2->diplstates[player_index(pplayer)].type =
-    new_type;
-  pplayer->diplstates[player_index(pplayer2)].turns_left =
-    pplayer2->diplstates[player_index(pplayer)].turns_left =
-    16;
+  ds_plrplr2->type = ds_plr2plr->type = new_type;
+  ds_plrplr2->turns_left = ds_plr2plr->turns_left = 16;
 
   /* If the old state was alliance, the players' units can share tiles
      illegally, and we need to call resolve_unit_stacks() */
@@ -569,7 +569,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
    * treaty simultaneously it may partially succed: the first treaty-breaking
    * will happen but the second one will fail. */
   if (get_player_bonus(pplayer, EFT_HAS_SENATE) > 0 && !repeat) {
-    if (pplayer->diplstates[player_index(pplayer2)].has_reason_to_cancel > 0) {
+    if (ds_plrplr2->has_reason_to_cancel > 0) {
       notify_player(pplayer, NULL, E_TREATY_BROKEN, ftc_server,
                     _("The senate passes your bill because of the "
                       "constant provocations of the %s."),
@@ -584,7 +584,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   if (new_type == DS_WAR) {
     call_incident(INCIDENT_WAR, pplayer, pplayer2);
   }
-  pplayer->diplstates[player_index(pplayer2)].has_reason_to_cancel = 0;
+  ds_plrplr2->has_reason_to_cancel = 0;
 
   send_player_info(pplayer, NULL);
   send_player_info(pplayer2, NULL);
@@ -637,7 +637,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
                         "You cancel your alliance to the aggressor."),
                       player_name(pplayer),
                       player_name(pplayer2));
-        other->diplstates[player_index(pplayer)].has_reason_to_cancel = 1;
+        player_diplstate_get(other, pplayer)->has_reason_to_cancel = 1;
         handle_diplomacy_cancel_pact(other, player_number(pplayer),
                                      CLAUSE_ALLIANCE);
       } else {
@@ -793,7 +793,6 @@ static void package_player_info(struct player *plr,
                                 struct player *receiver,
                                 enum plr_info_level min_info_level)
 {
-  int i;
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
   struct player_research* research = get_player_research(plr);
@@ -837,7 +836,7 @@ static void package_player_info(struct player *plr,
    * contact with. */
   if (info_level >= INFO_EMBASSY
       || (receiver
-	  && receiver->diplstates[player_index(plr)].contact_turns_left > 0)) {
+          && player_diplstate_get(receiver, plr)->contact_turns_left > 0)) {
     packet->target_government = plr->target_government
                                 ? government_number(plr->target_government)
                                 : -1;
@@ -847,13 +846,17 @@ static void package_player_info(struct player *plr,
         player_has_real_embassy(plr, pother);
     } players_iterate_end;
     packet->gives_shared_vision = plr->gives_shared_vision;
-    for(i = 0; i < player_slot_count(); i++) {
-      packet->diplstates[i].type       = plr->diplstates[i].type;
-      packet->diplstates[i].turns_left = plr->diplstates[i].turns_left;
-      packet->diplstates[i].contact_turns_left = 
-         plr->diplstates[i].contact_turns_left;
-      packet->diplstates[i].has_reason_to_cancel = plr->diplstates[i].has_reason_to_cancel;
-    }
+    players_iterate(pplayer) {
+      struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
+      int pid = player_number(pplayer);
+
+      packet->diplstates[pid].type       = ds->type;
+      packet->diplstates[pid].turns_left = ds->turns_left;
+      packet->diplstates[pid].contact_turns_left
+        = ds->contact_turns_left;
+      packet->diplstates[pid].has_reason_to_cancel
+        = ds->has_reason_to_cancel;
+    } players_iterate_end;
   } else {
     packet->target_government = packet->government;
     memset(&packet->real_embassy, 0, sizeof(packet->real_embassy));
@@ -866,29 +869,34 @@ static void package_player_info(struct player *plr,
       BV_SET(packet->gives_shared_vision, player_index(receiver));
     }
 
-    for (i = 0; i < player_slot_count(); i++) {
-      packet->diplstates[i].type       = DS_WAR;
-      packet->diplstates[i].turns_left = 0;
-      packet->diplstates[i].has_reason_to_cancel = 0;
-      packet->diplstates[i].contact_turns_left = 0;
-    }
+    players_iterate(pplayer) {
+      int pid = player_number(pplayer);
+
+      packet->diplstates[pid].type = DS_WAR;
+      packet->diplstates[pid].turns_left = 0;
+      packet->diplstates[pid].contact_turns_left = 0;
+      packet->diplstates[pid].has_reason_to_cancel = 0;
+    } players_iterate_end;
+
     /* We always know the player's relation to us */
     if (receiver) {
-      int p_no = player_index(receiver);
+      struct player_diplstate *diplstate
+        = player_diplstate_get(plr, receiver);
+      int pid = player_number(receiver);
 
-      packet->diplstates[p_no].type       = plr->diplstates[p_no].type;
-      packet->diplstates[p_no].turns_left = plr->diplstates[p_no].turns_left;
-      packet->diplstates[p_no].contact_turns_left = 
-         plr->diplstates[p_no].contact_turns_left;
-      packet->diplstates[p_no].has_reason_to_cancel =
-	plr->diplstates[p_no].has_reason_to_cancel;
+      packet->diplstates[pid].type       = diplstate->type;
+      packet->diplstates[pid].turns_left = diplstate->turns_left;
+      packet->diplstates[pid].contact_turns_left =
+        diplstate->contact_turns_left;
+      packet->diplstates[pid].has_reason_to_cancel =
+        diplstate->has_reason_to_cancel;
     }
   }
 
   /* Make absolutely sure - in case you lose your embassy! */
   if (info_level >= INFO_EMBASSY 
       || (receiver
-	  && pplayer_get_diplstate(plr, receiver)->type == DS_TEAM)) {
+	  && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->bulbs_last_turn = plr->bulbs_last_turn;
   } else {
     packet->bulbs_last_turn = 0;
@@ -934,7 +942,7 @@ static void package_player_info(struct player *plr,
 
   if (info_level >= INFO_FULL
       || (receiver
-	  && plr->diplstates[player_index(receiver)].type == DS_TEAM)) {
+          && player_diplstate_get(plr, receiver)->type == DS_TEAM)) {
     packet->tech_goal       = research->tech_goal;
   } else {
     packet->tech_goal       = A_UNSET;
@@ -1086,7 +1094,6 @@ void server_remove_player(struct player *pplayer)
   script_remove_exported_object(pplayer);
   /* Clear data saved in the other player structs. */
   players_iterate(aplayer) {
-    player_diplstate_init(&aplayer->diplstates[player_index(pplayer)]);
     BV_CLR(aplayer->real_embassy, player_index(pplayer));
     if (gives_shared_vision(aplayer, pplayer)) {
       remove_shared_vision(aplayer, pplayer);
@@ -1127,29 +1134,32 @@ get_default_diplstate(const struct player *pplayer1,
   Update contact info.
 **************************************************************************/
 void make_contact(struct player *pplayer1, struct player *pplayer2,
-		  struct tile *ptile)
+                  struct tile *ptile)
 {
-  int player1 = player_index(pplayer1);
-  int player2 = player_index(pplayer2);
+  struct player_diplstate *ds_plr1plr2, *ds_plr2plr1;
 
   if (pplayer1 == pplayer2
       || !pplayer1->is_alive
       || !pplayer2->is_alive) {
     return;
   }
+
+  ds_plr1plr2 = player_diplstate_get(pplayer1, pplayer2);
+  ds_plr2plr1 = player_diplstate_get(pplayer2, pplayer1);
+
   if (get_player_bonus(pplayer1, EFT_NO_DIPLOMACY) == 0
       && get_player_bonus(pplayer2, EFT_NO_DIPLOMACY) == 0) {
-    pplayer1->diplstates[player2].contact_turns_left = game.server.contactturns;
-    pplayer2->diplstates[player1].contact_turns_left = game.server.contactturns;
+    ds_plr1plr2->contact_turns_left = game.server.contactturns;
+    ds_plr2plr1->contact_turns_left = game.server.contactturns;
   }
-  if (pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_NO_CONTACT) {
+  if (ds_plr1plr2->type == DS_NO_CONTACT) {
     enum diplstate_type new_state = get_default_diplstate(pplayer1,
                                                           pplayer2);
 
-    pplayer1->diplstates[player2].type = new_state;
-    pplayer2->diplstates[player1].type = new_state;
-    pplayer1->diplstates[player2].first_contact_turn = game.info.turn;
-    pplayer2->diplstates[player1].first_contact_turn = game.info.turn;
+    ds_plr1plr2->type = new_state;
+    ds_plr2plr1->type = new_state;
+    ds_plr1plr2->first_contact_turn = game.info.turn;
+    ds_plr2plr1->first_contact_turn = game.info.turn;
     notify_player(pplayer1, ptile, E_FIRST_CONTACT, ftc_server,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer2),
@@ -1170,7 +1180,7 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     send_player_info(pplayer2, pplayer2);
     return;
   } else {
-    fc_assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
+    fc_assert(ds_plr2plr1->type != DS_NO_CONTACT);
   }
   if (player_has_embassy(pplayer1, pplayer2)
       || player_has_embassy(pplayer2, pplayer1)) {
@@ -1399,21 +1409,26 @@ static struct player *split_player(struct player *pplayer)
   /* cplayer is not yet part of players_iterate which goes only
      to player_count(). */
   players_iterate(other_player) {
+    struct player_diplstate *ds_co
+      = player_diplstate_get(cplayer, other_player);
+    struct player_diplstate *ds_oc
+      = player_diplstate_get(other_player, cplayer);
+
     if (get_player_bonus(other_player, EFT_NO_DIPLOMACY)) {
-      cplayer->diplstates[player_index(other_player)].type = DS_WAR;
-      other_player->diplstates[player_index(cplayer)].type = DS_WAR;
+      ds_co->type = DS_WAR;
+      ds_oc->type = DS_WAR;
     } else {
-      cplayer->diplstates[player_index(other_player)].type = DS_NO_CONTACT;
-      other_player->diplstates[player_index(cplayer)].type = DS_NO_CONTACT;
+      ds_co->type = DS_NO_CONTACT;
+      ds_oc->type = DS_NO_CONTACT;
     }
 
-    cplayer->diplstates[player_index(other_player)].has_reason_to_cancel = 0;
-    cplayer->diplstates[player_index(other_player)].turns_left = 0;
-    cplayer->diplstates[player_index(other_player)].contact_turns_left = 0;
-    other_player->diplstates[player_index(cplayer)].has_reason_to_cancel = 0;
-    other_player->diplstates[player_index(cplayer)].turns_left = 0;
-    other_player->diplstates[player_index(cplayer)].contact_turns_left = 0;
-    
+    ds_co->has_reason_to_cancel = 0;
+    ds_co->turns_left = 0;
+    ds_co->contact_turns_left = 0;
+    ds_oc->has_reason_to_cancel = 0;
+    ds_oc->turns_left = 0;
+    ds_oc->contact_turns_left = 0;
+
     /* Send so that other_player sees updated diplomatic info;
      * pplayer will be sent later anyway
      */

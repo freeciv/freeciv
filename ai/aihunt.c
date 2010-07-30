@@ -307,7 +307,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
         unit_list_iterate(ptile->units, victim) {
           struct unit_type *ut = unit_type(victim);
           enum diplstate_type ds =
-	    pplayer_get_diplstate(pplayer, unit_owner(victim))->type;
+	    player_diplstate_get(pplayer, unit_owner(victim))->type;
 
           if (ds != DS_WAR) {
             continue;

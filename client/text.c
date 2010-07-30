@@ -166,6 +166,8 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_owner(ptile);
+    struct player_diplstate *ds
+      = player_diplstate_get(client.conn.playing, owner);
 
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
@@ -176,10 +178,8 @@ const char *popup_info_text(struct tile *ptile)
       /* TRANS: "Territory of <username> (<nation + team>)" */
       astr_add_line(&str, _("Territory of %s (%s)"), username, nation);
     } else if (NULL != owner) {
-      struct player_diplstate *ds = client.conn.playing->diplstates;
-
-      if (ds[player_index(owner)].type == DS_CEASEFIRE) {
-	int turns = ds[player_index(owner)].turns_left;
+      if (ds->type == DS_CEASEFIRE) {
+        int turns = ds->turns_left;
 
         astr_add_line(&str,
                       /* TRANS: "Territory of <username> (<nation + team>)
@@ -189,7 +189,7 @@ const char *popup_info_text(struct tile *ptile)
                           turns),
                       username, nation, turns);
       } else {
-	int type = ds[player_index(owner)].type;
+        int type = ds->type;
 
         /* TRANS: "Territory of <username>
          * (<nation + team> | <diplomatic state>)" */
@@ -205,6 +205,8 @@ const char *popup_info_text(struct tile *ptile)
     /* Look at city owner, not tile owner (the two should be the same, if
      * borders are in use). */
     struct player *owner = city_owner(pcity);
+    struct player_diplstate *ds
+      = player_diplstate_get(client.conn.playing, owner);
     int has_improvements = 0;
     struct impr_type *prev_impr = NULL;
 
@@ -216,10 +218,8 @@ const char *popup_info_text(struct tile *ptile)
       astr_add_line(&str, _("City: %s | %s (%s)"),
                     city_name(pcity), username, nation);
     } else {
-      struct player_diplstate *ds = client.conn.playing->diplstates;
-
-      if (ds[player_index(owner)].type == DS_CEASEFIRE) {
-	int turns = ds[player_index(owner)].turns_left;
+      if (ds->type == DS_CEASEFIRE) {
+        int turns = ds->turns_left;
 
         /* TRANS:  "City: <city name> | <username>
          * (<nation + team>, <number> turn cease-fire)" */
@@ -232,7 +232,7 @@ const char *popup_info_text(struct tile *ptile)
          * (<nation + team>, <diplomatic state>)" */
         astr_add_line(&str, _("City: %s | %s (%s, %s)"),
                       city_name(pcity), username, nation,
-                      diplo_city_adjectives[ds[player_index(owner)].type]);
+                      diplo_city_adjectives[ds->type]);
       }
     }
     if (can_player_see_units_in_city(client_player(), pcity)) {
@@ -307,6 +307,8 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (punit && !pcity) {
     struct player *owner = unit_owner(punit);
+    struct player_diplstate *ds
+      = player_diplstate_get(client.conn.playing, owner);
     struct unit_type *ptype = unit_type(punit);
 
     get_full_username(username, sizeof(username), owner);
@@ -327,10 +329,8 @@ const char *popup_info_text(struct tile *ptile)
                       utype_name_translation(ptype), username, nation);
       }
     } else if (NULL != owner) {
-      struct player_diplstate *ds = client.conn.playing->diplstates;
-
-      if (ds[player_index(owner)].type == DS_CEASEFIRE) {
-	int turns = ds[player_index(owner)].turns_left;
+      if (ds->type == DS_CEASEFIRE) {
+        int turns = ds->turns_left;
 
         /* TRANS:  "Unit: <unit type> | <username> (<nation + team>,
          * <number> turn cease-fire)" */
@@ -344,7 +344,7 @@ const char *popup_info_text(struct tile *ptile)
          * <diplomatic state>)" */
         astr_add_line(&str, _("Unit: %s | %s (%s, %s)"),
                       utype_name_translation(ptype), username, nation,
-                      diplo_city_adjectives[ds[player_index(owner)].type]);
+                      diplo_city_adjectives[ds->type]);
       }
     }
 
@@ -573,7 +573,8 @@ static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 
   /* Sum up science */
   players_iterate(pplayer) {
-    enum diplstate_type ds = pplayer_get_diplstate(client.conn.playing, pplayer)->type;
+    enum diplstate_type ds
+      = player_diplstate_get(client.conn.playing, pplayer)->type;
 
     if (pplayer == client.conn.playing) {
       city_list_iterate(pplayer->cities, pcity) {

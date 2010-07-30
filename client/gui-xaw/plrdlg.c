@@ -250,7 +250,7 @@ void update_players_dialog(void)
           || pplayer == client.conn.playing) {
 	strcpy(dsbuf, "-");
       } else {
-	pds = pplayer_get_diplstate(client.conn.playing, pplayer);
+	pds = player_diplstate_get(client.conn.playing, pplayer);
 	if (pds->type == DS_CEASEFIRE) {
 	  fc_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		      diplstate_text(pds->type), pds->turns_left);

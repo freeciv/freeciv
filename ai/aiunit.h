@@ -30,9 +30,9 @@
 /* pplayers_at_war() thinks no contacts equals war, which often is
  * very annoying. */
 #define WAR(plr1, plr2) \
-  (plr1->diplstates[player_index(plr2)].type == DS_WAR)
+  (player_diplstate_get(plr1, plr2)->type == DS_WAR)
 #define NEVER_MET(plr1, plr2) \
-  (plr1->diplstates[player_index(plr2)].type == DS_NO_CONTACT)
+  (player_diplstate_get(plr1, plr2)->type == DS_NO_CONTACT)
 #define DEFENCE_POWER(punit) \
  (unit_type(punit)->defense_strength * unit_type(punit)->hp \
   * unit_type(punit)->firepower)

@@ -1349,7 +1349,7 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
        * get inside this "if" */
       fc_assert_ret(FALSE);
     }
-    victim_player->diplstates[player_index(offender)].has_reason_to_cancel = 2;
+    player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;
     call_incident(INCIDENT_DIPLOMAT, offender, victim_player);
     send_player_info(offender, NULL);
     send_player_info(victim_player, NULL);

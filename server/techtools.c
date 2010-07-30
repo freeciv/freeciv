@@ -996,7 +996,7 @@ void handle_player_research(struct player *pplayer, int tech)
    */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-	&& pplayer->diplstates[player_index(aplayer)].type == DS_TEAM
+	&& player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
 	&& aplayer->is_alive) {
       send_player_info(aplayer, aplayer);
     }
@@ -1032,7 +1032,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   /* Notify Team members */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-        && pplayer->diplstates[player_index(aplayer)].type == DS_TEAM
+        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
         && aplayer->is_alive
         && get_player_research(aplayer)->tech_goal != tech_goal) {
       handle_player_tech_goal(aplayer, tech_goal);

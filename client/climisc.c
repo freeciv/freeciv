@@ -201,8 +201,8 @@ const char *get_embassy_status(const struct player *me,
     }
   } else if (player_has_embassy(them, me)) {
     return Q_("?embassy:With Us");
-  } else if (me->diplstates[player_index(them)].contact_turns_left > 0
-             || them->diplstates[player_index(me)].contact_turns_left > 0) {
+  } else if (player_diplstate_get(me, them)->contact_turns_left > 0
+             || player_diplstate_get(them, me)->contact_turns_left > 0) {
     return Q_("?embassy:Contact");
   } else {
     return Q_("?embassy:No Contact");

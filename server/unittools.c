@@ -2492,7 +2492,7 @@ static bool unit_survive_autoattack(struct unit *punit)
     unit_list_iterate(ptile->units, penemy) {
       struct player *enemyplayer = unit_owner(penemy);
       enum diplstate_type ds = 
-            pplayer_get_diplstate(unit_owner(punit), enemyplayer)->type;
+            player_diplstate_get(unit_owner(punit), enemyplayer)->type;
 
       if (game.server.autoattack
           && penemy->moves_left > 0

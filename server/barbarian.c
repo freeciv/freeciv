@@ -145,8 +145,8 @@ static struct player *create_barbarian_player(enum barbarian_type type)
   /* Ensure that we are at war with everyone else */
   players_iterate(pplayer) {
     if (pplayer != barbarians) {
-      pplayer->diplstates[player_index(barbarians)].type = DS_WAR;
-      barbarians->diplstates[player_index(pplayer)].type = DS_WAR;
+      player_diplstate_get(pplayer, barbarians)->type = DS_WAR;
+      player_diplstate_get(barbarians, pplayer)->type = DS_WAR;
     }
   } players_iterate_end;
 

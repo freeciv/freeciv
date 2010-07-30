@@ -337,7 +337,7 @@ void update_intel_dialog(struct player *p)
       if (other == p || !other->is_alive) {
 	continue;
       }
-      state = pplayer_get_diplstate(p, other);
+      state = player_diplstate_get(p, other);
       gtk_tree_store_append(pdialog->diplstates, &it,
 			    &diplstates[state->type]);
       g_value_init(&v, G_TYPE_STRING);

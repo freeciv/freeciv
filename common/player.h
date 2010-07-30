@@ -145,12 +145,12 @@ enum dipl_reason {
 
 /* the following are for "pacts" */
 struct player_diplstate {
-  enum diplstate_type type;	/* this player's disposition towards other */
+  enum diplstate_type type; /* this player's disposition towards other */
   enum diplstate_type max_state; /* maximum treaty level ever had */
   int first_contact_turn; /* turn we had first contact with this player */
-  int turns_left;		/* until pact (e.g., cease-fire) ends */
-  int has_reason_to_cancel;	/* 0: no, 1: this turn, 2: this or next turn */
-  int contact_turns_left;	/* until contact ends */
+  int turns_left; /* until pact (e.g., cease-fire) ends */
+  int has_reason_to_cancel; /* 0: no, 1: this turn, 2: this or next turn */
+  int contact_turns_left; /* until contact ends */
 };
 
 /***************************************************************************
@@ -192,7 +192,7 @@ struct player {
   int revolution_finishes;
 
   bv_player real_embassy;
-  struct player_diplstate diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  const struct player_diplstate **diplstates;
   int city_style;
   struct city_list *cities;
   struct unit_list *units;
@@ -301,10 +301,8 @@ bool ai_fuzzy(const struct player *pplayer, bool normal_decision);
 const char *diplstate_text(const enum diplstate_type type);
 const char *love_text(const int love);
 
-const struct player_diplstate *pplayer_get_diplstate(const struct player
-						     *pplayer,
-						     const struct player
-						     *pplayer2);
+struct player_diplstate *player_diplstate_get(const struct player *plr1,
+                                              const struct player *plr2);
 bool are_diplstates_equal(const struct player_diplstate *pds1,
 			  const struct player_diplstate *pds2);
 enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
@@ -337,8 +335,6 @@ struct player_research *get_player_research(const struct player *p1);
 void player_slots_init(void);
 bool player_slots_initialised(void);
 void player_slots_free(void);
-
-void player_diplstate_init(struct player_diplstate *diplstate);
 
 struct player *player_new(int player_id);
 void player_clear(struct player *pplayer);

@@ -548,8 +548,8 @@ static void update_diplomatics(void)
 {
   players_iterate(plr1) {
     players_iterate(plr2) {
-      struct player_diplstate *state = &plr1->diplstates[player_index(plr2)];
-      struct player_diplstate *state2 = &plr2->diplstates[player_index(plr1)];
+      struct player_diplstate *state = player_diplstate_get(plr1, plr2);
+      struct player_diplstate *state2 = player_diplstate_get(plr2, plr1);
 
       state->has_reason_to_cancel = MAX(state->has_reason_to_cancel - 1, 0);
       state->contact_turns_left = MAX(state->contact_turns_left - 1, 0);
@@ -607,8 +607,8 @@ static void update_diplomatics(void)
                               "with both."),
                             player_name(plr1),
                             player_name(plr2));
-              plr3->diplstates[player_index(plr1)].has_reason_to_cancel = TRUE;
-              plr3->diplstates[player_index(plr2)].has_reason_to_cancel = TRUE;
+              player_diplstate_get(plr3, plr1)->has_reason_to_cancel = TRUE;
+              player_diplstate_get(plr2, plr2)->has_reason_to_cancel = TRUE;
               handle_diplomacy_cancel_pact(plr3, player_number(plr1), CLAUSE_ALLIANCE);
               handle_diplomacy_cancel_pact(plr3, player_number(plr2), CLAUSE_ALLIANCE);
             }
@@ -2345,7 +2345,7 @@ static void srv_ready(void)
       players_iterate(pdest) {
         if (players_on_same_team(pplayer, pdest)
             && player_number(pplayer) != player_number(pdest)) {
-          pplayer->diplstates[player_index(pdest)].type = DS_TEAM;
+          player_diplstate_get(pplayer, pdest)->type = DS_TEAM;
           give_shared_vision(pplayer, pdest);
           BV_SET(pplayer->real_embassy, player_index(pdest));
         }

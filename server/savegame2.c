@@ -492,7 +492,7 @@ static void sg_save_sanitycheck(struct savedata *saving);
 /****************************************************************************
   Main entry point for loading a game.
   Called only in ./server/stdinhand.c:load_command().
-  The entire ruleset is always sent afterwards.
+  The entire ruleset is always sent afterwards->
 ****************************************************************************/
 void savegame2_load(struct section_file *file)
 {
@@ -2905,8 +2905,8 @@ static void sg_load_players(struct loaddata *loading)
                "%s alliance to %s reduced to peace treaty.",
                nation_rule_name(nation_of_player(plr)),
                nation_rule_name(nation_of_player(aplayer)));
-        plr->diplstates[player_index(aplayer)].type = DS_PEACE;
-        aplayer->diplstates[player_index(plr)].type = DS_PEACE;
+        player_diplstate_get(plr, aplayer)->type = DS_PEACE;
+        player_diplstate_get(aplayer, plr)->type = DS_PEACE;
       }
     } players_iterate_end;
   } players_iterate_end;
@@ -3120,25 +3120,25 @@ static void sg_load_player_main(struct loaddata *loading,
   BV_CLR_ALL(plr->real_embassy);
   players_iterate(pplayer) {
     char buf[32];
-
+    struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
     i = player_index(pplayer);
 
     /* load diplomatic status */
     fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
-    plr->diplstates[i].type =
+    ds->type =
       secfile_lookup_int_default(loading->file, DS_WAR, "%s.type", buf);
-    plr->diplstates[i].max_state =
+    ds->max_state =
       secfile_lookup_int_default(loading->file, DS_WAR, "%s.max_state", buf);
-    plr->diplstates[i].first_contact_turn =
+    ds->first_contact_turn =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.first_contact_turn", buf);
-    plr->diplstates[i].turns_left =
+    ds->turns_left =
       secfile_lookup_int_default(loading->file, -2, "%s.turns_left", buf);
-    plr->diplstates[i].has_reason_to_cancel =
+    ds->has_reason_to_cancel =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.has_reason_to_cancel", buf);
-    plr->diplstates[i].contact_turns_left =
+    ds->contact_turns_left =
       secfile_lookup_int_default(loading->file, 0,
                                  "%s.contact_turns_left", buf);
 
@@ -3403,23 +3403,24 @@ static void sg_save_player_main(struct savedata *saving,
 
   players_iterate(pplayer) {
     char buf[32];
+    struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
 
     i = player_index(pplayer);
 
     /* load diplomatic state */
     fc_snprintf(buf, sizeof(buf), "player%d.diplstate%d", plrno, i);
 
-    secfile_insert_int(saving->file, plr->diplstates[i].type,
+    secfile_insert_int(saving->file, ds->type,
                        "%s.type", buf);
-    secfile_insert_int(saving->file, plr->diplstates[i].max_state,
+    secfile_insert_int(saving->file, ds->max_state,
                        "%s.max_state", buf);
-    secfile_insert_int(saving->file, plr->diplstates[i].first_contact_turn,
+    secfile_insert_int(saving->file, ds->first_contact_turn,
                        "%s.first_contact_turn", buf);
-    secfile_insert_int(saving->file, plr->diplstates[i].turns_left,
+    secfile_insert_int(saving->file, ds->turns_left,
                        "%s.turns_left", buf);
-    secfile_insert_int(saving->file, plr->diplstates[i].has_reason_to_cancel,
+    secfile_insert_int(saving->file, ds->has_reason_to_cancel,
                        "%s.has_reason_to_cancel", buf);
-    secfile_insert_int(saving->file, plr->diplstates[i].contact_turns_left,
+    secfile_insert_int(saving->file, ds->contact_turns_left,
                        "%s.contact_turns_left", buf);
     secfile_insert_bool(saving->file, player_has_real_embassy(plr, pplayer),
                         "%s.embassy", buf);

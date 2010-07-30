@@ -565,17 +565,19 @@ void redraw_unit_info_label(struct unit_list *punitlist)
               cat_snprintf(buffer, sizeof(buffer), _("\nOur Territory"));
             } else {
 	      if (tile_owner(pTile)) {
-                if (DS_CEASEFIRE == client.conn.playing->diplstates[player_index(tile_owner(pTile))].type){
-		  int turns = client.conn.playing->diplstates[player_index(tile_owner(pTile))].turns_left;
+                struct player_diplstate *ds
+                  = player_diplstate_get(client.conn.playing,
+                                         tile_owner(pTile));
+                if (DS_CEASEFIRE == ds->type){
+                  int turns = ds->turns_left;
 		  cat_snprintf(buffer, sizeof(buffer),
 		  	PL_("\n%s territory (%d turn ceasefire)",
 				"\n%s territory (%d turn ceasefire)", turns),
 		 		nation_adjective_for_player(tile_owner(pTile)), turns);
                 } else {
-	          cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
-		    diplo_nation_plural_adjectives[
-			client.conn.playing->diplstates[player_index(tile_owner(pTile))].type],
-				nation_plural_for_player(tile_owner(pTile)));
+                  cat_snprintf(buffer, sizeof(buffer), _("\nTerritory of the %s %s"),
+                    diplo_nation_plural_adjectives[ds->type],
+                    nation_plural_for_player(tile_owner(pTile)));
                 }
               } else { /* !tile_owner(pTile) */
                 cat_snprintf(buffer, sizeof(buffer), _("\nUnclaimed territory"));
@@ -640,10 +642,11 @@ void redraw_unit_info_label(struct unit_list *punitlist)
 	    
 	    if (pOwner && pOwner != client.conn.playing) {
               /* TRANS: (<nation>,<diplomatic_state>)" */
+              struct player_diplstate *ds
+                = player_diplstate_get(client.conn.playing, pOwner);
               cat_snprintf(buffer, sizeof(buffer), _("\n(%s,%s)"),
-		  nation_adjective_for_player(pOwner),
-		  diplo_city_adjectives[client.conn.playing->
-				   diplstates[player_index(pOwner)].type]);
+                nation_adjective_for_player(pOwner),
+                diplo_city_adjectives[ds->type]);
 	    }
 	    
 	  }

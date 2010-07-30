@@ -448,7 +448,6 @@ static void check_units(const char *file, const char *function, int line)
 static void check_players(const char *file, const char *function, int line)
 {
   players_iterate(pplayer) {
-    int one = player_index(pplayer);
     int found_palace = 0;
 
     if (!pplayer->is_alive) {
@@ -469,12 +468,11 @@ static void check_players(const char *file, const char *function, int line)
     } city_list_iterate_end;
 
     players_iterate(pplayer2) {
-      int two = player_index(pplayer2);
-      SANITY_CHECK(pplayer->diplstates[two].type
-	     == pplayer2->diplstates[one].type);
-      if (pplayer->diplstates[two].type == DS_CEASEFIRE) {
-	SANITY_CHECK(pplayer->diplstates[two].turns_left
-	       == pplayer2->diplstates[one].turns_left);
+      SANITY_CHECK(player_diplstate_get(pplayer, pplayer2)->type
+                   == player_diplstate_get(pplayer2, pplayer)->type);
+      if (player_diplstate_get(pplayer, pplayer2)->type == DS_CEASEFIRE) {
+        SANITY_CHECK(player_diplstate_get(pplayer, pplayer2)->turns_left
+                     == player_diplstate_get(pplayer2, pplayer)->turns_left);
       }
       if (pplayer->is_alive
           && pplayer2->is_alive

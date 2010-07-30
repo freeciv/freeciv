@@ -497,7 +497,7 @@ void update_intel_diplo_dialog(struct intel_dialog *pdialog)
       if (other == pdialog->pplayer) {
 	continue;
       }
-      state = pplayer_get_diplstate(pdialog->pplayer, other);
+      state = player_diplstate_get(pdialog->pplayer, other);
       fc_snprintf(namelist_text[i], sizeof(namelist_text[i]),
 		  "%-32s %-16s %-16s",
 		  player_name(other),

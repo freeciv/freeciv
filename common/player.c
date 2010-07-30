@@ -44,6 +44,13 @@ static struct {
 
 static void player_defaults(struct player *pplayer);
 
+static void player_diplstate_new(const struct player *plr1,
+                                 const struct player *plr2);
+static void player_diplstate_defaults(const struct player *plr1,
+                                      const struct player *plr2);
+static void player_diplstate_destroy(const struct player *plr1,
+                                     const struct player *plr2);
+
 /* Names of AI levels. These must correspond to enum ai_level in
  * player.h. Also commands to set AI level in server/commands.c
  * must match these. */
@@ -63,7 +70,7 @@ static const char *ai_level_names[] = {
 enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1, 
                                            const struct player *p2)
 {
-  enum diplstate_type ds = pplayer_get_diplstate(p1, p2)->type;
+  enum diplstate_type ds = player_diplstate_get(p1, p2)->type;
 
   if (p1 == p2 || ds == DS_WAR) {
     return DIPL_ERROR;
@@ -71,7 +78,7 @@ enum dipl_reason pplayer_can_cancel_treaty(const struct player *p1,
   if (players_on_same_team(p1, p2)) {
     return DIPL_ERROR;
   }
-  if (p1->diplstates[player_index(p2)].has_reason_to_cancel == 0
+  if (player_diplstate_get(p1, p2)->has_reason_to_cancel == 0
       && get_player_bonus(p1, EFT_HAS_SENATE) > 0
       && get_player_bonus(p1, EFT_ANY_GOVERNMENT) == 0) {
     return DIPL_SENATE_BLOCKING;
@@ -94,7 +101,7 @@ static bool is_valid_alliance(const struct player *p1,
                               const struct player *p2)
 {
   players_iterate(pplayer) {
-    enum diplstate_type ds = pplayer_get_diplstate(p1, pplayer)->type;
+    enum diplstate_type ds = player_diplstate_get(p1, pplayer)->type;
 
     if (pplayer != p1
         && pplayer != p2
@@ -121,7 +128,7 @@ enum dipl_reason pplayer_can_make_treaty(const struct player *p1,
                                          const struct player *p2,
                                          enum diplstate_type treaty)
 {
-  enum diplstate_type existing = pplayer_get_diplstate(p1, p2)->type;
+  enum diplstate_type existing = player_diplstate_get(p1, p2)->type;
 
   if (p1 == p2) {
     return DIPL_ERROR; /* duh! */
@@ -213,14 +220,76 @@ bool player_can_invade_tile(const struct player *pplayer,
 /****************************************************************************
   ...
 ****************************************************************************/
-void player_diplstate_init(struct player_diplstate *diplstate)
+static void player_diplstate_new(const struct player *plr1,
+                                 const struct player *plr2)
 {
-  diplstate->type = DS_NO_CONTACT;
-  diplstate->max_state = DS_NO_CONTACT;
-  diplstate->first_contact_turn = 0;
-  diplstate->turns_left = 0;
+  struct player_diplstate *diplstate;
+
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct player_diplstate **diplstate_slot
+    = plr1->diplstates + player_index(plr2);
+
+  fc_assert_ret(*diplstate_slot == NULL);
+
+  diplstate = fc_calloc(1, sizeof(*diplstate));
+  *diplstate_slot = diplstate;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void player_diplstate_defaults(const struct player *plr1,
+                                      const struct player *plr2)
+{
+  struct player_diplstate *diplstate = player_diplstate_get(plr1, plr2);
+
+  fc_assert_ret(diplstate != NULL);
+
+  diplstate->type                 = DS_NO_CONTACT;
+  diplstate->max_state            = DS_NO_CONTACT;
+  diplstate->first_contact_turn   = 0;
+  diplstate->turns_left           = 0;
   diplstate->has_reason_to_cancel = 0;
-  diplstate->contact_turns_left = 0;
+  diplstate->contact_turns_left   = 0;
+}
+
+
+/***************************************************************
+  Returns diplomatic state type between two players
+***************************************************************/
+struct player_diplstate *player_diplstate_get(const struct player *plr1,
+                                              const struct player *plr2)
+{
+  fc_assert_ret_val(plr1 != NULL, NULL);
+  fc_assert_ret_val(plr2 != NULL, NULL);
+
+  const struct player_diplstate **diplstate_slot
+    = plr1->diplstates + player_index(plr2);
+
+  fc_assert_ret_val(*diplstate_slot != NULL, NULL);
+
+  return (struct player_diplstate *) *diplstate_slot;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void player_diplstate_destroy(const struct player *plr1,
+                                     const struct player *plr2)
+{
+  fc_assert_ret(plr1 != NULL);
+  fc_assert_ret(plr2 != NULL);
+
+  const struct player_diplstate **diplstate_slot
+    = plr1->diplstates + player_index(plr2);
+
+  if (*diplstate_slot != NULL) {
+    free(player_diplstate_get(plr1, plr2));
+  }
+
+  *diplstate_slot = NULL;
 }
 
 /***************************************************************
@@ -304,8 +373,26 @@ struct player *player_new(int player_id)
   /* .. and the player in the player slot */
   *pplayer->pslot = pplayer;
 
+  pplayer->diplstates = fc_calloc(player_slot_count(),
+                                  sizeof(*pplayer->diplstates));
+  player_slots_iterate(pslot) {
+    const struct player_diplstate **diplstate_slot
+      = pplayer->diplstates + player_slot_index(pslot);
+    *diplstate_slot = NULL;
+  } player_slots_iterate_end;
+
+  players_iterate(aplayer) {
+    /* create diplomatic states for all other players */
+    player_diplstate_new(pplayer, aplayer);
+    /* create diplomatic state of this player */
+    if (aplayer != pplayer) {
+      player_diplstate_new(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
   /* set default values */
   player_defaults(pplayer);
+
   /* increase number of players */
   player_slots.used_slots++;
 
@@ -335,9 +422,15 @@ static void player_defaults(struct player *pplayer)
   pplayer->revolution_finishes = -1;
 
   BV_CLR_ALL(pplayer->real_embassy);
-  for(i = 0; i < player_slot_count(); i++) {
-    player_diplstate_init(&pplayer->diplstates[i]);
-  }
+  players_iterate(aplayer) {
+    /* create diplomatic states for all other players */
+    player_diplstate_defaults(pplayer, aplayer);
+    /* create diplomatic state of this player */
+    if (aplayer != pplayer) {
+      player_diplstate_defaults(aplayer, pplayer);
+    }
+  } players_iterate_end;
+
   pplayer->city_style = 0;            /* should be first basic style */
   pplayer->cities = city_list_new();
   pplayer->units = unit_list_new();
@@ -452,6 +545,15 @@ void player_destroy(struct player *pplayer)
   if (pplayer->nation != NULL) {
     player_set_nation(pplayer, NULL);
   }
+
+  players_iterate(aplayer) {
+    /* destroy the diplomatics states of this player with others ... */
+    player_diplstate_destroy(pplayer, aplayer);
+    /* and of others with this player. */
+    if (aplayer != pplayer) {
+      player_diplstate_destroy(aplayer, pplayer);
+    }
+  } players_iterate_end;
 
   free(pplayer);
   *pslot = NULL;
@@ -1020,21 +1122,12 @@ const char *diplstate_text(const enum diplstate_type type)
 }
 
 /***************************************************************
-returns diplomatic state type between two players
-***************************************************************/
-const struct player_diplstate *pplayer_get_diplstate(const struct player *pplayer,
-						     const struct player *pplayer2)
-{
-  return &(pplayer->diplstates[player_index(pplayer2)]);
-}
-
-/***************************************************************
   Returns true iff players can attack each other.
 ***************************************************************/
 bool pplayers_at_war(const struct player *pplayer,
                      const struct player *pplayer2)
 {
-  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  enum diplstate_type ds = player_diplstate_get(pplayer, pplayer2)->type;
   if (pplayer == pplayer2) {
     return FALSE;
   }
@@ -1064,7 +1157,7 @@ bool pplayers_allied(const struct player *pplayer,
     return FALSE;
   }
 
-  ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  ds = player_diplstate_get(pplayer, pplayer2)->type;
 
   return (ds == DS_ALLIANCE || ds == DS_TEAM);
 }
@@ -1075,7 +1168,7 @@ bool pplayers_allied(const struct player *pplayer,
 bool pplayers_in_peace(const struct player *pplayer,
                        const struct player *pplayer2)
 {
-  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  enum diplstate_type ds = player_diplstate_get(pplayer, pplayer2)->type;
 
   if (pplayer == pplayer2) {
     return TRUE;
@@ -1099,7 +1192,7 @@ bool players_non_invade(const struct player *pplayer1,
     /* Likely an unnecessary test. */
     return FALSE;
   }
-  return pplayer_get_diplstate(pplayer1, pplayer2)->type == DS_PEACE;
+  return player_diplstate_get(pplayer1, pplayer2)->type == DS_PEACE;
 }
 
 /***************************************************************
@@ -1108,7 +1201,7 @@ bool players_non_invade(const struct player *pplayer1,
 bool pplayers_non_attack(const struct player *pplayer,
                          const struct player *pplayer2)
 {
-  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  enum diplstate_type ds = player_diplstate_get(pplayer, pplayer2)->type;
   if (pplayer == pplayer2) {
     return FALSE;
   }

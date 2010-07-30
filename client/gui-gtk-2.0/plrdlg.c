@@ -147,8 +147,8 @@ static void update_players_menu(void)
     }
 
     if (NULL != client.conn.playing) {
-      switch (pplayer_get_diplstate(client.conn.playing,
-				    player_by_number(plrno))->type) {
+      switch (player_diplstate_get(client.conn.playing,
+                                   player_by_number(plrno))->type) {
       case DS_WAR:
       case DS_NO_CONTACT:
 	gtk_widget_set_sensitive(players_war_command, FALSE);
@@ -655,7 +655,7 @@ static void fill_row(GtkTreeIter *it, const struct player *pplayer)
 
    /* now add some eye candy ... */
   if (client_has_player()) {
-    switch (pplayer_get_diplstate(client_player(), pplayer)->type) {
+    switch (player_diplstate_get(client_player(), pplayer)->type) {
     case DS_WAR:
       weight = PANGO_WEIGHT_NORMAL;
       style = PANGO_STYLE_ITALIC;

@@ -52,8 +52,10 @@ bool could_meet_with_player(const struct player *pplayer,
           && diplomacy_possible(pplayer,aplayer)
           && (player_has_embassy(aplayer, pplayer) 
               || player_has_embassy(pplayer, aplayer)
-              || pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
-              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0));
+              || player_diplstate_get(pplayer, aplayer)->contact_turns_left
+                 > 0
+              || player_diplstate_get(aplayer, pplayer)->contact_turns_left
+                 > 0));
 }
 
 /**************************************************************************
@@ -65,8 +67,9 @@ bool could_intel_with_player(const struct player *pplayer,
   return (pplayer->is_alive
           && aplayer->is_alive
           && pplayer != aplayer
-          && (pplayer->diplstates[player_index(aplayer)].contact_turns_left > 0
-              || aplayer->diplstates[player_index(pplayer)].contact_turns_left > 0
+          && (player_diplstate_get(pplayer, aplayer)->contact_turns_left > 0
+              || player_diplstate_get(aplayer, pplayer)->contact_turns_left
+                 > 0
               || player_has_embassy(pplayer, aplayer)));
 }
 
@@ -126,8 +129,8 @@ bool add_clause(struct Treaty *ptreaty, struct player *pfrom,
   struct player *pto = (pfrom == ptreaty->plr0
                         ? ptreaty->plr1 : ptreaty->plr0);
   struct Clause *pclause;
-  enum diplstate_type ds = 
-                     pplayer_get_diplstate(ptreaty->plr0, ptreaty->plr1)->type;
+  enum diplstate_type ds
+    = player_diplstate_get(ptreaty->plr0, ptreaty->plr1)->type;
 
   if (type < 0 || type >= CLAUSE_LAST) {
     log_error("Illegal clause type encountered.");

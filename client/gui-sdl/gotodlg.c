@@ -261,7 +261,8 @@ static void popup_goto_airlift_dialog(void)
   /* --------------------------------------------- */
   players_iterate(pPlayer) {
     if (pPlayer != client.conn.playing
-      && DS_NO_CONTACT == pplayer_get_diplstate(client.conn.playing, pPlayer)->type) {
+        && DS_NO_CONTACT
+           == player_diplstate_get(client.conn.playing, pPlayer)->type) {
       continue;
     }
     

@@ -2581,6 +2581,7 @@ static void player_load_main2(struct player *plr, int plrno,
 
   /* "Old" observer players will still be loaded but are considered dead. */
   players_iterate(pplayer) {
+    struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
     i = player_index(pplayer);
 
     /* ai data */
@@ -2604,23 +2605,25 @@ static void player_load_main2(struct player *plr, int plrno,
          = secfile_lookup_int_default(file, 0, "player%d.ai%d.ask_ceasefire", plrno, i);
 
     /* diplomatic state */
-    plr->diplstates[i].type = 
+
+
+    ds->type =
       secfile_lookup_int_default(file, DS_WAR,
                                  "player%d.diplstate%d.type", plrno, i);
-    plr->diplstates[i].max_state = 
+    ds->max_state =
       secfile_lookup_int_default(file, DS_WAR,
                                  "player%d.diplstate%d.max_state", plrno, i);
-    plr->diplstates[i].first_contact_turn = 
+    ds->first_contact_turn =
       secfile_lookup_int_default(file, 0,
                                  "player%d.diplstate%d.first_contact_turn", plrno, i);
-    plr->diplstates[i].turns_left = 
+    ds->turns_left =
       secfile_lookup_int_default(file, -2,
                                  "player%d.diplstate%d.turns_left", plrno, i);
-    plr->diplstates[i].has_reason_to_cancel = 
+    ds->has_reason_to_cancel =
       secfile_lookup_int_default(file, 0,
                                  "player%d.diplstate%d.has_reason_to_cancel",
                                  plrno, i);
-    plr->diplstates[i].contact_turns_left = 
+    ds->contact_turns_left =
       secfile_lookup_int_default(file, 0,
                            "player%d.diplstate%d.contact_turns_left", plrno, i);
 
@@ -3709,20 +3712,21 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_str(file, invs, "player%d.invs_new", plrno);
 
   players_iterate(pplayer) {
+    struct player_diplstate *ds = player_diplstate_get(plr, pplayer);
     i = player_index(pplayer);
 
-    secfile_insert_int(file, plr->diplstates[i].type,
-		       "player%d.diplstate%d.type", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].max_state,
-		       "player%d.diplstate%d.max_state", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].first_contact_turn,
-		       "player%d.diplstate%d.first_contact_turn", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].turns_left,
-		       "player%d.diplstate%d.turns_left", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].has_reason_to_cancel,
-		       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
-    secfile_insert_int(file, plr->diplstates[i].contact_turns_left,
-		       "player%d.diplstate%d.contact_turns_left", plrno, i);
+    secfile_insert_int(file, ds->type,
+                       "player%d.diplstate%d.type", plrno, i);
+    secfile_insert_int(file, ds->max_state,
+                       "player%d.diplstate%d.max_state", plrno, i);
+    secfile_insert_int(file, ds->first_contact_turn,
+                       "player%d.diplstate%d.first_contact_turn", plrno, i);
+    secfile_insert_int(file, ds->turns_left,
+                       "player%d.diplstate%d.turns_left", plrno, i);
+    secfile_insert_int(file, ds->has_reason_to_cancel,
+                       "player%d.diplstate%d.has_reason_to_cancel", plrno, i);
+    secfile_insert_int(file, ds->contact_turns_left,
+                       "player%d.diplstate%d.contact_turns_left", plrno, i);
     secfile_insert_bool(file, player_has_real_embassy(plr, pplayer),
                         "player%d.diplstate%d.embassy", plrno, i);
     secfile_insert_bool(file, gives_shared_vision(plr, pplayer),
@@ -5193,8 +5197,8 @@ static void game_load_internal(struct section_file *file)
                     "%s alliance to %s reduced to peace treaty.",
                     nation_rule_name(nation_of_player(plr)),
                     nation_rule_name(nation_of_player(aplayer)));
-          plr->diplstates[player_index(aplayer)].type = DS_PEACE;
-          aplayer->diplstates[player_index(plr)].type = DS_PEACE;
+          player_diplstate_get(plr, aplayer)->type = DS_PEACE;
+          player_diplstate_get(aplayer, plr)->type = DS_PEACE;
         }
       } players_iterate_end;
     } players_iterate_end;

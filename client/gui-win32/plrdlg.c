@@ -146,7 +146,7 @@ static void build_row(const char **row, int player_index, int update)
   if (pplayer == client.conn.playing) {
     strcpy(dsbuf, "-");
   } else {
-    pds = pplayer_get_diplstate(client.conn.playing, pplayer);
+    pds = player_diplstate_get(client.conn.playing, pplayer);
     if (pds->type == DS_CEASEFIRE) {
       fc_snprintf(dsbuf, sizeof(dsbuf), "%s (%d)",
 		  diplstate_text(pds->type), pds->turns_left);
@@ -210,8 +210,8 @@ static void enable_buttons(int player_index)
   else
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_SSHIP),
 		 FALSE);
-  switch (pplayer_get_diplstate(client.conn.playing,
-                                player_by_number(player_index))->type) {
+  switch (player_diplstate_get(client.conn.playing,
+                               player_by_number(player_index))->type) {
   case DS_WAR:
   case DS_NO_CONTACT:
     EnableWindow(GetDlgItem(players_dialog,ID_PLAYERS_WAR), FALSE);

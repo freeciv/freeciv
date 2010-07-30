@@ -386,8 +386,11 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     clause_list_iterate(ptreaty->clauses, pclause) {
       struct player *pgiver = pclause->from;
       struct player *pdest = (pplayer == pgiver) ? pother : pplayer;
-      enum diplstate_type old_diplstate = 
-        pgiver->diplstates[player_index(pdest)].type;
+      struct player_diplstate *ds_giverdest
+        = player_diplstate_get(pgiver, pdest);
+      struct player_diplstate *ds_destgiver
+        = player_diplstate_get(pdest, pgiver);
+      enum diplstate_type old_diplstate = ds_giverdest->type;
 
       switch (pclause->type) {
       case CLAUSE_EMBASSY:
@@ -478,10 +481,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
 	  break;
 	}
       case CLAUSE_CEASEFIRE:
-	pgiver->diplstates[player_index(pdest)].type=DS_CEASEFIRE;
-	pgiver->diplstates[player_index(pdest)].turns_left = TURNS_LEFT;
-	pdest->diplstates[player_index(pgiver)].type=DS_CEASEFIRE;
-	pdest->diplstates[player_index(pgiver)].turns_left = TURNS_LEFT;
+        ds_giverdest->type = DS_CEASEFIRE;
+        ds_giverdest->turns_left = TURNS_LEFT;
+        ds_destgiver->type = DS_CEASEFIRE;
+        ds_destgiver->turns_left = TURNS_LEFT;
         notify_player(pgiver, NULL, E_TREATY_CEASEFIRE, ftc_server,
                       _("You agree on a cease-fire with %s."),
                       player_name(pdest));
@@ -495,14 +498,12 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         worker_refresh_required = TRUE;
 	break;
       case CLAUSE_PEACE:
-	pgiver->diplstates[player_index(pdest)].type = DS_ARMISTICE;
-	pdest->diplstates[player_index(pgiver)].type = DS_ARMISTICE;
-	pgiver->diplstates[player_index(pdest)].turns_left = TURNS_LEFT;
-	pdest->diplstates[player_index(pgiver)].turns_left = TURNS_LEFT;
-	pgiver->diplstates[player_index(pdest)].max_state = 
-          MAX(DS_PEACE, pgiver->diplstates[player_index(pdest)].max_state);
-	pdest->diplstates[player_index(pgiver)].max_state = 
-          MAX(DS_PEACE, pdest->diplstates[player_index(pgiver)].max_state);
+        ds_giverdest->type = DS_ARMISTICE;
+        ds_destgiver->type = DS_ARMISTICE;
+        ds_giverdest->turns_left = TURNS_LEFT;
+        ds_destgiver->turns_left = TURNS_LEFT;
+        ds_giverdest->max_state = MAX(DS_PEACE, ds_giverdest->max_state);
+        ds_destgiver->max_state = MAX(DS_PEACE, ds_destgiver->max_state);
         notify_player(pgiver, NULL, E_TREATY_PEACE, ftc_server,
                       /* TRANS: ... the Poles ... Polish territory. */
                       PL_("You agree on an armistice with the %s. In %d turn, "
@@ -534,12 +535,10 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
         worker_refresh_required = TRUE;
 	break;
       case CLAUSE_ALLIANCE:
-	pgiver->diplstates[player_index(pdest)].type=DS_ALLIANCE;
-	pdest->diplstates[player_index(pgiver)].type=DS_ALLIANCE;
-	pgiver->diplstates[player_index(pdest)].max_state = 
-          MAX(DS_ALLIANCE, pgiver->diplstates[player_index(pdest)].max_state);
-	pdest->diplstates[player_index(pgiver)].max_state = 
-          MAX(DS_ALLIANCE, pdest->diplstates[player_index(pgiver)].max_state);
+        ds_giverdest->type = DS_ALLIANCE;
+        ds_destgiver->type = DS_ALLIANCE;
+        ds_giverdest->max_state = MAX(DS_ALLIANCE, ds_giverdest->max_state);
+        ds_destgiver->max_state = MAX(DS_ALLIANCE, ds_destgiver->max_state);
         notify_player(pgiver, NULL, E_TREATY_ALLIANCE, ftc_server,
                       _("You agree on an alliance with %s."),
                       player_name(pdest));
