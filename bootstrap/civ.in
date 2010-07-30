@@ -42,7 +42,7 @@ else
     fi
   done`
 
-  if test -x $EXE ; then
+  if test -x "$EXE" ; then
     echo "... using $EXE"
   else
     echo "No client found"
@@ -53,7 +53,8 @@ fi
 if test "x$FREECIV_PATH" = "x" ; then
   FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
 fi
-export FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+export $FREECIV_PATH
 
 echo "Running $EXE"
 exec "$EXE" ${1+"$@"}
