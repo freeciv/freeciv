@@ -20,22 +20,26 @@ EXENAME=freeciv-server@EXEEXT@
 if test "x$FREECIV_PATH" = "x" ; then
   FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
 fi
-export FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@"
+FREECIV_PATH="${FREECIV_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@"
+export FREECIV_PATH
 
 if test "x$FREECIV_DATA_PATH" = "x" ; then
   FREECIV_DATA_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv/@DATASUBDIR@"
 fi
-export FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+FREECIV_DATA_PATH="${FREECIV_DATA_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
+export FREECIV_DATA_PATH
 
 if test "x$FREECIV_SAVE_PATH" = "x" ; then
   FREECIV_SAVE_PATH=".@HOST_PATH_SEPARATOR@~/.freeciv/saves"
 fi
-export FREECIV_SAVE_PATH="${FREECIV_SAVE_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@@HOST_PATH_SEPARATOR@@abs_top_srcdir@"
+FREECIV_SAVE_PATH="${FREECIV_SAVE_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@@HOST_PATH_SEPARATOR@@abs_top_srcdir@"
+export FREECIV_SAVE_PATH
 
 if test "x$FREECIV_SCENARIO_PATH" = "x" ; then
   FREECIV_SCENARIO_PATH=".@HOST_PATH_SEPARATOR@data/scenario@HOST_PATH_SEPARATOR@~/.freeciv/scenarios"
 fi
-export FREECIV_SCENARIO_PATH="${FREECIV_SCENARIO_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data/scenario@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data/scenario"
+FREECIV_SCENARIO_PATH="${FREECIV_SCENARIO_PATH}@HOST_PATH_SEPARATOR@@abs_top_builddir@/data/scenario@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data/scenario"
+export FREECIV_SCENARIO_PATH
 
 [ -x $BUILDDIR/server/$EXENAME ] && EXE=$BUILDDIR/server/$EXENAME
 [ -x $BUILDDIR/$EXENAME ] && EXE=$BUILDDIR/$EXENAME
