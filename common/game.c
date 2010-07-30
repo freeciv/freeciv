@@ -72,6 +72,7 @@ struct player_score {
 
 bool am_i_server = FALSE;
 
+static void game_defaults(void);
 
 /**************************************************************************
   Is program type server?
@@ -231,11 +232,9 @@ void game_remove_city(struct city *pcity)
 }
 
 /****************************************************************************
-  Initialise all game settings.
-
-  The variables are listed in alphabetical order.
+  Set default game values.
 ****************************************************************************/
-void game_init(void)
+static void game_defaults(void)
 {
   int i;
 
@@ -398,14 +397,23 @@ void game_init(void)
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
   }
 
+  terrain_control.river_help_text[0] = '\0';
+}
+
+/****************************************************************************
+  Initialise all game settings.
+
+  The variables are listed in alphabetical order.
+****************************************************************************/
+void game_init(void)
+{
+  game_defaults();
   player_slots_init();
   map_init();
   game_ruleset_init();
   teams_init();
   idex_init();
   cm_init();
-
-  terrain_control.river_help_text[0] = '\0';
 }
 
 /****************************************************************************
