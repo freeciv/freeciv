@@ -117,13 +117,13 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
     for (p = 0; p < player_count(); p++) {
       printf(".know (%d)\n  ", p);
       WRITE_MAP_DATA("%c",
-		     TEST_BIT(pcmap->claims[map_pos_to_index(x, y)].know,
-			      p) ? 'X' : '-');
+                     BV_ISSET(pcmap->claims[map_pos_to_index(x, y)].know,
+                              p) ? 'X' : '-');
       printf(".cities (%d)\n  ", p);
       WRITE_MAP_DATA("%c",
-		     TEST_BIT(pcmap->
-			      claims[map_pos_to_index(x, y)].cities,
-			      p) ? 'O' : '-');
+                     BV_ISSET(pcmap->
+                              claims[map_pos_to_index(x, y)].cities,
+                              p) ? 'O' : '-');
     }
   }
 
