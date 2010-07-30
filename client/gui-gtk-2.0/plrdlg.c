@@ -686,10 +686,9 @@ static void fill_row(GtkTreeIter *it, const struct player *pplayer)
 **************************************************************************/
 static bool player_should_be_shown(const struct player *pplayer)
 {
-  return NULL != pplayer && player_slot_is_used(pplayer)
-	 && (player_dlg_show_dead_players
-	     || pplayer->is_alive)
-	 && (!is_barbarian(pplayer));
+  return NULL != pplayer && (player_dlg_show_dead_players
+                             || pplayer->is_alive)
+         && (!is_barbarian(pplayer));
 }
 
 /**************************************************************************

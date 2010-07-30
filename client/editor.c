@@ -394,7 +394,7 @@ static void editor_grab_applied_player(const struct tile *ptile)
     apno = player_number(tile_owner(ptile));
   }
   
-  if (valid_player_by_number(apno) != NULL) {
+  if (player_by_number(apno) != NULL) {
     editor_tool_set_applied_player(editor_get_tool(), apno);
     editgui_refresh();
   }
@@ -821,7 +821,7 @@ void editor_apply_tool(const struct tile *ptile,
   }
 
   if (editor_tool_has_applied_player(ett)
-      && valid_player_by_number(apno) == NULL) {
+      && player_by_number(apno) == NULL) {
     return;
   }
 
@@ -1239,7 +1239,7 @@ const char *editor_tool_get_tooltip(enum editor_tool_type ett)
 /****************************************************************************
   Returns the current applied player number for the editor tool.
 
-  May return a player number for which valid_player_by_number returns NULL.
+  May return a player number for which player_by_number returns NULL.
 ****************************************************************************/
 int editor_tool_get_applied_player(enum editor_tool_type ett)
 {
@@ -1320,7 +1320,7 @@ struct unit *editor_create_unit_virtual(void)
   }
 
   apno = editor_tool_get_applied_player(ETT_UNIT);
-  pplayer = valid_player_by_number(apno);
+  pplayer = player_by_number(apno);
   if (!pplayer) {
     return NULL;
   }

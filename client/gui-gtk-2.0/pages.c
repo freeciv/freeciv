@@ -1458,7 +1458,7 @@ static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
   gtk_tree_model_get_iter(model, &iter, path);
 
   gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
-  pplayer = valid_player_by_number(player_no);
+  pplayer = player_by_number(player_no);
 
   gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
   pconn = find_conn_by_id(conn_id);

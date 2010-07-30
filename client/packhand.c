@@ -94,22 +94,32 @@ static int *reports_thaw_requests = NULL;
 static int reports_thaw_requests_size = 0;
 
 /* The dumbest of cities, placeholders for unknown and unseen cities. */
-static struct city_list *invisible_cities = NULL;
-
+static struct {
+  struct city_list *cities;
+  struct player *placeholder;
+} invisible = {
+  .cities = NULL,
+  .placeholder = NULL
+};
 
 /****************************************************************************
   Called below, and by client/civclient.c client_game_free()
 ****************************************************************************/
 void packhand_free(void)
 {
-  if (NULL != invisible_cities) {
-    city_list_iterate(invisible_cities, pcity) {
+  if (NULL != invisible.cities) {
+    city_list_iterate(invisible.cities, pcity) {
       idex_unregister_city(pcity);
       destroy_city_virtual(pcity);
     } city_list_iterate_end;
 
-    city_list_destroy(invisible_cities);
-    invisible_cities = NULL;
+    city_list_destroy(invisible.cities);
+    invisible.cities = NULL;
+  }
+
+  if (NULL != invisible.placeholder) {
+    free(invisible.placeholder);
+    invisible.placeholder = NULL;
   }
 }
 
@@ -120,7 +130,15 @@ static void packhand_init(void)
 {
   packhand_free();
 
-  invisible_cities = city_list_new();
+  invisible.cities = city_list_new();
+
+  /* Can't use player_new() here, as it will register the player. */
+  invisible.placeholder = fc_calloc(1, sizeof(*invisible.placeholder));
+  memset(invisible.placeholder, 0, sizeof(*invisible.placeholder));
+  /* Set some values to prevent bugs ... */
+  sz_strlcpy(invisible.placeholder->name, ANON_PLAYER_NAME);
+  sz_strlcpy(invisible.placeholder->username, ANON_USER_NAME);
+  sz_strlcpy(invisible.placeholder->ranked_username, ANON_USER_NAME);
 }
 
 /**************************************************************************
@@ -131,7 +149,7 @@ static void packhand_init(void)
 **************************************************************************/
 static struct unit * unpackage_unit(struct packet_unit_info *packet)
 {
-  struct unit *punit = create_unit_virtual(valid_player_by_number(packet->owner),
+  struct unit *punit = create_unit_virtual(player_by_number(packet->owner),
 					   NULL,
 					   utype_by_number(packet->type),
 					   packet->veteran);
@@ -192,7 +210,7 @@ static struct unit * unpackage_unit(struct packet_unit_info *packet)
 **************************************************************************/
 static struct unit *unpackage_short_unit(struct packet_unit_short_info *packet)
 {
-  struct unit *punit = create_unit_virtual(valid_player_by_number(packet->owner),
+  struct unit *punit = create_unit_virtual(player_by_number(packet->owner),
 					   NULL,
 					   utype_by_number(packet->type),
 					   FALSE);
@@ -430,7 +448,7 @@ void handle_city_info(struct packet_city_info *packet)
   struct tile_list *worked_tiles = NULL;
   struct tile *pcenter = index_to_tile(packet->tile);
   struct tile *ptile = NULL;
-  struct player *powner = valid_player_by_number(packet->owner);
+  struct player *powner = player_by_number(packet->owner);
 
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
@@ -455,7 +473,7 @@ void handle_city_info(struct packet_city_info *packet)
 
     if (NULL == ptile) {
       /* invisible worked city */
-      city_list_remove(invisible_cities, pcity);
+      city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
@@ -788,7 +806,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   struct tile *pcenter = index_to_tile(packet->tile);
   struct tile *ptile = NULL;
   struct tile_list *worked_tiles = NULL;
-  struct player *powner = valid_player_by_number(packet->owner);
+  struct player *powner = player_by_number(packet->owner);
 
   fc_assert_ret_msg(NULL != powner, "Bad player number %d.", packet->owner);
   fc_assert_ret_msg(NULL != pcenter, "Invalid tile index %d.", packet->tile);
@@ -798,7 +816,7 @@ void handle_city_short_info(struct packet_city_short_info *packet)
 
     if (NULL == ptile) {
       /* invisible worked city */
-      city_list_remove(invisible_cities, pcity);
+      city_list_remove(invisible.cities, pcity);
       city_is_new = TRUE;
 
       pcity->tile = pcenter;
@@ -1526,7 +1544,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     return;
   }
 
-  if (valid_player_by_number(packet->owner) == client.conn.playing) {
+  if (player_by_number(packet->owner) == client.conn.playing) {
     log_error("handle_unit_short_info() for own unit.");
   }
 
@@ -1681,29 +1699,30 @@ void start_revolution(void)
 **************************************************************************/
 void handle_player_remove(int playerno)
 {
+  const struct player **pslot;
   struct player *pplayer;
-  pplayer = player_slot_by_number(playerno);
 
-  fc_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
-                    playerno);
+  fc_assert_ret_msg(0 <= playerno && playerno < player_slot_count(),
+                    "Invalid player slot number %d.", playerno);
 
-  if (!player_slot_is_used(pplayer)) {
+  pslot = player_slot_by_number(playerno);
+
+  if (!player_slot_is_used(pslot)) {
     /* Ok, just ignore. */
     return;
   }
 
-  game_remove_player(pplayer);
-  player_init(pplayer);
+  pplayer = player_slot_get_player(pslot);
 
-  player_slot_set_used(pplayer, FALSE);
-  set_player_count(player_count() - 1);
+  if (can_client_change_view()) {
+    close_intel_dialog(pplayer);
+  }
+
+  player_clear(pplayer);
+  player_destroy(pplayer);
 
   update_players_dialog();
   update_conn_list_dialog();
-
-  if (can_client_change_view()) {
-    update_intel_dialog(pplayer);
-  }
 
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
@@ -1726,26 +1745,27 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct player *pplayer, *my_player;
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
-
+  const struct player **pslot;
 
   /* First verify packet fields. */
 
-  pplayer = player_slot_by_number(pinfo->playerno);
-  fc_assert_ret_msg(NULL != pplayer, "Invalid player slot number %d.",
-                    pinfo->playerno);
+  fc_assert_ret_msg(0 <= pinfo->playerno
+                    && pinfo->playerno <= player_slot_count(),
+                    "Invalid player slot number %d.", pinfo->playerno);
+  pslot = player_slot_by_number(pinfo->playerno);
+  if (player_slot_is_used(pslot)) {
+    /* get player */
+    pplayer = player_slot_get_player(pslot);
+  } else {
+    /* create new player with the given id */
+    pplayer = player_new(pinfo->playerno);
+  }
 
   pnation = nation_by_number(pinfo->nation);
   pgov = government_by_number(pinfo->government);
   ptarget_gov = government_by_number(pinfo->target_government);
 
-
   /* Now update the player information. */
-
-  if (!player_slot_is_used(pplayer)) {
-    player_slot_set_used(pplayer, TRUE);
-    set_player_count(player_count() + 1);
-  }
-
   sz_strlcpy(pplayer->name, pinfo->name);
   sz_strlcpy(pplayer->username, pinfo->username);
 
@@ -1960,7 +1980,12 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     client_remove_cli_conn(pconn);
     pconn = NULL;
   } else {
-    struct player *pplayer = player_slot_by_number(pinfo->player_num);
+    const struct player **pslot = player_slot_by_number(pinfo->player_num);
+    struct player *pplayer = NULL;
+
+    if (pslot && player_slot_is_used(pslot)) {
+      pplayer = player_slot_get_player(pslot);
+    }
 
     if (!pconn) {
       log_verbose("Server reports new connection %d %s",
@@ -2208,7 +2233,7 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
 {
   int i;
   struct player_spaceship *ship;
-  struct player *pplayer = valid_player_by_number(p->player_num);
+  struct player *pplayer = player_by_number(p->player_num);
 
   fc_assert_ret_msg(NULL != pplayer, "Invalid player number %d.",
                     p->player_num);
@@ -2265,7 +2290,7 @@ void handle_tile_info(struct packet_tile_info *packet)
   enum known_type old_known;
   bool known_changed = FALSE;
   bool tile_changed = FALSE;
-  struct player *powner = valid_player_by_number(packet->owner);
+  struct player *powner = player_by_number(packet->owner);
   struct resource *presource = resource_by_number(packet->resource);
   struct terrain *pterrain = terrain_by_number(packet->terrain);
   struct tile *ptile = index_to_tile(packet->tile);
@@ -2328,22 +2353,15 @@ void handle_tile_info(struct packet_tile_info *packet)
 
       if (NULL == pwork) {
         char named[MAX_LEN_NAME];
-        struct player *placeholder = powner;
 
         /* new unseen city, or before city_info */
-        if (NULL == placeholder) {
-          /* worker outside border allowed in earlier versions,
-           * use non-player as placeholder.
-           */
-          placeholder = player_by_number(MAX_NUM_PLAYERS);
-        }
         fc_snprintf(named, sizeof(named), "%06u", packet->worked);
 
-        pwork = create_city_virtual(placeholder, NULL, named);
+        pwork = create_city_virtual(invisible.placeholder, NULL, named);
         pwork->id = packet->worked;
         idex_register_city(pwork);
 
-        city_list_prepend(invisible_cities, pwork);
+        city_list_prepend(invisible.cities, pwork);
 
         log_debug("(%d,%d) invisible city %d, %s",
                   TILE_XY(ptile), pwork->id, city_name(pwork));
@@ -2534,13 +2552,10 @@ void handle_ruleset_control(struct packet_ruleset_control *packet)
   city_styles_alloc(game.control.styles_count);
 
   /* After nation ruleset free/alloc, nation->player pointers are NULL.
-   * We have to initialize player->nation too, to keep state consistent.
-   * In case of /taking player, number of players has been reseted, so
-   * we can't use players_iterate() here, but have to go through all
-   * possible player slots instead. */ 
-  player_slots_iterate(pslot) {
-    pslot->nation = NULL;
-  } player_slots_iterate_end;
+   * We have to initialize player->nation too, to keep state consistent. */
+  players_iterate(pplayer) {
+    pplayer->nation = NULL;
+  } players_iterate_end;
 
   if (packet->prefered_tileset[0] != '\0') {
     /* There is tileset suggestion */

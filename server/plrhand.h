@@ -21,7 +21,7 @@ enum plr_info_level { INFO_MINIMUM, INFO_MEETING, INFO_EMBASSY, INFO_FULL };
 
 void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team);
-struct player *server_create_player(void);
+struct player *server_create_player(int player_id);
 void server_remove_player(struct player *pplayer);
 void kill_player(struct player *pplayer);
 void update_revolution(struct player *pplayer);
@@ -38,7 +38,6 @@ void maybe_make_contact(struct tile *ptile, struct player *pplayer);
 
 void send_player_info(struct player *src, struct player *dest);
 void send_player_info_c(struct player *src, struct conn_list *dest);
-void send_player_slot_info_c(struct player *src, struct conn_list *dest);
 
 struct conn_list *player_reply_dest(struct player *pplayer);
 

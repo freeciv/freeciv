@@ -442,15 +442,24 @@ static void send_conn_info_arg(struct conn_list *src,
   if (!dest) {
     dest = game.est_connections;
   }
-  
+
   conn_list_iterate(src, psrc) {
     package_conn_info(psrc, &packet);
     if (remove) {
       packet.used = FALSE;
     }
     lsend_packet_conn_info(dest, &packet);
-  }
-  conn_list_iterate_end;
+
+    if (!remove) {
+      /* Resend all information about the players if the client switches into
+       * edit mode as this includes a reset of the player data. */
+      conn_list_iterate(dest, pdest) {
+        if (psrc->id == pdest->id) {
+          send_player_info_c(NULL, pdest->self);
+        }
+      } conn_list_iterate_end;
+    }
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
@@ -521,7 +530,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
           return FALSE;
         }
         /* add new player, or not */
-        pplayer = server_create_player();
+        pplayer = server_create_player(-1);
         if (!pplayer) {
           return FALSE;
         }
@@ -646,7 +655,6 @@ void connection_detach(struct connection *pconn)
 
         /* Actually do the removal. */
         server_remove_player(pplayer);
-        send_player_slot_info_c(pplayer, NULL);
         aifill(game.info.aifill);
         reset_all_start_commands();
       } else {
@@ -660,7 +668,7 @@ void connection_detach(struct connection *pconn)
            * client to display player information.
            * See establish_new_connection().
            */
-          log_verbose("connection_detach() calls send_player_slot_info_c()");
+          log_verbose("connection_detach() calls send_player_info_c()");
           send_player_info_c(pplayer, NULL);
 
           reset_all_start_commands();

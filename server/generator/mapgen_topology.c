@@ -274,7 +274,7 @@ void generator_init_topology(bool autosize)
       break;
 
     case 1:
-      map_size = game.nplayers * map.server.tilesperplayer
+      map_size = player_count() * map.server.tilesperplayer
                  / map.server.landpercent / 10;
 
       map.server.size = CLIP(MAP_MIN_SIZE, map_size, MAP_MAX_SIZE);
@@ -282,17 +282,17 @@ void generator_init_topology(bool autosize)
       if (map_size < MAP_MIN_SIZE) {
         log_normal("Map size calculated for %d (land) tiles per player and "
                    " %dplayer(s) to small. Setting map size to the minimal "
-                   "size %d.", map.server.tilesperplayer, game.nplayers,
+                   "size %d.", map.server.tilesperplayer, player_count(),
                    map.server.size);
       } else if (map_size > MAP_MAX_SIZE) {
         log_normal("Map size calculated for %d (land) tiles per player and "
                    "%d player(s) to large. Setting map size to the maximal "
-                   "size %d.", map.server.tilesperplayer, game.nplayers,
+                   "size %d.", map.server.tilesperplayer, player_count(),
                    map.server.size);
       } else {
         log_normal("Setting map size to %d (approx. %d (land) tiles for "
                    "each of the %d player(s)).", map.server.size,
-                   map.server.tilesperplayer, game.nplayers);
+                   map.server.tilesperplayer, player_count());
       }
       /* no break */
 

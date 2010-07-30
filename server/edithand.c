@@ -503,7 +503,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
     return;
   }
 
-  pplayer = valid_player_by_number(owner);
+  pplayer = player_by_number(owner);
   if (!pplayer) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." type <unit-type> at <tile-coordinates>"... */
@@ -591,7 +591,7 @@ void handle_edit_unit_remove(struct connection *pc, int owner,
     return;
   }
 
-  pplayer = valid_player_by_number(owner);
+  pplayer = player_by_number(owner);
   if (!pplayer) {
     notify_conn(pc->self, ptile, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." type <unit-type> at <tile-coordinates>
@@ -966,7 +966,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   }
 
 
-  pplayer = server_create_player();
+  pplayer = server_create_player(-1);
   if (!pplayer) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Player creation failed."));
@@ -1002,7 +1002,7 @@ void handle_edit_player_remove(struct connection *pc, int id)
 {
   struct player *pplayer;
 
-  pplayer = valid_player_by_number(id);
+  pplayer = player_by_number(id);
   if (pplayer == NULL) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("No such player (ID %d)."), id);
@@ -1020,7 +1020,6 @@ void handle_edit_player_remove(struct connection *pc, int id)
     map_clear_known(ptile, pplayer);
   } whole_map_iterate_end;
   server_remove_player(pplayer);
-  send_player_slot_info_c(pplayer, NULL);
 }
 
 /**************************************************************************
@@ -1035,7 +1034,7 @@ void handle_edit_player(struct connection *pc,
   struct player_research *research;
   enum tech_state known;
 
-  pplayer = valid_player_by_number(packet->id);
+  pplayer = player_by_number(packet->id);
   if (!pplayer) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot edit player with invalid player ID %d."),
@@ -1189,7 +1188,7 @@ void handle_edit_player_vision(struct connection *pc, int plr_no,
     return;
   }
 
-  pplayer = valid_player_by_number(plr_no);
+  pplayer = player_by_number(plr_no);
   if (!pplayer) {
     notify_conn(pc->self, ptile_center, E_BAD_COMMAND, ftc_editor,
                 /* TRANS: ..." at <tile-coordinates> because"... */
@@ -1297,7 +1296,7 @@ void handle_edit_toggle_fogofwar(struct connection *pc, int plr_no)
     return;
   }
 
-  pplayer = valid_player_by_number(plr_no);
+  pplayer = player_by_number(plr_no);
   if (!pplayer) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
                 _("Cannot toggle fog-of-war for invalid player ID %d."),

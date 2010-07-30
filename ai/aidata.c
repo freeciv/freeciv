@@ -455,9 +455,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   /* Set per-player variables. We must set all players, since players 
    * can be created during a turn, and we don't want those to have 
    * invalid values. */
-  for (i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    struct player *aplayer = player_by_number(i);
-
+  players_iterate(aplayer) {
     ai->diplomacy.player_intel[i].is_allied_with_enemy = NULL;
     ai->diplomacy.player_intel[i].at_war_with_ally = NULL;
     ai->diplomacy.player_intel[i].is_allied_with_ally = NULL;
@@ -481,9 +479,9 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
         ai->diplomacy.player_intel[i].is_allied_with_ally = check_pl;
       }
     } players_iterate_end;
-  }
+  } players_iterate_end;
   ai->diplomacy.spacerace_leader = player_leading_spacerace();
-  
+
   ai->diplomacy.production_leader = NULL;
   players_iterate(aplayer) {
     if (ai->diplomacy.production_leader == NULL

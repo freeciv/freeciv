@@ -126,6 +126,14 @@ static int exit_intel_dlg_callback(struct widget *pWidget)
   return -1;
 }
 
+/**************************************************************************
+  Close an intelligence dialog for the given player.
+**************************************************************************/
+void close_intel_dialog(struct player *p)
+{
+  popdown_intel_dialog(p);
+}
+
 static struct intel_dialog *create_intel_dialog(struct player *pPlayer) {
 
   struct intel_dialog *pdialog = fc_calloc(1, sizeof(struct intel_dialog));

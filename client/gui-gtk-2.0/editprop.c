@@ -690,7 +690,7 @@ static gpointer objtype_get_object_from_id(int objtype, int id)
     return game_find_city_by_number(id);
     break;
   case OBJTYPE_PLAYER:
-    return valid_player_by_number(id);
+    return player_by_number(id);
     break;
   case OBJTYPE_GAME:
     return &game;
@@ -3360,10 +3360,11 @@ static void extviewer_refresh_widgets(struct extviewer *ev,
   case OPID_TILE_VISION:
     gtk_list_store_clear(store);
     player_slots_iterate(pslot) {
-      id = player_number(pslot);
+      id = player_slot_index(pslot);
       if (player_slot_is_used(pslot)) {
-        name = player_name(pslot);
-        pixbuf = get_flag(pslot->nation);
+        struct player *pplayer = player_slot_get_player(pslot);
+        name = player_name(pplayer);
+        pixbuf = get_flag(pplayer->nation);
       } else {
         name = "";
         pixbuf = NULL;
@@ -4987,7 +4988,7 @@ static void property_page_create_objects(struct property_page *pp,
 
   case OBJTYPE_CITY:
     apno = editor_tool_get_applied_player(ETT_CITY);
-    pplayer = valid_player_by_number(apno);
+    pplayer = player_by_number(apno);
     if (pplayer && hint_tiles) {
       tile_list_iterate(hint_tiles, atile) {
         if (!is_enemy_unit_tile(atile, pplayer)

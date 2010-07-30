@@ -75,6 +75,11 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
+static void send_player_remove_info_c(const struct player **pslot,
+                                      struct conn_list *dest);
+static void send_player_info_c_real(struct player *src,
+                                    struct conn_list *dest);
+
 /* Used by shuffle_players() and shuffled_player(). */
 static int shuffled_order[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
 
@@ -489,7 +494,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   enum diplstate_type new_type;
   enum dipl_reason diplcheck;
   bool repeat = FALSE;
-  struct player *pplayer2 = valid_player_by_number(other_player_id);
+  struct player *pplayer2 = player_by_number(other_player_id);
 
   if (NULL == pplayer2) {
     return;
@@ -652,44 +657,19 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 }
 
 /**************************************************************************
-  Send information about a player slot, i.e. a possibly uninitialized
-  player ('used' is FALSE). This should be used for example after a player
-  is removed by server_remove_player(). For used initialized player slots
-  this function has the same effect as send_player_info_c() (albeit you
-  cannot have 'src' equal to NULL). If 'dest' is NULL, then it is set
-  to game.est_connections.
+  Send information about removed (unused) players.
 **************************************************************************/
-void send_player_slot_info_c(struct player *src, struct conn_list *dest)
+static void send_player_remove_info_c(const struct player **pslot,
+                                      struct conn_list *dest)
 {
-  struct packet_player_info info;
-
-  if (!src) {
-    return;
-  }
-
   if (!dest) {
     dest = game.est_connections;
   }
 
-  if (player_slot_is_used(src)) {
-    package_player_common(src, &info);
-  }
+  fc_assert_ret(!player_slot_is_used(pslot));
 
   conn_list_iterate(dest, pconn) {
-    if (player_slot_is_used(src)) {
-      if (NULL == pconn->playing && pconn->observer) {
-        /* Global observer. */
-        package_player_info(src, &info, pconn->playing, INFO_FULL);
-      } else if (NULL != pconn->playing) {
-        /* Players (including regular observers) */
-        package_player_info(src, &info, pconn->playing, INFO_MINIMUM);
-      } else {
-        package_player_info(src, &info, NULL, INFO_MINIMUM);
-      }
-      send_packet_player_info(pconn, &info);
-    } else {
-      dsend_packet_player_remove(pconn, player_number(src));
-    }
+    dsend_packet_player_remove(pconn, player_slot_index(pslot));
   } conn_list_iterate_end;
 }
 
@@ -701,19 +681,50 @@ void send_player_slot_info_c(struct player *src, struct conn_list *dest)
   Note: package_player_info contains incomplete info if it has NULL as a
         dest arg and and info is < INFO_EMBASSY.
   NB: If 'src' is NULL (meaning send information about all players) this
-  function will not send info for unused players, i.e. player slots with
-  the 'used' field equal to FALSE. Use send_player_slot_info_c for that.
+  function will only send info for used players, i.e. player slots with
+  a player defined.
 **************************************************************************/
 void send_player_info_c(struct player *src, struct conn_list *dest)
 {
   if (src != NULL) {
-    send_player_slot_info_c(src, dest);
+    send_player_info_c_real(src, dest);
     return;
   }
 
   players_iterate(pplayer) {
-    send_player_slot_info_c(pplayer, dest);
+    send_player_info_c_real(pplayer, dest);
   } players_iterate_end;
+}
+
+/**************************************************************************
+  Really send information. If 'dest' is NULL, then it is set to
+  game.est_connections.
+**************************************************************************/
+static void send_player_info_c_real(struct player *src,
+                                    struct conn_list *dest)
+{
+  struct packet_player_info info;
+
+  fc_assert_ret(src != NULL);
+
+  if (!dest) {
+    dest = game.est_connections;
+  }
+
+  package_player_common(src, &info);
+
+  conn_list_iterate(dest, pconn) {
+    if (NULL == pconn->playing && pconn->observer) {
+      /* Global observer. */
+      package_player_info(src, &info, pconn->playing, INFO_FULL);
+    } else if (NULL != pconn->playing) {
+      /* Players (including regular observers) */
+      package_player_info(src, &info, pconn->playing, INFO_MINIMUM);
+    } else {
+      package_player_info(src, &info, NULL, INFO_MINIMUM);
+    }
+    send_packet_player_info(pconn, &info);
+  } conn_list_iterate_end;
 }
 
 /**************************************************************************
@@ -1021,26 +1032,18 @@ void server_player_init(struct player *pplayer,
   Creates a new, uninitialized, used player slot. You should probably
   call server_player_init() to initialize it, and send_player_info()
   later to tell clients about it.
-  
+
   May return NULL if creation was not possible.
 ***********************************************************************/
-struct player *server_create_player(void)
+struct player *server_create_player(int player_id)
 {
-  struct player *pplayer = NULL;
-
-  player_slots_iterate(pslot) {
-    if (!player_slot_is_used(pslot)) {
-      pplayer = pslot;
-      break;
-    }
-  } player_slots_iterate_end;
+  struct player *pplayer = player_new(player_id);
 
   if (!pplayer) {
     return NULL;
   }
 
-  player_slot_set_used(pplayer, TRUE);
-  set_player_count(player_count() + 1);
+  server_player_init(pplayer, FALSE, FALSE);
 
   return pplayer;
 }
@@ -1053,9 +1056,14 @@ struct player *server_create_player(void)
 ***********************************************************************/
 void server_remove_player(struct player *pplayer)
 {
-  if (!pplayer || !player_slot_is_used(pplayer)) {
+  const struct player **pslot;
+
+  if (!pplayer) {
     return;
   }
+
+  /* save player slot */
+  pslot = pplayer->pslot;
 
   log_normal(_("Removing player %s."), player_name(pplayer));
 
@@ -1076,7 +1084,6 @@ void server_remove_player(struct player *pplayer)
   } conn_list_iterate_end;
 
   script_remove_exported_object(pplayer);
-  team_remove_player(pplayer);
   /* Clear data saved in the other player structs. */
   players_iterate(aplayer) {
     player_diplstate_init(&aplayer->diplstates[player_index(pplayer)]);
@@ -1085,15 +1092,12 @@ void server_remove_player(struct player *pplayer)
       remove_shared_vision(aplayer, pplayer);
     }
   } players_iterate_end;
-  game_remove_player(pplayer);
-  player_init(pplayer);
   player_map_free(pplayer);
-  player_slot_set_used(pplayer, FALSE);
-  set_player_count(player_count() - 1);
-
-  aifill(game.info.aifill);
+  player_destroy(pplayer);
 
   send_updated_vote_totals(NULL);
+  /* must be called after the player was destroyed */
+  send_player_remove_info_c(pslot, NULL);
 }
 
 /**************************************************************************
@@ -1242,7 +1246,7 @@ struct player *shuffled_player(int i)
 {
   struct player *pplayer;
 
-  pplayer = valid_player_by_number(shuffled_order[i]);
+  pplayer = player_by_number(shuffled_order[i]);
   log_debug("shuffled_player(%d) = %d (%p %s)",
             i, shuffled_order[i], pplayer, player_name(pplayer));
   return pplayer;
@@ -1372,7 +1376,7 @@ static struct player *split_player(struct player *pplayer)
   struct nation_type **civilwar_nations;
 
   /* make a new player, or not */
-  cplayer = server_create_player();
+  cplayer = server_create_player(-1);
   if (!cplayer) {
     return NULL;
   }

@@ -398,18 +398,12 @@ void game_init(void)
     game.server.unitwaittime      = GAME_DEFAULT_UNITWAITTIME;
   }
 
+  player_slots_init();
   map_init();
   game_ruleset_init();
   teams_init();
   idex_init();
   cm_init();
-
-  /* players init */
-  player_slots_iterate(pslot) {
-    player_slot_set_used(pslot, FALSE);
-    player_init(pslot);
-  } player_slots_iterate_end;
-  set_player_count(0);
 
   terrain_control.river_help_text[0] = '\0';
 }
@@ -428,91 +422,12 @@ void game_map_init(void)
   game.info.coolinglevel = (map_num_tiles() + 499) / 500;
 }
 
-/****************************************************************************
-  Remove all that is game-dependent in the player structure.
-****************************************************************************/
-static void game_player_reset(struct player *pplayer)
-{
-  if (pplayer->attribute_block.data) {
-    free(pplayer->attribute_block.data);
-    pplayer->attribute_block.data = NULL;
-  }
-  pplayer->attribute_block.length = 0;
-
-  if (pplayer->attribute_block_buffer.data) {
-    free(pplayer->attribute_block_buffer.data);
-    pplayer->attribute_block_buffer.data = NULL;
-  }
-  pplayer->attribute_block_buffer.length = 0;
-
-  unit_list_iterate(pplayer->units, punit) {
-    game_remove_unit(punit);
-  } unit_list_iterate_end;
-  if (0 != unit_list_size(pplayer->units)) {
-    log_error("game_remove_player() failed to remove %d %s units",
-              unit_list_size(pplayer->units),
-              nation_rule_name(nation_of_player(pplayer)));
-  }
-
-  city_list_iterate(pplayer->cities, pcity) {
-    game_remove_city(pcity);
-  } city_list_iterate_end;
-  if (0 != city_list_size(pplayer->cities)) {
-    log_error("game_remove_player() failed to remove %d %s cities",
-              city_list_size(pplayer->cities),
-              nation_rule_name(nation_of_player(pplayer)));
-  }
-}
-
-/****************************************************************************
-  Reset a player's data to its initial state.  After calling this you
-  must call player_init before the player can be used again.
-****************************************************************************/
-void game_remove_player(struct player *pplayer)
-{
-  game_player_reset(pplayer);
-
-#if 0
-  fc_assert(conn_list_size(pplayer->connections) == 0);
-  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
-   * the caller to fix them.  This happens when /loading a game while a
-   * client is connected. */
-#endif
-  conn_list_destroy(pplayer->connections);
-  pplayer->connections = NULL;
-
-  unit_list_destroy(pplayer->units);
-  pplayer->units = NULL;
-
-  city_list_destroy(pplayer->cities);
-  pplayer->cities = NULL;
-
-  /* This comes last because log calls in the above functions may use it. */
-  if (pplayer->nation != NULL) {
-    player_set_nation(pplayer, NULL);
-  }
-}
-
-/***************************************************************
-  Remove all initialized players. This is all player slots, 
-  since we initialize them all on game initialization.
-***************************************************************/
-static void game_remove_all_players(void)
-{
-  player_slots_iterate(pslot) {
-    game_remove_player(pslot);
-    player_slot_set_used(pslot, FALSE);
-  } player_slots_iterate_end;
-
-  set_player_count(0);
-}
-
 /***************************************************************
   Frees all memory of the game.
 ***************************************************************/
 void game_free(void)
 {
-  game_remove_all_players();
+  player_slots_free();
   map_free();
   idex_free();
   game_ruleset_free();
@@ -529,14 +444,11 @@ void game_reset(void)
     game_free();
     game_init();
   } else {
-    /* Should do exactly the same as players_iterate here. */
-    player_slots_iterate(pslot) {
-      game_player_reset(pslot);
-    } player_slots_iterate_end;
-
+    player_slots_free();
     map_free();
     idex_free();
 
+    player_slots_init();
     map_init();
     idex_init();
   }

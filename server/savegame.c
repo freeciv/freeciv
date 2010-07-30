@@ -792,9 +792,6 @@ static void map_load_tiles(struct section_file *file)
   map_init_topology(FALSE);
 
   map_allocate();
-  player_slots_iterate(pplayer) {
-    player_map_allocate(pplayer);
-  } player_slots_iterate_end;
 
   /* get the terrain type */
   LOAD_MAP_DATA(ch, line, ptile,
@@ -1218,7 +1215,14 @@ static void map_load(struct section_file *file,
                     set_savegame_bases(&ptile->bases, ch, base_order + 4 * j));
     } bases_halfbyte_iterate_end;
   }
+}
 
+/***************************************************************
+  Load data about known tiles. This must be after players are allocated.
+***************************************************************/
+static void map_load_known(struct section_file *file,
+                           const char *savefile_options)
+{
   if (secfile_lookup_bool_default(file, TRUE, "game.save_known")) {
     int known[MAP_INDEX_SIZE];
 
@@ -1256,11 +1260,11 @@ static void map_load(struct section_file *file,
      * now we convert it to bv_player. */
     whole_map_iterate(ptile) {
       BV_CLR_ALL(ptile->tile_known);
-      player_slots_iterate(pslot) {
-        if (known[tile_index(ptile)] & (1u << player_index(pslot))) {
-          map_set_known(ptile, pslot);
+      players_iterate(pplayer) {
+        if (known[tile_index(ptile)] & (1u << player_index(pplayer))) {
+          map_set_known(ptile, pplayer);
         }
-      } player_slots_iterate_end;
+      } players_iterate_end;
     } whole_map_iterate_end;
   }
   map.server.have_resources = TRUE;
@@ -2185,6 +2189,9 @@ static void player_load_main(struct player *plr, int plrno,
   struct player_research *research;
   struct nation_type *pnation;
 
+  /* prepare map */
+  player_map_allocate(plr);
+
   /* All players should now have teams. This is not the case with
    * old savegames. */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
@@ -2311,23 +2318,23 @@ static void player_load_main(struct player *plr, int plrno,
   if (has_capability("embassies2", savefile_options)) {
     /* done while loading diplstates data */
   } else if (has_capability("embassies", savefile_options)) {
-    player_slots_iterate(pother) {
+    players_iterate(pother) {
       if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
                                       plrno, player_index(pother))) {
         BV_SET(plr->real_embassy, player_index(pother));
       }
-    } player_slots_iterate_end;
+    } players_iterate_end;
   } else {
     /* Required for 2.0 and earlier savegames.  Remove eventually and make
      * the cap check mandatory. */
     int embassy = secfile_lookup_int_default(file, 0,
                                              "player%d.embassy", plrno);
 
-    player_slots_iterate(pother) {
+    players_iterate(pother) {
       if (embassy & (1 << player_index(pother))) {
         BV_SET(plr->real_embassy, player_index(pother));
       }
-    } player_slots_iterate_end;
+    } players_iterate_end;
   }
 
   p = secfile_lookup_str(file, "player%d.city_style_by_name", plrno);
@@ -4324,7 +4331,7 @@ static void game_load_internal(struct section_file *file)
   struct base_type **base_order = NULL;
   size_t num_base_types = 0;
   const char *savefile_options = secfile_lookup_str(file, "savefile.options");
-  bool bval;
+  bool bval, is_new_game;
   const struct entry *pentry;
 
   /* [savefile] */
@@ -4417,6 +4424,13 @@ static void game_load_internal(struct section_file *file)
                secfile_lookup_str_default(file, string,
                                           "game.rulesetdir"));
   }
+
+  is_new_game = !secfile_lookup_bool_default(file, TRUE, "game.save_players");
+  if (!is_new_game) {
+    aifill(0);
+  }
+  game.info.is_new_game = is_new_game;
+
 
   /* load rulesets */
   load_rulesets();
@@ -4867,25 +4881,6 @@ static void game_load_internal(struct section_file *file)
     free(modname);
   }
 
-  /* Free all players from teams, and teams from players
-   * This must be done while players_iterate() still iterates
-   * to the previous number of players. */
-  players_iterate(pplayer) {
-    team_remove_player(pplayer);
-  } players_iterate_end;
-
-  {
-    int nplayers = secfile_lookup_int_default(file, 0, "game.nplayers");
-
-    aifill(MAX(game.info.aifill, nplayers));
-    set_player_count(nplayers);
-  }
-
-  player_slots_iterate(pplayer) {
-    player_slot_set_used(pplayer, FALSE);
-    server_player_init(pplayer, FALSE, FALSE);
-  } player_slots_iterate_end;
-
   {
     {
       {
@@ -5039,16 +5034,10 @@ static void game_load_internal(struct section_file *file)
                                sizeof(server.game_identifier));
   }
 
-  game.info.is_new_game = !secfile_lookup_bool_default(file, TRUE,
-                                                       "game.save_players");
-
   map_load(file, savefile_options, special_order,
            base_order, num_base_types);
 
-  if (game.info.is_new_game) {
-    /* override previous load */
-    set_player_count(0);
-  } else {
+  if (!game.info.is_new_game) {
     int *worked_tiles = NULL; /* temporary map for worked tiles */
     int loaded_players = 0;
 
@@ -5096,31 +5085,56 @@ static void game_load_internal(struct section_file *file)
     /* Load worked tiles map */
     worked_tiles = player_load_cities_worked_map(file, savefile_options);
 
-    /* Now, load the players. */
-    player_slots_iterate(pplayer) {
-      int plrno = player_number(pplayer);
-      if (NULL == secfile_section_lookup(file, "player%d", plrno)) {
-        player_slot_set_used(pplayer, FALSE);
+    /* Now, load the players from the savefile. */
+    player_slots_iterate(pslot) {
+      struct player *pplayer;
+
+      if (NULL == secfile_section_lookup(file, "player%d",
+                                         player_slot_index(pslot))) {
         continue;
       }
-      player_slot_set_used(pplayer, TRUE);
-      player_load_main(pplayer, plrno, file, savefile_options,
-                       technology_order, technology_order_size);
-      player_load_cities(pplayer, plrno, file, savefile_options,
-                         improvement_order, improvement_order_size,
-                         worked_tiles);
-      player_load_units(pplayer, plrno, file, savefile_options,
-                        base_order, num_base_types);
-      player_load_attributes(pplayer, plrno, file);
+
+      /* Create player */
+      pplayer = server_create_player(player_slot_index(pslot));
+      server_player_init(pplayer, FALSE, FALSE);
+
+      player_load_main(pplayer, player_slot_index(pslot), file,
+                       savefile_options, technology_order,
+                       technology_order_size);
       loaded_players++;
     } player_slots_iterate_end;
+
+    /* check number of players */
+    {
+      int nplayers = secfile_lookup_int_default(file, 0, "game.nplayers");
+      fc_assert_ret(player_count() == nplayers);
+    }
 
     /* Now, load each players data about other players. Thus must be after
      * the player slots are activated. */
     players_iterate(pplayer) {
       int plrno = player_number(pplayer);
       player_load_main2(pplayer, plrno, file, savefile_options);
+      player_load_cities(pplayer, plrno, file, savefile_options,
+                         improvement_order, improvement_order_size,
+                         worked_tiles);
+      player_load_units(pplayer, plrno, file, savefile_options,
+                        base_order, num_base_types);
+      player_load_attributes(pplayer, plrno, file);
+
+      /* print out some informations */
+      if (pplayer->ai_data.control) {
+        log_normal(_("%s has been added as %s level AI-controlled player."),
+                   player_name(pplayer),
+                   ai_level_name(pplayer->ai_data.skill_level));
+      } else {
+        log_normal(_("%s has been added as human player."),
+                   player_name(pplayer));
+      }
     } players_iterate_end;
+
+    /* Load known data. */
+    map_load_known(file, savefile_options);
 
     /* Backward compatibility: if we had any open-ended orders (pillage)
      * in the savegame, assign specific targets now */
@@ -5145,16 +5159,6 @@ static void game_load_internal(struct section_file *file)
       } whole_map_iterate_end;
 #endif /* DEBUG */
       FC_FREE(worked_tiles);
-    }
-
-    /* Check that the number of players loaded matches the
-     * number of players set in the save file. */
-    if (loaded_players != player_count()) {
-      log_error("The value of game.nplayers (%d) from the loaded "
-                "game does not match the number of players present (%d). "
-                "Setting game.nplayers to %d.",
-                player_count(), loaded_players, loaded_players);
-      set_player_count(loaded_players);
     }
 
     /* In case of tech_leakage, we can update research only after all

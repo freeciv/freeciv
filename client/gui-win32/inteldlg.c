@@ -66,6 +66,14 @@ static LONG CALLBACK intel_proc(HWND dlg,UINT message,WPARAM wParam,LPARAM lPara
   return 0;
 }
 
+/**************************************************************************
+  Close an intelligence dialog for the given player.
+**************************************************************************/
+void close_intel_dialog(struct player *p)
+{
+  DestroyWindow(intel_dialog);
+}
+
 /****************************************************************
 
 *****************************************************************/

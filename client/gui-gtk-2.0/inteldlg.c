@@ -148,6 +148,15 @@ static void intel_destroy_callback(GtkWidget *w, gpointer data)
   free(pdialog);
 }
 
+/**************************************************************************
+  Close an intelligence dialog for the given player.
+**************************************************************************/
+void close_intel_dialog(struct player *p)
+{
+  struct intel_dialog *pdialog = get_intel_dialog(p);
+  intel_destroy_callback(NULL, pdialog);
+}
+
 /****************************************************************
 ...
 *****************************************************************/

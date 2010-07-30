@@ -141,15 +141,24 @@ static void check_fow(const char *file, const char *function, int line)
 **************************************************************************/
 static void check_misc(const char *file, const char *function, int line)
 {
-  int nbarbs = 0;
-  players_iterate(pplayer) {
-    if (is_barbarian(pplayer)) {
-      nbarbs++;
+  int i, nplayers = 0, nbarbs = 0;
+
+  /* do not use player_slots_iterate as we want to check the index! */
+  for (i = 0; i < player_slot_count(); i++) {
+    const struct player **pslot = player_slot_by_number(i);
+
+    if (player_slot_get_player(pslot) != NULL) {
+      if (is_barbarian(player_slot_get_player(pslot))) {
+        nbarbs++;
+      }
+      nplayers++;
     }
-  } players_iterate_end;
+  }
+
+  SANITY_CHECK(nplayers == player_count());
   SANITY_CHECK(nbarbs == server.nbarbarians);
 
-  SANITY_CHECK(player_count() <= MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  SANITY_CHECK(player_count() <= player_slot_count());
   SANITY_CHECK(team_count() <= MAX_NUM_TEAMS);
 }
 
@@ -438,15 +447,15 @@ static void check_units(const char *file, const char *function, int line)
 **************************************************************************/
 static void check_players(const char *file, const char *function, int line)
 {
-  int player_no;
-
   players_iterate(pplayer) {
     int one = player_index(pplayer);
     int found_palace = 0;
 
     if (!pplayer->is_alive) {
-      /* Don't do these checks.  Note there are some dead-players
-       * sanity checks below. */
+      /* Dead players' units and cities are disbanded in kill_player(). */
+      SANITY_CHECK(unit_list_size(pplayer->units) == 0);
+      SANITY_CHECK(city_list_size(pplayer->cities) == 0);
+
       continue;
     }
 
@@ -487,21 +496,10 @@ static void check_players(const char *file, const char *function, int line)
       /* Things may vary in this case depending on when the sanity_check
        * call is made.  No better check is possible. */
     }
-  } players_iterate_end;
-
-  /* Sanity checks on living and dead players. */
-  for (player_no = 0; player_no < ARRAY_SIZE(game.players); player_no++) {
-    struct player *pplayer = &game.players[player_no];
-
-    if (!pplayer->is_alive) {
-      /* Dead players' units and cities are disbanded in kill_player(). */
-      SANITY_CHECK(unit_list_size(pplayer->units) == 0);
-      SANITY_CHECK(city_list_size(pplayer->cities) == 0);
-    }
 
     /* Dying players shouldn't be left around.  But they are. */
     SANITY_CHECK(!BV_ISSET(pplayer->server.status, PSTATUS_DYING));
-  }
+  } players_iterate_end;
 
   nations_iterate(pnation) {
     SANITY_CHECK(!pnation->player || pnation->player->nation == pnation);

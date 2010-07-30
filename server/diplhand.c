@@ -147,7 +147,7 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
   bool *player_accept, *other_accept;
   enum dipl_reason diplcheck;
   bool worker_refresh_required = FALSE;
-  struct player *pother = valid_player_by_number(counterpart);
+  struct player *pother = player_by_number(counterpart);
 
   if (NULL == pother || pplayer == pother) {
     return;
@@ -609,8 +609,8 @@ void handle_diplomacy_remove_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver = valid_player_by_number(giver);
-  struct player *pother = valid_player_by_number(counterpart);
+  struct player *pgiver = player_by_number(giver);
+  struct player *pother = player_by_number(counterpart);
 
   if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
@@ -642,8 +642,8 @@ void handle_diplomacy_create_clause_req(struct player *pplayer,
 					enum clause_type type, int value)
 {
   struct Treaty *ptreaty;
-  struct player *pgiver = valid_player_by_number(giver);
-  struct player *pother = valid_player_by_number(counterpart);
+  struct player *pgiver = player_by_number(giver);
+  struct player *pother = player_by_number(counterpart);
 
   if (NULL == pother || pplayer == pother || NULL == pgiver) {
     return;
@@ -716,7 +716,7 @@ static void really_diplomacy_cancel_meeting(struct player *pplayer,
 void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 					 int counterpart)
 {
-  struct player *pother = valid_player_by_number(counterpart);
+  struct player *pother = player_by_number(counterpart);
 
   if (NULL == pother || pplayer == pother) {
     return;
@@ -731,7 +731,7 @@ void handle_diplomacy_cancel_meeting_req(struct player *pplayer,
 void handle_diplomacy_init_meeting_req(struct player *pplayer,
 				       int counterpart)
 {
-  struct player *pother = valid_player_by_number(counterpart);
+  struct player *pother = player_by_number(counterpart);
 
   if (NULL == pother || pplayer == pother) {
     return;

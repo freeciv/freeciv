@@ -54,9 +54,6 @@ struct civ_game {
 
   struct government *government_during_revolution;
 
-  struct player players[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
-  int nplayers;
-
   struct conn_list *all_connections;   /* including not yet established */
   struct conn_list *est_connections;   /* all established client conns */
 
@@ -227,8 +224,6 @@ struct city *game_find_city_by_name(const char *name);
 struct city *game_find_city_by_number(int id);
 
 struct unit *game_find_unit_by_number(int id);
-
-void game_remove_player(struct player *pplayer);
 
 void game_remove_unit(struct unit *punit);
 void game_remove_city(struct city *pcity);

@@ -319,9 +319,6 @@ struct loaddata {
   /* loaded in sg_load_game(); needed in sg_load_random(), ... */
   enum server_states server_state;
 
-  /* loaded in sg_load_game(); needed in sg_load_sanitycheck(), ... */
-  bool is_new_game;
-
   /* loaded in sg_load_random(); needed in sg_load_sanitycheck() */
   RANDOM_STATE rstate;
 
@@ -1758,7 +1755,7 @@ static void sg_load_game(struct loaddata *loading)
   game.info.coolinglevel
     = secfile_lookup_int_default(loading->file, 0, "game.coolinglevel");
 
-  loading->is_new_game
+  game.info.is_new_game
     = !secfile_lookup_bool_default(loading->file, TRUE, "game.save_players");
 }
 
@@ -2144,9 +2141,9 @@ static void sg_load_map_tiles(struct loaddata *loading)
 
   /* Allocate map. */
   map_allocate();
-  /* Need to allocate player map here; it is needed in different modules
-   * (i.e. sg_load_map_known(), sg_load_player_*()). */
   players_iterate(pplayer) {
+    /* Allocate player map here; it is needed in different modules
+     * (i.e. sg_load_map_known(), sg_load_player_*()). */
     player_map_allocate(pplayer);
   } players_iterate_end;
 
@@ -2522,7 +2519,6 @@ static void sg_save_map_owner(struct savedata *saving)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-
   /* Store owner and ownership source as plain numbers.
    *
    * Note: even if save_players is off we need to save it (but set all tiles
@@ -2578,7 +2574,11 @@ static void sg_load_map_worked(struct loaddata *loading)
 {
   int x, y;
 
-  fc_assert_ret(loading->worked_tiles == NULL);
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
+
+  sg_failure_ret(loading->worked_tiles == NULL,
+                 "City worked map not loaded!");
 
   loading->worked_tiles = fc_malloc(MAP_INDEX_SIZE *
                                     sizeof(*loading->worked_tiles));
@@ -2617,6 +2617,9 @@ static void sg_load_map_worked(struct loaddata *loading)
 static void sg_save_map_worked(struct savedata *saving)
 {
   int x, y;
+
+  /* Check status and return if not OK (sg_success != TRUE). */
+  sg_check_ret();
 
   /* additionally save the tiles worked by the cities */
   for (y = 0; y < map.ysize; y++) {
@@ -2748,61 +2751,8 @@ static void sg_load_players_basic(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  /* Free all players from teams, and teams from players
-   * This must be done while players_iterate() still iterates
-   * to the previous number of players. */
-  players_iterate(pplayer) {
-    team_remove_player(pplayer);
-  } players_iterate_end;
-
-  /* Check number of players to the maximum value of aifill or
-   * 'players.nplayers'. */
-  nplayers = MAX(game.info.aifill,
-          secfile_lookup_int_default(loading->file, 0, "players.nplayers"));
-  aifill(nplayers);
-  set_player_count(nplayers);
-
-  /* Initialize all player slots. */
-  player_slots_iterate(pplayer) {
-    player_slot_set_used(pplayer, FALSE);
-    server_player_init(pplayer, FALSE, FALSE);
-  } player_slots_iterate_end;
-
-  if (S_S_INITIAL == loading->server_state) {
-    /* Nothing more to do. */
-    return;
-  }
-
-  if (secfile_lookup_int_default(loading->file, -1,
-                                 "players.shuffled_player_%d", 0) >= 0) {
-    int shuffled_players[player_slot_count()];
-    bool shuffled_player_set[player_slot_count()];
-
-    /* Array to save used numbers. */
-    for (i = 0; i < player_slot_count(); i++) {
-      shuffled_player_set[i] = FALSE;
-    }
-
-    /* Load shuffled palyer list. */
-    for (i = 0; i < player_slot_count(); i++) {
-      shuffled_players[i]
-        = secfile_lookup_int_default(loading->file, i,
-                                     "players.shuffled_player_%d", i);
-      sg_failure_ret(!shuffled_player_set[shuffled_players[i]],
-                     "Player shuffle %d used two times",
-                     shuffled_players[i]);
-      shuffled_player_set[shuffled_players[i]] = TRUE;
-    }
-    set_shuffled_players(shuffled_players);
-  } else {
-    /* No shuffled players included, so shuffle them (this may include
-     * scenarios). */
-    shuffle_players();
-  }
-
-  if (loading->is_new_game) {
-    /* Override previous load. */
-    set_player_count(0);
+  if (S_S_INITIAL == loading->server_state
+      || game.info.is_new_game) {
     /* Nothing more to do. */
     return;
   }
@@ -2838,26 +2788,56 @@ static void sg_load_players_basic(struct loaddata *loading)
    * map loading and before we seek nations for players */
   init_available_nations();
 
-  /* Now, load the players. */
-  nplayers = 0;
-  player_slots_iterate(pplayer) {
+  /* First remove all defined players. */
+  players_iterate(pplayer) {
+    server_remove_player(pplayer);
+  } players_iterate_end;
+
+  /* Now, load the players from the savefile. */
+  player_slots_iterate(pslot) {
+    struct player *pplayer;
+
     if (NULL == secfile_section_lookup(loading->file, "player%d",
-                                       player_number(pplayer))) {
-      player_slot_set_used(pplayer, FALSE);
+                                       player_slot_index(pslot))) {
       continue;
     }
-    player_slot_set_used(pplayer, TRUE);
-    nplayers++;
+
+    /* create player */
+    pplayer = server_create_player(player_slot_index(pslot));
+    server_player_init(pplayer, FALSE, FALSE);
   } player_slots_iterate_end;
 
-  /* Check that the number of players loaded matches the number of players
-   * set in the save file. */
-  if (nplayers != player_count()) {
-    log_sg("The value of players.nplayers (%d) from the loaded "
-           "game does not match the number of players present (%d). "
-           "Setting game.nplayers to %d.",
-           player_count(), nplayers, nplayers);
-    set_player_count(nplayers);
+  /* check number of players */
+  nplayers = secfile_lookup_int_default(loading->file, 0, "players.nplayers");
+  sg_failure_ret(player_count() == nplayers, "The value of players.nplayers "
+                 "(%d) from the loaded game does not match the number of "
+                 "players present (%d).", nplayers, player_count());
+
+  if (secfile_lookup_int_default(loading->file, -1,
+                                 "players.shuffled_player_%d", 0) >= 0) {
+    int shuffled_players[player_slot_count()];
+    bool shuffled_player_set[player_slot_count()];
+
+    /* Array to save used numbers. */
+    for (i = 0; i < player_slot_count(); i++) {
+      shuffled_player_set[i] = FALSE;
+    }
+
+    /* Load shuffled player list. */
+    for (i = 0; i < player_slot_count(); i++) {
+      shuffled_players[i]
+        = secfile_lookup_int_default(loading->file, i,
+                                     "players.shuffled_player_%d", i);
+      sg_failure_ret(!shuffled_player_set[shuffled_players[i]],
+                     "Player shuffle %d used two times",
+                     shuffled_players[i]);
+      shuffled_player_set[shuffled_players[i]] = TRUE;
+    }
+    set_shuffled_players(shuffled_players);
+  } else {
+    /* No shuffled players included, so shuffle them (this may include
+     * scenarios). */
+    shuffle_players();
   }
 }
 
@@ -2869,7 +2849,7 @@ static void sg_load_players(struct loaddata *loading)
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  if (loading->is_new_game) {
+  if (game.info.is_new_game) {
     /* Nothing to do. */
     return;
   }
@@ -2882,6 +2862,16 @@ static void sg_load_players(struct loaddata *loading)
 
     /* Check the sucess of the functions above. */
     sg_check_ret();
+
+    /* print out some informations */
+    if (pplayer->ai_data.control) {
+      log_normal(_("%s has been added as %s level AI-controlled player."),
+                 player_name(pplayer),
+                 ai_level_name(pplayer->ai_data.skill_level));
+    } else {
+      log_normal(_("%s has been added as human player."),
+                 player_name(pplayer));
+    }
   } players_iterate_end;
 
   /* In case of tech_leakage, we can update research only after all the 
@@ -3572,7 +3562,7 @@ static void sg_load_player_cities(struct loaddata *loading,
     ncities = 0;
   }
 
-  /* Load all cities of the palyer. */
+  /* Load all cities of the player. */
   for (i = 0; i < ncities; i++) {
     char buf[32];
     struct city *pcity;
@@ -3988,7 +3978,9 @@ static void sg_save_player_cities(struct savedata *saving,
                                                                       : '1';
     } improvement_iterate_end;
     impr_buf[improvement_count()] = '\0';
-    fc_assert(strlen(impr_buf) < sizeof(impr_buf));
+    sg_failure_ret(strlen(impr_buf) < sizeof(impr_buf),
+                   "Invalid size of the improvement vector (%s.improvements: "
+                   "%lu < %lu).", buf, strlen(impr_buf), sizeof(impr_buf));
     secfile_insert_str(saving->file, impr_buf, "%s.improvements", buf);
 
     worklist_save(saving->file, &pcity->worklist, wlist_max_length, "%s",
@@ -4655,7 +4647,7 @@ static void sg_load_player_vision(struct loaddata *loading,
   sg_check_ret();
 
   if (!plr->is_alive) {
-    /* Reval all for dead palyers. */
+    /* Reval all for dead players. */
     map_know_and_see_all(plr);
   }
 
@@ -4720,29 +4712,29 @@ static void sg_load_player_vision(struct loaddata *loading,
 
     for (y = 0; y < map.ysize; y++) {
       const char *buffer
-         = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
-                              plrno, y);
+        = secfile_lookup_str(loading->file, "player%d.map_owner%04d",
+                             plrno, y);
       const char *ptr = buffer;
 
       sg_failure_ret(NULL != buffer,
                     "Savegame corrupt - map line %d not found.", y);
       for (x = 0; x < map.xsize; x++) {
-       char token[TOKEN_SIZE];
-       int number;
-       struct tile *ptile = native_pos_to_tile(x, y);
+        char token[TOKEN_SIZE];
+        int number;
+        struct tile *ptile = native_pos_to_tile(x, y);
 
-       scanin(&ptr, ",", token, sizeof(token));
-       sg_failure_ret('\0' != token[0],
-                      "Savegame corrupt - map size not correct.");
-       if (strcmp(token, "-") == 0) {
-         map_get_player_tile(ptile, plr)->owner = NULL;
-         continue;
-       }
+        scanin(&ptr, ",", token, sizeof(token));
+        sg_failure_ret('\0' != token[0],
+                       "Savegame corrupt - map size not correct.");
+        if (strcmp(token, "-") == 0) {
+          map_get_player_tile(ptile, plr)->owner = NULL;
+          continue;
+        }
 
-       sg_failure_ret(1 == sscanf(token, "%d", &number),
-                      "Savegame corrupt - got tile owner=%s in (%d, %d).",
-                      token, x, y);
-       map_get_player_tile(ptile, plr)->owner = player_by_number(number);
+        sg_failure_ret(1 == sscanf(token, "%d", &number),
+                       "Savegame corrupt - got tile owner=%s in (%d, %d).",
+                       token, x, y);
+        map_get_player_tile(ptile, plr)->owner = player_by_number(number);
       }
     }
   }
@@ -5003,13 +4995,15 @@ static void sg_save_player_vision(struct savedata *saving,
 
       /* Save improvement list as bitvector. Note that improvement order
        * is saved in savefile.improvement.order. */
-      fc_assert(improvement_count() < sizeof(impr_buf));
       improvement_iterate(pimprove) {
         impr_buf[improvement_index(pimprove)]
           = BV_ISSET(pdcity->improvements, improvement_index(pimprove))
             ? '1' : '0';
       } improvement_iterate_end;
       impr_buf[improvement_count()] = '\0';
+      sg_failure_ret(strlen(impr_buf) < sizeof(impr_buf),
+                     "Invalid size of the improvement vector (%s.improvements: "
+                     "%lu < %lu).", buf, strlen(impr_buf), sizeof(impr_buf));
       secfile_insert_str(saving->file, impr_buf, "%s.improvements", buf);
       secfile_insert_str(saving->file, pdcity->name, "%s.name", buf);
 
@@ -5092,10 +5086,6 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     } unit_list_iterate_end;
   } players_iterate_end;
 
-  players_iterate(pplayer) {
-    calc_civ_score(pplayer);
-  } players_iterate_end;
-
   /* Recalculate the potential buildings for each city. Has caused some
    * problems with game random state.
    * This also changes the game state if you save the game directly after
@@ -5135,11 +5125,14 @@ static void sg_load_sanitycheck(struct loaddata *loading)
 
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
-  if (!loading->is_new_game) {
+  if (!game.info.is_new_game) {
     fc_rand_set_state(loading->rstate);
-  }
 
-  game.info.is_new_game = loading->is_new_game;
+    /* Recalculate scores. */
+    players_iterate(pplayer) {
+      calc_civ_score(pplayer);
+    } players_iterate_end;
+  }
 }
 
 /****************************************************************************

@@ -1037,7 +1037,8 @@ void log_civ_score_init(void)
   score_log->plrdata = fc_calloc(player_slot_count(),
                                  sizeof(*score_log->plrdata));
   player_slots_iterate(pslot) {
-    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pslot);
+    struct plrdata_slot *plrdata = score_log->plrdata
+                                   + player_slot_index(pslot);
     plrdata->name = NULL;
   } player_slots_iterate_end;
 }
@@ -1059,7 +1060,8 @@ void log_civ_score_free(void)
 
   if (score_log->plrdata) {
     player_slots_iterate(pslot) {
-      struct plrdata_slot *plrdata = score_log->plrdata + player_index(pslot);
+      struct plrdata_slot *plrdata = score_log->plrdata
+                                     + player_slot_index(pslot);
       if (plrdata->name != NULL) {
         free(plrdata->name);
       }
@@ -1183,15 +1185,16 @@ void log_civ_score_now(void)
     score_log->last_turn = game.info.turn;
   }
 
-  players_iterate(pplayer) {
-    struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);
+  player_slots_iterate(pslot) {
+    struct plrdata_slot *plrdata = score_log->plrdata
+                                   + player_slot_index(pslot);
     if (plrdata->name != NULL
-        && player_slot_is_used(pplayer)
-        && !GOOD_PLAYER(pplayer)) {
+        && player_slot_is_used(pslot)
+        && !GOOD_PLAYER(player_slot_get_player(pslot))) {
       fprintf(score_log->fp, "delplayer %d %d\n", game.info.turn - 1, i);
       plrdata_slot_free(plrdata);
     }
-  } players_iterate_end;
+  } player_slots_iterate_end;
 
   players_iterate(pplayer) {
     struct plrdata_slot *plrdata = score_log->plrdata + player_index(pplayer);

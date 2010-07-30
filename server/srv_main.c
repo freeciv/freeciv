@@ -1787,7 +1787,7 @@ void aifill(int amount)
     int remove = player_slot_count() - 1;
 
     while (limit < player_count() && 0 <= remove) {
-      struct player *pplayer = valid_player_by_number(remove);
+      struct player *pplayer = player_by_number(remove);
       remove--;
       if (!pplayer) {
         continue;
@@ -1795,9 +1795,14 @@ void aifill(int amount)
 
       if (!pplayer->is_connected && !pplayer->was_created) {
         server_remove_player(pplayer);
-        send_player_slot_info_c(pplayer, NULL);
       }
     }
+
+    if (limit != player_count()) {
+      log_error("Could only reduce the number of players to %d "
+                "(requested: %d)", player_count(), limit);
+    }
+
     return;
   }
 
@@ -1805,8 +1810,8 @@ void aifill(int amount)
     char leader_name[MAX_LEN_NAME];
     int filled = 1;
     struct player *pplayer;
-    
-    pplayer = server_create_player();
+
+    pplayer = server_create_player(-1);
     if (!pplayer) {
       break;
     }
@@ -2423,8 +2428,18 @@ void server_game_free(void)
       vision_free(pcity->server.vision);
       pcity->server.vision = NULL;
     } city_list_iterate_end;
+  } players_iterate_end;
 
-    player_map_free(pplayer);
+  /* Destroy all players; with must be separate as the player information is
+   * needed above. This also sends the information to the clients. */
+  players_iterate(pplayer) {
+    server_remove_player(pplayer);
+  } players_iterate_end;
+
+  /* Destroy all players; with must be separate as the player information is
+   * needed above. This also sends the information to the clients. */
+  players_iterate(pplayer) {
+    server_remove_player(pplayer);
   } players_iterate_end;
 
   event_cache_free();

@@ -159,6 +159,15 @@ void popdown_intel_dialog(struct intel_dialog *pdialog)
   }
 }
 
+/**************************************************************************
+  Close an intelligence dialog for the given player.
+**************************************************************************/
+void close_intel_dialog(struct player *p)
+{
+  struct intel_dialog *pdialog = get_intel_dialog(p);
+  popdown_intel_dialog(pdialog);
+}
+
 /****************************************************************
 ...
 *****************************************************************/

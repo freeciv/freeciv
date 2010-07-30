@@ -37,6 +37,13 @@
 
 #include "player.h"
 
+static struct {
+  const struct player **pslots;
+  int used_slots; /* number of used/allocated players in the player slots */
+} player_slots;
+
+static void player_defaults(struct player *pplayer);
+
 /* Names of AI levels. These must correspond to enum ai_level in
  * player.h. Also commands to set AI level in server/commands.c
  * must match these. */
@@ -217,69 +224,238 @@ void player_diplstate_init(struct player_diplstate *diplstate)
 }
 
 /***************************************************************
-  In the server you must use server_player_init.  Note that
-  this function is matched by game_remove_player() in game.c,
-  there is no corresponding player_free() in this file.
+  Initialise all player slots (= pointer to player pointers).
 ***************************************************************/
-void player_init(struct player *plr)
+void player_slots_init(void)
 {
   int i;
 
-  sz_strlcpy(plr->name, ANON_PLAYER_NAME);
-  sz_strlcpy(plr->username, ANON_USER_NAME);
-  sz_strlcpy(plr->ranked_username, ANON_USER_NAME);
-  plr->user_turns = 0;
-  plr->is_male = TRUE;
-  plr->government = NULL;
-  plr->target_government = NULL;
-  plr->nation = NO_NATION_SELECTED;
-  plr->team = NULL;
-  plr->is_ready = FALSE;
+  /* Init player slots. */
+  player_slots.pslots = fc_calloc(player_slot_count(),
+                                  sizeof(*player_slots.pslots));
+  /* Can't use the defined functions as the needed data will be
+   * defined here. */
+  for (i = 0; i < player_slot_count(); i++) {
+    const struct player **pslot = player_slots.pslots + i;
+    *pslot = NULL;
+  }
+  player_slots.used_slots = 0;
+}
 
-  plr->revolution_finishes = -1;
-  plr->city_style = 0;            /* should be first basic style */
-  plr->cities = city_list_new();
-  plr->units = unit_list_new();
+/***************************************************************
+  ...
+***************************************************************/
+bool player_slots_initialised(void)
+{
+  return (player_slots.pslots != NULL);
+}
 
-  plr->connections = conn_list_new();
-  plr->current_conn = NULL;
-  plr->is_connected = FALSE;
+/***************************************************************
+  Remove all player slots.
+***************************************************************/
+void player_slots_free(void)
+{
+  players_iterate(pplayer) {
+      player_clear(pplayer);
+      player_destroy(pplayer);
+  } players_iterate_end;
+  free(player_slots.pslots);
+  player_slots.pslots = NULL;
+  player_slots.used_slots = 0;
+}
 
-  plr->was_created = FALSE;
-  plr->nturns_idle = 0;
-  plr->is_alive=TRUE;
-  BV_CLR_ALL(plr->real_embassy);
+/****************************************************************************
+  ...
+****************************************************************************/
+struct player *player_new(int player_id)
+{
+  struct player *pplayer = NULL;
+
+  /* player_id == -1: select first free player slot */
+  fc_assert_ret_val(-1 <= player_id && player_id < player_slot_count(),
+                    NULL);
+
+  if (player_count() == player_slot_count()) {
+    log_normal("[%s] Can't create a new player: all player slots full!",
+               __FUNCTION__);
+    return NULL;
+  }
+
+  if (player_id == -1) {
+    /* no player position specified */
+    player_slots_iterate(pslot) {
+      if (!player_slot_is_used(pslot)) {
+        player_id = player_slot_index(pslot);
+        break;
+      }
+    } player_slots_iterate_end;
+
+    fc_assert_ret_val(player_id != -1, NULL);
+  }
+
+  fc_assert_ret_val(!player_slot_is_used(player_slot_by_number(player_id)),
+                    NULL);
+
+  /* now create the player */
+  log_debug("Create player for slot %d.", player_id);
+  pplayer = fc_calloc(1, sizeof(*pplayer));
+  /* save the player slot in the player struct ... */
+  pplayer->pslot = player_slot_by_number(player_id);
+  /* .. and the player in the player slot */
+  *pplayer->pslot = pplayer;
+
+  /* set default values */
+  player_defaults(pplayer);
+  /* increase number of players */
+  player_slots.used_slots++;
+
+  return pplayer;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static void player_defaults(struct player *pplayer)
+{
+  int i;
+
+  sz_strlcpy(pplayer->name, ANON_PLAYER_NAME);
+  sz_strlcpy(pplayer->username, ANON_USER_NAME);
+  sz_strlcpy(pplayer->ranked_username, ANON_USER_NAME);
+  pplayer->user_turns = 0;
+  pplayer->is_male = TRUE;
+  pplayer->government = NULL;
+  pplayer->target_government = NULL;
+  pplayer->nation = NO_NATION_SELECTED;
+  pplayer->team = NULL;
+  pplayer->is_ready = FALSE;
+  pplayer->nturns_idle = 0;
+  pplayer->is_alive = TRUE;
+
+  pplayer->revolution_finishes = -1;
+
+  BV_CLR_ALL(pplayer->real_embassy);
   for(i = 0; i < MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS; i++) {
-    player_diplstate_init(&plr->diplstates[i]);
+    player_diplstate_init(&pplayer->diplstates[i]);
   }
-  plr->ai = NULL;
-  plr->ai_data.control=FALSE;
-  BV_CLR_ALL(plr->ai_data.handicaps);
-  plr->ai_data.skill_level = 0;
-  plr->ai_data.fuzzy = 0;
-  plr->ai_data.expand = 100;
-  plr->ai_data.barbarian_type = NOT_A_BARBARIAN;
+  pplayer->city_style = 0;            /* should be first basic style */
+  pplayer->cities = city_list_new();
+  pplayer->units = unit_list_new();
 
-  plr->economic.gold = 0;
-  plr->economic.tax = PLAYER_DEFAULT_TAX_RATE;
-  plr->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
-  plr->economic.luxury = PLAYER_DEFAULT_LUXURY_RATE;
+  pplayer->economic.gold    = 0;
+  pplayer->economic.tax     = PLAYER_DEFAULT_TAX_RATE;
+  pplayer->economic.science = PLAYER_DEFAULT_SCIENCE_RATE;
+  pplayer->economic.luxury  = PLAYER_DEFAULT_LUXURY_RATE;
+  pplayer->economic = player_limit_to_max_rates(pplayer);
 
-  plr->economic = player_limit_to_max_rates(plr);
-  spaceship_init(&plr->spaceship);
+  spaceship_init(&pplayer->spaceship);
 
-  BV_CLR_ALL(plr->gives_shared_vision);
+  pplayer->ai_data.control = FALSE;
+  BV_CLR_ALL(pplayer->ai_data.handicaps);
+  pplayer->ai_data.skill_level = 0;
+  pplayer->ai_data.fuzzy = 0;
+  pplayer->ai_data.expand = 100;
+  pplayer->ai_data.barbarian_type = NOT_A_BARBARIAN;
 
+  pplayer->ai = NULL;
+  pplayer->was_created = FALSE;
+  pplayer->is_connected = FALSE;
+  pplayer->current_conn = NULL;
+  pplayer->connections = conn_list_new();
+  BV_CLR_ALL(pplayer->gives_shared_vision);
   for (i = 0; i < B_LAST; i++) {
-    plr->wonders[i] = WONDER_NOT_BUILT;
+    pplayer->wonders[i] = WONDER_NOT_BUILT;
   }
 
-  plr->attribute_block.data = NULL;
-  plr->attribute_block.length = 0;
-  plr->attribute_block_buffer.data = NULL;
-  plr->attribute_block_buffer.length = 0;
+  pplayer->attribute_block.data = NULL;
+  pplayer->attribute_block.length = 0;
+  pplayer->attribute_block_buffer.data = NULL;
+  pplayer->attribute_block_buffer.length = 0;
 
-  /* plr->server is initialised in server/playerhand.c:server_player_init() */
+  /* pplayer->server is initialised in
+   * server/plrhand.c:server_player_init() */
+}
+
+/****************************************************************************
+  Clear all player data
+****************************************************************************/
+void player_clear(struct player *pplayer)
+{
+  if (pplayer == NULL) {
+    return;
+  }
+
+  unit_list_iterate(pplayer->units, punit) {
+    game_remove_unit(punit);
+  } unit_list_iterate_end;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    game_remove_city(pcity);
+  } city_list_iterate_end;
+
+  team_remove_player(pplayer);
+
+  /* This comes last because log calls in the above functions may use it. */
+  if (pplayer->nation != NULL) {
+    player_set_nation(pplayer, NULL);
+  }
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+void player_destroy(struct player *pplayer)
+{
+  const struct player **pslot;
+
+  if (pplayer == NULL) {
+    return;
+  }
+
+  /* save player slot */
+  pslot = pplayer->pslot;
+
+  fc_assert_ret(*pslot == pplayer);
+
+  /* Remove all that is game-dependent in the player structure. */
+  if (pplayer->attribute_block.data) {
+    free(pplayer->attribute_block.data);
+  }
+
+  if (pplayer->attribute_block_buffer.data) {
+    free(pplayer->attribute_block_buffer.data);
+  }
+
+  unit_list_iterate(pplayer->units, punit) {
+    game_remove_unit(punit);
+  } unit_list_iterate_end;
+  fc_assert_ret(0 == unit_list_size(pplayer->units));
+  unit_list_destroy(pplayer->units);
+
+  city_list_iterate(pplayer->cities, pcity) {
+    game_remove_city(pcity);
+  } city_list_iterate_end;
+  fc_assert_ret(0 == city_list_size(pplayer->cities));
+  city_list_destroy(pplayer->cities);
+
+#if 0
+  fc_assert(conn_list_size(pplayer->connections) == 0);
+  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
+   * the caller to fix them.  This happens when /loading a game while a
+   * client is connected. */
+#endif
+  conn_list_destroy(pplayer->connections);
+
+  team_remove_player(pplayer);
+
+  /* This comes last because log calls in the above functions may use it. */
+  if (pplayer->nation != NULL) {
+    player_set_nation(pplayer, NULL);
+  }
+
+  free(pplayer);
+  *pslot = NULL;
+  player_slots.used_slots--;
 }
 
 /**************************************************************************
@@ -287,15 +463,7 @@ void player_init(struct player *plr)
 **************************************************************************/
 int player_count(void)
 {
-  return game.nplayers;
-}
-
-/**************************************************************************
-  Set the number of players.
-**************************************************************************/
-void set_player_count(int count)
-{
-  game.nplayers = count;
+  return player_slots.used_slots;
 }
 
 /**************************************************************************
@@ -315,7 +483,7 @@ int player_index(const struct player *pplayer)
 int player_number(const struct player *pplayer)
 {
   fc_assert_ret_val(NULL != pplayer, -1);
-  return pplayer - game.players;
+  return player_slot_index(pplayer->pslot);
 }
 
 /**************************************************************************
@@ -326,22 +494,20 @@ int player_number(const struct player *pplayer)
 **************************************************************************/
 struct player *player_by_number(const int player_id)
 {
-  return player_slot_by_number(player_id);
-}
+  const struct player **pslot;
 
-/**************************************************************************
-  Return pointer iff the player ID refers to an in-game player.
-**************************************************************************/
-struct player *valid_player_by_number(const int player_id)
-{
-  struct player *pslot;
+  if (player_id == -1) {
+    /* player_id == -1 is used by the network code. */
+    return NULL;
+  }
 
   pslot = player_slot_by_number(player_id);
 
   if (!player_slot_is_used(pslot)) {
     return NULL;
   }
-  return pslot;
+
+  return player_slot_get_player(pslot);
 }
 
 /****************************************************************************
@@ -396,11 +562,11 @@ const char *player_name(const struct player *pplayer)
   problem, and fills *result with characterisation of match/non-match
   (see shared.[ch])
 ***************************************************************/
-static const char *player_slot_name_by_number(int i)
+static const char *player_name_by_number(int i)
 {
   struct player *pplayer;
-  
-  pplayer = valid_player_by_number(i);
+
+  pplayer = player_by_number(i);
   return player_name(pplayer);
 }
 
@@ -412,13 +578,13 @@ struct player *find_player_by_name_prefix(const char *name,
 {
   int ind;
 
-  *result = match_prefix(player_slot_name_by_number,
-                         player_slot_count(), MAX_LEN_NAME-1,
+  *result = match_prefix(player_name_by_number,
+                         player_slot_count(), MAX_LEN_NAME - 1,
                          fc_strncasequotecmp, effectivestrlenquote,
                          name, &ind);
 
   if (*result < M_PRE_AMBIGUOUS) {
-    return valid_player_by_number(ind);
+    return player_by_number(ind);
   } else {
     return NULL;
   }
@@ -434,7 +600,7 @@ struct player *find_player_by_user(const char *name)
       return pplayer;
     }
   } players_iterate_end;
-  
+
   return NULL;
 }
 
@@ -798,8 +964,6 @@ bool ai_fuzzy(const struct player *pplayer, bool normal_decision)
   return !normal_decision;
 }
 
-
-
 /**************************************************************************
   Return a text describing an AI's love for you.  (Oooh, kinky!!)
   These words should be adjectives which can fit in the sentence
@@ -886,13 +1050,22 @@ bool pplayers_at_war(const struct player *pplayer,
 bool pplayers_allied(const struct player *pplayer,
                      const struct player *pplayer2)
 {
-  enum diplstate_type ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+  enum diplstate_type ds;
+
+  if (!pplayer || !pplayer2) {
+    return FALSE;
+  }
+
   if (pplayer == pplayer2) {
     return TRUE;
   }
+
   if (is_barbarian(pplayer) || is_barbarian(pplayer2)) {
     return FALSE;
   }
+
+  ds = pplayer_get_diplstate(pplayer, pplayer2)->type;
+
   return (ds == DS_ALLIANCE || ds == DS_TEAM);
 }
 
@@ -1128,39 +1301,58 @@ int number_of_ai_levels(void)
 ***************************************************************/
 int player_slot_count(void)
 {
-  return ARRAY_SIZE(game.players);
+  return (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+int player_slot_index(const struct player **pslot)
+{
+  fc_assert_ret_val(pslot != NULL, -1);
+
+  return pslot - player_slots.pslots;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+struct player *player_slot_get_player(const struct player **pslot)
+{
+  fc_assert_ret_val(pslot != NULL, NULL);
+
+  /* some magic casts */
+  return (struct player*) *pslot;
 }
 
 /***************************************************************
   Returns TRUE is this slot is "used" i.e. corresponds to a
   valid, initialized player that exists in the game.
 ***************************************************************/
-bool player_slot_is_used(const struct player *pslot)
+bool player_slot_is_used(const struct player **pslot)
 {
-  if (!pslot) {
+  /* No player slot available, if the game is not initialised. */
+  if (!player_slots_initialised()) {
     return FALSE;
   }
-  return pslot->used;
+
+  return (*pslot != NULL);
 }
 
 /***************************************************************
-  Set the 'used' status of the player slot.  
+  Return the possibly unused and uninitialized player slot, a
+  pointer to a pointer of the player struct.
 ***************************************************************/
-void player_slot_set_used(struct player *pslot, bool used)
+const struct player **player_slot_by_number(int player_id)
 {
-  if (!pslot) {
-    return;
-  }
-  pslot->used = used;
-}
+  const struct player **pslot;
 
-/***************************************************************
-  Return the possibly unused and uninitialized player slot.
-***************************************************************/
-struct player *player_slot_by_number(int player_id)
-{
-  if (!(0 <= player_id && player_id < player_slot_count())) {
+  if (!player_slots_initialised()
+      || !(0 <= player_id && player_id < player_slot_count())) {
     return NULL;
   }
-  return &game.players[player_id];
+
+  pslot = player_slots.pslots + player_id;
+
+  return pslot;
 }

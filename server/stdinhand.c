@@ -862,49 +862,35 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
     fc_snprintf(buf, buflen,
                 _("%s is replacing dead player %s as an AI-controlled "
                   "player."), name, player_name(pplayer));
+    /* remove player and thus free a player slot */
     server_remove_player(pplayer);
-    send_player_slot_info_c(pplayer, NULL);
-  }
-
-  /* [2] Check if there is an unused player slot. */
-  if (!pplayer) {
-    player_slots_iterate(pslot) {
-      if (!player_slot_is_used(pslot)) {
-        pplayer = pslot;
-        fc_snprintf(buf, buflen,
-                    _("%s has been added as an AI-controlled player."),
-                    name);
-        break;
-      }
-    } player_slots_iterate_end;
+    pplayer = NULL;
   }
 
   /* [3] All player slots are used; try to remove a dead player. */
-  if (!pplayer) {
+  if (player_count() == player_slot_count()) {
     players_iterate(aplayer) {
       if (!aplayer->is_alive) {
         fc_snprintf(buf, buflen,
                     _("%s is replacing dead player %s as an AI-controlled "
                       "player."), name, player_name(aplayer));
+        /* remove player and thus free a player slot */
         server_remove_player(aplayer);
-        send_player_slot_info_c(aplayer, NULL);
-        pplayer = aplayer;
       }
     } players_iterate_end;
   }
 
+  /* [2] Check if there is an unused player slot. */
+  pplayer = server_create_player(-1);
   if (!pplayer) {
     fc_snprintf(buf, buflen, _("Failed to create new player %s."), name);
     return C_FAIL;
   }
 
   /* We have a player; now initialise all needed data. */
-  player_slot_set_used(pplayer, TRUE);
-  set_player_count(player_count() + 1);
   aifill(game.info.aifill);
 
   /* Initialise player. */
-  player_init(pplayer);
   server_player_init(pplayer, TRUE, TRUE);
 
   player_set_nation(pplayer, pnation);
@@ -985,7 +971,7 @@ enum rfc_status create_command_pregame(const char *name, bool check,
 
   if (NULL == pplayer) {
     /* add new player */
-    pplayer = server_create_player();
+    pplayer = server_create_player(-1);
     if (!pplayer) {
       fc_snprintf(buf, buflen,
                   _("Failed to create new player %s."), name);
@@ -1050,7 +1036,6 @@ static bool remove_player(struct connection *caller, char *arg, bool check)
 
   sz_strlcpy(name, player_name(pplayer));
   server_remove_player(pplayer);
-  send_player_slot_info_c(pplayer, NULL);
   if (!caller || caller->used) {     /* may have removed self */
     cmd_reply(CMD_REMOVE, caller, C_OK,
 	      _("Removed player %s from the game."), name);
@@ -2261,7 +2246,7 @@ static void show_votes(struct connection *caller)
                 title, pvote->vote_no, pvote->cmdline,
                 MIN(100, pvote->need_pc * 100 + 1),
                 pvote->flags & VCF_NODISSENT ? _(" no dissent") : "",
-                pvote->yes, pvote->no, pvote->abstain, game.nplayers);
+                pvote->yes, pvote->no, pvote->abstain, player_count());
       count++;
     } vote_list_iterate_end;
   }
@@ -3615,11 +3600,6 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   server_game_free();
   server_game_init();
 
-  /* Tell clients that all players have been removed. */
-  player_slots_iterate(pslot) {
-    send_player_slot_info_c(pslot, NULL);
-  } player_slots_iterate_end;
-
   loadtimer = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   uloadtimer = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
@@ -4282,10 +4262,9 @@ bool start_command(struct connection *caller, bool check, bool notify)
         int i;
         struct player *pplayer;
         for (i = player_slot_count() - 1; i >= 0; i--) {
-          pplayer = valid_player_by_number(i);
+          pplayer = player_by_number(i);
           if (pplayer) {
             server_remove_player(pplayer);
-            send_player_slot_info_c(pplayer, NULL);
           }
           if (player_count() <= game.server.max_players) {
             break;
@@ -4970,15 +4949,23 @@ static char *olevel_generator(const char *text, int state)
 }
 
 /**************************************************************************
-The player names.
+  The player names.
 **************************************************************************/
 static const char *playername_accessor(int idx)
 {
-  return player_name(player_slot_by_number(idx));
+  const struct player **pslot = player_slot_by_number(idx);
+
+  if (!player_slot_is_used(pslot)) {
+    return NULL;
+  }
+
+  return player_name(player_slot_get_player(pslot));
 }
+
 static char *player_generator(const char *text, int state)
 {
-  return generic_generator(text, state, player_slot_count(), playername_accessor);
+  return generic_generator(text, state, player_slot_count(),
+                           playername_accessor);
 }
 
 /**************************************************************************
