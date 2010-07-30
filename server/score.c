@@ -107,6 +107,13 @@ static void print_landarea_map(struct claim_map *pcmap, int turn)
 {
   int p;
 
+  player_slots_iterate(pslot) {
+    if (player_slot_index(pslot) >= 32 && player_slot_is_used(pslot)) {
+      log_error("Debugging not possible! Player slots >= 32 are used.");
+      return;
+    }
+  } player_slots_iterate_end;
+
   if (turn == 0) {
     putchar('\n');
   }
