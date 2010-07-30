@@ -18,7 +18,7 @@
 
 #include "tech.h"
 
-#define MAX_NUM_TEAMS (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS)
+#define MAX_NUM_TEAMS  MAX_NUM_PLAYER_SLOTS
 
 struct team {
   Team_type_id item_number;

@@ -49,7 +49,7 @@ static int get_spaceship_score(const struct player *pplayer);
 struct claim_map {
   struct {
     int landarea, settledarea;
-  } player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  } player[MAX_NUM_PLAYER_SLOTS];
 };
 
 /**************************************************************************
@@ -384,7 +384,7 @@ void save_ppm(void)
 
   /* the colors for each player. these were selected to give
    * the most differentiation between all players. YMMV. */
-  int col[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][3] = {
+  int col[MAX_NUM_PLAYER_SLOTS][3] = {
     {255,   0,   0}, {  0, 128,   0}, {255, 255, 255}, {255, 255,   0},
     {138,  43, 226}, {255, 140,   0}, {  0, 255, 255}, {139,  69,  19},
     {211, 211, 211}, {255, 215,   0}, {255,  20, 147}, {124, 252,   0},

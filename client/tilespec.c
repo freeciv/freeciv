@@ -308,16 +308,16 @@ struct named_sprites {
       *selected[EDGE_COUNT],
       *coastline[EDGE_COUNT],
       *borders[EDGE_COUNT][2],
-      *player_borders[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS][EDGE_COUNT][2];
+      *player_borders[MAX_NUM_PLAYER_SLOTS][EDGE_COUNT][2];
   } grid;
   struct {
-    struct sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    struct sprite *player[MAX_NUM_PLAYER_SLOTS];
     struct sprite *background; /* Generic background */
   } backgrounds;
   struct {
     struct sprite_vector overlays;
     struct sprite *background; /* Generic background color */
-    struct sprite *player[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+    struct sprite *player[MAX_NUM_PLAYER_SLOTS];
   } colors;
 
   struct drawing_data *drawing[MAX_NUM_ITEMS];

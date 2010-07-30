@@ -50,7 +50,7 @@ enum handicap_type {
   H_LAST
 };
 
-BV_DEFINE(bv_player, MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+BV_DEFINE(bv_player, MAX_NUM_PLAYER_SLOTS);
 
 BV_DEFINE(bv_handicap, H_LAST);
 
@@ -120,7 +120,7 @@ struct player_ai {
   int warmth, frost; /* threat of global warming / nuclear winter */
   enum barbarian_type barbarian_type;
 
-  int love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  int love[MAX_NUM_PLAYER_SLOTS];
 };
 
 /* Diplomatic states (how one player views another).

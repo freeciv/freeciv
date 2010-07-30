@@ -1382,7 +1382,7 @@ int number_of_ai_levels(void)
 ***************************************************************/
 int player_slot_count(void)
 {
-  return (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS);
+  return (MAX_NUM_PLAYER_SLOTS);
 }
 
 /***************************************************************

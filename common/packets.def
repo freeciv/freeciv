@@ -645,7 +645,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   BOOL was_created;
   GOVERNMENT government;
   GOVERNMENT target_government;
-  BOOL real_embassy[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  BOOL real_embassy[MAX_NUM_PLAYER_SLOTS];
   UINT8 city_style;
   NATION nation;
   TEAM team;
@@ -654,7 +654,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   TURN nturns_idle;
   BOOL is_alive;
 
-  DIPLSTATE diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  DIPLSTATE diplstates[MAX_NUM_PLAYER_SLOTS];
   
   GOLD gold;
   PERCENT tax, science,luxury;
@@ -674,7 +674,7 @@ PACKET_PLAYER_INFO = 51; sc, is-info
   UINT8 barbarian_type;
   BV_PLAYER gives_shared_vision;
   STRING inventions[A_LAST+1];
-  SINT16 love[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  SINT16 love[MAX_NUM_PLAYER_SLOTS];
 
   CITY wonders[B_LAST]; diff
 end
@@ -1667,7 +1667,7 @@ PACKET_EDIT_PLAYER = 215; cs, handle-per-conn, lsend
 
   BOOL capital;
   BV_PLAYER embassy;
-  DIPLSTATE diplstates[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+  DIPLSTATE diplstates[MAX_NUM_PLAYER_SLOTS];
   UINT8 city_style;
   GOLD gold;
   PERCENT tax, science, luxury;

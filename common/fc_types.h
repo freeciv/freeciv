@@ -23,10 +23,10 @@
  * Nothing in this file should require anything else from the common/
  * directory! */
 
-/* MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS <= 32 !!!! */
-#define MAX_NUM_PLAYERS  126
+#define MAX_NUM_PLAYER_SLOTS 128
 #define MAX_NUM_BARBARIANS   2
-#define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS))
+#define MAX_NUM_PLAYERS      MAX_NUM_PLAYER_SLOTS - MAX_NUM_BARBARIANS
+#define MAX_NUM_CONNECTIONS (2 * (MAX_NUM_PLAYER_SLOTS))
 #define MAX_NUM_ITEMS   200     /* eg, unit_types */
 #define MAX_NUM_TECH_LIST 10
 #define MAX_NUM_UNIT_LIST 10

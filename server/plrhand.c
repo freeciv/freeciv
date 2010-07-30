@@ -81,7 +81,7 @@ static void send_player_info_c_real(struct player *src,
                                     struct conn_list *dest);
 
 /* Used by shuffle_players() and shuffled_player(). */
-static int shuffled_order[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS];
+static int shuffled_order[MAX_NUM_PLAYER_SLOTS];
 
 /**************************************************************************
   Send end-of-turn notifications relevant to specified dests.

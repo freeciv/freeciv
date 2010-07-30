@@ -796,7 +796,7 @@ void event_cache_save(struct section_file *file, const char *section)
 {
   struct tile *ptile;
   int event_count = 0;
-  char target[MAX_NUM_PLAYERS + MAX_NUM_BARBARIANS + 1];
+  char target[MAX_NUM_PLAYER_SLOTS + 1];
   char *p;
 
   /* stop event logging; this way events from log_*() will not be added
