@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-25 12:47-0700\n"
-"PO-Revision-Date: 2010-07-11 22:27+0200\n"
+"PO-Revision-Date: 2010-07-30 12:33+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7236,8 +7236,8 @@ msgid ""
 "Try 'show situational' or 'show rare' to show more options.\n"
 "Try 'show changed' to show settings with non-default values."
 msgstr ""
-"Intenta 'show situational' or 'show rare' per mostrar més opcions.\n"
-"Intenta 'show changed' per mostrar les opcions amb valors diferents del "
+"Prova 'show situational' o 'show rare' per mostrar més opcions.\n"
+"Prova 'show changed' per mostrar les opcions amb valors diferents del "
 "predeterminat."
 
 #: server/stdinhand.c:1936
@@ -29317,8 +29317,7 @@ msgstr "Kenyans"
 
 #: data/nation/kenyan.ruleset:6
 msgid "Kenya gained independence from Britain in December 1963."
-msgstr ""
-"Kenya va obtenir la independència de Gran Bretanya el Desembre de 1963."
+msgstr "Kenya va obtenir la independència de Gran Bretanya el desembre de 1963."
 
 #: data/nation/kenyan.ruleset:18
 msgid "Nabongo"
@@ -29829,7 +29828,7 @@ msgid ""
 "The Mayans were a Mesoamerican civilization. They are famous for building "
 "great pyramids and palaces in the jungle."
 msgstr ""
-"Els Maies foren una civilització mesoamericana, Són famosos per haver "
+"Els maies foren una civilització mesoamericana. Són famosos per haver "
 "construït grans palaus i piràmides enmig de la jungla. "
 
 #. TRANS: Ajaw = Lord
