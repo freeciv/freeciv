@@ -1175,7 +1175,10 @@ static int compare_file_mtime_ptrs(const void *a, const void *b)
   struct datafile * const *ppa = a;
   struct datafile * const *ppb = b;
 
-  return ((*ppa)->mtime < (*ppb)->mtime);
+  time_t ta = (*ppa)->mtime;
+  time_t tb = (*ppb)->mtime;
+
+  return ((ta < tb) ? 1 : (ta > tb) ? -1 : 0);
 }
 
 /**************************************************************************
