@@ -2813,7 +2813,8 @@ static void sg_load_players_basic(struct loaddata *loading)
   sg_failure_ret(string != NULL, "%s", secfile_error());
   sg_failure_ret(strlen(string) == loading->improvement.size,
                  "Invalid length for 'players.destroyed_wonders' "
-                 "(%lu ~= %lu)", strlen(string), loading->improvement.size);
+                 "(%lu ~= %lu)", (unsigned long) strlen(string),
+                 (unsigned long) loading->improvement.size);
   for (k = 0; k < loading->improvement.size; k++) {
     sg_failure_ret(string[k] == '1' || string[k] == '0',
                    "Undefined value '%c' within "
@@ -3290,7 +3291,8 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(string != NULL, "%s", secfile_error());
   sg_failure_ret(strlen(string) == loading->technology.size,
                  "Invalid length of 'player%d.technology' (%lu ~= %lu).",
-                 plrno, strlen(string), loading->technology.size);
+                 plrno, (unsigned long) strlen(string),
+                 (unsigned long) loading->technology.size);
   for (i = 0; i < loading->technology.size; i++) {
     sg_failure_ret(string[i] == '1' || string[i] == '0',
                    "Undefined value '%c' within 'player%d.technology'.",
@@ -3756,7 +3758,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   sg_warn_ret_val(string != NULL, FALSE, "%s", secfile_error());
   sg_warn_ret_val(strlen(string) == loading->improvement.size, FALSE,
                   "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, strlen(string), loading->improvement.size);
+                  citystr, (unsigned long) strlen(string),
+                  (unsigned long) loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
     sg_warn_ret_val(string[i] == '1' || string[i] == '0', FALSE,
                    "Undefined value '%c' within '%s.improvements'.",
@@ -4842,7 +4845,8 @@ static bool sg_load_player_vision_city(struct loaddata *loading,
   sg_warn_ret_val(string != NULL, FALSE, "%s", secfile_error());
   sg_warn_ret_val(strlen(string) == loading->improvement.size, FALSE,
                   "Invalid length of '%s.improvements' (%lu ~= %lu).",
-                  citystr, strlen(string), loading->improvement.size);
+                  citystr, (unsigned long) strlen(string),
+                  (unsigned long) loading->improvement.size);
   for (i = 0; i < loading->improvement.size; i++) {
     sg_warn_ret_val(string[i] == '1' || string[i] == '0', FALSE,
                     "Undefined value '%c' within '%s.improvements'.",
