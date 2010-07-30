@@ -25,6 +25,7 @@
 
 /* common */
 #include "game.h"
+#include "fc_types.h" /* bv_player */
 #include "unitlist.h"
 
 /* client */
@@ -45,7 +46,7 @@
 #include "gotodlg.h"
 
 static struct ADVANCED_DLG *pGotoDlg = NULL;
-static Uint32 all_players = 0;
+bv_player all_players;
 static bool GOTO = TRUE;
 
 static void update_goto_dialog(void);
@@ -70,7 +71,12 @@ static int exit_goto_dialog_callback(struct widget *pWidget)
 static int toggle_goto_nations_cities_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    all_players ^= (1u << player_index(player_by_number(MAX_ID - pWidget->ID)));
+    int plr_id = player_index(player_by_number(MAX_ID - pWidget->ID));
+    if (BV_ISSET(all_players, plr_id)) {
+      BV_CLR(all_players, plr_id);
+    } else {
+      BV_SET(all_players, plr_id);
+    }
     update_goto_dialog();
   }
   return -1;
@@ -122,8 +128,7 @@ static void update_goto_dialog(void)
   pLast = pAdd_Dock;
   
   players_iterate(pPlayer) {
-    
-    if (!TEST_BIT(all_players, player_index(pPlayer))) {
+    if (!BV_ISSET(all_players, player_index(pPlayer))) {
       continue;
     }
 
@@ -273,9 +278,9 @@ static void popup_goto_airlift_dialog(void)
     SDL_FillRectAlpha(pFlag, NULL, &bg_color);
     pDisabled = create_icon_theme_surf(pFlag);
     FREESURFACE(pFlag);
-    
+
     pBuf = create_checkbox(pWindow->dst,
-                           TEST_BIT(all_players, player_index(pPlayer)),
+                           BV_ISSET(all_players, player_index(pPlayer)),
                            WF_FREE_THEME | WF_RESTORE_BACKGROUND
                            | WF_WIDGET_HAS_INFO_LABEL);
     set_new_checkbox_theme(pBuf, pEnabled, pDisabled);
@@ -363,7 +368,8 @@ void popup_goto_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (player_index(client.conn.playing)));
+  BV_CLR_ALL(all_players);
+  BV_SET(all_players, player_index(client.conn.playing));
   popup_goto_airlift_dialog();
 }
 
@@ -375,7 +381,8 @@ void popup_airlift_dialog(void)
   if (!can_client_issue_orders() || 0 == get_num_units_in_focus()) {
     return;
   }
-  all_players = (1u << (player_index(client.conn.playing)));
+  BV_CLR_ALL(all_players);
+  BV_SET(all_players, player_index(client.conn.playing));
   GOTO = FALSE;
   popup_goto_airlift_dialog();
 }
