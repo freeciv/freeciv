@@ -326,7 +326,7 @@ void ggz_report_victory(void)
   }
 
   /* Assign teams.  First put players who are on teams. */
-  team_iterate(pteam) {
+  teams_iterate(pteam) {
     players_iterate(pplayer) {
       if (pplayer->team == pteam) {
 	int seat = get_seat_for_player(pplayer);
@@ -339,7 +339,7 @@ void ggz_report_victory(void)
       }
     } players_iterate_end;
     num_teams++;
-  } team_iterate_end;
+  } teams_iterate_end;
 
   /* Then assign team numbers for non-team players. */
   for (i = 0; i < num_players; i++) {

@@ -426,7 +426,6 @@ PACKET_GAME_INFO = 16; sc
   UINT8 notradesize;
   BOOL nuclear_winter;
   UINT32 nuclearwinter;
-  UINT8 num_teams;
   PHASE phase;
   UINT8 phase_mode;
   BOOL pillage_select;
@@ -439,7 +438,7 @@ PACKET_GAME_INFO = 16; sc
   UINT32 skill_level;
   BOOL slow_invasions;
   BOOL spacerace;
-  STRING team_names_orig[MAX_NUM_TEAMS:num_teams][MAX_LEN_NAME];
+  STRING team_names_orig[MAX_NUM_TEAM_SLOTS][MAX_LEN_NAME];
   UINT32 tech;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;

@@ -3052,8 +3052,8 @@ static void sg_load_player_main(struct loaddata *loading,
   int id, i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
-  struct team *pteam;
   struct ai_data *ai;
+  struct team *pteam;
   struct player_research *research;
   enum ai_level skill_level;
 
@@ -3100,12 +3100,14 @@ static void sg_load_player_main(struct loaddata *loading,
                                      "player%d.capital", plrno),
                  "%s", secfile_error());
 
-  /* All players should now have teams. */
+
+  /* Load team information. */
   id = secfile_lookup_int_default(loading->file, -1, "player%d.team_no",
                                   plrno);
-  pteam = team_by_number(id);
-  if (pteam == NULL) {
-    pteam = find_empty_team();
+  sg_failure_ret(0 <= id && id < team_slot_count(), "Invalid team "
+                 "definition for player %s.", player_name(plr));
+  if (!(pteam = team_by_number(id))) {
+    pteam = team_new(id);
   }
   team_add_player(plr, pteam);
 
@@ -3246,7 +3248,7 @@ static void sg_load_player_main(struct loaddata *loading,
   /* Add techs from game and nation, but ignore game.info.tech. */
   init_tech(plr, FALSE);
 
-  /* LOad research related data. */
+  /* Load research related data. */
   research = get_player_research(plr);
 
   research->tech_goal =

@@ -1612,7 +1612,6 @@ void handle_game_info(struct packet_game_info *pinfo)
   }
 
   VALIDATE(granary_num_inis,	MAX_GRANARY_INIS,	"granary entries");
-  VALIDATE(num_teams,		MAX_NUM_TEAMS,		"teams");
 #undef VALIDATE
 
   game.government_during_revolution =

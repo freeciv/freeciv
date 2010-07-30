@@ -411,7 +411,7 @@ void game_init(void)
   player_slots_init();
   map_init();
   game_ruleset_init();
-  teams_init();
+  team_slots_init();
   idex_init();
   cm_init();
 }
@@ -438,6 +438,7 @@ void game_free(void)
   player_slots_free();
   map_free();
   idex_free();
+  team_slots_free();
   game_ruleset_free();
   cm_free();
 }

@@ -159,7 +159,7 @@ static void check_misc(const char *file, const char *function, int line)
   SANITY_CHECK(nbarbs == server.nbarbarians);
 
   SANITY_CHECK(player_count() <= player_slot_count());
-  SANITY_CHECK(team_count() <= MAX_NUM_TEAMS);
+  SANITY_CHECK(team_count() <= MAX_NUM_TEAM_SLOTS);
 }
 
 /**************************************************************************
@@ -460,6 +460,7 @@ static void check_players(const char *file, const char *function, int line)
 
     SANITY_CHECK(pplayer->server.aidata != NULL);
     SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
+    SANITY_CHECK(player_list_search(pplayer->team->plrlist, pplayer));
 
     city_list_iterate(pplayer->cities, pcity) {
       if (is_capital(pcity)) {
@@ -503,6 +504,12 @@ static void check_players(const char *file, const char *function, int line)
   nations_iterate(pnation) {
     SANITY_CHECK(!pnation->player || pnation->player->nation == pnation);
   } nations_iterate_end;
+
+  teams_iterate(pteam) {
+    player_list_iterate(pteam->plrlist, pplayer) {
+      SANITY_CHECK(pplayer->team == pteam);
+    } player_list_iterate_end;
+  } teams_iterate_end;
 }
 
 /****************************************************************************
@@ -510,7 +517,7 @@ static void check_players(const char *file, const char *function, int line)
 ****************************************************************************/
 static void check_teams(const char *file, const char *function, int line)
 {
-  int count[MAX_NUM_TEAMS], i;
+  int count[MAX_NUM_TEAM_SLOTS];
 
   memset(count, 0, sizeof(count));
   players_iterate(pplayer) {
@@ -521,11 +528,14 @@ static void check_teams(const char *file, const char *function, int line)
     }
   } players_iterate_end;
 
-  for (i = 0; i < MAX_NUM_TEAMS; i++) {
-    struct team *t = team_by_number(i);
-    fc_assert_exit(t);
-    SANITY_CHECK(t->players == count[i]);
-  }
+  team_slots_iterate(tslot) {
+    if (team_slot_is_used(tslot)) {
+      struct team *pteam = team_slot_get_team(tslot);
+      fc_assert_exit(pteam);
+      SANITY_CHECK(player_list_size(pteam->plrlist)
+                   == count[team_slot_index(tslot)]);
+    }
+  } team_slots_iterate_end;
 }
 
 /**************************************************************************

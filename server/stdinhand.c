@@ -4782,24 +4782,23 @@ static void show_teams(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of teams:"));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
-  team_iterate(pteam) {
-    if (pteam->players > 1) {
+  teams_iterate(pteam) {
+    if (player_list_size(pteam->plrlist) > 1) {
       /* PL_() is needed here because some languages may differentiate
        * between 2 and 3 (although English does not). */
       cmd_reply(CMD_LIST, caller, C_COMMENT,
-		/* TRANS: There will always be at least 2 players here. */
-		PL_("%2d : '%s' : %d player",
-		    "%2d : '%s' : %d players",
-		    pteam->players),
-		team_index(pteam),
-		team_name_translation(pteam),
-		pteam->players);
+                /* TRANS: There will always be at least 2 players here. */
+                PL_("%2d : '%s' : %d player",
+                    "%2d : '%s' : %d players",
+                    player_list_size(pteam->plrlist)),
+                team_index(pteam), team_name_translation(pteam),
+                player_list_size(pteam->plrlist));
       players_iterate(pplayer) {
 	if (pplayer->team == pteam) {
 	  cmd_reply(CMD_LIST, caller, C_COMMENT, "  %s", player_name(pplayer));
 	}
       } players_iterate_end;
-    } else if (pteam->players == 1) {
+    } else if (player_list_size(pteam->plrlist) == 1) {
       struct player *teamplayer = NULL;
 
       players_iterate(pplayer) {
@@ -4815,11 +4814,8 @@ static void show_teams(struct connection *caller)
 		team_name_translation(pteam),
 		player_name(teamplayer));
     }
-  } team_iterate_end;
+  } teams_iterate_end;
 
-  cmd_reply(CMD_LIST, caller, C_COMMENT, " ");
-  cmd_reply(CMD_LIST, caller, C_COMMENT,
-	    _("Empty team: %s"), team_name_translation(find_empty_team()));
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 

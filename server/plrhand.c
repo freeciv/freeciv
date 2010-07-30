@@ -138,7 +138,7 @@ void kill_player(struct player *pplayer)
   cancel_all_meetings(pplayer);
 
   /* Show entire map for players who are *not* in a team. */
-  if (pplayer->team->players == 1) {
+  if (player_list_size(pplayer->team->plrlist) == 1) {
     map_know_and_see_all(pplayer);
   }
 
@@ -1031,7 +1031,7 @@ void server_player_init(struct player *pplayer,
     player_map_allocate(pplayer);
   }
   if (needs_team) {
-    team_add_player(pplayer, find_empty_team());
+    team_add_player(pplayer, NULL);
   }
 
   if (pplayer->ai && pplayer->ai->funcs.data_default) {

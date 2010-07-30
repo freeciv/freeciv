@@ -18,21 +18,31 @@
 
 #include "tech.h"
 
-#define MAX_NUM_TEAMS  MAX_NUM_PLAYER_SLOTS
+#define MAX_NUM_TEAM_SLOTS MAX_NUM_PLAYER_SLOTS
 
 struct team {
-  Team_type_id item_number;
-  int players; /* # of players on the team */
-  
   struct player_research research;
+  struct player_list *plrlist;
+  const struct team **tslot;
 };
 
 /* General team accessor functions. */
-Team_type_id team_count(void);
-Team_type_id team_index(const struct team *pteam);
-Team_type_id team_number(const struct team *pteam);
+void team_slots_init(void);
+bool team_slots_initialised(void);
+void team_slots_free(void);
+int team_slot_count(void);
+int team_slot_index(const struct team **tslot);
+struct team *team_slot_get_team(const struct team **tslot);
+bool team_slot_is_used(const struct team **tslot);
+const struct team **team_slot_by_number(int team_id);
 
-struct team *team_by_number(const Team_type_id id);
+struct team *team_new(int team_id);
+void team_destroy(struct team *pteam);
+int team_count(void);
+int team_index(const struct team *pteam);
+int team_number(const struct team *pteam);
+struct team *team_by_number(const int team_id);
+
 struct team *find_team_by_rule_name(const char *team_name);
 
 const char *team_rule_name(const struct team *pteam);
@@ -42,29 +52,27 @@ const char *team_name_translation(struct team *pteam);
 void team_add_player(struct player *pplayer, struct team *pteam);
 void team_remove_player(struct player *pplayer);
 
-struct team *find_empty_team(void);
+/* iterate over all team slots */
+#define team_slots_iterate(_tslot)                                          \
+  {                                                                         \
+    const struct team **_tslot;                                             \
+    int _tslot##_index = 0;                                                 \
+    if (team_slots_initialised()) {                                         \
+      for (; _tslot##_index < team_slot_count(); _tslot##_index++) {        \
+        _tslot = team_slot_by_number(_tslot##_index);
+#define team_slots_iterate_end                                              \
+      }                                                                     \
+    }                                                                       \
+  }
 
-/* Initialization and iteration */
-void teams_init(void);
-
-struct team *team_array_first(void);
-const struct team *team_array_last(void);
-
-/* This is different than other iterators.  It always does the entire
- * list, but skips unused entries.
- */
-#define team_iterate(_p)						\
-{									\
-  struct team *_p = team_array_first();					\
-  if (NULL != _p) {							\
-    for (; _p <= team_array_last(); _p++) {				\
-      if (_p->players == 0) {						\
-	continue;							\
-      }
-
-#define team_iterate_end						\
-    }									\
-  }									\
-}
+/* iterate over all teams, which are used at the moment */
+#define teams_iterate(_pteam)                                               \
+  team_slots_iterate(_tslot) {                                              \
+    if (!team_slot_is_used(_tslot)) {                                       \
+      continue;                                                             \
+    }                                                                       \
+    struct team *_pteam = team_slot_get_team(_tslot);
+#define teams_iterate_end                                                   \
+  } team_slots_iterate_end;
 
 #endif /* FC__TEAM_H */

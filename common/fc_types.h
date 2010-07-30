@@ -89,7 +89,6 @@ typedef int Tech_type_id;
 typedef enum output_type_id Output_type_id;
 typedef enum unit_activity Activity_type_id;
 typedef int Nation_type_id;
-typedef int Team_type_id;
 typedef int Unit_type_id;
 typedef int Base_type_id;
 

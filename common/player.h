@@ -366,6 +366,15 @@ void player_destroy(struct player *pplayer);
 #define players_iterate_end                                                 \
   } player_slots_iterate_end;
 
+/* get 'struct player_list' and related functions: */
+#define SPECLIST_TAG player
+#define SPECLIST_TYPE struct player
+#include "speclist.h"
+
+#define player_list_iterate(playerlist, pplayer)                            \
+  TYPED_LIST_ITERATE(struct player, playerlist, pplayer)
+#define player_list_iterate_end                                             \
+  LIST_ITERATE_END
 
 /* ai love values should be in range [-MAX_AI_LOVE..MAX_AI_LOVE] */
 #define MAX_AI_LOVE 1000

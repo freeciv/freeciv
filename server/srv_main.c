@@ -361,11 +361,11 @@ bool check_for_game_over(void)
   }
 
   /* quit if we have team victory */
-  team_iterate(pteam) {
+  teams_iterate(pteam) {
     bool win = TRUE; /* optimistic */
 
     /* Teams-of-one are handled below */
-    if (pteam->players == 1) {
+    if (player_list_size(pteam->plrlist) == 1) {
       continue;
     }
 
@@ -392,7 +392,7 @@ bool check_for_game_over(void)
       ggz_report_victory();
       return win; /* TRUE */
     }
-  } team_iterate_end;
+  } teams_iterate_end;
 
   /* quit if only one player is left alive */
   if (alive == 1) {

@@ -1387,9 +1387,9 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   }
 
   if (pplayer && game.info.is_new_game) {
-    const int count = pplayer->team ? pplayer->team->players : 0;
+    const int count = pplayer->team
+                      ? player_list_size(pplayer->team->plrlist) : 0;
     bool need_empty_team = (count != 1);
-    int index;
 
     entry = gtk_separator_menu_item_new();
     g_object_set_data_full(G_OBJECT(menu),
@@ -1398,11 +1398,11 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     gtk_container_add(GTK_CONTAINER(menu), entry);
 
     /* Can't use team_iterate here since it skips empty teams. */
-    for (index = 0; index < MAX_NUM_TEAMS; index++) {
-      struct team *pteam = team_by_number(index);
+    team_slots_iterate(tslot) {
+      struct team *pteam = team_slot_get_team(tslot);
       char text[128];
 
-      if (pteam->players == 0) {
+      if (player_list_size(pteam->plrlist) == 0) {
 	if (!need_empty_team) {
 	  continue;
 	}
@@ -1420,7 +1420,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       g_signal_connect(GTK_OBJECT(entry), "activate",
 		       GTK_SIGNAL_FUNC(conn_menu_team_chosen),
 		       pteam);
-    }
+    } team_slots_iterate_end;
   }
 
   conn_menu_player = pplayer;

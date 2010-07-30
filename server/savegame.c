@@ -2195,11 +2195,10 @@ static void player_load_main(struct player *plr, int plrno,
   /* All players should now have teams. This is not the case with
    * old savegames. */
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  pteam = team_by_number(id);
-  if (pteam == NULL) {
-    pteam = find_empty_team();
+  if (!(pteam = team_by_number(id))) {
+    /* If id is equal to -1 the player is added to the next empty team. */
+    pteam = team_new(id);
   }
-
   team_add_player(plr, pteam);
 
   research = get_player_research(plr);

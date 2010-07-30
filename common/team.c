@@ -28,46 +28,194 @@
 #include "player.h"
 #include "team.h"
 
+static struct {
+  const struct team **tslots;
+  int used_slots;
+} team_slots;
 
-static struct team teams[MAX_NUM_TEAMS];
+static void team_defaults(struct team *pteam);
+
+/***************************************************************
+  Initialise all team slots (= pointer to team pointers).
+***************************************************************/
+void team_slots_init(void)
+{
+  int i;
+
+  /* Init team slots. */
+  team_slots.tslots = fc_calloc(team_slot_count(),
+                                sizeof(*team_slots.tslots));
+  /* Can't use the defined functions as the needed data will be
+   * defined here. */
+  for (i = 0; i < team_slot_count(); i++) {
+    const struct team **tslot = team_slots.tslots + i;
+    *tslot = NULL;
+  }
+  team_slots.used_slots = 0;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+bool team_slots_initialised(void)
+{
+  return (team_slots.tslots != NULL);
+}
+
+/***************************************************************
+  Remove all team slots.
+***************************************************************/
+void team_slots_free(void)
+{
+  team_slots_iterate(tslot) {
+    team_destroy(team_slot_get_team(tslot));
+  } team_slots_iterate_end;
+  free(team_slots.tslots);
+  team_slots.tslots = NULL;
+  team_slots.used_slots = 0;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+int team_slot_count(void)
+{
+  return (MAX_NUM_TEAM_SLOTS);
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+int team_slot_index(const struct team **tslot)
+{
+  fc_assert_ret_val(team_slots_initialised(), -1);
+  fc_assert_ret_val(tslot != NULL, -1);
+
+  return tslot - team_slots.tslots;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+struct team *team_slot_get_team(const struct team **tslot)
+{
+  fc_assert_ret_val(team_slots_initialised(), NULL);
+  fc_assert_ret_val(tslot != NULL, NULL);
+
+  /* some magic casts */
+  return (struct team*) *tslot;
+}
+
+/***************************************************************
+  Returns TRUE is this slot is "used" i.e. corresponds to a
+  valid, initialized team that exists in the game.
+***************************************************************/
+bool team_slot_is_used(const struct team **tslot)
+{
+  /* No team slot available, if the game is not initialised. */
+  if (!team_slots_initialised()) {
+    return FALSE;
+  }
+
+  return (*tslot != NULL);
+}
+
+/***************************************************************
+  Return the possibly unused and uninitialized team slot, a
+  pointer to a pointer of the team struct.
+***************************************************************/
+const struct team **team_slot_by_number(int team_id)
+{
+  const struct team **tslot;
+
+  if (!team_slots_initialised()
+      || !(0 <= team_id && team_id < team_slot_count())) {
+    return NULL;
+  }
+
+  tslot = team_slots.tslots + team_id;
+
+  return tslot;
+}
 
 
 /****************************************************************************
-  Initializes team structure
+  ...
 ****************************************************************************/
-void teams_init(void)
+struct team *team_new(int team_id)
 {
-  Team_type_id i;
+  struct team *pteam = NULL;
 
-  for (i = 0; i < MAX_NUM_TEAMS; i++) {
-    /* mark as unused */
-    teams[i].item_number = i;
+  /* team_id == -1: select first free team slot */
+  fc_assert_ret_val(-1 <= team_id && team_id < team_slot_count(), NULL);
 
-    teams[i].players = 0;
-    player_research_init(&(teams[i].research));
+  if (team_count() == team_slot_count()) {
+    log_normal("[%s] Can't create a new team: all team slots full!",
+               __FUNCTION__);
+    return NULL;
   }
+
+  if (team_id == -1) {
+    /* no team position specified */
+    team_slots_iterate(tslot) {
+      if (!team_slot_is_used(tslot)) {
+        team_id = team_slot_index(tslot);
+        break;
+      }
+    } team_slots_iterate_end;
+
+    fc_assert_ret_val(team_id != -1, NULL);
+  }
+
+  fc_assert_ret_val(!team_slot_is_used(team_slot_by_number(team_id)), NULL);
+
+  /* now create the team */
+  log_debug("Create team for slot %d.", team_id);
+  pteam = fc_calloc(1, sizeof(*pteam));
+  /* save the team slot in the team struct ... */
+  pteam->tslot = team_slot_by_number(team_id);
+  /* .. and the team in the team slot */
+  *pteam->tslot = pteam;
+
+  /* set default values */
+  team_defaults(pteam);
+
+  /* increase number of teams */
+  team_slots.used_slots++;
+
+  return pteam;
 }
 
-/**************************************************************************
-  Return the first item of teams.
-**************************************************************************/
-struct team *team_array_first(void)
+/****************************************************************************
+  ...
+****************************************************************************/
+static void team_defaults(struct team *pteam)
 {
-  if (game.info.num_teams > 0) {
-    return teams;
-  }
-  return NULL;
+  player_research_init(&pteam->research);
+  pteam->plrlist = player_list_new();
 }
 
-/**************************************************************************
-  Return the last item of teams array.  Note this is different!
-**************************************************************************/
-const struct team *team_array_last(void)
+/****************************************************************************
+  ...
+****************************************************************************/
+void team_destroy(struct team *pteam)
 {
-  if (game.info.num_teams > 0) {
-    return &teams[MAX_NUM_TEAMS - 1];
+  const struct team **tslot;
+
+  if (pteam == NULL) {
+    return;
   }
-  return NULL;
+
+  fc_assert_ret(player_list_size(pteam->plrlist) == 0);
+
+  /* save team slot */
+  tslot = pteam->tslot;
+
+  fc_assert_ret(*tslot == pteam);
+
+  free(pteam);
+  *tslot = NULL;
+  team_slots.used_slots--;
 }
 
 /**************************************************************************
@@ -75,84 +223,62 @@ const struct team *team_array_last(void)
 **************************************************************************/
 int team_count(void)
 {
-  return game.info.num_teams;
+  return team_slots.used_slots;
 }
 
-/****************************************************************************
+/**************************************************************************
   Return the team index.
+**************************************************************************/
+int team_index(const struct team *pteam)
+{
+  return team_number(pteam);
+}
 
-  Currently same as team_number(), paired with team_count()
-  indicates use as an array index.
-****************************************************************************/
-Team_type_id team_index(const struct team *pteam)
+/**************************************************************************
+  Return the team index/number/id.
+**************************************************************************/
+int team_number(const struct team *pteam)
 {
   fc_assert_ret_val(NULL != pteam, -1);
-  return pteam - teams;
+  return team_slot_index(pteam->tslot);
 }
 
-/****************************************************************************
-  Return the team index.
-****************************************************************************/
-Team_type_id team_number(const struct team *pteam)
+/**************************************************************************
+  Return struct team pointer for the given team index.
+**************************************************************************/
+struct team *team_by_number(const int team_id)
 {
-  fc_assert_ret_val(NULL != pteam, -1);
-  return pteam->item_number;
-}
+  const struct team **tslot;
 
-/****************************************************************************
-  Return the team pointer for the given index
-****************************************************************************/
-struct team *team_by_number(const Team_type_id id)
-{
-  if (id < 0 || id >= game.info.num_teams) {
+  tslot = team_slot_by_number(team_id);
+
+  if (!team_slot_is_used(tslot)) {
     return NULL;
   }
-  return &teams[id];
+
+  return team_slot_get_team(tslot);
 }
 
 /****************************************************************************
-  Set a player to a team.  Removes the previous team affiliation if
-  necessary.
+ Does a linear search of game.info.team_names_orig[]
+ Returns NULL when none match.
 ****************************************************************************/
-void team_add_player(struct player *pplayer, struct team *pteam)
+struct team *find_team_by_rule_name(const char *team_name)
 {
-  fc_assert_ret(pplayer != NULL);
-  fc_assert_ret(pteam != NULL);
+  int i;
 
-  log_debug("Adding player %d/%s to team %s.", player_number(pplayer),
-            pplayer->username, team_rule_name(pteam));
+  fc_assert_ret_val(team_name != NULL, NULL);
 
-  /* Remove the player from the old team, if any.  The player's team should
-   * only be NULL for a few instants after the player was created; after
-   * that they should automatically be put on a team.  So although we
-   * check for a NULL case here this is only needed for that one
-   * situation. */
-  team_remove_player(pplayer);
+  /* Can't use team_iterate here since it skips unused teams. */
+  for (i = 0; i < team_slot_count(); i++) {
+    struct team *pteam = team_by_number(i);
 
-  /* Put the player on the new team. */
-  pplayer->team = pteam;
-  
-  pteam->players++;
-  fc_assert_ret(pteam->players <= player_slot_count());
-}
-
-/****************************************************************************
-  Remove the player from the team.  This should only be called when deleting
-  a player; since every player must always be on a team.
-
-  Note in some very rare cases a player may not be on a team.  It's safe
-  to call this function anyway.
-****************************************************************************/
-void team_remove_player(struct player *pplayer)
-{
-  if (pplayer->team) {
-    log_debug("Removing player %d/%s from team %s (%d)",
-              player_number(pplayer), pplayer->username,
-              team_rule_name(pplayer->team), pplayer->team->players);
-    pplayer->team->players--;
-    fc_assert(pplayer->team->players >= 0);
+    if (0 == fc_strcasecmp(team_rule_name(pteam), team_name)) {
+      return pteam;
+    }
   }
-  pplayer->team = NULL;
+
+  return NULL;
 }
 
 /****************************************************************************
@@ -168,57 +294,62 @@ const char *team_name_translation(struct team *pteam)
 ****************************************************************************/
 const char *team_rule_name(const struct team *pteam)
 {
-  if (!pteam) {
-    /* TRANS: missing value */
-    return N_("(none)");
-  }
+  fc_assert_ret_val(pteam != NULL, NULL);
   return game.info.team_names_orig[team_index(pteam)];
 }
 
 /****************************************************************************
- Does a linear search of game.info.team_names_orig[]
- Returns NULL when none match.
+  Set a player to a team.  Removes the previous team affiliation if
+  necessary.
 ****************************************************************************/
-struct team *find_team_by_rule_name(const char *team_name)
+void team_add_player(struct player *pplayer, struct team *pteam)
 {
-  int index;
+  fc_assert_ret(pplayer != NULL);
 
-  fc_assert_ret_val(team_name != NULL, NULL);
-  fc_assert_ret_val(game.info.num_teams <= MAX_NUM_TEAMS, NULL);
-
-  /* Can't use team_iterate here since it skips empty teams. */
-  for (index = 0; index < game.info.num_teams; index++) {
-    struct team *pteam = team_by_number(index);
-
-    if (0 == fc_strcasecmp(team_rule_name(pteam), team_name)) {
-      return pteam;
-    }
+  if (pteam == NULL) {
+    pteam = team_new(-1);
   }
 
-  return NULL;
+  fc_assert_ret(pteam != NULL);
+
+  if (pteam == pplayer->team) {
+    /* It is the team of the player. */
+    return;
+  }
+
+  log_debug("Adding player %d/%s to team %s.", player_number(pplayer),
+            pplayer->username, team_rule_name(pteam));
+
+  /* Remove the player from the old team, if any. */
+  team_remove_player(pplayer);
+
+  /* Put the player on the new team. */
+  pplayer->team = pteam;
+  player_list_append(pteam->plrlist, pplayer);
 }
 
 /****************************************************************************
-  Returns the most empty team available.  This is the team that should be
-  assigned to a newly-created player.
+  Remove the player from the team.  This should only be called when deleting
+  a player; since every player must always be on a team.
+
+  Note in some very rare cases a player may not be on a team.  It's safe
+  to call this function anyway.
 ****************************************************************************/
-struct team *find_empty_team(void)
+void team_remove_player(struct player *pplayer)
 {
-  Team_type_id i;
-  struct team *pbest = NULL;
+  struct team *pteam;
 
-  /* Can't use team_iterate here since it skips empty teams. */
-  for (i = 0; i < game.info.num_teams; i++) {
-    struct team *pteam = team_by_number(i);
+  if (pplayer->team) {
+    pteam = pplayer->team;
 
-    if (!pbest || pbest->players > pteam->players) {
-      pbest = pteam;
-    }
-    if (pbest->players == 0) {
-      /* No need to keep looking. */
-      return pbest;
+    log_debug("Removing player %d/%s from team %s (%d)",
+              player_number(pplayer), player_name(pplayer),
+              team_rule_name(pteam), player_list_size(pteam->plrlist));
+    player_list_remove(pteam->plrlist, pplayer);
+
+    if (player_list_size(pteam->plrlist) == 0) {
+      team_destroy(pteam);
     }
   }
-
-  return pbest;
+  pplayer->team = NULL;
 }
