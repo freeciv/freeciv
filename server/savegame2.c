@@ -3982,7 +3982,8 @@ static void sg_save_player_cities(struct savedata *saving,
     impr_buf[improvement_count()] = '\0';
     sg_failure_ret(strlen(impr_buf) < sizeof(impr_buf),
                    "Invalid size of the improvement vector (%s.improvements: "
-                   "%lu < %lu).", buf, strlen(impr_buf), sizeof(impr_buf));
+                   "%lu < %lu).", buf, (long unsigned int) strlen(impr_buf),
+                   (long unsigned int) sizeof(impr_buf));
     secfile_insert_str(saving->file, impr_buf, "%s.improvements", buf);
 
     worklist_save(saving->file, &pcity->worklist, wlist_max_length, "%s",
@@ -5005,7 +5006,8 @@ static void sg_save_player_vision(struct savedata *saving,
       impr_buf[improvement_count()] = '\0';
       sg_failure_ret(strlen(impr_buf) < sizeof(impr_buf),
                      "Invalid size of the improvement vector (%s.improvements: "
-                     "%lu < %lu).", buf, strlen(impr_buf), sizeof(impr_buf));
+                     "%lu < %lu).", buf, (long unsigned int) strlen(impr_buf),
+                     (long unsigned int) sizeof(impr_buf));
       secfile_insert_str(saving->file, impr_buf, "%s.improvements", buf);
       secfile_insert_str(saving->file, pdcity->name, "%s.name", buf);
 
