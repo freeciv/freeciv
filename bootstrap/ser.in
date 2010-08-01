@@ -21,7 +21,7 @@ if [ "x$FREECIV_PATH" = "x" ] ; then
   FREECIV_PATH=".@HOST_PATH_SEPARATOR@data@HOST_PATH_SEPARATOR@~/.freeciv"
 fi
 FREECIV_PATH="$FREECIV_PATH@HOST_PATH_SEPARATOR@@abs_top_builddir@/data@HOST_PATH_SEPARATOR@@abs_top_srcdir@/data"
-export $FREECIV_PATH
+export FREECIV_PATH
 
 [ -x $BUILDDIR/server/$EXENAME ] && EXE=$BUILDDIR/server/$EXENAME
 [ -x $BUILDDIR/$EXENAME ] && EXE=$BUILDDIR/$EXENAME
