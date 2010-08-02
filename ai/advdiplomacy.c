@@ -78,6 +78,10 @@ static bool diplomacy_verbose = TRUE;
 static void ai_incident_war(struct player *violator, struct player *victim);
 static void ai_incident_diplomat(struct player *violator, struct player *victim);
 static void ai_incident_nuclear(struct player *violator, struct player *victim);
+static void ai_incident_nuclear_not_target(struct player *violator,
+                                           struct player *victim);
+static void ai_incident_nuclear_self(struct player *violator,
+                                     struct player *victim);
 static void ai_incident_pillage(struct player *violator, struct player *victim);
 
 /**********************************************************************
@@ -1717,6 +1721,12 @@ void ai_incident(enum incident_type type, struct player *violator,
     case INCIDENT_NUCLEAR:
       ai_incident_nuclear(violator, victim);
       break;
+    case INCIDENT_NUCLEAR_NOT_TARGET:
+      ai_incident_nuclear_not_target(violator, victim);
+      break;
+    case INCIDENT_NUCLEAR_SELF:
+      ai_incident_nuclear_self(violator, victim);
+      break;
     case INCIDENT_LAST:
       /* Assert that always fails, but with meaningfull message */
       fc_assert(type != INCIDENT_LAST);
@@ -1725,36 +1735,47 @@ void ai_incident(enum incident_type type, struct player *violator,
 }
 
 /********************************************************************** 
-  Nuclear strike. Victim is whoever's territory was hit, and may be
-  NULL.
+  Nuclear strike against victim. Victim may be NULL.
 ***********************************************************************/
 static void ai_incident_nuclear(struct player *violator, struct player *victim)
 {
-  if (violator == victim) {
-    players_iterate(pplayer) {
-      if (!pplayer->ai_controlled) {
-        continue;
-      }
-
-      if (pplayer != violator) {
-        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
-      }
-    } players_iterate_end;
+  if (!victim->ai_controlled) {
     return;
-  } else {
-    players_iterate(pplayer) {
-      if (!pplayer->ai_controlled) {
-        continue;
-      }
-
-      if (pplayer != violator) {
-        pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
-        if (victim == pplayer) {
-          pplayer->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 5;
-        }
-      }
-    } players_iterate_end;
   }
+
+  if (violator == victim) {
+    return;
+  }
+
+  if (victim != NULL) {
+    victim->ai_common.love[player_index(violator)] -= 3 * MAX_AI_LOVE / 10;
+  }
+}
+
+/********************************************************************** 
+  Nuclear strike against someone else.
+***********************************************************************/
+static void ai_incident_nuclear_not_target(struct player *violator,
+                                           struct player *victim)
+{
+  if (!victim->ai_controlled) {
+    return;
+  }
+
+  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 10;
+}
+
+/********************************************************************** 
+  Somebody else than victim did nuclear strike against self.
+***********************************************************************/
+static void ai_incident_nuclear_self(struct player *violator,
+                                     struct player *victim)
+{
+  if (!victim->ai_controlled) {
+    return;
+  }
+
+  victim->ai_common.love[player_index(violator)] -= MAX_AI_LOVE / 20;
 }
 
 /********************************************************************** 

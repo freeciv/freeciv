@@ -2152,6 +2152,20 @@ void do_nuclear_explosion(struct player *pplayer, struct tile *ptile)
 
   call_incident(INCIDENT_NUCLEAR, pplayer, victim);
 
+  if (pplayer == victim) {
+    players_iterate(oplayer) {
+      if (victim != oplayer) {
+        call_incident(INCIDENT_NUCLEAR_SELF, pplayer, oplayer);
+      }
+    } players_iterate_end;
+  } else {
+    players_iterate(oplayer) {
+      if (victim != oplayer) {
+        call_incident(INCIDENT_NUCLEAR_NOT_TARGET, pplayer, oplayer);
+      }
+    } players_iterate_end;
+  }
+
   square_iterate(ptile, 1, ptile1) {
     do_nuke_tile(pplayer, ptile1);
   } square_iterate_end;

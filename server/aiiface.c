@@ -70,15 +70,12 @@ void ai_init(void)
 }
 
 /**************************************************************************
-  Call incident function of victim, or failing that, incident function
-  of violator.
+  Call incident function of victim.
 **************************************************************************/
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim)
 {
   if (victim && victim->ai->funcs.incident) {
     victim->ai->funcs.incident(type, violator, victim);
-  } else if (violator && violator->ai->funcs.incident) {
-    violator->ai->funcs.incident(type, violator, victim);
   }
 }
