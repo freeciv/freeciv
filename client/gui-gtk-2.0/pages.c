@@ -1134,7 +1134,7 @@ static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 {
   struct team *pteam = data;
 
-  if (pteam != conn_menu_player->team) {
+  if (pteam && pteam != conn_menu_player->team) {
     send_chat_printf("/team \"%s\" \"%s\"",
                      player_name(conn_menu_player),
                      team_name_get(pteam));
@@ -1401,6 +1401,11 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
     team_slots_iterate(tslot) {
       struct team *pteam = team_slot_get_team(tslot);
       char text[128];
+      const char *tname;
+
+      if (!pteam) {
+        continue;
+      }
 
       if (player_list_size(pteam->plrlist) == 0) {
 	if (!need_empty_team) {
@@ -1409,9 +1414,13 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 	need_empty_team = FALSE;
       }
 
+      tname = team_name_translation(pteam);
+      if (!tname) {
+        continue;
+      }
+
       /* TRANS: e.g., "Put on Team 5" */
-      fc_snprintf(text, sizeof(text), _("Put on %s"),
-                  team_name_translation(pteam));
+      fc_snprintf(text, sizeof(text), _("Put on %s"), tname);
       entry = gtk_menu_item_new_with_label(text);
       g_object_set_data_full(G_OBJECT(menu),
 			     team_name_get(pteam), entry,
