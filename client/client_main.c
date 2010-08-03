@@ -215,7 +215,10 @@ static void client_game_free(void)
   attribute_free();
   agents_free();
   game_free();
-  update_queue_free();
+  /* update_queue_init() is correct at this point. The queue is reset to
+     a clean state which is also needed if the client is not connected to
+     the server! */
+  update_queue_init();
 
   client.conn.playing = NULL;
   client.conn.observer = FALSE;
