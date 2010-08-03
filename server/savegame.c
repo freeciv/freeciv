@@ -44,12 +44,6 @@
 #include "version.h"
 
 /* server */
-#include "aicity.h"
-#include "aidata.h"
-#include "aiunit.h"
-
-#include "script.h"
-
 #include "barbarian.h"
 #include "citytools.h"
 #include "cityturn.h"
@@ -68,8 +62,15 @@
 #include "techtools.h"
 #include "unittools.h"
 
-/* generator */
+/* server/generator */
 #include "utilities.h"
+
+/* server/scripting */
+#include "script.h"
+
+/* ai */
+#include "aicity.h"
+#include "aidata.h"
 
 #include "savegame.h"
 

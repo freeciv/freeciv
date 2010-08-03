@@ -135,7 +135,6 @@
 /* ai */
 #include "aicity.h"
 #include "aidata.h"
-#include "aiunit.h"
 
 #include "savegame2.h"
 
