@@ -95,6 +95,8 @@ bool is_on_unit_upgrade_path(const struct unit_type *test,
 
 void update_simple_ai_types(void);
 
+bool enemies_at(struct unit *punit, struct tile *ptile);
+
 /* Call this after rulesets are loaded */
 void unit_class_ai_init(void);
 

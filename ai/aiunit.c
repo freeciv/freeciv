@@ -2575,6 +2575,55 @@ static void ai_manage_barbarian_leader(struct player *pplayer,
   } while (leader->moves_left > 0);
 }
 
+
+/**************************************************************************
+  Are there dangerous enemies at or adjacent to the tile 'ptile'?
+
+  N.B. This function should only be used by (cheating) AI, as it iterates
+  through all units stacked on the tiles, an info not normally available
+  to the human player.
+**************************************************************************/
+bool enemies_at(struct unit *punit, struct tile *ptile)
+{
+  int a = 0, d, db;
+  struct player *pplayer = unit_owner(punit);
+  struct city *pcity = tile_city(ptile);
+
+  if (pcity && pplayers_allied(city_owner(pcity), unit_owner(punit))
+      && !is_non_allied_unit_tile(ptile, pplayer)) {
+    /* We will be safe in a friendly city */
+    return FALSE;
+  }
+
+  /* Calculate how well we can defend at (x,y) */
+  db = 10 + tile_terrain(ptile)->defense_bonus / 10;
+  if (tile_has_special(ptile, S_RIVER)) {
+    db += (db * terrain_control.river_defense_bonus) / 100;
+  }
+  d = unit_def_rating_basic_sq(punit) * db;
+
+  adjc_iterate(ptile, ptile1) {
+    if (ai_handicap(pplayer, H_FOG)
+        && !map_is_known_and_seen(ptile1, unit_owner(punit), V_MAIN)) {
+      /* We cannot see danger at (ptile1) => assume there is none */
+      continue;
+    }
+    unit_list_iterate(ptile1->units, enemy) {
+      if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) 
+          && can_unit_attack_unit_at_tile(enemy, punit, ptile)
+          && can_unit_attack_all_at_tile(enemy, ptile)) {
+        a += unit_att_rating(enemy);
+        if ((a * a * 10) >= d) {
+          /* The enemies combined strength is too big! */
+          return TRUE;
+        }
+      }
+    } unit_list_iterate_end;
+  } adjc_iterate_end;
+
+  return FALSE; /* as good a quick'n'dirty should be -- Syela */
+}
+
 /*************************************************************************
   Updates the global array simple_ai_types.
 **************************************************************************/
