@@ -42,10 +42,6 @@ struct ai_type
     void (*unit_turn_end)(struct unit *punit);
     void (*unit_close)(struct unit *punit);
 
-    void (*auto_settlers)(struct player *pplayer);
-    void (*building_advisor_init)(struct player *pplayer);
-    void (*building_advisor)(struct city *pcity, struct ai_choice *choice);
-    enum unit_move_result (*auto_explorer)(struct unit *punit);
     void (*first_activities)(struct player *pplayer);
     void (*diplomacy_actions)(struct player *pplayer);
     void (*last_activities)(struct player *pplayer);

@@ -853,18 +853,16 @@ void advisor_choose_build(struct player *pplayer, struct city *pcity)
   struct ai_choice choice;
 
   /* See what AI has to say */
-  if (pplayer->ai->funcs.building_advisor) {
-    pplayer->ai->funcs.building_advisor(pcity, &choice);
+  ai_advisor_choose_building(pcity, &choice);
 
-    if (valid_improvement(choice.value.building)) {
-      struct universal target = {
-        .kind = VUT_IMPROVEMENT,
-        .value = {.building = choice.value.building}
-      };
+  if (valid_improvement(choice.value.building)) {
+    struct universal target = {
+      .kind = VUT_IMPROVEMENT,
+      .value = {.building = choice.value.building}
+    };
 
-      change_build_target(pplayer, pcity, target, E_IMP_AUTO);
-      return;
-    }
+    change_build_target(pplayer, pcity, target, E_IMP_AUTO);
+    return;
   }
 
   /* Build the first thing we can think of (except a new palace). */

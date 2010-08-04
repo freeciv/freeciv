@@ -2170,34 +2170,28 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
 **************************************************************************/
 void do_explore(struct unit *punit)
 {
-  struct player *owner = unit_owner(punit);
+  switch (ai_manage_explorer(punit)) {
+   case MR_DEATH:
+     /* don't use punit! */
+     return;
+   case MR_OK:
+     /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
+      * but don't count on this.  See PR#39792.
+      */
+     if (punit->activity == ACTIVITY_EXPLORE) {
+       break;
+     }
+     /* fallthru */
+   default:
+     unit_activity_handling(punit, ACTIVITY_IDLE);
 
-  if (owner->ai->funcs.auto_explorer) {
-    switch (owner->ai->funcs.auto_explorer(punit)) {
-      case MR_DEATH:
-        /* don't use punit! */
-        return;
-      case MR_OK:
-        /* FIXME: ai_manage_explorer() isn't supposed to change the activity,
-         * but don't count on this.  See PR#39792.
-         */
-        if (punit->activity == ACTIVITY_EXPLORE) {
-          break;
-        }
-        /* fallthru */
-      default:
-        unit_activity_handling(punit, ACTIVITY_IDLE);
-
-        /* FIXME: When the ai_manage_explorer() call changes the activity from
-         * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
-         * alone.  We reset it here.  See PR#12931. */
-        punit->ai_controlled = FALSE;
-        break;
-    };
-  } else {
-    unit_activity_handling(punit, ACTIVITY_IDLE);
-    punit->ai_controlled = FALSE;
+     /* FIXME: When the ai_manage_explorer() call changes the activity from
+      * EXPLORE to IDLE, in unit_activity_handling() ai.control is left
+      * alone.  We reset it here.  See PR#12931. */
+     punit->ai_controlled = FALSE;
+     break;
   }
+
   send_unit_info(NULL, punit); /* probably duplicate */
 }
 
