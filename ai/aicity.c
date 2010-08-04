@@ -2001,7 +2001,6 @@ void ai_city_init(struct city *pcity)
   ai_city_update(pcity);
 
   pcity->server.ai->building_wait = BUILDING_WAIT_MINIMUM;
-  pcity->server.ai->trade_want = 1; /* we always want some TRADE_WEIGHTING */
 }
 
 /**************************************************************************

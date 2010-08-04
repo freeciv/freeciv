@@ -61,8 +61,8 @@
 
 #include "cm.h"
 
+/* ai */
 #include "advdomestic.h"
-#include "aicity.h"
 #include "aidata.h"
 #include "ailog.h"
 #include "aitools.h"
@@ -129,16 +129,11 @@ void city_refresh(struct city *pcity)
   pcity->server.needs_refresh = FALSE;
   city_units_upkeep(pcity); /* update unit upkeep */
   city_refresh_from_main_map(pcity, NULL);
-
-   /* AI would calculate this 1000 times otherwise; better to do it
-      once -- Syela */
-   pcity->server.ai->trade_want
-     = TRADE_WEIGHTING - city_waste(pcity, O_TRADE, TRADE_WEIGHTING);
 }
 
 /**************************************************************************
-...
-called on government change or wonder completion or stuff like that -- Syela
+  Called on government change or wonder completion or stuff like that
+  -- Syela
 **************************************************************************/
 void city_refresh_for_player(struct player *pplayer)
 {

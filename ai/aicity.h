@@ -87,7 +87,6 @@ struct ai_city {
   int founder_turn;             /* only recalculate every Nth turn */
   int founder_want;
   int settler_want;
-  int trade_want;               /* saves a zillion calculations */
 
   /* Used for caching change in value from a worker performing
    * a particular activity on a particular tile. */
