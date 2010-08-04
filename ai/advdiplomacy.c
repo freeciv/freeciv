@@ -46,7 +46,7 @@
 #include "notify.h"
 
 /* server/advisors */
-#include "autosettlers.h"  /* amortize */
+#include "advtools.h"
 
 /* ai */
 #include "aicity.h"

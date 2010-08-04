@@ -56,6 +56,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advtools.h"
 #include "autosettlers.h"
 
 /* ai */

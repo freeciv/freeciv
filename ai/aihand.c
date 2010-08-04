@@ -42,7 +42,7 @@
 #include "unithand.h"
 
 /* server/advisors */
-#include "autosettlers.h" /* amortize */
+#include "advtools.h"
 
 /* ai */
 #include "advmilitary.h"

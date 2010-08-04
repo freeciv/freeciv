@@ -55,6 +55,8 @@
 #include "unittools.h"
 
 /* advisors */
+#include "advtools.h"
+
 #include "autosettlers.h"
 
 /* This factor is multiplied on when calculating the want.  This is done
@@ -117,22 +119,6 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   init_choice(&pcity->server.ai->choice);
 
   return TRUE;
-}
-
-/**************************************************************************
-  Amortize means gradually paying off a cost or debt over time. In freeciv
-  terms this means we calculate how much less worth something is to us
-  depending on how long it will take to complete.
-
-  This is based on a global interest rate as defined by the MORT value.
-**************************************************************************/
-int amortize(int benefit, int delay)
-{
-  double discount = 1.0 - 1.0 / ((double)MORT);
-
-  /* Note there's no rounding here.  We could round but it would probably
-   * be better just to return (and take) a double for the benefit. */
-  return benefit * pow(discount, delay);
 }
 
 /**************************************************************************

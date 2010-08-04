@@ -36,7 +36,7 @@
 #include "unittools.h"
 
 /* server/advisors */
-#include "autosettlers.h"
+#include "advtools.h"
 
 /* ai */
 #include "aicity.h"
