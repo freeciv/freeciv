@@ -7,13 +7,17 @@ conflicts_with="quebecois", "inuit"
 legend=_("Geographically, Canada is the second largest country in world.\
  The magnetic north pole currently lies on Canadian territory.")
 leader=
- "Pierre Trudeau",
+ "Laura Secord",
  "John A. MacDonald",
+ "Nellie McClung",
+ "William Lyon Mackenzie King",
  "John Diefenbaker",
- "Mackenzie King",
+ "Tommy Douglas",
+ "Lester B. Pearson",
+ "Pierre Trudeau",
  "Brian Mulroney",
  "Kim Campbell"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+leader_sex="Female", "Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="canada"
 flag_alt = "united_kingdom"
 city_style = "Celtic"
