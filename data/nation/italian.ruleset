@@ -26,8 +26,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="roman"
-civilwar_nations="romanian", "swiss"
-; Removed "kenyan": No relation?
+civilwar_nations="venetian", "swiss"
 
 cities =
   "Roma", "Milano", "Napoli", "Venezia", "Genova", "Modena",

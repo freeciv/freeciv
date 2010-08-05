@@ -228,6 +228,7 @@ artists = "
    Uyghur		Daniel Markstedt
    Uzbekistan		Zachary Harden
    Vampire		Ann Barcomb
+   Venice		Daniel Markstedt
    Venezuela		Zachary Harden et.al.
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
@@ -460,6 +461,7 @@ sprites =
 		"f.uzbekistan", "flags/uzbekistan"
 		"f.vampire", "flags/vampire"
 		"f.venezuela", "flags/venezuela"
+		"f.venice", "flags/venice"
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
 		"f.wales", "flags/wales"

@@ -213,6 +213,7 @@ pkgdata_DATA = \
 		uyghur.ruleset \
 		uzbek.ruleset \
 		vampire.ruleset \
+		venetian.ruleset \
 		venezuelan.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \
