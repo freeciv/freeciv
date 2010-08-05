@@ -38,6 +38,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "plrhand.h"
+#include "sernet.h"
 #include "spacerace.h"
 #include "unithand.h"
 
@@ -452,6 +453,8 @@ void ai_do_first_activities(struct player *pplayer)
   /* STOP.  Everything else is at end of turn. */
 
   TIMING_LOG(AIT_ALL, TIMER_STOP);
+
+  flush_packets(); /* AIs can be such spammers... */
 }
 
 /**************************************************************************

@@ -66,24 +66,24 @@ static struct treaty_list *treaties = NULL;
 #define TURNS_LEFT 16
 
 /**************************************************************************
-  Calls treaty_evaluate function if such is set for AI player                           
+  Calls treaty_evaluate function if such is set for AI player.    
 **************************************************************************/
 static void call_treaty_evaluate(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai_controlled && pplayer->ai->funcs.treaty_evaluate) {
-    pplayer->ai->funcs.treaty_evaluate(pplayer, aplayer, ptreaty);
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(treaty_evaluate, pplayer, pplayer, aplayer, ptreaty);
   }
 }
 
 /**************************************************************************
-  Calls treaty_accepted function if such is set for AI player
+  Calls treaty_accepted function if such is set for AI player.
 **************************************************************************/
 static void call_treaty_accepted(struct player *pplayer, struct player *aplayer,
                                  struct Treaty *ptreaty)
 {
-  if (pplayer->ai_controlled && pplayer->ai->funcs.treaty_accepted) {
-    pplayer->ai->funcs.treaty_accepted(pplayer, aplayer, ptreaty);
+  if (pplayer->ai_controlled) {
+    CALL_PLR_AI_FUNC(treaty_accepted, pplayer, pplayer, aplayer, ptreaty);
   }
 }
 

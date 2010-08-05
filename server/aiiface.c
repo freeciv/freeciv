@@ -46,7 +46,5 @@ void ai_init(void)
 void call_incident(enum incident_type type, struct player *violator,
                    struct player *victim)
 {
-  if (victim && victim->ai->funcs.incident) {
-    victim->ai->funcs.incident(type, violator, victim);
-  }
+  CALL_PLR_AI_FUNC(incident, victim, type, violator, victim);
 }

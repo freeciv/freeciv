@@ -660,10 +660,7 @@ static void ai_start_phase(void)
 {
   phase_players_iterate(pplayer) {
     if (pplayer->ai_controlled) {
-      if (pplayer->ai->funcs.first_activities) {
-        pplayer->ai->funcs.first_activities(pplayer);
-        flush_packets(); /* AIs can be such spammers... */
-      }
+      CALL_PLR_AI_FUNC(first_activities, pplayer, pplayer);
     }
   } phase_players_iterate_end;
   kill_dying_players();
@@ -804,9 +801,7 @@ static void begin_phase(bool is_new_phase)
     /* Try to avoid hiding events under a diplomacy dialog */
     phase_players_iterate(pplayer) {
       if (pplayer->ai_controlled && !is_barbarian(pplayer)) {
-        if (pplayer->ai->funcs.diplomacy_actions) {
-          pplayer->ai->funcs.diplomacy_actions(pplayer);
-        }
+        CALL_PLR_AI_FUNC(diplomacy_actions, pplayer, pplayer);
       }
     } phase_players_iterate_end;
 
@@ -866,18 +861,16 @@ static void end_phase(void)
   /* AI end of turn activities */
   players_iterate(pplayer) {
     unit_list_iterate(pplayer->units, punit) {
-      if (pplayer->ai->funcs.unit_turn_end) {
-        pplayer->ai->funcs.unit_turn_end(punit);
-      }
+      CALL_PLR_AI_FUNC(unit_turn_end, pplayer, punit);
     } unit_list_iterate_end;
   } players_iterate_end;
   phase_players_iterate(pplayer) {
-    if (pplayer->ai_controlled && pplayer->ai->funcs.before_auto_settlers) {
-      pplayer->ai->funcs.before_auto_settlers(pplayer);
+    if (pplayer->ai_controlled) {
+      CALL_PLR_AI_FUNC(before_auto_settlers, pplayer, pplayer);
     }
     auto_settlers_player(pplayer);
-    if (pplayer->ai_controlled && pplayer->ai->funcs.last_activities) {
-      pplayer->ai->funcs.last_activities(pplayer);
+    if (pplayer->ai_controlled) {
+      CALL_PLR_AI_FUNC(last_activities, pplayer, pplayer);
     }
   } phase_players_iterate_end;
 
@@ -2369,9 +2362,7 @@ static void srv_ready(void)
   } else {
     players_iterate(pplayer) {
       /* Initialize this again to be sure */
-      if (pplayer->ai && pplayer->ai->funcs.data_default) {
-        pplayer->ai->funcs.data_default(pplayer);
-      }
+      CALL_PLR_AI_FUNC(data_default, pplayer, pplayer);
     } players_iterate_end;
   }
 

@@ -393,13 +393,10 @@ void unit_change_homecity_handling(struct unit *punit, struct city *new_pcity)
     vision_free(punit->server.vision);
 
     /* Remove AI control of the old owner. */
-    if (punit->owner->ai && punit->owner->ai->funcs.unit_close) {
-      punit->owner->ai->funcs.unit_close(punit);
-    }
+    CALL_PLR_AI_FUNC(unit_close, punit->owner, punit);
+
     /* Activate AI control of the new owner. */
-    if (new_owner->ai && new_owner->ai->funcs.unit_init) {
-      new_owner->ai->funcs.unit_init(punit);
-    }
+    CALL_PLR_AI_FUNC(unit_init, new_owner, punit);
 
     unit_list_remove(old_owner->units, punit);
     unit_list_prepend(new_owner->units, punit);

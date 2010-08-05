@@ -1085,9 +1085,7 @@ struct conn_list *player_reply_dest(struct player *pplayer)
 **************************************************************************/
 static void call_first_contact(struct player *pplayer, struct player *aplayer)
 {
-  if (pplayer->ai->funcs.first_contact) {
-    pplayer->ai->funcs.first_contact(pplayer, aplayer);
-  }
+  CALL_PLR_AI_FUNC(first_contact, pplayer, pplayer, aplayer);
 }
 
 /****************************************************************************
@@ -1119,9 +1117,7 @@ void server_player_init(struct player *pplayer,
     team_add_player(pplayer, NULL);
   }
 
-  if (pplayer->ai && pplayer->ai->funcs.data_default) {
-    pplayer->ai->funcs.data_default(pplayer);
-  }
+  CALL_PLR_AI_FUNC(data_default, pplayer, pplayer);
 }
 
 /********************************************************************** 
@@ -1141,9 +1137,7 @@ struct player *server_create_player(int player_id)
 
   pplayer->ai = get_ai_type(AI_DEFAULT);
 
-  if (pplayer->ai && pplayer->ai->funcs.data_init) {
-    pplayer->ai->funcs.data_init(pplayer);
-  }
+  CALL_PLR_AI_FUNC(data_init, pplayer, pplayer);
 
   server_player_init(pplayer, FALSE, FALSE);
 
@@ -1199,9 +1193,7 @@ void server_remove_player(struct player *pplayer)
   player_clear(pplayer);
 
   /* Destroy ai data. */
-  if (pplayer->ai && pplayer->ai->funcs.data_close) {
-    pplayer->ai->funcs.data_close(pplayer);
-  }
+  CALL_PLR_AI_FUNC(data_close, pplayer, pplayer);
   player_destroy(pplayer);
 
   send_updated_vote_totals(NULL);

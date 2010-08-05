@@ -65,4 +65,13 @@ do { \
 #define ai_type_iterate_end \
   } while (FALSE);
 
+/* FIXME: This should also check if player is ai controlled */
+#define CALL_PLR_AI_FUNC(_func, _player, ...) \
+  do { \
+  struct player *plr = _player; /* _player expanded just once */ \
+  if (plr && plr->ai && plr->ai->funcs._func) { \
+    plr->ai->funcs._func( __VA_ARGS__ ); \
+  } \
+} while (FALSE)
+
 #endif  /* FC__AI_H */
