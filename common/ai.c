@@ -23,7 +23,7 @@
 /* common */
 #include "ai.h"
 
-static struct ai_type default_ai;
+static struct ai_type ai_types[1];
 
 /***************************************************************
   Returns ai_type of given id. Currently only one ai_type,
@@ -33,7 +33,7 @@ struct ai_type *get_ai_type(int id)
 {
   fc_assert(id == AI_DEFAULT);
 
-  return &default_ai;
+  return &ai_types[id];
 }
 
 /***************************************************************
@@ -42,4 +42,12 @@ struct ai_type *get_ai_type(int id)
 void init_ai(struct ai_type *ai)
 {
   memset(ai, 0, sizeof(*ai));
+}
+
+/***************************************************************
+  Returns id of the given ai_type.
+***************************************************************/
+int ai_type_number(const struct ai_type *ai)
+{
+  return ai - ai_types;
 }
