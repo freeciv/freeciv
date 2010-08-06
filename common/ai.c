@@ -32,7 +32,7 @@ static struct ai_type default_ai;
 ***************************************************************/
 struct ai_type *get_ai_type(int id)
 {
-  assert(id == AI_DEFAULT);
+  assert(id == FC_AI_DEFAULT);
 
   return &default_ai;
 }

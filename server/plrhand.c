@@ -1014,7 +1014,7 @@ static void call_first_contact(struct player *pplayer, struct player *aplayer)
 void server_player_init(struct player *pplayer,
 			bool initmap, bool needs_team)
 {
-  pplayer->ai = get_ai_type(AI_DEFAULT);
+  pplayer->ai = get_ai_type(FC_AI_DEFAULT);
 
   if (initmap) {
     player_map_allocate(pplayer);

@@ -13,7 +13,7 @@
 #ifndef FC__AI_H
 #define FC__AI_H
 
-#define AI_DEFAULT 1
+#define FC_AI_DEFAULT 1
 
 struct Treaty;
 struct player;
@@ -53,7 +53,7 @@ void init_ai(struct ai_type *ai);
 
 #define ai_type_iterate(NAME_ai) \
 do { \
-  struct ai_type *NAME_ai = get_ai_type(AI_DEFAULT);
+  struct ai_type *NAME_ai = get_ai_type(FC_AI_DEFAULT);
 
 #define ai_type_iterate_end \
   } while (FALSE);
