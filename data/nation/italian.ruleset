@@ -8,35 +8,142 @@ legend=_("The Italian nation was unified in 1870 AD after decades of\
  House of Savoy until 1922, then a fascist state until 1945 after which\
  democracy was restored by the World War II victors.")
 leader =
+ "Camillo Benso di Cavour",
+ "Bettino Ricasoli",
+ "Marco Minghetti",
+ "Luigi Federico Menabrea",
+ "Giovanni Lanza",
+ "Agostino Depretis",
+ "Francesco Crispi",
+ "Giovanni Giolitti",
+ "Luigi Pelloux",
+ "Antonio Salandra",
+ "Vittorio Emanuele Orlando",
+ "Francesco Saverio Nitti",
+ "Luigi Facta",
+ "Benito Mussolini",
+ "Pietro Badoglio",
+ "Alcide De Gasperi",
+ "Vittorio Emanuele II",
+ "Umberto I",
+ "Vittorio Emanuele III",
+ "Elena del Montenegro",
+ "Umberto II",
  "Giuseppe Garibaldi",
  "Giuseppe Mazzini",
  "Palmiro Togliatti",
- "Giacomo Matteotti",
- "Benito Mussolini",
- "Vittorio Emanuele II"
-leader_sex = "Male", "Male", "Male",
-             "Male", "Male", "Male"
+ "Giacomo Matteotti"
+
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Female", "Male", "Male", "Male", "Male", "Male"
 flag = "italy"
 flag_alt = "-"
 city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",       "female_title"
+                 "Despotism",       _("Duce"),         _("?female:Duce")
+                 "Democracy",      _("President"),   _("?female:President")
+                 "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
+                 "Communism",_("First Secretary"),_("?female:First Secretary")
+               }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
 
+civilwar_nations="swiss", "austrian", "venetian"
 conflicts_with="roman"
-civilwar_nations="venetian", "swiss"
 
 cities =
-  "Roma", "Milano", "Napoli", "Venezia", "Genova", "Modena",
-  "Foggia", "Bari", "Lecce", "Perugia", "Rimini", "Bolzano",
-  "Chioggia", "Udine", "Bergamo", "Cremona", "Ferrara",
-  "Prato", "Grosseto", "Latina", "Trani", "Lecce", "Salerno",
-  "Crotone", "Firenze", "Bologna", "Torino", "La Spezia", "Pisa",
-  "Padova", "Cagliari", "Palermo", "Messina", "Teramo", "Ancona", 
-  "Sondrio", "Sassari", "Frascati", "Ostia", "Amalfi", "Grosseto", 
-  "Viterbo", "Benevento", "Aosta", "Campobasso", "Potenza", "Trieste", 
-  "Brindisi", "Legnano", "Parma", "Enna", "Catania", "Catanzaro", "Pavia",
-  "Asti", "Cuneo", "Massa", "Carrara", "Pordenone", "Civitavecchia", 
-  "Caserta"
+  "Roma",
+  "Milano",
+  "Napoli",
+  "Torino",
+  "Palermo",
+  "Genova",
+  "Bologna",
+  "Firenze",
+  "Bari",
+  "Catania",
+  "Venezia",
+  "Verona",
+  "Messina",
+  "Padova",
+  "Trieste",
+  "Taranto",
+  "Brescia",
+  "Prato",
+  "Reggio Calabria",
+  "Parma",
+  "Modena",
+  "Reggio Emilia",
+  "Perugia",
+  "Livorno",
+  "Ravenna",
+  "Cagliari",
+  "Foggia",
+  "Rimini",
+  "Salerno",
+  "Ferrara",
+  "Sassari",
+  "Siracusa",
+  "Pescara",
+  "Monza",
+  "Latina",
+  "Bergamo",
+  "Forlì",
+  "Vicenza",
+  "Trento",
+  "Terni",
+  "Novara",
+  "Bolzano",
+  "Piacenza",
+  "Ancona",
+  "Andria",
+  "Arezzo",
+  "Udine",
+  "La Spezia",
+  "Lecce",
+  "Pesaro",
+  "Alessandria",
+  "Barletta",
+  "Catanzaro",
+  "Pistoia",
+  "Brindisi",
+  "Pisa",
+  "Como",
+  "Lucca",
+  "Treviso",
+  "Varese",
+  "Grosseto",
+  "Caserta",
+  "Asti",
+  "Ragusa",
+  "L'Aquila",
+  "Cremona",
+  "Pavia",
+  "Massa",
+  "Trapani",
+  "Cosenza",
+  "Potenza",
+  "Viterbo",
+  "Savona",
+  "Benevento",
+  "Crotone",
+  "Matera",
+  "Caltanissetta",
+  "Agrigento",
+  "Avellino",
+  "Cuneo",
+  "Teramo",
+  "Olbia",
+  "Siena",
+  "Chieti",
+  "Trani",
+  "Rovigo",
+  "Pordenone",
+  "Ascoli Piceno",
+  "Campobasso"
