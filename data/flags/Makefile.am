@@ -222,6 +222,7 @@ flag_files =				\
 		uyghur.png		\
 		uzbekistan.png		\
 		vampire.png		\
+		vatican.png		\
 		venezuela.png		\
 		venice.png		\
 		vietnam.png		\
@@ -450,6 +451,7 @@ shield_files =					\
 		uyghur-shield.png		\
 		uzbekistan-shield.png		\
 		vampire-shield.png		\
+		vatican-shield.png		\
 		venezuela-shield.png		\
 		venice-shield.png		\
 		vietnam-shield.png		\
@@ -678,6 +680,7 @@ svg_files = 				\
 		uyghur.svg		\
 		uzbekistan.svg		\
 		vampire.svg		\
+		vatican.svg		\
 		venezuela.svg		\
 		venice.svg		\
 		vietnam.svg		\

@@ -144,6 +144,7 @@ match=2
 *include "nation/hessian.ruleset"
 *include "nation/himyarite.ruleset"
 *include "nation/hittite.ruleset"
+*include "nation/holysee.ruleset"
 *include "nation/hopi.ruleset"
 *include "nation/hungarian.ruleset"
 *include "nation/icelandic.ruleset"

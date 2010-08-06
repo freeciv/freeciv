@@ -229,6 +229,7 @@ artists = "
    Uyghur		Daniel Markstedt
    Uzbekistan		Zachary Harden
    Vampire		Ann Barcomb
+   Vatican		Flanker (Wikimedia Commons user)
    Venice		Daniel Markstedt
    Venezuela		Zachary Harden et.al.
    Vietnam		Lauris Kaplinski
@@ -462,6 +463,7 @@ sprites =
 		"f.uyghur", "flags/uyghur"
 		"f.uzbekistan", "flags/uzbekistan"
 		"f.vampire", "flags/vampire"
+		"f.vatican", "flags/vatican"
 		"f.venezuela", "flags/venezuela"
 		"f.venice", "flags/venice"
 		"f.vietnam", "flags/vietnam"

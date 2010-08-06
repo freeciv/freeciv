@@ -54,7 +54,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="swiss", "austrian", "venetian"
+civilwar_nations="swiss", "holy", "venetian"
 conflicts_with="roman"
 
 cities =
