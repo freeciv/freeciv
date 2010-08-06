@@ -769,7 +769,6 @@ AC_CHECK_TYPES(socklen_t, [], [],
 ])
 
 dnl Checks for library functions.
-AC_TYPE_SIGNAL
 AC_FUNC_FORK
 AC_FUNC_STRCOLL
 AC_FUNC_VPRINTF
