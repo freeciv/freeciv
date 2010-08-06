@@ -36,7 +36,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="roman", "italian"
-civilwar_nations="byzantine", "italian", "croatian"
+civilwar_nations="cypriot", "italian", "croatian"
 
 cities =
  "Venesia",		;Venice

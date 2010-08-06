@@ -64,6 +64,7 @@ artists = "
    Cornwall		Vasco Alexandre Da Silva Costa
    Croatia		Frank Zeko
    Cuba			Lauris Kaplinski
+   Cyprus		Vzb83 (Wikimedia Commons user)
    Czech		Lauris Kaplinski
    DDR			Jwnabd (Wikimedia Commons user)
    Denmark		Jens Bech Madsen
@@ -295,6 +296,7 @@ sprites =
 		"f.cornwall", "flags/cornwall"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
+		"f.cyprus", "flags/cyprus"
 		"f.czech", "flags/czech"
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"

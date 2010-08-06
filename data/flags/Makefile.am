@@ -57,6 +57,7 @@ flag_files =				\
 		cornwall.png		\
 		croatia.png		\
 		cuba.png		\
+		cyprus.png		\
 		czech.png		\
 		ddr.png			\
 		denmark.png		\
@@ -284,6 +285,7 @@ shield_files =					\
 		cornwall-shield.png		\
 		croatia-shield.png		\
 		cuba-shield.png			\
+		cyprus-shield.png		\
 		czech-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
@@ -511,6 +513,7 @@ svg_files = 				\
 		cornwall.svg		\
 		croatia.svg		\
 		cuba.svg		\
+		cyprus.svg		\
 		czech.svg		\
 		ddr.svg			\
 		denmark.svg		\

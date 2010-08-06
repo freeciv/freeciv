@@ -109,6 +109,7 @@ match=2
 *include "nation/cree.ruleset"
 *include "nation/croatian.ruleset"
 *include "nation/cuban.ruleset"
+*include "nation/cypriot.ruleset"
 *include "nation/czech.ruleset"
 *include "nation/danish.ruleset"
 *include "nation/dominican.ruleset"

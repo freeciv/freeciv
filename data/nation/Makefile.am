@@ -63,6 +63,7 @@ pkgdata_DATA = \
 		cree.ruleset \
 		croatian.ruleset \
 		cuban.ruleset \
+		cypriot.ruleset \
 		czech.ruleset \
 		danish.ruleset \
 		dominican.ruleset \

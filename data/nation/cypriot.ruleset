@@ -1,0 +1,80 @@
+[nation_cypriot]
+
+name=_("Cypriot")
+plural=_("?plural:Cypriots")
+groups="Modern", "European"
+legend=_("Cyprus became an independent republic on 16th August 1960.\
+ It a Eurasian island country situated in the eastern Mediterranean,\
+ south of Turkey and west of Syria and Lebanon.")
+leader=
+ "Aikaterini",
+ "Dimitris Christofias",
+ "Makarios III",
+ "Spyros Kyprianou",
+ "George Vasiliou",
+ "Glafkos Klerides"
+leader_sex="Female", "Male", "Male", "Male", "Male", "Male"
+flag="cyprus"
+flag_alt = "-"
+city_style = "Classical"
+ruler_titles = { "government",      "male_title",      "female_title"
+ "Communism",       _("General Secretary"), _("?female:General Secretary")
+ "Fundamentalism",       _("Archbishop"), _("?female:Archbishop")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "turk", "greek", "hellenic"
+
+cities =
+ "Levkosia",
+ "Lemesos",
+ "Keryneia",
+ "Strovolos",
+ "Larnaka",
+ "Pafos",
+ "Aradippou",
+ "Ayios Dhometios",
+ "Engomi",
+ "Eylenja",
+ "Kato Polemidhia",
+ "Lakatamia",
+ "Laxia",
+ "Mesayitonia",
+ "Paralimni",
+ "Morfou",
+ "Geri",
+ "Ypsonas",
+ "Lefke",
+ "Kythrea",
+ "Dali",
+ "Tseri",
+ "Lapithos",
+ "Livada",
+ "Xylofagou",
+ "Empa",
+ "Deryneia",
+ "Dromolaxia",
+ "Athienou",
+ "Sotira",
+ "Palaiometocho",
+ "Avgourou",
+ "Ormideia",
+ "Liopetri",
+ "Kolossi",
+ "Chlorakas",
+ "Xylotymvou",
+ "Frenaros",
+ "Voroklini",
+ "Tachoni",
+ "Pano Polemidia",
+ "Kiti",
+ "Episkopi",
+ "Kokkinotrimithia",
+ "Mouttagiaka",
+ "Agia Napa", 
+ "Akaki",
+ "Lythorodontas"

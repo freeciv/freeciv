@@ -26,7 +26,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "greek", "byzantine"
-civilwar_nations = "turkish", "italian"
+civilwar_nations = "turkish", "cypriot"
 
 cities =
  "Athina",
