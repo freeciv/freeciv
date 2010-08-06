@@ -70,6 +70,7 @@ artists = "
    Denmark		Jens Bech Madsen
    Dominica		Caleb Moore and Christian Schaller
    Dryad		Ivan Alvarado
+   Ecuador		Zscout370 (Wikimedia Commons user)
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    England		Thom Sanders
@@ -303,6 +304,7 @@ sprites =
 		"f.denmark", "flags/denmark"
 		"f.dominica", "flags/dominica"
 		"f.dryad", "flags/dryad"
+		"f.ecuador", "flags/ecuador"
 		"f.egypt_ancient", "flags/egypt_ancient"
 		"f.egypt", "flags/egypt"
 		"f.england", "flags/england"

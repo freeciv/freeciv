@@ -116,6 +116,7 @@ match=2
 *include "nation/dryad.ruleset"
 *include "nation/dutch.ruleset"
 *include "nation/eastgerman.ruleset"
+*include "nation/ecuadorian.ruleset"
 *include "nation/egyptian.ruleset"
 *include "nation/emirati.ruleset"
 *include "nation/english.ruleset"

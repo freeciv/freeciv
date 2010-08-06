@@ -27,13 +27,15 @@ city_style = "Tropical"
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Communism",      _("Comandante"),      _("Comandanta")
                  "Despotism",      _("General"),         _("?female:General")
+                 "Monarchy",      _("Viceroy"),         _("Vicereine")
                }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "venezuelan", "brazilian"
+conflicts_with = "venezuelan", "ecuadorian"
+civilwar_nations = "venezuelan", "ecuadorian"
 
 cities =
  "Bogotá",

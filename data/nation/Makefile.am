@@ -69,8 +69,9 @@ pkgdata_DATA = \
 		dominican.ruleset \
 		dryad.ruleset \
 		dutch.ruleset \
-		egyptian.ruleset \
 		eastgerman.ruleset \
+		ecuadorian.ruleset \
+		egyptian.ruleset \
 		emirati.ruleset \
 		english.ruleset \
 		esperant.ruleset \
