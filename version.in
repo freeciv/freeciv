@@ -1,3 +1,5 @@
+#/bin/sh
+#
 #  Copyright (C) 2004-2008 Freeciv team
 
 # Version definition for Freeciv.
@@ -27,3 +29,8 @@ DATASUBDIR=2.3
 #     the stable branch for as long as possible.
 NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel.2010.Jul.30v3"
 NETWORK_CAPSTRING_OPTIONAL=""
+
+if test x$VERSION_SCRIPT_SILENT != xyes ; then
+  VERSION=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}${VERSION_LABEL}
+  echo -n ${VERSION}
+fi
