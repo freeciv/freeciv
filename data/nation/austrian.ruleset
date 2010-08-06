@@ -2,14 +2,57 @@
 
 name=_("Austrian")
 plural=_("?plural:Austrians")
-groups="Modern", "European"
-legend=_("Austria means Eastern Realm, given its position as the far east\
- territory of the medieval Holy Roman Empire.")
+groups="Medieval", "Modern", "European"
+legend=_("The origins of Austria date back to the time of the Roman\
+ Empire when a Celtic kingdom was conquered by the Romans in\
+ approximately 15 BC, and later became Noricum, a Roman province, in the\
+ mid 1st century AD - an area which mostly encloses today's Austria. In\
+ 788 AD, the Frankish king Charlemagne conquered the area, and introduced\
+ Christianity. Under the the native Habsburg dynasty, Austria became one\
+ of the great powers of Europe. In 1867, the Austrian Empire was reformed\
+ into Austria-Hungary. The Austro-Hungarian Empire collapsed in 1918 with\
+ the end of World War I. After establishing the First Austrian Republic\
+ in 1919, Austria joined  Nazi Germany in the Anschluss in 1938. This\
+ lasted until the end of World  War II in 1945, after which Austria was\
+ occupied by the Allies.")
+
 leader=
+                        ; Full name/s in comment
+ "Albrecht II",
+ "Ladislaus V",
+ "Maximilian II",
+ "Rudolf II",
+ "Matthias",
+ "Ferdinand II",
+ "Ferdinand III",
+ "Ferdinand IV",
+ "Joseph I",
+ "Karl VI",	     	; Franz Joseph Wenzel Balthasar Johann Anton Ignaz
  "Maria Theresia",
- "Franz Joseph",
- "Luitpold" 
-leader_sex="Female", "Male", "Male"
+ "Joseph II",		; Benedikt August Johann Anton Michael Adam
+ "Franz I",	     	; Franz Joseph Karl
+ "Ferdinand V",	     	; Karl Leopold Joseph Franz Marcellin
+ "Franz Joseph I",	; Franz Joseph Karl
+ "Karl III",		; Karl Franz Joseph Ludwig Hubert Georg Otto Marie
+ "Karl Seitz",
+ "Michael Hainisch",
+ "Wilhelm Miklas",
+ "Karl Renner",
+ "Theodor Körner"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male"
+
+
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Despotism",      _("Grand Master"),    _("Grand Mistress")
+                 "Monarchy",       _("Kaiser"),            _("Kaiserin")
+                 "Democracy",      _("Chancellor"),   _("?female:Chancellor")
+                 "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
+                 "Communism",_("First Secretary"),_("?female:First Secretary")
+               }
+
 flag="austria"
 flag_alt = "-"
 city_style = "European"
@@ -21,10 +64,74 @@ init_units=""
 civilwar_nations="swiss", "hungarian"
 
 cities =
-  "Wien", "Graz", "Linz", "Salzburg", "Innsbruck", "Klagenfurt",
-  "Villach", "Wels", "St. Pölten", "Dornbirn", "Steyr", "Leoben",
-  "Wolfsberg", "Bregenz", "Feldkirch", "Klosterneuburg", "Baden",
-  "Kapfenberg", "Krems", "Traun", "Amstetten", "Leonding", "Mödling",
-  "Lustenau", "Hallein", "Braunau", "Ternitz", "Spittal", "Schwechat",
-  "Eisenstadt"
-
+  "Wien",
+  "Graz",
+  "Linz",
+  "Salzburg",
+  "Innsbruck",
+  "Klagenfurt am Wörthersee",
+  "Villach",
+  "Wels",
+  "Sankt Pölten",
+  "Dornbirn",
+  "Wiener Neustadt",
+  "Steyr",
+  "Feldkirch",
+  "Bregenz",
+  "Klosterneuburg",
+  "Wolfsberg",
+  "Baden bei Wien",
+  "Leoben",
+  "Leonding",
+  "Traun",
+  "Krems an der Donau",
+  "Amstetten",
+  "Kapfenberg",
+  "Lustenau",
+  "Mödling",
+  "Hallein",
+  "Traiskirchen",
+  "Kufstein",
+  "Braunau am Inn",
+  "Schwechat",
+  "Spittal an der Drau",
+  "Saalfelden am Steinernen Meer",
+  "Ansfelden",
+  "Stockerau",
+  "Hohenems",
+  "Ternitz",
+  "Perchtoldsdorf",
+  "Tulln an der Donau",
+  "Telfs",
+  "Feldkirchen in Kärnten",
+  "Bad Ischl",
+  "Bludenz",
+  "Gmunden",
+  "Bruck an der Mur",
+  "Schwaz",
+  "St. Veit an der Glan",
+  "Eisenstadt",
+  "Hall in Tirol",
+  "Hard",
+  "Neunkirchen",
+  "Korneuburg",
+  "Wörgl",
+  "Marchtrenk",
+  "Lienz",
+  "Vöcklabruck",
+  "Knittelfeld",
+  "Wals-Siezenheim",
+  "Waidhofen an der Ybbs",
+  "Rankweil",
+  "Ried im Innkreis",
+  "Zwettl",
+  "Völkermarkt",
+  "Hollabrunn",
+  "Bad Vöslau",
+  "Enns",
+  "Mistelbach",
+  "Brunn am Gebirge",
+  "St. Johann im Pongau",
+  "Götzis",
+  "St. Andrä",
+  "Bischofshofen"
