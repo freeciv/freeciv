@@ -65,6 +65,7 @@
 #include "aidata.h"
 #include "aihand.h"
 #include "ailog.h"
+#include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
 

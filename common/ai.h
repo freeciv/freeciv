@@ -20,6 +20,7 @@ struct player;
 struct ai_choice;
 struct city;
 struct unit;
+struct settlermap;
 
 enum incident_type {
   INCIDENT_DIPLOMAT = 0, INCIDENT_WAR, INCIDENT_PILLAGE,
@@ -41,6 +42,9 @@ struct ai_type
     void (*unit_init)(struct unit *punit);
     void (*unit_turn_end)(struct unit *punit);
     void (*unit_close)(struct unit *punit);
+
+    void (*auto_settler)(struct player *pplayer, struct unit *punit,
+                         struct settlermap *state);
 
     void (*first_activities)(struct player *pplayer);
     void (*diplomacy_actions)(struct player *pplayer);

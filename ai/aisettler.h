@@ -49,4 +49,9 @@ void ai_settler_init(struct player *pplayer);
 void print_cityresult(struct player *pplayer, struct cityresult *cr,
                       struct ai_data *ai);
 
-#endif
+void ai_auto_settler(struct player *pplayer, struct unit *punit,
+                     struct settlermap *state);
+
+void contemplate_new_city(struct city *pcity);
+
+#endif /* FC__AISETTLER_H */

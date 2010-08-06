@@ -49,6 +49,8 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.unit_turn_end = ai_unit_turn_end;
   ai->funcs.unit_close = ai_unit_close;
 
+  ai->funcs.auto_settler = ai_auto_settler;
+
   ai->funcs.first_activities = ai_do_first_activities;
   ai->funcs.diplomacy_actions = ai_diplomacy_actions;
   ai->funcs.last_activities = ai_do_last_activities;

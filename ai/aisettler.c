@@ -40,10 +40,12 @@
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "unithand.h"
 #include "unittools.h"
 
 /* server/advisors */
 #include "advtools.h"
+#include "autosettlers.h"
 
 /* ai */
 #include "aicity.h"
@@ -108,6 +110,8 @@ static struct {
   char trade;
   char shield;
 } *cachemap;
+
+static bool ai_do_build_city(struct player *pplayer, struct unit *punit);
 
 /**************************************************************************
   Fill cityresult struct with useful info about the city spot. It must 
@@ -671,4 +675,221 @@ void find_best_city_placement(struct unit *punit, struct cityresult *best,
   /* If we use a virtual boat, we must have permission and be emigrating: */
   fc_assert(!best->virt_boat || use_virt_boat);
   fc_assert(!best->virt_boat || best->overseas);
+}
+
+/**************************************************************************
+  Auto settler that can also build cities.
+**************************************************************************/
+void ai_auto_settler(struct player *pplayer, struct unit *punit,
+                     struct settlermap *state)
+{
+  struct cityresult result;
+  int best_impr = 0;            /* best terrain improvement we can do */
+  enum unit_activity best_act;
+  struct tile *best_tile = NULL;
+  struct pf_path *path = NULL;
+  struct ai_data *ai = ai_data_get(pplayer);
+
+  /* time it will take worker to complete its given task */
+  int completion_time = 0;
+
+  CHECK_UNIT(punit);
+
+  /*** If we are on a city mission: Go where we should ***/
+
+BUILD_CITY:
+
+  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY) {
+    struct tile *ptile = punit->goto_tile;
+    int sanity = punit->id;
+
+    /* Check that the mission is still possible.  If the tile has become
+     * unavailable, call it off. */
+    if (!city_can_be_built_here(ptile, punit)) {
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      set_unit_activity(punit, ACTIVITY_IDLE);
+      send_unit_info(NULL, punit);
+      return; /* avoid recursion at all cost */
+    } else {
+     /* Go there */
+      if ((!ai_gothere(pplayer, punit, ptile)
+           && !game_find_unit_by_number(sanity))
+          || punit->moves_left <= 0) {
+        return;
+      }
+      if (same_pos(punit->tile, ptile)) {
+        if (!ai_do_build_city(pplayer, punit)) {
+          UNIT_LOG(LOG_DEBUG, punit, "could not make city on %s",
+                   tile_get_info_text(punit->tile, 0));
+          ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+          /* Only known way to end in here is that hut turned in to a city
+           * when settler entered tile. So this is not going to lead in any
+           * serious recursion. */
+          ai_auto_settler(pplayer, punit, state);
+
+          return;
+       } else {
+          return; /* We came, we saw, we built... */
+        }
+      } else {
+        UNIT_LOG(LOG_DEBUG, punit, "could not go to target");
+        /* ai_unit_new_role(punit, AIUNIT_NONE, NULL); */
+        return;
+      }
+    }
+  }
+
+  /*** Try find some work ***/
+
+  if (unit_has_type_flag(punit, F_SETTLERS)) {
+    TIMING_LOG(AIT_WORKERS, TIMER_START);
+    best_impr = settler_evaluate_improvements(punit, &best_act, &best_tile, 
+                                              &path, state);
+    if (path) {
+      completion_time = pf_path_get_last_position(path)->turn;
+    }
+    TIMING_LOG(AIT_WORKERS, TIMER_STOP);
+  }
+
+  if (unit_has_type_flag(punit, F_CITIES)) {
+    /* may use a boat: */
+    TIMING_LOG(AIT_SETTLERS, TIMER_START);
+    find_best_city_placement(punit, &result, TRUE, FALSE);
+    UNIT_LOG(LOG_DEBUG, punit, "city want %d (impr want %d)", result.result,
+             best_impr);
+    TIMING_LOG(AIT_SETTLERS, TIMER_STOP);
+    if (result.result > best_impr) {
+      if (tile_city(result.tile)) {
+        UNIT_LOG(LOG_DEBUG, punit, "immigrates to %s (%d, %d)", 
+                 city_name(tile_city(result.tile)),
+                 TILE_XY(result.tile));
+      } else {
+        UNIT_LOG(LOG_DEBUG, punit, "makes city at (%d, %d)", 
+                 TILE_XY(result.tile));
+        if (punit->server.debug) {
+          print_cityresult(pplayer, &result, ai);
+        }
+      }
+      /* Go make a city! */
+      ai_unit_new_role(punit, AIUNIT_BUILD_CITY, result.tile);
+      if (result.other_tile) {
+        /* Reserve best other tile (if there is one). */
+        /* FIXME: what is an "other tile" and why would we want to reserve
+         * it? */
+        citymap_reserve_tile(result.other_tile, punit->id);
+      }
+      punit->goto_tile = result.tile; /* TMP */
+
+      /*** Go back to and found a city ***/
+      pf_path_destroy(path);
+      path = NULL;
+      goto BUILD_CITY;
+    } else if (best_impr > 0) {
+      UNIT_LOG(LOG_DEBUG, punit, "improves terrain instead of founding");
+      /* Terrain improvements follows the old model, and is recalculated
+       * each turn. */
+      ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
+    } else {
+      UNIT_LOG(LOG_DEBUG, punit, "cannot find work");
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+      goto CLEANUP;
+    }
+  } else {
+    /* We are a worker or engineer */
+    ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, best_tile);
+  }
+
+  auto_settler_setup_work(pplayer, punit, state, 0, path,
+                          best_tile, best_act,
+                          completion_time);
+
+CLEANUP:
+  if (NULL != path) {
+    pf_path_destroy(path);
+  }
+}
+
+/**************************************************************************
+  Build a city and initialize AI infrastructure cache.
+**************************************************************************/
+static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
+{
+  struct tile *ptile = punit->tile;
+  struct city *pcity;
+
+  fc_assert_ret_val(pplayer == unit_owner(punit), FALSE);
+  unit_activity_handling(punit, ACTIVITY_IDLE);
+
+  /* Free city reservations */
+  ai_unit_new_role(punit, AIUNIT_NONE, NULL);
+
+  pcity = tile_city(ptile);
+  if (pcity) {
+    /* This can happen for instance when there was hut at this tile
+     * and it turned in to a city when settler entered tile. */
+    log_debug("%s: There is already a city at (%d, %d)!",
+              player_name(pplayer), TILE_XY(ptile));
+    return FALSE;
+  }
+  handle_unit_build_city(pplayer, punit->id,
+			 city_name_suggestion(pplayer, ptile));
+  pcity = tile_city(ptile);
+  if (!pcity) {
+    log_error("%s: Failed to build city at (%d, %d)",
+              player_name(pplayer), TILE_XY(ptile));
+    return FALSE;
+  }
+
+  /* We have to rebuild at least the cache for this city.  This event is
+   * rare enough we might as well build the whole thing.  Who knows what
+   * else might be cached in the future? */
+  fc_assert_ret_val(pplayer == city_owner(pcity), FALSE);
+  initialize_infrastructure_cache(pplayer);
+
+  /* Init ai.choice. Handling ferryboats might use it. */
+  init_choice(&pcity->server.ai->choice);
+
+  return TRUE;
+}
+
+/**************************************************************************
+  Return want for city settler. Note that we rely here on the fact that
+  ai_settler_init() has been run while doing autosettlers.
+**************************************************************************/
+void contemplate_new_city(struct city *pcity)
+{
+  struct unit *virtualunit;
+  struct tile *pcenter = city_tile(pcity);
+  struct player *pplayer = city_owner(pcity);
+  struct unit_type *unit_type = best_role_unit(pcity, F_CITIES); 
+
+  if (unit_type == NULL) {
+    log_debug("No F_CITIES role unit available");
+    return;
+  }
+
+  /* Create a localized "virtual" unit to do operations with. */
+  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
+  virtualunit->tile = pcenter;
+
+  fc_assert_ret(pplayer->ai_controlled);
+
+  if (pplayer->ai_controlled) {
+    struct cityresult result;
+    bool is_coastal = is_ocean_near_tile(pcenter);
+
+    find_best_city_placement(virtualunit, &result, is_coastal, is_coastal);
+    fc_assert(0 <= result.result);
+
+    CITY_LOG(LOG_DEBUG, pcity, "want(%d) to establish city at"
+	     " (%d, %d) and will %s to get there", result.result, 
+	     TILE_XY(result.tile), 
+	     (result.virt_boat ? "build a boat" : 
+	      (result.overseas ? "use a boat" : "walk")));
+
+    pcity->server.ai->founder_want = (result.virt_boat ? 
+                               -result.result : result.result);
+    pcity->server.ai->founder_boat = result.overseas;
+  }
+  destroy_unit_virtual(virtualunit);
 }
