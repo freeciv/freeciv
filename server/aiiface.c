@@ -33,7 +33,7 @@
 **************************************************************************/
 void ai_init(void)
 {
-  struct ai_type *ai = get_ai_type(AI_DEFAULT);
+  struct ai_type *ai = get_ai_type(FC_AI_DEFAULT);
 
   init_ai(ai);
 

@@ -27,11 +27,11 @@ static struct ai_type ai_types[1];
 
 /***************************************************************
   Returns ai_type of given id. Currently only one ai_type,
-  id AI_DEFAULT, is supported.
+  id FC_AI_DEFAULT, is supported.
 ***************************************************************/
 struct ai_type *get_ai_type(int id)
 {
-  fc_assert(id == AI_DEFAULT);
+  fc_assert(id == FC_AI_DEFAULT);
 
   return &ai_types[id];
 }

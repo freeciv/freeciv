@@ -1135,7 +1135,7 @@ struct player *server_create_player(int player_id)
     return NULL;
   }
 
-  pplayer->ai = get_ai_type(AI_DEFAULT);
+  pplayer->ai = get_ai_type(FC_AI_DEFAULT);
 
   CALL_PLR_AI_FUNC(data_init, pplayer, pplayer);
 
