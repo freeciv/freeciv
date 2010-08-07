@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-30 12:47+0200\n"
-"PO-Revision-Date: 2010-07-30 13:41+0200\n"
+"PO-Revision-Date: 2010-08-06 20:53+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -2043,14 +2043,14 @@ msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "ATENCIÓ, ens estem quedant SENSE DINERS %s."
 
 #: server/cityturn.c:692
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
-msgstr "%s necessita %s (que ja s'està construint) per créixer més."
+msgstr "%s necessita %s (en construcció) per créixer a més de mida %d."
 
 #: server/cityturn.c:698
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow beyond size %d."
-msgstr "%s necessita alguna millora per créixer més."
+msgstr "%s necessita una millora per créixer a més de mida %d."
 
 #: server/cityturn.c:757
 #, c-format
@@ -2487,7 +2487,7 @@ msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (%d a %d)\n"
 
 #: server/civserver.c:335 client/client_main.c:301
 msgid "  -F, --Fatal [SIGNAL]\tRaise a signal on failed assertion\n"
-msgstr ""
+msgstr "  -F, --Fatal [SENYAL]\tEnviar un senyal en cas que falli una asserció\n"
 
 #: server/civserver.c:338
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
@@ -2717,7 +2717,7 @@ msgid ""
 "\", \"situational\" or \"rare\", a set of options with this level. With "
 "\"changed\", it shows only the options which have been modified, while with "
 "\"locked\" all settings locked by the ruleset will be listed."
-msgstr ""
+msgstr "Sense arguments, mostra opcions vitals del servidor (o les disponibles, quan ho fan servir els clients). Amb un argument de nom d'opció, mostra només l'opció indicada, o les opcions que tenen aquest prefix. Amb \"all\", mostra totes les opcions. Amb \"vital\", \"situational\" o \"rare\", mostra el conjunt d'opcions del nivell corresponent. Amb \"changed\", mostra només les opcions que s'han modificat, mentre que amb \"locked\" es llisten totes les opcions bloquejades pel joc de regles."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:138
@@ -2982,6 +2982,8 @@ msgid ""
 "free slots are available, it tries to reuse the slots of dead players. The "
 "new player has no units or cities."
 msgstr ""
+"Amb la comanda 'create' es crea un jugador nou amb el nom donat.\n"
+"Si la partida havia començat, la comanda busca espais lliures per jugadors, i, si no en troba cap de lliure, prova de reutilitzar els espais dels jugadors morts. El jugador nou no té unitats ni ciutats."
 
 #: server/commands.c:292
 msgid "Set yourself in away mode. The AI will watch your back."
@@ -3005,14 +3007,13 @@ msgid "Set one or all AI players to 'novice'."
 msgstr "Estableix un o tots el jugadors d'IA a 'principiant'."
 
 #: server/commands.c:301
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'novice', and sets the "
 "default level for any new AI players to 'novice'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'principiant' i estableix el nivell per defecte per nous jugadors a "
+"'principiant' i estableix el nivell per defecte per nous jugadors IA a "
 "'principiant'. Amb un argument, només estableix la dificultat per al jugador "
 "donat."
 
@@ -3030,14 +3031,13 @@ msgid "Set one or all AI players to 'easy'."
 msgstr "Estableix un o tots el jugadors a 'fàcil'."
 
 #: server/commands.c:311
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'easy', and sets the "
 "default level for any new AI players to 'easy'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'fàcil' i estableix el nivell per defecte per nous jugadors a 'fàcil'. Amb "
+"'fàcil' i estableix el nivell per defecte per nous jugadors IA a 'fàcil'. Amb "
 "un argument, només estableix la dificultat per al jugador donat."
 
 #. TRANS: translate text between <> only
@@ -3054,14 +3054,13 @@ msgid "Set one or all AI players to 'normal'."
 msgstr "Estableix un o tots el jugadors a 'normal'."
 
 #: server/commands.c:321
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'normal', and sets the "
 "default level for any new AI players to 'normal'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'normal' i estableix el nivell per defecte per nous jugadors a 'normal'. Amb "
+"'normal' i estableix el nivell per defecte per nous jugadors IA a 'normal'. Amb "
 "un argument, només estableix la dificultat per al jugador donat."
 
 #. TRANS: translate text between <> only
@@ -3078,14 +3077,13 @@ msgid "Set one or all AI players to 'hard'."
 msgstr "Estableix un o tots el jugadors a 'difícil'."
 
 #: server/commands.c:331
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'hard', and sets the "
 "default level for any new AI players to 'hard'. With an argument, sets the "
 "skill level for that player only."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'difícil' i estableix el nivell per defecte per nous jugadors a 'difícil'. "
+"'difícil' i estableix el nivell per defecte per nous jugadors IA a 'difícil'. "
 "Amb un argument, només estableix la dificultat per al jugador donat."
 
 #. TRANS: translate text between <> only
@@ -3102,7 +3100,6 @@ msgid "Set one or all AI players to 'cheating'."
 msgstr "Assigna un o tots el jugadors IA a 'trampós'."
 
 #: server/commands.c:341
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill level 'cheating', and sets "
 "the default level for any new AI players to 'cheating'. With an argument, "
@@ -3127,7 +3124,6 @@ msgid "Set one or all AI players to 'experimental'."
 msgstr "Estableix un o tots el jugadors a 'experimental'."
 
 #: server/commands.c:351
-#, fuzzy
 msgid ""
 "With no arguments, sets all AI players to skill 'experimental', and sets the "
 "default level for any new AI players to this. With an argument, sets the "
@@ -3135,10 +3131,7 @@ msgid ""
 "FEATURES! For ordinary servers, this option has no effect."
 msgstr ""
 "Sense arguments, estableix tots els jugadors controlats per la IA al nivell "
-"'experimental' i estableix el nivell per defecte per nous jugadors a "
-"'experimental'. Amb un argument, només estableix la dificultat per al "
-"jugador donat. AQUESTA OPCIÓ NOMÉS ÉS PER PROVAR NOVES IA! Per servidors "
-"normals, aquesta opció no té efecte."
+"'experimental' i també fa que sigui el nivell per defecte per nous jugadors IA. Amb un argument, només estableix la dificultat per al jugador donat. AQUESTA OPCIÓ NOMÉS ÉS PER PROVAR NOVES IA! Per servidors normals, aquesta opció no té efecte."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:360
@@ -3160,7 +3153,6 @@ msgid "Query or set command access level access."
 msgstr "Consultar o fixar el nivell d'accés a les comandes."
 
 #: server/commands.c:366
-#, fuzzy
 msgid ""
 "The command access level controls which server commands are available to "
 "users via the client chatline. The available levels are:\n"
@@ -3182,23 +3174,15 @@ msgid ""
 "untrusted person could reconnect with the same name. Note that this command "
 "now takes connection names, not player names."
 msgstr ""
-"El nivell de accés a les comandes controla quines comandes del\n"
-"servidor estan disponibles per als usuaris via el xat.\n"
-"Els nivells disponibles són: \n"
+"El nivell de accés a les comandes controla quines comandes del servidor estan disponibles per als usuaris via el xat. Els nivells disponibles són: \n"
 "    none  -  cap comanda\n"
 "    info  -  només comandes informatives o d'observador\n"
 "    basic -   comandes disponibles per als jugadors de la partida\n"
-"    ctrl  -  comandes que afecten al joc i als usuaris\n"
+"    ctrl  -  comandes que afecten el joc i els usuaris\n"
 "    admin -  comandes que afecten el funcionament del servidor\n"
 "    hack  -  *totes* les comandes - perillós ! \n"
-"Sense arguments, s'informa dels nivells actuals d'accés a les comandes.\n"
-"Amb un sol argument, es fixa el nivell per a totes les connexions,\n"
-"i es fixa el predeterminat per a les connexions futures.\n"
-"Si s'especifica 'new', el nivell es fixa per a les noves connexions\n"
-"de clients. Si s'especifica 'first come' s'atorgarà al primer client\n"
-"que es connecti o, si ja hi ha connexions, al primer que doni la \n"
-"comanda 'first'.\n"
-"Si s'especifica un nom de connexió, el nivell només es fixa per a\n"
+"Sense arguments, s'informa dels nivells actuals d'accés a les comandes. Amb un sol argument, es fixa el nivell per a totes les connexions, i es fixa el predeterminat per a les connexions futures. Si s'especifica 'new', el nivell es fixa per a les noves connexions de clients. Si s'especifica 'first come' s'atorgarà al primer client que es connecti o, si ja hi ha connexions, al primer que doni la \n"
+"comanda 'first'. Si s'especifica un nom de connexió, el nivell només es fixa per a "
 "aquesta connexió.\n"
 "Els nivells d'accés a les comandes no persisteixen si un client es "
 "desconnecta, perquè es podria reconnectar, amb el mateix nom, una altra "
@@ -3221,7 +3205,6 @@ msgid "See \"help timeoutincrease\"."
 msgstr "Vegeu \"help timeoutincrease\"."
 
 #: server/commands.c:398
-#, fuzzy
 msgid ""
 "Every <turn> turns, add <value> to timeout timer, then add <turninc> to "
 "<turn> and multiply <value> by <valuemult>. Use this command in concert with "
@@ -3372,15 +3355,20 @@ msgid ""
 "  script   - using default values and rereading the start script\n"
 "  default  - using default values\n"
 msgstr ""
+"Recuperar els valors de totes les opcions si és possible. Se suporten els següents nivells:\n"
+"  game     - utilitzar els valors definits al començament de la partida\n"
+"  ruleset  - utilitzar els valors definits al joc de regles\n"
+"  script   - utilitzar els valors predeterminats i tornar a llegir l'script d'inici\n"
+"  default  - utilitzar els valors predeterminats\n"
 
 #. TRANS: translate text between <> only
 #: server/commands.c:487
 msgid "lua <script>"
-msgstr ""
+msgstr "lua <script>"
 
 #: server/commands.c:488
 msgid "Evaluate a line of freeciv script in the current game."
-msgstr ""
+msgstr "Avaluar una línia de script de freeciv en la partida actual."
 
 #: server/commands.c:494
 msgid "Switch server output between 'RFC-style' and normal style."
@@ -4927,9 +4915,9 @@ msgid "%s has been added as %s level AI-controlled player."
 msgstr "%s ha estat afegit com un jugador de nivell %s controlat per IA."
 
 #: server/savegame.c:5134 server/savegame2.c:2872
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as human player."
-msgstr "%s s'ha afegit com a jugador controlat per IA."
+msgstr "%s s'ha afegit com a jugador humà."
 
 #. TRANS: Minor error message: <Leader> ... <Poles>.
 #: server/savegame.c:5182 server/savegame2.c:2891
@@ -4939,31 +4927,27 @@ msgstr "%s tenia una nació no vàlida; canviant a %s."
 
 #: server/savegame2.c:5189
 msgid "freeciv 2.2.99"
-msgstr ""
+msgstr "freeciv 2.2.99"
 
 #: server/savegame2.c:5191
-#, fuzzy
 msgid "freeciv 2.3.0"
-msgstr "Freeciv"
+msgstr "freeciv 2.3.0"
 
 #: server/savegame2.c:5204
-#, fuzzy
 msgid "freeciv 2.2.x"
-msgstr "Freeciv"
+msgstr "freeciv 2.2.x"
 
 #: server/settings.c:170
-#, fuzzy
 msgid "Number of tiles"
-msgstr "Nombre de Rutes Comercials"
+msgstr "Nombre de caselles"
 
 #: server/settings.c:171
-#, fuzzy
 msgid "Tiles per player"
-msgstr "Or inicial per a cada jugador"
+msgstr "Caselles per jugador"
 
 #: server/settings.c:172
 msgid "Width and height"
-msgstr ""
+msgstr "Amplada i alçada"
 
 #: server/settings.c:185
 msgid "Flat Earth (unwrapped)"
@@ -5030,25 +5014,24 @@ msgid "Donut World (iso-hex)"
 msgstr "Món Donut (iso-hex)"
 
 #: server/settings.c:213
-#, fuzzy
 msgid "Scenario map"
-msgstr "Escenari"
+msgstr "Mapa d'escenari"
 
 #: server/settings.c:214
 msgid "Fully random height"
-msgstr ""
+msgstr "Alçada completament aleatòria"
 
 #: server/settings.c:215
 msgid "Pseudo-fractal height"
-msgstr ""
+msgstr "Alçada pseudo-fractal"
 
 #: server/settings.c:216
 msgid "Island-based"
-msgstr ""
+msgstr "Basat en illes"
 
 #: server/settings.c:229
 msgid "Generator's choice"
-msgstr ""
+msgstr "El que triï el generador"
 
 #: server/settings.c:230
 msgid "One player per continent"
@@ -5079,9 +5062,8 @@ msgid "See everything inside borders"
 msgstr "Veure-ho tot dins de les fronteres"
 
 #: server/settings.c:249
-#, fuzzy
 msgid "Borders expand to unknown, revealing tiles"
-msgstr "Capa de fronteres sobre caselles oceàniques"
+msgstr "Les fronteres s'expandeixen cap a caselles desconegudes, revelant-les"
 
 #: server/settings.c:275
 msgid "Enabled for everyone"
@@ -5109,11 +5091,11 @@ msgstr "Sense restriccions"
 
 #: server/settings.c:293
 msgid "Unique to a player"
-msgstr "Únic per un jugador"
+msgstr "Úniques per al jugador"
 
 #: server/settings.c:294
 msgid "Globally unique"
-msgstr "Únic globalment"
+msgstr "Úniques globalment"
 
 #: server/settings.c:295
 msgid "No city name stealing"
@@ -5154,7 +5136,7 @@ msgstr "Els equips alternen moviments"
 #: server/settings.c:390
 #, c-format
 msgid "Invalid save name definition: '%s' (resolves to '%s')."
-msgstr ""
+msgstr "Definició de nom per desar no vàlida: '%s' (es resol a '%s')."
 
 #: server/settings.c:407
 msgid "You cannot disable the map generator."
@@ -5165,9 +5147,9 @@ msgid "You cannot require a map generator when a map is loaded."
 msgstr "No pots demanar un generador de mapes quan hi ha un mapa carregat."
 
 #: server/settings.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "Invalid score name definition: '%s'."
-msgstr "Nom d'usuari invàlid '%s'"
+msgstr "Definició de nom de marcador no vàlida: '%s'."
 
 #: server/settings.c:452
 #, c-format
@@ -5179,29 +5161,25 @@ msgstr ""
 "\"help demography\"."
 
 #: server/settings.c:494
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Allowed take string validation failed at character: '%c'. Try \"help "
 "allowtake\"."
-msgstr ""
-"La cadena de 'Permisos per prendre' conté caràcters invàlids.\n"
-"Intenta \"help allowtake\"."
+msgstr "La validació de la cadena de 'Permisos per prendre' ha fallat al caràcter: '%c'. Prova \"help allowtake\"."
 
 #: server/settings.c:532
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Starting units string validation failed at characters '%c'. Try \"help "
 "startunits\"."
-msgstr ""
-"La cadena d'unitats inicials conté caràcters invàlids.\n"
-"Intenta \"help startunits\"."
+msgstr "La validació de la cadena d'unitats inicials ha fallat al caràcter '%c'. Prova \"help startunits\"."
 
 #: server/settings.c:540
 #, c-format
 msgid ""
 "No city founder ('c') within the starting units string: '%s'. Try \"help "
 "startunits\"."
-msgstr ""
+msgstr "No hi ha cap fundador de ciutats ('c') dins de la cadena d'unitats inicials: '%s'. Prova \"help startunits\"."
 
 #: server/settings.c:558
 msgid "Cannot set endturn earlier than current turn."
@@ -5212,13 +5190,11 @@ msgid "Cannot change maxplayers in GGZ mode."
 msgstr "No es pot canviar maxplayers en mode GGZ."
 
 #: server/settings.c:582
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Number of players (%d) is higher than requested value (%d). Keeping old "
 "value."
-msgstr ""
-"El nombre de jugadors es més gran que el valor sol·licitat;\n"
-"es manté el valor anterior."
+msgstr "El nombre de jugadors (%d) és més gran que el valor sol·licitat (%d). Es manté el valor anterior."
 
 #: server/settings.c:599
 msgid "You are not allowed to set timeout values less than 30 seconds."
@@ -5226,21 +5202,21 @@ msgstr "No està permès de posar temporitzadors a valors de menys de 30 segons"
 
 #: server/settings.c:607 server/settings.c:633
 msgid "For autogames ('timeout' = -1) 'unitwaittime' should be deactivated (= 0)."
-msgstr ""
+msgstr "Per partides automàtiques ('timeout = -1) 'unitwaittime' s'hauria de desactivar (= 0)."
 
 #: server/settings.c:616
 #, c-format
 msgid ""
 "'timeout' can not be lower than 3/2 of the 'unitwaittime' setting (= %d). "
 "Please change 'unitwaittime' first."
-msgstr ""
+msgstr "'timeout' no pot ser menys de 3/2 del valor de 'unitwaittime' (= %d). Si us plau canvia primer 'unitwaittime'."
 
 #: server/settings.c:640
 #, c-format
 msgid ""
 "'unitwaittime' has to be lower than 2/3 of the 'timeout' setting (= %d). "
 "Please change 'timeout' first."
-msgstr ""
+msgstr "'unitwaittime' ha de ser menys de 2/3 del valor de 'timeout' (= %d). Si us plau canvia primer 'timeout'."
 
 #: server/settings.c:661
 msgid "All players must have a team if this option value is used."
@@ -5248,25 +5224,25 @@ msgstr "Tots els jugadors han de tenir equip si es fa servir aquesta opció."
 
 #: server/settings.c:681
 msgid "The map width must be an even value."
-msgstr ""
+msgstr "L'amplada del mapa ha de ser un valor parell."
 
 #: server/settings.c:687 server/settings.c:718
 #, c-format
 msgid "The map size (%d * %d = %d) must be larger than %d tiles."
-msgstr ""
+msgstr "La mida del mapa  (%d * %d = %d) ha de ser de més de %d caselles."
 
 #: server/settings.c:693 server/settings.c:724
 #, c-format
 msgid "The map size (%d * %d = %d) must be lower than %d tiles."
-msgstr ""
+msgstr "La mida del mapa (%d * %d = %d) ha de ser de menys de %d caselles."
 
 #: server/settings.c:712
 msgid "The map height must be an even value."
-msgstr ""
+msgstr "L'alçada del mapa ha de ser un valor parell."
 
 #: server/settings.c:779
 msgid "Map size definition"
-msgstr ""
+msgstr "Definició de la mida del mapa"
 
 #: server/settings.c:780
 msgid ""
@@ -5275,13 +5251,16 @@ msgid ""
 "  1 = the number of (land) tiles per player  ('tilesperplayer')\n"
 "  2 = the map width and height ('xsize' and 'ysize')"
 msgstr ""
+"La mida del mapa es defineix per:\n"
+"  0 = el nombre de caselles ('size')\n"
+"  1 = el nombre de caselles (de terra) per jugador  ('tilesperplayer')\n"
+"  2 = l'amplada i alçada del mapa ('xsize' i 'ysize')"
 
 #: server/settings.c:789
 msgid "Map size (in thousands of tiles)"
 msgstr "Mida de mapa (en milers de caselles)"
 
 #: server/settings.c:790
-#, fuzzy
 msgid ""
 "This value is used to determine the map dimensions.\n"
 "  size = 4 is a normal map of 4,000 tiles (default)\n"
@@ -5290,35 +5269,35 @@ msgid ""
 msgstr ""
 "Aquest valor es fa servir per determinar les dimensions del mapa.\n"
 "  size = 4 és un mapa normal de 4.000 caselles (predeterminat)\n"
-"  size = 20 és un mapa enorme de 20.000 caselles."
+"  size = 20 és un mapa enorme de 20.000 caselles\n"
+"Per utilitzar aquesta opció, deixar 'mapsize' a 0."
 
 #: server/settings.c:798
-#, fuzzy
 msgid "Number of (land) tiles per player"
-msgstr "Nombre de tecnologies inicials per jugador"
+msgstr "Nombre de caselles (de terra) per jugador"
 
 #: server/settings.c:799
 msgid ""
 "This value is used to determine the map dimensions. It calculates the map "
 "size at game start based on the number of players and the value of the "
 "setting 'landmass'. To use this option, set 'mapsize' to 1."
-msgstr ""
+msgstr "Aquest valor s'utilitza per determinar les dimensions del mapa. Calcula la mida del mapa al principi de la partida basant-se en el nombre de jugadors i el valor del paràmetre 'landmass'. Per utilitzar aquesta opció, deixar 'mapsize' a 1."
 
 #: server/settings.c:808
 msgid "Map width in squares"
-msgstr ""
+msgstr "Amplada del mapa en caselles"
 
 #: server/settings.c:809
 msgid "Defines the map width. To use this option, set 'mapsize' to 2."
-msgstr ""
+msgstr "Defineix l'amplada del mapa. Per utilitzar aquesta opció, deixar 'mapsize' a 2."
 
 #: server/settings.c:814
 msgid "Map height in squares"
-msgstr ""
+msgstr "Alçada del mapa en caselles"
 
 #: server/settings.c:815
 msgid "Defines the map height. To use this option, set 'mapsize' to 2."
-msgstr ""
+msgstr "Defineix l'alçada del mapa. Per utilitzar aquesta opció, deixar 'mapsize' a 2."
 
 #: server/settings.c:821
 msgid "Map topology index"
@@ -5326,7 +5305,6 @@ msgstr "Índex de topologia del mapa"
 
 #. TRANS: do not edit the ugly ASCII art
 #: server/settings.c:823
-#, fuzzy
 msgid ""
 "Freeciv maps are always two-dimensional. They may wrap at the north-south "
 "and east-west directions to form a flat map, a cylinder, or a torus (donut). "
@@ -5348,31 +5326,15 @@ msgstr ""
 "Els mapes de Freeciv sempre són en dues dimensions. Poden connectar-se en "
 "les direccions nord-sud i est-oest per formar un mapa pla, un cilindre, o un "
 "tor (donut). Les caselles individuals poden ser rectangulars o hexagonals, "
-"amb l'alineació clàssica o l'isomètrica - això s'hauria de fixar segons el "
+"amb l'alineació clàssica o la isomètrica - això s'hauria de fixar segons el "
 "joc de caselles que s'estigui fent servir.\n"
-"   0 Terra plana (sense ajuntar)\n"
-"   1 Terra (ajuntant E-O)\n"
-"   2 Urà (ajuntant N-S)\n"
-"   3 Món Donut (ajunta N-S, E-O)\n"
-"   4 Terra Plana (isomètric)\n"
-"   5 Terra (isomètric)\n"
-"   6 Urà (isomètric)\n"
-"   7 Món Donut (isomètric)\n"
-"   8 Terra plana (hexagonal)\n"
-"   9 Terra (hexagonal)\n"
-"  10 Urà (hexagonal)\n"
-"  11 Món Donut (hexagonal)\n"
-"  12 Terra plana (iso-hex)\n"
-"  13 Terra (iso-hex)\n"
-"  14 Urà (iso-hex)\n"
-"  15 Món Donut (iso-hex)\n"
 "Rectangular Clàssic:       Rectangular Isomètric:\n"
 "      _________               /\\/\\/\\/\\/\\ \n"
 "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
 "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
 "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/ \n"
 "                             \\/\\/\\/\\/\\/  \n"
-"Cases hex:              Iso-hex:\n"
+"Caselles hex:            Iso-hex:\n"
 "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _       \n"
 "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\      \n"
 "  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/  \n"
@@ -5393,28 +5355,26 @@ msgid ""
 "- \"Island-based\": one player per continent\n"
 "See the \"startpos\" setting."
 msgstr ""
+"Si es fa servir el valor predeterminat de startpos es triarà una opció de startpos segons el generador:\n"
+"- \"Alçada totalment aleatòria\": segons la mida del continent\n"
+"- \"Alçada pseudo-fractal\": tots en un sol continent\n"
+"- \"Basat en illes\": un jugador per continent\n"
+"Veure l'opció \"startpos\"."
 
 #: server/settings.c:860
 msgid "Method used to choose start positions"
 msgstr "Mètode usat per triar les posicions d'inici"
 
 #: server/settings.c:861
-#, fuzzy
 msgid ""
 "Selecting \"Generator's choice\" means the default value will be picked "
 "based on the generator chosen. See the \"generator\" setting.\n"
 "Note: generators try to create the right number of continents for the choice "
 "of start pos and to the number of players"
 msgstr ""
-"0 = El generador tria. Seleccionar aquest valor vol dir\n"
-"    que el valor per defecte s'escollirà segons el generador\n"
-"    escollit. Veure el valor \"generator\".\n"
-"1 = Intenta col·locar un jugador per continent.\n"
-"2 = Intenta col·locar dos jugadors per continent.\n"
-"3 = Intenta col·locar tots els jugadors en un sol continent.\n"
-"4 = Col·locar els jugadors segons la mida dels continents.\n"
+"Seleccionar \"El que triï el generador\" vol dir que es triarà el valor predeterminat segons el generador escollit. Veure l'opció \"generator\".\n"
 "Nota: els generadors intenten crear el número adequat de continents segons "
-"l'elecció de la posició d'inici i el nombre de jugadors."
+"l'elecció de la posició d'inici (startpos) i el nombre de jugadors."
 
 #: server/settings.c:870
 msgid "Presence of 1x1 islands"
@@ -5447,7 +5407,6 @@ msgid "Average temperature of the planet"
 msgstr "Temperatura mitjana del planeta"
 
 #: server/settings.c:890
-#, fuzzy
 msgid ""
 "Small values will give a cold map, while larger values will give a hotter "
 "map.\n"
@@ -5465,15 +5424,11 @@ msgstr ""
 "\n"
 "100 vol dir un planeta molt sec i calent sense zones polars àrtiques, només "
 "zones tropicals i seques.\n"
-"\n"
 "70 vol dir un planeta calent amb poc gel polar.\n"
-"\n"
 "50 vol dir un planeta temperat amb zones de tota mena, polars, fredes, "
 "temperades i tropicals; es poden trobar zones desèrtiques entre zones "
 "tropicals i temperades.\n"
-"\n"
 "30 vol dir un planeta fred amb zones tropicals petites.\n"
-"\n"
 "0 vol dir un planeta molt fred amb grans zones polars i sense tròpics. "
 
 #: server/settings.c:907
@@ -5511,24 +5466,22 @@ msgstr ""
 "donen un mapa més humit amb més aiguamolls, jungles i rius."
 
 #: server/settings.c:929
-#, fuzzy
 msgid "Global warming"
-msgstr "Ha ocorregut l'escalfament global!"
+msgstr "Escalfament global"
 
 #: server/settings.c:930
 msgid ""
 "If turned off, global warming will not occur as a result of pollution. This "
 "settings does not affect pollution."
-msgstr ""
+msgstr "Si es desactiva, no ocorrerà l'escalfament global com a conseqüència de la contaminació. Aquesta opció no afecta la contaminació."
 
 #: server/settings.c:937
-#, fuzzy
 msgid "Nuclear winter"
-msgstr "Energia Nuclear"
+msgstr "Hivern nuclear"
 
 #: server/settings.c:938
 msgid "If turned off, nuclear winter will not occur as a result of nuclear war."
-msgstr ""
+msgstr "Si es desactiva, no ocorrerà l'hivern nuclear com a conseqüència d'una guerra nuclear."
 
 #: server/settings.c:944
 msgid "Map generation random seed"
@@ -5758,23 +5711,23 @@ msgstr ""
 
 #: server/settings.c:1111
 msgid "Chance to lose an invention while receiving it"
-msgstr ""
+msgstr "Probabilitat de perdre un invent mentre es rep"
 
 #: server/settings.c:1112
 msgid ""
 "If you receive an invention via an treaty this setting defines the chance "
 "that the invention is lost during the transfer."
-msgstr ""
+msgstr "Si reps un invent mitjançant un tractat, aquesta opció defineix la probabilitat que l'invent es perdi durant la transferència."
 
 #: server/settings.c:1120
 msgid "Chance to lose an invention while giving it"
-msgstr ""
+msgstr "Probabilitat de perdre un invent mentre es dóna"
 
 #: server/settings.c:1121
 msgid ""
 "If you give an invention via an treaty this setting defines the chance that "
 "the invention is lost for your civilisation during the transfer."
-msgstr ""
+msgstr "Si dónes un invent mitjançant un tractat, aquesta opció defineix la probabilitat que l'invent es perdi per a la teva civilització durant la transferència."
 
 #: server/settings.c:1129
 msgid "Penalty when getting tech or gold from treaty"
@@ -5917,31 +5870,28 @@ msgstr ""
 "digui el conjunt de regles actual."
 
 #: server/settings.c:1230
-#, fuzzy
 msgid "Technology trading"
-msgstr "Tecnologia"
+msgstr "Intercanvi de Tecnologia"
 
 #: server/settings.c:1231
 msgid "If turned off, trading technologies in diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Si es desactiva, no es permet l'intercanvi de tecnologies en el diàleg de diplomàcia."
 
 #: server/settings.c:1237
-#, fuzzy
 msgid "Gold trading"
-msgstr "Or: %d"
+msgstr "Intercanvi d'or"
 
 #: server/settings.c:1238
 msgid "If turned off, trading gold in diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Si es desactiva, no es permet l'intercanvi d'or en el diàleg de diplomàcia."
 
 #: server/settings.c:1244
-#, fuzzy
 msgid "City trading"
-msgstr "Producció de la ciutat"
+msgstr "Intercanvi de ciutats"
 
 #: server/settings.c:1245
 msgid "If turned off, trading cities in diplomacy dialog is not allowed."
-msgstr ""
+msgstr "Si es desactiva, no es permet l'intercanvi de ciutats en el diàleg de diplomàcia."
 
 #: server/settings.c:1251
 msgid "Minimum distance for trade routes"
@@ -6033,7 +5983,7 @@ msgstr ""
 
 #: server/settings.c:1309
 msgid "Slowly kill unhomecitied units (eg. startunits)"
-msgstr ""
+msgstr "Matar lentament unitats que no tenen ciutat origen (p.ex. unitats d'inici)"
 
 #: server/settings.c:1310
 msgid ""
@@ -6041,7 +5991,7 @@ msgid ""
 "each turn. The number of hitpoints lost is given by 'killunhomed' percent of "
 "the hitpoints of the unit type. At least one hitpoint is lost every turn "
 "until the death of the unit."
-msgstr ""
+msgstr "Si és més gran que zero, llavors cada unitat que no tingui ciutat origen perdrà punts de vida a cada torn. El nombre de punts de vida perduts es calcula com a 'killunhomed' per cent dels punts de vida del tipus d'unitat. Es perd almenys un punt de vida a cada torn fins que la unitat mor."
 
 #: server/settings.c:1320
 msgid "National borders"
@@ -6051,7 +6001,7 @@ msgstr "Fronteres nacionals"
 msgid ""
 "If this is not disabled, then any land tiles around a fortress or city will "
 "be owned by that nation."
-msgstr ""
+msgstr "Si això no es desactiva, llavors totes les caselles terrestres del voltant d'una fortalesa o ciutat seran propietat d'aquella nació."
 
 #: server/settings.c:1328
 msgid "Units inside borders cause no unhappiness"
@@ -6067,19 +6017,17 @@ msgstr ""
 
 #: server/settings.c:1335
 msgid "Ability to do diplomacy with other players"
-msgstr "Capacitat de exercir diplomàcia amb altres jugadors"
+msgstr "Capacitat d'exercir diplomàcia amb altres jugadors"
 
 #: server/settings.c:1336
-#, fuzzy
 msgid "This setting controls the ability to do diplomacy with other players."
-msgstr "Capacitat de exercir diplomàcia amb altres jugadors"
+msgstr "Aquesta opció controla la capacitat d'exercir diplomàcia amb altres jugadors"
 
 #: server/settings.c:1342
 msgid "Allowed city names"
 msgstr "Noms de ciutat permesos"
 
 #: server/settings.c:1343
-#, fuzzy
 msgid ""
 "- \"No restrictions\": players can have multiple cities with the same "
 "names.\n"
@@ -6090,18 +6038,11 @@ msgid ""
 "allowed to use a default city name of another nations unless it is a default "
 "for their nation also."
 msgstr ""
-"0 = no hi ha cap restricció: els jugadors poden tenir diverses ciutats amb "
+"- \"Sense restriccions\": els jugadors poden tenir diverses ciutats amb "
 "el mateix nom.\n"
-"\n"
-"1 = Els noms de les ciutats han de ser únics per un jugador: un jugador no "
-"pot tenir més d'una ciutat amb el mateix nom.\n"
-"\n"
-"2 = Els noms de les ciutats han de ser únics globalment: totes les ciutats "
-"d'una partida han de tenir noms diferents.\n"
-"\n"
-"3 = Igual que 2, però un jugador no pot fer servir un nom de ciutat "
-"predeterminat d'altres nacions a no ser que també sigui un nom predeterminat "
-"per la seva nació."
+"- \"Úniques per al jugador\": un jugador no pot tenir més d'una ciutat amb el mateix nom.\n"
+"- \"Úniques globalment\": totes les ciutats d'una partida han de tenir noms diferents.\n"
+"- \"No es poden prendre noms de ciutat\": com \"Úniques globalment\", però un jugador no pot fer servir un nom de ciutat predeterminat d'altres nacions a no ser que també sigui un nom predeterminat per la seva nació."
 
 #: server/settings.c:1369
 msgid "Barbarian appearance frequency"
@@ -6111,7 +6052,7 @@ msgstr "Freqüència d'aparició de bàrbars"
 msgid ""
 "This setting controls how frequently the barbarians appears in the game. See "
 "also the \"onsetbarbs\" setting."
-msgstr ""
+msgstr "Aquesta opció controla cada quan apareixen els bàrbars a la partida. Veure també l'opció \"onsetbarbs\"."
 
 #: server/settings.c:1376
 msgid "Barbarian onset turn"
@@ -6165,9 +6106,8 @@ msgstr ""
 "amb l'única condició que hagin vist prèviament les caselles."
 
 #: server/settings.c:1412
-#, fuzzy
 msgid "Airlifting style"
-msgstr "Aerotransportar a Ciutat"
+msgstr "Estil d'aerotransport"
 
 #: server/settings.c:1413
 msgid ""
@@ -6182,6 +6122,12 @@ msgid ""
 "  8 = Unlimited units to destination. Airlifting to a city doesn't reduce "
 "the airlifted counter, and doesn't need any."
 msgstr ""
+"Aquesta opció afecta l'aerotransport d'unitats entre ciutats. El valor d'aquesta opció és un valor obtingut fent una O lògica de:\n"
+"  0 = Com el Freeciv clàssic, només tantes unitats per torn cap a l'origen o el destí com permeti el joc de regles entre les teves pròpies ciutats.\n"
+"  1 = Permet que les unitats s'aerotransportin des de ciutats aliades.\n"
+"  2 = Permet que les unitats s'aerotransportin cap a ciutats aliades.\n"
+"  4 = Unitats il·limitades des de l'origen. Aerotransportar-se des d'una ciutat no redueix el comptador d'aerotransports, però igualment necessita que sigui com a mínim 1.\n"
+"  8 = Unitats il·limitades al destí. Aerotransportar-se cap a una ciutat no redueix el comptador d'aerotransports, i no en cal cap."
 
 #: server/settings.c:1430
 msgid "Base chance for diplomats and spies to succeed."
@@ -6232,13 +6178,13 @@ msgstr ""
 
 #: server/settings.c:1463
 msgid "Restrict the use of the infrastructure for enemy units"
-msgstr ""
+msgstr "Restringir l'ús de la infraestructura per unitats enemigues"
 
 #: server/settings.c:1464
 msgid ""
 "If this option is set to 1, the use of roads and rails will be restricted "
 "for enemy units."
-msgstr ""
+msgstr "Si aquesta opció es posa a 1, l'ús de camins i ferrocarrils estarà restringit per les unitats enemigues."
 
 #: server/settings.c:1470
 msgid "Turns until player contact is lost"
@@ -6355,7 +6301,6 @@ msgid "Maximum distance citizens may migrate"
 msgstr "Distancia màxima a la qual poden emigrar els ciutadans"
 
 #: server/settings.c:1541
-#, fuzzy
 msgid ""
 "This setting controls how far citizens may look for a suitable migration "
 "destination when deciding which city to migrate to. The value is added to "
@@ -6364,10 +6309,7 @@ msgid ""
 "no effect unless migration is activated by the 'migration' setting."
 msgstr ""
 "Aquesta opció controla fins a quina distància els ciutadans poden buscar un "
-"destí d'emigració apropiat quan decideixen a quina ciutat emigrar. Per "
-"exemple, amb un valor de 3, pot haver-hi una distància màxima de 2 caselles "
-"entre ciutats que tinguin emigració. Aquesta opció no té cap efecte si no es "
-"permet l'emigració amb l'opció 'migration'."
+"destí d'emigració apropiat quan decideixen a quina ciutat emigrar. El valor s'afegeix al radi actual de la ciutat i es compara amb la distància entre les dues ciutats. Si la distància és menor o igual, l'emigració és possible. Aquesta opció no té cap efecte si no es permet l'emigració amb l'opció 'migration'."
 
 #: server/settings.c:1553
 msgid "Percent probability for migration within the same nation"
@@ -6410,7 +6352,6 @@ msgid "Players that users are allowed to take"
 msgstr "Jugadors que els usuaris poden prendre"
 
 #: server/settings.c:1585
-#, fuzzy
 msgid ""
 "This should be a string of characters, each of which specifies a type or "
 "status of a civilization (player).\n"
@@ -6440,38 +6381,28 @@ msgid ""
 "     4 = No controller allowed, observers allowed"
 msgstr ""
 "Això ha de ser una cadena de caràcters, cadascun dels quals especifica un "
-"tipus o estat d'una civilització (jugador). Als clients només se'ls permetrà "
-"de prendre o observar els jugadors que coincideixin amb alguna de les "
-"lletres especificades. Només afecta als usos futurs de les comandes 'take' o "
-"'observe'; no és retroactiu. Els caràcters i llurs significats són:\n"
+"tipus o estat d'una civilització (jugador).\n"
+"Als clients només se'ls permetrà de prendre o observar els jugadors que coincideixin amb alguna de les lletres especificades. Només afecta als usos futurs de les comandes 'take' o 'observe'; no és retroactiu. Els caràcters i llurs significats són:\n"
 "    o,O = Observador global\n"
 "    b   = Jugadors bàrbars\n"
 "    d   = Jugadors morts\n"
-"    A,a = Jugadors IA\n"
-"    H,h = Jugadors Humans\n"
+"    a,A = Jugadors IA\n"
+"    h,H = Jugadors Humans\n"
 "La primera descripció d'aquesta llista que coincideixi amb un jugador és la "
-"que es fa servir. Per tant 'd' no inclou Bàrbars morts, 'a' no inclou "
+"que es fa servir. Per tant 'd' no inclou bàrbars morts, 'a' no inclou "
 "jugadors IA morts, etc. Les lletres majúscules s'apliquen abans que la "
 "partida hagi començat, les minúscules després.\n"
-"\n"
 "Cadascun dels caràcters de dalt pot ser seguit per un dels nombres següents "
 "per permetre o restringir la forma de connexió:\n"
-"\n"
 "(res) = Es permet controlador, es permeten observadors, i es poden desplaçar "
 "connexions. (Desplaçar una connexió vol dir que pots agafar el control d'un "
 "jugador, fins i tot si un altre usuari ja controla aquell jugador).\n"
-"\n"
-"1 = Es permet controlador, es permeten observadors, no es poden desplaçar "
+"    1 = Es permet controlador, es permeten observadors, no es poden desplaçar "
 "connexions;\n"
-"\n"
-"2 = Es permet controlador, no es permeten observadors, es poden desplaçar "
+"    2 = Es permet controlador, no es permeten observadors, es poden desplaçar "
 "connexions;\n"
-"\n"
-"3 = Es permet controlador, no es permeten observadors, no es poden desplaçar "
-"connexions.\n"
-"\n"
-"4 = No es permet controlador, es permeten observadors,\n"
-"\n"
+"    3 = Es permet controlador, no es permeten observadors, no es poden desplaçar connexions;\n"
+"    4 = No es permet controlador, es permeten observadors"
 
 #: server/settings.c:1620
 msgid "Whether AI-status toggles with connection"
@@ -6527,7 +6458,7 @@ msgstr ""
 
 #: server/settings.c:1654
 msgid "Time between unit moves over turn change"
-msgstr ""
+msgstr "Temps entre moviments d'unitat entre canvis de torn"
 
 #: server/settings.c:1655
 msgid ""
@@ -6537,7 +6468,7 @@ msgid ""
 "the next turn for at least 15 seconds. Building cities is also affected by "
 "this setting, as well as units moving inside a transporter. This value is "
 "limited to a maximum value of 2/3 'timeout'."
-msgstr ""
+msgstr "Aquesta opció dóna la mínima quantitat de temps en segons entre moviments d'unitat després d'un canvi de torn. Per exemple, si aquesta opció està a 20, i una unitat es mou 5 segons abans del canvi de torn, no podrà moure's dins del següent torn durant almenys 15 segons. La construcció de ciutats també queda afectada per aquesta opció, igual que les unitats que es mouen dins de qualsevol mena de transport. Aquest valor està limitat a un valor màxim de 2/3 de 'timeout'."
 
 #: server/settings.c:1671
 msgid "Control of simultaneous player/team phases."
@@ -6547,7 +6478,7 @@ msgstr "Control de fases de jugador/equip simultànies."
 msgid ""
 "This setting controls whether players may make moves at the same time during "
 "a turn."
-msgstr ""
+msgstr "Aquesta opció controla si els jugadors poden fer moviments al mateix temps durant un torn."
 
 #: server/settings.c:1678
 msgid "Seconds to let a client's network connection block"
@@ -6708,21 +6639,20 @@ msgstr ""
 
 #: server/settings.c:1780
 msgid "Save using the given savegame version."
-msgstr ""
+msgstr "Desar amb la versió de partida desada especificada."
 
 #: server/settings.c:1781
 msgid ""
 "Create a savegame which can be loaded by the given version of freeciv. Some "
 "features will not be saved/restored for older versions. '0' uses the current "
 "format."
-msgstr ""
+msgstr "Crear una partida desada que pugui ser carregada per la versió de Freeciv donada. Algunes funcions no es desaran/recuperaran per versions antigues. '0' utilitza el format actual."
 
 #: server/settings.c:1788
 msgid "Definition of the save file name"
 msgstr "Definició del nom del fitxer desat"
 
 #: server/settings.c:1789
-#, fuzzy
 msgid ""
 "Within the string the following custom formats are allowed:\n"
 "  %R = <reason>\n"
@@ -6742,11 +6672,11 @@ msgstr ""
 "  %T = <info.joc.torn>\n"
 "  %Y = <info.joc.any>\n"
 "\n"
-"Exemple: 'civgame-T%04T-Y%+05Y-%R' => 'civgame-T0100-Y00001-manual'\n"
+"Exemple: 'freeciv-T%04T-Y%+05Y-%R' => 'freeciv-T0100-Y00001-manual'\n"
 "\n"
 "Vigila de fer servir com a mínim o bé %T o bé %Y, si no, els jocs desats "
 "nous sobreescriuran els vells. Si no es fa servir cap dels formats, "
-"s'afegeix '-T%04T-Y%+04Y%S-%R' al valor de 'savename'."
+"s'afegeix '-T%04T-Y%05Y-%R' al valor de 'savename'."
 
 #: server/settings.c:1807
 msgid "Whether to log player statistics"
@@ -6765,76 +6695,71 @@ msgstr ""
 
 #: server/settings.c:1815
 msgid "Name for the score log file"
-msgstr ""
+msgstr "Nom del fitxer de registre del marcador"
 
 #: server/settings.c:1816
 msgid "The default name for the score log file is 'freeciv-score.log'."
-msgstr ""
+msgstr "El nom predeterminat del fitxer de registre del marcador és 'freeciv-score.log'."
 
 #: server/settings.c:1904
-#, fuzzy, c-format
+#, c-format
 msgid "You are not allowed to change the setting '%s'."
-msgstr "No tens permís per cancel·lar aquest vot (%d)."
+msgstr "No tens permís per canviar l'opció '%s'."
 
 #: server/settings.c:1912
 #, c-format
 msgid "The setting '%s' is locked by the ruleset."
-msgstr ""
+msgstr "L'opció '%s' està bloquejada pel joc de regles."
 
 #: server/settings.c:1926
-#, fuzzy, c-format
+#, c-format
 msgid "The setting '%s' can't be modified after the map is fixed."
-msgstr "Aquesta opció no pot ser modificada un cop ha començat la partida."
+msgstr "L'opció '%s' no es pot modificar un cop s'ha fixat el mapa."
 
 #: server/settings.c:1943
-#, fuzzy, c-format
+#, c-format
 msgid "The setting '%s' can't be modified after the game has started."
-msgstr "Aquesta opció no pot ser modificada un cop ha començat la partida."
+msgstr "L'opció '%s' no es pot modificar un cop ha començat la partida."
 
 #: server/settings.c:1958
-#, fuzzy
 msgid "Internal error."
-msgstr "Intern"
+msgstr "Error intern."
 
 #: server/settings.c:2079 server/settings.c:2102
-#, fuzzy
 msgid "This setting is not a boolean."
-msgstr "Aquesta pàgina de Paràmetres"
+msgstr "Aquesta opció no és booleana."
 
 #: server/settings.c:2108 server/settings.c:2417
-#, fuzzy, c-format
+#, c-format
 msgid "\"%s\" is not an allowed value for this setting."
-msgstr "No tens permís per cancel·lar aquest vot (%d)."
+msgstr "\"%s\" no és un valor permès per aquesta opció."
 
 #: server/settings.c:2184
-#, fuzzy
 msgid "This setting is not an integer."
-msgstr "Aquesta pàgina de Paràmetres"
+msgstr "Aquesta opció no és entera."
 
 #: server/settings.c:2190
-#, fuzzy, c-format
+#, c-format
 msgid "Value out of range: %d (min: %d; max: %d)."
-msgstr "Valor fora de rang (mínim: %d, màxim: %d)."
+msgstr "Valor fora de rang: %d (mín: %d, màx: %d)."
 
 #: server/settings.c:2248
-#, fuzzy
 msgid "This setting is not a string."
-msgstr "Aquesta pàgina de Paràmetres"
+msgstr "Aquesta opció no és una cadena."
 
 #: server/settings.c:2254
-#, fuzzy, c-format
+#, c-format
 msgid "String value too long (max length: %lu)."
-msgstr "Valor de cadena massa llarg."
+msgstr "Valor de cadena massa llarg (llargada màx: %lu)."
 
 #: server/settings.c:2380 server/settings.c:2410
-#, fuzzy
 msgid "This setting is not a enumerator."
-msgstr "Aquesta pàgina de Paràmetres"
+msgstr "Aquesta opció no és un enumerador."
 
 #: server/settings.c:2386
 #, c-format
 msgid "%d is not a right value for this setting."
-msgstr ""
+msgstr "%d no és un valor correcte per aquesta opció."
 
 #: server/settings.c:2535 server/settings.c:2550 server/stdinhand.c:2833
 #, c-format
@@ -6848,14 +6773,14 @@ msgstr "Opció: %s s'ha establert a \"%s\"."
 
 #: server/settings.c:2580 server/stdinhand.c:2777 server/stdinhand.c:2799
 #: server/stdinhand.c:2881 server/stdinhand.c:2901
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s has been set to \"%s\" (%d)."
-msgstr "Opció: %s s'ha establert a \"%s\"."
+msgstr "Opció: %s s'ha establert a \"%s\" (%d)."
 
 #: server/settings.c:2596
-#, fuzzy, c-format
+#, c-format
 msgid "Option: %s has been locked by the ruleset."
-msgstr "Opció: %s s'ha establert a \"%s\"."
+msgstr "Opció: %s s'ha bloquejat pel joc de regles."
 
 #: server/sernet.c:150
 msgid "Server cannot read standard input. Ignoring input."
@@ -7313,29 +7238,26 @@ msgid "%s is now under human control."
 msgstr "%s està sota el control humà des d'ara."
 
 #: server/stdinhand.c:819
-#, fuzzy
 msgid "An living user already exists by that name."
-msgstr "Ja existeix un usuari amb aquest nom."
+msgstr "Ja existeix un usuari viu amb aquest nom."
 
 #: server/stdinhand.c:827
-#, fuzzy
 msgid "An living player already exists by that name."
-msgstr "Ja existeix un jugador amb aquest nom."
+msgstr "Ja existeix un jugador viu amb aquest nom."
 
 #: server/stdinhand.c:835
-#, fuzzy, c-format
+#, c-format
 msgid "Can't create players, nation %s conflicts with %s."
-msgstr "No es pot crear una unitat de tipus %s sobre el terreny de %s."
+msgstr "No es poden crear jugadors, la nació %s no pot coincidir amb %s."
 
 #: server/stdinhand.c:846
-#, fuzzy
 msgid "Can't create players, no nations available."
-msgstr "No es poden afegir més jugadors, no hi ha prou nacions."
+msgstr "No es poden crear jugadors, no hi ha nacions disponibles."
 
 #: server/stdinhand.c:863 server/stdinhand.c:875
-#, fuzzy, c-format
+#, c-format
 msgid "%s is replacing dead player %s as an AI-controlled player."
-msgstr "%s reemplaça %s com a jugador controlat per IA."
+msgstr "%s reemplaça el jugador mort %s com a jugador controlat per IA."
 
 #: server/stdinhand.c:886 server/stdinhand.c:979
 #, c-format
@@ -7562,9 +7484,8 @@ msgid "Maximum:"
 msgstr "Màxim:"
 
 #: server/stdinhand.c:1654 manual/civmanual.c:215
-#, fuzzy
 msgid "Possible values:"
-msgstr "Concordances possibles: %s"
+msgstr "Valors possibles:"
 
 #: server/stdinhand.c:1681
 msgid "Explanations are available for the following server options:"
@@ -7653,12 +7574,11 @@ msgstr "Opcions poc utilitzades"
 
 #: server/stdinhand.c:2027
 msgid "Options locked by the ruleset"
-msgstr ""
+msgstr "Opcions bloquejades pel joc de regles"
 
 #: server/stdinhand.c:2033
-#, fuzzy
 msgid "! means the option is locked by the ruleset"
-msgstr "= significa que l'opció està al seu valor per defecte"
+msgstr "! significa que l'opció està bloquejada pel joc de regles"
 
 #: server/stdinhand.c:2034
 msgid "+ means you may change the option"
@@ -8230,7 +8150,7 @@ msgstr "Restaurar totes les opcions als valors del principi de la partida."
 
 #: server/stdinhand.c:4170
 msgid "No saved settings from the game start available."
-msgstr ""
+msgstr "No hi ha disponibles les opcions desades del principi de la partida."
 
 #: server/stdinhand.c:4174
 msgid "No Game started ..."
@@ -8579,7 +8499,7 @@ msgstr "Els %s han robat %s dels %s."
 #: server/techtools.c:1078
 #, c-format
 msgid "Too bad! You made a mistake transferring the tech %s and lost it."
-msgstr ""
+msgstr "Llàstima! Has comès un error en transferir la tecnologia %s i l'has perduda."
 
 #: server/unithand.c:118
 #, c-format
@@ -9230,9 +9150,9 @@ msgid "Now ... Go give 'em hell!"
 msgstr "Ara... Desperta ferro!!!"
 
 #: client/chatline_common.c:253
-#, fuzzy, c-format
+#, c-format
 msgid "Exporting output window to '%s' ..."
-msgstr "S'està exportant la finestra de sortida a civgame.log ..."
+msgstr "S'està exportant la finestra de sortida a '%s' ..."
 
 #: client/chatline_common.c:260
 msgid "Export complete."
@@ -11309,13 +11229,12 @@ msgstr ""
 "Freeciv. Modificar això és el mateix que fer servir la línia de comandes -P."
 
 #: client/options.c:1490
-#, fuzzy
 msgid "The chat log file"
-msgstr "Tecnologies\n"
+msgstr "El fitxer de registre del xat"
 
 #: client/options.c:1491
 msgid "The name of the chat log file."
-msgstr ""
+msgstr "El nom del fitxer de registre del xat"
 
 #: client/options.c:1496 client/options.c:1501
 msgid "Theme"
@@ -12166,18 +12085,14 @@ msgstr ""
 
 #: client/options.c:1909
 msgid "Merge the message notebook and the map notebook"
-msgstr ""
+msgstr "Combinar la llibreta de missatges i la del mapa"
 
 #: client/options.c:1910
-#, fuzzy
 msgid ""
 "If this option is enabled, the message notebook will be merge into the world "
 "map notebook. Thus, the size needed for the main window will be reduced. "
 "This option requires a restart in order to take effect."
-msgstr ""
-"Si s'activa aquesta opció, la pestanya del metaservidor serà la primera "
-"pestanya de la llibreta a la pàgina de xarxa. Aquesta opció requereix un "
-"rearranc per tenir efecte."
+msgstr "Si s'activa aquesta opció, la llibreta de missatges es combinarà amb la llibreta del mapa mundial. Així es reduirà la mida que cal per la finestra principal. Aquesta opció requereix un rearranc per tenir efecte."
 
 #: client/options.c:1916
 msgid "Mouse over the map widget selects it automatically"
@@ -12193,22 +12108,19 @@ msgstr ""
 
 #: client/options.c:1921
 msgid "Width of the city dialog"
-msgstr ""
+msgstr "Amplada del diàleg de ciutat"
 
 #: client/options.c:1922
-#, fuzzy
 msgid "This value is only used if the width of the city dialog is saved."
-msgstr ""
-"Aquest tipus de lletra es fa servir per escriure les etiquetes de ciutat als "
-"diàlegs de ciutat."
+msgstr "Aquest valor només es fa servir si es desa l'amplada del diàleg de ciutat."
 
 #: client/options.c:1928
 msgid "Height of the city dialog"
-msgstr ""
+msgstr "Alçada del diàleg de ciutat"
 
 #: client/options.c:1929
 msgid "This value is only used if the height of the city dialog is saved."
-msgstr ""
+msgstr "Aquest valor només es fa servir si es desa l'alçada del diàleg de ciutat."
 
 #: client/options.c:1935
 msgid "City Label"
@@ -12883,16 +12795,15 @@ msgstr[0] "Progrés: %d torn/avenç"
 msgstr[1] "Progrés: %d torns/avenç"
 
 #: client/text.c:648
-#, fuzzy, c-format
+#, c-format
 msgid "Progress: %d turn/advance loss"
 msgid_plural "Progress: %d turns/advance loss"
-msgstr[0] "Progrés: %d torn/avenç"
-msgstr[1] "Progrés: %d torns/avenç"
+msgstr[0] "Progrés: %d torn/pèrdua d'avenç"
+msgstr[1] "Progrés: %d torns/pèrdua d'avenç"
 
 #: client/text.c:653
-#, fuzzy
 msgid "Progress: none"
-msgstr "Progrés: sense recerca"
+msgstr "Progrés: cap"
 
 #: client/text.c:657
 #, c-format
@@ -13006,9 +12917,9 @@ msgid "Researching %s: %s"
 msgstr "Investigant %s: %s"
 
 #: client/text.c:858
-#, fuzzy, c-format
+#, c-format
 msgid "Bulbs per turn: %d - %d = %d"
-msgstr "Bombetes produïdes per torn: %d"
+msgstr "Bombetes per torn: %d - %d = %d"
 
 #: client/text.c:868
 #, c-format
@@ -15040,11 +14951,8 @@ msgstr "Felicitat"
 
 #. TRANS: the width of this text defines the width of the city dialog.
 #: client/gui-gtk-2.0/happiness.c:252
-#, fuzzy
 msgid "Additional information is available via left click on the citizens."
-msgstr ""
-"Es pot obtenir més informació sobre cada nivell de felicitat fent clic "
-"esquerre al damunt dels ciutadans."
+msgstr "Es pot obtenir més informació fent clic esquerre al damunt dels ciutadans."
 
 #: client/gui-gtk-2.0/helpdlg.c:90 client/gui-gtk-2.0/helpdlg.c:93
 #: client/gui-gtk-2.0/helpdlg.c:97 client/gui-sdl/helpdlg.c:347
@@ -15897,28 +15805,24 @@ msgid "Messages"
 msgstr "Missatges"
 
 #: client/gui-gtk-2.0/optiondlg.c:193
-#, fuzzy
 msgid "Refresh this option"
-msgstr "Opcions poc utilitzades"
+msgstr "Refrescar aquesta opció"
 
 #: client/gui-gtk-2.0/optiondlg.c:200
-#, fuzzy
 msgid "Reset this option"
-msgstr "Estableix una opció del servidor."
+msgstr "Resetejar aquesta opció"
 
 #: client/gui-gtk-2.0/optiondlg.c:208
 msgid "Apply the changes for this option"
-msgstr ""
+msgstr "Aplicar els canvis per a aquesta opció"
 
 #: client/gui-gtk-2.0/optiondlg.c:327
-#, fuzzy
 msgid "Select a color"
-msgstr "Seleccionar el color %s"
+msgstr "Seleccionar un color"
 
 #: client/gui-gtk-2.0/optiondlg.c:365
-#, fuzzy
 msgid "Reset"
-msgstr "Desert"
+msgstr "Resetejar"
 
 #: client/gui-gtk-2.0/plrdlg.c:317
 msgid "_Meet"
@@ -21482,7 +21386,7 @@ msgid ""
 "option `mgr_dist'."
 msgstr ""
 " - Les ciutats més llunyanes són menys desitjables. La màxima distància "
-"absouta a què està preparat per emigrar un ciutadà està controlada per "
+"absoluta a què està disposat a emigrar un ciutadà està controlada per "
 "l'opció de servidor 'mgr_dist'."
 
 #: data/helpdata.txt:885
@@ -24220,13 +24124,12 @@ msgid "Lighthouse"
 msgstr "Far"
 
 #: data/default/buildings.ruleset:1335
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all your cities)."
 msgstr ""
 "Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa "
-"que totes les noves unitats marítimes siguin veteranes (per totes les teves "
+"que totes les teves unitats marítimes noves siguin veteranes (per totes les teves "
 "ciutats)."
 
 #: data/default/buildings.ruleset:1341 data/civ2/buildings.ruleset:1278
@@ -24350,14 +24253,13 @@ msgid "Sun Tzu's War Academy"
 msgstr "Acadèmia Militar de Sun Tzu"
 
 #: data/default/buildings.ruleset:1541
-#, fuzzy
 msgid ""
 "All your new military land units start at the first veteran level. The "
 "chance of a land unit getting the next veteran level after a battle "
 "increases by half."
 msgstr ""
-"Totes les teves noves unitats terrestres comencen al primer nivell de "
-"veterania. La possibilitat que una unitat terrestre aconsegueixi el següent "
+"Totes les teves noves unitats militars terrestres comencen al primer nivell de "
+"veterania. La probabilitat que una unitat terrestre aconsegueixi el següent "
 "nivell de veterania després d'una batalla augmenta en un 50%."
 
 #: data/default/buildings.ruleset:1548 data/civ2/buildings.ruleset:1483
@@ -24643,13 +24545,12 @@ msgstr ""
 "quatre vegades més ràpid que no ho faria normalment."
 
 #: data/civ2/buildings.ruleset:1272
-#, fuzzy
 msgid ""
 "Gives all your sea units 1 additional movement point. Makes all your new "
 "military sea units veterans (for all cities)."
 msgstr ""
 "Dóna a totes les teves unitats marítimes 1 punt addicional de moviment. Fa "
-"que totes les noves unitats marítimes siguin veteranes (per totes les "
+"que totes les teves unitats marítimes noves siguin veteranes (per totes les "
 "ciutats)."
 
 #: data/civ2/buildings.ruleset:1292
@@ -24670,14 +24571,14 @@ msgstr ""
 "un 50% (és com tenir un Laboratori de Recerca a totes les teves ciutats)."
 
 #: data/civ2/buildings.ruleset:1476
-#, fuzzy, no-c-format
+#, no-c-format
 msgid ""
 "All your new military land units become veterans (for all cities).  The "
 "chance of a land unit becoming a veteran after a battle increases from 50% "
 "to 100%."
 msgstr ""
-"Totes les teves noves unitats terrestres es converteixen en veteranes (a "
-"totes les ciutats). La probabilitat que una unitat esdevingui veterana "
+"Totes les teves unitats terrestres noves es converteixen en veteranes (per "
+"totes les ciutats). La probabilitat que una unitat terrestre esdevingui veterana "
 "després d'una batalla augmenta del 50% al 100%."
 
 #: data/civ2/buildings.ruleset:1534
@@ -28107,43 +28008,37 @@ msgid "?female:Lugal"
 msgstr "Lugal"
 
 #: data/nation/badian.ruleset:3
-#, fuzzy
 msgid "Badian"
-msgstr "Bavarès"
+msgstr "Badià"
 
 #: data/nation/badian.ruleset:4
-#, fuzzy
 msgid "?plural:Badians"
-msgstr "Bavaresos"
+msgstr "Badians"
 
 #: data/nation/badian.ruleset:6
 msgid ""
 "Baden was a country in Swabia, in southwestern Germany. After World War II "
 "it was merged with Wuerttemberg and Hohenzollern to form the land of Baden-"
 "Wuerttemberg."
-msgstr ""
+msgstr "Baden era un país de Suàbia, al sudoest d'Alemanya. Després de la Segona Guerra Mundial es va combinar amb Wuerttemberg i Hohenzollern per formar el land de Baden-Wuerttemberg."
 
 #: data/nation/badian.ruleset:28
-#, fuzzy
 msgid "Grand Duke"
-msgstr "Gran duc"
+msgstr "Gran Duc"
 
 #: data/nation/badian.ruleset:28
-#, fuzzy
 msgid "Grand Duchess"
-msgstr "Gran duquessa"
+msgstr "Gran Duquessa"
 
 #: data/nation/badian.ruleset:29 data/nation/hessian.ruleset:32
 #: data/nation/wuerttembergian.ruleset:28
-#, fuzzy
 msgid "Minister-President"
-msgstr "Director-President"
+msgstr "Ministre-President"
 
 #: data/nation/badian.ruleset:29 data/nation/hessian.ruleset:32
 #: data/nation/wuerttembergian.ruleset:28
-#, fuzzy
 msgid "?female:Minister-President"
-msgstr "Directora-President"
+msgstr "Ministra-Presidenta"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -28410,7 +28305,7 @@ msgstr "Director-President"
 
 #: data/nation/brazilian.ruleset:27
 msgid "?female:Director-President"
-msgstr "Directora-President"
+msgstr "Directora-Presidenta"
 
 #: data/nation/breton.ruleset:3
 msgid "Breton"
@@ -28629,14 +28524,12 @@ msgid "Basilissa"
 msgstr "Basilissa"
 
 #: data/nation/californian.ruleset:3
-#, fuzzy
 msgid "Californian"
-msgstr "Babiloni"
+msgstr "Californià"
 
 #: data/nation/californian.ruleset:4
-#, fuzzy
 msgid "?plural:Californians"
-msgstr "Babilonis"
+msgstr "Californians"
 
 #: data/nation/californian.ruleset:6
 msgid ""
@@ -28648,17 +28541,15 @@ msgid ""
 "the United States shortly thereafter. The 1848 Gold Rush brought massive "
 "numbers of immigrants to California. In the 20th century the state became a "
 "center of the world's entertainment and technology industries."
-msgstr ""
+msgstr "Califòrnia és l'estat americà més gran en població i economia. Va ser poblat al principi per nadius americans, i va ser colonitzat per missioners espanyols durant el segle XVIII. Califòrnia es va convertir en un territori de Mèxic quan aquest país va obtenir la seva independència. Durant la Guerra Mexicano-Americana els colons americans locals van proclamar la 'República de la Bandera de l'Ós', que es va incorporar als Estats Units poc després. La Febre de l'Or de 1848 va dur grans nombres d'immigrants a Califòrnia. Durant el segle XX, l'estat va convertir-se en un centre de les indústries mundials de l'entreteniment i la tecnologia."
 
 #: data/nation/californian.ruleset:33
-#, fuzzy
 msgid "Padre"
-msgstr "Rar"
+msgstr "Padre"
 
 #: data/nation/californian.ruleset:33
-#, fuzzy
 msgid "Madre"
-msgstr "Rar"
+msgstr "Madre"
 
 #: data/nation/californian.ruleset:34 data/nation/chinese.ruleset:31
 #: data/nation/ethiopian.ruleset:24 data/nation/haitian.ruleset:30
@@ -28748,14 +28639,12 @@ msgstr ""
 "destruïda per Roma l'any 146 a. C."
 
 #: data/nation/castilian.ruleset:3
-#, fuzzy
 msgid "Castilian"
-msgstr "Línia de la costa"
+msgstr "Castellà"
 
 #: data/nation/castilian.ruleset:4
-#, fuzzy
 msgid "?plural:Castilians"
-msgstr "Catalans"
+msgstr "Castellans"
 
 #: data/nation/castilian.ruleset:6
 msgid ""
@@ -28763,17 +28652,15 @@ msgid ""
 "kingdoms. It absorbed Leon and later formed a personal union with Aragon. "
 "Its current territory is divided over several autonomous communities of "
 "Spain."
-msgstr ""
+msgstr "Castella va emergir fins a convertir-se en el més poderós dels regnes medievals espanyols. Va absorbir Lleó i més endavant va formar una unió personal amb Aragó. El seu territori actual està dividit entre diverses comunitats autònomes d'Espanya."
 
 #: data/nation/castilian.ruleset:33
-#, fuzzy
 msgid "Comunero"
-msgstr "Ordinadors"
+msgstr "Comunero"
 
 #: data/nation/castilian.ruleset:33
-#, fuzzy
 msgid "Comunera"
-msgstr "Ordinadors"
+msgstr "Comunera"
 
 #: data/nation/catalan.ruleset:3
 msgid "Catalan"
@@ -30694,11 +30581,11 @@ msgstr ""
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duke"
-msgstr "Gran duc"
+msgstr "Gran Duc"
 
 #: data/nation/lithuanian.ruleset:28
 msgid "Great Duchess"
-msgstr "Gran duquessa"
+msgstr "Gran Duquessa"
 
 #: data/nation/lojbanistani.ruleset:3
 msgid "Lojbanistani"
