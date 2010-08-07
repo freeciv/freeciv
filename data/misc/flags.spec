@@ -120,6 +120,7 @@ artists = "
    Italy		Lauris Kaplinski
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
+   Kalmykia		Conscious (Wikimedia Commons user)
    Kampuchea		Caleb Moore
    Kanem-Bornu		Daniel Markstedt
    Kazakhstan		-xfi-
@@ -356,6 +357,7 @@ sprites =
 		"f.italy", "flags/italy"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"
+		"f.kalmykia", "flags/kalmykia"
 		"f.kampuchea", "flags/kampuchea"
 		"f.kanem-bornu", "flags/kanem-bornu"
 		"f.kazakhstan", "flags/kazakhstan"

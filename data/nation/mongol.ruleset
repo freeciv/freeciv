@@ -37,7 +37,7 @@ init_government="Despotism"
 init_units=""
 
 ; Used to have russian here but korean seems closer
-civilwar_nations = "chinese", "korean"
+civilwar_nations = "chinese", "korean", "kalmyk"
 
 ; Many of these are historical (not part of modern Mongolia)
 cities =
