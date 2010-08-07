@@ -85,6 +85,7 @@ flag_files =				\
 		greece.png		\
 		greenland.png		\
 		grenada.png		\
+		guatemala.png		\
 		gupta.png		\
 		hacker.png		\
 		haiti.png		\
@@ -315,6 +316,7 @@ shield_files =					\
 		greece-shield.png		\
 		greenland-shield.png		\
 		grenada-shield.png		\
+		guatemala-shield.png		\
 		gupta-shield.png		\
 		hacker-shield.png		\
 		haiti-shield.png		\
@@ -545,6 +547,7 @@ svg_files = 				\
 		greece.svg		\
 		greenland.svg		\
 		grenada.svg		\
+		guatemala.svg		\
 		gupta.svg		\
 		hacker.svg		\
 		haiti.svg		\

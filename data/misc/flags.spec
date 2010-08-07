@@ -92,6 +92,7 @@ artists = "
    Greece		Daniel McRae
    Greenland		Daniel McRae
    Grenada		SKopp (Wikipedia)
+   Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons users)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
    Haiti		Lokal Profil (Wikimedia user)
@@ -326,6 +327,7 @@ sprites =
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
 		"f.grenada", "flags/grenada"
+		"f.guatemala", "flags/guatemala"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
 		"f.haiti", "flags/haiti"

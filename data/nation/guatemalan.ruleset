@@ -1,0 +1,105 @@
+[nation_guatemalan]
+
+name=_("Guatemalan")
+plural=_("?plural:Guatemalans")
+groups="Modern","American"
+legend=_("The ancient heartland of the Mayas, Guatelama was conquered by\
+ the Spanish in the 16th century. It became independent in 1821 but was\
+ part of the United States of Central America until 1840. It has endured\
+ political turmoil for much of its history. Guatemala lived through one\
+ of the most brutal civil wars of the 20th century until a peace agreement\
+ was signed in 1996.")
+leader=
+ "Pedro de Alvarado",
+ "Manuel Carrera",
+ "José Rufino Barrios",
+ "Manuel Estrada Cabrera",
+ "Jorge Ubico",
+ "Juan José Arévalo",
+ "Jacobo Árbenz Guzmán",
+ "Carlos Castillo Armas",
+ "Miguel Ydígoras",
+ "Julio César Méndez Montenegro",
+ "Fernando Romeo Lucas García",
+ "Efraín Ríos Montt"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+flag="guatemala"
+flag_alt="-"
+city_style="Babylonian"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("General"),     _("?female:General")
+                 "Communism",  _("Comandante"), _("Comandanta")
+                 "Fundamentalism", _("Reverend"),     _("?female:Reverend")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="mexican", "mayan"
+
+cities =
+  "Guatemala (mountains, hills)", 
+  "Huehuetenango (mountains)", 
+  "Quetzaltenango (mountains)", 
+  "Antigua (mountains)", 
+  "Escuintla (mountains, hills)", 
+  "Chimaltenango (mountains)", 
+  "Flores (jungle, lake)",
+  "Mixco (mountains)", 
+  "Villa Nueva", 
+  "Santa Lucía Cotzumalguapa (swamp)",
+  "Puerto Barrios (ocean, river, lake)", 
+  "Cobán (mountains, forest)",
+  "Chichicastenango (mountains)", 
+  "San Pedro Sacatepéquez (mountains, forest)",
+  "Jalapa",
+  "Totonicapán",
+  "Momostenango",
+  "Coatepeque",
+  "Poptún (jungle)",
+  "Mazatenango",
+  "Zacapa (river)",
+  "Chiquimula (river)",
+  "Santa Cruz del Quiché",
+  "Jutiapa",
+  "San Benito",
+  "Santiago Atitlán (lake)",
+  "San Cristóbal Verapaz (jungle, forest)",
+  "Monterrico (ocean)", 
+  "Retalhuleu (swamp, river)",
+  "Rabinal (mountains)", 
+  "Livingston (ocean)",
+  "Panajachel (lake)", 
+  "San Andrés Sajcabajá", 
+  "Santa Cruz del Quiché",
+  "Petapa",
+  "Santo Tomás de Castilla",
+  "Sololá", 
+  "Chinautla",
+  "Esquipulas", 
+  "Melchor de Mencos (jungle)", 
+  "Ciudad Tecún Umán (jungle, river, swamp)", 
+  "San Juan Sacatepéquez", 
+  "Villa Canales",
+  "San Antonio Suchitepéquez",
+  "Cuilapa",
+  "Salamá",
+  "Guastatoya",
+  "Amatitlán", 
+  "Nebaj",
+  "Santa Catarina Pinula",
+  "Palín",
+  "Barberena",
+  "Ostunalco",
+  "Tecpán Guatemala",
+  "San Mateo Ixtatán",
+  "La Mesilla",
+  "Sayaxché",
+  "Nahualá"
+
+

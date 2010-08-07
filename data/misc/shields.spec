@@ -94,6 +94,7 @@ sprites =
 		"f.shield.greece", "flags/greece-shield"
 		"f.shield.greenland", "flags/greenland-shield"
 		"f.shield.grenada", "flags/grenada-shield"
+		"f.shield.guatemala", "flags/guatemala-shield"
 		"f.shield.gupta", "flags/gupta-shield"
 		"f.shield.hacker", "flags/hacker-shield"
 		"f.shield.haiti", "flags/haiti-shield"

@@ -135,6 +135,7 @@ match=2
 *include "nation/german.ruleset"
 *include "nation/greek.ruleset"
 *include "nation/grenadian.ruleset"
+*include "nation/guatemalan.ruleset"
 *include "nation/gupta.ruleset"
 *include "nation/hacker.ruleset"
 *include "nation/haitian.ruleset"

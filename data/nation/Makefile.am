@@ -89,6 +89,7 @@ pkgdata_DATA = \
 		german.ruleset \
 		greek.ruleset \
 		grenadian.ruleset \
+		guatemalan.ruleset \
 		gupta.ruleset \
 		hacker.ruleset \
 		haitian.ruleset \
