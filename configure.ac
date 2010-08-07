@@ -2,7 +2,7 @@ dnl configure.ac for freeciv
 dnl Process this file with autoconf to produce a configure script.
 
 dnl Initialize with some random file to ensure the source is here.
-AC_INIT([freeciv], [m4_esyscmd([./version.in])])
+AC_INIT([freeciv], [m4_esyscmd([./fc_version])])
 AC_PREREQ(2.58)
 AC_CONFIG_SRCDIR([common/game.c])
 AC_CONFIG_AUX_DIR(bootstrap) # This can't be quoted or automake will fail
@@ -21,7 +21,7 @@ AC_DEFINE(DEFAULT_SOCK_PORT, 5556, [Connection TCP Port])
 dnl client/server should always have the same major and minor versions
 dnl different patch versions are compatible
 VERSION_SCRIPT_SILENT=yes
-m4_include(version.in)
+m4_include(fc_version)
 
 VERSION_WITHOUT_LABEL=${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION}
 VERSION=${VERSION_WITHOUT_LABEL}${VERSION_LABEL}
@@ -951,8 +951,8 @@ AC_CONFIG_COMMANDS([fc_default-5],[[if test x`uname -s` = xBeOS ; then
 CFLAGS="$EXTRA_DEBUG_CFLAGS $CFLAGS"
 CXXFLAGS="$EXTRA_DEBUG_CXXFLAGS $CXXFLAGS"
 
-dnl Rebuild 'configure' whenever version.in changes, if maintainer mode enabled.
-AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/version.in"])
+dnl Rebuild 'configure' whenever fc_version changes, if maintainer mode enabled.
+AC_SUBST([CONFIGURE_DEPENDENCIES], ["$CONFIGURE_DEPENDENCIES \$(top_srcdir)/fc_version"])
 
 dnl Make sure that config.h changes when ever CPPFLAGS, CFLAGS or CXXFLAGS
 dnl change so everything gets rebuilt. LDFLAGS is not handled here

@@ -93,7 +93,7 @@ EXTRA_DIST=	autogen.sh 			\
 		vms/vms_build.com		\
 		scripts/setup_auth_server.sh
 
-noinst_HEADERS= version.in
+noinst_HEADERS= fc_version
 
 src-check:
 	cd tests && $(MAKE) $(AM_MAKEFLAGS) src-check
