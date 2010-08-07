@@ -15,23 +15,29 @@
 #include <config.h>
 #endif
 
-#include "game.h"
+/* utility */
 #include "log.h"
+
+/* common */
+#include "game.h"
 #include "movement.h"
 #include "unit.h"
 #include "unitlist.h"
 
+/* aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* server */
 #include "hand_gen.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 
+/* ai */
 #include "aidata.h"
 #include "aiguard.h"
 #include "aiexplorer.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 

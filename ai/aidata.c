@@ -38,6 +38,7 @@
 #include "citytools.h"
 #include "diplhand.h"
 #include "maphand.h"
+#include "srv_log.h"
 #include "unittools.h"
 
 /* server/advisors */
@@ -49,7 +50,6 @@
 #include "aicity.h"
 #include "aiferry.h"
 #include "aihand.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 

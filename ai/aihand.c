@@ -40,6 +40,7 @@
 #include "plrhand.h"
 #include "sernet.h"
 #include "spacerace.h"
+#include "srv_log.h"
 #include "unithand.h"
 
 /* server/advisors */
@@ -50,7 +51,6 @@
 #include "advspace.h"
 #include "aicity.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"

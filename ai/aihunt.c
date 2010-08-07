@@ -33,6 +33,7 @@
 
 /* server */
 #include "citytools.h"
+#include "srv_log.h"
 #include "unittools.h"
 
 /* server/advisors */
@@ -41,7 +42,6 @@
 /* ai */
 #include "aicity.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 

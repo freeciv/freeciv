@@ -32,6 +32,7 @@
 #include "citytools.h"
 #include "cityturn.h"
 #include "gotohand.h"           /* warmap has been redeployed */
+#include "srv_log.h"
 
 /* server/advisors */
 #include "autosettlers.h"
@@ -44,7 +45,6 @@
 #include "aiferry.h"
 #include "aihand.h"
 #include "aihunt.h"
-#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aitech.h"
 #include "aitools.h"

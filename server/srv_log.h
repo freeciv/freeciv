@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AILOG_H
-#define FC__AILOG_H
+#ifndef FC__SRV_LOG_H
+#define FC__SRV_LOG_H
 
 /* utility */
 #include "log.h"
@@ -162,4 +162,4 @@ void real_bodyguard_log(const char *file, const char *function, int line,
 void TIMING_LOG(enum ai_timer timer, enum ai_timer_activity activity);
 void TIMING_RESULTS(void);
 
-#endif  /* FC__AILOG_H */
+#endif  /* FC__SRV_LOG_H */

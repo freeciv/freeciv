@@ -51,7 +51,6 @@
 #include "aiguard.h"
 #include "aihand.h"
 #include "aihunt.h"
-#include "ailog.h"
 #include "aiparatrooper.h"
 #include "aitools.h"
 
@@ -62,6 +61,7 @@
 #include "diplomats.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 

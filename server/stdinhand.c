@@ -52,7 +52,6 @@
 
 /* ai */
 #include "advmilitary.h"        /* assess_danger_player() */
-#include "ailog.h"
 
 /* server */
 #include "citytools.h"
@@ -74,6 +73,7 @@
 #include "score.h"
 #include "sernet.h"
 #include "settings.h"
+#include "srv_log.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "voting.h"

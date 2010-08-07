@@ -44,6 +44,7 @@
 #include "maphand.h"
 #include "plrhand.h"
 #include "score.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 
@@ -55,7 +56,6 @@
 #include "aidata.h"
 #include "aiferry.h"
 #include "aiguard.h"
-#include "ailog.h"
 #include "aitech.h"
 #include "aiunit.h"
 

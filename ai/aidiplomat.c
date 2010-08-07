@@ -42,6 +42,7 @@
 #include "cityturn.h"
 #include "diplomats.h"
 #include "maphand.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 
@@ -54,7 +55,6 @@
 #include "aidata.h"
 #include "aiguard.h"
 #include "aihand.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 

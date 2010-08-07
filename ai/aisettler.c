@@ -40,6 +40,7 @@
 #include "citytools.h"
 #include "gotohand.h"
 #include "maphand.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 
@@ -51,7 +52,6 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "aiferry.h"
-#include "ailog.h"
 #include "aitools.h"
 #include "aiunit.h"
 #include "citymap.h"

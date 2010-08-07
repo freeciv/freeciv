@@ -29,8 +29,6 @@ libcivai_la_SOURCES = \
 		aihand.h	\
 		aihunt.c	\
 		aihunt.h	\
-		ailog.c		\
-		ailog.h		\
 		aiparatrooper.c \
 		aiparatrooper.h \
 		aisettler.c	\

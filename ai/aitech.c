@@ -17,17 +17,22 @@
 
 #include <string.h>
 
+/* utility */
+#include "log.h"
+
+/* common */
 #include "game.h"
 #include "government.h"
-#include "log.h"
 #include "player.h"
 #include "tech.h"
 
+/* server */
 #include "plrhand.h"
+#include "srv_log.h"
 #include "techtools.h"
 
+/* ai */
 #include "advmilitary.h"
-#include "ailog.h"
 #include "aitools.h"
 
 #include "aitech.h"

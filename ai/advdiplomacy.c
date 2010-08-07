@@ -44,6 +44,7 @@
 #include "diplhand.h"
 #include "maphand.h"
 #include "notify.h"
+#include "srv_log.h"
 
 /* server/advisors */
 #include "advtools.h"
@@ -51,7 +52,6 @@
 /* ai */
 #include "aicity.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aiunit.h"
 #include "aitools.h"
 #include "advmilitary.h"

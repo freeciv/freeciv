@@ -80,6 +80,8 @@ libfreeciv_srv_la_SOURCES = \
 		settings.h	\
 		spacerace.c	\
 		spacerace.h	\
+		srv_log.c	\
+		srv_log.h	\
 		srv_main.c	\
 		srv_main.h	\
 		stdinhand.c	\

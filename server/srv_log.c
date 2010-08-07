@@ -38,7 +38,7 @@
 #include "aicity.h"
 #include "aidata.h"
 
-#include "ailog.h"
+#include "srv_log.h"
 
 static struct timer *aitimer[AIT_LAST][2];
 static int recursion[AIT_LAST];

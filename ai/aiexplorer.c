@@ -17,17 +17,23 @@
 
 #include <math.h> /* log */
 
+/* utility */
 #include "log.h"
+
+/* common */
 #include "movement.h"
 #include "player.h"
 #include "unit.h"
 
+/* aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* server */
 #include "maphand.h"
+#include "srv_log.h"
 
-#include "ailog.h"
+/* ai */
 #include "aitools.h"
 
 #include "aiexplorer.h"

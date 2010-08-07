@@ -31,6 +31,7 @@
 /* server */
 #include "citytools.h"
 #include "maphand.h"
+#include "srv_log.h"
 #include "unittools.h"
 
 /* generator */
@@ -39,7 +40,6 @@
 /* ai */
 #include "aicity.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aiunit.h"
 #include "aitools.h"
 

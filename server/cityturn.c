@@ -51,6 +51,7 @@
 #include "plrhand.h"
 #include "sanitycheck.h"
 #include "spacerace.h"
+#include "srv_log.h"
 #include "srv_main.h"
 #include "techtools.h"
 #include "unittools.h"
@@ -64,7 +65,6 @@
 /* ai */
 #include "advdomestic.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aitools.h"
 
 

@@ -42,7 +42,6 @@
 /* ai */
 #include "aicity.h"
 #include "aidata.h"
-#include "ailog.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -51,6 +50,7 @@
 #include "citytools.h"
 #include "maphand.h"
 #include "plrhand.h"
+#include "srv_log.h"
 #include "unithand.h"
 #include "unittools.h"
 

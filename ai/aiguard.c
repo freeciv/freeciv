@@ -15,11 +15,17 @@
 #include <config.h>
 #endif
 
-#include "game.h"
+/* utility */
 #include "log.h"
+
+/* common */
+#include "game.h"
 #include "unit.h"
 
-#include "ailog.h"
+/* server */
+#include "srv_log.h"
+
+/* ai */
 #include "aitools.h"
 
 #include "aiguard.h"
