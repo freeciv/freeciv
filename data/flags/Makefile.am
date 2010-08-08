@@ -412,7 +412,7 @@ shield_files =					\
 		rif-shield.png			\
 		romania-shield.png		\
 		rome-shield.png			\
-		rvne-shield.png			\
+		rvn-shield.png			\
 		russia-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
