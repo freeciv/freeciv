@@ -1790,6 +1790,8 @@ void vision_clear_sight(struct vision *vision)
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer)
 {
+  bool done_new_vision = FALSE;
+
   base_type_iterate(old_base) {
     if (tile_has_base(ptile, old_base)
         && !can_bases_coexist(old_base, pbase)) {
@@ -1821,11 +1823,17 @@ void create_base(struct tile *ptile, struct base_type *pbase,
 
   /* Claim base if it has "ClaimTerritory" flag */
   if (territory_claiming_base(pbase) && pplayer) {
+    /* Normally map_claim_ownership will enact the new base's vision effect
+     * as a side effect, except for the nasty special case where we already
+     * own the tile. */
+    if (pplayer != tile_owner(ptile))
+      done_new_vision = TRUE;
     map_claim_ownership_full(ptile, pplayer, ptile, pbase);
     map_claim_border(ptile, pplayer);
     city_thaw_workers_queue();
     city_refresh_queue_processing();
-  } else {
+  }
+  if (!done_new_vision) {
     struct player *owner = tile_owner(ptile);
 
     if (pbase->vision_main_sq > 0 && owner) {
