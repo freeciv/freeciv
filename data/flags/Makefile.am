@@ -177,6 +177,7 @@ flag_files =				\
 		rif.png			\
 		romania.png		\
 		rome.png		\
+		rvn.png			\
 		russia.png		\
 		rwanda.png		\
 		ryukyu.png		\
@@ -411,6 +412,7 @@ shield_files =					\
 		rif-shield.png			\
 		romania-shield.png		\
 		rome-shield.png			\
+		rvne-shield.png			\
 		russia-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
@@ -645,6 +647,7 @@ svg_files = 				\
 		rif.svg			\
 		romania.svg		\
 		rome.svg		\
+		rvn.svg			\
 		russia.svg		\
 		rwanda.svg		\
 		ryukyu.svg		\

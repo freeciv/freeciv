@@ -188,6 +188,7 @@ sprites =
 		"f.shield.romania", "flags/romania-shield"
 		"f.shield.rome", "flags/rome-shield"
 		"f.shield.russia", "flags/russia-shield"
+		"f.shield.rvn", "flags/rvn-shield"
 		"f.shield.rwanda", "flags/rwanda-shield"
 		"f.shield.ryukyu", "flags/ryukyu-shield"
 		"f.shield.samogitia", "flags/samogitia-shield"

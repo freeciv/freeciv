@@ -1,0 +1,74 @@
+[nation_southvietnamese]
+
+name=_("South Vietnamese")
+plural=_("?plural:South Vietnamese")
+groups="Asian"
+legend=_("South Vietnam, officially the Republic of Vietnam, was the\
+ American backed state during the Vietnam War. The country was reunited\
+ with North Vietnam after it was conquered by communist forces in 1975.")
+leader=
+ "Ngô Đình Diệm",
+ "Ngô Đình Nhu",
+ "Trần Lệ Xuân",
+ "Dương Văn Minh",
+ "Nguyễn Cao Kỳ",
+ "Nguyễn Văn Thiệu"
+leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
+flag="rvn"
+flag_alt = "vietnam"
+city_style = "Asian"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Communism",        _("Chairman"),      _("Chairwoman")
+                 "Despotism",        _("General"),      _("Madame")
+                 "Fundamentalism",        _("Archbishop"),      _("?female:Archbishop")
+                 "Monarchy",        _("Emperor"),      _("Empress")
+}
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+conflicts_with = "badian", "catalan" ;similar flags
+civilwar_nations = "vietnamese", "cambodian", "laotian"
+
+cities =
+  "Sài Gòn",
+  "Đà Nẵng",
+  "Biên Hòa",
+  "Huế",
+  "Nha Trang",
+  "Cần Thơ",
+  "Rạch Giá",
+  "Qui Nhơn",
+  "Vũng Tàu",
+  "Phan Thiết",
+  "Long Xuyên",
+  "Buôn Ma Thuột",
+  "Cam Ranh",
+  "Đà Lạt",
+  "Mỹ Tho",
+  "Sóc Trăng",
+  "Pleiku",
+  "Cà Mau",
+  "Bạc Liêu",
+  "Vĩnh Long",
+  "Kontum",
+  "An Lộc",
+  "Bến Tre",
+  "Hội An",
+  "Quảng Ngãi",
+  "Mỹ Lai",
+  "Long Xuyên",
+  "Châu Đốc",
+  "Cao Lãnh",
+  "Phan Rang-Tháp Chàm",
+  "Tam Kỳ",
+  "Tân An",
+  "Tuy Hòa",
+  "Tân Sơn Nhất",
+  "Ấp Bắc",
+  "Đắk Tô",
+  "Khe Sanh",
+  "Quảng Trị",
+  "Xuân Lộc"

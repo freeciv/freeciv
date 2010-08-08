@@ -185,6 +185,7 @@ artists = "
    Romania		Daniel McRae
    Rome			Vasco Alexandre Da Silva Costa, Patricia Fidi
    Russia		Oleg Krivosheev
+   RVN			J.M. Maalderink
    Rwanda		Cezary Biele
    Ryukyu		Daniel Markstedt
    Samogitia		Daniel Markstedt and Jarno Vasamaa
@@ -424,6 +425,7 @@ sprites =
 		"f.romania", "flags/romania"
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"
+		"f.rvn", "flags/rvn"
 		"f.rwanda", "flags/rwanda"		; Alternate Zulu
 		"f.ryukyu", "flags/ryukyu"
 		"f.samogitia", "flags/samogitia"

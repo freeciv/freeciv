@@ -236,6 +236,7 @@ match=2
 *include "nation/slovenian.ruleset"
 *include "nation/southafrican.ruleset"
 *include "nation/southkorean.ruleset"
+*include "nation/southvietnamese.ruleset"
 *include "nation/soviet.ruleset"
 *include "nation/spanish.ruleset"
 *include "nation/srivijaya.ruleset"
