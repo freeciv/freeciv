@@ -101,6 +101,7 @@ pkgdata_DATA = \
 		hessian.ruleset \
 		himyarite.ruleset \
 		hittite.ruleset \
+		holyroman.ruleset \
 		holysee.ruleset \
 		hopi.ruleset \
 		hungarian.ruleset \

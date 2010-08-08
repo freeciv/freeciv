@@ -97,6 +97,7 @@ flag_files =				\
 		himyar.png		\
 		hittite.png		\
 		hopi.png		\
+		hre.png			\
 		hungary.png		\
 		iceland.png		\
 		illyria.png		\
@@ -330,6 +331,7 @@ shield_files =					\
 		himyar-shield.png		\
 		hittite-shield.png		\
 		hopi-shield.png			\
+		hre-shield.png			\
 		hungary-shield.png		\
 		iceland-shield.png		\
 		illyria-shield.png		\
@@ -563,6 +565,7 @@ svg_files = 				\
 		himyar.svg		\
 		hittite.svg		\
 		hopi.svg		\
+		hre.svg			\
 		hungary.svg		\
 		iceland.svg		\
 		illyria.svg		\

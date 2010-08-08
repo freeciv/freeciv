@@ -104,6 +104,7 @@ artists = "
    Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
    Hopi			Daniel Markstedt
+   HRE			Gryffindor (Wikimedia Commons user) and J.M. Maalderink
    Hungary		Laszlo Dvornik
    Iceland		Áki G. Karlsson
    Illyria		William Allen Simpson
@@ -342,6 +343,7 @@ sprites =
 		"f.hittite", "flags/hittite"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
 		"f.hopi", "flags/hopi"
+		"f.hre", "flags/hre"
 		"f.hungary", "flags/hungary"
 		"f.iceland", "flags/iceland"
 		"f.illyria", "flags/illyria"

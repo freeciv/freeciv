@@ -43,7 +43,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="roman"
-civilwar_nations="roman", "swiss"
+civilwar_nations="roman", "holyroman", "swiss"
 
 cities =
  "Sanctus Petrus",
