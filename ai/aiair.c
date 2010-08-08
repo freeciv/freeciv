@@ -35,6 +35,9 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "advgoto.h"
+
 /* ai */
 #include "aicity.h"
 #include "aitools.h"
@@ -333,7 +336,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       pfm = pf_map_new(&parameter);
       path = pf_map_get_path(pfm, punit->goto_tile);
       if (path) {
-        bool alive = ai_follow_path(punit, path, punit->goto_tile);
+        bool alive = adv_follow_path(punit, path, punit->goto_tile);
 
         pf_path_destroy(path);
         pf_map_destroy(pfm);
@@ -346,7 +349,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
       pf_map_destroy(pfm);
     } else if ((dst_tile = find_nearest_airbase(punit, &path))) {
       /* Go refuelling */
-      if (!ai_follow_path(punit, path, dst_tile)) {
+      if (!adv_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */
       }
@@ -367,7 +370,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
        * TODO: separate attacking into a function, check for the best 
        * tile to attack from */
       fc_assert_ret(path != NULL && dst_tile != NULL);
-      if (!ai_follow_path(punit, path, dst_tile)) {
+      if (!adv_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */
       }
@@ -385,7 +388,7 @@ void ai_manage_airunit(struct player *pplayer, struct unit *punit)
                 unit_rule_name(punit), TILE_XY(dst_tile),
                 tile_city(dst_tile) ? city_name(tile_city(dst_tile)) : "");
       punit->server.ai->done = TRUE; /* Wait for next turn */
-      if (!ai_follow_path(punit, path, dst_tile)) {
+      if (!adv_follow_path(punit, path, dst_tile)) {
         pf_path_destroy(path);
         return; /* The unit died. */
       }

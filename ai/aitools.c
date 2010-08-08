@@ -49,6 +49,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "advtools.h"
 
 /* ai */
@@ -182,55 +183,6 @@ bool is_player_dangerous(struct player *pplayer, struct player *aplayer)
   }
   
   return FALSE;
-}
-
-/*************************************************************************
-  This is a function to execute paths returned by the path-finding engine,
-  for AI units and units (such as auto explorers) temporarily controlled
-  by the AI.
-
-  Brings our bodyguard along.
-  Returns FALSE only if died.
-*************************************************************************/
-bool ai_unit_execute_path(struct unit *punit, struct pf_path *path)
-{
-  const bool is_ai = unit_owner(punit)->ai_controlled;
-  int i;
-
-  /* We start with i = 1 for i = 0 is our present position */
-  for (i = 1; i < path->length; i++) {
-    struct tile *ptile = path->positions[i].tile;
-    int id = punit->id;
-
-    if (same_pos(punit->tile, ptile)) {
-      UNIT_LOG(LOG_DEBUG, punit, "execute_path: waiting this turn");
-      return TRUE;
-    }
-
-    /* We use ai_unit_move() for everything but the last step
-     * of the way so that we abort if unexpected opposition
-     * shows up. Any enemy on the target tile is expected to
-     * be our target and any attack there intentional.
-     * However, do not annoy human players by automatically attacking
-     * using units temporarily under AI control (such as auto-explorers)
-     */
-    if (is_ai && i == path->length - 1) {
-      (void) ai_unit_attack(punit, ptile);
-    } else {
-      (void) ai_unit_move(punit, ptile);
-    }
-    if (!game_find_unit_by_number(id)) {
-      /* Died... */
-      return FALSE;
-    }
-
-    if (!same_pos(punit->tile, ptile) || punit->moves_left <= 0) {
-      /* Stopped (or maybe fought) or ran out of moves */
-      return TRUE;
-    }
-  }
-
-  return TRUE;
 }
 
 /****************************************************************************
@@ -413,34 +365,6 @@ struct tile *immediate_destination(struct unit *punit,
 }
 
 /**************************************************************************
-  Move a unit along a path without disturbing its activity, role
-  or assigned destination
-  Return FALSE iff we died.
-**************************************************************************/
-bool ai_follow_path(struct unit *punit, struct pf_path *path,
-                    struct tile *ptile)
-{
-  struct tile *old_tile = punit->goto_tile;
-  enum unit_activity activity = punit->activity;
-  bool alive;
-
-  if (punit->moves_left <= 0) {
-    return TRUE;
-  }
-  punit->goto_tile = ptile;
-  unit_activity_handling(punit, ACTIVITY_GOTO);
-  alive = ai_unit_execute_path(punit, path);
-  if (alive) {
-    unit_activity_handling(punit, ACTIVITY_IDLE);
-    send_unit_info(NULL, punit); /* FIXME: probably duplicate */
-    unit_activity_handling(punit, activity);
-    punit->goto_tile = old_tile; /* May be NULL. */
-    send_unit_info(NULL, punit);
-  }
-  return alive;
-}
-
-/**************************************************************************
   Log the cost of travelling a path.
 **************************************************************************/
 void ai_log_path(struct unit *punit,
@@ -503,7 +427,7 @@ bool ai_unit_goto_constrained(struct unit *punit, struct tile *ptile,
   if (path) {
     ai_log_path(punit, path, parameter);
     UNIT_LOG(LOG_DEBUG, punit, "constrained goto: following path.");
-    alive = ai_follow_path(punit, path, ptile);
+    alive = adv_follow_path(punit, path, ptile);
   } else {
     UNIT_LOG(LOG_DEBUG, punit, "no path to destination");
   }
@@ -1012,9 +936,21 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
 }
 
 /**************************************************************************
+  Ai unit moving function called from AI interface.
+**************************************************************************/
+void ai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
+                            struct pf_path *path, int step)
+{
+  if (step == path->length - 1) {
+    (void) ai_unit_attack(punit, ptile);
+  } else {
+    (void) ai_unit_move(punit, ptile);
+  }
+}
+
+/**************************************************************************
   Move a unit. Do not attack. Do not leave bodyguard.
-  For AI units and units (such as auto explorers) temporarily controlled
-  by the AI.
+  For AI units.
 
   This function returns only when we have a reply from the server and
   we can tell the calling function what happened to the move request.
@@ -1035,7 +971,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
                         TILE_XY(ptile));
 
   /* if enemy, stop and give a chance for the ai attack function
-   * or the human player to handle this case */
+   * to handle this case */
   if (is_enemy_unit_tile(ptile, pplayer)
       || is_enemy_city_tile(ptile, pplayer)) {
     UNIT_LOG(LOG_DEBUG, punit, "movement halted due to enemy presence");

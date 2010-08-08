@@ -71,6 +71,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "autosettlers.h"
 
 /* server/scripting */
@@ -364,7 +365,7 @@ void player_restore_units(struct player *pplayer)
 
               path = pf_map_get_path(pfm, ptile);
 
-              alive = ai_follow_path(punit, path, ptile);
+              alive = adv_follow_path(punit, path, ptile);
 
               if (!alive) {
                 log_error("rescue plane: unit %d died enroute!", id);

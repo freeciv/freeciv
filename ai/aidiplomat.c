@@ -47,6 +47,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "autosettlers.h"
 
 /* ai */
@@ -535,7 +536,7 @@ static bool ai_diplomat_bribe_nearby(struct player *pplayer,
 
       ptile = mapstep(pos.tile, DIR_REVERSE(pos.dir_to_here));
       path = pf_map_get_path(pfm, ptile);
-      if (!path || !ai_unit_execute_path(punit, path) 
+      if (!path || !adv_unit_execute_path(punit, path) 
           || punit->moves_left <= 0) {
         pf_path_destroy(path);
         return FALSE;
@@ -701,7 +702,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     struct pf_path *path;
 
     path = pf_map_get_path(pfm, punit->goto_tile);
-    if (path && ai_unit_execute_path(punit, path) && punit->moves_left > 0) {
+    if (path && adv_unit_execute_path(punit, path) && punit->moves_left > 0) {
       /* Check if we can do something with our destination now. */
       if (punit->server.ai->ai_role == AIUNIT_ATTACK) {
         int dist  = real_map_distance(punit->tile, punit->goto_tile);

@@ -55,6 +55,7 @@
 #include "unittools.h"
 
 /* advisors */
+#include "advgoto.h"
 #include "advtools.h"
 
 #include "autosettlers.h"
@@ -1027,7 +1028,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
     if (path) {
       bool alive;
 
-      alive = ai_follow_path(punit, path, best_tile);
+      alive = adv_follow_path(punit, path, best_tile);
 
       if (alive && same_pos(punit->tile, best_tile)
 	  && punit->moves_left > 0) {

@@ -37,6 +37,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "advtools.h"
 
 /* ai */
@@ -524,7 +525,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
 
       /* Go towards it. */
       path = pf_map_get_path(pfm, target->tile);
-      if (!ai_unit_execute_path(punit, path)) {
+      if (!adv_unit_execute_path(punit, path)) {
         pf_path_destroy(path);
         pf_map_destroy(pfm);
         return 0;

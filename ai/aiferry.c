@@ -28,6 +28,9 @@
 #include "path_finding.h"
 #include "pf_tools.h"
 
+/* server/advisors */
+#include "advgoto.h"
+
 /* server */
 #include "hand_gen.h"
 #include "srv_log.h"
@@ -550,7 +553,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
   if (path) {
     ai_log_path(passenger, path, &parameter->combined);
     /* Sea leg */
-    alive = ai_follow_path(ferry, path, ptile);
+    alive = adv_follow_path(ferry, path, ptile);
     if (alive && passenger->tile != ptile) {
       /* Ferry has stopped; it is at the landing beach or
        * has run out of movement points */
@@ -568,7 +571,7 @@ bool ai_amphibious_goto_constrained(struct unit *ferry,
 	UNIT_LOG(LOG_DEBUG, passenger, "Disembarking to (%d,%d)",
 		 TILE_XY(next_tile));
 	/* Land leg */
-	alive = ai_follow_path(passenger, path, ptile);
+        alive = adv_follow_path(passenger, path, ptile);
 	if (0 < ferry->moves_left
             && (!alive || ferry->tile != passenger->tile)) {
 	  /* The passenger is no longer on the ferry,
@@ -659,7 +662,7 @@ bool aiferry_gobyboat(struct player *pplayer, struct unit *punit,
 	       boatid, TILE_XY(ferryboat->tile));
       /* The path can be amphibious so we will stop at the coast.  
        * It might not lead _onto_ the boat. */
-      if (!ai_unit_execute_path(punit, path_to_ferry)) { 
+      if (!adv_unit_execute_path(punit, path_to_ferry)) { 
         /* Died. */
 	pf_path_destroy(path_to_ferry);
         return FALSE;

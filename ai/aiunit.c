@@ -66,6 +66,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advgoto.h"
 #include "autosettlers.h"
 
 #include "aiunit.h"
@@ -692,7 +693,7 @@ bool ai_military_rampage(struct unit *punit, int thresh_adj,
 
   while (count-- > 0 && punit->moves_left > 0
          && (path = find_rampage_target(punit, thresh_adj, thresh_move))) {
-    if (!ai_unit_execute_path(punit, path)) {
+    if (!adv_unit_execute_path(punit, path)) {
       /* Died */
       count = -1;
     }
