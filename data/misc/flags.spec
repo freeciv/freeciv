@@ -21,6 +21,7 @@ artists = "
    Amazigh		Mysid
    Amazon		Ann Barcomb
    Andorra		Patricia Fidi
+   Anishinaabe		Shandris (Wikimedia Commons user)
    Antarctica		Tobias Jakobs
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -255,6 +256,7 @@ sprites =
 		"f.amazigh", "flags/amazigh"
 		"f.amazon", "flags/amazon"
 		"f.andorra", "flags/andorra"
+		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"

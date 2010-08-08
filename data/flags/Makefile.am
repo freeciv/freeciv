@@ -13,6 +13,7 @@ flag_files =				\
 		amazigh.png		\
 		amazon.png		\
 		andorra.png		\
+		anishinaabe.png		\
 		antarctica.png		\
 		arab.png		\
 		aragon.png		\
@@ -245,6 +246,7 @@ shield_files =					\
 		amazigh-shield.png		\
 		amazon-shield.png		\
 		andorra-shield.png		\
+		anishinaabe-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
 		aragon-shield.png		\
@@ -477,6 +479,7 @@ svg_files = 				\
 		amazigh.svg		\
 		amazon.svg		\
 		andorra.svg		\
+		anishinaabe.svg		\
 		antarctica.svg		\
 		arab.svg		\
 		aragon.svg		\

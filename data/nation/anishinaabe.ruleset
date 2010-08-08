@@ -1,0 +1,77 @@
+[nation_anishinaabe]
+
+name=_("Anishinaabe")
+plural=_("?plural:Anishinaabeg")
+groups="American"
+legend=_("The Anishinaabeg are a group of closely related Native American\
+ tribes in the North American Great Lakes region, including the Ottawa,\
+ Ojibwe, Algonkin and Potawatomi. They speak Algonquian languages.\
+ Together they are one of the most numerous indigenous peoples of North\
+ America.")
+leader=
+ "Pontiac",
+ "Egushawa",
+ "Ningweegon",
+ "Shup-Shewana",
+ "Aazhawigiizhigokwe",
+ "Gichiweshkiinh",
+ "Ozaawindib",
+ "Waabaanakwad",
+ "Eshkibagikoonzhe",
+ "Leonard Peltier"
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male", "Male"
+flag="anishinaabe"
+flag_alt = "-"
+city_style = "Celtic"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+		 "Monarchy", 	    _("Great Chief"),_("?female:Great Chief")
+                "Democracy",_("Principal Chief"),_("?female:Principal Chief")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "cree", "quebecois"
+
+cities =
+ "Gnoozhekaaning",
+ "Wemitigoozhiiwitigwaaning",
+ "Zhiibaahaasing",
+ "Aazhoomog",
+ "Bikoganaagan",
+ "Agaming",
+ "Gibaakwa'iganing",
+ "Mooningwanekaaning",
+ "Namekaawa'iganing",
+ "Nagaajiwanaang",
+ "Gaa-zhiigwanaabikokaag",
+ "Neyaashiing",
+ "Chi-minising",
+ "Gaa-mitaawangaagamaag",
+ "Manoominikaan-zaaga'iganiing",
+ "Minisinaakwaang",
+ "Asinikaaning",
+ "Ne-zhingwaakokaag",
+ "Gichi-oodenaang",
+ "Oshki-oodenaang",
+ "Wiikwegamaang",
+ "Zaagawaamikaag-wiidwedong",
+ "Mooz-eskani-zaaga'iganiing",
+ "Onigamiinsing",
+ "Namaygoosisagagun",
+ "Minjikaning",
+ "Shapawe",
+ "Chi-achaabaaning",
+ "Gaa-mitaawangaagamaag",
+ "Siipiising",
+ "Makadewaagamijiwanong",
+ "Iskatewi-zaaga'iganiing",
+ "Azaadiwi-ziibi",
+ "Asabiinyashkosiwagong",
+ "Gitigaan-ziibi",
+ "Bizhiw-zaaga'iganiing",
+ "Gasabaanakaa",
+ "Gichi-namegosib ininiwag",
+ "Misi-zhaaga'iganiing"
