@@ -530,7 +530,7 @@ static bool startunits_callback(const char *value,
     /* Looks like the character was invalid. */
     settings_snprintf(reject_msg, reject_msg_len,
                       _("Starting units string validation failed at "
-                        "characters '%c'. Try \"help startunits\"."),
+                        "character '%c'. Try \"help startunits\"."),
                       value[i]);
     return FALSE;
   }
@@ -928,7 +928,7 @@ static struct setting settings[] = {
            SSET_RULES, SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Global warming"),
            N_("If turned off, global warming will not occur "
-              "as a result of pollution. This settings does not "
+              "as a result of pollution. This setting does not "
               "affect pollution."), NULL, NULL,
            GAME_DEFAULT_GLOBAL_WARMING)
 
@@ -1367,7 +1367,7 @@ static struct setting settings[] = {
   GEN_ENUM("barbarians", game.server.barbarianrate,
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_VITAL, SSET_TO_CLIENT,
            N_("Barbarian appearance frequency"),
-           N_("This setting controls how frequently the barbarians appears "
+           N_("This setting controls how frequently the barbarians appear "
               "in the game. See also the \"onsetbarbs\" setting."),
            NULL, NULL, barbarians_name, GAME_DEFAULT_BARBARIANRATE)
 
@@ -1410,7 +1410,7 @@ static struct setting settings[] = {
   GEN_INT("airliftingstyle", game.info.airlifting_style,
           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
           SSET_TO_CLIENT, N_("Airlifting style"),
-          N_("This settings affects airlifting units between cities. "
+          N_("This setting affects airlifting units between cities. "
              "The value of this setting is a OR-ed value from:\n"
              "  0 = Like classical Freeciv, only as many units per turn "
              "to source or to destination the ruleset allows between your "
@@ -1779,7 +1779,7 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_VITAL, SSET_SERVER_ONLY,
            N_("Save using the given savegame version."),
            N_("Create a savegame which can be loaded by the given version "
-              "of freeciv. Some features will not be saved/restored for "
+              "of Freeciv. Some features will not be saved/restored for "
               "older versions. '0' uses the current format."),
            NULL, NULL, saveversion_name, GAME_DEFAULT_SAVEVERSION)
 
@@ -1806,7 +1806,7 @@ static struct setting settings[] = {
            SSET_META, SSET_INTERNAL, SSET_SITUATIONAL, SSET_SERVER_ONLY,
            N_("Whether to log player statistics"),
            N_("If this is set to 1, player statistics are appended to "
-              "the file define by the option 'scorefile' every turn. "
+              "the file defined by the option 'scorefile' every turn. "
               "These statistics can be used to create power graphs after "
               "the game."), NULL, scorelog_action, GAME_DEFAULT_SCORELOG)
 

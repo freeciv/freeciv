@@ -816,7 +816,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   pplayer = find_player_by_user(name);
   if (pplayer && pplayer->is_alive) {
     fc_snprintf(buf, buflen,
-                _("An living user already exists by that name."));
+                _("A living user already exists by that name."));
     return C_BOUNCE;
   }
 
@@ -824,7 +824,7 @@ enum rfc_status create_command_newcomer(const char *name, bool check,
   pplayer = find_player_by_name(name);
   if (pplayer && pplayer->is_alive) {
     fc_snprintf(buf, buflen,
-                _("An living player already exists by that name."));
+                _("A living player already exists by that name."));
     return C_BOUNCE;
   }
 

@@ -478,14 +478,14 @@ bool update_bulbs(struct player *plr, int bulbs, bool check_tech)
       && (research->techs_researched > 0 || research->future_tech > 0)) {
     if (research->future_tech > 0) {
       notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
-                    _("To low science output. We lost Future Tech. %d."),
+                    _("Too low science output. We lost Future Tech. %d."),
                     research->future_tech);
       research->future_tech--;
     } else {
       Tech_type_id tech = pick_random_tech_researched(plr);
       if (tech != A_NONE) {
         notify_player(plr, NULL, E_TECH_GAIN, ftc_server,
-                      _("To low science output. We lost %s."),
+                      _("Too low science output. We lost %s."),
                       advance_name_for_player(plr, tech));
         player_tech_lost(plr, tech);
       }
