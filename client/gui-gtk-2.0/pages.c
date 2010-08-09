@@ -81,8 +81,6 @@ static GtkTreeSelection *meta_selection, *lan_selection;
  * be catch throught a switch() statement. */
 static enum client_pages current_page = -1;
 
-static void set_page_callback(GtkWidget *w, gpointer data);
-
 static guint meta_scan_timer, lan_scan_timer;
 static struct server_scan *meta_scan, *lan_scan;
 
@@ -93,6 +91,8 @@ static guint statusbar_timer = 0;
 static GtkWidget *ruleset_combo;
 
 static bool save_scenario = FALSE;
+
+static void connection_state_reset(void);
 
 /**************************************************************************
   spawn a server, if there isn't one, using the default settings.
@@ -120,6 +120,15 @@ static void load_saved_game_callback(GtkWidget *w, gpointer data)
 {
   set_client_page(PAGE_LOAD);
   client_start_server();
+}
+
+/****************************************************************************
+  Reset the connection status and switch to network page.
+****************************************************************************/
+static void connect_network_game_callback(GtkWidget *w, gpointer data)
+{
+  connection_state_reset();
+  set_client_page(PAGE_NETWORK);
 }
 
 /**************************************************************************
@@ -247,8 +256,7 @@ GtkWidget *create_main_page(void)
   gtk_size_group_add_widget(size, button);
   gtk_table_attach_defaults(GTK_TABLE(table), button, 1, 2, 0, 1);
   g_signal_connect(button, "clicked",
-                   G_CALLBACK(set_page_callback),
-                   GUINT_TO_POINTER(PAGE_NETWORK));
+                   G_CALLBACK(connect_network_game_callback), NULL);
 
 #ifdef GGZ_GTK
   button = gtk_button_new_with_mnemonic(_("Connect to Gaming _Zone"));
@@ -558,6 +566,14 @@ static void set_connection_state(enum connection_state state)
   connection_status = state;
 }
 
+/****************************************************************************
+  Reset the connection state.
+****************************************************************************/
+static void connection_state_reset(void)
+{
+  set_connection_state(LOGIN_TYPE);
+}
+
 /**************************************************************************
  configure the dialog depending on what type of authentication request the
  server is making.
@@ -741,8 +757,6 @@ static void update_network_page(void)
   gtk_entry_set_text(GTK_ENTRY(network_host), server_host);
   fc_snprintf(buf, sizeof(buf), "%d", server_port);
   gtk_entry_set_text(GTK_ENTRY(network_port), buf);
-
-  set_connection_state(LOGIN_TYPE);
 }
 
 /**************************************************************************
@@ -2186,16 +2200,9 @@ void real_set_client_page(enum client_pages new_page)
     update_network_lists();
     gtk_widget_grab_focus(network_login);
     gtk_editable_set_position(GTK_EDITABLE(network_login), 0);
+    set_connection_state(connection_status);
     break;
   }
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-static void set_page_callback(GtkWidget *w, gpointer data)
-{
-  set_client_page(GPOINTER_TO_UINT(data));
 }
 
 /**************************************************************************
