@@ -101,19 +101,22 @@ libfreeciv_srv_la_SOURCES = \
 
 # FIXME: Server library is calling AI functions.
 #        We should get rid of this dependency.
+srvlibs = \
+ $(top_builddir)/ai/libcivai.la \
+ $(top_builddir)/server/advisors/libadvisors.la \
+ $(top_builddir)/server/generator/libgenerator.la \
+ $(top_builddir)/server/scripting/libscripting.la
+
 libfreeciv_srv_la_DEPENDENCIES = \
- $(top_builddir)/ai/libcivai.la
+ $(srvlibs)
 
 libfreeciv_srv_la_LIBADD = \
- $(top_builddir)/ai/libcivai.la
+ $(srvlibs)
 
 freeciv_server_DEPENDENCIES = \
  $(top_builddir)/common/libfreeciv.la \
  ./libfreeciv-srv.la \
- ./scripting/libscripting.la \
- $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY) \
- ./generator/libgenerator.la \
- ./advisors/libadvisors.la
+ $(LUA_AS_DEPENDENCY) $(TOLUA_AS_DEPENDENCY)
 
 freeciv_server_LDFLAGS = $(GGZDMOD_LDFLAGS)
 
@@ -123,9 +126,6 @@ freeciv_server_LDADD = \
  $(top_builddir)/common/libfreeciv.la \
  ./libfreeciv-srv.la \
  $(top_builddir)/common/libfreeciv.la \
- ./generator/libgenerator.la \
- ./scripting/libscripting.la \
- ./advisors/libadvisors.la \
  $(INTLLIBS) \
  $(LUA_LIBS) $(TOLUA_LIBS) \
  $(AUTH_LIBS) $(SERVER_LIBS) $(LIB_GGZDMOD) $(SERVERICON)
