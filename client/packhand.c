@@ -1731,7 +1731,6 @@ void handle_player_remove(int playerno)
     pconn->playing = NULL;
   }
 
-  player_clear(pplayer);
   player_destroy(pplayer);
 
   update_players_dialog();

@@ -337,7 +337,7 @@ bool player_slots_initialised(void);
 void player_slots_free(void);
 
 struct player *player_new(int player_id);
-void player_clear(struct player *pplayer);
+void player_clear(struct player *pplayer, bool full);
 void player_destroy(struct player *pplayer);
 
 /* iterate over all player slots */

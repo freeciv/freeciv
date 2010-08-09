@@ -325,8 +325,7 @@ bool player_slots_initialised(void)
 void player_slots_free(void)
 {
   players_iterate(pplayer) {
-      player_clear(pplayer);
-      player_destroy(pplayer);
+    player_destroy(pplayer);
   } players_iterate_end;
   free(player_slots.pslots);
   player_slots.pslots = NULL;
@@ -473,14 +472,29 @@ static void player_defaults(struct player *pplayer)
 }
 
 /****************************************************************************
-  Clear all player data
+  Clear all player data. If full is set, then the nation and the team will
+  be cleared too.
 ****************************************************************************/
-void player_clear(struct player *pplayer)
+void player_clear(struct player *pplayer, bool full)
 {
   if (pplayer == NULL) {
     return;
   }
 
+  /* Clears the attribute blocks. */
+  if (pplayer->attribute_block.data) {
+    free(pplayer->attribute_block.data);
+    pplayer->attribute_block.data = NULL;
+  }
+  pplayer->attribute_block.length = 0;
+
+  if (pplayer->attribute_block_buffer.data) {
+    free(pplayer->attribute_block_buffer.data);
+    pplayer->attribute_block_buffer.data = NULL;
+  }
+  pplayer->attribute_block_buffer.length = 0;
+
+  /* Clears units and cities. */
   unit_list_iterate(pplayer->units, punit) {
     game_remove_unit(punit);
   } unit_list_iterate_end;
@@ -489,16 +503,19 @@ void player_clear(struct player *pplayer)
     game_remove_city(pcity);
   } city_list_iterate_end;
 
-  team_remove_player(pplayer);
+  if (full) {
+    team_remove_player(pplayer);
 
-  /* This comes last because log calls in the above functions may use it. */
-  if (pplayer->nation != NULL) {
-    player_set_nation(pplayer, NULL);
+    /* This comes last because log calls in the above functions
+     * may use it. */
+    if (pplayer->nation != NULL) {
+      player_set_nation(pplayer, NULL);
+    }
   }
 }
 
 /****************************************************************************
-  ...
+  Destroys and remove a player from the game.
 ****************************************************************************/
 void player_destroy(struct player *pplayer)
 {
@@ -514,16 +531,11 @@ void player_destroy(struct player *pplayer)
   fc_assert_ret(*pslot == pplayer);
 
   /* Remove all that is game-dependent in the player structure. */
-  if (pplayer->attribute_block.data) {
-    free(pplayer->attribute_block.data);
-  }
-  if (pplayer->attribute_block_buffer.data) {
-    free(pplayer->attribute_block_buffer.data);
-  }
+  player_clear(pplayer, TRUE);
 
-  fc_assert_ret(0 == unit_list_size(pplayer->units));
+  fc_assert(0 == unit_list_size(pplayer->units));
   unit_list_destroy(pplayer->units);
-  fc_assert_ret(0 == city_list_size(pplayer->cities));
+  fc_assert(0 == city_list_size(pplayer->cities));
   city_list_destroy(pplayer->cities);
 
 #if 0

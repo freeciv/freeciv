@@ -1190,7 +1190,7 @@ void server_remove_player(struct player *pplayer)
   player_map_free(pplayer);
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
-  player_clear(pplayer);
+  player_clear(pplayer, TRUE);
 
   /* Destroy ai data. */
   CALL_PLR_AI_FUNC(data_close, pplayer, pplayer);

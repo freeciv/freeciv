@@ -453,11 +453,14 @@ void game_reset(void)
     game_free();
     game_init();
   } else {
-    player_slots_free();
+    /* Reset the players infos. */
+    players_iterate(pplayer) {
+      player_clear(pplayer, FALSE);
+    } players_iterate_end;
+
     map_free();
     idex_free();
 
-    player_slots_init();
     map_init();
     idex_init();
   }
