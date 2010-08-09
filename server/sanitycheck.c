@@ -100,6 +100,11 @@ static void check_specials(const char *file, const char *function, int line)
 **************************************************************************/
 static void check_fow(const char *file, const char *function, int line)
 {
+  if (!game_was_started()) {
+    /* The private map of the players is only allocated at game start. */
+    return;
+  }
+
   whole_map_iterate(ptile) {
     players_iterate(pplayer) {
       struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
