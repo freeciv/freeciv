@@ -47,8 +47,11 @@
 #undef CITY_DEBUGGING
 
 static char *citylog_map_line(int y, int city_radius_sq, int *city_map_data);
+#ifdef DEBUG
+/* only used for debugging */
 static void citylog_map_index(enum log_level level);
 static void citylog_map_radius_sq(enum log_level level);
+#endif
 
 /* Get city tile informations using the city tile index. */
 static struct iter_index *city_map_index = NULL;
