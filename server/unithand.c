@@ -40,7 +40,6 @@
 #include "unitlist.h"
 
 /* ai */
-#include "aiexplorer.h"
 #include "aitools.h"
 
 /* server */
@@ -58,6 +57,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "autoexplorer.h"
 #include "autosettlers.h"
 
 #include "unithand.h"

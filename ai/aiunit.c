@@ -46,7 +46,6 @@
 #include "aicity.h"
 #include "aidata.h"
 #include "aidiplomat.h"
-#include "aiexplorer.h"
 #include "aiferry.h"
 #include "aiguard.h"
 #include "aihand.h"
@@ -67,6 +66,7 @@
 
 /* server/advisors */
 #include "advgoto.h"
+#include "autoexplorer.h"
 #include "autosettlers.h"
 
 #include "aiunit.h"
@@ -1834,7 +1834,7 @@ static void ai_military_attack(struct player *pplayer, struct unit *punit)
     (void) ai_unit_goto(punit, pcity->tile);
   } else if (!is_barbarian(pplayer)) {
     /* Nothing else to do, so try exploring. */
-    switch (ai_manage_explorer(punit)) {
+    switch (manage_auto_explorer(punit)) {
     case MR_DEATH:
       /* don't use punit! */
       return;
@@ -2113,7 +2113,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
     TIMING_LOG(AIT_BODYGUARD, TIMER_STOP);
     break;
   case AIUNIT_EXPLORE:
-    switch (ai_manage_explorer(punit)) {
+    switch (manage_auto_explorer(punit)) {
     case MR_DEATH:
       /* don't use punit! */
       return;
@@ -2292,7 +2292,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
     return;
   } else {
     /* what else could this be? -- Syela */
-    switch (ai_manage_explorer(punit)) {
+    switch (manage_auto_explorer(punit)) {
     case MR_DEATH:
       /* don't use punit! */
       break;

@@ -48,7 +48,6 @@
 
 /* ai */
 #include "advdiplomacy.h"
-#include "aiexplorer.h"
 #include "aiferry.h"
 #include "aitools.h"
 
@@ -72,6 +71,7 @@
 
 /* server/advisors */
 #include "advgoto.h"
+#include "autoexplorer.h"
 #include "autosettlers.h"
 
 /* server/scripting */
@@ -2171,7 +2171,7 @@ bool do_airline(struct unit *punit, struct city *pdest_city)
 **************************************************************************/
 void do_explore(struct unit *punit)
 {
-  switch (ai_manage_explorer(punit)) {
+  switch (manage_auto_explorer(punit)) {
    case MR_DEATH:
      /* don't use punit! */
      return;

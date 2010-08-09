@@ -24,7 +24,6 @@
 
 /* ai */
 #include "aicity.h"
-#include "aiexplorer.h"
 #include "aihand.h"
 #include "aisettler.h"
 #include "aitools.h"

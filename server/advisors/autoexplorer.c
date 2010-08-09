@@ -36,7 +36,7 @@
 /* ai */
 #include "aitools.h"
 
-#include "aiexplorer.h"
+#include "autoexplorer.h"
 
 
 /**************************************************************************
@@ -75,9 +75,9 @@ static int likely_ocean(struct tile *ptile, struct player *pplayer)
   given tile. This mainly takes care that military units do not try to
   move into another player's territory in violation of a treaty.
 **************************************************************************/
-static bool ai_may_explore(const struct tile *ptile,
-                           const struct player *pplayer,
-                           const bv_unit_type_flags unit_flags)
+static bool player_may_explore(const struct tile *ptile,
+                               const struct player *pplayer,
+                               const bv_unit_type_flags unit_flags)
 {
   /* Don't allow military units to cross borders. */
   if (!BV_ISSET(unit_flags, F_CIVILIAN)
@@ -102,26 +102,26 @@ static bool ai_may_explore(const struct tile *ptile,
 /***************************************************************************
   TB function used by ai_explorer_goto().
 ***************************************************************************/
-static enum tile_behavior ai_explorer_tb(const struct tile *ptile,
-                                         enum known_type k,
-                                         const struct pf_parameter *param)
+static enum tile_behavior explorer_tb(const struct tile *ptile,
+                                      enum known_type k,
+                                      const struct pf_parameter *param)
 {
-  if (!ai_may_explore(ptile, param->owner, param->unit_flags)) {
+  if (!player_may_explore(ptile, param->owner, param->unit_flags)) {
     return TB_IGNORE;
   }
   return TB_NORMAL;
 }
 
 /***************************************************************************
-  Constrained goto using ai_may_explore().
+  Constrained goto using player_may_explore().
 ***************************************************************************/
-static bool ai_explorer_goto(struct unit *punit, struct tile *ptile)
+static bool explorer_goto(struct unit *punit, struct tile *ptile)
 {
   struct pf_parameter parameter;
   struct ai_risk_cost risk_cost;
 
   ai_fill_unit_param(&parameter, &risk_cost, punit, ptile);
-  parameter.get_TB = ai_explorer_tb;
+  parameter.get_TB = explorer_tb;
 
   UNIT_LOG(LOG_DEBUG, punit, "ai_explorer_goto to %d,%d",
            ptile->x, ptile->y);
@@ -186,7 +186,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   }
 
   /* Do no try to cross borders and break a treaty, etc. */
-  if (!ai_may_explore(ptile, punit->owner, unit_type(punit)->flags)) {
+  if (!player_may_explore(ptile, punit->owner, unit_type(punit)->flags)) {
     return 0;
   }
 
@@ -254,7 +254,7 @@ static int explorer_desirable(struct tile *ptile, struct player *pplayer,
   MR_PAUSE: unit cannot explore further now.
   Other results: unit cannot explore further.
 **************************************************************************/
-enum unit_move_result ai_manage_explorer(struct unit *punit)
+enum unit_move_result manage_auto_explorer(struct unit *punit)
 {
   struct player *pplayer = unit_owner(punit);
   /* Loop prevention */
@@ -362,7 +362,7 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
   if (best_tile != NULL) {
     /* TODO: read the path off the map we made.  Then we can make a path 
      * which goes beside the unknown, with a good EC callback... */
-    if (!ai_explorer_goto(punit, best_tile)) {
+    if (!explorer_goto(punit, best_tile)) {
       /* Died?  Strange... */
       return MR_DEATH;
     }
@@ -375,7 +375,7 @@ enum unit_move_result ai_manage_explorer(struct unit *punit)
          * (Checking only whether our position changed is unsafe: can allow
          * yoyoing on a RR) */
 	UNIT_LOG(LOG_DEBUG, punit, "recursively exploring...");
-	return ai_manage_explorer(punit);          
+	return manage_auto_explorer(punit);          
       } else {
 	UNIT_LOG(LOG_DEBUG, punit, "done exploring (all finished)...");
 	return MR_PAUSE;

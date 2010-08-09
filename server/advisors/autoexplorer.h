@@ -10,19 +10,11 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIEXPLORER_H
-#define FC__AIEXPLORER_H
+#ifndef FC__AUTOEXPLORER_H
+#define FC__AUTOEXPLORER_H
 
-#include "unit.h"
+struct unit;
 
+enum unit_move_result manage_auto_explorer(struct unit *punit);
 
-enum unit_move_result ai_manage_explorer(struct unit *punit);
-
-/*
- * TODO: Enable AI build new explorers.  Either (the old way) write a 
- * function yo estimate a city's want to build an explorer or 
- * (the new way) estimate nation-wide want for explorers and find a city 
- * which will build them.
- */
-
-#endif /* FC__AIEXPLORER_H */
+#endif /* FC__AUTOEXPLORER_H */

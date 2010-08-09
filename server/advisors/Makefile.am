@@ -8,5 +8,7 @@ libadvisors_la_SOURCES = \
 	advgoto.h	\
 	advtools.c	\
 	advtools.h	\
+	autoexplorer.c	\
+	autoexplorer.h	\
 	autosettlers.c	\
 	autosettlers.h

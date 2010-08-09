@@ -30,6 +30,7 @@
 
 /* server/advisors */
 #include "advgoto.h"
+#include "autoexplorer.h"
 
 /* server */
 #include "hand_gen.h"
@@ -40,7 +41,6 @@
 /* ai */
 #include "aidata.h"
 #include "aiguard.h"
-#include "aiexplorer.h"
 #include "aitools.h"
 #include "aiunit.h"
 
@@ -1096,7 +1096,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
   }
 
   UNIT_LOG(LOGLEVEL_FERRY, punit, "Passing control of ferry to explorer code");
-  switch (ai_manage_explorer(punit)) {
+  switch (manage_auto_explorer(punit)) {
   case MR_DEATH:
     /* don't use punit! */
     return;
