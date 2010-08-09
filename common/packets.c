@@ -195,10 +195,11 @@ int send_packet_data(struct connection *pc, unsigned char *data, int len)
   }
 
 #ifdef USE_COMPRESSION
-  if(TRUE) {
-    int packet_type = data[2];
+  if (TRUE) {
+    int packet_type;
     int size = len;
 
+    packet_type = data[2];
     if (conn_compression_frozen(pc)) {
       size_t old_size = pc->compression.queue.size;
 
