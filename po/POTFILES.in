@@ -204,6 +204,8 @@ client/gui-xaw/repodlgs.c
 client/gui-xaw/wldlg.c
 client/include/helpdlg_g.h
 manual/civmanual.c
+modinst/download.c
+modinst/modinst.c
 data/Freeciv.in
 data/helpdata.txt
 data/default/buildings.ruleset

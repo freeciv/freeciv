@@ -668,6 +668,8 @@ fi
 FC_LD_FLAGS(["-Wl,-rpath=${lib_prefix}"], [], [LDFLAGS])
 
 AM_CONDITIONAL([CLIENT], [test "x$client" = "xyes"])
+dnl freeciv-modpack has same requirements as gtk-client
+AM_CONDITIONAL([MODINST], [test "x$gui_gtk2" = "xyes"])
 
 AC_SUBST([GUI_gtk2_CFLAGS])
 AC_SUBST([GUI_gtk2_CXXFLAGS])
@@ -1042,6 +1044,7 @@ AC_CONFIG_FILES([Makefile
 	  server/generator/Makefile
 	  server/scripting/Makefile
 	  manual/Makefile
+          modinst/Makefile
 	  po/Makefile.in
 	  doc/Makefile
 	  doc/man/Makefile
