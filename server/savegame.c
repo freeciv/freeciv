@@ -4335,7 +4335,7 @@ static void game_load_internal(struct section_file *file)
   struct base_type **base_order = NULL;
   size_t num_base_types = 0;
   const char *savefile_options = secfile_lookup_str(file, "savefile.options");
-  bool bval, is_new_game;
+  bool bval;
   const struct entry *pentry;
 
   /* [savefile] */
@@ -4429,12 +4429,15 @@ static void game_load_internal(struct section_file *file)
                                           "game.rulesetdir"));
   }
 
-  is_new_game = !secfile_lookup_bool_default(file, TRUE, "game.save_players");
-  if (!is_new_game) {
-    aifill(0);
+  /* Determine if the game is a new one (ex. scenario) or a savegame. */
+  if (secfile_lookup_bool(file, &game.info.is_new_game,
+                          "game.save_players")) {
+    game.info.is_new_game = !game.info.is_new_game;
+  } else {
+    /* "game.save_players" is missing, try to get the number of players. */
+    game.info.is_new_game = (!secfile_lookup_int(file, &i, "game.nplayers")
+                             || 0 == i);
   }
-  game.info.is_new_game = is_new_game;
-
 
   /* load rulesets */
   load_rulesets();
