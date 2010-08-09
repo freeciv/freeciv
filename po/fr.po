@@ -7737,7 +7737,7 @@ msgstr "%s est maintenant un observateur "
 #: server/stdinhand.c:2968
 msgid "You cannot issue \"/take -\" when the game has already started."
 msgstr ""
-"Vous ne pouvez pas utiliser \"\take -\" après que la partie ait commencé."
+"Vous ne pouvez pas utiliser \"/take -\" après que la partie ait commencé."
 
 #: server/stdinhand.c:2998
 #, c-format
