@@ -236,6 +236,10 @@ void voteinfo_do_vote(int vote_no, enum client_vote_type vote)
   struct voteinfo *vi;
   struct packet_vote_submit packet;
 
+  if (!can_client_control()) {
+    return;
+  }
+
   vi = voteinfo_queue_find(vote_no);
   if (vi == NULL) {
     return;
