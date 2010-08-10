@@ -1459,9 +1459,10 @@ struct tileset *tileset_read_toplevel(const char *tileset_name, bool verbose)
 
   if (!secfile_lookup_int(file, &t->roadstyle, "tilespec.roadstyle")
       /* FIXME: use specenum to load this. */
-      || !secfile_lookup_int(file, (int *) &t->fogstyle, "tilespec.fogstyle")
+      || !secfile_lookup_int(file, FC_ENUM_PTR(t->fogstyle),
+                             "tilespec.fogstyle")
       /* FIXME: use specenum to load this. */
-      || !secfile_lookup_int(file, (int *) &t->darkness_style,
+      || !secfile_lookup_int(file, FC_ENUM_PTR(t->darkness_style),
                              "tilespec.darkness_style")) {
     log_error("Tileset \"%s\" invalid: %s", t->name, secfile_error());
     goto ON_ERROR;

@@ -85,7 +85,7 @@ bool log_parse_level_str(const char *level_str, enum log_level *ret_level)
   }
   if (n == 0) {
     /* Global log level. */
-    if (sscanf(level_str, "%d", (int *) &level) != 1) {
+    if (sscanf(level_str, "%d", FC_ENUM_PTR(level)) != 1) {
       fc_fprintf(stderr, _("Bad log level \"%s\".\n"), level_str);
       return FALSE;
     }

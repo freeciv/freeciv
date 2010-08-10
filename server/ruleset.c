@@ -756,7 +756,8 @@ static struct terrain *lookup_terrain(struct section_file *file,
 static void load_tech_names(struct section_file *file)
 {
   struct section_list *sec;
-  int num_techs; /* number of techs in the ruleset (means without A_NONE)*/
+  /* Number of techs in the ruleset (means without A_NONE). */
+  int num_techs = 0;
   int i;
   const char *filename = secfile_name(file);
 
@@ -941,7 +942,7 @@ restart:
 static void load_unit_names(struct section_file *file)
 {
   struct section_list *sec;
-  int nval;
+  int nval = 0;
   size_t user_flags;
   const char **flaglist;
   int i;
@@ -1533,7 +1534,7 @@ if (_count > MAX_VET_LEVELS) {						\
 static void load_building_names(struct section_file *file)
 {
   struct section_list *sec;
-  int i, nval;
+  int i, nval = 0;
   const char *filename = secfile_name(file);
 
   (void) secfile_entry_by_path(file, "datafile.description");   /* unused */
@@ -1690,7 +1691,7 @@ static void load_ruleset_buildings(struct section_file *file)
 **************************************************************************/
 static void load_terrain_names(struct section_file *file)
 {
-  int nval;
+  int nval = 0;
   struct section_list *sec;
   const char *filename = secfile_name(file);
 
@@ -2185,7 +2186,7 @@ static void load_ruleset_terrain(struct section_file *file)
 **************************************************************************/
 static void load_government_names(struct section_file *file)
 {
-  int nval;
+  int nval = 0;
   struct section_list *sec;
   const char *filename = secfile_name(file);
 

@@ -764,7 +764,8 @@ static char *stats_%(name)s_names[] = {%(names)s};
   }
   BV_CLR_ALL(fields);
 
-  if (!hash_lookup(*hash, real_packet, (const void **) &old, NULL)) {
+  if (!hash_lookup(*hash, real_packet,
+                   (const void **) (void *) &old, NULL)) {
     old = fc_malloc(sizeof(*old));
     *old = *real_packet;
     hash_insert(*hash, old, old);
@@ -883,7 +884,7 @@ static char *stats_%(name)s_names[] = {%(names)s};
     *hash = hash_new_full(hash_%(name)s, cmp_%(name)s, NULL, free);
   }
 
-  if (hash_lookup(*hash, real_packet, (const void **) &old, NULL)) {
+  if (hash_lookup(*hash, real_packet, (const void **) (void *) &old, NULL)) {
     *real_packet = *old;
   } else {
 %(key1)s%(fl)s    memset(real_packet, 0, sizeof(*real_packet));%(key2)s

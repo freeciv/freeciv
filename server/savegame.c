@@ -1919,7 +1919,7 @@ static void player_load_units(struct player *plr, int plrno,
     fc_assert_exit_msg(secfile_lookup_int(file, &punit->fuel,
                                           "player%d.u%d.fuel", plrno, i),
                        "%s", secfile_error());
-    fc_assert_exit_msg(secfile_lookup_int(file, (int *) &activity,
+    fc_assert_exit_msg(secfile_lookup_int(file, FC_ENUM_PTR(activity),
                                           "player%d.u%d.activity", plrno, i),
                        "%s", secfile_error());
 
@@ -2516,7 +2516,7 @@ static void player_load_main(struct player *plr, int plrno,
     
     fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
-    fc_assert_exit_msg(secfile_lookup_int(file, (int *) &ship->state,
+    fc_assert_exit_msg(secfile_lookup_int(file, FC_ENUM_PTR(ship->state),
                                           "%s.state", prefix),
                        "%s", secfile_error());
 
@@ -4480,7 +4480,7 @@ static void game_load_internal(struct section_file *file)
           OLD_S_S_OVER = 3
         } saved_state;
 
-        if (entry_int_get(pentry, (int *) &saved_state)) {
+        if (entry_int_get(pentry, FC_ENUM_PTR(saved_state))) {
           switch (saved_state) {
           case OLD_S_S_INITIAL:
           case OLD_S_S_GENERATING_WAITING:

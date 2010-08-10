@@ -760,7 +760,7 @@ static bool ysize_callback(int value, struct connection *caller,
                  func_name, _default)                                       \
   { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
     scateg, slevel,                                                         \
-     { .enumerator = { (int *) &value, _default, func_validate,             \
+     { .enumerator = { FC_ENUM_PTR(value), _default, func_validate,         \
        (enum_name_func_t) func_name, 0 }}, func_action, FALSE},
 
 #define GEN_END                                                         \

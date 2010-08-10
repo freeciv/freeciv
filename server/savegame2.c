@@ -3308,7 +3308,8 @@ static void sg_load_player_main(struct loaddata *loading,
 
     fc_snprintf(prefix, sizeof(prefix), "player%d.spaceship", plrno);
     spaceship_init(ship);
-    sg_failure_ret(secfile_lookup_int(loading->file, (int *) &ship->state,
+    sg_failure_ret(secfile_lookup_int(loading->file,
+                                      FC_ENUM_PTR(ship->state),
                                       "%s.state", prefix),
                    "%s", secfile_error());
 
@@ -4123,7 +4124,7 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->fuel,
                                      "%s.fuel", unitstr), FALSE,
                   "%s", secfile_error());
-  sg_warn_ret_val(secfile_lookup_int(loading->file, (int *) &activity,
+  sg_warn_ret_val(secfile_lookup_int(loading->file, FC_ENUM_PTR(activity),
                                      "%s.activity", unitstr), FALSE,
                   "%s", secfile_error());
 

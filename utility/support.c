@@ -935,10 +935,10 @@ int fc_break_lines(char *str, size_t desired_len)
 ****************************************************************************/
 bool fc_isalnum(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isalnum((int)((unsigned char)c)) != 0;
+  return isalnum((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -946,10 +946,10 @@ bool fc_isalnum(char c)
 ****************************************************************************/
 bool fc_isalpha(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isalpha((int)((unsigned char)c)) != 0;
+  return isalpha((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -957,10 +957,10 @@ bool fc_isalpha(char c)
 ****************************************************************************/
 bool fc_isdigit(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isdigit((int)((unsigned char)c)) != 0;
+  return isdigit((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -968,10 +968,10 @@ bool fc_isdigit(char c)
 ****************************************************************************/
 bool fc_isprint(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isprint((int)((unsigned char)c)) != 0;
+  return isprint((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -979,10 +979,10 @@ bool fc_isprint(char c)
 ****************************************************************************/
 bool fc_isspace(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isspace((int)((unsigned char)c)) != 0;
+  return isspace((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -990,10 +990,10 @@ bool fc_isspace(char c)
 ****************************************************************************/
 bool fc_isupper(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
-  return isupper((int)((unsigned char)c)) != 0;
+  return isupper((int) ((unsigned char) c)) != 0;
 }
 
 /****************************************************************************
@@ -1001,10 +1001,10 @@ bool fc_isupper(char c)
 ****************************************************************************/
 char fc_toupper(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return c;
   }
-  return (char) toupper((int)((unsigned char)c));
+  return (char) toupper((int) ((unsigned char) c));
 }
 
 /****************************************************************************
@@ -1012,8 +1012,8 @@ char fc_toupper(char c)
 ****************************************************************************/
 char fc_tolower(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return c;
   }
-  return (char) tolower((int)((unsigned char)c));
+  return (char) tolower((int) ((unsigned char) c));
 }
