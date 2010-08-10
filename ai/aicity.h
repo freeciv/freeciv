@@ -16,9 +16,6 @@
 /* common */
 #include "fc_types.h"
 
-/* ai */
-#include "aidata.h"
-
 enum choice_type {
   CT_NONE = 0,
   CT_BUILDING = 1,

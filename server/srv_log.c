@@ -34,9 +34,11 @@
 #include "notify.h"
 #include "srv_main.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 
 #include "srv_log.h"
 

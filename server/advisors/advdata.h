@@ -10,21 +10,24 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__AIDATA_H
-#define FC__AIDATA_H
+#ifndef FC__ADVDATA_H
+#define FC__ADVDATA_H
+
+/* utility */
+#include "shared.h"		/* bool type */
+
+/* common */
+#include "fc_types.h"
+#include "improvement.h"
+
+/* ai */
+#include "advdiplomacy.h"
 
 /* max size of a short */
 #define MAX_NUM_ID (1+MAX_UINT16)
 
-#include "shared.h"		/* bool type */
-
-#include "fc_types.h"
-#include "improvement.h"
-
-#include "advdiplomacy.h"
-
 /* 
- * This file and aidata.c contains global data structures for the AI
+ * This file and advdata.c contains global data structures for the AI
  * and some of the functions that fill them with useful values at the 
  * start of every turn. 
  */
@@ -178,4 +181,4 @@ struct ai_dip_intel *ai_diplomacy_get(const struct player *plr1,
 
 bool ai_channel(struct player *pplayer, Continent_id c1, Continent_id c2);
 
-#endif
+#endif /* FC__ADVDATA_H */

@@ -34,12 +34,14 @@
 #include "srv_log.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* generator */
 #include "utilities.h"
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 #include "aiunit.h"
 #include "aitools.h"
 

@@ -41,7 +41,6 @@
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
@@ -55,6 +54,7 @@
 #include "unittools.h"
 
 /* advisors */
+#include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
 

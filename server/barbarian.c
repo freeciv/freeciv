@@ -43,9 +43,6 @@
 #include "terrain.h"
 #include "unitlist.h"
 
-/* ai */
-#include "aidata.h"
-
 /* server */
 #include "citytools.h"
 #include "gamehand.h"
@@ -57,6 +54,9 @@
 #include "techtools.h"
 #include "unithand.h"
 #include "unittools.h"
+
+/* server/advisors */
+#include "advdata.h"
 
 #include "barbarian.h"
 

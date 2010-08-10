@@ -38,8 +38,10 @@
 #include "unithand.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* ai */
-#include "aidata.h"
 #include "aiguard.h"
 #include "aitools.h"
 #include "aiunit.h"

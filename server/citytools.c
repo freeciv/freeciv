@@ -28,6 +28,7 @@
 #include "support.h"
 
 /* common */
+#include "ai.h"
 #include "base.h"
 #include "city.h"
 #include "events.h"

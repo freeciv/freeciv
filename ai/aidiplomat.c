@@ -47,13 +47,13 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advgoto.h"
 #include "autosettlers.h"
 
 /* ai */
 #include "advmilitary.h"
 #include "aicity.h"
-#include "aidata.h"
 #include "aiguard.h"
 #include "aihand.h"
 #include "aitools.h"

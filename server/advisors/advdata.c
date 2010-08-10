@@ -53,7 +53,7 @@
 #include "aitools.h"
 #include "aiunit.h"
 
-#include "aidata.h"
+#include "advdata.h"
 
 static void ai_diplomacy_new(const struct player *plr1,
                              const struct player *plr2);

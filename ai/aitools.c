@@ -49,12 +49,12 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
 
 /* ai */
 #include "advmilitary.h"
-#include "aidata.h"
 #include "aiferry.h"
 #include "aiguard.h"
 #include "aitech.h"

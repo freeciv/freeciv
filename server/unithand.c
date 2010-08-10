@@ -26,6 +26,7 @@
 #include "shared.h"
 
 /* common */
+#include "ai.h"
 #include "city.h"
 #include "combat.h"
 #include "events.h"

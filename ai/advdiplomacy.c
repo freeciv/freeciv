@@ -47,11 +47,11 @@
 #include "srv_log.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advtools.h"
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 #include "aiunit.h"
 #include "aitools.h"
 #include "advmilitary.h"

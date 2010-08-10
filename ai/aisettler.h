@@ -18,6 +18,7 @@
 #include "shared.h"		/* bool type */
 
 struct ai_data;
+struct settlermap;
 
 struct citytile {
   int food, shield, trade, reserved;

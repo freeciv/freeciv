@@ -20,6 +20,7 @@
 #include "player.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 /* ai */
@@ -36,10 +37,6 @@
 **************************************************************************/
 void fc_ai_default_setup(struct ai_type *ai)
 {
-  ai->funcs.data_init = ai_data_init;
-  ai->funcs.data_default = ai_data_default;
-  ai->funcs.data_close = ai_data_close;
-
   ai->funcs.city_init = ai_city_init;
   ai->funcs.city_update = ai_city_update;
   ai->funcs.city_close = ai_city_close;

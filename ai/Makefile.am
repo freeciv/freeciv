@@ -17,8 +17,6 @@ libcivai_la_SOURCES = \
 		aiair.h		\
 		aicity.c	\
 		aicity.h	\
-		aidata.c	\
-		aidata.h	\
 		aiferry.c	\
 		aiferry.h	\
 		aiguard.c	\

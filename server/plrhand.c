@@ -58,12 +58,12 @@
 #include "voting.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 /* ai */
 #include "advdiplomacy.h"
 #include "advmilitary.h"
-#include "aidata.h"
 
 static void package_player_common(struct player *plr,
                                   struct packet_player_info *packet);
@@ -1117,7 +1117,7 @@ void server_player_init(struct player *pplayer,
     team_add_player(pplayer, NULL);
   }
 
-  CALL_PLR_AI_FUNC(data_default, pplayer, pplayer);
+  ai_data_default(pplayer);
 }
 
 /********************************************************************** 
@@ -1137,7 +1137,7 @@ struct player *server_create_player(int player_id)
 
   pplayer->ai = get_ai_type(FC_AI_DEFAULT);
 
-  CALL_PLR_AI_FUNC(data_init, pplayer, pplayer);
+  ai_data_init(pplayer);
 
   server_player_init(pplayer, FALSE, FALSE);
 
@@ -1192,8 +1192,8 @@ void server_remove_player(struct player *pplayer)
    * some function may depend on it. */
   player_clear(pplayer, TRUE);
 
-  /* Destroy ai data. */
-  CALL_PLR_AI_FUNC(data_close, pplayer, pplayer);
+  /* Destroy advisor and ai data. */
+  ai_data_close(pplayer);
   player_destroy(pplayer);
 
   send_updated_vote_totals(NULL);

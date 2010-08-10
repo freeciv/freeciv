@@ -35,12 +35,12 @@
 #include "srv_log.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 /* ai */
 #include "aiair.h"
 #include "aicity.h"
-#include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
 #include "aihand.h"

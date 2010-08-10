@@ -37,12 +37,12 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advgoto.h"
 #include "advtools.h"
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 #include "aitools.h"
 #include "aiunit.h"
 

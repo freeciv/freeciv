@@ -44,13 +44,13 @@
 #include "unithand.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advtools.h"
 
 /* ai */
 #include "advmilitary.h"
 #include "advspace.h"
 #include "aicity.h"
-#include "aidata.h"
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"

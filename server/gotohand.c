@@ -37,10 +37,10 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 /* ai */
-#include "aidata.h"
 #include "aitools.h"
 
 #include "gotohand.h"

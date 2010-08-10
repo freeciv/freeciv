@@ -125,6 +125,9 @@
 #include "techtools.h"
 #include "unittools.h"
 
+/* server/advisors */
+#include "advdata.h"
+
 /* server/generator */
 #include "mapgen.h"
 #include "utilities.h"
@@ -134,7 +137,6 @@
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 
 #include "savegame2.h"
 

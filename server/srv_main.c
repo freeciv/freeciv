@@ -77,7 +77,6 @@
 #include "advdiplomacy.h"
 #include "advmilitary.h"
 #include "aicity.h"
-#include "aidata.h"
 #include "aihand.h"
 #include "aisettler.h"
 #include "citymap.h"
@@ -119,6 +118,7 @@
 #include "voting.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 #include "srv_main.h"
@@ -2362,7 +2362,7 @@ static void srv_ready(void)
   } else {
     players_iterate(pplayer) {
       /* Initialize this again to be sure */
-      CALL_PLR_AI_FUNC(data_default, pplayer, pplayer);
+      ai_data_default(pplayer);
     } players_iterate_end;
   }
 

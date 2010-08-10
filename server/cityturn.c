@@ -58,13 +58,13 @@
 #include "unithand.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "autosettlers.h"
 
 #include "cm.h"
 
 /* ai */
 #include "advdomestic.h"
-#include "aidata.h"
 #include "aitools.h"
 
 

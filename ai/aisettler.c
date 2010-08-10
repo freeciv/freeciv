@@ -45,12 +45,12 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advtools.h"
 #include "autosettlers.h"
 
 /* ai */
 #include "aicity.h"
-#include "aidata.h"
 #include "aiferry.h"
 #include "aitools.h"
 #include "aiunit.h"

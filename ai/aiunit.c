@@ -44,7 +44,6 @@
 #include "advmilitary.h"
 #include "aiair.h"
 #include "aicity.h"
-#include "aidata.h"
 #include "aidiplomat.h"
 #include "aiferry.h"
 #include "aiguard.h"
@@ -65,6 +64,7 @@
 #include "unittools.h"
 
 /* server/advisors */
+#include "advdata.h"
 #include "advgoto.h"
 #include "autoexplorer.h"
 #include "autosettlers.h"
