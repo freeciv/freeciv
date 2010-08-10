@@ -827,8 +827,8 @@ void celebrate_callback(Widget w, XtPointer client_data, XtPointer call_data)
 **************************************************************************/
 void popdown_cma_dialog(void)
 {
-  city_report_dialog_update_city(current_city);
   if (cma_dialog) {
+    city_report_dialog_update_city(current_city);
     XtDestroyWidget(cma_dialog);
     cma_dialog = 0;
   }
