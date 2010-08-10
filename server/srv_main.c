@@ -1790,11 +1790,8 @@ void aifill(int amount)
       }
     }
 
-    if (limit != player_count()) {
-      log_error("Could only reduce the number of players to %d "
-                "(requested: %d)", player_count(), limit);
-    }
-
+    /* 'limit' can be different from 'player_count()' at this point if
+     * there are more human or created players than the 'limit'. */
     return;
   }
 
