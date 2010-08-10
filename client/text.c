@@ -166,8 +166,6 @@ const char *popup_info_text(struct tile *ptile)
   }
   if (game.info.borders > 0 && !pcity) {
     struct player *owner = tile_owner(ptile);
-    struct player_diplstate *ds
-      = player_diplstate_get(client.conn.playing, owner);
 
     get_full_username(username, sizeof(username), owner);
     get_full_nation(nation, sizeof(nation), owner);
@@ -178,6 +176,9 @@ const char *popup_info_text(struct tile *ptile)
       /* TRANS: "Territory of <username> (<nation + team>)" */
       astr_add_line(&str, _("Territory of %s (%s)"), username, nation);
     } else if (NULL != owner) {
+      struct player_diplstate *ds = player_diplstate_get(client.conn.playing,
+                                                         owner);
+
       if (ds->type == DS_CEASEFIRE) {
         int turns = ds->turns_left;
 
