@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-07-25 12:47-0700\n"
-"PO-Revision-Date: 2010-08-06 19:34+0200\n"
+"PO-Revision-Date: 2010-08-10 18:48+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -5098,7 +5098,7 @@ msgstr "Si els pols són continents separats"
 msgid "0 = continents may attach to poles; 1 = poles will usually be separate"
 msgstr ""
 "0 = els continents poden connectar amb els pols; 1 = els pols estaran "
-"normalmentseparats"
+"normalment separats"
 
 #: server/settings.c:341
 msgid "All the map is temperate"
@@ -5530,7 +5530,7 @@ msgstr ""
 
 #: server/settings.c:642
 msgid "Minimum distance between cities"
-msgstr "Distancia mínima entre ciutats"
+msgstr "Distància mínima entre ciutats"
 
 #: server/settings.c:643
 msgid ""
@@ -5547,7 +5547,7 @@ msgstr ""
 
 #: server/settings.c:654
 msgid "Minimum distance for trade routes"
-msgstr "Distancia mínima per rutes comercials"
+msgstr "Distància mínima per rutes comercials"
 
 #: server/settings.c:655
 msgid ""
@@ -5943,7 +5943,7 @@ msgstr ""
 
 #: server/settings.c:921
 msgid "Maximum distance citizens may migrate"
-msgstr "Distancia màxima a la qual poden emigrar els ciutadans"
+msgstr "Distància màxima a la qual poden emigrar els ciutadans"
 
 #: server/settings.c:922
 msgid ""
