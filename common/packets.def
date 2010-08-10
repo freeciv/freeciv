@@ -263,16 +263,16 @@ grouped together. There are the following groups:
   Scenario
   Voting
   Editor
-
-The last used packet number is 183.
 ****************************************************/
 
 
 /************** General packets **********************/
 
+# For compatibility with older versions, this number cannot be changed.
 PACKET_PROCESSING_STARTED = 0; sc
 end
 
+# For compatibility with older versions, this number cannot be changed.
 PACKET_PROCESSING_FINISHED = 1; sc
 end
 
@@ -280,6 +280,7 @@ end
 
 # This packet is the first real (freeciv specific) packet send by the
 # client. The player hasn't been accepted yet.
+# For compatibility with older versions, this number cannot be changed.
 PACKET_SERVER_JOIN_REQ = 4; cs, dsend, no-delta, no-handle
   STRING username[MAX_LEN_NAME];
   STRING capability[MAX_LEN_CAPSTR];
@@ -288,6 +289,7 @@ PACKET_SERVER_JOIN_REQ = 4; cs, dsend, no-delta, no-handle
 end
 
 # ... and the server replies.
+# For compatibility with older versions, this number cannot be changed.
 PACKET_SERVER_JOIN_REPLY = 5; sc, no-delta
   BOOL you_can_join;
   STRING message[MAX_LEN_MSG];
@@ -721,11 +723,11 @@ end
 
 /************** Unit packets **********************/
 
-PACKET_UNIT_REMOVE = 65; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO)
+PACKET_UNIT_REMOVE = 62; sc, dsend, lsend, cancel(PACKET_UNIT_INFO), cancel(PACKET_UNIT_SHORT_INFO)
   UNIT unit_id;
 end
 
-PACKET_UNIT_INFO = 66; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
+PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -757,7 +759,7 @@ PACKET_UNIT_INFO = 66; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
   BASE orders_bases[MAX_LEN_ROUTE:orders_length];
 end
 
-PACKET_UNIT_SHORT_INFO = 67; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
+PACKET_UNIT_SHORT_INFO = 64; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
   UNIT id; key
   PLAYER owner;
   TILE tile;
@@ -778,7 +780,7 @@ PACKET_UNIT_SHORT_INFO = 67; sc, lsend, is-game-info, cancel(PACKET_UNIT_INFO)
 			   (not used by UNIT_INFO_IDENTITY) */
 end
 
-PACKET_UNIT_COMBAT_INFO = 68; sc, lsend
+PACKET_UNIT_COMBAT_INFO = 65; sc, lsend
   UNIT attacker_unit_id;
   UNIT defender_unit_id;
   HP attacker_hp;
@@ -786,40 +788,40 @@ PACKET_UNIT_COMBAT_INFO = 68; sc, lsend
   BOOL make_winner_veteran;
 end
 
-PACKET_UNIT_MOVE = 69;cs, dsend
+PACKET_UNIT_MOVE = 66;cs, dsend
   UNIT unit_id;
   TILE tile;
 end
 
-PACKET_UNIT_BUILD_CITY = 70; cs, dsend
+PACKET_UNIT_BUILD_CITY = 67; cs, dsend
   UNIT unit_id;
   STRING name[MAX_LEN_NAME];
 end
 
-PACKET_UNIT_DISBAND = 71; cs, dsend
+PACKET_UNIT_DISBAND = 68; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_CHANGE_HOMECITY = 72; cs, dsend
+PACKET_UNIT_CHANGE_HOMECITY = 69; cs, dsend
   UNIT unit_id;
   CITY city_id;
 end
 
-PACKET_UNIT_ESTABLISH_TRADE = 73; cs, dsend
+PACKET_UNIT_ESTABLISH_TRADE = 70; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_BATTLEGROUP = 74; cs, dsend
+PACKET_UNIT_BATTLEGROUP = 71; cs, dsend
   UNIT unit_id;
   SINT8 battlegroup;
 end
 
-PACKET_UNIT_HELP_BUILD_WONDER = 75; cs, dsend
+PACKET_UNIT_HELP_BUILD_WONDER = 72; cs, dsend
   UNIT unit_id;
 end
 
 # used for client orders: currently client-side goto and patrol
-PACKET_UNIT_ORDERS = 76; cs
+PACKET_UNIT_ORDERS = 73; cs
   UNIT unit_id;
   TILE src_tile; # Origin tile, included for sanity checking
 
@@ -833,73 +835,75 @@ PACKET_UNIT_ORDERS = 76; cs
 end
 
 # Enable autosettlers for a unit.  Only works for settler units naturally.
-PACKET_UNIT_AUTOSETTLERS = 77; cs, dsend
+PACKET_UNIT_AUTOSETTLERS = 74; cs, dsend
   UNIT unit_id;
 end
 
 # Load the given cargo into the transporter.
-PACKET_UNIT_LOAD = 78; cs, dsend
+PACKET_UNIT_LOAD = 75; cs, dsend
   UNIT cargo_id, transporter_id;
 end
 
 # Unload the given cargo from the transporter.
-PACKET_UNIT_UNLOAD = 79; cs, dsend
+PACKET_UNIT_UNLOAD = 76; cs, dsend
   UNIT cargo_id, transporter_id;
 end
 
-PACKET_UNIT_UPGRADE = 80; cs, dsend
+PACKET_UNIT_UPGRADE = 77; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_TRANSFORM = 81; cs, dsend
+PACKET_UNIT_TRANSFORM = 78; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_NUKE = 82; cs, dsend
+PACKET_UNIT_NUKE = 79; cs, dsend
   UNIT unit_id;
 end
 
-PACKET_UNIT_PARADROP_TO = 83; cs, dsend
+PACKET_UNIT_PARADROP_TO = 80; cs, dsend
   UNIT unit_id;
   TILE tile;
 end
 
-PACKET_UNIT_AIRLIFT = 84; cs, dsend
+PACKET_UNIT_AIRLIFT = 81; cs, dsend
   UNIT unit_id;
   CITY city_id;
 end
 
-PACKET_UNIT_DIPLOMAT_QUERY = 85; cs, handle-per-conn, dsend
+PACKET_UNIT_DIPLOMAT_QUERY = 82; cs, handle-per-conn, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
   SINT16 value;
   DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_TYPE_UPGRADE = 86; cs, dsend
+PACKET_UNIT_TYPE_UPGRADE = 83; cs, dsend
   UNIT_TYPE type;
 end
 
-PACKET_UNIT_DIPLOMAT_ACTION = 87; cs, dsend
+PACKET_UNIT_DIPLOMAT_ACTION = 84; cs, dsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
   SINT16 value;
   DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_DIPLOMAT_ANSWER = 88; sc, dsend, lsend
+PACKET_UNIT_DIPLOMAT_ANSWER = 85; sc, dsend, lsend
   UNIT diplomat_id;
   UNIT target_id;   # city_id or unit_id
   GOLD cost;
   DIPLOMAT_ACTION action_type;
 end
 
-PACKET_UNIT_CHANGE_ACTIVITY = 89; cs, dsend
+PACKET_UNIT_CHANGE_ACTIVITY = 86; cs, dsend
   UNIT unit_id;
   ACTIVITY activity;
   SPECIAL activity_target;
   BASE activity_base;
 end
+
+/* 88 & 89 are ping packets (not modifiable). */
 
 /************** Diplomacy packets **********************/
 
@@ -995,10 +999,12 @@ PACKET_CONN_PING_INFO = 116; sc, lsend
   FLOAT10x7 ping_time[MAX_NUM_CONNECTIONS:connections];
 end
 
-PACKET_CONN_PING = 117; sc
+# For compatibility with older versions, this number cannot be changed.
+PACKET_CONN_PING = 88; sc
 end
 
-PACKET_CONN_PONG = 118; cs, handle-per-conn
+# For compatibility with older versions, this number cannot be changed.
+PACKET_CONN_PONG = 89; cs, handle-per-conn
 end
 
 PACKET_CLIENT_INFO = 119; cs, handle-per-conn

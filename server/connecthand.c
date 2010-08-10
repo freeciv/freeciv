@@ -364,8 +364,6 @@ bool handle_login_request(struct connection *pconn,
     dsend_packet_connect_msg(pconn, game.server.connectmsg);
   }
 
-  connection_ping(pconn);
-
   if (srvarg.auth_enabled) {
     return authenticate_user(pconn, req->username);
   } else {

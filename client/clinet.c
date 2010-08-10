@@ -372,7 +372,7 @@ void input_from_server(int fd)
 
     reports_freeze();
     agents_freeze_hint();
-    while (TRUE) {
+    while (client.conn.used) {
       bool result;
       void *packet = get_packet_from_connection(&client.conn,
 						&type, &result);
@@ -386,8 +386,10 @@ void input_from_server(int fd)
 	break;
       }
     }
-    agents_thaw_hint();
-    reports_thaw();
+    if (client.conn.used) {
+      agents_thaw_hint();
+      reports_thaw();
+    }
   } else {
     close_socket_callback(&client.conn);
   }

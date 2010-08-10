@@ -546,8 +546,17 @@ void client_exit(void)
 **************************************************************************/
 void client_packet_input(void *packet, int type)
 {
-  if (!client_handle_packet(type, packet)) {
+  if (!client.conn.established
+      && PACKET_CONN_PING != type
+      && PACKET_PROCESSING_STARTED != type
+      && PACKET_PROCESSING_FINISHED != type
+      && PACKET_SERVER_JOIN_REPLY != type) {
+    log_error("Received packet %s (%d) before establishing connection!",
+              packet_name(type), type);
+    disconnect_from_server();
+  } else if (!client_handle_packet(type, packet)) {
     log_error("Received unknown packet (type %d) from server!", type);
+    disconnect_from_server();
   }
 }
 

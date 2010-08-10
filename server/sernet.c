@@ -127,6 +127,7 @@ static int server_accept_connection(int sockfd);
 static void start_processing_request(struct connection *pconn,
 				     int request_id);
 static void finish_processing_request(struct connection *pconn);
+static void connection_ping(struct connection *pconn);
 static void send_ping_times_to_all(void);
 
 static void get_lanserver_announcement(void);
@@ -913,6 +914,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
 
       log_verbose("connection (%s) from %s (%s)", 
                   pconn->username, pconn->addr, pconn->server.ipaddr);
+      connection_ping(pconn);
       return 0;
     }
   }
@@ -1139,7 +1141,7 @@ static void finish_processing_request(struct connection *pconn)
 /****************************************************************************
   Ping a connection.
 ****************************************************************************/
-void connection_ping(struct connection *pconn)
+static void connection_ping(struct connection *pconn)
 {
   log_debug("sending ping to %s (open=%d)", conn_description(pconn),
             timer_list_size(pconn->server.ping_timers));
