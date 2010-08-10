@@ -521,9 +521,9 @@ fi
 
 dnl Check for libbzip2
 AC_CHECK_LIB(bz2, BZ2_bzReadOpen,
-  [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
-UTILITY_LIBS="$UTILITY_LIBS -lbz2"])
-AC_CHECK_HEADERS(bzlib.h)
+  [AC_CHECK_HEADERS([bzlib.h],
+   [AC_DEFINE(HAVE_LIBBZ2, 1, [libbzip2 is available])
+UTILITY_LIBS="$UTILITY_LIBS -lbz2"])])
 
 AC_SUBST([UTILITY_LIBS])
 AC_SUBST([COMMON_LIBS])
