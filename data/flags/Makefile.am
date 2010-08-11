@@ -207,6 +207,7 @@ flag_files =				\
 		tairona.png		\
 		taiwan.png		\
 		tajikistan.png		\
+		tatarstan.png		\
 		templar.png		\
 		texas.png		\
 		thailand.png		\
@@ -442,6 +443,7 @@ shield_files =					\
 		tairona-shield.png		\
 		taiwan-shield.png		\
 		tajikistan-shield.png		\
+		tatarstan-shield.png		\
 		templar-shield.png		\
 		texas-shield.png		\
 		thailand-shield.png		\
@@ -677,6 +679,7 @@ svg_files = 				\
 		tairona.svg		\
 		taiwan.svg		\
 		tajikistan.svg		\
+		tatarstan.svg		\
 		templar.svg		\
 		texas.svg		\
 		thailand.svg		\

@@ -27,7 +27,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="mongol", "uyghur"
+civilwar_nations="tatar", "uyghur"
 
 cities =
  "Ankara (grassland, !mountains, plains, !ocean)",

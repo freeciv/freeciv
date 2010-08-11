@@ -204,6 +204,7 @@ pkgdata_DATA = \
 		tairona.ruleset \
 		taiwanese.ruleset \
 		tajik.ruleset \
+		tatar.ruleset \
 		templar.ruleset \
 		texan.ruleset \
 		thai.ruleset \
