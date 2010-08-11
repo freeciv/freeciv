@@ -22,6 +22,7 @@
 #include <errno.h>
 
 /* utility */
+#include "capability.h"
 #include "fcintl.h"
 #include "log.h"
 #include "netintf.h"
@@ -156,6 +157,7 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
   int start_idx;
   int filenbr;
   struct section_file *control;
+  const char *control_capstr;
   const char *baseURL;
   char fileURL[2048];
 
@@ -202,6 +204,22 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
 
   if (control == NULL) {
     return _("Cannot parse modpack control file");
+  }
+
+  control_capstr = secfile_lookup_str(control, "info.options");
+  if (control_capstr == NULL) {
+    secfile_destroy(control);
+    return _("Modpack control file has no capability string");
+  }
+
+  if (!has_capabilities(MODPACK_CAPSTR, control_capstr)) {
+    log_error("Incompatible control file:");
+    log_error("  control file options: %s", control_capstr);
+    log_error("  supported options:    %s", MODPACK_CAPSTR);
+
+    secfile_destroy(control);
+
+    return _("Modpack control file is incompatible");  
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");

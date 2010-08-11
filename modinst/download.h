@@ -15,6 +15,8 @@
 
 #define MODPACK_SUFFIX ".modpack"
 
+#define MODPACK_CAPSTR "+modpack-090810"
+
 typedef void (*dl_msg_callback)(const char *msg);
 
 const char *download_modpack(const char *URL, dl_msg_callback cb);
