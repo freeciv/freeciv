@@ -3113,7 +3113,8 @@ static void load_ruleset_game(void)
   const char *sval, **svec;
   const char *filename;
   int *food_ini;
-  int i, teams;
+  int i;
+  size_t teams;
   const char *text;
 
   file = openload_ruleset_file("game");
@@ -3430,7 +3431,7 @@ static void load_ruleset_game(void)
                                           "calendar.negative_label")));
 
   /* section: teams */
-  svec = secfile_lookup_str_vec(file, (size_t *) &teams, "teams.names");
+  svec = secfile_lookup_str_vec(file, &teams, "teams.names");
   teams = MIN(MAX_NUM_TEAM_SLOTS, teams);
   for (i = 0; i < teams; i++) {
     team_name_set(team_slot_by_number(i), svec[i]);
