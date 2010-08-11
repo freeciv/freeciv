@@ -1304,7 +1304,11 @@ static void setup_widgets(void)
     gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
     gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
 
-    hpaned = gtk_hpaned_new();
+    if (gui_gtk2_small_display_layout) {
+      hpaned = gtk_vpaned_new();
+    } else {
+      hpaned = gtk_hpaned_new();
+    }
     gtk_box_pack_start(GTK_BOX(vbox), hpaned, TRUE, TRUE, 4);
     bottom_hpaned = hpaned;
 
