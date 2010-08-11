@@ -84,6 +84,7 @@ pkgdata_DATA = \
 		finnish.ruleset \
 		french.ruleset \
 		frisian.ruleset \
+		gaelic.ruleset \
 		galician.ruleset \
 		gallic.ruleset \
 		georgian.ruleset \

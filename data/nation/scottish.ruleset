@@ -30,7 +30,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "welsh", "irish", "american"
+civilwar_nations = "gaelic", "irish", "american"
 
 cities =
 "Edinburgh", "Glasgow (river)", "Aberdeen (ocean, river)", 

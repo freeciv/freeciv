@@ -78,6 +78,7 @@ flag_files =				\
 		france_old.png		\
 		france.png		\
 		frisia.png		\
+		gael.png		\
 		galicia.png		\
 		gaul.png		\
 		georgia.png		\
@@ -314,6 +315,7 @@ shield_files =					\
 		france_old-shield.png		\
 		france-shield.png		\
 		frisia-shield.png		\
+		gael-shield.png			\
 		galicia-shield.png		\
 		gaul-shield.png			\
 		georgia-shield.png		\
@@ -550,6 +552,7 @@ svg_files = 				\
 		france_old.svg		\
 		france.svg		\
 		frisia.svg		\
+		gael.svg		\
 		galicia.svg		\
 		gaul.svg		\
 		georgia.svg		\

@@ -85,6 +85,7 @@ artists = "
    France (old)		Patricia Fidi
    France		Tobias Jakobs
    Frisia		GeeKaa (Wikimedia Commons user)
+   Gael			Barryob (Wikimedia Commons user)
    Galicia		Miguel Rodríguez
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
@@ -326,6 +327,7 @@ sprites =
 		"f.france_old", "flags/france_old"	; alt Gallic
 		"f.frisia", "flags/frisia"
 		"f.galicia", "flags/galicia"
+		"f.gael", "flags/gael"
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
 		"f.germany", "flags/germany"
