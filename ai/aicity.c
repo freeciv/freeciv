@@ -60,6 +60,7 @@
 #include "advdata.h"
 #include "advtools.h"
 #include "autosettlers.h"
+#include "infracache.h"
 
 /* ai */
 #include "advdomestic.h"
@@ -82,11 +83,6 @@
 #define LOG_BUY LOG_DEBUG
 #define LOG_EMERGENCY LOG_VERBOSE
 #define LOG_WANT LOG_VERBOSE
-
-/* cache activities within the city map */
-struct ai_activity_cache {
-  int act[ACTIVITY_LAST];
-};
 
 /* Iterate over cities within a certain range around a given city
  * (city_here) that exist within a given city list. */
@@ -2005,32 +2001,6 @@ void ai_city_init(struct city *pcity)
 }
 
 /**************************************************************************
-  Update the memory allocated for AI city handling.
-**************************************************************************/
-void ai_city_update(struct city *pcity)
-{
-  int radius_sq = city_map_radius_sq_get(pcity);
-
-  fc_assert_ret(NULL != pcity);
-  fc_assert_ret(NULL != pcity->server.ai);
-
-  /* initialize act_cache if needed */
-  if (pcity->server.ai->act_cache == NULL
-      || pcity->server.ai->act_cache_radius_sq == -1
-      || pcity->server.ai->act_cache_radius_sq != radius_sq) {
-    pcity->server.ai->act_cache
-      = fc_realloc(pcity->server.ai->act_cache,
-                   city_map_tiles(radius_sq)
-                   * sizeof(*(pcity->server.ai->act_cache)));
-    /* initialize with 0 */
-    memset(pcity->server.ai->act_cache, 0,
-           city_map_tiles(radius_sq)
-           * sizeof(*(pcity->server.ai->act_cache)));
-    pcity->server.ai->act_cache_radius_sq = radius_sq;
-  }
-}
-
-/**************************************************************************
   Free city from use with default AI.
 **************************************************************************/
 void ai_city_close(struct city *pcity)
@@ -2043,47 +2013,4 @@ void ai_city_close(struct city *pcity)
     }
     FC_FREE(pcity->server.ai);
   }
-}
-
-/**************************************************************************
-  Set the value for activity 'doing' on tile 'city_tile_index' of
-  city 'pcity'.
-**************************************************************************/
-void ai_city_worker_act_set(struct city *pcity, int city_tile_index,
-                            enum unit_activity act_id, int value)
-{
-  if (pcity->server.ai->act_cache_radius_sq
-      != city_map_radius_sq_get(pcity)) {
-    log_debug("update activity cache for %s: radius_sq changed from "
-              "%d to %d", city_name(pcity),
-              pcity->server.ai->act_cache_radius_sq,
-              city_map_radius_sq_get(pcity));
-    ai_city_update(pcity);
-  }
-
-  fc_assert_ret(NULL != pcity);
-  fc_assert_ret(NULL != pcity->server.ai);
-  fc_assert_ret(NULL != pcity->server.ai->act_cache);
-  fc_assert_ret(pcity->server.ai->act_cache_radius_sq
-                == city_map_radius_sq_get(pcity));
-  fc_assert_ret(city_tile_index < city_map_tiles_from_city(pcity));
-
-  (pcity->server.ai->act_cache[city_tile_index]).act[act_id] = value;
-}
-
-/**************************************************************************
-  Return the value for activity 'doing' on tile 'city_tile_index' of
-  city 'pcity'.
-**************************************************************************/
-int ai_city_worker_act_get(const struct city *pcity, int city_tile_index,
-                           enum unit_activity act_id)
-{
-  fc_assert_ret_val(NULL != pcity, 0);
-  fc_assert_ret_val(NULL != pcity->server.ai, 0);
-  fc_assert_ret_val(NULL != pcity->server.ai->act_cache, 0);
-  fc_assert_ret_val(pcity->server.ai->act_cache_radius_sq
-                     == city_map_radius_sq_get(pcity), 0);
-  fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
-
-  return (pcity->server.ai->act_cache[city_tile_index]).act[act_id];
 }

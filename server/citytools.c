@@ -70,6 +70,7 @@
 
 /* server/advisors */
 #include "autosettlers.h"
+#include "infracache.h"
 
 #include "citytools.h"
 
@@ -2604,9 +2605,7 @@ bool city_map_update_radius_sq(struct city *pcity, bool arrange_workers)
   }
 
   /* if city is under AI control update it */
-  if (pcity->owner->ai && pcity->owner->ai->funcs.city_update) {
-    pcity->owner->ai->funcs.city_update(pcity);
-  }
+  ai_city_update(pcity);
 
   notify_player(city_owner(pcity), city_tile(pcity), E_CITY_RADIUS_SQ,
                 ftc_server, _("The size of the city map of %s is %s."),

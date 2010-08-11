@@ -38,7 +38,6 @@
 void fc_ai_default_setup(struct ai_type *ai)
 {
   ai->funcs.city_init = ai_city_init;
-  ai->funcs.city_update = ai_city_update;
   ai->funcs.city_close = ai_city_close;
 
   ai->funcs.unit_init = ai_unit_init;

@@ -13,4 +13,6 @@ libadvisors_la_SOURCES = \
 	autoexplorer.c	\
 	autoexplorer.h	\
 	autosettlers.c	\
-	autosettlers.h
+	autosettlers.h	\
+	infracache.c	\
+	infracache.h

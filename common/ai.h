@@ -34,7 +34,6 @@ struct ai_type
 {
   struct {
     void (*city_init)(struct city *pcity);
-    void (*city_update)(struct city *pcity);
     void (*city_close)(struct city *pcity);
 
     void (*unit_init)(struct unit *punit);
