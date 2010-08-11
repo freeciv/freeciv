@@ -178,16 +178,14 @@ bool is_normal_nat_pos(int x, int y)
 }
 
 /****************************************************************************
- * Apply a Gaussian difusion filtre on the map
- * the size of the map is MAP_INDEX_SIZE and the map is indexed by 
- * native_pos_to_index function
- * if zeroes_at_edges is set, any unreal position on difusion has 0 value
- * if zeroes_at_edges in unset the unreal position are not counted.
- ****************************************************************************/
- void smooth_int_map(int *int_map, bool zeroes_at_edges)
+  Apply a Gaussian diffusion filter on the map. The size of the map is
+  MAP_INDEX_SIZE and the map is indexed by native_pos_to_index function.
+  If zeroes_at_edges is set, any unreal position on diffusion has 0 value
+  if zeroes_at_edges in unset the unreal position are not counted.
+****************************************************************************/
+void smooth_int_map(int *int_map, bool zeroes_at_edges)
 {
-  float weight[5] =  {0.35,  0.5 ,1 , 0.5, 0.35};
-  float total_weight = 2.70;
+  float weight[5] = { 0.13, 0.19, 0.37, 0.19, 0.13 };
   bool axe = TRUE;
   int alt_int_map[MAP_INDEX_SIZE];
   int *target_map, *source_map;
@@ -199,22 +197,22 @@ bool is_normal_nat_pos(int x, int y)
 
   do {
     whole_map_iterate(ptile) {
-      int  N = 0, D = 0;
+      float N = 0, D = 0;
 
       axis_iterate(ptile, pnear, i, 2, axe) {
-	D += weight[i + 2];
-	N += weight[i + 2] * source_map[tile_index(pnear)];
+        D += weight[i + 2];
+        N += weight[i + 2] * source_map[tile_index(pnear)];
       } axis_iterate_end;
-      if(zeroes_at_edges) {
-	D = total_weight;
+      if (zeroes_at_edges) {
+        D = 1;
       }
-      target_map[tile_index(ptile)] = N / D;
+      target_map[tile_index(ptile)] = (float)N / D;
     } whole_map_iterate_end;
 
     if (MAP_IS_ISOMETRIC) {
-      weight[0] = weight[4] = 0.5;
-      weight[1] = weight[3] = 0.7;
-      total_weight = 3.4;  
+      weight[0] = weight[4] = 0.15;
+      weight[1] = weight[3] = 0.21;
+      weight[2] = 0.29;
     }
 
     axe = !axe;
