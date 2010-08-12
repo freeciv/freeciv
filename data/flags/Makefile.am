@@ -8,6 +8,7 @@ flag_files =				\
 		afghanistan.png		\
 		ainu.png		\
 		akwe.png		\
+		aleut.png		\
 		algeria.png		\
 		almohad.png		\
 		amazigh.png		\
@@ -147,10 +148,12 @@ flag_files =				\
 		maya.png		\
 		mexico.png		\
 		mikmaq.png		\
+		miskito.png		\
 		moldova.png		\
 		mongolia.png		\
 		morocco.png		\
 		muskogee.png		\
+		mwiska.png		\
 		myanmar.png		\
 		nato.png		\
 		netherlands.png		\
@@ -191,6 +194,7 @@ flag_files =				\
 		saxony.png		\
 		scotland.png		\
 		serbia.png		\
+		shawnee.png		\
 		silesia.png		\
 		singapore.png		\
 		slovakia.png		\
@@ -249,6 +253,7 @@ shield_files =					\
 		afghanistan-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
+		aleut-shield.png		\
 		algeria-shield.png		\
 		almohad-shield.png		\
 		amazigh-shield.png		\
@@ -284,6 +289,7 @@ shield_files =					\
 		burgundy-shield.png		\
 		burundi-shield.png		\
 		byzantium-shield.png		\
+		caddo-shield.png		\
 		california-shield.png		\
 		canada-shield.png		\
 		cartago-shield.png		\
@@ -386,10 +392,13 @@ shield_files =					\
 		mars-shield.png			\
 		maya-shield.png			\
 		mexico-shield.png		\
+		mikmaq-shield.png		\
+		miskito-shield.png		\
 		moldova-shield.png		\
 		mongolia-shield.png		\
 		morocco-shield.png		\
 		muskogee-shield.png		\
+		mwiska-shield.png		\
 		myanmar-shield.png		\
 		nato-shield.png			\
 		netherlands-shield.png		\
@@ -430,6 +439,7 @@ shield_files =					\
 		saxony-shield.png		\
 		scotland-shield.png		\
 		serbia-shield.png		\
+		shawnee-shield.png		\
 		silesia-shield.png		\
 		singapore-shield.png		\
 		slovakia-shield.png		\
@@ -488,6 +498,7 @@ svg_files = 				\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\
+		aleut.svg		\
 		algeria.svg		\
 		almohad.svg		\
 		amazigh.svg		\
@@ -523,6 +534,7 @@ svg_files = 				\
 		burgundy.svg		\
 		burundi.svg		\
 		byzantium.svg		\
+		caddo.svg		\
 		california.svg		\
 		canada.svg		\
 		cartago.svg		\
@@ -625,10 +637,13 @@ svg_files = 				\
 		mars.svg		\
 		maya.svg		\
 		mexico.svg		\
+		mikmaq.svg		\
+		miskito.svg		\
 		moldova.svg		\
 		mongolia.svg		\
 		morocco.svg		\
 		muskogee.svg		\
+		mwiska.svg		\
 		myanmar.svg		\
 		nato.svg		\
 		netherlands.svg		\
@@ -669,6 +684,7 @@ svg_files = 				\
 		saxony.svg		\
 		scotland.svg		\
 		serbia.svg		\
+		shawnee.svg		\
 		silesia.svg		\
 		singapore.svg		\
 		slovakia.svg		\

@@ -25,7 +25,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "canadian", "quebecois", "danish"
+civilwar_nations = "canadian", "aleut", "danish"
 
 ; City names are taken from Greenland (a self-governing territory of the
 ; Danish kingdom) and the Canadian territory of Nunavut, both Inuit-

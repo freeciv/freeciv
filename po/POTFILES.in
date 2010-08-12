@@ -233,6 +233,7 @@ data/nation/afghani.ruleset
 data/nation/ainu.ruleset
 data/nation/akwe.ruleset
 data/nation/alandalus.ruleset
+data/nation/aleut.ruleset
 data/nation/algerian.ruleset
 data/nation/amazigh.ruleset
 data/nation/amazonian.ruleset
@@ -372,11 +373,13 @@ data/nation/martian.ruleset
 data/nation/mayan.ruleset
 data/nation/mexican.ruleset
 data/nation/mikmaq.ruleset
+data/nation/miskito.ruleset
 data/nation/moldovan.ruleset
 data/nation/mongol.ruleset
 data/nation/motswana.ruleset
 data/nation/moroccan.ruleset
 data/nation/muskogee.ruleset
+data/nation/mwiska.ruleset
 data/nation/newzealand.ruleset
 data/nation/nigerian.ruleset
 data/nation/norman.ruleset
@@ -411,6 +414,7 @@ data/nation/samogitian.ruleset
 data/nation/saxon.ruleset
 data/nation/scottish.ruleset
 data/nation/serbian.ruleset
+data/nation/shawnee.ruleset
 data/nation/silesian.ruleset
 data/nation/singaporean.ruleset
 data/nation/sioux.ruleset

@@ -16,6 +16,7 @@ artists = "
    Afghanistan		Andrew Duhan and Reisio
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
+   Aleut		Daniel Markstedt
    Algeria 		Lauris Kaplinski
    Almohad		Ch1902 (Wikimedia user)
    Amazigh		Mysid
@@ -154,10 +155,12 @@ artists = "
    Maya			Daniel Markstedt
    Mexico		Cezary Biele
    Mikmaq		Daniel Markstedt
+   Miskito		Daniel Markstedt
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
    Morocco		Xiquet, Flad (Wikimedia users)
    Muskogee		Daniel Markstedt
+   Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
    NATO			Christian Schaller
    Netherlands		Marc Maurer
@@ -198,6 +201,7 @@ artists = "
    Saxony               Björn Adelberg
    Scotland		Sigge Kotliar
    Serbia		Nikola Pizurica
+   Shawnee		Daniel Markstedt
    Silesia		Vasco Alexandre Da Silva Costa
    Singapore		Lauris Kaplinski
    Slovakia		Lauris Kaplinski
@@ -259,6 +263,7 @@ sprites =
 		"f.afghanistan", "flags/afghanistan"
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"
+		"f.aleut", "flags/aleut"
 		"f.algeria", "flags/algeria"
 		"f.almohad", "flags/almohad"
 		"f.amazigh", "flags/amazigh"
@@ -400,10 +405,12 @@ sprites =
 		"f.maya", "flags/maya"
 		"f.mexico", "flags/mexico"
 		"f.mikmaq", "flags/mikmaq"
+		"f.miskito", "flags/miskito"
 		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
 		"f.morocco", "flags/morocco"
 		"f.muskogee", "flags/muskogee"
+		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
 		"f.nato", "flags/nato"
 		"f.netherlands", "flags/netherlands"
@@ -444,6 +451,7 @@ sprites =
 		"f.saxony", "flags/saxony"
 		"f.scotland", "flags/scotland"
 		"f.serbia", "flags/serbia"
+		"f.shawnee", "flags/shawnee"
 		"f.silesia", "flags/silesia"
 		"f.singapore", "flags/singapore"
 		"f.slovakia", "flags/slovakia"

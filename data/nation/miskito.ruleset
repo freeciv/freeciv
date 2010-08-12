@@ -1,0 +1,77 @@
+[nation_miskito] 
+
+name=_("Miskito") 
+plural=_("?plural:Miskito") 
+groups="American" 
+legend=_("Living along the eponymous Miskito Coast of Nicaragua and\
+ Honduras, the Miskito now number around 200,000 people. In  1625, the\
+ Miskito came into a long-lasting political relationship with the British\
+ Empire, whose interests in the Caribbean were contrary to those of the\
+ Spanish Empire. A loosely constructed Miskito 'kingdom' was formed in\
+ that year and a dynasty established by kings who went by English names\
+ and came under formal British protectorate status in 1740. Official\
+ protectorate status ended a century later and in 1894 the Nicaraguan\
+ government incorporated the territory.") 
+
+leader= 
+
+"Oldman", 
+"Jeremy I", 
+"George I", 
+"Peter I", 
+"George Augustus Frederic II", 
+"Robert Henry Clarence" 
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male" 
+flag = "miskito" 
+flag_alt = "-" 
+city_style = "Tropical" 
+
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+civilwar_nations="Tairona", "Maya", "Mwiska" 
+
+cities = 
+"Bilwi",
+"Kara", 
+"Belén", 
+"Layasiksa", 
+"Payabila", 
+"Dakura", 
+"Awastara", 
+"Walpa", 
+"Kuamwatla", 
+"Ibans", 
+"Baltiltuk", 
+"Yulu", 
+"Prinzapolka", 
+"Braka Dusa", 
+"Waspam", 
+"Raitipura", 
+"Twapi", 
+"Plaplaya", 
+"Sisin", 
+"Tasbapauni", 
+"Franciasirpe", 
+"Kuakil", 
+"Batil", 
+"Klampa", 
+"Dakban", 
+"Tasba Pri", 
+"Tuara", 
+"Wounta", 
+"Rais Ta", 
+"Bihmuna", 
+"Turswani",
+"Waslala",
+"Bonanza",
+"Auya Yari",
+"Raya",
+"Siuna",
+"Karawala",
+"Iralaya",
+"Usibila"
+
+

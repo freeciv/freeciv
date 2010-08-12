@@ -1,0 +1,51 @@
+[nation_shawnee] 
+
+name=_("Shawnee") 
+plural=_("?plural:Shawnee") 
+groups="American" 
+legend=_("An Algonquian people, the Shawnee were led by Tikamthi (better\
+ known as Tecumseh) and his brother Tenskwatawa in trying to create a pan-\
+ native alliance against American expansionism but were ultimately\
+ unsuccessful and made to resettle in Indian Territory (modern Oklahoma).")
+
+leader= 
+
+"Paxinos", 
+"Tenskwatawa", 
+"Tikamthi", 
+"Nererahhe", 
+"Waweyapiersenwaw", 
+"Tanacharison" 
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male" 
+flag = "shawnee" 
+flag_alt = "-" 
+city_style = "Celtic" 
+
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+civilwar_nations="iroquois", "anishinaabe", "cree" 
+
+cities = 
+"Chalahgawtha", 
+"Kittanning", 
+"Shamokin", 
+"Sonnioto", 
+"Chalahgawtha", ; Chillicothe 
+"Wakatomika", 
+"Kagoughsage", 
+"Kymulga", 
+"Wakatawicks", 
+"Mequachake", 
+"Sawanogi", 
+"Piqua", 
+"Peixtan", 
+"Nawake", 
+"Wapaughkonetta", 
+"Kickenapawling", 
+"Conedogwinit", 
+"Scoutash", 
+"Chililisuagi", 
+"Wakarusa"

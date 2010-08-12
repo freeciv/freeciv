@@ -10,6 +10,7 @@ pkgdata_DATA = \
 		ainu.ruleset \
 		akwe.ruleset \
 		alandalus.ruleset \
+		aleut.ruleset \
 		algerian.ruleset \
 		amazigh.ruleset \
 		amazonian.ruleset \
@@ -149,11 +150,13 @@ pkgdata_DATA = \
 		mayan.ruleset \
 		mexican.ruleset \
 		mikmaq.ruleset \
+		miskito.ruleset \
 		moldovan.ruleset \
 		mongol.ruleset \
 		moroccan.ruleset \
 		motswana.ruleset \
 		muskogee.ruleset \
+		mwiska.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norman.ruleset \
@@ -188,6 +191,7 @@ pkgdata_DATA = \
 		saxon.ruleset \
 		scottish.ruleset \
 		serbian.ruleset \
+		shawnee.ruleset \
 		silesian.ruleset \
 		singaporean.ruleset \
 		sioux.ruleset \
