@@ -58,6 +58,7 @@ extern GtkWidget *	flake_ebox;
 extern GtkWidget *	government_ebox;
 extern GtkWidget *      map_canvas;             /* GtkDrawingArea */
 extern GtkWidget *      overview_canvas;        /* GtkDrawingArea */
+extern GtkWidget *      overview_scrolled_window;        /* GtkScrolledWindow */
 extern GtkWidget *      timeout_label;
 extern GtkWidget *      turn_done_button;
 extern GtkWidget *      unit_info_box;
@@ -73,6 +74,10 @@ extern GtkWidget *      map_widget;
 extern GtkWidget *	bottom_notebook;
 extern GtkWidget *	right_notebook;
 extern GtkTextBuffer *	message_buffer;
+
+extern int overview_canvas_store_width;
+extern int overview_canvas_store_height;
+
 
 /* NB: Must match creation arugments in
  * create_start_page() in pages.c */

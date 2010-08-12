@@ -262,6 +262,7 @@ static double wrap_double(double value, double wrap)
 void center_tile_overviewcanvas(void)
 {
   double ntl_x, ntl_y;
+  int ox, oy;
 
   gui_to_natural_pos(tileset, &ntl_x, &ntl_y,
 		     mapview.gui_x0 + mapview.width / 2,
@@ -284,6 +285,10 @@ void center_tile_overviewcanvas(void)
   }
 
   redraw_overview();
+
+  gui_to_overview_pos(tileset, &ox, &oy,
+		      mapview.gui_x0, mapview.gui_y0);
+  update_overview_scroll_window_pos(ox, oy);
 }
 
 /**************************************************************************

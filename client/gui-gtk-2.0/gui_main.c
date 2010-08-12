@@ -102,10 +102,11 @@ GtkWidget *map_horizontal_scrollbar;
 GtkWidget *map_vertical_scrollbar;
 
 GtkWidget *overview_canvas;             /* GtkDrawingArea */
+GtkWidget *overview_scrolled_window;    /* GtkScrolledWindow */
 GdkPixmap *overview_canvas_store;       /* this pixmap acts as a backing store 
                                          * for the overview_canvas widget */
-int overview_canvas_store_width = 2 * 80;
-int overview_canvas_store_height = 2 * 50;
+int overview_canvas_store_width = 2 * 128;
+int overview_canvas_store_height = 2 * 92;
 
 GtkWidget *toplevel;
 GdkWindow *root_window;
@@ -780,12 +781,11 @@ static GtkWidget *detached_widget_fill(GtkWidget *ahbox)
 **************************************************************************/
 static void populate_unit_pixmap_table(void)
 {
-  int i, width, height;
+  int i, width;
   GtkWidget *table = unit_pixmap_table;
 
   /* get width of the overview window */
-  gdk_drawable_get_size(overview_canvas->window, &width, &height);
-  width = (width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? width
+  width = (overview_canvas_store_width > GUI_GTK_OVERVIEW_MIN_XSIZE) ? overview_canvas_store_width
                                                : GUI_GTK_OVERVIEW_MIN_XSIZE;
 
   num_units_below = width / (int) tileset_tile_width(tileset);
@@ -1026,17 +1026,28 @@ static void setup_widgets(void)
   avbox = detached_widget_fill(ahbox);
 
   align = gtk_alignment_new(0.5, 0.5, 0.0, 0.0);
-  gtk_box_pack_start(GTK_BOX(avbox), align, FALSE, FALSE, 0);
+
+  overview_scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_set_border_width(GTK_CONTAINER (overview_scrolled_window), 1);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW (overview_scrolled_window),
+                                    GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   overview_canvas = gtk_drawing_area_new();
+  gtk_widget_set_size_request(overview_canvas, overview_canvas_store_width,
+		              overview_canvas_store_height);
+  gtk_widget_set_size_request(overview_scrolled_window, overview_canvas_store_width,
+		              overview_canvas_store_height);
 
   gtk_widget_add_events(overview_canvas, GDK_EXPOSURE_MASK
         			        |GDK_BUTTON_PRESS_MASK
 				        |GDK_POINTER_MOTION_MASK);
+  gtk_box_pack_start(GTK_BOX(avbox), overview_scrolled_window, FALSE, FALSE, 0);
 
-  gtk_widget_set_size_request(overview_canvas, 160, 100);
+  gtk_scrolled_window_add_with_viewport (
+                      GTK_SCROLLED_WINDOW (overview_scrolled_window), 
+                      align);
   gtk_container_add(GTK_CONTAINER(align), overview_canvas);
-
+ 
   g_signal_connect(overview_canvas, "expose_event",
         	   G_CALLBACK(overview_canvas_expose), NULL);
 

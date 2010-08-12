@@ -1147,3 +1147,11 @@ SDL_Surface *get_terrain_surface(struct tile *ptile)
   
   return terrain_canvas->surf;
 }
+
+/**************************************************************************
+ Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
+void update_overview_scroll_window_pos(int x, int y)
+{
+  /* TODO: PORTME. */
+}

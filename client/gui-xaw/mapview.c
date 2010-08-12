@@ -861,3 +861,11 @@ void tileset_changed(void)
   update_info_label();
   reset_unit_below_pixmaps();
 }
+
+/**************************************************************************
+ Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
+void update_overview_scroll_window_pos(int x, int y)
+{
+  /* TODO: PORTME. */
+}

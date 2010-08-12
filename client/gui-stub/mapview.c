@@ -252,3 +252,11 @@ void overview_size_changed(void)
 {
   /* PORTME */
 }
+
+/**************************************************************************
+ Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
+void update_overview_scroll_window_pos(int x, int y)
+{
+  /* TODO: PORTME. */
+}

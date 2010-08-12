@@ -739,6 +739,22 @@ void put_cross_overlay_tile(struct tile *ptile)
 }
 
 /**************************************************************************
+ Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
+void update_overview_scroll_window_pos(int x, int y)
+{
+  GtkAdjustment *overview_hadj = gtk_scrolled_window_get_hadjustment (
+		  GTK_SCROLLED_WINDOW (overview_scrolled_window));
+  GtkAdjustment *overview_vadj = gtk_scrolled_window_get_vadjustment (
+		  GTK_SCROLLED_WINDOW (overview_scrolled_window));
+
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(overview_hadj), 
+		                   x - (overview_canvas_store_width / 2));
+  gtk_adjustment_set_value(GTK_ADJUSTMENT(overview_vadj), 
+		                   y - (overview_canvas_store_height / 2));
+}
+
+/**************************************************************************
 ...
 **************************************************************************/
 void update_map_canvas_scrollbars(void)

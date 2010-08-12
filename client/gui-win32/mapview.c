@@ -611,3 +611,11 @@ void tileset_changed(void)
   map_canvas_resized(mapview.width, mapview.height);
   citydlg_tileset_change();
 }
+
+/**************************************************************************
+ Sets the position of the overview scroll window based on mapview position.
+**************************************************************************/
+void update_overview_scroll_window_pos(int x, int y)
+{
+  /* TODO: PORTME. */
+}
