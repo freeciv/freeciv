@@ -17,7 +17,7 @@ options="1.0"
 ; */ <-- avoid gettext warnings
 
 ; Cheating AI effects are in separate file
-*include "default/ai_effects.ruleset"
+*include "multiplayer/ai_effects.ruleset"
 
 [effect_unhappysize]
 name    = "City_Unhappy_Size"
