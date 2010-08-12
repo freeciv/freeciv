@@ -3069,7 +3069,8 @@ struct city *create_city_virtual(struct player *pplayer,
   if (is_server()) {
     pcity->server.mgr_score_calc_turn = -1; /* -1 = never */
 
-    CALL_PLR_AI_FUNC(city_init, pplayer, pcity);
+    CALL_FUNC_EACH_AI(city_alloc, pcity);
+    CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
   }
 
   return pcity;
@@ -3081,7 +3082,8 @@ struct city *create_city_virtual(struct player *pplayer,
 **************************************************************************/
 void destroy_city_virtual(struct city *pcity)
 {
-  CALL_PLR_AI_FUNC(city_close, pcity->owner, pcity);
+  CALL_PLR_AI_FUNC(city_lost, pcity->owner, pcity->owner, pcity);
+  CALL_FUNC_EACH_AI(city_free, pcity);
 
   unit_list_destroy(pcity->units_supported);
   if (pcity->tile_cache != NULL) {

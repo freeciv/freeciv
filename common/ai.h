@@ -33,8 +33,10 @@ enum incident_type {
 struct ai_type
 {
   struct {
-    void (*city_init)(struct city *pcity);
-    void (*city_close)(struct city *pcity);
+    void (*city_alloc)(struct city *pcity);
+    void (*city_free)(struct city *pcity);
+    void (*city_got)(struct player *pplayer, struct city *pcity);
+    void (*city_lost)(struct player *pplayer, struct city *pcity);
 
     void (*unit_init)(struct unit *punit);
     void (*unit_turn_end)(struct unit *punit);
