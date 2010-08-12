@@ -27,6 +27,8 @@
 /* modinst */
 #include "download.h"
 
+#define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.3/ancients.modpack"
+
 GtkWidget *statusbar;
 
 static gboolean quit_dialog_callback(void);
@@ -147,6 +149,8 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   URL_label = gtk_label_new_with_mnemonic(_("Modpack URL"));
 
   URL_input = gtk_entry_new();
+  gtk_entry_set_width_chars(GTK_ENTRY(URL_input),
+                            strlen(EXAMPLE_URL));
   g_signal_connect(URL_input, "activate",
 		   G_CALLBACK(URL_return), NULL);
 
