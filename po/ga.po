@@ -1219,17 +1219,17 @@ msgstr ""
 #: ai/aicity.c:1484 server/citytools.c:2129
 #, c-format
 msgid "The %s have stopped building The %s in %s."
-msgstr ""
+msgstr "Stop na %s ar thógáil %s in %s"
 
 #: ai/aicity.c:1494 server/citytools.c:2167
 #, c-format
 msgid "The %s have started building The %s in %s."
-msgstr ""
+msgstr "Thosaigh na %s ar thógáil %s in %s."
 
 #: ai/aicity.c:1839
 #, c-format
 msgid "%s is selling %s (not needed) for %d."
-msgstr ""
+msgstr "Tá %s ag díol %s (nach bhfuil gá dó) ar %d"
 
 #: ai/advdiplomacy.c:291
 #, c-format
@@ -1309,17 +1309,17 @@ msgstr ""
 #: ai/advdiplomacy.c:1114
 #, c-format
 msgid "*%s (AI)* Space will never be yours. "
-msgstr ""
+msgstr "*%s (IS)* ní thógfaidh tú spás %s duit féin riamh. "
 
 #: ai/advdiplomacy.c:1119
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr ""
+msgstr "*%s (IS)* tá curtha suas le do chleasaíocht dhuáilceach, fhiachmhar le fada! Chun cogaidh linn!"
 
 #: ai/advdiplomacy.c:1125
 #, c-format
 msgid "*%s (AI)* Peace in ... some other time."
-msgstr ""
+msgstr "*%s (IS)* go raibh síocháin... in am trátha!"
 
 #: ai/advdiplomacy.c:1130
 #, c-format
@@ -1327,16 +1327,17 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
+"*%s (IS)* táim chun tabhairt ort ar deireadh! Níor shíl tú go gcuirfeá do choireanna uait, ar shíl?"
 
 #: ai/advdiplomacy.c:1136
 #, c-format
 msgid "*%s (AI)* Your covert hostilities brought this war upon you!"
-msgstr ""
+msgstr "*%s (IS)* tharraing d'ionsaithe rúnda an cogadh seo ortsa féin!"
 
 #: ai/advdiplomacy.c:1143
 #, c-format
 msgid "*%s (AI)* Your aggression against %s was your last mistake!"
-msgstr ""
+msgstr "*%s (IS)* ba iad d'ionsaithe ar %s do bhotún deireanach!"
 
 #: ai/advdiplomacy.c:1227
 #, c-format
@@ -1356,10 +1357,10 @@ msgstr[2] ""
 "*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[3] ""
-"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d mbabhta chun lainse "
 "na spásloinge a bhacadh."
 msgstr[4] ""
-"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d bhabhta chun lainse "
+"*%s (IS)* Tosóimid cogadh dearg in aghaidh %s i gceann %d babhta chun lainse "
 "na spásloinge a bhacadh."
 
 #: ai/advdiplomacy.c:1237
@@ -1368,6 +1369,7 @@ msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
+"*%s (IS)* beifear ag súil le do chúnamh leis seo. Go mara ár n-aontas glórmhar!"
 
 #: ai/advdiplomacy.c:1243
 #, c-format
@@ -1379,11 +1381,11 @@ msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will "
 "answer in force in %d turns and expect you to honour your alliance with us "
 "and do likewise!"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
+msgstr[1] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
+msgstr[2] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
+msgstr[3] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d mbabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
+msgstr[4] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d babhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
 
 #: ai/advdiplomacy.c:1256
 #, c-format
@@ -1393,17 +1395,17 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[1] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[2] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[3] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d mbabhta."
+msgstr[4] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d babhta."
 
 #: ai/advdiplomacy.c:1264
 #, c-format
 msgid ""
 "*%s (AI)* If you want a piece of the loot, feel free to join in the action!"
-msgstr ""
+msgstr "*%s (IS)* má tá roinnt den chreach uait, ionsaígí linn!"
 
 #: ai/advdiplomacy.c:1269
 #, c-format
@@ -1413,16 +1415,16 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[1] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[2] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[3] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d mbabhta."
+msgstr[4] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d babhta."
 
 #: ai/advdiplomacy.c:1279
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr ""
+msgstr "*%s (IS)* Mar chomhghuaillí glórmhara, beimid ag súil le do chúnamh sa chogadh seo."
 
 #: ai/advdiplomacy.c:1285
 #, c-format
@@ -1432,11 +1434,11 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[1] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[2] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[3] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d mbabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[4] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d babhta. Téigh go réidh - táimid ag teacht!"
 
 #: ai/advdiplomacy.c:1294
 #, c-format
@@ -1446,25 +1448,25 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
-msgstr[4] ""
+msgstr[0] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[1] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[2] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[3] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d mbabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[4] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d babhta. Tá súil agam go ndéanfaidh tú amhlaidh."
 
 #: ai/advdiplomacy.c:1362
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
-msgstr ""
+msgstr "*%s (IS)* Tarraingíonn d'iarrachtaí spás a bhaint duit féin ar bhealach d'aimhleasa thú. Tá deireadh lenár n-aontas de bharr seo!"
 
 #: ai/advdiplomacy.c:1377
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to unilaterally dominate outer space is highly "
 "offensive."
-msgstr ""
+msgstr "*%s (IS)* Tá d'iarracht ar chinseal aontaobhach cianspáis an-mhaslach."
 
 #: ai/advdiplomacy.c:1380
 #, c-format
@@ -1472,25 +1474,26 @@ msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
 msgstr ""
+"*%s (IS)* Mura stopann tú den spáslong a thógáil, déanfar beart ort!"
 
 #: ai/advdiplomacy.c:1492
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr ""
+msgstr "*%s (IS)* mo leithscéal, is baolach nach bhfuil sé slán radhairc a roinnt leat a thuilleadh."
 
 #: ai/advdiplomacy.c:1567
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
-msgstr ""
+msgstr "*%s (IS)* Dia dhuit a chomhghuaillí iontaofa. Táimid ag iarraidh go n-ionsóidh tú ár namhaid, %s."
 
 #: ai/advdiplomacy.c:1573
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. "
 "Why do I need to remind you of your promises?"
-msgstr ""
+msgstr "*%s (IS)* Dia dhuit a chomhghuaillí, níor fhógair tú an cogadh lenár namhaid, na %s. An ngá dom do gheallúintí a chur i gcuimhne duit? "
 
 #: ai/advdiplomacy.c:1580
 #, c-format
@@ -1498,33 +1501,33 @@ msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
-msgstr ""
+msgstr "*%s (IS)* a Dhaoine náirithe, bhí aontas eadrainn, ach tá síocháin idir tú agus ár ndeargnamhaid, na %s! Ní ghlacfar leis seo, tá deireadh lenár n-aontas!"
 
 #: ai/advdiplomacy.c:1610
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr ""
+msgstr "*%s (IS)* Dia dhuit a chara, do thuairim ar ár bpáirt a roinnt agus aontú linn?"
 
 #: ai/advdiplomacy.c:1625
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr ""
+msgstr "*%s (IS)* Dia dhuit a chomharsa, do thuairim ar chaidreamh níos síochánta?"
 
 #: ai/advdiplomacy.c:1640
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
-msgstr ""
+msgstr "*%s (IS)* táimid ag éirí tuirseach den fhuildhoirteadh seo. Do thuairim ar shos cogaidh?"
 
 #: ai/advdiplomacy.c:1785
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour "
 "our glorious alliance and your name will never be forgotten!"
-msgstr ""
+msgstr "*%s (IS)* d'ionsaigh %s muid go fiachmhar, tá do chúnamh ag tastáil go géar. Tabhair aitheantas dár n-aontas glórmhar agus ní dhearmadfar d'ainm go deo!"
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:170
