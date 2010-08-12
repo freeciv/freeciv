@@ -14,6 +14,7 @@
 #define FC__AI_H
 
 #define FC_AI_DEFAULT 0
+#define FC_AI_LAST 1
 
 struct Treaty;
 struct player;
@@ -64,11 +65,14 @@ int ai_type_number(const struct ai_type *ai);
 void init_ai(struct ai_type *ai);
 
 
-#define ai_type_iterate(NAME_ai) \
-do { \
-  struct ai_type *NAME_ai = get_ai_type(FC_AI_DEFAULT);
+#define ai_type_iterate(NAME_ai)                        \
+  do {                                                  \
+    int _aii_;                                          \
+    for (_aii_ = 0; _aii_ < FC_AI_LAST; _aii_++) {      \
+      struct ai_type *NAME_ai = get_ai_type(_aii_);
 
 #define ai_type_iterate_end \
+    }                       \
   } while (FALSE);
 
 /* FIXME: This should also check if player is ai controlled */

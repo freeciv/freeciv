@@ -23,7 +23,7 @@
 /* common */
 #include "ai.h"
 
-static struct ai_type ai_types[1];
+static struct ai_type ai_types[FC_AI_LAST];
 
 /***************************************************************
   Returns ai_type of given id. Currently only one ai_type,
