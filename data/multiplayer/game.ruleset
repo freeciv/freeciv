@@ -10,15 +10,16 @@
 ; than minor changes.
 
 [datafile]
-description="Default game rules for Freeciv"
+description="Multiplayer game rules for Freeciv"
 options="1.11.1"
 
 [about]
 ; Ruleset name
-name = _("Default ruleset")
+name = _("Multiplayer ruleset")
 
 ; Description of the ruleset
-description = _("You are playing Freeciv with default rules.")
+description = _("You are playing Freeciv with rules suitable for \
+multiplayer gaming.")
 
 [options]
 global_init_techs=""

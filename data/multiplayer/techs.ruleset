@@ -8,7 +8,7 @@
 ; use your new customized file.
 
 [datafile]
-description="Default technology data for Freeciv (as Civ2, minus a few)"
+description="Multiplayer technology data for Freeciv (as Civ2, minus a few)"
 options="1.9"
 
 ; Below: The individual advances, one per section.

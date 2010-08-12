@@ -10,7 +10,7 @@
 ; than minor changes.
 
 [datafile]
-description="Default effects data for Freeciv"
+description="Multiplayer effects data for Freeciv"
 options="1.0"
 
 ; /* <-- avoid gettext warnings
