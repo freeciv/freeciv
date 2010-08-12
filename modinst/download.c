@@ -152,7 +152,6 @@ static bool download_file(const char *URL, const char *local_filename)
 const char *download_modpack(const char *URL, dl_msg_callback cb)
 {
   char local_name[2048];
-  const char *filename;
   const char *home;
   int start_idx;
   int filenbr;
@@ -160,6 +159,8 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
   const char *control_capstr;
   const char *baseURL;
   char fileURL[2048];
+  const char *src_name;
+  bool partial_failure = FALSE;
 
   if (URL == NULL || URL[0] == '\0') {
     return _("No URL given");
@@ -223,50 +224,87 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");
-  filenbr = 1;
+  filenbr = 0;
   do {
-    filename = secfile_lookup_str_default(control, NULL,
-                                          "filelist.file%d", filenbr);
-    if (filename != NULL) {
+    const char *dest_name;
+
+    src_name = secfile_lookup_str_default(control, NULL,
+                                          "files.list%d.src", filenbr);
+    if (src_name != NULL) {
       int i;
 
-      for (i = 0; filename[i] != '\0'; i++) {
-        if (filename[i] == '.' && filename[i+1] == '.') {
-          secfile_destroy(control);
-          return _("Illegal path for modpack file");
+      dest_name = secfile_lookup_str_default(control, NULL,
+                                             "files.list%d.dest", filenbr);
+
+      if (dest_name != NULL) {
+        bool illegal_filename = FALSE;
+
+        for (i = 0; dest_name[i] != '\0'; i++) {
+          if (dest_name[i] == '.' && dest_name[i+1] == '.') {
+            if (cb != NULL) {
+              char buf[2048];
+
+              fc_snprintf(buf, sizeof(buf), _("Illegal path for %s"),
+                          dest_name);
+              cb(buf);
+            }
+            partial_failure = TRUE;
+            illegal_filename = TRUE;
+          }
         }
-      }
 
-      fc_snprintf(local_name, sizeof(local_name),
-                  "%s/.freeciv/" DATASUBDIR "/%s",
-                  home, filename);
-      for (i = strlen(local_name) - 1 ; local_name[i] != '/' ; i--) {
-        /* Nothing */
-      }
-      local_name[i] = '\0';
-      if (!make_dir(local_name)) {
-        secfile_destroy(control);
-        return _("Cannot create required directories");
-      }
-      local_name[i] = '/';
+        if (!illegal_filename) {
+          fc_snprintf(local_name, sizeof(local_name),
+                      "%s/.freeciv/" DATASUBDIR "/%s",
+                      home, dest_name);
+          for (i = strlen(local_name) - 1 ; local_name[i] != '/' ; i--) {
+            /* Nothing */
+          }
+          local_name[i] = '\0';
+          if (!make_dir(local_name)) {
+            secfile_destroy(control);
+            return _("Cannot create required directories");
+          }
+          local_name[i] = '/';
 
-      if (cb != NULL) {
-        char buf[2048];
+          if (cb != NULL) {
+            char buf[2048];
 
-        fc_snprintf(buf, sizeof(buf), _("Downloading %s"), local_name);
-        cb(buf);
-      }
+            fc_snprintf(buf, sizeof(buf), _("Downloading %s"), src_name);
+            cb(buf);
+          }
 
-      fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, filename);
-      if (!download_file(fileURL, local_name)) {
-        secfile_destroy(control);
-        return _("Failed to download some parts of the modpack");
+          fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
+          if (!download_file(fileURL, local_name)) {
+            if (cb != NULL) {
+              char buf[2048];
+
+              fc_snprintf(buf, sizeof(buf), _("Failed to download %s"),
+                          src_name);
+              cb(buf);
+            }
+            partial_failure = TRUE;
+          }
+        }
+        filenbr++;
+      } else {
+        if (cb != NULL) {
+          char buf[2048];
+
+          fc_snprintf(buf, sizeof(buf), _("No destination given for %s"),
+                      src_name);
+          cb(buf);
+        }
+        partial_failure = TRUE;
       }
-      filenbr++;
     }
-  } while (filename != NULL);
+  } while (src_name != NULL);
 
   secfile_destroy(control);
+
+  if (partial_failure) {
+    return _("Some parts of the modpack failed to install.");
+  }
 
   return NULL;
 }

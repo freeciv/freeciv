@@ -15,7 +15,7 @@
 
 #define MODPACK_SUFFIX ".modpack"
 
-#define MODPACK_CAPSTR "+modpack-090810"
+#define MODPACK_CAPSTR "+modpack-090810-2"
 
 typedef void (*dl_msg_callback)(const char *msg);
 
