@@ -714,7 +714,7 @@ msgstr ""
 #: common/tech.c:813 client/gui-gtk-2.0/repodlgs.c:506
 #, c-format
 msgid "Future Tech. %d"
-msgstr ""
+msgstr "Teicneolaíocht Todhchaí %d"
 
 #. TRANS: "None" tech
 #: common/tech.c:890 common/tech.c:894 server/settings.c:42
@@ -731,7 +731,7 @@ msgstr "Faic"
 
 #: common/tech.c:898
 msgid "Future Tech."
-msgstr ""
+msgstr "Teicneolaíocht Todhchaí"
 
 #. TRANS: "Unknown" advance/technology
 #: common/tech.c:903 client/gui-gtk-2.0/inteldlg.c:388
@@ -864,11 +864,13 @@ msgid ""
 "Upgrade %s to %s for %d gold?\n"
 "Treasury contains %d gold."
 msgstr ""
+"An bhfuil fonn ort %s a uasghrádú go %s ar %d píosa óir?\n"
+"Tá %d píosa óir sa Státchiste."
 
 #: common/unit.c:1582
 #, c-format
 msgid "Sorry, cannot upgrade %s (yet)."
-msgstr ""
+msgstr "Tá brón orm, ní féidir %s a uasghrádú (fós)."
 
 #: common/unit.c:1588
 #, c-format
@@ -876,15 +878,17 @@ msgid ""
 "Upgrading %s to %s costs %d gold.\n"
 "Treasury contains %d gold."
 msgstr ""
+"Cosnaíonn sé %d píosa óir chun %s a uasghrádú go %s.\n"
+"Tá %d píosa óir sa stórchiste."
 
 #: common/unit.c:1597
 msgid "You can only upgrade units in your cities."
-msgstr ""
+msgstr "Ní féidir ach na haonaid i do chathracha a uasghrádú."
 
 #: common/unit.c:1601
 #, c-format
 msgid "Upgrading this %s would strand units it transports."
-msgstr ""
+msgstr "Dá n-uasghrádófá an %s seo, tréigfeá na haonaid a iompraíonn sé."
 
 #. TRANS: List of possible output types has this between
 #. *        last two elements
@@ -993,6 +997,10 @@ msgid ""
 "may not be displayed properly.  You can download iconv\n"
 "at http://gnu.org/.\n"
 msgstr ""
+"Tá tú ag rith Freeciv gan iconv a bheith ar fáil. Mura\n"
+"bhfuil tú ag baint úsáide as an tacar carachtair latin-1\n"
+"ní thaispeánfar gach carachtar mar is ceart.  Tig leat\n"
+"iconv a fháil ó http://gnu.org/.\n"
 
 #. TRANS: "Could not convert text from <encoding a> to <encoding b>:"
 #. *        <externally translated error string>."
@@ -1010,19 +1018,19 @@ msgstr "OK"
 
 #: utility/ioz.c:506
 msgid "Run ok"
-msgstr ""
+msgstr "Rith ok"
 
 #: utility/ioz.c:509
 msgid "Flush ok"
-msgstr ""
+msgstr "Sruthlú ok"
 
 #: utility/ioz.c:512
 msgid "Finish ok"
-msgstr ""
+msgstr "Críochnú ok"
 
 #: utility/ioz.c:515
 msgid "Stream end"
-msgstr ""
+msgstr "Deireadh an tsrutha"
 
 #: utility/ioz.c:518
 msgid "Config error"
@@ -1078,12 +1086,14 @@ msgstr "Drochleibhéal logála \"%s\".\n"
 #: utility/log.c:90
 #, c-format
 msgid "Bad log level %d in \"%s\".\n"
-msgstr ""
+msgstr "Drochleibhéal logála %d i \"%s\".\n"
 
 #: utility/log.c:92 utility/log.c:103
 #, c-format
 msgid "Freeciv must be compiled with the DEBUG flag to use debug level %d.\n"
 msgstr ""
+"Ní mór duit Freeciv a thiomsú leis an mbratach DEBUG chun leibhéal "
+"dífhabhtaithe %d a úsáid.\n"
 
 #: utility/log.c:108 utility/log.c:120 utility/log.c:161
 #, c-format
@@ -1103,7 +1113,7 @@ msgstr ""
 #: utility/log.c:280
 #, c-format
 msgid "Couldn't open logfile: %s for appending \"%s\".\n"
-msgstr ""
+msgstr "Níorbh fhéidir logchomhad %s a oscailt chun cur leis \"%s\".\n"
 
 #: utility/log.c:294 utility/log.c:313
 #, c-format
@@ -1136,12 +1146,12 @@ msgstr "Déan tuairisc ar an teachtaireacht seo ag %s"
 #: utility/shared.c:182
 #, c-format
 msgid "Empty argument for \"%s\".\n"
-msgstr ""
+msgstr "Argóint fholamh le haghaidh \"%s\".\n"
 
 #: utility/shared.c:186
 #, c-format
 msgid "Missing argument for \"%s\".\n"
-msgstr ""
+msgstr "Argóint ar iarraidh le haghaidh \"%s\".\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
 #: utility/shared.c:930
@@ -1162,11 +1172,12 @@ msgstr "Níorbh fhéidir comhadlann sonraí %s a léamh: %s."
 #, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr ""
+"Is féidir an chonair sonraí a shocrú tríd an athróg thimpeallachta \"%s\"."
 
 #: utility/shared.c:1291
 #, c-format
 msgid "Current data path is: \"%s\""
-msgstr ""
+msgstr "An chonair sonraí faoi láthair: \"%s\""
 
 #: utility/shared.c:1294
 #, c-format
@@ -1177,14 +1188,15 @@ msgstr ""
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
+"%s: Earráid mharfach: tá tú ag iarraidh an clár a rith mar fhorúsáideoir!\n"
 
 #: utility/shared.c:1485
 msgid "Use a non-privileged account instead.\n"
-msgstr ""
+msgstr "Úsáid cuntas eile nach bhfuil ceadanna an fhorúsáideora aige.\n"
 
 #: utility/shared.c:1501
 msgid "exact match"
-msgstr ""
+msgstr "comhoiriúnú beacht"
 
 #: utility/shared.c:1502
 msgid "only match"
@@ -1192,7 +1204,7 @@ msgstr ""
 
 #: utility/shared.c:1503
 msgid "ambiguous"
-msgstr ""
+msgstr "athbhríoch"
 
 #: utility/shared.c:1504
 msgid "empty"
@@ -1200,7 +1212,7 @@ msgstr "folamh"
 
 #: utility/shared.c:1505
 msgid "too long"
-msgstr ""
+msgstr "rófhada"
 
 #: utility/shared.c:1506
 msgid "non-match"
@@ -1209,12 +1221,12 @@ msgstr ""
 #: utility/support.c:290
 #, c-format
 msgid "error %ld (failed FormatMessage)"
-msgstr ""
+msgstr "earráid %ld (theip ar FormatMessage)"
 
 #: utility/support.c:303
 #, c-format
 msgid "error %d (compiled without strerror)"
-msgstr ""
+msgstr "earráid %d (tiomsaithe gan strerror)"
 
 #: ai/aicity.c:1484 server/citytools.c:2129
 #, c-format
@@ -1254,8 +1266,8 @@ msgid ""
 "*%s (AI)* I wish to see you keep the current ceasefire for a bit longer "
 "first, %s."
 msgstr ""
-"*%s (IS)* Táim ag iarraidh, go mairfidh an sos-comhraic "
-"seo níos faide i dtús báire, a %s."
+"*%s (IS)* Táim ag iarraidh, go mairfidh an sos-comhraic seo níos faide i dtús "
+"báire, a %s."
 
 #: ai/advdiplomacy.c:342
 #, c-format
@@ -1314,7 +1326,9 @@ msgstr "*%s (IS)* ní thógfaidh tú spás %s duit féin riamh. "
 #: ai/advdiplomacy.c:1119
 #, c-format
 msgid "*%s (AI)* I have tolerated your vicious antics long enough! To war!"
-msgstr "*%s (IS)* tá curtha suas le do chleasaíocht dhuáilceach, fhiachmhar le fada! Chun cogaidh linn!"
+msgstr ""
+"*%s (IS)* tá curtha suas le do chleasaíocht dhuáilceach, fhiachmhar le fada! "
+"Chun cogaidh linn!"
 
 #: ai/advdiplomacy.c:1125
 #, c-format
@@ -1327,7 +1341,8 @@ msgid ""
 "*%s (AI)* Finally I get around to you! Did you really think you could get "
 "away with your crimes?"
 msgstr ""
-"*%s (IS)* táim chun tabhairt ort ar deireadh! Níor shíl tú go gcuirfeá do choireanna uait, ar shíl?"
+"*%s (IS)* táim chun tabhairt ort ar deireadh! Níor shíl tú go gcuirfeá do "
+"choireanna uait, ar shíl?"
 
 #: ai/advdiplomacy.c:1136
 #, c-format
@@ -1369,7 +1384,8 @@ msgid ""
 "*%s (AI)* Your aid in this matter will be expected. Long live our glorious "
 "alliance!"
 msgstr ""
-"*%s (IS)* beifear ag súil le do chúnamh leis seo. Go mara ár n-aontas glórmhar!"
+"*%s (IS)* beifear ag súil le do chúnamh leis seo. Go mara ár n-aontas "
+"glórmhar!"
 
 #: ai/advdiplomacy.c:1243
 #, c-format
@@ -1381,11 +1397,26 @@ msgid_plural ""
 "*%s (AI)* %s has grossly violated his treaties with us for own gain.  We will "
 "answer in force in %d turns and expect you to honour your alliance with us "
 "and do likewise!"
-msgstr[0] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
-msgstr[1] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
-msgstr[2] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
-msgstr[3] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d mbabhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
-msgstr[4] "*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo féin. Ionsóimid i %d babhta iad, agus súil againn go ndéanfaidh tú amhlaidh agus tú ag cloí lenár n-aontas."
+msgstr[0] ""
+"*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo "
+"féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh "
+"agus tú ag cloí lenár n-aontas."
+msgstr[1] ""
+"*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo "
+"féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh "
+"agus tú ag cloí lenár n-aontas."
+msgstr[2] ""
+"*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo "
+"féin. Ionsóimid i %d bhabhta iad, agus súil againn go ndéanfaidh tú amhlaidh "
+"agus tú ag cloí lenár n-aontas."
+msgstr[3] ""
+"*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo "
+"féin. Ionsóimid i %d mbabhta iad, agus súil againn go ndéanfaidh tú amhlaidh "
+"agus tú ag cloí lenár n-aontas."
+msgstr[4] ""
+"*%s (IS)* tá %s i ndiaidh dul siar go mór ar a gconarthaí ar mhaithe leo "
+"féin. Ionsóimid i %d babhta iad, agus súil againn go ndéanfaidh tú amhlaidh "
+"agus tú ag cloí lenár n-aontas."
 
 #: ai/advdiplomacy.c:1256
 #, c-format
@@ -1395,11 +1426,21 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We intend to pillage and plunder the rich civilization of %s. We "
 "declare war in %d turns."
-msgstr[0] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
-msgstr[1] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
-msgstr[2] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
-msgstr[3] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d mbabhta."
-msgstr[4] "*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d babhta."
+msgstr[0] ""
+"*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar "
+"shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[1] ""
+"*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar "
+"shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[2] ""
+"*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar "
+"shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d bhabhta."
+msgstr[3] ""
+"*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar "
+"shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d mbabhta."
+msgstr[4] ""
+"*%s (IS)* tá sé ar intinn againn léirscrios agus slad a dhéanamh ar "
+"shibhialtacht na %s shaibhre. Fógróimid an cogadh i %d babhta."
 
 #: ai/advdiplomacy.c:1264
 #, c-format
@@ -1415,16 +1456,28 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We have had it with %s. Let us tear this pathetic civilization "
 "apart. We declare war in %d turns."
-msgstr[0] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
-msgstr[1] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
-msgstr[2] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
-msgstr[3] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d mbabhta."
-msgstr[4] "*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d babhta."
+msgstr[0] ""
+"*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an "
+"tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[1] ""
+"*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an "
+"tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[2] ""
+"*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an "
+"tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d bhabhta."
+msgstr[3] ""
+"*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an "
+"tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d mbabhta."
+msgstr[4] ""
+"*%s (IS)* táimid tinn tuirseach leis na %s. Déanfaimid slad ar an "
+"tsibhialtacht lag seo le chéile. Fógróimid an cogadh i %d babhta."
 
 #: ai/advdiplomacy.c:1279
 #, c-format
 msgid "*%s (AI)* As our glorious allies, we expect your help in this war."
-msgstr "*%s (IS)* Mar chomhghuaillí glórmhara, beimid ag súil le do chúnamh sa chogadh seo."
+msgstr ""
+"*%s (IS)* Mar chomhghuaillí glórmhara, beimid ag súil le do chúnamh sa "
+"chogadh seo."
 
 #: ai/advdiplomacy.c:1285
 #, c-format
@@ -1434,11 +1487,21 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance and declare war on %s in %d turns.  "
 "Hold on - we are coming!"
-msgstr[0] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
-msgstr[1] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
-msgstr[2] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Téigh go réidh - táimid ag teacht!"
-msgstr[3] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d mbabhta. Téigh go réidh - táimid ag teacht!"
-msgstr[4] "*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d babhta. Téigh go réidh - táimid ag teacht!"
+msgstr[0] ""
+"*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d "
+"bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[1] ""
+"*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d "
+"bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[2] ""
+"*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d "
+"bhabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[3] ""
+"*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d "
+"mbabhta. Téigh go réidh - táimid ag teacht!"
+msgstr[4] ""
+"*%s (IS)* cloífimid lenár n-aontas agus fógróimid ár gcogadh le %s i %d "
+"babhta. Téigh go réidh - táimid ag teacht!"
 
 #: ai/advdiplomacy.c:1294
 #, c-format
@@ -1448,18 +1511,30 @@ msgid ""
 msgid_plural ""
 "*%s (AI)* We will honour our alliance with %s and declare war on %s in %d "
 "turns.  We expect you to do likewise."
-msgstr[0] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
-msgstr[1] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
-msgstr[2] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
-msgstr[3] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d mbabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
-msgstr[4] "*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %s i %d babhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[0] ""
+"*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %"
+"s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[1] ""
+"*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %"
+"s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[2] ""
+"*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %"
+"s i %d bhabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[3] ""
+"*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %"
+"s i %d mbabhta. Tá súil agam go ndéanfaidh tú amhlaidh."
+msgstr[4] ""
+"*%s (IS)* tabharfaimid aitheantas dár n-aontas agus fógróimid ár gcogadh le %"
+"s i %d babhta. Tá súil agam go ndéanfaidh tú amhlaidh."
 
 #: ai/advdiplomacy.c:1362
 #, c-format
 msgid ""
 "*%s (AI)* Your attempt to conquer space for yourself alone betray your true "
 "intentions, and I will have no more of our alliance!"
-msgstr "*%s (IS)* Tarraingíonn d'iarrachtaí spás a bhaint duit féin ar bhealach d'aimhleasa thú. Tá deireadh lenár n-aontas de bharr seo!"
+msgstr ""
+"*%s (IS)* Tarraingíonn d'iarrachtaí spás a bhaint duit féin ar bhealach "
+"d'aimhleasa thú. Tá deireadh lenár n-aontas de bharr seo!"
 
 #: ai/advdiplomacy.c:1377
 #, c-format
@@ -1473,27 +1548,32 @@ msgstr "*%s (IS)* Tá d'iarracht ar chinseal aontaobhach cianspáis an-mhaslach.
 msgid ""
 "*%s (AI)* If you do not stop constructing your spaceship, I may be forced to "
 "take action!"
-msgstr ""
-"*%s (IS)* Mura stopann tú den spáslong a thógáil, déanfar beart ort!"
+msgstr "*%s (IS)* Mura stopann tú den spáslong a thógáil, déanfar beart ort!"
 
 #: ai/advdiplomacy.c:1492
 #, c-format
 msgid "*%s (AI)* Sorry, sharing vision with you is no longer safe."
-msgstr "*%s (IS)* mo leithscéal, is baolach nach bhfuil sé slán radhairc a roinnt leat a thuilleadh."
+msgstr ""
+"*%s (IS)* mo leithscéal, is baolach nach bhfuil sé slán radhairc a roinnt "
+"leat a thuilleadh."
 
 #: ai/advdiplomacy.c:1567
 #, c-format
 msgid ""
 "*%s (AI)* Greetings our most trustworthy ally. We call upon you to destroy "
 "our enemy, %s."
-msgstr "*%s (IS)* Dia dhuit a chomhghuaillí iontaofa. Táimid ag iarraidh go n-ionsóidh tú ár namhaid, %s."
+msgstr ""
+"*%s (IS)* Dia dhuit a chomhghuaillí iontaofa. Táimid ag iarraidh go n-"
+"ionsóidh tú ár namhaid, %s."
 
 #: ai/advdiplomacy.c:1573
 #, c-format
 msgid ""
 "*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %s. "
 "Why do I need to remind you of your promises?"
-msgstr "*%s (IS)* Dia dhuit a chomhghuaillí, níor fhógair tú an cogadh lenár namhaid, na %s. An ngá dom do gheallúintí a chur i gcuimhne duit? "
+msgstr ""
+"*%s (IS)* Dia dhuit a chomhghuaillí, níor fhógair tú an cogadh lenár namhaid, "
+"na %s. An ngá dom do gheallúintí a chur i gcuimhne duit? "
 
 #: ai/advdiplomacy.c:1580
 #, c-format
@@ -1501,45 +1581,55 @@ msgid ""
 "*%s (AI)* Dishonoured one, we made a pact of alliance, and yet you remain at "
 "peace with our mortal enemy, %s! This is unacceptable; our alliance is no "
 "more!"
-msgstr "*%s (IS)* a Dhaoine náirithe, bhí aontas eadrainn, ach tá síocháin idir tú agus ár ndeargnamhaid, na %s! Ní ghlacfar leis seo, tá deireadh lenár n-aontas!"
+msgstr ""
+"*%s (IS)* a Dhaoine náirithe, bhí aontas eadrainn, ach tá síocháin idir tú "
+"agus ár ndeargnamhaid, na %s! Ní ghlacfar leis seo, tá deireadh lenár n-"
+"aontas!"
 
 #: ai/advdiplomacy.c:1610
 #, c-format
 msgid ""
 "*%s (AI)* Greetings friend, may we suggest making a common cause and join in "
 "an alliance?"
-msgstr "*%s (IS)* Dia dhuit a chara, do thuairim ar ár bpáirt a roinnt agus aontú linn?"
+msgstr ""
+"*%s (IS)* Dia dhuit a chara, do thuairim ar ár bpáirt a roinnt agus aontú "
+"linn?"
 
 #: ai/advdiplomacy.c:1625
 #, c-format
 msgid "*%s (AI)* Greetings neighbour, may we suggest more peaceful relations?"
-msgstr "*%s (IS)* Dia dhuit a chomharsa, do thuairim ar chaidreamh níos síochánta?"
+msgstr ""
+"*%s (IS)* Dia dhuit a chomharsa, do thuairim ar chaidreamh níos síochánta?"
 
 #: ai/advdiplomacy.c:1640
 #, c-format
 msgid ""
 "*%s (AI)* We grow weary of this constant bloodshed. May we suggest a "
 "cessation of hostilities?"
-msgstr "*%s (IS)* táimid ag éirí tuirseach den fhuildhoirteadh seo. Do thuairim ar shos cogaidh?"
+msgstr ""
+"*%s (IS)* táimid ag éirí tuirseach den fhuildhoirteadh seo. Do thuairim ar "
+"shos cogaidh?"
 
 #: ai/advdiplomacy.c:1785
 #, c-format
 msgid ""
 "*%s (AI)* We have been savagely attacked by %s, and we need your help! Honour "
 "our glorious alliance and your name will never be forgotten!"
-msgstr "*%s (IS)* d'ionsaigh %s muid go fiachmhar, tá do chúnamh ag tastáil go géar. Tabhair aitheantas dár n-aontas glórmhar agus ní dhearmadfar d'ainm go deo!"
+msgstr ""
+"*%s (IS)* d'ionsaigh %s muid go fiachmhar, tá do chúnamh ag tastáil go géar. "
+"Tabhair aitheantas dár n-aontas glórmhar agus ní dhearmadfar d'ainm go deo!"
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:170
 #, c-format
 msgid "Auth option \"%s\":"
-msgstr ""
+msgstr "Rogha údaraithe \"%s\":"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
 #: server/auth.c:183
 msgid " missing from config file (using default)"
-msgstr ""
+msgstr " ar iarraidh ón chomhad cumraíochta (úsáidfear an réamhshocrú)"
 
 #. TRANS: auth option originates from internal default
 #: server/auth.c:186
@@ -1564,7 +1654,7 @@ msgstr ""
 #: server/auth.c:281
 #, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr ""
+msgstr "Ní féidir comhad cumraíochta údaraithe \"%s\" a luchtú!"
 
 #: server/auth.c:392
 #, c-format
@@ -1631,6 +1721,8 @@ msgstr "Tá brón orm, an iomarca iarrachtaí míchearta..."
 #, c-format
 msgid "%s was rejected: Too many wrong password verifies for new user."
 msgstr ""
+"Diúltaíodh %s: An iomarca iarrachtaí a fhocal faire a dhearbhú le haghaidh "
+"úsáideora nua."
 
 #: server/auth.c:497
 msgid ""
@@ -1661,7 +1753,7 @@ msgstr "Diúltaíodh %s: Ceangal imithe thar am fanacht leis an bhfocal faire."
 #: server/auth.c:626
 #, c-format
 msgid "Your password is too short, the minimum length is %d. Try again."
-msgstr ""
+msgstr "Tá d'fhocal faire róghearr, is é %d an fad íosta. Bain triail eile as."
 
 #: server/auth.c:632
 #, c-format
@@ -4857,7 +4949,10 @@ msgid ""
 "tech_cost_style in the ruleset, a big value for techlevel can make the next "
 "techs really expensive."
 msgstr ""
-"Ag tús an chluiche tugtar an líon teicneolaíochtaí seo do gach imreoir.  Roghnaítear teicneolaíochtaí imreora gan aird. Ag brath ar chostas an tech_cost_style sna rialacha, is féidir luach ard an teicleibhéil praghas ard a chur ar thaighde teicneolaíochtaí eile."
+"Ag tús an chluiche tugtar an líon teicneolaíochtaí seo do gach imreoir.  "
+"Roghnaítear teicneolaíochtaí imreora gan aird. Ag brath ar chostas an "
+"tech_cost_style sna rialacha, is féidir luach ard an teicleibhéil praghas ard "
+"a chur ar thaighde teicneolaíochtaí eile."
 
 #: server/settings.c:505
 msgid "Technology cost multiplier percentage"
@@ -4869,7 +4964,10 @@ msgid ""
 "are multiplied by this amount (as a percentage). The base tech costs are "
 "determined by the ruleset or other game settings."
 msgstr ""
-"Bíonn éifeacht aige seo ar a sciobtha agus is féidir le himreoirí taighde a dhéanamh ar theicneolaíochtaí nua. Méadaítear gach costas teic faoin méid seo (mar chéatadán). Ríomhtar costais teic leis na rialacha nó socruithe cluiche eile."
+"Bíonn éifeacht aige seo ar a sciobtha agus is féidir le himreoirí taighde a "
+"dhéanamh ar theicneolaíochtaí nua. Méadaítear gach costas teic faoin méid seo "
+"(mar chéatadán). Ríomhtar costais teic leis na rialacha nó socruithe cluiche "
+"eile."
 
 #: server/settings.c:515
 msgid "Percentage penalty when changing tech"
@@ -4881,7 +4979,9 @@ msgid ""
 "research points, you lose this percentage of those research points. This does "
 "not apply when you have just gained a technology this turn."
 msgstr ""
-"Má athraíonn tú do theicneolaíocht taighde, agus pointí taighde agat, caillfidh tú an céatadán seo de na pointí taighde. Ní thógtar é seo san áireamh agus teicneolaíocht gnóthaithe agat ar an mbabhta seo."
+"Má athraíonn tú do theicneolaíocht taighde, agus pointí taighde agat, "
+"caillfidh tú an céatadán seo de na pointí taighde. Ní thógtar é seo san "
+"áireamh agus teicneolaíocht gnóthaithe agat ar an mbabhta seo."
 
 #: server/settings.c:525
 msgid "Penalty when getting tech or gold from treaty"
@@ -4894,7 +4994,11 @@ msgid ""
 "this is non-zero, you can end up with negative research points. Also applies "
 "to gold transfers in diplomatic treaties."
 msgstr ""
-"Caillfear pointí taighde gurb ionann iad agus céatadán chostas taighde na teicneolaíochta as gach teicneolaíocht a ghnóthaítear ó chonradh dioplómaitiúil. Murar náid é seo, d'fhéadfaí pointí taighde diúltacha bheith fágtha agat. Bheadh sé seo i gceist le hidirbheartaíochtaí óir ó chonarthaí dioplómaitiúla chomh maith."
+"Caillfear pointí taighde gurb ionann iad agus céatadán chostas taighde na "
+"teicneolaíochta as gach teicneolaíocht a ghnóthaítear ó chonradh "
+"dioplómaitiúil. Murar náid é seo, d'fhéadfaí pointí taighde diúltacha bheith "
+"fágtha agat. Bheadh sé seo i gceist le hidirbheartaíochtaí óir ó chonarthaí "
+"dioplómaitiúla chomh maith."
 
 #: server/settings.c:536
 msgid "Penalty when getting tech from conquering"
@@ -4906,7 +5010,9 @@ msgid ""
 "points equal to this percentage of the cost to research a new technology. If "
 "this is non-zero, you can end up with negative research points."
 msgstr ""
-"Caillfear pointí taighde gurb ionann iad agus an céatadán chostas taighde na teicneolaíochta nua a ghnóthaítear as gabháil cathrach naimhde. Murar náid é seo, d'fhéadfaí pointí taighde diúltacha bheith fágtha agat."
+"Caillfear pointí taighde gurb ionann iad agus an céatadán chostas taighde na "
+"teicneolaíochta nua a ghnóthaítear as gabháil cathrach naimhde. Murar náid é "
+"seo, d'fhéadfaí pointí taighde diúltacha bheith fágtha agat."
 
 #: server/settings.c:547
 msgid "Penalty when getting a free tech"
@@ -4930,7 +5036,9 @@ msgid ""
 "multiplied by another factor that comes from the ruleset and is dependent on "
 "the size of the city."
 msgstr ""
-"Is é seo an bhunmhéid bia ar ghá é le cathair a mhéadú. Iolraítear an luach seo faoi fhachtóir eile a thagann ó na rialacha agus a bhraitheann ar mhéid na cathrach."
+"Is é seo an bhunmhéid bia ar ghá é le cathair a mhéadú. Iolraítear an luach "
+"seo faoi fhachtóir eile a thagann ó na rialacha agus a bhraitheann ar mhéid "
+"na cathrach."
 
 #: server/settings.c:568
 msgid "Percentage food lost when building needed"
@@ -4941,7 +5049,10 @@ msgid ""
 "If a city would expand, but it can't because it needs an Aqueduct (or Sewer "
 "System), it loses this percentage of its foodbox (or half that amount when it "
 "has a Granary)."
-msgstr "Má mhéadaíonn cathair, agus munar ann d'uiscerian (nó córas séarachais) caillfear an céatadán seo den bhosca bia. (Nó leath an mhéid sin agus ann do ghráinseach)."
+msgstr ""
+"Má mhéadaíonn cathair, agus munar ann d'uiscerian (nó córas séarachais) "
+"caillfear an céatadán seo den bhosca bia. (Nó leath an mhéid sin agus ann do "
+"ghráinseach)."
 
 #: server/settings.c:578
 msgid "Multiplier percentage for production costs"
@@ -4951,7 +5062,9 @@ msgstr "Céatadán iolraitheora ar chostaisí táirgthe"
 msgid ""
 "This affects how quickly units and buildings can be produced.  The base costs "
 "are multiplied by this value (as a percentage)."
-msgstr "Bíonn éifeacht aige seo ar a sciobtha agus a dtáirgtear aonaid agus foirgnimh. Iolraítear na bunmhéideanna faoin luach seo (mar chéatadán)."
+msgstr ""
+"Bíonn éifeacht aige seo ar a sciobtha agus a dtáirgtear aonaid agus "
+"foirgnimh. Iolraítear na bunmhéideanna faoin luach seo (mar chéatadán)."
 
 #: server/settings.c:593
 msgid "Minimum city size to get full trade"
