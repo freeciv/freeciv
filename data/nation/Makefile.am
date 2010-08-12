@@ -58,6 +58,7 @@ pkgdata_DATA = \
 		chilean.ruleset \
 		chinese.ruleset \
 		chola.ruleset \
+		chumash.ruleset \
 		colombian.ruleset \
 		confederate.ruleset \
 		cornish.ruleset \
@@ -91,12 +92,14 @@ pkgdata_DATA = \
 		german.ruleset \
 		greek.ruleset \
 		grenadian.ruleset \
+		guarani.ruleset \
 		guatemalan.ruleset \
 		gupta.ruleset \
 		hacker.ruleset \
 		haitian.ruleset \
 		hanoverian.ruleset \
 		hansa.ruleset \
+		hasinay.ruleset \
 		hawaiian.ruleset \
 		hellenic.ruleset \
 		hessian.ruleset \
@@ -145,6 +148,7 @@ pkgdata_DATA = \
 		martian.ruleset \
 		mayan.ruleset \
 		mexican.ruleset \
+		mikmaq.ruleset \
 		moldovan.ruleset \
 		mongol.ruleset \
 		moroccan.ruleset \

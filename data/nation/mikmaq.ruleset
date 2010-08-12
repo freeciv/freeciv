@@ -1,0 +1,60 @@
+[nation_mikmaq] 
+
+name=_("Mi'kmaq") 
+plural=_("?plural:Mi'kmaq") 
+groups="American" 
+legend=_("Today numbering roughly 25,000, the Mi'kmaq inhabited (and\
+ largely continue to) Nova Scotia. The first Mi'kmaq to convert to\
+ Christianity did so in 1610. French rule gave way to English and Engish\
+ to Canadian.")
+
+leader= 
+
+"Membertou", 
+"Matiew Plansue", 
+"So'sep Ku'l", 
+"Sa'n Teni" 
+
+leader_sex="Male", "Male", "Male", "Male" 
+flag = "mikmaq" 
+flag_alt = "-" 
+city_style = "Celtic" 
+
+ruler_titles = { "government", "male_title", "female_title" 
+"Despotism",_("Saqmaw"), _("?female:Saqmaw") 
+} 
+
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+civilwar_nations="cree", "iroquois", "inuit" 
+
+cities = 
+"Miawpukwek", 
+"Epekwitk", 
+"Malikiaq", 
+"Ulustuk", 
+"L’setkuk", 
+"Puktusk", 
+"Eskinuopitijk", 
+"Waqmitkuk", 
+"Potlotek", 
+"Natuaqanek", 
+"Keskapekiaq", 
+"Puksaqtéknékatik", 
+"Oqpíkanjik", 
+"Lsipuktuk", 
+"Eskisoqnik", 
+"Amlamkuk Kwesawék", 
+"Kespék", 
+"Pesikitk", 
+"Listikujk", 
+"Maupeltuk", 
+"Wékopekwitk", 
+"Kampalijek", 
+"Kékwapskuk", 
+"Paqtnkek", 
+"Sipekníkatik", 
+"Wékoqmáq", 
+"Metepnákiaq"

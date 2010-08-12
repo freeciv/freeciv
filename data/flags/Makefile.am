@@ -43,6 +43,7 @@ flag_files =				\
 		burgundy.png		\
 		burundi.png		\
 		byzantium.png		\
+		caddo.png		\
 		california.png		\
 		canada.png		\
 		cartago.png		\
@@ -53,6 +54,7 @@ flag_files =				\
 		chile.png		\
 		china.png		\
 		chola.png		\
+		chumash.png		\
 		colombia.png		\
 		constantine.png		\
 		cornwall.png		\
@@ -87,6 +89,7 @@ flag_files =				\
 		greece.png		\
 		greenland.png		\
 		grenada.png		\
+		guarani.png		\
 		guatemala.png		\
 		gupta.png		\
 		hacker.png		\
@@ -143,6 +146,7 @@ flag_files =				\
 		mars.png		\
 		maya.png		\
 		mexico.png		\
+		mikmaq.png		\
 		moldova.png		\
 		mongolia.png		\
 		morocco.png		\
@@ -290,6 +294,7 @@ shield_files =					\
 		chile-shield.png		\
 		china-shield.png		\
 		chola-shield.png		\
+		chumash-shield.png		\
 		colombia-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
@@ -324,6 +329,7 @@ shield_files =					\
 		greece-shield.png		\
 		greenland-shield.png		\
 		grenada-shield.png		\
+		guarani-shield.png		\
 		guatemala-shield.png		\
 		gupta-shield.png		\
 		hacker-shield.png		\
@@ -527,6 +533,7 @@ svg_files = 				\
 		chile.svg		\
 		china.svg		\
 		chola.svg		\
+		chumash.svg		\
 		colombia.svg		\
 		constantine.svg		\
 		cornwall.svg		\
@@ -562,6 +569,7 @@ svg_files = 				\
 		greenland.svg		\
 		grenada.svg		\
 		guatemala.svg		\
+		guarani.svg		\
 		gupta.svg		\
 		hacker.svg		\
 		haiti.svg		\

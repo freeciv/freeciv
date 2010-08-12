@@ -281,6 +281,7 @@ data/nation/cherokee.ruleset
 data/nation/chilean.ruleset
 data/nation/chinese.ruleset
 data/nation/chola.ruleset
+data/nation/chumash.ruleset
 data/nation/colombian.ruleset
 data/nation/confederate.ruleset
 data/nation/cornish.ruleset
@@ -314,12 +315,14 @@ data/nation/georgian.ruleset
 data/nation/german.ruleset
 data/nation/greek.ruleset
 data/nation/grenadian.ruleset
+data/nation/guarani.ruleset
 data/nation/guatemalan.ruleset
 data/nation/gupta.ruleset
 data/nation/hacker.ruleset
 data/nation/haitian.ruleset
 data/nation/hanoverian.ruleset
 data/nation/hansa.ruleset
+data/nation/hasinay.ruleset
 data/nation/hawaiian.ruleset
 data/nation/hellenic.ruleset
 data/nation/hessian.ruleset
@@ -368,6 +371,7 @@ data/nation/mapuche.ruleset
 data/nation/martian.ruleset
 data/nation/mayan.ruleset
 data/nation/mexican.ruleset
+data/nation/mikmaq.ruleset
 data/nation/moldovan.ruleset
 data/nation/mongol.ruleset
 data/nation/motswana.ruleset

@@ -51,6 +51,7 @@ artists = "
    Burgundy		Daniel Markstedt
    Burundi		Sebastian Koppehel
    Byzantium		Dragases
+   Caddo		Daniel Markstedt
    California		Devin Cook (Wikimedia Commons user)
    Canada		James Leigh
    Cartago		Daniel Markstedt and Matt Jecrell
@@ -60,6 +61,7 @@ artists = "
    Chile		Mario Fuentes
    China		Stephen Silver
    Chola		Dan Cottrell and Daniel Markstedt
+   Chumash		Daniel Markstedt
    Colombia		Lauris Kaplinski
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
@@ -94,6 +96,7 @@ artists = "
    Greece		Daniel McRae
    Greenland		Daniel McRae
    Grenada		SKopp (Wikipedia)
+   Guarani		Daniel Markstedt
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons users)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
@@ -150,6 +153,7 @@ artists = "
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mexico		Cezary Biele
+   Mikmaq		Daniel Markstedt
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
    Morocco		Xiquet, Flad (Wikimedia users)
@@ -290,6 +294,7 @@ sprites =
 		"f.burgundy", "flags/burgundy"
 		"f.burundi", "flags/burundi"
 		"f.byzantium", "flags/byzantium"
+		"f.caddo", "flags/caddo"
 		"f.california", "flags/california"
 		"f.canada", "flags/canada"
 		"f.cartago", "flags/cartago"
@@ -300,6 +305,7 @@ sprites =
 		"f.chile", "flags/chile"
 		"f.china", "flags/china"
 		"f.chola", "flags/chola"
+		"f.chumash", "flags/chumash"
 		"f.colombia", "flags/colombia"
 		"f.columbia", "flags/colombia"	; For backward compatibility
 		"f.constantine", "flags/constantine"	; alt. Byzantine
@@ -335,6 +341,7 @@ sprites =
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
 		"f.grenada", "flags/grenada"
+		"f.guarani", "flags/guarani"
 		"f.guatemala", "flags/guatemala"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
@@ -392,6 +399,7 @@ sprites =
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
 		"f.mexico", "flags/mexico"
+		"f.mikmaq", "flags/mikmaq"
 		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
 		"f.morocco", "flags/morocco"
