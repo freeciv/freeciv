@@ -176,6 +176,7 @@ artists = "
    Numidia		Lexicon and Dan Cottrell
    Nuu-chah-nulth	Daniel Markstedt
    Occitania		Mysid
+   Ohlone		J.M. Maalderink
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
@@ -429,6 +430,7 @@ sprites =
 		"f.numidia", "flags/numidia"
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
 		"f.occitania", "flags/occitania"
+		"f.ohlone", "flags/ohlone"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"

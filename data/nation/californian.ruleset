@@ -40,7 +40,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="mexican", "american", "chumash"
+civilwar_nations="mexican", "american", "chumash", "ohlone"
 
 cities =
  "Sacramento (plains, grassland)", ;state capital

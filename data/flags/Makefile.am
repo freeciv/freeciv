@@ -169,6 +169,7 @@ flag_files =				\
 		numidia.png		\
 		nuu-chah-nulth.png	\
 		occitania.png		\
+		ohlone.png		\
 		ottoman.png		\
 		oz.png			\
 		pakistan.png		\
@@ -417,6 +418,7 @@ shield_files =					\
 		numidia-shield.png		\
 		nuu-chah-nulth-shield.png	\
 		occitania-shield.png		\
+		ohlone-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
 		pakistan-shield.png		\
@@ -665,6 +667,7 @@ svg_files = 				\
 		numidia.svg		\
 		nuu-chah-nulth.svg	\
 		occitania.svg		\
+		ohlone.svg		\
 		ottoman.svg		\
 		oz.svg			\
 		pakistan.svg		\
