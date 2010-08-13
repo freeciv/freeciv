@@ -1181,6 +1181,8 @@ void create_city(struct player *pplayer, struct tile *ptile,
 
   log_debug("create_city() %s", name);
 
+  adv_city_alloc(pcity);
+
   tile_set_owner(ptile, pplayer, ptile); /* temporarily */
   city_choose_build_default(pcity);
   pcity->id = identity_number();
@@ -1389,6 +1391,7 @@ void remove_city(struct city *pcity)
   old_vision = pcity->server.vision;
   pcity->server.vision = NULL;
   script_remove_exported_object(pcity);
+  adv_city_free(pcity);
   game_remove_city(pcity);
 
   players_iterate(other_player) {

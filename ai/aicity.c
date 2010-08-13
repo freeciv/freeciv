@@ -1992,11 +1992,6 @@ void ai_city_init(struct city *pcity)
 {
   pcity->server.ai = fc_calloc(1, sizeof(*pcity->server.ai));
 
-  pcity->server.ai->act_cache = NULL;
-  pcity->server.ai->act_cache_radius_sq = -1;
-  /* allocate memory for pcity->ai->act_cache */
-  ai_city_update(pcity);
-
   pcity->server.ai->building_wait = BUILDING_WAIT_MINIMUM;
 }
 
@@ -2008,9 +2003,6 @@ void ai_city_close(struct city *pcity)
   fc_assert_ret(NULL != pcity);
 
   if (pcity->server.ai) {
-    if (pcity->server.ai->act_cache) {
-      FC_FREE(pcity->server.ai->act_cache);
-    }
     FC_FREE(pcity->server.ai);
   }
 }

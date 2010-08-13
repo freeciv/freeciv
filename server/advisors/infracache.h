@@ -15,6 +15,16 @@
 
 struct player;
 
+struct adv_city {
+  /* Used for caching change in value from a worker performing
+   * a particular activity on a particular tile. */
+  struct ai_activity_cache *act_cache;
+  int act_cache_radius_sq;
+};
+
+void adv_city_alloc(struct city *pcity);
+void adv_city_free(struct city *pcity);
+
 void initialize_infrastructure_cache(struct player *pplayer);
 
 void ai_city_update(struct city *pcity);
@@ -22,9 +32,9 @@ void ai_city_update(struct city *pcity);
 int city_tile_value(struct city *pcity, struct tile *ptile,
                     int foodneed, int prodneed);
 
-void ai_city_worker_act_set(struct city *pcity, int city_tile_index,
-                            enum unit_activity act_id, int value);
-int ai_city_worker_act_get(const struct city *pcity, int city_tile_index,
-                           enum unit_activity act_id);
+void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
+                             enum unit_activity act_id, int value);
+int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
+                            enum unit_activity act_id);
 
 #endif   /* FC__INFRACACHE_H */

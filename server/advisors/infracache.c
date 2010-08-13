@@ -439,7 +439,7 @@ void initialize_infrastructure_cache(struct player *pplayer)
 
     city_map_iterate(radius_sq, city_index, city_x, city_y) {
       activity_type_iterate(act) {
-        ai_city_worker_act_set(pcity, city_index, act, -1);
+        adv_city_worker_act_set(pcity, city_index, act, -1);
       } activity_type_iterate_end;
     } city_map_iterate_end;
 
@@ -449,23 +449,23 @@ void initialize_infrastructure_cache(struct player *pplayer)
       bv_special old_special = ptile->special;
 #endif
 
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_POLLUTION,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_POLLUTION,
         ai_calc_pollution(pcity, best, ptile));
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_FALLOUT,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_FALLOUT,
         ai_calc_fallout(pcity, pplayer, best, ptile));
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_MINE,
         ai_calc_mine(pcity, ptile));
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_IRRIGATE,
         ai_calc_irrigate(pcity, pplayer, ptile));
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_TRANSFORM,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_TRANSFORM,
         ai_calc_transform(pcity, ptile));
 
       /* road_bonus() is handled dynamically later; it takes into
        * account settlers that have already been assigned to building
        * roads this turn. */
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_ROAD,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_ROAD,
         ai_calc_road(pcity, pplayer, ptile));
-      ai_city_worker_act_set(pcity, cindex, ACTIVITY_RAILROAD,
+      adv_city_worker_act_set(pcity, cindex, ACTIVITY_RAILROAD,
         ai_calc_railroad(pcity, pplayer, ptile));
 
       /* Make sure nothing was accidentally changed by these calculations. */
@@ -512,43 +512,43 @@ int city_tile_value(struct city *pcity, struct tile *ptile,
   Set the value for activity 'doing' on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
-void ai_city_worker_act_set(struct city *pcity, int city_tile_index,
-                            enum unit_activity act_id, int value)
+void adv_city_worker_act_set(struct city *pcity, int city_tile_index,
+                             enum unit_activity act_id, int value)
 {
-  if (pcity->server.ai->act_cache_radius_sq
+  if (pcity->server.adv->act_cache_radius_sq
       != city_map_radius_sq_get(pcity)) {
     log_debug("update activity cache for %s: radius_sq changed from "
               "%d to %d", city_name(pcity),
-              pcity->server.ai->act_cache_radius_sq,
+              pcity->server.adv->act_cache_radius_sq,
               city_map_radius_sq_get(pcity));
     ai_city_update(pcity);
   }
 
   fc_assert_ret(NULL != pcity);
-  fc_assert_ret(NULL != pcity->server.ai);
-  fc_assert_ret(NULL != pcity->server.ai->act_cache);
-  fc_assert_ret(pcity->server.ai->act_cache_radius_sq
+  fc_assert_ret(NULL != pcity->server.adv);
+  fc_assert_ret(NULL != pcity->server.adv->act_cache);
+  fc_assert_ret(pcity->server.adv->act_cache_radius_sq
                 == city_map_radius_sq_get(pcity));
   fc_assert_ret(city_tile_index < city_map_tiles_from_city(pcity));
 
-  (pcity->server.ai->act_cache[city_tile_index]).act[act_id] = value;
+  (pcity->server.adv->act_cache[city_tile_index]).act[act_id] = value;
 }
 
 /**************************************************************************
   Return the value for activity 'doing' on tile 'city_tile_index' of
   city 'pcity'.
 **************************************************************************/
-int ai_city_worker_act_get(const struct city *pcity, int city_tile_index,
-                           enum unit_activity act_id)
+int adv_city_worker_act_get(const struct city *pcity, int city_tile_index,
+                            enum unit_activity act_id)
 {
   fc_assert_ret_val(NULL != pcity, 0);
-  fc_assert_ret_val(NULL != pcity->server.ai, 0);
-  fc_assert_ret_val(NULL != pcity->server.ai->act_cache, 0);
-  fc_assert_ret_val(pcity->server.ai->act_cache_radius_sq
+  fc_assert_ret_val(NULL != pcity->server.adv, 0);
+  fc_assert_ret_val(NULL != pcity->server.adv->act_cache, 0);
+  fc_assert_ret_val(pcity->server.adv->act_cache_radius_sq
                      == city_map_radius_sq_get(pcity), 0);
   fc_assert_ret_val(city_tile_index < city_map_tiles_from_city(pcity), 0);
 
-  return (pcity->server.ai->act_cache[city_tile_index]).act[act_id];
+  return (pcity->server.adv->act_cache[city_tile_index]).act[act_id];
 }
 
 /**************************************************************************
@@ -562,17 +562,45 @@ void ai_city_update(struct city *pcity)
   fc_assert_ret(NULL != pcity->server.ai);
 
   /* initialize act_cache if needed */
-  if (pcity->server.ai->act_cache == NULL
-      || pcity->server.ai->act_cache_radius_sq == -1
-      || pcity->server.ai->act_cache_radius_sq != radius_sq) {
-    pcity->server.ai->act_cache
-      = fc_realloc(pcity->server.ai->act_cache,
+  if (pcity->server.adv->act_cache == NULL
+      || pcity->server.adv->act_cache_radius_sq == -1
+      || pcity->server.adv->act_cache_radius_sq != radius_sq) {
+    pcity->server.adv->act_cache
+      = fc_realloc(pcity->server.adv->act_cache,
                    city_map_tiles(radius_sq)
-                   * sizeof(*(pcity->server.ai->act_cache)));
+                   * sizeof(*(pcity->server.adv->act_cache)));
     /* initialize with 0 */
-    memset(pcity->server.ai->act_cache, 0,
+    memset(pcity->server.adv->act_cache, 0,
            city_map_tiles(radius_sq)
-           * sizeof(*(pcity->server.ai->act_cache)));
-    pcity->server.ai->act_cache_radius_sq = radius_sq;
+           * sizeof(*(pcity->server.adv->act_cache)));
+    pcity->server.adv->act_cache_radius_sq = radius_sq;
+  }
+}
+
+/**************************************************************************
+  Allocate advisors related city data
+**************************************************************************/
+void adv_city_alloc(struct city *pcity)
+{
+  pcity->server.adv = fc_calloc(1, sizeof(*pcity->server.adv));
+
+  pcity->server.adv->act_cache = NULL;
+  pcity->server.adv->act_cache_radius_sq = -1;
+  /* allocate memory for pcity->ai->act_cache */
+  ai_city_update(pcity);
+}
+
+/**************************************************************************
+  Free advisors related city data
+**************************************************************************/
+void adv_city_free(struct city *pcity)
+{
+  fc_assert_ret(NULL != pcity);
+
+  if (pcity->server.adv) {
+    if (pcity->server.adv->act_cache) {
+      FC_FREE(pcity->server.adv->act_cache);
+    }
+    FC_FREE(pcity->server.adv);
   }
 }

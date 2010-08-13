@@ -127,6 +127,7 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "infracache.h"
 
 /* server/generator */
 #include "mapgen.h"
@@ -3575,7 +3576,9 @@ static void sg_load_player_cities(struct loaddata *loading,
 
     /* Create a dummy city. */
     pcity = create_city_virtual(plr, NULL, buf);
+    adv_city_alloc(pcity);
     if (!sg_load_player_city(loading, plr, pcity, buf)) {
+      adv_city_free(pcity);
       destroy_city_virtual(pcity);
       sg_failure_ret(FALSE, "Error loading city %d of player %d.", i, plrno);
     }

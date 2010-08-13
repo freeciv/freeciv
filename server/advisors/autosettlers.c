@@ -427,13 +427,13 @@ int settler_evaluate_improvements(struct unit *punit,
 
           /* Now, consider various activities... */
           activity_type_iterate(act) {
-            if (ai_city_worker_act_get(pcity, cindex, act) >= 0
+            if (adv_city_worker_act_get(pcity, cindex, act) >= 0
                 /* This needs separate implementation. */
                 && act != ACTIVITY_BASE
                 && can_unit_do_activity_targeted_at(punit, act, S_LAST,
                                                     ptile, -1)) {
               int extra = 0;
-              int base_value = ai_city_worker_act_get(pcity, cindex, act);
+              int base_value = adv_city_worker_act_get(pcity, cindex, act);
 
               time = pos.turn + get_turns_for_activity_at(punit, act, ptile);
 
@@ -443,16 +443,16 @@ int settler_evaluate_improvements(struct unit *punit,
                   /* If we can make railroads eventually, consider making
                    * road here, and set extras and time to to consider
                    * railroads in main consider_settler_action call. */
-                  int act_rr = ai_city_worker_act_get(pcity, cindex,
-                                                      ACTIVITY_ROAD);
+                  int act_rr = adv_city_worker_act_get(pcity, cindex,
+                                                       ACTIVITY_ROAD);
                   consider_settler_action(pplayer, ACTIVITY_ROAD, extra,
                                           act_rr, oldv, in_use, time,
                                           &best_newv, &best_oldv,
                                           best_act, best_tile, ptile);
 
                   base_value
-                    = ai_city_worker_act_get(pcity, cindex,
-                                             ACTIVITY_RAILROAD);
+                    = adv_city_worker_act_get(pcity, cindex,
+                                              ACTIVITY_RAILROAD);
 
                   /* Count road time plus rail time. */
                   time += get_turns_for_activity_at(punit, ACTIVITY_RAILROAD, 

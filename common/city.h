@@ -238,6 +238,7 @@ enum city_updates {
 
 struct tile_cache; /* defined and only used within city.c */
 
+struct adv_city; /* defined in ./server/advisors/infracache.h */
 struct ai_city; /* defined in ./ai/aicity.h */
 
 struct city {
@@ -346,6 +347,7 @@ struct city {
 
       bool debug;                   /* not saved */
 
+      struct adv_city *adv;
       struct ai_city *ai;
 
       struct vision *vision;

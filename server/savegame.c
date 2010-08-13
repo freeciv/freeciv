@@ -64,6 +64,7 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "infracache.h"
 
 /* server/generator */
 #include "utilities.h"
@@ -2842,6 +2843,7 @@ static void player_load_cities(struct player *plr, int plrno,
     name = secfile_lookup_str_default(file, named, "%s", named);
     /* copied into city->name */
     pcity = create_city_virtual(plr, pcenter, name);
+    adv_city_alloc(pcity);
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->id,
                                           "player%d.c%d.id", plrno, i),

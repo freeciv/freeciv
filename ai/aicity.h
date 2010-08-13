@@ -84,11 +84,6 @@ struct ai_city {
   int founder_turn;             /* only recalculate every Nth turn */
   int founder_want;
   int settler_want;
-
-  /* Used for caching change in value from a worker performing
-   * a particular activity on a particular tile. */
-  struct ai_activity_cache *act_cache;
-  int act_cache_radius_sq;
 };
 
 void ai_manage_cities(struct player *pplayer);
