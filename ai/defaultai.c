@@ -32,11 +32,15 @@
 
 #include "defaultai.h"
 
+static struct ai_type *self = NULL;
+
 /**************************************************************************
   Setup player ai_funcs function pointers.
 **************************************************************************/
 void fc_ai_default_setup(struct ai_type *ai)
 {
+  self = ai;
+
   ai->funcs.city_alloc = ai_city_init;
   ai->funcs.city_free = ai_city_close;
   ai->funcs.city_got = NULL;
@@ -57,4 +61,12 @@ void fc_ai_default_setup(struct ai_type *ai)
   ai->funcs.treaty_accepted = ai_treaty_accepted;
   ai->funcs.first_contact = ai_diplomacy_first_contact;
   ai->funcs.incident = ai_incident;
+}
+
+/**************************************************************************
+  Get pointer to ai type of the default ai.
+**************************************************************************/
+struct ai_type *default_ai_get_self(void)
+{
+  return self;
 }

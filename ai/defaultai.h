@@ -13,6 +13,10 @@
 #ifndef FC__DEFAULTAI_H
 #define FC__DEFAULTAI_H
 
+struct ai_type;
+
 void fc_ai_default_setup(struct ai_type *ai);
+
+struct ai_type *default_ai_get_self(void);
 
 #endif /* FC__DEFAULTAI_H */
