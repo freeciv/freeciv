@@ -58,6 +58,7 @@ pkgdata_DATA = \
 		chananean.ruleset \
 		cherokee.ruleset \
 		chilean.ruleset \
+		chimu.ruleset \
 		chinese.ruleset \
 		chola.ruleset \
 		chumash.ruleset \

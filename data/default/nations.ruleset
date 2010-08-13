@@ -104,6 +104,7 @@ match=2
 *include "nation/chananean.ruleset"
 *include "nation/cherokee.ruleset"
 *include "nation/chilean.ruleset"
+*include "nation/chimu.ruleset"
 *include "nation/chinese.ruleset"
 *include "nation/chola.ruleset"
 *include "nation/chumash.ruleset"

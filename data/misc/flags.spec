@@ -61,6 +61,7 @@ artists = "
    Chananea		Daniel Markstedt
    Cheyenne		Arturo Espinosa-Aldama
    Chile		Mario Fuentes
+   Chimu		J.M. Maalderink
    China		Stephen Silver
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
@@ -311,6 +312,7 @@ sprites =
 		"f.chananea", "flags/chananea"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
 		"f.chile", "flags/chile"
+		"f.chimu", "flags/chimu"
 		"f.china", "flags/china"
 		"f.chola", "flags/chola"
 		"f.chumash", "flags/chumash"

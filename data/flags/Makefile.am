@@ -54,6 +54,7 @@ flag_files =				\
 		chananea.png		\
 		cheyenne.png		\
 		chile.png		\
+		chimu.png		\
 		china.png		\
 		chola.png		\
 		chumash.png		\
@@ -301,6 +302,7 @@ shield_files =					\
 		chananea-shield.png		\
 		cheyenne-shield.png		\
 		chile-shield.png		\
+		chimu-shield.png		\
 		china-shield.png		\
 		chola-shield.png		\
 		chumash-shield.png		\
@@ -548,6 +550,7 @@ svg_files = 				\
 		chananea.svg		\
 		cheyenne.svg		\
 		chile.svg		\
+		chimu.svg		\
 		china.svg		\
 		chola.svg		\
 		chumash.svg		\
