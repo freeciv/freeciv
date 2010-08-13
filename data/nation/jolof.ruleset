@@ -1,0 +1,69 @@
+[nation_jolof] 
+
+name=_("Jolof") 
+plural=_("?plural:Jolof") 
+groups="Medieval", "African" 
+legend=_("Also called Wolof, the Kingdom was formed between the\
+ Senegal and Gambia rivers in the 14th century. The King, or Burba\
+ Jolof, was beholden to a handful of powerful regional noblemen who\
+ acknowledged kinship with the king but developed personal power\
+ bases as well. By the early 1500s, the Burba Jolof could field as\
+ many has 100,000 infantry and 10,000 cavalry. Fulani and Berber\
+ incursions coupled with political weakness eroded away the power\
+ of the Burba Jolof. Various Wolof-speaking states established\
+ unions with one another, with their heads assuming the powers of\
+ Burba Jolof. The 19th century brought with it French colonization\
+ and a conversion to Islam fueled in large part by anti-European\
+ sentiment.") 
+
+leader= 
+"Ndyadyane Ndyaye", 
+"Sare N'Dyaye", 
+"Gireun Buri Dyelen", 
+"Bukaar Biye-Sungule", 
+"Lat-Koddu" 
+leader_sex="Male", "Male", "Male", "Male", "Male" 
+flag= "jolof" 
+flag_alt = "-" 
+city_style = "Tropical" 
+
+ruler_titles = { "government", "male_title", "female_title" 
+"Monarchy",_("Burba Jolof"), _("?female:Linger") 
+} 
+
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+civilwar_nations="malian", "benin" 
+
+cities = 
+"Linguère", 
+"Kaolack", 
+"Louga", 
+"Dagana", 
+"Rosso", 
+"Dara", 
+"Kanifing", 
+"Koki", 
+"Mekhé", 
+"Mboro", 
+"Kébémèr", 
+"Mpal", 
+"Lagbar", 
+"Toubu", 
+"Gassane", 
+"Joal-Fadiat", 
+"Pikine", 
+"Vélingara", 
+"Tiel", 
+"Sokone", 
+"Mbour", 
+"Farafenni", 
+"Bambey", 
+"Bogué", 
+"Podor", 
+"Kerewan", 
+"Fatick", 
+"Yoff"

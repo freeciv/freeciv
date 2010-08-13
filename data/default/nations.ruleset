@@ -170,6 +170,7 @@ match=2
 *include "nation/israeli.ruleset"
 *include "nation/italian.ruleset"
 *include "nation/japanese.ruleset"
+*include "nation/jolof.ruleset"
 *include "nation/kalmyk.ruleset"
 *include "nation/kanem-bornu.ruleset"
 *include "nation/kazakh.ruleset"

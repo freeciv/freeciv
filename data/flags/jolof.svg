@@ -1,0 +1,34 @@
+<svg
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   x="0"
+   y="0"
+   width="900"
+   height="600">
+  <defs
+     id="defs380">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 354.33051 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1062.99 : 354.33051 : 1"
+       inkscape:persp3d-origin="531.495 : 236.22034 : 1"
+       id="perspective9" />
+  </defs>
+  <rect
+     width="900"
+     height="600"
+     x="0"
+     y="0"
+     style="font-size:12px;fill:#ffff00;fill-rule:evenodd;stroke-width:1pt"
+     id="rect149" />
+  <path
+     d="M 574.42632,499.08725 L 450.51787,406.16111 L 327.21658,500 L 373.07509,347.50711 L 250,253.34313 L 402.26643,252.03026 L 449.49403,100 L 497.73356,251.68016 L 650,251.88021 L 527.55588,346.93195 L 574.42632,499.08725 z"
+     style="font-size:12px;fill:#008000;fill-rule:evenodd;stroke-width:0.112872"
+     id="path205" />
+  <path
+     d="M 543.31974,449.31544 L 450.3884,379.62083 L 357.91243,450 L 392.30632,335.63033 L 300,265.00735 L 414.19982,264.0227 L 449.62052,150 L 485.80017,263.76012 L 600,263.91016 L 508.16691,335.19896 L 543.31974,449.31544 z"
+     style="font-size:12px;fill:#ff0000;fill-rule:evenodd;stroke-width:0.112872"
+     id="path2382" />
+</svg>

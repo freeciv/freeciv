@@ -124,6 +124,7 @@ pkgdata_DATA = \
 		israeli.ruleset \
 		italian.ruleset \
 		japanese.ruleset \
+		jolof.ruleset \
 		kalmyk.ruleset \
 		kanem-bornu.ruleset \
 		kazakh.ruleset \

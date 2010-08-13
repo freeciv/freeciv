@@ -121,6 +121,7 @@ flag_files =				\
 		italy.png		\
 		japan.png		\
 		jbonai.png		\
+		jolof.png		\
 		kalmykia.png		\
 		kampuchea.png		\
 		kanem-bornu.png		\
@@ -367,6 +368,7 @@ shield_files =					\
 		italy-shield.png		\
 		japan-shield.png		\
 		jbonai-shield.png		\
+		jolof-shield.png		\
 		kalmykia-shield.png		\
 		kampuchea-shield.png		\
 		kanem-bornu-shield.png		\
@@ -613,6 +615,7 @@ svg_files = 				\
 		italy.svg		\
 		japan.svg		\
 		jbonai.svg		\
+		jolof.svg		\
 		kalmykia.svg		\
 		kampuchea.svg		\
 		kanem-bornu.svg		\
