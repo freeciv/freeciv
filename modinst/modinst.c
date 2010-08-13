@@ -92,17 +92,40 @@ static void msg_callback(const char *msg)
 }
 
 /**************************************************************************
+  Entry point for downloader thread
+**************************************************************************/
+static gpointer download_thread(gpointer data)
+{
+  const char *errmsg;
+
+  errmsg = download_modpack(data, msg_callback);
+
+  if (errmsg == NULL) {
+    gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
+  } else {
+    gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
+  }
+
+  free(data);
+
+  return NULL;
+}
+
+/**************************************************************************
   Download modpack, display error message dialogs
 **************************************************************************/
 static void gui_download_modpack(const char *URL)
 {
-  const char *errmsg;
+  GThread *downloader;
+  char *URLbuf = fc_malloc(strlen(URL) + 1);
 
-  errmsg = download_modpack(URL, msg_callback);
-  if (errmsg != NULL) {
-    gtk_label_set_text(GTK_LABEL(statusbar), errmsg);
-  } else {
-    gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
+  strcpy(URLbuf, URL);
+
+  downloader = g_thread_create(download_thread, URLbuf, FALSE, NULL);
+  if (downloader == NULL) {
+    gtk_label_set_text(GTK_LABEL(statusbar),
+                       _("Failed to start downloader"));
+    free(URLbuf);
   }
 }
 
