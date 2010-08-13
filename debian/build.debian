@@ -18,7 +18,7 @@ then
 	echo "Please enter your email address, or type ENTER to use \"$defaultemail\""
 	echo "You can avoid this query in the future by setting the EMAIL"
 	echo "environment variable to your address."
-	echo -n ">"
+	echo -n "> "
 	read EMAIL
 	echo
 	if [ -z "$EMAIL" ]

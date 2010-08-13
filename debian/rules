@@ -39,11 +39,8 @@ install-stamp: build-stamp
 	dh_installdirs
 
 	(cd build; $(MAKE) DESTDIR=`pwd`/../debian/tmp install)
-	# Temporary kludge because the potfiles are not getting installed
+#       Temporary kludge because the potfiles are not getting installed
 	(cd build/po; $(MAKE) prefix=`pwd`/../../debian/tmp/usr install)
-	ln -s civclient.6 debian/tmp/usr/share/man/man6/freeciv-xaw.6
-	ln -s civclient.6 debian/tmp/usr/share/man/man6/freeciv-gtk2.6
-	ln -s civclient.6 debian/tmp/usr/share/man/man6/freeciv-sdl.6
 #	cp debian/freeciv.desktop debian/tmp/usr/share/gnome/apps/Games
 
 	touch install-stamp
