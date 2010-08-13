@@ -43,6 +43,7 @@ sprites =
 		"f.shield.bavarian", "flags/bavarian-shield"
 		"f.shield.belarus", "flags/belarus-shield"
 		"f.shield.belgium", "flags/belgium-shield"
+		"f.shield.benin_ancient", "flags/benin_ancient-shield"
 		"f.shield.boer", "flags/boer-shield"
 		"f.shield.bosnia", "flags/bosnia-shield"
 		"f.shield.botswana", "flags/botswana-shield"

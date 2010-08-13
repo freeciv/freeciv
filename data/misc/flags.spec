@@ -43,6 +43,7 @@ artists = "
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
+   Benin (ancient)	Orange Tuesday (Wikimedia Commons user)
    Boer			Caleb Moore
    Bosnia		Daniel McRae
    Botswana		SKopp (Wikimedia user)
@@ -290,6 +291,7 @@ sprites =
 		"f.bavarian", "flags/bavarian"
 		"f.belarus", "flags/belarus"
 		"f.belgium", "flags/belgium"
+		"f.benin_ancient", "flags/benin_ancient"
 		"f.boer", "flags/boer"			; old south african
 		"f.bosnia", "flags/bosnia"
 		"f.botswana", "flags/botswana"
