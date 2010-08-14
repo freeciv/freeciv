@@ -1559,7 +1559,8 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->server.action_timestamp = 0;
     punit->server.action_turn = 0;
 
-    CALL_PLR_AI_FUNC(unit_init, pplayer, punit);
+    CALL_FUNC_EACH_AI(unit_alloc, punit);
+    CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
   } else {
     punit->client.focus_status = FOCUS_AVAIL;
     punit->client.colored = FALSE;
@@ -1576,7 +1577,8 @@ void destroy_unit_virtual(struct unit *punit)
 {
   free_unit_orders(punit);
 
-  CALL_PLR_AI_FUNC(unit_close, punit->owner, punit);
+  CALL_PLR_AI_FUNC(unit_lost, punit->owner, punit);
+  CALL_FUNC_EACH_AI(unit_free, punit);
   FC_FREE(punit);
 }
 

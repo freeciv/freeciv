@@ -43,12 +43,29 @@ void fc_ai_default_setup(struct ai_type *ai)
 
   ai->funcs.city_alloc = ai_city_init;
   ai->funcs.city_free = ai_city_close;
-  ai->funcs.city_got = NULL;
-  ai->funcs.city_lost = NULL;
 
-  ai->funcs.unit_init = ai_unit_init;
+  /*
+    ai->funcs.city_got = NULL;
+    ai->funcs.city_lost = NULL;
+  */
+
+  /* We should allocate memory only for units owned by
+     default ai in unit_got. We track no data
+     about enemy units.
+     But advisors code still depends on some default ai data (role) to be
+     always allocated. */
+  /*
+    ai->funcs.unit_alloc = NULL;
+    ai->funcs.unit_free = NULL;
+    ai->funcs.unit_got = ai_unit_init;
+    ai->funcs.unit_lost = ai_unit_close;
+  */
+  ai->funcs.unit_alloc = ai_unit_init;
+  ai->funcs.unit_free = ai_unit_close;
+  ai->funcs.unit_got = NULL;
+  ai->funcs.unit_lost = NULL;
+
   ai->funcs.unit_turn_end = ai_unit_turn_end;
-  ai->funcs.unit_close = ai_unit_close;
   ai->funcs.unit_move = ai_unit_move_or_attack;
 
   ai->funcs.auto_settler = ai_auto_settler;

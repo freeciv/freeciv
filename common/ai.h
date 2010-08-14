@@ -39,9 +39,11 @@ struct ai_type
     void (*city_got)(struct player *pplayer, struct city *pcity);
     void (*city_lost)(struct player *pplayer, struct city *pcity);
 
-    void (*unit_init)(struct unit *punit);
+    void (*unit_alloc)(struct unit *punit);
+    void (*unit_free)(struct unit *punit);
+    void (*unit_got)(struct unit *punit);
+    void (*unit_lost)(struct unit *punit);
     void (*unit_turn_end)(struct unit *punit);
-    void (*unit_close)(struct unit *punit);
     void (*unit_move)(struct unit *punit, struct tile *ptile,
                       struct pf_path *path, int step);
 
