@@ -18,6 +18,7 @@ EXTRA_DIST =			\
 	README.ftwl		\
 	README.graphics		\
 	README.nations		\
+	README.packaging	\
 	README.rulesets		\
 	README.scorelog		\
 	README.SDLClient	\
