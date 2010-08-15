@@ -30,6 +30,7 @@
 #define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.3/ancients.modpack"
 
 GtkWidget *statusbar;
+GtkWidget *progressbar;
 
 static gboolean quit_dialog_callback(void);
 
@@ -92,13 +93,21 @@ static void msg_callback(const char *msg)
 }
 
 /**************************************************************************
+  Progress indications from downloader
+**************************************************************************/
+static void pbar_callback(const double fraction)
+{
+  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(progressbar), fraction);
+}
+
+/**************************************************************************
   Entry point for downloader thread
 **************************************************************************/
 static gpointer download_thread(gpointer data)
 {
   const char *errmsg;
 
-  errmsg = download_modpack(data, msg_callback);
+  errmsg = download_modpack(data, msg_callback, pbar_callback);
 
   if (errmsg == NULL) {
     gtk_label_set_text(GTK_LABEL(statusbar), _("Ready"));
@@ -183,10 +192,13 @@ static void modinst_setup_widgets(GtkWidget *toplevel)
   gtk_box_pack_start(GTK_BOX(Ubox), URL_label, TRUE, TRUE, 0);
   gtk_box_pack_end(GTK_BOX(Ubox), URL_input, TRUE, TRUE, 0);
 
+  progressbar = gtk_progress_bar_new();
+
   statusbar = gtk_label_new(_("Select modpack to install"));
 
   gtk_box_pack_start(GTK_BOX(mbox), Ubox, TRUE, TRUE, 0);
   gtk_box_pack_start(GTK_BOX(mbox), install_button, TRUE, TRUE, 0);
+  gtk_box_pack_start(GTK_BOX(mbox), progressbar, TRUE, TRUE, 0);
   gtk_box_pack_end(GTK_BOX(mbox), statusbar, TRUE, TRUE, 0);
 
   gtk_container_add(GTK_CONTAINER(toplevel), mbox);

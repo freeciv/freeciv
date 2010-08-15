@@ -18,7 +18,10 @@
 #define MODPACK_CAPSTR "+modpack-090810-2"
 
 typedef void (*dl_msg_callback)(const char *msg);
+typedef void (*dl_pb_callback)(const double fraction);
 
-const char *download_modpack(const char *URL, dl_msg_callback cb);
+const char *download_modpack(const char *URL,
+                             dl_msg_callback mcb,
+                             dl_pb_callback pbcb);
 
 #endif /* FC__MODPACK_DOWNLOAD_H */

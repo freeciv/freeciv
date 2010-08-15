@@ -149,12 +149,14 @@ static bool download_file(const char *URL, const char *local_filename)
 /**************************************************************************
   Download modpack from a given URL
 **************************************************************************/
-const char *download_modpack(const char *URL, dl_msg_callback cb)
+const char *download_modpack(const char *URL,
+                             dl_msg_callback mcb,
+                             dl_pb_callback pbcb)
 {
   char local_name[2048];
   const char *home;
   int start_idx;
-  int filenbr;
+  int filenbr, total_files;
   struct section_file *control;
   const char *control_capstr;
   const char *baseURL;
@@ -194,8 +196,8 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
 
   cat_snprintf(local_name, sizeof(local_name), "/%s", URL + start_idx);
 
-  if (cb != NULL) {
-    cb(_("Downloading modpack control file."));
+  if (mcb != NULL) {
+    mcb(_("Downloading modpack control file."));
   }
   if (!download_file(URL, local_name)) {
     return _("Failed to download modpack control file from given URL");
@@ -224,74 +226,96 @@ const char *download_modpack(const char *URL, dl_msg_callback cb)
   }
 
   baseURL = secfile_lookup_str(control, "info.baseURL");
-  filenbr = 0;
+
+  total_files = 0;
   do {
+    src_name = secfile_lookup_str_default(control, NULL,
+                                          "files.list%d.src", total_files);
+
+    if (src_name != NULL) {
+      total_files++;
+    }
+  } while (src_name != NULL);
+
+  if (pbcb != NULL) {
+    /* Control file already downloaded */
+    double fraction = (double) 1 / (total_files + 1);
+
+    pbcb(fraction);
+  }
+
+  filenbr = 0;
+  for (filenbr = 0; filenbr < total_files; filenbr++) {
     const char *dest_name;
+    int i;
+    bool illegal_filename = FALSE;
 
     src_name = secfile_lookup_str_default(control, NULL,
                                           "files.list%d.src", filenbr);
-    if (src_name != NULL) {
-      int i;
-      bool illegal_filename = FALSE;
 
-      dest_name = secfile_lookup_str_default(control, NULL,
-                                             "files.list%d.dest", filenbr);
+    dest_name = secfile_lookup_str_default(control, NULL,
+                                           "files.list%d.dest", filenbr);
 
-      if (dest_name == NULL || dest_name[0] == '\0') {
-        /* Missing dest name is ok, we just default to src_name */
-        dest_name = src_name;
-      }
+    if (dest_name == NULL || dest_name[0] == '\0') {
+      /* Missing dest name is ok, we just default to src_name */
+      dest_name = src_name;
+    }
 
-      for (i = 0; dest_name[i] != '\0'; i++) {
-        if (dest_name[i] == '.' && dest_name[i+1] == '.') {
-          if (cb != NULL) {
-            char buf[2048];
-
-            fc_snprintf(buf, sizeof(buf), _("Illegal path for %s"),
-                        dest_name);
-            cb(buf);
-          }
-          partial_failure = TRUE;
-          illegal_filename = TRUE;
-        }
-      }
-
-      if (!illegal_filename) {
-        fc_snprintf(local_name, sizeof(local_name),
-                    "%s/.freeciv/" DATASUBDIR "/%s",
-                    home, dest_name);
-        for (i = strlen(local_name) - 1 ; local_name[i] != '/' ; i--) {
-          /* Nothing */
-        }
-        local_name[i] = '\0';
-        if (!make_dir(local_name)) {
-          secfile_destroy(control);
-          return _("Cannot create required directories");
-        }
-        local_name[i] = '/';
-
-        if (cb != NULL) {
+    for (i = 0; dest_name[i] != '\0'; i++) {
+      if (dest_name[i] == '.' && dest_name[i+1] == '.') {
+        if (mcb != NULL) {
           char buf[2048];
 
-          fc_snprintf(buf, sizeof(buf), _("Downloading %s"), src_name);
-          cb(buf);
+          fc_snprintf(buf, sizeof(buf), _("Illegal path for %s"),
+                      dest_name);
+          mcb(buf);
         }
-
-        fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
-        if (!download_file(fileURL, local_name)) {
-          if (cb != NULL) {
-            char buf[2048];
-
-            fc_snprintf(buf, sizeof(buf), _("Failed to download %s"),
-                        src_name);
-            cb(buf);
-          }
-          partial_failure = TRUE;
-        }
+        partial_failure = TRUE;
+        illegal_filename = TRUE;
       }
-      filenbr++;
     }
-  } while (src_name != NULL);
+
+    if (!illegal_filename) {
+      fc_snprintf(local_name, sizeof(local_name),
+                  "%s/.freeciv/" DATASUBDIR "/%s",
+                  home, dest_name);
+      for (i = strlen(local_name) - 1 ; local_name[i] != '/' ; i--) {
+        /* Nothing */
+      }
+      local_name[i] = '\0';
+      if (!make_dir(local_name)) {
+        secfile_destroy(control);
+        return _("Cannot create required directories");
+      }
+      local_name[i] = '/';
+
+      if (mcb != NULL) {
+        char buf[2048];
+
+        fc_snprintf(buf, sizeof(buf), _("Downloading %s"), src_name);
+        mcb(buf);
+      }
+
+      fc_snprintf(fileURL, sizeof(fileURL), "%s/%s", baseURL, src_name);
+      if (!download_file(fileURL, local_name)) {
+        if (mcb != NULL) {
+          char buf[2048];
+
+          fc_snprintf(buf, sizeof(buf), _("Failed to download %s"),
+                      src_name);
+          mcb(buf);
+        }
+        partial_failure = TRUE;
+      }
+    }
+
+    if (pbcb != NULL) {
+      /* Count download of control file also */
+      double fraction = (double)(filenbr + 2) / (total_files + 1);
+
+      pbcb(fraction);
+    }
+  }
 
   secfile_destroy(control);
 
