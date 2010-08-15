@@ -49,5 +49,9 @@ void init_ai(struct ai_type *ai)
 ***************************************************************/
 int ai_type_number(const struct ai_type *ai)
 {
-  return ai - ai_types;
+  int ainbr = ai - ai_types;
+
+  fc_assert_ret_val(ainbr >= 0 && ainbr < FC_AI_LAST, 0);
+
+  return ainbr;
 }

@@ -44,6 +44,7 @@
 #include "aicity.h"
 #include "aiunit.h"
 #include "aitools.h"
+#include "defaultai.h"
 
 #include "aiparatrooper.h"
 
@@ -71,7 +72,7 @@ static struct tile* find_best_tile_to_paradrop_to(struct unit *punit)
     acity = tile_city(ptile);
     if (acity && city_owner(acity) == unit_owner(punit)
         && unit_list_size(ptile->units) == 0) {
-      val = acity->size * acity->server.ai->urgency;
+      val = acity->size * def_ai_city_data(acity)->urgency;
       if (val > best) {
 	best = val;
 	best_tile = ptile;

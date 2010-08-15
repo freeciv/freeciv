@@ -39,6 +39,7 @@
 
 /* ai */
 #include "aicity.h"
+#include "defaultai.h"
 
 #include "srv_log.h"
 
@@ -129,13 +130,14 @@ void real_city_log(const char *file, const char *function, int line,
   char buffer[500];
   char buffer2[500];
   va_list ap;
+  struct ai_city *city_data = def_ai_city_data(pcity);
 
   fc_snprintf(buffer, sizeof(buffer), "%s %s(%d,%d) [s%d d%d u%d g%d] ",
               nation_rule_name(nation_of_city(pcity)),
               city_name(pcity),
               TILE_XY(pcity->tile), pcity->size,
-              pcity->server.ai->danger, pcity->server.ai->urgency,
-              pcity->server.ai->grave_danger);
+              city_data->danger, city_data->urgency,
+              city_data->grave_danger);
 
   va_start(ap, msg);
   fc_vsnprintf(buffer2, sizeof(buffer2), msg, ap);

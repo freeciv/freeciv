@@ -42,6 +42,7 @@
 #include "aicity.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "aiair.h"
 
@@ -96,7 +97,8 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
    * attack anything.  Production should not happen if there is an idle 
    * unit of the same type nearby */
   if (acity && punit->id != 0
-      && acity->server.ai->invasion.occupy == 0 && !COULD_OCCUPY(punit)) {
+      && def_ai_city_data(acity)->invasion.occupy == 0
+      && !COULD_OCCUPY(punit)) {
     /* No units capable of occupying are invading */
     log_debug("Don't want to attack %s, although we could",
               city_name(acity));
@@ -265,7 +267,8 @@ static struct tile *ai_find_strategic_airbase(const struct unit *punit,
       continue; /* Cannot refuel here. */
     }
 
-    if ((pcity = tile_city(ptile)) && pcity->server.ai->grave_danger != 0) {
+    if ((pcity = tile_city(ptile))
+        && def_ai_city_data(pcity)->grave_danger != 0) {
       best_tile = ptile;
       break; /* Fly there immediately!! */
     }

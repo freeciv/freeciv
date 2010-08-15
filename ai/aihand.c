@@ -54,6 +54,7 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "aihand.h"
 
@@ -211,6 +212,7 @@ static void ai_manage_taxes(struct player *pplayer)
 
     city_list_iterate(pplayer->cities, pcity) {
       struct cm_result *cmr = cm_result_new(pcity);
+      struct ai_city *city_data = def_ai_city_data(pcity);
 
       cm_clear_cache(pcity);
       cm_query_result(pcity, &cmp, cmr); /* burn some CPU */
@@ -221,10 +223,10 @@ static void ai_manage_taxes(struct player *pplayer)
           && pcity->surplus[O_FOOD] > 0
           && pcity->size >= game.info.celebratesize
 	  && city_can_grow_to(pcity, pcity->size + 1)) {
-        pcity->server.ai->celebrate = TRUE;
+        city_data->celebrate = TRUE;
         can_celebrate++;
       } else {
-        pcity->server.ai->celebrate = FALSE;
+        city_data->celebrate = FALSE;
       }
       cm_result_destroy(cmr);
     } city_list_iterate_end;
@@ -235,7 +237,7 @@ static void ai_manage_taxes(struct player *pplayer)
       city_list_iterate(pplayer->cities, pcity) {
         struct cm_result *cmr = cm_result_new(pcity);
 
-        if (pcity->server.ai->celebrate == TRUE) {
+        if (def_ai_city_data(pcity)->celebrate == TRUE) {
           log_base(LOGLEVEL_TAX, "setting %s to celebrate",
                    city_name(pcity));
           cm_query_result(pcity, &cmp, cmr);

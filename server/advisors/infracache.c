@@ -27,6 +27,7 @@
 
 /* ai */
 #include "aicity.h"
+#include "defaultai.h"
 
 #include "infracache.h"
 
@@ -559,7 +560,7 @@ void ai_city_update(struct city *pcity)
   int radius_sq = city_map_radius_sq_get(pcity);
 
   fc_assert_ret(NULL != pcity);
-  fc_assert_ret(NULL != pcity->server.ai);
+  fc_assert_ret(NULL != pcity->server.adv);
 
   /* initialize act_cache if needed */
   if (pcity->server.adv->act_cache == NULL

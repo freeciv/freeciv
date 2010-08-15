@@ -59,6 +59,7 @@
 #include "aiguard.h"
 #include "aitech.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "aitools.h"
 
@@ -1144,14 +1145,15 @@ void ai_advisor_choose_building(struct city *pcity, struct ai_choice *choice)
   struct impr_type *chosen = NULL;
   int want = 0;
   struct player *plr = city_owner(pcity);
+  struct ai_city *city_data = def_ai_city_data(pcity);
 
   improvement_iterate(pimprove) {
     if (!plr->ai_controlled && is_wonder(pimprove)) {
       continue; /* Humans should not be advised to build wonders or palace */
     }
-    if (pcity->server.ai->building_want[improvement_index(pimprove)] > want
+    if (city_data->building_want[improvement_index(pimprove)] > want
         && can_city_build_improvement_now(pcity, pimprove)) {
-      want = pcity->server.ai->building_want[improvement_index(pimprove)];
+      want = city_data->building_want[improvement_index(pimprove)];
       chosen = pimprove;
     }
   } improvement_iterate_end;

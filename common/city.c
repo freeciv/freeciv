@@ -3134,3 +3134,20 @@ enum citytile_type find_citytile_by_rule_name(const char *name)
 
   return CITYT_LAST;
 }
+
+/**************************************************************************
+  Return pointer to ai data of given city and ai type.
+**************************************************************************/
+void *city_ai_data(const struct city *pcity, const struct ai_type *ai)
+{
+  return pcity->server.ais[ai_type_number(ai)];
+}
+
+/**************************************************************************
+  Attach ai data to city
+**************************************************************************/
+void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
+                      void *data)
+{
+  pcity->server.ais[ai_type_number(ai)] = data;
+}

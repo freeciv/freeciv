@@ -138,6 +138,7 @@
 
 /* ai */
 #include "aicity.h"
+#include "defaultai.h"
 
 #include "savegame2.h"
 
@@ -3616,8 +3617,8 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   struct player *past;
   const char *kind, *name, *string;
   int id, i, repair, specialists = 0, workers = 0;
-
   int nat_x, nat_y;
+  struct ai_city *city_data = def_ai_city_data(pcity);
 
   sg_warn_ret_val(secfile_lookup_int(loading->file, &nat_x, "%s.x", citystr),
                   FALSE, "%s", secfile_error());
@@ -3844,27 +3845,27 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
   }
 
   /* FIXME: remove this when the urgency is properly recalculated. */
-  pcity->server.ai->urgency
+  city_data->urgency
     = secfile_lookup_int_default(loading->file, 0, "%s.ai.urgency", citystr);
 
   /* avoid fc_rand recalculations on subsequent reload. */
-  pcity->server.ai->building_turn
+  city_data->building_turn
     = secfile_lookup_int_default(loading->file, 0, "%s.ai.building_turn",
                                  citystr);
-  pcity->server.ai->building_wait
+  city_data->building_wait
     = secfile_lookup_int_default(loading->file, BUILDING_WAIT_MINIMUM,
                                  "%s.ai.building_wait", citystr);
 
   /* avoid fc_rand and expensive recalculations on subsequent reload. */
-  pcity->server.ai->founder_turn
+  city_data->founder_turn
     = secfile_lookup_int_default(loading->file, 0, "%s.ai.founder_turn",
                                  citystr);
-  pcity->server.ai->founder_want
+  city_data->founder_want
     = secfile_lookup_int_default(loading->file, 0, "%s.ai.founder_want",
                                  citystr);
-  pcity->server.ai->founder_boat
+  city_data->founder_boat
     = secfile_lookup_bool_default(loading->file,
-                                  (pcity->server.ai->founder_want < 0),
+                                  (city_data->founder_want < 0),
                                   "%s.ai.founder_boat", citystr);
 
   return TRUE;
@@ -3898,6 +3899,7 @@ static void sg_save_player_cities(struct savedata *saving,
     char impr_buf[MAX_NUM_ITEMS + 1];
     char buf[32];
     int j;
+    struct ai_city *city_data = def_ai_city_data(pcity);
 
     fc_snprintf(buf, sizeof(buf), "player%d.c%d", plrno, i);
 
@@ -4000,21 +4002,21 @@ static void sg_save_player_cities(struct savedata *saving,
     }
 
     /* FIXME: remove this when the urgency is properly recalculated. */
-    secfile_insert_int(saving->file, pcity->server.ai->urgency,
+    secfile_insert_int(saving->file, city_data->urgency,
                        "%s.ai.urgency", buf);
 
     /* avoid fc_rand recalculations on subsequent reload. */
-    secfile_insert_int(saving->file, pcity->server.ai->building_turn,
+    secfile_insert_int(saving->file, city_data->building_turn,
                        "%s.ai.building_turn", buf);
-    secfile_insert_int(saving->file, pcity->server.ai->building_wait,
+    secfile_insert_int(saving->file, city_data->building_wait,
                        "%s.ai.building_wait", buf);
 
     /* avoid fc_rand and expensive recalculations on subsequent reload. */
-    secfile_insert_int(saving->file, pcity->server.ai->founder_turn,
+    secfile_insert_int(saving->file, city_data->founder_turn,
                        "%s.ai.founder_turn", buf);
-    secfile_insert_int(saving->file, pcity->server.ai->founder_want,
+    secfile_insert_int(saving->file, city_data->founder_want,
                        "%s.ai.founder_want", buf);
-    secfile_insert_bool(saving->file, pcity->server.ai->founder_boat,
+    secfile_insert_bool(saving->file, city_data->founder_boat,
                        "%s.ai.founder_boat", buf);
 
     i++;

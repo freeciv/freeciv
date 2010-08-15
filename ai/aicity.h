@@ -91,7 +91,7 @@ void ai_manage_buildings(struct player *pplayer);
 
 int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
-void ai_city_init(struct city *pcity);
-void ai_city_close(struct city *pcity);
+void ai_city_alloc(struct city *pcity);
+void ai_city_free(struct city *pcity);
 
 #endif  /* FC__AICITY_H */

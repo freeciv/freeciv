@@ -55,6 +55,7 @@
 #include "aitools.h"
 #include "aiunit.h"
 #include "citymap.h"
+#include "defaultai.h"
 
 #include "aisettler.h"
 
@@ -847,7 +848,7 @@ static bool ai_do_build_city(struct player *pplayer, struct unit *punit)
   initialize_infrastructure_cache(pplayer);
 
   /* Init ai.choice. Handling ferryboats might use it. */
-  init_choice(&pcity->server.ai->choice);
+  init_choice(&def_ai_city_data(pcity)->choice);
 
   return TRUE;
 }
@@ -877,6 +878,7 @@ void contemplate_new_city(struct city *pcity)
   if (pplayer->ai_controlled) {
     struct cityresult result;
     bool is_coastal = is_ocean_near_tile(pcenter);
+    struct ai_city *city_data = def_ai_city_data(pcity);
 
     find_best_city_placement(virtualunit, &result, is_coastal, is_coastal);
     fc_assert(0 <= result.result);
@@ -887,9 +889,9 @@ void contemplate_new_city(struct city *pcity)
 	     (result.virt_boat ? "build a boat" : 
 	      (result.overseas ? "use a boat" : "walk")));
 
-    pcity->server.ai->founder_want = (result.virt_boat ? 
+    city_data->founder_want = (result.virt_boat ? 
                                -result.result : result.result);
-    pcity->server.ai->founder_boat = result.overseas;
+    city_data->founder_boat = result.overseas;
   }
   destroy_unit_virtual(virtualunit);
 }

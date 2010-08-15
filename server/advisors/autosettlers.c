@@ -44,6 +44,7 @@
 #include "aisettler.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 /* server */
 #include "citytools.h"
@@ -783,5 +784,7 @@ void contemplate_terrain_improvements(struct city *pcity)
            ai->stats.workers[place], 
            ai->stats.cities[place]);
   fc_assert(want >= 0);
-  pcity->server.ai->settler_want = want;
+
+  /* FIXME: Should not use default ai data */
+  def_ai_city_data(pcity)->settler_want = want;
 }

@@ -58,6 +58,7 @@
 #include "aihand.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "aidiplomat.h"
 
@@ -119,8 +120,10 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
      we have other defensive troops, and we don't already have a diplomat
      to protect us. If we see an enemy diplomat and we don't have diplomat
      tech... race it! */
-  if (def != 0 && pcity->server.ai->diplomat_threat
-      && !pcity->server.ai->has_diplomat) {
+  struct ai_city *city_data = def_ai_city_data(pcity);
+
+  if (def != 0 && city_data->diplomat_threat
+      && !city_data->has_diplomat) {
     struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
 
     if (ut) {
@@ -128,7 +131,7 @@ void ai_choose_diplomat_defensive(struct player *pplayer,
                 "A defensive diplomat will be built in city %s.",
                 city_name(pcity));
        choice->want = 16000; /* diplomat more important than soldiers */
-       pcity->server.ai->urgency = 1;
+       city_data->urgency = 1;
        choice->type = CT_DEFENDER;
        choice->value.utype = ut;
        choice->need_boat = FALSE;
@@ -416,7 +419,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
 
   if (pcity 
       && count_diplomats_on_tile(pcity->tile) == 1
-      && pcity->server.ai->urgency > 0) {
+      && def_ai_city_data(pcity)->urgency > 0) {
     /* Danger and we are only diplomat present - stay. */
     return pcity;
   }
@@ -425,6 +428,7 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
     struct city *acity;
     struct player *aplayer;
     int dipls, urgency;
+    struct ai_city *city_data;
 
     acity = tile_city(ptile);
     if (!acity) {
@@ -435,10 +439,11 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
       continue;
     }
 
-    urgency = acity->server.ai->urgency;
+    city_data = def_ai_city_data(acity);
+    urgency = city_data->urgency;
     dipls = (count_diplomats_on_tile(ptile)
              - (same_pos(ptile, punit->tile) ? 1 : 0));
-    if (dipls == 0 && acity->server.ai->diplomat_threat) {
+    if (dipls == 0 && city_data->diplomat_threat) {
       /* We are _really_ needed there */
       urgency = (urgency + 1) * 5;
     } else if (dipls > 0) {
@@ -600,15 +605,19 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
   /* If we are the only diplomat in a threatened city, then stay to defend */
   pcity = tile_city(punit->tile); /* we may have moved */
-  if (pcity && count_diplomats_on_tile(punit->tile) == 1
-      && (pcity->server.ai->diplomat_threat
-          || pcity->server.ai->urgency > 0)) {
-    UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
-             city_name(pcity), pcity->server.ai->urgency);
-    ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* abort mission */
-    punit->server.ai->done = TRUE;
-    pf_map_destroy(pfm);
-    return;
+  if (pcity) {
+    struct ai_city *city_data = def_ai_city_data(pcity);
+
+    if (count_diplomats_on_tile(punit->tile) == 1
+        && (city_data->diplomat_threat
+            || city_data->urgency > 0)) {
+      UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
+               city_name(pcity), city_data->urgency);
+      ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* abort mission */
+      punit->server.ai->done = TRUE;
+      pf_map_destroy(pfm);
+      return;
+    }
   }
 
   /* Check if existing target still makes sense */

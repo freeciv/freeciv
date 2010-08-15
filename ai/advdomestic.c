@@ -46,6 +46,7 @@
 #include "aitech.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "advdomestic.h"
 
@@ -62,6 +63,7 @@ static void ai_choose_help_wonder(struct city *pcity,
 {
   struct player *pplayer = city_owner(pcity);
   Continent_id continent = tile_continent(pcity->tile);
+  struct ai_city *city_data = def_ai_city_data(pcity);
   /* Total count of caravans available or already being built 
    * on this continent */
   int caravans = 0;
@@ -76,7 +78,7 @@ static void ai_choose_help_wonder(struct city *pcity,
 
   if (pcity == wonder_city 
       || wonder_city == NULL
-      || pcity->server.ai->distance_to_wonder_city <= 0
+      || city_data->distance_to_wonder_city <= 0
       || VUT_UTYPE == wonder_city->production.kind
       || !is_wonder(wonder_city->production.value.building)) {
     /* A distance of zero indicates we are very far away, possibly
@@ -112,8 +114,9 @@ static void ai_choose_help_wonder(struct city *pcity,
   if (build_points_left(wonder_city) 
       > utype_build_shield_cost(unit_type) * caravans) {
     struct impr_type *wonder = wonder_city->production.value.building;
-    int want = wonder_city->server.ai->building_want[improvement_index(wonder)];
-    int dist = pcity->server.ai->distance_to_wonder_city /
+    struct ai_city *wdr_data = def_ai_city_data(wonder_city);
+    int want = wdr_data->building_want[improvement_index(wonder)];
+    int dist = city_data->distance_to_wonder_city /
                unit_type->move_rate;
 
     fc_assert_ret(VUT_IMPROVEMENT == wonder_city->production.kind);
@@ -261,6 +264,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   struct unit_type *settler_type;
   struct unit_type *founder_type;
   int settler_want, founder_want;
+  struct ai_city *city_data = def_ai_city_data(pcity);
 
   init_choice(choice);
 
@@ -271,7 +275,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
    * ai_manage_cities.  The expand value is the % that the AI should
    * value expansion (basically to handicap easier difficutly levels)
    * and is set when the difficulty level is changed (stdinhand.c). */
-  settler_want = pcity->server.ai->settler_want * pplayer->ai_common.expand / 100;
+  settler_want = city_data->settler_want * pplayer->ai_common.expand / 100;
 
   if (ai->wonder_city == pcity->id) {
     settler_want /= 5;
@@ -299,7 +303,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
   founder_type = best_role_unit(pcity, F_CITIES);
 
   /* founder_want calculated in aisettlers.c */
-  founder_want = pcity->server.ai->founder_want;
+  founder_want = city_data->founder_want;
 
   if (ai->wonder_city == pcity->id) {
     founder_want /= 5;
@@ -320,7 +324,7 @@ void domestic_advisor_choose_build(struct player *pplayer, struct city *pcity,
                founder_want);
       ai_choose_role_unit(pplayer, pcity, choice, CT_CIVILIAN,
                           F_CITIES, founder_want,
-                          pcity->server.ai->founder_boat);
+                          city_data->founder_boat);
 
     } else if (founder_want < -choice->want) {
       /* We need boats to colonize! */

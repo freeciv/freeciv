@@ -17,6 +17,7 @@
 #include "log.h"
 
 /* common */
+#include "ai.h" /* FC_AI_LAST */
 #include "fc_types.h"
 #include "name_translation.h"
 #include "improvement.h"
@@ -239,7 +240,6 @@ enum city_updates {
 struct tile_cache; /* defined and only used within city.c */
 
 struct adv_city; /* defined in ./server/advisors/infracache.h */
-struct ai_city; /* defined in ./ai/aicity.h */
 
 struct city {
   char name[MAX_LEN_NAME];
@@ -348,7 +348,7 @@ struct city {
       bool debug;                   /* not saved */
 
       struct adv_city *adv;
-      struct ai_city *ai;
+      void *ais[FC_AI_LAST];
 
       struct vision *vision;
     } server;
@@ -671,5 +671,9 @@ bool city_exist(int id);
 #define FREE_WORKED_TILES (1)
 
 enum citytile_type find_citytile_by_rule_name(const char *name);
+
+void *city_ai_data(const struct city *pcity, const struct ai_type *ai);
+void city_set_ai_data(struct city *pcity, const struct ai_type *ai,
+                      void *data);
 
 #endif  /* FC__CITY_H */
