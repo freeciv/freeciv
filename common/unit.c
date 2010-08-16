@@ -1057,7 +1057,8 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 /**************************************************************************
   assign a new task to a unit.
 **************************************************************************/
-void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
+static void set_unit_activity_no_checks(struct unit *punit,
+                                        enum unit_activity new_activity)
 {
   fc_assert_ret(new_activity != ACTIVITY_FORTRESS
                 && new_activity != ACTIVITY_AIRBASE);
@@ -1073,6 +1074,18 @@ void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 }
 
 /**************************************************************************
+  assign a new untargeted task to a unit.
+**************************************************************************/
+void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
+{
+  /* Targets must be specified for these activities */
+  fc_assert_ret(new_activity != ACTIVITY_PILLAGE
+                && new_activity != ACTIVITY_BASE);
+
+  set_unit_activity_no_checks(punit, new_activity);
+}
+
+/**************************************************************************
   assign a new targeted task to a unit.
 **************************************************************************/
 void set_unit_activity_targeted(struct unit *punit,
@@ -1083,7 +1096,7 @@ void set_unit_activity_targeted(struct unit *punit,
   fc_assert_ret(new_target != S_OLD_FORTRESS
                 && new_target != S_OLD_AIRBASE);
 
-  set_unit_activity(punit, new_activity);
+  set_unit_activity_no_checks(punit, new_activity);
   punit->activity_target = new_target;
   punit->activity_base = base;
 }
@@ -1094,7 +1107,7 @@ void set_unit_activity_targeted(struct unit *punit,
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base)
 {
-  set_unit_activity(punit, ACTIVITY_BASE);
+  set_unit_activity_no_checks(punit, ACTIVITY_BASE);
   punit->activity_base = base;
 }
 
