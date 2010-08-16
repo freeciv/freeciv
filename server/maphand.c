@@ -216,16 +216,22 @@ static bool is_terrain_ecologically_wet(struct tile *ptile)
 **************************************************************************/
 void global_warming(int effect)
 {
-  int k;
+  int k = map_num_tiles();
+  bool used[k];
+  memset(used, 0, sizeof(used));
 
   freelog(LOG_VERBOSE, "Global warming: %d", game.info.heating);
 
-  k = map_num_tiles();
-  while(effect > 0 && (k--) > 0) {
+  while (effect > 0 && (k--) > 0) {
     struct terrain *old, *new;
     struct tile *ptile;
 
-    ptile = rand_map_pos();
+    do {
+      /* We want to transform a tile at most once by global warming. */
+      ptile = rand_map_pos();
+    } while (used[ptile->index]);
+    used[ptile->index] = TRUE;
+
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
       new = old->warmer_wetter_result;
@@ -268,16 +274,22 @@ void global_warming(int effect)
 **************************************************************************/
 void nuclear_winter(int effect)
 {
-  int k;
+  int k = map_num_tiles();
+  bool used[k];
+  memset(used, 0, sizeof(used));
 
   freelog(LOG_VERBOSE, "Nuclear winter: %d", game.info.cooling);
 
-  k = map_num_tiles();
-  while(effect > 0 && (k--) > 0) {
+  while (effect > 0 && (k--) > 0) {
     struct terrain *old, *new;
     struct tile *ptile;
 
-    ptile = rand_map_pos();
+    do {
+      /* We want to transform a tile at most once by nuclear winter. */
+      ptile = rand_map_pos();
+    } while (used[ptile->index]);
+    used[ptile->index] = TRUE;
+
     old = tile_get_terrain(ptile);
     if (is_terrain_ecologically_wet(ptile)) {
       new = old->cooler_wetter_result;
