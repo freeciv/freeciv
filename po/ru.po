@@ -13,7 +13,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv-2.2.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-25 12:47-0700\n"
+"POT-Creation-Date: 2010-08-16 10:55+0200\n"
 "PO-Revision-Date: 2010-05-03 21:23+0600\n"
 "Last-Translator: Andrej Svininykh <svininykh@gmail.com>\n"
 "Language-Team: Russian <freeciv.ru@freelists.org>\n"
@@ -1177,84 +1177,84 @@ msgstr[2] "(всего %d повторов)"
 msgid "Please report this message at %s"
 msgstr "Пожалуйста отправьте это сообщение на %s"
 
-#: utility/shared.c:182
+#: utility/shared.c:185
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Пустой аргумент для \"%s\".\n"
 
-#: utility/shared.c:186
+#: utility/shared.c:189
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Отсутствует аргумент для \"%s\".\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:943
+#: utility/shared.c:946
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr "\"%s\" установлено, но пусто; используется \"%s\" по умолчанию."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1048
+#: utility/shared.c:1051
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Не удалось прочитать каталог данных %s: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1297
+#: utility/shared.c:1303
 #, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "Путь для данных может быть установлен в переменной окружения \"%s\""
 
-#: utility/shared.c:1300
+#: utility/shared.c:1306
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Текущий путь для данных: \"%s\""
 
-#: utility/shared.c:1303
+#: utility/shared.c:1309
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "Необходим файл \"%s\" ... прерываем исполнение!"
 
-#: utility/shared.c:1492
+#: utility/shared.c:1498
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 "%s: Фатальная ошибка: Вы пытаетесь запустить меня будучи "
 "суперпользователем!\n"
 
-#: utility/shared.c:1494
+#: utility/shared.c:1500
 msgid "Use a non-privileged account instead.\n"
 msgstr "Используйте лучше непривелегированный счет.\n"
 
-#: utility/shared.c:1510
+#: utility/shared.c:1516
 msgid "exact match"
 msgstr "точное совпадение"
 
-#: utility/shared.c:1511
+#: utility/shared.c:1517
 msgid "only match"
 msgstr "единственное совпадение"
 
-#: utility/shared.c:1512
+#: utility/shared.c:1518
 msgid "ambiguous"
 msgstr "неоднозначно"
 
-#: utility/shared.c:1513
+#: utility/shared.c:1519
 msgid "empty"
 msgstr "пусто"
 
-#: utility/shared.c:1514
+#: utility/shared.c:1520
 msgid "too long"
 msgstr "слишком длинно"
 
-#: utility/shared.c:1515
+#: utility/shared.c:1521
 msgid "non-match"
 msgstr "не совпадает"
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "TRUE"
 msgstr "ИСТИНА"
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "FALSE"
 msgstr "ЛОЖЬ"
 
@@ -3481,12 +3481,12 @@ msgstr "'%s' успешно подключился."
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr "%s отключён: Дублирование логина [%s]."
 
-#: server/connecthand.c:380 server/connecthand.c:391
+#: server/connecthand.c:378 server/connecthand.c:389
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Соединение с %s было потеряно."
 
-#: server/connecthand.c:633
+#: server/connecthand.c:631
 #, c-format
 msgid "detaching from %s."
 msgstr "отключается от %s."
@@ -6418,56 +6418,56 @@ msgstr "Значение вышло из диапазона."
 msgid "String value too long."
 msgstr "Строковое значение слишком длинное."
 
-#: server/sernet.c:151
+#: server/sernet.c:152
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Сервер не может читать со стандартного ввода. Игнорируем ввод."
 
-#: server/sernet.c:502
+#: server/sernet.c:503
 #, fuzzy
 msgid "restarting for lack of players"
 msgstr "Стартовое количество золота на игрока"
 
-#: server/sernet.c:525
+#: server/sernet.c:526
 #, fuzzy, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr "Стартовое количество золота на игрока"
 
-#: server/sernet.c:528
+#: server/sernet.c:529
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "Стартовое количество золота на игрока"
 
-#: server/sernet.c:947
+#: server/sernet.c:949
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Сервер: неправильный адрес: <%s:%d>."
 
-#: server/sernet.c:962
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr "Невозможно открыть IPv6, попробую вместо него IPv4"
 
-#: server/sernet.c:965
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr "Поиск IPv4 сервиса не удался <%d>."
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Преигра"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1318
+#: server/sernet.c:1320
 msgid "Running"
 msgstr "Запуск"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1322
+#: server/sernet.c:1324
 msgid "Game over"
 msgstr "Конец игры"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1326
+#: server/sernet.c:1328
 msgid "Waiting"
 msgstr "Ожидается"
 
@@ -11985,13 +11985,13 @@ msgid "Username"
 msgstr "Имя пользователя"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1643
 msgid "Flag"
 msgstr "Флаг"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
+#: client/gui-gtk-2.0/pages.c:973 client/gui-gtk-2.0/pages.c:1645
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -12005,7 +12005,7 @@ msgstr "Граница"
 msgid "Score"
 msgstr "Счёт"
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1647
 msgid "Team"
 msgstr "Команда"
 
@@ -13759,7 +13759,7 @@ msgstr "Выберите, что разрушать:"
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:970 client/gui-gtk-2.0/pages.c:1633
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
@@ -14144,7 +14144,7 @@ msgid "Address"
 msgstr "Адрес"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:971
 #: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -14345,7 +14345,7 @@ msgstr ""
 "У этого клиента нет специальных опций командной строки\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1487
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -14361,66 +14361,66 @@ msgstr "Ход сделан"
 msgid "Shift+Return"
 msgstr "Комбинация Shift+Enter"
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1335
 msgid "Chat"
 msgstr "Общение"
 
-#: client/gui-gtk-2.0/gui_main.c:1355
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Allies Only"
 msgstr "Только союзники"
 
-#: client/gui-gtk-2.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1368
 msgid "Clear links"
 msgstr "Очистить ссылку"
 
-#: client/gui-gtk-2.0/gui_main.c:1639
+#: client/gui-gtk-2.0/gui_main.c:1643
 msgid "Not _ready"
 msgstr "Не готов (_r)"
 
-#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/pages.c:1706
 msgid "_Ready"
 msgstr "Готов (_R)"
 
-#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
+#: client/gui-gtk-2.0/gui_main.c:1658 client/gui-gtk-2.0/gui_main.c:1664
 msgid "_Start"
 msgstr "Начать (_S)"
 
-#: client/gui-gtk-2.0/gui_main.c:1668
+#: client/gui-gtk-2.0/gui_main.c:1672
 msgid "_Take Player"
 msgstr "Управлять игроком (_T)"
 
-#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1676 client/gui-gtk-2.0/pages.c:1696
 msgid "Pick _Nation"
 msgstr "Выбрать народ (_N)"
 
-#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1684 client/gui-gtk-2.0/pages.c:1701
 msgid "_Observe"
 msgstr "Наблюдать (_O)"
 
-#: client/gui-gtk-2.0/gui_main.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1686
 msgid "Do not _observe"
 msgstr "Не наблюдать (_o)"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1737
+#: client/gui-gtk-2.0/gui_main.c:1741
 #, c-format
 msgid "<%s AI>"
 msgstr "<Компьютер %s >"
 
-#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1753 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "Случайный"
 
-#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1813 client/gui-gtk-2.0/gui_main.c:1827
 msgid "Observer"
 msgstr "Наблюдатель"
 
-#: client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1827
 msgid "Detached"
 msgstr "Отсоединён"
 
-#: client/gui-gtk-2.0/gui_main.c:2103
+#: client/gui-gtk-2.0/gui_main.c:2107
 msgid "Are you sure you want to quit?"
 msgstr "Вы действительно хотите выйти?"
 
@@ -15025,7 +15025,7 @@ msgstr "Отключить туман войны (_W)"
 msgid "Game/Scenario Properties"
 msgstr "Свойства игры/сценария"
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2370
 msgid "Save Scenario"
 msgstr "Сохранить сценарий"
 
@@ -15357,236 +15357,236 @@ msgstr "Компьютер (_A)"
 msgid "_Toggle AI Mode"
 msgstr "Переключить компьютерный режим (_T)"
 
-#: client/gui-gtk-2.0/pages.c:227
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Start _New Game"
 msgstr "Начать новую игру (_N)"
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:242
 msgid "Start _Scenario Game"
 msgstr "Начать игру по сценарию (_S)"
 
-#: client/gui-gtk-2.0/pages.c:239
+#: client/gui-gtk-2.0/pages.c:248
 msgid "_Load Saved Game"
 msgstr "Загрузить сохранённую игру (_L)"
 
-#: client/gui-gtk-2.0/pages.c:245
+#: client/gui-gtk-2.0/pages.c:254
 msgid "C_onnect to Network Game"
 msgstr "Подключиться к сетевой игре (_o)"
 
-#: client/gui-gtk-2.0/pages.c:253
+#: client/gui-gtk-2.0/pages.c:261
 msgid "Connect to Gaming _Zone"
 msgstr "Подключиться к Gaming Zone (_Z)"
 
-#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:646 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr "Пароли не совпадают, введите пароль."
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:799 client/gui-gtk-2.0/pages.c:840
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "Имя сервера"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:800 client/gui-gtk-2.0/pages.c:841
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Порт"
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:801 client/gui-gtk-2.0/pages.c:842
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "Версия"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:802 client/gui-gtk-2.0/pages.c:843
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "Состояние"
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:803 client/gui-gtk-2.0/pages.c:844
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "Игроки"
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:804 client/gui-gtk-2.0/pages.c:845
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "Комментарий"
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:806
 msgid "Local _Area Network"
 msgstr "Локальная сеть (_A)"
 
-#: client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:847
 msgid "Internet _Metaserver"
 msgstr "Интернет Метасервер (_M)"
 
-#: client/gui-gtk-2.0/pages.c:870
+#: client/gui-gtk-2.0/pages.c:884
 msgid "_Host:"
 msgstr "Сервер (_H):"
 
-#: client/gui-gtk-2.0/pages.c:887
+#: client/gui-gtk-2.0/pages.c:901
 msgid "_Port:"
 msgstr "Порт (_P):"
 
-#: client/gui-gtk-2.0/pages.c:904
+#: client/gui-gtk-2.0/pages.c:918
 msgid "_Login:"
 msgstr "Логин (_L):"
 
-#: client/gui-gtk-2.0/pages.c:922
+#: client/gui-gtk-2.0/pages.c:936
 msgid "Pass_word:"
 msgstr "Пароль (_w):"
 
-#: client/gui-gtk-2.0/pages.c:940
+#: client/gui-gtk-2.0/pages.c:954
 msgid "Conf_irm Password:"
 msgstr "Повторите Пароль (_i):"
 
-#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:972 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Сервер"
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:1001
 msgid "C_onnect"
 msgstr "Подключиться (_o)"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1225
 #, c-format
 msgid "Connection name: %s"
 msgstr "Имя подключения: %s"
 
-#: client/gui-gtk-2.0/pages.c:1214
+#: client/gui-gtk-2.0/pages.c:1228
 #, c-format
 msgid "Player name: %s"
 msgstr "Имя игрока: %s"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1233
 #, c-format
 msgid "Host: %s"
 msgstr "Хост: %s"
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1241
 msgid "Player/conn info"
 msgstr "Информация об игроке/подключении"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1268
 #, c-format
 msgid "%s info"
 msgstr "Информация о %s"
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1279
 msgid "Toggle player ready"
 msgstr "Изменить готовность игрока"
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1287
 msgid "Pick nation"
 msgstr "Выбрать народ"
 
-#: client/gui-gtk-2.0/pages.c:1283
+#: client/gui-gtk-2.0/pages.c:1297
 msgid "Observe this player"
 msgstr "Наблюдать за этим игроком"
 
-#: client/gui-gtk-2.0/pages.c:1290
+#: client/gui-gtk-2.0/pages.c:1304
 msgid "Take this player"
 msgstr "Управлять этим игроком"
 
-#: client/gui-gtk-2.0/pages.c:1307
+#: client/gui-gtk-2.0/pages.c:1321
 msgid "Cut connection"
 msgstr "Прервать подключение"
 
-#: client/gui-gtk-2.0/pages.c:1317
+#: client/gui-gtk-2.0/pages.c:1331
 msgid "Aitoggle player"
 msgstr "Сменить статус компьютерного управления"
 
-#: client/gui-gtk-2.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1340
 msgid "Remove player"
 msgstr "Удалить игрока"
 
-#: client/gui-gtk-2.0/pages.c:1337
+#: client/gui-gtk-2.0/pages.c:1351
 msgid "Give info access"
 msgstr "Дать уровень доступа info"
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1359
 msgid "Give ctrl access"
 msgstr "Дать уровень доступа ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1411
+#: client/gui-gtk-2.0/pages.c:1425
 #, c-format
 msgid "Put on %s"
 msgstr "Включить в %s"
 
-#: client/gui-gtk-2.0/pages.c:1547
+#: client/gui-gtk-2.0/pages.c:1561
 msgid "Number of _Players (including AI):"
 msgstr "Число игроков (Включая компьютерных игроков) (_P):"
 
-#: client/gui-gtk-2.0/pages.c:1574
+#: client/gui-gtk-2.0/pages.c:1588
 msgid "AI Skill _Level:"
 msgstr "Уровень компьютерного противника (AI) (_L):"
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1605
 msgid "Ruleset _Version:"
 msgstr "Версия правил: (V)"
 
-#: client/gui-gtk-2.0/pages.c:1599
+#: client/gui-gtk-2.0/pages.c:1613
 msgid "_More Game Options..."
 msgstr "Доп. настройки игры... (_M)"
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1635
 msgid "Record"
 msgstr "Запись"
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1637
 msgid "Rating"
 msgstr "Рейтинг"
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1639
 msgid "Ready"
 msgstr "Готов"
 
-#: client/gui-gtk-2.0/pages.c:1627
+#: client/gui-gtk-2.0/pages.c:1641
 msgid "?player:Leader"
 msgstr "?игрок:Лидер"
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr "Выберите сохранённую игру, которую Вы хотите загрузить"
 
-#: client/gui-gtk-2.0/pages.c:1831
+#: client/gui-gtk-2.0/pages.c:1845
 msgid "Choose Saved Game to _Load:"
 msgstr "Выберите игру, которую Вы хотите загрузить (_L):"
 
-#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
-#: client/gui-gtk-2.0/pages.c:2366
+#: client/gui-gtk-2.0/pages.c:1865 client/gui-gtk-2.0/pages.c:2083
+#: client/gui-gtk-2.0/pages.c:2373
 msgid "_Browse..."
 msgstr "Обзор... (_B)"
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1935
 msgid "Choose a Scenario"
 msgstr "Выберите сценарий"
 
-#: client/gui-gtk-2.0/pages.c:2017
+#: client/gui-gtk-2.0/pages.c:2031
 msgid "Choose a _Scenario:"
 msgstr "Выберите сценарий (_S):"
 
-#: client/gui-gtk-2.0/pages.c:2050
+#: client/gui-gtk-2.0/pages.c:2064
 msgid "Filename:"
 msgstr "Имя файла:"
 
-#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2277 client/gui-win32/menu.c:593
 msgid "Select Location to Save"
 msgstr "Выберите место для сохранения"
 
-#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2370 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "Сохранить игру"
 
-#: client/gui-gtk-2.0/pages.c:2404
+#: client/gui-gtk-2.0/pages.c:2411
 msgid "Saved _Games:"
 msgstr "Сохранённые игры (_G):"
 
-#: client/gui-gtk-2.0/pages.c:2431
+#: client/gui-gtk-2.0/pages.c:2438
 msgid "Save _Filename:"
 msgstr "Имя файла сохранения (_F):"
 
@@ -29217,8 +29217,9 @@ msgid ""
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
 "the end of the 19th century, Laos became part of French Indochina. French "
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
-"1975 the communist Pathet Lao established strict solicalist regime. However, "
-"in 1986 the liberalization and a gradual return to private enterpise started."
+"1975 the communist Pathet Lao established a strict socialist regime. "
+"However, in 1986 the liberalization and a gradual return to private "
+"enterpise started."
 msgstr ""
 "История Лаоса начинается с создания королевства Наньчжао в XIV веке н.э. и "
 "заканчивается в XVIII веке вторжением Сиамского королевства. В конце XIX "

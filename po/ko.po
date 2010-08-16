@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-25 12:47-0700\n"
+"POT-Creation-Date: 2010-08-16 10:55+0200\n"
 "PO-Revision-Date: 2007-12-10 21:13+0900\n"
 "Last-Translator: Sungdae\n"
 "Language-Team: Korean language team\n"
@@ -1220,82 +1220,82 @@ msgstr[1] "(전체 %d번 반복)"
 msgid "Please report this message at %s"
 msgstr ""
 
-#: utility/shared.c:182
+#: utility/shared.c:185
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "\"%s\" 비어있는 인수.\n"
 
-#: utility/shared.c:186
+#: utility/shared.c:189
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "\"%s\" 놓친 인수.\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:943
+#: utility/shared.c:946
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr "FREECIV_PATH는 배치되 있지만 비어있습니다; 대신 기본경로로 사용합니다"
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1048
+#: utility/shared.c:1051
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "디렉토리 %s에서 데이터를 읽을 수 없습니다: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1297
+#: utility/shared.c:1303
 #, fuzzy, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "데이터 경로는 변경할수 있는 FREECIV_PATH환경을 통해 세팅할수 있습니다."
 
-#: utility/shared.c:1300
+#: utility/shared.c:1306
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "현재 데이터 경로는 : \"%s\""
 
-#: utility/shared.c:1303
+#: utility/shared.c:1309
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr " \"%s\"이 요구됩니다... 거부!"
 
-#: utility/shared.c:1492
+#: utility/shared.c:1498
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s:치명적 에러: 당신은 관리자되려고 시도하려고 했습니다!\n"
 
-#: utility/shared.c:1494
+#: utility/shared.c:1500
 msgid "Use a non-privileged account instead.\n"
 msgstr "일반계정을 대신 사용하세요\n"
 
-#: utility/shared.c:1510
+#: utility/shared.c:1516
 msgid "exact match"
 msgstr "정확한 맞음(match)"
 
-#: utility/shared.c:1511
+#: utility/shared.c:1517
 msgid "only match"
 msgstr "오직 경기"
 
-#: utility/shared.c:1512
+#: utility/shared.c:1518
 msgid "ambiguous"
 msgstr "애매모한"
 
-#: utility/shared.c:1513
+#: utility/shared.c:1519
 msgid "empty"
 msgstr "비어있음"
 
-#: utility/shared.c:1514
+#: utility/shared.c:1520
 msgid "too long"
 msgstr "너무 깁니다"
 
-#: utility/shared.c:1515
+#: utility/shared.c:1521
 msgid "non-match"
 msgstr "맞지 않습니다"
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "TRUE"
 msgstr ""
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "FALSE"
 msgstr ""
 
@@ -3237,12 +3237,12 @@ msgstr ""
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr ""
 
-#: server/connecthand.c:380 server/connecthand.c:391
+#: server/connecthand.c:378 server/connecthand.c:389
 #, c-format
 msgid "Lost connection: %s."
 msgstr "접속 끊김: %s"
 
-#: server/connecthand.c:633
+#: server/connecthand.c:631
 #, c-format
 msgid "detaching from %s."
 msgstr "%s(으)로부터 분리."
@@ -5743,58 +5743,58 @@ msgstr "값 2는 반드시 정수여야 합니다"
 msgid "String value too long."
 msgstr "문자열이 너무 깁니다. 사용법 : set <옵션> <값>."
 
-#: server/sernet.c:151
+#: server/sernet.c:152
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 
-#: server/sernet.c:502
+#: server/sernet.c:503
 #, fuzzy
 msgid "restarting for lack of players"
 msgstr "한 플레이어당 시작 금(gold)"
 
-#: server/sernet.c:525
+#: server/sernet.c:526
 #, fuzzy, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr "한 플레이어당 시작 금(gold)"
 
-#: server/sernet.c:528
+#: server/sernet.c:529
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "한 플레이어당 시작 금(gold)"
 
-#: server/sernet.c:947
+#: server/sernet.c:949
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr ""
 
-#: server/sernet.c:962
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:965
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "게임 전"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1318
+#: server/sernet.c:1320
 #, fuzzy
 msgid "Running"
 msgstr "석유 정제"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1322
+#: server/sernet.c:1324
 #, fuzzy
 msgid "Game over"
 msgstr "게임 끝남"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1326
+#: server/sernet.c:1328
 #, fuzzy
 msgid "Waiting"
 msgstr "집필"
@@ -10947,13 +10947,13 @@ msgid "Username"
 msgstr "사용자명"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1643
 msgid "Flag"
 msgstr "국기"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
+#: client/gui-gtk-2.0/pages.c:973 client/gui-gtk-2.0/pages.c:1645
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -10967,7 +10967,7 @@ msgstr "국경"
 msgid "Score"
 msgstr "득점"
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1647
 msgid "Team"
 msgstr "팀"
 
@@ -12686,7 +12686,7 @@ msgstr "약탈 할 것을 선택하세요:"
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:970 client/gui-gtk-2.0/pages.c:1633
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
@@ -13083,7 +13083,7 @@ msgid "Address"
 msgstr "미리설정 추가하기"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:971
 #: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -13300,7 +13300,7 @@ msgstr ""
 "이 클라이언트는 특별한 명령줄 옵션이 없습니다\n"
 "\n"
 
-#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1487
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -13316,67 +13316,67 @@ msgstr "턴 종료"
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1335
 msgid "Chat"
 msgstr "대화"
 
-#: client/gui-gtk-2.0/gui_main.c:1355
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1368
 #, fuzzy
 msgid "Clear links"
 msgstr "작업리스트 지우기(_W)"
 
-#: client/gui-gtk-2.0/gui_main.c:1639
+#: client/gui-gtk-2.0/gui_main.c:1643
 msgid "Not _ready"
 msgstr "준비 안 됐슴(_R)"
 
-#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/pages.c:1706
 msgid "_Ready"
 msgstr "준비 됐슴(_R)"
 
-#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
+#: client/gui-gtk-2.0/gui_main.c:1658 client/gui-gtk-2.0/gui_main.c:1664
 msgid "_Start"
 msgstr "시작(_S)"
 
-#: client/gui-gtk-2.0/gui_main.c:1668
+#: client/gui-gtk-2.0/gui_main.c:1672
 msgid "_Take Player"
 msgstr "이 사용자 데려오기(_T)"
 
-#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1676 client/gui-gtk-2.0/pages.c:1696
 msgid "Pick _Nation"
 msgstr "민족 선택(_N)"
 
-#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1684 client/gui-gtk-2.0/pages.c:1701
 msgid "_Observe"
 msgstr "관찰하기(_O)"
 
-#: client/gui-gtk-2.0/gui_main.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1686
 msgid "Do not _observe"
 msgstr "관찰을 취소하기(_O)"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1737
+#: client/gui-gtk-2.0/gui_main.c:1741
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "<AI>"
 
-#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1753 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "무작위"
 
-#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1813 client/gui-gtk-2.0/gui_main.c:1827
 msgid "Observer"
 msgstr "관찰자"
 
-#: client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1827
 msgid "Detached"
 msgstr "붙임"
 
-#: client/gui-gtk-2.0/gui_main.c:2103
+#: client/gui-gtk-2.0/gui_main.c:2107
 msgid "Are you sure you want to quit?"
 msgstr "정말 끝내시겠습니까?"
 
@@ -14003,7 +14003,7 @@ msgstr ""
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2370
 #, fuzzy
 msgid "Save Scenario"
 msgstr "시나리오 게임 시작(_S)"
@@ -14355,237 +14355,237 @@ msgstr "_AI"
 msgid "_Toggle AI Mode"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:227
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Start _New Game"
 msgstr "새로운 게임 시작(_N)"
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:242
 msgid "Start _Scenario Game"
 msgstr "시나리오 게임 시작(_S)"
 
-#: client/gui-gtk-2.0/pages.c:239
+#: client/gui-gtk-2.0/pages.c:248
 msgid "_Load Saved Game"
 msgstr "저장된 게임을 로딩(_L)"
 
-#: client/gui-gtk-2.0/pages.c:245
+#: client/gui-gtk-2.0/pages.c:254
 msgid "C_onnect to Network Game"
 msgstr "네트웍 게임에 연결(_O)"
 
-#: client/gui-gtk-2.0/pages.c:253
+#: client/gui-gtk-2.0/pages.c:261
 msgid "Connect to Gaming _Zone"
 msgstr "Gaming Zone으로 연결(_Z)"
 
-#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:646 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:799 client/gui-gtk-2.0/pages.c:840
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "서버명"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:800 client/gui-gtk-2.0/pages.c:841
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "포트"
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:801 client/gui-gtk-2.0/pages.c:842
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "버전"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:802 client/gui-gtk-2.0/pages.c:843
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "상태"
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:803 client/gui-gtk-2.0/pages.c:844
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "사용자"
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:804 client/gui-gtk-2.0/pages.c:845
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "비평"
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:806
 msgid "Local _Area Network"
 msgstr "L_AN"
 
-#: client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:847
 msgid "Internet _Metaserver"
 msgstr "메타서버(_M)"
 
-#: client/gui-gtk-2.0/pages.c:870
+#: client/gui-gtk-2.0/pages.c:884
 msgid "_Host:"
 msgstr "호스트:(_H)"
 
-#: client/gui-gtk-2.0/pages.c:887
+#: client/gui-gtk-2.0/pages.c:901
 msgid "_Port:"
 msgstr "포트:(_P)"
 
-#: client/gui-gtk-2.0/pages.c:904
+#: client/gui-gtk-2.0/pages.c:918
 msgid "_Login:"
 msgstr "로그인:(_L)"
 
-#: client/gui-gtk-2.0/pages.c:922
+#: client/gui-gtk-2.0/pages.c:936
 msgid "Pass_word:"
 msgstr "암호:(_W)"
 
-#: client/gui-gtk-2.0/pages.c:940
+#: client/gui-gtk-2.0/pages.c:954
 msgid "Conf_irm Password:"
 msgstr "암호 확인:(_I)"
 
-#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:972 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "호스트"
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:1001
 msgid "C_onnect"
 msgstr "연결(_O)"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1225
 #, c-format
 msgid "Connection name: %s"
 msgstr "연결 이름: %s"
 
-#: client/gui-gtk-2.0/pages.c:1214
+#: client/gui-gtk-2.0/pages.c:1228
 #, c-format
 msgid "Player name: %s"
 msgstr "사용자명: %s"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1233
 #, c-format
 msgid "Host: %s"
 msgstr "호스트: %s"
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1241
 msgid "Player/conn info"
 msgstr "사용자/접속 정보"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1268
 #, c-format
 msgid "%s info"
 msgstr "%s 정보"
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1279
 msgid "Toggle player ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1287
 msgid "Pick nation"
 msgstr "민족을 선택"
 
-#: client/gui-gtk-2.0/pages.c:1283
+#: client/gui-gtk-2.0/pages.c:1297
 msgid "Observe this player"
 msgstr "이 플레이어를 관찰하기"
 
-#: client/gui-gtk-2.0/pages.c:1290
+#: client/gui-gtk-2.0/pages.c:1304
 msgid "Take this player"
 msgstr "이 사용자 데려오기"
 
-#: client/gui-gtk-2.0/pages.c:1307
+#: client/gui-gtk-2.0/pages.c:1321
 msgid "Cut connection"
 msgstr "연결 끊기"
 
-#: client/gui-gtk-2.0/pages.c:1317
+#: client/gui-gtk-2.0/pages.c:1331
 msgid "Aitoggle player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1340
 msgid "Remove player"
 msgstr "사용자 제거"
 
-#: client/gui-gtk-2.0/pages.c:1337
+#: client/gui-gtk-2.0/pages.c:1351
 msgid "Give info access"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1359
 msgid "Give ctrl access"
 msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1411
+#: client/gui-gtk-2.0/pages.c:1425
 #, c-format
 msgid "Put on %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1547
+#: client/gui-gtk-2.0/pages.c:1561
 msgid "Number of _Players (including AI):"
 msgstr "플레이어 수(AI 포함):"
 
-#: client/gui-gtk-2.0/pages.c:1574
+#: client/gui-gtk-2.0/pages.c:1588
 msgid "AI Skill _Level:"
 msgstr "AI 숙련 레벨:(_L)"
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1605
 msgid "Ruleset _Version:"
 msgstr "룰세트:(_V)"
 
-#: client/gui-gtk-2.0/pages.c:1599
+#: client/gui-gtk-2.0/pages.c:1613
 msgid "_More Game Options..."
 msgstr "기타 게임 옵션...(_M)"
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1635
 msgid "Record"
 msgstr "기록"
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1637
 msgid "Rating"
 msgstr "비율"
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1639
 msgid "Ready"
 msgstr "준비"
 
-#: client/gui-gtk-2.0/pages.c:1627
+#: client/gui-gtk-2.0/pages.c:1641
 msgid "?player:Leader"
 msgstr "지도자"
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr "로드하기 위해 저장된 게임을 선택하세요"
 
-#: client/gui-gtk-2.0/pages.c:1831
+#: client/gui-gtk-2.0/pages.c:1845
 msgid "Choose Saved Game to _Load:"
 msgstr "로드하기 위해 저장된 게임을 선택하세요:"
 
-#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
-#: client/gui-gtk-2.0/pages.c:2366
+#: client/gui-gtk-2.0/pages.c:1865 client/gui-gtk-2.0/pages.c:2083
+#: client/gui-gtk-2.0/pages.c:2373
 msgid "_Browse..."
 msgstr "찾아보기(_B)"
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1935
 msgid "Choose a Scenario"
 msgstr "시나리오 선택"
 
-#: client/gui-gtk-2.0/pages.c:2017
+#: client/gui-gtk-2.0/pages.c:2031
 msgid "Choose a _Scenario:"
 msgstr "시나리오 선택:(_S)"
 
-#: client/gui-gtk-2.0/pages.c:2050
+#: client/gui-gtk-2.0/pages.c:2064
 #, fuzzy
 msgid "Filename:"
 msgstr "파일이름 저장 :"
 
-#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2277 client/gui-win32/menu.c:593
 msgid "Select Location to Save"
 msgstr "저장하기 위한 장소 선택"
 
-#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2370 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "게임 저장"
 
-#: client/gui-gtk-2.0/pages.c:2404
+#: client/gui-gtk-2.0/pages.c:2411
 msgid "Saved _Games:"
 msgstr "저장된 게임들 :"
 
-#: client/gui-gtk-2.0/pages.c:2431
+#: client/gui-gtk-2.0/pages.c:2438
 msgid "Save _Filename:"
 msgstr "파일이름 저장 :"
 
@@ -26486,8 +26486,9 @@ msgid ""
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
 "the end of the 19th century, Laos became part of French Indochina. French "
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
-"1975 the communist Pathet Lao established strict solicalist regime. However, "
-"in 1986 the liberalization and a gradual return to private enterpise started."
+"1975 the communist Pathet Lao established a strict socialist regime. "
+"However, in 1986 the liberalization and a gradual return to private "
+"enterpise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3

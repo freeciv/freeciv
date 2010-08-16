@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: et\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-25 12:47-0700\n"
+"POT-Creation-Date: 2010-08-16 10:55+0200\n"
 "PO-Revision-Date: 2009-02-27 00:03+0200\n"
 "Last-Translator: Elmo Todurov <todurov@gmail.com>\n"
 "Language-Team: eesti\n"
@@ -1257,18 +1257,18 @@ msgstr[1] " (kokku %d kordust)"
 msgid "Please report this message at %s"
 msgstr ""
 
-#: utility/shared.c:182
+#: utility/shared.c:185
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Puudu argument võtmele \"%s\".\n"
 
-#: utility/shared.c:186
+#: utility/shared.c:189
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Puudu argument võtmele \"%s\".\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:943
+#: utility/shared.c:946
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
@@ -1276,65 +1276,65 @@ msgstr ""
 "andmete asukohta."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1048
+#: utility/shared.c:1051
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Ei suuda lugeda andmekataloogi %s: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1297
+#: utility/shared.c:1303
 #, fuzzy, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr "Andmete asukohta saab määrata keskkonnamuutuja FREECIV_PATH abil."
 
-#: utility/shared.c:1300
+#: utility/shared.c:1306
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Praegune andmete asukoht on: \"%s\""
 
-#: utility/shared.c:1303
+#: utility/shared.c:1309
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "\"%s\" fail on puudu ... katkestan!"
 
-#: utility/shared.c:1492
+#: utility/shared.c:1498
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: VIGA: Sa proovid mind käivitada administraatori õigustega!\n"
 
-#: utility/shared.c:1494
+#: utility/shared.c:1500
 msgid "Use a non-privileged account instead.\n"
 msgstr "Kasuta selle asemel mittepriviligeeritud kontot.\n"
 
-#: utility/shared.c:1510
+#: utility/shared.c:1516
 msgid "exact match"
 msgstr "täpne vaste"
 
-#: utility/shared.c:1511
+#: utility/shared.c:1517
 msgid "only match"
 msgstr "ainus vaste"
 
-#: utility/shared.c:1512
+#: utility/shared.c:1518
 msgid "ambiguous"
 msgstr "ebaselge"
 
-#: utility/shared.c:1513
+#: utility/shared.c:1519
 msgid "empty"
 msgstr "tühi"
 
-#: utility/shared.c:1514
+#: utility/shared.c:1520
 msgid "too long"
 msgstr "liiga pikk"
 
-#: utility/shared.c:1515
+#: utility/shared.c:1521
 msgid "non-match"
 msgstr "mittevastav"
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "TRUE"
 msgstr ""
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "FALSE"
 msgstr ""
 
@@ -3462,12 +3462,12 @@ msgstr "'%s' on juba ühendatud"
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr "%s saadeti kukele: selline loginanimi ([%s]) on juba olemas."
 
-#: server/connecthand.c:380 server/connecthand.c:391
+#: server/connecthand.c:378 server/connecthand.c:389
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Kadus ühendus: %s."
 
-#: server/connecthand.c:633
+#: server/connecthand.c:631
 #, c-format
 msgid "detaching from %s."
 msgstr "ühendun lahti %s-st."
@@ -6298,57 +6298,57 @@ msgstr "Väärtus peab olema täisarv."
 msgid "String value too long."
 msgstr "Stringi väärtus on liiga pikk.  Kasutus: set <seade> <väärtus>."
 
-#: server/sernet.c:151
+#: server/sernet.c:152
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Server ei suuda standardsisendit lugeda. Ignoreerin sisendit."
 
-#: server/sernet.c:502
+#: server/sernet.c:503
 msgid "restarting for lack of players"
 msgstr "taaskäivitun mängijate vähesuse tõttu"
 
-#: server/sernet.c:525
+#: server/sernet.c:526
 #, fuzzy, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr "taaskäivitun mängijate vähesuse tõttu"
 
-#: server/sernet.c:528
+#: server/sernet.c:529
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "taaskäivitun mängijate vähesuse tõttu"
 
-#: server/sernet.c:947
+#: server/sernet.c:949
 #, fuzzy, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Server: halb aadress: [%s:%d]."
 
-#: server/sernet.c:962
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:965
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Mänguootel"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1318
+#: server/sernet.c:1320
 #, fuzzy
 msgid "Running"
 msgstr "Reiting"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1322
+#: server/sernet.c:1324
 #, fuzzy
 msgid "Game over"
 msgstr "Mäng lõppes"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1326
+#: server/sernet.c:1328
 #, fuzzy
 msgid "Waiting"
 msgstr "ootan"
@@ -11704,13 +11704,13 @@ msgid "Username"
 msgstr "Kasutajanimi"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1643
 msgid "Flag"
 msgstr "Lipp"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
+#: client/gui-gtk-2.0/pages.c:973 client/gui-gtk-2.0/pages.c:1645
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -11724,7 +11724,7 @@ msgstr "Piir"
 msgid "Score"
 msgstr "Skoor"
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1647
 msgid "Team"
 msgstr "Meeskond"
 
@@ -13478,7 +13478,7 @@ msgstr "Vali mille maha lõhkuda:"
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:970 client/gui-gtk-2.0/pages.c:1633
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
@@ -13882,7 +13882,7 @@ msgid "Address"
 msgstr "Lisa mall"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:971
 #: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -14097,7 +14097,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1487
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -14113,68 +14113,68 @@ msgstr "Käigud käidud"
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1335
 msgid "Chat"
 msgstr "Loba"
 
-#: client/gui-gtk-2.0/gui_main.c:1355
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1368
 #, fuzzy
 msgid "Clear links"
 msgstr "_Tööde nimekiri:"
 
-#: client/gui-gtk-2.0/gui_main.c:1639
+#: client/gui-gtk-2.0/gui_main.c:1643
 msgid "Not _ready"
 msgstr "Pole _valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/pages.c:1706
 msgid "_Ready"
 msgstr "_Valmis"
 
-#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
+#: client/gui-gtk-2.0/gui_main.c:1658 client/gui-gtk-2.0/gui_main.c:1664
 msgid "_Start"
 msgstr "_Alusta"
 
-#: client/gui-gtk-2.0/gui_main.c:1668
+#: client/gui-gtk-2.0/gui_main.c:1672
 #, fuzzy
 msgid "_Take Player"
 msgstr "Vali see mängija"
 
-#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1676 client/gui-gtk-2.0/pages.c:1696
 msgid "Pick _Nation"
 msgstr "Vali _Rahvus"
 
-#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1684 client/gui-gtk-2.0/pages.c:1701
 msgid "_Observe"
 msgstr "_Vaatle"
 
-#: client/gui-gtk-2.0/gui_main.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1686
 msgid "Do not _observe"
 msgstr "Ära _vaatle"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1737
+#: client/gui-gtk-2.0/gui_main.c:1741
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "<Kerge tehisintellekt>"
 
-#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1753 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "Juhuslik"
 
-#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1813 client/gui-gtk-2.0/gui_main.c:1827
 msgid "Observer"
 msgstr "Vaatleja"
 
-#: client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1827
 msgid "Detached"
 msgstr "Lahti ühenduund"
 
-#: client/gui-gtk-2.0/gui_main.c:2103
+#: client/gui-gtk-2.0/gui_main.c:2107
 msgid "Are you sure you want to quit?"
 msgstr "Ära välju veel, kogu maailm polegi sinu ideoloogiat täis."
 
@@ -14807,7 +14807,7 @@ msgstr "Sõjaudu"
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2370
 #, fuzzy
 msgid "Save Scenario"
 msgstr "Alusta uut s_tsenaariumi"
@@ -15166,238 +15166,238 @@ msgstr "_Tehismõistus"
 msgid "_Toggle AI Mode"
 msgstr "_Lülita tehismõistuseks"
 
-#: client/gui-gtk-2.0/pages.c:227
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Start _New Game"
 msgstr "_Alusta uut mängu"
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:242
 msgid "Start _Scenario Game"
 msgstr "Alusta uut s_tsenaariumi"
 
-#: client/gui-gtk-2.0/pages.c:239
+#: client/gui-gtk-2.0/pages.c:248
 msgid "_Load Saved Game"
 msgstr "Lae _salvestatud mäng"
 
-#: client/gui-gtk-2.0/pages.c:245
+#: client/gui-gtk-2.0/pages.c:254
 msgid "C_onnect to Network Game"
 msgstr "Ühendu _võrgumängu"
 
-#: client/gui-gtk-2.0/pages.c:253
+#: client/gui-gtk-2.0/pages.c:261
 msgid "Connect to Gaming _Zone"
 msgstr "Ühendu Gaming _Zone'sse"
 
-#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:646 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr "Paroolid ei kattu, sisesta parool."
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:799 client/gui-gtk-2.0/pages.c:840
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "Serveri nimi"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:800 client/gui-gtk-2.0/pages.c:841
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Port"
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:801 client/gui-gtk-2.0/pages.c:842
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "Versioon"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:802 client/gui-gtk-2.0/pages.c:843
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "Staatus"
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:803 client/gui-gtk-2.0/pages.c:844
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "Mängijaid"
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:804 client/gui-gtk-2.0/pages.c:845
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "Kommentaar"
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:806
 msgid "Local _Area Network"
 msgstr "_Kohtvõrk"
 
-#: client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:847
 msgid "Internet _Metaserver"
 msgstr "Interneti _metaserver"
 
-#: client/gui-gtk-2.0/pages.c:870
+#: client/gui-gtk-2.0/pages.c:884
 msgid "_Host:"
 msgstr "_Host:"
 
-#: client/gui-gtk-2.0/pages.c:887
+#: client/gui-gtk-2.0/pages.c:901
 msgid "_Port:"
 msgstr "_Port:"
 
-#: client/gui-gtk-2.0/pages.c:904
+#: client/gui-gtk-2.0/pages.c:918
 msgid "_Login:"
 msgstr "K_asutajanimi:"
 
-#: client/gui-gtk-2.0/pages.c:922
+#: client/gui-gtk-2.0/pages.c:936
 msgid "Pass_word:"
 msgstr "_Parool:"
 
-#: client/gui-gtk-2.0/pages.c:940
+#: client/gui-gtk-2.0/pages.c:954
 msgid "Conf_irm Password:"
 msgstr "Kinnita _parool:"
 
-#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:972 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Host"
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:1001
 msgid "C_onnect"
 msgstr "_Ühendu"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1225
 #, c-format
 msgid "Connection name: %s"
 msgstr "Ühenduse nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1214
+#: client/gui-gtk-2.0/pages.c:1228
 #, c-format
 msgid "Player name: %s"
 msgstr "Mängija nimi: %s"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1233
 #, c-format
 msgid "Host: %s"
 msgstr "Masin: %s"
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1241
 msgid "Player/conn info"
 msgstr "Mängija/ühenduse info"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1268
 #, c-format
 msgid "%s info"
 msgstr "%s info"
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1279
 msgid "Toggle player ready"
 msgstr "Lülita mängija valmidust"
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1287
 msgid "Pick nation"
 msgstr "Vali rahvus"
 
-#: client/gui-gtk-2.0/pages.c:1283
+#: client/gui-gtk-2.0/pages.c:1297
 msgid "Observe this player"
 msgstr "Vaatle seda mängijat"
 
-#: client/gui-gtk-2.0/pages.c:1290
+#: client/gui-gtk-2.0/pages.c:1304
 msgid "Take this player"
 msgstr "Vali see mängija"
 
-#: client/gui-gtk-2.0/pages.c:1307
+#: client/gui-gtk-2.0/pages.c:1321
 msgid "Cut connection"
 msgstr "Katkesta ühendus"
 
-#: client/gui-gtk-2.0/pages.c:1317
+#: client/gui-gtk-2.0/pages.c:1331
 msgid "Aitoggle player"
 msgstr "Lülita tehismõistusele"
 
-#: client/gui-gtk-2.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1340
 msgid "Remove player"
 msgstr "Eemalda mängija"
 
-#: client/gui-gtk-2.0/pages.c:1337
+#: client/gui-gtk-2.0/pages.c:1351
 msgid "Give info access"
 msgstr "Anna käsutase info "
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1359
 msgid "Give ctrl access"
 msgstr "Anna käsutase ctrl"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1411
+#: client/gui-gtk-2.0/pages.c:1425
 #, c-format
 msgid "Put on %s"
 msgstr "Lisa %s hulka"
 
-#: client/gui-gtk-2.0/pages.c:1547
+#: client/gui-gtk-2.0/pages.c:1561
 msgid "Number of _Players (including AI):"
 msgstr "_Mängijate arv (tehismõistus kaasa arvatud):"
 
-#: client/gui-gtk-2.0/pages.c:1574
+#: client/gui-gtk-2.0/pages.c:1588
 msgid "AI Skill _Level:"
 msgstr "_Tehisintellekti tase:"
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1605
 msgid "Ruleset _Version:"
 msgstr "_Reeglistiku versioon:"
 
-#: client/gui-gtk-2.0/pages.c:1599
+#: client/gui-gtk-2.0/pages.c:1613
 msgid "_More Game Options..."
 msgstr "Rohkem mängu_seadeid..."
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1635
 msgid "Record"
 msgstr "Salvesta"
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1637
 msgid "Rating"
 msgstr "Reiting"
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1639
 msgid "Ready"
 msgstr "Valmis"
 
-#: client/gui-gtk-2.0/pages.c:1627
+#: client/gui-gtk-2.0/pages.c:1641
 #, fuzzy
 msgid "?player:Leader"
 msgstr "?Player:Nimi"
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr "Vali salvestatud mäng laadimiseks"
 
-#: client/gui-gtk-2.0/pages.c:1831
+#: client/gui-gtk-2.0/pages.c:1845
 msgid "Choose Saved Game to _Load:"
 msgstr "Vali salvestatud mäng _laadimiseks:"
 
-#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
-#: client/gui-gtk-2.0/pages.c:2366
+#: client/gui-gtk-2.0/pages.c:1865 client/gui-gtk-2.0/pages.c:2083
+#: client/gui-gtk-2.0/pages.c:2373
 msgid "_Browse..."
 msgstr "Lehitse..."
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1935
 msgid "Choose a Scenario"
 msgstr "Vali stsenaarium"
 
-#: client/gui-gtk-2.0/pages.c:2017
+#: client/gui-gtk-2.0/pages.c:2031
 msgid "Choose a _Scenario:"
 msgstr "Vali _stsenaarium:"
 
-#: client/gui-gtk-2.0/pages.c:2050
+#: client/gui-gtk-2.0/pages.c:2064
 #, fuzzy
 msgid "Filename:"
 msgstr "Salvestise _failinimi:"
 
-#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2277 client/gui-win32/menu.c:593
 msgid "Select Location to Save"
 msgstr "Vali koht salvestamiseks"
 
-#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2370 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "Salvesta mäng"
 
-#: client/gui-gtk-2.0/pages.c:2404
+#: client/gui-gtk-2.0/pages.c:2411
 msgid "Saved _Games:"
 msgstr "_Salvestatud mängud:"
 
-#: client/gui-gtk-2.0/pages.c:2431
+#: client/gui-gtk-2.0/pages.c:2438
 msgid "Save _Filename:"
 msgstr "Salvestise _failinimi:"
 
@@ -28232,8 +28232,9 @@ msgid ""
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
 "the end of the 19th century, Laos became part of French Indochina. French "
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
-"1975 the communist Pathet Lao established strict solicalist regime. However, "
-"in 1986 the liberalization and a gradual return to private enterpise started."
+"1975 the communist Pathet Lao established a strict socialist regime. "
+"However, in 1986 the liberalization and a gradual return to private "
+"enterpise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3

@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv 2.1.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-25 12:47-0700\n"
+"POT-Creation-Date: 2010-08-16 10:55+0200\n"
 "PO-Revision-Date: 2010-06-09 09:57+0100\n"
 "Last-Translator: Daniel Markstedt <himasaram@spray.se>\n"
 "Language-Team: \n"
@@ -1156,82 +1156,82 @@ msgstr[1] ""
 msgid "Please report this message at %s"
 msgstr ""
 
-#: utility/shared.c:182
+#: utility/shared.c:185
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr ""
 
-#: utility/shared.c:186
+#: utility/shared.c:189
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr ""
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:943
+#: utility/shared.c:946
 #, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr ""
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1048
+#: utility/shared.c:1051
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr ""
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1297
+#: utility/shared.c:1303
 #, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr ""
 
-#: utility/shared.c:1300
+#: utility/shared.c:1306
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr ""
 
-#: utility/shared.c:1303
+#: utility/shared.c:1309
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr ""
 
-#: utility/shared.c:1492
+#: utility/shared.c:1498
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr ""
 
-#: utility/shared.c:1494
+#: utility/shared.c:1500
 msgid "Use a non-privileged account instead.\n"
 msgstr ""
 
-#: utility/shared.c:1510
+#: utility/shared.c:1516
 msgid "exact match"
 msgstr ""
 
-#: utility/shared.c:1511
+#: utility/shared.c:1517
 msgid "only match"
 msgstr ""
 
-#: utility/shared.c:1512
+#: utility/shared.c:1518
 msgid "ambiguous"
 msgstr ""
 
-#: utility/shared.c:1513
+#: utility/shared.c:1519
 msgid "empty"
 msgstr ""
 
-#: utility/shared.c:1514
+#: utility/shared.c:1520
 msgid "too long"
 msgstr ""
 
-#: utility/shared.c:1515
+#: utility/shared.c:1521
 msgid "non-match"
 msgstr ""
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "TRUE"
 msgstr ""
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "FALSE"
 msgstr ""
 
@@ -3122,12 +3122,12 @@ msgstr ""
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr ""
 
-#: server/connecthand.c:380 server/connecthand.c:391
+#: server/connecthand.c:378 server/connecthand.c:389
 #, c-format
 msgid "Lost connection: %s."
 msgstr ""
 
-#: server/connecthand.c:633
+#: server/connecthand.c:631
 #, c-format
 msgid "detaching from %s."
 msgstr ""
@@ -5616,54 +5616,54 @@ msgstr ""
 msgid "String value too long."
 msgstr ""
 
-#: server/sernet.c:151
+#: server/sernet.c:152
 msgid "Server cannot read standard input. Ignoring input."
 msgstr ""
 
-#: server/sernet.c:502
+#: server/sernet.c:503
 msgid "restarting for lack of players"
 msgstr ""
 
-#: server/sernet.c:525
+#: server/sernet.c:526
 #, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr ""
 
-#: server/sernet.c:528
+#: server/sernet.c:529
 msgid "restarting soon for lack of players"
 msgstr ""
 
-#: server/sernet.c:947
+#: server/sernet.c:949
 #, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr ""
 
-#: server/sernet.c:962
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:965
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1318
+#: server/sernet.c:1320
 msgid "Running"
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1322
+#: server/sernet.c:1324
 msgid "Game over"
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1326
+#: server/sernet.c:1328
 msgid "Waiting"
 msgstr ""
 
@@ -10776,13 +10776,13 @@ msgid "Username"
 msgstr ""
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1643
 msgid "Flag"
 msgstr ""
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
+#: client/gui-gtk-2.0/pages.c:973 client/gui-gtk-2.0/pages.c:1645
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -10796,7 +10796,7 @@ msgstr ""
 msgid "Score"
 msgstr ""
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1647
 msgid "Team"
 msgstr ""
 
@@ -12489,7 +12489,7 @@ msgstr ""
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:970 client/gui-gtk-2.0/pages.c:1633
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
@@ -12866,7 +12866,7 @@ msgid "Address"
 msgstr ""
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:971
 #: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -13063,7 +13063,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1487
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr ""
@@ -13079,66 +13079,66 @@ msgstr ""
 msgid "Shift+Return"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1335
 msgid "Chat"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1355
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1368
 msgid "Clear links"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1639
+#: client/gui-gtk-2.0/gui_main.c:1643
 msgid "Not _ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/pages.c:1706
 msgid "_Ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
+#: client/gui-gtk-2.0/gui_main.c:1658 client/gui-gtk-2.0/gui_main.c:1664
 msgid "_Start"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1668
+#: client/gui-gtk-2.0/gui_main.c:1672
 msgid "_Take Player"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1676 client/gui-gtk-2.0/pages.c:1696
 msgid "Pick _Nation"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1684 client/gui-gtk-2.0/pages.c:1701
 msgid "_Observe"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1686
 msgid "Do not _observe"
 msgstr ""
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1737
+#: client/gui-gtk-2.0/gui_main.c:1741
 #, c-format
 msgid "<%s AI>"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1753 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1813 client/gui-gtk-2.0/gui_main.c:1827
 msgid "Observer"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1827
 msgid "Detached"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:2103
+#: client/gui-gtk-2.0/gui_main.c:2107
 msgid "Are you sure you want to quit?"
 msgstr ""
 
@@ -13732,7 +13732,7 @@ msgstr ""
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2370
 msgid "Save Scenario"
 msgstr ""
 
@@ -14061,236 +14061,236 @@ msgstr ""
 msgid "_Toggle AI Mode"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:227
+#: client/gui-gtk-2.0/pages.c:236
 msgid "Start _New Game"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:242
 msgid "Start _Scenario Game"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:239
+#: client/gui-gtk-2.0/pages.c:248
 msgid "_Load Saved Game"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:245
+#: client/gui-gtk-2.0/pages.c:254
 msgid "C_onnect to Network Game"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:253
+#: client/gui-gtk-2.0/pages.c:261
 msgid "Connect to Gaming _Zone"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:646 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:799 client/gui-gtk-2.0/pages.c:840
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:800 client/gui-gtk-2.0/pages.c:841
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:801 client/gui-gtk-2.0/pages.c:842
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:802 client/gui-gtk-2.0/pages.c:843
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:803 client/gui-gtk-2.0/pages.c:844
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:804 client/gui-gtk-2.0/pages.c:845
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:806
 msgid "Local _Area Network"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:847
 msgid "Internet _Metaserver"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:870
+#: client/gui-gtk-2.0/pages.c:884
 msgid "_Host:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:887
+#: client/gui-gtk-2.0/pages.c:901
 msgid "_Port:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:904
+#: client/gui-gtk-2.0/pages.c:918
 msgid "_Login:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:922
+#: client/gui-gtk-2.0/pages.c:936
 msgid "Pass_word:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:940
+#: client/gui-gtk-2.0/pages.c:954
 msgid "Conf_irm Password:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:972 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:1001
 msgid "C_onnect"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1225
 #, c-format
 msgid "Connection name: %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1214
+#: client/gui-gtk-2.0/pages.c:1228
 #, c-format
 msgid "Player name: %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1233
 #, c-format
 msgid "Host: %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1241
 msgid "Player/conn info"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1268
 #, c-format
 msgid "%s info"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1279
 msgid "Toggle player ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1287
 msgid "Pick nation"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1283
+#: client/gui-gtk-2.0/pages.c:1297
 msgid "Observe this player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1290
+#: client/gui-gtk-2.0/pages.c:1304
 msgid "Take this player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1307
+#: client/gui-gtk-2.0/pages.c:1321
 msgid "Cut connection"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1317
+#: client/gui-gtk-2.0/pages.c:1331
 msgid "Aitoggle player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1340
 msgid "Remove player"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1337
+#: client/gui-gtk-2.0/pages.c:1351
 msgid "Give info access"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1359
 msgid "Give ctrl access"
 msgstr ""
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1411
+#: client/gui-gtk-2.0/pages.c:1425
 #, c-format
 msgid "Put on %s"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1547
+#: client/gui-gtk-2.0/pages.c:1561
 msgid "Number of _Players (including AI):"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1574
+#: client/gui-gtk-2.0/pages.c:1588
 msgid "AI Skill _Level:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1605
 msgid "Ruleset _Version:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1599
+#: client/gui-gtk-2.0/pages.c:1613
 msgid "_More Game Options..."
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1635
 msgid "Record"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1637
 msgid "Rating"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1639
 msgid "Ready"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1627
+#: client/gui-gtk-2.0/pages.c:1641
 msgid "?player:Leader"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1831
+#: client/gui-gtk-2.0/pages.c:1845
 msgid "Choose Saved Game to _Load:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
-#: client/gui-gtk-2.0/pages.c:2366
+#: client/gui-gtk-2.0/pages.c:1865 client/gui-gtk-2.0/pages.c:2083
+#: client/gui-gtk-2.0/pages.c:2373
 msgid "_Browse..."
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1935
 msgid "Choose a Scenario"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2017
+#: client/gui-gtk-2.0/pages.c:2031
 msgid "Choose a _Scenario:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2050
+#: client/gui-gtk-2.0/pages.c:2064
 msgid "Filename:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2277 client/gui-win32/menu.c:593
 msgid "Select Location to Save"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2370 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2404
+#: client/gui-gtk-2.0/pages.c:2411
 msgid "Saved _Games:"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:2431
+#: client/gui-gtk-2.0/pages.c:2438
 msgid "Save _Filename:"
 msgstr ""
 
@@ -25619,8 +25619,9 @@ msgid ""
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
 "the end of the 19th century, Laos became part of French Indochina. French "
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
-"1975 the communist Pathet Lao established strict solicalist regime. However, "
-"in 1986 the liberalization and a gradual return to private enterpise started."
+"1975 the communist Pathet Lao established a strict socialist regime. "
+"However, in 1986 the liberalization and a gradual return to private "
+"enterpise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3

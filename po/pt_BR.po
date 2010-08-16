@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1.0-beta3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-07-25 12:47-0700\n"
+"POT-Creation-Date: 2010-08-16 10:55+0200\n"
 "PO-Revision-Date: 2007-09-01 23:06+0300\n"
 "Last-Translator: Jose Carlos Medeiros <jose@psabs.com.br>\n"
 "Language-Team: Portuguese/Brazil <gnome-l10n-br@listas.cipsga.org.br>\n"
@@ -1258,84 +1258,84 @@ msgstr[1] " (total de %d repetições)"
 msgid "Please report this message at %s"
 msgstr ""
 
-#: utility/shared.c:182
+#: utility/shared.c:185
 #, c-format
 msgid "Empty argument for \"%s\".\n"
 msgstr "Argumento vazio para \"%s\".\n"
 
-#: utility/shared.c:186
+#: utility/shared.c:189
 #, c-format
 msgid "Missing argument for \"%s\".\n"
 msgstr "Argumento em falta para \"%s\".\n"
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:943
+#: utility/shared.c:946
 #, fuzzy, c-format
 msgid "\"%s\" is set but empty; using default \"%s\" instead."
 msgstr "FREECIV_PATH está definido mas vazio; utilizando o caminho padrão."
 
 #. TRANS: "...: <externally translated error string>."
-#: utility/shared.c:1048
+#: utility/shared.c:1051
 #, c-format
 msgid "Could not read data directory %s: %s."
 msgstr "Incapaz de ler o diretório de dados %s: %s."
 
 #. TRANS: <FREECIV_PATH> configuration error
-#: utility/shared.c:1297
+#: utility/shared.c:1303
 #, fuzzy, c-format
 msgid "The data path may be set via the \"%s\" environment variable."
 msgstr ""
 "O caminho de dados pode ser definido através da variável de ambiente "
 "FREECIV_PATH."
 
-#: utility/shared.c:1300
+#: utility/shared.c:1306
 #, c-format
 msgid "Current data path is: \"%s\""
 msgstr "Caminho de dados atual é: \"%s\""
 
-#: utility/shared.c:1303
+#: utility/shared.c:1309
 #, c-format
 msgid "The \"%s\" file is required ... aborting!"
 msgstr "O arquivo \"%s\" é requerido ... abortando!"
 
-#: utility/shared.c:1492
+#: utility/shared.c:1498
 #, c-format
 msgid "%s: Fatal error: you're trying to run me as superuser!\n"
 msgstr "%s: Erro fatal: você esta tentanto me executar como super usuário!\n"
 
-#: utility/shared.c:1494
+#: utility/shared.c:1500
 msgid "Use a non-privileged account instead.\n"
 msgstr "Utilize uma conta sem privilégios (não 'root').\n"
 
-#: utility/shared.c:1510
+#: utility/shared.c:1516
 msgid "exact match"
 msgstr "equivalência perfeita"
 
-#: utility/shared.c:1511
+#: utility/shared.c:1517
 msgid "only match"
 msgstr "única equivalência"
 
-#: utility/shared.c:1512
+#: utility/shared.c:1518
 msgid "ambiguous"
 msgstr "ambíguo"
 
-#: utility/shared.c:1513
+#: utility/shared.c:1519
 msgid "empty"
 msgstr "vazio"
 
-#: utility/shared.c:1514
+#: utility/shared.c:1520
 msgid "too long"
 msgstr "muito longo"
 
-#: utility/shared.c:1515
+#: utility/shared.c:1521
 msgid "non-match"
 msgstr "não-equivalente"
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "TRUE"
 msgstr ""
 
-#: utility/shared.c:1950
+#: utility/shared.c:1956
 msgid "FALSE"
 msgstr ""
 
@@ -3418,12 +3418,12 @@ msgstr "'%s' já está conectado."
 msgid "%s was rejected: Duplicate login name [%s]."
 msgstr ""
 
-#: server/connecthand.c:380 server/connecthand.c:391
+#: server/connecthand.c:378 server/connecthand.c:389
 #, c-format
 msgid "Lost connection: %s."
 msgstr "Conexão perdida: %s."
 
-#: server/connecthand.c:633
+#: server/connecthand.c:631
 #, fuzzy, c-format
 msgid "detaching from %s."
 msgstr "A descompactar %s (desde %s) ...\n"
@@ -6017,59 +6017,59 @@ msgid "String value too long."
 msgstr ""
 "Valor de expressão demasiado comprida.  Utilização: set <opção> <valor>."
 
-#: server/sernet.c:151
+#: server/sernet.c:152
 #, fuzzy
 msgid "Server cannot read standard input. Ignoring input."
 msgstr "Servidor incapaz de ler da consola. A ignorar consola."
 
-#: server/sernet.c:502
+#: server/sernet.c:503
 #, fuzzy
 msgid "restarting for lack of players"
 msgstr "Moedas iniciais por jogador"
 
-#: server/sernet.c:525
+#: server/sernet.c:526
 #, fuzzy, c-format
 msgid "restarting in %d seconds for lack of players"
 msgstr "Moedas iniciais por jogador"
 
-#: server/sernet.c:528
+#: server/sernet.c:529
 #, fuzzy
 msgid "restarting soon for lack of players"
 msgstr "Moedas iniciais por jogador"
 
-#: server/sernet.c:947
+#: server/sernet.c:949
 #, fuzzy, c-format
 msgid "Server: bad address: <%s:%d>."
 msgstr "Servidor: endereço inválido: [%s:%d]."
 
-#: server/sernet.c:962
+#: server/sernet.c:964
 msgid "Cannot open IPv6 socket, trying IPv4 instead"
 msgstr ""
 
-#: server/sernet.c:965
+#: server/sernet.c:967
 #, c-format
 msgid "IPv4 service lookup failed <%d>."
 msgstr ""
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1314 data/Freeciv.in:3340 data/Freeciv.in:3341
+#: server/sernet.c:1316 data/Freeciv.in:3340 data/Freeciv.in:3341
 msgid "Pregame"
 msgstr "Pré-jogo"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1318
+#: server/sernet.c:1320
 #, fuzzy
 msgid "Running"
 msgstr "Refinação"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1322
+#: server/sernet.c:1324
 #, fuzzy
 msgid "Game over"
 msgstr "O Jogo Terminou"
 
 #. TRANS: Game state for local server
-#: server/sernet.c:1326
+#: server/sernet.c:1328
 #, fuzzy
 msgid "Waiting"
 msgstr "esperar"
@@ -11529,13 +11529,13 @@ msgid "Username"
 msgstr "Usuário"
 
 #: client/plrdlg_common.c:259 client/gui-gtk-2.0/dialogs.c:730
-#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1629
+#: client/gui-gtk-2.0/editprop.c:3228 client/gui-gtk-2.0/pages.c:1643
 msgid "Flag"
 msgstr "Bandeira"
 
 #: client/plrdlg_common.c:260 client/gui-gtk-2.0/dialogs.c:734
 #: client/gui-gtk-2.0/editprop.c:3198 client/gui-gtk-2.0/editprop.c:3810
-#: client/gui-gtk-2.0/pages.c:959 client/gui-gtk-2.0/pages.c:1631
+#: client/gui-gtk-2.0/pages.c:973 client/gui-gtk-2.0/pages.c:1645
 #: client/gui-sdl/repodlgs.c:2061 client/gui-win32/connectdlg.c:985
 #: client/gui-win32/dialogs.c:557 client/gui-win32/plrdlg.c:332
 msgid "Nation"
@@ -11549,7 +11549,7 @@ msgstr "Borda"
 msgid "Score"
 msgstr "Pontuação"
 
-#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1633
+#: client/plrdlg_common.c:263 client/gui-gtk-2.0/pages.c:1647
 msgid "Team"
 msgstr "Time"
 
@@ -13335,7 +13335,7 @@ msgstr "Selecione o que pilhar:"
 #: client/gui-gtk-2.0/editprop.c:3200 client/gui-gtk-2.0/editprop.c:3216
 #: client/gui-gtk-2.0/editprop.c:3230 client/gui-gtk-2.0/editprop.c:3240
 #: client/gui-gtk-2.0/editprop.c:3787 client/gui-gtk-2.0/editprop.c:3806
-#: client/gui-gtk-2.0/pages.c:956 client/gui-gtk-2.0/pages.c:1619
+#: client/gui-gtk-2.0/pages.c:970 client/gui-gtk-2.0/pages.c:1633
 #: client/gui-gtk-2.0/wldlg.c:1002 client/gui-win32/connectdlg.c:980
 #: client/gui-win32/plrdlg.c:332 manual/civmanual.c:327 data/Freeciv.in:80
 msgid "Name"
@@ -13748,7 +13748,7 @@ msgid "Address"
 msgstr "Adicionar pré-definição"
 
 #. TRANS: Image header
-#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:957
+#: client/gui-gtk-2.0/editprop.c:3763 client/gui-gtk-2.0/pages.c:971
 #: client/gui-gtk-2.0/repodlgs.c:677 client/gui-gtk-2.0/wldlg.c:1002
 #: client/gui-win32/citydlg.c:1102 client/gui-win32/connectdlg.c:995
 #: client/gui-win32/wldlg.c:781 client/gui-win32/wldlg.c:787
@@ -13965,7 +13965,7 @@ msgid ""
 "\n"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1483
+#: client/gui-gtk-2.0/gui_main.c:733 client/gui-gtk-2.0/gui_main.c:1487
 #: client/gui-sdl/gui_main.c:793 client/gui-sdl/gui_main.c:808
 msgid "Freeciv"
 msgstr "Freeciv"
@@ -13981,74 +13981,74 @@ msgstr "Acabei"
 msgid "Shift+Return"
 msgstr "Shift+Return"
 
-#: client/gui-gtk-2.0/gui_main.c:1331
+#: client/gui-gtk-2.0/gui_main.c:1335
 msgid "Chat"
 msgstr "Chat"
 
-#: client/gui-gtk-2.0/gui_main.c:1355
+#: client/gui-gtk-2.0/gui_main.c:1359
 msgid "Allies Only"
 msgstr ""
 
-#: client/gui-gtk-2.0/gui_main.c:1364
+#: client/gui-gtk-2.0/gui_main.c:1368
 #, fuzzy
 msgid "Clear links"
 msgstr "Lista de _Tarefas Objectivo:"
 
-#: client/gui-gtk-2.0/gui_main.c:1639
+#: client/gui-gtk-2.0/gui_main.c:1643
 #, fuzzy
 msgid "Not _ready"
 msgstr "P_reparar todas"
 
-#: client/gui-gtk-2.0/gui_main.c:1650 client/gui-gtk-2.0/pages.c:1692
+#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/pages.c:1706
 msgid "_Ready"
 msgstr "_Pronto"
 
-#: client/gui-gtk-2.0/gui_main.c:1654 client/gui-gtk-2.0/gui_main.c:1660
+#: client/gui-gtk-2.0/gui_main.c:1658 client/gui-gtk-2.0/gui_main.c:1664
 #, fuzzy
 msgid "_Start"
 msgstr "Iniciar : "
 
-#: client/gui-gtk-2.0/gui_main.c:1668
+#: client/gui-gtk-2.0/gui_main.c:1672
 #, fuzzy
 msgid "_Take Player"
 msgstr "take [nome-ligação] <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/gui_main.c:1672 client/gui-gtk-2.0/pages.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1676 client/gui-gtk-2.0/pages.c:1696
 #, fuzzy
 msgid "Pick _Nation"
 msgstr "Seleccione uma nação"
 
-#: client/gui-gtk-2.0/gui_main.c:1680 client/gui-gtk-2.0/pages.c:1687
+#: client/gui-gtk-2.0/gui_main.c:1684 client/gui-gtk-2.0/pages.c:1701
 msgid "_Observe"
 msgstr "_Observar"
 
-#: client/gui-gtk-2.0/gui_main.c:1682
+#: client/gui-gtk-2.0/gui_main.c:1686
 #, fuzzy
 msgid "Do not _observe"
 msgstr "Não _observar"
 
 #. TRANS: "<Novice AI>"
-#: client/gui-gtk-2.0/gui_main.c:1737
+#: client/gui-gtk-2.0/gui_main.c:1741
 #, fuzzy, c-format
 msgid "<%s AI>"
 msgstr "Alterna estado IA do jogador."
 
-#: client/gui-gtk-2.0/gui_main.c:1749 client/gui-win32/dialogs.c:609
+#: client/gui-gtk-2.0/gui_main.c:1753 client/gui-win32/dialogs.c:609
 #: client/gui-xaw/pages.c:237
 msgid "Random"
 msgstr "Aleatório"
 
-#: client/gui-gtk-2.0/gui_main.c:1809 client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1813 client/gui-gtk-2.0/gui_main.c:1827
 #, fuzzy
 msgid "Observer"
 msgstr " (observador)"
 
-#: client/gui-gtk-2.0/gui_main.c:1823
+#: client/gui-gtk-2.0/gui_main.c:1827
 #, fuzzy
 msgid "Detached"
 msgstr "Holandês"
 
-#: client/gui-gtk-2.0/gui_main.c:2103
+#: client/gui-gtk-2.0/gui_main.c:2107
 #, fuzzy
 msgid "Are you sure you want to quit?"
 msgstr "Tem certeza que deseja apagar \"%s\" ?"
@@ -14706,7 +14706,7 @@ msgstr "Nevoeiro de Guerra"
 msgid "Game/Scenario Properties"
 msgstr ""
 
-#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2363
+#: client/gui-gtk-2.0/menu.c:1419 client/gui-gtk-2.0/pages.c:2370
 #, fuzzy
 msgid "Save Scenario"
 msgstr "Iniciar Novo Jogo"
@@ -15073,264 +15073,264 @@ msgstr "_IA"
 msgid "_Toggle AI Mode"
 msgstr "Modo IA é agora %s."
 
-#: client/gui-gtk-2.0/pages.c:227
+#: client/gui-gtk-2.0/pages.c:236
 #, fuzzy
 msgid "Start _New Game"
 msgstr "Iniciar Novo Jogo"
 
-#: client/gui-gtk-2.0/pages.c:233
+#: client/gui-gtk-2.0/pages.c:242
 #, fuzzy
 msgid "Start _Scenario Game"
 msgstr "Iniciar Novo Jogo"
 
-#: client/gui-gtk-2.0/pages.c:239
+#: client/gui-gtk-2.0/pages.c:248
 #, fuzzy
 msgid "_Load Saved Game"
 msgstr "Jogo gravado como %s"
 
-#: client/gui-gtk-2.0/pages.c:245
+#: client/gui-gtk-2.0/pages.c:254
 #, fuzzy
 msgid "C_onnect to Network Game"
 msgstr "Grava jogo para ficheiro."
 
-#: client/gui-gtk-2.0/pages.c:253
+#: client/gui-gtk-2.0/pages.c:261
 #, fuzzy
 msgid "Connect to Gaming _Zone"
 msgstr "Não foi possível ligar em %s:%s (%s)."
 
-#: client/gui-gtk-2.0/pages.c:630 client/gui-win32/connectdlg.c:303
+#: client/gui-gtk-2.0/pages.c:646 client/gui-win32/connectdlg.c:303
 #: client/gui-xaw/connectdlg.c:327
 msgid "Passwords don't match, enter password."
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:785 client/gui-gtk-2.0/pages.c:826
+#: client/gui-gtk-2.0/pages.c:799 client/gui-gtk-2.0/pages.c:840
 #: client/gui-win32/connectdlg.c:910
 msgid "Server Name"
 msgstr "Servidor"
 
-#: client/gui-gtk-2.0/pages.c:786 client/gui-gtk-2.0/pages.c:827
+#: client/gui-gtk-2.0/pages.c:800 client/gui-gtk-2.0/pages.c:841
 #: client/gui-sdl/mapview.c:625 client/gui-win32/connectdlg.c:910
 #: data/Freeciv.in:96
 msgid "Port"
 msgstr "Porta"
 
-#: client/gui-gtk-2.0/pages.c:787 client/gui-gtk-2.0/pages.c:828
+#: client/gui-gtk-2.0/pages.c:801 client/gui-gtk-2.0/pages.c:842
 #: client/gui-win32/connectdlg.c:911
 msgid "Version"
 msgstr "Versão"
 
-#: client/gui-gtk-2.0/pages.c:788 client/gui-gtk-2.0/pages.c:829
+#: client/gui-gtk-2.0/pages.c:802 client/gui-gtk-2.0/pages.c:843
 #: client/gui-win32/connectdlg.c:911 client/gui-win32/connectdlg.c:990
 msgid "Status"
 msgstr "Estado"
 
-#: client/gui-gtk-2.0/pages.c:789 client/gui-gtk-2.0/pages.c:830
+#: client/gui-gtk-2.0/pages.c:803 client/gui-gtk-2.0/pages.c:844
 #: client/gui-sdl/connectdlg.c:320 client/gui-sdl/plrdlg.c:331
 #: client/gui-win32/connectdlg.c:911
 msgid "Players"
 msgstr "Jogadores"
 
-#: client/gui-gtk-2.0/pages.c:790 client/gui-gtk-2.0/pages.c:831
+#: client/gui-gtk-2.0/pages.c:804 client/gui-gtk-2.0/pages.c:845
 #: client/gui-win32/connectdlg.c:912
 msgid "Comment"
 msgstr "Comentário"
 
-#: client/gui-gtk-2.0/pages.c:792
+#: client/gui-gtk-2.0/pages.c:806
 #, fuzzy
 msgid "Local _Area Network"
 msgstr "Escolha o servidor de rede"
 
-#: client/gui-gtk-2.0/pages.c:833
+#: client/gui-gtk-2.0/pages.c:847
 #, fuzzy
 msgid "Internet _Metaserver"
 msgstr "metaservidor <endereço>"
 
-#: client/gui-gtk-2.0/pages.c:870
+#: client/gui-gtk-2.0/pages.c:884
 msgid "_Host:"
 msgstr "_Servidor:"
 
-#: client/gui-gtk-2.0/pages.c:887
+#: client/gui-gtk-2.0/pages.c:901
 msgid "_Port:"
 msgstr "_Porta:"
 
-#: client/gui-gtk-2.0/pages.c:904
+#: client/gui-gtk-2.0/pages.c:918
 msgid "_Login:"
 msgstr "_Conectar..."
 
-#: client/gui-gtk-2.0/pages.c:922
+#: client/gui-gtk-2.0/pages.c:936
 #, fuzzy
 msgid "Pass_word:"
 msgstr "Palavra errada:"
 
-#: client/gui-gtk-2.0/pages.c:940
+#: client/gui-gtk-2.0/pages.c:954
 #, fuzzy
 msgid "Conf_irm Password:"
 msgstr "Digite a senha do pacote"
 
-#: client/gui-gtk-2.0/pages.c:958 client/gui-win32/plrdlg.c:334
+#: client/gui-gtk-2.0/pages.c:972 client/gui-win32/plrdlg.c:334
 #: data/Freeciv.in:88
 msgid "Host"
 msgstr "Servidor"
 
-#: client/gui-gtk-2.0/pages.c:987
+#: client/gui-gtk-2.0/pages.c:1001
 msgid "C_onnect"
 msgstr "C_onectar"
 
-#: client/gui-gtk-2.0/pages.c:1211
+#: client/gui-gtk-2.0/pages.c:1225
 #, fuzzy, c-format
 msgid "Connection name: %s"
 msgstr "cut <nome-ligação>"
 
-#: client/gui-gtk-2.0/pages.c:1214
+#: client/gui-gtk-2.0/pages.c:1228
 #, fuzzy, c-format
 msgid "Player name: %s"
 msgstr "aitoggle <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/pages.c:1219
+#: client/gui-gtk-2.0/pages.c:1233
 #, c-format
 msgid "Host: %s"
 msgstr "Servidor: %s"
 
-#: client/gui-gtk-2.0/pages.c:1227
+#: client/gui-gtk-2.0/pages.c:1241
 msgid "Player/conn info"
 msgstr "Jogador/info conec"
 
-#: client/gui-gtk-2.0/pages.c:1254
+#: client/gui-gtk-2.0/pages.c:1268
 #, c-format
 msgid "%s info"
 msgstr "%s info"
 
-#: client/gui-gtk-2.0/pages.c:1265
+#: client/gui-gtk-2.0/pages.c:1279
 #, fuzzy
 msgid "Toggle player ready"
 msgstr "Alterna estado IA do jogador."
 
-#: client/gui-gtk-2.0/pages.c:1273
+#: client/gui-gtk-2.0/pages.c:1287
 #, fuzzy
 msgid "Pick nation"
 msgstr "Seleccione uma nação"
 
-#: client/gui-gtk-2.0/pages.c:1283
+#: client/gui-gtk-2.0/pages.c:1297
 #, fuzzy
 msgid "Observe this player"
 msgstr "aitoggle <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/pages.c:1290
+#: client/gui-gtk-2.0/pages.c:1304
 #, fuzzy
 msgid "Take this player"
 msgstr "take [nome-ligação] <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/pages.c:1307
+#: client/gui-gtk-2.0/pages.c:1321
 #, fuzzy
 msgid "Cut connection"
 msgstr "cut <nome-ligação>"
 
-#: client/gui-gtk-2.0/pages.c:1317
+#: client/gui-gtk-2.0/pages.c:1331
 #, fuzzy
 msgid "Aitoggle player"
 msgstr "aitoggle <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/pages.c:1326
+#: client/gui-gtk-2.0/pages.c:1340
 #, fuzzy
 msgid "Remove player"
 msgstr "remove <nome-de-jogador>"
 
-#: client/gui-gtk-2.0/pages.c:1337
+#: client/gui-gtk-2.0/pages.c:1351
 #, fuzzy
 msgid "Give info access"
 msgstr "não pode aceder ao arquivo"
 
-#: client/gui-gtk-2.0/pages.c:1345
+#: client/gui-gtk-2.0/pages.c:1359
 #, fuzzy
 msgid "Give ctrl access"
 msgstr "não pode aceder ao arquivo"
 
 #. TRANS: e.g., "Put on Team 5"
-#: client/gui-gtk-2.0/pages.c:1411
+#: client/gui-gtk-2.0/pages.c:1425
 #, fuzzy, c-format
 msgid "Put on %s"
 msgstr "Debconf em %s"
 
-#: client/gui-gtk-2.0/pages.c:1547
+#: client/gui-gtk-2.0/pages.c:1561
 msgid "Number of _Players (including AI):"
 msgstr ""
 
-#: client/gui-gtk-2.0/pages.c:1574
+#: client/gui-gtk-2.0/pages.c:1588
 #, fuzzy
 msgid "AI Skill _Level:"
 msgstr "Nível de _depuração:"
 
-#: client/gui-gtk-2.0/pages.c:1591
+#: client/gui-gtk-2.0/pages.c:1605
 #, fuzzy
 msgid "Ruleset _Version:"
 msgstr "Escolha o seu _sexo"
 
-#: client/gui-gtk-2.0/pages.c:1599
+#: client/gui-gtk-2.0/pages.c:1613
 msgid "_More Game Options..."
 msgstr "_Mais Opções..."
 
-#: client/gui-gtk-2.0/pages.c:1621
+#: client/gui-gtk-2.0/pages.c:1635
 msgid "Record"
 msgstr "Record"
 
-#: client/gui-gtk-2.0/pages.c:1623
+#: client/gui-gtk-2.0/pages.c:1637
 #, fuzzy
 msgid "Rating"
 msgstr "Escrita"
 
-#: client/gui-gtk-2.0/pages.c:1625
+#: client/gui-gtk-2.0/pages.c:1639
 msgid "Ready"
 msgstr "Pronto"
 
-#: client/gui-gtk-2.0/pages.c:1627
+#: client/gui-gtk-2.0/pages.c:1641
 #, fuzzy
 msgid "?player:Leader"
 msgstr "Líder"
 
-#: client/gui-gtk-2.0/pages.c:1741 client/gui-sdl/chatline.c:182
+#: client/gui-gtk-2.0/pages.c:1755 client/gui-sdl/chatline.c:182
 #, fuzzy
 msgid "Choose Saved Game to Load"
 msgstr "Selecione um dispositivo PKCS#11 para carregar"
 
-#: client/gui-gtk-2.0/pages.c:1831
+#: client/gui-gtk-2.0/pages.c:1845
 #, fuzzy
 msgid "Choose Saved Game to _Load:"
 msgstr "Selecione um dispositivo PKCS#11 para carregar"
 
-#: client/gui-gtk-2.0/pages.c:1851 client/gui-gtk-2.0/pages.c:2069
-#: client/gui-gtk-2.0/pages.c:2366
+#: client/gui-gtk-2.0/pages.c:1865 client/gui-gtk-2.0/pages.c:2083
+#: client/gui-gtk-2.0/pages.c:2373
 msgid "_Browse..."
 msgstr "_Navegar..."
 
-#: client/gui-gtk-2.0/pages.c:1921
+#: client/gui-gtk-2.0/pages.c:1935
 #, fuzzy
 msgid "Choose a Scenario"
 msgstr "Escolha o senário"
 
-#: client/gui-gtk-2.0/pages.c:2017
+#: client/gui-gtk-2.0/pages.c:2031
 #, fuzzy
 msgid "Choose a _Scenario:"
 msgstr "Escolha o senário"
 
-#: client/gui-gtk-2.0/pages.c:2050
+#: client/gui-gtk-2.0/pages.c:2064
 #, fuzzy
 msgid "Filename:"
 msgstr "Salvar _Arquivo:"
 
-#: client/gui-gtk-2.0/pages.c:2270 client/gui-win32/menu.c:593
+#: client/gui-gtk-2.0/pages.c:2277 client/gui-win32/menu.c:593
 #, fuzzy
 msgid "Select Location to Save"
 msgstr "Grava jogo para ficheiro."
 
-#: client/gui-gtk-2.0/pages.c:2363 client/gui-sdl/optiondlg.c:2310
+#: client/gui-gtk-2.0/pages.c:2370 client/gui-sdl/optiondlg.c:2310
 msgid "Save Game"
 msgstr "Salvar o Jogo"
 
-#: client/gui-gtk-2.0/pages.c:2404
+#: client/gui-gtk-2.0/pages.c:2411
 msgid "Saved _Games:"
 msgstr "_Jogos Salvos"
 
-#: client/gui-gtk-2.0/pages.c:2431
+#: client/gui-gtk-2.0/pages.c:2438
 msgid "Save _Filename:"
 msgstr "Salvar _Arquivo:"
 
@@ -28352,8 +28352,9 @@ msgid ""
 "century and ended in late 18th century with invasion of Siam (Thailand). In "
 "the end of the 19th century, Laos became part of French Indochina. French "
 "rule ended with independence in 1946 followed by 30 years of civil war. In "
-"1975 the communist Pathet Lao established strict solicalist regime. However, "
-"in 1986 the liberalization and a gradual return to private enterpise started."
+"1975 the communist Pathet Lao established a strict socialist regime. "
+"However, in 1986 the liberalization and a gradual return to private "
+"enterpise started."
 msgstr ""
 
 #: data/nation/latvian.ruleset:3
