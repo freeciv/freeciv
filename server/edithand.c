@@ -1328,7 +1328,7 @@ void handle_edit_startpos(struct connection *pc, int tile,
   ptile = index_to_tile(tile);
   if (!ptile) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
-                _("Cannot place a start position %d is not a valid "
+                _("Cannot place a start position because %d is not a valid "
                   "tile index on this map!"), tile);
     return;
   }
