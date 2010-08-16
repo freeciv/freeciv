@@ -152,6 +152,19 @@ int log_parse_level_str(const char *level_str)
       level = -1;
       goto out;
     }
+    {
+      int j;
+      for (j=0; j<i; j++) {
+        if (strcmp(logd_files[j].name, tok) == 0) {
+          fc_fprintf(stderr,
+                     /* TRANS: Obscure error only in debug builds. */
+                     _("Duplicate filename \"%s\" in log level argument.\n"),
+                     tok);
+          level = -1;
+          goto out;
+        }
+      }
+    }
     logd_files[i].name = mystrdup(tok);
     i++;
     tok = strtok(NULL, ":");
