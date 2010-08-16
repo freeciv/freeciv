@@ -125,7 +125,7 @@ cities =
  "Genua (hills, ocean)",						;Genoa
  "Ulma (forest, hills, river, !ocean)",					;Ulm
  "Fulda  (hills, river, !ocean)",					;Fulda
- "Regium Lepidi (plains, grassland, mountains, hills)",			;Reggio nell'Emilia
+ "Regium Lepidi (plains, grassland, mountains, hills)",			;Reggio nell Emilia
  "Confluentes (forest, hills, river, !ocean)",				;Koblenz
  "Vratislavia (plains, hills)",						;Wrocław
  "Quedlinburgum (forest, hills)",					;Quedlinburg

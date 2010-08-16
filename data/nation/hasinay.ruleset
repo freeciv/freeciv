@@ -2,13 +2,13 @@
 
 name=_("Hasinay") 
 plural=_("?plural:Hasinay") 
-groups="American" 
-legend=_("A Caddoan political league from East Texas, the Hasinai\ 
- Confederacy consisted of a group of agricultural villages. Though they were\ 
- involved in trade networks connecting them with people as far west as the\ 
- Puebloan polities of the America Southwest, their cultural ties were more\ 
- strongly in line with the other mound-building cultures of the Southeast.\ 
- The word Texas derived from Caddoan word for \"Friend.\"") 
+groups="American"
+legend=_("A Caddoan political league from East Texas, the Hasinai\
+ Confederacy consisted of a group of agricultural villages. Though they were\
+ involved in trade networks connecting them with people as far west as the\
+ Puebloan polities of the America Southwest, their cultural ties were more\
+ strongly in line with the other mound-building cultures of the Southeast.\
+ The word Texas derived from Caddoan word for \"Friend.\"")
 leader= 
 "Nah-ah-sah-nah", 
 "Sho-ee-tat" 

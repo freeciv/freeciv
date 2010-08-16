@@ -22,7 +22,7 @@ flag_alt = "-"
 city_style = "Tropical" 
 
 ruler_titles = { "government", "male_title", "female_title" 
-"Despotism",_("Mbuyapé"), _("?female:Mbuyapé") 
+"Despotism",_("Mbuyape"), _("?female:Mbuyape") 
 } 
 
 init_techs="" 

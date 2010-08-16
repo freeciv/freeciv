@@ -1,15 +1,15 @@
-[nation_aleut] 
+[nation_aleut]
 
-name=_("Aleut") 
-plural=_("?plural:Aleuts") 
+name=_("Aleut")
+plural=_("?plural:Aleuts")
 groups="American", "Asian"
-legend=_("The Unangan, or Aleut, lived in permanent subterranean homes\ 
+legend=_("The Unangan, or Aleut, lived in permanent subterranean homes\
  in their hunting and fishing villages. They lived in the Aleutian\
  islands for thousands of years prior to European contact. Unangan people\
  developed ties to Russian missionaries and traders many converting to\
  Russian Orthodox Christianity and intermarrying with Russians, and some\
  even accompanied Russians to their other colonial entrepots such as Ft.\
- Ross in northern California and Ft. Elizabeth in Hawai'i.") 
+ Ross in northern California and Ft. Elizabeth in Hawai'i.")
 leader= 
 "Ivan Pan'kov", 
 "AhKahNeKak", 
