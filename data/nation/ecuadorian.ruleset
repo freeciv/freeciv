@@ -3,12 +3,12 @@
 name=_("Ecuadorian")
 plural=_("?plural:Ecuadorians")
 groups="Modern", "American"
-legend=_("Ecuador is a country in western South America. It is divided in\
+legend=_("Ecuador is a country in western South America. It is divided into\
  three very distinct geographic regions: the coastal lowlands, the\
  mountains of the Andes and the jungles of the Oriente. The Galapagos\
  islands also part of Ecuador. The country gained independence from Spain\
  in 1821 and from Colombia in 1830. Ecuador's history has been marked by\
- rivalty between the coast (Guayaquil) and the mountains (Quito). It also\
+ rivalry between the coast (Guayaquil) and the mountains (Quito). It also\
  fought numerous border wars with both Colombia and Peru. Nowadays\
  Ecuador is one of the main oil producing countries of South America.")
 leader=

@@ -4,7 +4,7 @@ name=_("Cypriot")
 plural=_("?plural:Cypriots")
 groups="Modern", "European"
 legend=_("Cyprus became an independent republic on 16th August 1960.\
- It a Eurasian island country situated in the eastern Mediterranean,\
+ It is a Eurasian island country located in the eastern Mediterranean,\
  south of Turkey and west of Syria and Lebanon.")
 leader=
  "Aikaterini",

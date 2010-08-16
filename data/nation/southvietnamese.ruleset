@@ -4,7 +4,7 @@ name=_("South Vietnamese")
 plural=_("?plural:South Vietnamese")
 groups="Asian"
 legend=_("South Vietnam, officially the Republic of Vietnam, was the\
- American backed state during the Vietnam War. The country was reunited\
+ American-backed state during the Vietnam War. The country was reunited\
  with North Vietnam after it was conquered by communist forces in 1975.")
 leader=
  "Ngô Đình Diệm",
