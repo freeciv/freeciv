@@ -1812,7 +1812,13 @@ static void unit_activity_dependencies(struct unit *punit,
 void unit_activity_handling(struct unit *punit,
                             enum unit_activity new_activity)
 {
-  if (can_unit_do_activity(punit, new_activity)) {
+  /* Must specify target for ACTIVITY_BASE */
+  assert(new_activity != ACTIVITY_BASE);
+  
+  if (new_activity == ACTIVITY_PILLAGE) {
+    /* Assume untargeted pillaging if no target specified */
+    unit_activity_handling_targeted(punit, new_activity, S_LAST, BASE_NONE);
+  } else if (can_unit_do_activity(punit, new_activity)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 
