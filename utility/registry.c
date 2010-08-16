@@ -322,11 +322,11 @@ struct section_file {
 };
 
 /**************************************************************************
-  Unsure this is name is correct to use it as section or entry name.
+  Ensure name is correct to use it as section or entry name.
 **************************************************************************/
 static bool check_name(const char *name)
 {
-  static const char *const allowed = "_.,[]";
+  static const char *const allowed = "_.,-[]";
 
   while ('\0' != *name) {
     if (!fc_isalnum(*name) && NULL == strchr(allowed, *name)) {
