@@ -31,6 +31,32 @@
 /* modinst */
 #include "download.h"
 
+
+#define UNKNOWN_CONTENT_LENGTH -1
+
+
+static char *lookup_header_entry(char *headers, char *entry)
+{
+  int i, j;
+  int len = strlen(entry);
+
+  for (i = 0; headers[i] != '\0' ; i += j) {
+    for (j = 0; headers[i + j] != '\0' && headers[i + j] != '\n'; j++) {
+      /* Nothing, we just searched for end of line */
+    }
+    if (headers[i + j] == '\n') {
+      if (!strncmp(&headers[i + j + 1], entry, len)) {
+        return &headers[i + j + 1 + len];
+      }
+
+      /* Get over newline character */
+      j++;
+    }
+  }
+
+  return NULL;
+}
+
 static bool download_file(const char *URL, const char *local_filename)
 {
   const char *path;
@@ -45,6 +71,8 @@ static bool download_file(const char *URL, const char *local_filename)
   int result;
   FILE *fp;
   int header_end_chars = 0;
+  int clen = UNKNOWN_CONTENT_LENGTH;
+  int cread = 0;
 
   path = fc_lookup_httpd(srvname, &port, URL);
   if (path == NULL) {
@@ -84,7 +112,7 @@ static bool download_file(const char *URL, const char *local_filename)
   }
 
   result = 1;
-  while (result) {
+  while (result && (clen == UNKNOWN_CONTENT_LENGTH || clen > cread)) {
     result = fc_readsocket(sock, buf, sizeof(buf));
 
     if (result < 0) {
@@ -115,6 +143,23 @@ static bool download_file(const char *URL, const char *local_filename)
          case 3:
            if (buf[i] == '\n') {
              header_end_chars++;
+             if (header_end_chars >= 3) {
+               if (hdr_idx < sizeof(hdr_buf)) {
+                 char *clenstr;
+
+                 hdr_buf[hdr_idx] = '\0';
+
+                 clenstr = lookup_header_entry(hdr_buf, "Content-Length: ");
+                 if (clenstr != NULL) {
+                   clen = atoi(clenstr);
+                 }
+               } else {
+                 /* Too long header */
+                 fclose(fp);
+                 fc_closesocket(sock);
+                 return FALSE;
+               }
+             }
            } else {
              header_end_chars =  0;
            }
@@ -124,6 +169,10 @@ static bool download_file(const char *URL, const char *local_filename)
 
       left = result - i;
       total_written = i;
+
+      if (left > 0) {
+        cread += left;
+      }
 
       while (left > 0) {
         int written;
