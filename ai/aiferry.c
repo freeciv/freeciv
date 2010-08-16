@@ -990,7 +990,7 @@ void ai_manage_ferryboat(struct player *pplayer, struct unit *punit)
           continue;
         }
 
-        if (aunit->server.ai->ai_role != AIUNIT_ESCORT) {
+        if (aunit->server.adv->role != AIUNIT_ESCORT) {
           candidate = aunit;
           break;
         } else {

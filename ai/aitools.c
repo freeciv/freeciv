@@ -607,7 +607,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
   const bool is_ai = unit_owner(punit)->ai_controlled;
   bool is_ferry = FALSE;
 
-  if (punit->server.ai->ai_role != AIUNIT_HUNTER
+  if (punit->server.adv->role != AIUNIT_HUNTER
       && get_transporter_capacity(punit) > 0) {
     unit_class_iterate(uclass) {
       /* FIXME: BOTH_MOVING units need ferry only if they use fuel */
@@ -627,10 +627,10 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     pft_fill_unit_overlap_param(parameter, punit);
   } else if (is_ai && !utype_fuel(unit_type(punit))
              && is_military_unit(punit)
-             && (punit->server.ai->ai_role == AIUNIT_DEFEND_HOME
-                 || punit->server.ai->ai_role == AIUNIT_ATTACK
-                 || punit->server.ai->ai_role ==  AIUNIT_ESCORT
-                 || punit->server.ai->ai_role == AIUNIT_HUNTER)) {
+             && (punit->server.adv->role == AIUNIT_DEFEND_HOME
+                 || punit->server.adv->role == AIUNIT_ATTACK
+                 || punit->server.adv->role ==  AIUNIT_ESCORT
+                 || punit->server.adv->role == AIUNIT_HUNTER)) {
     /* Use attack movement for defenders and escorts so they can
      * make defensive attacks */
     pft_fill_unit_attack_param(parameter, punit);
@@ -707,7 +707,7 @@ void ai_fill_unit_param(struct pf_parameter *parameter,
     /* Losing hitpoints over time (helicopter in default rules) */
     /* Default tile behaviour */
   } else if (is_military_unit(punit)) {
-    switch (punit->server.ai->ai_role) {
+    switch (punit->server.adv->role) {
     case AIUNIT_AUTO_SETTLER:
     case AIUNIT_BUILD_CITY:
       /* Strange, but not impossible */
@@ -769,7 +769,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   fc_assert_ret(!unit_has_orders(punit) || task == AIUNIT_NONE);
 
   UNIT_LOG(LOG_DEBUG, punit, "changing role from %s to %s",
-           ai_unit_task_rule_name(punit->server.ai->ai_role),
+           ai_unit_task_rule_name(punit->server.adv->role),
            ai_unit_task_rule_name(task));
 
   /* Free our ferry.  Most likely it has been done already. */
@@ -782,7 +782,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
-  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY) {
+  if (punit->server.adv->role == AIUNIT_BUILD_CITY) {
     if (punit->goto_tile) {
       citymap_free_city_spot(punit->goto_tile, punit->id);
     } else {
@@ -795,14 +795,14 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     }
   }
 
-  if (punit->server.ai->ai_role == AIUNIT_HUNTER) {
+  if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Clear victim's hunted bit - we're no longer chasing. */
     struct unit *target = game_find_unit_by_number(punit->server.ai->target);
 
     if (target) {
       BV_CLR(target->server.ai->hunted, player_index(unit_owner(punit)));
       UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new role %d, old %d)",
-               task, punit->server.ai->ai_role);
+               task, punit->server.adv->role);
     }
   }
 
@@ -812,21 +812,21 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
     aiguard_assign_guard_city(tile_city(ptile), punit);
   }
 
-  punit->server.ai->ai_role = task;
+  punit->server.adv->role = task;
 
   /* Verify and set the goto destination.  Eventually this can be a lot more
    * stringent, but for now we don't want to break things too badly. */
   punit->goto_tile = ptile; /* May be NULL. */
 
-  if (punit->server.ai->ai_role == AIUNIT_NONE && bodyguard) {
+  if (punit->server.adv->role == AIUNIT_NONE && bodyguard) {
     ai_unit_new_role(bodyguard, AIUNIT_NONE, NULL);
   }
 
   /* Reserve city spot, _unless_ we want to add ourselves to a city. */
-  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY && !tile_city(ptile)) {
+  if (punit->server.adv->role == AIUNIT_BUILD_CITY && !tile_city(ptile)) {
     citymap_reserve_city_spot(ptile, punit->id);
   }
-  if (punit->server.ai->ai_role == AIUNIT_HUNTER) {
+  if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
     struct unit *target = game_find_unit_by_number(punit->server.ai->target);
 
@@ -836,7 +836,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
     /* Grab missiles lying around and bring them along */
     unit_list_iterate(punit->tile->units, missile) {
-      if (missile->server.ai->ai_role != AIUNIT_ESCORT
+      if (missile->server.adv->role != AIUNIT_ESCORT
           && missile->transported_by == -1
           && unit_owner(missile) == unit_owner(punit)
           && uclass_has_flag(unit_class(missile), UCF_MISSILE)

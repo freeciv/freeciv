@@ -621,8 +621,8 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   }
 
   /* Check if existing target still makes sense */
-  if (punit->server.ai->ai_role == AIUNIT_ATTACK
-      || punit->server.ai->ai_role == AIUNIT_DEFEND_HOME) {
+  if (punit->server.adv->role == AIUNIT_ATTACK
+      || punit->server.adv->role == AIUNIT_DEFEND_HOME) {
     bool failure = FALSE;
 
     ctarget = tile_city(punit->goto_tile);
@@ -631,12 +631,12 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       if (same_pos(ctarget->tile, punit->tile)) {
         failure = TRUE;
       } else if (pplayers_allied(pplayer, city_owner(ctarget))
-          && punit->server.ai->ai_role == AIUNIT_ATTACK
+          && punit->server.adv->role == AIUNIT_ATTACK
           && player_has_embassy(pplayer, city_owner(ctarget))) {
         /* We probably incited this city with another diplomat */
         failure = TRUE;
       } else if (!pplayers_allied(pplayer, city_owner(ctarget))
-                 && punit->server.ai->ai_role == AIUNIT_DEFEND_HOME) {
+                 && punit->server.adv->role == AIUNIT_DEFEND_HOME) {
         /* We probably lost the city */
         failure = TRUE;
       }
@@ -654,7 +654,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
    * old map, and we need paths to move, and because fctd below requires
    * a new map for its iterator. */
   if (!same_pos(parameter.start_tile, punit->tile)
-      || punit->server.ai->ai_role == AIUNIT_NONE) {
+      || punit->server.adv->role == AIUNIT_NONE) {
     pf_map_destroy(pfm);
     pft_fill_unit_parameter(&parameter, punit);
     parameter.get_zoc = NULL; /* kludge */
@@ -662,7 +662,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
   }
 
   /* If we are not busy, acquire a target. */
-  if (punit->server.ai->ai_role == AIUNIT_NONE) {
+  if (punit->server.adv->role == AIUNIT_NONE) {
     enum ai_unit_task task;
     int move_dist; /* dummy */
 
@@ -695,13 +695,13 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
 
     ai_unit_new_role(punit, task, ctarget->tile);
     fc_assert(punit->moves_left > 0 && ctarget 
-              && punit->server.ai->ai_role != AIUNIT_NONE);
+              && punit->server.adv->role != AIUNIT_NONE);
   }
 
   CHECK_UNIT(punit);
   if (ctarget == NULL) {
     UNIT_LOG(LOG_ERROR, punit, "ctarget not set (role==%d)",
-             punit->server.ai->ai_role);
+             punit->server.adv->role);
     pf_map_destroy(pfm);
     return;
   }
@@ -713,7 +713,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     path = pf_map_get_path(pfm, punit->goto_tile);
     if (path && adv_unit_execute_path(punit, path) && punit->moves_left > 0) {
       /* Check if we can do something with our destination now. */
-      if (punit->server.ai->ai_role == AIUNIT_ATTACK) {
+      if (punit->server.adv->role == AIUNIT_ATTACK) {
         int dist  = real_map_distance(punit->tile, punit->goto_tile);
         UNIT_LOG(LOG_DIPLOMAT, punit, "attack, dist %d to %s",
                  dist, ctarget ? city_name(ctarget) : "(none)");

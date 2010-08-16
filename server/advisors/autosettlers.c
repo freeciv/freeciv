@@ -90,7 +90,7 @@ void ai_manage_settler(struct player *pplayer, struct unit *punit)
   punit->ai_controlled = TRUE;
   punit->server.ai->done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
-  if (punit->server.ai->ai_role == AIUNIT_NONE) {
+  if (punit->server.adv->role == AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);
   }
   return;
@@ -572,7 +572,7 @@ void auto_settler_setup_work(struct player *pplayer, struct unit *punit,
                              int completion_time)
 {
   /* Run the "autosettler" program */
-  if (punit->server.ai->ai_role == AIUNIT_AUTO_SETTLER) {
+  if (punit->server.adv->role == AIUNIT_AUTO_SETTLER) {
     struct pf_map *pfm = NULL;
     struct pf_parameter parameter;
 
@@ -760,6 +760,8 @@ void contemplate_terrain_improvements(struct city *pcity)
 
   /* Create a localized "virtual" unit to do operations with. */
   virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
+  /* Advisors data space not allocated as it's not needed in the
+     lifetime of the virtualunit. */
   virtualunit->tile = pcenter;
   want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
                                        NULL, NULL);

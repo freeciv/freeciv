@@ -700,7 +700,7 @@ void ai_auto_settler(struct player *pplayer, struct unit *punit,
 
 BUILD_CITY:
 
-  if (punit->server.ai->ai_role == AIUNIT_BUILD_CITY) {
+  if (punit->server.adv->role == AIUNIT_BUILD_CITY) {
     struct tile *ptile = punit->goto_tile;
     int sanity = punit->id;
 

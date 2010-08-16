@@ -723,7 +723,7 @@ void handle_unit_change_activity(struct player *pplayer, int unit_id,
 
   /* Remove city spot reservations for AI settlers on city founding
    * mission, before goto_tile reset. */
-  if (punit->server.ai->ai_role != AIUNIT_NONE) {
+  if (punit->server.adv->role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 
@@ -2100,7 +2100,7 @@ void handle_unit_orders(struct player *pplayer,
    * settlers on city founding mission, city spot reservation
    * from goto_tile must be freed, and free_unit_orders() loses
    * goto_tile information */
-  if (punit->server.ai->ai_role != AIUNIT_NONE) {
+  if (punit->server.adv->role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 

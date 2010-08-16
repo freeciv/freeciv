@@ -1399,8 +1399,8 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 }
 
 /**************************************************************************
-We remove the unit and see if it's disappearance has affected the homecity
-and the city it was in.
+  We remove the unit and see if it's disappearance has affected the homecity
+  and the city it was in.
 **************************************************************************/
 static void server_remove_unit(struct unit *punit)
 {
@@ -1425,7 +1425,7 @@ static void server_remove_unit(struct unit *punit)
      are built, so that no two settlers head towards the same city
      spot, we need to ensure this reservation is cleared should
      the settler disappear on the way. */
-  if (punit->server.ai->ai_role != AIUNIT_NONE) {
+  if (punit->server.adv->role != AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);
   }
 

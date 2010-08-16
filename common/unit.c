@@ -1559,6 +1559,8 @@ struct unit *create_unit_virtual(struct player *pplayer, struct city *pcity,
     punit->server.action_timestamp = 0;
     punit->server.action_turn = 0;
 
+    punit->server.adv = fc_calloc(1, sizeof(*punit->server.adv));
+
     CALL_FUNC_EACH_AI(unit_alloc, punit);
     CALL_PLR_AI_FUNC(unit_got, pplayer, punit);
   } else {
@@ -1579,6 +1581,11 @@ void destroy_unit_virtual(struct unit *punit)
 
   CALL_PLR_AI_FUNC(unit_lost, punit->owner, punit);
   CALL_FUNC_EACH_AI(unit_free, punit);
+
+  if (punit->server.adv) {
+    FC_FREE(punit->server.adv);
+  }
+
   FC_FREE(punit);
 }
 

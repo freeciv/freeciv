@@ -111,8 +111,11 @@ enum unit_upgrade_result {
   UR_NOT_ENOUGH_ROOM
 };
 
+struct unit_adv {
+  enum ai_unit_task role;
+};
+
 struct unit_ai {
-  enum ai_unit_task ai_role;
   /* The following are unit ids or special indicator values (<=0) */
   int ferryboat; /* the ferryboat assigned to us */
   int passenger; /* the unit assigned to this ferryboat */
@@ -202,6 +205,7 @@ struct unit {
 
       bool debug;
 
+      struct unit_adv *adv;
       struct unit_ai *ai;
       int birth_turn;
 
