@@ -743,7 +743,6 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   if (is_new) {
-    pcity->units_supported = unit_list_new();
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
 
