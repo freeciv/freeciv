@@ -652,8 +652,7 @@ static void handle_city_packet_common(struct city *pcity, bool is_new,
 {
   int i;
 
-  if(is_new) {
-    pcity->units_supported = unit_list_new();
+  if (is_new) {
     pcity->info_units_supported = unit_list_new();
     pcity->info_units_present = unit_list_new();
 
