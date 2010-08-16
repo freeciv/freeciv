@@ -266,6 +266,11 @@ void get_modified_firepower(const struct unit *attacker,
     *att_fp *= 2;
   }
 
+  /*
+   * F_BADWALLATTACKER sets the firepower of the attacking unit to 1 if
+   * an EFT_DEFEND_BONUS applies (such as a land unit attacking a city with
+   * city walls).
+   */
   if (unit_has_type_flag(attacker, F_BADWALLATTACKER)
       && get_unittype_bonus(unit_owner(defender), defender->tile, unit_type(attacker),
 			    EFT_DEFEND_BONUS) > 0) {

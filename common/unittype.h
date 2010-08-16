@@ -107,7 +107,7 @@ enum unit_flag_id {
   F_ONEATTACK,   
   F_PIKEMEN,     
   F_HORSE,       
-  F_IGWALL,      
+  F_IGWALL,           /* Ignores EFT_DEFEND_BONUS (for example city walls) */
   F_FIELDUNIT,   
   F_AEGIS,
   F_MARINES,     
@@ -134,7 +134,8 @@ enum unit_flag_id {
   F_BOMBARDER,        /* Has the ability to bombard */
   F_CITYBUSTER,       /* Gets double firepower against cities */
   F_NOBUILD,          /* Unit cannot be built (barb leader etc) */
-  F_BADWALLATTACKER,  /* Firepower set to 1 when attacking city wall */
+  F_BADWALLATTACKER,  /* Firepower set to 1 when EFT_DEFEND_BONUS applies
+                       * (for example, land unit attacking city with walls) */
   F_BADCITYDEFENDER,  /* Firepower set to 1 and attackers x2 when in city */
   F_HELICOPTER,       /* Defends badly against F_FIGHTER units */
   F_AIRUNIT,          /* Bad at attacking F_AEGIS units */
