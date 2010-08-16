@@ -201,8 +201,8 @@ static inline bool entry_used(const struct entry *pentry);
 static inline void entry_use(struct entry *pentry);
 
 static void entry_to_file(const struct entry *pentry, fz_FILE *fs);
-static void entry_from_token(struct section *psection,
-                             const char *name, const char *tok);
+static void entry_from_token(struct section *psection, const char *name,
+                             const char *tok, struct inputfile *file);
 
 static char error_buffer[MAX_LEN_BUFFER] = "\0";
 
@@ -560,7 +560,7 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
                    table_lineno, astr_str(&columns.p[num_columns - 1]),
                    (int) (i - num_columns + 1));
         }
-        entry_from_token(psection, astr_str(&entry_name), tok);
+        entry_from_token(psection, astr_str(&entry_name), tok, inf);
       } while (inf_token(inf, INF_TOK_COMMA));
 
       if (!inf_token(inf, INF_TOK_EOL)) {
@@ -639,10 +639,10 @@ static struct section_file *secfile_from_input_file(struct inputfile *inf,
         goto END;
       }
       if (i == 0) {
-        entry_from_token(psection, astr_str(&base_name), tok);
+        entry_from_token(psection, astr_str(&base_name), tok, inf);
       } else {
         astr_set(&entry_name, "%s,%d", astr_str(&base_name), i);
-        entry_from_token(psection, astr_str(&entry_name), tok);
+        entry_from_token(psection, astr_str(&entry_name), tok, inf);
       }
     } while (inf_token(inf, INF_TOK_COMMA));
     if (!inf_token(inf, INF_TOK_EOL)) {
@@ -2441,8 +2441,8 @@ static void entry_to_file(const struct entry *pentry, fz_FILE *fs)
 /**************************************************************************
   Creates a new entry from the token.
 **************************************************************************/
-static void entry_from_token(struct section *psection,
-                             const char *name, const char *tok)
+static void entry_from_token(struct section *psection, const char *name,
+                             const char *tok, struct inputfile *inf)
 {
   if ('$' == tok[0] || '"' == tok[0]) {
     char buf[strlen(tok) + 1];
@@ -2473,5 +2473,5 @@ static void entry_from_token(struct section *psection,
     return;
   }
 
-  log_error("Entry value not recognized: %s", tok);
+  log_error("%s", inf_log_str(inf, "Entry value not recognized: %s", tok));
 }
