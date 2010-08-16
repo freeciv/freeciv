@@ -523,6 +523,7 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_set_sensitive(network_confirm_password, FALSE);
     break;
   case NEW_PASSWORD_TYPE:
+    set_client_page(PAGE_NETWORK);
     gtk_entry_set_text(GTK_ENTRY(network_password), "");
     gtk_entry_set_text(GTK_ENTRY(network_confirm_password), "");
 
@@ -537,7 +538,6 @@ static void set_connection_state(enum connection_state state)
     gtk_widget_grab_focus(network_password);
     break;
   case ENTER_PASSWORD_TYPE:
-
     set_client_page(PAGE_NETWORK);
     gtk_entry_set_text(GTK_ENTRY(network_password), "");
     gtk_entry_set_text(GTK_ENTRY(network_confirm_password), "");
