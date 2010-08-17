@@ -602,7 +602,7 @@ bool is_native_terrain_to_special(enum tile_special_type special,
     return (terrain_control.may_irrigate
             && pterrain == pterrain->irrigation_result);
   case S_FALLOUT:
-    return TRUE;
+    return !terrain_has_flag(pterrain, TER_NO_POLLUTION);
   case S_OLD_FORTRESS:
   case S_OLD_AIRBASE:
   case S_LAST:

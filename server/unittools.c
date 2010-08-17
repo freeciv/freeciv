@@ -39,6 +39,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "terrain.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -2080,7 +2081,8 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
     city_reduce_size(pcity, pcity->size / 2, pplayer);
   }
 
-  if (!is_ocean_tile(ptile) && fc_rand(2) == 1) {
+  if (!terrain_has_flag(tile_terrain(ptile), TER_NO_POLLUTION)
+      && fc_rand(2) == 1) {
     if (game.server.nuke_contamination == CONTAMINATION_POLLUTION) {
       if (!tile_has_special(ptile, S_POLLUTION)) {
 	tile_set_special(ptile, S_POLLUTION);

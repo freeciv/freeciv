@@ -149,7 +149,8 @@ fallout_trade_penalty=50
 ; flags                = General flags for this terrain:
 ;   - NoBarbs          = Barbarians will not be spawned here.
 ;   - NoCities         = Cities may not be built or found on this terrain.
-;   - NoPollution      = Pollution will not be put on this terrain type.
+;   - NoPollution      = Pollution and Fallout will not be put on this
+;                        terrain type.
 ;   - Starter          = Players will only be started on "Starter" terrain.
 ;   - CanHaveRiver     = Set to 1 if this terrain can have river on it (the
 ;                        actual chance of river generation is controlled

@@ -463,11 +463,14 @@ void tile_change_terrain(struct tile *ptile, struct terrain *pterrain)
   tile_set_terrain(ptile, pterrain);
   if (is_ocean(pterrain)) {
     tile_clear_infrastructure(ptile);
-    tile_clear_dirtiness(ptile);
 
     /* The code can't handle these specials in ocean. */
     tile_clear_special(ptile, S_RIVER);
     tile_clear_special(ptile, S_HUT);
+  }
+
+  if (terrain_has_flag(pterrain, TER_NO_POLLUTION)) {
+    tile_clear_dirtiness(ptile);
   }
 
   /* Clear mining/irrigation if resulting terrain type cannot support
