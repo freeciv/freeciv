@@ -32,6 +32,7 @@
 #include "download.h"
 
 
+#define PROTOCOL_STRING "HTTP/1.1 "
 #define UNKNOWN_CONTENT_LENGTH -1
 
 
@@ -145,9 +146,26 @@ static bool download_file(const char *URL, const char *local_filename)
              header_end_chars++;
              if (header_end_chars >= 3) {
                if (hdr_idx < sizeof(hdr_buf)) {
+                 int httpret;
                  char *clenstr;
+                 int protolen = strlen(PROTOCOL_STRING);
 
                  hdr_buf[hdr_idx] = '\0';
+
+                 if (strncmp(hdr_buf, PROTOCOL_STRING, protolen)) {
+                   /* Not valid HTTP header */
+                   fclose(fp);
+                   fc_closesocket(sock);
+                   return FALSE;
+                 }
+                 httpret = atoi(hdr_buf + protolen);
+
+                 if (httpret != 200) {
+                   /* Error document */
+                   fclose(fp);
+                   fc_closesocket(sock);
+                   return FALSE;
+                 }
 
                  clenstr = lookup_header_entry(hdr_buf, "Content-Length: ");
                  if (clenstr != NULL) {
