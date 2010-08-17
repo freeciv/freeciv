@@ -4398,21 +4398,26 @@ static void game_load_internal(struct section_file *file)
   }
 
   /* [rulesets] */
-  civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
-  string = (civstyle == 1) ? "civ1" : "default";
+  if ((string = secfile_lookup_str(file, "game.rulesetdir"))) {
+    /* A ruleset was explicitly required, let's ignore the "rulesetdir"
+     * capability then. */
+    sz_strlcpy(game.server.rulesetdir, string);
+  } else {
+    civstyle = secfile_lookup_int_default(file, 2, "game.civstyle");
+    string = (civstyle == 1) ? "civ1" : "default";
 
-  if (!has_capability("rulesetdir", savefile_options)) {
-    const char *str2, *str =
-      secfile_lookup_str_default(file, "default", "game.info.t.techs");
+    if (!has_capability("rulesetdir", savefile_options)) {
+      const char *str2, *str =
+        secfile_lookup_str_default(file, "default", "game.info.t.techs");
 
-    if (strcmp("classic",
-               secfile_lookup_str_default(file, "default",
-                                          "game.info.t.terrain")) == 0) {
-      /* TRANS: Fatal error message. */
-      log_fatal(_("Saved game uses the \"classic\" terrain"
-                  " ruleset, and is no longer supported."));
-      exit(EXIT_FAILURE);
-    }
+      if (strcmp("classic",
+                 secfile_lookup_str_default(file, "default",
+                                            "game.info.t.terrain")) == 0) {
+        /* TRANS: Fatal error message. */
+        log_fatal(_("Saved game uses the \"classic\" terrain"
+                    " ruleset, and is no longer supported."));
+        exit(EXIT_FAILURE);
+      }
 
 #define T(x) \
     str2 = secfile_lookup_str_default(file, "default", x);                   \
@@ -4421,20 +4426,19 @@ static void game_load_internal(struct section_file *file)
                    "no longer supported. Using '%s'."), str, str2, str);     \
     }
 
-    T("game.info.t.units");
-    T("game.info.t.buildings");
-    T("game.info.t.terrain");
-    T("game.info.t.governments");
-    T("game.info.t.nations");
-    T("game.info.t.cities");
-    T("game.info.t.game");
+      T("game.info.t.units");
+      T("game.info.t.buildings");
+      T("game.info.t.terrain");
+      T("game.info.t.governments");
+      T("game.info.t.nations");
+      T("game.info.t.cities");
+      T("game.info.t.game");
 #undef T
 
-    sz_strlcpy(game.server.rulesetdir, str);
-  } else {
-    sz_strlcpy(game.server.rulesetdir, 
-               secfile_lookup_str_default(file, string,
-                                          "game.rulesetdir"));
+      sz_strlcpy(game.server.rulesetdir, str);
+    } else {
+      sz_strlcpy(game.server.rulesetdir, string);
+    }
   }
 
   /* Determine if the game is a new one (ex. scenario) or a savegame. */
