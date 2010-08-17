@@ -22,9 +22,10 @@
 #include "support.h"
 
 /* client */
+#include "options.h"
 #include "voteinfo.h"
 
-/* gui-gtk-2.0 */
+/* client/gui-gtk-2.0 */
 #include "chatline.h"
 #include "pages.h"
 
@@ -87,16 +88,26 @@ static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
 **************************************************************************/
 GtkWidget *voteinfo_bar_new(void)
 {
-  GtkWidget *label, *button, *hbox, *evbox, *spacer, *arrow;
+  GtkWidget *label, *button, *vbox, *hbox, *evbox, *spacer, *arrow;
   struct voteinfo_bar *vib;
   const int BUTTON_HEIGHT = 12;
 
   vib = fc_calloc(1, sizeof(struct voteinfo_bar));
 
-  hbox = gtk_hbox_new(FALSE, 4);
-  g_object_set_data(G_OBJECT(hbox), "voteinfo_bar", vib);
-  g_signal_connect(hbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
-  vib->box = hbox;
+  if (gui_gtk2_merge_notebooks) {
+    hbox = gtk_hbox_new(FALSE, 4);
+    g_object_set_data(G_OBJECT(hbox), "voteinfo_bar", vib);
+    g_signal_connect(hbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
+    vib->box = hbox;
+    vbox = NULL;        /* The compiler may require it. */
+  } else {
+    vbox = gtk_vbox_new(TRUE, 4);
+    g_object_set_data(G_OBJECT(vbox), "voteinfo_bar", vib);
+    g_signal_connect(vbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
+    vib->box = vbox;
+    hbox = gtk_hbox_new(FALSE, 4);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+  }
 
   label = gtk_label_new("");
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
@@ -111,6 +122,11 @@ GtkWidget *voteinfo_bar_new(void)
   arrow = gtk_image_new_from_stock(GTK_STOCK_MEDIA_REWIND,
                                    GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_misc_set_alignment(GTK_MISC(arrow), 0.5, 0.25);
+
+  if (!gui_gtk2_merge_notebooks) {
+    hbox = gtk_hbox_new(FALSE, 4);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
+  }
 
   button = gtk_button_new();
   g_signal_connect(button, "clicked",
