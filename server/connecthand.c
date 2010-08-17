@@ -111,6 +111,7 @@ static void restore_access_level(struct connection *pconn)
   - players infos (note it's resent in srv_main.c::send_all_info(),
       see comment there).
   - connections infos.
+  - running vote infos.
   ... and additionnal packets if the game already started.
 **************************************************************************/
 void establish_new_connection(struct connection *pconn)
@@ -169,6 +170,7 @@ void establish_new_connection(struct connection *pconn)
   send_scenario_info(dest);
   send_game_info(dest);
   send_pending_events(pconn, TRUE);
+  send_running_global_votes(pconn);
 
   if ((pplayer = find_player_by_user(pconn->username))
       && connection_attach(pconn, pplayer, FALSE)) {
@@ -257,9 +259,6 @@ void establish_new_connection(struct connection *pconn)
 
   if (NULL != pplayer) {
     /* Else, no need to do anything. */
-    send_running_votes(pconn);
-    send_updated_vote_totals(NULL);
-
     reset_all_start_commands();
     (void) send_server_info_to_metaserver(META_INFO);
   }
@@ -595,6 +594,7 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     /* Must be after C_S_RUNNING client state to be effective. */
     send_diplomatic_meetings(pconn);
     send_pending_events(pconn, FALSE);
+    send_running_team_votes(pconn);
     break;
 
   case S_S_OVER:
@@ -603,12 +603,15 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     conn_compression_thaw(pconn);
     report_final_scores(pconn->self);
     send_pending_events(pconn, FALSE);
+    send_running_team_votes(pconn);
     break;
   }
 
+  send_updated_vote_totals(NULL);
+
   return TRUE;
 }
-  
+
 /**************************************************************************
   Remove pconn as a client connected to pplayer:
   Updates pconn->playing, pconn->playing->connections,
@@ -625,6 +628,7 @@ void connection_detach(struct connection *pconn)
   if (NULL != (pplayer = pconn->playing)) {
     bool was_connected = pplayer->is_connected;
 
+    send_remove_team_votes(pconn);
     conn_list_remove(pplayer->connections, pconn);
 
     pplayer->is_connected = FALSE;

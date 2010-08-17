@@ -1492,7 +1492,7 @@ PACKET_VOTE_NEW = 185; sc, handle-via-packet
 end
 
 /* Sent to the client to give the new vote totals. */
-PACKET_VOTE_UPDATE = 186; sc
+PACKET_VOTE_UPDATE = 186; sc, is-info
   UINT32 vote_no; key
   UINT8 yes;
   UINT8 no;

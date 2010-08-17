@@ -3386,8 +3386,6 @@ static bool take_command(struct connection *caller, char *str, bool check)
               pplayer->is_alive
               ? _("Alive")
               : _("Dead"));
-
-    send_updated_vote_totals(NULL);
   } else {
     cmd_reply(CMD_TAKE, caller, C_FAIL,
               _("%s failed to attach to any player."),
