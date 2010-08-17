@@ -139,6 +139,7 @@ flag_files =				\
 		latvia.png		\
 		leon.png		\
 		libya.png		\
+		liechtenstein.png	\
 		lithuania.png		\
 		macedonia.png		\
 		madagascar.png		\
@@ -388,6 +389,7 @@ shield_files =					\
 		latvia-shield.png		\
 		leon-shield.png			\
 		libya-shield.png		\
+		liechtenstein-shield.png	\
 		lithuania-shield.png		\
 		macedonia-shield.png		\
 		madagascar-shield.png		\
@@ -637,6 +639,7 @@ svg_files = 				\
 		latvia.svg		\
 		leon.svg		\
 		libya.svg		\
+		liechtenstein.svg	\
 		lithuania.svg		\
 		macedonia.svg		\
 		madagascar.svg		\
