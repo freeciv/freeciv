@@ -167,15 +167,15 @@ void do_tech_parasite_effect(struct player *pplayer)
 
     advance_index_iterate(A_FIRST, i) {
       if (player_invention_reachable(pplayer, i)
-	  && player_invention_state(pplayer, i) != TECH_KNOWN) {
-	int num_players = 0;
+          && player_invention_state(pplayer, i) != TECH_KNOWN) {
+        int num_teams = 0;
 
-	players_iterate(aplayer) {
-	  if (player_invention_state(aplayer, i) == TECH_KNOWN) {
-	    num_players++;
-	  }
-	} players_iterate_end;
-	if (num_players >= mod) {
+        teams_iterate(pteam) {
+          if (pteam->research.inventions[i].state == TECH_KNOWN) {
+            num_teams++;
+          }
+        } teams_iterate_end;
+        if (num_teams >= mod) {
           notify_player(pplayer, NULL, E_TECH_GAIN, ftc_server,
                         _("%s acquired from %s!"),
                         advance_name_for_player(pplayer, i),
