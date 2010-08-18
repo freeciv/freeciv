@@ -93,12 +93,17 @@ SPECLIST_LIST;
 #define GENLIST(speclist) ((struct genlist *) (speclist))
 #define SPECLIST(genlist) ((SPECLIST_LIST *) (genlist))
 
+typedef void (*SPECLIST_FOO(_list_free_fn_t)) (SPECLIST_TYPE *);
+typedef SPECLIST_TYPE * (*SPECLIST_FOO(_list_copy_fn_t)) (const SPECLIST_TYPE *);
+typedef bool (*SPECLIST_FOO(_list_comp_fn_t)) (const SPECLIST_TYPE *, const SPECLIST_TYPE *);
+
+
 static inline SPECLIST_LIST *SPECLIST_FOO(_list_new) (void)
 {
   return SPECLIST(genlist_new());
 }
 
-static inline SPECLIST_LIST *SPECLIST_FOO(_list_new_full) (void (*free_data_func) (SPECLIST_TYPE *))
+static inline SPECLIST_LIST *SPECLIST_FOO(_list_new_full) (SPECLIST_FOO(_list_free_fn_t) free_data_func)
 {
   return SPECLIST(genlist_new_full((genlist_free_fn_t) free_data_func));
 }
@@ -114,8 +119,8 @@ static inline SPECLIST_LIST *SPECLIST_FOO(_list_copy) (const SPECLIST_LIST *plis
 }
 
 static inline SPECLIST_LIST *SPECLIST_FOO(_list_copy_full) (const SPECLIST_LIST *plist,
-                                                            SPECLIST_TYPE * (*copy_data_func) (const SPECLIST_TYPE *),
-                                                            void (*free_data_func) (SPECLIST_TYPE *))
+                                                            SPECLIST_FOO(_list_copy_fn_t) copy_data_func,
+                                                            SPECLIST_FOO(_list_free_fn_t) free_data_func)
 {
   return SPECLIST(genlist_copy_full(GENLIST(plist),
                                     (genlist_copy_fn_t) copy_data_func,
@@ -163,7 +168,7 @@ static inline void SPECLIST_FOO(_list_unique) (SPECLIST_LIST *tthis)
 }
 
 static inline void SPECLIST_FOO(_list_unique_full) (SPECLIST_LIST *tthis,
-                                                    bool (*comp_data_func) (const SPECLIST_TYPE *, const SPECLIST_TYPE *))
+                                                    SPECLIST_FOO(_list_comp_fn_t) comp_data_func)
 {
   genlist_unique_full(GENLIST(tthis), (genlist_comp_fn_t) comp_data_func);
 }

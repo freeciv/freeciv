@@ -2901,20 +2901,6 @@ static void city_destroy_callback(GtkWidget *w, gpointer data)
     g_object_unref(pdialog->map_pixbuf_unscaled);
   }
 
-  unit_list_iterate(pdialog->pcity->client.info_units_supported, psunit) {
-    free(psunit);
-  }
-  unit_list_iterate_end;
-
-  unit_list_clear(pdialog->pcity->client.info_units_supported);
-
-  unit_list_iterate(pdialog->pcity->client.info_units_present, psunit) {
-    free(psunit);
-  }
-  unit_list_iterate_end;
-
-  unit_list_clear(pdialog->pcity->client.info_units_present);
-
   free(pdialog);
 
   /* need to do this every time a new dialog is closed. */

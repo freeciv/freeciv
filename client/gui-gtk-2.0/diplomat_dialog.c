@@ -38,6 +38,8 @@
 #include "mapview.h"
 #include "packhand.h"
 
+/* client/gui-gtk-2.0 */
+#include "citydlg.h"
 #include "dialogs.h"
 #include "wldlg.h"
 
@@ -128,10 +130,14 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
 *****************************************************************/
 static void diplomat_investigate_callback(GtkWidget *w, gpointer data)
 {
-  if(game_find_unit_by_number(diplomat_id) && 
-     (game_find_city_by_number(diplomat_target_id))) { 
+  struct city *pcity = game_find_city_by_number(diplomat_target_id);
+
+  if (NULL != pcity && NULL != game_find_unit_by_number(diplomat_id)) {
     request_diplomat_action(DIPLOMAT_INVESTIGATE, diplomat_id,
-			    diplomat_target_id, 0);
+                            diplomat_target_id, 0);
+    /* We open the city dialog now to be sure to open something if
+     * the city_info packet is not received if not changed. */
+    popup_city_dialog(pcity);
   }
   gtk_widget_destroy(diplomat_dialog);
 }

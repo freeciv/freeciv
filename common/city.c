@@ -3071,6 +3071,11 @@ struct city *create_city_virtual(struct player *pplayer,
 
     CALL_FUNC_EACH_AI(city_alloc, pcity);
     CALL_PLR_AI_FUNC(city_got, pplayer, pplayer, pcity);
+  } else {
+    pcity->client.info_units_supported =
+        unit_list_new_full(destroy_unit_virtual);
+    pcity->client.info_units_present =
+        unit_list_new_full(destroy_unit_virtual);
   }
 
   return pcity;
@@ -3087,8 +3092,14 @@ void destroy_city_virtual(struct city *pcity)
 
   unit_list_destroy(pcity->units_supported);
   if (pcity->tile_cache != NULL) {
-    FC_FREE(pcity->tile_cache);
+    free(pcity->tile_cache);
   }
+
+  if (!is_server()) {
+    unit_list_destroy(pcity->client.info_units_supported);
+    unit_list_destroy(pcity->client.info_units_present);
+  }
+
   memset(pcity, 0, sizeof(*pcity)); /* ensure no pointers remain */
   free(pcity);
 }

@@ -2322,15 +2322,6 @@ void close_city_dialog(struct city_dialog *pdialog)
   free(pdialog->support_unit_pixcomms);
   free(pdialog->present_unit_pixcomms);
 
-  unit_list_iterate(pdialog->pcity->client.info_units_supported, psunit) {
-    free(psunit);
-  } unit_list_iterate_end;
-  unit_list_clear(pdialog->pcity->client.info_units_supported);
-  unit_list_iterate(pdialog->pcity->client.info_units_present, psunit) {
-    free(psunit);
-  } unit_list_iterate_end;
-  unit_list_clear(pdialog->pcity->client.info_units_present);
-
 /*
   if(pdialog->is_modal)
     XtSetSensitive(toplevel, TRUE);

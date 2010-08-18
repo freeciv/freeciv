@@ -739,14 +739,10 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
   }
 
   if (is_new) {
-    pcity->units_supported = unit_list_new();
-    pcity->client.info_units_supported = unit_list_new();
-    pcity->client.info_units_present = unit_list_new();
-
     tile_set_worked(pcenter, pcity); /* is_free_worked() */
     city_list_prepend(powner->cities, pcity);
 
-    if (powner == client.conn.playing) {
+    if (powner == client_player()) {
       city_report_dialog_update();
     }
 
@@ -893,49 +889,16 @@ void handle_city_short_info(struct packet_city_short_info *packet)
   pcity->client.happy = packet->happy;
   pcity->client.unhappy = packet->unhappy;
 
-#ifdef DONE_BY_create_city_virtual
-  if (city_is_new) {
-    int i;
-
-    for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
-      pcity->built[i].turn = I_NEVER;
-    }
-  }
-#endif
-
   improvement_iterate(pimprove) {
-    bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
-    update_improvement_from_packet(pcity, pimprove, have);
-  } improvement_iterate_end;
-
-#ifdef DONE_BY_create_city_virtual
-  /* This sets dumb values for everything else. This is not really required,
-     but just want to be at the safe side. */
-  {
-    int i;
-    int x, y;
-
-    for (i = 0; i < NUM_TRADE_ROUTES; i++) {
-      pcity->trade[i] = 0;
-      pcity->trade_value[i] = 0;
+    /* Don't update the non-visible improvements, they could hide the
+     * previously seen informations about the city (diplomat investigation).
+     */
+    if (improvement_has_flag(pimprove, IF_VISIBLE_BY_OTHERS)) {
+      bool have = BV_ISSET(packet->improvements,
+                           improvement_index(pimprove));
+      update_improvement_from_packet(pcity, pimprove, have);
     }
-    memset(pcity->surplus, 0, O_LAST * sizeof(*pcity->surplus));
-    memset(pcity->waste, 0, O_LAST * sizeof(*pcity->waste));
-    memset(pcity->prod, 0, O_LAST * sizeof(*pcity->prod));
-    pcity->food_stock         = 0;
-    pcity->shield_stock       = 0;
-    pcity->pollution          = 0;
-    pcity->illness            = 0;
-    BV_CLR_ALL(pcity->city_options);
-    pcity->production.kind    = VUT_NONE;
-    pcity->production.value.building = NULL;
-    worklist_init(&pcity->worklist);
-    pcity->airlift            = FALSE;
-    pcity->did_buy            = FALSE;
-    pcity->did_sell           = FALSE;
-    pcity->was_happy          = FALSE;
-  } /* Dumb values */
-#endif
+  } improvement_iterate_end;
 
   city_packet_common(pcity, pcenter, powner, worked_tiles,
                      city_is_new, FALSE, FALSE);
@@ -1529,13 +1492,7 @@ void handle_unit_short_info(struct packet_unit_short_info *packet)
     /* New serial number -- clear (free) everything */
     if (last_serial_num != packet->serial_num) {
       last_serial_num = packet->serial_num;
-      unit_list_iterate(pcity->client.info_units_supported, psunit) {
-	destroy_unit_virtual(psunit);
-      } unit_list_iterate_end;
       unit_list_clear(pcity->client.info_units_supported);
-      unit_list_iterate(pcity->client.info_units_present, ppunit) {
-	destroy_unit_virtual(ppunit);
-      } unit_list_iterate_end;
       unit_list_clear(pcity->client.info_units_present);
     }
 
