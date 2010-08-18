@@ -55,3 +55,19 @@ int ai_type_number(const struct ai_type *ai)
 
   return ainbr;
 }
+
+/***************************************************************
+  Find ai type with given name.
+***************************************************************/
+struct ai_type *ai_type_by_name(const char *search)
+{
+  size_t len = strlen(search);
+
+  ai_type_iterate(ai) {
+    if (!strncmp(ai->name, search, len)) {
+      return ai;
+    }
+  } ai_type_iterate_end;
+
+  return NULL;
+}

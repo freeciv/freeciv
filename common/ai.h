@@ -13,6 +13,9 @@
 #ifndef FC__AI_H
 #define FC__AI_H
 
+/* common */
+#include "fc_types.h" /* MAX_LEN_NAME */
+
 #define FC_AI_DEFAULT 0
 #define FC_AI_LAST 1
 
@@ -33,6 +36,8 @@ enum incident_type {
 
 struct ai_type
 {
+  char name[MAX_LEN_NAME];
+
   struct {
     void (*city_alloc)(struct city *pcity);
     void (*city_free)(struct city *pcity);
@@ -65,6 +70,8 @@ struct ai_type
 struct ai_type *get_ai_type(int id);
 int ai_type_number(const struct ai_type *ai);
 void init_ai(struct ai_type *ai);
+
+struct ai_type *ai_type_by_name(const char *search);
 
 
 #define ai_type_iterate(NAME_ai)                        \

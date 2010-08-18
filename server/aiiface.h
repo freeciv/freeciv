@@ -15,6 +15,9 @@
 
 #include "ai.h" /* incident_type */
 
+/* Not part of ai.h as this must be server only */
+#define FC_AI_DEFAULT_NAME "default"
+
 void ai_init(void);
 
 void call_incident(enum incident_type type, struct player *violator,

@@ -1135,7 +1135,12 @@ struct player *server_create_player(int player_id)
     return NULL;
   }
 
-  pplayer->ai = get_ai_type(FC_AI_DEFAULT);
+  pplayer->ai = ai_type_by_name(FC_AI_DEFAULT_NAME);
+
+  if (pplayer->ai == NULL) {
+    player_destroy(pplayer);
+    return NULL;
+  }
 
   ai_data_init(pplayer);
 

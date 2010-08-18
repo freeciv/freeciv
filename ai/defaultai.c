@@ -19,6 +19,9 @@
 #include "ai.h"
 #include "player.h"
 
+/* server */
+#include "aiiface.h"
+
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
@@ -40,6 +43,8 @@ static struct ai_type *self = NULL;
 void fc_ai_default_setup(struct ai_type *ai)
 {
   self = ai;
+
+  strncpy(ai->name, FC_AI_DEFAULT_NAME, sizeof(ai->name));
 
   ai->funcs.city_alloc = ai_city_alloc;
   ai->funcs.city_free = ai_city_free;
