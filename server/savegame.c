@@ -5164,10 +5164,10 @@ static void game_load_internal(struct section_file *file)
      * in the savegame, assign specific targets now */
     players_iterate(pplayer) {
       unit_list_iterate(pplayer->units, punit) {
-        unit_activity_assign_target(punit,
-                                    &punit->activity,
-                                    &punit->activity_target,
-                                    &punit->activity_base);
+        unit_assign_specific_activity_target(punit,
+                                             &punit->activity,
+                                             &punit->activity_target,
+                                             &punit->activity_base);
       } unit_list_iterate_end;
     } players_iterate_end;
 

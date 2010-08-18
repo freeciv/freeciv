@@ -885,14 +885,14 @@ static void update_unit_activity(struct unit *punit)
 
 /**************************************************************************
   For some activities (currently only pillaging), the precise target can
-  be assigned by the server rather than explicitly requested.
-  This function assigns a specific activity/target/base if the current
+  be assigned by the server rather than explicitly requested by the client.
+  This function assigns a specific activity+target+base if the current
   settings are open-ended (otherwise leaves them unchanged).
 **************************************************************************/
-void unit_activity_assign_target(struct unit *punit,
-                                 enum unit_activity *activity,
-                                 enum tile_special_type *target,
-                                 Base_type_id *base)
+void unit_assign_specific_activity_target(struct unit *punit,
+                                          enum unit_activity *activity,
+                                          enum tile_special_type *target,
+                                          Base_type_id *base)
 {
   if (*activity == ACTIVITY_PILLAGE
       && *target == S_LAST && *base == BASE_NONE) {

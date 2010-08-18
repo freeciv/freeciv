@@ -51,10 +51,10 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 void unit_refresh_vision(struct unit *punit);
 void unit_list_refresh_vision(struct unit_list *punitlist);
 void bounce_unit(struct unit *punit, bool verbose);
-void unit_activity_assign_target(struct unit *punit,
-                                 enum unit_activity *activity,
-                                 enum tile_special_type *target,
-                                 Base_type_id *base);
+void unit_assign_specific_activity_target(struct unit *punit,
+                                          enum unit_activity *activity,
+                                          enum tile_special_type *target,
+                                          Base_type_id *base);
 
 /* creation/deletion/upgrading */
 void transform_unit(struct unit *punit, struct unit_type *to_unit,

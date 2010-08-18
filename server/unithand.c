@@ -1878,7 +1878,8 @@ static void unit_activity_handling_targeted(struct unit *punit,
     enum tile_special_type old_target = punit->activity_target;
 
     free_unit_orders(punit);
-    unit_activity_assign_target(punit, &new_activity, &new_target, &base);
+    unit_assign_specific_activity_target(punit,
+                                         &new_activity, &new_target, &base);
     set_unit_activity_targeted(punit, new_activity, new_target, base);
     send_unit_info(NULL, punit);    
     unit_activity_dependencies(punit, old_activity, old_target);

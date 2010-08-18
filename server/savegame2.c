@@ -5093,10 +5093,10 @@ static void sg_load_sanitycheck(struct loaddata *loading)
     /* Backward compatibility: if we had any open-ended orders (pillage)
      * in the savegame, assign specific targets now */
     unit_list_iterate(pplayer->units, punit) {
-      unit_activity_assign_target(punit,
-                                  &punit->activity,
-                                  &punit->activity_target,
-                                  &punit->activity_base);
+      unit_assign_specific_activity_target(punit,
+                                           &punit->activity,
+                                           &punit->activity_target,
+                                           &punit->activity_base);
     } unit_list_iterate_end;
   } players_iterate_end;
 
