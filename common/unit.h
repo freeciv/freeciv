@@ -14,6 +14,7 @@
 #define FC__UNIT_H
 
 /* common */
+#include "ai.h"                 /* FC_AI_LAST */
 #include "base.h"
 #include "fc_types.h"
 #include "terrain.h"		/* enum tile_special_type */
@@ -115,21 +116,6 @@ struct unit_adv {
   enum ai_unit_task role;
 };
 
-struct unit_ai {
-  /* The following are unit ids or special indicator values (<=0) */
-  int ferryboat; /* the ferryboat assigned to us */
-  int passenger; /* the unit assigned to this ferryboat */
-  int bodyguard; /* the unit bodyguarding us */
-  int charge; /* the unit this unit is bodyguarding */
-
-  struct tile *prev_struct, *cur_struct;
-  struct tile **prev_pos, **cur_pos;
-
-  int target; /* target we hunt */
-  bv_player hunted; /* if a player is hunting us, set by that player */
-  bool done;  /* we are done controlling this unit this turn */
-};
-
 struct unit_order {
   enum unit_orders order;
   enum unit_activity activity;  /* Only valid for ORDER_ACTIVITY. */
@@ -206,7 +192,7 @@ struct unit {
       bool debug;
 
       struct unit_adv *adv;
-      struct unit_ai *ai;
+      void *ais[FC_AI_LAST];
       int birth_turn;
 
       /* ord_map and ord_city are the order index of this unit in tile.units
@@ -358,5 +344,9 @@ bool unit_type_is_losing_hp(const struct player *pplayer,
                             const struct unit_type *punittype);
 
 bool unit_alive(int id);
+
+void *unit_ai_data(const struct unit *punit, const struct ai_type *ai);
+void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
+                      void *data);
 
 #endif  /* FC__UNIT_H */

@@ -1804,3 +1804,20 @@ bool unit_is_virtual(const struct unit *punit)
 
   return punit != game_find_unit_by_number(punit->id);
 }
+
+/**************************************************************************
+  Return pointer to ai data of given unit and ai type.
+**************************************************************************/
+void *unit_ai_data(const struct unit *punit, const struct ai_type *ai)
+{
+  return punit->server.ais[ai_type_number(ai)];
+}
+
+/**************************************************************************
+  Attach ai data to unit
+**************************************************************************/
+void unit_set_ai_data(struct unit *punit, const struct ai_type *ai,
+                      void *data)
+{
+  punit->server.ais[ai_type_number(ai)] = data;
+}

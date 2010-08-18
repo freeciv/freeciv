@@ -88,7 +88,7 @@ struct settlermap {
 void ai_manage_settler(struct player *pplayer, struct unit *punit)
 {
   punit->ai_controlled = TRUE;
-  punit->server.ai->done = TRUE; /* we will manage this unit later... ugh */
+  def_ai_unit_data(punit)->done = TRUE; /* we will manage this unit later... ugh */
   /* if BUILD_CITY must remain BUILD_CITY, otherwise turn into autosettler */
   if (punit->server.adv->role == AIUNIT_NONE) {
     ai_unit_new_role(punit, AIUNIT_AUTO_SETTLER, NULL);

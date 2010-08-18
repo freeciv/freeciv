@@ -52,6 +52,7 @@
 #include "aihand.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "advdata.h"
 
@@ -615,15 +616,17 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
       continue;
     }
     unit_list_iterate(aplayer->units, punit) {
-      if (!punit->server.ai->cur_pos) {
+      struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+      if (!unit_data->cur_pos) {
         /* Start tracking */
-        punit->server.ai->cur_pos = &punit->server.ai->cur_struct;
-        punit->server.ai->prev_pos = NULL;
+        unit_data->cur_pos = &unit_data->cur_struct;
+        unit_data->prev_pos = NULL;
       } else {
-        punit->server.ai->prev_struct = punit->server.ai->cur_struct;
-        punit->server.ai->prev_pos = &punit->server.ai->prev_struct;
+        unit_data->prev_struct = unit_data->cur_struct;
+        unit_data->prev_pos = &unit_data->prev_struct;
       }
-      *punit->server.ai->cur_pos = punit->tile;
+      *unit_data->cur_pos = punit->tile;
     } unit_list_iterate_end;
   } players_iterate_end;
   

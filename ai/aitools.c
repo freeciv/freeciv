@@ -302,7 +302,7 @@ bool ai_gothere(struct player *pplayer, struct unit *punit,
     return FALSE;
   }
 
-  if (punit->server.ai->ferryboat > 0 && punit->transported_by <= 0) {
+  if (def_ai_unit_data(punit)->ferryboat > 0 && punit->transported_by <= 0) {
     /* We probably just landed, release our boat */
     aiferry_clear_boat(punit);
   }
@@ -763,6 +763,7 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 		      struct tile *ptile)
 {
   struct unit *bodyguard = aiguard_guard_of(punit);
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
 
   /* If the unit is under (human) orders we shouldn't control it.
    * Allow removal of old role with AIUNIT_NONE. */
@@ -797,10 +798,10 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
 
   if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Clear victim's hunted bit - we're no longer chasing. */
-    struct unit *target = game_find_unit_by_number(punit->server.ai->target);
+    struct unit *target = game_find_unit_by_number(unit_data->target);
 
     if (target) {
-      BV_CLR(target->server.ai->hunted, player_index(unit_owner(punit)));
+      BV_CLR(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
       UNIT_LOG(LOGLEVEL_HUNT, target, "no longer hunted (new role %d, old %d)",
                task, punit->server.adv->role);
     }
@@ -828,10 +829,10 @@ void ai_unit_new_role(struct unit *punit, enum ai_unit_task task,
   }
   if (punit->server.adv->role == AIUNIT_HUNTER) {
     /* Set victim's hunted bit - the hunt is on! */
-    struct unit *target = game_find_unit_by_number(punit->server.ai->target);
+    struct unit *target = game_find_unit_by_number(unit_data->target);
 
     fc_assert_ret(target != NULL);
-    BV_SET(target->server.ai->hunted, player_index(unit_owner(punit)));
+    BV_SET(def_ai_unit_data(target)->hunted, player_index(unit_owner(punit)));
     UNIT_LOG(LOGLEVEL_HUNT, target, "is being hunted");
 
     /* Grab missiles lying around and bring them along */
@@ -927,7 +928,7 @@ bool ai_unit_attack(struct unit *punit, struct tile *ptile)
   alive = (game_find_unit_by_number(sanity) != NULL);
 
   if (alive && same_pos(ptile, punit->tile)
-      && bodyguard != NULL  && bodyguard->server.ai->charge == punit->id) {
+      && bodyguard != NULL  && def_ai_unit_data(bodyguard)->charge == punit->id) {
     ai_unit_bodyguard_move(bodyguard, ptile);
     /* Clumsy bodyguard might trigger an auto-attack */
     alive = (game_find_unit_by_number(sanity) != NULL);
@@ -1011,7 +1012,7 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   if (game_find_unit_by_number(sanity) && same_pos(ptile, punit->tile)) {
     struct unit *bodyguard = aiguard_guard_of(punit);
     if (is_ai && bodyguard != NULL
-        && bodyguard->server.ai->charge == punit->id) {
+        && def_ai_unit_data(bodyguard)->charge == punit->id) {
       ai_unit_bodyguard_move(bodyguard, ptile);
     }
     return TRUE;

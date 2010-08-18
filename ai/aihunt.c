@@ -45,6 +45,7 @@
 #include "aicity.h"
 #include "aitools.h"
 #include "aiunit.h"
+#include "defaultai.h"
 
 #include "aihunt.h"
 
@@ -396,8 +397,9 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
   struct pf_parameter parameter;
   struct pf_map *pfm;
   int limit = unit_move_rate(punit) * 6;
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
   struct unit *original_target
-    = game_find_unit_by_number(punit->server.ai->target);
+    = game_find_unit_by_number(unit_data->target);
   int original_threat = 0, original_cost = 0;
 
   fc_assert_ret_val(!is_barbarian(pplayer), 0);
@@ -423,14 +425,17 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       int dist1, dist2, stackthreat = 0, stackcost = 0;
       int sanity_target = target->id;
       struct pf_path *path;
+      struct unit_ai *target_data;
 
       /* Note that we need not (yet) be at war with aplayer */
       if (!is_player_dangerous(pplayer, aplayer)) {
         continue;
       }
+
+      target_data = def_ai_unit_data(target);
       if (tile_city(ptile)
           || !can_unit_attack_tile(punit, ptile)
-          || BV_ISSET(target->server.ai->hunted, player_index(pplayer))) {
+          || BV_ISSET(target_data->hunted, player_index(pplayer))) {
         /* Can't hunt this one.  The bit is cleared in the beginning
          * of each turn. */
         continue;
@@ -443,9 +448,9 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       /* Figure out whether unit is coming closer */
-      if (target->server.ai->cur_pos && target->server.ai->prev_pos) {
-        dist1 = real_map_distance(punit->tile, *target->server.ai->cur_pos);
-        dist2 = real_map_distance(punit->tile, *target->server.ai->prev_pos);
+      if (target_data->cur_pos && target_data->prev_pos) {
+        dist1 = real_map_distance(punit->tile, *target_data->cur_pos);
+        dist2 = real_map_distance(punit->tile, *target_data->prev_pos);
       } else {
         dist1 = dist2 = 0;
       }
@@ -462,10 +467,10 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
         UNIT_LOG(LOGLEVEL_HUNT, punit,
                  "giving up racing %s (%d, %d)->(%d, %d)",
                  unit_rule_name(target),
-                 target->server.ai->prev_pos
-                   ? (*target->server.ai->prev_pos)->x : -1,
-                 target->server.ai->prev_pos
-                   ? (*target->server.ai->prev_pos)->y : -1,
+                 target_data->prev_pos
+                   ? (*target_data->prev_pos)->x : -1,
+                 target_data->prev_pos
+                   ? (*target_data->prev_pos)->y : -1,
                  TILE_XY(target->tile));
         continue;
       }
@@ -503,7 +508,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
                dist1,
                dist2);
       /* Ok, now we FINALLY have a target worth destroying! */
-      punit->server.ai->target = target->id;
+      unit_data->target = target->id;
       if (is_virtual) {
         pf_map_destroy(pfm);
         return stackthreat;
@@ -549,7 +554,7 @@ int ai_hunter_manage(struct player *pplayer, struct unit *punit)
       }
 
       pf_map_destroy(pfm);
-      punit->server.ai->done = TRUE;
+      unit_data->done = TRUE;
       return stackthreat; /* still have work to do */
     } unit_list_iterate_safe_end;
   } pf_map_iterate_move_costs_end;

@@ -614,7 +614,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "stays to protect %s (urg %d)", 
                city_name(pcity), city_data->urgency);
       ai_unit_new_role(punit, AIUNIT_NONE, NULL); /* abort mission */
-      punit->server.ai->done = TRUE;
+      def_ai_unit_data(punit)->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
@@ -688,7 +688,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DIPLOMAT, punit, "going idle");
     } else {
       UNIT_LOG(LOG_DIPLOMAT, punit, "could not find a job");
-      punit->server.ai->done = TRUE;
+      def_ai_unit_data(punit)->done = TRUE;
       pf_map_destroy(pfm);
       return;
     }
@@ -726,7 +726,7 @@ void ai_manage_diplomat(struct player *pplayer, struct unit *punit)
     }
     pf_path_destroy(path);
   } else {
-    punit->server.ai->done = TRUE;
+    def_ai_unit_data(punit)->done = TRUE;
   }
   pf_map_destroy(pfm);
 }

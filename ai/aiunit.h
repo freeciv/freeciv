@@ -17,6 +17,21 @@
 #include "fc_types.h"
 #include "unittype.h"
 
+struct unit_ai {
+  /* The following are unit ids or special indicator values (<=0) */
+  int ferryboat; /* the ferryboat assigned to us */
+  int passenger; /* the unit assigned to this ferryboat */
+  int bodyguard; /* the unit bodyguarding us */
+  int charge; /* the unit this unit is bodyguarding */
+
+  struct tile *prev_struct, *cur_struct;
+  struct tile **prev_pos, **cur_pos;
+
+  int target; /* target we hunt */
+  bv_player hunted; /* if a player is hunting us, set by that player */
+  bool done;  /* we are done controlling this unit this turn */
+};
+
 /*
  * To prevent integer overflows the product "power * hp * firepower"
  * is divided by POWER_DIVIDER.

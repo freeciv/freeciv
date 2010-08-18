@@ -767,7 +767,7 @@ static void ai_military_bodyguard(struct player *pplayer, struct unit *punit)
   if (ai_military_rampage(punit, BODYGUARD_RAMPAGE_THRESHOLD,
                           RAMPAGE_FREE_CITY_OR_BETTER)
       && same_pos(punit->tile, ptile)) {
-    punit->server.ai->done = TRUE; /* Stay with charge */
+    def_ai_unit_data(punit)->done = TRUE; /* Stay with charge */
   }
 }
 
@@ -1074,7 +1074,7 @@ static void ai_military_defend(struct player *pplayer,struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "go to defend %s", city_name(pcity));
       if (same_pos(punit->tile, pcity->tile)) {
         UNIT_LOG(LOG_DEBUG, punit, "go defend successful");
-        punit->server.ai->done = TRUE;
+        def_ai_unit_data(punit)->done = TRUE;
       } else {
         (void) ai_gothere(pplayer, punit, pcity->tile);
       }
@@ -1319,8 +1319,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       }
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
                      (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
-    } else if (aunit->server.ai->passenger != 0 &&
-               !same_pos(aunit->tile, punit->tile)) {
+    } else if (def_ai_unit_data(aunit)->passenger != 0
+               && !same_pos(aunit->tile, punit->tile)) {
       /* It's a transport with reinforcements */
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(aunit, TRUE, 1, INVASION_OCCUPY);
@@ -2050,7 +2050,7 @@ static void ai_manage_hitpoint_recovery(struct unit *punit)
     ai_unit_new_role(punit, AIUNIT_NONE, NULL);  
     return;
   } else {
-    punit->server.ai->done = TRUE; /* sit tight */
+    def_ai_unit_data(punit)->done = TRUE; /* sit tight */
   }
 }
 
@@ -2077,7 +2077,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
       && ai_handicap(pplayer, H_AWAY)) {
     /* Don't move sentried or fortified units controlled by a player
      * in away mode. */
-    punit->server.ai->done = TRUE;
+    def_ai_unit_data(punit)->done = TRUE;
     return;
   }
 
@@ -2149,7 +2149,7 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
       UNIT_LOG(LOG_DEBUG, punit, "no more exploring either");
       break;
     };
-    punit->server.ai->done = (punit->moves_left <= 0);
+    def_ai_unit_data(punit)->done = (punit->moves_left <= 0);
     break;
   case AIUNIT_RECOVER:
     TIMING_LOG(AIT_RECOVER, TIMER_START);
@@ -2167,7 +2167,8 @@ void ai_manage_military(struct player *pplayer, struct unit *punit)
   if ((punit = game_find_unit_by_number(id))) {
     struct city *pcity = tile_city(punit->tile);
 
-    if (unit_list_find(punit->tile->units, punit->server.ai->ferryboat)) {
+    if (unit_list_find(punit->tile->units,
+                       def_ai_unit_data(punit)->ferryboat)) {
       unit_activity_handling(punit, ACTIVITY_SENTRY);
     } else if (pcity || punit->activity == ACTIVITY_IDLE) {
       /* We do not need to fortify in cities - we fortify and sentry
@@ -2229,7 +2230,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
   if (unit_has_orders(punit)) {
     UNIT_LOG(LOG_VERBOSE, punit, "is under human orders, aborting AI control.");
     punit->server.adv->role = AIUNIT_NONE;
-    punit->server.ai->done = TRUE;
+    def_ai_unit_data(punit)->done = TRUE;
     return;
   }
 
@@ -2252,7 +2253,7 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
   if (punit->moves_left <= 0) {
     /* Can do nothing */
-    punit->server.ai->done = TRUE;
+    def_ai_unit_data(punit)->done = TRUE;
     return;
   }
 
@@ -2307,7 +2308,8 @@ void ai_manage_unit(struct player *pplayer, struct unit *punit)
 
     /* TODO: We can try using air-unit code for helicopters, just
      * pretend they have fuel = HP / 3 or something. */
-    punit->server.ai->done = TRUE; /* we did our best, which was ... nothing */
+    def_ai_unit_data(punit)->done = TRUE; /* we did our best, which was ... 
+                                             nothing */
     return;
   } else if (is_military_unit(punit)) {
     TIMING_LOG(AIT_MILITARY, TIMER_START);
@@ -2404,7 +2406,7 @@ void ai_manage_units(struct player *pplayer)
 
   /* Clear previous orders, if desirable, here. */
   unit_list_iterate(pplayer->units, punit) {
-    punit->server.ai->done = FALSE;
+    def_ai_unit_data(punit)->done = FALSE;
     if (punit->server.adv->role == AIUNIT_DEFEND_HOME) {
       ai_unit_new_role(punit, AIUNIT_NONE, NULL);
     }
@@ -2415,7 +2417,7 @@ void ai_manage_units(struct player *pplayer)
   ai_set_defenders(pplayer);
 
   unit_list_iterate_safe(pplayer->units, punit) {
-    if (punit->transported_by <= 0 && !punit->server.ai->done) {
+    if (punit->transported_by <= 0 && !def_ai_unit_data(punit)->done) {
       /* Though it is usually the passenger who drives the transport,
        * the transporter is responsible for managing its passengers. */
       ai_manage_unit(pplayer, punit);
@@ -2733,21 +2735,21 @@ void unit_class_ai_init(void)
 **************************************************************************/
 void ai_unit_init(struct unit *punit)
 {
-  fc_assert_ret(punit->server.ai == NULL);
-
   /* Make sure that contents of unit_ai structure are correctly initialized,
    * if you ever allocate it by some other mean than fc_calloc() */
-  punit->server.ai = fc_calloc(1, sizeof(*punit->server.ai));
+  struct unit_ai *unit_data = fc_calloc(1, sizeof(struct unit_ai));
 
-  punit->server.ai->done = FALSE;
-  punit->server.ai->cur_pos = NULL;
-  punit->server.ai->prev_pos = NULL;
-  punit->server.ai->target = 0;
-  BV_CLR_ALL(punit->server.ai->hunted);
-  punit->server.ai->ferryboat = 0;
-  punit->server.ai->passenger = 0;
-  punit->server.ai->bodyguard = 0;
-  punit->server.ai->charge = 0;
+  unit_data->done = FALSE;
+  unit_data->cur_pos = NULL;
+  unit_data->prev_pos = NULL;
+  unit_data->target = 0;
+  BV_CLR_ALL(unit_data->hunted);
+  unit_data->ferryboat = 0;
+  unit_data->passenger = 0;
+  unit_data->bodyguard = 0;
+  unit_data->charge = 0;
+
+  unit_set_ai_data(punit, default_ai_get_self(), unit_data);
 }
 
 /**************************************************************************
@@ -2755,9 +2757,11 @@ void ai_unit_init(struct unit *punit)
 **************************************************************************/
 void ai_unit_turn_end(struct unit *punit)
 {
-  fc_assert_ret(punit->server.ai != NULL);
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
 
-  BV_CLR_ALL(punit->server.ai->hunted);
+  fc_assert_ret(unit_data != NULL);
+
+  BV_CLR_ALL(unit_data->hunted);
 }
 
 /**************************************************************************
@@ -2765,13 +2769,16 @@ void ai_unit_turn_end(struct unit *punit)
 **************************************************************************/
 void ai_unit_close(struct unit *punit)
 {
-  fc_assert_ret(punit->server.ai != NULL);
+  struct unit_ai *unit_data = def_ai_unit_data(punit);
+
+  fc_assert_ret(unit_data != NULL);
 
   aiguard_clear_charge(punit);
   aiguard_clear_guard(punit);
   aiferry_clear_boat(punit);
 
-  if (punit->server.ai != NULL) {
-    FC_FREE(punit->server.ai);
+  if (unit_data != NULL) {
+    unit_set_ai_data(punit, default_ai_get_self(), NULL);
+    FC_FREE(unit_data);
   }
 }
