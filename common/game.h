@@ -143,6 +143,7 @@ struct civ_game {
       int timeoutcounter; /* timeoutcounter - timeoutint = turns to next inc. */
       int timeoutaddenemymove; /* minimum timeout after an enemy move is seen */
 
+      int maxconnectionsperhost;
       time_t last_ping;
       struct timer *phase_timer; /* Time since seconds_to_phase_done was set. */
       /* The game.info.phase_mode value indicates the phase mode currently in
@@ -414,6 +415,10 @@ extern struct civ_game game;
 #define GAME_DEFAULT_TIMEOUTINCMULT  1
 #define GAME_DEFAULT_TIMEOUTADDEMOVE 0
 #define GAME_DEFAULT_TIMEOUTCOUNTER  1
+
+#define GAME_DEFAULT_MAXCONNECTIONSPERHOST 4
+#define GAME_MIN_MAXCONNECTIONSPERHOST     0
+#define GAME_MAX_MAXCONNECTIONSPERHOST     MAX_NUM_CONNECTIONS
 
 #define GAME_MIN_TIMEOUT             -1
 #define GAME_MAX_TIMEOUT             8639999

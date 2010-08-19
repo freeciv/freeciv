@@ -341,6 +341,7 @@ static void game_defaults(void)
     game.server.fogofwar_old      = game.info.fogofwar;
     game.server.freecost          = GAME_DEFAULT_FREECOST;
     game.server.killunhomed       = GAME_DEFAULT_KILLUNHOMED;
+    game.server.maxconnectionsperhost = GAME_DEFAULT_MAXCONNECTIONSPERHOST;
     game.server.last_ping         = 0;
     game.server.max_players       = GAME_DEFAULT_MAX_PLAYERS;
     game.server.meta_info.user_message[0] = '\0';

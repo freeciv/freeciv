@@ -1820,6 +1820,17 @@ static struct setting settings[] = {
               "'freeciv-score.log'."),
              scorefile_validate, NULL, GAME_DEFAULT_SCOREFILE)
 
+  GEN_INT("maxconnectionsperhost", game.server.maxconnectionsperhost,
+          SSET_RULES_FLEXIBLE, SSET_NETWORK, SSET_RARE, SSET_TO_CLIENT,
+          N_("Maximum number of connections to the server per host"),
+          N_("New connections from a given host will be rejected if "
+             "the total number of connections from the very same host "
+             "equals or exceeds this value. A value of 0 means that "
+             "there is no limit, at least up to the maximum number of "
+             "connections supported by the server."), NULL, NULL,
+          GAME_MIN_MAXCONNECTIONSPERHOST, GAME_MAX_MAXCONNECTIONSPERHOST,
+          GAME_DEFAULT_MAXCONNECTIONSPERHOST)
+
   GEN_END
 };
 

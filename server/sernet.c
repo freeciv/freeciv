@@ -659,10 +659,14 @@ enum server_events server_sniff_all_input(void)
       if (FD_ISSET(sock, &exceptfs)) {	     /* handle Ctrl-Z suspend/resume */
 	continue;
       }
-      if(FD_ISSET(sock, &readfs)) {	     /* new players connects */
+      if (FD_ISSET(sock, &readfs)) {    /* new players connects */
         log_verbose("got new connection");
-        if(-1 == server_accept_connection(sock)) {
-          log_error("failed accepting connection");
+        if (-1 == server_accept_connection(sock)) {
+          /* There will be a log_error() message from
+           * server_accept_connection() if something
+           * goes wrong, so no need to make another
+           * error-level message here. */
+          log_verbose("failed accepting connection");
         }
       }
     }
@@ -847,15 +851,40 @@ static int server_accept_connection(int sockfd)
   }
 
 #ifdef IPV6_SUPPORT
-  if (!getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
-                   service, NI_MAXSERV, NI_NUMERICSERV)) {
-    nameinfo = TRUE;
-  }
   if (fromend.saddr.sa_family == AF_INET6) {
     inet_ntop(AF_INET6, &fromend.saddr_in6.sin6_addr,
               dst, sizeof(dst));
   } else {
     inet_ntop(AF_INET, &fromend.saddr_in4.sin_addr, dst, sizeof(dst));
+  }
+#else  /* IPv6 support */
+  dst = inet_ntoa(fromend.saddr_in4.sin_addr);
+#endif /* IPv6 support */
+
+  if (0 != game.server.maxconnectionsperhost) {
+    int count = 0;
+
+    conn_list_iterate(game.all_connections, pconn) {
+      if (0 != strcmp(dst, pconn->server.ipaddr)) {
+        continue;
+      }
+      if (++count >= game.server.maxconnectionsperhost) {
+        log_verbose("Rejecting new connection from %s: maximum number of "
+                    "connections for this address exceeded (%d).",
+                    dst, game.server.maxconnectionsperhost);
+
+        /* Disconnect the accepted socket. */
+        fc_closesocket(new_sock);
+
+        return -1;
+      }
+    } conn_list_iterate_end;
+  }
+
+#ifdef IPV6_SUPPORT
+  if (!getnameinfo(&fromend.saddr, fromlen, host, NI_MAXHOST,
+                   service, NI_MAXSERV, NI_NUMERICSERV)) {
+    nameinfo = TRUE;
   }
 #else  /* IPv6 support */
   from =
@@ -865,7 +894,6 @@ static int server_accept_connection(int sockfd)
     host = from->h_name;
     nameinfo = TRUE;
   }
-  dst = inet_ntoa(fromend.saddr_in4.sin_addr);
 #endif /* IPv6 support */
 
   return server_make_connection(new_sock,
