@@ -2322,29 +2322,6 @@ static void player_load_main(struct player *plr, int plrno,
     plr->target_government = government_of_player(plr);
   }
 
-  BV_CLR_ALL(plr->real_embassy);
-  if (has_capability("embassies2", savefile_options)) {
-    /* done while loading diplstates data */
-  } else if (has_capability("embassies", savefile_options)) {
-    players_iterate(pother) {
-      if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
-                                      plrno, player_index(pother))) {
-        BV_SET(plr->real_embassy, player_index(pother));
-      }
-    } players_iterate_end;
-  } else {
-    /* Required for 2.0 and earlier savegames.  Remove eventually and make
-     * the cap check mandatory. */
-    int embassy = secfile_lookup_int_default(file, 0,
-                                             "player%d.embassy", plrno);
-
-    players_iterate(pother) {
-      if (embassy & (1 << player_index(pother))) {
-        BV_SET(plr->real_embassy, player_index(pother));
-      }
-    } players_iterate_end;
-  }
-
   p = secfile_lookup_str(file, "player%d.city_style_by_name", plrno);
   if (!p) {
     char* old_order[4] = {"European", "Classical", "Tropical", "Asian"};
@@ -2585,6 +2562,29 @@ static void player_load_main2(struct player *plr, int plrno,
                               const char *savefile_options)
 {
   int i;
+
+  BV_CLR_ALL(plr->real_embassy);
+  if (has_capability("embassies2", savefile_options)) {
+    /* done while loading diplstates data */
+  } else if (has_capability("embassies", savefile_options)) {
+    players_iterate(pother) {
+      if (secfile_lookup_bool_default(file, FALSE, "player%d.embassy%d",
+                                      plrno, player_index(pother))) {
+        BV_SET(plr->real_embassy, player_index(pother));
+      }
+    } players_iterate_end;
+  } else {
+    /* Required for 2.0 and earlier savegames.  Remove eventually and make
+     * the cap check mandatory. */
+    int embassy = secfile_lookup_int_default(file, 0,
+                                             "player%d.embassy", plrno);
+
+    players_iterate(pother) {
+      if (embassy & (1 << player_index(pother))) {
+        BV_SET(plr->real_embassy, player_index(pother));
+      }
+    } players_iterate_end;
+  }
 
   /* "Old" observer players will still be loaded but are considered dead. */
   players_iterate(aplayer) {
