@@ -1830,15 +1830,22 @@ void handle_player_info(struct packet_player_info *pinfo)
   pplayer->economic.luxury = pinfo->luxury;
   pplayer->government = pgov;
   pplayer->target_government = ptarget_gov;
+  /* Don't use player_iterate here, because we ignore the real number
+   * of players and we want to read all the datas. */
   BV_CLR_ALL(pplayer->real_embassy);
-  players_iterate(pother) {
-    if (pinfo->real_embassy[player_index(pother)]) {
-      BV_SET(pplayer->real_embassy, player_index(pother));
+  assert(8 * sizeof(pplayer->real_embassy)
+         >= ARRAY_SIZE(pinfo->real_embassy));
+  for (i = 0; i < ARRAY_SIZE(pinfo->real_embassy); i++) {
+    if (pinfo->real_embassy[i]) {
+      BV_SET(pplayer->real_embassy, i);
     }
-  } players_iterate_end;
+  }
   pplayer->gives_shared_vision = pinfo->gives_shared_vision;
   pplayer->city_style = pinfo->city_style;
-  for (i = 0; i < player_slot_count(); i++) {
+  /* Don't use player_iterate or player_slot_count here, because we ignore
+   * the real number of players and we want to read all the datas. */
+  assert(ARRAY_SIZE(pplayer->ai_data.love) >= ARRAY_SIZE(pinfo->love));
+  for (i = 0; i < ARRAY_SIZE(pinfo->love); i++) {
     pplayer->ai_data.love[i] = pinfo->love[i];
   }
 
@@ -1865,7 +1872,10 @@ void handle_player_info(struct packet_player_info *pinfo)
     } unit_list_iterate_end;
   }
 
-  for (i = 0; i < player_slot_count(); i++) {
+  /* Don't use player_iterate or player_slot_count here, because we ignore
+   * the real number of players and we want to read all the datas. */
+  assert(ARRAY_SIZE(pplayer->diplstates) >= ARRAY_SIZE(pinfo->diplstates));
+  for (i = 0; i < ARRAY_SIZE(pinfo->diplstates); i++) {
     pplayer->diplstates[i].type = pinfo->diplstates[i].type;
     pplayer->diplstates[i].turns_left = pinfo->diplstates[i].turns_left;
     pplayer->diplstates[i].contact_turns_left
