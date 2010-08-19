@@ -902,6 +902,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
   }
 
   freelog(LOG_ERROR, "maximum number of connections reached");
+  my_closesocket(new_sock);
   return -1;
 }
 
