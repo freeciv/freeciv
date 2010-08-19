@@ -2169,7 +2169,11 @@ static void load_ruleset_terrain(struct section_file *file)
 
     if (territory_claiming_base(pbase)) {
       base_type_iterate(pbase2) {
-        if (pbase2 > pbase && territory_claiming_base(pbase2)) {
+        if (pbase == pbase2) {
+          /* End of the fully initialized bases iteration. */
+          break;
+        }
+        if (territory_claiming_base(pbase2)) {
           BV_SET(pbase->conflicts, base_index(pbase2));
           BV_SET(pbase2->conflicts, base_index(pbase));
         }
