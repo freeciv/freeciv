@@ -2066,23 +2066,26 @@ static bool show_command(struct connection *caller, char *str, bool check)
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0, 5,
+                                                  TTT_COLOR, 0,
+                                                  FT_OFFSET_UNSET,
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
           break;
         case SSET_INT:
           is_changed = (setting_int_get(pset) != setting_int_def(pset));
-          len = fc_snprintf(value, sizeof(value), "%-5d (%d,%d)",
-                            setting_int_get(pset), setting_int_min(pset),
-                            setting_int_max(pset));
+          len = fc_snprintf(value, sizeof(value), "%-5d",
+                            setting_int_get(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
             feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0, 5,
+                                                  TTT_COLOR, 0,
+                                                  FT_OFFSET_UNSET,
                                                   ftc_changed) - len;
             sz_strlcpy(value, buf);
           }
+          cat_snprintf(value, sizeof(value), " (%d,%d)",
+                       setting_int_min(pset), setting_int_max(pset));
           break;
         case SSET_STRING:
           is_changed = strcmp(setting_str_get(pset), setting_str_def(pset));
