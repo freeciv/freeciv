@@ -367,6 +367,7 @@ void game_init(void)
     game.server.timeoutcounter = GAME_DEFAULT_TIMEOUTCOUNTER;
     game.server.timeoutaddenemymove = GAME_DEFAULT_TIMEOUTADDEMOVE; 
 
+    game.server.maxconnectionsperhost = GAME_DEFAULT_MAXCONNECTIONSPERHOST;
     game.server.last_ping = 0;
     game.server.scorelog = GAME_DEFAULT_SCORELOG;
     game.server.scoreturn = GAME_DEFAULT_SCORETURN;
