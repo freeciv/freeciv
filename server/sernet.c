@@ -920,6 +920,7 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
   }
 
   log_error("maximum number of connections reached");
+  fc_closesocket(new_sock);
   return -1;
 }
 
