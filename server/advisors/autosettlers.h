@@ -46,8 +46,6 @@ void init_settlers(void);
 
 void initialize_infrastructure_cache(struct player *pplayer);
 
-void contemplate_terrain_improvements(struct city *pcity);
-
 extern signed int *minimap;
 #define MINIMAP(_tile) minimap[tile_index(_tile)]
 

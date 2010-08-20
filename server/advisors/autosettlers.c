@@ -274,47 +274,6 @@ static void consider_settler_action(const struct player *pplayer,
 }
 
 /**************************************************************************
-  Returns how much food a settler will consume out of the city's foodbox
-  when created. If unit has id zero it is assumed to be a virtual unit
-  inside a city.
-
-  FIXME: This function should be generalised and then moved into 
-  common/unittype.c - Per
-**************************************************************************/
-static int unit_foodbox_cost(struct unit *punit)
-{
-  int cost = 30;
-
-  if (punit->id == 0) {
-    /* It is a virtual unit, so must start in a city... */
-    struct city *pcity = tile_city(punit->tile);
-
-    /* The default is to lose 100%.  The growth bonus reduces this. */
-    int foodloss_pct = 100 - get_city_bonus(pcity, EFT_GROWTH_FOOD);
-
-    foodloss_pct = CLIP(0, foodloss_pct, 100);
-    fc_assert_ret_val(pcity != NULL, -1);
-    cost = city_granary_size(pcity->size);
-    cost = cost * foodloss_pct / 100;
-  }
-
-  return cost;
-}
-
-/**************************************************************************
-  Calculates a unit's food upkeep (per turn).
-**************************************************************************/
-static int unit_food_upkeep(struct unit *punit)
-{
-  struct player *pplayer = unit_owner(punit);
-  int upkeep = utype_upkeep_cost(unit_type(punit), pplayer, O_FOOD);
-  if (punit->id != 0 && punit->homecity == 0)
-    upkeep = 0; /* thanks, Peter */
-
-  return upkeep;
-}
-
-/**************************************************************************
   Don't enter in enemy territories.
 **************************************************************************/
 static bool autosettler_enter_territory(const struct player *pplayer,
@@ -733,60 +692,4 @@ void auto_settlers_player(struct player *pplayer)
                 nation_rule_name(nation_of_player(pplayer)),
                 1000.0 * read_timer_seconds(t));
   }
-}
-
-/**************************************************************************
-  Estimates the want for a terrain improver (aka worker) by creating a 
-  virtual unit and feeding it to settler_evaluate_improvements.
-
-  TODO: AI does not ship F_SETTLERS around, only F_CITIES - Per
-**************************************************************************/
-void contemplate_terrain_improvements(struct city *pcity)
-{
-  struct unit *virtualunit;
-  int want;
-  enum unit_activity best_act;
-  struct tile *best_tile = NULL; /* May be accessed by log_*() calls. */
-  struct tile *pcenter = city_tile(pcity);
-  struct player *pplayer = city_owner(pcity);
-  struct ai_data *ai = ai_data_get(pplayer);
-  struct unit_type *unit_type = best_role_unit(pcity, F_SETTLERS);
-  Continent_id place = tile_continent(pcenter);
-
-  if (unit_type == NULL) {
-    log_debug("No F_SETTLERS role unit available");
-    return;
-  }
-
-  /* Create a localized "virtual" unit to do operations with. */
-  virtualunit = create_unit_virtual(pplayer, pcity, unit_type, 0);
-  /* Advisors data space not allocated as it's not needed in the
-     lifetime of the virtualunit. */
-  virtualunit->tile = pcenter;
-  want = settler_evaluate_improvements(virtualunit, &best_act, &best_tile,
-                                       NULL, NULL);
-  want = (want - unit_food_upkeep(virtualunit) * FOOD_WEIGHTING) * 100
-         / (40 + unit_foodbox_cost(virtualunit));
-  destroy_unit_virtual(virtualunit);
-
-  /* Massage our desire based on available statistics to prevent
-   * overflooding with worker type units if they come cheap in
-   * the ruleset */
-  want /= MAX(1, ai->stats.workers[place]
-                 / (ai->stats.cities[place] + 1));
-  want -= ai->stats.workers[place];
-  want = MAX(want, 0);
-
-  CITY_LOG(LOG_DEBUG, pcity, "wants %s with want %d to do %s at (%d,%d), "
-           "we have %d workers and %d cities on the continent",
-	   utype_rule_name(unit_type),
-	   want,
-	   get_activity_text(best_act),
-	   TILE_XY(best_tile),
-           ai->stats.workers[place], 
-           ai->stats.cities[place]);
-  fc_assert(want >= 0);
-
-  /* FIXME: Should not use default ai data */
-  def_ai_city_data(pcity)->settler_want = want;
 }
