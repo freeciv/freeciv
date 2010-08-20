@@ -1195,10 +1195,17 @@ static void setup_widgets(void)
   unit_info_frame = gtk_frame_new("");
   gtk_box_pack_start(GTK_BOX(unit_info_box), unit_info_frame, FALSE, FALSE, 0);
 
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
+                                      GTK_SHADOW_OUT);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_NEVER);
+  gtk_container_add(GTK_CONTAINER(unit_info_frame), sw);
+
   label = gtk_label_new(NULL);
   gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
   gtk_misc_set_padding(GTK_MISC(label), 2, 2);
-  gtk_container_add(GTK_CONTAINER(unit_info_frame), label);
+  gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), label);
   unit_info_label = label;
 
   box = gtk_hbox_new(FALSE,0);
