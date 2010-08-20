@@ -841,13 +841,8 @@ static bool is_nation_in_range(const struct player *target_player,
   case REQ_RANGE_PLAYER:
     return target_player && nation_of_player(target_player) == nation;
   case REQ_RANGE_WORLD:
-    /* FIXME: inefficient */
-    players_iterate(pplayer) {
-      if (nation_of_player(pplayer) == nation && (pplayer->is_alive || survives)) {
-	return TRUE;
-      }
-    } players_iterate_end;
-    return FALSE;
+    return (NULL != nation->player
+            && (survives || nation->player->is_alive));
   case REQ_RANGE_LOCAL:
   case REQ_RANGE_ADJACENT:
   case REQ_RANGE_CITY:
