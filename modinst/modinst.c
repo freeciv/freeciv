@@ -29,8 +29,9 @@
 
 #define EXAMPLE_URL "http://www.cazfi.net/freeciv/modinst/2.3/ancients.modpack"
 
-GtkWidget *statusbar;
-GtkWidget *progressbar;
+static GtkWidget *statusbar;
+static GtkWidget *progressbar;
+static gboolean downloading = FALSE;
 
 static gboolean quit_dialog_callback(void);
 
@@ -117,6 +118,8 @@ static gpointer download_thread(gpointer data)
 
   free(data);
 
+  downloading = FALSE;
+
   return NULL;
 }
 
@@ -126,7 +129,17 @@ static gpointer download_thread(gpointer data)
 static void gui_download_modpack(const char *URL)
 {
   GThread *downloader;
-  char *URLbuf = fc_malloc(strlen(URL) + 1);
+  char *URLbuf;
+
+  if (downloading) {
+    gtk_label_set_text(GTK_LABEL(statusbar),
+                       _("Another download already active"));
+    return;
+  }
+
+  downloading = TRUE;
+
+  URLbuf = fc_malloc(strlen(URL) + 1);
 
   strcpy(URLbuf, URL);
 
