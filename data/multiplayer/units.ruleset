@@ -1,21 +1,5 @@
-; Modifying this file:
-; You should not modify this file except to make bugfixes or
-; for other "maintenance".  If you want to make custom changes,
-; you should create a new datadir subdirectory and copy this file
-; into that directory, and then modify that copy.  Then use the
-; command "rulesetdir <mysubdir>" in the server to have freeciv
-; use your new customized file.
-;
-; You should sort role units from worst to better, as often the best
-; available role unit of a given sort will be picked by choosing
-; the first available (not obsolete) such unit, or by picking the last
-; such unit directly. When determining starting units, the first 
-; unit with the relevant role that the player can build will be chosen.
-; If no such unit can be found (eg Explorers that require Seafaring),
-; then the first unit with this role will be chosen.
-
 [datafile]
-description="Default unit_type data for Freeciv"
+description="Unit definitions for the multiplayer ruleset."
 options="1.9"
 
 [flags]
@@ -585,6 +569,39 @@ Musketeers are infantry equipped with early\
  city defender.\
 ")
 
+[unit_fanatics]
+name          = _("Fanatics")
+class         = "Land"
+tech_req      = "Fundamentalism"
+gov_req       = "Fundamentalism"
+obsolete_by   = "None"
+graphic       = "u.fanatics"
+graphic_alt   = "-"
+sound_move    = "m_fanatics"
+sound_move_alt = "m_generic"
+sound_fight   = "f_fanatics"
+sound_fight_alt = "f_generic"
+build_cost    = 20
+pop_cost      = 0
+attack        = 4
+defense       = 4
+hitpoints     = 20
+firepower     = 1
+move_rate     = 1
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Fanatic"
+roles         = "DefendGood"
+helptext      = _("\
+Fundamentalist nations can maintain Fanatic units without\
+ having to pay any shields for upkeep.\
+")
+
 [unit_partisan]
 name          = _("Partisan")
 class         = "Land"
@@ -852,6 +869,62 @@ helptext      = _("\
 Chariots are horse-pulled war wagons, stronger\
  but more expensive than horsemen.\
 ")
+
+[unit_elephants]
+name          = _("Elephants")
+class         = "Land"
+tech_req      = "Polytheism"
+obsolete_by   = "Crusaders"
+graphic       = "u.elephants"
+graphic_alt   = "-"
+sound_move    = "m_elephants"
+sound_move_alt = "m_generic"
+sound_fight   = "f_elephants"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 0
+attack        = 4
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Horse"
+roles         = "AttackFast"
+
+[unit_crusaders]
+name          = _("Crusaders")
+class         = "Land"
+tech_req      = "Monotheism"
+obsolete_by   = "Dragoons"
+graphic       = "u.crusaders"
+graphic_alt   = "-"
+sound_move    = "m_crusaders"
+sound_move_alt = "m_generic"
+sound_fight   = "f_crusaders"
+sound_fight_alt = "f_generic"
+build_cost    = 40
+pop_cost      = 0
+attack        = 5
+defense       = 1
+hitpoints     = 10
+firepower     = 1
+move_rate     = 2
+vision_radius_sq = 2
+transport_cap = 0
+fuel          = 0
+uk_happy      = 1
+uk_shield     = 1
+uk_food       = 0
+uk_gold       = 0
+flags         = "Horse"
+roles         = "AttackFast"
 
 [unit_knights]
 name          = _("Knights")
@@ -1921,7 +1994,7 @@ sound_move    = "m_caravan"
 sound_move_alt = "m_generic"
 sound_fight   = "f_caravan"
 sound_fight_alt = "f_generic"
-build_cost    = 50
+build_cost    = 30
 pop_cost      = 0
 attack        = 0
 defense       = 1
@@ -1935,13 +2008,13 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil"
+flags         = "HelpWonder", "IgZOC", "NonMil"
 roles         = ""
 helptext      = _("\
 A Caravan carries goods or material for trading with distant cities\
  and foreign countries, or to help build wonders in your cities.\
 \n\n\
-Every Caravan that is used to build a wonder will add 50 shields\
+Every Caravan that is used to build a wonder will add 30 shields\
  towards the production of the wonder.\
 \n\n\
 TIP:  You can stockpile a stack of Caravans in advance and bring\
@@ -1974,10 +2047,11 @@ uk_happy      = 0
 uk_shield     = 0
 uk_food       = 0
 uk_gold       = 0
-flags         = "TradeRoute", "HelpWonder", "IgZOC", "NonMil"
+flags         = "HelpWonder", "IgZOC", "NonMil"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
+Each Freight used to build a wonder will add 50 shields.\
 ")
 
 [unit_explorer]

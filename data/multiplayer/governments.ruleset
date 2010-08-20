@@ -174,3 +174,31 @@ Under Democracy, citizens govern directly by voting on issues.\
  during Democracy, but citizens become very upset during\
  wars.\
 ")
+
+;------------------------------------------------------------------------
+[government_fundamentalism]
+
+name        = _("Fundamentalism")
+reqs = { "type", "name", "range"
+         "tech", "Fundamentalism", "Player"
+       }
+graphic     = "gov.fundamentalism"
+graphic_alt = "-"
+
+ruler_male_title = _("High Priest")
+ruler_female_title = _("High Priestess")
+
+helptext = _("\
+Fundamentalism is a form of government organized around a central\
+ set of beliefs. The beliefs, usually religious in nature, form\
+ a rigid guideline for actions and reactions of both the rulers\
+ and the people.\
+\n\n\
+In a fundamentalist society, the people and the rulers are entirely\
+ devoted to their beliefs, and are usually willing to die to\
+ preserve them.\
+\n\n\
+Improvement that normally convert unhappy citizens to content\
+ citizens, produces `tithes' (gold) equivalent to the number\
+ of people they would convert, and require no maintenance.\
+")

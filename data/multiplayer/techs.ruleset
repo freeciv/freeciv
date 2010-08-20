@@ -259,6 +259,8 @@ req2     = "Space Flight"
 flags    = ""
 graphic     = "a.environmentalism"
 graphic_alt = "-"
+helptext = _("Having this advance decreases pollution\
+ in all your cities by 50%.")
 
 [advance_espionage]
 name     = _("Espionage")
@@ -292,6 +294,14 @@ flags    = "Build_Airborne"
 graphic     = "a.flight"
 graphic_alt = "-"
 helptext = _("Decreases one-time revenue from new trade routes.")
+
+[advance_fundamentalism]
+name     = _("Fundamentalism")
+req1     = "Theology"
+req2     = "Conscription"
+flags    = ""
+graphic     = "a.fundamentalism"
+graphic_alt = "-"
 
 [advance_fusion_power]
 name     = _("Fusion Power")
@@ -524,11 +534,11 @@ helptext = _("Gives sea units one extra move.")
 name     = _("Philosophy")
 req1     = "Mysticism"
 req2     = "Literacy"
-flags    = "Bonus_Tech"
-bonus_message = _("Great philosophers from all the world join \
-your civilization: you get an immediate advance.")
+flags    = ""
 graphic     = "a.philosophy"
 graphic_alt = "-"
+helptext = _("When you research this technology, you\
+ also get one other immediate technology advance.")
 
 [advance_physics]
 name     = _("Physics")
@@ -756,3 +766,18 @@ req2     = "None"
 flags    = ""
 graphic     = "a.writing"
 graphic_alt = "-"
+
+; A placeholder tech used to ensure that when
+; a game is reloaded, a player can't rebuild
+; the "Darwin's Voyage" small wonder and get
+; two free advances again.
+[advance_theory_of_evolution]
+name     = _("Theory of Evolution")
+req1     = "None"
+req2     = "None"
+root_req = "Theory of Evolution"
+flags    = ""
+graphic  = "b.darwins_voyage"
+graphic_alt = "-"
+helptext = _("This technology is only acquired the first\
+ time you build Darwin's Voyage.")

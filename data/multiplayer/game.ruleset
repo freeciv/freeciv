@@ -132,7 +132,7 @@ illness_min_size = 3
 
 ; factor for how much trading with a plagued city increases our city's
 ; chance for plague (in percent)
-illness_trade_infection = 50
+illness_trade_infection = 0
 
 ; factor for how much pollution within a city increases its chance for
 ; plague (in percent)
@@ -144,10 +144,10 @@ illness_pollution_factor = 50
 ;                      + (improvements_cost) * improvement_factor)
 ;                    / ((distance to capital) * 100)
 ; See city_incite_cost() for more details
-base_incite_cost = 1000
+base_incite_cost = 10000
 improvement_factor = 1
 unit_factor = 2
-total_factor = 100
+total_factor = 10000
 
 [global_unit_options]
 ; Shore landing style
@@ -200,45 +200,57 @@ negative_label = _("BC")
 
 [teams]
 names =
- _("Team 0"),
- _("Team 1"),
- _("Team 2"),
- _("Team 3"),
- _("Team 4"),
- _("Team 5"),
- _("Team 6"),
- _("Team 7"),
- _("Team 8"),
- _("Team 9"),
- _("Team 10"),
- _("Team 11"),
- _("Team 12"),
- _("Team 13"),
- _("Team 14"),
- _("Team 15"),
- _("Team 16"),
- _("Team 17"),
- _("Team 18"),
- _("Team 19"),
- _("Team 20"),
- _("Team 21"),
- _("Team 22"),
- _("Team 23"),
- _("Team 24"),
- _("Team 25"),
- _("Team 26"),
- _("Team 27"),
- _("Team 28"),
- _("Team 29"),
- _("Team 30"),
- _("Team 31")
+ _("Red"),
+ _("Blue"),
+ _("Green"),
+ _("White"),
+ _("Yellow"),
+ _("Pink"),
+ _("Orange"),
+ _("Violet"),
+ _("Turquoise"),
+ _("Cyan"),
+ _("Azure"),
+ _("Dark White"),
+ _("Fuchsia"),
+ _("Indigo"),
+ _("Lavender"),
+ _("Magenta"),
+ _("Silver"),
+ _("Emerald"),
+ _("Heliotrope"),
+ _("Jade"),
+ _("Khaki"),
+ _("Nutmeg"),
+ _("Quincy"),
+ _("Ultramarine"),
+ _("Xanadu"),
+ _("Zydeco"),
+ _("260 nm"),
+ _("270 nm"),
+ _("280 nm"),
+ _("290 nm"),
+ _("300 nm"),
+ _("310 nm")
 
 [settings]
-; freeciv game settings for the default ruleset
-;
-; set =
-;     { "name", "value", "lock"
-;       "bool_set", TRUE, FALSE
-;       "int_set", 123, FALSE
-;       "str_set", "test", FALSE
-;     }
+set =
+    { "name", "value", "lock"
+      "generator", "Island-based", FALSE
+      "topology", "Donut World (wraps N-S, E-W)", FALSE
+      "startpos", "One player per continent", FALSE
+      "tinyisles", FALSE, FALSE
+      "alltemperate", TRUE, FALSE
+      "separatepoles", FALSE, FALSE
+      "huts", 0, FALSE
+      "aifill", 0, FALSE
+      "dispersion", 0, FALSE
+      "diplomacy", "Disabled for everyone", FALSE
+      "contactturns", 0, FALSE
+      "revolen", 2, FALSE
+      "barbarians", "No barbarians", FALSE
+      "techpenalty", 0, FALSE
+      "startunits", "cccwwwxxxx", FALSE
+      "specials", 350, FALSE
+      "borders", "Disabled", FALSE
+    }
