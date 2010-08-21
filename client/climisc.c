@@ -773,36 +773,52 @@ int collect_buildable_targets(struct universal *targets)
   return cids_used;
 }
 
-/**************************************************************************
- Collect the cids of all targets which can be build by this city or
- in general.
-
-  FIXME: this should probably take a pplayer argument.
-**************************************************************************/
+/****************************************************************************
+  Collect the cids of all targets which can be build by this city or
+  in general.
+****************************************************************************/
 int collect_eventually_buildable_targets(struct universal *targets,
-					 struct city *pcity,
-					 bool advanced_tech)
+                                         struct city *pcity,
+                                         bool advanced_tech)
 {
+  struct player *pplayer = client_player();
   int cids_used = 0;
 
-  if (NULL == client.conn.playing) {
-    return 0;
-  }
-
   improvement_iterate(pimprove) {
-    bool can_build = can_player_build_improvement_now(client.conn.playing, pimprove);
-    bool can_eventually_build =
-	can_player_build_improvement_later(client.conn.playing, pimprove);
+    bool can_build;
+    bool can_eventually_build;
 
-    /* If there's a city, can the city build the improvement? */
-    if (pcity) {
-      can_build = can_build && can_city_build_improvement_now(pcity, pimprove);
-      can_eventually_build = can_eventually_build &&
-	  can_city_build_improvement_later(pcity, pimprove);
+    if (NULL != pcity) {
+      /* Can the city build? */
+      can_build = can_city_build_improvement_now(pcity, pimprove);
+      can_eventually_build = can_city_build_improvement_later(pcity,
+                                                              pimprove);
+    } else if (NULL != pplayer) {
+      /* Can our player build? */
+      can_build = can_player_build_improvement_now(pplayer, pimprove);
+      can_eventually_build = can_player_build_improvement_later(pplayer,
+                                                                pimprove);
+    } else {
+      /* Global observer case: can any player build? */
+      can_build = FALSE;
+      players_iterate(aplayer) {
+        if (can_player_build_improvement_now(aplayer, pimprove)) {
+          can_build = TRUE;
+          break;
+        }
+      } players_iterate_end;
+
+      can_eventually_build = FALSE;
+      players_iterate(aplayer) {
+        if (can_player_build_improvement_later(aplayer, pimprove)) {
+          can_eventually_build = TRUE;
+          break;
+        }
+      } players_iterate_end;
     }
 
-    if ((advanced_tech && can_eventually_build) ||
-	(!advanced_tech && can_build)) {
+    if ((advanced_tech && can_eventually_build)
+        || (!advanced_tech && can_build)) {
       targets[cids_used].kind = VUT_IMPROVEMENT;
       targets[cids_used].value.building = pimprove;
       cids_used++;
@@ -810,19 +826,38 @@ int collect_eventually_buildable_targets(struct universal *targets,
   } improvement_iterate_end;
 
   unit_type_iterate(punittype) {
-    bool can_build = can_player_build_unit_now(client.conn.playing, punittype);
-    bool can_eventually_build =
-	can_player_build_unit_later(client.conn.playing, punittype);
+    bool can_build;
+    bool can_eventually_build;
 
-    /* If there's a city, can the city build the unit? */
-    if (pcity) {
-      can_build = can_build && can_city_build_unit_now(pcity, punittype);
-      can_eventually_build = can_eventually_build &&
-	  can_city_build_unit_later(pcity, punittype);
+    if (NULL != pcity) {
+      /* Can the city build? */
+      can_build = can_city_build_unit_now(pcity, punittype);
+      can_eventually_build = can_city_build_unit_later(pcity, punittype);
+    } else if (NULL != pplayer) {
+      /* Can our player build? */
+      can_build = can_player_build_unit_now(pplayer, punittype);
+      can_eventually_build = can_player_build_unit_later(pplayer, punittype);
+    } else {
+      /* Global observer case: can any player build? */
+      can_build = FALSE;
+      players_iterate(aplayer) {
+        if (can_player_build_unit_now(aplayer, punittype)) {
+          can_build = TRUE;
+          break;
+        }
+      } players_iterate_end;
+
+      can_eventually_build = FALSE;
+      players_iterate(aplayer) {
+        if (can_player_build_unit_later(aplayer, punittype)) {
+          can_eventually_build = TRUE;
+          break;
+        }
+      } players_iterate_end;
     }
 
-    if ((advanced_tech && can_eventually_build) ||
-	(!advanced_tech && can_build)) {
+    if ((advanced_tech && can_eventually_build)
+        || (!advanced_tech && can_build)) {
       targets[cids_used].kind = VUT_UTYPE;
       targets[cids_used].value.utype = punittype;
       cids_used++;
