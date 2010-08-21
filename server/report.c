@@ -677,10 +677,10 @@ static const char *number_to_ordinal_string(int num)
 ...
 **************************************************************************/
 static void dem_line_item(char *outptr, size_t out_size,
-			  struct player *pplayer, struct dem_row *prow,
-			  bv_cols selcols)
+                          struct player *pplayer, struct dem_row *prow,
+                          bv_cols selcols)
 {
-  if (BV_ISSET(selcols, DEM_COL_QUANTITY)) {
+  if (NULL != pplayer && BV_ISSET(selcols, DEM_COL_QUANTITY)) {
     const char *text = prow->to_text(prow->get_value(pplayer));
 
     cat_snprintf(outptr, out_size, " %s", text);
@@ -688,7 +688,7 @@ static void dem_line_item(char *outptr, size_t out_size,
                  18 - (int) get_internal_string_length(text), "");
   }
 
-  if (BV_ISSET(selcols, DEM_COL_RANK)) {
+  if (NULL != pplayer && BV_ISSET(selcols, DEM_COL_RANK)) {
     int basis = prow->get_value(pplayer);
     int place = 1;
 
@@ -705,23 +705,26 @@ static void dem_line_item(char *outptr, size_t out_size,
     cat_snprintf(outptr, out_size, " %6s", number_to_ordinal_string(place));
   }
 
-  if (BV_ISSET(selcols, DEM_COL_BEST)) {
+  if (NULL == pplayer || BV_ISSET(selcols, DEM_COL_BEST)) {
     struct player *best_player = pplayer;
-    int best_value = prow->get_value(pplayer);
+    int best_value = NULL != pplayer ? prow->get_value(pplayer) : 0;
 
     players_iterate(other) {
       if (GOOD_PLAYER(other)) {
-	int value = prow->get_value(other);
+        int value = prow->get_value(other);
 
-	if ((prow->greater_values_are_better && value > best_value)
-	    || (!prow->greater_values_are_better && value < best_value)) {
-	  best_player = other;
-	  best_value = value;
-	}
+        if (!best_player
+            || (prow->greater_values_are_better && value > best_value)
+            || (!prow->greater_values_are_better && value < best_value)) {
+          best_player = other;
+          best_value = value;
+        }
       }
     } players_iterate_end;
 
-    if(player_has_embassy(pplayer, best_player) && (pplayer != best_player)) {
+    if (NULL == pplayer
+        || (player_has_embassy(pplayer, best_player)
+            && (pplayer != best_player))) {
       cat_snprintf(outptr, out_size, "   %s: %s",
 		   nation_plural_for_player(best_player),
 		   prow->to_text(prow->get_value(best_player)));
@@ -811,18 +814,23 @@ void report_demographics(struct connection *pconn)
     }
   }
 
-  if (!pplayer || !pplayer->is_alive || !anyrows || numcols == 0) {
+  if ((!pconn->observer && !pplayer)
+      || (pplayer && !pplayer->is_alive)
+      || !anyrows
+      || numcols == 0) {
     page_conn(pconn->self, _("Demographics Report:"),
-	      _("Sorry, the Demographics report is unavailable."), "");
+              _("Sorry, the Demographics report is unavailable."), "");
     return;
   }
 
-  /* TRANS: <nation adjective> <government name> (<year>).
-   * E.g. "Polish Despotism (200 AD)". */
-  fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
-              nation_adjective_for_player(pplayer),
-              government_name_for_player(pplayer),
-              textyear(game.info.year));
+  if (pplayer) {
+    fc_snprintf(civbuf, sizeof(civbuf), _("%s %s (%s)"),
+                nation_adjective_for_player(pplayer),
+                government_name_for_player(pplayer),
+                textyear(game.info.year));
+  } else {
+    civbuf[0] = '\0';
+  }
 
   buffer[0] = '\0';
   for (i = 0; i < ARRAY_SIZE(rowtable); i++) {
