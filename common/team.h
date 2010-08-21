@@ -35,6 +35,7 @@ int team_slot_index(const struct team **tslot);
 struct team *team_slot_get_team(const struct team **tslot);
 bool team_slot_is_used(const struct team **tslot);
 const struct team **team_slot_by_number(int team_id);
+const struct team **team_slot_by_rule_name(const char *team_name);
 
 struct team *team_new(int team_id);
 void team_destroy(struct team *pteam);
@@ -49,7 +50,6 @@ void team_name_destroy(const struct team **tslot);
 const char *team_name_get_defined(const struct team *pteam);
 const char *team_name_get(const struct team *pteam);
 const char *team_name_translation(const struct team *pteam);
-struct team *find_team_by_rule_name(const char *team_name);
 
 /* Ancillary routines */
 void team_add_player(struct player *pplayer, struct team *pteam);

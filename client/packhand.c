@@ -1715,6 +1715,8 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
   const struct player **pslot;
+  const struct team **tslot;
+  struct team *pteam;
 
   /* First verify packet fields. */
 
@@ -1738,9 +1740,18 @@ void handle_player_info(struct packet_player_info *pinfo)
   sz_strlcpy(pplayer->name, pinfo->name);
   sz_strlcpy(pplayer->username, pinfo->username);
 
+  /* Team. */
+  tslot = team_slot_by_number(pinfo->team);
+  fc_assert(NULL != tslot);
+  pteam = team_slot_get_team(tslot);
+  if (NULL == pteam) {
+    pteam = team_new(pinfo->team);
+    fc_assert(NULL != pteam);
+  }
+  team_add_player(pplayer, pteam);
+
   is_new_nation = player_set_nation(pplayer, pnation);
   pplayer->is_male = pinfo->is_male;
-  team_add_player(pplayer, team_by_number(pinfo->team));
   pplayer->score.game = pinfo->score;
   pplayer->was_created = pinfo->was_created;
 

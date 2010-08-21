@@ -2167,6 +2167,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   char *arg[2];
   int ntokens = 0, i;
   bool res = FALSE;
+  const struct team **tslot;
   struct team *pteam;
 
   if (game_was_started()) {
@@ -2192,18 +2193,18 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
 
-  pteam = find_team_by_rule_name(arg[1]);
-  if (!pteam) {
+  tslot = team_slot_by_rule_name(arg[1]);
+  if (NULL == tslot) {
     int teamno;
 
     if (sscanf(arg[1], "%d", &teamno) == 1) {
-      pteam = team_by_number(teamno);
+      tslot = team_slot_by_number(teamno);
     }
   }
-  if (!pteam) {
+  if (NULL == tslot) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
-	      _("No such team %s.  Please give a "
-		"valid team name or number."), arg[1]);
+              _("No such team %s.  Please give a "
+              "valid team name or number."), arg[1]);
     goto cleanup;
   }
 
@@ -2213,11 +2214,16 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
   if (!check) {
+    pteam = team_slot_get_team(tslot);
+    if (NULL == pteam) {
+      pteam = team_new(team_slot_index(tslot));
+    }
+    fc_assert(NULL != pteam);
     team_add_player(pplayer, pteam);
     send_player_info(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
-	      player_name(pplayer),
-	      team_name_translation(pteam));
+              player_name(pplayer),
+              team_name_translation(pteam));
   }
   res = TRUE;
 

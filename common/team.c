@@ -151,6 +151,25 @@ const struct team **team_slot_by_number(int team_id)
   return tslot;
 }
 
+/****************************************************************************
+  Does a linear search for a (defined) team name.
+  Returns NULL when none match.
+****************************************************************************/
+const struct team **team_slot_by_rule_name(const char *team_name)
+{
+  fc_assert_ret_val(team_name != NULL, NULL);
+
+  team_slots_iterate(tslot) {
+    const char *tname = team_slots.tnames[team_slot_index(tslot)];
+
+    if (NULL != tname && 0 == fc_strcasecmp(tname, team_name)) {
+      return tslot;
+    }
+  } team_slots_iterate_end;
+
+  return NULL;
+}
+
 
 /****************************************************************************
   ...
@@ -373,29 +392,6 @@ const char *team_name_get_defined(const struct team *pteam)
   tname = team_slots.tnames + team_index(pteam);
   if (*tname != NULL) {
     return *tname;
-  }
-
-  return NULL;
-}
-
-/****************************************************************************
-  Does a linear search for a (defined) team name.
-  Returns NULL when none match.
-****************************************************************************/
-struct team *find_team_by_rule_name(const char *team_name)
-{
-  int i;
-
-  fc_assert_ret_val(team_name != NULL, NULL);
-
-  /* Can't use team_iterate here since it skips unused teams. */
-  for (i = 0; i < team_slot_count(); i++) {
-    struct team *pteam = team_by_number(i);
-    const char *tname = team_name_get_defined(pteam);
-
-    if (tname && 0 == fc_strcasecmp(tname, team_name)) {
-      return pteam;
-    }
   }
 
   return NULL;
