@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <string.h>
 
+/* utility */
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"
@@ -25,6 +26,7 @@
 #include "rand.h"
 #include "support.h"
 
+/* common */
 #include "events.h"
 #include "game.h"
 #include "government.h"
@@ -34,10 +36,14 @@
 #include "unitlist.h"
 #include "version.h"
 
+/* server */
 #include "citytools.h"
-#include "report.h"
+#include "plrhand.h"
 #include "score.h"
 #include "srv_main.h"
+
+#include "report.h"
+
 
 /* data needed for logging civ score */
 struct plrdata_slot {
@@ -305,17 +311,17 @@ void report_top_five_cities(struct conn_list *dest)
     size[i].city = NULL;
   }
 
-  players_iterate(pplayer) {
+  shuffled_players_iterate(pplayer) {
     city_list_iterate(pplayer->cities, pcity) {
       int value_of_pcity = pcity->size + nr_wonders(pcity) * WONDER_FACTOR;
 
       if (value_of_pcity > size[NUM_BEST_CITIES - 1].value) {
-	size[NUM_BEST_CITIES - 1].value = value_of_pcity;
-	size[NUM_BEST_CITIES - 1].city = pcity;
-	qsort(size, NUM_BEST_CITIES, sizeof(size[0]), secompare);
+        size[NUM_BEST_CITIES - 1].value = value_of_pcity;
+        size[NUM_BEST_CITIES - 1].city = pcity;
+        qsort(size, NUM_BEST_CITIES, sizeof(size[0]), secompare);
       }
     } city_list_iterate_end;
-  } players_iterate_end;
+  } shuffled_players_iterate_end;
 
   buffer[0] = '\0';
   for (i = 0; i < NUM_BEST_CITIES; i++) {
