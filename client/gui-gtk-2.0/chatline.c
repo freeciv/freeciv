@@ -165,6 +165,163 @@ static void inputline_return(GtkEntry *w, gpointer data)
 }
 
 /**************************************************************************
+  Returns the name of player or user, set in the same list.
+**************************************************************************/
+static const char *get_player_or_user_name(int id)
+{
+  size_t size = conn_list_size(game.all_connections);
+
+  return (id >= size ? player_by_number(id - size)->name
+          : conn_list_get(game.all_connections, id)->username);
+}
+
+/**************************************************************************
+  Find a player or a user by prefix.
+
+  prefix - The prefix.
+  matches - A string array to set the matches result.
+  max_matches - The maximum of matches.
+  match_len - The length of the string used to returns matches.
+
+  Returns the number of the matches names.
+**************************************************************************/
+static int check_player_or_user_name(const char *prefix,
+                                     const char **matches,
+                                     const int max_matches)
+{
+  int matches_id[max_matches * 2], ind, num;
+
+  switch (match_prefix_full(get_player_or_user_name,
+                            player_count()
+                            + conn_list_size(game.all_connections),
+                            MAX_LEN_NAME, fc_strncasecmp, strlen,
+                            prefix, &ind, matches_id,
+                            max_matches * 2, &num)) {
+  case M_PRE_EXACT:
+  case M_PRE_ONLY:
+    matches[0] = get_player_or_user_name(ind);
+    return 1;
+  case M_PRE_AMBIGUOUS:
+    {
+      /* Remove duplications playername/username. */
+      const char *name;
+      int i, j, c = 0;
+
+      for (i = 0; i < num && c < max_matches; i++) {
+        name = get_player_or_user_name(matches_id[i]);
+        for (j = 0; j < c; j++) {
+          if (0 == fc_strncasecmp(name, matches[j], MAX_LEN_NAME)) {
+            break;
+          }
+        }
+        if (j >= c) {
+          matches[c++] = name;
+        }
+      }
+      return c;
+    }
+  case M_PRE_EMPTY:
+  case M_PRE_LONG:
+  case M_PRE_FAIL:
+  case M_PRE_LAST:
+    break;
+  }
+
+  return 0;
+}
+
+/**************************************************************************
+  Find the larger common prefix.
+
+  prefixes - A list of prefixes.
+  num_prefixes - The number of prefixes.
+  buf - The buffer to set.
+  buf_len - The maximal size of the buffer.
+
+  Returns the lenght of the common prefix (in bytes).
+**************************************************************************/
+static size_t get_common_prefix(const char *const *prefixes,
+                                size_t num_prefixes,
+                                char *buf, size_t buf_len)
+{
+  const char *p;
+  char *q;
+  size_t i;
+
+  fc_strlcpy(buf, prefixes[0], buf_len);
+  for (i = 1; i < num_prefixes; i++) {
+    for (p = prefixes[i], q = buf; *p != '\0' && *q != '\0';
+         p = g_utf8_next_char(p), q = g_utf8_next_char(q)) {
+      if (g_unichar_toupper(g_utf8_get_char(p))
+          != g_unichar_toupper(g_utf8_get_char(q))) {
+        *q = '\0';
+        break;
+      }
+    }
+  }
+
+ return strlen(buf);
+}
+
+/**************************************************************************
+  Autocompletes the input line with a player or user name.
+  Returns FALSE if there is not string to complete.
+**************************************************************************/
+static bool chatline_autocomplete(GtkEditable *editable)
+{
+#define MAX_MATCHES 10
+  const char *name[MAX_MATCHES];
+  char buf[MAX_LEN_NAME * MAX_MATCHES];
+  gint pos;
+  gchar *chars, *p;
+  int num, i;
+  size_t prefix_len;
+
+  /* Part 1: get the string to complete. */
+  pos = gtk_editable_get_position(editable);
+  chars = gtk_editable_get_chars(editable, 0, pos);
+  for (p = chars + strlen(chars) - 1; p >= chars; p = g_utf8_prev_char(p)) {
+    if (!g_unichar_isalnum(g_utf8_get_char(p))) {
+      break;
+    }
+  }
+  p = g_utf8_next_char(p);
+
+  prefix_len = strlen(p);
+  if (0 == prefix_len) {
+    /* Empty: nothing to complete, propagate the event. */
+    g_free(chars);
+    return FALSE;
+  }
+
+  /* Part 2: compare with player and user names. */
+  num = check_player_or_user_name(p, name, MAX_MATCHES);
+  if (1 == num) {
+    gtk_editable_delete_text(editable, pos - prefix_len, pos);
+    pos -= prefix_len;
+    gtk_editable_insert_text(editable, name[0], strlen(name[0]), &pos);
+    gtk_editable_set_position(editable, pos);
+    g_free(chars);
+    return TRUE;
+  } else if (num > 1) {
+    if (get_common_prefix(name, num, buf, sizeof(buf)) > prefix_len) {
+      gtk_editable_delete_text(editable, pos - prefix_len, pos);
+      pos -= prefix_len;
+      gtk_editable_insert_text(editable, buf, strlen(buf), &pos);
+      gtk_editable_set_position(editable, pos);
+    }
+    sz_strlcpy(buf, name[0]);
+    for (i = 1; i < num; i++) {
+      cat_snprintf(buf, sizeof(buf), ", %s", name[i]);
+    }
+    output_window_printf(ftc_client, _("Suggestions: %s."), buf);
+  }
+
+  g_free(chars);
+  return TRUE;
+}
+
+/**************************************************************************
   Called when a key is pressed.
 **************************************************************************/
 static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
@@ -220,6 +377,11 @@ static gboolean inputline_handler(GtkWidget *w, GdkEventKey *ev)
       }
       gtk_editable_set_position(GTK_EDITABLE(w), -1);
       return TRUE;
+
+    case GDK_Tab:
+      if (gui_gtk2_chatline_autocompletion) {
+        return chatline_autocomplete(GTK_EDITABLE(w));
+      }
 
     default:
       break;

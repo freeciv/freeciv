@@ -127,6 +127,7 @@ extern bool gui_gtk2_allied_chat_only;
 extern bool gui_gtk2_small_display_layout;
 extern bool gui_gtk2_merge_notebooks;
 extern bool gui_gtk2_mouse_over_map_focus;
+extern bool gui_gtk2_chatline_autocompletion;
 extern int gui_gtk2_citydlg_xsize;
 extern int gui_gtk2_citydlg_ysize;
 extern char gui_gtk2_font_city_label[512];

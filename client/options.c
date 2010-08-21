@@ -154,6 +154,7 @@ bool gui_gtk2_allied_chat_only = FALSE;
 bool gui_gtk2_small_display_layout = TRUE;
 bool gui_gtk2_merge_notebooks = TRUE;
 bool gui_gtk2_mouse_over_map_focus = FALSE;
+bool gui_gtk2_chatline_autocompletion = TRUE;
 int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
 int gui_gtk2_citydlg_ysize = GUI_GTK2_CITYDLG_DEFAULT_YSIZE;
 char gui_gtk2_font_city_label[512] = "Monospace 8";
@@ -1917,6 +1918,12 @@ static struct client_option client_options[] = {
                   N_("If this option is enabled, then the map will be "
                      "focused when the mouse will be floating over it."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
+  GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion,
+                  N_("Player or user name autocompletion"),
+                  N_("If this option is turned to on, the tabulation key "
+                     "will be use in the chatline to complete the word you "
+                     "are typing with the name of a player or a user."),
+                  COC_INTERFACE, GUI_GTK2, TRUE, NULL),
   GEN_INT_OPTION(gui_gtk2_citydlg_xsize,
                  N_("Width of the city dialog"),
                  N_("This value is only used if the width of the city "
