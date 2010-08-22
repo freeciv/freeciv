@@ -10,8 +10,8 @@
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
 ***********************************************************************/
-#ifndef FC__RESEARCH_H
-#define FC__RESEARCH_H
+#ifndef FC__TECHTOOLS_H
+#define FC__TECHTOOLS_H
 
 #include "player.h"
 #include "tech.h"
@@ -41,4 +41,4 @@ Tech_type_id give_random_initial_tech(struct player *pplayer);
 bool tech_transfer(struct player *plr_recv, struct player *plr_donor,
                    Tech_type_id tech);
 
-#endif
+#endif  /* FC__TECHTOOLS_H */

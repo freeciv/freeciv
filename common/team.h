@@ -21,7 +21,6 @@
 #define MAX_NUM_TEAM_SLOTS MAX_NUM_PLAYER_SLOTS
 
 struct team {
-  struct player_research research;
   struct player_list *plrlist;
   const struct team **tslot;
 };

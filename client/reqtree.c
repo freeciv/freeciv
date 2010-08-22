@@ -24,6 +24,7 @@
 /* common */
 #include "government.h"
 #include "improvement.h"
+#include "research.h"
 #include "tech.h"
 
 /* client */
@@ -860,7 +861,7 @@ void get_reqtree_dimensions(struct reqtree *reqtree,
 static enum color_std node_color(struct tree_node *node)
 {
   if (!node->is_dummy) {
-    struct player_research* research = get_player_research(client.conn.playing);
+    struct player_research* research = player_research_get(client.conn.playing);
 
     if (!research) {
       return COLOR_REQTREE_KNOWN;
@@ -909,7 +910,7 @@ static enum color_std node_color(struct tree_node *node)
 static enum reqtree_edge_type get_edge_type(struct tree_node *node, 
                                             struct tree_node *dest_node)
 {
-  struct player_research *research = get_player_research(client.conn.playing);
+  struct player_research *research = player_research_get(client.conn.playing);
 
   if (dest_node == NULL) {
     /* assume node is a dummy */

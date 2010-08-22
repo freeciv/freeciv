@@ -35,6 +35,7 @@
 #include "packets.h"
 #include "player.h"
 #include "nation.h"
+#include "research.h"
 #include "spaceship.h"
 #include "tech.h"
 #include "unitlist.h"
@@ -576,10 +577,10 @@ void ai_treaty_evaluate(struct player *pplayer, struct player *aplayer,
         && pclause->type != CLAUSE_SEAMAP && pclause->type != CLAUSE_VISION
         && (pclause->type != CLAUSE_ADVANCE 
             || game.info.tech_cost_style != 0
-            || pclause->value == get_player_research(pplayer)->tech_goal
-            || pclause->value == get_player_research(pplayer)->researching
+            || pclause->value == player_research_get(pplayer)->tech_goal
+            || pclause->value == player_research_get(pplayer)->researching
             || is_tech_a_req_for_goal(pplayer, pclause->value, 
-				get_player_research(pplayer)->tech_goal))) {
+				player_research_get(pplayer)->tech_goal))) {
       /* We accept the above list of clauses as gifts, even if we are
        * at war. We do not accept tech or cities since these can be used
        * against us, unless we know that we want this tech anyway, or
@@ -785,8 +786,8 @@ static int ai_war_desire(struct player *pplayer, struct player *target)
   fear += (target->economic.gold / 5000) * city_list_size(target->cities);
 
   /* Tech lead is worrisome. FIXME: Only consider 'military' techs. */
-  fear += MAX(get_player_research(target)->techs_researched
-              - get_player_research(pplayer)->techs_researched, 0) * 100;
+  fear += MAX(player_research_get(target)->techs_researched
+              - player_research_get(pplayer)->techs_researched, 0) * 100;
 
   /* Spacerace loss we will not allow! */
   if (ship->state >= SSHIP_STARTED) {

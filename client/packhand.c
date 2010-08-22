@@ -35,6 +35,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "spaceship.h"
 #include "specialist.h"
 #include "unit.h"
@@ -1815,7 +1816,7 @@ void handle_player_info(struct packet_player_info *pinfo)
    * game is running. */
   new_tech = read_player_info_techs(pplayer, pinfo->inventions);
   
-  research = get_player_research(pplayer);
+  research = player_research_get(pplayer);
 
   poptechup = (research->researching != pinfo->researching
                || research->tech_goal != pinfo->tech_goal);

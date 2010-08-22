@@ -26,6 +26,7 @@
 #include "events.h"
 #include "featured_text.h"
 #include "game.h"
+#include "research.h"
 #include "packets.h"
 #include "player.h"
 #include "tile.h"
@@ -358,14 +359,14 @@ void notify_research(const struct player *pplayer,
   struct packet_chat_msg genmsg;
   struct event_cache_players *players = NULL;
   va_list args;
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
 
   va_start(args, format);
   vpackage_event(&genmsg, NULL, event, color, format, args);
   va_end(args);
 
   players_iterate(other_player) {
-    if (get_player_research(other_player) == research) {
+    if (player_research_get(other_player) == research) {
       lsend_packet_chat_msg(other_player->connections, &genmsg);
       players = event_cache_player_add(players, other_player);
     }

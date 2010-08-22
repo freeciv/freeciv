@@ -33,6 +33,7 @@
 /* common */
 #include "government.h"
 #include "packets.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* client */
@@ -111,7 +112,7 @@ science_dialog_update(void)
 
   ComboBox_ResetContent(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH));
 
-  if (A_UNSET == get_player_research(client.conn.playing)->researching) {
+  if (A_UNSET == player_research_get(client.conn.playing)->researching) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			    advance_name_for_player(client.conn.playing, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -121,13 +122,13 @@ science_dialog_update(void)
     text[0] = '\0';
   } else {
     fc_snprintf(text, sizeof(text), "%d/%d",
-		get_player_research(client.conn.playing)->bulbs_researched,
+		player_research_get(client.conn.playing)->bulbs_researched,
 		total_bulbs_required(client.conn.playing));
   }
 
   SetWindowText(GetDlgItem(science_dlg, ID_SCIENCE_PROG), text);
 
-  if (!is_future_tech(get_player_research(client.conn.playing)->researching)) {
+  if (!is_future_tech(player_research_get(client.conn.playing)->researching)) {
     advance_index_iterate(A_FIRST, tech_id) {
       if (TECH_PREREQS_KNOWN !=
             player_invention_state(client.conn.playing, tech_id)) {
@@ -138,14 +139,14 @@ science_dialog_update(void)
 			      advance_name_for_player(client.conn.playing, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id, tech_id);
-      if (tech_id == get_player_research(client.conn.playing)->researching) {
+      if (tech_id == player_research_get(client.conn.playing)->researching) {
 	ComboBox_SetCurSel(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			   id);
       }
     } advance_index_iterate_end;
   } else {
       tech_id = advance_count() + 1
-		+ get_player_research(client.conn.playing)->future_tech;
+		+ player_research_get(client.conn.playing)->future_tech;
       id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
 			      advance_name_for_player(client.conn.playing, tech_id));
       ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_RESEARCH),
@@ -159,19 +160,19 @@ science_dialog_update(void)
     if (player_invention_reachable(client.conn.playing, tech_id)
         && TECH_KNOWN != player_invention_state(client.conn.playing, tech_id)
         && (11 > num_unknown_techs_for_goal(client.conn.playing, tech_id)
-	    || tech_id == get_player_research(client.conn.playing)->tech_goal)) {
+	    || tech_id == player_research_get(client.conn.playing)->tech_goal)) {
       id = ComboBox_AddString(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			      advance_name_for_player(client.conn.playing, tech_id));
        ComboBox_SetItemData(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
 			 id, tech_id);
-      if (tech_id == get_player_research(client.conn.playing)->tech_goal)
+      if (tech_id == player_research_get(client.conn.playing)->tech_goal)
  	ComboBox_SetCurSel(GetDlgItem(science_dlg,ID_SCIENCE_GOAL),
  			   id);
        
      }
   } advance_index_iterate_end;
 
-  if (A_UNSET == get_player_research(client.conn.playing)->tech_goal) {
+  if (A_UNSET == player_research_get(client.conn.playing)->tech_goal) {
     id = ComboBox_AddString(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
 			    advance_name_for_player(client.conn.playing, A_NONE));
     ComboBox_SetItemData(GetDlgItem(science_dlg, ID_SCIENCE_GOAL),
@@ -181,7 +182,7 @@ science_dialog_update(void)
    }
 
   steps = num_unknown_techs_for_goal(client.conn.playing,
-                            get_player_research(client.conn.playing)->tech_goal);
+                            player_research_get(client.conn.playing)->tech_goal);
   fc_snprintf(text, sizeof(text),
 	      PL_("(%d step)", "(%d steps)", steps), steps);
   SetWindowText(GetDlgItem(science_dlg,ID_SCIENCE_STEPS),text);

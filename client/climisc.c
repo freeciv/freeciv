@@ -38,6 +38,7 @@ used throughout the client.
 #include "government.h"
 #include "map.h"
 #include "packets.h"
+#include "research.h"
 #include "spaceship.h"
 #include "unitlist.h"
 
@@ -342,9 +343,9 @@ struct sprite *client_research_sprite(void)
   if (NULL != client.conn.playing && can_client_change_view()) {
     int index = 0;
 
-    if (A_UNSET != get_player_research(client.conn.playing)->researching) {
+    if (A_UNSET != player_research_get(client.conn.playing)->researching) {
       index = (NUM_TILES_PROGRESS
-	       * get_player_research(client.conn.playing)->bulbs_researched)
+	       * player_research_get(client.conn.playing)->bulbs_researched)
 	/ (total_bulbs_required(client.conn.playing) + 1);
     }
 

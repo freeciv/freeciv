@@ -32,6 +32,7 @@
 #include "movement.h"
 #include "nation.h"
 #include "terrain.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* generator */
@@ -1042,7 +1043,7 @@ void handle_edit_player(struct connection *pc,
     return;
   }
 
-  research = get_player_research(pplayer);
+  research = player_research_get(pplayer);
 
 
   /* Handle player name change. */

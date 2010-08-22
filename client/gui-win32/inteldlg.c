@@ -21,22 +21,27 @@
 #include <windows.h>
 #include <windowsx.h>
 
-/* common & utility */
+/* utility */
 #include "fcintl.h"
-#include "government.h"
-#include "packets.h"
-#include "player.h"
 #include "shared.h"
 #include "support.h"
 
+/* common */
+#include "government.h"
+#include "packets.h"
+#include "player.h"
+#include "research.h"
+
 /* client */
 #include "client_main.h"
+
+/* client/gui-win32 */
 #include "gui_main.h"
 #include "gui_stuff.h"
 #include "mapview.h"
 
-
 #include "inteldlg.h"
+
 
 static HWND intel_dialog;
 
@@ -133,18 +138,18 @@ static void intel_create_dialog(struct player *p)
   
   hbox=fcwin_hbox_new(intel_dialog,FALSE);
    
-  switch (get_player_research(p)->researching) {
+  switch (player_research_get(p)->researching) {
   case A_UNKNOWN:
     fc_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
     break;
   case A_UNSET:
     fc_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
-		get_player_research(p)->bulbs_researched);
+		player_research_get(p)->bulbs_researched);
     break;
   default:
     fc_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 	        advance_name_researching(p),
-	        get_player_research(p)->bulbs_researched,
+	        player_research_get(p)->bulbs_researched,
 	        total_bulbs_required(p));
     break;
   };

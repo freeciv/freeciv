@@ -31,16 +31,18 @@
 #include "game.h"
 #include "government.h"
 #include "map.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* client */
 #include "client_main.h"
 #include "climap.h"
 #include "climisc.h"
-
 #include "control.h"
 #include "goto.h"
+
 #include "text.h"
+
 
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs);
 
@@ -565,32 +567,31 @@ const char *unit_description(struct unit *punit)
 ****************************************************************************/
 static int get_bulbs_per_turn(int *pours, bool *pteam, int *ptheirs)
 {
+  const struct player_research *presearch;
   int ours = 0, theirs = 0;
   bool team = FALSE;
 
-  if (NULL == client.conn.playing) {
+  if (!client_has_player()) {
     return 0;
   }
+  presearch = player_research_get(client_player());
 
   /* Sum up science */
   players_iterate(pplayer) {
-    enum diplstate_type ds
-      = player_diplstate_get(client.conn.playing, pplayer)->type;
-
-    if (pplayer == client.conn.playing) {
+    if (pplayer == client_player()) {
       city_list_iterate(pplayer->cities, pcity) {
         ours += pcity->prod[O_SCIENCE];
       } city_list_iterate_end;
 
       if (game.info.tech_upkeep_style == 1) {
-        ours -= get_player_research(pplayer)->tech_upkeep;
+        ours -= player_research_get(pplayer)->tech_upkeep;
       }
-    } else if (ds == DS_TEAM) {
+    } else if (presearch == player_research_get(pplayer)) {
       team = TRUE;
       theirs += pplayer->bulbs_last_turn;
 
       if (game.info.tech_upkeep_style == 1) {
-        theirs -= get_player_research(pplayer)->tech_upkeep;
+        theirs -= presearch->tech_upkeep;
       }
     }
   } players_iterate_end;
@@ -622,7 +623,7 @@ const char *science_dialog_text(void)
 
   perturn = get_bulbs_per_turn(&ours, &team, &theirs);
 
-  research = get_player_research(client_player());
+  research = player_research_get(client_player());
   upkeep = research->tech_upkeep;
 
   if (NULL == client.conn.playing || (ours == 0 && theirs == 0
@@ -685,8 +686,7 @@ const char *science_dialog_text(void)
 ****************************************************************************/
 const char *get_science_target_text(double *percent)
 {
-  struct player_research *research
-    = get_player_research(client.conn.playing);
+  struct player_research *research = player_research_get(client_player());
   static struct astring str = ASTRING_INIT;
 
   if (!research) {
@@ -738,7 +738,7 @@ const char *get_science_goal_text(Tech_type_id goal)
   int bulbs_needed = bulbs, turns;
   int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
   char buf1[256], buf2[256], buf3[256];
-  struct player_research* research = get_player_research(client.conn.playing);
+  struct player_research* research = player_research_get(client_player());
   static struct astring str = ASTRING_INIT;
 
   if (!research) {
@@ -853,7 +853,7 @@ const char *get_info_label_text_popup(void)
 		  get_science_target_text(NULL));
     if (game.info.tech_upkeep_style == 1) {
       int perturn = get_bulbs_per_turn(NULL, NULL, NULL);
-      int upkeep = get_player_research(client.conn.playing)->tech_upkeep;
+      int upkeep = player_research_get(client_player())->tech_upkeep;
 
       /* perturn is defined as: (bulbs produced) - upkeep */
       astr_add_line(&str, _("Bulbs per turn: %d - %d = %d"), perturn + upkeep,
@@ -1128,7 +1128,7 @@ const char *get_bulb_tooltip(void)
 			"researching the current technology."));
 
   if (NULL != client.conn.playing) {
-    struct player_research *research = get_player_research(client.conn.playing);
+    struct player_research *research = player_research_get(client_player());
 
     if (research->researching == A_UNSET) {
       astr_add_line(&str, _("no research target."));

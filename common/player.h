@@ -329,8 +329,6 @@ bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
-struct player_research *get_player_research(const struct player *p1);
-
 /* Initialization and iteration */
 void player_slots_init(void);
 bool player_slots_initialised(void);

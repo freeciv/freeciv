@@ -69,6 +69,7 @@
 #include "nation.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "tech.h"
 #include "unitlist.h"
 #include "version.h"
@@ -845,7 +846,7 @@ static void end_phase(void)
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
-    if (get_player_research(pplayer)->researching == A_UNSET) {
+    if (player_research_get(pplayer)->researching == A_UNSET) {
       if (choose_goal_tech(pplayer) == A_UNSET) {
         choose_random_tech(pplayer);
       }
@@ -876,17 +877,17 @@ static void end_phase(void)
 
   /* Refresh cities */
   phase_players_iterate(pplayer) {
-    get_player_research(pplayer)->got_tech = FALSE;
+    player_research_get(pplayer)->got_tech = FALSE;
   } phase_players_iterate_end;
 
   phase_players_iterate(pplayer) {
     do_tech_parasite_effect(pplayer);
     player_restore_units(pplayer);
     update_city_activities(pplayer);
-    get_player_research(pplayer)->researching_saved = A_UNKNOWN;
+    player_research_get(pplayer)->researching_saved = A_UNKNOWN;
     /* reduce the number of bulbs by the amount needed for tech upkeep and
      * check for finished research */
-    update_bulbs(pplayer, -get_player_research(pplayer)->tech_upkeep, TRUE);
+    update_bulbs(pplayer, -player_research_get(pplayer)->tech_upkeep, TRUE);
     flush_packets();
   } phase_players_iterate_end;
 

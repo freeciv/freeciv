@@ -38,6 +38,7 @@
 #include "map.h"
 #include "movement.h"
 #include "packets.h"
+#include "research.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -2210,7 +2211,7 @@ static void player_load_main(struct player *plr, int plrno,
   }
   team_add_player(plr, pteam);
 
-  research = get_player_research(plr);
+  research = player_research_get(plr);
 
   plr->ai_common.barbarian_type = secfile_lookup_int_default(file, 0,
                                                     "player%d.ai.is_barbarian",
@@ -3657,7 +3658,7 @@ static void player_save_main(struct player *plr, int plrno,
   } players_iterate_end;
 
   technology_save(file, "player%d.ai.tech_goal",
-                  plrno, get_player_research(plr)->tech_goal);
+                  plrno, player_research_get(plr)->tech_goal);
 
   secfile_insert_int(file, plr->ai_common.skill_level,
 		     "player%d.ai.skill_level", plrno);
@@ -3671,22 +3672,22 @@ static void player_save_main(struct player *plr, int plrno,
   secfile_insert_int(file, plr->bulbs_last_turn, "player%d.bulbs_last_turn",
                      plrno);
 
-  secfile_insert_int(file, get_player_research(plr)->techs_researched,
+  secfile_insert_int(file, player_research_get(plr)->techs_researched,
                      "player%d.researchpoints", plrno);
-  secfile_insert_int(file, get_player_research(plr)->future_tech,
+  secfile_insert_int(file, player_research_get(plr)->future_tech,
                      "player%d.futuretech", plrno);
 
-  secfile_insert_int(file, get_player_research(plr)->bulbs_researching_saved,
+  secfile_insert_int(file, player_research_get(plr)->bulbs_researching_saved,
                      "player%d.researched_before", plrno);
   technology_save(file, "player%d.research_changed_from", plrno,
-                  get_player_research(plr)->researching_saved);
+                  player_research_get(plr)->researching_saved);
 
-  secfile_insert_int(file, get_player_research(plr)->bulbs_researched, 
+  secfile_insert_int(file, player_research_get(plr)->bulbs_researched, 
                      "player%d.researched", plrno);
   technology_save(file, "player%d.researching", plrno,
-                  get_player_research(plr)->researching);
+                  player_research_get(plr)->researching);
 
-  secfile_insert_bool(file, get_player_research(plr)->got_tech,
+  secfile_insert_bool(file, player_research_get(plr)->got_tech,
                       "player%d.research_got_tech", plrno);
 
   secfile_insert_bool(file, plr->server.capital, "player%d.capital", plrno);

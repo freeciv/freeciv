@@ -16,6 +16,7 @@
 #endif
 
 /* common */
+#include "research.h"
 #include "unittype.h"
 
 /* server */
@@ -182,10 +183,10 @@ Tech_Type *api_actions_give_technology(Player *pplayer, Tech_Type *ptech,
   if (ptech) {
     id = advance_number(ptech);
   } else {
-    if (get_player_research(pplayer)->researching == A_UNSET) {
+    if (player_research_get(pplayer)->researching == A_UNSET) {
       choose_random_tech(pplayer);
     }
-    id = get_player_research(pplayer)->researching;
+    id = player_research_get(pplayer)->researching;
   }
 
   if (player_invention_state(pplayer, id) != TECH_KNOWN) {

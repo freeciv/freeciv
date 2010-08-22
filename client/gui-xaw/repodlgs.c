@@ -44,6 +44,7 @@
 #include "game.h"
 #include "government.h"
 #include "packets.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* client */
@@ -208,7 +209,7 @@ void create_science_dialog(bool make_modal)
   int num_list, j = 0, flag = 0;
 
   if (NULL != client.conn.playing) {
-    struct player_research *research = get_player_research(client.conn.playing);
+    struct player_research *research = player_research_get(client.conn.playing);
 
     if (research->researching == A_UNSET) {
       fc_snprintf(current_text, sizeof(current_text),
@@ -480,7 +481,7 @@ void science_dialog_update(void)
     static const char *tech_list_names_ptrs[A_LAST + 1];
     int j, flag;
     const char *report_title;
-    struct player_research *research = get_player_research(client.conn.playing);
+    struct player_research *research = player_research_get(client.conn.playing);
     
     /* TRANS: Research report title */
     report_title = get_report_title_plus(_("Research"), science_dialog_text());

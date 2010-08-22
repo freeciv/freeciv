@@ -32,6 +32,7 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "tech.h"
 #include "unitlist.h"
 
@@ -866,7 +867,7 @@ static void package_player_info(struct player *plr,
 {
   enum plr_info_level info_level;
   enum plr_info_level highest_team_level;
-  struct player_research* research = get_player_research(plr);
+  struct player_research* research = player_research_get(plr);
   struct government *pgov = NULL;
 
   if (receiver) {
@@ -1543,8 +1544,8 @@ static struct player *split_player(struct player *pplayer)
   pplayer->economic.gold -= cplayer->economic.gold;
 
   /* Copy the research */
-  new_research = get_player_research(cplayer);
-  old_research = get_player_research(pplayer);
+  new_research = player_research_get(cplayer);
+  old_research = player_research_get(pplayer);
 
   new_research->bulbs_researched = 0;
   new_research->techs_researched = old_research->techs_researched;
@@ -1578,7 +1579,7 @@ static struct player *split_player(struct player *pplayer)
     pplayer->government = game.government_during_revolution;
     pplayer->revolution_finishes = game.info.turn + 1;
   }
-  get_player_research(pplayer)->bulbs_researched = 0;
+  player_research_get(pplayer)->bulbs_researched = 0;
   BV_CLR_ALL(pplayer->real_embassy);   /* all embassies destroyed */
 
   /* give splitted player the embassies to his team mates back, if any */

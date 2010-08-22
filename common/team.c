@@ -34,8 +34,6 @@ static struct {
   int used_slots;
 } team_slots;
 
-static void team_defaults(struct team *pteam);
-
 static void team_name_new(const struct team **tslot,
                           const char *name);
 
@@ -210,23 +208,12 @@ struct team *team_new(int team_id)
   *pteam->tslot = pteam;
 
   /* set default values */
-  team_defaults(pteam);
+  pteam->plrlist = player_list_new();
 
   /* increase number of teams */
   team_slots.used_slots++;
 
   return pteam;
-}
-
-/****************************************************************************
-  ...
-****************************************************************************/
-static void team_defaults(struct team *pteam)
-{
-  fc_assert_ret(team_slots_initialised());
-
-  player_research_init(&pteam->research);
-  pteam->plrlist = player_list_new();
 }
 
 /****************************************************************************

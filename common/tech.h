@@ -135,62 +135,6 @@ struct advance {
 
 BV_DEFINE(tech_vector, A_LAST);
 
-struct player_research {
-  /* The number of techs and future techs the player has
-   * researched/acquired. */
-  int techs_researched, future_tech;
-
-  /* Invention being researched in. Valid values for researching are:
-   *  - any existing tech (not A_NONE)
-   *  - A_FUTURE
-   *  - A_UNSET (indicates need for choosing new research)
-   * For enemies, A_UNKNOWN is sent to the client, but not on server.
-   *
-   * bulbs_researched tracks how many bulbs have been accumulated toward
-   * this research target. */
-  Tech_type_id researching;
-  int bulbs_researched;
-
-  /* If the player changes his research target in a turn, he loses some or
-   * all of the bulbs he's accumulated toward that target.  We save the
-   * original info from the start of the turn so that if he changes back
-   * he will get the bulbs back.
-   *
-   * Has the same values as researching, plus A_UNKNOWN used between turns
-   * (not -1 anymore) for savegames. */
-  Tech_type_id researching_saved;
-  int bulbs_researching_saved;
-
-  /* If the player completed a research this turn, this value is turned on
-   * and changing targets may be done without penalty. */
-  bool got_tech;
-
-  struct {
-    /* One of TECH_UNKNOWN, TECH_KNOWN or TECH_PREREQS_KNOWN. */
-    enum tech_state state;
-
-    /* 
-     * required_techs, num_required_techs and bulbs_required are
-     * cached values. Updated from build_required_techs (which is
-     * called by player_research_update).
-     */
-    tech_vector required_techs;
-    int num_required_techs, bulbs_required;
-  } inventions[A_LAST];
-
-  /* Tech goal (similar to worklists; when one tech is researched the next
-   * tech toward the goal will be chosen).  May be A_NONE. */
-  Tech_type_id tech_goal;
-
-  /*
-   * Cached values. Updated by player_research_update.
-   */
-  int num_known_tech_with_flag[TF_COUNT];
-
-  /* Tech upkeep in bulbs. Updated by player_research_update. */
-  int tech_upkeep;
-};
-
 /* General advance/technology accessor functions. */
 Tech_type_id advance_count(void);
 Tech_type_id advance_index(const struct advance *padvance);
@@ -254,8 +198,6 @@ bool is_future_tech(Tech_type_id tech);
 void precalc_tech_data(void);
 
 /* Initialization and iteration */
-void player_research_init(struct player_research* research);
-
 void techs_init(void);
 void techs_free(void);
 

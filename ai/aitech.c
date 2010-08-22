@@ -24,6 +24,7 @@
 #include "game.h"
 #include "government.h"
 #include "player.h"
+#include "research.h"
 #include "tech.h"
 
 /* server */
@@ -76,14 +77,14 @@ static void ai_select_tech(struct player *pplayer,
 
   /* if we are researching future techs, then simply continue with that. 
    * we don't need to do anything below. */
-  if (is_future_tech(get_player_research(pplayer)->researching)) {
+  if (is_future_tech(player_research_get(pplayer)->researching)) {
     if (choice) {
-      choice->choice = get_player_research(pplayer)->researching;
+      choice->choice = player_research_get(pplayer)->researching;
       choice->want = 1;
       choice->current_want = 1;
     }
     if (goal) {
-      goal->choice = get_player_research(pplayer)->tech_goal;
+      goal->choice = player_research_get(pplayer)->tech_goal;
       goal->want = 1;
       goal->current_want = 1;
     }
@@ -165,14 +166,14 @@ static void ai_select_tech(struct player *pplayer,
     choice->choice = newtech;
     choice->want = values[newtech] / num_cities_nonzero;
     choice->current_want = 
-      values[get_player_research(pplayer)->researching] / num_cities_nonzero;
+      values[player_research_get(pplayer)->researching] / num_cities_nonzero;
   }
 
   if (goal) {
     goal->choice = newgoal;
     goal->want = goal_values[newgoal] / num_cities_nonzero;
     goal->current_want
-      = (goal_values[get_player_research(pplayer)->tech_goal]
+      = (goal_values[player_research_get(pplayer)->tech_goal]
          / num_cities_nonzero);
     log_debug("Goal->choice = %s, goal->want = %d, goal_value = %d, "
               "num_cities_nonzero = %d",
@@ -184,7 +185,7 @@ static void ai_select_tech(struct player *pplayer,
   /* we can't have this, which will happen in the circumstance 
    * where all ai.tech_wants are negative */
   if (choice && choice->choice == A_UNSET) {
-    choice->choice = get_player_research(pplayer)->researching;
+    choice->choice = player_research_get(pplayer)->researching;
   }
 
   return;
@@ -197,7 +198,7 @@ static void ai_select_tech(struct player *pplayer,
 void ai_manage_tech(struct player *pplayer)
 {
   struct ai_tech_choice choice, goal;
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
   /* Penalty for switching research */
   int penalty = (research->got_tech ? 0 : research->bulbs_researched);
 

@@ -34,6 +34,7 @@
 #include "game.h"
 #include "government.h"
 #include "packets.h"
+#include "research.h"
 #include "unitlist.h"
 
 /* client */
@@ -142,8 +143,8 @@ void popup_science_dialog(bool raise)
   }
 
   if (can_client_issue_orders()
-      && A_UNSET == get_player_research(client.conn.playing)->tech_goal
-      && A_UNSET == get_player_research(client.conn.playing)->researching) {
+      && A_UNSET == player_research_get(client.conn.playing)->tech_goal
+      && A_UNSET == player_research_get(client.conn.playing)->researching) {
     gui_dialog_alert(science_dialog_shell);
   } else {
     gui_dialog_present(science_dialog_shell);
@@ -262,7 +263,7 @@ static GtkWidget *create_reqtree_diagram(void)
   
   /* Center on currently researched node */
   if (NULL != client.conn.playing) {
-    researching = get_player_research(client.conn.playing)->researching;
+    researching = player_research_get(client.conn.playing)->researching;
   } else {
     researching = A_UNSET;
   }
@@ -465,7 +466,7 @@ void science_dialog_update(void)
   GtkWidget *item;
   GList *sorting_list = NULL, *it;
   GtkSizeGroup *group1, *group2;
-  struct player_research *research = get_player_research(client.conn.playing);
+  struct player_research *research = player_research_get(client.conn.playing);
 
   if (!research || is_report_dialogs_frozen()) {
     return;

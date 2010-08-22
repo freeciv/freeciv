@@ -30,6 +30,7 @@
 #include "idex.h"
 #include "improvement.h"
 #include "map.h"
+#include "research.h"
 #include "tech.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -884,9 +885,9 @@ bool player_in_city_map(const struct player *pplayer,
  struct player)
 **************************************************************************/
 int num_known_tech_with_flag(const struct player *pplayer,
-			     enum tech_flag_id flag)
+                             enum tech_flag_id flag)
 {
-  return get_player_research(pplayer)->num_known_tech_with_flag[flag];
+  return player_research_get(pplayer)->num_known_tech_with_flag[flag];
 }
 
 /**************************************************************************
@@ -1280,19 +1281,6 @@ bool is_valid_username(const char *name)
           && !fc_isdigit(name[0])
           && is_ascii_name(name)
           && fc_strcasecmp(name, ANON_USER_NAME) != 0);
-}
-
-/****************************************************************************
-  Returns player_research struct of the given player. Note that team
-  members share research
-****************************************************************************/
-struct player_research *get_player_research(const struct player *plr)
-{
-  if (!plr || !plr->team) {
-    /* Some client users depend on this behavior. */
-    return NULL;
-  }
-  return &(plr->team->research);
 }
 
 /****************************************************************************

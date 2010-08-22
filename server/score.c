@@ -28,6 +28,7 @@
 #include "improvement.h"
 #include "map.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
@@ -303,7 +304,7 @@ void calc_civ_score(struct player *pplayer)
       pplayer->score.techs++;
     }
   } advance_index_iterate_end;
-  pplayer->score.techs += get_player_research(pplayer)->future_tech * 5 / 2;
+  pplayer->score.techs += player_research_get(pplayer)->future_tech * 5 / 2;
   
   unit_list_iterate(pplayer->units, punit) {
     if (is_military_unit(punit)) {

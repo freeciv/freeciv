@@ -36,6 +36,7 @@
 #include "government.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -252,18 +253,18 @@ void create_intel_dialog(struct intel_dialog *pdialog, bool raise)
 			  XtNlabel, buf,
 			  NULL);
 
-  switch (get_player_research(pdialog->pplayer)->researching) {
+  switch (player_research_get(pdialog->pplayer)->researching) {
   case A_UNKNOWN:
     fc_snprintf(buf, sizeof(buf), _("Researching: (Unknown)"));
     break;
   case A_UNSET:
     fc_snprintf(buf, sizeof(buf), _("Researching: Unknown(%d/-)"),
-		get_player_research(pdialog->pplayer)->bulbs_researched);
+		player_research_get(pdialog->pplayer)->bulbs_researched);
     break;
   default:
     fc_snprintf(buf, sizeof(buf), _("Researching: %s(%d/%d)"),
 		advance_name_researching(pdialog->pplayer),
-		get_player_research(pdialog->pplayer)->bulbs_researched,
+		player_research_get(pdialog->pplayer)->bulbs_researched,
 		total_bulbs_required(pdialog->pplayer));
     break;
   };

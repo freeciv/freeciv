@@ -57,6 +57,8 @@ libfreeciv_la_SOURCES = \
 		player.h	\
 		requirements.c	\
 		requirements.h	\
+		research.c	\
+		research.h	\
 		spaceship.c	\
 		spaceship.h	\
 		specialist.c	\

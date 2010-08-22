@@ -28,7 +28,7 @@
 #include "support.h"
 
 /* common */
-#include "player.h"
+#include "research.h"
 
 
 #include "tech.h"
@@ -119,7 +119,7 @@ enum tech_state player_invention_state(const struct player *pplayer,
       return TECH_UNKNOWN;
     }
   } else {
-    struct player_research *research = get_player_research(pplayer);
+    struct player_research *research = player_research_get(pplayer);
 
     /* Research can be null in client when looking for tech_leakage
      * from player not yet received. */
@@ -138,7 +138,7 @@ enum tech_state player_invention_set(struct player *pplayer,
 				     Tech_type_id tech,
 				     enum tech_state value)
 {
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
   enum tech_state old = research->inventions[tech].state;
 
   if (old == value) {
@@ -169,7 +169,7 @@ bool is_tech_a_req_for_goal(const struct player *pplayer, Tech_type_id tech,
     return FALSE;
   } else {
     return
-      BV_ISSET(get_player_research(pplayer)->inventions[goal].required_techs,
+      BV_ISSET(player_research_get(pplayer)->inventions[goal].required_techs,
                tech);
   }
 }
@@ -217,7 +217,7 @@ static void build_required_techs_helper(struct player *pplayer,
   }
 
   /* Mark the tech as required for the goal */
-  BV_SET(get_player_research(pplayer)->inventions[goal].required_techs, tech);
+  BV_SET(player_research_get(pplayer)->inventions[goal].required_techs, tech);
 
   if (advance_required(tech, AR_ONE) == goal
       || advance_required(tech, AR_TWO) == goal) {
@@ -237,7 +237,7 @@ static void build_required_techs_helper(struct player *pplayer,
 static void build_required_techs(struct player *pplayer, Tech_type_id goal)
 {
   int counter;
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
 
   BV_CLR_ALL(research->inventions[goal].required_techs);
   
@@ -314,7 +314,7 @@ void player_research_update(struct player *pplayer)
 {
   enum tech_flag_id flag;
   int researchable = 0;
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
 
   /* This is set when the game starts, but not everybody finds out
    * right away. */
@@ -374,7 +374,7 @@ void player_research_update(struct player *pplayer)
 **************************************************************************/
 static int tech_upkeep_calc(const struct player *pplayer)
 {
-  struct player_research *research = get_player_research(pplayer);
+  struct player_research *research = player_research_get(pplayer);
   int tech_cost_style = game.info.tech_cost_style;
   int f = research->future_tech, t = research->techs_researched;
   double tech_bulb_sum = 0.0;
@@ -551,7 +551,7 @@ Tech_type_id find_advance_by_flag(Tech_type_id index, enum tech_flag_id flag)
 int total_bulbs_required(const struct player *pplayer)
 {
   return base_total_bulbs_required(pplayer,
-    get_player_research(pplayer)->researching);
+    player_research_get(pplayer)->researching);
 }
 
 /****************************************************************************
@@ -607,7 +607,7 @@ int base_total_bulbs_required(const struct player *pplayer,
   switch (tech_cost_style) {
   case 0:
     if (pplayer) {
-      base_cost = get_player_research(pplayer)->techs_researched 
+      base_cost = player_research_get(pplayer)->techs_researched 
 	* game.info.base_tech_cost;
     } else {
       base_cost = 0;
@@ -716,7 +716,7 @@ int num_unknown_techs_for_goal(const struct player *pplayer,
     /* FIXME: need an implementation for this! */
     return 0;
   }
-  return get_player_research(pplayer)->inventions[goal].num_required_techs;
+  return player_research_get(pplayer)->inventions[goal].num_required_techs;
 }
 
 /**************************************************************************
@@ -733,7 +733,7 @@ int total_bulbs_required_for_goal(const struct player *pplayer,
     /* FIXME: need an implementation for this! */
     return 0;
   }
-  return get_player_research(pplayer)->inventions[goal].bulbs_required;
+  return player_research_get(pplayer)->inventions[goal].bulbs_required;
 }
 
 /**************************************************************************
@@ -801,7 +801,7 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
   switch (tech) {
   case A_FUTURE:
     if (pplayer) {
-      struct player_research *research = get_player_research(pplayer);
+      struct player_research *research = player_research_get(pplayer);
       int i;
   
       /* pplayer->future_tech == 0 means "Future Tech. 1". */
@@ -846,7 +846,7 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
   switch (tech) {
   case A_FUTURE:
     if (pplayer) {
-      struct player_research *research = get_player_research(pplayer);
+      struct player_research *research = player_research_get(pplayer);
       int i;
   
       /* pplayer->future_tech == 0 means "Future Tech. 1". */
@@ -884,7 +884,7 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
 const char *advance_name_researching(const struct player *pplayer)
 {
   return advance_name_for_player(pplayer,
-    get_player_research(pplayer)->researching);
+    player_research_get(pplayer)->researching);
 }
 
 /**************************************************************************
@@ -966,15 +966,4 @@ void techs_free(void)
   advance_index_iterate(A_FIRST, i) {
     tech_free(i);
   } advance_index_iterate_end;
-}
-
-/***************************************************************
- Fill the structure with some sane values
-***************************************************************/
-void player_research_init(struct player_research* research)
-{
-  memset(research, 0, sizeof(*research));
-  research->tech_goal = A_UNSET;
-  research->researching = A_UNSET;
-  research->researching_saved = A_UNKNOWN;
 }

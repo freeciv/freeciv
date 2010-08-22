@@ -26,6 +26,7 @@
 #include "government.h"
 #include "map.h"
 #include "movement.h"
+#include "research.h"
 #include "unit.h"
 #include "unitlist.h"
 
@@ -248,7 +249,7 @@ static bool player_has_really_useful_tech_parasite(struct player* pplayer)
       }
 
       if (TECH_KNOWN == player_invention_state(aplayer, tech)
-          || get_player_research(aplayer)->researching == tech) {
+          || player_research_get(aplayer)->researching == tech) {
 	players_having++;
 	if (players_having >= players_needed) {
 	  return TRUE;
@@ -631,7 +632,7 @@ void ai_data_phase_init(struct player *pplayer, bool is_new_phase)
   } players_iterate_end;
   
   /* Research want */
-  if (is_future_tech(get_player_research(pplayer)->researching)
+  if (is_future_tech(player_research_get(pplayer)->researching)
       || player_has_really_useful_tech_parasite(pplayer)) {
     ai->wants_no_science = TRUE;
   } else {

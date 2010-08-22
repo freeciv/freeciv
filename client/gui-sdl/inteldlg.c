@@ -23,6 +23,7 @@
 
 /* common */
 #include "government.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -290,7 +291,7 @@ void update_intel_dialog(struct player *p)
     /* ---------- */
     
     pCapital = find_palace(p);
-    research = get_player_research(p);
+    research = player_research_get(p);
     change_ptsize16(pStr, adj_font(10));
     pStr->style &= ~TTF_STYLE_BOLD;
 

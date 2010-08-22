@@ -30,6 +30,7 @@
 #include "government.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 
 /* client */
 #include "client_main.h"
@@ -394,7 +395,7 @@ void update_intel_dialog(struct player *p)
           break;
         case LABEL_RESEARCHING:
           {
-            struct player_research *research = get_player_research(p);
+            struct player_research *research = player_research_get(p);
 
             switch (research->researching) {
             case A_UNKNOWN:

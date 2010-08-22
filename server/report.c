@@ -32,6 +32,7 @@
 #include "government.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "unitlist.h"
 #include "version.h"
@@ -235,7 +236,7 @@ static void historian_generic(enum historian_type which_news)
 	break;
       case HISTORIAN_ADVANCED:
 	size[j].value
-	  = pplayer->score.techs + get_player_research(pplayer)->future_tech;
+	  = pplayer->score.techs + player_research_get(pplayer)->future_tech;
 	break;
       case HISTORIAN_MILITARY:
 	size[j].value = pplayer->score.units;
