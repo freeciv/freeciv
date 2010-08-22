@@ -28,13 +28,14 @@ ruler_titles = { "government",     "male_title",        "female_title"
                  "Despotism",      _("Caudillo"),       _("Caudilla")
                  "Democracy",      _("Presidente"),     _("Presidenta")
                  "Fundamentalism", _("Cardinal"),     _("?female:Cardinal")
+                 "Monarchy", _("Viceroy"),     _("Vicereine")
                }
 
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "chilean", "brazilian"
+civilwar_nations = "chilean", "uruguayan", "mapuche"
 
 cities =
  "Buenos Aires",

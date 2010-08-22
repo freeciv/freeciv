@@ -17,14 +17,16 @@ leader=
  "José Antonio Páez",
  "Juan Vicente Gómez",
  "Rómulo Betancourt",
- "Marcos Pérez Jiménez"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Marcos Pérez Jiménez",
+ "Hugo Chávez"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
 flag="venezuela"
 flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = { "government",     "male_title",        "female_title"
-                 "Despotism",      _("Governador"),     _("Governadora")
+                 "Despotism",      _("General"),     _("?female:General")
+                 "Fundamentalism",      _("Bishop"),     _("?female:Mother Superior")
                  "Monarchy",       _("Dictador"),       _("Dictadora")
                  "Democracy",      _("Presidente"),     _("Presidenta")
                }

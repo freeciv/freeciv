@@ -8,8 +8,10 @@ legend=_("Indonesia is a large country on the Malay Archipelago with central\
  one of the most populous in the world.")
 leader=
  "Sukarno",
- "Suharto"
-leader_sex="Male", "Male"
+ "Suharto",
+ "Megawati Sukarnoputri"
+
+leader_sex="Male", "Male", "Female"
 flag="indonesia"
 flag_alt = "-"
 city_style = "Tropical"
@@ -24,7 +26,32 @@ conflicts_with="singaporean"
 civilwar_nations="malaysian", "malagasy"
 
 cities =
-  "Jakarta", "Surabaya", "Bandung", "Medan", "Semarang", "Palembang",
-  "Ujung Pandang", "Padang", "Malang", "Surakarta", "Banjarmasin",
-  "Yogyakarta", "Pontianak"
+ "Jakarta",
+ "Surabaya",
+ "Bandung",
+ "Medan",
+ "Semarang",
+ "Palembang",
+ "Ujung Pandang",
+ "Padang",
+ "Malang",
+ "Surakarta",
+ "Banjarmasin",
+ "Yogyakarta",
+ "Pontianak",
+ "Makasar",
+ "Cirebon",
+ "Bandar Lampung",
+ "Denpasar",
+ "Mataram",
+ "Tegal",
+ "Samarinda",
+ "Pekan Baru",
+ "Banjarmasin",
+ "Manadao",
+ "Balikpapan",
+ "Jambi",
+ "Pacet",
+ "Ambon"
+
 

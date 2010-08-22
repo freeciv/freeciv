@@ -9,8 +9,12 @@ legend=_("The Ukraine is a vast region on the westernmost marches of the\
 leader =
  "Bohdan Khmelnitskyi",
  "Simon Petlura",
- "Basil Kapnist"
-leader_sex = "Male", "Male", "Male"
+ "Basil Kapnist",
+ "Symon Petliura",
+ "Stepan Bandera",
+ "Yuliya Timoshenko"
+
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Female"
 flag="ukraine"
 flag_alt = "-"
 city_style = "European"
@@ -31,6 +35,6 @@ cities =
   "Chernihiv", "Braclav", "Kherson", "Kharkiv", "Sumy",
   "Odesa", "Cherkasy", "Donetsk", "Dnipropetrovsk",
   "Poltava", "Rivne", "Chernobyl", "Sevastopol", "Yalta",
-  "Kamieniec", "White Church", "Chernivtsi", "Khmelnistkyi",
+  "Kamieniec", "Bila Tserkva", "Chernivtsi", "Khmelnistkyi",
   "Ternopil", "Ivano-frankivsk", "Uzhhorod", "Kirovohrad",
   "Luhansk", "Mykolaiv", "Vinnytsya"

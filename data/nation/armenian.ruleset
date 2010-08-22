@@ -13,8 +13,9 @@ leader=
  "Gregor Lusarovitch",
  "Trdat III",
  "Menuas",
- "Argishtis I"
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+ "Argishtis I",
+ "Zabel I"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="armenia"
 flag_alt = "-"
 city_style = "Classical"
