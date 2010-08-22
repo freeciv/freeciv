@@ -538,12 +538,7 @@ void player_destroy(struct player *pplayer)
   fc_assert(0 == city_list_size(pplayer->cities));
   city_list_destroy(pplayer->cities);
 
-#if 0
   fc_assert(conn_list_size(pplayer->connections) == 0);
-  /* FIXME: Connections that are unlinked here are left dangling.  It's up to
-   * the caller to fix them.  This happens when /loading a game while a
-   * client is connected. */
-#endif
   conn_list_destroy(pplayer->connections);
 
   players_iterate(aplayer) {
