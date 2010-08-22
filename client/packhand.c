@@ -1682,11 +1682,14 @@ void handle_player_remove(int playerno)
     close_intel_dialog(pplayer);
   }
 
-  if (client.conn.playing == pplayer) {
-    struct connection *pconn = find_conn_by_id(client.conn.id);
+  /* Update the connection informations. */
+  if (client_player() == pplayer) {
     client.conn.playing = NULL;
-    pconn->playing = NULL;
   }
+  conn_list_iterate(pplayer->connections, pconn) {
+    pconn->playing = NULL;
+  } conn_list_iterate_end;
+  conn_list_clear(pplayer->connections);
 
   player_destroy(pplayer);
 
