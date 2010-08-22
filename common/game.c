@@ -477,6 +477,8 @@ static void game_player_reset(struct player *pplayer)
 ****************************************************************************/
 void game_remove_player(struct player *pplayer)
 {
+  int index = player_index(pplayer);
+
   game_player_reset(pplayer);
 
 #if 0
@@ -498,6 +500,16 @@ void game_remove_player(struct player *pplayer)
   if (pplayer->nation != NULL) {
     player_set_nation(pplayer, NULL);
   }
+
+  /* Remove infos on other player structures. */
+  players_iterate(aplayer) {
+    BV_CLR(aplayer->real_embassy, index);
+    aplayer->gives_shared_vision &= ~(1 << index);
+    aplayer->really_gives_vision &= ~(1 << index);
+    aplayer->diplstates[index].type = DS_NO_CONTACT;
+    aplayer->diplstates[index].has_reason_to_cancel = 0;
+    aplayer->diplstates[index].contact_turns_left = 0;
+  } players_iterate_end;
 }
 
 /***************************************************************
