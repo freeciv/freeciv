@@ -529,10 +529,15 @@ void gui_dialog_new(struct gui_dialog **pdlg, GtkNotebook *notebook,
   }
   dlg->gui_button = gtk_size_group_new(GTK_SIZE_GROUP_BOTH);
 
-  if (gui_gtk2_enable_tabs && notebook != GTK_NOTEBOOK(top_notebook)) {
+  if (gui_gtk2_enable_tabs && notebook != GTK_NOTEBOOK(top_notebook)
+      && !gui_gtk2_small_display_layout) {
+    /* We expect this to be short (as opposed to tall); maximise usable
+     * height by putting buttons down the right hand side */
     vbox = gtk_hbox_new(FALSE, 0);
     action_area = gtk_vbox_new(FALSE, 2);
   } else {
+    /* We expect this to be reasonably tall; maximise usable width by
+     * putting buttons along the bottom */
     vbox = gtk_vbox_new(FALSE, 0);
     action_area = gtk_hbox_new(FALSE, 2);
   }
