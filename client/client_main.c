@@ -230,6 +230,8 @@ static void client_game_free(void)
 **************************************************************************/
 static void client_game_reset(void)
 {
+  editgui_popdown_all();
+
   packhand_free();
   link_marks_free();
   control_free();
