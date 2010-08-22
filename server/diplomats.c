@@ -832,9 +832,7 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   struct player *cplayer;
   struct impr_type *ptarget;
   int count, which;
-  /* Twice as difficult if target is specified. */
-  int success_prob = (improvement >= B_LAST ? game.server.diplchance 
-                      : game.server.diplchance / 2); 
+  int success_prob;
 
   /* Fetch target city's player.  Sanity checks. */
   if (!pcity)
@@ -848,6 +846,10 @@ void diplomat_sabotage(struct player *pplayer, struct unit *pdiplomat,
   /* If not a Spy, do something random. */
   if (!unit_has_type_flag(pdiplomat, F_SPY))
     improvement = B_LAST;
+
+  /* Twice as difficult if target is specified. */
+  success_prob = (improvement >= B_LAST ? game.server.diplchance 
+                  : game.server.diplchance / 2); 
 
   /* Check if the Diplomat/Spy succeeds against defending Diplomats/Spies. */
   if (!diplomat_infiltrate_tile(pplayer, cplayer, pdiplomat, 

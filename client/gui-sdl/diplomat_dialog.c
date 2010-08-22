@@ -159,7 +159,8 @@ static int diplomat_sabotage_callback(struct widget *pWidget)
     if (game_find_unit_by_number(pDiplomat_Dlg->diplomat_id)
        && game_find_city_by_number(pDiplomat_Dlg->diplomat_target_id)) {  
       request_diplomat_action(DIPLOMAT_SABOTAGE, pDiplomat_Dlg->diplomat_id,
-                                         pDiplomat_Dlg->diplomat_target_id, 0);
+                                         pDiplomat_Dlg->diplomat_target_id,
+                                         B_LAST + 1);
     }
     
     popdown_diplomat_dialog();

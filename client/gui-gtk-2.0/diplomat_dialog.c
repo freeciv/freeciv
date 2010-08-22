@@ -120,7 +120,7 @@ static void diplomat_sabotage_callback(GtkWidget *w, gpointer data)
   if(game_find_unit_by_number(diplomat_id) && 
      game_find_city_by_number(diplomat_target_id)) { 
     request_diplomat_action(DIPLOMAT_SABOTAGE, diplomat_id,
-			    diplomat_target_id, -1);
+			    diplomat_target_id, B_LAST + 1);
   }
   gtk_widget_destroy(diplomat_dialog);
 }

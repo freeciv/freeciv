@@ -1845,12 +1845,13 @@ roles         = "Diplomat"
 helptext      = _("\
 A Spy is more skilled in the arts of espionage than her Diplomat predecessor.\
 \n\n\
-She can perform all the functions of the Diplomat, but with a higher\
- rate of success. Refer to the Diplomat entry for more details.\
- Unlike a Diplomat, a Spy may also survive an operation in a foreign\
- city and become more experienced as a result.\
+She can perform all the functions of the Diplomat; refer to the Diplomat\
+ entry for more details. Unlike a Diplomat, a Spy may also survive an\
+ operation in a foreign city and become more experienced as a result.\
+ Spies are also more effective than Diplomats at defending cities\
+ against foreign Diplomats and Spies.\
 \n\n\
-She can also be used to:\n\
+A Spy can also be used to:\n\
  - sabotage an enemy unit (reducing its hit points to half), if it is\
  alone on a tile and the players are at war;\n\
  - poison the water supply of an enemy city (reducing the population\
