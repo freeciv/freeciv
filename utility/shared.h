@@ -164,7 +164,6 @@ bool is_base64url(const char *s);
 bool is_safe_filename(const char *name);
 void randomize_base64url_string(char *s, size_t n);
 
-int base_compare_strings(const char *first, const char *second);
 int compare_strings(const void *first, const void *second);
 int compare_strings_ptrs(const void *first, const void *second);
 int compare_strings_strvec(const char *const *first,

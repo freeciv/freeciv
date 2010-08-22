@@ -15,6 +15,8 @@
 #include <config.h>
 #endif
 
+#include <string.h>
+
 /* utility */
 #include "fcintl.h"
 #include "log.h"
@@ -78,6 +80,15 @@ bool is_plrdlg_frozen(void)
 static const char *col_name(const struct player *player)
 {
   return player_name(player);
+}
+
+/****************************************************************************
+  Compares the names of two players in players dialog.
+****************************************************************************/
+static int cmp_name(const struct player *pplayer1,
+                     const struct player *pplayer2)
+{
+  return fc_stricoll(player_name(pplayer1), player_name(pplayer2));
 }
 
 /******************************************************************
@@ -252,7 +263,7 @@ static int cmp_score(const struct player* player1,
  ...
 *******************************************************************/
 struct player_dlg_column player_dlg_columns[] = {
-  {TRUE, COL_TEXT, N_("?Player:Name"), col_name, NULL, NULL, "name"},
+  {TRUE, COL_TEXT, N_("?Player:Name"), col_name, NULL, cmp_name, "name"},
   {FALSE, COL_TEXT, N_("Username"), col_username, NULL, NULL, "username"},
   {TRUE, COL_FLAG, N_("Flag"), NULL, NULL, NULL,  "flag"},
   {TRUE, COL_TEXT, N_("Nation"), col_nation, NULL, NULL,  "nation"},

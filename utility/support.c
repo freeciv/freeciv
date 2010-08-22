@@ -264,6 +264,36 @@ char *fc_strcasestr(const char *haystack, const char *needle)
 #endif
 }
 
+/****************************************************************************
+  Wrapper function for strcoll().
+****************************************************************************/
+int fc_strcoll(const char *str0, const char *str1)
+{
+#if defined(ENABLE_NLS) && defined(HAVE_STRCOLL)
+  return strcoll(str0, str1);
+#elif defined(ENABLE_NLS) && defined(HAVE__STRCOLL)
+  return _strcoll(str0, str1);
+#else
+  return strcmp(str0, str1);
+#endif
+}
+
+/****************************************************************************
+  Wrapper function for stricoll().
+****************************************************************************/
+int fc_stricoll(const char *str0, const char *str1)
+{
+#if defined(ENABLE_NLS) && defined(HAVE_STRICOLL)
+  return stricoll(str0, str1);
+#elif defined(ENABLE_NLS) && defined(HAVE__STRICOLL)
+  return _stricoll(str0, str1);
+#elif defined(ENABLE_NLS) && defined(HAVE_STRCASECOLL)
+  return strcasecoll(str0, str1);
+#else
+  return fc_strcasecmp(str0, str1);
+#endif
+}
+
 /****************************************************************
   Wrapper function for fopen() with filename conversion to local
   encoding on Windows.

@@ -207,8 +207,8 @@ static gint sort_advance_names(gconstpointer a, gconstpointer b)
   const struct advance *padvance1 = (const struct advance *) a;
   const struct advance *padvance2 = (const struct advance *) b;
 
-  return base_compare_strings(advance_name_translation(padvance1),
-                              advance_name_translation(padvance2));
+  return fc_strcoll(advance_name_translation(padvance1),
+                    advance_name_translation(padvance2));
 }
 
 /****************************************************************

@@ -87,6 +87,9 @@ size_t effectivestrlenquote(const char *str);
 
 char *fc_strcasestr(const char *haystack, const char *needle);
 
+int fc_strcoll(const char *str0, const char *str1);
+int fc_stricoll(const char *str0, const char *str1);
+
 FILE *fc_fopen(const char *filename, const char *opentype);
 #ifdef HAVE_LIBZ
 FILE *fc_gzopen(const char *filename, const char *opentype);

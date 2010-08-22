@@ -533,25 +533,12 @@ void randomize_base64url_string(char *s, size_t n)
 
 /**************************************************************************
   Compares two strings, in the collating order of the current locale,
-  given two strings.  Case-sensitive.
-**************************************************************************/
-int base_compare_strings(const char *first, const char *second)
-{
-#if defined(ENABLE_NLS) && defined(HAVE_STRCOLL)
-  return strcoll(first, second);
-#else
-  return strcmp(first, second);
-#endif
-}
-
-/**************************************************************************
-  Compares two strings, in the collating order of the current locale,
   given pointers to the two strings (i.e., given "char *"s).
   Case-sensitive.  Designed to be called from qsort().
 **************************************************************************/
 int compare_strings(const void *first, const void *second)
 {
-  return base_compare_strings((const char *) first, (const char *) second);
+  return fc_strcoll((const char *) first, (const char *) second);
 }
 
 /**************************************************************************
@@ -561,8 +548,7 @@ int compare_strings(const void *first, const void *second)
 **************************************************************************/
 int compare_strings_ptrs(const void *first, const void *second)
 {
-  return base_compare_strings(*((const char **) first),
-                              *((const char **) second));
+  return fc_strcoll(*((const char **) first), *((const char **) second));
 }
 
 /**************************************************************************
@@ -573,7 +559,7 @@ int compare_strings_ptrs(const void *first, const void *second)
 int compare_strings_strvec(const char *const *first,
                            const char *const *second)
 {
-  return base_compare_strings(*first, *second);
+  return fc_strcoll(*first, *second);
 }
 
 /***************************************************************************
@@ -1219,7 +1205,7 @@ static int compare_file_mtime_ptrs(const struct fileinfo *const *ppa,
 static int compare_file_name_ptrs(const struct fileinfo *const *ppa,
                                   const struct fileinfo *const *ppb)
 {
-  return base_compare_strings((*ppa)->name, (*ppb)->name);
+  return fc_strcoll((*ppa)->name, (*ppb)->name);
 }
 
 /**************************************************************************
@@ -1228,7 +1214,7 @@ static int compare_file_name_ptrs(const struct fileinfo *const *ppa,
 static bool compare_fileinfo_name(const struct fileinfo *pa,
                                   const struct fileinfo *pb)
 {
-  return 0 == base_compare_strings(pa->name, pb->name);
+  return 0 == fc_strcoll(pa->name, pb->name);
 }
 
 /**************************************************************************
