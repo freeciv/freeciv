@@ -143,6 +143,8 @@ pkgdata_DATA = \
 		liechtensteiner.ruleset \
 		lithuanian.ruleset \
 		lojbanistani.ruleset \
+		macedon.ruleset \
+		macedonian.ruleset \
 		majapahit.ruleset \
 		malagasy.ruleset \
 		malaysian.ruleset \

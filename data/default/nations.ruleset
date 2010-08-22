@@ -189,6 +189,8 @@ match=2
 *include "nation/liechtensteiner.ruleset"
 *include "nation/lithuanian.ruleset"
 *include "nation/lojbanistani.ruleset"
+*include "nation/macedon.ruleset"
+*include "nation/macedonian.ruleset"
 *include "nation/majapahit.ruleset"
 *include "nation/malagasy.ruleset"
 *include "nation/malaysian.ruleset"
