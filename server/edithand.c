@@ -539,7 +539,7 @@ void handle_edit_unit_create(struct connection *pc, int owner, int tile,
 
   if (count > 0 && !pplayer->is_alive) {
     pplayer->is_alive = TRUE;
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
   }
 
   /* FIXME: Make this more general? */
@@ -752,7 +752,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
 
   if (!pplayer->is_alive) {
     pplayer->is_alive = TRUE;
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
   }
 
   conn_list_do_buffer(game.est_connections);
@@ -928,7 +928,7 @@ void handle_edit_city(struct connection *pc,
     players_iterate(aplayer) {
       if (BV_ISSET(need_player_info, player_index(aplayer))) {
         /* No need to send to detached connections. */
-        send_player_info(aplayer, NULL);
+        send_player_info_c(aplayer, NULL);
       }
     } players_iterate_end;
   }
@@ -990,7 +990,7 @@ void handle_edit_player_create(struct connection *pc, int tag)
   give_global_initial_techs(pplayer);
   give_nation_initial_techs(pplayer);
 
-  send_player_info(pplayer, NULL);
+  send_player_all_c(pplayer, NULL);
   if (tag > 0) {
     dsend_packet_edit_object_created(pc, tag, player_number(pplayer));
   }
@@ -1168,7 +1168,7 @@ void handle_edit_player(struct connection *pc,
   }
 
   if (changed) {
-    send_player_info(pplayer, NULL);
+    send_player_all_c(pplayer, NULL);
   }
 }
 

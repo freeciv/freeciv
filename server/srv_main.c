@@ -427,8 +427,7 @@ void send_all_info(struct conn_list *dest)
   } conn_list_iterate_end;
 
   /* Resend player info because it could have more infos (e.g. embassy). */
-  send_player_info_c(NULL, dest);
-  send_player_diplstate_c(NULL, dest);
+  send_player_all_c(NULL, dest);
   send_map_info(dest);
   send_all_known_tiles(dest);
   send_all_known_cities(dest);
@@ -764,7 +763,7 @@ static void begin_phase(bool is_new_phase)
   phase_players_iterate(pplayer) {
     pplayer->phase_done = FALSE;
   } phase_players_iterate_end;
-  send_player_info(NULL, NULL);
+  send_player_all_c(NULL, NULL);
 
   dlsend_packet_start_phase(game.est_connections, game.info.phase);
 
@@ -994,7 +993,7 @@ static void end_turn(void)
   send_game_info(NULL);
 
   log_debug("Sendplayerinfo");
-  send_player_info(NULL, NULL);
+  send_player_all_c(NULL, NULL);
 
   log_debug("Sendyeartoclients");
   send_year_to_clients(game.info.year);
@@ -1730,7 +1729,7 @@ void handle_player_ready(struct player *requestor,
 
   old_ready = pplayer->is_ready;
   pplayer->is_ready = is_ready;
-  send_player_info(pplayer, NULL);
+  send_player_info_c(pplayer, NULL);
 
   /* Note this is called even if the player has pressed /start once
    * before.  For instance, when a player leaves everyone remaining

@@ -1079,12 +1079,12 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   if (had_great_wonders) {
     send_game_info(NULL);
     if (city_remains) {
-      send_player_info(ptaker, NULL);
+      send_player_info_c(ptaker, NULL);
     }
   }
   if (BV_ISSET_ANY(had_small_wonders) || had_great_wonders) {
     /* No need to send to detached connections. */
-    send_player_info(pgiver, NULL);
+    send_player_info_c(pgiver, NULL);
   }
 
   sync_cities();
@@ -1094,9 +1094,9 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   Give to a city the free (initial) buildings. Updates the
   pplayer->server.capital field.
   If need_player_info isn't NULL, it will be stored here a player pointer
-  that need to be updated at client sides, using send_player_info().
+  that need to be updated at client sides, using send_player_info_c().
   If need_game_info isn't NULL, it will be stored here whether the game_info
-  packet should be sent again or not, using seng_game_info().
+  packet should be sent again or not, using send_game_info().
 ****************************************************************************/
 void city_build_free_buildings(struct city *pcity)
 {
@@ -1161,10 +1161,10 @@ void city_build_free_buildings(struct city *pcity)
   if (has_small_wonders) {
     send_game_info(NULL);
     /* No need to send to detached connections. */
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
   } else if (has_small_wonders) {
     /* No need to send to detached connections. */
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
   }
 }
 
@@ -1422,10 +1422,10 @@ void remove_city(struct city *pcity)
   if (had_great_wonders) {
     send_game_info(NULL);
     /* No need to send to detached connections. */
-    send_player_info(powner, NULL);
+    send_player_info_c(powner, NULL);
   } else if (BV_ISSET_ANY(had_small_wonders)) {
     /* No need to send to detached connections. */
-    send_player_info(powner, NULL);
+    send_player_info_c(powner, NULL);
   }
 
   sync_cities();
@@ -1516,7 +1516,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
   coins = fc_rand((coins / 20) + 1) + (coins * (pcity->size)) / 200;
   pplayer->economic.gold += coins;
   cplayer->economic.gold -= coins;
-  send_player_info(cplayer, cplayer);
+  send_player_info_c(cplayer, cplayer->connections);
   if (pcity->original != pplayer) {
     if (coins > 0) {
       notify_player(pplayer, city_tile(pcity), E_UNIT_WIN_ATT, ftc_server,
@@ -1593,7 +1593,7 @@ void unit_enter_city(struct unit *punit, struct city *pcity, bool passenger)
 
   fc_assert(pcity->size > 1); /* reduce size should not destroy this city */
   city_reduce_size(pcity, 1, pplayer);
-  send_player_info(pplayer, pplayer); /* Update techs */
+  send_player_info_c(pplayer, pplayer->connections); /* Update techs */
 
   if (try_civil_war) {
     civil_war(cplayer);

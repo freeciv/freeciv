@@ -241,7 +241,7 @@ void handle_player_rates(struct player *pplayer,
     pplayer->economic.science = science;
 
     city_refresh_for_player(pplayer);
-    send_player_info(pplayer, pplayer);
+    send_player_info_c(pplayer, pplayer->connections);
   }
 }
 
@@ -303,7 +303,7 @@ static void finish_revolution(struct player *pplayer)
   check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
   player_research_update(pplayer);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 }
 
 /**************************************************************************
@@ -378,7 +378,7 @@ void handle_player_change_government(struct player *pplayer, int government)
 
   check_player_max_rates(pplayer);
   city_refresh_for_player(pplayer);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 
   log_debug("Government change complete for %s. Target government is %s; "
             "now %s. Turn %d; revofin %d.", player_name(pplayer),
@@ -438,7 +438,7 @@ void update_revolution(struct player *pplayer)
      * they'll have to re-enter anarchy. */
     log_debug("Update: resetting revofin for %s.", player_name(pplayer));
     pplayer->revolution_finishes = -1;
-    send_player_info(pplayer, pplayer);
+    send_player_info_c(pplayer, pplayer->connections);
   }
 }
 
@@ -477,8 +477,8 @@ void update_players_after_alliance_breakup(struct player* pplayer,
 {
   /* The client needs updated diplomatic state, because it is used
    * during calculation of new states of occupied flags in cities */
-   send_player_info(pplayer, NULL);
-   send_player_info(pplayer2, NULL);
+   send_player_all_c(pplayer, NULL);
+   send_player_all_c(pplayer2, NULL);
    remove_allied_visibility(pplayer, pplayer2);
    remove_allied_visibility(pplayer2, pplayer);    
    resolve_unit_stacks(pplayer, pplayer2, TRUE);
@@ -594,8 +594,8 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
   }
   ds_plrplr2->has_reason_to_cancel = 0;
 
-  send_player_info(pplayer, NULL);
-  send_player_info(pplayer2, NULL);
+  send_player_all_c(pplayer, NULL);
+  send_player_all_c(pplayer2, NULL);
 
   if (old_type == DS_ALLIANCE) {
     /* Inform clients about units that have been hidden.  Units in cities
@@ -603,7 +603,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
      * alliance is broken.  We have to call this after resolve_unit_stacks
      * because that function may change units' locations.  It also sends
      * out new city info packets to tell the client about occupied cities,
-     * so it should also come after the send_player_info calls above. */
+     * so it should also come after the send_player_all_c calls above. */
     remove_allied_visibility(pplayer, pplayer2);
     remove_allied_visibility(pplayer2, pplayer);
   }
@@ -679,6 +679,22 @@ static void send_player_remove_info_c(const struct player **pslot,
   conn_list_iterate(dest, pconn) {
     dsend_packet_player_remove(pconn, player_slot_index(pslot));
   } conn_list_iterate_end;
+}
+
+/**************************************************************************
+  Send all information about a player (player_info and all
+  player_diplstates) to the given connections.
+
+  Send all players if src is NULL; send to all connections if dest is NULL.
+
+  This function also sends the diplstate of the player. So take care, that
+  all players are defined in the client and in the server. To create a
+  player without sending the diplstate, use send_player_info_c().
+**************************************************************************/
+void send_player_all_c(struct player *src, struct conn_list *dest)
+{
+  send_player_info_c(src, dest);
+  send_player_diplstate_c(src, dest);
 }
 
 /**************************************************************************
@@ -788,26 +804,6 @@ static void send_player_diplstate_c_real(struct player *plr1,
       send_packet_player_diplstate(pconn, &packet_ds);
     } players_iterate_end;
   } conn_list_iterate_end;
-}
-
-/**************************************************************************
-  Convenience form of send_player_info_c.
-  Send information about player src, or all players if src is NULL,
-  to specified players dest (that is, to dest->connections).
-  As convenience to old code, dest may be NULL meaning send to
-  game.est_connections.
-
-  This function also sends the diplstate of the player. So take care, that
-  all players are defined in the client and in the server. To create a
-  player without sending the diplstate, use send_player_info_c().
-**************************************************************************/
-void send_player_info(struct player *src, struct player *dest)
-{
-  struct conn_list *conn_dest = dest ? dest->connections
-                                     : game.est_connections;
-
-  send_player_info_c(src, conn_dest);
-  send_player_diplstate_c(src, conn_dest);
 }
 
 /**************************************************************************
@@ -1123,7 +1119,7 @@ void server_player_init(struct player *pplayer,
 
 /********************************************************************** 
   Creates a new, uninitialized, used player slot. You should probably
-  call server_player_init() to initialize it, and send_player_info()
+  call server_player_init() to initialize it, and send_player_info_c()
   later to tell clients about it.
 
   May return NULL if creation was not possible.
@@ -1275,10 +1271,10 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
     if (pplayer2->ai_controlled && !pplayer1->ai_controlled) {
       call_first_contact(pplayer2, pplayer1);
     }
-    send_player_info(pplayer1, pplayer2);
-    send_player_info(pplayer2, pplayer1);
-    send_player_info(pplayer1, pplayer1);
-    send_player_info(pplayer2, pplayer2);
+    send_player_all_c(pplayer1, pplayer2->connections);
+    send_player_all_c(pplayer2, pplayer1->connections);
+    send_player_all_c(pplayer1, pplayer1->connections);
+    send_player_all_c(pplayer2, pplayer2->connections);
     return;
   } else {
     fc_assert(ds_plr2plr1->type != DS_NO_CONTACT);
@@ -1287,8 +1283,8 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
       || player_has_embassy(pplayer2, pplayer1)) {
     return; /* Avoid sending too much info over the network */
   }
-  send_player_info(pplayer1, pplayer1);
-  send_player_info(pplayer2, pplayer2);
+  send_player_all_c(pplayer1, pplayer1->connections);
+  send_player_all_c(pplayer2, pplayer2->connections);
 }
 
 /**************************************************************************
@@ -1534,7 +1530,7 @@ static struct player *split_player(struct player *pplayer)
      * pplayer will be sent later anyway
      */
     if (other_player != pplayer) {
-      send_player_info(other_player, other_player);
+      send_player_all_c(other_player, other_player->connections);
     }
   } players_iterate_end;
 
@@ -1715,9 +1711,9 @@ void civil_war(struct player *pplayer)
   /* Before units, cities, so clients know name of new nation
    * (for debugging etc).
    */
-  send_player_info(cplayer,  NULL);
-  send_player_info(pplayer,  NULL); 
-  
+  send_player_all_c(cplayer,  NULL);
+  send_player_all_c(pplayer,  NULL);
+
   /* Now split the empire */
 
   log_verbose("%s civil war; created AI %s",
@@ -1811,7 +1807,7 @@ void handle_player_phase_done(struct player *pplayer,
 
   check_for_full_turn_done();
 
-  send_player_info(pplayer, NULL);
+  send_player_all_c(pplayer, NULL);
 }
 
 /**************************************************************************

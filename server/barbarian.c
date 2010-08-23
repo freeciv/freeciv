@@ -158,7 +158,7 @@ static struct player *create_barbarian_player(enum barbarian_type type)
                 nation_plural_for_player(barbarians),
                 player_name(barbarians));
 
-  send_player_info(barbarians, NULL);
+  send_player_all_c(barbarians, NULL);
 
   return barbarians;
 }

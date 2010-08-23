@@ -524,7 +524,7 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update clients. */
-  send_player_info(pplayer, NULL);
+  send_player_all_c(pplayer, NULL);
 }
 
 /****************************************************************************
@@ -669,8 +669,8 @@ void diplomat_get_tech(struct player *pplayer, struct unit *pdiplomat,
   }
 
   /* Update stealing player's science progress and research fields */
-  send_player_info(pplayer, NULL);
- 
+  send_player_all_c(pplayer, NULL);
+
   /* Record the theft. */
   (pcity->server.steal)++;
 
@@ -805,8 +805,8 @@ void diplomat_incite(struct player *pplayer, struct unit *pdiplomat,
   diplomat_escape(pplayer, pdiplomat, pcity);
 
   /* Update the players gold in the client */
-  send_player_info(pplayer, pplayer);
-}  
+  send_player_info_c(pplayer, pplayer->connections);
+}
 
 /**************************************************************************
   Sabotage enemy city's improvement or production.
@@ -1354,8 +1354,8 @@ static void maybe_cause_incident(enum diplomat_actions action, struct player *of
     }
     player_diplstate_get(victim_player, offender)->has_reason_to_cancel = 2;
     call_incident(INCIDENT_DIPLOMAT, offender, victim_player);
-    send_player_info(offender, NULL);
-    send_player_info(victim_player, NULL);
+    send_player_all_c(offender, NULL);
+    send_player_all_c(victim_player, NULL);
   }
 
   return;

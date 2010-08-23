@@ -446,17 +446,6 @@ static void send_conn_info_arg(struct conn_list *src,
       packet.used = FALSE;
     }
     lsend_packet_conn_info(dest, &packet);
-
-    if (!remove) {
-      /* Resend all information about the players if the client switches into
-       * edit mode as this includes a reset of the player data. */
-      conn_list_iterate(dest, pdest) {
-        if (psrc->id == pdest->id) {
-          send_player_info_c(NULL, pdest->self);
-          send_player_diplstate_c(NULL, pdest->self);
-        }
-      } conn_list_iterate_end;
-    }
   } conn_list_iterate_end;
 }
 
@@ -664,7 +653,7 @@ void connection_detach(struct connection *pconn)
         /* Aitoggle the player if no longer connected. */
         if (game.server.auto_ai_toggle && !pplayer->ai_controlled) {
           toggle_ai_player_direct(NULL, pplayer);
-          /* send_player_info() was formerly updated by
+          /* send_player_info_c() was formerly updated by
            * toggle_ai_player_direct(), so it must be safe to send here now?
            *
            * At other times, data from send_conn_info() is used by the

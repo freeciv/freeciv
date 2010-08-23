@@ -284,7 +284,7 @@ static void ai_manage_taxes(struct player *pplayer)
            player_name(pplayer), pplayer->economic.science,
            pplayer->economic.luxury, pplayer->economic.tax,
            trade, expenses, can_celebrate, total_cities);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 }
 
 /**************************************************************************

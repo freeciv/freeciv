@@ -205,7 +205,7 @@ void remove_obsolete_buildings_city(struct city *pcity, bool refresh)
   if (sold && refresh) {
     city_refresh(pcity);
     send_city_info(pplayer, pcity);
-    send_player_info(pplayer, NULL); /* Send updated gold to all */
+    send_player_info_c(pplayer, NULL); /* Send updated gold to all */
   }
 }
 

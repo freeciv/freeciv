@@ -1880,8 +1880,8 @@ static bool set_ai_level(struct connection *caller, const char *name,
     }
     players_iterate(pplayer) {
       if (pplayer->ai_controlled) {
-	set_ai_level_directer(pplayer, level);
-	send_player_info_c(pplayer, NULL);
+        set_ai_level_directer(pplayer, level);
+        send_player_info_c(pplayer, NULL);
         cmd_reply(cmd_of_level(level), caller, C_OK,
 		_("Player '%s' now has AI skill level '%s'."),
                   player_name(pplayer),
@@ -2220,7 +2220,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
     }
     fc_assert(NULL != pteam);
     team_add_player(pplayer, pteam);
-    send_player_info(pplayer, NULL);
+    send_player_info_c(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
               player_name(pplayer),
               team_name_translation(pteam));
@@ -3634,7 +3634,7 @@ bool load_command(struct connection *caller, const char *filename, bool check)
   conn_list_compression_thaw(game.est_connections);
 
   /* Send information about the new players. */
-  send_player_info(NULL, NULL);
+  send_player_all_c(NULL, NULL);
 
   /* Everything seemed to load ok; spread the good news. */
   dlsend_packet_game_load(game.est_connections, TRUE, srvarg.load_filename);

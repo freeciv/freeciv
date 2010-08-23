@@ -239,10 +239,8 @@ static void update_player_after_tech_researched(struct player* plr,
     }
   } government_iterate_end;
 
-  /*
-   * Inform player about his new tech.
-   */
-  send_player_info(plr, plr);
+  /* Inform player about his new tech. */
+  send_player_info_c(plr, plr->connections);
 }
 
 /****************************************************************************
@@ -445,9 +443,9 @@ void found_new_tech(struct player *plr, Tech_type_id tech_found,
    */
   players_iterate(owner) {
     if (had_embassies[player_index(owner)]  > 0
-	&& get_player_bonus(owner, EFT_HAVE_EMBASSIES) == 0) {
+        && get_player_bonus(owner, EFT_HAVE_EMBASSIES) == 0) {
       players_iterate(other_player) {
-	send_player_info(owner, other_player);
+        send_player_all_c(owner, other_player->connections);
       } players_iterate_end;
     }
   } players_iterate_end;
@@ -990,16 +988,16 @@ void handle_player_research(struct player *pplayer, int tech)
   }
 
   choose_tech(pplayer, tech);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 
   /* Notify Team members. 
    * They share same research struct.
    */
   players_iterate(aplayer) {
     if (pplayer != aplayer
-	&& player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
-	&& aplayer->is_alive) {
-      send_player_info(aplayer, aplayer);
+        && player_diplstate_get(pplayer, aplayer)->type == DS_TEAM
+        && aplayer->is_alive) {
+      send_player_info_c(aplayer, aplayer->connections);
     }
   } players_iterate_end;
 }
@@ -1028,7 +1026,7 @@ void handle_player_tech_goal(struct player *pplayer, int tech_goal)
   }
 
   choose_tech_goal(pplayer, tech_goal);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 
   /* Notify Team members */
   players_iterate(aplayer) {

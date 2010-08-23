@@ -1308,7 +1308,7 @@ void give_shared_vision(struct player *pfrom, struct player *pto)
   } players_iterate_end;
 
   if (S_S_RUNNING == server_state()) {
-    send_player_info(pfrom, NULL);
+    send_player_info_c(pfrom, NULL);
   }
 }
 
@@ -1362,7 +1362,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
   } players_iterate_end;
 
   if (S_S_RUNNING == server_state()) {
-    send_player_info(pfrom, NULL);
+    send_player_info_c(pfrom, NULL);
   }
 }
 

@@ -1652,7 +1652,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                   ransom);
     pvictor->economic.gold += ransom;
     pvictim->economic.gold -= ransom;
-    send_player_info(pvictor, NULL);   /* let me see my new gold :-) */
+    send_player_info_c(pvictor, NULL);   /* let me see my new gold :-) */
     unitcount = 1;
   }
 
@@ -2366,7 +2366,7 @@ static void unit_enter_hut(struct unit *punit)
 
   script_signal_emit("hut_enter", 1, API_TYPE_UNIT, punit);
 
-  send_player_info(pplayer, pplayer);       /* eg, gold */
+  send_player_info_c(pplayer, pplayer->connections); /* eg, gold */
   return;
 }
 

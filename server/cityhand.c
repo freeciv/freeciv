@@ -273,7 +273,7 @@ void really_handle_city_sell(struct player *pplayer, struct city *pcity,
 
   /* If we sold the walls the other players should see it */
   send_city_info(NULL, pcity);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
 }
 
 /**************************************************************************
@@ -349,10 +349,10 @@ void really_handle_city_buy(struct player *pplayer, struct city *pcity)
     pcity->did_buy = TRUE;	/* !PS: no need to set buy flag otherwise */
   }
   city_refresh(pcity);
-  
+
   conn_list_do_buffer(pplayer->connections);
   send_city_info(pplayer, pcity);
-  send_player_info(pplayer,pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
   conn_list_do_unbuffer(pplayer->connections);
 }
 

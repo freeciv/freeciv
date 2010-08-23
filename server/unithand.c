@@ -149,7 +149,7 @@ void handle_unit_type_upgrade(struct player *pplayer, Unit_type_id uti)
                   utype_name_translation(from_unittype),
                   utype_name_translation(to_unittype),
                   cost * number_of_upgraded_units);
-    send_player_info(pplayer, pplayer);
+    send_player_info_c(pplayer, pplayer->connections);
   } else {
     notify_player(pplayer, NULL, E_UNIT_UPGRADED, ftc_server,
                   _("No units could be upgraded."));
@@ -176,7 +176,7 @@ void handle_unit_upgrade(struct player *pplayer, int unit_id)
     int cost = unit_upgrade_price(pplayer, from_unit, to_unit);
 
     transform_unit(punit, to_unit, FALSE);
-    send_player_info(pplayer, pplayer);
+    send_player_info_c(pplayer, pplayer->connections);
     notify_player(pplayer, unit_tile(punit), E_UNIT_UPGRADED, ftc_server,
                   _("%s upgraded to %s for %d gold."), 
                   utype_name_translation(from_unit),
@@ -1447,7 +1447,7 @@ void handle_unit_help_build_wonder(struct player *pplayer, int unit_id)
                 abs(build_points_left(pcity_dest)));
 
   wipe_unit(punit);
-  send_player_info(pplayer, pplayer);
+  send_player_info_c(pplayer, pplayer->connections);
   send_city_info(pplayer, pcity_dest);
   conn_list_do_unbuffer(pplayer->connections);
 }
@@ -1593,7 +1593,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
   update_bulbs(pplayer, revenue, TRUE);
 
   /* Inform everyone about tech changes */
-  send_player_info(pplayer, NULL);
+  send_player_info_c(pplayer, NULL);
 
   if (can_establish) {
 
@@ -1743,7 +1743,7 @@ static bool base_handle_unit_establish_trade(struct player *pplayer, int unit_id
     if (!players_on_same_team(pplayer, aplayer)) {
       continue;
     }
-    send_player_info(aplayer, aplayer);
+    send_player_info_c(aplayer, aplayer->connections);
   } players_iterate_end;
   conn_list_do_unbuffer(pplayer->connections);
   return TRUE;

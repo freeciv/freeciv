@@ -583,8 +583,8 @@ void handle_diplomacy_accept_treaty_req(struct player *pplayer,
     treaty_list_remove(treaties, ptreaty);
     clear_treaty(ptreaty);
     free(ptreaty);
-    send_player_info(pplayer, NULL);
-    send_player_info(pother, NULL);
+    send_player_all_c(pplayer, NULL);
+    send_player_all_c(pother, NULL);
   }
 }
 
@@ -595,9 +595,11 @@ void establish_embassy(struct player *pplayer, struct player *aplayer)
 {
   /* Establish the embassy. */
   BV_SET(pplayer->real_embassy, player_index(aplayer));
-  send_player_info(pplayer, pplayer);
-  send_player_info(pplayer, aplayer);  /* update player dialog with embassy */
-  send_player_info(aplayer, pplayer);  /* INFO_EMBASSY level info */
+  send_player_all_c(pplayer, pplayer->connections);
+  /* update player dialog with embassy */
+  send_player_all_c(pplayer, aplayer->connections);
+  /* INFO_EMBASSY level info */
+  send_player_all_c(aplayer, pplayer->connections);
 }
 
 /**************************************************************************
