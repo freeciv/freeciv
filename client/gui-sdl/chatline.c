@@ -561,7 +561,7 @@ static int load_game_callback(struct widget *pWidget)
 /**************************************************************************
  Update the connected users list at pregame state.
 **************************************************************************/
-void update_conn_list_dialog(void)
+void real_update_conn_list_dialog(void)
 {
   if (C_S_PREPARING == client_state()) {
     if (pConnDlg) {

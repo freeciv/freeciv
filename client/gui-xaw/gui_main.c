@@ -782,7 +782,7 @@ void main_show_info_popup(XEvent *event)
 /**************************************************************************
  Update the connected users list at pregame state.
 **************************************************************************/
-void update_conn_list_dialog(void)
+void real_update_conn_list_dialog(void)
 {
   /* PORTME */
   update_start_page();

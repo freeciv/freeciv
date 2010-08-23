@@ -360,7 +360,7 @@ void set_unit_icons_more_arrow(bool onoff)
   /* PORTME */
 }
 
-void update_conn_list_dialog(void)
+void real_update_conn_list_dialog(void)
 {
   /* PORTME */
 }

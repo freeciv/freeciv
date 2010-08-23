@@ -358,6 +358,7 @@ void handle_nuke_tile_info(int tile)
 void handle_team_name_info(int team_id, char *team_name)
 {
   team_name_set(team_slot_by_number(team_id), team_name);
+  update_conn_list_dialog();
 }
 
 /****************************************************************************

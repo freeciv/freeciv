@@ -838,7 +838,7 @@ enum gui_type get_gui_type(void)
 /**************************************************************************
  Update the connected users list at pregame state.
 **************************************************************************/
-void update_conn_list_dialog(void)
+void real_update_conn_list_dialog(void)
 {
   /* PORTME */
 }

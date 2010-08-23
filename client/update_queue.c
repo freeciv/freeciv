@@ -32,6 +32,9 @@
 
 #include "update_queue.h"
 
+
+#define Q_CALLBACK(fn) ((queue_callback_t) fn)
+
 static struct hash_table *update_queue = NULL;
 static struct hash_table *processing_started_waiting_queue = NULL;
 static struct hash_table *processing_finished_waiting_queue = NULL;
@@ -134,7 +137,7 @@ void update_queue_processing_started(int request_id)
   }
 
   hash_iterate(processing_started_waiting_queue, iter) {
-    update_queue_add((queue_callback_t) hash_iter_get_key(iter),
+    update_queue_add(Q_CALLBACK(hash_iter_get_key(iter)),
                      hash_iter_get_value(iter));
   } hash_iterate_end;
   hash_delete_all_entries(processing_started_waiting_queue);
@@ -150,7 +153,7 @@ void update_queue_processing_finished(int request_id)
   }
 
   hash_iterate(processing_finished_waiting_queue, iter) {
-    update_queue_add((queue_callback_t) hash_iter_get_key(iter),
+    update_queue_add(Q_CALLBACK(hash_iter_get_key(iter)),
                      hash_iter_get_value(iter));
   } hash_iterate_end;
   hash_delete_all_entries(processing_finished_waiting_queue);
@@ -182,7 +185,7 @@ static void update_unqueue(void *data)
 
   /* Invoke callbacks. */
   hash_iterate(hash, iter) {
-    ((queue_callback_t) hash_iter_get_key(iter)) (hash_iter_get_value(iter));
+    Q_CALLBACK(hash_iter_get_key(iter)) (hash_iter_get_value(iter));
   } hash_iterate_end;
   hash_free(hash);
 }
@@ -372,4 +375,13 @@ void city_report_dialog_update_city(struct city *pcity)
 {
   pcity->client.need_updates |= CU_UPDATE_REPORT;
   update_queue_add(cities_update_callback, NULL);
+}
+
+
+/****************************************************************************
+  Update the connection list in the start page.
+****************************************************************************/
+void update_conn_list_dialog(void)
+{
+  update_queue_add(Q_CALLBACK(real_update_conn_list_dialog), NULL);
 }
