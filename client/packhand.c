@@ -1678,6 +1678,11 @@ void handle_game_info(struct packet_game_info *pinfo)
     update_info_label();
   }
 
+  if (C_S_PREPARING == client_state()) {
+    /* Team names may have changed. */
+    update_conn_list_dialog();
+  }
+
   editgui_notify_object_changed(OBJTYPE_GAME, 1, FALSE);
 }
 
