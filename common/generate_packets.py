@@ -364,18 +364,39 @@ class Field:
            (self.dataio_type not in arr_types and self.is_array==0):
             return "  dio_put_%(dataio_type)s(&dout, real_packet->%(name)s);"%self.__dict__
         if self.is_struct:
-            c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i]);"%self.__dict__
+            if self.is_array==2:
+                c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i][j]);"%self.__dict__
+            else:
+                c="dio_put_%(dataio_type)s(&dout, &real_packet->%(name)s[i]);"%self.__dict__
         elif self.dataio_type=="string":
             c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i]);"%self.__dict__
             array_size_u=self.array_size1_u
 
         elif self.struct_type=="float":
-            c="  dio_put_uint32(&dout, (int)(real_packet->%(name)s[i] * %(float_factor)d));"%self.__dict__
+            if self.is_array==2:
+                c="  dio_put_uint32(&dout, (int)(real_packet->%(name)s[i][j] * %(float_factor)d));"%self.__dict__
+            else:
+                c="  dio_put_uint32(&dout, (int)(real_packet->%(name)s[i] * %(float_factor)d));"%self.__dict__
         else:
-            c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i]);"%self.__dict__
+            if self.is_array==2:
+                c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i][j]);"%self.__dict__
+            else:
+                c="dio_put_%(dataio_type)s(&dout, real_packet->%(name)s[i]);"%self.__dict__
 
         if not self.diff:
-            return '''
+            if self.is_array==2 and self.dataio_type!="string":
+                return '''
+    {
+      int i, j;
+
+      for (i = 0; i < %(array_size1_u)s; i++) {
+        for (j = 0; j < %(array_size2_u)s; j++) {
+          %(c)s
+        }
+      }
+    } '''%self.get_dict(vars())
+            else:
+                return '''
     {
       int i;
 
@@ -447,16 +468,35 @@ class Field:
 }'''%self.__dict__
 
         if self.is_struct:
-            c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
+            if self.is_array==2:
+                c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j]);"%self.__dict__
+            else:
+                c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
         elif self.dataio_type=="string":
             c="dio_get_%(dataio_type)s(&din, real_packet->%(name)s[i], sizeof(real_packet->%(name)s[i]));"%self.__dict__
         elif self.struct_type=="float":
-            c='''int tmp;
+            if self.is_array==2:
+                c='''int tmp;
+
+    dio_get_uint32(&din, &tmp);
+    real_packet->%(name)s[i][j] = (float)(tmp) / %(float_factor)d.0;'''%self.__dict__
+            else:
+                c='''int tmp;
 
     dio_get_uint32(&din, &tmp);
     real_packet->%(name)s[i] = (float)(tmp) / %(float_factor)d.0;'''%self.__dict__
         elif self.struct_type=="bool":
-            c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
+            if self.is_array==2:
+                c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i][j]);"%self.__dict__
+            else:
+                c="dio_get_%(dataio_type)s(&din, &real_packet->%(name)s[i]);"%self.__dict__
+        elif self.is_array==2:
+            c='''{
+  int readin;
+
+  dio_get_%(dataio_type)s(&din, &readin);
+  real_packet->%(name)s[i][j] = readin;
+}'''%self.__dict__
         else:
             c='''{
   int readin;
@@ -483,7 +523,19 @@ class Field:
             if self.dataio_type=="memory":
                 return '''%(extra)s
   dio_get_%(dataio_type)s(&din, real_packet->%(name)s, %(array_size_u)s);'''%self.get_dict(vars())
-            return '''
+            elif self.is_array==2 and self.dataio_type!="string":
+                return '''
+{
+  int i, j;
+%(extra)s
+  for (i = 0; i < %(array_size1_u)s; i++) {
+    for (j = 0; j < %(array_size2_u)s; j++) {
+      %(c)s
+    }
+  }
+}'''%self.get_dict(vars())
+            else:
+                return '''
 {
   int i;
 %(extra)s

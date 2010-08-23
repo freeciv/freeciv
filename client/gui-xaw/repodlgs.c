@@ -1167,17 +1167,17 @@ void popup_endgame_report_dialog(struct packet_endgame_report *packet)
 {
   char buffer[150 * MAX_NUM_PLAYERS];
   int i;
- 
+
   buffer[0] = '\0';
-  for (i = 0; i < packet->nscores; i++) {
+  for (i = 0; i < packet->player_num; i++) {
+    const struct player *pplayer = player_by_number(packet->player_id[i]);
+
     cat_snprintf(buffer, sizeof(buffer),
                  PL_("%2d: The %s ruler %s scored %d point\n",
                      "%2d: The %s ruler %s scored %d points\n",
                      packet->score[i]),
-                 i + 1,
-                 nation_adjective_for_player(player_by_number(packet->id[i])),
-                 player_name(player_by_number(packet->id[i])),
-                 packet->score[i]);
+                 i + 1, nation_adjective_for_player(pplayer),
+                 player_name(pplayer), packet->score[i]);
   }
   popup_notify_dialog(_("Final Report:"),
                       _("The Greatest Civilizations in the world."),

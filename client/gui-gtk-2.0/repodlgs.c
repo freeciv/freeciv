@@ -39,14 +39,9 @@
 
 /* client */
 #include "chatline_common.h"
-#include "cityrep.h"
 #include "client_main.h"
 #include "climisc.h"
 #include "control.h"
-#include "dialogs.h"
-#include "gui_main.h"
-#include "gui_stuff.h"
-#include "helpdlg.h"
 #include "mapview_common.h"
 #include "options.h"
 #include "packhand_gen.h"
@@ -54,9 +49,17 @@
 #include "reqtree.h"
 #include "text.h"
 
+/* client/gui-gtk-2.0 */
 #include "canvas.h"
-#include "repodlgs_common.h"
+#include "cityrep.h"
+#include "dialogs.h"
+#include "gui_main.h"
+#include "gui_stuff.h"
+#include "helpdlg.h"
+#include "plrdlg.h"
+
 #include "repodlgs.h"
+
 
 /******************************************************************/
 
@@ -111,12 +114,7 @@ static int activeunits_dialog_shell_is_modal;
 /******************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet);
 
-static GtkListStore *scores_store;
-static struct gui_dialog *endgame_report_shell;
-static GtkWidget *scores_list;
-static GtkWidget *sw;
-
-#define NUM_SCORE_COLS 14                
+static struct gui_dialog *endgame_report_shell = NULL;
 
 /******************************************************************
 ...
@@ -1326,78 +1324,71 @@ void activeunits_report_dialog_update(void)
  
 ****************************************************************/
 
-/****************************************************************
+/****************************************************************************
   Prepare the Final Report dialog, and fill it with 
   statistics for each player.
-*****************************************************************/
+****************************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet)
 {
-  int i;
-  static bool titles_done;
-  GtkTreeIter it;
-      
-  static const char *titles[NUM_SCORE_COLS] = {
+  enum { COL_PLAYER, COL_NATION, COL_SCORE, COL_LAST };
+  const char *col_names[COL_LAST] = {
     N_("Player\n"),
-    N_("Score\n"),
-    N_("Population\n"),
-    /* TRANS: "M goods" = million goods */
-    N_("Trade\n(M goods)"), 
-    /* TRANS: "M tons" = million tons */
-    N_("Production\n(M tons)"), 
-    N_("Cities\n"),
-    N_("Technologies\n"),
-    N_("Military Service\n(months)"), 
-    N_("Wonders\n"),
-    N_("Research Speed\n(%)"), 
-    /* TRANS: "sq. mi." is abbreviation for "square miles" */
-    N_("Land Area\n(sq. mi.)"), 
-    /* TRANS: "sq. mi." is abbreviation for "square miles" */
-    N_("Settled Area\n(sq. mi.)"), 
-    N_("Literacy\n(%)"), 
-    N_("Spaceship\n")
+    N_("Nation\n"),
+    N_("Score\n")
   };
+  const size_t col_num = packet->category_num + COL_LAST;
+  GType col_types[col_num];
+  GtkListStore *store;
+  GtkWidget *sw, *view;
+  GtkTreeIter it;
+  int i, j;
 
-  static GType model_types[NUM_SCORE_COLS] = {
-    G_TYPE_STRING,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT
-  };
-
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
+  col_types[COL_PLAYER] = G_TYPE_STRING;
+  col_types[COL_NATION] = GDK_TYPE_PIXBUF;
+  col_types[COL_SCORE] = G_TYPE_INT;
+  for (i = COL_LAST; i < col_num; i++) {
+    col_types[i] = G_TYPE_INT;
+  }
 
   gui_dialog_new(&endgame_report_shell, GTK_NOTEBOOK(top_notebook), NULL);
   gui_dialog_set_title(endgame_report_shell, _("Score"));
   gui_dialog_add_button(endgame_report_shell, GTK_STOCK_CLOSE,
-      GTK_RESPONSE_CLOSE);
+                        GTK_RESPONSE_CLOSE);
 
   gui_dialog_set_default_size(endgame_report_shell, 700, 420);
 
-  scores_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
-  scores_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(scores_store));
-  g_object_unref(scores_store);
-  gtk_widget_set_name(scores_list, "small_font");
-    
-  for (i = 0; i < NUM_SCORE_COLS; i++) {
+  store = gtk_list_store_newv(col_num, col_types);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
+  gtk_widget_set_name(view, "small_font");
+
+  for (i = 0; i < col_num; i++) {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
-      
-    renderer = gtk_cell_renderer_text_new();
-    col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-                                                   "text", i, NULL);
-    gtk_tree_view_column_set_sort_column_id(col, i);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(scores_list), col);
-  }  
+    const char *title;
+    const char *attribute;
+
+    if (GDK_TYPE_PIXBUF == col_types[i]) {
+      renderer = gtk_cell_renderer_pixbuf_new();
+      attribute = "pixbuf";
+    } else {
+      renderer = gtk_cell_renderer_text_new();
+      attribute = "text";
+    }
+
+    if (i < COL_LAST) {
+      title = col_names[i];
+    } else {
+      title = packet->category_name[i - COL_LAST];
+    }
+
+    col = gtk_tree_view_column_new_with_attributes(Q_(title), renderer,
+                                                   attribute, i, NULL);
+    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+    if (GDK_TYPE_PIXBUF != col_types[i]) {
+      gtk_tree_view_column_set_sort_column_id(col, i);
+    }
+  }
 
   /* Setup the layout. */
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -1405,31 +1396,26 @@ static void create_endgame_report(struct packet_endgame_report *packet)
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
-  gtk_container_add(GTK_CONTAINER(sw), scores_list);
+  gtk_container_add(GTK_CONTAINER(sw), view);
   gtk_box_pack_start(GTK_BOX(endgame_report_shell->vbox), sw, TRUE, TRUE, 0);
   gui_dialog_set_default_response(endgame_report_shell, GTK_RESPONSE_CLOSE);
   gui_dialog_show_all(endgame_report_shell);
-  
+
   /* Insert score statistics into table.  */
-  gtk_list_store_clear(scores_store);
-  for (i = 0; i < packet->nscores; i++) {
-    gtk_list_store_append(scores_store, &it);
-    gtk_list_store_set(scores_store, &it,
-                       0, (gchar *)player_name(player_by_number(packet->id[i])),
-                       1, packet->score[i],
-                       2, packet->pop[i],
-                       3, packet->bnp[i],
-                       4, packet->mfg[i],
-                       5, packet->cities[i],
-                       6, packet->techs[i],
-                       7, packet->mil_service[i],
-                       8, packet->wonders[i],
-                       9, packet->research[i],
-                       10, packet->landarea[i],
-                       11, packet->settledarea[i],
-                       12, packet->literacy[i],
-                       13, packet->spaceship[i],
+  for (i = 0; i < packet->player_num; i++) {
+    const struct player *pplayer = player_by_number(packet->player_id[i]);
+
+    gtk_list_store_append(store, &it);
+    gtk_list_store_set(store, &it,
+                       COL_PLAYER, player_name(pplayer),
+                       COL_NATION, get_flag(nation_of_player(pplayer)),
+                       COL_SCORE, packet->score[i],
                        -1);
+    for (j = 0; j < packet->category_num; j++) {
+      gtk_list_store_set(store, &it,
+                         j + COL_LAST, packet->category_score[j][i],
+                         -1);
+    }
   }
 }
 

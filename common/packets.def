@@ -325,22 +325,14 @@ PACKET_PLAYER_READY = 11; cs, dsend
   BOOL is_ready;
 end
 
-PACKET_ENDGAME_REPORT = 12; sc, lsend
-  UINT8 nscores;
-  PLAYER id[MAX_NUM_PLAYERS:nscores];
-  UINT16 score[MAX_NUM_PLAYERS:nscores];
-  UINT32 pop[MAX_NUM_PLAYERS:nscores];
-  UINT16 bnp[MAX_NUM_PLAYERS:nscores];
-  UINT16 mfg[MAX_NUM_PLAYERS:nscores];
-  UINT16 cities[MAX_NUM_PLAYERS:nscores];
-  UINT16 techs[MAX_NUM_PLAYERS:nscores];
-  UINT16 mil_service[MAX_NUM_PLAYERS:nscores];
-  UINT8 wonders[MAX_NUM_PLAYERS:nscores];
-  UINT16 research[MAX_NUM_PLAYERS:nscores];
-  UINT32 landarea[MAX_NUM_PLAYERS:nscores];
-  UINT32 settledarea[MAX_NUM_PLAYERS:nscores];
-  UINT16 literacy[MAX_NUM_PLAYERS:nscores];
-  UINT32 spaceship[MAX_NUM_PLAYERS:nscores];
+PACKET_ENDGAME_REPORT = 12; sc, lsend, no-delta
+  UINT8 category_num;
+  STRING category_name[32:category_num][MAX_LEN_NAME];
+
+  UINT8 player_num;
+  PLAYER player_id[MAX_NUM_PLAYERS:player_num];
+  UINT16 score[MAX_NUM_PLAYERS:player_num];
+  UINT32 category_score[32:category_num][MAX_NUM_PLAYERS:player_num];
 end
 
 /************** Info packets **********************/
