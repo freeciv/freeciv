@@ -465,7 +465,7 @@ static void check_players(const char *file, const char *function, int line)
 
     SANITY_CHECK(pplayer->server.aidata != NULL);
     SANITY_CHECK(!pplayer->nation || pplayer->nation->player == pplayer);
-    SANITY_CHECK(player_list_search(pplayer->team->plrlist, pplayer));
+    SANITY_CHECK(player_list_search(team_members(pplayer->team), pplayer));
 
     city_list_iterate(pplayer->cities, pcity) {
       if (is_capital(pcity)) {
@@ -511,7 +511,7 @@ static void check_players(const char *file, const char *function, int line)
   } nations_iterate_end;
 
   teams_iterate(pteam) {
-    player_list_iterate(pteam->plrlist, pplayer) {
+    player_list_iterate(team_members(pteam), pplayer) {
       SANITY_CHECK(pplayer->team == pteam);
     } player_list_iterate_end;
   } teams_iterate_end;
@@ -537,7 +537,7 @@ static void check_teams(const char *file, const char *function, int line)
     if (team_slot_is_used(tslot)) {
       struct team *pteam = team_slot_get_team(tslot);
       fc_assert_exit(pteam);
-      SANITY_CHECK(player_list_size(pteam->plrlist)
+      SANITY_CHECK(player_list_size(team_members(pteam))
                    == count[team_slot_index(tslot)]);
     }
   } team_slots_iterate_end;

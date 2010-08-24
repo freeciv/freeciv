@@ -2207,7 +2207,7 @@ static void player_load_main(struct player *plr, int plrno,
   id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
   if (!(pteam = team_by_number(id))) {
     /* If id is equal to -1 the player is added to the next empty team. */
-    pteam = team_new(id);
+    pteam = team_new(NULL);
   }
   team_add_player(plr, pteam);
 

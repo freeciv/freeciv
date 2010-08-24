@@ -87,7 +87,6 @@ static char *resource_sections = NULL;
 static char *terrain_sections = NULL;
 static char *base_sections = NULL;
 
-
 static struct section_file *openload_ruleset_file(const char *whichset);
 static const char *check_ruleset_capabilities(struct section_file *file,
                                               const char *us_capstr,
@@ -3437,9 +3436,11 @@ static void load_ruleset_game(void)
 
   /* section: teams */
   svec = secfile_lookup_str_vec(file, &teams, "teams.names");
-  teams = MIN(MAX_NUM_TEAM_SLOTS, teams);
+  if (team_slot_count() < teams) {
+    teams = team_slot_count();
+  }
   for (i = 0; i < teams; i++) {
-    team_name_set(team_slot_by_number(i), svec[i]);
+    team_slot_set_defined_name(team_slot_by_number(i), svec[i]);
   }
   free(svec);
 
@@ -3935,21 +3936,18 @@ static void send_ruleset_team_names(struct conn_list *dest)
 {
   struct packet_team_name_info team_name_info_p;
 
-  team_slots_iterate(pslot) {
-    const char *name;
-    struct team *pteam = team_slot_get_team(pslot);
+  team_slots_iterate(tslot) {
+    const char *name = team_slot_defined_name(tslot);
 
-    if (!pteam) {
-      continue;
+    if (NULL == name) {
+      /* End of defined names. */
+      break;
     }
 
-    name = team_name_get_defined(pteam);
-    if (name) {
-      team_name_info_p.team_id = team_index(pteam);
-      sz_strlcpy(team_name_info_p.team_name, name);
+    team_name_info_p.team_id = team_slot_index(tslot);
+    sz_strlcpy(team_name_info_p.team_name, name);
 
-      lsend_packet_team_name_info(dest, &team_name_info_p);
-    }
+    lsend_packet_team_name_info(dest, &team_name_info_p);
   } team_slots_iterate_end;
 }
 

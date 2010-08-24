@@ -366,7 +366,7 @@ bool check_for_game_over(void)
     bool win = TRUE; /* optimistic */
 
     /* Teams-of-one are handled below */
-    if (player_list_size(pteam->plrlist) == 1) {
+    if (player_list_size(team_members(pteam)) == 1) {
       continue;
     }
 

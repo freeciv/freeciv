@@ -146,7 +146,7 @@ void kill_player(struct player *pplayer)
   cancel_all_meetings(pplayer);
 
   /* Show entire map for players who are *not* in a team. */
-  if (player_list_size(pplayer->team->plrlist) == 1) {
+  if (player_list_size(team_members(pplayer->team)) == 1) {
     map_know_and_see_all(pplayer);
   }
 

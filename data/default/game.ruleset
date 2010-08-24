@@ -198,39 +198,14 @@ positive_label = _("AD")
 negative_label = _("BC")
 
 [teams]
-names =
- _("Team 0"),
- _("Team 1"),
- _("Team 2"),
- _("Team 3"),
- _("Team 4"),
- _("Team 5"),
- _("Team 6"),
- _("Team 7"),
- _("Team 8"),
- _("Team 9"),
- _("Team 10"),
- _("Team 11"),
- _("Team 12"),
- _("Team 13"),
- _("Team 14"),
- _("Team 15"),
- _("Team 16"),
- _("Team 17"),
- _("Team 18"),
- _("Team 19"),
- _("Team 20"),
- _("Team 21"),
- _("Team 22"),
- _("Team 23"),
- _("Team 24"),
- _("Team 25"),
- _("Team 26"),
- _("Team 27"),
- _("Team 28"),
- _("Team 29"),
- _("Team 30"),
- _("Team 31")
+; freeciv optional team names definition.
+;
+; name =
+;  _("Team 0"),
+; _("Team 1"),
+; _("Team 2"),
+; _("Team 3"),
+; etc...
 
 [settings]
 ; freeciv game settings for the default ruleset

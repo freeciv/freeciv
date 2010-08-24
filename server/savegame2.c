@@ -3112,7 +3112,7 @@ static void sg_load_player_main(struct loaddata *loading,
   sg_failure_ret(0 <= id && id < team_slot_count(), "Invalid team "
                  "definition for player %s.", player_name(plr));
   if (!(pteam = team_by_number(id))) {
-    pteam = team_new(id);
+    pteam = team_new(NULL);
   }
   team_add_player(plr, pteam);
 

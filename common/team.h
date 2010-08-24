@@ -20,35 +20,41 @@
 
 #define MAX_NUM_TEAM_SLOTS MAX_NUM_PLAYER_SLOTS
 
-struct team {
-  struct player_list *plrlist;
-  const struct team **tslot;
-};
+/* Opaque types. */
+struct team;
+struct team_slot;
 
-/* General team accessor functions. */
+/* General team slot accessor functions. */
 void team_slots_init(void);
 bool team_slots_initialised(void);
 void team_slots_free(void);
 int team_slot_count(void);
-int team_slot_index(const struct team **tslot);
-struct team *team_slot_get_team(const struct team **tslot);
-bool team_slot_is_used(const struct team **tslot);
-const struct team **team_slot_by_number(int team_id);
-const struct team **team_slot_by_rule_name(const char *team_name);
 
-struct team *team_new(int team_id);
+struct team_slot *team_slot_first(void);
+struct team_slot *team_slot_next(struct team_slot *tslot);
+
+/* Team slot accessor functions. */
+int team_slot_index(const struct team_slot *tslot);
+struct team *team_slot_get_team(const struct team_slot *tslot);
+bool team_slot_is_used(const struct team_slot *tslot);
+struct team_slot *team_slot_by_number(int team_id);
+struct team_slot *team_slot_by_rule_name(const char *team_name);
+const char *team_slot_rule_name(const struct team_slot *tslot);
+const char *team_slot_name_translation(const struct team_slot *tslot);
+const char *team_slot_defined_name(const struct team_slot *tslot);
+void team_slot_set_defined_name(struct team_slot *tslot, const char *team_name);
+
+/* Team accessor functions. */
+struct team *team_new(struct team_slot *tslot);
 void team_destroy(struct team *pteam);
 int team_count(void);
 int team_index(const struct team *pteam);
 int team_number(const struct team *pteam);
 struct team *team_by_number(const int team_id);
-
-void team_name_set(const struct team **tslot, const char *name);
-void team_name_destroy(const struct team **tslot);
-
-const char *team_name_get_defined(const struct team *pteam);
-const char *team_name_get(const struct team *pteam);
+const char *team_rule_name(const struct team *pteam);
 const char *team_name_translation(const struct team *pteam);
+
+const struct player_list *team_members(const struct team *pteam);
 
 /* Ancillary routines */
 void team_add_player(struct player *pplayer, struct team *pteam);
@@ -56,14 +62,10 @@ void team_remove_player(struct player *pplayer);
 
 /* iterate over all team slots */
 #define team_slots_iterate(_tslot)                                          \
-  {                                                                         \
-    const struct team **_tslot;                                             \
-    int _tslot##_index = 0;                                                 \
-    if (team_slots_initialised()) {                                         \
-      for (; _tslot##_index < team_slot_count(); _tslot##_index++) {        \
-        _tslot = team_slot_by_number(_tslot##_index);
+  if (team_slots_initialised()) {                                           \
+    struct team_slot *_tslot = team_slot_first();                           \
+    for (; NULL != _tslot; _tslot = team_slot_next(_tslot)) {
 #define team_slots_iterate_end                                              \
-      }                                                                     \
     }                                                                       \
   }
 

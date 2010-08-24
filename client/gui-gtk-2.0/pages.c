@@ -1146,12 +1146,13 @@ static struct connection *conn_menu_conn;
 ****************************************************************************/
 static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 {
-  struct team *pteam = data;
+  struct team_slot *tslot = data;
 
-  if (pteam && pteam != conn_menu_player->team) {
+  if (NULL != tslot
+      && team_slot_index(tslot) != team_number(conn_menu_player->team)) {
     send_chat_printf("/team \"%s\" \"%s\"",
                      player_name(conn_menu_player),
-                     team_name_get(pteam));
+                     team_slot_rule_name(tslot));
   }
 }
 
@@ -1402,7 +1403,7 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
   if (pplayer && game.info.is_new_game) {
     const int count = pplayer->team
-                      ? player_list_size(pplayer->team->plrlist) : 0;
+                      ? player_list_size(team_members(pplayer->team)) : 0;
     bool need_empty_team = (count != 1);
 
     entry = gtk_separator_menu_item_new();
@@ -1413,36 +1414,25 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
 
     /* Can't use team_iterate here since it skips empty teams. */
     team_slots_iterate(tslot) {
-      struct team *pteam = team_slot_get_team(tslot);
       char text[128];
-      const char *tname;
 
-      if (!pteam) {
-        continue;
-      }
-
-      if (player_list_size(pteam->plrlist) == 0) {
-	if (!need_empty_team) {
-	  continue;
-	}
-	need_empty_team = FALSE;
-      }
-
-      tname = team_name_translation(pteam);
-      if (!tname) {
-        continue;
+      if (!team_slot_is_used(tslot)) {
+        if (!need_empty_team) {
+          continue;
+        }
+        need_empty_team = FALSE;
       }
 
       /* TRANS: e.g., "Put on Team 5" */
-      fc_snprintf(text, sizeof(text), _("Put on %s"), tname);
+      fc_snprintf(text, sizeof(text), _("Put on %s"),
+                  team_slot_name_translation(tslot));
       entry = gtk_menu_item_new_with_label(text);
-      g_object_set_data_full(G_OBJECT(menu),
-			     team_name_get(pteam), entry,
-			     (GtkDestroyNotify) gtk_widget_unref);
+      g_object_set_data_full(G_OBJECT(menu), team_slot_rule_name(tslot),
+                             entry, (GtkDestroyNotify) gtk_widget_unref);
       gtk_container_add(GTK_CONTAINER(menu), entry);
       g_signal_connect(GTK_OBJECT(entry), "activate",
-		       GTK_SIGNAL_FUNC(conn_menu_team_chosen),
-		       pteam);
+                       GTK_SIGNAL_FUNC(conn_menu_team_chosen),
+                       tslot);
     } team_slots_iterate_end;
   }
 

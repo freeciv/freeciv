@@ -357,7 +357,10 @@ void handle_nuke_tile_info(int tile)
 ****************************************************************************/
 void handle_team_name_info(int team_id, char *team_name)
 {
-  team_name_set(team_slot_by_number(team_id), team_name);
+  struct team_slot *tslot = team_slot_by_number(team_id);
+
+  fc_assert_ret(NULL != tslot);
+  team_slot_set_defined_name(tslot, team_name);
   update_conn_list_dialog();
 }
 
@@ -1720,8 +1723,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
   const struct player **pslot;
-  const struct team **tslot;
-  struct team *pteam;
+  struct team_slot *tslot;
 
   /* First verify packet fields. */
 
@@ -1748,12 +1750,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* Team. */
   tslot = team_slot_by_number(pinfo->team);
   fc_assert(NULL != tslot);
-  pteam = team_slot_get_team(tslot);
-  if (NULL == pteam) {
-    pteam = team_new(pinfo->team);
-    fc_assert(NULL != pteam);
-  }
-  team_add_player(pplayer, pteam);
+  team_add_player(pplayer, team_new(tslot));
 
   is_new_nation = player_set_nation(pplayer, pnation);
   pplayer->is_male = pinfo->is_male;

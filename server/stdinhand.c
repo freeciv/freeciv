@@ -2167,8 +2167,7 @@ static bool team_command(struct connection *caller, char *str, bool check)
   char *arg[2];
   int ntokens = 0, i;
   bool res = FALSE;
-  const struct team **tslot;
-  struct team *pteam;
+  struct team_slot *tslot;
 
   if (game_was_started()) {
     cmd_reply(CMD_TEAM, caller, C_SYNTAX,
@@ -2214,16 +2213,11 @@ static bool team_command(struct connection *caller, char *str, bool check)
     goto cleanup;
   }
   if (!check) {
-    pteam = team_slot_get_team(tslot);
-    if (NULL == pteam) {
-      pteam = team_new(team_slot_index(tslot));
-    }
-    fc_assert(NULL != pteam);
-    team_add_player(pplayer, pteam);
+    team_add_player(pplayer, team_new(tslot));
     send_player_info_c(pplayer, NULL);
     cmd_reply(CMD_TEAM, caller, C_OK, _("Player %s set to team %s."),
               player_name(pplayer),
-              team_name_translation(pteam));
+              team_slot_name_translation(tslot));
   }
   res = TRUE;
 
@@ -4792,37 +4786,20 @@ static void show_teams(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
   teams_iterate(pteam) {
-    if (player_list_size(pteam->plrlist) > 1) {
-      /* PL_() is needed here because some languages may differentiate
-       * between 2 and 3 (although English does not). */
-      cmd_reply(CMD_LIST, caller, C_COMMENT,
-                /* TRANS: There will always be at least 2 players here. */
-                PL_("%2d : '%s' : %d player",
-                    "%2d : '%s' : %d players",
-                    player_list_size(pteam->plrlist)),
-                team_index(pteam), team_name_translation(pteam),
-                player_list_size(pteam->plrlist));
-      players_iterate(pplayer) {
-	if (pplayer->team == pteam) {
-	  cmd_reply(CMD_LIST, caller, C_COMMENT, "  %s", player_name(pplayer));
-	}
-      } players_iterate_end;
-    } else if (player_list_size(pteam->plrlist) == 1) {
-      struct player *teamplayer = NULL;
+    const struct player_list *members = team_members(pteam);
 
-      players_iterate(pplayer) {
-	if (pplayer->team == pteam) {
-	  teamplayer = pplayer;
-	  break;
-	}
-      } players_iterate_end;
-
-      cmd_reply(CMD_LIST, caller, C_COMMENT,
-		_("%2d : '%s' : 1 player : %s"),
-		team_index(pteam),
-		team_name_translation(pteam),
-		player_name(teamplayer));
-    }
+    /* PL_() is needed here because some languages may differentiate
+     * between 2 and 3 (although English does not). */
+    cmd_reply(CMD_LIST, caller, C_COMMENT,
+              /* TRANS: There will always be at least 2 players here. */
+              PL_("%2d : '%s' : %d player :",
+                  "%2d : '%s' : %d players :",
+                  player_list_size(members)),
+              team_index(pteam), team_name_translation(pteam),
+              player_list_size(members));
+    player_list_iterate(members, pplayer) {
+      cmd_reply(CMD_LIST, caller, C_COMMENT, " %s", player_name(pplayer));
+    } player_list_iterate_end;
   } teams_iterate_end;
 
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
