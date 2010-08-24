@@ -1,0 +1,53 @@
+[nation_maasai] 
+
+name=_("Maasai") 
+plural=_("?plural:Maasais") 
+groups="African" 
+legend=_("The Maasai are an indigenous African ethnic group of\
+ semi-nomadic people located in Kenya and northern Tanzania. Due to\
+ their distinctive customs and dress and residence near the many game\
+ parks of East Africa, they are among the most well known of African\
+ ethnic groups.") 
+
+leader=
+ "Mbatian",
+ "Lenana",
+ "Segi"
+leader_sex=
+ "Male",
+ "Male",
+ "Male"
+
+flag = "maasai" 
+flag_alt = "-" 
+city_style = "Tropical" 
+ruler_titles = { "government",      "male_title",        "female_title"
+"Despotism",       _("Laibon"),        _("?female:Laibon")
+"Monarchy",       _("Paramount Chief"),        _("?female:Paramount Chief")
+               }
+
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+civilwar_nations = "kenyan"
+
+cities = 
+  "Maasai Mara",
+"Iloitokitoki",
+"Ildamat",
+"Irpurko",
+"Irkeekonyokie",
+"Iloitai",
+"Irkaputiei",
+"Iirkankere",
+"Isiria",
+"Irmoitanik",
+"Iloodokilani",
+"Irmatatapato",
+"Irwuasinkishu",
+"Ilarusa",
+"Kore",
+"Parakuyu",
+"Irkisonko",
+"Isikirari"

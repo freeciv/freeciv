@@ -148,6 +148,7 @@ artists = "
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons users)
    Lithuania		Christian Schaller
+   Maasai		James Ots and J.M. Maalderink
    Macedon		Mysid (Wikimedia Commons user)
    Macedonia		Sigge Kotliar
    Madagascar		Russell Cloran
@@ -405,6 +406,7 @@ sprites =
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.lithuania", "flags/lithuania"
+		"f.maasai", "flags/maasai"
 		"f.macedon", "flags/macedon"
 		"f.macedonia", "flags/macedonia"
 		"f.madagascar", "flags/madagascar"

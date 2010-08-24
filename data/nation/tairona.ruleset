@@ -23,7 +23,8 @@ leader_sex = "Male", "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
 		 ; /* TRANS: Hankwa = Chief */
-                 "Despotism",       _("Hankwa"),        _("?female:Hankwa")
+"Despotism",       _("Hankwa"),        _("?female:Hankwa")
+"Monarchy",       _("Paramount Chief"),        _("?female:Paramount Chief")
                }
 
 flag         = "tairona"
