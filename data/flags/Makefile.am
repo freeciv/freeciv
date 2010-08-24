@@ -126,6 +126,7 @@ flag_files =				\
 		kalmykia.png		\
 		kampuchea.png		\
 		kanem-bornu.png		\
+		karelia.png		\
 		kazakhstan.png		\
 		keetoowah.png		\
 		kenya.png		\
@@ -380,6 +381,7 @@ shield_files =					\
 		kalmykia-shield.png		\
 		kampuchea-shield.png		\
 		kanem-bornu-shield.png		\
+		karelia-shield.png		\
 		kazakhstan-shield.png		\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
@@ -634,6 +636,7 @@ svg_files = 				\
 		kalmykia.svg		\
 		kampuchea.svg		\
 		kanem-bornu.svg		\
+		karelia.svg		\
 		kazakhstan.svg		\
 		keetoowah.svg		\
 		kenya.svg		\

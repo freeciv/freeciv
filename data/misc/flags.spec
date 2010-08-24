@@ -133,6 +133,7 @@ artists = "
    Kalmykia		Conscious (Wikimedia Commons user)
    Kampuchea		Caleb Moore
    Kanem-Bornu		Daniel Markstedt
+   Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons user)
    Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
@@ -392,6 +393,7 @@ sprites =
 		"f.kalmykia", "flags/kalmykia"
 		"f.kampuchea", "flags/kampuchea"
 		"f.kanem-bornu", "flags/kanem-bornu"
+		"f.karelia", "flags/karelia"
 		"f.kazakhstan", "flags/kazakhstan"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
