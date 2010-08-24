@@ -4853,6 +4853,9 @@ static void game_load_internal(struct section_file *file)
     game.server.techlost_recv =
       secfile_lookup_int_default(file, game.server.techlost_recv,
                                  "game.techlost_recv");
+    game.info.team_pooled_research =
+      secfile_lookup_int_default(file, game.info.team_pooled_research,
+                                 "game.team_pooled_research");
 
     sz_strlcpy(game.server.demography,
 	       secfile_lookup_str_default(file, GAME_DEFAULT_DEMOGRAPHY,
@@ -5523,6 +5526,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.tech, "game.tech");
   secfile_insert_int(file, game.server.techlost_recv, "game.techlost_recv");
   secfile_insert_int(file, game.server.techlost_donor, "game.techlost_donor");
+  secfile_insert_int(file, game.info.team_pooled_research,
+                     "game.team_pooled_research");
   secfile_insert_int(file, game.info.skill_level, "game.skill_level");
   secfile_insert_int(file, game.info.timeout, "game.timeout");
   secfile_insert_int(file, game.server.timeoutint, "game.timeoutint");

@@ -431,6 +431,7 @@ PACKET_GAME_INFO = 16; sc
   UINT32 skill_level;
   BOOL slow_invasions;
   BOOL spacerace;
+  BOOL team_pooled_research;
   UINT32 tech;
   UINT8 tech_cost_style;
   UINT8 tech_leakage;

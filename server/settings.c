@@ -1127,6 +1127,14 @@ static struct setting settings[] = {
           NULL, NULL, GAME_MIN_TECHLOST_DONOR, GAME_MAX_TECHLOST_DONOR,
           GAME_DEFAULT_TECHLOST_DONOR)
 
+  GEN_BOOL("team_pooled_research", game.info.team_pooled_research,
+           SSET_RULES, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
+           N_("Team pooled research"),
+           N_("If this setting is turn on, then the team mates will shared "
+              "the science research. Else, every player of the team will "
+              "have to make its own."),
+           NULL, NULL, GAME_DEFAULT_TEAM_POOLED_RESEARCH)
+
   GEN_INT("diplcost", game.server.diplcost,
 	  SSET_RULES, SSET_SCIENCE, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Penalty when getting tech or gold from treaty"),

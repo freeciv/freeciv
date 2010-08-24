@@ -393,6 +393,8 @@ extern struct civ_game game;
 #define GAME_MIN_TECHLOST_DONOR      0
 #define GAME_MAX_TECHLOST_DONOR      100
 
+#define GAME_DEFAULT_TEAM_POOLED_RESEARCH TRUE
+
 #define GAME_DEFAULT_RAZECHANCE      20
 #define GAME_MIN_RAZECHANCE          0
 #define GAME_MAX_RAZECHANCE          100

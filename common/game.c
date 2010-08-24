@@ -296,6 +296,7 @@ static void game_defaults(void)
   game.info.skill_level      = GAME_DEFAULT_SKILL_LEVEL;
   game.info.slow_invasions   = RS_DEFAULT_SLOW_INVASIONS;
   game.info.spacerace        = GAME_DEFAULT_SPACERACE;
+  game.info.team_pooled_research = GAME_DEFAULT_TEAM_POOLED_RESEARCH;
   game.info.tech             = GAME_DEFAULT_TECHLEVEL;
   game.info.timeout          = GAME_DEFAULT_TIMEOUT;
   game.info.trademindist     = GAME_DEFAULT_TRADEMINDIST;

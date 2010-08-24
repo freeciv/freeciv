@@ -1,3 +1,4 @@
+
 /****************************************************************************
  Freeciv - Copyright (C) 2004 - The Freeciv Team
    This program is free software; you can redistribute it and/or modify
@@ -42,8 +43,9 @@ void player_researches_init(void)
 {
   int i;
 
-  /* Ensure we have enough space for teams. */
+  /* Ensure we have enough space for players or teams. */
   fc_assert(ARRAY_SIZE(research_array) >= team_slot_count());
+  fc_assert(ARRAY_SIZE(research_array) >= player_slot_count());
 
   memset(research_array, 0, sizeof(*research_array));
   for (i = 0; i < ARRAY_SIZE(research_array); i++) {
@@ -60,7 +62,11 @@ struct player_research *player_research_get(const struct player *pplayer)
 {
   fc_assert_ret_val(NULL != pplayer, NULL);
 
-  return &research_array[team_number(pplayer->team)];
+  if (game.info.team_pooled_research) {
+    return &research_array[team_number(pplayer->team)];
+  } else {
+    return &research_array[player_number(pplayer)];
+  }
 }
 
 /****************************************************************************
@@ -94,7 +100,7 @@ static void research_iter_team_next(struct iterator *it)
 }
 
 /****************************************************************************
-  Jump to next team research structure.
+  Returns FALSE if there is no valid team at current index.
 ****************************************************************************/
 static bool research_iter_team_valid(const struct iterator *it)
 {
@@ -103,6 +109,32 @@ static bool research_iter_team_valid(const struct iterator *it)
   return (0 <= rit->index
           && ARRAY_SIZE(research_array) > rit->index
           && NULL != team_by_number(rit->index));
+}
+
+/****************************************************************************
+  Jump to next player research structure.
+****************************************************************************/
+static void research_iter_player_next(struct iterator *it)
+{
+  struct research_iter *rit = RESEARCH_ITER(it);
+
+  if (player_slots_initialised()) {
+    do {
+      rit->index++;
+    } while (rit->index < ARRAY_SIZE(research_array) && !it->valid(it));
+  }
+}
+
+/****************************************************************************
+  Returns FALSE if there is no valid player at current index.
+****************************************************************************/
+static bool research_iter_player_valid(const struct iterator *it)
+{
+  struct research_iter *rit = RESEARCH_ITER(it);
+
+  return (0 <= rit->index
+          && ARRAY_SIZE(research_array) > rit->index
+          && NULL != player_by_number(rit->index));
 }
 
 /****************************************************************************
@@ -115,8 +147,13 @@ struct iterator *research_iter_init(struct research_iter *it)
   base->get = research_iter_get;
   it->index = -1;
 
-  base->next = research_iter_team_next;
-  base->valid = research_iter_team_valid;
+  if (game.info.team_pooled_research) {
+    base->next = research_iter_team_next;
+    base->valid = research_iter_team_valid;
+  } else {
+    base->next = research_iter_player_next;
+    base->valid = research_iter_player_valid;
+  }
 
   base->next(base);
   return base;
