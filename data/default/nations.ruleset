@@ -291,6 +291,7 @@ match=2
 *include "nation/vietnamese.ruleset"
 *include "nation/viking.ruleset"
 *include "nation/welsh.ruleset"
+*include "nation/westernroman.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/wuerttembergian.ruleset"
 *include "nation/zulu.ruleset"

@@ -245,6 +245,7 @@ pkgdata_DATA = \
 		vietnamese.ruleset \
 		viking.ruleset \
 		welsh.ruleset \
+		westernroman.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
 		zulu.ruleset 

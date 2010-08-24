@@ -142,6 +142,7 @@ artists = "
    Korea (ancient)	Mysid
    Kurd			Denelson83
    Kyrgyzstan		-xfi-
+   Labarum		J.M. Maalderink
    Laos			Sebastian Koppehel
    Latvia		Lauris Bukšis
    Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
@@ -400,6 +401,7 @@ sprites =
 		"f.korea_ancient", "flags/korea_ancient"
 		"f.kurd", "flags/kurd"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
+		"f.labarum", "flags/labarum"		; used by Western Roman
 		"f.laos", "flags/laos"
 		"f.leon", "flags/leon"
 		"f.latvia", "flags/latvia"

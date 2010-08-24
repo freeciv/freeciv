@@ -135,6 +135,7 @@ flag_files =				\
 		korea_ancient.png	\
 		kurd.png		\
 		kyrgyzstan.png		\
+		labarum.png		\
 		laos.png		\
 		latvia.png		\
 		leon.png		\
@@ -388,6 +389,7 @@ shield_files =					\
 		korea_ancient-shield.png	\
 		kurd-shield.png			\
 		kyrgyzstan-shield.png		\
+		labarum-shield.png		\
 		laos-shield.png			\
 		latvia-shield.png		\
 		leon-shield.png			\
@@ -641,6 +643,7 @@ svg_files = 				\
 		korea_ancient.svg	\
 		kurd.svg		\
 		kyrgyzstan.svg		\
+		labarum.svg		\
 		laos.svg		\
 		latvia.svg		\
 		leon.svg		\
