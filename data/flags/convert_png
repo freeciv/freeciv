@@ -52,7 +52,15 @@ for file0 in $files; do
   WIDTH=$(($SHIELD_WIDTH-2))
   HEIGHT=$(($SHIELD_HEIGHT-2))
 
-  $RENDERER -f $file0 -w $WIDTH -h $HEIGHT -e $file1 > /dev/null
+  # The following assumes that the drawing has the same dimensions as the page
+  DRAWING_WIDTH=$($RENDERER -f $file0 -W)
+  X0=$(awk -v source_width=${DRAWING_WIDTH} 'BEGIN { print source_width / 6 }')
+  X1=$(awk -v x0=${X0} 'BEGIN{ print x0 * 5 }')
+  Y0=0.0
+  Y1=$($RENDERER -f $file0 -H)
+  AREA=$X0":"$Y0":"$X1":"$Y1
+
+  $RENDERER -f $file0 -w $WIDTH -h $HEIGHT -e $file1 -a=$AREA > /dev/null
 
   composite -gravity center -compose src-over $file1 mask.png $file2
   composite -gravity center -compose src-over mask.png $file2 $file3
