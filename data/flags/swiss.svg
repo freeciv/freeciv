@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Sodipodi ("http://www.sodipodi.com/") -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://web.resource.org/cc/"
@@ -14,11 +13,7 @@
    y="0"
    width="595.28000pt"
    height="140mm"
-   id="svg378"
-   sodipodi:version="0.32"
-   sodipodi:docname="swiss.svg"
-   sodipodi:docbase="/Users/daniel/Desktop"
-   inkscape:version="0.42">
+   id="svg378">
   <metadata
      id="metadata1462">
     <rdf:RDF>
@@ -71,13 +66,6 @@
      height="0"
      x="338.981903"
      y="183.120010" />
-  <rect
-     style="font-size:12;fill:#808080;fill-rule:evenodd;stroke-width:1pt;"
-     id="rect555"
-     width="3.96936035"
-     height="39.6934509"
-     x="1071.72253"
-     y="272.033264" />
   <g
      id="g566"
      transform="matrix(0.700000,0.000000,0.000000,0.700000,-2.578735e-3,6.332397e-4)">

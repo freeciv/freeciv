@@ -59,7 +59,7 @@
  </defs>
  <path
    class="fil0"
-   d="M0 0l600 0 0 300 -600 0 0 -300z"
+   d="M 75,0 525,0 525,300 75,300 75,0 z"
    id="path3171"
    style="fill:#0078f0;fill-opacity:1" />
  <g

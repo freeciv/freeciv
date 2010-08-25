@@ -86,7 +86,7 @@ artists = "
    Ethiopia		Lauris Kaplinski and Christian Schaller
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
-   Finland		Daniel McRae
+   Finland		SKopp (Wikimedia user)
    France (old)		Patricia Fidi
    France		Tobias Jakobs
    Frisia		GeeKaa (Wikimedia Commons user)
