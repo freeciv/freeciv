@@ -1920,8 +1920,8 @@ static struct client_option client_options[] = {
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_chatline_autocompletion,
                   N_("Player or user name autocompletion"),
-                  N_("If this option is turned to on, the tabulation key "
-                     "will be use in the chatline to complete the word you "
+                  N_("If this option is turned on, the tabulation key "
+                     "will be used in the chatline to complete the word you "
                      "are typing with the name of a player or a user."),
                   COC_INTERFACE, GUI_GTK2, TRUE, NULL),
   GEN_INT_OPTION(gui_gtk2_citydlg_xsize,

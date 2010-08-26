@@ -4,13 +4,13 @@ name=_("Frisian")
 plural=_("?plural:Frisians")
 groups="Medieval", "European"
 legend=_("Romans already mentioned the Frisii but historians are unsure\
- unsure if they were the ancestors of today's Frisians. In the Early\
+ whether they were the ancestors of today's Frisians or not. In the early\
  Middle Ages the Frisians controlled a kingdom stretching from the\
  Scheldt to Jutland. Although eventually defeated by the Franks, they\
  kept enjoying the famous Frisian freedom, refusing to recognize the rule\
  of any feudal lord. In the 15h and 16th century Frisian territory was\
  eventually carved up, the core becoming a province of the United\
- Netherlands. In 1782 the Estates of Friesland were the first foreign\
+ Netherlands. In 1782 the Estates of Friesland was the first foreign\
  government to recognize the independence of the United States of\
  America.")
 leader=
