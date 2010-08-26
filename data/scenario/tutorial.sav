@@ -176,7 +176,7 @@ requires the Sanitation technology."))
       growth12msg = true
     elseif size == 13 and not growth13msg then
       notify.event(city.owner, city.tile, E.TUTURIAL,
-_("Congratulations; you have grown a city to size 13.  A city this\n\
+_("Congratulations, you have grown a city to size 13.  A city this\n\
 large can provide a tremendous amount of output if properly upgraded.\n\
 Make sure you have enough taxes and cultural buildings to keep your\n\
 citizens content.  You should also make sure the city is upgraded\n\
