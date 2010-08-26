@@ -10,8 +10,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-22 10:56+0200\n"
-"PO-Revision-Date: 2010-08-22 11:00+0200\n"
+"POT-Creation-Date: 2010-08-26 17:35+0200\n"
+"PO-Revision-Date: 2010-08-26 17:46+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -554,7 +554,7 @@ msgstr "Avanç d'any"
 
 #. TRANS: <year> <label> -> "1000 BC"
 #. TRANS: <year> <label> -> "1000 AD"
-#: common/game.c:773 common/game.c:777 client/gui-sdl/wldlg.c:1429
+#: common/game.c:785 common/game.c:789 client/gui-sdl/wldlg.c:1429
 #, c-format
 msgid "%d %s"
 msgstr "%d %s"
@@ -2387,7 +2387,7 @@ msgstr "Aquest és el servidor de %s"
 msgid "You can learn a lot about Freeciv at %s"
 msgstr "Pots aprendre molt sobre a Freeciv a %s"
 
-#: server/civserver.c:303 client/client_main.c:285 manual/civmanual.c:408
+#: server/civserver.c:303 client/client_main.c:287 manual/civmanual.c:408
 #, c-format
 msgid ""
 "Usage: %s [option ...]\n"
@@ -2424,13 +2424,13 @@ msgstr "  -N  -Newusers\tPermet als nous usuaris d'entrar si auth està permès 
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
 msgstr "  -b, --bind ADDR\tEscolta els clients a ADDR\n"
 
-#: server/civserver.c:315 client/client_main.c:290
+#: server/civserver.c:315 client/client_main.c:292
 msgid "  -d, --debug NUM\tSet debug log level (0 to 4, or 4:file1,min,max:...)\n"
 msgstr ""
 "  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 4, ó 4:fitx1,"
 "mín,màx:...)\n"
 
-#: server/civserver.c:319 client/client_main.c:294
+#: server/civserver.c:319 client/client_main.c:296
 msgid "  -d, --debug NUM\tSet debug log level (0 to 3)\n"
 msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 3)\n"
 
@@ -2438,7 +2438,7 @@ msgstr "  -d, --debug NÚM\tFixa nivell de registre de depuració (0 a 3)\n"
 msgid "  -f, --file FILE\tLoad saved game FILE\n"
 msgstr "  -f, --file FITXER\tCarrega una partida desada del FITXER\n"
 
-#: server/civserver.c:323 client/client_main.c:297
+#: server/civserver.c:323 client/client_main.c:299
 msgid "  -h, --help\t\tPrint a summary of the options\n"
 msgstr "  -h, --help\t\tMostra un resum de les opcions\n"
 
@@ -2492,12 +2492,12 @@ msgstr "  -r, --read FITXER\tLlegeix script d'inici FITXER\n"
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
 msgstr "  -R, --Ranklog FITXER\tUsa FITXER com a fitxer de registre de rànquings\n"
 
-#: server/civserver.c:346 client/client_main.c:316
+#: server/civserver.c:346 client/client_main.c:318
 msgid "  -v, --version\t\tPrint the version number\n"
 msgstr "  -v, --version\t\tMostra la versió\n"
 
 #. TRANS: No full stop after the URL, could cause confusion.
-#: server/civserver.c:348 client/client_main.c:322
+#: server/civserver.c:348 client/client_main.c:324
 #: client/gui-gtk-2.0/gui_main.c:270 client/gui-sdl/gui_main.c:178
 #: client/gui-xaw/gui_main.c:252 manual/civmanual.c:416
 #, c-format
@@ -3726,135 +3726,135 @@ msgstr "Has incitat la revolta a %s, ara governes la ciutat!"
 msgid "%s has revolted, %s influence suspected."
 msgstr "%s s'ha revoltat, se sospita la influència de %s."
 
-#: server/diplomats.c:863
+#: server/diplomats.c:865
 #, c-format
 msgid "Your %s was caught in the attempt of industrial sabotage!"
 msgstr "El teu %s ha estat detingut per intent de sabotatge industrial!"
 
-#: server/diplomats.c:868
+#: server/diplomats.c:870
 #, c-format
 msgid "You caught %s %s attempting sabotage in %s!"
 msgstr "Has agafat a %s %s intentant un sabotatge a %s!"
 
-#: server/diplomats.c:903
+#: server/diplomats.c:905
 #, c-format
 msgid "Your %s could not find anything to sabotage in %s."
 msgstr "El teu %s no ha trobat res per sabotejar a %s."
 
-#: server/diplomats.c:953
+#: server/diplomats.c:955
 #, c-format
 msgid "You cannot sabotage a %s!"
 msgstr "No es pot sabotejar %s!"
 
-#: server/diplomats.c:965
+#: server/diplomats.c:967
 #, c-format
 msgid "Your %s could not find the %s to sabotage in %s."
 msgstr "El teu %s no ha pogut trobar %s per sabotejar-lo a %s."
 
-#: server/diplomats.c:991
+#: server/diplomats.c:993
 #, c-format
 msgid "Your %s succeeded in destroying the production of %s in %s."
 msgstr "El teu %s ha tingut èxit destruint la producció de %s a %s."
 
-#: server/diplomats.c:998
+#: server/diplomats.c:1000
 #, c-format
 msgid "The production of %s was destroyed in %s, %s are suspected."
 msgstr "La producció de %s ha estat destruïda a %s, se sospita de %s."
 
-#: server/diplomats.c:1021
+#: server/diplomats.c:1023
 #, c-format
 msgid "Your %s was caught in the attempt of sabotage!"
 msgstr "El teu %s ha estat enxampat per intent de sabotatge!"
 
-#: server/diplomats.c:1025
+#: server/diplomats.c:1027
 #, c-format
 msgid "You caught %s %s attempting to sabotage the %s in %s!"
 msgstr "Has enxampat a %s %s intentant sabotejar el %s a %s!"
 
-#: server/diplomats.c:1039
+#: server/diplomats.c:1041
 #, c-format
 msgid "Your %s destroyed the %s in %s."
 msgstr "El teu %s ha destruït %s a %s."
 
-#: server/diplomats.c:1045
+#: server/diplomats.c:1047
 #, c-format
 msgid "The %s destroyed the %s in %s."
 msgstr "Els %s han destruït %s a %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1155
+#: server/diplomats.c:1157
 #, c-format
 msgid "An enemy %s has been eliminated by your %s."
 msgstr "El teu %2$s ha eliminat un %1$s enemic."
 
 #. TRANS: <unit> ... <city> ... <diplomat>
-#: server/diplomats.c:1162
+#: server/diplomats.c:1164
 #, c-format
 msgid "Your %s has been eliminated defending %s against a %s."
 msgstr "El teu %s ha estat eliminat defensant %s contra un %s."
 
 #. TRANS: <unit> ... <diplomat>
-#: server/diplomats.c:1170
+#: server/diplomats.c:1172
 #, c-format
 msgid "Your %s has been eliminated defending against a %s."
 msgstr "El teu %s ha estat eliminat defensant-se d'un %s."
 
-#: server/diplomats.c:1184
+#: server/diplomats.c:1186
 #, c-format
 msgid "Your %s was eliminated by a defending %s."
 msgstr "El teu %s ha estat eliminat per un %s defensiu."
 
-#: server/diplomats.c:1190
+#: server/diplomats.c:1192
 #, c-format
 msgid "Eliminated %s %s while infiltrating %s."
 msgstr "Eliminat %s %s quan s'infiltrava a %s."
 
-#: server/diplomats.c:1196
+#: server/diplomats.c:1198
 #, c-format
 msgid "Eliminated %s %s while infiltrating our troops."
 msgstr "Eliminat %s %s quan s'infiltrava en les nostres tropes."
 
-#: server/diplomats.c:1247
+#: server/diplomats.c:1249
 #, c-format
 msgid "Your %s has successfully completed the mission and returned unharmed to %s."
 msgstr "El teu %s ha acomplert la seva missió amb èxit i ha tornat indemne a %s."
 
-#: server/diplomats.c:1266
+#: server/diplomats.c:1268
 #, c-format
 msgid "Your %s was captured after completing the mission in %s."
 msgstr "El teu %s ha estat capturat després d'acomplir la seva missió a %s."
 
-#: server/diplomats.c:1272
+#: server/diplomats.c:1274
 #, c-format
 msgid "Your %s was captured after completing the mission."
 msgstr "El teu %s ha estat capturat després d'acomplir la seva missió."
 
-#: server/diplomats.c:1305
+#: server/diplomats.c:1307
 #, c-format
 msgid "You have caused an incident while bribing the %s %s."
 msgstr "Has provocat un incident en subornar el %2$s %1$s."
 
-#: server/diplomats.c:1311
+#: server/diplomats.c:1313
 #, c-format
 msgid "%s has caused an incident while bribing your %s."
 msgstr "%s ha causat un incident en subornar els teus %s."
 
-#: server/diplomats.c:1318
+#: server/diplomats.c:1320
 #, c-format
 msgid "You have caused an incident while attempting to steal tech from %s."
 msgstr "Has causat un incident en intentar robar tecnologia de %s."
 
-#: server/diplomats.c:1323
+#: server/diplomats.c:1325
 #, c-format
 msgid "%s has caused an incident while attempting to steal tech from you."
 msgstr "%s ha causat un incident en intentar robar-te tecnologia."
 
-#: server/diplomats.c:1330
+#: server/diplomats.c:1332
 #, c-format
 msgid "You have caused an incident while inciting a revolt in %s."
 msgstr "Has causat un incident en incitar una revolta a %s."
 
-#: server/diplomats.c:1335
+#: server/diplomats.c:1337
 #, c-format
 msgid "%s have caused an incident while inciting a revolt in %s."
 msgstr "%s han causat un incident en incitar una revolta a %s."
@@ -4437,39 +4437,39 @@ msgstr "Has estat eliminat de la partida!"
 msgid "%s has been removed from the game."
 msgstr "%s ha estat eliminat de la partida."
 
-#: server/plrhand.c:1150 server/plrhand.c:1154
+#: server/plrhand.c:1151 server/plrhand.c:1155
 #, c-format
 msgid "You have made contact with the %s, ruled by %s."
 msgstr "Has contactat amb els %s, governats per %s."
 
-#: server/plrhand.c:1617
+#: server/plrhand.c:1618
 #, c-format
 msgid "Could not throw %s into civil war - too many players"
 msgstr "No s'ha pogut posar els %s en guerra civil - massa jugadors."
 
-#: server/plrhand.c:1624
+#: server/plrhand.c:1625
 #, c-format
 msgid "Could not throw %s into civil war - no available nations"
 msgstr "No s'ha pogut posar els %s en guerra civil - no queden nacions."
 
-#: server/plrhand.c:1644
+#: server/plrhand.c:1645
 msgid "Your nation is thrust into civil war."
 msgstr "La teva nació es veu abocada a una guerra civil."
 
 #. TRANS: <leader> ... the Poles.
-#: server/plrhand.c:1648
+#: server/plrhand.c:1649
 #, c-format
 msgid "%s is the rebellious leader of the %s."
 msgstr "%s és el líder rebel dels %s."
 
 #. TRANS: <city> ... the Poles.
-#: server/plrhand.c:1670
+#: server/plrhand.c:1671
 #, c-format
 msgid "%s declares allegiance to the %s."
 msgstr "%s declara la seva lleialtat als %s."
 
 #. TRANS: ... Danes ... Poles ... <7> cities.
-#: server/plrhand.c:1688
+#: server/plrhand.c:1689
 #, c-format
 msgid "Civil war partitions the %s; the %s now hold %d city."
 msgid_plural "Civil war partitions the %s; the %s now hold %d cities."
@@ -6353,7 +6353,11 @@ msgid ""
 "connections from the very same host equals or exceeds this value. A value of "
 "0 means that there is no limit, at least up to the maximum number of "
 "connections supported by the server."
-msgstr "Les noves connexions des d'un ordinador donat es rebutjaran si el nombre total de connexions des del mateix ordinador és igual o superior a aquest valor. Un valor de 0 vol dir que no hi ha límit, almenys fins al nombre màxim de connexions suportades pel servidor."
+msgstr ""
+"Les noves connexions des d'un ordinador donat es rebutjaran si el nombre "
+"total de connexions des del mateix ordinador és igual o superior a aquest "
+"valor. Un valor de 0 vol dir que no hi ha límit, almenys fins al nombre "
+"màxim de connexions suportades pel servidor."
 
 #: server/settings.c:1287
 msgid "You are not allowed to set this option."
@@ -9144,7 +9148,7 @@ msgstr "E"
 msgid "Specialists: %s"
 msgstr "Especialistes: %s"
 
-#: client/client_main.c:287
+#: client/client_main.c:289
 msgid ""
 "  -A, --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/IPv6/"
 "none)\n"
@@ -9152,52 +9156,52 @@ msgstr ""
 "  -A, --Announce PROTO\tAnunciar partida a la LAN fent servir el protocol "
 "PROTO (IPv4/IPv6/none)\n"
 
-#: client/client_main.c:288
+#: client/client_main.c:290
 msgid "  -a, --autoconnect\tSkip connect dialog\n"
 msgstr "  -a, --autoconnect\tSaltar el diàleg de connexió\n"
 
-#: client/client_main.c:298
+#: client/client_main.c:300
 msgid "  -l, --log FILE\tUse FILE as logfile (spawned server also uses this)\n"
 msgstr ""
 "  -l, --log FITXER\tUsa FITXER com a fitxer de registre (el servidor "
 "llançat  en paral·lel també el fa servir)\n"
 
-#: client/client_main.c:300
+#: client/client_main.c:302
 msgid "  -M, --Meta HOST\tConnect to the metaserver at HOST\n"
 msgstr "  -M, --Meta HOST\tConnectar amb el metaservidor a HOST\n"
 
-#: client/client_main.c:302
+#: client/client_main.c:304
 msgid "  -n, --name NAME\tUse NAME as name\n"
 msgstr "  -n, --name NOM\tUsa NOM com a nom\n"
 
-#: client/client_main.c:304
+#: client/client_main.c:306
 msgid "  -p, --port PORT\tConnect to server port PORT (usually with -a)\n"
 msgstr "  -p, --port PORT\tConnecta al port del servidor PORT (normalment amb -a)\n"
 
-#: client/client_main.c:306
+#: client/client_main.c:308
 #, c-format
 msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin PLUGIN\tUsar PLUGIN per sortida de so %s\n"
 
-#: client/client_main.c:308
+#: client/client_main.c:310
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
 msgstr ""
 "  -r, --read FITXER\tLlegeix l'script d'inici FITXER (només per al servidor "
 "en spawn)\n"
 
-#: client/client_main.c:311
+#: client/client_main.c:313
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
 msgstr "  -s, --server HOST\tConnecta al servidor HOST (normalment amb -a)\n"
 
-#: client/client_main.c:313
+#: client/client_main.c:315
 msgid "  -S, --Sound FILE\tRead sound tags from FILE\n"
 msgstr "  -S, --Sound FITXER\tLlegir marcadors de so des de FITXER\n"
 
-#: client/client_main.c:314
+#: client/client_main.c:316
 msgid "  -t, --tiles FILE\tUse data file FILE.tilespec for tiles\n"
 msgstr "  -t, --tiles FITXER\tUsar fitxer de dades FITXER.tilespec per caselles\n"
 
-#: client/client_main.c:317
+#: client/client_main.c:319
 #, c-format
 msgid ""
 "      --\t\tPass any following options to the UI.\n"
@@ -9206,45 +9210,45 @@ msgstr ""
 "      --\t\tPassar qualsevol opció que segueixi a la interfície d'usuari.\n"
 "\t\t\tProva \"%s -- --help\" per més ajuda.\n"
 
-#: client/client_main.c:346
+#: client/client_main.c:348
 #, c-format
 msgid "Invalid port \"%s\" specified with --port option.\n"
 msgstr "Port no vàlid \"%s\" especificat amb l'opció --port.\n"
 
-#: client/client_main.c:348 client/client_main.c:363
+#: client/client_main.c:350 client/client_main.c:365
 msgid "Try using --help.\n"
 msgstr "Prova de fer servir --help.\n"
 
-#: client/client_main.c:361
+#: client/client_main.c:363
 #, c-format
 msgid "Invalid debug level \"%s\" specified with --debug option.\n"
 msgstr "Nivell de depuració incorrecte \"%s\" especificat amb l'opció --debug.\n"
 
-#: client/client_main.c:381
+#: client/client_main.c:383
 #, c-format
 msgid "Invalid announce protocol \"%s\".\n"
 msgstr "Protocol d'anunci no vàlid \"%s\".\n"
 
-#: client/client_main.c:388
+#: client/client_main.c:390
 #, c-format
 msgid "Unrecognized option: \"%s\"\n"
 msgstr "Opció no reconeguda: \"%s\"\n"
 
-#: client/client_main.c:453
+#: client/client_main.c:455
 #, c-format
 msgid "Updating old metaserver address \"%s\"."
 msgstr "Actualitzant l'adreça antiga del metaservidor \"%s\"."
 
-#: client/client_main.c:456
+#: client/client_main.c:458
 #, c-format
 msgid "Default metaserver has been set to \"%s\"."
 msgstr "S'ha fixat el metaservidor per defecte a \"%s\"."
 
-#: client/client_main.c:590
+#: client/client_main.c:592
 msgid "There was an error while auto connecting; aborting."
 msgstr "Hi ha hagut un error mentre em connectava automàticament; s'està avortant."
 
-#: client/client_main.c:668
+#: client/client_main.c:670
 msgid "Game started."
 msgstr "La partida ha començat."
 
@@ -11449,11 +11453,11 @@ msgstr ""
 "Si aquesta opció és permesa, els diàlegs d'informe es mostraran com a "
 "pestanyes separades en comptes de finestres individuals."
 
-#: client/options.c:827 client/options.c:1012
+#: client/options.c:827 client/options.c:1014
 msgid "Better fog-of-war drawing"
 msgstr "Millor dibuix de la penombra de guerra"
 
-#: client/options.c:828 client/options.c:1013
+#: client/options.c:828 client/options.c:1015
 msgid ""
 "If this is enabled then a better method is used for drawing fog-of-war.  It "
 "is not any slower but will consume about twice as much memory."
@@ -11474,22 +11478,21 @@ msgstr ""
 "una cadena de temps amb el format [hora:minut:segon]."
 
 #: client/options.c:840
-msgid "Split bottom notebook area"
-msgstr "Partir àrea de llibreta de sota"
+msgid "Split message/chat notebook area"
+msgstr "Partir àrea de llibreta de missatges/xat"
 
 #: client/options.c:841
 msgid ""
-"Enabling this option will split the bottom notebook into a left and right "
-"notebook so that two tabs may be viewed at once."
-msgstr ""
-"Activar aquesta opció partirà la llibreta de sota en dues, una a la dreta i "
-"una a l'esquerra per poder veure dues pestanyes al mateix temps."
+"Enabling this option will split the message/chat notebook into two separate "
+"areas so that both can be viewed at once. This option is ignored if 'Merge "
+"the message notebook and the map notebook' is set."
+msgstr "Activar aquesta opció partirà la llibreta de missatges/xat en dues àrees separades perquè les dues es puguin veure alhora. Aquesta opció s'ignora si està activat 'Combinar la llibreta de missatges i la del mapa'."
 
-#: client/options.c:846
+#: client/options.c:848
 msgid "New message events go to top of list"
 msgstr "Missatges d'esdeveniments nous van al capdamunt de la llista"
 
-#: client/options.c:847
+#: client/options.c:849
 msgid ""
 "If this option is enabled, new events in the message window will appear at "
 "the top of the list, rather than being appended at the bottom."
@@ -11498,11 +11501,11 @@ msgstr ""
 "missatges apareixeran al capdamunt de la llista, en comptes d'afegir-se al "
 "final."
 
-#: client/options.c:852
+#: client/options.c:854
 msgid "Show extra message window buttons"
 msgstr "Mostrar botons de finestra de missatges addicionals"
 
-#: client/options.c:853
+#: client/options.c:855
 msgid ""
 "If this option is enabled, there will be two buttons displayed in the "
 "message window for inspecting a city and going to a location. If this option "
@@ -11518,11 +11521,11 @@ msgstr ""
 "respectivament). Aquesta opció només tindrà efecte un cop s'hagi tancat i "
 "reobert la finestra de missatges."
 
-#: client/options.c:863
+#: client/options.c:865
 msgid "Metaserver tab first in network page"
 msgstr "Pestanya de metaservidor primera a la pàgina de xarxa"
 
-#: client/options.c:864
+#: client/options.c:866
 msgid ""
 "If this option is enabled, the metaserver tab will be the first notebook tab "
 "in the network page. This option requires a restart in order to take effect."
@@ -11531,11 +11534,11 @@ msgstr ""
 "pestanya de llibreta a la pàgina de xarxa. Aquesta opció requereix un "
 "rearranc per tenir efecte."
 
-#: client/options.c:869
+#: client/options.c:871
 msgid "Plain chat messages are sent to allies only"
 msgstr "Missatges de xat normals s'envien només als aliats"
 
-#: client/options.c:870
+#: client/options.c:872
 msgid ""
 "If this option is enabled, then plain messages typed into the chat entry "
 "while the game is running will only be sent to your allies. Otherwise plain "
@@ -11551,11 +11554,11 @@ msgstr ""
 "Aquesta opció també es pot activar amb un botó de commutació que hi ha al "
 "costat de l'entrada de xat (només és visible en partides multijugador)."
 
-#: client/options.c:882
+#: client/options.c:884
 msgid "Arrange widgets for small displays"
 msgstr "Adaptar icones per pantalles petites"
 
-#: client/options.c:883
+#: client/options.c:885
 msgid ""
 "If this option is enabled, widgets in the main window will be arranged so "
 "that they take up the least amount of total screen space. Specifically, the "
@@ -11569,11 +11572,11 @@ msgstr ""
 "d'informació d'unitat s'estendrà per tota la part esquerra de la finestra. "
 "Aquesta opció requereix rearrencar perquè tingui efecte."
 
-#: client/options.c:892
+#: client/options.c:894
 msgid "Merge the message notebook and the map notebook"
 msgstr "Combinar la llibreta de missatges i la del mapa"
 
-#: client/options.c:893
+#: client/options.c:895
 msgid ""
 "If this option is enabled, the message notebook will be merge into the world "
 "map notebook. Thus, the size needed for the main window will be reduced. "
@@ -11583,11 +11586,11 @@ msgstr ""
 "mapa mundial. Així es reduirà la mida que cal per la finestra principal. "
 "Aquesta opció requereix un rearranc per tenir efecte."
 
-#: client/options.c:899
+#: client/options.c:901
 msgid "Mouse over the map widget selects it automatically"
 msgstr "El ratolí sobre el mapa el selecciona automàticament"
 
-#: client/options.c:900
+#: client/options.c:902
 msgid ""
 "If this option is enabled, then the map will be focused when the mouse will "
 "be floating over it."
@@ -11595,39 +11598,39 @@ msgstr ""
 "Si es permet aquesta opció, el mapa obtindrà el focus quan el cursor del "
 "ratolí n'estigui al damunt."
 
-#: client/options.c:904
+#: client/options.c:906
 msgid "Width of the city dialog"
 msgstr "Amplada del diàleg de ciutat"
 
-#: client/options.c:905
+#: client/options.c:907
 msgid "This value is only used if the width of the city dialog is saved."
 msgstr ""
 "Aquest valor només es fa servir si l'amplada del diàleg de ciutat està "
 "desada."
 
-#: client/options.c:911
+#: client/options.c:913
 msgid "Height of the city dialog"
 msgstr "Alçada del diàleg de ciutat"
 
-#: client/options.c:912
+#: client/options.c:914
 msgid "This value is only used if the height of the city dialog is saved."
 msgstr "Aquest valor només es fa servir si l'alçada del diàleg de ciutat està desada."
 
-#: client/options.c:918
+#: client/options.c:920
 msgid "City Label"
 msgstr "Etiqueta de ciutat"
 
-#: client/options.c:919
+#: client/options.c:921
 msgid "This font is used to display the city labels on city dialogs."
 msgstr ""
 "Aquest tipus de lletra es fa servir per escriure les etiquetes de ciutat als "
 "diàlegs de ciutat."
 
-#: client/options.c:924
+#: client/options.c:926
 msgid "Notify Label"
 msgstr "Etiqueta de Notificació"
 
-#: client/options.c:925
+#: client/options.c:927
 msgid ""
 "This font is used to display server reports such as the demographic report "
 "or historian publications."
@@ -11635,67 +11638,67 @@ msgstr ""
 "Aquest tipus de lletra es fa servir per escriure els informes de servidor "
 "com l'informe demogràfic o les publicacions d'historiadors."
 
-#: client/options.c:930
+#: client/options.c:932
 msgid "Spaceship Label"
 msgstr "Etiqueta de Nau espacial"
 
-#: client/options.c:931
+#: client/options.c:933
 msgid "This font is used to display the spaceship widgets."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar les pantalles de la nau "
 "espacial."
 
-#: client/options.c:935
+#: client/options.c:937
 msgid "Help Label"
 msgstr "Etiqueta d'Ajuda"
 
-#: client/options.c:936
+#: client/options.c:938
 msgid "This font is used to display the help headers in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar les capçaleres d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:941
+#: client/options.c:943
 msgid "Help Link"
 msgstr "Enllaç d'Ajuda"
 
-#: client/options.c:942
+#: client/options.c:944
 msgid "This font is used to display the help links in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els enllaços d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:947
+#: client/options.c:949
 msgid "Help Text"
 msgstr "Text d'Ajuda"
 
-#: client/options.c:948
+#: client/options.c:950
 msgid "This font is used to display the help body text in the help window."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar el cos del text d'ajuda a la "
 "finestra d'ajuda."
 
-#: client/options.c:953
+#: client/options.c:955
 msgid "Chatline Area"
 msgstr "Àrea de xat"
 
-#: client/options.c:954
+#: client/options.c:956
 msgid "This font is used to display the text in the chatline area."
 msgstr "Aquest tipus de lletra s'utilitza per mostrar el text a l'àrea de xat."
 
-#: client/options.c:959
+#: client/options.c:961
 msgid "Beta Label"
 msgstr "Etiqueta Beta"
 
-#: client/options.c:960
+#: client/options.c:962
 msgid "This font is used to display the beta label."
 msgstr "Aquest tipus de lletra es fa servir per escriure l'etiqueta beta."
 
-#: client/options.c:964
+#: client/options.c:966
 msgid "Small Font"
 msgstr "Tipus de lletra petita"
 
-#: client/options.c:965
+#: client/options.c:967
 msgid ""
 "This font is used for any small font request.  For example, it is used for "
 "display the building lists in the city dialog, the economic report or the "
@@ -11705,11 +11708,11 @@ msgstr ""
 "petits. Per exemple, per mostrar les llistes d'edificis al diàleg de ciutat, "
 "l'informe econòmic o l'informe d'unitats."
 
-#: client/options.c:972
+#: client/options.c:974
 msgid "Comment Label"
 msgstr "Etiqueta de Comentari"
 
-#: client/options.c:973
+#: client/options.c:975
 msgid ""
 "This font is used to display comment labels, such as in the governor page of "
 "the city dialogs."
@@ -11717,68 +11720,68 @@ msgstr ""
 "Aquest tipus de lletra es fa servir per escriure les etiquetes de comentari, "
 "com a la pàgina del gestor del diàleg de ciutat."
 
-#: client/options.c:978 client/gui-sdl/optiondlg.c:1538
+#: client/options.c:980 client/gui-sdl/optiondlg.c:1538
 #: client/gui-xaw/menu.c:148
 msgid "City Names"
 msgstr "Noms de Ciutats"
 
-#: client/options.c:979
+#: client/options.c:981
 msgid "This font is used to the display the city names on the map."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els noms de les ciutats al "
 "mapa."
 
-#: client/options.c:984
+#: client/options.c:986
 msgid "City Productions"
 msgstr "Produccions de ciutats"
 
-#: client/options.c:985
+#: client/options.c:987
 msgid "This font is used to the display the city production names on the map."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar els noms de la producció de "
 "les ciutats al mapa."
 
-#: client/options.c:990
+#: client/options.c:992
 msgid "Requirement Tree"
 msgstr "Arbre de Requeriments"
 
-#: client/options.c:991
+#: client/options.c:993
 msgid "This font is used to the display the requirement tree in the science report."
 msgstr ""
 "Aquest tipus de lletra s'utilitza per mostrar l'arbre de requeriments a "
 "l'informe de ciència."
 
-#: client/options.c:997
+#: client/options.c:999
 msgid "Full Screen"
 msgstr "Pantalla completa"
 
-#: client/options.c:998
+#: client/options.c:1000
 msgid "If this option is set the client will use the whole screen area for drawing"
 msgstr ""
 "Si se selecciona aquesta opció, el client farà servir tota la pantalla per "
 "dibuixar"
 
-#: client/options.c:1001
+#: client/options.c:1003
 msgid "Screen width"
 msgstr "Amplada de pantalla"
 
-#: client/options.c:1002
+#: client/options.c:1004
 msgid "This option saves the width of the selected screen resolution"
 msgstr "Aquesta opció guarda l'amplada de la resolució de pantalla seleccionada"
 
-#: client/options.c:1005
+#: client/options.c:1007
 msgid "Screen height"
 msgstr "Alçada de pantalla"
 
-#: client/options.c:1006
+#: client/options.c:1008
 msgid "This option saves the height of the selected screen resolution"
 msgstr "Aquesta opció guarda l'alçada de la resolució de pantalla seleccionada"
 
-#: client/options.c:1018
+#: client/options.c:1020
 msgid "Enable alpha blending"
 msgstr "Permetre \"alpha blending\""
 
-#: client/options.c:1019
+#: client/options.c:1021
 msgid ""
 "If this is enabled, then alpha blending will be used in rendering, instead "
 "of an ordered dither.  If there is no hardware support for alpha blending, "
@@ -11788,60 +11791,60 @@ msgstr ""
 "comptes d'un \"dither\" ordenat. Si el teu maquinari no suporta \"alpha "
 "blending\", això és molt més lent."
 
-#: client/options.c:1231
+#: client/options.c:1233
 msgid "Graphics"
 msgstr "Gràfics"
 
-#: client/options.c:1233 client/gui-gtk-2.0/menu.c:1269
+#: client/options.c:1235 client/gui-gtk-2.0/menu.c:1269
 #: client/gui-win32/menu.c:424 client/gui-xaw/menu.c:246
 #: client/include/helpdlg_g.h:25 data/helpdata.txt:37
 msgid "Overview"
 msgstr "Resum"
 
-#: client/options.c:1235
+#: client/options.c:1237
 msgid "Sound"
 msgstr "So"
 
-#: client/options.c:1237
+#: client/options.c:1239
 msgid "Interface"
 msgstr "Interfície"
 
-#: client/options.c:1239
+#: client/options.c:1241
 msgid "Network"
 msgstr "Xarxa"
 
-#: client/options.c:1241
+#: client/options.c:1243
 msgid "Font"
 msgstr "Font"
 
-#: client/options.c:1658
+#: client/options.c:1660
 msgid "If you add a preset by hand, also update \"number_of_presets\""
 msgstr "Si afegeixes un prefixat a mà, actualitza també \"number_of_presets\""
 
-#: client/options.c:1702 client/options.c:1738
+#: client/options.c:1704 client/options.c:1740
 msgid "Cannot find your home directory"
 msgstr "No s'ha pogut trobar el teu directori d'inici"
 
-#: client/options.c:1752 client/options.c:1766
+#: client/options.c:1754 client/options.c:1768
 #, c-format
 msgid "Didn't find '%s' option file, loading from '%s' instead."
 msgstr "No s'ha trobat el fitxer d'opcions '%s', es carrega de '%s'."
 
-#: client/options.c:2060
+#: client/options.c:2062
 msgid "Didn't find the option file."
 msgstr "No s'ha trobat el fitxer d'opcions."
 
-#: client/options.c:2075 client/options.c:2174
+#: client/options.c:2077 client/options.c:2176
 #, c-format
 msgid "Save failed, cannot write to file %s"
 msgstr "Error en desar, no s'ha pogut escriure al fitxer %s"
 
-#: client/options.c:2077 client/options.c:2176
+#: client/options.c:2079 client/options.c:2178
 #, c-format
 msgid "Saved settings to file %s"
 msgstr "S'ha desat la configuració al fitxer %s"
 
-#: client/options.c:2130
+#: client/options.c:2132
 msgid "Save failed, cannot find a filename."
 msgstr "Desar ha fallat, no es pot trobar un nom de fitxer."
 
@@ -11869,11 +11872,11 @@ msgstr "Inici del torn %d"
 msgid "Welcome"
 msgstr "Benvingut"
 
-#: client/packhand.c:1897
+#: client/packhand.c:1902
 msgid "AI mode is now ON."
 msgstr "El mode IA està actiu ara."
 
-#: client/packhand.c:1899
+#: client/packhand.c:1904
 msgid "AI mode is now OFF."
 msgstr "El mode IA està apagat ara."
 
@@ -14332,7 +14335,7 @@ msgstr "Deslligat"
 msgid "Are you sure you want to quit?"
 msgstr "Segur que vols sortir?"
 
-#: client/gui-gtk-2.0/gui_stuff.c:585
+#: client/gui-gtk-2.0/gui_stuff.c:590
 #, c-format
 msgid ""
 "Close Tab:\n"
@@ -14341,7 +14344,7 @@ msgstr ""
 "Tancar pestanya:\n"
 "%s"
 
-#: client/gui-gtk-2.0/gui_stuff.c:585
+#: client/gui-gtk-2.0/gui_stuff.c:590
 msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
@@ -26199,12 +26202,13 @@ msgid ""
 "A Spy is more skilled in the arts of espionage than her Diplomat "
 "predecessor.\n"
 "\n"
-"She can perform all the functions of the Diplomat, but with a higher rate of "
-"success. Refer to the Diplomat entry for more details. Unlike a Diplomat, a "
-"Spy may also survive an operation in a foreign city and become more "
-"experienced as a result.\n"
+"She can perform all the functions of the Diplomat; refer to the Diplomat "
+"entry for more details. Unlike a Diplomat, a Spy may also survive an "
+"operation in a foreign city and become more experienced as a result. Spies "
+"are also more effective than Diplomats at defending cities against foreign "
+"Diplomats and Spies.\n"
 "\n"
-"She can also be used to:\n"
+"A Spy can also be used to:\n"
 " - sabotage an enemy unit (reducing its hit points to half), if it is alone "
 "on a tile and the players are at war;\n"
 " - poison the water supply of an enemy city (reducing the population by one "
@@ -26220,13 +26224,10 @@ msgstr ""
 "Un Espia és molt més destre en les arts de l'espionatge que el seu "
 "predecessor, el Diplomàtic.\n"
 "\n"
-"Pot fer totes les funcions del Diplomàtic, però amb un percentatge d'èxit "
-"superior. Veure l'ajuda sobre el Diplomàtic per més detalls. Al contrari del "
-"Diplomàtic, un Espia també pot sobreviure una operació en una ciutat "
-"estrangera i obtenir-ne experiència.\n"
+"Pot fer totes les funcions del Diplomàtic; veure l'ajuda sobre el Diplomàtic per més detalls. A diferència del Diplomàtic, un Espia també pot sobreviure una operació en una ciutat estrangera i obtenir-ne experiència. Els espies també són més efectius que els Diplomàtics a l'hora de defensar les ciutats contra els Diplomàtics i Espies estrangers.\n"
 "\n"
-"Es pot fer servir també per:\n"
-" - sabotejar una unitat enemiga (reduir els seus punts de vida a la meitat), "
+"Un Espia també es pot fer servir per:\n"
+" - sabotejar una unitat enemiga (reduint els seus punts de vida a la meitat), "
 "si està sola en una casella i els jugadors estan en guerra;\n"
 " - enverinar el subministre d'aigua d'una ciutat enemiga (reduint la "
 "població en un i buidant el graner);\n"
@@ -26240,12 +26241,12 @@ msgstr ""
 "incitació a la revolta, i enverinament) escapa a la seguretat de la ciutat "
 "amistosa més propera."
 
-#: data/default/units.ruleset:1913 data/civ2/units.ruleset:1870
+#: data/default/units.ruleset:1914 data/civ2/units.ruleset:1871
 #: data/civ1/units.ruleset:1137
 msgid "Caravan"
 msgstr "Caravana"
 
-#: data/default/units.ruleset:1939 data/civ2/units.ruleset:1896
+#: data/default/units.ruleset:1940 data/civ2/units.ruleset:1897
 #: data/civ1/units.ruleset:1163
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and "
@@ -26268,19 +26269,19 @@ msgstr ""
 "en una ciutat on hagis començat a construir una meravella i així acabar-la "
 "en només un torn!"
 
-#: data/default/units.ruleset:1952 data/civ2/units.ruleset:1909
+#: data/default/units.ruleset:1953 data/civ2/units.ruleset:1910
 msgid "Freight"
 msgstr "Comboi"
 
-#: data/default/units.ruleset:1978 data/civ2/units.ruleset:1935
+#: data/default/units.ruleset:1979 data/civ2/units.ruleset:1936
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
 msgstr "El Comboi substitueix a la caravana, i és el doble de ràpid."
 
-#: data/default/units.ruleset:1983 data/civ2/units.ruleset:1940
+#: data/default/units.ruleset:1984 data/civ2/units.ruleset:1941
 msgid "Explorer"
 msgstr "Explorador"
 
-#: data/default/units.ruleset:2009 data/civ2/units.ruleset:1966
+#: data/default/units.ruleset:2010 data/civ2/units.ruleset:1967
 msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
@@ -26288,22 +26289,22 @@ msgstr ""
 "Els exploradors són individus valents que són molt útils per descobrir el "
 "territori."
 
-#: data/default/units.ruleset:2015
+#: data/default/units.ruleset:2016
 msgid "?unit:Leader"
 msgstr "Líder"
 
-#: data/default/units.ruleset:2043
+#: data/default/units.ruleset:2044
 msgid "This is you. If you lose this unit, you lose the game. So don't."
 msgstr ""
 "Aquest ets tu. Si perds aquesta unitat, perds la partida. Així que millor "
 "que no ho facis."
 
-#: data/default/units.ruleset:2048 data/civ2/units.ruleset:1972
+#: data/default/units.ruleset:2049 data/civ2/units.ruleset:1973
 #: data/civ1/units.ruleset:1176
 msgid "Barbarian Leader"
 msgstr "Líder bàrbar"
 
-#: data/default/units.ruleset:2075 data/civ2/units.ruleset:1998
+#: data/default/units.ruleset:2076 data/civ2/units.ruleset:1999
 msgid ""
 "One Barbarian Leader appears every time there is a barbarian uprising "
 "somewhere in the world.\n"
@@ -26318,11 +26319,11 @@ msgstr ""
 "paga un rescat de 100 peces d'or, però només a les unitats terrestres i "
 "helicòpters."
 
-#: data/default/units.ruleset:2084
+#: data/default/units.ruleset:2085
 msgid "AWACS"
 msgstr "AWACS"
 
-#: data/default/units.ruleset:2110
+#: data/default/units.ruleset:2111
 msgid ""
 "The AWACS (Airborne Warning and Control System) is an airplane with an "
 "advanced radar that can determine the location of enemy units over a wide "
