@@ -1855,10 +1855,12 @@ static struct client_option client_options[] = {
                      "[hour:minute:second]."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_split_bottom_notebook,
-                  N_("Split bottom notebook area"),
-                  N_("Enabling this option will split the bottom "
-                     "notebook into a left and right notebook so that "
-                     "two tabs may be viewed at once."),
+                  N_("Split message/chat notebook area"),
+                  N_("Enabling this option will split the message/chat "
+                     "notebook into two separate areas so that both can "
+                     "be viewed at once. This option is ignored if "
+                     "'Merge the message notebook and the map notebook' "
+                     "is set."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_new_messages_go_to_top,
                   N_("New message events go to top of list"),

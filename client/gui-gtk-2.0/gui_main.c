@@ -1309,7 +1309,7 @@ static void setup_widgets(void)
 
   if (gui_gtk2_merge_notebooks) {
     bottom_hpaned = hpaned = paned;
-    bottom_notebook = top_notebook;
+    right_notebook = bottom_notebook = top_notebook;
   } else {
     sbox = detached_widget_new();
     gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
@@ -1334,16 +1334,16 @@ static void setup_widgets(void)
     gtk_notebook_set_tab_pos(GTK_NOTEBOOK(bottom_notebook), GTK_POS_TOP);
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(bottom_notebook), TRUE);
     gtk_paned_pack1(GTK_PANED(hpaned), bottom_notebook, TRUE, TRUE);
-  }
 
-  right_notebook = gtk_notebook_new();
-  g_object_ref(right_notebook);
-  gtk_notebook_set_tab_pos(GTK_NOTEBOOK(right_notebook), GTK_POS_TOP);
-  gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
-  g_signal_connect(right_notebook, "button-release-event",
-                   G_CALLBACK(right_notebook_button_release), NULL);
-  if (gui_gtk2_split_bottom_notebook) {
-    gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
+    right_notebook = gtk_notebook_new();
+    g_object_ref(right_notebook);
+    gtk_notebook_set_tab_pos(GTK_NOTEBOOK(right_notebook), GTK_POS_TOP);
+    gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
+    g_signal_connect(right_notebook, "button-release-event",
+                     G_CALLBACK(right_notebook_button_release), NULL);
+    if (gui_gtk2_split_bottom_notebook) {
+      gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
+    }
   }
 
   vbox = gtk_vbox_new(FALSE, 0);
@@ -2184,14 +2184,16 @@ void add_idle_callback(void (callback)(void *), void *data)
 ****************************************************************************/
 static void split_bottom_notebook_callback(struct option *poption)
 {
-  popdown_meswin_dialog();
-  if (option_bool_get(poption)) {
-    gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
-    gtk_widget_show_all(right_notebook);
-  } else {
-    gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
+  if (!gui_gtk2_merge_notebooks) {
+    popdown_meswin_dialog();
+    if (option_bool_get(poption)) {
+      gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
+      gtk_widget_show_all(right_notebook);
+    } else {
+      gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
+    }
+    popup_meswin_dialog(FALSE);
   }
-  popup_meswin_dialog(FALSE);
 }
 
 /****************************************************************************
