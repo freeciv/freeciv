@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-16 10:55+0200\n"
-"PO-Revision-Date: 2010-08-26 19:32+0300\n"
+"PO-Revision-Date: 2010-08-26 21:54+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -1713,9 +1713,8 @@ msgid "Your password is incorrect. Try again."
 msgstr "Ваш пароль невірний. Спробуйте ще раз."
 
 #: server/auth.c:563
-#, fuzzy
 msgid "Sorry, your connection timed out..."
-msgstr "Вибачте, патрулування повітряними підрозділами ще не реалізоване."
+msgstr "На жаль, час очікування з'єднання вичерпано..."
 
 #: server/auth.c:565
 #, c-format
@@ -3178,9 +3177,9 @@ msgid "Lost connection: %s."
 msgstr "Втрачено з'єднання: %s."
 
 #: server/connecthand.c:631
-#, fuzzy, c-format
+#, c-format
 msgid "detaching from %s."
-msgstr "Вивчається %s."
+msgstr "від'єднується від %s"
 
 #: server/console.c:192
 msgid "Ok. RFC-style set."
@@ -3734,7 +3733,7 @@ msgstr "Не можу змінити назву міста: %s"
 #: server/edithand.c:829
 #, c-format
 msgid "Invalid city size %d for city %s."
-msgstr ""
+msgstr "Невірний розмір %d для міста %s."
 
 #: server/edithand.c:846
 #, c-format
@@ -4512,7 +4511,7 @@ msgstr "Увага: Різні каталоги з правилами ('%s' та
 #: server/savegame.c:4972
 #, c-format
 msgid "%s had invalid nation; changing to %s."
-msgstr ""
+msgstr "%s мав невірну націю; змінюємо на %s."
 
 #: server/settings.c:33
 msgid "Geological"
@@ -5598,9 +5597,8 @@ msgstr "Гру завершено"
 
 #. TRANS: Game state for local server
 #: server/sernet.c:1328
-#, fuzzy
 msgid "Waiting"
-msgstr "очикування"
+msgstr "Очікування"
 
 #: server/spacerace.c:170
 msgid "You need to have a capital in order to launch your spaceship."
@@ -6223,9 +6221,8 @@ msgstr "фіксована"
 #: server/stdinhand.c:1455
 #: server/stdinhand.c:1461
 #: server/stdinhand.c:1468
-#, fuzzy
 msgid "Value:"
-msgstr "Чоловік"
+msgstr "Значення:"
 
 #: server/stdinhand.c:1456
 #: server/stdinhand.c:1462
@@ -7282,9 +7279,9 @@ msgstr "підрозділ %s не має ходів аби будувати м�
 
 #. TRANS: <city> is owned by <nation>, cannot add <unit>.
 #: server/unithand.c:553
-#, fuzzy, c-format
+#, c-format
 msgid "%s is owned by %s, cannot add %s."
-msgstr "%s завеликий аби додати %s."
+msgstr "%s є власністю %s, не можна додати %s."
 
 #: server/unithand.c:560
 #, c-format
@@ -7716,9 +7713,9 @@ msgid "Attempt to build wonder for %s failed."
 msgstr "Спроба збудувати диво для %s закінчилася невдало."
 
 #: server/unittools.c:3373
-#, fuzzy, c-format
+#, c-format
 msgid "Your %s has invalid orders."
-msgstr "Ваш підрозділ %s повернувся для заправки."
+msgstr "У вашого %s невірні накази."
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" is ..."
 #: server/voting.c:523
@@ -8339,12 +8336,10 @@ msgid "Economy: Science"
 msgstr "Економіка: Наука"
 
 #: client/cityrepdata.c:529
-#, fuzzy
 msgid "?number_trade_routes:n"
 msgstr "n"
 
 #: client/cityrepdata.c:529
-#, fuzzy
 msgid "?number_trade_routes:R"
 msgstr "R"
 
@@ -8396,7 +8391,6 @@ msgid "Currently Building"
 msgstr "Наразі будується"
 
 #: client/cityrepdata.c:590
-#, fuzzy
 msgid "?specialist:S"
 msgstr "S"
 
@@ -8607,9 +8601,8 @@ msgid "Lost connection to server!"
 msgstr "Втрачено зв'язок з сервером."
 
 #: client/clinet.c:164
-#, fuzzy
 msgid "Failed looking up host."
-msgstr "Не можу визначити хост."
+msgstr "Не вдалося знайти хост."
 
 #: client/clinet.c:188
 msgid "Connection in progress."
@@ -9138,9 +9131,8 @@ msgid "  * Is unreachable. Most units cannot attack this one.\n"
 msgstr "  * Недосяжне. Більшість підрозділів не можуть атакувати це.\n"
 
 #: client/helpdata.c:1169
-#, fuzzy
 msgid "  * Can pillage tile improvements.\n"
-msgstr "Доступні будівлі"
+msgstr "  * Може руйнувати покращення територій.\n"
 
 #: client/helpdata.c:1173
 msgid "  * Doesn't prevent enemy cities from working the tile it's on.\n"
@@ -9862,9 +9854,8 @@ msgid "Setting this option will draw a line at the city workable limit."
 msgstr "Якщо цю опцію встановлено, територія, на якій можуть працювати городяни, буде обведена лінією."
 
 #: client/options.c:501
-#, fuzzy
 msgid "Draw city output"
-msgstr "Міське виробництво"
+msgstr "Показувати міське виробництво"
 
 #: client/options.c:502
 #, fuzzy
@@ -10219,9 +10210,8 @@ msgid "Setting this option will pop up a newly-founded city's city dialog automa
 msgstr "Якщо цю опцію встановлено, діалоги новозаснованих міст будуть відкриватися автоматично."
 
 #: client/options.c:719
-#, fuzzy
 msgid "Pop up caravan actions"
-msgstr "Караван"
+msgstr "Показати дії каравану"
 
 #: client/options.c:720
 msgid "If this option is enabled, when caravans arrive at a city where they can establish a trade route or help build a wonder, a window will popup asking which action should be performed. Disabling this option means you will have to do the action manually by pressing either 'r' (for a trade route) or 'b' (for building a wonder) when the caravan is in the city."
@@ -10353,9 +10343,8 @@ msgid "Disable this option to hide the scrollbars on the map view."
 msgstr "Відключення цієї опції сховає лінійку прокрутки мапи."
 
 #: client/options.c:811
-#, fuzzy
 msgid "Keep dialogs on top"
-msgstr "Завжди поверх (лише GTK+ 2.0)"
+msgstr "Тримати вікна на передньому плані"
 
 #: client/options.c:812
 msgid "If this option is set then dialog windows will always remain in front of the main Freeciv window. Disabling this has no effect in fullscreen mode."
@@ -10463,19 +10452,19 @@ msgstr "Якщо цю опцію активовано, диалогі звіті
 
 #: client/options.c:904
 msgid "Width of the city dialog"
-msgstr ""
+msgstr "Ширина вікна міста."
 
 #: client/options.c:905
 msgid "This value is only used if the width of the city dialog is saved."
-msgstr ""
+msgstr "Це значення використовується лише коли зберігається ширина вікна міста."
 
 #: client/options.c:911
 msgid "Height of the city dialog"
-msgstr ""
+msgstr "Висота вікна міста"
 
 #: client/options.c:912
 msgid "This value is only used if the height of the city dialog is saved."
-msgstr ""
+msgstr "Це значення використовується лише коли зберігається висота вікна міста."
 
 #: client/options.c:918
 msgid "City Label"
@@ -10717,9 +10706,8 @@ msgstr "Комп'ютерні гравці тепер %s."
 #. TRANS: Dead -- Rest In Peace -- Reqia In Pace
 #: client/plrdlg_common.c:206
 #: client/gui-sdl/plrdlg.c:417
-#, fuzzy
 msgid "R.I.P."
-msgstr "ПОМЕР"
+msgstr "СПОЧИВ"
 
 #: client/plrdlg_common.c:210
 msgid "waiting"
@@ -10848,9 +10836,8 @@ msgid "Invalid $http_proxy or metaserver value, must start with 'http://'"
 msgstr "Невірне значення $http_proxy чи метасервера, повинно починатися з 'http://'"
 
 #: client/servers.c:427
-#, fuzzy
 msgid "Failed looking up metaserver's host"
-msgstr "Не можу визначити хост."
+msgstr "Не вдалося визначити хост метасервера"
 
 #. TRANS: "AI <player name>"
 #: client/text.c:97
@@ -11953,15 +11940,13 @@ msgstr "Ваш караван досяг мети"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:118
 #: client/gui-win32/dialogs.c:1063
-#, fuzzy
 msgid "Establish _Trade route"
-msgstr "Встановити торговий маршрут"
+msgstr "Встановити торговий маршрут (_T)"
 
 #: client/gui-gtk-2.0/caravan_dialog.c:119
 #: client/gui-win32/dialogs.c:1064
-#, fuzzy
 msgid "Enter Marketplace"
-msgstr "Ринок"
+msgstr "Вийти на ринок"
 
 #: client/gui-gtk-2.0/chatline.c:300
 msgid "No visible unit on this tile."
@@ -12013,7 +11998,7 @@ msgstr "Кольорове (Ctrl-C)"
 
 #: client/gui-gtk-2.0/chatline.c:1215
 msgid "foreground"
-msgstr ""
+msgstr "передній план"
 
 #: client/gui-gtk-2.0/chatline.c:1219
 msgid "Select the text color"
@@ -12102,9 +12087,8 @@ msgstr "Ризик пошесті:"
 
 #: client/gui-gtk-2.0/citydlg.c:733
 #: client/gui-gtk-2.0/inteldlg.c:197
-#, fuzzy
 msgid "_Overview"
-msgstr "Огляд"
+msgstr "Огляд (_O)"
 
 #: client/gui-gtk-2.0/citydlg.c:747
 #: client/gui-gtk-2.0/citydlg.c:1047
@@ -12135,9 +12119,8 @@ msgid "_Buy"
 msgstr "Купити"
 
 #: client/gui-gtk-2.0/citydlg.c:833
-#, fuzzy
 msgid "I_mprovements:"
-msgstr "Будівлі:"
+msgstr "Будівлі: (_m)"
 
 #: client/gui-gtk-2.0/citydlg.c:851
 #: client/gui-gtk-2.0/citydlg.c:1031
@@ -12149,14 +12132,12 @@ msgid "Info"
 msgstr "Інфо"
 
 #: client/gui-gtk-2.0/citydlg.c:964
-#, fuzzy
 msgid "P_roduction"
-msgstr "Виробництво"
+msgstr "Виробництво (_r)"
 
 #: client/gui-gtk-2.0/citydlg.c:1022
-#, fuzzy
 msgid "Happ_iness"
-msgstr "Щастя"
+msgstr "Щастя (_i)"
 
 #: client/gui-gtk-2.0/citydlg.c:1071
 #, fuzzy
@@ -12395,9 +12376,8 @@ msgid "(no worklists defined)"
 msgstr "(планів будівництва не визначено)"
 
 #: client/gui-gtk-2.0/cityrep.c:964
-#, fuzzy
 msgid "_Production"
-msgstr "Виробництво"
+msgstr "Виробництво (_P)"
 
 #: client/gui-gtk-2.0/cityrep.c:971
 msgid "Chan_ge"
@@ -12432,9 +12412,8 @@ msgid "Append Worklist"
 msgstr "Додати план будівництва"
 
 #: client/gui-gtk-2.0/cityrep.c:1006
-#, fuzzy
 msgid "Clear _Worklist"
-msgstr "План будівництва:"
+msgstr "Очистити план будівництва (_W) "
 
 #: client/gui-gtk-2.0/cityrep.c:1011
 #, fuzzy
@@ -12742,14 +12721,12 @@ msgid "_Sentry idle"
 msgstr "Приспати бездіяльні підрозділи"
 
 #: client/gui-gtk-2.0/dialogs.c:669
-#, fuzzy
 msgid "Select _all"
-msgstr "Оберіть"
+msgstr "Виділити всіх (_a)"
 
 #: client/gui-gtk-2.0/dialogs.c:797
-#, fuzzy
 msgid "Nation _Groups:"
-msgstr "_Нації:"
+msgstr "Групи націй (_G):"
 
 #: client/gui-gtk-2.0/dialogs.c:842
 msgid "Edit Nation"
@@ -12793,9 +12770,8 @@ msgid "_Male"
 msgstr "Чоловік"
 
 #: client/gui-gtk-2.0/dialogs.c:943
-#, fuzzy
 msgid "City _Styles:"
-msgstr "Стиль міст:"
+msgstr "Стилі міст (_S):"
 
 #: client/gui-gtk-2.0/dialogs.c:982
 msgid "_Description"
@@ -13078,9 +13054,8 @@ msgid "Image"
 msgstr "Зображення"
 
 #: client/gui-gtk-2.0/editprop.c:3728
-#, fuzzy
 msgid "Resource"
-msgstr "Ресурси"
+msgstr "Ресурс"
 
 #: client/gui-gtk-2.0/editprop.c:3730
 #, fuzzy
@@ -13236,9 +13211,8 @@ msgid "%s Properties"
 msgstr "%s Властивості"
 
 #: client/gui-gtk-2.0/editprop.c:4213
-#, fuzzy
 msgid "Filter:"
-msgstr "Винищувач"
+msgstr "Фільтр:"
 
 #: client/gui-gtk-2.0/editprop.c:4218
 msgid "Enter a filter string to limit which properties are shown. The filter is one or more text patterns separated by | (\"or\") or & (\"and\"). The symbol & has higher precedence than |. A pattern may also be negated by prefixing it with !."
@@ -13483,7 +13457,7 @@ msgstr "Щастя"
 #. TRANS: the width of this text defines the width of the city dialog.
 #: client/gui-gtk-2.0/happiness.c:252
 msgid "Additional information is available via left click on the citizens."
-msgstr ""
+msgstr "Додаткова інформація отримується лівим клацанням по громадянах."
 
 #: client/gui-gtk-2.0/helpdlg.c:91
 #: client/gui-gtk-2.0/helpdlg.c:94
@@ -15731,14 +15705,13 @@ msgstr "Не знайдено публічних серверів"
 #. TRANS: "host.example.com Port 5556 Ver: 2.2.0 Running Players 3\n
 #. * [server message]"
 #: client/gui-sdl/connectdlg.c:318
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "%s Port %d Ver: %s %s %s %d\n"
 "%s"
 msgstr ""
-"%s\n"
-"%s %s\n"
-"%s %s: %s%s"
+"%s Порт %d Вер: %s %s %s %d\n"
+"%s"
 
 #: client/gui-sdl/connectdlg.c:558
 msgid "Player Name :"
@@ -16560,7 +16533,7 @@ msgstr "Автоколонізувати"
 #: client/gui-sdl/menu.c:585
 #: client/gui-xaw/menu.c:197
 msgid "Unsentry All On Tile"
-msgstr ""
+msgstr "Зняти з варти усіх на клітинці"
 
 #: client/gui-sdl/menu.c:598
 #: client/gui-xaw/menu.c:193
@@ -18192,9 +18165,8 @@ msgid "City Growth"
 msgstr "Ріст міста"
 
 #: client/gui-xaw/menu.c:151
-#, fuzzy
 msgid "City Production Levels"
-msgstr "Виробництво міст"
+msgstr "Рівні виробництва міст"
 
 #: client/gui-xaw/menu.c:207
 msgid "Go to/Airlift to City..."
@@ -19436,24 +19408,23 @@ msgstr ""
 
 #: data/helpdata.txt:871
 msgid " - The presence of any wonder in a city will greatly increase its desirability (further wonders do not contribute except by the lesser effect of their build cost)."
-msgstr ""
+msgstr "- Присутність будь-якого дива у місті значно збільшить його привабливість (нступні дива вже так не впливатимуть, окрім як порівняно меншим ефектом від вартості їх будівництва)."
 
 #: data/helpdata.txt:875
 msgid " - Capital cities are more attractive than other cities, all other factors being equal; in addition, citizens will never migrate out of a capital city."
-msgstr ""
+msgstr " - Столиці привабливіші, ніж інші міста, за рівності всіх інших факторів; крім того, городяни ніколи не мігрують зі столиці."
 
 #: data/helpdata.txt:879
 msgid " - Food surplus. (A food deficit reduces the desirability of a city.)"
-msgstr ""
+msgstr " - Надлишок їжі. (Дефіцит їжі зменшує привабливість міста.)"
 
 #: data/helpdata.txt:881
 msgid " - Cities that are further away are less desirable. The absolute maximum distance that a citizen is prepared to migrate is controlled by the server option `mgr_dist'."
-msgstr ""
+msgstr " - Далекі міста менш привабливі. Абсолютна максимальна відстань, на яку може мігрувати городянин, визначається серверною опцією `mgr_dist'."
 
 #: data/helpdata.txt:885
-#, fuzzy
 msgid " - Trade surplus."
-msgstr "%4d : Загальний лишок"
+msgstr " - Надлишок торгівлі."
 
 #: data/helpdata.txt:887
 #, fuzzy
@@ -19462,7 +19433,7 @@ msgstr "Встановити податки, розкіш та рівень на
 
 #: data/helpdata.txt:889
 msgid " - The quantity of city improvements (and wonders), measured by build cost."
-msgstr ""
+msgstr " - Кількість будівель (та див) у місті, що визначається вартістю побудованого."
 
 #: data/helpdata.txt:892
 msgid " - Depending on the ruleset, a number of other factors such as government type and city improvements may increase or decrease the desirability of cities; these are noted in other sections of the help. (The default ruleset contains no such effects.)"
@@ -20166,7 +20137,7 @@ msgstr " - Повідомлення, що розпочинаються з '/', �
 
 #: data/helpdata.txt:1655
 msgid "  - Messages starting with 'John:' are private messages to 'John'. Names can be abbreviated. The server looks for players named 'John' and if that fails tries to match a username beginning with 'John' (like 'Johnathan')."
-msgstr ""
+msgstr " - Повідомлення, що починаються з 'John:' приватні повідомлення для  'John'. Можна використовувати абревіатури імен. Сервер шукає гравців на ім'я 'John',  а якщо не знаходить, то намагається знайти ім'я користувача, що починається з 'John' (як 'Johnathan')."
 
 #: data/helpdata.txt:1660
 msgid "  - Messages starting with 'John::' are private messages as above, but will match only users (not players) named 'John'.  'Johnathan' will still match."
