@@ -12299,7 +12299,7 @@ msgstr "Combinar la llibreta de missatges i la del mapa"
 
 #: client/options.c:1913
 msgid ""
-"If this option is enabled, the message notebook will be merge into the world "
+"If this option is enabled, the message notebook will be merged into the world "
 "map notebook. Thus, the size needed for the main window will be reduced. "
 "This option requires a restart in order to take effect."
 msgstr ""

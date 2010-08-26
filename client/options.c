@@ -1911,7 +1911,7 @@ static struct client_option client_options[] = {
   GEN_BOOL_OPTION(gui_gtk2_merge_notebooks,
                   N_("Merge the message notebook and the map notebook"),
                   N_("If this option is enabled, the message notebook "
-                     "will be merge into the world map notebook. Thus, "
+                     "will be merged into the world map notebook. Thus, "
                      "the size needed for the main window will be reduced. "
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2, TRUE, NULL),
