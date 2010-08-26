@@ -11428,7 +11428,7 @@ msgstr "Flet beskednotebogen og kortnotebogen"
 
 #: client/options.c:893
 msgid ""
-"If this option is enabled, the message notebook will be merge into the world "
+"If this option is enabled, the message notebook will be merged into the world "
 "map notebook. Thus, the size needed for the main window will be reduced. "
 "This option requires a restart in order to take effect."
 msgstr "Hvis denne indstilling er slået til, vil beskednotebogen blive flettet sammen med notebogen for verdenskortet. Således vil den nødvendige størrelse af hovedvinduet blive reduceret. Denne indstilling kræver en genstart for at træde i kraft."
