@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-16 10:55+0200\n"
-"PO-Revision-Date: 2010-08-26 21:54+0300\n"
+"PO-Revision-Date: 2010-08-26 22:51+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -522,9 +522,8 @@ msgid "Chat messages"
 msgstr "Повідомлення чату"
 
 #: common/events.c:176
-#, fuzzy
 msgid "Connect/disconnect messages"
-msgstr "З'єднання"
+msgstr "Повідомлення з'єднання/роз'єднання"
 
 #: common/events.c:177
 msgid "Diplomatic Message"
@@ -1979,14 +1978,14 @@ msgid "WARNING, we're LOW on FUNDS %s."
 msgstr "УВАГА, залишилось МАЛО КОШТІВ %s."
 
 #: server/cityturn.c:688
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs %s (being built) to grow beyond size %d."
-msgstr "%s потребує %s (будує) для подальшого розвитку."
+msgstr "%s потребує %s (вже будується), щоб збільшити розмір понад %d."
 
 #: server/cityturn.c:694
-#, fuzzy, c-format
+#, c-format
 msgid "%s needs an improvement to grow beyond size %d."
-msgstr "%s потребує %s для подальшого розвитку."
+msgstr "%s потребує будівлі, щоб збільшити розмір понад %d."
 
 #: server/cityturn.c:749
 #, c-format
@@ -2621,9 +2620,8 @@ msgid "team <player> <team>"
 msgstr "team <гравець> <команда>"
 
 #: server/commands.c:184
-#, fuzzy
 msgid "Change a player's team affiliation."
-msgstr "Змінити, додати чи видалити гравця з команди."
+msgstr "Змінити членство гравця у команді."
 
 #: server/commands.c:185
 msgid "A team is a group of players that start out allied, with shared vision and embassies, and fight together to achieve team victory with averaged individual scores. Each player is always a member of a team (possibly the only member). This command changes which team a player is a member of. Use \"\" if names contain whitespace."
@@ -3440,9 +3438,8 @@ msgid "No new technology found in %s."
 msgstr "Нових технологій у %s не знайдено."
 
 #: server/diplomats.c:720
-#, fuzzy
 msgid "You can't subvert this city."
-msgstr "Ви не можете повернути на свій бік місто цієї нації."
+msgstr "Ви не можете здійснити переворот у цьому місті."
 
 #: server/diplomats.c:732
 #, c-format
@@ -4416,12 +4413,11 @@ msgstr[1] " М виробів"
 msgstr[2] " М виробів"
 
 #: server/report.c:622
-#, fuzzy
 msgid " bulb"
 msgid_plural " bulbs"
-msgstr[0] " балів"
-msgstr[1] " балів"
-msgstr[2] " балів"
+msgstr[0] " лампа"
+msgstr[1] " лампи"
+msgstr[2] " ламп"
 
 #: server/report.c:627
 msgid " month"
@@ -4548,24 +4544,20 @@ msgid "All"
 msgstr "Всі"
 
 #: server/settings.c:44
-#, fuzzy
 msgid "Vital"
-msgstr "Крадіжка"
+msgstr "Суттєві"
 
 #: server/settings.c:45
-#, fuzzy
 msgid "Situational"
-msgstr "Санітарія"
+msgstr "Ситуаційні"
 
 #: server/settings.c:46
-#, fuzzy
 msgid "Rare"
-msgstr "Ставки"
+msgstr "Рідкісні"
 
 #: server/settings.c:47
-#, fuzzy
 msgid "Changed"
-msgstr "Змінити"
+msgstr "Змінені"
 
 #: server/settings.c:84
 #, fuzzy
@@ -4893,9 +4885,8 @@ msgid "Area where initial units are located"
 msgstr "Місцерозташування підрозділів на початку гри."
 
 #: server/settings.c:510
-#, fuzzy
 msgid "This is the radius within which the initial units are dispersed."
-msgstr "Половина довжини квадрату у якому буде розкидано підрозділи на початку гри."
+msgstr "Це радіус, у якому буде розкидано початкові підрозділи."
 
 #: server/settings.c:516
 msgid "Starting gold per player"
@@ -4918,9 +4909,8 @@ msgid "Technology cost multiplier percentage"
 msgstr "Процент множника вартості технології"
 
 #: server/settings.c:534
-#, fuzzy
 msgid "This affects how quickly players can research new technology. All tech costs are multiplied by this amount (as a percentage). The base tech costs are determined by the ruleset or other game settings."
-msgstr "Впливає на швидкість відкриття гравцями нових технологій."
+msgstr "Впливає на швидкість відкриття гравцями нових технологій. Вартістьусіх технологій множиться на цю величину (у відсотках). Базова вартість технологій визначається набором правил та іншими ігровими налаштуваннями."
 
 #: server/settings.c:543
 msgid "Percentage penalty when changing tech"
@@ -5364,14 +5354,12 @@ msgid "Timeout at least n seconds when enemy moved"
 msgstr "Затримка що найменьш n секунд, коли супротивник закінчив хід"
 
 #: server/settings.c:1028
-#, fuzzy
 msgid "Any time a unit moves while in sight of an enemy player, the remaining timeout is increased to this value."
-msgstr "Кожного разу як підрозділ рухається у полі зору ворожого гравця, залишок часу встановлюється до цього значення, якщо він був меньший за нього."
+msgstr "Щоразу як підрозділ рухається у полі зору ворожого гравця, залишок часу збільшується на цю величину."
 
 #: server/settings.c:1037
-#, fuzzy
 msgid "Control of simultaneous player/team phases."
-msgstr "Куди зберігати журнал із статистикою гравця"
+msgstr "Контроль одночасних фаз гравця/команди."
 
 #: server/settings.c:1040
 msgid ""
@@ -5382,14 +5370,12 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:1050
-#, fuzzy
 msgid "Seconds to let a client's network connection block"
-msgstr "Затримка у секундах блокування з'єднання клієнта."
+msgstr "Затримка у секундах блокування мережевого з'єднання клієнта."
 
 #: server/settings.c:1051
-#, fuzzy
 msgid "If a network connection is blocking for a time greater than this value, then the connection is closed. Zero means there is no timeout (although connections will be automatically disconnected eventually)."
-msgstr "Якщо TCP з'єднання заблоковано довше ніж connection на становлене значення, тоді воно закривається. Нуль встановлює відсутність таймаутів окрім тих що містить у собі TCP протокол."
+msgstr "Якщо мережеве з'єднання заблоковано довше ніж цей час, воно закривається. Нуль означає відсутність таймаутів (хоча врешті може відбутися автоматичне роз'єднання)."
 
 #: server/settings.c:1060
 #, fuzzy
@@ -5422,18 +5408,16 @@ msgid "Turn-blocking game play mode"
 msgstr "Блокування гри по ходах"
 
 #: server/settings.c:1085
-#, fuzzy
 msgid "If this is set to 1 the game turn is not advanced until all players have finished their turn, including disconnected players."
-msgstr "Якщо встановлено 1 - хід гри не завершено доти, докі усі гравці (рахуючи відключених) не закінчать свій хід."
+msgstr "Якщо встановлено в 1 - ігровий хід не завершується доти, доки усі гравці, включно з відключеними, не закінчать свій хід."
 
 #: server/settings.c:1092
 msgid "Fixed-length turns play mode"
 msgstr "Гра ходами фіксованої довжини"
 
 #: server/settings.c:1093
-#, fuzzy
 msgid "If this is set to 1 the game turn will not advance until the timeout has expired, even after all players have clicked on \"Turn Done\"."
-msgstr "Якщо встановлено 1 хід не буде завершено доки не вичерпається час затримки, незалежно чи гравці натиснуть 'Завершено хід'."
+msgstr "Якщо встановлено в 1, ігровий хід не буде завершено, доки не вичерпається час затримки, навіть якщо всі гравці натиснуть \"Хід завершено\"."
 
 #: server/settings.c:1100
 msgid "What is in the Demographics report"
@@ -6324,9 +6308,8 @@ msgid "All options"
 msgstr "Усі опції"
 
 #: server/stdinhand.c:1809
-#, fuzzy
 msgid "Vital options"
-msgstr "Опції міста"
+msgstr "Суттєві опції"
 
 #: server/stdinhand.c:1812
 msgid "Situational options"
@@ -6937,9 +6920,8 @@ msgid "Settings re-initialized."
 msgstr "Налаштування переініціалізовано."
 
 #: server/stdinhand.c:3912
-#, fuzzy
 msgid "Not enough human players, game will not start."
-msgstr "Не вистачає гравців, гру не стартовано."
+msgstr "Не вистачає гравців-людей, гра не розпочнеться."
 
 #: server/stdinhand.c:3917
 msgid "No players, game will not start."
@@ -7796,11 +7778,11 @@ msgstr "Знайдені та видалені застарілі атрибут
 #: client/audio.c:131
 #, c-format
 msgid "Plugin '%s' isn't available. Available are %s"
-msgstr "Додаток '%s' не доступний. Доступний %s"
+msgstr "Додаток '%s' недоступний. Доступні %s"
 
 #: client/audio.c:209
 msgid "No real audio plugin present."
-msgstr ""
+msgstr "Немає додатку real audio."
 
 #: client/audio.c:210
 #: client/audio.c:227
@@ -9438,15 +9420,15 @@ msgstr[1] "* Підрозділ має бути у місті, на базі а�
 msgstr[2] "* Підрозділ має бути у місті, на базі або на %s через %d ходів.\n"
 
 #: client/helpdata.c:1558
-#, fuzzy, c-format
+#, c-format
 msgid "Starting now, researching %s would need %d bulbs."
-msgstr "Якщо розпочнемо з %s то будемо потребувати %d балів."
+msgstr "Відтепер, дослідження %s потребуватиме %d ламп."
 
 #: client/helpdata.c:1563
 #, fuzzy, c-format
 msgid "To reach %s you need to obtain %d other technology first. The whole project will require %d bulbs to complete."
 msgid_plural "To reach %s you need to obtain %d other technologies first. The whole project will require %d bulbs to complete."
-msgstr[0] "Аби дослідити %s нам спершу потрібно отримати %d інших технологій. Вцілому нам знадобиться %d балів для завершення."
+msgstr[0] "Аби дослідити %s нам спершу потрібно отримати %d інших технологій. В цілому нам знадобиться %d лампа для завершення."
 msgstr[1] "Аби дослідити %s нам спершу потрібно отримати %d інших технологій. Вцілому нам знадобиться %d балів для завершення."
 msgstr[2] "Аби дослідити %s нам спершу потрібно отримати %d інших технологій. Вцілому нам знадобиться %d балів для завершення."
 
@@ -9774,9 +9756,8 @@ msgid "Clipboard is empty."
 msgstr "Буфер обміну пустий."
 
 #: client/options.c:439
-#, fuzzy
 msgid "Login name"
-msgstr "Приє'днатися до гри"
+msgstr "Логін"
 
 #: client/options.c:440
 msgid "This is the default login username that will be used in the connection dialogs or with the -a command-line parameter."
@@ -9817,13 +9798,12 @@ msgid "This is the soundset that will be used.  Changing this is the same as usi
 msgstr "Це набір звуків, що буде використаний.  Ця опція теж саме, що параметр командної строки -S."
 
 #: client/options.c:470
-#, fuzzy
 msgid "Sound plugin"
-msgstr "Звуковий додаток по замовчуванню"
+msgstr "Звуковий додаток"
 
 #: client/options.c:471
 msgid "If you have a problem with sound, try changing the sound plugin.  The new plugin won't take effect until you restart Freeciv.  Changing this is the same as using the -P command-line option."
-msgstr ""
+msgstr "Якщо у вас проблеми зі звуком, спробуйте змінити звуковий додаток. Новий додаток не подіє доки не перезапустити Freeciv. Змінити його - це те саме, що скористатися параметром командного рядка -P."
 
 #: client/options.c:479
 #: client/options.c:484
@@ -11115,19 +11095,19 @@ msgstr[1] "Швидкість досліджень: %d ходи на техно�
 msgstr[2] "Швидкість досліджень: %d ходів на технологію"
 
 #: client/text.c:607
-#, fuzzy, c-format
+#, c-format
 msgid "%d bulb/turn"
 msgid_plural "%d bulbs/turn"
-msgstr[0] "%d хід"
-msgstr[1] "%d ходи"
-msgstr[2] "%d ходів"
+msgstr[0] "%d лампа/хід"
+msgstr[1] "%d лампи/хід"
+msgstr[2] "%d ламп/хід"
 
 #. TRANS: This is appended to "%d bulb/turn" text
 #: client/text.c:612
 #, c-format
 msgid ", %d bulb/turn from team"
 msgid_plural ", %d bulbs/turn from team"
-msgstr[0] ", %d лампа/хід від команди"
+msgstr[0] ", %d ламп/хід від команди"
 msgstr[1] ", %d лампи/хід від команди"
 msgstr[2] ", %d ламп/хід від команди"
 
@@ -12834,9 +12814,8 @@ msgstr "Технології"
 
 #. TRANS: All technologies menu item in the diplomatic dialog.
 #: client/gui-gtk-2.0/diplodlg.c:283
-#, fuzzy
 msgid "All advances"
-msgstr "Технології"
+msgstr "Усі технології"
 
 #: client/gui-gtk-2.0/diplodlg.c:360
 #: client/gui-gtk-2.0/menu.c:1599
@@ -14071,9 +14050,8 @@ msgid "_Fortress & Airbase"
 msgstr "Укріплення та Авіабази (_F)"
 
 #: client/gui-gtk-2.0/menu.c:1367
-#, fuzzy
 msgid "_Specials"
-msgstr "Спеціальне"
+msgstr "Спеціальне (_S)"
 
 #: client/gui-gtk-2.0/menu.c:1369
 msgid "Po_llution & Fallout"
@@ -14655,9 +14633,8 @@ msgid "Take this player"
 msgstr "Взяти цього гравця"
 
 #: client/gui-gtk-2.0/pages.c:1321
-#, fuzzy
 msgid "Cut connection"
-msgstr "Видаляю з'єднання %s."
+msgstr "Обрізати з'єднання"
 
 #: client/gui-gtk-2.0/pages.c:1331
 #, fuzzy
@@ -14863,9 +14840,8 @@ msgstr "Тип підрозділу"
 
 #: client/gui-gtk-2.0/repodlgs.c:992
 #: client/gui-win32/repodlgs.c:708
-#, fuzzy
 msgid "?Upgradable unit [short]:U"
-msgstr "П"
+msgstr "U"
 
 #: client/gui-gtk-2.0/repodlgs.c:993
 #: client/gui-win32/repodlgs.c:709
@@ -15604,11 +15580,12 @@ msgid "size"
 msgstr "розмір"
 
 #: client/gui-sdl/cityrep.c:168
-#, fuzzy
 msgid ""
 "time\n"
 "to grow"
-msgstr "Ріст міста:"
+msgstr ""
+"час\n"
+"до зростання"
 
 #: client/gui-sdl/cityrep.c:188
 #: client/gui-sdl/mapctrl.c:1589
@@ -15672,7 +15649,6 @@ msgstr "Знищити налаштування"
 
 #: client/gui-sdl/cma_fe.c:1002
 #: client/gui-win32/cma_fe.c:495
-#, fuzzy
 msgid "Control city"
 msgstr "Контролювати місто"
 
@@ -15684,9 +15660,8 @@ msgstr "Застосувати одноразово"
 
 #: client/gui-sdl/cma_fe.c:1020
 #: client/gui-win32/cma_fe.c:497
-#, fuzzy
 msgid "Release city"
-msgstr "Відпустити місто"
+msgstr "Звільнити місто"
 
 #: client/gui-sdl/connectdlg.c:239
 msgid "Creating Server List..."
@@ -18536,14 +18511,12 @@ msgid "Remove Preset"
 msgstr "Видалити предустановку"
 
 #: data/Freeciv.in:1471
-#, fuzzy
 msgid "Control City"
-msgstr "Контролювати місто"
+msgstr "Контролювати Місто"
 
 #: data/Freeciv.in:1472
-#, fuzzy
 msgid "Release City"
-msgstr "Відпустити місто"
+msgstr "Звільнити Місто"
 
 #: data/Freeciv.in:1474
 msgid "Minimal Surplus:"
