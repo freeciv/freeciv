@@ -165,6 +165,7 @@ pkgdata_DATA = \
 		motswana.ruleset \
 		muskogee.ruleset \
 		mwiska.ruleset \
+		nestorian.ruleset \
 		newzealand.ruleset \
 		nigerian.ruleset \
 		norman.ruleset \
