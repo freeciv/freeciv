@@ -192,6 +192,7 @@ pkgdata_DATA = \
 		prussian.ruleset \
 		purhepecha.ruleset \
 		quebecois.ruleset \
+		raramuri.ruleset \
 		riffian.ruleset \
 		romanian.ruleset \
 		roman.ruleset \

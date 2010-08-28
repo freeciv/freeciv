@@ -33,7 +33,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "P'urhepecha", "sioux"
+civilwar_nations = "raramuri", "sioux"
 
 cities =
  "Orayvi",

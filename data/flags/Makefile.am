@@ -195,6 +195,7 @@ flag_files =				\
 		purhepecha.png		\
 		qing.png		\
 		quebec.png		\
+		raramuri.png		\
 		rif.png			\
 		romania.png		\
 		rome.png		\
@@ -412,7 +413,7 @@ shield_files =					\
 		majapahit-shield.png		\
 		malaysia-shield.png		\
 		mali-shield.png			\
-		malta-shield.png			\
+		malta-shield.png		\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
@@ -455,6 +456,7 @@ shield_files =					\
 		purhepecha-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
+		raramuri-shield.png		\
 		rif-shield.png			\
 		romania-shield.png		\
 		rome-shield.png			\
@@ -716,6 +718,7 @@ svg_files = 				\
 		qing.svg		\
 		quebec.svg		\
 		rif.svg			\
+		raramuri.svg		\
 		romania.svg		\
 		rome.svg		\
 		rvn.svg			\

@@ -205,6 +205,7 @@ sprites =
 		"f.shield.purhepecha", "flags/purhepecha-shield"
 		"f.shield.qing", "flags/qing-shield"
 		"f.shield.quebec", "flags/quebec-shield"
+		"f.shield.raramuri", "flags/raramuri-shield"
 		"f.shield.rif", "flags/rif-shield"
 		"f.shield.romania", "flags/romania-shield"
 		"f.shield.rome", "flags/rome-shield"
