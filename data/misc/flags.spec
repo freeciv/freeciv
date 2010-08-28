@@ -157,6 +157,7 @@ artists = "
    Majapahit		Dan Cottrell and Daniel Markstedt
    Malaysia		Lauris Kaplinski
    Mali			Brett Roper
+   Malta		Yaddah, Zcout370 (Wikimedia Commons users)
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
@@ -418,6 +419,7 @@ sprites =
 		"f.majapahit", "flags/majapahit"
 		"f.malaysia", "flags/malaysia"
 		"f.mali", "flags/mali"
+		"f.malta", "flags/malta"
 		"f.maori", "flags/maori"
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"

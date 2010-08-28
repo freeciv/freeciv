@@ -150,6 +150,7 @@ flag_files =				\
 		majapahit.png		\
 		malaysia.png		\
 		mali.png		\
+		malta.png		\
 		maori.png		\
 		mapuche.png		\
 		mars.png		\
@@ -406,6 +407,7 @@ shield_files =					\
 		majapahit-shield.png		\
 		malaysia-shield.png		\
 		mali-shield.png			\
+		malta-shield.png			\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
@@ -662,6 +664,7 @@ svg_files = 				\
 		majapahit.svg		\
 		malaysia.svg		\
 		mali.svg		\
+		malta.svg		\
 		maori.svg		\
 		mapuche.svg		\
 		mars.svg		\

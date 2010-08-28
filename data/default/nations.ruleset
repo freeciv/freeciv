@@ -197,6 +197,7 @@ match=2
 *include "nation/malagasy.ruleset"
 *include "nation/malaysian.ruleset"
 *include "nation/malian.ruleset"
+*include "nation/maltese.ruleset"
 *include "nation/manchu.ruleset"
 *include "nation/maori.ruleset"
 *include "nation/mapuche.ruleset"
