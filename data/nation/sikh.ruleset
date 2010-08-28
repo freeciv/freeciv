@@ -1,0 +1,144 @@
+[nation_sikh]
+
+name=_("Sikh")
+plural=_("?plural:Sikhs")
+groups="Asian"
+legend=_("Sikhs are the followers of a monotheistic religion originating\
+ from the Indian Subcontinent in the 15th century. The Punjab, on the\
+ border of Pakistan and India, is the heartland of Sikhism. In the 19th\
+ century a Sikh Empire existed in the region.")
+leader =
+ "Nanak Dev",
+ "Angad Dev",
+ "Amar Das",
+ "Ram Das",
+ "Arjan Dev",
+ "Har Gobind",
+ "Har Rai",
+ "Har Krishan",
+ "Tegh Bahadur",
+ "Gobind Singh",
+ "Nawab Kapur Singh",
+ "Bibi Sahib Kaur",
+ "Ranjit Singh",
+ "Jind Kaur",
+ "Sher Singh Attariwalla"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Female", "Male", "Female", "Male"
+flag = "sikh"
+flag_alt = "-"
+city_style = "Babylonian"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Fundamentalism",  _("Guru"),           _("?female:Guru")
+                 "Monarchy",        _("Maharaja"),     _("Maharani")
+               }
+
+init_techs=""
+init_buildings=""
+
+init_government="Despotism"
+init_units=""
+conflicts_with = "chola"
+civilwar_nations = "afghani", "pakistani", "indian"
+
+cities =
+"Amritsar",
+"Lahore",
+"Gujranwala",
+"Bathinda",
+"Chandigarh",
+"Jalandhar",
+"Ludhiana",
+"Patiala",
+"Rawalpindi",
+"Jatoi",
+"Chiniot",
+"Firoza",
+"Attock",
+"Khanpur",
+"Talagang",
+"Sheikhupura",
+"Wazirabad",
+"Kamoke",
+"Jampur",
+"Sahiwal",
+"Taxila",
+"Chakwal",
+"Okara",
+"Ahmadpur East",
+"Toba Tek Singh",
+"Qaidabad",
+"Ahmed Nager Chatha",
+"Sialkot",
+"Jaranwala",
+"Chunian",
+"Kot Addu",
+"Isa Khel",
+"Phalla",
+"Dera Ghazi Khan",
+"Daska",
+"Rabwah",
+"Faisalabad",
+"Kharian",
+"Kasur",
+"Lodhran",
+"Bhakkar",
+"Baghalchur",
+"Rahimyar Khan",
+"Rojhan",
+"Multan",
+"Haroonabad",
+"Renala Khurd",
+"Nurpur",
+"Samundri",
+"Bahawalnagar",
+"Sadiqabad",
+"Choa Saidan Shah",
+"Mithankot",
+"Dhaular",
+"Rajanpur",
+"Gujar Khan",
+"Yazman",
+"Dunyapur",
+"Chaubara",
+"Gojra",
+"Burewala",
+"Pasrur",
+"Jahania",
+"Karor",
+"Bhalwal",
+"Vihari",
+"Jhang Sadar",
+"Pakpattan",
+"Dinga",
+"Kamalia",
+"Jand",
+"Jhelum",
+"Kalur Kot",
+"Muzaffargarh",
+"Shahpur",
+"Gujrat",
+"Dipalpur",
+"Shakargarh",
+"Fatehjang",
+"Sargodha",
+"Hasilpur",
+"Leiah",
+"Pind Dadan Khan",
+"Shaher Sultan",
+"Hafizabad",
+"Liaqatpur",
+"Wah",
+"Mandi Burewala",
+"Mianwali",
+"Khushab",
+"Mailsi",
+"Murree",
+"Arifwala",
+"Khanewal",
+"Narowaal",
+"Chichawatni",
+"Mankera",
+"Bahawalpur"
+

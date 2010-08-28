@@ -215,6 +215,7 @@ artists = "
    Scotland		Sigge Kotliar
    Serbia		Nikola Pizurica
    Shawnee		Daniel Markstedt
+   Sikh			Himasaram (Wikimedia commons user)
    Silesia		Vasco Alexandre Da Silva Costa
    Singapore		Lauris Kaplinski
    Slovakia		Lauris Kaplinski
@@ -478,6 +479,7 @@ sprites =
 		"f.scotland", "flags/scotland"
 		"f.serbia", "flags/serbia"
 		"f.shawnee", "flags/shawnee"
+		"f.sikh", "flags/sikh"
 		"f.silesia", "flags/silesia"
 		"f.singapore", "flags/singapore"
 		"f.slovakia", "flags/slovakia"
