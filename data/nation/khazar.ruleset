@@ -1,0 +1,81 @@
+[nation_khazar]
+
+name = _("Khazar")
+plural = _("?plural:Khazars")
+groups="European", "Medieval"
+legend=_("The Khazars founded a steppe empire on the plains of Southern\
+ Russia in the Early Middle Ages. Originally shamanists, they adopted\
+ Judaism as their state religion.")
+leader =
+ "Khozarig",
+ "Karadach",
+ "Ziebel",
+ "Buri-Sad",
+ "Irbis",
+ "Busir",
+ "Barjik",
+ "Baghatur",
+ "Khan-Tuvan",
+ "Hazer",
+ "Zachariah",
+ "Yazir Bulash",
+ "Obadiah",
+ "Hezekiah",
+ "Chanukkah",
+ "Manasseh I",
+ "Manasseh II",
+ "Georgius Tzul"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+       "Male", "Male", "Male", "Male"
+flag="khazaria"
+flag_alt = "-"
+city_style = "Celtic"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",        _("Tarkhan"),      _("?female:Tarkhan")
+                 "Fundamentalism",        _("Rabbi"),      _("?female:Rabbi")
+                 "Despotism",       _("Khagan"),         _("?female:Khagan")
+               }
+
+init_techs=""
+init_buildings=""
+
+init_government="Despotism"
+init_units=""
+civilwar_nations="tatar", "israeli", "ruthenian"
+
+cities =
+"Atil",
+"Sarkel",
+"Khazaran",
+"Karcha", ;Kerch
+"Tmutarakan",
+"Samandar",
+"Sambalut",
+"Sambat", ;Kiev
+"Samiran",
+"Samosdelka",
+"Khumar",
+"Khamlij",
+"Sarighsin",
+"Sudak",
+"Tarki",
+"Balanjar",
+"Kazarki",
+"Yevpatoria",
+"Chersonesos Taurica",
+"Feodosya",
+"Khazaran",
+"Tamatarkha", ;Samkarsh
+"Bolgar",
+"Kazarki",
+"Güzliev",
+"Chernihiv",
+"Lübech",
+"Kursk",
+"Dores",
+"Tiflis",
+"Derbent",
+"Baku",
+"Azak"

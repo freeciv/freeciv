@@ -130,6 +130,7 @@ flag_files =				\
 		kazakhstan.png		\
 		keetoowah.png		\
 		kenya.png		\
+		khazar.png		\
 		khwarezm.png		\
 		kongo.png		\
 		korea.png		\
@@ -387,6 +388,7 @@ shield_files =					\
 		kazakhstan-shield.png		\
 		keetoowah-shield.png		\
 		kenya-shield.png		\
+		khazar-shield.png		\
 		khwarezm-shield.png		\
 		kongo-shield.png		\
 		korea-shield.png		\
@@ -644,6 +646,7 @@ svg_files = 				\
 		kazakhstan.svg		\
 		keetoowah.svg		\
 		kenya.svg		\
+		khazar.svg		\
 		khwarezm.svg		\
 		kongo.svg		\
 		korea.svg		\

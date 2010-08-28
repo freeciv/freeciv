@@ -137,6 +137,7 @@ artists = "
    Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
+   Khazaria		J.M. Maalderink
    Khwarezm		Dan Cottrell and Daniel Markstedt
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
@@ -399,6 +400,7 @@ sprites =
 		"f.kazakhstan", "flags/kazakhstan"
 		"f.keetoowah", "flags/keetoowah"	; used by Cherokee
 		"f.kenya", "flags/kenya"
+		"f.khazaria", "flags/khazaria"
 		"f.khwarezm", "flags/khwarezm"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
