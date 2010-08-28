@@ -132,6 +132,7 @@ flag_files =				\
 		kenya.png		\
 		khazaria.png		\
 		khwarezm.png		\
+		kiev.png		\
 		kongo.png		\
 		korea.png		\
 		korea_ancient.png	\
@@ -391,6 +392,7 @@ shield_files =					\
 		kenya-shield.png		\
 		khazaria-shield.png		\
 		khwarezm-shield.png		\
+		kiev-shield.png			\
 		kongo-shield.png		\
 		korea-shield.png		\
 		korea_ancient-shield.png	\
@@ -650,6 +652,7 @@ svg_files = 				\
 		kenya.svg		\
 		khazaria.svg		\
 		khwarezm.svg		\
+		kiev.svg		\
 		kongo.svg		\
 		korea.svg		\
 		korea_ancient.svg	\

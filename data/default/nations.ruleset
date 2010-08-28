@@ -242,6 +242,7 @@ match=2
 *include "nation/romanian.ruleset"
 *include "nation/roman.ruleset"
 *include "nation/russian.ruleset"
+*include "nation/ruthenian.ruleset"
 *include "nation/rwandan.ruleset"
 *include "nation/ryukyuan.ruleset"
 *include "nation/sami.ruleset"

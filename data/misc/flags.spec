@@ -139,6 +139,7 @@ artists = "
    Kenya		James Ots
    Khazaria		J.M. Maalderink
    Khwarezm		Dan Cottrell and Daniel Markstedt
+   Kiev			Maxim (http://logograd.narod.ru/)
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
@@ -403,6 +404,7 @@ sprites =
 		"f.kenya", "flags/kenya"
 		"f.khazaria", "flags/khazaria"
 		"f.khwarezm", "flags/khwarezm"
+		"f.kiev", "flags/kiev"
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"

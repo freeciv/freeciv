@@ -16,11 +16,7 @@ legend=_("According to legend, Slavic and Finnic tribes of Novgorod\
 
 leader=
  "Ryurik",		; a.k.a. Rurik the Varangian
- "Oleg",
- "Svyatoslav",
  "Vladimir Krasno Solnyshko",
- "Yaroslav Mudry",
- "Vladimir Monomah",
  "Vsevolod Bolshoe Gnezdo",
  "Aleksandr Nevsky",
  "Dmitriy Donskoy",
@@ -34,9 +30,8 @@ leader=
  "Elizaveta Petrovna",
  "Ekaterina II"	; also Yekaterina, Catherine: compare Yekaterinburg
 
-leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
-   "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
-   "Female", "Female", "Female"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Female", "Female", "Female"
 flag="russia"
 flag_alt = "-"
 city_style = "European"
