@@ -19,7 +19,7 @@ which $RENDERER >/dev/null \
   || (echo "You need ImageMagick to manipulate the images."; err=yes)
 
 for file0 in $files; do
-  filebase=`echo $file0 | sed s/.svg$//i`
+  filebase=`echo $file0 | sed 's/.[Ss][Vv][Gg]$//'`
 
   file1="$filebase-1.png"
   file2="$filebase-2.png"
