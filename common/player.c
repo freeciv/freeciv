@@ -38,8 +38,13 @@
 
 #include "player.h"
 
+
+struct player_slot {
+  struct player *player;
+};
+
 static struct {
-  const struct player **pslots;
+  struct player_slot *slots;
   int used_slots; /* number of used/allocated players in the player slots */
 } player_slots;
 
@@ -301,13 +306,12 @@ void player_slots_init(void)
   int i;
 
   /* Init player slots. */
-  player_slots.pslots = fc_calloc(player_slot_count(),
-                                  sizeof(*player_slots.pslots));
+  player_slots.slots = fc_calloc(player_slot_count(),
+                                 sizeof(*player_slots.slots));
   /* Can't use the defined functions as the needed data will be
    * defined here. */
   for (i = 0; i < player_slot_count(); i++) {
-    const struct player **pslot = player_slots.pslots + i;
-    *pslot = NULL;
+    player_slots.slots[i].player = NULL;
   }
   player_slots.used_slots = 0;
 }
@@ -317,7 +321,7 @@ void player_slots_init(void)
 ***************************************************************/
 bool player_slots_initialised(void)
 {
-  return (player_slots.pslots != NULL);
+  return (player_slots.slots != NULL);
 }
 
 /***************************************************************
@@ -328,50 +332,117 @@ void player_slots_free(void)
   players_iterate(pplayer) {
     player_destroy(pplayer);
   } players_iterate_end;
-  free(player_slots.pslots);
-  player_slots.pslots = NULL;
+  free(player_slots.slots);
+  player_slots.slots = NULL;
   player_slots.used_slots = 0;
 }
 
 /****************************************************************************
-  ...
+  Returns the first player slot.
 ****************************************************************************/
-struct player *player_new(int player_id)
+struct player_slot *player_slot_first(void)
 {
-  struct player *pplayer = NULL;
+  return player_slots.slots;
+}
 
-  /* player_id == -1: select first free player slot */
-  fc_assert_ret_val(-1 <= player_id && player_id < player_slot_count(),
-                    NULL);
+/****************************************************************************
+  Returns the next slot.
+****************************************************************************/
+struct player_slot *player_slot_next(struct player_slot *pslot)
+{
+  pslot++;
+  return (pslot < player_slots.slots + player_slot_count() ? pslot : NULL);
+}
 
-  if (player_count() == player_slot_count()) {
-    log_normal("[%s] Can't create a new player: all player slots full!",
-               __FUNCTION__);
+/***************************************************************
+  Returns the total number of player slots, i.e. the maximum
+  number of players (including barbarians, etc.) that could ever
+  exist at once.
+***************************************************************/
+int player_slot_count(void)
+{
+  return (MAX_NUM_PLAYER_SLOTS);
+}
+
+/****************************************************************************
+  Returns the index of the player slot.
+****************************************************************************/
+int player_slot_index(const struct player_slot *pslot)
+{
+  fc_assert_ret_val(NULL != pslot, -1);
+
+  return pslot - player_slots.slots;
+}
+
+/****************************************************************************
+  Returns the team corresponding to the slot. If the slot is not used, it
+  will return NULL. See also player_slot_is_used().
+****************************************************************************/
+struct player *player_slot_get_player(const struct player_slot *pslot)
+{
+  fc_assert_ret_val(NULL != pslot, NULL);
+
+  return pslot->player;
+}
+
+/****************************************************************************
+  Returns TRUE is this slot is "used" i.e. corresponds to a valid,
+  initialized player that exists in the game.
+****************************************************************************/
+bool player_slot_is_used(const struct player_slot *pslot)
+{
+  fc_assert_ret_val(NULL != pslot, FALSE);
+
+  /* No player slot available, if the game is not initialised. */
+  if (!player_slots_initialised()) {
+    return FALSE;
+  }
+
+  return NULL != pslot->player;
+}
+
+/****************************************************************************
+  Return the possibly unused and uninitialized player slot.
+****************************************************************************/
+struct player_slot *player_slot_by_number(int player_id)
+{
+  if (!player_slots_initialised()
+      || !(0 <= player_id && player_id < player_slot_count())) {
     return NULL;
   }
 
-  if (player_id == -1) {
-    /* no player position specified */
-    player_slots_iterate(pslot) {
-      if (!player_slot_is_used(pslot)) {
-        player_id = player_slot_index(pslot);
+  return player_slots.slots + player_id;
+}
+
+
+/****************************************************************************
+  Creates a new player for the slot. If slot is NULL, it will lookup to a
+  free slot. If the slot already used, then just return the player.
+****************************************************************************/
+struct player *player_new(struct player_slot *pslot)
+{
+  struct player *pplayer;
+
+  fc_assert_ret_val(player_slots_initialised(), NULL);
+
+  if (NULL == pslot) {
+    player_slots_iterate(aslot) {
+      if (!player_slot_is_used(aslot)) {
+        pslot = aslot;
         break;
       }
     } player_slots_iterate_end;
 
-    fc_assert_ret_val(player_id != -1, NULL);
+    fc_assert_ret_val(NULL != pslot, NULL);
+  } else if (NULL != pslot->player) {
+    return pslot->player;
   }
 
-  fc_assert_ret_val(!player_slot_is_used(player_slot_by_number(player_id)),
-                    NULL);
-
-  /* now create the player */
-  log_debug("Create player for slot %d.", player_id);
+  /* Now create the player. */
+  log_debug("Create player for slot %d.", player_slot_index(pslot));
   pplayer = fc_calloc(1, sizeof(*pplayer));
-  /* save the player slot in the player struct ... */
-  pplayer->pslot = player_slot_by_number(player_id);
-  /* .. and the player in the player slot */
-  *pplayer->pslot = pplayer;
+  pplayer->slot = pslot;
+  pslot->player = pplayer;
 
   pplayer->diplstates = fc_calloc(player_slot_count(),
                                   sizeof(*pplayer->diplstates));
@@ -382,18 +453,18 @@ struct player *player_new(int player_id)
   } player_slots_iterate_end;
 
   players_iterate(aplayer) {
-    /* create diplomatic states for all other players */
+    /* Create diplomatic states for all other players. */
     player_diplstate_new(pplayer, aplayer);
-    /* create diplomatic state of this player */
+    /* Create diplomatic state of this player. */
     if (aplayer != pplayer) {
       player_diplstate_new(aplayer, pplayer);
     }
   } players_iterate_end;
 
-  /* set default values */
+  /* Set default values. */
   player_defaults(pplayer);
 
-  /* increase number of players */
+  /* Increase number of players. */
   player_slots.used_slots++;
 
   return pplayer;
@@ -520,16 +591,12 @@ void player_clear(struct player *pplayer, bool full)
 ****************************************************************************/
 void player_destroy(struct player *pplayer)
 {
-  const struct player **pslot;
+  struct player_slot *pslot;
 
-  if (pplayer == NULL) {
-    return;
-  }
+  fc_assert_ret(NULL != pplayer);
 
-  /* save player slot */
-  pslot = pplayer->pslot;
-
-  fc_assert_ret(*pslot == pplayer);
+  pslot = pplayer->slot;
+  fc_assert(pslot->player == pplayer);
 
   /* Remove all that is game-dependent in the player structure. */
   player_clear(pplayer, TRUE);
@@ -552,7 +619,7 @@ void player_destroy(struct player *pplayer)
   } players_iterate_end;
 
   free(pplayer);
-  *pslot = NULL;
+  pslot->player = NULL;
   player_slots.used_slots--;
 }
 
@@ -581,7 +648,7 @@ int player_index(const struct player *pplayer)
 int player_number(const struct player *pplayer)
 {
   fc_assert_ret_val(NULL != pplayer, -1);
-  return player_slot_index(pplayer->pslot);
+  return player_slot_index(pplayer->slot);
 }
 
 /**************************************************************************
@@ -592,20 +659,9 @@ int player_number(const struct player *pplayer)
 **************************************************************************/
 struct player *player_by_number(const int player_id)
 {
-  const struct player **pslot;
+  struct player_slot *pslot = player_slot_by_number(player_id);
 
-  if (player_id == -1) {
-    /* player_id == -1 is used by the network code. */
-    return NULL;
-  }
-
-  pslot = player_slot_by_number(player_id);
-
-  if (!player_slot_is_used(pslot)) {
-    return NULL;
-  }
-
-  return player_slot_get_player(pslot);
+  return (NULL != pslot ? player_slot_get_player(pslot) : NULL);
 }
 
 /****************************************************************************
@@ -1368,67 +1424,4 @@ int number_of_ai_levels(void)
   }
 
   return count;
-}
-
-/***************************************************************
-  Returns the total number of player slots, i.e. the maximum
-  number of players (including barbarians, etc.) that could ever
-  exist at once.
-***************************************************************/
-int player_slot_count(void)
-{
-  return (MAX_NUM_PLAYER_SLOTS);
-}
-
-/***************************************************************
-  ...
-***************************************************************/
-int player_slot_index(const struct player **pslot)
-{
-  fc_assert_ret_val(pslot != NULL, -1);
-
-  return pslot - player_slots.pslots;
-}
-
-/***************************************************************
-  ...
-***************************************************************/
-struct player *player_slot_get_player(const struct player **pslot)
-{
-  fc_assert_ret_val(pslot != NULL, NULL);
-
-  /* some magic casts */
-  return (struct player*) *pslot;
-}
-
-/***************************************************************
-  Returns TRUE is this slot is "used" i.e. corresponds to a
-  valid, initialized player that exists in the game.
-***************************************************************/
-bool player_slot_is_used(const struct player **pslot)
-{
-  /* No player slot available, if the game is not initialised. */
-  if (!player_slots_initialised()) {
-    return FALSE;
-  }
-
-  return (*pslot != NULL);
-}
-
-/***************************************************************
-  Return the possibly unused and uninitialized player slot, a
-  pointer to a pointer of the player struct.
-***************************************************************/
-const struct player **player_slot_by_number(int player_id)
-{
-  const struct player **pslot;
-
-  if (!player_slots_initialised()
-      || !(0 <= player_id && player_id < player_slot_count())) {
-    return NULL;
-  }
-
-  pslot = player_slots.pslots + player_id;
-
-  return pslot;
 }

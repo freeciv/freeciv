@@ -1668,15 +1668,12 @@ void start_revolution(void)
 **************************************************************************/
 void handle_player_remove(int playerno)
 {
-  const struct player **pslot;
+  struct player_slot *pslot;
   struct player *pplayer;
-
-  fc_assert_ret_msg(0 <= playerno && playerno < player_slot_count(),
-                    "Invalid player slot number %d.", playerno);
 
   pslot = player_slot_by_number(playerno);
 
-  if (!player_slot_is_used(pslot)) {
+  if (NULL == pslot || !player_slot_is_used(pslot)) {
     /* Ok, just ignore. */
     return;
   }
@@ -1722,22 +1719,17 @@ void handle_player_info(struct packet_player_info *pinfo)
   struct player *pplayer, *my_player;
   struct nation_type *pnation;
   struct government *pgov, *ptarget_gov;
-  const struct player **pslot;
+  struct player_slot *pslot;
   struct team_slot *tslot;
 
-  /* First verify packet fields. */
-
-  fc_assert_ret_msg(0 <= pinfo->playerno
-                    && pinfo->playerno <= player_slot_count(),
-                    "Invalid player slot number %d.", pinfo->playerno);
   pslot = player_slot_by_number(pinfo->playerno);
-  if (player_slot_is_used(pslot)) {
-    /* get player */
-    pplayer = player_slot_get_player(pslot);
-  } else {
-    /* create new player with the given id */
-    pplayer = player_new(pinfo->playerno);
-  }
+  fc_assert(NULL != pslot);
+  pplayer = player_new(pslot);
+
+  /* Team. */
+  tslot = team_slot_by_number(pinfo->team);
+  fc_assert(NULL != tslot);
+  team_add_player(pplayer, team_new(tslot));
 
   pnation = nation_by_number(pinfo->nation);
   pgov = government_by_number(pinfo->government);
@@ -1747,10 +1739,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   sz_strlcpy(pplayer->name, pinfo->name);
   sz_strlcpy(pplayer->username, pinfo->username);
 
-  /* Team. */
-  tslot = team_slot_by_number(pinfo->team);
-  fc_assert(NULL != tslot);
-  team_add_player(pplayer, team_new(tslot));
 
   is_new_nation = player_set_nation(pplayer, pnation);
   pplayer->is_male = pinfo->is_male;
@@ -1980,10 +1968,10 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     client_remove_cli_conn(pconn);
     pconn = NULL;
   } else {
-    const struct player **pslot = player_slot_by_number(pinfo->player_num);
+    struct player_slot *pslot = player_slot_by_number(pinfo->player_num);
     struct player *pplayer = NULL;
 
-    if (pslot && player_slot_is_used(pslot)) {
+    if (NULL != pslot) {
       pplayer = player_slot_get_player(pslot);
     }
 

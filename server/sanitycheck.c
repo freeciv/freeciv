@@ -146,19 +146,17 @@ static void check_fow(const char *file, const char *function, int line)
 **************************************************************************/
 static void check_misc(const char *file, const char *function, int line)
 {
-  int i, nplayers = 0, nbarbs = 0;
+  int nplayers = 0, nbarbs = 0;
 
-  /* do not use player_slots_iterate as we want to check the index! */
-  for (i = 0; i < player_slot_count(); i++) {
-    const struct player **pslot = player_slot_by_number(i);
-
-    if (player_slot_get_player(pslot) != NULL) {
+  /* Do not use player_slots_iterate as we want to check the index! */
+  player_slots_iterate(pslot) {
+    if (player_slot_is_used(pslot)) {
       if (is_barbarian(player_slot_get_player(pslot))) {
         nbarbs++;
       }
       nplayers++;
     }
-  }
+  } player_slots_iterate_end;
 
   SANITY_CHECK(nplayers == player_count());
   SANITY_CHECK(nbarbs == server.nbarbarians);

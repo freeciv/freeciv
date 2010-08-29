@@ -81,7 +81,7 @@ static void package_player_info(struct player *plr,
 static enum plr_info_level player_info_level(struct player *plr,
 					     struct player *receiver);
 
-static void send_player_remove_info_c(const struct player **pslot,
+static void send_player_remove_info_c(const struct player_slot *pslot,
                                       struct conn_list *dest);
 static void send_player_info_c_real(struct player *src,
                                     struct conn_list *dest);
@@ -667,7 +667,7 @@ void handle_diplomacy_cancel_pact(struct player *pplayer,
 /**************************************************************************
   Send information about removed (unused) players.
 **************************************************************************/
-static void send_player_remove_info_c(const struct player **pslot,
+static void send_player_remove_info_c(const struct player_slot *pslot,
                                       struct conn_list *dest)
 {
   if (!dest) {
@@ -1132,9 +1132,14 @@ void server_player_init(struct player *pplayer,
 ***********************************************************************/
 struct player *server_create_player(int player_id)
 {
-  struct player *pplayer = player_new(player_id);
+  struct player_slot *pslot;
+  struct player *pplayer;
 
-  if (!pplayer) {
+  pslot = player_slot_by_number(player_id);
+  fc_assert(NULL == pslot || !player_slot_is_used(pslot));
+
+  pplayer = player_new(pslot);
+  if (NULL == pplayer) {
     return NULL;
   }
 
@@ -1160,14 +1165,12 @@ struct player *server_create_player(int player_id)
 ***********************************************************************/
 void server_remove_player(struct player *pplayer)
 {
-  const struct player **pslot;
+  const struct player_slot *pslot;
 
-  if (!pplayer) {
-    return;
-  }
+  fc_assert_ret(NULL != pplayer);
 
   /* save player slot */
-  pslot = pplayer->pslot;
+  pslot = pplayer->slot;
 
   log_normal(_("Removing player %s."), player_name(pplayer));
 

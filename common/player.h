@@ -31,6 +31,8 @@
 #define ANON_PLAYER_NAME "noname"
 #define ANON_USER_NAME "Unassigned"
 
+struct player_slot;
+
 enum handicap_type {
   H_DIPLOMAT = 0,     /* Can't build offensive diplomats */
   H_AWAY,             /* Away mode */
@@ -172,7 +174,7 @@ struct ai_type;
 struct ai_data;
 
 struct player {
-  const struct player **pslot;
+  struct player_slot *slot;
   char name[MAX_LEN_NAME];
   char username[MAX_LEN_NAME];
   char ranked_username[MAX_LEN_NAME]; /* the user who will be ranked */
@@ -238,14 +240,26 @@ struct player {
   };
 };
 
+/* Initialization and iteration */
+void player_slots_init(void);
+bool player_slots_initialised(void);
+void player_slots_free(void);
+
+struct player_slot *player_slot_first(void);
+struct player_slot *player_slot_next(struct player_slot *pslot);
+
 /* A player slot contains a possibly uninitialized player. */
 int player_slot_count(void);
-int player_slot_index(const struct player **pslot);
-struct player *player_slot_get_player(const struct player **pslot);
-bool player_slot_is_used(const struct player **pslot);
-const struct player **player_slot_by_number(int player_id);
+int player_slot_index(const struct player_slot *pslot);
+struct player *player_slot_get_player(const struct player_slot *pslot);
+bool player_slot_is_used(const struct player_slot *pslot);
+struct player_slot *player_slot_by_number(int player_id);
 
 /* General player accessor functions. */
+struct player *player_new(struct player_slot *pslot);
+void player_clear(struct player *pplayer, bool full);
+void player_destroy(struct player *pplayer);
+
 int player_count(void);
 int player_index(const struct player *pplayer);
 int player_number(const struct player *pplayer);
@@ -333,25 +347,12 @@ bool is_barbarian(const struct player *pplayer);
 
 bool gives_shared_vision(const struct player *me, const struct player *them);
 
-/* Initialization and iteration */
-void player_slots_init(void);
-bool player_slots_initialised(void);
-void player_slots_free(void);
-
-struct player *player_new(int player_id);
-void player_clear(struct player *pplayer, bool full);
-void player_destroy(struct player *pplayer);
-
 /* iterate over all player slots */
 #define player_slots_iterate(_pslot)                                        \
-  {                                                                         \
-    const struct player **_pslot;                                           \
-    int _pslot##_index = 0;                                                 \
-    if (player_slots_initialised()) {                                       \
-      for (; _pslot##_index < player_slot_count(); _pslot##_index++) {      \
-        _pslot = player_slot_by_number(_pslot##_index);
+  if (player_slots_initialised()) {                                         \
+    struct player_slot *_pslot = player_slot_first();                       \
+    for (; NULL != _pslot; _pslot = player_slot_next(_pslot)) {
 #define player_slots_iterate_end                                            \
-      }                                                                     \
     }                                                                       \
   }
 
