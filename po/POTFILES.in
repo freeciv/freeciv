@@ -356,7 +356,6 @@ data/nation/kazakh.ruleset
 data/nation/kenyan.ruleset
 data/nation/khazar.ruleset
 data/nation/khwarezmian.ruleset
-data/nation/kiev.ruleset
 data/nation/kongo.ruleset
 data/nation/korean.ruleset
 data/nation/kurd.ruleset
@@ -421,6 +420,7 @@ data/nation/riffian.ruleset
 data/nation/romanian.ruleset
 data/nation/roman.ruleset
 data/nation/russian.ruleset
+data/nation/ruthenian.ruleset
 data/nation/rwandan.ruleset
 data/nation/ryukyuan.ruleset
 data/nation/sami.ruleset
