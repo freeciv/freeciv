@@ -89,6 +89,7 @@ artists = "
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
    Finland		SKopp (Wikimedia user)
+   Flanders		Cedric de Launois (Open Clip Art)
    France (old)		Patricia Fidi
    France		Tobias Jakobs
    Frisia		GeeKaa (Wikimedia Commons user)
@@ -154,6 +155,7 @@ artists = "
    Libya		Cezary Biele
    Liechtenstein	Denelson83 and Flanker (Wikimedia Commons users)
    Lithuania		Christian Schaller
+   Luxembourg		J.M. Maalderink
    Maasai		James Ots and J.M. Maalderink
    Macedon		Mysid (Wikimedia Commons user)
    Macedonia		Sigge Kotliar
@@ -269,6 +271,7 @@ artists = "
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Wales		Tobias Jakobs
+   Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons user)
    Zulu			Daniel Markstedt and Caleb Moore
@@ -356,6 +359,7 @@ sprites =
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"
 		"f.finland", "flags/finland"
+		"f.flanders", "flags/flanders"
 		"f.france", "flags/france"
 		"f.france_old", "flags/france_old"	; alt Gallic
 		"f.frisia", "flags/frisia"
@@ -422,6 +426,7 @@ sprites =
 		"f.libya", "flags/libya"
 		"f.liechtenstein", "flags/liechtenstein"
 		"f.lithuania", "flags/lithuania"
+		"f.luxembourg", "flags/luxembourg"
 		"f.maasai", "flags/maasai"
 		"f.macedon", "flags/macedon"
 		"f.macedonia", "flags/macedonia"
@@ -536,6 +541,7 @@ sprites =
 		"f.venice", "flags/venice"
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
+		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"

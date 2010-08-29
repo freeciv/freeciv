@@ -311,6 +311,7 @@ data/nation/ethiopian.ruleset
 data/nation/european.ruleset
 data/nation/filipino.ruleset
 data/nation/finnish.ruleset
+data/nation/flemish.ruleset
 data/nation/french.ruleset
 data/nation/frisian.ruleset
 data/nation/gaelic.ruleset
@@ -370,6 +371,7 @@ data/nation/libyan.ruleset
 data/nation/liechtensteiner.ruleset
 data/nation/lithuanian.ruleset
 data/nation/lojbanistani.ruleset
+data/nation/luxembourgish.ruleset
 data/nation/maasai.ruleset
 data/nation/macedon.ruleset
 data/nation/macedonian.ruleset
@@ -476,6 +478,7 @@ data/nation/venetian.ruleset
 data/nation/venezuelan.ruleset
 data/nation/vietnamese.ruleset
 data/nation/viking.ruleset
+data/nation/walloon.ruleset
 data/nation/welsh.ruleset
 data/nation/westernroman.ruleset
 data/nation/westphalian.ruleset

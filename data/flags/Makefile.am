@@ -82,6 +82,7 @@ flag_files =				\
 		europe.png		\
 		euskadi.png		\
 		finland.png		\
+		flanders.png		\
 		france_old.png		\
 		france.png		\
 		frisia.png		\
@@ -147,6 +148,7 @@ flag_files =				\
 		libya.png		\
 		liechtenstein.png	\
 		lithuania.png		\
+		luxembourg.png		\
 		maasai.png		\
 		macedon.png		\
 		macedonia.png		\
@@ -262,6 +264,7 @@ flag_files =				\
 		vietnam.png		\
 		viking.png		\
 		wales.png		\
+		wallonia.png		\
 		westphalia.png		\
 		wuerttemberg.png	\
 		zulu.png
@@ -345,6 +348,7 @@ shield_files =					\
 		europe-shield.png		\
 		euskadi-shield.png		\
 		finland-shield.png		\
+		flanders-shield.png		\
 		france_old-shield.png		\
 		france-shield.png		\
 		frisia-shield.png		\
@@ -410,6 +414,7 @@ shield_files =					\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
 		lithuania-shield.png		\
+		luxembourg-shield.png		\
 		maasai-shield.png		\
 		macedon-shield.png		\
 		macedonia-shield.png		\
@@ -525,6 +530,7 @@ shield_files =					\
 		vietnam-shield.png		\
 		viking-shield.png		\
 		wales-shield.png		\
+		wallonia-shield.png		\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
 		zulu-shield.png
@@ -608,6 +614,7 @@ svg_files = 				\
 		europe.svg		\
 		euskadi.svg		\
 		finland.svg		\
+		flanders.svg		\
 		france_old.svg		\
 		france.svg		\
 		frisia.svg		\
@@ -673,6 +680,7 @@ svg_files = 				\
 		libya.svg		\
 		liechtenstein.svg	\
 		lithuania.svg		\
+		luxembourg.svg		\
 		maasai.svg		\
 		macedon.svg		\
 		macedonia.svg		\
@@ -788,6 +796,7 @@ svg_files = 				\
 		vietnam.svg		\
 		viking.svg		\
 		wales.svg		\
+		wallonia.svg		\
 		westphalia.svg		\
 		wuerttemberg.svg		\
 		zulu.svg

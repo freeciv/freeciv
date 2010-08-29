@@ -88,6 +88,7 @@ pkgdata_DATA = \
 		european.ruleset \
 		filipino.ruleset \
 		finnish.ruleset \
+		flemish.ruleset \
 		french.ruleset \
 		frisian.ruleset \
 		gaelic.ruleset \
@@ -147,6 +148,7 @@ pkgdata_DATA = \
 		liechtensteiner.ruleset \
 		lithuanian.ruleset \
 		lojbanistani.ruleset \
+		luxembourgish.ruleset \
 		maasai.ruleset \
 		macedon.ruleset \
 		macedonian.ruleset \
@@ -253,6 +255,7 @@ pkgdata_DATA = \
 		venezuelan.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \
+		walloon.ruleset \
 		welsh.ruleset \
 		westernroman.ruleset \
 		westphalian.ruleset \

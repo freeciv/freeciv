@@ -1,0 +1,99 @@
+[nation_luxembourgian]
+
+name=_("Luxembourgish")
+plural=_("?plural:Luxembourgians")
+groups="European", "Medieval", "Modern"
+legend=_("One of Europe's smaller countries, Luxembourg was founded as\
+ a county in 963. In 1815 it was elevated to a Grand Duchy in a personal\
+ union with the Netherlands, which was severed in 1890.")
+leader=
+ "Siegfried I",
+ "Heng de Blannen",
+ "Heinrich IV",
+ "Wenzel I",
+ "Sigismund",
+ "Karl V",
+ "Wëllem I",
+ "Wëllem III",
+ "Paul Eyschen",
+ "Marie-Adélaïde",
+ "Charlotte",
+ "Jean"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Female", "Female", "Male"
+flag="luxembourg"
+flag_alt = "netherlands"
+city_style = "european"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
+                 "Despotism",      _("Count"),          _("Countess")
+                 "Fundamentalism", _("Bishop"),         _("Mother Superior")
+                 "Monarchy",       _("Grand Duke"),     _("Grand Duchess")
+                 "Republic",       _("Stadtholder"),    _("Stadtholdress")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+conflicts_with="dutch"
+civilwar_nations="german", "french", "walloon", "dutch"
+
+cities =
+ "Lëtzebuerg",		;Luxembourg
+ "Ettelbréck",		;Ettelbrück
+ "Dikrech",		;Diekirch
+ "Iechternach",		;Echternach
+ "Esch-Uelzecht",	;Esch-sur-Alzette
+ "Miersch",		;Mersch
+ "Wolz",		;Wiltz
+ "Déifferdeng",		;Differdange
+ "Gréiwemaacher",	;Grevenmacher
+ "Diddeleng",		;Dudelange
+ "Veianen",		;Vianden
+ "Péiteng",		;Pétange
+ "Réimech",		;Remich
+ "Suessem",		;Sanem
+ "Rëmeleng",		;Rumelange
+ "Kapellen",		;Capellen
+ "Klierf",		;Clervaux
+ "Hesper",		;Hesperange
+ "Beetebuerg",		;Bettembourg
+ "Schëffleng",		;Schifflange
+ "Keel",		;Kayl
+ "Nidderkäerjeng",	;Bascharage
+ "Mamer",		;Mamer
+ "Walfer",		;Walferdange
+ "Stroossen",		;Strassen
+ "Bartreng",		;Bertrange
+ "Monnerëch",		;Monnercange
+ "Jonglënster",		;Junglinster
+ "Nidderaanwen",	;Niederanven
+ "Réiser",		;Roeser
+ "Kielen",		;Kehlen
+ "Steesel",		;Steinsel
+ "Stengefort",		;Steinfort
+ "Munnerëf",		;Mondorf-les-Bains
+ "Rammerech",		;Rambrouch
+ "Wëntger",		;Wincrange
+ "Mäertert",		;Mertert
+ "Dippech",		;Dippach
+ "Fiels",		;Larochette
+ "Fréiséng",		;Frisange
+ "Réiden",		;Rédange
+ "Schëtter",		;Schuttrange
+ "Konter",		;Contern
+ "Luerenzweiler",	;Lorentzweiler
+ "Koplescht",		;Kopstal
+ "Sandweiler",		;Sandweiler
+ "Habscht",		;Hobscheid
+ "Betzder",		;Betzdorf
+ "Ëlwen",		;Troisvierges
+ "Kolmer-Bierg",	;Colmar-Berg
+ "Stadbriedemes",	;Stadtbrediumus
+ "Waasserbëlleg",	;Wasserbillig
+ "Wuermeldeng",		;Wormeldange
+ "Esch-Sauer",		;Esch-sur-Sûre
+ "Maarnech"		;Marnach

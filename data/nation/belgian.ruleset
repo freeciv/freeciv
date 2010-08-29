@@ -24,7 +24,14 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="dutch", "french"
+conflicts_with="flemish", "walloon"
+civilwar_nations="flemish", "walloon"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("?female:Prime Minister")
+                 "Fundamentalism",  _("Bishop"),         _("Mother Superior")
+                 "Republic",	    _("Stadtholder"),    _("Stadtholdress")
+               }
 
 ; Alternating Flemish and Walloon names
 cities =
