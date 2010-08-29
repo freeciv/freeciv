@@ -8,6 +8,7 @@ flag_files =				\
 		afghanistan.png		\
 		ainu.png		\
 		akwe.png		\
+		albania.png		\
 		aleut.png		\
 		algeria.png		\
 		almohad.png		\
@@ -270,6 +271,7 @@ shield_files =					\
 		afghanistan-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
+		albania-shield.png		\
 		aleut-shield.png		\
 		algeria-shield.png		\
 		almohad-shield.png		\
@@ -532,6 +534,7 @@ svg_files = 				\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\
+		albania.svg		\
 		aleut.svg		\
 		algeria.svg		\
 		almohad.svg		\

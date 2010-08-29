@@ -26,7 +26,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="bulgarian", "greek", "serbian"
+civilwar_nations="bulgarian", "albanian", "serbian"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Mazedonien
 cities =
