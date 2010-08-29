@@ -326,6 +326,15 @@ void calc_civ_score(struct player *pplayer)
 }
 
 /**************************************************************************
+  Return the score given by the units stats.
+**************************************************************************/
+static int get_units_score(const struct player *pplayer)
+{
+  return (pplayer->score.units_built / 10
+          + pplayer->score.units_killed / 3);
+}
+
+/**************************************************************************
   Return the civilization score (a numerical value) for the player.
 **************************************************************************/
 int get_civ_score(const struct player *pplayer)
@@ -333,9 +342,10 @@ int get_civ_score(const struct player *pplayer)
   /* We used to count pplayer->score.happy here too, but this is too easily
    * manipulated by players at the endrturn. */
   return (total_player_citizens(pplayer)
-	  + pplayer->score.techs * 2
-	  + pplayer->score.wonders * 5
-	  + get_spaceship_score(pplayer));
+          + pplayer->score.techs * 2
+          + pplayer->score.wonders * 5
+          + get_spaceship_score(pplayer)
+          + get_units_score(pplayer));
 }
 
 /**************************************************************************

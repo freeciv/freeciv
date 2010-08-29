@@ -321,6 +321,7 @@ void player_restore_units(struct player *pplayer)
                       unit_tile_link(punit));
       }
 
+      pplayer->score.units_lost++;
       wipe_unit(punit);
       continue; /* Continue iterating... */
     }
@@ -426,6 +427,7 @@ void player_restore_units(struct player *pplayer)
       notify_player(pplayer, unit_tile(punit), E_UNIT_LOST_MISC, ftc_server,
                     _("Your %s has run out of fuel."),
                     unit_tile_link(punit));
+      pplayer->score.units_lost++;
       wipe_unit(punit);
     } 
   } unit_list_iterate_safe_end;
@@ -1115,6 +1117,7 @@ void bounce_unit(struct unit *punit, bool verbose)
                   _("Disbanded your %s."),
                   unit_tile_link(punit));
   }
+  pplayer->score.units_lost++;
   wipe_unit(punit);
 }
 
@@ -1680,6 +1683,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                   nation_adjective_for_player(pvictor),
                   pkiller_link);
 
+    pvictor->score.units_killed++;
+    pvictim->score.units_lost++;
     wipe_unit(punit);
   } else { /* unitcount > 1 */
     int i;
@@ -1801,7 +1806,9 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     /* remove the units */
     unit_list_iterate_safe(punit->tile->units, punit2) {
       if (pplayers_at_war(pvictor, unit_owner(punit2))) {
-	wipe_unit(punit2);
+        pvictor->score.units_killed++;
+        unit_owner(punit2)->score.units_lost++;
+        wipe_unit(punit2);
       }
     } unit_list_iterate_safe_end;
   }
@@ -2059,6 +2066,8 @@ static void do_nuke_tile(struct player *pplayer, struct tile *ptile)
                     nation_adjective_for_player(unit_owner(punit)),
                     unit_tile_link(punit));
     }
+    pplayer->score.units_killed++;
+    unit_owner(punit)->score.units_lost++;
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
 
@@ -2327,6 +2336,7 @@ static bool hut_get_limited(struct unit *punit)
     notify_player(pplayer, unit_tile(punit), E_HUT_BARB_KILLED, ftc_server,
                   _("Your %s has been killed by barbarians!"),
                   unit_tile_link(punit));
+    pplayer->score.units_lost++;
     wipe_unit(punit);
     ok = FALSE;
   }

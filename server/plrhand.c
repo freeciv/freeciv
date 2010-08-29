@@ -1115,6 +1115,12 @@ void server_player_init(struct player *pplayer,
   }
 
   ai_data_default(pplayer);
+
+  /* We don't push this in calc_civ_score(), or it will be reset
+   * every turn. */
+  pplayer->score.units_built = 0;
+  pplayer->score.units_killed = 0;
+  pplayer->score.units_lost = 0;
 }
 
 /********************************************************************** 

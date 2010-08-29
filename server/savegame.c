@@ -2493,6 +2493,14 @@ static void player_load_main(struct player *plr, int plrno,
 				   "player%d.revolution_finishes", plrno);
   }
 
+  /* Unit statistics. */
+  plr->score.units_built =
+      secfile_lookup_int_default(file, 0, "player%d.units_built", plrno);
+  plr->score.units_killed =
+      secfile_lookup_int_default(file, 0, "player%d.units_killed", plrno);
+  plr->score.units_lost =
+      secfile_lookup_int_default(file, 0, "player%d.units_lost", plrno);
+
   { /* spacerace */
     struct player_spaceship *ship = &plr->spaceship;
     char prefix[32];
@@ -3747,6 +3755,14 @@ static void player_save_main(struct player *plr, int plrno,
 
   /* Required for 2.0 and earlier servers.  Remove eventually. */
   secfile_insert_int(file, 0, "player%d.embassy", plrno);
+
+  /* Unit statistics. */
+  secfile_insert_int(file, plr->score.units_built,
+                     "player%d.units_built", plrno);
+  secfile_insert_int(file, plr->score.units_killed,
+                     "player%d.units_killed", plrno);
+  secfile_insert_int(file, plr->score.units_lost,
+                     "player%d.units_lost", plrno);
 
   secfile_insert_int(file, ship->state, "player%d.spaceship.state", plrno);
 

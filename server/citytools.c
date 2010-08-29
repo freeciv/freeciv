@@ -598,6 +598,7 @@ static void transfer_unit(struct unit *punit, struct city *tocity,
                       nation_adjective_for_player(to_player),
                       city_link(tocity));
       }
+      from_player->score.units_lost++;
       wipe_unit(punit);
       return;
     }
@@ -687,6 +688,7 @@ void transfer_city_units(struct player *pplayer, struct player *pvictim,
                       _("%s lost along with control of %s."),
                       unit_tile_link(vunit), name);
       }
+      unit_owner(vunit)->score.units_lost++;
       wipe_unit(vunit);
     }
   } unit_list_iterate_safe_end;
@@ -1349,6 +1351,7 @@ void remove_city(struct city *pcity)
                       "get out, and it was therefore lost."),
                     city_link(pcity),
                     unit_tile_link(punit));
+      unit_owner(punit)->score.units_lost++;
       wipe_unit(punit);
     }
   } unit_list_iterate_safe_end;
@@ -1359,6 +1362,7 @@ void remove_city(struct city *pcity)
 
   /* Any remaining supported units are destroyed */
   unit_list_iterate_safe(pcity->units_supported, punit) {
+    unit_owner(punit)->score.units_lost++;
     wipe_unit(punit);
   } unit_list_iterate_safe_end;
 

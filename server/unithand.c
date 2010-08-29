@@ -993,6 +993,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
       notify_player(city_owner(pcity), def_tile, E_UNIT_WIN, ftc_server,
                     _("The nuclear attack on %s was avoided by"
                       " your SDI defense."), city_link(pcity));
+      pplayer->score.units_lost++;
+      city_owner(pcity)->score.units_killed++;
       wipe_unit(punit);
       return;
     } 
@@ -1081,6 +1083,8 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
                   loser_link,
                   nation_adjective_for_player(unit_owner(pwinner)),
                   winner_link);
+    unit_owner(ploser)->score.units_lost++;
+    unit_owner(pwinner)->score.units_killed++;
     wipe_unit(ploser);
   } else {
     /* The defender lost, the attacker punit lives! */

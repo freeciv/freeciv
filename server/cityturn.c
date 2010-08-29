@@ -813,7 +813,8 @@ static void city_populate(struct city *pcity)
                       E_UNIT_LOST_MISC, ftc_server,
                       _("Famine feared in %s, %s lost!"), 
                       city_link(pcity), unit_tile_link(punit));
- 
+
+        unit_owner(punit)->score.units_lost++;
         wipe_unit(punit);
 
         if (city_exist(saved_id)) {
@@ -1620,6 +1621,7 @@ static bool city_build_unit(struct player *pplayer, struct city *pcity)
       punit = create_unit(pplayer, pcity->tile, utype,
                           do_make_unit_veteran(pcity, utype),
                           pcity->id, 0);
+      pplayer->score.units_built++;
 
       /* After we created the unit remove the citizen. This will also
        * rearrange the worker to take into account the extra resources
@@ -1760,6 +1762,7 @@ static bool sell_random_units(struct player *pplayer,
                   _("Not enough gold. %s disbanded"),
                   unit_tile_link(punit));
     unit_list_remove(punitlist, punit);
+    pplayer->score.units_lost++;
     wipe_unit(punit);
 
     /* Get the upkeep gold back. */
@@ -2238,6 +2241,7 @@ static bool disband_city(struct city *pcity)
   (void) create_unit(pplayer, ptile, utype,
 		     do_make_unit_veteran(pcity, utype),
 		     pcity->id, 0);
+  pplayer->score.units_built++;
 
   /* Shift all the units supported by pcity (including the new unit)
    * to rcity.  transfer_city_units does not make sure no units are

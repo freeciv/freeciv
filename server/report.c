@@ -587,6 +587,30 @@ static int get_spaceship(const struct player *pplayer)
 /****************************************************************************
   ...
 ****************************************************************************/
+static int get_units_built(const struct player *pplayer)
+{
+  return pplayer->score.units_built;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static int get_units_killed(const struct player *pplayer)
+{
+  return pplayer->score.units_killed;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
+static int get_units_lost(const struct player *pplayer)
+{
+  return pplayer->score.units_lost;
+}
+
+/****************************************************************************
+  ...
+****************************************************************************/
 static int get_gold(const struct player *pplayer)
 {
   return pplayer->economic.gold;
@@ -1231,7 +1255,11 @@ void log_civ_score_now(void)
     {"gov",             get_gov},
     {"corruption",      get_corruption}, /* new 1.11.5 tags end here */
 
-    {"score",           get_total_score} /* New 2.1.10 tag */
+    {"score",           get_total_score}, /* New 2.1.10 tag end here. */
+
+    {"unitsbuilt",      get_units_built}, /* New tags since 2.3.0. */
+    {"unitskilled",     get_units_killed},
+    {"unitslost",       get_units_lost},
   };
 
   if (!game.server.scorelog) {
@@ -1399,7 +1427,10 @@ void report_final_scores(struct conn_list *dest)
     /* TRANS: "sq. mi." is abbreviation for "square miles" */
     { N_("Settled Area\n(sq. mi.)"),    get_settledarea },
     { N_("Literacy\n(%)"),              get_literacy },
-    { N_("Spaceship\n"),                get_spaceship }
+    { N_("Spaceship\n"),                get_spaceship },
+    { N_("Built Units\n"),              get_units_built },
+    { N_("Killed Units\n"),             get_units_killed },
+    { N_("Unit Losses\n"),              get_units_lost },
   };
   const size_t score_categories_num = ARRAY_SIZE(score_categories);
 

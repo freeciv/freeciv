@@ -3304,6 +3304,17 @@ static void sg_load_player_main(struct loaddata *loading,
     }
   }
 
+  /* Unit statistics. */
+  plr->score.units_built =
+      secfile_lookup_int_default(loading->file, 0,
+                                 "player%d.units_built", plrno);
+  plr->score.units_killed =
+      secfile_lookup_int_default(loading->file, 0,
+                                 "player%d.units_killed", plrno);
+  plr->score.units_lost =
+      secfile_lookup_int_default(loading->file, 0,
+                                 "player%d.units_lost", plrno);
+
   /* Load space ship data. */
   {
     struct player_spaceship *ship = &plr->spaceship;
@@ -3511,6 +3522,14 @@ static void sg_save_player_main(struct savedata *saving,
                       "player%d.capital", plrno);
   secfile_insert_int(saving->file, plr->revolution_finishes,
                      "player%d.revolution_finishes", plrno);
+
+  /* Unit statistics. */
+  secfile_insert_int(saving->file, plr->score.units_built,
+                     "player%d.units_built", plrno);
+  secfile_insert_int(saving->file, plr->score.units_killed,
+                     "player%d.units_killed", plrno);
+  secfile_insert_int(saving->file, plr->score.units_lost,
+                     "player%d.units_lost", plrno);
 
   /* Save space ship status. */
   secfile_insert_int(saving->file, ship->state, "player%d.spaceship.state",
