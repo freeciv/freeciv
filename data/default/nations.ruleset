@@ -71,6 +71,7 @@ match=2
 *include "nation/armenian.ruleset"
 *include "nation/assyrian.ruleset"
 *include "nation/asturian.ruleset"
+*include "nation/atlantean.ruleset"
 *include "nation/australian.ruleset"
 *include "nation/austrian.ruleset"
 *include "nation/aymara.ruleset"

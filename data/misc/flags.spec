@@ -31,6 +31,7 @@ artists = "
    Armenia		Jason Short
    Assyria		Clevelander and Daniel Markstedt
    Asturias		Banderas (Wikimedia user)
+   Atlantis		J.M. Maalderink
    Australia		Daniel McRae
    Austria		Christoph Breitler
    Aymara		Daniel Markstedt
@@ -294,6 +295,7 @@ sprites =
 		"f.armenia", "flags/armenia"
 		"f.assyria", "flags/assyria"
 		"f.asturias", "flags/asturias"
+		"f.atlantis", "flags/atlantis"
 		"f.australia", "flags/australia"
 		"f.austria", "flags/austria"
 		"f.aymara", "flags/aymara"

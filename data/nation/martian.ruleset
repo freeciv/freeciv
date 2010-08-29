@@ -25,6 +25,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
+civilwar_nations="atlantean"
+
 cities =
 	"Olympus Mons", "Utopia Planitia", "Hellas Planitia",
 	"Elysium Planitia", "Arsia Mons", "Pavonis Mons", "Ascraeus Mons",

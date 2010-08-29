@@ -23,6 +23,7 @@ flag_files =				\
 		armenia.png		\
 		assyria.png		\
 		asturias.png		\
+		atlantis.png		\
 		australia.png		\
 		austria.png		\
 		aymara.png		\
@@ -284,6 +285,7 @@ shield_files =					\
 		armenia-shield.png		\
 		assyria-shield.png		\
 		asturias-shield.png		\
+		atlantis-shield.png		\
 		australia-shield.png		\
 		austria-shield.png		\
 		aymara-shield.png		\
@@ -545,6 +547,7 @@ svg_files = 				\
 		armenia.svg		\
 		assyria.svg		\
 		asturias.svg		\
+		atlantis.svg		\
 		australia.svg		\
 		austria.svg		\
 		aymara.svg		\
