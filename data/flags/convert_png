@@ -54,10 +54,11 @@ for file0 in $files; do
 
   # The following assumes that the drawing has the same dimensions as the page
   DRAWING_WIDTH=$($RENDERER -f $file0 -W)
-  X0=$(awk -v source_width=${DRAWING_WIDTH} 'BEGIN { print source_width / 6 }')
-  X1=$(awk -v x0=${X0} 'BEGIN{ print x0 * 5 }')
-  Y0=0.0
-  Y1=$($RENDERER -f $file0 -H)
+  DRAWING_HEIGHT=$($RENDERER -f $file0 -H)
+  X0=$(awk -v drawing_width=${DRAWING_WIDTH} 'BEGIN { print int((drawing_width / 6) + 0.5) }')
+  X1=$(awk -v x0=${X0} 'BEGIN{ print int((x0 * 5) + 0.5) }')
+  Y0=0
+  Y1=$(awk -v drawing_height=${DRAWING_HEIGHT} 'BEGIN { print int(drawing_height + 0.5) }')
   AREA=$X0":"$Y0":"$X1":"$Y1
 
   $RENDERER -f $file0 -w $WIDTH -h $HEIGHT -e $file1 -a=$AREA > /dev/null
