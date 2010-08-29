@@ -93,6 +93,7 @@ match=2
 *include "nation/brazilian.ruleset"
 *include "nation/breton.ruleset"
 *include "nation/british.ruleset"
+*include "nation/briton.ruleset"
 *include "nation/bulgarian.ruleset"
 *include "nation/burgundian.ruleset"
 *include "nation/burmese.ruleset"

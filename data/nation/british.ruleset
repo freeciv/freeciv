@@ -1,7 +1,7 @@
 [nation_british]
 
 name=_("British")
-plural=_("?plural:Britons")
+plural=_("?plural:British")
 groups="Modern", "European"
 legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\

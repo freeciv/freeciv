@@ -51,6 +51,7 @@ artists = "
    Bosnia		Daniel McRae
    Botswana		SKopp (Wikimedia user)
    Brasil		Cezary Biele
+   Britannia		J.M. Maalderink
    Brittany		Lexicon
    Bulgaria		Daniel McRae
    Burgundy		Daniel Markstedt
@@ -320,6 +321,7 @@ sprites =
 		"f.bosnia", "flags/bosnia"
 		"f.botswana", "flags/botswana"
 		"f.brasil", "flags/brasil"
+		"f.britannia", "flags/britannia"
 		"f.brittany", "flags/brittany"
 		"f.bulgaria", "flags/bulgaria"
 		"f.burgundy", "flags/burgundy"
