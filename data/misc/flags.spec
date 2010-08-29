@@ -47,6 +47,7 @@ artists = "
    Belgium		Daniel McRae
    Benin (ancient)	Orange Tuesday (Wikimedia Commons user)
    Boer			Caleb Moore
+   Bolivia		Caleb Moore
    Bosnia		Daniel McRae
    Botswana		SKopp (Wikimedia user)
    Brasil		Cezary Biele
@@ -315,6 +316,7 @@ sprites =
 		"f.belgium", "flags/belgium"
 		"f.benin_ancient", "flags/benin_ancient"
 		"f.boer", "flags/boer"			; old south african
+		"f.bolivia", "flags/bolivia"
 		"f.bosnia", "flags/bosnia"
 		"f.botswana", "flags/botswana"
 		"f.brasil", "flags/brasil"

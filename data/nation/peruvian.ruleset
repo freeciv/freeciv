@@ -34,7 +34,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "inca"
-civilwar_nations = "chilean", "inca"
+civilwar_nations = "chilean", "inca", "bolivian"
 
 cities =
  "Lima",
