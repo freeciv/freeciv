@@ -84,6 +84,7 @@ static struct tile *autoattack_target;
 static void unit_restore_hitpoints(struct unit *punit);
 static void unit_restore_movepoints(struct player *pplayer, struct unit *punit);
 static void update_unit_activity(struct unit *punit);
+static void unit_remember_current_activity(struct unit *punit);
 static void wakeup_neighbor_sentries(struct unit *punit);
 static void do_upgrade_effects(struct player *pplayer);
 
@@ -508,6 +509,11 @@ void update_unit_activities(struct player *pplayer)
   unit_list_iterate_safe(pplayer->units, punit)
     update_unit_activity(punit);
   unit_list_iterate_safe_end;
+  /* Remember activities only after all knock-on effects of unit activities
+   * on other units have been resolved */
+  unit_list_iterate_safe(pplayer->units, punit)
+    unit_remember_current_activity(punit);
+  unit_list_iterate_safe_end;
 }
 
 /**************************************************************************
@@ -883,6 +889,28 @@ static void update_unit_activity(struct unit *punit)
       unit_activity_handling(punit2, ACTIVITY_IDLE);
     }
   } unit_list_iterate_end;
+}
+
+/**************************************************************************
+  Remember what the unit is currently doing, so that if the player changes
+  activity and then changes back the same turn there is no progress
+  penalty.
+**************************************************************************/
+static void unit_remember_current_activity(struct unit *punit)
+{
+  punit->changed_from        = punit->activity;
+  punit->changed_from_target = punit->activity_target;
+  punit->changed_from_base   = punit->activity_base;
+  punit->changed_from_count  = punit->activity_count;
+}
+
+/**************************************************************************
+  Forget the unit's last activity so that it can't be resumed. This is
+  used for example when the unit moves or attacks.
+**************************************************************************/
+void unit_forget_last_activity(struct unit *punit)
+{
+  punit->changed_from = ACTIVITY_IDLE;
 }
 
 /**************************************************************************
@@ -1299,6 +1327,8 @@ void transform_unit(struct unit *punit, struct unit_type *to_unit,
     punit->veteran = MAX(punit->veteran
                          - game.server.upgrade_veteran_loss, 0);
   }
+
+  unit_forget_last_activity(punit);
 
   /* update unit upkeep */
   city_units_upkeep(game_find_city_by_number(punit->homecity));
@@ -1832,14 +1862,17 @@ void package_unit(struct unit *punit, struct packet_unit_info *packet)
   packet->movesleft = punit->moves_left;
   packet->hp = punit->hp;
   packet->activity = punit->activity;
-  packet->activity_base = punit->activity_base;
   packet->activity_count = punit->activity_count;
+  packet->activity_target = punit->activity_target;
+  packet->activity_base = punit->activity_base;
+  packet->changed_from = punit->changed_from;
+  packet->changed_from_count = punit->changed_from_count;
+  packet->changed_from_target = punit->changed_from_target;
+  packet->changed_from_base = punit->changed_from_base;
   packet->ai = punit->ai_controlled;
   packet->fuel = punit->fuel;
   packet->goto_tile = (NULL != punit->goto_tile
                        ? tile_index(punit->goto_tile) : -1);
-  packet->activity_target = punit->activity_target;
-  packet->activity_base = punit->activity_base;
   packet->paradropped = punit->paradropped;
   packet->done_moving = punit->done_moving;
   if (punit->transported_by == -1) {
@@ -2836,6 +2869,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
       unit_move_consequences(pcargo, psrctile, pdesttile, TRUE);
       unit_did_action(pcargo);
+      unit_forget_last_activity(pcargo);
     } unit_list_iterate_end;
     unit_list_destroy(cargo_units);
   }
@@ -2887,6 +2921,7 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
     unit_list_prepend(pdesttile->units, punit);
     check_unit_activity(punit);
     unit_did_action(punit);
+    unit_forget_last_activity(punit);
   }
 
   /*

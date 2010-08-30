@@ -937,6 +937,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   punit->moves_left = 0;
 
   unit_did_action(punit);
+  unit_forget_last_activity(punit);
   
   if (pcity
       && pcity->size > 1
@@ -1034,6 +1035,7 @@ static void unit_attack_handling(struct unit *punit, struct unit *pdefender)
     pdefender->moves_left = 0;
   }
   unit_did_action(punit);
+  unit_forget_last_activity(punit);
 
   if (punit->hp > 0
       && (pcity = tile_city(def_tile))
@@ -1878,8 +1880,10 @@ static void unit_activity_handling_targeted(struct unit *punit,
 					    enum tile_special_type new_target,
                                             Base_type_id base)
 {
-  if (can_unit_do_activity_targeted(punit, new_activity, new_target,
-                                    base)) {
+  if (!activity_requires_target(new_activity)) {
+    unit_activity_handling(punit, new_activity);
+  } else if (can_unit_do_activity_targeted(punit, new_activity, new_target,
+                                           base)) {
     enum unit_activity old_activity = punit->activity;
     enum tile_special_type old_target = punit->activity_target;
 

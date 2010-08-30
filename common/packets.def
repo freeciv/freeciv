@@ -734,12 +734,15 @@ PACKET_UNIT_INFO = 63; sc, lsend, is-game-info, cancel(PACKET_UNIT_SHORT_INFO)
 
   UNIT_TYPE type;
   UNIT transported_by; /* Only valid if transported is set. */
-  UINT8 movesleft, hp, fuel, activity_count;
+  UINT8 movesleft, hp, fuel, activity_count, changed_from_count;
   UINT8 occupy;
   TILE goto_tile;
   ACTIVITY activity;
   SPECIAL activity_target;
   BASE activity_base;
+  ACTIVITY changed_from;
+  SPECIAL changed_from_target;
+  BASE changed_from_base;
 
   SINT8 battlegroup;
 

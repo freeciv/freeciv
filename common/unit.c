@@ -524,7 +524,8 @@ int get_activity_rate_this_turn(const struct unit *punit)
 /**************************************************************************
   Return the estimated number of turns for the worker unit to start and
   complete the activity at the given location.  This assumes no other
-  worker units are helping out.
+  worker units are helping out, and doesn't take account of any work
+  already done by this unit.
 **************************************************************************/
 int get_turns_for_activity_at(const struct unit *punit,
 			      enum unit_activity activity,
@@ -539,6 +540,38 @@ int get_turns_for_activity_at(const struct unit *punit,
     return (time - 1) / speed + 1; /* round up */
   } else {
     return FC_INFINITY;
+  }
+}
+
+/**************************************************************************
+  Return TRUE if activity requires some sort of target to be specified.
+**************************************************************************/
+bool activity_requires_target(enum unit_activity activity)
+{
+  switch (activity) {
+  case ACTIVITY_PILLAGE:
+  case ACTIVITY_BASE:
+    return TRUE;
+  case ACTIVITY_IDLE:
+  case ACTIVITY_POLLUTION:
+  case ACTIVITY_ROAD:
+  case ACTIVITY_MINE:
+  case ACTIVITY_IRRIGATE:
+  case ACTIVITY_FORTIFIED:
+  case ACTIVITY_SENTRY:
+  case ACTIVITY_RAILROAD:
+  case ACTIVITY_GOTO:
+  case ACTIVITY_EXPLORE:
+  case ACTIVITY_TRANSFORM:
+  case ACTIVITY_FORTIFYING:
+  case ACTIVITY_FALLOUT:
+    return FALSE;
+  /* These shouldn't be kicking around internally. */
+  case ACTIVITY_FORTRESS:
+  case ACTIVITY_AIRBASE:
+  case ACTIVITY_PATROL_UNUSED:
+  default:
+    fc_assert_ret_val(FALSE, FALSE);
   }
 }
 
@@ -1055,10 +1088,10 @@ bool can_unit_do_activity_targeted_at(const struct unit *punit,
 }
 
 /**************************************************************************
-  assign a new task to a unit.
+  Assign a new task to a unit. Doesn't account for changed_from.
 **************************************************************************/
-static void set_unit_activity_no_checks(struct unit *punit,
-                                        enum unit_activity new_activity)
+static void set_unit_activity_internal(struct unit *punit,
+                                       enum unit_activity new_activity)
 {
   fc_assert_ret(new_activity != ACTIVITY_FORTRESS
                 && new_activity != ACTIVITY_AIRBASE);
@@ -1078,11 +1111,16 @@ static void set_unit_activity_no_checks(struct unit *punit,
 **************************************************************************/
 void set_unit_activity(struct unit *punit, enum unit_activity new_activity)
 {
-  /* Targets must be specified for these activities */
-  fc_assert_ret(new_activity != ACTIVITY_PILLAGE
-                && new_activity != ACTIVITY_BASE);
+  fc_assert_ret(!activity_requires_target(new_activity));
 
-  set_unit_activity_no_checks(punit, new_activity);
+  if (new_activity == ACTIVITY_FORTIFYING
+      && punit->changed_from == ACTIVITY_FORTIFIED) {
+    new_activity = ACTIVITY_FORTIFIED;
+  }
+  set_unit_activity_internal(punit, new_activity);
+  if (new_activity == punit->changed_from) {
+    punit->activity_count = punit->changed_from_count;
+  }
 }
 
 /**************************************************************************
@@ -1093,12 +1131,19 @@ void set_unit_activity_targeted(struct unit *punit,
 				enum tile_special_type new_target,
                                 Base_type_id base)
 {
+  fc_assert_ret(activity_requires_target(new_activity));
+  fc_assert_ret(new_activity != ACTIVITY_BASE);
   fc_assert_ret(new_target != S_OLD_FORTRESS
                 && new_target != S_OLD_AIRBASE);
 
-  set_unit_activity_no_checks(punit, new_activity);
+  set_unit_activity_internal(punit, new_activity);
   punit->activity_target = new_target;
   punit->activity_base = base;
+  if (new_activity == punit->changed_from
+      && (new_target == punit->changed_from_target)
+      && (new_target != S_LAST || (base == punit->changed_from_base))) {
+    punit->activity_count = punit->changed_from_count;
+  }
 }
 
 /**************************************************************************
@@ -1107,8 +1152,12 @@ void set_unit_activity_targeted(struct unit *punit,
 void set_unit_activity_base(struct unit *punit,
                             Base_type_id base)
 {
-  set_unit_activity_no_checks(punit, ACTIVITY_BASE);
+  set_unit_activity_internal(punit, ACTIVITY_BASE);
   punit->activity_base = base;
+  if (ACTIVITY_BASE == punit->changed_from
+      && (base == punit->changed_from_base)) {
+    punit->activity_count = punit->changed_from_count;
+  }
 }
 
 /**************************************************************************

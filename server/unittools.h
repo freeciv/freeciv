@@ -55,6 +55,7 @@ void unit_assign_specific_activity_target(struct unit *punit,
                                           enum unit_activity *activity,
                                           enum tile_special_type *target,
                                           Base_type_id *base);
+void unit_forget_last_activity(struct unit *punit);
 
 /* creation/deletion/upgrading */
 void transform_unit(struct unit *punit, struct unit_type *to_unit,

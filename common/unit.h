@@ -137,8 +137,9 @@ struct unit {
   int veteran;
   int fuel;
 
-  enum unit_activity activity;
   struct tile *goto_tile; /* May be NULL. */
+
+  enum unit_activity activity;
 
   /* The amount of work that has been done on the current activity.  This
    * is counted in turns but is multiplied by ACTIVITY_COUNT (which allows
@@ -147,6 +148,13 @@ struct unit {
 
   enum tile_special_type activity_target;
   Base_type_id           activity_base;
+
+  /* Previous activity, so it can be resumed without loss of progress
+   * if the user changes their mind during a turn. */
+  enum unit_activity changed_from;
+  int changed_from_count;
+  enum tile_special_type changed_from_target;
+  Base_type_id           changed_from_base;
 
   bool ai_controlled; /* 0: not automated; 1: automated */
   bool moved;
@@ -274,6 +282,7 @@ int get_activity_rate_this_turn(const struct unit *punit);
 int get_turns_for_activity_at(const struct unit *punit,
 			      enum unit_activity activity,
 			      const struct tile *ptile);
+bool activity_requires_target(enum unit_activity activity);
 bool can_unit_do_autosettlers(const struct unit *punit); 
 bool is_unit_activity_on_tile(enum unit_activity activity,
 			      const struct tile *ptile);

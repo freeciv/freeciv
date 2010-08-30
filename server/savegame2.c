@@ -4193,6 +4193,11 @@ static bool sg_load_player_unit(struct loaddata *loading,
     pbase = get_base_by_gui_type(BASE_GUI_AIRBASE, punit, punit->tile);
   }
 
+  /* We need changed_from == ACTIVITY_IDLE by now so that
+   * set_unit_activity() and friends don't spuriously restore activity
+   * points -- unit should have been created this way */
+  fc_assert(punit->changed_from == ACTIVITY_IDLE);
+
   if (activity == ACTIVITY_BASE) {
     if (pbase) {
       set_unit_activity_base(punit, base_number(pbase));
@@ -4217,6 +4222,28 @@ static bool sg_load_player_unit(struct loaddata *loading,
   sg_warn_ret_val(secfile_lookup_int(loading->file, &punit->activity_count,
                                      "%s.activity_count", unitstr), FALSE,
                   "%s", secfile_error());
+
+  punit->changed_from =
+    secfile_lookup_int_default(loading->file, ACTIVITY_IDLE,
+                               "%s.changed_from", unitstr);
+  punit->changed_from_target =
+    secfile_lookup_int_default(loading->file, S_LAST,
+                               "%s.changed_from_target", unitstr);
+  base =
+    secfile_lookup_int_default(loading->file, -1,
+                               "%s.changed_from_base", unitstr);
+  if (base >= 0 && base < loading->base.size) {
+    punit->changed_from_base = base_number(loading->base.order[base]);
+  } else {
+    punit->changed_from_base = BASE_NONE;
+    fc_assert_action(punit->changed_from != ACTIVITY_BASE
+                     && (punit->changed_from != ACTIVITY_PILLAGE
+                         || punit->changed_from_target != S_LAST),
+                     punit->changed_from = ACTIVITY_IDLE);
+  }
+  punit->changed_from_count =
+    secfile_lookup_int_default(loading->file, 0,
+                               "%s.changed_from_count", unitstr);
 
   punit->veteran
     = secfile_lookup_int_default(loading->file, 0, "%s.veteran", unitstr);
@@ -4382,7 +4409,6 @@ static void sg_save_player_units(struct savedata *saving,
                      "player%d.nunits", player_number(plr));
 
   unit_list_iterate(plr->units, punit) {
-    int activity = punit->activity;
     struct unit_ai *unit_data = def_ai_unit_data(punit);
 
     char buf[32];
@@ -4397,13 +4423,21 @@ static void sg_save_player_units(struct savedata *saving,
     secfile_insert_str(saving->file, unit_rule_name(punit),
                        "%s.type_by_name", buf);
 
-    secfile_insert_int(saving->file, activity, "%s.activity", buf);
+    secfile_insert_int(saving->file, punit->activity, "%s.activity", buf);
     secfile_insert_int(saving->file, punit->activity_count,
                        "%s.activity_count", buf);
     secfile_insert_int(saving->file, punit->activity_target,
                        "%s.activity_target", buf);
     secfile_insert_int(saving->file, punit->activity_base,
                        "%s.activity_base", buf);
+    secfile_insert_int(saving->file, punit->changed_from,
+                       "%s.changed_from", buf);
+    secfile_insert_int(saving->file, punit->changed_from_count,
+                       "%s.changed_from_count", buf);
+    secfile_insert_int(saving->file, punit->changed_from_target,
+                       "%s.changed_from_target", buf);
+    secfile_insert_int(saving->file, punit->changed_from_base,
+                       "%s.changed_from_base", buf);
     secfile_insert_bool(saving->file, punit->done_moving,
                         "%s.done_moving", buf);
     secfile_insert_int(saving->file, punit->moves_left, "%s.moves", buf);
