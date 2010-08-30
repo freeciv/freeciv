@@ -4935,7 +4935,7 @@ static char *olevel_generator(const char *text, int state)
 **************************************************************************/
 static const char *playername_accessor(int idx)
 {
-  const struct player **pslot = player_slot_by_number(idx);
+  const struct player_slot *pslot = player_slot_by_number(idx);
 
   if (!player_slot_is_used(pslot)) {
     return NULL;
