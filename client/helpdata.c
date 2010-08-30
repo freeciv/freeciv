@@ -704,6 +704,8 @@ void boot_help_texts(struct player *pplayer)
       
       if (gen_str) {
         enum help_page_type current_type = HELP_ANY;
+        int level = strspn(gen_str, " ");
+        gen_str += level;
         if (!booted) {
           continue; /* on initial boot data tables are empty */
         }
@@ -729,7 +731,7 @@ void boot_help_texts(struct player *pplayer)
           case HELP_UNIT:
             unit_type_iterate(punittype) {
               pitem = new_help_item(current_type);
-              fc_snprintf(name, sizeof(name), " %s",
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                           utype_name_translation(punittype));
               pitem->topic = fc_strdup(name);
               pitem->text = fc_strdup("");
@@ -740,7 +742,7 @@ void boot_help_texts(struct player *pplayer)
             advance_index_iterate(A_FIRST, i) {
               if (valid_advance_by_number(i)) {
                 pitem = new_help_item(current_type);
-                fc_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                             advance_name_for_player(pplayer, i));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
@@ -752,7 +754,7 @@ void boot_help_texts(struct player *pplayer)
             terrain_type_iterate(pterrain) {
               if (0 != strlen(terrain_rule_name(pterrain))) {
                 pitem = new_help_item(current_type);
-                fc_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                             terrain_name_translation(pterrain));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
@@ -762,8 +764,9 @@ void boot_help_texts(struct player *pplayer)
             /* Add special Civ2-style river help text if it's supplied. */
             if (terrain_control.river_help_text) {
               pitem = new_help_item(HELP_TEXT);
-              /* TRANS: preserve single space at beginning */
-              pitem->topic = fc_strdup(_(" Rivers"));
+              /* TRANS: "%*s" is replaced with spaces */
+              fc_snprintf(name, sizeof(name), _("%*sRivers"), level, "");
+              pitem->topic = fc_strdup(name);
               sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
               pitem->text = fc_strdup(long_buffer);
               help_list_append(category_nodes, pitem);
@@ -772,7 +775,7 @@ void boot_help_texts(struct player *pplayer)
           case HELP_GOVERNMENT:
             government_iterate(gov) {
               pitem = new_help_item(current_type);
-              fc_snprintf(name, sizeof(name), " %s",
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                           government_name_translation(gov));
               pitem->topic = fc_strdup(name);
               pitem->text = fc_strdup("");
@@ -783,7 +786,7 @@ void boot_help_texts(struct player *pplayer)
             improvement_iterate(pimprove) {
               if (valid_improvement(pimprove) && !is_great_wonder(pimprove)) {
                 pitem = new_help_item(current_type);
-                fc_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                             improvement_name_translation(pimprove));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
@@ -795,7 +798,7 @@ void boot_help_texts(struct player *pplayer)
             improvement_iterate(pimprove) {
               if (valid_improvement(pimprove) && is_great_wonder(pimprove)) {
                 pitem = new_help_item(current_type);
-                fc_snprintf(name, sizeof(name), " %s",
+                fc_snprintf(name, sizeof(name), "%*s%s", level, "",
                             improvement_name_translation(pimprove));
                 pitem->topic = fc_strdup(name);
                 pitem->text = fc_strdup("");
@@ -806,7 +809,9 @@ void boot_help_texts(struct player *pplayer)
           case HELP_RULESET:
             pitem = new_help_item(HELP_RULESET);
             /*           pitem->topic = fc_strdup(_(game.control.name)); */
-            pitem->topic = fc_strdup(_(HELP_RULESET_ITEM));
+            fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                        _(HELP_RULESET_ITEM));
+            pitem->topic = fc_strdup(name);
             if (game.control.description[0] != '\0') {
               pitem->text = fc_strdup(_(game.control.description));
             } else {
