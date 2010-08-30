@@ -935,6 +935,8 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
   } unit_list_iterate_safe_end;
 
   punit->moves_left = 0;
+
+  unit_did_action(punit);
   
   if (pcity
       && pcity->size > 1
