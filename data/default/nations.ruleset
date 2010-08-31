@@ -116,6 +116,7 @@ match=2
 *include "nation/colombian.ruleset"
 *include "nation/confederate.ruleset"
 *include "nation/cornish.ruleset"
+*include "nation/corsican.ruleset"
 *include "nation/cree.ruleset"
 *include "nation/croatian.ruleset"
 *include "nation/cuban.ruleset"

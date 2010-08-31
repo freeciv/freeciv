@@ -66,6 +66,7 @@ flag_files =				\
 		colombia.png		\
 		constantine.png		\
 		cornwall.png		\
+		corsica.png		\
 		croatia.png		\
 		cuba.png		\
 		cyprus.png		\
@@ -335,6 +336,7 @@ shield_files =					\
 		colombia-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
+		corsica-shield.png		\
 		croatia-shield.png		\
 		cuba-shield.png			\
 		cyprus-shield.png		\
@@ -604,6 +606,7 @@ svg_files = 				\
 		colombia.svg		\
 		constantine.svg		\
 		cornwall.svg		\
+		corsica.svg		\
 		croatia.svg		\
 		cuba.svg		\
 		cyprus.svg		\

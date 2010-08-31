@@ -73,6 +73,7 @@ artists = "
    Colombia		Lauris Kaplinski
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
+   Corsica		Patricia.fidi (Open Clip Art)
    Croatia		Frank Zeko
    Cuba			Lauris Kaplinski
    Cyprus		Vzb83 (Wikimedia Commons user)
@@ -346,6 +347,7 @@ sprites =
 		"f.columbia", "flags/colombia"	; For backward compatibility
 		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
+		"f.corsica", "flags/corsica"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
 		"f.cyprus", "flags/cyprus"

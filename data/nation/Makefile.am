@@ -70,6 +70,7 @@ pkgdata_DATA = \
 		colombian.ruleset \
 		confederate.ruleset \
 		cornish.ruleset \
+		corsican.ruleset \
 		cree.ruleset \
 		croatian.ruleset \
 		cuban.ruleset \
