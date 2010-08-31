@@ -18,13 +18,14 @@ leader =
  "Tiadoru di Neuhoff",
  "Pasquale Paoli",
  "Carlu Andria Pozzu di Borgu",
+ "Napulione Buonaparte",
  "Elisa Buonaparte",
  "Tiadoru Poli",
  "Nonce Romanetti",
  "Danielle Casanova"
 
 leader_sex = "Male", "Male", "Male", "Male", "Male",
- "Male", "Male", "Male", "Female"
+ "Male", "Female", "Male", "Male", "Female"
 flag="corsica"
 flag_alt = "-"
 city_style = "Celtic"
