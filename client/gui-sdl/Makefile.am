@@ -7,6 +7,9 @@ AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(
 ## Above, note -I../../intl instead of -I$(top_srdir/intl) is deliberate.
 
 libguiclient_a_SOURCES = \
+	SDL_gfxPrimitives.c	\
+	SDL_gfxPrimitives.h	\
+	SDL_gfxPrimitives_font.h	\
 	SDL_rotozoom.c	\
 	SDL_rotozoom.h	\
 	SDL_ttf.c	\
