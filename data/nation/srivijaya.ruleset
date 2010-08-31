@@ -12,13 +12,17 @@ legend=_("Sri Vijaya was an empire centered on Palembang in eastern\
  Chola dynasty.")
 
 leader=
- "Dapunta Hyang Sri Jayanasa",
- "Balaputra"
+ "Balaputra",
+ "Pramodavardhani",
+ "Samaratungga",
+ "Dharmasetu",
+ "Jayanasa"
 
-leader_sex = "Male", "Male"
+leader_sex = "Male", "Female", "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Monarchy",       _("Datu"),            _("?female:Datu")
+                 "Despotism",       _("Datu"),           _("?female:Datu")
+                 "Monarchy",        _("Maharaja"),       _("Maharani")
                }
 
 flag         = "srivijaya"

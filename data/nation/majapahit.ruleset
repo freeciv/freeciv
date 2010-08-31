@@ -14,13 +14,13 @@ legend=_("This empire began in 1293 AD when a local prince used invading\
  Malacca and the rise of Islam in the Indonesian world.")
 
 leader=
- "Hayam Wuruk",
- "Kerjarajasa Jayawarddhana",
- "Tribhuwana Wijayatunggadewi",
+ "Suhita",
+ "Hayam Wuruk", ; Throne name: Rajasanagara
+ "Dyah Gitarja", ; Throne name: Tribhuwana Wijayatunggadewi
  "Gajah Mada",
- "Raden Wijaya"
+ "Raden Wijaya" ; Throne name: Nararya Sangramawijaya
 
-leader_sex = "Male", "Male", "Female", "Male", "Male"
+leader_sex = "Female", "Male", "Female", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
                  "Despotism",       _("Raja"),           _("Rani")
