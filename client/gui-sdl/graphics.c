@@ -36,6 +36,7 @@
 #include "tilespec.h"
 
 /* gui-sdl */
+#include "SDL_gfxPrimitives.h"
 #include "SDL_ttf.h"
 #include "gui_tilespec.h"
 #include "mapview.h"
@@ -778,159 +779,6 @@ static void put_hline(SDL_Surface * pDest, int y, Sint16 x0, Sint16 x1,
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-static void put_line(SDL_Surface * pDest, Sint16 x0, Sint16 y0, Sint16 x1,
-		     Sint16 y1, Uint32 color)
-{
-  register int Bpp, pitch;
-  register int x, y;
-  int dx, dy;
-  int sx, sy;
-  int swaptmp;
-  register Uint8 *pPixel;
-  float m;
-  int n;
-
-  if (((x0 < 0) && (x1 < 0))
-     || ((y0 < 0) && (y1 < 0))
-     || ((x0 >= pDest->w) && (x1 >= pDest->w))
-     || ((y0 >= pDest->h) && (y1 >= pDest->h))) {
-    return;
-  }
-  
-  /* correct x0, x1 position ( must be inside 'pDest' surface ) */
-  if (x0 < 0) {
-    m = (y1 - y0) / (x1 - x0);
-    n = y1 - m * x1;
-    x0 = 0;
-    y0 = n;                        /* y0 = m * x0 + n; */
-  } else if (x0 > pDest->w - 1) {
-    m = (y1 - y0) / (x1 - x0);
-    n = y1 - m * x1;
-    x0 = pDest->w - 1;
-    y0 = m * x0 + n;
-  } else if (x1 < 0) {
-    m = (y1 - y0) / (x1 - x0);
-    n = y1 - m * x1;
-    x1 = 0;
-    y1 = n;                        /* y1 = m * x1 + n; */
-  } else if (x1 > pDest->w - 1) {
-    m = (y1 - y0) / (x1 - x0);
-    n = y1 - m * x1;
-    x1 = pDest->w - 1;
-    y1 = m * x1 + n;
-  }
-
-  /* correct y0, y1 position ( must be inside 'pDest' surface ) */
-  if (y0 < 0) {
-    m = (x1 - x0) / (y1 - y0);
-    n = x1 - m * y1;
-    y0 = 0;
-    x0 = n;                        /* x0 = m * y0 + n; */
-  } else if (y0 > pDest->h - 1) {
-    m = (x1 - x0) / (y1 - y0);
-    n = x1 - m * y1;
-    y0 = pDest->h - 1;
-    x0 = m * y0 + n;    
-  } else if (y1 < 0) {
-    m = (x1 - x0) / (y1 - y0);
-    n = x1 - m * y1;
-    y1 = 0;
-    x1 = n;                        /* x1 = m * y1 + n; */
-  } else if (y1 > pDest->h - 1) {
-    m = (x1 - x0) / (y1 - y0);
-    n = x1 - m * y1;
-    y1 = pDest->h - 1;
-    x1 = m * y1 + n;
-  }
-
-  /* basic */
-  dx = x1 - x0;
-  dy = y1 - y0;
-  sx = (dx >= 0) ? 1 : -1;
-  sy = (dy >= 0) ? 1 : -1;
-
-  /* advanced */
-  dx = sx * dx + 1;
-  dy = sy * dy + 1;
-  Bpp = pDest->format->BytesPerPixel;
-  pitch = pDest->pitch;
-
-  pPixel = ((Uint8 *) pDest->pixels + (y0 * pitch) + (x0 * Bpp));
-
-  Bpp *= sx;
-  pitch *= sy;
-
-  if (dx < dy) {
-    swaptmp = dx;
-    dx = dy;
-    dy = swaptmp;
-
-    swaptmp = Bpp;
-    Bpp = pitch;
-    pitch = swaptmp;
-  }
-
-  /* draw */
-  x = 0;
-  y = 0;
-  switch (pDest->format->BytesPerPixel) {
-  case 1:
-    for (; x < dx; x++, pPixel += Bpp) {
-      *pPixel = (color & 0xff);
-      y += dy;
-      if (y >= dx) {
-	y -= dx;
-	pPixel += pitch;
-      }
-    }
-    return;
-  case 2:
-    for (; x < dx; x++, pPixel += Bpp) {
-      *(Uint16 *) pPixel = (color & 0xffff);
-      y += dy;
-      if (y >= dx) {
-	y -= dx;
-	pPixel += pitch;
-      }
-    }
-    return;
-  case 3:
-    for (; x < dx; x++, pPixel += Bpp) {
-      if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-	pPixel[0] = (color >> 16) & 0xff;
-	pPixel[1] = (color >> 8) & 0xff;
-	pPixel[2] = color & 0xff;
-      } else {
-	pPixel[0] = (color & 0xff);
-	pPixel[1] = (color >> 8) & 0xff;
-	pPixel[2] = (color >> 16) & 0xff;
-      }
-
-      y += dy;
-      if (y >= dx) {
-	y -= dx;
-	pPixel += pitch;
-      }
-    }
-    return;
-  case 4:
-    for (; x < dx; x++, pPixel += Bpp) {
-      *(Uint32 *) pPixel = color;
-      y += dy;
-      if (y >= dx) {
-	y -= dx;
-	pPixel += pitch;
-      }
-    }
-    return;
-  }
-
-  return;
-}
-
-/**************************************************************************
   Draw line
 **************************************************************************/
 void putline(SDL_Surface * pDest, Sint16 x0, Sint16 y0,
@@ -947,7 +795,7 @@ void putline(SDL_Surface * pDest, Sint16 x0, Sint16 y0,
   }
 
   if ((x1 - x0)) {
-    put_line(pDest, x0, y0, x1, y1, color);
+    lineColor(pDest, x0, y0, x1, y1, color);
   } else {			/* vertical line */
     if ((x0 >= 0) && (x0 < pDest->w)) {
       put_vline(pDest, x0, y0, y1, color);

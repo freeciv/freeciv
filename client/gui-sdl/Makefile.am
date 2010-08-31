@@ -5,6 +5,9 @@ noinst_LTLIBRARIES = libgui-sdl.la
 AM_CPPFLAGS = -I$(srcdir)/.. -I$(srcdir)/../include -I$(top_srcdir)/utility -I$(top_srcdir)/common -I$(top_srcdir)/common/aicore -I$(srcdir)/../agents $(GUI_sdl_CFLAGS) $(SOUND_CFLAGS)
 
 libgui_sdl_la_SOURCES = \
+	SDL_gfxPrimitives.c	\
+	SDL_gfxPrimitives.h	\
+	SDL_gfxPrimitives_font.h	\
 	SDL_rotozoom.c	\
 	SDL_rotozoom.h	\
 	SDL_ttf.c	\
