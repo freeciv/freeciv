@@ -55,6 +55,7 @@ artists = "
    Brittany		Lexicon
    Bulgaria		Daniel McRae
    Burgundy		Daniel Markstedt
+   Burkina Faso		Gabbe (Wikimedia Commons user)
    Burundi		Sebastian Koppehel
    Byzantium		Dragases
    Caddo		Daniel Markstedt
@@ -325,6 +326,7 @@ sprites =
 		"f.brittany", "flags/brittany"
 		"f.bulgaria", "flags/bulgaria"
 		"f.burgundy", "flags/burgundy"
+		"f.burkina_faso", "flags/burkina_faso"
 		"f.burundi", "flags/burundi"
 		"f.byzantium", "flags/byzantium"
 		"f.caddo", "flags/caddo"

@@ -50,6 +50,7 @@ pkgdata_DATA = \
 		british.ruleset \
 		bulgarian.ruleset \
 		burgundian.ruleset \
+		burkinabe.ruleset \
 		burmese.ruleset \
 		burundi.ruleset \
 		byzantium.ruleset \

@@ -47,6 +47,7 @@ flag_files =				\
 		brittany.png		\
 		bulgaria.png		\
 		burgundy.png		\
+		burkina_faso.png	\
 		burundi.png		\
 		byzantium.png		\
 		caddo.png		\
@@ -315,6 +316,7 @@ shield_files =					\
 		brittany-shield.png		\
 		bulgaria-shield.png		\
 		burgundy-shield.png		\
+		burkina_faso-shield.png		\
 		burundi-shield.png		\
 		byzantium-shield.png		\
 		caddo-shield.png		\
@@ -583,6 +585,7 @@ svg_files = 				\
 		brittany.svg		\
 		bulgaria.svg		\
 		burgundy.svg		\
+		burkina_faso.svg	\
 		burundi.svg		\
 		byzantium.svg		\
 		caddo.svg		\
