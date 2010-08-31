@@ -803,12 +803,16 @@ static GtkWidget* create_nation_selection_list(void)
   gtk_box_pack_start(GTK_BOX(vbox), label, FALSE, FALSE, 0);  
   gtk_box_pack_start(GTK_BOX(vbox), notebook, TRUE, TRUE, 0);
   
-  for (i = 0; i <= nation_group_count(); i++) {
-    struct nation_group* group = (i == 0 ? NULL: nation_group_by_number(i - 1));
+  for (i = 1; i <= nation_group_count(); i++) {
+    struct nation_group* group = (nation_group_by_number(i - 1));
     nation_list = create_list_of_nations_in_group(group, i);
-    group_name_label = gtk_label_new(group ? Q_(group->name) : _("All"));
+    group_name_label = gtk_label_new(Q_(group->name));
     gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
   }
+  
+  nation_list = create_list_of_nations_in_group(NULL, 0);
+  group_name_label = gtk_label_new(_("All"));
+  gtk_notebook_append_page(GTK_NOTEBOOK(notebook), nation_list, group_name_label);
 
   return vbox;
 }
