@@ -35,7 +35,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations =  "cuban", "taino"
+civilwar_nations =  "dominicano", "taino"
 
 cities =
  "Pòtoprens (ocean)",

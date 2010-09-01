@@ -125,6 +125,7 @@ match=2
 *include "nation/czech.ruleset"
 *include "nation/danish.ruleset"
 *include "nation/dominican.ruleset"
+*include "nation/dominicano.ruleset"
 *include "nation/dryad.ruleset"
 *include "nation/dutch.ruleset"
 *include "nation/eastgerman.ruleset"

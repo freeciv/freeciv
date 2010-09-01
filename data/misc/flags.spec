@@ -82,6 +82,7 @@ artists = "
    DDR			Jwnabd (Wikimedia Commons user)
    Denmark		Jens Bech Madsen
    Dominica		Caleb Moore and Christian Schaller
+   Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
    Dryad		Ivan Alvarado
    Ecuador		Zscout370 (Wikimedia Commons user)
    Egypt (ancient)	Daniel Markstedt
@@ -357,6 +358,7 @@ sprites =
 		"f.ddr", "flags/ddr"
 		"f.denmark", "flags/denmark"
 		"f.dominica", "flags/dominica"
+		"f.dominican_republic", "flags/dominican_republic"
 		"f.dryad", "flags/dryad"
 		"f.ecuador", "flags/ecuador"
 		"f.egypt_ancient", "flags/egypt_ancient"

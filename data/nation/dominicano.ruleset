@@ -1,0 +1,95 @@
+[nation_dominicano]
+
+name=_("Dominicano")
+plural=_("?plural:Dominicanos")
+groups="Modern", "American"
+legend=_("The Dominican Republic is located on the eastern two thirds of\
+ the Caribbean island of Hispaniola. Its capital - Santo Domingo - became\
+ the first permanent European settlement in the Americas when it was\
+ founded by Bartholomew Columbus in 1498.")
+
+leader=
+ "Cristobal Colón",
+ "Juan Pablo Duarte",
+ "Pedro Santana",
+ "Buenaventura Báez",
+ "Ulises Heureaux",
+ "Horacio Vásquez",
+ "Rafael Leónidas Trujillo",
+ "Juan Bosch",
+ "Joaquín Balaguer"
+
+leader_sex="Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male"
+
+flag="dominican_republic"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("General"),      _("?female:General")
+                 "Fundamentalism",  _("Archbishop"),   _("Mother Superior")
+                 "Monarchy",        _("Viceroy"),      _("Vicereine")
+               }
+
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="Taino", "Haitian"
+
+cities =
+ "Santo Domingo",
+ "Santiago de los Caballeros",
+ "Puerto Plata",
+ "San Pedro de Macorís",
+ "La Romana",
+ "Los Alcarrizos",
+ "San Francisco de Macorís",
+ "San Cristóbal",
+ "Higüey",
+ "La Vega",
+ "Barahona",
+ "Bonao",
+ "San Juan de la Maguana",
+ "Baní",
+ "Haina",
+ "Moca",
+ "Azua",
+ "Mao",
+ "Boca Chica",
+ "Cotuí",
+ "Esperanza",
+ "Villa Altagracia",
+ "Hato Mayor del Rey",
+ "Nagua",
+ "Bajos de Haina",
+ "Villa Bisonó",
+ "Jarabacoa",
+ "Constanza",
+ "Consuelo",
+ "Pedro Brand",
+ "El Seibo",
+ "Tamboril",
+ "Bayaguana",
+ "San Matas de Farfán",
+ "San José de Ocoa",
+ "Quisqueya",
+ "Monte Cristi",
+ "Neyba",
+ "Sabana Grande de Boyá",
+ "La Victoria",
+ "Dajabón",
+ "Sabaneta",
+ "Monte Plata",
+ "Maimón",
+ "Duvergé",
+ "Cambita Garabitos",
+ "Sabana de la Mar (ocean)",
+ "Guerra",
+ "Comendador",
+ "San Gregorio de Nigua",
+ "Samaná",
+ "Cabral"

@@ -79,6 +79,7 @@ pkgdata_DATA = \
 		czech.ruleset \
 		danish.ruleset \
 		dominican.ruleset \
+		dominicano.ruleset \
 		dryad.ruleset \
 		dutch.ruleset \
 		eastgerman.ruleset \
