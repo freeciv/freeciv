@@ -225,6 +225,7 @@ match=2
 *include "nation/mwiska.ruleset"
 *include "nation/nestorian.ruleset"
 *include "nation/newzealand.ruleset"
+*include "nation/nicaraguan.ruleset"
 *include "nation/nigerian.ruleset"
 *include "nation/norman.ruleset"
 *include "nation/northkorean.ruleset"

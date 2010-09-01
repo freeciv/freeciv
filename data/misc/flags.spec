@@ -187,6 +187,7 @@ artists = "
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
    New Zealand		Daniel McRae
+   Nicaragua		Vzb83 (Wikimedia user)
    Nigeria		Brett Roper
    Normandy		Syryatsu
    North Korea		Zachary Harden
@@ -464,6 +465,7 @@ sprites =
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"
 		"f.newzealand", "flags/newzealand"
+		"f.nicaragua", "flags/nicaragua"
 		"f.nigeria", "flags/nigeria"
 		"f.normandy", "flags/normandy"
 		"f.north_korea", "flags/north_korea"
