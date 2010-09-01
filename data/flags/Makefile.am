@@ -181,6 +181,7 @@ flag_files =				\
 		nestoria.png		\
 		netherlands.png		\
 		newzealand.png		\
+		nez_perce.png		\
 		nicaragua.png		\
 		nigeria.png		\
 		north_korea.png		\
@@ -455,6 +456,7 @@ shield_files =					\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
 		newzealand-shield.png		\
+		nez_perce-shield.png		\
 		nicaragua-shield.png		\
 		nigeria-shield.png		\
 		normandy-shield.png		\
@@ -729,6 +731,7 @@ svg_files = 				\
 		nestoria.svg		\
 		netherlands.svg		\
 		newzealand.svg		\
+		nez_perce.svg		\
 		nicaragua.svg		\
 		nigeria.svg		\
 		normandy.svg		\

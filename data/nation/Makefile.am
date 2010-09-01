@@ -182,6 +182,7 @@ pkgdata_DATA = \
 		newzealand.ruleset \
 		nicaraguan.ruleset \
 		nigerian.ruleset \
+		nimiipuu.ruleset \
 		norman.ruleset \
 		northkorean.ruleset \
 		norwegian.ruleset \
