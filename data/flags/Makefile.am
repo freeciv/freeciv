@@ -178,6 +178,7 @@ flag_files =				\
 		mwiska.png		\
 		myanmar.png		\
 		nato.png		\
+		nepal.png		\
 		nestoria.png		\
 		netherlands.png		\
 		newzealand.png		\
@@ -453,6 +454,7 @@ shield_files =					\
 		mwiska-shield.png		\
 		myanmar-shield.png		\
 		nato-shield.png			\
+		nepal-shield.png		\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
 		newzealand-shield.png		\
@@ -728,6 +730,7 @@ svg_files = 				\
 		mwiska.svg		\
 		myanmar.svg		\
 		nato.svg		\
+		nepal.svg		\
 		nestoria.svg		\
 		netherlands.svg		\
 		newzealand.svg		\

@@ -224,6 +224,7 @@ match=2
 *include "nation/motswana.ruleset"
 *include "nation/muskogee.ruleset"
 *include "nation/mwiska.ruleset"
+*include "nation/nepali.ruleset"
 *include "nation/nestorian.ruleset"
 *include "nation/newzealand.ruleset"
 *include "nation/nicaraguan.ruleset"

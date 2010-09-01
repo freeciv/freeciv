@@ -185,6 +185,7 @@ artists = "
    Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
    NATO			Christian Schaller
+   Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
    New Zealand		Daniel McRae
@@ -465,6 +466,7 @@ sprites =
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
 		"f.nato", "flags/nato"
+		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"
 		"f.newzealand", "flags/newzealand"

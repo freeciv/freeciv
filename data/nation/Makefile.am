@@ -178,6 +178,7 @@ pkgdata_DATA = \
 		motswana.ruleset \
 		muskogee.ruleset \
 		mwiska.ruleset \
+		nepali.ruleset \
 		nestorian.ruleset \
 		newzealand.ruleset \
 		nicaraguan.ruleset \
