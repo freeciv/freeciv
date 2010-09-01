@@ -123,6 +123,7 @@ match=2
 *include "nation/cuban.ruleset"
 *include "nation/cypriot.ruleset"
 *include "nation/czech.ruleset"
+*include "nation/dahomean.ruleset"
 *include "nation/danish.ruleset"
 *include "nation/dominican.ruleset"
 *include "nation/dominicano.ruleset"

@@ -77,6 +77,7 @@ pkgdata_DATA = \
 		cuban.ruleset \
 		cypriot.ruleset \
 		czech.ruleset \
+		dahomean.ruleset \
 		danish.ruleset \
 		dominican.ruleset \
 		dominicano.ruleset \

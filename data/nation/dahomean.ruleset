@@ -1,0 +1,97 @@
+[nation_dahomean]
+
+name=_("Dahomean")
+plural=_("?plural:Dahomeans")
+groups="Medieval", "African"
+legend=_("The southern third of modern Benin was once a historic kingdom\
+ known variously as Agbome (c. 1600 - c. 1700), Danhome (c. 1700 - 1730), and\
+ Dahomey (1730 - 1894). In 1730 the country became a tributary of the\
+ neighboring kingdom of Oyo. It was conquered by France in the second\
+ Franco-Dahomean war (1892 - 1894) and was split into Agbome and Alada.  In\
+ the 18th and 19th centuries Dahomey was known for its fierce ahosi (gbeto)\
+ warriors: an army of women who were the king's official bodyguards and\
+ celibate wives.") 
+
+leader=
+ "Gangnihessou",         ; 1st of the traditional 12 kings of Dahomey
+ "Dakodonou",            ; (c. 1620 - 1645)
+ "Aho Houegbadja",       ; aka Wegbaja (1645 - 1685)
+ "Houessou Akaba",       ; (1685 - 1708)
+ "Tassi Hangbe",         ; aka Ahangbe, may have ruled jointly with twin Akaba
+ "Dossou Agadja",        ; (1708 - c. 1732)
+ "Adonon",               ; queen mother, wife of Wegbaja
+ "Tegbessou",            ; (c. 1732 - 1774)
+ "Kpengla",              ; (1774 - 1789)
+ "Agonglo",              ; (1790 - 1797)
+ "Adandozan Magogugu",   ; often excised from Dahomey history (1804 - 1818)
+ "Ghezo Gbalangbe",      ; (1818 - 1858)
+ "Glele",                ; aka Badohou (1858 - 1889)
+ "Visesgan",             ; majordomo in 1870s - 1889, very influential woman
+ "Béhanzin",             ; aka Kondo (1889 - 1894)
+ "Agoli-agbo",           ; last of the 12 kings (1894 - 1900)
+ "Seh-Dong-Hong-Beh",    ; Leader of the ahosi c. 1851
+ "Hwanjile"              ; queen mother of Tegbesu, joint ruler by some sources
+leader_sex=
+ "Male",
+ "Male",
+ "Male",
+ "Male",
+ "Female",
+ "Male",
+ "Female",
+ "Male",
+ "Male",
+ "Male",
+ "Male",
+ "Male",
+ "Male",
+ "Female",
+ "Male",
+ "Male",
+ "Female",
+ "Female"
+
+flag="dahomey"
+flag_alt = "-"
+city_style = "tropical"
+
+ruler_titles = { "government", "male_title",         "female_title"
+                 ; /* TRANS: King and Whelped the leopard (Queen Mother) */
+                 "Monarchy",   _("Ahosu"),          _("?female:Kpojito")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations="french", "benin"
+  ; Oyo and Yoruban if available
+
+cities =
+
+; Major cities in Dahomey (mentioned frequently in records)
+"Abomey",               ; the capital, built by Houegbadja
+"Agongointo-Zoungoudo", ; city reportedly built by Dakodonou
+"Allada",               ; (Arrada) conquered in 1724
+"Hogbonou",             ; (Porto-Novo)
+"Glēxwé", ; (Ouida/Whydahh) conquered in 1727
+"Cotonou",              ; a large city, also the Benin seat of government
+"Cové", 
+"Ezame",                ; (Tado) birthplace of the Gangnihessou, origin of Fon
+
+; Other cities of pre-colonial Dahomey
+"Athiémé",
+"Bassila",
+"Kétou", ; founded by Ede of Ife in the 12th century
+"Pobé",
+"Savalou",
+"Ganvie",               ; established in 16th or 17th centuries
+"Grand-Popo",           ; grew around the slave trade
+"Dassa-Zoumé", 		; originally Yoruban, conquered c. 1800       
+
+; Cities within the historic borders of Dahomey (may have been part of Dahomey)
+"Aplahoué", 
+"Comé",
+"Lokossa",
+"Sakété",
+"Segboroué"

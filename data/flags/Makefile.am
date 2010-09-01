@@ -72,6 +72,7 @@ flag_files =				\
 		cuba.png		\
 		cyprus.png		\
 		czech.png		\
+		dahomey.png		\
 		ddr.png			\
 		denmark.png		\
 		dominica.png		\
@@ -345,6 +346,7 @@ shield_files =					\
 		cuba-shield.png			\
 		cyprus-shield.png		\
 		czech-shield.png		\
+		dahomey-shield.png		\
 		ddr-shield.png			\
 		denmark-shield.png		\
 		dominica-shield.png		\
@@ -618,6 +620,7 @@ svg_files = 				\
 		cuba.svg		\
 		cyprus.svg		\
 		czech.svg		\
+		dahomey.svg		\
 		ddr.svg			\
 		denmark.svg		\
 		dominica.svg		\
