@@ -2153,19 +2153,8 @@ static void player_load_main(struct player *plr, int plrno,
   struct ai_data *ai;
   struct government *gov;
   int id;
-  struct team *pteam;
   struct player_research *research;
   struct nation_type *pnation;
-
-  /* All players should now have teams. This is not the case with
-   * old savegames. */
-  id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  pteam = team_by_number(id);
-  if (pteam == NULL) {
-    pteam = find_empty_team();
-  }
-
-  team_add_player(plr, pteam);
 
   research = get_player_research(plr);
 
@@ -4920,14 +4909,40 @@ static void game_load_internal(struct section_file *file)
      * map loading and before we seek nations for players */
     init_available_nations();
 
-    /* Now, load the players. */
+    /* Now, create the players. */
     player_slots_iterate(pplayer) {
-      int plrno = player_number(pplayer);
-      if (!secfile_has_section(file, "player%d", plrno)) {
+      if (!secfile_has_section(file, "player%d", player_number(pplayer))) {
         player_slot_set_used(pplayer, FALSE);
         continue;
       }
       player_slot_set_used(pplayer, TRUE);
+      loaded_players++;
+    } player_slots_iterate_end;
+
+    /* Load team informations. All players should now have teams. This is
+     * not the case with old savegames. Assign first the requested teams,
+     * then find empty teams for other players. */
+    players_iterate(pplayer) {
+      int team;
+      struct team *pteam;
+
+      team = secfile_lookup_int_default(file, -1, "player%d.team_no",
+                                        player_number(pplayer));
+      pteam = team_by_number(team);
+      if (NULL != pteam) {
+        team_add_player(pplayer, pteam);
+      }
+    } players_iterate_end;
+    players_iterate(pplayer) {
+      if (NULL == pplayer->team) {
+        team_add_player(pplayer, find_empty_team());
+      }
+    } players_iterate_end;
+
+    /* Load the players. */
+    players_iterate(pplayer) {
+      int plrno = player_number(pplayer);
+
       player_load_main(pplayer, plrno, file, savefile_options,
                        technology_order, technology_order_size);
       player_load_cities(pplayer, plrno, file, savefile_options,
@@ -4935,8 +4950,7 @@ static void game_load_internal(struct section_file *file)
       player_load_units(pplayer, plrno, file, savefile_options,
                         base_order, num_base_types);
       player_load_attributes(pplayer, plrno, file);
-      loaded_players++;
-    } player_slots_iterate_end;
+    } players_iterate_end;
 
     /* Backward compatibility: if we had any open-ended orders (pillage)
      * in the savegame, assign specific targets now */
