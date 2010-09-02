@@ -2195,21 +2195,11 @@ static void player_load_main(struct player *plr, int plrno,
   const char *name;
   struct government *gov;
   int id;
-  struct team *pteam;
   struct player_research *research;
   struct nation_type *pnation;
 
   /* prepare map */
   player_map_allocate(plr);
-
-  /* All players should now have teams. This is not the case with
-   * old savegames. */
-  id = secfile_lookup_int_default(file, -1, "player%d.team_no", plrno);
-  if (!(pteam = team_by_number(id))) {
-    /* If id is equal to -1 the player is added to the next empty team. */
-    pteam = team_new(NULL);
-  }
-  team_add_player(plr, pteam);
 
   research = player_research_get(plr);
 
@@ -2557,20 +2547,6 @@ static void player_load_main(struct player *plr, int plrno,
       spaceship_calc_derived(ship);
     }
   }
-}
-
-/****************************************************************************
-  Load all information about player "plrno" into the structure pointed to
-  by "plr".
-
-  For the data loaded here the basic player data (activated slots) must
-  exist.
-****************************************************************************/
-static void player_load_main2(struct player *plr, int plrno,
-                              struct section_file *file,
-                              const char *savefile_options)
-{
-  int i;
 
   BV_CLR_ALL(plr->real_embassy);
   if (has_capability("embassies2", savefile_options)) {
@@ -5141,10 +5117,6 @@ static void game_load_internal(struct section_file *file)
       /* Create player */
       pplayer = server_create_player(player_slot_index(pslot));
       server_player_init(pplayer, FALSE, FALSE);
-
-      player_load_main(pplayer, player_slot_index(pslot), file,
-                       savefile_options, technology_order,
-                       technology_order_size);
       loaded_players++;
     } player_slots_iterate_end;
 
@@ -5154,11 +5126,32 @@ static void game_load_internal(struct section_file *file)
       fc_assert_ret(player_count() == nplayers);
     }
 
+    /* Load team informations. All players should now have teams. This is
+     * not the case with old savegames. Assign first the requested teams,
+     * then find empty teams for other players. */
+    players_iterate(pplayer) {
+      int team;
+      struct team_slot *tslot;
+
+      if (secfile_lookup_int(file, &team, "player%d.team_no",
+                             player_number(pplayer))
+          && (tslot = team_slot_by_number(team))) {
+        team_add_player(pplayer, team_new(tslot));
+      }
+    } players_iterate_end;
+    players_iterate(pplayer) {
+      if (NULL == pplayer->team) {
+        team_add_player(pplayer, team_new(NULL));
+      }
+    } players_iterate_end;
+
     /* Now, load each players data about other players. Thus must be after
      * the player slots are activated. */
     players_iterate(pplayer) {
       int plrno = player_number(pplayer);
-      player_load_main2(pplayer, plrno, file, savefile_options);
+
+      player_load_main(pplayer, plrno, file, savefile_options,
+                       technology_order, technology_order_size);
       player_load_cities(pplayer, plrno, file, savefile_options,
                          improvement_order, improvement_order_size,
                          worked_tiles);

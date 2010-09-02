@@ -2818,6 +2818,20 @@ static void sg_load_players_basic(struct loaddata *loading)
                  "(%d) from the loaded game does not match the number of "
                  "players present (%d).", nplayers, player_count());
 
+  /* Load team informations. */
+  players_iterate(pplayer) {
+    int team;
+    struct team_slot *tslot = NULL;
+
+    sg_failure_ret(secfile_lookup_int(loading->file, &team,
+                                      "player%d.team_no",
+                                      player_number(pplayer))
+                   && (tslot = team_slot_by_number(team)),
+                   "Invalid team definition for player %s (nb %d).",
+                   player_name(pplayer), player_number(pplayer));
+    team_add_player(pplayer, team_new(tslot));
+  } players_iterate_end;
+
   if (secfile_lookup_int_default(loading->file, -1,
                                  "players.shuffled_player_%d", 0) >= 0) {
     int shuffled_players[player_slot_count()];
@@ -3054,11 +3068,10 @@ static void sg_save_players(struct savedata *saving)
 static void sg_load_player_main(struct loaddata *loading,
                                 struct player *plr)
 {
-  int id, i, plrno = player_number(plr);
+  int i, plrno = player_number(plr);
   const char *string;
   struct government *gov;
   struct ai_data *ai;
-  struct team *pteam;
   struct player_research *research;
   enum ai_level skill_level;
 
@@ -3105,16 +3118,6 @@ static void sg_load_player_main(struct loaddata *loading,
                                      "player%d.capital", plrno),
                  "%s", secfile_error());
 
-
-  /* Load team information. */
-  id = secfile_lookup_int_default(loading->file, -1, "player%d.team_no",
-                                  plrno);
-  sg_failure_ret(0 <= id && id < team_slot_count(), "Invalid team "
-                 "definition for player %s.", player_name(plr));
-  if (!(pteam = team_by_number(id))) {
-    pteam = team_new(NULL);
-  }
-  team_add_player(plr, pteam);
 
   /* AI data. */
   ai = ai_data_get(plr);
