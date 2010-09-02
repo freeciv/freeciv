@@ -2489,8 +2489,10 @@ bool settings_ruleset(struct section_file *file, const char *section)
   const char *name;
   int j;
 
-  /* set all settings to their default values and unlock them */
-  settings_init();
+  /* Unlock all settings. */
+  settings_iterate(pset) {
+    setting_lock_set(pset, FALSE);
+  } settings_iterate_end;
 
   /* settings */
   if (NULL == secfile_section_by_name(file, section)) {
