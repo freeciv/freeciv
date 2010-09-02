@@ -6,9 +6,6 @@ pkgdatadir = $(datadir)/$(PACKAGE)/amplio2
 pkgdata_DATA =          	\
 	ancientcities.png	\
 	ancientcities.spec	\
-	buildings.spec		\
-	cityicon.png		\
-	civicon.png		\
 	explosions.png		\
 	explosions.spec		\
 	fog.png			\
@@ -17,7 +14,6 @@ pkgdata_DATA =          	\
 	grid.spec		\
 	hills.png		\
 	hills.spec		\
-	icons.spec		\
 	medievalcities.png	\
 	medievalcities.spec	\
 	moderncities.png	\
@@ -40,7 +36,6 @@ pkgdata_DATA =          	\
 	units.png		\
 	units.spec		\
 	water.png		\
-	water.spec		\
-	wonders.spec
+	water.spec
 
 EXTRA_DIST = $(pkgdata_DATA)

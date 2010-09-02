@@ -72,8 +72,8 @@ files =
   "misc/small.spec",
   "amplio2/units.spec",
   "misc/flags.spec",
-  "amplio2/buildings.spec",
-  "amplio2/wonders.spec",
+  "misc/buildings-large.spec",
+  "misc/wonders-large.spec",
   "misc/space.spec",
   "misc/techs.spec",
   "misc/treaty.spec",
@@ -90,7 +90,7 @@ files =
   "misc/citybar.spec",
   "misc/shields.spec",
   "misc/editor.spec",
-  "amplio2/icons.spec"
+  "misc/icons.spec"
 
 
 ; Include color definitions
