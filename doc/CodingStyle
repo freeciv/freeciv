@@ -282,12 +282,6 @@ int the_function_starts_here(int value)
   and prefer the usage of enumerators. If an enumeration cannot be define
   for any reason, then, define a macro for this value.
 
-- Avoid to store magic values to external process. For example, savegames
-  shouldn't contain any enumerator as a magic numbers. They should be saved
-  as strings, to keep compatibility when their definition is changed. For
-  doing this, there is some tools in utility/specenum_gen.h; have a look on
-  it.
-
 - Avoid the most (if possible) the usage of the default case in the switch
   statements. The default case remove the warning of the compiler when a
   value is missing in a switch statement.
@@ -468,38 +462,7 @@ modular, so there are some observations to do:
   Do not use 'my_' because it is also used by MYSQL and could be included
   in some libs.
 
-- Do not use assert(), neither die() but the macros defined within
-  utility/log.h:
-
-    fc_assert(condition)
-    fc_assert_ret(condition)
-    fc_assert_ret_val(condition, val)
-    fc_assert_action(condition, action_on_failure)
-    fc_assert_exit(condition, action_on_failure)
-
-    fc_assert_msg(condition, message, ...)
-    fc_assert_ret_msg(condition, message, ...)
-    fc_assert_ret_val_msg(condition, val, message, ...)
-    fc_assert_action_msg(condition, action_on_failure, message, ...)
-    fc_assert_exit_msg(condition, action_on_failure, message, ...)
-
-  This way error conditions can be handled gracefully while still enforcing
-  invariants you expect not to be violated in the code.
-
-    int foo_get_id(const struct foo *pfoo)
-    {
-      fc_assert_ret_val(pfoo != NULL, -1);
-      return pfoo->id;
-    }
-
-- Do not put multiple conditions in the same fc_assert*() statement:
-
-    fc_assert(pfoo != NULL);
-    fc_assert(pfoo->id >= 0);
-
-  instead of
-
-    fc_assert(pfoo != NULL && pfoo->id >= 0);
+- Try to avoid the usage of assert() and die().
 
 - For strings containing multiple sentences, use a single space after periods
   (not two, not zero, just one).
