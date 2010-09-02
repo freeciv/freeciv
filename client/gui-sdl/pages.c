@@ -358,6 +358,9 @@ void real_set_client_page(enum client_pages page)
     case PAGE_NETWORK:
       popup_join_game_dialog();
       break;
+    case PAGE_START:
+      update_conn_list_dialog();
+      break;
     case PAGE_GAME:
       show_game_page();
       enable_main_widgets();

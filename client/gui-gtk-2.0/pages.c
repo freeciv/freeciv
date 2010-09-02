@@ -2131,6 +2131,7 @@ void real_set_client_page(enum client_pages new_page)
     }
     voteinfo_gui_update();
     overview_size_changed();
+    update_conn_list_dialog();
     break;
   case PAGE_GAME:
     reset_unit_table();
