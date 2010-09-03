@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-16 10:55+0200\n"
-"PO-Revision-Date: 2010-08-31 18:15+0300\n"
+"PO-Revision-Date: 2010-09-02 20:15+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -7148,7 +7148,7 @@ msgstr "Відкриття %s робить ЗАСТАРІЛИМ %s у %s!"
 #: server/techtools.c:359
 #, c-format
 msgid "Learned %s. Our scientists focus on %s; goal is %s."
-msgstr "Відкрито %s. Наші вчені концентруються на %s; мета - %s."
+msgstr "Відкрито %s. Наші вчені зосереджуються на %s; мета - %s."
 
 #: server/techtools.c:376
 #, c-format
@@ -7500,7 +7500,7 @@ msgstr "Ваша атака %s на %s %s вдалася!"
 #: server/unittools.c:1790
 #, c-format
 msgid "%s lost to an attack by the %s %s."
-msgstr "%s загинув атакуючи %s %s."
+msgstr "%s загинув від нападу %s %s."
 
 #. TRANS: "... Cannon ... the Polish Destroyer ...."
 #: server/unittools.c:1765
@@ -13288,7 +13288,7 @@ msgstr "Freeciv"
 #: client/gui-win32/gui_main.c:472
 #: data/Freeciv.in:2625
 msgid "Turn Done"
-msgstr "Завершено хід"
+msgstr "Завершити хід"
 
 #: client/gui-gtk-2.0/gui_main.c:1165
 #: client/gui-sdl/mapctrl.c:1565
@@ -14092,9 +14092,8 @@ msgid "_Unit"
 msgstr "Підрозділ (_U)"
 
 #: client/gui-gtk-2.0/menu.c:1443
-#, fuzzy
 msgid "_Work"
-msgstr "План будівництва"
+msgstr "Будівництво (_W)"
 
 #: client/gui-gtk-2.0/menu.c:1444
 msgid "_Combat"
@@ -21961,7 +21960,7 @@ msgstr "Мобільна війна"
 #: data/default/techs.ruleset:482
 #: data/civ2/techs.ruleset:478
 msgid "Monotheism"
-msgstr "Мототеізм"
+msgstr "Монотеїзм"
 
 #: data/default/techs.ruleset:490
 #: data/civ2/techs.ruleset:486
@@ -22705,7 +22704,7 @@ msgstr "Кіннота - це вояки на конях, ранні ударн�
 #: data/civ2/units.ruleset:717
 #: data/civ1/units.ruleset:433
 msgid "Chariot"
-msgstr "Колесніця"
+msgstr "Колісниця"
 
 #: data/default/units.ruleset:850
 #: data/civ2/units.ruleset:743
