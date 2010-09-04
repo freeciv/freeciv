@@ -87,6 +87,7 @@ pkgdata_DATA = \
 		eastgerman.ruleset \
 		ecuadorian.ruleset \
 		egyptian.ruleset \
+		egyptianarab.ruleset \
 		emirati.ruleset \
 		english.ruleset \
 		esperant.ruleset \

@@ -28,7 +28,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "egyptian", "tunisian"
+civilwar_nations = "egyptian arab", "tunisian"
 
 cities =
  "Tarabulus",	; Also known as "Tripoli"

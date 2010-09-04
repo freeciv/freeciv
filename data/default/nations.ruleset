@@ -133,6 +133,7 @@ match=2
 *include "nation/eastgerman.ruleset"
 *include "nation/ecuadorian.ruleset"
 *include "nation/egyptian.ruleset"
+*include "nation/egyptianarab.ruleset"
 *include "nation/emirati.ruleset"
 *include "nation/english.ruleset"
 *include "nation/esperant.ruleset"
