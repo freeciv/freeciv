@@ -516,7 +516,7 @@ static void really_unfog_tile(struct player *pplayer, struct tile *ptile,
     send_tile_info(pplayer->connections, ptile, FALSE);
     /* NOTE: because the V_INVIS case doesn't fall into this if statement,
      * changes to V_INVIS fogging won't send a new info packet to the client
-     * and the client's tile_seen[V_INVIS] bitfield may end up being out
+     * and the client's tile_vision[V_INVIS] bitfield may end up being out
      * of date. */
   }
 
@@ -810,19 +810,14 @@ bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 }
 
 /***************************************************************
-...
+  ...
 ***************************************************************/
-bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
+bool map_is_known_and_seen(const struct tile *ptile,
+                           const struct player *pplayer,
                            enum vision_layer vlayer)
 {
-  fc_assert_ret_val(!game.info.fogofwar
-                    || (BV_ISSET(ptile->tile_seen[vlayer],
-                                 player_index(pplayer))
-                        == (map_get_player_tile(ptile,
-                                                pplayer)->seen_count[vlayer]
-                            > 0)), FALSE);
   return (BV_ISSET(ptile->tile_known, player_index(pplayer))
-          && BV_ISSET(ptile->tile_seen[vlayer], player_index(pplayer)));
+          && map_get_seen(ptile, pplayer, vlayer) > 0);
 }
 
 /****************************************************************************
@@ -836,12 +831,6 @@ static int map_get_seen(const struct tile *ptile,
                         const struct player *pplayer,
                         enum vision_layer vlayer)
 {
-  fc_assert_ret_val(!game.info.fogofwar
-                    || (BV_ISSET(ptile->tile_seen[vlayer],
-                                 player_index(pplayer))
-                        == (map_get_player_tile(ptile,
-                                                pplayer)->seen_count[vlayer]
-                            > 0)), 0);
   return map_get_player_tile(ptile, pplayer)->seen_count[vlayer];
 }
 
@@ -857,11 +846,6 @@ void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
   fc_assert(0 <= change || -change <= plrtile->seen_count[vlayer]);
 
   plrtile->seen_count[vlayer] += change;
-  if (plrtile->seen_count[vlayer] != 0) {
-    BV_SET(ptile->tile_seen[vlayer], player_index(pplayer));
-  } else {
-    BV_CLR(ptile->tile_seen[vlayer], player_index(pplayer));
-  }
   log_debug("%d,%d, p: %d, change %d, result %d", TILE_XY(ptile),
             player_number(pplayer), change, plrtile->seen_count[vlayer]);
 }
@@ -910,11 +894,6 @@ void change_playertile_site(struct player_tile *ptile,
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
   BV_SET(ptile->tile_known, player_index(pplayer));
-  vision_layer_iterate(v) {
-    if (map_get_player_tile(ptile, pplayer)->seen_count[v] > 0) {
-      BV_SET(ptile->tile_seen[v], player_index(pplayer));
-    }
-  } vision_layer_iterate_end;
 }
 
 /***************************************************************
@@ -923,11 +902,6 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
   BV_CLR(ptile->tile_known, player_index(pplayer));
-  vision_layer_iterate(v) {
-    if (0 == map_get_player_tile(ptile, pplayer)->seen_count[v]) {
-      BV_CLR(ptile->tile_seen[v], player_index(pplayer));
-    }
-  } vision_layer_iterate_end;
 }
 
 /****************************************************************************
@@ -1015,14 +989,10 @@ static void player_tile_init(struct tile *ptile, struct player *pplayer)
 
   vision_layer_iterate(v) {
     plrtile->seen_count[v] = 0;
-    BV_CLR(ptile->tile_seen[v], player_index(pplayer));
   } vision_layer_iterate_end;
 
   if (!game.server.fogofwar_old) {
     plrtile->seen_count[V_MAIN] = 1;
-    if (map_is_known(ptile, pplayer)) {
-      BV_SET(ptile->tile_seen[V_MAIN], player_index(pplayer));
-    }
   }
 
   plrtile->last_updated = game.info.year;

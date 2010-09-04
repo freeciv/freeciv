@@ -26,6 +26,7 @@
 #include <time.h>
 
 /* utility */
+#include "bitvector.h"
 #include "capstr.h"
 #include "dataio.h"
 #include "fciconv.h"
@@ -45,6 +46,7 @@
 #include "map.h"
 #include "netintf.h"
 #include "packets.h"
+#include "player.h"
 #include "version.h"
 
 /* include */
@@ -1045,6 +1047,17 @@ struct player *client_player(void)
   return client.conn.playing;
 }
 
+/****************************************************************************
+  Return the vision of the player on a tile. Client version of
+  ./server/maphand/map_is_known_and_seen().
+****************************************************************************/
+static bool client_map_is_known_and_seen(const struct tile *ptile,
+                                         const struct player *pplayer,
+                                         enum vision_layer vlayer)
+{
+  return dbv_isset(&pplayer->client.tile_vision[vlayer], tile_index(ptile));
+}
+
 /***************************************************************
   Initialize client specific functions.
 ***************************************************************/
@@ -1052,7 +1065,7 @@ static void fc_interface_init_client(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
-  funcs->player_tile_vision_get = NULL;
+  funcs->player_tile_vision_get = client_map_is_known_and_seen;
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */

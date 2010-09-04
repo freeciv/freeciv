@@ -111,22 +111,10 @@ static void check_fow(const char *file, const char *function, int line)
       struct player_tile *plr_tile = map_get_player_tile(ptile, pplayer);
 
       vision_layer_iterate(v) {
-	/* underflow of unsigned int */
-	SANITY_TILE(ptile, plr_tile->seen_count[v] < 60000);
-	SANITY_TILE(ptile, plr_tile->own_seen[v] < 60000);
-
-	/* FIXME: It's not entirely clear that this is correct.  The
-	 * invariants for when fogofwar is turned off are not clearly
-	 * defined. */
-	if (game.info.fogofwar) {
-	  if (plr_tile->seen_count[v] > 0) {
-	    SANITY_TILE(ptile, BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
-	  } else {
-	    SANITY_TILE(ptile, !BV_ISSET(ptile->tile_seen[v], player_index(pplayer)));
-	  }
-	}
-
-	SANITY_TILE(ptile, plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
+        /* underflow of unsigned int */
+        SANITY_TILE(ptile, plr_tile->seen_count[v] < 60000);
+        SANITY_TILE(ptile, plr_tile->own_seen[v] < 60000);
+        SANITY_TILE(ptile, plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
       } vision_layer_iterate_end;
 
       /* Lots of server bits depend on this. */

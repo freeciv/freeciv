@@ -20,6 +20,7 @@
 #include "support.h"
 
 /* common */
+#include "fc_interface.h"
 #include "game.h"
 
 #include "tile.h"
@@ -382,7 +383,7 @@ enum known_type tile_get_known(const struct tile *ptile,
 {
   if (!BV_ISSET(ptile->tile_known, player_index(pplayer))) {
     return TILE_UNKNOWN;
-  } else if (!BV_ISSET(ptile->tile_seen[V_MAIN], player_index(pplayer))) {
+  } else if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_MAIN)) {
     return TILE_KNOWN_UNSEEN;
   } else {
     return TILE_KNOWN_SEEN;

@@ -26,6 +26,7 @@ used throughout the client.
 #include <string.h>
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"
@@ -1312,4 +1313,27 @@ void set_unit_focus_status(struct player *pplayer)
   unit_list_iterate(pplayer->units, punit) {
     punit->client.focus_status = FOCUS_AVAIL;
   } unit_list_iterate_end;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+void client_player_init(struct player *pplayer)
+{
+  vision_layer_iterate(v) {
+    pplayer->client.tile_vision[v].vec = NULL;
+    pplayer->client.tile_vision[v].bits = 0;
+  } vision_layer_iterate_end;
+}
+
+/***************************************************************
+  ...
+***************************************************************/
+void client_player_maps_reset(void)
+{
+  players_iterate(pplayer) {
+    vision_layer_iterate(v) {
+      dbv_resize(&pplayer->client.tile_vision[v], MAP_INDEX_SIZE);
+    } vision_layer_iterate_end;
+  } players_iterate_end;
 }

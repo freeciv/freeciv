@@ -69,8 +69,9 @@ void map_refog_circle(struct player *pplayer, struct tile *ptile,
                       enum vision_layer vlayer);
 void map_show_all(struct player *pplayer);
 
-bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
-			   enum vision_layer vlayer);
+bool map_is_known_and_seen(const struct tile *ptile,
+                           const struct player *pplayer,
+                           enum vision_layer vlayer);
 void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
 		     enum vision_layer vlayer);
 bool map_is_known(const struct tile *ptile, const struct player *pplayer);

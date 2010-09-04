@@ -28,6 +28,7 @@
 #include "mem.h"
 
 /* common */
+#include "fc_interface.h"
 #include "game.h"
 #include "map.h"
 #include "movement.h"
@@ -1405,7 +1406,13 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
       pv->data.v_tile_vision = fc_malloc(size);
       pv->data.v_tile_vision->tile_known = ptile->tile_known;
       vision_layer_iterate(v) {
-        pv->data.v_tile_vision->tile_seen[v] = ptile->tile_seen[v];
+        BV_CLR_ALL(pv->data.v_tile_vision->tile_seen[v]);
+        players_iterate(pplayer) {
+          if (fc_funcs->player_tile_vision_get(ptile, pplayer, v)) {
+            BV_SET(pv->data.v_tile_vision->tile_seen[v],
+                   player_index(pplayer));
+          }
+        } players_iterate_end;
       } vision_layer_iterate_end;
       pv->must_free = TRUE;
       break;

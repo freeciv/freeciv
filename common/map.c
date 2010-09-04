@@ -315,9 +315,6 @@ static void tile_init(struct tile *ptile)
   ptile->continent = 0;
 
   BV_CLR_ALL(ptile->tile_known);
-  vision_layer_iterate(v) {
-    BV_CLR_ALL(ptile->tile_seen[v]);
-  } vision_layer_iterate_end;
 
   tile_clear_all_specials (ptile);
   ptile->resource = NULL;

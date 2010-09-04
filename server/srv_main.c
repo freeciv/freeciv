@@ -2496,7 +2496,7 @@ static void fc_interface_init_server(void)
 {
   struct functions *funcs = fc_interface_funcs();
 
-  funcs->player_tile_vision_get = NULL;
+  funcs->player_tile_vision_get = map_is_known_and_seen;
 
   /* Keep this function call at the end. It checks if all required functions
      are defined. */

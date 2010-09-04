@@ -1547,6 +1547,7 @@ void handle_map_info(int xsize, int ysize, int topology_id)
   map_init_topology(FALSE);
 
   map_allocate();
+  client_player_maps_reset();
   init_client_goto();
   mapdeco_init();
 
@@ -2385,14 +2386,14 @@ void handle_tile_info(struct packet_tile_info *packet)
   if (NULL != client.conn.playing) {
     BV_CLR(ptile->tile_known, player_index(client.conn.playing));
     vision_layer_iterate(v) {
-      BV_CLR(ptile->tile_seen[v], player_index(client.conn.playing));
+      dbv_clr(&client.conn.playing->client.tile_vision[v], tile_index(ptile));
     } vision_layer_iterate_end;
 
     switch (packet->known) {
     case TILE_KNOWN_SEEN:
       BV_SET(ptile->tile_known, player_index(client.conn.playing));
       vision_layer_iterate(v) {
-	BV_SET(ptile->tile_seen[v], player_index(client.conn.playing));
+        dbv_set(&client.conn.playing->client.tile_vision[v], tile_index(ptile));
       } vision_layer_iterate_end;
       break;
     case TILE_KNOWN_UNSEEN:

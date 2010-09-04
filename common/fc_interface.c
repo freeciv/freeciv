@@ -55,13 +55,8 @@ void fc_interface_init(void)
 {
   fc_funcs = &fc_functions;
 
-/*
-  Test the existence of each function like:
-
+  /* Test the existence of each function here! */
   fc_assert_exit(fc_funcs->player_tile_vision_get);
-
-  No function defined at the moment.
-*/
 
   fc_funcs_defined = TRUE;
 }

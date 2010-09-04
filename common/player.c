@@ -25,6 +25,7 @@
 
 /* common */
 #include "city.h"
+#include "fc_interface.h"
 #include "game.h"
 #include "government.h"
 #include "idex.h"
@@ -540,7 +541,9 @@ static void player_defaults(struct player *pplayer)
   pplayer->attribute_block_buffer.length = 0;
 
   /* pplayer->server is initialised in
-   * server/plrhand.c:server_player_init() */
+      ./server/plrhand.c:server_player_init()
+     and pplayer->client in
+      ./client/climisc.c:client_player_init() */
 }
 
 /****************************************************************************
@@ -799,7 +802,7 @@ bool can_player_see_unit_at(const struct player *pplayer,
   }
 
   /* Hiding units are only seen by the V_INVIS fog layer. */
-  return BV_ISSET(ptile->tile_seen[V_INVIS], player_index(pplayer));
+  return fc_funcs->player_tile_vision_get(ptile, pplayer, V_INVIS);
 
   return FALSE;
 }
