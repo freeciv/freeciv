@@ -115,6 +115,7 @@ match=2
 *include "nation/chumash.ruleset"
 *include "nation/colombian.ruleset"
 *include "nation/confederate.ruleset"
+*include "nation/congolese.ruleset"
 *include "nation/cornish.ruleset"
 *include "nation/corsican.ruleset"
 *include "nation/costarican.ruleset"

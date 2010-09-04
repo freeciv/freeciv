@@ -77,6 +77,7 @@ flag_files =				\
 		denmark.png		\
 		dominica.png		\
 		dominican_republic.png	\
+		dr_congo.png		\
 		dryad.png		\
 		ecuador.png		\
 		egypt_ancient.png	\
@@ -353,6 +354,7 @@ shield_files =					\
 		denmark-shield.png		\
 		dominica-shield.png		\
 		dominican_republic-shield.png	\
+		dr_congo-shield.png		\
 		dryad-shield.png		\
 		ecuador-shield.png		\
 		egypt_ancient-shield.png	\
@@ -629,6 +631,7 @@ svg_files = 				\
 		denmark.svg		\
 		dominica.svg		\
 		dominican_republic.svg	\
+		dr_congo.svg		\
 		dryad.svg		\
 		ecuador.svg		\
 		egypt_ancient.svg	\

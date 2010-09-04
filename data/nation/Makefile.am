@@ -69,6 +69,7 @@ pkgdata_DATA = \
 		chumash.ruleset \
 		colombian.ruleset \
 		confederate.ruleset \
+		congolese.ruleset \
 		cornish.ruleset \
 		corsican.ruleset \
 		costarican.ruleset \
