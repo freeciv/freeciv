@@ -64,9 +64,9 @@ void map_hide_tile(struct player *pplayer, struct tile *ptile);
 void map_show_circle(struct player *pplayer,
 		     struct tile *ptile, int radius_sq);
 void map_refog_circle(struct player *pplayer, struct tile *ptile,
-                      int old_radius_sq, int new_radius_sq,
-                      bool can_reveal_tiles,
-                      enum vision_layer vlayer);
+                      int old_main_radius_sq, int new_main_radius_sq,
+                      int old_invis_radius_sq, int new_invis_radius_sq,
+                      bool can_reveal_tiles);
 void map_show_all(struct player *pplayer);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
@@ -113,8 +113,8 @@ bool need_to_fix_terrain_change(const struct terrain *oldter,
 void fix_tile_on_terrain_change(struct tile *ptile,
                                 bool extend_rivers);
 
-void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
-			 int radius_sq);
+void vision_change_sight(struct vision *vision, int radius_main_sq,
+                         int radius_invis_sq);
 void vision_clear_sight(struct vision *vision);
 
 void change_playertile_site(struct player_tile *ptile,

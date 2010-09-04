@@ -2531,7 +2531,7 @@ void handle_tile_info(struct packet_tile_info *packet)
 
   if (TILE_KNOWN_SEEN == old_known && TILE_KNOWN_SEEN != new_known) {
     /* This is an error.  So first we log the error, then make an assertion.
-     * But for NDEBUG clients we fix the error. */
+     * But for non DEBUG clients we fix the error. */
     unit_list_iterate(ptile->units, punit) {
       freelog(LOG_ERROR, "%p %d %s at (%d,%d) %s",
               punit,
@@ -2540,7 +2540,9 @@ void handle_tile_info(struct packet_tile_info *packet)
               TILE_XY(punit->tile),
               player_name(unit_owner(punit)));
     } unit_list_iterate_end;
+#ifdef DEBUG
     assert(unit_list_size(ptile->units) == 0);
+#endif /* DEBUG */
     unit_list_clear(ptile->units);
   }
 

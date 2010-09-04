@@ -104,6 +104,20 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
   }									\
 }
 
+/* Using vision_layer_iterate at server side is dangerous when fogging
+ * tiles because it iterates V_MAIN first, able to crash the clients in
+ * handle_tile_info() in client/packhand.c on a failed assertion if the
+ * tile info is received before the units on the V_INVIS layer aren't gone
+ * out sight yet. */
+#define vision_layer_reverse_iterate(vision)                                \
+{                                                                           \
+  int vision = V_COUNT - 1;                                                 \
+  for (; vision >= 0; vision--) {
+
+#define vision_layer_reverse_iterate_end                                    \
+  }                                                                         \
+}
+
 
 /* This is copied in maphand.c really_give_tile_info_from_player_to_player(),
  * so be careful with pointers!

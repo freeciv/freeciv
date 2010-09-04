@@ -625,15 +625,16 @@ static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
   } else {
     struct player *owner = tile_owner(ptile);
 
-    if (pbase->vision_main_sq >= 0 && owner) {
-    /* Base provides vision, but no borders. */
-      map_refog_circle(owner, ptile, pbase->vision_main_sq, -1,
-                       game.info.vision_reveal_tiles, V_MAIN);
-    }
-    if (pbase->vision_invis_sq >= 0 && owner) {
-    /* Base provides vision, but no borders. */
-      map_refog_circle(owner, ptile, pbase->vision_invis_sq, -1,
-                       game.info.vision_reveal_tiles, V_INVIS);
+    if (NULL != owner
+        && (0 <= pbase->vision_main_sq)
+        && (0 <= pbase->vision_invis_sq)) {
+      /* Base provides vision, but no borders. */
+      map_refog_circle(owner, ptile,
+                       0 <= pbase->vision_main_sq
+                       ? pbase->vision_main_sq : -1, -1,
+                       0 <= pbase->vision_invis_sq
+                       ? pbase->vision_invis_sq : -1, -1,
+                       game.info.vision_reveal_tiles);
     }
   }
   tile_remove_base(ptile, pbase);
@@ -2860,10 +2861,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
       struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
 
       pcargo->server.vision = new_vision;
-      vision_layer_iterate(v) {
-	vision_change_sight(new_vision, v,
-			    get_unit_vision_at(pcargo, pdesttile, v));
-      } vision_layer_iterate_end;
+      vision_change_sight(new_vision,
+                          get_unit_vision_at(pcargo, pdesttile, V_MAIN),
+                          get_unit_vision_at(pcargo, pdesttile, V_INVIS));
 
       ASSERT_VISION(new_vision);
 
@@ -2899,10 +2899,9 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
   if (unit_lives) {
     new_vision = vision_new(unit_owner(punit), pdesttile);
     punit->server.vision = new_vision;
-    vision_layer_iterate(v) {
-      vision_change_sight(new_vision, v,
-                          get_unit_vision_at(punit, pdesttile, v));
-    } vision_layer_iterate_end;
+    vision_change_sight(new_vision,
+                        get_unit_vision_at(punit, pdesttile, V_MAIN),
+                        get_unit_vision_at(punit, pdesttile, V_INVIS));
 
     ASSERT_VISION(new_vision);
 
@@ -3428,12 +3427,9 @@ void unit_refresh_vision(struct unit *punit)
 {
   struct vision *uvision = punit->server.vision;
 
-  vision_layer_iterate(v) {
-    /* This requires two calls to get_unit_vision_at...it could be
-     * optimized. */
-    vision_change_sight(uvision, v,
-			get_unit_vision_at(punit, punit->tile, v));
-  } vision_layer_iterate_end;
+  vision_change_sight(uvision,
+                      get_unit_vision_at(punit, punit->tile, V_MAIN),
+                      get_unit_vision_at(punit, punit->tile, V_INVIS));
 
   ASSERT_VISION(uvision);
 }

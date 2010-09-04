@@ -5034,14 +5034,12 @@ static void game_load_internal(struct section_file *file)
       if (owner) {
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            if (pbase->vision_main_sq > 0) {
-              map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
-                               game.info.vision_reveal_tiles, V_MAIN);
-            }
-            if (pbase->vision_invis_sq > 0) {
-              map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
-                               game.info.vision_reveal_tiles, V_INVIS);
-            }
+            map_refog_circle(owner, ptile,
+                             -1, 0 < pbase->vision_main_sq
+                             ? pbase->vision_main_sq : -1,
+                             -1, 0 < pbase->vision_invis_sq
+                             ? pbase->vision_invis_sq : -1,
+                             game.info.vision_reveal_tiles);
           }
         } base_type_iterate_end;
       }

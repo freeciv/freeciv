@@ -912,10 +912,8 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   new_vision = vision_new(ptaker, pcenter);
   pcity->server.vision = new_vision;
   vision_reveal_tiles(new_vision, game.info.vision_reveal_tiles);
-  vision_layer_iterate(v) {
-    vision_change_sight(new_vision, v,
-			vision_get_sight(old_vision, v));
-  } vision_layer_iterate_end;
+  vision_change_sight(new_vision, vision_get_sight(old_vision, V_MAIN),
+                      vision_get_sight(old_vision, V_INVIS));
 
   ASSERT_VISION(new_vision);
 
@@ -2488,8 +2486,7 @@ void city_refresh_vision(struct city *pcity)
 {
   int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
 
-  vision_change_sight(pcity->server.vision, V_MAIN, radius_sq);
-  vision_change_sight(pcity->server.vision, V_INVIS, 2);
+  vision_change_sight(pcity->server.vision, radius_sq, 2);
 
   ASSERT_VISION(pcity->server.vision);
 }

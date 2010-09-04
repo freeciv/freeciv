@@ -647,29 +647,53 @@ static void shared_vision_change_seen(struct tile *ptile,
   } players_iterate_end;
 }
 
-/**************************************************************************
-  There doesn't have to be a city.
-**************************************************************************/
-void map_refog_circle(struct player *pplayer, struct tile *ptile,
-                      int old_radius_sq, int new_radius_sq,
-                      bool can_reveal_tiles,
-                      enum vision_layer vlayer)
+/****************************************************************************
+  Really refog the circle for the vision layer.
+****************************************************************************/
+static void real_map_refog_circle(struct player *pplayer, struct tile *ptile,
+                                  int old_radius_sq, int new_radius_sq,
+                                  bool can_reveal_tiles,
+                                  enum vision_layer vlayer)
 {
   if (old_radius_sq != new_radius_sq) {
     int max_radius = MAX(old_radius_sq, new_radius_sq);
 
     freelog(LOG_DEBUG, "Refogging circle at %d,%d from %d to %d",
-	    TILE_XY(ptile), old_radius_sq, new_radius_sq);
+            TILE_XY(ptile), old_radius_sq, new_radius_sq);
 
     buffer_shared_vision(pplayer);
     circle_dxyr_iterate(ptile, max_radius, tile1, dx, dy, dr) {
       if (dr > old_radius_sq && dr <= new_radius_sq) {
-	map_unfog_tile(pplayer, tile1, can_reveal_tiles, vlayer);
+        map_unfog_tile(pplayer, tile1, can_reveal_tiles, vlayer);
       } else if (dr > new_radius_sq && dr <= old_radius_sq) {
-	map_fog_tile(pplayer, tile1, vlayer);
+        map_fog_tile(pplayer, tile1, vlayer);
       }
     } circle_dxyr_iterate_end;
     unbuffer_shared_vision(pplayer);
+  }
+}
+
+/****************************************************************************
+  There doesn't have to be a city.
+  FIXME: results would be unexpected if the new_invis_radius_sq is bigger
+  than new_main_radius_sq.
+****************************************************************************/
+void map_refog_circle(struct player *pplayer, struct tile *ptile,
+                      int old_main_radius_sq, int new_main_radius_sq,
+                      int old_invis_radius_sq, int new_invis_radius_sq,
+                      bool can_reveal_tiles)
+{
+  if (new_invis_radius_sq < old_invis_radius_sq) {
+    /* Then remove the invisible units first for the clients. */
+    real_map_refog_circle(pplayer, ptile, old_invis_radius_sq,
+                          new_invis_radius_sq, can_reveal_tiles, V_INVIS);
+    real_map_refog_circle(pplayer, ptile, old_main_radius_sq,
+                          new_main_radius_sq, can_reveal_tiles, V_MAIN);
+  } else {
+    real_map_refog_circle(pplayer, ptile, old_main_radius_sq,
+                          new_main_radius_sq, can_reveal_tiles, V_MAIN);
+    real_map_refog_circle(pplayer, ptile, old_invis_radius_sq,
+                          new_invis_radius_sq, can_reveal_tiles, V_INVIS);
   }
 }
 
@@ -752,14 +776,16 @@ void map_hide_tile(struct player *src_player, struct tile *ptile)
         remove_dumb_city(pplayer, ptile);
 
         if (map_get_seen(ptile, pplayer, V_MAIN) > 0) {
-          /* Remove units. */
-          vision_layer_iterate(v) {
+          /* Remove units. Using unit_list_iterate or
+           * unit_list_reverse_iterate is equivalent here, because the
+           * tile info is sent after all units went out of sight. */
+          vision_layer_reverse_iterate(v) {
             unit_list_iterate(ptile->units, punit) {
               if (unit_is_visible_on_layer(punit, v)) {
                 unit_goes_out_of_sight(pplayer, punit);
               }
             } unit_list_iterate_end;
-          } vision_layer_iterate_end;
+          } vision_layer_reverse_iterate_end;
         }
       }
 
@@ -921,11 +947,14 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
   BV_CLR(ptile->tile_known, player_index(pplayer));
-  vision_layer_iterate(v) {
+  /* Using vision_layer_iterate or vision_layer_reverse_iterate
+   * is equivalent here, because no units are going out of sight, neither
+   * the tile info is sent to the client. */
+  vision_layer_reverse_iterate(v) {
     if (0 == map_get_player_tile(ptile, pplayer)->seen_count[v]) {
       BV_CLR(ptile->tile_seen[v], player_index(pplayer));
     }
-  } vision_layer_iterate_end;
+  } vision_layer_reverse_iterate_end;
 }
 
 /****************************************************************************
@@ -1344,7 +1373,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 	       player_name(pplayer),
 	       player_name(pplayer2));
 	whole_map_iterate(ptile) {
-	  vision_layer_iterate(v) {
+          vision_layer_reverse_iterate(v) {
 	    int change = map_get_own_seen(ptile, pplayer, v);
 
 	    if (change > 0) {
@@ -1352,7 +1381,7 @@ void remove_shared_vision(struct player *pfrom, struct player *pto)
 	      if (map_get_seen(ptile, pplayer2, v) == 0)
 		really_fog_tile(pplayer2, ptile, v);
 	    }
-	  } vision_layer_iterate_end;
+	  } vision_layer_reverse_iterate_end
 	} whole_map_iterate_end;
       }
     } players_iterate_end;
@@ -1621,27 +1650,18 @@ static void map_claim_ownership_full(struct tile *ptile,
   if (ploser != powner) {
     base_type_iterate(pbase) {
       if (tile_has_base(ptile, pbase)) {
-        if (pbase->vision_main_sq >= 0) {
-          /* Transfer base provided vision to new owner */
-          if (powner) {
-            map_refog_circle(powner, ptile, -1, pbase->vision_main_sq,
-                             game.info.vision_reveal_tiles, V_MAIN);
-          }
-          if (ploser && pbase != ignore_loss) {
-            map_refog_circle(ploser, ptile, pbase->vision_main_sq, -1,
-                             game.info.vision_reveal_tiles, V_MAIN);
-          }
+        /* Transfer base provided vision to new owner */
+        if (powner) {
+          map_refog_circle(powner, ptile,
+                           -1, pbase->vision_main_sq,
+                           -1, pbase->vision_invis_sq,
+                           game.info.vision_reveal_tiles);
         }
-        if (pbase->vision_invis_sq >= 0) {
-          /* Transfer base provided vision to new owner */
-          if (powner) {
-            map_refog_circle(powner, ptile, -1, pbase->vision_invis_sq,
-                             game.info.vision_reveal_tiles, V_INVIS);
-          }
-          if (ploser && pbase != ignore_loss) {
-            map_refog_circle(ploser, ptile, pbase->vision_invis_sq, -1,
-                             game.info.vision_reveal_tiles, V_INVIS);
-          }
+        if (ploser && pbase != ignore_loss) {
+          map_refog_circle(ploser, ptile,
+                           pbase->vision_main_sq, -1,
+                           pbase->vision_invis_sq, -1,
+                           game.info.vision_reveal_tiles);
         }
       }
     } base_type_iterate_end;
@@ -1776,13 +1796,15 @@ void map_calculate_borders(void)
 
   See documentation in vision.h.
 ****************************************************************************/
-void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
-			 int radius_sq)
+void vision_change_sight(struct vision *vision, int radius_main_sq,
+                         int radius_invis_sq)
 {
   map_refog_circle(vision->player, vision->tile,
-		   vision->radius_sq[vlayer], radius_sq,
-		   vision->can_reveal_tiles, vlayer);
-  vision->radius_sq[vlayer] = radius_sq;
+                   vision->radius_sq[V_MAIN], radius_main_sq,
+                   vision->radius_sq[V_INVIS], radius_invis_sq,
+                   vision->can_reveal_tiles);
+  vision->radius_sq[V_MAIN] = radius_main_sq;
+  vision->radius_sq[V_INVIS] = radius_invis_sq;
 }
 
 /****************************************************************************
@@ -1792,10 +1814,7 @@ void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 ****************************************************************************/
 void vision_clear_sight(struct vision *vision)
 {
-  /* We don't use vision_layer_iterate because we have to go in reverse
-   * order. */
-  vision_change_sight(vision, V_INVIS, -1);
-  vision_change_sight(vision, V_MAIN, -1);
+  vision_change_sight(vision, -1, -1);
 }
 
 /****************************************************************************
@@ -1815,14 +1834,16 @@ void create_base(struct tile *ptile, struct base_type *pbase,
       } else {
         struct player *owner = tile_owner(ptile);
 
-        if (old_base->vision_main_sq >= 0 && owner) {
+        if (NULL != owner
+            && (0 <= old_base->vision_main_sq
+                || 0 <= old_base->vision_invis_sq)) {
           /* Base provides vision, but no borders. */
-          map_refog_circle(owner, ptile, old_base->vision_main_sq, -1,
-                           game.info.vision_reveal_tiles, V_MAIN);
-        }
-        if (old_base->vision_invis_sq >= 0 && owner) {
-          map_refog_circle(owner, ptile, old_base->vision_invis_sq, -1,
-                           game.info.vision_reveal_tiles, V_INVIS);
+          map_refog_circle(owner, ptile,
+                           0 <= old_base->vision_main_sq
+                           ? old_base->vision_main_sq : -1, -1,
+                           0 <= old_base->vision_invis_sq
+                           ? old_base->vision_invis_sq : -1, -1,
+                           game.info.vision_reveal_tiles);
         }
       }
       tile_remove_base(ptile, old_base);
@@ -1850,13 +1871,15 @@ void create_base(struct tile *ptile, struct base_type *pbase,
   if (!done_new_vision) {
     struct player *owner = tile_owner(ptile);
 
-    if (pbase->vision_main_sq > 0 && owner) {
-      map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
-                       game.info.vision_reveal_tiles, V_MAIN);
-    }
-    if (pbase->vision_invis_sq > 0 && owner) {
-      map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
-                       game.info.vision_reveal_tiles, V_INVIS);
+    if (NULL != owner
+        && (0 < pbase->vision_main_sq
+            || 0 < pbase->vision_invis_sq)) {
+      map_refog_circle(owner, ptile,
+                       -1, 0 < pbase->vision_main_sq
+                       ? pbase->vision_main_sq : -1,
+                       -1, 0 < pbase->vision_invis_sq
+                       ? pbase->vision_invis_sq : -1,
+                       game.info.vision_reveal_tiles);
     }
   }
 }
