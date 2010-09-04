@@ -231,6 +231,7 @@ sprites =
 		"f.shield.samogitia", "flags/samogitia-shield"
 		"f.shield.sapmi", "flags/sapmi-shield"
                 "f.shield.savoy", "flags/savoy-shield"
+                "f.shield.saudi_arabia", "flags/saudi_arabia-shield"
                 "f.shield.saxony", "flags/saxony-shield"
 		"f.shield.scotland", "flags/scotland-shield"
 		"f.shield.serbia", "flags/serbia-shield"

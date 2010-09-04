@@ -217,6 +217,7 @@ pkgdata_DATA = \
 		ryukyuan.ruleset \
 		sami.ruleset \
 		samogitian.ruleset \
+		saudi.ruleset \
 		savoyard.ruleset \
 		saxon.ruleset \
 		scottish.ruleset \

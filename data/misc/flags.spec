@@ -227,8 +227,9 @@ artists = "
    Ryukyu		Daniel Markstedt
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    Sapmi		Dean Tersigni
+   Saudi Arabia		Cezary Biele
    Savoy		J.M. Maalderink
-   Saxony               Björn Adelberg
+   Saxony 		Björn Adelberg
    Scotland		Sigge Kotliar
    Serbia		Nikola Pizurica
    Shawnee		Daniel Markstedt
@@ -509,6 +510,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu"
 		"f.samogitia", "flags/samogitia"
 		"f.sapmi", "flags/sapmi"
+		"f.saudi_arabia", "flags/saudi_arabia"
 		"f.savoy", "flags/savoy"
 		"f.saxony", "flags/saxony"
 		"f.scotland", "flags/scotland"
