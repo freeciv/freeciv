@@ -46,7 +46,6 @@
 #include "astring.h"
 #include "fciconv.h"
 #include "fcintl.h"
-#include "log.h"
 #include "mem.h"
 #include "rand.h"
 #include "string_vector.h"
@@ -1615,45 +1614,6 @@ enum m_pre_result match_prefix_full(m_pre_accessor_fn_t accessor_fn,
   } else {
     return M_PRE_FAIL;
   }
-}
-
-/***************************************************************************
- Return whether two vectors: vec1 and vec2 have common
- bits. I.e. (vec1 & vec2) != 0.
-
- Don't call this function directly, use BV_CHECK_MASK macro
- instead. Don't call this function with two different bitvectors.
-***************************************************************************/
-bool bv_check_mask(const unsigned char *vec1, const unsigned char *vec2,
-		   size_t size1, size_t size2)
-{
-  size_t i;
-  fc_assert_ret_val(size1 == size2, FALSE);
-
-  for (i = 0; i < size1; i++) {
-    if ((vec1[0] & vec2[0]) != 0) {
-      return TRUE;
-    }
-    vec1++;
-    vec2++;
-  }
-  return FALSE;
-}
-
-bool bv_are_equal(const unsigned char *vec1, const unsigned char *vec2,
-		  size_t size1, size_t size2)
-{
-  size_t i;
-  fc_assert_ret_val(size1 == size2, FALSE);
-
-  for (i = 0; i < size1; i++) {
-    if (vec1[0] != vec2[0]) {
-      return FALSE;
-    }
-    vec1++;
-    vec2++;
-  }
-  return TRUE;
 }
 
 /***************************************************************************

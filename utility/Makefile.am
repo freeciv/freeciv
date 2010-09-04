@@ -7,6 +7,8 @@ noinst_LTLIBRARIES = libcivutility.la
 libcivutility_la_SOURCES = \
 		astring.c       \
 		astring.h       \
+		bitvector.c     \
+		bitvector.h     \
 		capability.c	\
 		capability.h	\
 		distribute.c	\

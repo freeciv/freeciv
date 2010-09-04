@@ -14,6 +14,7 @@
 #ifndef FC__FC_TYPES_H
 #define FC__FC_TYPES_H
 
+#include "bitvector.h"
 #include "shared.h"
 
 /* This file serves to reduce the cross-inclusion of header files which
