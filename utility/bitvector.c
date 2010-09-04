@@ -27,9 +27,197 @@
 #include "mem.h"
 #include "rand.h"
 #include "string_vector.h"
-#include "support.h"
 
 #include "bitvector.h"
+
+/* There are two types of bitvectors defined in this file:
+   (1) bv_*  - static bitvectors; used for data which where the length is
+               fixed (number of players; flags for enums; ...). They are
+               named bv_* and the macros BV_* are defined.
+   (2) dbv_* - dynamic bitvectors; its size is not known a priori but defined
+               by the player (map known bitvectors). This bitvectors are
+               given as 'struct dbv' and the information can be accessed
+               using the functions dbv_*(). They uses the BV_* macros. */
+
+/* Maximal size of a dynamic bitvector; for the map known bitvector it must
+   be larger than the biggest possible map size (approx. MAP_MAX_SIZE * 1000)
+   Use a large value to be on the save side (512kbits = 64kb). */
+#define MAX_DBV_LENGTH 512 * 1024
+
+/***************************************************************************
+  Initialize a dynamic bitvector of size 'bits'. 'bits' must be greater
+  than 0 and lower than the maximal size given by MAX_DBV_LENGTH. The
+  bitvector is set to all clear.
+***************************************************************************/
+void dbv_init(struct dbv *pdbv, int bits)
+{
+  fc_assert_ret(pdbv->vec == NULL);
+  fc_assert_ret(pdbv->bits == 0);
+
+  fc_assert_ret(bits > 0 && bits < MAX_DBV_LENGTH);
+
+  pdbv->bits = bits;
+  pdbv->vec = fc_calloc(1, _BV_BYTES(pdbv->bits) * sizeof(*pdbv->vec));
+
+  dbv_clr_all(pdbv);
+}
+
+/***************************************************************************
+  Resize a dynamic bitvector. Create it if needed.
+***************************************************************************/
+void dbv_resize(struct dbv *pdbv, int bits)
+{
+  fc_assert_ret(bits > 0 && bits < MAX_DBV_LENGTH);
+
+  if (pdbv->vec == NULL) {
+    /* Initialise a new dbv. */
+    dbv_init(pdbv, bits);
+  } else {
+    /* Resize an existing dbv. */
+    fc_assert_ret(pdbv->bits != 0);
+
+    if (bits != pdbv->bits) {
+      pdbv->bits = bits;
+      pdbv->vec = fc_realloc(pdbv->vec,
+                             _BV_BYTES(pdbv->bits) * sizeof(*pdbv->vec));
+    }
+
+    dbv_clr_all(pdbv);
+  }
+}
+
+/***************************************************************************
+  Destroy a dynamic bitvector.
+***************************************************************************/
+void dbv_free(struct dbv *pdbv)
+{
+  if (pdbv != NULL) {
+    free(pdbv->vec);
+    pdbv->vec = NULL;
+
+    pdbv->bits = 0;
+  }
+}
+
+/***************************************************************************
+  Returns the number of bits defined in a dynamic bitvector.
+***************************************************************************/
+int dbv_bits(struct dbv *pdbv)
+{
+  if (pdbv != NULL) {
+    return pdbv->bits;
+  }
+
+  return -1;
+}
+
+/***************************************************************************
+  Check if the bit 'bit' is set.
+***************************************************************************/
+bool dbv_isset(const struct dbv *pdbv, int bit)
+{
+  fc_assert_ret_val(pdbv != NULL, FALSE);
+  fc_assert_ret_val(pdbv->vec != NULL, FALSE);
+  fc_assert_ret_val(bit < pdbv->bits, FALSE);
+
+  return ((pdbv->vec[_BV_BYTE_INDEX(bit)] & _BV_BITMASK(bit)) != 0);
+}
+
+/***************************************************************************
+  Test if any bit is set.
+***************************************************************************/
+bool dbv_isset_any(const struct dbv *pdbv)
+{
+  fc_assert_ret_val(pdbv != NULL, FALSE);
+  fc_assert_ret_val(pdbv->vec != NULL, FALSE);
+
+  return bv_check_mask(pdbv->vec, pdbv->vec, _BV_BYTES(pdbv->bits),
+                       _BV_BYTES(pdbv->bits));
+}
+
+/***************************************************************************
+  Set the bit given by 'bit'.
+***************************************************************************/
+void dbv_set(struct dbv *pdbv, int bit)
+{
+  fc_assert_ret(pdbv != NULL);
+  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(bit < pdbv->bits);
+
+  pdbv->vec[_BV_BYTE_INDEX(bit)] |= _BV_BITMASK(bit);
+}
+
+/***************************************************************************
+  Set all bits.
+***************************************************************************/
+void dbv_set_all(struct dbv *pdbv)
+{
+  fc_assert_ret(pdbv != NULL);
+  fc_assert_ret(pdbv->vec != NULL);
+
+  memset(pdbv->vec, 0xff, _BV_BYTES(pdbv->bits));
+}
+
+/***************************************************************************
+  Clear the bit given by 'bit'.
+***************************************************************************/
+void dbv_clr(struct dbv *pdbv, int bit)
+{
+  fc_assert_ret(pdbv != NULL);
+  fc_assert_ret(pdbv->vec != NULL);
+  fc_assert_ret(bit < pdbv->bits);
+
+  pdbv->vec[_BV_BYTE_INDEX(bit)] &= ~_BV_BITMASK(bit);
+}
+
+/***************************************************************************
+  Clear all bits.
+***************************************************************************/
+void dbv_clr_all(struct dbv *pdbv)
+{
+  fc_assert_ret(pdbv != NULL);
+  fc_assert_ret(pdbv->vec != NULL);
+
+  memset(pdbv->vec, 0, _BV_BYTES(pdbv->bits));
+}
+
+/***************************************************************************
+  Check if the two dynamic bitvectors are equal.
+***************************************************************************/
+bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2)
+{
+  fc_assert_ret_val(pdbv1 != NULL, FALSE);
+  fc_assert_ret_val(pdbv1->vec != NULL, FALSE);
+  fc_assert_ret_val(pdbv2 != NULL, FALSE);
+  fc_assert_ret_val(pdbv2->vec != NULL, FALSE);
+
+  return bv_are_equal(pdbv1->vec, pdbv2->vec, _BV_BYTES(pdbv1->bits),
+                      _BV_BYTES(pdbv2->bits));
+}
+
+/***************************************************************************
+  Debug a dynamic bitvector.
+***************************************************************************/
+void dbv_debug(struct dbv *pdbv)
+{
+  char test_str[51];
+  int i, j, bit;
+
+  fc_assert_ret(pdbv != NULL);
+  fc_assert_ret(pdbv->vec != NULL);
+
+  for (i = 0; i < (pdbv->bits - 1) / 50 + 1; i++) {
+    for (j = 0; j < 50; j++) {
+      bit = i * 50 + j;
+      if (bit >= pdbv->bits) {
+        break;
+      }
+      test_str[j] = dbv_isset(pdbv, bit) ? '1' : '0';
+    }
+    test_str[j] = '\0';
+    log_error("[%5d] %s", i, test_str);
+  }
+}
 
 /***************************************************************************
   Return whether two vectors: vec1 and vec2 have common

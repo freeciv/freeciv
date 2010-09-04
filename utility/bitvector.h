@@ -24,7 +24,32 @@
 #define TEST_BIT(val, bit_no)                                               \
   (((val) & (1u << (bit_no))) == (1u << (bit_no)))
 
-/* Bitvectors. */
+/* Dynamic bitvectors */
+struct dbv {
+  int bits;
+  unsigned char *vec;
+};
+
+void dbv_init(struct dbv *pdbv, int bits);
+void dbv_resize(struct dbv *pdbv, int bits);
+void dbv_free(struct dbv *pdbv);
+
+int dbv_bits(struct dbv *pdbv);
+
+bool dbv_isset(const struct dbv *pdbv, int bit);
+bool dbv_isset_any(const struct dbv *pdbv);
+
+void dbv_set(struct dbv *pdbv, int bit);
+void dbv_set_all(struct dbv *pdbv);
+
+void dbv_clr(struct dbv *pdbv, int bit);
+void dbv_clr_all(struct dbv *pdbv);
+
+bool dbv_are_equal(const struct dbv *pdbv1, const struct dbv *pdbv2);
+
+void dbv_debug(struct dbv *pdbv);
+
+/* Static bitvectors. */
 #define _BV_BYTES(bits)        ((((bits) - 1) / 8) + 1)
 #define _BV_BYTE_INDEX(bits)   ((bits) / 8)
 #define _BV_BITMASK(bit)       (1u << ((bit) & 0x7))
