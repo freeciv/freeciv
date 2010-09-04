@@ -14,6 +14,7 @@
 #define FC__SRV_LOG_H
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 #include "support.h"
 

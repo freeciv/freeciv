@@ -13,10 +13,13 @@
 #ifndef FC__PLAYER_H
 #define FC__PLAYER_H
 
-#include "fc_types.h"
+/* utility */
+#include "bitvector.h"
 
+/* common */
 #include "city.h"
 #include "connection.h"
+#include "fc_types.h"
 #include "nation.h"
 #include "shared.h"
 #include "spaceship.h"

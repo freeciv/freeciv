@@ -24,6 +24,7 @@
 #include <commctrl.h>
 
 /* common & utility */
+#include "bitvector.h"
 #include "capability.h"
 #include "fcintl.h"
 #include "game.h"

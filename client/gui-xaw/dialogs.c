@@ -33,6 +33,7 @@
 #include <X11/Xaw/Viewport.h>	/* for racesdlg */
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"

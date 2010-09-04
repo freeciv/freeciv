@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"

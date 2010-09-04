@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 
 /* common */

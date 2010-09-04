@@ -16,6 +16,7 @@
 #include <math.h> /* sqrt */
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"                /* fc_assert */
 
 /* common */

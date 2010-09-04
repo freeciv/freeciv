@@ -14,6 +14,7 @@
 #define FC__CITY_H
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 
 /* common */

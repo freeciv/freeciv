@@ -16,6 +16,7 @@
 /* City Improvements, including Wonders.  (Alternatively "Buildings".) */
 
 /* utility */
+#include "bitvector.h"
 #include "support.h"            /* bool */
 
 /* common */

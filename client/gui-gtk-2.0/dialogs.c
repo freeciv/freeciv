@@ -23,17 +23,20 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-/* common & utility */
+/* utility */
+#include "bitvector.h"
 #include "fcintl.h"
+#include "log.h"
+#include "mem.h"
+#include "rand.h"
+#include "support.h"
+
+/* common */
 #include "game.h"
 #include "government.h"
 #include "map.h"
-#include "log.h"
-#include "mem.h"
 #include "packets.h"
 #include "player.h"
-#include "rand.h"
-#include "support.h"
 #include "unitlist.h"
 
 /* client */

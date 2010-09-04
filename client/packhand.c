@@ -18,6 +18,7 @@
 #include <string.h>
 
 /* utility */
+#include "bitvector.h"
 #include "capability.h"
 #include "fcintl.h"
 #include "log.h"

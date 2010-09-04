@@ -14,6 +14,7 @@
 #define FC__TECH_H
 
 /* utility */
+#include "bitvector.h"
 #include "shared.h"
 
 /* common */

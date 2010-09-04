@@ -14,6 +14,10 @@
 #ifndef FC__TILE_H
 #define FC__TILE_H
 
+/* utility */
+#include "bitvector.h"
+
+/* common */
 #include "base.h"
 #include "fc_types.h"
 #include "player.h"

@@ -19,6 +19,7 @@
 #include <string.h>
 
 /* utility */
+#include "bitvector.h"
 #include "fciconv.h"
 #include "fcintl.h"
 #include "log.h"

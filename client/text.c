@@ -21,6 +21,7 @@
 
 /* utility */
 #include "astring.h"
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "support.h"

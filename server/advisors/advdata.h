@@ -14,7 +14,8 @@
 #define FC__ADVDATA_H
 
 /* utility */
-#include "shared.h"		/* bool type */
+#include "bitvector.h"
+#include "shared.h" /* bool type */
 
 /* common */
 #include "fc_types.h"

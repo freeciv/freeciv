@@ -1555,6 +1555,7 @@ void *get_packet_from_connection_helper(struct connection *pc, enum packet_type 
 #include <string.h>
 
 /* utility */
+#include "bitvector.h"
 #include "capability.h"
 #include "hash.h"
 #include "log.h"

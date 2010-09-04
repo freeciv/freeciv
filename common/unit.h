@@ -13,6 +13,9 @@
 #ifndef FC__UNIT_H
 #define FC__UNIT_H
 
+/* utility */
+#include "bitvector.h"
+
 /* common */
 #include "ai.h"                 /* FC_AI_LAST */
 #include "base.h"

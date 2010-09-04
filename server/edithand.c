@@ -18,6 +18,7 @@
 #include <limits.h> /* USHRT_MAX */
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "hash.h"
 #include "log.h"

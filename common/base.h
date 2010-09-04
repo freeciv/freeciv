@@ -13,6 +13,10 @@
 #ifndef FC__BASE_H
 #define FC__BASE_H
 
+/* utility */
+#include "bitvector.h"
+
+/* common */
 #include "fc_types.h"
 #include "requirements.h"
 

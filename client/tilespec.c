@@ -27,6 +27,7 @@
 
 /* utility */
 #include "astring.h"
+#include "bitvector.h"
 #include "capability.h"
 #include "fcintl.h"
 #include "hash.h"

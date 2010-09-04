@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "shared.h"

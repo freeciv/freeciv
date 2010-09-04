@@ -20,6 +20,7 @@
 #include "SDL.h"
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 

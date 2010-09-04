@@ -23,6 +23,7 @@
 #include <gdk/gdkkeysyms.h>
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"

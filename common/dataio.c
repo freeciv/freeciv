@@ -43,6 +43,7 @@
 #endif
 
 /* utility */
+#include "bitvector.h"
 #include "capability.h"
 #include "log.h"
 #include "mem.h"

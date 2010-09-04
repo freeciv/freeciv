@@ -18,6 +18,7 @@
 #include <math.h> /* log */
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 
 /* common */
@@ -25,7 +26,7 @@
 #include "player.h"
 #include "unit.h"
 
-/* aicore */
+/* common/aicore */
 #include "path_finding.h"
 #include "pf_tools.h"
 
@@ -33,7 +34,7 @@
 #include "maphand.h"
 #include "srv_log.h"
 
-/* ai */
+/* server/ai */
 #include "aitools.h"
 
 #include "autoexplorer.h"

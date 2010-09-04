@@ -18,6 +18,7 @@
 #include <math.h>
 
 /* utility */
+#include "bitvector.h"
 #include "rand.h"
 #include "log.h"
 

@@ -18,6 +18,7 @@
 #include <stdarg.h>
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 #include "registry.h"
 
