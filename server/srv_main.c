@@ -64,6 +64,7 @@
 #include "dataio.h"
 #include "effects.h"
 #include "events.h"
+#include "fc_interface.h"
 #include "game.h"
 #include "government.h"
 #include "map.h"
@@ -127,6 +128,7 @@
 
 static void end_turn(void);
 static void announce_player(struct player *pplayer);
+static void fc_interface_init_server(void);
 
 /* command-line arguments to server */
 struct server_arguments srvarg;
@@ -2444,6 +2446,8 @@ void server_game_free(void)
 **************************************************************************/
 void srv_main(void)
 {
+  fc_interface_init_server();
+
   srv_prepare();
 
   /* Run server loop */
@@ -2482,4 +2486,19 @@ void srv_main(void)
   } while (TRUE);
 
   /* Technically, we won't ever get here. We exit via server_quit. */
+}
+
+
+/***************************************************************
+  Initialize client specific functions.
+***************************************************************/
+static void fc_interface_init_server(void)
+{
+  struct functions *funcs = fc_interface_funcs();
+
+  funcs->player_tile_vision_get = NULL;
+
+  /* Keep this function call at the end. It checks if all required functions
+     are defined. */
+  fc_interface_init();
 }

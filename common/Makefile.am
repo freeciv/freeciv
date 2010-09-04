@@ -31,6 +31,8 @@ libfreeciv_la_SOURCES = \
 		events.h	\
 		featured_text.c	\
 		featured_text.h	\
+		fc_interface.c	\
+		fc_interface.h	\
 		fc_types.h	\
 		game.c		\
 		game.h		\

@@ -39,6 +39,7 @@
 /* common */
 #include "ai.h"
 #include "diptreaty.h"
+#include "fc_interface.h"
 #include "game.h"
 #include "idex.h"
 #include "map.h"
@@ -88,6 +89,8 @@
 #include "voteinfo.h"
 
 #include "client_main.h"
+
+static void fc_interface_init_client(void);
 
 char *logfile = NULL;
 char *scriptfile = NULL;
@@ -271,6 +274,8 @@ int client_main(int argc, char *argv[])
 #endif
 
   i_am_client(); /* Tell to libfreeciv that we are client */
+
+  fc_interface_init_client();
 
   /* Ensure that all AIs are initialized to unused state */
   ai_type_iterate(ai) {
@@ -1038,4 +1043,18 @@ bool client_has_player(void)
 struct player *client_player(void)
 {
   return client.conn.playing;
+}
+
+/***************************************************************
+  Initialize client specific functions.
+***************************************************************/
+static void fc_interface_init_client(void)
+{
+  struct functions *funcs = fc_interface_funcs();
+
+  funcs->player_tile_vision_get = NULL;
+
+  /* Keep this function call at the end. It checks if all required functions
+     are defined. */
+  fc_interface_init();
 }
