@@ -21,6 +21,7 @@
 #include <time.h>
 
 /* utility */
+#include "bitvector.h"
 #include "fcintl.h"
 #include "log.h"
 #include "maphand.h" /* assign_continent_numbers(), MAP_NCONT */
@@ -41,9 +42,6 @@
 #include "mapgen.h"
 
 #define MG_UNUSED mapgen_terrain_property_invalid()
-
-/* Wrappers for easy access.  They are a macros so they can be a lvalues.*/
-#define rmap(ptile) (river_map[tile_index(ptile)])
 
 static void make_huts(int number);
 static void add_resources(int prob);
@@ -104,13 +102,34 @@ static bool make_island(int islemass, int starters,
                         int min_specific_island_size);
 
 #define RIVERS_MAXTRIES 32767
-enum river_map_type {RS_BLOCKED = 0, RS_RIVER = 1};
+/* This struct includes two dynamic bitvectors. They are needed to mark
+   tiles as blocked to prevent a river from falling into itself, and for
+   storing rivers temporarly. */
+struct river_map {
+  struct dbv blocked;
+  struct dbv ok;
+};
 
-/* Array needed to mark tiles as blocked to prevent a river from
-   falling into itself, and for storing rivers temporarly.
-   A value of 1 means blocked.
-   A value of 2 means river.                            -Erik Sigra */
-static int *river_map;
+static int river_test_blocked(struct river_map *privermap,
+                              struct tile *ptile);
+static int river_test_rivergrid(struct river_map *privermap,
+                                struct tile *ptile);
+static int river_test_highlands(struct river_map *privermap,
+                                struct tile *ptile);
+static int river_test_adjacent_ocean(struct river_map *privermap,
+                                     struct tile *ptile);
+static int river_test_adjacent_river(struct river_map *privermap,
+                                     struct tile *ptile);
+static int river_test_adjacent_highlands(struct river_map *privermap,
+                                         struct tile *ptile);
+static int river_test_swamp(struct river_map *privermap, struct tile *ptile);
+static int river_test_adjacent_swamp(struct river_map *privermap,
+                                     struct tile *ptile);
+static int river_test_height_map(struct river_map *privermap,
+                                 struct tile *ptile);
+static void river_blockmark(struct river_map *privermap, struct tile *ptile);
+static bool make_river(struct river_map *privermap, struct tile *ptile);
+static void make_rivers(void);
 
 #define HAS_POLES (map.server.temperature < 70 && !map.server.alltemperate)
 
@@ -635,15 +654,18 @@ static void make_terrains(void)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_blocked(struct tile *ptile)
+static int river_test_blocked(struct river_map *privermap,
+                              struct tile *ptile)
 {
-  if (TEST_BIT(rmap(ptile), RS_BLOCKED))
+  if (dbv_isset(&privermap->blocked, tile_index(ptile))) {
     return 1;
+  }
 
   /* any un-blocked? */
-  cardinal_adjc_iterate(ptile, tile1) {
-    if (!TEST_BIT(rmap(tile1), RS_BLOCKED))
+  cardinal_adjc_iterate(ptile, ptile1) {
+    if (!dbv_isset(&privermap->blocked, tile_index(ptile1))) {
       return 0;
+    }
   } cardinal_adjc_iterate_end;
 
   return 1; /* none non-blocked |- all blocked */
@@ -652,7 +674,8 @@ static int river_test_blocked(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_rivergrid(struct tile *ptile)
+static int river_test_rivergrid(struct river_map *privermap,
+                                struct tile *ptile)
 {
   return (count_special_near_tile(ptile, TRUE, FALSE, S_RIVER) > 1) ? 1 : 0;
 }
@@ -660,7 +683,8 @@ static int river_test_rivergrid(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_highlands(struct tile *ptile)
+static int river_test_highlands(struct river_map *privermap,
+                                struct tile *ptile)
 {
   return tile_terrain(ptile)->property[MG_MOUNTAINOUS];
 }
@@ -668,7 +692,8 @@ static int river_test_highlands(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_adjacent_ocean(struct tile *ptile)
+static int river_test_adjacent_ocean(struct river_map *privermap,
+                                     struct tile *ptile)
 {
   return 100 - count_ocean_near_tile(ptile, TRUE, TRUE);
 }
@@ -676,7 +701,8 @@ static int river_test_adjacent_ocean(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_adjacent_river(struct tile *ptile)
+static int river_test_adjacent_river(struct river_map *privermap,
+                                     struct tile *ptile)
 {
   return 100 - count_special_near_tile(ptile, TRUE, TRUE, S_RIVER);
 }
@@ -684,7 +710,8 @@ static int river_test_adjacent_river(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_adjacent_highlands(struct tile *ptile)
+static int river_test_adjacent_highlands(struct river_map *privermap,
+                                         struct tile *ptile)
 {
   int sum = 0;
 
@@ -698,7 +725,7 @@ static int river_test_adjacent_highlands(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_swamp(struct tile *ptile)
+static int river_test_swamp(struct river_map *privermap, struct tile *ptile)
 {
   return FC_INFINITY - tile_terrain(ptile)->property[MG_WET];
 }
@@ -706,7 +733,8 @@ static int river_test_swamp(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_adjacent_swamp(struct tile *ptile)
+static int river_test_adjacent_swamp(struct river_map *privermap,
+                                     struct tile *ptile)
 {
   int sum = 0;
 
@@ -720,7 +748,8 @@ static int river_test_adjacent_swamp(struct tile *ptile)
 /*********************************************************************
  Help function used in make_river(). See the help there.
 *********************************************************************/
-static int river_test_height_map(struct tile *ptile)
+static int river_test_height_map(struct river_map *privermap,
+                                 struct tile *ptile)
 {
   return hmap(ptile);
 }
@@ -728,19 +757,19 @@ static int river_test_height_map(struct tile *ptile)
 /*********************************************************************
  Called from make_river. Marks all directions as blocked.  -Erik Sigra
 *********************************************************************/
-static void river_blockmark(struct tile *ptile)
+static void river_blockmark(struct river_map *privermap, struct tile *ptile)
 {
   log_debug("Blockmarking (%d, %d) and adjacent tiles.", TILE_XY(ptile));
 
-  rmap(ptile) |= (1u << RS_BLOCKED);
+  dbv_set(&privermap->blocked, tile_index(ptile));
 
-  cardinal_adjc_iterate(ptile, tile1) {
-    rmap(tile1) |= (1u << RS_BLOCKED);
+  cardinal_adjc_iterate(ptile, ptile1) {
+    dbv_set(&privermap->blocked, tile_index(ptile1));
   } cardinal_adjc_iterate_end;
 }
 
 struct test_func {
-  int (*func)(struct tile *ptile);
+  int (*func)(struct river_map *privermap, struct tile *ptile);
   bool fatal;
 };
 
@@ -847,7 +876,7 @@ static struct test_func test_funcs[NUM_TEST_FUNCTIONS] = {
  If these rules haven't decided the direction, the random number
  generator gets the desicion.                              -Erik Sigra
 *********************************************************************/
-static bool make_river(struct tile *ptile)
+static bool make_river(struct river_map *privermap, struct tile *ptile)
 {
   /* Comparison value for each tile surrounding the current tile.  It is
    * the suitability to continue a river to the tile in that direction;
@@ -860,16 +889,16 @@ static bool make_river(struct tile *ptile)
 
   while (TRUE) {
     /* Mark the current tile as river. */
-    rmap(ptile) |= (1u << RS_RIVER);
+    dbv_set(&privermap->ok, tile_index(ptile));
     log_debug("The tile at (%d, %d) has been marked as river in river_map.",
               TILE_XY(ptile));
 
     /* Test if the river is done. */
     /* We arbitrarily make rivers end at the poles. */
     if (count_special_near_tile(ptile, TRUE, TRUE, S_RIVER) > 0
-	|| count_ocean_near_tile(ptile, TRUE, TRUE) > 0
+        || count_ocean_near_tile(ptile, TRUE, TRUE) > 0
         || (tile_terrain(ptile)->property[MG_FROZEN] > 0
-	    && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) { 
+            && map_colatitude(ptile) < 0.8 * COLD_LEVEL)) {
 
       log_debug("The river ended at (%d, %d).", TILE_XY(ptile));
       return TRUE;
@@ -890,16 +919,17 @@ static bool make_river(struct tile *ptile)
       int best_val = -1;
 
       /* first get the tile values for the function */
-      cardinal_adjc_dir_iterate(ptile, tile1, dir) {
-	if (rd_direction_is_valid[dir]) {
-	  rd_comparison_val[dir] = (test_funcs[func_num].func) (tile1);
+      cardinal_adjc_dir_iterate(ptile, ptile1, dir) {
+        if (rd_direction_is_valid[dir]) {
+          rd_comparison_val[dir] = (test_funcs[func_num].func)(privermap,
+                                                               ptile1);
           fc_assert_action(rd_comparison_val[dir] >= 0, continue);
-	  if (best_val == -1) {
-	    best_val = rd_comparison_val[dir];
-	  } else {
-	    best_val = MIN(rd_comparison_val[dir], best_val);
-	  }
-	}
+          if (best_val == -1) {
+            best_val = rd_comparison_val[dir];
+          } else {
+            best_val = MIN(rd_comparison_val[dir], best_val);
+          }
+        }
       } cardinal_adjc_dir_iterate_end;
       fc_assert_action(best_val != -1, continue);
 
@@ -940,13 +970,13 @@ static bool make_river(struct tile *ptile)
     /* Find the direction that the random number generator selected. */
     cardinal_adjc_dir_iterate(ptile, tile1, dir) {
       if (rd_direction_is_valid[dir]) {
-	if (direction > 0) {
-	  direction--;
-	} else {
-	  river_blockmark(ptile);
-	  ptile = tile1;
-	  break;
-	}
+        if (direction > 0) {
+          direction--;
+        } else {
+          river_blockmark(privermap, ptile);
+          ptile = tile1;
+          break;
+        }
       }
     } cardinal_adjc_dir_iterate_end;
     fc_assert_ret_val(direction == 0, FALSE);
@@ -962,6 +992,7 @@ static void make_rivers(void)
 {
   struct tile *ptile;
   struct terrain *pterrain;
+  struct river_map rivermap;
 
   /* Formula to make the river density similar om different sized maps. Avoids
      too few rivers on large maps and too many rivers on small maps. */
@@ -987,7 +1018,12 @@ static void make_rivers(void)
   create_placed_map(); /* needed bu rand_map_characteristic */
   set_all_ocean_tiles_placed();
 
-  river_map = fc_malloc(sizeof(*river_map) * MAP_INDEX_SIZE);
+  rivermap.blocked.vec = NULL;
+  rivermap.blocked.bits = 0;
+  dbv_init(&rivermap.blocked, MAP_INDEX_SIZE);
+  rivermap.ok.vec = NULL;
+  rivermap.ok.bits = 0;
+  dbv_init(&rivermap.ok, MAP_INDEX_SIZE);
 
   /* The main loop in this function. */
   while (current_riverlength < desirable_riverlength
@@ -1035,31 +1071,31 @@ static void make_rivers(void)
 	&& (pterrain->property[MG_DRY] == 0
 	    || iteration_counter >= RIVERS_MAXTRIES / 10 * 9)) {
 
-      /* Reset river_map before making a new river. */
-      memset(river_map, 0, MAP_INDEX_SIZE * sizeof(*river_map));
+      /* Reset river map before making a new river. */
+      dbv_clr_all(&rivermap.blocked);
+      dbv_clr_all(&rivermap.ok);
 
       log_debug("Found a suitable starting tile for a river at (%d, %d)."
                 " Starting to make it.", TILE_XY(ptile));
 
       /* Try to make a river. If it is OK, apply it to the map. */
-      if (make_river(ptile)) {
-	whole_map_iterate(tile1) {
-	  if (TEST_BIT(rmap(tile1), RS_RIVER)) {
-	    struct terrain *pterrain = tile_terrain(tile1);
-
-	    if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
-	      /* We have to change the terrain to put a river here. */
-	      pterrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
-	      if (pterrain) {
-		tile_set_terrain(tile1, pterrain);
-	      }
-	    }
-	    tile_set_special(tile1, S_RIVER);
-	    current_riverlength++;
-	    map_set_placed(tile1);
-            log_debug("Applied a river to (%d, %d).", TILE_XY(tile1));
-	  }
-	} whole_map_iterate_end;
+      if (make_river(&rivermap, ptile)) {
+        whole_map_iterate(ptile1) {
+          if (dbv_isset(&rivermap.ok, tile_index(ptile1))) {
+            struct terrain *pterrain = tile_terrain(ptile1);
+            if (!terrain_has_flag(pterrain, TER_CAN_HAVE_RIVER)) {
+              /* We have to change the terrain to put a river here. */
+              pterrain = pick_terrain_by_flag(TER_CAN_HAVE_RIVER);
+              if (pterrain) {
+                tile_set_terrain(ptile1, pterrain);
+              }
+            }
+            tile_set_special(ptile1, S_RIVER);
+            current_riverlength++;
+            map_set_placed(ptile1);
+            log_debug("Applied a river to (%d, %d).", TILE_XY(ptile1));
+          }
+        } whole_map_iterate_end;
       } else {
         log_debug("mapgen.c: A river failed. It might have gotten stuck "
                   "in a helix.");
@@ -1070,9 +1106,11 @@ static void make_rivers(void)
               "iteration_counter: %d",
               current_riverlength, desirable_riverlength, iteration_counter);
   } /* end while; */
-  free(river_map);
+
+  dbv_free(&rivermap.blocked);
+  dbv_free(&rivermap.ok);
+
   destroy_placed_map();
-  river_map = NULL;
 }
 
 /**************************************************************************
