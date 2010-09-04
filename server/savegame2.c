@@ -96,6 +96,7 @@
 #include "timing.h"
 
 /* common */
+#include "bitvector.h"
 #include "capability.h"
 #include "city.h"
 #include "game.h"
@@ -2678,10 +2679,13 @@ static void sg_load_map_known(struct loaddata *loading)
       }
     }
 
-    /* HACK: we read the known data from hex into a 32-bit integer, and
-     * now we convert it to bv_player. */
+    players_iterate(pplayer) {
+      dbv_clr_all(&pplayer->tile_known);
+    } players_iterate_end;
+
+    /* HACK: we read the known data from hex into a 32-bit integers, and
+     * now we convert it to the known tile data of each player. */
     whole_map_iterate(ptile) {
-      BV_CLR_ALL(ptile->tile_known);
       players_iterate(pplayer) {
         p = player_index(pplayer);
         l = player_index(pplayer) / 32;

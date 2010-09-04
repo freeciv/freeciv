@@ -16,6 +16,7 @@
 #endif
 
 /* utility */
+#include "bitvector.h"
 #include "log.h"
 #include "support.h"
 
@@ -379,9 +380,9 @@ void tile_set_continent(struct tile *ptile, Continent_id val)
   Note that the client only has known data about its own player.
 ****************************************************************************/
 enum known_type tile_get_known(const struct tile *ptile,
-			       const struct player *pplayer)
+                               const struct player *pplayer)
 {
-  if (!BV_ISSET(ptile->tile_known, player_index(pplayer))) {
+  if (!dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
     return TILE_UNKNOWN;
   } else if (!fc_funcs->player_tile_vision_get(ptile, pplayer, V_MAIN)) {
     return TILE_KNOWN_UNSEEN;

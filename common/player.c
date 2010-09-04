@@ -540,6 +540,9 @@ static void player_defaults(struct player *pplayer)
   pplayer->attribute_block_buffer.data = NULL;
   pplayer->attribute_block_buffer.length = 0;
 
+  pplayer->tile_known.vec = NULL;
+  pplayer->tile_known.bits = 0;
+
   /* pplayer->server is initialised in
       ./server/plrhand.c:server_player_init()
      and pplayer->client in

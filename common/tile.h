@@ -41,7 +41,6 @@ struct tile {
   int nat_x, nat_y; /* Native coordinates of the tile. */
   int index; /* Index coordinate of the tile. */
   Continent_id continent;
-  bv_player tile_known;
   bv_special special;
   bv_bases bases;
   struct resource *resource;		/* NULL for no resource */

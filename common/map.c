@@ -314,8 +314,6 @@ static void tile_init(struct tile *ptile)
 {
   ptile->continent = 0;
 
-  BV_CLR_ALL(ptile->tile_known);
-
   tile_clear_all_specials (ptile);
   ptile->resource = NULL;
   ptile->terrain  = T_UNKNOWN;

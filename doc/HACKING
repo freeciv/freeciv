@@ -593,12 +593,21 @@ map_pos_to_native_x, and map_pos_to_native_y that are defined in map.h.
 Unknown tiles and Fog of War
 =========================================================================
 
-In common/tile.h, there are several fields:
+In common/player.h, there are several fields:
 
-struct tile {
+struct player {
   ...
-  bv_player tile_known, tile_seen[V_COUNT];
-  ...
+  struct dbv tile_known;
+
+  union {
+    struct {
+      ...
+    } server;
+
+    struct {
+      struct dbv tile_vision[V_COUNT];
+    } client;
+  };
 };
 
 While tile_get_known() returns:

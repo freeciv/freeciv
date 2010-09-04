@@ -2384,20 +2384,20 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   if (NULL != client.conn.playing) {
-    BV_CLR(ptile->tile_known, player_index(client.conn.playing));
+    dbv_clr(&client.conn.playing->tile_known, tile_index(ptile));
     vision_layer_iterate(v) {
       dbv_clr(&client.conn.playing->client.tile_vision[v], tile_index(ptile));
     } vision_layer_iterate_end;
 
     switch (packet->known) {
     case TILE_KNOWN_SEEN:
-      BV_SET(ptile->tile_known, player_index(client.conn.playing));
+      dbv_set(&client.conn.playing->tile_known, tile_index(ptile));
       vision_layer_iterate(v) {
         dbv_set(&client.conn.playing->client.tile_vision[v], tile_index(ptile));
       } vision_layer_iterate_end;
       break;
     case TILE_KNOWN_UNSEEN:
-      BV_SET(ptile->tile_known, player_index(client.conn.playing));
+      dbv_set(&client.conn.playing->tile_known, tile_index(ptile));
       break;
     case TILE_UNKNOWN:
       break;

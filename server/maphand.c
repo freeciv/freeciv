@@ -806,7 +806,7 @@ void map_show_all(struct player *pplayer)
 ****************************************************************************/
 bool map_is_known(const struct tile *ptile, const struct player *pplayer)
 {
-  return BV_ISSET(ptile->tile_known, player_index(pplayer));
+  return dbv_isset(&pplayer->tile_known, tile_index(ptile));
 }
 
 /***************************************************************
@@ -816,7 +816,7 @@ bool map_is_known_and_seen(const struct tile *ptile,
                            const struct player *pplayer,
                            enum vision_layer vlayer)
 {
-  return (BV_ISSET(ptile->tile_known, player_index(pplayer))
+  return (map_is_known(ptile, pplayer)
           && map_get_seen(ptile, pplayer, vlayer) > 0);
 }
 
@@ -893,7 +893,7 @@ void change_playertile_site(struct player_tile *ptile,
 ***************************************************************/
 void map_set_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_SET(ptile->tile_known, player_index(pplayer));
+  dbv_set(&pplayer->tile_known, tile_index(ptile));
 }
 
 /***************************************************************
@@ -901,7 +901,7 @@ void map_set_known(struct tile *ptile, struct player *pplayer)
 ***************************************************************/
 void map_clear_known(struct tile *ptile, struct player *pplayer)
 {
-  BV_CLR(ptile->tile_known, player_index(pplayer));
+  dbv_clr(&pplayer->tile_known, tile_index(ptile));
 }
 
 /****************************************************************************
@@ -945,6 +945,8 @@ void player_map_init(struct player *pplayer)
   whole_map_iterate(ptile) {
     player_tile_init(ptile, pplayer);
   } whole_map_iterate_end;
+
+  dbv_init(&pplayer->tile_known, MAP_INDEX_SIZE);
 }
 
 /***************************************************************
@@ -970,6 +972,8 @@ void player_map_free(struct player *pplayer)
 
   free(pplayer->server.private_map);
   pplayer->server.private_map = NULL;
+
+  dbv_free(&pplayer->tile_known);
 }
 
 /***************************************************************

@@ -220,6 +220,8 @@ struct player {
   struct attribute_block_s attribute_block;
   struct attribute_block_s attribute_block_buffer;
 
+  struct dbv tile_known;
+
   union {
     struct {
       /* Only used in the server (./ai/ and ./server/). */

@@ -1404,7 +1404,19 @@ static struct propval *objbind_get_value_from_object(struct objbind *ob,
     case OPID_TILE_VISION:
       size = sizeof(struct tile_vision_data);
       pv->data.v_tile_vision = fc_malloc(size);
-      pv->data.v_tile_vision->tile_known = ptile->tile_known;
+
+      /* The server saves the known tiles and the player vision in special
+         bitvectors with the number of tiles as index. Here we want the
+         information for one tile. Thus, the data is transformed to
+         bitvectors with the number of player slots as index. */
+      BV_CLR_ALL(pv->data.v_tile_vision->tile_known);
+      players_iterate(pplayer) {
+        if (dbv_isset(&pplayer->tile_known, tile_index(ptile))) {
+          BV_SET(pv->data.v_tile_vision->tile_known,
+                 player_index(pplayer));
+        }
+      } players_iterate_end;
+
       vision_layer_iterate(v) {
         BV_CLR_ALL(pv->data.v_tile_vision->tile_seen[v]);
         players_iterate(pplayer) {

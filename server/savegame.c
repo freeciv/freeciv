@@ -31,6 +31,7 @@
 #include "support.h"
 
 /* common */
+#include "bitvector.h"
 #include "capability.h"
 #include "city.h"
 #include "game.h"
@@ -1264,10 +1265,13 @@ static void map_load_known(struct section_file *file,
 		    known[tile_index(ptile)] |= ascii_hex2bin(ch, 7));
     }
 
+    players_iterate(pplayer) {
+      dbv_clr_all(&pplayer->tile_known);
+    } players_iterate_end;
+
     /* HACK: we read the known data from hex into a 32-bit integer, and
      * now we convert it to bv_player. */
     whole_map_iterate(ptile) {
-      BV_CLR_ALL(ptile->tile_known);
       players_iterate(pplayer) {
         if (known[tile_index(ptile)] & (1u << player_index(pplayer))) {
           map_set_known(ptile, pplayer);

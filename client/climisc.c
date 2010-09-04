@@ -1335,5 +1335,7 @@ void client_player_maps_reset(void)
     vision_layer_iterate(v) {
       dbv_resize(&pplayer->client.tile_vision[v], MAP_INDEX_SIZE);
     } vision_layer_iterate_end;
+
+    dbv_resize(&pplayer->tile_known, MAP_INDEX_SIZE);
   } players_iterate_end;
 }
