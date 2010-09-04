@@ -2148,9 +2148,9 @@ static void sg_load_map_tiles(struct loaddata *loading)
   /* Allocate map. */
   map_allocate();
   players_iterate(pplayer) {
-    /* Allocate player map here; it is needed in different modules
+    /* Allocate player private map here; it is needed in different modules
      * (i.e. sg_load_map_known(), sg_load_player_*()). */
-    player_map_allocate(pplayer);
+    player_map_init(pplayer);
   } players_iterate_end;
 
   /* get the terrain type */

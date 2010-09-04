@@ -975,7 +975,6 @@ void handle_edit_player_create(struct connection *pc, int tag)
     return;
   }
 
-  player_map_free(pplayer);
   server_player_init(pplayer, TRUE, TRUE);
   player_set_nation(pplayer, pnation);
   pick_random_player_name(pnation, pplayer->name);

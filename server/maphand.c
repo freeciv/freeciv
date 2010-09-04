@@ -962,7 +962,7 @@ void show_map_to_all(void)
   Allocate space for map, and initialise the tiles.
   Uses current map.xsize and map.ysize.
 ****************************************************************/
-void player_map_allocate(struct player *pplayer)
+void player_map_init(struct player *pplayer)
 {
   pplayer->server.private_map
     = fc_realloc(pplayer->server.private_map,

@@ -1109,7 +1109,7 @@ void server_player_init(struct player *pplayer,
   pplayer->server.private_map = NULL;
 
   if (initmap) {
-    player_map_allocate(pplayer);
+    player_map_init(pplayer);
   }
   if (needs_team) {
     team_add_player(pplayer, NULL);

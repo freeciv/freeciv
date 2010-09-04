@@ -2200,7 +2200,7 @@ static void player_load_main(struct player *plr, int plrno,
   struct nation_type *pnation;
 
   /* prepare map */
-  player_map_allocate(plr);
+  player_map_init(plr);
 
   research = player_research_get(plr);
 

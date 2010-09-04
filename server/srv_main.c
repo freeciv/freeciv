@@ -2296,7 +2296,7 @@ static void srv_ready(void)
     game.server.fogofwar_old = game.info.fogofwar;
 
     players_iterate(pplayer) {
-      player_map_allocate(pplayer);
+      player_map_init(pplayer);
       init_tech(pplayer, TRUE);
       pplayer->economic = player_limit_to_max_rates(pplayer);
       pplayer->economic.gold = game.info.gold;
