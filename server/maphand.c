@@ -1790,10 +1790,9 @@ void vision_change_sight(struct vision *vision, enum vision_layer vlayer,
 ****************************************************************************/
 void vision_clear_sight(struct vision *vision)
 {
-  /* We don't use vision_layer_iterate because we have to go in reverse
-   * order. */
-  vision_change_sight(vision, V_INVIS, -1);
-  vision_change_sight(vision, V_MAIN, -1);
+  vision_layer_iterate(v) {
+    vision_change_sight(vision, v, -1);
+  } vision_layer_iterate_end;
 }
 
 /****************************************************************************
