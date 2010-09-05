@@ -194,6 +194,7 @@ pkgdata_DATA = \
 		nuu-chah-nulth.ruleset \
 		occitan.ruleset \
 		ohlone.ruleset \
+		omani.ruleset \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \

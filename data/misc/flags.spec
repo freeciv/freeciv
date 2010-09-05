@@ -201,6 +201,7 @@ artists = "
    Nuu-chah-nulth	Daniel Markstedt
    Occitania		Mysid
    Ohlone		J.M. Maalderink
+   Oman			Open Clip Art
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
@@ -484,6 +485,7 @@ sprites =
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
 		"f.occitania", "flags/occitania"
 		"f.ohlone", "flags/ohlone"
+		"f.oman", "flags/oman"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
