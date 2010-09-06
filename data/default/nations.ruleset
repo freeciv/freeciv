@@ -222,6 +222,7 @@ match=2
 *include "nation/miskito.ruleset"
 *include "nation/moldovan.ruleset"
 *include "nation/mongol.ruleset"
+*include "nation/montenegrin.ruleset"
 *include "nation/moroccan.ruleset"
 *include "nation/motswana.ruleset"
 *include "nation/muskogee.ruleset"
@@ -321,4 +322,5 @@ match=2
 *include "nation/westernroman.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/wuerttembergian.ruleset"
+*include "nation/yugoslav.ruleset"
 *include "nation/zulu.ruleset"

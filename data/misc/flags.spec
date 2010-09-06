@@ -181,6 +181,7 @@ artists = "
    Miskito		Daniel Markstedt
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
+   Montenegro		Bugoslav (Wikimedia Commons user)
    Morocco		Xiquet, Flad (Wikimedia users)
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
@@ -288,6 +289,7 @@ artists = "
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons user)
+   Yugoslavia		J.M. Maalderink
    Zulu			Daniel Markstedt and Caleb Moore
 
 "
@@ -466,6 +468,7 @@ sprites =
 		"f.miskito", "flags/miskito"
 		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
+		"f.montenegro", "flags/montenegro"
 		"f.morocco", "flags/morocco"
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"
@@ -573,5 +576,6 @@ sprites =
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
+		"f.yugoslavia", "flags/yugoslavia"
 		"f.zulu", "flags/zulu"
 	}

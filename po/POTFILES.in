@@ -399,6 +399,7 @@ data/nation/mikmaq.ruleset
 data/nation/miskito.ruleset
 data/nation/moldovan.ruleset
 data/nation/mongol.ruleset
+data/nation/montenegrin.ruleset
 data/nation/motswana.ruleset
 data/nation/moroccan.ruleset
 data/nation/muskogee.ruleset
@@ -498,6 +499,7 @@ data/nation/welsh.ruleset
 data/nation/westernroman.ruleset
 data/nation/westphalian.ruleset
 data/nation/wuerttembergian.ruleset
+data/nation/yugoslav.ruleset
 data/nation/zulu.ruleset
 data/scenario/british-isles-85x80-v2.80.sav
 data/scenario/earth-160x90-v2.sav

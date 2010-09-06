@@ -184,6 +184,7 @@ sprites =
 		"f.shield.miskito", "flags/miskito-shield"
 		"f.shield.moldova", "flags/moldova-shield"
 		"f.shield.mongolia", "flags/mongolia-shield"
+		"f.shield.montenegro", "flags/montenegro-shield"
 		"f.shield.morocco", "flags/morocco-shield"
 		"f.shield.muskogee", "flags/muskogee-shield"
 		"f.shield.mwiska", "flags/mwiska-shield"
@@ -291,5 +292,6 @@ sprites =
 		"f.shield.wales", "flags/wales-shield"
 		"f.shield.westphalia", "flags/westphalia-shield"
 		"f.shield.wuerttemberg", "flags/wuerttemberg-shield"
+		"f.shield.yugoslavia", "flags/yugoslavia-shield"
 		"f.shield.zulu", "flags/zulu-shield"
 	}

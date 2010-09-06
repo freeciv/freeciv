@@ -176,6 +176,7 @@ pkgdata_DATA = \
 		miskito.ruleset \
 		moldovan.ruleset \
 		mongol.ruleset \
+		montenegrin.ruleset \
 		moroccan.ruleset \
 		motswana.ruleset \
 		muskogee.ruleset \
@@ -275,6 +276,7 @@ pkgdata_DATA = \
 		westernroman.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
+		yugoslav.ruleset \
 		zulu.ruleset 
 
 EXTRA_DIST = $(pkgdata_DATA) Makefile.am.sh

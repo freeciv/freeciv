@@ -174,6 +174,7 @@ flag_files =				\
 		miskito.png		\
 		moldova.png		\
 		mongolia.png		\
+		montenegro.png		\
 		morocco.png		\
 		muskogee.png		\
 		mwiska.png		\
@@ -281,6 +282,7 @@ flag_files =				\
 		wallonia.png		\
 		westphalia.png		\
 		wuerttemberg.png	\
+		yugoslavia.png		\
 		zulu.png
 
 shield_files =					\
@@ -454,6 +456,7 @@ shield_files =					\
 		miskito-shield.png		\
 		moldova-shield.png		\
 		mongolia-shield.png		\
+		montenegro-shield.png		\
 		morocco-shield.png		\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
@@ -561,6 +564,7 @@ shield_files =					\
 		wallonia-shield.png		\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
+		yugoslavia-shield.png		\
 		zulu-shield.png
 
 svg_files = 				\
@@ -734,6 +738,7 @@ svg_files = 				\
 		miskito.svg		\
 		moldova.svg		\
 		mongolia.svg		\
+		montenegro.svg		\
 		morocco.svg		\
 		muskogee.svg		\
 		mwiska.svg		\
@@ -840,7 +845,8 @@ svg_files = 				\
 		wales.svg		\
 		wallonia.svg		\
 		westphalia.svg		\
-		wuerttemberg.svg		\
+		wuerttemberg.svg	\
+		yugoslavia.svg		\
 		zulu.svg
 
 pkgdata_DATA = $(flag_files) $(shield_files)
