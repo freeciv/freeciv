@@ -18,6 +18,5 @@ struct conn_list;
 /* functions */
 void load_rulesets(void);
 void send_rulesets(struct conn_list *dest);
-bool rulesets_are_loaded(void);
 
 #endif  /* FC__RULESET_H */

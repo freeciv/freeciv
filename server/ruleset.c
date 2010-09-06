@@ -74,7 +74,6 @@
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
 
-static bool rulesets_loaded = FALSE;
 static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define check_name(name) (check_strlen(name, MAX_LEN_NAME, name_too_long))
 #define name_strlcpy(dst, src) \
@@ -3874,8 +3873,6 @@ void load_rulesets(void)
     game.info.aifill = server.playable_nations;
     aifill(game.info.aifill);
   }
-
-  rulesets_loaded = TRUE;
 }
 
 /**************************************************************************
@@ -3903,14 +3900,6 @@ void send_rulesets(struct conn_list *dest)
 
   lsend_packet_thaw_hint(dest);
   conn_list_do_unbuffer(dest);
-}
-
-/**************************************************************************
-  Returns FALSE if the rulesets haven't been loaded yet.
-**************************************************************************/
-bool rulesets_are_loaded(void)
-{
-  return rulesets_loaded;
 }
 
 /**************************************************************************

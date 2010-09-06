@@ -2156,8 +2156,11 @@ static void srv_prepare(void)
 #endif /* HAVE_AUTH */
 
   /* load a saved game */
-  if ('\0' != srvarg.load_filename[0]) {
-    (void) load_command(NULL, srvarg.load_filename, FALSE);
+  if ('\0' == srvarg.load_filename[0]
+   || !load_command(NULL, srvarg.load_filename, FALSE)) {
+    /* Rulesets are loaded on game initialization, but may be changed later
+     * if /load or /rulesetdir is done. */
+    load_rulesets();
   }
 
   maybe_automatic_meta_message(default_meta_message_string());
@@ -2181,10 +2184,6 @@ static void srv_prepare(void)
   if (srvarg.script_filename
       && !read_init_script(NULL, srvarg.script_filename, TRUE, FALSE)) {
     exit(EXIT_FAILURE);
-  }
-
-  if (!rulesets_are_loaded()) {
-    load_rulesets();
   }
 }
 
