@@ -206,6 +206,7 @@ artists = "
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
+   Palestine		J.M. Maalderink
    Palmyra		JB Grout
    Papua New Guinea	Tobias Jakobs
    Peru			Brett Roper
@@ -493,6 +494,7 @@ sprites =
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
+		"f.palestine", "flags/palestine"
 		"f.palmyra", "flags/palmyra"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.peru", "flags/peru"

@@ -199,6 +199,7 @@ pkgdata_DATA = \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \
+		palestinian.ruleset \
 		papuan.ruleset \
 		persian.ruleset \
 		peruvian.ruleset \

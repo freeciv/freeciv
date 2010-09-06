@@ -199,6 +199,7 @@ flag_files =				\
 		ottoman.png		\
 		oz.png			\
 		pakistan.png		\
+		palestine.png		\
 		palmyra.png		\
 		papua_newguinea.png	\
 		peru.png		\
@@ -481,6 +482,7 @@ shield_files =					\
 		ottoman-shield.png		\
 		oz-shield.png			\
 		pakistan-shield.png		\
+		palestine-shield.png		\
 		palmyra-shield.png		\
 		papua_newguinea-shield.png	\
 		peru-shield.png			\
@@ -763,6 +765,7 @@ svg_files = 				\
 		ottoman.svg		\
 		oz.svg			\
 		pakistan.svg		\
+		palestine.svg		\
 		palmyra.svg		\
 		papua_newguinea.svg	\
 		peru.svg		\

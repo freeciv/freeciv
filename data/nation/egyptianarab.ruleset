@@ -34,7 +34,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="egyptian"
-civilwar_nations="israeli", "sudanese", "libyan", "arab"
+civilwar_nations="palestinian", "sudanese", "libyan", "arab"
 
 cities =
  "al-Qahira",			;Cairo
