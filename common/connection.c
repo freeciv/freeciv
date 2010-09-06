@@ -790,3 +790,142 @@ enum cmdlevel_id conn_get_access(const struct connection *pconn)
   }
   return pconn->access_level;
 }
+
+
+/****************************************************************************
+  Connection patterns.
+****************************************************************************/
+struct conn_pattern {
+  enum conn_pattern_type type;
+  char *wildcard;
+};
+
+/****************************************************************************
+  Creates a new connection pattern.
+****************************************************************************/
+struct conn_pattern *conn_pattern_new(enum conn_pattern_type type,
+                                      const char *wildcard)
+{
+  struct conn_pattern *ppattern = fc_malloc(sizeof(*ppattern));
+
+  ppattern->type = type;
+  ppattern->wildcard = fc_strdup(wildcard);
+
+  return ppattern;
+}
+
+/****************************************************************************
+  Free a connection pattern.
+****************************************************************************/
+void conn_pattern_destroy(struct conn_pattern *ppattern)
+{
+  fc_assert_ret(NULL != ppattern);
+  free(ppattern->wildcard);
+  free(ppattern);
+}
+
+/****************************************************************************
+  Returns TRUE whether the connection fits the connection pattern.
+****************************************************************************/
+bool conn_pattern_match(const struct conn_pattern *ppattern,
+                        const struct connection *pconn)
+{
+  const char *test = NULL;
+
+  switch (ppattern->type) {
+  case CPT_USER:
+    test = pconn->username;
+    break;
+  case CPT_HOST:
+    test =  pconn->addr;
+    break;
+  case CPT_IP:
+    if (is_server()) {
+      test =  pconn->server.ipaddr;
+    }
+    break;
+  }
+
+  if (NULL != test) {
+    return wildcard_fit_string(ppattern->wildcard, test);
+  } else {
+    log_error("%s(): Invalid pattern type (%d)",
+              __FUNCTION__, ppattern->type);
+    return FALSE;
+  }
+}
+
+/****************************************************************************
+  Returns TRUE whether the connection fits one of the connection patterns.
+****************************************************************************/
+bool conn_pattern_list_match(const struct conn_pattern_list *plist,
+                             const struct connection *pconn)
+{
+  conn_pattern_list_iterate(plist, ppattern) {
+    if (conn_pattern_match(ppattern, pconn)) {
+      return TRUE;
+    }
+  } conn_pattern_list_iterate_end;
+  return FALSE;
+}
+
+/****************************************************************************
+  Put a string reprentation of the pattern in 'buf'.
+****************************************************************************/
+size_t conn_pattern_to_string(const struct conn_pattern *ppattern,
+                              char *buf, size_t buf_len)
+{
+  return fc_snprintf(buf, buf_len, "<%s=%s>",
+                     conn_pattern_type_name(ppattern->type),
+                     ppattern->wildcard);
+}
+
+/****************************************************************************
+  Creates a new connection pattern from the string. If the type is not
+  specified in 'pattern', then 'prefer' type will be used. If the type
+  is needed, then pass conn_pattern_type_invalid() for 'prefer'.
+****************************************************************************/
+struct conn_pattern *conn_pattern_from_string(const char *pattern,
+                                              enum conn_pattern_type prefer,
+                                              char *error_buf,
+                                              size_t error_buf_len)
+{
+  enum conn_pattern_type type = conn_pattern_type_invalid();
+  const char *p;
+
+  /* Determine pattern type. */
+  if ((p = strchr(pattern, '='))) {
+    /* Special character to separate the type of the pattern. */
+    const size_t pattern_type_len = ++p - pattern;
+    char pattern_type[pattern_type_len];
+
+    fc_strlcpy(pattern_type, pattern, pattern_type_len);
+    remove_leading_trailing_spaces(pattern_type);
+    type = conn_pattern_type_by_name(pattern_type, fc_strcasecmp);
+    if (!conn_pattern_type_is_valid(type)) {
+      if (NULL != error_buf) {
+        fc_snprintf(error_buf, error_buf_len,
+                    _("\"%s\" is not a valid pattern type"),
+                    pattern_type);
+      }
+      return NULL;
+    }
+  } else {
+    /* Use 'prefer' type. */
+    p = pattern;
+    type = prefer;
+    if (!conn_pattern_type_is_valid(type)) {
+      if (NULL != error_buf) {
+        fc_strlcpy(error_buf, _("Missing pattern type"), error_buf_len);
+      }
+      return NULL;
+    }
+  }
+
+  /* Remove leading spaces. */
+  while (fc_isspace(*p)) {
+    p++;
+  }
+
+  return conn_pattern_new(type, p);
+}
