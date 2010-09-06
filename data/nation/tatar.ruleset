@@ -38,7 +38,7 @@ init_government="Despotism"
 init_units=""
 
 
-civilwar_nations = "ukrainian", "mongol", "turk", "ottoman"
+civilwar_nations = "ukrainian", "mongol", "turk", "crimean tatar"
 
 cities = ;transliteration of Yanalif here: ө > e, ə > e, ğ > g, ı > i, ş > sh, ç > ch
 "Qazan", ;Kazan, capital of Kazan khanate

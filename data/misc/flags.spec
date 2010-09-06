@@ -75,6 +75,7 @@ artists = "
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia.fidi (Open Clip Art)
    Costa Rica		Nightstallion (Wikimedia Commons user)
+   Crimean Tatar	J.M. Maalderink
    Croatia		Frank Zeko
    Cuba			Lauris Kaplinski
    Cyprus		Vzb83 (Wikimedia Commons user)
@@ -362,6 +363,7 @@ sprites =
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
 		"f.costa_rica", "flags/costa_rica"
+		"f.crimean_tatar", "flags/crimean_tatar"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"
 		"f.cyprus", "flags/cyprus"

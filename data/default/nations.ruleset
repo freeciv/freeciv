@@ -120,6 +120,7 @@ match=2
 *include "nation/corsican.ruleset"
 *include "nation/costarican.ruleset"
 *include "nation/cree.ruleset"
+*include "nation/crimeantatar.ruleset"
 *include "nation/croatian.ruleset"
 *include "nation/cuban.ruleset"
 *include "nation/cypriot.ruleset"

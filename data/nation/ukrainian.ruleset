@@ -28,7 +28,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="polish", "russian"
+civilwar_nations="crimean tatar", "russian"
 
 cities =
   "Kyiv", "Lviv", "Zhytomyr", "Lutsk", "Pereyeslav", "Zaporizhzhia",
