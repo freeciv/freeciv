@@ -231,6 +231,7 @@ pkgdata_DATA = \
 		sioux.ruleset \
 		slovakian.ruleset \
 		slovenian.ruleset \
+		somali.ruleset \
 		southafrican.ruleset \
 		southkorean.ruleset \
 		southvietnamese.ruleset \

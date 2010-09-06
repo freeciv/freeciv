@@ -1,0 +1,99 @@
+[nation_somali] 
+
+name=_("Somali") 
+plural=_("?plural:Somalis") 
+groups="Medieval", "Modern", "African"
+legend=_("Somali is a country in the Horn of Africa. In ancient times\
+ Somalia was a trading hub. In the end of the 19th century it was\
+ colonized by Britain and Italy. Somalia regained its independence in\
+ 1960. The military under general Siad Barre seized power in 1969. Siad\
+ Barre unsuccesfully tried to root out the country's clan system. In\
+ 1991 he was overthrown. The country has been without a functioning\
+ government ever since.")
+leader=
+ "Abdulaahi Kooge Maxamuud Harti",
+ "Axmed Guray",
+ "Geraad Cali Dable",
+ "Ibraahin Adeer",
+ "Yuusuf Maxamuud Ibrahiim",
+ "Yuusuf Cali Keenadiid",
+ "Cusmaan Ahmed",
+ "Sayid Maxamed Cabdille Xasan",
+ "Maxamuud Cali Shiire",
+ "Aadan Cabdulle Cusmaan",
+ "Maxamed Siyaad Barre",
+ "Maxamed Faarax Caydiid",
+ "Ayaan Xirsi Cali",
+ "Ahmed Yuusuf"
+
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male"
+flag= "somalia" 
+flag_alt = "arab" 
+city_style = "Tropical" 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Anarchy",         _("Warlord"),      _("Warlady")
+                 "Monarchy",        _("Sultan"),       _("Sultana")
+                 "Fundamentalism",  _("Caliph"),       _("Calipha")
+                 "Despotism",       _("Sheikh"),       _("Shaykha")
+               }
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+civilwar_nations = "himyarite", "ethiopian"
+
+cities = 
+ "Muqdisho",
+ "Hargeysa",
+ "Marka",
+ "Berbera",
+ "Kismaayo",
+ "Jamaame",
+ "Baydhabo",
+ "Burco",
+ "Boosaaso",
+ "Afgooye",
+ "Gaalkacyo",
+ "Beledweyne",
+ "Qoryooley",
+ "Garoowe",
+ "Jowhar",
+ "Jilib",
+ "Baardheere",
+ "Qardho",
+ "Boorame",
+ "Laascaanood",
+ "Ceerigaabo",
+ "Luuq",
+ "Buurhakaba",
+ "Baraawe",
+ "Ceeldheer",
+ "Doolow",
+ "Wanlaweyne",
+ "Baki",
+ "Baalcad",
+ "Eyl",
+ "Awdheegle",
+ "Buuloburde",
+ "Dinsor",
+ "Qandala",
+ "Bandarbeyla",
+ "Xudur",
+ "Garbahaarey",
+ "Hobyo",
+ "Afmadow",
+ "Bereeda",
+ "Xaafuun",
+ "Jalalaqsi",
+ "Afbarwaaqo",
+ "Arabsiyo",
+ "Cadale",
+ "Galdogob",
+ "Galinsoor",
+ "Jamaame",
+ "Saylac",
+ "Xarardheere",
+ "Xudur"
+

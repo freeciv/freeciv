@@ -277,6 +277,7 @@ match=2
 *include "nation/sioux.ruleset"
 *include "nation/slovakian.ruleset"
 *include "nation/slovenian.ruleset"
+*include "nation/somali.ruleset"
 *include "nation/southafrican.ruleset"
 *include "nation/southkorean.ruleset"
 *include "nation/southvietnamese.ruleset"

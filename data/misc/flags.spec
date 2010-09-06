@@ -239,6 +239,7 @@ artists = "
    Singapore		Lauris Kaplinski
    Slovakia		Lauris Kaplinski
    Slovenia		Matthew Gatto
+   Somalia		J.M. Maalderink
    South Africa		Farrel Lifson
    Southern Cross	Crotalus horridus
    Soviet		Sigge Kotliar
@@ -523,6 +524,7 @@ sprites =
 		"f.singapore", "flags/singapore"
 		"f.slovakia", "flags/slovakia"
 		"f.slovenia", "flags/slovenia"
+		"f.somalia", "flags/somalia"
 		"f.south_africa", "flags/south_africa"
 		"f.southern_cross", "flags/southern_cross" ; confederate battle flag
 		"f.soviet", "flags/soviet"
