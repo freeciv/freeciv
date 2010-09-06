@@ -19,6 +19,5 @@ struct conn_list;
 void load_rulesets(void);
 void reload_rulesets_settings(void);
 void send_rulesets(struct conn_list *dest);
-bool rulesets_are_loaded(void);
 
 #endif  /* FC__RULESET_H */
