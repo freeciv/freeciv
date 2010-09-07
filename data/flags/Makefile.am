@@ -230,6 +230,7 @@ flag_files =				\
 		scotland.png		\
 		serbia.png		\
 		shawnee.png		\
+		sicily.png		\
 		sikh.png		\
 		silesia.png		\
 		singapore.png		\
@@ -514,6 +515,7 @@ shield_files =					\
 		scotland-shield.png		\
 		serbia-shield.png		\
 		shawnee-shield.png		\
+		sicily-shield.png		\
 		sikh-shield.png			\
 		silesia-shield.png		\
 		singapore-shield.png		\
@@ -798,6 +800,7 @@ svg_files = 				\
 		scotland.svg		\
 		serbia.svg		\
 		shawnee.svg		\
+		sicily.svg		\
 		sikh.svg		\
 		silesia.svg		\
 		singapore.svg		\

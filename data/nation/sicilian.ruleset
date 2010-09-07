@@ -1,0 +1,96 @@
+[nation_sicilian]
+
+name=_("Sicilian")
+plural=_("?plural:Sicilians")
+groups="Medieval", "European"
+legend=_("Sicily is the largest island of Italy. It has been ruled by\
+ Greeks, Carthaginians, Romans, Vandals, Ostrogoths, Byzantines and\
+ Arabs. In the 11th century the Normans founded the Kingdom of Sicily\
+ which gradually became one of Italy's more powerful states. In 1816 it\
+ was merged with Naples into the Kingdom of the Two Sicilies which was\
+ united with Italy in 1861.")
+leader =
+ "Ruggeru II",
+ "Ruggeru III",
+ "Giorgiu di Antiochia",
+ "Gugghiermu lu Malu",
+ "Gugghiermu lu Bonu",
+ "Custanza",
+ "Fidiricu I",
+ "Petru III d'Aragona",
+ "Firdinannu II dî Dui Sicili",
+ "Sarvaturi Giulianu"
+
+leader_sex = "Male", "Male", "Male", "Male",
+ "Male", "Female", "Male", "Male", "Male", "Male"
+flag="sicily"
+flag_alt = "-"
+city_style = "Classical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Count"),        _("Countess")
+                 "Fundamentalism",  _("Fra"),          _("Madre")
+}
+
+init_techs=""
+init_buildings=""
+
+init_government="Despotism"
+init_units=""
+civilwar_nations = "italian", "maltese"
+
+cities =
+ "Palermu",
+ "Catania",
+ "Missina",
+ "Sarausa",
+ "Marsala",
+ "Gela",
+ "Rausa",
+ "Tràpani",
+ "Nissa",
+ "Vittoria",
+ "Girgenti",
+ "Jaciriali",
+ "Muòrica",
+ "Mazzara",
+ "Patennò",
+ "Mustarjancu",
+ "Àrcamu",
+ "Sciacca",
+ "Barcillona",
+ "Caltaggiruni",
+ "Licata",
+ "Baarìa",
+ "Murriali",
+ "Adranu",
+ "Canniatì",
+ "Favara",
+ "Austa",
+ "Carini",
+ "Milazzu",
+ "Àvula",
+ "Partinicu",
+ "Castedduvitranu",
+ "Enna",
+ "Èrici",
+ "Caniattì",
+ "Jaci Catina",
+ "Còmmisu",
+ "Mascalucìa",
+ "Gravina",
+ "Musulumeli",
+ "Parma di Muntichiaru",
+ "Giarri",
+ "Tèrmini",
+ "Scicli",
+ "Niscemi",
+ "Belpassu",
+ "Biancavilla",
+ "Nuotu",
+ "Lintini",
+ "San Cataldu",
+ "Trimmisteri",
+ "Lìpari (ocean)",
+ "Pantiddirìa (ocean)",
+ "Lampidusa (ocean)"

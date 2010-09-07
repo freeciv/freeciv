@@ -274,6 +274,7 @@ match=2
 *include "nation/scottish.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/shawnee.ruleset"
+*include "nation/sicilian.ruleset"
 *include "nation/sikh.ruleset"
 *include "nation/silesian.ruleset"
 *include "nation/singaporean.ruleset"

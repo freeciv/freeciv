@@ -22,7 +22,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="phoenician", "roman"
+civilwar_nations="phoenician", "sicilian"
 
 ;Ancient cities from Africa and south Spain,
 ;some are later roman colonies and not carthaginian towns

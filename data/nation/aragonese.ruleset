@@ -36,7 +36,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 conflicts_with="spanish"
-civilwar_nations="spanish", "basque", "catalan", "french"
+civilwar_nations="spanish", "sicilian", "catalan", "french"
 
 cities =
  "Zaragoza (river, plains, desert, !mountains)", ;capital of Aragon

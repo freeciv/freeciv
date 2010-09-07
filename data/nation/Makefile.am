@@ -228,6 +228,7 @@ pkgdata_DATA = \
 		scottish.ruleset \
 		serbian.ruleset \
 		shawnee.ruleset \
+		sicilian.ruleset \
 		sikh.ruleset \
 		silesian.ruleset \
 		singaporean.ruleset \
