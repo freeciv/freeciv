@@ -285,6 +285,7 @@ flag_files =				\
 		wallonia.png		\
 		westphalia.png		\
 		wuerttemberg.png	\
+		yucatan.png		\
 		yugoslavia.png		\
 		zulu.png
 
@@ -570,6 +571,7 @@ shield_files =					\
 		wallonia-shield.png		\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
+		yucatan-shield.png		\
 		yugoslavia-shield.png		\
 		zulu-shield.png
 
@@ -855,6 +857,7 @@ svg_files = 				\
 		wallonia.svg		\
 		westphalia.svg		\
 		wuerttemberg.svg	\
+		yucatan.svg		\
 		yugoslavia.svg		\
 		zulu.svg
 

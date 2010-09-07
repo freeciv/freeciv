@@ -292,6 +292,7 @@ artists = "
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons user)
+   Yucatan		Zscout370 (Wikimedia Commons user)
    Yugoslavia		J.M. Maalderink
    Zulu			Daniel Markstedt and Caleb Moore
 
@@ -582,6 +583,7 @@ sprites =
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
+		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
 		"f.zulu", "flags/zulu"
 	}

@@ -31,7 +31,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "aztec", "mexican"
+civilwar_nations = "guatemalan", "yucatecan"
 
 ; Oldest names take precedence. Later/alternative names in comment.
 cities =

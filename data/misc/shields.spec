@@ -295,6 +295,7 @@ sprites =
 		"f.shield.wales", "flags/wales-shield"
 		"f.shield.westphalia", "flags/westphalia-shield"
 		"f.shield.wuerttemberg", "flags/wuerttemberg-shield"
+		"f.shield.yucatan", "flags/yucatan-shield"
 		"f.shield.yugoslavia", "flags/yugoslavia-shield"
 		"f.shield.zulu", "flags/zulu-shield"
 	}

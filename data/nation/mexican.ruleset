@@ -60,7 +60,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="texan", "californian", "mayan"
+civilwar_nations="texan", "californian", "yucatecan"
 
 cities =
  "Ciudad de México (mountains, swamp, lake)",
