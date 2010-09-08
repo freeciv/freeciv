@@ -355,6 +355,7 @@ void team_destroy(struct team *pteam)
   tslot = pteam->slot;
   fc_assert(tslot->team == pteam);
 
+  player_list_destroy(pteam->plrlist);
   free(pteam);
   tslot->team = NULL;
   team_slots.used_slots--;

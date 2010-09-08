@@ -3599,8 +3599,6 @@ static void sg_load_player_cities(struct loaddata *loading,
                                     "player%d.ncities", plrno),
                  "%s", secfile_error());
 
-  plr->cities = city_list_new();
-
   if (!plr->is_alive && ncities > 0) {
     log_sg("'player%d.ncities' = %d for dead player!", plrno, ncities);
     ncities = 0;
@@ -3781,8 +3779,6 @@ static bool sg_load_player_city(struct loaddata *loading, struct player *plr,
                                citystr);
 
   pcity->server.synced = FALSE; /* must re-sync with clients */
-
-  pcity->units_supported = unit_list_new();
 
   /* Initialise list of city improvements. */
   for (i = 0; i < ARRAY_SIZE(pcity->built); i++) {
@@ -4072,7 +4068,6 @@ static void sg_load_player_units(struct loaddata *loading,
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
-  plr->units = unit_list_new();
   sg_failure_ret(secfile_lookup_int(loading->file, &nunits,
                                     "player%d.nunits", plrno),
                  "%s", secfile_error());
@@ -4535,7 +4530,7 @@ static void sg_save_player_units(struct savedata *saving,
           break;
         }
       }
-      orders_buf[len] = dir_buf[len] = act_buf[len] = '\0';
+      orders_buf[len] = dir_buf[len] = act_buf[len] = base_buf[len] = '\0';
 
       secfile_insert_str(saving->file, orders_buf, "%s.orders_list", buf);
       secfile_insert_str(saving->file, dir_buf, "%s.dir_list", buf);

@@ -623,6 +623,7 @@ void player_destroy(struct player *pplayer)
       player_diplstate_destroy(aplayer, pplayer);
     }
   } players_iterate_end;
+  free(pplayer->diplstates);
 
   free(pplayer);
   pslot->player = NULL;

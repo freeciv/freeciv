@@ -123,6 +123,7 @@
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
+#include "infracache.h"
 
 #include "srv_main.h"
 
@@ -266,7 +267,6 @@ bool check_for_game_over(void)
   int winners = 0;
   struct astring str = ASTRING_INIT;
 
-  astr_clear(&str);
   /* Check for scenario victory */
   players_iterate(pplayer) {
     if (player_status_check(pplayer, PSTATUS_WINNER)) {
@@ -288,8 +288,10 @@ bool check_for_game_over(void)
                 /* TRANS: There can be several winners listed */
                 _("Scenario victory to %s."), astr_str(&str));
     ggz_report_victory();
+    astr_free(&str);
     return TRUE;
   }
+  astr_free(&str);
 
   /* quit if we are past the turn limit */
   if (game.info.turn > game.server.end_turn) {
@@ -2422,13 +2424,8 @@ void server_game_free(void)
       } vision_layer_iterate_end;
       vision_free(pcity->server.vision);
       pcity->server.vision = NULL;
+      adv_city_free(pcity);
     } city_list_iterate_end;
-  } players_iterate_end;
-
-  /* Destroy all players; with must be separate as the player information is
-   * needed above. This also sends the information to the clients. */
-  players_iterate(pplayer) {
-    server_remove_player(pplayer);
   } players_iterate_end;
 
   /* Destroy all players; with must be separate as the player information is
