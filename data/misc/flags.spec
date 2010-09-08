@@ -235,6 +235,7 @@ artists = "
    Savoy		J.M. Maalderink
    Saxony 		Björn Adelberg
    Scotland		Sigge Kotliar
+   Scythia		Lavrentij P Berija
    Serbia		Nikola Pizurica
    Shawnee		Daniel Markstedt
    Sicily		Lexicon (Wikimedia commons user)
@@ -526,6 +527,7 @@ sprites =
 		"f.savoy", "flags/savoy"
 		"f.saxony", "flags/saxony"
 		"f.scotland", "flags/scotland"
+		"f.scythia", "flags/scythia"
 		"f.serbia", "flags/serbia"
 		"f.shawnee", "flags/shawnee"
 		"f.sicily", "flags/sicily"

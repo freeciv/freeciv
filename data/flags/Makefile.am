@@ -228,6 +228,7 @@ flag_files =				\
 		savoy.png		\
 		saxony.png		\
 		scotland.png		\
+		scythia.png		\
 		serbia.png		\
 		shawnee.png		\
 		sicily.png		\
@@ -514,6 +515,7 @@ shield_files =					\
 		savoy-shield.png		\
 		saxony-shield.png		\
 		scotland-shield.png		\
+		scythia-shield.png		\
 		serbia-shield.png		\
 		shawnee-shield.png		\
 		sicily-shield.png		\
@@ -800,6 +802,7 @@ svg_files = 				\
 		saudi_arabia.svg	\
 		saxony.svg		\
 		scotland.svg		\
+		scythia.svg		\
 		serbia.svg		\
 		shawnee.svg		\
 		sicily.svg		\

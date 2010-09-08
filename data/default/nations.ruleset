@@ -272,6 +272,7 @@ match=2
 *include "nation/savoyard.ruleset"
 *include "nation/saxon.ruleset"
 *include "nation/scottish.ruleset"
+*include "nation/scythian.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/shawnee.ruleset"
 *include "nation/sicilian.ruleset"

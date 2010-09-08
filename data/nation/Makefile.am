@@ -226,6 +226,7 @@ pkgdata_DATA = \
 		savoyard.ruleset \
 		saxon.ruleset \
 		scottish.ruleset \
+		scythian.ruleset \
 		serbian.ruleset \
 		shawnee.ruleset \
 		sicilian.ruleset \
