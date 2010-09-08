@@ -1050,7 +1050,9 @@ void save_game(char *orig_filename, const char *save_reason, bool scenario)
   timer_cpu = new_timer_start(TIMER_CPU, TIMER_ACTIVE);
   timer_user = new_timer_start(TIMER_USER, TIMER_ACTIVE);
 
-  file = secfile_new(FALSE);
+  /* Allowing duplicates shouldn't be allowed. However, it takes very too
+   * long time for huge game saving... */
+  file = secfile_new(TRUE);
   savegame2_save(file, save_reason, scenario);
 
   /* Append ".sav" to filename. */
