@@ -21,6 +21,6 @@
 extern GtkWidget *pregame_votebar;
 extern GtkWidget *ingame_votebar;
 
-GtkWidget *voteinfo_bar_new(void);
+GtkWidget *voteinfo_bar_new(bool split_bar);
 
 #endif  /* FC__VOTEBAR_H */

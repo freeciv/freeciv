@@ -942,7 +942,7 @@ static void setup_widgets(void)
 {
   GtkWidget *page, *box, *ebox, *hbox, *sbox, *align, *label;
   GtkWidget *frame, *table, *table2, *paned, *hpaned, *sw, *text;
-  GtkWidget *button, *view;
+  GtkWidget *button, *view, *right_vbox = NULL;
   int i;
   char buf[256];
   struct sprite *sprite;
@@ -982,6 +982,8 @@ static void setup_widgets(void)
 
   editgui_create_widgets();
 
+  ingame_votebar = voteinfo_bar_new(FALSE);
+
   /* *** everything in the top *** */
 
   page = gtk_scrolled_window_new(NULL, NULL);
@@ -997,11 +999,15 @@ static void setup_widgets(void)
   if (gui_gtk2_small_display_layout) {
     /* The window is divided into two horizontal panels: overview +
      * civinfo + unitinfo, main view + message window. */
+    right_vbox = gtk_vbox_new(FALSE, 0);
+    gtk_box_pack_end(GTK_BOX(hbox), right_vbox, TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(right_vbox), ingame_votebar, FALSE, FALSE, 2);
+
     paned = gtk_hpaned_new();
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(page),
                                           top_vbox);
     gtk_box_pack_end(GTK_BOX(top_vbox), hbox, TRUE, TRUE, 0);
-    gtk_box_pack_end(GTK_BOX(hbox), paned, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(right_vbox), paned, TRUE, TRUE, 0);
   } else {
     /* The window is divided into two vertical panes: overview +
      * + civinfo + unitinfo + main view, message window. */
@@ -1223,12 +1229,19 @@ static void setup_widgets(void)
 
   /* The top notebook containing the map view and dialogs. */
 
-  top_notebook = gtk_notebook_new();  
+  top_notebook = gtk_notebook_new();
   gtk_notebook_set_tab_pos(GTK_NOTEBOOK(top_notebook), GTK_POS_BOTTOM);
   gtk_notebook_set_scrollable(GTK_NOTEBOOK(top_notebook), TRUE);
 
+  
   if (gui_gtk2_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
+  } else if (gui_gtk2_merge_notebooks) {
+    right_vbox = gtk_vbox_new(FALSE, 0);
+
+    gtk_box_pack_start(GTK_BOX(right_vbox), top_notebook, TRUE, TRUE, 0);
+    gtk_box_pack_end(GTK_BOX(right_vbox), ingame_votebar, FALSE, FALSE, 2);
+    gtk_box_pack_start(GTK_BOX(hbox), right_vbox, TRUE, TRUE, 0);
   } else {
     gtk_box_pack_start(GTK_BOX(hbox), top_notebook, TRUE, TRUE, 0);
   }
@@ -1312,14 +1325,13 @@ static void setup_widgets(void)
     right_notebook = bottom_notebook = top_notebook;
   } else {
     sbox = detached_widget_new();
-    gtk_paned_pack2(GTK_PANED(paned), sbox, TRUE, TRUE);
+    gtk_paned_pack2(GTK_PANED(paned), sbox, FALSE, TRUE);
     avbox = detached_widget_fill(sbox);
 
     vbox = gtk_vbox_new(FALSE, 0);
-    if (ingame_votebar == NULL) {
-      ingame_votebar = voteinfo_bar_new();
+    if (!gui_gtk2_small_display_layout) {
+      gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
     }
-    gtk_box_pack_start(GTK_BOX(vbox), ingame_votebar, FALSE, FALSE, 2);
     gtk_box_pack_start(GTK_BOX(avbox), vbox, TRUE, TRUE, 0);
 
     if (gui_gtk2_small_display_layout) {

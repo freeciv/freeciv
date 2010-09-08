@@ -1682,7 +1682,7 @@ GtkWidget *create_start_page(void)
 
   /* Vote widgets. */
   if (pregame_votebar == NULL) {
-    pregame_votebar = voteinfo_bar_new();
+    pregame_votebar = voteinfo_bar_new(TRUE);
   }
   gtk_box_pack_start(GTK_BOX(box), pregame_votebar, FALSE, FALSE, 0);
   

@@ -84,9 +84,11 @@ static void voteinfo_bar_destroy(GtkWidget *w, gpointer userdata)
 }
 
 /**************************************************************************
-  Create a voteinfo_bar structure.
+  Create a voteinfo_bar structure. "split_bar" controls whether to split
+  voteinfo bar over two lines (for narrow windows) or put on a single line
+  to save vertical space.
 **************************************************************************/
-GtkWidget *voteinfo_bar_new(void)
+GtkWidget *voteinfo_bar_new(bool split_bar)
 {
   GtkWidget *label, *button, *vbox, *hbox, *evbox, *spacer, *arrow;
   struct voteinfo_bar *vib;
@@ -94,7 +96,7 @@ GtkWidget *voteinfo_bar_new(void)
 
   vib = fc_calloc(1, sizeof(struct voteinfo_bar));
 
-  if (gui_gtk2_merge_notebooks) {
+  if (!split_bar) {
     hbox = gtk_hbox_new(FALSE, 4);
     g_object_set_data(G_OBJECT(hbox), "voteinfo_bar", vib);
     g_signal_connect(hbox, "destroy", G_CALLBACK(voteinfo_bar_destroy), vib);
@@ -123,7 +125,7 @@ GtkWidget *voteinfo_bar_new(void)
                                    GTK_ICON_SIZE_SMALL_TOOLBAR);
   gtk_misc_set_alignment(GTK_MISC(arrow), 0.5, 0.25);
 
-  if (!gui_gtk2_merge_notebooks) {
+  if (split_bar) {
     hbox = gtk_hbox_new(FALSE, 4);
     gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
   }
