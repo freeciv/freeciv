@@ -1200,10 +1200,10 @@ void server_remove_player(struct player *pplayer)
       remove_shared_vision(aplayer, pplayer);
     }
   } players_iterate_end;
-  player_map_free(pplayer);
   /* We have to clear all player data before the ai memory is freed because
    * some function may depend on it. */
   player_clear(pplayer, TRUE);
+  player_map_free(pplayer);
 
   /* Destroy advisor and ai data. */
   ai_data_close(pplayer);
