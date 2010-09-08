@@ -171,6 +171,7 @@ flag_files =				\
 		mars.png		\
 		maya.png		\
 		mexico.png		\
+		micronesia.png		\
 		mikmaq.png		\
 		miskito.png		\
 		moldova.png		\
@@ -459,6 +460,7 @@ shield_files =					\
 		mars-shield.png			\
 		maya-shield.png			\
 		mexico-shield.png		\
+		micronesia-shield.png		\
 		mikmaq-shield.png		\
 		miskito-shield.png		\
 		moldova-shield.png		\
@@ -747,6 +749,7 @@ svg_files = 				\
 		mars.svg		\
 		maya.svg		\
 		mexico.svg		\
+		micronesia.svg		\
 		mikmaq.svg		\
 		miskito.svg		\
 		moldova.svg		\

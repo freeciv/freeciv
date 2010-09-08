@@ -178,6 +178,7 @@ artists = "
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mexico		Cezary Biele
+   Micronesia		SKopp (Wikimedia commons user)
    Mikmaq		Daniel Markstedt
    Miskito		Daniel Markstedt
    Moldova		Caleb Moore and Reisio
@@ -471,6 +472,7 @@ sprites =
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
 		"f.mexico", "flags/mexico"
+		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
 		"f.miskito", "flags/miskito"
 		"f.moldova", "flags/moldova"

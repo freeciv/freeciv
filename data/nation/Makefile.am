@@ -173,6 +173,7 @@ pkgdata_DATA = \
 		martian.ruleset \
 		mayan.ruleset \
 		mexican.ruleset \
+		micronesian.ruleset \
 		mikmaq.ruleset \
 		miskito.ruleset \
 		moldovan.ruleset \
