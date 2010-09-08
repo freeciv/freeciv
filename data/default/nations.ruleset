@@ -299,6 +299,7 @@ match=2
 *include "nation/tairona.ruleset"
 *include "nation/taiwanese.ruleset"
 *include "nation/tajik.ruleset"
+*include "nation/tanzanian.ruleset"
 *include "nation/tatar.ruleset"
 *include "nation/templar.ruleset"
 *include "nation/texan.ruleset"

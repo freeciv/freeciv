@@ -262,6 +262,7 @@ artists = "
    Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
    Tajikistan		Matthew Gatto and Daniil Ivanov
+   Tanzania		SKopp (Wikimedia commons user)
    Tatarstan		J.M. Maalderink
    Templar		Daniel Markstedt
    Texas		Paul B. Joiner
@@ -554,6 +555,7 @@ sprites =
 		"f.tairona", "flags/tairona"
 		"f.taiwan", "flags/taiwan"
 		"f.tajikistan", "flags/tajikistan"
+		"f.tanzania", "flags/tanzania"
 		"f.tatarstan", "flags/tatarstan"
 		"f.templar", "flags/templar"
 		"f.texas", "flags/texas"

@@ -1,0 +1,71 @@
+[nation_tanzanian]
+
+name=_("Tanzanian")
+plural=_("?plural:Tanzanians")
+groups="African", "Modern"
+legend=_("Tanzania was formed as a merger of the former British colonies\
+ of Tanganyika and Zanzibar in 1964. For two decades the country was\
+ ruled by Julius Nyerere, who followed the tenets of African socialism.\
+ In 1985 Nyerere was the first African head of state to voluntarily step\
+ down.")
+leader=
+ "Julius Nyerere",
+ "Edward Sokoine",
+ "Ali Hassan Mwinyi"
+
+leader_sex="Male", "Male", "Male"
+
+flag="tanzania"
+flag_alt = "-"
+city_style = "Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations="kenyan", "maasai"
+
+cities =
+ "Dodoma (!ocean)",
+ "Dar es Salaam (ocean)",
+ "Zanzibar City (ocean)",
+ "Mwanza",
+ "Arusha",
+ "Mbeya",
+ "Morogoro",
+ "Tanga",
+ "Kigoma",
+ "Moshi",
+ "Tabora",
+ "Songea",
+ "Musoma",
+ "Shinyanga",
+ "Katumba",
+ "Iringa",
+ "Ushirombo",
+ "Mtwara",
+ "Kilosa",
+ "Sumbawanga",
+ "Bagamoyo",
+ "Mpanda",
+ "Bukoba",
+ "Singida",
+ "Uyovu",
+ "Sengerama",
+ "Kalangalala",
+ "Mishoma",
+ "Mererani",
+ "Buseresere",
+ "Bunda",
+ "Makambako",
+ "Katoro",
+ "Ifakara",
+ "Njombe",
+ "Utengule Usongwe",
+ "Kiranyi",
+ "Siha Kati",
+ "Nkome",
+ "Nkololo",
+ "Nguruka",
+ "Lindi",
+ "Vwawa"
