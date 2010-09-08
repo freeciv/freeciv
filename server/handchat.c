@@ -137,23 +137,52 @@ static void chat_msg_to_player(struct connection *sender,
 {
   struct packet_chat_msg packet;
   char sender_name[MAX_LEN_CHAT_NAME];
+  struct connection *dest = NULL;       /* The 'pdest' user. */
+  struct event_cache_players *players = event_cache_player_add(NULL, pdest);
 
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
+  /* Repeat the message for the sender. */
   send_chat_msg(sender, sender, ftc_chat_private,
                 "->{%s} %s", player_name(pdest), msg);
 
-  package_chat_msg(&packet, sender, ftc_chat_private,
-                   "{%s} %s", sender_name, msg);
-  conn_list_iterate(pdest->connections, dest_conn) {
-    if (dest_conn != sender) {
-      send_packet_chat_msg(dest_conn, &packet);
+  /* Send the message to destination. */
+  conn_list_iterate(pdest->connections, pconn) {
+    if (!pconn->observer) {
+      /* Found the real player connection! */
+      dest = pconn;
+      if (dest != sender) {
+        send_chat_msg(dest, sender, ftc_chat_private,
+                      "{%s} %s", sender_name, msg);
+      }
+      break;
     }
   } conn_list_iterate_end;
 
-  /* Add to the event cache. */
-  event_cache_add_for_player(&packet, pdest);
+  /* Send the message to player observers. */
+  package_chat_msg(&packet, sender, ftc_chat_private,
+                   "{%s -> %s} %s", sender_name, player_name(pdest), msg);
+  conn_list_iterate(pdest->connections, pconn) {
+    if (pconn != dest && pconn != sender) {
+      send_packet_chat_msg(pconn, &packet);
+    }
+  } conn_list_iterate_end;
+  if (NULL != sender->playing
+      && !sender->observer
+      && sender->playing != pdest) {
+    /* The sender is another player. */
+    conn_list_iterate(sender->playing->connections, pconn) {
+      if (pconn != sender) {
+        send_packet_chat_msg(pconn, &packet);
+      }
+    } conn_list_iterate_end;
+
+    /* Add player to event cache. */
+    players = event_cache_player_add(players, sender->playing);
+  }
+
+  event_cache_add_for_players(&packet, players);
 }
 
 /**************************************************************************
