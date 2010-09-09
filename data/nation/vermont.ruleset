@@ -13,7 +13,7 @@ leader=
  "Moses Robinson",
  "Ethan A. Hitchcock",
  "Bernie Sanders"
-leader_sex="Male", "Male", "Male", "Female", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male"
 flag="vermont"
 flag_alt = "usa"
 city_style = "European"
