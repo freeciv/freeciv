@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-08-16 10:55+0200\n"
-"PO-Revision-Date: 2010-09-02 20:15+0300\n"
+"PO-Revision-Date: 2010-09-09 18:50+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -8006,7 +8006,7 @@ msgstr "%2.1f : Загальна ймовірність пошесті"
 #: client/citydlg_common.c:571
 #, c-format
 msgid "%+4d : Pollution from shields\n"
-msgstr "%+4d : Забруднення від промисловості\n"
+msgstr "%+4d : Забруднення від виробництва\n"
 
 #: client/citydlg_common.c:573
 #, c-format
@@ -17053,7 +17053,7 @@ msgstr ""
 
 #: client/gui-sdl/wldlg.c:1435
 msgid "shields into gold"
-msgstr "виробництво у гроші"
+msgstr "щити у гроші"
 
 #: client/gui-sdl/wldlg.c:1514
 #, c-format
@@ -21155,9 +21155,9 @@ msgid "Boosts science production by 50% in the city where it is built."
 msgstr "Підвищуе розвиток науки на 50% у місті де його побудовано."
 
 #: data/civ2/buildings.ruleset:1088
-#, fuzzy, no-c-format
+#, no-c-format
 msgid "Your reputation and goodwill among other nations is recovered four times as fast."
-msgstr "Ваша репутація та престиж серед інших націй зріс коли Ви отримали нове диво.  Репутація зростає удвічі швидше ніж зростала би без дива."
+msgstr "Ваша репутація та престиж серед інших націй відновлюється у 4 рази швидше."
 
 #: data/civ2/buildings.ruleset:1272
 msgid "Gives all your sea units 1 additional movement point. Makes all your new sea units veterans (for all cities)."
@@ -22176,15 +22176,14 @@ msgstr "Релігія"
 
 #: data/default/terrain.ruleset:57
 #: data/civ2/terrain.ruleset:54
-#, fuzzy
 msgid ""
 "Any land terrain type may have a River on it.  A River adds 1 trade to the resources produced by that tile.  It also increases a tile's defense factor by 50%.  Finally, land units may move along a River (but not diagonally); movement along a River costs only 1/3 of a movement point.\n"
 "\n"
 "Roads and railroads can only be built on River tiles if your civilization has learned Bridge Building technology."
 msgstr ""
-"Будь яка теріторія (виключаючи Океан) може мати Річку. Річка додає 1 торгівлю до ресурсів що виробляються на цій території. Також захисний фактор підвищується на 50%. Також наземні підрозділи можуть рухатися по річці (але не по діагоналі); рух по річці коштує лише 1/3 звачийного руху.\n"
+"Будь яка територія суходолу може містити Річку. Річка додає 1 торгівлю до ресурсів, що виробляються на цій території. Крім того, захисний фактор підвищується на 50%. Врешті, наземні підрозділи можуть рухатися вздовж річки (але не по діагоналі); рух вздовж річки коштує лише 1/3 звичайного руху.\n"
 "\n"
-"Шляхи та Залізниці можуть бути збудовані на теріторіях з річками, лише якщо Ви відкрили Конструювання Мостів."
+"Шляхи та Залізниці можна будувати на територіях із річками, лише якщо Ви відкрили технологію Будівництва Мостів."
 
 #: data/default/terrain.ruleset:184
 msgid "Lake"
@@ -22996,12 +22995,14 @@ msgstr "Ракета"
 
 #: data/default/units.ruleset:1709
 #: data/civ2/units.ruleset:1666
-#, fuzzy
 msgid ""
 "The Cruise Missile is a long-distance missile that can strike deep into enemy territory.\n"
 "\n"
 "TIP:  A handful of these can successfully keep the waters around your treasured homeland free of enemy ships."
-msgstr "Порада: Поважна кількість ракет може забезпечити відсутність ворожіх кораблів навколо вашого контіненту."
+msgstr ""
+"Крилата ракета - це ракета далекого радіусу дії, що може вражати цілі в глибині ворожої території.\n"
+"\n"
+"Порада: Поважна кількість ракет може забезпечити відсутність ворожих кораблів навколо вашої батьківщини."
 
 #: data/default/units.ruleset:1718
 #: data/civ2/units.ruleset:1675
@@ -23095,7 +23096,6 @@ msgstr "Караван"
 #: data/default/units.ruleset:1939
 #: data/civ2/units.ruleset:1896
 #: data/civ1/units.ruleset:1163
-#, fuzzy
 msgid ""
 "A Caravan carries goods or material for trading with distant cities and foreign countries, or to help build wonders in your cities.\n"
 "\n"
@@ -23103,9 +23103,11 @@ msgid ""
 "\n"
 "TIP:  You can stockpile a stack of Caravans in advance and bring them all into a city where you have started to build a wonder, and finish it in only one turn!"
 msgstr ""
-"Кожен караван що використовується для побудови дива додає 50 до будівництва.\n"
+"Караван перевозить товари чи матеріали для торгівлі з далекими містами та іноземними державами, або щоби допомогти будівництву див у ваших містах.\n"
 "\n"
-"Порада: Ви можете зібрати багато караванів та направити їх у місто де Ви розпочали будувати диво, та закінчити його у один хід!"
+"Кожен караван, що використовується для будівництва дива, додає 50 щитів до будівництва.\n"
+"\n"
+"Порада: Ви можете зазделегідь зібрати багато караванів та направити їх усіх  до міста, де будується диво, та закінчити його за один хід!"
 
 #: data/default/units.ruleset:1952
 #: data/civ2/units.ruleset:1909
