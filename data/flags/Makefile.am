@@ -282,6 +282,7 @@ flag_files =				\
 		vatican.png		\
 		venezuela.png		\
 		venice.png		\
+		vermont.png		\
 		vietnam.png		\
 		viking.png		\
 		wales.png		\
@@ -571,6 +572,7 @@ shield_files =					\
 		vatican-shield.png		\
 		venezuela-shield.png		\
 		venice-shield.png		\
+		vermont-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
 		wales-shield.png		\
@@ -860,6 +862,7 @@ svg_files = 				\
 		vatican.svg		\
 		venezuela.svg		\
 		venice.svg		\
+		vermont.svg		\
 		vietnam.svg		\
 		viking.svg		\
 		wales.svg		\

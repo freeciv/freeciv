@@ -1,0 +1,76 @@
+[nation_vermont]
+
+name=_("Vermont")
+plural=_("?plural:Vermonters")
+groups="American"
+legend=_("Vermont was an independent state for 14 years before it joined\
+ the United States in 1791. Currently it is one of the smallest states of\
+ the United States, both in population and area. Vermont is famous for\
+ its dairy products and maple syrup.")
+leader=
+ "Ethan Allen",
+ "Thomas Chittenden",
+ "Moses Robinson",
+ "Ethan A. Hitchcock",
+ "Bernie Sanders"
+leader_sex="Male", "Male", "Male", "Female", "Male"
+flag="vermont"
+flag_alt = "usa"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Republic",        _("Governor"),      _("?female:Governor")
+                 "Fundamentalism",  _("Reverend"),      _("?female:Reverend")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="american", "iroquois", "quebecois"
+
+cities =
+ "Windsor",
+ "Castleton",
+ "Montpelier",
+ "Burlington",
+ "Rutland",
+ "Barre",
+ "Saint Albans",
+ "Winooski",
+ "Newport",
+ "Vergennes",
+ "Bennington",
+ "Essex",
+ "Brattleboro",
+ "Colchester",
+ "Middlebury",
+ "Hartford",
+ "Essex Junction",
+ "Williston",
+ "Saint Johnsbury",
+ "Springfields",
+ "Shelburne",
+ "Morristown",
+ "Lyndon",
+ "Newport",
+ "Randolph",
+ "Stowe",
+ "Derby",
+ "Rockingham",
+ "Jericho",
+ "Hinesburg",
+ "Georgia",
+ "Northfield",
+ "Bellows Falls",
+ "Vergennes",
+ "Swanton",
+ "White River Junction (river)",
+ "Manchester Center",
+ "Fair Haven",
+ "Morrisville",
+ "Graniteville",
+ "Waterbury",
+ "Wilder",
+ "Poultney",
+ "Brandon"

@@ -321,6 +321,7 @@ match=2
 *include "nation/vampire.ruleset"
 *include "nation/venetian.ruleset"
 *include "nation/venezuelan.ruleset"
+*include "nation/vermont.ruleset"
 *include "nation/vietnamese.ruleset"
 *include "nation/viking.ruleset"
 *include "nation/walloon.ruleset"

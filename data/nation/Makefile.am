@@ -275,6 +275,7 @@ pkgdata_DATA = \
 		vampire.ruleset \
 		venetian.ruleset \
 		venezuelan.ruleset \
+		vermont.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \
 		walloon.ruleset \
