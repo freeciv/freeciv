@@ -2879,9 +2879,11 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->native_to = p->native_to;
 
   pbase->gui_type = p->gui_type;
-
   pbase->build_time = p->build_time;
+  pbase->defense_bonus = p->defense_bonus;
   pbase->border_sq  = p->border_sq;
+  pbase->vision_main_sq = p->vision_main_sq;
+  pbase->vision_invis_sq = p->vision_invis_sq;
 
   pbase->flags = p->flags;
 
