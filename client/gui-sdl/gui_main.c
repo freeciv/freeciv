@@ -787,8 +787,9 @@ void ui_init(void)
     center_main_window_on_screen();
 #endif
     alphablit(pBgd, NULL, Main.map, NULL);
-    putframe(Main.map, 0, 0, Main.map->w - 1, Main.map->h - 1,
-    			SDL_MapRGB(Main.map->format, 255, 255, 255));
+    putframe(Main.map,
+             0, 0, Main.map->w - 1, Main.map->h - 1,
+             &(SDL_Color){255, 255, 255, 255});
     FREESURFACE(pBgd);
     SDL_WM_SetCaption(_("SDL Client for Freeciv"), _("Freeciv"));
   } else {

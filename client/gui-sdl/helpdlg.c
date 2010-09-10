@@ -157,8 +157,9 @@ static void redraw_impr_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
-  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+  putframe(pWindow->dst->surface,
+           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
+           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -244,8 +245,9 @@ void popup_impr_info(Impr_type_id impr)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
-    putframe(pBackgroundTmpl, 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             map_rgba(pBackgroundTmpl->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+    putframe(pBackgroundTmpl,
+             0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+             get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
     impr_type_count = 0;
     improvement_iterate(pImprove) {
@@ -545,8 +547,9 @@ static void redraw_unit_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
-  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+  putframe(pWindow->dst->surface,
+           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
+           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
   /*------------------------------------- */
   redraw_group(pHelpDlg->pBeginWidgetList, pWindow->prev->prev, FALSE);
@@ -635,8 +638,9 @@ void popup_unit_info(Unit_type_id type_id)
     /* background template for entries in scroll list */
     pBackgroundTmpl = create_surf_alpha(adj_size(135), adj_size(40), SDL_SWSURFACE);
     SDL_FillRect(pBackgroundTmpl, NULL, map_rgba(pBackgroundTmpl->format, bg_color));
-    putframe(pBackgroundTmpl, 0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
-             map_rgba(pBackgroundTmpl->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+    putframe(pBackgroundTmpl,
+             0, 0, pBackgroundTmpl->w - 1, pBackgroundTmpl->h - 1,
+             get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
     utype_count = 0;
     unit_type_iterate(ut) {
@@ -974,8 +978,9 @@ static void redraw_tech_info_dlg(void)
   dst.h = pWindow->size.h - (dst.y - pWindow->size.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
-  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+  putframe(pWindow->dst->surface,
+           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
+           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
   /* -------------------------- */
   pStr = create_str16_from_char(_("Allows"), adj_font(14));
@@ -1322,7 +1327,7 @@ static struct widget * create_tech_info(Tech_type_id tech, int width, struct wid
 
 static void redraw_tech_tree_dlg(void)
 {
-  SDL_Color line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+  SDL_Color *line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
   SDL_Color bg_color = {255, 255, 255, 64};
 
   struct widget *pWindow = pHelpDlg->pEndWidgetList;
@@ -1341,8 +1346,9 @@ static void redraw_tech_tree_dlg(void)
   dst.h = pWindow->area.h - (dst.y - pWindow->area.y) - adj_size(10);
 
   SDL_FillRectAlpha(pWindow->dst->surface, &dst, &bg_color);
-  putframe(pWindow->dst->surface, dst.x , dst.y , dst.x + dst.w , dst.y + dst.h,
-    map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME)));
+  putframe(pWindow->dst->surface,
+           dst.x, dst.y, dst.x + dst.w, dst.y + dst.h,
+           get_game_colorRGB(COLOR_THEME_HELPDLG_FRAME));
 
   /* Draw Req arrows */
   i = 0;
@@ -1407,7 +1413,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
         pTech->size.x,
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
 
     /* Draw Sub_Req arrows */
     if (pSub0 || pSub1)
@@ -1417,7 +1423,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
         pStore->pRequirementButton[i]->size.x ,
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
     }
 
     if(pSub0)
@@ -1427,13 +1433,13 @@ static void redraw_tech_tree_dlg(void)
         pSub0->size.y + pSub0->size.h / 2,
         pStore->pRequirementButton[i]->size.x - adj_size(10),
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
       putline(pStore->pRequirementButton[i]->dst->surface,
         pSub0->size.x + pSub0->size.w,
         pSub0->size.y + pSub0->size.h / 2,
         pStore->pRequirementButton[i]->size.x - adj_size(10),
         pSub0->size.y + pSub0->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
     }
 
     if(pSub1)
@@ -1443,13 +1449,13 @@ static void redraw_tech_tree_dlg(void)
         pSub1->size.y + pSub1->size.h / 2,
         pStore->pRequirementButton[i]->size.x - adj_size(10),
         pStore->pRequirementButton[i]->size.y + pStore->pRequirementButton[i]->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
       putline(pStore->pRequirementButton[i]->dst->surface,
         pSub1->size.x + pSub1->size.w,
         pSub1->size.y + pSub1->size.h / 2,
         pStore->pRequirementButton[i]->size.x - adj_size(10),
         pSub1->size.y + pSub1->size.h / 2,
-        map_rgba(pStore->pRequirementButton[i]->dst->surface->format, line_color));
+        line_color);
     }
     i++;
   }
@@ -1476,13 +1482,13 @@ static void redraw_tech_tree_dlg(void)
     switch((i % mod))
     {
       case 2:
-        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE2);
+        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE2);
       break;
       case 1:
-        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE3);
+        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE3);
       break;
       default:
-        line_color = *get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
+        line_color = get_game_colorRGB(COLOR_THEME_HELPDLG_LINE);
       break;
     }
 
@@ -1525,7 +1531,7 @@ static void redraw_tech_tree_dlg(void)
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
         pStore->pTargets[i]->size.x ,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+        line_color);
     }
 
     if(pSub0)
@@ -1543,13 +1549,13 @@ static void redraw_tech_tree_dlg(void)
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+        line_color);
       putline(pStore->pTargets[i]->dst->surface,
         pSub0->size.x + pSub0->size.w,
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
-        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+        line_color);
     }
 
     if(pSub1)
@@ -1566,13 +1572,13 @@ static void redraw_tech_tree_dlg(void)
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         pStore->pTargets[i]->size.y + pStore->pTargets[i]->size.h / 2,
-        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+        line_color);
       putline(pStore->pTargets[i]->dst->surface,
         pSub1->size.x + pSub1->size.w,
         y,
         pStore->pTargets[i]->size.x - ((i % mod) + 1) * 6,
         y,
-        map_rgba(pStore->pTargets[i]->dst->surface->format, line_color));
+        line_color);
     }
   }
 

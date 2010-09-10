@@ -441,16 +441,20 @@ void update_info_label(void)
     SDL_FillRect(Main.gui->surface, &area , map_rgba(Main.gui->surface->format, bg_color));
     
     /* Horizontal lines */
-    putline(Main.gui->surface, area.x + 1, area.y,
-      area.x + area.w - 2, area.y , map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
-    putline(Main.gui->surface, area.x + 1, area.y + area.h - 1,
-      area.x + area.w - 2, area.y + area.h - 1, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface,
+               area.x + 1, area.y, area.x + area.w - 2, area.y,
+               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+    putline(Main.gui->surface,
+               area.x + 1, area.y + area.h - 1, area.x + area.w - 2, area.y + area.h - 1,
+               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
   
     /* vertical lines */
-    putline(Main.gui->surface, area.x + area.w - 1, area.y + 1 ,
-      area.x + area.w - 1, area.y + area.h - 2, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
-    putline(Main.gui->surface, area.x, area.y + 1, area.x,
-      area.y + area.h - 2, map_rgba(Main.gui->surface->format, *get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME)));
+    putline(Main.gui->surface,
+               area.x + area.w - 1, area.y + 1, area.x + area.w - 1, area.y + area.h - 2,
+               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
+    putline(Main.gui->surface,
+               area.x, area.y + 1, area.x, area.y + area.h - 2,
+               get_game_colorRGB(COLOR_THEME_MAPVIEW_INFO_FRAME));
   
     /* blit text to screen */  
     blit_entire_src(pTmp, Main.gui->surface, area.x + adj_size(5), area.y + adj_size(2));
@@ -1098,8 +1102,9 @@ void put_cross_overlay_tile(struct tile *ptile)
 void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 {
   /* PORTME */
-  putframe(Main.map, canvas_x, canvas_y, canvas_x + w, canvas_y + h, 
-    map_rgba(Main.map->format, *get_game_colorRGB(COLOR_THEME_SELECTIONRECTANGLE)));
+  putframe(Main.map,
+           canvas_x, canvas_y, canvas_x + w, canvas_y + h,
+           get_game_colorRGB(COLOR_THEME_SELECTIONRECTANGLE));
 }
 
 /**************************************************************************

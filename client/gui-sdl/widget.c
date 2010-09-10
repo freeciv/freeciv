@@ -510,9 +510,9 @@ void redraw_widget_info_label(SDL_Rect *rect)
     FREESURFACE(pText);    
     
     /* draw frame */
-    putframe(pInfo_Label, 0, 0,
-         pInfo_Label->w - 1, pInfo_Label->h - 1,
-         map_rgba(pInfo_Label->format, *get_game_colorRGB(COLOR_THEME_QUICK_INFO_FRAME)));
+    putframe(pInfo_Label,
+             0, 0, pInfo_Label->w - 1, pInfo_Label->h - 1,
+             get_game_colorRGB(COLOR_THEME_QUICK_INFO_FRAME));
     
   }
 

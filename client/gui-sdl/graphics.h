@@ -26,6 +26,7 @@
 
 #include "graphics_g.h"
 
+#include "SDL_gfxPrimitives.h"
 #include "SDL_rotozoom.h"
 #include "canvas.h"
 #include "gui_main.h"
@@ -244,15 +245,29 @@ int center_main_window_on_screen(void);
 Uint32 getpixel(SDL_Surface *pSurface, Sint16 x, Sint16 y);
 Uint32 get_first_pixel(SDL_Surface *pSurface);
 
-void * my_memset8 (void *dst_mem, Uint8  var, size_t lenght);
-void * my_memset16(void *dst_mem, Uint16 var, size_t lenght);
-void * my_memset24(void *dst_mem, Uint32 var, size_t lenght);
-void * my_memset32(void *dst_mem, Uint32 var, size_t lenght);
+static inline void putline(SDL_Surface *pDest,
+                           Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
+                           SDL_Color *pcolor)
+{
+  lineColor(pDest,
+            x0, y0, x1, y1,
+            ((Uint32) pcolor->r << 24) |
+            ((Uint32) pcolor->g << 16) |
+            ((Uint32) pcolor->b << 8) |
+            ((Uint32) pcolor->unused));
+}
 
-void putline(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,
-	     Sint16 y1, Uint32 color);
-void putframe(SDL_Surface *pDest, Sint16 x0, Sint16 y0, Sint16 x1,
-	      Sint16 y1, Uint32 color);
+static inline void putframe(SDL_Surface *pDest,
+                            Sint16 x0, Sint16 y0, Sint16 x1, Sint16 y1,
+                            SDL_Color *pcolor)
+{
+  rectangleColor(pDest,
+                 x0, y0, x1, y1,
+                 ((Uint32) pcolor->r << 24) |
+                 ((Uint32) pcolor->g << 16) |
+                 ((Uint32) pcolor->b << 8) |
+                 ((Uint32) pcolor->unused));
+}
 
 /* SDL */
 void init_sdl(int f);

@@ -83,8 +83,7 @@ static int redraw_window(struct widget *pWindow)
     putline(pWindow->dst->surface,
             dst.x, dst.y - 1,
             dst.x + dst.w - 1, dst.y - 1,
-            map_rgba(pWindow->dst->surface->format, 
-              *get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR)));    
+            get_game_colorRGB(COLOR_THEME_WINDOW_TITLEBAR_SEPARATOR));
   }
   
   /* draw frame */
