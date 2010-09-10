@@ -1246,9 +1246,9 @@ static void option_dialog_worklist(struct option_dialog *pdialog)
   widget_set_position(background, area.x, area.y);
   SDL_FillRect(background->theme, NULL,
                map_rgba(background->theme->format, bg_color));
-  putframe(background->theme, 0, 0, background->theme->w - 1,
-           background->theme->h - 1, map_rgba(background->theme->format,
-           *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME)));
+  putframe(background->theme,
+		   0, 0, background->theme->w - 1, background->theme->h - 1,
+		   get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
 
   /* Create the Scrollbar. */
   scrollbar_width = create_vertical_scrollbar(pdialog->advanced,

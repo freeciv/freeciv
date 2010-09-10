@@ -178,14 +178,18 @@ void tilespec_setup_city_icons(void)
   pIcons->pWorklist = create_surf_alpha(9,9, SDL_SWSURFACE);
   SDL_FillRect(pIcons->pWorklist, NULL,
 		  SDL_MapRGB(pIcons->pWorklist->format, 255, 255,255));
-  putframe(pIcons->pWorklist, 0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
-    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
-  putline(pIcons->pWorklist, 3, 2, 5, 2,
-    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
-  putline(pIcons->pWorklist, 3, 4, 7, 4, 
-    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
-  putline(pIcons->pWorklist, 3, 6, 6, 6,
-    map_rgba(pIcons->pWorklist->format, *get_game_colorRGB(COLOR_THEME_CITYREP_FRAME)));
+  putframe(pIcons->pWorklist,
+           0,0, pIcons->pWorklist->w - 1, pIcons->pWorklist->h - 1,
+           get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+  putline(pIcons->pWorklist,
+          3, 2, 5, 2,
+          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+  putline(pIcons->pWorklist,
+          3, 4, 7, 4,
+          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
+  putline(pIcons->pWorklist,
+          3, 6, 6, 6,
+          get_game_colorRGB(COLOR_THEME_CITYREP_FRAME));
   
   /* ================================================================= */
   
@@ -486,8 +490,9 @@ void setup_auxiliary_tech_icons(void)
   /* create icons */
   pSurf = create_surf_alpha(adj_size(50), adj_size(50), SDL_SWSURFACE);
   SDL_FillRect(pSurf, NULL, map_rgba(pSurf->format, bg_color));
-  putframe(pSurf, 0 , 0, pSurf->w - 1, pSurf->h - 1,
-         map_rgba(pSurf->format, *get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME)));
+  putframe(pSurf,
+           0 , 0, pSurf->w - 1, pSurf->h - 1,
+           get_game_colorRGB(COLOR_THEME_SCIENCEDLG_FRAME));
 
   pNeutral_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);
   pNone_Tech_Icon = SDL_DisplayFormatAlpha(pSurf);    

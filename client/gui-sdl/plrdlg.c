@@ -249,32 +249,37 @@ void update_players_dialog(void)
                                          pPlayer1->data.player)->type) {
 	      case DS_ARMISTICE:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_NEUTRAL_STATUS) {
-	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
-                    map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE)));
+	          putline(pPlayer1->dst->surface,
+	                  dst0.x, dst0.y, dst1.x, dst1.y,
+	                  get_game_colorRGB(COLOR_THEME_PLRDLG_ARMISTICE));
 	        }
 	      break;
               case DS_WAR:
 	        if(SDL_Client_Flags & CF_DRAW_PLAYERS_WAR_STATUS) {
-	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
-                         map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_WAR)));		  
+	          putline(pPlayer1->dst->surface,
+	                  dst0.x, dst0.y, dst1.x, dst1.y,
+	                  get_game_colorRGB(COLOR_THEME_PLRDLG_WAR));
 	        }
               break;
 	      case DS_CEASEFIRE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_CEASEFIRE_STATUS) {
-	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE)));
+	          putline(pPlayer1->dst->surface,
+	                  dst0.x, dst0.y, dst1.x, dst1.y,
+	                  get_game_colorRGB(COLOR_THEME_PLRDLG_CEASEFIRE));
 	        }
               break;
               case DS_PEACE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_PEACE_STATUS) {
-	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE)));
+	          putline(pPlayer1->dst->surface,
+	                  dst0.x, dst0.y, dst1.x, dst1.y,
+	                  get_game_colorRGB(COLOR_THEME_PLRDLG_PEACE));
 	        }
               break;
 	      case DS_ALLIANCE:
 	        if (SDL_Client_Flags & CF_DRAW_PLAYERS_ALLIANCE_STATUS) {
-	          putline(pPlayer1->dst->surface, dst0.x, dst0.y, dst1.x, dst1.y,
-	    		map_rgba(pPlayer1->dst->surface->format, *get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE)));
+	          putline(pPlayer1->dst->surface,
+	                  dst0.x, dst0.y, dst1.x, dst1.y,
+	                  get_game_colorRGB(COLOR_THEME_PLRDLG_ALLIANCE));
 	        }
               break;
               default:

@@ -437,16 +437,16 @@ void popup_connection_dialog(bool lan_scan)
 
   SDL_FillRectAlpha(pWindow->dst->surface, &area2, &bg_color);
   
-  putframe(pWindow->dst->surface, area2.x - 1, area2.y - 1, 
-	area2.x + area2.w , area2.y + area2.h,
-        map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_INNERFRAME)));
+  putframe(pWindow->dst->surface,
+           area2.x - 1, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
+           get_game_colorRGB(COLOR_THEME_CONNECTDLG_INNERFRAME));
   
   redraw_group(pMeta_Severs->pBeginWidgetList, pWindow->prev, 0);
 
-  putframe(pWindow->dst->surface, pWindow->size.x , pWindow->size.y , 
-     area.x + area.w - 1,
-     area.y + area.h - 1,
-     map_rgba(pWindow->dst->surface->format, *get_game_colorRGB(COLOR_THEME_CONNECTDLG_FRAME)));
+  putframe(pWindow->dst->surface,
+           pWindow->size.x, pWindow->size.y,
+           area.x + area.w - 1, area.y + area.h - 1,
+           get_game_colorRGB(COLOR_THEME_CONNECTDLG_FRAME));
     
   widget_flush(pWindow);
 }
