@@ -13,6 +13,7 @@ artists = "
     Open Clip Art Library http://www.openclipart.org/
 
    Aborigines		Brett Roper
+   Acadia		Jean-François Arseneau
    Afghanistan		Andrew Duhan and Reisio
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
@@ -306,6 +307,7 @@ artists = "
 sprites =
 	{	"tag", "file"
 		"f.aborigines", "flags/aborigines"
+		"f.acadia", "flags/acadia"
 		"f.afghanistan", "flags/afghanistan"
 		"f.ainu", "flags/ainu"
 		"f.akwe", "flags/akwe"

@@ -3,7 +3,7 @@
 name=_("Canadian")
 plural=_("?plural:Canadians")
 groups="Modern", "American"
-conflicts_with="quebecois", "inuit"
+conflicts_with="quebecois", "inuit", "acadian"
 legend=_("Geographically, Canada is the second largest country in world.\
  The magnetic north pole currently lies on Canadian territory.")
 leader=
@@ -32,9 +32,9 @@ init_government="Despotism"
 init_units=""
 civilwar_nations=
 ; Sub-national nations
- "quebecois",
+ "quebecois", "acadian",
 ; First Nations
- "inuit", "iroquois"
+ "inuit", "iroquois", "cree", "anishinaabe"
 
 ; Terrains:  desert, plains, grassland, river, forest, hills, mountains, tundra, swamp, jungle, ocean
 ; Capitals of provinces and territories are listed first in this list

@@ -6,6 +6,7 @@ pkgdatadir = $(datadir)/$(PACKAGE)/nation
 
 pkgdata_DATA = \
 		aborigines.ruleset \
+		acadian.ruleset \
 		afghani.ruleset \
 		ainu.ruleset \
 		akwe.ruleset \

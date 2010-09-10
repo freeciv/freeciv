@@ -229,6 +229,7 @@ data/default/units.ruleset
 data/civ2/units.ruleset
 data/civ1/units.ruleset
 data/nation/aborigines.ruleset
+data/nation/acadian.ruleset
 data/nation/afghani.ruleset
 data/nation/ainu.ruleset
 data/nation/akwe.ruleset

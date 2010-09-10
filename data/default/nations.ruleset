@@ -52,6 +52,7 @@ match=2
 ; create nation rulesets, including style guidelines.
 
 *include "nation/aborigines.ruleset"
+*include "nation/acadian.ruleset"
 *include "nation/afghani.ruleset"
 *include "nation/ainu.ruleset"
 *include "nation/akwe.ruleset"
