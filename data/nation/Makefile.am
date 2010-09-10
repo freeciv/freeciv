@@ -137,6 +137,7 @@ pkgdata_DATA = \
 		iroquois.ruleset \
 		israeli.ruleset \
 		italian.ruleset \
+		ivoirian.ruleset \
 		japanese.ruleset \
 		jolof.ruleset \
 		kalmyk.ruleset \

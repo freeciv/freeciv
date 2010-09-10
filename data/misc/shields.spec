@@ -142,6 +142,7 @@ sprites =
 		"f.shield.iroquois", "flags/iroquois-shield"
 		"f.shield.israel", "flags/israel-shield"
 		"f.shield.italy", "flags/italy-shield"
+		"f.shield.ivory_coast", "flags/ivory_coast-shield"
 		"f.shield.japan", "flags/japan-shield"
 		"f.shield.jbonai", "flags/jbonai-shield"
 		"f.shield.jolof", "flags/jolof-shield"

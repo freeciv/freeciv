@@ -132,6 +132,7 @@ flag_files =				\
 		iroquois.png		\
 		israel.png		\
 		italy.png		\
+		ivory_coast.png		\
 		japan.png		\
 		jbonai.png		\
 		jolof.png		\
@@ -422,6 +423,7 @@ shield_files =					\
 		iroquois-shield.png		\
 		israel-shield.png		\
 		italy-shield.png		\
+		ivory_coast-shield.png		\
 		japan-shield.png		\
 		jbonai-shield.png		\
 		jolof-shield.png		\
@@ -712,6 +714,7 @@ svg_files = 				\
 		iroquois.svg		\
 		israel.svg		\
 		italy.svg		\
+		ivory_coast.svg		\
 		japan.svg		\
 		jbonai.svg		\
 		jolof.svg		\

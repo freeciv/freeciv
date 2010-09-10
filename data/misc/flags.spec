@@ -139,6 +139,7 @@ artists = "
    Iroquois		Daniel Markstedt
    Israel		John C Meuser
    Italy		Lauris Kaplinski
+   Ivory Coast		J.M. Maalderink
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
    Jolof		J.M. Maalderink
@@ -434,6 +435,7 @@ sprites =
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
 		"f.italy", "flags/italy"
+		"f.ivory_coast", "flags/ivory_coast"
 		"f.japan", "flags/japan"
 		"f.jbonai", "flags/jbonai"
 		"f.jolof", "flags/jolof"
