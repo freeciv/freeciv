@@ -135,7 +135,7 @@ static int quit_callback(struct widget *pWidget)
 static void show_main_page()
 {
   SDL_Color bg_color = {255, 255, 255, 96};
-  SDL_Color line_color = {128, 128, 128, 255};
+  SDL_Color *line_color = &(SDL_Color){128, 128, 128, 255};
   
   int count = 0;
   struct widget *pWidget = NULL, *pWindow = NULL;
@@ -303,7 +303,7 @@ static void show_main_page()
   putline(pWindow->dst->surface,
           area.x, area.y + (h - 1),
           area.x + area.w - 1, area.y + (h - 1),
-	  map_rgba(pWindow->dst->surface->format, line_color));
+          line_color);
   
   set_output_window_text(_("SDLClient welcomes you..."));
   set_output_window_text(_("Freeciv is free software and you are welcome "

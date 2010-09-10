@@ -2709,8 +2709,9 @@ void popup_races_dialog(struct player *pplayer)
   pMain_Bg = create_surf_alpha(adj_size(96*2), adj_size(64), SDL_SWSURFACE);
   
   SDL_FillRect(pMain_Bg, NULL, map_rgba(pMain_Bg->format, bg_color));
-  putframe(pMain_Bg, 0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1, 
-                                   map_rgba(pMain_Bg->format, *get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME)));
+  putframe(pMain_Bg,
+           0, 0, pMain_Bg->w - 1, pMain_Bg->h - 1,
+           get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
   
   pStr = create_string16(NULL, 0, adj_font(12));
   pStr->style |= (SF_CENTER|TTF_STYLE_BOLD);
@@ -2953,8 +2954,9 @@ void popup_races_dialog(struct player *pplayer)
     area2.w = pNationDlg->pScroll->pUp_Left_Button->size.w + adj_size(2);
     area2.h = h;
     SDL_FillRectAlpha(pWindow->theme, &area2, &bg_color);
-    putframe(pWindow->theme, area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
-             map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME)));
+    putframe(pWindow->theme,
+             area2.x, area2.y - 1, area2.x + area2.w, area2.y + area2.h,
+             get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
   }
    
   /* Sellected Nation Name */
@@ -3000,7 +3002,7 @@ void popup_races_dialog(struct player *pplayer)
           area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
           area.w - 1, 
           area.y + area.h - adj_size(7) - pBuf->prev->size.h - adj_size(10),
-          map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME)));
+          get_game_colorRGB(COLOR_THEME_NATIONDLG_FRAME));
   
   /* Disconnect Button */
   pBuf = pBuf->prev;

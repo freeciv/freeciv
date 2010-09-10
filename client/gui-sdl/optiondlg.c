@@ -311,8 +311,9 @@ static int work_lists_callback(struct widget *pWidget)
     widget_set_position(pBuf, area.x, area.y);
                      
     SDL_FillRect(pBuf->theme, NULL, map_rgba(pBuf->theme->format, bg_color));
-    putframe(pBuf->theme, 0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1,
-      map_rgba(pBuf->theme->format, *get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME)));
+    putframe(pBuf->theme,
+             0, 0, pBuf->theme->w - 1, pBuf->theme->h - 1,
+             get_game_colorRGB(COLOR_THEME_OPTIONDLG_WORKLISTLIST_FRAME));
     add_to_gui_list(ID_LABEL, pBuf);
     
     /* ----------------------------- */

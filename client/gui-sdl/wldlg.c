@@ -1020,8 +1020,9 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   /* create Target Background Icon */
   pMain = create_surf_alpha(adj_size(116), adj_size(116), SDL_SWSURFACE);
   SDL_FillRect(pMain, NULL, map_rgba(pMain->format, bg_color));
-  putframe(pMain, 0, 0, pMain->w - 1, pMain->h - 1,
-    map_rgba(pMain->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
+  putframe(pMain,
+           0, 0, pMain->w - 1, pMain->h - 1,
+           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
     
   /* ---------------- */
   /* Create Main Window */
@@ -1574,18 +1575,21 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
   
   SDL_FillRect(pWindow->theme, &dst,
     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_BACKGROUND)));
-  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
-  putframe(pWindow->theme, dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
-     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
+  putframe(pWindow->theme,
+           dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+  putframe(pWindow->theme,
+           dst.x + 2, dst.y + 2, dst.x + dst.w - 3, dst.y + dst.h - 3,
+           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
   
   dst.x = area.x;
   dst.y += dst.h + adj_size(2);
   dst.w = adj_size(130);
   dst.h = adj_size(228);
   SDL_FillRectAlpha(pWindow->theme, &dst, &bg_color2);
-  putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-     map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
+  putframe(pWindow->theme,
+           dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+           get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
   
   if(pEditor->pGlobal) {
     dst.x = area.x;
@@ -1595,11 +1599,13 @@ void popup_worklist_editor(struct city *pCity, struct worklist *pWorkList)
 
     SDL_FillRect(pWindow->theme, &dst,
       map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_BACKGROUND)));
-    putframe(pWindow->theme, dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
-      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
-    putframe(pWindow->theme, dst.x + adj_size(2), dst.y + adj_size(2),
-      dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
-      map_rgba(pWindow->theme->format, *get_game_colorRGB(COLOR_THEME_WLDLG_FRAME)));
+    putframe(pWindow->theme,
+             dst.x, dst.y, dst.x + dst.w - 1, dst.y + dst.h - 1,
+             get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
+    putframe(pWindow->theme,
+             dst.x + adj_size(2), dst.y + adj_size(2),
+             dst.x + dst.w - adj_size(3), dst.y + dst.h - adj_size(3),
+             get_game_colorRGB(COLOR_THEME_WLDLG_FRAME));
   }
 
   widget_set_position(pWindow,

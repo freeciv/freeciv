@@ -184,12 +184,7 @@ void canvas_put_line(struct canvas *pcanvas, struct color *pcolor,
 		  enum line_type ltype, int start_x, int start_y,
 		  int dx, int dy)
 {
-  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy,
-                                    SDL_MapRGBA(pcanvas->surf->format,
-                                                pcolor->color->r,
-                                                pcolor->color->g,
-		                                pcolor->color->b,
-                                                pcolor->color->unused));
+  putline(pcanvas->surf, start_x, start_y, start_x + dx, start_y + dy, pcolor->color);
 }
 
 /****************************************************************************
