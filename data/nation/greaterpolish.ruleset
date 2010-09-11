@@ -1,0 +1,139 @@
+[nation_greaterpolish]
+
+name=_("Greater Polish")
+plural=_("?plural:Greater Poles")
+groups="European", "Medieval"
+legend=_("Greater Poland or Wielkopolska is historic and geographic\
+ region of central-western Poland.")
+leader="Mieszko III Stary",
+ "Władysław III Laskonogi",
+ "Władysław Odonic",
+ "Przemysł I",
+ "Bolesław Pobożny"
+leader_sex="Male", "Male", "Male", "Male", "Male"
+flag = "greater_poland"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Prince"),        _("?female:Princess")
+                 "Fundamentalism",  _("Archbishop"),    _("Mother Superior")
+                 "Monarchy",        _("Grand Prince"),  _("Grand Princess")
+                 "Communism",       _("First Secretary"), _("?female:First Secretary")
+               }
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "polish", "silesian"
+
+cities =
+  "Poznań",
+"Gniezno",
+"Kalisz",
+"Konin",
+"Piła",
+"Ostrów Wielkopolski",
+"Leszno",
+"Swarzędz",
+"Śrem",
+"Krotoszyn",
+"Września",
+"Luboń",
+"Turek",
+"Jarocin",
+"Wągrowiec",
+"Kościan",
+"Koło",
+"Środa Wielkopolska",
+"Rawicz",
+"Gostyń",
+"Chodzież",
+"Szamotuły",
+"Złotów",
+"Oborniki",
+"Pleszew",
+"Trzcianka",
+"Nowy Tomyśl",
+"Kępno",
+"Ostrzeszów",
+"Grodzisk Wielkopolski",
+"Słupca",
+"Wolsztyn",
+"Mosina",
+"Wronki",
+"Czarnków",
+"Rogoźno",
+"Międzychód",
+"Murowana Goślina",
+"Puszczykowo",
+"Opalenica",
+"Kostrzyn",
+"Pobiedziska",
+"Jastrowie",
+"Witkowo",
+"Trzemeszno",
+"Pniewy",
+"Kórnik",
+"Zbąszyń",
+"Kłodawa",
+"Koźmin Wielkopolski",
+"Krzyż Wielkopolski",
+"Buk",
+"Sieraków",
+"Wieleń",
+"Stęszew",
+"Śmigiel",
+"Wyrzysk",
+"Czempiń",
+"Odolanów",
+"Nowe Skalmierzyce",
+"Zduny",
+"Golina",
+"Szamocin",
+"Kleczew",
+"Krobia",
+"Skoki",
+"Okonek",
+"Ujście",
+"Krajenka",
+"Sompolno",
+"Miłosław",
+"Gołańcz",
+"Tuliszków",
+"Nekla",
+"Rakoniewice",
+"Pyzdry",
+"Ślesin",
+"Miejska Górka",
+"Kobylin",
+"Łobżenica",
+"Margonin",
+"Zagórów",
+"Bojanowo",
+"Lwówek",
+"Poniec",
+"Sulmierzyce",
+"Książ Wielkopolski",
+"Wysoka",
+"Rydzyna",
+"Klecko",
+"Czerniejewo",
+"Borek Wielkopolski",
+"Rychwał",
+"Olbrzycko",
+"Osieczna",
+"Żerków",
+"Raszków",
+"Pogorzela",
+"Dąbie",
+"Ostroróg",
+"Grabów nad Prosną",
+"Jutrosin",
+"Mikstat",
+"Przedecz",
+"Wielichowo",
+"Krzywiń",
+"Stawiszyn",
+"Dolsk",
+"Dobra"

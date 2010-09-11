@@ -102,6 +102,7 @@ flag_files =				\
 		gaul.png		\
 		georgia.png		\
 		germany.png		\
+		greater_poland.png	\
 		greece_ancient.png	\
 		greece.png		\
 		greenland.png		\
@@ -401,6 +402,7 @@ shield_files =					\
 		gaul-shield.png			\
 		georgia-shield.png		\
 		germany-shield.png		\
+		greater_poland-shield.png	\
 		greece_ancient-shield.png	\
 		greece-shield.png		\
 		greenland-shield.png		\
@@ -700,6 +702,7 @@ svg_files = 				\
 		gaul.svg		\
 		georgia.svg		\
 		germany.svg		\
+		greater_poland.svg	\
 		greece_ancient.svg	\
 		greece.svg		\
 		greenland.svg		\

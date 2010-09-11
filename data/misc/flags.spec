@@ -109,6 +109,7 @@ artists = "
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
    Germany		Philipp Sadleder
+   Greater Poland	J.M. Maalderink
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia user)
    Greece		Daniel McRae
    Greenland		Daniel McRae
@@ -412,6 +413,7 @@ sprites =
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
 		"f.germany", "flags/germany"
+		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit

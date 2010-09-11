@@ -154,6 +154,7 @@ match=2
 *include "nation/gallic.ruleset"
 *include "nation/georgian.ruleset"
 *include "nation/german.ruleset"
+*include "nation/greaterpolish.ruleset"
 *include "nation/greek.ruleset"
 *include "nation/grenadian.ruleset"
 *include "nation/guarani.ruleset"
