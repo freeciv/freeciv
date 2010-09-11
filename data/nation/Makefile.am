@@ -179,6 +179,7 @@ pkgdata_DATA = \
 		micronesian.ruleset \
 		mikmaq.ruleset \
 		miskito.ruleset \
+		mixtec.ruleset \
 		moldovan.ruleset \
 		mongol.ruleset \
 		montenegrin.ruleset \

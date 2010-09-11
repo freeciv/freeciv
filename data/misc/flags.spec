@@ -184,6 +184,7 @@ artists = "
    Micronesia		SKopp (Wikimedia commons user)
    Mikmaq		Daniel Markstedt
    Miskito		Daniel Markstedt
+   Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
    Montenegro		Bugoslav (Wikimedia Commons user)
@@ -484,6 +485,7 @@ sprites =
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
 		"f.miskito", "flags/miskito"
+		"f.mixtec", "flags/mixtec"
 		"f.moldova", "flags/moldova"
 		"f.mongolia", "flags/mongolia"
 		"f.montenegro", "flags/montenegro"

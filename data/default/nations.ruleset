@@ -225,6 +225,7 @@ match=2
 *include "nation/micronesian.ruleset"
 *include "nation/mikmaq.ruleset"
 *include "nation/miskito.ruleset"
+*include "nation/mixtec.ruleset"
 *include "nation/moldovan.ruleset"
 *include "nation/mongol.ruleset"
 *include "nation/montenegrin.ruleset"
