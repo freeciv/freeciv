@@ -213,6 +213,7 @@ sprites =
 		"f.shield.occitania", "flags/occitania-shield"
 		"f.shield.ohlone", "flags/ohlone-shield"
 		"f.shield.oman", "flags/oman-shield"
+		"f.shield.otomi", "flags/otomi-shield"
 		"f.shield.ottoman", "flags/ottoman-shield"
 		"f.shield.oz", "flags/oz-shield"
 		"f.shield.pakistan", "flags/pakistan-shield"

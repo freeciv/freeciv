@@ -203,6 +203,7 @@ pkgdata_DATA = \
 		occitan.ruleset \
 		ohlone.ruleset \
 		omani.ruleset \
+		otomi.ruleset \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \

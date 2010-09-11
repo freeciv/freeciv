@@ -249,6 +249,7 @@ match=2
 *include "nation/occitan.ruleset"
 *include "nation/ohlone.ruleset"
 *include "nation/omani.ruleset"
+*include "nation/otomi.ruleset"
 *include "nation/ottoman.ruleset"
 *include "nation/ozite.ruleset"
 *include "nation/pakistani.ruleset"

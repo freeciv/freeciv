@@ -210,6 +210,7 @@ artists = "
    Occitania		Mysid
    Ohlone		J.M. Maalderink
    Oman			Open Clip Art
+   Otomi		J.M. Maalderink
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
    Pakistan		Lauris Kaplinski
@@ -511,6 +512,7 @@ sprites =
 		"f.occitania", "flags/occitania"
 		"f.ohlone", "flags/ohlone"
 		"f.oman", "flags/oman"
+		"f.otomi", "flags/otomi"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"

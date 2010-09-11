@@ -203,6 +203,7 @@ flag_files =				\
 		occitania.png		\
 		ohlone.png		\
 		oman.png		\
+		otomi.png		\
 		ottoman.png		\
 		oz.png			\
 		pakistan.png		\
@@ -499,6 +500,7 @@ shield_files =					\
 		occitania-shield.png		\
 		ohlone-shield.png		\
 		oman-shield.png			\
+		otomi-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
 		pakistan-shield.png		\
@@ -795,6 +797,7 @@ svg_files = 				\
 		occitania.svg		\
 		ohlone.svg		\
 		oman.svg		\
+		otomi.svg		\
 		ottoman.svg		\
 		oz.svg			\
 		pakistan.svg		\
