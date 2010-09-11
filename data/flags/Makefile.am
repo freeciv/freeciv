@@ -4,6 +4,7 @@
 pkgdatadir = $(datadir)/$(PACKAGE)/flags
 
 flag_files =				\
+		abkhazia.png		\
 		aborigines.png		\
 		acadia.png              \
 		afghanistan.png		\
@@ -203,6 +204,7 @@ flag_files =				\
 		occitania.png		\
 		ohlone.png		\
 		oman.png		\
+		ossetia.png		\
 		otomi.png		\
 		ottoman.png		\
 		oz.png			\
@@ -301,6 +303,7 @@ flag_files =				\
 		zulu.png
 
 shield_files =					\
+		abkhazia-shield.png		\
 		aborigines-shield.png		\
 		acadia-shield.png               \
 		afghanistan-shield.png		\
@@ -500,6 +503,7 @@ shield_files =					\
 		occitania-shield.png		\
 		ohlone-shield.png		\
 		oman-shield.png			\
+		ossetia-shield.png		\
 		otomi-shield.png		\
 		ottoman-shield.png		\
 		oz-shield.png			\
@@ -598,8 +602,9 @@ shield_files =					\
 		zulu-shield.png
 
 svg_files = 				\
+		abkhazia.svg		\
 		aborigines.svg		\
-                acadia.svg             \
+		acadia.svg		\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\
@@ -797,6 +802,7 @@ svg_files = 				\
 		occitania.svg		\
 		ohlone.svg		\
 		oman.svg		\
+		ossetia.svg		\
 		otomi.svg		\
 		ottoman.svg		\
 		oz.svg			\

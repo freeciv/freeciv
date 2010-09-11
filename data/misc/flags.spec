@@ -12,6 +12,7 @@ artists = "
     Sodipodi http://www.sodipodi.com/index.php3?section=clipart/flags
     Open Clip Art Library http://www.openclipart.org/
 
+   Abkhazia		Reisio (Wikimedia Commons user)
    Aborigines		Brett Roper
    Acadia		Jean-François Arseneau
    Afghanistan		Andrew Duhan and Reisio
@@ -210,6 +211,7 @@ artists = "
    Occitania		Mysid
    Ohlone		J.M. Maalderink
    Oman			Open Clip Art
+   Ossetia		J.M. Maalderink
    Otomi		J.M. Maalderink
    Ottoman		Daniel Markstedt
    Oz			Daniel Markstedt
@@ -311,6 +313,7 @@ artists = "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.abkhazia", "flags/abkhazia"
 		"f.aborigines", "flags/aborigines"
 		"f.acadia", "flags/acadia"
 		"f.afghanistan", "flags/afghanistan"
@@ -512,6 +515,7 @@ sprites =
 		"f.occitania", "flags/occitania"
 		"f.ohlone", "flags/ohlone"
 		"f.oman", "flags/oman"
+		"f.ossetia", "flags/ossetia"
 		"f.otomi", "flags/otomi"
 		"f.ottoman", "flags/ottoman"
 		"f.oz", "flags/oz"

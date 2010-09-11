@@ -2,7 +2,7 @@
 
 name=_("Armenian")
 plural=_("?plural:Armenians")
-groups="Ancient", "Modern", "European"
+groups="Ancient", "Medieval", "Modern", "European", "Asian"
 legend=_("According to legend, the Armenian people are the descendants of\
  Haik - the great-great-grandson of Noah. The modern Republic of Armenia\
  gained independence from the Soviet Union in 1991.")

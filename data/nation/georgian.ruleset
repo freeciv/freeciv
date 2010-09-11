@@ -2,7 +2,7 @@
 
 name=_("Georgian")
 plural=_("?plural:Georgians")
-groups="Medieval", "Modern", "European"
+groups="Ancient", "Medieval", "Modern", "European", "Asian"
 legend=_("The Georgians were one of the first peoples in history to adopt\
  Christianity, in the 300s AD.")
 leader=
@@ -24,7 +24,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "armenian", "russian"
+civilwar_nations = "abkhaz", "ossetian"
 
 cities =
  "Tbilisi (river)",

@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units="" 
 
 conflicts_with="russian", "ukrainian", "ruthenian"
-civilwar_nations="thracian", "persian", "tocharian"
+civilwar_nations="thracian", "persian", "tocharian", "ossetian"
 
 cities =
  "Tanais",

@@ -51,6 +51,7 @@ match=2
 ; See doc/README.nations for information on how to
 ; create nation rulesets, including style guidelines.
 
+*include "nation/abkhaz.ruleset"
 *include "nation/aborigines.ruleset"
 *include "nation/acadian.ruleset"
 *include "nation/afghani.ruleset"
@@ -249,6 +250,7 @@ match=2
 *include "nation/occitan.ruleset"
 *include "nation/ohlone.ruleset"
 *include "nation/omani.ruleset"
+*include "nation/ossetian.ruleset"
 *include "nation/otomi.ruleset"
 *include "nation/ottoman.ruleset"
 *include "nation/ozite.ruleset"

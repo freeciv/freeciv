@@ -12,6 +12,7 @@ artists = "
 [extra]
 sprites =
 	{	"tag", "file"
+		"f.shield.abkhazia", "flags/abkhazia-shield"
 		"f.shield.aborigines", "flags/aborigines-shield"
 		"f.shield.acadia", "flags/acadia-shield"
 		"f.shield.afghanistan", "flags/afghanistan-shield"
@@ -213,6 +214,7 @@ sprites =
 		"f.shield.occitania", "flags/occitania-shield"
 		"f.shield.ohlone", "flags/ohlone-shield"
 		"f.shield.oman", "flags/oman-shield"
+		"f.shield.ossetia", "flags/ossetia-shield"
 		"f.shield.otomi", "flags/otomi-shield"
 		"f.shield.ottoman", "flags/ottoman-shield"
 		"f.shield.oz", "flags/oz-shield"
