@@ -302,6 +302,7 @@ artists = "
    Wuerttemberg		David Liuzzo (Wikimedia Commons user)
    Yucatan		Zscout370 (Wikimedia Commons user)
    Yugoslavia		J.M. Maalderink
+   Zapotec		J.M. Maalderink
    Zulu			Daniel Markstedt and Caleb Moore
 
 "
@@ -601,5 +602,6 @@ sprites =
 		"f.wuerttemberg", "flags/wuerttemberg"
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
+		"f.zapotec", "flags/zapotec"
 		"f.zulu", "flags/zulu"
 	}
