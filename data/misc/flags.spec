@@ -191,6 +191,7 @@ artists = "
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
+   Namibia		Vzb83 and Madden (Wikimedia Commons users)
    NATO			Christian Schaller
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
@@ -489,6 +490,7 @@ sprites =
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
+		"f.namibia", "flags/namibia"
 		"f.nato", "flags/nato"
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"

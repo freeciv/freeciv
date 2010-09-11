@@ -184,6 +184,7 @@ flag_files =				\
 		muskogee.png		\
 		mwiska.png		\
 		myanmar.png		\
+		namibia.png		\
 		nato.png		\
 		nepal.png		\
 		nestoria.png		\
@@ -477,6 +478,7 @@ shield_files =					\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
 		myanmar-shield.png		\
+		namibia-shield.png		\
 		nato-shield.png			\
 		nepal-shield.png		\
 		nestoria-shield.png		\
@@ -770,6 +772,7 @@ svg_files = 				\
 		muskogee.svg		\
 		mwiska.svg		\
 		myanmar.svg		\
+		namibia.svg		\
 		nato.svg		\
 		nepal.svg		\
 		nestoria.svg		\

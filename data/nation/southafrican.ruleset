@@ -27,7 +27,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="boer", "zulu"
-civilwar_nations="boer", "zulu"
+civilwar_nations="boer", "zulu", "namibian"
 
 ; The three capitals at top and the rest in order of population as of 2005
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Südafrika
