@@ -174,6 +174,7 @@ pkgdata_DATA = \
 		mapuche.ruleset \
 		martian.ruleset \
 		mayan.ruleset \
+		mazovian.ruleset \
 		mexican.ruleset \
 		micronesian.ruleset \
 		mikmaq.ruleset \

@@ -182,6 +182,7 @@ sprites =
 		"f.shield.mapuche", "flags/mapuche-shield"
 		"f.shield.mars", "flags/mars-shield"
 		"f.shield.maya", "flags/maya-shield"
+		"f.shield.mazovia", "flags/mazovia-shield"
 		"f.shield.mexico", "flags/mexico-shield"
 		"f.shield.micronesia", "flags/micronesia-shield"
 		"f.shield.mikmaq", "flags/mikmaq-shield"

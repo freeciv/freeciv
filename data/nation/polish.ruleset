@@ -34,8 +34,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-conflicts_with="silesian"
-civilwar_nations = "lithuanian", "silesian", "ukrainian"
+conflicts_with="silesian", "mazovian"
+civilwar_nations = "lithuanian", "silesian", "mazovian"
 
 cities =
 ; Te bedą pierwsze, bo tak pasuje

@@ -179,6 +179,7 @@ artists = "
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
+   Mazovia		J.M. Maalderink
    Mexico		Cezary Biele
    Micronesia		SKopp (Wikimedia commons user)
    Mikmaq		Daniel Markstedt
@@ -476,6 +477,7 @@ sprites =
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
+		"f.mazovia", "flags/mazovia"
 		"f.mexico", "flags/mexico"
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"

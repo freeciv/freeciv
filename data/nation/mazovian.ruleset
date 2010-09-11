@@ -1,0 +1,78 @@
+[nation_mazovian]
+
+name=_("Mazovian")
+plural=_("?plural:Mazovians")
+groups="European", "Medieval"
+legend=_("Mazovia is historic and geographic region of central-eastern Poland.")
+leader="Miecław",
+ "Bolesław IV Kędzierzawy",
+ "Kazimierz II Sprawiedliwy",
+ "Leszek I Biały",
+ "Konrad I Mazowiecki",
+ "Helena Znojemska",
+ "Janusz II",
+ "Janusz III",
+ "Konrad III Rudy"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+           "Female", "Male", "Male", "Male"
+flag = "mazovia"
+flag_alt = "-"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Prince"),        _("?female:Princess")
+                 "Fundamentalism",  _("Archbishop"),    _("Mother Superior")
+                 "Monarchy",        _("Grand Prince"),  _("Grand Princess")
+                 "Communism",       _("First Secretary"), _("?female:First Secretary")
+               }
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "polish"
+
+cities =
+  "Czersk",
+"Płock",
+"Warszawa",
+"Łomża",
+"Rawa",
+"Dobrzyń",
+"Sierpc",
+"Mława",
+"Żarnów",
+"Radom",
+"Zakroczym",
+"Sochaczew",
+"Gostynin",
+"Wizna",
+"Liw",
+"Płońsk",
+"Kuczbork",
+"Niedzbórz",
+"Szreńsk",
+"Nur",
+"Wyszogród",
+"Grójec",
+"Ciechanów",
+"Przasnysz",
+"Ostrołęka",
+"Zambrów",
+"Drohiczyn",
+"Żuromin",
+"Pułtusk",
+"Kozienice",
+"Żyrardów",
+"Pruszków",
+"Otwock",
+"Siedlce",
+"Garwolin",
+"Zwoleń",
+"Skierniewice",
+"Łowicz",
+"Wyszków",
+"Radzymin",
+"Warka",
+"Iłża",
+"Różan",
+"Serock"
