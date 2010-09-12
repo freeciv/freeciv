@@ -453,16 +453,12 @@ void player_restore_units(struct player *pplayer)
 static void unit_restore_hitpoints(struct unit *punit)
 {
   bool was_lower;
+  int save_hp;
   struct unit_class *class = unit_class(punit);
   struct city *pcity = tile_city(punit->tile);
 
   was_lower = (punit->hp < unit_type(punit)->hp);
-
-  if (!punit->homecity && 0 < game.server.killunhomed) {
-    /* hit point loss of units without homecity; at least 1 hp! */
-    punit->hp -= MAX(unit_type(punit)->hp * game.server.killunhomed / 100,
-                     1);
-  }
+  save_hp = punit->hp;
 
   if (!punit->moved) {
     punit->hp += hp_gain_coord(punit);
@@ -470,6 +466,13 @@ static void unit_restore_hitpoints(struct unit *punit)
 
   /* Bonus recovery HP (traditionally from the United Nations) */
   punit->hp += get_unit_bonus(punit, EFT_UNIT_RECOVER);
+
+  if (!punit->homecity && 0 < game.server.killunhomed) {
+    /* Hit point loss of units without homecity; at least 1 hp! */
+    int hp_loss = MAX(unit_type(punit)->hp * game.server.killunhomed / 100,
+                      1);
+    punit->hp = MIN(punit->hp - hp_loss, save_hp - 1);
+  }
 
   if (!pcity && !tile_has_native_base(punit->tile, unit_type(punit))
       && punit->transported_by == -1) {
