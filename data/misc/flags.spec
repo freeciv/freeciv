@@ -252,7 +252,7 @@ artists = "
    Saxony 		Björn Adelberg
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
-   Serbia		Nikola Pizurica
+   Serbia		Madden (Wikimedia Commons user) and J.M. Maalderink
    Shawnee		Daniel Markstedt
    Sicily		Lexicon (Wikimedia commons user)
    Sikh			Himasaram (Wikimedia commons user)
