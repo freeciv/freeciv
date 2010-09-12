@@ -940,6 +940,7 @@ static void load_unit_names(struct section_file *file)
     name_strlcpy(punitclass->name.vernacular, name);
     punitclass->name.translated = NULL;
   } unit_class_iterate_end;
+  free(sec);
 
   /* The names: */
   sec = secfile_get_secnames_prefix(file, UNIT_SECTION_PREFIX, &nval);

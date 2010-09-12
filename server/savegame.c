@@ -1830,7 +1830,6 @@ static void player_load_units(struct player *plr, int plrno,
   int nunits, i, j;
   enum unit_activity activity;
 
-  plr->units = unit_list_new();
   nunits = secfile_lookup_int(file, "player%d.nunits", plrno);
   if (!plr->is_alive && nunits > 0) {
     nunits = 0; /* Some old savegames may be buggy. */
@@ -2557,8 +2556,6 @@ static void player_load_cities(struct player *plr, int plrno,
   int id, i, j, k;
   int ncities = secfile_lookup_int(file, "player%d.ncities", plrno);
 
-  plr->cities = city_list_new();
-
   if (!plr->is_alive && ncities > 0) {
     freelog(LOG_ERROR, "player%d.ncities=%d for dead player!",
             plrno,
@@ -2796,8 +2793,6 @@ static void player_load_cities(struct player *plr, int plrno,
 	map_set_known(tile1, plr);
       } city_tile_iterate_end;
     }
-
-    pcity->units_supported = unit_list_new();
 
     /* Update pcity->city_map[][] and ptile->worked directly.
        Initialized to C_TILE_UNUSABLE (0) by create_city_virtual().
@@ -5164,6 +5159,20 @@ static void game_load_internal(struct section_file *file)
 
   /* load event cache */
   event_cache_load(file, "event_cache");
+
+  /* Free load data. */
+  if (NULL != base_order) {
+    free(base_order);
+  }
+  if (NULL != special_order) {
+    free(special_order);
+  }
+  if (NULL != improvement_order) {
+    free(improvement_order);
+  }
+  if (NULL != technology_order) {
+    free(technology_order);
+  }
 }
 
 /***************************************************************
