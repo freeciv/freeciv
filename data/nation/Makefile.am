@@ -75,6 +75,7 @@ pkgdata_DATA = \
 		congolese.ruleset \
 		cornish.ruleset \
 		corsican.ruleset \
+		cossack.ruleset \
 		costarican.ruleset \
 		cree.ruleset \
 		crimeantatar.ruleset \

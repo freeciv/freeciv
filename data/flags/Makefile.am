@@ -69,6 +69,7 @@ flag_files =				\
 		constantine.png		\
 		cornwall.png		\
 		corsica.png		\
+		cossack.png		\
 		costa_rica.png		\
 		crimean_tatar.png	\
 		croatia.png		\
@@ -371,6 +372,7 @@ shield_files =					\
 		cornwall-shield.png		\
 		corsica-shield.png		\
 		costa_rica-shield.png		\
+		cossack-shield.png		\
 		crimean_tatar-shield.png	\
 		croatia-shield.png		\
 		cuba-shield.png			\
@@ -671,6 +673,7 @@ svg_files = 				\
 		constantine.svg		\
 		cornwall.svg		\
 		corsica.svg		\
+		cossack.svg		\
 		costa_rica.svg		\
 		crimean_tatar.svg	\
 		croatia.svg		\

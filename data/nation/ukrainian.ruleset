@@ -7,14 +7,13 @@ legend=_("The Ukraine is a vast region on the westernmost marches of the\
  former Soviet Union. It includes some of the most fertile black-soil\
  cropland on Earth.")
 leader =
- "Bohdan Khmelnitskyi",
  "Simon Petlura",
  "Basil Kapnist",
  "Symon Petliura",
  "Stepan Bandera",
  "Yuliya Timoshenko"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Female"
+leader_sex = "Male", "Male", "Male", "Male", "Female"
 flag="ukraine"
 flag_alt = "-"
 city_style = "European"
@@ -28,7 +27,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="crimean tatar", "russian"
+civilwar_nations="crimean tatar", "russian", "cossack"
 
 cities =
   "Kyiv", "Lviv", "Zhytomyr", "Lutsk", "Pereyeslav", "Zaporizhzhia",

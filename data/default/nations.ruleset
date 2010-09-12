@@ -121,6 +121,7 @@ match=2
 *include "nation/congolese.ruleset"
 *include "nation/cornish.ruleset"
 *include "nation/corsican.ruleset"
+*include "nation/cossack.ruleset"
 *include "nation/costarican.ruleset"
 *include "nation/cree.ruleset"
 *include "nation/crimeantatar.ruleset"

@@ -77,6 +77,7 @@ artists = "
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia.fidi (Open Clip Art)
+   Cossack		Alex Tora
    Costa Rica		Nightstallion (Wikimedia Commons user)
    Crimean Tatar	J.M. Maalderink
    Croatia		Frank Zeko
@@ -383,6 +384,7 @@ sprites =
 		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
+		"f.cossack", "flags/cossack"
 		"f.costa_rica", "flags/costa_rica"
 		"f.crimean_tatar", "flags/crimean_tatar"
 		"f.croatia", "flags/croatia"

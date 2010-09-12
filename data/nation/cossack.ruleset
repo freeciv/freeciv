@@ -1,0 +1,61 @@
+[nation_cossack] 
+
+name=_("Cossack") 
+plural=_("?plural:Cossacks") 
+groups="European"
+legend=_("The Zaporozhian Cossacks lived in Zaporozhia, in Central\
+ Ukraine. They were a multi-ethnic community with Ruthenians being the\
+ dominant element, organized in a military manner.")
+leader=
+ "Predslav Lyantskoronsky",
+ "Ostap Dashkevych",
+ "Dmytro Vyshnevetsky",
+ "Ivan Svirgovsky",
+ "Ivan Pidkova",
+ "Kryshtof Kosynsky",
+ "Ivan Sulyma",
+ "Bohdan Khmelnytsky",
+ "Ivan Bohun",
+ "Ivan Mazepa",
+ "Pavlo Polubotok",
+ "Kyrylo Rozumovsky",
+ "Yemelyan Pugachev"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male"
+flag= "cossack" 
+flag_alt = "-" 
+city_style = "Celtic" 
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",      _("Ataman"),       _("?female:Ataman")
+                 "Monarchy",       _("Prince"),       _("Princess")
+                 "Fundamentalism", _("Patriarch"),    _("Matriarch")
+                 "Republic",       _("Hetman"),       _("?female:Hetman")
+               }
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+conflicts_with = "ukrainian"
+civilwar_nations = "ruthenian", "ukrainian", "russian", "crimean tatar"
+
+cities =
+ "Chyhyryn",
+ "Zaporizhzhia",
+ "Stara Sich",
+ "Nova Sich",
+ "Hlukhiv",
+ "Kyiv",
+ "Nizhyn",
+ "Terek",
+ "Azov",
+ "Tsaritsyn",
+ "Astrakhan",
+ "Vladikavkaz",
+ "Kamyshin",
+ "Orenburg",
+ "Sevastopol",
+ "Mozdok",
+ "Baturyn"
+
+; More cities will be fetched from above nations
