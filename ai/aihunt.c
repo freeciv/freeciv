@@ -342,6 +342,7 @@ static void ai_hunter_try_launch(struct player *pplayer,
         if (game_find_unit_by_number(missile->transported_by)) {
           unload_unit_from_transporter(missile);
         }
+        missile->goto_tile = sucker->tile;
         ai_unit_goto(missile, sucker->tile);
         sucker = game_find_unit_by_number(target_sanity); /* Sanity */
         if (sucker && is_tiles_adjacent(sucker->tile, missile->tile)) {
