@@ -4720,7 +4720,11 @@ static void sg_save_player_attributes(struct savedata *saving,
 static void sg_load_player_vision(struct loaddata *loading,
                                   struct player *plr)
 {
-  int total_ncities, i, plrno = player_number(plr);
+  int plrno = player_number(plr);
+  int total_ncities =
+      secfile_lookup_int_default(loading->file, -1,
+                                 "player%d.dc_total", plrno);
+  int i;
 
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
@@ -4730,15 +4734,18 @@ static void sg_load_player_vision(struct loaddata *loading,
     map_know_and_see_all(plr);
   }
 
-  if (!plr->is_alive || !game.info.fogofwar == TRUE
+  if (!plr->is_alive
+      || -1 == total_ncities
+      || FALSE == game.info.fogofwar
       || !secfile_lookup_bool_default(loading->file, TRUE,
                                       "game.save_private_map")) {
-    /* We have
-     * - a dead player
-     * - a savegame with fog of war turned off or
-     * - game.save_private_map is not set to FALSE in the scenario / savegame
-     * The players private knowledge is set to be what he could see without
-     * fog of war. */
+    /* We have:
+     * - a dead player;
+     * - fogged cities are not saved for any reason;
+     * - a savegame with fog of war turned off;
+     * - or game.save_private_map is not set to FALSE in the scenario /
+     * savegame. The players private knowledge is set to be what he could
+     * see without fog of war. */
     whole_map_iterate(ptile) {
       if (map_is_known(ptile, plr)) {
         struct city *pcity = tile_city(ptile);
@@ -4835,8 +4842,6 @@ static void sg_load_player_vision(struct loaddata *loading,
   }
 
   /* Load player map known cities. */
-  total_ncities = secfile_lookup_int_default(loading->file, -1,
-                                             "player%d.dc_total", plrno);
   for (i = 0; i < total_ncities; i++) {
     struct vision_site *pdcity;
     char buf[32];
