@@ -2965,13 +2965,13 @@ static void sg_load_players(struct loaddata *loading)
     if (owner) {
       base_type_iterate(pbase) {
         if (tile_has_base(ptile, pbase)) {
-          if (pbase->vision_main_sq > 0) {
-            map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
-                             game.server.vision_reveal_tiles, V_MAIN);
-          }
-          if (pbase->vision_invis_sq > 0) {
-            map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
-                             game.server.vision_reveal_tiles, V_INVIS);
+          if (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq) {
+            const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
+            const v_radius_t new_radius_sq =
+                V_RADIUS(pbase->vision_main_sq, pbase->vision_invis_sq);
+
+            map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                              game.server.vision_reveal_tiles);
           }
         }
       } base_type_iterate_end;

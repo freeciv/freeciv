@@ -112,8 +112,8 @@ static void check_fow(const char *file, const char *function, int line)
 
       vision_layer_iterate(v) {
         /* underflow of unsigned int */
-        SANITY_TILE(ptile, plr_tile->seen_count[v] < 60000);
-        SANITY_TILE(ptile, plr_tile->own_seen[v] < 60000);
+        SANITY_TILE(ptile, plr_tile->seen_count[v] < 30000);
+        SANITY_TILE(ptile, plr_tile->own_seen[v] < 30000);
         SANITY_TILE(ptile, plr_tile->own_seen[v] <= plr_tile->seen_count[v]);
       } vision_layer_iterate_end;
 

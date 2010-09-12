@@ -187,6 +187,7 @@
   }									\
   if (_printed_warning) {						\
     /* TRANS: Minor error message. */					\
+    fc_assert(0);\
     log_error(_("Saved game contains incomplete map data. This can"	\
               " happen with old saved games, or it may indicate an"	\
               " invalid saved game file. Proceed at your own risk."));	\
@@ -2852,7 +2853,6 @@ static void player_load_cities(struct player *plr, int plrno,
       pcity->original = past;
     }
 
-    tile_set_owner(pcenter, plr, pcenter); /* for city_owner(), just in case? */
     /* no city_choose_build_default(), values loaded below! */
 
     fc_assert_exit_msg(secfile_lookup_int(file, &pcity->size,
@@ -5261,13 +5261,13 @@ static void game_load_internal(struct section_file *file)
       if (owner) {
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            if (pbase->vision_main_sq > 0) {
-              map_refog_circle(owner, ptile, -1, pbase->vision_main_sq,
-                               game.server.vision_reveal_tiles, V_MAIN);
-            }
-            if (pbase->vision_invis_sq > 0) {
-              map_refog_circle(owner, ptile, -1, pbase->vision_invis_sq,
-                               game.server.vision_reveal_tiles, V_INVIS);
+            if (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq) {
+              const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
+              const v_radius_t new_radius_sq =
+                  V_RADIUS(pbase->vision_main_sq, pbase->vision_invis_sq);
+
+              map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                                game.server.vision_reveal_tiles);
             }
           }
         } base_type_iterate_end;

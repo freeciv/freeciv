@@ -2444,23 +2444,16 @@ void handle_tile_info(struct packet_tile_info *packet)
   }
 
   if (TILE_KNOWN_SEEN == old_known && TILE_KNOWN_SEEN != new_known) {
+    /* This is an error. So first we log the error,
+     * then make an assertion. */
     unit_list_iterate(ptile->units, punit) {
-      if (TILE_UNKNOWN == new_known || !is_hiding_unit(punit)) {
-        /* Hiding units are not affected by the V_MAIN vision layer, so
-         * it can be not synchrone with fog. */
-#ifdef NDEBUG
-        log_error("%p %d %s at (%d,%d) %s", punit, punit->id,
-                  unit_rule_name(punit), TILE_XY(unit_tile(punit)),
-                  player_name(unit_owner(punit)));
-#else
-        fc_assert_msg(TILE_UNKNOWN != new_known && is_hiding_unit(punit),
-                      "%p %d %s at (%d,%d) %s", punit, punit->id,
-                      unit_rule_name(punit), TILE_XY(unit_tile(punit)),
-                      player_name(unit_owner(punit)));
-#endif /* NDEBUG */
-        unit_list_remove(ptile->units, punit);
-      }
+      log_error("%p %d %s at (%d,%d) %s", punit, punit->id,
+                unit_rule_name(punit), TILE_XY(unit_tile(punit)),
+                player_name(unit_owner(punit)));
     } unit_list_iterate_end;
+    fc_assert(0 == unit_list_size(ptile->units));
+    /* Repairing... */
+    unit_list_clear(ptile->units);
   }
 
   ptile->continent = packet->continent;

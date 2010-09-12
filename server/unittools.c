@@ -655,15 +655,16 @@ static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
   } else {
     struct player *owner = tile_owner(ptile);
 
-    if (pbase->vision_main_sq >= 0 && owner) {
-    /* Base provides vision, but no borders. */
-      map_refog_circle(owner, ptile, pbase->vision_main_sq, -1,
-                       game.server.vision_reveal_tiles, V_MAIN);
-    }
-    if (pbase->vision_invis_sq >= 0 && owner) {
-    /* Base provides vision, but no borders. */
-      map_refog_circle(owner, ptile, pbase->vision_invis_sq, -1,
-                       game.server.vision_reveal_tiles, V_INVIS);
+    if (NULL != owner
+        && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
+      /* Base provides vision, but no borders. */
+      const v_radius_t old_radius_sq =
+          V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
+                   0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
+      const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
+
+      map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                        game.server.vision_reveal_tiles);
     }
   }
   tile_remove_base(ptile, pbase);
@@ -2847,13 +2848,12 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
        *        from this list. pcargo may be invalid pointer. */
       struct vision *old_vision = pcargo->server.vision;
       struct vision *new_vision = vision_new(unit_owner(pcargo), pdesttile);
+      const v_radius_t radius_sq =
+          V_RADIUS(get_unit_vision_at(pcargo, pdesttile, V_MAIN),
+                   get_unit_vision_at(pcargo, pdesttile, V_INVIS));
 
       pcargo->server.vision = new_vision;
-      vision_layer_iterate(v) {
-	vision_change_sight(new_vision, v,
-			    get_unit_vision_at(pcargo, pdesttile, v));
-      } vision_layer_iterate_end;
-
+      vision_change_sight(new_vision, radius_sq);
       ASSERT_VISION(new_vision);
 
       /* Silently free orders since they won't be applicable anymore. */
@@ -2888,13 +2888,13 @@ bool move_unit(struct unit *punit, struct tile *pdesttile, int move_cost)
 
   /* Enhance vision if unit steps into a fortress */
   if (unit_lives) {
+    const v_radius_t radius_sq =
+        V_RADIUS(get_unit_vision_at(punit, pdesttile, V_MAIN),
+                 get_unit_vision_at(punit, pdesttile, V_INVIS));
+
     new_vision = vision_new(unit_owner(punit), pdesttile);
     punit->server.vision = new_vision;
-    vision_layer_iterate(v) {
-      vision_change_sight(new_vision, v,
-                          get_unit_vision_at(punit, pdesttile, v));
-    } vision_layer_iterate_end;
-
+    vision_change_sight(new_vision, radius_sq);
     ASSERT_VISION(new_vision);
 
     /* Claim ownership of fortress? */
@@ -3417,14 +3417,11 @@ int get_unit_vision_at(struct unit *punit, struct tile *ptile,
 void unit_refresh_vision(struct unit *punit)
 {
   struct vision *uvision = punit->server.vision;
+  const v_radius_t radius_sq =
+      V_RADIUS(get_unit_vision_at(punit, unit_tile(punit), V_MAIN),
+               get_unit_vision_at(punit, unit_tile(punit), V_INVIS));
 
-  vision_layer_iterate(v) {
-    /* This requires two calls to get_unit_vision_at...it could be
-     * optimized. */
-    vision_change_sight(uvision, v,
-			get_unit_vision_at(punit, punit->tile, v));
-  } vision_layer_iterate_end;
-
+  vision_change_sight(uvision, radius_sq);
   ASSERT_VISION(uvision);
 }
 
