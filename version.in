@@ -4,14 +4,14 @@
 
 MAJOR_VERSION="2"
 MINOR_VERSION="2"
-PATCH_VERSION="2"
+PATCH_VERSION="3"
 VERSION_LABEL="+"
 
 IS_DEVEL_VERSION=0
 IS_BETA_VERSION=0
 
 NEXT_STABLE_VERSION="2.3.0"
-RELEASE_MONTH=7
+RELEASE_MONTH=11
 
 # Freeciv network capstring: see documentation in common/capstr.c
 #
