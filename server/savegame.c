@@ -2605,7 +2605,6 @@ static void player_load_cities(struct player *plr, int plrno,
       pcity->original = past;
     }
 
-    tile_set_owner(pcenter, plr, pcenter); /* for city_owner(), just in case? */
     /* no city_choose_build_default(), values loaded below! */
 
     pcity->size = secfile_lookup_int(file, "player%d.c%d.size", plrno, i);
@@ -5034,12 +5033,14 @@ static void game_load_internal(struct section_file *file)
       if (owner) {
         base_type_iterate(pbase) {
           if (tile_has_base(ptile, pbase)) {
-            map_refog_circle(owner, ptile,
-                             -1, 0 < pbase->vision_main_sq
-                             ? pbase->vision_main_sq : -1,
-                             -1, 0 < pbase->vision_invis_sq
-                             ? pbase->vision_invis_sq : -1,
-                             game.info.vision_reveal_tiles);
+            if (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq) {
+              const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
+              const v_radius_t new_radius_sq =
+                  V_RADIUS(pbase->vision_main_sq, pbase->vision_invis_sq);
+
+              map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                                game.info.vision_reveal_tiles);
+            }
           }
         } base_type_iterate_end;
       }

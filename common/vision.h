@@ -74,6 +74,14 @@ enum vision_layer {
   V_COUNT
 };
 
+#define vision_layer_iterate(v) {                                           \
+  enum vision_layer v;                                                      \
+  for (v = 0; v < V_COUNT; v++) {
+#define vision_layer_iterate_end }}
+
+
+typedef short int v_radius_t[V_COUNT];
+
 struct vision {
   /* These values cannot be changed after initialization. */
   struct player *player;
@@ -81,8 +89,11 @@ struct vision {
   bool can_reveal_tiles;
 
   /* The radius of the vision source. */
-  int radius_sq[V_COUNT];
+  v_radius_t radius_sq;
 };
+
+/* Initialize a vision radius array. */
+#define V_RADIUS(main_sq, invis_sq) { (main_sq), (invis_sq) }
 
 #define ASSERT_VISION(v)						\
  do {									\
@@ -92,32 +103,7 @@ struct vision {
 struct vision *vision_new(struct player *pplayer, struct tile *ptile);
 void vision_free(struct vision *vision);
 
-int vision_get_sight(const struct vision *vision, enum vision_layer vlayer);
 bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles);
-
-#define vision_layer_iterate(vision)					\
-{									\
-  enum vision_layer vision = 0;						\
-  for (; vision < V_COUNT; vision++) {
-
-#define vision_layer_iterate_end					\
-  }									\
-}
-
-/* Using vision_layer_iterate at server side is dangerous when fogging
- * tiles because it iterates V_MAIN first, able to crash the clients in
- * handle_tile_info() in client/packhand.c on a failed assertion if the
- * tile info is received before the units on the V_INVIS layer aren't gone
- * out sight yet. */
-#define vision_layer_reverse_iterate(vision)                                \
-{                                                                           \
-  int vision = V_COUNT - 1;                                                 \
-  for (; vision >= 0; vision--) {
-
-#define vision_layer_reverse_iterate_end                                    \
-  }                                                                         \
-}
-
 
 /* This is copied in maphand.c really_give_tile_info_from_player_to_player(),
  * so be careful with pointers!

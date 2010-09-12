@@ -39,9 +39,8 @@ struct vision *vision_new(struct player *pplayer, struct tile *ptile)
   vision->player = pplayer;
   vision->tile = ptile;
   vision->can_reveal_tiles = TRUE;
-  vision_layer_iterate(v) {
-    vision->radius_sq[v] = -1;
-  } vision_layer_iterate_end;
+  vision->radius_sq[V_MAIN] = -1;
+  vision->radius_sq[V_INVIS] = -1;
 
   return vision;
 }
@@ -51,8 +50,8 @@ struct vision *vision_new(struct player *pplayer, struct tile *ptile)
 ****************************************************************************/
 void vision_free(struct vision *vision)
 {
-  assert(vision->radius_sq[V_MAIN] < 0);
-  assert(vision->radius_sq[V_INVIS] < 0);
+  assert(-1 == vision->radius_sq[V_MAIN]);
+  assert(-1 == vision->radius_sq[V_INVIS]);
   free(vision);
 }
 
@@ -66,14 +65,6 @@ bool vision_reveal_tiles(struct vision *vision, bool reveal_tiles)
 
   vision->can_reveal_tiles = reveal_tiles;
   return was;
-}
-
-/****************************************************************************
-  Returns the sight points (radius_sq) that this vision source has.
-****************************************************************************/
-int vision_get_sight(const struct vision *vision, enum vision_layer vlayer)
-{
-  return vision->radius_sq[vlayer];
 }
 
 /****************************************************************************

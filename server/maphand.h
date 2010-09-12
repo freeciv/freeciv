@@ -38,8 +38,8 @@ struct player_tile {
      the square stays unknown. However, we still have to keep count
      of the seen points, so they are kept in here. When the tile
      then becomes known they are moved to seen. */
-  unsigned short own_seen[V_COUNT];
-  unsigned short seen_count[V_COUNT];
+  v_radius_t own_seen;
+  v_radius_t seen_count;
   short last_updated;
 };
 
@@ -63,16 +63,14 @@ void map_show_tile(struct player *pplayer, struct tile *ptile);
 void map_hide_tile(struct player *pplayer, struct tile *ptile);
 void map_show_circle(struct player *pplayer,
 		     struct tile *ptile, int radius_sq);
-void map_refog_circle(struct player *pplayer, struct tile *ptile,
-                      int old_main_radius_sq, int new_main_radius_sq,
-                      int old_invis_radius_sq, int new_invis_radius_sq,
-                      bool can_reveal_tiles);
+void map_vision_update(struct player *pplayer, struct tile *ptile,
+                       const v_radius_t old_radius_sq,
+                       const v_radius_t new_radius_sq,
+                       bool can_reveal_tiles);
 void map_show_all(struct player *pplayer);
 
 bool map_is_known_and_seen(const struct tile *ptile, struct player *pplayer,
 			   enum vision_layer vlayer);
-void map_change_seen(struct tile *ptile, struct player *pplayer, int change,
-		     enum vision_layer vlayer);
 bool map_is_known(const struct tile *ptile, const struct player *pplayer);
 void map_set_known(struct tile *ptile, struct player *pplayer);
 void map_clear_known(struct tile *ptile, struct player *pplayer);
@@ -113,8 +111,8 @@ bool need_to_fix_terrain_change(const struct terrain *oldter,
 void fix_tile_on_terrain_change(struct tile *ptile,
                                 bool extend_rivers);
 
-void vision_change_sight(struct vision *vision, int radius_main_sq,
-                         int radius_invis_sq);
+void vision_change_sight(struct vision *vision,
+                         const v_radius_t radius_sq);
 void vision_clear_sight(struct vision *vision);
 
 void change_playertile_site(struct player_tile *ptile,

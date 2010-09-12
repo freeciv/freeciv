@@ -912,8 +912,7 @@ void transfer_city(struct player *ptaker, struct city *pcity,
   new_vision = vision_new(ptaker, pcenter);
   pcity->server.vision = new_vision;
   vision_reveal_tiles(new_vision, game.info.vision_reveal_tiles);
-  vision_change_sight(new_vision, vision_get_sight(old_vision, V_MAIN),
-                      vision_get_sight(old_vision, V_INVIS));
+  vision_change_sight(new_vision, old_vision->radius_sq);
 
   ASSERT_VISION(new_vision);
 
@@ -2484,9 +2483,9 @@ void city_landlocked_sell_coastal_improvements(struct tile *ptile)
 ****************************************************************************/
 void city_refresh_vision(struct city *pcity)
 {
-  int radius_sq = get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ);
+  v_radius_t vision_radius_sq =
+      V_RADIUS(get_city_bonus(pcity, EFT_CITY_VISION_RADIUS_SQ), 2);
 
-  vision_change_sight(pcity->server.vision, radius_sq, 2);
-
+  vision_change_sight(pcity->server.vision, vision_radius_sq);
   ASSERT_VISION(pcity->server.vision);
 }
