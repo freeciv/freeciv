@@ -76,14 +76,16 @@ static struct command commands[] = {
   {"list",	ALLOW_INFO,
    /* no translatable parameters */
    SYN_ORIG_("list\n"
-             "list players\n"
-             "list teams\n"
              "list connections\n"
-             "list scenarios"),
-   N_("Show a list of players, teams, connections, or scenarios."),
-   N_("Show a list of players in the game, teams of players, connections to "
-      "the server, or available scenarios. The argument may be abbreviated,"
-      " and defaults to 'players' if absent."),
+             "list ignored users\n"
+             "list players\n"
+             "list scenarios\n"
+             "list teams"),
+   N_("Show a list of various things."),
+   N_("Show a list of connections to the server, your ignore list, "
+      "the list of the players in the game, the available scenarios, "
+      "or the teams of players. The argument may be abbreviated, "
+      "and defaults to 'players' if absent."),
    VCF_NONE, 0
   },
   {"quit",	ALLOW_HACK,
@@ -412,6 +414,32 @@ static struct command commands[] = {
       "an admin access level, you can cancel any vote by vote number, or "
       "all votes with the \'all\' argument."),
     VCF_NONE, 0
+  },
+  {"ignore", ALLOW_INFO,
+   /* TRANS: translate text between <> and [] only */
+   N_("ignore [type=]<pattern>"),
+   N_("Block all messages from users matching the pattern."),
+   N_("The given pattern will be added to your ignore list; you will not "
+      "receive any messages from this users matching this pattern. The type "
+      "may be either \"user\", \"host\", or \"ip\". The default type "
+      "(if ommited) is to match against the username. The pattern supports "
+      "unix glob style wildcards, i.e. * matches zero or more character, ? "
+      "exactly one character, [abc] exactly one of 'a' 'b' or 'c', etc. "
+      "To access your current ignore list, issue \"/list ignore\"."),
+   VCF_NONE, 0
+  },
+  {"unignore", ALLOW_INFO,
+   /* TRANS: translate text between <> */
+   N_("unignore <range>"),
+   N_("Remove ignore list entries."),
+   N_("The ignore list entries in the given range will be removed; "
+      "you will be able to receive messages from the respective users. "
+      "The range argument may be a single number or a pair of numbers "
+      "separated by a dash '-'. If the first number is ommitted, it is "
+      "assumed to be 1, if the last is ommitted, it is assumed to be "
+      "the last valid ignore list index. To access your current ignore "
+      "list, issue \"/list ignore\"."),
+   VCF_NONE, 0
   },
   {"endgame",	ALLOW_ADMIN,
    /* no translatable parameters */

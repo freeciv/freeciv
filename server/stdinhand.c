@@ -93,9 +93,6 @@ static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
 static bool show_help(struct connection *caller, char *arg);
 static bool show_list(struct connection *caller, char *arg);
-static void show_teams(struct connection *caller);
-static void show_connections(struct connection *caller);
-static void show_scenarios(struct connection *caller);
 static bool set_ai_level_named(struct connection *caller, const char *name,
                                const char *level_name, bool check);
 static bool set_ai_level(struct connection *caller, const char *name,
@@ -3731,6 +3728,133 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
   return TRUE;
 }
 
+/****************************************************************************
+  /ignore command handler.
+****************************************************************************/
+static bool ignore_command(struct connection *caller, char *str, bool check)
+{
+  char buf[128];
+  struct conn_pattern *ppattern;
+
+  if (NULL == caller) {
+    cmd_reply(CMD_IGNORE, caller, C_FAIL,
+              _("That would be rather silly, since you are not a player."));
+    return FALSE;
+  }
+
+  ppattern = conn_pattern_from_string(str, CPT_USER, buf, sizeof(buf));
+  if (NULL == ppattern) {
+    cmd_reply(CMD_IGNORE, caller, C_SYNTAX,
+              _("%s. Try /help ignore"), buf);
+    return FALSE;
+  }
+
+  if (check) {
+    conn_pattern_destroy(ppattern);
+    return TRUE;
+  }
+
+  conn_pattern_to_string(ppattern, buf, sizeof(buf));
+  conn_pattern_list_append(caller->server.ignore_list, ppattern);
+  cmd_reply(CMD_IGNORE, caller, C_COMMENT,
+            _("Added pattern %s as entry %d to your ignore list."),
+            buf, conn_pattern_list_size(caller->server.ignore_list));
+
+  return TRUE;
+}
+
+/****************************************************************************
+  /unignore command handler.
+****************************************************************************/
+static bool unignore_command(struct connection *caller,
+                             char *str, bool check)
+{
+  char buf[128], *c;
+  int first, last, n;
+
+  if (!caller) {
+    cmd_reply(CMD_IGNORE, caller, C_FAIL,
+              _("That would be rather silly, since you are not a player."));
+    return FALSE;
+  }
+
+  sz_strlcpy(buf, str);
+  remove_leading_trailing_spaces(buf);
+
+  n = conn_pattern_list_size(caller->server.ignore_list);
+  if (n == 0) {
+    cmd_reply(CMD_UNIGNORE, caller, C_FAIL, _("Your ignore list is empty."));
+    return FALSE;
+  }
+
+  /* Parse the range. */
+  if ('\0' == buf[0]) {
+    cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
+              _("Missing range. Try /help unignore."));
+    return FALSE;
+  } else if ((c = strchr(buf, '-'))) {
+    *c++ = '\0';
+    if ('\0' == buf[0]) {
+      first = 1;
+    } else if (1 != sscanf(buf, "%d", &first)
+               || !string_contains_only_digits(buf)) {
+      *--c = '-';
+      cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
+                _("\"%s\" is not a valid range. Try /help unignore."), buf);
+      return FALSE;
+    }
+    if ('\0' == *c) {
+      last = n;
+    } else if (1 != sscanf(c, "%d", &last)
+               || !string_contains_only_digits(c)) {
+      *--c = '-';
+      cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
+                _("\"%s\" is not a valid range. Try /help unignore."), buf);
+      return FALSE;
+    }
+  } else {
+    if (1 != sscanf(buf, "%d", &first)
+        || !string_contains_only_digits(buf)) {
+      cmd_reply(CMD_UNIGNORE, caller, C_SYNTAX,
+                _("\"%s\" is not a valid range. Try /help unignore."), buf);
+      return FALSE;
+    }
+    last = first;
+  }
+
+  if (!(1 <= first && first <= last && last <= n)) {
+    if (first == last) {
+      cmd_reply(CMD_UNIGNORE, caller, C_FAIL,
+                _("Invalid entry number: %d."), first);
+    } else {
+      cmd_reply(CMD_UNIGNORE, caller, C_FAIL,
+                _("Invalid range: %d to %d."), first, last);
+    }
+    return FALSE;
+  }
+
+  if (check) {
+    return TRUE;
+  }
+
+  n = 1;
+  conn_pattern_list_iterate(caller->server.ignore_list, ppattern) {
+    if (first <= n) {
+      conn_pattern_to_string(ppattern, buf, sizeof(buf));
+      cmd_reply(CMD_UNIGNORE, caller, C_COMMENT,
+                _("Removed pattern %s (entry %d) from your ignore list."),
+                buf, n);
+      conn_pattern_list_remove(caller->server.ignore_list, ppattern);
+    }
+    n++;
+    if (n > last) {
+      break;
+    }
+  } conn_pattern_list_iterate_end;
+
+  return TRUE;
+}
+
 /**************************************************************************
   Cutting away a trailing comment by putting a '\0' on the '#'. The
   method handles # in single or double quotes. It also takes care of
@@ -4034,6 +4158,10 @@ static bool handle_stdin_input_real(struct connection *caller,
     return end_command(caller, arg, check);
   case CMD_SURRENDER:
     return surrender_command(caller, arg, check);
+  case CMD_IGNORE:
+    return ignore_command(caller, arg, check);
+  case CMD_UNIGNORE:
+    return unignore_command(caller, arg, check);
   case CMD_NUM:
   case CMD_UNRECOGNIZED:
   case CMD_AMBIGUOUS:
@@ -4618,74 +4746,65 @@ static bool show_help(struct connection *caller, char *arg)
   return FALSE;
 }
 
-/**************************************************************************
-  'list' arguments
-**************************************************************************/
-enum LIST_ARGS {
-  LIST_PLAYERS,
-  LIST_TEAMS,
-  LIST_CONNECTIONS,
-  LIST_SCENARIOS,
-  LIST_ARG_NUM /* Must be last */
-};
-static const char * const list_args[] = {
-  "players", "teams", "connections", "scenarios", NULL
-};
-static const char *listarg_accessor(int i) {
-  return list_args[i];
+/****************************************************************************
+  List connections; initially mainly for debugging
+****************************************************************************/
+static void show_connections(struct connection *caller)
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT,
+            _("List of connections to server:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  if (conn_list_size(game.all_connections) == 0) {
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("<no connections>"));
+  } else {
+    conn_list_iterate(game.all_connections, pconn) {
+      sz_strlcpy(buf, conn_description(pconn));
+      if (pconn->established) {
+        cat_snprintf(buf, sizeof(buf), " command access level %s",
+                     cmdlevel_name(pconn->access_level));
+      }
+      cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+    } conn_list_iterate_end;
+  }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
-/**************************************************************************
-  Show list of players or connections, or connection statistics.
-**************************************************************************/
-static bool show_list(struct connection *caller, char *arg)
+/****************************************************************************
+  Show the ignore list of the 
+****************************************************************************/
+static bool show_ignore(struct connection *caller)
 {
-  enum m_pre_result match_result;
-  int ind_int;
-  enum LIST_ARGS ind;
+  char buf[128];
+  int n = 1;
 
-  remove_leading_trailing_spaces(arg);
-  match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
-                              fc_strncasecmp, NULL, arg, &ind_int);
-  ind = ind_int;
-
-  if (match_result > M_PRE_EMPTY) {
-    cmd_reply(CMD_LIST, caller, C_SYNTAX,
-	      _("Bad list argument: '%s'.  Try '%shelp list'."),
-	      arg, (caller?"/":""));
+  if (NULL == caller) {
+    cmd_reply(CMD_IGNORE, caller, C_FAIL,
+              _("That would be rather silly, since you are not a player."));
     return FALSE;
   }
 
-  if (match_result == M_PRE_EMPTY) {
-    ind = LIST_PLAYERS;
+  if (0 == conn_pattern_list_size(caller->server.ignore_list)) {
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("Your ignore list is empty."));
+    return TRUE;
   }
 
-  switch(ind) {
-  case LIST_PLAYERS:
-    show_players(caller);
-    return TRUE;
-  case LIST_TEAMS:
-    show_teams(caller);
-    return TRUE;
-  case LIST_CONNECTIONS:
-    show_connections(caller);
-    return TRUE;
-  case LIST_SCENARIOS:
-    show_scenarios(caller);
-    return TRUE;
-  case LIST_ARG_NUM:
-    break;
-  }
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("Your ignore list:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  conn_pattern_list_iterate(caller->server.ignore_list, ppattern) {
+    conn_pattern_to_string(ppattern, buf, sizeof(buf));
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%d: %s", n++, buf);
+  } conn_pattern_list_iterate_end;
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
-  cmd_reply(CMD_LIST, caller, C_FAIL,
-            "Internal error: ind %d in show_list", ind);
-  log_error("Internal error: ind %d in show_list", ind);
-  return FALSE;
+  return TRUE;
 }
 
-/**************************************************************************
-...
-**************************************************************************/
+/****************************************************************************
+  Show the list of the players of the game.
+****************************************************************************/
 void show_players(struct connection *caller)
 {
   char buf[MAX_LEN_CONSOLE_LINE], buf2[MAX_LEN_CONSOLE_LINE];
@@ -4776,9 +4895,31 @@ void show_players(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
-/**************************************************************************
+/****************************************************************************
+  List scenarios. We look both in the DATA_PATH and DATA_PATH/scenario
+****************************************************************************/
+static void show_scenarios(struct connection *caller)
+{
+  char buf[MAX_LEN_CONSOLE_LINE];
+  struct fileinfo_list *files;
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of scenarios available:"));
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+
+  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
+  
+  fileinfo_list_iterate(files, pfile) {
+    fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
+    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
+  } fileinfo_list_iterate_end;
+  fileinfo_list_destroy(files);
+
+  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+}
+
+/****************************************************************************
   Show a list of teams on the command line.
-**************************************************************************/
+****************************************************************************/
 static void show_teams(struct connection *caller)
 {
   /* Currently this just lists all teams (typically 32 of them) with their
@@ -4806,53 +4947,79 @@ static void show_teams(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 }
 
-/**************************************************************************
-  List connections; initially mainly for debugging
-**************************************************************************/
-static void show_connections(struct connection *caller)
-{
-  char buf[MAX_LEN_CONSOLE_LINE];
-  
-  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of connections to server:"));
-  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+/****************************************************************************
+  '/list' arguments
+****************************************************************************/
+enum LIST_ARGS {
+  LIST_CONNECTIONS,
+  LIST_IGNORE,
+  LIST_PLAYERS,
+  LIST_SCENARIOS,
+  LIST_TEAMS,
 
-  if (conn_list_size(game.all_connections) == 0) {
-    cmd_reply(CMD_LIST, caller, C_WARNING, _("<no connections>"));
-  }
-  else {
-    conn_list_iterate(game.all_connections, pconn) {
-      sz_strlcpy(buf, conn_description(pconn));
-      if (pconn->established) {
-	cat_snprintf(buf, sizeof(buf), " command access level %s",
-		     cmdlevel_name(pconn->access_level));
-      }
-      cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
-    }
-    conn_list_iterate_end;
-  }
-  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  LIST_ARG_NUM /* Must be last */
+};
+static const char * const list_args[] = {
+  "connections",
+  "ignored users",
+  "players",
+  "scenarios",
+  "teams",
+
+  NULL
+};
+static const char *listarg_accessor(int i) {
+  return list_args[i];
 }
 
 /**************************************************************************
-  List scenarios. We look both in the DATA_PATH and DATA_PATH/scenario
+  Show list of players or connections, or connection statistics.
 **************************************************************************/
-static void show_scenarios(struct connection *caller)
+static bool show_list(struct connection *caller, char *arg)
 {
-  char buf[MAX_LEN_CONSOLE_LINE];
-  struct fileinfo_list *files;
+  enum m_pre_result match_result;
+  int ind_int;
+  enum LIST_ARGS ind;
 
-  cmd_reply(CMD_LIST, caller, C_COMMENT, _("List of scenarios available:"));
-  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  remove_leading_trailing_spaces(arg);
+  match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
+                              fc_strncasecmp, NULL, arg, &ind_int);
+  ind = ind_int;
 
-  files = fileinfolist_infix(get_scenario_dirs(), ".sav", TRUE);
-  
-  fileinfo_list_iterate(files, pfile) {
-    fc_snprintf(buf, sizeof(buf), "%s", pfile->name);
-    cmd_reply(CMD_LIST, caller, C_COMMENT, "%s", buf);
-  } fileinfo_list_iterate_end;
-  fileinfo_list_destroy(files);
+  if (match_result > M_PRE_EMPTY) {
+    cmd_reply(CMD_LIST, caller, C_SYNTAX,
+	      _("Bad list argument: '%s'.  Try '%shelp list'."),
+	      arg, (caller?"/":""));
+    return FALSE;
+  }
 
-  cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
+  if (match_result == M_PRE_EMPTY) {
+    ind = LIST_PLAYERS;
+  }
+
+  switch(ind) {
+  case LIST_CONNECTIONS:
+    show_connections(caller);
+    return TRUE;
+  case LIST_IGNORE:
+    return show_ignore(caller);
+  case LIST_PLAYERS:
+    show_players(caller);
+    return TRUE;
+  case LIST_SCENARIOS:
+    show_scenarios(caller);
+    return TRUE;
+  case LIST_TEAMS:
+    show_teams(caller);
+    return TRUE;
+  case LIST_ARG_NUM:
+    break;
+  }
+
+  cmd_reply(CMD_LIST, caller, C_FAIL,
+            "Internal error: ind %d in show_list", ind);
+  log_error("Internal error: ind %d in show_list", ind);
+  return FALSE;
 }
 
 #ifdef HAVE_LIBREADLINE

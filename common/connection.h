@@ -36,6 +36,7 @@
 
 struct hash_table;
 struct timer_list;
+struct conn_pattern_list;
 
 #define MAX_LEN_PACKET   4096
 
@@ -207,6 +208,9 @@ struct connection {
 
     /* The access level initially given to the client upon connection. */
     enum cmdlevel_id granted_access_level;
+
+    /* The list of ignored connection patterns. */
+    struct conn_pattern_list *ignore_list;
   } server;
 
   /*

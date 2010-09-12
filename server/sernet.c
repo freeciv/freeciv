@@ -214,6 +214,9 @@ void close_connection(struct connection *pconn)
     pconn->server.ping_timers = NULL;
   }
 
+  conn_pattern_list_destroy(pconn->server.ignore_list);
+  pconn->server.ignore_list = NULL;
+
   /* safe to do these even if not in lists: */
   conn_list_remove(game.all_connections, pconn);
   conn_list_remove(game.est_connections, pconn);
@@ -930,6 +933,8 @@ int server_make_connection(int new_sock, const char *client_addr, const char *cl
       pconn->server.status = AS_NOT_ESTABLISHED;
       pconn->server.ping_timers = timer_list_new();
       pconn->server.granted_access_level = pconn->access_level;
+      pconn->server.ignore_list =
+          conn_pattern_list_new_full(conn_pattern_destroy);
       pconn->ping_time = -1.0;
       pconn->incoming_packet_notify = NULL;
       pconn->outgoing_packet_notify = NULL;

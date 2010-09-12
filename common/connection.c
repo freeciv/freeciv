@@ -927,5 +927,12 @@ struct conn_pattern *conn_pattern_from_string(const char *pattern,
     p++;
   }
 
-  return conn_pattern_new(type, p);
+  if ('\0' == *p) {
+    if (NULL != error_buf) {
+      fc_strlcpy(error_buf, _("Missing pattern"), error_buf_len);
+    }
+    return NULL;
+  }
+
+  return  conn_pattern_new(type, p);
 }

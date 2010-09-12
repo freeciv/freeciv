@@ -45,6 +45,19 @@ static void send_chat_msg(struct connection *pconn,
                           const char *format, ...)
                           fc__attribute((__format__ (__printf__, 4, 5)));
 
+/****************************************************************************
+  Returns whether 'dest' is ignoring the 'sender' connection.
+****************************************************************************/
+static inline bool conn_is_ignored(const struct connection *sender,
+                                   const struct connection *dest)
+{
+  if (NULL != sender && NULL != dest) {
+    return conn_pattern_list_match(dest->server.ignore_list, sender);
+  } else {
+    return FALSE;
+  }
+}
+
 /**************************************************************************
   Formulate a name for this connection, prefering the player name when
   available and unambiguous (since this is the "standard" case), else
@@ -114,11 +127,18 @@ static void chat_msg_to_conn(struct connection *sender,
                              struct connection *dest, char *msg)
 {
   char sender_name[MAX_LEN_CHAT_NAME], dest_name[MAX_LEN_CHAT_NAME];
-  
-  msg = skip_leading_spaces(msg);
-  
-  form_chat_name(sender, sender_name, sizeof(sender_name));
+
   form_chat_name(dest, dest_name, sizeof(dest_name));
+
+  if (conn_is_ignored(sender, dest)) {
+    send_chat_msg(sender, NULL, ftc_warning,
+                  _("You cannot send messages to %s; you are ignored."),
+                  dest_name);
+    return;
+  }
+
+  msg = skip_leading_spaces(msg);
+  form_chat_name(sender, sender_name, sizeof(sender_name));
 
   send_chat_msg(sender, sender, ftc_chat_private,
                 "->*%s* %s", dest_name, msg);
@@ -143,28 +163,38 @@ static void chat_msg_to_player(struct connection *sender,
   msg = skip_leading_spaces(msg);
   form_chat_name(sender, sender_name, sizeof(sender_name));
 
+  /* Find the user of the player 'pdest'. */
+  conn_list_iterate(pdest->connections, pconn) {
+    if (!pconn->observer) {
+      /* Found it! */
+      if (conn_is_ignored(sender, pconn)) {
+        send_chat_msg(sender, NULL, ftc_warning,
+                      _("You cannot send messages to %s; you are ignored."),
+                      player_name(pdest));
+        return;         /* NB: stop here, don't send to observers. */
+      }
+      dest = pconn;
+      break;
+    }
+  } conn_list_iterate_end;
+
   /* Repeat the message for the sender. */
   send_chat_msg(sender, sender, ftc_chat_private,
                 "->{%s} %s", player_name(pdest), msg);
 
   /* Send the message to destination. */
-  conn_list_iterate(pdest->connections, pconn) {
-    if (!pconn->observer) {
-      /* Found the real player connection! */
-      dest = pconn;
-      if (dest != sender) {
-        send_chat_msg(dest, sender, ftc_chat_private,
-                      "{%s} %s", sender_name, msg);
-      }
-      break;
-    }
-  } conn_list_iterate_end;
+  if (NULL != dest && dest != sender) {
+    send_chat_msg(dest, sender, ftc_chat_private,
+                  "{%s} %s", sender_name, msg);
+  }
 
   /* Send the message to player observers. */
   package_chat_msg(&packet, sender, ftc_chat_private,
                    "{%s -> %s} %s", sender_name, player_name(pdest), msg);
   conn_list_iterate(pdest->connections, pconn) {
-    if (pconn != dest && pconn != sender) {
+    if (pconn != dest
+        && pconn != sender
+        && !conn_is_ignored(sender, pconn)) {
       send_packet_chat_msg(pconn, &packet);
     }
   } conn_list_iterate_end;
@@ -173,7 +203,7 @@ static void chat_msg_to_player(struct connection *sender,
       && sender->playing != pdest) {
     /* The sender is another player. */
     conn_list_iterate(sender->playing->connections, pconn) {
-      if (pconn != sender) {
+      if (pconn != sender && !conn_is_ignored(sender, pconn)) {
         send_packet_chat_msg(pconn, &packet);
       }
     } conn_list_iterate_end;
@@ -205,7 +235,11 @@ static void chat_msg_to_allies(struct connection *sender, char *msg)
       continue;
     }
 
-    lsend_packet_chat_msg(aplayer->connections, &packet);
+    conn_list_iterate(aplayer->connections, pconn) {
+      if (!conn_is_ignored(sender, pconn)) {
+        send_packet_chat_msg(pconn, &packet);
+      }
+    } conn_list_iterate_end;
     players = event_cache_player_add(players, aplayer);
   } players_iterate_end;
 
@@ -229,7 +263,8 @@ static void chat_msg_to_global_observers(struct connection *sender,
                    _("%s to global observers: %s"), sender_name, msg);
 
   conn_list_iterate(game.est_connections, dest_conn) {
-    if (conn_is_global_observer(dest_conn)) {
+    if (conn_is_global_observer(dest_conn)
+        && !conn_is_ignored(sender, dest_conn)) {
       send_packet_chat_msg(dest_conn, &packet);
     }
   } conn_list_iterate_end;
