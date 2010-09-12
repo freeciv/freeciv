@@ -106,6 +106,40 @@ static int unit_def_rating_sq(struct unit *punit, struct unit *pdef);
  */
 struct unit_type *simple_ai_types[U_LAST];
 
+/****************************************************************************
+  Returns the city with the most need of an airlift.
+
+  To be considerd, a city must have an air field. All cities with an
+  urgent need for units are serviced before cities in danger.
+
+  Return value may be NULL, this means no servicable city found.
+
+  parameter pplayer may not be NULL.
+****************************************************************************/
+static struct city *find_neediest_airlift_city(const struct player *pplayer)
+{
+  struct city *neediest_city = NULL;
+  int most_danger = 0;
+  int most_urgent = 0;
+
+  city_list_iterate(pplayer->cities, pcity) {
+    struct ai_city *city_data = def_ai_city_data(pcity);
+
+    if (pcity->airlift) {
+      if (city_data->urgency > most_urgent) {
+        most_urgent = city_data->urgency;
+        neediest_city = pcity;
+      } else if (0 == most_urgent /* urgency trumps danger */
+                 && city_data->danger > most_danger) {
+        most_danger = city_data->danger;
+        neediest_city = pcity;
+      }
+    }
+  } city_list_iterate_end;
+
+  return neediest_city;
+}
+
 /**************************************************************************
   Move defenders around with airports. Since this expends all our 
   movement, a valid question is - why don't we do this on turn end?
@@ -119,33 +153,14 @@ static void ai_airlift(struct player *pplayer)
   struct unit *transported;
 
   do {
-    most_needed = NULL;
+    most_needed = find_neediest_airlift_city(pplayer);
     comparison = 0;
     transported = NULL;
 
-    city_list_iterate(pplayer->cities, pcity) {
-      struct ai_city *city_data = def_ai_city_data(pcity);
-
-      if (city_data->urgency > comparison && pcity->airlift) {
-        comparison = city_data->urgency;
-        most_needed = pcity;
-      }
-    } city_list_iterate_end;
-    if (!most_needed) {
-      comparison = 0;
-      city_list_iterate(pplayer->cities, pcity) {
-        struct ai_city *city_data = def_ai_city_data(pcity);
-
-        if (city_data->danger > comparison && pcity->airlift) {
-          comparison = city_data->danger;
-          most_needed = pcity;
-        }
-      } city_list_iterate_end;
-    }
     if (!most_needed) {
       return;
     }
-    comparison = 0;
+
     unit_list_iterate(pplayer->units, punit) {
       struct tile *ptile = (punit->tile);
       struct city *pcity = tile_city(ptile);
