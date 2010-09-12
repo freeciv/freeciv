@@ -85,6 +85,7 @@ flag_files =				\
 		ecuador.png		\
 		egypt_ancient.png	\
 		egypt.png		\
+		elam.png		\
 		england.png		\
 		esperanto.png		\
 		estonia.png		\
@@ -385,6 +386,7 @@ shield_files =					\
 		ecuador-shield.png		\
 		egypt_ancient-shield.png	\
 		egypt-shield.png		\
+		elam-shield.png			\
 		england-shield.png		\
 		esperanto-shield.png		\
 		estonia-shield.png		\
@@ -685,6 +687,7 @@ svg_files = 				\
 		ecuador.svg		\
 		egypt_ancient.svg	\
 		egypt.svg		\
+		elamite.svg		\
 		england.svg		\
 		esperanto.svg		\
 		estonia.svg		\

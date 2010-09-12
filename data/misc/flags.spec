@@ -93,6 +93,7 @@ artists = "
    Ecuador		Zscout370 (Wikimedia Commons user)
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
+   Elam			Patricia Fidi and J.M. Maalderink
    England		Thom Sanders
    Esperanto		Gabriel Ehrnst Grundin
    Estonia		Daniel Markstedt
@@ -398,6 +399,7 @@ sprites =
 		"f.ecuador", "flags/ecuador"
 		"f.egypt_ancient", "flags/egypt_ancient"
 		"f.egypt", "flags/egypt"
+		"f.elam", "flags/elam"
 		"f.england", "flags/england"
 		"f.esperanto", "flags/esperanto"
 		"f.estonia", "flags/estonia"

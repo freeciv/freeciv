@@ -138,6 +138,7 @@ match=2
 *include "nation/ecuadorian.ruleset"
 *include "nation/egyptian.ruleset"
 *include "nation/egyptianarab.ruleset"
+*include "nation/elamite.ruleset"
 *include "nation/emirati.ruleset"
 *include "nation/english.ruleset"
 *include "nation/esperant.ruleset"

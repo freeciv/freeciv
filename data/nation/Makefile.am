@@ -92,6 +92,7 @@ pkgdata_DATA = \
 		ecuadorian.ruleset \
 		egyptian.ruleset \
 		egyptianarab.ruleset \
+		elamite.ruleset \
 		emirati.ruleset \
 		english.ruleset \
 		esperant.ruleset \

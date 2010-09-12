@@ -1,0 +1,65 @@
+[nation_elamite]
+
+name=_("Elamite")
+plural=_("?plural:Elamites")
+groups="Asian", "Ancient"
+legend=_("Elam was an ancient civilization located in now area of modern\
+ southwest Iran, which arose around 3100 BC. The Elamite language,\
+ written in cuneiform, is of unkown origin. In 643 BC the Elamite\
+ civilization was destroyed by the Assyrians under Assurbanipal.")
+leader=
+ "Girnamme",
+ "Lurak-lukhkhan",
+ "Tan-Ruhurater I",
+ "Idaddu-napir",
+ "Kidinu",
+ "Inshushinak-sunkir-nappipir",
+ "Tepti-ahar",
+ "Pahir-ishshan",
+ "Unpahash-Napirisha",
+ "Napirisha-Untash",
+ "Khallutush-Inshushinak",
+ "Shutruk-Nahhunte",
+ "Kutir-Nahhunte III",
+ "Shilkhak-Inshushinak",
+ "Shilhana-Hamru-Lagamar",
+ "Tammaritu II"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+flag = "elam"
+flag_alt = "-"
+city_style = "Classical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with = "iranian"
+civilwar_nations = "assyrian", "sumerian", "sumerian", "babylonian", "persian"
+
+cities =
+ "Anshan",
+ "Susa",
+ "Dur-Untash-Napirisha",
+ "Avan",
+ "Shimashki",
+ "Hamazi",
+ "Sherihum",
+ "Tukrish",
+ "Khukhnur",
+ "Der",
+ "Adamdun",
+ "Humban",
+ "Tahrid",
+ "Hidalu",
+ "Rashi",
+ "Aiapir",
+ "Gisati",
+ "Zamin",
+ "Samati",
+ "Zari",
+ "Jiroft",
+ "Zabol",
+ "Marhasi"
+
