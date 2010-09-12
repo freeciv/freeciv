@@ -39,7 +39,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with="canadian"
-civilwar_nations="canadian", "quebecois"
+civilwar_nations="newfoundland", "quebecois"
 
 cities =
 "Port-Royal",

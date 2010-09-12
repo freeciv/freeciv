@@ -55,6 +55,7 @@ flag_files =				\
 		caddo.png		\
 		california.png		\
 		canada.png		\
+		canada_old.png		\
 		cartago.png		\
 		castile.png		\
 		catalan.png		\
@@ -195,6 +196,7 @@ flag_files =				\
 		nepal.png		\
 		nestoria.png		\
 		netherlands.png		\
+		newfoundland.png	\
 		newzealand.png		\
 		nez_perce.png		\
 		nicaragua.png		\
@@ -358,6 +360,7 @@ shield_files =					\
 		caddo-shield.png		\
 		california-shield.png		\
 		canada-shield.png		\
+		canada_old-shield.png		\
 		cartago-shield.png		\
 		castile-shield.png		\
 		catalan-shield.png		\
@@ -498,6 +501,7 @@ shield_files =					\
 		nepal-shield.png		\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
+		newfoundland-shield.png		\
 		newzealand-shield.png		\
 		nez_perce-shield.png		\
 		nicaragua-shield.png		\
@@ -661,6 +665,7 @@ svg_files = 				\
 		caddo.svg		\
 		california.svg		\
 		canada.svg		\
+		canada_old.svg		\
 		cartago.svg		\
 		castile.svg		\
 		catalan.svg		\
@@ -801,6 +806,7 @@ svg_files = 				\
 		nepal.svg		\
 		nestoria.svg		\
 		netherlands.svg		\
+		newfoundland.svg	\
 		newzealand.svg		\
 		nez_perce.svg		\
 		nicaragua.svg		\

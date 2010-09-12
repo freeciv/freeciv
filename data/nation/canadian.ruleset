@@ -19,7 +19,7 @@ leader=
  "Kim Campbell"
 leader_sex="Female", "Male", "Female", "Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="canada"
-flag_alt = "united_kingdom"
+flag_alt = "canada_old"
 city_style = "Celtic"
 
 ruler_titles = { "government",      "male_title",         "female_title"
@@ -32,7 +32,7 @@ init_government="Despotism"
 init_units=""
 civilwar_nations=
 ; Sub-national nations
- "quebecois", "acadian",
+ "quebecois", "acadian", "newfoundland",
 ; First Nations
  "inuit", "iroquois", "cree", "anishinaabe"
 

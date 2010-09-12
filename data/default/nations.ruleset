@@ -242,6 +242,7 @@ match=2
 *include "nation/namibian.ruleset"
 *include "nation/nepali.ruleset"
 *include "nation/nestorian.ruleset"
+*include "nation/newfoundland.ruleset"
 *include "nation/newzealand.ruleset"
 *include "nation/nicaraguan.ruleset"
 *include "nation/nigerian.ruleset"

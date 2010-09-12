@@ -64,6 +64,7 @@ artists = "
    Caddo		Daniel Markstedt
    California		Devin Cook (Wikimedia Commons user)
    Canada		James Leigh
+   Canada (old)		Hoshie (Wikimedia Commons user)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Chananea		Daniel Markstedt
@@ -203,6 +204,7 @@ artists = "
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
+   Newfoundland		J.M. Maalderink
    New Zealand		Daniel McRae
    Nez Perce		Daniel Markstedt
    Nicaragua		Vzb83 (Wikimedia user)
@@ -370,6 +372,7 @@ sprites =
 		"f.caddo", "flags/caddo"
 		"f.california", "flags/california"
 		"f.canada", "flags/canada"
+		"f.canada_old", "flags/canada_old"
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
@@ -512,6 +515,7 @@ sprites =
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"
+		"f.newfoundland", "flags/newfoundland"
 		"f.newzealand", "flags/newzealand"
 		"f.nez_perce", "flags/nez_perce"
 		"f.nicaragua", "flags/nicaragua"
