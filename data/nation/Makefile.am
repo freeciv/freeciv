@@ -21,6 +21,7 @@ pkgdata_DATA = \
 		andorran.ruleset \
 		anishinaabe.ruleset \
 		antarctican.ruleset \
+		apache.ruleset \
 		arab.ruleset \
 		aragonese.ruleset \
 		aramean.ruleset \

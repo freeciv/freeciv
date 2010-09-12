@@ -27,6 +27,7 @@ artists = "
    Andorra		Patricia Fidi
    Anishinaabe		Shandris (Wikimedia Commons user)
    Antarctica		Tobias Jakobs
+   Apache		J.M. Maalderink
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
    Aram			Daniel Markstedt
@@ -329,6 +330,7 @@ sprites =
 		"f.andorra", "flags/andorra"
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
+		"f.apache", "flags/apache"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"
 		"f.aram", "flags/aram"

@@ -27,6 +27,7 @@ sprites =
 		"f.shield.amazon", "flags/amazon-shield"
 		"f.shield.anishinaabe", "flags/anishinaabe-shield"
 		"f.shield.antarctica", "flags/antarctica-shield"
+		"f.shield.apache", "flags/apache-shield"
 		"f.shield.arab", "flags/arab-shield"
 		"f.shield.aragon", "flags/aragon-shield"
 		"f.shield.aram", "flags/aram-shield"
