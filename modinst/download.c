@@ -246,7 +246,7 @@ const char *download_modpack(const char *URL,
     /* Nothing */
   }
 
-  log_normal("Installing modpack %s from %s", URL + start_idx, URL);
+  log_normal(_("Installing modpack %s from %s"), URL + start_idx, URL);
 
   home = getenv("HOME");
   if (home == NULL) {

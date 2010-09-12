@@ -515,17 +515,17 @@ void savegame2_load(struct section_file *file)
 
   if (!has_capabilities("+version2", savefile_options)) {
     /* load old format (freeciv 2.2.x) */
-    log_normal("loading savefile in old format ...");
+    log_verbose("loading savefile in old format ...");
     game_load(file);
   } else {
     /* load new format (freeciv 2.2.99 and newer) */
-    log_normal("loading savefile in new format ...");
+    log_verbose("loading savefile in new format ...");
     savegame2_load_real(file);
   }
 
 #ifdef DEBUG
   stop_timer(loadtimer);
-  log_normal("... in %.3f seconds", read_timer_seconds(loadtimer));
+  log_debug("Loading secfile in %.3f seconds.", read_timer_seconds(loadtimer));
   free_timer(loadtimer);
 #endif
 }
@@ -550,19 +550,19 @@ void savegame2_save(struct section_file *file, const char *save_reason,
     } else if (map.server.mapsize != 0 || map.server.size > 30) {
       log_error("Error: freeciv 2.2.x can't handle bigger maps.");
     } else {
-      log_normal("saving game in old format ...");
+      log_verbose("saving game in old format ...");
       game_save(file, save_reason, scenario);
     }
   } else {
     /* freeciv 2.2.99 or newer */
-    log_normal("saving game in new format ...");
+    log_verbose("saving game in new format ...");
     savegame2_save_real(file, save_reason, scenario,
                         game.server.saveversion);
   }
 
 #ifdef DEBUG
   stop_timer(savetimer);
-  log_normal("... in %.3f seconds", read_timer_seconds(savetimer));
+  log_debug("Creating secfile in %.3f seconds.", read_timer_seconds(savetimer));
   free_timer(savetimer);
 #endif
 }

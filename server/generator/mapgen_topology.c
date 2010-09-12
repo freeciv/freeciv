@@ -228,7 +228,7 @@ static void set_sizes(double size, int Xratio, int Yratio)
     log_error("Requested size of %d is too big for this topology.",
               map.server.size);
   }
-  log_normal("Creating a map of size %d x %d = %d tiles (%d requested).",
+  log_normal(_("Creating a map of size %d x %d = %d tiles (%d requested)."),
              map.xsize, map.ysize, map.xsize * map.ysize,
              map.server.size * 1000);
 }
@@ -268,8 +268,8 @@ void generator_init_topology(bool autosize)
     switch (map.server.mapsize) {
     case 2:
       map.server.size = (float)(map.xsize * map.ysize) / 1000.0 + 0.5;
-      log_normal("Creating a map of size %d x %d = %d tiles (map size: %d).",
-                 map.xsize, map.ysize, map.xsize * map.ysize,
+      log_normal(_("Creating a map of size %d x %d = %d tiles (map size: "
+                   "%d)."), map.xsize, map.ysize, map.xsize * map.ysize,
                  map.server.size);
       break;
 
@@ -280,18 +280,18 @@ void generator_init_topology(bool autosize)
       map.server.size = CLIP(MAP_MIN_SIZE, map_size, MAP_MAX_SIZE);
 
       if (map_size < MAP_MIN_SIZE) {
-        log_normal("Map size calculated for %d (land) tiles per player and "
-                   " %dplayer(s) to small. Setting map size to the minimal "
-                   "size %d.", map.server.tilesperplayer, player_count(),
-                   map.server.size);
+        log_normal(_("Map size calculated for %d (land) tiles per player "
+                     "and %d player(s) too small. Setting map size to the "
+                     "minimal size %d."), map.server.tilesperplayer,
+                   player_count(), map.server.size);
       } else if (map_size > MAP_MAX_SIZE) {
-        log_normal("Map size calculated for %d (land) tiles per player and "
-                   "%d player(s) to large. Setting map size to the maximal "
-                   "size %d.", map.server.tilesperplayer, player_count(),
-                   map.server.size);
+        log_normal(_("Map size calculated for %d (land) tiles per player "
+                     "and %d player(s) too large. Setting map size to the "
+                     "maximal size %d."), map.server.tilesperplayer,
+                   player_count(), map.server.size);
       } else {
-        log_normal("Setting map size to %d (approx. %d (land) tiles for "
-                   "each of the %d player(s)).", map.server.size,
+        log_normal(_("Setting map size to %d (approx. %d (land) tiles for "
+                   "each of the %d player(s))."), map.server.size,
                    map.server.tilesperplayer, player_count());
       }
       /* no break */
