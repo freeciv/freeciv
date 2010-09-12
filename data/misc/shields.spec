@@ -76,6 +76,7 @@ sprites =
 		"f.shield.chumash", "flags/chumash-shield"
 		"f.shield.colombia", "flags/colombia-shield"
 		"f.shield.columbia", "flags/colombia-shield"
+		"f.shield.comanche", "flags/comanche-shield"
 		"f.shield.constantine", "flags/constantine-shield"
 		"f.shield.cornwall", "flags/cornwall-shield"
 		"f.shield.corsica", "flags/corsica-shield"

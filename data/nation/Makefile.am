@@ -71,6 +71,7 @@ pkgdata_DATA = \
 		chola.ruleset \
 		chumash.ruleset \
 		colombian.ruleset \
+		comanche.ruleset \
 		confederate.ruleset \
 		congolese.ruleset \
 		cornish.ruleset \

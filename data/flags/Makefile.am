@@ -66,6 +66,7 @@ flag_files =				\
 		chola.png		\
 		chumash.png		\
 		colombia.png		\
+		comanche.png		\
 		constantine.png		\
 		cornwall.png		\
 		corsica.png		\
@@ -368,6 +369,7 @@ shield_files =					\
 		chola-shield.png		\
 		chumash-shield.png		\
 		colombia-shield.png		\
+		comanche-shield.png		\
 		constantine-shield.png		\
 		cornwall-shield.png		\
 		corsica-shield.png		\
@@ -670,6 +672,7 @@ svg_files = 				\
 		chola.svg		\
 		chumash.svg		\
 		colombia.svg		\
+		comanche.svg		\
 		constantine.svg		\
 		cornwall.svg		\
 		corsica.svg		\

@@ -117,6 +117,7 @@ match=2
 *include "nation/chola.ruleset"
 *include "nation/chumash.ruleset"
 *include "nation/colombian.ruleset"
+*include "nation/comanche.ruleset"
 *include "nation/confederate.ruleset"
 *include "nation/congolese.ruleset"
 *include "nation/cornish.ruleset"

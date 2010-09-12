@@ -74,6 +74,7 @@ artists = "
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
    Colombia		Lauris Kaplinski
+   Comanche		Zscout370 (Wikimedia Commons user)
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia.fidi (Open Clip Art)
@@ -381,6 +382,7 @@ sprites =
 		"f.chumash", "flags/chumash"
 		"f.colombia", "flags/colombia"
 		"f.columbia", "flags/colombia"	; For backward compatibility
+		"f.comanche", "flags/comanche"
 		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
