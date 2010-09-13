@@ -758,7 +758,6 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   fz_FILE *fs;
   const struct genlist_link *ent_iter, *save_iter, *col_iter;
   struct entry *pentry, *col_pentry;
-  struct entry_list *skip;
   int i;
 
   SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, FALSE);
@@ -776,7 +775,6 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
   }
 
   section_list_iterate(secfile->sections, psection) {
-    skip = entry_list_new();
     fz_fprintf(fs, "\n[%s]\n", section_name(psection));
 
     /* Following doesn't use entry_list_iterate() because we want to do
@@ -785,11 +783,6 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
     for (ent_iter = genlist_head(entry_list_base(section_entries(psection)));
          ent_iter && (pentry = genlist_link_data(ent_iter));
          ent_iter = genlist_link_next(ent_iter)) {
-
-      if (entry_list_remove(skip, pentry)) {
-        /* Ignore this one.  Probably a part of a vector. */
-        continue;
-      }
 
       /* Tables: break out of this loop if this is a non-table
             * entry (pentry and ent_iter unchanged) or after table (pentry
@@ -925,11 +918,20 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
       entry_to_file(pentry, fs);
 
       /* Check for vector. */
-      for (i = 1; (col_pentry = section_entry_lookup(psection, "%s,%d",
-                   col_entry_name, i)); i++) {
+      for (i = 1;; i++) {
+        col_iter = genlist_link_next(ent_iter);
+        col_pentry = genlist_link_data(col_iter);
+        if (NULL == col_pentry) {
+          break;
+        }
+        fc_snprintf(pentry_name, sizeof(pentry_name),
+                    "%s,%d", col_entry_name, i);
+        if (0 != strcmp(pentry_name, entry_name(col_pentry))) {
+          break;
+        }
         fz_fprintf(fs, ",");
         entry_to_file(col_pentry, fs);
-        entry_list_append(skip, col_pentry); /* Ignore this one next time. */
+        ent_iter = col_iter;
       }
 
       if (entry_comment(pentry)) {
@@ -938,7 +940,6 @@ bool secfile_save(const struct section_file *secfile, const char *filename,
         fz_fprintf(fs, "\n");
       }
     }
-    entry_list_destroy(skip);
   } section_list_iterate_end;
   
   if (0 != fz_ferror(fs)) {
