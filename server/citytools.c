@@ -461,28 +461,28 @@ char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 	return name;
       }
 
-      /* Append the nation's parent nations into the search tree. */
-      for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
-	struct nation_type *n = nation->parent_nations[j];
-
-	if (!nations_selected[nation_index(n)]) {
-	  nation_list[queue_size] = n;
-	  nations_selected[nation_index(n)] = TRUE;
-	  queue_size++;
-          log_debug("Parent %s.", nation_rule_name(n));
-	}
-      }
-
       /* Append the nation's civil war nations into the search tree. */
       for (j = 0; nation->civilwar_nations[j] != NO_NATION_SELECTED; j++) {
-	struct nation_type *n = nation->civilwar_nations[j];
+        struct nation_type *n = nation->civilwar_nations[j];
 
-	if (!nations_selected[nation_index(n)]) {
-	  nation_list[queue_size] = n;
-	  nations_selected[nation_index(n)] = TRUE;
-	  queue_size++;
+        if (!nations_selected[nation_index(n)]) {
+          nation_list[queue_size] = n;
+          nations_selected[nation_index(n)] = TRUE;
+          queue_size++;
           log_debug("Child %s.", nation_rule_name(n));
-	}
+        }
+      }
+
+      /* Append the nation's parent nations into the search tree. */
+      for (j = 0; nation->parent_nations[j] != NO_NATION_SELECTED; j++) {
+        struct nation_type *n = nation->parent_nations[j];
+
+        if (!nations_selected[nation_index(n)]) {
+          nation_list[queue_size] = n;
+          nations_selected[nation_index(n)] = TRUE;
+          queue_size++;
+          log_debug("Parent %s.", nation_rule_name(n));
+        }
       }
     }
 
