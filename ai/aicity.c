@@ -37,11 +37,12 @@
 #include "movement.h"
 #include "packets.h"
 #include "player.h"
+#include "research.h"
 #include "specialist.h"
 #include "unit.h"
 #include "unitlist.h"
 
-/* aicore */
+/* common/aicore */
 #include "pf_tools.h"
 
 /* server */
@@ -509,30 +510,37 @@ static int improvement_effect_value(struct player *pplayer,
     break;
   case EFT_TECH_PARASITE:
     {
-      int turns;
-      int bulbs;
-      int value;
-	  
+      int turns, bulbs, value, advid;
+
       if (nplayers <= amount) {
-	break;
+        break;
       }
-          
+
       turns = 9999;
       bulbs = 0;
-      players_iterate(aplayer) {
-	int potential = aplayer->bulbs_last_turn
-	  + city_list_size(aplayer->cities) + 1;
-	if (valid_advance(pimprove->obsolete_by)) {
-	  turns = MIN(turns, 
-		      total_bulbs_required_for_goal(aplayer, advance_number(pimprove->obsolete_by))
-		      / (potential + 1));
-	}
-	if (players_on_same_team(aplayer, pplayer)) {
-	  continue;
-	}
-	bulbs += potential;
-      } players_iterate_end;
-  
+      advid = advance_number(pimprove->obsolete_by);
+      player_researches_iterate(presearch) {
+        int total_bulbs_required = 0;
+        int potential = 0;
+
+        players_iterate(aplayer) {
+          if (presearch == player_research_get(aplayer)) {
+            potential += (aplayer->bulbs_last_turn
+                          + city_list_size(aplayer->cities) + 1);
+            total_bulbs_required = total_bulbs_required_for_goal(aplayer,
+                                                                 advid);
+          }
+        } players_iterate_end;
+
+        if (0 < potential) {
+          bulbs += potential;
+          if (valid_advance(pimprove->obsolete_by)
+              && presearch != player_research_get(pplayer)) {
+            turns = MIN(turns, total_bulbs_required / (potential + 1));
+          }
+        }
+      } player_researches_iterate_end;
+
       /* For some number of turns we will be receiving bulbs for free
        * Bulbs should be amortized properly for each turn.
        * We use formula for the sum of geometric series:
