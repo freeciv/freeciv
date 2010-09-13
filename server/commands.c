@@ -125,7 +125,8 @@ static struct command commands[] = {
       "show situational\n"
       "show rare\n"
       "show changed\n"
-      "show locked"),
+      "show locked\n"
+      "show rulesetdir"),
    N_("Show server options."),
    N_("With no arguments, shows vital server options (or available options, "
       "when used by clients). With an option name argument, show only the "
@@ -133,7 +134,8 @@ static struct command commands[] = {
       "all options. With \"vital\", \"situational\" or \"rare\", a set of "
       "options with this level. With \"changed\", it shows only the options "
       "which have been modified, while with \"locked\" all settings locked "
-      "by the ruleset will be listed.")
+      "by the ruleset will be listed. With \"ruleset\", it will show the "
+      "current ruleset directory name."),
   },
   {"wall",	ALLOW_ADMIN,
    /* TRANS: translate text between <> only */
@@ -203,9 +205,7 @@ static struct command commands[] = {
    /* TRANS: translate text between <> only */
    N_("rulesetdir <directory>"),
    N_("Choose new ruleset directory or modpack."),
-   N_("Choose new ruleset directory or modpack. Calling this "
-      "without any arguments will show you the currently selected "
-      "ruleset."),
+   N_("Choose new ruleset directory or modpack."),
    VCF_NONE, 50
   },
   {"metamessage", ALLOW_CTRL,

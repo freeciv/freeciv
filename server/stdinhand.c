@@ -1585,9 +1585,16 @@ static int lookup_option(const char *name)
 
   result = match_prefix(optname_accessor, SETTINGS_NUM, 0, fc_strncasecmp,
                         NULL, name, &ind);
-
-  return ((result < M_PRE_AMBIGUOUS) ? ind :
-	  (result == M_PRE_AMBIGUOUS) ? -2 : -1);
+  if (M_PRE_AMBIGUOUS > result) {
+    return ind;
+  } else if (M_PRE_AMBIGUOUS == result) {
+    return -2;
+  } else if ('\0' != name[0]
+             && 0 == fc_strncasecmp("rulesetdir", name, strlen(name))) {
+    return -4;
+  } else {
+    return -1;
+  }
 }
 
 /**************************************************************************
@@ -1717,9 +1724,9 @@ static bool explain_option(struct connection *caller, char *str, bool check)
     cmd = lookup_option(str);
     if (cmd >= 0 && cmd < SETTINGS_NUM) {
       show_help_option(caller, CMD_EXPLAIN, cmd);
-    } else if (cmd == -1 || cmd == -3) {
+    } else if (cmd == -1 || cmd == -3 || cmd == -4) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL,
-		_("No explanation for that yet."));
+                _("No explanation for that yet."));
       return FALSE;
     } else if (cmd == -2) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL, _("Ambiguous option name."));
@@ -1982,14 +1989,18 @@ static bool show_command(struct connection *caller, char *str, bool check)
     if (cmd == -1) {
       cmd_reply(CMD_SHOW, caller, C_FAIL, _("Unknown option '%s'."), str);
       return FALSE;
-    }
-    if (cmd == -2) {
-      /* allow ambiguous: show all matching */
+    } else if (-2 == cmd) {
+      /* Allow ambiguous: show all matching. */
       clen = strlen(str);
-    }
-    if (cmd == -3) {
-      /* Option level */
+    } else if (-3 == cmd) {
+      /* Option level. */
       level = lookup_option_level(str);
+    } else if (-4 == cmd) {
+      /* Ruleset. */
+      cmd_reply(CMD_SHOW, caller, C_COMMENT,
+                _("Current ruleset directory is \"%s\""),
+                game.server.rulesetdir);
+      return TRUE;
     }
   } else {
     cmd = -1;  /* to indicate that no comannd was specified */
@@ -3670,10 +3681,10 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check,
   char filename[512];
   const char *pfilename;
 
-  if ((str == NULL) || (strlen(str)==0)) {
+  if (NULL == str || '\0' == str[0]) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
-             _("Current ruleset directory is \"%s\""),
-              game.server.rulesetdir);
+              _("You must provide a ruleset name. Use \"/show ruleset\" to "
+                "see what is the current ruleset."));
     return FALSE;
   }
   if (game_was_started() || !map_is_empty()) {
