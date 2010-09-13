@@ -1630,8 +1630,6 @@ static void sg_save_savefile(struct savedata *saving)
 static void sg_save_savefile_options(struct savedata *saving,
                                      const char *option)
 {
-  struct entry *pentry;
-
   /* Check status and return if not OK (sg_success != TRUE). */
   sg_check_ret();
 
@@ -1641,15 +1639,8 @@ static void sg_save_savefile_options(struct savedata *saving,
   }
 
   sz_strlcat(saving->secfile_options, option);
-  pentry = secfile_entry_by_path(saving->file, "savefile.options");
-  if (NULL != pentry) {
-    sg_failure_ret(entry_str_set(pentry, saving->secfile_options),
-                   "Failed to insert new savefile options.");
-  } else {
-    sg_failure_ret(secfile_insert_str(saving->file, saving->secfile_options,
-                                      "savefile.options"),
-                   "Failed to insert the savefile options.");
-  }
+  secfile_replace_str(saving->file, saving->secfile_options,
+                      "savefile.options");
 }
 
 /* =======================================================================
