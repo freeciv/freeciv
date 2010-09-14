@@ -1746,7 +1746,7 @@ void real_update_conn_list_dialog(void)
     const char *nation, *plr_name, *team;
     char user_name[MAX_LEN_NAME + 8], rating_text[128], record_text[128];
     int rating, wins, losses, ties, forfeits;
-    enum cmdlevel_id access_level;
+    enum cmdlevel access_level;
     int conn_id;
 
     /* Clear the old list. */

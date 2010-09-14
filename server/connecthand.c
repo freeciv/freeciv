@@ -59,10 +59,10 @@
   NB: This function does not send updated connection information to other
   clients, you need to do that yourself afterwards.
 **************************************************************************/
-void conn_set_access(struct connection *pconn, enum cmdlevel_id new_level,
+void conn_set_access(struct connection *pconn, enum cmdlevel new_level,
                      bool granted)
 {
-  enum cmdlevel_id old_level = conn_get_access(pconn);
+  enum cmdlevel old_level = conn_get_access(pconn);
 
   pconn->access_level = new_level;
   if (granted) {
@@ -84,7 +84,7 @@ void conn_set_access(struct connection *pconn, enum cmdlevel_id new_level,
 static void restore_access_level(struct connection *pconn)
 {
   /* Restore previous privileges. */
-  enum cmdlevel_id level = pconn->server.granted_access_level;
+  enum cmdlevel level = pconn->server.granted_access_level;
 
   /* Detached connections must have at most the same privileges
    * as observers, unless they were granted something higher than

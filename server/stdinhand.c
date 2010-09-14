@@ -86,8 +86,8 @@
 
 #define TOKEN_DELIMITERS " \t\n,"
 
-static enum cmdlevel_id default_access_level = ALLOW_BASIC;
-static enum cmdlevel_id   first_access_level = ALLOW_BASIC;
+static enum cmdlevel default_access_level = ALLOW_BASIC;
+static enum cmdlevel first_access_level = ALLOW_BASIC;
 
 static bool cut_client_connection(struct connection *caller, char *name,
                                   bool check);
@@ -1172,10 +1172,10 @@ static void write_init_script(char *script_filename)
     /* first, some state info from commands (we can't save everything) */
 
     fprintf(script_file, "cmdlevel %s new\n",
-	cmdlevel_name(default_access_level));
+            cmdlevel_name(default_access_level));
 
     fprintf(script_file, "cmdlevel %s first\n",
-	cmdlevel_name(first_access_level));
+            cmdlevel_name(first_access_level));
 
     fprintf(script_file, "%s\n",
             ai_level_cmd(game.info.skill_level));
@@ -1246,7 +1246,7 @@ static bool write_command(struct connection *caller, char *arg, bool check)
 **************************************************************************/
 static bool set_cmdlevel(struct connection *caller,
                          struct connection *ptarget,
-                         enum cmdlevel_id level)
+                         enum cmdlevel level)
 {
   /* Only ever call me for specific connection. */
   fc_assert_ret_val(ptarget != NULL, FALSE);
@@ -1301,7 +1301,7 @@ static bool first_access_level_is_taken(void)
 /********************************************************************
 ...
 *********************************************************************/
-enum cmdlevel_id access_level_for_next_connection(void)
+enum cmdlevel access_level_for_next_connection(void)
 {
   if ((first_access_level > default_access_level)
 			&& !a_connection_exists()) {
@@ -1334,7 +1334,7 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
   int ntokens;
   bool ret = FALSE;
   enum m_pre_result match_result;
-  enum cmdlevel_id level;
+  enum cmdlevel level;
   struct connection *ptarget;
 
   ntokens = get_tokens(str, arg, 2, TOKEN_DELIMITERS);
@@ -1359,16 +1359,18 @@ static bool cmdlevel_command(struct connection *caller, char *str, bool check)
     return TRUE;
   }
 
-  /* A level name was supplied; set the level */
-  if ((level = cmdlevel_named(arg[0])) == ALLOW_UNRECOGNIZED) {
+  /* A level name was supplied; set the level. */
+  level = cmdlevel_by_name(arg[0], fc_strcasecmp);
+  if (!cmdlevel_is_valid(level)) {
     char buf[512];
-    int i;
 
     buf[0] = '\0';
-    for (i = 0; i < ALLOW_NUM; i++) {
+    for (level = cmdlevel_begin(); level != cmdlevel_end();
+         level = cmdlevel_next(level)) {
       cat_snprintf(buf, sizeof(buf), "%s'%s'%s",
-                   i == ALLOW_NUM - 1 ? Q_("?accslvllist:or ") : "",
-                   cmdlevel_name(i), i == ALLOW_NUM - 1 ? "" : ", ");
+                   level == cmdlevel_max() ? Q_("?accslvllist:or ") : "",
+                   cmdlevel_name(level),
+                   level == cmdlevel_max() ? "" : ", ");
     }
     cmd_reply(CMD_CMDLEVEL, caller, C_SYNTAX,
               /* TRANS: comma and 'or' separated list of access levels */
@@ -3930,7 +3932,7 @@ static bool handle_stdin_input_real(struct connection *caller,
       *cptr_s, *cptr_d;
   int i;
   enum command_id cmd;
-  enum cmdlevel_id level;
+  enum cmdlevel level;
 
   /* notify to the server console */
   if (!check && caller) {

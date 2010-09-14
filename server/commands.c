@@ -29,8 +29,8 @@
 
 struct command {
   const char *name;       /* name - will be matched by unique prefix   */
-  enum cmdlevel_id level; /* access level required to use the command  */
-  const char *synopsis;	  /* one or few-line summary of usage */
+  enum cmdlevel level;    /* access level required to use the command  */
+  const char *synopsis;   /* one or few-line summary of usage */
   const char *short_help; /* one line (about 70 chars) description */
   const char *extra_help; /* extra help information; will be line-wrapped */
   int vote_flags;         /* how to handle votes */
@@ -583,7 +583,7 @@ const char *command_extra_help(const struct command *pcommand)
 /**************************************************************************
   ...
 **************************************************************************/
-enum cmdlevel_id command_level(const struct command *pcommand)
+enum cmdlevel command_level(const struct command *pcommand)
 {
   return pcommand->level;
 }

@@ -60,51 +60,6 @@ int delayed_disconnect = 0;
 
 
 /**************************************************************************
-  Command access levels for client-side use; at present, they are only
-  used to control access to server commands typed at the client chatline.
-  NB: These must match enum cmdlevel_id in common/connection.h.
-**************************************************************************/
-static const char *levelnames[] = {
-  "none",
-  "info",
-  "basic",
-  "ctrl",
-  "admin",
-  "hack"
-};
-
-/**************************************************************************
-  Get name associated with given level.  These names are used verbatim in
-  commands, so should not be translated here.
-**************************************************************************/
-const char *cmdlevel_name(enum cmdlevel_id lvl)
-{
-  fc_assert_ret_val(lvl >= 0 && lvl < ALLOW_NUM, NULL);
-  return levelnames[lvl];
-}
-
-/**************************************************************************
-  Lookup level assocated with token, or ALLOW_UNRECOGNISED if no match.
-  Only as many characters as in token need match, so token may be
-  abbreviated -- current level names are unique at first character.
-  Empty token will match first, i.e. level 'none'.
-**************************************************************************/
-enum cmdlevel_id cmdlevel_named(const char *token)
-{
-  enum cmdlevel_id i;
-  size_t len = strlen(token);
-
-  for (i = 0; i < ALLOW_NUM; i++) {
-    if (strncmp(levelnames[i], token, len) == 0) {
-      return i;
-    }
-  }
-
-  return ALLOW_UNRECOGNIZED;
-}
-
-
-/**************************************************************************
   This callback is used when an error occurs trying to write to the
   connection.  The effect of the callback should be to close the
   connection.  This is here so that the server and client can take
@@ -783,7 +738,7 @@ struct player *conn_get_player(const struct connection *pconn)
   Returns the current access level of the given connection.
   NB: If 'pconn' is NULL, this function will return ALLOW_NONE.
 **************************************************************************/
-enum cmdlevel_id conn_get_access(const struct connection *pconn)
+enum cmdlevel conn_get_access(const struct connection *pconn)
 {
   if (!pconn) {
     return ALLOW_NONE; /* Would not want to give hack on error... */

@@ -13,7 +13,7 @@
 #ifndef FC__STDINHAND_H
 #define FC__STDINHAND_H
 
-#include "connection.h"		/* enum cmdlevel_id */
+#include "connection.h"         /* enum cmdlevel */
 #include "fc_types.h"
 
 #define SERVER_COMMAND_PREFIX '/'
@@ -47,7 +47,7 @@ void toggle_ai_player_direct(struct connection *caller,
 			     struct player *pplayer);
 
 /* for sernet.c in initing a new connection */
-enum cmdlevel_id access_level_for_next_connection(void);
+enum cmdlevel access_level_for_next_connection(void);
 
 void notify_if_first_access_level_is_available(void);
 

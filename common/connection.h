@@ -44,25 +44,31 @@ struct conn_pattern_list;
 #define MAX_LEN_CAPSTR    512
 #define MAX_LEN_PASSWORD  512 /* do not change this under any circumstances */
 
-/**************************************************************************
+/****************************************************************************
   Command access levels for client-side use; at present, they are only
   used to control access to server commands typed at the client chatline.
-***************************************************************************/
-enum cmdlevel_id {    /* access levels for users to issue commands        */
-  ALLOW_NONE = 0,     /* user may issue no commands at all                */
-  ALLOW_INFO,         /* informational or observer commands only          */
-  ALLOW_BASIC,        /* user may issue basic player commands             */
-  ALLOW_CTRL,         /* user may issue commands that affect game & users */
-                      /* (starts a vote if the user's level is 'basic')   */
-  ALLOW_ADMIN,        /* user may issue commands that affect the server   */
-  ALLOW_HACK,         /* user may issue *all* commands - dangerous!       */
-
-  ALLOW_NUM,          /* the number of levels                             */
-  ALLOW_UNRECOGNIZED  /* used as a failure return code                    */
-};
-/*  the set command is a special case:                                    */
-/*    - ALLOW_CTRL is required for SSET_TO_CLIENT options                 */
-/*    - ALLOW_HACK is required for SSET_SERVER_ONLY options               */
+****************************************************************************/
+#define SPECENUM_NAME cmdlevel
+/* User may issue no commands at all. */
+#define SPECENUM_VALUE0 ALLOW_NONE
+#define SPECENUM_VALUE0NAME "none"
+/* Informational or observer commands only. */
+#define SPECENUM_VALUE1 ALLOW_INFO
+#define SPECENUM_VALUE1NAME "info"
+/* User may issue basic player commands. */
+#define SPECENUM_VALUE2 ALLOW_BASIC
+#define SPECENUM_VALUE2NAME "basic"
+/* User may issue commands that affect game & users
+ * (starts a vote if the user's level is 'basic'). */
+#define SPECENUM_VALUE3 ALLOW_CTRL
+#define SPECENUM_VALUE3NAME "ctrl"
+/* User may issue commands that affect the server. */
+#define SPECENUM_VALUE4 ALLOW_ADMIN
+#define SPECENUM_VALUE4NAME "admin"
+/* User may issue *all* commands - dangerous! */
+#define SPECENUM_VALUE5 ALLOW_HACK
+#define SPECENUM_VALUE5NAME "hack"
+#include "specenum_gen.h"
 
 /***************************************************************************
   On the distinction between nations(formerly races), players, and users,
@@ -144,7 +150,7 @@ struct connection {
    * "access_level" stores the current access level of the client
    * corresponding to this connection.
    */
-  enum cmdlevel_id access_level;
+  enum cmdlevel access_level;
 
   /* 
    * Something has occurred that means the connection should be
@@ -207,7 +213,7 @@ struct connection {
     char ipaddr[MAX_LEN_ADDR];
 
     /* The access level initially given to the client upon connection. */
-    enum cmdlevel_id granted_access_level;
+    enum cmdlevel granted_access_level;
 
     /* The list of ignored connection patterns. */
     struct conn_pattern_list *ignore_list;
@@ -248,10 +254,6 @@ struct connection {
 };
 
 
-const char *cmdlevel_name(enum cmdlevel_id lvl);
-enum cmdlevel_id cmdlevel_named(const char *token);
-
-
 typedef void (*CLOSE_FUN) (struct connection *pc);
 void close_socket_set_callback(CLOSE_FUN fun);
 CLOSE_FUN close_socket_get_callback(void);
@@ -287,7 +289,7 @@ void conn_list_compression_thaw(const struct conn_list *pconn_list);
 const char *conn_description(const struct connection *pconn);
 bool conn_controls_player(const struct connection *pconn);
 bool conn_is_global_observer(const struct connection *pconn);
-enum cmdlevel_id conn_get_access(const struct connection *pconn);
+enum cmdlevel conn_get_access(const struct connection *pconn);
 
 struct player;
 struct player *conn_get_player(const struct connection *pconn);
