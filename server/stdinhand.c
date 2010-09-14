@@ -4005,16 +4005,11 @@ static bool handle_stdin_input_real(struct connection *caller,
   if (conn_can_vote(caller, NULL) && level == ALLOW_CTRL
       && conn_get_access(caller) == ALLOW_BASIC && !check) {
     struct vote *vote;
+    bool caller_had_vote = (NULL != get_vote_by_caller(caller));
 
-    /* If we already have a vote going, cancel it in favour of the new
-     * vote command. You can only have one vote at a time. */
-    if (get_vote_by_caller(caller)) {
-      cmd_reply(CMD_VOTE, caller, C_COMMENT,
-                /* TRANS: "vote" as a process */
-                _("Your new vote cancelled your previous vote."));
-    }
-
-    /* Check if the vote command would succeed. */
+    /* Check if the vote command would succeed. If we already have a vote
+     * going, cancel it in favour of the new vote command. You can only
+     * have one vote at a time. This is done by vote_new(). */
     if (handle_stdin_input_real(caller, full_command, TRUE,
                                 read_recursion + 1)
         && (vote = vote_new(caller, allargs, cmd))) {
@@ -4022,6 +4017,12 @@ static bool handle_stdin_input_real(struct connection *caller,
       const struct player *teamplr;
       const char *what;
       struct ft_color color;
+
+      if (caller_had_vote) {
+        cmd_reply(CMD_VOTE, caller, C_COMMENT,
+                  /* TRANS: "vote" as a process */
+                  _("Your new vote cancelled your previous vote."));
+      }
 
       describe_vote(vote, votedesc, sizeof(votedesc));
 
