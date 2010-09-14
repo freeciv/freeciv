@@ -5154,7 +5154,8 @@ static const char *cmdlevel_arg1_accessor(int idx)
 }
 static char *cmdlevel_arg1_generator(const char *text, int state)
 {
-  return generic_generator(text, state, ALLOW_NUM, cmdlevel_arg1_accessor);
+  return generic_generator(text, state, cmdlevel_max()+1,
+                           cmdlevel_arg1_accessor);
 }
 
 /**************************************************************************
