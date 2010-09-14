@@ -426,11 +426,11 @@ static bool metaconnection_command(struct connection *caller, char *arg,
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
     if (is_metaserver_open()) {
-      cmd_reply(CMD_METACONN, caller, C_COMMENT,
-		_("Metaserver connection is open."));
+      cmd_reply(CMD_METACONN, caller, C_OK,
+                _("Metaserver connection is open."));
     } else {
-      cmd_reply(CMD_METACONN, caller, C_COMMENT,
-		_("Metaserver connection is closed."));
+      cmd_reply(CMD_METACONN, caller, C_OK,
+                _("Metaserver connection is closed."));
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
 	     (0 == mystrcasecmp(arg, "up"))) {
@@ -3167,13 +3167,11 @@ static bool detach_command(struct connection *caller, char *str, bool check)
   }
 
   if (pplayer) {
-    cmd_reply(CMD_DETACH, caller, C_COMMENT,
-              _("%s detaching from %s"),
-              pconn->username,
-              player_name(pplayer));
+    cmd_reply(CMD_DETACH, caller, C_OK, _("%s detaching from %s"),
+              pconn->username, player_name(pplayer));
   } else {
-    cmd_reply(CMD_DETACH, caller, C_COMMENT,
-              _("%s no longer observing."), pconn->username);
+    cmd_reply(CMD_DETACH, caller, C_OK, _("%s no longer observing."),
+              pconn->username);
   }
 
   /* Actually do the detaching. */
@@ -3425,6 +3423,13 @@ static bool set_rulesetdir(struct connection *caller, char *str, bool check)
               _("This setting can't be modified after the game has started."));
     return FALSE;
   }
+
+  if (strcmp(str, game.server.rulesetdir) == 0) {
+    cmd_reply(CMD_RULESETDIR, caller, C_COMMENT,
+              _("Ruleset directory is already \"%s\""), str);
+    return FALSE;
+  }
+
   if (is_restricted(caller)
       && (!is_safe_filename(str) || strchr(str, '.'))) {
     cmd_reply(CMD_RULESETDIR, caller, C_SYNTAX,
@@ -4308,7 +4313,7 @@ void show_players(struct connection *caller)
 
 
   if (player_count() == 0)
-    cmd_reply(CMD_LIST, caller, C_WARNING, _("<no players>"));
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("<no players>"));
   else
   {
     players_iterate(pplayer) {
@@ -4449,7 +4454,7 @@ static void show_connections(struct connection *caller)
   cmd_reply(CMD_LIST, caller, C_COMMENT, horiz_line);
 
   if (conn_list_size(game.all_connections) == 0) {
-    cmd_reply(CMD_LIST, caller, C_WARNING, _("<no connections>"));
+    cmd_reply(CMD_LIST, caller, C_COMMENT, _("<no connections>"));
   }
   else {
     conn_list_iterate(game.all_connections, pconn) {
