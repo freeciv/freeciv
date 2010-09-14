@@ -285,13 +285,16 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   }
 
   if (rfc_status == C_OK) {
+    struct packet_chat_msg packet;
+
+    package_event(&packet, NULL, E_SETTING, ftc_command, "%s", line);
     conn_list_iterate(game.est_connections, pconn) {
       /* Do not tell caller, since he was told above! */
       if (caller != pconn) {
-        notify_conn(pconn->self, NULL, E_SETTING, ftc_command,
-                    "%s", line);
+        send_packet_chat_msg(pconn, &packet);
       }
     } conn_list_iterate_end;
+    event_cache_add_for_all(&packet);
   }
 }
 
