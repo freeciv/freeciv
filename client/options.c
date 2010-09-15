@@ -307,6 +307,13 @@ struct option {
       bool (*set) (struct option *, int);
       int (*cmp) (const char *, const char *);
     } *enum_vtable;
+    /* Specific bitwise accessors (OT_BITWISE == type). */
+    const struct option_bitwise_vtable {
+      unsigned (*get) (const struct option *);
+      unsigned (*def) (const struct option *);
+      const struct strvec * (*values) (const struct option *);
+      bool (*set) (struct option *, unsigned);
+    } *bitwise_vtable;
     /* Specific font accessors (OT_FONT == type). */
     const struct option_font_vtable {
       const char * (*get) (const struct option *);
@@ -358,8 +365,12 @@ struct option {
   OPTION_INIT(optset, OT_STRING, str_vtable, common_table, str_table,       \
               changed_cb)
 #define OPTION_ENUM_INIT(optset, common_table, enum_table, changed_cb)      \
-  OPTION_INIT(optset, OT_STRING, enum_vtable, common_table, enum_table,     \
+  OPTION_INIT(optset, OT_ENUM, enum_vtable, common_table, enum_table,       \
               changed_cb)
+#define OPTION_BITWISE_INIT(optset, common_table, bitwise_table,            \
+                            changed_cb)                                     \
+  OPTION_INIT(optset, OT_BITWISE, bitwise_vtable, common_table,             \
+              bitwise_table, changed_cb)
 #define OPTION_FONT_INIT(optset, common_table, font_table, changed_cb)      \
   OPTION_INIT(optset, OT_FONT, font_vtable, common_table, font_table,       \
               changed_cb)
@@ -489,6 +500,8 @@ bool option_reset(struct option *poption)
     return option_str_set(poption, option_str_def(poption));
   case OT_ENUM:
     return option_enum_set_int(poption, option_enum_def_int(poption));
+  case OT_BITWISE:
+    return option_bitwise_set(poption, option_bitwise_def(poption));
   case OT_FONT:
     return option_font_set(poption, option_font_def(poption));
   case OT_COLOR:
@@ -820,6 +833,72 @@ bool option_enum_set_str(struct option *poption, const char *str)
 }
 
 /****************************************************************************
+  Returns the current value of this bitwise option.
+****************************************************************************/
+unsigned option_bitwise_get(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(OT_BITWISE == poption->type, 0);
+
+  return poption->bitwise_vtable->get(poption);
+}
+
+/****************************************************************************
+  Returns the default value of this bitwise option.
+****************************************************************************/
+unsigned option_bitwise_def(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(OT_BITWISE == poption->type, 0);
+
+  return poption->bitwise_vtable->def(poption);
+}
+
+/****************************************************************************
+  Returns the mask of this bitwise option.
+****************************************************************************/
+unsigned option_bitwise_mask(const struct option *poption)
+{
+  const struct strvec *values;
+
+  fc_assert_ret_val(NULL != poption, 0);
+  fc_assert_ret_val(OT_BITWISE == poption->type, 0);
+
+  values = poption->bitwise_vtable->values(poption);
+  fc_assert_ret_val(NULL != values, 0);
+
+  return (1 << strvec_size(values)) - 1;
+}
+
+/****************************************************************************
+  Returns a vector of strings describing every bit of this option.
+****************************************************************************/
+const struct strvec *option_bitwise_values(const struct option *poption)
+{
+  fc_assert_ret_val(NULL != poption, NULL);
+  fc_assert_ret_val(OT_BITWISE == poption->type, NULL);
+
+  return poption->bitwise_vtable->values(poption);
+}
+
+/****************************************************************************
+  Sets the value of this bitwise option. Returns TRUE if the value changed.
+****************************************************************************/
+bool option_bitwise_set(struct option *poption, unsigned val)
+{
+  fc_assert_ret_val(NULL != poption, FALSE);
+  fc_assert_ret_val(OT_BITWISE == poption->type, FALSE);
+
+  if (0 != (val & ~option_bitwise_mask(poption))
+      || !poption->bitwise_vtable->set(poption, val)) {
+    return FALSE;
+  }
+
+  option_changed(poption);
+  return TRUE;
+}
+
+/****************************************************************************
   Returns the current value of this font option.
 ****************************************************************************/
 const char *option_font_get(const struct option *poption)
@@ -1034,6 +1113,19 @@ static const struct option_enum_vtable client_option_enum_vtable = {
   .cmp = fc_strcasecmp
 };
 
+static unsigned client_option_bitwise_get(const struct option *poption);
+static unsigned client_option_bitwise_def(const struct option *poption);
+static const struct strvec *
+    client_option_bitwise_values(const struct option *poption);
+static bool client_option_bitwise_set(struct option *poption, unsigned val);
+
+static const struct option_bitwise_vtable client_option_bitwise_vtable = {
+  .get = client_option_bitwise_get,
+  .def = client_option_bitwise_def,
+  .values = client_option_bitwise_values,
+  .set = client_option_bitwise_set
+};
+
 static const char *client_option_font_get(const struct option *poption);
 static const char *client_option_font_def(const struct option *poption);
 static const char *client_option_font_target(const struct option *poption);
@@ -1121,6 +1213,13 @@ struct client_option {
       struct strvec *values;
       struct strvec * (*const val_accessor) (void);
     } enumerator;
+    /* OT_BITWISE type option. */
+    struct {
+      unsigned *const pvalue;
+      const unsigned def;
+      struct strvec *values;
+      struct strvec * (*const val_accessor) (void);
+    } bitwise;
     /* OT_FONT type option. */
     struct {
       char *const pvalue;
@@ -1324,6 +1423,44 @@ struct client_option {
   {                                                                         \
     .enumerator = {                                                         \
       .pvalue = (int *) &oname,                                             \
+      .def = odef,                                                          \
+      .values = NULL, /* Set in options_init(). */                          \
+      .val_accessor = oacc                                                  \
+    }                                                                       \
+  },                                                                        \
+}
+
+/*
+ * Generate a client option of type OT_BITWISE.
+ *
+ * oname: The option data.  Note it is used as name to be loaded or saved.
+ *        So, you shouldn't change the name of this variable in any case.
+ * odesc: A short description of the client option.  Should be used with the
+ *        N_() macro.
+ * ohelp: The help text for the client option.  Should be used with the N_()
+ *        macro.
+ * ocat:  The client_option_class of this client option.
+ * ospec: A gui_type enumerator which determin for what particular client
+ *        gui this option is for.  Sets to GUI_LAST for common options.
+ * odef:  The default value for this client option.
+ * oacc:  The string accessor of type 'struct strvec * (*) (void)'.
+ * ocb:   A callback function of type void (*) (struct option *) called when
+ *        the option changed.
+ */
+#define GEN_BITWISE_OPTION(oname, odesc, ohelp, ocat, ospec, odef, oacc,    \
+                           ocb)                                             \
+{                                                                           \
+  .base_option = OPTION_BITWISE_INIT(&client_optset_static,                 \
+                                     client_option_common_vtable,           \
+                                     client_option_bitwise_vtable, ocb),    \
+  .name = #oname,                                                           \
+  .description = odesc,                                                     \
+  .help_text = ohelp,                                                       \
+  .category = ocat,                                                         \
+  .specific = ospec,                                                        \
+  {                                                                         \
+    .bitwise = {                                                            \
+      .pvalue = &oname,                                                     \
       .def = odef,                                                          \
       .values = NULL, /* Set in options_init(). */                          \
       .val_accessor = oacc                                                  \
@@ -2368,6 +2505,47 @@ static bool client_option_enum_set(struct option *poption, int val)
 }
 
 /****************************************************************************
+  Returns the current value of this client option of type OT_BITWISE.
+****************************************************************************/
+static unsigned client_option_bitwise_get(const struct option *poption)
+{
+  return *(CLIENT_OPTION(poption)->bitwise.pvalue);
+}
+
+/****************************************************************************
+  Returns the default value of this client option of type OT_BITWISE.
+****************************************************************************/
+static unsigned client_option_bitwise_def(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->bitwise.def;
+}
+
+/****************************************************************************
+  Returns the possible values of this client option of type OT_BITWISE.
+****************************************************************************/
+static const struct strvec *
+client_option_bitwise_values(const struct option *poption)
+{
+  return CLIENT_OPTION(poption)->bitwise.values;
+}
+
+/****************************************************************************
+  Set the value of this client option of type OT_BITWISE.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool client_option_bitwise_set(struct option *poption, unsigned val)
+{
+  struct client_option *pcoption = CLIENT_OPTION(poption);
+
+  if (*pcoption->bitwise.pvalue == val) {
+    return FALSE;
+  }
+
+  *pcoption->bitwise.pvalue = val;
+  return TRUE;
+}
+
+/****************************************************************************
   Returns the value of this client option of type OT_FONT.
 ****************************************************************************/
 static const char *client_option_font_get(const struct option *poption)
@@ -2537,6 +2715,34 @@ static bool client_option_load(struct option *poption,
                                            option_name(poption)))
               && option_enum_set_str(poption, string));
     }
+  case OT_BITWISE:
+    {
+      const struct strvec *values = option_bitwise_values(poption);
+      size_t size = strvec_size(values), num, i, j;
+      const char **vec = secfile_lookup_str_vec(sf, &num, "client.%s",
+                                                option_name(poption));
+      unsigned val = 0;
+
+      if (NULL == vec) {
+        return FALSE;
+      } else if (1 != num || '\0' != vec[0][0]) {
+        for (i = 0; i < num; i++) {
+          for (j = 0; j < size; j++) {
+            if (0 == fc_strcasecmp(vec[i], strvec_get(values, j))) {
+              val |= 1 << j;
+              break;
+            }
+          }
+          if (j >= size) {
+            log_error("Value \"%s\" not supported for client option \"%s\".",
+                      vec[i], option_name(poption));
+          }
+        }
+      } /* else it is an empty string, see client_option_save(). */
+
+      free(vec);
+      return option_bitwise_set(poption, val);
+    }
   case OT_FONT:
     {
       const char *string;
@@ -2596,6 +2802,28 @@ static void client_option_save(struct option *poption,
   case OT_ENUM:
     secfile_insert_str(sf, option_enum_get_str(poption),
                        "client.%s", option_name(poption));
+    break;
+  case OT_BITWISE:
+    {
+      const struct strvec *values = option_bitwise_values(poption);
+      size_t size = strvec_size(values), num = 0, i;
+      const char *vec[size];
+      unsigned val = option_bitwise_get(poption);
+
+      for (i = 0; i < size; i++) {
+        if (val & (1 << i)) {
+          vec[num++] = strvec_get(values, i);
+        }
+      }
+
+      if (0 != num) {
+        secfile_insert_str_vec(sf, vec, num, "client.%s",
+                               option_name(poption));
+      } else {
+        /* Save something: empty string. */
+        secfile_insert_str(sf, "", "client.%s", option_name(poption));
+      }
+    }
     break;
   case OT_FONT:
     secfile_insert_str(sf, option_font_get(poption),
@@ -2803,6 +3031,7 @@ static void server_option_free(struct server_option *poption)
 
   case OT_BOOLEAN:
   case OT_INTEGER:
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -3855,6 +4084,7 @@ void desired_settable_options_update(void)
       value = option_enum_get_str(poption);
       def_val = option_enum_def_str(poption);
       break;
+    case OT_BITWISE:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -3929,6 +4159,7 @@ static void desired_settable_option_send(struct option *poption)
   case OT_ENUM:
     value = option_enum_get_str(poption);
     break;
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -4235,6 +4466,13 @@ void options_init(void)
       fc_assert(NULL != pcoption->enumerator.values);
       break;
 
+    case OT_BITWISE:
+      fc_assert(NULL == pcoption->bitwise.values);
+      fc_assert_action(NULL != pcoption->bitwise.val_accessor, break);
+      pcoption->bitwise.values = pcoption->bitwise.val_accessor();
+      fc_assert(NULL != pcoption->bitwise.values);
+      break;
+
     case OT_COLOR:
       {
         /* Duplicate the string pointers. */
@@ -4272,6 +4510,12 @@ void options_free(void)
       fc_assert_action(NULL != pcoption->enumerator.values, break);
       strvec_destroy(pcoption->enumerator.values);
       pcoption->enumerator.values = NULL;
+      break;
+
+    case OT_BITWISE:
+      fc_assert_action(NULL != pcoption->bitwise.values, break);
+      strvec_destroy(pcoption->bitwise.values);
+      pcoption->bitwise.values = NULL;
       break;
 
     case OT_BOOLEAN:

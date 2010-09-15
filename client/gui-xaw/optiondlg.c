@@ -277,6 +277,7 @@ option_dialog_new(const char *name, const struct option_set *poptset)
       }
       break;
     case OT_ENUM:
+    case OT_BITWISE:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -364,6 +365,7 @@ static void option_dialog_option_refresh(struct option *poption)
                   : XtNstring, option_str_get(poption), NULL);
     break;
   case OT_ENUM:
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -414,6 +416,7 @@ static void option_dialog_option_apply(struct option *poption)
       }
       break;
     case OT_ENUM:
+    case OT_BITWISE:
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:

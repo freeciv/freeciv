@@ -579,6 +579,7 @@ static struct widget *option_widget_new(struct option *poption,
     }
     break;
 
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
@@ -661,6 +662,7 @@ static void option_widget_update(struct option *poption)
     }
     break;
 
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
@@ -742,6 +744,7 @@ static void option_widget_apply(struct option *poption)
     }
     break;
 
+  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
     log_error("Option type %s (%d) not supported yet.",
