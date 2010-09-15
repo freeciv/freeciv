@@ -1010,6 +1010,17 @@ regain a quarter of their hit points. Wonders can also boost recovery \
 (such as the United Nations in the default ruleset). Damaged units in \
 Sentry mode will wake up when they have regained all of their hit \
 points.\
+"), _("\
+As technology advances, new types of units become available which \
+obsolete existing types. When you discover such a new technology, \
+your existing units remain intact, but you can no longer build \
+new units of the obsolete type. While an obsolete unit is in one \
+of your cities, you can choose to upgrade it to the latest equivalent \
+by spending gold, with the cost increasing with the difference in \
+production point cost between the two types. When a unit is upgraded, \
+its hit points and movement points are preserved as a fraction of \
+the total; however, in some rulesets (but not the default) it will lose \
+some or all of its veteran levels.\
 ")
 
 [help_gen_units]
