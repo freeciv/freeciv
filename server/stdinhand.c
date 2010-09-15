@@ -4962,27 +4962,27 @@ static void show_teams(struct connection *caller)
 
 /****************************************************************************
   '/list' arguments
-****************************************************************************/
-enum LIST_ARGS {
-  LIST_CONNECTIONS,
-  LIST_IGNORE,
-  LIST_PLAYERS,
-  LIST_SCENARIOS,
-  LIST_TEAMS,
+**************************************************************************/
+#define SPECENUM_NAME list_args
+#define SPECENUM_VALUE0     LIST_CONNECTIONS
+#define SPECENUM_VALUE0NAME "connections"
+#define SPECENUM_VALUE1     LIST_IGNORE
+#define SPECENUM_VALUE1NAME "ignored users"
+#define SPECENUM_VALUE2     LIST_PLAYERS
+#define SPECENUM_VALUE2NAME "players"
+#define SPECENUM_VALUE3     LIST_SCENARIOS
+#define SPECENUM_VALUE3NAME "scenarios"
+#define SPECENUM_VALUE4     LIST_TEAMS
+#define SPECENUM_VALUE4NAME "teams"
+#include "specenum_gen.h"
 
-  LIST_ARG_NUM /* Must be last */
-};
-static const char * const list_args[] = {
-  "connections",
-  "ignored users",
-  "players",
-  "scenarios",
-  "teams",
-
-  NULL
-};
-static const char *listarg_accessor(int i) {
-  return list_args[i];
+/**************************************************************************
+  Returns possible parameters for the list command.
+**************************************************************************/
+static const char *list_accessor(int i)
+{
+  i = CLIP(0, i, list_args_max());
+  return list_args_name((enum list_args) i);
 }
 
 /**************************************************************************
@@ -4992,10 +4992,10 @@ static bool show_list(struct connection *caller, char *arg)
 {
   enum m_pre_result match_result;
   int ind_int;
-  enum LIST_ARGS ind;
+  enum list_args ind;
 
   remove_leading_trailing_spaces(arg);
-  match_result = match_prefix(listarg_accessor, LIST_ARG_NUM, 0,
+  match_result = match_prefix(list_accessor, list_args_max() + 1, 0,
                               fc_strncasecmp, NULL, arg, &ind_int);
   ind = ind_int;
 
@@ -5025,8 +5025,6 @@ static bool show_list(struct connection *caller, char *arg)
   case LIST_TEAMS:
     show_teams(caller);
     return TRUE;
-  case LIST_ARG_NUM:
-    break;
   }
 
   cmd_reply(CMD_LIST, caller, C_FAIL,
@@ -5188,7 +5186,7 @@ The valid first arguments to "list".
 **************************************************************************/
 static char *list_generator(const char *text, int state)
 {
-  return generic_generator(text, state, LIST_ARG_NUM, listarg_accessor);
+  return generic_generator(text, state, list_args_max() + 1, list_accessor);
 }
 
 /**************************************************************************
