@@ -123,6 +123,14 @@ static void ai_manage_taxes(struct player *pplayer)
     expenses += pcity->usage[O_GOLD];
   } city_list_iterate_end;
 
+  if (game.info.gold_upkeep_style > 0) {
+    /* Account for units with gold upkeep paid for by the nation.
+     * (game.info.gold_upkeep_style = 1,2) */
+    unit_list_iterate(pplayer->units, punit) {
+      expenses += punit->upkeep[O_GOLD];
+    } unit_list_iterate_end;
+  }
+
   /* Find minimum tax rate which gives us a positive balance. We assume
    * that we want science most and luxuries least here, and reverse or 
    * modify this assumption later. on */
