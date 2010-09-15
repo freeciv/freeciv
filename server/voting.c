@@ -776,46 +776,28 @@ void handle_vote_submit(struct connection *pconn, int vote_no, int value)
 }
 
 /****************************************************************************
-  Sends a packet_vote_new to pconn for every currently running global vote.
+  Sends a packet_vote_new to pconn for every currently running votes.
 ****************************************************************************/
-void send_running_global_votes(struct connection *pconn)
-{
-  if (!pconn || !vote_list || vote_list_size(vote_list) < 1) {
-    return;
-  }
-
-  freelog(LOG_DEBUG, "Sending running global votes to %s.",
-          conn_description(pconn));
-
-  connection_do_buffer(pconn);
-  vote_list_iterate(vote_list, pvote) {
-    if (!vote_is_team_only(pvote)) {
-      lsend_vote_new(pconn->self, pvote);
-      lsend_vote_update(pconn->self, pvote, count_voters(pvote));
-    }
-  } vote_list_iterate_end;
-  connection_do_unbuffer(pconn);
-}
-
-/****************************************************************************
-  Sends a packet_vote_new to pconn for every currently running team vote
-  'pconn' can see.
-****************************************************************************/
-void send_running_team_votes(struct connection *pconn)
+void send_running_votes(struct connection *pconn, bool only_team_votes)
 {
   if (NULL == vote_list
       || vote_list_size(vote_list) < 1
       || NULL == pconn
-      || NULL == conn_get_player(pconn)) {
+      || (only_team_votes && NULL == conn_get_player(pconn))) {
     return;
   }
 
-  freelog(LOG_DEBUG, "Sending running team votes to %s.",
-          conn_description(pconn));
+  freelog(LOG_DEBUG, "Sending %s running votes to %s.",
+          only_team_votes ? "team" : "all", conn_description(pconn));
 
   connection_do_buffer(pconn);
   vote_list_iterate(vote_list, pvote) {
-    if (vote_is_team_only(pvote) && conn_can_see_vote(pconn, pvote)) {
+    if (vote_is_team_only(pvote)) {
+      if (conn_can_see_vote(pconn, pvote)) {
+        lsend_vote_new(pconn->self, pvote);
+        lsend_vote_update(pconn->self, pvote, count_voters(pvote));
+      }
+    } else if (!only_team_votes) {
       lsend_vote_new(pconn->self, pvote);
       lsend_vote_update(pconn->self, pvote, count_voters(pvote));
     }

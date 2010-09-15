@@ -51,6 +51,10 @@
 #include "connecthand.h"
 
 
+static bool connection_attach_real(struct connection *pconn,
+                                   struct player *pplayer,
+                                   bool observing, bool connecting);
+
 /**************************************************************************
   Set the access level of a connection, and re-send some needed info.  If
   granted is TRUE, then it will overwrite the granted_access_level too.
@@ -166,11 +170,9 @@ void establish_new_connection(struct connection *pconn)
   send_server_settings(dest);
   send_scenario_info(dest);
   send_game_info(dest);
-  send_pending_events(pconn, TRUE);
-  send_running_global_votes(pconn);
 
   if ((pplayer = find_player_by_user(pconn->username))
-      && connection_attach(pconn, pplayer, FALSE)) {
+      && connection_attach_real(pconn, pplayer, FALSE, TRUE)) {
     /* a player has already been created for this user, reconnect */
 
     if (S_S_INITIAL == server_state()) {
@@ -190,6 +192,9 @@ void establish_new_connection(struct connection *pconn)
     send_player_info_c(NULL, dest);
     send_conn_info(game.est_connections, dest);
   }
+
+  send_pending_events(pconn, TRUE);
+  send_running_votes(pconn, FALSE);
 
   if (NULL == pplayer) {
     /* Else this has already been done in connection_attach(). */
@@ -472,8 +477,8 @@ struct player *find_uncontrolled_player(void)
   return NULL;
 }
 
-/**************************************************************************
-  Setup pconn as a client connected to pplayer:
+/****************************************************************************
+  Setup pconn as a client connected to pplayer or observer:
   Updates pconn->playing, pplayer->connections, pplayer->is_connected
   and pconn->observer.
 
@@ -483,13 +488,14 @@ struct player *find_uncontrolled_player(void)
     the game as global observer.
   - If pplayer is not NULL and observing is FALSE: take this player.
   - If pplayer is not NULL and observing is TRUE: observe this player.
- 
+
   Note take_command() needs to know if this function will success before
        it's time to call this. Keep take_command() checks in sync when
        modifying this.
-**************************************************************************/
-bool connection_attach(struct connection *pconn, struct player *pplayer,
-                       bool observing)
+****************************************************************************/
+static bool connection_attach_real(struct connection *pconn,
+                                   struct player *pplayer,
+                                   bool observing, bool connecting)
 {
   RETURN_VAL_IF_FAIL(pconn != NULL, FALSE);
   RETURN_VAL_IF_FAIL_MSG(!pconn->observer && pconn->playing == NULL, FALSE,
@@ -570,8 +576,11 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     dsend_packet_start_phase(pconn, game.info.phase);
     /* Must be after C_S_RUNNING client state to be effective. */
     send_diplomatic_meetings(pconn);
-    send_pending_events(pconn, FALSE);
-    send_running_team_votes(pconn);
+    if (!connecting) {
+      /* Those will be sent later in establish_new_connection(). */
+      send_pending_events(pconn, FALSE);
+      send_running_votes(pconn, TRUE);
+    }
     break;
 
   case S_S_OVER:
@@ -579,8 +588,11 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
     send_all_info(pconn->self, TRUE);
     send_packet_thaw_hint(pconn);
     report_final_scores(pconn->self);
-    send_pending_events(pconn, FALSE);
-    send_running_team_votes(pconn);
+    if (!connecting) {
+      /* Those will be sent later in establish_new_connection(). */
+      send_pending_events(pconn, FALSE);
+      send_running_votes(pconn, TRUE);
+    }
     break;
 
   case S_S_INITIAL:
@@ -592,14 +604,23 @@ bool connection_attach(struct connection *pconn, struct player *pplayer,
 
   return TRUE;
 }
-  
-/**************************************************************************
+
+/****************************************************************************
+  Setup pconn as a client connected to pplayer or observer.
+****************************************************************************/
+bool connection_attach(struct connection *pconn, struct player *pplayer,
+                       bool observing)
+{
+  return connection_attach_real(pconn, pplayer, observing, FALSE);
+}
+
+/****************************************************************************
   Remove pconn as a client connected to pplayer:
   Updates pconn->playing, pconn->playing->connections,
   pconn->playing->is_connected and pconn->observer.
 
   pconn remains a member of game.est_connections.
-**************************************************************************/
+****************************************************************************/
 void connection_detach(struct connection *pconn)
 {
   struct player *pplayer;
