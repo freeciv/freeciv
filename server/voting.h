@@ -89,7 +89,7 @@ struct vote *vote_new(struct connection *caller,
 const struct connection *vote_get_caller(const struct vote *pvote);
 bool vote_is_team_only(const struct vote *pvote);
 int describe_vote(struct vote *pvote, char *buf, int buflen);
-void send_running_global_votes(struct connection *pconn);
+void send_running_votes(struct connection *pconn, bool only_team_votes);
 void send_running_team_votes(struct connection *pconn);
 void send_remove_team_votes(struct connection *pconn);
 void send_updated_vote_totals(struct conn_list *dest);
