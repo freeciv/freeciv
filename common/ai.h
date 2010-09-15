@@ -16,7 +16,6 @@
 /* common */
 #include "fc_types.h" /* MAX_LEN_NAME */
 
-#define FC_AI_DEFAULT 0
 #define FC_AI_LAST 1
 
 struct Treaty;
@@ -67,6 +66,7 @@ struct ai_type
   } funcs;
 };
 
+struct ai_type *ai_type_alloc(void);
 struct ai_type *get_ai_type(int id);
 int ai_type_number(const struct ai_type *ai);
 void init_ai(struct ai_type *ai);

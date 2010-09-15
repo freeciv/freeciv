@@ -25,13 +25,14 @@
 
 static struct ai_type ai_types[FC_AI_LAST];
 
+static int ai_type_count = 0;
+
 /***************************************************************
-  Returns ai_type of given id. Currently only one ai_type,
-  id FC_AI_DEFAULT, is supported.
+  Returns ai_type of given id.
 ***************************************************************/
 struct ai_type *get_ai_type(int id)
 {
-  fc_assert(id == FC_AI_DEFAULT);
+  fc_assert(id >= 0 && id < FC_AI_LAST);
 
   return &ai_types[id];
 }
@@ -70,4 +71,16 @@ struct ai_type *ai_type_by_name(const char *search)
   } ai_type_iterate_end;
 
   return NULL;
+}
+
+/***************************************************************
+  Return next free ai_type
+***************************************************************/
+struct ai_type *ai_type_alloc(void)
+{
+  if (ai_type_count >= FC_AI_LAST) {
+    return NULL;
+  }
+
+  return get_ai_type(ai_type_count++);
 }

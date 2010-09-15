@@ -29,11 +29,11 @@
 #include "defaultai.h"
 
 /**************************************************************************
-  Initialize ai_type.
+  Initialize default ai_type.
 **************************************************************************/
 void ai_init(void)
 {
-  struct ai_type *ai = get_ai_type(FC_AI_DEFAULT);
+  struct ai_type *ai = ai_type_alloc();
 
   init_ai(ai);
 
