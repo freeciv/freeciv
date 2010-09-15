@@ -76,10 +76,10 @@
 #define UNIT_CLASS_SECTION_PREFIX "unitclass_"
 #define UNIT_SECTION_PREFIX "unit_"
 
-static const char name_too_long[] = "Name \"%s\" too long; truncating.";
-#define check_name(name) (check_strlen(name, MAX_LEN_NAME, name_too_long))
+#define check_name(name) (check_strlen(name, MAX_LEN_NAME, NULL))
 
 /* avoid re-reading files */
+static const char name_too_long[] = "Name \"%s\" too long; truncating.";
 #define MAX_SECTION_LABEL 64
 #define section_strlcpy(dst, src) \
 	(void) loud_strlcpy(dst, src, MAX_SECTION_LABEL, name_too_long)
@@ -2624,6 +2624,11 @@ static void load_ruleset_nations(struct section_file *file)
     for(j = 0; j < dim; j++) {
       pl->leaders[j].name = fc_strdup(leaders[j]);
       if (check_name(leaders[j])) {
+        /* The ruleset contains a name that is too long.  This shouldn't
+           happen - if it does, the author should get immediate feedback */
+        ruleset_error(LOG_ERROR,
+                      "Nation %s: leader name \"%s\" is too long;"
+                      " shortening it.", nation_rule_name(pl), leaders[j]);
 	pl->leaders[j].name[MAX_LEN_NAME - 1] = '\0';
       }
     }
@@ -2822,7 +2827,10 @@ static void load_ruleset_nations(struct section_file *file)
     pl->city_names = load_city_name_list(file, sec_name, "cities");
 
     pl->legend = fc_strdup(secfile_lookup_str(file, "%s.legend", sec_name));
-    if (check_strlen(pl->legend, MAX_LEN_MSG, "Legend '%s' is too long")) {
+    if (check_strlen(pl->legend, MAX_LEN_MSG, NULL)) {
+      ruleset_error(LOG_ERROR,
+                    "Nation %s: legend \"%s\" is too long;"
+                    " shortening it.", nation_rule_name(pl), pl->legend);
       pl->legend[MAX_LEN_MSG - 1] = '\0';
     }
 
