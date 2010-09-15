@@ -339,7 +339,7 @@ static struct my_menu main_menu[] = {
   {NULL, 0},
 
 
-  {N_("_View"),					IDM_SUBMENU},
+  {N_("?verb:_View"),				IDM_SUBMENU},
   {N_("Map _Grid")		"\tCtl+G",	IDM_VIEW_MAP_GRID},
   {N_("National _Borders")	"\tCtl+B", 	IDM_VIEW_NATIONAL_BORDERS},
   {N_("City _Names")		"\tCtl+N",	IDM_VIEW_CITY_NAMES},
@@ -467,7 +467,7 @@ static int my_append_menu(HMENU menu, struct my_menu *item, HMENU submenu)
       accel[0]=0;
       accel++;
     }
-  tr=_(menustr);
+  tr=Q_(menustr);
   sz_strlcpy(translated,tr);
   if (accel)
     {

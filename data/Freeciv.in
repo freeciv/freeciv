@@ -2025,7 +2025,7 @@ Freeciv*worklistreportdialog.*.buttondeletewl.right:	chainRight
 !
 Freeciv*gamemenu.label:                 _("Game")
 Freeciv*governmentmenu.label:           _("Government")
-Freeciv*viewmenu.label:                 _("View")
+Freeciv*viewmenu.label:                 _("?verb:View")
 Freeciv*ordersmenu.label:               _("Orders")
 Freeciv*reportsmenu.label:              _("Reports")
 Freeciv*editormenu.label:               _("Editor")
