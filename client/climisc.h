@@ -13,9 +13,6 @@
 #ifndef FC__CLIMISC_H
 #define FC__CLIMISC_H
 
-/* utility */
-#include "shared.h"             /* MAX_LEN_NAME */
-
 /* common */
 #include "fc_types.h"
 #include "featured_text.h"      /* struct ft_color */

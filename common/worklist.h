@@ -14,7 +14,6 @@
 #define FC__WORKLIST_H
 
 #include "registry.h"
-#include "shared.h"		/* MAX_LEN_NAME */
 
 #include "fc_types.h"
 
