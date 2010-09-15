@@ -1239,7 +1239,7 @@ static void setup_widgets(void)
                      editgui_get_editbar()->widget,
                      FALSE, FALSE, 4);
 
-  label = gtk_label_new(_("View"));
+  label = gtk_label_new(Q_("?noun:View"));
   gtk_notebook_append_page(GTK_NOTEBOOK(top_notebook), vbox, label);
 
   frame = gtk_frame_new(NULL);

@@ -1208,7 +1208,7 @@ static GtkActionGroup *get_safe_group(void)
       {"MENU_GAME", NULL, _("_Game"), NULL, NULL, NULL},
       {"MENU_OPTIONS", NULL, _("_Options"), NULL, NULL, NULL},
       {"MENU_EDIT", NULL, _("_Edit"), NULL, NULL, NULL},
-      {"MENU_VIEW", NULL, _("_View"), NULL, NULL, NULL},
+      {"MENU_VIEW", NULL, Q_("?verb:_View"), NULL, NULL, NULL},
       {"MENU_IMPROVEMENTS", NULL, _("_Improvements"), NULL, NULL, NULL},
       {"MENU_CIVILIZATION", NULL, _("C_ivilization"), NULL, NULL, NULL},
       {"MENU_HELP", NULL, _("_Help"), NULL, NULL, NULL},
@@ -1251,7 +1251,7 @@ static GtkActionGroup *get_safe_group(void)
        "<Control>l", NULL, G_CALLBACK(worklists_callback)},
 
       /* Civilization menu. */
-      {"MAP_VIEW", NULL, _("_View"),
+      {"MAP_VIEW", NULL, Q_("?noun:_View"),
        "F1", NULL, G_CALLBACK(map_view_callback)},
       {"REPORT_NATIONS", NULL, _("_Nations"),
        "F3", NULL, G_CALLBACK(report_nations_callback)},

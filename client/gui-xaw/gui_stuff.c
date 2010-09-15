@@ -277,7 +277,7 @@ static const char *convert_intl_marking(const char *str)
   strcpy(buf.str, str+3);
   buf.str[len-5] = '\0';
 
-  return _(buf.str);
+  return Q_(buf.str);
 }
 
 /**************************************************************************

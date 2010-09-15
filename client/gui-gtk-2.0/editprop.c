@@ -3091,7 +3091,7 @@ static struct extviewer *extviewer_new(struct objprop *op)
   }
 
   if (objprop_is_readonly(op)) {
-    button = gtk_button_new_with_label(_("View"));
+    button = gtk_button_new_with_label(Q_("?verb:View"));
   } else {
     button = gtk_button_new_with_label(_("Edit"));
   }
