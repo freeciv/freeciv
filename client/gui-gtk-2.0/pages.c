@@ -1008,10 +1008,57 @@ GtkWidget *create_network_page(void)
 }
 
 
-/**************************************************************************
+/****************************************************************************
                                   START PAGE
-**************************************************************************/
+****************************************************************************/
 static GtkWidget *start_aifill_spin;
+
+
+/****************************************************************************
+  Connect the object to the player and the connection.
+****************************************************************************/
+static void object_put(GObject *object, struct player *pplayer,
+                       struct connection *pconn)
+{
+  /* Note that passing -1 to GINT_TO_POINTER() is buggy with some versions
+   * of gcc. player_slot_count() is not a valid player number. 0 is not
+   * a valid connection id (see comment in server/sernet.c:
+   * makeup_connection_name()). */
+  g_object_set_data(object, "player_id",
+                    GINT_TO_POINTER(NULL != pplayer
+                                    ? player_number(pplayer)
+                                    : player_slot_count()));
+  g_object_set_data(object, "connection_id",
+                    GINT_TO_POINTER(NULL != pconn ? pconn->id : 0));
+}
+
+/****************************************************************************
+  Extract the player and the connection set with object_put(). Returns TRUE
+  if at least one of them isn't NULL.
+****************************************************************************/
+static bool object_extract(GObject *object, struct player **ppplayer,
+                           struct connection **ppconn)
+{
+  bool ret = FALSE;
+  int id;
+
+  if (NULL != ppplayer) {
+    id = GPOINTER_TO_INT(g_object_get_data(object, "player_id"));
+    *ppplayer = player_by_number(id);
+    if (NULL != *ppplayer) {
+      ret = TRUE;
+    }
+  }
+  if (NULL != ppconn) {
+    id = GPOINTER_TO_INT(g_object_get_data(object, "connection_id"));
+    *ppconn = find_conn_by_id(id);
+    if (NULL != *ppconn) {
+      ret = TRUE;
+    }
+  }
+
+  return ret;
+}
 
 /**************************************************************************
   request the game options dialog.
@@ -1093,38 +1140,6 @@ static void pick_nation_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  Called when "observe" is clicked.
-**************************************************************************/
-static void take_callback(GtkWidget *w, gpointer data)
-{
-  struct player *plr = client_player();
-
-  if (NULL != plr) {
-    const char *name = player_name(plr);
-  
-    if (client_is_observer()) {
-      if (plr->ai_controlled) {
-        send_chat_printf("/aitoggle \"%s\"", name);
-      }
-      send_chat_printf("/take \"%s\"", name);
-    } else {
-      if (!plr->ai_controlled) {
-        /* Make sure player reverts to AI control. This is much more neat,
-         * and hides the ugly double username in the name list because
-         * the player username equals the connection username. */
-        send_chat_printf("/aitoggle \"%s\"", name);
-      }
-      send_chat("/detach");
-      send_chat("/observe");
-    }
-  } else if (!client.conn.observer) {
-    send_chat("/observe");
-  } else {
-    send_chat("/detach");
-  }
-}
-
-/**************************************************************************
   Update the start page.
 **************************************************************************/
 void update_start_page(void)
@@ -1138,20 +1153,27 @@ void update_start_page(void)
   update_conn_list_dialog();
 }
 
-static struct player *conn_menu_player;
-static struct connection *conn_menu_conn;
+/**************************************************************************
+  Called when "observe" is clicked.
+**************************************************************************/
+static void take_callback(GtkWidget *w, gpointer data)
+{
+  send_chat(client_is_observer() ? "/detach" : "/observe");
+}
 
 /****************************************************************************
   Callback for when a team is chosen from the conn menu.
 ****************************************************************************/
-static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_team_chosen(GObject *object, gpointer data)
 {
+  struct player *pplayer;
   struct team_slot *tslot = data;
 
-  if (NULL != tslot
-      && team_slot_index(tslot) != team_number(conn_menu_player->team)) {
+  if (object_extract(object, &pplayer, NULL)
+      && NULL != tslot
+      && team_slot_index(tslot) != team_number(pplayer->team)) {
     send_chat_printf("/team \"%s\" \"%s\"",
-                     player_name(conn_menu_player),
+                     player_name(pplayer),
                      team_slot_rule_name(tslot));
   }
 }
@@ -1159,60 +1181,72 @@ static void conn_menu_team_chosen(GtkMenuItem *menuitem, gpointer data)
 /****************************************************************************
   Callback for when the "ready" entry is chosen from the conn menu.
 ****************************************************************************/
-static void conn_menu_ready_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_ready_chosen(GObject *object, gpointer data)
 {
-  struct player *pplayer = conn_menu_player;
+  struct player *pplayer;
 
-  dsend_packet_player_ready(&client.conn,
-			    player_number(pplayer), !pplayer->is_ready);
+  if (object_extract(object, &pplayer, NULL)) {
+    dsend_packet_player_ready(&client.conn,
+                              player_number(pplayer), !pplayer->is_ready);
+  }
 }
 
 /****************************************************************************
   Callback for when the pick-nation entry is chosen from the conn menu.
 ****************************************************************************/
-static void conn_menu_nation_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_nation_chosen(GObject *object, gpointer data)
 {
-  popup_races_dialog(conn_menu_player);
+  struct player *pplayer;
+
+  if (object_extract(object, &pplayer, NULL)) {
+    popup_races_dialog(pplayer);
+  }
 }
 
 /****************************************************************************
   Miscellaneous callback for the conn menu that allows an arbitrary command
-  (/observe, /remove, /hard) to be run on the player.
+  (/observe, /remove, /hard, etc.) to be run on the player.
 ****************************************************************************/
-static void conn_menu_player_command(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_player_command(GObject *object, gpointer data)
 {
-  char *command = data;
+  struct player *pplayer;
 
-  fc_assert_ret(command != NULL);
-  fc_assert_ret(conn_menu_player != NULL);
-
-  send_chat_printf("/%s \"%s\"", command, player_name(conn_menu_player));
+  if (object_extract(object, &pplayer, NULL)) {
+    send_chat_printf("/%s \"%s\"",
+                     (char *) g_object_get_data(G_OBJECT(data), "command"),
+                     player_name(pplayer));
+  }
 }
 
 /****************************************************************************
   Take command in the conn menu.
 ****************************************************************************/
-static void conn_menu_player_take(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_player_take(GObject *object, gpointer data)
 {
-  if (conn_menu_player->ai_controlled) {
-    /* See comment on detach command for why */
-    send_chat_printf("/aitoggle \"%s\"", player_name(conn_menu_player));
+  struct player *pplayer;
+
+  if (object_extract(object, &pplayer, NULL)) {
+    if (pplayer->ai_controlled) {
+      /* See comment on detach command for why. */
+      send_chat_printf("/aitoggle \"%s\"", player_name(pplayer));
+    }
+    send_chat_printf("/take \"%s\"", player_name(pplayer));
   }
-  send_chat_printf("/take \"%s\"", player_name(conn_menu_player));
 }
 
 /****************************************************************************
   Miscellaneous callback for the conn menu that allows an arbitrary command
-  (/cmdlevel, /cut) to be run on the connection.
+  (/cmdlevel, /cut, etc.) to be run on the connection.
 ****************************************************************************/
-static void conn_menu_connection_command(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_connection_command(GObject *object, gpointer data)
 {
-  const char *command = data;
+  struct connection *pconn;
 
-  fc_assert_ret(conn_menu_conn != NULL);
-  fc_assert_ret(command != NULL);
-
-  send_chat_printf("/%s \"%s\"", command, conn_menu_conn->username);
+  if (object_extract(object, NULL, &pconn)) {
+    send_chat_printf("/%s \"%s\"",
+                     (char *) g_object_get_data(G_OBJECT(data), "command"),
+                     pconn->username);
+  }
 }
 
 /**************************************************************************
@@ -1249,9 +1283,14 @@ static void show_conn_popup(struct player *pplayer, struct connection *pconn)
 /****************************************************************************
   Callback for when the "info" entry is chosen from the conn menu.
 ****************************************************************************/
-static void conn_menu_info_chosen(GtkMenuItem *menuitem, gpointer data)
+static void conn_menu_info_chosen(GObject *object, gpointer data)
 {
-  show_conn_popup(conn_menu_player, conn_menu_conn);
+  struct player *pplayer;
+  struct connection *pconn;
+
+  if (object_extract(object, &pplayer, &pconn)) {
+    show_conn_popup(pplayer, pconn);
+  }
 }
 
 /****************************************************************************
@@ -1259,144 +1298,123 @@ static void conn_menu_info_chosen(GtkMenuItem *menuitem, gpointer data)
   to allow changing the team.
 ****************************************************************************/
 static GtkWidget *create_conn_menu(struct player *pplayer,
-				   struct connection *pconn)
+                                   struct connection *pconn)
 {
   GtkWidget *menu;
-  GtkWidget *entry;
+  GtkWidget *item;
   char buf[128];
 
   menu = gtk_menu_new();
+  object_put(G_OBJECT(menu), pplayer, pconn);
 
   fc_snprintf(buf, sizeof(buf), _("%s info"),
               pconn ? pconn->username : player_name(pplayer));
-  entry = gtk_menu_item_new_with_label(buf);
-  g_object_set_data_full(G_OBJECT(menu),
-			 "info", entry,
-			 (GtkDestroyNotify) gtk_widget_unref);
-  gtk_container_add(GTK_CONTAINER(menu), entry);
-  g_signal_connect(GTK_OBJECT(entry), "activate",
-		   GTK_SIGNAL_FUNC(conn_menu_info_chosen), NULL);
+  item = gtk_menu_item_new_with_label(buf);
+  gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+  g_signal_connect_swapped(item, "activate",
+                           G_CALLBACK(conn_menu_info_chosen), menu);
 
-  if (pplayer) {
-    entry = gtk_menu_item_new_with_label(_("Toggle player ready"));
-    gtk_widget_set_sensitive(entry, pplayer && !pplayer->ai_controlled);
-    g_object_set_data_full(G_OBJECT(menu), "ready", entry,
-                           (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-                     GTK_SIGNAL_FUNC(conn_menu_ready_chosen), NULL);
+  if (NULL != pplayer) {
+    item = gtk_menu_item_new_with_label(_("Toggle player ready"));
+    gtk_widget_set_sensitive(item, !pplayer->ai_controlled);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect_swapped(item, "activate",
+                             G_CALLBACK(conn_menu_ready_chosen), menu);
 
-    entry = gtk_menu_item_new_with_label(_("Pick nation"));
-    gtk_widget_set_sensitive(entry,
+    item = gtk_menu_item_new_with_label(_("Pick nation"));
+    gtk_widget_set_sensitive(item,
                              can_conn_edit_players_nation(&client.conn,
                                                           pplayer));
-    g_object_set_data_full(G_OBJECT(menu), "nation", entry,
-                           (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-                     GTK_SIGNAL_FUNC(conn_menu_nation_chosen), NULL);
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect_swapped(item, "activate",
+                             G_CALLBACK(conn_menu_nation_chosen), menu);
 
-    entry = gtk_menu_item_new_with_label(_("Observe this player"));
-    g_object_set_data_full(G_OBJECT(menu), "observe", entry,
-                           (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-                     GTK_SIGNAL_FUNC(conn_menu_player_command), "observe");
+    item = gtk_menu_item_new_with_label(_("Observe this player"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_object_set_data_full(G_OBJECT(item), "command", g_strdup("observe"),
+                           (GDestroyNotify) g_free);
+    g_signal_connect_swapped(item, "activate",
+                             G_CALLBACK(conn_menu_player_command), menu);
 
-    entry = gtk_menu_item_new_with_label(_("Take this player"));
-    g_object_set_data_full(G_OBJECT(menu), "take", entry,
-                           (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-                     GTK_SIGNAL_FUNC(conn_menu_player_take), "take");
+    item = gtk_menu_item_new_with_label(_("Take this player"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_signal_connect_swapped(item, "activate",
+                             G_CALLBACK(conn_menu_player_take), menu);
   }
 
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pconn
       && (pconn->id != client.conn.id || NULL != pplayer)) {
-    entry = gtk_separator_menu_item_new();
-    g_object_set_data_full(G_OBJECT(menu),
-			   "ctrl", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
+    item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     if (pconn->id != client.conn.id) {
-      entry = gtk_menu_item_new_with_label(_("Cut connection"));
-      g_object_set_data_full(G_OBJECT(menu), "cut", entry,
-			     (GtkDestroyNotify) gtk_widget_unref);
-      gtk_container_add(GTK_CONTAINER(menu), entry);
-      g_signal_connect(GTK_OBJECT(entry), "activate",
-		       GTK_SIGNAL_FUNC(conn_menu_connection_command), "cut");
+      item = gtk_menu_item_new_with_label(_("Cut connection"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_object_set_data_full(G_OBJECT(item), "command", g_strdup("cut"),
+                             (GDestroyNotify) g_free);
+      g_signal_connect_swapped(item, "activate",
+                               G_CALLBACK(conn_menu_connection_command),
+                               menu);
     }
   }
 
   if (ALLOW_CTRL <= client.conn.access_level && NULL != pplayer) {
-    entry = gtk_menu_item_new_with_label(_("Aitoggle player"));
-    g_object_set_data_full(G_OBJECT(menu), "aitoggle", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(conn_menu_player_command), "aitoggle");
+    item = gtk_menu_item_new_with_label(_("Aitoggle player"));
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+    g_object_set_data_full(G_OBJECT(item), "command", g_strdup("aitoggle"),
+                           (GDestroyNotify) g_free);
+    g_signal_connect_swapped(item, "activate",
+                             G_CALLBACK(conn_menu_player_command), menu);
 
-    if (pplayer != client.conn.playing
-        && game.info.is_new_game) {
-      entry = gtk_menu_item_new_with_label(_("Remove player"));
-      g_object_set_data_full(G_OBJECT(menu), "remove", entry,
-			     (GtkDestroyNotify) gtk_widget_unref);
-      gtk_container_add(GTK_CONTAINER(menu), entry);
-      g_signal_connect(GTK_OBJECT(entry), "activate",
-		       GTK_SIGNAL_FUNC(conn_menu_player_command), "remove");
+    if (pplayer != client.conn.playing && game.info.is_new_game) {
+      item = gtk_menu_item_new_with_label(_("Remove player"));
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_object_set_data_full(G_OBJECT(item), "command", g_strdup("remove"),
+                             (GDestroyNotify) g_free);
+      g_signal_connect_swapped(item, "activate",
+                               G_CALLBACK(conn_menu_player_command), menu);
     }
   }
 
-  if (ALLOW_HACK == client.conn.access_level && NULL != pconn
+  if (ALLOW_ADMIN <= client.conn.access_level && NULL != pconn
       && pconn->id != client.conn.id) {
-    entry = gtk_menu_item_new_with_label(_("Give info access"));
-    g_object_set_data_full(G_OBJECT(menu), "cmdlevel-info", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(conn_menu_connection_command),
-		     "cmdlevel info");
+    enum cmdlevel level;
 
-    entry = gtk_menu_item_new_with_label(_("Give ctrl access"));
-    g_object_set_data_full(G_OBJECT(menu), "cmdlevel-ctrl", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
-    g_signal_connect(GTK_OBJECT(entry), "activate",
-		     GTK_SIGNAL_FUNC(conn_menu_connection_command),
-                     "cmdlevel ctrl");
-
-    /* No entry for hack access; that would be a serious security hole. */
+    /* No item for hack access; that would be a serious security hole. */
+    for (level = cmdlevel_min(); level < client.conn.access_level; level++) {
+      /* TRANS: Give access level to a connection. */
+      fc_snprintf(buf, sizeof(buf), _("Give %s access"),
+                  cmdlevel_name(level));
+      item = gtk_menu_item_new_with_label(buf);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      g_object_set_data_full(G_OBJECT(item), "command",
+                             g_strdup_printf("cmdlevel %s",
+                                             cmdlevel_name(level)),
+                             (GDestroyNotify) g_free);
+      g_signal_connect_swapped(item, "activate",
+                               G_CALLBACK(conn_menu_connection_command),
+                               menu);
+    }
   }
 
   if (ALLOW_CTRL <= client.conn.access_level
       && NULL != pplayer && pplayer->ai_controlled) {
     enum ai_level level;
 
-    entry = gtk_separator_menu_item_new();
-    g_object_set_data_full(G_OBJECT(menu),
-			   "sep-ai-skill", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
+    item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     for (level = 0; level < AI_LEVEL_LAST; level++) {
       if (is_settable_ai_level(level)) {
         const char *level_name = ai_level_name(level);
         const char *level_cmd = ai_level_cmd(level);
-        static char lvl_cmd_tmp[AI_LEVEL_LAST][50];
 
-        /* Copy to non-const string */
-        fc_strlcpy(lvl_cmd_tmp[level], level_cmd,
-                   sizeof(lvl_cmd_tmp[level]));
-
-        entry = gtk_menu_item_new_with_label(level_name);
-        g_object_set_data_full(G_OBJECT(menu),
-                               lvl_cmd_tmp[level], entry,
-                               (GtkDestroyNotify) gtk_widget_unref);
-        gtk_container_add(GTK_CONTAINER(menu), entry);
-        g_signal_connect(GTK_OBJECT(entry), "activate",
-                         GTK_SIGNAL_FUNC(conn_menu_player_command),
-                         lvl_cmd_tmp[level]);
+        item = gtk_menu_item_new_with_label(level_name);
+        gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+        g_object_set_data_full(G_OBJECT(item), "command",
+                               g_strdup(level_cmd), (GDestroyNotify) g_free);
+        g_signal_connect_swapped(item, "activate",
+                                 G_CALLBACK(conn_menu_player_command), menu);
       }
     }
   }
@@ -1406,16 +1424,11 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
                       ? player_list_size(team_members(pplayer->team)) : 0;
     bool need_empty_team = (count != 1);
 
-    entry = gtk_separator_menu_item_new();
-    g_object_set_data_full(G_OBJECT(menu),
-			   "sep-team", entry,
-			   (GtkDestroyNotify) gtk_widget_unref);
-    gtk_container_add(GTK_CONTAINER(menu), entry);
+    item = gtk_separator_menu_item_new();
+    gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
 
     /* Can't use team_iterate here since it skips empty teams. */
     team_slots_iterate(tslot) {
-      char text[128];
-
       if (!team_slot_is_used(tslot)) {
         if (!need_empty_team) {
           continue;
@@ -1424,20 +1437,15 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
       }
 
       /* TRANS: e.g., "Put on Team 5" */
-      fc_snprintf(text, sizeof(text), _("Put on %s"),
+      fc_snprintf(buf, sizeof(buf), _("Put on %s"),
                   team_slot_name_translation(tslot));
-      entry = gtk_menu_item_new_with_label(text);
-      g_object_set_data_full(G_OBJECT(menu), team_slot_rule_name(tslot),
-                             entry, (GtkDestroyNotify) gtk_widget_unref);
-      gtk_container_add(GTK_CONTAINER(menu), entry);
-      g_signal_connect(GTK_OBJECT(entry), "activate",
-                       GTK_SIGNAL_FUNC(conn_menu_team_chosen),
+      item = gtk_menu_item_new_with_label(buf);
+      gtk_menu_shell_append(GTK_MENU_SHELL(menu), item);
+      object_put(G_OBJECT(item), pplayer, NULL);
+      g_signal_connect(item, "activate", G_CALLBACK(conn_menu_team_chosen),
                        tslot);
     } team_slots_iterate_end;
   }
-
-  conn_menu_player = pplayer;
-  conn_menu_conn = pconn;
 
   gtk_widget_show_all(menu);
 
