@@ -31,48 +31,11 @@
 #include "climisc.h"
 #include "text.h"
 
+/* client/include */
 #include "plrdlg_g.h"
 
 #include "plrdlg_common.h"
 
-static int frozen_level = 0;
-
-/******************************************************************
- Turn off updating of player dialog
-*******************************************************************/
-void plrdlg_freeze(void)
-{
-  frozen_level++;
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_thaw(void)
-{
-  frozen_level--;
-  fc_assert(frozen_level >= 0);
-  if (frozen_level == 0) {
-    update_players_dialog();
-  }
-}
-
-/******************************************************************
- Turn on updating of player dialog
-*******************************************************************/
-void plrdlg_force_thaw(void)
-{
-  frozen_level = 1;
-  plrdlg_thaw();
-}
-
-/******************************************************************
- ...
-*******************************************************************/
-bool is_plrdlg_frozen(void)
-{
-  return frozen_level > 0;
-}
 
 /******************************************************************
   The player-name (aka nation leader) column of the plrdlg.

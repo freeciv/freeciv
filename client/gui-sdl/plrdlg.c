@@ -94,7 +94,7 @@ static int players_window_dlg_callback(struct widget *pWindow)
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
     if (move_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
       sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow);
-      update_players_dialog();
+      players_dialog_update();
     } else {
       if(sellect_window_group_dialog(pPlayers_Dlg->pBeginWidgetList, pWindow)) {
         widget_flush(pWindow);
@@ -114,7 +114,7 @@ static int toggle_draw_war_status_callback(struct widget *pWidget)
       pPlayer = pPlayer->prev;
       FREESURFACE(pPlayer->gfx);
     } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-    update_players_dialog();
+    players_dialog_update();
   }
   return -1;
 }
@@ -129,7 +129,7 @@ static int toggle_draw_ceasefire_status_callback(struct widget *pWidget)
       pPlayer = pPlayer->prev;
       FREESURFACE(pPlayer->gfx);
     } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-    update_players_dialog();
+    players_dialog_update();
   }
   return -1;
 }
@@ -144,7 +144,7 @@ static int toggle_draw_pease_status_callback(struct widget *pWidget)
       pPlayer = pPlayer->prev;
       FREESURFACE(pPlayer->gfx);
     } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-    update_players_dialog();
+    players_dialog_update();
   }
   return -1;
 }
@@ -159,7 +159,7 @@ static int toggle_draw_alliance_status_callback(struct widget *pWidget)
       pPlayer = pPlayer->prev;
       FREESURFACE(pPlayer->gfx);
     } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-    update_players_dialog();
+    players_dialog_update();
   }
   return -1;
 }
@@ -175,7 +175,7 @@ static int toggle_draw_neutral_status_callback(struct widget *pWidget)
       pPlayer = pPlayer->prev;
       FREESURFACE(pPlayer->gfx);
     } while(pPlayer != pPlayers_Dlg->pBeginWidgetList);
-    update_players_dialog();
+    players_dialog_update();
   }
   return -1;
 }
@@ -191,7 +191,7 @@ static bool have_diplomat_info_about(struct player *pPlayer)
 /**************************************************************************
   Update all information in the player list dialog.
 **************************************************************************/
-void update_players_dialog(void)
+void real_players_dialog_update(void)
 {
   if(pPlayers_Dlg) {
     struct widget *pPlayer0, *pPlayer1;
@@ -525,9 +525,8 @@ void popup_players_dialog(bool raise)
       n++;
     } while(pBuf != pPlayers_Dlg->pBeginWidgetList);
   }
-  
-  update_players_dialog();
-  
+
+  players_dialog_update();
 }
 
 /**************************************************************************

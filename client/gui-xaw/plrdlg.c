@@ -190,8 +190,8 @@ void create_players_dialog(bool raise)
 
   XtAddCallback(players_sship_command, XtNcallback, players_sship_callback, 
 		NULL);
-  
-  update_players_dialog();
+
+  players_dialog_update();
 
   XtRealizeWidget(players_dialog_shell);
   
@@ -207,9 +207,9 @@ void create_players_dialog(bool raise)
 
   FIXME: use plrdlg_common.c
 **************************************************************************/
-void update_players_dialog(void)
+void real_players_dialog_update(void)
 {
-   if(players_dialog_shell && !is_plrdlg_frozen()) {
+  if (players_dialog_shell) {
     int j = 0;
     Dimension width;
     static char *namelist_ptrs[MAX_NUM_PLAYERS];

@@ -1603,7 +1603,7 @@ void handle_game_info(struct packet_game_info *pinfo)
   }
   update_unit_focus();
   menus_update();
-  update_players_dialog();
+  players_dialog_update();
   if (update_aifill_button) {
     update_start_page();
   }
@@ -1701,7 +1701,7 @@ void handle_player_remove(int playerno)
 
   player_destroy(pplayer);
 
-  update_players_dialog();
+  players_dialog_update();
   update_conn_list_dialog();
 
   editgui_refresh();
@@ -1887,7 +1887,7 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   upgrade_canvas_clipboard();
 
-  update_players_dialog();
+  players_dialog_update();
   update_conn_list_dialog();
 
   if (is_new_nation) {
@@ -1952,7 +1952,7 @@ void handle_player_diplstate(struct packet_player_diplstate *packet)
   Remove, add, or update dummy connection struct representing some
   connection to the server, with info from packet_conn_info.
   Updates player and game connection lists.
-  Calls update_players_dialog() in case info for that has changed.
+  Calls players_dialog_update() in case info for that has changed.
 **************************************************************************/
 void handle_conn_info(struct packet_conn_info *pinfo)
 {
@@ -2042,7 +2042,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
     }
   }
 
-  update_players_dialog();
+  players_dialog_update();
   update_conn_list_dialog();
 
   if (pinfo->used && pinfo->id == client.conn.id) {
@@ -2076,7 +2076,7 @@ void handle_conn_ping_info(int connections, int *conn_id, float *ping_time)
   }
   /* The old_ping_time data is ignored. */
 
-  update_players_dialog();
+  players_dialog_update();
 }
 
 /**************************************************************************

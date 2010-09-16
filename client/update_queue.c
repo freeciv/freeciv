@@ -29,6 +29,7 @@
 #include "cityrep_g.h"
 #include "gui_main_g.h"
 #include "menu_g.h"
+#include "plrdlg_g.h"
 
 #include "update_queue.h"
 
@@ -384,4 +385,13 @@ void city_report_dialog_update_city(struct city *pcity)
 void update_conn_list_dialog(void)
 {
   update_queue_add(Q_CALLBACK(real_update_conn_list_dialog), NULL);
+}
+
+
+/****************************************************************************
+  Update the nation report.
+****************************************************************************/
+void players_dialog_update(void)
+{
+  update_queue_add(Q_CALLBACK(real_players_dialog_update), NULL);
 }

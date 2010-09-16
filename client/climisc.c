@@ -60,7 +60,6 @@ used throughout the client.
 #include "mapview_common.h"
 #include "messagewin_common.h"
 #include "packhand.h"
-#include "plrdlg_common.h"
 #include "repodlgs_common.h"
 #include "tilespec.h"
 
@@ -1065,7 +1064,6 @@ void reports_freeze(void)
   log_debug("reports_freeze");
 
   meswin_freeze();
-  plrdlg_freeze();
   report_dialogs_freeze();
   output_window_freeze();
 }
@@ -1090,7 +1088,6 @@ void reports_thaw(void)
   log_debug("reports_thaw");
 
   meswin_thaw();
-  plrdlg_thaw();
   report_dialogs_thaw();
   output_window_thaw();
 }
@@ -1101,7 +1098,6 @@ void reports_thaw(void)
 void reports_force_thaw(void)
 {
   meswin_force_thaw();
-  plrdlg_force_thaw();
   report_dialogs_force_thaw();
   output_window_force_thaw();
 }

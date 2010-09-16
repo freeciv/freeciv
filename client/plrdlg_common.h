@@ -19,11 +19,6 @@
 
 #include "fc_types.h"
 
-void plrdlg_freeze(void);
-void plrdlg_thaw(void);
-void plrdlg_force_thaw(void);
-bool is_plrdlg_frozen(void);
-
 enum player_dlg_column_type {
   COL_FLAG,
   COL_COLOR,
