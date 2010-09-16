@@ -1101,3 +1101,226 @@ GtkTreeViewColumn *add_treeview_column(GtkWidget *view, const char *title,
   gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   return col;
 }
+
+/****************************************************************************
+  Returns the index of the iter whose the column match the column of the
+  source iter in the source model. Returns -1 if not found.
+****************************************************************************/
+enum { ITER_NOT_FOUND, ITER_FIRST, ITER_FOUND_NOT_FIRST };
+static int search_iter(GtkTreeModel *model, GtkTreeIter *start,
+                       GtkTreeIter *parent, GtkTreeIter *iter,
+                       int column, GValue *src_value)
+{
+  GValue value = {0};
+  GType type = G_VALUE_TYPE(src_value);
+  int ret = ITER_FIRST;
+
+  if (NULL != start) {
+    *iter = *start;
+    if (!gtk_tree_model_iter_next(model, iter)) {
+      return ITER_NOT_FOUND;
+    }
+  } else {
+    if (!gtk_tree_model_iter_children(model, iter, parent)) {
+      return ITER_NOT_FOUND;
+    }
+  }
+
+  do {
+    gtk_tree_model_get_value(model, iter, column, &value);
+    switch (type) {
+    case G_TYPE_INT:
+      if (g_value_get_int(src_value) == g_value_get_int(&value)) {
+        g_value_unset(&value);
+        return ret;
+      }
+      break;
+    case G_TYPE_STRING:
+      if (0 == strcmp(g_value_get_string(src_value),
+                      g_value_get_string(&value))) {
+        g_value_unset(&value);
+        return ret;
+      }
+      break;
+    default:
+      log_error("%s(): Type '%s' not supported yet (column %d).",
+                __FUNCTION__, g_type_name(type), column);
+      break;
+    }
+    g_value_unset(&value);
+
+    ret = ITER_FOUND_NOT_FIRST;
+  } while (gtk_tree_model_iter_next(model, iter));
+
+  return ITER_NOT_FOUND;
+}
+
+/****************************************************************************
+  Copy source into dest, doing the less changes as possible.
+****************************************************************************/
+void merge_list_stores(GtkListStore *dest_store, GtkListStore *src_store,
+                       int main_column)
+{
+  GtkTreeModel *dest_model = GTK_TREE_MODEL(dest_store);
+  GtkTreeModel *src_model = GTK_TREE_MODEL(src_store);
+  const gint columns = gtk_tree_model_get_n_columns(src_model);
+  GtkTreeIter dest_iter, src_iter, last_dest_iter;
+  int col;
+  bool first = TRUE;
+  GValue value = {0};
+
+  fc_assert_ret(dest_store != src_store);
+  fc_assert_ret(columns == gtk_tree_model_get_n_columns(dest_model));
+  fc_assert_ret(main_column < columns);
+  for (col = 0; col < columns; col++) {
+    fc_assert_ret(gtk_tree_model_get_column_type(src_model, col)
+                  == gtk_tree_model_get_column_type(dest_model, col));
+  }
+
+  if (gtk_tree_model_get_iter_first(src_model, &src_iter)) {
+    do {
+      gtk_tree_model_get_value(src_model, &src_iter, main_column, &value);
+      switch (search_iter(dest_model, first ? NULL : &last_dest_iter, NULL,
+                          &dest_iter, main_column, &value)) {
+      case ITER_NOT_FOUND:
+        gtk_list_store_insert_after(dest_store, &dest_iter,
+                                    first ? NULL : &last_dest_iter);
+        break;
+      case ITER_FIRST:
+        break;
+      case ITER_FOUND_NOT_FIRST:
+        gtk_list_store_move_after(dest_store, &dest_iter,
+                                  first ? NULL : &last_dest_iter);
+        break;
+      }
+      gtk_list_store_set_value(dest_store, &dest_iter, main_column, &value);
+      g_value_unset(&value);
+
+      /* Copy row. */
+      for (col = 0; col < columns; col++) {
+        if (col != main_column) {
+          gtk_tree_model_get_value(src_model, &src_iter, col, &value);
+          gtk_list_store_set_value(dest_store, &dest_iter, col, &value);
+          g_value_unset(&value);
+        }
+      }
+
+      last_dest_iter = dest_iter;
+      first = FALSE;
+    } while (gtk_tree_model_iter_next(src_model, &src_iter));
+  }
+
+  if (first) {
+    /* No row at all. */
+    gtk_list_store_clear(dest_store);
+  } else {
+    /* Clear trailing rows. */
+    dest_iter = last_dest_iter;
+    if (gtk_tree_model_iter_next(dest_model, &dest_iter)) {
+      while (gtk_list_store_remove(dest_store, &dest_iter)) {
+        /* Do nothing more. */
+      }
+    }
+  }
+}
+
+/****************************************************************************
+  Copy source into dest, doing the less changes as possible.
+****************************************************************************/
+static void recursive_merge_tree_stores(GtkTreeStore *dest_store,
+                                        GtkTreeIter *dest_parent,
+                                        GtkTreeStore *src_store,
+                                        GtkTreeIter *src_parent,
+                                        const int *main_column,
+                                        int depth_left)
+{
+  GtkTreeModel *dest_model = GTK_TREE_MODEL(dest_store);
+  GtkTreeModel *src_model = GTK_TREE_MODEL(src_store);
+  const gint columns = gtk_tree_model_get_n_columns(src_model);
+  GtkTreeIter dest_iter, src_iter, last_dest_iter;
+  int col;
+  bool first = TRUE;
+  GValue value = {0};
+
+  if (gtk_tree_model_iter_children(src_model, &src_iter, src_parent)) {
+    do {
+      gtk_tree_model_get_value(src_model, &src_iter, *main_column, &value);
+      switch (search_iter(dest_model, first ? NULL : &last_dest_iter,
+                          dest_parent, &dest_iter, *main_column, &value)) {
+      case ITER_NOT_FOUND:
+        gtk_tree_store_insert_after(dest_store, &dest_iter, dest_parent,
+                                    first ? NULL : &last_dest_iter);
+        break;
+      case ITER_FIRST:
+        break;
+      case ITER_FOUND_NOT_FIRST:
+        gtk_tree_store_move_after(dest_store, &dest_iter,
+                                  first ? NULL : &last_dest_iter);
+        break;
+      }
+      gtk_tree_store_set_value(dest_store, &dest_iter, *main_column, &value);
+      g_value_unset(&value);
+
+      /* Copy row. */
+      for (col = 0; col < columns; col++) {
+        if (col != *main_column) {
+          gtk_tree_model_get_value(src_model, &src_iter, col, &value);
+          gtk_tree_store_set_value(dest_store, &dest_iter, col, &value);
+          g_value_unset(&value);
+        }
+      }
+
+      if (0 < depth_left) {
+        recursive_merge_tree_stores(dest_store, &dest_iter,
+                                    src_store, &src_iter,
+                                    main_column + 1, depth_left - 1);
+      }
+
+      last_dest_iter = dest_iter;
+      first = FALSE;
+    } while (gtk_tree_model_iter_next(src_model, &src_iter));
+  }
+
+  if (first) {
+    /* No row at all. */
+    if (gtk_tree_model_iter_children(dest_model, &dest_iter, dest_parent)) {
+      while (gtk_tree_store_remove(dest_store, &dest_iter)) {
+        /* Do nothing more. */
+      }
+    }
+  } else {
+    /* Clear trailing rows. */
+    dest_iter = last_dest_iter;
+    if (gtk_tree_model_iter_next(dest_model, &dest_iter)) {
+      while (gtk_tree_store_remove(dest_store, &dest_iter)) {
+        /* Do nothing more. */
+      }
+    }
+  }
+}
+
+/****************************************************************************
+  Copy source into dest, doing the less changes as possible. 'main_column'
+  must be an integer array of size 'max_depth + 1'.
+****************************************************************************/
+void merge_tree_stores(GtkTreeStore *dest_store, GtkTreeStore *src_store,
+                       const int *main_columns, int max_depth)
+{
+  GtkTreeModel *dest_model = GTK_TREE_MODEL(dest_store);
+  GtkTreeModel *src_model = GTK_TREE_MODEL(src_store);
+  const gint ncolumns = gtk_tree_model_get_n_columns(src_model);
+  int i;
+
+  fc_assert_ret(dest_store != src_store);
+  fc_assert_ret(ncolumns == gtk_tree_model_get_n_columns(dest_model));
+  for (i = 0; i <= max_depth; i++) {
+    fc_assert_ret(main_columns[i] < ncolumns);
+  }
+  for (i = 0; i < ncolumns; i++) {
+    fc_assert_ret(gtk_tree_model_get_column_type(src_model, i)
+                  == gtk_tree_model_get_column_type(dest_model, i));
+  }
+
+  recursive_merge_tree_stores(dest_store, NULL, src_store, NULL,
+                              main_columns, max_depth);
+}
