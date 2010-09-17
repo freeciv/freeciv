@@ -3173,8 +3173,8 @@ static void sg_load_player_main(struct loaddata *loading,
     fc_snprintf(buf, sizeof(buf), "player%d.ai%d", plrno,
                 player_index(aplayer));
 
-    plr->ai_common.love[i] = secfile_lookup_int_default(loading->file, 1,
-                                                      "%s.love", buf);
+    plr->ai_common.love[player_index(aplayer)] =
+        secfile_lookup_int_default(loading->file, 1, "%s.love", buf);
     adip->spam
          = secfile_lookup_int_default(loading->file, 0,
                                       "%s.spam", buf);
