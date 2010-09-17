@@ -45,7 +45,7 @@ int vote_number_sequence = 0;
 /**************************************************************************
   Helper function that returns the current number of eligible voters.
 **************************************************************************/
-static int count_voters(const struct vote *pvote)
+int count_voters(const struct vote *pvote)
 {
   int num_voters = 0;
 

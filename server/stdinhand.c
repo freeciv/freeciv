@@ -2252,7 +2252,7 @@ static void show_votes(struct connection *caller)
 
   if (vote_list != NULL) {
     vote_list_iterate(vote_list, pvote) {
-      if (!conn_can_see_vote(caller, pvote)) {
+      if (NULL != caller && !conn_can_see_vote(caller, pvote)) {
         continue;
       }
       /* TRANS: "Vote" or "Teamvote" is voting-as-a-process. Used as
@@ -2265,7 +2265,7 @@ static void show_votes(struct connection *caller)
                 title, pvote->vote_no, pvote->cmdline,
                 MIN(100, pvote->need_pc * 100 + 1),
                 pvote->flags & VCF_NODISSENT ? _(" no dissent") : "",
-                pvote->yes, pvote->no, pvote->abstain, player_count());
+                pvote->yes, pvote->no, pvote->abstain, count_voters(pvote));
       count++;
     } vote_list_iterate_end;
   }
@@ -4974,6 +4974,8 @@ static void show_teams(struct connection *caller)
 #define SPECENUM_VALUE3NAME "scenarios"
 #define SPECENUM_VALUE4     LIST_TEAMS
 #define SPECENUM_VALUE4NAME "teams"
+#define SPECENUM_VALUE5     LIST_VOTES
+#define SPECENUM_VALUE5NAME "votes"
 #include "specenum_gen.h"
 
 /**************************************************************************
@@ -5024,6 +5026,9 @@ static bool show_list(struct connection *caller, char *arg)
     return TRUE;
   case LIST_TEAMS:
     show_teams(caller);
+    return TRUE;
+  case LIST_VOTES:
+    show_votes(caller);
     return TRUE;
   }
 

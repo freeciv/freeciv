@@ -80,12 +80,13 @@ static struct command commands[] = {
              "list ignored users\n"
              "list players\n"
              "list scenarios\n"
-             "list teams"),
+             "list teams\n"
+             "list votes\n"),
    N_("Show a list of various things."),
    N_("Show a list of connections to the server, your ignore list, "
       "the list of the players in the game, the available scenarios, "
-      "or the teams of players. The argument may be abbreviated, "
-      "and defaults to 'players' if absent."),
+      "the teams of players, or the running votes. The argument may be "
+      "abbreviated, and defaults to 'players' if absent."),
    VCF_NONE, 0
   },
   {"quit",	ALLOW_HACK,
