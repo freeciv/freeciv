@@ -2272,7 +2272,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
     return FALSE;
   }
 
-  if (strlen(val) > pset->string.value_size) {
+  if (strlen(val) >= pset->string.value_size) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("String value too long (max length: %lu)."),
                       (unsigned long)pset->string.value_size);
