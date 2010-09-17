@@ -4231,29 +4231,24 @@ static bool surrender_command(struct connection *caller, char *str, bool check)
 }
 
 /* Define the possible arguments to the reset command */
-enum reset_args {
-  RESET_GAME = 0,
-  RESET_RULESET = 1,
-  RESET_SCRIPT = 2,
-  RESET_DEFAULT = 3,
-  RESET_LAST,
-};
-
-static const char * reset_args_names[] = {
-  "game",     /* RESET_GAME */
-  "ruleset",  /* RESET_RULESET */
-  "script",   /* RESET_SCRIPT */
-  "default",  /* RESET_DEFAULT */
-  NULL,
-};
+#define SPECENUM_NAME reset_args
+#define SPECENUM_VALUE0     RESET_GAME
+#define SPECENUM_VALUE0NAME "game"
+#define SPECENUM_VALUE1     RESET_RULESET
+#define SPECENUM_VALUE1NAME "ruleset"
+#define SPECENUM_VALUE2     RESET_SCRIPT
+#define SPECENUM_VALUE2NAME "script"
+#define SPECENUM_VALUE3     RESET_DEFAULT
+#define SPECENUM_VALUE3NAME "default"
+#include "specenum_gen.h"
 
 /**************************************************************************
   Returns possible parameters for the reset command.
 **************************************************************************/
 static const char *reset_accessor(int i)
 {
-  i = CLIP(0, i, RESET_LAST - 1);
-  return reset_args_names[i];
+  i = CLIP(0, i, reset_args_max());
+  return reset_args_name((enum reset_args) i);
 }
 
 /**************************************************************************
@@ -4267,7 +4262,7 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
   int ind;
 
   /* match the argument */
-  result = match_prefix(reset_accessor, RESET_LAST, 0,
+  result = match_prefix(reset_accessor, reset_args_max() + 1, 0,
                         fc_strncasecmp, NULL, arg, &ind);
 
   switch (result) {
