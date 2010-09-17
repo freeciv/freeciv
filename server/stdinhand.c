@@ -4666,11 +4666,13 @@ static void cmd_reply_matches(enum command_id cmd,
 /**************************************************************************
   Additional 'help' arguments
 **************************************************************************/
-enum HELP_GENERAL_ARGS { HELP_GENERAL_COMMANDS, HELP_GENERAL_OPTIONS,
-			 HELP_GENERAL_NUM /* Must be last */ };
-static const char * const help_general_args[] = {
-  "commands", "options", NULL
-};
+#define SPECENUM_NAME help_general_args
+#define SPECENUM_VALUE0     HELP_GENERAL_COMMANDS
+#define SPECENUM_VALUE0NAME "commands"
+#define SPECENUM_VALUE1     HELP_GENERAL_OPTIONS
+#define SPECENUM_VALUE1NAME "options"
+#define SPECENUM_COUNT      HELP_GENERAL_COUNT
+#include "specenum_gen.h"
 
 /**************************************************************************
   Unified indices for help arguments:
@@ -4678,20 +4680,26 @@ static const char * const help_general_args[] = {
     HELP_GENERAL_NUM  -  General help arguments, above
     SETTINGS_NUM      -  Server options 
 **************************************************************************/
-#define HELP_ARG_NUM (CMD_NUM + HELP_GENERAL_NUM + SETTINGS_NUM)
+#define HELP_ARG_NUM (CMD_NUM + HELP_GENERAL_COUNT + SETTINGS_NUM)
 
 /**************************************************************************
   Convert unified helparg index to string; see above.
 **************************************************************************/
-static const char *helparg_accessor(int i) {
-  if (i<CMD_NUM)
+static const char *helparg_accessor(int i)
+{
+  if (i < CMD_NUM) {
     return command_name_by_number(i);
+  }
+
   i -= CMD_NUM;
-  if (i<HELP_GENERAL_NUM)
-    return help_general_args[i];
-  i -= HELP_GENERAL_NUM;
+  if (i < HELP_GENERAL_COUNT) {
+    return help_general_args_name((enum help_general_args) i);
+  }
+
+  i -= HELP_GENERAL_COUNT;
   return optname_accessor(i);
 }
+
 /**************************************************************************
 ...
 **************************************************************************/
@@ -4742,8 +4750,8 @@ static bool show_help(struct connection *caller, char *arg)
     show_help_command_list(caller, CMD_HELP);
     return TRUE;
   }
-  ind -= HELP_GENERAL_NUM;
-  
+  ind -= HELP_GENERAL_COUNT;
+
   if (ind < SETTINGS_NUM) {
     show_help_option(caller, CMD_HELP, ind);
     return TRUE;
