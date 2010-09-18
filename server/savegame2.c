@@ -2950,25 +2950,6 @@ static void sg_load_players(struct loaddata *loading)
     sg_check_ret();
   } players_iterate_end;
 
-  whole_map_iterate(ptile) {
-    struct player *owner = tile_owner(ptile);
-
-    if (owner) {
-      base_type_iterate(pbase) {
-        if (tile_has_base(ptile, pbase)) {
-          if (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq) {
-            const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
-            const v_radius_t new_radius_sq =
-                V_RADIUS(pbase->vision_main_sq, pbase->vision_invis_sq);
-
-            map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                              game.server.vision_reveal_tiles);
-          }
-        }
-      } base_type_iterate_end;
-    }
-  } whole_map_iterate_end;
-
   /* Check shared vision. */
   players_iterate(pplayer) {
     BV_CLR_ALL(pplayer->gives_shared_vision);

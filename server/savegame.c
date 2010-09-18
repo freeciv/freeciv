@@ -5263,25 +5263,6 @@ static void game_load_internal(struct section_file *file)
                          base_order, num_base_types);
     } players_iterate_end;
 
-    whole_map_iterate(ptile) {
-      struct player *owner = tile_owner(ptile);
-
-      if (owner) {
-        base_type_iterate(pbase) {
-          if (tile_has_base(ptile, pbase)) {
-            if (0 < pbase->vision_main_sq || 0 < pbase->vision_invis_sq) {
-              const v_radius_t old_radius_sq = V_RADIUS(-1, -1);
-              const v_radius_t new_radius_sq =
-                  V_RADIUS(pbase->vision_main_sq, pbase->vision_invis_sq);
-
-              map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                                game.server.vision_reveal_tiles);
-            }
-          }
-        } base_type_iterate_end;
-      }
-    } whole_map_iterate_end;
-
     /* We do this here since if the did it in player_load, player 1
        would try to unfog (unloaded) player 2's map when player 1's units
        were loaded */
