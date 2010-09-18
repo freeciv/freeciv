@@ -1155,6 +1155,34 @@ static void map_load(struct section_file *file,
     }
   } whole_map_iterate_end;
 
+  if (has_capability("bases", savefile_options)) {
+    char zeroline[map.xsize+1];
+    int i;
+
+    /* This is needed when new bases has been added to ruleset, and                              
+     * thus game.control.num_base_types is greater than, when game was saved. */
+    for (i = 0; i < map.xsize; i++) {
+      zeroline[i] = '0';
+    }
+    zeroline[i] = '\0';
+
+    bases_halfbyte_iterate(j, num_bases_types) {
+      char buf[16]; /* enough for sprintf() below */
+      sprintf(buf, "map.b%02d_%%03d", j);
+
+      LOAD_MAP_DATA(ch, nat_y, ptile,
+                    secfile_lookup_str_default(file, zeroline, buf, nat_y),
+                    set_savegame_bases(&ptile->bases, ch, base_order + 4 * j));
+    } bases_halfbyte_iterate_end;
+  }
+}
+
+/****************************************************************************
+  Load data about tiles owners. This must be after players are allocated.
+****************************************************************************/
+static void map_load_owner(struct section_file *file,
+                           const char *savefile_options)
+{
   /* Owner and ownership source are stored as plain numbers */
   if (has_capability("new_owner_map", savefile_options)) {
     int x, y;
@@ -1204,32 +1232,11 @@ static void map_load(struct section_file *file,
       }
     }
   }
-
-  if (has_capability("bases", savefile_options)) {
-    char zeroline[map.xsize+1];
-    int i;
-
-    /* This is needed when new bases has been added to ruleset, and                              
-     * thus game.control.num_base_types is greater than, when game was saved. */
-    for (i = 0; i < map.xsize; i++) {
-      zeroline[i] = '0';
-    }
-    zeroline[i] = '\0';
-
-    bases_halfbyte_iterate(j, num_bases_types) {
-      char buf[16]; /* enough for sprintf() below */
-      sprintf(buf, "map.b%02d_%%03d", j);
-
-      LOAD_MAP_DATA(ch, nat_y, ptile,
-                    secfile_lookup_str_default(file, zeroline, buf, nat_y),
-                    set_savegame_bases(&ptile->bases, ch, base_order + 4 * j));
-    } bases_halfbyte_iterate_end;
-  }
 }
 
-/***************************************************************
+/****************************************************************************
   Load data about known tiles. This must be after players are allocated.
-***************************************************************/
+****************************************************************************/
 static void map_load_known(struct section_file *file,
                            const char *savefile_options)
 {
@@ -2202,9 +2209,6 @@ static void player_load_main(struct player *plr, int plrno,
   int id;
   struct player_research *research;
   struct nation_type *pnation;
-
-  /* prepare map */
-  player_map_init(plr);
 
   research = player_research_get(plr);
 
@@ -5148,6 +5152,13 @@ static void game_load_internal(struct section_file *file)
       }
     } players_iterate_end;
 
+    /* Load map player data. */
+    players_iterate(pplayer) {
+      player_map_init(pplayer);
+    } players_iterate_end;
+    map_load_known(file, savefile_options);
+    map_load_owner(file, savefile_options);
+
     /* Now, load each players data about other players. Thus must be after
      * the player slots are activated. */
     players_iterate(pplayer) {
@@ -5172,9 +5183,6 @@ static void game_load_internal(struct section_file *file)
                    player_name(pplayer));
       }
     } players_iterate_end;
-
-    /* Load known data. */
-    map_load_known(file, savefile_options);
 
     /* Backward compatibility: if we had any open-ended orders (pillage)
      * in the savegame, assign specific targets now */
