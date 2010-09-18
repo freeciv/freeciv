@@ -70,6 +70,9 @@ struct unit *create_unit_full(struct player *pplayer, struct tile *ptile,
 void wipe_unit(struct unit *punit);
 void kill_unit(struct unit *pkiller, struct unit *punit, bool vet);
 
+void unit_change_owner(struct unit *punit, struct player *pplayer,
+                       int homecity);
+
 /* sending to client */
 void package_unit(struct unit *punit, struct packet_unit_info *packet);
 void package_short_unit(struct unit *punit,

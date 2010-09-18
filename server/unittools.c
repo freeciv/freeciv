@@ -1663,6 +1663,44 @@ void wipe_unit(struct unit *punit)
   }
 }
 
+/****************************************************************************
+  We don't really change owner of the unit, but create completely new
+  unit as it's copy. Thus pointer to original unit passed to this function
+  is no longer valid when this function returns.
+****************************************************************************/
+void unit_change_owner(struct unit *punit, struct player *pplayer,
+                       int homecity)
+{
+  struct unit *gained_unit;
+
+  /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
+  gained_unit = create_unit_full(pplayer, punit->tile,
+                                 unit_type(punit), punit->veteran,
+                                 homecity, punit->moves_left,
+                                 punit->hp, NULL);
+
+  /* Copy some more unit fields */
+  gained_unit->fuel = punit->fuel;
+  gained_unit->paradropped = punit->paradropped;
+  gained_unit->server.birth_turn = punit->server.birth_turn;
+
+  /* Inform owner about less than full fuel */
+  send_unit_info(pplayer, gained_unit);
+
+  /* update unit upkeep in the homecity of the victim */
+  if (punit->homecity > 0) {
+    /* update unit upkeep */
+    city_units_upkeep(game_find_city_by_number(punit->homecity));
+  }
+  /* update unit upkeep in the new homecity */
+  if (homecity > 0) {
+    city_units_upkeep(game_find_city_by_number(homecity));
+  }
+
+  /* Be sure to wipe the converted unit! */
+  wipe_unit(punit);
+}
+
 /**************************************************************************
   Called when one unit kills another in combat (this function is only
   called in one place).  It handles all side effects including

@@ -414,15 +414,16 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
   struct tile *victim_tile;
   int bribe_cost;
   int diplomat_id = pdiplomat->id;
-  struct unit *gained_unit = NULL;
 
   /* Fetch target unit's player.  Sanity checks. */
-  if (!pvictim)
+  if (!pvictim) {
     return;
+  }
   uplayer = unit_owner(pvictim);
   /* We might make it allowable in peace with a loss of reputation */
-  if (!uplayer || pplayers_allied(pplayer, uplayer))
+  if (!uplayer || pplayers_allied(pplayer, uplayer)) {
     return;
+  }
 
   log_debug("bribe-unit: unit: %d", pdiplomat->id);
 
@@ -461,19 +462,9 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   log_debug("bribe-unit: succeeded");
 
-  /* Convert the unit to your cause. Fog is lifted in the create algorithm. */
-  gained_unit = create_unit_full(pplayer, pvictim->tile,
-                                 unit_type(pvictim), pvictim->veteran,
-                                 pdiplomat->homecity, pvictim->moves_left,
-                                 pvictim->hp, NULL);
+  victim_tile = pvictim->tile;
 
-  /* Copy some more unit fields */
-  gained_unit->fuel = pvictim->fuel;
-  gained_unit->paradropped = pvictim->paradropped;
-  gained_unit->server.birth_turn = pvictim->server.birth_turn;
-
-  /* Inform owner about less than full fuel */
-  send_unit_info(pplayer, gained_unit);
+  unit_change_owner(pvictim, pplayer, pdiplomat->homecity);
 
   /* Notify everybody involved. */
   notify_player(pplayer, unit_tile(pvictim), 
@@ -497,20 +488,6 @@ void diplomat_bribe(struct player *pplayer, struct unit *pdiplomat,
 
   /* This may cause a diplomatic incident */
   maybe_cause_incident(DIPLOMAT_BRIBE, pplayer, pvictim, NULL);
-
-  /* update unit upkeep in the homecity of the victim */
-  if (pvictim->homecity > 0) {
-    /* update unit upkeep */
-    city_units_upkeep(game_find_city_by_number(pvictim->homecity));
-  }
-  /* update unit upkeep in the new homecity */
-  if (pvictim->homecity > 0) {
-    city_units_upkeep(game_find_city_by_number(gained_unit->homecity));
-  }
-
-  /* Be sure to wipe the converted unit! */
-  victim_tile = pvictim->tile;
-  wipe_unit(pvictim);
 
   if (!unit_alive(diplomat_id)) {
     return;

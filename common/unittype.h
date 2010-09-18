@@ -143,6 +143,8 @@ enum unit_flag_id {
   F_FIGHTER,          /* Good at attacking F_HELICOPTER units */
   F_BARBARIAN_ONLY,   /* Only barbarians can build this unit */
   F_SHIELD2GOLD,      /* upkeep can switch from shield to gold */
+  F_CAPTURABLE,       /* Unit can be captured */
+  F_CAPTURER,         /* Unit can capture other */
   F_USER_FLAG_1,      /* User defined flags start here */
   F_LAST_USER_FLAG = F_USER_FLAG_1 + MAX_NUM_USER_UNIT_FLAGS - 1,
   F_LAST

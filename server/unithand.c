@@ -1330,6 +1330,56 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       return FALSE;
     }
 
+    if (unit_has_type_flag(punit, F_CAPTURER) && pcity == NULL) {
+      bool capture_possible = TRUE;
+
+      unit_list_iterate(pdesttile->units, to_capture) {
+        if (!unit_has_type_flag(to_capture, F_CAPTURABLE)) {
+          capture_possible = FALSE;
+          break;
+        }
+      } unit_list_iterate_end;
+
+      if (capture_possible) {
+        char capturer_link[MAX_LEN_LINK];
+        const char *capturer_nation = nation_plural_for_player(pplayer);
+
+        /* N.B: unit_link() always returns the same pointer. */
+        sz_strlcpy(capturer_link, unit_link(punit));
+
+        unit_list_iterate(pdesttile->units, to_capture) {
+          const char *victim_link = unit_link(to_capture);
+          struct player *uplayer = unit_owner(to_capture);
+
+          unit_change_owner(to_capture, pplayer, punit->homecity);
+
+          /* Notify players */
+          notify_player(pplayer, pdesttile, 
+                E_MY_DIPLOMAT_BRIBE, ftc_server,
+                /* TRANS: <unit> ... <unit> */
+                _("Your %s succeeded in capturing the %s."),
+                capturer_link,
+                victim_link);
+          notify_player(uplayer, pdesttile,
+                E_ENEMY_DIPLOMAT_BRIBE, ftc_server,
+                /* TRANS: <unit> ... <Poles> */
+                _("Your %s was captured by the %s."),
+                victim_link,
+                capturer_nation);
+
+        } unit_list_iterate_end;
+
+        /* Subtract movement point from capturer */
+        punit->moves_left -= SINGLE_MOVE;
+        if (punit->moves_left < 0) {
+          punit->moves_left = 0;
+        }
+        send_unit_info(pplayer, punit);
+
+        return TRUE;
+      }
+    }
+
     /* Are we a bombarder? */
     if (unit_has_type_flag(punit, F_BOMBARDER)) {
       /* Only land can be bombarded, if the target is on ocean, fall
@@ -1358,7 +1408,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
                       _("You can't attack there."));
         return FALSE;
       }
-      
+
       unit_attack_handling(punit, victim);
       return TRUE;
     } else {

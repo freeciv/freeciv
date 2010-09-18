@@ -52,7 +52,8 @@ static const char *flag_names[] = {
   "AddToCity", "Fanatic", "GameLoss", "Unique", "Unbribable", 
   "Undisbandable", "SuperSpy", "NoHome", "NoVeteran", "Bombarder",
   "CityBuster", "NoBuild", "BadWallAttacker", "BadCityDefender",
-  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold"
+  "Helicopter", "AirUnit", "Fighter", "BarbarianOnly", "Shield2Gold",
+  "Capturable", "Capturer"
 };
 static char *user_flag_names[MAX_NUM_USER_UNIT_FLAGS]
   = { NULL, NULL, NULL, NULL };
