@@ -43,6 +43,7 @@
 #include "climisc.h"
 #include "clinet.h"
 #include "connectdlg_common.h"
+#include "ggzclient.h"
 #include "packhand.h"
 #include "servers.h"
 
@@ -61,10 +62,6 @@
 
 #include "pages.h"
 
-GtkWidget *start_message_area;
-
-static GtkWidget *start_options_table;
-GtkWidget *take_button, *ready_button, *nation_button;
 
 static GtkWidget *scenario_description;
 static GtkWidget *scenario_filename;
@@ -1011,8 +1008,41 @@ GtkWidget *create_network_page(void)
 /****************************************************************************
                                   START PAGE
 ****************************************************************************/
+GtkWidget *start_message_area;
+
+static GtkWidget *start_options_table;
+static GtkWidget *observe_button, *ready_button, *nation_button;
+static GtkTreeStore *connection_list_store;
+static GtkTreeView *connection_list_view;
 static GtkWidget *start_aifill_spin;
 
+
+/* NB: Must match creation arugments in create_start_page(). */
+enum connection_list_columns {
+  CL_COL_PLAYER_NUMBER = 0,
+  CL_COL_USER_NAME,
+  CL_COL_READY_STATE,
+  CL_COL_PLAYER_NAME,
+  CL_COL_FLAG,
+  CL_COL_NATION,
+  CL_COL_TEAM,
+  CL_COL_GGZ_RECORD,
+  CL_COL_GGZ_RATING,
+  CL_COL_CONN_ID,
+  
+  CL_NUM_COLUMNS
+};
+
+/****************************************************************************
+  Send the /take command by chat and toggle AI if needed.
+****************************************************************************/
+static void client_take_player(struct player *pplayer)
+{
+  if (pplayer->ai_controlled) {
+    send_chat_printf("/aitoggle \"%s\"", player_name(pplayer));
+  }
+  send_chat_printf("/take \"%s\"", player_name(pplayer));
+}
 
 /****************************************************************************
   Connect the object to the player and the connection.
@@ -1116,30 +1146,6 @@ static void ai_fill_callback(GtkWidget *w, gpointer data)
 }
 
 /**************************************************************************
-  start game callback.
-**************************************************************************/
-static void start_start_callback(GtkWidget *w, gpointer data)
-{
-  if (can_client_control()) {
-    dsend_packet_player_ready(&client.conn,
-                              player_number(client.conn.playing),
-                              !client.conn.playing->is_ready);
-  }
-}
-
-/**************************************************************************
-  Called when "pick nation" is clicked.
-**************************************************************************/
-static void pick_nation_callback(GtkWidget *w, gpointer data)
-{
-  if (can_client_control()) {
-    popup_races_dialog(client_player());
-  } else if (game.info.is_new_game) {
-    send_chat("/take -");
-  }
-}
-
-/**************************************************************************
   Update the start page.
 **************************************************************************/
 void update_start_page(void)
@@ -1151,14 +1157,6 @@ void update_start_page(void)
                             game.info.aifill);
   send_new_aifill_to_server = old;
   update_conn_list_dialog();
-}
-
-/**************************************************************************
-  Called when "observe" is clicked.
-**************************************************************************/
-static void take_callback(GtkWidget *w, gpointer data)
-{
-  send_chat(client_is_observer() ? "/detach" : "/observe");
 }
 
 /****************************************************************************
@@ -1226,11 +1224,7 @@ static void conn_menu_player_take(GObject *object, gpointer data)
   struct player *pplayer;
 
   if (object_extract(object, &pplayer, NULL)) {
-    if (pplayer->ai_controlled) {
-      /* See comment on detach command for why. */
-      send_chat_printf("/aitoggle \"%s\"", player_name(pplayer));
-    }
-    send_chat_printf("/take \"%s\"", player_name(pplayer));
+    client_take_player(pplayer);
   }
 }
 
@@ -1452,44 +1446,397 @@ static GtkWidget *create_conn_menu(struct player *pplayer,
   return menu;
 }
 
-/**************************************************************************
+/****************************************************************************
+  Unselect a tree path.
+****************************************************************************/
+static gboolean delayed_unselect_path(gpointer data)
+{
+  if (NULL != connection_list_view) {
+    GtkTreeSelection *selection =
+        gtk_tree_view_get_selection(connection_list_view);
+    GtkTreePath *path = data;
+
+    gtk_tree_selection_unselect_path(selection, path);
+    gtk_tree_path_free(path);
+  }
+  return FALSE;
+}
+
+/****************************************************************************
   Called on a button event on the pregame player list.
-**************************************************************************/
-static gboolean playerlist_event(GtkWidget *widget, GdkEventButton *event,
-				 gpointer data)
+****************************************************************************/
+static gboolean connection_list_event(GtkWidget *widget,
+                                      GdkEventButton *event,
+                                      gpointer data)
 {
   GtkTreeView *tree = GTK_TREE_VIEW(widget);
-  GtkTreeModel *model = gtk_tree_view_get_model(tree);
-  GtkTreeIter iter;
   GtkTreePath *path = NULL;
-  GtkTreeViewColumn *column = NULL;
-  GtkWidget *menu;
-  int player_no, conn_id;
-  struct player *pplayer;
-  struct connection *pconn;
+  GtkTreeSelection *selection = gtk_tree_view_get_selection(tree);
+  gboolean ret = FALSE;
 
-  if (event->type != GDK_BUTTON_PRESS
-      || event->button != 3
+  if ((1 != event->button && 3 != event->button)
+      || GDK_BUTTON_PRESS != event->type
       || !gtk_tree_view_get_path_at_pos(tree,
-					event->x, event->y,
-					&path, &column, NULL, NULL)) {
+                                        event->x, event->y,
+                                        &path, NULL, NULL, NULL)) {
     return FALSE;
   }
 
-  gtk_tree_model_get_iter(model, &iter, path);
+  if (1 == event->button) {
+    if (gtk_tree_selection_path_is_selected(selection, path)) {
+      /* Need to delay to avoid problem with the expander. */
+      g_idle_add(delayed_unselect_path, path);
+      return FALSE;     /* Return now, don't free the path. */
+    }
+  } else if (3 == event->button) {
+    GtkTreeModel *model = gtk_tree_view_get_model(tree);
+    GtkTreeIter iter;
+    GtkWidget *menu;
+    int player_no, conn_id;
+    struct player *pplayer;
+    struct connection *pconn;
 
-  gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
-  pplayer = player_by_number(player_no);
+    if (!gtk_tree_selection_path_is_selected(selection, path)) {
+      gtk_tree_selection_select_path(selection, path);
+    }
+    gtk_tree_model_get_iter(model, &iter, path);
 
-  gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
-  pconn = find_conn_by_id(conn_id);
+    gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &player_no, -1);
+    pplayer = player_by_number(player_no);
 
-  menu = create_conn_menu(pplayer, pconn);
-  gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
-                 NULL, NULL, event->button, event->time);
+    gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &conn_id, -1);
+    pconn = find_conn_by_id(conn_id);
+
+    menu = create_conn_menu(pplayer, pconn);
+    gtk_menu_popup(GTK_MENU(menu), NULL, NULL,
+                   NULL, NULL, event->button, event->time);
+    ret = TRUE;
+  }
 
   gtk_tree_path_free(path);
-  return TRUE;
+  return ret;
+}
+
+/****************************************************************************
+  Returns TRUE if a row is selected in the connection/player list. Fills
+  the not null data.
+****************************************************************************/
+static bool conn_list_selection(struct player **ppplayer,
+                                struct connection **ppconn)
+{
+  if (NULL != connection_list_view) {
+    GtkTreeIter iter;
+    GtkTreeModel *model;
+    GtkTreeSelection *selection =
+        gtk_tree_view_get_selection(connection_list_view);
+
+    if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+      int id;
+
+      if (NULL != ppplayer) {
+        gtk_tree_model_get(model, &iter, CL_COL_PLAYER_NUMBER, &id, -1);
+        *ppplayer = player_by_number(id);
+      }
+      if (NULL != ppconn) {
+        gtk_tree_model_get(model, &iter, CL_COL_CONN_ID, &id, -1);
+        *ppconn = find_conn_by_id(id);
+      }
+      return TRUE;
+    }
+  }
+
+  if (NULL != ppplayer) {
+    *ppplayer = NULL;
+  }
+  if (NULL != ppconn) {
+    *ppconn = NULL;
+  }
+  return FALSE;
+}
+
+/**************************************************************************
+  'ready_button' clicked callback.
+**************************************************************************/
+static void ready_button_callback(GtkWidget *w, gpointer data)
+{
+  if (can_client_control()) {
+    dsend_packet_player_ready(&client.conn,
+                              player_number(client_player()),
+                              !client_player()->is_ready);
+  }
+}
+
+/**************************************************************************
+  'nation_button' clicked callback.
+**************************************************************************/
+static void nation_button_callback(GtkWidget *w, gpointer data)
+{
+  struct player *selected_plr;
+  bool row_selected = conn_list_selection(&selected_plr, NULL);
+
+  if (row_selected && NULL != selected_plr) {
+    /* "Take <player_name>" */
+    client_take_player(selected_plr);
+  } else if (can_client_control()) {
+    /* "Pick Nation" */
+    popup_races_dialog(client_player());
+  } else {
+    /* "Take a Player" */
+    send_chat("/take -");
+  }
+}
+
+/**************************************************************************
+  'observe_button' clicked callback.
+**************************************************************************/
+static void observe_button_callback(GtkWidget *w, gpointer data)
+{
+  struct player *selected_plr;
+  bool row_selected = conn_list_selection(&selected_plr, NULL);
+
+  if (row_selected && NULL != selected_plr) {
+    /* "Observe <player_name>" */
+    send_chat_printf("/observe \"%s\"", player_name(selected_plr));
+  } else if (!client_is_global_observer()) {
+    /* "Observe" */
+    send_chat("/observe");
+  } else {
+    /* "Do not observe" */
+    send_chat("/detach");
+  }
+}
+
+/****************************************************************************
+  Update the buttons of the start page.
+****************************************************************************/
+static void update_start_page_buttons(void)
+{
+  char buf[2 * MAX_LEN_NAME];
+  const char *text;
+  struct player *selected_plr;
+  bool row_selected = conn_list_selection(&selected_plr, NULL);
+  bool sensitive;
+
+  /*** Ready button. ***/
+  if (can_client_control()) {
+    sensitive = TRUE;
+    if (client_player()->is_ready) {
+      text = _("Not _ready");
+    } else {
+      int num_unready = 0;
+
+      players_iterate(pplayer) {
+        if (!pplayer->ai_controlled && !pplayer->is_ready) {
+          num_unready++;
+        }
+      } players_iterate_end;
+
+      if (num_unready > 1) {
+        text = _("_Ready");
+      } else {
+        /* We are the last unready player so clicking here will
+         * immediately start the game. */
+        text = _("_Start");
+      }
+    }
+  } else {
+    text = _("_Start");
+    sensitive = FALSE;
+  }
+  gtk_stockbutton_set_label(ready_button, text);
+  gtk_widget_set_sensitive(ready_button, sensitive);
+
+  /*** Nation button. ***/
+  if (row_selected && NULL != selected_plr) {
+    fc_snprintf(buf, sizeof(buf), _("_Take %s"), player_name(selected_plr));
+    text = buf;
+    sensitive = (client_is_observer() || selected_plr != client_player());
+  } else if (can_client_control()) {
+    text = _("Pick _Nation");
+    sensitive = game.info.is_new_game;
+  } else {
+    text = _("_Take a Player");
+    sensitive = game.info.is_new_game;
+  }
+  gtk_stockbutton_set_label(nation_button, text);
+  gtk_widget_set_sensitive(nation_button, sensitive);
+
+  /*** Observe button. ***/
+  if (row_selected && NULL != selected_plr) {
+    fc_snprintf(buf, sizeof(buf), _("_Observe %s"),
+                player_name(selected_plr));
+    text = buf;
+    sensitive = (!client_is_observer() || selected_plr != client_player());
+  } else if (!client_is_global_observer()) {
+    text = _("_Observe");
+    sensitive = TRUE;
+  } else {
+    text = _("Do not _observe");
+    sensitive = TRUE;
+  }
+  gtk_stockbutton_set_label(observe_button, text);
+  gtk_widget_set_sensitive(observe_button, sensitive);
+}
+
+/****************************************************************************
+  Update the connected users list at pregame state.
+****************************************************************************/
+void real_update_conn_list_dialog(void)
+{
+  if (connection_list_view != NULL) {
+    GObject *view;
+    GtkTreeViewColumn *col;
+    bool visible;
+
+    view = G_OBJECT(connection_list_view);
+    visible = (with_ggz || in_ggz);
+
+    col = g_object_get_data(view, "record_col");
+    if (col != NULL) {
+      gtk_tree_view_column_set_visible(col, visible);
+    }
+    col = g_object_get_data(view, "rating_col");
+    if (col != NULL) {
+      gtk_tree_view_column_set_visible(col, visible);
+    }
+  }
+
+  if (client_state() == C_S_PREPARING
+      && get_client_page() == PAGE_START
+      && connection_list_store != NULL) {
+    GtkTreeStore *store;
+    GtkTreeIter iter, parent;
+    GdkPixbuf *pixbuf;
+    bool is_ready;
+    const char *nation, *plr_name, *team;
+    char user_name[MAX_LEN_NAME + 8], rating_text[128], record_text[128];
+    int rating, wins, losses, ties, forfeits;
+    enum cmdlevel access_level;
+    int conn_id;
+
+    /* Clear the old list. */
+    store = connection_list_store;
+    gtk_tree_store_clear(store);
+
+    /* Insert players into the connection list. */
+    players_iterate(pplayer) {
+      conn_id = -1;
+      access_level = ALLOW_NONE;
+      pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;;
+
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->playing == pplayer && !pconn->observer) {
+          conn_id = pconn->id;
+          access_level = pconn->access_level;
+          break;
+        }
+      } conn_list_iterate_end;
+
+      if (pplayer->ai_controlled && !pplayer->was_created
+          && !pplayer->is_connected) {
+        /* TRANS: "<Novice AI>" */
+        fc_snprintf(user_name, sizeof(user_name), _("<%s AI>"),
+                    ai_level_name(pplayer->ai_common.skill_level));
+      } else {
+        sz_strlcpy(user_name, pplayer->username);
+        if (access_level > ALLOW_BASIC) {
+          sz_strlcat(user_name, "*");
+        }
+      }
+
+      is_ready = pplayer->ai_controlled ? TRUE : pplayer->is_ready;
+
+      if (pplayer->nation == NO_NATION_SELECTED) {
+        nation = _("Random");
+        if (pplayer->was_created) {
+          plr_name = player_name(pplayer);
+        } else {
+          plr_name = "";
+        }
+      } else {
+        nation = nation_adjective_for_player(pplayer);
+        plr_name = player_name(pplayer);
+      }
+
+      team = pplayer->team ? team_name_translation(pplayer->team) : "";
+
+      rating_text[0] = '\0';
+      if ((in_ggz || with_ggz)
+          && !pplayer->ai_controlled
+          && user_get_rating(pplayer->username, &rating)) {
+        fc_snprintf(rating_text, sizeof(rating_text), "%d", rating);
+      }
+
+      record_text[0] = '\0';
+      if ((in_ggz || with_ggz)
+          && !pplayer->ai_controlled
+          && user_get_record(pplayer->username,
+                             &wins, &losses, &ties, &forfeits)) {
+        if (forfeits == 0 && ties == 0) {
+          fc_snprintf(record_text, sizeof(record_text), "%d-%d",
+                      wins, losses);
+        } else if (forfeits == 0) {
+          fc_snprintf(record_text, sizeof(record_text), "%d-%d-%d",
+                      wins, losses, ties);
+        } else {
+          fc_snprintf(record_text, sizeof(record_text), "%d-%d-%d-%d",
+                      wins, losses, ties, forfeits);
+        }
+      }
+
+      gtk_tree_store_append(store, &iter, NULL);
+      gtk_tree_store_set(store, &iter, 
+                         CL_COL_PLAYER_NUMBER, player_number(pplayer),
+                         CL_COL_USER_NAME, user_name,
+                         CL_COL_READY_STATE, is_ready,
+                         CL_COL_PLAYER_NAME, plr_name,
+                         CL_COL_FLAG, pixbuf,
+                         CL_COL_NATION, nation,
+                         CL_COL_TEAM, team,
+                         CL_COL_GGZ_RECORD, record_text,
+                         CL_COL_GGZ_RATING, rating_text,
+                         CL_COL_CONN_ID, conn_id, -1);
+      parent = iter;
+
+      /* Insert observers of this player as child nodes. */
+      conn_list_iterate(pplayer->connections, pconn) {
+        if (pconn->id == conn_id) {
+          continue;
+        }
+        gtk_tree_store_append(store, &iter, &parent);
+        gtk_tree_store_set(store, &iter,
+                           CL_COL_PLAYER_NUMBER, -1,
+                           CL_COL_USER_NAME, pconn->username,
+                           CL_COL_TEAM, _("Observer"),
+                           CL_COL_CONN_ID, pconn->id, -1);
+      } conn_list_iterate_end;
+
+      if (pixbuf) {
+        g_object_unref(pixbuf);
+      }
+    } players_iterate_end;
+
+    /* Finally, insert global observers and detached connections. */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (pconn->playing != NULL) {
+        continue; /* Already listed above. */
+      }
+      team = pconn->observer ? _("Observer") : _("Detached");
+      gtk_tree_store_append(store, &iter, NULL);
+      gtk_tree_store_set(store, &iter,
+                         CL_COL_PLAYER_NUMBER, -1,
+                         CL_COL_USER_NAME, pconn->username,
+                         CL_COL_TEAM, team,
+                         CL_COL_CONN_ID, pconn->id, -1);
+    } conn_list_iterate_end;
+
+    if (connection_list_view != NULL) {
+      GtkTreeView *view = connection_list_view;
+      gtk_tree_view_expand_all(view);
+    }
+  }
+
+  update_start_page_buttons();
 }
 
 /**************************************************************************
@@ -1534,6 +1881,7 @@ GtkWidget *create_start_page(void)
   GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
   GtkTreeStore *store;
+  GtkTreeSelection *selection;
   enum ai_level level;
 
   box = gtk_vbox_new(FALSE, 8);
@@ -1640,6 +1988,11 @@ GtkWidget *create_start_page(void)
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
   connection_list_view = GTK_TREE_VIEW(view);
 
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  gtk_tree_selection_set_mode(selection, GTK_SELECTION_SINGLE);
+  g_signal_connect(selection, "changed",
+                   G_CALLBACK(update_start_page_buttons), NULL);
+
   add_tree_col(view, G_TYPE_STRING, _("Name"),
                CL_COL_USER_NAME, NULL);
   add_tree_col(view, G_TYPE_STRING, _("Record"),
@@ -1658,7 +2011,7 @@ GtkWidget *create_start_page(void)
                CL_COL_TEAM, NULL);
 
   g_signal_connect(view, "button-press-event",
-		   G_CALLBACK(playerlist_event), NULL);
+                   G_CALLBACK(connection_list_event), NULL);
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -1706,17 +2059,17 @@ GtkWidget *create_start_page(void)
                                       _("Pick _Nation"));
   inputline_toolkit_view_append_button(toolkit_view, nation_button);
   g_signal_connect(nation_button, "clicked",
-                   G_CALLBACK(pick_nation_callback), NULL);
+                   G_CALLBACK(nation_button_callback), NULL);
 
-  take_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
-  inputline_toolkit_view_append_button(toolkit_view, take_button);
-  g_signal_connect(take_button, "clicked",
-                   G_CALLBACK(take_callback), NULL);
+  observe_button = gtk_stockbutton_new(GTK_STOCK_ZOOM_IN, _("_Observe"));
+  inputline_toolkit_view_append_button(toolkit_view, observe_button);
+  g_signal_connect(observe_button, "clicked",
+                   G_CALLBACK(observe_button_callback), NULL);
 
   ready_button = gtk_stockbutton_new(GTK_STOCK_EXECUTE, _("_Ready"));
   inputline_toolkit_view_append_button(toolkit_view, ready_button);
   g_signal_connect(ready_button, "clicked",
-                   G_CALLBACK(start_start_callback), NULL);
+                   G_CALLBACK(ready_button_callback), NULL);
 
   return box;
 }
