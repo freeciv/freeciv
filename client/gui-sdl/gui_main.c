@@ -237,10 +237,10 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
 	    }
           return ID_ERROR;
 
-	  case SDLK_F2:
-	    popup_activeunits_report_dialog(FALSE);
-	  return ID_ERROR;
-	   
+          case SDLK_F2:
+            units_report_dialog_popup(FALSE);
+          return ID_ERROR;
+
 	  case SDLK_F4:
             popup_city_report_dialog(FALSE);
 	  return ID_ERROR;

@@ -19,7 +19,7 @@
 
 void popdown_science_dialog(void);
 void popdown_economy_report_dialog(void);
-void popdown_activeunits_report_dialog(void);
+void units_report_dialog_popdown(void);
 
 void activeunits_msg_close(Widget w);
 void sciencereport_msg_close(Widget w);

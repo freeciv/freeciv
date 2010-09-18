@@ -1605,7 +1605,7 @@ void popdown_all_game_dialogs(void)
   popdown_meswin_dialog();
   popdown_science_dialog();
   popdown_economy_report_dialog();
-  popdown_activeunits_report_dialog();
+  units_report_dialog_popdown();
   popdown_players_dialog();
   popdown_notify_dialog();
 }

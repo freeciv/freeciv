@@ -1166,7 +1166,7 @@ static void center_view_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void report_units_callback(GtkAction *action, gpointer data)
 {
-  popup_activeunits_report_dialog(TRUE);
+  units_report_dialog_popup(TRUE);
 }
 
 /****************************************************************
@@ -1261,6 +1261,8 @@ static GtkActionGroup *get_safe_group(void)
       /* Civilization menu. */
       {"MAP_VIEW", NULL, Q_("?noun:_View"),
        "F1", NULL, G_CALLBACK(map_view_callback)},
+      {"REPORT_UNITS", NULL, _("_Units"),
+       "F2", NULL, G_CALLBACK(report_units_callback)},
       {"REPORT_NATIONS", NULL, _("_Nations"),
        "F3", NULL, G_CALLBACK(report_nations_callback)},
 
@@ -1604,8 +1606,6 @@ static GtkActionGroup *get_player_group(void)
        "c", NULL, G_CALLBACK(center_view_callback)},
 
       /* Civilization menu. */
-      {"REPORT_UNITS", NULL, _("_Units"),
-       "F2", NULL, G_CALLBACK(report_units_callback)},
       {"REPORT_CITIES", NULL, _("_Cities"),
        "F4", NULL, G_CALLBACK(report_cities_callback)},
       {"REPORT_ECONOMY", NULL, _("_Economy"),

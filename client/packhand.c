@@ -344,8 +344,8 @@ void handle_unit_remove(int unit_id)
   editgui_notify_object_changed(OBJTYPE_UNIT, punit->id, TRUE);
   client_remove_unit(punit);
 
-  if (powner == client.conn.playing) {
-    activeunits_report_dialog_update();
+  if (!client_has_player() || powner == client_player()) {
+    units_report_dialog_update();
   }
 }
 
@@ -606,12 +606,13 @@ void handle_city_info(struct packet_city_info *packet)
   pcity->pollution = packet->pollution;
   pcity->illness_trade = packet->illness_trade;
 
-  if (city_is_new
-      || !are_universals_equal(&pcity->production, &product)) {
-    need_units_dialog_update = TRUE;
-  }
   if (!are_universals_equal(&pcity->production, &product)) {
     production_changed = TRUE;
+  }
+  if ((city_is_new && VUT_UTYPE == product.kind)
+      || (production_changed && (VUT_UTYPE == pcity->production.kind
+                                 || VUT_UTYPE == product.kind))) {
+    need_units_dialog_update = TRUE;
   }
   pcity->production = product;
 
@@ -709,7 +710,7 @@ void handle_city_info(struct packet_city_info *packet)
 
   /* Update the units dialog if necessary. */
   if (need_units_dialog_update) {
-    activeunits_report_dialog_update();
+    units_report_dialog_update();
   }
 
   /* Update the panel text (including civ population). */
@@ -1163,6 +1164,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   struct city *pcity;
   struct unit *punit;
   bool need_menus_update = FALSE;
+  bool need_units_report_update = FALSE;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
   struct tile *old_tile = NULL;
@@ -1302,6 +1304,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
         /* Update the orders menu -- the unit might have new abilities */
         need_menus_update = TRUE;
       }
+      need_units_report_update = TRUE;
     }
 
     /* May change focus if an attempted move or attack exhausted unit */
@@ -1441,6 +1444,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       /* The unit is in a city - obviously it's occupied. */
       pcity->client.occupied = TRUE;
     }
+
+    need_units_report_update = TRUE;
   } /*** End of Create new unit ***/
 
   fc_assert_ret_val(punit != NULL, ret);
@@ -1464,6 +1469,11 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
 
   if (need_menus_update) {
     menus_update();
+  }
+
+  if (need_units_report_update
+      && (!client_has_player() || unit_owner(punit) == client_player())) {
+    units_report_dialog_update();
   }
 
   return ret;
@@ -1880,7 +1890,7 @@ void handle_player_info(struct packet_player_info *pinfo)
       update_turn_done_button_state();
     }
     economy_report_dialog_update();
-    activeunits_report_dialog_update();
+    units_report_dialog_update();
     city_report_dialog_update();
     update_info_label();
   }

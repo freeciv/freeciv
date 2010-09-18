@@ -30,6 +30,7 @@
 #include "gui_main_g.h"
 #include "menu_g.h"
 #include "plrdlg_g.h"
+#include "repodlgs_g.h"
 
 #include "update_queue.h"
 
@@ -394,4 +395,12 @@ void update_conn_list_dialog(void)
 void players_dialog_update(void)
 {
   update_queue_add(Q_CALLBACK(real_players_dialog_update), NULL);
+}
+
+/****************************************************************************
+  Update the units report.
+****************************************************************************/
+void units_report_dialog_update(void)
+{
+  update_queue_add(Q_CALLBACK(real_units_report_dialog_update), NULL);
 }

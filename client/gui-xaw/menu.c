@@ -825,7 +825,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     popup_city_report_dialog(0);
     break;
    case MENU_REPORT_UNITS:
-    popup_activeunits_report_dialog(0);
+    units_report_dialog_popup(FALSE);
     break;
   case MENU_REPORT_PLAYERS:
     popup_players_dialog(FALSE);

@@ -162,7 +162,7 @@ void popdown_all_game_dialogs(void)
   popdown_all_city_dialogs();
   popdown_city_report_dialog();
   popdown_economy_report_dialog();
-  popdown_activeunits_report_dialog();
+  units_report_dialog_popdown();
   popdown_intel_dialogs();
   popdown_players_nations_dialog();
   popdown_players_dialog();

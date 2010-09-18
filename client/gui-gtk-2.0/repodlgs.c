@@ -96,22 +96,6 @@ static GtkWidget *sellall_command, *sellobsolete_command;
 static int economy_dialog_shell_is_modal;
 
 /******************************************************************/
-static void create_activeunits_report_dialog(bool make_modal);
-static void activeunits_command_callback(struct gui_dialog *dlg, int response,
-                                         gpointer data);
-static void activeunits_selection_callback(GtkTreeSelection *selection,
-					   gpointer data);
-static struct gui_dialog *activeunits_dialog_shell = NULL;
-static GtkListStore *activeunits_store;
-static GtkTreeSelection *activeunits_selection;
-
-enum {
-  ACTIVEUNITS_NEAREST = 1, ACTIVEUNITS_UPGRADE
-};
-
-static int activeunits_dialog_shell_is_modal;
-
-/******************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet);
 
 static struct gui_dialog *endgame_report_shell = NULL;
@@ -122,7 +106,6 @@ static struct gui_dialog *endgame_report_shell = NULL;
 void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
-  activeunits_report_dialog_update();
   economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
@@ -943,112 +926,369 @@ void economy_report_dialog_update(void)
   }  
 }
 
-/****************************************************************
 
-                      ACTIVE UNITS REPORT DIALOG
- 
-****************************************************************/
+/****************************************************************************
+                           UNITS REPORT DIALOG
+****************************************************************************/
+static struct gui_dialog *units_report_dialog_shell = NULL;
+static GtkListStore *units_report_dialog_store = NULL;
 
-#define AU_COL 7
+enum units_report_response {
+  URD_RES_NEAREST = 1,
+  URD_RES_UPGRADE
+};
 
-/****************************************************************
-...
-****************************************************************/
-void popup_activeunits_report_dialog(bool raise)
+/* Those values must match the functions units_report_store_new() and
+ * units_report_column_name(). */
+enum units_report_columns {
+  URD_COL_UTYPE_NAME,
+  URD_COL_UPGRADABLE,
+  URD_COL_IN_PROJECT,
+  URD_COL_ACTIVE,
+  URD_COL_SHIELD,
+  URD_COL_FOOD,
+  URD_COL_GOLD,
+
+  /* Not visible. */
+  URD_COL_TEXT_WEIGHT,
+  URD_COL_BOOL_VISIBLE,
+  URD_COL_UTYPE_ID,
+
+  URD_COL_NUM
+};
+
+/****************************************************************************
+  Create a new units report list store.
+****************************************************************************/
+static GtkListStore *units_report_store_new(void)
 {
-  if(!activeunits_dialog_shell) {
-    activeunits_dialog_shell_is_modal = FALSE;
-    
-    create_activeunits_report_dialog(FALSE);
+  return gtk_list_store_new(URD_COL_NUM,
+                            G_TYPE_STRING,      /* URD_COL_UTYPE_NAME */
+                            G_TYPE_BOOLEAN,     /* URD_COL_UPGRADABLE */
+                            G_TYPE_INT,         /* URD_COL_IN_PROJECT */
+                            G_TYPE_INT,         /* URD_COL_ACTIVE */
+                            G_TYPE_INT,         /* URD_COL_SHIELD */
+                            G_TYPE_INT,         /* URD_COL_FOOD */
+                            G_TYPE_INT,         /* URD_COL_GOLD */
+                            G_TYPE_INT,         /* URD_COL_TEXT_WEIGHT */
+                            G_TYPE_BOOLEAN,     /* URD_COL_BOOL_VISIBLE */
+                            G_TYPE_INT);        /* URD_COL_UTYPE_ID */
+}
+
+/****************************************************************************
+  Returns the title of the column (translated).
+****************************************************************************/
+static const char *units_report_column_name(enum units_report_columns col)
+{
+  switch (col) {
+  case URD_COL_UTYPE_NAME:
+    return _("Unit Type");
+  case URD_COL_UPGRADABLE:
+    return Q_("?Upgradable unit [short]:U");
+  case URD_COL_IN_PROJECT:
+    /* TRANS: "In project" abbreviation. */
+    return _("In-Prog");
+  case URD_COL_ACTIVE:
+    return _("Active");
+  case URD_COL_SHIELD:
+    return _("Shield");
+  case URD_COL_FOOD:
+    return _("Food");
+  case URD_COL_GOLD:
+    return _("Gold");
+  case URD_COL_TEXT_WEIGHT:
+  case URD_COL_BOOL_VISIBLE:
+  case URD_COL_UTYPE_ID:
+  case URD_COL_NUM:
+    break;
   }
 
-  gui_dialog_present(activeunits_dialog_shell);
-  if (raise) {
-    gui_dialog_raise(activeunits_dialog_shell);
+  return NULL;
+}
+
+/****************************************************************************
+  Update the units report store.
+****************************************************************************/
+static void units_report_store_update(GtkListStore *dest_store)
+{
+  struct urd_info {
+    int active_count;
+    int building_count;
+    int upkeep[O_LAST];
+  };
+
+  struct urd_info unit_array[U_LAST];
+  struct urd_info unit_totals;
+  struct urd_info *info;
+  GtkListStore *store = units_report_store_new();
+  GtkTreeIter iter;
+
+  memset(unit_array, '\0', sizeof(unit_array));
+  memset(&unit_totals, '\0', sizeof(unit_totals));
+
+  /* Count units. */
+  players_iterate(pplayer) {
+    if (client_has_player() && pplayer != client_player()) {
+      continue;
+    }
+
+    unit_list_iterate(pplayer->units, punit) {
+      info = unit_array + utype_index(unit_type(punit));
+
+      if (0 != punit->homecity) {
+        output_type_iterate(o) {
+          info->upkeep[o] += punit->upkeep[o];
+        } output_type_iterate_end;
+      }
+      info->active_count++;
+    } unit_list_iterate_end;
+    city_list_iterate(pplayer->cities, pcity) {
+      if (VUT_UTYPE == pcity->production.kind) {
+        info = unit_array + utype_index(pcity->production.value.utype);
+        info->building_count++;
+      }
+    } city_list_iterate_end;
+  } players_iterate_end;
+
+  /* Make the store. */
+  unit_type_iterate(utype) {
+    info = unit_array + utype_index(utype);
+
+    if (0 == info->active_count && 0 == info->building_count) {
+      continue;         /* We don't need a row for this type. */
+    }
+
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       URD_COL_UTYPE_NAME, utype_name_translation(utype),
+                       URD_COL_UPGRADABLE, (client_has_player()
+                           && NULL != can_upgrade_unittype(client_player(),
+                                                           utype)),
+                       URD_COL_IN_PROJECT, info->building_count,
+                       URD_COL_ACTIVE, info->active_count,
+                       URD_COL_SHIELD, info->upkeep[O_SHIELD],
+                       URD_COL_FOOD, info->upkeep[O_FOOD],
+                       URD_COL_GOLD, info->upkeep[O_GOLD],
+                       URD_COL_TEXT_WEIGHT, PANGO_WEIGHT_NORMAL,
+                       URD_COL_BOOL_VISIBLE, TRUE,
+                       URD_COL_UTYPE_ID, (info->active_count
+                                          ? utype_number(utype) : U_LAST),
+                       -1);
+
+    /* Update totals. */
+    unit_totals.active_count += info->active_count;
+    output_type_iterate(o) {
+      unit_totals.upkeep[o] += info->upkeep[o];
+    } output_type_iterate_end;
+    unit_totals.building_count += info->building_count;
+  } unit_type_iterate_end;
+
+  /* Add the total row. */
+  gtk_list_store_append(store, &iter);
+  gtk_list_store_set(store, &iter,
+                     URD_COL_UTYPE_NAME, _("Totals:"),
+                     URD_COL_UPGRADABLE, FALSE,
+                     URD_COL_IN_PROJECT, unit_totals.building_count,
+                     URD_COL_ACTIVE, unit_totals.active_count,
+                     URD_COL_SHIELD, unit_totals.upkeep[O_SHIELD],
+                     URD_COL_FOOD, unit_totals.upkeep[O_FOOD],
+                     URD_COL_GOLD, unit_totals.upkeep[O_GOLD],
+                     URD_COL_TEXT_WEIGHT, PANGO_WEIGHT_BOLD,
+                     URD_COL_BOOL_VISIBLE, FALSE,
+                     URD_COL_UTYPE_ID, U_LAST,
+                     -1);
+
+  merge_list_stores(dest_store, store, URD_COL_UTYPE_ID);
+  g_object_unref(G_OBJECT(store));
+}
+
+/****************************************************************************
+  GtkTreeSelection "changed" signal handler.
+****************************************************************************/
+static void units_report_selection_callback(GtkTreeSelection *selection,
+                                            gpointer data)
+{
+  GtkTreeModel *model;
+  GtkTreeIter it;
+  struct gui_dialog *pdialog = data;
+  struct unit_type *utype = NULL;
+
+  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+    int ut;
+
+    gtk_tree_model_get(model, &it, URD_COL_UTYPE_ID, &ut, -1);
+    utype = utype_by_number(ut);
+  }
+
+  if (NULL == utype) {
+    gui_dialog_set_response_sensitive(pdialog, URD_RES_NEAREST, FALSE);
+    gui_dialog_set_response_sensitive(pdialog, URD_RES_UPGRADE, FALSE);
+  } else {
+    gui_dialog_set_response_sensitive(pdialog, URD_RES_NEAREST, TRUE);
+    gui_dialog_set_response_sensitive(pdialog, URD_RES_UPGRADE,
+        (can_client_issue_orders()
+         && NULL != can_upgrade_unittype(client_player(), utype)));
   }
 }
 
-/****************************************************************
- Closes the units report dialog.
-****************************************************************/
-void popdown_activeunits_report_dialog(void)
+/****************************************************************************
+  Returns the nearest unit of the type 'utype'.
+****************************************************************************/
+static struct unit *find_nearest_unit(const struct unit_type *utype,
+                                      struct tile *ptile)
 {
-  if (activeunits_dialog_shell) {
-    gui_dialog_destroy(activeunits_dialog_shell);
+  struct unit *best_candidate = NULL;
+  int best_dist = FC_INFINITY, dist;
+
+  players_iterate(pplayer) {
+    if (client_has_player() && pplayer != client_player()) {
+      continue;
+    }
+
+    unit_list_iterate(pplayer->units, punit) {
+      if (utype == unit_type(punit)
+          && FOCUS_AVAIL == punit->client.focus_status
+          && 0 < punit->moves_left
+          && !punit->done_moving
+          && !punit->ai_controlled) {
+        dist = sq_map_distance(unit_tile(punit), ptile);
+        if (dist < best_dist) {
+          best_candidate = punit;
+          best_dist = dist;
+        }
+      }
+    } unit_list_iterate_end;
+  } players_iterate_end;
+
+  return best_candidate;
+}
+
+/****************************************************************************
+  Gui dialog handler.
+****************************************************************************/
+static void units_report_command_callback(struct gui_dialog *pdialog,
+                                          int response,
+                                          gpointer data)
+{
+  struct unit_type *utype = NULL;
+  GtkTreeSelection *selection = data;
+  GtkTreeModel *model;
+  GtkTreeIter it;
+
+  switch (response) {
+  case URD_RES_NEAREST:
+  case URD_RES_UPGRADE:
+    break;
+  default:
+    gui_dialog_destroy(pdialog);
+    return;
+  }
+
+  /* Nearest & upgrade commands. */
+  if (gtk_tree_selection_get_selected(selection, &model, &it)) {
+    int ut;
+
+    gtk_tree_model_get(model, &it, URD_COL_UTYPE_ID, &ut, -1);
+    utype = utype_by_number(ut);
+  }
+
+  if (response == URD_RES_NEAREST) {
+    struct tile *ptile;
+    struct unit *punit;
+
+    ptile = get_center_tile_mapcanvas();
+    if ((punit = find_nearest_unit(utype, ptile))) {
+      center_tile_mapcanvas(unit_tile(punit));
+
+      if (ACTIVITY_IDLE == punit->activity
+          || ACTIVITY_SENTRY == punit->activity) {
+        if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
+          set_unit_focus_and_select(punit);
+        }
+      }
+    }
+  } else if (can_client_issue_orders()) {
+    GtkWidget *shell;
+    struct unit_type *upgrade = can_upgrade_unittype(client_player(), utype);
+
+    shell = gtk_message_dialog_new(NULL,
+                                   GTK_DIALOG_MODAL
+                                   | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
+                                   _("Upgrade as many %s to %s as possible "
+                                     "for %d gold each?\nTreasury contains "
+                                     "%d gold."),
+                                   utype_name_translation(utype),
+                                   utype_name_translation(upgrade),
+                                   unit_upgrade_price(client_player(),
+                                                      utype, upgrade),
+                                   client_player()->economic.gold);
+    setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
+
+    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
+
+    if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+      dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype));
+    }
+
+    gtk_widget_destroy(shell);
   }
 }
 
- 
-/****************************************************************
-...
-*****************************************************************/
-void create_activeunits_report_dialog(bool make_modal)
+/****************************************************************************
+  Create a units report dialog.
+****************************************************************************/
+static void units_report_dialog_new(struct gui_dialog **ppdialog,
+                                    GtkListStore **pstore)
 {
-  static const char *titles[AU_COL] = {
-    N_("Unit Type"),
-    N_("?Upgradable unit [short]:U"),
-    N_("In-Prog"),
-    N_("Active"),
-    N_("Shield"),
-    N_("Food"),
-    N_("Gold")
-  };
-  static bool titles_done;
-  int i;
-
-  static GType model_types[AU_COL+2] = {
-    G_TYPE_STRING,
-    G_TYPE_BOOLEAN,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_BOOLEAN,
-    G_TYPE_INT
-  };
   GtkWidget *view, *sw, *align;
+  GtkListStore *store;
+  GtkTreeSelection *selection;
+  struct gui_dialog *pdialog;
+  const char *title;
+  enum units_report_columns i;
 
-  intl_slist(ARRAY_SIZE(titles), titles, &titles_done);
-
-  gui_dialog_new(&activeunits_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
-  gui_dialog_set_title(activeunits_dialog_shell, _("Units"));
-
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
-  gtk_box_pack_start(GTK_BOX(activeunits_dialog_shell->vbox), align,
-      TRUE, TRUE, 0);
-
-  activeunits_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
+  store = units_report_store_new();
+  if (NULL != pstore) {
+    *pstore = store;
+  }
 
   sw = gtk_scrolled_window_new(NULL,NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(align), sw);
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(activeunits_store));
-  g_object_unref(activeunits_store);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-  activeunits_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  g_signal_connect(activeunits_selection, "changed",
-	G_CALLBACK(activeunits_selection_callback), NULL);
 
-  for (i=0; i<AU_COL; i++) {
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  gui_dialog_new(ppdialog, GTK_NOTEBOOK(top_notebook), selection);
+  pdialog = *ppdialog;
+  gui_dialog_set_title(pdialog, _("Units"));
+
+  g_signal_connect(selection, "changed",
+                   G_CALLBACK(units_report_selection_callback), pdialog);
+
+  for (i = 0; (title = units_report_column_name(i)); i++) {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
 
-    if (model_types[i] == G_TYPE_BOOLEAN) {
+    if (G_TYPE_BOOLEAN
+        == gtk_tree_model_get_column_type(GTK_TREE_MODEL(store), i)) {
       renderer = gtk_cell_renderer_toggle_new();
-      
-      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	"active", i, "visible", AU_COL, NULL);
+      col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                     "active", i, "visible",
+                                                     URD_COL_BOOL_VISIBLE,
+                                                     NULL);
     } else {
       renderer = gtk_cell_renderer_text_new();
-      
-      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	"text", i, NULL);
+      col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                     "text", i, "weight",
+                                                     URD_COL_TEXT_WEIGHT,
+                                                     NULL);
     }
 
     if (i > 0) {
@@ -1060,263 +1300,67 @@ void create_activeunits_report_dialog(bool make_modal)
   }
   gtk_container_add(GTK_CONTAINER(sw), view);
 
-  gui_dialog_add_stockbutton(activeunits_dialog_shell, GTK_STOCK_FIND,
-      _("Find _Nearest"), ACTIVEUNITS_NEAREST);
-  gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-      				    ACTIVEUNITS_NEAREST, FALSE);	
-  
-  gui_dialog_add_button(activeunits_dialog_shell,
-      _("_Upgrade"), ACTIVEUNITS_UPGRADE);
-  gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-      				    ACTIVEUNITS_UPGRADE, FALSE);	
+  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
+  gtk_box_pack_start(GTK_BOX(pdialog->vbox), align, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(align), sw);
 
-  gui_dialog_add_button(activeunits_dialog_shell, GTK_STOCK_CLOSE,
-      GTK_RESPONSE_CLOSE);
+  gui_dialog_add_stockbutton(pdialog, GTK_STOCK_FIND,
+                             _("Find _Nearest"), URD_RES_NEAREST);
+  gui_dialog_set_response_sensitive(pdialog, URD_RES_NEAREST, FALSE);
 
-  gui_dialog_set_default_response(activeunits_dialog_shell,
-      GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(pdialog, _("_Upgrade"), URD_RES_UPGRADE);
+  gui_dialog_set_response_sensitive(pdialog, URD_RES_UPGRADE, FALSE);
 
-  gui_dialog_response_set_callback(activeunits_dialog_shell,
-      activeunits_command_callback);
+  gui_dialog_add_button(pdialog, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
 
-  activeunits_report_dialog_update();
-  gui_dialog_set_default_size(activeunits_dialog_shell, -1, 350);
+  gui_dialog_set_default_response(pdialog, GTK_RESPONSE_CLOSE);
+  gui_dialog_response_set_callback(pdialog, units_report_command_callback);
 
-  gui_dialog_show_all(activeunits_dialog_shell);
+  gui_dialog_set_default_size(pdialog, -1, 350);
+  gui_dialog_show_all(pdialog);
 
+  units_report_store_update(store);
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-/****************************************************************
-...
-*****************************************************************/
-static void activeunits_selection_callback(GtkTreeSelection *selection,
-					   gpointer data)
+/****************************************************************************
+  Create the units report if needed.
+****************************************************************************/
+void units_report_dialog_popup(bool raise)
 {
-  struct unit_type *utype;
-  GtkTreeModel *model;
-  GtkTreeIter it;
-
-  utype = NULL;
-  if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
-    int ut;
-
-    gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
-    utype = utype_by_number(ut);
+  if (NULL == units_report_dialog_shell) {
+    units_report_dialog_new(&units_report_dialog_shell,
+                            &units_report_dialog_store);
   }
 
-
-  if (utype == NULL) {
-    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-				      ACTIVEUNITS_NEAREST, FALSE);
-
-    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-				      ACTIVEUNITS_UPGRADE, FALSE);
-  } else {
-    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-				      ACTIVEUNITS_NEAREST,
-				      can_client_issue_orders());	
-    
-    gui_dialog_set_response_sensitive(activeunits_dialog_shell,
-		ACTIVEUNITS_UPGRADE,
-		(can_client_issue_orders()
-		 && NULL != can_upgrade_unittype(client.conn.playing, utype)));
+  gui_dialog_present(units_report_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(units_report_dialog_shell);
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-static struct unit *find_nearest_unit(const struct unit_type *type,
-				      struct tile *ptile)
+/****************************************************************************
+  Closes the units report dialog.
+****************************************************************************/
+void units_report_dialog_popdown(void)
 {
-  struct unit *best_candidate;
-  int best_dist = FC_INFINITY;
-
-  best_candidate = NULL;
-  if (NULL == client.conn.playing) {
-    return NULL;
-  }
-
-  unit_list_iterate(client.conn.playing->units, punit) {
-    if (unit_type(punit) == type) {
-      if (punit->client.focus_status==FOCUS_AVAIL
-	  && punit->moves_left > 0
-	  && !punit->done_moving
-	  && !punit->ai_controlled) {
-	int d;
-	d=sq_map_distance(punit->tile, ptile);
-	if(d<best_dist) {
-	  best_candidate = punit;
-	  best_dist = d;
-	}
-      }
-    }
-  }
-  unit_list_iterate_end;
-  return best_candidate;
-}
-
-/****************************************************************
-...
-*****************************************************************/
-static void activeunits_command_callback(struct gui_dialog *dlg, int response,
-                                         gpointer data)
-{
-  struct unit_type *utype1 = NULL;
-  GtkTreeModel *model;
-  GtkTreeIter   it;
-
-  switch (response) {
-    case ACTIVEUNITS_NEAREST:
-    case ACTIVEUNITS_UPGRADE:
-      break;
-    default:
-      gui_dialog_destroy(dlg);
-      return;
-  }
-
-  /* nearest & upgrade commands. */
-  if (gtk_tree_selection_get_selected(activeunits_selection, &model, &it)) {
-    int ut;
-
-    gtk_tree_model_get(model, &it, AU_COL + 1, &ut, -1);
-    utype1 = utype_by_number(ut);
-  }
-
-  if (response == ACTIVEUNITS_NEAREST) {
-    struct tile *ptile;
-    struct unit *punit;
-
-    ptile = get_center_tile_mapcanvas();
-    if ((punit = find_nearest_unit(utype1, ptile))) {
-      center_tile_mapcanvas(punit->tile);
-
-      if (punit->activity == ACTIVITY_IDLE
-	  || punit->activity == ACTIVITY_SENTRY) {
-	if (can_unit_do_activity(punit, ACTIVITY_IDLE)) {
-	  set_unit_focus_and_select(punit);
-	}
-      }
-    }
-  } else if (can_client_issue_orders()) {
-    GtkWidget *shell;
-    struct unit_type *ut2 = can_upgrade_unittype(client.conn.playing, utype1);
-
-    shell = gtk_message_dialog_new(
-	  NULL,
-	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-	  _("Upgrade as many %s to %s as possible for %d gold each?\n"
-	    "Treasury contains %d gold."),
-	  utype_name_translation(utype1),
-	  utype_name_translation(ut2),
-	  unit_upgrade_price(client.conn.playing, utype1, ut2),
-	  client.conn.playing->economic.gold);
-    setup_dialog(shell, gui_dialog_get_toplevel(dlg));
-
-    gtk_window_set_title(GTK_WINDOW(shell), _("Upgrade Obsolete Units"));
-
-    if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-      dsend_packet_unit_type_upgrade(&client.conn, utype_number(utype1));
-    }
-
-    gtk_widget_destroy(shell);
+  if (units_report_dialog_shell) {
+    gui_dialog_destroy(units_report_dialog_shell);
+    fc_assert(NULL == units_report_dialog_shell);
+    units_report_dialog_store = NULL;
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void activeunits_report_dialog_update(void)
+/****************************************************************************
+  Update the units report dialog.
+****************************************************************************/
+void real_units_report_dialog_update(void)
 {
-  struct repoinfo {
-    int active_count;
-    int upkeep[O_LAST];
-    int building_count;
-  };
-
-  if (is_report_dialogs_frozen() || !activeunits_dialog_shell) {
-    return;
-  }
-
-  gtk_list_store_clear(activeunits_store);
-  if (client_has_player()) {
-    int    k, can;
-    struct repoinfo unitarray[U_LAST];
-    struct repoinfo unittotals;
-    GtkTreeIter it;
-    GValue value = { 0, };
-
-    gtk_list_store_clear(activeunits_store);
-
-    memset(unitarray, '\0', sizeof(unitarray));
-    unit_list_iterate(client_player()->units, punit) {
-      struct repoinfo *info = unitarray + utype_index(unit_type(punit));
-
-      if (0 != punit->homecity) {
-        output_type_iterate(o) {
-          info->upkeep[o] += punit->upkeep[o];
-        } output_type_iterate_end;
-      }
-      info->active_count++;
-    } unit_list_iterate_end;
-    city_list_iterate(client_player()->cities, pcity) {
-      if (VUT_UTYPE == pcity->production.kind) {
-        unitarray[utype_index(pcity->production.value.utype)].building_count++;
-      }
-    } city_list_iterate_end;
-
-    k = 0;
-    memset(&unittotals, '\0', sizeof(unittotals));
-    unit_type_iterate(punittype) {
-      Unit_type_id uti = utype_index(punittype);
-      if (unitarray[uti].active_count > 0
-	  || unitarray[uti].building_count > 0) {
-	can = (NULL != can_upgrade_unittype(client.conn.playing, punittype));
-	
-        gtk_list_store_append(activeunits_store, &it);
-	gtk_list_store_set(activeunits_store, &it,
-		1, can,
-		2, unitarray[uti].building_count,
-		3, unitarray[uti].active_count,
-		4, unitarray[uti].upkeep[O_SHIELD],
-		5, unitarray[uti].upkeep[O_FOOD],
-		6, unitarray[uti].upkeep[O_GOLD],
-		7, TRUE,
-		8, ((unitarray[uti].active_count > 0)
-		    ? uti : U_LAST),
-		-1);
-	g_value_init(&value, G_TYPE_STRING);
-	g_value_set_static_string(&value, utype_name_translation(punittype));
-	gtk_list_store_set_value(activeunits_store, &it, 0, &value);
-	g_value_unset(&value);
-
-	k++;
-	unittotals.active_count += unitarray[uti].active_count;
-	output_type_iterate(o) {
-	  unittotals.upkeep[o] += unitarray[uti].upkeep[o];
-	} output_type_iterate_end;
-	unittotals.building_count += unitarray[uti].building_count;
-      }
-    } unit_type_iterate_end;
-
-    gtk_list_store_append(activeunits_store, &it);
-    gtk_list_store_set(activeunits_store, &it,
-	    1, FALSE,
-    	    2, unittotals.building_count,
-    	    3, unittotals.active_count,
-    	    4, unittotals.upkeep[O_SHIELD],
-    	    5, unittotals.upkeep[O_FOOD],
-	    6, unittotals.upkeep[O_GOLD],
-	    7, FALSE,
-	    8, U_LAST, -1);
-    g_value_init(&value, G_TYPE_STRING);
-    g_value_set_static_string(&value, _("Totals:"));
-    gtk_list_store_set_value(activeunits_store, &it, 0, &value);
-    g_value_unset(&value);
+  if (NULL != units_report_dialog_store) {
+    units_report_store_update(units_report_dialog_store);
   }
 }
+
 
 /****************************************************************
 

@@ -29,7 +29,6 @@
 void update_report_dialogs(void)
 {
   if (!is_report_dialogs_frozen()) {
-    activeunits_report_dialog_update();
     economy_report_dialog_update();
     city_report_dialog_update(); 
     science_dialog_update();
@@ -73,7 +72,7 @@ void popup_economy_report_dialog(bool raise)
 /**************************************************************************
   Update the units report.
 **************************************************************************/
-void activeunits_report_dialog_update(void)
+void real_units_report_dialog_update(void)
 {
   /* PORTME */
 }
@@ -82,7 +81,7 @@ void activeunits_report_dialog_update(void)
   Display the units report.  Optionally raise it.
   Typically triggered by F2.
 **************************************************************************/
-void popup_activeunits_report_dialog(bool raise)
+void units_report_dialog_popup(bool raise)
 {
   /* PORTME */
 }

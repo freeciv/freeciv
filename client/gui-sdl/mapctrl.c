@@ -144,7 +144,7 @@ static int units_action_callback(struct widget *pWidget)
     set_wstate(pWidget, FC_WS_NORMAL);
     widget_redraw(pWidget);
     widget_mark_dirty(pWidget);
-    popup_activeunits_report_dialog(FALSE);
+    units_report_dialog_popup(FALSE);
   }
   return -1;
 }

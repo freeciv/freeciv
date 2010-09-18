@@ -839,7 +839,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 /**************************************************************************
   update the units report.
 **************************************************************************/
-void activeunits_report_dialog_update(void)
+void real_units_report_dialog_update(void)
 {
   if(pUnitsDlg && !is_report_dialogs_frozen()) {
     struct units_entry units[U_LAST];
@@ -1014,7 +1014,7 @@ void activeunits_report_dialog_update(void)
 /**************************************************************************
   Popup (or raise) the units report (F2).  It may or may not be modal.
 **************************************************************************/
-void popup_activeunits_report_dialog(bool make_modal)
+void units_report_dialog_popup(bool make_modal)
 {
   struct units_entry units[U_LAST];
   struct units_entry units_total;
@@ -1030,7 +1030,7 @@ void popup_activeunits_report_dialog(bool make_modal)
 /**************************************************************************
   Popdown the units report.
 **************************************************************************/
-void popdown_activeunits_report_dialog(void)
+void units_report_dialog_popdown(void)
 {
   if (pUnitsDlg) {
     if (pUnits_Upg_Dlg) {
@@ -3370,7 +3370,6 @@ void popdown_all_science_dialogs(void)
 void update_report_dialogs(void)
 {
   economy_report_dialog_update();
-  activeunits_report_dialog_update();
   science_dialog_update();
   city_report_dialog_update();
 }

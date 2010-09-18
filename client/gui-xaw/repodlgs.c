@@ -125,7 +125,6 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
-  activeunits_report_dialog_update();
   economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
@@ -832,7 +831,7 @@ void economy_report_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_activeunits_report_dialog(bool make_modal)
+void units_report_dialog_popup(bool make_modal)
 {
   if(!activeunits_dialog_shell) {
       Position x, y;
@@ -858,7 +857,7 @@ void popup_activeunits_report_dialog(bool make_modal)
 /****************************************************************
   Closes the active units report.
 *****************************************************************/
-void popdown_activeunits_report_dialog(void)
+void units_report_dialog_popdown(void)
 {
   if (activeunits_dialog_shell) {
     if (activeunits_dialog_shell_is_modal) {
@@ -948,7 +947,7 @@ void create_activeunits_report_dialog(bool make_modal)
       XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-units-report()"));
   }
 
-  activeunits_report_dialog_update();
+  real_units_report_dialog_update();
 }
 
 /****************************************************************
@@ -1028,7 +1027,7 @@ void activeunits_upgrade_callback(Widget w, XtPointer client_data,
 void activeunits_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-  popdown_activeunits_report_dialog();
+  units_report_dialog_popdown();
 }
 
 /****************************************************************
@@ -1037,7 +1036,7 @@ void activeunits_close_callback(Widget w, XtPointer client_data,
 void activeunits_refresh_callback(Widget w, XtPointer client_data, 
 				  XtPointer call_data)
 {
-  activeunits_report_dialog_update();
+  real_units_report_dialog_update();
 }
 
 /****************************************************************
@@ -1051,7 +1050,7 @@ void activeunits_msg_close(Widget w)
 /****************************************************************
 ...
 *****************************************************************/
-void activeunits_report_dialog_update(void)
+void real_units_report_dialog_update(void)
 {
   struct repoinfo {
     int active_count;

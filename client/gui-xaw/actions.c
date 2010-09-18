@@ -321,7 +321,7 @@ static void xaw_key_open_units_report(Widget w, XEvent *event,
 {
   if (can_client_change_view()
       && is_menu_item_active(MENU_REPORT, MENU_REPORT_UNITS)) {
-    popup_activeunits_report_dialog(0);
+    units_report_dialog_popup(FALSE);
   }
 }
 
