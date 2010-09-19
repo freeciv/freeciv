@@ -14,7 +14,7 @@
 #ifndef FC__BARBARIAN_H
 #define FC__BARBARIAN_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

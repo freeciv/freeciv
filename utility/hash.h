@@ -18,7 +18,7 @@
    See comments in hash.c.
 ***************************************************************************/
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 struct hash_table;		/* opaque */
 

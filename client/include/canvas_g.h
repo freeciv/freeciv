@@ -13,7 +13,7 @@
 #ifndef FC__CANVAS_G_H
 #define FC__CANVAS_G_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 struct color;
 struct sprite;

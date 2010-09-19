@@ -13,9 +13,12 @@
 #ifndef FC__AISETTLER_H
 #define FC__AISETTLER_H
 
+/* utility */
+#include "support.h"            /* bool type */
+
+/* common */
 #include "city.h"
 #include "fc_types.h"
-#include "shared.h"		/* bool type */
 
 struct ai_data;
 struct settlermap;

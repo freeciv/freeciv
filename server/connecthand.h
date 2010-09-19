@@ -13,7 +13,7 @@
 #ifndef FC__CONNECTHAND_H
 #define FC__CONNECTHAND_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

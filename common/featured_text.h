@@ -13,8 +13,10 @@
 #ifndef FC__FEATURED_TEXT_H
 #define FC__FEATURED_TEXT_H
 
-#include "shared.h"             /* bool type. */
+/* utility */
+#include "support.h"            /* bool type. */
 
+/* common */
 #include "fc_types.h"
 
 /*

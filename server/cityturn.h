@@ -14,7 +14,7 @@
 #ifndef FC__CITYTURN_H
 #define FC__CITYTURN_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

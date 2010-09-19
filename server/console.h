@@ -13,7 +13,7 @@
 #ifndef FC__CONSOLE_H
 #define FC__CONSOLE_H
 
-#include "shared.h"		/* bool type and fc__attribute */
+#include "support.h"            /* bool type and fc__attribute */
 
 #define MAX_LEN_CONSOLE_LINE 512	/* closing \0 included */
 

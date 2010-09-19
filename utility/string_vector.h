@@ -13,7 +13,7 @@
 #ifndef FC__STRING_VECTOR_H
 #define FC__STRING_VECTOR_H
 
-#include "shared.h"             /* bool type. */
+#include "support.h"            /* bool type. */
 
 struct strvec;                  /* Opaque. */
 

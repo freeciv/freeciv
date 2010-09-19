@@ -29,9 +29,12 @@
   Includes cmdlevel stuff, which is connection-based.
 ***************************************************************************/
 
-#include "shared.h"		/* MAX_LEN_ADDR, bool type */
+/* utility */
+#include "shared.h"             /* MAX_LEN_ADDR */
+#include "support.h"            /* bool type */
 #include "timing.h"
 
+/* common */
 #include "fc_types.h"
 
 struct hash_table;

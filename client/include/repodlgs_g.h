@@ -13,10 +13,15 @@
 #ifndef FC__REPODLGS_G_H
 #define FC__REPODLGS_G_H
 
-#include "packets.h"         
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
 
+/* common */
+#include "packets.h"
+
+/* client */
 #include "repodlgs_common.h"
+
 
 void update_report_dialogs(void);
 

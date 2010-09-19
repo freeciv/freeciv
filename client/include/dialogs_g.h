@@ -13,7 +13,7 @@
 #ifndef FC__DIALOGS_G_H
 #define FC__DIALOGS_G_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 #include "featured_text.h"      /* struct text_tag_list */

@@ -13,7 +13,7 @@
 #ifndef FC__VOTING_H
 #define FC__VOTING_H
 
-#include "shared.h" /* bool */
+#include "support.h"            /* bool type */
 
 enum vote_condition_flags {
   VCF_NONE          = 0,

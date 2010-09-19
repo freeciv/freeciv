@@ -13,8 +13,10 @@
 #ifndef FC__GRAPHICS_G_H
 #define FC__GRAPHICS_G_H
 
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
 
+/* client/include */
 #include "sprite_g.h"
 
 bool isometric_view_supported(void);

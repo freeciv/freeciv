@@ -41,7 +41,7 @@
 #endif
 
 #include "ioz.h"
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /* map symbolic Winsock error names to symbolic errno names */
 #ifdef HAVE_WINSOCK

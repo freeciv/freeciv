@@ -13,7 +13,7 @@
 #ifndef FC__EVENTS_H
 #define FC__EVENTS_H
 
-#include "shared.h"          /* bool type */
+#include "support.h"            /* bool type */
 
 #define SPECENUM_NAME event_type
 #define SPECENUM_VALUE0   E_CITY_CANTBUILD

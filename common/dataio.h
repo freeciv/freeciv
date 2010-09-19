@@ -14,7 +14,7 @@
 #define FC__DATAIO_H
 
 #include "bitvector.h"
-#include "shared.h" /* bool type */
+#include "support.h"            /* bool type */
 
 struct worklist;
 struct requirement;

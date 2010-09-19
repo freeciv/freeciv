@@ -13,8 +13,9 @@
 #ifndef FC__MAPGEN_TOPOLOGY_H
 #define FC__MAPGEN_TOPOLOGY_H
 
+/* utility */
 #include "fcintl.h"
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /* this is the maximal colatitude at equators returned by 
    map_colatitude */

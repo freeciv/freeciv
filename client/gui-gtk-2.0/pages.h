@@ -15,7 +15,7 @@
 
 #include <gtk/gtk.h>
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "pages_g.h"
 

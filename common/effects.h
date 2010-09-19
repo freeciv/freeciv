@@ -13,7 +13,7 @@
 #ifndef FC__EFFECTS_H
 #define FC__EFFECTS_H
 
-#include "shared.h"		/* bool */
+#include "support.h"            /* bool type */
 #include "fc_types.h"
 
 #include "connection.h"

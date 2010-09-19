@@ -16,7 +16,7 @@
 
 #include <stddef.h>		/* size_t */
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 #include "fc_types.h"
 
 #include "city.h"

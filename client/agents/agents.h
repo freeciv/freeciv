@@ -14,7 +14,7 @@
 #ifndef FC__CLIENT_AGENTS_AGENTS_H
 #define FC__CLIENT_AGENTS_AGENTS_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

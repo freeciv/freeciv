@@ -14,7 +14,7 @@
 #define FC__CHATLINE_COMMON_H
 
 /* utility */
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /* common */
 #include "featured_text.h"      /* struct text_tag_list, struct ft_color */

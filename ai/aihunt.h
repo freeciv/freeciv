@@ -13,7 +13,7 @@
 #ifndef FC__AIHUNT_H
 #define FC__AIHUNT_H
 
-#include "shared.h"             /* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

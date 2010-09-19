@@ -14,7 +14,7 @@
 #define FC__AITOOLS_H
 
 /* utility */
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /* common */
 #include "fc_types.h"

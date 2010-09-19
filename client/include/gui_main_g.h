@@ -13,8 +13,10 @@
 #ifndef FC__GUI_MAIN_G_H
 #define FC__GUI_MAIN_G_H
 
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
 
+/* common */
 #include "fc_types.h"
 
 void set_city_names_font_sizes(int city_names_font_size,

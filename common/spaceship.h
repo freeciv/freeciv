@@ -13,7 +13,7 @@
 #ifndef FC__SPACESHIP_H
 #define FC__SPACESHIP_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /**********************************************************************
 First, some ascii art showing the spaceship and relevant parts,

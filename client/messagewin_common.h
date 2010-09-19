@@ -15,7 +15,7 @@
 #define FC__MESSAGEWIN_COMMON_H
 
 /* utility */
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 /* common */
 #include "events.h"		/* enum event_type */

@@ -26,8 +26,11 @@
  * the weighted sum over the surplus of each type.
  */
 
-#include "city.h"		/* CITY_MAP_MAX_SIZE */
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
+
+/* common */
+#include "city.h"               /* CITY_MAP_MAX_SIZE */
 
 /* A description of the goal. */
 struct cm_parameter {

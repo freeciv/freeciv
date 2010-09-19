@@ -13,7 +13,7 @@
 #ifndef FC__AUDIO_H
 #define FC__AUDIO_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #define MAX_AUDIO_NAME_LEN		20
 #define MAX_AUDIO_DESCR_LEN		200

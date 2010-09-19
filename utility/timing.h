@@ -16,7 +16,7 @@
 #ifndef FC__TIMING_H
 #define FC__TIMING_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 enum timer_timetype {
   TIMER_CPU,			/* time spent by the CPU */

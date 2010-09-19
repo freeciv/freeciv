@@ -13,11 +13,13 @@
 #ifndef FC__PLRDLG_COMMON_H
 #define FC__PLRDLG_COMMON_H
 
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
 
+/* common */
+#include "fc_types.h"
 #include "player.h"
 
-#include "fc_types.h"
 
 enum player_dlg_column_type {
   COL_FLAG,

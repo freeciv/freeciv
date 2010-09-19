@@ -15,7 +15,7 @@
 #define FC__MAPVIEW_COMMON_H
 
 /* utility */
-#include "shared.h"             /* bool type */
+#include "support.h"            /* bool type */
 
 /* common */
 #include "fc_types.h"

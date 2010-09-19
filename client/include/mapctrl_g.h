@@ -13,10 +13,13 @@
 #ifndef FC__MAPCTRL_G_H
 #define FC__MAPCTRL_G_H
 
-#include "shared.h"		/* bool type */
+/* utility */
+#include "support.h"            /* bool type */
 
+/* common */
 #include "fc_types.h"
 
+/* client */
 #include "mapctrl_common.h"
 
 void popup_newcity_dialog(struct unit *punit, char *suggestname);

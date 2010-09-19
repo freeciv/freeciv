@@ -13,7 +13,7 @@
 #ifndef FC__CITYREP_G_H
 #define FC__CITYREP_G_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 #include "fc_types.h"
 

@@ -14,7 +14,7 @@
 #ifndef FC__CAPABILITY_H
 #define FC__CAPABILITY_H
 
-#include "shared.h"		/* bool type */
+#include "support.h"            /* bool type */
 
 bool has_capability(const char *cap, const char *capstr);
 bool has_capabilities(const char *us, const char *them);

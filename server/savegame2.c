@@ -91,8 +91,8 @@
 #include "mem.h"
 #include "rand.h"
 #include "registry.h"
-#include "shared.h" /* bool type */
-#include "support.h"
+#include "shared.h"
+#include "support.h"            /* bool type */
 #include "timing.h"
 
 /* common */

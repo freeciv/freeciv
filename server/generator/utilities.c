@@ -18,7 +18,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "rand.h"
-#include "shared.h"             /* bool type */
+#include "support.h"            /* bool type */
 
 /* common */
 #include "map.h"
