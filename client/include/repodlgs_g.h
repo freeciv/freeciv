@@ -26,15 +26,16 @@
 void update_report_dialogs(void);
 
 void popup_science_dialog(bool raise);
-void popup_economy_report_dialog(bool raise);
+void economy_report_dialog_popup(bool raise);
 void units_report_dialog_popup(bool raise);
 void popup_endgame_report_dialog(struct packet_endgame_report *packet);
 
 void science_dialog_update(void);
-void economy_report_dialog_update(void);
+void real_economy_report_dialog_update(void);
 void real_units_report_dialog_update(void);
 
 /* Actually defined in update_queue.c */
+void economy_report_dialog_update(void);
 void units_report_dialog_update(void);
 
 #endif  /* FC__REPODLGS_G_H */

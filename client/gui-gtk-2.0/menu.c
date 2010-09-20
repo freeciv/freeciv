@@ -1182,7 +1182,7 @@ static void report_cities_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void report_economy_callback(GtkAction *action, gpointer data)
 {
-  popup_economy_report_dialog(TRUE);
+  economy_report_dialog_popup(TRUE);
 }
 
 /****************************************************************

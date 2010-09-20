@@ -326,6 +326,7 @@ void handle_unit_remove(int unit_id)
 {
   struct unit *punit = game_find_unit_by_number(unit_id);
   struct player *powner;
+  bool need_economy_report_update;
 
   if (!punit) {
     return;
@@ -338,6 +339,7 @@ void handle_unit_remove(int unit_id)
     process_diplomat_arrival(NULL, 0);
   }
 
+  need_economy_report_update = (0 < punit->upkeep[O_GOLD]);
   powner = unit_owner(punit);
 
   agents_unit_remove(punit);
@@ -345,6 +347,9 @@ void handle_unit_remove(int unit_id)
   client_remove_unit(punit);
 
   if (!client_has_player() || powner == client_player()) {
+    if (need_economy_report_update) {
+      economy_report_dialog_update();
+    }
     units_report_dialog_update();
   }
 }
@@ -425,22 +430,26 @@ void handle_unit_combat_info(int attacker_unit_id, int defender_unit_id,
 
 /**************************************************************************
   Updates a city's list of improvements from packet data.
-  "have_impr" specifies whether the improvement should
-  be added (TRUE) or removed (FALSE).
+  "have_impr" specifies whether the improvement should be added (TRUE)
+  or removed (FALSE). Returns TRUE if the improvement has been actually
+  added or removed.
 **************************************************************************/
-static void update_improvement_from_packet(struct city *pcity,
-					   struct impr_type *pimprove,
-					   bool have_impr)
+static bool update_improvement_from_packet(struct city *pcity,
+                                           struct impr_type *pimprove,
+                                           bool have_impr)
 {
   if (have_impr) {
     if (pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
       city_add_improvement(pcity, pimprove);
+      return TRUE;
     }
   } else {
     if (pcity->built[improvement_index(pimprove)].turn > I_NEVER) {
       city_remove_improvement(pcity, pimprove);
+      return TRUE;
     }
   }
+  return FALSE;
 }
 
 /****************************************************************************
@@ -456,6 +465,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool city_is_new = FALSE;
   bool city_has_changed_owner = FALSE;
   bool need_units_dialog_update = FALSE;
+  bool need_economy_dialog_update = FALSE;
   bool name_changed = FALSE;
   bool update_descriptions = FALSE;
   bool shield_stock_changed = FALSE;
@@ -658,11 +668,13 @@ void handle_city_info(struct packet_city_info *packet)
 
   improvement_iterate(pimprove) {
     bool have = BV_ISSET(packet->improvements, improvement_index(pimprove));
-    if (have  &&  !city_is_new
-     && pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
+
+    if (have && !city_is_new
+        && pcity->built[improvement_index(pimprove)].turn <= I_NEVER) {
       audio_play_sound(pimprove->soundtag, pimprove->soundtag_alt);
     }
-    update_improvement_from_packet(pcity, pimprove, have);
+    need_economy_dialog_update |=
+        update_improvement_from_packet(pcity, pimprove, have);
   } improvement_iterate_end;
 
   /* We should be able to see units in the city.  But for a diplomat
@@ -711,6 +723,11 @@ void handle_city_info(struct packet_city_info *packet)
   /* Update the units dialog if necessary. */
   if (need_units_dialog_update) {
     units_report_dialog_update();
+  }
+
+  /* Update the economy dialog if necessary. */
+  if (need_economy_dialog_update) {
+    economy_report_dialog_update();
   }
 
   /* Update the panel text (including civ population). */
@@ -1164,6 +1181,7 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
   struct city *pcity;
   struct unit *punit;
   bool need_menus_update = FALSE;
+  bool need_economy_report_update = FALSE;
   bool need_units_report_update = FALSE;
   bool repaint_unit = FALSE;
   bool repaint_city = FALSE;	/* regards unit's homecity */
@@ -1399,6 +1417,8 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
       }
     }
 
+    need_economy_report_update = (punit->upkeep[O_GOLD]
+                                  != packet_unit->upkeep[O_GOLD]);
     /* unit upkeep information */
     output_type_iterate(o) {
       punit->upkeep[o] = packet_unit->upkeep[o];
@@ -1471,9 +1491,13 @@ static bool handle_unit_packet_common(struct unit *packet_unit)
     menus_update();
   }
 
-  if (need_units_report_update
-      && (!client_has_player() || unit_owner(punit) == client_player())) {
-    units_report_dialog_update();
+  if (!client_has_player() || unit_owner(punit) == client_player()) {
+    if (need_economy_report_update) {
+      economy_report_dialog_update();
+    }
+    if (need_units_report_update) {
+      units_report_dialog_update();
+    }
   }
 
   return ret;

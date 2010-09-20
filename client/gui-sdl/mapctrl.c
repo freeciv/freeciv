@@ -226,7 +226,7 @@ static int research_callback(struct widget *pButton)
 static int economy_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popup_economy_report_dialog(FALSE);
+    economy_report_dialog_popup(FALSE);
   }
   return -1;
 }

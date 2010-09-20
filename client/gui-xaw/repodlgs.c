@@ -125,7 +125,6 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
-  economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
 }
@@ -594,7 +593,7 @@ void science_dialog_update(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_economy_report_dialog(bool make_modal)
+void economy_report_dialog_popup(bool make_modal)
 {
   if(!economy_dialog_shell) {
       Position x, y;
@@ -620,7 +619,7 @@ void popup_economy_report_dialog(bool make_modal)
 /****************************************************************
   Closes the economy report.
 ****************************************************************/
-void popdown_economy_report_dialog(void)
+void economy_report_dialog_popdown(void)
 {
   if (economy_dialog_shell) {
     if (economy_dialog_shell_is_modal) {
@@ -702,7 +701,7 @@ void create_economy_report_dialog(bool make_modal)
       XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-economy-report()"));
   }
 
-  economy_report_dialog_update();
+  real_economy_report_dialog_update();
 }
 
 
@@ -736,7 +735,7 @@ void economy_list_callback(Widget w, XtPointer client_data,
 void economy_close_callback(Widget w, XtPointer client_data, 
 			 XtPointer call_data)
 {
-  popdown_economy_report_dialog();
+  economy_report_dialog_popdown();
 }
 
 /****************************************************************
@@ -768,7 +767,7 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void)
 {
   if(is_report_dialogs_frozen()) return;
   if(economy_dialog_shell) {

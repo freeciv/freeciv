@@ -29,7 +29,6 @@
 void update_report_dialogs(void)
 {
   if (!is_report_dialogs_frozen()) {
-    economy_report_dialog_update();
     city_report_dialog_update(); 
     science_dialog_update();
   }
@@ -55,7 +54,7 @@ void popup_science_dialog(bool raise)
 /**************************************************************************
   Update the economy report.
 **************************************************************************/
-void economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void)
 {
   /* PORTME */
 }
@@ -64,7 +63,7 @@ void economy_report_dialog_update(void)
   Display the economy report.  Optionally raise it.
   Typically triggered by F5.
 **************************************************************************/
-void popup_economy_report_dialog(bool raise)
+void economy_report_dialog_popup(bool raise)
 {
   /* PORTME */
 }

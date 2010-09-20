@@ -1641,7 +1641,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
 /**************************************************************************
   Update the economy report.
 **************************************************************************/
-void economy_report_dialog_update(void)
+void real_economy_report_dialog_update(void)
 {
   if(pEconomyDlg && !is_report_dialogs_frozen()) {
     struct widget *pBuf = pEconomyDlg->pEndWidgetList;
@@ -1690,7 +1690,7 @@ void economy_report_dialog_update(void)
 /**************************************************************************
   Popdown the economy report.
 **************************************************************************/
-void popdown_economy_report_dialog(void)
+void economy_report_dialog_popdown(void)
 {
   if(pEconomyDlg) {
     if (pEconomy_Sell_Dlg) {
@@ -1714,7 +1714,7 @@ void popdown_economy_report_dialog(void)
 /**************************************************************************
   Popup (or raise) the economy report (F5).  It may or may not be modal.
 **************************************************************************/
-void popup_economy_report_dialog(bool make_modal)
+void economy_report_dialog_popup(bool make_modal)
 {
   SDL_Color bg_color = {255,255,255,128};
   SDL_Color bg_color2 = {255,255,255,136};
@@ -3369,7 +3369,6 @@ void popdown_all_science_dialogs(void)
 **************************************************************************/
 void update_report_dialogs(void)
 {
-  economy_report_dialog_update();
   science_dialog_update();
   city_report_dialog_update();
 }

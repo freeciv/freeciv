@@ -161,7 +161,7 @@ void popdown_all_game_dialogs(void)
   popdown_worklist_editor();
   popdown_all_city_dialogs();
   popdown_city_report_dialog();
-  popdown_economy_report_dialog();
+  economy_report_dialog_popdown();
   units_report_dialog_popdown();
   popdown_intel_dialogs();
   popdown_players_nations_dialog();

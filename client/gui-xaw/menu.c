@@ -831,7 +831,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     popup_players_dialog(FALSE);
     break;
    case MENU_REPORT_ECONOMY:
-    popup_economy_report_dialog(0);
+    economy_report_dialog_popup(FALSE);
     break;
    case MENU_REPORT_SCIENCE:
     popup_science_dialog(0);

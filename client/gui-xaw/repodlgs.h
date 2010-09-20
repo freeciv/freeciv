@@ -18,7 +18,7 @@
 #include "repodlgs_g.h"
 
 void popdown_science_dialog(void);
-void popdown_economy_report_dialog(void);
+void economy_report_dialog_popdown(void);
 void units_report_dialog_popdown(void);
 
 void activeunits_msg_close(Widget w);

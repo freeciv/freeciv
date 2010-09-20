@@ -398,6 +398,14 @@ void players_dialog_update(void)
 }
 
 /****************************************************************************
+  Update the economy report.
+****************************************************************************/
+void economy_report_dialog_update(void)
+{
+  update_queue_add(Q_CALLBACK(real_economy_report_dialog_update), NULL);
+}
+
+/****************************************************************************
   Update the units report.
 ****************************************************************************/
 void units_report_dialog_update(void)

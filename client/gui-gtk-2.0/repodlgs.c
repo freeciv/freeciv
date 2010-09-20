@@ -77,25 +77,6 @@ static int science_dialog_shell_is_modal;
 static GtkWidget *popupmenu, *goalmenu;
 
 /******************************************************************/
-enum {
-  ECONOMY_SELL_OBSOLETE = 1, ECONOMY_SELL_ALL
-};
-
-static void create_economy_report_dialog(bool make_modal);
-static void economy_command_callback(struct gui_dialog *dlg, int response,
-                                     gpointer data);
-static void economy_selection_callback(GtkTreeSelection *selection,
-				       gpointer data);
-static struct universal economy_row_type[U_LAST + B_LAST];
-
-static struct gui_dialog *economy_dialog_shell = NULL;
-static GtkWidget *economy_label2;
-static GtkListStore *economy_store;
-static GtkTreeSelection *economy_selection;
-static GtkWidget *sellall_command, *sellobsolete_command;
-static int economy_dialog_shell_is_modal;
-
-/******************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet);
 
 static struct gui_dialog *endgame_report_shell = NULL;
@@ -106,7 +87,6 @@ static struct gui_dialog *endgame_report_shell = NULL;
 void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
-  economy_report_dialog_update();
   city_report_dialog_update(); 
   science_dialog_update();
 }
@@ -613,317 +593,435 @@ void science_dialog_update(void)
 }
 
 
-/****************************************************************
-
+/****************************************************************************
                       ECONOMY REPORT DIALOG
- 
-****************************************************************/
+****************************************************************************/
+static struct gui_dialog *economy_report_dialog_shell = NULL;
+static GtkListStore *economy_report_store = NULL;
+static GtkLabel *economy_report_label = NULL;
 
-/****************************************************************
-...
-****************************************************************/
-void popup_economy_report_dialog(bool raise)
+enum economy_report_response {
+  ERD_RES_SELL_OBSOLETE = 1,
+  ERD_RES_SELL_ALL,
+  ERD_RES_DISBAND_UNITS
+};
+
+/* Those values must match the functions economy_report_store_new() and
+ * economy_report_column_name(). */
+enum economy_report_columns {
+  ERD_COL_SPRITE,
+  ERD_COL_NAME,
+  ERD_COL_OBSOLETE,
+  ERD_COL_COUNT,
+  ERD_COL_COST,
+  ERD_COL_TOTAL_COST,
+
+  /* Not visible. */
+  ERD_COL_BOOL_VISIBLE,
+  ERD_COL_CID,
+
+  ERD_COL_NUM
+};
+
+/****************************************************************************
+  Create a new economy report list store.
+****************************************************************************/
+static GtkListStore *economy_report_store_new(void)
 {
-  if(!economy_dialog_shell) {
-    economy_dialog_shell_is_modal = FALSE;
-
-    create_economy_report_dialog(FALSE);
-  }
-
-  gui_dialog_present(economy_dialog_shell);
-  if (raise) {
-    gui_dialog_raise(economy_dialog_shell);
-  }
+  return gtk_list_store_new(ERD_COL_NUM,
+                            GDK_TYPE_PIXBUF,    /* ERD_COL_SPRITE */
+                            G_TYPE_STRING,      /* ERD_COL_NAME */
+                            G_TYPE_BOOLEAN,     /* ERD_COL_OBSOLETE */
+                            G_TYPE_INT,         /* ERD_COL_COUNT */
+                            G_TYPE_INT,         /* ERD_COL_COST */
+                            G_TYPE_INT,         /* ERD_COL_TOTAL_COST */
+                            G_TYPE_BOOLEAN,     /* ERD_COL_BOOL_VISIBLE */
+                            G_TYPE_INT,         /* ERD_COL_UNI_KIND */
+                            G_TYPE_INT);        /* ERD_COL_UNI_VALUE_ID */
 }
 
-/****************************************************************
- Close the economy report dialog.
-****************************************************************/
-void popdown_economy_report_dialog(void)
+/****************************************************************************
+  Returns the title of the column (translated).
+****************************************************************************/
+static const char *
+economy_report_column_name(enum economy_report_columns col)
 {
-  if (economy_dialog_shell) {
-    gui_dialog_destroy(economy_dialog_shell);
-  }
-}
- 
-/****************************************************************
-...
-*****************************************************************/
-void create_economy_report_dialog(bool make_modal)
-{
-  const char *titles[5] = {
+  switch (col) {
+  case ERD_COL_SPRITE:
     /* TRANS: Image header */
-    _("Type"),
-    Q_("?Building:Name"),
-    _("Count"),
-    _("Cost"),
-    /* TRANS: Upkeep total, count*cost */
-    _("U Total")
-  };
-  int i;
+    return _("Type");
+  case ERD_COL_NAME:
+    return Q_("?Building or Unit type:Name");
+  case ERD_COL_OBSOLETE:
+    return _("Obsolete");
+  case ERD_COL_COUNT:
+    return _("Count");
+  case ERD_COL_COST:
+    return _("Cost");
+  case ERD_COL_TOTAL_COST:
+    /* TRANS: Upkeep total, count*cost. */
+    return _("U Total");
+  case ERD_COL_BOOL_VISIBLE:
+  case ERD_COL_CID:
+  case ERD_COL_NUM:
+    break;
+  }
 
-  static GType model_types[5] = {
-    G_TYPE_NONE,
-    G_TYPE_STRING,
-    G_TYPE_INT,
-    G_TYPE_INT,
-    G_TYPE_INT
-  };
+  return NULL;
+}
+
+/****************************************************************************
+  Update the economy report dialog.
+****************************************************************************/
+static void economy_report_update(GtkListStore *dest_store, GtkLabel *label)
+{
+  GtkListStore *store = economy_report_store_new();
+  GtkTreeIter iter;
+  struct improvement_entry building_entries[B_LAST];
+  struct unit_entry unit_entries[U_LAST];
+  int entries_used, building_total, unit_total, tax, i;
+
+  /* Buildings. */
+  get_economy_report_data(building_entries, &entries_used,
+                          &building_total, &tax);
+  for (i = 0; i < entries_used; i++) {
+    struct improvement_entry *pentry = building_entries + i;
+    struct impr_type *pimprove = pentry->type;
+    struct sprite *sprite = get_building_sprite(tileset, pimprove);
+
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
+                       ERD_COL_NAME, improvement_name_translation(pimprove),
+                       ERD_COL_OBSOLETE, client_has_player()
+                       && improvement_obsolete(client_player(), pimprove),
+                       ERD_COL_COUNT, pentry->count,
+                       ERD_COL_COST, pentry->cost,
+                       ERD_COL_TOTAL_COST, pentry->total_cost,
+                       ERD_COL_BOOL_VISIBLE, TRUE,
+                       ERD_COL_CID, cid_encode_building(pimprove),
+                       -1);
+  }
+
+  /* Units. */
+  get_economy_report_units_data(unit_entries, &entries_used, &unit_total);
+  for (i = 0; i < entries_used; i++) {
+    struct unit_entry *pentry = unit_entries + i;
+    struct unit_type *putype = pentry->type;
+    struct sprite *sprite = get_unittype_sprite(tileset, putype);
+
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       ERD_COL_SPRITE, sprite_get_pixbuf(sprite),
+                       ERD_COL_NAME, utype_name_translation(putype),
+                       ERD_COL_COUNT, pentry->count,
+                       ERD_COL_COST, pentry->cost,
+                       ERD_COL_TOTAL_COST, pentry->total_cost,
+                       ERD_COL_BOOL_VISIBLE, FALSE,
+                       ERD_COL_CID, cid_encode_unit(putype),
+                       -1);
+  }
+
+  /* Merge stores. */
+  merge_list_stores(dest_store, store, ERD_COL_CID);
+  g_object_unref(G_OBJECT(store));
+
+  /* Update the label. */
+  if (NULL != label) {
+    char buf[256];
+
+    fc_snprintf(buf, sizeof(buf), _("Income: %d    Total Costs: %d"),
+                tax, building_total + unit_total);
+    gtk_label_set_text(label, buf);
+  }
+}
+
+/****************************************************************************
+  Issue a command on the economy report.
+****************************************************************************/
+static void economy_report_command_callback(struct gui_dialog *pdialog,
+                                            int response,
+                                            gpointer data)
+{
+  GtkTreeSelection *selection = data;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+  GtkWidget *shell;
+  struct universal selected;
+  cid cid;
+  char buf[256] = "";
+
+  switch (response) {
+  case ERD_RES_SELL_OBSOLETE:
+  case ERD_RES_SELL_ALL:
+  case ERD_RES_DISBAND_UNITS:
+    break;
+  default:
+    gui_dialog_destroy(pdialog);
+    return;
+  }
+
+  if (!can_client_issue_orders()
+      || !gtk_tree_selection_get_selected(selection, &model, &iter)) {
+    return;
+  }
+
+  gtk_tree_model_get(model, &iter, ERD_COL_CID, &cid, -1);
+  selected = cid_decode(cid);
+
+  switch (selected.kind) {
+  case VUT_IMPROVEMENT:
+    {
+      struct impr_type *pimprove = selected.value.building;
+
+      if (can_sell_building(pimprove)
+          && (ERD_RES_SELL_ALL == response
+              || (ERD_RES_SELL_OBSOLETE == response
+                  && improvement_obsolete(client_player(), pimprove)))) {
+        shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL
+                                       | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                       GTK_MESSAGE_QUESTION,
+                                       GTK_BUTTONS_YES_NO,
+                                       _("Do you really wish to sell "
+                                         "your %s?\n"),
+                                       improvement_name_translation(pimprove));
+        setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
+        gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
+
+        if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+          sell_all_improvements(pimprove, ERD_RES_SELL_OBSOLETE == response,
+                                buf, sizeof(buf));
+        }
+        gtk_widget_destroy(shell);
+      }
+    }
+    break;
+  case VUT_UTYPE:
+    {
+      if (ERD_RES_DISBAND_UNITS == response) {
+        struct unit_type *putype = selected.value.utype;
+
+        shell = gtk_message_dialog_new(NULL, GTK_DIALOG_MODAL
+                                       | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                       GTK_MESSAGE_QUESTION,
+                                       GTK_BUTTONS_YES_NO,
+                                       _("Do you really wish to disband "
+                                         "your %s?\n"),
+                                       utype_name_translation(putype));
+        setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
+        gtk_window_set_title(GTK_WINDOW(shell), _("Disband Units"));
+
+        if (GTK_RESPONSE_YES == gtk_dialog_run(GTK_DIALOG(shell))) {
+          disband_all_units(putype, FALSE, buf, sizeof(buf));
+        }
+        gtk_widget_destroy(shell);
+      }
+    }
+    break;
+  default:
+    log_error("Not supported type: %d.", selected.kind);
+  }
+
+  if ('\0' != buf[0]) {
+    shell = gtk_message_dialog_new(NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+                                   GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
+                                   "%s", buf);
+    setup_dialog(shell, gui_dialog_get_toplevel(pdialog));
+    g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy),
+                     NULL);
+    gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
+    gtk_window_present(GTK_WINDOW(shell));
+  }
+}
+
+/****************************************************************************
+  Called when a building or a unit type is selected in the economy list.
+****************************************************************************/
+static void economy_report_selection_callback(GtkTreeSelection *selection,
+                                              gpointer data)
+{
+  struct gui_dialog *pdialog = data;
+  GtkTreeModel *model;
+  GtkTreeIter iter;
+
+  if (can_client_issue_orders()
+      && gtk_tree_selection_get_selected(selection, &model, &iter)) {
+    struct universal selected;
+    cid cid;
+
+    gtk_tree_model_get(model, &iter, ERD_COL_CID, &cid, -1);
+    selected = cid_decode(cid);
+    switch (selected.kind) {
+    case VUT_IMPROVEMENT:
+      {
+        bool can_sell = can_sell_building(selected.value.building);
+
+        gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE,
+            can_sell && improvement_obsolete(client_player(),
+                                             selected.value.building));
+        gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, can_sell);
+        gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS,
+                                          FALSE);
+      }
+      return;
+    case VUT_UTYPE:
+      gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE,
+                                        FALSE);
+      gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, FALSE);
+      gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS,
+                                        TRUE);
+      return;
+    default:
+      log_error("Not supported type: %d.", selected.kind);
+      break;
+    }
+  }
+
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE, FALSE);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, FALSE);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS, FALSE);
+}
+
+/****************************************************************************
+  Create a new economy report.
+****************************************************************************/
+static void economy_report_dialog_new(struct gui_dialog **ppdialog,
+                                      GtkListStore **pstore,
+                                      GtkLabel **plabel)
+{
   GtkWidget *view, *sw, *align;
+  GtkListStore *store;
+  GtkTreeSelection *selection;
+  struct gui_dialog *pdialog;
+  const char *title;
+  enum economy_report_columns i;
 
-  model_types[0] = GDK_TYPE_PIXBUF;
+  store = economy_report_store_new();
+  if (NULL != pstore) {
+    *pstore = store;
+  }
 
-  gui_dialog_new(&economy_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
-  gui_dialog_set_title(economy_dialog_shell, _("Economy"));
-
-  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
-  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), align,
-      TRUE, TRUE, 0);
-
-  economy_store = gtk_list_store_newv(ARRAY_SIZE(model_types), model_types);
-
-  sw = gtk_scrolled_window_new(NULL,NULL);
+  sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
-				      GTK_SHADOW_ETCHED_IN);
+                                      GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
-  gtk_container_add(GTK_CONTAINER(align), sw);
+                                 GTK_POLICY_NEVER, GTK_POLICY_AUTOMATIC);
 
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(economy_store));
-  g_object_unref(economy_store);
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(store);
   gtk_widget_set_name(view, "small_font");
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
-  economy_selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  g_signal_connect(economy_selection, "changed",
-		   G_CALLBACK(economy_selection_callback), NULL);
 
-  for (i=0; i<ARRAY_SIZE(model_types); i++) {
+  selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
+  gui_dialog_new(ppdialog, GTK_NOTEBOOK(top_notebook), selection);
+  pdialog = *ppdialog;
+  gui_dialog_set_title(pdialog, _("Economy"));
+
+  g_signal_connect(selection, "changed",
+                   G_CALLBACK(economy_report_selection_callback), pdialog);
+
+  for (i = 0; (title = economy_report_column_name(i)); i++) {
     GtkCellRenderer *renderer;
     GtkTreeViewColumn *col;
+    GType type = gtk_tree_model_get_column_type(GTK_TREE_MODEL(store), i);
 
-    if (model_types[i] == GDK_TYPE_PIXBUF) {
+    if (GDK_TYPE_PIXBUF == type) {
       renderer = gtk_cell_renderer_pixbuf_new();
-
-      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	  "pixbuf", i, NULL);
+      col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                     "pixbuf", i, NULL);
+    } else if (G_TYPE_BOOLEAN == type) {
+      renderer = gtk_cell_renderer_toggle_new();
+      col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                     "active", i, "visible",
+                                                     ERD_COL_BOOL_VISIBLE,
+                                                     NULL);
     } else {
       renderer = gtk_cell_renderer_text_new();
+      col = gtk_tree_view_column_new_with_attributes(title, renderer,
+                                                     "text", i, NULL);
+    }
 
-      col = gtk_tree_view_column_new_with_attributes(titles[i], renderer,
-	  "text", i, NULL);
-
-      if (i > 1) {
-	GValue value = { 0, };
-
-	g_value_init(&value, G_TYPE_FLOAT);
-	g_value_set_float(&value, 1.0);
-	g_object_set_property(G_OBJECT(renderer), "xalign", &value);
-	g_value_unset(&value);
-
-	gtk_tree_view_column_set_alignment(col, 1.0);
-      }
+    if (i > 1) {
+      g_object_set(G_OBJECT(renderer), "xalign", 1.0, NULL);
+      gtk_tree_view_column_set_alignment(col, 1.0);
     }
 
     gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
   }
   gtk_container_add(GTK_CONTAINER(sw), view);
 
-  economy_label2 = gtk_label_new(_("Total Cost:"));
-  gtk_box_pack_start(GTK_BOX(economy_dialog_shell->vbox), economy_label2,
-      FALSE, FALSE, 0);
-  gtk_misc_set_padding(GTK_MISC(economy_label2), 5, 5);
+  align = gtk_alignment_new(0.5, 0.0, 0.0, 1.0);
+  gtk_box_pack_start(GTK_BOX(pdialog->vbox), align, TRUE, TRUE, 0);
+  gtk_container_add(GTK_CONTAINER(align), sw);
 
-  sellobsolete_command =
-    gui_dialog_add_button(economy_dialog_shell, _("Sell _Obsolete"),
-	ECONOMY_SELL_OBSOLETE);
-  gtk_widget_set_sensitive(sellobsolete_command, FALSE);
+  if (NULL != plabel) {
+    *plabel = GTK_LABEL(gtk_label_new(NULL));
+    gtk_box_pack_start(GTK_BOX(pdialog->vbox), GTK_WIDGET(*plabel),
+                       FALSE, FALSE, 0);
+    gtk_misc_set_padding(GTK_MISC(*plabel), 5, 5);
+  }
 
-  sellall_command =
-    gui_dialog_add_button(economy_dialog_shell, _("Sell _All"),
-	ECONOMY_SELL_ALL);
-  gtk_widget_set_sensitive(sellall_command, FALSE);
+  gui_dialog_add_button(pdialog, _("Sell _Obsolete"), ERD_RES_SELL_OBSOLETE);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_OBSOLETE, FALSE);
 
-  gui_dialog_add_button(economy_dialog_shell,
-      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_add_button(pdialog, _("Sell _All"), ERD_RES_SELL_ALL);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_SELL_ALL, FALSE);
 
-  gui_dialog_response_set_callback(economy_dialog_shell,
-      economy_command_callback);
+  gui_dialog_add_button(pdialog, _("_Disband"), ERD_RES_DISBAND_UNITS);
+  gui_dialog_set_response_sensitive(pdialog, ERD_RES_DISBAND_UNITS, FALSE);
+
+  gui_dialog_add_button(pdialog, GTK_STOCK_CLOSE,
+                        GTK_RESPONSE_CLOSE);
+
+  gui_dialog_set_default_response(pdialog, GTK_RESPONSE_CLOSE);
+  gui_dialog_response_set_callback(pdialog, economy_report_command_callback);
+
+  gui_dialog_set_default_size(pdialog, -1, 350);
+  gui_dialog_show_all(pdialog);
 
   economy_report_dialog_update();
-  gui_dialog_set_default_size(economy_dialog_shell, -1, 350);
-
-  gui_dialog_set_default_response(economy_dialog_shell, GTK_RESPONSE_CLOSE);
-
-  gui_dialog_show_all(economy_dialog_shell);
 
   gtk_tree_view_focus(GTK_TREE_VIEW(view));
 }
 
-
-/****************************************************************
-  Called when a building type is selected in the economy list.
-*****************************************************************/
-static void economy_selection_callback(GtkTreeSelection *selection,
-				       gpointer data)
+/****************************************************************************
+  Create the economy report if needed.
+****************************************************************************/
+void economy_report_dialog_popup(bool raise)
 {
-  gint row = gtk_tree_selection_get_row(selection);
+  if (NULL == economy_report_dialog_shell) {
+    economy_report_dialog_new(&economy_report_dialog_shell,
+                              &economy_report_store,
+                              &economy_report_label);
+  }
 
-  if (row >= 0) {
-    switch (economy_row_type[row].kind) {
-    case VUT_IMPROVEMENT:
-    {
-      /* The user has selected an improvement type. */
-      struct impr_type *pimprove = economy_row_type[row].value.building;
-      bool is_sellable = can_sell_building(pimprove);
-
-      gtk_widget_set_sensitive(sellobsolete_command, is_sellable
-			       && can_client_issue_orders()
-			       && improvement_obsolete(client.conn.playing, pimprove));
-      gtk_widget_set_sensitive(sellall_command, is_sellable
-			       && can_client_issue_orders());
-      break;
-    }
-    case VUT_UTYPE:
-      /* An unit has been selected */
-      gtk_widget_set_sensitive(sellall_command, can_client_issue_orders());
-      break;
-    default:
-      log_error("Not supported type: %d.", economy_row_type[row].kind);
-      break;
-    };
-  } else {
-    /* No selection has been made. */
-    gtk_widget_set_sensitive(sellobsolete_command, FALSE);
-    gtk_widget_set_sensitive(sellall_command, FALSE);
+  gui_dialog_present(economy_report_dialog_shell);
+  if (raise) {
+    gui_dialog_raise(economy_report_dialog_shell);
   }
 }
 
-/****************************************************************
-...
-*****************************************************************/
-static void economy_command_callback(struct gui_dialog *dlg, int response,
-                                     gpointer callback)
+/****************************************************************************
+  Close the economy report dialog.
+****************************************************************************/
+void economy_report_dialog_popdown(void)
 {
-  gint row;
-  GtkWidget *shell;
-  char buf[1024];
-
-  if (response != ECONOMY_SELL_OBSOLETE && response != ECONOMY_SELL_ALL) {
-    gui_dialog_destroy(dlg);
-    return;
+  if (NULL != economy_report_dialog_shell) {
+    gui_dialog_destroy(economy_report_dialog_shell);
+    fc_assert(NULL == economy_report_dialog_shell);
+    economy_report_store = NULL;
+    economy_report_label = NULL;
   }
-
-  /* sell obsolete and sell all. */
-  row = gtk_tree_selection_get_row(economy_selection);
-
-  switch (economy_row_type[row].kind) {
-  case VUT_IMPROVEMENT:
-  {
-    struct impr_type *pimprove = economy_row_type[row].value.building;
-    if (response == ECONOMY_SELL_ALL) {
-      shell = gtk_message_dialog_new(
-	  NULL,
-	  GTK_DIALOG_MODAL|GTK_DIALOG_DESTROY_WITH_PARENT,
-	  GTK_MESSAGE_QUESTION, GTK_BUTTONS_YES_NO,
-	  _("Do you really wish to sell your %s?\n"),
-	  improvement_name_translation(pimprove));
-      setup_dialog(shell, gui_dialog_get_toplevel(dlg));
-      gtk_window_set_title(GTK_WINDOW(shell), _("Sell Improvements"));
-
-      if (gtk_dialog_run(GTK_DIALOG(shell)) == GTK_RESPONSE_YES) {
-	gtk_widget_destroy(shell);
-      } else {
-	gtk_widget_destroy(shell);
-	return;
-      }
-    }
-
-    sell_all_improvements(pimprove, response!= ECONOMY_SELL_ALL, buf, sizeof(buf));
-    break;
-  }
-  case VUT_UTYPE:
-    if (response== ECONOMY_SELL_OBSOLETE) {
-      return;
-    }
-    disband_all_units(economy_row_type[row].value.utype, FALSE, buf, sizeof(buf));
-    break;
-  default:
-    log_error("Not supported type: %d.", economy_row_type[row].kind);
-    break;
-  };
-
-  shell = gtk_message_dialog_new(
-      NULL,
-      GTK_DIALOG_DESTROY_WITH_PARENT,
-      GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE,
-      "%s", buf);
-  setup_dialog(shell, gui_dialog_get_toplevel(dlg));
-
-  g_signal_connect(shell, "response", G_CALLBACK(gtk_widget_destroy), NULL);
-  gtk_window_set_title(GTK_WINDOW(shell), _("Sell-Off: Results"));
-  gtk_window_present(GTK_WINDOW(shell));
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void economy_report_dialog_update(void)
+/****************************************************************************
+  Update the economy report dialog.
+****************************************************************************/
+void real_economy_report_dialog_update(void)
 {
-  if(!is_report_dialogs_frozen() && economy_dialog_shell) {
-    int tax, total_impr, total_unit, i, entries_used, nbr_impr;
-    char economy_total[48];
-    struct improvement_entry entries[B_LAST];
-    struct unit_entry entries_units[U_LAST];
-    GtkTreeIter it;
-    GValue value = { 0, };
-
-    gtk_list_store_clear(economy_store);
-
-    get_economy_report_data(entries, &entries_used, &total_impr, &tax);
-
-    for (i = 0; i < entries_used; i++) {
-      struct improvement_entry *p = &entries[i];
-      struct sprite *sprite = get_building_sprite(tileset, p->type);
-
-      gtk_list_store_append(economy_store, &it);
-      gtk_list_store_set(economy_store, &it,
-			 0, sprite_get_pixbuf(sprite),
-			 2, p->count,
-			 3, p->cost,
-			 4, p->total_cost, -1);
-      g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, improvement_name_translation(p->type));
-      gtk_list_store_set_value(economy_store, &it, 1, &value);
-      g_value_unset(&value);
-
-      economy_row_type[i].kind = VUT_IMPROVEMENT;
-      economy_row_type[i].value.building = p->type;
-    }
-
-    nbr_impr = entries_used;
-    entries_used = 0;
-    get_economy_report_units_data(entries_units, &entries_used, &total_unit);
-
-    for (i = 0; i < entries_used; i++) {
-      gtk_list_store_append(economy_store, &it);
-      gtk_list_store_set(economy_store, &it,
-			 2, entries_units[i].count,
-			 3, entries_units[i].cost,
-			 4, entries_units[i].total_cost, -1);
-      g_value_init(&value, G_TYPE_STRING);
-      g_value_set_static_string(&value, utype_name_translation(entries_units[i].type));
-      gtk_list_store_set_value(economy_store, &it, 1, &value);
-      g_value_unset(&value);
-    
-      economy_row_type[i + nbr_impr].kind = VUT_UTYPE;
-      economy_row_type[i + nbr_impr].value.utype = entries_units[i].type;
-    }
-
-    fc_snprintf(economy_total, sizeof(economy_total),
-                _("Income: %d    Total Costs: %d"),
-                tax, total_impr + total_unit); 
-    gtk_label_set_text(GTK_LABEL(economy_label2), economy_total);
-  }  
+  if (NULL != economy_report_store) {
+    economy_report_update(economy_report_store, economy_report_label);
+  }
 }
 
 
