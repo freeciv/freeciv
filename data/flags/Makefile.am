@@ -222,6 +222,7 @@ flag_files =				\
 		philippines.png		\
 		phoenicia.png		\
 		pirate.png		\
+		piratini.png		\
 		poland.png		\
 		polynesian.png		\
 		portugal.png		\
@@ -527,6 +528,7 @@ shield_files =					\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
 		pirate-shield.png		\
+		piratini-shield.png		\
 		poland-shield.png		\
 		polynesian-shield.png		\
 		portugal-shield.png		\
@@ -832,6 +834,7 @@ svg_files = 				\
 		philippines.svg		\
 		phoenicia.svg		\
 		pirate.svg		\
+		piratini.svg		\
 		poland.svg		\
 		polynesian.svg		\
 		portugal.svg		\

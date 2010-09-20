@@ -275,6 +275,7 @@ match=2
 *include "nation/quebecois.ruleset"
 *include "nation/raramuri.ruleset"
 *include "nation/riffian.ruleset"
+*include "nation/riograndense.ruleset"
 *include "nation/romanian.ruleset"
 *include "nation/roman.ruleset"
 *include "nation/russian.ruleset"

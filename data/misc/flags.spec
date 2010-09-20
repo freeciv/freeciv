@@ -230,6 +230,7 @@ artists = "
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
    Pirate		Tobias Jakobs
+   Piratini		Felipe Fontoura (Wikimedia Commons user)
    Poland		Cezary Biele
    Polynesian		Daniel Markstedt
    Portugal		Diogo Mamede
@@ -541,6 +542,7 @@ sprites =
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
 		"f.pirate", "flags/pirate"
+		"f.piratini", "flags/piratini"
 		"f.poland", "flags/poland"
 		"f.polynesian", "flags/polynesian"
 		"f.portugal", "flags/portugal"

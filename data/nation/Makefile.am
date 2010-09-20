@@ -228,6 +228,7 @@ pkgdata_DATA = \
 		quebecois.ruleset \
 		raramuri.ruleset \
 		riffian.ruleset \
+		riograndense.ruleset \
 		romanian.ruleset \
 		roman.ruleset \
 		russian.ruleset \
