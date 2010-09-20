@@ -417,6 +417,28 @@ const char *team_name_translation(const struct team *pteam)
 }
 
 /****************************************************************************
+  Set in 'buf' the name of the team 'pteam' in a format like
+  "team <team_name>". To avoid to see "team Team 0", it only prints the
+  the team number when the name of this team is not defined in the ruleset.
+****************************************************************************/
+int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len)
+{
+  if (NULL != pteam) {
+    const char *name = team_slot_defined_name(pteam->slot);
+
+    if (NULL != name) {
+      return fc_snprintf(buf, buf_len, _("team %s"), name);
+    } else {
+      return fc_snprintf(buf, buf_len, _("team %d"), team_number(pteam));
+    }
+  }
+
+  /* No need to translate, it's an error. */
+  fc_strlcpy(buf, "(null team)", buf_len);
+  return -1;
+}
+
+/****************************************************************************
   Returns the member list of the team.
 ****************************************************************************/
 const struct player_list *team_members(const struct team *pteam)

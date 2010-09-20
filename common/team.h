@@ -53,6 +53,7 @@ int team_number(const struct team *pteam);
 struct team *team_by_number(const int team_id);
 const char *team_rule_name(const struct team *pteam);
 const char *team_name_translation(const struct team *pteam);
+int team_pretty_name(const struct team *pteam, char *buf, size_t buf_len);
 
 const struct player_list *team_members(const struct team *pteam);
 
