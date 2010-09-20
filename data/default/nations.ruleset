@@ -90,6 +90,7 @@ match=2
 *include "nation/belgian.ruleset"
 *include "nation/bengali.ruleset"
 *include "nation/benin.ruleset"
+*include "nation/bhutanese.ruleset"
 *include "nation/boer.ruleset"
 *include "nation/bolivian.ruleset"
 *include "nation/bosnia.ruleset"

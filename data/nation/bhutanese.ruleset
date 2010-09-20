@@ -1,0 +1,100 @@
+[nation_bhutanese]
+
+name=_("Bhutanese")
+plural=_("?plural:Bhutanese")
+groups="Modern", "Asian"
+legend=_("Located in the Himalayas, Bhutan is one of the most isolated\
+ countries in the world. Bhutan has never been conquered or occupied\
+ by foreign invadors for a millennium if not more. In the 17th century\
+ Bhutan became a unified nation under Shabdrung Ngawang Namgyal, who\
+ repelled a Mongol invasion and united the rivaling Bhutanese tribes.")
+leader=
+ "Guru Rinpoche",
+ "Phajo Drugom Zhigpo",
+ "Shabdrung Ngawang Namgyal",
+ "Gyalse Tenzin Rabgye",
+ "Ugyen Wangchuck",
+ "Jigme Dorji Wangchuck",
+ "Jigme Singye Wangchuck"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male"
+
+flag="bhutan"
+flag_alt = "-"
+city_style = "Asian"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("?female:Prime Minister")
+                 "Fundamentalism",  _("Lama"), 		 _("?female:Lama")
+                 "Monarchy",        _("Dragon King"), 	 _("Dragon Queen")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "tibetan", "nepali"
+
+cities =
+ "Punakha", ;ancient capital
+ "Thimpu", ;modern capital
+ "Chhukha",
+ "Samtse",
+ "Tashigang",
+ "Gelegphug",
+ "Samdrup Jongkhar",
+ "Monggar",
+ "Paro",
+ "Wangdue Phodrang",
+ "Damphu",
+ "Zhemgang",
+ "Daga",
+ "Trashi Yangtse",
+ "Jakar",
+ "Lhuntse",
+ "Pamagatshel",
+ "Tongsa",
+ "Ha",
+ "Gasa",
+ "Phuentsholing",
+ "Trashigang",
+ "Taga Dzong",
+ "Trongsa",
+ "Gedu",
+ "Bumthang",
+ "Gomtu",
+ "Deothang",
+ "Sarpang",
+ "Tsimalakha",
+ "Gyalposhing",
+ "Dala",
+ "Kanglung",
+ "Khaling",
+ "Tsimasham",
+ "Namglam",
+ "Jomotsangkha",
+ "Sipsu",
+ "Lingithang",
+ "Lhamoyzingkhar",
+ "Tingtibi",
+ "Nankhor",
+ "Rangjung",
+ "Wamrong",
+ "Bondey",
+ "Drukyegang",
+ "Dremtse",
+ "Nobding",
+ "Samdrup Choeling",
+ "Panbang",
+ "Rurichu",
+ "Gypsum",
+ "Autsho",
+ "Duksum",
+ "Khotakakpa",
+ "Reserboo",
+ "Dagapela",
+ "Kherigonpa",
+ "Sunkosh",
+ "Mongling",
+ "Yalang"
