@@ -2,7 +2,7 @@
 
 name=_("Knights Templar")
 plural=_("?plural:Templars")
-groups="Fictional"
+groups="Imaginary"
 legend=_("The Knights Templar were formed after the first Crusade in order\
  to protect Pilgrims on their journeys in the Holy Land. The organization\
  grew to immense power and wealth in the next 200 years, and were the\

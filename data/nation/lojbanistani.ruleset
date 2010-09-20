@@ -2,7 +2,7 @@
 
 name=_("Lojbanistani")
 plural=_("?plural:Lojbanistanis")
-groups="Fictional"
+groups="Imaginary"
 legend=_("Lojbanistan is a fictional place where people speak\
  Lojban. Lojban is a constructed language meant for human\
  communication. Lojban is syntactically unambiguous\

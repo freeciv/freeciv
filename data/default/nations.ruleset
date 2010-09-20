@@ -40,8 +40,8 @@ match=0
 [ngroup_oceanian]
 name=_("?nationgroup:Oceanian")
 match=0
-[ngroup_fictional]
-name=_("?nationgroup:Fictional")
+[ngroup_imaginary]
+name=_("?nationgroup:Imaginary")
 match=2
 
 ; Below: nations data loaded from ruleset files for

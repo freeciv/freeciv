@@ -2,7 +2,7 @@
 
 name=_("European")
 plural=_("?plural:Europeans")
-groups="Fictional"
+groups="Imaginary"
 legend=_("The foundation for the European Union was laid in 1957 with the\
  Treaty of Rome. The EU project has developed since then and is beginning to\
  resemble a fledgeling super state. But the question remains: Does such a\

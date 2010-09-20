@@ -2,7 +2,7 @@
 
 name=_("Esperant")
 plural=_("?plural:Esperants")
-groups= "Fictional"
+groups= "Imaginary"
 legend=_("The Esperants are a world community united by the Esperanto\
  language.")
 leader=

@@ -3,7 +3,7 @@
 ; To avoid any trademark complaints, no modern fictional works are used.
 name=_("Vampire")
 plural=_("?plural:Vampires")
-groups="Fictional"
+groups="Imaginary"
 legend=_("Bloodsucking creatures of legend.")
 leader=
 ; Historical people associated with vampirism 

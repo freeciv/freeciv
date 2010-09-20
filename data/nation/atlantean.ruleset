@@ -2,7 +2,7 @@
 
 name=_("Atlantean")
 plural=_("?plural:Atlantean")
-groups="Fictional"
+groups="Imaginary"
 legend=_("The mythical continent of Atlantis")
 leader=
  "Poseidon",

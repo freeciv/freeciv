@@ -2,7 +2,7 @@
 
 name=_("Antarctican")
 plural=_("?plural:Antarcticans")
-groups="Fictional"
+groups="Imaginary"
 legend=_("Independent South Pole, land of penguins.")
 leader=
  "Tux",

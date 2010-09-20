@@ -2,7 +2,7 @@
 
 name=_("Ozite")
 plural=_("?plural:Ozites")
-groups="Fictional"
+groups="Imaginary"
 ; Baum’s books were published before 1923 and are therefore out of
 ; copyright.
 legend=_("The land of Oz was created by L. Frank Baum in 1900 in 'The\

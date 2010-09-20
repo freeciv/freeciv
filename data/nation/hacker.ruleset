@@ -2,7 +2,7 @@
 
 name=_("Hacker")
 plural=_("?plural:Hackers")
-groups="Fictional"
+groups="Imaginary"
 legend=_("h4xx0r r0xx0rz!")
 leader=
  "Linus Torvalds",
