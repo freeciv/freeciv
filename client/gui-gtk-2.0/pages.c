@@ -1017,7 +1017,7 @@ static GtkTreeView *connection_list_view;
 static GtkWidget *start_aifill_spin;
 
 
-/* NB: Must match creation arugments in create_start_page(). */
+/* NB: Must match creation arugments in connection_list_store_new(). */
 enum connection_list_columns {
   CL_COL_PLAYER_NUMBER = 0,
   CL_COL_USER_NAME,
@@ -1029,9 +1029,33 @@ enum connection_list_columns {
   CL_COL_GGZ_RECORD,
   CL_COL_GGZ_RATING,
   CL_COL_CONN_ID,
-  
+  CL_COL_STYLE,
+  CL_COL_WEIGHT,
+  CL_COL_COLLAPSED,
+
   CL_NUM_COLUMNS
 };
+
+/****************************************************************************
+  Create a new tree store for connection list.
+****************************************************************************/
+static inline GtkTreeStore *connection_list_store_new(void)
+{
+  return gtk_tree_store_new(CL_NUM_COLUMNS,
+                            G_TYPE_INT,         /* CL_COL_PLAYER_NUMBER */
+                            G_TYPE_STRING,      /* CL_COL_USER_NAME */
+                            G_TYPE_BOOLEAN,     /* CL_COL_READY_STATE */
+                            G_TYPE_STRING,      /* CL_COL_PLAYER_NAME */
+                            GDK_TYPE_PIXBUF,    /* CL_COL_FLAG */
+                            G_TYPE_STRING,      /* CL_COL_NATION */
+                            G_TYPE_STRING,      /* CL_COL_TEAM */
+                            G_TYPE_STRING,      /* CL_COL_GGZ_RECORD */
+                            G_TYPE_STRING,      /* CL_COL_GGZ_RATING */
+                            G_TYPE_INT,         /* CL_COL_CONN_ID */
+                            G_TYPE_INT,         /* CL_COL_STYLE */
+                            G_TYPE_INT,         /* CL_COL_WEIGHT */
+                            G_TYPE_BOOLEAN);    /* CL_COL_COLLAPSED */
+}
 
 /****************************************************************************
   Send the /take command by chat and toggle AI if needed.
@@ -1156,7 +1180,7 @@ void update_start_page(void)
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(start_aifill_spin),
                             game.info.aifill);
   send_new_aifill_to_server = old;
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 }
 
 /****************************************************************************
@@ -1518,6 +1542,20 @@ static gboolean connection_list_event(GtkWidget *widget,
 }
 
 /****************************************************************************
+  Mark a row as collapsed or expanded.
+****************************************************************************/
+static void connection_list_row_callback(GtkTreeView *tree_view,
+                                         GtkTreeIter *iter,
+                                         GtkTreePath *path,
+                                         gpointer data)
+{
+  GtkTreeStore *store = GTK_TREE_STORE(gtk_tree_view_get_model(tree_view));
+
+  gtk_tree_store_set(store, iter,
+                     CL_COL_COLLAPSED, GPOINTER_TO_INT(data), -1);
+}
+
+/****************************************************************************
   Returns TRUE if a row is selected in the connection/player list. Fills
   the not null data.
 ****************************************************************************/
@@ -1552,6 +1590,58 @@ static bool conn_list_selection(struct player **ppplayer,
     *ppconn = NULL;
   }
   return FALSE;
+}
+
+/****************************************************************************
+  Returns TRUE if a row is selected in the connection/player list. Fills
+  the not null data.
+****************************************************************************/
+static void conn_list_select_conn(struct connection *pconn)
+{
+  GtkTreeModel *model;
+  GtkTreeIter parent, child, *iter = NULL;
+  GtkTreeSelection *selection;
+  gboolean valid;
+  const int search_id = pconn->id;
+  int id;
+
+  if (NULL == connection_list_view) {
+    return;
+  }
+
+  model = gtk_tree_view_get_model(connection_list_view);
+  selection = gtk_tree_view_get_selection(connection_list_view);
+
+  /* Main iteration. */
+  valid = gtk_tree_model_get_iter_first(model, &parent);
+  while (valid && NULL == iter) {
+    gtk_tree_model_get(model, &parent, CL_COL_CONN_ID, &id, -1);
+    if (search_id == id) {
+      iter = &parent;
+      break;
+    }
+
+    /* Node children iteration. */
+    valid = gtk_tree_model_iter_children(model, &child, &parent);
+    while (valid && NULL == iter) {
+      gtk_tree_model_get(model, &child, CL_COL_CONN_ID, &id, -1);
+      if (search_id == id) {
+        iter = &child;
+        break;
+      }
+      valid = gtk_tree_model_iter_next(model, &child);
+    }
+
+    valid = gtk_tree_model_iter_next(model, &parent);
+  }
+
+  /* Select iterator. */
+  if (NULL != iter) {
+    gtk_tree_selection_select_iter(selection, iter);
+  } else {
+    log_error("%s(): connection %s not found.",
+              __FUNCTION__, conn_description(pconn));
+  }
 }
 
 /**************************************************************************
@@ -1679,9 +1769,70 @@ static void update_start_page_buttons(void)
 }
 
 /****************************************************************************
+  Search a player iterator in the model. Begin the iteration at 'start' or
+  at the start of the model if 'start' is set to NULL.
+****************************************************************************/
+static bool model_get_player_iter(GtkTreeModel *model,
+                                  GtkTreeIter *iter,
+                                  GtkTreeIter *start,
+                                  const struct player *pplayer)
+{
+  const int search_id = player_number(pplayer);
+  int id;
+
+  if (NULL != start) {
+    *iter = *start;
+    if (!gtk_tree_model_iter_next(model, iter)) {
+      return FALSE;
+    }
+  } else if (!gtk_tree_model_get_iter_first(model, iter)) {
+    return FALSE;
+  }
+
+  do {
+    gtk_tree_model_get(model, iter, CL_COL_PLAYER_NUMBER, &id, -1);
+    if (id == search_id) {
+      return TRUE;
+    }
+  } while (gtk_tree_model_iter_next(model, iter));
+
+  return FALSE;
+}
+
+/****************************************************************************
+  Search a connection iterator in the model. Begin the iteration at 'start'
+  or at the start of the model if 'start' is set to NULL.
+****************************************************************************/
+static bool model_get_conn_iter(GtkTreeModel *model, GtkTreeIter *iter,
+                                GtkTreeIter *parent, GtkTreeIter *start,
+                                const struct connection *pconn)
+{
+  const int search_id = pconn->id;
+  int id;
+
+  if (NULL != start) {
+    *iter = *start;
+    if (!gtk_tree_model_iter_next(model, iter)) {
+      return FALSE;
+    }
+  } else if (!gtk_tree_model_iter_children(model, iter, parent)) {
+    return FALSE;
+  }
+
+  do {
+    gtk_tree_model_get(model, iter, CL_COL_CONN_ID, &id, -1);
+    if (id == search_id) {
+      return TRUE;
+    }
+  } while (gtk_tree_model_iter_next(model, iter));
+
+  return FALSE;
+}
+
+/****************************************************************************
   Update the connected users list at pregame state.
 ****************************************************************************/
-void real_update_conn_list_dialog(void)
+void real_conn_list_dialog_update(void)
 {
   if (connection_list_view != NULL) {
     GObject *view;
@@ -1704,9 +1855,15 @@ void real_update_conn_list_dialog(void)
   if (client_state() == C_S_PREPARING
       && get_client_page() == PAGE_START
       && connection_list_store != NULL) {
-    GtkTreeStore *store;
-    GtkTreeIter iter, parent;
+    GtkTreeStore *store = connection_list_store;
+    GtkTreeModel *model = GTK_TREE_MODEL(store);
+    GtkTreePath *path;
+    GtkTreeIter child, prev_child, *pprev_child;
+    GtkTreeIter parent, prev_parent, *pprev_parent = NULL;
     GdkPixbuf *pixbuf;
+    gboolean collapsed;
+    struct player *pselected_player;
+    struct connection *pselected_conn;
     bool is_ready;
     const char *nation, *plr_name, *team;
     char user_name[MAX_LEN_NAME + 8], rating_text[128], record_text[128];
@@ -1714,15 +1871,14 @@ void real_update_conn_list_dialog(void)
     enum cmdlevel access_level;
     int conn_id;
 
-    /* Clear the old list. */
-    store = connection_list_store;
-    gtk_tree_store_clear(store);
+    /* Save the selected connection. */
+    (void) conn_list_selection(&pselected_player, &pselected_conn);
 
     /* Insert players into the connection list. */
     players_iterate(pplayer) {
       conn_id = -1;
       access_level = ALLOW_NONE;
-      pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;;
+      pixbuf = pplayer->nation ? get_flag(pplayer->nation) : NULL;
 
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->playing == pplayer && !pconn->observer) {
@@ -1784,8 +1940,13 @@ void real_update_conn_list_dialog(void)
         }
       }
 
-      gtk_tree_store_append(store, &iter, NULL);
-      gtk_tree_store_set(store, &iter, 
+      if (model_get_player_iter(model, &parent, pprev_parent, pplayer)) {
+        gtk_tree_store_move_after(store, &parent, pprev_parent);
+      } else {
+        gtk_tree_store_insert_after(store, &parent, NULL, pprev_parent);
+      }
+
+      gtk_tree_store_set(store, &parent,
                          CL_COL_PLAYER_NUMBER, player_number(pplayer),
                          CL_COL_USER_NAME, user_name,
                          CL_COL_READY_STATE, is_ready,
@@ -1795,44 +1956,134 @@ void real_update_conn_list_dialog(void)
                          CL_COL_TEAM, team,
                          CL_COL_GGZ_RECORD, record_text,
                          CL_COL_GGZ_RATING, rating_text,
-                         CL_COL_CONN_ID, conn_id, -1);
-      parent = iter;
+                         CL_COL_CONN_ID, conn_id,
+                         CL_COL_STYLE, PANGO_STYLE_NORMAL,
+                         CL_COL_WEIGHT, PANGO_WEIGHT_BOLD,
+                         -1);
 
       /* Insert observers of this player as child nodes. */
+      pprev_child = NULL;
       conn_list_iterate(pplayer->connections, pconn) {
         if (pconn->id == conn_id) {
           continue;
         }
-        gtk_tree_store_append(store, &iter, &parent);
-        gtk_tree_store_set(store, &iter,
+        if (model_get_conn_iter(model, &child, &parent,
+                                pprev_child, pconn)) {
+          gtk_tree_store_move_after(store, &child, pprev_child);
+        } else {
+          gtk_tree_store_insert_after(store, &child, &parent, pprev_child);
+        }
+
+        gtk_tree_store_set(store, &child,
                            CL_COL_PLAYER_NUMBER, -1,
                            CL_COL_USER_NAME, pconn->username,
                            CL_COL_TEAM, _("Observer"),
-                           CL_COL_CONN_ID, pconn->id, -1);
+                           CL_COL_CONN_ID, pconn->id,
+                           CL_COL_STYLE, PANGO_STYLE_NORMAL,
+                           CL_COL_WEIGHT, PANGO_WEIGHT_NORMAL,
+                           -1);
+
+        prev_child = child;
+        pprev_child = &prev_child;
       } conn_list_iterate_end;
 
+      /* Expand node? */
+      if (NULL != pprev_child) {
+        gtk_tree_model_get(model, &parent, CL_COL_COLLAPSED, &collapsed, -1);
+        if (!collapsed) {
+          path = gtk_tree_model_get_path(model, &parent);
+          gtk_tree_view_expand_row(GTK_TREE_VIEW(connection_list_view),
+                                   path, FALSE);
+          gtk_tree_path_free(path);
+        }
+      }
+
+      /* Remove trailing rows. */
+      if (NULL != pprev_child) {
+        child = prev_child;
+        if (gtk_tree_model_iter_next(model, &child)) {
+          while (gtk_tree_store_remove(store, &child)) {
+            /* Do nothing more. */
+          }
+        }
+      } else if (gtk_tree_model_iter_children(model, &child, &parent)) {
+        while (gtk_tree_store_remove(store, &child)) {
+          /* Do nothing more. */
+        }
+      }
+
+      prev_parent = parent;
+      pprev_parent = &prev_parent;
       if (pixbuf) {
         g_object_unref(pixbuf);
       }
     } players_iterate_end;
 
-    /* Finally, insert global observers and detached connections. */
+    /* Finally, insert global observers... */
     conn_list_iterate(game.est_connections, pconn) {
-      if (pconn->playing != NULL) {
-        continue; /* Already listed above. */
+      if (NULL != pconn->playing || !pconn->observer) {
+        continue;
       }
-      team = pconn->observer ? _("Observer") : _("Detached");
-      gtk_tree_store_append(store, &iter, NULL);
-      gtk_tree_store_set(store, &iter,
+
+      if (model_get_conn_iter(model, &parent, NULL, pprev_parent, pconn)) {
+        gtk_tree_store_move_after(store, &parent, pprev_parent);
+      } else {
+        gtk_tree_store_insert_after(store, &parent, NULL, pprev_parent);
+      }
+
+      gtk_tree_store_set(store, &parent,
                          CL_COL_PLAYER_NUMBER, -1,
                          CL_COL_USER_NAME, pconn->username,
-                         CL_COL_TEAM, team,
-                         CL_COL_CONN_ID, pconn->id, -1);
+                         CL_COL_TEAM, _("Observer"),
+                         CL_COL_CONN_ID, pconn->id,
+                         CL_COL_STYLE, PANGO_STYLE_NORMAL,
+                         CL_COL_WEIGHT, PANGO_WEIGHT_NORMAL,
+                         -1);
+
+      prev_parent = parent;
+      pprev_parent = &prev_parent;
     } conn_list_iterate_end;
 
-    if (connection_list_view != NULL) {
-      GtkTreeView *view = connection_list_view;
-      gtk_tree_view_expand_all(view);
+    /* ...and detached connections. */
+    conn_list_iterate(game.est_connections, pconn) {
+      if (NULL != pconn->playing || pconn->observer) {
+        continue;
+      }
+
+      if (model_get_conn_iter(model, &parent, NULL, pprev_parent, pconn)) {
+        gtk_tree_store_move_after(store, &parent, pprev_parent);
+      } else {
+        gtk_tree_store_insert_after(store, &parent, NULL, pprev_parent);
+      }
+
+      gtk_tree_store_set(store, &parent,
+                         CL_COL_PLAYER_NUMBER, -1,
+                         CL_COL_USER_NAME, pconn->username,
+                         CL_COL_TEAM, _("Detached"),
+                         CL_COL_CONN_ID, pconn->id,
+                         CL_COL_STYLE, PANGO_STYLE_ITALIC,
+                         CL_COL_WEIGHT, PANGO_WEIGHT_NORMAL,
+                         -1);
+
+      prev_parent = parent;
+      pprev_parent = &prev_parent;
+    } conn_list_iterate_end;
+
+    /* Remove trailing rows. */
+    if (NULL != pprev_parent) {
+      parent = prev_parent;
+      if (gtk_tree_model_iter_next(model, &parent)) {
+        while (gtk_tree_store_remove(store, &parent)) {
+          /* Do nothing more. */
+        }
+      }
+    } else {
+      gtk_tree_store_clear(store);
+    }
+
+    /* If we were selecting a single connection, let's try to reselect it. */
+    if (NULL == pselected_player && NULL != pselected_conn) {
+      conn_list_select_conn(pselected_conn);
     }
   }
 
@@ -1847,23 +2098,26 @@ void real_update_conn_list_dialog(void)
 static void add_tree_col(GtkWidget *treeview, GType gtype,
                          const char *title, int colnum, const char *key)
 {
-  GtkTreeViewColumn *col;
   GtkCellRenderer *rend;
-  const char *attr;
+  GtkTreeViewColumn *col;
 
   if (gtype == G_TYPE_BOOLEAN) {
     rend = gtk_cell_renderer_toggle_new();
-    attr = "active";
+    col = gtk_tree_view_column_new_with_attributes(title, rend,
+                                                   "active", colnum, NULL);
   } else if (gtype == GDK_TYPE_PIXBUF) {
     rend = gtk_cell_renderer_pixbuf_new();
-    attr = "pixbuf";
+    col = gtk_tree_view_column_new_with_attributes(title, rend,
+                                                   "pixbuf", colnum, NULL);
   } else {
     rend = gtk_cell_renderer_text_new();
-    attr = "text";
+    col = gtk_tree_view_column_new_with_attributes(title, rend,
+                                                   "text", colnum,
+                                                   "style", CL_COL_STYLE,
+                                                   "weight", CL_COL_WEIGHT,
+                                                   NULL);
   }
 
-  col = gtk_tree_view_column_new_with_attributes(title, rend, attr,
-                                                 colnum, NULL);
   gtk_tree_view_column_set_sizing(col, GTK_TREE_VIEW_COLUMN_AUTOSIZE);
   gtk_tree_view_append_column(GTK_TREE_VIEW(treeview), col);
 
@@ -1880,7 +2134,6 @@ GtkWidget *create_start_page(void)
   GtkWidget *box, *sbox, *table, *align, *vbox;
   GtkWidget *view, *sw, *text, *toolkit_view, *button, *spin, *option;
   GtkWidget *label, *menu, *item;
-  GtkTreeStore *store;
   GtkTreeSelection *selection;
   enum ai_level level;
 
@@ -1974,17 +2227,9 @@ GtkWidget *create_start_page(void)
   gtk_container_add(GTK_CONTAINER(align), button);
   gtk_box_pack_start(GTK_BOX(vbox), align, FALSE, FALSE, 8);
 
-  /* NB: Must match order and type of enum
-   * connection_list_columns in gui_main.h. */
-  store = gtk_tree_store_new(CL_NUM_COLUMNS, G_TYPE_INT,
-                             G_TYPE_STRING, G_TYPE_BOOLEAN,
-                             G_TYPE_STRING, GDK_TYPE_PIXBUF,
-			     G_TYPE_STRING, G_TYPE_STRING,
-			     G_TYPE_STRING, G_TYPE_STRING,
-			     G_TYPE_INT);
-  connection_list_store = store;
-
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  connection_list_store = connection_list_store_new();
+  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(connection_list_store));
+  g_object_unref(G_OBJECT(connection_list_store));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), TRUE);
   connection_list_view = GTK_TREE_VIEW(view);
 
@@ -2012,6 +2257,12 @@ GtkWidget *create_start_page(void)
 
   g_signal_connect(view, "button-press-event",
                    G_CALLBACK(connection_list_event), NULL);
+  g_signal_connect(view, "row-collapsed",
+                   G_CALLBACK(connection_list_row_callback),
+                   GINT_TO_POINTER(TRUE));
+  g_signal_connect(view, "row-expanded",
+                   G_CALLBACK(connection_list_row_callback),
+                   GINT_TO_POINTER(FALSE));
 
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
@@ -2492,7 +2743,7 @@ void real_set_client_page(enum client_pages new_page)
     }
     voteinfo_gui_update();
     overview_size_changed();
-    update_conn_list_dialog();
+    conn_list_dialog_update();
     break;
   case PAGE_GAME:
     reset_unit_table();

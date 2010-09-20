@@ -383,9 +383,9 @@ void city_report_dialog_update_city(struct city *pcity)
 /****************************************************************************
   Update the connection list in the start page.
 ****************************************************************************/
-void update_conn_list_dialog(void)
+void conn_list_dialog_update(void)
 {
-  update_queue_add(Q_CALLBACK(real_update_conn_list_dialog), NULL);
+  update_queue_add(Q_CALLBACK(real_conn_list_dialog_update), NULL);
 }
 
 

@@ -371,7 +371,7 @@ void handle_team_name_info(int team_id, char *team_name)
 
   fc_assert_ret(NULL != tslot);
   team_slot_set_defined_name(tslot, team_name);
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 }
 
 /****************************************************************************
@@ -1736,7 +1736,7 @@ void handle_player_remove(int playerno)
   player_destroy(pplayer);
 
   players_dialog_update();
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 
   editgui_refresh();
   editgui_notify_object_changed(OBJTYPE_PLAYER, player_number(pplayer),
@@ -1922,7 +1922,7 @@ void handle_player_info(struct packet_player_info *pinfo)
   upgrade_canvas_clipboard();
 
   players_dialog_update();
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 
   if (is_new_nation) {
     races_toggles_set_sensitive();
@@ -2077,7 +2077,7 @@ void handle_conn_info(struct packet_conn_info *pinfo)
   }
 
   players_dialog_update();
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 
   if (pinfo->used && pinfo->id == client.conn.id) {
     /* For updating the sensitivity of the "Edit Mode" menu item,

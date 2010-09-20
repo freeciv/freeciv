@@ -88,7 +88,7 @@ void real_set_client_page(enum client_pages page)
     break;
   case PAGE_START:
     popup_start_page();
-    update_conn_list_dialog();
+    conn_list_dialog_update();
     break;
   case PAGE_SCENARIO:
   case PAGE_LOAD:

@@ -359,7 +359,7 @@ void real_set_client_page(enum client_pages page)
       popup_join_game_dialog();
       break;
     case PAGE_START:
-      update_conn_list_dialog();
+      conn_list_dialog_update();
       break;
     case PAGE_GAME:
       show_game_page();

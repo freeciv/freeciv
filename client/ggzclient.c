@@ -74,9 +74,9 @@ static void handle_ggzmod_server(GGZMod * ggzmod, GGZModEvent e,
   Callback for when the GGZ client tells us player stats.
 ****************************************************************************/
 static void handle_ggzmod_stats(GGZMod *ggzmod, GGZModEvent e,
-				const void *data)
+                                const void *data)
 {
-  update_conn_list_dialog();
+  conn_list_dialog_update();
 }
 
 /****************************************************************************

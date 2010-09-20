@@ -772,7 +772,7 @@ void set_client_state(enum client_states newstate)
 
   menus_update();
   update_turn_done_button_state();
-  update_conn_list_dialog();
+  conn_list_dialog_update();
   if (can_client_change_view()) {
     update_map_canvas_visible();
   }
