@@ -38,7 +38,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "French"
-civilwar_nations = "Flemish", "Savoyard", "Luxembourgish"
+civilwar_nations = "Flemish", "Savoyard", "Luxembourgish", "Lorrain"
 
 cities =
 ; Bourgogne
