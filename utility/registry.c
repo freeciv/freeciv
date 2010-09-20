@@ -1292,6 +1292,235 @@ size_t secfile_insert_str_vec_full(struct section_file *secfile,
   return ret;
 }
 
+/****************************************************************************
+  Insert a enumerator entry.
+****************************************************************************/
+struct entry *secfile_insert_plain_enum_full(struct section_file *secfile,
+                                             int enumerator,
+                                             secfile_enum_name_fn_t name_fn,
+                                             const char *comment,
+                                             bool allow_replace,
+                                             const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const char *string;
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, NULL);
+  string = name_fn(enumerator);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != string, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_STR == entry_type(pentry)) {
+        if (!entry_str_set(pentry, string)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_str_new(psection, ent_name, string, TRUE);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/****************************************************************************
+  Insert 'dim' string entries at 'path,0', 'path,1' etc.  Returns
+  the number of entries inserted or replaced.
+****************************************************************************/
+size_t secfile_insert_plain_enum_vec_full(struct section_file *secfile,
+                                          const int *enumurators, size_t dim,
+                                          secfile_enum_name_fn_t name_fn,
+                                          const char *comment,
+                                          bool allow_replace,
+                                          const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i, ret = 0;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, 0);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* NB: 'path,0' is actually 'path'.  See comment in the head
+   * of the file. */
+  if (dim > 0
+      && NULL != secfile_insert_plain_enum_full(secfile, enumurators[0],
+                                                name_fn, comment,
+                                                allow_replace, "%s",
+                                                fullpath)) {
+    ret++;
+  }
+  for (i = 1; i < dim; i++) {
+    if (NULL != secfile_insert_plain_enum_full(secfile, enumurators[i],
+                                               name_fn, comment,
+                                               allow_replace, "%s,%d",
+                                               fullpath, (int) i)) {
+      ret++;
+    }
+  }
+
+  return ret;
+}
+
+/****************************************************************************
+  Insert a bitwise value entry.
+****************************************************************************/
+struct entry *secfile_insert_bitwise_enum_full(struct section_file *secfile,
+                                               int bitwise_val,
+                                               secfile_enum_name_fn_t
+                                               name_fn,
+                                               secfile_enum_iter_fn_t
+                                               begin_fn,
+                                               secfile_enum_iter_fn_t
+                                               end_fn,
+                                               secfile_enum_next_fn_t
+                                               next_fn,
+                                               const char *comment,
+                                               bool allow_replace,
+                                               const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER], string[MAX_LEN_BUFFER];
+  const char *ent_name;
+  struct section *psection;
+  struct entry *pentry = NULL;
+  va_list args;
+  int i;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != begin_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != end_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != next_fn, NULL);
+
+  /* Compute a string containing all the values separated by '|'. */
+  string[0] = '\0';     /* Insert at least an empty string. */
+  if (0 != bitwise_val) {
+    for (i = begin_fn(); i != end_fn(); i = next_fn(i)) {
+      if (i & bitwise_val) {
+        if ('\0' == string[0]) {
+          sz_strlcpy(string, name_fn(i));
+        } else {
+          cat_snprintf(string, sizeof(string), "|%s", name_fn(i));
+        }
+      }
+    }
+  }
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  psection = secfile_insert_base(secfile, fullpath, &ent_name);
+  if (!psection) {
+    return NULL;
+  }
+
+  if (allow_replace) {
+    pentry = section_entry_by_name(psection, ent_name);
+    if (NULL != pentry) {
+      if (ENTRY_STR == entry_type(pentry)) {
+        if (!entry_str_set(pentry, string)) {
+          return NULL;
+        }
+      } else {
+        entry_destroy(pentry);
+        pentry = NULL;
+      }
+    }
+  }
+
+  if (NULL == pentry) {
+    pentry = section_entry_str_new(psection, ent_name, string, TRUE);
+  }
+
+  if (NULL != pentry && NULL != comment) {
+    entry_set_comment(pentry, comment);
+  }
+
+  return pentry;
+}
+
+/****************************************************************************
+  Insert 'dim' string entries at 'path,0', 'path,1' etc.  Returns
+  the number of entries inserted or replaced.
+****************************************************************************/
+size_t secfile_insert_bitwise_enum_vec_full(struct section_file *secfile,
+                                            const int *bitwise_vals,
+                                            size_t dim,
+                                            secfile_enum_name_fn_t name_fn,
+                                            secfile_enum_iter_fn_t begin_fn,
+                                            secfile_enum_iter_fn_t end_fn,
+                                            secfile_enum_next_fn_t next_fn,
+                                            const char *comment,
+                                            bool allow_replace,
+                                            const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i, ret = 0;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, 0);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != name_fn, 0);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != begin_fn, 0);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != end_fn, 0);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != next_fn, 0);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* NB: 'path,0' is actually 'path'.  See comment in the head
+   * of the file. */
+  if (dim > 0
+      && NULL != secfile_insert_bitwise_enum_full(secfile, bitwise_vals[0],
+                                                  name_fn, begin_fn, end_fn,
+                                                  next_fn, comment,
+                                                  allow_replace, "%s",
+                                                  fullpath)) {
+    ret++;
+  }
+  for (i = 1; i < dim; i++) {
+    if (NULL != secfile_insert_bitwise_enum_full(secfile, bitwise_vals[i],
+                                                 name_fn, begin_fn, end_fn,
+                                                 next_fn, comment,
+                                                 allow_replace, "%s,%d",
+                                                 fullpath, (int) i)) {
+      ret++;
+    }
+  }
+
+  return ret;
+}
+
 /**************************************************************************
   Returns the entry by the name or NULL if not matched.
 **************************************************************************/
@@ -1700,6 +1929,329 @@ const char **secfile_lookup_str_vec(const struct section_file *secfile,
   for(i = 0; i < *dim; i++) {
     if (!(vec[i] = secfile_lookup_str(secfile, "%s,%d",
                                       fullpath, (int) i))) {
+      SECFILE_LOG(secfile, NULL,
+                  "An error occured when looking up to \"%s,%d\" entry.",
+                  fullpath, (int) i);
+      free(vec);
+      *dim = 0;
+      return NULL;
+    }
+  }
+
+  return vec;
+}
+
+/****************************************************************************
+  Lookup an enumerator value in the secfile.  Returns FALSE on error.
+****************************************************************************/
+bool secfile_lookup_plain_enum_full(const struct section_file *secfile,
+                                    int *penumerator,
+                                    secfile_enum_is_valid_fn_t is_valid_fn,
+                                    secfile_enum_by_name_fn_t by_name_fn,
+                                    const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return FALSE;
+  }
+
+  if (!entry_str_get(pentry, &str)) {
+    return FALSE;
+  }
+
+  *penumerator = by_name_fn(str, strcmp);
+  if (is_valid_fn(*penumerator)) {
+    return TRUE;
+  }
+
+  SECFILE_LOG(secfile, entry_section(pentry),
+              "Entry \"%s\": no match for \"%s\".",
+              entry_name(pentry), str);
+  return FALSE;
+}
+
+/****************************************************************************
+  Lookup an enumerator value in the secfile.  Returns 'defval' on error.
+****************************************************************************/
+int secfile_lookup_plain_enum_default_full(const struct section_file
+                                           *secfile, int defval,
+                                           secfile_enum_is_valid_fn_t
+                                           is_valid_fn,
+                                           secfile_enum_by_name_fn_t
+                                           by_name_fn,
+                                           const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str;
+  int val;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, defval);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, defval);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, defval);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    return defval;
+  }
+
+  if (!entry_str_get(pentry, &str)) {
+    return defval;
+  }
+
+  val = by_name_fn(str, strcmp);
+  if (is_valid_fn(val)) {
+    return val;
+  } else {
+    return defval;
+  }
+}
+
+/**************************************************************************
+  Lookup a enumerator vector in the secfile.  Returns NULL on error.  This
+  vector is not owned by the registry module, and should be free by the
+  user.
+**************************************************************************/
+int *secfile_lookup_plain_enum_vec_full(const struct section_file *secfile,
+                                        size_t *dim,
+                                        secfile_enum_is_valid_fn_t
+                                        is_valid_fn,
+                                        secfile_enum_by_name_fn_t
+                                        by_name_fn,
+                                        const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i = 0;
+  int *vec, val;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* Check size. */
+  while (NULL != secfile_entry_lookup(secfile, "%s,%d", fullpath, (int) i)) {
+    i++;
+  }
+  *dim = i;
+
+  if (0 == i) {
+    /* Doesn't exist. */
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  vec = fc_malloc(i * sizeof(int));
+  for(i = 0; i < *dim; i++) {
+    if (!secfile_lookup_plain_enum_full(secfile, &val, is_valid_fn,
+                                        by_name_fn, "%s,%d",
+                                        fullpath, (int) i)) {
+      SECFILE_LOG(secfile, NULL,
+                  "An error occured when looking up to \"%s,%d\" entry.",
+                  fullpath, (int) i);
+      free(vec);
+      *dim = 0;
+      return NULL;
+    }
+  }
+
+  return vec;
+}
+
+/****************************************************************************
+  Lookup a bitwise enumerator value in the secfile.  Returns FALSE on error.
+****************************************************************************/
+bool secfile_lookup_bitwise_enum_full(const struct section_file *secfile,
+                                      int *penumerator,
+                                      secfile_enum_is_valid_fn_t is_valid_fn,
+                                      secfile_enum_by_name_fn_t by_name_fn,
+                                      const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str, *p;
+  char val_name[MAX_LEN_BUFFER];
+  int val;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != penumerator, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return FALSE;
+  }
+
+  if (!entry_str_get(pentry, &str)) {
+    return FALSE;
+  }
+
+  *penumerator = 0;
+  if ('\0' == str[0]) {
+    /* Empty string = no value. */
+    return TRUE;
+  }
+
+  /* Value names are separated by '|'. */
+  do {
+    p = strchr(str, '|');
+    if (NULL != p) {
+      p++;
+      fc_strlcpy(val_name, str, p - str);
+    } else {
+      /* Last segment, full copy. */
+      sz_strlcpy(val_name, str);
+    }
+    remove_leading_trailing_spaces(val_name);
+    val = by_name_fn(val_name, strcmp);
+    if (!is_valid_fn(val)) {
+      SECFILE_LOG(secfile, entry_section(pentry),
+                  "Entry \"%s\": no match for \"%s\".",
+                  entry_name(pentry), val_name);
+      return FALSE;
+    }
+    *penumerator |= val;
+    str = p;
+  } while (NULL != p);
+
+  return TRUE;
+}
+
+/****************************************************************************
+  Lookup an enumerator value in the secfile.  Returns 'defval' on error.
+****************************************************************************/
+int secfile_lookup_bitwise_enum_default_full(const struct section_file
+                                             *secfile, int defval,
+                                             secfile_enum_is_valid_fn_t
+                                             is_valid_fn,
+                                             secfile_enum_by_name_fn_t
+                                             by_name_fn,
+                                             const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  const struct entry *pentry;
+  const char *str, *p;
+  char val_name[MAX_LEN_BUFFER];
+  int val, full_val;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, defval);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, defval);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, defval);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    return defval;
+  }
+
+  if (!entry_str_get(pentry, &str)) {
+    return defval;
+  }
+
+  if ('\0' == str[0]) {
+    /* Empty string = no value. */
+    return 0;
+  }
+
+  /* Value names are separated by '|'. */
+  full_val = 0;
+  do {
+    p = strchr(str, '|');
+    if (NULL != p) {
+      p++;
+      fc_strlcpy(val_name, str, p - str);
+    } else {
+      /* Last segment, full copy. */
+      sz_strlcpy(val_name, str);
+    }
+    remove_leading_trailing_spaces(val_name);
+    val = by_name_fn(val_name, strcmp);
+    if (!is_valid_fn(val)) {
+      return defval;
+    }
+    full_val |= val;
+    str = p;
+  } while (NULL != p);
+
+  return full_val;
+}
+
+/**************************************************************************
+  Lookup a enumerator vector in the secfile.  Returns NULL on error.  This
+  vector is not owned by the registry module, and should be free by the
+  user.
+**************************************************************************/
+int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
+                                          size_t *dim,
+                                          secfile_enum_is_valid_fn_t
+                                          is_valid_fn,
+                                          secfile_enum_by_name_fn_t
+                                          by_name_fn,
+                                          const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  size_t i = 0;
+  int *vec, val;
+  va_list args;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != dim, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != is_valid_fn, NULL);
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != by_name_fn, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  /* Check size. */
+  while (NULL != secfile_entry_lookup(secfile, "%s,%d", fullpath, (int) i)) {
+    i++;
+  }
+  *dim = i;
+
+  if (0 == i) {
+    /* Doesn't exist. */
+    SECFILE_LOG(secfile, NULL, "\"%s\" entry doesn't exist.", fullpath);
+    return NULL;
+  }
+
+  vec = fc_malloc(i * sizeof(int));
+  for(i = 0; i < *dim; i++) {
+    if (!secfile_lookup_bitwise_enum_full(secfile, &val, is_valid_fn,
+                                          by_name_fn, "%s,%d",
+                                          fullpath, (int) i)) {
       SECFILE_LOG(secfile, NULL,
                   "An error occured when looking up to \"%s,%d\" entry.",
                   fullpath, (int) i);
