@@ -203,6 +203,7 @@ match=2
 *include "nation/khwarezmian.ruleset"
 *include "nation/kongo.ruleset"
 *include "nation/korean.ruleset"
+*include "nation/kosovar.ruleset"
 *include "nation/kurd.ruleset"
 *include "nation/kyrgyz.ruleset"
 *include "nation/lankese.ruleset"

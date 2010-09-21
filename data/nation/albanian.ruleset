@@ -41,7 +41,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with= "illyrian"
-civilwar_nations = "hellenic", "serbian", "italian"
+civilwar_nations = "hellenic", "kosovar", "italian"
 
 cities =
  "Tiranë",

@@ -157,6 +157,7 @@ flag_files =				\
 		kongo.png		\
 		korea.png		\
 		korea_ancient.png	\
+		kosovo.png		\
 		kurd.png		\
 		kyrgyzstan.png		\
 		labarum.png		\
@@ -466,6 +467,7 @@ shield_files =					\
 		kongo-shield.png		\
 		korea-shield.png		\
 		korea_ancient-shield.png	\
+		kosovo-shield.png		\
 		kurd-shield.png			\
 		kyrgyzstan-shield.png		\
 		labarum-shield.png		\
@@ -775,6 +777,7 @@ svg_files = 				\
 		kongo.svg		\
 		korea.svg		\
 		korea_ancient.svg	\
+		kosovo.svg		\
 		kurd.svg		\
 		kyrgyzstan.svg		\
 		labarum.svg		\

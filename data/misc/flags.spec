@@ -165,6 +165,7 @@ artists = "
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
+   Kosovo		Cradel (Wikimedia Commons user)
    Kurd			Denelson83
    Kyrgyzstan		-xfi-
    Labarum		J.M. Maalderink
@@ -480,6 +481,7 @@ sprites =
 		"f.kongo", "flags/kongo"
 		"f.korea", "flags/korea"
 		"f.korea_ancient", "flags/korea_ancient"
+		"f.kosovo", "flags/kosovo"
 		"f.kurd", "flags/kurd"
 		"f.kyrgyzstan", "flags/kyrgyzstan"
 		"f.labarum", "flags/labarum"		; used by Western Roman

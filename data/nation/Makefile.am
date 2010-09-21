@@ -157,6 +157,7 @@ pkgdata_DATA = \
 		khwarezmian.ruleset \
 		kongo.ruleset \
 		korean.ruleset \
+		kosovar.ruleset \
 		kurd.ruleset \
 		kyrgyz.ruleset \
 		lankese.ruleset \
