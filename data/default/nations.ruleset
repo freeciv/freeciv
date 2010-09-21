@@ -244,6 +244,7 @@ match=2
 *include "nation/muskogee.ruleset"
 *include "nation/mwiska.ruleset"
 *include "nation/namibian.ruleset"
+*include "nation/neapolitan.ruleset"
 *include "nation/nepali.ruleset"
 *include "nation/nestorian.ruleset"
 *include "nation/newfoundland.ruleset"

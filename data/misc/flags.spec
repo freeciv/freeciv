@@ -204,6 +204,7 @@ artists = "
    Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
    Namibia		Vzb83 and Madden (Wikimedia Commons users)
+   Naples		J.M. Maalderink
    NATO			Christian Schaller
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
@@ -522,6 +523,7 @@ sprites =
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
 		"f.namibia", "flags/namibia"
+		"f.naples", "flags/naples"
 		"f.nato", "flags/nato"
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"

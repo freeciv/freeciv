@@ -54,8 +54,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="sicilian", "holy", "venetian"
-conflicts_with="roman"
+civilwar_nations="sicilian", "holy", "venetian", "neapolitan"
+conflicts_with="roman", "neapolitan", "sicilian", "venetian"
 
 cities =
   "Roma",

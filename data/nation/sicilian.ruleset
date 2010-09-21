@@ -37,7 +37,7 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "italian", "maltese"
+civilwar_nations = "neapolitan", "maltese"
 
 cities =
  "Palermu",
