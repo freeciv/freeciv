@@ -341,6 +341,7 @@ match=2
 *include "nation/vermont.ruleset"
 *include "nation/vietnamese.ruleset"
 *include "nation/viking.ruleset"
+*include "nation/visigothic.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
 *include "nation/westernroman.ruleset"

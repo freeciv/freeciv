@@ -294,6 +294,7 @@ pkgdata_DATA = \
 		vermont.ruleset \
 		vietnamese.ruleset \
 		viking.ruleset \
+		visigothic.ruleset \
 		walloon.ruleset \
 		welsh.ruleset \
 		westernroman.ruleset \
