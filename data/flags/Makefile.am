@@ -222,6 +222,7 @@ flag_files =				\
 		pakistan.png		\
 		palestine.png		\
 		palmyra.png		\
+		panama.png		\
 		papua_newguinea.png	\
 		peru.png		\
 		philippines.png		\
@@ -535,6 +536,7 @@ shield_files =					\
 		pakistan-shield.png		\
 		palestine-shield.png		\
 		palmyra-shield.png		\
+		panama-shield.png		\
 		papua_newguinea-shield.png	\
 		peru-shield.png			\
 		philippines-shield.png		\
@@ -848,6 +850,7 @@ svg_files = 				\
 		pakistan.svg		\
 		palestine.svg		\
 		palmyra.svg		\
+		panama.svg		\
 		papua_newguinea.svg	\
 		peru.svg		\
 		philippines.svg		\

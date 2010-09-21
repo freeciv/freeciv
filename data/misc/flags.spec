@@ -230,6 +230,7 @@ artists = "
    Pakistan		Lauris Kaplinski
    Palestine		J.M. Maalderink
    Palmyra		JB Grout
+   Panama		J.M. Maalderink
    Papua New Guinea	Tobias Jakobs
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
@@ -549,6 +550,7 @@ sprites =
 		"f.pakistan", "flags/pakistan"
 		"f.palestine", "flags/palestine"
 		"f.palmyra", "flags/palmyra"
+		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"

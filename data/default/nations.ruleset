@@ -267,6 +267,7 @@ match=2
 *include "nation/ozite.ruleset"
 *include "nation/pakistani.ruleset"
 *include "nation/palestinian.ruleset"
+*include "nation/panamanian.ruleset"
 *include "nation/papuan.ruleset"
 *include "nation/persian.ruleset"
 *include "nation/peruvian.ruleset"
