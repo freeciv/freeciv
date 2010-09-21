@@ -46,7 +46,7 @@ cities =
  "Quito (mountains, !ocean)",
  "Guayaquil (ocean, river, !mountains)",
  "Cuenca (mountains, !ocean)",
- "Machala (ocean!, mountains)",
+ "Machala (!ocean, mountains)",
  "Manta (ocean)",
  "Santo Domingo de los Colorados (!ocean)",
  "Portoviejo (hills)",

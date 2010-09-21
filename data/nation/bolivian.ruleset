@@ -54,7 +54,7 @@ civilwar_nations = "aymara", "inca", "peruvian", "chilean"
 
 cities =
  "La Paz (!ocean, mountains)",
- "Sucre (!ocean, moutains)",
+ "Sucre (!ocean, mountains)",
  "Santa Cruz (plains, !mountains)",
  "Cochabamba (mountains)",
  "Oruro",

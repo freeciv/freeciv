@@ -27,7 +27,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "turk", "greek", "hellenic"
+civilwar_nations = "Turkish", "Greek", "Hellenic"
 
 cities =
  "Levkosia",

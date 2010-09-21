@@ -36,7 +36,7 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "arab", "turk"
+civilwar_nations = "Arab", "Turkish"
 
 cities =
  "Susa",	; location of principal palace (Mandeville)
