@@ -39,7 +39,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-conflics_with = "mexican"
+conflicts_with = "mexican"
 civilwar_nations = "zapotec", "aztec"
 
 cities =
