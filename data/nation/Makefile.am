@@ -263,6 +263,7 @@ pkgdata_DATA = \
 		srivijaya.ruleset \
 		sudanese.ruleset \
 		sumerian.ruleset \
+		surinamese.ruleset \
 		swazi.ruleset \
 		swedish.ruleset \
 		swiss.ruleset \

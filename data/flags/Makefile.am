@@ -266,6 +266,7 @@ flag_files =				\
 		stpatrick.png		\
 		sudan.png		\
 		sumeria.png		\
+		suriname.png		\
 		swaziland.png		\
 		sweden.png		\
 		swiss.png		\
@@ -576,6 +577,7 @@ shield_files =					\
 		stpatrick-shield.png		\
 		sudan-shield.png		\
 		sumeria-shield.png		\
+		suriname-shield.png		\
 		swaziland-shield.png		\
 		sweden-shield.png		\
 		swiss-shield.png		\
@@ -886,6 +888,7 @@ svg_files = 				\
 		stpatrick.svg		\
 		sudan.svg		\
 		sumeria.svg		\
+		suriname.svg		\
 		swaziland.svg		\
 		sweden.svg		\
 		swiss.svg		\

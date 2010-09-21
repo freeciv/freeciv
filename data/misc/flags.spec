@@ -274,6 +274,7 @@ artists = "
    St. Patrick		Vasco Alexandre Da Silva Costa
    Sudan		Tobias Jakobs
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
+   Suriname		Vzb83 (Wikimedia Commons user)
    Swaziland		Caleb Moore
    Sweden		Richard Torkar
    Swiss		Philipp Frauenfelder
@@ -590,6 +591,7 @@ sprites =
 		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
 		"f.sudan", "flags/sudan"
 		"f.sumeria", "flags/sumeria"
+		"f.suriname", "flags/suriname"
 		"f.swaziland", "flags/swaziland"
 		"f.sweden", "flags/sweden"
 		"f.switzerland", "flags/swiss"

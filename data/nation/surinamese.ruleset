@@ -1,0 +1,96 @@
+[nation_surinamese]
+
+name=_("Surinamese")
+plural=_("?plural:Surinamese")
+groups="American", "Modern"
+
+legend=_("Suriname is the smallest independent country of South America.\
+ Originally it was inhabited by Arawak Indians. It was first colonized by\
+ the English who traded it with the Dutch for New Amsterdam, modern New\
+ York, in 1667. Suriname was granted self government in 1954 and became\
+ fully independent in 1975.")
+leader=
+ "Abraham Crijnssen",
+ "Adyáko Benti Basiton",
+ "Boni",
+ "Reinier Frederik van Raders",
+ "Johannes Kielstra",
+ "Anton de Kom",
+ "Henck Arron",
+ "Henk Chin A Sen",
+ "Desi Bouterse"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male"
+flag="suriname"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",     _("Sergeant"),       _("?female:Sergeant")
+                 "Republic",      _("Prime Minister"), _("?female:Prime Minister")
+}
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="tupi", "dutch"
+
+cities =
+ "Paramaribo",
+ "Lelydorp",
+ "Nieuw-Nickerie",
+ "Moengo",
+ "Meerzorg",
+ "Nieuw-Amsterdam",
+ "Mariënburg",
+ "Wageningen",
+ "Albina",
+ "Groningen",
+ "Brownsweg",
+ "Brokopondo",
+ "Onverwacht",
+ "Totness",
+ "Apoera",
+ "Paloemeu",
+ "Sipalwini",
+ "Benzdorp",
+ "Kamp 52",
+ "Langatabbetja",
+ "Zanderij",
+ "Jodensavanne (grassland)",
+ "Kwakoegron",
+ "Wasjabo",
+ "Avanero",
+ "Amotopo",
+ "Kwamalasamoetoe",
+ "Jenny",
+ "Calcutta",
+ "Boskamp (forest, jungle)",
+ "Tamanredjo",
+ "Tamarin",
+ "Galibi",
+ "Nason",
+ "Cottica",
+ "Kawemhakan",
+ "Witagrond",
+ "Kaaimanston",
+ "Poesoegroenoe",
+ "Afobaka",
+ "Berg en Dal",
+ "Savana",
+ "Bigi Polka",
+ "Pakhuis",
+ "Paranam",
+ "Stolkertsijver",
+ "Java",
+ "Pokigron",
+ "Alkmaar",
+ "Berlijn",
+ "Cabendadorp",
+ "Katwijk",
+ "Nieuw-Rotterdam",
+ "Peperpot",
+ "Post Utrecht",
+ "Thorarica"
