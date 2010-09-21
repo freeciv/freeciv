@@ -120,6 +120,7 @@ artists = "
    Greece		Daniel McRae
    Greenland		Daniel McRae
    Grenada		SKopp (Wikipedia)
+   Guanche		HansenBCN (Wikimedia Commons user)
    Guarani		Daniel Markstedt
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons users)
    Gupta		Daniel Markstedt
@@ -436,6 +437,7 @@ sprites =
 		"f.greece", "flags/greece"
 		"f.greenland", "flags/greenland"	; used by Inuit
 		"f.grenada", "flags/grenada"
+		"f.guanche", "flags/guanche"
 		"f.guarani", "flags/guarani"
 		"f.guatemala", "flags/guatemala"
 		"f.gupta", "flags/gupta"

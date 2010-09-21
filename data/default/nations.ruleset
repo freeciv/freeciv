@@ -162,6 +162,7 @@ match=2
 *include "nation/greaterpolish.ruleset"
 *include "nation/greek.ruleset"
 *include "nation/grenadian.ruleset"
+*include "nation/guanche.ruleset"
 *include "nation/guarani.ruleset"
 *include "nation/guatemalan.ruleset"
 *include "nation/gupta.ruleset"

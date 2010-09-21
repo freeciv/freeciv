@@ -116,6 +116,7 @@ pkgdata_DATA = \
 		greaterpolish.ruleset \
 		greek.ruleset \
 		grenadian.ruleset \
+		guanche.ruleset \
 		guarani.ruleset \
 		guatemalan.ruleset \
 		gupta.ruleset \

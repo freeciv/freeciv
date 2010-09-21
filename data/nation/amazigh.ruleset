@@ -71,7 +71,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "Moroccan", "Algerian", "Tunisian", "Libyan"
+civilwar_nations = "Moroccan", "Algerian", "Tunisian", "Libyan", "Guanche", "Riffian"
 
 cities =
 "Tingis (mountains, ocean)",
