@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: ca\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-23 19:37+0200\n"
-"PO-Revision-Date: 2010-09-23 20:02+0200\n"
+"PO-Revision-Date: 2010-09-24 17:56+0200\n"
 "Last-Translator: Joan Creus <joan.creus at gmail dot com>\n"
 "Language-Team: Català <en@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -4511,7 +4511,7 @@ msgstr "L'informe de %2$s sobre les civilitzacions MÉS GRANS del món el %1$s."
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:71
 msgid "Herodotus"
-msgstr "Herodot"
+msgstr "Heròdot"
 
 #. TRANS: [year] <name> [reports ...]
 #: server/report.c:73
@@ -30297,11 +30297,11 @@ msgstr "Electriu"
 
 #: data/nation/purhepecha.ruleset:3
 msgid "P'urhepecha"
-msgstr "P'urhepecha"
+msgstr "Purépetxa"
 
 #: data/nation/purhepecha.ruleset:4
 msgid "?plural:P'urhepecha"
-msgstr "?plural:P'urhepecha"
+msgstr "Purépetxa"
 
 #: data/nation/purhepecha.ruleset:7
 msgid ""
@@ -30318,18 +30318,18 @@ msgid ""
 "smooth and devolved into violence. The empire, founded around 1450 AD, "
 "collapsed in 1521."
 msgstr ""
-"Els P'urhepecha són un poble nadiu del que ara és l'estat mexicà de "
+"Els purépetxa són un poble nadiu del que ara és l'estat mexicà de "
 "Michoacán, que era el centre d'un antic imperi que coneixien com a Irechecua "
 "Tzintzuntzani, que vol dir les \"terres de Tzintzuntzan\", la seva capital. "
 "Els seus reis van ser els enemics permanents de l'imperi asteca, que va "
-"intentar envair sense èxit les terres dels P'urhepecha. Quan els espanyols "
+"intentar envair sense èxit les terres dels purépetxa. Quan els espanyols "
 "van arribar i van començar la seva conquesta de Mèxic el 1519, els asteques "
-"van enviar una ambaixada demanant el suport dels P'urhepecha, però van "
-"refusar. La reputació dels 'conquistadores' els precedia i els P'urhepecha "
+"van enviar una ambaixada demanant el suport dels purépetxa, però va ser "
+"refusada. La reputació dels 'conquistadores' els precedia i els purépetxa "
 "van oferir de convertir-se en un estat vassall del rei d'Espanya abans de "
-"patir el mateix destí que els seus vells enemics, els asteques. No obstant, "
+"patir el mateix destí que els seus antics enemics, els asteques. No obstant, "
 "la transició a la dominació espanyola no va ser fàcil i va degenerar en "
-"violència. L'imperi, fundat al voltant del 1450 d.C., va acabar-se el 1521."
+"violència. L'imperi, fundat al voltant del 1450 d.C., va esfondrar-se el 1521."
 
 #. TRANS: Caconzi = King
 #: data/nation/purhepecha.ruleset:32
