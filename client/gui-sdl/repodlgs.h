@@ -27,7 +27,7 @@ enum tech_info_mode {
 };
 
 SDL_Surface * create_sellect_tech_icon(SDL_String16 *pStr, Tech_type_id tech_id, enum tech_info_mode mode);
-void popdown_all_science_dialogs(void);
+void science_report_dialogs_popdown_all(void);
 void economy_report_dialog_popdown(void);
 void units_report_dialog_popdown(void);
 

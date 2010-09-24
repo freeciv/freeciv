@@ -2519,7 +2519,7 @@ static void disable_science_dialog(void)
 /**************************************************************************
   Update the science report.
 **************************************************************************/
-void science_dialog_update(void)
+void real_science_report_dialog_update(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
   
@@ -2764,7 +2764,7 @@ void science_dialog_update(void)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popdown_science_dialog(void)
+static void science_report_dialog_popdown(void)
 {
   if(pScienceDlg) {
     popdown_window_group_dialog(pScienceDlg->pBeginWidgetList,
@@ -3004,7 +3004,7 @@ static int change_research_goal_callback(struct widget *pWidget)
     
    /* Following is to make the menu go back to the current goal;
    * there may be a better way to do this?  --dwp */
-    science_dialog_update();
+    real_science_report_dialog_update();
   } else if (Main.event.button.button == SDL_BUTTON_MIDDLE) {
     popup_tech_info((MAX_ID - pWidget->ID));
   } 
@@ -3195,7 +3195,7 @@ static int science_dialog_callback(struct widget *pWindow)
         widget_flush(pWindow);
       }
       if (move_window_group_dialog(pScienceDlg->pBeginWidgetList, pWindow)) {
-        science_dialog_update();
+        real_science_report_dialog_update();
       }
     }
   }  
@@ -3231,7 +3231,7 @@ static int popup_change_research_goal_dialog_callback(struct widget *pWidget)
 static int popdown_science_dialog_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_science_dialog();
+    science_report_dialog_popdown();
   }
   return -1;
 }
@@ -3239,7 +3239,7 @@ static int popdown_science_dialog_callback(struct widget *pWidget)
 /**************************************************************************
   Popup (or raise) the science report(F6).  It may or may not be modal.
 **************************************************************************/
-void popup_science_dialog(bool raise)
+void science_report_dialog_popup(bool raise)
 {
   struct widget *pWidget, *pWindow;
   struct widget *pChangeResearchButton;
@@ -3340,13 +3340,13 @@ void popup_science_dialog(bool raise)
   /* ======================== */
   pScienceDlg->pBeginWidgetList = pExitButton;
 
-  science_dialog_update();
+  real_science_report_dialog_update();
 }
 
 /**************************************************************************
   Popdow all the science reports (report, chnge tech, change goals).
 **************************************************************************/
-void popdown_all_science_dialogs(void)
+void science_report_dialogs_popdown_all(void)
 {
   if(pChangeTechDlg) {
     popdown_window_group_dialog(pChangeTechDlg->pBeginWidgetList,
@@ -3369,7 +3369,6 @@ void popdown_all_science_dialogs(void)
 **************************************************************************/
 void update_report_dialogs(void)
 {
-  science_dialog_update();
   city_report_dialog_update();
 }
 

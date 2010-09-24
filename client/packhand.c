@@ -1894,11 +1894,11 @@ void handle_player_info(struct packet_player_info *pinfo)
 
   if (pplayer == my_player && can_client_change_view()) {
     if (poptechup || new_tech) {
-      science_dialog_update();
+      science_report_dialog_update();
     }
     if (poptechup) {
       if (client_has_player() && !my_player->ai_controlled) {
-        popup_science_dialog(FALSE);
+        science_report_dialog_popup(FALSE);
       }
     }
     if (new_tech) {

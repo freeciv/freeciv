@@ -30,14 +30,13 @@ void update_report_dialogs(void)
 {
   if (!is_report_dialogs_frozen()) {
     city_report_dialog_update(); 
-    science_dialog_update();
   }
 }
 
 /**************************************************************************
   Update the science report.
 **************************************************************************/
-void science_dialog_update(void)
+void real_science_report_dialog_update(void)
 {
   /* PORTME */
 }
@@ -46,7 +45,7 @@ void science_dialog_update(void)
   Display the science report.  Optionally raise it.
   Typically triggered by F6.
 **************************************************************************/
-void popup_science_dialog(bool raise)
+void science_report_dialog_popup(bool raise)
 {
   /* PORTME */
 }

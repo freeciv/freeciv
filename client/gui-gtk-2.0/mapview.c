@@ -863,7 +863,7 @@ void draw_selection_rectangle(int canvas_x, int canvas_y, int w, int h)
 **************************************************************************/
 void tileset_changed(void)
 {
-  science_dialog_redraw();
+  science_report_dialog_redraw();
   reset_city_dialogs();
   reset_unit_table();
   blank_max_unit_size();

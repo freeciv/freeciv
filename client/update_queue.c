@@ -398,6 +398,14 @@ void players_dialog_update(void)
 }
 
 /****************************************************************************
+  Update the science report.
+****************************************************************************/
+void science_report_dialog_update(void)
+{
+  update_queue_add(Q_CALLBACK(real_science_report_dialog_update), NULL);
+}
+
+/****************************************************************************
   Update the economy report.
 ****************************************************************************/
 void economy_report_dialog_update(void)

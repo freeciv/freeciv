@@ -126,7 +126,6 @@ void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
   city_report_dialog_update(); 
-  science_dialog_update();
 }
 
 /****************************************************************
@@ -154,7 +153,7 @@ static const char *get_report_title_plus(const char *report_name,
 /****************************************************************
 ...
 ************************ ***************************************/
-void popup_science_dialog(bool make_modal)
+void science_report_dialog_popup(bool make_modal)
 {
   if (!science_dialog_shell && NULL != client.conn.playing) {
     Position x, y;
@@ -180,7 +179,7 @@ void popup_science_dialog(bool make_modal)
 /****************************************************************
   Closes the science dialog.
 *****************************************************************/
-void popdown_science_dialog(void)
+void science_report_dialog_popdown(void)
 {
   if (science_dialog_shell) {
     if (science_dialog_shell_is_modal) {
@@ -387,7 +386,7 @@ void create_science_dialog(bool make_modal)
     XtVaSetValues(science_label, XtNwidth, &width, NULL);
 
     toggle_callback(science_help_toggle, NULL, NULL);
-    science_dialog_update();
+    real_science_report_dialog_update();
   }
 }
 
@@ -435,7 +434,7 @@ void science_goal_callback(Widget w, XtPointer client_data,
 void science_close_callback(Widget w, XtPointer client_data, 
 			    XtPointer call_data)
 {
-  popdown_science_dialog();
+  science_report_dialog_popdown();
 }
 
 
@@ -471,7 +470,7 @@ void science_help_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void science_dialog_update(void)
+void real_science_report_dialog_update(void)
 {
   if(is_report_dialogs_frozen()) return;
   if(science_dialog_shell) {

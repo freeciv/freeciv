@@ -35,6 +35,7 @@
 #include "government.h"
 #include "packets.h"
 #include "research.h"
+#include "tech.h"
 #include "unitlist.h"
 
 /* client */
@@ -62,24 +63,10 @@
 
 
 /******************************************************************/
-
-static void create_science_dialog(bool make_modal);
-static void science_change_callback(GtkWidget * widget, gpointer data);
-static void science_goal_callback(GtkWidget * widget, gpointer data);
-/******************************************************************/
-static struct gui_dialog *science_dialog_shell = NULL;
-static GtkWidget *science_label;
-static GtkWidget *science_current_label, *science_goal_label;
-static GtkWidget *science_change_menu_button, *science_goal_menu_button;
-static GtkWidget *science_help_toggle;
-static GtkWidget *science_drawing_area;
-static int science_dialog_shell_is_modal;
-static GtkWidget *popupmenu, *goalmenu;
-
-/******************************************************************/
 static void create_endgame_report(struct packet_endgame_report *packet);
 
 static struct gui_dialog *endgame_report_shell = NULL;
+
 
 /******************************************************************
 ...
@@ -88,55 +75,116 @@ void update_report_dialogs(void)
 {
   if(is_report_dialogs_frozen()) return;
   city_report_dialog_update(); 
-  science_dialog_update();
-}
-
-
-/****************************************************************
-...
-*****************************************************************/
-void popup_science_dialog(bool raise)
-{
-  if(!science_dialog_shell) {
-    science_dialog_shell_is_modal = FALSE;
-    
-    create_science_dialog(FALSE);
-  }
-
-  if (can_client_issue_orders()
-      && A_UNSET == player_research_get(client.conn.playing)->tech_goal
-      && A_UNSET == player_research_get(client.conn.playing)->researching) {
-    gui_dialog_alert(science_dialog_shell);
-  } else {
-    gui_dialog_present(science_dialog_shell);
-  }
-
-  if (raise) {
-    gui_dialog_raise(science_dialog_shell);
-  }
-}
-
-
-/****************************************************************
- Closes the science dialog.
-*****************************************************************/
-void popdown_science_dialog(void)
-{
-  if (science_dialog_shell) {
-    gui_dialog_destroy(science_dialog_shell);
-  }
 }
 
 /****************************************************************************
- Change tech goal, research or open help dialog
+                         RESEARCH REPORT DIALOG
 ****************************************************************************/
-static void button_release_event_callback(GtkWidget *widget,
-					  GdkEventButton *event,
-                                          gpointer *data)
+struct science_report {
+  struct gui_dialog *shell;
+  GtkComboBox *reachable_techs;
+  GtkComboBox *reachable_goals;
+  GtkLabel *main_label;         /* Gets science_dialog_text(). */
+  GtkProgressBar *progress_bar;
+  GtkLabel *goal_label;
+  GtkLayout *drawing_area;
+};
+
+static struct science_report science_report = { NULL, };
+static bool science_report_no_combo_callback = FALSE;
+
+/* Those values must match the function science_report_store_new(). */
+enum science_report_columns {
+  SRD_COL_NAME,
+  SRD_COL_STEPS,
+
+  /* Not visible. */
+  SRD_COL_ID,           /* Tech_type_id */
+
+  SRD_COL_NUM
+};
+
+/****************************************************************************
+  Create a science report list store.
+****************************************************************************/
+static GtkListStore *science_report_store_new(void)
 {
-  struct reqtree *tree = g_object_get_data(G_OBJECT(widget), "reqtree");
-  int x = event->x, y = event->y;
-  Tech_type_id tech = get_tech_on_reqtree(tree, x, y);
+  return gtk_list_store_new(SRD_COL_NUM,
+                            G_TYPE_STRING,      /* SRD_COL_NAME */
+                            G_TYPE_INT,         /* SRD_COL_STEPS */
+                            G_TYPE_INT);        /* SRD_COL_ID */
+}
+
+/****************************************************************************
+  Append a technology to the list store.
+****************************************************************************/
+static void science_report_store_append(GtkListStore *store,
+                                        Tech_type_id tech)
+{
+  GtkTreeIter iter;
+
+  gtk_list_store_append(store, &iter);
+  gtk_list_store_set(store, &iter,
+                     SRD_COL_NAME,
+                     advance_name_for_player(client_player(), tech),
+                     SRD_COL_STEPS,
+                     num_unknown_techs_for_goal(client_player(), tech),
+                     SRD_COL_ID, tech,
+                     -1);
+}
+
+/****************************************************************************
+  Get the active tech of the combo.
+****************************************************************************/
+static bool science_report_combo_get_active(GtkComboBox *combo,
+                                            Tech_type_id *tech,
+                                            const char **name)
+{
+  GtkTreeIter iter;
+
+  if (science_report_no_combo_callback
+      || !gtk_combo_box_get_active_iter(combo, &iter)) {
+    return FALSE;
+  }
+
+  gtk_tree_model_get(gtk_combo_box_get_model(combo), &iter,
+                     SRD_COL_NAME, name,
+                     SRD_COL_ID, tech,
+                     -1);
+  return TRUE;
+}
+
+/****************************************************************************
+  Set the active tech of the combo.
+****************************************************************************/
+static void science_report_combo_set_active(GtkComboBox *combo,
+                                            Tech_type_id tech)
+{
+  ITree iter;
+  Tech_type_id iter_tech;
+
+  for (itree_begin(gtk_combo_box_get_model(combo), &iter);
+       !itree_end(&iter); itree_next(&iter)) {
+    itree_get(&iter, SRD_COL_ID, &iter_tech, -1);
+    if (iter_tech == tech) {
+      science_report_no_combo_callback = TRUE;
+      gtk_combo_box_set_active_iter(combo, &iter.it);
+      science_report_no_combo_callback = FALSE;
+      return;
+    }
+  }
+  log_error("%s(): Tech %d not found in the combo.", __FUNCTION__, tech);
+}
+
+/****************************************************************************
+  Change tech goal, research or open help dialog.
+****************************************************************************/
+static void science_diagram_button_release_callback(GtkWidget *widget,
+                                                    GdkEventButton *event,
+                                                    gpointer data)
+{
+  struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
+  Tech_type_id tech = get_tech_on_reqtree(reqtree, event->x, event->y);
 
   if (tech == A_NONE) {
     return;
@@ -144,12 +192,12 @@ static void button_release_event_callback(GtkWidget *widget,
 
   if (event->button == 3) {
     /* RMB: get help */
-    /* FIXME: this should work for ctrl+LMB or shift+LMB (?) too */
-    popup_help_dialog_typed(advance_name_for_player(client.conn.playing, tech), HELP_TECH);
+    popup_help_dialog_typed(advance_name_for_player(client_player(), tech),
+                            HELP_TECH);
   } else {
     if (event->button == 1 && can_client_issue_orders()) {
       /* LMB: set research or research goal */
-      switch (player_invention_state(client.conn.playing, tech)) {
+      switch (player_invention_state(client_player(), tech)) {
        case TECH_PREREQS_KNOWN:
          dsend_packet_player_research(&client.conn, tech);
          break;
@@ -160,17 +208,19 @@ static void button_release_event_callback(GtkWidget *widget,
          break;
       }
     }
-  } 
+  }
 }
 
 /****************************************************************************
   Draw the invalidated portion of the reqtree.
 ****************************************************************************/
-static void update_science_drawing_area(GtkWidget *widget, gpointer data)
+static void science_diagram_update(GtkWidget *widget, gpointer data)
 {
   /* FIXME: this currently redraws everything! */
-  struct canvas canvas = {.type = CANVAS_PIXMAP,
-			  .v.pixmap = GTK_LAYOUT(widget)->bin_window};
+  struct canvas canvas = {
+    .type = CANVAS_PIXMAP,
+    .v.pixmap = GTK_LAYOUT(widget)->bin_window
+  };
   struct reqtree *reqtree = g_object_get_data(G_OBJECT(widget), "reqtree");
   int width, height;
 
@@ -179,155 +229,73 @@ static void update_science_drawing_area(GtkWidget *widget, gpointer data)
 }
 
 /****************************************************************************
-  Return main widget of new technology diagram.
-  This is currently GtkScrolledWindow 
+  Return the drawing area widget of new technology diagram. Set in 'x' the
+  position of the current tech to center to it.
 ****************************************************************************/
-static GtkWidget *create_reqtree_diagram(void)
+static GtkWidget *science_diagram_new(void)
 {
-  GtkWidget *sw;
   struct reqtree *reqtree;
-  GtkAdjustment* adjustment;
+  GtkWidget *diagram;
   int width, height;
-  int x;
-  Tech_type_id researching;
 
   if (can_conn_edit(&client.conn)) {
     /* Show all techs in editor mode, not only currently reachable ones */
     reqtree = create_reqtree(NULL);
   } else {
     /* Show only at some point reachable techs */
-    reqtree = create_reqtree(client.conn.playing);
+    reqtree = create_reqtree(client_player());
   }
 
+  diagram = gtk_layout_new(NULL, NULL);
   get_reqtree_dimensions(reqtree, &width, &height);
-
-  sw = gtk_scrolled_window_new(NULL, NULL);
-  science_drawing_area = gtk_layout_new(NULL, NULL);
-  g_object_set_data_full(G_OBJECT(science_drawing_area), "reqtree", reqtree,
-			 (GDestroyNotify)destroy_reqtree);
-  g_signal_connect(G_OBJECT(science_drawing_area), "expose_event",
-		   G_CALLBACK(update_science_drawing_area), NULL);
-  g_signal_connect(G_OBJECT(science_drawing_area), "button-release-event",
-                   G_CALLBACK(button_release_event_callback), NULL);
-  gtk_widget_add_events(science_drawing_area,
+  gtk_layout_set_size(GTK_LAYOUT(diagram), width, height);
+  gtk_widget_add_events(diagram,
                         GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK
                         | GDK_BUTTON2_MOTION_MASK | GDK_BUTTON3_MOTION_MASK);
+  g_object_set_data_full(G_OBJECT(diagram), "reqtree", reqtree,
+                         (GDestroyNotify) destroy_reqtree);
+  g_signal_connect(diagram, "expose-event",
+                   G_CALLBACK(science_diagram_update), NULL);
+  g_signal_connect(diagram, "button-release-event",
+                   G_CALLBACK(science_diagram_button_release_callback),
+                   NULL);
 
-  gtk_layout_set_size(GTK_LAYOUT(science_drawing_area), width, height);
-
-  gtk_container_add(GTK_CONTAINER(sw), science_drawing_area);
-  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
-				 GTK_POLICY_AUTOMATIC,
-				 GTK_POLICY_AUTOMATIC);
-
-  adjustment = gtk_scrolled_window_get_hadjustment(GTK_SCROLLED_WINDOW(sw));
-  
-  /* Center on currently researched node */
-  if (NULL != client.conn.playing) {
-    researching = player_research_get(client.conn.playing)->researching;
-  } else {
-    researching = A_UNSET;
-  }
-  if (find_tech_on_reqtree(reqtree, researching,
-			   &x, NULL, NULL, NULL)) {
-    /* FIXME: this is just an approximation */
-    gtk_adjustment_set_value(adjustment, x - 100);
-  }
-
-  return sw;
+  return diagram;
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void create_science_dialog(bool make_modal)
+/****************************************************************************
+  Set the diagram parent to point to 'tech' location.
+****************************************************************************/
+static void science_diagram_center(GtkWidget *diagram, Tech_type_id tech)
 {
-  GtkWidget *frame, *table, *w;
-  GtkWidget *science_diagram;
+  GtkScrolledWindow *sw = GTK_SCROLLED_WINDOW(gtk_widget_get_parent(diagram));
+  struct reqtree *reqtree;
+  int x, y;
 
-  gui_dialog_new(&science_dialog_shell, GTK_NOTEBOOK(top_notebook), NULL);
-  /* TRANS: Research report title */
-  gui_dialog_set_title(science_dialog_shell, _("Research"));
+  if (!GTK_IS_SCROLLED_WINDOW(sw)) {
+    return;
+  }
 
-  gui_dialog_add_button(science_dialog_shell,
-      GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
-  gui_dialog_set_default_response(science_dialog_shell,
-      GTK_RESPONSE_CLOSE);
-
-  science_label = gtk_label_new("no text set yet");
-
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
-        science_label, FALSE, FALSE, 0);
-
-  frame = gtk_frame_new(_("Researching"));
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
-        frame, FALSE, FALSE, 0);
-
-  table = gtk_table_new(1, 6, TRUE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
-  gtk_container_add(GTK_CONTAINER(frame), table);
-
-  science_change_menu_button = gtk_option_menu_new();
-  gtk_table_attach_defaults(GTK_TABLE(table), science_change_menu_button, 0,
-                            2, 0, 1);
-
-  popupmenu = gtk_menu_new();
-  gtk_widget_show_all(popupmenu);
-
-  science_current_label=gtk_progress_bar_new();
-  gtk_table_attach_defaults(GTK_TABLE(table), science_current_label,
-                            2, 5, 0, 1);
-  gtk_widget_set_size_request(science_current_label, -1, 25);
-
-  science_help_toggle = gtk_check_button_new_with_label (_("Help"));
-  gtk_table_attach(GTK_TABLE(table), science_help_toggle,
-                   5, 6, 0, 1, 0, 0, 0, 0);
-
-  frame = gtk_frame_new( _("Goal"));
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox),
-        frame, FALSE, FALSE, 0);
-
-  table = gtk_table_new(1, 6, TRUE);
-  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
-  gtk_container_add(GTK_CONTAINER(frame),table);
-
-  science_goal_menu_button = gtk_option_menu_new();
-  gtk_table_attach_defaults(GTK_TABLE(table), science_goal_menu_button,
-                            0, 2, 0, 1);
-
-  goalmenu = gtk_menu_new();
-  gtk_widget_show_all(goalmenu);
-
-  science_goal_label = gtk_label_new("");
-  gtk_table_attach_defaults(GTK_TABLE(table), science_goal_label,
-                            2, 5, 0, 1);
-  gtk_widget_set_size_request(science_goal_label, -1, 25);
-
-  w = gtk_label_new("");
-  gtk_table_attach_defaults(GTK_TABLE(table), w, 5, 6, 0, 1);
-
-  science_diagram = create_reqtree_diagram();
-  gtk_box_pack_start(GTK_BOX(science_dialog_shell->vbox), science_diagram,
-                     TRUE, TRUE, 0);
-
-  gui_dialog_show_all(science_dialog_shell);
-
-  science_dialog_update();
-  gtk_widget_grab_focus(science_change_menu_button);
+  reqtree = g_object_get_data(G_OBJECT(diagram), "reqtree");
+  if (find_tech_on_reqtree(reqtree, tech, &x, &y, NULL, NULL)) {
+    /* FIXME: Those are approximations. */
+    gtk_adjustment_set_value(gtk_scrolled_window_get_hadjustment(sw),
+                             x - 300);
+    gtk_adjustment_set_value(gtk_scrolled_window_get_vadjustment(sw),
+                             y - 100);
+  }
 }
 
 /****************************************************************************
   Resize and redraw the requirement tree.
 ****************************************************************************/
-void science_dialog_redraw(void)
+static void science_report_redraw(struct science_report *preport)
 {
   struct reqtree *reqtree;
+  Tech_type_id researching;
   int width, height;
 
-  if (NULL == science_dialog_shell) {
-    /* Not existant. */
-    return;
-  }
+  fc_assert_ret(NULL != preport);
 
   if (can_conn_edit(&client.conn)) {
     /* Show all techs in editor mode, not only currently reachable ones */
@@ -338,260 +306,352 @@ void science_dialog_redraw(void)
   }
 
   get_reqtree_dimensions(reqtree, &width, &height);
-  gtk_layout_set_size(GTK_LAYOUT(science_drawing_area), width, height);
-  g_object_set_data_full(G_OBJECT(science_drawing_area), "reqtree", reqtree,
+  gtk_layout_set_size(preport->drawing_area, width, height);
+  g_object_set_data_full(G_OBJECT(preport->drawing_area), "reqtree", reqtree,
                          (GDestroyNotify) destroy_reqtree);
 
-  gtk_widget_queue_draw(science_drawing_area);
+  gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
+
+  if (client_has_player()) {
+    researching = player_research_get(client_player())->researching;
+  } else {
+    researching = A_UNSET;
+  }
+  science_diagram_center(GTK_WIDGET(preport->drawing_area), researching);
 }
 
 /****************************************************************************
-  Called to set several texts in the science dialog.
+  Utility for g_list_sort.
 ****************************************************************************/
-static void update_science_text(void)
-{
-  double pct;
-  const char *text = get_science_target_text(&pct);
-
-  gtk_progress_bar_set_text(GTK_PROGRESS_BAR(science_current_label), text);
-  gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(science_current_label), pct);
-
-  /* work around GTK+ refresh bug. */
-  gtk_widget_queue_resize(science_current_label);
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void science_change_callback(GtkWidget *widget, gpointer data)
-{
-  size_t to = (size_t) data;
-
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
-    popup_help_dialog_typed(advance_name_for_player(client.conn.playing, to), HELP_TECH);
-    /* Following is to make the menu go back to the current research;
-     * there may be a better way to do this?  --dwp */
-    science_dialog_update();
-  } else {
-
-    gtk_widget_set_sensitive(science_change_menu_button,
-			     can_client_issue_orders());
-    update_science_text();
-    
-    dsend_packet_player_research(&client.conn, to);
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
-void science_goal_callback(GtkWidget *widget, gpointer data)
-{
-  size_t to = (size_t) data;
-
-  if (GTK_TOGGLE_BUTTON(science_help_toggle)->active) {
-    popup_help_dialog_typed(advance_name_for_player(client.conn.playing, to), HELP_TECH);
-    /* Following is to make the menu go back to the current goal;
-     * there may be a better way to do this?  --dwp */
-    science_dialog_update();
-  }
-  else {  
-    gtk_label_set_text(GTK_LABEL(science_goal_label),
-		       get_science_goal_text(to));
-    dsend_packet_player_tech_goal(&client.conn, to);
-  }
-}
-
-/****************************************************************
-...
-*****************************************************************/
 static gint cmp_func(gconstpointer a_p, gconstpointer b_p)
 {
   const gchar *a_str, *b_str;
   gint a = GPOINTER_TO_INT(a_p), b = GPOINTER_TO_INT(b_p);
 
-  a_str = advance_name_for_player(client.conn.playing, a);
-  b_str = advance_name_for_player(client.conn.playing, b);
+  a_str = advance_name_for_player(client_player(), a);
+  b_str = advance_name_for_player(client_player(), b);
 
   return fc_strcoll(a_str, b_str);
 }
 
-/****************************************************************
-...
-*****************************************************************/
-void science_dialog_update(void)
+/****************************************************************************
+  Update a science report dialog.
+****************************************************************************/
+static void science_report_update(struct science_report *preport)
 {
-  if(science_dialog_shell) {
-  int i, hist;
-  char text[512];
-  GtkWidget *item;
-  GList *sorting_list = NULL, *it;
-  GtkSizeGroup *group1, *group2;
-  struct player_research *research = player_research_get(client.conn.playing);
+  GtkListStore *store;
+  GList *sorting_list, *item;
+  struct player_research *presearch = player_research_get(client_player());
+  const char *text;
+  double pct;
 
-  if (!research || is_report_dialogs_frozen()) {
-    return;
-  }
+  fc_assert_ret(NULL != preport);
+  fc_assert_ret(NULL != presearch);
 
-  gtk_widget_queue_draw(science_drawing_area);
+  gtk_widget_queue_draw(GTK_WIDGET(preport->drawing_area));
 
-  gtk_label_set_text(GTK_LABEL(science_label), science_dialog_text());
-  
-  /* collect all researched techs in sorting_list */
-  advance_index_iterate(A_FIRST, i) {
-    if (TECH_KNOWN == player_invention_state(client.conn.playing, i)) {
-      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
-    }
-  } advance_index_iterate_end;
+  gtk_label_set_text(preport->main_label, science_dialog_text());
 
-  /* sort them, and install them in the list */
-  sorting_list = g_list_sort(sorting_list, cmp_func);
-  g_list_free(sorting_list);
+  /* Update the progress bar. */
+  text = get_science_target_text(&pct);
+  gtk_progress_bar_set_text(preport->progress_bar, text);
+  gtk_progress_bar_set_fraction(preport->progress_bar, pct);
+  /* Work around GTK+ refresh bug? */
+  gtk_widget_queue_resize(GTK_WIDGET(preport->progress_bar));
+
+  /* Update reachable techs. */
+  store = science_report_store_new();
   sorting_list = NULL;
-
-  gtk_widget_destroy(popupmenu);
-  popupmenu = gtk_menu_new();
-  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_change_menu_button),
-	popupmenu);
-  gtk_widget_set_sensitive(science_change_menu_button,
-			   can_client_issue_orders());
-
-  update_science_text();
-
-  /* work around GTK+ refresh bug. */
-  gtk_widget_queue_resize(science_current_label);
- 
-  if (research->researching == A_UNSET) {
-    item = gtk_menu_item_new_with_label(advance_name_for_player(client.conn.playing,
-						      A_NONE));
-    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
+  if (A_UNSET == presearch->researching) {
+    science_report_store_append(store, A_UNSET);
   }
 
-  /* collect all techs which are reachable in the next step
-   * hist will hold afterwards the techid of the current choice
-   */
-  hist=0;
-  if (!is_future_tech(research->researching)) {
+  /* Collect all techs which are reachable in the next step. */
+  if (!is_future_tech(presearch->researching)) {
     advance_index_iterate(A_FIRST, i) {
-      if (TECH_PREREQS_KNOWN !=
-            player_invention_state(client.conn.playing, i)) {
-	continue;
+      if (TECH_PREREQS_KNOWN == presearch->inventions[i].state) {
+        sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
       }
-
-      if (i == research->researching)
-	hist=i;
-      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     } advance_index_iterate_end;
   } else {
-    int value = (advance_count() + research->future_tech + 1);
+    int value = (advance_count() + presearch->future_tech + 1);
 
     sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(value));
   }
 
-  /* sort the list and build from it the menu */
+  /* Sort the list, append it to the store and merge with the real store. */
   sorting_list = g_list_sort(sorting_list, cmp_func);
-  for (i = 0; i < g_list_length(sorting_list); i++) {
-    const gchar *data;
-
-    if (GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)) < advance_count()) {
-      data = advance_name_for_player(client.conn.playing,
-			GPOINTER_TO_INT(g_list_nth_data(sorting_list, i)));
-    } else {
-      fc_snprintf(text, sizeof(text), _("Future Tech. %d"),
-                  GPOINTER_TO_INT(g_list_nth_data(sorting_list, i))
-                  - advance_count());
-      data=text;
-    }
-
-    item = gtk_menu_item_new_with_label(data);
-    gtk_menu_shell_append(GTK_MENU_SHELL(popupmenu), item);
-    if (strlen(data) > 0)
-      g_signal_connect(item, "activate",
-		       G_CALLBACK(science_change_callback),
-		       g_list_nth_data(sorting_list, i));
+  for (item = sorting_list; NULL != item; item = g_list_next(item)) {
+    science_report_store_append(store, GPOINTER_TO_INT(item->data));
   }
+  merge_list_stores(GTK_LIST_STORE(gtk_combo_box_get_model
+                                   (preport->reachable_techs)),
+                    store, SRD_COL_ID);
+  science_report_combo_set_active(preport->reachable_techs,
+                                  presearch->researching);
 
-  gtk_widget_show_all(popupmenu);
-  gtk_option_menu_set_history(GTK_OPTION_MENU(science_change_menu_button),
-	g_list_index(sorting_list, GINT_TO_POINTER(hist)));
+  /* Free, re-init. */
   g_list_free(sorting_list);
   sorting_list = NULL;
+  gtk_list_store_clear(store);
 
-  gtk_widget_destroy(goalmenu);
-  goalmenu = gtk_menu_new();
-  gtk_option_menu_set_menu(GTK_OPTION_MENU(science_goal_menu_button),
-	goalmenu);
-  gtk_widget_set_sensitive(science_goal_menu_button,
-			   can_client_issue_orders());
-  
-  gtk_label_set_text(GTK_LABEL(science_goal_label),
-		get_science_goal_text(
-		  research->tech_goal));
+  /* Update the tech goal. */
+  gtk_label_set_text(preport->goal_label,
+                     get_science_goal_text(presearch->tech_goal));
 
-  if (research->tech_goal == A_UNSET) {
-    item = gtk_menu_item_new_with_label(advance_name_for_player(client.conn.playing,
-						      A_NONE));
-    gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
+  if (A_UNSET == presearch->tech_goal) {
+    science_report_store_append(store, A_UNSET);
   }
 
-  /* collect all techs which are reachable in under 11 steps
-   * hist will hold afterwards the techid of the current choice
-   */
-  hist=0;
+  /* Collect all techs which are reachable in next 10 steps. */
   advance_index_iterate(A_FIRST, i) {
-    if (player_invention_reachable(client.conn.playing, i)
-        && TECH_KNOWN != player_invention_state(client.conn.playing, i)
-        && (11 > num_unknown_techs_for_goal(client.conn.playing, i)
-	    || i == research->tech_goal)) {
-      if (i == research->tech_goal) {
-	hist = i;
-      }
+    if (player_invention_reachable(client_player(), i)
+        && TECH_KNOWN != presearch->inventions[i].state
+        && (i == presearch->tech_goal
+            || 10 >= presearch->inventions[i].num_required_techs)) {
       sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
     }
   } advance_index_iterate_end;
 
-  group1 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
-  group2 = gtk_size_group_new(GTK_SIZE_GROUP_HORIZONTAL);
-
-  /* sort the list and build from it the menu */
+  /* Sort the list, append it to the store and merge with the real store. */
   sorting_list = g_list_sort(sorting_list, cmp_func);
-  for (it = g_list_first(sorting_list); it; it = g_list_next(it)) {
-    GtkWidget *hbox, *label;
-    char text[512];
-    gint tech = GPOINTER_TO_INT(g_list_nth_data(it, 0));
+  for (item = sorting_list; NULL != item; item = g_list_next(item)) {
+    science_report_store_append(store, GPOINTER_TO_INT(item->data));
+  }
+  merge_list_stores(GTK_LIST_STORE(gtk_combo_box_get_model
+                                   (preport->reachable_goals)),
+                    store, SRD_COL_ID);
+  science_report_combo_set_active(preport->reachable_goals,
+                                  presearch->tech_goal);
 
-    item = gtk_menu_item_new();
-    hbox = gtk_hbox_new(FALSE, 18);
-    gtk_container_add(GTK_CONTAINER(item), hbox);
+  /* Free. */
+  g_list_free(sorting_list);
+  g_object_unref(G_OBJECT(store));
+}
 
-    label = gtk_label_new(advance_name_for_player(client.conn.playing, tech));
-    gtk_misc_set_alignment(GTK_MISC(label), 0.0, 0.5);
-    gtk_box_pack_start(GTK_BOX(hbox), label, TRUE, TRUE, 0);
-    gtk_size_group_add_widget(group1, label);
+/****************************************************************************
+  Actived item in the reachable techs combo box.
+****************************************************************************/
+static void science_report_current_callback(GtkComboBox *combo,
+                                            gpointer data)
+{
+  Tech_type_id tech;
+  const char *tech_name;
 
-    fc_snprintf(text, sizeof(text), "%d",
-                num_unknown_techs_for_goal(client_player(), tech));
-
-    label = gtk_label_new(text);
-    gtk_misc_set_alignment(GTK_MISC(label), 1.0, 0.5);
-    gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, FALSE, 0);
-    gtk_size_group_add_widget(group2, label);
-
-    gtk_menu_shell_append(GTK_MENU_SHELL(goalmenu), item);
-    g_signal_connect(item, "activate",
-		     G_CALLBACK(science_goal_callback),
-		     GINT_TO_POINTER(tech));
+  if (!science_report_combo_get_active(combo, &tech, &tech_name)) {
+    return;
   }
 
-  gtk_widget_show_all(goalmenu);
-  gtk_option_menu_set_history(GTK_OPTION_MENU(science_goal_menu_button),
-	g_list_index(sorting_list, GINT_TO_POINTER(hist)));
-  g_list_free(sorting_list);
-  sorting_list = NULL;
- 
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data))) {
+    popup_help_dialog_typed(tech_name, HELP_TECH);
+  } else if (can_client_issue_orders()) {
+    dsend_packet_player_research(&client.conn, tech);
+  }
+  /* Revert, or we will be not synchron with the server. */
+  science_report_combo_set_active(combo, player_research_get
+                                  (client_player())->researching);
+}
+
+/****************************************************************************
+  Actived item in the reachable goals combo box.
+****************************************************************************/
+static void science_report_goal_callback(GtkComboBox *combo, gpointer data)
+{
+  Tech_type_id tech;
+  const char *tech_name;
+
+  if (!science_report_combo_get_active(combo, &tech, &tech_name)) {
+    return;
+  }
+
+  if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(data))) {
+    popup_help_dialog_typed(tech_name, HELP_TECH);
+  } else if (can_client_issue_orders()) {
+    dsend_packet_player_tech_goal(&client.conn, tech);
+  }
+  /* Revert, or we will be not synchron with the server. */
+  science_report_combo_set_active(combo, player_research_get
+                                  (client_player())->tech_goal);
+}
+
+/****************************************************************************
+  Initialize a science report.
+****************************************************************************/
+static void science_report_dialog_init(struct science_report *preport)
+{
+  GtkWidget *frame, *table, *help_button, *sw, *w;
+  GtkBox *vbox;
+  GtkListStore *store;
+  GtkCellRenderer *renderer;
+  Tech_type_id researching;
+
+  fc_assert_ret(NULL != preport);
+
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL);
+  /* TRANS: Research report title */
+  gui_dialog_set_title(preport->shell, _("Research"));
+
+  gui_dialog_add_button(preport->shell, GTK_STOCK_CLOSE, GTK_RESPONSE_CLOSE);
+  gui_dialog_set_default_response(preport->shell, GTK_RESPONSE_CLOSE);
+
+  vbox = GTK_BOX(preport->shell->vbox);
+
+  w = gtk_label_new(NULL);
+  gtk_box_pack_start(vbox, w, FALSE, FALSE, 0);
+  preport->main_label = GTK_LABEL(w);
+
+  /* Current research target line. */
+  frame = gtk_frame_new(_("Researching"));
+  gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
+
+  table = gtk_table_new(1, 6, TRUE);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  gtk_container_add(GTK_CONTAINER(frame), table);
+
+  help_button = gtk_check_button_new_with_label(_("Help"));
+  gtk_table_attach(GTK_TABLE(table), help_button, 5, 6, 0, 1, 0, 0, 0, 0);
+
+  store = science_report_store_new();
+  w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(G_OBJECT(store));
+  renderer = gtk_cell_renderer_text_new();
+  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, TRUE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer, "text",
+                                 SRD_COL_NAME, NULL);
+  gtk_widget_set_sensitive(w, can_client_issue_orders());
+  g_signal_connect(w, "changed", G_CALLBACK(science_report_current_callback),
+                   help_button);
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 0, 2, 0, 1);
+  preport->reachable_techs = GTK_COMBO_BOX(w);
+
+  w = gtk_progress_bar_new();
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
+  gtk_widget_set_size_request(w, -1, 25);
+  preport->progress_bar = GTK_PROGRESS_BAR(w);
+
+  /* Research goal line. */
+  frame = gtk_frame_new( _("Goal"));
+  gtk_box_pack_start(vbox, frame, FALSE, FALSE, 0);
+
+  table = gtk_table_new(1, 6, TRUE);
+  gtk_table_set_col_spacings(GTK_TABLE(table), 4);
+  gtk_container_add(GTK_CONTAINER(frame),table);
+
+  store = science_report_store_new();
+  w = gtk_combo_box_new_with_model(GTK_TREE_MODEL(store));
+  g_object_unref(G_OBJECT(store));
+  renderer = gtk_cell_renderer_text_new();
+  gtk_cell_layout_pack_start(GTK_CELL_LAYOUT(w), renderer, TRUE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer, "text",
+                                 SRD_COL_NAME, NULL);
+  renderer = gtk_cell_renderer_text_new();
+  gtk_cell_layout_pack_end(GTK_CELL_LAYOUT(w), renderer, FALSE);
+  gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT(w), renderer, "text",
+                                 SRD_COL_STEPS, NULL);
+  gtk_widget_set_sensitive(w, can_client_issue_orders());
+  g_signal_connect(w, "changed", G_CALLBACK(science_report_goal_callback),
+                   help_button);
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 0, 2, 0, 1);
+  preport->reachable_goals = GTK_COMBO_BOX(w);
+
+  w = gtk_label_new(NULL);
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 2, 5, 0, 1);
+  gtk_widget_set_size_request(w, -1, 25);
+  preport->goal_label = GTK_LABEL(w);
+
+  /* Empty label. */
+  w = gtk_label_new(NULL);
+  gtk_table_attach_defaults(GTK_TABLE(table), w, 5, 6, 0, 1);
+
+  /* Science diagram. */
+  sw = gtk_scrolled_window_new(NULL, NULL);
+  gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
+                                 GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start(vbox, sw, TRUE, TRUE, 0);
+
+  w = science_diagram_new();
+  gtk_container_add(GTK_CONTAINER(sw), w);
+  preport->drawing_area = GTK_LAYOUT(w);
+
+  if (client_has_player()) {
+    researching = player_research_get(client_player())->researching;
+  } else {
+    researching = A_UNSET;
+  }
+  science_diagram_center(w, researching);
+
+  science_report_update(preport);
+  gui_dialog_show_all(preport->shell);
+}
+
+/****************************************************************************
+  Free a science report.
+****************************************************************************/
+static void science_report_dialog_free(struct science_report *preport)
+{
+  fc_assert_ret(NULL != preport);
+
+  gui_dialog_destroy(preport->shell);
+  fc_assert(NULL == preport->shell);
+
+  memset(preport, 0, sizeof(*preport));
+}
+
+/****************************************************************************
+  Create the science report is needed.
+****************************************************************************/
+void science_report_dialog_popup(bool raise)
+{
+  struct player_research *presearch =
+      (client_has_player() ? player_research_get(client_player()) : NULL);
+
+  if (NULL == science_report.shell) {
+    science_report_dialog_init(&science_report);
+  }
+
+  if (NULL != presearch
+      && A_UNSET == presearch->tech_goal
+      && A_UNSET == presearch->researching) {
+    gui_dialog_alert(science_report.shell);
+  } else {
+    gui_dialog_present(science_report.shell);
+  }
+
+  if (raise) {
+    gui_dialog_raise(science_report.shell);
   }
 }
 
+/****************************************************************************
+  Closes the science report dialog.
+****************************************************************************/
+void science_report_dialog_popdown(void)
+{
+  if (NULL != science_report.shell) {
+    science_report_dialog_free(&science_report);
+    fc_assert(NULL == science_report.shell);
+  }
+}
+
+/****************************************************************************
+  Update the science report dialog.
+****************************************************************************/
+void real_science_report_dialog_update(void)
+{
+  if (NULL != science_report.shell) {
+    science_report_update(&science_report);
+  }
+}
+
+/****************************************************************************
+  Resize and redraw the requirement tree.
+****************************************************************************/
+void science_report_dialog_redraw(void)
+{
+  if (NULL != science_report.shell) {
+    science_report_redraw(&science_report);
+  }
+}
 
 /****************************************************************************
                       ECONOMY REPORT DIALOG

@@ -468,7 +468,8 @@ static void edit_mode_callback(GtkToggleAction *action, gpointer data)
 {
   if (game.info.is_edit_mode ^ gtk_toggle_action_get_active(action)) {
     key_editor_toggle();
-    popdown_science_dialog(); /* Unreachbale techs in reqtree on/off */
+    /* Unreachbale techs in reqtree on/off */
+    science_report_dialog_popdown();
   }
 }
 
@@ -1190,7 +1191,7 @@ static void report_economy_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void report_research_callback(GtkAction *action, gpointer data)
 {
-  popup_science_dialog(TRUE);
+  science_report_dialog_popup(TRUE);
 }
 
 /****************************************************************

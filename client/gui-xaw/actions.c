@@ -290,9 +290,10 @@ static void xaw_key_open_revolution(Widget w, XEvent *event,
 
 static void xaw_key_open_science_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if (can_client_change_view() &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_SCIENCE))
-    popup_science_dialog(0);
+  if (can_client_change_view()
+      && is_menu_item_active(MENU_REPORT, MENU_REPORT_SCIENCE)) {
+    science_report_dialog_popup(FALSE);
+  }
 }
 
 static void xaw_key_open_spaceship(Widget w, XEvent *event, String *argv, Cardinal *argc)

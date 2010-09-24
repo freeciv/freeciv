@@ -2042,7 +2042,7 @@ static void apply_reqtree_text_font(struct option *poption)
   gui_update_font_full(option_font_target(poption),
                        option_font_get(poption),
                        &reqtree_text_style);
-  science_dialog_update();
+  science_report_dialog_redraw();
 }
 
 /****************************************************************************

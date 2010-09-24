@@ -215,7 +215,7 @@ static int revolution_callback(struct widget *pButton)
 static int research_callback(struct widget *pButton)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popup_science_dialog(TRUE);
+    science_report_dialog_popup(TRUE);
   }
   return -1;
 }

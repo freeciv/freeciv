@@ -834,7 +834,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     economy_report_dialog_popup(FALSE);
     break;
    case MENU_REPORT_SCIENCE:
-    popup_science_dialog(0);
+    science_report_dialog_popup(FALSE);
     break;
    case MENU_REPORT_WOW:
     send_report_request(REPORT_WONDERS_OF_THE_WORLD);
