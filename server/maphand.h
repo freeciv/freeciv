@@ -121,5 +121,6 @@ void change_playertile_site(struct player_tile *ptile,
 
 void create_base(struct tile *ptile, struct base_type *pbase,
                  struct player *pplayer);
+void destroy_base(struct tile *ptile, struct base_type *pbase);
 
 #endif  /* FC__MAPHAND_H */

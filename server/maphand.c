@@ -1806,28 +1806,7 @@ void create_base(struct tile *ptile, struct base_type *pbase,
   base_type_iterate(old_base) {
     if (tile_has_base(ptile, old_base)
         && !can_bases_coexist(old_base, pbase)) {
-      if (territory_claiming_base(old_base)) {
-        map_clear_border(ptile);
-        map_claim_ownership(ptile, NULL, NULL);
-      } else {
-        struct player *owner = tile_owner(ptile);
-
-        if (NULL != owner
-            && (0 <= old_base->vision_main_sq
-                || 0 <= old_base->vision_invis_sq)) {
-          /* Base provides vision, but no borders. */
-          const v_radius_t old_radius_sq =
-              V_RADIUS(0 <= old_base->vision_main_sq
-                       ? old_base->vision_main_sq : -1,
-                       0 <= old_base->vision_invis_sq
-                       ? old_base->vision_invis_sq : -1);
-          const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
-
-          map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                            game.server.vision_reveal_tiles);
-        }
-      }
-      tile_remove_base(ptile, old_base);
+      destroy_base(ptile, old_base);
     }
   } base_type_iterate_end;
 
@@ -1863,4 +1842,31 @@ void create_base(struct tile *ptile, struct base_type *pbase,
                         game.server.vision_reveal_tiles);
     }
   }
+}
+
+/****************************************************************************
+  Remove base from tile.
+****************************************************************************/
+void destroy_base(struct tile *ptile, struct base_type *pbase)
+{
+  if (territory_claiming_base(pbase)) {
+    /* Clearing borders will take care of the vision providing
+     * bases as well. */
+    map_clear_border(ptile);
+  } else {
+    struct player *owner = tile_owner(ptile);
+
+    if (NULL != owner
+        && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
+      /* Base provides vision, but no borders. */
+      const v_radius_t old_radius_sq =
+          V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
+                   0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
+      const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
+
+      map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
+                        game.server.vision_reveal_tiles);
+    }
+  }
+  tile_remove_base(ptile, pbase);
 }

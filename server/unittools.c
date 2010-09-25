@@ -647,33 +647,6 @@ void notify_unit_experience(struct unit *punit)
 }
 
 /**************************************************************************
-  Pillages base from tile
-**************************************************************************/
-static void unit_pillage_base(struct tile *ptile, struct base_type *pbase)
-{
-  if (territory_claiming_base(pbase)) {
-    /* Clearing borders will take care of the vision providing
-     * bases as well. */
-    map_clear_border(ptile);
-  } else {
-    struct player *owner = tile_owner(ptile);
-
-    if (NULL != owner
-        && (0 <= pbase->vision_main_sq || 0 <= pbase->vision_invis_sq)) {
-      /* Base provides vision, but no borders. */
-      const v_radius_t old_radius_sq =
-          V_RADIUS(0 <= pbase->vision_main_sq ? pbase->vision_main_sq : -1,
-                   0 <= pbase->vision_invis_sq ? pbase->vision_invis_sq : -1);
-      const v_radius_t new_radius_sq = V_RADIUS(-1, -1);
-
-      map_vision_update(owner, ptile, old_radius_sq, new_radius_sq,
-                        game.server.vision_reveal_tiles);
-    }
-  }
-  tile_remove_base(ptile, pbase);
-}
-
-/**************************************************************************
   progress settlers in their current tasks, 
   and units that is pillaging.
   also move units that is on a goto.
@@ -752,7 +725,7 @@ static void update_unit_activity(struct unit *punit)
 
       if (what_pillaged == S_LAST) {
         fc_assert(punit->activity_base != BASE_NONE);
-        unit_pillage_base(ptile, base_by_number(punit->activity_base));
+        destroy_base(ptile, base_by_number(punit->activity_base));
       } else {
         tile_clear_special(ptile, what_pillaged);
       }
