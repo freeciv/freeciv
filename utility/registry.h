@@ -21,7 +21,9 @@ struct section_file;
 struct section;
 struct entry;
 
-/* Function typedefs. */
+/* Typedefs. */
+typedef const void *secfile_data_t;
+
 typedef bool (*secfile_enum_is_valid_fn_t) (int enumerator);
 typedef const char * (*secfile_enum_name_fn_t) (int enumerator);
 typedef int (*secfile_enum_by_name_fn_t) (const char *enum_name,
@@ -29,6 +31,8 @@ typedef int (*secfile_enum_by_name_fn_t) (const char *enum_name,
                                                            const char *));
 typedef int (*secfile_enum_iter_fn_t) (void);
 typedef int (*secfile_enum_next_fn_t) (int enumerator);
+typedef const char * (*secfile_enum_name_data_fn_t) (secfile_data_t data,
+                                                     int enumerator);
 
 /* Create a 'struct section_list' and related functions: */
 #define SPECLIST_TAG section
@@ -314,6 +318,59 @@ size_t secfile_insert_bitwise_enum_vec_full(struct section_file *secfile,
   secfile_insert_enum_vec_full(secfile, enumerators, dim, specenum_type,    \
                                comment, TRUE, path, ## __VA_ARGS__)
 
+struct entry *secfile_insert_enum_data_full(struct section_file *secfile,
+                                            int value, bool bitwise,
+                                            secfile_enum_name_data_fn_t name_fn,
+                                            secfile_data_t data,
+                                            const char *comment,
+                                            bool allow_replace,
+                                            const char *path, ...)
+                                            fc__attribute((__format__(__printf__, 8, 9)));
+#define secfile_insert_enum_data(secfile, value, bitwise, name_fn, data,    \
+                                 path, ...)                                 \
+  secfile_insert_enum_data_full(secfile, value, bitwise, name_fn, data,     \
+                                NULL, FALSE, path, ## __VA_ARGS__)
+#define secfile_insert_enum_data_comment(secfile, value, bitwise, name_fn,  \
+                                         data, path, ...)                   \
+  secfile_insert_enum_data_full(secfile, value, bitwise, name_fn, data,     \
+                                comment, FALSE, path, ## __VA_ARGS__)
+#define secfile_replace_enum_data(secfile, value, bitwise, name_fn, data,   \
+                                  path, ...)                                \
+  secfile_insert_enum_data_full(secfile, value, bitwise, name_fn, data,     \
+                                NULL, TRUE, path, ## __VA_ARGS__)
+#define secfile_replace_enum_data_comment(secfile, value, bitwise, name_fn, \
+                                          data, path, ...)                  \
+  secfile_insert_enum_data_full(secfile, value, bitwise, name_fn, data,     \
+                                comment, TRUE, path, ## __VA_ARGS__)
+size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
+                                         const int *values, size_t dim,
+                                         bool bitwise,
+                                         secfile_enum_name_data_fn_t name_fn,
+                                         secfile_data_t data,
+                                         const char *comment,
+                                         bool allow_replace,
+                                         const char *path, ...)
+                                         fc__attribute((__format__(__printf__, 9, 10)));
+#define secfile_insert_enum_vec_data(secfile, values, dim, bitwise,         \
+                                     name_fn, data, path, ...)              \
+  secfile_insert_enum_vec_data_full(secfile, values, dim, bitwise, name_fn, \
+                                    data, NULL, FALSE, path, ## __VA_ARGS__)
+#define secfile_insert_enum_vec_data_comment(secfile, values, dim, bitwise, \
+                                             name_fn, data, path, ...)      \
+  secfile_insert_enum_vec_data_full(secfile, values, dim, bitwise, name_fn, \
+                                    data, comment, FALSE, path,             \
+                                    ## __VA_ARGS__)
+#define secfile_replace_enum_vec_data(secfile, values, dim, bitwise,        \
+                                      name_fn, data, path, ...)             \
+  secfile_insert_enum_vec_data_full(secfile, values, dim, bitwise, name_fn, \
+                                    data, NULL, TRUE, path, ## __VA_ARGS__)
+#define secfile_replace_enum_vec_data_comment(secfile, values, dim,         \
+                                              bitwise, name_fn, data, path, \
+                                              ...)                          \
+  secfile_insert_enum_vec_data_full(secfile, values, dim, bitwise, name_fn, \
+                                    data, comment, TRUE, path,              \
+                                    ## __VA_ARGS__)
+
 /* Lookup functions. */
 struct entry *secfile_entry_by_path(const struct section_file *secfile,
                                     const char *entry_path);
@@ -446,6 +503,23 @@ int *secfile_lookup_bitwise_enum_vec_full(const struct section_file *secfile,
                                       (secfile_enum_by_name_fn_t)           \
                                       specenum_type##_by_name,              \
                                       path, ## __VA_ARGS__))
+
+bool secfile_lookup_enum_data(const struct section_file *secfile,
+                              int *pvalue, bool bitwise,
+                              secfile_enum_name_data_fn_t name_fn,
+                              secfile_data_t data, const char *path, ...)
+                              fc__attribute((__format__ (__printf__, 6, 7)));
+int secfile_lookup_enum_default_data(const struct section_file *secfile,
+                                     int defval, bool bitwise,
+                                     secfile_enum_name_data_fn_t name_fn,
+                                     secfile_data_t data,
+                                     const char *path, ...)
+                                     fc__attribute((__format__ (__printf__, 6, 7)));
+int *secfile_lookup_enum_vec_data(const struct section_file *secfile,
+                                  size_t *dim, bool bitwise,
+                                  secfile_enum_name_data_fn_t name_fn,
+                                  secfile_data_t data, const char *path, ...)
+                                  fc__attribute((__format__ (__printf__, 6, 7)));
 
 /* Sections functions. */
 struct section *secfile_section_by_name(const struct section_file *secfile,
