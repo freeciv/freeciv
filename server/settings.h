@@ -18,6 +18,13 @@
 
 #include "game.h"
 
+struct sset_val_name {
+  const char *support;          /* Untranslated long support name, used 
+                                 * for saving. */
+  const char *pretty;           /* Translated, used to display to the
+                                 * users. */
+};
+
 /* Whether settings are sent to the client when the client lists
  * server options; also determines whether clients can set them in principle.
  * Eg, not sent: seeds, saveturns, etc.
@@ -137,24 +144,24 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           size_t reject_msg_len);
 
 /* Type SSET_ENUM setting functions. */
-int setting_enum_str_to_int(const struct setting *pset, const char *str);
-const char *setting_enum_int_to_str(const struct setting *pset, int val);
+const char *setting_enum_int_to_str(const struct setting *pset,
+                                    int val, bool pretty);
 int setting_enum_get_int(const struct setting *pset);
-const char *setting_enum_get_str(const struct setting *pset);
+const char *setting_enum_get_str(const struct setting *pset, bool pretty);
 int setting_enum_def_int(const struct setting *pset);
-const char *setting_enum_def_str(const struct setting *pset);
+const char *setting_enum_def_str(const struct setting *pset, bool pretty);
 bool setting_enum_set_int(struct setting *pset, int val,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
-bool setting_enum_set_str(struct setting *pset, const char *val,
+bool setting_enum_set_str(struct setting *pset, const char *val, bool pretty,
                           struct connection *caller, char *reject_msg,
                           size_t reject_msg_len);
 bool setting_enum_validate_int(const struct setting *pset, int val,
                                struct connection *caller, char *reject_msg,
                                size_t reject_msg_len);
 bool setting_enum_validate_str(const struct setting *pset, const char *val,
-                               struct connection *caller, char *reject_msg,
-                               size_t reject_msg_len);
+                               bool pretty, struct connection *caller,
+                               char *reject_msg, size_t reject_msg_len);
 
 void setting_action(const struct setting *pset);
 

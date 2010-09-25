@@ -1210,7 +1210,7 @@ static void write_init_script(char *script_filename)
         break;
       case SSET_ENUM:
         fprintf(script_file, "set %s %s\n", setting_name(pset),
-                setting_enum_get_str(pset));
+                setting_enum_get_str(pset, FALSE));
         break;
       }
     } settings_iterate_end;
@@ -1662,15 +1662,15 @@ static void show_help_option(struct connection *caller,
         const char *value;
 
         cmd_reply(help_cmd, caller, C_COMMENT, _("Possible values:"));
-        for (i = 0; (value = setting_enum_int_to_str(pset, i)); i++) {
+        for (i = 0; (value = setting_enum_int_to_str(pset, i, TRUE)); i++) {
           cmd_reply(help_cmd, caller, C_COMMENT, "- %d: \"%s\"",
                     i, _(value));
         }
         cmd_reply(help_cmd, caller, C_COMMENT,
                   "%s \"%s\" (%d), %s \"%s\" (%d)",
-                  _("Value:"), _(setting_enum_get_str(pset)),
+                  _("Value:"), _(setting_enum_get_str(pset, TRUE)),
                   setting_enum_get_int(pset),
-                  _("Default:"), _(setting_enum_def_str(pset)),
+                  _("Default:"), _(setting_enum_def_str(pset, TRUE)),
                   setting_enum_def_int(pset));
       }
       break;
@@ -2118,7 +2118,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
           is_changed = (setting_enum_get_int(pset)
                         != setting_enum_def_int(pset));
           len = fc_snprintf(value, sizeof(value), "\"%s\" (%d)",
-                            _(setting_enum_get_str(pset)),
+                            _(setting_enum_get_str(pset, TRUE)),
                             setting_enum_get_int(pset));
           if (is_changed) {
             /* Emphasizes the changed option. */
@@ -2896,7 +2896,7 @@ static bool set_command(struct connection *caller, char *str, bool check)
                                       sizeof(reject_msg))) {
         fc_snprintf(buffer, sizeof(buffer),
                     _("Option: %s has been set to \"%s\" (%d)."),
-                    setting_name(pset), _(setting_enum_get_str(pset)),
+                    setting_name(pset), _(setting_enum_get_str(pset, TRUE)),
                     setting_enum_get_int(pset));
         do_update = TRUE;
       } else {
@@ -2907,16 +2907,20 @@ static bool set_command(struct connection *caller, char *str, bool check)
       /* Enumerator as a string. */
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
-          || !setting_enum_validate_str(pset, args[1], caller, reject_msg,
-                                        sizeof(reject_msg))) {
+          || (!setting_enum_validate_str(pset, args[1], FALSE, caller,
+                                         reject_msg, sizeof(reject_msg))
+              && !setting_enum_validate_str(pset, args[1], TRUE, caller,
+                                         reject_msg, sizeof(reject_msg)))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
-    } else if (setting_enum_set_str(pset, args[1], caller, reject_msg,
-                                    sizeof(reject_msg))) {
+    } else if (setting_enum_set_str(pset, args[1], FALSE, caller,
+                                    reject_msg, sizeof(reject_msg))
+               || setting_enum_set_str(pset, args[1], TRUE, caller,
+                                       reject_msg, sizeof(reject_msg))) {
         fc_snprintf(buffer, sizeof(buffer),
                     _("Option: %s has been set to \"%s\" (%d)."),
-                    setting_name(pset), _(setting_enum_get_str(pset)),
+                    setting_name(pset), _(setting_enum_get_str(pset, TRUE)),
                     setting_enum_get_int(pset));
       do_update = TRUE;
     } else {

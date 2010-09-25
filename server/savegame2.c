@@ -5229,19 +5229,20 @@ static void compat_save_020299(struct savedata *saving)
 }
 
 struct compatibility {
-  const char* str;
+  const struct sset_val_name name;
   const load_version_func_t load;
   const save_version_func_t save;
 };
 
-/* the current versions should be at the bottom */
+/* The current versions should be at the bottom. */
 static struct compatibility compat[] = {
   /* dummy; equal to the current version (last element) */
-  { "current version", NULL, NULL},
+  { { "CURRENT", N_("current version") }, NULL, NULL },
   /* freeciv 2.2.99 (trunk) */
-  { N_("freeciv 2.2.99"), compat_load_020299, compat_save_020299},
+  { { "2.2.99", N_("freeciv 2.2.99") },
+    compat_load_020299, compat_save_020299 },
   /* current savefile version as defined by the functions above */
-  { N_("freeciv 2.3.0"), NULL, NULL},
+  { { "2.3.0", N_("freeciv 2.3.0") }, NULL, NULL },
 };
 
 static const int compat_num = ARRAY_SIZE(compat);
@@ -5250,16 +5251,10 @@ static const int compat_num = ARRAY_SIZE(compat);
 /****************************************************************************
   Savefile version setting names accessor.
 ****************************************************************************/
-const char *saveversion_name(int saveversion)
+const struct sset_val_name *saveversion_name(int saveversion)
 {
-#ifdef DEBUG
-  if (saveversion == -1) {
-    return N_("freeciv 2.2.x");
-  }
-#endif
-
   return (0 <= saveversion && saveversion < compat_num
-          ? compat[saveversion].str : NULL);
+          ? &compat[saveversion].name : NULL);
 }
 
 /****************************************************************************

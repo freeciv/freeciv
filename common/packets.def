@@ -1433,7 +1433,8 @@ PACKET_SERVER_SETTING_ENUM = 169; sc, handle-via-packet, is-info
   SINT8 val;
   SINT8 default_val;
   SINT8 values_num;
-  STRING values[64:values_num][MAX_LEN_ENUM];
+  STRING support_names[64:values_num][MAX_LEN_NAME];
+  STRING pretty_names[64:values_num][MAX_LEN_ENUM];
 end
 
 /************** Effects hash packets **********************/

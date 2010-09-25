@@ -2505,6 +2505,19 @@ static bool client_option_enum_set(struct option *poption, int val)
 }
 
 /****************************************************************************
+  Returns the name of the value for this client option of type OT_ENUM.
+  The prototype must match the 'secfile_enum_name_data_fn_t' type.
+****************************************************************************/
+static const char *client_option_enum_secfile_str(secfile_data_t data,
+                                                  int val)
+{
+  const struct strvec *values = CLIENT_OPTION(data)->enumerator.values;
+
+  return (0 <= val && val < strvec_size(values)
+          ? strvec_get(values, val) : NULL);
+}
+
+/****************************************************************************
   Returns the current value of this client option of type OT_BITWISE.
 ****************************************************************************/
 static unsigned client_option_bitwise_get(const struct option *poption)
@@ -2543,6 +2556,20 @@ static bool client_option_bitwise_set(struct option *poption, unsigned val)
 
   *pcoption->bitwise.pvalue = val;
   return TRUE;
+}
+
+/****************************************************************************
+  Returns the name of a single value for this client option of type
+  OT_BITWISE. The prototype must match the 'secfile_enum_name_data_fn_t'
+  type.
+****************************************************************************/
+static const char *client_option_bitwise_secfile_str(secfile_data_t data,
+                                                     int val)
+{
+  const struct strvec *values = CLIENT_OPTION(data)->bitwise.values;
+
+  return (0 <= val && val < strvec_size(values)
+          ? strvec_get(values, val) : NULL);
 }
 
 /****************************************************************************
@@ -2709,39 +2736,23 @@ static bool client_option_load(struct option *poption,
     }
   case OT_ENUM:
     {
-      const char *string;
+      int value;
 
-      return ((string = secfile_lookup_str(sf, "client.%s",
-                                           option_name(poption)))
-              && option_enum_set_str(poption, string));
+      return (secfile_lookup_enum_data(sf, &value, FALSE,
+                                       client_option_enum_secfile_str,
+                                       poption, "client.%s",
+                                       option_name(poption))
+              && option_enum_set_int(poption, value));
     }
   case OT_BITWISE:
     {
-      const struct strvec *values = option_bitwise_values(poption);
-      size_t size = strvec_size(values), num, i, j;
-      const char **vec = secfile_lookup_str_vec(sf, &num, "client.%s",
-                                                option_name(poption));
-      unsigned val = 0;
+      int value;
 
-      if (NULL == vec) {
-        return FALSE;
-      } else if (1 != num || '\0' != vec[0][0]) {
-        for (i = 0; i < num; i++) {
-          for (j = 0; j < size; j++) {
-            if (0 == fc_strcasecmp(vec[i], strvec_get(values, j))) {
-              val |= 1 << j;
-              break;
-            }
-          }
-          if (j >= size) {
-            log_error("Value \"%s\" not supported for client option \"%s\".",
-                      vec[i], option_name(poption));
-          }
-        }
-      } /* else it is an empty string, see client_option_save(). */
-
-      free(vec);
-      return option_bitwise_set(poption, val);
+      return (secfile_lookup_enum_data(sf, &value, TRUE,
+                                       client_option_bitwise_secfile_str,
+                                       poption, "client.%s",
+                                       option_name(poption))
+              && option_bitwise_set(poption, value));
     }
   case OT_FONT:
     {
@@ -2800,30 +2811,14 @@ static void client_option_save(struct option *poption,
                        "client.%s", option_name(poption));
     break;
   case OT_ENUM:
-    secfile_insert_str(sf, option_enum_get_str(poption),
-                       "client.%s", option_name(poption));
+    secfile_insert_enum_data(sf, option_enum_get_int(poption), FALSE,
+                             client_option_enum_secfile_str, poption,
+                             "client.%s", option_name(poption));
     break;
   case OT_BITWISE:
-    {
-      const struct strvec *values = option_bitwise_values(poption);
-      size_t size = strvec_size(values), num = 0, i;
-      const char *vec[size];
-      unsigned val = option_bitwise_get(poption);
-
-      for (i = 0; i < size; i++) {
-        if (val & (1 << i)) {
-          vec[num++] = strvec_get(values, i);
-        }
-      }
-
-      if (0 != num) {
-        secfile_insert_str_vec(sf, vec, num, "client.%s",
-                               option_name(poption));
-      } else {
-        /* Save something: empty string. */
-        secfile_insert_str(sf, "", "client.%s", option_name(poption));
-      }
-    }
+    secfile_insert_enum_data(sf, option_bitwise_get(poption), TRUE,
+                             client_option_bitwise_secfile_str, poption,
+                             "client.%s", option_name(poption));
     break;
   case OT_FONT:
     secfile_insert_str(sf, option_font_get(poption),
@@ -2986,7 +2981,8 @@ struct server_option {
     struct {
       int value;
       int def;
-      struct strvec *values;
+      struct strvec *support_names;
+      struct strvec *pretty_names;
     } enumerator;
   };
 };
@@ -3023,9 +3019,13 @@ static void server_option_free(struct server_option *poption)
     break;
 
   case OT_ENUM:
-    if (NULL != poption->enumerator.values) {
-      strvec_destroy(poption->enumerator.values);
-      poption->enumerator.values = NULL;
+    if (NULL != poption->enumerator.support_names) {
+      strvec_destroy(poption->enumerator.support_names);
+      poption->enumerator.support_names = NULL;
+    }
+    if (NULL != poption->enumerator.pretty_names) {
+      strvec_destroy(poption->enumerator.pretty_names);
+      poption->enumerator.pretty_names = NULL;
     }
     break;
 
@@ -3317,20 +3317,32 @@ void handle_server_setting_enum(struct packet_server_setting_enum *packet)
     psoption->enumerator.value = packet->val;
     psoption->enumerator.def = packet->default_val;
 
-    if (NULL == psoption->enumerator.values) {
+    if (NULL == psoption->enumerator.support_names) {
       /* First time we get this packet. */
-      psoption->enumerator.values = strvec_new();
-      strvec_reserve(psoption->enumerator.values, packet->values_num);
+      fc_assert(NULL == psoption->enumerator.pretty_names);
+      psoption->enumerator.support_names = strvec_new();
+      strvec_reserve(psoption->enumerator.support_names, packet->values_num);
+      psoption->enumerator.pretty_names = strvec_new();
+      strvec_reserve(psoption->enumerator.pretty_names, packet->values_num);
       for (i = 0; i < packet->values_num; i++) {
-        strvec_set(psoption->enumerator.values, i, packet->values[i]);
+        strvec_set(psoption->enumerator.support_names, i,
+                   packet->support_names[i]);
+        strvec_set(psoption->enumerator.pretty_names, i,
+                   packet->pretty_names[i]);
       }
-    } else if (strvec_size(psoption->enumerator.values)
+    } else if (strvec_size(psoption->enumerator.support_names)
                != packet->values_num) {
+      fc_assert(strvec_size(psoption->enumerator.support_names)
+                == strvec_size(psoption->enumerator.pretty_names));
       /* The number of values have changed, we need to reset the list
        * of possible values. */
-      strvec_reserve(psoption->enumerator.values, packet->values_num);
+      strvec_reserve(psoption->enumerator.support_names, packet->values_num);
+      strvec_reserve(psoption->enumerator.pretty_names, packet->values_num);
       for (i = 0; i < packet->values_num; i++) {
-        strvec_set(psoption->enumerator.values, i, packet->values[i]);
+        strvec_set(psoption->enumerator.support_names, i,
+                   packet->support_names[i]);
+        strvec_set(psoption->enumerator.pretty_names, i,
+                   packet->pretty_names[i]);
       }
       need_gui_remove = TRUE;
       need_gui_add = TRUE;
@@ -3340,12 +3352,17 @@ void handle_server_setting_enum(struct packet_server_setting_enum *packet)
       const char *str;
 
       for (i = 0; i < packet->values_num; i++) {
-        str = strvec_get(psoption->enumerator.values, i);
-        if (NULL == str || 0 != strcmp(str, packet->values[i])) {
-          strvec_set(psoption->enumerator.values, i, packet->values[i]);
+        str = strvec_get(psoption->enumerator.pretty_names, i);
+        if (NULL == str || 0 != strcmp(str, packet->pretty_names[i])) {
+          strvec_set(psoption->enumerator.pretty_names, i,
+                     packet->pretty_names[i]);
           need_gui_remove = TRUE;
           need_gui_add = TRUE;
         }
+        /* Support names are not visible, we don't need to check if it
+         * has changed. */
+        strvec_set(psoption->enumerator.support_names, i,
+                   packet->support_names[i]);
       }
     }
   }
@@ -3611,7 +3628,7 @@ static int server_option_enum_def(const struct option *poption)
 static const struct strvec *
 server_option_enum_values(const struct option *poption)
 {
-  return SERVER_OPTION(poption)->enumerator.values;
+  return SERVER_OPTION(poption)->enumerator.pretty_names;
 }
 
 /****************************************************************************
@@ -3624,7 +3641,7 @@ static bool server_option_enum_set(struct option *poption, int val)
   const char *name;
 
   if (val == psoption->enumerator.value
-      || !(name = strvec_get(psoption->enumerator.values, val))) {
+      || !(name = strvec_get(psoption->enumerator.pretty_names, val))) {
     return FALSE;
   }
 
@@ -4049,10 +4066,10 @@ static void settable_options_save(struct section_file *sf)
   } hash_iterate_end;
 }
 
-/****************************************************************
+/****************************************************************************
   Update the desired settable options hash table from the current
   setting configuration.
-*****************************************************************/
+****************************************************************************/
 void desired_settable_options_update(void)
 {
   char val_buf[64], def_buf[64];
@@ -4081,8 +4098,13 @@ void desired_settable_options_update(void)
       def_val = option_str_def(poption);
       break;
     case OT_ENUM:
-      value = option_enum_get_str(poption);
-      def_val = option_enum_def_str(poption);
+      {
+        const struct strvec *values =
+            SERVER_OPTION(poption)->enumerator.support_names;
+
+        value = strvec_get(values, option_enum_get_int(poption));
+        def_val = strvec_get(values, option_enum_def_int(poption));
+      }
       break;
     case OT_BITWISE:
     case OT_FONT:
@@ -4157,7 +4179,8 @@ static void desired_settable_option_send(struct option *poption)
     value = option_str_get(poption);
     break;
   case OT_ENUM:
-    value = option_enum_get_str(poption);
+    value = strvec_get(SERVER_OPTION(poption)->enumerator.support_names,
+                       option_enum_get_int(poption));
     break;
   case OT_BITWISE:
   case OT_FONT:
