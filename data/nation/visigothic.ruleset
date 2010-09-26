@@ -37,7 +37,9 @@ flag_alt = "-"
 city_style = "Celtic" 
 ruler_titles = { "government",      "male_title",       "female_title"
                  "Despotism",         _("Reiks"),      _("?female:Reiks")
-                 "Monarchy",          _("Þiud"),       _("Qens") 
+; /* TRANS: The first two characters in "Thiud" should be replaced by */
+; /* TRANS: U+00DE LATIN CAPITAL LETTER THORN if available in your charset. */
+                 "Monarchy",          _("Thiud"),      _("Qens") 
               }
 init_techs="" 
 init_buildings="" 
@@ -93,7 +95,7 @@ cities=
 "Valentia",		;València
 "Osca",			;Huesca
 "Verurium",		;Viseu
-"Sedes Urgelli",	;La Seu d'Urgell
+"Sedes Urgelli",	;La Seu d`Urgell
 "Dianum",		;Dénia
 "Olisipo",		;Lisbon
 "Massilia",		;Marseille
