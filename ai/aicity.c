@@ -1622,6 +1622,9 @@ static void increase_maxbuycost(struct player *pplayer, int new_value)
 static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 {
   struct player *pplayer = city_owner(pcity);
+  int expenses;
+
+  ai_calc_data(pplayer, NULL, &expenses);
 
   unit_list_iterate(pcity->tile->units, punit) {
     if (pcity->owner == punit->owner) {
@@ -1641,7 +1644,7 @@ static void ai_upgrade_units(struct city *pcity, int limit, bool military)
 
         /* Triremes are DANGEROUS!! We'll do anything to upgrade 'em. */
         if (unit_has_type_flag(punit, F_TRIREME)) {
-          real_limit = pplayer->ai_common.est_upkeep;
+          real_limit = expenses;
         }
         if (pplayer->economic.gold - cost > real_limit) {
           CITY_LOG(LOG_BUY, pcity, "Upgraded %s to %s for %d (%s)",
@@ -1665,6 +1668,7 @@ static void ai_spend_gold(struct player *pplayer)
 {
   struct ai_choice bestchoice;
   int cached_limit = ai_gold_reserve(pplayer);
+  int expenses;
   bool war_footing = ai_on_war_footing(pplayer);
 
   /* Disband explorers that are at home but don't serve a purpose. 
@@ -1682,7 +1686,9 @@ static void ai_spend_gold(struct player *pplayer)
       }
     } unit_list_iterate_safe_end;
   } city_list_iterate_end;
-  
+
+  ai_calc_data(pplayer, NULL, &expenses);
+
   do {
     bool expensive; /* don't buy when it costs x2 unless we must */
     int buycost;
@@ -1726,7 +1732,7 @@ static void ai_spend_gold(struct player *pplayer)
         int upgrade_limit = limit;
 
         if (city_data->urgency > 1) {
-          upgrade_limit = pplayer->ai_common.est_upkeep;
+          upgrade_limit = expenses;
         }
         /* Upgrade only military units now */
         ai_upgrade_units(pcity, upgrade_limit, TRUE);
@@ -1783,7 +1789,7 @@ static void ai_spend_gold(struct player *pplayer)
      * pcity was doomed, and we should therefore attempt
      * to sell everything in it of non-military value */
 
-    if (pplayer->economic.gold - pplayer->ai_common.est_upkeep >= buycost
+    if (pplayer->economic.gold - expenses >= buycost
         && (!expensive 
             || (city_data->grave_danger != 0
                 && assess_defense(pcity) == 0)
@@ -1803,7 +1809,7 @@ static void ai_spend_gold(struct player *pplayer)
                pplayer->economic.gold,
                buycost);
       try_to_sell_stuff(pplayer, pcity);
-      if (pplayer->economic.gold - pplayer->ai_common.est_upkeep >= buycost) {
+      if (pplayer->economic.gold - expenses >= buycost) {
         CITY_LOG(LOG_BUY, pcity, "now we can afford it (sold something)");
         really_handle_city_buy(pplayer, pcity);
       }

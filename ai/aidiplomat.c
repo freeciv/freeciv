@@ -165,6 +165,9 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
 {
   struct unit_type *ut = best_role_unit(pcity, F_DIPLOMAT);
   struct ai_data *ai = ai_data_get(pplayer);
+  int expenses;
+
+  ai_calc_data(pplayer, NULL, &expenses);
 
   if (!ut) {
     /* We don't know diplomats yet! */
@@ -203,7 +206,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
     incite_cost = city_incite_cost(pplayer, acity);
     if (HOSTILE_PLAYER(pplayer, city_owner(acity))
         && (incite_cost < INCITE_IMPOSSIBLE_COST)
-        && (incite_cost < pplayer->economic.gold - pplayer->ai_common.est_upkeep)) {
+        && (incite_cost < pplayer->economic.gold - expenses)) {
       /* incite gain (FIXME: we should count wonders too but need to
          cache that somehow to avoid CPU hog -- Per) */
       gain_incite = acity->prod[O_FOOD] * FOOD_WEIGHTING
@@ -264,7 +267,7 @@ void ai_choose_diplomat_offensive(struct player *pplayer,
                city_name(acity),
                gain_incite,
                incite_cost,
-               pplayer->economic.gold - pplayer->ai_common.est_upkeep,
+               pplayer->economic.gold - expenses,
                gain_theft,
                time_to_dest);
       choice->want = want;
@@ -291,8 +294,7 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   struct player *tplayer = city_owner(ctarget);
   int count_impr = count_sabotagable_improvements(ctarget);
   int count_tech = count_stealable_techs(pplayer, tplayer);
-  int gold_avail = pplayer->economic.gold - 2 * pplayer->ai_common.est_upkeep;
-  int incite_cost;
+  int incite_cost, expenses;
 
   fc_assert_ret(pplayer->ai_controlled);
 
@@ -327,7 +329,9 @@ static void ai_diplomat_city(struct unit *punit, struct city *ctarget)
   }
 
   incite_cost = city_incite_cost(pplayer, ctarget);
-  if (incite_cost <= gold_avail) {
+  ai_calc_data(pplayer, NULL, &expenses);
+
+  if (incite_cost <= pplayer->economic.gold - 2 * expenses) {
     T(DIPLOMAT_INCITE,0);
   } else {
     UNIT_LOG(LOG_DIPLOMAT, punit, "%s too expensive!",
@@ -358,11 +362,13 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 {
   bool has_embassy;
   int incite_cost = 0; /* incite cost */
+  int expenses;
   bool dipldef; /* whether target is protected by diplomats */
 
   fc_assert_ret(punit != NULL);
   *ctarget = NULL;
   *move_dist = -1;
+  ai_calc_data(pplayer, NULL, &expenses);
 
   pf_map_iterate_move_costs(pfm, ptile, move_cost, FALSE) {
     struct city *acity;
@@ -396,7 +402,7 @@ static void find_city_to_diplomat(struct player *pplayer, struct unit *punit,
 	    && (player_research_get(pplayer)->techs_researched
 		< player_research_get(aplayer)->techs_researched)
 	    && !dipldef)
-        || (incite_cost < (pplayer->economic.gold - pplayer->ai_common.est_upkeep)
+        || (incite_cost < (pplayer->economic.gold - expenses)
             && can_incite && !dipldef)) {
       /* We have the closest enemy city on the continent */
       *ctarget = acity;
@@ -479,7 +485,10 @@ static struct city *ai_diplomat_defend(struct player *pplayer,
 static bool ai_diplomat_bribe_nearby(struct player *pplayer, 
                                      struct unit *punit, struct pf_map *pfm)
 {
-  int gold_avail = pplayer->economic.gold - pplayer->ai_common.est_upkeep;
+  int gold_avail, expenses;
+
+  ai_calc_data(pplayer, NULL, &expenses);
+  gold_avail = pplayer->economic.gold - expenses;
 
   pf_map_iterate_positions(pfm, pos, FALSE) {
     struct tile *ptile = pos.tile;

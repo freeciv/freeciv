@@ -107,7 +107,6 @@ struct player_score {
 
 struct player_ai {
   int maxbuycost;
-  int est_upkeep; /* estimated upkeep of buildings in cities */
   /* The units of tech_want seem to be shields */
   int tech_want[A_LAST+1];
   bv_handicap handicaps;        /* sum of enum handicap_type */

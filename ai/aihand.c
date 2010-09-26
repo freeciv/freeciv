@@ -96,6 +96,31 @@ static void ai_manage_spaceship(struct player *pplayer)
   }
 }
 
+/***************************************************************************
+  Returns the total amount of trade generated (trade) and total amount of
+  gold needed as upkeep (expenses).
+***************************************************************************/
+void ai_calc_data(struct player *pplayer, int *trade, int *expenses)
+{
+  if (NULL != trade) {
+    *trade = 0;
+  }
+  if (NULL != expenses) {
+    *expenses = 0;
+  }
+
+  /* Find total trade surplus and gold expenses */
+  city_list_iterate(pplayer->cities, pcity) {
+    if (NULL != trade) {
+      *trade += pcity->surplus[O_TRADE];
+    }
+
+    if (NULL != expenses) {
+      *expenses += pcity->usage[O_GOLD];
+    }
+  } city_list_iterate_end;
+}
+
 /**************************************************************************
   Set tax/science/luxury rates.
 
@@ -126,11 +151,7 @@ static void ai_manage_taxes(struct player *pplayer)
     return; /* This government does not support changing tax rates. */
   }
 
-  /* Find total trade surplus and gold expenses */
-  city_list_iterate(pplayer->cities, pcity) {
-    trade += pcity->surplus[O_TRADE];
-    expenses += pcity->usage[O_GOLD];
-  } city_list_iterate_end;
+  ai_calc_data(pplayer, &trade, &expenses);
 
   if (game.info.gold_upkeep_style > 0) {
     /* Account for units with gold upkeep paid for by the nation.
