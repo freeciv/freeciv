@@ -34,11 +34,17 @@ enum log_level {
  */
 typedef void (*log_callback_fn)(enum log_level, const char *, bool file_too);
 
+/* A function type to generate a custom prefix for the log messages, e.g.
+ * add the turn and/or time of the log message. */
+typedef const char *(*log_prefix_fn)(void);
+
 void log_init(const char *filename, enum log_level initial_level,
-              log_callback_fn callback, int fatal_assertions);
+              log_callback_fn callback, log_prefix_fn prefix,
+              int fatal_assertions);
 bool log_parse_level_str(const char *level_str, enum log_level *ret_level);
 
 log_callback_fn log_set_callback(log_callback_fn callback);
+log_prefix_fn log_set_prefix(log_prefix_fn prefix);
 void log_set_level(enum log_level level);
 enum log_level log_get_level(void);
 #ifdef DEBUG

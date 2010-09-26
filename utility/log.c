@@ -32,6 +32,7 @@
 
 static char *log_filename = NULL;
 static log_callback_fn log_callback = NULL;
+static log_prefix_fn log_prefix = NULL;
 
 #ifdef DEBUG
 static const enum log_level max_level = LOG_DEBUG;
@@ -196,7 +197,8 @@ out:
   signal on failed assertion.
 **************************************************************************/
 void log_init(const char *filename, enum log_level initial_level,
-              log_callback_fn callback, int fatal_assertions)
+              log_callback_fn callback, log_prefix_fn prefix,
+              int fatal_assertions)
 {
   fc_log_level = initial_level;
   if (log_filename) {
@@ -209,6 +211,7 @@ void log_init(const char *filename, enum log_level initial_level,
     log_filename = NULL;
   }
   log_callback = callback;
+  log_prefix = prefix;
   fc_fatal_assertions = fatal_assertions;
   log_verbose("log started");
   log_debug("LOG_DEBUG test");
@@ -222,6 +225,18 @@ log_callback_fn log_set_callback(log_callback_fn callback)
   log_callback_fn old = log_callback;
 
   log_callback = callback;
+
+  return old;
+}
+
+/**************************************************************************
+  Adjust the prefix callback function after initial log_init().
+**************************************************************************/
+log_prefix_fn log_set_prefix(log_prefix_fn prefix)
+{
+  log_prefix_fn old = log_prefix;
+
+  log_prefix = prefix;
 
   return old;
 }
@@ -274,11 +289,20 @@ static void log_write(FILE *fs, enum log_level level,
                       bool print_from_where, const char *message)
 {
   if (log_filename || (!log_callback)) {
-    if (log_filename || print_from_where) {
-      fc_fprintf(fs, "%d: in %s() [%s::%d]: %s\n",
-                 level, function, file, line, message);
+    char prefix[128];
+
+    if (log_prefix) {
+      /* Get the log prefix. */
+      fc_snprintf(prefix, sizeof(prefix), "[%s] ", log_prefix());
     } else {
-      fc_fprintf(fs, "%d: %s\n", level, message);
+      prefix[0] = '\0';
+    }
+
+    if (log_filename || print_from_where) {
+      fc_fprintf(fs, "%d: %sin %s() [%s::%d]: %s\n",
+                 level, prefix, function, file, line, message);
+    } else {
+      fc_fprintf(fs, "%d: %s%s\n", level, prefix, message);
     }
     fflush(fs);
   }

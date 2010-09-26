@@ -230,7 +230,7 @@ int main(int argc, char *argv[])
   /* Process GTK arguments */
   gtk_init(&argc, &argv);
 
-  log_init(NULL, loglevel, NULL, -1);
+  log_init(NULL, loglevel, NULL, NULL, -1);
 
   toplevel = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 

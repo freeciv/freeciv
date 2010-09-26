@@ -430,7 +430,7 @@ int client_main(int argc, char *argv[])
   /* disallow running as root -- too dangerous */
   dont_run_as_root(argv[0], "freeciv_client");
 
-  log_init(logfile, loglevel, NULL, fatal_assertions);
+  log_init(logfile, loglevel, NULL, NULL, fatal_assertions);
 
   /* after log_init: */
 

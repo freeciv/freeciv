@@ -101,13 +101,40 @@ static void con_update_prompt(void)
   console_prompt_is_showing = TRUE;
 }
 
+#ifdef DEBUG
+/************************************************************************
+  Prefix for log messages saved to file. At the moment the turn and the
+  current date and time are used.
+************************************************************************/
+static const char *log_prefix(void)
+{
+  static char buf[128];
+  char timestr[32];
+  time_t timestamp;
+
+  time(&timestamp);
+  strftime(timestr, sizeof(timestr), "%Y/%m/%d %H:%M:%S",
+           localtime(&timestamp));
+
+  fc_snprintf(buf, sizeof(buf), "T%03d - %s", game.info.turn, timestr);
+
+  return buf;
+}
+#endif /* DEBUG */
+
 /************************************************************************
   Initialize logging via console.
 ************************************************************************/
 void con_log_init(const char *log_filename, enum log_level level,
                   int fatal_assertions)
 {
-  log_init(log_filename, level, con_handle_log, fatal_assertions);
+#ifdef DEBUG
+  log_init(log_filename, level, con_handle_log, log_prefix,
+           fatal_assertions);
+#else
+  log_init(log_filename, level, con_handle_log, NULL,
+           fatal_assertions);
+#endif /* DEBUG */
 }
 
 #ifndef HAVE_LIBREADLINE
