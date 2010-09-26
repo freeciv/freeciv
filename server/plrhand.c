@@ -1568,7 +1568,6 @@ static struct player *split_player(struct player *pplayer)
   /* Do the ai */
 
   cplayer->ai_controlled = TRUE;
-  cplayer->ai_common.prev_gold = pplayer->ai_common.prev_gold;
   cplayer->ai_common.maxbuycost = pplayer->ai_common.maxbuycost;
   cplayer->ai_common.handicaps = pplayer->ai_common.handicaps;
   cplayer->ai_common.warmth = pplayer->ai_common.warmth;

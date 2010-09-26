@@ -106,10 +106,6 @@ struct player_score {
 };
 
 struct player_ai {
-  /* Valid values for tech_goal are:
-      - any existing tech but not A_NONE or
-      - A_UNSET. */
-  int prev_gold;
   int maxbuycost;
   int est_upkeep; /* estimated upkeep of buildings in cities */
   /* The units of tech_want seem to be shields */

@@ -494,7 +494,6 @@ void update_city_activities(struct player *pplayer)
     fc_assert(pplayer->economic.gold >= 0);
   }
 
-  pplayer->ai_common.prev_gold = gold;
   /* This test includes the cost of the units because
    * units are paid for in update_city_activity() or
    * player_balance_treasury_units(). */
