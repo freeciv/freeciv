@@ -2467,9 +2467,9 @@ bool setting_enum_validate_str(const struct setting *pset, const char *val,
                                        reject_msg_len));
 }
 
-/********************************************************************
+/****************************************************************************
   Update the setting to the default value
-*********************************************************************/
+****************************************************************************/
 static void setting_set_to_default(struct setting *pset)
 {
   switch (pset->stype) {
@@ -2487,8 +2487,6 @@ static void setting_set_to_default(struct setting *pset)
     (*pset->enumerator.pvalue) = pset->enumerator.default_value;
     break;
   }
-
-  setting_action(pset);
 }
 
 /********************************************************************
@@ -2512,6 +2510,7 @@ bool settings_ruleset(struct section_file *file, const char *section)
   /* Unlock all settings. */
   settings_iterate(pset) {
     setting_lock_set(pset, FALSE);
+    setting_set_to_default(pset);
   } settings_iterate_end;
 
   /* settings */
@@ -2949,6 +2948,7 @@ void settings_init(void)
     setting_lock_set(pset, FALSE);
     setting_set_to_default(pset);
     setting_game_set(pset, TRUE);
+    setting_action(pset);
   } settings_iterate_end;
 }
 
@@ -2960,6 +2960,7 @@ void settings_reset(void)
   settings_iterate(pset) {
     if (setting_is_changeable(pset, NULL, NULL, 0)) {
       setting_set_to_default(pset);
+      setting_action(pset);
     }
   } settings_iterate_end;
 }
