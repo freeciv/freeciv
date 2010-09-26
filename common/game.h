@@ -125,6 +125,7 @@ struct civ_game {
       int saveversion; /* save game version to use */
       int save_nturns;
       bool savepalace;
+      bool homecaughtunits;
       char start_units[MAX_LEN_STARTUNIT];
       int start_year;
       int techlost_donor;
@@ -344,6 +345,8 @@ extern struct civ_game game;
 #define GAME_MAX_RAPTUREDELAY        99 /* 99 practicaly disables rapturing */
  
 #define GAME_DEFAULT_SAVEPALACE      TRUE
+
+#define GAME_DEFAULT_HOMECAUGHTUNITS TRUE
 
 #define GAME_DEFAULT_NATURALCITYNAMES TRUE
 

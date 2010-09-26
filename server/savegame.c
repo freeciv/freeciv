@@ -4800,6 +4800,9 @@ static void game_load_internal(struct section_file *file)
     game.server.savepalace =
       secfile_lookup_bool_default(file, game.server.savepalace,
                                   "game.savepalace");
+    game.server.homecaughtunits =
+      secfile_lookup_bool_default(file, game.server.homecaughtunits,
+                                  "game.homecaughtunits");
     game.server.turnblock =
       secfile_lookup_bool_default(file, game.server.turnblock,
                                   "game.turnblock");
@@ -5620,6 +5623,8 @@ void game_save(struct section_file *file, const char *save_reason,
   secfile_insert_int(file, game.info.killcitizen, "game.killcitizen");
   secfile_insert_int(file, game.server.killunhomed, "game.killunhomed");
   secfile_insert_bool(file, game.server.savepalace, "game.savepalace");
+  secfile_insert_bool(file, game.server.homecaughtunits,
+                      "game.homecaughtunits");
   secfile_insert_bool(file, game.server.turnblock, "game.turnblock");
   secfile_insert_bool(file, game.server.fixedlength, "game.fixedlength");
   secfile_insert_int(file, game.server.barbarianrate, "game.barbarians");
