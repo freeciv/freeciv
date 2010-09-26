@@ -157,7 +157,7 @@ void popdown_all_game_dialogs(void)
   popdown_find_dialog();
   popdown_revolution_dialog();
   science_report_dialogs_popdown_all();
-  popdown_meswin_dialog();
+  meswin_dialog_popdown();
   popdown_worklist_editor();
   popdown_all_city_dialogs();
   popdown_city_report_dialog();

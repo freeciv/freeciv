@@ -257,7 +257,7 @@ static void report_top_cities_callback(GtkAction *action, gpointer data)
 *****************************************************************/
 static void report_messages_callback(GtkAction *action, gpointer data)
 {
-  popup_meswin_dialog(TRUE);
+  meswin_dialog_popup(TRUE);
 }
 
 /****************************************************************

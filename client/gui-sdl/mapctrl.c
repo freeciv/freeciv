@@ -511,11 +511,11 @@ static int toggle_minimap_mode_callback(struct widget *pWidget)
 static int toggle_msg_window_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) { 
-    if (is_meswin_open()) {
-      popdown_meswin_dialog();
+    if (meswin_dialog_is_open()) {
+      meswin_dialog_popdown();
       copy_chars_to_string16(pWidget->info_label, _("Show Messages (F9)"));
     } else {
-      popup_meswin_dialog(true);
+      meswin_dialog_popup(TRUE);
       copy_chars_to_string16(pWidget->info_label, _("Hide Messages (F9)"));
     }
   

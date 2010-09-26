@@ -303,7 +303,7 @@ static void show_main_page(void)
   set_output_window_text(_("SDLClient welcomes you..."));
   chat_welcome_message();
 
-  popup_meswin_dialog(true);  
+  meswin_dialog_popup(TRUE);
 
   flush_all();
 }

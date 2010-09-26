@@ -21,7 +21,7 @@
   Display the message dialog.  Optionally raise it.
   Typically triggered by F10.
 **************************************************************************/
-void popup_meswin_dialog(bool raise)
+void meswin_dialog_popup(bool raise)
 {
   /* PORTME */
 }
@@ -29,7 +29,7 @@ void popup_meswin_dialog(bool raise)
 /**************************************************************************
   Return whether the message dialog is open.
 **************************************************************************/
-bool is_meswin_open(void)
+bool meswin_dialog_is_open(void)
 {
   /* PORTME */
   return FALSE;
@@ -38,7 +38,7 @@ bool is_meswin_open(void)
 /**************************************************************************
   Do the work of updating (populating) the message dialog.
 **************************************************************************/
-void real_update_meswin_dialog(void)
+void real_meswin_dialog_update(void)
 {
   /* PORTME */
 }

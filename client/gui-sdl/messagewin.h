@@ -17,6 +17,6 @@
 #include "messagewin_g.h"
 #include "messagewin_common.h"
 
-void popdown_meswin_dialog(void);
+void meswin_dialog_popdown(void);
 
 #endif	/* FC__MESSAGEWIN_H */

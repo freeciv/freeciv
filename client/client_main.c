@@ -654,7 +654,7 @@ void set_client_state(enum client_states newstate)
     popdown_all_city_dialogs();
     close_all_diplomacy_dialogs();
     popdown_all_game_dialogs();
-    clear_notify_window();
+    meswin_clear();
 
     if (oldstate > C_S_DISCONNECTED) {
       set_unit_focus(NULL);
@@ -676,7 +676,7 @@ void set_client_state(enum client_states newstate)
     popdown_all_city_dialogs();
     close_all_diplomacy_dialogs();
     popdown_all_game_dialogs();
-    clear_notify_window();
+    meswin_clear();
 
     if (oldstate < C_S_PREPARING) {
       client_game_init();

@@ -252,9 +252,10 @@ static void xaw_key_open_goto_airlift(Widget w, XEvent *event, String *argv, Car
 
 static void xaw_key_open_messages(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if (can_client_change_view() &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_MESSAGES))
-    popup_meswin_dialog(FALSE);
+  if (can_client_change_view()
+      && is_menu_item_active(MENU_REPORT, MENU_REPORT_MESSAGES)) {
+    meswin_dialog_popup(FALSE);
+  }
 }
 
 static void xaw_key_open_players(Widget w, XEvent *event, String *argv, Cardinal *argc)

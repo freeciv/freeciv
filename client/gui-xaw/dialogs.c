@@ -60,7 +60,7 @@
 #include "mapctrl.h"
 #include "mapctrl_common.h"
 #include "mapview.h"
-#include "messagewin.h"	/* for popdown_meswin_dialog */
+#include "messagewin.h" /* meswin_dialog_popdown() */
 #include "options.h"
 #include "packhand.h"
 #include "plrdlg.h"	/* for popdown_players_dialog */
@@ -1602,7 +1602,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 void popdown_all_game_dialogs(void)
 {
   popdown_city_report_dialog();
-  popdown_meswin_dialog();
+  meswin_dialog_popdown();
   science_report_dialog_popdown();
   economy_report_dialog_popdown();
   units_report_dialog_popdown();

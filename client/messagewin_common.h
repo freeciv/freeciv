@@ -30,20 +30,15 @@ struct message {
   bool location_ok, city_ok, visited;
 };
 
-void meswin_freeze(void);
-void meswin_thaw(void);
-void meswin_force_thaw(void);
-
-void update_meswin_dialog(void);
-void clear_notify_window(void);
-void add_notify_window(const char *message, const struct text_tag_list *tags,
+void meswin_clear(void);
+void meswin_add(const char *message, const struct text_tag_list *tags,
                        struct tile *ptile, enum event_type event);
 
-struct message *get_message(int message_index);
-int get_num_messages(void);
-void set_message_visited_state(int message_index, bool state);
+const struct message *meswin_get_message(int message_index);
+int meswin_get_num_messages(void);
+void meswin_set_visited_state(int message_index, bool state);
 void meswin_popup_city(int message_index);
 void meswin_goto(int message_index);
 void meswin_double_click(int message_index);
 
-#endif
+#endif /* FC__MESSAGEWIN_COMMON_H */

@@ -13,12 +13,10 @@
 #ifndef FC__UPDATE_QUEUE_H
 #define FC__UPDATE_QUEUE_H
 
-/* include */
-#include "pages_g.h"            /* enum client_pages */
+typedef void (*queue_callback_t) (void *data);
+#define Q_CALLBACK(fn) ((queue_callback_t) fn)
 
 /* General update queue. */
-typedef void (*queue_callback_t) (void *data);
-
 void update_queue_init(void);
 void update_queue_free(void);
 

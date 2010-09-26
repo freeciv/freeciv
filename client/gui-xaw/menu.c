@@ -843,7 +843,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
     send_report_request(REPORT_TOP_5_CITIES);
     break;
   case MENU_REPORT_MESSAGES:
-    popup_meswin_dialog(FALSE);
+    meswin_dialog_popup(FALSE);
     break;
    case MENU_REPORT_DEMOGRAPHIC:
     send_report_request(REPORT_DEMOGRAPHIC);

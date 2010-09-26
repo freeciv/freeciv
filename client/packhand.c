@@ -991,7 +991,7 @@ void handle_new_year(int year, int turn)
 **************************************************************************/
 void handle_end_phase(void)
 {
-  clear_notify_window();
+  meswin_clear();
   /*
    * The local idea of the game.info.turn is increased here since the
    * client will get unit updates (reset of move points for example)

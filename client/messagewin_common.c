@@ -34,74 +34,37 @@
 #include "client_main.h"
 #include "messagewin_common.h"
 #include "options.h"
+#include "update_queue.h"
 
-static int frozen_level = 0;
-static bool change = FALSE;
 static struct message *messages = NULL;
 static int messages_total = 0;
 static int messages_alloc = 0;
 
-/******************************************************************
- Turn off updating of message window
-*******************************************************************/
-void meswin_freeze(void)
+/****************************************************************************
+  Update the message dialog if needed.
+****************************************************************************/
+static void meswin_dialog_update(void)
 {
-  frozen_level++;
-}
-
-/******************************************************************
- Turn on updating of message window
-*******************************************************************/
-void meswin_thaw(void)
-{
-  frozen_level--;
-  fc_assert(frozen_level >= 0);
-  if (frozen_level == 0) {
-    update_meswin_dialog();
-  }
-}
-
-/******************************************************************
- Turn on updating of message window
-*******************************************************************/
-void meswin_force_thaw(void)
-{
-  frozen_level = 1;
-  meswin_thaw();
-}
-
-/**************************************************************************
-...
-**************************************************************************/
-void update_meswin_dialog(void)
-{
-  if (frozen_level > 0 || !change || !can_client_change_view()) {
+  if (!can_client_change_view()) {
     return;
   }
 
-  if (!is_meswin_open() && messages_total > 0
-      && !client_is_observer()
-      && NULL != client.conn.playing
-      && !client.conn.playing->ai_controlled) {
-    popup_meswin_dialog(FALSE);
-    change = FALSE;
-    return;
-  }
-
-  if (is_meswin_open()) {
-    real_update_meswin_dialog();
-    change = FALSE;
+  if (meswin_dialog_is_open()) {
+    update_queue_add(Q_CALLBACK(real_meswin_dialog_update), NULL);
+  } else if (0 < messages_total
+             && (!client_has_player()
+                 || !client.conn.playing->ai_controlled)) {
+    meswin_dialog_popup(FALSE);
   }
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void clear_notify_window(void)
+/****************************************************************************
+  Clear all messages.
+****************************************************************************/
+void meswin_clear(void)
 {
   int i;
 
-  change = TRUE;
   for (i = 0; i < messages_total; i++) {
     free(messages[i].descr);
     messages[i].descr = NULL;
@@ -110,21 +73,19 @@ void clear_notify_window(void)
     messages[i].tags = NULL;
   }
   messages_total = 0;
-  update_meswin_dialog();
+  meswin_dialog_update();
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void add_notify_window(const char *message, const struct text_tag_list *tags,
-                       struct tile *ptile, enum event_type event)
+/****************************************************************************
+  Add a message.
+****************************************************************************/
+void meswin_add(const char *message, const struct text_tag_list *tags,
+                struct tile *ptile, enum event_type event)
 {
   const size_t min_msg_len = 50;
   size_t msg_len = strlen(message);
   char *s = fc_malloc(MAX(msg_len, min_msg_len) + 1);
   int i, nspc;
-
-  change = TRUE;
 
   if (messages_total + 2 > messages_alloc) {
     messages_alloc = messages_total + 32;
@@ -146,28 +107,28 @@ void add_notify_window(const char *message, const struct text_tag_list *tags,
   messages[messages_total].visited = FALSE;
   messages_total++;
 
-  /* 
-   * Update the city_ok fields of all messages since the city may have
-   * changed owner.
-   */
+  /* Update the city_ok fields of all messages since the city may have
+   * changed owner. */
   for (i = 0; i < messages_total; i++) {
     if (messages[i].location_ok) {
       struct city *pcity = tile_city(messages[i].tile);
 
       messages[i].city_ok =
-        (pcity && can_player_see_city_internals(client.conn.playing, pcity));
+          (pcity
+           && (!client_has_player()
+               || can_player_see_city_internals(client_player(), pcity)));
     } else {
       messages[i].city_ok = FALSE;
     }
   }
 
-  update_meswin_dialog();
+  meswin_dialog_update();
 }
 
-/**************************************************************************
+/****************************************************************************
   Returns the pointer to a message.  Returns NULL on error.
-**************************************************************************/
-struct message *get_message(int message_index)
+****************************************************************************/
+const struct message *meswin_get_message(int message_index)
 {
   if (message_index >= 0 && message_index < messages_total) {
     return &messages[message_index];
@@ -177,28 +138,30 @@ struct message *get_message(int message_index)
   }
 }
 
-/**************************************************************************
- Returns the number of message in the window.
-**************************************************************************/
-int get_num_messages(void)
+/****************************************************************************
+  Returns the number of message in the window.
+****************************************************************************/
+int meswin_get_num_messages(void)
 {
   return messages_total;
 }
 
-/**************************************************************************
- Sets the visited-state of a message
-**************************************************************************/
-void set_message_visited_state(int message_index, bool state)
+/****************************************************************************
+  Sets the visited-state of a message
+****************************************************************************/
+void meswin_set_visited_state(int message_index, bool state)
 {
+  fc_assert_ret(0 <= message_index && message_index < messages_total);
+
   messages[message_index].visited = state;
 }
 
-/**************************************************************************
- Called from messagewin.c if the user clicks on the popup-city button.
-**************************************************************************/
+/****************************************************************************
+  Called from messagewin.c if the user clicks on the popup-city button.
+****************************************************************************/
 void meswin_popup_city(int message_index)
 {
-  fc_assert_ret(message_index < messages_total);
+  fc_assert_ret(0 <= message_index && message_index < messages_total);
 
   if (messages[message_index].city_ok) {
     struct tile *ptile = messages[message_index].tile;
@@ -208,8 +171,7 @@ void meswin_popup_city(int message_index)
       center_tile_mapcanvas(ptile);
     }
 
-    if (pcity
-	&& can_player_see_units_in_city(client.conn.playing, pcity)) {
+    if (pcity && can_player_see_units_in_city(client.conn.playing, pcity)) {
       /* If the event was the city being destroyed, pcity will be NULL
        * and we'd better not try to pop it up.  It's also possible that
        * events will happen on enemy cities; we generally don't want to pop
@@ -223,23 +185,23 @@ void meswin_popup_city(int message_index)
 }
 
 /**************************************************************************
- Called from messagewin.c if the user clicks on the goto button.
+  Called from messagewin.c if the user clicks on the goto button.
 **************************************************************************/
 void meswin_goto(int message_index)
 {
-  fc_assert_ret(message_index < messages_total);
+  fc_assert_ret(0 <= message_index && message_index < messages_total);
 
   if (messages[message_index].location_ok) {
     center_tile_mapcanvas(messages[message_index].tile);
   }
 }
 
-/**************************************************************************
- Called from messagewin.c if the user double clicks on a message.
-**************************************************************************/
+/****************************************************************************
+  Called from messagewin.c if the user double clicks on a message.
+****************************************************************************/
 void meswin_double_click(int message_index)
 {
-  fc_assert_ret(message_index < messages_total);
+  fc_assert_ret(0 <= message_index && message_index < messages_total);
 
   if (messages[message_index].city_ok
       && is_city_event(messages[message_index].event)) {

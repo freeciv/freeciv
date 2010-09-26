@@ -97,8 +97,7 @@ static int connect_callback(struct widget *pWidget)
                           errbuf, sizeof(errbuf)) != -1) {
     } else {
       output_window_append(ftc_any, errbuf);
-      real_update_meswin_dialog();
-  
+
       /* button up */
       unsellect_widget_action();
       set_wstate(pWidget, FC_WS_SELLECTED);
@@ -131,10 +130,10 @@ static int exit_meta_severs_dlg_callback(struct widget *pWidget)
     server_scan_finish(pServer_scan);
     pServer_scan = NULL;
     pServer_list = NULL;
-      
+
     set_client_page(PAGE_NETWORK);
-    popup_meswin_dialog(true);
-  }    
+    meswin_dialog_popup(TRUE);
+  }
   return -1;
 }
 
@@ -228,7 +227,7 @@ void popup_connection_dialog(bool lan_scan)
   
   queue_flush();
   close_connection_dialog();
-  popdown_meswin_dialog();
+  meswin_dialog_popdown();
 
   /* Text Label */  
   pLabelWindow = create_window_skeleton(NULL, NULL, 0);
@@ -273,15 +272,14 @@ void popup_connection_dialog(bool lan_scan)
   /* clear label */
   popdown_window_group_dialog(pNewWidget, pLabelWindow);
 
-  popup_meswin_dialog(true);        
-  
+  meswin_dialog_popup(TRUE);
+
   if(!pServer_list) {
     if (lan_scan) {
       output_window_append(ftc_client, _("No LAN servers found")); 
     } else {
       output_window_append(ftc_client, _("No public servers found")); 
-    }        
-    real_update_meswin_dialog();
+    }
     set_client_page(PAGE_NETWORK);
     return;
   }
@@ -347,7 +345,6 @@ void popup_connection_dialog(bool lan_scan)
     } else {
       output_window_append(ftc_client, _("No public servers found"));
     }
-    real_update_meswin_dialog();
     set_client_page(PAGE_NETWORK);
     return;
   }

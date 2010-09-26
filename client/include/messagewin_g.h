@@ -17,8 +17,8 @@
 
 #include "messagewin_common.h"
 
-void popup_meswin_dialog(bool raise);
-bool is_meswin_open(void);
-void real_update_meswin_dialog(void);
-     
+void meswin_dialog_popup(bool raise);
+bool meswin_dialog_is_open(void);
+void real_meswin_dialog_update(void);
+
 #endif  /* FC__MESSAGEWIN_G_H */

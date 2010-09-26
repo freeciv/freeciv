@@ -379,10 +379,7 @@ void real_output_window_append(const char *astring,
     convertcopy_to_utf16(pUniStr, n, astring);
     add_to_chat_list(pUniStr, n);
   } else {
-    char message[MAX_LEN_MSG];
-    fc_snprintf(message , MAX_LEN_MSG, "%s" , astring);
-    
-    add_notify_window(message, tags, NULL, E_CHAT_MSG);
+    meswin_add(astring, tags, NULL, E_CHAT_MSG);
   }
 }
 
@@ -673,9 +670,9 @@ static void popup_conn_list_dialog(void)
   if (pConnDlg || !client.conn.established) {
     return;
   }
-  
-  popdown_meswin_dialog();
-  
+
+  meswin_dialog_popdown();
+
   pConnDlg = fc_calloc(1, sizeof(struct CONNLIST));
     
   pWindow = create_window_skeleton(NULL, NULL, 0);

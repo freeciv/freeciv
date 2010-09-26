@@ -252,16 +252,16 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
           case SDLK_F8:
             send_report_request(REPORT_TOP_5_CITIES);
           return ID_ERROR;
-	    
-	  case SDLK_F9:
-            if(is_meswin_open()) {
-              popdown_meswin_dialog();
+
+          case SDLK_F9:
+            if (meswin_dialog_is_open()) {
+              meswin_dialog_popdown();
             } else {
-              popup_meswin_dialog(true);
+              meswin_dialog_popup(TRUE);
             }
-	    flush_dirty();
-          return ID_ERROR;
-	    	        
+            flush_dirty();
+            return ID_ERROR;
+
 	  case SDLK_F11:
             send_report_request(REPORT_DEMOGRAPHIC);
           return ID_ERROR;
@@ -1083,8 +1083,8 @@ void ui_exit()
 
   FC_FREE(button_behavior.event);
 
-  popdown_meswin_dialog();
-        
+  meswin_dialog_popdown();
+
   del_main_list();
   
   free_font_system();

@@ -1369,7 +1369,7 @@ void popup_optiondlg(void)
     return;
   }
 
-  restore_meswin_dialog = is_meswin_open();
+  restore_meswin_dialog = meswin_dialog_is_open();
   popdown_all_game_dialogs();
   flush_dirty();
 
@@ -1393,7 +1393,7 @@ void popdown_optiondlg(void)
   enable_main_widgets();
 
   if (restore_meswin_dialog) {
-    popup_meswin_dialog(TRUE);
+    meswin_dialog_popup(TRUE);
   }
 }
 

@@ -1407,7 +1407,7 @@ static void setup_widgets(void)
   gtk_widget_show_all(gtk_bin_get_child(GTK_BIN(toplevel)));
 
   if (gui_gtk2_enable_tabs) {
-    popup_meswin_dialog(FALSE);
+    meswin_dialog_popup(FALSE);
   }
 
   gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 0);
@@ -1985,14 +1985,14 @@ void add_idle_callback(void (callback)(void *), void *data)
 static void split_bottom_notebook_callback(struct option *poption)
 {
   if (!gui_gtk2_merge_notebooks) {
-    popdown_meswin_dialog();
+    meswin_dialog_popdown();
     if (option_bool_get(poption)) {
       gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
       gtk_widget_show_all(right_notebook);
     } else {
       gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
     }
-    popup_meswin_dialog(FALSE);
+    meswin_dialog_popup(FALSE);
   }
 }
 

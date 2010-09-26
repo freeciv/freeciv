@@ -24,18 +24,17 @@
 #include "city.h"
 #include "player.h"
 
-/* include */
+/* client/include */
 #include "citydlg_g.h"
 #include "cityrep_g.h"
 #include "gui_main_g.h"
 #include "menu_g.h"
+#include "pages_g.h"
 #include "plrdlg_g.h"
 #include "repodlgs_g.h"
 
 #include "update_queue.h"
 
-
-#define Q_CALLBACK(fn) ((queue_callback_t) fn)
 
 static struct hash_table *update_queue = NULL;
 static struct hash_table *processing_started_waiting_queue = NULL;
