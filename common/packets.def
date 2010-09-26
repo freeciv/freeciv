@@ -425,6 +425,7 @@ PACKET_GAME_INFO = 16; sc
   STRING positive_year_label[MAX_LEN_NAME];
   UINT8 rapturedelay;
   BOOL restrictinfra;
+  BOOL unreachable_protects;
   UINT32 sciencebox;
   FLOAT seconds_to_phasedone;
   UINT32 shieldbox;

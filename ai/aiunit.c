@@ -519,7 +519,7 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
     unit_list_iterate(ptile->units, aunit) {
       if (aunit == punit || unit_owner(aunit) != unit_owner(punit))
 	continue;
-      if (!can_unit_attack_all_at_tile(aunit, pdef->tile))
+      if (!can_unit_attack_units_at_tile(aunit, pdef->tile))
 	continue;
       d = get_virtual_defense_power(unit_type(aunit), unit_type(pdef),
 				    unit_owner(pdef), pdef->tile,
@@ -1619,7 +1619,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* We have to assume the attack is diplomatically ok.
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
-      if (!can_unit_attack_all_at_tile(punit, aunit->tile)
+      if (!can_unit_attack_units_at_tile(punit, aunit->tile)
           || !(aunit == get_defender(punit, aunit->tile))) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
@@ -2655,7 +2655,7 @@ bool enemies_at(struct unit *punit, struct tile *ptile)
     unit_list_iterate(ptile1->units, enemy) {
       if (pplayers_at_war(unit_owner(enemy), unit_owner(punit)) 
           && can_unit_attack_unit_at_tile(enemy, punit, ptile)
-          && can_unit_attack_all_at_tile(enemy, ptile)) {
+          && can_unit_attack_units_at_tile(enemy, ptile)) {
         a += unit_att_rating(enemy);
         if ((a * a * 10) >= d) {
           /* The enemies combined strength is too big! */

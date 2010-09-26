@@ -1748,7 +1748,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     /* count killed units */
     unit_list_iterate(punit->tile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
-      if (pplayers_at_war(pvictor, vplayer)) {
+      if (pplayers_at_war(pvictor, vplayer)
+          && is_unit_reachable_at(vunit, pkiller, punit->tile)) {
 	num_killed[player_index(vplayer)]++;
 	if (vunit != punit) {
 	  other_killed[player_index(vplayer)] = vunit;
@@ -1851,7 +1852,8 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
 
     /* remove the units */
     unit_list_iterate_safe(punit->tile->units, punit2) {
-      if (pplayers_at_war(pvictor, unit_owner(punit2))) {
+    if (pplayers_at_war(pvictor, unit_owner(punit2))
+         && is_unit_reachable_at(punit2, pkiller, unit_tile(punit))) {
         pvictor->score.units_killed++;
         unit_owner(punit2)->score.units_lost++;
         wipe_unit(punit2);

@@ -127,7 +127,7 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
   if ((pdefender == NULL) 
-      || !can_unit_attack_all_at_tile(punit, dst_tile)) {
+      || !can_unit_attack_units_at_tile(punit, dst_tile)) {
     return 0;
   }
 
@@ -215,7 +215,7 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
 
     if (is_enemy_unit_tile(ptile, pplayer)
         && ai_should_we_air_attack_tile(punit, ptile)
-        && can_unit_attack_all_at_tile(punit, ptile)) {
+        && can_unit_attack_units_at_tile(punit, ptile)) {
       int new_best = ai_evaluate_tile_for_air_attack(punit, ptile);
 
       if (new_best > best) {

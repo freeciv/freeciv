@@ -69,13 +69,35 @@ bool can_player_attack_tile(const struct player *pplayer,
 /***********************************************************************
   Can unit attack other
 ***********************************************************************/
-bool is_unit_reachable_by_unit(const struct unit *defender,
-                               const struct unit *attacker)
+static bool is_unit_reachable_by_unit(const struct unit *defender,
+                                      const struct unit *attacker)
 {
   struct unit_class *dclass = unit_class(defender);
   struct unit_type *atype = unit_type(attacker);
 
   return BV_ISSET(atype->targets, uclass_index(dclass));
+}
+
+/***********************************************************************
+  Can unit attack other at given location
+***********************************************************************/
+bool is_unit_reachable_at(const struct unit *defender,
+                          const struct unit *attacker,
+                          const struct tile *location)
+{
+  if (NULL != tile_city(location)) {
+    return TRUE;
+  }
+
+  if (is_unit_reachable_by_unit(defender, attacker)) {
+    return TRUE;
+  }
+
+  if (tile_has_native_base(location, unit_type(defender))) {
+    return TRUE;
+  }
+
+  return FALSE;
 }
 
 /***********************************************************************
@@ -99,16 +121,13 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 				  const struct unit *pdefender,
                                   const struct tile *dest_tile)
 {
-  struct city *pcity = tile_city(dest_tile);
-
   /* 1. Can we attack _anything_ ? */
   if (!is_military_unit(punit) || !is_attack_unit(punit)) {
     return FALSE;
   }
 
   /* 2. Only fighters can attack planes, except in city or airbase attacks */
-  if (!is_unit_reachable_by_unit(pdefender, punit)
-      && !(pcity || tile_has_native_base(dest_tile, unit_type(pdefender)))) {
+  if (!is_unit_reachable_at(pdefender, punit, dest_tile)) {
     return FALSE;
   }
 
@@ -129,11 +148,12 @@ bool can_unit_attack_unit_at_tile(const struct unit *punit,
 }
 
 /***********************************************************************
+  When unreachable_protects setting is TRUE:
   To attack a stack, unit must be able to attack every unit there (not
   including transported units).
 ************************************************************************/
-bool can_unit_attack_all_at_tile(const struct unit *punit,
-				 const struct tile *ptile)
+static bool can_unit_attack_all_at_tile(const struct unit *punit,
+                                        const struct tile *ptile)
 {
   unit_list_iterate(ptile->units, aunit) {
     /* HACK: we don't count transported units here.  This prevents some
@@ -151,6 +171,39 @@ bool can_unit_attack_all_at_tile(const struct unit *punit,
 }
 
 /***********************************************************************
+  When unreachable_protects setting is FALSE:
+  To attack a stack, unit must be able to attack some unit there (not
+  including transported units).
+************************************************************************/
+static bool can_unit_attack_any_at_tile(const struct unit *punit,
+                                        const struct tile *ptile)
+{
+  unit_list_iterate(ptile->units, aunit) {
+    /* HACK: we don't count transported units here.  This prevents some
+     * bugs like a cargoplane carrying a land unit being vulnerable. */
+    if (aunit->transported_by == -1
+	&& can_unit_attack_unit_at_tile(punit, aunit, ptile)) {
+      return TRUE;
+    }
+  } unit_list_iterate_end;
+
+  return FALSE;
+}
+
+/***********************************************************************
+  Check if unit can attack unit stack at tile.
+***********************************************************************/
+bool can_unit_attack_units_at_tile(const struct unit *punit,
+                                   const struct tile *ptile)
+{
+  if (game.info.unreachable_protects) {
+    return can_unit_attack_all_at_tile(punit, ptile);
+  } else {
+    return can_unit_attack_any_at_tile(punit, ptile);
+  }
+}
+
+/***********************************************************************
   Is unit (1) diplomatically allowed to attack and (2) physically able
   to do so?
 ***********************************************************************/
@@ -161,7 +214,7 @@ bool can_unit_attack_tile(const struct unit *punit,
     return FALSE;
   }
 
-  return can_unit_attack_all_at_tile(punit, dest_tile);
+  return can_unit_attack_units_at_tile(punit, dest_tile);
 }
 
 /***********************************************************************
@@ -559,7 +612,8 @@ struct unit *get_defender(const struct unit *attacker,
   unit_list_iterate(ptile->units, defender) {
     /* We used to skip over allied units, but the logic for that is
      * complicated and is now handled elsewhere. */
-    if (unit_can_defend_here(defender)) {
+    if (unit_can_defend_here(defender)
+        && can_unit_attack_unit_at_tile(attacker, defender, ptile)) {
       bool change = FALSE;
       int build_cost = unit_build_shield_cost(defender);
       int defense_rating = get_defense_rating(attacker, defender);

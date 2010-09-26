@@ -1476,6 +1476,15 @@ static struct setting settings[] = {
               "will be restricted for enemy units."), NULL, NULL,
            GAME_DEFAULT_RESTRICTINFRA)
 
+  GEN_BOOL("unreachableprotects", game.info.unreachable_protects,
+           SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+           N_("Does unreachable unit protect reachable ones"),
+           N_("This option controls whether tiles with both unreachable "
+              "and reachable units can be attacked. If disabled, any "
+              "tile with reachable units can be attacked. If enabled, "
+              "tiles with unreachable unit in them cannot be attacked."),
+           NULL, NULL, GAME_DEFAULT_UNRPROTECTS)
+
   GEN_INT("contactturns", game.server.contactturns,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
 	  N_("Turns until player contact is lost"),

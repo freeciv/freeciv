@@ -921,8 +921,7 @@ static bool unit_bombard(struct unit *punit, struct tile *ptile)
                           "alliance at (%d, %d).",
                           TILE_XY(unit_tile(pdefender)));
 
-    if (is_unit_reachable_by_unit(pdefender, punit)
-	|| pcity || tile_has_native_base(ptile, unit_type(pdefender))) {
+    if (is_unit_reachable_at(pdefender, punit, ptile)) {
       see_combat(punit, pdefender);
 
       unit_versus_unit(punit, pdefender, TRUE);
@@ -1397,18 +1396,19 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
       }
     }
 
+    /* Depending on 'unreachableprotects' setting, must be physically able
+     * to attack EVERY unit there or must be physically able to attack SOME
+     * unit there */
+    if (NULL == pcity && !can_unit_attack_units_at_tile(punit, pdesttile)) {
+      notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                    _("You can't attack there."));
+      return FALSE;
+    }
 
     /* The attack is legal wrt the alliances */
     victim = get_defender(punit, pdesttile);
 
     if (victim) {
-      /* Must be physically able to attack EVERY unit there */
-      if (!can_unit_attack_all_at_tile(punit, pdesttile)) {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                      _("You can't attack there."));
-        return FALSE;
-      }
-
       unit_attack_handling(punit, victim);
       return TRUE;
     } else {
