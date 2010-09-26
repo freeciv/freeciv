@@ -259,12 +259,11 @@ void handle_server_join_reply(bool you_can_join, char *message,
     client.conn.id = conn_id;
 
     agents_game_joined();
-    menus_init();
     set_server_busy(FALSE);
-    
+
     if (get_client_page() == PAGE_MAIN
-	|| get_client_page() == PAGE_NETWORK
-	|| get_client_page() == PAGE_GGZ) {
+        || get_client_page() == PAGE_NETWORK
+        || get_client_page() == PAGE_GGZ) {
       set_client_page(PAGE_START);
     }
 
@@ -305,15 +304,18 @@ void handle_server_join_reply(bool you_can_join, char *message,
 void handle_city_remove(int city_id)
 {
   struct city *pcity = game_find_city_by_number(city_id);
+  bool need_menus_update;
 
   fc_assert_ret_msg(NULL != pcity, "Bad city %d.", city_id);
+
+  need_menus_update = (NULL != get_focus_unit_on_tile(city_tile(pcity)));
 
   agents_city_remove(pcity);
   editgui_notify_object_changed(OBJTYPE_CITY, pcity->id, TRUE);
   client_remove_city(pcity);
 
-  /* update menus if the focus unit is on the tile. */
-  if (get_num_units_in_focus() > 0) {
+  /* Update menus if the focus unit is on the tile. */
+  if (need_menus_update) {
     menus_update();
   }
 }
@@ -1906,7 +1908,6 @@ void handle_player_info(struct packet_player_info *pinfo)
          on a river the road menu item will remain disabled unless we
          do this. (applys in other cases as well.) */
       if (get_num_units_in_focus() > 0) {
-        
         menus_update();
       }
     }
@@ -2298,11 +2299,11 @@ void handle_spaceship_info(struct packet_spaceship_info *p)
     }
   }
 
-  if (pplayer != client.conn.playing) {
+  if (pplayer != client_player()) {
     refresh_spaceship_dialog(pplayer);
+    menus_update();
     return;
   }
-  menus_update();
 
   if (!spaceship_autoplace(pplayer, ship)) {
     refresh_spaceship_dialog(pplayer);

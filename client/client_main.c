@@ -770,7 +770,7 @@ void set_client_state(enum client_states newstate)
     break;
   }
 
-  menus_update();
+  menus_init();
   update_turn_done_button_state();
   conn_list_dialog_update();
   if (can_client_change_view()) {
