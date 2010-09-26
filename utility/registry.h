@@ -371,6 +371,11 @@ size_t secfile_insert_enum_vec_data_full(struct section_file *secfile,
                                     data, comment, TRUE, path,              \
                                     ## __VA_ARGS__)
 
+/* Deletion function. */
+bool secfile_entry_delete(struct section_file *secfile,
+                          const char *path, ...)
+                          fc__attribute((__format__ (__printf__, 2, 3)));
+
 /* Lookup functions. */
 struct entry *secfile_entry_by_path(const struct section_file *secfile,
                                     const char *entry_path);

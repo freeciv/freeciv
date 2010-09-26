@@ -1692,6 +1692,31 @@ struct entry *secfile_entry_by_path(const struct section_file *secfile,
 }
 
 /**************************************************************************
+  Delete an entry.
+**************************************************************************/
+bool secfile_entry_delete(struct section_file *secfile,
+                          const char *path, ...)
+{
+  char fullpath[MAX_LEN_BUFFER];
+  va_list args;
+  struct entry *pentry;
+
+  SECFILE_RETURN_VAL_IF_FAIL(secfile, NULL, NULL != secfile, NULL);
+
+  va_start(args, path);
+  fc_vsnprintf(fullpath, sizeof(fullpath), path, args);
+  va_end(args);
+
+  if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    return FALSE;
+  }
+
+  entry_destroy(pentry);
+
+  return TRUE;
+}
+
+/**************************************************************************
   Returns the entry at "fullpath" or NULL if not matched.
 **************************************************************************/
 struct entry *secfile_entry_lookup(const struct section_file *secfile,
