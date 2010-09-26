@@ -338,11 +338,23 @@ void report_top_five_cities(struct conn_list *dest)
       break;
     }
 
-    cat_snprintf(buffer, sizeof(buffer),
-		 _("%2d: The %s City of %s of size %d, "), i + 1,
-		 nation_adjective_for_player(city_owner(size[i].city)),
-		 city_name(size[i].city),
-		 size[i].city->size);
+    if (player_count() > team_count()) {
+      /* There exists a team with more than one member. */
+      char team_name[2 * MAX_LEN_NAME];
+
+      team_pretty_name(city_owner(size[i].city)->team, team_name,
+                       sizeof(team_name));
+      cat_snprintf(buffer, sizeof(buffer),
+                   /* TRANS:"The French City of Lyon (team 3) of size 18". */
+                   _("%2d: The %s City of %s (%s) of size %d, "), i + 1,
+                   nation_adjective_for_player(city_owner(size[i].city)),
+                   city_name(size[i].city), team_name, size[i].city->size);
+    } else {
+      cat_snprintf(buffer, sizeof(buffer),
+                   _("%2d: The %s City of %s of size %d, "), i + 1,
+                   nation_adjective_for_player(city_owner(size[i].city)),
+                   city_name(size[i].city), size[i].city->size);
+    }
 
     wonders = nr_wonders(size[i].city);
     if (wonders == 0) {
@@ -371,13 +383,28 @@ void report_wonders_of_the_world(struct conn_list *dest)
       struct city *pcity = find_city_from_great_wonder(i);
 
       if (pcity) {
-	cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
-		     city_improvement_name_translation(pcity, i),
-		     city_name(pcity),
-		     nation_adjective_for_player(city_owner(pcity)));
+        if (player_count() > team_count()) {
+          /* There exists a team with more than one member. */
+          char team_name[2 * MAX_LEN_NAME];
+
+          team_pretty_name(city_owner(pcity)->team, team_name,
+                           sizeof(team_name));
+          cat_snprintf(buffer, sizeof(buffer),
+                       /* TRANS: "Colossus in Rhodes (Greek, team 2)". */
+                       _("%s in %s (%s, %s)\n"),
+                       city_improvement_name_translation(pcity, i),
+                       city_name(pcity),
+                       nation_adjective_for_player(city_owner(pcity)),
+                       team_name);
+        } else {
+          cat_snprintf(buffer, sizeof(buffer), _("%s in %s (%s)\n"),
+                       city_improvement_name_translation(pcity, i),
+                       city_name(pcity),
+                       nation_adjective_for_player(city_owner(pcity)));
+        }
       } else if (great_wonder_is_destroyed(i)) {
-	cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
-		     improvement_name_translation(i));
+        cat_snprintf(buffer, sizeof(buffer), _("%s has been DESTROYED\n"),
+                     improvement_name_translation(i));
       }
     }
   } improvement_iterate_end;
@@ -385,22 +412,34 @@ void report_wonders_of_the_world(struct conn_list *dest)
   improvement_iterate(i) {
     if (is_great_wonder(i)) {
       players_iterate(pplayer) {
-	city_list_iterate(pplayer->cities, pcity) {
-	  if (VUT_IMPROVEMENT == pcity->production.kind
-	   && pcity->production.value.building == i) {
-	    cat_snprintf(buffer, sizeof(buffer),
-			 _("(building %s in %s (%s))\n"),
-			 improvement_name_translation(i),
-			 city_name(pcity),
-			 nation_adjective_for_player(pplayer));
-	  }
-	} city_list_iterate_end;
+        city_list_iterate(pplayer->cities, pcity) {
+          if (VUT_IMPROVEMENT == pcity->production.kind
+           && pcity->production.value.building == i) {
+            if (player_count() > team_count()) {
+              /* There exists a team with more than one member. */
+              char team_name[2 * MAX_LEN_NAME];
+
+              team_pretty_name(city_owner(pcity)->team, team_name,
+                               sizeof(team_name));
+              cat_snprintf(buffer, sizeof(buffer),
+                           /* TRANS: "([...] (Roman, team 4))". */
+                           _("(building %s in %s (%s, %s))\n"),
+                           improvement_name_translation(i), city_name(pcity),
+                           nation_adjective_for_player(pplayer), team_name);
+            } else {
+              cat_snprintf(buffer, sizeof(buffer),
+                           _("(building %s in %s (%s))\n"),
+                           improvement_name_translation(i), city_name(pcity),
+                           nation_adjective_for_player(pplayer));
+            }
+          }
+        } city_list_iterate_end;
       } players_iterate_end;
     }
   } improvement_iterate_end;
 
   page_conn(dest, _("Traveler's Report:"),
-	    _("Wonders of the World"), buffer);
+            _("Wonders of the World"), buffer);
 }
 
 /****************************************************************************
