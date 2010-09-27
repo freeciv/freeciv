@@ -24,6 +24,8 @@
 #include "name_translation.h"
 #include "requirements.h"
 
+struct strvec;          /* Actually defined in "utility/string_vector.h". */
+
 /* B_LAST is a value that is guaranteed to be larger than all
  * actual Impr_type_id values.  It is used as a flag value; it can
  * also be used for fixed allocations to ensure ability to hold the
@@ -77,7 +79,7 @@ struct impr_type {
   int sabotage;		/* Base chance of diplomat sabotage succeeding. */
   enum impr_genus_id genus;		/* genus; e.g. GreatWonder */
   bv_impr_flags flags;
-  char *helptext;
+  struct strvec *helptext;
   char soundtag[MAX_LEN_NAME];
   char soundtag_alt[MAX_LEN_NAME];
 

@@ -24,6 +24,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -955,8 +956,10 @@ void unit_types_init(void)
 **************************************************************************/
 static void unit_type_free(struct unit_type *punittype)
 {
-  free(punittype->helptext);
-  punittype->helptext = NULL;
+  if (NULL != punittype->helptext) {
+    strvec_destroy(punittype->helptext);
+    punittype->helptext = NULL;
+  }
 }
 
 /***************************************************************

@@ -18,6 +18,9 @@
 #include "fc_types.h"
 #include "requirements.h"
 
+
+struct strvec;          /* Actually defined in "utility/string_vector.h". */
+
 #define G_MAGIC (127)		/* magic constant */
 
 /* special values for free_* fields -- SKi */
@@ -49,7 +52,7 @@ struct government
   struct ruler_title *ruler_titles;
   int   num_ruler_titles;
 
-  char *helptext;
+  struct strvec *helptext;
 
   /* AI cached data for this government. */
   struct {

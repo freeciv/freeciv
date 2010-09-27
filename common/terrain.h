@@ -23,6 +23,7 @@
 #include "unittype.h"
 
 struct base_type;
+struct strvec;          /* Actually defined in "utility/string_vector.h". */
 
 enum special_river_move {
   RMV_NORMAL = 0,
@@ -234,7 +235,7 @@ struct terrain {
 
   bv_terrain_flags flags;
 
-  char *helptext;
+  struct strvec *helptext;
 };
 
 /* General terrain accessor functions. */

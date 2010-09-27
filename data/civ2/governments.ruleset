@@ -58,7 +58,7 @@ Anarchy is simply the absence of any recognizable government.\
  Citizens are disorganized and unproductive, and will spend all\
  income as quickly as possible, rather than paying taxes or\
  conducting research.\
-\n\n\
+"), _("\
 Anarchy offers slightly less corruption and waste than Despotism, but\
  slightly more unhappiness.\
 ")
@@ -78,7 +78,7 @@ ruler_female_title = _("?female:Chief")
 helptext = _("\
 Under Despotism, you are the absolute ruler of your people.  Your\
  control over your citizens is maintained largely by martial law.\
-\n\n\
+"), _("\
 Despotism suffers the highest level of corruption and waste of all\
  forms of government.\
 ")
@@ -100,7 +100,7 @@ ruler_female_title = _("Queen")
 helptext = _("\
 Under Monarchy, a king or queen serves as a hereditary figurehead\
  for your government.\
-\n\n\
+"), _("\
 Monarchy suffers the same small amount of corruption and waste that\
  the Republic does.\
 ")
@@ -123,7 +123,7 @@ A Communist government is based on the ideal that all people are\
  equal.  All goods are owned by the state, rather than by private\
  citizens.  Communism gives a balance between military and commercial\
  styles of government.\
-\n\n\
+"), _("\
 Under Communism, corruption and waste does not vary by distance from\
  the capital; all cities (including the capital) have a modest amount\
  of corruption.\
@@ -147,11 +147,11 @@ Fundamentalism is a form of government organized around a central\
  set of beliefs. The beliefs, usually religious in nature, form\
  a rigid guideline for actions and reactions of both the rulers\
  and the people.\
-\n\n\
+"), _("\
 In a fundamentalist society, the people and the rulers are entirely\
  devoted to their beliefs, and are usually willing to die to\
  preserve them.\
-\n\n\
+"), _("\
 Improvements that normally convert unhappy citizens to content\
  citizens, produce `tithes' (gold) equivalent to the number\
  of people they would convert, and require no maintenance.\
@@ -198,7 +198,7 @@ Under Democracy, citizens govern directly by voting on issues.\
  offers the most potential for unhappiness.  There is no corruption\
  or waste during Democracy, but citizens become very upset during\
  wars.\
-\n\n\
+"), _("\
 Because (happy) citizens of Democracy believe strongly in the\
  government, their loyalty is unswerving.  Military units of\
  Democratic civilizations cannot be bribed, and Democratic cities\

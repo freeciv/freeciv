@@ -31,6 +31,7 @@
 #include "log.h"
 #include "mem.h"
 #include "registry.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -763,12 +764,22 @@ void boot_help_texts(struct player *pplayer)
               }
             } terrain_type_iterate_end;
             /* Add special Civ2-style river help text if it's supplied. */
-            if (terrain_control.river_help_text) {
+            if ('\0' != terrain_control.river_help_text[0]) {
+              struct strvec *psv;
+
               pitem = new_help_item(HELP_TEXT);
               /* TRANS: "%*s" is replaced with spaces */
               fc_snprintf(name, sizeof(name), _("%*sRivers"), level, "");
               pitem->topic = fc_strdup(name);
-              sz_strlcpy(long_buffer, _(terrain_control.river_help_text));
+              long_buffer[0] = '\0';
+              PACKET_STRVEC_EXTRACT(psv, terrain_control.river_help_text);
+              if (NULL != psv) {
+                strvec_iterate(psv, text) {
+                  cat_snprintf(long_buffer, sizeof(long_buffer),
+                               "%s\n\n", _(text));
+                } strvec_iterate_end;
+                strvec_destroy(psv);
+              }
               pitem->text = fc_strdup(long_buffer);
               help_list_append(category_nodes, pitem);
             }
@@ -1022,8 +1033,10 @@ char *helptext_building(char *buf, size_t bufsz, struct player *pplayer,
     return buf;
   }
 
-  if (pimprove->helptext && pimprove->helptext[0] != '\0') {
-    cat_snprintf(buf, bufsz, "%s\n\n", _(pimprove->helptext));
+  if (NULL != pimprove->helptext) {
+    strvec_iterate(pimprove->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
   }
 
   /* Add requirement text for improvement itself */
@@ -1526,9 +1539,11 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (strlen(buf) > 0) {
     CATLSTR(buf, bufsz, "\n");
-  } 
-  if (utype->helptext && utype->helptext[0] != '\0') {
-    cat_snprintf(buf, bufsz, "%s\n\n", _(utype->helptext));
+  }
+  if (NULL != utype->helptext) {
+    strvec_iterate(utype->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
   }
   CATLSTR(buf, bufsz, user_text);
   return buf;
@@ -1631,13 +1646,14 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
               "are needed each turn.\n"));
   }
 
-  if (vap->helptext && vap->helptext[0] != '\0') {
+  if (NULL != vap->helptext) {
     if (strlen(buf) > 0) {
       CATLSTR(buf, bufsz, "\n");
     }
-    cat_snprintf(buf, bufsz, "%s\n", _(vap->helptext));
+    strvec_iterate(vap->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
   }
-
 }
 
 /****************************************************************
@@ -1687,11 +1703,13 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz, "\n");
   }
 
-  if (pterrain->helptext[0] != '\0') {
+  if (NULL != pterrain->helptext) {
     if (buf[0] != '\0') {
       CATLSTR(buf, bufsz, "\n");
     }
-    CATLSTR(buf, bufsz, _(pterrain->helptext));
+    strvec_iterate(pterrain->helptext, text) {
+      CATLSTR(buf, bufsz, _(text));
+    } strvec_iterate_end;
   }
   if (user_text && user_text[0] != '\0') {
     CATLSTR(buf, bufsz, "\n\n");
@@ -1719,8 +1737,10 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
   fc_assert_ret(NULL != buf && 0 < bufsz);
   buf[0] = '\0';
 
-  if (gov->helptext[0] != '\0') {
-    cat_snprintf(buf, bufsz, "%s\n\n", _(gov->helptext));
+  if (NULL != gov->helptext) {
+    strvec_iterate(gov->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s", _(text));
+    } strvec_iterate_end;
   }
 
   /* Add requirement text for government itself */

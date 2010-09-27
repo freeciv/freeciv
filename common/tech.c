@@ -25,6 +25,7 @@
 #include "log.h"
 #include "mem.h"                /* free */
 #include "shared.h"             /* ARRAY_SIZE */
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -949,8 +950,10 @@ static void tech_free(Tech_type_id tech)
 {
   struct advance *p = &advances[tech];
 
-  free(p->helptext);
-  p->helptext = NULL;
+  if (NULL != p->helptext) {
+    strvec_destroy(p->helptext);
+    p->helptext = NULL;
+  }
 
   if (p->bonus_message) {
     free(p->bonus_message);

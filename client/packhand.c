@@ -23,6 +23,7 @@
 #include "fcintl.h"
 #include "log.h"
 #include "mem.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -2613,7 +2614,6 @@ void handle_ruleset_unit_class(struct packet_ruleset_unit_class *p)
   c->flags       = p->flags;
 }
 
-
 /**************************************************************************
 ...
 **************************************************************************/
@@ -2668,7 +2668,7 @@ void handle_ruleset_unit(struct packet_ruleset_unit *p)
     u->veteran[i].move_bonus = p->move_bonus[i];
   }
 
-  u->helptext = fc_strdup(p->helptext);
+  PACKET_STRVEC_EXTRACT(u->helptext, p->helptext);
 
   tileset_setup_unit_type(tileset, u);
 }
@@ -2691,7 +2691,7 @@ void handle_ruleset_tech(struct packet_ruleset_tech *p)
   a->flags = p->flags;
   a->preset_cost = p->preset_cost;
   a->num_reqs = p->num_reqs;
-  a->helptext = fc_strdup(p->helptext);
+  PACKET_STRVEC_EXTRACT(a->helptext, p->helptext);
 
   tileset_setup_tech_type(tileset, a);
 }
@@ -2720,7 +2720,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   b->upkeep = p->upkeep;
   b->sabotage = p->sabotage;
   b->flags = p->flags;
-  b->helptext = fc_strdup(p->helptext);
+  PACKET_STRVEC_EXTRACT(b->helptext, p->helptext);
   sz_strlcpy(b->soundtag, p->soundtag);
   sz_strlcpy(b->soundtag_alt, p->soundtag_alt);
 
@@ -2736,7 +2736,11 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
       log_debug("  build_cost %3d", b->build_cost);
       log_debug("  upkeep      %2d", b->upkeep);
       log_debug("  sabotage   %3d", b->sabotage);
-      log_debug("  helptext    %s", b->helptext);
+      if (NULL != b->helptext) {
+        strvec_iterate(b->helptext, text) {
+        log_debug("  helptext    %s", text);
+        } strvec_iterate_end;
+      }
     } improvement_iterate_end;
   }
 #endif
@@ -2778,8 +2782,8 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->ruler_titles = fc_calloc(gov->num_ruler_titles,
 				sizeof(struct ruler_title));
 
-  gov->helptext = fc_strdup(p->helptext);
-  
+  PACKET_STRVEC_EXTRACT(gov->helptext, p->helptext);
+
   tileset_setup_government(tileset, gov);
 }
 
@@ -2854,11 +2858,8 @@ void handle_ruleset_terrain(struct packet_ruleset_terrain *p)
 
   pterrain->flags = p->flags;
 
-  if (pterrain->helptext != NULL) {
-    free(pterrain->helptext);
-  }
-  pterrain->helptext = fc_strdup(p->helptext);
-  
+  PACKET_STRVEC_EXTRACT(pterrain->helptext, p->helptext);
+
   tileset_setup_tile_type(tileset, pterrain);
 }
 

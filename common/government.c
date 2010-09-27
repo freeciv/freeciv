@@ -20,6 +20,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -263,8 +264,10 @@ static void government_free(struct government *gov)
   free(gov->ruler_titles);
   gov->ruler_titles = NULL;
 
-  free(gov->helptext);
-  gov->helptext = NULL;
+  if (NULL != gov->helptext) {
+    strvec_destroy(gov->helptext);
+    gov->helptext = NULL;
+  }
 
   requirement_vector_free(&gov->reqs);
 }

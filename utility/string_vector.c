@@ -122,6 +122,35 @@ void strvec_store(struct strvec *psv, const char *const *vec, size_t size)
   }
 }
 
+/****************************************************************************
+  Build the string vector from a string until 'str_size' bytes are read.
+  Passing -1 for 'str_size' will assume 'str' as the expected format. Note
+  it's a bit dangerous.
+
+  This string format is a list of strings separated by 'separator'.
+
+  See also strvec_to_str().
+****************************************************************************/
+void strvec_from_str(struct strvec *psv, char separator, const char *str)
+{
+  const char *p;
+  char *new_str;
+
+  strvec_clear(psv);
+  while ((p = strchr(str, separator))) {
+    new_str = fc_malloc(p - str + 1);
+    memcpy(new_str, str, p - str);
+    new_str[p - str] = '\0';
+    psv->size++;
+    psv->vec = fc_realloc(psv->vec, psv->size * sizeof(char *));
+    psv->vec[psv->size - 1] = new_str;
+    str = p + 1;
+  }
+  if ('\0' != *str) {
+    strvec_append(psv, str);
+  }
+}
+
 /**************************************************************************
   Remove all strings from the vector.
 **************************************************************************/
@@ -336,4 +365,33 @@ bool strvec_index_valid(const struct strvec *psv, size_t index)
 const char *strvec_get(const struct strvec *psv, size_t index)
 {
   return strvec_index_valid(psv, index) ? psv->vec[index] : NULL;
+}
+
+/****************************************************************************
+  Build the string from a string vector.
+
+  This string format is a list of strings separated by 'separator'.
+
+  See also strvec_from_str().
+****************************************************************************/
+void strvec_to_str(const struct strvec *psv, char separator,
+                   char *buf, size_t buf_len)
+{
+  int len;
+
+  strvec_iterate(psv, str) {
+    len = fc_snprintf(buf, buf_len, "%s", str) + 1;
+    if (1 >= len) {
+      /* Truncated. */
+      return;
+    }
+
+    buf += len;
+    buf_len -= len;
+    if (0 < buf_len) {
+      *(buf - 1) = separator;
+    }
+  } strvec_iterate_end;
+
+  buf[0] = '\0';
 }

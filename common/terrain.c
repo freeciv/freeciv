@@ -21,6 +21,7 @@
 #include "mem.h"                /* free */
 #include "rand.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -65,8 +66,8 @@ void terrains_init(void)
 void terrains_free(void)
 {
   terrain_type_iterate(pterrain) {
-    if (pterrain->helptext != NULL) {
-      free(pterrain->helptext);
+    if (NULL != pterrain->helptext) {
+      strvec_destroy(pterrain->helptext);
       pterrain->helptext = NULL;
     }
     if (pterrain->resources != NULL) {

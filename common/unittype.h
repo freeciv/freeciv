@@ -21,6 +21,8 @@
 #include "fc_types.h"
 #include "name_translation.h"
 
+struct strvec;          /* Actually defined in "utility/string_vector.h". */
+
 #define U_LAST MAX_NUM_ITEMS
 /*
   U_LAST is a value which is guaranteed to be larger than all
@@ -258,7 +260,7 @@ struct unit_type {
 
   bv_unit_classes targets; /* Can attack these classes even if they are otherwise "Unreachable" */
 
-  char *helptext;
+  struct strvec *helptext;
 };
 
 /* General unit and unit type (matched) routines */

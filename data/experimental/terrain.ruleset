@@ -61,7 +61,7 @@ Any land terrain type may have a River on it.  A River adds 1\
  trade to the resources produced by that tile.  It also increases a tile's\
  defense factor by 50%.  Finally, land units may move along a River (but\
  not diagonally); movement along a River costs only 1/3 of a movement point.\
-\n\n\
+"), _("\
 Roads and railroads can only be built on River tiles if your\
  civilization has learned Bridge Building technology.\
 ")

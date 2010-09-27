@@ -22,6 +22,7 @@ void strvec_destroy(struct strvec *psv);
 
 void strvec_reserve(struct strvec *psv, size_t reserve);
 void strvec_store(struct strvec *psv, const char *const *vec, size_t size);
+void strvec_from_str(struct strvec *psv,  char separator, const char *str);
 void strvec_clear(struct strvec *psv);
 void strvec_remove_empty(struct strvec *psv);
 void strvec_remove_duplicate(struct strvec *psv,
@@ -40,6 +41,8 @@ size_t strvec_size(const struct strvec *psv);
 const char *const *strvec_data(const struct strvec *psv);
 bool strvec_index_valid(const struct strvec *psv, size_t index);
 const char *strvec_get(const struct strvec *psv, size_t index);
+void strvec_to_str(const struct strvec *psv, char separator,
+                   char *buf, size_t buf_len);
 
 /* Iteration macro. */
 #define strvec_iterate(psv, str) \

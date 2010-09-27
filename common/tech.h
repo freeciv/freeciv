@@ -21,6 +21,8 @@
 #include "fc_types.h"
 #include "name_translation.h"
 
+struct strvec;          /* Actually defined in "utility/string_vector.h". */
+
 /*
   [kept for amusement and posterity]
 typedef int Tech_type_id;
@@ -114,7 +116,7 @@ struct advance {
 
   struct advance *require[AR_SIZE];
   bv_tech_flags flags;
-  char *helptext;
+  struct strvec *helptext;
 
   /* 
    * Message displayed to the first player to get a bonus tech 

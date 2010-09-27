@@ -197,7 +197,7 @@ Settlers are one of the key units in the game. As well as building new\
  cities, they can also improve terrain, for instance by building\
  irrigation, mines, and roads. See the Terrain Alterations section of\
  the help for more details.\
-\n\n\
+"), _("\
 Upkeep for Settlers is in food as well as production, and a Settler\
  can die if its supporting city runs out of food. Settlers in a\
  Republic or Democracy require twice as much food per turn.\
@@ -952,7 +952,7 @@ flags         = ""
 roles         = ""
 helptext      = _("\
 The Carrier is a mobile airport.\
-\n\n\
+"), _("\
 TIP:  Guard Carriers with a handful of fast-moving ships and a\
  battleship, as losing a fully-equipped Carrier is VERY\
  painful and expensive.\
@@ -1021,21 +1021,21 @@ roles         = ""
 helptext      = _("\
 You can build Nuclear units when you have the required advance, and\
  the Manhattan Project wonder has been built by any player.\
-\n\n\
+"), _("\
 On impact, the blast will destroy any unit in an area 3 tiles wide\
  (3x3 squares for rectangular grids), including friendly units.\
  Any city within the blast area loses half its population, and\
  land tiles within the blast area are subject to nuclear fallout.\
-\n\n\
+"), _("\
 Similar to pollution and global warming, the risk of global nuclear\
  winter increases with fallout. If nuclear winter occurs, terrain\
  across the globe changes into desert, tundra, and ice. Settlers\
  can clean up nuclear fallout.\
-\n\n\
+"), _("\
 TIP 1:  Nuking the ocean will not generate fallout, and is a most\
  effective (but expensive!!) way of getting rid of enemy\
  ships.\
-\n\n\
+"), _("\
 TIP 2:  You may be involved in a situation where you've invaded an\
  enemy country en masse, but the enemy cities are too strong.\
  Before using a Nuclear unit, assemble a gang of Settlers\
@@ -1077,48 +1077,48 @@ A Diplomat is an official that carries your dispatches and\
  also undertake various covert operations with the intent of\
  harming your opponents; Diplomats in your own cities defend\
  them against such actions.\
-\n\n\
+"), _("\
 Many covert actions may be attempted even in peacetime, but the more\
  aggressive actions will be discovered and cause diplomatic incidents,\
  which can allow Republics and Democracies to break treaties.\
-\n\n\
+"), _("\
 If a foreign unit is alone on a tile, you may attempt to bribe it\
  with your Diplomat. By paying a sum of gold the unit will immediately\
  become yours; the exact sum depends on the status of the unit and\
  that of the civilization owning it. However, units belonging to\
  Democratic governments cannot be bribed. Bribery when not at war\
  will cause a diplomatic incident.\
-\n\n\
+"), _("\
 Diplomats can also perform a number of actions in another player's\
  city, although each Diplomat may attempt only one action. Most of\
  these actions have a chance of failure. Also, any enemy Diplomats or\
  Spies in the city will oppose hostile actions; in this case, either\
  your unit or the defending unit will die. If the defending unit dies,\
  you lose one movement point and may try again.\
-\n\n\
+"), _("\
 The actions available to Diplomats in a city are:\
-\n\n\
+"), _("\
  - \"Establish Embassy\": This action always succeeds, and gives\
  permanent contact with the city's owner, as well as intelligence\
  on their tax rates and technology.\
-\n\n\
+"), _("\
  - \"Investigate City\": Your unit attempts to report detailed\
  information about the city: its status, what buildings and units are\
  within, and what it is currently producing.\
-\n\n\
+"), _("\
  - \"Sabotage City\": Your unit attempts either to disrupt all the\
  city's work so far towards its current project, or to destroy an\
  existing building in the city, at random. Once built, Palaces and\
  Wonders cannot be sabotaged, and attempts to sabotage City Walls\
  or any building in a capital each halve the chance of success.\
  Sabotage may only be attempted when openly at war.\
-\n\n\
+"), _("\
  - \"Steal Technology\": Your unit attempts to learn the secrets of a\
  random technology known to the city's owner but not to you. Technology\
  may only be stolen once from a given enemy city by Diplomats. This\
  action may be attempted even when not at war, but will cause a\
  diplomatic incident.\
-\n\n\
+"), _("\
  - \"Incite a Revolt\": In return for gold a foreign city will change\
  allegiance and join your empire, bringing along all nearby units that\
  call it home, but reducing its size by 1. Units in other cities\
@@ -1128,7 +1128,7 @@ The actions available to Diplomats in a city are:\
  a rebellion in a capital, or in any city governed by a democracy.\
  Incitement may be attempted in peacetime, but will cause a\
  diplomatic incident.\
-\n\n\
+"), _("\
 In some game strategies, hordes of Diplomats can be used to wreak\
  havoc on the enemy.  Little wonder that Diplomats are often\
  viewed with suspicion and fear!\
@@ -1164,10 +1164,10 @@ roles         = ""
 helptext      = _("\
 A Caravan carries goods or material for trading with distant cities\
  and foreign countries, or to help build wonders in your cities.\
-\n\n\
+"), _("\
 Every Caravan that is used to build a wonder will add 50 shields\
  towards the production of the wonder.\
-\n\n\
+"), _("\
 TIP:  You can stockpile a stack of Caravans in advance and bring\
  them all into a city where you have started to build a wonder,\
  and finish it in only one turn!\
@@ -1203,7 +1203,7 @@ roles         = "BarbarianLeader"
 helptext      = _("\
 One Barbarian Leader appears every time there is a barbarian uprising\
  somewhere in the world.\
-\n\n\
+"), _("\
 When a Barbarian Leader is killed on a tile without any defending units,\
  the 100 gold ransom is paid, but only to land units.\
 ")

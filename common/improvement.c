@@ -20,6 +20,7 @@
 #include "log.h"
 #include "mem.h"
 #include "shared.h"     /* ARRAY_SIZE */
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -60,8 +61,10 @@ void improvements_init(void)
 **************************************************************************/
 static void improvement_free(struct impr_type *p)
 {
-  free(p->helptext);
-  p->helptext = NULL;
+  if (NULL != p->helptext) {
+    strvec_destroy(p->helptext);
+    p->helptext = NULL;
+  }
 
   requirement_vector_free(&p->reqs);
 }

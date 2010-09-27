@@ -27,6 +27,7 @@
 #include "mem.h"
 #include "registry.h"
 #include "shared.h"
+#include "string_vector.h"
 #include "support.h"
 
 /* common */
@@ -666,31 +667,44 @@ static enum unit_move_type lookup_move_type(struct section_file *file,
   return mt;
 }
 
-/**************************************************************************
+/****************************************************************************
   Lookup optional string, returning allocated memory or NULL.
-**************************************************************************/
+****************************************************************************/
 static char *lookup_string(struct section_file *file, const char *prefix,
-			   const char *suffix)
+                           const char *suffix)
 {
-  const char *sval;
-  
-  sval = secfile_lookup_str(file, "%s.%s", prefix, suffix);
-  if (sval) {
-    /* FIXME: The cast should be safe, but code style is ugly. */
-    sval = skip_leading_spaces((char *) sval);
-    if (strlen(sval) > 0) {
-      return fc_strdup(sval);
+  const char *sval = secfile_lookup_str(file, "%s.%s", prefix, suffix);
+
+  if (NULL != sval) {
+    char copy[strlen(sval) + 1];
+
+    strcpy(copy, sval);
+    remove_leading_trailing_spaces(copy);
+    if (strlen(copy) > 0) {
+      return fc_strdup(copy);
     }
   }
   return NULL;
 }
 
-/**************************************************************************
-  Lookup optional helptext, returning allocated memory or NULL.
-**************************************************************************/
-static char *lookup_helptext(struct section_file *file, const char *prefix)
+/****************************************************************************
+  Lookup optional string vector, returning allocated memory or NULL.
+****************************************************************************/
+static struct strvec *lookup_strvec(struct section_file *file,
+                                    const char *prefix, const char *suffix)
 {
-  return lookup_string(file, prefix, "helptext");
+  size_t dim;
+  const char **vec = secfile_lookup_str_vec(file, &dim,
+                                            "%s.%s", prefix, suffix);
+
+  if (NULL != vec) {
+    struct strvec *dest = strvec_new();
+
+    strvec_store(dest, vec, dim);
+    free(vec);
+    return dest;
+  }
+  return NULL;
 }
 
 /**************************************************************************
@@ -861,7 +875,7 @@ static void load_ruleset_techs(struct section_file *file)
                secfile_lookup_str_default(file, "-",
                                           "%s.graphic_alt", sec_name));
 
-    a->helptext = lookup_helptext(file, sec_name);
+    a->helptext = lookup_strvec(file, sec_name, "helptext");
     a->bonus_message = lookup_string(file, sec_name, "bonus_message");
     a->preset_cost =
         secfile_lookup_int_default(file, -1, "%s.%s", sec_name, "cost");
@@ -1384,7 +1398,7 @@ if (_count > MAX_VET_LEVELS) {						\
       }
     } unit_class_iterate_end;
 
-    u->helptext = lookup_helptext(file, sec_name);
+    u->helptext = lookup_strvec(file, sec_name, "helptext");
 
     u->paratroopers_range = secfile_lookup_int_default(file,
         0, "%s.paratroopers_range", sec_name);
@@ -1656,7 +1670,7 @@ static void load_ruleset_buildings(struct section_file *file)
     sz_strlcpy(b->soundtag_alt,
                secfile_lookup_str_default(file, "-",
                                           "%s.sound_alt", sec_name));
-    b->helptext = lookup_helptext(file, sec_name);
+    b->helptext = lookup_strvec(file, sec_name, "helptext");
 
     b->allows_units = FALSE;
     unit_type_iterate(ut) {
@@ -1802,6 +1816,7 @@ static void load_terrain_names(struct section_file *file)
 **************************************************************************/
 static void load_ruleset_terrain(struct section_file *file)
 {
+  struct strvec *psv;
   size_t nval;
   int j;
   const char **res;
@@ -1839,10 +1854,11 @@ static void load_ruleset_terrain(struct section_file *file)
     secfile_lookup_int_default(file, 50, "parameters.river_defense_bonus");
   terrain_control.river_trade_incr =
     secfile_lookup_int_default(file, 1, "parameters.river_trade_incr");
-  {
-    const char *s = secfile_lookup_str_default(file, "",
-                                               "parameters.river_help_text");
-    sz_strlcpy(terrain_control.river_help_text, s);
+
+  psv = lookup_strvec(file, "parameters", "river_help_text");
+  PACKET_STRVEC_COMPUTE(terrain_control.river_help_text, psv);
+  if (NULL != psv) {
+    strvec_destroy(psv);
   }
 
   terrain_control.road_superhighway_trade_bonus =
@@ -2014,7 +2030,7 @@ static void load_ruleset_terrain(struct section_file *file)
     }
     free(slist);
 
-    pterrain->helptext = lookup_helptext(file, tsection);
+    pterrain->helptext = lookup_strvec(file, tsection, "helptext");
   } terrain_type_iterate_end;
 
   /* resource details */
@@ -2260,7 +2276,7 @@ static void load_ruleset_governments(struct section_file *file)
     sz_strlcpy(g->graphic_alt,
                secfile_lookup_str(file, "%s.graphic_alt", sec_name));
 
-    g->helptext = lookup_helptext(file, sec_name);
+    g->helptext = lookup_strvec(file, sec_name, "helptext");
   } government_iterate_end;
 
   
@@ -3536,11 +3552,7 @@ static void send_ruleset_units(struct conn_list *dest)
       packet.power_fact[i] = u->veteran[i].power_fact;
       packet.move_bonus[i] = u->veteran[i].move_bonus;
     }
-    if (u->helptext) {
-      sz_strlcpy(packet.helptext, u->helptext);
-    } else {
-      packet.helptext[0] = '\0';
-    }
+    PACKET_STRVEC_COMPUTE(packet.helptext, u->helptext);
 
     lsend_packet_ruleset_unit(dest, &packet);
   } unit_type_iterate_end;
@@ -3595,11 +3607,7 @@ static void send_ruleset_techs(struct conn_list *dest)
     packet.flags = a->flags;
     packet.preset_cost = a->preset_cost;
     packet.num_reqs = a->num_reqs;
-    if (a->helptext) {
-      sz_strlcpy(packet.helptext, a->helptext);
-    } else {
-      packet.helptext[0] = '\0';
-    }
+    PACKET_STRVEC_COMPUTE(packet.helptext, a->helptext);
 
     lsend_packet_ruleset_tech(dest, &packet);
   } advance_iterate_end;
@@ -3635,12 +3643,7 @@ static void send_ruleset_buildings(struct conn_list *dest)
     packet.flags = b->flags;
     sz_strlcpy(packet.soundtag, b->soundtag);
     sz_strlcpy(packet.soundtag_alt, b->soundtag_alt);
-
-    if (b->helptext) {
-      sz_strlcpy(packet.helptext, b->helptext);
-    } else {
-      packet.helptext[0] = '\0';
-    }
+    PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
 
     lsend_packet_ruleset_building(dest, &packet);
   } improvement_iterate_end;
@@ -3702,12 +3705,7 @@ static void send_ruleset_terrain(struct conn_list *dest)
     packet.clean_fallout_time = pterrain->clean_fallout_time;
 
     packet.flags = pterrain->flags;
-
-    if (pterrain->helptext) {
-      sz_strlcpy(packet.helptext, pterrain->helptext);
-    } else {
-      packet.helptext[0] = '\0';
-    }
+    PACKET_STRVEC_COMPUTE(packet.helptext, pterrain->helptext);
 
     lsend_packet_ruleset_terrain(dest, &packet);
   } terrain_type_iterate_end;
@@ -3800,15 +3798,10 @@ static void send_ruleset_governments(struct conn_list *dest)
     sz_strlcpy(gov.name, rule_name(&g->name));
     sz_strlcpy(gov.graphic_str, g->graphic_str);
     sz_strlcpy(gov.graphic_alt, g->graphic_alt);
-    
-    if (g->helptext) {
-      sz_strlcpy(gov.helptext, g->helptext);
-    } else {
-      gov.helptext[0] = '\0';
-    }
-      
+    PACKET_STRVEC_COMPUTE(gov.helptext, g->helptext);
+
     lsend_packet_ruleset_government(dest, &gov);
-    
+
     /* send one packet_government_ruler_title per ruler title */
     for(j=0; j<g->num_ruler_titles; j++) {
       p_title = &g->ruler_titles[j];
