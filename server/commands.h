@@ -16,6 +16,12 @@
 
 #include "connection.h"		/* for enum cmdlevel_id */
 
+enum cmd_echo {
+  CMD_ECHO_NONE = 0,
+  CMD_ECHO_ADMINS,      /* i.e. all with 'admin' access and above. */
+  CMD_ECHO_ALL,
+};
+
 /**************************************************************************
   Commands - can be recognised by unique prefix
 **************************************************************************/
@@ -95,6 +101,7 @@ const char *command_short_help(const struct command *pcommand);
 const char *command_extra_help(const struct command *pcommand);
 
 enum cmdlevel_id command_level(const struct command *pcommand);
+enum cmd_echo command_echo(const struct command *pcommand);
 int command_vote_flags(const struct command *pcommand);
 int command_vote_percent(const struct command *pcommand);
 

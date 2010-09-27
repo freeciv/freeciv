@@ -255,7 +255,7 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
   if (rfc_status == C_OK) {
     struct packet_chat_msg packet;
 
-    package_event(&packet, NULL, E_SETTING, ftc_command, "%s", line);
+    package_event(&packet, NULL, E_SETTING, ftc_server, "%s", line);
     conn_list_iterate(game.est_connections, pconn) {
       /* Do not tell caller, since he was told above! */
       if (caller != pconn) {
@@ -263,6 +263,11 @@ static void cmd_reply_line(enum command_id cmd, struct connection *caller,
       }
     } conn_list_iterate_end;
     event_cache_add_for_all(&packet);
+
+    if (NULL != caller) {
+      /* Echo to the console. */
+      freelog(LOG_NORMAL, "%s", line);
+    }
   }
 }
 
@@ -398,9 +403,9 @@ static void open_metaserver_connection(struct connection *caller)
 {
   server_open_meta();
   if (send_server_info_to_metaserver(META_INFO)) {
-    notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
-                _("Open metaserver connection to [%s]."),
-                meta_addr_port());
+    cmd_reply(CMD_METACONN, caller, C_OK,
+              _("Open metaserver connection to [%s]."),
+              meta_addr_port());
   }
 }
 
@@ -411,9 +416,9 @@ static void close_metaserver_connection(struct connection *caller)
 {
   if (send_server_info_to_metaserver(META_GOODBYE)) {
     server_close_meta();
-    notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
-                _("Close metaserver connection to [%s]."),
-                meta_addr_port());
+    cmd_reply(CMD_METACONN, caller, C_OK,
+              _("Close metaserver connection to [%s]."),
+              meta_addr_port());
   }
 }
 
@@ -426,10 +431,10 @@ static bool metaconnection_command(struct connection *caller, char *arg,
   if ((*arg == '\0') ||
       (0 == strcmp (arg, "?"))) {
     if (is_metaserver_open()) {
-      cmd_reply(CMD_METACONN, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_COMMENT,
                 _("Metaserver connection is open."));
     } else {
-      cmd_reply(CMD_METACONN, caller, C_OK,
+      cmd_reply(CMD_METACONN, caller, C_COMMENT,
                 _("Metaserver connection is closed."));
     }
   } else if ((0 == mystrcasecmp(arg, "u")) ||
@@ -476,12 +481,12 @@ static bool metapatches_command(struct connection *caller,
 
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("Metaserver patches string set to '%s'."), arg);
+    cmd_reply(CMD_METAPATCHES, caller, C_OK,
+              _("Metaserver patches string set to '%s'."), arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("Metaserver patches string set to '%s', "
-                  "not reporting to metaserver."), arg);
+    cmd_reply(CMD_METAPATCHES, caller, C_OK,
+              _("Metaserver patches string set to '%s', "
+                "not reporting to metaserver."), arg);
   }
 
   return TRUE;
@@ -500,12 +505,12 @@ static bool metamessage_command(struct connection *caller,
   set_user_meta_message_string(arg);
   if (is_metaserver_open()) {
     send_server_info_to_metaserver(META_INFO);
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("Metaserver message string set to '%s'."), arg);
+    cmd_reply(CMD_METAMESSAGE, caller, C_OK,
+              _("Metaserver message string set to '%s'."), arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("Metaserver message string set to '%s', "
-                  "not reporting to metaserver."), arg);
+    cmd_reply(CMD_METAMESSAGE, caller, C_OK,
+              _("Metaserver message string set to '%s', "
+                "not reporting to metaserver."), arg);
   }
 
   return TRUE;
@@ -524,9 +529,8 @@ static bool metaserver_command(struct connection *caller, char *arg,
 
   sz_strlcpy(srvarg.metaserver_addr, arg);
 
-  notify_conn(NULL, NULL, E_SETTING, ftc_server,
-              _("Metaserver is now [%s]."),
-	      meta_addr_port());
+  cmd_reply(CMD_METASERVER, caller, C_OK,
+            _("Metaserver is now [%s]."), meta_addr_port());
   return TRUE;
 }
 
@@ -810,15 +814,13 @@ static bool create_ai_player(struct connection *caller, char *arg, bool check)
       return FALSE;
     }
 
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                _("%s has been added as an AI-controlled player."),
-                arg);
+    cmd_reply(CMD_CREATE, caller, C_OK,
+              _("%s has been added as an AI-controlled player."), arg);
   } else {
-    notify_conn(NULL, NULL, E_SETTING, ftc_server,
-                /* TRANS: <name> replacing <name> ... */
-                _("%s replacing %s as an AI-controlled player."),
-                arg,
-                player_name(pplayer));
+    cmd_reply(CMD_CREATE, caller, C_OK,
+              /* TRANS: <name> replacing <name> ... */
+              _("%s replacing %s as an AI-controlled player."),
+              arg, player_name(pplayer));
   }
 
   team_remove_player(pplayer);
@@ -1725,15 +1727,14 @@ static bool set_away(struct connection *caller, char *name, bool check)
               _("Only players may use the away command."));
     return FALSE;
   } else if (!caller->playing->ai_data.control && !check) {
-    notify_conn(game.est_connections, NULL, E_SETTING, ftc_any,
-                _("%s set to away mode."), 
-                player_name(caller->playing));
+    cmd_reply(CMD_AWAY, caller, C_OK,
+              _("%s set to away mode."), player_name(caller->playing));
     set_ai_level_directer(caller->playing, AI_LEVEL_AWAY);
     caller->playing->ai_data.control = TRUE;
     cancel_all_meetings(caller->playing);
   } else if (!check) {
-    notify_conn(game.est_connections, NULL, E_SETTING, ftc_any,
-                _("%s returned to game."), player_name(caller->playing));
+    cmd_reply(CMD_AWAY, caller, C_OK,
+              _("%s returned to game."), player_name(caller->playing));
     caller->playing->ai_data.control = FALSE;
     /* We have to do it, because the client doesn't display 
      * dialogs for meetings in AI mode. */
@@ -2608,6 +2609,8 @@ static bool set_command(struct connection *caller, char *str, bool check)
         notify_conn(pconn->self, NULL, E_SETTING, ftc_server, "%s", buffer);
       }
     } conn_list_iterate_end;
+    /* Notify the console. */
+    con_write(C_OK, "%s", buffer);
   }
 
   if (!check && do_update) {
@@ -3027,12 +3030,11 @@ static bool take_command(struct connection *caller, char *str, bool check)
 
   player_was_created = (NULL != pplayer ? pplayer->was_created : FALSE);
 
-  /* if the player is controlled by another user,
-   * forcibly convert the user to an observer.
-   */
+  /* If the player is controlled by another user, forcibly detach
+   * the user. */
   if (pplayer && pplayer->is_connected) {
     if (NULL == caller) {
-      notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
+       notify_conn(NULL, NULL, E_CONNECTION, ftc_server,
                   _("Reassigned nation to %s by server console."),
                   pconn->username);
     } else {
@@ -3663,19 +3665,40 @@ static bool handle_stdin_input_real(struct connection *caller, char *str,
     return FALSE;
   }
 
-  if (!check && level > ALLOW_INFO) {
-    /*
-     * this command will affect the game - inform all players
-     *
-     * use command,arg instead of str because of the trailing
-     * newline in str when it comes from the server command line
-     */
-    if (caller) {
-      notify_conn(NULL, NULL, E_SETTING, ftc_any,
-                  "%s: '%s %s'", caller->username, command, arg);
-    } else {
-      notify_conn(NULL, NULL, E_SETTING, ftc_server_prompt,
-                  "%s: '%s %s'", _("(server prompt)"), command, arg);
+  if (!check) {
+    struct conn_list *echo_list = NULL;
+    bool echo_list_allocated = FALSE;
+
+    switch (command_echo(command_by_number(cmd))) {
+    case CMD_ECHO_NONE:
+      break;
+    case CMD_ECHO_ADMINS:
+      conn_list_iterate(game.est_connections, pconn) {
+        if (ALLOW_ADMIN <= conn_get_access(pconn)) {
+          if (NULL == echo_list) {
+            echo_list = conn_list_new();
+            echo_list_allocated = TRUE;
+          }
+          conn_list_append(echo_list, pconn);
+        }
+      } conn_list_iterate_end;
+      break;
+    case CMD_ECHO_ALL:
+      echo_list = game.est_connections;
+      break;
+    }
+
+    if (NULL != echo_list) {
+      if (caller) {
+        notify_conn(echo_list, NULL, E_SETTING, ftc_any,
+                    "%s: '%s %s'", caller->username, command, arg);
+      } else {
+        notify_conn(echo_list, NULL, E_SETTING, ftc_server_prompt,
+                    "%s: '%s %s'", _("(server prompt)"), command, arg);
+      }
+      if (echo_list_allocated) {
+        conn_list_free(echo_list);
+      }
     }
   }
 
@@ -3791,7 +3814,7 @@ static bool end_command(struct connection *caller, char *str, bool check)
     force_end_of_sniff = TRUE;
     cmd_reply(CMD_END_GAME, caller, C_OK,
               _("Ending the game. The server will restart once all clients "
-              "have disconnected."));
+                "have disconnected."));
     return TRUE;
   } else {
     cmd_reply(CMD_END_GAME, caller, C_FAIL, 
@@ -3847,8 +3870,7 @@ static bool reset_command(struct connection *caller, bool check,
   settings_iterate(pset) {
     send_server_setting(NULL, pset);
   } settings_iterate_end;
-  notify_conn(NULL, NULL, E_SETTING, ftc_server,
-              _("Settings re-initialized."));
+  cmd_reply(CMD_RESET, caller, C_OK, _("Settings re-initialized."));
   return TRUE;
 }
 
