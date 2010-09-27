@@ -171,7 +171,7 @@ static int cities_action_callback(struct widget *pButton)
         popup_find_dialog();
       break;
       default:
-        popup_city_report_dialog(FALSE);
+        city_report_dialog_popup(FALSE);
       break;
     }
   } else {

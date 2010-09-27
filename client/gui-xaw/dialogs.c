@@ -50,7 +50,7 @@
 
 /* client */
 #include "chatline.h"
-#include "cityrep.h"	/* for popdown_city_report_dialog */
+#include "cityrep.h"    /* city_report_dialog_popdown() */
 #include "client_main.h"
 #include "climisc.h"
 #include "control.h" /* request_xxx and set_unit_focus */
@@ -1601,7 +1601,7 @@ bool popup_theme_suggestion_dialog(const char *theme_name)
 ***********************************************************************/
 void popdown_all_game_dialogs(void)
 {
-  popdown_city_report_dialog();
+  city_report_dialog_popdown();
   meswin_dialog_popdown();
   science_report_dialog_popdown();
   economy_report_dialog_popdown();

@@ -165,7 +165,7 @@ static char *get_city_table_header(void)
 /****************************************************************
 ...
 ****************************************************************/
-void popup_city_report_dialog(bool make_modal)
+void city_report_dialog_popup(bool make_modal)
 {
   if(!city_dialog_shell) {
       Position x, y;
@@ -195,7 +195,7 @@ void popup_city_report_dialog(bool make_modal)
 /****************************************************************
   Closes the cityrep dialog.
 ****************************************************************/
-void popdown_city_report_dialog(void)
+void city_report_dialog_popdown(void)
 {
   if (city_dialog_shell) {
     if (city_dialog_shell_is_modal) {
@@ -307,7 +307,7 @@ void create_city_report_dialog(bool make_modal)
 	 XtParseTranslationTable("<Message>WM_PROTOCOLS: msg-close-city-report()"));
   }
 
-  city_report_dialog_update();
+  real_city_report_dialog_update();
 }
 
 /****************************************************************
@@ -441,10 +441,10 @@ void city_refresh_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void city_close_callback(Widget w, XtPointer client_data, 
-			 XtPointer call_data)
+void city_close_callback(Widget w, XtPointer client_data,
+                         XtPointer call_data)
 {
-  popdown_city_report_dialog();
+  city_report_dialog_popdown();
 }
 
 /****************************************************************
@@ -502,7 +502,7 @@ void city_config_callback(Widget w, XtPointer client_data,
 /****************************************************************
 ...
 *****************************************************************/
-void city_report_dialog_update(void)
+void real_city_report_dialog_update(void)
 {
   if (NULL == client.conn.playing || is_report_dialogs_frozen()) {
     return;
@@ -622,7 +622,7 @@ void real_city_report_update_city(struct city *pcity)
       return;
     }
   }
-  city_report_dialog_update();
+  real_city_report_dialog_update();
 }
 
 /****************************************************************
@@ -752,7 +752,7 @@ void config_ok_command_callback(Widget w, XtPointer client_data,
     spec->show = (bool) b;
   }
   config_shell=0;
-  city_report_dialog_update();
+  real_city_report_dialog_update();
 }
 
 /**************************************************************************

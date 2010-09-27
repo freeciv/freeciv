@@ -160,7 +160,7 @@ void popdown_all_game_dialogs(void)
   meswin_dialog_popdown();
   popdown_worklist_editor();
   popdown_all_city_dialogs();
-  popdown_city_report_dialog();
+  city_report_dialog_popdown();
   economy_report_dialog_popdown();
   units_report_dialog_popdown();
   popdown_intel_dialogs();

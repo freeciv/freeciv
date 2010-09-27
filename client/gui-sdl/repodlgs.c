@@ -3369,7 +3369,7 @@ void science_report_dialogs_popdown_all(void)
 **************************************************************************/
 void update_report_dialogs(void)
 {
-  city_report_dialog_update();
+  /* Nothing to do anymore. */
 }
 
 /* ===================================================================== */

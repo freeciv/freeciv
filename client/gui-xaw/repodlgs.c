@@ -124,8 +124,7 @@ void activeunits_list_callback(Widget w, XtPointer client_data,
 *******************************************************************/
 void update_report_dialogs(void)
 {
-  if(is_report_dialogs_frozen()) return;
-  city_report_dialog_update(); 
+  /* Nothing to do anymore. */
 }
 
 /****************************************************************

@@ -211,9 +211,10 @@ static void xaw_key_move_north_west(Widget w, XEvent *event, String *argv, Cardi
 
 static void xaw_key_open_city_report(Widget w, XEvent *event, String *argv, Cardinal *argc)
 {
-  if (can_client_change_view() &&
-     is_menu_item_active(MENU_REPORT, MENU_REPORT_CITIES))
-    popup_city_report_dialog(0);
+  if (can_client_change_view()
+      && is_menu_item_active(MENU_REPORT, MENU_REPORT_CITIES)) {
+    city_report_dialog_popup(FALSE);
+  }
 }
 
 static void xaw_key_open_demographics(Widget w, XEvent *event, String *argv, Cardinal *argc)

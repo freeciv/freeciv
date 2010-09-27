@@ -241,10 +241,10 @@ static Uint16 main_key_down_handler(SDL_keysym Key, void *pData)
             units_report_dialog_popup(FALSE);
           return ID_ERROR;
 
-	  case SDLK_F4:
-            popup_city_report_dialog(FALSE);
-	  return ID_ERROR;
-	    
+          case SDLK_F4:
+            city_report_dialog_popup(FALSE);
+            return ID_ERROR;
+
 	  case SDLK_F7:
             send_report_request(REPORT_WONDERS_OF_THE_WORLD);
           return ID_ERROR;

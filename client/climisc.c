@@ -676,10 +676,6 @@ int collect_production_targets(struct universal *targets,
   cid cid;
   int items_used = 0;
 
-  if (NULL == client.conn.playing) {
-    return 0;
-  }
-
   for (cid = first; cid < last; cid++) {
     bool append = FALSE;
     struct universal target = cid_decode(cid);
@@ -689,10 +685,15 @@ int collect_production_targets(struct universal *targets,
     }
 
     if (!change_prod) {
-      city_list_iterate(client.conn.playing->cities, pcity) {
-	append |= test_func(pcity, cid_decode(cid));
+      if (client_has_player()) {
+        city_list_iterate(client_player()->cities, pcity) {
+          append |= test_func(pcity, cid_decode(cid));
+        } city_list_iterate_end;
+      } else {
+        cities_iterate(pcity) {
+          append |= test_func(pcity, cid_decode(cid));
+        } cities_iterate_end;
       }
-      city_list_iterate_end;
     } else {
       int i;
 

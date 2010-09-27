@@ -22,7 +22,7 @@
 /**************************************************************************
   Display the city report dialog.  Optionally raise it.
 **************************************************************************/
-void popup_city_report_dialog(bool raise)
+void city_report_dialog_popup(bool raise)
 {
   /* PORTME */
 }
@@ -30,7 +30,7 @@ void popup_city_report_dialog(bool raise)
 /**************************************************************************
   Update (refresh) the entire city report dialog.
 **************************************************************************/
-void city_report_dialog_update(void)
+void real_city_report_dialog_update(void)
 {
   /* PORTME */
 }

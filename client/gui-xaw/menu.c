@@ -822,7 +822,7 @@ static void reports_menu_callback(Widget w, XtPointer client_data,
 
   switch(pane_num) {
    case MENU_REPORT_CITIES:
-    popup_city_report_dialog(0);
+    city_report_dialog_popup(FALSE);
     break;
    case MENU_REPORT_UNITS:
     units_report_dialog_popup(FALSE);

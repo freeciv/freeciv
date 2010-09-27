@@ -773,7 +773,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
     tile_set_worked(pcenter, pcity); /* is_free_worked() */
     city_list_prepend(powner->cities, pcity);
 
-    if (powner == client_player()) {
+    if (client_is_global_observer() || powner == client_player()) {
       city_report_dialog_update();
     }
 
@@ -784,7 +784,7 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
       unit_list_iterate_end;
     } players_iterate_end;
   } else {
-    if (powner == client.conn.playing) {
+    if (client_is_global_observer() || powner == client_player()) {
       city_report_dialog_update_city(pcity);
     }
   }

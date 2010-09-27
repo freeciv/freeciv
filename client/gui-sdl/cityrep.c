@@ -50,7 +50,7 @@ static void real_info_city_report_dialog_update(void);
 
 /* ==================================================================== */
 
-void popdown_city_report_dialog()
+void city_report_dialog_popdown(void)
 {
   if (pCityRep) {
     popdown_window_group_dialog(pCityRep->pBeginWidgetList,
@@ -74,7 +74,7 @@ static int city_report_windows_callback(struct widget *pWindow)
 static int exit_city_report_callback(struct widget *pWidget)
 {
   if (Main.event.button.button == SDL_BUTTON_LEFT) {
-    popdown_city_report_dialog();
+    city_report_dialog_popdown();
   }
   return -1;
 }
@@ -1079,7 +1079,7 @@ bool is_city_report_open(void)
   Pop up or brings forward the city report dialog.  It may or may not
   be modal.
 **************************************************************************/
-void popup_city_report_dialog(bool make_modal)
+void city_report_dialog_popup(bool make_modal)
 {
   if(!pCityRep) {
     real_info_city_report_dialog_update();
@@ -1089,7 +1089,7 @@ void popup_city_report_dialog(bool make_modal)
 /**************************************************************************
   Update (refresh) the entire city report dialog.
 **************************************************************************/
-void city_report_dialog_update(void)
+void real_city_report_dialog_update(void)
 {
   if(pCityRep && !is_report_dialogs_frozen()) {
     struct widget *pWidget;
