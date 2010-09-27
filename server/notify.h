@@ -88,6 +88,7 @@ struct event_cache_players;
 
 void event_cache_init(void);
 void event_cache_free(void);
+void event_cache_clear(void);
 void event_cache_remove_old(void);
 
 void event_cache_add_for_all(const struct packet_chat_msg *packet);

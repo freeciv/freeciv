@@ -518,6 +518,16 @@ void event_cache_free(void)
 }
 
 /**************************************************************************
+  Remove all events from the cache.
+**************************************************************************/
+void event_cache_clear(void)
+{
+  event_cache_iterate(pdata) {
+    event_cache_data_destroy(pdata);
+  } event_cache_iterate_end;
+}
+
+/**************************************************************************
   Remove the old events from the cache.
 **************************************************************************/
 void event_cache_remove_old(void)

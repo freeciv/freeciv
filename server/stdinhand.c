@@ -966,9 +966,11 @@ static bool read_init_script_real(struct connection *caller,
     return TRUE;
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
-	_("Cannot read command line scriptfile '%s'."), real_filename);
-    freelog(LOG_ERROR,
-	_("Could not read script file '%s'."), real_filename);
+              _("Cannot read command line scriptfile '%s'."), real_filename);
+    if (NULL != caller) {
+      freelog(LOG_ERROR, _("Could not read script file '%s'."),
+              real_filename);
+    }
     return FALSE;
   }
 }
@@ -3857,11 +3859,14 @@ static bool reset_command(struct connection *caller, bool check,
 
   settings_reset();
 
-  if (srvarg.script_filename &&
-      !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
-                             read_recursion)) {
-    freelog(LOG_ERROR, _("Cannot load the script file '%s'"),
-            srvarg.script_filename);
+  if (NULL != srvarg.script_filename
+      && !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
+                                read_recursion)) {
+    if (NULL != caller) {
+      cmd_reply(CMD_RESET, caller, C_FAIL,
+                _("Could not read script file '%s'."),
+                srvarg.script_filename);
+    }
     return FALSE;
   }
 
