@@ -1149,8 +1149,10 @@ static bool read_init_script_real(struct connection *caller,
     return TRUE;
   } else {
     cmd_reply(CMD_READ_SCRIPT, caller, C_FAIL,
-	_("Cannot read command line scriptfile '%s'."), real_filename);
-    log_error(_("Could not read script file '%s'."), real_filename);
+              _("Cannot read command line scriptfile '%s'."), real_filename);
+    if (NULL != caller) {
+      log_error(_("Could not read script file '%s'."), real_filename);
+    }
     return FALSE;
   }
 }
@@ -4356,11 +4358,14 @@ static bool reset_command(struct connection *caller, char *arg, bool check,
                 "script."));
     settings_reset();
     /* load initial script */
-    if (srvarg.script_filename &&
-        !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
-                               read_recursion + 1)) {
-      log_error(_("Cannot load the script file '%s'"),
-                srvarg.script_filename);
+    if (NULL != srvarg.script_filename
+        && !read_init_script_real(NULL, srvarg.script_filename, TRUE, FALSE,
+                                  read_recursion + 1)) {
+      if (NULL != caller) {
+        cmd_reply(CMD_RESET, caller, C_FAIL,
+                  _("Could not read script file '%s'."),
+                  srvarg.script_filename);
+      }
       return FALSE;
     }
     break;

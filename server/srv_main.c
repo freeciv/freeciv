@@ -2189,16 +2189,6 @@ static void srv_prepare(void)
       exit(EXIT_FAILURE);
     }
   }
-
-  /* accept new players, wait for serverop to start..*/
-  set_server_state(S_S_INITIAL);
-  aifill(game.info.aifill);
-
-  /* load a script file */
-  if (srvarg.script_filename
-      && !read_init_script(NULL, srvarg.script_filename, TRUE, FALSE)) {
-    exit(EXIT_FAILURE);
-  }
 }
 
 /**************************************************************************
@@ -2450,6 +2440,17 @@ void srv_main(void)
 
   /* Run server loop */
   do {
+    set_server_state(S_S_INITIAL);
+
+    /* Load a script file. */
+    if (NULL != srvarg.script_filename) {
+      /* Adding an error message more here will duplicate them. */
+      (void) read_init_script(NULL, srvarg.script_filename, TRUE, FALSE);
+    }
+
+    aifill(game.info.aifill);
+    event_cache_clear();
+
     log_normal(_("Now accepting new client connections."));
     /* Remain in S_S_INITIAL until all players are ready. */
     while (S_E_FORCE_END_OF_SNIFF != server_sniff_all_input()) {
@@ -2480,7 +2481,6 @@ void srv_main(void)
     server_game_init();
     load_rulesets();
     game.info.is_new_game = TRUE;
-    set_server_state(S_S_INITIAL);
   } while (TRUE);
 
   /* Technically, we won't ever get here. We exit via server_quit. */
