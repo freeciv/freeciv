@@ -229,21 +229,21 @@ names =
 [settings]
 set =
     { "name", "value", "lock"
-      "generator", "Island-based", FALSE
-      "topology", "Donut World (wraps N-S, E-W)", FALSE
-      "startpos", "One player per continent", FALSE
+      "generator", "ISLAND", FALSE
+      "topology", "WRAPXY", FALSE
+      "startpos", "ONE_PER_CONT", FALSE
       "tinyisles", FALSE, FALSE
       "alltemperate", TRUE, FALSE
       "separatepoles", FALSE, FALSE
       "huts", 0, FALSE
       "aifill", 0, FALSE
       "dispersion", 0, FALSE
-      "diplomacy", "Disabled for everyone", FALSE
+      "diplomacy", "DISABLED", FALSE
       "contactturns", 0, FALSE
       "revolen", 2, FALSE
-      "barbarians", "No barbarians", FALSE
+      "barbarians", "NO_BARBS", FALSE
       "techpenalty", 0, FALSE
       "startunits", "cccwwwxxxx", FALSE
       "specials", 350, FALSE
-      "borders", "Disabled", FALSE
+      "borders", "DISABLED", FALSE
     }

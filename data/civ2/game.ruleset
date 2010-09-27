@@ -177,5 +177,5 @@ set =
     { "name", "value", "lock"
       "sciencebox", 50, FALSE
       "startunits", "cc", FALSE
-      "borders", "Disabled", FALSE
+      "borders", "DISABLED", FALSE
     }
