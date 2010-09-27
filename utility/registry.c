@@ -1708,6 +1708,7 @@ bool secfile_entry_delete(struct section_file *secfile,
   va_end(args);
 
   if (!(pentry = secfile_entry_by_path(secfile, fullpath))) {
+    SECFILE_LOG(secfile, NULL, "Path %s does not exists.", fullpath);
     return FALSE;
   }
 
