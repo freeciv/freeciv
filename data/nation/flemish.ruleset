@@ -3,11 +3,11 @@
 name=_("Flemish")
 plural=_("?plural:Flemings")
 groups="Medieval", "European"
-legend = _("In the Middle Ages Flanders was a county on the border of\
- France and the Holy Roman Empire. In the 15th century it came under\
+legend = _("In the Middle Ages, Flanders was a county on the border of\
+ France and the Holy Roman Empire. In the 15th century, it came under\
  Habsburg domination and subsequently it became one of the Seventeen\
- Netherlands but only after its conquest by Revolutionary France the\
- county was legally dissolved. Nowadays the name is applied to the\
+ Netherlands. Only after its conquest by Revolutionary France was the\
+ county legally dissolved. Nowadays the name is applied to the\
  Dutch (or Flemish) speaking part of Belgium.")
 leader=
  "Boudewijn met de IJzeren Arm",

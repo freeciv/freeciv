@@ -17,7 +17,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-26 14:18+0100\n"
+"POT-Creation-Date: 2010-09-29 00:28+0100\n"
 "PO-Revision-Date: 2007-09-01 22:37+0300\n"
 "Last-Translator: Mateusz Stefek <matusik_s@o2.pl>\n"
 "Language-Team: none\n"
@@ -752,7 +752,6 @@ msgstr "?diplomatic_state:Pokój"
 msgid "?diplomatic_state:Alliance"
 msgstr "?diplomatic_state:Sojusz"
 
-#
 #: common/player.c:1174
 msgid "?diplomatic_state:Never met"
 msgstr "?diplomatic_state:Brak kontaktu"
@@ -2659,7 +2658,6 @@ msgstr "  -M, --Metaserver ADRES\tUstal ADRES jako adres metaserwera.\n"
 msgid "  -l, --log FILE\tUse FILE as logfile\n"
 msgstr "  -l, --log PLIK\tUżyj PLIK jako pliku dziennika.\n"
 
-#
 #: server/civserver.c:343
 msgid "  -m, --meta\t\tNotify metaserver and send server's info\n"
 msgstr "  -m, --meta\t\tZamelduj się i wyślij info do metaserwera\n"
@@ -3040,7 +3038,6 @@ msgstr "aitoggle <gracz>"
 msgid "Toggle AI status of player."
 msgstr "Przełącza kontrolę nad graczem."
 
-#
 #. TRANS: translate text between [] and <> only
 #: server/commands.c:253
 msgid "take [connection-name] <player-name>"
@@ -3575,7 +3572,6 @@ msgstr "Witamy na serwerze %s, na porcie %d."
 msgid "%s has connected from %s."
 msgstr "Połączył się %s z %s."
 
-#
 #: server/connecthand.c:190
 msgid "Couldn't attach your connection to new player."
 msgstr "Nie udało się przypisać Ci nowego gracza."
@@ -6085,7 +6081,7 @@ msgstr ""
 
 #: server/settings.c:1132
 msgid ""
-"If this setting is turn on, then the team mates will shared the science "
+"If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
 msgstr ""
 
@@ -6213,7 +6209,6 @@ msgstr ""
 msgid "Minimum distance between cities"
 msgstr "Minimalna odległość między miastami"
 
-#
 #: server/settings.c:1229
 #, fuzzy
 msgid ""
@@ -6827,7 +6822,6 @@ msgid ""
 "limited to a maximum value of 2/3 'timeout'."
 msgstr ""
 
-#
 #: server/settings.c:1698
 #, fuzzy
 msgid "Control of simultaneous player/team phases."
@@ -7025,7 +7019,6 @@ msgid ""
 "appended to the value of 'savename'."
 msgstr ""
 
-#
 #: server/settings.c:1834
 msgid "Whether to log player statistics"
 msgstr "Czy zapisywać statystyki graczy"
@@ -7544,7 +7537,6 @@ msgstr "Zamykam połączenie z metaserwerem [%s]."
 msgid "Metaserver connection is open."
 msgstr "Połączenie z metaserwerem otwarte."
 
-#
 #: server/stdinhand.c:463
 msgid "Metaserver connection is closed."
 msgstr "Połączenie z metaserwerem zamknięte."
@@ -7907,7 +7899,6 @@ msgstr "%s nie jest kontrolowany przez AI."
 msgid "Default AI skill level set to '%s'."
 msgstr "Domyślny poziom trudności AI ustawiony na '%s'."
 
-#
 #: server/stdinhand.c:1918
 msgid "This command is client only."
 msgstr "Ten rozkaz ma sens tylko z poziomu klienta."
@@ -8001,7 +7992,6 @@ msgstr ""
 "Spróbuj 'show situational' lub 'show rare' aby zobaczyć więcej opcji.\n"
 "Spróbuj 'show changed' aby zobaczyć opcje z innymi niż domyślne wartościami."
 
-#
 #: server/stdinhand.c:2188
 msgid "Cannot change teams once game has begun."
 msgstr "Po rozpoczęciu rozgrywki nie można zmieniać zespołów."
@@ -8121,7 +8111,6 @@ msgstr ""
 msgid "Missing argument <vote number> or the string \"all\"."
 msgstr ""
 
-#
 #: server/stdinhand.c:2428
 #, fuzzy
 msgid "You don't have any vote going on."
@@ -8161,7 +8150,6 @@ msgstr ""
 msgid "The vote \"%s\" (number %d) has been cancelled."
 msgstr ""
 
-#
 #: server/stdinhand.c:2505
 msgid "Can only use this command once game has begun."
 msgstr "Tej komendy można używać dopiero po rozpoczęciu gry."
@@ -9375,7 +9363,6 @@ msgstr "Jednostka %s bezpiecznie przetransportowana."
 msgid "This unit type can not be paradropped."
 msgstr "Ta jednostka nie może być przerzucona."
 
-#
 #: server/unittools.c:2282
 #, fuzzy
 msgid "You cannot paradrop a unit that is transporting other units."
@@ -9385,7 +9372,6 @@ msgstr "Nie możesz przerzucać jednostki transportującej."
 msgid "The destination location is not known."
 msgstr "Cel jest nieznany."
 
-#
 #: server/unittools.c:2298
 #, c-format
 msgid "This unit cannot paradrop into %s."
@@ -17872,7 +17858,6 @@ msgstr ""
 msgid "Cancel Treaty"
 msgstr "Anuluj Pakt"
 
-#
 #: client/gui-sdl/diplodlg.c:1492 client/gui-win32/plrdlg.c:355
 #: data/Freeciv.in:3261
 msgid "Withdraw vision"
@@ -20104,7 +20089,6 @@ msgstr ""
 msgid "Modpack control file has no capability string"
 msgstr "Napis określający funkcjonalność klienta: %s"
 
-#
 #: modinst/download.c:295
 #, fuzzy
 msgid "Modpack control file is incompatible"
@@ -20783,7 +20767,6 @@ msgid ""
 "no benefit - and once established, cannot be revoked."
 msgstr ""
 
-#
 #: data/helpdata.txt:198
 #, fuzzy
 msgid ""
@@ -22110,7 +22093,6 @@ msgstr ""
 " - Obrona SDI jeszcze raz podwaja współczynnik obrony w starciu z "
 "jednostkami powietrznymi."
 
-#
 #: data/helpdata.txt:1071
 msgid ""
 " - If the attacker is a ship and the defender is in a city with a Coastal "
@@ -22119,7 +22101,6 @@ msgstr ""
 " - Jeżeli jednostka atakująca to statek, a obrońca stacjonuje w mieście z "
 "Obroną Wybrzeża, współczynnik obrony jest podwajany."
 
-#
 #: data/helpdata.txt:1074
 msgid ""
 " - Against land units (other than Howitzers) and Helicopters, defending "
@@ -22146,7 +22127,6 @@ msgstr ""
 "ufortyfikowana, albo znajduje się wewnątrz miasta, jego siła jest mnożona "
 "przez 1,5."
 
-#
 #: data/helpdata.txt:1084
 #, fuzzy
 msgid ""
@@ -22229,7 +22209,6 @@ msgstr ""
 "aktualną Akademię Wojny Sun Tzu, to jednostka zawsze otrzyma status "
 "weterana, w innym przypadku szansa na otrzymanie tego statusu wynosi 50%."
 
-#
 #: data/helpdata.txt:1122
 #, fuzzy
 msgid ""
@@ -23084,7 +23063,6 @@ msgid ""
 "    Ctrl-M: toggle fog of war in editing mode\n"
 msgstr ""
 
-#
 #: data/helpdata.txt:1612
 msgid ""
 "The Citizen Governor (formerly called the CMA) helps you manage your cities. "
@@ -23330,7 +23308,6 @@ msgid ""
 "i] test[/b] this[/s] [/c]new[/u] feature[/c]'."
 msgstr ""
 
-#
 #: data/helpdata.txt:1775
 msgid ""
 "The worklist editor is used to edit both worklists for each city (from the "
@@ -23871,7 +23848,6 @@ msgstr ""
 msgid "Research Lab"
 msgstr "Laboratoria"
 
-#
 #: data/default/buildings.ruleset:699
 #, no-c-format
 msgid ""
@@ -24639,7 +24615,6 @@ msgstr ""
 "\n"
 "Miasto może mieć tylko jedną elektrownię: wodną, cieplną lub atomową."
 
-#
 #: data/civ2/buildings.ruleset:654
 #, no-c-format
 msgid ""
@@ -27215,7 +27190,7 @@ msgstr "?plural:Kanadyjczycy"
 msgid ""
 "Acadia was first founded in 1604 as the first French colony in North "
 "America. It was soon caught in the crossfire of French-English wars, leading "
-"Acadia to change hands frequently. This led Acadians to develop a seperate "
+"Acadia to change hands frequently. This led Acadians to develop a separate "
 "identity and a form of self-government. Their lack of support for any side "
 "in these wars earned them the title of French neutrals, but also the "
 "distrust of British colonial authorities who would forcefully deport them in "
@@ -27229,7 +27204,7 @@ msgstr ""
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:26
 #: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
 #: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:40
-#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:28
+#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:29
 #: data/nation/english.ruleset:25 data/nation/flemish.ruleset:32
 #: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
 #: data/nation/grenadian.ruleset:23 data/nation/hellenic.ruleset:20
@@ -27256,7 +27231,7 @@ msgstr "Premier"
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:26
 #: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
 #: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:40
-#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:28
+#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:29
 #: data/nation/english.ruleset:25 data/nation/flemish.ruleset:32
 #: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
 #: data/nation/grenadian.ruleset:23 data/nation/hellenic.ruleset:20
@@ -27460,7 +27435,7 @@ msgstr "Szach"
 
 #: data/nation/alandalus.ruleset:36 data/nation/algerian.ruleset:24
 #: data/nation/amazigh.ruleset:65 data/nation/arab.ruleset:23
-#: data/nation/egyptianarab.ruleset:27 data/nation/emirati.ruleset:27
+#: data/nation/egyptianarab.ruleset:28 data/nation/emirati.ruleset:27
 #: data/nation/himyarite.ruleset:33 data/nation/moroccan.ruleset:34
 #: data/nation/saudi.ruleset:26 data/nation/somali.ruleset:37
 #: data/nation/tunisian.ruleset:30
@@ -27469,7 +27444,7 @@ msgstr "Kalif"
 
 #: data/nation/alandalus.ruleset:36 data/nation/algerian.ruleset:24
 #: data/nation/amazigh.ruleset:65 data/nation/arab.ruleset:23
-#: data/nation/egyptianarab.ruleset:27 data/nation/emirati.ruleset:27
+#: data/nation/egyptianarab.ruleset:28 data/nation/emirati.ruleset:27
 #: data/nation/himyarite.ruleset:33 data/nation/moroccan.ruleset:34
 #: data/nation/saudi.ruleset:26 data/nation/somali.ruleset:37
 #: data/nation/tunisian.ruleset:30
@@ -27478,7 +27453,7 @@ msgid "Calipha"
 msgstr "Kalif"
 
 #: data/nation/alandalus.ruleset:38 data/nation/amazigh.ruleset:67
-#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:26
+#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:32
 #: data/nation/malaysian.ruleset:22 data/nation/moroccan.ruleset:33
 #: data/nation/omani.ruleset:27 data/nation/singaporean.ruleset:32
@@ -27487,7 +27462,7 @@ msgid "Sultan"
 msgstr "Sułtan"
 
 #: data/nation/alandalus.ruleset:38 data/nation/amazigh.ruleset:67
-#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:26
+#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:32
 #: data/nation/malaysian.ruleset:22 data/nation/moroccan.ruleset:33
 #: data/nation/omani.ruleset:27 data/nation/singaporean.ruleset:32
@@ -27692,7 +27667,6 @@ msgstr "Amerykański"
 msgid "?plural:Americans"
 msgstr "Amerykanie"
 
-#
 #: data/nation/american.ruleset:6
 #, fuzzy
 msgid ""
@@ -28768,7 +28742,7 @@ msgid "Empress"
 msgstr "Cesarzowa"
 
 #: data/nation/brazilian.ruleset:30 data/nation/chinese.ruleset:32
-#: data/nation/egyptianarab.ruleset:25 data/nation/nepali.ruleset:31
+#: data/nation/egyptianarab.ruleset:26 data/nation/nepali.ruleset:31
 #: data/nation/nimiipuu.ruleset:43 data/nation/southvietnamese.ruleset:22
 #: data/nation/walloon.ruleset:27
 msgid "Chairman"
@@ -29557,13 +29531,13 @@ msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
 "for most of its modern history. In 1885 Congo was awarded to Leopold II of "
-"Beglium as his personal posession, the Congo Free State, which turned the "
+"Belgium as his personal possession, the Congo Free State, which turned the "
 "country into a slaughterhouse. At least twenty per cent of the population "
 "perished and after an international outcry it became a Belgian colony in "
-"1906 it became a Belgian colony and it achieved independence in 1960. The "
-"Mobutu dictatorship started a new round of pillaging. When Mobutu was "
-"toppled the country sank into a civil war, causing five million deaths, the "
-"bloodiest event since World War II."
+"1906. It achieved independence in 1960. The Mobutu dictatorship started a "
+"new round of pillaging. When Mobutu was toppled the country sank into a "
+"civil war, causing five million deaths, the bloodiest event since World War "
+"II."
 msgstr ""
 
 #: data/nation/cornish.ruleset:3
@@ -29708,7 +29682,7 @@ msgstr "?plural:Arameńczycy"
 #: data/nation/crimeantatar.ruleset:6
 msgid ""
 "Historical feudal state on the Crimean Peninsula, existing from the 15th to "
-"the 18th century. Crimean Tatars invaded Poland and Russia, which was caused "
+"the 18th century. Crimean Tatars invaded Poland and Russia, which caused "
 "wars with Turkey."
 msgstr ""
 
@@ -30030,11 +30004,12 @@ msgstr "?plural:Egipcjanie"
 
 #: data/nation/egyptianarab.ruleset:6
 msgid ""
-"Modern Egypt is most populated Middle Eastern country, located on the site "
-"of the world's most ancient civilization."
+"Modern Egypt is the most populous Middle Eastern country as well as one of "
+"the most populous in Africa. It is located on the site of one of the world's "
+"most ancient civilizations."
 msgstr ""
 
-#: data/nation/egyptianarab.ruleset:25 data/nation/nepali.ruleset:31
+#: data/nation/egyptianarab.ruleset:26 data/nation/nepali.ruleset:31
 #: data/nation/nimiipuu.ruleset:43 data/nation/southvietnamese.ruleset:22
 #: data/nation/walloon.ruleset:27
 #, fuzzy
@@ -30053,7 +30028,7 @@ msgstr "?plural:Elfy"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
-"Elam was an ancient civilization located in now area of modern southwest "
+"Elam was an ancient civilization located in the area of modern southwest "
 "Iran, which arose around 3100 BC. The Elamite language, written in "
 "cuneiform, is of unkown origin. In 643 BC the Elamite civilization was "
 "destroyed by the Assyrians under Assurbanipal."
@@ -30265,10 +30240,10 @@ msgstr "?plural:Finowie"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
-"In the Middle Ages Flanders was a county on the border of France and the "
-"Holy Roman Empire. In the 15th century it came under Habsburg domination and "
-"subsequently it became one of the Seventeen Netherlands but only after its "
-"conquest by Revolutionary France the county was legally dissolved. Nowadays "
+"In the Middle Ages, Flanders was a county on the border of France and the "
+"Holy Roman Empire. In the 15th century, it came under Habsburg domination "
+"and subsequently it became one of the Seventeen Netherlands. Only after its "
+"conquest by Revolutionary France was the county legally dissolved. Nowadays "
 "the name is applied to the Dutch (or Flemish) speaking part of Belgium."
 msgstr ""
 
@@ -30456,8 +30431,8 @@ msgstr "?plural:Polacy"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
-"Greater Poland or Wielkopolska is historic and geographic region of central-"
-"western Poland."
+"Greater Poland or Wielkopolska is a historic and geographic region of "
+"central-western Poland."
 msgstr ""
 
 #: data/nation/greaterpolish.ruleset:18 data/nation/mazovian.ruleset:22
@@ -31295,10 +31270,10 @@ msgid ""
 "rivers in the 14th century. The King, or Burba Jolof, was beholden to a "
 "handful of powerful regional noblemen who acknowledged kinship with the king "
 "but developed personal power bases as well. By the early 1500s, the Burba "
-"Jolof could field as many has 100,000 infantry and 10,000 cavalry. Fulani "
-"and Berber incursions coupled with political weakness eroded away the power "
-"of the Burba Jolof. Various Wolof-speaking states established unions with "
-"one another, with their heads assuming the powers of Burba Jolof. The 19th "
+"Jolof could field as many as 100,000 infantry and 10,000 cavalry. Fulani and "
+"Berber incursions coupled with political weakness eroded away the power of "
+"the Burba Jolof. Various Wolof-speaking states established unions with one "
+"another, with their heads assuming the powers of Burba Jolof. The 19th "
 "century brought with it French colonization and a conversion to Islam fueled "
 "in large part by anti-European sentiment."
 msgstr ""
@@ -31554,7 +31529,7 @@ msgstr "?plural:Melezyjczycy"
 msgid ""
 "Kosovo is a country on the Balkans. It declared independence in 2008. Serbia "
 "claims Kosovo as a province and its independence is not universally "
-"reconigzed."
+"recognized."
 msgstr ""
 
 #: data/nation/kurd.ruleset:3
@@ -31780,7 +31755,7 @@ msgid ""
 "empire was split in three in 843. Initially stretching from the North Sea to "
 "the Mediterranean, its territory was mutilated during the struggles between "
 "the various Frankish dynasties. What was left of Lorraine became a duchy "
-"that both France and Germany were continuously eying for. Lorraine became a "
+"that both France and Germany were continuously eyeing for. Lorraine became a "
 "province of France in 1766."
 msgstr ""
 
@@ -32059,7 +32034,6 @@ msgstr ""
 msgid "Mapuche"
 msgstr "Kambodżyjski"
 
-#
 #: data/nation/mapuche.ruleset:4
 #, fuzzy
 msgid "?plural:Mapuche"
@@ -32130,7 +32104,7 @@ msgid "?plural:Mazovians"
 msgstr "?plural:Melezyjczycy"
 
 #: data/nation/mazovian.ruleset:6
-msgid "Mazovia is historic and geographic region of central-eastern Poland."
+msgid "Mazovia is a historic and geographic region of central-eastern Poland."
 msgstr ""
 
 #: data/nation/mexican.ruleset:3
@@ -32455,7 +32429,7 @@ msgstr "?plural:Nigeryjczycy"
 
 #: data/nation/namibian.ruleset:7
 msgid ""
-"Although European Powers long neglected the desertic African South2est, the "
+"Although European Powers long neglected the desertic African Southwest, the "
 "German Empire established a colony there in the late nineteenth century. "
 "After losing World War I, the territory became a mandate under the "
 "responsibility of the Union of South Africa. It finally became independent "
@@ -32535,7 +32509,7 @@ msgid ""
 "In precolumbian times Newfoundland and Labrador were settled by the Beothuk, "
 "though around 1000 AD for a short time Vikings also settled there. From the "
 "late 15th century onward Newfoundland was visited by the Portuguese and "
-"English. England and France contested the island until 1713m when France "
+"English. England and France contested the island until 1713, when France "
 "relinquished its claims. Newfoundland became a dominion in 1907. Badly hit "
 "by the Great Depression, in 1934 it voluntarily surrendered its sovereignty "
 "to the UK. Newfoundland passed to Canada in 1949, currently it is known as "
@@ -32753,7 +32727,6 @@ msgstr ""
 msgid "Nuu-chah-nulth"
 msgstr ""
 
-#
 #: data/nation/nuu-chah-nulth.ruleset:4
 #, fuzzy
 msgid "?plural:Nuu-chah-nulth"
@@ -32886,7 +32859,7 @@ msgstr "?plural:Rosjanie"
 #: data/nation/ossetian.ruleset:6
 msgid ""
 "Modern Ossetians are the successors of the Alans of Ancient history, who "
-"fled into the moutains during the Hunnic invasions. Around 800 AD and Alanic "
+"fled into the mountains during the Hunnic invasions. Around 800 AD an Alanic "
 "kingdom emerged in the Northern Caucasus, which continued to exist until the "
 "Mongol invasions. Nowadays Ossetians live in the Republic of North Ossetia "
 "(part of Russian Federation) and in the partially recognized Republic of "
@@ -32918,7 +32891,7 @@ msgid ""
 "Central Mexico ever since the development of agriculture or even longer. A "
 "warlike people, they served as mercenaries in the armies of many "
 "Mesoamerican civilizations and got their name from the otmitl, the crack "
-"miltary order of the Aztecs, in which many of them served. In their own "
+"military order of the Aztecs, in which many of them served. In their own "
 "language they are called Hnahnu. With more than half a million people the "
 "Otomi are still one of the biggest indigenous groups of Mexico."
 msgstr ""
@@ -33438,7 +33411,7 @@ msgstr "?plural:Rosjanie"
 
 #: data/nation/ruthenian.ruleset:6
 msgid ""
-"The Kievan Rus' were a Medieval Slavic monarchy. Its was centered in Kiev "
+"The Kievan Rus' were a Medieval Slavic monarchy. It was centered in Kiev "
 "after that city was conquered by Oleg of Novgorod. In the 13th century the "
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
@@ -34829,7 +34802,7 @@ msgid ""
 "The Walloons are the French speaking inhabitants of Belgium. In the 19th "
 "century, Wallonia was first region on the European continent to "
 "industrialize and the second in the world after England. It subsequently "
-"became a hotbet of socialist and labor union activity."
+"became a hotbed of socialist and labor union activity."
 msgstr ""
 
 #: data/nation/welsh.ruleset:3

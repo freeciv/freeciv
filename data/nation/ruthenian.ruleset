@@ -3,7 +3,7 @@
 name=_("Ruthenian")
 plural=_("?plural:Ruthenians")
 groups="European", "Medieval"
-legend=_("The Kievan Rus' were a Medieval Slavic monarchy. Its was\
+legend=_("The Kievan Rus' were a Medieval Slavic monarchy. It was\
  centered in Kiev after that city was conquered by Oleg of Novgorod.\
  In the 13th century the Rus' succumbed to a Mongol invasion. The Rus'\
  were the precursors of the modern East Slavic nations.")

@@ -5,7 +5,7 @@ plural=_("?plural:Kosovars")
 groups="European", "Modern"
 legend=_("Kosovo is a country on the Balkans. It declared independence in\
  2008. Serbia claims Kosovo as a province and its independence is not\
- universally reconigzed.")
+ universally recognized.")
 leader=
  "Mahmud Shevket Pasha",
  "Bajram Curri",

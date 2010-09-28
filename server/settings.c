@@ -1129,7 +1129,7 @@ static struct setting settings[] = {
   GEN_BOOL("team_pooled_research", game.info.team_pooled_research,
            SSET_RULES, SSET_SCIENCE, SSET_VITAL, SSET_TO_CLIENT,
            N_("Team pooled research"),
-           N_("If this setting is turn on, then the team mates will shared "
+           N_("If this setting is turned on, then the team mates will share "
               "the science research. Else, every player of the team will "
               "have to make its own."),
            NULL, NULL, GAME_DEFAULT_TEAM_POOLED_RESEARCH)

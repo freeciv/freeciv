@@ -3,7 +3,7 @@
 name=_("Mazovian")
 plural=_("?plural:Mazovians")
 groups="European", "Medieval"
-legend=_("Mazovia is historic and geographic region of central-eastern Poland.")
+legend=_("Mazovia is a historic and geographic region of central-eastern Poland.")
 leader="Miecław",
  "Bolesław IV Kędzierzawy",
  "Kazimierz II Sprawiedliwy",

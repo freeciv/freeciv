@@ -15,7 +15,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Freeciv 2.1-beta1\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-09-26 14:18+0100\n"
+"POT-Creation-Date: 2010-09-29 00:28+0100\n"
 "PO-Revision-Date: 2007-08-11 01:51+0300\n"
 "Last-Translator: Claudio M. Camacho <claudiomkd@gmail.com>\n"
 "Language-Team: Español <es@li.org>\n"
@@ -6141,7 +6141,7 @@ msgstr "Ritmo de investigación: no hay investigación."
 
 #: server/settings.c:1132
 msgid ""
-"If this setting is turn on, then the team mates will shared the science "
+"If this setting is turned on, then the team mates will share the science "
 "research. Else, every player of the team will have to make its own."
 msgstr ""
 
@@ -27383,7 +27383,7 @@ msgstr "Canadienses"
 msgid ""
 "Acadia was first founded in 1604 as the first French colony in North "
 "America. It was soon caught in the crossfire of French-English wars, leading "
-"Acadia to change hands frequently. This led Acadians to develop a seperate "
+"Acadia to change hands frequently. This led Acadians to develop a separate "
 "identity and a form of self-government. Their lack of support for any side "
 "in these wars earned them the title of French neutrals, but also the "
 "distrust of British colonial authorities who would forcefully deport them in "
@@ -27397,7 +27397,7 @@ msgstr ""
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:26
 #: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
 #: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:40
-#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:28
+#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:29
 #: data/nation/english.ruleset:25 data/nation/flemish.ruleset:32
 #: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
 #: data/nation/grenadian.ruleset:23 data/nation/hellenic.ruleset:20
@@ -27424,7 +27424,7 @@ msgstr "Primer Ministro"
 #: data/nation/cambodian.ruleset:23 data/nation/canadian.ruleset:26
 #: data/nation/catalan.ruleset:31 data/nation/danish.ruleset:37
 #: data/nation/dominican.ruleset:24 data/nation/dutch.ruleset:40
-#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:28
+#: data/nation/eastgerman.ruleset:27 data/nation/egyptianarab.ruleset:29
 #: data/nation/english.ruleset:25 data/nation/flemish.ruleset:32
 #: data/nation/galician.ruleset:22 data/nation/greek.ruleset:20
 #: data/nation/grenadian.ruleset:23 data/nation/hellenic.ruleset:20
@@ -27629,7 +27629,7 @@ msgstr "Sha"
 
 #: data/nation/alandalus.ruleset:36 data/nation/algerian.ruleset:24
 #: data/nation/amazigh.ruleset:65 data/nation/arab.ruleset:23
-#: data/nation/egyptianarab.ruleset:27 data/nation/emirati.ruleset:27
+#: data/nation/egyptianarab.ruleset:28 data/nation/emirati.ruleset:27
 #: data/nation/himyarite.ruleset:33 data/nation/moroccan.ruleset:34
 #: data/nation/saudi.ruleset:26 data/nation/somali.ruleset:37
 #: data/nation/tunisian.ruleset:30
@@ -27638,7 +27638,7 @@ msgstr "Califa"
 
 #: data/nation/alandalus.ruleset:36 data/nation/algerian.ruleset:24
 #: data/nation/amazigh.ruleset:65 data/nation/arab.ruleset:23
-#: data/nation/egyptianarab.ruleset:27 data/nation/emirati.ruleset:27
+#: data/nation/egyptianarab.ruleset:28 data/nation/emirati.ruleset:27
 #: data/nation/himyarite.ruleset:33 data/nation/moroccan.ruleset:34
 #: data/nation/saudi.ruleset:26 data/nation/somali.ruleset:37
 #: data/nation/tunisian.ruleset:30
@@ -27647,7 +27647,7 @@ msgid "Calipha"
 msgstr "Califa"
 
 #: data/nation/alandalus.ruleset:38 data/nation/amazigh.ruleset:67
-#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:26
+#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:32
 #: data/nation/malaysian.ruleset:22 data/nation/moroccan.ruleset:33
 #: data/nation/omani.ruleset:27 data/nation/singaporean.ruleset:32
@@ -27656,7 +27656,7 @@ msgid "Sultan"
 msgstr "Sultán"
 
 #: data/nation/alandalus.ruleset:38 data/nation/amazigh.ruleset:67
-#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:26
+#: data/nation/arab.ruleset:22 data/nation/egyptianarab.ruleset:27
 #: data/nation/emirati.ruleset:26 data/nation/himyarite.ruleset:32
 #: data/nation/malaysian.ruleset:22 data/nation/moroccan.ruleset:33
 #: data/nation/omani.ruleset:27 data/nation/singaporean.ruleset:32
@@ -28951,7 +28951,7 @@ msgid "Empress"
 msgstr "Emperatriz"
 
 #: data/nation/brazilian.ruleset:30 data/nation/chinese.ruleset:32
-#: data/nation/egyptianarab.ruleset:25 data/nation/nepali.ruleset:31
+#: data/nation/egyptianarab.ruleset:26 data/nation/nepali.ruleset:31
 #: data/nation/nimiipuu.ruleset:43 data/nation/southvietnamese.ruleset:22
 #: data/nation/walloon.ruleset:27
 msgid "Chairman"
@@ -29749,13 +29749,13 @@ msgid ""
 "The Democratic Republic of the Congo is a big country in Central Africa. "
 "Despite (or because of) its wealth of natural resources it has been in ruins "
 "for most of its modern history. In 1885 Congo was awarded to Leopold II of "
-"Beglium as his personal posession, the Congo Free State, which turned the "
+"Belgium as his personal possession, the Congo Free State, which turned the "
 "country into a slaughterhouse. At least twenty per cent of the population "
 "perished and after an international outcry it became a Belgian colony in "
-"1906 it became a Belgian colony and it achieved independence in 1960. The "
-"Mobutu dictatorship started a new round of pillaging. When Mobutu was "
-"toppled the country sank into a civil war, causing five million deaths, the "
-"bloodiest event since World War II."
+"1906. It achieved independence in 1960. The Mobutu dictatorship started a "
+"new round of pillaging. When Mobutu was toppled the country sank into a "
+"civil war, causing five million deaths, the bloodiest event since World War "
+"II."
 msgstr ""
 
 #: data/nation/cornish.ruleset:3
@@ -29900,7 +29900,7 @@ msgstr "Arameos"
 #: data/nation/crimeantatar.ruleset:6
 msgid ""
 "Historical feudal state on the Crimean Peninsula, existing from the 15th to "
-"the 18th century. Crimean Tatars invaded Poland and Russia, which was caused "
+"the 18th century. Crimean Tatars invaded Poland and Russia, which caused "
 "wars with Turkey."
 msgstr ""
 
@@ -30229,11 +30229,12 @@ msgstr "Egipcios"
 
 #: data/nation/egyptianarab.ruleset:6
 msgid ""
-"Modern Egypt is most populated Middle Eastern country, located on the site "
-"of the world's most ancient civilization."
+"Modern Egypt is the most populous Middle Eastern country as well as one of "
+"the most populous in Africa. It is located on the site of one of the world's "
+"most ancient civilizations."
 msgstr ""
 
-#: data/nation/egyptianarab.ruleset:25 data/nation/nepali.ruleset:31
+#: data/nation/egyptianarab.ruleset:26 data/nation/nepali.ruleset:31
 #: data/nation/nimiipuu.ruleset:43 data/nation/southvietnamese.ruleset:22
 #: data/nation/walloon.ruleset:27
 #, fuzzy
@@ -30252,7 +30253,7 @@ msgstr "Elves"
 
 #: data/nation/elamite.ruleset:6
 msgid ""
-"Elam was an ancient civilization located in now area of modern southwest "
+"Elam was an ancient civilization located in the area of modern southwest "
 "Iran, which arose around 3100 BC. The Elamite language, written in "
 "cuneiform, is of unkown origin. In 643 BC the Elamite civilization was "
 "destroyed by the Assyrians under Assurbanipal."
@@ -30465,10 +30466,10 @@ msgstr "Finlandeses"
 
 #: data/nation/flemish.ruleset:6
 msgid ""
-"In the Middle Ages Flanders was a county on the border of France and the "
-"Holy Roman Empire. In the 15th century it came under Habsburg domination and "
-"subsequently it became one of the Seventeen Netherlands but only after its "
-"conquest by Revolutionary France the county was legally dissolved. Nowadays "
+"In the Middle Ages, Flanders was a county on the border of France and the "
+"Holy Roman Empire. In the 15th century, it came under Habsburg domination "
+"and subsequently it became one of the Seventeen Netherlands. Only after its "
+"conquest by Revolutionary France was the county legally dissolved. Nowadays "
 "the name is applied to the Dutch (or Flemish) speaking part of Belgium."
 msgstr ""
 
@@ -30659,8 +30660,8 @@ msgstr "Polacos"
 
 #: data/nation/greaterpolish.ruleset:6
 msgid ""
-"Greater Poland or Wielkopolska is historic and geographic region of central-"
-"western Poland."
+"Greater Poland or Wielkopolska is a historic and geographic region of "
+"central-western Poland."
 msgstr ""
 
 #: data/nation/greaterpolish.ruleset:18 data/nation/mazovian.ruleset:22
@@ -31533,10 +31534,10 @@ msgid ""
 "rivers in the 14th century. The King, or Burba Jolof, was beholden to a "
 "handful of powerful regional noblemen who acknowledged kinship with the king "
 "but developed personal power bases as well. By the early 1500s, the Burba "
-"Jolof could field as many has 100,000 infantry and 10,000 cavalry. Fulani "
-"and Berber incursions coupled with political weakness eroded away the power "
-"of the Burba Jolof. Various Wolof-speaking states established unions with "
-"one another, with their heads assuming the powers of Burba Jolof. The 19th "
+"Jolof could field as many as 100,000 infantry and 10,000 cavalry. Fulani and "
+"Berber incursions coupled with political weakness eroded away the power of "
+"the Burba Jolof. Various Wolof-speaking states established unions with one "
+"another, with their heads assuming the powers of Burba Jolof. The 19th "
 "century brought with it French colonization and a conversion to Islam fueled "
 "in large part by anti-European sentiment."
 msgstr ""
@@ -31798,7 +31799,7 @@ msgstr "Malíes"
 msgid ""
 "Kosovo is a country on the Balkans. It declared independence in 2008. Serbia "
 "claims Kosovo as a province and its independence is not universally "
-"reconigzed."
+"recognized."
 msgstr ""
 
 #: data/nation/kurd.ruleset:3
@@ -32036,7 +32037,7 @@ msgid ""
 "empire was split in three in 843. Initially stretching from the North Sea to "
 "the Mediterranean, its territory was mutilated during the struggles between "
 "the various Frankish dynasties. What was left of Lorraine became a duchy "
-"that both France and Germany were continuously eying for. Lorraine became a "
+"that both France and Germany were continuously eyeing for. Lorraine became a "
 "province of France in 1766."
 msgstr ""
 
@@ -32403,7 +32404,7 @@ msgid "?plural:Mazovians"
 msgstr "Malíes"
 
 #: data/nation/mazovian.ruleset:6
-msgid "Mazovia is historic and geographic region of central-eastern Poland."
+msgid "Mazovia is a historic and geographic region of central-eastern Poland."
 msgstr ""
 
 #: data/nation/mexican.ruleset:3
@@ -32728,7 +32729,7 @@ msgstr "Nigerianos"
 
 #: data/nation/namibian.ruleset:7
 msgid ""
-"Although European Powers long neglected the desertic African South2est, the "
+"Although European Powers long neglected the desertic African Southwest, the "
 "German Empire established a colony there in the late nineteenth century. "
 "After losing World War I, the territory became a mandate under the "
 "responsibility of the Union of South Africa. It finally became independent "
@@ -32808,7 +32809,7 @@ msgid ""
 "In precolumbian times Newfoundland and Labrador were settled by the Beothuk, "
 "though around 1000 AD for a short time Vikings also settled there. From the "
 "late 15th century onward Newfoundland was visited by the Portuguese and "
-"English. England and France contested the island until 1713m when France "
+"English. England and France contested the island until 1713, when France "
 "relinquished its claims. Newfoundland became a dominion in 1907. Badly hit "
 "by the Great Depression, in 1934 it voluntarily surrendered its sovereignty "
 "to the UK. Newfoundland passed to Canada in 1949, currently it is known as "
@@ -33165,7 +33166,7 @@ msgstr "Rusos"
 #: data/nation/ossetian.ruleset:6
 msgid ""
 "Modern Ossetians are the successors of the Alans of Ancient history, who "
-"fled into the moutains during the Hunnic invasions. Around 800 AD and Alanic "
+"fled into the mountains during the Hunnic invasions. Around 800 AD an Alanic "
 "kingdom emerged in the Northern Caucasus, which continued to exist until the "
 "Mongol invasions. Nowadays Ossetians live in the Republic of North Ossetia "
 "(part of Russian Federation) and in the partially recognized Republic of "
@@ -33197,7 +33198,7 @@ msgid ""
 "Central Mexico ever since the development of agriculture or even longer. A "
 "warlike people, they served as mercenaries in the armies of many "
 "Mesoamerican civilizations and got their name from the otmitl, the crack "
-"miltary order of the Aztecs, in which many of them served. In their own "
+"military order of the Aztecs, in which many of them served. In their own "
 "language they are called Hnahnu. With more than half a million people the "
 "Otomi are still one of the biggest indigenous groups of Mexico."
 msgstr ""
@@ -33731,7 +33732,7 @@ msgstr "Rusos"
 
 #: data/nation/ruthenian.ruleset:6
 msgid ""
-"The Kievan Rus' were a Medieval Slavic monarchy. Its was centered in Kiev "
+"The Kievan Rus' were a Medieval Slavic monarchy. It was centered in Kiev "
 "after that city was conquered by Oleg of Novgorod. In the 13th century the "
 "Rus' succumbed to a Mongol invasion. The Rus' were the precursors of the "
 "modern East Slavic nations."
@@ -35178,7 +35179,7 @@ msgid ""
 "The Walloons are the French speaking inhabitants of Belgium. In the 19th "
 "century, Wallonia was first region on the European continent to "
 "industrialize and the second in the world after England. It subsequently "
-"became a hotbet of socialist and labor union activity."
+"became a hotbed of socialist and labor union activity."
 msgstr ""
 
 #: data/nation/welsh.ruleset:3

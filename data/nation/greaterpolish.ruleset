@@ -3,7 +3,7 @@
 name=_("Greater Polish")
 plural=_("?plural:Greater Poles")
 groups="European", "Medieval"
-legend=_("Greater Poland or Wielkopolska is historic and geographic\
+legend=_("Greater Poland or Wielkopolska is a historic and geographic\
  region of central-western Poland.")
 leader="Mieszko III Stary",
  "Władysław III Laskonogi",

@@ -5,7 +5,7 @@ plural=_("?plural:Crimean Tatars")
 groups="Medieval", "European" 
 legend=_("Historical feudal state on the Crimean Peninsula, existing from\
  the 15th to the 18th century. Crimean Tatars invaded Poland and Russia,\
- which was caused wars with Turkey.")
+ which caused wars with Turkey.")
 
 leader=
  "Hacı Geray I",

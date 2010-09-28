@@ -3,8 +3,9 @@
 name=_("Egyptian Arab")
 plural=_("?plural:Egyptian Arabs")
 groups="Modern", "African", "Asian"
-legend=_("Modern Egypt is most populated Middle Eastern country,\
- located on the site of the world's most ancient civilization.")
+legend=_("Modern Egypt is the most populous Middle Eastern country as well\
+ as one of the most populous in Africa. It is located on the site of one\
+ of the world's most ancient civilizations.")
 leader=
  "Shajar al-Durr",
  "Al-Nasir Muhammad",
