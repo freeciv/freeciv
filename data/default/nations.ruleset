@@ -326,6 +326,7 @@ match=2
 *include "nation/tanzanian.ruleset"
 *include "nation/tatar.ruleset"
 *include "nation/templar.ruleset"
+*include "nation/teutonic.ruleset"
 *include "nation/texan.ruleset"
 *include "nation/thai.ruleset"
 *include "nation/thracian.ruleset"

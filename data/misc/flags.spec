@@ -290,6 +290,7 @@ artists = "
    Tanzania		SKopp (Wikimedia commons user)
    Tatarstan		J.M. Maalderink
    Templar		Daniel Markstedt
+   Teutonic Order	J.M. Maalderink
    Texas		Paul B. Joiner
    Thailand		Lauris Kaplinski
    Thrace		William Allen Simpson and Daniel Markstedt
@@ -611,6 +612,7 @@ sprites =
 		"f.tanzania", "flags/tanzania"
 		"f.tatarstan", "flags/tatarstan"
 		"f.templar", "flags/templar"
+		"f.teutonic_order", "flags/teutonic_order"
 		"f.texas", "flags/texas"
 		"f.thailand", "flags/thailand"
 		"f.thrace", "flags/thrace"

@@ -282,6 +282,7 @@ flag_files =				\
 		tanzania.png		\
 		tatarstan.png		\
 		templar.png		\
+		teutonic_order.png	\
 		texas.png		\
 		thailand.png		\
 		thrace.png		\
@@ -597,6 +598,7 @@ shield_files =					\
 		tanzania-shield.png		\
 		tatarstan-shield.png		\
 		templar-shield.png		\
+		teutonic_order-shield.png	\
 		texas-shield.png		\
 		thailand-shield.png		\
 		thrace-shield.png		\
@@ -912,6 +914,7 @@ svg_files = 				\
 		tanzania.svg		\
 		tatarstan.svg		\
 		templar.svg		\
+		teutonic_order.svg	\
 		texas.svg		\
 		thailand.svg		\
 		thrace.svg		\

@@ -22,9 +22,8 @@ leader=
 leader_sex = "Male", "Male", "Male", "Male", "Male", "Male"
 
 ruler_titles = { "government",      "male_title",        "female_title"
-                 "Despotism",      _("Grand Master"),    _("Grand Mistress")
-                 "Monarchy",       _("Duke"),            _("Duchess")
-                 "Republic",       _("Elector"),         _("?female:Elector")
+                 "Despotism",      _("Duke"),          _("Duchess")
+                 "Republic",       _("Elector"),       _("?female:Elector")
                  "Democracy",      _("Chancellor"),   _("?female:Chancellor")
                  "Fundamentalism", _("Archbishop"),   _("?female:Archbishop")
                  "Communism",_("First Secretary"),_("?female:First Secretary")

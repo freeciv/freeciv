@@ -1,0 +1,95 @@
+[nation_teutonic]
+
+name=_("Teutonic")
+plural=_("?plural:Teutonic Order")
+groups="European", "Medieval"
+legend=_("The Teutonic Order led a series of crusades against pagan Balts\
+ during the High Middle Ages. In 1224 it founded the 'Ordenstaat' or State\
+ of the Order, which remained a powerful country for three ages. The\
+ State was secularized and replaced by the Duchy of Prussia in the 16th\
+ century.")
+leader=
+ "Hermann von Salza",
+ "Anno von Sangershausen",
+ "Hartmann von Heldrungen",
+ "Karl von Trier",
+ "Winrich von Kniprode",
+ "Konrad von Jungingen",
+ "Paul von Rusdorf",
+ "Ludwig von Erlichshausen",
+ "Martin Truchseß von Wetzhausen",
+ "Friedrich von Sachsen",
+ "Albrecht von Brandenburg-Ansbach"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male"
+
+flag="teutonic_order"
+flag_alt = "hre"
+city_style = "European"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Fundamentalism", _("Archbishop"),   _("Mother Superior")
+       	         "Despotism",      _("Grand Master"), _("Grand Mistress")
+       	         "Monarchism",     _("Duke"),         _("Duchess")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with = "prussian", "german"
+civilwar_nations = "estonian", "latvian", "prussian", "samogitian"
+
+cities =
+ "Marienburg",
+ "Königsberg",
+ "Elbing",
+ "Wenden",
+ "Insterburg",
+ "Allenburg",
+ "Memel",
+ "Riga",
+ "Reval",
+ "Bartenstein",
+ "Heilsberg",
+ "Osterode",
+ "Neidenburg",
+ "Straßburg",
+ "Christburg",
+ "Tapiau",
+ "Thorn",
+ "Braunsberg",
+ "Kulm",
+ "Windau",
+ "Goldingen",
+ "Kokenhausen",
+ "Groß Roop",
+ "Lemsal",
+ "Wolmar",
+ "Pernau",
+ "Fellin",
+ "Dorpat",
+ "Wesenberg",
+ "Narwa",
+ "Danzig",
+ "Tuchel",
+ "Schlochau",
+ "Hammerstein",
+ "Dramburg",
+ "Arnswalde",
+ "Neu-Landsberg",
+ "Dobrin",
+ "Balga",
+ "Ragnit",
+ "Angerburg",
+ "Rhein",
+ "Ortelsburg",
+ "Rehden",
+ "Grobin",
+ "Mitau",
+ "Kreutzburg",
+ "Dünaburg",
+ "Rositten",
+ "Ludsen",
+ "Arensburg"

@@ -293,6 +293,7 @@ sprites =
 		"f.shield.tanzania", "flags/tanzania-shield"
 		"f.shield.tatarstan", "flags/tatarstan-shield"
 		"f.shield.templar", "flags/templar-shield"
+		"f.shield.teutonic_order", "flags/teutonic_order-shield"
 		"f.shield.texas", "flags/texas-shield"
 		"f.shield.thailand", "flags/thailand-shield"
 		"f.shield.thrace", "flags/thrace-shield"
