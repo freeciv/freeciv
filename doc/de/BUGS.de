@@ -12,7 +12,7 @@ darüber, wie Fehler berichtet werden können.
 Hier sind nur die offensichtlichsten Fehler aufgeführt. Eine vollständige
 Liste findet man unter:
 	
-	https://gna.org/bugs/?group=freeciv
+	http://gna.org/bugs/?group=freeciv
 
 BEKANNTE FEHLER:
 ================
@@ -128,7 +128,7 @@ Bitte gehen Sie so vor:
  - Schauen Sie im Freeciv Fehlerberichtssystem nach, ob der Fehler bereits
    berichtet wurde:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
  - Übermitteln Sie einen Fehlerbericht!
 

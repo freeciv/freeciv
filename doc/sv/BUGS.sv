@@ -11,7 +11,7 @@ information om att anmäla programfel.
 Listan innehåller endast de tydligaste programfelen. För en
 fullständig lista, se:
 
-    https://gna.org/bugs/?group=freeciv
+    http://gna.org/bugs/?group=freeciv
 
 KÄNDA PROGRAMFEL:
 =================
@@ -129,7 +129,7 @@ Så här gör man:
 
 - Tittar på Freecivs system för spårning av programfel vid:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
   för att se om programfelet redan har anmälts.
 

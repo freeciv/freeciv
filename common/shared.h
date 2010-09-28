@@ -33,7 +33,7 @@
 /* Note: the capability string is now in capstr.c --dwp */
 /* Version stuff is now in version.h --dwp */
 
-#define BUG_ADDRESS "https://gna.org/projects/freeciv/"
+#define BUG_ADDRESS "http://gna.org/projects/freeciv/"
 #define WEBSITE_URL "http://www.freeciv.org/"
 
 #define MAX_NUM_PLAYERS  30

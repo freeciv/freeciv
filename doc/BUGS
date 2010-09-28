@@ -9,7 +9,7 @@ and gives information about reporting new bugs.
 
 This lists only the most obvious bugs.  For a complete list, see:
 
-    https://gna.org/bugs/?group=freeciv
+    http://gna.org/bugs/?group=freeciv
 
 KNOWN BUGS:
 ===========
@@ -117,7 +117,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
    to see if the bug has already been reported.
 
