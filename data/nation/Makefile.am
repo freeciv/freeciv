@@ -289,6 +289,7 @@ pkgdata_DATA = \
 		tupi.ruleset \
 		turkmen.ruleset \
 		turk.ruleset \
+		tuvan.ruleset \
 		ugandan.ruleset \
 		ukrainian.ruleset \
 		un.ruleset \

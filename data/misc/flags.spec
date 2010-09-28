@@ -288,6 +288,7 @@ artists = "
    Taiwan		Cezary Biele
    Tajikistan		Matthew Gatto and Daniil Ivanov
    Tanzania		SKopp (Wikimedia commons user)
+   Tannu Tuva		Orange Tuesday (Wikimedia Commons user)
    Tatarstan		J.M. Maalderink
    Templar		Daniel Markstedt
    Teutonic Order	J.M. Maalderink
@@ -609,6 +610,7 @@ sprites =
 		"f.tairona", "flags/tairona"
 		"f.taiwan", "flags/taiwan"
 		"f.tajikistan", "flags/tajikistan"
+		"f.tannu_tuva", "flags/tannu_tuva"
 		"f.tanzania", "flags/tanzania"
 		"f.tatarstan", "flags/tatarstan"
 		"f.templar", "flags/templar"
