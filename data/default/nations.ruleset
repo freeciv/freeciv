@@ -94,6 +94,7 @@ match=2
 *include "nation/boer.ruleset"
 *include "nation/bolivian.ruleset"
 *include "nation/bosnia.ruleset"
+*include "nation/bosporan.ruleset"
 *include "nation/brazilian.ruleset"
 *include "nation/breton.ruleset"
 *include "nation/british.ruleset"

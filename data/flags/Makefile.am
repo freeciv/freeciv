@@ -44,6 +44,7 @@ flag_files =				\
 		boer.png		\
 		bolivia.png		\
 		bosnia.png		\
+		bosporus.png		\
 		botswana.png		\
 		brasil.png		\
 		britannia.png		\
@@ -358,6 +359,7 @@ shield_files =					\
 		boer-shield.png			\
 		bolivia-shield.png		\
 		bosnia-shield.png		\
+		bosporus-shield.png		\
 		botswana-shield.png		\
 		brasil-shield.png		\
 		britannia-shield.png		\
@@ -671,6 +673,7 @@ svg_files = 				\
 		bhutan.svg		\
 		boer.svg		\
 		bolivia.svg		\
+		bosporus.svg		\
 		botswana.svg		\
 		bosnia.svg		\
 		brasil.svg		\

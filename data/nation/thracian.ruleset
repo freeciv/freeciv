@@ -29,7 +29,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="turkish", "illyrian", "macedon"
+civilwar_nations="bosporan", "illyrian", "macedon"
 
 cities =
  "Uscudama",

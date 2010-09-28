@@ -53,6 +53,7 @@ artists = "
    Boer			Caleb Moore
    Bolivia		Caleb Moore
    Bosnia		Daniel McRae
+   Bosporus		J.M. Maalderink
    Botswana		SKopp (Wikimedia user)
    Brasil		Cezary Biele
    Britannia		J.M. Maalderink
@@ -370,6 +371,7 @@ sprites =
 		"f.boer", "flags/boer"			; old south african
 		"f.bolivia", "flags/bolivia"
 		"f.bosnia", "flags/bosnia"
+		"f.bosporus", "flags/bosporus"
 		"f.botswana", "flags/botswana"
 		"f.brasil", "flags/brasil"
 		"f.britannia", "flags/britannia"
