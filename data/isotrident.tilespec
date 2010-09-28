@@ -62,7 +62,6 @@ files =
   "misc/citybar.spec",
   "isotrident/terrain1.spec",
   "isotrident/terrain2.spec",
-  "isotrident/water.spec",
   "isotrident/tiles.spec",
   "isotrident/grid.spec",
   "misc/small.spec",

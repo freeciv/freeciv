@@ -72,7 +72,6 @@ files =
   "misc/citybar.spec",
   "isophex/terrain1.spec",
   "isophex/terrain2.spec",
-  "isophex/water.spec",
   "isophex/darkness.spec",
   "isophex/tiles.spec",
   "isophex/grid.spec",
