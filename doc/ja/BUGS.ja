@@ -12,7 +12,7 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
 
 このバグリストは、ほとんど明白なバグのみです。完全なリストは、
 
-    https://gna.org/bugs/?group=freeciv
+    http://gna.org/bugs/?group=freeciv
 
 を見て下さい。
 
@@ -97,7 +97,7 @@ Freeciv 2.2 は、「安定版(stable)」リリースです。普通に遊ぶに
 
  - バグが既に報告されていないか確かめるために
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
    の Freeciv バグ追跡システムを調べて下さい。
 
