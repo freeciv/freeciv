@@ -26,7 +26,7 @@ Comment faire ?
 
  - Allez voir sur le système de traitement des bugs de Freeciv à:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
    pour regarder si le bug aurait déjà été rapporté.
 

@@ -479,7 +479,7 @@ inscrire. Seuls les contributeurs peuvent poster des items sur les listes
 -announce et -commits.
 
 Les listes sont hebergées à gna.org. Pour plus d'informations, pour se joindre,
-ou quitter ces listes, allez à https://gna.org/mail/?group=freeciv
+ou quitter ces listes, allez à http://gna.org/mail/?group=freeciv
 
 
 Internet Relay Chat (IRC)

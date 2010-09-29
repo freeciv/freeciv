@@ -22,7 +22,7 @@ Så här gör man:
 
 - Tittar på Freecivs system för spårning av buggar vid:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
   för att se om programfelet redan har anmälts.
 

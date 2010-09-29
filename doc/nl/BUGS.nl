@@ -14,7 +14,7 @@ bug kunt rapporteren.
 De opsomming betreft uitsluitend de meest zichtbare fouten. Voor een complete
 opsomming zie:
 
-    https://gna.org/bugs/?group=freeciv
+    http://gna.org/bugs/?group=freeciv
 
 BEKENDE FOUTEN:
 ===============
@@ -122,7 +122,7 @@ Dit is wat u moet doen:
 
  - Controleer het Freeciv foutenvolgsysteem op:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
    om te kijken of de fout al eerder gerapporteerd is.
 
