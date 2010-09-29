@@ -467,7 +467,7 @@ Vi har fyra diskussionslistor:
 Alla listor är öppna för allmänheten och alla är välkomna att prenumerera.
 
 Listorna tillhandahålls av gna.org. För mer information hur du kan
-läsa och prenumerera, se https://gna.org/mail/?group=freeciv
+läsa och prenumerera, se http://gna.org/mail/?group=freeciv
 
 
 Internet Relay Chat (IRC)

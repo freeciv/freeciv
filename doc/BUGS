@@ -4,7 +4,7 @@ BUGS
 
 Freeciv 2.2.99 is an alpha release and will contain bugs.  Much of the
 following text applies to the upcoming stable release!  Please report all
-bugs to https://gna.org/bugs/?func=additem&group=freeciv.
+bugs to http://gna.org/bugs/?func=additem&group=freeciv.
 
 
 REPORTING A BUG:
@@ -22,7 +22,7 @@ Here's what to do:
 
  - Check the Freeciv Bug Tracking System at:
 
-        https://gna.org/bugs/?group=freeciv
+        http://gna.org/bugs/?group=freeciv
 
    to see if the bug has already been reported.
 
