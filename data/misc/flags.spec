@@ -70,6 +70,7 @@ artists = "
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Chananea		Daniel Markstedt
+   Chechnya		Lokal Profil (Wikimedia user)
    Cheyenne		Arturo Espinosa-Aldama
    Chile		Mario Fuentes
    Chimu		J.M. Maalderink
@@ -391,6 +392,7 @@ sprites =
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
 		"f.chananea", "flags/chananea"
+		"f.chechnya", "flags/chechnya"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
 		"f.chile", "flags/chile"
 		"f.chimu", "flags/chimu"

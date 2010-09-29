@@ -62,6 +62,7 @@ flag_files =				\
 		castile.png		\
 		catalan.png		\
 		chananea.png		\
+		chechnya.png		\
 		cheyenne.png		\
 		chile.png		\
 		chimu.png		\
@@ -379,6 +380,7 @@ shield_files =					\
 		castile-shield.png		\
 		catalan-shield.png		\
 		chananea-shield.png		\
+		chechnya-shield.png		\
 		cheyenne-shield.png		\
 		chile-shield.png		\
 		chimu-shield.png		\
@@ -696,6 +698,7 @@ svg_files = 				\
 		castile.svg		\
 		catalan.svg		\
 		chananea.svg		\
+		chechnya.svg		\
 		cheyenne.svg		\
 		chile.svg		\
 		chimu.svg		\

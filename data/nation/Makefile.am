@@ -66,6 +66,7 @@ pkgdata_DATA = \
 		castilian.ruleset \
 		catalan.ruleset \
 		chananean.ruleset \
+		chechen.ruleset \
 		cherokee.ruleset \
 		chilean.ruleset \
 		chimu.ruleset \

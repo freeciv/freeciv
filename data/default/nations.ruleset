@@ -112,6 +112,7 @@ match=2
 *include "nation/castilian.ruleset"
 *include "nation/catalan.ruleset"
 *include "nation/chananean.ruleset"
+*include "nation/chechen.ruleset"
 *include "nation/cherokee.ruleset"
 *include "nation/chilean.ruleset"
 *include "nation/chimu.ruleset"
