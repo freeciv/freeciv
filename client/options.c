@@ -708,7 +708,8 @@ bool option_str_set(struct option *poption, const char *str)
 }
 
 /****************************************************************************
-  Returns the value corresponding to the string. Returns -1 if not matched.
+  Returns the value corresponding to the user-visible (translatable but not
+  translated) string. Returns -1 if not matched.
 ****************************************************************************/
 int option_enum_str_to_int(const struct option *poption, const char *str)
 {
@@ -729,7 +730,8 @@ int option_enum_str_to_int(const struct option *poption, const char *str)
 }
 
 /****************************************************************************
-  Returns the string corresponding to the value. Returns NULL on error.
+  Returns the user-visible (translatable but not translated) string
+  corresponding to the value. Returns NULL on error.
 ****************************************************************************/
 const char *option_enum_int_to_str(const struct option *poption, int val)
 {
@@ -755,7 +757,8 @@ int option_enum_get_int(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the current value of this enum option (as a string).
+  Returns the current value of this enum option as a user-visible
+  (translatable but not translated) string.
 ****************************************************************************/
 const char *option_enum_get_str(const struct option *poption)
 {
@@ -778,7 +781,8 @@ int option_enum_def_int(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the default value of this enum option (as a string).
+  Returns the default value of this enum option as a user-visible
+  (translatable but not translated) string.
 ****************************************************************************/
 const char *option_enum_def_str(const struct option *poption)
 {
@@ -790,7 +794,8 @@ const char *option_enum_def_str(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the possible string values of this enum option.
+  Returns the possible string values of this enum option, as user-visible
+  (translatable but not translated) strings.
 ****************************************************************************/
 const struct strvec *option_enum_values(const struct option *poption)
 {
@@ -816,7 +821,9 @@ bool option_enum_set_int(struct option *poption, int val)
 }
 
 /****************************************************************************
-  Sets the value of this enum option. Returns TRUE if the value changed.
+  Sets the value of this enum option from a string, which is matched as a
+  user-visible (translatable but not translated) string. Returns TRUE if the
+  value changed.
 ****************************************************************************/
 bool option_enum_set_str(struct option *poption, const char *str)
 {
@@ -871,7 +878,8 @@ unsigned option_bitwise_mask(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns a vector of strings describing every bit of this option.
+  Returns a vector of strings describing every bit of this option, as
+  user-visible (translatable but not translated) strings.
 ****************************************************************************/
 const struct strvec *option_bitwise_values(const struct option *poption)
 {
@@ -1040,6 +1048,12 @@ static struct option_set client_optset_static = {
 };
 const struct option_set const *client_optset = &client_optset_static;
 
+struct copt_val_name {
+  const char *support;          /* Untranslated long support name, used
+                                 * for saving. */
+  const char *pretty;           /* Translated, used to display to the
+                                 * users. */
+};
 
 /****************************************************************************
   Virtuals tables for the client options.
@@ -1102,13 +1116,13 @@ static const struct option_str_vtable client_option_str_vtable = {
 static int client_option_enum_get(const struct option *poption);
 static int client_option_enum_def(const struct option *poption);
 static const struct strvec *
-    client_option_enum_values(const struct option *poption);
+    client_option_enum_pretty_names(const struct option *poption);
 static bool client_option_enum_set(struct option *poption, int val);
 
 static const struct option_enum_vtable client_option_enum_vtable = {
   .get = client_option_enum_get,
   .def = client_option_enum_def,
-  .values = client_option_enum_values,
+  .values = client_option_enum_pretty_names,
   .set = client_option_enum_set,
   .cmp = fc_strcasecmp
 };
@@ -1116,13 +1130,13 @@ static const struct option_enum_vtable client_option_enum_vtable = {
 static unsigned client_option_bitwise_get(const struct option *poption);
 static unsigned client_option_bitwise_def(const struct option *poption);
 static const struct strvec *
-    client_option_bitwise_values(const struct option *poption);
+    client_option_bitwise_pretty_names(const struct option *poption);
 static bool client_option_bitwise_set(struct option *poption, unsigned val);
 
 static const struct option_bitwise_vtable client_option_bitwise_vtable = {
   .get = client_option_bitwise_get,
   .def = client_option_bitwise_def,
-  .values = client_option_bitwise_values,
+  .values = client_option_bitwise_pretty_names,
   .set = client_option_bitwise_set
 };
 
@@ -1210,15 +1224,15 @@ struct client_option {
     struct {
       int *const pvalue;
       const int def;
-      struct strvec *values;
-      struct strvec * (*const val_accessor) (void);
+      struct strvec *support_names, *pretty_names;
+      const struct copt_val_name * (*const name_accessor) (int value);
     } enumerator;
     /* OT_BITWISE type option. */
     struct {
       unsigned *const pvalue;
       const unsigned def;
-      struct strvec *values;
-      struct strvec * (*const val_accessor) (void);
+      struct strvec *support_names, *pretty_names;
+      const struct copt_val_name * (*const name_accessor) (int value);
     } bitwise;
     /* OT_FONT type option. */
     struct {
@@ -1405,8 +1419,8 @@ struct client_option {
  * ocat:  The client_option_class of this client option.
  * ospec: A gui_type enumerator which determin for what particular client
  *        gui this option is for.  Sets to GUI_LAST for common options.
- * odef:  The default string for this client option.
- * oacc:  The string accessor of type 'struct strvec * (*) (void)'.
+ * odef:  The default value for this client option.
+ * oacc:  The name accessor of type 'const struct copt_val_name * (*) (int)'.
  * ocb:   A callback function of type void (*) (struct option *) called when
  *        the option changed.
  */
@@ -1424,8 +1438,9 @@ struct client_option {
     .enumerator = {                                                         \
       .pvalue = (int *) &oname,                                             \
       .def = odef,                                                          \
-      .values = NULL, /* Set in options_init(). */                          \
-      .val_accessor = oacc                                                  \
+      .support_names = NULL, /* Set in options_init(). */                   \
+      .pretty_names  = NULL,                                                \
+      .name_accessor = oacc                                                 \
     }                                                                       \
   },                                                                        \
 }
@@ -1443,7 +1458,7 @@ struct client_option {
  * ospec: A gui_type enumerator which determin for what particular client
  *        gui this option is for.  Sets to GUI_LAST for common options.
  * odef:  The default value for this client option.
- * oacc:  The string accessor of type 'struct strvec * (*) (void)'.
+ * oacc:  The name accessor of type 'const struct copt_val_name * (*) (int)'.
  * ocb:   A callback function of type void (*) (struct option *) called when
  *        the option changed.
  */
@@ -1462,8 +1477,9 @@ struct client_option {
     .bitwise = {                                                            \
       .pvalue = &oname,                                                     \
       .def = odef,                                                          \
-      .values = NULL, /* Set in options_init(). */                          \
-      .val_accessor = oacc                                                  \
+      .support_names = NULL, /* Set in options_init(). */                   \
+      .pretty_names  = NULL,                                                \
+      .name_accessor = oacc                                                 \
     }                                                                       \
   },                                                                        \
 }
@@ -2478,12 +2494,13 @@ static int client_option_enum_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the possible values of this client option of type OT_ENUM.
+  Returns the possible values of this client option of type OT_ENUM, as
+  user-visible (translatable but not translated) strings.
 ****************************************************************************/
 static const struct strvec *
-    client_option_enum_values(const struct option *poption)
+    client_option_enum_pretty_names(const struct option *poption)
 {
-  return CLIENT_OPTION(poption)->enumerator.values;
+  return CLIENT_OPTION(poption)->enumerator.pretty_names;
 }
 
 /****************************************************************************
@@ -2496,7 +2513,7 @@ static bool client_option_enum_set(struct option *poption, int val)
 
   if (*pcoption->enumerator.pvalue == val
       || 0 > val
-      || val >= strvec_size(pcoption->enumerator.values)) {
+      || val >= strvec_size(pcoption->enumerator.support_names)) {
     return FALSE;
   }
 
@@ -2505,16 +2522,17 @@ static bool client_option_enum_set(struct option *poption, int val)
 }
 
 /****************************************************************************
-  Returns the name of the value for this client option of type OT_ENUM.
+  Returns the "support" name of the value for this client option of type
+  OT_ENUM (a string suitable for saving in a file).
   The prototype must match the 'secfile_enum_name_data_fn_t' type.
 ****************************************************************************/
 static const char *client_option_enum_secfile_str(secfile_data_t data,
                                                   int val)
 {
-  const struct strvec *values = CLIENT_OPTION(data)->enumerator.values;
+  const struct strvec *names = CLIENT_OPTION(data)->enumerator.support_names;
 
-  return (0 <= val && val < strvec_size(values)
-          ? strvec_get(values, val) : NULL);
+  return (0 <= val && val < strvec_size(names)
+          ? strvec_get(names, val) : NULL);
 }
 
 /****************************************************************************
@@ -2534,12 +2552,13 @@ static unsigned client_option_bitwise_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the possible values of this client option of type OT_BITWISE.
+  Returns the possible values of this client option of type OT_BITWISE, as
+  user-visible (translatable but not translated) strings.
 ****************************************************************************/
 static const struct strvec *
-client_option_bitwise_values(const struct option *poption)
+    client_option_bitwise_pretty_names(const struct option *poption)
 {
-  return CLIENT_OPTION(poption)->bitwise.values;
+  return CLIENT_OPTION(poption)->bitwise.pretty_names;
 }
 
 /****************************************************************************
@@ -2559,17 +2578,17 @@ static bool client_option_bitwise_set(struct option *poption, unsigned val)
 }
 
 /****************************************************************************
-  Returns the name of a single value for this client option of type
-  OT_BITWISE. The prototype must match the 'secfile_enum_name_data_fn_t'
-  type.
+  Returns the "support" name of a single value for this client option of type
+  OT_BITWISE (a string suitable for saving in a file).
+  The prototype must match the 'secfile_enum_name_data_fn_t' type.
 ****************************************************************************/
 static const char *client_option_bitwise_secfile_str(secfile_data_t data,
                                                      int val)
 {
-  const struct strvec *values = CLIENT_OPTION(data)->bitwise.values;
+  const struct strvec *names = CLIENT_OPTION(data)->bitwise.support_names;
 
-  return (0 <= val && val < strvec_size(values)
-          ? strvec_get(values, val) : NULL);
+  return (0 <= val && val < strvec_size(names)
+          ? strvec_get(names, val) : NULL);
 }
 
 /****************************************************************************
@@ -2936,13 +2955,13 @@ static const struct option_str_vtable server_option_str_vtable = {
 static int server_option_enum_get(const struct option *poption);
 static int server_option_enum_def(const struct option *poption);
 static const struct strvec *
-server_option_enum_values(const struct option *poption);
+    server_option_enum_pretty(const struct option *poption);
 static bool server_option_enum_set(struct option *poption, int val);
 
 static const struct option_enum_vtable server_option_enum_vtable = {
   .get = server_option_enum_get,
   .def = server_option_enum_def,
-  .values = server_option_enum_values,
+  .values = server_option_enum_pretty,
   .set = server_option_enum_set,
   .cmp = strcmp
 };
@@ -3622,11 +3641,11 @@ static int server_option_enum_def(const struct option *poption)
 }
 
 /****************************************************************************
-  Returns the possible string values of this server option of type
-  OT_ENUM.
+  Returns the user-visible, translateable "pretty" names of this server
+  option of type OT_ENUM.
 ****************************************************************************/
 static const struct strvec *
-server_option_enum_values(const struct option *poption)
+    server_option_enum_pretty(const struct option *poption)
 {
   return SERVER_OPTION(poption)->enumerator.pretty_names;
 }
@@ -4429,6 +4448,23 @@ void options_save(void)
 
 
 /**************************************************************************
+  Initialize lists of names for a client option.
+**************************************************************************/
+static void options_init_names(const struct copt_val_name *(*acc)(int),
+                               struct strvec **support, struct strvec **pretty)
+{
+  int val;
+  const struct copt_val_name *name;
+  fc_assert_ret(NULL != acc);
+  *support = strvec_new();
+  *pretty = strvec_new();
+  for (val=0; (name = acc(val)); val++) {
+    strvec_append(*support, name->support);
+    strvec_append(*pretty, name->pretty);
+  }
+}
+
+/**************************************************************************
   Initialize the option module.
 **************************************************************************/
 void options_init(void)
@@ -4483,17 +4519,23 @@ void options_init(void)
       break;
 
     case OT_ENUM:
-      fc_assert(NULL == pcoption->enumerator.values);
-      fc_assert_action(NULL != pcoption->enumerator.val_accessor, break);
-      pcoption->enumerator.values = pcoption->enumerator.val_accessor();
-      fc_assert(NULL != pcoption->enumerator.values);
+      fc_assert(NULL == pcoption->enumerator.support_names);
+      fc_assert(NULL == pcoption->enumerator.pretty_names);
+      options_init_names(pcoption->enumerator.name_accessor,
+                         &pcoption->enumerator.support_names,
+                         &pcoption->enumerator.pretty_names);
+      fc_assert(NULL != pcoption->enumerator.support_names);
+      fc_assert(NULL != pcoption->enumerator.pretty_names);
       break;
 
     case OT_BITWISE:
-      fc_assert(NULL == pcoption->bitwise.values);
-      fc_assert_action(NULL != pcoption->bitwise.val_accessor, break);
-      pcoption->bitwise.values = pcoption->bitwise.val_accessor();
-      fc_assert(NULL != pcoption->bitwise.values);
+      fc_assert(NULL == pcoption->bitwise.support_names);
+      fc_assert(NULL == pcoption->bitwise.pretty_names);
+      options_init_names(pcoption->bitwise.name_accessor,
+                         &pcoption->bitwise.support_names,
+                         &pcoption->bitwise.pretty_names);
+      fc_assert(NULL != pcoption->bitwise.support_names);
+      fc_assert(NULL != pcoption->bitwise.pretty_names);
       break;
 
     case OT_COLOR:
@@ -4530,15 +4572,21 @@ void options_free(void)
 
     switch (option_type(poption)) {
     case OT_ENUM:
-      fc_assert_action(NULL != pcoption->enumerator.values, break);
-      strvec_destroy(pcoption->enumerator.values);
-      pcoption->enumerator.values = NULL;
+      fc_assert_action(NULL != pcoption->enumerator.support_names, break);
+      strvec_destroy(pcoption->enumerator.support_names);
+      pcoption->enumerator.support_names = NULL;
+      fc_assert_action(NULL != pcoption->enumerator.pretty_names, break);
+      strvec_destroy(pcoption->enumerator.pretty_names);
+      pcoption->enumerator.pretty_names = NULL;
       break;
 
     case OT_BITWISE:
-      fc_assert_action(NULL != pcoption->bitwise.values, break);
-      strvec_destroy(pcoption->bitwise.values);
-      pcoption->bitwise.values = NULL;
+      fc_assert_action(NULL != pcoption->bitwise.support_names, break);
+      strvec_destroy(pcoption->bitwise.support_names);
+      pcoption->bitwise.support_names = NULL;
+      fc_assert_action(NULL != pcoption->bitwise.pretty_names, break);
+      strvec_destroy(pcoption->bitwise.pretty_names);
+      pcoption->bitwise.pretty_names = NULL;
       break;
 
     case OT_BOOLEAN:
