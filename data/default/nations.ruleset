@@ -65,6 +65,7 @@ match=2
 *include "nation/amazonian.ruleset"
 *include "nation/american.ruleset"
 *include "nation/andorran.ruleset"
+*include "nation/angolan.ruleset"
 *include "nation/anishinaabe.ruleset"
 *include "nation/antarctican.ruleset"
 *include "nation/apache.ruleset"

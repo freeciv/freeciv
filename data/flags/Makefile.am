@@ -17,6 +17,7 @@ flag_files =				\
 		amazigh.png		\
 		amazon.png		\
 		andorra.png		\
+		angola.png		\
 		anishinaabe.png		\
 		antarctica.png		\
 		arab.png		\
@@ -335,6 +336,7 @@ shield_files =					\
 		amazigh-shield.png		\
 		amazon-shield.png		\
 		andorra-shield.png		\
+		angola-shield.png		\
 		anishinaabe-shield.png		\
 		antarctica-shield.png		\
 		arab-shield.png			\
@@ -653,6 +655,7 @@ svg_files = 				\
 		amazigh.svg		\
 		amazon.svg		\
 		andorra.svg		\
+		angola.svg		\
 		anishinaabe.svg		\
 		antarctica.svg		\
 		arab.svg		\

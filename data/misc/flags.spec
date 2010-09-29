@@ -25,6 +25,7 @@ artists = "
    Amazigh		Mysid
    Amazon		Ann Barcomb
    Andorra		Patricia Fidi
+   Angola		SKopp (Wikimedia Commons user)
    Anishinaabe		Shandris (Wikimedia Commons user)
    Antarctica		Tobias Jakobs
    Apache		J.M. Maalderink
@@ -346,6 +347,7 @@ sprites =
 		"f.amazigh", "flags/amazigh"
 		"f.amazon", "flags/amazon"
 		"f.andorra", "flags/andorra"
+		"f.angola", "flags/angola"
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
 		"f.apache", "flags/apache"

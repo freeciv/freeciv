@@ -25,6 +25,7 @@ sprites =
 		"f.shield.andorra", "flags/andorra-shield"
 		"f.shield.amazigh", "flags/amazigh-shield"
 		"f.shield.amazon", "flags/amazon-shield"
+		"f.shield.angola", "flags/angola-shield"
 		"f.shield.anishinaabe", "flags/anishinaabe-shield"
 		"f.shield.antarctica", "flags/antarctica-shield"
 		"f.shield.apache", "flags/apache-shield"
