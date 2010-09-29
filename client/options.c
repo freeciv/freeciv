@@ -146,13 +146,12 @@ bool gui_gtk2_show_task_icons = TRUE;
 bool gui_gtk2_enable_tabs = TRUE;
 bool gui_gtk2_better_fog = TRUE;
 bool gui_gtk2_show_chat_message_time = FALSE;
-bool gui_gtk2_split_bottom_notebook = FALSE;
 bool gui_gtk2_new_messages_go_to_top = FALSE;
 bool gui_gtk2_show_message_window_buttons = TRUE;
 bool gui_gtk2_metaserver_tab_first = FALSE;
 bool gui_gtk2_allied_chat_only = FALSE;
+int gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
 bool gui_gtk2_small_display_layout = TRUE;
-bool gui_gtk2_merge_notebooks = TRUE;
 bool gui_gtk2_mouse_over_map_focus = FALSE;
 bool gui_gtk2_chatline_autocompletion = TRUE;
 int gui_gtk2_citydlg_xsize = GUI_GTK2_CITYDLG_DEFAULT_XSIZE;
@@ -1594,6 +1593,29 @@ struct client_option {
   },                                                                        \
 }
 
+/****************************************************************************
+  Enumerator name accessors.
+****************************************************************************/
+
+/****************************************************************************
+  GTK2 message/chat layout setting names accessor.
+****************************************************************************/
+static const struct copt_val_name
+  *gui_gtk2_message_chat_location_name(int value)
+{
+  static const struct copt_val_name names[] = {
+    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    { "SPLIT",    N_("Split") },
+    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    { "SEPARATE", N_("Separate") },
+    /* TRANS: enum value for 'gui_gtk2_message_chat_location' */
+    { "MERGED",   N_("Merged") }
+  };
+
+  return (0 <= value && value < ARRAY_SIZE(names)
+          ? names + value : NULL);
+}
+
 /* Some changed callbacks. */
 static void reqtree_show_icons_callback(struct option *poption);
 static void view_option_changed_callback(struct option *poption);
@@ -2007,14 +2029,6 @@ static struct client_option client_options[] = {
                      "will be prefixed by a time string of the form "
                      "[hour:minute:second]."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
-  GEN_BOOL_OPTION(gui_gtk2_split_bottom_notebook,
-                  N_("Split message/chat notebook area"),
-                  N_("Enabling this option will split the message/chat "
-                     "notebook into two separate areas so that both can "
-                     "be viewed at once. This option is ignored if "
-                     "'Merge the message notebook and the map notebook' "
-                     "is set."),
-                  COC_INTERFACE, GUI_GTK2, FALSE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_new_messages_go_to_top,
                   N_("New message events go to top of list"),
                   N_("If this option is enabled, new events in the "
@@ -2051,6 +2065,25 @@ static struct client_option client_options[] = {
                      "the chat entry (only visible in multiplayer "
                      "games)."),
                   COC_INTERFACE, GUI_GTK2, FALSE, NULL),
+  GEN_ENUM_OPTION(gui_gtk2_message_chat_location,
+                  N_("Messages and Chat reports location"),
+                  /* TRANS: The strings used in the UI for 'Split' etc are
+                   * tagged 'gui_gtk2_message_chat_location' */
+                  N_("Controls where the Messages and Chat reports "
+                     "appear relative to the main view containing the map.\n"
+                     "'Split' allows all three to be seen simultaneously, "
+                     "which is best for multiplayer, but requires a large "
+                     "window to be usable.\n"
+                     "'Separate' puts Messages and Chat in a notebook "
+                     "separate from the main view, so that one of them "
+                     "can always be seen alongside the main view.\n"
+                     "'Merged' makes the Messages and Chat reports into "
+                     "tabs alongside the map and other reports; this "
+                     "allows a larger map view on small screens.\n"
+                     "This option requires a restart in order to take "
+                     "effect."), COC_INTERFACE, GUI_GTK2,
+                  GUI_GTK2_MSGCHAT_MERGED /* Ignored! See options_load(). */,
+                  gui_gtk2_message_chat_location_name, NULL),
   GEN_BOOL_OPTION(gui_gtk2_small_display_layout,
                   N_("Arrange widgets for small displays"),
                   N_("If this option is enabled, widgets in the main "
@@ -2059,13 +2092,6 @@ static struct client_option client_options[] = {
                      "the left panel containing the overview, player "
                      "status, and the unit information box will be "
                      "extended over the entire left side of the window. "
-                     "This option requires a restart in order to take "
-                     "effect."), COC_INTERFACE, GUI_GTK2, TRUE, NULL),
-  GEN_BOOL_OPTION(gui_gtk2_merge_notebooks,
-                  N_("Merge the message notebook and the map notebook"),
-                  N_("If this option is enabled, the message notebook "
-                     "will be merged into the world map notebook. Thus, "
-                     "the size needed for the main window will be reduced. "
                      "This option requires a restart in order to take "
                      "effect."), COC_INTERFACE, GUI_GTK2, TRUE, NULL),
   GEN_BOOL_OPTION(gui_gtk2_mouse_over_map_focus,
@@ -4377,6 +4403,22 @@ void options_load(void)
   fullscreen_mode =
     secfile_lookup_bool_default(sf, fullscreen_mode,
                                 "%s.fullscreen_mode", prefix);
+
+  /* Backwards compatibility for removed options. The equivalent "new"
+   * option will override these, if set. */
+
+  /* Note: this overrides the previously specified default for
+   * gui_gtk2_message_chat_location */
+  if (secfile_lookup_bool_default(sf, FALSE,
+                                  "%s.gui_gtk_merge_notebooks", prefix)) {
+    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_MERGED;
+  } else if (secfile_lookup_bool_default(sf, FALSE,
+                                         "%s.gui_gtk_split_bottom_notebook",
+                                         prefix)) {
+    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SPLIT;
+  } else {
+    gui_gtk2_message_chat_location = GUI_GTK2_MSGCHAT_SEPARATE;
+  }
 
   client_options_iterate_all(poption) {
     client_option_load(poption, sf);

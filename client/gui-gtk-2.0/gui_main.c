@@ -603,7 +603,7 @@ static gboolean toplevel_key_press_handler(GtkWidget *w, GdkEventKey *ev,
      * latest text from other players; MUST NOT make spurious text windows
      * at the bottom of other dialogs.
      */
-    if (gui_gtk2_merge_notebooks) {
+    if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(top_notebook), 1);
     } else {
       gtk_notebook_set_current_page(GTK_NOTEBOOK(bottom_notebook), 0);
@@ -1233,7 +1233,7 @@ static void setup_widgets(void)
   
   if (gui_gtk2_small_display_layout) {
     gtk_paned_pack1(GTK_PANED(paned), top_notebook, TRUE, TRUE);
-  } else if (gui_gtk2_merge_notebooks) {
+  } else if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
     right_vbox = gtk_vbox_new(FALSE, 0);
 
     gtk_box_pack_start(GTK_BOX(right_vbox), top_notebook, TRUE, TRUE, 0);
@@ -1317,7 +1317,7 @@ static void setup_widgets(void)
 
   /* *** The message window -- this is a detachable widget *** */
 
-  if (gui_gtk2_merge_notebooks) {
+  if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_MERGED) {
     bottom_hpaned = hpaned = paned;
     right_notebook = bottom_notebook = top_notebook;
   } else {
@@ -1350,7 +1350,7 @@ static void setup_widgets(void)
     gtk_notebook_set_scrollable(GTK_NOTEBOOK(right_notebook), TRUE);
     g_signal_connect(right_notebook, "button-release-event",
                      G_CALLBACK(right_notebook_button_release), NULL);
-    if (gui_gtk2_split_bottom_notebook) {
+    if (gui_gtk2_message_chat_location == GUI_GTK2_MSGCHAT_SPLIT) {
       gtk_paned_pack2(GTK_PANED(hpaned), right_notebook, TRUE, TRUE);
     }
   }
@@ -1980,23 +1980,6 @@ void add_idle_callback(void (callback)(void *), void *data)
 }
 
 /****************************************************************************
-  Option callback for the 'gui_gtk2_split_bottom_notebook' option.
-****************************************************************************/
-static void split_bottom_notebook_callback(struct option *poption)
-{
-  if (!gui_gtk2_merge_notebooks) {
-    meswin_dialog_popdown();
-    if (option_bool_get(poption)) {
-      gtk_paned_pack2(GTK_PANED(bottom_hpaned), right_notebook, TRUE, TRUE);
-      gtk_widget_show_all(right_notebook);
-    } else {
-      gtk_container_remove(GTK_CONTAINER(bottom_hpaned), right_notebook);
-    }
-    meswin_dialog_popup(FALSE);
-  }
-}
-
-/****************************************************************************
   Option callback for the 'gui_gtk2_allied_chat_only' option.
   This updates the state of the associated toggle button.
 ****************************************************************************/
@@ -2063,8 +2046,6 @@ void gui_options_extra_init(void)
 
   option_var_set_callback(gui_gtk2_allied_chat_only,
                           allied_chat_only_callback);
-  option_var_set_callback(gui_gtk2_split_bottom_notebook,
-                          split_bottom_notebook_callback);
 
   option_var_set_callback(gui_gtk2_font_city_names,
                           apply_city_names_font);

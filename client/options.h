@@ -119,13 +119,19 @@ extern bool gui_gtk2_show_task_icons;
 extern bool gui_gtk2_enable_tabs;
 extern bool gui_gtk2_better_fog;
 extern bool gui_gtk2_show_chat_message_time;
-extern bool gui_gtk2_split_bottom_notebook;
 extern bool gui_gtk2_new_messages_go_to_top;
 extern bool gui_gtk2_show_message_window_buttons;
 extern bool gui_gtk2_metaserver_tab_first;
 extern bool gui_gtk2_allied_chat_only;
+enum {
+  /* Order must match strings in
+   * options.c:gui_gtk2_message_chat_location_name() */
+  GUI_GTK2_MSGCHAT_SPLIT,
+  GUI_GTK2_MSGCHAT_SEPARATE,
+  GUI_GTK2_MSGCHAT_MERGED
+};
+extern int gui_gtk2_message_chat_location; /* enum GUI_GTK2_MSGCHAT_* */
 extern bool gui_gtk2_small_display_layout;
-extern bool gui_gtk2_merge_notebooks;
 extern bool gui_gtk2_mouse_over_map_focus;
 extern bool gui_gtk2_chatline_autocompletion;
 extern int gui_gtk2_citydlg_xsize;
