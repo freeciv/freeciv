@@ -300,6 +300,7 @@ match=2
 *include "nation/saxon.ruleset"
 *include "nation/scottish.ruleset"
 *include "nation/scythian.ruleset"
+*include "nation/senegalese.ruleset"
 *include "nation/serbian.ruleset"
 *include "nation/shawnee.ruleset"
 *include "nation/sicilian.ruleset"

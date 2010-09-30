@@ -265,6 +265,7 @@ artists = "
    Saxony 		Björn Adelberg
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
+   Senegal		SonofSenegal (Wikimedia Commons user)
    Serbia		Madden (Wikimedia Commons user) and J.M. Maalderink
    Shawnee		Daniel Markstedt
    Sicily		Lexicon (Wikimedia commons user)
@@ -594,6 +595,7 @@ sprites =
 		"f.saxony", "flags/saxony"
 		"f.scotland", "flags/scotland"
 		"f.scythia", "flags/scythia"
+		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
 		"f.shawnee", "flags/shawnee"
 		"f.sicily", "flags/sicily"
