@@ -258,6 +258,7 @@ match=2
 *include "nation/nimiipuu.ruleset"
 *include "nation/norman.ruleset"
 *include "nation/northkorean.ruleset"
+*include "nation/northumbrian.ruleset"
 *include "nation/norwegian.ruleset"
 *include "nation/nubian.ruleset"
 *include "nation/numidian.ruleset"

@@ -221,6 +221,7 @@ artists = "
    Nigeria		Brett Roper
    Normandy		Syryatsu
    North Korea		Zachary Harden
+   Northumbria		J.M. Maalderink
    Norway		Christian Schaller
    Nubia		Daniel Markstedt
    Numidia		Lexicon and Dan Cottrell
@@ -549,6 +550,7 @@ sprites =
 		"f.nigeria", "flags/nigeria"
 		"f.normandy", "flags/normandy"
 		"f.north_korea", "flags/north_korea"
+		"f.northumbria", "flags/northumbria"
 		"f.norway", "flags/norway"
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"

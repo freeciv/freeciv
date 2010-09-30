@@ -29,7 +29,7 @@ init_units=""
 
 ; We do not want British nation in the same game with English or any of the
 ; other nations within modern Great Britain.
-conflicts_with="english", "scottish", "welsh", "cornish"
+conflicts_with="english", "scottish", "welsh", "cornish", "northumbrian"
 civilwar_nations=
 ; Sub-national nations
  "english", "scottish", "welsh", "cornish",

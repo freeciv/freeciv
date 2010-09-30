@@ -224,6 +224,7 @@ sprites =
 		"f.shield.nigeria", "flags/nigeria-shield"
 		"f.shield.normandy", "flags/normandy-shield"
 		"f.shield.north_korea", "flags/north_korea-shield"
+		"f.shield.northumbria", "flags/northumbria-shield"
 		"f.shield.norway", "flags/norway-shield"
 		"f.shield.nubia", "flags/nubia-shield"
 		"f.shield.numidia", "flags/numidia-shield"

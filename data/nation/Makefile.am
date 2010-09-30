@@ -211,6 +211,7 @@ pkgdata_DATA = \
 		nimiipuu.ruleset \
 		norman.ruleset \
 		northkorean.ruleset \
+		northumbrian.ruleset \
 		norwegian.ruleset \
 		nubian.ruleset \
 		numidian.ruleset \

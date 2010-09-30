@@ -212,6 +212,7 @@ flag_files =				\
 		nicaragua.png		\
 		nigeria.png		\
 		north_korea.png		\
+		northumbria.png		\
 		norway.png		\
 		normandy.png		\
 		nubia.png		\
@@ -535,6 +536,7 @@ shield_files =					\
 		nigeria-shield.png		\
 		normandy-shield.png		\
 		north_korea-shield.png		\
+		northumbria-shield.png		\
 		norway-shield.png		\
 		nubia-shield.png		\
 		numidia-shield.png		\
@@ -857,6 +859,7 @@ svg_files = 				\
 		nigeria.svg		\
 		normandy.svg		\
 		north_korea.svg		\
+		northumbria.svg		\
 		norway.svg		\
 		nubia.svg		\
 		numidia.svg		\
