@@ -213,6 +213,7 @@ match=2
 *include "nation/lankese.ruleset"
 *include "nation/laotian.ruleset"
 *include "nation/latvian.ruleset"
+*include "nation/lendian.ruleset"
 *include "nation/leonese.ruleset"
 *include "nation/libyan.ruleset"
 *include "nation/liechtensteiner.ruleset"

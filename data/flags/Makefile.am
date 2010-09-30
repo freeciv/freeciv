@@ -167,6 +167,7 @@ flag_files =				\
 		labarum.png		\
 		laos.png		\
 		latvia.png		\
+		lendian.png		\
 		leon.png		\
 		libya.png		\
 		liechtenstein.png	\
@@ -487,6 +488,7 @@ shield_files =					\
 		labarum-shield.png		\
 		laos-shield.png			\
 		latvia-shield.png		\
+		lendian-shield.png		\
 		leon-shield.png			\
 		libya-shield.png		\
 		liechtenstein-shield.png	\
@@ -807,6 +809,7 @@ svg_files = 				\
 		labarum.svg		\
 		laos.svg		\
 		latvia.svg		\
+		lendian.svg		\
 		leon.svg		\
 		libya.svg		\
 		liechtenstein.svg	\
