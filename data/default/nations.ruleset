@@ -309,6 +309,7 @@ match=2
 *include "nation/slovakian.ruleset"
 *include "nation/slovenian.ruleset"
 *include "nation/somali.ruleset"
+*include "nation/sorbian.ruleset"
 *include "nation/southafrican.ruleset"
 *include "nation/southkorean.ruleset"
 *include "nation/southvietnamese.ruleset"

@@ -173,6 +173,7 @@ flag_files =				\
 		liechtenstein.png	\
 		lithuania.png		\
 		lorraine.png		\
+		lusatia.png		\
 		luxembourg.png		\
 		maasai.png		\
 		macedon.png		\
@@ -494,6 +495,7 @@ shield_files =					\
 		liechtenstein-shield.png	\
 		lithuania-shield.png		\
 		lorraine-shield.png		\
+		lusatia-shield.png		\
 		luxembourg-shield.png		\
 		maasai-shield.png		\
 		macedon-shield.png		\
@@ -815,6 +817,7 @@ svg_files = 				\
 		liechtenstein.svg	\
 		lithuania.svg		\
 		lorraine.svg		\
+		lusatia.svg		\
 		luxembourg.svg		\
 		maasai.svg		\
 		macedon.svg		\

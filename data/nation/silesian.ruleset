@@ -26,7 +26,7 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "polish"
+civilwar_nations = "polish", "sorbian"
 
 ; if you want your favourite city to be in more prominent place, go ahead
 ; only leave first 3 cities where they are
