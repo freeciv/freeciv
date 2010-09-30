@@ -313,6 +313,7 @@ flag_files =				\
 		vermont.png		\
 		vietnam.png		\
 		viking.png		\
+		visigoth.png		\
 		wales.png		\
 		wallonia.png		\
 		westphalia.png		\
@@ -632,6 +633,7 @@ shield_files =					\
 		vermont-shield.png		\
 		vietnam-shield.png		\
 		viking-shield.png		\
+		visigoth-shield.png		\
 		wales-shield.png		\
 		wallonia-shield.png		\
 		westphalia-shield.png		\
@@ -951,6 +953,7 @@ svg_files = 				\
 		vermont.svg		\
 		vietnam.svg		\
 		viking.svg		\
+		visigoth.svg		\
 		wales.svg		\
 		wallonia.svg		\
 		westphalia.svg		\

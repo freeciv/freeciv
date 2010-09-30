@@ -324,6 +324,7 @@ sprites =
 		"f.shield.vermont", "flags/vermont-shield"
 		"f.shield.vietnam", "flags/vietnam-shield"
 		"f.shield.viking", "flags/viking-shield"
+		"f.shield.visigoth", "flags/visigoth-shield"
 		"f.shield.wallonia", "flags/wallonia-shield"
 		"f.shield.wales", "flags/wales-shield"
 		"f.shield.westphalia", "flags/westphalia-shield"

@@ -346,6 +346,7 @@ match=2
 *include "nation/uyghur.ruleset"
 *include "nation/uzbek.ruleset"
 *include "nation/vampire.ruleset"
+*include "nation/vandalic.ruleset"
 *include "nation/venetian.ruleset"
 *include "nation/venezuelan.ruleset"
 *include "nation/vermont.ruleset"

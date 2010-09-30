@@ -32,7 +32,7 @@ leader=
 leader_sex=
  "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male",
  "Male", "Male", "Male", "Male", "Female"
-flag= "vandal" 
+flag= "visigoth" 
 flag_alt = "-" 
 city_style = "Celtic" 
 ruler_titles = { "government",      "male_title",       "female_title"
@@ -48,7 +48,7 @@ init_units=""
 
 conflicts_with = "asturian", "leonese", "castilian", "galician", "aragonese", "catalan",
                  "occitan", "spanish", "portuguese"
-civilwar_nations="asturian", "al-andalus", "basque" ;sarmatian ostrogothic
+civilwar_nations="asturian", "al-andalus", "basque", "vandalic" ;sarmatian ostrogothic
 
 cities=
 "Tolosa",		;Toulouse (first capital)

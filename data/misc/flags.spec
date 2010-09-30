@@ -321,6 +321,7 @@ artists = "
    Vermont		Mysid (Wikipedia user)
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
+   Visigoth		J.M. Maalderink
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
@@ -639,13 +640,14 @@ sprites =
 		"f.uyghur", "flags/uyghur"
 		"f.uzbekistan", "flags/uzbekistan"
 		"f.vampire", "flags/vampire"
-		"f.vandal", "flags/vandal"		; used by Visigothic
+		"f.vandal", "flags/vandal"
 		"f.vatican", "flags/vatican"
 		"f.venezuela", "flags/venezuela"
 		"f.venice", "flags/venice"
 		"f.vermont", "flags/vermont"
 		"f.vietnam", "flags/vietnam"
 		"f.viking", "flags/viking"
+		"f.visigoth", "flags/visigoth"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"

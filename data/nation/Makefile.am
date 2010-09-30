@@ -299,6 +299,7 @@ pkgdata_DATA = \
 		uyghur.ruleset \
 		uzbek.ruleset \
 		vampire.ruleset \
+		vandalic.ruleset \
 		venetian.ruleset \
 		venezuelan.ruleset \
 		vermont.ruleset \
