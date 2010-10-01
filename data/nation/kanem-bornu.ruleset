@@ -2,7 +2,7 @@
 
 name=_("Kanem-Bornu")
 plural=_("?plural:Kanem-Bornu")
-groups="Medieval", "African"
+groups="Medieval", "Early Modern", "African"
 
 legend=_("This empire lasted in some form from the 9th-century until 1893 in\
  modern Chad and Nigeria and controlled much of the trans-Saharan trade.")

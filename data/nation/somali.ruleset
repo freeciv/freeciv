@@ -2,7 +2,7 @@
 
 name=_("Somali") 
 plural=_("?plural:Somalis") 
-groups="Medieval", "Modern", "African"
+groups="Medieval", "Early Modern", "Modern", "African"
 legend=_("Somali is a country in the Horn of Africa. In ancient times\
  Somalia was a trading hub. In the end of the 19th century it was\
  colonized by Britain and Italy. Somalia regained its independence in\

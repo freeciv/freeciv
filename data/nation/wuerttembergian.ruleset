@@ -2,7 +2,7 @@
 
 name=_("Wuerttembergian")
 plural=_("?plural:Wuerttembergians")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Wuerttemberg was a country in Swabia, in southwestern Germany.\
  After World War II it was merged with Baden and Hohenzollern to form\
  the land of Baden-Wuerttemberg.")

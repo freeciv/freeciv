@@ -2,7 +2,7 @@
 
 name=_("Lankese")
 plural=_("?plural:Lankese")
-groups="Ancient", "Medieval", "Modern", "Asian"
+groups="Ancient", "Medieval", "Early Modern", "Modern", "Asian"
 legend=_("Prince Vijaya came to Sri Lanka from Orissa, in north-eastern\
  India during the 6th century BC and founded the Sinhalese kingdom there.\
  During British colonialism the country was known as Ceylon.")

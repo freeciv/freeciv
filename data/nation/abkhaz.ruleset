@@ -2,7 +2,7 @@
 
 name=_("Abkhaz")
 plural=_("?plural:Abkhazians")
-groups="Asian", "European", "Medieval", "Modern"
+groups="Asian", "European", "Medieval", "Early Modern", "Modern"
 legend=_("Ancestors of Abkhazians have lived in the western Caucasus since\
  time immemorial. Short periods of independence alternated with domination\
  by the Greeks, Romans, Byzantines, Turks, Russians and Georgians.\

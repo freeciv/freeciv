@@ -22,6 +22,9 @@ match=2
 [ngroup_medieval]
 name=_("?nationgroup:Medieval")
 match=2
+[ngroup_earlymodern]
+name=_("?nationgroup:Early Modern")
+match=2
 [ngroup_modern]
 name=_("?nationgroup:Modern")
 match=1

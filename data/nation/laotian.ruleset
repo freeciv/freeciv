@@ -2,7 +2,7 @@
 
 name=_("Laotian")
 plural=_("?plural:Laotians")
-groups="Modern", "Medieval", "Asian"
+groups="Modern", "Early Modern", "Medieval", "Asian"
 legend=_("The history of Laos starts with the Lan Xang kingdom\
  created in the 14th century and ended in late 18th century\
  with invasion of Siam (Thailand). In the end of the 19th\

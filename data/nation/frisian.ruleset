@@ -2,7 +2,7 @@
 
 name=_("Frisian")
 plural=_("?plural:Frisians")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Romans already mentioned the Frisii but historians are unsure\
  whether they were the ancestors of today's Frisians or not. In the early\
  Middle Ages the Frisians controlled a kingdom stretching from the\

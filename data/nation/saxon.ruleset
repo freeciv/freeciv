@@ -2,7 +2,7 @@
 
 name=_("Saxon")
 plural=_("?plural:Saxons")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("The Electorate of Saxony was an independent hereditary electorate\
  of the Holy Roman Empire from 1356-1806.")
 leader =

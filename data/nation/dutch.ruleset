@@ -2,7 +2,7 @@
 
 name=_("Dutch")
 plural=_("?plural:Dutch")
-groups="Modern", "European"
+groups="Early Modern", "Modern", "European"
 legend=_("When the Holy Roman Emperor sentenced the entire population to\
  death, the people of the Netherlands revolted and declared themselves\
  independent, forming the Union of Utrecht in 1579. The Netherlands grew\

@@ -2,7 +2,7 @@
 
 name=_("Polish")
 plural=_("?plural:Poles")
-groups="Medieval", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Polish state was formed about a millennium ago, and reached\
  its Golden Age near the end of the 16th century.")
 leader="Mieszko I",

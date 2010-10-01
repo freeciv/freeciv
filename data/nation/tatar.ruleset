@@ -2,7 +2,7 @@
 
 name=_("Tatar")
 plural=_("?plural:Tatars")
-groups="Medieval", "Asian", "European"
+groups="Medieval", "Early Modern", "Asian", "European"
 
 legend=_("The Tatars are a Turkic-speaking nation. Various Tatar states\
  existed in the Middle Ages: Kazan, Crimea, Astrakhan, Sibir and other\

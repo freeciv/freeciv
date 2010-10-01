@@ -2,7 +2,7 @@
 
 name=_("Cossack") 
 plural=_("?plural:Cossacks") 
-groups="European"
+groups="European", "Early Modern"
 legend=_("The Zaporozhian Cossacks lived in Zaporozhia, in Central\
  Ukraine. They were a multi-ethnic community with Ruthenians being the\
  dominant element, organized in a military manner.")

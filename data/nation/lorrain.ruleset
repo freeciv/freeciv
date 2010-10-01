@@ -2,7 +2,7 @@
 
 name=_("Lorrain")
 plural=_("?plural:Lorrains")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Lorraine or Lotharingia was formed as the middle kingdom when\
  the Frankish empire was split in three in 843. Initially stretching from\
  the North Sea to the Mediterranean, its territory was mutilated during\

@@ -2,7 +2,7 @@
 
 name = _("Holy")
 plural = _("?plural:Holy See")
-groups="Medieval", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The Holy See is the episcopal jurisdiction of the Bishop of\
  Rome commonly known as the Pope, and is the preeminent episcopal see\
  of the Catholic Church, forming the central government of the Church.")

@@ -2,7 +2,7 @@
 
 name=_("Jolof") 
 plural=_("?plural:Jolof") 
-groups="Medieval", "African" 
+groups="Medieval", "Early Modern", "African" 
 legend=_("Also called Wolof, the Kingdom was formed between the\
  Senegal and Gambia rivers in the 14th century. The King, or Burba\
  Jolof, was beholden to a handful of powerful regional noblemen who\

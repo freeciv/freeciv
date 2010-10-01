@@ -2,7 +2,7 @@
 
 name=_("Omani") 
 plural=_("?plural:Omanis") 
-groups="Medieval", "Modern", "Asian" 
+groups="Medieval", "Early Modern", "Modern", "Asian" 
 legend=_("Oman is an Arab country in southwest Asia on the southeast coast\
  of the Arabian Peninsula. Before the arrival of Islam Oman was controlled\
  by Achaemenids, Parthians and Sassanids.")

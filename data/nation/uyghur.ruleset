@@ -2,7 +2,7 @@
 
 name=_("Uyghur")
 plural=_("?plural:Uyghurs")
-groups="Medieval", "Asian"
+groups="Medieval", "Early Modern", "Asian"
 legend=_("Uyghur was an east Turk empire and civilization. At its height in\
  820 AD it controlled most of Central and North Asia. After clashing with\
  the Chinese for several centuries, they were finally subdued by the Qing\

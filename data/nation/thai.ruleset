@@ -2,7 +2,7 @@
 
 name=_("Thai")
 plural=_("?plural:Thai")
-groups="Modern", "Medieval", "Asian"
+groups="Modern", "Early Modern", "Medieval", "Asian"
 legend=_("The Thai kingdom was the only country in Southeast Asia to\
  preserve its independence throught the colonial era of the 18th and\
  19th centuries AD.")

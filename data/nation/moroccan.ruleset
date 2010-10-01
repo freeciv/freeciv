@@ -2,7 +2,7 @@
 
 name=_("Moroccan")
 plural=_("?plural:Moroccans")
-groups="Medieval", "Modern", "African"
+groups="Medieval", "Early Modern", "Modern", "African"
 legend=_("Modern Morocco gained independence in 1956.  However, the area\
  has been inhabited since at least 8000 BC.  In classical times the region\
  was known as Mauretania.")

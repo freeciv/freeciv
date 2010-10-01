@@ -2,7 +2,7 @@
 
 name=_("Corsican")
 plural=_("?plural:Corsicans")
-groups="European"
+groups="European", "Early Modern"
 legend=_("For most of its history, Corsica has been ruled by foreign\
  powers. Greeks, Etruscans, Romans, Vandals, Visigoths, Byzantines,\
  Saracens, Lombards, the Papal States and Genoese all held sway over\

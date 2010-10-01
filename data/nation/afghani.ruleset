@@ -2,7 +2,7 @@
 
 name=_("Afghani")
 plural=_("?plural:Afghanis")
-groups="Modern", "Asian"
+groups="Early Modern", "Modern", "Asian"
 legend=_("Afghanistan, often called the crossroads of Central Asia, has had\
  a very turbulent history. Through the ages, the country has been occupied\
  by many forces including the Persian Empire, Genghis Khan and Alexander the\

@@ -2,7 +2,7 @@
 
 name=_("Manchu")
 plural=_("?plural:Manchus")
-groups="Medieval", "Asian"
+groups="Medieval", "Asian", "Early Modern"
 legend=_("The Manchus were a semi-nomadic people originating from the region\
  called Manchuria in Northeast Asia. In the 17th century they conquered and\
  ruled China as the Manchu Empire until 1911.")

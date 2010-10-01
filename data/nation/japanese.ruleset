@@ -2,7 +2,7 @@
 
 name=_("Japanese")
 plural=_("?plural:Japanese")
-groups="Medieval", "Modern", "Asian"
+groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("According to traditional Japanese mythology, Japan was founded\
  in the 7th century BC by the ancestral Emperor Jimmu.")
 leader=

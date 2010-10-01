@@ -2,7 +2,7 @@
 
 name=_("Saudi")
 plural=_("?plural:Saudis")
-groups="Asian", "Modern"
+groups="Asian", "Early Modern", "Modern"
 legend=_("Saudi Arabia is located on the Arabian Peninsula and includes\
  Mecca and Medina, the holiest sites of Islam. The First Saudi state was\
  established in 1744. Current Saudi Arabia dates from the union of Hejaz\

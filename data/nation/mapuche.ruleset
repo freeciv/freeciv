@@ -2,7 +2,7 @@
 
 name=_("Mapuche")
 plural=_("?plural:Mapuche")
-groups="American"
+groups="American", "Early Modern"
 
 legend=_("The Mapuche people successfully resisted the expansion of the Inka\
  empire, halting them at the Maule river in what is now central Chile. They\

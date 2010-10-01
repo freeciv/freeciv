@@ -2,7 +2,7 @@
 
 name=_("Sikh")
 plural=_("?plural:Sikhs")
-groups="Asian"
+groups="Asian", "Early Modern"
 legend=_("Sikhs are the followers of a monotheistic religion originating\
  from the Indian Subcontinent in the 15th century. The Punjab, on the\
  border of Pakistan and India, is the heartland of Sikhism. In the 19th\

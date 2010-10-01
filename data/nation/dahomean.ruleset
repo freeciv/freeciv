@@ -2,7 +2,7 @@
 
 name=_("Dahomean")
 plural=_("?plural:Dahomeans")
-groups="Medieval", "African"
+groups="Early Modern", "African"
 legend=_("The southern third of modern Benin was once a historic kingdom\
  known variously as Agbome (c. 1600 - c. 1700), Danhome (c. 1700 - 1730), and\
  Dahomey (1730 - 1894). In 1730 the country became a tributary of the\

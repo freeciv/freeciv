@@ -2,7 +2,7 @@
 
 name=_("British")
 plural=_("?plural:British")
-groups="Modern", "European"
+groups="Early Modern", "Modern", "European"
 legend=_("The United Kingdom was created in 1707 as a negotiated agreement\
  between the kingdom of England and the kingdom of Scotland. The country -\
  also known as Great Britain - became the leading industrial and maritime\

@@ -2,7 +2,7 @@
 
 name=_("Savoyard")
 plural=_("?plural:Savoyards")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Savoy emerged in the Western Alps after the disintegration of\
  the Burgundian Kingdom. Its dynasty established control over Sardinia\
  and Piedmont and later all of Italy. Savoy's growth and survival over\

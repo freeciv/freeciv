@@ -2,7 +2,7 @@
 
 name=_("Tibetan")
 plural=_("?plural:Tibetans")
-groups="Medieval", "Asian"
+groups="Medieval", "Early Modern", "Asian"
 legend=_("The Tibetan homeland is sometimes called the \"Roof of the\
  World\", the highest elevated region in the world. In the 7th century,\
  Tibet emerged as a formidable empire under the leadership of king Songtsen\

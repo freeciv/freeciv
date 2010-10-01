@@ -2,7 +2,7 @@
 
 name=_("Liechtensteiner")
 plural=_("?plural:Liechtensteiners")
-groups="Modern", "European"
+groups="Early Modern", "Modern", "European"
 legend=_("The Principality of Liechtenstein is a tiny, doubly landlocked\
  alpine country in Western Europe, bordered by Switzerland to its west\
  and by Austria to its east. The Principality was formed by the merger\

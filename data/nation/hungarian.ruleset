@@ -2,7 +2,7 @@
 
 name=_("Hungarian")
 plural=_("?plural:Hungarians")
-groups="Medieval", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Legend says that Hungary was founded by Arpad in the 9th\
  century.")
 conflicts_with="indian"	; Similar flags

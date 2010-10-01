@@ -2,7 +2,7 @@
 
 name=_("Catalan")
 plural=_("?plural:Catalans")
-groups="European"
+groups="Medieval", "Early Modern", "European"
 legend=_("During the Middle Ages, Catalan kings conquered and presided over\
  several kingdoms on the shores of the Mediterranean Sea, from the Iberian\
  peninsula to parts of Italy and Greece. This confederation/empire became a\

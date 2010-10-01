@@ -2,7 +2,7 @@
 
 name=_("Swiss")
 plural=_("?plural:Swiss")
-groups="Modern", "Medieval", "European"
+groups="Modern", "Early Modern", "Medieval", "European"
 legend=_("Switzerland has existed as a state in its present form since the\
  adoption of the Swiss Federal Constitution in 1848. The precursors of modern\
  Switzerland established a protective alliance at the end of the 13th century,\

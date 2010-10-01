@@ -2,7 +2,7 @@
 
 name=_("Austrian")
 plural=_("?plural:Austrians")
-groups="Medieval", "Modern", "European"
+groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("The origins of Austria date back to the time of the Roman\
  Empire when a Celtic kingdom was conquered by the Romans in\
  approximately 15 BC, and later became Noricum, a Roman province, in the\

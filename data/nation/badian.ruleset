@@ -2,7 +2,7 @@
 
 name=_("Badian")
 plural=_("?plural:Badians")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Baden was a country in Swabia, in southwestern Germany. After\
  World War II it was merged with Wuerttemberg and Hohenzollern to form\
  the land of Baden-Wuerttemberg.")

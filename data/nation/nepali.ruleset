@@ -2,7 +2,7 @@
 
 name=_("Nepali")
 plural=_("?plural:Nepalis")
-groups="Medieval", "Modern", "Asian"
+groups="Medieval", "Early Modern", "Modern", "Asian"
 legend=_("Nepal is a landlocked country located in the Himalayas. Long a\
  multi-cultural and multi-lingual nation, its history is characterized by\
  its location between India and China. The Nepalese principalities were\

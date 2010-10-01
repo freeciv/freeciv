@@ -2,7 +2,7 @@
 
 name=_("Anishinaabe")
 plural=_("?plural:Anishinaabeg")
-groups="American"
+groups="American", "Early Modern"
 legend=_("The Anishinaabeg are a group of closely related Native American\
  tribes in the North American Great Lakes region, including the Ottawa,\
  Ojibwe, Algonkin and Potawatomi. They speak Algonquian languages.\

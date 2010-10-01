@@ -2,7 +2,7 @@
 
 name=_("Andorran")
 plural=_("?plural:Andorrans")
-groups="Modern", "Medieval", "European"
+groups="Modern", "Early Modern", "Medieval", "European"
 legend=_("Andorra is a small country in the eastern Pyrenees. In 1278,\
  a dispute between the bishop of Urgell and the Count of Foix ended with\
  an agreement to share the sovereignty of Andorra. This arrangement is\

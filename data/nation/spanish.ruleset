@@ -2,7 +2,7 @@
 
 name=_("Spanish")
 plural=_("?plural:Spanish")
-groups="Modern","European"
+groups="Early Modern", "Modern", "European"
 legend=_("The modern Spanish nation was formed when the rulers of the\
  kingdoms of Castile and Aragon led the recapture of the Iberian\
  peninsula from the Moslems.  The Reconquista was completed in 1492 AD,\

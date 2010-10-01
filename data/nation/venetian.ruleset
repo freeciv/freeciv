@@ -2,7 +2,7 @@
 
 name = _("Venetian")
 plural = _("?plural:Venetians")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("The Republic of Venice emerged from the shadows of history\
  when refugees from barbarian marauders gathered on the safety of the\
  islands of a lagoon in northeast Italy. Originally a loyal subject of\

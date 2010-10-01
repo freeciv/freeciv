@@ -2,7 +2,7 @@
 
 name=_("Khwarezmian")
 plural=_("?plural:Khwarezmians")
-groups="Asian", "Ancient"
+groups="Asian", "Ancient", "Medieval"
 
 legend=_("Known by the Greeks as Chorasmia, Khwarezm was an urbanized,\
  centralized, and militarized state south of the Aral sea in Central Asia,\

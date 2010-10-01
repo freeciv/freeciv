@@ -2,7 +2,7 @@
 
 name   = _("Holy Roman")
 plural = _("?plural:Holy Romans")
-groups  = "Medieval", "European"
+groups  = "Medieval", "Early Modern", "European"
 
 legend = _("The Holy Roman Empire was considered the successor to the\
  Roman Empire, but as Voltaire once quipped it was neither Holy, nor Roman\

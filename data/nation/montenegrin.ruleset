@@ -2,7 +2,7 @@
 
 name=_("Montenegrin")
 plural=_("?plural:Montenegrins")
-groups="Modern", "Medieval", "European"
+groups="Modern", "Early Modern", "Medieval", "European"
 legend=_("Montenegro is a small country on the Balkans, the last to be\
  conquered by the Ottomans and the first to become independent again.\
  Part of Yugoslavia in the 20th century, it dissolved its union\

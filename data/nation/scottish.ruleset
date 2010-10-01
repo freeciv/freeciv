@@ -2,7 +2,7 @@
 
 name=_("Scottish")
 plural=_("?plural:Scots")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Scotland, originally settled in late Roman times by Irish\
  raiders who displaced the native Picts, was an independent kingdom from\
  around 1034 AD to the Union of Crowns with England in 1701.")

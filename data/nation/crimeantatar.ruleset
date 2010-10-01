@@ -2,7 +2,7 @@
 
 name=_("Crimean Tatar") 
 plural=_("?plural:Crimean Tatars") 
-groups="Medieval", "European" 
+groups="Medieval", "European", "Early Modern"
 legend=_("Historical feudal state on the Crimean Peninsula, existing from\
  the 15th to the 18th century. Crimean Tatars invaded Poland and Russia,\
  which caused wars with Turkey.")

@@ -2,7 +2,7 @@
 
 name=_("Turkish")
 plural=_("?plural:Turks")
-groups="Modern", "Asian"
+groups="Modern", "Asian", "European"
 legend=_("Modern Turkey is the successor state of the Ottoman Empire, which\
  collapsed and was dismembered by the victors in World War I after backing\
  the Central Powers.  The country was subsequently reformed and secularized\

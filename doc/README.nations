@@ -182,11 +182,12 @@ Nation grouping
 
 Freeciv supports a classification of nations in an unlimited number of
 groups and every nation should be assigned to at least one. We currently 
-have Ancient, Medieval, Modern, African, American, Asian, European,
-Oceanian and Fictional groups. Modern nations are existing and politically
-independent countries; a nation listed as ancient or medieval should have
-had an independent dynasty or state in ancient or medieval times
-respectively. Finally, a fictional nation is - as the name suggests - a
+have Ancient, Medieval, Early Modern, Modern, African, American, Asian,
+European, Oceanian and Imaginary groups. Modern nations are existing and
+politically independent countries; a nation listed as ancient, medieval
+or early modern should have had an independent dynasty or state in ancient
+(until 500 AD), medieval (500 - 1500) or early modern (1500 - 1800) times
+respectively. Finally, an imaginary nation is - as the name suggests - a
 product of someone's imagination.
 
 

@@ -2,7 +2,7 @@
 
 name=_("Chechen")
 plural=_("?plural:Chechens")
-groups="Asian", "European"
+groups="Asian", "European", "Early Modern"
 
 legend=_("Chechnya is an ancient nation in the Caucasus, currently part\
  of the Russian Federation. In 1588, the Chechens voluntarily subjected\

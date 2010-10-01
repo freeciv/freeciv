@@ -2,7 +2,7 @@
 
 name=_("Sicilian")
 plural=_("?plural:Sicilians")
-groups="Medieval", "European"
+groups="Medieval", "Early Modern", "European"
 legend=_("Sicily is the largest island of Italy. It has been ruled by\
  Greeks, Carthaginians, Romans, Vandals, Ostrogoths, Byzantines and\
  Arabs. In the 11th century the Normans founded the Kingdom of Sicily\

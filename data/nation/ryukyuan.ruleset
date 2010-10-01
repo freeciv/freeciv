@@ -2,7 +2,7 @@
 
 name=_("Ryukyuan")
 plural=_("?plural:Ryukyuans")
-groups="Medieval", "Asian"
+groups="Medieval", "Early Modern", "Asian"
 legend=_("The Ryukyu Kingdom (1372-1879) was the Land of Propriety, a\
  peaceful maritime trading nation eventually invaded, occupied, and annexed\
  by Japan.")

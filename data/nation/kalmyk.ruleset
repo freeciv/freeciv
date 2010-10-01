@@ -2,7 +2,7 @@
 
 name=_("Kalmyk")
 plural=_("?plural:Kalmyks")
-groups="European"
+groups="European", "Early Modern"
 legend=_("The Kalmyks are a Western Mongolian ethnic group living in\
  Kalmykia in southern Russia. They migrated to the Caspian plains in the\
  17th century and formed a khanate that was allied with Russia. The\

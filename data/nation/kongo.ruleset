@@ -2,7 +2,7 @@
 
 name=_("Kongo")
 plural=_("?plural:Kongo")
-groups="Medieval", "African"
+groups="Medieval", "Early Modern", "African"
 
 legend=_("This Kingdom, lasting from roughly 1400 AD until the late 19th\
  century, existed in the present-day countries of Angola and the\

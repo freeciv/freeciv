@@ -2,7 +2,7 @@
 
 name=_("Vermont")
 plural=_("?plural:Vermonters")
-groups="American"
+groups="American", "Early Modern"
 legend=_("Vermont was an independent state for 14 years before it joined\
  the United States in 1791. Currently it is one of the smallest states of\
  the United States, both in population and area. Vermont is famous for\

@@ -2,7 +2,7 @@
 
 name=_("Mayan")
 plural=_("?plural:Mayas")
-groups="Ancient", "Medieval", "American"
+groups="Ancient", "Medieval", "Early Modern", "American"
 legend=_("The Mayans were a Mesoamerican civilization. They are\
  famous for building great pyramids and palaces in the jungle.")
 leader=
