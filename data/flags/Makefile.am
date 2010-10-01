@@ -98,6 +98,7 @@ flag_files =				\
 		estonia.png		\
 		eritrea.png		\
 		ethiopia.png		\
+		etruscan.png		\
 		europe.png		\
 		euskadi.png		\
 		finland.png		\
@@ -422,6 +423,7 @@ shield_files =					\
 		estonia-shield.png		\
 		eritrea-shield.png		\
 		ethiopia-shield.png		\
+		etruscan-shield.png		\
 		europe-shield.png		\
 		euskadi-shield.png		\
 		finland-shield.png		\
@@ -746,6 +748,7 @@ svg_files = 				\
 		estonia.svg		\
 		eritrea.svg		\
 		ethiopia.svg		\
+		etruscan.svg		\
 		europe.svg		\
 		euskadi.svg		\
 		finland.svg		\

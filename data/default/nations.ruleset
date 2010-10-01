@@ -151,6 +151,7 @@ match=2
 *include "nation/estonian.ruleset"
 *include "nation/eritrean.ruleset"
 *include "nation/ethiopian.ruleset"
+*include "nation/etruscan.ruleset"
 *include "nation/european.ruleset"
 *include "nation/filipino.ruleset"
 *include "nation/finnish.ruleset"

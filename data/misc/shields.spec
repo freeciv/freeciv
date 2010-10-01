@@ -108,6 +108,7 @@ sprites =
 		"f.shield.estonia", "flags/estonia-shield"
 		"f.shield.eritrea", "flags/eritrea-shield"
 		"f.shield.ethiopia", "flags/ethiopia-shield"
+		"f.shield.etruscan", "flags/etruscan-shield"
 		"f.shield.europe", "flags/europe-shield"
 		"f.shield.euskadi", "flags/euskadi-shield"
 		"f.shield.finland", "flags/finland-shield"

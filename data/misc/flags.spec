@@ -106,6 +106,7 @@ artists = "
    Estonia		Daniel Markstedt
    Eritrea		Andrew Duhan
    Ethiopia		Lauris Kaplinski and Christian Schaller
+   Etruscan	J.M. Maalderink
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
    Finland		SKopp (Wikimedia user)
@@ -435,6 +436,7 @@ sprites =
 		"f.estonia", "flags/estonia"
 		"f.eritrea", "flags/eritrea"
 		"f.ethiopia", "flags/ethiopia"
+		"f.etruscan", "flags/etruscan"
 		"f.europe", "flags/europe"
 		"f.euskadi", "flags/euskadi"
 		"f.finland", "flags/finland"
