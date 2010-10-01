@@ -12,7 +12,7 @@ leader=
  "Olympias",
  "Alexandros",
  "Kassandros",
- "Seleukos Nikator",
+ "Antipater",
  "Ptolemaios Soter"
 leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
 flag="macedon"
@@ -30,7 +30,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "macedonian"
-civilwar_nations = "egyptian", "greek", "persian"
+civilwar_nations = "egyptian", "greek", "seleucid"
 
 cities =
  "Aigai",

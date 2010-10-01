@@ -6,11 +6,11 @@ groups="Modern", "Asian"
 legend=_("Nation in Central Asia. Conquered by the Russian Empire\
  in 19th century, Turkmenistan got independence\
  from the Soviet Union in 1991.")
-leader="Seleucus I Nicator", ; founder of Seleucid Empire
-       "Arsaces I", ; founder of the Parthian Empire
+leader="Arsaces I", ; founder of the Parthian Empire
        "Mithridates II", ; ruler of Pathria
        "Ardashir-i Papagan", ; founder of Sassanid Empire (see persian.ruleset)
-       "Seljuk" ; founder of Seljuk dynasty and the state
+       "Seljuk", ; founder of Seljuk dynasty and the state
+       "Saparmyrat Nyýazow" ; post-independence president
 
 leader_sex="Male", "Male", "Male", "Male", "Male"
 
