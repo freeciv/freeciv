@@ -67,6 +67,7 @@
 
 /* server/advisors */
 #include "advdata.h"
+#include "advbuilding.h"
 #include "infracache.h"
 
 /* server/generator */
@@ -5375,11 +5376,11 @@ static void game_load_internal(struct section_file *file)
     /* Recalculate for all players. */
     pplayer->ai_controlled = FALSE;
 
-    ai_manage_buildings(pplayer);
+    building_advisor(pplayer);
 
     pplayer->ai_controlled = saved_ai_control;
   } players_iterate_end;
-  
+
   /* Restore game random state, just in case various initialization code
    * inexplicably altered the previously existing state. */
   if (!game.info.is_new_game) {

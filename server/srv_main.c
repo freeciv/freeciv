@@ -123,6 +123,7 @@
 /* server/advisors */
 #include "advdata.h"
 #include "autosettlers.h"
+#include "advbuilding.h"
 #include "infracache.h"
 
 #include "srv_main.h"
@@ -787,7 +788,7 @@ static void begin_phase(bool is_new_phase)
     /* human players also need this for building advice */
     ai_data_phase_init(pplayer, is_new_phase);
     if (!pplayer->ai_controlled) {
-      ai_manage_buildings(pplayer); /* building advisor */
+      building_advisor(pplayer);
     }
   } phase_players_iterate_end;
 

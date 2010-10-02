@@ -87,11 +87,16 @@ struct ai_city {
 };
 
 void ai_manage_cities(struct player *pplayer);
-void ai_manage_buildings(struct player *pplayer);
 
 int ai_eval_calc_city(struct city *pcity, struct ai_data *ai);
 
 void ai_city_alloc(struct city *pcity);
 void ai_city_free(struct city *pcity);
+
+void want_tech_for_improvement_effect(struct player *pplayer,
+                                      const struct city *pcity,
+                                      const struct impr_type *pimprove,
+                                      const struct advance *tech,
+                                      int building_want);
 
 #endif  /* FC__AICITY_H */
