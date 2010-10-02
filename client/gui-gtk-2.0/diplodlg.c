@@ -449,7 +449,11 @@ static void row_callback(GtkTreeView *view, GtkTreePath *path,
 *****************************************************************/
 static void diplomacy_destroy(struct Diplomacy_dialog* pdialog)
 {
-  gui_dialog_destroy(pdialog->dialog);
+  if (NULL != pdialog->dialog) {
+    /* pdialog->dialog may be NULL if the tab have been destroyed
+     * by an other way. */
+    gui_dialog_destroy(pdialog->dialog);
+  }
   dialog_list_unlink(dialog_list, pdialog);
   free(pdialog);
 }
