@@ -5253,6 +5253,14 @@ static const int compat_num = ARRAY_SIZE(compat);
 ****************************************************************************/
 const struct sset_val_name *saveversion_name(int saveversion)
 {
+#ifdef DEBUG
+  /* Debug builds can create a savefile using the old format. */
+  static struct sset_val_name old_savegame = {"2.2.x", N_("freeciv 2.2.x")};
+  if (saveversion == -1) {
+    return &old_savegame;
+  }
+#endif
+
   return (0 <= saveversion && saveversion < compat_num
           ? &compat[saveversion].name : NULL);
 }
