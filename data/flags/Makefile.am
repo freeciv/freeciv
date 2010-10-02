@@ -77,6 +77,7 @@ flag_files =				\
 		corsica.png		\
 		cossack.png		\
 		costa_rica.png		\
+		courland.png		\
 		crimean_tatar.png	\
 		croatia.png		\
 		cuba.png		\
@@ -404,6 +405,7 @@ shield_files =					\
 		corsica-shield.png		\
 		costa_rica-shield.png		\
 		cossack-shield.png		\
+		courland-shield.png		\
 		crimean_tatar-shield.png	\
 		croatia-shield.png		\
 		cuba-shield.png			\
@@ -731,6 +733,7 @@ svg_files = 				\
 		corsica.svg		\
 		cossack.svg		\
 		costa_rica.svg		\
+		courland.svg		\
 		crimean_tatar.svg	\
 		croatia.svg		\
 		cuba.svg		\

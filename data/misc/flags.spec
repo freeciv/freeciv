@@ -87,6 +87,7 @@ artists = "
    Costa Rica		Nightstallion (Wikimedia Commons)
    Crimean Tatar	J.M. Maalderink
    Croatia		Frank Zeko
+   Courland		J.M. Maalderink
    Cuba			Lauris Kaplinski
    Cyprus		Vzb83 (Wikimedia Commons)
    Czech		Lauris Kaplinski
@@ -417,6 +418,7 @@ sprites =
 		"f.corsica", "flags/corsica"
 		"f.cossack", "flags/cossack"
 		"f.costa_rica", "flags/costa_rica"
+		"f.courland", "flags/courland"
 		"f.crimean_tatar", "flags/crimean_tatar"
 		"f.croatia", "flags/croatia"
 		"f.cuba", "flags/cuba"

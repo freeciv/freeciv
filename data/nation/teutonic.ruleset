@@ -39,7 +39,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "prussian", "german"
-civilwar_nations = "estonian", "latvian", "prussian", "samogitian"
+civilwar_nations = "estonian", "latvian", "prussian", "samogitian", "curonian"
 
 cities =
  "Marienburg",
