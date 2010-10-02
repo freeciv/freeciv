@@ -744,6 +744,7 @@ void set_client_state(enum client_states newstate)
         } city_list_iterate_end;
       }
       popdown_all_city_dialogs();
+      close_all_diplomacy_dialogs();
       popdown_all_game_dialogs();
       set_unit_focus(NULL);
     } else {
