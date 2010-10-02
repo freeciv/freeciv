@@ -12,21 +12,21 @@ artists = "
     Sodipodi http://www.sodipodi.com/index.php3?section=clipart/flags
     Open Clip Art Library http://www.openclipart.org/
 
-   Abkhazia		Reisio (Wikimedia Commons user)
+   Abkhazia		Reisio (Wikimedia Commons)
    Aborigines		Brett Roper
    Acadia		Jean-François Arseneau
    Afghanistan		Andrew Duhan and Reisio
    Ainu			Daniel Markstedt
    Akwe			Dan Cottrell and Daniel Markstedt
-   Albania		TigerTjäder (Wikimedia Commons user)
+   Albania		TigerTjäder (Wikimedia Commons)
    Aleut		Daniel Markstedt
    Algeria 		Lauris Kaplinski
-   Almohad		Ch1902 (Wikimedia user)
+   Almohad		Ch1902 (Wikimedia Commons)
    Amazigh		Mysid
    Amazon		Ann Barcomb
    Andorra		Patricia Fidi
-   Angola		SKopp (Wikimedia Commons user)
-   Anishinaabe		Shandris (Wikimedia Commons user)
+   Angola		SKopp (Wikimedia Commons)
+   Anishinaabe		Shandris (Wikimedia Commons)
    Antarctica		Tobias Jakobs
    Apache		J.M. Maalderink
    Arab			Daniel Markstedt and Andrew Duhan
@@ -35,7 +35,7 @@ artists = "
    Argentina		Sigge Kotliar
    Armenia		Jason Short
    Assyria		Clevelander and Daniel Markstedt
-   Asturias		Banderas (Wikimedia user)
+   Asturias		Banderas (Wikimedia Commons)
    Atlantis		J.M. Maalderink
    Australia		Daniel McRae
    Austria		Christoph Breitler
@@ -43,35 +43,35 @@ artists = "
    Azerbaijan		Daniel McRae
    Aztec		Daniel Markstedt
    Babylon		Daniel Markstedt
-   Baden		David Liuzzo (Wikimedia Commons user)
+   Baden		David Liuzzo (Wikimedia Commons)
    Bangladesh		Cezary Biele
    Barbarian		Tobias Jakobs
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
-   Benin (ancient)	Orange Tuesday (Wikimedia Commons user)
-   Bhutan		Denelson83 and Zscout370 (Wikimedia Commons users)
+   Benin (ancient)	Orange Tuesday (Wikimedia Commons)
+   Bhutan		Denelson83 and Zscout370 (Wikimedia Commons)
    Boer			Caleb Moore
    Bolivia		Caleb Moore
    Bosnia		Daniel McRae
    Bosporus		J.M. Maalderink
-   Botswana		SKopp (Wikimedia user)
+   Botswana		SKopp (Wikimedia Commons)
    Brasil		Cezary Biele
    Britannia		J.M. Maalderink
    Brittany		Lexicon
    Bulgaria		Daniel McRae
    Burgundy		Daniel Markstedt
-   Burkina Faso		Gabbe (Wikimedia Commons user)
+   Burkina Faso		Gabbe (Wikimedia Commons)
    Burundi		Sebastian Koppehel
    Byzantium		Dragases
    Caddo		Daniel Markstedt
-   California		Devin Cook (Wikimedia Commons user)
+   California		Devin Cook (Wikimedia Commons)
    Canada		James Leigh
-   Canada (old)		Hoshie (Wikimedia Commons user)
+   Canada (old)		Hoshie (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
    Chananea		Daniel Markstedt
-   Chechnya		Lokal Profil (Wikimedia user)
+   Chechnya		Lokal Profil (Wikimedia Commons)
    Cheyenne		Arturo Espinosa-Aldama
    Chile		Mario Fuentes
    Chimu		J.M. Maalderink
@@ -79,25 +79,25 @@ artists = "
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
    Colombia		Lauris Kaplinski
-   Comanche		Zscout370 (Wikimedia Commons user)
+   Comanche		Zscout370 (Wikimedia Commons)
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia.fidi (Open Clip Art)
    Cossack		Alex Tora
-   Costa Rica		Nightstallion (Wikimedia Commons user)
+   Costa Rica		Nightstallion (Wikimedia Commons)
    Crimean Tatar	J.M. Maalderink
    Croatia		Frank Zeko
    Cuba			Lauris Kaplinski
-   Cyprus		Vzb83 (Wikimedia Commons user)
+   Cyprus		Vzb83 (Wikimedia Commons)
    Czech		Lauris Kaplinski
    Dahomey		Daniel Markstedt 
-   DDR			Jwnabd (Wikimedia Commons user)
+   DDR			Jwnabd (Wikimedia Commons)
    Denmark		Jens Bech Madsen
    Dominica		Caleb Moore and Christian Schaller
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
-   DR Congo		Drieskamp (Wikimedia Commons user)
+   DR Congo		Drieskamp (Wikimedia Commons)
    Dryad		Ivan Alvarado
-   Ecuador		Zscout370 (Wikimedia Commons user)
+   Ecuador		Zscout370 (Wikimedia Commons)
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    Elam			Patricia Fidi and J.M. Maalderink
@@ -106,38 +106,39 @@ artists = "
    Estonia		Daniel Markstedt
    Eritrea		Andrew Duhan
    Ethiopia		Lauris Kaplinski and Christian Schaller
-   Etruscan	J.M. Maalderink
+   Etruscan		J.M. Maalderink
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
-   Finland		SKopp (Wikimedia user)
+   Finland		SKopp (Wikimedia Commons)
    Flanders		Cedric de Launois (Open Clip Art)
    France (old)		Patricia Fidi
    France		Tobias Jakobs
-   Frisia		GeeKaa (Wikimedia Commons user)
-   Gael			Barryob (Wikimedia Commons user)
+   Franconia		Andreas Trepte (Wikimedia Commons) and J.M. Maalderink
+   Frisia		GeeKaa (Wikimedia Commons)
+   Gael			Barryob (Wikimedia Commons)
    Galicia		Miguel Rodríguez
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
    Germany		Philipp Sadleder
    Greater Poland	J.M. Maalderink
-   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia user)
+   Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
    Greece		Daniel McRae
    Greenland		Daniel McRae
-   Grenada		SKopp (Wikipedia)
-   Guanche		HansenBCN (Wikimedia Commons user)
+   Grenada		SKopp (Wikimedia Commons)
+   Guanche		HansenBCN (Wikimedia Commons)
    Guarani		Daniel Markstedt
-   Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons users)
+   Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
-   Haiti		Lokal Profil (Wikimedia user)
+   Haiti		Lokal Profil (Wikimedia Commons)
    Hanover		J.M. Maalderink
    Hansa		J.M. Maalderink
    Hawaii		Rob Adams
-   Hesse		Madden (Wikimedia Commons user)
+   Hesse		Madden (Wikimedia Commons)
    Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
    Hopi			Daniel Markstedt
-   HRE			Gryffindor (Wikimedia Commons user) and J.M. Maalderink
+   HRE			Gryffindor (Wikimedia Commons) and J.M. Maalderink
    Hungary		Laszlo Dvornik
    Iceland		Áki G. Karlsson
    Illyria		William Allen Simpson
@@ -157,10 +158,10 @@ artists = "
    Japan		Lauris Kaplinski
    Jbonai		Elmo Todurov
    Jolof		J.M. Maalderink
-   Kalmykia		Conscious (Wikimedia Commons user)
+   Kalmykia		Conscious (Wikimedia Commons)
    Kampuchea		Caleb Moore
    Kanem-Bornu		Daniel Markstedt
-   Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons user)
+   Karelia		J.M. Maalderink and Nilakka (Wikimedia Commons)
    Kazakhstan		-xfi-
    Keetoowah		Daniel Markstedt
    Kenya		James Ots
@@ -170,7 +171,7 @@ artists = "
    Kongo		Daniel Markstedt
    Korea		Stephen Silver
    Korea (ancient)	Mysid
-   Kosovo		Cradel (Wikimedia Commons user)
+   Kosovo		Cradel (Wikimedia Commons)
    Kurd			Denelson83
    Kyrgyzstan		-xfi-
    Labarum		J.M. Maalderink
@@ -179,37 +180,37 @@ artists = "
    Lendian		J.M. Maalderink
    Leon			Pedro A. Gracia Fajardo and J.M. Maalderink
    Libya		Cezary Biele
-   Liechtenstein	Denelson83 and Flanker (Wikimedia Commons users)
+   Liechtenstein	Denelson83 and Flanker (Wikimedia Commons)
    Lithuania		Christian Schaller
    Lorraine		J.M. Maalderink
    Lusatia		J.M. Maalderink
    Luxembourg		J.M. Maalderink
    Maasai		James Ots and J.M. Maalderink
-   Macedon		Mysid (Wikimedia Commons user)
+   Macedon		Mysid (Wikimedia Commons)
    Macedonia		Sigge Kotliar
    Madagascar		Russell Cloran
    Majapahit		Dan Cottrell and Daniel Markstedt
    Malaysia		Lauris Kaplinski
    Mali			Brett Roper
-   Malta		Yaddah, Zcout370 (Wikimedia Commons users)
+   Malta		Yaddah, Zcout370 (Wikimedia Commons)
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mazovia		J.M. Maalderink
    Mexico		Cezary Biele
-   Micronesia		SKopp (Wikimedia commons user)
+   Micronesia		SKopp (Wikimedia commons)
    Mikmaq		Daniel Markstedt
    Miskito		Daniel Markstedt
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
    Mongolia		Sebastian Koppehel
-   Montenegro		Bugoslav (Wikimedia Commons user)
-   Morocco		Xiquet, Flad (Wikimedia users)
+   Montenegro		Bugoslav (Wikimedia Commons)
+   Morocco		Xiquet, Flad (Wikimedia Commons)
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
-   Namibia		Vzb83 and Madden (Wikimedia Commons users)
+   Namibia		Vzb83 and Madden (Wikimedia Commons)
    Naples		J.M. Maalderink
    NATO			Christian Schaller
    Nepal		SKopp and Daniel Markstedt
@@ -218,7 +219,7 @@ artists = "
    Newfoundland		J.M. Maalderink
    New Zealand		Daniel McRae
    Nez Perce		Daniel Markstedt
-   Nicaragua		Vzb83 (Wikimedia user)
+   Nicaragua		Vzb83 (Wikimedia Commons)
    Nigeria		Brett Roper
    Normandy		Syryatsu
    North Korea		Zachary Harden
@@ -243,7 +244,7 @@ artists = "
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
    Pirate		Tobias Jakobs
-   Piratini		Felipe Fontoura (Wikimedia Commons user)
+   Piratini		Felipe Fontoura (Wikimedia Commons)
    Poland		Cezary Biele
    Polynesian		Daniel Markstedt
    Portugal		Diogo Mamede
@@ -267,11 +268,11 @@ artists = "
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
    Seleucid		J.M. Maalderink
-   Senegal		SonofSenegal (Wikimedia Commons user)
-   Serbia		Madden (Wikimedia Commons user) and J.M. Maalderink
+   Senegal		SonofSenegal (Wikimedia Commons)
+   Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
    Shawnee		Daniel Markstedt
-   Sicily		Lexicon (Wikimedia commons user)
-   Sikh			Himasaram (Wikimedia commons user)
+   Sicily		Lexicon (Wikimedia commons)
+   Sikh			Himasaram (Wikimedia commons)
    Silesia		Vasco Alexandre Da Silva Costa
    Singapore		Lauris Kaplinski
    Slovakia		Lauris Kaplinski
@@ -286,7 +287,7 @@ artists = "
    St. Patrick		Vasco Alexandre Da Silva Costa
    Sudan		Tobias Jakobs
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
-   Suriname		Vzb83 (Wikimedia Commons user)
+   Suriname		Vzb83 (Wikimedia Commons)
    Swaziland		Caleb Moore
    Sweden		Richard Torkar
    Swiss		Philipp Frauenfelder
@@ -295,8 +296,8 @@ artists = "
    Tairona		Dan Cottrell and Daniel Markstedt
    Taiwan		Cezary Biele
    Tajikistan		Matthew Gatto and Daniil Ivanov
-   Tanzania		SKopp (Wikimedia commons user)
-   Tannu Tuva		Orange Tuesday (Wikimedia Commons user)
+   Tanzania		SKopp (Wikimedia commons)
+   Tannu Tuva		Orange Tuesday (Wikimedia Commons)
    Tatarstan		J.M. Maalderink
    Templar		Daniel Markstedt
    Teutonic Order	J.M. Maalderink
@@ -321,18 +322,18 @@ artists = "
    Uzbekistan		Zachary Harden
    Vampire		Ann Barcomb
    Vandal		J.M. Maalderink
-   Vatican		Flanker (Wikimedia Commons user)
+   Vatican		Flanker (Wikimedia Commons)
    Venezuela		Zachary Harden et.al.
    Venice		Daniel Markstedt
-   Vermont		Mysid (Wikipedia user)
+   Vermont		Mysid (Wikipedia)
    Vietnam		Lauris Kaplinski
    Viking		Daniel Markstedt
    Visigoth		J.M. Maalderink
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
-   Wuerttemberg		David Liuzzo (Wikimedia Commons user)
-   Yucatan		Zscout370 (Wikimedia Commons user)
+   Wuerttemberg		David Liuzzo (Wikimedia Commons)
+   Yucatan		Zscout370 (Wikimedia Commons)
    Yugoslavia		J.M. Maalderink
    Zapotec		J.M. Maalderink
    Zulu			Daniel Markstedt and Caleb Moore
@@ -444,6 +445,7 @@ sprites =
 		"f.flanders", "flags/flanders"
 		"f.france", "flags/france"
 		"f.france_old", "flags/france_old"	; alt Gallic
+		"f.franconia", "flags/franconia"
 		"f.frisia", "flags/frisia"
 		"f.galicia", "flags/galicia"
 		"f.gael", "flags/gael"

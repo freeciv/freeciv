@@ -1,0 +1,176 @@
+[nation_franconian] 
+
+name=_("Franconian") 
+plural=_("?plural:Franconians") 
+groups="European", "Medieval" 
+legend=_("Franconian was one of the stem duchies of the Holy Roman\
+ Empire. Founded in the 9th century, unlike the other stem duchies it\
+ didn't manage to consolidate itself and by the 12th century it had\
+ completely dissappeared. Franconia continues to exist as a cultural\
+ region in the modern states of Bavaria, Thuringia and Baden-\
+ Wuerttemberg.")
+leader=
+ "Eberhard",
+ "Konrad III von Bibra",
+ "Lorenz von Bibra",
+ "Julius Echter von Mespelbrunn",
+ "Franz Ludwig von Erthal",
+ "Johann Gottfried von Guttenberg"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+flag= "franconia" 
+flag_alt = "-" 
+city_style = "Celtic" 
+ruler_titles = { "government",       "male_title",       "female_title"
+                 "Despotism",      _("Landgrave"),     _("Landgravine")
+                 "Monarchy",       _("Duke"),          _("Duchess")
+                 "Fundamentalism", _("Prince-Bishop"), _("Mother Superior")  
+} 
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+conflicts_with="indonesian" ;similar flag
+civilwar_nations="wuerttembergian", "bavarian", "hessian", "saxon"
+
+cities=
+"Nürnberg",
+"Bayreuth",
+"Ansbach",
+"Bamberg",
+"Würzburg",
+"Coburg",
+"Aschaffenburg",
+"Hof",
+"Erlangen",
+"Fürth",
+"Schweinfurt",
+"Suhl",
+"Hassfurt",
+"Kitzingen",
+"Höchstadt",
+"Kronach",
+"Heilbronn a. N.",
+"Kulmbach",
+"Neustadt a.d. Aisch",
+"Bad Windsheim",
+"Feuchtwangen",
+"Rothenburg",
+"Wassertrüdingen",
+"Gunzenhausen",
+"Weissenburg",
+"Solnhofen",
+"Hilpoltstein",
+"Forchheim",
+"Pegnitz",
+"Pyrbaum",
+"Roth",
+"Schwabach",
+"Neckarsulm",
+"Lohr",
+"Karlstadt",
+"Gemünden",
+"Bad Kissingen",
+"Lichtenfels",
+"Sonneberg",
+"Hildburghausen",
+"Meiningen",
+"Schmalkalden",
+"Gersfeld",
+"Schwäbisch Hall",
+"Hilders",
+"Naila",
+"Münchberg",
+"Selb",
+"Bad Neustadt a.d. Saale",
+"Creussen",
+"Wunsiedel",
+"Lauf",
+"Wertheim",
+"Hersbruck",
+"Marktredwitz",
+"Tauberbischofsheim"
+
+﻿[nation_franconian] 
+
+name=_("Franconian") 
+plural=_("?plural:Franconians") 
+groups="European", "Medieval" 
+legend=_("Former german dukedom in area of modern northern Bavaria.")
+leader=
+"Eberhard III",
+"Konrad III von Bibra",
+"Lorenz von Bibra",
+"Julius Echter von Mespelbrunn",
+"Franz Ludwig von Erthal",
+"Johann Gottfried von Guttenberg"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+flag= "franconia" 
+flag_alt = "-" 
+city_style = "Celtic" 
+ruler_titles = { "government", "male_title", "female_title"
+"Despotism",_("Landgraf"), _("?female:Princess")
+"Monarchy", _("Herzog"),   _("Princess")
+"Fundamentalism", _("Bishop"), _("Mother Superior")  
+} 
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+conflicts_with="german"
+civilwar_nations="bavarian", "saxonian", "swabian", "hessian", "german", "holyroman"
+
+cities:
+  "Nuremberg",
+"Bayreuth",
+"Ansbach",
+"Bamberg",
+"Würzburg",
+"Coburg",
+"Aschaffenburg",
+"Hof",
+"Erlangen",
+"Fürth",
+"Schweinfurt",
+"Suhl",
+"Hassfurt",
+"Kitzingen",
+"Höchstadt",
+"Kronach",
+"Kulmbach",
+"Neustadt a.d. Aisch",
+"Bad Windsheim",
+"Feuchtwangen",
+"Rothenburg",
+"Wassertrüdingen",
+"Gunzenhausen",
+"Weissenburg",
+"Solnhofen",
+"Hilpoltstein",
+"Forchheim",
+"Pegnitz",
+"Pyrbaum",
+"Roth",
+"Schwabach",
+"Lohr",
+"Karlstadt",
+"Gemünden",
+"Bad Kissingen",
+"Lichtenfels",
+"Sonneberg",
+"Hildburghausen",
+"Meiningen",
+"Schmalkalden",
+"Gersfeld",
+"Hilders",
+"Naila",
+"Münchberg",
+"Selb",
+"Bad Neustadt a.d. Saale",
+"Creussen",
+"Wunsiedel",
+"Lauf",
+"Wertheim",
+"Hersbruck",
+"Marktredwitz"

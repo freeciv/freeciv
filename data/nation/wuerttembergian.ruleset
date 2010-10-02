@@ -28,7 +28,7 @@ ruler_titles = { "government",      "male_title",      "female_title"
                  "Republic",        _("Minister-President"),      _("?female:Minister-President")
 }
 
-civilwar_nations = "badian", "bavarian", "swiss"
+civilwar_nations = "badian", "bavarian", "franconian", "swiss"
 
 cities =
  "Stuttgart",
