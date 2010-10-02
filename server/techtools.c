@@ -560,7 +560,9 @@ static void player_tech_lost(struct player* plr, Tech_type_id tech)
 
   /* remove technology */
   player_invention_set(plr, tech, TECH_UNKNOWN);
-  log_debug("%s lost tech id %d", player_name(plr), tech);
+  player_research_update(plr);
+  log_debug("%s lost tech id %d (%s)", player_name(plr), tech,
+            advance_rule_name(advance_by_number(tech)));
 
   /* check governments */
   government_iterate(gov) {
