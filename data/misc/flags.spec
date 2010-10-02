@@ -34,6 +34,7 @@ artists = "
    Aram			Daniel Markstedt
    Argentina		Sigge Kotliar
    Armenia		Jason Short
+   Ashanti		Daniel Markstedt
    Assyria		Clevelander and Daniel Markstedt
    Asturias		Banderas (Wikimedia Commons)
    Atlantis		J.M. Maalderink
@@ -273,7 +274,7 @@ artists = "
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
    Shawnee		Daniel Markstedt
    Sicily		Lexicon (Wikimedia commons)
-   Sikh			Himasaram (Wikimedia commons)
+   Sikh			Daniel Markstedt
    Silesia		Vasco Alexandre Da Silva Costa
    Singapore		Lauris Kaplinski
    Slovakia		Lauris Kaplinski
@@ -365,6 +366,7 @@ sprites =
 		"f.aram", "flags/aram"
 		"f.argentina", "flags/argentina"
 		"f.armenia", "flags/armenia"
+		"f.ashanti", "flags/ashanti"
 		"f.assyria", "flags/assyria"
 		"f.asturias", "flags/asturias"
 		"f.atlantis", "flags/atlantis"

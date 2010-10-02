@@ -25,6 +25,7 @@ flag_files =				\
 		aram.png		\
 		argentina.png		\
 		armenia.png		\
+		ashanti.png		\
 		assyria.png		\
 		asturias.png		\
 		atlantis.png		\
@@ -353,6 +354,7 @@ shield_files =					\
 		aram-shield.png			\
 		argentina-shield.png		\
 		armenia-shield.png		\
+		ashanti-shield.png		\
 		assyria-shield.png		\
 		asturias-shield.png		\
 		atlantis-shield.png		\
@@ -681,6 +683,7 @@ svg_files = 				\
 		aram.svg		\
 		argentina.svg		\
 		armenia.svg		\
+		ashanti.svg		\
 		assyria.svg		\
 		asturias.svg		\
 		atlantis.svg		\

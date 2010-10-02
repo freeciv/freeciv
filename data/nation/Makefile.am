@@ -28,6 +28,7 @@ pkgdata_DATA = \
 		aramean.ruleset \
 		argentine.ruleset \
 		armenian.ruleset \
+		ashanti.ruleset \
 		assyrian.ruleset \
 		asturian.ruleset \
 		atlantean.ruleset \

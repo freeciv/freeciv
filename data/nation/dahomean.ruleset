@@ -64,7 +64,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="french", "benin"
+civilwar_nations="ashanti", "benin"
   ; Oyo and Yoruban if available
 
 cities =
