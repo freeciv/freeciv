@@ -187,6 +187,7 @@ flag_files =				\
 		malaysia.png		\
 		mali.png		\
 		malta.png		\
+		man.png			\
 		maori.png		\
 		mapuche.png		\
 		mars.png		\
@@ -518,6 +519,7 @@ shield_files =					\
 		malaysia-shield.png		\
 		mali-shield.png			\
 		malta-shield.png		\
+		man-shield.png			\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
@@ -849,6 +851,7 @@ svg_files = 				\
 		malaysia.svg		\
 		mali.svg		\
 		malta.svg		\
+		man.svg			\
 		maori.svg		\
 		mapuche.svg		\
 		mars.svg		\

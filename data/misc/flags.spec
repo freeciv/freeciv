@@ -195,6 +195,7 @@ artists = "
    Malaysia		Lauris Kaplinski
    Mali			Brett Roper
    Malta		Yaddah, Zcout370 (Wikimedia Commons)
+   Man			Washiucho (Wikimedia Commons)
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
@@ -532,6 +533,7 @@ sprites =
 		"f.malaysia", "flags/malaysia"
 		"f.mali", "flags/mali"
 		"f.malta", "flags/malta"
+		"f.man", "flags/man"
 		"f.maori", "flags/maori"
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"

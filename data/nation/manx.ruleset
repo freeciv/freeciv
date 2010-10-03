@@ -1,0 +1,78 @@
+[nation_manx] 
+
+name=_("Manx") 
+plural=_("?plural:Manx") 
+groups="Medieval", "European" 
+legend=_("The Isle of Man is a island in the British Isles located\
+ between Britain and Ireland. Formally not a part of United Kingdom, it\
+ is a self-governing British Crown Dependency. In the Middle Ages it was\
+ the center of the Kingdom of Mann and the Isles, and later of the\
+ Lordship of Man. Man is noted for having the oldest still functioning\
+ parliament in the world, the Tynwald, which exists since 979 AD. Since\
+ 1765 the island depends on Great Britain.")
+leader=
+"Ketill Flatnose",
+"Maccus mac Arailt",
+"Gofraid mac Arailt",
+"Echmarcach mac Ragnaill",
+"Murchad mac Diarmata",
+"Diarmait mac Maíl na mBó",
+"Fingal Godfredson",
+"Gofraid Méranech",
+"Domnall mac Taidc Ua Briain",
+"Lagman",
+"Gofraidh mac Amhlaibh",
+"Somhairle",
+"Raghnall mac Arallt",
+"Raghnall mac Gofraidh",
+"Arailt mac Amhlaibh"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+           "Male"
+flag= "man" 
+flag_alt = "-" 
+city_style = "Celtic" 
+ruler_titles = { "government", "male_title",        "female_title"
+                 "Democracy",  _("Chief Minister"), _("?female:Chief Minister")  
+                 "Despotism",  _("Lord"),           _("Lady")  
+} 
+init_techs="" 
+init_buildings="" 
+init_government="Despotism" 
+init_units="" 
+
+conflicts_with="british"
+civilwar_nations="english", "scottish", "norwegian"
+
+cities=
+  "Doolish",
+  "Balley Chashtal",
+  "Purt ny h-Inshey",
+  "Rhumsaa",
+  "Laksaa",
+  "Purt le Moirrey",
+  "Purt Çhiarn",
+  "Andreas",
+  "Balley Beg",
+  "Balley Sallagh",
+  "Balley ny Loughey",
+  "Bayr Garroo",
+  "Braaid",
+  "Bride",
+  "Colby",
+  "Creneash",
+  "Balley ny Croshey",
+  "Delbee",
+  "Camys y Ree",
+  "Forsdal",
+  "Glion Muigh",
+  "Glion Vian",
+  "Balley Noa",
+  "Yn Arbyl",
+  "Kione Droghad",
+  "Purt Soderick",
+  "Eairy Shynnagh",
+  "Balley Keeill Eoin",
+  "Strang",
+  "Sulby",
+  "Myllin Doo Aah"

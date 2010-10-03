@@ -188,6 +188,7 @@ pkgdata_DATA = \
 		malian.ruleset \
 		maltese.ruleset \
 		manchu.ruleset \
+		manx.ruleset \
 		maori.ruleset \
 		mapuche.ruleset \
 		martian.ruleset \
