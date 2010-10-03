@@ -1,0 +1,54 @@
+[nation_songhai]
+
+name=_("Songhai")
+plural=_("?plural:Songhai")
+groups="Medieval", "African"
+legend=_("The Songhai people established a state in the 11th century CE\
+ centered on the city of Gao. Following the decline of the Mali empire\
+ a few hundred years later, the Songhai established an empire of their own\
+ which eventually grew to become one of the largest in the history of\
+ Africa. The rulers of Songhai became known for their wealth as well as\
+ their devotion to the Muslim faith.")
+leader=
+ "Askia Ishaq I",
+ "Askia Daoud",
+ "Askia Mohammad Benkan",
+ "Askia Mohammad I",
+ "Sonni Ali",
+ "Sunni Silman Dandi"
+leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
+flag="songhai"
+flag_alt="-"
+city_style="Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations = "Nigerian", "Burkinabe"
+
+cities =
+ "Gao",
+ "Jenne",
+ "Timbuktu",
+ "Kumbi Saleh",
+ "Taghaza",
+ "Kukiya",
+ "Tekedda",
+ "Agadez",
+ "Tadmekket",
+ "Walata",
+ "Kano",
+ "Awdaghost",
+ "Niani",
+ "Kangaba",
+ "Tondibi",
+ "Tabelbala",
+ "Agades",
+ "Katsina",
+ "Taudeni",
+ "Bandiagara",
+ "Karabara",
+ "Ras el Ma",
+ "Hombori"
+
