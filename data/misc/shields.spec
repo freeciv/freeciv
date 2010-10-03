@@ -325,6 +325,7 @@ sprites =
 		"f.shield.usa", "flags/usa-shield"
 		"f.shield.uyghur", "flags/uyghur-shield"
 		"f.shield.uzbekistan", "flags/uzbekistan-shield"
+		"f.shield.valknut", "flags/valknut-shield"
 		"f.shield.vampire", "flags/vampire-shield"
 		"f.shield.vandal", "flags/vandal-shield"
 		"f.shield.vatican", "flags/vatican-shield"

@@ -225,6 +225,7 @@ pkgdata_DATA = \
 		omani.ruleset \
 		otomi.ruleset \
 		ossetian.ruleset \
+		ostrogothic.ruleset \
 		ottoman.ruleset \
 		ozite.ruleset \
 		pakistani.ruleset \

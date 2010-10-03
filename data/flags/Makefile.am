@@ -314,6 +314,7 @@ flag_files =				\
 		usa.png			\
 		uyghur.png		\
 		uzbekistan.png		\
+		valknut.png		\
 		vampire.png		\
 		vandal.png		\
 		vatican.png		\
@@ -643,6 +644,7 @@ shield_files =					\
 		usa-shield.png			\
 		uyghur-shield.png		\
 		uzbekistan-shield.png		\
+		valknut-shield.png		\
 		vampire-shield.png		\
 		vandal-shield.png		\
 		vatican-shield.png		\
@@ -972,6 +974,7 @@ svg_files = 				\
 		usa.svg			\
 		uyghur.svg		\
 		uzbekistan.svg		\
+		valknut.svg		\
 		vampire.svg		\
 		vandal.svg		\
 		vatican.svg		\

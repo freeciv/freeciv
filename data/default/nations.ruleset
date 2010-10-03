@@ -274,6 +274,7 @@ match=2
 *include "nation/ohlone.ruleset"
 *include "nation/omani.ruleset"
 *include "nation/ossetian.ruleset"
+*include "nation/ostrogothic.ruleset"
 *include "nation/otomi.ruleset"
 *include "nation/ottoman.ruleset"
 *include "nation/ozite.ruleset"

@@ -322,6 +322,7 @@ artists = "
    USA			Daniel McRae
    Uyghur		Daniel Markstedt
    Uzbekistan		Zachary Harden
+   Valknut		AnonMoos (Wikimedia Commons)
    Vampire		Ann Barcomb
    Vandal		J.M. Maalderink
    Vatican		Flanker (Wikimedia Commons)
@@ -657,6 +658,7 @@ sprites =
 		"f.usa", "flags/usa"
 		"f.uyghur", "flags/uyghur"
 		"f.uzbekistan", "flags/uzbekistan"
+		"f.valknut", "flags/valknut"		; used by Ostrogothic
 		"f.vampire", "flags/vampire"
 		"f.vandal", "flags/vandal"
 		"f.vatican", "flags/vatican"
