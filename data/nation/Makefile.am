@@ -206,6 +206,7 @@ pkgdata_DATA = \
 		muskogee.ruleset \
 		mwiska.ruleset \
 		namibian.ruleset \
+		navajo.ruleset \
 		neapolitan.ruleset \
 		nepali.ruleset \
 		nestorian.ruleset \

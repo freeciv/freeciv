@@ -215,6 +215,7 @@ artists = "
    Namibia		Vzb83 and Madden (Wikimedia Commons)
    Naples		J.M. Maalderink
    NATO			Christian Schaller
+   Navajo		Daniel Markstedt and J.M.Maalderink
    Nepal		SKopp and Daniel Markstedt
    Nestoria		J.M. Maalderink
    Netherlands		Marc Maurer
@@ -551,6 +552,7 @@ sprites =
 		"f.namibia", "flags/namibia"
 		"f.naples", "flags/naples"
 		"f.nato", "flags/nato"
+		"f.navajo", "flags/navajo"
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
 		"f.netherlands", "flags/netherlands"

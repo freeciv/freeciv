@@ -207,6 +207,7 @@ flag_files =				\
 		namibia.png		\
 		naples.png		\
 		nato.png		\
+		navajo.png		\
 		nepal.png		\
 		nestoria.png		\
 		netherlands.png		\
@@ -537,6 +538,7 @@ shield_files =					\
 		namibia-shield.png		\
 		naples-shield.png		\
 		nato-shield.png			\
+		navajo-shield.png		\
 		nepal-shield.png		\
 		nestoria-shield.png		\
 		netherlands-shield.png		\
@@ -867,6 +869,7 @@ svg_files = 				\
 		namibia.svg		\
 		naples.svg		\
 		nato.svg		\
+		navajo.svg		\
 		nepal.svg		\
 		nestoria.svg		\
 		netherlands.svg		\
