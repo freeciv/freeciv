@@ -195,6 +195,7 @@ pkgdata_DATA = \
 		mayan.ruleset \
 		mazovian.ruleset \
 		mexican.ruleset \
+		miao.ruleset \
 		micronesian.ruleset \
 		mikmaq.ruleset \
 		miskito.ruleset \

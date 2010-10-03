@@ -134,6 +134,7 @@ sprites =
 		"f.shield.guatemala", "flags/guatemala-shield"
 		"f.shield.gupta", "flags/gupta-shield"
 		"f.shield.hacker", "flags/hacker-shield"
+		"f.shield.hainan", "flags/hainan-shield"
 		"f.shield.haiti", "flags/haiti-shield"
 		"f.shield.hanover", "flags/hanover-shield"
 		"f.shield.hansa", "flags/hansa-shield"

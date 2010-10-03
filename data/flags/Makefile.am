@@ -124,6 +124,7 @@ flag_files =				\
 		guatemala.png		\
 		gupta.png		\
 		hacker.png		\
+		hainan.png		\
 		haiti.png		\
 		hanover.png		\
 		hansa.png		\
@@ -456,6 +457,7 @@ shield_files =					\
 		guatemala-shield.png		\
 		gupta-shield.png		\
 		hacker-shield.png		\
+		hainan-shield.png		\
 		haiti-shield.png		\
 		hanover-shield.png		\
 		hansa-shield.png		\
@@ -788,6 +790,7 @@ svg_files = 				\
 		guatemala.svg		\
 		gupta.svg		\
 		hacker.svg		\
+		hainan.svg		\
 		haiti.svg		\
 		hanover.svg		\
 		hansa.svg		\

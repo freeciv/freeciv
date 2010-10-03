@@ -132,6 +132,7 @@ artists = "
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
    Gupta		Daniel Markstedt
    Hacker		Daniel Markstedt and Eric S. Raymond
+   Hainan		J.M. Maalderink
    Haiti		Lokal Profil (Wikimedia Commons)
    Hanover		J.M. Maalderink
    Hansa		J.M. Maalderink
@@ -469,6 +470,7 @@ sprites =
 		"f.guatemala", "flags/guatemala"
 		"f.gupta", "flags/gupta"
 		"f.hacker", "flags/hacker"
+		"f.hainan", "flags/hainan"
 		"f.haiti", "flags/haiti"
 		"f.hanover", "flags/hanover"
 		"f.hansa", "flags/hansa"
