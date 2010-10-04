@@ -695,25 +695,34 @@ static bool player_should_be_shown(const struct player *pplayer)
 **************************************************************************/
 void real_players_dialog_update(void)
 {
-  GtkListStore *store;
+  GtkTreeModel *model;
   GtkTreeIter iter;
+  int selected;
 
-  if (!players_dialog_shell) {
+  if (NULL == players_dialog_shell) {
     return;
   }
 
-  store = players_dialog_store_new();
+  /* Save the selection. */
+  if (gtk_tree_selection_get_selected(players_selection, &model, &iter)) {
+    gtk_tree_model_get(model, &iter, PLR_DLG_COL_ID, &selected, -1);
+  } else {
+    selected = -1;
+  }
+
+  gtk_list_store_clear(players_dialog_store);
   players_iterate(pplayer) {
     if (!player_should_be_shown(pplayer)) {
       continue;
     }
-    gtk_list_store_append(store, &iter);
-    fill_row(store, &iter, pplayer);
+    gtk_list_store_append(players_dialog_store, &iter);
+    fill_row(players_dialog_store, &iter, pplayer);
+    if (player_number(pplayer) == selected) {
+      /* Restore the selection. */
+      gtk_tree_selection_select_iter(players_selection, &iter);
+    }
   } players_iterate_end;
-  merge_list_stores(players_dialog_store, store, PLR_DLG_COL_ID);
-  g_object_unref(G_OBJECT(store));
 
-  update_players_menu();
   update_views();
 }
 

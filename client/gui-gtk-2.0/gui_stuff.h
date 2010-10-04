@@ -127,9 +127,4 @@ void gui_update_font_full(const char *font_name, const char *font_value,
 void disable_gobject_callback(GObject *obj, GCallback cb);
 void enable_gobject_callback(GObject *obj, GCallback cb);
 
-void merge_list_stores(GtkListStore *dest_store, GtkListStore *src_store,
-                       int main_column);
-void merge_tree_stores(GtkTreeStore *dest_store, GtkTreeStore *src_store,
-                       const int *main_columns, int max_depth);
-
 #endif  /* FC__GUI_STUFF_H */

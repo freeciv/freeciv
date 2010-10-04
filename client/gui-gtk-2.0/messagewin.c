@@ -46,7 +46,7 @@
 
 struct meswin_dialog {
   struct gui_dialog *shell;
-  GtkListStore *store;
+  GtkTreeView *tree_view;
 };
 
 /* Those values must match meswin_dialog_store_new(). */
@@ -66,7 +66,7 @@ enum meswin_responses {
   MESWIN_RES_POPUP_CITY
 };
 
-static struct meswin_dialog meswin = { NULL, NULL };
+static struct meswin_dialog meswin = { NULL, };
 
 /****************************************************************************
   Create a tree model for the message window.
@@ -116,16 +116,27 @@ static void meswin_dialog_set_visited(GtkTreeModel *model,
 ****************************************************************************/
 static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
 {
+  GtkTreeSelection *selection;
+  GtkTreeModel *model;
   GtkListStore *store;
   GtkTreeIter iter;
   const struct message *pmsg;
   gint weight, style;
-  int i, num;
+  int selected, i, num;
   bool need_alert = FALSE;
 
   fc_assert_ret(NULL != pdialog);
 
-  store = meswin_dialog_store_new();
+  /* Save the selection. */
+  selection = gtk_tree_view_get_selection(pdialog->tree_view);
+  if (gtk_tree_selection_get_selected(selection, &model, &iter)) {
+    gtk_tree_model_get(model, &iter, MESWIN_COL_ID, &selected, -1);
+  } else {
+    selected = -1;
+  }
+
+  model = gtk_tree_view_get_model(pdialog->tree_view);
+  store = GTK_LIST_STORE(model);
   num = meswin_get_num_messages();
 
   for (i = 0; i < num; i++) {
@@ -144,14 +155,15 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
                        MESWIN_COL_STYLE, style,
                        MESWIN_COL_ID, i,
                        -1);
+    if (i == selected) {
+      /* Restore the selection. */
+      gtk_tree_selection_select_iter(selection, &iter);
+    }
 
     if (!pmsg->visited) {
       need_alert = TRUE;
     }
   }
-
-  merge_list_stores(pdialog->store, store, MESWIN_COL_ID);
-  g_object_unref(G_OBJECT(store));
 
   if (need_alert) {
     gui_dialog_alert(pdialog->shell);
@@ -164,7 +176,7 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
 static void meswin_dialog_selection_callback(GtkTreeSelection *selection,
                                              gpointer data)
 {
-  struct gui_dialog *pdialog = data;
+  struct meswin_dialog *pdialog = data;
   const struct message *pmsg;
   GtkTreeModel *model;
   GtkTreeIter iter;
@@ -177,9 +189,9 @@ static void meswin_dialog_selection_callback(GtkTreeSelection *selection,
   gtk_tree_model_get(model, &iter, MESWIN_COL_ID, &row, -1);
   pmsg = meswin_get_message(row);
 
-  gui_dialog_set_response_sensitive(pdialog, MESWIN_RES_GOTO,
+  gui_dialog_set_response_sensitive(pdialog->shell, MESWIN_RES_GOTO,
                                     NULL != pmsg && pmsg->location_ok);
-  gui_dialog_set_response_sensitive(pdialog, MESWIN_RES_POPUP_CITY,
+  gui_dialog_set_response_sensitive(pdialog->shell, MESWIN_RES_POPUP_CITY,
                                     NULL != pmsg && pmsg->city_ok);
 }
 
@@ -245,10 +257,11 @@ static gboolean meswin_dialog_button_press_callback(GtkWidget *widget,
 /**************************************************************************
   Dialog response callback.
 **************************************************************************/
-static void meswin_dialog_response_callback(struct gui_dialog *pdialog,
+static void meswin_dialog_response_callback(struct gui_dialog *pgui_dialog,
                                             int response, gpointer data)
 {
-  GtkTreeSelection *selection = data;
+  struct meswin_dialog *pdialog = data;
+  GtkTreeSelection *selection;
   GtkTreeModel *model;
   GtkTreeIter iter;
   gint row;
@@ -258,11 +271,11 @@ static void meswin_dialog_response_callback(struct gui_dialog *pdialog,
   case MESWIN_RES_POPUP_CITY:
     break;
   default:
-    gui_dialog_destroy(pdialog);
+    gui_dialog_destroy(pgui_dialog);
     return;
   }
 
-  selection = GTK_TREE_SELECTION(data);
+  selection = gtk_tree_view_get_selection(pdialog->tree_view);
   if (!gtk_tree_selection_get_selected(selection, &model, &iter)) {
     return;
   }
@@ -300,18 +313,27 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
     notebook = bottom_notebook;
   }
 
+  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), pdialog);
+  gui_dialog_set_title(pdialog->shell, _("Messages"));
+  vbox = GTK_BOX(pdialog->shell->vbox);
+
   sw = gtk_scrolled_window_new(NULL, NULL);
   gtk_scrolled_window_set_shadow_type(GTK_SCROLLED_WINDOW(sw),
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(vbox, sw, TRUE, TRUE, 0);
 
   store = meswin_dialog_store_new();
   view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
   g_object_unref(store);
   gtk_tree_view_columns_autosize(GTK_TREE_VIEW(view));
   gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(view), FALSE);
-  pdialog->store = store;
+  g_signal_connect(view, "row_activated",
+                   G_CALLBACK(meswin_dialog_row_activated_callback), NULL);
+  g_signal_connect(view, "button-press-event",
+                   G_CALLBACK(meswin_dialog_button_press_callback), NULL);
+  pdialog->tree_view = GTK_TREE_VIEW(view);
 
   renderer = gtk_cell_renderer_text_new();
   col = gtk_tree_view_column_new_with_attributes(NULL, renderer,
@@ -323,18 +345,8 @@ static void meswin_dialog_init(struct meswin_dialog *pdialog)
   gtk_container_add(GTK_CONTAINER(sw), view);
 
   selection = gtk_tree_view_get_selection(GTK_TREE_VIEW(view));
-  gui_dialog_new(&pdialog->shell, GTK_NOTEBOOK(notebook), selection);
-  gui_dialog_set_title(pdialog->shell, _("Messages"));
-  vbox = GTK_BOX(pdialog->shell->vbox);
-  gtk_box_pack_start(vbox, sw, TRUE, TRUE, 0);
-
   g_signal_connect(selection, "changed",
-                   G_CALLBACK(meswin_dialog_selection_callback),
-                   pdialog->shell);
-  g_signal_connect(view, "row_activated",
-                   G_CALLBACK(meswin_dialog_row_activated_callback), NULL);
-  g_signal_connect(view, "button-press-event",
-                   G_CALLBACK(meswin_dialog_button_press_callback), NULL);
+                   G_CALLBACK(meswin_dialog_selection_callback), pdialog);
 
   if (gui_gtk2_show_message_window_buttons) {
     cmd = gui_dialog_add_stockbutton(pdialog->shell, GTK_STOCK_JUMP_TO,
@@ -365,7 +377,8 @@ static void meswin_dialog_free(struct meswin_dialog *pdialog)
 
   gui_dialog_destroy(pdialog->shell);
   fc_assert(NULL == pdialog->shell);
-  pdialog->store = NULL;
+
+  memset(pdialog, 0, sizeof(*pdialog));
 }
 
 /****************************************************************************
@@ -390,6 +403,7 @@ void meswin_dialog_popdown(void)
 {
   if (NULL != meswin.shell) {
     meswin_dialog_free(&meswin);
+    fc_assert(NULL == meswin.shell);
   }
 }
 

@@ -259,21 +259,29 @@ static gboolean city_model_find(GtkTreeModel *model, GtkTreeIter *iter,
 /****************************************************************************
   Fill the model with the current configuration.
 ****************************************************************************/
-static void city_model_fill(GtkListStore *store)
+static void city_model_fill(GtkListStore *store,
+                            GtkTreeSelection *selection, GHashTable *select)
 {
   GtkTreeIter iter;
 
-  gtk_list_store_clear(store);
   if (client_has_player()) {
     city_list_iterate(client_player()->cities, pcity) {
       gtk_list_store_append(store, &iter);
       city_model_set(store, &iter, pcity);
+      if (NULL != select
+          && g_hash_table_remove(select, GINT_TO_POINTER(pcity->id))) {
+        gtk_tree_selection_select_iter(selection, &iter);
+      }
     } city_list_iterate_end;
   } else {
     /* Global observer case. */
     cities_iterate(pcity) {
       gtk_list_store_append(store, &iter);
       city_model_set(store, &iter, pcity);
+      if (NULL != select
+          && g_hash_table_remove(select, GINT_TO_POINTER(pcity->id))) {
+        gtk_tree_selection_select_iter(selection, &iter);
+      }
     } cities_iterate_end;
   }
 }
@@ -1219,9 +1227,9 @@ static void create_city_report_dialog(bool make_modal)
   gtk_container_add(GTK_CONTAINER(sw), city_view);
 
   gtk_box_pack_start(GTK_BOX(city_dialog_shell->vbox),
-	sw, TRUE, TRUE, 0);
+                     sw, TRUE, TRUE, 0);
 
-  city_model_fill(city_model);
+  city_model_fill(city_model, NULL, NULL);
   gui_dialog_show_all(city_dialog_shell);
 
   city_selection_changed_callback(city_selection);
@@ -1436,18 +1444,28 @@ static void city_activated_callback(GtkTreeView *view, GtkTreePath *path,
 ****************************************************************************/
 void real_city_report_dialog_update(void)
 {
-  GtkListStore *store;
+  GHashTable *selected;
+  ITree iter;
+  gint city_id;
 
   if (NULL == city_dialog_shell) {
     return;
   }
 
-  store = city_report_dialog_store_new();
-  city_model_fill(store);
-  merge_list_stores(city_model, store, CRD_COL_CITY_ID);
-  g_object_unref(G_OBJECT(store));
+  /* Save the selection. */
+  selected = g_hash_table_new(NULL, NULL);
+  for (itree_begin(GTK_TREE_MODEL(city_model), &iter);
+       !itree_end(&iter); itree_next(&iter)) {
+    if (itree_is_selected(city_selection, &iter)) {
+      itree_get(&iter, CRD_COL_CITY_ID, &city_id, -1);
+      g_hash_table_insert(selected, GINT_TO_POINTER(city_id), NULL);
+    }
+  }
 
-  city_selection_changed_callback(city_selection);
+  /* Update and restore the selection. */
+  gtk_list_store_clear(city_model);
+  city_model_fill(city_model, city_selection, selected);
+  g_hash_table_destroy(selected);
 
   if (GTK_WIDGET_SENSITIVE(city_governor_command)) {
     append_cma_to_menu_item(GTK_MENU_ITEM(city_governor_command), TRUE);
