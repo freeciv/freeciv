@@ -813,6 +813,14 @@ int cityrepfield_compare(const char *str1, const char *str2)
   struct datum_vector data1, data2;
   int retval;
 
+  if (str1 == str2) {
+    return 0;
+  } else if (NULL == str1) {
+    return 1;
+  } else if (NULL == str2) {
+    return -1;
+  }
+
   split_string(&data1, str1);
   split_string(&data2, str2);
 
