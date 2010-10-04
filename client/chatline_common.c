@@ -32,40 +32,11 @@
 #include "chatline_g.h"
 
 /* client */
-#include "chatline_common.h"
 #include "client_main.h"
 #include "options.h"
 
+#include "chatline_common.h"
 
-/* Stored up buffer of lines for the chatline */
-struct remaining {
-  char *text;
-  struct text_tag_list *tags;
-  int conn_id;
-};
-#define SPECLIST_TAG remaining
-#include "speclist.h"
-#define remaining_list_iterate(rlist, pline) \
-  TYPED_LIST_ITERATE(struct remaining, rlist, pline)
-#define remaining_list_iterate_end LIST_ITERATE_END
-
-static struct remaining_list *remains;
-
-/**************************************************************************
-  Initialize data structures.
-**************************************************************************/
-void chatline_common_init(void)
-{
-  remains = remaining_list_new();
-}
-
-/**************************************************************************
-  Clean up.
-**************************************************************************/
-void chatline_common_done(void)
-{
-  remaining_list_destroy(remains);
-}
 
 /**************************************************************************
   Send the message as a chat to the server.
@@ -91,53 +62,6 @@ void send_chat_printf(const char *format, ...)
   msg[maxlen - 1] = '\0'; /* Make sure there is always ending zero */
   send_chat(msg);
   va_end(ap);
-}
-
-
-static int frozen_level = 0;
-
-/**************************************************************************
-  Turn on buffering, using a counter so that calls may be nested.
-**************************************************************************/
-void output_window_freeze(void)
-{
-  frozen_level++;
-
-  if (frozen_level == 1) {
-    fc_assert(remaining_list_size(remains) == 0);
-  }
-}
-
-/**************************************************************************
-  Turn off buffering if internal counter of number of times buffering
-  was turned on falls to zero, to handle nested freeze/thaw pairs.
-  When counter is zero, append the picked up data.
-**************************************************************************/
-void output_window_thaw(void)
-{
-  frozen_level--;
-  fc_assert(frozen_level >= 0);
-
-  if (frozen_level == 0) {
-    remaining_list_iterate(remains, pline) {
-      real_output_window_append(pline->text, pline->tags, pline->conn_id);
-      free(pline->text);
-      text_tag_list_destroy(pline->tags);
-      free(pline);
-    } remaining_list_iterate_end;
-    remaining_list_clear(remains);
-  }
-}
-
-/**************************************************************************
-  Turn off buffering and append the picked up data.
-**************************************************************************/
-void output_window_force_thaw(void)
-{
-  if (frozen_level > 0) {
-    frozen_level = 1;
-    output_window_thaw();
-  }
 }
 
 /**************************************************************************
@@ -169,17 +93,8 @@ void output_window_append(const struct ft_color color,
     }
   }
 
-  if (frozen_level == 0) {
-    real_output_window_append(plain_text, tags, -1);
-    text_tag_list_destroy(tags);
-  } else {
-    struct remaining *premain = fc_malloc(sizeof(*premain));
-
-    remaining_list_append(remains, premain);
-    premain->text = fc_strdup(plain_text);
-    premain->tags = tags;
-    premain->conn_id = -1;
-  }
+  real_output_window_append(plain_text, tags, -1);
+  text_tag_list_destroy(tags);
 }
 
 /**************************************************************************
@@ -216,16 +131,7 @@ void output_window_printf(const struct ft_color color,
 void output_window_event(const char *plain_text,
                          const struct text_tag_list *tags, int conn_id)
 {
-  if (frozen_level == 0) {
-    real_output_window_append(plain_text, tags, conn_id);
-  } else {
-    struct remaining *premain = fc_malloc(sizeof(*premain));
-
-    remaining_list_append(remains, premain);
-    premain->text = fc_strdup(plain_text);
-    premain->tags = text_tag_list_copy(tags);
-    premain->conn_id = conn_id;
-  }
+  real_output_window_append(plain_text, tags, conn_id);
 }
 
 /****************************************************************************
@@ -263,4 +169,3 @@ void write_chatline_content(const char *txt)
                          _("Export failed, couldn't write to file."));
   }
 }
-

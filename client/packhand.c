@@ -93,9 +93,6 @@ static void city_packet_common(struct city *pcity, struct tile *pcenter,
 static bool handle_unit_packet_common(struct unit *packet_unit);
 
 
-static int *reports_thaw_requests = NULL;
-static int reports_thaw_requests_size = 0;
-
 /* The dumbest of cities, placeholders for unknown and unseen cities. */
 static struct {
   struct city_list *cities;
@@ -3215,8 +3212,6 @@ void handle_processing_started(void)
 **************************************************************************/
 void handle_processing_finished(void)
 {
-  int i;
-
   log_debug("finish processing packet %d",
             client.conn.client.request_id_of_currently_handled_packet);
 
@@ -3228,15 +3223,6 @@ void handle_processing_finished(void)
                                    last_processed_request_id_seen);
 
   client.conn.client.request_id_of_currently_handled_packet = 0;
-
-  for (i = 0; i < reports_thaw_requests_size; i++) {
-    if (reports_thaw_requests[i] != 0 &&
-	reports_thaw_requests[i] ==
-	client.conn.client.last_processed_request_id_seen) {
-      reports_thaw();
-      reports_thaw_requests[i] = 0;
-    }
-  }
 
   agents_processing_finished();
 }
@@ -3266,34 +3252,11 @@ void notify_about_outgoing_packet(struct connection *pc,
 }
 
 /**************************************************************************
-  ...
-**************************************************************************/
-void set_reports_thaw_request(int request_id)
-{
-  int i;
-
-  for (i = 0; i < reports_thaw_requests_size; i++) {
-    if (reports_thaw_requests[i] == 0) {
-      reports_thaw_requests[i] = request_id;
-      return;
-    }
-  }
-
-  reports_thaw_requests_size++;
-  reports_thaw_requests =
-      fc_realloc(reports_thaw_requests,
-		 reports_thaw_requests_size * sizeof(int));
-  reports_thaw_requests[reports_thaw_requests_size - 1] = request_id;
-}
-
-/**************************************************************************
   We have received PACKET_FREEZE_CLIENT.
 **************************************************************************/
 void handle_freeze_client(void)
 {
   log_debug("handle_freeze_client");
-
-  reports_freeze();
 
   agents_freeze_hint();
 }
@@ -3304,8 +3267,6 @@ void handle_freeze_client(void)
 void handle_thaw_client(void)
 {
   log_debug("handle_thaw_client");
-
-  reports_thaw();
 
   agents_thaw_hint();
   update_turn_done_button_state();

@@ -152,11 +152,8 @@ void client_remove_city(struct city *pcity)
 Change all cities building X to building Y, if possible.  X and Y
 could be improvements or units. X and Y are compound ids.
 **************************************************************************/
-void client_change_all(struct universal from,
-		       struct universal to)
+void client_change_all(struct universal from, struct universal to)
 {
-  int last_request_id = 0;
-
   if (!can_client_issue_orders()) {
     return;
   }
@@ -173,13 +170,12 @@ void client_change_all(struct universal from,
   connection_do_buffer(&client.conn);
   city_list_iterate (client.conn.playing->cities, pcity) {
     if (are_universals_equal(&pcity->production, &from)
-	&& can_city_build_now(pcity, to)) {
-      last_request_id = city_change_production(pcity, to);
+        && can_city_build_now(pcity, to)) {
+      city_change_production(pcity, to);
     }
   } city_list_iterate_end;
 
   connection_do_unbuffer(&client.conn);
-  reports_freeze_till(last_request_id);
 }
 
 /***************************************************************************
@@ -1055,49 +1051,6 @@ void create_event(struct tile *ptile, enum event_type event,
   } else {
     handle_event(message, ptile, event, -1);
   }
-}
-
-/**************************************************************************
-  Freeze all reports and other GUI elements.
-**************************************************************************/
-void reports_freeze(void)
-{
-  log_debug("reports_freeze");
-
-  report_dialogs_freeze();
-  output_window_freeze();
-}
-
-/**************************************************************************
-  Freeze all reports and other GUI elements until the given request
-  was executed.
-**************************************************************************/
-void reports_freeze_till(int request_id)
-{
-  if (request_id != 0) {
-    reports_freeze();
-    set_reports_thaw_request(request_id);
-  }
-}
-
-/**************************************************************************
-  Thaw all reports and other GUI elements.
-**************************************************************************/
-void reports_thaw(void)
-{
-  log_debug("reports_thaw");
-
-  report_dialogs_thaw();
-  output_window_thaw();
-}
-
-/**************************************************************************
-  Thaw all reports and other GUI elements unconditionally.
-**************************************************************************/
-void reports_force_thaw(void)
-{
-  report_dialogs_force_thaw();
-  output_window_force_thaw();
 }
 
 /**************************************************************************

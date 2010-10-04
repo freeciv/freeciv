@@ -105,11 +105,6 @@ void create_event(struct tile *ptile, enum event_type event,
                   const struct ft_color color, const char *format, ...)
                   fc__attribute((__format__ (__printf__, 4, 5)));
 
-void reports_freeze(void);
-void reports_freeze_till(int request_id);
-void reports_thaw(void);
-void reports_force_thaw(void);
-
 struct city *get_nearest_city(const struct unit *punit, int *sq_dist);
 
 void cityrep_buy(struct city *pcity);

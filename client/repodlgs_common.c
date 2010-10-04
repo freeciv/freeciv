@@ -146,45 +146,6 @@ void get_economy_report_units_data(struct unit_entry *entries,
   } unit_type_iterate_end;
 }
 
-static int frozen_level = 0;
-
-/******************************************************************
- Turn off updating of reports
-*******************************************************************/
-void report_dialogs_freeze(void)
-{
-  frozen_level++;
-}
-
-/******************************************************************
- Turn on updating of reports
-*******************************************************************/
-void report_dialogs_thaw(void)
-{
-  frozen_level--;
-  fc_assert(frozen_level >= 0);
-  if (frozen_level == 0) {
-    update_report_dialogs();
-  }
-}
-
-/******************************************************************
- Turn on updating of reports
-*******************************************************************/
-void report_dialogs_force_thaw(void)
-{
-  frozen_level = 1;
-  report_dialogs_thaw();
-}
-
-/******************************************************************
- ...
-*******************************************************************/
-bool is_report_dialogs_frozen(void)
-{
-  return frozen_level > 0;
-}
-
 /****************************************************************************
   Sell all improvements of the given type in all cities.  If "obsolete_only"
   is specified then only those improvements that are replaced will be sold.

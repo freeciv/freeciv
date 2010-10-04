@@ -278,7 +278,6 @@ static bool apply_result_on_server(struct city *pcity,
 	dsend_packet_city_refresh(&client.conn, pcity->id);
     stats.refresh_forced++;
   }
-  reports_freeze_till(last_request_id);
 
   connection_do_unbuffer(&client.conn);
 

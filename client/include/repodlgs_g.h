@@ -23,8 +23,6 @@
 #include "repodlgs_common.h"
 
 
-void update_report_dialogs(void);
-
 void science_report_dialog_popup(bool raise);
 void economy_report_dialog_popup(bool raise);
 void units_report_dialog_popup(bool raise);

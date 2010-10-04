@@ -121,8 +121,6 @@ static void close_socket_nomessage(struct connection *pc)
   popdown_races_dialog(); 
   close_connection_dialog();
 
-  reports_force_thaw();
-  
   set_client_state(C_S_DISCONNECTED);
 }
 
@@ -370,7 +368,6 @@ void input_from_server(int fd)
   if (read_from_connection(&client.conn, FALSE) >= 0) {
     enum packet_type type;
 
-    reports_freeze();
     agents_freeze_hint();
     while (client.conn.used) {
       bool result;
@@ -388,7 +385,6 @@ void input_from_server(int fd)
     }
     if (client.conn.used) {
       agents_thaw_hint();
-      reports_thaw();
     }
   } else {
     close_socket_callback(&client.conn);

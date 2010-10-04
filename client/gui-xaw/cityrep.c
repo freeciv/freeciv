@@ -504,7 +504,7 @@ void city_config_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void real_city_report_dialog_update(void)
 {
-  if (NULL == client.conn.playing || is_report_dialogs_frozen()) {
+  if (!client_has_player()) {
     return;
   }
 
@@ -590,8 +590,9 @@ void real_city_report_update_city(struct city *pcity)
 {
   int i;
 
-  if(is_report_dialogs_frozen()) return;
-  if(!city_dialog_shell) return;
+  if (!city_dialog_shell) {
+    return;
+  }
 
   for(i=0; cities_in_list[i]; i++)  {
     if(cities_in_list[i]==pcity)  {

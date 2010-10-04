@@ -119,14 +119,6 @@ void activeunits_refresh_callback(Widget w, XtPointer client_data,
 void activeunits_list_callback(Widget w, XtPointer client_data, 
                            XtPointer call_data);
 
-/******************************************************************
-...
-*******************************************************************/
-void update_report_dialogs(void)
-{
-  /* Nothing to do anymore. */
-}
-
 /****************************************************************
 ...
 ****************************************************************/
@@ -471,7 +463,6 @@ void science_help_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void real_science_report_dialog_update(void)
 {
-  if(is_report_dialogs_frozen()) return;
   if(science_dialog_shell) {
     char text[512];
     static const char *tech_list_names_ptrs[A_LAST + 1];
@@ -767,7 +758,6 @@ void economy_selloff_callback(Widget w, XtPointer client_data,
 *****************************************************************/
 void real_economy_report_dialog_update(void)
 {
-  if(is_report_dialogs_frozen()) return;
   if(economy_dialog_shell) {
     int i, entries_used, tax, total;
     Dimension width; 
@@ -1056,10 +1046,6 @@ void real_units_report_dialog_update(void)
   };
 
   if (NULL == client.conn.playing) {
-    return;
-  }
-
-  if (is_report_dialogs_frozen()) {
     return;
   }
 

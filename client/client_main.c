@@ -461,7 +461,6 @@ int client_main(int argc, char *argv[])
   atexit(at_exit);
 
   init_our_capability();
-  chatline_common_init();
   init_player_dlg_common();
   init_themes();
 
@@ -533,8 +532,7 @@ void client_exit(void)
   tileset_free(tileset);
   
   ui_exit();
-  
-  chatline_common_done();
+
   options_free();
   if (client_state() >= C_S_PREPARING) {
     client_game_free();

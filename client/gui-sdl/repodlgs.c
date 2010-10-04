@@ -841,7 +841,7 @@ static void real_activeunits_report_dialog_update(struct units_entry *units,
 **************************************************************************/
 void real_units_report_dialog_update(void)
 {
-  if(pUnitsDlg && !is_report_dialogs_frozen()) {
+  if (pUnitsDlg) {
     struct units_entry units[U_LAST];
     struct units_entry units_total;
     struct widget *pWidget, *pBuf;
@@ -1643,7 +1643,7 @@ static int popup_sell_impv_callback(struct widget *pWidget)
 **************************************************************************/
 void real_economy_report_dialog_update(void)
 {
-  if(pEconomyDlg && !is_report_dialogs_frozen()) {
+  if (pEconomyDlg) {
     struct widget *pBuf = pEconomyDlg->pEndWidgetList;
     int tax, total, entries_used = 0;
     char cBuf[128];
@@ -2522,8 +2522,8 @@ static void disable_science_dialog(void)
 void real_science_report_dialog_update(void)
 {
   SDL_Color bg_color = {255, 255, 255, 136};
-  
-  if(pScienceDlg && !is_report_dialogs_frozen()) {
+
+  if (pScienceDlg) {
     char cBuf[128];
     SDL_String16 *pStr;
     SDL_Surface *pSurf;
@@ -3363,14 +3363,7 @@ void science_report_dialogs_popdown_all(void)
     widget_mark_dirty(get_research_widget());
   }  
 }
-  
-/**************************************************************************
-  Update all report dialogs.
-**************************************************************************/
-void update_report_dialogs(void)
-{
-  /* Nothing to do anymore. */
-}
+
 
 /* ===================================================================== */
 /* ======================== Endgame Report ============================= */

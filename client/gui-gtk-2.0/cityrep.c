@@ -721,10 +721,8 @@ static void select_cma_callback(GtkWidget * w, gpointer data)
       }
     }
   } else {
-    reports_freeze();
     gtk_tree_selection_selected_foreach(city_selection,
-					cma_iterate, GINT_TO_POINTER(idx));
-    reports_thaw();
+                                        cma_iterate, GINT_TO_POINTER(idx));
   }
 }
 

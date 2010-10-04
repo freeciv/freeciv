@@ -44,11 +44,6 @@ void get_economy_report_data(struct improvement_entry *entries,
 void get_economy_report_units_data(struct unit_entry *entries,
 				   int *num_entries_used, int *total_cost);
 
-void report_dialogs_freeze(void);
-void report_dialogs_thaw(void);
-void report_dialogs_force_thaw(void);
-bool is_report_dialogs_frozen(void);
-
 void sell_all_improvements(struct impr_type *pimprove, bool obsolete_only,
 			   char *message, size_t message_sz);
 void disband_all_units(struct unit_type *punittype, bool in_cities_only,

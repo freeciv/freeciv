@@ -1091,7 +1091,7 @@ void city_report_dialog_popup(bool make_modal)
 **************************************************************************/
 void real_city_report_dialog_update(void)
 {
-  if(pCityRep && !is_report_dialogs_frozen()) {
+  if (pCityRep) {
     struct widget *pWidget;
     int count;    
   
@@ -1134,7 +1134,7 @@ void real_city_report_dialog_update(void)
 **************************************************************************/
 void real_city_report_update_city(struct city *pCity)
 {
-  if(pCityRep && pCity && !is_report_dialogs_frozen()) {
+  if (pCityRep && pCity) {
     struct widget *pBuf = pCityRep->pEndActiveWidgetList;
     while(pCity->id != MAX_ID - pBuf->ID &&
 	      pBuf != pCityRep->pBeginActiveWidgetList) {

@@ -68,14 +68,6 @@ static void create_endgame_report(struct packet_endgame_report *packet);
 static struct gui_dialog *endgame_report_shell = NULL;
 
 
-/******************************************************************
-...
-*******************************************************************/
-void update_report_dialogs(void)
-{
-  /* Nothing to do anymore. */
-}
-
 /****************************************************************************
                          RESEARCH REPORT DIALOG
 ****************************************************************************/
