@@ -467,6 +467,7 @@ void handle_city_info(struct packet_city_info *packet)
   bool popup;
   bool city_is_new = FALSE;
   bool city_has_changed_owner = FALSE;
+  bool need_science_dialog_update = FALSE;
   bool need_units_dialog_update = FALSE;
   bool need_economy_dialog_update = FALSE;
   bool name_changed = FALSE;
@@ -602,6 +603,16 @@ void handle_city_info(struct packet_city_info *packet)
     pcity->trade_value[i] = packet->trade_value[i];
   }
 
+  if (pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
+      || pcity->surplus[O_SCIENCE] != packet->surplus[O_SCIENCE]
+      || pcity->waste[O_SCIENCE] != packet->waste[O_SCIENCE]
+      || (pcity->unhappy_penalty[O_SCIENCE]
+          != packet->unhappy_penalty[O_SCIENCE])
+      || pcity->prod[O_SCIENCE] != packet->prod[O_SCIENCE]
+      || pcity->citizen_base[O_SCIENCE] != packet->citizen_base[O_SCIENCE]
+      || pcity->usage[O_SCIENCE] != packet->usage[O_SCIENCE]) {
+    need_science_dialog_update = TRUE;
+  }
   output_type_iterate(o) {
     pcity->surplus[o] = packet->surplus[o];
     pcity->waste[o] = packet->waste[o];
@@ -721,6 +732,11 @@ void handle_city_info(struct packet_city_info *packet)
 	break;
       }
     } unit_list_iterate_end;
+  }
+
+  /* Update the science dialog if necessary. */
+  if (need_science_dialog_update) {
+    science_report_dialog_update();
   }
 
   /* Update the units dialog if necessary. */
@@ -1896,9 +1912,6 @@ void handle_player_info(struct packet_player_info *pinfo)
   /* The player information is now fully set. Update the GUI. */
 
   if (pplayer == my_player && can_client_change_view()) {
-    if (poptechup || new_tech) {
-      science_report_dialog_update();
-    }
     if (poptechup) {
       if (client_has_player() && !my_player->ai_controlled) {
         science_report_dialog_popup(FALSE);
@@ -1915,6 +1928,7 @@ void handle_player_info(struct packet_player_info *pinfo)
     if (turn_done_changed) {
       update_turn_done_button_state();
     }
+    science_report_dialog_update();
     economy_report_dialog_update();
     units_report_dialog_update();
     city_report_dialog_update();
