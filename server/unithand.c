@@ -1350,6 +1350,7 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
           const char *victim_link = unit_link(to_capture);
           struct player *uplayer = unit_owner(to_capture);
 
+          unit_owner(to_capture)->score.units_lost++;
           unit_change_owner(to_capture, pplayer,
                             (game.server.homecaughtunits
                              ? punit->homecity : IDENTITY_NUMBER_ZERO));
