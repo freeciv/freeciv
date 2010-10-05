@@ -258,6 +258,7 @@ flag_files =				\
 		russia.png		\
 		rwanda.png		\
 		ryukyu.png		\
+		sadr.png		\
 		samogitia.png		\
 		sapmi.png		\
 		sarmatia.png		\
@@ -594,6 +595,7 @@ shield_files =					\
 		russia-shield.png		\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
+		sadr-shield.png			\
 		samogitia-shield.png		\
 		sapmi-shield.png		\
 		sarmatia-shield.png		\
@@ -930,6 +932,7 @@ svg_files = 				\
 		russia.svg		\
 		rwanda.svg		\
 		ryukyu.svg		\
+		sadr.svg		\
 		samogitia.svg		\
 		sapmi.svg		\
 		sarmatia.svg		\

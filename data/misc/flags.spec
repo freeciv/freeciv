@@ -266,6 +266,7 @@ artists = "
    RVN			J.M. Maalderink
    Rwanda		Cezary Biele
    Ryukyu		Daniel Markstedt
+   SADR			J.M. Maalderink
    Samogitia		Daniel Markstedt and Jarno Vasamaa
    Sapmi		Dean Tersigni
    Sarmatia		Andrzej G.
@@ -608,6 +609,7 @@ sprites =
 		"f.rvn", "flags/rvn"
 		"f.rwanda", "flags/rwanda"		; Alternate Zulu
 		"f.ryukyu", "flags/ryukyu"
+		"f.sadr", "flags/sadr"
 		"f.samogitia", "flags/samogitia"
 		"f.sapmi", "flags/sapmi"
 		"f.sarmatia", "flags/sarmatia"

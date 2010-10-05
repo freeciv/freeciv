@@ -255,6 +255,7 @@ pkgdata_DATA = \
 		ruthenian.ruleset \
 		rwandan.ruleset \
 		ryukyuan.ruleset \
+		sahrawi.ruleset \
 		sami.ruleset \
 		samogitian.ruleset \
 		sarmatian.ruleset \

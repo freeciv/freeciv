@@ -269,6 +269,7 @@ sprites =
 		"f.shield.rvn", "flags/rvn-shield"
 		"f.shield.rwanda", "flags/rwanda-shield"
 		"f.shield.ryukyu", "flags/ryukyu-shield"
+		"f.shield.sadr", "flags/sadr-shield"
 		"f.shield.samogitia", "flags/samogitia-shield"
 		"f.shield.sapmi", "flags/sapmi-shield"
 		"f.shield.sarmatia", "flags/sarmatia-shield"
