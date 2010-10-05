@@ -92,22 +92,20 @@ void client_remove_unit(struct unit *punit)
   }
 
   pcity = tile_city(ptile);
-  if (pcity) {
-    if (can_player_see_units_in_city(client.conn.playing, pcity)) {
-      pcity->client.occupied =
-	(unit_list_size(pcity->tile->units) > 0);
+  if (NULL != pcity) {
+    if (can_player_see_units_in_city(client_player(), pcity)) {
+      pcity->client.occupied = (0 < unit_list_size(pcity->tile->units));
+      refresh_city_dialog(pcity);
     }
 
-    refresh_city_dialog(pcity);
     log_debug("map city %s, %s, (%d %d)",
               city_name(pcity), nation_rule_name(nation_of_city(pcity)),
               TILE_XY(city_tile(pcity)));
   }
 
-  /* FIXME: this can cause two refreshes to be done? */
-  if (NULL != client.conn.playing) {
-    pcity = player_find_city_by_id(client.conn.playing, hc);
-    if (pcity) {
+  if (!client_has_player() || unit_owner(&old_unit) == client_player()) {
+    pcity = game_find_city_by_number(hc);
+    if (NULL != pcity) {
       refresh_city_dialog(pcity);
       log_debug("home city %s, %s, (%d %d)",
                 city_name(pcity), nation_rule_name(nation_of_city(pcity)),
