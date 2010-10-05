@@ -35,7 +35,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "chilean", "uruguayan", "mapuche"
+civilwar_nations = "paraguayan", "uruguayan", "mapuche"
 
 cities =
  "Buenos Aires",

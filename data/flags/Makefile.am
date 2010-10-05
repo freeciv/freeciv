@@ -237,6 +237,7 @@ flag_files =				\
 		palmyra.png		\
 		panama.png		\
 		papua_newguinea.png	\
+		paraguay.png		\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
@@ -572,6 +573,7 @@ shield_files =					\
 		palmyra-shield.png		\
 		panama-shield.png		\
 		papua_newguinea-shield.png	\
+		paraguay-shield.png		\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
@@ -907,6 +909,7 @@ svg_files = 				\
 		palmyra.svg		\
 		panama.svg		\
 		papua_newguinea.svg	\
+		paraguay.svg		\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\

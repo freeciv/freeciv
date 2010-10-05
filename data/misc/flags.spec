@@ -245,6 +245,7 @@ artists = "
    Palmyra		JB Grout
    Panama		J.M. Maalderink
    Papua New Guinea	Tobias Jakobs
+   Paraguay		Vzb83 (Wikimedia Commons)
    Peru			Brett Roper
    Philippines		Lauris Kaplinski
    Phoenicia		Vasco Alexandre Da Silva Costa
@@ -586,6 +587,7 @@ sprites =
 		"f.palmyra", "flags/palmyra"
 		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
+		"f.paraguay", "flags/paraguay"
 		"f.peru", "flags/peru"
 		"f.philippines", "flags/philippines"
 		"f.phoenicia", "flags/phoenicia"
