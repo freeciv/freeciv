@@ -51,7 +51,7 @@ artists = "
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
    Benin (ancient)	Orange Tuesday (Wikimedia Commons)
-   Bhutan		Denelson83 and Zscout370 (Wikimedia Commons)
+   Bhutan		Denelson83 and Zachary Harden (Wikimedia Commons)
    Biafra		J.M. Maalderink
    Boer			Caleb Moore
    Bolivia		Caleb Moore
@@ -81,7 +81,7 @@ artists = "
    Chola		Dan Cottrell and Daniel Markstedt
    Chumash		Daniel Markstedt
    Colombia		Lauris Kaplinski
-   Comanche		Zscout370 (Wikimedia Commons)
+   Comanche		Zachary Harden
    Constantine		Nikos Mavrogiannopoulos
    Cornwall		Vasco Alexandre Da Silva Costa
    Corsica		Patricia.fidi (Open Clip Art)
@@ -100,7 +100,7 @@ artists = "
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
    DR Congo		Drieskamp (Wikimedia Commons)
    Dryad		Ivan Alvarado
-   Ecuador		Zscout370 (Wikimedia Commons)
+   Ecuador		Zachary Harden
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
    Elam			Patricia Fidi and J.M. Maalderink
@@ -112,7 +112,7 @@ artists = "
    Etruscan		J.M. Maalderink
    Europe		Lauris Kaplinski
    Euskadi		Patricia Fidi
-   Fiji			Denelson83, Vzb83, Zscout370, et al. (Wikimedia Commons)
+   Fiji			Denelson83, Vzb83, Zachary Harden, et al. (Wikimedia Commons)
    Finland		SKopp (Wikimedia Commons)
    Flanders		Cedric de Launois (Open Clip Art)
    France (old)		Patricia Fidi
@@ -197,7 +197,7 @@ artists = "
    Majapahit		Dan Cottrell and Daniel Markstedt
    Malaysia		Lauris Kaplinski
    Mali			Brett Roper
-   Malta		Yaddah, Zcout370 (Wikimedia Commons)
+   Malta		Yaddah and Zachary Harden (Wikimedia Commons)
    Man			Washiucho (Wikimedia Commons)
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
@@ -335,7 +335,7 @@ artists = "
    Vampire		Ann Barcomb
    Vandal		J.M. Maalderink
    Vatican		Flanker (Wikimedia Commons)
-   Venezuela		Zachary Harden et.al.
+   Venezuela		Zachary Harden et al.
    Venice		Daniel Markstedt
    Vermont		Mysid (Wikipedia)
    Vietnam		Lauris Kaplinski
@@ -345,7 +345,7 @@ artists = "
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
-   Yucatan		Zscout370 (Wikimedia Commons)
+   Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
    Zapotec		J.M. Maalderink
    Zulu			Daniel Markstedt and Caleb Moore
