@@ -1155,16 +1155,16 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer1),
                   player_name(pplayer1));
+    send_player_info(pplayer1, pplayer2);
+    send_player_info(pplayer2, pplayer1);
+    send_player_info(pplayer1, pplayer1);
+    send_player_info(pplayer2, pplayer2);
     if (pplayer1->ai_data.control) {
       call_first_contact(pplayer1, pplayer2);
     }
     if (pplayer2->ai_data.control && !pplayer1->ai_data.control) {
       call_first_contact(pplayer2, pplayer1);
     }
-    send_player_info(pplayer1, pplayer2);
-    send_player_info(pplayer2, pplayer1);
-    send_player_info(pplayer1, pplayer1);
-    send_player_info(pplayer2, pplayer2);
     return;
   } else {
     assert(pplayer_get_diplstate(pplayer2, pplayer1)->type != DS_NO_CONTACT);
