@@ -27,7 +27,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations = "swazi", "kenyan"
+civilwar_nations = "burundian", "congolese"
 
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Ruanda
 cities =

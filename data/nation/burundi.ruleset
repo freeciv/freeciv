@@ -1,7 +1,7 @@
 [nation_burundi]
 
-name=_("Burundi")
-plural=_("?plural:Burundi")
+name=_("Burundian")
+plural=_("?plural:Burundians")
 groups="African", "Medieval", "Early Modern", "Modern"
 
 legend=_("A monarchy emerged in the Great Lakes region of East Africa in\
