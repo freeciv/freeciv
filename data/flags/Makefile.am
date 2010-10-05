@@ -104,6 +104,7 @@ flag_files =				\
 		etruscan.png		\
 		europe.png		\
 		euskadi.png		\
+		fiji.png		\
 		finland.png		\
 		flanders.png		\
 		france_old.png		\
@@ -442,6 +443,7 @@ shield_files =					\
 		etruscan-shield.png		\
 		europe-shield.png		\
 		euskadi-shield.png		\
+		fiji-shield.png			\
 		finland-shield.png		\
 		flanders-shield.png		\
 		france_old-shield.png		\
@@ -780,6 +782,7 @@ svg_files = 				\
 		etruscan.svg		\
 		europe.svg		\
 		euskadi.svg		\
+		fiji.svg		\
 		finland.svg		\
 		flanders.svg		\
 		france_old.svg		\

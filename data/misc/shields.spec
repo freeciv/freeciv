@@ -114,6 +114,7 @@ sprites =
 		"f.shield.etruscan", "flags/etruscan-shield"
 		"f.shield.europe", "flags/europe-shield"
 		"f.shield.euskadi", "flags/euskadi-shield"
+		"f.shield.fiji", "flags/fiji-shield"
 		"f.shield.finland", "flags/finland-shield"
 		"f.shield.flanders", "flags/flanders-shield"
 		"f.shield.france", "flags/france-shield"

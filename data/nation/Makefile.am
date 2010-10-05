@@ -110,6 +110,7 @@ pkgdata_DATA = \
 		ethiopian.ruleset \
 		etruscan.ruleset \
 		european.ruleset \
+		fijian.ruleset \
 		filipino.ruleset \
 		finnish.ruleset \
 		flemish.ruleset \
