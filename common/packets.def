@@ -705,7 +705,7 @@ PACKET_PLAYER_ATTRIBUTE_CHUNK = 58; pre-send, sc, cs, handle-via-packet
   MEMORY data[ATTRIBUTE_CHUNK_SIZE:chunk_length]; diff
 end
 
-PACKET_PLAYER_DIPLSTATE = 59; sc, is-info
+PACKET_PLAYER_DIPLSTATE = 59; sc
   UINT32 diplstate_id; key
   PLAYER plr1;
   PLAYER plr2;

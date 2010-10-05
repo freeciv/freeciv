@@ -1275,16 +1275,16 @@ void make_contact(struct player *pplayer1, struct player *pplayer2,
                   _("You have made contact with the %s, ruled by %s."),
                   nation_plural_for_player(pplayer1),
                   player_name(pplayer1));
+    send_player_all_c(pplayer1, pplayer2->connections);
+    send_player_all_c(pplayer2, pplayer1->connections);
+    send_player_all_c(pplayer1, pplayer1->connections);
+    send_player_all_c(pplayer2, pplayer2->connections);
     if (pplayer1->ai_controlled) {
       call_first_contact(pplayer1, pplayer2);
     }
     if (pplayer2->ai_controlled && !pplayer1->ai_controlled) {
       call_first_contact(pplayer2, pplayer1);
     }
-    send_player_all_c(pplayer1, pplayer2->connections);
-    send_player_all_c(pplayer2, pplayer1->connections);
-    send_player_all_c(pplayer1, pplayer1->connections);
-    send_player_all_c(pplayer2, pplayer2->connections);
     return;
   } else {
     fc_assert(ds_plr2plr1->type != DS_NO_CONTACT);
