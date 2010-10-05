@@ -438,8 +438,7 @@ void refresh_city_dialog(struct city *pcity)
   city_dialog_update_supported_units(pdialog);
   city_dialog_update_present_units(pdialog);
 
-  if (NULL == client.conn.playing
-      || city_owner(pcity) == client.conn.playing) {
+  if (!client_has_player() || city_owner(pcity) == client_player()) {
     bool have_present_units = (unit_list_size(pcity->tile->units) > 0);
 
     refresh_worklist(pdialog->production.worklist);
@@ -448,7 +447,9 @@ void refresh_city_dialog(struct city *pcity)
 				   pdialog->happiness.info_label, pdialog);
     refresh_happiness_dialog(pdialog->pcity);
 
-    refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
+    if (!client_is_observer()) {
+      refresh_cma_dialog(pdialog->pcity, REFRESH_ALL);
+    }
 
     gtk_widget_set_sensitive(pdialog->show_units_command,
 			     can_client_issue_orders() &&
@@ -1321,17 +1322,17 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
   create_and_append_worklist_page(pdialog);
 
   /* only create these tabs if not a spy */
-  if (NULL == client.conn.playing
-      || city_owner(pcity) == client.conn.playing) {
+  if (!client_has_player() || city_owner(pcity) == client_player()) {
     create_and_append_happiness_page(pdialog);
-    create_and_append_cma_page(pdialog);
   }
 
-  if (city_owner(pcity) == client.conn.playing) {
+  if (city_owner(pcity) == client_player()
+      && !client_is_observer()) {
     create_and_append_settings_page(pdialog);
+    create_and_append_cma_page(pdialog);
   } else {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
-				  OVERVIEW_PAGE);
+                                  OVERVIEW_PAGE);
   }
 
   g_signal_connect(pdialog->notebook, "switch-page",
