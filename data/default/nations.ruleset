@@ -306,6 +306,7 @@ match=2
 *include "nation/ryukyuan.ruleset"
 *include "nation/sami.ruleset"
 *include "nation/samogitian.ruleset"
+*include "nation/sarmatian.ruleset"
 *include "nation/saudi.ruleset"
 *include "nation/savoyard.ruleset"
 *include "nation/saxon.ruleset"

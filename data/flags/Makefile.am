@@ -259,6 +259,7 @@ flag_files =				\
 		ryukyu.png		\
 		samogitia.png		\
 		sapmi.png		\
+		sarmatia.png		\
 		saudi_arabia.png	\
 		savoy.png		\
 		saxony.png		\
@@ -593,6 +594,7 @@ shield_files =					\
 		ryukyu-shield.png		\
 		samogitia-shield.png		\
 		sapmi-shield.png		\
+		sarmatia-shield.png		\
 		saudi_arabia-shield.png		\
 		savoy-shield.png		\
 		saxony-shield.png		\
@@ -927,6 +929,7 @@ svg_files = 				\
 		ryukyu.svg		\
 		samogitia.svg		\
 		sapmi.svg		\
+		sarmatia.svg		\
 		savoy.svg		\
 		saudi_arabia.svg	\
 		saxony.svg		\
