@@ -354,24 +354,19 @@ static void science_report_update(struct science_report *preport)
   store = GTK_LIST_STORE(gtk_combo_box_get_model(preport->reachable_techs));
   gtk_list_store_clear(store);
   sorting_list = NULL;
-  if (A_UNSET == presearch->researching) {
+  if (A_UNSET == presearch->researching
+      || is_future_tech(presearch->researching)) {
     gtk_list_store_append(store, &iter);
-    science_report_store_set(store, &iter, A_UNSET);
+    science_report_store_set(store, &iter, presearch->researching);
     gtk_combo_box_set_active_iter(preport->reachable_techs, &iter);
   }
 
   /* Collect all techs which are reachable in the next step. */
-  if (!is_future_tech(presearch->researching)) {
-    advance_index_iterate(A_FIRST, i) {
-      if (TECH_PREREQS_KNOWN == presearch->inventions[i].state) {
-        sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
-      }
-    } advance_index_iterate_end;
-  } else {
-    int value = (advance_count() + presearch->future_tech + 1);
-
-    sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(value));
-  }
+  advance_index_iterate(A_FIRST, i) {
+    if (TECH_PREREQS_KNOWN == presearch->inventions[i].state) {
+      sorting_list = g_list_prepend(sorting_list, GINT_TO_POINTER(i));
+    }
+  } advance_index_iterate_end;
 
   /* Sort the list, append it to the store. */
   sorting_list = g_list_sort(sorting_list, cmp_func);
