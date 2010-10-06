@@ -3168,7 +3168,7 @@ void handle_endgame_report(struct packet_endgame_report *packet)
 {
   set_client_state(C_S_OVER);
 
-  popup_endgame_report_dialog(packet);
+  endgame_report_dialog_popup(packet);
 }
 
 /**************************************************************************

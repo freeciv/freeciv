@@ -77,7 +77,7 @@ void units_report_dialog_popup(bool raise)
 /****************************************************************
   Show a dialog with player statistics at endgame.
 *****************************************************************/
-void popup_endgame_report_dialog(struct packet_endgame_report *packet)
+void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
 {
   /* PORTME */
 }

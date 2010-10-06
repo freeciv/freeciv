@@ -1145,7 +1145,7 @@ void real_units_report_dialog_update(void)
   Show a dialog with player statistics at endgame.
   TODO: Display all statistics in packet_endgame_report.
 *****************************************************************/
-void popup_endgame_report_dialog(struct packet_endgame_report *packet)
+void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
 {
   char buffer[150 * MAX_NUM_PLAYERS];
   int i;

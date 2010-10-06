@@ -62,12 +62,6 @@
 #include "repodlgs.h"
 
 
-/******************************************************************/
-static void create_endgame_report(struct packet_endgame_report *packet);
-
-static struct gui_dialog *endgame_report_shell = NULL;
-
-
 /****************************************************************************
                          RESEARCH REPORT DIALOG
 ****************************************************************************/
@@ -1590,53 +1584,78 @@ void real_units_report_dialog_update(void)
 }
 
 
-/****************************************************************
+/****************************************************************************
+                         FINAL REPORT DIALOG
+****************************************************************************/
+struct endgame_report {
+  struct gui_dialog *shell;
+  GtkTreeView *tree_view;
+};
 
-                      FINAL REPORT DIALOG
- 
-****************************************************************/
+enum endgame_report_columns {
+  FRD_COL_PLAYER,
+  FRD_COL_NATION,
+  FRD_COL_SCORE,
+
+  FRD_COL_NUM
+};
+
+static struct endgame_report endgame_report = { NULL, };
 
 /****************************************************************************
-  Prepare the Final Report dialog, and fill it with 
-  statistics for each player.
+  Returns the title of the column (translated).
 ****************************************************************************/
-static void create_endgame_report(struct packet_endgame_report *packet)
+static const char *
+endgame_report_column_name(enum endgame_report_columns col)
 {
-  enum { COL_PLAYER, COL_NATION, COL_SCORE, COL_LAST };
-  const char *col_names[COL_LAST] = {
-    N_("Player\n"),
-    N_("Nation\n"),
-    N_("Score\n")
-  };
-  const size_t col_num = packet->category_num + COL_LAST;
-  GType col_types[col_num];
-  GtkListStore *store;
-  GtkWidget *sw, *view;
-  GtkTreeIter it;
-  int i, j;
-
-  col_types[COL_PLAYER] = G_TYPE_STRING;
-  col_types[COL_NATION] = GDK_TYPE_PIXBUF;
-  col_types[COL_SCORE] = G_TYPE_INT;
-  for (i = COL_LAST; i < col_num; i++) {
-    col_types[i] = G_TYPE_INT;
+  switch (col) {
+  case FRD_COL_PLAYER:
+    return _("Player\n");
+  case FRD_COL_NATION:
+    return _("Nation\n");
+  case FRD_COL_SCORE:
+    return _("Score\n");
+  case FRD_COL_NUM:
+    break;
   }
 
-  gui_dialog_new(&endgame_report_shell, GTK_NOTEBOOK(top_notebook), NULL);
-  gui_dialog_set_title(endgame_report_shell, _("Score"));
-  gui_dialog_add_button(endgame_report_shell, GTK_STOCK_CLOSE,
-                        GTK_RESPONSE_CLOSE);
+  return NULL;
+}
 
-  gui_dialog_set_default_size(endgame_report_shell, 700, 420);
+/****************************************************************************
+  Fill a final report with statistics for each player.
+****************************************************************************/
+static void endgame_report_update(struct endgame_report *preport,
+                                  const struct packet_endgame_report *packet)
+{
+  const size_t col_num = packet->category_num + FRD_COL_NUM;
+  GType col_types[col_num];
+  GtkListStore *store;
+  GtkTreeIter iter;
+  GtkTreeViewColumn *col;
+  int i, j;
 
+  fc_assert_ret(NULL != preport);
+
+  /* Remove the old columns. */
+  while ((col = gtk_tree_view_get_column(preport->tree_view, 0))) {
+    gtk_tree_view_remove_column(preport->tree_view, col);
+  }
+
+  /* Create the new model. */
+  col_types[FRD_COL_PLAYER] = G_TYPE_STRING;
+  col_types[FRD_COL_NATION] = GDK_TYPE_PIXBUF;
+  col_types[FRD_COL_SCORE] = G_TYPE_INT;
+  for (i = FRD_COL_NUM; i < col_num; i++) {
+    col_types[i] = G_TYPE_INT;
+  }
   store = gtk_list_store_newv(col_num, col_types);
-  view = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
-  g_object_unref(store);
-  gtk_widget_set_name(view, "small_font");
+  gtk_tree_view_set_model(preport->tree_view, GTK_TREE_MODEL(store));
+  g_object_unref(G_OBJECT(store));
 
+  /* Create the new columns. */
   for (i = 0; i < col_num; i++) {
     GtkCellRenderer *renderer;
-    GtkTreeViewColumn *col;
     const char *title;
     const char *attribute;
 
@@ -1648,19 +1667,51 @@ static void create_endgame_report(struct packet_endgame_report *packet)
       attribute = "text";
     }
 
-    if (i < COL_LAST) {
-      title = col_names[i];
+    if (i < FRD_COL_NUM) {
+      title = endgame_report_column_name(i);
     } else {
-      title = packet->category_name[i - COL_LAST];
+      title = packet->category_name[i - FRD_COL_NUM];
     }
 
     col = gtk_tree_view_column_new_with_attributes(Q_(title), renderer,
                                                    attribute, i, NULL);
-    gtk_tree_view_append_column(GTK_TREE_VIEW(view), col);
+    gtk_tree_view_append_column(preport->tree_view, col);
     if (GDK_TYPE_PIXBUF != col_types[i]) {
       gtk_tree_view_column_set_sort_column_id(col, i);
     }
   }
+
+  /* Fill the model with player stats. */
+  for (i = 0; i < packet->player_num; i++) {
+    const struct player *pplayer = player_by_number(packet->player_id[i]);
+
+    gtk_list_store_append(store, &iter);
+    gtk_list_store_set(store, &iter,
+                       FRD_COL_PLAYER, player_name(pplayer),
+                       FRD_COL_NATION, get_flag(nation_of_player(pplayer)),
+                       FRD_COL_SCORE, packet->score[i],
+                       -1);
+    for (j = 0; j < packet->category_num; j++) {
+      gtk_list_store_set(store, &iter,
+                         j + FRD_COL_NUM, packet->category_score[j][i],
+                         -1);
+    }
+  }
+}
+
+/****************************************************************************
+  Prepare a final report.
+****************************************************************************/
+static void endgame_report_init(struct endgame_report *preport)
+{
+  GtkWidget *sw, *view;
+
+  fc_assert_ret(NULL != preport);
+
+  gui_dialog_new(&preport->shell, GTK_NOTEBOOK(top_notebook), NULL);
+  gui_dialog_set_title(preport->shell, _("Score"));
+
+  gui_dialog_set_default_size(preport->shell, 700, 420);
 
   /* Setup the layout. */
   sw = gtk_scrolled_window_new(NULL, NULL);
@@ -1668,36 +1719,25 @@ static void create_endgame_report(struct packet_endgame_report *packet)
                                       GTK_SHADOW_ETCHED_IN);
   gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(sw),
                                  GTK_POLICY_AUTOMATIC, GTK_POLICY_ALWAYS);
+  gtk_box_pack_start(GTK_BOX(preport->shell->vbox), sw, TRUE, TRUE, 0);
+
+  view = gtk_tree_view_new();
+  gtk_widget_set_name(view, "small_font");
   gtk_container_add(GTK_CONTAINER(sw), view);
-  gtk_box_pack_start(GTK_BOX(endgame_report_shell->vbox), sw, TRUE, TRUE, 0);
-  gui_dialog_set_default_response(endgame_report_shell, GTK_RESPONSE_CLOSE);
-  gui_dialog_show_all(endgame_report_shell);
+  preport->tree_view = GTK_TREE_VIEW(view);
 
-  /* Insert score statistics into table.  */
-  for (i = 0; i < packet->player_num; i++) {
-    const struct player *pplayer = player_by_number(packet->player_id[i]);
-
-    gtk_list_store_append(store, &it);
-    gtk_list_store_set(store, &it,
-                       COL_PLAYER, player_name(pplayer),
-                       COL_NATION, get_flag(nation_of_player(pplayer)),
-                       COL_SCORE, packet->score[i],
-                       -1);
-    for (j = 0; j < packet->category_num; j++) {
-      gtk_list_store_set(store, &it,
-                         j + COL_LAST, packet->category_score[j][i],
-                         -1);
-    }
-  }
+  gui_dialog_show_all(preport->shell);
 }
 
-/**************************************************************************
+/****************************************************************************
   Show a dialog with player statistics at endgame.
-**************************************************************************/
-void popup_endgame_report_dialog(struct packet_endgame_report *packet)
+****************************************************************************/
+void endgame_report_dialog_popup(const struct packet_endgame_report *packet)
 {
-  if (!endgame_report_shell){
-    create_endgame_report(packet);
+  if (NULL == endgame_report.shell) {
+    endgame_report_init(&endgame_report);
   }
-  gui_dialog_present(endgame_report_shell);
+  endgame_report_update(&endgame_report, packet);
+
+  gui_dialog_present(endgame_report.shell);
 }
