@@ -93,6 +93,7 @@ flag_files =				\
 		dr_congo.png		\
 		dryad.png		\
 		ecuador.png		\
+		east_timor.png		\
 		egypt_ancient.png	\
 		egypt.png		\
 		elam.png		\
@@ -440,6 +441,7 @@ shield_files =					\
 		dominican_republic-shield.png	\
 		dr_congo-shield.png		\
 		dryad-shield.png		\
+		east_timor-shield.png		\
 		ecuador-shield.png		\
 		egypt_ancient-shield.png	\
 		egypt-shield.png		\
@@ -788,6 +790,7 @@ svg_files = 				\
 		dominican_republic.svg	\
 		dr_congo.svg		\
 		dryad.svg		\
+		east_timor.svg		\
 		ecuador.svg		\
 		egypt_ancient.svg	\
 		egypt.svg		\

@@ -102,6 +102,7 @@ sprites =
 		"f.shield.dominican_republic", "flags/dominican_republic-shield"
 		"f.shield.dr_congo", "flags/dr_congo-shield"
 		"f.shield.dryad", "flags/dryad-shield"
+		"f.shield.east_timor", "flags/east_timor-shield"
 		"f.shield.ecuador", "flags/ecuador-shield"
 		"f.shield.egypt_ancient", "flags/egypt_ancient-shield"
 		"f.shield.egypt", "flags/egypt-shield"

@@ -100,6 +100,7 @@ artists = "
    Dominican Republic	Daniel Markstedt and capellan2000 (Open Clip Art)
    DR Congo		Drieskamp (Wikimedia Commons)
    Dryad		Ivan Alvarado
+   East Timor		SKopp (Wikimedia Commons)
    Ecuador		Zachary Harden
    Egypt (ancient)	Daniel Markstedt
    Egypt		Caleb Moore
@@ -454,6 +455,7 @@ sprites =
 		"f.dr_congo", "flags/dr_congo"
 		"f.dryad", "flags/dryad"
 		"f.ecuador", "flags/ecuador"
+		"f.east_timor", "flags/east_timor"
 		"f.egypt_ancient", "flags/egypt_ancient"
 		"f.egypt", "flags/egypt"
 		"f.elam", "flags/elam"

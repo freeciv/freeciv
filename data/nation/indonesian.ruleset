@@ -23,7 +23,7 @@ init_units=""
 
 ; Similar flags
 conflicts_with="singaporean"
-civilwar_nations="malaysian", "malagasy"
+civilwar_nations="malaysian", "east timorese"
 
 cities =
  "Jakarta",

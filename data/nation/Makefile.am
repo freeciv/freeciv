@@ -98,6 +98,7 @@ pkgdata_DATA = \
 		dryad.ruleset \
 		dutch.ruleset \
 		eastgerman.ruleset \
+		easttimorese.ruleset \
 		ecuadorian.ruleset \
 		egyptian.ruleset \
 		egyptianarab.ruleset \
