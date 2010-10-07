@@ -190,6 +190,7 @@ match=2
 *include "nation/hittite.ruleset"
 *include "nation/holyroman.ruleset"
 *include "nation/holysee.ruleset"
+*include "nation/honduran.ruleset"
 *include "nation/hopi.ruleset"
 *include "nation/hungarian.ruleset"
 *include "nation/icelandic.ruleset"

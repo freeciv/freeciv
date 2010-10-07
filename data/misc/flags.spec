@@ -143,6 +143,7 @@ artists = "
    Hesse		Madden (Wikimedia Commons)
    Himyar		Daniel Markstedt
    Hittite		Daniel Markstedt
+   Honduras		Wikimedia Commons
    Hopi			Daniel Markstedt
    HRE			Gryffindor (Wikimedia Commons) and J.M. Maalderink
    Hungary		Laszlo Dvornik
@@ -490,6 +491,7 @@ sprites =
 		"f.himyar", "flags/himyar"
 		"f.hittite", "flags/hittite"
 		"f.holland", "flags/netherlands"	; backward compatabiliy
+		"f.honduras", "flags/honduras"
 		"f.hopi", "flags/hopi"
 		"f.hre", "flags/hre"
 		"f.hungary", "flags/hungary"

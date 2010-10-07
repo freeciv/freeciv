@@ -141,6 +141,7 @@ pkgdata_DATA = \
 		hittite.ruleset \
 		holyroman.ruleset \
 		holysee.ruleset \
+		honduran.ruleset \
 		hopi.ruleset \
 		hungarian.ruleset \
 		icelandic.ruleset \

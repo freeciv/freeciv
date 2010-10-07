@@ -135,6 +135,7 @@ flag_files =				\
 		hesse.png		\
 		himyar.png		\
 		hittite.png		\
+		honduras.png		\
 		hopi.png		\
 		hre.png			\
 		hungary.png		\
@@ -476,6 +477,7 @@ shield_files =					\
 		hesse-shield.png		\
 		himyar-shield.png		\
 		hittite-shield.png		\
+		honduras-shield.png		\
 		hopi-shield.png			\
 		hre-shield.png			\
 		hungary-shield.png		\
@@ -817,6 +819,7 @@ svg_files = 				\
 		hesse.svg		\
 		himyar.svg		\
 		hittite.svg		\
+		honduras.svg		\
 		hopi.svg		\
 		hre.svg			\
 		hungary.svg		\
