@@ -262,6 +262,7 @@ pkgdata_DATA = \
 		sahrawi.ruleset \
 		salvadoran.ruleset \
 		sami.ruleset \
+		sammarinese.ruleset \
 		samogitian.ruleset \
 		sarmatian.ruleset \
 		saudi.ruleset \

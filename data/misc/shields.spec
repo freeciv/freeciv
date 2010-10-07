@@ -276,6 +276,7 @@ sprites =
 		"f.shield.ryukyu", "flags/ryukyu-shield"
 		"f.shield.sadr", "flags/sadr-shield"
 		"f.shield.samogitia", "flags/samogitia-shield"
+		"f.shield.san_marino", "flags/san_marino-shield"
 		"f.shield.sapmi", "flags/sapmi-shield"
 		"f.shield.sarmatia", "flags/sarmatia-shield"
                 "f.shield.savoy", "flags/savoy-shield"

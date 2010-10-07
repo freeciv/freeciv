@@ -273,6 +273,7 @@ artists = "
    Ryukyu		Daniel Markstedt
    SADR			J.M. Maalderink
    Samogitia		Daniel Markstedt and Jarno Vasamaa
+   San Marino		Tobias (Open Clip Art)
    Sapmi		Dean Tersigni
    Sarmatia		Andrzej G.
    Saudi Arabia		Cezary Biele
@@ -622,6 +623,7 @@ sprites =
 		"f.ryukyu", "flags/ryukyu"
 		"f.sadr", "flags/sadr"
 		"f.samogitia", "flags/samogitia"
+		"f.san_marino", "flags/san_marino"
 		"f.sapmi", "flags/sapmi"
 		"f.sarmatia", "flags/sarmatia"
 		"f.saudi_arabia", "flags/saudi_arabia"

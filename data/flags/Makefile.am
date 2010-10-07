@@ -265,6 +265,7 @@ flag_files =				\
 		ryukyu.png		\
 		sadr.png		\
 		samogitia.png		\
+		san_marino.png		\
 		sapmi.png		\
 		sarmatia.png		\
 		saudi_arabia.png	\
@@ -608,6 +609,7 @@ shield_files =					\
 		ryukyu-shield.png		\
 		sadr-shield.png			\
 		samogitia-shield.png		\
+		san_marino-shield.png		\
 		sapmi-shield.png		\
 		sarmatia-shield.png		\
 		saudi_arabia-shield.png		\
@@ -951,6 +953,7 @@ svg_files = 				\
 		ryukyu.svg		\
 		sadr.svg		\
 		samogitia.svg		\
+		san_marino.svg		\
 		sapmi.svg		\
 		sarmatia.svg		\
 		savoy.svg		\
