@@ -323,6 +323,7 @@ sprites =
 		"f.shield.thrace", "flags/thrace-shield"
 		"f.shield.tibet", "flags/tibet-shield"
 		"f.shield.tocharian", "flags/tocharian-shield"
+		"f.shield.tonga", "flags/tonga-shield"
 		"f.shield.tunisia", "flags/tunisia-shield"
 		"f.shield.tupi", "flags/tupi-shield"
 		"f.shield.turkey", "flags/turkey-shield"

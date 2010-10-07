@@ -320,6 +320,7 @@ artists = "
    Thrace		William Allen Simpson and Daniel Markstedt
    Tibet		Tobias Jakobs
    Tocharian		Dan Cottrell and Daniel Markstedt
+   Tonga		Madden (Wikimedia Commons)
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
@@ -668,6 +669,7 @@ sprites =
 		"f.thrace", "flags/thrace"
 		"f.tibet", "flags/tibet"
 		"f.tocharian", "flags/tocharian"
+		"f.tonga", "flags/tonga"
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"

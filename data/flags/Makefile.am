@@ -312,6 +312,7 @@ flag_files =				\
 		thrace.png		\
 		tibet.png		\
 		tocharian.png		\
+		tonga.png		\
 		tunisia.png		\
 		tupi.png		\
 		turkey.png		\
@@ -654,6 +655,7 @@ shield_files =					\
 		thrace-shield.png		\
 		tibet-shield.png		\
 		tocharian-shield.png		\
+		tonga-shield.png		\
 		tunisia-shield.png		\
 		tupi-shield.png			\
 		turkey-shield.png		\
@@ -996,6 +998,7 @@ svg_files = 				\
 		thrace.svg		\
 		tibet.svg		\
 		tocharian.svg		\
+		tonga.svg		\
 		tunisia.svg		\
 		tupi.svg		\
 		turkey.svg		\

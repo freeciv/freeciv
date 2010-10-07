@@ -309,6 +309,7 @@ pkgdata_DATA = \
 		thracian.ruleset \
 		tibetan.ruleset \
 		tocharian.ruleset \
+		tongan.ruleset \
 		tunisian.ruleset \
 		tupi.ruleset \
 		turkmen.ruleset \

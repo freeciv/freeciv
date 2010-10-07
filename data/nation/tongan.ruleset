@@ -1,0 +1,75 @@
+[nation_tongan]
+
+name=_("Tongan")
+plural=_("?plural:Tongans")
+groups="Medieval", "Modern", "Oceanian"
+legend=_("An island group in the Southern Pacific, Tonga was settled by\
+ Polynesians around 1000 BC. Although the islands became a British\
+ protectorate in the 19th century, they are the only country in Oceania\
+ to have escaped actual colonization.")
+
+leader=
+ "Tu'i Tonga 'Aho'eitu",
+ "Tu'itatui",
+ "George Tupou I",
+ "Salote Tupou III",
+ "Feleti Sevele"
+
+leader_sex="Male", "Male", "Male", "Female", "Male"
+
+flag= "tonga"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+ 		 "Democracy",     _("Prime Minister"), _("?female:Prime Minister")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="polynesian", "fijian"
+
+cities =
+ "Nuku'alofa",
+ "Neiafu",
+ "Pangai",
+ "'Ohonua",
+ "Mu'a",
+ "Haveloloto",
+ "Vaini",
+ "Tofoa-Koloua",
+ "Nihifo",
+ "Ha'ateiho",
+ "Pea",
+ "Fua'amotu",
+ "Houma",
+ "Nukunuku",
+ "Leimatu'a",
+ "Kolonga",
+ "Hihifo",
+ "Tokomololo",
+ "Vaitongo",
+ "Ha'asini-Hamula",
+ "Navutoka",
+ "Folaha",
+ "Longumapu",
+ "Niutoua",
+ "'Uiha",
+ "Nomuka",
+ "Mo'unga'one",
+ "Fotuha'a",
+ "Lofanga",
+ "Ha'ano",
+ "Tungua",
+ "'O'ua",
+ "Falehau",
+ "Vaipoa",
+ "Tafuna",
+ "Tafahi",
+ "Tatakamotonga",
+ "Kolovai",
+ "'Utulau",
+ "Ngau"
