@@ -254,6 +254,7 @@ match=2
 *include "nation/miskito.ruleset"
 *include "nation/mixtec.ruleset"
 *include "nation/moldovan.ruleset"
+*include "nation/monegasque.ruleset"
 *include "nation/mongol.ruleset"
 *include "nation/montenegrin.ruleset"
 *include "nation/moroccan.ruleset"

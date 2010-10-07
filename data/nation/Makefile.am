@@ -205,6 +205,7 @@ pkgdata_DATA = \
 		miskito.ruleset \
 		mixtec.ruleset \
 		moldovan.ruleset \
+		monegasque.ruleset \
 		mongol.ruleset \
 		montenegrin.ruleset \
 		moroccan.ruleset \

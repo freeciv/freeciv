@@ -34,7 +34,7 @@ init_government="Despotism"
 init_units=""
 
 conflicts_with = "French"
-civilwar_nations = "Catalan", "French"
+civilwar_nations = "Catalan", "French", "Monegasque"
 
 cities =
  "Tolosa",
