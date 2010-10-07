@@ -196,7 +196,8 @@ artists = "
    Madagascar		Russell Cloran
    Majapahit		Dan Cottrell and Daniel Markstedt
    Malaysia		Lauris Kaplinski
-   Mali			Brett Roper
+   Mali			J.M. Maalderink
+   Mali (ancient)	Daniel Markstedt
    Malta		Yaddah and Zachary Harden (Wikimedia Commons)
    Man			Washiucho (Wikimedia Commons)
    Maori		Daniel Markstedt
@@ -542,6 +543,7 @@ sprites =
 		"f.majapahit", "flags/majapahit"
 		"f.malaysia", "flags/malaysia"
 		"f.mali", "flags/mali"
+		"f.mali_ancient", "flags/mali_ancient"
 		"f.malta", "flags/malta"
 		"f.man", "flags/man"
 		"f.maori", "flags/maori"
