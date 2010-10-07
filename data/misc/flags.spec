@@ -287,6 +287,7 @@ artists = "
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
    Shawnee		Daniel Markstedt
+   Siberia		Daniel Markstedt
    Sicily		Lexicon (Wikimedia Commons)
    Sikh			Daniel Markstedt
    Sikkim		Nichalp (Wikimedia Commons)
@@ -640,6 +641,7 @@ sprites =
 		"f.senegal", "flags/senegal"
 		"f.serbia", "flags/serbia"
 		"f.shawnee", "flags/shawnee"
+		"f.siberia", "flags/siberia"
 		"f.sicily", "flags/sicily"
 		"f.sikh", "flags/sikh"
 		"f.sikkim", "flags/sikkim"
