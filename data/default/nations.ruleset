@@ -257,6 +257,7 @@ match=2
 *include "nation/monegasque.ruleset"
 *include "nation/mongol.ruleset"
 *include "nation/montenegrin.ruleset"
+*include "nation/moravian.ruleset"
 *include "nation/moroccan.ruleset"
 *include "nation/motswana.ruleset"
 *include "nation/muskogee.ruleset"

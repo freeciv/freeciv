@@ -40,7 +40,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="slovakian", "silesian", "polish"
+
+civilwar_nations="slovakian", "silesian", "moravian", "sorbian"
 
 cities =
         "Praha", "Brno", "Ostrava", "Plzeň", "Hradec Králové",

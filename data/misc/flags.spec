@@ -216,6 +216,7 @@ artists = "
    Monaco (alternative)	Zachary Harden
    Mongolia		Sebastian Koppehel
    Montenegro		Bugoslav (Wikimedia Commons)
+   Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
    Morocco		Xiquet, Flad (Wikimedia Commons)
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
@@ -568,6 +569,7 @@ sprites =
 		"f.monaco_alternative", "flags/monaco_alternative"
 		"f.mongolia", "flags/mongolia"
 		"f.montenegro", "flags/montenegro"
+		"f.moravia", "flags/moravia"
 		"f.morocco", "flags/morocco"
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"

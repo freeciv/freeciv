@@ -208,6 +208,7 @@ flag_files =				\
 		monaco_alternative.png	\
 		mongolia.png		\
 		montenegro.png		\
+		moravia.png		\
 		morocco.png		\
 		muskogee.png		\
 		mwiska.png		\
@@ -554,6 +555,7 @@ shield_files =					\
 		monaco_alternative-shield.png	\
 		mongolia-shield.png		\
 		montenegro-shield.png		\
+		moravia-shield.png		\
 		morocco-shield.png		\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
@@ -900,6 +902,7 @@ svg_files = 				\
 		monaco_alternative.svg	\
 		mongolia.svg		\
 		montenegro.svg		\
+		moravia.svg		\
 		morocco.svg		\
 		muskogee.svg		\
 		mwiska.svg		\

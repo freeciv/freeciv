@@ -13,11 +13,10 @@ leader=
  "Pribina",
  "Koceľ",
  "Svätopluk", 
- "Rastislav",
  "Matúš Čák Trenčiansky"
 leader_sex="Male", "Male", "Male",
            "Male", "Male", "Male", "Male",
-           "Male", "Male"
+           "Male"
 flag="slovakia"
 flag_alt = "-" ; former CzechoSlovakia has the same flag as Czech
                ; - the blue triangle in it means Slovakia
@@ -33,7 +32,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="hungarian", "czech", "polish"
+civilwar_nations="silesian", "czech"
 
 cities =
  "Bratislava",
