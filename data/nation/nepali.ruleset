@@ -38,7 +38,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="indian", "gupta"
+civilwar_nations="indian", "sikkimese"
 
 cities = 
  "Kathmandu",

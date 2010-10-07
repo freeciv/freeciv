@@ -327,6 +327,7 @@ match=2
 *include "nation/shawnee.ruleset"
 *include "nation/sicilian.ruleset"
 *include "nation/sikh.ruleset"
+*include "nation/sikkimese.ruleset"
 *include "nation/silesian.ruleset"
 *include "nation/singaporean.ruleset"
 *include "nation/sioux.ruleset"

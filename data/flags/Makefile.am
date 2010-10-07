@@ -280,6 +280,7 @@ flag_files =				\
 		shawnee.png		\
 		sicily.png		\
 		sikh.png		\
+		sikkimese.png		\
 		silesia.png		\
 		singapore.png		\
 		slovakia.png		\
@@ -625,6 +626,7 @@ shield_files =					\
 		shawnee-shield.png		\
 		sicily-shield.png		\
 		sikh-shield.png			\
+		sikkimese-shield.png		\
 		silesia-shield.png		\
 		singapore-shield.png		\
 		slovakia-shield.png		\
@@ -970,6 +972,7 @@ svg_files = 				\
 		shawnee.svg		\
 		sicily.svg		\
 		sikh.svg		\
+		sikkimese.svg		\
 		silesia.svg		\
 		singapore.svg		\
 		slovakia.svg		\
