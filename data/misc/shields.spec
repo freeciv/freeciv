@@ -106,6 +106,7 @@ sprites =
 		"f.shield.egypt_ancient", "flags/egypt_ancient-shield"
 		"f.shield.egypt", "flags/egypt-shield"
 		"f.shield.elam", "flags/elam-shield"
+		"f.shield.el_salvador", "flags/el_salvador-shield"
 		"f.shield.england", "flags/england-shield"
 		"f.shield.esperanto", "flags/esperanto-shield"
 		"f.shield.estonia", "flags/estonia-shield"

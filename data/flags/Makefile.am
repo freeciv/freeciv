@@ -96,6 +96,7 @@ flag_files =				\
 		egypt_ancient.png	\
 		egypt.png		\
 		elam.png		\
+		el_salvador.png		\
 		england.png		\
 		esperanto.png		\
 		estonia.png		\
@@ -436,6 +437,7 @@ shield_files =					\
 		egypt_ancient-shield.png	\
 		egypt-shield.png		\
 		elam-shield.png			\
+		el_salvador-shield.png		\
 		england-shield.png		\
 		esperanto-shield.png		\
 		estonia-shield.png		\
@@ -776,6 +778,7 @@ svg_files = 				\
 		egypt_ancient.svg	\
 		egypt.svg		\
 		elamite.svg		\
+		el_salvador.svg		\
 		england.svg		\
 		esperanto.svg		\
 		estonia.svg		\
