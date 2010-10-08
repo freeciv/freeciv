@@ -157,6 +157,7 @@ flag_files =				\
 		israel.png		\
 		italy.png		\
 		ivory_coast.png		\
+		jamaica.png		\
 		japan.png		\
 		jbonai.png		\
 		jolof.png		\
@@ -510,6 +511,7 @@ shield_files =					\
 		israel-shield.png		\
 		italy-shield.png		\
 		ivory_coast-shield.png		\
+		jamaica-shield.png		\
 		japan-shield.png		\
 		jbonai-shield.png		\
 		jolof-shield.png		\
@@ -863,6 +865,7 @@ svg_files = 				\
 		israel.svg		\
 		italy.svg		\
 		ivory_coast.svg		\
+		jamaica.svg		\
 		japan.svg		\
 		jbonai.svg		\
 		jolof.svg		\

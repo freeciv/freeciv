@@ -209,6 +209,7 @@ match=2
 *include "nation/israeli.ruleset"
 *include "nation/italian.ruleset"
 *include "nation/ivoirian.ruleset"
+*include "nation/jamaican.ruleset"
 *include "nation/japanese.ruleset"
 *include "nation/jolof.ruleset"
 *include "nation/kalmyk.ruleset"
