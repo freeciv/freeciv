@@ -302,6 +302,7 @@ artists = "
    Songhai		Daniel Markstedt
    South Africa		Farrel Lifson
    Southern Cross	Crotalus horridus
+   South Yemen		J.M. Maalderink
    Soviet		Sigge Kotliar
    Spain		Pedro A. Gracia Fajardo
    Sri Lanka		Tobias Jakobs
@@ -357,6 +358,7 @@ artists = "
    Wallonia		Cedric de Launois (Open Clip Art)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
+   Yemen		J.M. Maalderink
    Yucatan		Zachary Harden
    Yugoslavia		J.M. Maalderink
    Zapotec		J.M. Maalderink
@@ -659,6 +661,7 @@ sprites =
 		"f.songhai", "flags/songhai"
 		"f.south_africa", "flags/south_africa"
 		"f.southern_cross", "flags/southern_cross" ; confederate battle flag
+		"f.south_yemen", "flags/south_yemen"
 		"f.soviet", "flags/soviet"
 		"f.spain", "flags/spain"
 		"f.srilanka", "flags/srilanka"
@@ -714,6 +717,7 @@ sprites =
 		"f.wales", "flags/wales"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
+		"f.yemen", "flags/yemen"
 		"f.yucatan", "flags/yucatan"
 		"f.yugoslavia", "flags/yugoslavia"
 		"f.zapotec", "flags/zapotec"

@@ -294,6 +294,7 @@ flag_files =				\
 		songhai.png		\
 		south_africa.png	\
 		southern_cross.png	\
+		south_yemen.png		\
 		soviet.png		\
 		spain.png		\
 		srilanka.png		\
@@ -349,6 +350,7 @@ flag_files =				\
 		wallonia.png		\
 		westphalia.png		\
 		wuerttemberg.png	\
+		yemen.png		\
 		yucatan.png		\
 		yugoslavia.png		\
 		zapotec.png		\
@@ -645,6 +647,7 @@ shield_files =					\
 		songhai-shield.png		\
 		south_africa-shield.png		\
 		southern_cross-shield.png	\
+		south_yemen-shield.png		\
 		soviet-shield.png		\
 		spain-shield.png		\
 		srilanka-shield.png		\
@@ -700,6 +703,7 @@ shield_files =					\
 		wallonia-shield.png		\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
+		yemen-shield.png		\
 		yucatan-shield.png		\
 		yugoslavia-shield.png		\
 		zapotec-shield.png		\
@@ -996,6 +1000,7 @@ svg_files = 				\
 		songhai.svg		\
 		south_africa.svg	\
 		southern_cross.svg	\
+		south_yemen.svg		\
 		soviet.svg		\
 		spain.svg		\
 		srilanka.svg		\
@@ -1051,6 +1056,7 @@ svg_files = 				\
 		wallonia.svg		\
 		westphalia.svg		\
 		wuerttemberg.svg	\
+		yemen.svg		\
 		yucatan.svg		\
 		yugoslavia.svg		\
 		zapotec.svg		\

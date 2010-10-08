@@ -1,0 +1,80 @@
+[nation_yemeni]
+
+name=_("Yemeni")
+plural=_("?plural:Yemenis")
+groups="Asian", "Modern"
+legend=_("Yemen is the only republic on the Arabian Peninsula. Although\
+ it was the site of several ancient civilizations, Yemen only exists in\
+ its current form since North Yemen annexed South Yemen in 1990.")
+leader=
+ "Yahya Muhammad Hamid ed-Din",
+ "Muhammad al-Badr",
+ "Abdullah as-Sallal",
+ "Abdul Rahman al-Iryani",
+ "Ibrahim al-Hamdi",
+ "Ali Abdullah Saleh"
+
+leader_sex="Male", "Male",  "Male", "Male", "Male",  "Male"
+flag="yemen"
+flag_alt = "-"
+city_style = "Babylonian"
+
+ruler_titles = { "government",      "male_title",           "female_title"
+                 "Communism",       _("General Secretary"), _("?female:General Secretary")
+                 "Fundamentalism",  _("Imam"),              _("Imama")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+conflicts_with = "himyarite", "iraqi", "syrian", "south yemeni" ;latter three similar flags
+civilwar_nations = "south yemeni"
+
+cities =
+ "Sana'a'",
+ "'Adan",
+ "al-Hudaydah",
+ "Ibb",
+ "Hajjah",
+ "Dhamar",
+ "Ta'izz",
+ "al-Mukalla",
+ "'Amran",
+ "Hawatah",
+ "Sa'dah",
+ "al-Bayda",
+ "al-Mahwit",
+ "al-Dali'",
+ "'Ataq",
+ "al-Jawf",
+ "Zinjibar",
+ "Raymah",
+ "Ma'rib",
+ "al-Ghaydah",
+ "Hadibu (ocean)",
+ "Chanffar",
+ "Sayyan",
+ "ash-Shir",
+ "Sahar",
+ "Sabid",
+ "Badshil",
+ "Dhi as-Sufal",
+ "Rida",
+ "Bait al-Faqih",
+ "al-Marawi'a",
+ "Yarim",
+ "Amran",
+ "Abs",
+ "Harad",
+ "Dimnat Chadir",
+ "Ataq",
+ "al-Mahabisha",
+ "Bayhan al-Qisab",
+ "Thila",
+ "as-Saidiyya",
+ "Madiyya",
+ "Chamr",
+ "Hais",
+ "ad-Dahi",
+ "Mocha"

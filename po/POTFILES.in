@@ -518,6 +518,7 @@ data/nation/sorbian.ruleset
 data/nation/southafrican.ruleset
 data/nation/southkorean.ruleset
 data/nation/southvietnamese.ruleset
+data/nation/southyemeni.ruleset
 data/nation/soviet.ruleset
 data/nation/spanish.ruleset
 data/nation/srivijaya.ruleset
@@ -566,6 +567,7 @@ data/nation/welsh.ruleset
 data/nation/westernroman.ruleset
 data/nation/westphalian.ruleset
 data/nation/wuerttembergian.ruleset
+data/nation/yemeni.ruleset
 data/nation/yucatecan.ruleset
 data/nation/yugoslav.ruleset
 data/nation/zapotec.ruleset

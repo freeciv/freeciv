@@ -294,6 +294,7 @@ pkgdata_DATA = \
 		southafrican.ruleset \
 		southkorean.ruleset \
 		southvietnamese.ruleset \
+		southyemeni.ruleset \
 		soviet.ruleset \
 		spanish.ruleset \
 		srivijaya.ruleset \
@@ -342,6 +343,7 @@ pkgdata_DATA = \
 		westernroman.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
+		yemeni.ruleset \
 		yucatecan.ruleset \
 		yugoslav.ruleset \
 		zapotec.ruleset \
