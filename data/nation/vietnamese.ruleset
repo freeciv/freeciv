@@ -26,7 +26,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "south vietnamese", "cambodian", "laotian"
+civilwar_nations = "south vietnamese", "cham"
 
 ; City order from:
 ; http://de.wikipedia.org/wiki/Liste_der_Städte_in_Vietnam

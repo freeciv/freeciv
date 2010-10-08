@@ -73,6 +73,7 @@ artists = "
    Canada (old)		Hoshie (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
+   Cham			Daniel Markstedt
    Chananea		Daniel Markstedt
    Chechnya		Lokal Profil (Wikimedia Commons)
    Cheyenne		Arturo Espinosa-Aldama
@@ -427,6 +428,7 @@ sprites =
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
+		"f.cham", "flags/cham"
 		"f.chananea", "flags/chananea"
 		"f.chechnya", "flags/chechnya"
 		"f.cheyenne", "flags/cheyenne"		; used by Sioux
