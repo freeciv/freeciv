@@ -33,7 +33,7 @@ leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
  "Male", "Male", "Male", "Male", "Male", "Male", "Female", "Male", "Male",
  "Female", "Male", "Female"
 flag="netherlands"
-flag_alt = "holland"
+flag_alt = "-"
 city_style = "European"
 ruler_titles = { "government",      "male_title",      "female_title"
 		 "Republic",	    _("Stadtholder"),    _("Stadtholdress")

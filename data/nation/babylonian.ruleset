@@ -15,7 +15,7 @@ leader=
  "Nabu-Nasir" ; a.k.a. Nabonassar
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male"
 flag = "babylon"
-flag_alt = "iraq_old"
+flag_alt = "-"
 city_style = "Babylonian"
 
 ruler_titles = { "government",	"male_title",	"female_title"

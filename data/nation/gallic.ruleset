@@ -22,7 +22,7 @@ leader=
  "Julia Pacata"
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Female"
 flag="gaul"
-flag_alt = "france_old"
+flag_alt = "-"
 city_style = "Celtic"
 
 ruler_titles = { "government",     "male_title",    "female_title"

@@ -441,9 +441,8 @@ sprites =
 		"f.chola", "flags/chola"
 		"f.chumash", "flags/chumash"
 		"f.colombia", "flags/colombia"
-		"f.columbia", "flags/colombia"	; For backward compatibility
 		"f.comanche", "flags/comanche"
-		"f.constantine", "flags/constantine"	; alt. Byzantine
+;		"f.constantine", "flags/constantine"	; alt. Byzantine
 		"f.cornwall", "flags/cornwall"
 		"f.corsica", "flags/corsica"
 		"f.cossack", "flags/cossack"
@@ -505,7 +504,6 @@ sprites =
 		"f.hesse", "flags/hesse"
 		"f.himyar", "flags/himyar"
 		"f.hittite", "flags/hittite"
-		"f.holland", "flags/netherlands"	; backward compatabiliy
 		"f.honduras", "flags/honduras"
 		"f.hopi", "flags/hopi"
 		"f.hre", "flags/hre"
@@ -519,7 +517,7 @@ sprites =
 		"f.iran_ancient", "flags/iran_ancient"
 		"f.iran", "flags/iran"
 		"f.iraq", "flags/iraq"
-		"f.iraq_old", "flags/iraq_old"		; used by Babylonian
+;		"f.iraq_old", "flags/iraq_old"		; used by Babylonian
 		"f.ireland", "flags/ireland"
 		"f.iroquois", "flags/iroquois"
 		"f.israel", "flags/israel"
@@ -587,7 +585,7 @@ sprites =
 		"f.myanmar", "flags/myanmar"
 		"f.namibia", "flags/namibia"
 		"f.naples", "flags/naples"
-		"f.nato", "flags/nato"
+;		"f.nato", "flags/nato"
 		"f.navajo", "flags/navajo"
 		"f.nepal", "flags/nepal"
 		"f.nestoria", "flags/nestoria"
@@ -613,7 +611,7 @@ sprites =
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
 		"f.palestine", "flags/palestine"
-		"f.palmyra", "flags/palmyra"
+;		"f.palmyra", "flags/palmyra"
 		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.paraguay", "flags/paraguay"
@@ -635,7 +633,7 @@ sprites =
 		"f.rome", "flags/rome"			; Roman republic flag
 		"f.russia", "flags/russia"
 		"f.rvn", "flags/rvn"
-		"f.rwanda", "flags/rwanda"		; Alternate Zulu
+		"f.rwanda", "flags/rwanda"
 		"f.ryukyu", "flags/ryukyu"
 		"f.sadr", "flags/sadr"
 		"f.samogitia", "flags/samogitia"
@@ -668,7 +666,7 @@ sprites =
 		"f.spain", "flags/spain"
 		"f.srilanka", "flags/srilanka"
 		"f.srivijaya", "flags/srivijaya"
-		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
+;		"f.stpatrick", "flags/stpatrick"	; Alternate Irish 
 		"f.sudan", "flags/sudan"
 		"f.sumeria", "flags/sumeria"
 		"f.suriname", "flags/suriname"

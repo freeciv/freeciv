@@ -21,7 +21,7 @@ leader=
 leader_sex="Male", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
  "Male", "Male"
 flag="colombia"
-flag_alt = "columbia"	; For backward compatibility
+flag_alt = "-"
 city_style = "Tropical"
 
 ruler_titles = { "government",      "male_title",        "female_title"
