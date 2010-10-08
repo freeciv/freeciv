@@ -9,8 +9,9 @@ legend=_("After several devastating Viking raids on what is today northern\
  Duchy of Normandy, of which the most famous duke is William II \"the\
  Conqueror\" who invaded England in 1066.")
 leader=
+; see http://nrm.wikipedia.org/wiki/Liste_des_dus_de_Normaundie
  "Rolloun", ; English: Rollo
- "Ricard I",
+ "Ricard I", ; English: Richard
  "Robert II",
  "Gllâome II" ; English: William the Conqueror
 leader_sex="Male", "Male", "Male", "Male"
