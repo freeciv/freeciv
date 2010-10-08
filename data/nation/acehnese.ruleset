@@ -1,0 +1,88 @@
+[nation_acehnese]
+
+name=_("Acehnese")
+plural=_("?plural:Acehnese")
+groups="Asian", "Early Modern"
+legend=_("The Sultanate of Aceh located on the western tip of the island of\
+ Sumatra was a regional power in the 16th and 17th centuries, controlling\
+ much of the trade through the Strait of Malacca. Aceh was subjugated by\
+ the Dutch in the bloody Aceh War of 1873-1903.")
+
+leader=
+ "Ali Mughayat Syah",
+ "Alauddin al-Kahar",
+ "Iskandar Muda",
+ "Iskandar Thani",
+ "Taj ul-Alam",
+ "Zainatuddin",
+ "Tuanku Ibrahim",
+ "Muhammad Daud Syah",
+ "Cut Nyak Meutia",
+ "Hasan di Tiro"
+
+leader_sex="Male", "Male", "Male", "Male", "Female",
+ "Female", "Male", "Male", "Female", "Male"
+flag="aceh"
+flag_alt="-"
+city_style="Asian"
+
+ruler_titles = { "government",      "male_title",         "female_title"
+                 "Communism",       _("Caliph"),          _("Calipha")
+                 "Monarchy",        _("Sultan"),          _("Sultana")
+                 "Republic",        _("Governor"),        _("?female:Governor")
+                 "Democracy",       _("Amir Al-Muminin"), _("Amirat Al-Muminin")
+                 "Fundamentalism",  _("Imam"),            _("?female:Imam")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="Indonesian", "Malaysian"
+
+cities =
+ "Kutaraja",
+ "Pasai",
+ "Peureulak",
+ "Weh (ocean)",
+ "Simeulue (ocean)",
+ "Pariaman",
+ "Padang",
+ "Indrapura",
+ "Muko-muko",
+ "Siberut (ocean)",
+ "Aru",
+ "Deli",
+ "Kedah",
+ "Penang (ocean)",
+ "Pahang",
+ "Trengganu",
+ "Siak",
+ "Rengat",
+ "Indragiri",
+ "Nias (ocean)",
+ "Perlak",
+ "Lhokseumawe",
+ "Langsa",
+ "Sabang",
+ "Subulussalam",
+ "Lhoksukon",
+ "Takengon",
+ "Meulaboh",
+ "Simpang Tiga Redelong",
+ "Nias",
+ "Bireun",
+ "Dewantara",
+ "Kuala Simpang",
+ "Siglo",
+ "Alaban",
+ "Blangpidie",
+ "Calang",
+ "Garot",
+ "Jantho",
+ "Kuta Reh",
+ "Leupung",
+ "Lhoknga",
+ "Tapaktuan",
+ "Teunom"

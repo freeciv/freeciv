@@ -8,6 +8,7 @@ pkgdata_DATA = \
 		abkhaz.ruleset \
 		aborigines.ruleset \
 		acadian.ruleset \
+		acehnese.ruleset \
 		afghani.ruleset \
 		ainu.ruleset \
 		akwe.ruleset \

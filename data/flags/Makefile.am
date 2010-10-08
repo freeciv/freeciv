@@ -6,7 +6,8 @@ pkgdatadir = $(datadir)/$(PACKAGE)/flags
 flag_files =				\
 		abkhazia.png		\
 		aborigines.png		\
-		acadia.png              \
+		acadia.png		\
+		aceh.png		\
 		afghanistan.png		\
 		ainu.png		\
 		akwe.png		\
@@ -355,7 +356,8 @@ flag_files =				\
 shield_files =					\
 		abkhazia-shield.png		\
 		aborigines-shield.png		\
-		acadia-shield.png               \
+		acadia-shield.png		\
+		aceh-shield.png			\
 		afghanistan-shield.png		\
 		ainu-shield.png			\
 		akwe-shield.png			\
@@ -705,6 +707,7 @@ svg_files = 				\
 		abkhazia.svg		\
 		aborigines.svg		\
 		acadia.svg		\
+		aceh.svg		\
 		afghanistan.svg		\
 		ainu.svg		\
 		akwe.svg		\

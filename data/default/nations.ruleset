@@ -57,6 +57,7 @@ match=2
 *include "nation/abkhaz.ruleset"
 *include "nation/aborigines.ruleset"
 *include "nation/acadian.ruleset"
+*include "nation/acehnese.ruleset"
 *include "nation/afghani.ruleset"
 *include "nation/ainu.ruleset"
 *include "nation/akwe.ruleset"
