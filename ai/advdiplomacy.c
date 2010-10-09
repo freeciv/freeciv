@@ -1014,9 +1014,8 @@ void ai_diplomacy_begin_new_phase(struct player *pplayer)
                 "love by %d ", reduction);
     }
 
-    /* Massage our numbers to keep love and its opposite on the ground.
-     * Gravitate towards zero. */
-    *love -= *love * (ai->diplomacy.love_coeff / 100);
+    /* Edge love towards zero */
+    *love -= *love * ((double)ai->diplomacy.love_coeff / 100.0);
 
     /* ai love should always be in range [-MAX_AI_LOVE..MAX_AI_LOVE] */
     *love = MAX(-MAX_AI_LOVE, MIN(MAX_AI_LOVE, *love));
