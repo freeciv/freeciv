@@ -28,6 +28,8 @@ ruler_titles = { "government",	"male_title",	"female_title"
 		 ; /* TRANS: Tlahtoani = Speaker */
 		 ; /* TRANS: Cihua = Female */
 		 "Despotism",	_("Tlahtoani"),  _("Cihuatlahtoani")
+		 ; /* TRANS: Hueyi  = Great */
+	         "Monarchy",	_("Hueyi Tlahtoani"), _("Hueyi Cihuatlahtoani")
 	       } 
 
 init_techs=""
@@ -89,7 +91,7 @@ cities =
  "Oztoman",
  "Hueypochtlan",
  "Tlalnepantlan",
- "Chiconautla",
+ "Chiconautlan",
  "Acolman",
  "Coatlinchan",
  "Naucalpan",
