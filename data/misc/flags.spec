@@ -28,7 +28,8 @@ artists = "
    Andorra		Patricia Fidi
    Angola		SKopp (Wikimedia Commons)
    Anishinaabe		Shandris (Wikimedia Commons)
-   Antarctica		Tobias Jakobs
+   Antarctica		Zachary Harden
+   Antarctica (alt)	Tobias Jakobs
    Apache		J.M. Maalderink
    Arab			Daniel Markstedt and Andrew Duhan
    Aragon		J.M. Maalderink
@@ -386,6 +387,7 @@ sprites =
 		"f.angola", "flags/angola"
 		"f.anishinaabe", "flags/anishinaabe"
 		"f.antarctica", "flags/antarctica"
+;		"f.antarctica_alt", "flags/antarctica_alt"
 		"f.apache", "flags/apache"
 		"f.arab", "flags/arab"
 		"f.aragon", "flags/aragon"
