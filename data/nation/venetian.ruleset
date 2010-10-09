@@ -25,9 +25,10 @@ flag_alt = "italy"
 city_style = "Classical"
 
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Fundamentalism",  _("Patriarch"), _("?female:Patriarch")
-                 "Monarchy",  _("Viceroy"), _("Vicereine")
-                 "Republic",        _("Doge"),      _("Dogaressa")
+                 "Despotism",       _("Condottiere"),  _("Condottiera")
+                 "Fundamentalism",  _("Patriarch"),    _("Matriarch")
+                 "Monarchy",        _("Viceroy"),      _("Vicereine")
+                 "Republic",        _("Doge"),         _("Dogaressa")
                }
 
 init_techs=""

@@ -207,6 +207,7 @@ flag_files =				\
 		mexico.png		\
 		micronesia.png		\
 		mikmaq.png		\
+		milan.png		\
 		miskito.png		\
 		mixtec.png		\
 		moldova.png		\
@@ -563,6 +564,7 @@ shield_files =					\
 		mexico-shield.png		\
 		micronesia-shield.png		\
 		mikmaq-shield.png		\
+		milan-shield.png		\
 		miskito-shield.png		\
 		mixtec-shield.png		\
 		moldova-shield.png		\
@@ -919,6 +921,7 @@ svg_files = 				\
 		mexico.svg		\
 		micronesia.svg		\
 		mikmaq.svg		\
+		milan.svg		\
 		miskito.svg		\
 		mixtec.svg		\
 		moldova.svg		\

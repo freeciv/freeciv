@@ -215,6 +215,7 @@ artists = "
    Mexico		Cezary Biele
    Micronesia		SKopp (Wikimedia commons)
    Mikmaq		Daniel Markstedt
+   Milan		Flanker (Wikimedia Commons)
    Miskito		Daniel Markstedt
    Mixtec		J.M. Maalderink
    Moldova		Caleb Moore and Reisio
@@ -575,6 +576,7 @@ sprites =
 		"f.mexico", "flags/mexico"
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
+		"f.milan", "flags/milan"
 		"f.miskito", "flags/miskito"
 		"f.mixtec", "flags/mixtec"
 		"f.moldova", "flags/moldova"
