@@ -609,7 +609,6 @@ upkeep		= 0
 sabotage	= 0
 sound		= "b_palace"
 sound_alt	= "b_generic"
-; /* xgettext:no-c-format */
 helptext	= _("\
 Makes a city the capital and the center of your government. \
  Corruption in other cities is related to how far away from the\
@@ -621,7 +620,9 @@ Makes a city the capital and the center of your government. \
 Take good care of your capital, as its loss may result in your\
  empire plunging into civil war. Losing your current palace also\
  results in losing whatever spaceship you might have.\
-"), _("\
+"),
+; /* xgettext:no-c-format */
+_("\
 Under Despotism the city containing the palace gains a +75%\
  production bonus, and under Monarchy a +50% production bonus.\
 ")
