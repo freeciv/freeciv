@@ -34,7 +34,7 @@ civilwar_nations=
 ; Sub-national nations
  "quebecois", "acadian", "newfoundland",
 ; First Nations
- "inuit", "iroquois", "cree", "anishinaabe"
+ "inuit", "iroquois", "cree", "anishinaabe", "metis"
 
 ; Terrains:  desert, plains, grassland, river, forest, hills, mountains, tundra, swamp, jungle, ocean
 ; Capitals of provinces and territories are listed first in this list

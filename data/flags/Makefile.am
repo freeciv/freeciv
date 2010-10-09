@@ -205,6 +205,7 @@ flag_files =				\
 		mars.png		\
 		maya.png		\
 		mazovia.png		\
+		metis.png		\
 		mexico.png		\
 		micronesia.png		\
 		mikmaq.png		\
@@ -563,6 +564,7 @@ shield_files =					\
 		mars-shield.png			\
 		maya-shield.png			\
 		mazovia-shield.png		\
+		metis-shield.png		\
 		mexico-shield.png		\
 		micronesia-shield.png		\
 		mikmaq-shield.png		\
@@ -921,6 +923,7 @@ svg_files = 				\
 		mars.svg		\
 		maya.svg		\
 		mazovia.svg		\
+		metis.svg		\
 		mexico.svg		\
 		micronesia.svg		\
 		mikmaq.svg		\

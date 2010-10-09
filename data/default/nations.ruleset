@@ -252,6 +252,7 @@ match=2
 *include "nation/martian.ruleset"
 *include "nation/mayan.ruleset"
 *include "nation/mazovian.ruleset"
+*include "nation/metis.ruleset"
 *include "nation/mexican.ruleset"
 *include "nation/miao.ruleset"
 *include "nation/micronesian.ruleset"

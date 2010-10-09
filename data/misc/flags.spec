@@ -213,6 +213,7 @@ artists = "
    Mars			Vasco Alexandre Da Silva Costa
    Maya			Daniel Markstedt
    Mazovia		J.M. Maalderink
+   Metis		J.M. Maalderink
    Mexico		Cezary Biele
    Micronesia		SKopp (Wikimedia commons)
    Mikmaq		Daniel Markstedt
@@ -575,6 +576,7 @@ sprites =
 		"f.mars", "flags/mars"
 		"f.maya", "flags/maya"
 		"f.mazovia", "flags/mazovia"
+		"f.metis", "flags/metis"
 		"f.mexico", "flags/mexico"
 		"f.micronesia", "flags/micronesia"
 		"f.mikmaq", "flags/mikmaq"
