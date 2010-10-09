@@ -1736,6 +1736,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     int i;
     int num_killed[player_slot_count()];
     struct unit *other_killed[player_slot_count()];
+    struct tile *ptile = unit_tile(punit);
 
     fc_assert(unitcount > 1);
 
@@ -1746,10 +1747,10 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
     }
 
     /* count killed units */
-    unit_list_iterate(punit->tile->units, vunit) {
+    unit_list_iterate(ptile->units, vunit) {
       struct player *vplayer = unit_owner(vunit);
       if (pplayers_at_war(pvictor, vplayer)
-          && is_unit_reachable_at(vunit, pkiller, punit->tile)) {
+          && is_unit_reachable_at(vunit, pkiller, ptile)) {
 	num_killed[player_index(vplayer)]++;
 	if (vunit != punit) {
 	  other_killed[player_index(vplayer)] = vunit;
@@ -1783,7 +1784,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       if (num_killed[i] == 1) {
         if (i == player_index(pvictim)) {
           fc_assert(other_killed[i] == NULL);
-          notify_player(player_by_number(i), unit_tile(punit),
+          notify_player(player_by_number(i), ptile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon ... the Polish Destroyer." */
                         _("%s lost to an attack by the %s %s."),
@@ -1792,7 +1793,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                         pkiller_link);
         } else {
           fc_assert(other_killed[i] != punit);
-          notify_player(player_by_number(i), unit_tile(punit),
+          notify_player(player_by_number(i), ptile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "Cannon lost when the Polish Destroyer
                          * attacked the German Musketeers." */
@@ -1808,7 +1809,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
           int others = num_killed[i] - 1;
 
           if (others == 1) {
-            notify_player(player_by_number(i), unit_tile(punit),
+            notify_player(player_by_number(i), ptile,
                           E_UNIT_LOST_DEF, ftc_server,
                           /* TRANS: "Musketeers (and Cannon) lost to an
                            * attack from the Polish Destroyer." */
@@ -1818,7 +1819,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                           nation_adjective_for_player(pvictor),
                           pkiller_link);
           } else {
-            notify_player(player_by_number(i), unit_tile(punit),
+            notify_player(player_by_number(i), ptile,
                           E_UNIT_LOST_DEF, ftc_server,
                           /* TRANS: "Musketeers and 3 other units lost to
                            * an attack from the Polish Destroyer."
@@ -1833,7 +1834,7 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
                           pkiller_link);
           }
         } else {
-          notify_player(player_by_number(i), unit_tile(punit),
+          notify_player(player_by_number(i), ptile,
                         E_UNIT_LOST_DEF, ftc_server,
                         /* TRANS: "2 units lost when the Polish Destroyer
                          * attacked the German Musketeers."
@@ -1850,10 +1851,13 @@ void kill_unit(struct unit *pkiller, struct unit *punit, bool vet)
       }
     }
 
-    /* remove the units */
-    unit_list_iterate_safe(punit->tile->units, punit2) {
-    if (pplayers_at_war(pvictor, unit_owner(punit2))
-         && is_unit_reachable_at(punit2, pkiller, unit_tile(punit))) {
+    /* remove the units - note the logic of which units actually die
+     * must be mimiced exactly in at least one place up above. */
+    punit = NULL; /* wiped during following iteration so unsafe to use */
+
+    unit_list_iterate_safe(ptile->units, punit2) {
+      if (pplayers_at_war(pvictor, unit_owner(punit2))
+	  && is_unit_reachable_at(punit2, pkiller, ptile)) {
         pvictor->score.units_killed++;
         unit_owner(punit2)->score.units_lost++;
         wipe_unit(punit2);
