@@ -1,0 +1,93 @@
+[nation_guyanese]
+
+name=_("Guyanese")
+plural=_("?plural:Guyanese")
+groups="American", "Modern"
+
+legend=_("Originally inhabited by the Arawk, Guyana was colonized by the\
+ Dutch but became a British colony after the Napoleonic Wars. It gained\
+ independence in 1966. Under Forbes Burnham Guyana became a Marxist\
+ oriented country, but in the 1980s it started its transition to a market\
+ democracy.")
+leader=
+ "Cuffy",
+ "Gordon James Lethem",
+ "Forbes Burnham",
+ "Cheddi Jagan",
+ "Janet Rosenberg Jagan",
+ "Bharrat Jagdeo"
+
+leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
+flag="guyana"
+flag_alt = "-"
+city_style = "Tropical"
+
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Communism",       _("Chairman"),       _("Chairwoman")
+                 "Democracy",       _("Prime Minister"), _("?female:Prime Minister")
+                 "Fundamentalism",  _("Reverend"),       _("?female:Reverend")
+                 "Republic",   _("Executive President"), _("?female:Executive President")
+	       }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations="venezuelan", "surinamese" ;trinidadian
+
+cities =
+ "Georgetown",
+ "Linden",
+ "New Amsterdam",
+ "Bartica",
+ "Corriverton",
+ "Rosignol",
+ "Mahaica",
+ "Ituni",
+ "Skeldon",
+ "Paradise",
+ "Vreed en Hoop",
+ "Fort Wellington",
+ "Mahaicony",
+ "Kumaka",
+ "Anna Regina",
+ "Mabaruma",
+ "Lethem",
+ "Soesdyke",
+ "Orinduik",
+ "Kato",
+ "Rustenburg",
+ "Fort Nassau",
+ "Kyk-over-al",
+ "Kurupukari",
+ "Puerto Turumbán",
+ "Morawhanna",
+ "Crabwood Creek",
+ "Juçara",
+ "Hackney",
+ "Marlborough",
+ "Golden Fleece",
+ "Spring Garden",
+ "Kartabu",
+ "Winepuru",
+ "Rockstone",
+ "Urisirima",
+ "Mora",
+ "Parika",
+ "Jonestown",
+ "Potosi",
+ "Sand Hills",
+ "Elizabeth",
+ "Christianburg",
+ "Labba",
+ "Lusignan",
+ "Clonbrook",
+ "Mahaica Helena",
+ "Rosignol",
+ "Laluni",
+ "Highbury",
+ "Alness",
+ "Leeds",
+ "Waiwai",
+ "Five Stars"

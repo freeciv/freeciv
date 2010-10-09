@@ -181,6 +181,7 @@ match=2
 *include "nation/guarani.ruleset"
 *include "nation/guatemalan.ruleset"
 *include "nation/gupta.ruleset"
+*include "nation/guyanese.ruleset"
 *include "nation/hacker.ruleset"
 *include "nation/haitian.ruleset"
 *include "nation/hanoverian.ruleset"

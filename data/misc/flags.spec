@@ -138,6 +138,7 @@ artists = "
    Guarani		Daniel Markstedt
    Guatemala		Denelson83, Vzb83 and Huhsunqu (Wikimedia Commons)
    Gupta		Daniel Markstedt
+   Guyana		SKopp (Wikimedia Commons)
    Hacker		Daniel Markstedt and Eric S. Raymond
    Hainan		J.M. Maalderink
    Haiti		Lokal Profil (Wikimedia Commons)
@@ -499,6 +500,7 @@ sprites =
 		"f.guarani", "flags/guarani"
 		"f.guatemala", "flags/guatemala"
 		"f.gupta", "flags/gupta"
+		"f.guyana", "flags/guyana"
 		"f.hacker", "flags/hacker"
 		"f.hainan", "flags/hainan"
 		"f.haiti", "flags/haiti"

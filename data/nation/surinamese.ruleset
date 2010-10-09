@@ -35,7 +35,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="tupi", "dutch"
+civilwar_nations="tupi", "dutch", "guyanese"
 
 cities =
  "Paramaribo",

@@ -132,6 +132,7 @@ pkgdata_DATA = \
 		guarani.ruleset \
 		guatemalan.ruleset \
 		gupta.ruleset \
+		guyanese.ruleset \
 		hacker.ruleset \
 		haitian.ruleset \
 		hanoverian.ruleset \
@@ -206,6 +207,7 @@ pkgdata_DATA = \
 		miao.ruleset \
 		micronesian.ruleset \
 		mikmaq.ruleset \
+		milanese.ruleset \
 		miskito.ruleset \
 		mixtec.ruleset \
 		moldovan.ruleset \

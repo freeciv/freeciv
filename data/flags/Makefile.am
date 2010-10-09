@@ -130,6 +130,7 @@ flag_files =				\
 		guarani.png		\
 		guatemala.png		\
 		gupta.png		\
+		guyana.png		\
 		hacker.png		\
 		hainan.png		\
 		haiti.png		\
@@ -487,6 +488,7 @@ shield_files =					\
 		guarani-shield.png		\
 		guatemala-shield.png		\
 		gupta-shield.png		\
+		guyana-shield.png		\
 		hacker-shield.png		\
 		hainan-shield.png		\
 		haiti-shield.png		\
@@ -844,6 +846,7 @@ svg_files = 				\
 		guarani.svg		\
 		guatemala.svg		\
 		gupta.svg		\
+		guyana.svg		\
 		hacker.svg		\
 		hainan.svg		\
 		haiti.svg		\
