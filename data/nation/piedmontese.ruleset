@@ -1,0 +1,109 @@
+[nation_piedmontese]
+
+name = _("Piedmontese")
+plural = _("?plural:Piedmontese")
+groups="European", "Early Modern"
+legend=_("Piedmont was formed when the Duchy of Savoy elevated itself to\
+ the status of a kingdom in 1720. Officially it was a constituent part of\
+ the Kingdom of Sardinia-Piedmont. The area was occupied by Napoleon in\
+ 1796 but reasserted its independence in 1814. Sardinia-Piedmont was one\
+ of the leading states of the Risorgimiento, Italy's national rebirth. In\
+ 1861 it was merged into the newly formed kingdom of Italy, the last\
+ Piedmontese king becoming the first king of Italy. Currently it is one\
+ of the regions of Italy.")
+leader =
+ "Vittorio Amedeo II",
+ "Carlo Emanuele",
+ "Vittorio Amedeo III",
+ "Cesare Balbo",
+ "Vittorio Emanuele I",
+ "Camillo Benso di Cavour",
+ "Margherita di Savoia",
+ "Giovanni Bosco",
+ "Antonio Gramsci",
+ "Giuseppe Perotti",
+ "Mercedes Bresso"
+
+leader_sex = "Male", "Male", "Male", "Male", "Male", "Male", "Female",
+ "Male", "Male", "Male", "Female"
+flag = "piedmont"
+flag_alt = "italy"
+city_style = "European"
+
+ruler_titles = { "government",     "male_title",        "female_title"
+                 "Democracy",      _("Prime Minister"), _("?female:Prime Minister")
+                 "Despotism",      _("Count"),          _("Countess")
+                 "Fundamentalism", _("Fra"),            _("Madre")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with="savoyard"
+civilwar_nations="italian", "savoyard" ; sardinian genoese
+
+cities =
+ "Torino (river, plains)",
+ "Genova (ocean, hills)",
+ "Nizza (ocean)",		;Nice
+ "Novara (plains)",
+ "Alessandria (plains)",
+ "La Spezia (ocean)",
+ "Asti (hills)",
+ "Sanremo (ocean)",
+ "Ciamberì (mountains)",	;Chambéry
+ "Savona (ocean, hills)",
+ "Cuneo",
+ "Moncalieri",
+ "Collegno",
+ "Rivoli",
+ "Nichelino",
+ "Annecy",
+ "Settimo Torinese",
+ "Biella",
+ "Vercelli",
+ "Imperia (ocean)",
+ "Grugliasco",
+ "Chieri",
+ "Casale Monferrato (river)",
+ "Pinerolo",
+ "Venaria Reale",
+ "Aosta (river, mountains)",	;Aoste
+ "Rapallo",
+ "Verbania",
+ "Mentone",			;Menton
+ "Alba",
+ "Bra",
+ "Novi Ligure",
+ "Bagni d'Aix",			;Aix-les-Bains
+ "Annemasse",
+ "Carmagnola",
+ "Ventimiglia",
+ "Chivasso",
+ "Ivrea",
+ "Fossano",
+ "Chivasso",
+ "Mondovi",
+ "Savigliano",
+ "Cluses",
+ "Albertville",
+ "Domodossola",
+ "Sallanches",
+ "Saluzzo",
+ "Chamonix",
+ "Bonneville",
+ "San Giovanni di Moriana",	;Saint-Jean-de-Maurienne
+ "San Giulano di Geneva",	;Saint-Julien-en-Genevois
+ "Borgo San Dalmazzo",
+ "Cherasco",
+ "Varallo", 
+ "Susa",
+ "Cavour",
+ "Dogliani",
+ "Modana",			;Modane
+ "Moutiers",
+ "Cormaiore",			;Courmayeur
+ "Tenda",			;Tende
+ "Demonte"

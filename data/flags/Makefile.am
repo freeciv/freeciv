@@ -253,6 +253,7 @@ flag_files =				\
 		peru.png		\
 		philippines.png		\
 		phoenicia.png		\
+		piedmont.png		\
 		pirate.png		\
 		piratini.png		\
 		poland.png		\
@@ -608,6 +609,7 @@ shield_files =					\
 		peru-shield.png			\
 		philippines-shield.png		\
 		phoenicia-shield.png		\
+		piedmont-shield.png		\
 		pirate-shield.png		\
 		piratini-shield.png		\
 		poland-shield.png		\
@@ -963,6 +965,7 @@ svg_files = 				\
 		peru.svg		\
 		philippines.svg		\
 		phoenicia.svg		\
+		piedmont.svg		\
 		pirate.svg		\
 		piratini.svg		\
 		poland.svg		\

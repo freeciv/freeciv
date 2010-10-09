@@ -8,7 +8,6 @@ legend=_("The Italian nation was unified in 1870 AD after decades of\
  House of Savoy until 1922, then a fascist state until 1945 after which\
  democracy was restored by the World War II victors.")
 leader =
- "Camillo Benso di Cavour",
  "Bettino Ricasoli",
  "Marco Minghetti",
  "Luigi Federico Menabrea",
@@ -34,7 +33,7 @@ leader =
  "Palmiro Togliatti",
  "Giacomo Matteotti"
 
-leader_sex = "Male", "Male", "Male", "Male", "Male", "Male",
+leader_sex = "Male", "Male", "Male", "Male", "Male",
  "Male", "Male", "Male", "Male", "Male", "Male",
  "Male", "Male", "Male", "Male", "Male", "Male",
  "Male", "Female", "Male", "Male", "Male", "Male", "Male"
@@ -54,8 +53,8 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="sicilian", "holy", "venetian", "neapolitan"
-conflicts_with="roman", "neapolitan", "sicilian", "venetian"
+civilwar_nations="sicilian", "holy", "venetian", "neapolitan", "piedmontese"
+conflicts_with="roman", "neapolitan", "sicilian", "venetian", "piedmontese"
 
 cities =
   "Roma",
