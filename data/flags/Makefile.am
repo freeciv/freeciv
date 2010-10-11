@@ -309,6 +309,7 @@ flag_files =				\
 		sudan.png		\
 		sumeria.png		\
 		suriname.png		\
+		svg.png			\
 		swaziland.png		\
 		sweden.png		\
 		swiss.png		\
@@ -669,6 +670,7 @@ shield_files =					\
 		sudan-shield.png		\
 		sumeria-shield.png		\
 		suriname-shield.png		\
+		svg-shield.png			\
 		swaziland-shield.png		\
 		sweden-shield.png		\
 		swiss-shield.png		\
@@ -1029,6 +1031,7 @@ svg_files = 				\
 		sudan.svg		\
 		sumeria.svg		\
 		suriname.svg		\
+		svg.svg			\
 		swaziland.svg		\
 		sweden.svg		\
 		swiss.svg		\

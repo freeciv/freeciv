@@ -318,6 +318,7 @@ sprites =
 		"f.shield.sudan", "flags/sudan-shield"
 		"f.shield.sumeria", "flags/sumeria-shield"
 		"f.shield.suriname", "flags/suriname-shield"
+		"f.shield.svg", "flags/svg-shield"
 		"f.shield.swaziland", "flags/swaziland-shield"
 		"f.shield.sweden", "flags/sweden-shield"
 		"f.shield.switzerland", "flags/swiss-shield"

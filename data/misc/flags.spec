@@ -317,6 +317,7 @@ artists = "
    Sudan		Tobias Jakobs
    Sumeria		Franz Mach, Jason Short, Daniel Markstedt
    Suriname		Vzb83 (Wikimedia Commons)
+   SVG			SKopp (Wikimedia Commons)
    Swaziland		Caleb Moore
    Sweden		Richard Torkar
    Swiss		Philipp Frauenfelder
@@ -681,6 +682,7 @@ sprites =
 		"f.sudan", "flags/sudan"
 		"f.sumeria", "flags/sumeria"
 		"f.suriname", "flags/suriname"
+		"f.svg", "flags/svg"
 		"f.swaziland", "flags/swaziland"
 		"f.sweden", "flags/sweden"
 		"f.switzerland", "flags/swiss"
