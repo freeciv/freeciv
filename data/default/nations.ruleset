@@ -380,6 +380,7 @@ match=2
 *include "nation/turkmen.ruleset"
 *include "nation/turk.ruleset"
 *include "nation/tuvan.ruleset"
+*include "nation/tyrolian.ruleset"
 *include "nation/ugandan.ruleset"
 *include "nation/ukrainian.ruleset"
 *include "nation/un.ruleset"

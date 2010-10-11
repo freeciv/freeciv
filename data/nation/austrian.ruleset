@@ -61,7 +61,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations="swiss", "hungarian"
+civilwar_nations="swiss", "hungarian", "tyrolian"
 
 cities =
   "Wien",

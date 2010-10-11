@@ -1,0 +1,99 @@
+[nation_tyrolian]
+
+name=_("Tyrolian")
+plural=_("?plural:Tyrolians")
+groups="Medieval", "European"
+legend=_("Tyrol was a county in the Alps. In the 16th century its own\
+ dynasty died out and the region passed to Habsburg Austria. The\
+ southern part was annexed by Italy after World War I.")
+leader=
+ "Albert IV",
+ "Margaretha Maultasch",
+ "Siegmund der Münzreiche",
+ "Ferdinand",
+ "Andreas Hofer",
+ "Silvius Magnago"
+
+leader_sex="Male", "Female", "Male", "Male", "Male", "Male"
+flag="tyrol"
+flag_alt = "austria"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",        "female_title"
+		 "Despotism",      _("Bailiff"),         _("?female:Bailiff")
+                 "Fundamentalism", _("Prince-Bishop"),   _("Princess-Bishop")
+                 "Monarchy",       _("Count"),           _("Countess")
+                 "Republic",       _("Landeshauptmann"), _("Landeshauptfrau")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations="bavarian", "austrian", "venetian"
+
+cities =
+ "Meran",
+ "Innsbruck (river)",
+ "Trient",
+ "Kufstein",
+ "Bozen",
+ "Telfs",
+ "Rofreit",
+ "Schwaz",
+ "Brixen",
+ "Hall in Tirol",
+ "Fersen im Suganertal (mountains, hills)",
+ "Wörgl",
+ "Arch",
+ "Lienz",
+ "Leifers",
+ "Imst",
+ "Reiff am Gartsee (lake)",
+ "Rum",
+ "Bruneck",
+ "Sankt Johann in Tirol",
+ "Eppan an der Weinstraße",
+ "Kitzbühel",
+ "Lana an der Etsch (river)",
+ "Wattens",
+ "Mori",
+ "Landeck",
+ "Ahl am Etsch (river)",
+ "Zirl",
+ "Laifs",
+ "Jenbach",
+ "Kaltern an der Weinstraße",
+ "Absam",
+ "Ritten",
+ "Völs",
+ "Bad Löweneck",
+ "Reutte",
+ "Burg im Suganertal (mountains, hills)",
+ "Axams",
+ "Glöß",
+ "Hopfgarten im Brixental (mountains, hills)",
+ "Welsch-Metz",
+ "Krichbichl",
+ "Sarnthein",
+ "Kirchberg in Tirol",
+ "Kastelruth",
+ "Ebbs",
+ "Sterzing",
+ "Matrei in Osttirol",
+ "Schlanders",
+ "Kramsach",
+ "Hayden",
+ "Mayrhofen",
+ "Ortisei",
+ "Steinach am Brenner (mountains)",
+ "Toblach",
+ "Münster",
+ "Abtei",
+ "Seefeld in Tirol",
+ "Tirol",
+ "Sankt Anton am Arlberg (mountains)",
+ "Kurfar",
+ "Zell am Ziller (river)",
+ "Buchenstein",
+ "Ischgl"

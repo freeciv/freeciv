@@ -342,6 +342,7 @@ artists = "
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
    Turkmenistan		Caleb Moore
+   Tyrol		Flow2 (Wikimedia Commons)
    UAE			Bratt Roper
    Uganda		Tobias Jakobs
    Ukraine		Lauris Kaplinski
@@ -707,6 +708,7 @@ sprites =
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"
 		"f.turkmenistan", "flags/turkmenistan"
+		"f.tyrol", "flags/tyrol"
 		"f.uae", "flags/uae"
 		"f.uganda", "flags/uganda"
 		"f.ukraine", "flags/ukraine"

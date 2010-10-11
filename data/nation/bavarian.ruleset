@@ -8,24 +8,69 @@ legend=_("Bavaria, before national unification in 1870 AD, was one of the\
 leader =
  "Tassilo III",
  "Welf I",
- "Ludwig II",
  "Maximilian",
  "Adelheid",
  "Max II Emanuel",
- "Joseph"
-leader_sex = "Male", "Male", "Male", "Male", "Female", "Male", "Male"
+ "Maximilian I Joseph",
+ "Ludwig II",
+ "Kurt Eisner"
+leader_sex = "Male", "Male", "Male", "Female", "Male", "Male", "Male", "Male"
 flag="bavarian"
 flag_alt = "-"
 city_style = "European"
 
+ruler_titles = { "government",      "male_title",        "female_title"
+                 "Fundamentalism", _("Bishop"),          _("Mother Superior")
+		 "Republic",    _("Minister-President"), _("?female:Minister-President")
+               }
 init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "franconian", "austrian"
+civilwar_nations = "franconian", "austrian", "tyrolian"
 
 cities =
-  "München", "Regensburg", "Ingolstadt", "Landshut", "Rosenheim",
-  "Eichstätt", "Passau",  "Straubing", "Mühldorf", "Freising",
-  "Deggendorf", "Erding", "Freilassing", "Altötting", "Pfaffenhofen",
-  "Vilshofen", "Plattling", "Traunstein", "Burghausen", "Dingolfing"
+ "München",
+ "Regensburg",
+ "Ingolstadt",
+ "Landshut",
+ "Rosenheim",
+ "Eichstätt",
+ "Passau",
+ "Straubing",
+ "Mühldorf",
+ "Freising",
+ "Deggendorf",
+ "Erding",
+ "Freilassing",
+ "Altötting",
+ "Pfaffenhofen",
+ "Vilshofen",
+ "Plattling",
+ "Traunstein",
+ "Burghausen",
+ "Dingolfing",
+ "Nürnberg",
+ "Augsburg",
+ "Würzburg",
+ "Fürth",
+ "Erlangen",
+ "Bayreuth",
+ "Bamberg",
+ "Aschaffenburg",
+ "Kempten",
+ "Neu-Ulm",
+ "Schweinfurt",
+ "Hof",
+ "Amberg",
+ "Dachau",
+ "Ansbach",
+ "Neumarkt",
+ "Garmisch-Partenkirchen",
+ "Bad Kissingen",
+ "Donauwörth",
+ "Bad Reichenhall",
+ "Marktredwitz",
+ "Füssen",
+ "Berchtesgaden"
+

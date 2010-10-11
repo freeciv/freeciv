@@ -334,6 +334,7 @@ flag_files =				\
 		tupi.png		\
 		turkey.png		\
 		turkmenistan.png	\
+		tyrol.png		\
 		uae.png			\
 		uganda.png		\
 		ukraine.png		\
@@ -695,6 +696,7 @@ shield_files =					\
 		tupi-shield.png			\
 		turkey-shield.png		\
 		turkmenistan-shield.png		\
+		tyrol-shield.png		\
 		uae-shield.png			\
 		uganda-shield.png		\
 		ukraine-shield.png		\
@@ -1056,6 +1058,7 @@ svg_files = 				\
 		tupi.svg		\
 		turkey.svg		\
 		turkmenistan.svg	\
+		tyrol.svg		\
 		uae.svg			\
 		uganda.svg		\
 		ukraine.svg		\
