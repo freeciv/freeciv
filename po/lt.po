@@ -6,14 +6,14 @@ msgstr ""
 "Project-Id-Version: freeciv\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-29 00:28+0100\n"
-"PO-Revision-Date: 2009-11-10 14:52+0000\n"
+"PO-Revision-Date: 2010-10-11 20:07+0100\n"
 "Last-Translator: Andrius Štikonas <stikonas@gmail.com>\n"
 "Language-Team: Lithuanian <komp_lt@konferencijos.lt>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n%"
-"10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n"
+"%10>=2 && (n%100<10 || n%100>=20) ? 2 : 3);\n"
 
 #: common/city.c:81 client/gui-gtk-2.0/repodlgs.c:1154
 #: client/gui-win32/repodlgs.c:713
@@ -100,29 +100,29 @@ msgid "Missing pattern"
 msgstr ""
 
 #: common/events.c:49
-#, fuzzy, c-format
+#, c-format
 msgid "Technology: %s"
-msgstr "Technologija"
+msgstr "Technologija: %s"
 
 #: common/events.c:50
-#, fuzzy, c-format
+#, c-format
 msgid "Improvement: %s"
-msgstr "Patobulinimai"
+msgstr "Patobulinimas: %s"
 
 #: common/events.c:51
-#, fuzzy, c-format
+#, c-format
 msgid "City: %s"
-msgstr "Miestas: %s(%s)"
+msgstr "Miestas: %s"
 
 #: common/events.c:52
-#, fuzzy, c-format
+#, c-format
 msgid "Diplomat Action: %s"
-msgstr "Diplomato veiksmai"
+msgstr "Diplomato veiksmai: %s"
 
 #: common/events.c:53
-#, fuzzy, c-format
+#, c-format
 msgid "Enemy Diplomat: %s"
-msgstr "Priešo diplomatas"
+msgstr "Priešo diplomatas: %s"
 
 #: common/events.c:54
 #, fuzzy, c-format
@@ -135,30 +135,30 @@ msgid "Hut: %s"
 msgstr "Mazgas: %s"
 
 #: common/events.c:56
-#, fuzzy, c-format
+#, c-format
 msgid "Nation: %s"
-msgstr "Tautos"
+msgstr "Tauta: %s"
 
 #: common/events.c:57
-#, fuzzy, c-format
+#, c-format
 msgid "Treaty: %s"
-msgstr "Sutartis"
+msgstr "Sutartis: %s"
 
 #: common/events.c:58
-#, fuzzy, c-format
+#, c-format
 msgid "Unit: %s"
-msgstr "Daliniai: "
+msgstr "Dalinys: %s"
 
 #. TRANS: "Vote" as a process
 #: common/events.c:60
-#, fuzzy, c-format
+#, c-format
 msgid "Vote: %s"
-msgstr "Mazgas: %s"
+msgstr "Balsas: %s"
 
 #: common/events.c:61
-#, fuzzy, c-format
+#, c-format
 msgid "Wonder: %s"
-msgstr "Stebuklai: "
+msgstr "Stebuklas: %s"
 
 #: common/events.c:80
 msgid "Learned From Great Library"
@@ -396,14 +396,12 @@ msgid "Pollution"
 msgstr "Tarša"
 
 #: common/events.c:141
-#, fuzzy
 msgid "Revolution Ended"
 msgstr "Sukilimas baigėsi"
 
 #: common/events.c:142
-#, fuzzy
 msgid "Revolution Started"
-msgstr "Prasidėjo sukilimas "
+msgstr "Prasidėjo sukilimas"
 
 #: common/events.c:143
 msgid "Spaceship Events"
@@ -470,7 +468,7 @@ msgstr "Dalinys: Nurodymai ir perėjimo įvykiai"
 #. TRANS: "vote" as a process
 #: common/events.c:162 server/stdinhand.c:4042
 msgid "New vote"
-msgstr ""
+msgstr "Naujas balsas"
 
 #. TRANS: "Vote" as a process
 #: common/events.c:164
@@ -763,9 +761,9 @@ msgid "%s base"
 msgstr ""
 
 #: common/requirements.c:1350
-#, fuzzy, c-format
+#, c-format
 msgid "After %s"
-msgstr "\"arti %s"
+msgstr "Po %s"
 
 #. TRANS: "Irrigation possible"
 #: common/requirements.c:1355
@@ -779,19 +777,19 @@ msgid "City center tile"
 msgstr "Centruoti vaizdą"
 
 #: common/team.c:221
-#, fuzzy, c-format
+#, c-format
 msgid "Team %d"
-msgstr "Komanda 0"
+msgstr "Komanda %d"
 
 #: common/team.c:430
-#, fuzzy, c-format
+#, c-format
 msgid "team %s"
-msgstr ", komanda %s"
+msgstr "komanda %s"
 
 #: common/team.c:432
-#, fuzzy, c-format
+#, c-format
 msgid "team %d"
-msgstr "Garo variklis"
+msgstr "komanda %d"
 
 #: common/tech.c:861
 #, c-format
@@ -905,7 +903,7 @@ msgstr "Keisti"
 #: common/unit.c:648
 #, fuzzy
 msgid "Base"
-msgstr "Baskų"
+msgstr "Bazė"
 
 #: common/unit.c:656 client/text.c:161 client/gui-gtk-2.0/editprop.c:5756
 #: client/gui-sdl/citydlg.c:1979 client/gui-win32/citydlg.c:1232
@@ -1316,40 +1314,36 @@ msgid "non-match"
 msgstr "neatitinka"
 
 #: utility/shared.c:1853
-#, fuzzy
 msgid "day"
 msgid_plural "days"
-msgstr[0] "gegužę"
-msgstr[1] "gegužę"
-msgstr[2] "gegužę"
-msgstr[3] "gegužę"
+msgstr[0] "diena"
+msgstr[1] "diena"
+msgstr[2] "dienos"
+msgstr[3] "dienų"
 
 #: utility/shared.c:1858
-#, fuzzy
 msgid "hour"
 msgid_plural "hours"
-msgstr[0] "arba"
-msgstr[1] "arba"
-msgstr[2] "arba"
-msgstr[3] "arba"
+msgstr[0] "valanda"
+msgstr[1] "valanda"
+msgstr[2] "valandos"
+msgstr[3] "valandų"
 
 #: utility/shared.c:1864
-#, fuzzy
 msgid "minute"
 msgid_plural "minutes"
-msgstr[0] "Badas"
-msgstr[1] "Badas"
-msgstr[2] "Badas"
-msgstr[3] "Badas"
+msgstr[0] "minutė"
+msgstr[1] "minutė"
+msgstr[2] "minutės"
+msgstr[3] "minučių"
 
 #: utility/shared.c:1870
-#, fuzzy
 msgid "second"
 msgid_plural "seconds"
-msgstr[0] "Įrašas"
-msgstr[1] "Įrašas"
-msgstr[2] "Įrašas"
-msgstr[3] "Įrašas"
+msgstr[0] "sekundė"
+msgstr[1] "sekundė"
+msgstr[2] "sekundės"
+msgstr[3] "sekundžių"
 
 #: utility/shared.c:2136
 msgid "TRUE"
@@ -1398,8 +1392,8 @@ msgstr "*%s (DI)* Pirma nutrauk sąjunga su %s, %s."
 #: ai/advdiplomacy.c:341
 #, fuzzy, c-format
 msgid ""
-"*%s (AI)* I would like to see you keep your distance from %s for some time, %"
-"s."
+"*%s (AI)* I would like to see you keep your distance from %s for some time, "
+"%s."
 msgstr ""
 "*%s (DI)* Norėčiau ilgiau išlaikyti esamą ugnies nutraukimo statusą, %s."
 
@@ -1700,8 +1694,8 @@ msgstr ""
 #: ai/advdiplomacy.c:1609
 #, c-format
 msgid ""
-"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, %"
-"s. Why do I need to remind you of your promises?"
+"*%s (AI)* Greetings ally, I see you have not yet made war with our enemy, "
+"%s. Why do I need to remind you of your promises?"
 msgstr ""
 "*%s (DI)* Sveikinimai, sąjungininke, aš matau, kad Jūs dar nepaskelbėte karo "
 "mūsų priešui. %s. Kodėl aš turėčiau Jums priminti Jūsų pažadus?"
@@ -4821,17 +4815,15 @@ msgstr "Pasaulio stebuklai"
 
 #. TRANS: abbreviation of "square miles"
 #: server/report.c:788
-#, fuzzy
 msgid " sq. mi."
 msgid_plural " sq. mi."
-msgstr[0] "kv. myl,"
-msgstr[1] "kv. myl,"
-msgstr[2] "kv. myl,"
-msgstr[3] "kv. myl,"
+msgstr[0] " kv. myl."
+msgstr[1] " kv. myl."
+msgstr[2] " kv. myl."
+msgstr[3] " kv. myl."
 
 #. TRANS: "M tons" = million tons, so always plural
 #: server/report.c:800
-#, fuzzy
 msgid " M tons"
 msgid_plural " M tons"
 msgstr[0] " mil. tonų"
@@ -4849,13 +4841,12 @@ msgstr[2] ""
 msgstr[3] ""
 
 #: server/report.c:811
-#, fuzzy
 msgid " bulb"
 msgid_plural " bulbs"
-msgstr[0] "lemputės"
-msgstr[1] "lemputės"
-msgstr[2] "lemputės"
-msgstr[3] "lemputės"
+msgstr[0] " lemputė"
+msgstr[1] " lemputė"
+msgstr[2] " lemputės"
+msgstr[3] " lempučių"
 
 #: server/report.c:816
 msgid " month"
@@ -4898,9 +4889,9 @@ msgid "Sorry, the Demographics report is unavailable."
 msgstr "Apgailestaujame, tačiau demografinė ataskaita negalima."
 
 #: server/report.c:998
-#, fuzzy, c-format
+#, c-format
 msgid "%s %s (%s)"
-msgstr "%s esantis %s (%s)\n"
+msgstr "%s %s (%s)"
 
 #: server/report.c:1455
 msgid "Population\n"
@@ -4983,14 +4974,12 @@ msgid "Spaceship\n"
 msgstr "Erdvėlaivis\n"
 
 #: server/report.c:1471
-#, fuzzy
 msgid "Built Units\n"
-msgstr "Statomi dalinai"
+msgstr "Statomi dalinai\n"
 
 #: server/report.c:1472
-#, fuzzy
 msgid "Killed Units\n"
-msgstr "Prieinami daliniai"
+msgstr "Užmušti daliniai\n"
 
 #: server/report.c:1473
 #, fuzzy
@@ -5059,18 +5048,16 @@ msgid "%s had invalid nation; changing to %s."
 msgstr ""
 
 #: server/savegame2.c:5240
-#, fuzzy
 msgid "current version"
-msgstr "(beta versija)"
+msgstr "dabartinė versija"
 
 #: server/savegame2.c:5242
 msgid "freeciv 2.2.99"
 msgstr ""
 
 #: server/savegame2.c:5245
-#, fuzzy
 msgid "freeciv 2.3.0"
-msgstr "Freeciv"
+msgstr "freeciv 2.3.0"
 
 #: server/settings.c:169
 #, fuzzy
@@ -5152,9 +5139,8 @@ msgid "Donut World (iso-hex)"
 msgstr ""
 
 #: server/settings.c:212
-#, fuzzy
 msgid "Scenario map"
-msgstr "Pasirinkite scenarijų"
+msgstr "Scenarijaus žemėlapis"
 
 #: server/settings.c:213
 msgid "Fully random height"
@@ -5181,23 +5167,20 @@ msgid "Two players per continent"
 msgstr ""
 
 #: server/settings.c:231
-#, fuzzy
 msgid "All players on a single continent"
-msgstr "Visi žaidėjai pasiruošę; paleidžiamas žaidimas."
+msgstr "Visi žaidėjai viename žemyne"
 
 #: server/settings.c:232
 msgid "Depending on size of continents"
 msgstr ""
 
 #: server/settings.c:245 server/settings.c:326
-#, fuzzy
 msgid "Disabled"
-msgstr "Išformuoti"
+msgstr "Uždrausta"
 
 #: server/settings.c:246 server/settings.c:327
-#, fuzzy
 msgid "Enabled"
-msgstr "Nepavyko"
+msgstr "Įgalinta"
 
 #: server/settings.c:247
 msgid "See everything inside borders"
@@ -5230,9 +5213,8 @@ msgid "Disabled for everyone"
 msgstr ""
 
 #: server/settings.c:278
-#, fuzzy
 msgid "No restrictions"
-msgstr "Statyba"
+msgstr "Be apribojimų"
 
 #: server/settings.c:279
 #, fuzzy
@@ -5249,9 +5231,8 @@ msgid "No city name stealing"
 msgstr "Leidžiami miestų vardai"
 
 #: server/settings.c:294
-#, fuzzy
 msgid "No barbarians"
-msgstr "Barbaras"
+msgstr "Be barbarų"
 
 #: server/settings.c:295
 msgid "Only in huts"
@@ -5262,9 +5243,8 @@ msgid "Normal rate of appearance"
 msgstr ""
 
 #: server/settings.c:297
-#, fuzzy
 msgid "Frequent barbarian uprising"
-msgstr "Barbarų iškilimas"
+msgstr "Dažni barbarų iškilimai"
 
 #: server/settings.c:298
 #, fuzzy
@@ -5579,9 +5559,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:931
-#, fuzzy
 msgid "Global warming"
-msgstr "Įvyko globalinis atšilimas!"
+msgstr "Globalinis atšilimas"
 
 #: server/settings.c:932
 msgid ""
@@ -5590,9 +5569,8 @@ msgid ""
 msgstr ""
 
 #: server/settings.c:939
-#, fuzzy
 msgid "Nuclear winter"
-msgstr "Branduolinė energija"
+msgstr "Branduolinė žiema"
 
 #: server/settings.c:940
 msgid ""
@@ -6644,9 +6622,8 @@ msgid "The setting '%s' can't be modified after the game has started."
 msgstr "Žaidėjai negali būti pašalinti prasidėjus žaidimui."
 
 #: server/settings.c:1993
-#, fuzzy
 msgid "Internal error."
-msgstr "Vidiniai"
+msgstr "Vidinė klaida"
 
 #: server/settings.c:2114 server/settings.c:2137
 #, fuzzy
@@ -7296,7 +7273,7 @@ msgstr ""
 
 #: server/stdinhand.c:1371
 msgid "?accslvllist:or "
-msgstr ""
+msgstr "?accslvllist:arba "
 
 #. TRANS: comma and 'or' separated list of access levels
 #: server/stdinhand.c:1377
@@ -7390,27 +7367,26 @@ msgstr "fiksuotas"
 
 #: server/stdinhand.c:1643 server/stdinhand.c:1649 server/stdinhand.c:1656
 #: server/stdinhand.c:1671
-#, fuzzy
 msgid "Value:"
-msgstr "Vyras"
+msgstr "Reikšmė:"
 
 #: server/stdinhand.c:1644 server/stdinhand.c:1650 manual/civmanual.c:194
 msgid "Minimum:"
-msgstr ""
+msgstr "Minimali:"
 
 #: server/stdinhand.c:1644 server/stdinhand.c:1651 server/stdinhand.c:1657
 #: server/stdinhand.c:1673 manual/civmanual.c:184 manual/civmanual.c:195
 #: manual/civmanual.c:204 manual/civmanual.c:222
 msgid "Default:"
-msgstr ""
+msgstr "Numatyta:"
 
 #: server/stdinhand.c:1645 server/stdinhand.c:1652 manual/civmanual.c:196
 msgid "Maximum:"
-msgstr ""
+msgstr "Maksimali:"
 
 #: server/stdinhand.c:1664 manual/civmanual.c:215
 msgid "Possible values:"
-msgstr ""
+msgstr "Galimos reikšmės:"
 
 #: server/stdinhand.c:1691
 msgid "Explanations are available for the following server options:"
@@ -7580,14 +7556,14 @@ msgstr "Komanda"
 #. TRANS: "Vote" as a process. Used as part of a sentence.
 #: server/stdinhand.c:2260 server/voting.c:516
 msgid "Vote"
-msgstr ""
+msgstr "Balsuoti"
 
 #. TRANS: "[Vote|Teamvote] 3 \"proposed change\" (needs ..."
 #: server/stdinhand.c:2263
 #, c-format
 msgid ""
-"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of %"
-"d players."
+"%s %d \"%s\" (needs %0.0f%%%s): %d for, %d against, and %d abstained out of "
+"%d players."
 msgstr ""
 
 #: server/stdinhand.c:2267
@@ -9173,14 +9149,14 @@ msgid "never"
 msgstr "niekada"
 
 #: client/citydlg_common.c:284
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s:%s"
-msgstr "%3d/%3d:%s"
+msgstr "%3d/%s:%s"
 
 #: client/citydlg_common.c:287
-#, fuzzy, c-format
+#, c-format
 msgid "%3d/%s %s"
-msgstr "%3d/%3d %s"
+msgstr "%3d/%s %s"
 
 #: client/citydlg_common.c:317 client/citydlg_common.c:416
 #, c-format
@@ -9397,9 +9373,8 @@ msgid "Workers: Angry"
 msgstr "Darbininkai: susierzinę"
 
 #: client/cityrepdata.c:473 client/gui-xaw/citydlg.c:2387
-#, fuzzy
 msgid "?city:Workers"
-msgstr "Darbininkai"
+msgstr "?city:Darbininkai"
 
 #: client/cityrepdata.c:474
 msgid "?happy/content/unhappy/angry:H/C/U/A"
@@ -9600,9 +9575,8 @@ msgid "(%)"
 msgstr ""
 
 #: client/cityrepdata.c:525
-#, fuzzy
 msgid "Plague risk"
-msgstr "Žaidėjai"
+msgstr "Maro galimybė"
 
 #: client/cityrepdata.c:527
 msgid "?cma:Governor"
@@ -9625,9 +9599,8 @@ msgid "Currently Building"
 msgstr "Dabar statoma"
 
 #: client/cityrepdata.c:579
-#, fuzzy
 msgid "Specialists: "
-msgstr "Specialistai: %s"
+msgstr "Specialistai: "
 
 #: client/cityrepdata.c:585
 msgid "?specialist:S"
@@ -9978,9 +9951,8 @@ msgid ""
 msgstr ""
 
 #: client/editor.c:152
-#, fuzzy
 msgid "Military Base"
-msgstr "Kariniai"
+msgstr "Karinė bazė"
 
 #: client/editor.c:154
 msgid ""
@@ -10061,14 +10033,12 @@ msgid "Erase"
 msgstr "Oro bazė"
 
 #: client/editor.c:1659
-#, fuzzy
 msgid "Copy"
-msgstr "Kopijavimas"
+msgstr "Kopijuoti"
 
 #: client/editor.c:1662
-#, fuzzy
 msgid "Paste"
-msgstr "Atliekos"
+msgstr "Įklijuoti"
 
 #: client/editor.c:1681
 msgid ""
@@ -10325,9 +10295,9 @@ msgstr "Leidžia %s (kartu su %s)."
 
 #. TRANS: "%*s" is replaced with spaces
 #: client/helpdata.c:769
-#, fuzzy, c-format
+#, c-format
 msgid "%*sRivers"
-msgstr " Upės"
+msgstr "%*sUpės"
 
 #: client/helpdata.c:820
 msgid "Current ruleset contains no description."
@@ -10390,14 +10360,12 @@ msgid "  * Does not get defense bonuses from terrain.\n"
 msgstr "  * Greitis nepriklauso nuo reljefo.\n"
 
 #: client/helpdata.c:1158
-#, fuzzy
 msgid "  * Not subject to zones of control.\n"
-msgstr "* Ignoruoja valdymo zonas.\n"
+msgstr "  * Ignoruoja valdymo zonas.\n"
 
 #: client/helpdata.c:1161
-#, fuzzy
 msgid "  * Slowed down while damaged.\n"
-msgstr "  * Sulėtėja įvykus pažeidimams\n"
+msgstr "  * Sulėtėja įvykus pažeidimams.\n"
 
 #: client/helpdata.c:1164
 msgid "  * Gets used up in making an attack.\n"
@@ -10562,9 +10530,8 @@ msgid "* Can perform diplomatic actions.\n"
 msgstr "* Gali atlikti diplomatinius veiksmus.\n"
 
 #: client/helpdata.c:1311
-#, fuzzy
 msgid "* Defends cities against diplomatic actions.\n"
-msgstr "* Gali atlikti diplomatinius veiksmus.\n"
+msgstr "* Gina miestus nuo diplomatinių veiksmų.\n"
 
 #: client/helpdata.c:1314
 msgid "* Will never lose a diplomat-versus-diplomat fight.\n"
@@ -12463,7 +12430,6 @@ msgid "Minor Tribe Village"
 msgstr ""
 
 #: client/text.c:177
-#, fuzzy
 msgid "Our territory"
 msgstr "Mūsų teritorija"
 
@@ -13727,9 +13693,8 @@ msgid "Next time open"
 msgstr "Kitą kartą atverti"
 
 #: client/gui-gtk-2.0/citydlg.c:1199
-#, fuzzy
 msgid "R_ename..."
-msgstr "Pervadinti..."
+msgstr "P_ervadinti..."
 
 #: client/gui-gtk-2.0/citydlg.c:1359
 msgid "_List present units..."
@@ -13921,9 +13886,8 @@ msgid "Gover_nor"
 msgstr "Gubernatorius"
 
 #: client/gui-gtk-2.0/cityrep.c:1015
-#, fuzzy
 msgid "S_ell"
-msgstr "Parduoti"
+msgstr "Pa_rduoti"
 
 #: client/gui-gtk-2.0/cityrep.c:1020 client/gui-gtk-2.0/menu.c:1452
 msgid "_Select"
@@ -14053,9 +14017,8 @@ msgid "Prese_ts:"
 msgstr "Princesė"
 
 #: client/gui-gtk-2.0/cma_fe.c:288
-#, fuzzy
 msgid "Ne_w"
-msgstr "Naujas"
+msgstr "Na_ujas"
 
 #: client/gui-gtk-2.0/cma_fe.c:308 client/gui-win32/cma_fe.c:491
 #: client/gui-win32/repodlgs.c:384 client/gui-xaw/repodlgs.c:763
@@ -14182,9 +14145,8 @@ msgid "Pick Nation"
 msgstr "Pasirinkite tautą"
 
 #: client/gui-gtk-2.0/dialogs.c:860
-#, fuzzy
 msgid "_Random Nation"
-msgstr "Atsitiktinė tauta"
+msgstr "_Atsitiktinė tauta"
 
 #: client/gui-gtk-2.0/dialogs.c:872 client/gui-win32/dialogs.c:533
 msgid "Select a nation"
@@ -14207,14 +14169,12 @@ msgid "_Male"
 msgstr "_Vyras"
 
 #: client/gui-gtk-2.0/dialogs.c:949
-#, fuzzy
 msgid "City _Styles:"
-msgstr "_Miestų stilius"
+msgstr "_Miestų stiliai:"
 
 #: client/gui-gtk-2.0/dialogs.c:988
-#, fuzzy
 msgid "_Description"
-msgstr "_Legenda"
+msgstr "_Aprašymas"
 
 #: client/gui-gtk-2.0/dialogs.c:1331 client/gui-xaw/dialogs.c:1506
 msgid "You must select your sex."
@@ -14398,9 +14358,8 @@ msgid "Player"
 msgstr "Žaidėjas"
 
 #: client/gui-gtk-2.0/editprop.c:619
-#, fuzzy
 msgid "?play:Game"
-msgstr "?Player:Vardas"
+msgstr "?play:Žaidimas"
 
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
@@ -14455,9 +14414,8 @@ msgstr "Keisti"
 #. TRANS: As in "this tile special is present".
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-2.0/editprop.c:3205 client/gui-gtk-2.0/editprop.c:3230
-#, fuzzy
 msgid "Present"
-msgstr "Prezidentas"
+msgstr "Dabartis"
 
 #: client/gui-gtk-2.0/editprop.c:3207 client/gui-gtk-2.0/editprop.c:3214
 #: client/gui-gtk-2.0/editprop.c:3232 client/gui-gtk-2.0/editprop.c:3244
@@ -14811,9 +14769,8 @@ msgid "Ctrl+W"
 msgstr "Ctrl+W"
 
 #: client/gui-gtk-2.0/happiness.c:192
-#, fuzzy
 msgid "Cities:"
-msgstr "_Miestai:"
+msgstr "Miestai:"
 
 #: client/gui-gtk-2.0/happiness.c:193
 #, fuzzy
@@ -14821,19 +14778,16 @@ msgid "Luxuries:"
 msgstr "Prabanga:"
 
 #: client/gui-gtk-2.0/happiness.c:194
-#, fuzzy
 msgid "Buildings:"
-msgstr "Pastatai: "
+msgstr "Pastatai:"
 
 #: client/gui-gtk-2.0/happiness.c:195
-#, fuzzy
 msgid "Units:"
-msgstr "Daliniai"
+msgstr "Daliniai:"
 
 #: client/gui-gtk-2.0/happiness.c:196
-#, fuzzy
 msgid "Wonders:"
-msgstr "Stebuklai: "
+msgstr "Stebuklai:"
 
 #: client/gui-gtk-2.0/happiness.c:205 client/gui-sdl/citydlg.c:2049
 #: client/gui-sdl/citydlg.c:3729 client/gui-win32/citydlg.c:750
@@ -15105,7 +15059,6 @@ msgid "?verb:_View"
 msgstr "Apžvalga"
 
 #: client/gui-gtk-2.0/menu.c:1221
-#, fuzzy
 msgid "_Improvements"
 msgstr "_Patobulinimai"
 
@@ -15359,62 +15312,52 @@ msgid "_Terrain"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1366
-#, fuzzy
 msgid "C_oastline"
-msgstr "Pakrantė"
+msgstr "_Pakrantė"
 
 #: client/gui-gtk-2.0/menu.c:1369
-#, fuzzy
 msgid "_Roads & Rails"
-msgstr "Keliai ir geležinkeliai"
+msgstr "Keliai ir _geležinkeliai"
 
 #: client/gui-gtk-2.0/menu.c:1371
-#, fuzzy
 msgid "_Irrigation"
-msgstr "Drėkinimas"
+msgstr "_Drėkinimas"
 
 #: client/gui-gtk-2.0/menu.c:1373
-#, fuzzy
 msgid "_Mines"
-msgstr "Kasyklos"
+msgstr "_Kasyklos"
 
 #: client/gui-gtk-2.0/menu.c:1375
-#, fuzzy
 msgid "_Fortress & Airbase"
-msgstr "Fortai ir oro bazės"
+msgstr "_Fortai ir oro bazės"
 
 #: client/gui-gtk-2.0/menu.c:1378
-#, fuzzy
 msgid "_Specials"
-msgstr "Specialūs"
+msgstr "_Specialūs"
 
 #: client/gui-gtk-2.0/menu.c:1380
-#, fuzzy
 msgid "Po_llution & Fallout"
-msgstr "Užterštumas ir radioaktyvios dulkės"
+msgstr "_Užterštumas ir radioaktyvios dulkės"
 
 #: client/gui-gtk-2.0/menu.c:1382
-#, fuzzy
 msgid "Citi_es"
-msgstr "Miestai"
+msgstr "_Miestai"
 
 #: client/gui-gtk-2.0/menu.c:1386
 msgid "Unit Solid Background"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1388
-#, fuzzy
 msgid "Unit shields"
-msgstr "skydas"
+msgstr "Dalinių skydai"
 
 #: client/gui-gtk-2.0/menu.c:1390
 msgid "Focu_s Unit"
 msgstr ""
 
 #: client/gui-gtk-2.0/menu.c:1392
-#, fuzzy
 msgid "Fog of _War"
-msgstr "Karo rūkas"
+msgstr "Karo _rūkas"
 
 #: client/gui-gtk-2.0/menu.c:1394
 #, fuzzy
@@ -15444,9 +15387,8 @@ msgid "Save Scenario"
 msgstr "Žaisti _scenarijų"
 
 #: client/gui-gtk-2.0/menu.c:1453
-#, fuzzy
 msgid "_Unit"
-msgstr "_Daliniai"
+msgstr "_Dalinys"
 
 #: client/gui-gtk-2.0/menu.c:1454
 #, fuzzy
@@ -15489,9 +15431,8 @@ msgid "_Wait"
 msgstr "_Laukti"
 
 #: client/gui-gtk-2.0/menu.c:1475
-#, fuzzy
 msgid "_Done"
-msgstr "Baigta"
+msgstr "_Baigta"
 
 #: client/gui-gtk-2.0/menu.c:1479
 msgid "_Go to"
@@ -15538,19 +15479,16 @@ msgid "U_nload All From Transporter"
 msgstr "Išlaipinti iš transporterio"
 
 #: client/gui-gtk-2.0/menu.c:1504
-#, fuzzy
 msgid "Upgr_ade"
-msgstr "Patobulinti"
+msgstr "P_atobulinti"
 
 #: client/gui-gtk-2.0/menu.c:1506
-#, fuzzy
 msgid "Trans_form"
-msgstr "Keisti"
+msgstr "Trans_formuoti"
 
 #: client/gui-gtk-2.0/menu.c:1508 client/gui-gtk-2.0/repodlgs.c:1030
-#, fuzzy
 msgid "_Disband"
-msgstr "Išformuoti"
+msgstr "_Išformuoti"
 
 #: client/gui-gtk-2.0/menu.c:1512 client/gui-gtk-2.0/menu.c:2053
 #: client/gui-win32/menu.c:367
@@ -15653,7 +15591,6 @@ msgstr "_Ekonomika"
 
 #. TRANS: Research report action
 #: client/gui-gtk-2.0/menu.c:1614 client/gui-win32/menu.c:413
-#, fuzzy
 msgid "_Research"
 msgstr "_Tyrinėjimai"
 
@@ -15700,9 +15637,8 @@ msgid "Transf_orm to %s"
 msgstr "Transformuoti į %s"
 
 #: client/gui-gtk-2.0/menu.c:2124 client/gui-win32/citydlg.c:1501
-#, fuzzy
 msgid "_Fortify Unit"
-msgstr "_Įtvirtinti dalinį"
+msgstr "Į_tvirtinti dalinį"
 
 #: client/gui-gtk-2.0/menu.c:2130
 #, fuzzy
@@ -15809,9 +15745,8 @@ msgid "Nations"
 msgstr "Tautos"
 
 #: client/gui-gtk-2.0/plrdlg.c:516
-#, fuzzy
 msgid "Di_plomacy"
-msgstr "Diplomatija"
+msgstr "Di_plomatija"
 
 #: client/gui-gtk-2.0/plrdlg.c:521
 msgid "_Intelligence"
@@ -16074,9 +16009,8 @@ msgid "Ready"
 msgstr "Pasiruošęs"
 
 #: client/gui-gtk-2.0/pages.c:2249
-#, fuzzy
 msgid "?player:Leader"
-msgstr "?Player:Vardas"
+msgstr "?player:Vadas"
 
 #: client/gui-gtk-2.0/pages.c:2368 client/gui-sdl/chatline.c:182
 msgid "Choose Saved Game to Load"
@@ -16251,9 +16185,8 @@ msgid "Player\n"
 msgstr "Žaidėjas\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1538
-#, fuzzy
 msgid "Nation\n"
-msgstr "Tauta"
+msgstr "Tauta\n"
 
 #: client/gui-gtk-2.0/repodlgs.c:1539
 msgid "Score\n"
@@ -16347,16 +16280,15 @@ msgstr "Keisti gamybą"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:147
 msgid "_YES"
-msgstr ""
+msgstr "_TAIP"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:168
-#, fuzzy
 msgid "_NO"
-msgstr "_Ne"
+msgstr "_NE"
 
 #: client/gui-gtk-2.0/voteinfo_bar.c:189
 msgid "_ABSTAIN"
-msgstr ""
+msgstr "_SUSILAIKYTI"
 
 #. TRANS: Describing a vote that passed.
 #: client/gui-gtk-2.0/voteinfo_bar.c:252
@@ -18993,9 +18925,8 @@ msgid "Tax Rates..."
 msgstr "Mokesčių norma:"
 
 #: client/gui-xaw/menu.c:136
-#, fuzzy
 msgid "Revolution..."
-msgstr "_Revoliucija..."
+msgstr "Revoliucija..."
 
 #: client/gui-xaw/menu.c:145
 msgid "Map Grid"
@@ -20212,9 +20143,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:432
-#, fuzzy
 msgid " Villages"
-msgstr "Plėšimas"
+msgstr " Kaimai"
 
 #: data/helpdata.txt:433
 msgid ""
@@ -20278,9 +20208,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:482
-#, fuzzy
 msgid " Food"
-msgstr "Maistas"
+msgstr " Maistas"
 
 #: data/helpdata.txt:483
 msgid ""
@@ -20311,9 +20240,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:507
-#, fuzzy
 msgid " Production"
-msgstr "Produkcija"
+msgstr " Gamyba"
 
 #: data/helpdata.txt:508
 msgid ""
@@ -20370,9 +20298,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:549
-#, fuzzy
 msgid " Trade"
-msgstr "Prekyba"
+msgstr " Prekyba"
 
 #: data/helpdata.txt:550
 msgid ""
@@ -20556,9 +20483,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:690
-#, fuzzy
 msgid " Happiness"
-msgstr "Laimė"
+msgstr " Laimė"
 
 #: data/helpdata.txt:691
 msgid ""
@@ -20703,9 +20629,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:798
-#, fuzzy
 msgid " Pollution"
-msgstr "Tarša"
+msgstr " Tarša"
 
 #: data/helpdata.txt:799
 msgid ""
@@ -20746,9 +20671,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:830
-#, fuzzy
 msgid " Plague"
-msgstr "Ištrinti sąlygą"
+msgstr " Maras"
 
 #: data/helpdata.txt:831
 msgid "Plague is a ruleset option, and is not enabled in the default ruleset."
@@ -20773,9 +20697,8 @@ msgid ""
 msgstr ""
 
 #: data/helpdata.txt:850
-#, fuzzy
 msgid " Migration"
-msgstr "Drėkinimas"
+msgstr " Migracija"
 
 #: data/helpdata.txt:851
 msgid ""
@@ -24186,9 +24109,8 @@ msgid ""
 msgstr ""
 
 #: data/default/terrain.ruleset:257
-#, fuzzy
 msgid "Deep Ocean"
-msgstr "Vandenynas"
+msgstr "Gilus vandenynas"
 
 #: data/default/terrain.ruleset:287
 #, fuzzy
@@ -26397,12 +26319,11 @@ msgstr "Svirnas"
 #: data/nation/austrian.ruleset:50
 #, fuzzy
 msgid "Kaiser"
-msgstr "Lazeris"
+msgstr "Kaizeris"
 
 #: data/nation/austrian.ruleset:50
-#, fuzzy
 msgid "Kaiserin"
-msgstr "Nigerijos"
+msgstr "Imperatorienė"
 
 #: data/nation/austrian.ruleset:51 data/nation/german.ruleset:33
 #: data/nation/holyroman.ruleset:33 data/nation/prussian.ruleset:28
@@ -26581,26 +26502,22 @@ msgid ""
 msgstr ""
 
 #: data/nation/badian.ruleset:28 data/nation/luxembourgish.ruleset:33
-#, fuzzy
 msgid "Grand Duke"
 msgstr "Didysis kunigaikštis"
 
 #: data/nation/badian.ruleset:28 data/nation/luxembourgish.ruleset:33
-#, fuzzy
 msgid "Grand Duchess"
 msgstr "Didžioji kunigaikštienė"
 
 #: data/nation/badian.ruleset:29 data/nation/hessian.ruleset:32
 #: data/nation/wuerttembergian.ruleset:28
-#, fuzzy
 msgid "Minister-President"
-msgstr "Direktorius-prezidentas"
+msgstr "Ministras-prezidentas"
 
 #: data/nation/badian.ruleset:29 data/nation/hessian.ruleset:32
 #: data/nation/wuerttembergian.ruleset:28
-#, fuzzy
 msgid "?female:Minister-President"
-msgstr "?female:Direktorė-prezidentė"
+msgstr "?female:Ministrė-prezidentė"
 
 #: data/nation/barbarian.ruleset:4
 msgid "?plural:Barbarians"
@@ -26739,9 +26656,8 @@ msgstr ""
 #: data/nation/luxembourgish.ruleset:32 data/nation/maltese.ruleset:30
 #: data/nation/newfoundland.ruleset:33 data/nation/panamanian.ruleset:32
 #: data/nation/venezuelan.ruleset:29 data/nation/yucatecan.ruleset:32
-#, fuzzy
 msgid "Bishop"
-msgstr "Arkivyskupas"
+msgstr "Vyskupas"
 
 #: data/nation/belgian.ruleset:33 data/nation/dutch.ruleset:39
 #: data/nation/flemish.ruleset:35 data/nation/frisian.ruleset:38
@@ -27692,8 +27608,8 @@ msgid ""
 "coastline between Malibu and Paso Robles inland towards the San Joaquin "
 "valley, the Chumash lived in large permanent villages and maintained a semi-"
 "monetized economy. These villages came to be ruled by hereditary chiefs, who "
-"could be male or female. At time of contact, the population was likely 8-"
-"18,000 people, though perhaps as high as 22,000. The Spanish established "
+"could be male or female. At time of contact, the population was likely "
+"8-18,000 people, though perhaps as high as 22,000. The Spanish established "
 "five missions in Chumash land. As a result of disease and other byproducts "
 "of colonial rule, the population fell to less than 3,000 in 1831."
 msgstr ""
@@ -33658,9 +33574,8 @@ msgid "Loading tutorial events."
 msgstr "Įkeliami apmokymo įvykiai."
 
 #: data/civ1/game.ruleset:18
-#, fuzzy
 msgid "Civ1 ruleset"
-msgstr "Įkeliamos taisyklės"
+msgstr "Civ1 taisyklės"
 
 #: data/civ1/game.ruleset:21
 msgid ""
