@@ -347,6 +347,7 @@ match=2
 *include "nation/songhai.ruleset"
 *include "nation/sorbian.ruleset"
 *include "nation/southafrican.ruleset"
+*include "nation/southamerican.ruleset"
 *include "nation/southkorean.ruleset"
 *include "nation/southvietnamese.ruleset"
 *include "nation/southyemeni.ruleset"

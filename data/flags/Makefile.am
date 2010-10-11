@@ -338,6 +338,7 @@ flag_files =				\
 		uae.png			\
 		uganda.png		\
 		ukraine.png		\
+		unasur.png		\
 		united_kingdom.png	\
 		united_nations.png	\
 		unknown.png		\
@@ -700,6 +701,7 @@ shield_files =					\
 		uae-shield.png			\
 		uganda-shield.png		\
 		ukraine-shield.png		\
+		unasur-shield.png		\
 		united_kingdom-shield.png	\
 		united_nations-shield.png	\
 		unknown-shield.png		\
@@ -1062,6 +1064,7 @@ svg_files = 				\
 		uae.svg			\
 		uganda.svg		\
 		ukraine.svg		\
+		unasur.svg		\
 		united_kingdom.svg	\
 		united_nations.svg	\
 		unknown.svg		\

@@ -346,6 +346,7 @@ artists = "
    UAE			Bratt Roper
    Uganda		Tobias Jakobs
    Ukraine		Lauris Kaplinski
+   Unasur		Guilherme Paula (Wikipedia)
    United Kingdom	Daniel McRae
    United Nations	Tobias Jakobs
    Unknown		Jason Short
@@ -712,6 +713,7 @@ sprites =
 		"f.uae", "flags/uae"
 		"f.uganda", "flags/uganda"
 		"f.ukraine", "flags/ukraine"
+		"f.unasur", "flags/unasur"
 		"f.united_kingdom", "flags/united_kingdom"
 		"f.united_nations", "flags/united_nations"
 		"f.unknown", "flags/unknown"		; hard-coded fallback

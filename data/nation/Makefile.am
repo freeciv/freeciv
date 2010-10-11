@@ -297,6 +297,7 @@ pkgdata_DATA = \
 		songhai.ruleset \
 		sorbian.ruleset \
 		southafrican.ruleset \
+		southamerican.ruleset \
 		southkorean.ruleset \
 		southvietnamese.ruleset \
 		southyemeni.ruleset \

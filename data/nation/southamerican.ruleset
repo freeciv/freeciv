@@ -1,0 +1,40 @@
+[nation_southamerican]
+
+name=_("South American")
+plural=_("?plural:South Americans")
+groups= "Imaginary"
+legend=_("The Union of South American Nations was formed in 2008, modelled\
+ after the European Union, but panamericanism has already existed since\
+ the the 19th century.")
+leader=
+ "Francisco de Miranda",
+ "Víctor Raúl Haya de la Torre",
+ "Che Guevara"
+leader_sex= "Male", "Male", "Male"
+flag="unasur"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Anarchy",         _("Caudillo"),   _("Caudilla")
+                 "Communism",       _("Comandante"), _("Comananta")
+                 "Despotism",       _("General"),    _("?female:General")
+                 "Fundamentalism",  _("Archbishop"), _("Madre")
+                 "Republic",        _("Secretary General"), _("Secretary General")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+conflicts_with="argentine", "bolivian", "brazilian", "chilean", "colombian",
+ "ecuadorian", "guyanese", "paraguayan", "peruvian", "surinamese", "uruguayan", "venezuelan"
+civilwar_nations = "argentine", "bolivian", "brazilian", "chilean", "colombian",
+ "ecuadorian", "guyanese", "paraguayan", "peruvian", "surinamese", "uruguayan", "venezuelan"
+
+cities=
+; Sites of Uasur institutions
+ "Quito",
+ "Cochabamba",
+ "Caracas"
+; Subsequent cities fetched from city lists of member nations
