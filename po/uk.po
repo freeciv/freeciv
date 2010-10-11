@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-12 11:27-0700\n"
-"PO-Revision-Date: 2010-10-04 10:36+0300\n"
+"PO-Revision-Date: 2010-10-11 00:33+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -247,7 +247,7 @@ msgstr "Ядерна атака"
 
 #: common/events.c:100
 msgid "Released from citizen governor"
-msgstr "Відпущено агентом керування"
+msgstr "Звільнено від громадського губернатора"
 
 #: common/events.c:101
 msgid "Suggest Growth Throttling"
@@ -600,15 +600,15 @@ msgstr "Новачок"
 
 #: common/player.c:46
 msgid "Easy"
-msgstr "Легко"
+msgstr "Легкий"
 
 #: common/player.c:47
 msgid "Hard"
-msgstr "Важко"
+msgstr "Важкий"
 
 #: common/player.c:47
 msgid "Cheating"
-msgstr "Шахраювати"
+msgstr "Шахрай"
 
 #: common/player.c:47
 msgid "Experimental"
@@ -616,7 +616,7 @@ msgstr "Експериментальний"
 
 #: common/player.c:811
 msgid "?attitude:Genocidal"
-msgstr "Геноцид"
+msgstr "Геноцидальне"
 
 #: common/player.c:813
 msgid "?attitude:Belligerent"
@@ -2848,11 +2848,11 @@ msgstr ""
 
 #: server/commands.c:329
 msgid "Set one or all AI players to 'cheating'."
-msgstr "Встановити рівень одного або усіх комп'ютерних гравців у 'шахраювати'."
+msgstr "Встановити рівень одного або усіх комп'ютерних гравців у 'шахрай'."
 
 #: server/commands.c:330
 msgid "With no arguments, sets all AI players to skill level 'cheating', and sets the default level for any new AI players to 'cheating'.  With an argument, sets the skill level for that player only."
-msgstr "Без аргументів встановлює рівень усіх ШІ-гравців у 'шахраювати', також 'шахраювати' буде рівень по замовчуванню усіх нових ШІ-гравців. За наявності агрумента встановлює рівень лише для цього гравця."
+msgstr "Без аргументів встановлює рівень усіх ШІ-гравців у 'шахрай', також 'шахрай' буде типовим рівнем усіх нових ШІ-гравців. За наявності аргумента встановлює рівень лише для цього гравця."
 
 #. TRANS: translate text between <> only
 #: server/commands.c:337
@@ -3073,12 +3073,12 @@ msgstr "%s Ласкаво просимо"
 #: server/connecthand.c:152
 #, c-format
 msgid "Welcome to the %s Server running at %s port %d."
-msgstr "Ради бачити на сервері %s, що запущений на %s порт %d."
+msgstr "Раді бачити Вас на сервері %s, що запущений на %s, порт %d."
 
 #: server/connecthand.c:156
 #, c-format
 msgid "Welcome to the %s Server at port %d."
-msgstr "Ради бачити на сервері %s, що запущений на порту %d."
+msgstr "Раді бачити Вас на сервері %s, що запущений на порту %d."
 
 #: server/connecthand.c:185
 msgid "Couldn't attach your connection to new player."
@@ -5816,9 +5816,9 @@ msgstr "Очікуємо початку гри: %d з %d гравців гото
 
 #: server/srv_main.c:1813
 #: server/srv_main.c:1817
-#, fuzzy, c-format
+#, c-format
 msgid "%s has been added as %s level AI-controlled player."
-msgstr "%s додано як комп'ютерного гравця."
+msgstr "%s додано, як комп'ютерного гравця рівня %s."
 
 #: server/srv_main.c:1956
 #, c-format
@@ -7826,7 +7826,7 @@ msgstr "Можливо десь невірна конфігурація чи п�
 #: client/chatline_common.c:239
 msgid "Freeciv is free software and you are welcome to distribute copies of it under certain conditions;"
 msgstr ""
-"Freeciv є вільною програмою, тож Ви можете вільно розповсюджувати її, алез урахуванням деяких застережень; А тепер задайте їм перцю!\n"
+"Freeciv є вільною програмою, тож Ви можете вільно розповсюджувати її, але з урахуванням деяких застережень; А тепер задайте їм перцю!\n"
 "Слава Україні! Героям слава!"
 
 #: client/chatline_common.c:242
@@ -8353,7 +8353,7 @@ msgstr "Ризик пошесті"
 
 #: client/cityrepdata.c:536
 msgid "?cma:Governor"
-msgstr "?cma:Губернатор"
+msgstr "Губернатор"
 
 #: client/cityrepdata.c:536
 #: client/gui-gtk-2.0/cityrep.c:1939
@@ -8367,7 +8367,7 @@ msgstr "?cma:Губернатор"
 #: data/Freeciv.in:1459
 #: data/helpdata.txt:1598
 msgid "Citizen Governor"
-msgstr "Громадьский Губернатор"
+msgstr "Громадський Губернатор"
 
 #: client/cityrepdata.c:539
 msgid "Turns/Buy"
@@ -11608,23 +11608,23 @@ msgstr ""
 
 #: client/agents/cma_fec.c:413
 msgid "?cma:Very happy"
-msgstr "?cma:Дуже щасливо"
+msgstr "Максимум щастя"
 
 #: client/agents/cma_fec.c:414
 msgid "?cma:Max food"
-msgstr "?cma:Макс. їжа"
+msgstr "Максимум їжі"
 
 #: client/agents/cma_fec.c:415
 msgid "?cma:Max production"
-msgstr "Максимальне виробництво"
+msgstr "Максимум виробництва"
 
 #: client/agents/cma_fec.c:416
 msgid "?cma:Max gold"
-msgstr "?cma:Макс. гроші"
+msgstr "Максимум грошей"
 
 #: client/agents/cma_fec.c:417
 msgid "?cma:Max science"
-msgstr "Максимальна наука"
+msgstr "Максимум науки"
 
 #: client/gui-gtk-2.0/diplomat_dialog.c:87
 #: client/gui-win32/dialogs.c:1374
@@ -12121,9 +12121,8 @@ msgid "Happ_iness"
 msgstr "Щастя (_i)"
 
 #: client/gui-gtk-2.0/citydlg.c:1071
-#, fuzzy
 msgid "_Governor"
-msgstr "Керівництво"
+msgstr "Губернатор (_G)"
 
 #: client/gui-gtk-2.0/citydlg.c:1094
 msgid "_Settings"
@@ -12163,9 +12162,8 @@ msgid "Happiness page"
 msgstr "Сторінка щастя"
 
 #: client/gui-gtk-2.0/citydlg.c:1108
-#, fuzzy
 msgid "Governor page"
-msgstr "Сторінка огляду міста"
+msgstr "Сторінка губернатора"
 
 #: client/gui-gtk-2.0/citydlg.c:1109
 msgid "This Settings page"
@@ -12240,7 +12238,7 @@ msgstr "Присутні підрозділи %d"
 #: client/gui-gtk-2.0/citydlg.c:2099
 #: client/gui-gtk-2.0/cityrep.c:1128
 msgid "Cen_ter"
-msgstr "Центр"
+msgstr "Центрувати (_t)"
 
 #: client/gui-gtk-2.0/citydlg.c:2105
 #: client/gui-gtk-2.0/citydlg.c:2159
@@ -12252,13 +12250,13 @@ msgstr "Активізувати"
 #: client/gui-gtk-2.0/citydlg.c:2165
 #: client/gui-win32/citydlg.c:1466
 msgid "Activate unit, _close dialog"
-msgstr "Активізувати, закрити вікно"
+msgstr "Активізувати, закрити вікно (_c)"
 
 #: client/gui-gtk-2.0/citydlg.c:2117
 #: client/gui-gtk-2.0/citydlg.c:2214
 #: client/gui-win32/citydlg.c:1468
 msgid "_Disband unit"
-msgstr "Розпустити"
+msgstr "Розпустити (_D)"
 
 #: client/gui-gtk-2.0/citydlg.c:2171
 msgid "_Load unit"
@@ -12266,26 +12264,26 @@ msgstr "Завантажити підрозділ (_L)"
 
 #: client/gui-gtk-2.0/citydlg.c:2181
 msgid "_Unload unit"
-msgstr "В_ивантажити підрозділ"
+msgstr "Вивантажити підрозділ (_U)"
 
 #: client/gui-gtk-2.0/citydlg.c:2192
 msgid "_Sentry unit"
-msgstr "Охороняти"
+msgstr "Охороняти (_S)"
 
 #: client/gui-gtk-2.0/citydlg.c:2203
 msgid "_Fortify unit"
-msgstr "Укріпити"
+msgstr "Укріпити (_F)"
 
 #: client/gui-gtk-2.0/citydlg.c:2220
 #: client/gui-gtk-2.0/menu.c:1491
 #: client/gui-win32/citydlg.c:1504
 #: client/gui-win32/menu.c:380
 msgid "Set _Home City"
-msgstr "Змінити домівку"
+msgstr "Змінити домівку (_H)"
 
 #: client/gui-gtk-2.0/citydlg.c:2227
 msgid "U_pgrade unit"
-msgstr "Модернізувати підрозділ"
+msgstr "Модернізувати підрозділ (_p)"
 
 #: client/gui-gtk-2.0/citydlg.c:2566
 #: client/gui-sdl/citydlg.c:1160
@@ -12391,9 +12389,8 @@ msgid "Clear _Worklist"
 msgstr "Очистити план будівництва (_W) "
 
 #: client/gui-gtk-2.0/cityrep.c:1011
-#, fuzzy
 msgid "Gover_nor"
-msgstr "Керівництво"
+msgstr "Губернатор (_n)"
 
 #: client/gui-gtk-2.0/cityrep.c:1016
 msgid "S_ell"
@@ -12591,9 +12588,8 @@ msgid "Celebrate"
 msgstr "Святкувати"
 
 #: client/gui-gtk-2.0/cma_fe.c:471
-#, fuzzy
 msgid "Governor Enabl_ed"
-msgstr "Непогана"
+msgstr "Губернатора увімкнено (_e)"
 
 #: client/gui-gtk-2.0/cma_fe.c:476
 msgid "Governor Disabl_ed"
@@ -15525,9 +15521,8 @@ msgid "City of %s (Population %s citizens)"
 msgstr "Місто %s (Населення %s городян)"
 
 #: client/gui-sdl/citydlg.c:3621
-#, fuzzy
 msgid " - under Citizen Governor control."
-msgstr "%s тепер контролюється комп'ютером."
+msgstr " - під контролем громадського губернатора."
 
 #: client/gui-sdl/citydlg.c:3700
 msgid "Present units"
@@ -15743,9 +15738,8 @@ msgid "Change Production"
 msgstr "Змінити будівництво"
 
 #: client/gui-sdl/dialogs.c:1544
-#, fuzzy
 msgid "Change City Governor settings"
-msgstr "Зберегти установки"
+msgstr "Змінити налаштування Губернатора міста"
 
 #: client/gui-sdl/dialogs.c:1565
 msgid "Goto here"
@@ -18483,9 +18477,8 @@ msgid "Help:"
 msgstr "Допомога:"
 
 #: data/Freeciv.in:1465
-#, fuzzy
 msgid "Citizen governor..."
-msgstr "Звіт по містам..."
+msgstr "Громадський губернатор..."
 
 #: data/Freeciv.in:1468
 msgid "Add Preset"
@@ -20466,7 +20459,7 @@ msgstr ""
 #: data/default/buildings.ruleset:527
 #: data/civ2/buildings.ruleset:495
 msgid "Offshore Platform"
-msgstr "Офшорна платформа"
+msgstr "Прибережна платформа"
 
 #: data/default/buildings.ruleset:542
 #: data/civ2/buildings.ruleset:510
@@ -20905,17 +20898,17 @@ msgstr "Маяк"
 
 #: data/default/buildings.ruleset:1332
 msgid "Gives all your sea units 1 additional movement point. Makes all your new sea units veterans (for all your cities)."
-msgstr "Надає усім морським підрозділам 1 додатковий рух. Робить усі нові морські підрозділи ветеранами (в усіх містах)."
+msgstr "Надає усім Вашим морським підрозділам 1 додатковий рух. Робить усі нові морські підрозділи ветеранами (в усіх Ваших містах)."
 
 #: data/default/buildings.ruleset:1338
 #: data/civ2/buildings.ruleset:1278
 #: data/civ1/buildings.ruleset:893
 msgid "Magellan's Expedition"
-msgstr "Екпедиція Магелана"
+msgstr "Експедиція Магелана"
 
 #: data/default/buildings.ruleset:1353
 msgid "Gives all your sea units 2 additional movement points."
-msgstr "Дає всім Вашим морським підрозділам 2 додаткові ходи."
+msgstr "Надає всім Вашим морським підрозділам 2 додаткові ходи."
 
 #: data/default/buildings.ruleset:1358
 #: data/civ2/buildings.ruleset:1297
@@ -25553,9 +25546,8 @@ msgstr "Принцеса"
 #: data/nation/lankese.ruleset:21
 #: data/nation/quebecois.ruleset:20
 #: data/nation/texan.ruleset:19
-#, fuzzy
 msgid "Governor"
-msgstr "Керівництво"
+msgstr "Правитель"
 
 #: data/nation/lankese.ruleset:21
 #: data/nation/quebecois.ruleset:20
