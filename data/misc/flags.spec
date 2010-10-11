@@ -142,6 +142,7 @@ artists = "
    Hacker		Daniel Markstedt and Eric S. Raymond
    Hainan		J.M. Maalderink
    Haiti		Lokal Profil (Wikimedia Commons)
+   Han			Caleb Moore
    Hanover		J.M. Maalderink
    Hansa		J.M. Maalderink
    Hawaii		Rob Adams
@@ -208,6 +209,7 @@ artists = "
    Mali (ancient)	Daniel Markstedt
    Malta		Yaddah and Zachary Harden (Wikimedia Commons)
    Man			Washiucho (Wikimedia Commons)
+   Manchuria		Zachary Harden
    Maori		Daniel Markstedt
    Mapuche		Guillermo Romero
    Mars			Vasco Alexandre Da Silva Costa
@@ -509,6 +511,7 @@ sprites =
 		"f.hacker", "flags/hacker"
 		"f.hainan", "flags/hainan"
 		"f.haiti", "flags/haiti"
+		"f.han", "flags/han"
 		"f.hanover", "flags/hanover"
 		"f.hansa", "flags/hansa"
 		"f.hawaii", "flags/hawaii"
@@ -575,6 +578,7 @@ sprites =
 		"f.mali_ancient", "flags/mali_ancient"
 		"f.malta", "flags/malta"
 		"f.man", "flags/man"
+		"f.manchuria", "flags/manchuria"
 		"f.maori", "flags/maori"
 		"f.mapuche", "flags/mapuche"
 		"f.mars", "flags/mars"
@@ -639,7 +643,7 @@ sprites =
 		"f.portugal", "flags/portugal"
 		"f.prussia", "flags/prussia"
 		"f.purhepecha", "flags/purhepecha"
-		"f.qing", "flags/qing"			; Manchu empire flag
+;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"
 		"f.raramuri", "flags/raramuri"
 		"f.rif", "flags/rif"

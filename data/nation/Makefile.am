@@ -136,6 +136,7 @@ pkgdata_DATA = \
 		hacker.ruleset \
 		haitian.ruleset \
 		hanoverian.ruleset \
+		han.ruleset \
 		hansa.ruleset \
 		hasinay.ruleset \
 		hawaiian.ruleset \

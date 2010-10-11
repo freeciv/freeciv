@@ -2,33 +2,29 @@
 
 name=_("Chinese")
 plural=_("?plural:Chinese")
-groups="Ancient", "Medieval", "Early Modern", "Modern", "Asian"
+groups="Modern", "Asian"
 legend=_("China is the oldest major civilization that is still in\
- existence today, with written records dating back over 3,500 years. \
+ existence today, with written records dating back over 3,500 years.\
  After first being unified by the Qin dynasty in 221 BC, China alternated\
- between periods of unity and disunity, and was often conquered by\
- external ethnicities.  Today, the People's Republic of China, established\
+ between periods of unity and disunity, and was occationally conquered by\
+ external ethnicities. Today, the People's Republic of China, established\
  by the Communists in 1949, occupies the mainland, while the former\
- Nationalist government of the Republic of China had fled to the island of\
- Taiwan after the civil war.")
+ Nationalist government of the Republic of China governs the island of\
+ Taiwan.")
 leader=
- "Qin Shihuang",
- "Liu Bang",
- "Liu Bei",
- "Li Shimin",
- "Wu Zetian", 
- "Qianlong",
- "Cixi",
- "Sun Yat-Sen",
+ "Deng Xiaoping",
+ "Hua Guofeng",
+ "Wang Guangmei",
+ "Zhou Enlai",
  "Mao Zedong",
- "Deng Xiaoping" 
-leader_sex="Male", "Male", "Male", "Male", "Female",
-           "Male", "Female", "Male", "Male", "Male"
+ "Chen Duxiu"
+leader_sex="Male", "Male", "Female", "Male", "Male", "Male"
 flag="china"
 flag_alt = "-"
 city_style = "Asian"
 ruler_titles = { "government",      "male_title",      "female_title"
-                 "Monarchy",        _("Emperor"),      _("Dowager")
+                 "Despotism",       _("Warlord"),      _("?female:Warlord")
+                 "Monarchy",        _("Emperor"),      _("Empress Dowager")
                  "Communism",       _("Chairman"),     _("Chairperson")
                }
 

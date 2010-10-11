@@ -1,0 +1,93 @@
+[nation_han]
+
+name=_("Han")
+plural=_("?plural:Han")
+groups="Ancient", "Medieval", "Early Modern", "Asian"
+legend=_("The Han people are the majority ethnic group in China, tracing\
+ their lineage back to \"Yandi\" (the Yan Emperor) and \"Huangdi\" (the\
+ Yellow Emperor), legendary god-kings of prehistory.")
+leader=
+ "Wu Zetian", 
+ "Li Shimin",
+ "Liu Bei",
+ "Liu Bang",
+ "Qin Shihuang",
+ "Shun",
+ "Yao",
+ "Da Yu",
+ "Huangdi", ; Yellow Emperor
+ "Yandi"    ; Yan Emperor
+leader_sex="Female", "Male", "Male", "Male", "Male", "Male", "Male", "Male",
+ "Male", "Male"
+
+flag="han"
+flag_alt="china"
+city_style="Asian"
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Despotism",       _("Warlord"),      _("?female:Warlord")
+                 "Monarchy",        _("Emperor"),      _("Empress Dowager")
+                 "Communism",       _("Chairman"),     _("Chairperson")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with="Chinese"
+civilwar_nations="Miao", "Korean", "Vietnamese"
+
+cities =
+; Xia dynasty
+ "Song",
+ "Yangcheng",
+ "Chu",
+ "Qiongshi",
+ "Zhen",
+ "Diqiu",
+ "Yuan",
+ "Laoqiu",
+ "Xihe",
+ "Zhen",
+ "Henan",
+; Shang dynasty
+ "Bo",
+ "Fan",
+ "Dishi",
+ "Shang",
+ "Shangqiu",
+ "Yin",
+ "Xiao",
+ "Xiang",
+ "Xing",
+ "Bi",
+ "Yan",
+; Zhou dynasty
+ "Zongzhou",
+ "Chengzhou",
+ "Henan",
+ "Gong",
+; Qin dynasty
+ "Xiquanqiu",
+ "Pingyang",
+ "Yong",
+ "Jingyang",
+ "Liyang",
+ "Xianyang",
+; Han dynasty
+ "Luoyang",
+ "Liyang",
+ "Chang'an",
+ "Xu",
+; Jin dynasty
+ "Jiankang",
+; Sui dynasty 
+ "Dongdu",
+; Song dynasty
+ "Dongjing",
+ "Lin'an",
+; Ming dynasty
+ "Nanjing",
+ "Beijing",
+ "Fuzhou",
+ "Zhaoqing"

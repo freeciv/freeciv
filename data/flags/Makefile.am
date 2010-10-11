@@ -134,6 +134,7 @@ flag_files =				\
 		hacker.png		\
 		hainan.png		\
 		haiti.png		\
+		han.png			\
 		hanover.png		\
 		hansa.png		\
 		hawaii.png		\
@@ -200,6 +201,7 @@ flag_files =				\
 		mali_ancient.png	\
 		malta.png		\
 		man.png			\
+		manchuria.png		\
 		maori.png		\
 		mapuche.png		\
 		mars.png		\
@@ -497,6 +499,7 @@ shield_files =					\
 		hacker-shield.png		\
 		hainan-shield.png		\
 		haiti-shield.png		\
+		han-shield.png			\
 		hanover-shield.png		\
 		hansa-shield.png		\
 		hawaii-shield.png		\
@@ -563,6 +566,7 @@ shield_files =					\
 		mali_ancient-shield.png		\
 		malta-shield.png		\
 		man-shield.png			\
+		manchuria-shield.png		\
 		maori-shield.png		\
 		mapuche-shield.png		\
 		mars-shield.png			\
@@ -860,6 +864,7 @@ svg_files = 				\
 		hacker.svg		\
 		hainan.svg		\
 		haiti.svg		\
+		han.svg			\
 		hanover.svg		\
 		hansa.svg		\
 		hawaii.svg		\
@@ -926,6 +931,7 @@ svg_files = 				\
 		mali_ancient.svg	\
 		malta.svg		\
 		man.svg			\
+		manchuria.svg		\
 		maori.svg		\
 		mapuche.svg		\
 		mars.svg		\
