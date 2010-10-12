@@ -347,11 +347,24 @@ static const char *cr_entry_pollution(const struct city *pcity,
   return buf;
 }
 
-static const char *cr_entry_num_trade(const struct city *pcity,
-				      const void *data)
+static const char *cr_entry_trade_routes(const struct city *pcity,
+                                         const void *data)
 {
-  static char buf[8];
-  fc_snprintf(buf, sizeof(buf), "%d", city_num_trade_routes(pcity));
+  static char buf[16];
+  int num = 0, value = 0, i;
+
+  for (i = 0; i < NUM_TRADE_ROUTES; i++) {
+    if (0 != pcity->trade[i]) {
+      num++;
+      value += pcity->trade_value[i];
+    }
+  }
+
+  if (0 == num) {
+    sz_strlcpy(buf, "0");
+  } else {
+    fc_snprintf(buf, sizeof(buf), "%d (+%d)", num, value);
+  }
   return buf;
 }
 
@@ -519,7 +532,7 @@ static const struct city_report_spec base_city_report_specs[] = {
     NULL, FUNC_TAG(science) },
   { FALSE,  1, 1, N_("?number_trade_routes:n"), N_("?number_trade_routes:R"),
                                          N_("Number of Trade Routes"),
-    NULL, FUNC_TAG(num_trade) },
+    NULL, FUNC_TAG(trade_routes) },
   { FALSE,  3, 1, NULL, N_("?pollution [short]:Pol"), N_("Pollution"),
     NULL, FUNC_TAG(pollution) },
   { FALSE,  4, 1, N_("?plague risk [short]:Pla"), N_("(%)"), N_("Plague risk"),
