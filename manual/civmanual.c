@@ -151,6 +151,8 @@ static bool manual_command(void)
     case MANUAL_SETTINGS:
       fprintf(doc, _("<h1>Freeciv %s server options</h1>\n\n"), VERSION_STRING);
       settings_iterate(pset) {
+        char buf[256];
+
         fprintf(doc, SEPARATOR);
         fprintf(doc, "%s%s - %s%s\n\n", SECTION_BEGIN, setting_name(pset),
                 _(setting_short_help(pset)), SECTION_END);
@@ -178,34 +180,13 @@ static bool manual_command(void)
         }
 
         fprintf(doc, "</p>\n\n");
+        setting_default_name(pset, TRUE, buf, sizeof(buf));
         switch (setting_type(pset)) {
-        case SSET_BOOL:
-          fprintf(doc, "<p class=\"bounds\">%s %s (%d)</p>\n\n",
-                  _("Default:"), _(setting_bool_def_str(pset)),
-                  setting_bool_def(pset) ? 1 : 0);
-          if (setting_bool_get(pset) != setting_bool_def(pset)) {
-            fprintf(doc,
-                    _("<p class=\"changed\">Value set to %s (%d)</p>\n\n"),
-                    _(setting_bool_get_str(pset)), setting_bool_get(pset));
-          }
-          break;
         case SSET_INT:
-          fprintf(doc, "<p class=\"bounds\">%s %d, %s %d, %s %d</p>\n\n",
+          fprintf(doc, "<p class=\"bounds\">%s %d, %s %s, %s %d</p>\n\n",
                   _("Minimum:"), setting_int_min(pset),
-                  _("Default:"), setting_int_def(pset),
+                  _("Default:"), buf,
                   _("Maximum:"), setting_int_max(pset));
-          if (setting_int_get(pset) != setting_int_def(pset)) {
-            fprintf(doc, _("<p class=\"changed\">Value set to %d</p>\n\n"),
-                    setting_int_get(pset));
-          }
-          break;
-        case SSET_STRING:
-          fprintf(doc, "<p class=\"bounds\">%s \"%s\"</p>\n\n",
-                  _("Default:"), setting_str_def(pset));
-          if (strcmp(setting_str_get(pset), setting_str_def(pset)) != 0) {
-            fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
-                    setting_str_get(pset));
-          }
           break;
         case SSET_ENUM:
           {
@@ -213,22 +194,35 @@ static bool manual_command(void)
 
             fprintf(doc, "<p class=\"bounds\">%s</p>\n",
                     _("Possible values:"));
-            for (i = 0; (value = setting_enum_int_to_str(pset, i, TRUE));
-                 i++) {
-              fprintf(doc, "<p class=\"bounds\"><li/> %d: \"%s\"</p>\n",
-                      i, _(value));
+            for (i = 0; (value = setting_enum_val(pset, i, FALSE)); i++) {
+              fprintf(doc, "<p class=\"bounds\"><li/> %s: \"%s\"</p>\n",
+                      value, setting_enum_val(pset, i, TRUE));
             }
-            fprintf(doc, "<p class=\"bounds\">%s \"%s\" (%d)</p>\n\n",
-                    _("Default:"), _(setting_enum_def_str(pset, TRUE)),
-                    setting_enum_def_int(pset));
-            if (setting_enum_get_int(pset) != setting_enum_def_int(pset)) {
-              fprintf(doc,
-                      _("<p class=\"changed\">Value set to %s (%d)</p>\n\n"),
-                      _(setting_enum_get_str(pset, TRUE)),
-                      setting_enum_get_int(pset));
+          }
+          /* Fall through. */
+        case SSET_BITWISE:
+          {
+            const char *value;
+
+            fprintf(doc, "<p class=\"bounds\">%s</p>\n",
+                    _("Possible values:"));
+            for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
+              fprintf(doc, "<p class=\"bounds\"><li/> %s: \"%s\"</p>\n",
+                      value, setting_bitwise_bit(pset, i, TRUE));
             }
           }
           break;
+        case SSET_BOOL:
+        case SSET_STRING:
+          break;
+        }
+        if (SSET_INT != setting_type(pset)) {
+          fprintf(doc, "<p class=\"bounds\">%s %s</p>\n\n",
+                  _("Default:"), buf);
+        }
+        if (setting_changed(pset)) {
+          fprintf(doc, _("<p class=\"changed\">Value set to %s</p>\n\n"),
+                  setting_value_name(pset, TRUE, buf, sizeof(buf)));
         }
       } settings_iterate_end;
       break;

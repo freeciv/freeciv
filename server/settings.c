@@ -68,10 +68,13 @@ typedef bool (*string_validate_func_t) (const char * value,
 typedef bool (*enum_validate_func_t) (int value, struct connection *pconn,
                                       char *reject_msg,
                                       size_t reject_msg_len);
+typedef bool (*bitwise_validate_func_t) (unsigned value,
+                                         struct connection *pconn,
+                                         char *reject_msg,
+                                         size_t reject_msg_len);
 
 typedef void (*action_callback_func_t) (const struct setting *pset);
-typedef const char * (*bool_name_func_t) (bool value);
-typedef const struct sset_val_name * (*enum_name_func_t) (int value);
+typedef const struct sset_val_name * (*val_name_func_t) (int value);
 
 struct setting {
   const char *name;
@@ -107,7 +110,7 @@ struct setting {
       bool *const pvalue;
       const bool default_value;
       const bool_validate_func_t validate;
-      const bool_name_func_t name;
+      const val_name_func_t name;
       bool game_value;
     } boolean;
     /*** int part ***/
@@ -132,9 +135,17 @@ struct setting {
       int *const pvalue;
       const int default_value;
       const enum_validate_func_t validate;
-      const enum_name_func_t name;
+      const val_name_func_t name;
       int game_value;
     } enumerator;
+    /*** bitwise part ***/
+    struct {
+      unsigned *const pvalue;
+      const unsigned default_value;
+      const bitwise_validate_func_t validate;
+      const val_name_func_t name;
+      unsigned game_value;
+    } bitwise;
   };
 
   /* action function */
@@ -318,16 +329,22 @@ static const struct sset_val_name *phasemode_name(int phasemode)
 }
 
 /****************************************************************************
-  Names accessor for all bool (disable/enable or [0/1]) settings.
+  Names accessor for boolean settings (disable/enable).
 ****************************************************************************/
-static const char *bool_name(bool enable)
+static const struct sset_val_name *bool_name(int enable)
 {
- static const char *names[2] = {
-    N_("Disabled"),
-    N_("Enabled"),
+  static const struct sset_val_name names[2] = {
+    { "FALSE",          N_("disabled") },
+    { "TRUE",           N_("enabled") }
   };
 
-  return (enable ? names[1] : names[0]);
+  if (FALSE == enable) {
+    return names;
+  } else if (TRUE == enable) {
+    return names + 1;
+  } else {
+    return NULL;
+  }
 }
 
 
@@ -760,12 +777,15 @@ static bool ysize_callback(int value, struct connection *caller,
   { name, sclass, to_client, short_help, extra_help, SSET_ENUM,             \
     scateg, slevel,                                                         \
      { .enumerator = { FC_ENUM_PTR(value), _default, func_validate,         \
-       (enum_name_func_t) func_name, 0 }}, func_action, FALSE},
+       (val_name_func_t) func_name, 0 }}, func_action, FALSE},
 
-#define GEN_END                                                             \
-  {NULL, -1, SSET_SERVER_ONLY, NULL, NULL, SSET_INT,                        \
-      SSET_NUM_CATEGORIES, SSET_NONE,                                       \
-      {.boolean = {FALSE, FALSE, NULL, FALSE}}, NULL, FALSE},
+#define GEN_BITWISE(name, value, sclass, scateg, slevel, to_client,         \
+                   short_help, extra_help, func_validate, func_action,      \
+                   func_name, _default)                                     \
+  { name, sclass, to_client, short_help, extra_help, SSET_BITWISE,          \
+    scateg, slevel,                                                         \
+     { .bitwise = { (unsigned *) (void *) &value, _default, func_validate,  \
+       func_name, 0 }}, func_action, FALSE},
 
 /* game settings */
 static struct setting settings[] = {
@@ -1854,26 +1874,23 @@ static struct setting settings[] = {
              "connections supported by the server."), NULL, NULL,
           GAME_MIN_MAXCONNECTIONSPERHOST, GAME_MAX_MAXCONNECTIONSPERHOST,
           GAME_DEFAULT_MAXCONNECTIONSPERHOST)
-
-  GEN_END
 };
 
 #undef GEN_BOOL
 #undef GEN_INT
 #undef GEN_STRING
 #undef GEN_ENUM
-#undef GEN_END
+#undef GEN_BITWISE
 
 /* The number of settings, not including the END. */
-const int SETTINGS_NUM = ARRAY_SIZE(settings) - 1;
+static const int SETTINGS_NUM = ARRAY_SIZE(settings);
 
 /****************************************************************************
   Returns the setting to the given id.
 ****************************************************************************/
 struct setting *setting_by_number(int id)
 {
-  fc_assert_ret_val(0 <= id && id < SETTINGS_NUM, NULL);
-  return settings + id;
+  return (0 <= id && id < SETTINGS_NUM ? settings + id : NULL);
 }
 
 /****************************************************************************
@@ -2008,164 +2025,194 @@ bool setting_is_visible(const struct setting *pset,
 }
 
 /****************************************************************************
-  Convert a boolean string value to a bool. Returns TRUE if successful.
+  Convert the string prefix to an integer representation.
+  NB: This function is used for SSET_ENUM *and* SSET_BITWISE.
+
+  FIXME: this mostly duplicate match_prefix_full().
 ****************************************************************************/
-bool setting_bool_str_to_bool(const struct setting *pset, const char *val,
-                              bool *bval)
+static enum m_pre_result
+setting_match_prefix_base(const val_name_func_t name_fn,
+                          const char *prefix, int *ind_result,
+                          const char **matches, size_t max_matches,
+                          size_t *pnum_matches)
 {
-  if (0 == fc_strcasecmp(val, pset->boolean.name(FALSE))) {
-    *bval = FALSE;
-    return TRUE;
-  } else if (0 == fc_strcasecmp(val, pset->boolean.name(TRUE))) {
-    *bval = TRUE;
-    return TRUE;
+  const struct sset_val_name *name;
+  size_t len = strlen(prefix);
+  size_t num_matches;
+  int i;
+
+  *pnum_matches = 0;
+
+  if (0 == len) {
+    return M_PRE_EMPTY;
   }
 
+  for (i = 0, num_matches = 0; (name = name_fn(i)); i++) {
+    if (0 == fc_strncasecmp(name->support, prefix, len)) {
+      if (strlen(name->support) == len) {
+        *ind_result = i;
+        return M_PRE_EXACT;
+      }
+      if (num_matches < max_matches) {
+        matches[num_matches] = name->support;
+        (*pnum_matches)++;
+      }
+      if (0 == num_matches++) {
+        *ind_result = i;
+      }
+    }
+  }
+
+  if (1 == num_matches) {
+    return M_PRE_ONLY;
+  } else if (1 < num_matches) {
+    return M_PRE_AMBIGUOUS;
+  } else {
+    return M_PRE_FAIL;
+  }
+}
+
+/****************************************************************************
+  Convert the string prefix to an integer representation.
+  NB: This function is used for SSET_ENUM *and* SSET_BITWISE.
+****************************************************************************/
+static bool setting_match_prefix(const val_name_func_t name_fn,
+                                 const char *prefix, int *pvalue,
+                                 char *reject_msg,
+                                 size_t reject_msg_len)
+{
+  const char *matches[16];
+  size_t num_matches;
+
+  switch (setting_match_prefix_base(name_fn, prefix, pvalue, matches,
+                                    ARRAY_SIZE(matches), &num_matches)) {
+  case M_PRE_EXACT:
+  case M_PRE_ONLY:
+    return TRUE;        /* Ok. */
+  case M_PRE_AMBIGUOUS:
+    {
+      char buf[num_matches * 64];
+      int i;
+
+      fc_assert(2 <= num_matches);
+      sz_strlcpy(buf, matches[0]);
+      for (i = 1; i < num_matches - 1; i++) {
+        cat_snprintf(buf, sizeof(buf), Q_("?clistmore:, %s"), matches[i]);
+      }
+      cat_snprintf(buf, sizeof(buf), Q_("?clistlast:, and %s"), matches[i]);
+
+      settings_snprintf(reject_msg, reject_msg_len,
+                        _("\"%s\" prefix is ambiguous. "
+                          "Candidates are: %s."), prefix, buf);
+    }
+    return FALSE;
+  case M_PRE_EMPTY:
+    settings_snprintf(reject_msg, reject_msg_len, _("Missing value."));
+    return FALSE;
+  case M_PRE_LONG:
+  case M_PRE_FAIL:
+  case M_PRE_LAST:
+    break;
+  }
+
+  settings_snprintf(reject_msg, reject_msg_len,
+                    _("No match for \"%s\"."), prefix);
   return FALSE;
 }
 
 /****************************************************************************
-  Returns the current boolean value.
+  Compute the string representation of the value for this boolean setting.
 ****************************************************************************/
-bool setting_bool_get(const struct setting *pset)
+static const char *setting_bool_to_str(const struct setting *pset,
+                                       bool value, bool pretty,
+                                       char *buf, size_t buf_len)
 {
-  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
-  return *pset->boolean.pvalue;
+  const struct sset_val_name *name = pset->boolean.name(value);
+
+  if (pretty) {
+    fc_snprintf(buf, buf_len, "%s (%s)", Q_(name->pretty), name->support);
+  } else {
+    fc_strlcpy(buf, name->support, buf_len);
+  }
+  return buf;
 }
 
 /****************************************************************************
-  Returns the current boolean value as string.
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+
+  FIXME: also check the access level of pconn.
 ****************************************************************************/
-const char *setting_bool_get_str(const struct setting *pset)
+static bool setting_bool_validate_base(const struct setting *pset,
+                                       const char *val, int *pint_val,
+                                       struct connection *caller,
+                                       char *reject_msg,
+                                       size_t reject_msg_len)
 {
-  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
-  return bool_name(*pset->boolean.pvalue);
+  char buf[256];
+
+  if (SSET_BOOL != pset->stype) {
+    settings_snprintf(reject_msg, reject_msg_len,
+                      _("This setting is not a boolean."));
+    return FALSE;
+  }
+
+  sz_strlcpy(buf, val);
+  remove_leading_trailing_spaces(buf);
+
+  return (setting_match_prefix(pset->boolean.name, buf, pint_val,
+                               reject_msg, reject_msg_len)
+          && (NULL == pset->boolean.validate
+              || pset->boolean.validate(0 != *pint_val, caller, reject_msg,
+                                        reject_msg_len)));
 }
 
 /****************************************************************************
-  Returns the default boolean value for this setting.
+  Set the setting to 'val'. Returns TRUE on success. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
 ****************************************************************************/
-bool setting_bool_def(const struct setting *pset)
-{
-  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
-  return pset->boolean.default_value;
-}
-
-/****************************************************************************
-  Returns the default boolean value for this setting as string.
-****************************************************************************/
-const char *setting_bool_def_str(const struct setting *pset)
-{
-  fc_assert_ret_val(pset->stype == SSET_BOOL, FALSE);
-  return bool_name(pset->boolean.default_value);
-}
-
-/****************************************************************************
-  Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available by the function setting_error().
-****************************************************************************/
-bool setting_bool_set(struct setting *pset, bool val,
+bool setting_bool_set(struct setting *pset, const char *val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len)
 {
+  int int_val;
+
   if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-      || !setting_bool_validate(pset, val, caller, reject_msg,
-                                reject_msg_len)) {
+      || !setting_bool_validate_base(pset, val, &int_val, caller,
+                                     reject_msg, reject_msg_len)) {
     return FALSE;
   }
 
-  *pset->boolean.pvalue = val;
-  return TRUE;
-}
-
-/****************************************************************************
-  Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available by the function setting_error().
-****************************************************************************/
-bool setting_bool_set_str(struct setting *pset, const char *val,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len)
-{
-  bool bval;
-
-  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-      || !setting_bool_validate_str(pset, val, caller, reject_msg,
-                                    reject_msg_len)) {
-    return FALSE;
-  }
-
-  setting_bool_str_to_bool(pset, val, &bval);
-  *pset->boolean.pvalue = bval;
+  *pset->boolean.pvalue = (0 != int_val);
   return TRUE;
 }
 
 /****************************************************************************
   Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available by the function setting_error().
-
-  FIXME: also check the access level of pconn.
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
 ****************************************************************************/
-bool setting_bool_validate(const struct setting *pset, bool val,
+bool setting_bool_validate(const struct setting *pset, const char *val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len)
 {
-  if (SSET_BOOL != pset->stype) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting is not a boolean."));
-    return FALSE;
-  }
+  int int_val;
 
-  return (!pset->boolean.validate
-          || pset->boolean.validate(val, caller, reject_msg,
-                                    reject_msg_len));
+  return setting_bool_validate_base(pset, val, &int_val, caller,
+                                    reject_msg, reject_msg_len);
 }
 
 /****************************************************************************
-  Returns TRUE if 'val' is a valid value for this setting. If it's not,
-  the reason of the failure is available by the function setting_error().
-
-  FIXME: also check the access level of pconn.
+  Compute the string representation of the value for this integer setting.
 ****************************************************************************/
-bool setting_bool_validate_str(const struct setting *pset, const char *val,
-                               struct connection *caller, char *reject_msg,
-                               size_t reject_msg_len)
+static const char *setting_int_to_str(const struct setting *pset,
+                                      int value, bool pretty,
+                                      char *buf, size_t buf_len)
 {
-  bool bval;
-
-  if (SSET_BOOL != pset->stype) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting is not a boolean."));
-    return FALSE;
-  }
-
-  if (!setting_bool_str_to_bool(pset, val, &bval)) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("\"%s\" is not an allowed value for this setting."),
-                      val);
-    return FALSE;
-  }
-
-  return (!pset->boolean.validate
-          || pset->boolean.validate(bval, caller, reject_msg,
-                                    reject_msg_len));
-}
-
-/****************************************************************************
-  Returns the current integer value.
-****************************************************************************/
-int setting_int_get(const struct setting *pset)
-{
-  fc_assert_ret_val(pset->stype == SSET_INT, 0);
-  return *pset->integer.pvalue;
-}
-
-/****************************************************************************
-  Returns the default integer value for this setting.
-****************************************************************************/
-int setting_int_def(const struct setting *pset)
-{
-  fc_assert_ret_val(pset->stype == SSET_INT, 0);
-  return pset->integer.default_value;
+  fc_snprintf(buf, buf_len, "%d", value);
+  return buf;
 }
 
 /****************************************************************************
@@ -2233,21 +2280,18 @@ bool setting_int_validate(const struct setting *pset, int val,
 }
 
 /****************************************************************************
-  Returns the current string.
+  Compute the string representation of the value for this string setting.
 ****************************************************************************/
-const char *setting_str_get(const struct setting *pset)
+static const char *setting_str_to_str(const struct setting *pset,
+                                      const char *value, bool pretty,
+                                      char *buf, size_t buf_len)
 {
-  fc_assert_ret_val(pset->stype == SSET_STRING, NULL);
-  return pset->string.value;
-}
-
-/****************************************************************************
-  Returns the default string for this setting.
-****************************************************************************/
-const char *setting_str_def(const struct setting *pset)
-{
-  fc_assert_ret_val(pset->stype == SSET_STRING, NULL);
-  return pset->string.default_value;
+  if (pretty) {
+    fc_snprintf(buf, buf_len, "\"%s\"", value);
+  } else {
+    fc_strlcpy(buf, value, buf_len);
+  }
+  return buf;
 }
 
 /****************************************************************************
@@ -2287,7 +2331,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
   if (strlen(val) >= pset->string.value_size) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("String value too long (max length: %lu)."),
-                      (unsigned long)pset->string.value_size);
+                      (unsigned long) pset->string.value_size);
     return FALSE;
   }
 
@@ -2300,7 +2344,7 @@ bool setting_str_validate(const struct setting *pset, const char *val,
   Convert the integer to the long support string representation of an
   enumerator. This function must match the secfile_enum_name_data_fn_t type.
 ****************************************************************************/
-static const char *setting_enum_support_str(secfile_data_t data, int val)
+static const char *setting_enum_secfile_str(secfile_data_t data, int val)
 {
   const struct sset_val_name *name =
       ((const struct setting *) data)->enumerator.name(val);
@@ -2309,31 +2353,11 @@ static const char *setting_enum_support_str(secfile_data_t data, int val)
 }
 
 /****************************************************************************
-  Convert the string to the integer representation of an enumerator.
-  Return -1 if 'str' doesn't match any enumerator name.
-****************************************************************************/
-static int setting_enum_str_to_int(const struct setting *pset,
-                                   const char *str, bool pretty)
-{
-  const struct sset_val_name *name;
-  int val;
-
-  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
-
-  for (val = 0; (name = pset->enumerator.name(val)); val++) {
-    if (0 == fc_strcasecmp(str, pretty ? name->pretty : name->support)) {
-      return val;
-    }
-  }
-  return -1;
-}
-
-/****************************************************************************
   Convert the integer to the string representation of an enumerator.
   Return NULL if 'val' is not a valid enumerator.
 ****************************************************************************/
-const char *setting_enum_int_to_str(const struct setting *pset, int val,
-                                    bool pretty)
+const char *setting_enum_val(const struct setting *pset, int val,
+                             bool pretty)
 {
   const struct sset_val_name *name;
 
@@ -2342,85 +2366,29 @@ const char *setting_enum_int_to_str(const struct setting *pset, int val,
   if (NULL == name) {
     return NULL;
   } else if (pretty) {
-    return name->pretty;
+    return _(name->pretty);
   } else {
     return name->support;
   }
 }
 
 /****************************************************************************
-  Returns the current enumerator value (as an integer).
+  Compute the string representation of the value for this enumerator
+  setting.
 ****************************************************************************/
-int setting_enum_get_int(const struct setting *pset)
+static const char *setting_enum_to_str(const struct setting *pset,
+                                       int value, bool pretty,
+                                       char *buf, size_t buf_len)
 {
-  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
-  return *pset->enumerator.pvalue;
-}
+  const struct sset_val_name *name = pset->enumerator.name(value);
 
-/****************************************************************************
-  Returns the current enumerator value (as a string).
-****************************************************************************/
-const char *setting_enum_get_str(const struct setting *pset, bool pretty)
-{
-  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
-  return setting_enum_int_to_str(pset, *pset->enumerator.pvalue, pretty);
-}
-
-/****************************************************************************
-  Returns the default enumerator value (as an integer).
-****************************************************************************/
-int setting_enum_def_int(const struct setting *pset)
-{
-  fc_assert_ret_val(SSET_ENUM == pset->stype, -1);
-  return pset->enumerator.default_value;
-}
-
-/****************************************************************************
-  Returns the default enumerator value (as a string).
-****************************************************************************/
-const char *setting_enum_def_str(const struct setting *pset, bool pretty)
-{
-  fc_assert_ret_val(SSET_ENUM == pset->stype, NULL);
-  return setting_enum_int_to_str(pset, pset->enumerator.default_value,
-                                 pretty);
-}
-
-/****************************************************************************
-  Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available in the optionnal parameter
-  'reject_msg'.
-****************************************************************************/
-bool setting_enum_set_int(struct setting *pset, int val,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len)
-{
-  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-      || !setting_enum_validate_int(pset, val, caller, reject_msg,
-                                    reject_msg_len)) {
-    return FALSE;
+  if (pretty) {
+    fc_snprintf(buf, buf_len, "\"%s\" (%s)",
+                Q_(name->pretty), name->support);
+  } else {
+    fc_strlcpy(buf, name->support, buf_len);
   }
-
-  *pset->enumerator.pvalue = val;
-  return TRUE;
-}
-
-/****************************************************************************
-  Set the setting to 'val'. Returns TRUE on success. If it fails, the
-  reason of the failure is available in the optionnal parameter
-  'reject_msg'.
-****************************************************************************/
-bool setting_enum_set_str(struct setting *pset, const char *val, bool pretty,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len)
-{
-  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
-      || !setting_enum_validate_str(pset, val, pretty, caller, reject_msg,
-                                    reject_msg_len)) {
-    return FALSE;
-  }
-
-  *pset->enumerator.pvalue = setting_enum_str_to_int(pset, val, pretty);
-  return TRUE;
+  return buf;
 }
 
 /****************************************************************************
@@ -2430,25 +2398,160 @@ bool setting_enum_set_str(struct setting *pset, const char *val, bool pretty,
 
   FIXME: also check the access level of pconn.
 ****************************************************************************/
-bool setting_enum_validate_int(const struct setting *pset, int val,
-                               struct connection *caller, char *reject_msg,
-                               size_t reject_msg_len)
+static bool setting_enum_validate_base(const struct setting *pset,
+                                       const char *val, int *pint_val,
+                                       struct connection *caller,
+                                       char *reject_msg,
+                                       size_t reject_msg_len)
 {
+  char buf[256];
+
   if (SSET_ENUM != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
                       _("This setting is not a enumerator."));
     return FALSE;
   }
 
-  if (NULL == setting_enum_int_to_str(pset, val, FALSE)) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("%d is not a right value for this setting."), val);
+  sz_strlcpy(buf, val);
+  remove_leading_trailing_spaces(buf);
+
+  return (setting_match_prefix(pset->enumerator.name, buf, pint_val,
+                               reject_msg, reject_msg_len)
+          && (NULL == pset->enumerator.validate
+              || pset->enumerator.validate(*pint_val, caller, reject_msg,
+                                           reject_msg_len)));
+}
+
+/****************************************************************************
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_enum_set(struct setting *pset, const char *val,
+                      struct connection *caller, char *reject_msg,
+                      size_t reject_msg_len)
+{
+  int int_val;
+
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_enum_validate_base(pset, val, &int_val, caller,
+                                     reject_msg, reject_msg_len)) {
     return FALSE;
   }
 
-  return (NULL == pset->enumerator.validate
-          || pset->enumerator.validate(val, caller, reject_msg,
-                                       reject_msg_len));
+  *pset->enumerator.pvalue = int_val;
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_enum_validate(const struct setting *pset, const char *val,
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len)
+{
+  int int_val;
+
+  return setting_enum_validate_base(pset, val, &int_val, caller,
+                                    reject_msg, reject_msg_len);
+}
+
+/****************************************************************************
+  Convert the integer to the long support string representation of an
+  enumerator. This function must match the secfile_enum_name_data_fn_t type.
+****************************************************************************/
+static const char *setting_bitwise_secfile_str(secfile_data_t data, int bit)
+{
+  const struct sset_val_name *name =
+      ((const struct setting *) data)->bitwise.name(bit);
+
+  return (NULL != name ? name->support : NULL);
+}
+
+/****************************************************************************
+  Convert the bit number to its string representation.
+  Return NULL if 'bit' is not a valid bit.
+****************************************************************************/
+const char *setting_bitwise_bit(const struct setting *pset,
+                                int bit, bool pretty)
+{
+  const struct sset_val_name *name;
+
+  fc_assert_ret_val(SSET_BITWISE == pset->stype, NULL);
+  name = pset->bitwise.name(bit);
+  if (NULL == name) {
+    return NULL;
+  } else if (pretty) {
+    return _(name->pretty);
+  } else {
+    return name->support;
+  }
+}
+
+/****************************************************************************
+  Compute the string representation of the value for this bitwise setting.
+****************************************************************************/
+static const char *setting_bitwise_to_str(const struct setting *pset,
+                                          unsigned value, bool pretty,
+                                          char *buf, size_t buf_len)
+{
+  const struct sset_val_name *name;
+  char *old_buf = buf;
+  int bit;
+
+  if (pretty) {
+    const char *prev = NULL;
+    size_t len;
+
+    buf[0] = '\0';
+    for (bit = 0; (name = pset->bitwise.name(bit)); bit++) {
+      if ((1 << bit) & value) {
+        if (NULL != prev) {
+          if ('\0' == buf[0]) {
+            fc_snprintf(buf, buf_len, Q_("?clistbegin:\"%s\""), prev);
+          } else {
+            cat_snprintf(buf, buf_len, Q_("?clistmore:, \"%s\""), prev);
+          }
+        }
+        prev = Q_(name->pretty);
+      }
+    }
+    if (NULL != prev) {
+      if ('\0' == buf[0]) {
+        fc_snprintf(buf, buf_len, Q_("?clistbegin:\"%s\""), prev);
+      } else {
+        cat_snprintf(buf, buf_len, Q_("?clistlast:, and \"%s\""), prev);
+      }
+    } else {
+      /* No value. */
+      fc_assert(0 == value);
+      fc_assert('\0' == buf[0]);
+      fc_strlcpy(buf, Q_("?clistnone:none"), buf_len);
+      return old_buf;
+    }
+    fc_strlcat(buf, " (", buf_len);
+    len = strlen(buf);
+    buf += len;
+    buf_len -= len;
+  }
+
+  /* Long support part. */
+  buf[0] = '\0';
+  for (bit = 0; (name = pset->bitwise.name(bit)); bit++) {
+    if ((1 << bit) & value) {
+      if ('\0' != buf[0]) {
+        fc_strlcat(buf, "|", buf_len);
+      }
+      fc_strlcat(buf, name->support, buf_len);
+    }
+  }
+
+  if (pretty) {
+    fc_strlcat(buf, ")", buf_len);
+  }
+  return old_buf;
 }
 
 /****************************************************************************
@@ -2458,29 +2561,152 @@ bool setting_enum_validate_int(const struct setting *pset, int val,
 
   FIXME: also check the access level of pconn.
 ****************************************************************************/
-bool setting_enum_validate_str(const struct setting *pset, const char *val,
-                               bool pretty, struct connection *caller,
-                               char *reject_msg, size_t reject_msg_len)
+static bool setting_bitwise_validate_base(const struct setting *pset,
+                                          const char *val,
+                                          unsigned *pint_val,
+                                          struct connection *caller,
+                                          char *reject_msg,
+                                          size_t reject_msg_len)
 {
-  int int_value;
+  char buf[256];
+  const char *p;
+  int bit;
 
-  if (SSET_ENUM != pset->stype) {
+  if (SSET_BITWISE != pset->stype) {
     settings_snprintf(reject_msg, reject_msg_len,
-                      _("This setting is not a enumerator."));
+                      _("This setting is not a bitwise."));
     return FALSE;
   }
 
-  int_value = setting_enum_str_to_int(pset, val, pretty);
-  if (-1 == int_value) {
-    settings_snprintf(reject_msg, reject_msg_len,
-                      _("\"%s\" is not an allowed value for this setting."),
-                      val);
+  *pint_val = 0;
+
+  /* Value names are separated by '|'. */
+  do {
+    p = strchr(val, '|');
+    if (NULL != p) {
+      p++;
+      fc_strlcpy(buf, val, MIN(p - val, sizeof(buf)));
+    } else {
+      /* Last segment, full copy. */
+      sz_strlcpy(buf, val);
+    }
+    remove_leading_trailing_spaces(buf);
+    if (NULL == p && '\0' == buf[0] && 0 == *pint_val) {
+      /* Empty string = value 0. */
+      break;
+    } else if (!setting_match_prefix(pset->bitwise.name, buf, &bit,
+                                     reject_msg, reject_msg_len)) {
+      return FALSE;
+    }
+    *pint_val |= 1 << bit;
+    val = p;
+  } while (NULL != p);
+
+  return (NULL == pset->bitwise.validate
+          || pset->bitwise.validate(*pint_val, caller,
+                                    reject_msg, reject_msg_len));
+}
+
+/****************************************************************************
+  Set the setting to 'val'. Returns TRUE on success. If it fails, the
+  reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_bitwise_set(struct setting *pset, const char *val,
+                         struct connection *caller, char *reject_msg,
+                         size_t reject_msg_len)
+{
+  unsigned int_val;
+
+  if (!setting_is_changeable(pset, caller, reject_msg, reject_msg_len)
+      || !setting_bitwise_validate_base(pset, val, &int_val, caller,
+                                        reject_msg, reject_msg_len)) {
     return FALSE;
   }
 
-  return (NULL == pset->enumerator.validate
-          || pset->enumerator.validate(int_value, caller, reject_msg,
-                                       reject_msg_len));
+  *pset->bitwise.pvalue = int_val;
+  return TRUE;
+}
+
+/****************************************************************************
+  Returns TRUE if 'val' is a valid value for this setting. If it's not,
+  the reason of the failure is available in the optionnal parameter
+  'reject_msg'.
+****************************************************************************/
+bool setting_bitwise_validate(const struct setting *pset, const char *val,
+                              struct connection *caller, char *reject_msg,
+                              size_t reject_msg_len)
+{
+  unsigned int_val;
+
+  return setting_bitwise_validate_base(pset, val, &int_val, caller,
+                                       reject_msg, reject_msg_len);
+}
+
+/****************************************************************************
+  Compute the name of the current value of the setting.
+****************************************************************************/
+const char *setting_value_name(const struct setting *pset, bool pretty,
+                               char *buf, size_t buf_len)
+{
+  fc_assert_ret_val(NULL != pset, NULL);
+  fc_assert_ret_val(NULL != buf, NULL);
+  fc_assert_ret_val(0 < buf_len, NULL);
+
+  switch (pset->stype) {
+  case SSET_BOOL:
+    return setting_bool_to_str(pset, *pset->boolean.pvalue,
+                               pretty, buf, buf_len);
+  case SSET_INT:
+    return setting_int_to_str(pset, *pset->integer.pvalue,
+                              pretty, buf, buf_len);
+  case SSET_STRING:
+    return setting_str_to_str(pset, pset->string.value,
+                              pretty, buf, buf_len);
+  case SSET_ENUM:
+    return setting_enum_to_str(pset, *pset->enumerator.pvalue,
+                               pretty, buf, buf_len);
+  case SSET_BITWISE:
+    return setting_bitwise_to_str(pset, *pset->bitwise.pvalue,
+                                  pretty, buf, buf_len);
+  }
+
+  log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
+            __FUNCTION__, setting_name(pset), setting_number(pset));
+  return NULL;
+}
+
+/****************************************************************************
+  Compute the name of the default value of the setting.
+****************************************************************************/
+const char *setting_default_name(const struct setting *pset, bool pretty,
+                                 char *buf, size_t buf_len)
+{
+  fc_assert_ret_val(NULL != pset, NULL);
+  fc_assert_ret_val(NULL != buf, NULL);
+  fc_assert_ret_val(0 < buf_len, NULL);
+
+  switch (pset->stype) {
+  case SSET_BOOL:
+    return setting_bool_to_str(pset, pset->boolean.default_value,
+                               pretty, buf, buf_len);
+  case SSET_INT:
+    return setting_int_to_str(pset, pset->integer.default_value,
+                              pretty, buf, buf_len);
+  case SSET_STRING:
+    return setting_str_to_str(pset, pset->string.default_value,
+                              pretty, buf, buf_len);
+  case SSET_ENUM:
+    return setting_enum_to_str(pset, pset->enumerator.default_value,
+                               pretty, buf, buf_len);
+  case SSET_BITWISE:
+    return setting_bitwise_to_str(pset, pset->bitwise.default_value,
+                                  pretty, buf, buf_len);
+  }
+
+  log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
+            __FUNCTION__, setting_name(pset), setting_number(pset));
+  return NULL;
 }
 
 /****************************************************************************
@@ -2501,6 +2727,9 @@ static void setting_set_to_default(struct setting *pset)
     break;
   case SSET_ENUM:
     (*pset->enumerator.pvalue) = pset->enumerator.default_value;
+    break;
+  case SSET_BITWISE:
+    (*pset->bitwise.pvalue) = pset->bitwise.default_value;
     break;
   }
 }
@@ -2565,11 +2794,9 @@ bool settings_ruleset(struct section_file *file, const char *section)
 static bool setting_ruleset_one(struct section_file *file,
                                 const char *name, const char *path)
 {
-  bool bval, lock;
-  int ival;
-  const char *sval = NULL;
-  char reject_msg[258] = "";
   struct setting *pset = NULL;
+  char reject_msg[256], buf[256];
+  bool lock;
 
   settings_iterate(pset_check) {
     if (0 == strcmp(setting_name(pset_check), name)) {
@@ -2583,67 +2810,113 @@ static bool setting_ruleset_one(struct section_file *file,
     return FALSE;
   }
 
-  /* FIXME: mostly a duplicate of parts of stdinhand:set_command() */
   switch (pset->stype) {
   case SSET_BOOL:
-    if (!secfile_lookup_bool(file, &bval, "%s.value", path)) {
-        log_error("Can't read value for setting '%s': %s", name,
-                  secfile_error());
-    } else if (bval != setting_bool_get(pset)) {
-      if (setting_bool_set(pset, bval, NULL, reject_msg,
-                           sizeof(reject_msg))) {
-        log_normal(_("Option: %s has been set to %d."),
-                   setting_name(pset), setting_bool_get(pset) ? 1 : 0);
-      } else {
-        log_error("%s", reject_msg);
+    {
+      bool val;
+
+      if (!secfile_lookup_bool(file, &val, "%s.value", path)) {
+          log_error("Can't read value for setting '%s': %s", name,
+                    secfile_error());
+      } else if (val != *pset->boolean.pvalue) {
+        if (NULL == pset->boolean.validate
+            || pset->boolean.validate(val, NULL, reject_msg,
+                                      sizeof(reject_msg))) {
+          *pset->boolean.pvalue = val;
+          log_normal(_("Option: %s has been set to %s."),
+                     setting_name(pset),
+                     setting_value_name(pset, TRUE, buf, sizeof(buf)));
+        } else {
+          log_error("%s", reject_msg);
+        }
       }
     }
     break;
 
   case SSET_INT:
-    if (!secfile_lookup_int(file, &ival, "%s.value", path)) {
-        log_error("Can't read value for setting '%s': %s", name,
-                  secfile_error());
-    } else if (ival != setting_int_get(pset)) {
-      if (setting_int_set(pset, ival, NULL, reject_msg,
-                          sizeof(reject_msg))) {
-        log_normal(_("Option: %s has been set to %d."),
-                   setting_name(pset), setting_int_get(pset));
-      } else {
-        log_error("%s", reject_msg);
+    {
+      int val;
+
+      if (!secfile_lookup_int(file, &val, "%s.value", path)) {
+          log_error("Can't read value for setting '%s': %s", name,
+                    secfile_error());
+      } else if (val != *pset->integer.pvalue) {
+        if (setting_int_set(pset, val, NULL, reject_msg,
+                            sizeof(reject_msg))) {
+          log_normal(_("Option: %s has been set to %s."),
+                     setting_name(pset),
+                     setting_value_name(pset, TRUE, buf, sizeof(buf)));
+        } else {
+          log_error("%s", reject_msg);
+        }
       }
     }
     break;
 
   case SSET_STRING:
-    if (!(sval = secfile_lookup_str(file, "%s.value", path))) {
+    {
+      const char *val = secfile_lookup_str(file, "%s.value", path);
+
+      if (NULL == val) {
         log_error("Can't read value for setting '%s': %s", name,
                   secfile_error());
-    } else if (strcmp(sval, setting_str_get(pset)) != 0) {
-      if (setting_str_set(pset, sval, NULL, reject_msg,
-                          sizeof(reject_msg))) {
-        log_normal(_("Option: %s has been set to \"%s\"."),
-                   setting_name(pset), setting_str_get(pset));
-      } else {
-        log_error("%s", reject_msg);
+      } else if (0 != strcmp(val, pset->string.value)) {
+        if (setting_str_set(pset, val, NULL, reject_msg,
+                            sizeof(reject_msg))) {
+          log_normal(_("Option: %s has been set to %s."),
+                     setting_name(pset),
+                     setting_value_name(pset, TRUE, buf, sizeof(buf)));
+        } else {
+          log_error("%s", reject_msg);
+        }
       }
     }
     break;
 
   case SSET_ENUM:
-    if (!secfile_lookup_enum_data(file, &ival, FALSE,
-                                  setting_enum_support_str, pset,
-                                  "%s.value", path)) {
-      log_error("Can't read value for setting '%s': %s",
-                name, secfile_error());
-    } else if (ival != setting_enum_get_int(pset)) {
-      if (setting_enum_set_int(pset, ival, NULL, reject_msg,
-                               sizeof(reject_msg))) {
-        log_normal(_("Option: %s has been set to \"%s\" (%d)."),
-                   setting_name(pset), _(setting_enum_get_str(pset, TRUE)),
-                   setting_enum_get_int(pset));
-      } else {
-        log_error("%s", reject_msg);
+    {
+      int val;
+
+      if (!secfile_lookup_enum_data(file, &val, FALSE,
+                                    setting_enum_secfile_str, pset,
+                                    "%s.value", path)) {
+        log_error("Can't read value for setting '%s': %s",
+                  name, secfile_error());
+      } else if (val != *pset->enumerator.pvalue) {
+        if (NULL == pset->enumerator.validate
+            || pset->enumerator.validate(val, NULL, reject_msg,
+                                         sizeof(reject_msg))) {
+          *pset->enumerator.pvalue = val;
+          log_normal(_("Option: %s has been set to %s."),
+                     setting_name(pset),
+                     setting_value_name(pset, TRUE, buf, sizeof(buf)));
+        } else {
+          log_error("%s", reject_msg);
+        }
+      }
+    }
+    break;
+
+  case SSET_BITWISE:
+    {
+      int val;
+
+      if (!secfile_lookup_enum_data(file, &val, TRUE,
+                                    setting_bitwise_secfile_str, pset,
+                                    "%s.value", path)) {
+        log_error("Can't read value for setting '%s': %s",
+                  name, secfile_error());
+      } else if (val != *pset->bitwise.pvalue) {
+        if (NULL == pset->bitwise.validate
+            || pset->bitwise.validate((unsigned) val, NULL,
+                                      reject_msg, sizeof(reject_msg))) {
+          *pset->bitwise.pvalue = val;
+          log_normal(_("Option: %s has been set to %s."),
+                     setting_name(pset),
+                     setting_value_name(pset, TRUE, buf, sizeof(buf)));
+        } else {
+          log_error("%s", reject_msg);
+        }
       }
     }
     break;
@@ -2660,6 +2933,29 @@ static bool setting_ruleset_one(struct section_file *file,
   }
 
   return TRUE;
+}
+
+/**************************************************************************
+  Returns whether the setting has been changed (is not default).
+**************************************************************************/
+bool setting_changed(const struct setting *pset)
+{
+  switch (setting_type(pset)) {
+  case SSET_BOOL:
+    return (*pset->boolean.pvalue != pset->boolean.default_value);
+  case SSET_INT:
+    return (*pset->integer.pvalue != pset->integer.default_value);
+  case SSET_STRING:
+    return (0 != strcmp(pset->string.value, pset->string.default_value));
+  case SSET_ENUM:
+    return (*pset->enumerator.pvalue != pset->enumerator.default_value);
+  case SSET_BITWISE:
+    return (*pset->bitwise.pvalue != pset->bitwise.default_value);
+  }
+
+  log_error("%s(): Setting \"%s\" (nb %d) not handled in switch statement.",
+            __FUNCTION__, setting_name(pset), setting_number(pset));
+  return FALSE;
 }
 
 /**************************************************************************
@@ -2685,11 +2981,11 @@ static void setting_game_set(struct setting *pset, bool init)
 {
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    pset->boolean.game_value = setting_bool_get(pset);
+    pset->boolean.game_value = *pset->boolean.pvalue;
     break;
 
   case SSET_INT:
-    pset->integer.game_value = setting_int_get(pset);
+    pset->integer.game_value = *pset->integer.pvalue;
     break;
 
   case SSET_STRING:
@@ -2698,12 +2994,16 @@ static void setting_game_set(struct setting *pset, bool init)
         = fc_calloc(1, pset->string.value_size
                        * sizeof(pset->string.game_value));
     }
-    fc_strlcpy(pset->string.game_value, setting_str_get(pset),
+    fc_strlcpy(pset->string.game_value, pset->string.value,
               pset->string.value_size);
     break;
 
   case SSET_ENUM:
-    pset->enumerator.game_value = setting_enum_get_int(pset);
+    pset->enumerator.game_value = *pset->enumerator.pvalue;
+    break;
+
+  case SSET_BITWISE:
+    pset->bitwise.game_value = *pset->bitwise.pvalue;
     break;
   }
 }
@@ -2723,8 +3023,8 @@ static void setting_game_free(struct setting *pset)
 **************************************************************************/
 static void setting_game_restore(struct setting *pset)
 {
+  char reject_msg[256] = "", buf[256];
   bool res = FALSE;
-  char reject_msg[258] = "";
 
   if (!setting_is_changeable(pset, NULL, reject_msg, sizeof(reject_msg))) {
     log_debug("Can't restore '%s': %s", setting_name(pset),
@@ -2734,8 +3034,10 @@ static void setting_game_restore(struct setting *pset)
 
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    res = setting_bool_set(pset, pset->boolean.game_value, NULL, reject_msg,
-                           sizeof(reject_msg));
+    res = (NULL != setting_bool_to_str(pset, pset->bitwise.game_value,
+                                       FALSE, buf, sizeof(buf))
+           && setting_bool_set(pset, buf, NULL, reject_msg,
+                               sizeof(reject_msg)));
     break;
 
   case SSET_INT:
@@ -2749,8 +3051,17 @@ static void setting_game_restore(struct setting *pset)
     break;
 
   case SSET_ENUM:
-    res = setting_enum_set_int(pset, pset->enumerator.game_value,
-                               NULL, reject_msg, sizeof(reject_msg));
+    res = (NULL != setting_enum_to_str(pset, pset->bitwise.game_value,
+                                       FALSE, buf, sizeof(buf))
+           && setting_enum_set(pset, buf, NULL, reject_msg,
+                               sizeof(reject_msg)));
+    break;
+
+  case SSET_BITWISE:
+    res = (NULL != setting_bitwise_to_str(pset, pset->bitwise.game_value,
+                                          FALSE, buf, sizeof(buf))
+           && setting_bitwise_set(pset, buf, NULL, reject_msg,
+                                  sizeof(reject_msg)));
     break;
   }
 
@@ -2781,39 +3092,41 @@ void settings_game_save(struct section_file *file, const char *section)
   int set_count = 0;
 
   settings_iterate(pset) {
+    secfile_insert_str(file, setting_name(pset),
+                       "%s.set%d.name", section, set_count);
     switch (setting_type(pset)) {
     case SSET_BOOL:
-      secfile_insert_str(file, setting_name(pset),
-                         "%s.set%d.name", section, set_count);
-      secfile_insert_bool(file, setting_bool_get(pset),
+      secfile_insert_bool(file, *pset->boolean.pvalue,
                           "%s.set%d.value", section, set_count);
       secfile_insert_bool(file, pset->boolean.game_value,
                           "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_INT:
-      secfile_insert_str(file, setting_name(pset),
-                         "%s.set%d.name", section, set_count);
-      secfile_insert_int(file, setting_int_get(pset),
+      secfile_insert_int(file, *pset->integer.pvalue,
                           "%s.set%d.value", section, set_count);
       secfile_insert_int(file, pset->integer.game_value,
                           "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_STRING:
-      secfile_insert_str(file, setting_name(pset),
-                         "%s.set%d.name", section, set_count);
-      secfile_insert_str(file, setting_str_get(pset),
+      secfile_insert_str(file, pset->string.value,
                           "%s.set%d.value", section, set_count);
       secfile_insert_str(file, pset->string.game_value,
                           "%s.set%d.gamestart", section, set_count);
       break;
     case SSET_ENUM:
-      secfile_insert_str(file, setting_name(pset),
-                         "%s.set%d.name", section, set_count);
-      secfile_insert_enum_data(file, setting_enum_get_int(pset), FALSE,
-                               setting_enum_support_str, pset,
+      secfile_insert_enum_data(file, *pset->enumerator.pvalue, FALSE,
+                               setting_enum_secfile_str, pset,
                                "%s.set%d.value", section, set_count);
       secfile_insert_enum_data(file, pset->enumerator.game_value, FALSE,
-                               setting_enum_support_str, pset,
+                               setting_enum_secfile_str, pset,
+                               "%s.set%d.gamestart", section, set_count);
+      break;
+    case SSET_BITWISE:
+      secfile_insert_enum_data(file, *pset->bitwise.pvalue, TRUE,
+                               setting_bitwise_secfile_str, pset,
+                               "%s.set%d.value", section, set_count);
+      secfile_insert_enum_data(file, pset->bitwise.game_value, TRUE,
+                               setting_bitwise_secfile_str, pset,
                                "%s.set%d.gamestart", section, set_count);
       break;
     }
@@ -2830,10 +3143,8 @@ void settings_game_save(struct section_file *file, const char *section)
 *********************************************************************/
 void settings_game_load(struct section_file *file, const char *section)
 {
-  bool bval;
-  int ival;
-  const char *sval = NULL, *name = NULL;
-  char buf[258] = "";
+  const char *name;
+  char reject_msg[256];
   int i, set_count;
 
   if (!secfile_lookup_int(file, &set_count, "%s.set_count", section)) {
@@ -2858,39 +3169,92 @@ void settings_game_load(struct section_file *file, const char *section)
       /* Load the current value of the setting. */
       switch (pset->stype) {
       case SSET_BOOL:
-        bval = secfile_lookup_bool_default(file, pset->boolean.default_value,
-                                           "%s.set%d.value", section, i);
-        if (bval != setting_bool_get(pset)
-            && !setting_bool_set(pset, bval, NULL, buf, sizeof(buf))) {
-          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        {
+          bool val = secfile_lookup_bool_default(file,
+                                                 pset->boolean.default_value,
+                                                 "%s.set%d.value",
+                                                 section, i);
+
+          if (setting_is_changeable(pset, NULL, reject_msg,
+                                    sizeof(reject_msg))
+              && (NULL == pset->boolean.validate
+                  || pset->boolean.validate(val, NULL, reject_msg,
+                                            sizeof(reject_msg)))) {
+            *pset->boolean.pvalue = val;
+          } else {
+            log_error("Error restoring '%s': %s",
+                      setting_name(pset), reject_msg);
+          }
         }
         break;
 
       case SSET_INT:
-        ival = secfile_lookup_int_default(file, pset->integer.default_value,
-                                          "%s.set%d.value", section, i);
-        if (ival != setting_int_get(pset)
-            && !setting_int_set(pset, ival, NULL, buf, sizeof(buf))) {
-          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        {
+          int val = secfile_lookup_int_default(file,
+                                               pset->integer.default_value,
+                                               "%s.set%d.value", section, i);
+
+          if (val != *pset->integer.pvalue
+              && !setting_int_set(pset, val, NULL, reject_msg,
+                                  sizeof(reject_msg))) {
+                log_error("Error restoring '%s': %s",
+                          setting_name(pset), reject_msg);
+          }
         }
         break;
 
       case SSET_STRING:
-        sval = secfile_lookup_str_default(file, pset->string.default_value,
-                                          "%s.set%d.value", section, i);
-        if (fc_strcasecmp(sval, setting_str_get(pset)) != 0
-            && !setting_str_set(pset, sval, NULL, buf, sizeof(buf))) {
-          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        {
+          const char *val =
+              secfile_lookup_str_default(file, pset->string.default_value,
+                                         "%s.set%d.value", section, i);
+
+          if (0 != fc_strcasecmp(val, pset->string.value)
+              && !setting_str_set(pset, val, NULL, reject_msg,
+                                  sizeof(reject_msg))) {
+            log_error("Error restoring '%s': %s",
+                      setting_name(pset), reject_msg);
+          }
         }
         break;
 
       case SSET_ENUM:
-        ival = secfile_lookup_enum_default_data(file,
-                   pset->enumerator.default_value, FALSE,
-                   setting_enum_support_str, pset,
-                   "%s.set%d.value", section, i);
-        if (!setting_enum_set_int(pset, ival, NULL, buf, sizeof(buf))) {
-          log_error("Error restoring '%s': %s", setting_name(pset), buf);
+        {
+          int val = secfile_lookup_enum_default_data(file,
+                        pset->enumerator.default_value, FALSE,
+                        setting_enum_secfile_str, pset,
+                        "%s.set%d.value", section, i);
+
+          if (setting_is_changeable(pset, NULL, reject_msg,
+                                    sizeof(reject_msg))
+              && (NULL == pset->enumerator.validate
+                  || pset->enumerator.validate(val, NULL, reject_msg,
+                                               sizeof(reject_msg)))) {
+            *pset->enumerator.pvalue = val;
+          } else {
+            log_error("Error restoring '%s': %s",
+                      setting_name(pset), reject_msg);
+          }
+        }
+        break;
+
+      case SSET_BITWISE:
+        {
+          int val = secfile_lookup_enum_default_data(file,
+                        pset->bitwise.default_value, TRUE,
+                        setting_bitwise_secfile_str, pset,
+                        "%s.set%d.value", section, i);
+
+          if (setting_is_changeable(pset, NULL, reject_msg,
+                                    sizeof(reject_msg))
+              && (NULL == pset->bitwise.validate
+                  || pset->bitwise.validate((unsigned) val, NULL, reject_msg,
+                                            sizeof(reject_msg)))) {
+            *pset->bitwise.pvalue = val;
+          } else {
+            log_error("Error restoring '%s': %s",
+                      setting_name(pset), reject_msg);
+          }
         }
         break;
       }
@@ -2899,32 +3263,37 @@ void settings_game_load(struct section_file *file, const char *section)
         /* Load the value of the setting at the start of the game. */
         switch (pset->stype) {
         case SSET_BOOL:
-          bval = secfile_lookup_bool_default(file, setting_bool_get(pset),
-                                             "%s.set%d.gamestart", section,
-                                             i);
-          pset->boolean.game_value = bval;
+          pset->boolean.game_value =
+              secfile_lookup_bool_default(file, *pset->boolean.pvalue,
+                                          "%s.set%d.gamestart", section, i);
           break;
 
         case SSET_INT:
-          ival = secfile_lookup_int_default(file, setting_int_get(pset),
-                                            "%s.set%d.gamestart", section,
-                                            i);
-          pset->integer.game_value = ival;
+          pset->integer.game_value =
+              secfile_lookup_int_default(file, *pset->integer.pvalue,
+                                         "%s.set%d.gamestart", section, i);
           break;
 
         case SSET_STRING:
-          sval = secfile_lookup_str_default(file, setting_str_get(pset),
-                                            "%s.set%d.gamestart", section,
-                                            i);
-          fc_strlcpy(pset->string.game_value, sval, pset->string.value_size);
+          fc_strlcpy(pset->string.game_value,
+                     secfile_lookup_str_default(file, pset->string.value,
+                                                "%s.set%d.gamestart",
+                                                section, i),
+                     pset->string.value_size);
           break;
 
         case SSET_ENUM:
-          ival = secfile_lookup_enum_default_data(file,
-                     setting_enum_get_int(pset), FALSE,
-                     setting_enum_support_str, pset,
-                     "%s.set%d.value", section, i);
-          pset->enumerator.game_value = ival;
+          pset->enumerator.game_value =
+              secfile_lookup_enum_default_data(file,
+                  *pset->enumerator.pvalue, FALSE, setting_enum_secfile_str,
+                  pset, "%s.set%d.gamestart", section, i);
+          break;
+
+        case SSET_BITWISE:
+          pset->bitwise.game_value =
+              secfile_lookup_enum_default_data(file,
+                  *pset->bitwise.pvalue, TRUE, setting_bitwise_secfile_str,
+                  pset, "%s.set%d.gamestart", section, i);
           break;
         }
       }
@@ -3001,6 +3370,14 @@ void settings_free(void)
 }
 
 /****************************************************************************
+  Returns the total number of settings.
+****************************************************************************/
+int settings_number(void)
+{
+  return SETTINGS_NUM;
+}
+
+/****************************************************************************
   Tell the client about just one server setting.  Call this after a setting
   is saved.
 ****************************************************************************/
@@ -3025,8 +3402,8 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       conn_list_iterate(dest, pconn) {
         PACKET_COMMON_INIT(packet, pset, pconn);
         if (packet.is_visible) {
-          packet.val = setting_bool_get(pset);
-          packet.default_val = setting_bool_def(pset);
+          packet.val = *pset->boolean.pvalue;
+          packet.default_val = pset->boolean.default_value;
         }
         send_packet_server_setting_bool(pconn, &packet);
       } conn_list_iterate_end;
@@ -3039,10 +3416,10 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       conn_list_iterate(dest, pconn) {
         PACKET_COMMON_INIT(packet, pset, pconn);
         if (packet.is_visible) {
-          packet.val = setting_int_get(pset);
-          packet.default_val = setting_int_def(pset);
-          packet.min_val = setting_int_min(pset);
-          packet.max_val = setting_int_max(pset);
+          packet.val = *pset->integer.pvalue;
+          packet.default_val = pset->integer.default_value;
+          packet.min_val = pset->integer.min_value;
+          packet.max_val = pset->integer.max_value;
         }
         send_packet_server_setting_int(pconn, &packet);
       } conn_list_iterate_end;
@@ -3055,8 +3432,8 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       conn_list_iterate(dest, pconn) {
         PACKET_COMMON_INIT(packet, pset, pconn);
         if (packet.is_visible) {
-          sz_strlcpy(packet.val, setting_str_get(pset));
-          sz_strlcpy(packet.default_val, setting_str_def(pset));
+          sz_strlcpy(packet.val, pset->string.value);
+          sz_strlcpy(packet.default_val, pset->string.default_value);
         }
         send_packet_server_setting_str(pconn, &packet);
       } conn_list_iterate_end;
@@ -3071,8 +3448,8 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
       conn_list_iterate(dest, pconn) {
         PACKET_COMMON_INIT(packet, pset, pconn);
         if (packet.is_visible) {
-          packet.val = setting_enum_get_int(pset);
-          packet.default_val = setting_enum_def_int(pset);
+          packet.val = *pset->enumerator.pvalue;
+          packet.default_val = pset->enumerator.default_value;
           for (i = 0; (val_name = pset->enumerator.name(i)); i++) {
             sz_strlcpy(packet.support_names[i], val_name->support);
             sz_strlcpy(packet.pretty_names[i], val_name->pretty);
@@ -3082,6 +3459,29 @@ void send_server_setting(struct conn_list *dest, const struct setting *pset)
           fc_assert(i <= ARRAY_SIZE(packet.pretty_names));
         }
         send_packet_server_setting_enum(pconn, &packet);
+      } conn_list_iterate_end;
+    }
+    break;
+  case SSET_BITWISE:
+    {
+      struct packet_server_setting_bitwise packet;
+      const struct sset_val_name *val_name;
+      int i;
+
+      conn_list_iterate(dest, pconn) {
+        PACKET_COMMON_INIT(packet, pset, pconn);
+        if (packet.is_visible) {
+          packet.val = *pset->bitwise.pvalue;
+          packet.default_val = pset->bitwise.default_value;
+          for (i = 0; (val_name = pset->bitwise.name(i)); i++) {
+            sz_strlcpy(packet.support_names[i], val_name->support);
+            sz_strlcpy(packet.pretty_names[i], val_name->pretty);
+          }
+          packet.bits_num = i;
+          fc_assert(i <= ARRAY_SIZE(packet.support_names));
+          fc_assert(i <= ARRAY_SIZE(packet.pretty_names));
+        }
+        send_packet_server_setting_bitwise(pconn, &packet);
       } conn_list_iterate_end;
     }
     break;

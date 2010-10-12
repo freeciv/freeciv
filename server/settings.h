@@ -75,16 +75,15 @@ struct sset_val_name {
 
 /* Server setting types. */
 #define SPECENUM_NAME sset_type
-#define SPECENUM_VALUE0     SSET_BOOL
-#define SPECENUM_VALUE1     SSET_INT
-#define SPECENUM_VALUE2     SSET_STRING
-#define SPECENUM_VALUE3     SSET_ENUM
+#define SPECENUM_VALUE0 SSET_BOOL
+#define SPECENUM_VALUE1 SSET_INT
+#define SPECENUM_VALUE2 SSET_STRING
+#define SPECENUM_VALUE3 SSET_ENUM
+#define SPECENUM_VALUE4 SSET_BITWISE
 #include "specenum_gen.h"
 
 /* forward declaration */
 struct setting;
-
-extern const int SETTINGS_NUM;
 
 struct setting *setting_by_number(int id);
 int setting_number(const struct setting *pset);
@@ -101,29 +100,20 @@ bool setting_is_changeable(const struct setting *pset,
 bool setting_is_visible(const struct setting *pset,
                         struct connection *caller);
 
+const char *setting_value_name(const struct setting *pset, bool pretty,
+                               char *buf, size_t buf_len);
+const char *setting_default_name(const struct setting *pset, bool pretty,
+                                 char *buf, size_t buf_len);
+
 /* Type SSET_BOOL setting functions. */
-bool setting_bool_str_to_bool(const struct setting *pset, const char *val,
-                              bool *bval);
-bool setting_bool_get(const struct setting *pset);
-const char *setting_bool_get_str(const struct setting *pset);
-bool setting_bool_def(const struct setting *pset);
-const char *setting_bool_def_str(const struct setting *pset);
-bool setting_bool_set(struct setting *pset, bool val,
+bool setting_bool_set(struct setting *pset, const char *val,
                       struct connection *caller, char *reject_msg,
                       size_t reject_msg_len);
-bool setting_bool_set_str(struct setting *pset, const char *val,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len);
-bool setting_bool_validate(const struct setting *pset, bool val,
+bool setting_bool_validate(const struct setting *pset, const char *val,
                            struct connection *caller, char *reject_msg,
                            size_t reject_msg_len);
-bool setting_bool_validate_str(const struct setting *pset, const char *val,
-                               struct connection *caller, char *reject_msg,
-                               size_t reject_msg_len);
 
 /* Type SSET_INT setting functions. */
-int setting_int_get(const struct setting *pset);
-int setting_int_def(const struct setting *pset);
 int setting_int_min(const struct setting *pset);
 int setting_int_max(const struct setting *pset);
 bool setting_int_set(struct setting *pset, int val,
@@ -134,8 +124,6 @@ bool setting_int_validate(const struct setting *pset, int val,
                           size_t reject_msg_len);
 
 /* Type SSET_STRING setting functions. */
-const char *setting_str_get(const struct setting *pset);
-const char *setting_str_def(const struct setting *pset);
 bool setting_str_set(struct setting *pset, const char *val,
                      struct connection *caller, char *reject_msg,
                      size_t reject_msg_len);
@@ -144,36 +132,37 @@ bool setting_str_validate(const struct setting *pset, const char *val,
                           size_t reject_msg_len);
 
 /* Type SSET_ENUM setting functions. */
-const char *setting_enum_int_to_str(const struct setting *pset,
-                                    int val, bool pretty);
-int setting_enum_get_int(const struct setting *pset);
-const char *setting_enum_get_str(const struct setting *pset, bool pretty);
-int setting_enum_def_int(const struct setting *pset);
-const char *setting_enum_def_str(const struct setting *pset, bool pretty);
-bool setting_enum_set_int(struct setting *pset, int val,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len);
-bool setting_enum_set_str(struct setting *pset, const char *val, bool pretty,
-                          struct connection *caller, char *reject_msg,
-                          size_t reject_msg_len);
-bool setting_enum_validate_int(const struct setting *pset, int val,
-                               struct connection *caller, char *reject_msg,
-                               size_t reject_msg_len);
-bool setting_enum_validate_str(const struct setting *pset, const char *val,
-                               bool pretty, struct connection *caller,
-                               char *reject_msg, size_t reject_msg_len);
+const char *setting_enum_val(const struct setting *pset, int val,
+                             bool pretty);
+bool setting_enum_set(struct setting *pset, const char *val,
+                      struct connection *caller, char *reject_msg,
+                      size_t reject_msg_len);
+bool setting_enum_validate(const struct setting *pset, const char *val,
+                           struct connection *caller, char *reject_msg,
+                           size_t reject_msg_len);
+
+/* Type SSET_BITWISE setting functions. */
+const char *setting_bitwise_bit(const struct setting *pset,
+                                int bit, bool pretty);
+bool setting_bitwise_set(struct setting *pset, const char *val,
+                         struct connection *caller, char *reject_msg,
+                         size_t reject_msg_len);
+bool setting_bitwise_validate(const struct setting *pset, const char *val,
+                              struct connection *caller, char *reject_msg,
+                              size_t reject_msg_len);
 
 void setting_action(const struct setting *pset);
 
+bool setting_changed(const struct setting *pset);
 bool setting_locked(const struct setting *pset);
 void setting_lock_set(struct setting *pset, bool lock);
 
 /* iterate over all settings */
-#define settings_iterate(_pset)                                            \
-{                                                                          \
-  int id;                                                                  \
-  for (id = 0; id < SETTINGS_NUM; id++) {                                  \
-    struct setting *_pset = setting_by_number(id);
+#define settings_iterate(_pset)                                             \
+{                                                                           \
+  struct setting *_pset;                                                    \
+  int _pset_id;                                                             \
+  for (_pset_id = 0; (_pset = setting_by_number(_pset_id)); _pset_id++) {
 
 #define settings_iterate_end                                               \
   }                                                                        \
@@ -188,6 +177,7 @@ void settings_init(void);
 void settings_reset(void);
 void settings_turn(void);
 void settings_free(void);
+int settings_number(void);
 
 bool settings_ruleset(struct section_file *file, const char *section);
 

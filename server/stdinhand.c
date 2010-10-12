@@ -1163,7 +1163,7 @@ static bool read_init_script_real(struct connection *caller,
 **************************************************************************/
 static void write_init_script(char *script_filename)
 {
-  char real_filename[1024];
+  char real_filename[1024], buf[256];
   FILE *script_file;
   
   interpret_tilde(real_filename, sizeof(real_filename), script_filename);
@@ -1201,24 +1201,8 @@ static void write_init_script(char *script_filename)
     /* then, the 'set' option settings */
 
     settings_iterate(pset) {
-      switch (setting_type(pset)) {
-      case SSET_BOOL:
-        fprintf(script_file, "set %s %d\n", setting_name(pset),
-                setting_bool_get(pset) ? 1 : 0);
-        break;
-      case SSET_INT:
-        fprintf(script_file, "set %s %d\n", setting_name(pset),
-                setting_int_get(pset));
-        break;
-      case SSET_STRING:
-        fprintf(script_file, "set %s %s\n", setting_name(pset),
-                setting_str_get(pset));
-        break;
-      case SSET_ENUM:
-        fprintf(script_file, "set %s %s\n", setting_name(pset),
-                setting_enum_get_str(pset, FALSE));
-        break;
-      }
+      fprintf(script_file, "set %s \"%s\"\n", setting_name(pset),
+              setting_value_name(pset, FALSE, buf, sizeof(buf)));
     } settings_iterate_end;
 
     /* rulesetdir */
@@ -1594,8 +1578,8 @@ static int lookup_option(const char *name)
     return -3;
   }
 
-  result = match_prefix(optname_accessor, SETTINGS_NUM, 0, fc_strncasecmp,
-                        NULL, name, &ind);
+  result = match_prefix(optname_accessor, settings_number(),
+                        0, fc_strncasecmp, NULL, name, &ind);
   if (M_PRE_AMBIGUOUS > result) {
     return ind;
   } else if (M_PRE_AMBIGUOUS == result) {
@@ -1614,9 +1598,9 @@ static int lookup_option(const char *name)
  Only show option values for options which the caller can SEE.
 **************************************************************************/
 static void show_help_option(struct connection *caller,
-			     enum command_id help_cmd,
-			     int id)
+                             enum command_id help_cmd, int id)
 {
+  char val_buf[256], def_buf[256];
   struct setting *pset = setting_by_number(id);
 
   if (setting_short_help(pset)) {
@@ -1643,24 +1627,16 @@ static void show_help_option(struct connection *caller,
                               ? _("changeable") : _("fixed")));
 
   if (setting_is_visible(pset, caller)) {
+    setting_value_name(pset, TRUE, val_buf, sizeof(val_buf));
+    setting_default_name(pset, TRUE, def_buf, sizeof(def_buf));
+
     switch (setting_type(pset)) {
-    case SSET_BOOL:
-      cmd_reply(help_cmd, caller, C_COMMENT, "%s %d, %s 0, %s %d, %s 1",
-                _("Value:"), setting_bool_get(pset) ? 1 : 0,
-                _("Minimum:"), _("Default:"),
-                setting_bool_def(pset) ? 1 : 0, _("Maximum:"));
-      break;
     case SSET_INT:
-      cmd_reply(help_cmd, caller, C_COMMENT, "%s %d, %s %d, %s %d, %s %d",
-                _("Value:"), setting_int_get(pset),
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %d, %s %s, %s %d",
+                _("Value:"), val_buf,
                 _("Minimum:"), setting_int_min(pset),
-                _("Default:"), setting_int_def(pset),
+                _("Default:"), def_buf,
                 _("Maximum:"), setting_int_max(pset));
-      break;
-    case SSET_STRING:
-      cmd_reply(help_cmd, caller, C_COMMENT, "%s \"%s\", %s \"%s\"",
-                _("Value:"), setting_str_get(pset),
-                _("Default:"), setting_str_def(pset));
       break;
     case SSET_ENUM:
       {
@@ -1668,16 +1644,31 @@ static void show_help_option(struct connection *caller,
         const char *value;
 
         cmd_reply(help_cmd, caller, C_COMMENT, _("Possible values:"));
-        for (i = 0; (value = setting_enum_int_to_str(pset, i, TRUE)); i++) {
-          cmd_reply(help_cmd, caller, C_COMMENT, "- %d: \"%s\"",
-                    i, _(value));
+        for (i = 0; (value = setting_enum_val(pset, i, FALSE)); i++) {
+          cmd_reply(help_cmd, caller, C_COMMENT, "- %s: \"%s\"",
+                    value, setting_enum_val(pset, i, TRUE));
         }
-        cmd_reply(help_cmd, caller, C_COMMENT,
-                  "%s \"%s\" (%d), %s \"%s\" (%d)",
-                  _("Value:"), _(setting_enum_get_str(pset, TRUE)),
-                  setting_enum_get_int(pset),
-                  _("Default:"), _(setting_enum_def_str(pset, TRUE)),
-                  setting_enum_def_int(pset));
+      }
+      /* Fall through. */
+    case SSET_BOOL:
+    case SSET_STRING:
+      cmd_reply(help_cmd, caller, C_COMMENT, "%s %s, %s %s",
+                _("Value:"), val_buf, _("Default:"), def_buf);
+      break;
+    case SSET_BITWISE:
+      {
+        int i;
+        const char *value;
+
+        cmd_reply(help_cmd, caller, C_COMMENT, _("Possible values:"));
+        for (i = 0; (value = setting_bitwise_bit(pset, i, FALSE)); i++) {
+          cmd_reply(help_cmd, caller, C_COMMENT, "- %s: \"%s\"",
+                    value, setting_bitwise_bit(pset, i, TRUE));
+        }
+        cmd_reply(help_cmd, caller, C_COMMENT, "%s %s",
+                  _("Value:"), val_buf);
+        cmd_reply(help_cmd, caller, C_COMMENT, "%s %s",
+                  _("Default:"), def_buf);
       }
       break;
     }
@@ -1733,7 +1724,7 @@ static bool explain_option(struct connection *caller, char *str, bool check)
 
   if (*str != '\0') {
     cmd = lookup_option(str);
-    if (cmd >= 0 && cmd < SETTINGS_NUM) {
+    if (cmd >= 0 && cmd < settings_number()) {
       show_help_option(caller, CMD_EXPLAIN, cmd);
     } else if (cmd == -1 || cmd == -3 || cmd == -4) {
       cmd_reply(CMD_EXPLAIN, caller, C_FAIL,
@@ -1976,7 +1967,7 @@ static bool show_command(struct connection *caller, char *str, bool check)
 {
   char buf[MAX_LEN_CONSOLE_LINE], value[MAX_LEN_CONSOLE_LINE];
   bool is_changed;
-  int cmd, len1;
+  int cmd;
   enum sset_level level = SSET_ALL;
   size_t clen = 0;
 
@@ -2053,112 +2044,53 @@ static bool show_command(struct connection *caller, char *str, bool check)
   cmd_reply_show(_("+ means you may change the option"));
   cmd_reply_show(_("= means the option is on its default value"));
   cmd_reply_show(horiz_line);
-  len1 = fc_snprintf(buf, sizeof(buf), _("%-*s value   (min,max)      "),
-                     OPTION_NAME_SPACE, _("Option"));
-  if (len1 == -1) {
-    len1 = sizeof(buf) -1;
-  }
-  sz_strlcat(buf, _("description"));
-  cmd_reply_show(buf);
+  cmd_reply(CMD_SHOW, caller, C_COMMENT, _("%-*s value   (min, max)"),
+            OPTION_NAME_SPACE, _("Option"));
   cmd_reply_show(horiz_line);
 
   buf[0] = '\0';
 
   settings_iterate(pset) {
-    is_changed = FALSE;
-    if (setting_is_visible(pset, caller)
-        && (cmd == -1 || cmd == -3 || level == SSET_CHANGED
-            || level == SSET_LOCKED || cmd == setting_number(pset)
-        || (cmd == -2
-            && fc_strncasecmp(setting_name(pset), str, clen) == 0))) {
-      /* in the cmd==i case, this loop is inefficient. never mind - rp */
-      int len, feature_len = 0;
-
-      if (level == SSET_ALL || setting_level(pset) == level || cmd >= 0
-          || level == SSET_CHANGED || level == SSET_LOCKED)  {
-        switch (setting_type(pset)) {
-        case SSET_BOOL:
-          is_changed = (setting_bool_get(pset) != setting_bool_def(pset));
-          len = fc_snprintf(value, sizeof(value), "\"%s\" (%d)",
-                            _(setting_bool_get_str(pset)),
-                            (setting_bool_get(pset)) ? 1 : 0);
-          if (is_changed) {
-            /* Emphasizes the changed option. */
-            feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0,
-                                                  FT_OFFSET_UNSET,
-                                                  ftc_changed) - len;
-            sz_strlcpy(value, buf);
-          }
-          break;
-        case SSET_INT:
-          is_changed = (setting_int_get(pset) != setting_int_def(pset));
-          len = fc_snprintf(value, sizeof(value), "%-5d",
-                            setting_int_get(pset));
-          if (is_changed) {
-            /* Emphasizes the changed option. */
-            feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0,
-                                                  FT_OFFSET_UNSET,
-                                                  ftc_changed) - len;
-            sz_strlcpy(value, buf);
-          }
-          cat_snprintf(value, sizeof(value), " (%d,%d)",
-                       setting_int_min(pset), setting_int_max(pset));
-          break;
-        case SSET_STRING:
-          is_changed = strcmp(setting_str_get(pset), setting_str_def(pset));
-          len = fc_snprintf(value, sizeof(value), "\"%s\"",
-                            setting_str_get(pset));
-          if (is_changed) {
-            /* Emphasizes the changed option. */
-            feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0,
-                                                  FT_OFFSET_UNSET,
-                                                  ftc_changed) - len;
-            sz_strlcpy(value, buf);
-          }
-          break;
-        case SSET_ENUM:
-          is_changed = (setting_enum_get_int(pset)
-                        != setting_enum_def_int(pset));
-          len = fc_snprintf(value, sizeof(value), "\"%s\" (%d)",
-                            _(setting_enum_get_str(pset, TRUE)),
-                            setting_enum_get_int(pset));
-          if (is_changed) {
-            /* Emphasizes the changed option. */
-            feature_len = featured_text_apply_tag(value, buf, sizeof(buf),
-                                                  TTT_COLOR, 0,
-                                                  FT_OFFSET_UNSET,
-                                                  ftc_changed) - len;
-            sz_strlcpy(value, buf);
-          }
-          break;
-        }
-
-        len = fc_snprintf(buf, sizeof(buf),
-                          "%-*s %c%c%s", OPTION_NAME_SPACE,
-                          setting_name(pset),
-                          setting_status(caller, pset),
-                          is_changed ? ' ' : '=', value) - feature_len;
-
-        if (len == -1) {
-          len = sizeof(buf) - 1;
-        }
-        /* Line up the descriptions: */
-        if (len < len1) {
-          cat_snprintf(buf, sizeof(buf), "%*s", (len1-len), " ");
-        } else {
-          sz_strlcat(buf, " ");
-        }
-        sz_strlcat(buf, _(setting_short_help(pset)));
-        if ((level < SSET_CHANGED)
-            || (level == SSET_CHANGED && is_changed)
-            || (level == SSET_LOCKED && setting_locked(pset))) {
-          cmd_reply_show(buf);
-        }
-      }
+    if (!setting_is_visible(pset, caller)) {
+      continue;
     }
+
+    is_changed = setting_changed(pset);
+    if (0 <= cmd) {
+      if (cmd != setting_number(pset)) {
+        continue;
+      }
+    } else if (-2 == cmd
+               && 0 != fc_strncasecmp(setting_name(pset), str, clen)) {
+      continue;
+    } else if (SSET_CHANGED == level) {
+      if (!is_changed) {
+        continue;
+      }
+    } else if (SSET_LOCKED == level) {
+      if (!setting_locked(pset)) {
+        continue;
+      }
+    } else if (SSET_ALL != level && level != setting_level(pset)) {
+      continue;
+    }
+
+    setting_value_name(pset, TRUE, value, sizeof(value));
+    if (is_changed) {
+      /* Emphasizes the changed option. */
+      featured_text_apply_tag(value, buf, sizeof(buf), TTT_COLOR,
+                              0, FT_OFFSET_UNSET, ftc_changed);
+      sz_strlcpy(value, buf);
+    }
+    if (SSET_INT == setting_type(pset)) {
+      /* Add the range. */
+      cat_snprintf(value, sizeof(value), " (%d, %d)",
+                   setting_int_min(pset), setting_int_max(pset));
+    }
+
+    cmd_reply(CMD_SHOW, caller, C_COMMENT, "%-*s %c%c%s",
+              OPTION_NAME_SPACE, setting_name(pset),
+              setting_status(caller, pset), is_changed ? ' ' : '=', value);
   } settings_iterate_end;
   cmd_reply_show(horiz_line);
   if (level == SSET_VITAL) {
@@ -2724,10 +2656,10 @@ static inline bool string_contains_only_digits(const char *str)
 static bool set_command(struct connection *caller, char *str, bool check)
 {
   char *args[2];
-  int val, cmd, i, nargs;
+  int val, cmd, nargs;
   struct setting *pset;
   bool do_update;
-  char buffer[500], reject_msg[258] = "";
+  char reject_msg[256] = "";
   bool ret = FALSE;
 
   /* '=' is also a valid delimiter for this function. */
@@ -2760,67 +2692,19 @@ static bool set_command(struct connection *caller, char *str, bool check)
   }
 
   do_update = FALSE;
-  buffer[0] = '\0';
 
   switch (setting_type(pset)) {
   case SSET_BOOL:
-    if (1 == sscanf(args[1], "%d", &val)
-        && string_contains_only_digits(args[1])) {
-      /* Boolean as digits. Make sure the input string only contains
-       * digits 0 or 1. */
-      for (i = 0;; i++) {
-        if (args[1][i] == '\0' ) {
-          break;
-        }
-        if (args[1][i] < '0' || args[1][i] > '1') {
-          /* not TRUE (1) or FALSE (0); set to an invalid value which will
-           * result in an error below. */
-          val = -1;
-          break;
-        }
-      }
-      if (val != 0 && val != 1) {
-        cmd_reply(CMD_SET, caller, C_SYNTAX,
-                  _("Not a boolean value (only 0 and 1 allowed)."));
-        goto cleanup;
-      } else {
-        if (check) {
-          if (!setting_is_changeable(pset, caller, reject_msg,
-                                     sizeof(reject_msg))
-              || !setting_bool_validate(pset, val != 0, caller, reject_msg,
-                                        sizeof(reject_msg))) {
-            cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-            goto cleanup;
-          }
-        } else {
-          if (setting_bool_set(pset, val != 0, caller, reject_msg,
-                               sizeof(reject_msg))) {
-            fc_snprintf(buffer, sizeof(buffer),
-                        _("Option: %s has been set to \"%s\" (%d)."),
-                        setting_name(pset), _(setting_bool_get_str(pset)),
-                        setting_bool_get(pset) ? 1 : 0);
-            do_update = TRUE;
-          } else {
-            cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-            goto cleanup;
-          }
-        }
-      }
-    } else if (check) {
-      /* Boolean as a string. */
+    if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
-          || !setting_bool_validate_str(pset, args[1], caller, reject_msg,
-                                        sizeof(reject_msg))) {
+          || (!setting_bool_validate(pset, args[1], caller,
+                                     reject_msg, sizeof(reject_msg)))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
-    } else if (setting_bool_set_str(pset, args[1], caller, reject_msg,
-                                    sizeof(reject_msg))) {
-      fc_snprintf(buffer, sizeof(buffer),
-                  _("Option: %s has been set to \"%s\" (%d)."),
-                  setting_name(pset), _(setting_bool_get_str(pset)),
-                  setting_bool_get(pset) ? 1 : 0);
+    } else if (setting_bool_set(pset, args[1], caller,
+                                reject_msg, sizeof(reject_msg))) {
       do_update = TRUE;
     } else {
       cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
@@ -2851,9 +2735,6 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       if (setting_int_set(pset, val, caller, reject_msg,
                           sizeof(reject_msg))) {
-        fc_snprintf(buffer, sizeof(buffer),
-                    _("Option: %s has been set to %d."),
-                    setting_name(pset), setting_int_get(pset));
         do_update = TRUE;
       } else {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
@@ -2874,9 +2755,6 @@ static bool set_command(struct connection *caller, char *str, bool check)
     } else {
       if (setting_str_set(pset, args[1], caller, reject_msg,
           sizeof(reject_msg))) {
-        fc_snprintf(buffer, sizeof(buffer),
-                    _("Option: %s has been set to \"%s\"."),
-                    setting_name(pset), setting_str_get(pset));
         do_update = TRUE;
       } else {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
@@ -2886,47 +2764,34 @@ static bool set_command(struct connection *caller, char *str, bool check)
     break;
 
   case SSET_ENUM:
-    if (1 == sscanf(args[1], "%d", &val)
-        && string_contains_only_digits(args[1])) {
-      /* Enumerator as an integer. */
-      if (check) {
-        if (!setting_is_changeable(pset, caller, reject_msg,
-                                   sizeof(reject_msg))
-            || !setting_enum_validate_int(pset, val, caller, reject_msg,
-                                          sizeof(reject_msg))) {
-          cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-          goto cleanup;
-        }
-      } else if (setting_enum_set_int(pset, val, caller, reject_msg,
-                                      sizeof(reject_msg))) {
-        fc_snprintf(buffer, sizeof(buffer),
-                    _("Option: %s has been set to \"%s\" (%d)."),
-                    setting_name(pset), _(setting_enum_get_str(pset, TRUE)),
-                    setting_enum_get_int(pset));
-        do_update = TRUE;
-      } else {
-        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
-        goto cleanup;
-      }
-    } else if (check) {
-      /* Enumerator as a string. */
+    if (check) {
       if (!setting_is_changeable(pset, caller, reject_msg,
                                  sizeof(reject_msg))
-          || (!setting_enum_validate_str(pset, args[1], FALSE, caller,
-                                         reject_msg, sizeof(reject_msg))
-              && !setting_enum_validate_str(pset, args[1], TRUE, caller,
-                                         reject_msg, sizeof(reject_msg)))) {
+          || (!setting_enum_validate(pset, args[1], caller,
+                                     reject_msg, sizeof(reject_msg)))) {
         cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
         goto cleanup;
       }
-    } else if (setting_enum_set_str(pset, args[1], FALSE, caller,
-                                    reject_msg, sizeof(reject_msg))
-               || setting_enum_set_str(pset, args[1], TRUE, caller,
-                                       reject_msg, sizeof(reject_msg))) {
-        fc_snprintf(buffer, sizeof(buffer),
-                    _("Option: %s has been set to \"%s\" (%d)."),
-                    setting_name(pset), _(setting_enum_get_str(pset, TRUE)),
-                    setting_enum_get_int(pset));
+    } else if (setting_enum_set(pset, args[1], caller,
+                                reject_msg, sizeof(reject_msg))) {
+      do_update = TRUE;
+    } else {
+      cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+      goto cleanup;
+    }
+    break;
+
+  case SSET_BITWISE:
+    if (check) {
+      if (!setting_is_changeable(pset, caller, reject_msg,
+                                 sizeof(reject_msg))
+          || (!setting_bitwise_validate(pset, args[1], caller,
+                                        reject_msg, sizeof(reject_msg)))) {
+        cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
+        goto cleanup;
+      }
+    } else if (setting_bitwise_set(pset, args[1], caller,
+                                   reject_msg, sizeof(reject_msg))) {
       do_update = TRUE;
     } else {
       cmd_reply(CMD_SET, caller, C_FAIL, "%s", reject_msg);
@@ -2937,18 +2802,22 @@ static bool set_command(struct connection *caller, char *str, bool check)
 
   ret = TRUE;   /* Looks like a success. */
 
-  if (!check && strlen(buffer) > 0) {
+  if (!check && do_update) {
     /* Send only to connections able to see that. */
+    char buf[256];
+    struct packet_chat_msg packet;
+
+    package_event(&packet, NULL, E_SETTING, ftc_server,
+                  _("Option: %s has been set to %s."), setting_name(pset),
+                  setting_value_name(pset, TRUE, buf, sizeof(buf)));
     conn_list_iterate(game.est_connections, pconn) {
       if (setting_is_visible(pset, pconn)) {
-        notify_conn(pconn->self, NULL, E_SETTING, ftc_server, "%s", buffer);
+        send_packet_chat_msg(pconn, &packet);
       }
     } conn_list_iterate_end;
     /* Notify the console. */
-    con_write(C_OK, "%s", buffer);
-  }
+    con_write(C_OK, "%s", packet.message);
 
-  if (!check && do_update) {
     setting_action(pset);
     send_server_setting(NULL, pset);
     /* 
@@ -4711,9 +4580,9 @@ static void cmd_reply_matches(enum command_id cmd,
   Unified indices for help arguments:
     CMD_NUM           -  Server commands
     HELP_GENERAL_NUM  -  General help arguments, above
-    SETTINGS_NUM      -  Server options 
+    settings_number() -  Server options 
 **************************************************************************/
-#define HELP_ARG_NUM (CMD_NUM + HELP_GENERAL_COUNT + SETTINGS_NUM)
+#define HELP_ARG_NUM (CMD_NUM + HELP_GENERAL_COUNT + settings_number())
 
 /**************************************************************************
   Convert unified helparg index to string; see above.
@@ -4785,7 +4654,7 @@ static bool show_help(struct connection *caller, char *arg)
   }
   ind -= HELP_GENERAL_COUNT;
 
-  if (ind < SETTINGS_NUM) {
+  if (ind < settings_number()) {
     show_help_option(caller, CMD_HELP, ind);
     return TRUE;
   }
@@ -5138,7 +5007,7 @@ The valid arguments to "set" and "explain"
 **************************************************************************/
 static char *option_generator(const char *text, int state)
 {
-  return generic_generator(text, state, SETTINGS_NUM, optname_accessor);
+  return generic_generator(text, state, settings_number(), optname_accessor);
 }
 
 /**************************************************************************
@@ -5146,8 +5015,8 @@ static char *option_generator(const char *text, int state)
 **************************************************************************/
 static char *olevel_generator(const char *text, int state)
 {
-  return generic_generator(text, state, SETTINGS_NUM + OLEVELS_NUM,
-			   olvlname_accessor);
+  return generic_generator(text, state, settings_number() + OLEVELS_NUM,
+                           olvlname_accessor);
 }
 
 /**************************************************************************

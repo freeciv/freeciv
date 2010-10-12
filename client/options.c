@@ -2992,6 +2992,19 @@ static const struct option_enum_vtable server_option_enum_vtable = {
   .cmp = strcmp
 };
 
+static unsigned server_option_bitwise_get(const struct option *poption);
+static unsigned server_option_bitwise_def(const struct option *poption);
+static const struct strvec *
+    server_option_bitwise_pretty(const struct option *poption);
+static bool server_option_bitwise_set(struct option *poption, unsigned val);
+
+static const struct option_bitwise_vtable server_option_bitwise_vtable = {
+  .get = server_option_bitwise_get,
+  .def = server_option_bitwise_def,
+  .values = server_option_bitwise_pretty,
+  .set = server_option_bitwise_set
+};
+
 /****************************************************************************
   Derived class server option, inherinting of base class option.
 ****************************************************************************/
@@ -3029,6 +3042,13 @@ struct server_option {
       struct strvec *support_names;
       struct strvec *pretty_names;
     } enumerator;
+    /* OT_BITWISE type option. */
+    struct {
+      unsigned value;
+      unsigned def;
+      struct strvec *support_names;
+      struct strvec *pretty_names;
+    } bitwise;
   };
 };
 
@@ -3074,9 +3094,19 @@ static void server_option_free(struct server_option *poption)
     }
     break;
 
+  case OT_BITWISE:
+    if (NULL != poption->bitwise.support_names) {
+      strvec_destroy(poption->bitwise.support_names);
+      poption->bitwise.support_names = NULL;
+    }
+    if (NULL != poption->bitwise.pretty_names) {
+      strvec_destroy(poption->bitwise.pretty_names);
+      poption->bitwise.pretty_names = NULL;
+    }
+    break;
+
   case OT_BOOLEAN:
   case OT_INTEGER:
-  case OT_BITWISE:
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
@@ -3331,7 +3361,7 @@ void handle_server_setting_str(struct packet_server_setting_str *packet)
 }
 
 /****************************************************************************
-  Receive a string server setting info packet.
+  Receive an enumerator server setting info packet.
 ****************************************************************************/
 void handle_server_setting_enum(struct packet_server_setting_enum *packet)
 {
@@ -3407,6 +3437,91 @@ void handle_server_setting_enum(struct packet_server_setting_enum *packet)
         /* Support names are not visible, we don't need to check if it
          * has changed. */
         strvec_set(psoption->enumerator.support_names, i,
+                   packet->support_names[i]);
+      }
+    }
+  }
+
+  handle_server_setting_common(psoption, packet);
+}
+
+/****************************************************************************
+  Receive a bitwise server setting info packet.
+****************************************************************************/
+void handle_server_setting_bitwise(struct packet_server_setting_bitwise *packet)
+{
+  struct option *poption = server_optset_option_by_number(packet->id);
+  struct server_option *psoption = SERVER_OPTION(poption);
+  bool need_gui_remove = FALSE;
+  bool need_gui_add = FALSE;
+
+  fc_assert_ret(NULL != poption);
+
+  if (NULL == poption->common_vtable) {
+    /* Not initialized yet. */
+    poption->poptset = server_optset;
+    poption->common_vtable = &server_option_common_vtable;
+    poption->type = OT_BITWISE;
+    poption->bitwise_vtable = &server_option_bitwise_vtable;
+  }
+  fc_assert_ret_msg(OT_BITWISE == poption->type,
+                    "Server setting \"%s\" (nb %d) has type %s (%d), "
+                    "expected %s (%d)",
+                    option_name(poption), option_number(poption),
+                    option_type_name(poption->type), poption->type,
+                    option_type_name(OT_BITWISE), OT_BITWISE);
+
+  if (packet->is_visible) {
+    int i;
+
+    psoption->bitwise.value = packet->val;
+    psoption->bitwise.def = packet->default_val;
+
+    if (NULL == psoption->bitwise.support_names) {
+      /* First time we get this packet. */
+      fc_assert(NULL == psoption->bitwise.pretty_names);
+      psoption->bitwise.support_names = strvec_new();
+      strvec_reserve(psoption->bitwise.support_names, packet->bits_num);
+      psoption->bitwise.pretty_names = strvec_new();
+      strvec_reserve(psoption->bitwise.pretty_names, packet->bits_num);
+      for (i = 0; i < packet->bits_num; i++) {
+        strvec_set(psoption->bitwise.support_names, i,
+                   packet->support_names[i]);
+        strvec_set(psoption->bitwise.pretty_names, i,
+                   packet->pretty_names[i]);
+      }
+    } else if (strvec_size(psoption->bitwise.support_names)
+               != packet->bits_num) {
+      fc_assert(strvec_size(psoption->bitwise.support_names)
+                == strvec_size(psoption->bitwise.pretty_names));
+      /* The number of values have changed, we need to reset the list
+       * of possible values. */
+      strvec_reserve(psoption->bitwise.support_names, packet->bits_num);
+      strvec_reserve(psoption->bitwise.pretty_names, packet->bits_num);
+      for (i = 0; i < packet->bits_num; i++) {
+        strvec_set(psoption->bitwise.support_names, i,
+                   packet->support_names[i]);
+        strvec_set(psoption->bitwise.pretty_names, i,
+                   packet->pretty_names[i]);
+      }
+      need_gui_remove = TRUE;
+      need_gui_add = TRUE;
+    } else {
+      /* Check if a value changed, then we need to reset the list
+       * of possible values. */
+      const char *str;
+
+      for (i = 0; i < packet->bits_num; i++) {
+        str = strvec_get(psoption->bitwise.pretty_names, i);
+        if (NULL == str || 0 != strcmp(str, packet->pretty_names[i])) {
+          strvec_set(psoption->bitwise.pretty_names, i,
+                     packet->pretty_names[i]);
+          need_gui_remove = TRUE;
+          need_gui_add = TRUE;
+        }
+        /* Support names are not visible, we don't need to check if it
+         * has changed. */
+        strvec_set(psoption->bitwise.support_names, i,
                    packet->support_names[i]);
       }
     }
@@ -3686,12 +3801,116 @@ static bool server_option_enum_set(struct option *poption, int val)
   const char *name;
 
   if (val == psoption->enumerator.value
-      || !(name = strvec_get(psoption->enumerator.pretty_names, val))) {
+      || !(name = strvec_get(psoption->enumerator.support_names, val))) {
     return FALSE;
   }
 
   send_chat_printf("/set %s \"%s\"", psoption->name, name);
   return TRUE;
+}
+
+/****************************************************************************
+  Returns the long support names of the values of the server option of type
+  OT_ENUM.
+****************************************************************************/
+static void server_option_enum_support_name(const struct option *poption,
+                                            const char **pvalue,
+                                            const char **pdefault)
+{
+  const struct server_option *psoption = SERVER_OPTION(poption);
+  const struct strvec *values = psoption->enumerator.support_names;
+
+  if (NULL != pvalue) {
+    *pvalue = strvec_get(values, psoption->enumerator.value);
+  }
+  if (NULL != pdefault) {
+    *pdefault = strvec_get(values, psoption->enumerator.def);
+  }
+}
+
+/****************************************************************************
+  Returns the current value of this server option of type OT_BITWISE.
+****************************************************************************/
+static unsigned server_option_bitwise_get(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->bitwise.value;
+}
+
+/****************************************************************************
+  Returns the default value of this server option of type OT_BITWISE.
+****************************************************************************/
+static unsigned server_option_bitwise_def(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->bitwise.def;
+}
+
+/****************************************************************************
+  Returns the user-visible, translateable "pretty" names of this server
+  option of type OT_BITWISE.
+****************************************************************************/
+static const struct strvec *
+    server_option_bitwise_pretty(const struct option *poption)
+{
+  return SERVER_OPTION(poption)->bitwise.pretty_names;
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_BITWISE.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_bitwise_set(struct option *poption, unsigned val)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+  const char *name;
+
+  if (val == psoption->enumerator.value
+      || !(name = strvec_get(psoption->enumerator.support_names, val))) {
+    return FALSE;
+  }
+
+  send_chat_printf("/set %s \"%s\"", psoption->name, name);
+  return TRUE;
+}
+
+/****************************************************************************
+  Compute the long support names of a value.
+****************************************************************************/
+static void server_option_bitwise_support_base(const struct strvec *values,
+                                               unsigned val,
+                                               char *buf, size_t buf_len)
+{
+  int bit;
+
+  buf[0] = '\0';
+  for (bit = 0; bit < strvec_size(values); bit++) {
+    if ((1 << bit) & val) {
+      if ('\0' != buf[0]) {
+        fc_strlcat(buf, "|", buf_len);
+      }
+      fc_strlcat(buf, strvec_get(values, bit), buf_len);
+    }
+  }
+}
+
+/****************************************************************************
+  Compute the long support names of the values of the server option of type
+  OT_BITWISE.
+****************************************************************************/
+static void server_option_bitwise_support_name(const struct option *poption,
+                                               char *val_buf, size_t val_len,
+                                               char *def_buf, size_t def_len)
+{
+  const struct server_option *psoption = SERVER_OPTION(poption);
+  const struct strvec *values = psoption->bitwise.support_names;
+
+  if (NULL != val_buf && 0 < val_len) {
+    server_option_bitwise_support_base(values, psoption->bitwise.value,
+                                       val_buf, val_len);
+  }
+  if (NULL != def_buf && 0 < def_len) {
+    server_option_bitwise_support_base(values, psoption->bitwise.def,
+                                       def_buf, def_len);
+  }
 }
 
 
@@ -4117,7 +4336,7 @@ static void settable_options_save(struct section_file *sf)
 ****************************************************************************/
 void desired_settable_options_update(void)
 {
-  char val_buf[64], def_buf[64];
+  char val_buf[1024], def_buf[1024];
   const char *value, *def_val;
 
   fc_assert_ret(NULL != settable_options_hash);
@@ -4143,15 +4362,14 @@ void desired_settable_options_update(void)
       def_val = option_str_def(poption);
       break;
     case OT_ENUM:
-      {
-        const struct strvec *values =
-            SERVER_OPTION(poption)->enumerator.support_names;
-
-        value = strvec_get(values, option_enum_get_int(poption));
-        def_val = strvec_get(values, option_enum_def_int(poption));
-      }
+      server_option_enum_support_name(poption, &value, &def_val);
       break;
     case OT_BITWISE:
+      server_option_bitwise_support_name(poption, val_buf, sizeof(val_buf),
+                                         def_buf, sizeof(def_buf));
+      value = val_buf;
+      def_val = def_buf;
+      break;
     case OT_FONT:
     case OT_COLOR:
     case OT_VIDEO_MODE:
@@ -4198,7 +4416,7 @@ void desired_settable_option_update(const char *op_name,
 *****************************************************************/
 static void desired_settable_option_send(struct option *poption)
 {
-  char buf[64];
+  char buf[1024];
   const char *desired;
   const char *value;
 
@@ -4224,10 +4442,11 @@ static void desired_settable_option_send(struct option *poption)
     value = option_str_get(poption);
     break;
   case OT_ENUM:
-    value = strvec_get(SERVER_OPTION(poption)->enumerator.support_names,
-                       option_enum_get_int(poption));
+    server_option_enum_support_name(poption, &value, NULL);
     break;
   case OT_BITWISE:
+    server_option_bitwise_support_name(poption, buf, sizeof(buf), NULL, 0);
+    value = buf;
   case OT_FONT:
   case OT_COLOR:
   case OT_VIDEO_MODE:
