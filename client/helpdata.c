@@ -1739,7 +1739,7 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 
   if (NULL != gov->helptext) {
     strvec_iterate(gov->helptext, text) {
-      cat_snprintf(buf, bufsz, "%s", _(text));
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
     } strvec_iterate_end;
   }
 
