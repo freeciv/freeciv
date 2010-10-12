@@ -139,6 +139,7 @@ static void meswin_dialog_refresh(struct meswin_dialog *pdialog)
   store = GTK_LIST_STORE(model);
   num = meswin_get_num_messages();
 
+  gtk_list_store_clear(store);
   for (i = 0; i < num; i++) {
     pmsg = meswin_get_message(i);
 
