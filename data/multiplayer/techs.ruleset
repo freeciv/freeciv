@@ -768,7 +768,7 @@ graphic     = "a.writing"
 graphic_alt = "-"
 
 ; A placeholder tech used to ensure that when
-; a game is reloaded, a player can't rebuild
+; a game is reloaded, a player can`t rebuild
 ; the "Darwin's Voyage" small wonder and get
 ; two free advances again.
 [advance_theory_of_evolution]

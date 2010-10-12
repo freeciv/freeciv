@@ -138,7 +138,7 @@ fallout_trade_penalty=50
 ;                        terrain section -- transformation changes to that terrain
 ; transform_time       = time to transform; if 0, cannot transform
 ; warmer_wetter_result = result of global warming for wet terrains; one of:
-;                        "no"  -- no change; doesn't count for warming
+;                        "no"  -- no change; doesn`t count for warming
 ;                        "yes" -- no change; counts for warming
 ;                        terrain section -- warming changes to that terrain
 ; warmer_drier_result  = result of global warming for dry terrains;

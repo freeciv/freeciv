@@ -14,7 +14,7 @@ leader=
  "Gao",			; Mansa from 1300-1305
  "Sakura",		; Born slave but seized power, conqueror
  "Wali Keita",		; Second Mansa of Mali empire
- "Kolonkan",		; Sundiata Keita's sister
+ "Kolonkan",		; Sundiata Keita`s sister
  "Sundiata Keita"	; First Mansa of Mali empire
 
 leader_sex="Male", "Male", "Male", "Male", "Female", "Male"
