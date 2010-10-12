@@ -1327,9 +1327,9 @@ PACKET_RULESET_BASE = 153; sc, lsend
   BV_UNIT_CLASSES native_to;
   UINT8 build_time;
   UINT8 defense_bonus;
-  UINT8 border_sq;
-  UINT8 vision_main_sq;
-  UINT8 vision_invis_sq;
+  SINT8 border_sq;
+  SINT8 vision_main_sq;
+  SINT8 vision_invis_sq;
   BV_BASE_FLAGS flags;
 end
 
