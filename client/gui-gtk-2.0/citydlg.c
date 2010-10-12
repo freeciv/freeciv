@@ -1342,8 +1342,8 @@ static struct city_dialog *create_city_dialog(struct city *pcity)
 
   if (city_owner(pcity) == client_player()
       && !client_is_observer()) {
-    create_and_append_settings_page(pdialog);
     create_and_append_cma_page(pdialog);
+    create_and_append_settings_page(pdialog);
   } else {
     gtk_notebook_set_current_page(GTK_NOTEBOOK(pdialog->notebook),
                                   OVERVIEW_PAGE);
