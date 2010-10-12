@@ -847,7 +847,7 @@ bool is_reg_file_for_access(const char *name, bool write_access)
 ****************************************************************************/
 bool my_isalnum(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isalnum((int)((unsigned char)c)) != 0;
@@ -858,7 +858,7 @@ bool my_isalnum(char c)
 ****************************************************************************/
 bool my_isalpha(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isalpha((int)((unsigned char)c)) != 0;
@@ -869,7 +869,7 @@ bool my_isalpha(char c)
 ****************************************************************************/
 bool my_isdigit(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isdigit((int)((unsigned char)c)) != 0;
@@ -880,7 +880,7 @@ bool my_isdigit(char c)
 ****************************************************************************/
 bool my_isprint(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isprint((int)((unsigned char)c)) != 0;
@@ -891,7 +891,7 @@ bool my_isprint(char c)
 ****************************************************************************/
 bool my_isspace(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isspace((int)((unsigned char)c)) != 0;
@@ -902,7 +902,7 @@ bool my_isspace(char c)
 ****************************************************************************/
 bool my_isupper(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return FALSE;
   }
   return isupper((int)((unsigned char)c)) != 0;
@@ -913,7 +913,7 @@ bool my_isupper(char c)
 ****************************************************************************/
 char my_toupper(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return c;
   }
   return (char) toupper((int)((unsigned char)c));
@@ -924,7 +924,7 @@ char my_toupper(char c)
 ****************************************************************************/
 char my_tolower(char c)
 {
-  if (c < 0 || c >= 128) {
+  if (128 <= (unsigned char) c) {
     return c;
   }
   return (char) tolower((int)((unsigned char)c));
