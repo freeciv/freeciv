@@ -1965,34 +1965,43 @@ void handle_player_diplstate(struct packet_player_diplstate *packet)
   struct player *plr2 = player_by_number(packet->plr2);
   struct player *my_player = client_player();
   struct player_diplstate *ds = player_diplstate_get(plr1, plr2);
+  bool need_players_dialog_update = FALSE;
 
   fc_assert_ret(ds != NULL);
 
-  /* Check if we detect change to armistice with us. If so,
-   * ready all units for movement out of the territory in
-   * question; otherwise they will be disbanded. */
-  if (client_has_player()
-      && my_player == plr2
-      && DS_ARMISTICE != player_diplstate_get(plr1, my_player)->type
-      && DS_ARMISTICE == packet->type) {
-    unit_list_iterate(my_player->units, punit) {
-      if (!tile_owner(unit_tile(punit))
-          || tile_owner(unit_tile(punit)) != plr1) {
-        continue;
-      }
-      if (punit->client.focus_status == FOCUS_WAIT) {
-        punit->client.focus_status = FOCUS_AVAIL;
-      }
-      if (punit->activity != ACTIVITY_IDLE) {
-        request_new_unit_activity(punit, ACTIVITY_IDLE);
-      }
-    } unit_list_iterate_end;
+  if (client_has_player() && my_player == plr2) {
+    if (ds->type != packet->type) {
+      need_players_dialog_update = TRUE;
+    }
+
+    /* Check if we detect change to armistice with us. If so,
+     * ready all units for movement out of the territory in
+     * question; otherwise they will be disbanded. */
+    if (DS_ARMISTICE != player_diplstate_get(plr1, my_player)->type
+        && DS_ARMISTICE == packet->type) {
+      unit_list_iterate(my_player->units, punit) {
+        if (!tile_owner(unit_tile(punit))
+            || tile_owner(unit_tile(punit)) != plr1) {
+          continue;
+        }
+        if (punit->client.focus_status == FOCUS_WAIT) {
+          punit->client.focus_status = FOCUS_AVAIL;
+        }
+        if (punit->activity != ACTIVITY_IDLE) {
+          request_new_unit_activity(punit, ACTIVITY_IDLE);
+        }
+      } unit_list_iterate_end;
+    }
   }
 
   ds->type = packet->type;
   ds->turns_left = packet->turns_left;
   ds->has_reason_to_cancel = packet->has_reason_to_cancel;
   ds->contact_turns_left = packet->contact_turns_left;
+
+  if (need_players_dialog_update) {
+    players_dialog_update();
+  }
 }
 
 /**************************************************************************
