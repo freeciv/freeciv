@@ -334,6 +334,7 @@ flag_files =				\
 		tocharian.png		\
 		toltec.png		\
 		tonga.png		\
+		transylvania.png	\
 		tunisia.png		\
 		tupi.png		\
 		turkey.png		\
@@ -701,6 +702,7 @@ shield_files =					\
 		toltec-shield.png		\
 		tocharian-shield.png		\
 		tonga-shield.png		\
+		transylvania-shield.png		\
 		tunisia-shield.png		\
 		tupi-shield.png			\
 		turkey-shield.png		\
@@ -1068,6 +1070,7 @@ svg_files = 				\
 		tocharian.svg		\
 		toltec.svg		\
 		tonga.svg		\
+		transylvania.svg	\
 		tunisia.svg		\
 		tupi.svg		\
 		turkey.svg		\

@@ -378,6 +378,7 @@ match=2
 *include "nation/tocharian.ruleset"
 *include "nation/toltec.ruleset"
 *include "nation/tongan.ruleset"
+*include "nation/transylvanian.ruleset"
 *include "nation/tunisian.ruleset"
 *include "nation/tupi.ruleset"
 *include "nation/turkmen.ruleset"

@@ -43,7 +43,7 @@ init_units=""
 init_government="Despotism"
 
 conflicts_with = "roman"
-civilwar_nations = "hungarian", "serbian", "ukrainian"
+civilwar_nations = "transylvanian", "moldovan"
 
 cities =
  "Bucureşti",

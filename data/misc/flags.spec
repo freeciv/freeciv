@@ -342,6 +342,7 @@ artists = "
    Tocharian		Dan Cottrell and Daniel Markstedt
    Toltec		J.M. Maalderink
    Tonga		Madden (Wikimedia Commons)
+   Transylvania		Alex:D (Wikipedia)
    Tunisia		Tobias Jakobs
    Tupi			Dan Cottrell and Daniel Markstedt
    Turkey		David Benbennick
@@ -713,6 +714,7 @@ sprites =
 		"f.tocharian", "flags/tocharian"
 		"f.toltec", "flags/toltec"
 		"f.tonga", "flags/tonga"
+		"f.transylvania", "flags/transylvania"
 		"f.tunisia", "flags/tunisia"
 		"f.tupi", "flags/tupi"
 		"f.turkey", "flags/turkey"

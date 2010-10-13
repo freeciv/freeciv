@@ -5,7 +5,7 @@ plural=_("?plural:Hungarians")
 groups="Medieval", "Early Modern", "Modern", "European"
 legend=_("Legend says that Hungary was founded by Arpad in the 9th\
  century.")
-conflicts_with="indian"	; Similar flags
+
 leader=
  "Árpád",
  "Szent István",
@@ -24,7 +24,9 @@ init_buildings=""
 
 init_government="Despotism"
 init_units=""
-civilwar_nations = "lithuanian", "croatian", "slovenian"
+
+conflicts_with="indian"	; Similar flags
+civilwar_nations = "transylvanian", "croatian", "slovakian"
 
 cities =
  "Budapest", "Debrecen", "Székesfehérvár", "Kolozsvár", "Szeged",

@@ -42,7 +42,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Romanian"
+civilwar_nations="Romanian", "Transylvanian"
 
 ; Cities associated with vampires in fiction or legend
 cities =
