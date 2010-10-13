@@ -237,6 +237,23 @@ bool unit_has_type_role(const struct unit *punit, enum unit_role_id role)
 }
 
 /****************************************************************************
+  Return whether the unit can take over ennemy cities.
+****************************************************************************/
+bool unit_can_take_over(const struct unit *punit)
+{
+  return utype_can_take_over(unit_type(punit));
+}
+
+/****************************************************************************
+  Return whether the unit type can take over ennemy cities.
+****************************************************************************/
+bool utype_can_take_over(const struct unit_type *punittype)
+{
+  return (uclass_has_flag(utype_class(punittype), UCF_CAN_OCCUPY_CITY)
+          && !utype_has_flag(punittype, F_CIVILIAN));
+}
+
+/****************************************************************************
   Returns the number of shields it takes to build this unit type.
 ****************************************************************************/
 int utype_build_shield_cost(const struct unit_type *punittype)

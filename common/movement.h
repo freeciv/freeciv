@@ -14,7 +14,7 @@
 #define FC__MOVEMENT_H
 
 #include "fc_types.h"
-#include "unit.h"       /* enum unit_activity */
+#include "tile.h"
 
 #define SINGLE_MOVE     3
 #define MOVE_COST_RIVER 1
@@ -23,6 +23,24 @@
 
 struct unit_type;
 struct terrain;
+
+enum unit_move_result {
+  MR_OK,
+  MR_DEATH,
+  MR_PAUSE,
+  MR_BAD_TYPE_FOR_CITY_TAKE_OVER,
+  MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA,
+  MR_NO_WAR,    /* Can't move here without declaring war. */
+  MR_PEACE,     /* Can't move here because of a peace treaty. */
+  MR_ZOC,
+  MR_BAD_ACTIVITY,
+  MR_BAD_DESTINATION,
+  MR_BAD_MAP_POSITION,
+  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY,
+  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
+  MR_NO_TRANSPORTER_CAPACITY,
+  MR_TRIREME,
+};
 
 int unit_move_rate(const struct unit *punit);
 bool unit_can_defend_here(const struct unit *punit);

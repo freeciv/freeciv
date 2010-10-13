@@ -297,6 +297,9 @@ void set_user_unit_flag_name(enum unit_flag_id id, const char *name);
 const char *unit_flag_rule_name(enum unit_flag_id id);
 const char *unit_role_rule_name(enum unit_role_id id);
 
+bool unit_can_take_over(const struct unit *punit);
+bool utype_can_take_over(const struct unit_type *punittype);
+
 /* Functions to operate on various flag and roles. */
 void role_unit_precalcs(void);
 void role_unit_precalcs_free(void);

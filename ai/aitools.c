@@ -1025,20 +1025,23 @@ bool ai_unit_move(struct unit *punit, struct tile *ptile)
   Calculate the value of the target unit including the other units which
   will die in a successful attack
 **************************************************************************/
-int stack_cost(struct unit *pdef)
+int stack_cost(struct unit *pattacker, struct unit *pdefender)
 {
+  struct tile *ptile = unit_tile(pdefender);
   int victim_cost = 0;
 
-  if (is_stack_vulnerable(pdef->tile)) {
+  if (is_stack_vulnerable(ptile)) {
     /* lotsa people die */
-    unit_list_iterate(pdef->tile->units, aunit) {
-      victim_cost += unit_build_shield_cost(aunit);
+    unit_list_iterate(ptile->units, aunit) {
+      if (can_unit_attack_unit_at_tile(pattacker, aunit, ptile)) {
+        victim_cost += unit_build_shield_cost(aunit);
+      }
     } unit_list_iterate_end;
-  } else {
+  } else if (can_unit_attack_unit_at_tile(pattacker, pdefender, ptile)) {
     /* Only one unit dies if attack is successful */
-    victim_cost = unit_build_shield_cost(pdef);
+    victim_cost = unit_build_shield_cost(pdefender);
   }
-  
+
   return victim_cost;
 }
 

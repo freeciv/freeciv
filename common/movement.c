@@ -400,12 +400,13 @@ bool can_unit_move_to_tile(const struct unit *punit,
     3) There are no non-allied units on the target tile.
     4) Unit can move to non-native tile if there is city
        or free transport capacity.
-    5) Marines are the only land units that can attack from a ocean square.
-    6) There are no peaceful but un-allied units on the target tile.
-    7) There is not a peaceful but un-allied city on the target tile.
-    8) There is no non-allied unit blocking (zoc) [or igzoc is true].
-    9) Triremes cannot move out of sight from land.
-   10) It is not the territory of a player we are at peace with.
+    5) Some units cannot take over a city.
+    6) Marines are the only land units that can attack from a ocean square.
+    7) There are no peaceful but un-allied units on the target tile.
+    8) There is not a peaceful but un-allied city on the target tile.
+    9) There is no non-allied unit blocking (zoc) [or igzoc is true].
+   10) Triremes cannot move out of sight from land.
+   11) It is not the territory of a player we are at peace with.
 **************************************************************************/
 enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
 					     const struct player *unit_owner,
@@ -444,22 +445,25 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_TRANSPORTER_CAPACITY;
   }
 
-  if (utype_move_type(punittype) == LAND_MOVING) {
+  pcity = is_enemy_city_tile(dst_tile, unit_owner);
+  if (NULL != pcity) {
+    /* 5) */
+    if (!utype_can_take_over(punittype)) {
+      return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
+    }
 
-    /* Moving from ocean */
-    if (is_ocean_tile(src_tile)) {
-      /* 5) */
-      if (!utype_has_flag(punittype, F_MARINES)
-	  && is_enemy_city_tile(dst_tile, unit_owner)) {
-	/* Most ground units can't move into cities from ships.  (Note this
-	 * check is only for movement, not attacking: most ground units
-	 * can't attack from ship at *any* units on land.) */
-	return MR_BAD_TYPE_FOR_CITY_TAKE_OVER;
-      }
+    /* 6) */
+    if (utype_move_type(punittype) == LAND_MOVING
+        && is_ocean_tile(src_tile)      /* Moving from ocean */
+        && !utype_has_flag(punittype, F_MARINES)) {
+      /* Most ground units can't move into cities from ships. (Note this
+       * check is only for movement, not attacking: most ground units
+       * can't attack from ship at *any* units on land.) */
+      return MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA;
     }
   }
 
-  /* 6) */
+  /* 7) */
   if (is_non_attack_unit_tile(dst_tile, unit_owner)) {
     /* You can't move into a non-allied tile.
      *
@@ -468,7 +472,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_WAR;
   }
 
-  /* 7) */
+  /* 8) */
   pcity = tile_city(dst_tile);
   if (pcity && pplayers_non_attack(city_owner(pcity), unit_owner)) {
     /* You can't move into an empty city of a civilization you're at
@@ -476,7 +480,7 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_NO_WAR;
   }
 
-  /* 8) */
+  /* 9) */
   zoc = igzoc
     || can_step_taken_wrt_to_zoc(punittype, unit_owner, src_tile, dst_tile);
   if (!zoc) {
@@ -484,12 +488,12 @@ enum unit_move_result test_unit_move_to_tile(const struct unit_type *punittype,
     return MR_ZOC;
   }
 
-  /* 9) */
+  /* 10) */
   if (utype_has_flag(punittype, F_TRIREME) && !is_safe_ocean(dst_tile)) {
     return MR_TRIREME;
   }
 
-  /* 9) */
+  /* 11) */
   if (!utype_has_flag(punittype, F_CIVILIAN)
       && !player_can_invade_tile(unit_owner, dst_tile)) {
     return MR_PEACE;

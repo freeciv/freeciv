@@ -98,7 +98,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
    * unit of the same type nearby */
   if (acity && punit->id != 0
       && def_ai_city_data(acity)->invasion.occupy == 0
-      && !COULD_OCCUPY(punit)) {
+      && !unit_can_take_over(punit)) {
     /* No units capable of occupying are invading */
     log_debug("Don't want to attack %s, although we could",
               city_name(acity));
@@ -115,7 +115,7 @@ static bool ai_should_we_air_attack_tile(struct unit *punit,
 static int ai_evaluate_tile_for_air_attack(struct unit *punit, 
 					   struct tile *dst_tile)
 {
-  struct unit *pdefender = get_defender(punit, dst_tile);
+  struct unit *pdefender;
   /* unit costs in shields */
   int balanced_cost, unit_cost, victim_cost = 0;
   /* unit stats */
@@ -126,8 +126,8 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   int sortie_time;
 #define PROB_MULTIPLIER 100 /* should unify with those in combat.c */
 
-  if ((pdefender == NULL) 
-      || !can_unit_attack_units_at_tile(punit, dst_tile)) {
+  if (!can_unit_attack_tile(punit, dst_tile)
+      || !(pdefender = get_defender(punit, dst_tile))) {
     return 0;
   }
 
@@ -139,7 +139,10 @@ static int ai_evaluate_tile_for_air_attack(struct unit *punit,
   unit_cost = unit_cost * unit_type(punit)->hp / punit->hp; 
 
   /* Determine cost of enemy units */
-  victim_cost = stack_cost(pdefender);
+  victim_cost = stack_cost(punit, pdefender);
+  if (0 == victim_cost) {
+    return 0;
+  }
 
   /* Missile would die 100% so we adjust the victim_cost -- GB */
   if (uclass_has_flag(unit_class(punit), UCF_MISSILE)) {
@@ -215,7 +218,7 @@ static int find_something_to_bomb(struct unit *punit, struct pf_path **path,
 
     if (is_enemy_unit_tile(ptile, pplayer)
         && ai_should_we_air_attack_tile(punit, ptile)
-        && can_unit_attack_units_at_tile(punit, ptile)) {
+        && can_unit_attack_tile(punit, ptile)) {
       int new_best = ai_evaluate_tile_for_air_attack(punit, ptile);
 
       if (new_best > best) {

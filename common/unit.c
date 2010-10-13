@@ -300,7 +300,7 @@ bool is_attack_unit(const struct unit *punit)
 
 /**************************************************************************
   Military units are capable of enforcing martial law. Military ground
-  and heli units can occupy empty cities -- see COULD_OCCUPY(punit).
+  and heli units can occupy empty cities -- see unit_can_take_over(punit).
   Some military units, like the Galleon, have no attack strength.
 **************************************************************************/
 bool is_military_unit(const struct unit *punit)

@@ -517,10 +517,13 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 
   square_iterate(pdef->tile, 1, ptile) {
     unit_list_iterate(ptile->units, aunit) {
-      if (aunit == punit || unit_owner(aunit) != unit_owner(punit))
-	continue;
-      if (!can_unit_attack_units_at_tile(aunit, pdef->tile))
-	continue;
+      if (aunit == punit || unit_owner(aunit) != unit_owner(punit)) {
+        continue;
+      }
+      if (!can_unit_attack_units_at_tile(aunit, unit_tile(pdef))
+          || !can_unit_attack_unit_at_tile(aunit, pdef, unit_tile(pdef))) {
+        continue;
+      }
       d = get_virtual_defense_power(unit_type(aunit), unit_type(pdef),
 				    unit_owner(pdef), pdef->tile,
 				    FALSE, 0);
@@ -558,67 +561,60 @@ static bool is_my_turn(struct unit *punit, struct unit *pdef)
 static int ai_rampage_want(struct unit *punit, struct tile *ptile)
 {
   struct player *pplayer = unit_owner(punit);
-  struct unit *pdef = get_defender(punit, ptile);
+  struct unit *pdef;
 
   CHECK_UNIT(punit);
-  
-  if (pdef) {
-    
-    if (!can_unit_attack_tile(punit, ptile)) {
-      return 0;
+
+  if (can_unit_attack_tile(punit, ptile)
+      && (pdef = get_defender(punit, ptile))) {
+    /* See description of kill_desire() about these variables. */
+    int attack = unit_att_rating_now(punit);
+    int benefit = stack_cost(punit, pdef);
+    int loss = unit_build_shield_cost(punit);
+
+    attack *= attack;
+
+    /* If the victim is in the city/fortress, we correct the benefit
+     * with our health because there could be reprisal attacks.  We
+     * shouldn't send already injured units to useless suicide.
+     * Note that we do not specially encourage attacks against
+     * cities: rampage is a hit-n-run operation. */
+    if (!is_stack_vulnerable(ptile) 
+        && unit_list_size(ptile->units) > 1) {
+      benefit = (benefit * punit->hp) / unit_type(punit)->hp;
     }
-    
-    {
-      /* See description of kill_desire() about these variables. */
-      int attack = unit_att_rating_now(punit);
-      int benefit = stack_cost(pdef);
-      int loss = unit_build_shield_cost(punit);
 
-      attack *= attack;
-      
-      /* If the victim is in the city/fortress, we correct the benefit
-       * with our health because there could be reprisal attacks.  We
-       * shouldn't send already injured units to useless suicide.
-       * Note that we do not specially encourage attacks against
-       * cities: rampage is a hit-n-run operation. */
-      if (!is_stack_vulnerable(ptile) 
-          && unit_list_size(ptile->units) > 1) {
-        benefit = (benefit * punit->hp) / unit_type(punit)->hp;
-      }
-      
-      /* If we have non-zero attack rating... */
-      if (attack > 0 && is_my_turn(punit, pdef)) {
-	double chance = unit_win_chance(punit, pdef);
-	int desire = avg_benefit(benefit, loss, chance);
+    /* If we have non-zero attack rating... */
+    if (attack > 0 && is_my_turn(punit, pdef)) {
+      double chance = unit_win_chance(punit, pdef);
+      int desire = avg_benefit(benefit, loss, chance);
 
-        /* No need to amortize, our operation takes one turn. */
-	UNIT_LOG(LOG_DEBUG, punit, "Rampage: Desire %d to kill %s(%d,%d)",
-		 desire,
-		 unit_rule_name(pdef),
-		 TILE_XY(pdef->tile));
+      /* No need to amortize, our operation takes one turn. */
+      UNIT_LOG(LOG_DEBUG, punit, "Rampage: Desire %d to kill %s(%d,%d)",
+               desire,
+               unit_rule_name(pdef),
+               TILE_XY(pdef->tile));
 
-        return MAX(0, desire);
-      }
+      return MAX(0, desire);
     }
-    
-  } else {
+  } else if (0 == unit_list_size(ptile->units)) {
+    /* No defender. */
     struct city *pcity = tile_city(ptile);
-    
-    /* No defender... */
-    
+
     /* ...and free foreign city waiting for us. Who would resist! */
-    if (pcity && pplayers_at_war(pplayer, city_owner(pcity))
-        && COULD_OCCUPY(punit)) {
+    if (NULL != pcity
+        && pplayers_at_war(pplayer, city_owner(pcity))
+        && unit_can_take_over(punit)) {
       return -RAMPAGE_FREE_CITY_OR_BETTER;
     }
-    
+
     /* ...or tiny pleasant hut here! */
     if (tile_has_special(ptile, S_HUT) && !is_barbarian(pplayer)
         && is_ground_unit(punit)) {
       return -RAMPAGE_HUT_OR_BETTER;
     }
   }
-  
+
   return 0;
 }
 
@@ -1325,7 +1321,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
     if (IS_ATTACKER(aunit)) {
       if (aunit->activity == ACTIVITY_GOTO) {
         invasion_funct(aunit, TRUE, 0,
-                       (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
+                       (unit_can_take_over(aunit)
+                        ? INVASION_OCCUPY : INVASION_ATTACK));
         if ((pcity = tile_city(aunit->goto_tile))) {
           struct ai_city *city_data = def_ai_city_data(pcity);
 
@@ -1334,7 +1331,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         } 
       }
       invasion_funct(aunit, FALSE, unit_move_rate(aunit) / SINGLE_MOVE,
-                     (COULD_OCCUPY(aunit) ? INVASION_OCCUPY : INVASION_ATTACK));
+                     (unit_can_take_over(aunit)
+                      ? INVASION_OCCUPY : INVASION_ATTACK));
     } else if (def_ai_unit_data(aunit)->passenger != 0
                && !same_pos(aunit->tile, punit->tile)) {
       /* It's a transport with reinforcements */
@@ -1455,10 +1453,12 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
         continue;
       }
       
-      if ((pdef = get_defender(punit, acity->tile))) {
+      if (can_unit_attack_tile(punit, city_tile(acity))
+          && (pdef = get_defender(punit, city_tile(acity)))) {
         vuln = unit_def_rating_sq(punit, pdef);
         benefit = unit_build_shield_cost(pdef);
-      } else { 
+      } else {
+        pdef = NULL;
         vuln = 0; 
         benefit = 0; 
       }
@@ -1489,7 +1489,7 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       if (reserves >= 0) {
         /* We have enough units to kill all the units in the city */
         if (reserves > 0
-            && (COULD_OCCUPY(punit)
+            && (unit_can_take_over(punit)
                 || acity_data->invasion.occupy > 0)) {
           /* There are units able to occupy the city after all defenders
            * are killed! */
@@ -1507,14 +1507,14 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       victim_count 
         = unit_list_size(acity->tile->units) + 1;
 
-      if (!COULD_OCCUPY(punit) && !pdef) {
+      if (!unit_can_take_over(punit) && !pdef) {
         /* Nothing there to bash and we can't occupy! 
          * Not having this check caused warships yoyoing */
         want = 0;
       } else if (move_time > THRESHOLD) {
         /* Too far! */
         want = 0;
-      } else if (COULD_OCCUPY(punit)
+      } else if (unit_can_take_over(punit)
                  && acity_data->invasion.attack > 0
                  && acity_data->invasion.occupy == 0) {
         /* Units able to occupy really needed there! */
@@ -1619,8 +1619,8 @@ int find_something_to_kill(struct player *pplayer, struct unit *punit,
       /* We have to assume the attack is diplomatically ok.
        * We cannot use can_player_attack_tile, because we might not
        * be at war with aplayer yet */
-      if (!can_unit_attack_units_at_tile(punit, aunit->tile)
-          || !(aunit == get_defender(punit, aunit->tile))) {
+      if (!can_unit_attack_tile(punit, unit_tile(aunit))
+          || !(aunit == get_defender(punit, unit_tile(aunit)))) {
         /* We cannot attack it, or it is not the main defender. */
         continue;
       }

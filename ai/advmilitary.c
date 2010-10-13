@@ -1128,6 +1128,11 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
   }
 
   best_choice.want = find_something_to_kill(pplayer, myunit, &ptile);
+  if (NULL == ptile
+      || ptile == unit_tile(myunit)
+      || !can_unit_attack_tile(myunit, ptile)) {
+    return;
+  }
 
   acity = tile_city(ptile);
 
@@ -1212,7 +1217,7 @@ static void kill_something_with(struct player *pplayer, struct city *pcity,
 	def_owner = unit_owner(pdef);
       }
     }
-    if (COULD_OCCUPY(myunit) || acity_data->invasion.occupy > 0) {
+    if (unit_can_take_over(myunit) || acity_data->invasion.occupy > 0) {
       /* bonus for getting the city */
       benefit += 40;
     }

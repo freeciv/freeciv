@@ -208,13 +208,10 @@ bool can_unit_attack_units_at_tile(const struct unit *punit,
   to do so?
 ***********************************************************************/
 bool can_unit_attack_tile(const struct unit *punit,
-			  const struct tile *dest_tile)
+                          const struct tile *dest_tile)
 {
-  if (!can_player_attack_tile(unit_owner(punit), dest_tile)) {
-    return FALSE;
-  }
-
-  return can_unit_attack_units_at_tile(punit, dest_tile);
+  return (can_player_attack_tile(unit_owner(punit), dest_tile)
+          && can_unit_attack_units_at_tile(punit, dest_tile));
 }
 
 /***********************************************************************
@@ -650,20 +647,6 @@ struct unit *get_defender(const struct unit *attacker,
       }
     }
   } unit_list_iterate_end;
-
-  if (unit_list_size(ptile->units) > 0 && !bestdef) {
-    struct unit *punit = unit_list_get(ptile->units, 0);
-
-    log_error("get_defender bug: %s %s vs %s %s (total %d"
-              " units) on \"%s\" at (%d,%d). ",
-              nation_rule_name(nation_of_unit(attacker)),
-              unit_rule_name(attacker),
-              nation_rule_name(nation_of_unit(punit)),
-              unit_rule_name(punit),
-              unit_list_size(ptile->units), 
-              terrain_rule_name(tile_terrain(ptile)),
-              TILE_XY(ptile));
-  }
 
   return bestdef;
 }

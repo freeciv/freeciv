@@ -70,23 +70,6 @@ enum goto_route_type {
   ROUTE_GOTO, ROUTE_PATROL
 };
 
-enum unit_move_result {
-  MR_OK,
-  MR_DEATH,
-  MR_PAUSE,
-  MR_BAD_TYPE_FOR_CITY_TAKE_OVER,
-  MR_NO_WAR, /* Can't move here without declaring war. */
-  MR_PEACE, /* Can't move here because of a peace treaty. */
-  MR_ZOC,
-  MR_BAD_ACTIVITY,
-  MR_BAD_DESTINATION,
-  MR_BAD_MAP_POSITION,
-  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_CITY,
-  MR_DESTINATION_OCCUPIED_BY_NON_ALLIED_UNIT,
-  MR_NO_TRANSPORTER_CAPACITY,
-  MR_TRIREME,
-};
-
 enum add_build_city_result {
   AB_BUILD_OK,			/* Unit OK to build city */
   AB_ADD_OK,			/* Unit OK to add to city */
@@ -298,9 +281,6 @@ bool is_square_threatened(const struct player *pplayer,
 			  const struct tile *ptile);
 bool is_field_unit(const struct unit *punit);              /* ships+aero */
 bool is_hiding_unit(const struct unit *punit);
-#define COULD_OCCUPY(punit) \
-  (uclass_has_flag(unit_class(punit), UCF_CAN_OCCUPY_CITY) \
-   && is_military_unit(punit))
 bool can_unit_add_to_city (const struct unit *punit);
 bool can_unit_build_city (const struct unit *punit);
 bool can_unit_add_or_build_city (const struct unit *punit);

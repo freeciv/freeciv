@@ -1160,6 +1160,11 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
     return TRUE;
 
   case MR_BAD_TYPE_FOR_CITY_TAKE_OVER:
+    notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                  _("This type of troops cannot take over a city."));
+    break;
+
+  case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA:
   {
     const char *units_str = role_units_translations(F_MARINES);
     if (units_str) {
@@ -1426,17 +1431,9 @@ bool unit_move_handling(struct unit *punit, struct tile *pdesttile,
         return TRUE;
       }
 
-      /* If there is an enemy city it is empty.
-       * If not it would have been caught in the attack case. 
-       * FIXME: Move this check into test_unit_move_tile */
-      if (!COULD_OCCUPY(punit)) {
-        notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
-                      _("This type of troops cannot take over a city."));
-        return FALSE;
-      }
       /* Taking over a city is considered a move, so fall through */
     }
-  } 
+  }
 
   /*** Phase 4: OK now move the unit ***/
 

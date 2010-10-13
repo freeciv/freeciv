@@ -60,7 +60,7 @@ const char *ai_choice_rule_name(const struct ai_choice *choice);
 
 int military_amortize(struct player *pplayer, struct city *pcity, 
                       int value, int delay, int build_cost);
-int stack_cost(struct unit *pdef);
+int stack_cost(struct unit *pattacker, struct unit *pdefender);
 
 void ai_unit_move_or_attack(struct unit *punit, struct tile *ptile,
                             struct pf_path *path, int step);
