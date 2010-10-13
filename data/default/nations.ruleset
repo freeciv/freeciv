@@ -400,6 +400,7 @@ match=2
 *include "nation/visigothic.ruleset"
 *include "nation/walloon.ruleset"
 *include "nation/welsh.ruleset"
+*include "nation/westernpomeranian.ruleset"
 *include "nation/westernroman.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/wuerttembergian.ruleset"

@@ -263,6 +263,7 @@ flag_files =				\
 		piratini.png		\
 		poland.png		\
 		polynesian.png		\
+		pomerania.png		\
 		portugal.png		\
 		prussia.png		\
 		purhepecha.png		\
@@ -628,6 +629,7 @@ shield_files =					\
 		piratini-shield.png		\
 		poland-shield.png		\
 		polynesian-shield.png		\
+		pomerania-shield.png		\
 		portugal-shield.png		\
 		prussia-shield.png		\
 		purhepecha-shield.png		\
@@ -992,6 +994,7 @@ svg_files = 				\
 		pirate.svg		\
 		piratini.svg		\
 		poland.svg		\
+		pomerania.svg		\
 		polynesian.svg		\
 		portugal.svg		\
 		prussia.svg		\

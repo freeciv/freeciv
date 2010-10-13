@@ -271,6 +271,7 @@ artists = "
    Piratini		Felipe Fontoura (Wikimedia Commons)
    Poland		Cezary Biele
    Polynesian		Daniel Markstedt
+   Pomerania		N3MO (Wikipedia)
    Portugal		Diogo Mamede
    Prussia		Daniel Markstedt
    Purhepecha		Daniel Markstedt
@@ -640,6 +641,7 @@ sprites =
 		"f.piratini", "flags/piratini"
 		"f.poland", "flags/poland"
 		"f.polynesian", "flags/polynesian"
+		"f.pomerania", "flags/pomerania"
 		"f.portugal", "flags/portugal"
 		"f.prussia", "flags/prussia"
 		"f.purhepecha", "flags/purhepecha"

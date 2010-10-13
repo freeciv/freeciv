@@ -272,6 +272,7 @@ sprites =
 		"f.shield.piratini", "flags/piratini-shield"
 		"f.shield.poland", "flags/poland-shield"
 		"f.shield.polynesian", "flags/polynesian-shield"
+		"f.shield.pomerania", "flags/pomerania-shield"
 		"f.shield.portugal", "flags/portugal-shield"
 		"f.shield.prussia", "flags/prussia-shield"
 		"f.shield.purhepecha", "flags/purhepecha-shield"
