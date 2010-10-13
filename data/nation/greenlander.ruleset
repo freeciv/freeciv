@@ -1,0 +1,70 @@
+[nation_greenlander]
+
+name=_("Greenlander")
+plural=_("?plural:Greenlanders")
+groups="American"
+legend=_("Legend says that the Great Shaman Qitdlarssuaq lead the Inuit\
+ people to Thule (Qaanaaq) on the west coast of Greenland in the 10th\
+ century. Around the same time, Scandinavian settlers arrived at the fjords\
+ on the southwestern tip of the island. Today, Greenland is a self-governing\
+ country within the Kingdom of Denmark with mixed Inuit and Scaninavian\
+ population.")
+leader=
+ "Kuupik Kleist",
+ "Lena Pedersen",
+ "Eske Brun",
+ "Hinrich Rink",
+ "Poul Egede",
+ "Eirikr Thorvaldsson", ; Eric the Red
+ "Qitdlarssuaq"
+
+leader_sex="Male", "Male", "Female", "Male", "Male", "Male", "Male"
+flag="greenland"
+flag_alt = "-"
+city_style = "European"
+
+ruler_titles = { "government",      "male_title",      "female_title"
+                 "Democracy",       _("Prime Minister"), _("?female:Prime Minister")
+                 "Despotism",       _("Shaman"),        _("?female:Shaman")
+                 "Monarchy",        _("Great Shaman"),  _("?female:Great Shaman")
+               }
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+civilwar_nations="Inuit", "Danish"
+
+cities =
+ "Nuuk",		; Godthåb (Danish/Norwegian)
+ "Sisimiut",
+ "Ilulissat",		; Jakobshavn (Danish/Norwegian)
+ "Qaqortorq",
+ "Asiaat",
+ "Maniitsoq",
+ "Tasiilaq",
+ "Paamiut",		; Frederikshåb (Danish/Norwegian)
+ "Narsaq",
+ "Nanortalik",
+ "Uummannaq",
+ "Qasigiannguit",
+ "Upernavik",
+ "Qeqertarsuaq",	; Godhavn (Danish/Norwegian)
+ "Qaanaaq",		; Thule (Danish/Norwegian)
+ "Kangaatsiaq",
+ "Kangerlussuaq",	; Søndre Strømfjord (Danish/Norwegian)
+ "Ittoqqortoormiit",	; Scoresbysund (Danish/Norwegian)
+ "Kullorsuaq",
+ "Kuummiit",
+ "Kangaamiut",
+ "Alluitsup Paa",
+ "Niaqornaarsuk",
+ "Kulusuk",
+ "Tasiusaq",
+ "Ikerasak",
+ "Qeqertarsuatsiaat",
+ "Attu",
+ "Sermiligaaq",
+ "Saattut",
+ "Nuussuaq",
+ "Upernavik Kujalleq"

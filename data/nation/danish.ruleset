@@ -41,7 +41,7 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "english", "icelandic", "norwegian", "swedish"
+civilwar_nations = "english", "icelandic", "norwegian", "swedish", "greenlander"
 
 cities =
  "København",

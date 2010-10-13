@@ -250,6 +250,7 @@ artists = "
    Norway		Christian Schaller
    Nubia		Daniel Markstedt
    Numidia		Lexicon and Dan Cottrell
+   Nunavut		James Leigh
    Nuu-chah-nulth	Daniel Markstedt
    Occitania		Mysid
    Ohlone		J.M. Maalderink
@@ -506,7 +507,7 @@ sprites =
 		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
-		"f.greenland", "flags/greenland"	; used by Inuit
+		"f.greenland", "flags/greenland"
 		"f.grenada", "flags/grenada"
 		"f.guanche", "flags/guanche"
 		"f.guarani", "flags/guarani"
@@ -623,6 +624,7 @@ sprites =
 		"f.norway", "flags/norway"
 		"f.nubia", "flags/nubia"
 		"f.numidia", "flags/numidia"
+		"f.nunavut", "flags/nunavut"		; used by Inuit
 		"f.nuu-chah-nulth", "flags/nuu-chah-nulth"
 		"f.occitania", "flags/occitania"
 		"f.ohlone", "flags/ohlone"

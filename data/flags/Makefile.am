@@ -242,6 +242,7 @@ flag_files =				\
 		normandy.png		\
 		nubia.png		\
 		numidia.png		\
+		nunavut.png		\
 		nuu-chah-nulth.png	\
 		occitania.png		\
 		ohlone.png		\
@@ -611,6 +612,7 @@ shield_files =					\
 		norway-shield.png		\
 		nubia-shield.png		\
 		numidia-shield.png		\
+		nunavut-shield.png		\
 		nuu-chah-nulth-shield.png	\
 		occitania-shield.png		\
 		ohlone-shield.png		\
@@ -980,6 +982,7 @@ svg_files = 				\
 		norway.svg		\
 		nubia.svg		\
 		numidia.svg		\
+		nunavut.svg		\
 		nuu-chah-nulth.svg	\
 		occitania.svg		\
 		ohlone.svg		\

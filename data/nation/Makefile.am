@@ -128,6 +128,7 @@ pkgdata_DATA = \
 		ghanaian.ruleset \
 		greaterpolish.ruleset \
 		greek.ruleset \
+		greenlander.ruleset \
 		grenadian.ruleset \
 		guanche.ruleset \
 		guarani.ruleset \
