@@ -1680,8 +1680,6 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
     CATLSTR(buf, bufsz,
 	    _("* Pollution cannot be generated on this terrain."));
     CATLSTR(buf, bufsz, "\n");
-  }
-  if (is_ocean(pterrain)) {
     CATLSTR(buf, bufsz,
 	    _("* Fallout cannot be generated on this terrain."));
     CATLSTR(buf, bufsz, "\n");
