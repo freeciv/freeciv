@@ -260,6 +260,7 @@ pkgdata_DATA = \
 		polynesian.ruleset \
 		portuguese.ruleset \
 		prussian.ruleset \
+		puertorican.ruleset \
 		purhepecha.ruleset \
 		quebecois.ruleset \
 		raramuri.ruleset \

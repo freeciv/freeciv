@@ -275,6 +275,7 @@ artists = "
    Pomerania		N3MO (Wikipedia)
    Portugal		Diogo Mamede
    Prussia		Daniel Markstedt
+   Puerto Rico		Lauris Kaplinski and J.M. Maalderink
    Purhepecha		Daniel Markstedt
    Qing			Caleb Moore
    Quebec		Patrick Guimond
@@ -647,6 +648,7 @@ sprites =
 		"f.pomerania", "flags/pomerania"
 		"f.portugal", "flags/portugal"
 		"f.prussia", "flags/prussia"
+		"f.puerto_rico", "flags/puerto_rico"
 		"f.purhepecha", "flags/purhepecha"
 ;		"f.qing", "flags/qing"			; alt Manchu
 		"f.quebec", "flags/quebec"

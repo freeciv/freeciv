@@ -267,6 +267,7 @@ flag_files =				\
 		pomerania.png		\
 		portugal.png		\
 		prussia.png		\
+		puerto_rico.png		\
 		purhepecha.png		\
 		qing.png		\
 		quebec.png		\
@@ -635,6 +636,7 @@ shield_files =					\
 		pomerania-shield.png		\
 		portugal-shield.png		\
 		prussia-shield.png		\
+		puerto_rico-shield.png		\
 		purhepecha-shield.png		\
 		qing-shield.png			\
 		quebec-shield.png		\
@@ -1003,6 +1005,7 @@ svg_files = 				\
 		polynesian.svg		\
 		portugal.svg		\
 		prussia.svg		\
+		puerto_rico.svg		\
 		purhepecha.svg		\
 		qing.svg		\
 		quebec.svg		\

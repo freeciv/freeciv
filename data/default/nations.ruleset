@@ -310,6 +310,7 @@ match=2
 *include "nation/polynesian.ruleset"
 *include "nation/portuguese.ruleset"
 *include "nation/prussian.ruleset"
+*include "nation/puertorican.ruleset"
 *include "nation/purhepecha.ruleset"
 *include "nation/quebecois.ruleset"
 *include "nation/raramuri.ruleset"

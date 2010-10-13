@@ -38,7 +38,7 @@ init_buildings=""
 init_government="Despotism"
 init_units=""
 
-civilwar_nations="Taino", "Haitian"
+civilwar_nations="Haitian", "Puerto Rican"
 
 cities =
  "Santo Domingo",
