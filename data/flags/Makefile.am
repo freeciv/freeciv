@@ -66,6 +66,7 @@ flag_files =				\
 		cartago.png		\
 		castile.png		\
 		catalan.png		\
+		central_america.png	\
 		cham.png		\
 		chananea.png		\
 		chechnya.png		\
@@ -436,6 +437,7 @@ shield_files =					\
 		cartago-shield.png		\
 		castile-shield.png		\
 		catalan-shield.png		\
+		central_america-shield.png	\
 		cham-shield.png			\
 		chananea-shield.png		\
 		chechnya-shield.png		\
@@ -806,6 +808,7 @@ svg_files = 				\
 		cartago.svg		\
 		castile.svg		\
 		catalan.svg		\
+		central_america.svg	\
 		cham.svg		\
 		chananea.svg		\
 		chechnya.svg		\
