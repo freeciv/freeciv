@@ -125,6 +125,7 @@ pkgdata_DATA = \
 		gallic.ruleset \
 		georgian.ruleset \
 		german.ruleset \
+		ghanaian.ruleset \
 		greaterpolish.ruleset \
 		greek.ruleset \
 		grenadian.ruleset \

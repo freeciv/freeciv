@@ -1,0 +1,72 @@
+[nation_ghanaian]
+
+name=_("Ghanaian")
+plural=_("?plural:Ghanaian")
+groups="African", "Modern"
+legend=_("Ghana takes its name from the old Ghana Empire. Known as the\
+ Gold Coast by the Europeans, the Portuguese, Dutch and Swedes founded\
+ outposts but in the 19th century Ghana became a British colony. In 1957\
+ Kwame Nkrumah proclaimed Ghana's independence.")
+leader=
+ "Kwame Nkrumah",
+ "Kofi Abrefa Busia",
+ "Joseph Arthur Ankrah",
+ "Hilla Limann",
+ "Jerry Rawlings",
+ "Joyce Bamford-Addo"
+
+leader_sex="Male", "Male", "Male", "Male", "Male", "Female"
+flag="ghana"
+flag_alt = "-"
+city_style = "Tropical"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+civilwar_nations = "ivoirian", "burkinabe"
+
+
+cities =
+ "Accra",
+ "Kumasi",
+ "Sekondi",
+ "Koforidua",
+ "Tamale",
+ "Sunyani",
+ "Ho",
+ "Cape Coast (ocean)",
+ "Bolgatanga",
+ "Wa",
+ "Takoradi",
+ "Ashiaman",
+ "Obuasi",
+ "Teshie",
+ "Techiman",
+ "Tema",
+ "Madina",
+ "Bawku",
+ "Nungua",
+ "Tema New Town",
+ "Bolgatanga",
+ "Dome",
+ "Ejura",
+ "Lashibi",
+ "Tafo",
+ "Gbawe",
+ "Oduponkpehe",
+ "Taifa",
+ "Swedru",
+ "Aflao",
+ "Berekum",
+ "Nkawkaw",
+ "Winneba",
+ "Oda",
+ "Hohoe",
+ "Yendi",
+ "Adenta East",
+ "Kintapo",
+ "Mampong",
+ "Suhum",
+ "Konongo"

@@ -129,6 +129,7 @@ artists = "
    Gaul			Daniel Markstedt and Kilian Valkhof
    Georgia		Christian Schaller
    Germany		Philipp Sadleder
+   Ghana		J.M. Maalderink
    Greater Poland	J.M. Maalderink
    Greece (ancient)	Daniel Markstedt and Vzb83 (Wikimedia Commons)
    Greece		Daniel McRae
@@ -499,6 +500,7 @@ sprites =
 		"f.gaul", "flags/gaul"
 		"f.georgia", "flags/georgia"
 		"f.germany", "flags/germany"
+		"f.ghana", "flags/ghana"
 		"f.greater_poland", "flags/greater_poland"
 		"f.greece_ancient", "flags/greece_ancient"
 		"f.greece", "flags/greece"
