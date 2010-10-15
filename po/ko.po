@@ -22974,7 +22974,7 @@ msgstr "꿩"
 
 #: data/default/terrain.ruleset:810 data/civ2/terrain.ruleset:696
 msgid "Ivory"
-msgstr "상가"
+msgstr "상아"
 
 #: data/default/terrain.ruleset:820 data/civ2/terrain.ruleset:706
 msgid "Silk"
@@ -22998,14 +22998,12 @@ msgid "Oil"
 msgstr "석유"
 
 #: data/default/terrain.ruleset:926
-#, fuzzy
 msgid "Buoy"
-msgstr "구입"
+msgstr "부표"
 
 #: data/default/terrain.ruleset:942
-#, fuzzy
 msgid "Ruins"
-msgstr "석유 정제"
+msgstr "폐허"
 
 #: data/civ2/terrain.ruleset:208 data/civ1/terrain.ruleset:200
 msgid ""
@@ -23431,7 +23429,6 @@ msgstr ""
 "수 부대입니다."
 
 #: data/default/units.ruleset:1208 data/civ2/units.ruleset:1165
-#, fuzzy
 msgid ""
 "The Helicopter is a very powerful unit, as it can both fly and conquer "
 "cities.  Care must be exercised, because Helicopters lose a small amount of "
@@ -23439,11 +23436,10 @@ msgid ""
 "you have the United Nations wonder, and Helicopters may be attacked by "
 "ground units."
 msgstr ""
-"헬리콥터는 도시를 점령하고 비행하는 할 수 있는 매우 강력한 부대입니다. 헬리콥"
-"터는 매 차레마다, 도시나 공군 기지나 항공 모함에서 시간을 보내지 않으면 작은 "
-"양의 체력을 잃어서, 당신이 국제 연합 불가사의를 가지지 않는 한, 반드시 주의"
-"를 기울여야 하고, 그리고 헬리콥터는 아마 지상 부대로부터 공격 당할 수 있습니"
-"다."
+"헬리콥터는 도시를 점령하고 비행하는 할 수 있는 매우 강력한 부대입니다. "
+"헬리콥터는 매 차레마다, 도시나 공군 기지나 항공 모함에서 시간을 보내지 않으면 "
+"작은 양의 체력을 잃어서, 당신이 국제 연합 불가사의를 가지지 않는 한, 반드시 주의를 "
+"기울여야 하고, 또한 헬리콥터는 아마 지상 부대로부터 공격 당할 수 있습니다."
 
 #: data/default/units.ruleset:1217 data/civ2/units.ruleset:1174
 msgid "Stealth Fighter"
@@ -23451,7 +23447,7 @@ msgstr "스텔스 전투기"
 
 #: data/default/units.ruleset:1244 data/civ2/units.ruleset:1201
 msgid "An improved Fighter, with improved attack and a higher movement radius."
-msgstr "향상된 전투기, 향상된 공격력과 높은 이동반경."
+msgstr "향상된 공격력과 높은 이동 반경을 가진, 향상된 전투기입니다."
 
 #: data/default/units.ruleset:1250 data/civ2/units.ruleset:1207
 msgid "Stealth Bomber"
@@ -23459,13 +23455,15 @@ msgstr "스텔스 폭격기"
 
 #: data/default/units.ruleset:1276 data/civ2/units.ruleset:1233
 msgid "An improved Bomber, with improved attack and a higher movement radius."
-msgstr ""
+msgstr "향상된 공격력과 높은 이동 반경을 가진, 향상된 폭격기입니다."
 
 #: data/default/units.ruleset:1309
 msgid ""
 "The Trireme is your first boat unit. It can act as a transport ship and has "
 "rudimentary offensive capabilities, but may not enter deep ocean tiles."
 msgstr ""
+"갤리선은 당신의 첫 배 부대입니다. 이것은 수송선으로서 작용하고 가장 기초적인 공격적인 능력을 "
+"가지지만, 깊은 바다 타일들로 진입할 수가 없을 것 입니다."
 
 #: data/default/units.ruleset:1316 data/civ2/units.ruleset:1273
 msgid "Caravel"
@@ -23473,7 +23471,7 @@ msgstr "카라벨선"
 
 #: data/default/units.ruleset:1343
 msgid "The Caravel replaces the Trireme and can enter any ocean tile."
-msgstr ""
+msgstr "카라벨선은 갤리선을 대체하고 어느 깊은 바다 타일들로 진입할 수가 있습니다."
 
 #: data/default/units.ruleset:1349 data/civ2/units.ruleset:1306
 msgid "Galleon"
@@ -23484,6 +23482,8 @@ msgid ""
 "The Galleon is a pure transport ship and cannot attack other ships, though "
 "it may still defend itself when attacked."
 msgstr ""
+"갈레온선은 순수한 수송선으로 다른 배들을 공격할 수가 없습니다만, "
+"공격 당할 때 스스로 방어할 수 있습니다."
 
 #: data/default/units.ruleset:1383 data/civ2/units.ruleset:1340
 #: data/civ1/units.ruleset:762
@@ -23496,6 +23496,7 @@ msgid ""
 "The Frigate is a highly versatile boat unit, that is both a strong offensive "
 "unit as well as a decent transport ship."
 msgstr ""
+"프리깃함은 높은 다목적의 배 부대로, 강한 공격적인 부대일 뿐만 아니라 괜찮은 수송선입니다."
 
 #: data/default/units.ruleset:1417 data/civ2/units.ruleset:1374
 #: data/civ1/units.ruleset:796
@@ -23508,6 +23509,7 @@ msgid ""
 "The Ironclad is an armored ship that is much more sturdy than the Frigate "
 "but loses the latter's transport capability."
 msgstr ""
+"철갑함은 무장된 배로 프리깃함보다 더 많이 튼튼하지만, 수송 능력을 잃었습니다."
 
 #: data/default/units.ruleset:1450 data/civ2/units.ruleset:1407
 msgid "Destroyer"
@@ -23520,6 +23522,9 @@ msgid ""
 "TIP:  A very fast unit, which is very useful for hunting down enemy "
 "Transports."
 msgstr ""
+"더 좋은 이동 속도와 시야를 가진, 향상된 철갑함입니다.\n"
+"\n"
+"조언: 아주 빠른 부대로, 적 수송선들을 추적하는데 아주 유용합니다."
 
 #: data/default/units.ruleset:1484 data/civ2/units.ruleset:1441
 #: data/civ1/units.ruleset:829
@@ -23529,7 +23534,7 @@ msgstr "순양함"
 #: data/default/units.ruleset:1510 data/civ2/units.ruleset:1467
 #: data/civ1/units.ruleset:855
 msgid "The Cruiser is a strong offensive boat unit."
-msgstr "순양함은 강하고 공격적인 범선부대입니다."
+msgstr "순양함은 강하고 공격적인 배 부대입니다."
 
 #: data/default/units.ruleset:1515 data/civ2/units.ruleset:1472
 msgid "AEGIS Cruiser"
@@ -23539,6 +23544,7 @@ msgstr "이지스 순양함"
 msgid ""
 "The AEGIS Cruiser is equipped with an advanced defensive missile system."
 msgstr ""
+"이지스 순양함은 진보된 미사일 방어 체계를 장비합니다."
 
 #: data/default/units.ruleset:1547 data/civ2/units.ruleset:1504
 #: data/civ1/units.ruleset:860
@@ -23550,7 +23556,8 @@ msgstr "전함"
 msgid ""
 "The Battleship is the supreme naval unit with excellent offensive and "
 "defensive values."
-msgstr "전함은 완벽한 공격력과 방어력을 가진 해군 부대입니다."
+msgstr ""
+"전함은 완벽한 공격력과 방어력을 가진 최고의 해군 부대입니다."
 
 #: data/default/units.ruleset:1579 data/civ2/units.ruleset:1536
 #: data/civ1/units.ruleset:892
@@ -23563,6 +23570,8 @@ msgid ""
 "Traveling under the surface of the ocean, Submarines have a very high "
 "strategic value, but a weak defense if caught off guard."
 msgstr ""
+"잠수함은 바다의 표면 아래로 여행하므로, 아주 높은 전략적인 가치를 가집니디만, "
+"만약 발각된다면 방어에 약합니다."
 
 #: data/default/units.ruleset:1614 data/civ2/units.ruleset:1571
 #: data/civ1/units.ruleset:925
@@ -23577,6 +23586,10 @@ msgid ""
 "TIP:  Guard Carriers with a handful of fast-moving ships and a battleship, "
 "as losing a fully-equipped Carrier is VERY painful and expensive."
 msgstr ""
+"항공 모함은 이동하는 공항입니다.\n"
+"\n"
+"조언: 항공 모함을 소수의 빨리-이동하는 배들과 전함으로 방어하십시오, "
+"충분히-장비한 항공 모함을 잃는 것은 매.우. 아프고 돈이 많이 들기 때문입니다."
 
 #: data/default/units.ruleset:1650 data/civ2/units.ruleset:1607
 #: data/civ1/units.ruleset:961
@@ -23589,6 +23602,7 @@ msgid ""
 "The Transport cannot attack on its own but may defend itself when under "
 "attack."
 msgstr ""
+"수송선은 스스로 공격을 할 수가 없지만 공격 당할 때에 스스로 방어할 것 입니다."
 
 #: data/default/units.ruleset:1683 data/civ2/units.ruleset:1640
 msgid "Cruise Missile"
@@ -23602,6 +23616,10 @@ msgid ""
 "TIP:  A handful of these can successfully keep the waters around your "
 "treasured homeland free of enemy ships."
 msgstr ""
+"순항 미사일은 적 영토 안으로 깊숙하게 충돌하는 장-거리 미사일입니다.\n"
+"\n"
+"조언: 소수의 이들은 적 함선들로부터 당신의 소중한 조국 주위의 영해를 성공적으로 "
+"지킬 수 있습니다."
 
 #: data/default/units.ruleset:1718 data/civ2/units.ruleset:1675
 #: data/civ1/units.ruleset:994
@@ -23632,6 +23650,24 @@ msgid ""
 "the city and have them ready to fix the fallout on the same turn it occurs!  "
 "This minimizes the chance of nuclear winter.  Eco-friendly nukes!"
 msgstr ""
+"당신은 요구되는 진보를 가지고, 맨해튼 프로젝트 불가사의가 어느 플레이어로부터 지어져 있어야 "
+"지을 수가 있습니다.\n"
+"\n"
+"충격 안에, 폭풍은 친근한 부대들을 포함하여, 3 타일 넓이(3*3의 직사각형 격자의 사격형) 지역 안의 "
+"어느 부대도 파괴할 것 입니다. 폭풍 지역 안의 어느 도시는 인구의 반을 잃고, 폭풍 지역 안의 지형 타일들은 "
+"방사능 낙진을 받습니다.\n"
+"\n"
+"공해와 지구온난화와 같이, 세계적인 핵겨울의 위험은 낙진와 함께 증가합니다. 만약 핵겨울이 발생하면, "
+"지구의 지형은 사막, 툰드라, 그리고 얼음으로 바뀝니다. 이주자들과, 노동자들, 그리고 기술자들은 방사능 낙진을 "
+"청소할 수 있습니다.\n"
+"\n"
+"조언 1: 바다에 핵공격은 낙진을 발생하지 않을 것이고, 가장 효과적인(하지만 돈이 많이 들어요!!) "
+"적 배들을 없애는 방법입니다.\n"
+"\n"
+"조언 2: 당신은 집단으로 적 도시를 침공하지만, 적 도시들이 너무 강할때인 상황을 수반할 수 있습니다. "
+"핵 부대를 사용하기 전에, 이주자들과, 노동자들, 그리고/또는 기술자들의 무리를 도시 옆에 모으고, "
+"이것이 발생하는 같은 차례에 낙진을 고치도록 준비하십시오. 이것은 핵겨울의 기회를 최소화합니다. "
+"친환경적인 핵!"
 
 #: data/default/units.ruleset:1771 data/civ2/units.ruleset:1728
 #: data/civ1/units.ruleset:1047
@@ -23697,6 +23733,49 @@ msgid ""
 "the enemy.  Little wonder that Diplomats are often viewed with suspicion and "
 "fear!"
 msgstr ""
+"외교관은 당신의 파견을 수행하는 공무원으로, 외국 고위 관리와 거래하는 권리를 부여받읍니다. "
+"그는 또한 당신의 적들을 해치는 의도로 다양한 은밀한 작전을 맏을 것입니다; 당신이 소유한 도시들 "
+"안의 외교관들은 그런 행동에 저항하여 그들을 막습니다.\n"
+"\n"
+"많은 은밀한 행동들은 정전에서조차 시도 될 수 있지만, 더 공격적인 행동들은 발각될 수가 있고, "
+"공화제와 민주주의가 대우들을 파기하도록 허락하는 외교적인 사건을 야기할 수 있습니다.\n"
+"\n"
+"만약 외국의 부대가 혼자 타일 위에 있다면, 당신은 이를 당신의 외교관으로 매수를 시도할 수 있습니다. "
+"그 부대에게 금화의 액수를 지불함으로서 즉시 당신의 것이 될 것입니다; 그 정확한 액수는 "
+"그 부대의 상태와 그를 소유하는 문명의 상태에 연관됩니다. 매수는 전쟁시가 아닐 때는 "
+"외교적인 사건을 야기할 것 입니다.\n"
+"\n"
+"각각의 외교관은 비록 오직 하나의 행동을 시도할지라도, 외교관은 다른 플레이어의 도시 안에 "
+"많은 행동들을 수행할 수가 있습니다. 이들의 행동들의 대부분은 실패할 수도 있습니다. "
+"또한, 도시 안의 어느 적 외교관이나 간첩들은 적의있는 행동들을 대할할 것입니다; "
+"이 경우, 당신의 부대나 방어하는 그 부대 중 어느 하나는 죽을 것입니다. 만약 방어하는 "
+"부대가 죽으면, 당신은 하나의 행동 횟수를 잃고 다시 시도해야 할 것입니다.\n"
+"\n"
+"도시 안에 있는 외교관들이 할 수 있는 것들입니다:\n"
+"\n"
+" - \"대사관 설립\": 이 행동은 항상 성공하고, 그 도시의 주인과 마찬가지로 그들의 세율과 "
+"기술의 정보를 영구적으로 제공합니다.\n"
+"\n"
+" - \"도시 조사\": 당신의 부대는 도시에 대한 상세한 정보를 보고합니다: 이것은 상태로, "
+"무슨 건물들과 부대가 있는지, 그리고 현재 무엇을 생산하는 지 입니다.\n"
+"\n"
+" - \"도시 사보타주\": 당신의 부대는 무작위로, 현재 작업을 하는 도시의 모든 일을 어느 정도 방해하거나, "
+"도시 안의 존재하는 건물을 파괴할 것입니다. 한 번 지어진, 궁전과 불가사의들은 사보타주 할 수 없고, "
+"도시 성벽 또는 수도 안의 어느 건물들을 사보타주하려 시도하면 각각 성공의 기회가 반입니다. "
+"사보타주는 오직 교전 중일때 시도될 것입니다.\n"
+"\n"
+" - \"기술 훔치기\": 당신의 부대는 당신을 제외한 도시의 주인에게 알려진 기술의 비밀을 무작위로 "
+"배우려 시도할 것입니다. 기술은 외교관들로서 주어진 적 도시로부터 한번 훔쳐질 것입니다. 이 행동은 "
+"전쟁시가 아닐 때에도 조차 시도될 수 있지만, 외교적인 사건을 야기할 것입니다.\n"
+"\n"
+" - \"봉기 선동\": 금화가 맞바꾸어 외국의 도시는 충성을 바꾸고 당신의 제국에 가담할 것입니다, "
+"고향으로 부름받는 근처의 모든 부대들을 따라 가져오는 것은, 도시의 크기를 1 단위 줄어듭니다. "
+"다른 도시들에 남아있는 부대들은 적의 조종 아래에 남지만, 도시밖의 부대들은 플레이어 둘다 잃을 것입니다. "
+"정확한 액수는 도시의 상태와 그것을 가진 문명의 지위에 연관됩니다. 수도나 민주주의 아래의 어느 도시에서 "
+"반란을 선동하는것은 불가능입니다. 선동은 정전시에도 시도될 수 있지만, 외교적인 사건을 야기할 것입니다.\n"
+"\n"
+"어느 게임 작전들중, 외교관의 무리는 적에게 큰 혼란을 가할때 사용됩니다. 외교관들이 종종 의심과 공포와 "
+"함께 보여지는 것은 작은 궁금증입니다!"
 
 #: data/default/units.ruleset:1861 data/civ2/units.ruleset:1818
 msgid "Spy"
@@ -23726,6 +23805,23 @@ msgid ""
 "A Spy that survives the more aggressive actions (sabotage, theft, inciting "
 "rebellion, and poisoning) escapes to the safety of the nearest friendly city."
 msgstr ""
+"간첩은 간첩 행위의 기술을 그녀의 이전의 외교관보다 더 많이 배웠습니다.\n"
+"\n"
+"그녀는 외교관의 모든 기능들을 수행할 수 있습니다; 외교관의 자리를 더 많은 세부 사항들로 "
+"나타냅니다. 외교관과 다르게, 간첩은 외국 도시안의 작전에서 살아남고 결과적으로 경험이 더 쌓입니다. "
+"또한 간첩들은 외교관들보다 외국 외교관들과 간첩들에 대항할 때 더 효과적입니다.\n"
+"\n"
+"간첩은 사용될 수도 있습니다:\n"
+" - 적 부대를 사보타주하기 (이것의 타격 점수를 반으로 줄입니다), 부대가 타일 위에 혼자있고 "
+"플레이어들이 전쟁중이어야 합니다;\n"
+" - 적 도시의 물 공급에 독을 넣기 (인구를 1 단위 줄이고 곡창을 비웁니다);\n"
+" - 특정한 기술 훔치기 (성공의 기회가 줄어듭니다);\n"
+" - 더 나아간 기술들을 이미 도난당한 도시로 부터 훔치기 (도시들은 그들이 도난당한 때 부터 "
+"매 차례 더 잘 견디더라도 입니다);\n"
+" - 예정된 도시 대상들을 사보타주하기 (성공의 기회가 줄어듭니다).\n"
+"\n"
+"더 공격적인 행동들(사보타주, 절도, 봉기 선동, 그리고 독을 넣기)로 살아남는 간첩은 "
+"가장 가까운 친근한 도시의 안전한 곳으로 탈출합니다."
 
 #: data/default/units.ruleset:1914 data/civ2/units.ruleset:1871
 #: data/civ1/units.ruleset:1137
@@ -23745,6 +23841,14 @@ msgid ""
 "into a city where you have started to build a wonder, and finish it in only "
 "one turn!"
 msgstr ""
+"캐러밴은 상품과 떨어져 있는 도시들과 외국의 도시들과 무역하기 위한 재료를 운반하고, "
+"당신의 도시들에서 불가사의들을 지을 수 있게 도와줍니다.\n"
+"\n"
+"불가사의를 지을 때 사용되는 모든 캐러밴들은 불가사의의 생산을 위한 50 단위의 생산들을 "
+"추가시킬 것입니다.\n"
+"\n"
+"조언: 당신을 많은 캐러밴들을 미리 비축하고 당신이 불가사의를 짓기 시작하는 도시에 그들 "
+"모두를 데려오면, 오직 한 차례에 완성됩니다!"
 
 #: data/default/units.ruleset:1953 data/civ2/units.ruleset:1910
 msgid "Freight"
@@ -23752,7 +23856,7 @@ msgstr "운반차"
 
 #: data/default/units.ruleset:1979 data/civ2/units.ruleset:1936
 msgid "The Freight unit replaces the Caravan, and moves at twice the speed."
-msgstr "화물유닛은 사막여행대(caravan)로 교체했고, 2배의 속도로 움직입니다"
+msgstr "화물 부대는 캐러밴에서 대체됬고, 2배의 속도로 움직입니다."
 
 #: data/default/units.ruleset:1984 data/civ2/units.ruleset:1941
 msgid "Explorer"
@@ -23763,6 +23867,7 @@ msgid ""
 "Explorers are brave individuals that are very useful for mapping unknown "
 "territory."
 msgstr ""
+"탐험가는 알려지지 않는 지역을 발견하는데 아주 유용하고 용감한 사람입니다."
 
 #: data/default/units.ruleset:2016
 msgid "?unit:Leader"
@@ -23770,9 +23875,8 @@ msgstr "지도자"
 
 #: data/default/units.ruleset:2044
 msgid "This is you. If you lose this unit, you lose the game. So don't."
-msgstr ""
-"이것이 당신입니다. 만약 이 부대를 잃으면 게임에서 지게 됩니다. 따라서 하지 마"
-"십시요"
+msgstr "이것은 당신입니다. 만약 당신이 이 부대를 잃으면, 당신은 게임에서 지게 됩니다. "
+"그러니 하지 마십시오."
 
 #: data/default/units.ruleset:2049 data/civ2/units.ruleset:1973
 #: data/civ1/units.ruleset:1176
@@ -23787,6 +23891,10 @@ msgid ""
 "When a Barbarian Leader is killed on a tile without any defending units, the "
 "100 gold ransom is paid, but only to land units and helicopters."
 msgstr ""
+"한 야만인의 수령은 세계에 어디든지 야만인이 폭동을 일으킬 때 마다 나타납니다.\n"
+"\n"
+"어느 방어하는 부대들 없이 타일 위에 야만인의 수령이 죽을때, 몸값 100 금화가 주어지지만, "
+"오직 지상 부대들과 헬리콥터들에게만 입니다."
 
 #: data/default/units.ruleset:2085
 msgid "AWACS"
@@ -23798,8 +23906,11 @@ msgid ""
 "advanced radar that can determine the location of enemy units over a wide "
 "area."
 msgstr ""
+"AWACS(공중 경고와 조절 체계)는 넓은 지역 너머로 적 부대들의 위치를 알아챌 수 있는 진보된 "
+"전파 탐지기를 가진 비행기입니다."
 
 #: data/civ2/units.ruleset:198
+#, fuzzy
 msgid ""
 "Settlers are one of the key units in the game. As well as building new "
 "cities, they can also improve terrain, for instance by building irrigation, "
@@ -23811,6 +23922,13 @@ msgid ""
 "require twice as much food per turn, and in Communist or Fundamentalist "
 "societies, three times as much."
 msgstr ""
+"이주자들은 게임에서 중요일 부대들중의 하나입니다. 새로운 도시들을 짓는 것 뿐만 아니라, "
+"그들은 또한 지형을 개선할 수 있고, 예를 들어 관개, 광산, 그리고 길을 짓습니다. 더 많은 "
+"세부 사항을 위하여 도움말의 지형 변화 구역를 보십시오.\n"
+"\n"
+"이주자들을 위해 식량뿐만 아니라 생산을 유지하고, 이주자를 지원하는 도시의 식량이 고갈된다면 "
+"죽을 수 있습니다. 공화제나 민주주의에서 이주자들은 매 차례 두 배의 더 많은 식량을 요구하고, "
+"공산주의나 근본주의자 사회에서는, 3 차례와 동일합니다."
 
 #: data/civ2/units.ruleset:237
 msgid ""
