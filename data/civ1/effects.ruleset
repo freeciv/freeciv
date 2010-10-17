@@ -195,16 +195,6 @@ reqs    =
       "Nation", "Barbarian", "Player"
     }
 
-; Fortress HP regen
-[effect_fortress_hp_regen]
-name    = "HP_Regen"
-value   = 25
-reqs    =
-    { "type", "name", "range"
-      "Base", "Fortress", "Tile"
-      "UnitClass", "Land", "Local"
-    }
-
 ; Base vision range - radius of vision is sqrt(5) = 2.24
 [effect_city_vision]
 name    = "City_Vision_Radius_Sq"
