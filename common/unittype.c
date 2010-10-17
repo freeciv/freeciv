@@ -427,13 +427,14 @@ const char *uclass_rule_name(const struct unit_class *pclass)
 
 /**************************************************************************
  Return a string with all the names of units with this flag
+ If "alts" is set, separate with "or", otherwise "and".
  Return NULL if no unit with this flag exists.
  The string must be free'd
 
  TODO: if there are more than 4 units with this flag return
        a fallback string (e.g. first unit name + "and similar units"
 **************************************************************************/
-const char *role_units_translations(int flag)
+const char *role_units_translations(int flag, bool alts)
 {
   int count = num_role_units(flag);
 
@@ -452,13 +453,24 @@ const char *role_units_translations(int flag)
       astr_add(&astr, "%s", unitname);
 
       if (count == 1) {
-        /* TRANS: List of units has this between last two elements */
-        astr_add(&astr, "%s", _(" and "));
+        if (alts) {
+          /* TRANS: List of units has this between last two elements */
+          astr_add(&astr, "%s", _(" or "));
+        } else {
+          /* TRANS: List of units has this between last two elements */
+          astr_add(&astr, "%s", _(" and "));
+        }
       } else {
         if (count != 0) {
-          /* TRANS: List of units has this between all pairs of elements
-           * except last two */
-          astr_add(&astr, "%s", Q_("?and:, "));
+          if (alts) {
+            /* TRANS: List of units has this between all pairs of elements
+             * except last two */
+            astr_add(&astr, "%s", Q_("?or:, "));
+          } else {
+            /* TRANS: List of units has this between all pairs of elements
+             * except last two */
+            astr_add(&astr, "%s", Q_("?and:, "));
+          }
         } else {
           return astr_str(&astr);
         }

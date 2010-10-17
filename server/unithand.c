@@ -540,9 +540,10 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     break;
   case AB_NOT_BUILD_UNIT:
     {
-      const char *us = role_units_translations(F_CITIES);
+      const char *us = role_units_translations(F_CITIES, TRUE);
       if (us) {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                      /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can build a city."),
                       us);
         free((void *) us);
@@ -554,9 +555,10 @@ void city_add_or_build_error(struct player *pplayer, struct unit *punit,
     break;
   case AB_NOT_ADDABLE_UNIT:
     {
-      const char *us = role_units_translations(F_ADD_TO_CITY);
+      const char *us = role_units_translations(F_ADD_TO_CITY, TRUE);
       if (us) {
         notify_player(pplayer, unit_tile(punit), E_BAD_COMMAND, ftc_server,
+                      /* TRANS: %s is list of units separated by "or". */
                       _("Only %s can add to a city."),
                       us);
         free((void *) us);
@@ -1166,9 +1168,10 @@ static bool can_unit_move_to_tile_with_notify(struct unit *punit,
 
   case MR_BAD_TYPE_FOR_CITY_TAKE_OVER_FROM_SEA:
   {
-    const char *units_str = role_units_translations(F_MARINES);
+    const char *units_str = role_units_translations(F_MARINES, TRUE);
     if (units_str) {
       notify_player(unit_owner(punit), src_tile, E_BAD_COMMAND, ftc_server,
+                    /* TRANS: %s is list of units separated by "or". */
                     _("Only %s can attack from sea."),
                     units_str);
       free((void *) units_str);
