@@ -452,9 +452,12 @@ const char *role_units_translations(int flag)
       astr_add(&astr, "%s", unitname);
 
       if (count == 1) {
+        /* TRANS: List of units has this between last two elements */
         astr_add(&astr, "%s", _(" and "));
       } else {
         if (count != 0) {
+          /* TRANS: List of units has this between all pairs of elements
+           * except last two */
           astr_add(&astr, "%s", Q_("?and:, "));
         } else {
           return astr_str(&astr);

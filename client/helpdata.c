@@ -1229,18 +1229,39 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
                  utype->pop_cost);
   }
   if (utype->transport_capacity > 0) {
-    cat_snprintf(buf, bufsz,
-                 PL_("* Can carry and refuel %d unit from classes:\n",
-                     "* Can carry and refuel up to %d units from classes:\n",
-                     utype->transport_capacity),
-                 utype->transport_capacity);
+    struct strvec *classes = strvec_new();
+    int j;
+    struct astring list = ASTRING_INIT;
+
     unit_class_iterate(uclass) {
       if (can_unit_type_transport(utype, uclass)) {
-        cat_snprintf(buf, bufsz,
-                     _("  * %s units\n"),
-                     uclass_name_translation(uclass));
+        strvec_append(classes, uclass_name_translation(uclass));
       }
-    } unit_class_iterate_end
+    } unit_class_iterate_end;
+    for (j = 0; j < strvec_size(classes); j++) {
+      const char *delim_str = NULL;
+      if (j == strvec_size(classes) - 2) {
+        /* TRANS: List of possible unit classes has this between last two
+         *        elements */
+        delim_str = _(" or ");
+      } else if (j < strvec_size(classes) - 1) {
+        /* TRANS: List of possible unit classes has this between all elements
+         *        except last two */
+        delim_str = Q_("?or:, ");
+      }
+
+      astr_add(&list, "%s%s", strvec_get(classes, j),
+               NULL != delim_str ? delim_str : "");
+    }
+
+    cat_snprintf(buf, bufsz,
+                 /* TRANS: %s is a list of unit classes separated by "or". */
+                 PL_("* Can carry and refuel %d %s unit.\n",
+                     "* Can carry and refuel up to %d %s units.\n",
+                     utype->transport_capacity),
+                 utype->transport_capacity, astr_str(&list));
+    astr_free(&list);
+    strvec_destroy(classes);
   }
   if (utype_has_flag(utype, F_TRIREME)) {
     CATLSTR(buf, bufsz, _("* Must stay next to coast.\n"));
@@ -1489,53 +1510,53 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
     }
   } unit_class_iterate_end;
   if (utype_fuel(utype)) {
-    char allowed_units[10][64];
-    int num_allowed_units = 0;
+    struct strvec *allowed_units = strvec_new();
     int j;
-    struct astring astr = ASTRING_INIT;
+    struct astring list = ASTRING_INIT;
 
     unit_type_iterate(transport) {
       if (can_unit_type_transport(transport, utype_class(utype))) {
-        fc_strlcpy(allowed_units[num_allowed_units],
-                  utype_name_translation(transport),
-                  sizeof(allowed_units[num_allowed_units]));
-        num_allowed_units++;
+        strvec_append(allowed_units, utype_name_translation(transport));
       }
     } unit_type_iterate_end;
 
-    for (j = 0; j < num_allowed_units; j++) {
-      const char *deli_str = NULL;
+    for (j = 0; j < strvec_size(allowed_units); j++) {
+      const char *delim_str = NULL;
 
-      if (j == num_allowed_units - 2) {
+      if (j == strvec_size(allowed_units) - 2) {
         /* TRANS: List of possible unit types has this between
          *        last two elements */
-        deli_str = Q_(" or ");
-      } else if (j < num_allowed_units - 1) {
-        deli_str = Q_("?or:, ");
+        delim_str = _(" or ");
+      } else if (j < strvec_size(allowed_units) - 1) {
+        /* TRANS: List of possible unit types has this between all elements
+         *        except last two */
+        delim_str = Q_("?or:, ");
       }
 
-      astr_add(&astr, "%s%s", allowed_units[j],
-               NULL != deli_str ? deli_str : "");
+      astr_add(&list, "%s%s", strvec_get(allowed_units, j),
+               NULL != delim_str ? delim_str : "");
     }
 
-    if (num_allowed_units == 0) {
+    if (strvec_size(allowed_units) == 0) {
      cat_snprintf(buf, bufsz,
-                   PL_("* Unit has to be in a city, or a base"
+                   PL_("* Unit has to be in a city or a base"
                        " after %d turn.\n",
-                       "* Unit has to be in a city, or a base"
+                       "* Unit has to be in a city or a base"
                        " after %d turns.\n",
                        utype_fuel(utype)),
                   utype_fuel(utype));
     } else {
       cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a list of unit types separated by "or" */
                    PL_("* Unit has to be in a city, a base, or on a %s"
                        " after %d turn.\n",
                        "* Unit has to be in a city, a base, or on a %s"
                        " after %d turns.\n",
                        utype_fuel(utype)),
-                   astr_str(&astr), utype_fuel(utype));
+                   astr_str(&list), utype_fuel(utype));
     }
-    astr_free(&astr);
+    astr_free(&list);
+    strvec_destroy(allowed_units);
   }
   if (strlen(buf) > 0) {
     CATLSTR(buf, bufsz, "\n");
@@ -1847,11 +1868,11 @@ void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
           astr_add(&outputs_or, "%s", prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_or,  "%s", Q_(" or "));
+          astr_add(&outputs_or,  "%s", _(" or "));
           astr_add(&outputs_and, "%s", prev2);
           /* TRANS: List of possible output types has this between
            *        last two elements */
-          astr_add(&outputs_and, "%s", Q_(" and "));
+          astr_add(&outputs_and, "%s", _(" and "));
         }
         if (prev != NULL) {
           astr_add(&outputs_or,  "%s", prev);
