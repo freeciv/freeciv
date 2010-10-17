@@ -3767,6 +3767,7 @@ static void send_ruleset_bases(struct conn_list *dest)
     packet.vision_invis_sq = b->vision_invis_sq;
 
     packet.flags = b->flags;
+    packet.conflicts = b->conflicts;
 
     lsend_packet_ruleset_base(dest, &packet);
   } base_type_iterate_end;

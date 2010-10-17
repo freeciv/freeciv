@@ -2935,6 +2935,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->vision_invis_sq = p->vision_invis_sq;
 
   pbase->flags = p->flags;
+  pbase->conflicts = p->conflicts;
 
   tileset_setup_base(tileset, pbase);
 }

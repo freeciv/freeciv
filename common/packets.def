@@ -1331,6 +1331,7 @@ PACKET_RULESET_BASE = 153; sc, lsend
   SINT8 vision_main_sq;
   SINT8 vision_invis_sq;
   BV_BASE_FLAGS flags;
+  BV_BASES conflicts;
 end
 
 /**************************************************************************

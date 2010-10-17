@@ -27,7 +27,7 @@ DATASUBDIR=dev
 #   - Avoid adding a new mandatory capability to the development branch for
 #     as long as possible.  We want to maintain network compatibility with
 #     the stable branch for as long as possible.
-NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel.2010.Oct.12v2"
+NETWORK_CAPSTRING_MANDATORY="+Freeciv.Devel.2010.Oct.17"
 NETWORK_CAPSTRING_OPTIONAL=""
 
 if test x$VERSION_SCRIPT_SILENT != xyes ; then
