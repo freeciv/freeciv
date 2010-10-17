@@ -57,7 +57,7 @@
 /* This must be in same order as enum in helpdlg_g.h */
 static const char * const help_type_names[] = {
   "(Any)", "(Text)", "Units", "Improvements", "Wonders",
-  "Techs", "Terrain", "Governments", "Ruleset", NULL
+  "Techs", "Terrain", "Bases", "Governments", "Ruleset", NULL
 };
 
 /*define MAX_LAST (MAX(MAX(MAX(A_LAST,B_LAST),U_LAST),terrain_count()))*/
@@ -832,6 +832,16 @@ void boot_help_texts(struct player *pplayer)
               help_list_append(category_nodes, pitem);
             }
             break;
+          case HELP_BASE:
+            base_type_iterate(pbase) {
+              pitem = new_help_item(current_type);
+              fc_snprintf(name, sizeof(name), "%*s%s", level, "",
+                          base_name_translation(pbase));
+              pitem->topic = fc_strdup(name);
+              pitem->text = fc_strdup("");
+              help_list_append(category_nodes, pitem);
+            } base_type_iterate_end;
+            break;
           case HELP_GOVERNMENT:
             government_iterate(gov) {
               pitem = new_help_item(current_type);
@@ -1370,9 +1380,6 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
       break;
     }
 
-    /* Fortress. */
-    CATLSTR(buf, bufsz, _("* Can build fortresses.\n"));
- 
     /* Pollution, fallout. */
     CATLSTR(buf, bufsz, _("* Can clean pollution from tiles.\n"));
     CATLSTR(buf, bufsz, _("* Can clean nuclear fallout from tiles.\n"));
@@ -1380,6 +1387,8 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   if (utype_has_flag(utype, F_TRANSFORM)) {
     CATLSTR(buf, bufsz, _("* Can transform tiles.\n"));
   }
+  /* FIXME: bases -- but there is no good way to find out which bases a unit
+   * can conceivably build currently, so we have to remain silent. */
   if (utype_has_flag(utype, F_DIPLOMAT)) {
     if (utype_has_flag(utype, F_SPY)) {
       CATLSTR(buf, bufsz, _("* Can perform diplomatic actions,"
@@ -1413,7 +1422,7 @@ char *helptext_unit(char *buf, size_t bufsz, struct player *pplayer,
   }
   if (utype_has_flag(utype, F_PARATROOPERS)) {
     cat_snprintf(buf, bufsz,
-		 _("* Can be paradropped from a friendly city or airbase"
+		 _("* Can be paradropped from a friendly city or suitable base"
 		   " (range: %d tiles).\n"),
 		 utype->paratroopers_range);
   }
@@ -1709,6 +1718,9 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
     free((void *) units_str);
   }
 
+  /* FIXME: bases -- but there is no good way to find out which bases a tech
+   * can enable currently, so we have to remain silent. */
+
   if (game.info.tech_upkeep_style == 1) {
     CATLSTR(buf, bufsz,
             _("* To preserve this technology for our nation some bulbs "
@@ -1778,6 +1790,148 @@ void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
       CATLSTR(buf, bufsz, _(text));
     } strvec_iterate_end;
   }
+  if (user_text && user_text[0] != '\0') {
+    CATLSTR(buf, bufsz, "\n\n");
+    CATLSTR(buf, bufsz, user_text);
+  }
+}
+
+/****************************************************************************
+  Append misc dynamic text for bases.
+  Assumes build time and conflicts are handled in the GUI front-end.
+
+  pplayer may be NULL.
+****************************************************************************/
+void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
+                   const char *user_text, struct base_type *pbase)
+{
+  fc_assert_ret(NULL != buf && 0 < bufsz);
+  buf[0] = '\0';
+
+  if (!pbase) {
+    log_error("Unknown base!");
+    return;
+  }
+
+  if (NULL != pbase->helptext) {
+    strvec_iterate(pbase->helptext, text) {
+      cat_snprintf(buf, bufsz, "%s\n\n", _(text));
+    } strvec_iterate_end;
+  }
+
+  /* XXX Non-zero requirement vector is not a good test of whether
+   * insert_requirement() will give any output. */
+  if (requirement_vector_size(&pbase->reqs) > 0) {
+    if (pbase->buildable) {
+      CATLSTR(buf, bufsz, "Requirements to build:\n");
+    }
+    requirement_vector_iterate(&pbase->reqs, preq) {
+      (void) insert_requirement(buf, bufsz, pplayer, preq);
+    } requirement_vector_iterate_end;
+    CATLSTR(buf, bufsz, "\n");
+  }
+
+  {
+    struct strvec *native_to = strvec_new();
+    int j;
+    struct astring list = ASTRING_INIT;
+
+    unit_class_iterate(uclass) {
+      if (is_native_base_to_uclass(pbase, uclass)) {
+        strvec_append(native_to, uclass_name_translation(uclass));
+      }
+    } unit_class_iterate_end;
+    for (j = 0; j < strvec_size(native_to); j++) {
+      const char *delim_str = NULL;
+      if (j == strvec_size(native_to) - 2) {
+        /* TRANS: List of possible unit classes has this between last two
+         *        elements */
+        delim_str = _(" and ");
+      } else if (j < strvec_size(native_to) - 1) {
+        /* TRANS: List of possible unit classes has this between all elements
+         *        except last two */
+        delim_str = Q_("?and:, ");
+      }
+      astr_add(&list, "%s%s", strvec_get(native_to, j),
+               NULL != delim_str ? delim_str : "");
+    }
+
+    if (strvec_size(native_to) > 0) {
+      cat_snprintf(buf, bufsz,
+                   /* TRANS: %s is a list of unit classes separated by "and". */
+                   _("* Native to %s units.\n"), astr_str(&list));
+    }
+    astr_free(&list);
+
+    if (strvec_size(native_to)) {
+      if (base_has_flag(pbase, BF_NATIVE_TILE)) {
+        CATLSTR(buf, bufsz,
+                _("  * Such units can move onto this tile even if it would "
+                  "not normally be suitable terrain.\n"));
+      }
+      if (game.info.borders > 0
+          && game.info.happyborders
+          && base_has_flag(pbase, BF_NOT_AGGRESSIVE)) {
+        /* "3 tiles" is hardcoded in is_friendly_city_near() */
+        CATLSTR(buf, bufsz,
+                _("  * Such units situated here are not considered aggressive "
+                  "if this tile is within 3 tiles of a friendly city.\n"));
+      }
+      if (territory_claiming_base(pbase)) {
+        CATLSTR(buf, bufsz,
+                _("  * Can be captured by such units if at war with the "
+                  "nation that currently owns it.\n"));
+      }
+      if (pbase->defense_bonus) {
+        cat_snprintf(buf, bufsz,
+                     _("  * Such units get a %d%% defense bonus on this "
+                       "tile.\n"),
+                     pbase->defense_bonus);
+      }
+      if (base_has_flag(pbase, BF_DIPLOMAT_DEFENSE)) {
+        CATLSTR(buf, bufsz,
+                /* xgettext:no-c-format */
+                _("  * Diplomatic units get a 25% defense bonus in "
+                  "diplomatic fights.\n"));
+      }
+    }
+
+    strvec_destroy(native_to);
+  }
+
+  if (!pbase->buildable) {
+    CATLSTR(buf, bufsz,
+            _("* Cannot be built.\n"));
+  }
+  if (pbase->pillageable) {
+    CATLSTR(buf, bufsz,
+            _("* Can be pillaged by units.\n"));
+  }
+  if (game.info.killstack
+      && base_has_flag(pbase, BF_NO_STACK_DEATH)) {
+    CATLSTR(buf, bufsz,
+            _("* Defeat of one unit does not cause death of all other units "
+              "on this tile.\n"));
+  }
+  if (base_has_flag(pbase, BF_PARADROP_FROM)) {
+    CATLSTR(buf, bufsz,
+            _("* Units can paradrop from this tile.\n"));
+  }
+  if (territory_claiming_base(pbase)) {
+    CATLSTR(buf, bufsz,
+            _("* Extends national borders of the building nation.\n"));
+  }
+  if (pbase->vision_main_sq >= 0) {
+    CATLSTR(buf, bufsz,
+            _("* Grants permanent vision of an area around the tile to "
+              "its owner.\n"));
+  }
+  if (pbase->vision_invis_sq >= 0) {
+    CATLSTR(buf, bufsz,
+            _("* Allows the owner to see normally invisible units in an "
+              "area around the tile.\n"));
+  }
+
   if (user_text && user_text[0] != '\0') {
     CATLSTR(buf, bufsz, "\n\n");
     CATLSTR(buf, bufsz, user_text);

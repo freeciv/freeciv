@@ -2195,6 +2195,7 @@ static void load_ruleset_terrain(struct section_file *file)
       } base_type_iterate_end;
     }
 
+    pbase->helptext = lookup_strvec(file, section, "helptext");
   } base_type_iterate_end;
 
   secfile_check_unused(file);
@@ -3768,6 +3769,8 @@ static void send_ruleset_bases(struct conn_list *dest)
 
     packet.flags = b->flags;
     packet.conflicts = b->conflicts;
+
+    PACKET_STRVEC_COMPUTE(packet.helptext, b->helptext);
 
     lsend_packet_ruleset_base(dest, &packet);
   } base_type_iterate_end;

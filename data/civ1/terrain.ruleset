@@ -667,6 +667,8 @@ food        = 2
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
+; helptext                = optional help text string; should escape all raw 
+;                           newlines so that xgettext parsing works
 
 [base_fortress]
 name          = _("Fortress")
@@ -684,3 +686,6 @@ build_time    = 3
 defense_bonus = 100
 native_to     = "Land"
 flags         = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+helptext       = _("\
+Fortresses improve defense for land units.\
+")

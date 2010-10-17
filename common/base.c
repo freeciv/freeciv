@@ -18,6 +18,7 @@
 /* utility */
 #include "fcintl.h"
 #include "log.h"
+#include "string_vector.h"
 
 /* common */
 #include "game.h"
@@ -116,6 +117,21 @@ struct base_type *find_base_type_by_rule_name(const char *name)
 
   base_type_iterate(pbase) {
     if (!fc_strcasecmp(base_rule_name(pbase), qs)) {
+      return pbase;
+    }
+  } base_type_iterate_end;
+
+  return NULL;
+}
+
+/**************************************************************************
+  Returns base type matching the translated name, or NULL if there is no
+  base type with that name.
+**************************************************************************/
+struct base_type *find_base_type_by_translated_name(const char *name)
+{
+  base_type_iterate(pbase) {
+    if (0 == strcmp(base_name_translation(pbase), name)) {
       return pbase;
     }
   } base_type_iterate_end;
@@ -263,6 +279,10 @@ void base_types_free(void)
 {
   base_type_iterate(pbase) {
     requirement_vector_free(&pbase->reqs);
+    if (NULL != pbase->helptext) {
+      strvec_destroy(pbase->helptext);
+      pbase->helptext = NULL;
+    }
   } base_type_iterate_end;
 }
 

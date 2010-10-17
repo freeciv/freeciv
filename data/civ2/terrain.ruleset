@@ -779,6 +779,8 @@ shield      = 3
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
+; helptext                = optional help text string; should escape all raw 
+;                           newlines so that xgettext parsing works
 
 [base_fortress]
 name          = _("Fortress")
@@ -796,6 +798,11 @@ build_time    = 3
 defense_bonus = 100
 native_to     = "Land"
 flags         = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+helptext       = _("\
+Fortresses improve defense for land units. Among other effects, a land \
+unit remaining in a fortress for a whole turn without moving recovers \
+a quarter of its hit points.\
+")
 
 [base_airbase]
 name          = _("Airbase")
@@ -811,4 +818,8 @@ reqs          =
 gui_type      = "Airbase"
 build_time    = 3
 native_to     = "Air", "Helicopter", "Missile"
-flags         = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+flags         = "NoStackDeath", "ParadropFrom"
+helptext       = _("\
+Airbases allow your air units to land and refuel. Air units in an \
+airbase may be attacked by land units.\
+")

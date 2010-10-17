@@ -889,6 +889,8 @@ shield      = 3 ; glacier used to have 4
 ;   - "DiplomatDefense"   = Diplomats inside get bonus to diplomatic defense
 ;   - "ParadropFrom"      = Paradrop can be initiated from base
 ;   - "NativeTile"        = Units consider tile native regardless of terrain
+; helptext                = optional help text string; should escape all raw 
+;                           newlines so that xgettext parsing works
 
 [base_fortress]
 name           = _("Fortress")
@@ -907,6 +909,12 @@ defense_bonus  = 100
 border_sq      = 5
 native_to      = "Land", "Big Land"
 flags          = "NoAggressive", "NoStackDeath", "DiplomatDefense"
+helptext       = _("\
+Fortresses improve defense for land units. Among other effects, a land \
+unit remaining in a fortress for a whole turn without moving recovers \
+a quarter of its hit points. With Invention, fortresses gain watchtowers \
+from which units can see further afield.\
+")
 
 [base_airbase]
 name           = _("Airbase")
@@ -922,7 +930,11 @@ reqs           =
 gui_type       = "Airbase"
 build_time     = 3
 native_to      = "Air", "Helicopter", "Missile"
-flags          = "NoStackDeath", "DiplomatDefense", "ParadropFrom"
+flags          = "NoStackDeath", "ParadropFrom"
+helptext       = _("\
+Airbases allow your air units to land and refuel. Air units in an \
+airbase may be attacked by land units.\
+")
 
 [base_buoy]
 name           = _("Buoy")
@@ -939,6 +951,9 @@ gui_type       = "Fortress"
 build_time     = 3
 border_sq      = 0
 vision_main_sq = 5
+helptext       = _("\
+Buoys may be built in the ocean (by units on a sea-going vessel).\
+")
 
 [base_ruins]
 name           = _("Ruins")
@@ -952,3 +967,7 @@ reqs           =
 buildable      = 0
 build_time     = 0
 gui_type       = "Other"
+helptext       = _("\
+Ruins mark the former site of a city that was destroyed or abandoned. \
+They have no effect on gameplay.\
+")

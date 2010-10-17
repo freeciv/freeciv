@@ -46,6 +46,8 @@ void helptext_advance(char *buf, size_t bufsz, struct player *pplayer,
 		      const char *user_text, int i);
 void helptext_terrain(char *buf, size_t bufsz, struct player *pplayer,
 		      const char *user_text, struct terrain *pterrain);
+void helptext_base(char *buf, size_t bufsz, struct player *pplayer,
+                   const char *user_text, struct base_type *pbase);
 void helptext_government(char *buf, size_t bufsz, struct player *pplayer,
 			 const char *user_text, struct government *gov);
 

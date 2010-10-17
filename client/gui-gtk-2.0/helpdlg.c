@@ -68,6 +68,7 @@ static GtkWidget *help_itable;
 static GtkWidget *help_wtable;
 static GtkWidget *help_utable;
 static GtkWidget *help_ttable;
+static GtkWidget *help_btable;
 static GtkWidget *help_tree;
 static GtkTreeStore *tstore;
 
@@ -79,6 +80,7 @@ static GtkWidget *help_ilabel[6];
 static GtkWidget *help_wlabel[6];
 static GtkWidget *help_ulabel[5][5];
 static GtkWidget *help_tlabel[4][5];
+static GtkWidget *help_blabel[4];
 
 static bool help_advances[A_LAST];
 
@@ -108,6 +110,9 @@ static const char *help_tlabel_name[4][5] =
     { N_("Road Rslt/Time:"),	NULL, NULL, N_("Irrig. Rslt/Time:"),	NULL },
     { N_("Mine Rslt/Time:"),	NULL, NULL, N_("Trans. Rslt/Time:"),	NULL }
 };
+
+static const char *help_blabel_name[4] =
+{ N_("Build:"), NULL, N_("Conflicts with:"), NULL };
 
 #define REQ_LABEL_NONE _("None")
 #define REQ_LABEL_NEVER _("(Never)")
@@ -348,6 +353,7 @@ static void help_box_hide(void)
   gtk_widget_hide(help_wtable);
   gtk_widget_hide(help_utable);
   gtk_widget_hide(help_ttable);
+  gtk_widget_hide(help_btable);
   
   gtk_widget_hide(help_tile); /* FIXME: twice? */
 
@@ -600,6 +606,17 @@ static void create_help_dialog(void)
     }
   }
 
+  help_btable = gtk_table_new(1, 4, FALSE);
+  gtk_box_pack_start(GTK_BOX(help_box), help_btable, FALSE, FALSE, 0);
+
+  for (i=0; i<4; i++) {
+    help_blabel[i] =
+      gtk_label_new(help_blabel_name[i] ? _(help_blabel_name[i]) : "");
+    gtk_table_attach_defaults(GTK_TABLE(help_btable),
+                              help_blabel[i], i, i+1, 0, 1);
+    gtk_widget_set_name(help_blabel[i], "help_label");
+    gtk_widget_show(help_blabel[i]);
+  }
 
   help_vbox = gtk_vbox_new(FALSE, 1);
   gtk_container_set_border_width(GTK_CONTAINER(help_vbox), 5);
@@ -1136,6 +1153,47 @@ static void help_update_terrain(const struct help_item *pitem,
 }
 
 /**************************************************************************
+  Help page for bases.
+**************************************************************************/
+static void help_update_base(const struct help_item *pitem, char *title)
+{
+  char buf[8192];
+  struct base_type *pbase = find_base_type_by_translated_name(title);
+
+  create_help_page(HELP_BASE);
+
+  if (!pbase) {
+    strcat(buf, pitem->text);
+  } else {
+    /* Cost to build */
+    /* TRANS: "MP" = movement points */
+    if (pbase->buildable) {
+      sprintf(buf, _("%d MP"), pbase->build_time);
+    } else {
+      sprintf(buf, "-");
+    }
+    gtk_label_set_text(GTK_LABEL(help_blabel[1]), buf);
+    /* Conflicting bases */
+    buf[0] = '\0';
+    base_type_iterate(pbase2) {
+      if (!can_bases_coexist(pbase, pbase2)) {
+        if (buf[0] != '\0') {
+          strcat(buf, "/");
+        }
+        strcat(buf, base_name_translation(pbase2));
+      }
+    } base_type_iterate_end;
+    /* TRANS: "Conflicts with: (none)" (bases) */
+    gtk_label_set_text(GTK_LABEL(help_blabel[3]), buf[0] ? buf : _("(none)"));
+    helptext_base(buf, sizeof(buf), client.conn.playing, pitem->text, pbase);
+  }
+  gtk_widget_show(help_btable);
+
+  gtk_text_buffer_set_text(help_text, buf, -1);
+  gtk_widget_show(help_text_sw);
+}
+
+/**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
@@ -1185,6 +1243,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TERRAIN:
     help_update_terrain(pitem, top);
+    break;
+  case HELP_BASE:
+    help_update_base(pitem, top);
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top);

@@ -376,20 +376,8 @@ a tile by 50%. (Depending on server options, railroads may also \
 increase food and trade resources, or may increase shield resources by \
 an amount other than 50%.)\
 "), _("\
-Technology advances allow other kinds of structures to be built:\
-"), _("\
- - Fortresses improve defense. Units inside a fortress defend at twice \
-their normal strength; also, units inside a fortress must be destroyed \
-one at a time. See the Combat help section for further details. \
-Occupied fortresses also extend your borders (see the section on \
-National Borders).\
-"), _("\
- - Airbases allow your air units to land and refuel. Air units in an \
-airbase may be attacked by land units, but are killed one by one, as \
-in a fortress.\
-"), _("\
- - Buoys may be built in the ocean (by units on a sea-going vessel); \
-they give you permanent visibility of the area of the map around them.\
+Technology advances allow other kinds of structures to be built, \
+sometimes known as \"bases\"; see the following sections for details.\
 "), _("\
 The following table shows the number of turns required for one unit \
 of Settlers or Workers to complete an activity. These numbers are \
@@ -403,6 +391,9 @@ Engineers is highly vulnerable to enemy attacks.\
 "), "\
 $TerrainAlterations\
 "
+
+[help_gen_bases]
+generate = "  Bases"
 
 [help_pillaging]
 name = _("  Pillaging")
@@ -461,11 +452,11 @@ the ownership of land that is out of range of any city can change \
 depending on factors such as the relative size of nearby nations' \
 cities.\
 "), _("\
-In the default ruleset, occupied fortresses also extend national \
-borders.\
-"), _("\
 Borders can only extend into water for tiles adjacent to a city; other \
 water tiles remain unclaimed territory.\
+"), _("\
+Bases can also extend national borders. See the help on Terrain \
+Alterations for more details.\
 ")
 
 [help_economy]
@@ -779,7 +770,7 @@ unhappiness by imposing martial law. However, under representative \
 governments, citizens become unhappy when their city is supporting \
 military units which have been deployed into an aggressive stance. \
 This includes units not inside your national borders, a friendly city \
-(including the cities of your allies), or a fortress within three \
+(including the cities of your allies), or a suitable base within three \
 tiles of a friendly city; however, certain units (\"field units\") \
 are inherently aggressive and cause unhappiness regardless of \
 location.\
@@ -1006,12 +997,13 @@ turn in which they are not moved. Normally, a unit which has not \
 moved will regain one hit point per turn. Units which are fortified \
 gain an extra hit point. A unit which spends a turn in a city \
 regains one third of its base hit points, and city improvements \
-appropriate to the unit type can improve this further. In the \
-default ruleset, units which stay in a fortress for a whole turn \
-regain a quarter of their hit points. Wonders can also boost recovery \
-(such as the United Nations in the default ruleset). Damaged units in \
-Sentry mode will wake up when they have regained all of their hit \
-points.\
+appropriate to the unit type can improve this further. In the field, \
+bases on tiles can improve the recovery rate (for instance, fortresses \
+in the default ruleset have this effect); units must stay on the tile \
+for a whole turn to get this recovery bonus. Wonders can also boost \
+recovery (such as the United Nations in the default ruleset). Damaged \
+units in Sentry mode will wake up when they have regained all of their \
+hit points.\
 "), _("\
 As technology advances, new types of units become available which \
 obsolete existing types. When you discover such a new technology, \

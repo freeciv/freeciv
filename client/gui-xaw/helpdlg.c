@@ -1051,6 +1051,46 @@ static void help_update_terrain(const struct help_item *pitem,
 }
 
 /**************************************************************************
+  Help page for bases.
+**************************************************************************/
+static void help_update_base(const struct help_item *pitem,
+                             char *title)
+{
+  char buf[4096];
+  struct base_type *pbase = find_base_type_by_translated_name(title);
+
+  if (!pbase) {
+    strcat(buf, pitem->text);
+  } else {
+    /* FIXME use actual widgets */
+    const char *sep = "";
+    buf[0] = '\0';
+    if (pbase->buildable) {
+      /* TRANS: "MP" = movement points */
+      sprintf(buf, _("Build: %d MP\n"), pbase->build_time);
+    }
+    sprintf(buf + strlen(buf), _("Conflicts with: "));
+    base_type_iterate(pbase2) {
+      if (!can_bases_coexist(pbase, pbase2)) {
+        strcat(buf, sep);
+        strcat(buf, base_name_translation(pbase2));
+        sep = "/";
+      }
+    } base_type_iterate_end;
+    if (!*sep) {
+      /* TRANS: "Conflicts with: (none)" (bases) */
+      strcat(buf, _("(none)"));
+    }
+    strcat(buf, "\n\n");
+    helptext_base(buf + strlen(buf), sizeof(buf) - strlen(buf),
+                  client.conn.playing, pitem->text, pbase);
+  }
+  create_help_page(HELP_TEXT);
+  set_title_topic(pitem);
+  XtVaSetValues(help_text, XtNstring, buf, NULL);
+}
+
+/**************************************************************************
   This is currently just a text page, with special text:
 **************************************************************************/
 static void help_update_government(const struct help_item *pitem,
@@ -1097,6 +1137,9 @@ static void help_update_dialog(const struct help_item *pitem)
     break;
   case HELP_TERRAIN:
     help_update_terrain(pitem, top);
+    break;
+  case HELP_BASE:
+    help_update_base(pitem, top);
     break;
   case HELP_GOVERNMENT:
     help_update_government(pitem, top);

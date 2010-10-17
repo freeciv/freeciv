@@ -2937,6 +2937,8 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->flags = p->flags;
   pbase->conflicts = p->conflicts;
 
+  PACKET_STRVEC_EXTRACT(pbase->helptext, p->helptext);
+
   tileset_setup_base(tileset, pbase);
 }
 
