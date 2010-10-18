@@ -641,7 +641,7 @@ sprites =
 		"f.oz", "flags/oz"
 		"f.pakistan", "flags/pakistan"
 		"f.palestine", "flags/palestine"
-;		"f.palmyra", "flags/palmyra"
+		"f.palmyra", "flags/palmyra"
 		"f.panama", "flags/panama"
 		"f.papua_newguinea", "flags/papua_newguinea"
 		"f.paraguay", "flags/paraguay"

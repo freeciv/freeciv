@@ -252,6 +252,7 @@ pkgdata_DATA = \
 		ozite.ruleset \
 		pakistani.ruleset \
 		palestinian.ruleset \
+		palmyrene.ruleset \
 		panamanian.ruleset \
 		papuan.ruleset \
 		paraguayan.ruleset \
