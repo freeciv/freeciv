@@ -41,6 +41,7 @@ pkgdata_DATA = \
 		babylonian.ruleset \
 		badian.ruleset \
 		barbarian.ruleset \
+		bashkir.ruleset \
 		basque.ruleset \
 		bavarian.ruleset \
 		belarusian.ruleset \
@@ -220,6 +221,7 @@ pkgdata_DATA = \
 		mongol.ruleset \
 		montenegrin.ruleset \
 		moravian.ruleset \
+		mordvin.ruleset \
 		moroccan.ruleset \
 		motswana.ruleset \
 		muskogee.ruleset \

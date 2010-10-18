@@ -279,6 +279,7 @@ data/nation/aztec.ruleset
 data/nation/babylonian.ruleset
 data/nation/badian.ruleset
 data/nation/barbarian.ruleset
+data/nation/bashkir.ruleset
 data/nation/basque.ruleset
 data/nation/bavarian.ruleset
 data/nation/belarusian.ruleset
@@ -458,6 +459,7 @@ data/nation/monegasque.ruleset
 data/nation/mongol.ruleset
 data/nation/montenegrin.ruleset
 data/nation/moravian.ruleset
+data/nation/mordvin.ruleset
 data/nation/motswana.ruleset
 data/nation/moroccan.ruleset
 data/nation/muskogee.ruleset

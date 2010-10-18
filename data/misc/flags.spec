@@ -49,6 +49,7 @@ artists = "
    Baden		David Liuzzo (Wikimedia Commons)
    Bangladesh		Cezary Biele
    Barbarian		Tobias Jakobs
+   Bashkortostan	Conscious (Wikimedia Commons)
    Bavarian		Jörgen Scheibengruber
    Belarus		Gregory Maxwell and Zachary Harden
    Belgium		Daniel McRae
@@ -229,6 +230,7 @@ artists = "
    Mongolia		Sebastian Koppehel
    Montenegro		Bugoslav (Wikimedia Commons)
    Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
+   Mordovia		Fibonacci (Wikimedia Commons)
    Morocco		Xiquet, Flad (Wikimedia Commons)
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
@@ -423,6 +425,7 @@ sprites =
 		"f.baden", "flags/baden"
 		"f.bangladesh", "flags/bangladesh"
 		"f.barbarian", "flags/barbarian"
+		"f.bashkortostan", "flags/bashkortostan"
 		"f.bavarian", "flags/bavarian"
 		"f.belarus", "flags/belarus"
 		"f.belgium", "flags/belgium"
@@ -604,6 +607,7 @@ sprites =
 		"f.mongolia", "flags/mongolia"
 		"f.montenegro", "flags/montenegro"
 		"f.moravia", "flags/moravia"
+		"f.mordovia", "flags/mordovia"
 		"f.morocco", "flags/morocco"
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"

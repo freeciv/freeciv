@@ -40,6 +40,7 @@ flag_files =				\
 		baden.png		\
 		bangladesh.png		\
 		barbarian.png		\
+		bashkortostan.png	\
 		bavarian.png		\
 		belarus.png		\
 		belgium.png		\
@@ -221,6 +222,7 @@ flag_files =				\
 		mongolia.png		\
 		montenegro.png		\
 		moravia.png		\
+		mordovia.png		\
 		morocco.png		\
 		muskogee.png		\
 		mwiska.png		\
@@ -411,6 +413,7 @@ shield_files =					\
 		baden-shield.png		\
 		bangladesh-shield.png		\
 		barbarian-shield.png		\
+		bashkortostan-shield.png	\
 		bavarian-shield.png		\
 		belarus-shield.png		\
 		belgium-shield.png		\
@@ -592,6 +595,7 @@ shield_files =					\
 		mongolia-shield.png		\
 		montenegro-shield.png		\
 		moravia-shield.png		\
+		mordovia-shield.png		\
 		morocco-shield.png		\
 		muskogee-shield.png		\
 		mwiska-shield.png		\
@@ -782,6 +786,7 @@ svg_files = 				\
 		baden.svg		\
 		bangladesh.svg		\
 		barbarian.svg		\
+		bashkortostan.svg	\
 		bavarian.svg		\
 		belarus.svg		\
 		belgium.svg		\
@@ -963,6 +968,7 @@ svg_files = 				\
 		mongolia.svg		\
 		montenegro.svg		\
 		moravia.svg		\
+		mordovia.svg		\
 		morocco.svg		\
 		muskogee.svg		\
 		mwiska.svg		\

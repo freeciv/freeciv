@@ -50,7 +50,7 @@ init_buildings=""
 init_government="Despotism" 
 init_units="" 
 
-civilwar_nations="tatar", "ukrainian", "ottoman" 
+civilwar_nations="Tatar", "Ukrainian", "Ottoman", "Bashkir"
 
 ;Names of cities comes from this webpages: http://crh.wikipedia.org/wiki/Kategoriya:Q?r?mdaki_regionlar
 cities =

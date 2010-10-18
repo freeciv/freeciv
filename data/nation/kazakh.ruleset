@@ -14,7 +14,7 @@ leader =
  "Abul Khair", ; ruler of Junior Jüz
  "Ablai",      ; ruler of Middle Jüz
  "Kenesary Kasymov", ; leader of uprising against Russians
- "Dinmukhammed Akhmeduly Konayev" ; Soviet time leader
+ "Dinmukhamed Konayev" ; Soviet time leader
 
 leader_sex = "Male", "Male", "Male", "Male", "Male",
              "Male", "Male"
