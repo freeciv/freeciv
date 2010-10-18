@@ -3,12 +3,12 @@
 name = _("Monegasque")
 plural = _("?plural:Monegasque")
 groups="European", "Modern", "Early Modern", "Medieval"
-legend=_("With only two square kilometers Monaco is the second smallest\
+legend=_("With only two square kilometers, Monaco is the second smallest\
  country in the world. It has been ruled by the Grimaldi dynasty ever\
  since the country was founded in 1297. In 1861 Monaco lost more than 95\
- per cent of its territory to France. The principality is noted for its\
- absense of income taxes, its casino and its Formula 1 track. Foreigners\
- make up more than 80 per cent of the population. In terms of GDP per\
+ percent of its territory to France. The principality is noted for its\
+ absence of income taxes, its casino and its Formula 1 track. Foreigners\
+ make up more than 80 percent of the population. In terms of GDP per\
  capita Monaco is the wealthiest country in the world by a large margin.")
 leader =
  "François Grimaldi",

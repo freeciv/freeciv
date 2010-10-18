@@ -3,14 +3,14 @@
 name=_("Visigothic") 
 plural=_("?plural:Visigoths") 
 groups="Ancient", "Medieval", "European" 
-legend = _("The Tervings or Visigoths were a East Germanic people, one of\
+legend = _("The Thervingi or Visigoths were an East Germanic people, one of\
  the two tribes of the Goths. They probably originated from Scandinavia.\
- In the 3th century they migrated south, to modern Ukrainia. They then\
- crossed the Danube and sacked Rome in 410 AD. Recognized by as foederati\
- they eventually settled around Tolouse, where they formed a kingdom. The\
- Visigoths managed to conquer all of the Iberian Peninsula and moved\
- their capital to Toledo. They lost all their territories north of the\
- Pyrenees to the Franks but Visigothic rulers continued to rule the\
+ In the 3rd century they migrated south, to modern Ukraine. They then\
+ crossed the Danube and sacked Rome in 410 AD. Recognized by the Romans as\
+ foederati, they eventually settled around Toulouse where they formed a\
+ kingdom. The Visigoths managed to conquer all of the Iberian Peninsula and\
+ moved their capital to Toledo. They lost all their territories north of\
+ the Pyrenees to the Franks but Visigothic rulers continued to rule the\
  Romanized Iberians until the peninsula was eventually overrun by Muslim\
  invaders in 711.")
 leader=

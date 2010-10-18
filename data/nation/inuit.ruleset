@@ -4,7 +4,7 @@ name=_("Inuit")
 plural=_("?plural:Inuits")
 groups="American"
 legend=_("The Inuits are a group of peoples inhabiting the Arctic areas\
- of North America and Siberia. The Candian territory of Nunavut has a\
+ of North America and Siberia. The Canadian territory of Nunavut has a\
  majority population of Inuits; the name of the territory means \"our\
  land\" in Inuktitut.")
 leader=

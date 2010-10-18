@@ -1530,7 +1530,7 @@ static struct setting settings[] = {
            SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
            N_("Give caught units a homecity"),
            N_("If unset, caught units will have no homecity and will be "
-              "subect to the killunhomed option."),
+              "subject to the killunhomed option."),
            NULL, NULL, GAME_DEFAULT_HOMECAUGHTUNITS)
 
   GEN_BOOL("naturalcitynames", game.server.natural_city_names,

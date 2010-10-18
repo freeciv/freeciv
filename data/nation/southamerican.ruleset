@@ -17,7 +17,7 @@ city_style = "European"
 
 ruler_titles = { "government",      "male_title",      "female_title"
                  "Anarchy",         _("Caudillo"),   _("Caudilla")
-                 "Communism",       _("Comandante"), _("Comananta")
+                 "Communism",       _("Comandante"), _("Comandanta")
                  "Despotism",       _("General"),    _("?female:General")
                  "Fundamentalism",  _("Archbishop"), _("Madre")
                  "Republic",        _("Secretary General"), _("Secretary General")

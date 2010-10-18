@@ -4,7 +4,7 @@ name=_("South Yemeni")
 plural=_("?plural:South Yemenis")
 groups="Asian"
 legend=_("The area around Aden was colonized by the British in 1839.\
- South Yemen declared indepenence in 1967 and joined the communist bloc.\
+ South Yemen declared independence in 1967 and joined the communist bloc.\
  It was united with North Yemen in 1990.")
 leader=
  "Qahtan Muhammad al-Shaabi",
