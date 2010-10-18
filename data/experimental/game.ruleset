@@ -57,7 +57,7 @@ min_city_center_trade   = 0
 ; (Minimum value for this is 1, which means adjacent is okay.)
 min_dist_bw_cities      = 2
 
-; Square of initially city radius (true distance).
+; Square of initially city radius
 init_city_radius_sq     = 2
 
 ; Square of initially visible radius (true distance).

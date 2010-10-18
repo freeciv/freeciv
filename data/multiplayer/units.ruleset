@@ -1,3 +1,19 @@
+; Modifying this file:
+; You should not modify this file except to make bugfixes or
+; for other "maintenance".  If you want to make custom changes,
+; you should create a new datadir subdirectory and copy this file
+; into that directory, and then modify that copy.  Then use the
+; command "rulesetdir <mysubdir>" in the server to have freeciv
+; use your new customized file.
+;
+; You should sort role units from worst to better, as often the best
+; available role unit of a given sort will be picked by choosing
+; the first available (not obsolete) such unit, or by picking the last
+; such unit directly. When determining starting units, the first 
+; unit with the relevant role that the player can build will be chosen.
+; If no such unit can be found (eg Explorers that require Seafaring),
+; then the first unit with this role will be chosen.
+
 [datafile]
 description="Unit definitions for the multiplayer ruleset."
 options="1.9"
@@ -2052,7 +2068,7 @@ flags         = "HelpWonder", "IgZOC", "NonMil"
 roles         = ""
 helptext      = _("\
 The Freight unit replaces the Caravan, and moves at twice the speed.\
-Each Freight used to build a wonder will add 50 shields.\
+ Each Freight used to build a wonder will add 50 shields.\
 ")
 
 [unit_explorer]

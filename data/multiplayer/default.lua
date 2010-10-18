@@ -12,7 +12,7 @@
 -- When creating new ruleset, you should copy this file only if you
 -- need to override default one. Usually you should implement your
 -- own scripts in ruleset specific script.lua. This way maintaining
--- ruleset is easier as you don`t need to keep your own copy of
+-- ruleset is easier as you do not need to keep your own copy of
 -- default.lua updated when ever it changes in Freeciv distribution.
 
 -- Get gold from entering a hut.

@@ -319,7 +319,7 @@ sound_alt	= "b_generic"
 ; /* xgettext:no-c-format */
 helptext	= _("\
 Increases the shield production in a city by 50%.  This increase may\
- also contribute significantly to pollution.A factory is necessary\
+ also contribute significantly to pollution. A factory is necessary\
  to build space ship parts.\
 ")
 
