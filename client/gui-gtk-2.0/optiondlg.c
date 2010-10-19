@@ -511,7 +511,7 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     gtk_container_set_border_width(GTK_CONTAINER(align), 8);
     gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(sw), align);
 
-    pdialog->vboxes[category] = gtk_vbox_new(TRUE, 0);
+    pdialog->vboxes[category] = gtk_vbox_new(FALSE, 0);
     gtk_container_add(GTK_CONTAINER(align), pdialog->vboxes[category]);
 
     gtk_widget_show_all(sw);
@@ -583,6 +583,30 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
     break;
 
+  case OT_BITWISE:
+    {
+      GList *list = NULL;
+      GtkWidget *vbox, *hbox, *check, *label;
+      const struct strvec *values = option_bitwise_values(poption);
+      int i;
+
+      w = gtk_frame_new(NULL);
+      vbox = gtk_vbox_new(TRUE, 0);
+      gtk_container_add(GTK_CONTAINER(w), vbox);
+      for (i = 0; i < strvec_size(values); i++) {
+        hbox = gtk_hbox_new(FALSE, 4);
+        gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, TRUE, 0);
+        check = gtk_check_button_new();
+        gtk_box_pack_start(GTK_BOX(hbox), check, FALSE, TRUE, 0);
+        label = gtk_label_new(strvec_get(values, i));
+        gtk_box_pack_start(GTK_BOX(hbox), label, FALSE, TRUE, 0);
+        list = g_list_append(list, check);
+      }
+      g_object_set_data_full(G_OBJECT(w), "check_buttons", list,
+                             (GDestroyNotify) g_list_free);
+    }
+    break;
+
   case OT_FONT:
     w = gtk_font_button_new();
     g_object_set(G_OBJECT(w), "use-font", TRUE, NULL);
@@ -614,7 +638,6 @@ static void option_dialog_option_add(struct option_dialog *pdialog,
     }
     break;
 
-  case OT_BITWISE:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -720,6 +743,22 @@ static inline void option_dialog_option_enum_set(struct option *poption,
 }
 
 /****************************************************************************
+  Set the enum value of the option.
+****************************************************************************/
+static inline void option_dialog_option_bitwise_set(struct option *poption,
+                                                    unsigned value)
+{
+  GObject *data = option_get_gui_data(poption);
+  GList *iter = g_object_get_data(data, "check_buttons");
+  int bit;
+
+  for (bit = 0; NULL != iter; iter = g_list_next(iter), bit++) {
+    gtk_toggle_button_set_active(GTK_TOGGLE_BUTTON(iter->data),
+                                 value & (1 << bit));
+  }
+}
+
+/****************************************************************************
   Set the font value of the option.
 ****************************************************************************/
 static inline void option_dialog_option_font_set(struct option *poption,
@@ -781,13 +820,15 @@ static void option_dialog_option_refresh(struct option *poption)
   case OT_ENUM:
     option_dialog_option_enum_set(poption, option_enum_get_int(poption));
     break;
+  case OT_BITWISE:
+    option_dialog_option_bitwise_set(poption, option_bitwise_get(poption));
+    break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_get(poption));
     break;
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_get(poption));
     break;
-  case OT_BITWISE:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -817,13 +858,15 @@ static void option_dialog_option_reset(struct option *poption)
   case OT_ENUM:
     option_dialog_option_enum_set(poption, option_enum_def_int(poption));
     break;
+  case OT_BITWISE:
+    option_dialog_option_bitwise_set(poption, option_bitwise_def(poption));
+    break;
   case OT_FONT:
     option_dialog_option_font_set(poption, option_font_def(poption));
     break;
   case OT_COLOR:
     option_dialog_option_color_set(poption, option_color_def(poption));
     break;
-  case OT_BITWISE:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),
@@ -874,6 +917,20 @@ static void option_dialog_option_apply(struct option *poption)
     }
     break;
 
+  case OT_BITWISE:
+    {
+      GList *iter = g_object_get_data(G_OBJECT(w), "check_buttons");
+      unsigned value = 0;
+      int bit;
+
+      for (bit = 0; NULL != iter; iter = g_list_next(iter), bit++) {
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(iter->data))) {
+          value |= 1 << bit;
+        }
+      }
+      (void) option_bitwise_set(poption, value);
+    }
+    break;
 
   case OT_FONT:
     (void) option_font_set(poption, gtk_font_button_get_font_name
@@ -901,7 +958,6 @@ static void option_dialog_option_apply(struct option *poption)
     }
     break;
 
-  case OT_BITWISE:
   case OT_VIDEO_MODE:
     log_error("Option type %s (%d) not supported yet.",
               option_type_name(option_type(poption)),

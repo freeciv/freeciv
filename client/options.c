@@ -3855,24 +3855,6 @@ static const struct strvec *
 }
 
 /****************************************************************************
-  Set the value of this server option of type OT_BITWISE.  Returns TRUE if
-  the value changed.
-****************************************************************************/
-static bool server_option_bitwise_set(struct option *poption, unsigned val)
-{
-  struct server_option *psoption = SERVER_OPTION(poption);
-  const char *name;
-
-  if (val == psoption->enumerator.value
-      || !(name = strvec_get(psoption->enumerator.support_names, val))) {
-    return FALSE;
-  }
-
-  send_chat_printf("/set %s \"%s\"", psoption->name, name);
-  return TRUE;
-}
-
-/****************************************************************************
   Compute the long support names of a value.
 ****************************************************************************/
 static void server_option_bitwise_support_base(const struct strvec *values,
@@ -3890,6 +3872,25 @@ static void server_option_bitwise_support_base(const struct strvec *values,
       fc_strlcat(buf, strvec_get(values, bit), buf_len);
     }
   }
+}
+
+/****************************************************************************
+  Set the value of this server option of type OT_BITWISE.  Returns TRUE if
+  the value changed.
+****************************************************************************/
+static bool server_option_bitwise_set(struct option *poption, unsigned val)
+{
+  struct server_option *psoption = SERVER_OPTION(poption);
+  char name[MAX_LEN_MSG];
+
+  if (val == psoption->bitwise.value) {
+    return FALSE;
+  }
+
+  server_option_bitwise_support_base(psoption->bitwise.support_names, val,
+                                     name, sizeof(name));
+  send_chat_printf("/set %s \"%s\"", psoption->name, name);
+  return TRUE;
 }
 
 /****************************************************************************
