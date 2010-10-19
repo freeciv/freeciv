@@ -2376,6 +2376,12 @@ static inline void city_support(struct city *pcity)
 
   unit_list_iterate(pcity->units_supported, punit) {
     pcity->unit_happy_upkeep += city_unit_unhappiness(punit, &free_unhappy);
+    output_type_iterate(o) {
+      if (O_GOLD != o) {
+        /* O_GOLD is handled with "game.info.gold_upkeep_style", see over. */
+        pcity->usage[o] += punit->upkeep[o];
+      }
+    } output_type_iterate_end;
   } unit_list_iterate_end;
 }
 
