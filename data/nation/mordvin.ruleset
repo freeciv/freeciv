@@ -3,7 +3,7 @@
 name=_("Mordvin")
 plural=_("?plural:Mordvins")
 groups="European"
-legend=_("The Mordvins are a Finniс people consisting of two subgroups: the\
+legend=_("The Mordvins are a Finnic people consisting of two subgroups: the\
  Erzya and the Moksha. Mordvins live mainly in the Republic of Mordovia,\
  a subdivision of the Russian Federation.")
 
@@ -19,8 +19,9 @@ flag_alt="-"
 city_style="European"
 
 ruler_titles={ "government",      "male_title",      "female_title"
-               "Despotism",       _("Prince"),         _("Princess")
-               ; /* TRANS: The 'a' has an umlaut: 'Inäzor' */
+               "Despotism",       _("Prince"),       _("Princess")
+               ; /* TRANS: The third letter in 'Inazor' should be a */
+               ; /* TRANS: U+00E4 LATIN SMALL LETTER A WITH DIAERESIS. */
                "Monarchy",        _("Inazor"),         _("?female:Inazor")
              }
 
