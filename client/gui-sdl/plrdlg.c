@@ -229,7 +229,7 @@ void real_players_dialog_update(void)
         }
       }
 
-      copy_chars_to_string16(pPlayer0->string16, astr_str(&astr));
+      copy_chars_to_string16(pPlayer0->info_label, astr_str(&astr));
 
       astr_free(&astr);
           
