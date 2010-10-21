@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: freeciv 1.14.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-09-12 11:27-0700\n"
-"PO-Revision-Date: 2010-10-11 00:33+0300\n"
+"PO-Revision-Date: 2010-10-21 22:11+0300\n"
 "Last-Translator: Vadim Mikhnevych <vadim.mikhnevych@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -659,9 +659,8 @@ msgid "?attitude:Worshipful"
 msgstr "Поклоніння"
 
 #: common/player.c:843
-#, fuzzy
 msgid "?diplomatic_state:Armistice"
-msgstr "?діпломатичний_стан:Альянс"
+msgstr "Вивід військ"
 
 #: common/player.c:844
 msgid "?diplomatic_state:War"
@@ -1246,9 +1245,9 @@ msgstr "Пусте ім'я файлу в аргументі рівня журн�
 
 #. TRANS: Obscure error only in debug builds.
 #: utility/log.c:161
-#, fuzzy, c-format
+#, c-format
 msgid "Duplicate filename \"%s\" in log level argument.\n"
-msgstr "Пусте ім'я файлу в аргументі рівня журналу \"%s\".\n"
+msgstr "Дублюється ім'я файлу \"%s\" в аргументі рівня журналу.\n"
 
 #: utility/log.c:293
 #, c-format
@@ -1434,7 +1433,7 @@ msgstr "*%s (ШІ)* Вибачте, но мати спільний зір з В�
 #: ai/advdiplomacy.c:610
 #, c-format
 msgid "*%s (AI)* This deal was not very good for us, %s!"
-msgstr "*%s (ШІ)* Ця угода не була дуже доброю для нас, %s!"
+msgstr "*%s (ШІ)* Ця угода не дуже вигідна для нас, %s!"
 
 #: ai/advdiplomacy.c:633
 #, c-format
@@ -1611,9 +1610,9 @@ msgstr "*%s (ШІ)* Нас було варварськи атаковано %s, 
 
 #. TRANS: Further information about option will follow.
 #: server/auth.c:174
-#, fuzzy, c-format
+#, c-format
 msgid "Auth option \"%s\":"
-msgstr "Встановити локальні опції"
+msgstr "Опція аутентифікації \"%s\":"
 
 #. TRANS: After 'Auth option "user":'. Option value
 #. may have been inserted between these.
@@ -1633,19 +1632,18 @@ msgstr "(конфігурація)"
 
 #. TRANS: auth option has been set from prompt
 #: server/auth.c:199
-#, fuzzy
 msgid " (set)"
-msgstr " (ветеран)"
+msgstr " (встановлено)"
 
 #: server/auth.c:238
 #, c-format
 msgid "Illegal value for auth port: \"%s\""
-msgstr ""
+msgstr "Невірне значення для порта аутентифікації: \"%s\""
 
 #: server/auth.c:285
-#, fuzzy, c-format
+#, c-format
 msgid "Cannot load auth config file \"%s\"!"
-msgstr "Не знайдено аудіо файл %s"
+msgstr "Не можу завантажити файл конфігурації аутентифікації \"%s\"!"
 
 #: server/auth.c:396
 #, c-format
@@ -2047,14 +2045,14 @@ msgid "%s can't build %s from the worklist; it needs %s government.  Postponing.
 msgstr "%s не може будувати %s з плану будівництва; потрібен уряд %s. Відкладаємо..."
 
 #: server/cityturn.c:1061
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s special is required.  Postponing..."
-msgstr "%s не може будувати %s з плану будівництва; спершу потрібно %s. Відкладаємо..."
+msgstr "%s не може будувати %s з плану будівництва; потрібна особливість %s. Відкладаємо..."
 
 #: server/cityturn.c:1074
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; %s terrain is required.  Postponing..."
-msgstr "%s не може будувати %s з плану будівництва; спершу потрібно %s. Відкладаємо..."
+msgstr "%s не може будувати %s з плану будівництва; потрібна територія %s. Відкладаємо..."
 
 #: server/cityturn.c:1089
 #, c-format
@@ -2077,9 +2075,9 @@ msgid "%s can't build %s from the worklist; %s terrain class is required.  Postp
 msgstr "%s не може будувати %s з плану будівництва; потрібен класс місцевості %s. Відкладаємо..."
 
 #: server/cityturn.c:1158
-#, fuzzy, c-format
+#, c-format
 msgid "%s can't build %s from the worklist; Only available from %s.  Postponing..."
-msgstr "%s не може будувати %s з плану будівництва; технологія не відкрита. Відкладаємо..."
+msgstr "%s не може будувати %s з плану будівництва; Доступно лише з %s. Відкладаємо..."
 
 #: server/cityturn.c:1193
 #, c-format
@@ -2349,9 +2347,8 @@ msgid "  -A  --Announce PROTO\tAnnounce game in LAN using protocol PROTO (IPv4/I
 msgstr " -A  --Announce PROTO\tПовідомити про гру в локальній мережі за допомогою протоколу PROTO (IPv4/IPv6/none)\n"
 
 #: server/civserver.c:306
-#, fuzzy
 msgid "  -a  --auth FILE\tEnable server authentication with configuration from FILE.\n"
-msgstr "  -a  --auth\t\tАктивувати аутентифікацію сервера.\n"
+msgstr "  -a  --auth ФАЙЛ\tДозволити аутентифікацію сервера конфігурацією з ФАЙЛа.\n"
 
 #: server/civserver.c:308
 msgid "  -G  --Guests\t\tAllow guests to login if auth is enabled.\n"
@@ -2362,9 +2359,8 @@ msgid "  -N  --Newusers\tAllow new users to login if auth is enabled.\n"
 msgstr "  -N  --Newusers\tДозволяє новим користувачам підключатися, якщо увімкнено аутентифікацію.\n"
 
 #: server/civserver.c:313
-#, fuzzy
 msgid "  -b  --bind ADDR\tListen for clients on ADDR\n"
-msgstr "  -p, --port ПОРТ\tОчикувати на з'єднання на порту ПОРТ\n"
+msgstr "  -b  --bind АДРЕСА\tСлухати клієнтів на АДРЕСА\n"
 
 #: server/civserver.c:315
 #: client/client_main.c:292
@@ -2432,9 +2428,8 @@ msgid "  -r, --read FILE\tRead startup script FILE\n"
 msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
 
 #: server/civserver.c:345
-#, fuzzy
 msgid "  -R, --Ranklog FILE\tUse FILE as ranking logfile\n"
-msgstr "  -l, --log ФАЙЛ\tВикористовувати ФАЙЛ як журнал\n"
+msgstr "  -R, --Ranklog ФАЙЛ\tВикористовувати ФАЙЛ як впорядкований журнал\n"
 
 #: server/civserver.c:346
 #: client/client_main.c:318
@@ -2587,15 +2582,13 @@ msgstr ""
 
 #. TRANS: translate text between [] only; "vote" is as a process
 #: server/commands.c:151
-#, fuzzy
 msgid "vote yes|no|abstain [vote number]"
-msgstr "голосувати так|ні|утриматися [номер голосування]"
+msgstr "vote yes|no|abstain [номер голосування]"
 
 #. TRANS: "vote" as an instance of voting
 #: server/commands.c:153
-#, fuzzy
 msgid "Cast a vote."
-msgstr "Прибережні міста"
+msgstr "Проголосувати."
 
 #: server/commands.c:155
 #, no-c-format
@@ -5518,9 +5511,8 @@ msgid "If this is set to 1, player statistics are appended to the file \"civscor
 msgstr "Якщо встановлено в 1, статистика гравця дописується до файлу \"civscore.log\" кожного ходу. Цю статистику можна використати для створення наглядних графіків після гри."
 
 #: server/settings.c:1179
-#, fuzzy
 msgid "Maximum number of connections to the server per host"
-msgstr "Список з'єднань сервера:"
+msgstr "Максимальна кількість підключень до сервера з одного хоста"
 
 #: server/settings.c:1180
 msgid "New connections from a given host will be rejected if the total number of connections from the very same host equals or exceeds this value. A value of 0 means that there is no limit, at least up to the maximum number of connections supported by the server."
@@ -7469,9 +7461,9 @@ msgstr "Ваш %s телепортовано до %s."
 
 #. TRANS: A unit is moved to resolve stack conflicts.
 #: server/unittools.c:1156
-#, fuzzy, c-format
+#, c-format
 msgid "Moved your %s."
-msgstr "Розпущено Ваш %s у (%d, %d)."
+msgstr "Ваш %s посунуто."
 
 #. TRANS: A unit is disbanded to resolve stack conflicts.
 #: server/unittools.c:1167
@@ -8417,9 +8409,8 @@ msgid "  -P, --Plugin PLUGIN\tUse PLUGIN for sound output %s\n"
 msgstr "  -P, --Plugin ДОДАТОК\tВикористовувати ДОДАТОК для виводу звуку %s\n"
 
 #: client/client_main.c:310
-#, fuzzy
 msgid "  -r, --read FILE\tRead startup script FILE (for spawned server only)\n"
-msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта\n"
+msgstr "  -r, --read ФАЙЛ\tЧитати ФАЙЛ стартового скрипта (лише для породженого сервера)\n"
 
 #: client/client_main.c:313
 msgid "  -s, --server HOST\tConnect to the server at HOST (usually with -a)\n"
@@ -12399,7 +12390,7 @@ msgstr "Продати (_e)"
 #: client/gui-gtk-2.0/cityrep.c:1021
 #: client/gui-gtk-2.0/menu.c:1441
 msgid "_Select"
-msgstr "Оберіть"
+msgstr "Вибір (_S)"
 
 #: client/gui-gtk-2.0/cityrep.c:1025
 #: client/gui-gtk-2.0/plrdlg.c:523
@@ -12551,14 +12542,12 @@ msgstr ""
 "дивись README.cma."
 
 #: client/gui-gtk-2.0/cma_fe.c:274
-#, fuzzy
 msgid "Prese_ts:"
-msgstr "Предустановки:"
+msgstr "Передустановки(_t):"
 
 #: client/gui-gtk-2.0/cma_fe.c:290
-#, fuzzy
 msgid "Ne_w"
-msgstr "Нове"
+msgstr "Нове (_w)"
 
 #: client/gui-gtk-2.0/cma_fe.c:310
 #: client/gui-win32/cma_fe.c:487
@@ -12627,9 +12616,8 @@ msgstr "Йти до"
 
 #: client/gui-gtk-2.0/dialogs.c:213
 #: client/gui-gtk-2.0/messagewin.c:226
-#, fuzzy
 msgid "Inspect _City"
-msgstr "Відкрити місто"
+msgstr "Оглянути місто (_C)"
 
 #: client/gui-gtk-2.0/dialogs.c:298
 #: client/gui-sdl/dialogs.c:2359
@@ -12932,9 +12920,9 @@ msgstr "Почати гру"
 #. TRANS: "Number of buildings, number of small
 #. * wonders (e.g. palace), number of great wonders."
 #: client/gui-gtk-2.0/editprop.c:855
-#, fuzzy, c-format
+#, c-format
 msgid "%db %ds %dW"
-msgstr "%3d/%3d %s"
+msgstr "%dб %dм %dД"
 
 #. TRANS: "Number of technologies known".
 #: client/gui-gtk-2.0/editprop.c:867
@@ -12984,9 +12972,8 @@ msgstr "Редагувати"
 #. TRANS: As in "this building is present".
 #: client/gui-gtk-2.0/editprop.c:3187
 #: client/gui-gtk-2.0/editprop.c:3212
-#, fuzzy
 msgid "Present"
-msgstr "Президент"
+msgstr "Присутнє"
 
 #: client/gui-gtk-2.0/editprop.c:3189
 #: client/gui-gtk-2.0/editprop.c:3196
@@ -13011,9 +12998,8 @@ msgstr "Дзвоник"
 
 #. TRANS: As in "the player has set this nation".
 #: client/gui-gtk-2.0/editprop.c:3224
-#, fuzzy
 msgid "Set"
-msgstr "Охороняє"
+msgstr "Встановив"
 
 #: client/gui-gtk-2.0/editprop.c:3724
 #: client/gui-gtk-2.0/editprop.c:3759
@@ -13128,9 +13114,8 @@ msgid "Food Stock"
 msgstr "Запас їжі"
 
 #: client/gui-gtk-2.0/editprop.c:3801
-#, fuzzy
 msgid "Shield Stock"
-msgstr "Виробництво"
+msgstr "Запас щитів"
 
 #: client/gui-gtk-2.0/editprop.c:3812
 msgid "Inventions"
@@ -13731,7 +13716,7 @@ msgstr "Редагувати"
 #: client/gui-gtk-2.0/menu.c:1254
 #: client/gui-win32/menu.c:342
 msgid "_View"
-msgstr "Дивитись (V)"
+msgstr "Вигляд (V)"
 
 #: client/gui-gtk-2.0/menu.c:1212
 msgid "_Improvements"
@@ -14009,9 +13994,8 @@ msgid "City Buy Cost"
 msgstr "Загалом коштує:"
 
 #: client/gui-gtk-2.0/menu.c:1349
-#, fuzzy
 msgid "City Tra_deroutes"
-msgstr "Торгові шляхи"
+msgstr "Торгові шляхи міста (_d)"
 
 #: client/gui-gtk-2.0/menu.c:1353
 msgid "_Terrain"
@@ -14066,9 +14050,8 @@ msgid "Unit shields"
 msgstr "Виробництво"
 
 #: client/gui-gtk-2.0/menu.c:1379
-#, fuzzy
 msgid "Focu_s Unit"
-msgstr "Фокусувати підрозділ"
+msgstr "Фокусувати підрозділ (_s)"
 
 #: client/gui-gtk-2.0/menu.c:1381
 msgid "Fog of _War"
@@ -17651,9 +17634,8 @@ msgid "Server O_ptions"
 msgstr "Опції сервера (_p)"
 
 #: client/gui-win32/menu.c:321
-#, fuzzy
 msgid "_Write Log"
-msgstr "Експортувати журнал"
+msgstr "Записати журнал (_W)"
 
 #: client/gui-win32/menu.c:322
 msgid "_Clear Log"
@@ -17718,9 +17700,8 @@ msgid "_Irrigate"
 msgstr "Зрошення (_I)"
 
 #: client/gui-win32/menu.c:393
-#, fuzzy
 msgid "_Go to Tile"
-msgstr "Йти (_G)"
+msgstr "Йти на клітинку (_G)"
 
 #: client/gui-win32/menu.c:402
 #: client/gui-xaw/menu.c:218
@@ -18303,9 +18284,8 @@ msgid "Move cost"
 msgstr "Вартість руху"
 
 #: manual/civmanual.c:242
-#, fuzzy
 msgid "Defense bonus"
-msgstr "Захист:"
+msgstr "Премія захисту"
 
 #: manual/civmanual.c:244
 msgid "Mining"
@@ -19672,7 +19652,6 @@ msgstr ""
 "- Іноземний підрозділ належить нації, з якою у Вас альянс."
 
 #: data/helpdata.txt:1233
-#, fuzzy
 msgid ""
 "Notes:\n"
 "\n"
@@ -19690,13 +19669,13 @@ msgstr ""
 "\n"
 "- Лише сухопутні підрозділи підпадають під зони контролю.\n"
 "\n"
-"- Не наземні підрозділи можуть встановлювати зони контролю (це рахується як окуповані ворогом клітини), але лише якщо вони на сухопутній клітинці. Тож морські підрозділи не можуть ефективно створювати зони контролю (лише у місті), та авіапідрозділи (включаючи гелікоптери) не можуть створювати зони контролю якщо вони над океанічними територіями.\n"
+"- Не наземні підрозділи можуть встановлювати зони контролю (це рахується як окуповані ворогом клітини), але лише якщо вони на сухопутній клітинці. Тож морські підрозділи не можуть створювати зони контролю (лише коли вони у місті), і авіапідрозділи (включаючи гелікоптери) не можуть створювати зони контролю якщо вони над океаном.\n"
 "\n"
 "- Зони контролю не обмежують атаку, лише рух.\n"
 "\n"
-"- Вороже місто рахується як захоплена ворогом клітинка якщо у ньому є загони, але якщо воно не пусте. (Теж правило як для інших клітин).\n"
+"- Вороже місто рахується як захоплена ворогом клітинка, якщо у ньому є загони, але не тоді, коли воно пусте. (Таке ж правило, як і для інших клітин).\n"
 "\n"
-"- Рух з моря це особливий випадок; рух на морську клітину (завантаження в корабель) також дозволений, через особливий випадок руху на дружній підрозділ (корабель)."
+"- Рух з моря - це особливий випадок; рух _на_ морську клітину (завантаження в корабель) також дозволений, через особливий випадок руху на дружній підрозділ (корабель)."
 
 #: data/helpdata.txt:1253
 msgid "TIP:  You can infiltrate enemy zones by first moving in a Diplomat (or some other unit which ignores ZOC), and then moving regular units onto the tile now occupied by the Diplomat. By repeating this process (and optionally leaving some units behind to keep tiles occupied), you can make a path through enemy territory."
@@ -19817,9 +19796,8 @@ msgid "TIP:  If an enemy civilization has launched a spaceship, try to quickly b
 msgstr "ПОРАДА: Якщо Ворожа цивілізація запустила космічний корабель, спробуйте швидко збудувати легкий корабель з великою кількістю двигунів, що долетить раніше. Єдиний й інший варіант - захопити їх столицю."
 
 #: data/helpdata.txt:1436
-#, fuzzy
 msgid "Before a game is started, anyone can connect to the server by supplying its hostname and port number (5556 by default). If the server is started with the -m flag, it will report to the metaserver,"
-msgstr "До старту гри, хто завгодно може під'єднатись до серверу вказавши ім'я хосту та порт (5555 по замовчуванню). Якщо сервер стартовано з опцією '-m', він звітує до метасерверу,"
+msgstr "До початку гри, хто завгодно може під'єднатись до серверу вказавши його ім'я та порт (типово 5555). Якщо сервер запущено з опцією '-m', він прозвітує метасерверу,"
 
 #: data/helpdata.txt:1443
 #, fuzzy
@@ -21341,7 +21319,7 @@ msgstr "Класичні"
 #: data/default/cities.ruleset:95
 #: data/civ2/cities.ruleset:94
 msgid "?citystyle:Tropical"
-msgstr "?citystyle:Тропічний"
+msgstr "Тропічні"
 
 #: data/default/cities.ruleset:104
 #: data/civ2/cities.ruleset:103
@@ -21414,7 +21392,7 @@ msgstr ""
 #: data/civ2/governments.ruleset:69
 #: data/civ1/governments.ruleset:71
 msgid "Despotism"
-msgstr "Деспотізм"
+msgstr "Деспотизм"
 
 #: data/default/governments.ruleset:78
 #: data/civ2/governments.ruleset:75
@@ -21604,7 +21582,7 @@ msgstr "Духовний лідер"
 
 #: data/civ2/governments.ruleset:143
 msgid "High Priestess"
-msgstr "Духовний лідер"
+msgstr "Духовна лідер"
 
 #: data/civ2/governments.ruleset:145
 msgid ""
@@ -23853,9 +23831,8 @@ msgid "?plural:Aztecs"
 msgstr "Ацтеки"
 
 #: data/nation/aztec.ruleset:6
-#, fuzzy
 msgid "The Azteca, a Nahuatl speaking people from the Sonoran desert, seized control of the Toltec-derived civilizations of Central Mexico during the 15th century AD, reviving the practice of human sacrifice.  They were conquered by the Spanish under Cortes in 1524."
-msgstr "Ацтеки, це групи дикунів з пустель Саноран, що захопили контроль над цивілізацією Толтеків у Центральній Мексиці напротязі 15 сторіччя, та відновили практику жертвоприношення людей. Вони були захоплені Іспанціями під головуванням Кортеза у 1524."
+msgstr "Ацтеки, народ з пустелі Сонора, що розмовляв мовою Науатль, підкорив післятольтекські цивілізації Центральної Мексики протягом 15-го століття нашої ери, та відновив традицію людських жертвоприношень. Вони були завойовані Іспанцями під головуванням Кортеса у 1524."
 
 #. TRANS: Tlahtoani = Speaker
 #. TRANS: Cihua = Female
@@ -25943,9 +25920,8 @@ msgstr "У 1945 Корея була поділена Радянським Сою
 
 #: data/nation/northkorean.ruleset:21
 #: data/nation/soviet.ruleset:28
-#, fuzzy
 msgid "Great Leader"
-msgstr "Диво"
+msgstr "Великий Лідер"
 
 #: data/nation/northkorean.ruleset:21
 #: data/nation/soviet.ruleset:28
@@ -26904,11 +26880,11 @@ msgstr "Председатель"
 
 #: data/nation/un.ruleset:24
 msgid "Secretary-General"
-msgstr "Генеральний секретар"
+msgstr "Секретар-генерал"
 
 #: data/nation/un.ruleset:24
 msgid "?female:Secretary-General"
-msgstr "Генеральний секретар"
+msgstr "Секретар-генерал"
 
 #: data/nation/uruguayan.ruleset:3
 msgid "Uruguayan"
