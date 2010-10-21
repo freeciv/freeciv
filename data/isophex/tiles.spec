@@ -59,7 +59,7 @@ tiles = { "row", "column", "tag"
   7,  9, "unit.hp_10"
   7, 10, "unit.hp_0"
 
-; Numbers: city size:
+; Numbers: city size: (also used for goto)
 
   5,  0, "city.size_0"
   5,  1, "city.size_1"
@@ -71,15 +71,25 @@ tiles = { "row", "column", "tag"
   5,  7, "city.size_7"
   5,  8, "city.size_8"
   5,  9, "city.size_9"
-  5, 10, "city.size_10"
-  5, 11, "city.size_20"
-  5, 12, "city.size_30"
-  5, 13, "city.size_40"
-  5, 14, "city.size_50"
-  5, 15, "city.size_60"
-  5, 16, "city.size_70"
-  5, 17, "city.size_80"
-  5, 18, "city.size_90"
+  5, 10, "city.size_00"
+  5, 11, "city.size_10"
+  5, 12, "city.size_20"
+  5, 13, "city.size_30"
+  5, 14, "city.size_40"
+  5, 15, "city.size_50"
+  5, 16, "city.size_60"
+  5, 17, "city.size_70"
+  5, 18, "city.size_80"
+  5, 19, "city.size_90"
+  4,  1, "city.size_100"
+  4,  2, "city.size_200"
+  4,  3, "city.size_300"
+  4,  4, "city.size_400"
+  4,  5, "city.size_500"
+  4,  6, "city.size_600"
+  4,  7, "city.size_700"
+  4,  8, "city.size_800"
+  4,  9, "city.size_900"
 
 ; Numbers: city tile food/shields/trade y/g/b
 
@@ -120,6 +130,8 @@ tiles = { "row", "column", "tag"
 ; These should probably be handled differently and have
 ; a different size...
 
+  ;7, 12, "upkeep.gold"
+  ;7, 13, "upkeep.gold2"
   7, 15, "upkeep.food"
   7, 16, "upkeep.food2"
   7, 17, "upkeep.unhappy"

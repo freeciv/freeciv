@@ -259,7 +259,8 @@ struct named_sprites {
     struct sprite
       *disorder,
       *size[NUM_TILES_DIGITS],
-      *size_tens[NUM_TILES_DIGITS],		/* first unused */
+      *size_tens[NUM_TILES_DIGITS],
+      *size_hundreds[NUM_TILES_DIGITS],
       *tile_foodnum[NUM_TILES_DIGITS],
       *tile_shieldnum[NUM_TILES_DIGITS],
       *tile_tradenum[NUM_TILES_DIGITS];
@@ -275,7 +276,8 @@ struct named_sprites {
   struct {
     struct sprite
       *turns[NUM_TILES_DIGITS],
-      *turns_tens[NUM_TILES_DIGITS];
+      *turns_tens[NUM_TILES_DIGITS],
+      *turns_hundreds[NUM_TILES_DIGITS];
   } path;
   struct {
     struct sprite *attention;
@@ -2414,14 +2416,18 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     fc_snprintf(buffer, sizeof(buffer), "city.size_%d", i);
     SET_SPRITE(city.size[i], buffer);
     fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i);
-    SET_SPRITE_ALT_OPT(path.turns[i], buffer2, buffer);
+    SET_SPRITE_ALT(path.turns[i], buffer2, buffer);
 
-    if(i!=0) {
-      fc_snprintf(buffer, sizeof(buffer), "city.size_%d", i*10);
-      SET_SPRITE(city.size_tens[i], buffer);
-      fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d", i * 10);
-      SET_SPRITE_ALT_OPT(path.turns_tens[i], buffer2, buffer);
-    }
+    fc_snprintf(buffer, sizeof(buffer), "city.size_%d0", i);
+    SET_SPRITE(city.size_tens[i], buffer);
+    fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d0", i);
+    SET_SPRITE_ALT(path.turns_tens[i], buffer2, buffer);
+
+    fc_snprintf(buffer, sizeof(buffer), "city.size_%d00", i);
+    SET_SPRITE_OPT(city.size_hundreds[i], buffer);
+    fc_snprintf(buffer2, sizeof(buffer2), "path.turns_%d00", i);
+    SET_SPRITE_ALT_OPT(path.turns_hundreds[i], buffer2, buffer);
+
     fc_snprintf(buffer, sizeof(buffer), "city.t_food_%d", i);
     SET_SPRITE(city.tile_foodnum[i], buffer);
     fc_snprintf(buffer, sizeof(buffer), "city.t_shields_%d", i);
@@ -4255,27 +4261,44 @@ static int fill_goto_sprite_array(const struct tileset *t,
   struct drawn_sprite *saved_sprs = sprs;
 
   if (is_valid_goto_destination(ptile)) {
-    int length, units, tens;
+    bool warn= FALSE;
+    int length;
 
     goto_get_turns(NULL, &length);
-    if (length < 0 || length >= 100) {
-      static bool reported = FALSE;
 
-      if (!reported) {
-        log_error(_("Paths longer than 99 turns are not supported."));
-        /* TRANS: No full stop after the URL, could cause confusion. */
-        log_error(_("Please report this message at %s"), BUG_URL);
-        reported = TRUE;
-      }
-      tens = units = 9;
+    if (0 > length) {
+      ADD_SPRITE_SIMPLE(t->sprites.path.turns[0]);
+      warn = TRUE;
     } else {
-      tens = (length / 10) % NUM_TILES_DIGITS;
-      units = length % NUM_TILES_DIGITS;
+      ADD_SPRITE_SIMPLE(t->sprites.path.turns[length % 10]);
+      if (10 <= length) {
+        ADD_SPRITE_SIMPLE(t->sprites.path.turns_tens[(length / 10) % 10]);
+        if (100 <= length) {
+          struct sprite *sprite =
+              t->sprites.path.turns_hundreds[(length / 100) % 10];
+
+          if (NULL != sprite) {
+            ADD_SPRITE_SIMPLE(sprite);
+          } else {
+            warn = TRUE;
+          }
+          if (1000 <= length) {
+            warn = TRUE;
+          }
+        }
+      }
     }
 
-    ADD_SPRITE_SIMPLE(t->sprites.path.turns[units]);
-    if (tens > 0) {
-      ADD_SPRITE_SIMPLE(t->sprites.path.turns_tens[tens]);
+    if (warn) {
+      /* Warn only once by tileset. */
+      static char last_reported[256] = "";
+
+      if (0 != strcmp(last_reported, t->name)) {
+        log_normal(_("Tileset \"%s\" doesn't support long goto paths, "
+                     "such as %d. Path not displayed as expected."),
+                   t->name, length);
+        sz_strlcpy(last_reported, t->name);
+      }
     }
   }
 
@@ -4563,12 +4586,40 @@ int fill_sprite_array(struct tileset *t,
   case LAYER_CITY2:
     /* City size.  Drawing this under fog makes it hard to read. */
     if (pcity && draw_cities && !draw_full_citybar) {
-      if (pcity->size >= 10) {
-	ADD_SPRITE(t->sprites.city.size_tens[pcity->size / 10],
-		   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
-      }
+      bool warn = FALSE;
+
       ADD_SPRITE(t->sprites.city.size[pcity->size % 10],
-		 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+                 FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+      if (10 <= pcity->size) {
+        ADD_SPRITE(t->sprites.city.size_tens[(pcity->size / 10) % 10],
+                   FALSE, FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+        if (100 <= pcity->size) {
+          struct sprite *sprite =
+              t->sprites.city.size_hundreds[(pcity->size / 100) % 10];
+
+          if (NULL != sprite) {
+            ADD_SPRITE(sprite, FALSE,
+                       FULL_TILE_X_OFFSET, FULL_TILE_Y_OFFSET);
+          } else {
+            warn = TRUE;
+          }
+          if (1000 <= pcity->size) {
+            warn = TRUE;
+          }
+        }
+      }
+
+      if (warn) {
+        /* Warn only once by tileset. */
+        static char last_reported[256] = "";
+
+        if (0 != strcmp(last_reported, t->name)) {
+          log_normal(_("Tileset \"%s\" doesn't support big cities size, "
+                       "such as %d. Size not displayed as expected."),
+                     t->name, pcity->size);
+          sz_strlcpy(last_reported, t->name);
+        }
+      }
     }
     break;
 
