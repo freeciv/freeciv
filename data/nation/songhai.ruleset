@@ -25,7 +25,8 @@ init_techs=""
 init_buildings=""
 init_government="Despotism"
 init_units=""
-civilwar_nations = "Nigerian", "Burkinabe"
+conflicts_with = "Malian", "Nigerien"
+civilwar_nations = "Nigerien", "Burkinabe"
 
 cities =
  "Gao",

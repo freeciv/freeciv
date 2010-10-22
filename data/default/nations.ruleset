@@ -285,6 +285,7 @@ match=2
 *include "nation/newzealand.ruleset"
 *include "nation/nicaraguan.ruleset"
 *include "nation/nigerian.ruleset"
+*include "nation/nigerien.ruleset"
 *include "nation/nimiipuu.ruleset"
 *include "nation/norman.ruleset"
 *include "nation/northkorean.ruleset"

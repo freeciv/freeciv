@@ -247,6 +247,7 @@ artists = "
    New Zealand		Daniel McRae
    Nez Perce		Daniel Markstedt
    Nicaragua		Vzb83 (Wikimedia Commons)
+   Niger		J.M. Maalderink
    Nigeria		Brett Roper
    Normandy		Syryatsu
    North Korea		Zachary Harden
@@ -627,6 +628,7 @@ sprites =
 		"f.newzealand", "flags/newzealand"
 		"f.nez_perce", "flags/nez_perce"
 		"f.nicaragua", "flags/nicaragua"
+		"f.niger", "flags/niger"
 		"f.nigeria", "flags/nigeria"
 		"f.normandy", "flags/normandy"
 		"f.north_korea", "flags/north_korea"

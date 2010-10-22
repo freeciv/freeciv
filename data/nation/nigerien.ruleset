@@ -1,0 +1,73 @@
+[nation_nigerien]
+
+name = _("Nigerien")
+plural = _("?plural:Nigeriens")
+groups="African", "Modern"
+legend=_("Niger is a country in the Sahel region of West Africa, named\
+ after the Niger river. It achieved independence from France in 1960.\
+ Since then it has been ruled intermittently by civil and military\
+ governments. One of the poorest countries in the world, Niger ranks rock\
+ bottom in international rankings such as the Human Development Index.\
+ Niger has both the highest fertility rate and infant mortality rate in\
+ the world. Niger should not be confused with Nigeria.")
+leader =
+ "Hamani Diori",
+ "Seyni Kountché",
+ "Ali Saibou",
+ "Ibrahim Baré Maïnassara"
+
+leader_sex = "Male", "Male", "Male", "Male"
+flag = "niger"
+flag_alt = "-"
+city_style = "Celtic"
+
+init_techs=""
+init_buildings=""
+init_government="Despotism"
+init_units=""
+
+conflicts_with="indian" ;similar flag
+civilwar_nations="malian", "kanem-bornu", "songhai"
+
+cities =
+ "Niamey",
+ "Zinder",
+ "Maradi",
+ "Agadez",
+ "Tahoua",
+ "Tillabéry",
+ "Dosso",
+ "Diffa",
+ "Arlit",
+ "Birni N'Konni",
+ "Gaya",
+ "Tessaoua",
+ "Dogondoutchi",
+ "Madaoua",
+ "Mayahi",
+ "Téra",
+ "Mirrah",
+ "Magaria",
+ "N'Guigmi",
+ "Dakoro",
+ "Matameye",
+ "Illéla",
+ "Gouré",
+ "Tanout",
+ "Aguié",
+ "Abalak",
+ "Boboye",
+ "Filingué",
+ "Kollo",
+ "Guidan Roumdji",
+ "Tchorzérine",
+ "Say",
+ "Maïné-Soroa",
+ "Tchitabaraden",
+ "Madarounfa",
+ "Keita",
+ "Bouza",
+ "Ouallam",
+ "Loga",
+ "Bagountara"
+
