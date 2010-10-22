@@ -123,6 +123,7 @@ flag_files =				\
 		gaul.png		\
 		georgia.png		\
 		germany.png		\
+		gokturk.png		\
 		ghana.png		\
 		greater_poland.png	\
 		greece_ancient.png	\
@@ -497,6 +498,7 @@ shield_files =					\
 		georgia-shield.png		\
 		germany-shield.png		\
 		ghana-shield.png		\
+		gokturk-shield.png		\
 		greater_poland-shield.png	\
 		greece_ancient-shield.png	\
 		greece-shield.png		\
@@ -870,6 +872,7 @@ svg_files = 				\
 		georgia.svg		\
 		germany.svg		\
 		ghana.svg		\
+		gokturk.svg		\
 		greater_poland.svg	\
 		greece_ancient.svg	\
 		greece.svg		\
