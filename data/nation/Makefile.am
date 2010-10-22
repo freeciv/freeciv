@@ -361,6 +361,7 @@ pkgdata_DATA = \
 		welsh.ruleset \
 		westernpomeranian.ruleset \
 		westernroman.ruleset \
+		westindian.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
 		yakut.ruleset \

@@ -411,6 +411,7 @@ match=2
 *include "nation/welsh.ruleset"
 *include "nation/westernpomeranian.ruleset"
 *include "nation/westernroman.ruleset"
+*include "nation/westindian.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/wuerttembergian.ruleset"
 *include "nation/yakut.ruleset"

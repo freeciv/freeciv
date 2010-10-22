@@ -370,6 +370,7 @@ flag_files =				\
 		visigoth.png		\
 		wales.png		\
 		wallonia.png		\
+		west_indies_federation.png	\
 		westphalia.png		\
 		wuerttemberg.png	\
 		yemen.png		\
@@ -745,6 +746,7 @@ shield_files =					\
 		visigoth-shield.png		\
 		wales-shield.png		\
 		wallonia-shield.png		\
+		west_indies_federation-shield.png	\
 		westphalia-shield.png		\
 		wuerttemberg-shield.png		\
 		yemen-shield.png		\
@@ -1120,6 +1122,7 @@ svg_files = 				\
 		visigoth.svg		\
 		wales.svg		\
 		wallonia.svg		\
+		west_indies_federation.svg	\
 		westphalia.svg		\
 		wuerttemberg.svg	\
 		yemen.svg		\

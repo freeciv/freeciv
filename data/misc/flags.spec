@@ -378,6 +378,7 @@ artists = "
    Visigoth		J.M. Maalderink
    Wales		Tobias Jakobs
    Wallonia		Cedric de Launois (Open Clip Art)
+   West Indies Fed.	Stepshep (Wikimedia Commons)
    Westphalia		Daniel Markstedt and Tobias Jakobs
    Wuerttemberg		David Liuzzo (Wikimedia Commons)
    Yemen		J.M. Maalderink
@@ -757,6 +758,7 @@ sprites =
 		"f.visigoth", "flags/visigoth"
 		"f.wallonia", "flags/wallonia"
 		"f.wales", "flags/wales"
+		"f.west_indies_federation", "flags/west_indies_federation"
 		"f.westphalia", "flags/westphalia"
 		"f.wuerttemberg", "flags/wuerttemberg"
 		"f.yemen", "flags/yemen"
