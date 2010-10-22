@@ -233,6 +233,7 @@ artists = "
    Moravia		Tlusťa (Wikimedia Commons) and J.M. Maalderink
    Mordovia		Fibonacci (Wikimedia Commons)
    Morocco		Xiquet, Flad (Wikimedia Commons)
+   Mozambique		Tobias Jakobs
    Muskogee		Daniel Markstedt
    Mwiska		Daniel Markstedt
    Myanmar		Caleb Moore
@@ -295,7 +296,7 @@ artists = "
    Ryukyu		Daniel Markstedt
    SADR			J.M. Maalderink
    Samogitia		Daniel Markstedt and Jarno Vasamaa
-   San Marino		Tobias (Open Clip Art)
+   San Marino		Tobias Jakobs
    Sapmi		Dean Tersigni
    Sarmatia		Andrzej G.
    Saudi Arabia		Cezary Biele
@@ -614,6 +615,7 @@ sprites =
 		"f.moravia", "flags/moravia"
 		"f.mordovia", "flags/mordovia"
 		"f.morocco", "flags/morocco"
+		"f.mozambique", "flags/mozambique"
 		"f.muskogee", "flags/muskogee"
 		"f.mwiska", "flags/mwiska"
 		"f.myanmar", "flags/myanmar"
