@@ -23,7 +23,7 @@ init_units=""
 
 ; Similar flags:
 conflicts_with="iraqi"
-civilwar_nations="turkish", "israeli"
+civilwar_nations="turkish", "israeli", "lebanese"
 
 ; http://pl.wikipedia.org/wiki/Miasta_Syrii
 cities =

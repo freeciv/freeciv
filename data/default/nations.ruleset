@@ -234,6 +234,7 @@ match=2
 *include "nation/lankese.ruleset"
 *include "nation/laotian.ruleset"
 *include "nation/latvian.ruleset"
+*include "nation/lebanese.ruleset"
 *include "nation/lendian.ruleset"
 *include "nation/leonese.ruleset"
 *include "nation/libyan.ruleset"
