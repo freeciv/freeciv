@@ -413,6 +413,7 @@ match=2
 *include "nation/westernroman.ruleset"
 *include "nation/westphalian.ruleset"
 *include "nation/wuerttembergian.ruleset"
+*include "nation/yakut.ruleset"
 *include "nation/yemeni.ruleset"
 *include "nation/yucatecan.ruleset"
 *include "nation/yugoslav.ruleset"

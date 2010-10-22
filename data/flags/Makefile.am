@@ -285,6 +285,7 @@ flag_files =				\
 		rwanda.png		\
 		ryukyu.png		\
 		sadr.png		\
+		sakha.png		\
 		samogitia.png		\
 		san_marino.png		\
 		sapmi.png		\
@@ -659,6 +660,7 @@ shield_files =					\
 		rwanda-shield.png		\
 		ryukyu-shield.png		\
 		sadr-shield.png			\
+		sakha-shield.png		\
 		samogitia-shield.png		\
 		san_marino-shield.png		\
 		sapmi-shield.png		\
@@ -1033,6 +1035,7 @@ svg_files = 				\
 		rwanda.svg		\
 		ryukyu.svg		\
 		sadr.svg		\
+		sakha.svg		\
 		samogitia.svg		\
 		san_marino.svg		\
 		sapmi.svg		\

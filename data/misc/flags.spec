@@ -302,6 +302,7 @@ artists = "
    Saxony 		Björn Adelberg
    Scotland		Sigge Kotliar
    Scythia		Lavrentij P Berija
+   Sakha		Zachary Harden
    Seleucid		J.M. Maalderink
    Senegal		SonofSenegal (Wikimedia Commons)
    Serbia		Madden (Wikimedia Commons) and J.M. Maalderink
@@ -671,6 +672,7 @@ sprites =
 		"f.rwanda", "flags/rwanda"
 		"f.ryukyu", "flags/ryukyu"
 		"f.sadr", "flags/sadr"
+		"f.sakha", "flags/sakha"
 		"f.samogitia", "flags/samogitia"
 		"f.san_marino", "flags/san_marino"
 		"f.sapmi", "flags/sapmi"

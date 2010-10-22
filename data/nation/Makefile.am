@@ -363,6 +363,7 @@ pkgdata_DATA = \
 		westernroman.ruleset \
 		westphalian.ruleset \
 		wuerttembergian.ruleset \
+		yakut.ruleset \
 		yemeni.ruleset \
 		yucatecan.ruleset \
 		yugoslav.ruleset \
