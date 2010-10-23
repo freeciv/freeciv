@@ -1142,6 +1142,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_great_library"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Reduces corruption by 50% in all cities on the same continent.\
 ")
@@ -1202,7 +1203,7 @@ sound		= "w_hoover_dam"
 sound_alt	= "w_generic"
 helptext	= _("\
 Works as if you had a Hydro Plant in every city on the same\
- contient. (This reduces pollution and increases the effects\
+ continent. (This reduces pollution and increases the effects\
  of Factories and Mfg. Plants.)\
 ")
 
@@ -1244,7 +1245,7 @@ sound		= "w_js_bachs_cathedral"
 sound_alt	= "w_generic"
 helptext	= _("\
 Makes two unhappy citizens content in every city\
- on the same contient.\
+ on the same continent.\
 ")
 
 [building_king_richards_crusade]
@@ -1284,7 +1285,7 @@ sound		= "w_leonardos_workshop"
 sound_alt	= "w_generic"
 helptext	= _("\
 Upgrades two obsolete units inside cities on the\
- same contient per game turn.\
+ same continent per game turn.\
 ")
 
 [building_lighthouse]
@@ -1360,6 +1361,7 @@ upkeep		= 0
 sabotage	= 0
 sound		= "w_marco_polos_embassy"
 sound_alt	= "w_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 Increases trade output by 40% in all cities on the same\
  continent.\
@@ -1382,7 +1384,7 @@ sound		= "w_michelangelos_chapel"
 sound_alt	= "w_generic"
 helptext	= _("\
 Counts as having a Cathedral in each of your cities on the same\
- contient. This makes 3 unhappy citizens content in each city.\
+ continent. This makes 3 unhappy citizens content in each city.\
  The discovery of Theology increases the effect of a Cathedral,\
  making an additional unhappy citizen content. The discovery of\
  Communism lessens the effect of a Cathedral, reducing by one\

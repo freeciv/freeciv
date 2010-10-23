@@ -441,6 +441,7 @@ upkeep		= 3
 sabotage	= 100
 sound		= "-"
 sound_alt	= "b_generic"
+; /* xgettext:no-c-format */
 helptext	= _("\
 In a Genetic Laboratory medicaments can be researched. The possibility\
  for plagues within the city is reduced.\
