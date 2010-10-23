@@ -7,13 +7,18 @@ legend=_("The Celtiberians were a people Eastern Spain living in the last\
  millennium BC. They were of mixed Celtic and Iberian descent and were\
  defeated by Rome in the Numantian War.")
 leader=
- "Olyndikos",
- "Retogenes Karaunio",
- "Ambon",
+ "Avaro",
+ "Indortes",
+ "Istolakio",
  "Leukon",
- "Avaros"
+ "Magavariko",
+ "Olindiko",
+ "Pirreso",
+ "Retogenes",
+ "Thurro"
 
-leader_sex="Male", "Male", "Male", "Male", "Male"
+leader_sex="Male", "Male", "Male", "Male", "Male",
+ "Male", "Male", "Male", "Male"
 
 flag="celtiberian"
 flag_alt = "-"
