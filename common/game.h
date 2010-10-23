@@ -377,9 +377,7 @@ extern struct civ_game game;
 #define GAME_MIN_AQUEDUCTLOSS        0
 #define GAME_MAX_AQUEDUCTLOSS        100
 
-#define GAME_DEFAULT_KILLCITIZEN     1
-#define GAME_MIN_KILLCITIZEN         0
-#define GAME_MAX_KILLCITIZEN         ((1 << MOVETYPE_LAST) - 1)
+#define GAME_DEFAULT_KILLCITIZEN     (1 << LAND_MOVING)
 
 #define GAME_DEFAULT_KILLUNHOMED     0
 #define GAME_MIN_KILLUNHOMED         0
@@ -532,8 +530,6 @@ extern struct civ_game game;
 #define GAME_START_YEAR -4000
 
 #define GAME_DEFAULT_AIRLIFTINGSTYLE AIRLIFTING_CLASSICAL
-#define GAME_MIN_AIRLIFTINGSTYLE     AIRLIFTING_CLASSICAL
-#define GAME_MAX_AIRLIFTINGSTYLE     ((AIRLIFTING_UNLIMITED_DEST << 1) - 1)
 
 #define GAME_MAX_READ_RECURSION 10 /* max recursion for the read command */
 

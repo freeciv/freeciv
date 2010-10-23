@@ -171,146 +171,168 @@ static void setting_game_restore(struct setting *pset);
   Enumerator name accessors.
 ****************************************************************************/
 
+#define NAME_CASE(_val, _support, _pretty)                                  \
+  case _val:                                                                \
+    {                                                                       \
+      static const struct sset_val_name name = { _support, _pretty };       \
+      return &name;                                                         \
+    }
+
 /****************************************************************************
   Map size definition setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *mapsize_name(int mapsize)
 {
-  static const struct sset_val_name names[] = {
-    { "FULLSIZE",       N_("Number of tiles") },
-    { "PLAYER",         N_("Tiles per player") },
-    { "XYSIZE",         N_("Width and height") }
-  };
-
-  return (0 <= mapsize && mapsize < ARRAY_SIZE(names)
-          ? names + mapsize : NULL);
+  switch (mapsize) {
+  NAME_CASE(0, "FULLSIZE", N_("Number of tiles"));
+  NAME_CASE(1, "PLAYER", N_("Tiles per player"));
+  NAME_CASE(2, "XYSIZE", N_("Width and height"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   Topology setting names accessor.
 ****************************************************************************/
-static const struct sset_val_name *topology_name(int topology)
+static const struct sset_val_name *topology_name(int topology_bit)
 {
-  static const struct sset_val_name names[] = {
-    { "UNWRAP",                 N_("Flat Earth (unwrapped)") },
-    { "WRAPX",                  N_("Earth (wraps E-W)") },
-    { "WRAPY",                  N_("Uranus (wraps N-S)") },
-    { "WRAPXY",                 N_("Donut World (wraps N-S, E-W)") },
-    { "UNWRAP|ISO",             N_("Flat Earth (isometric)") },
-    { "WRAPX|ISO",              N_("Earth (isometric)") },
-    { "WRAPY|ISO",              N_("Uranus (isometric)") },
-    { "WRAPXY|ISO",             N_("Donut World (isometric)") },
-    { "UNWRAP|HEXA",            N_("Flat Earth (hexagonal)") },
-    { "WRAPX|HEXA",             N_("Earth (hexagonal)") },
-    { "WRAPY|HEXA",             N_("Uranus (hexagonal)") },
-    { "WRAPXY|HEXA",            N_("Donut World (hexagonal)") },
-    { "UNWRAP|ISO|HEXA",        N_("Flat Earth (iso-hex)") },
-    { "WRAPX|ISO|HEXA",         N_("Earth (iso-hex)") },
-    { "WRAPY|ISO|HEXA",         N_("Uranus (iso-hex)") },
-    { "WRAPXY|ISO|HEXA",        N_("Donut World (iso-hex)") }
-  };
-
-  return (0 <= topology && topology < ARRAY_SIZE(names)
-          ? names + topology : NULL);
+  switch (1 << topology_bit) {
+  NAME_CASE(TF_WRAPX, "WRAPX", N_("Wrap East-West"));
+  NAME_CASE(TF_WRAPY, "WRAPY", N_("Wrap North-South"));
+  NAME_CASE(TF_ISO, "ISO", N_("Isometric"));
+  NAME_CASE(TF_HEX, "HEX", N_("Hexagonal"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   Generator setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *generator_name(int generator)
 {
-  static const struct sset_val_name names[] = {
-    { "SCENARIO",       N_("Scenario map") },
-    { "RANDOM",         N_("Fully random height") },
-    { "FRACTAL",        N_("Pseudo-fractal height") },
-    { "ISLAND",         N_("Island-based") }
-  };
-
-  return (0 <= generator && generator < ARRAY_SIZE(names)
-          ? names + generator : NULL);
+  switch (generator) {
+  NAME_CASE(0, "SCENARIO", N_("Scenario map"));
+  NAME_CASE(1, "RANDOM", N_("Fully random height"));
+  NAME_CASE(2, "FRACTAL", N_("Pseudo-fractal height"));
+  NAME_CASE(3, "ISLAND", N_("Island-based"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   Start position setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *startpos_name(int startpos)
 {
-  static const struct sset_val_name names[] = {
-    { "GENERATOR",      N_("Generator's choice") },
-    { "ONE_PER_CONT",   N_("One player per continent") },
-    { "TWO_PER_CONT",   N_("Two players per continent") },
-    { "ALL_ON_CONT",    N_("All players on a single continent") },
-    { "SIZE",           N_("Depending on size of continents") }
+  switch (startpos) {
+  NAME_CASE(0, "GENERATOR", N_("Generator's choice"));
+  NAME_CASE(1, "ONE_PER_CONT", N_("One player per continent"));
+  NAME_CASE(2, "TWO_PER_CONT", N_("Two players per continent"));
+  NAME_CASE(3, "ALL_ON_CONT", N_("All players on a single continent"));
+  NAME_CASE(4, "SIZE", N_("Depending on size of continents"));
+  }
+  return NULL;
+}
+
+/****************************************************************************
+  Kill citizen setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *killcitizen_name(int killcitizen_bit)
+{
+  switch (killcitizen_bit) {
+  NAME_CASE(LAND_MOVING, "LAND", N_("Land moving units"));
+  NAME_CASE(SEA_MOVING, "SEA", N_("Sea moving units"));
+  NAME_CASE(BOTH_MOVING, "BOTH",
+            N_("Units able to move both on land and sea"));
+  case MOVETYPE_LAST:
+    break;
   };
 
-  return (0 <= startpos && startpos < ARRAY_SIZE(names)
-          ? names + startpos : NULL);
+  return NULL;
 }
 
 /****************************************************************************
   Borders setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *borders_name(int borders)
 {
-  static const struct sset_val_name names[] = {
-    { "DISABLED",       N_("Disabled") },
-    { "ENABLED",        N_("Enabled") },
-    { "SEE_BORDERS",    N_("See everything inside borders") },
-    { "EXPAND_BORDERS", N_("Borders expand to unknown, revealing tiles") }
-  };
-
-  return (0 <= borders && borders < ARRAY_SIZE(names)
-          ? names + borders : NULL);
+  switch (borders) {
+  NAME_CASE(0, "DISABLED", N_("Disabled"));
+  NAME_CASE(1, "ENABLED", N_("Enabled"));
+  NAME_CASE(2, "SEE_BORDERS", N_("See everything inside borders"));
+  NAME_CASE(3, "EXPAND_BORDERS",
+            N_("Borders expand to unknown, revealing tiles"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   Diplomacy setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *diplomacy_name(int diplomacy)
 {
-  static const struct sset_val_name names[] = {
-    { "ENABLED",        N_("Enabled for everyone") },
-    { "HUMAN",          N_("Only allowed between human players") },
-    { "AI",             N_("Only allowed between AI players") },
-    { "TEAMS",          N_("Restricted to teams") },
-    { "DISABLED",       N_("Disabled for everyone") }
-  };
-
-  return (0 <= diplomacy && diplomacy < ARRAY_SIZE(names)
-          ? names + diplomacy : NULL);
+  switch (diplomacy) {
+  NAME_CASE(0, "ENABLED", N_("Enabled for everyone"));
+  NAME_CASE(1, "HUMAN", N_("Only allowed between human players"));
+  NAME_CASE(2, "AI", N_("Only allowed between AI players"));
+  NAME_CASE(3, "TEAMS", N_("Restricted to teams"));
+  NAME_CASE(4, "DISABLED", N_("Disabled for everyone"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   City name setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *cityname_name(int cityname)
 {
-  static const struct sset_val_name names[] = {
-    { "NO_RESTRICTIONS",        N_("No restrictions") },
-    { "PLAYER_UNIQUE",          N_("Unique to a player") },
-    { "GLOBAL_UNIQUE",          N_("Globally unique") },
-    { "NO_STEALING",            N_("No city name stealing") }
-  };
-
-  return (0 <= cityname && cityname < ARRAY_SIZE(names)
-          ? names + cityname : NULL);
+  switch (cityname) {
+  NAME_CASE(0, "NO_RESTRICTIONS", N_("No restrictions"));
+  NAME_CASE(1, "PLAYER_UNIQUE", N_("Unique to a player"));
+  NAME_CASE(2, "GLOBAL_UNIQUE", N_("Globally unique"));
+  NAME_CASE(3, "NO_STEALING", N_("No city name stealing"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
   Barbarian setting names accessor.
+  FIXME: Replace the magic values by enumerators.
 ****************************************************************************/
 static const struct sset_val_name *barbarians_name(int barbarians)
 {
-  static const struct sset_val_name names[] = {
-    { "NO_BARBS",       N_("No barbarians") },
-    { "HUTS_ONLY",      N_("Only in huts") },
-    { "NORMAL",         N_("Normal rate of appearance") },
-    { "FREQUENT",       N_("Frequent barbarian uprising") },
-    { "HORDES",         N_("Raging hordes") }
-  };
+  switch (barbarians) {
+  NAME_CASE(0, "NO_BARBS", N_("No barbarians"));
+  NAME_CASE(1, "HUTS_ONLY", N_("Only in huts"));
+  NAME_CASE(2, "NORMAL", N_("Normal rate of appearance"));
+  NAME_CASE(3, "FREQUENT", N_("Frequent barbarian uprising"));
+  NAME_CASE(4, "HORDES", N_("Raging hordes"));
+  }
+  return NULL;
+}
 
-  return (0 <= barbarians && barbarians < ARRAY_SIZE(names)
-          ? names + barbarians : NULL);
+/****************************************************************************
+  Airlifting style setting names accessor.
+****************************************************************************/
+static const struct sset_val_name *airliftingstyle_name(int bit)
+{
+  switch (1 << bit) {
+  NAME_CASE(AIRLIFTING_ALLIED_SRC, "FROM_ALLIES",
+            N_("Allows units to be airlifted from allied cities"));
+  NAME_CASE(AIRLIFTING_ALLIED_DEST, "TO_ALLIES",
+            N_("Allows units to be airlifted to allied cities"));
+  NAME_CASE(AIRLIFTING_UNLIMITED_SRC, "SRC_UNLIMITED",
+            N_("Unlimited units from source city"));
+  NAME_CASE(AIRLIFTING_UNLIMITED_DEST, "DEST_UNLIMITED",
+            N_("Unlimited units to destination city."));
+  }
+  return NULL;
 }
 
 /****************************************************************************
@@ -318,14 +340,13 @@ static const struct sset_val_name *barbarians_name(int barbarians)
 ****************************************************************************/
 static const struct sset_val_name *phasemode_name(int phasemode)
 {
-  static const struct sset_val_name names[] = {
-    { "ALL",            N_("All players move concurrently") },
-    { "PLAYER",         N_("All players alternate movement") },
-    { "TEAM",           N_("Team alternate movement") }
-  };
-
-  return (0 <= phasemode && phasemode < ARRAY_SIZE(names)
-          ? names + phasemode : NULL);
+  switch (phasemode) {
+  NAME_CASE(PMT_CONCURRENT, "ALL", N_("All players move concurrently"));
+  NAME_CASE(PMT_PLAYERS_ALTERNATE,
+            "PLAYER", N_("All players alternate movement"));
+  NAME_CASE(PMT_TEAMS_ALTERNATE, "TEAM", N_("Team alternate movement"));
+  }
+  return NULL;
 }
 
 /****************************************************************************
@@ -333,19 +354,14 @@ static const struct sset_val_name *phasemode_name(int phasemode)
 ****************************************************************************/
 static const struct sset_val_name *bool_name(int enable)
 {
-  static const struct sset_val_name names[2] = {
-    { "FALSE",          N_("disabled") },
-    { "TRUE",           N_("enabled") }
-  };
-
-  if (FALSE == enable) {
-    return names;
-  } else if (TRUE == enable) {
-    return names + 1;
-  } else {
-    return NULL;
+  switch (enable) {
+  NAME_CASE(FALSE, "FALSE", N_("disabled"));
+  NAME_CASE(TRUE, "TRUE", N_("enabled"));
   }
+  return NULL;
 }
+
+#undef NAME_CASE
 
 
 /*************************************************************************
@@ -838,29 +854,31 @@ static struct setting settings[] = {
              "'mapsize' to 'Width and height' (2)."), ysize_callback, NULL,
           MAP_MIN_LINEAR_SIZE, MAP_MAX_LINEAR_SIZE, MAP_DEFAULT_LINEAR_SIZE)
 
-  GEN_ENUM("topology", map.topology_id, SSET_MAP_SIZE,
-           SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
-           N_("Map topology index"),
-           /* TRANS: do not edit the ugly ASCII art */
-           N_("Freeciv maps are always two-dimensional. They may wrap at "
-              "the north-south and east-west directions to form a flat map, "
-              "a cylinder, or a torus (donut). Individual tiles may be "
-              "rectangular or hexagonal, with either a classic or isometric "
-              "alignment - this should be set based on the tileset being "
-              "used.\n"
-              "Classic rectangular:       Isometric rectangular:\n"
-              "      _________               /\\/\\/\\/\\/\\\n"
-              "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
-              "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
-              "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
-              "                             \\/\\/\\/\\/\\/\n"
-              "Hex tiles:                 Iso-hex:\n"
-              "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
-              "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
-              "  \\/\\/\\/\\/\\/\\/\\             \\_/ \\_/ \\_/ \\_/ \\_/\n"
-              "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
-              "   \\/\\/\\/\\/\\/\\/             \\_/ \\_/ \\_/ \\_/ \\_/\n"
-          ), NULL, NULL, topology_name, MAP_DEFAULT_TOPO)
+  GEN_BITWISE("topology", map.topology_id, SSET_MAP_SIZE,
+              SSET_GEOLOGY, SSET_VITAL, SSET_TO_CLIENT,
+              N_("Map topology index"),
+              /* TRANS: do not edit the ugly ASCII art */
+              N_("Freeciv maps are always two-dimensional. They may wrap at "
+                 "the north-south and east-west directions to form a flat "
+                 "map, a cylinder, or a torus (donut). Individual tiles may "
+                 "be rectangular or hexagonal, with either a classic or "
+                 "isometric alignment - this should be set based on the "
+                 "tileset being used.\n"
+                 "Classic rectangular:       Isometric rectangular:\n"
+                 "      _________               /\\/\\/\\/\\/\\\n"
+                 "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+                 "     |_|_|_|_|_|             \\/\\/\\/\\/\\/\\\n"
+                 "     |_|_|_|_|_|             /\\/\\/\\/\\/\\/\n"
+                 "                             \\/\\/\\/\\/\\/\n"
+                 "Hex tiles:                 Iso-hex:\n"
+                 "  /\\/\\/\\/\\/\\/\\               _   _   _   _   _\n"
+                 "  | | | | | | |             / \\_/ \\_/ \\_/ \\_/ \\\n"
+                 "  \\/\\/\\/\\/\\/\\/\\"
+                 "             \\_/ \\_/ \\_/ \\_/ \\_/\n"
+                 "   | | | | | | |            / \\_/ \\_/ \\_/ \\_/ \\\n"
+                 "   \\/\\/\\/\\/\\/\\/"
+                 "             \\_/ \\_/ \\_/ \\_/ \\_/\n"),
+              NULL, NULL, topology_name, MAP_DEFAULT_TOPO)
 
   /* Map generation parameters: once we have a map these are of historical
    * interest only, and cannot be changed.
@@ -1323,17 +1341,13 @@ static struct setting settings[] = {
             "consider attacking enemy units that move adjacent to them."),
          NULL, NULL, GAME_DEFAULT_AUTOATTACK)
 
-  GEN_INT("killcitizen", game.info.killcitizen,
-          SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
-          N_("Reduce city population after attack"),
-          N_("This flag indicates whether city population is reduced "
-             "after successful attack of enemy unit, depending on "
-             "its movement type (OR-ed):\n"
-             "  1 = land moving units\n"
-             "  2 = sea moving units\n"
-             "  4 = units able to move both on land and sea"), NULL, NULL,
-          GAME_MIN_KILLCITIZEN, GAME_MAX_KILLCITIZEN,
-          GAME_DEFAULT_KILLCITIZEN)
+  GEN_BITWISE("killcitizen", game.info.killcitizen,
+              SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
+              N_("Reduce city population after attack"),
+              N_("This flag indicates whether city population is reduced "
+                 "after successful attack of enemy unit, depending on "
+                 "its movement type."),
+              NULL, NULL, killcitizen_name, GAME_DEFAULT_KILLCITIZEN)
 
   GEN_INT("killunhomed", game.server.killunhomed,
           SSET_RULES, SSET_MILITARY, SSET_RARE, SSET_TO_CLIENT,
@@ -1438,23 +1452,20 @@ static struct setting settings[] = {
               "have previously seen the tiles."), NULL, NULL,
            GAME_DEFAULT_FOGGEDBORDERS)
 
-  GEN_INT("airliftingstyle", game.info.airlifting_style,
-          SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
-          SSET_TO_CLIENT, N_("Airlifting style"),
-          N_("This setting affects airlifting units between cities. "
-             "The value of this setting is a OR-ed value from:\n"
-             "  0 = Like classical Freeciv, only as many units per turn "
-             "to source or to destination the ruleset allows between your "
-             "own cities.\n"
-             "  1 = Allows units to be airlifted from allied cities.\n"
-             "  2 = Allows units to be airlifted to allied cities.\n"
-             "  4 = Unlimited units from source. Airlifting from a city "
-             "doesn't reduce the airlifted counter, but still needs at "
-             "least 1.\n"
-             "  8 = Unlimited units to destination. Airlifting to a city "
-             "doesn't reduce the airlifted counter, and doesn't need any."),
-          NULL, NULL, GAME_MIN_AIRLIFTINGSTYLE, GAME_MAX_AIRLIFTINGSTYLE,
-          GAME_DEFAULT_AIRLIFTINGSTYLE)
+  GEN_BITWISE("airliftingstyle", game.info.airlifting_style,
+              SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL,
+              SSET_TO_CLIENT, N_("Airlifting style"),
+              N_("This setting affects airlifting units between cities. It "
+                 "can be a set of the following values:\n"
+                 "- \"Allows units to be airlifted from allied cities\"\n"
+                 "- \"Allows units to be airlifted to allied citiess\"\n"
+                 "- \"Unlimited units from source city\": note that "
+                 "airlifting from a city doesn't reduce the airlifted "
+                 "counter, but still needs at least 1.\n"
+                 "- \"Unlimited units to destination city\": note that "
+                 "airlifting to a city doesn't reduce the airlifted "
+                 "counter, and doesn't need any."),
+              NULL, NULL, airliftingstyle_name, GAME_DEFAULT_AIRLIFTINGSTYLE)
 
   GEN_INT("diplchance", game.server.diplchance,
 	  SSET_RULES_FLEXIBLE, SSET_MILITARY, SSET_SITUATIONAL, SSET_TO_CLIENT,
