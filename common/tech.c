@@ -796,7 +796,8 @@ bool is_future_tech(Tech_type_id tech)
 const char *advance_name_by_player(const struct player *pplayer, Tech_type_id tech)
 {
   /* We don't return a static buffer because that would break anything that
-   * needed to work with more than one name at a time. */
+   * needed to work with more than one name at a time.
+   * FIXME: The caller should provide a buffer to write that name. */
   static struct string_vector future;
 
   switch (tech) {
@@ -807,9 +808,7 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
   
       /* pplayer->future_tech == 0 means "Future Tech. 1". */
       for (i = future.size; i <= research->future_tech; i++) {
-        char *ptr = NULL;
-  
-        string_vector_append(&future, &ptr);
+        string_vector_append(&future, NULL);
       }
       if (!future.p[research->future_tech]) {
         char buffer[1024];
@@ -841,7 +840,8 @@ const char *advance_name_by_player(const struct player *pplayer, Tech_type_id te
 const char *advance_name_for_player(const struct player *pplayer, Tech_type_id tech)
 {
   /* We don't return a static buffer because that would break anything that
-   * needed to work with more than one name at a time. */
+   * needed to work with more than one name at a time.
+   * FIXME: The caller should provide a buffer to write that name. */
   static struct string_vector future;
 
   switch (tech) {
@@ -852,9 +852,7 @@ const char *advance_name_for_player(const struct player *pplayer, Tech_type_id t
   
       /* pplayer->future_tech == 0 means "Future Tech. 1". */
       for (i = future.size; i <= research->future_tech; i++) {
-        char *ptr = NULL;
-  
-        string_vector_append(&future, &ptr);
+        string_vector_append(&future, NULL);
       }
       if (!future.p[research->future_tech]) {
         char buffer[1024];

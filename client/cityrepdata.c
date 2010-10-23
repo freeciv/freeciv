@@ -783,11 +783,11 @@ static void split_string(struct datum_vector *data, const char *str)
 
       if(str != string_start) {
         init_datum_string(&d, string_start, str);
-        datum_vector_append(data, &d);
+        datum_vector_append(data, d);
       }
 
       init_datum_number(&d, value);
-      datum_vector_append(data, &d);
+      datum_vector_append(data, d);
 
       /* finally, update the string position pointers */
       string_start = str;
@@ -800,7 +800,7 @@ static void split_string(struct datum_vector *data, const char *str)
     struct datum d;
 
     init_datum_string(&d, string_start, str);
-    datum_vector_append(data, &d);
+    datum_vector_append(data, d);
   }
 }
 

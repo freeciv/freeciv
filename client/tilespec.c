@@ -2321,7 +2321,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     if (!sprite) {
       break;
     }
-    sprite_vector_append(&t->sprites.explode.unit, &sprite);
+    sprite_vector_append(&t->sprites.explode.unit, sprite);
   }
 
   SET_SPRITE(unit.auto_attack,  "unit.auto_attack");
@@ -2385,7 +2385,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     if (!sprite) {
       break;
     }
-    sprite_vector_append(&t->sprites.citybar.occupancy, &sprite);
+    sprite_vector_append(&t->sprites.citybar.occupancy, sprite);
   }
   if (t->sprites.citybar.occupancy.size < 2) {
     log_fatal("Missing necessary citybar.occupancy_N sprites.");
@@ -2493,7 +2493,7 @@ static void tileset_lookup_sprite_tags(struct tileset *t)
     if (!sprite) {
       break;
     }
-    sprite_vector_append(&t->sprites.colors.overlays, &sprite);
+    sprite_vector_append(&t->sprites.colors.overlays, sprite);
   }
   if (i == 0) {
     log_fatal("Missing overlay-color sprite colors.overlay_0.");

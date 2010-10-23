@@ -2731,7 +2731,7 @@ void handle_ruleset_building(struct packet_ruleset_building *p)
   sz_strlcpy(b->graphic_str, p->graphic_str);
   sz_strlcpy(b->graphic_alt, p->graphic_alt);
   for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&b->reqs, &p->reqs[i]);
+    requirement_vector_append(&b->reqs, p->reqs[i]);
   }
   fc_assert(b->reqs.size == p->reqs_count);
   b->obsolete_by = advance_by_number(p->obsolete_by);
@@ -2789,7 +2789,7 @@ void handle_ruleset_government(struct packet_ruleset_government *p)
   gov->item_number = p->id;
 
   for (j = 0; j < p->reqs_count; j++) {
-    requirement_vector_append(&gov->reqs, &p->reqs[j]);
+    requirement_vector_append(&gov->reqs, p->reqs[j]);
   }
   fc_assert(gov->reqs.size == p->reqs_count);
 
@@ -2921,7 +2921,7 @@ void handle_ruleset_base(struct packet_ruleset_base *p)
   pbase->pillageable = p->pillageable;
 
   for (i = 0; i < p->reqs_count; i++) {
-    requirement_vector_append(&pbase->reqs, &p->reqs[i]);
+    requirement_vector_append(&pbase->reqs, p->reqs[i]);
   }
   fc_assert(pbase->reqs.size == p->reqs_count);
 
@@ -3036,7 +3036,7 @@ void handle_ruleset_city(struct packet_ruleset_city *packet)
   cs = &city_styles[id];
 
   for (j = 0; j < packet->reqs_count; j++) {
-    requirement_vector_append(&cs->reqs, &packet->reqs[j]);
+    requirement_vector_append(&cs->reqs, packet->reqs[j]);
   }
   fc_assert(cs->reqs.size == packet->reqs_count);
   cs->replaced_by = packet->replaced_by;
@@ -3082,7 +3082,7 @@ void handle_ruleset_specialist(struct packet_ruleset_specialist *p)
   name_set(&s->abbreviation, p->short_name);
 
   for (j = 0; j < p->reqs_count; j++) {
-    requirement_vector_append(&s->reqs, &p->reqs[j]);
+    requirement_vector_append(&s->reqs, p->reqs[j]);
   }
   fc_assert(s->reqs.size == p->reqs_count);
 

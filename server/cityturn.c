@@ -1792,7 +1792,7 @@ static bool player_balance_treasury_buildings(struct player *pplayer)
       if (can_city_sell_building(pcity, pimprove)) {
         ci.pcity = pcity;
         ci.pimprove = pimprove;
-        cityimpr_vector_append(&imprs, &ci);
+        cityimpr_vector_append(&imprs, ci);
       }
     } city_built_iterate_end;
   } city_list_iterate_end;
@@ -1863,7 +1863,7 @@ static bool city_balance_treasury_buildings(struct city *pcity)
     if (can_city_sell_building(pcity, pimprove)) {
       ci.pcity = pcity;
       ci.pimprove = pimprove;
-      cityimpr_vector_append(&imprs, &ci);
+      cityimpr_vector_append(&imprs, ci);
     }
   } city_built_iterate_end;
 

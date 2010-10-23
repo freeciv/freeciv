@@ -352,7 +352,7 @@ static struct requirement_vector *lookup_req_list(struct section_file *file,
       req.source.kind = VUT_NONE;
     }
 
-    requirement_vector_append(&list, &req);
+    requirement_vector_append(&list, req);
   }
 
   if (j > MAX_NUM_REQS) {

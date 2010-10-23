@@ -143,12 +143,6 @@ struct cm_tile {
       {
 #define tile_type_vector_iterate_end }} VECTOR_ITERATE_END; }
 
-static inline void tile_type_vector_add(struct tile_type_vector *tthis,
-    struct cm_tile_type *toadd) {
-  tile_type_vector_append(tthis, &toadd);
-}
-
-
 /*
  * A tile type.
  * Holds the production (a hill produces 1/0/0);
@@ -917,17 +911,17 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
     /* link up to the types we dominate, and those that dominate us */
     tile_type_vector_iterate(lattice, other) {
       if (tile_type_better(other, type)) {
-        tile_type_vector_add(&type->better_types, other);
-        tile_type_vector_add(&other->worse_types, type);
+        tile_type_vector_append(&type->better_types, other);
+        tile_type_vector_append(&type->worse_types, type);
       } else if (tile_type_better(type, other)) {
-        tile_type_vector_add(&other->better_types, type);
-        tile_type_vector_add(&type->worse_types, other);
+        tile_type_vector_append(&type->better_types, type);
+        tile_type_vector_append(&type->worse_types, other);
       }
     } tile_type_vector_iterate_end;
 
     /* insert into the list */
     type->lattice_index = lattice->size;
-    tile_type_vector_add(lattice, type);
+    tile_type_vector_append(lattice, type);
   }
 
   /* Finally, add the tile to the tile type. */
@@ -937,7 +931,7 @@ static void tile_type_lattice_add(struct tile_type_vector *lattice,
     tile.type = type;
     tile.index = index;
 
-    tile_vector_append(&type->tiles, &tile);
+    tile_vector_append(&type->tiles, tile);
   }
 }
 
@@ -997,7 +991,7 @@ static void top_sort_lattice(struct tile_type_vector *lattice)
   /* fill up 'next' */
   tile_type_vector_iterate(lattice, ptype) {
     if (tile_type_num_prereqs(ptype) == 0) {
-      tile_type_vector_add(next, ptype);
+      tile_type_vector_append(next, ptype);
     }
   } tile_type_vector_iterate_end;
 
@@ -1040,7 +1034,7 @@ static void top_sort_lattice(struct tile_type_vector *lattice)
         /* mark and put successors on the next frontier */
         will_mark[ptype->lattice_index] = TRUE;
         tile_type_vector_iterate(&ptype->worse_types, worse) {
-          tile_type_vector_add(next, worse);
+          tile_type_vector_append(next, worse);
         } tile_type_vector_iterate_end;
 
         /* this is what we spent all this time computing. */
@@ -1098,7 +1092,7 @@ static void clean_lattice(struct tile_type_vector *lattice,
     forced_loop = FALSE;
 
     if (ptype->lattice_depth >= pcity->size) {
-      tile_type_vector_add(&tofree, ptype);
+      tile_type_vector_append(&tofree, ptype);
     } else {
       /* Remove links to children that are being removed. */
 

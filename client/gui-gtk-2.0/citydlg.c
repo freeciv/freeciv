@@ -1812,7 +1812,7 @@ static void city_dialog_update_supported_units(struct city_dialog *pdialog)
       gtk_table_attach_defaults(
 	  GTK_TABLE(pdialog->overview.supported_unit_table),
 	  cmd, i, i+1, 0, 1);
-      unit_node_vector_append(nodes, &node);
+      unit_node_vector_append(nodes, node);
     }
   }
 
@@ -1929,7 +1929,7 @@ static void city_dialog_update_present_units(struct city_dialog *pdialog)
       gtk_table_attach_defaults(
 	  GTK_TABLE(pdialog->overview.present_unit_table),
 	  cmd, i, i+1, 0, 1);
-      unit_node_vector_append(nodes, &node);
+      unit_node_vector_append(nodes, node);
     }
   }
 

@@ -821,12 +821,12 @@ static bool adjust_wants_for_reqs(struct player *pplayer,
 
     if (VUT_ADVANCE == preq->source.kind && !active) {
       /* Found a missing technology requirement for this improvement. */
-      tech_vector_append(&needed_techs, &preq->source.value.advance);
+      tech_vector_append(&needed_techs, preq->source.value.advance);
     } else if (VUT_IMPROVEMENT == preq->source.kind && !active) {
       /* Found a missing improvement requirement for this improvement.
        * For example, in the default ruleset a city must have a Library
        * before it can have a University. */
-      impr_vector_append(&needed_improvements, &preq->source.value.building);
+      impr_vector_append(&needed_improvements, preq->source.value.building);
     }
     all_met = all_met && active;
   } requirement_vector_iterate_end;
@@ -1003,7 +1003,7 @@ static void adjust_improvement_wants_by_effects(struct player *pplayer,
 	   * This will be for some additional effect
 	   * (For example, in the default ruleset, Mysticism increases
 	   * the effect of Temples). */
-          tech_vector_append(&needed_techs, &preq->source.value.advance);
+          tech_vector_append(&needed_techs, preq->source.value.advance);
 	}
       }
     } requirement_list_iterate_end;
