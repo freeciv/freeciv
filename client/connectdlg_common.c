@@ -527,7 +527,7 @@ void send_save_game(char *filename)
 /**************************************************************************
   Handle the list of rulesets sent by the server.
 **************************************************************************/
-void handle_ruleset_choices(struct packet_ruleset_choices *packet)
+void handle_ruleset_choices(const struct packet_ruleset_choices *packet)
 {
   char *rulesets[packet->ruleset_count];
   int i;

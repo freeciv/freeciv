@@ -65,7 +65,7 @@
 
 static void city_add_unit(struct player *pplayer, struct unit *punit);
 static void city_build(struct player *pplayer, struct unit *punit,
-		       char *name);
+                       const char *name);
 static void unit_activity_handling_targeted(struct unit *punit,
 					    enum unit_activity new_activity,
 					    enum tile_special_type new_target,
@@ -644,7 +644,7 @@ static void city_add_unit(struct player *pplayer, struct unit *punit)
  function like test_unit_add_or_build_city, which does the checking.
 **************************************************************************/
 static void city_build(struct player *pplayer, struct unit *punit,
-		       char *name)
+                       const char *name)
 {
   char message[1024];
   int size;
@@ -670,7 +670,8 @@ static void city_build(struct player *pplayer, struct unit *punit,
 /**************************************************************************
 ...
 **************************************************************************/
-void handle_unit_build_city(struct player *pplayer, int unit_id, char *name)
+void handle_unit_build_city(struct player *pplayer, int unit_id,
+                            const char *name)
 {
   enum add_build_city_result res;
   struct unit *punit = player_find_unit_by_id(pplayer, unit_id);
@@ -2076,13 +2077,13 @@ void handle_unit_paradrop_to(struct player *pplayer, int unit_id, int tile)
   (void) do_paradrop(punit, ptile);
 }
 
-/**************************************************************************
-Receives route packages.
-**************************************************************************/
+/****************************************************************************
+  Receives route packages.
+****************************************************************************/
 void handle_unit_orders(struct player *pplayer,
-			struct packet_unit_orders *packet)
+                        const struct packet_unit_orders *packet)
 {
-  int i;
+  int length = packet->length, i;
   struct unit *punit = player_find_unit_by_id(pplayer, packet->unit_id);
   struct tile *src_tile = index_to_tile(packet->src_tile);
 
@@ -2092,11 +2093,11 @@ void handle_unit_orders(struct player *pplayer,
     return;
   }
 
-  if (0 > packet->length || MAX_LEN_ROUTE < packet->length) {
+  if (0 > length || MAX_LEN_ROUTE < length) {
     /* Shouldn't happen */
     log_error("handle_unit_orders() invalid %s (%d) "
               "packet length %d (max %d)", unit_rule_name(punit),
-              packet->unit_id, packet->length, MAX_LEN_ROUTE);
+              packet->unit_id, length, MAX_LEN_ROUTE);
     return;
   }
 
@@ -2117,9 +2118,14 @@ void handle_unit_orders(struct player *pplayer,
     unit_activity_handling(punit, ACTIVITY_IDLE);
   }
 
-  for (i = 0; i < packet->length; i++) {
+  for (i = 0; i < length; i++) {
     if (packet->orders[i] < 0 || packet->orders[i] > ORDER_LAST) {
-      packet->orders[i] = ORDER_LAST;
+      log_error("%s() %s (player nb %d) has sent an invalid order %d "
+                "at index %d, truncating", __FUNCTION__,
+                player_name(pplayer), player_number(pplayer),
+                packet->orders[i], i);
+      length = i;
+      break;
     }
     switch (packet->orders[i]) {
     case ORDER_MOVE:
@@ -2140,11 +2146,11 @@ void handle_unit_orders(struct player *pplayer,
 	/* Simple activities. */
 	break;
       case ACTIVITY_SENTRY:
-	if (i != packet->length - 1) {
-	  /* Only allowed as the last order. */
-	  return;
-	}
-	break;
+        if (i != length - 1) {
+          /* Only allowed as the last order. */
+          return;
+        }
+        break;
       case ACTIVITY_BASE:
         if (!base_by_number(packet->base[i])) {
           return;
@@ -2178,20 +2184,20 @@ void handle_unit_orders(struct player *pplayer,
   /* If we waited on a tile, reset punit->done_moving */
   punit->done_moving = (punit->moves_left <= 0);
 
-  if (packet->length == 0) {
+  if (length == 0) {
     fc_assert(!unit_has_orders(punit));
     send_unit_info(NULL, punit);
     return;
   }
 
   punit->has_orders = TRUE;
-  punit->orders.length = packet->length;
+  punit->orders.length = length;
   punit->orders.index = 0;
   punit->orders.repeat = packet->repeat;
   punit->orders.vigilant = packet->vigilant;
   punit->orders.list
-    = fc_malloc(packet->length * sizeof(*(punit->orders.list)));
-  for (i = 0; i < packet->length; i++) {
+    = fc_malloc(length * sizeof(*(punit->orders.list)));
+  for (i = 0; i < length; i++) {
     punit->orders.list[i].order = packet->orders[i];
     punit->orders.list[i].dir = packet->dir[i];
     punit->orders.list[i].activity = packet->activity[i];
@@ -2203,9 +2209,8 @@ void handle_unit_orders(struct player *pplayer,
   }
 
 #ifdef DEBUG
-  log_debug("Orders for unit %d: length:%d",
-            packet->unit_id, packet->length);
-  for (i = 0; i < packet->length; i++) {
+  log_debug("Orders for unit %d: length:%d", packet->unit_id, length);
+  for (i = 0; i < length; i++) {
     log_debug("  %d,%s", packet->orders[i], dir_get_name(packet->dir[i]));
   }
 #endif

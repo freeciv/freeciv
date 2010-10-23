@@ -430,7 +430,7 @@ void handle_edit_tile_base(struct connection *pc, int tile,
   Handles tile information from the client, to make edits to tiles.
 ****************************************************************************/
 void handle_edit_tile(struct connection *pc,
-                      struct packet_edit_tile *packet)
+                      const struct packet_edit_tile *packet)
 {
   struct tile *ptile;
   bool changed = FALSE;
@@ -640,7 +640,7 @@ void handle_edit_unit_remove_by_id(struct connection *pc, Unit_type_id id)
   Handles unit information from the client, to make edits to units.
 ****************************************************************************/
 void handle_edit_unit(struct connection *pc,
-                      struct packet_edit_unit *packet)
+                      const struct packet_edit_unit *packet)
 {
   struct tile *ptile;
   struct unit_type *putype;
@@ -780,7 +780,7 @@ void handle_edit_city_create(struct connection *pc, int owner, int tile,
   Handle a request to change the internal state of a city.
 ****************************************************************************/
 void handle_edit_city(struct connection *pc,
-                      struct packet_edit_city *packet)
+                      const struct packet_edit_city *packet)
 {
   struct tile *ptile;
   struct city *pcity, *oldcity;
@@ -1027,7 +1027,7 @@ void handle_edit_player_remove(struct connection *pc, int id)
   Handle editing of any or all player properties.
 ***************************************************************************/
 void handle_edit_player(struct connection *pc, 
-                        struct packet_edit_player *packet)
+                        const struct packet_edit_player *packet)
 {
   struct player *pplayer;
   bool changed = FALSE, update_research = FALSE;
@@ -1359,7 +1359,7 @@ void handle_edit_startpos(struct connection *pc, int tile,
   Handle edit requests to the main game data structure.
 ****************************************************************************/
 void handle_edit_game(struct connection *pc,
-                      struct packet_edit_game *packet)
+                      const struct packet_edit_game *packet)
 {
   bool changed = FALSE;
 
@@ -1409,7 +1409,7 @@ void handle_edit_game(struct connection *pc,
 /****************************************************************************
   Make scenario file out of current game.
 ****************************************************************************/
-void handle_save_scenario(struct connection *pc, char *name)
+void handle_save_scenario(struct connection *pc, const char *name)
 {
   if (pc->access_level != ALLOW_HACK) {
     notify_conn(pc->self, NULL, E_BAD_COMMAND, ftc_editor,
@@ -1431,7 +1431,7 @@ void handle_save_scenario(struct connection *pc, char *name)
   Handle scenario information packet
 ****************************************************************************/
 void handle_scenario_info(struct connection *pc,
-                          struct packet_scenario_info *packet)
+                          const struct packet_scenario_info *packet)
 {
   game.scenario.is_scenario = packet->is_scenario;
   sz_strlcpy(game.scenario.name, packet->name);

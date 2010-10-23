@@ -162,8 +162,8 @@ struct packet_ruleset_effect_req;
 
 void ruleset_cache_init(void);
 void ruleset_cache_free(void);
-void recv_ruleset_effect(struct packet_ruleset_effect *packet);
-void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet);
+void recv_ruleset_effect(const struct packet_ruleset_effect *packet);
+void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet);
 void send_ruleset_cache(struct conn_list *dest);
 
 bool is_effect_useful(const struct player *target_player,

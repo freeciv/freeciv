@@ -140,7 +140,8 @@ static void password_callback(Widget w, XtPointer client_data,
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_req(enum authentication_type type, char *message)
+void handle_authentication_req(enum authentication_type type,
+                               const char *message)
 {
   XtVaSetValues(iinput, XtNstring, "", NULL);
   XtVaSetValues(connw, XtNlabel, _("Next"), NULL);
@@ -254,7 +255,7 @@ void gui_server_connect(void)
   this regenerates the player information from a loaded game on the server.
   currently a stub. TODO
 **************************************************************************/
-void handle_game_load(bool load_successful, char *filename)
+void handle_game_load(bool load_successful, const char *filename)
 { 
   /* PORTME */
 }

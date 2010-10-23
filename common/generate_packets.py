@@ -217,15 +217,13 @@ class Field:
         result.update(vars)
         return result
 
-    def get_handle_type(self,const=0):
+    def get_handle_type(self):
         if self.dataio_type=="string":
-            if const: return "const char *"
-            else:     return "char *"
-            
+            return "const char *"
         if self.dataio_type=="worklist":
             return "const %s *"%self.struct_type
         if self.is_array:
-            return "%s *"%self.struct_type
+            return "const %s *"%self.struct_type
         return self.struct_type+" "
 
     # Returns code which is used in the declaration of the field in
@@ -610,7 +608,7 @@ class Variant:
         self.extra_send_args=""
         self.extra_send_args2=""
         self.extra_send_args3=string.join(
-            map(lambda x:"%s%s"%(x.get_handle_type(1), x.name),
+            map(lambda x:"%s%s"%(x.get_handle_type(), x.name),
                 self.fields),", ")
         if self.extra_send_args3:
             self.extra_send_args3=", "+self.extra_send_args3
@@ -1076,7 +1074,7 @@ class Packet:
         self.extra_send_args=""
         self.extra_send_args2=""
         self.extra_send_args3=string.join(
-            map(lambda x:"%s%s"%(x.get_handle_type(1), x.name),
+            map(lambda x:"%s%s"%(x.get_handle_type(), x.name),
                 self.fields),", ")
         if self.extra_send_args3:
             self.extra_send_args3=", "+self.extra_send_args3
@@ -1636,8 +1634,8 @@ static int stats_total_sent;
 
 struct connection;
 
-bool server_handle_packet(enum packet_type type, void *packet,
-			  struct player *pplayer, struct connection *pconn);
+bool server_handle_packet(enum packet_type type, const void *packet,
+                          struct player *pplayer, struct connection *pconn);
 
 ''')
     
@@ -1653,9 +1651,9 @@ bool server_handle_packet(enum packet_type type, void *packet,
             if p.handle_via_packet:
                 f.write('struct %s;\n'%p.name)
                 if p.handle_per_conn:
-                    f.write('void handle_%s(struct connection *pc, struct %s *packet);\n'%(a,p.name))
+                    f.write('void handle_%s(struct connection *pc, const struct %s *packet);\n'%(a,p.name))
                 else:
-                    f.write('void handle_%s(struct player *pplayer, struct %s *packet);\n'%(a,p.name))
+                    f.write('void handle_%s(struct player *pplayer, const struct %s *packet);\n'%(a,p.name))
             else:
                 if p.handle_per_conn:
                     f.write('void handle_%s(struct connection *pc%s);\n'%(a,b))
@@ -1677,7 +1675,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
 /* common */
 #include "packets.h"
 
-bool client_handle_packet(enum packet_type type, void *packet);
+bool client_handle_packet(enum packet_type type, const void *packet);
 
 ''')
     for p in packets:
@@ -1692,7 +1690,7 @@ bool client_handle_packet(enum packet_type type, void *packet);
             b="void"
         if p.handle_via_packet:
             f.write('struct %s;\n'%p.name)
-            f.write('void handle_%s(struct %s *packet);\n'%(a,p.name))
+            f.write('void handle_%s(const struct %s *packet);\n'%(a,p.name))
         else:
             f.write('void handle_%s(%s);\n'%(a,b))
     f.write('''
@@ -1712,8 +1710,8 @@ bool client_handle_packet(enum packet_type type, void *packet);
 
 #include "hand_gen.h"
     
-bool server_handle_packet(enum packet_type type, void *packet,
-			  struct player *pplayer, struct connection *pconn)
+bool server_handle_packet(enum packet_type type, const void *packet,
+                          struct player *pplayer, struct connection *pconn)
 {
   switch(type) {
 ''')
@@ -1721,7 +1719,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
         if "cs" not in p.dirs: continue
         if p.no_handle: continue
         a=p.name[len("packet_"):]
-        c='((struct %s *)packet)->'%p.name
+        c='((const struct %s *)packet)->'%p.name
         b=[]
         for x in p.fields:
             y="%s%s"%(c,x.name)
@@ -1768,7 +1766,7 @@ bool server_handle_packet(enum packet_type type, void *packet,
 
 #include "packhand_gen.h"
     
-bool client_handle_packet(enum packet_type type, void *packet)
+bool client_handle_packet(enum packet_type type, const void *packet)
 {
   switch(type) {
 ''')
@@ -1776,7 +1774,7 @@ bool client_handle_packet(enum packet_type type, void *packet)
         if "sc" not in p.dirs: continue
         if p.no_handle: continue
         a=p.name[len("packet_"):]
-        c='((struct %s *)packet)->'%p.name
+        c='((const struct %s *)packet)->'%p.name
         b=[]
         for x in p.fields:
             y="%s%s"%(c,x.name)

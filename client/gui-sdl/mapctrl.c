@@ -2571,7 +2571,7 @@ static int move_new_city_dlg_callback(struct widget *pWindow)
   Popup a dialog to ask for the name of a new city.  The given string
   should be used as a suggestion.
 **************************************************************************/
-void popup_newcity_dialog(struct unit *pUnit, char *pSuggestname)
+void popup_newcity_dialog(struct unit *pUnit, const char *pSuggestname)
 {
   SDL_Surface *pBackground;
   struct SDL_String16 *pStr = NULL;

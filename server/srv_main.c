@@ -1012,7 +1012,8 @@ Always prints a message: either save ok, or failed.
 Note that if !HAVE_LIBZ, then game.server.save_compress_level should never
 become non-zero, so no need to check HAVE_LIBZ explicitly here as well.
 **************************************************************************/
-void save_game(char *orig_filename, const char *save_reason, bool scenario)
+void save_game(const char *orig_filename, const char *save_reason,
+               bool scenario)
 {
   char filepath[600];
   char *dot, *filename;
@@ -1654,10 +1655,9 @@ void init_available_nations(void)
   handled by connection because ctrl users may edit anyone's nation in
   pregame, and editing is possible during a running game.
 **************************************************************************/
-void handle_nation_select_req(struct connection *pc,
-			      int player_no,
-			      Nation_type_id nation_no, bool is_male,
-			      char *name, int city_style)
+void handle_nation_select_req(struct connection *pc, int player_no,
+                              Nation_type_id nation_no, bool is_male,
+                              const char *name, int city_style)
 {
   struct nation_type *new_nation;
   struct player *pplayer = player_by_number(player_no);
@@ -1670,6 +1670,7 @@ void handle_nation_select_req(struct connection *pc,
 
   if (new_nation != NO_NATION_SELECTED) {
     char message[1024];
+    char real_name[MAX_LEN_NAME];
 
     /* check sanity of the packet sent by client */
     if (city_style < 0 || city_style >= game.control.styles_count
@@ -1690,17 +1691,18 @@ void handle_nation_select_req(struct connection *pc,
       return;
     }
 
-    remove_leading_trailing_spaces(name);
+    sz_strlcpy(real_name, name);
+    remove_leading_trailing_spaces(real_name);
 
-    if (!is_allowed_player_name(pplayer, new_nation, name,
+    if (!is_allowed_player_name(pplayer, new_nation, real_name,
                                 message, sizeof(message))) {
       notify_player(pplayer, NULL, E_NATION_SELECTED,
                     ftc_server, "%s", message);
       return;
     }
 
-    name[0] = fc_toupper(name[0]);
-    sz_strlcpy(pplayer->name, name);
+    real_name[0] = fc_toupper(real_name[0]);
+    sz_strlcpy(pplayer->name, real_name);
 
     notify_conn(NULL, NULL, E_NATION_SELECTED, ftc_server,
                 _("%s is the %s ruler %s."),

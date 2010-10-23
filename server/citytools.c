@@ -399,7 +399,7 @@ Returned pointer points into internal data structures or static
 buffer etc, and should be considered read-only (and not freed)
 by caller.
 *****************************************************************/
-char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
+const char *city_name_suggestion(struct player *pplayer, struct tile *ptile)
 {
   int i = 0, j;
   bool nations_selected[nation_count()];

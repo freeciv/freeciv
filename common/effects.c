@@ -419,20 +419,20 @@ void ruleset_cache_free(void)
   initialized = FALSE;
 }
 
-/**************************************************************************
+/****************************************************************************
   Receives a new effect.  This is called by the client when the packet
   arrives.
-**************************************************************************/
-void recv_ruleset_effect(struct packet_ruleset_effect *packet)
+****************************************************************************/
+void recv_ruleset_effect(const struct packet_ruleset_effect *packet)
 {
   effect_new(packet->effect_type, packet->effect_value);
 }
 
-/**************************************************************************
+/****************************************************************************
   Receives a new effect *requirement*.  This is called by the client when
   the packet arrives.
-**************************************************************************/
-void recv_ruleset_effect_req(struct packet_ruleset_effect_req *packet)
+****************************************************************************/
+void recv_ruleset_effect_req(const struct packet_ruleset_effect_req *packet)
 {
   if (packet->effect_id != effect_list_size(ruleset_cache.tracker) - 1) {
     log_error("Bug in recv_ruleset_effect_req.");

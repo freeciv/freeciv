@@ -80,7 +80,7 @@ void really_close_connection_dialog(void)
 /**************************************************************************
  provide a packet handler for packet_game_load
 **************************************************************************/
-void handle_game_load(bool load_successful, char *filename)
+void handle_game_load(bool load_successful, const char *filename)
 { 
   /* PORTME */
 }
@@ -751,7 +751,7 @@ static int send_passwd_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popup_user_passwd_dialog(char *pMessage)
+static void popup_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pWindow;
   SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
@@ -926,7 +926,7 @@ static int convert_secound_passwd_callback(struct widget *pWidget)
 /**************************************************************************
   ...
 **************************************************************************/
-static void popup_new_user_passwd_dialog(char *pMessage)
+static void popup_new_user_passwd_dialog(const char *pMessage)
 {
   struct widget *pBuf, *pWindow;
   SDL_String16 *pLabelStr = NULL, *pPasswdStr = NULL;
@@ -1087,7 +1087,8 @@ void close_connection_dialog(void)
  popup passwd dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_req(enum authentication_type type, char *message)
+void handle_authentication_req(enum authentication_type type,
+                               const char *message)
 {
   switch (type) {
   case AUTH_NEWUSER_FIRST:

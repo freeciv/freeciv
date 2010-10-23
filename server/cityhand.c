@@ -455,10 +455,11 @@ void handle_city_change(struct player *pplayer, int city_id,
   send_city_info(pplayer, pcity);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_city_rename(struct player *pplayer, int city_id, char *name)
+/****************************************************************************
+  'struct packet_city_rename' handler.
+****************************************************************************/
+void handle_city_rename(struct player *pplayer, int city_id,
+                        const char *name)
 {
   struct city *pcity = player_find_city_by_id(pplayer, city_id);
   char message[1024];

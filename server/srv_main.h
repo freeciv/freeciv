@@ -97,7 +97,8 @@ bool game_was_started(void);
 
 bool server_packet_input(struct connection *pconn, void *packet, int type);
 void start_game(void);
-void save_game(char *orig_filename, const char *save_reason, bool scenario);
+void save_game(const char *orig_filename, const char *save_reason,
+               bool scenario);
 void pick_random_player_name(const struct nation_type *pnation,
 			     char *newname);
 void send_all_info(struct conn_list *dest);

@@ -1785,8 +1785,8 @@ void civil_war(struct player *pplayer)
  The client has send as a chunk of the attribute block.
 **************************************************************************/
 void handle_player_attribute_chunk(struct player *pplayer,
-				   struct packet_player_attribute_chunk
-				   *chunk)
+                                   const struct packet_player_attribute_chunk
+                                   *chunk)
 {
   generic_handle_player_attribute_chunk(pplayer, chunk);
 }

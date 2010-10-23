@@ -18,8 +18,8 @@
 struct connection;
 struct conn_list;
 
-void page_conn(struct conn_list *dest, const char *caption, const char *headline,
-	       const char *lines);
+void page_conn(struct conn_list *dest, const char *caption,
+               const char *headline, const char *lines);
 
 void log_civ_score_init(void);
 void log_civ_score_free(void);

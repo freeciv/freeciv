@@ -316,16 +316,18 @@ static void chat_msg_to_all(struct connection *sender, char *msg)
   avoiding sending both original and echo if sender is in destination
   set.
 **************************************************************************/
-void handle_chat_msg_req(struct connection *pconn, char *message)
+void handle_chat_msg_req(struct connection *pconn, const char *message)
 {
-  char *cp;
+  char real_message[MAX_LEN_MSG], *cp;
   bool double_colon;
 
-  /* this loop to prevent players from sending multiple lines
-   * which can be abused */
-  for (cp = message; *cp != '\0'; cp++) {
+  sz_strlcpy(real_message, message);
+
+  /* This loop to prevent players from sending multiple lines which can
+   * be abused */
+  for (cp = real_message; *cp != '\0'; cp++) {
     if (*cp == '\n' || *cp == '\r') {
-      *cp='\0';
+      *cp = '\0';
       break;
     }
   }
@@ -336,14 +338,14 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
      So consider this an incentive for IRC support,
      or change it in stdinhand.h - rp
   */
-  if (message[0] == SERVER_COMMAND_PREFIX) {
+  if (real_message[0] == SERVER_COMMAND_PREFIX) {
     /* pass it to the command parser, which will chop the prefix off */
-    (void) handle_stdin_input(pconn, message, FALSE);
+    (void) handle_stdin_input(pconn, real_message, FALSE);
     return;
   }
 
   /* Send to allies command */
-  if (message[0] == ALLIESCHAT_COMMAND_PREFIX) {
+  if (real_message[0] == ALLIESCHAT_COMMAND_PREFIX) {
     /* this won't work if we aren't attached to a player */
     if (NULL == pconn->playing && !pconn->observer) {
       notify_conn(pconn->self, NULL, E_CHAT_ERROR, ftc_server,
@@ -352,9 +354,9 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     }
 
     if (NULL != pconn->playing) {
-      chat_msg_to_allies(pconn, message + 1);
+      chat_msg_to_allies(pconn, real_message + 1);
     } else {
-      chat_msg_to_global_observers(pconn, message + 1);
+      chat_msg_to_global_observers(pconn, real_message + 1);
     }
     return;
   }
@@ -382,16 +384,17 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
      else complain (might be a typo-ed intended private message)
   */
   
-  cp=strchr(message, ':');
+  cp = strchr(real_message, ':');
 
-  if (cp && (cp != &message[0])) {
+  if (cp && (cp != &real_message[0])) {
     enum m_pre_result match_result_player, match_result_conn;
     struct player *pdest = NULL;
     struct connection *conn_dest = NULL;
     char name[MAX_LEN_NAME];
     char *cpblank;
 
-    (void) fc_strlcpy(name, message, MIN(sizeof(name), cp - message + 1));
+    (void) fc_strlcpy(name, real_message, MIN(sizeof(name),
+                                              cp - real_message + 1));
 
     double_colon = (*(cp+1) == ':');
     if (double_colon) {
@@ -439,7 +442,7 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     /* Didn't match; check heuristics to see if this is likely
      * to be a global message
      */
-    cpblank=strchr(message, ' ');
+    cpblank = strchr(real_message, ' ');
     if (!cpblank || (cp < cpblank)) {
       if (double_colon) {
         notify_conn(pconn->self, NULL, E_CHAT_ERROR, ftc_server,
@@ -453,5 +456,5 @@ void handle_chat_msg_req(struct connection *pconn, char *message)
     }
   }
   /* global message: */
-  chat_msg_to_all(pconn, message);
+  chat_msg_to_all(pconn, real_message);
 }

@@ -3158,7 +3158,8 @@ void server_options_free(void)
 /****************************************************************************
   Allocate the server options and categories.
 ****************************************************************************/
-void handle_server_setting_control(struct packet_server_setting_control *packet)
+void handle_server_setting_control
+    (const struct packet_server_setting_control *packet)
 {
   int i;
 
@@ -3191,7 +3192,8 @@ void handle_server_setting_control(struct packet_server_setting_control *packet)
 /****************************************************************************
   Receive a server setting info packet.
 ****************************************************************************/
-void handle_server_setting_const(struct packet_server_setting_const *packet)
+void handle_server_setting_const
+    (const struct packet_server_setting_const *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
@@ -3249,7 +3251,8 @@ void handle_server_setting_const(struct packet_server_setting_const *packet)
 /****************************************************************************
   Receive a boolean server setting info packet.
 ****************************************************************************/
-void handle_server_setting_bool(struct packet_server_setting_bool *packet)
+void handle_server_setting_bool
+    (const struct packet_server_setting_bool *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
@@ -3283,7 +3286,8 @@ void handle_server_setting_bool(struct packet_server_setting_bool *packet)
 /****************************************************************************
   Receive a integer server setting info packet.
 ****************************************************************************/
-void handle_server_setting_int(struct packet_server_setting_int *packet)
+void handle_server_setting_int
+    (const struct packet_server_setting_int *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
@@ -3319,7 +3323,8 @@ void handle_server_setting_int(struct packet_server_setting_int *packet)
 /****************************************************************************
   Receive a string server setting info packet.
 ****************************************************************************/
-void handle_server_setting_str(struct packet_server_setting_str *packet)
+void handle_server_setting_str
+    (const struct packet_server_setting_str *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
@@ -3363,7 +3368,8 @@ void handle_server_setting_str(struct packet_server_setting_str *packet)
 /****************************************************************************
   Receive an enumerator server setting info packet.
 ****************************************************************************/
-void handle_server_setting_enum(struct packet_server_setting_enum *packet)
+void handle_server_setting_enum
+    (const struct packet_server_setting_enum *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);
@@ -3448,7 +3454,8 @@ void handle_server_setting_enum(struct packet_server_setting_enum *packet)
 /****************************************************************************
   Receive a bitwise server setting info packet.
 ****************************************************************************/
-void handle_server_setting_bitwise(struct packet_server_setting_bitwise *packet)
+void handle_server_setting_bitwise
+    (const struct packet_server_setting_bitwise *packet)
 {
   struct option *poption = server_optset_option_by_number(packet->id);
   struct server_option *psoption = SERVER_OPTION(poption);

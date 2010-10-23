@@ -575,7 +575,8 @@ static void connection_state_reset(void)
  configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_req(enum authentication_type type, char *message)
+void handle_authentication_req(enum authentication_type type,
+                               const char *message)
 {
   append_network_statusbar(message, TRUE);
 
@@ -2329,7 +2330,7 @@ GtkWidget *create_start_page(void)
 /**************************************************************************
   this regenerates the player information from a loaded game on the server.
 **************************************************************************/
-void handle_game_load(bool load_successful, char *filename)
+void handle_game_load(bool load_successful, const char *filename)
 {
   if (load_successful) {
     set_client_page(PAGE_START);

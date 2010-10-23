@@ -22,7 +22,7 @@
 /* client */
 #include "mapctrl_common.h"
 
-void popup_newcity_dialog(struct unit *punit, char *suggestname);
+void popup_newcity_dialog(struct unit *punit, const char *suggestname);
 
 void set_turn_done_button_state(bool state);
 

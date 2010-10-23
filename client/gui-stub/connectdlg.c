@@ -51,7 +51,8 @@ void close_connection_dialog()
  Configure the dialog depending on what type of authentication request the
  server is making.
 **************************************************************************/
-void handle_authentication_req(enum authentication_type type, char *message)
+void handle_authentication_req(enum authentication_type type,
+                               const char *message)
 {
   switch (type) {
   case AUTH_NEWUSER_FIRST:
@@ -87,7 +88,7 @@ void handle_authentication_req(enum authentication_type type, char *message)
  This regenerates the player information from a loaded game on the
  server.
 **************************************************************************/
-void handle_game_load(bool load_successful, char *filename)
+void handle_game_load(bool load_successful, const char *filename)
 { 
   /* PORTME */
 }
