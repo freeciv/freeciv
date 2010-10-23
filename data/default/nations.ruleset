@@ -119,6 +119,7 @@ match=2
 *include "nation/carthaginian.ruleset"
 *include "nation/castilian.ruleset"
 *include "nation/catalan.ruleset"
+*include "nation/celtiberian.ruleset"
 *include "nation/centralamerican.ruleset"
 *include "nation/cham.ruleset"
 *include "nation/chananean.ruleset"

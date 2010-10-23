@@ -70,6 +70,7 @@ pkgdata_DATA = \
 		carthaginian.ruleset \
 		castilian.ruleset \
 		catalan.ruleset \
+		celtiberian.ruleset \
 		centralamerican.ruleset \
 		cham.ruleset \
 		chananean.ruleset \

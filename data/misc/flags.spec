@@ -75,6 +75,7 @@ artists = "
    Canada (old)		Hoshie (Wikimedia Commons)
    Cartago		Daniel Markstedt and Matt Jecrell
    Catalan		Xavier Conde Rueda
+   Celtiberian		J.M. Maalderink
    Central America	Connormah (Wikimedia Commons) and J.M. Maalderink
    Cham			Daniel Markstedt
    Chananea		Daniel Markstedt
@@ -458,6 +459,7 @@ sprites =
 		"f.cartago", "flags/cartago"
 		"f.castile", "flags/castile"
 		"f.catalan", "flags/catalan"
+		"f.celtiberian", "flags/celtiberian"
 		"f.central_america", "flags/central_america"
 		"f.cham", "flags/cham"
 		"f.chananea", "flags/chananea"
