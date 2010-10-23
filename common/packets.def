@@ -961,7 +961,9 @@ end
 /**************  Report packets **********************/
 
 PACKET_PAGE_MSG = 110; sc, lsend
-  STRING message[MAX_LEN_MSG];
+  STRING caption[MAX_LEN_MSG];
+  STRING headline[MAX_LEN_MSG];
+  STRING lines[MAX_LEN_PACKET];
   EVENT event;
 end
 

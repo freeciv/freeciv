@@ -1126,32 +1126,14 @@ void handle_connect_msg(char *message)
   popup_connect_msg(_("Welcome"), message);
 }
 
-/**************************************************************************
-...
-**************************************************************************/
-void handle_page_msg(char *message, enum event_type event)
+/****************************************************************************
+  'struct packet_page_msg' handler.
+****************************************************************************/
+void handle_page_msg(char *caption, char *headline, char *lines,
+                     enum event_type event)
 {
-  char *caption;
-  char *headline;
-  char *lines;
-
-  caption = message;
-  headline = strchr (caption, '\n');
-  if (headline) {
-    *(headline++) = '\0';
-    lines = strchr (headline, '\n');
-    if (lines) {
-      *(lines++) = '\0';
-    } else {
-      lines = "";
-    }
-  } else {
-    headline = "";
-    lines = "";
-  }
-
-  if (NULL == client.conn.playing
-      || !client.conn.playing->ai_controlled
+  if (!client_has_player()
+      || !client_player()->ai_controlled
       || event != E_BROADCAST_REPORT) {
     popup_notify_dialog(caption, headline, lines);
     play_sound_for_event(event);

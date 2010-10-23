@@ -1523,30 +1523,27 @@ void page_conn(struct conn_list *dest, const char *caption,
 }
 
 
-/**************************************************************************
-This function pops up a non-modal message dialog on the player's desktop
+/****************************************************************************
+  This function pops up a non-modal message dialog on the player's desktop
 
-event == E_REPORT: message should not be ignored by clients watching
-                   AI players with ai_popup_windows off.  Example:
-                   Server Options, Demographics Report, etc.
+  event == E_REPORT: message should not be ignored by clients watching
+                     AI players with ai_popup_windows off. Example:
+                     Server Options, Demographics Report, etc.
 
-event == E_BROADCAST_REPORT: message can safely be ignored by clients
-                   watching AI players with ai_popup_windows off.  For
-                   example: Herodot's report... and similar messages.
-**************************************************************************/
+  event == E_BROADCAST_REPORT: message can safely be ignored by clients
+                     watching AI players with ai_popup_windows off. For
+                     example: Herodot's report... and similar messages.
+****************************************************************************/
 static void page_conn_etype(struct conn_list *dest, const char *caption,
-			    const char *headline, const char *lines,
-			    enum event_type event)
+                            const char *headline, const char *lines,
+                            enum event_type event)
 {
-  int len;
-  struct packet_page_msg genmsg;
+  struct packet_page_msg packet;
 
-  len = fc_snprintf(genmsg.message, sizeof(genmsg.message),
-                    "%s\n%s\n%s", caption, headline, lines);
-  if (len == -1) {
-    log_error("Message truncated in page_conn_etype()!");
-  }
-  genmsg.event = event;
-  
-  lsend_packet_page_msg(dest, &genmsg);
+  sz_strlcpy(packet.caption, caption);
+  sz_strlcpy(packet.headline, headline);
+  sz_strlcpy(packet.lines, lines);
+  packet.event = event;
+
+  lsend_packet_page_msg(dest, &packet);
 }
